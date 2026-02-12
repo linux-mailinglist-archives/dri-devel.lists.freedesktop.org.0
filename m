@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPzBM5LxjWlw8wAAu9opvQ
+	id ONhTCpXxjWlw8wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:18 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A1912EEAD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7334E12EEB4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4412910E760;
-	Thu, 12 Feb 2026 15:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3222F10E764;
+	Thu, 12 Feb 2026 15:28:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="aVG3NlYR";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="e+0pBbPU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B919610E760
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 15:28:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64C4110E762
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 15:28:17 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id A20BA4E40CEE;
- Thu, 12 Feb 2026 15:28:13 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 3D9644E40CE3;
+ Thu, 12 Feb 2026 15:28:16 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 78636606CE;
- Thu, 12 Feb 2026 15:28:13 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 13C85606CF;
+ Thu, 12 Feb 2026 15:28:16 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2378411971B05; Thu, 12 Feb 2026 16:28:09 +0100 (CET)
+ with ESMTPSA id 6C23511971B2A; Thu, 12 Feb 2026 16:28:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1770910091; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1770910093; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=UYzg7H8r28NuknnaHMhGKeY25Sfx8KUmF5qRI7gC69A=;
- b=aVG3NlYRlV0UEBW+qN0P3U0+aqIMVCKcvcl/zWf7zV+6RUAhKpJujdxe88CtuvANV++96n
- O4fU4uQ85lmrNh72DjeDDMOezvMjpGr18OZ+cACRGiwirFwViEnULg/WSyNXxIxywEahM3
- uRe2WQLZRmkfP8C3v504Zz+1WlHRLvtKoHo/RSHpchq+pQl4icJBoZcXR8x+xg6qwpsVI3
- BhhcVprWBxyWNJclEBKU+tAyD61OanHsAD6x7//XhqfcjhQinUCivuuPGRA9Ea2XBfn9dk
- vuiFIrCOI23s0lXiBbyeJ/5h7rrw2S4FMVPiTCY2Rwx+UHDCEWnDcXuTD4zuSg==
+ bh=2Zij+Z4h6O2o9kCfnyrg98WGWWEKH3SEASfeD3RXqf8=;
+ b=e+0pBbPU4ompRUN3bLPhtcg/rjp4Y8GEfyOeO3pe7QFkeMNwuxCfMnl5V64usoHBXITa2L
+ j9uiGBkz9WpckNwRRDiI98izN0wWZzDgY7+YjqiT7Vtv1CXYRhOHbHUJPT8qk4AOyw2XTa
+ mWSJH3DpZFduqi9XA4ADDKQcIQEfRo2GRsXSlf+P738gllBZCS4Co1tWVNxRkNkevX4680
+ zTrOpEeBI/Sf/IOx5Uoedkc2T5L/JRlIxxMOkeYj0bYqdmWNMs4IX2iKW1ZUQIcqinuwLb
+ JUh/wuX6hTkazcPKkG8svPAAdojzRu5Hh2p2R+2o+cu8dVBLoLbAjqFB479Cww==
 From: "Kory Maincent (TI)" <kory.maincent@bootlin.com>
-Date: Thu, 12 Feb 2026 16:26:18 +0100
-Subject: [PATCH 4/5] ARM: multi_v7_defconfig: Enable ITE IT66121 driver
+Date: Thu, 12 Feb 2026 16:26:19 +0100
+Subject: [PATCH 5/5] ARM: dts: am335x: Add Seeed Studio BeagleBone HDMI
+ cape overlay
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260212-feature_bbge-v1-4-29014a212f35@bootlin.com>
+Message-Id: <20260212-feature_bbge-v1-5-29014a212f35@bootlin.com>
 References: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
 In-Reply-To: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
@@ -109,29 +110,209 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 85A1912EEAD
+X-Rspamd-Queue-Id: 7334E12EEB4
 X-Rspamd-Action: no action
 
-Enable the ITE IT66121 HDMI bridge driver to support HDMI output on
-the BeagleBone Green with the Seeed Studio HDMI cape.
+Add devicetree overlay for the Seeed Studio BeagleBone HDMI cape, which
+provides HDMI output via an ITE IT66121 HDMI bridge and audio support
+through McASP.
 
+The cape is designed for BeagleBone Green but is also compatible with
+BeagleBone and BeagleBone Black due to pin compatibility.
+
+Link: https://www.seeedstudio.com/Seeed-Studio-BeagleBoner-Green-HDMI-Cape.html
 Signed-off-by: Kory Maincent (TI) <kory.maincent@bootlin.com>
 ---
- arch/arm/configs/multi_v7_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/ti/omap/Makefile                 |   5 +
+ .../boot/dts/ti/omap/am335x-bone-hdmi-00a0.dtso    | 157 +++++++++++++++++++++
+ 2 files changed, 162 insertions(+)
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index 196b6872ca463..2c9587855f044 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -751,6 +751,7 @@ CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=m
- CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
- CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=m
- CONFIG_DRM_DISPLAY_CONNECTOR=m
-+CONFIG_DRM_ITE_IT66121=m
- CONFIG_DRM_LVDS_CODEC=m
- CONFIG_DRM_NXP_PTN3460=m
- CONFIG_DRM_PARADE_PS8622=m
+diff --git a/arch/arm/boot/dts/ti/omap/Makefile b/arch/arm/boot/dts/ti/omap/Makefile
+index 52df04328aff2..23ae6df682206 100644
+--- a/arch/arm/boot/dts/ti/omap/Makefile
++++ b/arch/arm/boot/dts/ti/omap/Makefile
+@@ -82,6 +82,10 @@ dtb-$(CONFIG_ARCH_OMAP4) += \
+ 	omap4-var-stk-om44.dtb \
+ 	omap4-xyboard-mz609.dtb \
+ 	omap4-xyboard-mz617.dtb
++
++am335x-bonegreen-hdmi-00a0-dtbs := am335x-bonegreen-eco.dtb \
++	am335x-bone-hdmi-00a0.dtbo
++
+ dtb-$(CONFIG_SOC_AM33XX) += \
+ 	am335x-baltos-ir2110.dtb \
+ 	am335x-baltos-ir3220.dtb \
+@@ -94,6 +98,7 @@ dtb-$(CONFIG_SOC_AM33XX) += \
+ 	am335x-bonegreen.dtb \
+ 	am335x-bonegreen-wireless.dtb \
+ 	am335x-bonegreen-eco.dtb \
++	am335x-bonegreen-hdmi-00a0.dtb \
+ 	am335x-chiliboard.dtb \
+ 	am335x-cm-t335.dtb \
+ 	am335x-evm.dtb \
+diff --git a/arch/arm/boot/dts/ti/omap/am335x-bone-hdmi-00a0.dtso b/arch/arm/boot/dts/ti/omap/am335x-bone-hdmi-00a0.dtso
+new file mode 100644
+index 0000000000000..f43f44c79c96d
+--- /dev/null
++++ b/arch/arm/boot/dts/ti/omap/am335x-bone-hdmi-00a0.dtso
+@@ -0,0 +1,157 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * 2017 Copyright (c) Seeed Technology Inc.  All right reserved.
++ * Author: Baozhu Zuo <zuobaozhu@gmail.com>
++ * Copyright (c) Bootlin 2026
++ *
++ * This device tree overlay is compatible with the BeagleBone Black, Green
++ * and their subversions.
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/pinctrl/am33xx.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++
++&{/} {
++	hdmi0: connector-hdmi {
++		compatible = "hdmi-connector";
++		label = "hdmi";
++		type = "a";
++		port {
++			hdmi_connector_in: endpoint {
++				remote-endpoint = <&it66121_out>;
++			};
++		};
++	};
++
++	clk_mcasp0_fixed: clk-mcasp0-fixed {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <24576000>;
++	};
++
++	clk_mcasp0: clk-mcasp0 {
++		#clock-cells = <0>;
++		compatible = "gpio-gate-clock";
++		clocks = <&clk_mcasp0_fixed>;
++		enable-gpios = <&gpio1 27 0>;
++	};
++
++	sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "TI BeagleBone Green HDMI cape";
++		simple-audio-card,format = "i2s";
++		simple-audio-card,bitclock-master = <&sound_master>;
++		simple-audio-card,frame-master = <&sound_master>;
++
++		sound_master: simple-audio-card,cpu {
++			sound-dai = <&mcasp0>;
++			clocks = <&clk_mcasp0>;
++		};
++
++		simple-audio-card,codec {
++			sound-dai = <&it66121>;
++		};
++	};
++};
++
++&am33xx_pinmux {
++	bb_lcd_pins: pinmux-bb-lcd-pins {
++		pinctrl-single,pins = <
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA0, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA1, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA2, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA3, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA4, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA5, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA6, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA7, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA8, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA9, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA10, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA11, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA12, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA13, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA14, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_DATA15, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_VSYNC, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_HSYNC, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_PCLK, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_LCD_AC_BIAS_EN, PIN_OUTPUT, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_ADVN_ALE, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_OEN_REN, PIN_OUTPUT_PULLDOWN, MUX_MODE7)
++			AM33XX_PADCONF(AM335X_PIN_GPMC_WEN, PIN_INPUT, MUX_MODE7)
++		>;
++	};
++	mcasp0_pins: mcasp0-pins {
++		pinctrl-single,pins = <
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKX, PIN_INPUT_PULLUP, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKR, PIN_OUTPUT_PULLDOWN, MUX_MODE2)
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_FSX, PIN_OUTPUT_PULLUP, MUX_MODE0)
++			AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKX, PIN_OUTPUT_PULLDOWN, MUX_MODE0)
++		>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	it66121: it66121 {
++		compatible = "ite,it66121";
++		reg = <0x4d>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&bb_lcd_pins>;
++
++		#sound-dai-cells = <0>;
++
++		interrupt-parent = <&gpio2>;
++		interrupts = <4 IRQ_TYPE_EDGE_RISING>;
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				it66121_in: endpoint {
++					bus-width = <24>;
++					remote-endpoint = <&lcdc_0>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				it66121_out: endpoint {
++					remote-endpoint = <&hdmi_connector_in>;
++				};
++			};
++		};
++	};
++};
++
++&lcdc {
++	status = "okay";
++	blue-and-red-wiring = "straight";
++	port {
++		lcdc_0: endpoint@0 {
++			remote-endpoint = <&it66121_in>;
++		};
++	};
++};
++
++
++&mcasp0 {
++	status = "okay";
++	#sound-dai-cells = <0>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&mcasp0_pins>;
++	op-mode = <0>;
++	tdm-slots = <2>;
++	serial-dir = < 0 0 1 0 >;
++	tx-num-evt = <32>;
++	rx-num-evt = <32>;
++};
++
 
 -- 
 2.43.0
