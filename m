@@ -2,58 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACIKLg+vjWmz5wAAu9opvQ
+	id 2AbCHU+vjWmz5wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:44:31 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:45:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128C012CA29
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85E412CA74
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:45:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8112010E24A;
-	Thu, 12 Feb 2026 10:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAA510E71F;
+	Thu, 12 Feb 2026 10:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="W79bnkch";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j53LgTeC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880D110E24A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:44:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770893065;
- bh=AYXFwg07oSez1N9hyuJcyUif0Iq4Exg9NT+0MFfYPNQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=W79bnkchs8gwHUNNySjSYu4QZyXoW/flWylUGxLSR3cNTAsWY/nNQWkAGJh0GOkT1
- JsbyDv2YoXWjcKHkZPRr8oiG8wGwS644ZBd73CSYKjNiefjupwXKtsbU77Kf33uArg
- yKxKkIO5ukBQQ6mar2ubg7IlUTqS7cNbDJxp3ybhbnI27c8ZIuYz3yBCpjYcGrIHNX
- QXVjrq1jmuxkxZLbwbnOCK/DcqNMjXFiCWjx6pORl+F5anG24ODeyikfJeQr0hWas1
- wbRKzOia2YXdkNRjrEyMpmai38HY/f7p+z3ub8HohXG07SYi2Hc2Kxb6I4FW8tyLtf
- YTfZ+NfFRZH0Q==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DC17817E0097;
- Thu, 12 Feb 2026 11:44:24 +0100 (CET)
-Date: Thu, 12 Feb 2026 11:44:18 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- daniel.almeida@collabora.com, aliceryhl@google.com,
- beata.michalska@arm.com, lyude@redhat.com
-Subject: Re: [PATCH 08/12] drm/tyr: add MMU module
-Message-ID: <20260212114418.3d7d7ca8@fedora>
-In-Reply-To: <20260212013713.304343-9-deborah.brouwer@collabora.com>
-References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
- <20260212013713.304343-9-deborah.brouwer@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com
+ [74.125.82.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31BB710E71F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:45:32 +0000 (UTC)
+Received: by mail-dy1-f179.google.com with SMTP id
+ 5a478bee46e88-2ba85f77203so349157eec.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 02:45:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770893131; cv=none;
+ d=google.com; s=arc-20240605;
+ b=K2/O/umCe8iyLV27jXJrFrffY/pcrFeNQjYgR0s5bdYiQADRLXIE+iQnB+7aKjiMvu
+ SQSEnlYDifo0p5Xlm8/1LQqoHjQIH5YaiiXaRXsB/JkB/WF5D3nkhNqnkkcoUtss2H2e
+ h921oCdA8eDsluXuBmb3H9vyUHEiGl85LkapRB9l6TeECJwNBamiGPQ3vjeMhlzdTF63
+ U7YFRt3WpuzJ6pEklV+1jKpQRUh6M3UVQH0b1aMoZi4MHqn6wz5Wrk/MybGJwy8QBooP
+ uyDu7WnTXBwCd8l6ikUbyWGYEDUNKQSJUNkU5m6pmeYX0SWQE5UyOzjZCDOa2y2gVGpm
+ Vc0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=phpZ1LJL4LHD3Xu5bAIFwIXSGa+vgb+4IXaYk+lvQ+c=;
+ fh=bTWuTnjWYpG4pyp+a1DWYscbQaE0C3juK9BoadpjYyE=;
+ b=D6pdv8YdI1ALWvNiDnCKRyAcau9j80AAwbakmAooNxQQdVEh6EyCbmjwbJuZBB58CC
+ BzlwoTa+hx7kRNm7u3KbzgO+nUqPp7ta3+EdgfcdQezommXdEaqnSIKjqvs8kjnomXDK
+ d87jDro0yULPUEx+CtEg2wSwuptSMFQIyfSupNhJAZUY9UbDPbe4Q4VjCR4RqHsklCVg
+ bWOMjC5n8q2qS1q7+UGevZf3mhKk2mcee2nacCU6lFQns+efZjld9X9UbV4PrKbcfCAN
+ 1Yqk9P3ukrdExnwo0bNp8tnux3hA52tqHx9p4tgjsccRANpdNvGzpakLrlJtUqbGo1PD
+ mU+Q==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770893131; x=1771497931; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=phpZ1LJL4LHD3Xu5bAIFwIXSGa+vgb+4IXaYk+lvQ+c=;
+ b=j53LgTeCOu5RSc5gZpew1p45Noh9AhMf5ufow/AavxvHfEnb3+aqPwEg4FAkvUCNRV
+ G6dPcQhxQdY4AkqrofyLLK9g/tEpnsXTibp+Aw8BreExO1KQqJWwnJWoYLC45pqy8yUb
+ b/FTT43XPh5ck76rbzwAzmOG2b8CIPIuxrWRSG0vuHZVtzOEMKa35Flr4YI9hWQU8F6V
+ a1OWF1Nj9ZP43K/X8uSpSLP/5XN5W7DA8ZFCP67+ilCbNHK/G505LRbKHgVlsDvJlqoT
+ WbXn930vXXg7W8Wy90EPN3BXzvDRYSF1BY6+zzyKiw8bvMiN74rzrtdqZ5Srp+4/+Lka
+ dgJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770893131; x=1771497931;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=phpZ1LJL4LHD3Xu5bAIFwIXSGa+vgb+4IXaYk+lvQ+c=;
+ b=cgWdsVWssE0eR8WvA6tkxdbeiwFgykbWbKPV+tSk3X3jFP2EadDZHHkpcxdWdJLKDn
+ Cy7c2Qtz4wwNr3Zh+EbLH9j4Qz5rP1VZmD40NlAuaFCV6g2Hv9j4WGWyLZv+kuGIy0Ts
+ 0IpTCGplGOyR9argcHElhxsN1yNzlaJCAtKmIQ1LZsGAVfcwnouOle8fLOwZcoSBG82E
+ bYoZgEq1h772v18XKnk9i/eWn3Qzkj12pBx9wu4/P9HofdZniSi1/4bQwji9oj21mqQw
+ wdr+MHYlIebT0KGNjDaciCyhI7KouyiP+BXaz56RmgUDZAjADnocJOf/OJa8PX0GiCyN
+ 7LWg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfxlNlz0bniLo4808q+k1bHVHOS6GcqhM61BKKJgCTYtVUSWiiA9+ks585G0SXsucqoZD51NmMuXE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytrEpRETxul+FJoRRNgS7ZaC2RzNAdkeAi9+/lGMP1gBXsHS5V
+ J4qeSF+wfASiVTJWLQPLy9HeBmQhClSgza0o2udJtFqn/1DraVwqUxMhqb2mgA9VwBXIDWImPuv
+ AIQkDXRPwv5Y8LPq7yAy4xX3JPXW2Kjg=
+X-Gm-Gg: AZuq6aJrgO0xz7E/nKibYBhYKYna+nif+zjytTyZF+/nXbCcWVbAplj/+rOSVcz8qWY
+ 4AJwkTPjqR0W8j2XEnG6X5k188/RzXJ+zQoOoT0xoJrd77jb1JsDbOAE8kXgV50XbsYw9+C37DK
+ GRkyaQ9jm7l9+dwUaiIm9Oo6genpabTgRLOEBNnDmzYAjzpoPsVE+q+Cyf2JO92Xo6/hCcQcG8b
+ FUlyJ9HBjRvDQIIHC9dUDzXF0pjcyOWtt0snikZ7EIKLu2G5wJ3/t1chqkdIevFnI06fsdpaNKr
+ wDHKe+ByjbvFeVkNdB50wIMotJabq7rS8b+79qyEZ3kefFzIjLXq4TcD2eSj/VMLMKyo155QJW3
+ iJ9wMfDxqciCakGBlKnfNLQIa
+X-Received: by 2002:a05:7301:1011:b0:2b7:1008:9f2e with SMTP id
+ 5a478bee46e88-2baa808a1a0mr502293eec.7.1770893131339; Thu, 12 Feb 2026
+ 02:45:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
+ <20260212013713.304343-8-deborah.brouwer@collabora.com>
+ <20260212111113.68778819@fedora>
+In-Reply-To: <20260212111113.68778819@fedora>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 12 Feb 2026 11:45:17 +0100
+X-Gm-Features: AZwV_Qj0hpy9yWpoQU6BD-WczAf3MmOLS9jRC4UWcoe2oNEcIa9_Ve27ZA0Cghs
+Message-ID: <CANiq72na4OjOT+LD4E0oPoPtrV5jJXoApbhoSbVivMDOwhkPMQ@mail.gmail.com>
+Subject: Re: [PATCH 07/12] drm/tyr: Add generic slot manager
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Deborah Brouwer <deborah.brouwer@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, daniel.almeida@collabora.com, 
+ aliceryhl@google.com, beata.michalska@arm.com, lyude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,587 +115,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	HAS_ORG_HEADER(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 128C012CA29
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D85E412CA74
 X-Rspamd-Action: no action
 
-On Wed, 11 Feb 2026 17:37:09 -0800
-Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+On Thu, Feb 12, 2026 at 11:11=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> Don't know what the doc rules are in rust, but for this sort of generic
+> layer, maybe we should provide extensive docs around objects, fields
+> and public functions. I see that most struct fields are documented, but
+> not the struct themselves. the enum doesn't seem to be documented, and
+> some of the public functions are not either. And that's all my fault,
+> because I gave you this raw piece of code without much doc (you added a
+> lot already). Just saying that, maybe now that things have settled
+> down, is a good time to add proper doc where it's missing.
 
-> From: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Add a Memory Management Unit (MMU) driver for Tyr. The MMU wraps a
-> SlotManager for allocating hardware address space slots. The underlying
-> AddressSpaceManager performs MMU operations including enabling/disabling
-> address spaces, flushing page tables, and locking regions for page table
-> updates.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
->  drivers/gpu/drm/tyr/driver.rs            |   3 +
->  drivers/gpu/drm/tyr/mmu.rs               |  91 +++++++
->  drivers/gpu/drm/tyr/mmu/address_space.rs | 322 +++++++++++++++++++++++
->  drivers/gpu/drm/tyr/tyr.rs               |   1 +
->  4 files changed, 417 insertions(+)
->  create mode 100644 drivers/gpu/drm/tyr/mmu.rs
->  create mode 100644 drivers/gpu/drm/tyr/mmu/address_space.rs
-> 
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-> index 2973a8b3cc09..ad5a765a6c2a 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -43,6 +43,7 @@
->      gem::BoData,
->      gpu,
->      gpu::GpuInfo,
-> +    mmu::Mmu,
->      regs, //
->  };
->  
-> @@ -148,6 +149,8 @@ fn probe(
->          let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
->          let platform: ARef<platform::Device> = pdev.into();
->  
-> +        let _mmu = Mmu::new(pdev, iomem.as_arc_borrow(), &gpu_info)?;
-> +
->          let data = try_pin_init!(TyrDrmDeviceData {
->                  pdev: platform.clone(),
->                  clks <- new_mutex!(Clocks {
-> diff --git a/drivers/gpu/drm/tyr/mmu.rs b/drivers/gpu/drm/tyr/mmu.rs
-> new file mode 100644
-> index 000000000000..8e076c35f342
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tyr/mmu.rs
-> @@ -0,0 +1,91 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +
-> +//! Memory Management Unit (MMU) driver for the Tyr GPU.
-> +//!
-> +//! This module manages GPU address spaces and virtual memory operations through
-> +//! hardware MMU slots. It provides functionality for flushing page tables and
-> +//! managing VM updates for active address spaces.
-> +//!
-> +//! The MMU coordinates with the [`AddressSpaceManager`] to handle hardware
-> +//! address space allocation and page table operations, using [`SlotManager`]
-> +//! to track which address spaces are currently active in hardware slots.
-> +//!
-> +//! [`AddressSpaceManager`]: address_space::AddressSpaceManager
-> +//! [`SlotManager`]: crate::slot::SlotManager
-> +#![allow(dead_code)]
-> +
-> +use core::ops::Range;
-> +
-> +use kernel::{
-> +    devres::Devres,
-> +    new_mutex,
-> +    platform,
-> +    prelude::*,
-> +    sync::{
-> +        Arc,
-> +        ArcBorrow,
-> +        Mutex, //
-> +    }, //
-> +};
-> +
-> +use crate::{
-> +    driver::IoMem,
-> +    gpu::GpuInfo,
-> +    mmu::address_space::{
-> +        AddressSpaceManager,
-> +        VmAsData, //
-> +    },
-> +    regs::MAX_AS_REGISTERS,
-> +    slot::{
-> +        SlotManager, //
-> +    }, //
+Yeah, documentation is definitely welcome, and will be rendered for
+all crates in the future.
 
-formatting nit:
-	slot::SlotManager, //
+We configure the compiler to require documentation for public items,
+and while it is not enforced for private ones, it is definitely wanted
+and expected unless unreasonable (e.g. too trivial or onerous).
+Examples are also encouraged.
 
-> +};
-> +
-> +pub(crate) mod address_space;
-> +
-> +pub(crate) type AsSlotManager = SlotManager<AddressSpaceManager, MAX_AS_REGISTERS>;
-> +
+We generally try to be strict within the `kernel` crate, but we don't
+want to make things too hard either. It is a balance. Subsystems
+should decide on how strict they need/want to be on things like docs
+for private items. Some subsystems define further guidelines/rules,
+e.g. like Nova:
 
-/// MMU component of the GPU.
-///
-/// This is used to bind VM objects to an AS (Address Space) slot
-/// and make the VM active on the GPU.
+  https://docs.kernel.org/gpu/nova/guidelines.html
 
-> +#[pin_data]
-> +pub(crate) struct Mmu {
-> +    /// Manages the allocation of hardware MMU slots to GPU address spaces.
-> +    ///
-> +    /// Tracks which address spaces are currently active in hardware slots and
-> +    /// coordinates address space operations like flushing and VM updates.
-> +    #[pin]
-> +    pub(crate) as_manager: Mutex<AsSlotManager>,
-> +}
-> +
-> +impl Mmu {
+A few related notes at (I am writing a "coding guidelines list" to go
+along that document with simple, short notes I have been accumulating
+over the months, and that may also be useful to give to AI review
+tooling):
 
-    /// Create an MMU component for this device.
+  https://docs.kernel.org/rust/coding-guidelines.html#code-documentation
 
-> +    pub(crate) fn new(
-> +        pdev: &platform::Device,
-> +        iomem: ArcBorrow<'_, Devres<IoMem>>,
-> +        gpu_info: &GpuInfo,
-> +    ) -> Result<Arc<Mmu>> {
-> +        let slot_count = gpu_info.as_present.count_ones().try_into()?;
-> +        let as_manager = AddressSpaceManager::new(pdev, iomem, gpu_info.as_present)?;
-> +        let mmu_init = try_pin_init!(Self{
-> +            as_manager <- new_mutex!(SlotManager::new(as_manager, slot_count)?),
-> +        });
-> +        Arc::pin_init(mmu_init, GFP_KERNEL)
-> +    }
-> +
+I hope that helps.
 
-    /// Make a VM active.
-    ///
-    /// This implies assigning the VM to an AS slot through the slot
-    /// manager.
-> +    pub(crate) fn activate_vm(&self, vm: ArcBorrow<'_, VmAsData>) -> Result {
-> +        self.as_manager.lock().activate_vm(vm)
-> +    }
-> +
-
-    /// Make the VM inactive.
-    ///
-    /// Evicts the VM from its AS slot through the slot manager.
-
-> +    pub(crate) fn deactivate_vm(&self, vm: &VmAsData) -> Result {
-> +        self.as_manager.lock().deactivate_vm(vm)
-> +    }
-> +
-
-    /// Flush caches after a VM update.
-    ///
-    /// If the VM is no longer resident, this is a NOP, otherwise, the
-    /// AS manager will flush the GPU and MMU (TLB) caches.
-> +    pub(crate) fn flush_vm(&self, vm: &VmAsData) -> Result {
-> +        self.as_manager.lock().flush_vm(vm)
-> +    }
-> +
-
-    /// Flags the start of a VM update.
-    ///
-    /// If the VM is resident, any GPU access on the memory range being
-    /// updated will be blocked until `Mmu::end_vm_update()` is called.
-    /// This guarantees the atomicity of a VM update.
-    /// If the VM is not resident, this is a NOP.
-> +    pub(crate) fn start_vm_update(&self, vm: &VmAsData, region: &Range<u64>) -> Result {
-> +        self.as_manager.lock().start_vm_update(vm, region)
-> +    }
-> +
-
-    /// Flags the end of a VM update.
-    ///
-    /// If the VM is resident, this will let GPU accesse on the updated
-    /// range go through, in case any of them were blocked.
-    /// If the VM is not resident, this is a NOP.
-> +    pub(crate) fn end_vm_update(&self, vm: &VmAsData) -> Result {
-> +        self.as_manager.lock().end_vm_update(vm)
-> +    }
-> +}
-> diff --git a/drivers/gpu/drm/tyr/mmu/address_space.rs b/drivers/gpu/drm/tyr/mmu/address_space.rs
-> new file mode 100644
-> index 000000000000..60e9a79112f0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tyr/mmu/address_space.rs
-> @@ -0,0 +1,322 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +
-> +//! GPU address space management and hardware operations.
-> +//!
-> +//! This module manages GPU hardware address spaces, including configuration,
-> +//! command submission, and page table update regions. It handles the hardware
-> +//! interaction for MMU operations through MMIO register access.
-> +//!
-> +//! The [`AddressSpaceManager`] implements [`SlotOperations`] to integrate with
-> +//! the slot management system, enabling and configuring address spaces in the
-> +//! hardware slots as needed.
-> +//!
-> +//! [`SlotOperations`]: crate::slot::SlotOperations
-> +
-> +use core::ops::Range;
-> +
-> +use kernel::{
-> +    bits::*,
-> +    device::{
-> +        Bound,
-> +        Device, //
-> +    },
-> +    devres::Devres,
-> +    error::Result,
-> +    io,
-> +    iommu::pgtable::{
-> +        IoPageTable,
-> +        ARM64LPAES1, //
-> +    },
-> +    platform,
-> +    prelude::*,
-> +    sync::{
-> +        aref::ARef,
-> +        Arc,
-> +        ArcBorrow,
-> +        LockedBy, //
-> +    },
-> +    time::Delta, //
-> +};
-> +
-> +use crate::{
-> +    driver::IoMem,
-> +    mmu::{
-> +        AsSlotManager,
-> +        Mmu, //
-> +    },
-> +    regs::*,
-> +    slot::{
-> +        Seat,
-> +        SlotOperations, //
-> +    }, //
-> +};
-> +
-> +/// Hardware address space configuration registers.
-> +///
-> +/// Contains the values to be written to the GPU's AS registers when
-> +/// activating this address space.
-> +#[derive(Clone, Copy)]
-> +pub(crate) struct AddressSpaceConfig {
-> +    pub(crate) transcfg: u64,
-> +    pub(crate) transtab: u64,
-> +    pub(crate) memattr: u64,
-
-Don't know if we need to document those fields.
-
-> +}
-> +
-> +/// Any resource/information that will be used by the AddressSpaceManager
-> +/// to make a VM active is present in VmAsData.
-> +///
-> +/// On activation, we will pass an Arc<VmAsData> that will be stored in
-> +/// the slot to make sure the page table and the underlying resources
-> +/// (pages) used by the AS slot won't go away while the MMU points to
-> +/// those.
-> +pub(crate) struct VmAsData {
-> +    /// Tracks this VM's binding to a hardware address space slot.
-> +    as_seat: LockedBy<Seat, AsSlotManager>,
-> +    /// Hardware configuration for this address space.
-> +    as_config: AddressSpaceConfig,
-> +    /// Page table (managed by devres).
-> +    pub(crate) page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
-> +}
-> +
-> +impl VmAsData {
-
-Missing doc.
-
-> +    pub(crate) fn new(
-> +        mmu: &Mmu,
-> +        as_config: AddressSpaceConfig,
-> +        page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
-> +    ) -> VmAsData {
-> +        Self {
-> +            as_seat: LockedBy::new(&mmu.as_manager, Seat::NoSeat),
-> +            as_config,
-> +            page_table,
-> +        }
-> +    }
-> +}
-> +
-> +/// Manages GPU hardware address spaces via MMIO register operations.
-> +pub(crate) struct AddressSpaceManager {
-
-Missing docs on the first two fields.
-
-> +    pdev: ARef<platform::Device>,
-> +    iomem: Arc<Devres<IoMem>>,
-> +    /// Bitmask of available address space slots from GPU_AS_PRESENT register
-> +    as_present: u32,
-> +}
-> +
-> +impl SlotOperations for AddressSpaceManager {
-> +    type SlotData = Arc<VmAsData>;
-> +
-> +    fn activate(&mut self, slot_idx: usize, slot_data: &Self::SlotData) -> Result {
-> +        self.as_enable(slot_idx, &slot_data.as_config)
-> +    }
-> +
-> +    fn evict(&mut self, slot_idx: usize, _slot_data: &Self::SlotData) -> Result {
-> +        if self.iomem.try_access().is_some() {
-> +            let _ = self.as_flush(slot_idx);
-> +            let _ = self.as_disable(slot_idx);
-
-I don't think we should ignore the errors returned by
-as_flush/disable(). Ultimately, what we should do is trigger a GPU
-reset and leave the slot 'busy' until we're sure no one will try
-to use it (the "stop everything" happening in the reset path). Once this
-is done, we can forcibly evict the VM (basically remove the VM from the
-slot without doing any HW transaction) and let the reset do its job.
-
-Since we're not yet at a point where we have a functional reset flow,
-I'd recommend failing the eviction if as_flush/disable() returns an
-error (shouldn't happen with just the FW-boot logic anyway). This means
-we might leave active slots behind and possibly leak resources when that
-happens, but that's better than the UAF we'd create if the AS still
-points to a page table that's been freed.
-
-> +        }
-> +        Ok(())
-> +    }
-> +}
-> +
-> +impl AddressSpaceManager {
-
-Missing docs.
-
-> +    pub(super) fn new(
-> +        pdev: &platform::Device,
-> +        iomem: ArcBorrow<'_, Devres<IoMem>>,
-> +        as_present: u32,
-> +    ) -> Result<AddressSpaceManager> {
-> +        Ok(Self {
-> +            pdev: pdev.into(),
-> +            iomem: iomem.into(),
-> +            as_present,
-> +        })
-> +    }
-> +
-> +    fn dev(&self) -> &Device<Bound> {
-> +        // SAFETY: pdev is a bound device.
-> +        unsafe { self.pdev.as_ref().as_bound() }
-> +    }
-> +
-> +    fn validate_as_slot(&self, as_nr: usize) -> Result {
-> +        if as_nr >= MAX_AS_REGISTERS {
-> +            pr_err!(
-> +                "AS slot {} out of valid range (max {})\n",
-> +                as_nr,
-> +                MAX_AS_REGISTERS
-> +            );
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        if (self.as_present & (1 << as_nr)) == 0 {
-> +            pr_err!(
-> +                "AS slot {} not present in hardware (AS_PRESENT={:#x})\n",
-> +                as_nr,
-> +                self.as_present
-> +            );
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        Ok(())
-> +    }
-> +
-> +    fn as_wait_ready(&self, as_nr: usize) -> Result {
-> +        let op = || as_status(as_nr)?.read(self.dev(), &self.iomem);
-> +        let cond = |status: &u32| -> bool { *status & AS_STATUS_ACTIVE == 0 };
-> +        let _ =
-> +            io::poll::read_poll_timeout(op, cond, Delta::from_millis(0), Delta::from_millis(10))?;
-> +
-> +        Ok(())
-> +    }
-> +
-> +    fn as_send_cmd(&mut self, as_nr: usize, cmd: u32) -> Result {
-> +        self.as_wait_ready(as_nr)?;
-> +        as_command(as_nr)?.write(self.dev(), &self.iomem, cmd)?;
-> +        Ok(())
-> +    }
-> +
-> +    fn as_send_cmd_and_wait(&mut self, as_nr: usize, cmd: u32) -> Result {
-> +        self.as_send_cmd(as_nr, cmd)?;
-> +        self.as_wait_ready(as_nr)?;
-> +        Ok(())
-> +    }
-> +
-> +    fn as_enable(&mut self, as_nr: usize, as_config: &AddressSpaceConfig) -> Result {
-> +        self.validate_as_slot(as_nr)?;
-> +
-> +        let transtab = as_config.transtab;
-> +        let transcfg = as_config.transcfg;
-> +        let memattr = as_config.memattr;
-> +
-> +        let transtab_lo = (transtab & 0xffffffff) as u32;
-> +        let transtab_hi = (transtab >> 32) as u32;
-> +
-> +        let transcfg_lo = (transcfg & 0xffffffff) as u32;
-> +        let transcfg_hi = (transcfg >> 32) as u32;
-> +
-> +        let memattr_lo = (memattr & 0xffffffff) as u32;
-> +        let memattr_hi = (memattr >> 32) as u32;
-> +
-> +        let dev = self.dev();
-> +        as_transtab_lo(as_nr)?.write(dev, &self.iomem, transtab_lo)?;
-> +        as_transtab_hi(as_nr)?.write(dev, &self.iomem, transtab_hi)?;
-> +
-> +        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, transcfg_lo)?;
-> +        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, transcfg_hi)?;
-> +
-> +        as_memattr_lo(as_nr)?.write(dev, &self.iomem, memattr_lo)?;
-> +        as_memattr_hi(as_nr)?.write(dev, &self.iomem, memattr_hi)?;
-> +
-> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
-> +
-> +        Ok(())
-> +    }
-> +
-> +    fn as_disable(&mut self, as_nr: usize) -> Result {
-> +        self.validate_as_slot(as_nr)?;
-> +
-> +        // Flush AS before disabling
-> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_MEM)?;
-> +
-> +        let dev = self.dev();
-> +        as_transtab_lo(as_nr)?.write(dev, &self.iomem, 0)?;
-> +        as_transtab_hi(as_nr)?.write(dev, &self.iomem, 0)?;
-> +
-> +        as_memattr_lo(as_nr)?.write(dev, &self.iomem, 0)?;
-> +        as_memattr_hi(as_nr)?.write(dev, &self.iomem, 0)?;
-> +
-> +        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, AS_TRANSCFG_ADRMODE_UNMAPPED as u32)?;
-> +        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, 0)?;
-> +
-> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
-> +
-> +        Ok(())
-> +    }
-> +
-> +    fn as_start_update(&mut self, as_nr: usize, region: &Range<u64>) -> Result {
-> +        self.validate_as_slot(as_nr)?;
-> +
-> +        // The locked region is a naturally aligned power of 2 block encoded as
-> +        // log2 minus(1).
-> +        //
-> +        // Calculate the desired start/end and look for the highest bit which
-> +        // differs. The smallest naturally aligned block must include this bit
-> +        // change, the desired region starts with this bit (and subsequent bits)
-> +        // zeroed and ends with the bit (and subsequent bits) set to one.
-> +        let region_width = core::cmp::max(
-> +            64 - (region.start ^ (region.end - 1)).leading_zeros() as u8,
-> +            AS_LOCK_REGION_MIN_SIZE.trailing_zeros() as u8,
-> +        ) - 1;
-> +
-> +        // Mask off the low bits of region.start, which would be ignored by the
-> +        // hardware anyways.
-> +        let region_start =
-> +            region.start & genmask_checked_u64(u32::from(region_width)..=63).ok_or(EINVAL)?;
-> +
-> +        let region = (u64::from(region_width)) | region_start;
-> +
-> +        let region_lo = (region & 0xffffffff) as u32;
-> +        let region_hi = (region >> 32) as u32;
-> +
-> +        // Lock the region that needs to be updated.
-> +        let dev = self.dev();
-> +        as_lockaddr_lo(as_nr)?.write(dev, &self.iomem, region_lo)?;
-> +        as_lockaddr_hi(as_nr)?.write(dev, &self.iomem, region_hi)?;
-> +
-> +        self.as_send_cmd(as_nr, AS_COMMAND_LOCK)
-> +    }
-> +
-> +    fn as_end_update(&mut self, as_nr: usize) -> Result {
-> +        self.validate_as_slot(as_nr)?;
-> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_PT)
-> +    }
-> +
-> +    fn as_flush(&mut self, as_nr: usize) -> Result {
-> +        self.validate_as_slot(as_nr)?;
-> +        self.as_send_cmd(as_nr, AS_COMMAND_FLUSH_PT)
-> +    }
-> +}
-> +
-> +impl AsSlotManager {
-> +    /// Locks a region for page table updates if the VM has an active slot.
-> +    pub(super) fn start_vm_update(&mut self, vm: &VmAsData, region: &Range<u64>) -> Result {
-> +        let seat = vm.as_seat.access(self);
-> +        match seat.slot() {
-> +            Some(slot) => {
-> +                let as_nr = slot as usize;
-> +                self.as_start_update(as_nr, region)
-> +            }
-> +            _ => Ok(()),
-> +        }
-> +    }
-> +
-> +    /// Flushes page table updates for a VM if it has an active slot.
-> +    pub(super) fn end_vm_update(&mut self, vm: &VmAsData) -> Result {
-> +        let seat = vm.as_seat.access(self);
-> +        match seat.slot() {
-> +            Some(slot) => {
-> +                let as_nr = slot as usize;
-> +                self.as_end_update(as_nr)
-> +            }
-> +            _ => Ok(()),
-> +        }
-> +    }
-> +
-> +    /// Flushes page tables for a VM if it has an active slot.
-> +    pub(super) fn flush_vm(&mut self, vm: &VmAsData) -> Result {
-> +        let seat = vm.as_seat.access(self);
-> +        match seat.slot() {
-> +            Some(slot) => {
-> +                let as_nr = slot as usize;
-> +                self.as_flush(as_nr)
-> +            }
-> +            _ => Ok(()),
-> +        }
-> +    }
-> +
-> +    /// Flushes page tables for a VM if it has an active slot.
-> +    pub(super) fn activate_vm(&mut self, vm: ArcBorrow<'_, VmAsData>) -> Result {
-> +        self.activate(&vm.as_seat, vm.into())
-> +    }
-> +
-> +    /// Flushes page tables for a VM if it has an active slot.
-> +    pub(super) fn deactivate_vm(&mut self, vm: &VmAsData) -> Result {
-> +        self.evict(&vm.as_seat)
-> +    }
-> +}
-> diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
-> index f54b997355e0..ae435c7e80b1 100644
-> --- a/drivers/gpu/drm/tyr/tyr.rs
-> +++ b/drivers/gpu/drm/tyr/tyr.rs
-> @@ -11,6 +11,7 @@
->  mod file;
->  mod gem;
->  mod gpu;
-> +mod mmu;
->  mod regs;
->  mod slot;
->  
-
+Cheers,
+Miguel
