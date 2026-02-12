@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGw7Le4ujWk/zwAAu9opvQ
+	id iOn5FvMujWk/zwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F563129020
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFE8129036
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F3910E6B9;
-	Thu, 12 Feb 2026 01:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E92010E6BF;
+	Thu, 12 Feb 2026 01:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="hu0vehyd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="H8flZMVS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D031510E6B8
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 01:37:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770860263; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89D910E6BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 01:37:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770860265; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=YsPdG4A1//Oz1JkR81eNAVIyvYZ4dHzxN+G5deKMAjID0Zxf1vDf76tAe6txkyEL2K34gly9lM2pKl2UxOzkw9PxLl6tWRX0IpyJUvJFCGUoTxBUSPHU85udgRt3wj5WtKB99wEKSjMCUbRmm/DlYaDopfdY/t7lQjBXQRot3wg=
+ b=V3hf28ZXzviDJM1LGs8arFUBLtaEhStKDWrlRQesU5/yrEH5z5dWX/NxU/MOTHmCFdIiLLCw+n8U9TnBh56iHaAFNZUgW/klUSRMKbkuJsDTHsuGuOv3z7zo6/CzMzc9zXSU9VZ7/nrEOBJQ53PKh7AHrQcKyloCymf/saKY+/U=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770860263;
+ s=zohoarc; t=1770860265;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=EewxOiPGp7wW6OP+Xv3Maai8GFiE+2MdY9jEfPuMeqs=; 
- b=k/LqnBnGx+F7ZO+z2aGFoKMhJ4oNSGjh43HI/mnln/equmT51+I6uhHLtacB3Kde75L7e3In66djJuQj8sZOVVS6k6W1lBtUkZ5KvKaj1Od1kDmdyUb42sxMGDPx+No5eG+nDFLlEmL4Bjc7OQkD7YmuGHAtDlDi/OtMSP0umgY=
+ bh=iBxtgnRyDBUPsRsFqppDz1YsEBibxrDV0+7Y7YwipQ4=; 
+ b=XDzvzt/ZRgg5J6YVrIuni+Hwv0822wJY+/MzbCySk2MAOfRV+w+TO3qQfsKY5CJzzbbLTSu0gtv7HqnvomSXxAu18FtOVEIGXvol0ln+7FQY638PoUnFriBtYHbeZ/bFCRVGX+bzn9yu4RLjJeELzRrSk0vkWddvI3krRmUsqwY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
  dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770860263; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770860265; 
  s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=EewxOiPGp7wW6OP+Xv3Maai8GFiE+2MdY9jEfPuMeqs=;
- b=hu0vehydFudya1voYKpRE8NgRiXH/nbcaHV5X0FxzwmCE1lAzB+lhQ+gxMRQzPbh
- UNwtEnzYbr81R/Q24MR2C8yY9fpnVIkUpbg4Wdm8RorD/kvSI3SuEZSro3604WNh/aF
- y+0jzpFK484vmfr7pbhI05F6Y6T1BPaRAMQ2hkNE=
-Received: by mx.zohomail.com with SMTPS id 1770860261865493.98814054517345;
- Wed, 11 Feb 2026 17:37:41 -0800 (PST)
+ bh=iBxtgnRyDBUPsRsFqppDz1YsEBibxrDV0+7Y7YwipQ4=;
+ b=H8flZMVSsapAFPVtzEqIIbJemMSIhL7uqj1cVufo/n7sPXCeRy3LM03llmSfr5fv
+ j6shqG2VAj7nEhoer3kiw5saTOtg6JOaDYZnglEMv8b2u56ZeY7OItyMmrSE7Q2yOKV
+ cScytJAwJdFdYHdtN1QUoq+0IRxu3QIn2lfk+pXY=
+Received: by mx.zohomail.com with SMTPS id 17708602631541011.9567046775592;
+ Wed, 11 Feb 2026 17:37:43 -0800 (PST)
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
 Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
  boris.brezillon@collabora.com, beata.michalska@arm.com, lyude@redhat.com,
  Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 07/12] drm/tyr: Add generic slot manager
-Date: Wed, 11 Feb 2026 17:37:08 -0800
-Message-ID: <20260212013713.304343-8-deborah.brouwer@collabora.com>
+Subject: [PATCH 08/12] drm/tyr: add MMU module
+Date: Wed, 11 Feb 2026 17:37:09 -0800
+Message-ID: <20260212013713.304343-9-deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260212013713.304343-1-deborah.brouwer@collabora.com>
 References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
@@ -95,416 +95,488 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,slot.rs:url]
-X-Rspamd-Queue-Id: 2F563129020
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0AFE8129036
 X-Rspamd-Action: no action
 
 From: Boris Brezillon <boris.brezillon@collabora.com>
 
-Introduce a generic slot manager to dynamically allocate limited hardware
-slots to software "seats". It can be used for both address space (AS) and
-command stream group (CSG) slots.
-
-The slot manager initially assigns seats to its free slots. It then
-continues to reuse the same slot for a seat, as long as another seat
-did not start to use the slot in the interim.
-
-When contention arises because all of the slots are allocated, the slot
-manager will lazily evict and reuse slots that have become idle (if any).
-
-The seat state is protected using the LockedBy pattern with the same lock
-that guards the SlotManager. This ensures the seat state stays consistent
-across slot operations.
-
-Hardware specific behaviour can be customized using the slot manager's
-`SlotOperations` trait.
+Add a Memory Management Unit (MMU) driver for Tyr. The MMU wraps a
+SlotManager for allocating hardware address space slots. The underlying
+AddressSpaceManager performs MMU operations including enabling/disabling
+address spaces, flushing page tables, and locking regions for page table
+updates.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
- drivers/gpu/drm/tyr/slot.rs | 359 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tyr/tyr.rs  |   1 +
- 2 files changed, 360 insertions(+)
- create mode 100644 drivers/gpu/drm/tyr/slot.rs
+ drivers/gpu/drm/tyr/driver.rs            |   3 +
+ drivers/gpu/drm/tyr/mmu.rs               |  91 +++++++
+ drivers/gpu/drm/tyr/mmu/address_space.rs | 322 +++++++++++++++++++++++
+ drivers/gpu/drm/tyr/tyr.rs               |   1 +
+ 4 files changed, 417 insertions(+)
+ create mode 100644 drivers/gpu/drm/tyr/mmu.rs
+ create mode 100644 drivers/gpu/drm/tyr/mmu/address_space.rs
 
-diff --git a/drivers/gpu/drm/tyr/slot.rs b/drivers/gpu/drm/tyr/slot.rs
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index 2973a8b3cc09..ad5a765a6c2a 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -43,6 +43,7 @@
+     gem::BoData,
+     gpu,
+     gpu::GpuInfo,
++    mmu::Mmu,
+     regs, //
+ };
+ 
+@@ -148,6 +149,8 @@ fn probe(
+         let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
+         let platform: ARef<platform::Device> = pdev.into();
+ 
++        let _mmu = Mmu::new(pdev, iomem.as_arc_borrow(), &gpu_info)?;
++
+         let data = try_pin_init!(TyrDrmDeviceData {
+                 pdev: platform.clone(),
+                 clks <- new_mutex!(Clocks {
+diff --git a/drivers/gpu/drm/tyr/mmu.rs b/drivers/gpu/drm/tyr/mmu.rs
 new file mode 100644
-index 000000000000..37bf8800a225
+index 000000000000..8e076c35f342
 --- /dev/null
-+++ b/drivers/gpu/drm/tyr/slot.rs
-@@ -0,0 +1,359 @@
++++ b/drivers/gpu/drm/tyr/mmu.rs
+@@ -0,0 +1,91 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
 +
-+//! Slot management abstraction for limited hardware resources.
++//! Memory Management Unit (MMU) driver for the Tyr GPU.
 +//!
-+//! This module provides a generic [`SlotManager`] that assigns limited hardware
-+//! slots to logical "seats". A seat represents an entity (such as a vm address
-+//! space) that needs access to a hardware slot.
++//! This module manages GPU address spaces and virtual memory operations through
++//! hardware MMU slots. It provides functionality for flushing page tables and
++//! managing VM updates for active address spaces.
 +//!
-+//! The [`SlotManager`] tracks slot allocation using sequence numbers to detect
-+//! when a seat's binding has been invalidated. When a seat requests activation,
-+//! the manager will either reuse the seat's existing slot (if still valid),
-+//! allocate a free slot (if any are available), or evict the oldest idle slot if any
-+//! slots are idle.
++//! The MMU coordinates with the [`AddressSpaceManager`] to handle hardware
++//! address space allocation and page table operations, using [`SlotManager`]
++//! to track which address spaces are currently active in hardware slots.
 +//!
-+//! Hardware-specific behavior is customized by implementing the [`SlotOperations`]
-+//! trait, which allows callbacks when slots are activated or evicted.
-+//!
-+//! This is primarily used for managing address space slots in the GPU, where
-+//! the number of hardware address space slots is limited.
-+//!
-+//! [SlotOperations]: crate::slot::SlotOperations
-+//! [SlotManager]: crate::slot::SlotManager
++//! [`AddressSpaceManager`]: address_space::AddressSpaceManager
++//! [`SlotManager`]: crate::slot::SlotManager
 +#![allow(dead_code)]
 +
-+use core::{
-+    mem::take,
-+    ops::{
-+        Deref,
-+        DerefMut, //
++use core::ops::Range;
++
++use kernel::{
++    devres::Devres,
++    new_mutex,
++    platform,
++    prelude::*,
++    sync::{
++        Arc,
++        ArcBorrow,
++        Mutex, //
 +    }, //
 +};
 +
-+use kernel::{
-+    prelude::*,
-+    sync::LockedBy, //
++use crate::{
++    driver::IoMem,
++    gpu::GpuInfo,
++    mmu::address_space::{
++        AddressSpaceManager,
++        VmAsData, //
++    },
++    regs::MAX_AS_REGISTERS,
++    slot::{
++        SlotManager, //
++    }, //
 +};
 +
-+pub(crate) struct SeatInfo {
-+    /// Slot used by this seat
-+    slot: u8,
++pub(crate) mod address_space;
 +
-+    /// Sequence number encoding the last time this seat was active.
-+    /// We also use it to check if a slot is still bound to a seat.
-+    seqno: u64,
++pub(crate) type AsSlotManager = SlotManager<AddressSpaceManager, MAX_AS_REGISTERS>;
++
++#[pin_data]
++pub(crate) struct Mmu {
++    /// Manages the allocation of hardware MMU slots to GPU address spaces.
++    ///
++    /// Tracks which address spaces are currently active in hardware slots and
++    /// coordinates address space operations like flushing and VM updates.
++    #[pin]
++    pub(crate) as_manager: Mutex<AsSlotManager>,
 +}
 +
-+#[derive(Default)]
-+pub(crate) enum Seat {
-+    #[expect(clippy::enum_variant_names)]
-+    #[default]
-+    NoSeat,
-+    Active(SeatInfo),
-+    Idle(SeatInfo),
++impl Mmu {
++    pub(crate) fn new(
++        pdev: &platform::Device,
++        iomem: ArcBorrow<'_, Devres<IoMem>>,
++        gpu_info: &GpuInfo,
++    ) -> Result<Arc<Mmu>> {
++        let slot_count = gpu_info.as_present.count_ones().try_into()?;
++        let as_manager = AddressSpaceManager::new(pdev, iomem, gpu_info.as_present)?;
++        let mmu_init = try_pin_init!(Self{
++            as_manager <- new_mutex!(SlotManager::new(as_manager, slot_count)?),
++        });
++        Arc::pin_init(mmu_init, GFP_KERNEL)
++    }
++
++    pub(crate) fn activate_vm(&self, vm: ArcBorrow<'_, VmAsData>) -> Result {
++        self.as_manager.lock().activate_vm(vm)
++    }
++
++    pub(crate) fn deactivate_vm(&self, vm: &VmAsData) -> Result {
++        self.as_manager.lock().deactivate_vm(vm)
++    }
++
++    pub(crate) fn flush_vm(&self, vm: &VmAsData) -> Result {
++        self.as_manager.lock().flush_vm(vm)
++    }
++
++    pub(crate) fn start_vm_update(&self, vm: &VmAsData, region: &Range<u64>) -> Result {
++        self.as_manager.lock().start_vm_update(vm, region)
++    }
++
++    pub(crate) fn end_vm_update(&self, vm: &VmAsData) -> Result {
++        self.as_manager.lock().end_vm_update(vm)
++    }
++}
+diff --git a/drivers/gpu/drm/tyr/mmu/address_space.rs b/drivers/gpu/drm/tyr/mmu/address_space.rs
+new file mode 100644
+index 000000000000..60e9a79112f0
+--- /dev/null
++++ b/drivers/gpu/drm/tyr/mmu/address_space.rs
+@@ -0,0 +1,322 @@
++// SPDX-License-Identifier: GPL-2.0 or MIT
++
++//! GPU address space management and hardware operations.
++//!
++//! This module manages GPU hardware address spaces, including configuration,
++//! command submission, and page table update regions. It handles the hardware
++//! interaction for MMU operations through MMIO register access.
++//!
++//! The [`AddressSpaceManager`] implements [`SlotOperations`] to integrate with
++//! the slot management system, enabling and configuring address spaces in the
++//! hardware slots as needed.
++//!
++//! [`SlotOperations`]: crate::slot::SlotOperations
++
++use core::ops::Range;
++
++use kernel::{
++    bits::*,
++    device::{
++        Bound,
++        Device, //
++    },
++    devres::Devres,
++    error::Result,
++    io,
++    iommu::pgtable::{
++        IoPageTable,
++        ARM64LPAES1, //
++    },
++    platform,
++    prelude::*,
++    sync::{
++        aref::ARef,
++        Arc,
++        ArcBorrow,
++        LockedBy, //
++    },
++    time::Delta, //
++};
++
++use crate::{
++    driver::IoMem,
++    mmu::{
++        AsSlotManager,
++        Mmu, //
++    },
++    regs::*,
++    slot::{
++        Seat,
++        SlotOperations, //
++    }, //
++};
++
++/// Hardware address space configuration registers.
++///
++/// Contains the values to be written to the GPU's AS registers when
++/// activating this address space.
++#[derive(Clone, Copy)]
++pub(crate) struct AddressSpaceConfig {
++    pub(crate) transcfg: u64,
++    pub(crate) transtab: u64,
++    pub(crate) memattr: u64,
 +}
 +
-+impl Seat {
-+    pub(super) fn slot(&self) -> Option<u8> {
-+        match self {
-+            Self::Active(info) => Some(info.slot),
-+            _ => None,
++/// Any resource/information that will be used by the AddressSpaceManager
++/// to make a VM active is present in VmAsData.
++///
++/// On activation, we will pass an Arc<VmAsData> that will be stored in
++/// the slot to make sure the page table and the underlying resources
++/// (pages) used by the AS slot won't go away while the MMU points to
++/// those.
++pub(crate) struct VmAsData {
++    /// Tracks this VM's binding to a hardware address space slot.
++    as_seat: LockedBy<Seat, AsSlotManager>,
++    /// Hardware configuration for this address space.
++    as_config: AddressSpaceConfig,
++    /// Page table (managed by devres).
++    pub(crate) page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
++}
++
++impl VmAsData {
++    pub(crate) fn new(
++        mmu: &Mmu,
++        as_config: AddressSpaceConfig,
++        page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
++    ) -> VmAsData {
++        Self {
++            as_seat: LockedBy::new(&mmu.as_manager, Seat::NoSeat),
++            as_config,
++            page_table,
 +        }
 +    }
 +}
 +
-+pub(crate) trait SlotOperations {
-+    type SlotData;
++/// Manages GPU hardware address spaces via MMIO register operations.
++pub(crate) struct AddressSpaceManager {
++    pdev: ARef<platform::Device>,
++    iomem: Arc<Devres<IoMem>>,
++    /// Bitmask of available address space slots from GPU_AS_PRESENT register
++    as_present: u32,
++}
 +
-+    /// Called when a slot is being activated for a seat.
-+    ///
-+    /// This callback allows hardware-specific actions to be performed when a slot
-+    /// becomes active, such as updating hardware registers or invalidating caches.
-+    fn activate(&mut self, _slot_idx: usize, _slot_data: &Self::SlotData) -> Result {
++impl SlotOperations for AddressSpaceManager {
++    type SlotData = Arc<VmAsData>;
++
++    fn activate(&mut self, slot_idx: usize, slot_data: &Self::SlotData) -> Result {
++        self.as_enable(slot_idx, &slot_data.as_config)
++    }
++
++    fn evict(&mut self, slot_idx: usize, _slot_data: &Self::SlotData) -> Result {
++        if self.iomem.try_access().is_some() {
++            let _ = self.as_flush(slot_idx);
++            let _ = self.as_disable(slot_idx);
++        }
 +        Ok(())
 +    }
-+
-+    /// Called when a slot is being evicted and freed.
-+    ///
-+    /// This callback allows hardware-specific cleanup when a slot is being
-+    /// completely freed, either explicitly or when an idle slot is being
-+    /// reused for a different seat. Any hardware state should be invalidated.
-+    fn evict(&mut self, _slot_idx: usize, _slot_data: &Self::SlotData) -> Result {
-+        Ok(())
-+    }
 +}
 +
-+struct SlotInfo<T> {
-+    /// Type specific data attached to a slot
-+    slot_data: T,
-+
-+    /// Sequence number from when this slot was last activated
-+    seqno: u64,
-+}
-+
-+#[derive(Default)]
-+enum Slot<T> {
-+    #[default]
-+    Free,
-+    Active(SlotInfo<T>),
-+    Idle(SlotInfo<T>),
-+}
-+
-+pub(crate) struct SlotManager<T: SlotOperations, const MAX_SLOTS: usize> {
-+    /// Manager specific data
-+    manager: T,
-+
-+    /// Number of slots actually available
-+    slot_count: usize,
-+
-+    /// Slots
-+    slots: [Slot<T::SlotData>; MAX_SLOTS],
-+
-+    /// Sequence number incremented each time a Seat is successfully activated
-+    use_seqno: u64,
-+}
-+
-+// A `Seat` protected by the same lock that is used to wrap the `SlotManager`.
-+type LockedSeat<T, const MAX_SLOTS: usize> = LockedBy<Seat, SlotManager<T, MAX_SLOTS>>;
-+
-+impl<T: SlotOperations, const MAX_SLOTS: usize> Unpin for SlotManager<T, MAX_SLOTS> {}
-+
-+impl<T: SlotOperations, const MAX_SLOTS: usize> SlotManager<T, MAX_SLOTS> {
-+    pub(crate) fn new(manager: T, slot_count: usize) -> Result<Self> {
-+        if slot_count == 0 {
-+            return Err(EINVAL);
-+        }
-+        if slot_count > MAX_SLOTS {
-+            return Err(EINVAL);
-+        }
++impl AddressSpaceManager {
++    pub(super) fn new(
++        pdev: &platform::Device,
++        iomem: ArcBorrow<'_, Devres<IoMem>>,
++        as_present: u32,
++    ) -> Result<AddressSpaceManager> {
 +        Ok(Self {
-+            manager,
-+            slot_count,
-+            slots: [const { Slot::Free }; MAX_SLOTS],
-+            use_seqno: 1,
++            pdev: pdev.into(),
++            iomem: iomem.into(),
++            as_present,
 +        })
 +    }
 +
-+    fn record_active_slot(
-+        &mut self,
-+        slot_idx: usize,
-+        locked_seat: &LockedSeat<T, MAX_SLOTS>,
-+        slot_data: T::SlotData,
-+    ) -> Result {
-+        let cur_seqno = self.use_seqno;
-+
-+        *locked_seat.access_mut(self) = Seat::Active(SeatInfo {
-+            slot: slot_idx as u8,
-+            seqno: cur_seqno,
-+        });
-+
-+        self.slots[slot_idx] = Slot::Active(SlotInfo {
-+            slot_data,
-+            seqno: cur_seqno,
-+        });
-+
-+        self.use_seqno += 1;
-+        Ok(())
++    fn dev(&self) -> &Device<Bound> {
++        // SAFETY: pdev is a bound device.
++        unsafe { self.pdev.as_ref().as_bound() }
 +    }
 +
-+    fn activate_slot(
-+        &mut self,
-+        slot_idx: usize,
-+        locked_seat: &LockedSeat<T, MAX_SLOTS>,
-+        slot_data: T::SlotData,
-+    ) -> Result {
-+        self.manager.activate(slot_idx, &slot_data)?;
-+        self.record_active_slot(slot_idx, locked_seat, slot_data)
-+    }
-+
-+    fn allocate_slot(
-+        &mut self,
-+        locked_seat: &LockedSeat<T, MAX_SLOTS>,
-+        slot_data: T::SlotData,
-+    ) -> Result {
-+        let slots = &self.slots[..self.slot_count];
-+
-+        let mut idle_slot_idx = None;
-+        let mut idle_slot_seqno: u64 = 0;
-+
-+        for (slot_idx, slot) in slots.iter().enumerate() {
-+            match slot {
-+                Slot::Free => {
-+                    return self.activate_slot(slot_idx, locked_seat, slot_data);
-+                }
-+                Slot::Idle(slot_info) => {
-+                    if idle_slot_idx.is_none() || slot_info.seqno < idle_slot_seqno {
-+                        idle_slot_idx = Some(slot_idx);
-+                        idle_slot_seqno = slot_info.seqno;
-+                    }
-+                }
-+                Slot::Active(_) => (),
-+            }
++    fn validate_as_slot(&self, as_nr: usize) -> Result {
++        if as_nr >= MAX_AS_REGISTERS {
++            pr_err!(
++                "AS slot {} out of valid range (max {})\n",
++                as_nr,
++                MAX_AS_REGISTERS
++            );
++            return Err(EINVAL);
 +        }
 +
-+        match idle_slot_idx {
-+            Some(slot_idx) => {
-+                // Lazily evict idle slot just before it is reused
-+                if let Slot::Idle(slot_info) = &self.slots[slot_idx] {
-+                    self.manager.evict(slot_idx, &slot_info.slot_data)?;
-+                }
-+                self.activate_slot(slot_idx, locked_seat, slot_data)
-+            }
-+            None => {
-+                pr_err!(
-+                    "Slot allocation failed: all {} slots in use\n",
-+                    self.slot_count
-+                );
-+                Err(EBUSY)
-+            }
-+        }
-+    }
-+
-+    fn idle_slot(&mut self, slot_idx: usize, locked_seat: &LockedSeat<T, MAX_SLOTS>) -> Result {
-+        let slot = take(&mut self.slots[slot_idx]);
-+
-+        if let Slot::Active(slot_info) = slot {
-+            self.slots[slot_idx] = Slot::Idle(SlotInfo {
-+                slot_data: slot_info.slot_data,
-+                seqno: slot_info.seqno,
-+            })
-+        };
-+
-+        *locked_seat.access_mut(self) = match locked_seat.access(self) {
-+            Seat::Active(seat_info) | Seat::Idle(seat_info) => Seat::Idle(SeatInfo {
-+                slot: seat_info.slot,
-+                seqno: seat_info.seqno,
-+            }),
-+            Seat::NoSeat => Seat::NoSeat,
-+        };
-+        Ok(())
-+    }
-+
-+    fn evict_slot(&mut self, slot_idx: usize, locked_seat: &LockedSeat<T, MAX_SLOTS>) -> Result {
-+        match &self.slots[slot_idx] {
-+            Slot::Active(slot_info) | Slot::Idle(slot_info) => {
-+                self.manager.evict(slot_idx, &slot_info.slot_data)?;
-+                take(&mut self.slots[slot_idx]);
-+            }
-+            _ => (),
-+        }
-+
-+        *locked_seat.access_mut(self) = Seat::NoSeat;
-+        Ok(())
-+    }
-+
-+    // Checks and updates the seat state based on the slot it points to
-+    // (if any). Returns a Seat with a value matching the slot state.
-+    fn check_seat(&mut self, locked_seat: &LockedSeat<T, MAX_SLOTS>) -> Seat {
-+        let new_seat = match locked_seat.access(self) {
-+            Seat::Active(seat_info) => {
-+                let old_slot_idx = seat_info.slot as usize;
-+                let slot = &self.slots[old_slot_idx];
-+
-+                if kernel::warn_on!(
-+                    !matches!(slot, Slot::Active(slot_info) if slot_info.seqno == seat_info.seqno)
-+                ) {
-+                    Seat::NoSeat
-+                } else {
-+                    Seat::Active(SeatInfo {
-+                        slot: seat_info.slot,
-+                        seqno: seat_info.seqno,
-+                    })
-+                }
-+            }
-+
-+            Seat::Idle(seat_info) => {
-+                let old_slot_idx = seat_info.slot as usize;
-+                let slot = &self.slots[old_slot_idx];
-+
-+                if !matches!(slot, Slot::Idle(slot_info) if slot_info.seqno == seat_info.seqno) {
-+                    Seat::NoSeat
-+                } else {
-+                    Seat::Idle(SeatInfo {
-+                        slot: seat_info.slot,
-+                        seqno: seat_info.seqno,
-+                    })
-+                }
-+            }
-+
-+            _ => Seat::NoSeat,
-+        };
-+
-+        // FIXME: Annoying manual copy. The original idea was to not add Copy+Clone to SeatInfo,
-+        // so that only slot.rs can change the seat state, but there might be better solutions
-+        // to prevent that.
-+        match &new_seat {
-+            Seat::Active(seat_info) => {
-+                *locked_seat.access_mut(self) = Seat::Active(SeatInfo {
-+                    slot: seat_info.slot,
-+                    seqno: seat_info.seqno,
-+                })
-+            }
-+            Seat::Idle(seat_info) => {
-+                *locked_seat.access_mut(self) = Seat::Idle(SeatInfo {
-+                    slot: seat_info.slot,
-+                    seqno: seat_info.seqno,
-+                })
-+            }
-+            _ => *locked_seat.access_mut(self) = Seat::NoSeat,
-+        }
-+
-+        new_seat
-+    }
-+
-+    pub(crate) fn activate(
-+        &mut self,
-+        locked_seat: &LockedSeat<T, MAX_SLOTS>,
-+        slot_data: T::SlotData,
-+    ) -> Result {
-+        let seat = self.check_seat(locked_seat);
-+        match seat {
-+            Seat::Active(seat_info) | Seat::Idle(seat_info) => {
-+                // With lazy eviction, if seqno matches, the hardware state is still
-+                // valid for both Active and Idle slots, so just update our records
-+                self.record_active_slot(seat_info.slot as usize, locked_seat, slot_data)
-+            }
-+            _ => self.allocate_slot(locked_seat, slot_data),
-+        }
-+    }
-+
-+    // The idle() method will be used when we start adding support for user VMs
-+    #[expect(dead_code)]
-+    pub(crate) fn idle(&mut self, locked_seat: &LockedSeat<T, MAX_SLOTS>) -> Result {
-+        let seat = self.check_seat(locked_seat);
-+        if let Seat::Active(seat_info) = seat {
-+            self.idle_slot(seat_info.slot as usize, locked_seat)?;
-+        }
-+        Ok(())
-+    }
-+
-+    /// Evict a seat from its slot, freeing up the hardware resource.
-+    pub(crate) fn evict(&mut self, locked_seat: &LockedSeat<T, MAX_SLOTS>) -> Result {
-+        let seat = self.check_seat(locked_seat);
-+
-+        match seat {
-+            Seat::Active(seat_info) | Seat::Idle(seat_info) => {
-+                let slot_idx = seat_info.slot as usize;
-+
-+                self.evict_slot(slot_idx, locked_seat)?;
-+            }
-+            _ => (),
++        if (self.as_present & (1 << as_nr)) == 0 {
++            pr_err!(
++                "AS slot {} not present in hardware (AS_PRESENT={:#x})\n",
++                as_nr,
++                self.as_present
++            );
++            return Err(EINVAL);
 +        }
 +
 +        Ok(())
++    }
++
++    fn as_wait_ready(&self, as_nr: usize) -> Result {
++        let op = || as_status(as_nr)?.read(self.dev(), &self.iomem);
++        let cond = |status: &u32| -> bool { *status & AS_STATUS_ACTIVE == 0 };
++        let _ =
++            io::poll::read_poll_timeout(op, cond, Delta::from_millis(0), Delta::from_millis(10))?;
++
++        Ok(())
++    }
++
++    fn as_send_cmd(&mut self, as_nr: usize, cmd: u32) -> Result {
++        self.as_wait_ready(as_nr)?;
++        as_command(as_nr)?.write(self.dev(), &self.iomem, cmd)?;
++        Ok(())
++    }
++
++    fn as_send_cmd_and_wait(&mut self, as_nr: usize, cmd: u32) -> Result {
++        self.as_send_cmd(as_nr, cmd)?;
++        self.as_wait_ready(as_nr)?;
++        Ok(())
++    }
++
++    fn as_enable(&mut self, as_nr: usize, as_config: &AddressSpaceConfig) -> Result {
++        self.validate_as_slot(as_nr)?;
++
++        let transtab = as_config.transtab;
++        let transcfg = as_config.transcfg;
++        let memattr = as_config.memattr;
++
++        let transtab_lo = (transtab & 0xffffffff) as u32;
++        let transtab_hi = (transtab >> 32) as u32;
++
++        let transcfg_lo = (transcfg & 0xffffffff) as u32;
++        let transcfg_hi = (transcfg >> 32) as u32;
++
++        let memattr_lo = (memattr & 0xffffffff) as u32;
++        let memattr_hi = (memattr >> 32) as u32;
++
++        let dev = self.dev();
++        as_transtab_lo(as_nr)?.write(dev, &self.iomem, transtab_lo)?;
++        as_transtab_hi(as_nr)?.write(dev, &self.iomem, transtab_hi)?;
++
++        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, transcfg_lo)?;
++        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, transcfg_hi)?;
++
++        as_memattr_lo(as_nr)?.write(dev, &self.iomem, memattr_lo)?;
++        as_memattr_hi(as_nr)?.write(dev, &self.iomem, memattr_hi)?;
++
++        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
++
++        Ok(())
++    }
++
++    fn as_disable(&mut self, as_nr: usize) -> Result {
++        self.validate_as_slot(as_nr)?;
++
++        // Flush AS before disabling
++        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_MEM)?;
++
++        let dev = self.dev();
++        as_transtab_lo(as_nr)?.write(dev, &self.iomem, 0)?;
++        as_transtab_hi(as_nr)?.write(dev, &self.iomem, 0)?;
++
++        as_memattr_lo(as_nr)?.write(dev, &self.iomem, 0)?;
++        as_memattr_hi(as_nr)?.write(dev, &self.iomem, 0)?;
++
++        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, AS_TRANSCFG_ADRMODE_UNMAPPED as u32)?;
++        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, 0)?;
++
++        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
++
++        Ok(())
++    }
++
++    fn as_start_update(&mut self, as_nr: usize, region: &Range<u64>) -> Result {
++        self.validate_as_slot(as_nr)?;
++
++        // The locked region is a naturally aligned power of 2 block encoded as
++        // log2 minus(1).
++        //
++        // Calculate the desired start/end and look for the highest bit which
++        // differs. The smallest naturally aligned block must include this bit
++        // change, the desired region starts with this bit (and subsequent bits)
++        // zeroed and ends with the bit (and subsequent bits) set to one.
++        let region_width = core::cmp::max(
++            64 - (region.start ^ (region.end - 1)).leading_zeros() as u8,
++            AS_LOCK_REGION_MIN_SIZE.trailing_zeros() as u8,
++        ) - 1;
++
++        // Mask off the low bits of region.start, which would be ignored by the
++        // hardware anyways.
++        let region_start =
++            region.start & genmask_checked_u64(u32::from(region_width)..=63).ok_or(EINVAL)?;
++
++        let region = (u64::from(region_width)) | region_start;
++
++        let region_lo = (region & 0xffffffff) as u32;
++        let region_hi = (region >> 32) as u32;
++
++        // Lock the region that needs to be updated.
++        let dev = self.dev();
++        as_lockaddr_lo(as_nr)?.write(dev, &self.iomem, region_lo)?;
++        as_lockaddr_hi(as_nr)?.write(dev, &self.iomem, region_hi)?;
++
++        self.as_send_cmd(as_nr, AS_COMMAND_LOCK)
++    }
++
++    fn as_end_update(&mut self, as_nr: usize) -> Result {
++        self.validate_as_slot(as_nr)?;
++        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_PT)
++    }
++
++    fn as_flush(&mut self, as_nr: usize) -> Result {
++        self.validate_as_slot(as_nr)?;
++        self.as_send_cmd(as_nr, AS_COMMAND_FLUSH_PT)
 +    }
 +}
 +
-+impl<T: SlotOperations, const MAX_SLOTS: usize> Deref for SlotManager<T, MAX_SLOTS> {
-+    type Target = T;
-+
-+    fn deref(&self) -> &Self::Target {
-+        &self.manager
++impl AsSlotManager {
++    /// Locks a region for page table updates if the VM has an active slot.
++    pub(super) fn start_vm_update(&mut self, vm: &VmAsData, region: &Range<u64>) -> Result {
++        let seat = vm.as_seat.access(self);
++        match seat.slot() {
++            Some(slot) => {
++                let as_nr = slot as usize;
++                self.as_start_update(as_nr, region)
++            }
++            _ => Ok(()),
++        }
 +    }
-+}
 +
-+impl<T: SlotOperations, const MAX_SLOTS: usize> DerefMut for SlotManager<T, MAX_SLOTS> {
-+    fn deref_mut(&mut self) -> &mut Self::Target {
-+        &mut self.manager
++    /// Flushes page table updates for a VM if it has an active slot.
++    pub(super) fn end_vm_update(&mut self, vm: &VmAsData) -> Result {
++        let seat = vm.as_seat.access(self);
++        match seat.slot() {
++            Some(slot) => {
++                let as_nr = slot as usize;
++                self.as_end_update(as_nr)
++            }
++            _ => Ok(()),
++        }
++    }
++
++    /// Flushes page tables for a VM if it has an active slot.
++    pub(super) fn flush_vm(&mut self, vm: &VmAsData) -> Result {
++        let seat = vm.as_seat.access(self);
++        match seat.slot() {
++            Some(slot) => {
++                let as_nr = slot as usize;
++                self.as_flush(as_nr)
++            }
++            _ => Ok(()),
++        }
++    }
++
++    /// Flushes page tables for a VM if it has an active slot.
++    pub(super) fn activate_vm(&mut self, vm: ArcBorrow<'_, VmAsData>) -> Result {
++        self.activate(&vm.as_seat, vm.into())
++    }
++
++    /// Flushes page tables for a VM if it has an active slot.
++    pub(super) fn deactivate_vm(&mut self, vm: &VmAsData) -> Result {
++        self.evict(&vm.as_seat)
 +    }
 +}
 diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
-index 6eaa2135fe07..f54b997355e0 100644
+index f54b997355e0..ae435c7e80b1 100644
 --- a/drivers/gpu/drm/tyr/tyr.rs
 +++ b/drivers/gpu/drm/tyr/tyr.rs
-@@ -12,6 +12,7 @@
+@@ -11,6 +11,7 @@
+ mod file;
  mod gem;
  mod gpu;
++mod mmu;
  mod regs;
-+mod slot;
+ mod slot;
  
- kernel::module_platform_driver! {
-     type: TyrPlatformDeviceData,
 -- 
 2.52.0
 
