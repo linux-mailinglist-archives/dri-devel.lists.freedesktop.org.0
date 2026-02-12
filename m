@@ -2,148 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uGY6GtqrjWkK5wAAu9opvQ
+	id ACIKLg+vjWmz5wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:30:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:44:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C288212C841
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128C012CA29
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 11:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1D810E240;
-	Thu, 12 Feb 2026 10:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8112010E24A;
+	Thu, 12 Feb 2026 10:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nYQ3n9lV";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B5EpOPv+";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="W79bnkch";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA0110E240
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:30:46 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61CARa77272086
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:30:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- aa6M8IvkT51MgHJ9Y9GX/isOhRijULHWDSLbPiUBeCU=; b=nYQ3n9lVA9XS8uPF
- 50P4Nl1PY3l9auM51+Drw7rm4x8n3xn1GHIxJKeFv43VklzW291otxRBixwNZE5/
- ZtIkNpBSvOrKQczDy3cUPr4qTZxwUryZg1qaYJqFbHFimWsL0W5nVEfp51J2BCmD
- ORmemoto8xTIvbfOQyz8CTwQfYzMT7PoNFb20ZkzTXhG8dERltYK0uMJ6q6aCdBC
- LoKO3Y/JC+8HgZg/ZRVJA4Um7TUoSgk4wbR9drkucDeSYW6SIRAS0/INcJMFW+K3
- XLbJICkMx9c/v89H3G2YIU3dXUmvU01E9Lzh5TKEspwWL8+YZyqDtLULuj+aUfZj
- BzVSsg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8y9btjsf-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:30:45 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8cb3978cdb2so6727485a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 02:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1770892245; x=1771497045;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aa6M8IvkT51MgHJ9Y9GX/isOhRijULHWDSLbPiUBeCU=;
- b=B5EpOPv+76yEaD+4qdRAMZOj3K+7jD7HsdHY2urLS3QiI5DDbzL6PvhWPJtMx8XLiS
- gh9sqQgocGebtxsI7DwgCD98vdfs/Z8jC9J76HxauwZtMpSgh7d/AEiGz2U7zW0cCLsd
- BtWx275RoHai7l1tYXJA3rp+fF9HIl5X3obvJsPPOLaDMe/ZU0ilaZIlymbYZkYNXNok
- rYWtBK4jkuGK1YTFAV7AxoFw3oHt1EindBvcIuuF3uVQQX6uwXE4j6jTH7BePbcvQ9xF
- Iow///1Jz8EXLIlfYN/hNiexracYhxHmTZJtMK0JSSdiPjW1l+Jf8lBYl/tGaTqUiGwx
- QObA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770892245; x=1771497045;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aa6M8IvkT51MgHJ9Y9GX/isOhRijULHWDSLbPiUBeCU=;
- b=rcRy8EiD5yJYGX5TVXwzB/hqs6Ea2WTt35QCHOfEWiiCeeez0DFz6+q5DhpzCW2iAd
- 55WdLbJr+SNc2K3mtvlL+WLf3tUaKKEV5Z85+RBic1dFYKMTdjoOPymn69mCNDfWq+Fr
- 8bKvI/ir9+gUDDQ9tN63eJna0drdEWJhHnquYnjqpkSlThVpPbtlYfRs7hCBM6Ji6rJv
- 5MVjJNcG67LiFKlb2/9AFbmpxdbf5jSfzo1Cp6nsBThOB12RjQylqXxrI5+1vb+QDJPB
- 6TvbtFTL9uE7kgtLESrJzvTj5cQgMvLqR9OwIvThZqA7/jAhho18ZF1HblCsqqBrdTIa
- stGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUg+L/5tsoiMtCzpLGSL98MFy+KWDdU7bpEe6jL96RIYbbM9kCfWJH63M6z4fxQXUf6sx897blXJbM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzpw1mgUKK/Q1ccbsbEtzC03pBl46U+5eMsErMfk32p5wsuYZky
- EmlNq3PlgjfZRqxV4n2JnPCHytmzKgIM9Ts+OAVoTA3SvE1rqiJKc/OAj0CvsQXAikDGwzbsUpg
- wBPCyWPyjT8Ha3eYL0ayGBOLP6gV8VQeiRLbAzS6qAZmsk2+Xrb4REAfEuP0jYhR4elmecf4=
-X-Gm-Gg: AZuq6aKissTuwZUd2KqVo9xBDQ8bxRRF3h0mXwxRDDxm3wglvqycBhTKRw+LTEFwa3h
- o8ysHDImAhYn2PO6zkl8z/c3R5ymIHD2Y8KoU5dZKZ8rd8s3JeAQ/+oa/306S2SjX1gtZ1zh9qN
- lTsvRoYaXa76dustQ/caTULKMwqTQGjGg4fj6Ivsig1iSrznqmjPBLs/jgAipJb+WRvhoA/50Y2
- R8RTKQg6AqhnZC6WhCJ8Ap+CbNzT1ViQ6EdoXmj5w4Mlv9gAlkjjW4szTGo+JVegZNbNwrWomrI
- D+TFmfmRRXN8OzhYbhum7SQ56s1Yupo605Gj3Hrgykri83Uwb7scJMUcRjh3nv8I72gUjmmV3VH
- DSwodJkDBWLF8hAWt/FOGvGlpFfFYt60KtvuU5sCDCq8XeIuT5OnH4j2yrlZuoOO7JRz1hgsFzG
- Wkn/k=
-X-Received: by 2002:a05:620a:4407:b0:896:ead2:a657 with SMTP id
- af79cd13be357-8cb32f3df9fmr219596585a.0.1770892244870; 
- Thu, 12 Feb 2026 02:30:44 -0800 (PST)
-X-Received: by 2002:a05:620a:4407:b0:896:ead2:a657 with SMTP id
- af79cd13be357-8cb32f3df9fmr219594185a.0.1770892244508; 
- Thu, 12 Feb 2026 02:30:44 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8f6e950070sm150863966b.6.2026.02.12.02.30.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Feb 2026 02:30:44 -0800 (PST)
-Message-ID: <a2b47800-0c4b-4d94-8fd4-1e2f832de298@oss.qualcomm.com>
-Date: Thu, 12 Feb 2026 11:30:40 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880D110E24A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 10:44:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770893065;
+ bh=AYXFwg07oSez1N9hyuJcyUif0Iq4Exg9NT+0MFfYPNQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=W79bnkchs8gwHUNNySjSYu4QZyXoW/flWylUGxLSR3cNTAsWY/nNQWkAGJh0GOkT1
+ JsbyDv2YoXWjcKHkZPRr8oiG8wGwS644ZBd73CSYKjNiefjupwXKtsbU77Kf33uArg
+ yKxKkIO5ukBQQ6mar2ubg7IlUTqS7cNbDJxp3ybhbnI27c8ZIuYz3yBCpjYcGrIHNX
+ QXVjrq1jmuxkxZLbwbnOCK/DcqNMjXFiCWjx6pORl+F5anG24ODeyikfJeQr0hWas1
+ wbRKzOia2YXdkNRjrEyMpmai38HY/f7p+z3ub8HohXG07SYi2Hc2Kxb6I4FW8tyLtf
+ YTfZ+NfFRZH0Q==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DC17817E0097;
+ Thu, 12 Feb 2026 11:44:24 +0100 (CET)
+Date: Thu, 12 Feb 2026 11:44:18 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ daniel.almeida@collabora.com, aliceryhl@google.com,
+ beata.michalska@arm.com, lyude@redhat.com
+Subject: Re: [PATCH 08/12] drm/tyr: add MMU module
+Message-ID: <20260212114418.3d7d7ca8@fedora>
+In-Reply-To: <20260212013713.304343-9-deborah.brouwer@collabora.com>
+References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
+ <20260212013713.304343-9-deborah.brouwer@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] arm64: dts: qcom: sdm670-google: add common device
- tree include
-To: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: yifei@zhan.science
-References: <20260210023300.15785-1-mailingradian@gmail.com>
- <20260210023300.15785-6-mailingradian@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260210023300.15785-6-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=BbPVE7t2 c=1 sm=1 tr=0 ts=698dabd5 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=pGLkceISAAAA:8 a=bx1Af-bPBxMGZxlJJ80A:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: Jyekcv7e6RrRyzEx4XL9G7csaGKoZZ2B
-X-Proofpoint-ORIG-GUID: Jyekcv7e6RrRyzEx4XL9G7csaGKoZZ2B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDA3NyBTYWx0ZWRfXxxzLKfXzVHAC
- TmvUJkJhBupC7CDGICbXzcnSTYlZzGSsYggCFiu1Tw19bMZr4JukO5gQsm8GRfLlS7M5n2HZtvw
- quP/7p9x+iI3uH2uqW0s+GlDFuirU9pOhMlGoqxR06nNvCteHlNB/hy0mmB5t6KAqIbtVA44+gm
- c0WcHiwmi2b9J/qO9GEGYFBcz8ICHVuAiQJBlh1Kkp3oUwUqRRWiYUesnibo1gXlEzcHK6wBOU9
- /Nm2Dua7pad8x67ttnnZdOHcffOnCoV6jfpowDMSE2/Ln+t1ARHE4BHeKBOFnyyV0PSg9IKf0E5
- jxQ5/ywsAYvagEpftffwN0JoUKlTyA9YGIUhYxonfq0jT3BxAc9S+Ittdqg8qqJg7XyhWUxWYDA
- XSXoIW7D3IphzTVT30Mcb5Z8TdE0iSWfIOC5JezfjeU9zTlIDOFSuOKirktscTkxP/O9ZYpOlzq
- 5xBQD4dUeJGGy04AfcQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-12_03,2026-02-11_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0 spamscore=0
- impostorscore=0 malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602120077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,71 +69,587 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:yifei@zhan.science,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	HAS_ORG_HEADER(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,9c000000:email]
-X-Rspamd-Queue-Id: C288212C841
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 128C012CA29
 X-Rspamd-Action: no action
 
-On 2/10/26 3:32 AM, Richard Acayan wrote:
-> The Pixel 3a XL can be supported by reusing most of the device tree from
-> the Pixel 3a. Move the common elements to a common device tree include
-> like with other devices.
+On Wed, 11 Feb 2026 17:37:09 -0800
+Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+
+> From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Add a Memory Management Unit (MMU) driver for Tyr. The MMU wraps a
+> SlotManager for allocating hardware address space slots. The underlying
+> AddressSpaceManager performs MMU operations including enabling/disabling
+> address spaces, flushing page tables, and locking regions for page table
+> updates.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > ---
-
-[...]
-
+>  drivers/gpu/drm/tyr/driver.rs            |   3 +
+>  drivers/gpu/drm/tyr/mmu.rs               |  91 +++++++
+>  drivers/gpu/drm/tyr/mmu/address_space.rs | 322 +++++++++++++++++++++++
+>  drivers/gpu/drm/tyr/tyr.rs               |   1 +
+>  4 files changed, 417 insertions(+)
+>  create mode 100644 drivers/gpu/drm/tyr/mmu.rs
+>  create mode 100644 drivers/gpu/drm/tyr/mmu/address_space.rs
+> 
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> index 2973a8b3cc09..ad5a765a6c2a 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -43,6 +43,7 @@
+>      gem::BoData,
+>      gpu,
+>      gpu::GpuInfo,
+> +    mmu::Mmu,
+>      regs, //
+>  };
 >  
->  		framebuffer: framebuffer@9c000000 {
->  			compatible = "simple-framebuffer";
-> -			reg = <0 0x9c000000 0 (1080 * 2220 * 4)>;
-> -			width = <1080>;
-> -			height = <2220>;
-> -			stride = <(1080 * 4)>;
->  			format = "a8r8g8b8";
-> +			status = "disabled";
+> @@ -148,6 +149,8 @@ fn probe(
+>          let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
+>          let platform: ARef<platform::Device> = pdev.into();
+>  
+> +        let _mmu = Mmu::new(pdev, iomem.as_arc_borrow(), &gpu_info)?;
+> +
+>          let data = try_pin_init!(TyrDrmDeviceData {
+>                  pdev: platform.clone(),
+>                  clks <- new_mutex!(Clocks {
+> diff --git a/drivers/gpu/drm/tyr/mmu.rs b/drivers/gpu/drm/tyr/mmu.rs
+> new file mode 100644
+> index 000000000000..8e076c35f342
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tyr/mmu.rs
+> @@ -0,0 +1,91 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +//! Memory Management Unit (MMU) driver for the Tyr GPU.
+> +//!
+> +//! This module manages GPU address spaces and virtual memory operations through
+> +//! hardware MMU slots. It provides functionality for flushing page tables and
+> +//! managing VM updates for active address spaces.
+> +//!
+> +//! The MMU coordinates with the [`AddressSpaceManager`] to handle hardware
+> +//! address space allocation and page table operations, using [`SlotManager`]
+> +//! to track which address spaces are currently active in hardware slots.
+> +//!
+> +//! [`AddressSpaceManager`]: address_space::AddressSpaceManager
+> +//! [`SlotManager`]: crate::slot::SlotManager
+> +#![allow(dead_code)]
+> +
+> +use core::ops::Range;
+> +
+> +use kernel::{
+> +    devres::Devres,
+> +    new_mutex,
+> +    platform,
+> +    prelude::*,
+> +    sync::{
+> +        Arc,
+> +        ArcBorrow,
+> +        Mutex, //
+> +    }, //
+> +};
+> +
+> +use crate::{
+> +    driver::IoMem,
+> +    gpu::GpuInfo,
+> +    mmu::address_space::{
+> +        AddressSpaceManager,
+> +        VmAsData, //
+> +    },
+> +    regs::MAX_AS_REGISTERS,
+> +    slot::{
+> +        SlotManager, //
+> +    }, //
 
-why?
+formatting nit:
+	slot::SlotManager, //
 
-[...]
+> +};
+> +
+> +pub(crate) mod address_space;
+> +
+> +pub(crate) type AsSlotManager = SlotManager<AddressSpaceManager, MAX_AS_REGISTERS>;
+> +
 
->  	panel: panel@0 {
-> -		compatible = "samsung,s6e3fa7-ams559nk06";
-> +		// compatible is provided in specific device trees
+/// MMU component of the GPU.
+///
+/// This is used to bind VM objects to an AS (Address Space) slot
+/// and make the VM active on the GPU.
 
-/* C-style comment, please */
+> +#[pin_data]
+> +pub(crate) struct Mmu {
+> +    /// Manages the allocation of hardware MMU slots to GPU address spaces.
+> +    ///
+> +    /// Tracks which address spaces are currently active in hardware slots and
+> +    /// coordinates address space operations like flushing and VM updates.
+> +    #[pin]
+> +    pub(crate) as_manager: Mutex<AsSlotManager>,
+> +}
+> +
+> +impl Mmu {
 
-lg otherwise
+    /// Create an MMU component for this device.
 
-Konrad
+> +    pub(crate) fn new(
+> +        pdev: &platform::Device,
+> +        iomem: ArcBorrow<'_, Devres<IoMem>>,
+> +        gpu_info: &GpuInfo,
+> +    ) -> Result<Arc<Mmu>> {
+> +        let slot_count = gpu_info.as_present.count_ones().try_into()?;
+> +        let as_manager = AddressSpaceManager::new(pdev, iomem, gpu_info.as_present)?;
+> +        let mmu_init = try_pin_init!(Self{
+> +            as_manager <- new_mutex!(SlotManager::new(as_manager, slot_count)?),
+> +        });
+> +        Arc::pin_init(mmu_init, GFP_KERNEL)
+> +    }
+> +
+
+    /// Make a VM active.
+    ///
+    /// This implies assigning the VM to an AS slot through the slot
+    /// manager.
+> +    pub(crate) fn activate_vm(&self, vm: ArcBorrow<'_, VmAsData>) -> Result {
+> +        self.as_manager.lock().activate_vm(vm)
+> +    }
+> +
+
+    /// Make the VM inactive.
+    ///
+    /// Evicts the VM from its AS slot through the slot manager.
+
+> +    pub(crate) fn deactivate_vm(&self, vm: &VmAsData) -> Result {
+> +        self.as_manager.lock().deactivate_vm(vm)
+> +    }
+> +
+
+    /// Flush caches after a VM update.
+    ///
+    /// If the VM is no longer resident, this is a NOP, otherwise, the
+    /// AS manager will flush the GPU and MMU (TLB) caches.
+> +    pub(crate) fn flush_vm(&self, vm: &VmAsData) -> Result {
+> +        self.as_manager.lock().flush_vm(vm)
+> +    }
+> +
+
+    /// Flags the start of a VM update.
+    ///
+    /// If the VM is resident, any GPU access on the memory range being
+    /// updated will be blocked until `Mmu::end_vm_update()` is called.
+    /// This guarantees the atomicity of a VM update.
+    /// If the VM is not resident, this is a NOP.
+> +    pub(crate) fn start_vm_update(&self, vm: &VmAsData, region: &Range<u64>) -> Result {
+> +        self.as_manager.lock().start_vm_update(vm, region)
+> +    }
+> +
+
+    /// Flags the end of a VM update.
+    ///
+    /// If the VM is resident, this will let GPU accesse on the updated
+    /// range go through, in case any of them were blocked.
+    /// If the VM is not resident, this is a NOP.
+> +    pub(crate) fn end_vm_update(&self, vm: &VmAsData) -> Result {
+> +        self.as_manager.lock().end_vm_update(vm)
+> +    }
+> +}
+> diff --git a/drivers/gpu/drm/tyr/mmu/address_space.rs b/drivers/gpu/drm/tyr/mmu/address_space.rs
+> new file mode 100644
+> index 000000000000..60e9a79112f0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tyr/mmu/address_space.rs
+> @@ -0,0 +1,322 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +//! GPU address space management and hardware operations.
+> +//!
+> +//! This module manages GPU hardware address spaces, including configuration,
+> +//! command submission, and page table update regions. It handles the hardware
+> +//! interaction for MMU operations through MMIO register access.
+> +//!
+> +//! The [`AddressSpaceManager`] implements [`SlotOperations`] to integrate with
+> +//! the slot management system, enabling and configuring address spaces in the
+> +//! hardware slots as needed.
+> +//!
+> +//! [`SlotOperations`]: crate::slot::SlotOperations
+> +
+> +use core::ops::Range;
+> +
+> +use kernel::{
+> +    bits::*,
+> +    device::{
+> +        Bound,
+> +        Device, //
+> +    },
+> +    devres::Devres,
+> +    error::Result,
+> +    io,
+> +    iommu::pgtable::{
+> +        IoPageTable,
+> +        ARM64LPAES1, //
+> +    },
+> +    platform,
+> +    prelude::*,
+> +    sync::{
+> +        aref::ARef,
+> +        Arc,
+> +        ArcBorrow,
+> +        LockedBy, //
+> +    },
+> +    time::Delta, //
+> +};
+> +
+> +use crate::{
+> +    driver::IoMem,
+> +    mmu::{
+> +        AsSlotManager,
+> +        Mmu, //
+> +    },
+> +    regs::*,
+> +    slot::{
+> +        Seat,
+> +        SlotOperations, //
+> +    }, //
+> +};
+> +
+> +/// Hardware address space configuration registers.
+> +///
+> +/// Contains the values to be written to the GPU's AS registers when
+> +/// activating this address space.
+> +#[derive(Clone, Copy)]
+> +pub(crate) struct AddressSpaceConfig {
+> +    pub(crate) transcfg: u64,
+> +    pub(crate) transtab: u64,
+> +    pub(crate) memattr: u64,
+
+Don't know if we need to document those fields.
+
+> +}
+> +
+> +/// Any resource/information that will be used by the AddressSpaceManager
+> +/// to make a VM active is present in VmAsData.
+> +///
+> +/// On activation, we will pass an Arc<VmAsData> that will be stored in
+> +/// the slot to make sure the page table and the underlying resources
+> +/// (pages) used by the AS slot won't go away while the MMU points to
+> +/// those.
+> +pub(crate) struct VmAsData {
+> +    /// Tracks this VM's binding to a hardware address space slot.
+> +    as_seat: LockedBy<Seat, AsSlotManager>,
+> +    /// Hardware configuration for this address space.
+> +    as_config: AddressSpaceConfig,
+> +    /// Page table (managed by devres).
+> +    pub(crate) page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
+> +}
+> +
+> +impl VmAsData {
+
+Missing doc.
+
+> +    pub(crate) fn new(
+> +        mmu: &Mmu,
+> +        as_config: AddressSpaceConfig,
+> +        page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
+> +    ) -> VmAsData {
+> +        Self {
+> +            as_seat: LockedBy::new(&mmu.as_manager, Seat::NoSeat),
+> +            as_config,
+> +            page_table,
+> +        }
+> +    }
+> +}
+> +
+> +/// Manages GPU hardware address spaces via MMIO register operations.
+> +pub(crate) struct AddressSpaceManager {
+
+Missing docs on the first two fields.
+
+> +    pdev: ARef<platform::Device>,
+> +    iomem: Arc<Devres<IoMem>>,
+> +    /// Bitmask of available address space slots from GPU_AS_PRESENT register
+> +    as_present: u32,
+> +}
+> +
+> +impl SlotOperations for AddressSpaceManager {
+> +    type SlotData = Arc<VmAsData>;
+> +
+> +    fn activate(&mut self, slot_idx: usize, slot_data: &Self::SlotData) -> Result {
+> +        self.as_enable(slot_idx, &slot_data.as_config)
+> +    }
+> +
+> +    fn evict(&mut self, slot_idx: usize, _slot_data: &Self::SlotData) -> Result {
+> +        if self.iomem.try_access().is_some() {
+> +            let _ = self.as_flush(slot_idx);
+> +            let _ = self.as_disable(slot_idx);
+
+I don't think we should ignore the errors returned by
+as_flush/disable(). Ultimately, what we should do is trigger a GPU
+reset and leave the slot 'busy' until we're sure no one will try
+to use it (the "stop everything" happening in the reset path). Once this
+is done, we can forcibly evict the VM (basically remove the VM from the
+slot without doing any HW transaction) and let the reset do its job.
+
+Since we're not yet at a point where we have a functional reset flow,
+I'd recommend failing the eviction if as_flush/disable() returns an
+error (shouldn't happen with just the FW-boot logic anyway). This means
+we might leave active slots behind and possibly leak resources when that
+happens, but that's better than the UAF we'd create if the AS still
+points to a page table that's been freed.
+
+> +        }
+> +        Ok(())
+> +    }
+> +}
+> +
+> +impl AddressSpaceManager {
+
+Missing docs.
+
+> +    pub(super) fn new(
+> +        pdev: &platform::Device,
+> +        iomem: ArcBorrow<'_, Devres<IoMem>>,
+> +        as_present: u32,
+> +    ) -> Result<AddressSpaceManager> {
+> +        Ok(Self {
+> +            pdev: pdev.into(),
+> +            iomem: iomem.into(),
+> +            as_present,
+> +        })
+> +    }
+> +
+> +    fn dev(&self) -> &Device<Bound> {
+> +        // SAFETY: pdev is a bound device.
+> +        unsafe { self.pdev.as_ref().as_bound() }
+> +    }
+> +
+> +    fn validate_as_slot(&self, as_nr: usize) -> Result {
+> +        if as_nr >= MAX_AS_REGISTERS {
+> +            pr_err!(
+> +                "AS slot {} out of valid range (max {})\n",
+> +                as_nr,
+> +                MAX_AS_REGISTERS
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        if (self.as_present & (1 << as_nr)) == 0 {
+> +            pr_err!(
+> +                "AS slot {} not present in hardware (AS_PRESENT={:#x})\n",
+> +                as_nr,
+> +                self.as_present
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        Ok(())
+> +    }
+> +
+> +    fn as_wait_ready(&self, as_nr: usize) -> Result {
+> +        let op = || as_status(as_nr)?.read(self.dev(), &self.iomem);
+> +        let cond = |status: &u32| -> bool { *status & AS_STATUS_ACTIVE == 0 };
+> +        let _ =
+> +            io::poll::read_poll_timeout(op, cond, Delta::from_millis(0), Delta::from_millis(10))?;
+> +
+> +        Ok(())
+> +    }
+> +
+> +    fn as_send_cmd(&mut self, as_nr: usize, cmd: u32) -> Result {
+> +        self.as_wait_ready(as_nr)?;
+> +        as_command(as_nr)?.write(self.dev(), &self.iomem, cmd)?;
+> +        Ok(())
+> +    }
+> +
+> +    fn as_send_cmd_and_wait(&mut self, as_nr: usize, cmd: u32) -> Result {
+> +        self.as_send_cmd(as_nr, cmd)?;
+> +        self.as_wait_ready(as_nr)?;
+> +        Ok(())
+> +    }
+> +
+> +    fn as_enable(&mut self, as_nr: usize, as_config: &AddressSpaceConfig) -> Result {
+> +        self.validate_as_slot(as_nr)?;
+> +
+> +        let transtab = as_config.transtab;
+> +        let transcfg = as_config.transcfg;
+> +        let memattr = as_config.memattr;
+> +
+> +        let transtab_lo = (transtab & 0xffffffff) as u32;
+> +        let transtab_hi = (transtab >> 32) as u32;
+> +
+> +        let transcfg_lo = (transcfg & 0xffffffff) as u32;
+> +        let transcfg_hi = (transcfg >> 32) as u32;
+> +
+> +        let memattr_lo = (memattr & 0xffffffff) as u32;
+> +        let memattr_hi = (memattr >> 32) as u32;
+> +
+> +        let dev = self.dev();
+> +        as_transtab_lo(as_nr)?.write(dev, &self.iomem, transtab_lo)?;
+> +        as_transtab_hi(as_nr)?.write(dev, &self.iomem, transtab_hi)?;
+> +
+> +        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, transcfg_lo)?;
+> +        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, transcfg_hi)?;
+> +
+> +        as_memattr_lo(as_nr)?.write(dev, &self.iomem, memattr_lo)?;
+> +        as_memattr_hi(as_nr)?.write(dev, &self.iomem, memattr_hi)?;
+> +
+> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
+> +
+> +        Ok(())
+> +    }
+> +
+> +    fn as_disable(&mut self, as_nr: usize) -> Result {
+> +        self.validate_as_slot(as_nr)?;
+> +
+> +        // Flush AS before disabling
+> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_MEM)?;
+> +
+> +        let dev = self.dev();
+> +        as_transtab_lo(as_nr)?.write(dev, &self.iomem, 0)?;
+> +        as_transtab_hi(as_nr)?.write(dev, &self.iomem, 0)?;
+> +
+> +        as_memattr_lo(as_nr)?.write(dev, &self.iomem, 0)?;
+> +        as_memattr_hi(as_nr)?.write(dev, &self.iomem, 0)?;
+> +
+> +        as_transcfg_lo(as_nr)?.write(dev, &self.iomem, AS_TRANSCFG_ADRMODE_UNMAPPED as u32)?;
+> +        as_transcfg_hi(as_nr)?.write(dev, &self.iomem, 0)?;
+> +
+> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_UPDATE)?;
+> +
+> +        Ok(())
+> +    }
+> +
+> +    fn as_start_update(&mut self, as_nr: usize, region: &Range<u64>) -> Result {
+> +        self.validate_as_slot(as_nr)?;
+> +
+> +        // The locked region is a naturally aligned power of 2 block encoded as
+> +        // log2 minus(1).
+> +        //
+> +        // Calculate the desired start/end and look for the highest bit which
+> +        // differs. The smallest naturally aligned block must include this bit
+> +        // change, the desired region starts with this bit (and subsequent bits)
+> +        // zeroed and ends with the bit (and subsequent bits) set to one.
+> +        let region_width = core::cmp::max(
+> +            64 - (region.start ^ (region.end - 1)).leading_zeros() as u8,
+> +            AS_LOCK_REGION_MIN_SIZE.trailing_zeros() as u8,
+> +        ) - 1;
+> +
+> +        // Mask off the low bits of region.start, which would be ignored by the
+> +        // hardware anyways.
+> +        let region_start =
+> +            region.start & genmask_checked_u64(u32::from(region_width)..=63).ok_or(EINVAL)?;
+> +
+> +        let region = (u64::from(region_width)) | region_start;
+> +
+> +        let region_lo = (region & 0xffffffff) as u32;
+> +        let region_hi = (region >> 32) as u32;
+> +
+> +        // Lock the region that needs to be updated.
+> +        let dev = self.dev();
+> +        as_lockaddr_lo(as_nr)?.write(dev, &self.iomem, region_lo)?;
+> +        as_lockaddr_hi(as_nr)?.write(dev, &self.iomem, region_hi)?;
+> +
+> +        self.as_send_cmd(as_nr, AS_COMMAND_LOCK)
+> +    }
+> +
+> +    fn as_end_update(&mut self, as_nr: usize) -> Result {
+> +        self.validate_as_slot(as_nr)?;
+> +        self.as_send_cmd_and_wait(as_nr, AS_COMMAND_FLUSH_PT)
+> +    }
+> +
+> +    fn as_flush(&mut self, as_nr: usize) -> Result {
+> +        self.validate_as_slot(as_nr)?;
+> +        self.as_send_cmd(as_nr, AS_COMMAND_FLUSH_PT)
+> +    }
+> +}
+> +
+> +impl AsSlotManager {
+> +    /// Locks a region for page table updates if the VM has an active slot.
+> +    pub(super) fn start_vm_update(&mut self, vm: &VmAsData, region: &Range<u64>) -> Result {
+> +        let seat = vm.as_seat.access(self);
+> +        match seat.slot() {
+> +            Some(slot) => {
+> +                let as_nr = slot as usize;
+> +                self.as_start_update(as_nr, region)
+> +            }
+> +            _ => Ok(()),
+> +        }
+> +    }
+> +
+> +    /// Flushes page table updates for a VM if it has an active slot.
+> +    pub(super) fn end_vm_update(&mut self, vm: &VmAsData) -> Result {
+> +        let seat = vm.as_seat.access(self);
+> +        match seat.slot() {
+> +            Some(slot) => {
+> +                let as_nr = slot as usize;
+> +                self.as_end_update(as_nr)
+> +            }
+> +            _ => Ok(()),
+> +        }
+> +    }
+> +
+> +    /// Flushes page tables for a VM if it has an active slot.
+> +    pub(super) fn flush_vm(&mut self, vm: &VmAsData) -> Result {
+> +        let seat = vm.as_seat.access(self);
+> +        match seat.slot() {
+> +            Some(slot) => {
+> +                let as_nr = slot as usize;
+> +                self.as_flush(as_nr)
+> +            }
+> +            _ => Ok(()),
+> +        }
+> +    }
+> +
+> +    /// Flushes page tables for a VM if it has an active slot.
+> +    pub(super) fn activate_vm(&mut self, vm: ArcBorrow<'_, VmAsData>) -> Result {
+> +        self.activate(&vm.as_seat, vm.into())
+> +    }
+> +
+> +    /// Flushes page tables for a VM if it has an active slot.
+> +    pub(super) fn deactivate_vm(&mut self, vm: &VmAsData) -> Result {
+> +        self.evict(&vm.as_seat)
+> +    }
+> +}
+> diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
+> index f54b997355e0..ae435c7e80b1 100644
+> --- a/drivers/gpu/drm/tyr/tyr.rs
+> +++ b/drivers/gpu/drm/tyr/tyr.rs
+> @@ -11,6 +11,7 @@
+>  mod file;
+>  mod gem;
+>  mod gpu;
+> +mod mmu;
+>  mod regs;
+>  mod slot;
+>  
+
