@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKTRG6cbjWmkzAAAu9opvQ
+	id AF12CZgbjWmkzAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:15:35 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:15:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228A4128934
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD381288BB
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:15:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3487810E6BA;
-	Thu, 12 Feb 2026 00:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296C710E6A3;
+	Thu, 12 Feb 2026 00:15:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kEjwhP2w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AVJg+dul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f66.google.com (mail-oa1-f66.google.com
- [209.85.160.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0546410E685
+Received: from mail-oo1-f67.google.com (mail-oo1-f67.google.com
+ [209.85.161.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE41410E685
  for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:15:10 +0000 (UTC)
-Received: by mail-oa1-f66.google.com with SMTP id
- 586e51a60fabf-40427db1300so4333911fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:15:09 -0800 (PST)
+Received: by mail-oo1-f67.google.com with SMTP id
+ 006d021491bc7-6729292dcd7so1268980eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770855309; x=1771460109; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770855310; x=1771460110; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=l0fGu4QGMPOVZOkUPWUZRMEmyQSc15u7Feu/5vlGeWs=;
- b=kEjwhP2wXwpfb+579/EeAoKEG7FrlzfyiLTn+oiPLVcYvT5kMRWslsKxE1PGDhVFX7
- jq65R1jra5eV5HBtg0MaZxh2bHWQbMcr3QcE4uzD5ibjRk0f1D8pSue7sr8ln7RsvREO
- djRcXFKeKD7rwhQvCeCi3ecYYR3fM46TGl+2IF/yBAMYMbWSK4FU5bYBI/20CEczjau5
- bd60oH3bOsUFDP8aet7whwaSyjJxdt6iHaOK/idlK4gY/xyua6IiFOIo0vxPzdXmOMHt
- I/U9pgFL5SGDpx0XTOMJbBkpEpt4Y98bMgtA1plpLCZ2SnUuenhsSbwwqbwKgqBUUYoh
- KSMA==
+ bh=ves6/eFJLAs0HG68Znj+VH4wZtUdDvx4ZnDak47UPW8=;
+ b=AVJg+dulYxieDBAhsaxUh5GnUE0RpD7inZHgIU27pD2OzwT8xi/NiZwDKsiuRUhb3P
+ B6qVOBSKe3yCc6vxmRmVOOuO7+jyCjY6BZdGQActmubvMFPatW1UpcYY69/vogjnNJck
+ veL3sbor927KLGgOMxRImyAXXvyyicb8wbgo6pPivfvttlzgcU9Gz6KxklWLO+Ga13zp
+ 4UPH1naM6uPiaFgBPi4D8lgsKCs7mCWOuGoKfHaqNIOyy/s2py3a3ekkyCsXR/WvyvGH
+ QXooYnF6fEqQBljGY5PCzHa8hyJb0DoJ//jgVwYr0LYIwLZoZReUfSSLFgMWGmdgH0Qu
+ MGkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770855309; x=1771460109;
+ d=1e100.net; s=20230601; t=1770855310; x=1771460110;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=l0fGu4QGMPOVZOkUPWUZRMEmyQSc15u7Feu/5vlGeWs=;
- b=QSRJBU8WOrSqxaOMF6xY/lKs2C+7zIYApmgNMo3SjI0okoDBBCJm0+N6Fe6OMl/jIq
- squgNDg1j4X7G8dM/yZ9yqD5ullc23VlrsSHHBpo3KDGq3o/SMMB8kZ6eS6ww0NyAkhq
- xg3V8/WGawn40DZ4KC5GNgP54q0Bvyco7ka5cAT1WuPexBKqJcRzAswVUxKtDn5yZa7i
- tyiojTYIvPceW628AX6X2X5dfS1H6aD9g1uwavar3a+9XrZ3CVWSLXShCy8lH1SXl6cI
- APg/aqBqFq9sC+kdWLZusOVLFkpJ7GH/mhWzb1CtnhpFxlJ9oPxwqUTqxsKjn5JIzzMT
- H7aQ==
-X-Gm-Message-State: AOJu0Yx6OtMl7aOB72XFe8ZDBJchBii6RndiHk3xxtqk3mulWbg6S6Rv
- zvSkJlY2RsVzhtpW9wooO0fb00AKQTT0tWz5ff4CVO4lUdJ6upY+bD2z2E+6/ixe
-X-Gm-Gg: AZuq6aIs0DOwNe68RSJ3eZ20huAp/XBpTvyBX/FOhcqWsIJujG4VPzVLmkWtMDbutm6
- 6EForC7XyMCAxTSevUbxqXnY4lW43mOEfWnKK9wQpjseTZz9REOvwp/w7e7b+kWAHMP6GWqBz8d
- inSxjzm2i0zOHVM8V2tQ90U7f86kfAijR/i291dh8rV5jzqflwuALoaQOCNaNtPfN5SJ7LT4rRi
- 9uPgoWEfHTctcXZpmQt1AcALrLl+j/geWtOEjdw8XNkLqLrbq0pAxPBpfbVcDER7m8q22DXXdyO
- ETDY9uUATHT+fI6yJUoOVXKPGSuyqw41ySt7a0jpIBl63BOeO0yqfhJbdFEJO6N5j/i5LzRrJx/
- kPgsg4xY0vgFlqUl9R0QwLksEl/Ge2ku/fjrRHInQP2RrctTqnCr7SiofJLuLcbIfA5pH7PI8LP
- TtXSyM86pizU6BdBAcPWvW367BeTKmtzGymSHy1W5hI0y4V9Roov00
-X-Received: by 2002:a05:6871:4527:b0:3fa:966:a859 with SMTP id
- 586e51a60fabf-40ec71af3d9mr559437fac.42.1770855309092; 
- Wed, 11 Feb 2026 16:15:09 -0800 (PST)
+ bh=ves6/eFJLAs0HG68Znj+VH4wZtUdDvx4ZnDak47UPW8=;
+ b=EDXo1L9BsslXYmTL4A60D/AWmEHlXFVT9f6FWZZEDsyiqLIbfs0EvBPufRY3QAqpkz
+ gDlpVWbEq8JmcTBJKMr6fzkPt6Ohv4RG7EeC8i4PX6TRoDWyjntCFd2qzqCwcPsaDgEZ
+ NHOP2tTbdUPhnhRLHdYbwCIG1AAHTkL11J2Zc/lDa9ruehndFTkzoFvC4QqvkU725t/Z
+ NgRUcSQGIWbptHZeoCnjpFmqXKTqkILRfFY9yA6SdEpYzc3JCkhSMPoW5pcdzcggRU+B
+ c/M2jvNY7xxJRQjeHUp1VkZsCmWfWnH3rbRRo5lHjxPeZwNwnHhTV5VgxK8ovXCcrDzE
+ e1+Q==
+X-Gm-Message-State: AOJu0YzdcuEANCw2/Aj7+64e2b+wzqn7yxbNg1tFaj5dIh9kgXFoC3OJ
+ sjtMmSfyYy9EYYlqT8zsuEje2HkeACXfmWOj8AwPGZM8tQYEu+9bTwRw1af39EGo
+X-Gm-Gg: AZuq6aK//VCFqmz8Ei4yvzyItIqGi/pB70JSHrWgJrrCkuj2gU01Whr2W6eIkmTCSlZ
+ M6RaQXEmGb0M+SA7zkFmPcFzgbURW00IO7b2j7EQ0a9BcohBI8teyRKFPwP/usXwQhelkpi1KtI
+ t+LJ5Xvwmvd8uVTx39AX77I3/aD1AQVUwU+4Uz4+cu+hRcNgNT+unbxI20yJjsG6M3Iv05gpQIe
+ KF2V3zf3HtcwCJ95aaGvJ2PK/AZ6cBpkXfrdzqlAzLPGUj4t6fwazBRlyZNMHdGtcyF3IpoLXrn
+ IZFaqLpqkdJxv89Veee+JKUKkdg8SWQfNIQWi1+tMd2rQHxM/q8/5o2ZklvW6aIsyoNjfUpaeZL
+ Os6s+8qDS33dYJQ3Fz7x4WGYo71f0p6odVyPOPjbIgs4dMlrPn7u2u+sJzcZJUApdoIhHJDa9wM
+ 2AUzwI9Vz5bkWGQhcryMlY49dxdIMmv4jH3bgNSaxc2ckpMwnCGorA
+X-Received: by 2002:a05:6820:188b:b0:662:f0cb:84c5 with SMTP id
+ 006d021491bc7-675dbafc487mr135753eaf.34.1770855310085; 
+ Wed, 11 Feb 2026 16:15:10 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.15.08
+ 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.15.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Feb 2026 16:15:08 -0800 (PST)
+ Wed, 11 Feb 2026 16:15:09 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx-trybot@lists.freedesktop.org
 Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH 54/61] drm-dyndbg: add DRM_CLASSMAP_USE to the gud driver
-Date: Wed, 11 Feb 2026 17:13:49 -0700
-Message-ID: <20260212001359.97296-55-jim.cromie@gmail.com>
+Subject: [PATCH 55/61] drm-dyndbg: add DRM_CLASSMAP_USE to the qxl driver
+Date: Wed, 11 Feb 2026 17:13:50 -0700
+Message-ID: <20260212001359.97296-56-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260212001359.97296-54-jim.cromie@gmail.com>
+In-Reply-To: <20260212001359.97296-55-jim.cromie@gmail.com>
 References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-2-jim.cromie@gmail.com>
  <20260212001359.97296-3-jim.cromie@gmail.com>
@@ -128,6 +128,7 @@ References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-52-jim.cromie@gmail.com>
  <20260212001359.97296-53-jim.cromie@gmail.com>
  <20260212001359.97296-54-jim.cromie@gmail.com>
+ <20260212001359.97296-55-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -174,31 +175,31 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_THREE(0.00)[3];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 228A4128934
+X-Rspamd-Queue-Id: CDD381288BB
 X-Rspamd-Action: no action
 
-The gud driver has a number of DRM_UT_* debugs, make them
+The qxl driver has a number of DRM_UT_* debugs, make them
 controllable when CONFIG_DRM_USE_DYNAMIC_DEBUG=y by telling dyndbg
 that the module uses them.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/gud/gud_drv.c | 2 ++
+ drivers/gpu/drm/qxl/qxl_drv.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 42135a48d92e..b36565c7856c 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -32,6 +32,8 @@
- 
- #include "gud_internal.h"
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 2bbb1168a3ff..73998bb331d9 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -67,6 +67,8 @@ module_param_named(modeset, qxl_modeset, int, 0400);
+ MODULE_PARM_DESC(num_heads, "Number of virtual crtcs to expose (default 4)");
+ module_param_named(num_heads, qxl_num_crtc, int, 0400);
  
 +DRM_CLASSMAP_USE(drm_debug_classes);
 +
- /* Only used internally */
- static const struct drm_format_info gud_drm_format_r1 = {
- 	.format = GUD_DRM_FORMAT_R1,
+ static struct drm_driver qxl_driver;
+ static struct pci_driver qxl_pci_driver;
+ 
 -- 
 2.53.0
 
