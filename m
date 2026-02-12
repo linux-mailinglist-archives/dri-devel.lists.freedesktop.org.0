@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aDdQLpnxjWlw8wAAu9opvQ
+	id GPzBM5LxjWlw8wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:25 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6139A12EEBC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A1912EEAD
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 16:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F6F10E762;
-	Thu, 12 Feb 2026 15:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4412910E760;
+	Thu, 12 Feb 2026 15:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PjV4fCcN";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="aVG3NlYR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89A2410E762
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 15:28:21 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B919610E760
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 15:28:14 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id F3060C23DAB;
- Thu, 12 Feb 2026 15:28:28 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id A20BA4E40CEE;
+ Thu, 12 Feb 2026 15:28:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 05323606CD;
- Thu, 12 Feb 2026 15:28:10 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 78636606CE;
+ Thu, 12 Feb 2026 15:28:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5200511971B11; Thu, 12 Feb 2026 16:28:06 +0100 (CET)
+ with ESMTPSA id 2378411971B05; Thu, 12 Feb 2026 16:28:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1770910088; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1770910091; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=ek7OISNeQ+OcU+2gcXbX00XP+56retPqfH6Ygv5ZL0M=;
- b=PjV4fCcN2ZEOm4pvvdXsZyDrZs8FlK52ow42015KdXgtJVVmPq6MYI472D6gkxR4fo8szG
- Pav91Ud2lOZsEWKWJ4BMB6qwltYb7ruGGFWKbgvxOARtrbO9/Of82Z7eDjQswhjvK6/M+r
- m3gMjDIgG7WyE0ZoAY0pASab7kF4yf2CqLzay45CyOnF2Cqva40AHkX/drwTKN8CuMCs8P
- x04do6G2t9l/Zc6zLaIq78oLJ8qH6E3sWoK0M0bD+nfOiSaDi57Stcca86j6cQ9wB5d5/8
- Wxv3rJ0zcw9ky8cpYbkgJPRB4lCmEEzh5yXsO8Kuufkb1dQ0OpL5ZAsUxisctw==
+ bh=UYzg7H8r28NuknnaHMhGKeY25Sfx8KUmF5qRI7gC69A=;
+ b=aVG3NlYRlV0UEBW+qN0P3U0+aqIMVCKcvcl/zWf7zV+6RUAhKpJujdxe88CtuvANV++96n
+ O4fU4uQ85lmrNh72DjeDDMOezvMjpGr18OZ+cACRGiwirFwViEnULg/WSyNXxIxywEahM3
+ uRe2WQLZRmkfP8C3v504Zz+1WlHRLvtKoHo/RSHpchq+pQl4icJBoZcXR8x+xg6qwpsVI3
+ BhhcVprWBxyWNJclEBKU+tAyD61OanHsAD6x7//XhqfcjhQinUCivuuPGRA9Ea2XBfn9dk
+ vuiFIrCOI23s0lXiBbyeJ/5h7rrw2S4FMVPiTCY2Rwx+UHDCEWnDcXuTD4zuSg==
 From: "Kory Maincent (TI)" <kory.maincent@bootlin.com>
-Date: Thu, 12 Feb 2026 16:26:17 +0100
-Subject: [PATCH 3/5] ARM: omap2plus_defconfig: Enable ITE IT66121 driver
+Date: Thu, 12 Feb 2026 16:26:18 +0100
+Subject: [PATCH 4/5] ARM: multi_v7_defconfig: Enable ITE IT66121 driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260212-feature_bbge-v1-3-29014a212f35@bootlin.com>
+Message-Id: <20260212-feature_bbge-v1-4-29014a212f35@bootlin.com>
 References: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
 In-Reply-To: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 6139A12EEBC
+X-Rspamd-Queue-Id: 85A1912EEAD
 X-Rspamd-Action: no action
 
 Enable the ITE IT66121 HDMI bridge driver to support HDMI output on
@@ -117,21 +117,21 @@ the BeagleBone Green with the Seeed Studio HDMI cape.
 
 Signed-off-by: Kory Maincent (TI) <kory.maincent@bootlin.com>
 ---
- arch/arm/configs/omap2plus_defconfig | 1 +
+ arch/arm/configs/multi_v7_defconfig | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 4e53c331cd841..cdf69ac2e5126 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -486,6 +486,7 @@ CONFIG_VIDEO_OMAP3=m
- CONFIG_VIDEO_MT9P031=m
- CONFIG_VIDEO_TVP5150=m
- CONFIG_DRM=m
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 196b6872ca463..2c9587855f044 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -751,6 +751,7 @@ CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=m
+ CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
+ CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=m
+ CONFIG_DRM_DISPLAY_CONNECTOR=m
 +CONFIG_DRM_ITE_IT66121=m
- CONFIG_DRM_OMAP=m
- CONFIG_OMAP5_DSS_HDMI=y
- CONFIG_OMAP2_DSS_SDI=y
+ CONFIG_DRM_LVDS_CODEC=m
+ CONFIG_DRM_NXP_PTN3460=m
+ CONFIG_DRM_PARADE_PS8622=m
 
 -- 
 2.43.0
