@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OJg0CkU2j2n2MgEAu9opvQ
+	id IK0oD1g2j2n2MgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:33:41 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:34:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F13C13716B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D6E137175
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:33:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9D3510E7FA;
-	Fri, 13 Feb 2026 14:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F00E010E811;
+	Fri, 13 Feb 2026 14:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="a1ROsC2F";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XI6++OgG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE9B10E7FA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 14:33:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEED710E811
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 14:33:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770993216;
- bh=m02PGLQN3ryTu9fwdCznLHLg+swjN9H1cBfggzX1uwA=;
+ s=mail; t=1770993235;
+ bh=QrHRsIhrdBDLSHjhctyMWK0PdAzEwhDoDqFh8NUhPsg=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=a1ROsC2FyzD/GuUou+QMgctw7kHEv1x7rhrRTVyuvgh0yDdxl+zSeMu8OvbpGGmmF
- yNmEe03Nm10sF/jsU7pkXKxRl/EVDZvlh8RFNyOlQyYpZb1iNYsqVQd8BIsyhOvczd
- vnSOd+slLuR5f18k4foalXp16gBk0uLjnBwvFeLinXAamKoFZRSXiTC/MIt+/Z5k8A
- Hri1jk7MtPJDY7n+unLweJ+kvoD9K66mP/WQDaizsGOVmbL+btHGrUm+EBiJPwyPOZ
- q2UqfdlNnLhClaiAncMUPHRdeAggyYoqTC4jIlQnK/LebRWLKCcHd+d9gzcDTgOIIQ
- oyOC0tBur8mXw==
+ b=XI6++OgGhAoR6cPGMc0s+GhabfCA3WYXjfjwg01BIqPa57q2uQ3WUh+tXkBJYKEWq
+ vFyN5mSGWcvY9VaJIz3x+u7DNfiSjkE3CfQAhmL+vOurN3rlKb0Liyz3WPvbqzGCAL
+ 6rD7OgsIklF3bnc6y8/znn+ESHFfpvM6SZMNUyRwRIoUdEU10W/XeB1YRe36gir8lu
+ v5QMK7fQwCtEO4WXzQqSZUp6cng4qkIoU3DYs9kjfkoMFag+WulLdP8hlFRz3zEbYi
+ 3A2bKOPjdVZFYGZIjfznaLGCg/j5g1cBeqJxTyExSbAhCjGi3VbJL1byAHSc3YZLV6
+ DY3LInsRlTq7A==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DC15517E00AC;
- Fri, 13 Feb 2026 15:33:35 +0100 (CET)
-Date: Fri, 13 Feb 2026 15:33:31 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 52EA117E00AC;
+ Fri, 13 Feb 2026 15:33:55 +0100 (CET)
+Date: Fri, 13 Feb 2026 15:33:50 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: "Christian =?UTF-8?B?S8O2bmln?=" <ckoenig.leichtzumerken@gmail.com>
 Cc: phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 7/8] dma-buf: use inline lock for the dma-fence-array
-Message-ID: <20260213153331.30c3cdcb@fedora>
-In-Reply-To: <20260210102232.1642-8-christian.koenig@amd.com>
+Subject: Re: [PATCH 8/8] dma-buf: use inline lock for the dma-fence-chain
+Message-ID: <20260213153350.223cd382@fedora>
+In-Reply-To: <20260210102232.1642-9-christian.koenig@amd.com>
 References: <20260210102232.1642-1-christian.koenig@amd.com>
- <20260210102232.1642-8-christian.koenig@amd.com>
+ <20260210102232.1642-9-christian.koenig@amd.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -100,11 +100,11 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9F13C13716B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email]
+X-Rspamd-Queue-Id: D2D6E137175
 X-Rspamd-Action: no action
 
-On Tue, 10 Feb 2026 11:02:02 +0100
+On Tue, 10 Feb 2026 11:02:03 +0100
 "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
 
 > Using the inline lock is now the recommended way for dma_fence
@@ -121,39 +121,45 @@ On Tue, 10 Feb 2026 11:02:02 +0100
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/dma-buf/dma-fence-array.c | 5 ++---
->  include/linux/dma-fence-array.h   | 1 -
->  2 files changed, 2 insertions(+), 4 deletions(-)
+>  drivers/dma-buf/dma-fence-chain.c | 3 +--
+>  include/linux/dma-fence-chain.h   | 1 -
+>  2 files changed, 1 insertion(+), 3 deletions(-)
 >=20
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fenc=
-e-array.c
-> index 6657d4b30af9..c2119a8049fe 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -204,9 +204,8 @@ void dma_fence_array_init(struct dma_fence_array *arr=
-ay,
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fenc=
+e-chain.c
+> index a8a90acf4f34..a707792b6025 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -245,7 +245,6 @@ void dma_fence_chain_init(struct dma_fence_chain *cha=
+in,
+>  	struct dma_fence_chain *prev_chain =3D to_dma_fence_chain(prev);
+>  	uint64_t context;
 > =20
->  	array->num_fences =3D num_fences;
+> -	spin_lock_init(&chain->lock);
+>  	rcu_assign_pointer(chain->prev, prev);
+>  	chain->fence =3D fence;
+>  	chain->prev_seqno =3D 0;
+> @@ -261,7 +260,7 @@ void dma_fence_chain_init(struct dma_fence_chain *cha=
+in,
+>  			seqno =3D max(prev->seqno, seqno);
+>  	}
 > =20
-> -	spin_lock_init(&array->lock);
-> -	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
-> -		       context, seqno);
-> +	dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
-> +		       seqno);
->  	init_irq_work(&array->work, irq_dma_fence_array_work);
+> -	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+> +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+>  			 context, seqno);
 > =20
->  	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
-> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-ar=
-ray.h
-> index 079b3dec0a16..370b3d2bba37 100644
-> --- a/include/linux/dma-fence-array.h
-> +++ b/include/linux/dma-fence-array.h
-> @@ -38,7 +38,6 @@ struct dma_fence_array_cb {
->  struct dma_fence_array {
->  	struct dma_fence base;
-> =20
+>  	/*
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-ch=
+ain.h
+> index 68c3c1e41014..d39ce7a2e599 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -46,7 +46,6 @@ struct dma_fence_chain {
+>  		 */
+>  		struct irq_work work;
+>  	};
 > -	spinlock_t lock;
->  	unsigned num_fences;
->  	atomic_t num_pending;
->  	struct dma_fence **fences;
+>  };
+> =20
+> =20
 
