@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIibDvBBj2k5OgEAu9opvQ
+	id 6MGqDzxJj2moPQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 16:23:28 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 16:54:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736A71377D5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 16:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72710137B9B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 16:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA1910E167;
-	Fri, 13 Feb 2026 15:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE6A10E81E;
+	Fri, 13 Feb 2026 15:54:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P7Kn7MMi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k2UORqzU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F7B10E167;
- Fri, 13 Feb 2026 15:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770996203; x=1802532203;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8df47b+Pe8iIVaO6Wm1IbNvFVg1481cA/0QReTKAO/c=;
- b=P7Kn7MMiVXxf13gN8FriibUHHnDEa0QDDzVGotQJmGf1aWYyqEA6TTrF
- jg7UEPA5AXRGTlBdT+GP2fjtBtGNFmwlkMZY2S7i/lsEUvwCC2VOMckTw
- UwTM8mq9QcCMYbGT1pg62/Bpqj5J+31Q6vOqSlhNXvP7bbz3swb6Kv5Vc
- jLLIriwI8T/su+ObKOIdhwcSDARB9tSzBwZzXXUILqyovhKOgjabSlF5r
- aQyiTAUn/BtqCQobtcBPR1sEBttClN/azTptbt5CHgAZ1Em9jCE57v80E
- X6IwYXn1nJ1Y0LfHsNgzmNGIjzgn+NF/gDxxIYiQtWGNeYKgcYRDM1y+1 Q==;
-X-CSE-ConnectionGUID: UMNbW72ITBmisIH6DSMq5A==
-X-CSE-MsgGUID: W9OeXU2DQzyIb9iJ+tFfgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72252830"
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; d="scan'208";a="72252830"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2026 07:23:23 -0800
-X-CSE-ConnectionGUID: Bqzg9c39Tk2xPaqSJtNe9w==
-X-CSE-MsgGUID: qILqHTKVSHq4unhIz6fSlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; d="scan'208";a="217482909"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO
- kkoning-desktop.intel.com) ([10.245.244.64])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2026 07:23:21 -0800
-From: Koen Koning <koen.koning@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Koen Koning <koen.koning@linux.intel.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Dave Airlie <airlied@redhat.com>,
- intel-xe@lists.freedesktop.org,
- Peter Senna Tschudin <peter.senna@linux.intel.com>
-Subject: [PATCH] gpu: Fix uninitialized buddy for built-in drivers
-Date: Fri, 13 Feb 2026 16:20:47 +0100
-Message-ID: <20260213152047.179628-1-koen.koning@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A8A10E81E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 15:54:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 54862439FE;
+ Fri, 13 Feb 2026 15:54:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABBFC116C6;
+ Fri, 13 Feb 2026 15:54:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770998071;
+ bh=LSegEQrSOwuVPwnSlWUvlsuB3DrPeTxqGE1znf4tkxU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k2UORqzUWWsGbuacUdgB5VuK4KR/W/mMun7zc+tiJAW1dnSaSZJ0fWM5A/RVnpeBo
+ U7FM822Vj6d/pmQDJ108ykmSj/5X+yTW/5rTDMLCLwjq9Mrd5lME9NAIuF5ndP2owl
+ RC07VSGKn0aYrni6eoo0Z8mFoCmIh1WdZCTKTjHI44xDt0iNtCVe7p1HtLp81TaMki
+ ofMGEFc2wW4NBtTCwS3yE4WybV9mn79N0C6RANf6FEPaiVP8MqvXTb9BPz8rjwo++X
+ pg5OHrXrvfZ18SVbxWAbJ9yRXeMj6i1K/Na1tvXaLeRxiMZotb48n9h32Srp2gW7H1
+ Zo1HeA8qJDEGg==
+Date: Fri, 13 Feb 2026 15:54:26 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Liviu Dudau <Liviu.Dudau@arm.com>
+Cc: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+ daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lgirdwood@gmail.com, ojeda@kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
+Message-ID: <fa0f761d-45f8-4d94-b077-945b228858a8@sirena.org.uk>
+References: <20260212100538.170445-1-work@onurozkan.dev>
+ <20260212100538.170445-2-work@onurozkan.dev>
+ <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
+ <20260212151644.4c179594@nimda>
+ <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
+ <aY8DrSjWm5w6Lfs-@e142607>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="OBu0sbjdvL7VcMH0"
+Content-Disposition: inline
+In-Reply-To: <aY8DrSjWm5w6Lfs-@e142607>
+X-Cookie: I have become me without my consent.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +72,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-3.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[koen.koning@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 736A71377D5
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:Liviu.Dudau@arm.com,m:work@onurozkan.dev,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[onurozkan.dev,collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid]
+X-Rspamd-Queue-Id: 72710137B9B
 X-Rspamd-Action: no action
 
-Move buddy to the start of the link order, so its __init runs before any
-other built-in drivers that may depend on it. Otherwise, a built-in
-driver that tries to use the buddy allocator will run into a kernel NULL
-pointer dereference because slab_blocks is uninitialized.
 
-Specifically, this fixes drm/xe (as built-in) running into a kernel
-panic during boot, because it uses buddy during device probe.
+--OBu0sbjdvL7VcMH0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: ba110db8e1bc ("gpu: Move DRM buddy allocator one level up (part two)")
-Cc: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: intel-xe@lists.freedesktop.org
-Tested-by: Peter Senna Tschudin <peter.senna@linux.intel.com>
-Signed-off-by: Koen Koning <koen.koning@linux.intel.com>
----
- drivers/gpu/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Fri, Feb 13, 2026 at 10:57:49AM +0000, Liviu Dudau wrote:
 
-diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
-index 5cd54d06e262..b4e5e338efa2 100644
---- a/drivers/gpu/Makefile
-+++ b/drivers/gpu/Makefile
-@@ -2,8 +2,9 @@
- # drm/tegra depends on host1x, so if both drivers are built-in care must be
- # taken to initialize them in the correct order. Link order is the only way
- # to ensure this currently.
-+# Similarly, buddy must come first since it is used by other drivers.
-+obj-$(CONFIG_GPU_BUDDY)	+= buddy.o
- obj-y			+= host1x/ drm/ vga/ tests/
- obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
- obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
- obj-$(CONFIG_NOVA_CORE)		+= nova-core/
--obj-$(CONFIG_GPU_BUDDY)		+= buddy.o
--- 
-2.48.1
+> Please note that the sram supply is mandatory in all compatibles except
+> for the "mt8196-mali". This was to work around the fact that MTK has decided
+> to control some supplies via another method and not give Panthor control over
+> those.
 
+> We should fix Panthor to check that we only treat the sram supply as
+> optional for "mt8196-mali", but that doesn't alleviate Tyr's need to support
+> optional regulators.
+
+If you know that the supply will never be present for that compatible
+then the driver shouldn't really be requesting it in the first place.
+
+--OBu0sbjdvL7VcMH0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmPSTEACgkQJNaLcl1U
+h9BH2Af/frL1CweswfxYTiomuQSnfzKCXtEbAxxX9OsnTb2VD/9A3iEMrwQkpGm0
+AnMCBxq1ijav/NXN326PFqMDQ6n3QzcS7v+ma92ZIHXTgyvS9viTOGbJMMk7BnFW
+6RbDc9CrcBcfJqPlJMV33uQ1Tdch53y/XPKZR9dsMckYS6YXuXivMJ+pEU5dr8cS
+HQ+MA5Y55VfvJifiImaZv9YmQNib7o/tVMpjH8dE6wgGKmr0sz37gBCrdr0IyEg7
+FCORJor2aGmKG5aehRDqCYKJ2BZcvJGeEASZkALUfbI78U1XxR2QMrKVYz0HAvAV
+9t5xafl28wVPbEB9VVdOXle6h8b6Nw==
+=zF/0
+-----END PGP SIGNATURE-----
+
+--OBu0sbjdvL7VcMH0--
