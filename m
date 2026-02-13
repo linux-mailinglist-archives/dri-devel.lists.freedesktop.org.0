@@ -2,154 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WI1pFa6tj2lqSgEAu9opvQ
+	id KMaoCq6vj2ndSgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 00:03:10 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 00:11:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAD7139E50
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 00:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77783139EC8
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 00:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC1A910E1CB;
-	Fri, 13 Feb 2026 23:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C7410E156;
+	Fri, 13 Feb 2026 23:11:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fQtGqikz";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PlCOfRvs";
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="yosogk5C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3EC410E1CB
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 23:03:05 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61DJxYZ41280562
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 23:03:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=v9zcAzbE8fM7wVN4+5lYRN
- cGLf12p3L4/oFrWpvP+70=; b=fQtGqikzjhoXp1t2H2zKUhQGSfqAnAeEP7nKpx
- 5uxZwrWLeMnRZ0i6Gs5t9mQ21wwPqdxc0uh7kySUOSnSvP1XLzu3zMLlwBSnAw6R
- qrebYC8DxjScfjhZDFpsAd0EXMw6vnV61wqFjjcA05rGe+XAz1NxT7lcVX/2u/2X
- ahIGar+J80VfD3doP7gzWWxeMTR8jfSAIzZDjZuhWSb9Du5DpsilBA0pvcBexPjs
- suIQmWSiEzBCHx5mhJAEFUlAOu5bk+HU1JqCfU9zroPC9UsB/hchigoTP9eCUzDY
- 4BzILpuZvrAuOBDrGzbzjCgXefq7ACH4AyUwuGwTcvgvuTQA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4caakjgdbb-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 23:03:04 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8cb4b8e9112so47937285a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 15:03:04 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0793F10E84C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 23:11:35 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b884d5c787bso183464166b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 15:11:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771024294; cv=none;
+ d=google.com; s=arc-20240605;
+ b=lJL1k1jYsKvxgZbiPt2dvYVbiUJ3YE4HVqwCw2gr+sKbzj9XLGwNXa3S6NG65Km8Dz
+ uJCqziIPMo2mAzGTycqPHXZWJIiPKQwDHjuSYAbfG2efraK/24nVINYny0l+7bmlIA1p
+ KzqorJMBD9+SjnwmLdZ9hszUwWyCfibfl8wq6mESpgZH+MFLMBEijC7sXcCRFMHCWhJW
+ rvGH36qpIbCFgmmMWeOfhrzjiUBefk45hzqzK6Nw0M2iOyIsfnGPYr79qhxl3k4HUwKW
+ COlmcJ4XXGuuiYD2rpjHhrIFYWXpos4hHdUYb0NrIFKk/UcBMDNsHNJNzXhye0D0Z3kU
+ gjlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=i/aiR4F2aBKPhSsHf4Kof8ApCmMrntWY9Rw5HJoo2C4=;
+ fh=vJapJClIwLnI0RIDe5psFxnjAWGF4kP7322XyeP+TOY=;
+ b=GS4P9zistUtjD6C7or2rVNmkzX8UT/gsjuzZRSCsZkIz8/l5aCv/7C7Nu7OwDtTBly
+ 06tZR3slQePB8bHHbXzDHoeVithck5OPJVVODk4i3neCPELbfGeTRCihfGe3hL+jxLB3
+ M+t+GyFkQ5CbAkcrslOcblZ884VczlcvzUelsbLxNRvrownPnerPaBASTNJzcK+VsK58
+ wPp82YEBd9nY0EiRmxvi1Q56wxa+osq+jUop9SlNtI6AT8KZ8ZXag+QJ10tGztnGIBxo
+ c8NghAaKBysZeFWDLE7L1G1wsge/CTWqx7X10ScOFNopKoHIImHbdJKgG73TSwND+F3g
+ mJXA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771023784; x=1771628584;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v9zcAzbE8fM7wVN4+5lYRNcGLf12p3L4/oFrWpvP+70=;
- b=PlCOfRvsLKDF5TAvGjfmgz383vbQf2GbpCguuf3eXKis/2RCUJcW2NfaOmTRy20ibX
- 86dwht3T4eRGMil2oYKUxDJt8eDzUmNIQLDQ5NImZqPA/bwppJXyjZiyxIzIX66QAaeH
- ZnMhOw0yly92fJ/ilbnRffdYMguka9IgawQ3lHA9gVOYyuZdDqQLWafuddy9s1aIwyzk
- 1CG1Su5vZq7v3pa2TMHByyAEVkUL5aefX0aAl4hryxyFsE/y+5nrl1bUf2OKcGrlb37j
- JSpeWdxwvBP6W4YdLXCX6BZ0hNm78dHkDkh6S+PqTENrM/PdYa6FQezrv8VjfoGq2pmB
- quxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771023784; x=1771628584;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1771024294;
+ x=1771629094; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v9zcAzbE8fM7wVN4+5lYRNcGLf12p3L4/oFrWpvP+70=;
- b=obFvYHhYDL2ybmIgmTj0LI8b6A6XXvbLTxOJ/4JGJZ5XxHDTCOxIZhHNF0vFHM6P0Z
- MJUQSKJ9zIPiDicPxy3awY9uSRVXb0IYsi9ZlKGP7GuLOX5fFcNkeDYSPp5nax6jxrct
- AabHXXgdwLVreXRq68eoOoFS4K4lgwf9VDgXBQcXoNfReRsu3sm60vYd/RYxrcBUHP3p
- GOKkhma14Ca7sLPu2Nkiowzu6wzGa9IN8YsFgYf0zsbSa/MH4bqsySRhTcgaBCHrE07c
- G23LaBfdIiun1x41iJH5EMX59VieAOzZQo05ziM+wb0vbDh/uRw1mVTZ7px4fwJSI33d
- oRaQ==
+ bh=i/aiR4F2aBKPhSsHf4Kof8ApCmMrntWY9Rw5HJoo2C4=;
+ b=yosogk5CdmBGYuySDO82xyz7lMYwfODr5HiPhlaTwS+zoU0J3Xuz8jPohWw1zPEZ/v
+ 3kpvlQPc9HV5d3afW+cLEpSbOSfCZcu+Z2xF7Po68UpH6man2gBo0gqWIyF5Qo6l8+ph
+ 3t/uYnNL4K0yhrlTh1PDulGfGwElGjIXvJXww74LfFS/iXDhjSmf9XD3Ypqhi7sLaNj5
+ cz9LypFtPQF6ZR8rHiCC62k2FhPTgQBHO8QRLcgehfK66lPWKk6tn4MooE5VH7GAZebB
+ qWUWpiZa+lN68BUJxGeSqctzs8X1784mAeMcSm0q04D9BUevYCVtXeb/XqSi/TvO4w5V
+ y8Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771024294; x=1771629094;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=i/aiR4F2aBKPhSsHf4Kof8ApCmMrntWY9Rw5HJoo2C4=;
+ b=cpJ66v6QSeYbloiH/DghSGr7I7w98/ibwuzYXzw2OrpeFDbbWvCI2wYfepitNCMu3k
+ K/FJttZ9d/IsIh7sdL5nCK661mMC6ikqOeFERpEYqUqGhqXwSXPb8RktvV9exCwQdCP5
+ Xn5GF/2ykFYGyycsQssHXYwFxfSYv1jAukloqDsONO+8M7xRnn212Fshx1H+gy9WtTxs
+ 1ub9vr0G8YhlKz7XnPuY28eUc9dg/K1UWOPRxWciEWYcoMkFWzG3GcvA8ignvLiucpsx
+ +RR9gq0up7BpIWyyCCxXVcux+UuMvl8q2G9dTpHOKF4rP5L0HEkd6l2cfeLIheIJB/Kt
+ KZzQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAy8lFma5yuJPtgtfoojQnUxTDscm0GFfXpfJI7Th9Ux+lu2jJo9HkgSDnbclPKBYHoV8+FKPKKAM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsKBbzrN6zeTf1Bn01NA/XMjjbjr5fnZREfxxqe6u9nTTWJF7Y
- RNdjCyMpB1h/j7FnqlMTSji9tDkCkJfwOw/upXrIeu7tFeLMiCUl17jTcZwGlMM162ysD4uMu6O
- m82BT2aGBlDxOn2rG5bEVb43RasGJF+7XWkbA6PqENo4NN2h0INMFd34+adl7jz9j31cnOjU=
-X-Gm-Gg: AZuq6aJi9zvDLOPygHwcD50ReyFQ7/OHkLueadVzNzR+UZDQVIB6Ef059p3ASagzPyA
- dEeCIIzTXEZlVWC724a35ctmbk6vIn4kTRZAt2EQ66miG3gaK98S1pqM5SR2KqrCJC303hpIznW
- 88jzJV8DuasKXVyzltp1inj6ZKBkqBV7Kd0iectDfpJt2AXx3mKX60/RLgUjt11fKtAEvO0xNnl
- KlSdNUdwFItXm6zz0BkzPVUu/ws0pCm33JWbSsnuB4qWXDByajTLsNj02w/p74cVAePFOrjDqh3
- jNKfb5NALeDvCv1n90Kz2001eUEtpz+mE348MG/qRtvwwOPh2sOBJdehQsntZd33Y17Ii1vVqcs
- rFyU1NNDVj1vdf8khaPgp7vHhfYtf7WBIR1L+NjIMiwyIhq9h650pxOJEJHun00+KBBWAp8gBzg
- 4j4FUuKFUmBF9l73CJWxlYB5lIIFI/Zg9MGGM=
-X-Received: by 2002:a05:620a:3901:b0:8c9:fc46:235c with SMTP id
- af79cd13be357-8cb424afcb1mr449270685a.71.1771023784099; 
- Fri, 13 Feb 2026 15:03:04 -0800 (PST)
-X-Received: by 2002:a05:620a:3901:b0:8c9:fc46:235c with SMTP id
- af79cd13be357-8cb424afcb1mr449266385a.71.1771023783593; 
- Fri, 13 Feb 2026 15:03:03 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59e5f5b062asm1806491e87.73.2026.02.13.15.03.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Feb 2026 15:03:01 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 14 Feb 2026 01:02:59 +0200
-Subject: [PATCH] Revert "drm/msm/dpu: try reserving the DSPP-less LM first"
+ AJvYcCVy87fBj7V/F46iSprnAHiPdsb984xQjw5ToxG5o8m9bRfUeCK9ztArXJD5uGB+VRKlOAwFOCuYbMc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDhYAUCTL9MYC3NE0JhKYT/AXFYk55zriHf7/u5zr71lpEs56V
+ fr9bNSiqTa5bqvjmifH8I9YbahfyEYedg6elE2BT4v5pA5BcKKU66yCML/2CYNYvPjYZv4XIJiG
+ wG30srycqM1YWza13j+qwe6iQR74kIl5qEg4Ea2qtYA==
+X-Gm-Gg: AZuq6aJ9X0AkdGUBRBFSy/kVh1Jze0lxgVWp4NoB/9TzXAwuqFtk5a6rgzqnCgEq3Km
+ WL5fxY1NuC/vlDMcp0zEKuYLDPxOWyAI8rJhh/NG+DVRUs1sbWr9VtZBdbxk/oQgwVXRuUjgNrv
+ hD61sI4ysPKdbMhawTWaYsaoROF9gjMLJMqGcSMc8J6kjz5lMiIesgANuShcQiftUGl5liqTTr6
+ Gr4izTLzwjuKjg+hMtKRF4Z5WU8Hc9ygRcNfXOfZcrkTCpkkFMOkrfN+Sw4B+QBQ47Mh3TQdVIR
+ HvTn
+X-Received: by 2002:a17:906:794d:b0:b8f:7aa8:d9a4 with SMTP id
+ a640c23a62f3a-b8fc3a34ecdmr59186666b.20.1771024294200; Fri, 13 Feb 2026
+ 15:11:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260214-revert-dspp-less-v1-1-be0d636a2a6e@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAKKtj2kC/x2M0QpAQBBFf0XzbIppE35FHrAXU2LbkZT8u83jq
- XPOQ4aoMGqzhyIuNT32BGWe0bQO+wJWn5ikkKqQ0nGSEE/2FgJvMOPaSeUBcWMjlLIQMev9L7v
- +fT9UyhE8YgAAAA==
-X-Change-ID: 20260214-revert-dspp-less-8426dee24b92
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+References: <20260205-zcull3-v2-0-ac572f38cc7b@darkrefraction.com>
+ <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
+ <DGE036OEW8ZK.1PX0DRV8R9EVB@kernel.org>
+ <CAAgWFh0zX=u7OZYq3QBrs0ySve897LXb1PN9QFzhYg0gtHy5wQ@mail.gmail.com>
+ <DGE6O1OYR4F3.2PSFQLJ8XXJ78@kernel.org>
+In-Reply-To: <DGE6O1OYR4F3.2PSFQLJ8XXJ78@kernel.org>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Fri, 13 Feb 2026 18:11:08 -0500
+X-Gm-Features: AZwV_QjvEdNIqn6JcsnMJ6QigGTIGx6XW3_NM1uKPaKIqIv3KZRLaa33eXNGZCM
+Message-ID: <CAAgWFh0GyrSYeEJuh3xTLGk8c9ZmQoamRnvAvk-t-pydsKTZMg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/nouveau: Fetch zcull info from device
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Val Packett <val@packett.cool>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3587;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=i33TyAUL6ghJdbWFyMgzRLYcTygWgaYUFBacwDIWYoY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpj62k0mI3LT5UakhcdPql0XWEriNUOHLR+ZgCN
- V19RcwsqL2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaY+tpAAKCRCLPIo+Aiko
- 1cLGB/9G2vD96HD1P3/HGbx+hqB96ArIo8y7ugP2WEmk+fgpw+zl+Jw0WEPFyqCfbEApY1zIfzk
- 7GCfVr6camfzwpxfYAEPnV0r+JhY0fIvM/0LgndWQ4iVyoU+Q30ywgURP5/EGhOxNBHYNG5s0oI
- auTFdjy0fM05/O55R4PPWHRITrkS7mxa7y58KEVxYZtKCi0uwmQaq7s/DGkw9g+O1bwa4EUyC8r
- 3efxcBwnXJC00xL5GrojiGanJPvRMK6XvEGKRtH4IDgBkxaao2ZQIKss+2ygs3kqKZWRhLPg+ZN
- dd9S4K4k1Nl/aT6tDnlpjqUn240/TocaBAjs71uqyuBbEti2
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=FvMIPmrq c=1 sm=1 tr=0 ts=698fada8 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=MJBLmyKdI3ciMax9VxIA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDE3OCBTYWx0ZWRfX7+3DXxd6RCRw
- 0omCTgUdm6zIzA9TAPnu0jlXtbeOHnW7GLo83c+MYWVAJZPUw40AgUfGoktrhCUC425Z8d7yfqq
- 0TUOtPU73xs4j8tMCG4fMShFjPb1nLS/9EVwcMOkSH90N70DzyHsW53Q6vUlbHPOj5ZY3LTfFiu
- TypSXtbcLFQvTP/+EiD8RGx1Na2+7YfvendtRt/VYH/a6g3HdWoldd/pe7YJyYKEskucZjCPOYe
- +XCmUrA0z+gNZymkVYdJUEPHiA0o6xVkdR1IgDuymc+CF7N58YzwooMMFphcqUChKwc3RgH63ys
- GK+7qdtPcV1M+oTvIYv5AZbGNgTsy2bjTELnwMgpiL/VaeaplnzUPr8iUSIFGJB6GnuL76eY/ak
- cFTKzuqibHUxInggho020MZ6ucHb3+zn/VUDYGy2CnW/ZnEwUx2mVS1xIu7l+AWDSScqSiXIf6t
- fvtZrGLakXj5eNHG+bQ==
-X-Proofpoint-ORIG-GUID: brdOe0mtGoRqvTELsYZDYDEnCuX5_Gyz
-X-Proofpoint-GUID: brdOe0mtGoRqvTELsYZDYDEnCuX5_Gyz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-13_05,2026-02-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
- bulkscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130178
+ Mary Guillemard <mary@mary.zone>, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,145 +120,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-1.81 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[darkrefraction-com.20230601.gappssmtp.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:konrad.dybcio@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:val@packett.cool,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	DMARC_NA(0.00)[darkrefraction.com];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:lyude@redhat.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mary@mary.zone,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[mhenning@darkrefraction.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,mary.zone,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mhenning@darkrefraction.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[darkrefraction-com.20230601.gappssmtp.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,packett.cool:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EFAD7139E50
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,darkrefraction-com.20230601.gappssmtp.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 77783139EC8
 X-Rspamd-Action: no action
 
-This reverts commit 42f62cd79578 ("drm/msm/dpu: try reserving the
-DSPP-less LM first"). It seems on later DPUs using higher LMs require
-some additional setup or conflicts with the hardware defaults. Val (and
-other developers) reported blue screen on Hamoa (X1E80100) laptops.
-Revert the offending commit until we understand, what is the issue.
+On Fri, Feb 13, 2026 at 5:22=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Fri Feb 13, 2026 at 10:48 PM CET, M Henning wrote:
+> > On Fri, Feb 13, 2026 at 12:12=E2=80=AFPM Danilo Krummrich <dakr@kernel.=
+org> wrote:
+> >>
+> >> On Thu Feb 5, 2026 at 7:56 PM CET, Mel Henning wrote:
+> >> > This information will be exposed to userspace in the following commi=
+t.
+> >> >
+> >> > Signed-off-by: Mel Henning <mhenning@darkrefraction.com>
+> >>
+> >> For someone looking at this commit, this commit message is not very us=
+eful.
+> >>
+> >> Please add at least a brief explanation of what the patch does and - e=
+ven more
+> >> important - why it does it. See also [1].
+> >>
+> >> [1] https://docs.kernel.org/process/submitting-patches.html#describe-y=
+our-changes
+> >
+> > What I'm struggling with is that I don't know how to do this without
+> > repeating myself. If you want, I can copy-paste my explanation of
+> > zcull here too and then it will appear three times, once in each
+> > commit and once in the cover letter. But that kind of repetition
+> > doesn't seem very helpful to me.
+>
+> Again, the commit message should explain what the commit does and why. Fo=
+r
+> instance, I asked you why you did combine those two callbacks below.
+>
+> The commit message could mention this, e.g. it could be something along t=
+he lines
+> of:
+>
+> "Add struct nvkm_gr_zcull_info, which serves as abstraction layer between=
+ the
+> corresponding uAPI (added in a subsequent patch) and the firmware (versio=
+n
+> specific) structure.
+>
+> This is needed in order to not leak the uAPI layer into nvkm. Also note t=
+hat we
+> are bypassing the nvif layer, since ...
+>
+> Also note that we reuse the get_ctxbufs_info() callback, since ..."
+>
+> I.e. make it obvious to maintainers what's going on and what's the motiva=
+tion
+> for the patch and it's implementation details.
 
-Fixes: 42f62cd79578 ("drm/msm/dpu: try reserving the DSPP-less LM first")
-Reported-by: Val Packett <val@packett.cool>
-Closes: https://lore.kernel.org/r/33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 52 +++++++++-------------------------
- 1 file changed, 14 insertions(+), 38 deletions(-)
+Okay, I'll give it another go.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 451a4fcf3e65..7e77d88f8959 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -350,26 +350,28 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
- 	return true;
- }
- 
--static bool dpu_rm_find_lms(struct dpu_rm *rm,
--			    struct dpu_global_state *global_state,
--			    uint32_t crtc_id, bool skip_dspp,
--			    struct msm_display_topology *topology,
--			    int *lm_idx, int *pp_idx, int *dspp_idx)
-+static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
-+			       struct dpu_global_state *global_state,
-+			       uint32_t crtc_id,
-+			       struct msm_display_topology *topology)
- 
- {
-+	int lm_idx[MAX_BLOCKS];
-+	int pp_idx[MAX_BLOCKS];
-+	int dspp_idx[MAX_BLOCKS] = {0};
- 	int i, lm_count = 0;
- 
-+	if (!topology->num_lm) {
-+		DPU_ERROR("zero LMs in topology\n");
-+		return -EINVAL;
-+	}
-+
- 	/* Find a primary mixer */
- 	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
- 			lm_count < topology->num_lm; i++) {
- 		if (!rm->mixer_blks[i])
- 			continue;
- 
--		if (skip_dspp && to_dpu_hw_mixer(rm->mixer_blks[i])->cap->dspp) {
--			DPU_DEBUG("Skipping LM_%d, skipping LMs with DSPPs\n", i);
--			continue;
--		}
--
- 		/*
- 		 * Reset lm_count to an even index. This will drop the previous
- 		 * primary mixer if failed to find its peer.
-@@ -408,38 +410,12 @@ static bool dpu_rm_find_lms(struct dpu_rm *rm,
- 		}
- 	}
- 
--	return lm_count == topology->num_lm;
--}
--
--static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
--			       struct dpu_global_state *global_state,
--			       uint32_t crtc_id,
--			       struct msm_display_topology *topology)
--
--{
--	int lm_idx[MAX_BLOCKS];
--	int pp_idx[MAX_BLOCKS];
--	int dspp_idx[MAX_BLOCKS] = {0};
--	int i;
--	bool found;
--
--	if (!topology->num_lm) {
--		DPU_ERROR("zero LMs in topology\n");
--		return -EINVAL;
--	}
--
--	/* Try using non-DSPP LM blocks first */
--	found = dpu_rm_find_lms(rm, global_state, crtc_id, !topology->num_dspp,
--				topology, lm_idx, pp_idx, dspp_idx);
--	if (!found && !topology->num_dspp)
--		found = dpu_rm_find_lms(rm, global_state, crtc_id, false,
--					topology, lm_idx, pp_idx, dspp_idx);
--	if (!found) {
-+	if (lm_count != topology->num_lm) {
- 		DPU_DEBUG("unable to find appropriate mixers\n");
- 		return -ENAVAIL;
- 	}
- 
--	for (i = 0; i < topology->num_lm; i++) {
-+	for (i = 0; i < lm_count; i++) {
- 		global_state->mixer_to_crtc_id[lm_idx[i]] = crtc_id;
- 		global_state->pingpong_to_crtc_id[pp_idx[i]] = crtc_id;
- 		global_state->dspp_to_crtc_id[dspp_idx[i]] =
+> > Because of this, I decided that it was simplest to combine them in a
+> > single call, which avoids repeated rpc calls to the gpu without the
+> > complexity of handling partially complete states.
+>
+> Ok, that seems reasonable.
+>
+> >> > +     if (WARN_ON(IS_ERR(zcull_info)))
+> >>
+> >> What justifies this WARN_ON()? To me this seems like normal error hand=
+ling, i.e.
+> >> it is not a violation of some API invariant, etc. Also, this is in the=
+ driver's
+> >> probe() path.
+> >
+> > I was just copying the error handling that already exists in this funct=
+ion.
+> >
+> > I do think these are weird error cases though - they mean that the gpu
+> > was partially but not fully initialized which shouldn't happen during
+> > normal usage. The only cases I can think of that would trigger this
+> > warning are a kernel bug or an intermittent PCI link, which I think
+> > are both reasonable to warn on.
+>
+> It could also be that the firmware is buggy, etc. In any case, I don't se=
+e that
+> a WARN_ON() is justified. Please use dev_err() instead.
 
----
-base-commit: 50c4a49f7292b33b454ea1a16c4f77d6965405dc
-change-id: 20260214-revert-dspp-less-8426dee24b92
+Okay. I've now written this as:
 
-Best regards,
--- 
-With best wishes
-Dmitry
+if (IS_ERR(zcull_info)) {
+    nvdev_error(gr->base.engine.subdev.device, "could not fetch zcull info\=
+n");
+    return PTR_ERR(zcull_info);
+}
 
+since nouveau seems to use its own nvdev_error() macro over dev_err()
