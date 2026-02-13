@@ -2,97 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNYCCclUj2lqQQEAu9opvQ
+	id chtJLQJXj2kXQgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 17:43:53 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 17:53:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE39813853C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 17:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3E613865A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 17:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59A210E838;
-	Fri, 13 Feb 2026 16:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A1710E203;
+	Fri, 13 Feb 2026 16:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kvfm7hlJ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Spw8/RSI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SvqAtH6N";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j7e3LQC7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEF610E837
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:43:48 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7113C10E837
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:53:17 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61DEk6Ra4096920
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:43:47 GMT
+ 61DFCN032627932
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:53:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=21pPGFIL/zCrhSvYIYVV0SyF
- kdzI1vjuhcaXVxySdG0=; b=kvfm7hlJLc3wLBNsbbesNIzs3hQZgCZWipk7fD3z
- uRk4coh/UiQF6uAiwpD2bK7+6ph07QbnRnxGr8aJO8Qh2TUJw4OEqYY8H+pZ5g+y
- IHwroE234Iw8XooYJHKBEdyFVX+lgGx9FGF4fr3NDeBHofKZmcmgbsRBZTfApJAx
- 6MY5axkXXMB7irXO3FKnL+uqGlrIVJ0PkvYe4SIvgXBuWfUYB+Zti//ML7Jlwv90
- 8iAtiZ714vGRgSfQzvxt8jfDsuKbZ5prDCMyu962PkpZOX++UQc21CjBdPlroVOW
- GfVo39Rrxxr8kDPVUZOtPj+SCSe9l/I9KeqP/dVrFAesMA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ca1hn1gy0-1
+ :references:subject:to; s=qcppdkim1; bh=/oVMsUgTLZaMOKBsltA80ghS
+ BNzy1i2pQtxl1eCTlPU=; b=SvqAtH6NS+fUPv7uVXCQOUVe5si8dJZBBLTMgWRR
+ Hs+giu0D0us+9mF3WBlEZfLeGRmObN66c8Ls5I7sS3/MrsbC1tjeRJPrQ+k/ATZh
+ of/KiouMcxh+F+z9PrRJ8EUde/3xVkyZhzuD1FfUT7Hv7IkceWf+KB2Nx4YOgS9t
+ yyq3Zt/rQMZPfhLxltG9qKb2E0pXYnbuezKagq2PQT50lE6HV5D8Uzcj55N2xHTT
+ YK+JUFhJFBEX/LhR+uRUWHpvGUzXLonsnAU8hKfuqDgysRvkqkJMQ4P+KhT+9Bvs
+ HOyyqJEjcYfE7HKzhzQkQxMIUxeFCvJe+VdJgCszDjTgsQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c9ygut28q-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:43:47 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8c6ae763d03so124700285a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 08:43:47 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 16:53:16 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c70e610242so429007285a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 08:53:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771001027; x=1771605827;
+ d=oss.qualcomm.com; s=google; t=1771001596; x=1771606396;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=21pPGFIL/zCrhSvYIYVV0SyFkdzI1vjuhcaXVxySdG0=;
- b=Spw8/RSI4YDL6i91XeQOh29SXjSPvgjKIv8m2QuGINpzxejLXEzfydqSym/WnULudA
- un8WSuo7/YMyTHW+7YCump8Ku3jqtTVp6gBp5U6rP7YMV938p8LB5EzSJO24DfQWmaYL
- saJwS73XHyGaaMPuap1o6DeqtcEJwYvrq7R1IIW0pgALFcWxwmD+RBm9CxP9OrJexwpC
- 6ItSLJcLuIipLK484TJeHuJaODnp92wzNSH1Jauh/ah6TRYiZelbuF5PMdVVJ81qEDvY
- LMEuKCQvkGwH4ZJcIxNquW7T1YHlq1MgUp7LB22iodjwns9zIJMwkO/07wq3hamKdw2d
- oD+A==
+ bh=/oVMsUgTLZaMOKBsltA80ghSBNzy1i2pQtxl1eCTlPU=;
+ b=j7e3LQC7yl5b39wa+hYeB7TkmlN2hHE4t24xvgc06RQEmtapXRNmZrxjYd8OG5ntaV
+ +nfEua3nH7on81KSz8A2U8T8lys45stXnPKIxl3fXqbB5Qq5/ZWUrM0XA3PAVE+9H4Sy
+ IWOKANS9Zno9YA+ZfDrvK5N+WaXGC7ag0boE3XGIREEN6SgxrLNJ4ySxehTaXOL2gLqG
+ eteXexXcoZ97Pf8allhLD4o1a00w3ZDBcVLYOQUNDTVyWdXFoSzGbsSHPtnrXWHRNbpZ
+ 7BUpGNh2erTT+EXzfd9PUdmxrB9Ku6nua8v4LXZ0oNaihmu9+vLlEGEqDtIS1wUDqU7z
+ zFPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771001027; x=1771605827;
+ d=1e100.net; s=20230601; t=1771001596; x=1771606396;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=21pPGFIL/zCrhSvYIYVV0SyFkdzI1vjuhcaXVxySdG0=;
- b=eWNMgpoRGxRSA+ivDsz4OvN+4txnibapfJbwbugFSj+UQsAt2Fpdhwc89sVhuNXIP4
- pLzdmdutmc973Jl40+OgczNpuNo1S7kICRiHToWxIvaMAqpYMk0AlW1DfvrPgjyWO+yG
- YvlJLrSk60aAud1l8ZbfR31p8Kz7TVu0kw+A80yg2/HsPpl7/ockmWDi0TI6bpZriecs
- P0U6eoKSNCz7vd91u4SJcTo+6LOaDTxmxzdJJ4CXqt3AzeOd3hUIBZRPBRJ5B++9hnIY
- I8nwcazP726iSu4RHiHbkUxcl2rGQIqHpTZNVbzxRtPrne5G4202Y7MLvztZ3d8KYjDp
- a6gQ==
+ bh=/oVMsUgTLZaMOKBsltA80ghSBNzy1i2pQtxl1eCTlPU=;
+ b=GQwZiOfw6xgrcTc0NbzAKAgTHj86AgwUdZWThsYOCjlxENMEAhpY7W00bahuiZ19st
+ BgApJ6O4TuLZDxJYJR6c6LK55J9Ti7/A/99tRubPnKjmlHAJx7gfDEmXWBnPfOSpBHmZ
+ 935T099zcjQPTfzetBCwdOUrgS8zyDx1wAvtlsyJ4YI8D3hCf0f/xMpsZVe5oIfDqHAi
+ lnyT99EpPIUrNqQSIFJ7IfMLF61BYvIsdr+5SOxW2FkSlm4GO9D061iEKDxSgUw/12PO
+ +kuxkiNErqZ5EuY6ls+Ci9XSiTtXtbnzOGE9RvUzD+cuJJ4OCSQqW7Sc7Okges9+bDni
+ GV/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUsx1GjSVe3uF7+uiuY/EeJdM4aoEq3ZCRByZyly7QN3Zq3x5g6v9hHPdoSfdlShqtF3jALxmFKug=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/ZQQX3Ny5851PM1ZF8/VP8qD4+Ek0C1eEbcXXFeqxZqcu8xUr
- 0CR5R7HYwCC9cjUsF0zTeqwN0opWplAUa+Rhs6z02PyOe9OursmFLedBETUafdr/E2e7rwiKr8T
- M7gihidwDKL7wO2rWhoEztUgmW237faYMXge8MRasoN5Afe4XdXhnOyNqakjhCRHhZSzgQWY=
-X-Gm-Gg: AZuq6aKfJcwaFE19b5Ze5LG7yl+InQy9L2jNMx4IZRSNy9yb4WeQj0I2QA+05Cg++f7
- 28EmvbOPMKj8EiEBlOD2YJJVleimiI8EHARoHPJcEDWvqM7nd3RoRok6jV/YW0/wbFMWHscxl/X
- w/lyrlhKQSHnifA3X7IV05attjxIQU57LmThfgGf5UbCaC+GuAVngGH16oQ2E9dqeBbuhGnFQNB
- N81OeAAgQ6pkQ3GC4PhjBidMnEh9VwOhRFZVyJtsPAMtP7GUdynV1/GnBFRg/a6TOYRUBFIa3RI
- mRUXrCfQopDYBUa7C52UnwVOkBWtGVSlHBLyNA8BKbK57hgc34URU7Qo4d/2PfvlMLZWiyVBzbP
- fZlr36TIaaAtdCAeqmZ/T74tELiB/Gm25NmvggQQLKVBJPnW44c9KIbBIrLp4mYsknXMdRTaivr
- Z8txfjQMsN0r2cRU5uHV8upB377L+3TARjxV8=
-X-Received: by 2002:a05:620a:691a:b0:8c6:ee09:5eae with SMTP id
- af79cd13be357-8cb421628bbmr291427285a.0.1771001026653; 
- Fri, 13 Feb 2026 08:43:46 -0800 (PST)
-X-Received: by 2002:a05:620a:691a:b0:8c6:ee09:5eae with SMTP id
- af79cd13be357-8cb421628bbmr291423485a.0.1771001026154; 
- Fri, 13 Feb 2026 08:43:46 -0800 (PST)
+ AJvYcCXlsnnRuLSmyUNVxV8e5Q2YX+3B73jKnwnAqx9caZESQ4+Nk8didQyhkjrscKcIOh32LPgI1eVc8Ck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxq12pcK+Z5XHqsLa8WzJlISm+enHy0dQqZXlmXz20bS9yjsoqQ
+ bL0rwzgV7bU+UuVrbncWnjQZw8jBDVSRaGAwMw3M1js4ViAl7tz9YvnZLzXw0a/ivKWk7+vvJC/
+ zH1/Y/nAMiadvw+F7AAyABNcfzHihmVB4ucljOAAxn+qybhFa7pVy96ESfHR/agj77ULfsdQ=
+X-Gm-Gg: AZuq6aJ62eHovfAvh2ksZwwH409N7ms1Lf21P5gs4vjFUGdVerHubQYsjxILRPkZbwm
+ wjNY5w1GaPM4o8iuSmLRA7RehwY7aJNug8K+7qwT3+QgdnKhy+hM8RrKY1tcEmTVXyaRF/t0oMw
+ y4OHAauPMFwtkcaY/DSkPC31ikQYLk/sspXxSzZBGYIhdp4pxXcBJratbHJ6hNE77CI8FOurTIu
+ 6jBBM0W0MI6SvYgP4hv+e7/KYHtyeCkaJrcs4YWff/ZVRXhfQ6JInl3O9LBRRPN1W9Oi6Ug3aUh
+ ZjGlcS46m/jHVZaUQnLLuDINSEgBX0peMYFaBwehftd7FS7Jb6oe8EJuOHiy2uauDtbbKFEiAv9
+ zNm/dPxTsfLsFeU8Y/3zEYeOEoSe/n9kHYiCPTRId3kgpJaxu/jXsHawTe9PkYzYAbVunTTgaIY
+ oNyAnKS4EfFOOuMRXUa43VVAXC+fcUCaup62Y=
+X-Received: by 2002:a05:620a:3187:b0:8b3:14dc:4821 with SMTP id
+ af79cd13be357-8cb4225fe2cmr301758385a.3.1771001595638; 
+ Fri, 13 Feb 2026 08:53:15 -0800 (PST)
+X-Received: by 2002:a05:620a:3187:b0:8b3:14dc:4821 with SMTP id
+ af79cd13be357-8cb4225fe2cmr301753685a.3.1771001595056; 
+ Fri, 13 Feb 2026 08:53:15 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-387068e5ddfsm13919101fa.23.2026.02.13.08.43.44
+ 2adb3069b0e04-59e5f5b6cb1sm1673648e87.84.2026.02.13.08.53.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Feb 2026 08:43:45 -0800 (PST)
-Date: Fri, 13 Feb 2026 18:43:42 +0200
+ Fri, 13 Feb 2026 08:53:14 -0800 (PST)
+Date: Fri, 13 Feb 2026 18:53:12 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Jun Nie <jun.nie@linaro.org>
 Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
@@ -105,37 +105,37 @@ Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v18 1/4] drm/msm/dpu: Extract plane splitting into a
  dedicated function
-Message-ID: <674jl5pvmoq3vktnc7vpasn43ncx4jj4zhaiegbmek7kqtseod@e7tkjv3uzjq2>
+Message-ID: <jbd4snirozad7u673dofl34xhpulybbmsyibijohecazhov6gc@5k2xqea6ofci>
 References: <20260213-msm-next-quad-pipe-split-v18-0-5815158d3635@linaro.org>
  <20260213-msm-next-quad-pipe-split-v18-1-5815158d3635@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260213-msm-next-quad-pipe-split-v18-1-5815158d3635@linaro.org>
-X-Authority-Analysis: v=2.4 cv=Wt0m8Nfv c=1 sm=1 tr=0 ts=698f54c3 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+X-Proofpoint-GUID: 1wO1WzNCXI8f_yOL3507_uUbzMIeDYnJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDEzMCBTYWx0ZWRfXx8Ai8QsgTtzD
+ CN7Jt/oYbNwixSQQQZy1GERmkQqI5/xHrPHNftonb7ziZd2oIL0x/x03yIaXVmDunAUsmrWwLFs
+ +zei69UzZURIWOFVS1eqtHyc57ed2WsS5dXCiGyvHU+cyRDBdC/9gEf6kIe2myt8G94SjC02hz0
+ Qe0/gvcH3zvIz5Sb5QkgVEm6D79QkLldZcZY3tmvrEECGWW5/0pLDSUjXuLNquly5ECEJztAduL
+ 9Vu/xPPOhguDKDQ/SC/C9GFI6jsXA51RwJmr4OV1XcVKkU11TeYYPYVwAbtyXl2YfBisOa0VILD
+ iXbWUgWo4RNFzDoX4ncxH/AN427tL/Bi95DbX43xGm1iwBQ2YsqhWH4Hb42QJmYQDNOJd32DN2e
+ 2Pkysv5HEUBlP3zzHc6qgaLMRXxjOlXZQnpw+i/+FyeTyclvVJ2Q+qCwhHjrJRuW7UbO6xrQfZB
+ ByAcCcrgc7Xk/8BXYuQ==
+X-Authority-Analysis: v=2.4 cv=If+KmGqa c=1 sm=1 tr=0 ts=698f56fc cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=6cJ-CjKpxfkWJcI31lMA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: W1j_uYyOQHm4n1D7KWLWOij_OHanBKRh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDEyOCBTYWx0ZWRfX5Yfnch+ZZrMS
- x0JlTne3Krl/JVjAGFhTh1VjYOxJccX/u16ajkKEZeMP0drmX5tF9YRGi1HYMRxv5H8IHeICPM2
- 6kvqkuHwy+xUsVyHI6FYghMQOhLQOs1PhLXMV5M78SZdfVEBaQThj/qlfYCgX2x/hModX8QAkfR
- AHJZmD6I3XCxPr+ijFCo30lh/3pieY1N57Qfk7WXvHg1qgd/hGPMp1pEYxZQCFifh1ZGVINBf/c
- HkkI5/sRQsHyeiBN+7SrWKrujTfJk15sqNbsqGQu8TGM77nLq4va8BzdqGxIt2NQ/KR1R1kbESC
- CTs2eCVit8O5yMpk79yQWp1ZDIA83xwqjSPFhkJ5vTM2pwOMaIFzQcnf5Ae09odjdF9RyOS/AUM
- mNRlpCvTShLG+W3eEoIEcSLhJiySxhlvJQPAqz8AHbd7t2O3JoQlb5qukDoEZgEC1pSgR9ZmgQh
- sHLx9o34ToXiqx5etlg==
-X-Proofpoint-GUID: W1j_uYyOQHm4n1D7KWLWOij_OHanBKRh
+ a=LT1BtIMsji7uXtgOJFYA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 1wO1WzNCXI8f_yOL3507_uUbzMIeDYnJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-13_03,2026-02-13_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 phishscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130128
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,8 +182,8 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: AE39813853C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 5B3E613865A
 X-Rspamd-Action: no action
 
 On Fri, Feb 13, 2026 at 10:54:25PM +0800, Jun Nie wrote:
@@ -197,9 +197,74 @@ On Fri, Feb 13, 2026 at 10:54:25PM +0800, Jun Nie wrote:
 >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 51 ++++++++++++++++++++++---------
 >  1 file changed, 36 insertions(+), 15 deletions(-)
 > 
+> +static int dpu_plane_split(struct drm_plane *plane,
+> +			   struct drm_plane_state *new_plane_state,
+> +			   const struct drm_crtc_state *crtc_state)
+> +{
+> +	struct dpu_plane *pdpu = to_dpu_plane(plane);
+> +	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+> +	u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
+> +	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+> +	struct dpu_sw_pipe_cfg *pipe_cfg;
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> +	uint32_t max_linewidth;
+> +
+> +	if (!new_plane_state->visible)
+> +		return 0;
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Wait... This still isn't improved. The dpu_plane_split() function should
+not be called if the plane is not visible. Move it after the check.
 
+Yes, it is currently a part of the code which is called before the
+check. But there is no need to keep that.
+
+> +
+> +	/* move the assignment here, to ease handling to another pairs later */
+> +	pipe_cfg = &pstate->pipe_cfg[0];
+> +	r_pipe_cfg = &pstate->pipe_cfg[1];
+> +	/* state->src is 16.16, src_rect is not */
+> +	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> +
+> +	pipe_cfg->dst_rect = new_plane_state->dst;
+> +
+>  	max_linewidth = pdpu->catalog->caps->max_linewidth;
+>  
+>  	drm_rect_rotate(&pipe_cfg->src_rect,
+> @@ -910,8 +925,6 @@ static int dpu_plane_atomic_check_nosspp(struct drm_plane *plane,
+>  				    new_plane_state->fb->width, new_plane_state->fb->height,
+>  				    new_plane_state->rotation);
+>  
+> -	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -1129,6 +1142,10 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = dpu_plane_split(plane, new_plane_state, crtc_state);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (!new_plane_state->visible)
+>  		return 0;
+>  
+> @@ -1169,6 +1186,10 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = dpu_plane_split(plane, plane_state, crtc_state);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (!plane_state->visible) {
+>  		/*
+>  		 * resources are freed by dpu_crtc_assign_plane_resources(),
+> 
+> -- 
+> 2.43.0
+> 
 
 -- 
 With best wishes
