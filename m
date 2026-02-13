@@ -2,48 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wPt0CzQEj2lJHQEAu9opvQ
+	id KFDpDDcFj2ltHQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 12:00:04 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 12:04:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235381354FC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 11:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E30135671
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 12:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3DD010E7D0;
-	Fri, 13 Feb 2026 10:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D7810E7D6;
+	Fri, 13 Feb 2026 11:04:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="plpyxtUI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 637B910E7D0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 10:59:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1708339
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 02:59:48 -0800 (PST)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- CE3523F73F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 02:59:54 -0800 (PST)
-Date: Fri, 13 Feb 2026 10:57:49 +0000
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
- daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <aY8DrSjWm5w6Lfs-@e142607>
-References: <20260212100538.170445-1-work@onurozkan.dev>
- <20260212100538.170445-2-work@onurozkan.dev>
- <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
- <20260212151644.4c179594@nimda>
- <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9001E10E7D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 11:04:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770980657;
+ bh=4nZFI6B+4DaZ1xwgKXUjqRowetvZjkztwjYyqHMz+xc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=plpyxtUIxFe/gOImlgAHoJUSgVdLvn0eJMXXj/FJyqzIalCK1zIypr0FQ1HGJ1pAY
+ 3jUR1T9E4is+Xl8N6JbB/VRPv7MsKU5+j0vmn2JyNglpCU2cE5iS1l3xTAuhuIWZdr
+ zTUxqpABXVdGZDyZWcLcwXosI8VcXrm0GDQWJvxB9pNXEBYLgXrWIvoeFy+QblZR61
+ pJFzBWwLlgs70SJ6t/5WgXMN0faGiFqECbVfofSI9U4Xxtfter8u3iERgGxBCt+Kq2
+ l6SxBhdXnys+wtZtINxvexBOgSd/WW9dk1ljzueIJh0+RXPUc0ogy0bjladzq17/aO
+ FAnQ+k1oNXTOA==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9B4A217E1406;
+ Fri, 13 Feb 2026 12:04:16 +0100 (CET)
+Message-ID: <f73fe751-5812-4f27-b4ad-19f214c6e49a@collabora.com>
+Date: Fri, 13 Feb 2026 13:04:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] drm/rockchip: vop2: Support setting custom
+ background color
+To: Andy Yan <andyshrk@163.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com>
+ <20251219-rk3588-bgcolor-v4-4-2ff1127ea757@collabora.com>
+ <2750b73.10b0.19ba61052c8.Coremail.andyshrk@163.com>
+ <9e4c8514-63e9-4ff7-85b1-b5af7dff9a2d@collabora.com>
+ <67fb66b7-eee7-4109-8127-385593e88425@collabora.com>
+ <539febc7.2cf9.19c55d3dfb0.Coremail.andyshrk@163.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <539febc7.2cf9.19c55d3dfb0.Coremail.andyshrk@163.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,81 +81,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.01 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:broonie@kernel.org,m:work@onurozkan.dev,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[Liviu.Dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:andyshrk@163.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:robert.mader@collabora.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_TO(0.00)[163.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[onurozkan.dev,collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[Liviu.Dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,rock-chips.com,sntech.de,bootlin.com,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 235381354FC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
+X-Rspamd-Queue-Id: 94E30135671
 X-Rspamd-Action: no action
 
-On Thu, Feb 12, 2026 at 12:21:07PM +0000, Mark Brown wrote:
-> On Thu, Feb 12, 2026 at 03:16:44PM +0300, Onur Özkan wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
-> > > On Thu, Feb 12, 2026 at 01:05:38PM +0300, Onur Özkan wrote:
+Hi Andy,
+
+On 2/13/26 9:07 AM, Andy Yan wrote:
+> Hello Cristian，
 > 
-> > > > Panthor handles SRAM as optional and tolerates missing sram-supply.
+> At 2026-01-16 23:22:11, "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com> wrote:
+>> On 1/10/26 11:58 AM, Cristian Ciocaltea wrote:
+>>> Hi Andy,
+>>>
+>>> On 1/10/26 6:00 AM, Andy Yan wrote:
+>>>>
+>>>>
+>>>> Hello Cristian,
+>>>> At 2025-12-20 05:47:01, "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com> wrote:
+>>>>> The Rockchip VOP2 display controller allows configuring the background
+>>>>> color of each video output port.
+>>>>>
+>>>>> Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
+>>>>> which defaults to solid black, make use of it when programming the
+>>>>> hardware.
+>>>>>
+>>>>> Note the maximum precision allowed by the display controller is 10bpc,
+>>>>> while the alpha component is not supported, hence ignored.
+>>>>>
+>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>>> ---
+>>>>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 ++++++++++++-
+>>>>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++++
+>>>>> 2 files changed, 16 insertions(+), 1 deletion(-)
+
+[...]
+
+>>>>> -	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0); +	/* Background color is
+>>>>> programmed with 10 bits of precision */ +	val =
+>>>>> FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_GETR(bgcolor) >> 6); +
+>>>>> val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GETG(bgcolor)
+>>>>> >> 6);
+>>>>
+>>>>> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE,
+>>>>> DRM_ARGB64_GETB(bgcolor) >> 6);
+>>>>
+>>>>
+>>>> the bit31 of  RK3568_VP_DSP_BG  is bg_display_en， that means when we set a
+>>>> background color, we should set this bg_display_en bit.
+>>
+>> I performed several tests on my ROCK 3A (RK3568), ROCK 4D (RK3576) and ROCK
+>> 5B (RK3588) boards and noticed that by setting bg_display_en bit to 1 or 0
+>> doesn't have any influence on RK3568 and RK3576, the background color is
+>> always active and cannot be disabled.
+>>
+>> However, flipping the bit to 1 on RK3588 has the unexpected effect of
+>> covering the whole screen with the configured color, even when there's an
+>> active plane displayed on top. Switching back to 0 makes it work as expected.
+>>
+>> Therefore I think we should keep this patch as is, unless there's something
+>> else we're missing here.
+>>
+>>>> The default value of this bit is 1, which explains why the patch currently
+>>>> works properly even though it doesn't set bit31.
+>>>
+>>> For some reason, the RK3588 TRM indicates 0x0 for the reset value.  I assume
+>>> that's a mistake, as RK3576 TRM shows 0x1.
+>>
+>> Considering the observation above, it kinda makes sense now for RK3588 to
+>> default to 0.
 > 
-> > > Does the RAM really work without power?
-> 
-> > If the platform has no separate sram-supply (meaning that rail is
-> > coupled to mali), RAM should still be powered and work fine. Panthor
-> > already relies on this model by treating sram-supply as optional and
-> > as far as I can see there are no RAM issues on Panthor.
-> 
-> The panthor driver is buggy here and should be fixed, the driver should
-> treat the supply as mandatory and let the system integration work out
-> how it's actually made available.
+>    I further confirmed with our IC team: for RK3588, RK3528, and RK3562, if
+>    the display_enbit is set, the background color will indeed cover all
+>    layers. For other chips, this bit has no effect. So ACK
 
-Please note that the sram supply is mandatory in all compatibles except
-for the "mt8196-mali". This was to work around the fact that MTK has decided
-to control some supplies via another method and not give Panthor control over
-those.
+Thanks for clarifying!  
 
-We should fix Panthor to check that we only treat the sram supply as
-optional for "mt8196-mali", but that doesn't alleviate Tyr's need to support
-optional regulators.
+This patch is the only one in the series missing a review, hence could you
+please provide your R-b (or A-b) tag on the last revision [1]? 
 
-Best regards,
-Liviu
+Regards,
+Cristian
 
-> 
-> Trying to open code this just breaks the error handling.
-
-
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+[1] https://lore.kernel.org/all/20260204-rk3588-bgcolor-v7-4-78d1d01c5ca1@collabora.com/
