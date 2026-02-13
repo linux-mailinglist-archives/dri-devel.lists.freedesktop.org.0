@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFAOF7ldj2mZQgEAu9opvQ
+	id cGB9Od5bj2lxQgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:22:01 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:14:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A6713897B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67959138890
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:14:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9032710E2C6;
-	Fri, 13 Feb 2026 17:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF16810E128;
+	Fri, 13 Feb 2026 17:14:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QkwHIigN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IF5PWLRw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81B810E2C6;
- Fri, 13 Feb 2026 17:21:56 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A63EB10E128;
+ Fri, 13 Feb 2026 17:14:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7AAA36001A;
- Fri, 13 Feb 2026 17:12:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E526DC116C6;
- Fri, 13 Feb 2026 17:12:55 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 6AC0743D67;
+ Fri, 13 Feb 2026 17:14:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFBCC116C6;
+ Fri, 13 Feb 2026 17:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771002778;
- bh=GYGlNH6ZtsYX+o3QMvwEg6+pg9JnYhrAAMOAOmTrVFE=;
+ s=k20201202; t=1771002840;
+ bh=TQL4yAmfHTFRfL0Xxlqlv5cDS//+iCUzmjzvprvGhzA=;
  h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=QkwHIigNW/q1zQQTcR6ZM1LW4H6/cAgQd+wi9Y/fodGx9uCK0t5675f2Vby90NuZL
- SBq0Kf+bcQgQPmzwCWCOBt1+PR0dX1n0JX+W5vZFXwl1PTC7k/VIklE8cJFvMaLllx
- 47ENJD+dl9692Kqp7JSOT1r3MKFrrDLVkEU7aLaBSuz+X/LNK1fOuaUrRXTV3iH6t/
- 8hfMK5CIvfuWWB/ktOH/3EdFvnvhTgQCTq8SrzLHNSCe8es6geNGi9ShzCAbi2gA2F
- HrtgEDJok+B6ZX/e9dfK2th1VYqb3mGXU7XqRp1QNNOA9Em9Ftcnwico0rbqYCYHL0
- FGtWAQDCKkL/g==
+ b=IF5PWLRwZ3W8kZnVR/YrM2BhpdTTWg2n95CZgpkjQeDbyZ7hFIz9Ag8w8glsCTe8e
+ wYJsg9V9KpwJXzJKlWDdpiotnJ4nfLbailIpA3EUGoDspzGm67IeEkhPbgLxdVWEGE
+ mUtxl/6sih/k9ZTvYOQ3kLl8Aj37o8Mx+jWIlBk3gvk/2U7ayrh8d1TRHxOHyHXZJ4
+ lnADxY203WtyVlW8hL/OGI9wp1RaGuvPfez2tXhGLw62RF6Oby0M+Y67onCWv5SgkW
+ x+r2sY+iYeEdofBnOHXwbWpUMzThTaexKLtL+wexg12k6Y38yVku70oEQ3X1uecVtc
+ JtkatWQH2uOVQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Feb 2026 18:12:54 +0100
-Message-Id: <DGE036OEW8ZK.1PX0DRV8R9EVB@kernel.org>
-Subject: Re: [PATCH v2 1/2] drm/nouveau: Fetch zcull info from device
+Date: Fri, 13 Feb 2026 18:13:56 +0100
+Message-Id: <DGE03Z9YNGAW.3RUQ7P7L93HEE@kernel.org>
+Subject: Re: [PATCH v2 2/2] drm/nouveau: Add DRM_IOCTL_NOUVEAU_GET_ZCULL_INFO
 Cc: "Lyude Paul" <lyude@redhat.com>, "Maarten Lankhorst"
  <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
  "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
@@ -50,8 +50,8 @@ Cc: "Lyude Paul" <lyude@redhat.com>, "Maarten Lankhorst"
 To: "Mel Henning" <mhenning@darkrefraction.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20260205-zcull3-v2-0-ac572f38cc7b@darkrefraction.com>
- <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
-In-Reply-To: <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
+ <20260205-zcull3-v2-2-ac572f38cc7b@darkrefraction.com>
+In-Reply-To: <20260205-zcull3-v2-2-ac572f38cc7b@darkrefraction.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,204 +70,64 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,mary.zone,lists.freedesktop.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,darkrefraction.com:email]
-X-Rspamd-Queue-Id: 74A6713897B
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 67959138890
 X-Rspamd-Action: no action
 
 On Thu Feb 5, 2026 at 7:56 PM CET, Mel Henning wrote:
-> This information will be exposed to userspace in the following commit.
->
-> Signed-off-by: Mel Henning <mhenning@darkrefraction.com>
+> +int
+> +nouveau_abi16_ioctl_get_zcull_info(ABI16_IOCTL_ARGS)
+> +{
+> +	struct nouveau_drm *drm =3D nouveau_drm(dev);
+> +	struct nvkm_gr *gr =3D nvxx_gr(drm);
+> +	struct drm_nouveau_get_zcull_info *out =3D data;
+> +
+> +	if (gr->has_zcull_info) {
+> +		const struct nvkm_gr_zcull_info *i =3D &gr->zcull_info;
+> +
+> +		out->width_align_pixels =3D i->width_align_pixels;
+> +		out->height_align_pixels =3D i->height_align_pixels;
+> +		out->pixel_squares_by_aliquots =3D i->pixel_squares_by_aliquots;
+> +		out->aliquot_total =3D i->aliquot_total;
+> +		out->zcull_region_byte_multiplier =3D i->zcull_region_byte_multiplier;
+> +		out->zcull_region_header_size =3D i->zcull_region_header_size;
+> +		out->zcull_subregion_header_size =3D i->zcull_subregion_header_size;
+> +		out->subregion_count =3D i->subregion_count;
+> +		out->subregion_width_align_pixels =3D i->subregion_width_align_pixels;
+> +		out->subregion_height_align_pixels =3D i->subregion_height_align_pixel=
+s;
+> +		out->ctxsw_size =3D i->ctxsw_size;
+> +		out->ctxsw_align =3D i->ctxsw_align;
+> +
+> +		return 0;
+> +	} else {
+> +		return -ENODEV;
 
-For someone looking at this commit, this commit message is not very useful.
+ENODEV usually means that that device fell off the bus, I think ENOTTY woul=
+d be
+a better fit.
 
-Please add at least a brief explanation of what the patch does and - even m=
-ore
-important - why it does it. See also [1].
-
-[1] https://docs.kernel.org/process/submitting-patches.html#describe-your-c=
-hanges
-
-> ---
->  drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h   | 19 +++++++++++++
->  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c   |  9 ++++--
->  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c   | 32 ++++++++++++++++=
-++++--
->  .../drm/nouveau/nvkm/subdev/gsp/rm/r570/nvrm/gr.h  | 19 +++++++++++++
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/rm.h    |  2 +-
->  5 files changed, 75 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h b/drivers/g=
-pu/drm/nouveau/include/nvkm/engine/gr.h
-> index a2333cfe6955..490ce410f6cb 100644
-> --- a/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h
-> +++ b/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h
-> @@ -3,9 +3,28 @@
->  #define __NVKM_GR_H__
->  #include <core/engine.h>
-> =20
-> +struct nvkm_gr_zcull_info {
-> +	__u32 width_align_pixels;
-> +	__u32 height_align_pixels;
-> +	__u32 pixel_squares_by_aliquots;
-> +	__u32 aliquot_total;
-> +	__u32 zcull_region_byte_multiplier;
-> +	__u32 zcull_region_header_size;
-> +	__u32 zcull_subregion_header_size;
-> +	__u32 subregion_count;
-> +	__u32 subregion_width_align_pixels;
-> +	__u32 subregion_height_align_pixels;
-> +
-> +	__u32 ctxsw_size;
-> +	__u32 ctxsw_align;
-> +};
-> +
->  struct nvkm_gr {
->  	const struct nvkm_gr_func *func;
->  	struct nvkm_engine engine;
-> +
-> +	struct nvkm_gr_zcull_info zcull_info;
-> +	bool has_zcull_info;
->  };
-> =20
->  u64 nvkm_gr_units(struct nvkm_gr *);
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c b/drive=
-rs/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
-> index ddb57d5e73d6..73844e1e7294 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
-> @@ -249,7 +249,7 @@ r535_gr_get_ctxbuf_info(struct r535_gr *gr, int i,
->  }
-> =20
->  static int
-> -r535_gr_get_ctxbufs_info(struct r535_gr *gr)
-> +r535_gr_get_ctxbufs_and_zcull_info(struct r535_gr *gr)
-
-Why did you combine those two callbacks? Why not extend struct nvkm_rm_api_=
-gr
-with another callback?
-
->  {
->  	NV2080_CTRL_INTERNAL_STATIC_GR_GET_CONTEXT_BUFFERS_INFO_PARAMS *info;
->  	struct nvkm_subdev *subdev =3D &gr->base.engine.subdev;
-> @@ -265,6 +265,9 @@ r535_gr_get_ctxbufs_info(struct r535_gr *gr)
->  		r535_gr_get_ctxbuf_info(gr, i, &info->engineContextBuffersInfo[0].engi=
-ne[i]);
-> =20
->  	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, info);
-> +
-> +	gr->base.has_zcull_info =3D false;
-> +
->  	return 0;
->  }
-> =20
-> @@ -312,7 +315,7 @@ r535_gr_oneinit(struct nvkm_gr *base)
->  	 *
->  	 * Also build the information that'll be used to create channel context=
-s.
->  	 */
-> -	ret =3D rm->api->gr->get_ctxbufs_info(gr);
-> +	ret =3D rm->api->gr->get_ctxbufs_and_zcull_info(gr);
->  	if (ret)
->  		goto done;
-> =20
-> @@ -352,5 +355,5 @@ r535_gr_dtor(struct nvkm_gr *base)
-> =20
->  const struct nvkm_rm_api_gr
->  r535_gr =3D {
-> -	.get_ctxbufs_info =3D r535_gr_get_ctxbufs_info,
-> +	.get_ctxbufs_and_zcull_info =3D r535_gr_get_ctxbufs_and_zcull_info,
->  };
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c b/drive=
-rs/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
-> index b6cced9b8aa1..3e7af2ffece9 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
-> @@ -164,9 +164,10 @@ r570_gr_scrubber_init(struct r535_gr *gr)
->  }
-> =20
->  static int
-> -r570_gr_get_ctxbufs_info(struct r535_gr *gr)
-> +r570_gr_get_ctxbufs_and_zcull_info(struct r535_gr *gr)
->  {
->  	NV2080_CTRL_INTERNAL_STATIC_GR_GET_CONTEXT_BUFFERS_INFO_PARAMS *info;
-> +	NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS *zcull_info;
->  	struct nvkm_subdev *subdev =3D &gr->base.engine.subdev;
->  	struct nvkm_gsp *gsp =3D subdev->device->gsp;
-> =20
-> @@ -179,13 +180,40 @@ r570_gr_get_ctxbufs_info(struct r535_gr *gr)
->  	for (int i =3D 0; i < ARRAY_SIZE(info->engineContextBuffersInfo[0].engi=
-ne); i++)
->  		r535_gr_get_ctxbuf_info(gr, i, &info->engineContextBuffersInfo[0].engi=
-ne[i]);
-> =20
-> +	NV2080_CTRL_INTERNAL_ENGINE_CONTEXT_BUFFER_INFO zcull =3D info->engineC=
-ontextBuffersInfo[0]
-> +		.engine[NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPH=
-ICS_ZCULL];
-> +	gr->base.zcull_info.ctxsw_size =3D zcull.size;
-> +	gr->base.zcull_info.ctxsw_align =3D zcull.alignment;
-> +
->  	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, info);
-> +
-> +	zcull_info =3D nvkm_gsp_rm_ctrl_rd(&gsp->internal.device.subdevice,
-> +					 NV2080_CTRL_CMD_GR_GET_ZCULL_INFO,
-> +					 sizeof(*zcull_info));
-> +	if (WARN_ON(IS_ERR(zcull_info)))
-
-What justifies this WARN_ON()? To me this seems like normal error handling,=
- i.e.
-it is not a violation of some API invariant, etc. Also, this is in the driv=
-er's
-probe() path.
-
-> +		return PTR_ERR(zcull_info);
-> +
-> +	gr->base.zcull_info.width_align_pixels =3D zcull_info->widthAlignPixels=
-;
-> +	gr->base.zcull_info.height_align_pixels =3D zcull_info->heightAlignPixe=
-ls;
-> +	gr->base.zcull_info.pixel_squares_by_aliquots =3D zcull_info->pixelSqua=
-resByAliquots;
-> +	gr->base.zcull_info.aliquot_total =3D zcull_info->aliquotTotal;
-> +	gr->base.zcull_info.zcull_region_byte_multiplier =3D zcull_info->zcullR=
-egionByteMultiplier;
-> +	gr->base.zcull_info.zcull_region_header_size =3D zcull_info->zcullRegio=
-nHeaderSize;
-> +	gr->base.zcull_info.zcull_subregion_header_size =3D zcull_info->zcullSu=
-bregionHeaderSize;
-> +	gr->base.zcull_info.subregion_count =3D zcull_info->subregionCount;
-> +	gr->base.zcull_info.subregion_width_align_pixels =3D zcull_info->subreg=
-ionWidthAlignPixels;
-> +	gr->base.zcull_info.subregion_height_align_pixels =3D zcull_info->subre=
-gionHeightAlignPixels;
-> +
-> +	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, zcull_info);
-> +
-> +	gr->base.has_zcull_info =3D true;
-> +
->  	return 0;
->  }
+> +	}
+> +}
