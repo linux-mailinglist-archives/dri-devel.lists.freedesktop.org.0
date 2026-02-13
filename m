@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGZHKJaYjmnXDAEAu9opvQ
+	id yHmAAT+ZjmnXDAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:20:54 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:23:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3313A132A0C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FCF132A50
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:23:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59A110E2D3;
-	Fri, 13 Feb 2026 03:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B913310E78C;
+	Fri, 13 Feb 2026 03:23:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tzjn/xdA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m/gXp2Xp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C4810E2D3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:20:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B5310E78C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:23:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 570896132B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:20:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E216C19422
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:20:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C3CBA6001A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:23:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 772B3C4CEF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 03:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770952848;
- bh=A40oanSb4JrzthivO60WIuT34J7E9QhNFz3hxxDHYi0=;
+ s=k20201202; t=1770953017;
+ bh=jqdm5JUFw4kiir2ybc2KvpoS2Uy2uCJTYMVLDHXXHeo=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Tzjn/xdAXZz8wWp7Bq4rrNEE9DZk+xXGPps1hkmLvYA3w8dbfd2sumI8QzIj+Wwac
- G2iImxywp7IRWl5Vn8r+2kfBWfQMhK0PkhuiUnugZyL//zA+tDcXMBtchxiHzpxTRC
- qxyElueDF9ImuKsDffaaeeCgahn+86TtxAbCfV7cZ1E8PV6L0YYa0zC7HYMLfQ51/e
- 4N5D6JoB01DMzMwoLP0onIwie30T9ykjudllDxF26W1hkJruVgSgSf+yVeAveA8Kam
- DpTA9EHjGlIhy2tVnYqzgqCnfrc42mIYe5T9d7D2p7JwdoA9dMPHlYkspX7Sw2BrLv
- WbNT3izVWzn+Q==
+ b=m/gXp2XplDW9L3M73lexUiDSxh/v0U6FYnyGRDhtJZpqZdnqgECZiWAZbEet6e0W0
+ EsKRBGEiALOdf7z3HV/x5JBLHooyoJpI056zyghY4i3QXoilxK45wCVzvgGKMvNyC1
+ SNGyKDFKr3flDyZf29fDLjftTC3QHQX4OkAX0kqkfjdNXrsOqXZGAXUaqqc6w4ahQO
+ KpSqIHENHsrz7+8qBttjcrK/2GOZSleUeiz6x2eSw0dVqlnIKoz+g2DwqT0Mo0xp8h
+ BEWF+zbzBI4PEDGdNFA7ej9AhyaakYAy8+nJp3H4bewjn2m0VHEpMdKoorQioz1CaW
+ sABjN3TFBZ8Ag==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 06C6BC41612; Fri, 13 Feb 2026 03:20:48 +0000 (UTC)
+ from userid 48) id 671B7C41612; Fri, 13 Feb 2026 03:23:37 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 221089] amdgpu: Regression in Linux 7.0 with RX-580: BUG:
  unable to handle page fault for address: fffffffffffffff1
-Date: Fri, 13 Feb 2026 03:20:47 +0000
+Date: Fri, 13 Feb 2026 03:23:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -56,8 +56,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221089-2300-0KbnZUuGBQ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221089-2300-SyetRzkwFy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221089-2300@https.bugzilla.kernel.org/>
 References: <bug-221089-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -103,16 +103,16 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 3313A132A0C
+X-Rspamd-Queue-Id: 88FCF132A50
 X-Rspamd-Action: no action
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221089
 
---- Comment #1 from Nikl=C4=81vs Ko=C4=BCes=C5=86ikovs (pinkflames.linux@gm=
+--- Comment #2 from Nikl=C4=81vs Ko=C4=BCes=C5=86ikovs (pinkflames.linux@gm=
 ail.com) ---
-Created attachment 309360
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D309360&action=3Dedit
-Kernel stack trace
+I tried CC'ing the relevant people who worked on and accepted that commit b=
+ut
+Bugzilla refuses their @amd.com e-mails as not matching anything...
 
 --=20
 You may reply to this email to add a comment.
