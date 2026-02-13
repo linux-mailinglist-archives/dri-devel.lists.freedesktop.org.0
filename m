@@ -2,77 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEWcDEufjmlYDQEAu9opvQ
+	id IIa1A9q3jmkwEAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:49:31 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 06:34:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F57E132C16
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 04:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585E813304E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 06:34:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F18610E2D0;
-	Fri, 13 Feb 2026 03:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5C210E1DD;
+	Fri, 13 Feb 2026 05:34:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="opThOBul";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=goldelico.com header.i=@goldelico.com header.b="WhJDdEin";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="v/DDwINB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E0810E2D0;
- Fri, 13 Feb 2026 03:49:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1796E6132E;
- Fri, 13 Feb 2026 03:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B30DDC19423;
- Fri, 13 Feb 2026 03:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770954564;
- bh=rWRY9GLcAO1/PKUie7TkGtRgrR+iF1pBIKixJxvFUvo=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=opThOBulSAAgQpybO9HHv7ULoYHERRQWs9xRXB4nT5a9eG+91TNYO76NfWwSkq4tA
- GTCEa2uYeMGogRXzoUjo8lbOyADyQHeUd7/v1k1QAI9l5dQZ2jEco6LxbsimLCBpjx
- lGPSakaUYlM2qbogQx8umYKdu933ZKhbLsRswrezPGUXVEUqQCpKLnNS7X2TAMbCiR
- TA/T3xe/Le8Fqdwdlx01eLQSJvr26/ackxKHT1JNeUMKNHg9oC52FAa//dpMF4sx8z
- yUImzSJ6/m0u2g7kpL9lcN0RUMdCU4MT32W1sWVpAxvoQvGJNiCT11Do+tHMmKhc7C
- vZbNTihW6nIDQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 99922EF48CB;
- Fri, 13 Feb 2026 03:49:24 +0000 (UTC)
-From: Tim Kovalenko via B4 Relay <devnull+tim.kovalenko.proton.me@kernel.org>
-Date: Thu, 12 Feb 2026 22:49:13 -0500
-Subject: [PATCH] gpu: nova-core: fix stack overflow in GSP memory
- allocation
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260212-drm-rust-next-v1-1-409398b12e61@proton.me>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MwQpAUBBG4VfRrE0xhXgVWeD+mIVLc5GSd3ez/
- BbnPBRgikBN8pDh0qCbj8jThMal9zNYXTRJJmUmubCzle0MB3vcBw8YaumB2lUFxWY3THr/v7Z
- 73w9rhI7IXwAAAA==
-X-Change-ID: 20260212-drm-rust-next-beb92aee9d75
-To: Alexandre Courbot <acourbot@nvidia.com>, 
- Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- Tim Kovalenko <tim.kovalenko@proton.me>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770954563; l=6047;
- i=tim.kovalenko@proton.me; s=20260212; h=from:subject:message-id;
- bh=zAyFM1Gds/9GkecAEWLm2RUuiSkvinRA/rr0HZejhKw=;
- b=W+viKVGiSV2fpc2PJZQBP4AL/bo8ESOw7mFgK3OvX6xoEvuVJ/GSYvGDmMzY2TXs99oKTp0Cj
- NVxFchszV9qATlli8IFa+bPzn6HliAUQwfaFwAvGygjUBGtMNwCVPCP
-X-Developer-Key: i=tim.kovalenko@proton.me; a=ed25519;
- pk=/+OiulEpgeZifgP4mDE4e5YlV6nMeY+frze/lY/xiHI=
-X-Endpoint-Received: by B4 Relay for tim.kovalenko@proton.me/20260212 with
- auth_id=635
-X-Original-From: Tim Kovalenko <tim.kovalenko@proton.me>
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [81.169.146.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF90C10E1DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 05:34:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770960839; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=gnGSP7XBqFzhKVj9JBCmaNFbVQyX2TVmgA7490ha+uBZdGHnxu6W7AE8ga+hZQXW7D
+ ksc5myr1mGcqCBwEFO1q+SltV7d0Np8XVOcOFiUVYUE6iUqgF3KtCZooB53I5Mp/mMsc
+ YKqaSsix6iZZfLKqyVlJ+ijOfi8kzNvXNHIjQwzo7pXJBSJ+BABFqEQjW24UHfoPDh4b
+ YE9EJwIxGi53NmHqR+GJImfZJjZMOeQTa+YSBaG1rccWubz+AlsEVz0N7nUjSNhmGNBc
+ Kc5mBoz+Mr9TLJzXoWxGwTUqSNbG0MIIcNYoWqWJxzVAVHz+vuArDGSvHBzUJVBX8tc6
+ J0Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1770960839;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=5YEwoFG2OaLSjd8Yl8JyESysYQ2pvDaXqlQbmK9OUVU=;
+ b=WIcg/q71lCdX/NOhdCdnb7xUirNTmpH4YaEnMU6gBPy7kIg4O5bnzsdR6v7PlTX2Me
+ eskEVgU2s8uOdU7ogFhXdY8d5p/JR1tENy43HGkO7nxf2B7B3IgRC1DjAGkoFbHi5Q4w
+ m258fH60teuumO3eOqM4iW7bB8nCovi97Ku8NCO/qr/g6i5MFSH5QpnyD70kyQWktc8I
+ MxFSjGVYsIQqwacWev7Yt43NT0LgZSHoFIrt4fen5E8Mfh/mc8L2+Pc1s1LVzKWvqhXm
+ bE3IxlBI5TgdS0UVrDyYz3mqM0l/DCA8tluNnkyQDQJrkZmBU/1k2njMQhRgcPS3hV+m
+ Omdg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1770960839;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=5YEwoFG2OaLSjd8Yl8JyESysYQ2pvDaXqlQbmK9OUVU=;
+ b=WhJDdEinlmCOH7tjMzGe3Wf3WYFeEQCybgpE97c1h9MpoK2Ewlp2ZVkkJw/yJuixdm
+ A+dSrbaZuCCMj20zqzZmjBWEVxsQdGzCXd2QnCudO1ek7ZWm74jIKKVr3f5arDMxv1RX
+ AXK+Obe7WzSAVefE6+aKLNq7ZGUIXC0S/nrcpOXel/O2Z7gqk+mapzCFlYbzBPcm8kq1
+ HA155Fi4K3KoPATNGB3CSzEc09HkOWBqIu687ZIheZ3GecVcEU58NWZwnQRo/wgoquUS
+ 5UN6CI/FDzvPLgmrFPUhStZ7Mrq9Qft7IxZezekb2YILdm/EFSoFBLU0wvGJXbSSEVo6
+ AAFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1770960839;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=5YEwoFG2OaLSjd8Yl8JyESysYQ2pvDaXqlQbmK9OUVU=;
+ b=v/DDwINB+0vQ4LL3/TCJecH2XW+VUC6T7quALpW1StFMJK3HkKmabY8vs5z+mP8PXo
+ fowTgXLR0kirz+TtIZBg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yfzsZ"
+Received: from smtpclient.apple by smtp.strato.de (RZmta 55.0.1 DYNA|AUTH)
+ with ESMTPSA id Q3a36b21D5XvW2c
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Fri, 13 Feb 2026 06:33:57 +0100 (CET)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Subject: Re: [PATCH 1/5] ARM: dts: ti: Enable overlays for all DTB files
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20260212231907.6120a2e2@kemnade.info>
+Date: Fri, 13 Feb 2026 06:33:46 +0100
+Cc: "Kory Maincent (TI)" <kory.maincent@bootlin.com>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Bajjuri Praneeth <praneeth@ti.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9D7424B6-2022-4B03-9B8C-455CD3E3FBF1@goldelico.com>
+References: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
+ <20260212-feature_bbge-v1-1-29014a212f35@bootlin.com>
+ <B3366A17-641F-4E02-A5D4-978F525E0A96@goldelico.com>
+ <20260212174718.7daccb70@kemnade.info>
+ <719BF710-26DF-49AB-A016-D2306F0389E2@goldelico.com>
+ <20260212231907.6120a2e2@kemnade.info>
+To: Andreas Kemnade <andreas@kemnade.info>
+X-Mailer: Apple Mail (2.3826.700.81.1.4)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,199 +113,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: tim.kovalenko@proton.me
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [4.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_QUARANTINE(1.50)[goldelico.com : SPF not aligned (relaxed),quarantine];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:strato.com:reject}];
+	R_DKIM_REJECT(1.00)[goldelico.com:s=strato-dkim-0002,goldelico.com:s=strato-dkim-0003];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:kory.maincent@bootlin.com,m:aaro.koskinen@iki.fi,m:khilman@baylibre.com,m:rogerq@kernel.org,m:tony@atomide.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:thomas.petazzoni@bootlin.com,m:linux-omap@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:luca.ceresoli@bootlin.com,m:praneeth@ti.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:louis.chauvet@bootlin.com,m:andreas@kemnade.info,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[tim.kovalenko.proton.me];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[hns@goldelico.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[tim.kovalenko@proton.me];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	GREYLIST(0.00)[pass,meta];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hns@goldelico.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[goldelico.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[proton.me:mid,proton.me:email,proton.me:replyto]
-X-Rspamd-Queue-Id: 7F57E132C16
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kemnade.info:email,bootlin.com:email]
+X-Rspamd-Queue-Id: 585E813304E
 X-Rspamd-Action: no action
 
-From: Tim Kovalenko <tim.kovalenko@proton.me>
+Hi,
 
-The `Cmdq::new` function was allocating a `PteArray` struct on the stack
-and was causing a stack overflow with 8216 bytes.
+> Am 12.02.2026 um 23:19 schrieb Andreas Kemnade <andreas@kemnade.info>:
+>=20
+> On Thu, 12 Feb 2026 17:55:43 +0100
+> "H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+>=20
+>>> Am 12.02.2026 um 17:47 schrieb Andreas Kemnade =
+<andreas@kemnade.info>:
+>>>=20
+>>> On Thu, 12 Feb 2026 16:49:43 +0100
+>>> "H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+>>>=20
+>>>>> Am 12.02.2026 um 16:26 schrieb Kory Maincent (TI) =
+<kory.maincent@bootlin.com>:
+>>>>>=20
+>>>>> Allow overlays to be applied to any DTB. This adds around ~40% to =
+the
+>>>>> total size of the DTB files on average.   =20
+>>>>=20
+>>>> Is this unconditionally enabled or can it be turned off by some =
+CONFIG? We have
+>>>> our own defconfig so I would not worry if if is enabled in =
+omap2plus_defconfig
+>>>> and disabled in ours.
+>>>>=20
+>>>> We have several devices where the boot loader can't handle overlays =
+(never touch
+>>>> a working boot-loader :) So this seems to only contribute to build =
+and load time
+>>>> without benefit.
+>>>>=20
+>>> As long as you do not add overlays, the bootloader does not care. I =
+would
+>>> like to simply carry around the 1-bit mmc overlay for one broken =
+board.
+>>> That would help me. So I think there is a benefit but nobody forces
+>>> you to use it. =20
+>>=20
+>> Well, it does not force to use the really good feature, but it forces =
+to add
+>> ~40% more file size and some more compile time, if I understand it =
+correctly.
+>>=20
+> Compile time, hardly measurable even if you just do make dtbs.
+>=20
+> Size on disk:
+> a) if it lives around in a /boot partitions with kernels and initrams =
+in it,
+>   then we are around 1% more space needed.
 
-Remove the `PteArray` and instead calculate and write the Page Table
-Entries directly into the coherent DMA buffer one-by-one. This reduces
-the stack usage quite a lot.
+Ah, I see. I was too focussed on the "adds around ~40% to the total size =
+of the DTB files".
 
-Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
----
- drivers/gpu/nova-core/gsp.rs      | 50 ++++++++++++++-------------------------
- drivers/gpu/nova-core/gsp/cmdq.rs | 27 ++++++++++++++++++---
- 2 files changed, 42 insertions(+), 35 deletions(-)
+For the Letux arm distro all DTBs are around 8.1 MB at the moment so it =
+will grow not that much
+(there are non-TI devices included).
 
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 174feaca0a6b9269cf35286dec3acc4d60918904..316eeaf87ec5ae67422a34426eefa747c9b6502b 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -2,16 +2,14 @@
- 
- mod boot;
- 
-+use core::iter::Iterator;
-+
- use kernel::{
-     device,
--    dma::{
--        CoherentAllocation,
--        DmaAddress, //
--    },
-+    dma::CoherentAllocation,
-     dma_write,
-     pci,
--    prelude::*,
--    transmute::AsBytes, //
-+    prelude::*, //
- };
- 
- pub(crate) mod cmdq;
-@@ -39,27 +37,6 @@
- /// Number of GSP pages to use in a RM log buffer.
- const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
- 
--/// Array of page table entries, as understood by the GSP bootloader.
--#[repr(C)]
--struct PteArray<const NUM_ENTRIES: usize>([u64; NUM_ENTRIES]);
--
--/// SAFETY: arrays of `u64` implement `AsBytes` and we are but a wrapper around one.
--unsafe impl<const NUM_ENTRIES: usize> AsBytes for PteArray<NUM_ENTRIES> {}
--
--impl<const NUM_PAGES: usize> PteArray<NUM_PAGES> {
--    /// Creates a new page table array mapping `NUM_PAGES` GSP pages starting at address `start`.
--    fn new(start: DmaAddress) -> Result<Self> {
--        let mut ptes = [0u64; NUM_PAGES];
--        for (i, pte) in ptes.iter_mut().enumerate() {
--            *pte = start
--                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
--                .ok_or(EOVERFLOW)?;
--        }
--
--        Ok(Self(ptes))
--    }
--}
--
- /// The logging buffers are byte queues that contain encoded printf-like
- /// messages from GSP-RM.  They need to be decoded by a special application
- /// that can parse the buffers.
-@@ -86,16 +63,25 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-             NUM_PAGES * GSP_PAGE_SIZE,
-             GFP_KERNEL | __GFP_ZERO,
-         )?);
--        let ptes = PteArray::<NUM_PAGES>::new(obj.0.dma_handle())?;
-+
-+        let start_addr = obj.0.dma_handle();
- 
-         // SAFETY: `obj` has just been created and we are its sole user.
--        unsafe {
--            // Copy the self-mapping PTE at the expected location.
-+        let pte_region = unsafe {
-             obj.0
--                .as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
--                .copy_from_slice(ptes.as_bytes())
-+                .as_slice_mut(size_of::<u64>(), NUM_PAGES * size_of::<u64>())?
-         };
- 
-+        // As in [`DmaGspMem`], this is a  one by one GSP Page write to the memory
-+        // to avoid stack overflow when allocating the whole array at once.
-+        for (i, chunk) in pte_region.chunks_exact_mut(size_of::<u64>()).enumerate() {
-+            let pte_value = start_addr
-+                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
-+                .ok_or(EOVERFLOW)?;
-+
-+            chunk.copy_from_slice(&pte_value.to_ne_bytes());
-+        }
-+
-         Ok(obj)
-     }
- }
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 46819a82a51adc58423502d9d45730923b843656..13a82d505c123e733850a00f627ddfe0c218940c 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -35,7 +35,6 @@
-             MsgqRxHeader,
-             MsgqTxHeader, //
-         },
--        PteArray,
-         GSP_PAGE_SHIFT,
-         GSP_PAGE_SIZE, //
-     },
-@@ -159,7 +158,7 @@ struct Msgq {
- #[repr(C)]
- struct GspMem {
-     /// Self-mapping page table entries.
--    ptes: PteArray<{ GSP_PAGE_SIZE / size_of::<u64>() }>,
-+    ptes: [u64; GSP_PAGE_SIZE / size_of::<u64>()],
-     /// CPU queue: the driver writes commands here, and the GSP reads them. It also contains the
-     /// write and read pointers that the CPU updates.
-     ///
-@@ -201,7 +200,29 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
- 
-         let gsp_mem =
-             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
-+        const NUM_PAGES: usize = GSP_PAGE_SIZE / size_of::<u64>();
-+
-+        // One by one GSP Page write to the memory to avoid stack overflow when allocating
-+        // the whole array at once.
-+        let item = gsp_mem.item_from_index(0)?;
-+        for i in 0..NUM_PAGES {
-+            let pte_value = gsp_mem
-+                    .dma_handle()
-+                    .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
-+                    .ok_or(EOVERFLOW)?;
-+
-+            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
-+            // dereferenced. The compiler also further validates the expression on whether `field`
-+            // is a member of `item` when expanded by the macro.
-+            //
-+            // Further, this is dma_write! macro expanded and modified to allow for individual
-+            // page write.
-+            unsafe {
-+                let ptr_field = core::ptr::addr_of_mut!((*item).ptes[i]);
-+                gsp_mem.field_write(ptr_field, pte_value);
-+            }
-+        }
-+
-         dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES))?;
-         dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
- 
+So you are right, it is ~1% of the total if the kernel image is counted.
 
----
-base-commit: cea7b66a80412e2a5b74627b89ae25f1d0110a4b
-change-id: 20260212-drm-rust-next-beb92aee9d75
+Therefore, space should not be something we should be too concerned =
+about (although I remember
+discussions for driver code where every single byte did count).
 
-Best regards,
--- 
-Tim Kovalenko <tim.kovalenko@proton.me>
+On the other hand this increases load time from (sometimes slow) =C2=B5SD =
+for a specific DTB by 40%.
+That should at least be discussed.
 
-
+BR,
+Nikolaus=
