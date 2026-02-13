@@ -2,64 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id zRttL3qFjmlBCwEAu9opvQ
+	id Xr2hMoaGjmlfCwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 02:59:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 03:03:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1950132562
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 02:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F3A13257F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 03:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965E910E0ED;
-	Fri, 13 Feb 2026 01:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F46E10E129;
+	Fri, 13 Feb 2026 02:03:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="aBpLo5RY";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qtWDQ7DK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8515C10E0ED;
- Fri, 13 Feb 2026 01:59:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770947951; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LDN+WNAUdz0SWY52JwzhhhDQRNguvsp/kUWE223sjb0r4BaXIrkMWeZ8SIsVqvgOOzfuCf6pH5npUkDBjZD6ZyaG01hHTRajKZI7Kl5LLyAfJYn15kA1IMCpbLwB+zO1Ds7yvJj9UwEhfpp7Ro3E26RkdO1AoC4qVpEz0G2TnQ0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770947951;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=C8g2vpgn9loO8Qzjl4rLA0gGBK3eJ5QEP0ztitLu7uc=; 
- b=OVtuGyrRC+YNC4o6x4DMekKoBbweRISRzTAUVR0LuF0p9BLVCJ18HuYB/Bgu+svpruAwe9XNswF30LfDFfCTid4ppHs3RC3dROWUz3gkCbjXP902VN5Mz4kqLe1dLp5aL0FnzNKXsRgCJjdLekEHbr4oyr6BdKzcVxBDXE4aEg8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770947951; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=C8g2vpgn9loO8Qzjl4rLA0gGBK3eJ5QEP0ztitLu7uc=;
- b=aBpLo5RYGAkKFZRMDKOHrGB+wC/x7OwFWnUd3JhZ1pAUH/Hv5LIxHkgxL6rS87HG
- WnhextBe14iyKxZbV901wKW6j4GUDgW11NaMHh2rLo6WjMmU47QTHaKvDou/LXRONKn
- P1pVT0ezVb90bKRi/vdhN2mD7iPYBTE+m3d+6qzU=
-Received: by mx.zohomail.com with SMTPS id 1770947950819885.6940747393908;
- Thu, 12 Feb 2026 17:59:10 -0800 (PST)
-Date: Thu, 12 Feb 2026 17:59:09 -0800
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- nouveau@lists.freedesktop.org,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v7 6/7] rust: Introduce iosys_map bindings
-Message-ID: <aY6FbSjQpGFk8oWK@um790>
-References: <20260206223431.693765-1-lyude@redhat.com>
- <20260206223431.693765-7-lyude@redhat.com>
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010043.outbound.protection.outlook.com
+ [40.93.198.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD5810E129
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 02:03:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EE65SVDjzIMV+j6wXVATk+2ITBOenVQliWj4jKn85MmXId7hyT4D3jX19q/IbdUV//01pCJzqleFiSz8x0RK0lkL2H8+YDTSqCCnOWn10mK3ID8D6PDl9zlU659ZeBV1dlxMlokvBQXQ2G5mluUqSM6/Ot6DyyUR97nZrBv6t6mGo+gBJyzXBjzZRLmNEQI76O6zPQK+Lj2wKQvOXuE220iRppPlm5h2KGq9Vz2TgkFK6+cI4Yi/wwPSZQzfep4Qiey3xIvp5+gKrN9CJsL5Rg9Rq82dqMesh0ftA+IDXNjFqaeDphO6AWsD2bSqGaAZJW5ribNqEAx1TURJY2I7tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=diNM1hQe3YE+uNf38Hrmt5HY22mrL7spVK3/CCqW7K0=;
+ b=qoQBcPtQ+WHQyLtFpLIcEHKPSKJIGYoFsmRJ2nPfJdSpP7VDRIkVB6oboZMDwVu0b8NtrOmQhwD5/NtAL+R7Tva1i/OXcInoIC6oOInLTuhybgvVhb9OrKisQ81BP/2TJfTdBXUD6vmbqPt6UVV/c/Vgmpej7sPs1qBRJl6FuR6EEkow38SsrPRyZZ5mEUd0slX7W5fIKFWyeWvSrYjaXcDxWupxF46ivg+MeRwPJNI3zgI0tl5Rzs5s1SiYbL3M1RVmHPjCBd2pscAt4AZqJfhyNzuFsMXX1WjgckPev0w+Khros6lRC7kjMfEoVdjnsi2TV1NaB/BfxehoUMC+uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=diNM1hQe3YE+uNf38Hrmt5HY22mrL7spVK3/CCqW7K0=;
+ b=qtWDQ7DKMWxLYR1mtsRpmay47/W+T+epYkZ5/1Yn8GMWJkqkMDYqFhMPg2PbngysmQ2X+3jlvLXJwb58g5WWeXGAySwWp+Dobe7acQ2ze4DFYZgMuX5r1q/H9qKuN87Az1ClhagEnat08+SfvysoFgxVE2sNJSvZlKo1+vy6UBsD/twLbuQf7rwXnV6CXh/XW6/w4ZaTBuuXMtPx6cdKSgGzxX628G+xYrFy1KohmsXA+036VEsqVgkfNvJSwLf5YEF6LufUtIQugmJBfRZEgnx/bKS916QR2tJwak4BLWfLpP/1vTgsvRrNTwf/vDCZoHJFkafsC/GpQ1vZonGKBw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by CY5PR12MB6622.namprd12.prod.outlook.com (2603:10b6:930:42::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.13; Fri, 13 Feb
+ 2026 02:03:41 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9611.008; Fri, 13 Feb 2026
+ 02:03:41 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Alper Ak <alperyasinak1@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Alper Ak <alperyasinak1@gmail.com>
+Subject: Re: [PATCH] gpu: host1x: Fix passing zero to ERR_PTR in
+ host1x_iommu_attach()
+Date: Fri, 13 Feb 2026 11:03:30 +0900
+Message-ID: <11263677.nUPlyArG6x@senjougahara>
+In-Reply-To: <20260209131426.37611-1-alperyasinak1@gmail.com>
+References: <20260209131426.37611-1-alperyasinak1@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TY4P286CA0009.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:26d::17) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260206223431.693765-7-lyude@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|CY5PR12MB6622:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f121fb4-21af-4130-58bf-08de6aa41c3c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|10070799003|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YmVzNmtXcWpYa0JjL000UGd5b0Z1V1ZqV3E1MjEvSmJXWGEyUjVJa0RucGJa?=
+ =?utf-8?B?YjFzRHJRYU4rQ3VlaVNHVGM1ekJoRS9pOE1QWUtOdDlWR1diWEtUcXdXUjBU?=
+ =?utf-8?B?eWV4SHZkS09TZExnMVZCSWZ6NzhuN3IyWkNuallGUkUrZFpwVE5pd3lyQ0t2?=
+ =?utf-8?B?QS9CTUZMaU01VldwUCthVjE0TkRWT3pGc1NtODU1YS82V0l1MzEvcVFrZ2Yw?=
+ =?utf-8?B?UDFrMDZjdyt2c0FGOWxwVTVML3BxQ2w5Zmc5S0NJYzBsMEpJQTI2TzJtdy81?=
+ =?utf-8?B?ZjZBRkpBUXBWSERVbUZNZnBPUlBNc1VaWFFuRnpLZ2hUMjBVOE5yQVpYUk1o?=
+ =?utf-8?B?aHNHQmc0UlFwdkZZV0hRM0RtMmZzRmtHZjhWdG9kNkh6akVlejBPeExwbjlX?=
+ =?utf-8?B?Vi9PSUgwb0JzK3hhUm1EYzBtRE5sY2tIOEswaXhqVlc5TTdOOHF0Sk5Yd2xM?=
+ =?utf-8?B?WU9zVVlNY0N1Uko3dDNZOTBXcUdnOHNSbzlTeUNvbm9YM1JmUW9ON2hzYUJX?=
+ =?utf-8?B?VGM1S1djUTlIMFA1R3ROSkkrcjdROHNzMEJtZmdXM3NxUkFCRGloaW9mb2s2?=
+ =?utf-8?B?Q0dmQWdGM29kdktnaFJPdmVKRm1HR1IxZFRpdlZzV05LR3hYbHlRelhDSHRr?=
+ =?utf-8?B?TldkY1NuNEZ3dXA3QlgzUk1JQkJuK25LUlNVZjQyZEl0SGZsMWlMOC85RWJu?=
+ =?utf-8?B?emEvVTZzTTVha0RoV1pHaE5ka0MzM21aRzBYaXVSZ2o5MHpKT3VLVVFIRTZS?=
+ =?utf-8?B?UjNCbTQxRUNOVnRTdjdrSUdzYWtsdVk2VWRucUU2SGdXRFJuMVh3ZVVFN1J3?=
+ =?utf-8?B?aHhMNHdHUWxINHh5cDhuYkpocnhJZG5Jaktuckw4TjlKa1pLU1ZmY29reFJr?=
+ =?utf-8?B?b0JOOENORG1DdlRaRjhKMGRrNEtRL3htWURPVnptUGE3RnlkaW1NS0s0L2NU?=
+ =?utf-8?B?UzJVNTNsU1NRdGluQ2Y4WjZKUkM3Rkt5aE9KUFdvK3lYSTlQdXlkd1lkT3hy?=
+ =?utf-8?B?VW4wd0szNmRzOXMzVVVDNkw4NFFsSDRvUHJsN3l2RGo2MmVsbDJ0OVZhdmtj?=
+ =?utf-8?B?TzdvRU1WcFViTDRyWldUUlByNlVURFZKdVZMOFJIMFpLSm1ENXdRSERrRWh1?=
+ =?utf-8?B?UmFCNWtINCthRmNDVHFtNlNKQUhoZDZQSnJUMXFnTHhEdWV2TmZZUTMxZThp?=
+ =?utf-8?B?MGY3Ny9ERXJld1NZK292ZzJSSG44Ky90L0hpdW9xLy9BK0NCK0NrYjZudFUy?=
+ =?utf-8?B?a1NDalFReHg3UG83ZG1MZHpzSGc5YVRaK1pzNVpnMkxEck9CcGdVQmhyVlFJ?=
+ =?utf-8?B?dUlQbW5aVW51MlNnTUhyV3VucmhtQWxPTHEvb0M2ZXNSUkYzcEpBZ016ZjJE?=
+ =?utf-8?B?RlpZWlFvSUlUejdVaFprRSszWVd4U2xnRGxNVTFTdTBaZHJKdm1QYjFPSjVy?=
+ =?utf-8?B?cVNtNWV5b2NUK3l1QVdrN1NwaWhWMVlGS1FUVTlFOFFxV1hGWk1vQWtUSDlw?=
+ =?utf-8?B?MHFPT2NXcGxUbXY0cHFtUC90THpsMXo4a2gzT0NPcTlyWDFsOE45eEQ4Z09I?=
+ =?utf-8?B?Z2VKWGRlZ0YzZFBWWjNZTnRVdFZTanltdlEvZEt0YnYrR09nQ21ZSHNwYVd1?=
+ =?utf-8?B?YklIWVRmS1Mzd2dSWGVRYWlvb2d1R25VYzZzSkNYb3BNYXFza1QzblJGbG8v?=
+ =?utf-8?B?b1o4RlVGcTFpNXh0YUFhWXozbEZuZTBVRnpBMDlhWFYwY3YrbUtkN0t5U3Nt?=
+ =?utf-8?B?TkdzL1JZWU51Z0g1cTdhKzBFN0lmZEtBR2U2YlAvdzZEZURnSC9ZeXF3SzZY?=
+ =?utf-8?B?dERnV0V3VU5FUjJLQjQvQ1VOZlF3dFdXZlhFU0tpbmw1ZUxCQWUwWG9GZkt0?=
+ =?utf-8?B?RTJLSlNDellGaWpFeXBNeEd0VWtnUTJKNVZvTHFObEVOSWFDOGgxeVd3OGZO?=
+ =?utf-8?B?TFdMd2FpSXY0aWJIdWprb002aW5uQXNVdTNkSlJVeVBOQ1VVcmJLOXNWMGR0?=
+ =?utf-8?B?Tmdxeld0bk9xV3NQSUcxQjRDMWlkTndsMis4Y1ZpeGROcHB6NENYWmFZaW5L?=
+ =?utf-8?B?d09abzdCWVNzYW5WTm5MNEtiY2lIYktSSG9ibnQvSytCSXJSWnpCN2FTUzNw?=
+ =?utf-8?Q?sK6o=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVVORk9Ubzl6K2dOUGZrYndMWHErdFFXdUJoR3o0YUpQSWdpRDAyaDcvVXNl?=
+ =?utf-8?B?ODlRMlIxRFRzSHpYQVlrVTVsbGFOeGdoT2dncU1Da0x4WXd1ZFdHREJHVmNQ?=
+ =?utf-8?B?ZExNaHZrWDZBVDNEWkJtMm0rZnFpb2QySkMzUUJLUmlad2VSVlk4eVRTSnVO?=
+ =?utf-8?B?VFNxVStOQnNpRWc2TjRGSGxmMkp4UlRMeVdrZS9sYWVyaTFKVjJSWVFzRlNp?=
+ =?utf-8?B?SkxYMWFva1ZUYlVkSHEyakRkSHJKS3lvUURIS2Zaejg1VDVMZXJoeDJ0ZlJ2?=
+ =?utf-8?B?RTJCUVI1aFZTczN5Um9Ta2Z6RWE1a2ljMHlLeS9uOERIN2Z0SVV6Q1VhcVV5?=
+ =?utf-8?B?bFBsMllSdXFpU3M5R01oSUZYa0ZIOE5ZSjNuc0FhWllzbXFTd1pJSmhsdVpT?=
+ =?utf-8?B?MWVNY1BYclFQK3ExcDRsZnBiZlVOblhNQ3VhZm93TGRDVm43bTBIR0dPTTQx?=
+ =?utf-8?B?UkwxNnpYNmVqNXJERWh1NDUybTJBR2ttZGxIM3FmTVBqMUFvbUE2TzVyNnEy?=
+ =?utf-8?B?YUhPQXFzY1RYRTJwUjE2NEhnb3N3SlRuV0VGcEN4Ky9EQVAyOFVScDRITVRK?=
+ =?utf-8?B?NFg5UVVKZ0taeVhkSy9YMkN1cHVpWGxvLzc5QzVEcC9PZzFFUDZoSFRlSkN2?=
+ =?utf-8?B?c3dwWjFhOUZNcnVUWEp3Wlp3VW1lNWpqZmozdU02NzBTYTNCZmRIb2JRWkpB?=
+ =?utf-8?B?ZmpMc1U0MnZiNCtvZ0VER3UwNGtzMENTSjRVTlQ3aG1QTWVpRkQxSnRWYVBC?=
+ =?utf-8?B?YXpPdUFiZXZWT3VFbXU0bEpsM29WUnpJak9qYk1wR0VJbTJsM1M3VFZOdllx?=
+ =?utf-8?B?Yk41YXZGa21rWXJ2dHhOTW96bXJjTTBhcC8zRW9mNDErVFcweURWOFdOQS94?=
+ =?utf-8?B?MWxTM1NUWlFLL3NIMGtYZHliK2d3dllUNXR4dWdUV1AyYTlHcVViTG5BWTY4?=
+ =?utf-8?B?d1NsM3k5Ym5jQ1ViZFlxSXVlVnAxeUlJWG1KZ212VExXcVpyWjlIVzlrdmla?=
+ =?utf-8?B?ZjNYNlZKZnJsTzN1a3I4S3IrSkpaa0F2S090M3BwQUpTMnpsRVRJQ3QzVTNa?=
+ =?utf-8?B?Z2tteVVnQktwNnJXQkZkM05ydGczb2VrK3dXcjM5UjQvZUxXejdXOUlrRDhk?=
+ =?utf-8?B?bWl6d2FZVHVyTlBldTlGQjNMcUlPZjhOK3ZNdUEranlBK1FEZE9PWkdJbG5x?=
+ =?utf-8?B?Z1MvZldxdnkrOWZiSFQvVEl3cWY0UlhJeWw1YmM2UnNEWENhcmt0TVp0ZzBj?=
+ =?utf-8?B?ejljazZ6cEM0NEpQZzVMa21DT3Fic0tiZXRYbXZBSys4Ky9kemJaVklCcmpI?=
+ =?utf-8?B?VEl3Szh2azlsQzRyOGZTUlBRcnovY0dyWFBmYTBQck0xclJQMmtyWm53ZHZI?=
+ =?utf-8?B?VFVXek5FSVNGbjYzMUZoMEJ3RnVGMy9pWUJZOW44TlVxd3NIOWZBVGFQRVhF?=
+ =?utf-8?B?TFN5TzRzWXNTRXcwZ3BJZDdnU2RJMFZQbysrTDFQcGtPM3RQTDljZW5UTUc5?=
+ =?utf-8?B?S1Q0YlQxOFZEb0c0UEZmd0RNMmlkNEVpNGhuYVc3OHQ4VWY3ZHM2Q0Z0b3pL?=
+ =?utf-8?B?Q2lZUC9BOHI4K3NGSm5RNXd4U1preVdJckl3RDFCdVdpbDhwdzl4QWg4WG1U?=
+ =?utf-8?B?K2JpZXo3emtTbkRMRk1JRm9VL2RlWGg3ajJ6SEhRWWh4dDUzLzRYbVM2VlE5?=
+ =?utf-8?B?bGtJNG96YVBjZXRrWWhPVjZteTVpZmloaW9Sd2xjbmVlT0tBK0ZPY2grcDAr?=
+ =?utf-8?B?YXZ3bnlYdjJobitQMGRLVmswNEgrbk45RkRzcC84d3dobUZxcW8rZ0xTMDRC?=
+ =?utf-8?B?SmpFblNza2EwWFdFSlRMMkJiaDFyci9oWE1sSTcrK0thR2lLczVCeWQ2cGN1?=
+ =?utf-8?B?WDZFM3dOZjdSM2ZjZ0szK1Fld1Y0TUxjTk5JemhTby9GOG84UVgxSXlVTXRO?=
+ =?utf-8?B?bHdNYnBnMUhaYzFwRjBWbHV4ZENEMVU4OTBCc1l1S2lQamtiK0t4N21tWDQ3?=
+ =?utf-8?B?MG9MdThVY0cwcDhjNTU3VVBhUitxdHNYcVI2UFJ2eDFkMGpFaFBxc3VZTUZ4?=
+ =?utf-8?B?a2h5aUpFbWpFc0paQUVVcGJQekhkZW4yYVY0VDNIcW4xRmpqUXJ1THk0UlNZ?=
+ =?utf-8?B?ekNxeVJwbmNjRHYwNVk4WWJaRkozbnBBWTh0SXVJZWxaUXFiVE5oaDlCc1dV?=
+ =?utf-8?B?cDc4VmFmc01MRFQ5VE1YUy9jazdwWUVEaDVDZ2plckxrYkxoWFdJZ1RMaUxG?=
+ =?utf-8?B?ejE4UkJmWEFCZXc4VCtPbVVCWFVHMXdBWkViRThQbEtXWUZZckUwcGgrSWFr?=
+ =?utf-8?B?RWlFOVZMMCtncmNnMHpKa2txcEJjb3pBNGNLUy96ZHBzTUxjRURWbWExRTYy?=
+ =?utf-8?Q?GuMbdDyeQ6nCwuXTJDgQuHTaPtQ5sdPBUw5pkI6AUOUVN?=
+X-MS-Exchange-AntiSpam-MessageData-1: BVSzl7+93TPE/A==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f121fb4-21af-4130-58bf-08de6aa41c3c
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 02:03:41.6122 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sVu5fhRow9m5L1rkGU5talGmmS/L9SiWHgRZWQxZdywOHIPT3m9v57qvYHLN/Vcja2Gr9887ek7XNy08+wwvjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6622
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,367 +179,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.81 / 15.00];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+]
-X-Rspamd-Queue-Id: D1950132562
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:alperyasinak1@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 29F3A13257F
 X-Rspamd-Action: no action
 
-Hi Lyude,
+On Monday, February 9, 2026 10:14=E2=80=AFPM Alper Ak wrote:
+> When iommu_attach_group() returns -ENODEV, the code sets err to 0 but
+> still falls through to the error path, returning ERR_PTR(0).
+>=20
+> Returning ERR_PTR(0) evaluates to NULL and breaks the ERR_PTR/IS_ERR
+> contract, causing the error to be silently ignored and potentially
+> leading to NULL pointer dereferences by callers.
+>=20
+> Fix this by returning NULL when err is zero, and ERR_PTR(err) only
+> for actual error codes.
 
-On Fri, Feb 06, 2026 at 05:34:30PM -0500, Lyude Paul wrote:
-> This introduces a set of bindings for working with iosys_map in rust code
-> using the new Io traits.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> 
+This commit message doesn't make sense. First you say that the function has=
+ a bug because ERR_PTR(0) evaluates to NULL and can cause problems when cal=
+lers don't handle NULL. Then you fix that by returning NULL explicitly.
+
+While returning NULL through ERR_PTR(0) may not be very beautiful, this fun=
+ction is defined to return NULL in certain cases and so the behavior is cor=
+rect.
+
+Mikko
+
+>=20
+> This issue was reported by the Smatch static analyzer.
+>=20
+> Fixes: 06867a362de0 ("gpu: host1x: Set DMA mask based on IOMMU setup")
+> Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
 > ---
-> V5:
-> - Fix incorrect field size being passed to iosys_map_memcpy_to()
-> - Add an additional unit test, basic_macro(), which can successfully catch
->   the above issue so it doesn't happen again in the future.
-> V6:
-> - Drop as_slice/as_mut_slice (Alice Rhyl)
-> V7:
-> - Start using Alexandre Courbot's wonderful Io, IoCapable and IoKnownSize
->   traits instead of trying to roll our own IO accessors. This also changes
->   the following:
->   - We don't have a custom AsBytes/FromBytes type that we carry around any
->     longer with maps
->   - We now have optional compile-time size checking
->   - We don't need our own unit tests anymore
->   - RawIoSysMap can be used for unsafe IO operations, because why not.
->   - IoSysMapRef::new() can fail now since it needs to ensure SIZE is valid.
->   - We don't implement Deref<RawIoSysMap> for IoSysMapRef any longer. The
->     main reason for this is that we want to avoid users having to manually
->     specify if they want the RawIoSysMap or IoSysMapRef variant functions
->     like io_read()/io_write().
->     This is fine IMHO, but to make sure things remain easy for APIs that
->     wrap around iosys map we make IoSysMapRef.raw_map pub(crate).
-> 
->  rust/helpers/helpers.c   |   1 +
->  rust/helpers/iosys_map.c |  34 +++++++
->  rust/kernel/iosys_map.rs | 211 +++++++++++++++++++++++++++++++++++++++
->  rust/kernel/lib.rs       |   1 +
->  4 files changed, 247 insertions(+)
->  create mode 100644 rust/helpers/iosys_map.c
->  create mode 100644 rust/kernel/iosys_map.rs
-> 
-> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-> index 1d3333cc0d2a8..bd8ad237aa02e 100644
-> --- a/rust/helpers/helpers.c
-> +++ b/rust/helpers/helpers.c
-> @@ -31,6 +31,7 @@
->  #include "irq.c"
->  #include "fs.c"
->  #include "io.c"
-> +#include "iosys_map.c"
->  #include "jump_label.c"
->  #include "kunit.c"
->  #include "maple_tree.c"
-> diff --git a/rust/helpers/iosys_map.c b/rust/helpers/iosys_map.c
-> new file mode 100644
-> index 0000000000000..6861d4ec48a4b
-> --- /dev/null
-> +++ b/rust/helpers/iosys_map.c
-> @@ -0,0 +1,34 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/iosys-map.h>
-> +#include <linux/types.h>
-> +
-> +#define rust_iosys_map_rd(type__)                                                       \
-> +	__rust_helper type__                                                            \
-> +	rust_helper_iosys_map_rd_ ## type__(const struct iosys_map *map, size_t offset) \
-> +	{                                                                               \
-> +		return iosys_map_rd(map, offset, type__);                               \
-> +	}
-> +#define rust_iosys_map_wr(type__)                                                       \
-> +	__rust_helper void                                                              \
-> +	rust_helper_iosys_map_wr_ ## type__(const struct iosys_map *map, size_t offset, \
-> +					    type__ value)                               \
-> +	{                                                                               \
-> +		iosys_map_wr(map, offset, type__, value);                               \
-> +	}
-> +
-> +rust_iosys_map_rd(u8);
-> +rust_iosys_map_rd(u16);
-> +rust_iosys_map_rd(u32);
-> +
-> +rust_iosys_map_wr(u8);
-> +rust_iosys_map_wr(u16);
-> +rust_iosys_map_wr(u32);
-> +
-> +#ifdef CONFIG_64BIT
-> +rust_iosys_map_rd(u64);
-> +rust_iosys_map_wr(u64);
-> +#endif
-> +
-> +#undef rust_iosys_map_rd
-> +#undef rust_iosys_map_wr
-> diff --git a/rust/kernel/iosys_map.rs b/rust/kernel/iosys_map.rs
-> new file mode 100644
-> index 0000000000000..2070f0fb42cb8
-> --- /dev/null
-> +++ b/rust/kernel/iosys_map.rs
-> @@ -0,0 +1,211 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! IO-agnostic memory mapping interfaces.
-> +//!
-> +//! This crate provides bindings for the `struct iosys_map` type, which provides a common interface
-> +//! for memory mappings which can reside within coherent memory, or within IO memory.
-> +//!
-> +//! C header: [`include/linux/iosys-map.h`](srctree/include/linux/pci.h)
-> +
-> +use crate::{
-> +    error::code::*,
-> +    io::{
-> +        Io,
-> +        IoCapable,
-> +        IoKnownSize, //
-> +    },
-> +    prelude::*, //
-> +};
-> +use bindings;
-> +use core::marker::PhantomData;
-> +
-> +/// Raw unsized representation of a `struct iosys_map`.
-> +///
-> +/// This struct is a transparent wrapper around `struct iosys_map`. The C API does not provide the
-> +/// size of the mapping by default, and thus this type also does not include the size of the
-> +/// mapping. As such, it cannot be used for actually accessing the underlying data pointed to by the
-> +/// mapping.
-> +///
-> +/// With the exception of kernel crates which may provide their own wrappers around `RawIoSysMap`,
-> +/// users will typically not interact with this type directly.
-> +#[repr(transparent)]
-> +pub struct RawIoSysMap<const SIZE: usize = 0>(bindings::iosys_map);
-> +
-> +impl<const SIZE: usize> RawIoSysMap<SIZE> {
-> +    /// Convert from a raw `bindings::iosys_map`.
-> +    #[expect(unused)]
-> +    #[inline]
-> +    pub(crate) fn from_raw(val: bindings::iosys_map) -> Self {
-> +        Self(val)
-> +    }
-> +
-> +    /// Returns whether the mapping is within IO memory space or not.
-> +    #[inline]
-> +    pub fn is_iomem(&self) -> bool {
-> +        self.0.is_iomem
-> +    }
-> +
-> +    /// Convert from a `RawIoSysMap<SIZE>` to a raw `bindings::iosys_map` ref.
-> +    #[expect(unused)]
-> +    #[inline]
-> +    pub(crate) fn as_raw(&self) -> &bindings::iosys_map {
-> +        &self.0
-> +    }
-> +
-> +    /// Convert from a `RawIoSysMap<SIZE>` to a raw mutable `bindings::iosys_map` ref.
-> +    #[allow(unused)]
-> +    #[inline]
-> +    pub(crate) fn as_raw_mut(&mut self) -> &mut bindings::iosys_map {
-> +        &mut self.0
-> +    }
-> +
-> +    /// Returns the address pointed to by this iosys map.
-> +    ///
-> +    /// Note that this address is not guaranteed to be valid, and may or may not reside in I/O
-> +    /// memory.
-> +    #[inline]
-> +    pub fn addr(&self) -> usize {
-> +        (if self.is_iomem() {
-> +            // SAFETY: We confirmed above that this iosys map is contained within iomem, so it's
-> +            // safe to read vaddr_iomem
-> +            unsafe { self.0.__bindgen_anon_1.vaddr_iomem }
-> +        } else {
-> +            // SAFETY: We confirmed above that this iosys map is not contaned within iomem, so it's
-> +            // safe to read vaddr.
-> +            unsafe { self.0.__bindgen_anon_1.vaddr }
-> +        }) as usize
-> +    }
-> +}
-> +
-> +// SAFETY: As we make no guarantees about the validity of the mapping, there's no issue with sending
-> +// this type between threads.
-> +unsafe impl<const SIZE: usize> Send for RawIoSysMap<SIZE> {}
-> +
-> +impl<const SIZE: usize> Clone for RawIoSysMap<SIZE> {
-> +    fn clone(&self) -> Self {
-> +        Self(self.0)
-> +    }
-> +}
-> +
-> +macro_rules! impl_raw_iosys_map_io_capable {
-> +    ($ty:ty, $read_fn:ident, $write_fn:ident) => {
-> +        impl<const SIZE: usize> IoCapable<$ty> for RawIoSysMap<SIZE> {
-> +            #[inline(always)]
-> +            unsafe fn io_read(&self, address: usize) -> $ty {
-> +                // SAFETY: By the trait invariant `address` is a valid address for iosys map
-> +                // operations.
-> +                unsafe { bindings::$read_fn(&self.0, address) }
-> +            }
-> +
-> +            #[inline(always)]
-> +            unsafe fn io_write(&self, value: $ty, address: usize) {
-> +                // SAFETY: By the trait invariant `address` is a valid address for iosys map
-> +                // operations.
-> +                unsafe { bindings::$write_fn(&self.0, address, value) };
-> +            }
-> +        }
-> +    };
-> +}
-> +
+>  drivers/gpu/host1x/dev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index 3f475f0e6545..46a570b861ac 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -450,7 +450,7 @@ static struct iommu_domain *host1x_iommu_attach(struc=
+t host1x *host)
+>  	iommu_group_put(host->group);
+>  	host->group =3D NULL;
+> =20
+> -	return ERR_PTR(err);
+> +	return err ? ERR_PTR(err) : NULL;
+>  }
+> =20
+>  static int host1x_iommu_init(struct host1x *host)
+> --=20
+> 2.43.0
+>=20
+>=20
 
-I think there might be a mismatch between the absolute address being
-passed to these read and write functions and the bindings helpers
-that expect an offset argument.
 
-This crashed Tyr when I tried to write the firmware in u8 chunks at
-incremental offsets. But if i just calculated the offset and passed that
-instead of the absolute address, this worked fine:
 
-  let offset = address - self.addr();
-  unsafe { bindings::$write_fn(&self.0, offset, value) };
-
-Here's some of the call trace:
-
-[   31.553727] tyr fb000000.gpu: supply sram not found, using dummy regulator
-[   31.555096] tyr fb000000.gpu: mali-unknown id 0xa867 major 0x67 minor 0x0 status 0x5
-[   31.555778] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-[   31.556521] tyr fb000000.gpu: shader_present=0x0000000000050005 l2_present=0x0000000000000001 tiler_present=0x0000000000000001
-[   31.557868] stackdepot: allocating hash table of 524288 entries via kvcalloc
-[  OK  ] Started systemd-tmpfiles-clean.tim…y Cleanup of Temporary Directories.
-[   31.562424] stackdepot: allocating space for 8192 stack pools via kvcalloc
-[  OK  ] Reached target timers.target - Timer Units.
-[   31.563676] tyr: Firmware protected mode entry not supported, ignoring
-[   31.571391] Unable to handle kernel paging request at virtual address 0000000000800069
-[   31.572762] Mem abort info:
-[   31.573027]   ESR = 0x0000000096000021
-[   31.573402]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   31.573878]   SET = 0, FnV = 0
-[   31.574157]   EA = 0, S1PTW = 0
-[   31.574442]   FSC = 0x21: alignment fault
-[  OK  ] Listening on dbus.socket - D-Bus System Message Bus Socket.
-[   31.593348] Data abort info:
-[   31.593628]   ISV = 0, ISS = 0x00000021, ISS2 = 0x00000000
-[   31.594117]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[   31.594567]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[   31.595042] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000105e50000
-[   31.595613] [0000000000800069] pgd=0000000000000000, p4d=0000000000000000
-[   31.596434] Internal error: Oops: 0000000096000021 [#1]  SMP
-[   31.596936] Modules linked in: snd tyr(+) soundcore sha256 cfg80211 rfkill pci_endpoint_test fuse dm_mod ipv6
-[   31.597830] CPU: 3 UID: 0 PID: 241 Comm: (udev-worker) Not tainted 6.19.0-rc5 #282 PREEMPT
-[   31.598561] Hardware name: Radxa ROCK 5B (DT)
-[   31.598944] pstate: 00400009 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   31.599554] pc : __d_lookup_rcu+0xbc/0x168
-[   31.599921] lr : __d_lookup_rcu+0x60/0x168
-[   31.600283] sp : ffff800081ebba00
-[   31.600574] x29: ffff800081ebba00 x28: 0000000000000049 x27: ffff00010d07002b
-[   31.601205] x26: 0000000000000081 x25: 000000000006915e x24: ffff0002f6600000
-[   31.601848] x23: ffff00010396a040 x22: ffff000102098460 x21: 000000036915e207
-[   31.601859] x20: ffff000101e10af8 x19: ffff800081ebbcac x18: 2f64662f666c6573
-[   31.601867] x17: ffffff00666c6573 x16: 00000000fffffffc x15: 0000000000003431
-[   31.601875] x14: 000000000000000f x13: 0080205100800107 x12: 0000000000800069
-[   31.601882] x11: ffffffffffffffff x10: 0000000000000018 x9 : 0000000000000003
-[   31.601890] x8 : 00000000008000a1 x7 : ffffb9d13df173c8 x6 : 0000000000000000
-[   31.601897] x5 : 0000000000000000 x4 : 0000000000000010 x3 : ffffffffffff0a00
-[   31.601905] x2 : ffff800081ebbcac x1 : ffffb9d1406be718 x0 : 0000000000000001
-[   31.601913] Call trace:
-[   31.601915]  __d_lookup_rcu+0xbc/0x168 (P)
-[   31.601922]  lookup_fast+0x98/0x174
-[   31.601929]  link_path_walk+0x280/0x528
-[   31.601935]  path_lookupat+0x60/0x1f0
-[   31.601941]  do_o_path+0x34/0xb4
-[   31.601947]  path_openat+0xccc/0xe34
-[   31.601953]  do_filp_open+0xc0/0x170
-[   31.601958]  do_sys_openat2+0x88/0x10c
-[   31.601963]  __arm64_sys_openat+0x70/0x9c
-[   31.601968]  invoke_syscall+0x40/0xcc
-[   31.601974]  el0_svc_common+0x80/0xd8
-[   31.601979]  do_el0_svc+0x1c/0x28
-[   31.601984]  el0_svc+0x54/0x1d4
-[   31.601991]  el0t_64_sync_handler+0x84/0x12c
-[   31.601997]  el0t_64_sync+0x198/0x19c
-[   31.602005] Code: 14000003 f9400108 b4000428 d100e10c (88dffd8c)
-[   31.602009] ---[ end trace 0000000000000000 ]---
-[  OK  ] Listening on sshd-unix-local.socke…temd-ssh-generator, AF_UNIX Local).
-[   31.620067] mc: Linux media interface: v0.10
-[   31.623483] [drm] Initialized panthor 1.5.0 for fb000000.gpu on minor 0
-[   31.623765] Unable to handle kernel paging request at virtual address 00802a4d0080284d
-[   31.624285] tyr fb000000.gpu: Tyr initialized correctly.
-[   31.624752] Mem abort info:
-[   31.624754]   ESR = 0x0000000096000004
-[   31.625847]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   31.626310]   SET = 0, FnV = 0
-[   31.626578]   EA = 0, S1PTW = 0
-[   31.626853]   FSC = 0x04: level 0 translation fault
-[   31.627277] Data abort info:
-[   31.627529]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-[   31.628006]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[   31.628447]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[   31.628910] [00802a4d0080284d] address between user and kernel address ranges
-[   31.629535] Internal error: Oops: 0000000096000004 [#2]  SMP
-[   31.630030] Modules linked in: mc drm_client_lib snd tyr soundcore sha256 cfg80211 rfkill pci_endpoint_test fuse dm_mod ipv6
-[   31.631017] CPU: 4 UID: 0 PID: 225 Comm: systemd-udevd Tainted: G      D             6.19.0-rc5 #282 PREEMPT
-[   31.631877] Tainted: [D]=DIE
-[   31.632129] Hardware name: Radxa ROCK 5B (DT)
-[   31.632506] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   31.633111] pc : ___d_drop+0xd8/0x144
-[   31.633433] lr : d_invalidate+0x3c/0x110
-[   31.633776] sp : ffff800081d3ba70
-[   31.634064] x29: ffff800081d3ba90 x28: 0000000000000001 x27: ffffb9d140bfa000
-[   31.634685] x26: ffff0001039b5108 x25: ffff00010396a000 x24: ffffb9d140166275
-[   31.635305] x23: ffffb9d140bfa000 x22: ffffb9d140152f3a x21: ffff000104076000
-[   31.635925] x20: ffff00010e520098 x19: ffff00010396a000 x18: 0000000000000000
-[   31.636545] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-[   31.637165] x14: 0000000000000000 x13: ffff00010792b8f0 x12: 000000000000017a
-[   31.637785] x11: 00000000008000a1 x10: 00802a4d0080284d x9 : ffff0002f6604010
-[   31.638405] x8 : ffff000105bfcd40 x7 : 0000000000000000 x6 : ffffb9d13e272c60
-[   31.639026] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-[   31.639646] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00010396a000
-[   31.640266] Call trace:
-[   31.640479]  ___d_drop+0xd8/0x144 (P)
-[   31.640800]  d_invalidate+0x3c/0x110
-[   31.641113]  proc_invalidate_siblings_dcache+0x244/0x2b8
-[   31.641577]  proc_flush_pid+0x1c/0x28
-[   31.641897]  release_task+0x560/0x668
-[   31.642218]  wait_consider_task+0x5a0/0xb44
-[   31.642582]  __do_wait+0x154/0x1f0
-[   31.642879]  do_wait+0x84/0x16c
-[   31.643154]  __arm64_sys_waitid+0xac/0x218
-[   31.643512]  invoke_syscall+0x40/0xcc
-[   31.643833]  el0_svc_common+0x80/0xd8
-[   31.644152]  do_el0_svc+0x1c/0x28
-[   31.644441]  el0_svc+0x54/0x1d4
-[   31.644718]  el0t_64_sync_handler+0x84/0x12c
-[   31.645090]  el0t_64_sync+0x198/0x19c
-[   31.645412] Code: 5280002a f85f83a0 17fffff1 a944280b (f940014c)
-[   31.645941] ---[ end trace 0000000000000000 ]---
-
-thanks,
-Deborah
 
