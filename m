@@ -2,94 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uJeCHsJzjmnnCQEAu9opvQ
+	id UKjzNil8jmmJCgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 01:43:46 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 02:19:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC034132211
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 01:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457B11323AD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 02:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DC410E038;
-	Fri, 13 Feb 2026 00:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7554010E2CA;
+	Fri, 13 Feb 2026 01:19:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gGLQ+0Lj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c4GaT3OP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com
- [74.125.224.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1680410E038
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 00:43:41 +0000 (UTC)
-Received: by mail-yx1-f44.google.com with SMTP id
- 956f58d0204a3-64ad46a44easo397716d50.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 16:43:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770943420; cv=none;
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com
+ [74.125.224.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D2B10E2C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 01:19:32 +0000 (UTC)
+Received: by mail-yx1-f53.google.com with SMTP id
+ 956f58d0204a3-64aea64bf15so454788d50.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 17:19:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770945572; cv=none;
  d=google.com; s=arc-20240605;
- b=Nr+q8Z9+H1XGkwWQD/ZEN2L8Z8eq9iRlomkigBu/VCJE+E/3FlWiSlaACY2YidXOBd
- 4ZwcZNsxw6jsA7cQjsoaHIUqgf1V2Z1OOKYW90wtVQ/0W1cEQoWuZymx6lTf5qrl2bH+
- kBsQ5ee8eSFR5J0lxdjPUjkc8/a+/NNo4HHOKV8PC2Cn035leP1MZJPZOeZQdlmLAwzN
- 3rlzuonSE6+CnB+s8mXNJi7c/KzDMqOVTjB7uoOCfIvESDVJf2JEM0TmdVhNVK+R8TY0
- RMPyUrED6xBfHVNICqd/NxNuRQUsDELwilCtGcDu61APdh/DntuINxNBfTUuFzVBW7oC
- LsGQ==
+ b=FRGgY8SrGfjk2wki+wwX5/Iu9ggXsTRXoyj163rF1mSbmAOpk+xvIRBRdp3BzXPT6I
+ D6RnXeyIEYj5QH91JPNFpZnPwpMXRBiJ+GBgekN6H4Ojo1ID+gUkJSZIaPfC9OwUMCgW
+ uy+q3uXvpOyzxOy6+X7Tlc0X+SFW6ALkxXu4t1NGhOwxyZi5QK0RygRa4p0kYYL8GFDg
+ A6G/mj07M355U2qzuPifyEfTJy0cnBKlwq/3EWyZQqwXU3UEhwAVSUNWQ8VuGME1R3qI
+ FMuCQdZjTBxUyEMbrQwNz6sXDU3OLS3w9cbOvx4X1Q/d9S8AdiN6Y40otEoutsZ9IRx2
+ ZNew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=eMMPVLR9una+hQqe1eaCONVqcdhUTli3KSOKNaBx1Pc=;
- fh=hSqOd5q9kf0BZjBmvQluBuB6it7H/PhlAr13Q9nbdy8=;
- b=WV5b+YqP6RkN/9J+lzxiymdqltoCyuuJCLln6HwofuAyAUjvbUfBzipD2XEf0APE9i
- k9vos6cqjkPH7av+TaPKmwE3ffcZUwJTKlK9/x9/NaU3qzdI/dr1KLm11PFz6BRN150r
- WjsU9vpWIvWEgtJ3k63r5ee7zrppP2QKWaUt319K3VhY1unaty4pgU2HndWo8TwK/C4M
- si+xzoNcVW2sBDplWeP5yl+ui1kIBvNKOeZ2usQGFvyEq86k8u23KdSKJpd89DpAaONl
- kwOiRF5eRqTPw44D25JqR0iRhOGQP4rdoarZEezRqe6vjG90R+TmFkjREGV+HZlbsZY+
- +HRw==; darn=lists.freedesktop.org
+ bh=yApDU2Ws4OOhk6CUVKmDGIKXEqeT5B8RdBxIxaf/qoM=;
+ fh=11YCRmOKu/W602EVwZG8Q8Gc+acZzK5KbMxdNXAL8xQ=;
+ b=GYv9UTLTa0tS4R7kYccpwDKZ61dNa/IV0uTslRrqCnE93WpCo9Xu7HjhEBOv25JJcz
+ jnz1p+4Kf9FwprVu62fInoNpC3xM2tVc+IpohdAMtUQcjymjDYo02JZsQgJ0+UmYJo4l
+ mvf/aLeDRzBAwu9cBjKkL+HTVVQAX07f+pOad5qicFrOQsiNdT3dulL/SD3FHDRe24Qy
+ VCEIdkSdj7iZH33qF3450QIF7Tc1inpP2cj92dPTw9EP9p7nlBINhwGJNQxN6IIPzwKE
+ BOofQB4nDUkojgkZug1+/irOmJrNalrgRoMeWGh4qkDVQb+Lonz/tdGQnvfINzNic5wY
+ NwlQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770943420; x=1771548220; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770945572; x=1771550372; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eMMPVLR9una+hQqe1eaCONVqcdhUTli3KSOKNaBx1Pc=;
- b=gGLQ+0LjX3+pGMtFwoACRmcYA7Bp58zAiYRiLWCs5eNeVUmiEuU6CjVUfiUQhumoU+
- SUMxo5srXDKsgkEIlkg+AHS8LnJgX/wh2KUNw/koV61OLPcJpcBcOoyFDvVbbtFKsZFn
- nrkJCMbM5HnwgvRM6yoUE9eFlIOMJ3bxqGDuFMmrD2TpwLE0cifRwBTPqvAwMGw4UhA6
- EuXrSExHr9tievxp1MyDbA1TsIMA2fxglbQEK9laDPLlOTisGoD0iI48dhrQZJhzzuu3
- f2Fkq/UkRao4Tfk2fKuIJPuTXbvWiRIq/xBovOsYF3IRIXbOaTtdjt0TNWXprt6a/X6Z
- xo6g==
+ bh=yApDU2Ws4OOhk6CUVKmDGIKXEqeT5B8RdBxIxaf/qoM=;
+ b=c4GaT3OPd2usUXPTBGNG+MTldO2ZnguIn2w2nl9EpC687AQRYS1cNppeBmbU9G5owV
+ N4I3mdI6r0NZOSNuvyF+HiOPt1sNMKmEulTgNez4c4AoADBhKQvH2XPF7oTK+OoDtqPU
+ /8yqBg8pofZlNR+mNcVDYzlvLiRXM3IfbHzOBvuG5hHc8Gc4pVuVQgY3PyAcwEUsWcaa
+ 3DLyTavrd3m2K8XA4lbiBT2b52QfvZ/f4aM7JxWYE+Ejus8zMrNji79bDJguLB/zgdst
+ ZqsFa5Ik0kuIrD3ktsjtXfPPhGwVE1gbTic7jmkiDypkSDbIkKf1cmR1FUAehunCBBfv
+ Xz2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770943420; x=1771548220;
+ d=1e100.net; s=20230601; t=1770945572; x=1771550372;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=eMMPVLR9una+hQqe1eaCONVqcdhUTli3KSOKNaBx1Pc=;
- b=ujXXWovp2em+sTI9sc8RFwF6IY+f7/Wv1zjZUwOCM6wNNCSnSYJw3rVjuz1seChz8B
- sBQlqlg1mLgnBAnIyQH/WH66LThosN6x3Vk1fTBPB6GRl91ozbTd/kTGSUZEBD5VdfFg
- LCz59G+C4WpgaVgWLVobFq5wsfZWD0QsizukoU7xSatajgnjq5Id/Thzj0oULJ8ergtz
- VDw/vicLAUFqP5af/MqMxQt6ZAnjEPH0aJCV9jgrMTdCciD2CMpPq5wv9kFiHaqhRtbC
- 6/TEAd7B7qXXqL3UlLHCGWZuCxLtCbL0wnz18WWTXIklk9WMQuSNIrWwFOYmitdQitrx
- LKMw==
+ bh=yApDU2Ws4OOhk6CUVKmDGIKXEqeT5B8RdBxIxaf/qoM=;
+ b=pe6XaAFMz4egwl5V+QbInlE+mr5kZduX/rRt+bBif97YrWMAF9+3l6gQMNYasISfJ3
+ +Co4ycWDYflXMaTLUnlIRb1xZfEw/5qLjTOUEZvjc8TtHy+bgoCMtgeqkItavaJcHZ/v
+ sIWc3rCHmmfcbdf+9n4EBKEf0dZ/xm+8XuvRbRhVOfxn1+UVS0V3inWbOlZuFSFheoDQ
+ quYqLZNISG7/033zr02n5DJtBw9CXotUXHpm+fTj1ZICZX13nRqRTZU4KVwp3YfYSyVb
+ lGnB9IoceULHv6ycHpfa1jeZFaRFQsYonomSdqWYgBHcgplN8nEqAvs4hYNpK4LnKl4h
+ +srA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXQaaIwirz0qwKx6/B2E3/kwGvDC9xxdmQ5ySEpXj7a7NPQjBfrF+5h7O0KLvyClia97mVcUWVANcA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdymUJf7NPvSjJQEj+Kogr+ndFjac5TDMcx8WgBcTCex84bnwl
- apI4GkWWGSN4hlWUR6/PIP6Fd7uBucPUc+gjzXVYqczxJrH/b4TLOGKLBo/+l+6cTE5oTCvbA23
- YDpfLFAuX9kAi+mczveERfbOUQjLs+kI=
-X-Gm-Gg: AZuq6aIbGM2T5tL47SsD46Mcvgozx6L+zkrw22vowVFN85gFO6OVbG4WmThkl1Kc85N
- 4BYV0ny6+OsfP1RnxDWeQkZ2z/W9nQNM/3P505vzG/tXiwfWMRYKQk+vgBDySM5i82MzIEzxcyw
- 2QzLFJxsb0r2dQkgfkLkcQp9MbDHGNPkKjXS8/U0c9wFTEPxqTiNtbJEO/qVSSn3xuHruZ74kiR
- oT1Pm1y81+ZGfkupWzsxerqqgV8JeyU/BP73dDmzjYb98X6GVZ9FXFK/qhou97UtxM9yLxSjyk4
- ZgZMQGJxnCLjTltVlYiEYodUFzexp5Qz0HWxe+yr
-X-Received: by 2002:a05:690e:1503:b0:649:d40c:7ee5 with SMTP id
- 956f58d0204a3-64c14dcbd22mr721327d50.79.1770943419870; Thu, 12 Feb 2026
- 16:43:39 -0800 (PST)
+ AJvYcCUfCB1bHmVkQVjJKO69JNGAA+NpBghtugz9Wv9Rnry15aay8Ih9XKC3mAoqdMohEsNJEnhRedqEjzc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzYGcsnWxbG8zl5V+0/wRM2Ov3P/kgbGFnJIIYjVZ2cGn/yQOS
+ LSaiEObphMlWu8gxnrO9MnmHZ9eV6yoznt4SXSGkRjNGkOp3HD1sSVsYxLbGth/WeG//VUe4vha
+ 10l5QsQaX74/M+TlEvRyaF3gQ5pEEJGY=
+X-Gm-Gg: AZuq6aIBDCaDovtdXkRdxW/m0DoMHGwNBzL9Nnr4x+fIiGj+bFCESU8Onj4hhR0POvu
+ nd1V4BjGTxetGyHZAPAGrYV0dcrrhdCP4TfecMuCDS4ocelq8miTA6xLcWLgwlMU/MnfdDuqNPs
+ 27Zg+6zI37DJiPMzyBp3zU4+DFWJMGAukKjR9sZhUDSao5eOuFWupiWPg+1T+MPqcgK9338COBw
+ ZHQhMNWzpS0KSgvFNa5RWQGGPHQA3K7yiyrQoFFWhb4VoNr857t9jJaZO0WmoBBe6lysl2NgDiC
+ zbLvRtpfr23UrPpcT/XvGipOawEeUphEUeTvLA6D
+X-Received: by 2002:a05:690c:7201:b0:794:c2fc:73dc with SMTP id
+ 00721157ae682-797a0cf0b77mr3597887b3.64.1770945571726; Thu, 12 Feb 2026
+ 17:19:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
  <20260211080343.1887134-10-boris.brezillon@collabora.com>
 In-Reply-To: <20260211080343.1887134-10-boris.brezillon@collabora.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 12 Feb 2026 16:43:29 -0800
-X-Gm-Features: AZwV_Qj_VOQvptlS5TjnE_S-TNVAFw5BXMpqC7VGXbPQXYaqyOzg9dpTVQWYEp4
-Message-ID: <CAPaKu7TNz83z=Y43tnb+yrSUMKbD6ztLZvtQ80Wzzqps4jkK4g@mail.gmail.com>
+Date: Thu, 12 Feb 2026 17:19:20 -0800
+X-Gm-Features: AZwV_QhbOxm3zfMmexNzJ-2dT1v9sY8tE-lapFDDURi4gLvsCkTC1b7obcs3F_w
+Message-ID: <CAPaKu7SRZDi3yqPie_C8xh+KmENNKtm95im+v404fWK07_GytA@mail.gmail.com>
 Subject: Re: [PATCH v3 9/9] drm/panthor: Add a GEM shrinker
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
@@ -129,7 +129,7 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -155,41 +155,71 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: CC034132211
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 457B11323AD
 X-Rspamd-Action: no action
 
 On Wed, Feb 11, 2026 at 12:22=E2=80=AFAM Boris Brezillon
 <boris.brezillon@collabora.com> wrote:
 [...]
-> +void panthor_vm_update_bo_reclaim_lru_locked(struct panthor_gem_object *=
-bo)
+> +static unsigned long
+> +panthor_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_contr=
+ol *sc)
 > +{
-> +       struct panthor_device *ptdev =3D container_of(bo->base.dev, struc=
-t panthor_device, base);
-> +       struct panthor_vm *vm =3D NULL;
-> +       struct drm_gpuvm_bo *vm_bo;
+> +       struct panthor_device *ptdev =3D shrinker->private_data;
+> +       unsigned long remaining =3D 0;
+> +       unsigned long freed =3D 0;
 > +
-> +       dma_resv_assert_held(bo->base.resv);
-> +       lockdep_assert_held(&bo->base.gpuva.lock);
+> +       if (!can_swap())
+> +               goto out;
 > +
-> +       drm_gem_for_each_gpuvm_bo(vm_bo, &bo->base) {
-> +               /* We're only supposed to have one vm_bo in the list if w=
-e get there. */
-A bo that is validated in one vm but evicted in another is considered
-PANTHOR_GEM_GPU_MAPPED_PRIVATE by is_gpu_mapped. We should check for
-vm_bo->evicted too.
+> +       freed +=3D drm_gem_lru_scan(&ptdev->reclaim.unused,
+> +                                 sc->nr_to_scan - freed, &remaining,
+> +                                 panthor_gem_try_evict, NULL);
+> +       if (freed >=3D sc->nr_to_scan)
+> +               goto out;
+> +
+> +       freed +=3D drm_gem_lru_scan(&ptdev->reclaim.mmapped,
+> +                                 sc->nr_to_scan - freed, &remaining,
+> +                                 panthor_gem_try_evict, NULL);
+> +       if (freed >=3D sc->nr_to_scan)
+> +               goto out;
+> +
+Do we need to check for can_block here? panthor_gem_try_evict will
+block for bos on lrus below.
 
 
-> +               drm_WARN_ON(&ptdev->base, vm);
-> +               vm =3D container_of(vm_bo->vm, struct panthor_vm, base);
+> +       freed +=3D panthor_mmu_reclaim_priv_bos(ptdev, sc->nr_to_scan - f=
+reed,
+> +                                             &remaining, panthor_gem_try=
+_evict);
+> +       if (freed >=3D sc->nr_to_scan)
+> +               goto out;
 > +
-> +               mutex_lock(&ptdev->reclaim.lock);
-> +               drm_gem_lru_move_tail_locked(&vm->reclaim.lru, &bo->base)=
-;
-> +               if (list_empty(&vm->reclaim.lru_node))
-> +                       list_move(&vm->reclaim.lru_node, &ptdev->reclaim.=
-vms);
-> +               mutex_unlock(&ptdev->reclaim.lock);
-> +       }
+> +       freed +=3D drm_gem_lru_scan(&ptdev->reclaim.gpu_mapped_shared,
+> +                                 sc->nr_to_scan - freed, &remaining,
+> +                                 panthor_gem_try_evict, NULL);
+> +
+> +out:
+> +#ifdef CONFIG_DEBUG_FS
+> +       /* This is racy, but that's okay, because this is just debugfs
+> +        * reporting and doesn't need to be accurate.
+> +        */
+> +       ptdev->reclaim.nr_pages_reclaimed_on_last_scan =3D freed;
+> +#endif
+> +
+> +       /* If there are things to reclaim, try a couple times before givi=
+ng up. */
+> +       if (!freed && remaining > 0 &&
+> +           atomic_inc_return(&ptdev->reclaim.retry_count) < 2)
+> +               return 0;
+> +
+> +       atomic_set(&ptdev->reclaim.retry_count, 0);
+> +
+> +       if (freed)
+> +               return freed;
+> +
+> +       /* There's nothing left to reclaim, or the resources are contende=
+d. Give up now. */
+> +       return SHRINK_STOP;
 > +}
