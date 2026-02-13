@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EPnVKiCkj2nASAEAu9opvQ
+	id GA4UEeumj2kVSQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 23:22:24 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 23:34:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D59D139C5C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 23:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D213139CE5
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 23:34:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFE210E308;
-	Fri, 13 Feb 2026 22:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F94910E85A;
+	Fri, 13 Feb 2026 22:34:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JWFVI9Ff";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n2F6P/Pm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8DC10E308;
- Fri, 13 Feb 2026 22:22:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5060042AF9;
- Fri, 13 Feb 2026 22:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B957C116C6;
- Fri, 13 Feb 2026 22:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771021339;
- bh=JZG9zpO3v26S4FfIoUMCHmNqp0Ksq9OU7wxZoT298/g=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=JWFVI9FfTpCRFluJKQFdWPC0eQ8LKFMbZkCTuWMLXd8u8taybBVw59hcDTR/NKju8
- d2iCaDIrlDcc5iN8tNy8KRlXUkArJpVfICH8XY9ENMkLNTniEHVjP8vYZ333vGD4Xk
- FaUBJgnq/iGGYAclZspPyB70Smyh8A3uEPnwkG9C+KV5QxDzIQal5/zxRR8yg9rwqB
- Ew9AYbLgpD6doQp8Hx4lVBl4drJrHNaAUetdPJ5iyjhsQXaOORdJ9DpM6+H5DTnQu+
- OBEmddjmnjhSc+U+Mb4c1B0nJsGJfuthVTJ+QfdXu2FhEqC/m1CFZ7/nQuVrg42idq
- fy1ivTUTXAMgw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Feb 2026 23:22:15 +0100
-Message-Id: <DGE6O1OYR4F3.2PSFQLJ8XXJ78@kernel.org>
-Cc: "Lyude Paul" <lyude@redhat.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Mary Guillemard"
- <mary@mary.zone>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-To: "M Henning" <mhenning@darkrefraction.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 1/2] drm/nouveau: Fetch zcull info from device
-References: <20260205-zcull3-v2-0-ac572f38cc7b@darkrefraction.com>
- <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
- <DGE036OEW8ZK.1PX0DRV8R9EVB@kernel.org>
- <CAAgWFh0zX=u7OZYq3QBrs0ySve897LXb1PN9QFzhYg0gtHy5wQ@mail.gmail.com>
-In-Reply-To: <CAAgWFh0zX=u7OZYq3QBrs0ySve897LXb1PN9QFzhYg0gtHy5wQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FB110E858;
+ Fri, 13 Feb 2026 22:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771022054; x=1802558054;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rywrnSDV5XaTK+6jmwX+nLPivyxLAWGotxijAhixt4g=;
+ b=n2F6P/PmttlfTcUejb+Y6euVV3+CgIr5Kf+i2TjKpmzCMZTLx2zoIA9A
+ KeoZHFV7/kIJCxs6geviexB9eSzJRUdy9k4tK6uWtihwita5hP5LNF3/l
+ M+6qN/dTAbYmYXVckKmFSN46Pw53ik0SSPxTDl+03fj4QD3XFiduLiZrj
+ ck9BdJkkxE14fOs/64TxJXWqZijYRpjUBhm/eqaASDfYGHvMSZGHePc8N
+ haY5jjXHzoK+lWgTpuMoZTT73rGqvKavrD2lZqEMLlFX0dHpODx9WO0vL
+ WPm+lInpJLJMlCfloIvISLxKw9dt3MxqkGsKeK6n2nj38aH8pV3wex6vh g==;
+X-CSE-ConnectionGUID: P/abL79RR1+1TKPpvwpCSQ==
+X-CSE-MsgGUID: QxEUBAJWQniCwvf84fq5Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="94844918"
+X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; d="scan'208";a="94844918"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2026 14:34:14 -0800
+X-CSE-ConnectionGUID: 8BCq/weiSyy20sXKKSX/aA==
+X-CSE-MsgGUID: oB8tT73PSQGaPmaG1F+eDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; d="scan'208";a="250698290"
+Received: from dut4086lnl.fm.intel.com ([10.105.11.7])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2026 14:34:13 -0800
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com, raag.jadav@intel.com, ivan.briano@intel.com,
+ matthew.auld@intel.com, dafna.hirschfeld@intel.com
+Subject: [PATCH v34 0/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Fri, 13 Feb 2026 22:34:11 +0000
+Message-ID: <20260213223410.99613-8-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,106 +75,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,mary.zone,lists.freedesktop.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,darkrefraction.com:email]
-X-Rspamd-Queue-Id: 0D59D139C5C
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[jonathan.cavitt@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 6D213139CE5
 X-Rspamd-Action: no action
 
-On Fri Feb 13, 2026 at 10:48 PM CET, M Henning wrote:
-> On Fri, Feb 13, 2026 at 12:12=E2=80=AFPM Danilo Krummrich <dakr@kernel.or=
-g> wrote:
->>
->> On Thu Feb 5, 2026 at 7:56 PM CET, Mel Henning wrote:
->> > This information will be exposed to userspace in the following commit.
->> >
->> > Signed-off-by: Mel Henning <mhenning@darkrefraction.com>
->>
->> For someone looking at this commit, this commit message is not very usef=
-ul.
->>
->> Please add at least a brief explanation of what the patch does and - eve=
-n more
->> important - why it does it. See also [1].
->>
->> [1] https://docs.kernel.org/process/submitting-patches.html#describe-you=
-r-changes
->
-> What I'm struggling with is that I don't know how to do this without
-> repeating myself. If you want, I can copy-paste my explanation of
-> zcull here too and then it will appear three times, once in each
-> commit and once in the cover letter. But that kind of repetition
-> doesn't seem very helpful to me.
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
-Again, the commit message should explain what the commit does and why. For
-instance, I asked you why you did combine those two callbacks below.
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-The commit message could mention this, e.g. it could be something along the=
- lines
-of:
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
 
-"Add struct nvkm_gr_zcull_info, which serves as abstraction layer between t=
-he
-corresponding uAPI (added in a subsequent patch) and the firmware (version
-specific) structure.
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
 
-This is needed in order to not leak the uAPI layer into nvkm. Also note tha=
-t we
-are bypassing the nvif layer, since ...
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
 
-Also note that we reuse the get_ctxbufs_info() callback, since ..."
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
 
-I.e. make it obvious to maintainers what's going on and what's the motivati=
-on
-for the patch and it's implementation details.
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
 
-> Because of this, I decided that it was simplest to combine them in a
-> single call, which avoids repeated rpc calls to the gpu without the
-> complexity of handling partially complete states.
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
 
-Ok, that seems reasonable.
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
 
->> > +     if (WARN_ON(IS_ERR(zcull_info)))
->>
->> What justifies this WARN_ON()? To me this seems like normal error handli=
-ng, i.e.
->> it is not a violation of some API invariant, etc. Also, this is in the d=
-river's
->> probe() path.
->
-> I was just copying the error handling that already exists in this functio=
-n.
->
-> I do think these are weird error cases though - they mean that the gpu
-> was partially but not fully initialized which shouldn't happen during
-> normal usage. The only cases I can think of that would trigger this
-> warning are a kernel bug or an intermittent PCI link, which I think
-> are both reasonable to warn on.
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
 
-It could also be that the firmware is buggy, etc. In any case, I don't see =
-that
-a WARN_ON() is justified. Please use dev_err() instead.
+v9:
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+v10:
+- Convert enums to defines in regs folder (Michal W)
+- Move xe_guc_pagefault_desc to regs folder (Michal W)
+- Future-proof size logic for zero-size properties (jcavitt)
+- Replace address type extern with access type (Jianxun)
+- Add fault type to xe_drm_fault (Jianxun)
+
+v11:
+- Remove unnecessary switch case logic (Raag)
+- Compress size get, size validation, and property fill functions into a
+  single helper function (jcavitt)
+- Assert valid size (jcavitt)
+- Store pagefaults in non-fault-mode VMs as well (Jianxun)
+
+v12:
+- Remove unnecessary else condition
+- Correct backwards helper function size logic (jcavitt)
+- Fix kernel docs and comments (Michal W)
+
+v13:
+- Move xe and user engine class mapping arrays to header (John H)
+
+v14:
+- Fix double locking issue (Jianxun)
+- Use size_t instead of int (Raag)
+- Remove unnecessary includes (jcavitt)
+
+v15:
+- Do not report faults from reserved engines (Jianxun)
+
+v16:
+- Remove engine class and instance (Ivan)
+
+v17:
+- Map access type, fault type, and fault level to user macros (Matt
+  Brost, Ivan)
+
+v18:
+- Add uAPI merge request to this cover letter
+
+v19:
+- Perform kzalloc outside of lock (Auld)
+
+v20:
+- Fix inconsistent use of whitespace in defines
+
+v21:
+- Remove unnecessary size assertion (jcavitt)
+
+v22:
+- Fix xe_vm_fault_entry kernel docs (Shuicheng)
+
+v23:
+- Nit fixes (Matt Brost)
+
+v24:
+- s/xe_pagefault_desc.h/xe_guc_pagefault_desc.h (Dafna)
+- Move PF_MSG_LEN_DW to regs folder (Dafna)
+
+v25:
+- Revert changes from last revision (John H)
+- Add missing bspec (Michal W)
+
+v26:
+- Rebase and refactor on top of latest change to xe_pagefault layer
+  (jcavitt)
+
+v27:
+- Apply max line length (Matt Brost)
+- Correctly ignore fault mode in save_pagefault_to_vm (jcavitt)
+
+v28:
+- Do not copy_to_user in critical section (Matt Brost)
+- Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
+  Brost)
+- s/save_pagefault_to_vm/xe_pagefault_save_to_vm (Matt Brost)
+- Use guard instead of spin_lock/unlock (Matt Brost)
+- GT was added to xe_pagefault struct.  Use xe_gt_hw_engine
+  instead of creating a new helper function (Matt Brost)
+
+v29:
+- Track address precision separately and report it accurately (Matt
+  Brost)
+- Remove unnecessary memset (Matt Brost)
+
+v30:
+- Keep u8 values together (Matt Brost)
+
+v31:
+- Refactor (jcavitt)
+
+v32:
+- Refactor (jcavitt)
+
+v33:
+- Refactor (jcavitt)
+
+v34:
+- Refactor (jcavitt)
+- Save space for future expansion in pagefault struct (Matt Brost)
+
+uAPI: https://github.com/intel/compute-runtime/pull/878
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Ivan Briano <ivan.briano@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@intel.com>
+
+Jonathan Cavitt (6):
+  drm/xe/xe_pagefault: Disallow writes to read-only VMAs
+  drm/xe/xe_pagefault: Pack engine class instance into u8
+  drm/xe/xe_pagefault: Track address precision per pagefault
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/xe_device.c          |   2 +
+ drivers/gpu/drm/xe/xe_guc_pagefault.c   |   8 +-
+ drivers/gpu/drm/xe/xe_pagefault.c       |  45 +++++-
+ drivers/gpu/drm/xe/xe_pagefault_types.h |  17 ++-
+ drivers/gpu/drm/xe/xe_vm.c              | 191 ++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h              |  12 ++
+ drivers/gpu/drm/xe/xe_vm_types.h        |  29 ++++
+ include/uapi/drm/xe_drm.h               |  86 +++++++++++
+ 8 files changed, 380 insertions(+), 10 deletions(-)
+
+-- 
+2.43.0
+
