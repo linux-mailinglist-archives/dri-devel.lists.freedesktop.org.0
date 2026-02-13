@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEdOLlEUj2mqHwEAu9opvQ
+	id 8BWFOFMUj2mqHwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 13:08:49 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 13:08:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2D8135F27
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 13:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A55E135F2F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 13:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B1710E2ED;
-	Fri, 13 Feb 2026 12:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A226810E7DA;
+	Fri, 13 Feb 2026 12:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TJUJT+r2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D1FK25yS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426EE10E2ED
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 12:08:46 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4806cc07ce7so7914725e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 04:08:46 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC3510E7DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 12:08:47 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-48329eb96a7so5109885e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 04:08:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770984525; x=1771589325; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770984526; x=1771589326; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hXJX7nXY8BjcdSOfqiZmvYAlq9sn8uCtkrmoZSGXdnE=;
- b=TJUJT+r2CBK9XH/ws4utmZR+XquXSAHYPPdPb94PBkgq2N+QD2aWpYtJ5Z8Q6rQ7Ls
- 3wGwC7cJ/pW69qCGt7xK0khbcZjBC4ksWXIlSnQoXGF3HuvHNK9isWgYEy3YA5j3YmCD
- eJX/Or2mvQ6GpE9Opv32KmdoSMj4E3AMWY2pmxmDSAIbFBtHss6lM9LLI3Xpy6nAtviH
- CayVYJkzF0bPiGMEnlbcCh69bpQdI5NLCVVo1hdOxSkCiXZb49XtdGTKOHs1frAqTElw
- GmAAaWPQVwhnRs27DZEGqU0g9EpNFoTgrypxMjQYLiI0ygZnppycDrdmL36JvLd2TQjx
- 7NyA==
+ bh=lJzdbyANzV6mkPuqznRpgXIWmGCXzKevIL9GAIcIe3k=;
+ b=D1FK25ySO5q+9I8fQoXxei3gvYfX9sjzG6egfF78+MkJQELK3/ZO93yHTXv9VWY5Jt
+ h3i63bQWgLp/rvh0nb8TRNS1uPRzri+sw22AB4CjL47xiE0GWrO3aXV8QyhfJvng+VkQ
+ f1yK38UTeU06e6WlitGy+JDyvvZgRFZICTPr7f1OtotmKnMKhUJtXHZjii3zMtYfn5xt
+ 0V48NBm8R8aMAMarvuHlbQS7LZV+/M9hSxPhPzDnbuLPc42wWSlZa23ATltNuAXnuDX5
+ aNRBg72XHbq9EDL8/VB2AwcSqOg6cjeEMp+kMfBuCWT8ZastHjELWWgVu+r6knkr3o6l
+ p/wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770984525; x=1771589325;
+ d=1e100.net; s=20230601; t=1770984526; x=1771589326;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=hXJX7nXY8BjcdSOfqiZmvYAlq9sn8uCtkrmoZSGXdnE=;
- b=Y3yCfOH2uWtFCnB/Mtic5mWU1eyV2oW7WEigqHDp+k2ZV++gyZbx4ikOLCwRjP8TLU
- d8f7+jU+HSdBVoayB8qhMnezvCZ5cyChuQFgqJCWL4hBRjk9uNN3FK4NYyO+ZCpsNQLT
- N0ZLarSbVaBp3cL27Hu28wWRZc7WD3fj+QhnR+QwJIpxVxAgOmxbmQN5K5jirwcN76AG
- ptQ/LPNvjRD/hLFau8vsO4xdbVlDho6/CYvbx+mtZnuFvCxRkeDul0VZXxvoUXIKIoNT
- XpqHmCsdsNp2lyGSbaGGjwNiS3TKV28uj/gwDp6OQyAlvZ+Yex3G7WjOE5j3a5cuzkYa
- rM4A==
-X-Gm-Message-State: AOJu0YxxPM7jcYERRQDGJwjEX2/rpEetXE43lyFkdEK82ZLZsvAKQHH+
- CDgZ4uY8k6DtOcdm8qjRsJYvMSG0F97IGnbr91L+JO1/o7KsYf5/CZdu
-X-Gm-Gg: AZuq6aK+zhQ05K/QStUtKlgXL/2V8yO0vUH2aaQ60uEaxQa1H4iNb45vWorNpesskBg
- 3i3eVowDsa/UnE0jbLWfPouUQGlWlvPESOOA2mBRO0ru2fr3a2om3oEXEpNH1FmI7oae4BSXBXC
- HSH+gNgSHicBHvWU+b2nh3Z4K7OyoFA72ENnYXayOMIiax6QsmRqjLqOdcZrVc4wlcZKEYnQe3f
- j+Vjx7Pu7YIENfl4zzTP8+Y+7tcaPcq3uSKuApT9dIE1kSqIEasdQ3X0v5aF6GBY+8YeYZg6NKS
- 2A215xuCtls9tdipPCfxiZkwtWSmjBHYwIJ6O1OurP7vNrOWwGhbv6Bw42P/Pb8KAYr2TtRQmzQ
- Dj9JQnqZXH5ptYaj6CGvPoQzMcoxOfJjko6Jk+85d4LVLhO4YIXpP+ywqlwM3VRfs8brGEqlwi8
- mJVa2IX7O63RWMukxubVlvnC87gXd5eovNG+telCpgh6Gb2eyxZB8TSFF4uT55H3rzhgCLqh8Bo
- oP4GAI=
-X-Received: by 2002:a05:600c:4f4b:b0:477:98f7:2aec with SMTP id
- 5b1f17b1804b1-48373a160b8mr29989545e9.3.1770984524690; 
- Fri, 13 Feb 2026 04:08:44 -0800 (PST)
+ bh=lJzdbyANzV6mkPuqznRpgXIWmGCXzKevIL9GAIcIe3k=;
+ b=N6WbZGCleUxkh340OIdp5oPrKKu2JUCR4ZjZbSWktDmPXxFZftFq5ZGoEh7bHBaXRl
+ KC1fXf9dZOb5IRqZKd/EuNpq95fsBticAMHvU5NVdnIuLbwsR+hIzr/0H66ilhP52p0O
+ g6y/Zlf7qIiq+V1Xj7sSLWYm4AxhLwNQJrd52sjcVryRhvBAa3frs1uZafM0OXCD6NMU
+ WMBWjFemUePDwqFhYPOFm3lL6bu6Wyyk0gDxltVh4NUGP+mTwCtZNVaNu5w2qemghrEe
+ fkA2IgOkR16p7PJnRM1mDzabV7089r7ADSXJL4GCghSXJTyS8hy7pOQtY9/eOjB92YgY
+ jaOw==
+X-Gm-Message-State: AOJu0Yy3koFcOjR2RhRsQakNW8RLfajwYn+llHY66xl6N95q+QBuY5/Y
+ gidztVh6sDl2wfzlWI95CkDt9WARfyh09e77lQa9Z4caLYE/kJDOfR86
+X-Gm-Gg: AZuq6aLZcg+LKHEHG1MQOW/KxcMyo+dXgO/I9Nx2KLACvdhK6rWqS9e+aP/b+knHz/q
+ oFlMNN71OlBWqf1cbx9RVs1T/HyIKlENRm+zndtb9UT08upS/8JEmT9TT6UPXSFmyFGnJi1z5tV
+ NK+YjfwwrBlkNDXZz/ErKGkRMgLynMX4lp2pq9P1h+LqJs06LbFpL9+4YI/5wyYSCnTYih6nVip
+ ZdUZ2oNCdaGqzqnjZiR9XtKKuu/9Q/bdkXW0ZY/tnFSXfafwctSN00oCN7+zWXpKRCE08aZnJ1a
+ wExXNAHWT8ZNLZ9ynmWH9H6QDXGlgtbxx34ioXW88VR9rjMt+PUYBgy+XXPVIKzOk3MY+CeH460
+ 3vulHPmCp9HIM25ckHdHIzVQGp9PcSXhK+R096L8QEApOJZDJSrvlh8GUfcH9ItQOhzT4V0ZOqH
+ Q8gl0duWGqTAIl9DTcvGlFE/NmSGFMlrLmdjbYQyo/6Tfmg7ybAgVjsmjaBKj6SuDxDIkI
+X-Received: by 2002:a05:600c:8b32:b0:46e:32dd:1b1a with SMTP id
+ 5b1f17b1804b1-483739fc64fmr27276625e9.7.1770984526212; 
+ Fri, 13 Feb 2026 04:08:46 -0800 (PST)
 Received: from Arch-Spectre.dur.ac.uk ([129.234.0.168])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4835d99497asm289274955e9.6.2026.02.13.04.08.44
+ 5b1f17b1804b1-4835d99497asm289274955e9.6.2026.02.13.04.08.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Feb 2026 04:08:44 -0800 (PST)
+ Fri, 13 Feb 2026 04:08:46 -0800 (PST)
 From: Yicong Hui <yiconghui@gmail.com>
 To: christian.koenig@amd.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
  Yicong Hui <yiconghui@gmail.com>
-Subject: [RFC PATCH v1 1/2] drm/syncobj: Add DRM_IOCTL_SYNCOBJ_QUERY_ERROR to
- query fence error status
-Date: Fri, 13 Feb 2026 12:08:34 +0000
-Message-ID: <20260213120836.81283-2-yiconghui@gmail.com>
+Subject: [RFC PATCH v1 2/2] drm/syncobj/doc: Remove starter task from todo list
+Date: Fri, 13 Feb 2026 12:08:35 +0000
+Message-ID: <20260213120836.81283-3-yiconghui@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260213120836.81283-1-yiconghui@gmail.com>
 References: <20260213120836.81283-1-yiconghui@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,141 +94,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:yiconghui@gmail.com,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:yiconghui@gmail.com,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4D2D8135F27
+X-Rspamd-Queue-Id: 7A55E135F2F
 X-Rspamd-Action: no action
 
-Add DRM_IOCTL_SYNCOBJ_QUERY_ERROR to allow userspace to query the error
-status of a fence held by a timeline/binary syncobj.
+Remove the starter task for adding DRM_IOCTL_SYNCOBJ_QUERY_ERROR
+ioctl.
 
 Signed-off-by: Yicong Hui <yiconghui@gmail.com>
 ---
- drivers/gpu/drm/drm_internal.h |  2 ++
- drivers/gpu/drm/drm_ioctl.c    |  2 ++
- drivers/gpu/drm/drm_syncobj.c  | 22 ++++++++++++++++++++++
- include/uapi/drm/drm.h         | 13 +++++++++++++
- 4 files changed, 39 insertions(+)
+ Documentation/gpu/todo.rst | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index f893b1e3a596..d4d722983544 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -285,6 +285,8 @@ int drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 				      struct drm_file *file_private);
- int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
- 			    struct drm_file *file_private);
-+int drm_syncobj_query_error_ioctl(struct drm_device *dev, void *data,
-+			    struct drm_file *file_private);
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 520da44a04a6..8dcb1901142e 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -878,22 +878,6 @@ Contact: Javier Martinez Canillas <javierm@redhat.com>
  
- /* drm_framebuffer.c */
- void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index ff193155129e..61b114a6a65f 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -732,6 +732,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_QUERY_ERROR, drm_syncobj_query_error_ioctl,
-+		      DRM_RENDER_ALLOW),
- };
+ Level: Advanced
  
- #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 2d4ab745fdad..2152cd029070 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1717,3 +1717,25 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+-Querying errors from drm_syncobj
+-================================
+-
+-The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
+-
+-One minor feature still missing is a generic DRM IOCTL to query the error
+-status of binary and timeline drm_syncobj.
+-
+-This should probably be improved by implementing the necessary kernel interface
+-and adding support for that in the userspace stack.
+-
+-Contact: Christian König
+-
+-Level: Starter
+-
+ DRM GPU Scheduler
+ =================
  
- 	return ret;
- }
-+
-+int drm_syncobj_query_error_ioctl(struct drm_device *dev, void *data,
-+			    struct drm_file *file_private)
-+{
-+	struct drm_syncobj_error *args = data;
-+	struct dma_fence *fence;
-+	int ret;
-+
-+	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
-+		return -EOPNOTSUPP;
-+
-+	ret = drm_syncobj_find_fence(file_private, args->handle, args->point, 0, &fence);
-+
-+	if (ret)
-+		return ret;
-+
-+	args->error = fence->error;
-+
-+	dma_fence_put(fence);
-+
-+	return 0;
-+}
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 27cc159c1d27..087c0f2120ec 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -1051,6 +1051,11 @@ struct drm_syncobj_timeline_array {
- 	__u32 flags;
- };
- 
-+struct drm_syncobj_error {
-+	__u32 handle;
-+	__s32 error;
-+	__u64 point;
-+};
- 
- /* Query current scanout sequence number */
- struct drm_crtc_get_sequence {
-@@ -1363,6 +1368,14 @@ extern "C" {
-  */
- #define DRM_IOCTL_GEM_CHANGE_HANDLE    DRM_IOWR(0xD2, struct drm_gem_change_handle)
- 
-+/**
-+ * DRM_IOCTL_SYNCOBJ_QUERY_ERROR - Query the error code from a failed drm_syncobj
-+ *
-+ * This ioctl provides userspace a way to query the error code of a binary and
-+ * timeline drm_syncobj in the case that the submission fails.
-+ */
-+#define DRM_IOCTL_SYNCOBJ_QUERY_ERROR	DRM_IOWR(0xD3, struct drm_syncobj_error)
-+
- /*
-  * Device specific ioctls should only be in their respective headers
-  * The device specific ioctl range is from 0x40 to 0x9f.
 -- 
 2.53.0
 
