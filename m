@@ -2,71 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHShF0Jsj2mCQwEAu9opvQ
+	id 2NAXJktzj2n7QwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 19:24:02 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 19:54:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86272138E80
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 19:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24B71390A0
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 19:54:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E02510E847;
-	Fri, 13 Feb 2026 18:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0FD10E302;
+	Fri, 13 Feb 2026 18:53:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ON9bVBOg";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eqJ0WcTx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04BFF10E843
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 18:23:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771007022; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZWZrmAHM4FtCQPDxuVGv8uD1/IJVCp6RTNV5U1HcwKq+MvA8hcoG2kCTafx9KjZaCXBg25EY+AG43SU8o0Ha1j4h29eRC4hA9zsAv/1ey7m6tjWP3GX3af2Np1m8dKoL4Az/74sDAM5PUapSo4F5mAZhNHb+OJoxZJf8SOb813M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771007022;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=veC9QPRT6Y8rey4PMLC238KmSOkaauFKVvTa7+T36g8=; 
- b=htfKDoZtfO5NLYfbQxv82ooaxDOqXCUt5KrGuY7i8fyDkIK0irqdqJktSdrVkz07SWWry0F4gVkdjy5NCFeYEwxhadsGLGftZacHJp6+1rm/4S8WRpVA7BPhvQmKPaCMJdrkjudCWPhG89czqTkh8+9fTtwHkT0yZbhH6iNe25I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771007022; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=veC9QPRT6Y8rey4PMLC238KmSOkaauFKVvTa7+T36g8=;
- b=ON9bVBOgNN6lwpODpy6VUtxCYcDDZ4wovWhjvqAaSmxILSqO7r+LLaSsjpFaEVZf
- YSOSO9HuTEH/jTXW7y7AhHkPRR7XNX0wi/g5LgSlHNuoU3YVBm0O3ZCYusPcjf0nQ93
- Qhh8ovN1tpDt1nNmQM3qUSPtuvJNeNS4JUp4pqKg=
-Received: by mx.zohomail.com with SMTPS id 1771007020720463.961326202009;
- Fri, 13 Feb 2026 10:23:40 -0800 (PST)
-Date: Fri, 13 Feb 2026 18:23:34 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v3 9/9] drm/panthor: Add a GEM shrinker
-Message-ID: <aY9oM5MY6Jntm3oy@sobremesa>
-References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
- <20260211080343.1887134-10-boris.brezillon@collabora.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7335210E19B
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 18:53:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=txKv3cVQrZKTkqyDAzIwNqeoNl4lUFsfj4I12QJs6VA=; b=eqJ0WcTxn5/Ax8U/tzickw/MyD
+ FKMudGpidszUaqvzamdv5bKZZ9zdsJ5PZKo9dJ62p1LLwQIvOcjcuR+NTf6PdK5iSq8ht+0dAmFMD
+ JMklkfeFUb5VF4KI1xw8FvZUZ4ienM3Bilg+8PgFx+bPG4uqkIK2R9kVHg3jaVXChXuo14U11jGwX
+ IebcFEFDoLibgiTZd2QJKX3c9jAAfODYqIgReZqiLG97Ogu3c/9p8hSQjtbF3cYuqVvC/I/4m3N+p
+ hfqRO/VcUGK2s6xOJUyZmWSCTIFySSBMgBF4GBrjHRgUiJFWQ5PC/3ZKByEIjCVgKbUQliuRMr3bS
+ fDtUWAaQ==;
+Received: from [187.36.210.68] (helo=janis.local)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vqyIG-000Sqv-TO; Fri, 13 Feb 2026 19:53:33 +0100
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH v5 0/7] Power Management for Raspberry Pi V3D GPU
+Date: Fri, 13 Feb 2026 15:52:53 -0300
+Message-Id: <20260213-v3d-power-management-v5-0-7a8b381eb379@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260211080343.1887134-10-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAZzj2kC/4XNzQrCMAzA8VeRnq00add1nnwP8dCt2Sy4Dzqpi
+ uzd7QaCIsPjPyS/PNlIwdPI9psnCxT96PsuRbbdsOpsu4a4d6kZCsxEjoZH6fjQ3yjw1na2oZa
+ 6Kycqy7ShXFVolk6HQLW/L+zxlPrsx2sfHsuXCPP0DxiBC54bUReIJQhlDr6xF293Vd+yWYz4o
+ UhYUTApQqLLdCmg0OpHkW9FCwC9osikKAKTKzLgnP5R1IeCa4pKSmVrdDVopwi/lGmaXnVhg9q
+ LAQAA
+X-Change-ID: 20250728-v3d-power-management-eebb2024dc96
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>, 
+ Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
+ Chema Casanova <jmcasanova@igalia.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4729; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=0EVfKIvCHzcJxJ1ZmhXGh4Tz/RasBDlQrEbZddzRlns=;
+ b=owGbwMvMwMFo/5mvq6zj1yrG02pJDJn9xcrv/KXTzI8/clis8WHlTv4ddReXqlyblLjFOj2Le
+ 89Zo+6/nYzGLAyMHAyyYoosP57E1jKKlbNrLiu/CDOIlQlkCgMXpwBMhDuS/Z/ttQBbntM7VwX0
+ RJ1VWOGXwB7O8f7u3+X7p5y2MQ38KefOmF6zUHBfdLYOl826LKuMzpQAvz5vLktfgRPqbAwl245
+ M79tRa8/+bBEze3fF8alsu3oaFLuaUhiDlRM/X+LVLH9VL/d8Zv/fyuQqv+LfCoL6M//PqrH7JM
+ adeq+LP/do9HVTd+b9U0SfJql6sOt4aDiu+Pzr+i5uy+kCv6wL+pWul3ZfubvOXkKr509Mb2pdw
+ OW5ncnNDAd//34yR1h9dmHR3lXfQ4urvi+ckLqBt8F+tg9DltmDuRkLn2rFF//bkc14iHtz8tWI
+ gv7W9nVa9hGN/tZO3jFabCyST5JuHNnlK/F0s/3a5X0A
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,1457 +89,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.81 / 15.00];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[adrian.larumbe@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,m:mcanal@igalia.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adrian.larumbe@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[arm.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,collabora.com,intel.com,google.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 86272138E80
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid]
+X-Rspamd-Queue-Id: E24B71390A0
 X-Rspamd-Action: no action
 
-On 11.02.2026 09:03, Boris Brezillon wrote:
-> From: Akash Goel <akash.goel@arm.com>
->
-> This implementation is losely based on the MSM shrinker, and it's
-> relying on the drm_gpuvm eviction/validation infrastructure.
->
-> Right now we only support swapout/eviction, but we could add an extra
-> flag to specify when buffer content doesn't need to be preserved to
-> avoid the swapout/swapin dance.
->
-> Locking is a bit of a nightmare, but using _trylock() all the way in
-> the reclaim path seems to make lockdep happy. And yes, we might be
-> missing opportunities to reclaim when the system is under heavy GPU
-> load/heavy memory pressure/heavy GPU VM activity, but that's better
-> than no reclaim at all.
->
-> v2:
-> - Move gpu_mapped_shared next to the mmapped LRU
-> - Add a bunch of missing is_[vm_bo,vma]_evicted() tests
-> - Only test mmap_count to check if a BO is mmaped
-> - Remove stale comment about shrinker not being a thing
-> - Allow pin_count to be non-zero in panthor_gem_swapin_locked()
-> - Fix panthor_gem_sync() to check for BO residency before doing the CPU sync
-> - Fix the value returned by panthor_gem_shrinker_count() in case some
->   memory has been released
-> - Check drmm_mutex_init() ret code
-> - Explicitly mention that PANTHOR_GEM_UNRECLAIMABLE is the initial state
->   of all BOs
->
-> v3:
-> - Make panthor_gem_try_evict() static
-> - Collect {A,R}-bs
->
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
-> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |  11 +-
->  drivers/gpu/drm/panthor/panthor_device.h |  73 ++++
->  drivers/gpu/drm/panthor/panthor_gem.c    | 460 ++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gem.h    |  68 ++++
->  drivers/gpu/drm/panthor/panthor_mmu.c    | 342 ++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_mmu.h    |   8 +
->  6 files changed, 933 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 54fbb1aa07c5..bc62a498a8a8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -2,6 +2,7 @@
->  /* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
->
->  #include <linux/clk.h>
->  #include <linux/mm.h>
-> @@ -122,6 +123,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	panthor_sched_unplug(ptdev);
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
-> +	panthor_gem_shrinker_unplug(ptdev);
->  	panthor_gpu_unplug(ptdev);
->  	panthor_pwr_unplug(ptdev);
->
-> @@ -291,10 +293,14 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		goto err_unplug_gpu;
->
-> -	ret = panthor_mmu_init(ptdev);
-> +	ret = panthor_gem_shrinker_init(ptdev);
->  	if (ret)
->  		goto err_unplug_gpu;
->
-> +	ret = panthor_mmu_init(ptdev);
-> +	if (ret)
-> +		goto err_unplug_shrinker;
-> +
->  	ret = panthor_fw_init(ptdev);
->  	if (ret)
->  		goto err_unplug_mmu;
-> @@ -326,6 +332,9 @@ int panthor_device_init(struct panthor_device *ptdev)
->  err_unplug_mmu:
->  	panthor_mmu_unplug(ptdev);
->
-> +err_unplug_shrinker:
-> +	panthor_gem_shrinker_unplug(ptdev);
-> +
->  err_unplug_gpu:
->  	panthor_gpu_unplug(ptdev);
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index b6696f73a536..5cba272f9b4d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -14,6 +14,7 @@
->  #include <linux/spinlock.h>
->
->  #include <drm/drm_device.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_mm.h>
->  #include <drm/gpu_scheduler.h>
->  #include <drm/panthor_drm.h>
-> @@ -178,6 +179,78 @@ struct panthor_device {
->  	/** @devfreq: Device frequency scaling management data. */
->  	struct panthor_devfreq *devfreq;
->
-> +	/** @reclaim: Reclaim related stuff */
-> +	struct {
-> +		/** @reclaim.shrinker: Shrinker instance */
-> +		struct shrinker *shrinker;
-> +
-> +		/** @reclaim.lock: Lock protecting all LRUs */
-> +		struct mutex lock;
-> +
-> +		/**
-> +		 * @reclaim.unused: BOs with unused pages
-> +		 *
-> +		 * Basically all buffers that got mmapped, vmapped or GPU mapped and
-> +		 * then unmapped. There should be no contention on these buffers,
-> +		 * making them ideal to reclaim.
-> +		 */
-> +		struct drm_gem_lru unused;
-> +
-> +		/**
-> +		 * @reclaim.mmapped: mmap()-ed buffers
-> +		 *
-> +		 * Those are relatively easy to reclaim since we don't need user
-> +		 * agreement, we can simply teardown the mapping and let it fault on
-> +		 * the next access.
-> +		 */
-> +		struct drm_gem_lru mmapped;
-> +
-> +		/**
-> +		 * @reclaim.gpu_mapped_shared: shared BO LRU list
-> +		 *
-> +		 * That's the most tricky BO type to reclaim, because it involves
-> +		 * tearing down all mappings in all VMs where this BO is mapped,
-> +		 * which increases the risk of contention and thus decreases the
-> +		 * likeliness of success.
-> +		 */
-> +		struct drm_gem_lru gpu_mapped_shared;
-> +
-> +		/**
-> +		 * @reclaim.vms: VM LRU list
-> +		 *
-> +		 * VMs that have reclaimable BOs only mapped to a single VM are placed
-> +		 * in this LRU. Reclaiming such BOs implies waiting for VM idleness
-> +		 * (no in-flight GPU jobs targeting this VM), meaning we can't reclaim
-> +		 * those if we're in a context where we can't block/sleep.
-> +		 */
-> +		struct list_head vms;
-> +
-> +		/**
-> +		 * @reclaim.gpu_mapped_count: Global counter of pages that are GPU mapped
-> +		 *
-> +		 * Allows us to get the number of reclaimable pages without walking
-> +		 * the vms and gpu_mapped_shared LRUs.
-> +		 */
-> +		long gpu_mapped_count;
-> +
-> +		/**
-> +		 * @reclaim.retry_count: Number of times we ran the shrinker without being
-> +		 * able to reclaim stuff
-> +		 *
-> +		 * Used to stop scanning GEMs when too many attempts were made
-> +		 * without progress.
-> +		 */
-> +		atomic_t retry_count;
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +		/**
-> +		 * @reclaim.nr_pages_reclaimed_on_last_scan: Number of pages reclaimed on the last
-> +		 * shrinker scan
-> +		 */
-> +		unsigned long nr_pages_reclaimed_on_last_scan;
-> +#endif
-> +	} reclaim;
-> +
->  	/** @unplug: Device unplug related fields. */
->  	struct {
->  		/** @lock: Lock used to serialize unplug operations. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index e46bfc4f2063..b961c685bebb 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -2,8 +2,10 @@
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
->  /* Copyright 2025 Amazon.com, Inc. or its affiliates */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
->
->  #include <linux/cleanup.h>
-> +#include <linux/debugfs.h>
->  #include <linux/dma-buf.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/err.h>
-> @@ -12,6 +14,8 @@
->
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_gpuvm.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_prime.h>
->  #include <drm/drm_print.h>
->  #include <drm/panthor_drm.h>
-> @@ -114,6 +118,103 @@ should_map_wc(struct panthor_gem_object *bo)
->  	return true;
->  }
->
-> +static bool is_gpu_mapped(struct panthor_gem_object *bo,
-> +			  enum panthor_gem_reclaim_state *state)
-> +{
-> +	struct drm_gpuvm *vm = NULL;
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	drm_gem_for_each_gpuvm_bo(vm_bo, &bo->base) {
-> +		/* Skip evicted GPU mappings. */
-> +		if (vm_bo->evicted)
-> +			continue;
-> +
-> +		if (!vm) {
-> +			*state = PANTHOR_GEM_GPU_MAPPED_PRIVATE;
-> +			vm = vm_bo->vm;
-> +		} else if (vm != vm_bo->vm) {
-> +			*state = PANTHOR_GEM_GPU_MAPPED_SHARED;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return !!vm;
-> +}
-> +
-> +static enum panthor_gem_reclaim_state
-> +panthor_gem_evaluate_reclaim_state_locked(struct panthor_gem_object *bo)
-> +{
-> +	enum panthor_gem_reclaim_state gpu_mapped_state;
-> +
-> +	dma_resv_assert_held(bo->base.resv);
-> +	lockdep_assert_held(&bo->base.gpuva.lock);
-> +
-> +	/* If pages have not been allocated, there's nothing to reclaim. */
-> +	if (!bo->backing.pages)
-> +		return PANTHOR_GEM_UNRECLAIMABLE;
-> +
-> +	/* If memory is pinned, we prevent reclaim. */
-> +	if (refcount_read(&bo->backing.pin_count))
-> +		return PANTHOR_GEM_UNRECLAIMABLE;
-> +
-> +	if (is_gpu_mapped(bo, &gpu_mapped_state))
-> +		return gpu_mapped_state;
-> +
-> +	if (refcount_read(&bo->cmap.mmap_count))
-> +		return PANTHOR_GEM_MMAPPED;
-> +
-> +	return PANTHOR_GEM_UNUSED;
-> +}
-> +
-> +void panthor_gem_update_reclaim_state_locked(struct panthor_gem_object *bo,
-> +					     enum panthor_gem_reclaim_state *old_statep)
-> +{
-> +	struct panthor_device *ptdev = container_of(bo->base.dev, struct panthor_device, base);
-> +	enum panthor_gem_reclaim_state old_state = bo->reclaim_state;
-> +	enum panthor_gem_reclaim_state new_state;
-> +	bool was_gpu_mapped, is_gpu_mapped;
-> +
-> +	if (old_statep)
-> +		*old_statep = old_state;
-> +
-> +	new_state = panthor_gem_evaluate_reclaim_state_locked(bo);
-> +	if (new_state == old_state)
-> +		return;
-> +
-> +	was_gpu_mapped = old_state == PANTHOR_GEM_GPU_MAPPED_SHARED ||
-> +			 old_state == PANTHOR_GEM_GPU_MAPPED_PRIVATE;
-> +	is_gpu_mapped = new_state == PANTHOR_GEM_GPU_MAPPED_SHARED ||
-> +			new_state == PANTHOR_GEM_GPU_MAPPED_PRIVATE;
-> +
-> +	if (is_gpu_mapped && !was_gpu_mapped)
-> +		ptdev->reclaim.gpu_mapped_count += bo->base.size >> PAGE_SHIFT;
-> +	else if (!is_gpu_mapped && was_gpu_mapped)
-> +		ptdev->reclaim.gpu_mapped_count -= bo->base.size >> PAGE_SHIFT;
-> +
-> +	switch (new_state) {
-> +	case PANTHOR_GEM_UNUSED:
-> +		drm_gem_lru_move_tail(&ptdev->reclaim.unused, &bo->base);
-> +		break;
-> +	case PANTHOR_GEM_MMAPPED:
-> +		drm_gem_lru_move_tail(&ptdev->reclaim.mmapped, &bo->base);
-> +		break;
-> +	case PANTHOR_GEM_GPU_MAPPED_PRIVATE:
-> +		panthor_vm_update_bo_reclaim_lru_locked(bo);
-> +		break;
-> +	case PANTHOR_GEM_GPU_MAPPED_SHARED:
-> +		drm_gem_lru_move_tail(&ptdev->reclaim.gpu_mapped_shared, &bo->base);
-> +		break;
-> +	case PANTHOR_GEM_UNRECLAIMABLE:
-> +		drm_gem_lru_remove(&bo->base);
-> +		break;
-> +	default:
-> +		drm_WARN(&ptdev->base, true, "invalid GEM reclaim state (%d)\n", new_state);
-> +		break;
-> +	}
-> +
-> +	bo->reclaim_state = new_state;
-> +}
-> +
->  static void
->  panthor_gem_backing_cleanup_locked(struct panthor_gem_object *bo)
->  {
-> @@ -157,8 +258,12 @@ static int panthor_gem_backing_pin_locked(struct panthor_gem_object *bo)
->  		return 0;
->
->  	ret = panthor_gem_backing_get_pages_locked(bo);
-> -	if (!ret)
-> +	if (!ret) {
->  		refcount_set(&bo->backing.pin_count, 1);
-> +		mutex_lock(&bo->base.gpuva.lock);
-> +		panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +		mutex_unlock(&bo->base.gpuva.lock);
-> +	}
->
->  	return ret;
->  }
-> @@ -172,6 +277,9 @@ static void panthor_gem_backing_unpin_locked(struct panthor_gem_object *bo)
->  		/* We don't release anything when pin_count drops to zero.
->  		 * Pages stay there until an explicit cleanup is requested.
->  		 */
-> +		mutex_lock(&bo->base.gpuva.lock);
-> +		panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +		mutex_unlock(&bo->base.gpuva.lock);
->  	}
->  }
->
-> @@ -203,9 +311,6 @@ panthor_gem_dev_map_get_sgt_locked(struct panthor_gem_object *bo)
->  	if (drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages))
->  		return ERR_PTR(-EINVAL);
->
-> -	/* Pages stay around after they've been allocated. At least that stands
-> -	 * until we add a shrinker.
-> -	 */
->  	ret = panthor_gem_backing_get_pages_locked(bo);
->  	if (ret)
->  		return ERR_PTR(ret);
-> @@ -537,6 +642,46 @@ void panthor_gem_unpin(struct panthor_gem_object *bo)
->  	}
->  }
->
-> +int panthor_gem_swapin_locked(struct panthor_gem_object *bo)
-> +{
-> +	struct sg_table *sgt;
-> +	int ret;
-> +
-> +	dma_resv_assert_held(bo->base.resv);
-> +
-> +	if (drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base)))
-> +		return -EINVAL;
-> +
-> +	ret = panthor_gem_backing_get_pages_locked(bo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sgt = panthor_gem_dev_map_get_sgt_locked(bo);
-> +	if (IS_ERR(sgt))
-> +		return PTR_ERR(sgt);
-> +
-> +	return 0;
-> +}
-> +
-> +static void panthor_gem_evict_locked(struct panthor_gem_object *bo)
-> +{
-> +	dma_resv_assert_held(bo->base.resv);
-> +	lockdep_assert_held(&bo->base.gpuva.lock);
-> +
-> +	if (drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base)))
-> +		return;
-> +
-> +	if (drm_WARN_ON_ONCE(bo->base.dev, refcount_read(&bo->backing.pin_count)))
-> +		return;
-> +
-> +	if (drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages))
-> +		return;
-> +
-> +	panthor_gem_dev_map_cleanup_locked(bo);
-> +	panthor_gem_backing_cleanup_locked(bo);
-> +	panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +}
-> +
->  static struct sg_table *panthor_gem_get_sg_table(struct drm_gem_object *obj)
->  {
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> @@ -692,6 +837,10 @@ static vm_fault_t blocking_page_setup(struct vm_fault *vmf,
->  	} else {
->  		struct page *page = bo->backing.pages[page_offset];
->
-> +		mutex_lock(&bo->base.gpuva.lock);
-> +		panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +		mutex_unlock(&bo->base.gpuva.lock);
-> +
->  		if (mmap_lock_held)
->  			ret = insert_page(vmf, page);
->  		else
-> @@ -765,7 +914,9 @@ static void panthor_gem_vm_close(struct vm_area_struct *vma)
->
->  	dma_resv_lock(bo->base.resv, NULL);
->  	if (refcount_dec_and_test(&bo->cmap.mmap_count)) {
-> -		/* Nothing to do, pages are reclaimed lazily. */
-> +		mutex_lock(&bo->base.gpuva.lock);
-> +		panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +		mutex_unlock(&bo->base.gpuva.lock);
->  	}
->  	dma_resv_unlock(bo->base.resv);
->
-> @@ -802,6 +953,7 @@ panthor_gem_alloc_object(uint32_t flags)
->  	if (!bo)
->  		return ERR_PTR(-ENOMEM);
->
-> +	bo->reclaim_state = PANTHOR_GEM_UNRECLAIMABLE;
->  	bo->base.funcs = &panthor_gem_funcs;
->  	bo->flags = flags;
->  	mutex_init(&bo->label.lock);
-> @@ -960,6 +1112,7 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 type,
->  	struct sg_table *sgt;
->  	struct scatterlist *sgl;
->  	unsigned int count;
-> +	int ret;
->
->  	/* Make sure the range is in bounds. */
->  	if (offset + size < offset || offset + size > bo->base.size)
-> @@ -986,9 +1139,21 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 type,
->  	if (size == 0)
->  		return 0;
->
-> -	sgt = panthor_gem_get_dev_sgt(bo);
-> -	if (IS_ERR(sgt))
-> -		return PTR_ERR(sgt);
-> +	ret = dma_resv_lock_interruptible(bo->base.resv, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* If there's no pages, there's no point pulling those back, bail out early. */
-> +	if (!bo->backing.pages) {
-> +		ret = 0;
-> +		goto out_unlock;
-> +	}
-> +
-> +	sgt = panthor_gem_dev_map_get_sgt_locked(bo);
-> +	if (IS_ERR(sgt)) {
-> +		ret = PTR_ERR(sgt);
-> +		goto out_unlock;
-> +	}
->
->  	for_each_sgtable_dma_sg(sgt, sgl, count) {
->  		if (size == 0)
-> @@ -1032,7 +1197,11 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 type,
->  			dma_sync_single_for_cpu(dma_dev, paddr, len, DMA_FROM_DEVICE);
->  	}
->
-> -	return 0;
-> +	ret = 0;
-> +
-> +out_unlock:
-> +	dma_resv_unlock(bo->base.resv);
-> +	return ret;
->  }
->
->  /**
-> @@ -1042,11 +1211,13 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 type,
->   */
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  {
-> +	struct panthor_device *ptdev;
->  	struct panthor_vm *vm;
->
->  	if (IS_ERR_OR_NULL(bo))
->  		return;
->
-> +	ptdev = container_of(bo->obj->dev, struct panthor_device, base);
->  	vm = bo->vm;
->  	panthor_kernel_bo_vunmap(bo);
->
-> @@ -1054,6 +1225,8 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  		    to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm));
->  	panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
->  	panthor_vm_free_va(vm, &bo->va_node);
-> +	if (vm == panthor_fw_vm(ptdev))
-> +		panthor_gem_unpin(to_panthor_bo(bo->obj));
->  	drm_gem_object_put(bo->obj);
->  	panthor_vm_put(vm);
->  	kfree(bo);
-> @@ -1102,6 +1275,12 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->
->  	kbo->obj = &bo->base;
->
-> +	if (vm == panthor_fw_vm(ptdev)) {
-> +		ret = panthor_gem_pin(bo);
-> +		if (ret)
-> +			goto err_put_obj;
-> +	}
-> +
->  	panthor_gem_kernel_bo_set_label(kbo, name);
->
->  	/* The system and GPU MMU page size might differ, which becomes a
-> @@ -1113,7 +1292,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	size = ALIGN(size, panthor_vm_page_size(vm));
->  	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
->  	if (ret)
-> -		goto err_put_obj;
-> +		goto err_unpin;
->
->  	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
->  	if (ret)
-> @@ -1125,6 +1304,10 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  err_free_va:
->  	panthor_vm_free_va(vm, &kbo->va_node);
->
-> +err_unpin:
-> +	if (vm == panthor_fw_vm(ptdev))
-> +		panthor_gem_unpin(bo);
-> +
->  err_put_obj:
->  	drm_gem_object_put(&bo->base);
->
-> @@ -1133,6 +1316,231 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	return ERR_PTR(ret);
->  }
->
-> +static bool can_swap(void)
-> +{
-> +	return get_nr_swap_pages() > 0;
-> +}
-> +
-> +static bool can_block(struct shrink_control *sc)
-> +{
-> +	if (!(sc->gfp_mask & __GFP_DIRECT_RECLAIM))
-> +		return false;
-> +	return current_is_kswapd() || (sc->gfp_mask & __GFP_RECLAIM);
-> +}
-> +
-> +static unsigned long
-> +panthor_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
-> +{
-> +	struct panthor_device *ptdev = shrinker->private_data;
-> +	unsigned long count;
-> +
-> +	/* We currently don't have a flag to tell when the content of a
-> +	 * BO can be discarded.
-> +	 */
-> +	if (!can_swap())
-> +		return 0;
-> +
-> +	count = ptdev->reclaim.unused.count;
-> +	count += ptdev->reclaim.mmapped.count;
-> +
-> +	if (can_block(sc))
-> +		count += ptdev->reclaim.gpu_mapped_count;
-> +
-> +	return count ? count : SHRINK_EMPTY;
-> +}
-> +
-> +static bool should_wait(enum panthor_gem_reclaim_state reclaim_state)
-> +{
-> +	return reclaim_state == PANTHOR_GEM_GPU_MAPPED_PRIVATE ||
-> +	       reclaim_state == PANTHOR_GEM_GPU_MAPPED_SHARED;
-> +}
-> +
-> +static bool panthor_gem_try_evict(struct drm_gem_object *obj,
-> +				  struct ww_acquire_ctx *ticket)
-> +{
-> +	/*
-> +	 * Track last locked entry for unwinding locks in error and
-> +	 * success paths
-> +	 */
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> +	struct drm_gpuvm_bo *vm_bo, *last_locked = NULL;
-> +	enum panthor_gem_reclaim_state old_state;
-> +	int ret = 0;
-> +
-> +	/* To avoid potential lock ordering issue between bo_gpuva and
-> +	 * mapping->i_mmap_rwsem, unmap the pages from CPU side before
-> +	 * acquring the bo_gpuva lock. As the bo_resv lock is held, CPU
-> +	 * page fault handler won't be able to map in the pages whilst
-> +	 * eviction is in progress.
-> +	 */
-> +	drm_vma_node_unmap(&bo->base.vma_node, bo->base.dev->anon_inode->i_mapping);
-> +
-> +	/* We take this lock when walking the list to prevent
-> +	 * insertion/deletion.
-> +	 */
-> +	/* We can only trylock in that path, because
-> +	 * - allocation might happen while some of these locks are held
-> +	 * - lock ordering is different in other paths
-> +	 *     vm_resv -> bo_resv -> bo_gpuva
-> +	 *     vs
-> +	 *     bo_resv -> bo_gpuva -> vm_resv
-> +	 *
-> +	 * If we fail to lock that's fine, we back off and will get
-> +	 * back to it later.
-> +	 */
-> +	if (!mutex_trylock(&bo->base.gpuva.lock))
-> +		return false;
-> +
-> +	drm_gem_for_each_gpuvm_bo(vm_bo, obj) {
-> +		struct dma_resv *resv = drm_gpuvm_resv(vm_bo->vm);
-> +
-> +		if (resv == obj->resv)
-> +			continue;
-> +
-> +		if (!dma_resv_trylock(resv)) {
-> +			ret = -EDEADLK;
-> +			goto out_unlock;
-> +		}
-> +
-> +		last_locked = vm_bo;
-> +	}
-> +
-> +	/* Update the state before trying to evict the buffer, if the state was
-> +	 * updated to something that's harder to reclaim (higher value in the
-> +	 * enum), skip it (will be processed when the relevant LRU is).
-> +	 */
-> +	panthor_gem_update_reclaim_state_locked(bo, &old_state);
-> +	if (old_state < bo->reclaim_state) {
-> +		ret = -EAGAIN;
-> +		goto out_unlock;
-> +	}
-> +
-> +	/* Wait was too long, skip. */
-> +	if (should_wait(bo->reclaim_state) &&
-> +	    dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP, false, 10) <= 0) {
-> +		ret = -ETIMEDOUT;
-> +		goto out_unlock;
-> +	}
-> +
-> +	/* Couldn't teardown the GPU mappings? Skip. */
-> +	ret = panthor_vm_evict_bo_mappings_locked(bo);
-> +	if (ret)
-> +		goto out_unlock;
-> +
-> +	/* If everything went fine, evict the object. */
-> +	panthor_gem_evict_locked(bo);
-> +
-> +out_unlock:
-> +	if (last_locked) {
-> +		drm_gem_for_each_gpuvm_bo(vm_bo, obj) {
-> +			struct dma_resv *resv = drm_gpuvm_resv(vm_bo->vm);
-> +
-> +			if (resv == obj->resv)
-> +				continue;
-> +
-> +			dma_resv_unlock(resv);
-> +
-> +			if (last_locked == vm_bo)
-> +				break;
-> +		}
-> +	}
-> +	mutex_unlock(&bo->base.gpuva.lock);
-> +
-> +	return ret == 0;
-> +}
-> +
-> +static unsigned long
-> +panthor_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-> +{
-> +	struct panthor_device *ptdev = shrinker->private_data;
-> +	unsigned long remaining = 0;
-> +	unsigned long freed = 0;
-> +
-> +	if (!can_swap())
-> +		goto out;
-> +
-> +	freed += drm_gem_lru_scan(&ptdev->reclaim.unused,
-> +				  sc->nr_to_scan - freed, &remaining,
-> +				  panthor_gem_try_evict, NULL);
-> +	if (freed >= sc->nr_to_scan)
-> +		goto out;
-> +
-> +	freed += drm_gem_lru_scan(&ptdev->reclaim.mmapped,
-> +				  sc->nr_to_scan - freed, &remaining,
-> +				  panthor_gem_try_evict, NULL);
-> +	if (freed >= sc->nr_to_scan)
-> +		goto out;
-> +
-> +	freed += panthor_mmu_reclaim_priv_bos(ptdev, sc->nr_to_scan - freed,
-> +					      &remaining, panthor_gem_try_evict);
-> +	if (freed >= sc->nr_to_scan)
-> +		goto out;
-> +
-> +	freed += drm_gem_lru_scan(&ptdev->reclaim.gpu_mapped_shared,
-> +				  sc->nr_to_scan - freed, &remaining,
-> +				  panthor_gem_try_evict, NULL);
-> +
-> +out:
-> +#ifdef CONFIG_DEBUG_FS
-> +	/* This is racy, but that's okay, because this is just debugfs
-> +	 * reporting and doesn't need to be accurate.
-> +	 */
-> +	ptdev->reclaim.nr_pages_reclaimed_on_last_scan = freed;
-> +#endif
-> +
-> +	/* If there are things to reclaim, try a couple times before giving up. */
-> +	if (!freed && remaining > 0 &&
-> +	    atomic_inc_return(&ptdev->reclaim.retry_count) < 2)
-> +		return 0;
-> +
-> +	atomic_set(&ptdev->reclaim.retry_count, 0);
-> +
-> +	if (freed)
-> +		return freed;
-> +
-> +	/* There's nothing left to reclaim, or the resources are contended. Give up now. */
-> +	return SHRINK_STOP;
-> +}
-> +
-> +int panthor_gem_shrinker_init(struct panthor_device *ptdev)
-> +{
-> +	struct shrinker *shrinker;
-> +	int ret;
-> +
-> +	ret = drmm_mutex_init(&ptdev->base, &ptdev->reclaim.lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	INIT_LIST_HEAD(&ptdev->reclaim.vms);
-> +	drm_gem_lru_init(&ptdev->reclaim.unused, &ptdev->reclaim.lock);
-> +	drm_gem_lru_init(&ptdev->reclaim.mmapped, &ptdev->reclaim.lock);
-> +	drm_gem_lru_init(&ptdev->reclaim.gpu_mapped_shared, &ptdev->reclaim.lock);
-> +	ptdev->reclaim.gpu_mapped_count = 0;
-> +
-> +	/* Teach lockdep about lock ordering wrt. shrinker: */
-> +	fs_reclaim_acquire(GFP_KERNEL);
-> +	might_lock(&ptdev->reclaim.lock);
-> +	fs_reclaim_release(GFP_KERNEL);
-> +
-> +	shrinker = shrinker_alloc(0, "drm-panthor-gem");
-> +	if (!shrinker)
-> +		return -ENOMEM;
-> +
-> +	shrinker->count_objects = panthor_gem_shrinker_count;
-> +	shrinker->scan_objects = panthor_gem_shrinker_scan;
-> +	shrinker->private_data = ptdev;
-> +	ptdev->reclaim.shrinker = shrinker;
-> +
-> +	shrinker_register(shrinker);
-> +	return 0;
-> +}
-> +
-> +void panthor_gem_shrinker_unplug(struct panthor_device *ptdev)
-> +{
-> +	if (ptdev->reclaim.shrinker)
-> +		shrinker_free(ptdev->reclaim.shrinker);
-> +}
-> +
->  #ifdef CONFIG_DEBUG_FS
->  struct gem_size_totals {
->  	size_t size;
-> @@ -1251,10 +1659,42 @@ static struct drm_info_list panthor_gem_debugfs_list[] = {
->  	{ "gems", panthor_gem_show_bos, 0, NULL },
->  };
->
-> +static int shrink_get(void *data, u64 *val)
-> +{
-> +	struct panthor_device *ptdev =
-> +		container_of(data, struct panthor_device, base);
-> +
-> +	*val = ptdev->reclaim.nr_pages_reclaimed_on_last_scan;
-> +	return 0;
-> +}
-> +
-> +static int shrink_set(void *data, u64 val)
-> +{
-> +	struct panthor_device *ptdev =
-> +		container_of(data, struct panthor_device, base);
-> +	struct shrink_control sc = {
-> +		.gfp_mask = GFP_KERNEL,
-> +		.nr_to_scan = val,
-> +	};
-> +
-> +	fs_reclaim_acquire(GFP_KERNEL);
-> +	if (ptdev->reclaim.shrinker)
-> +		panthor_gem_shrinker_scan(ptdev->reclaim.shrinker, &sc);
-> +	fs_reclaim_release(GFP_KERNEL);
-> +
-> +	return 0;
-> +}
-> +
-> +DEFINE_DEBUGFS_ATTRIBUTE(panthor_gem_debugfs_shrink_fops,
-> +			 shrink_get, shrink_set,
-> +			 "0x%08llx\n");
-> +
->  void panthor_gem_debugfs_init(struct drm_minor *minor)
->  {
->  	drm_debugfs_create_files(panthor_gem_debugfs_list,
->  				 ARRAY_SIZE(panthor_gem_debugfs_list),
->  				 minor->debugfs_root, minor);
-> +	debugfs_create_file("shrink", 0600, minor->debugfs_root,
-> +			    minor->dev, &panthor_gem_debugfs_shrink_fops);
->  }
->  #endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index c0a18dca732c..30281fad7327 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -1,6 +1,7 @@
->  /* SPDX-License-Identifier: GPL-2.0 or MIT */
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
->
->  #ifndef __PANTHOR_GEM_H__
->  #define __PANTHOR_GEM_H__
-> @@ -93,6 +94,65 @@ struct panthor_gem_dev_map {
->  	struct sg_table *sgt;
->  };
->
-> +/**
-> + * enum panthor_gem_reclaim_state - Reclaim state of a GEM object
-> + *
-> + * This is defined in descending reclaimability order and some part
-> + * of the code depends on that.
-> + */
-> +enum panthor_gem_reclaim_state {
-> +	/**
-> +	 * @PANTHOR_GEM_UNUSED: GEM is currently unused
-> +	 *
-> +	 * This can happen when the GEM was previously vmap-ed, mmap-ed,
-> +	 * and/or GPU mapped and got unmapped. Because pages are lazily
-> +	 * returned to the shmem layer, we want to keep a list of such
-> +	 * BOs, because they should be fairly easy to reclaim (no need
-> +	 * to wait for GPU to be done, and no need to tear down user
-> +	 * mappings either).
-> +	 */
-> +	PANTHOR_GEM_UNUSED,
-> +
-> +	/**
-> +	 * @PANTHOR_GEM_MMAPPED: GEM is currently mmap-ed
-> +	 *
-> +	 * When a GEM has pages allocated and the mmap_count is > 0, the
-> +	 * GEM is placed in the mmapped list. This comes right after
-> +	 * unused because we can relatively easily tear down user mappings.
-> +	 */
-> +	PANTHOR_GEM_MMAPPED,
-> +
-> +	/**
-> +	 * @PANTHOR_GEM_GPU_MAPPED_PRIVATE: GEM is GPU mapped to only one VM
-> +	 *
-> +	 * When a GEM is mapped to a single VM, reclaim requests have more
-> +	 * chances to succeed, because we only need to synchronize against
-> +	 * a single GPU context. This is more annoying than reclaiming
-> +	 * mmap-ed pages still, because we have to wait for in-flight jobs
-> +	 * to land, and we might not be able to acquire all necessary locks
-> +	 * at reclaim time either.
-> +	 */
-> +	PANTHOR_GEM_GPU_MAPPED_PRIVATE,
-> +
-> +	/**
-> +	 * @PANTHOR_GEM_GPU_MAPPED_SHARED: GEM is GPU mapped to multiple VMs
-> +	 *
-> +	 * Like PANTHOR_GEM_GPU_MAPPED_PRIVATE, but the synchronization across
-> +	 * VMs makes such BOs harder to reclaim.
-> +	 */
-> +	PANTHOR_GEM_GPU_MAPPED_SHARED,
-> +
-> +	/**
-> +	 * @PANTHOR_GEM_UNRECLAIMABLE: GEM can't be reclaimed
-> +	 *
-> +	 * Happens when the GEM memory is pinned. It's also the state all GEM
-> +	 * objects start in, because no memory is allocated until explicitly
-> +	 * requested by a CPU or GPU map, meaning there's nothing to reclaim
-> +	 * until such an allocation happens.
-> +	 */
-> +	PANTHOR_GEM_UNRECLAIMABLE,
-> +};
-> +
->  /**
->   * struct panthor_gem_object - Driver specific GEM object.
->   */
-> @@ -109,6 +169,9 @@ struct panthor_gem_object {
->  	/** @dmap: Device mapping state */
->  	struct panthor_gem_dev_map dmap;
->
-> +	/** @reclaim_state: Cached reclaim state */
-> +	enum panthor_gem_reclaim_state reclaim_state;
-> +
->  	/**
->  	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
->  	 * is attached to.
-> @@ -190,6 +253,11 @@ struct sg_table *
->  panthor_gem_get_dev_sgt(struct panthor_gem_object *bo);
->  int panthor_gem_pin(struct panthor_gem_object *bo);
->  void panthor_gem_unpin(struct panthor_gem_object *bo);
-> +int panthor_gem_swapin_locked(struct panthor_gem_object *bo);
-> +void panthor_gem_update_reclaim_state_locked(struct panthor_gem_object *bo,
-> +					     enum panthor_gem_reclaim_state *old_state);
-> +int panthor_gem_shrinker_init(struct panthor_device *ptdev);
-> +void panthor_gem_shrinker_unplug(struct panthor_device *ptdev);
->
->  void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
->  void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 8ae60e5889ed..a8f32f92a63e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
->
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_drv.h>
-> @@ -131,6 +132,9 @@ struct panthor_vma {
->  	 * Only map related flags are accepted.
->  	 */
->  	u32 flags;
-> +
-> +	/** @evicted: True if the VMA has been evicted. */
-> +	bool evicted;
->  };
->
->  /**
-> @@ -191,13 +195,8 @@ struct panthor_vm_op_ctx {
->  		/** @map.bo_offset: Offset in the buffer object. */
->  		u64 bo_offset;
->
-> -		/**
-> -		 * @map.sgt: sg-table pointing to pages backing the GEM object.
-> -		 *
-> -		 * This is gathered at job creation time, such that we don't have
-> -		 * to allocate in ::run_job().
-> -		 */
-> -		struct sg_table *sgt;
-> +		/** @map.bo: the BO being mapped. */
-> +		struct panthor_gem_object *bo;
->
->  		/**
->  		 * @map.new_vma: The new VMA object that will be inserted to the VA tree.
-> @@ -385,6 +384,18 @@ struct panthor_vm {
->  		/** @locked_region.size: Size of the locked region. */
->  		u64 size;
->  	} locked_region;
-> +
-> +	/** @reclaim: Fields related to BO reclaim. */
-> +	struct {
-> +		/** @reclaim.lru: LRU of BOs that are only mapped to this VM. */
-> +		struct drm_gem_lru lru;
-> +
-> +		/**
-> +		 * @reclaim.lru_node: Node used to insert the VM in
-> +		 * panthor_device::reclaim::vms.
-> +		 */
-> +		struct list_head lru_node;
-> +	} reclaim;
->  };
->
->  /**
-> @@ -689,6 +700,16 @@ int panthor_vm_active(struct panthor_vm *vm)
->  	if (refcount_inc_not_zero(&vm->as.active_cnt))
->  		goto out_dev_exit;
->
-> +	/* As soon as active is called, we place the VM at the end of the VM LRU.
-> +	 * If something fails after that, the only downside is that this VM that
-> +	 * never became active in the first place will be reclaimed last, but
-> +	 * that's an acceptable trade-off.
-> +	 */
-> +	mutex_lock(&ptdev->reclaim.lock);
-> +	if (vm->reclaim.lru.count)
-> +		list_move_tail(&vm->reclaim.lru_node, &ptdev->reclaim.vms);
-> +	mutex_unlock(&ptdev->reclaim.lock);
-> +
->  	/* Make sure we don't race with lock/unlock_region() calls
->  	 * happening around VM bind operations.
->  	 */
-> @@ -1084,7 +1105,15 @@ static void panthor_vm_bo_free(struct drm_gpuvm_bo *vm_bo)
->  {
->  	struct panthor_gem_object *bo = to_panthor_bo(vm_bo->obj);
->
-> -	panthor_gem_unpin(bo);
-> +	/* We couldn't call this when we unlinked, because the resv lock can't
-> +	 * be taken in the dma signalling path, so call it now.
-> +	 */
-> +	dma_resv_lock(bo->base.resv, NULL);
-> +	mutex_lock(&bo->base.gpuva.lock);
-> +	panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +	mutex_unlock(&bo->base.gpuva.lock);
-> +	dma_resv_unlock(bo->base.resv);
-> +
->  	kfree(vm_bo);
->  }
->
-> @@ -1105,6 +1134,11 @@ static void panthor_vm_cleanup_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  	if (op_ctx->map.vm_bo)
->  		drm_gpuvm_bo_put_deferred(op_ctx->map.vm_bo);
->
-> +	if (op_ctx->map.bo) {
-> +		panthor_gem_unpin(op_ctx->map.bo);
-> +		drm_gem_object_put(&op_ctx->map.bo->base);
-> +	}
-> +
->  	for (u32 i = 0; i < ARRAY_SIZE(op_ctx->preallocated_vmas); i++)
->  		kfree(op_ctx->preallocated_vmas[i]);
->
-> @@ -1265,18 +1299,17 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  	if (ret)
->  		goto err_cleanup;
->
-> +	drm_gem_object_get(&bo->base);
-> +	op_ctx->map.bo = bo;
-> +
->  	sgt = panthor_gem_get_dev_sgt(bo);
->  	if (IS_ERR(sgt)) {
-> -		panthor_gem_unpin(bo);
->  		ret = PTR_ERR(sgt);
->  		goto err_cleanup;
->  	}
->
-> -	op_ctx->map.sgt = sgt;
-> -
->  	preallocated_vm_bo = drm_gpuvm_bo_create(&vm->base, &bo->base);
->  	if (!preallocated_vm_bo) {
-> -		panthor_gem_unpin(bo);
->  		ret = -ENOMEM;
->  		goto err_cleanup;
->  	}
-> @@ -1295,6 +1328,13 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  		dma_resv_unlock(panthor_vm_resv(vm));
->  	}
->
-> +	/* And finally update the BO state. */
-> +	dma_resv_lock(bo->base.resv, NULL);
-> +	mutex_lock(&bo->base.gpuva.lock);
-> +	panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +	mutex_unlock(&bo->base.gpuva.lock);
-> +	dma_resv_unlock(bo->base.resv);
-> +
->  	return 0;
->
->  err_cleanup:
-> @@ -1883,6 +1923,10 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
->  	struct panthor_vm *vm = container_of(gpuvm, struct panthor_vm, base);
->  	struct panthor_device *ptdev = vm->ptdev;
->
-> +	mutex_lock(&ptdev->reclaim.lock);
-> +	list_del_init(&vm->reclaim.lru_node);
-> +	mutex_unlock(&ptdev->reclaim.lock);
-> +
->  	mutex_lock(&vm->heaps.lock);
->  	if (drm_WARN_ON(&ptdev->base, vm->heaps.pool))
->  		panthor_heap_pool_destroy(vm->heaps.pool);
-> @@ -2096,7 +2140,7 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
->  	panthor_vma_init(vma, op_ctx->flags & PANTHOR_VM_MAP_FLAGS);
->
->  	ret = panthor_vm_map_pages(vm, op->map.va.addr, flags_to_prot(vma->flags),
-> -				   op_ctx->map.sgt, op->map.gem.offset,
-> +				   op_ctx->map.bo->dmap.sgt, op->map.gem.offset,
->  				   op->map.va.range);
->  	if (ret) {
->  		panthor_vm_op_ctx_return_vma(op_ctx, vma);
-> @@ -2180,8 +2224,10 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->  	 * atomicity. panthor_vm_lock_region() bails out early if the new region
->  	 * is already part of the locked region, so no need to do this check here.
->  	 */
-> -	panthor_vm_lock_region(vm, unmap_start, unmap_range);
-> -	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> +	if (!unmap_vma->evicted) {
-> +		panthor_vm_lock_region(vm, unmap_start, unmap_range);
-> +		panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> +	}
->
->  	if (op->remap.prev) {
->  		struct panthor_gem_object *bo = to_panthor_bo(op->remap.prev->gem.obj);
-> @@ -2195,6 +2241,7 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->
->  		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(prev_vma, unmap_vma->flags);
-> +		prev_vma->evicted = unmap_vma->evicted;
->  	}
->
->  	if (op->remap.next) {
-> @@ -2209,6 +2256,7 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->
->  		next_vma = panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(next_vma, unmap_vma->flags);
-> +		next_vma->evicted = unmap_vma->evicted;
->  	}
->
->  	drm_gpuva_remap(prev_vma ? &prev_vma->base : NULL,
-> @@ -2238,19 +2286,204 @@ static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
->  	struct panthor_vma *unmap_vma = container_of(op->unmap.va, struct panthor_vma, base);
->  	struct panthor_vm *vm = priv;
->
-> -	panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-> -			       unmap_vma->base.va.range);
-> +	if (!unmap_vma->evicted) {
-> +		panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-> +				       unmap_vma->base.va.range);
-> +	}
-> +
->  	drm_gpuva_unmap(&op->unmap);
->  	panthor_vma_unlink(unmap_vma);
->  	return 0;
->  }
->
-> +void panthor_vm_update_bo_reclaim_lru_locked(struct panthor_gem_object *bo)
-> +{
-> +	struct panthor_device *ptdev = container_of(bo->base.dev, struct panthor_device, base);
-> +	struct panthor_vm *vm = NULL;
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	dma_resv_assert_held(bo->base.resv);
-> +	lockdep_assert_held(&bo->base.gpuva.lock);
-> +
-> +	drm_gem_for_each_gpuvm_bo(vm_bo, &bo->base) {
-> +		/* We're only supposed to have one vm_bo in the list if we get there. */
-> +		drm_WARN_ON(&ptdev->base, vm);
-> +		vm = container_of(vm_bo->vm, struct panthor_vm, base);
-> +
-> +		mutex_lock(&ptdev->reclaim.lock);
-> +		drm_gem_lru_move_tail_locked(&vm->reclaim.lru, &bo->base);
-> +		if (list_empty(&vm->reclaim.lru_node))
-> +			list_move(&vm->reclaim.lru_node, &ptdev->reclaim.vms);
-> +		mutex_unlock(&ptdev->reclaim.lock);
-> +	}
-> +}
-> +
-> +int panthor_vm_evict_bo_mappings_locked(struct panthor_gem_object *bo)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo;
-> +
-> +	drm_gem_for_each_gpuvm_bo(vm_bo, &bo->base) {
-> +		struct panthor_vm *vm = container_of(vm_bo->vm, struct panthor_vm, base);
-> +		struct drm_gpuva *va;
-> +
-> +		/* Skip already evicted GPU mappings. */
-> +		if (vm_bo->evicted)
-> +			continue;
-> +
-> +		if (!mutex_trylock(&vm->op_lock))
-> +			return -EDEADLK;
-> +
-> +		drm_gpuvm_bo_evict(vm_bo, true);
-> +		drm_gpuvm_bo_for_each_va(va, vm_bo) {
-> +			struct panthor_vma *vma = container_of(va, struct panthor_vma, base);
-> +
-> +			if (vma->evicted)
-> +				continue;
-> +
-> +			panthor_vm_lock_region(vm, va->va.addr, va->va.range);
-> +			panthor_vm_unmap_pages(vm, va->va.addr, va->va.range);
-> +			panthor_vm_unlock_region(vm);
-> +			vma->evicted = true;
-> +		}
-> +
-> +		mutex_unlock(&vm->op_lock);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static struct panthor_vma *select_evicted_vma(struct drm_gpuvm_bo *vm_bo,
-> +					      struct panthor_vm_op_ctx *op_ctx)
-> +{
-> +	struct panthor_vm *vm = container_of(vm_bo->vm, struct panthor_vm, base);
-> +	struct panthor_vma *first_evicted_vma = NULL;
-> +	struct drm_gpuva *va;
-> +
-> +	/* Take op_lock to protect against va insertion/removal. */
-> +	mutex_lock(&vm->op_lock);
-> +	drm_gpuvm_bo_for_each_va(va, vm_bo) {
-> +		struct panthor_vma *vma = container_of(va, struct panthor_vma, base);
-> +
-> +		if (vma->evicted) {
-> +			first_evicted_vma = vma;
-> +			panthor_vm_init_op_ctx(op_ctx, va->va.range, va->va.addr, vma->flags);
-> +			op_ctx->map.bo_offset = va->gem.offset;
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&vm->op_lock);
-> +
-> +	return first_evicted_vma;
-> +}
-> +
-> +static int remap_evicted_vma(struct drm_gpuvm_bo *vm_bo,
-> +			     struct panthor_vma *evicted_vma,
-> +			     struct panthor_vm_op_ctx *op_ctx)
-> +{
-> +	struct panthor_vm *vm = container_of(vm_bo->vm, struct panthor_vm, base);
-> +	struct panthor_gem_object *bo = to_panthor_bo(vm_bo->obj);
-> +	struct drm_gpuva *va;
-> +	bool found = false;
-> +	int ret;
-> +
-> +	ret = panthor_vm_op_ctx_prealloc_pts(op_ctx);
-> +	if (ret)
-> +		goto out_cleanup;
-> +
-> +	/* Take op_lock to protect against va insertion/removal. */
-> +	mutex_lock(&vm->op_lock);
-> +	drm_gpuvm_bo_for_each_va(va, vm_bo) {
-> +		struct panthor_vma *vma = container_of(va, struct panthor_vma, base);
-> +
-> +		if (vma != evicted_vma)
-> +			continue;
-> +
-> +		/* We can't rely solely on pointer equality, because the VMA might have been
-> +		 * freed and a new one allocated at the same address. If the evicted bit
-> +		 * is still set, we're sure it's our VMA, because population/eviction is
-> +		 * serialized with the BO resv lock.
-> +		 */
+This series introduces Runtime Power Management (PM) support for the
+Raspberry Pi V3D GPU.
 
-At first I thought to avoid having VM_BIND operations change the VM's VMA's in the interval between
-select_evicted_vma() and remap_evicted_vma(), maybe you could take the VM's operation lock around both of them
-in panthor_vm_restore_vmas(). But because the same lock is taken in the dma signalling path and
-panthor_vm_op_ctx_prealloc_pts() can sleep, then we cannot do that. Maybe you could add a note clarifying this?
+Currently, the V3D clock remains enabled for the entire system uptime,
+even when the GPU is idle. With the introduction of Runtime PM, the
+clock can now be disabled during idle periods. For example, with this
+series applied on a Raspberry Pi 5, if we check `vcgencmd measure_clock
+v3d`, we get:
 
-> +		if (vma->evicted)
-> +			found = true;
-> +
-> +		break;
-> +	}
-> +
-> +	if (found) {
-> +		vm->op_ctx = op_ctx;
-> +		ret = panthor_vm_lock_region(vm, evicted_vma->base.va.addr,
-> +					     evicted_vma->base.va.range);
-> +		if (!ret) {
-> +			ret = panthor_vm_map_pages(vm, evicted_vma->base.va.addr,
-> +						   flags_to_prot(evicted_vma->flags),
-> +						   bo->dmap.sgt,
-> +						   evicted_vma->base.gem.offset,
-> +						   evicted_vma->base.va.range);
-> +		}
-> +
-> +		if (!ret)
-> +			evicted_vma->evicted = false;
-> +
-> +		panthor_vm_unlock_region(vm);
-> +		vm->op_ctx = NULL;
-> +	}
-> +
-> +	mutex_unlock(&vm->op_lock);
-> +
-> +out_cleanup:
-> +	panthor_vm_cleanup_op_ctx(op_ctx, vm);
-> +	return ret;
-> +}
-> +
-> +static int panthor_vm_restore_vmas(struct drm_gpuvm_bo *vm_bo)
-> +{
-> +	struct panthor_vm *vm = container_of(vm_bo->vm, struct panthor_vm, base);
-> +	struct panthor_gem_object *bo = to_panthor_bo(vm_bo->obj);
-> +	struct panthor_vm_op_ctx op_ctx;
-> +
-> +	if (drm_WARN_ON_ONCE(&vm->ptdev->base, !bo->dmap.sgt))
-> +		return -EINVAL;
-> +
-> +	for (struct panthor_vma *vma = select_evicted_vma(vm_bo, &op_ctx);
-> +	     vma; vma = select_evicted_vma(vm_bo, &op_ctx)) {
-> +		int ret;
-> +
-> +		ret = remap_evicted_vma(vm_bo, vma, &op_ctx);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int panthor_vm_bo_validate(struct drm_gpuvm_bo *vm_bo,
-> +				  struct drm_exec *exec)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(vm_bo->obj);
-> +	int ret;
-> +
-> +	ret = panthor_gem_swapin_locked(bo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = panthor_vm_restore_vmas(vm_bo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_gpuvm_bo_evict(vm_bo, false);
-> +	mutex_lock(&bo->base.gpuva.lock);
-> +	panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +	mutex_unlock(&bo->base.gpuva.lock);
-> +	return 0;
-> +}
-> +
->  static const struct drm_gpuvm_ops panthor_gpuvm_ops = {
->  	.vm_free = panthor_vm_free,
->  	.vm_bo_free = panthor_vm_bo_free,
->  	.sm_step_map = panthor_gpuva_sm_step_map,
->  	.sm_step_remap = panthor_gpuva_sm_step_remap,
->  	.sm_step_unmap = panthor_gpuva_sm_step_unmap,
-> +	.vm_bo_validate = panthor_vm_bo_validate,
->  };
->
->  /**
-> @@ -2465,6 +2698,8 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
->  	vm->kernel_auto_va.start = auto_kernel_va_start;
->  	vm->kernel_auto_va.end = vm->kernel_auto_va.start + auto_kernel_va_size - 1;
->
-> +	drm_gem_lru_init(&vm->reclaim.lru, &ptdev->reclaim.lock);
-> +	INIT_LIST_HEAD(&vm->reclaim.lru_node);
->  	INIT_LIST_HEAD(&vm->node);
->  	INIT_LIST_HEAD(&vm->as.lru_node);
->  	vm->as.id = -1;
-> @@ -2812,7 +3047,78 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
->  	if (ret)
->  		return ret;
->
-> -	return drm_gpuvm_prepare_objects(&vm->base, exec, slot_count);
-> +	ret = drm_gpuvm_prepare_objects(&vm->base, exec, slot_count);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_gpuvm_validate(&vm->base, exec);
-> +}
-> +
-> +unsigned long
-> +panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
-> +			     unsigned int nr_to_scan, unsigned long *remaining,
-> +			     bool (*shrink)(struct drm_gem_object *,
-> +					    struct ww_acquire_ctx *))
-> +{
-> +	unsigned long freed = 0;
-> +	LIST_HEAD(remaining_vms);
-> +	LIST_HEAD(vms);
-> +
-> +	mutex_lock(&ptdev->reclaim.lock);
-> +	list_splice_init(&ptdev->reclaim.vms, &vms);
-> +
-> +	while (freed < nr_to_scan) {
-> +		struct panthor_vm *vm;
-> +
-> +		vm = list_first_entry_or_null(&vms, typeof(*vm),
-> +					      reclaim.lru_node);
-> +		if (!vm)
-> +			break;
-> +
-> +		if (!kref_get_unless_zero(&vm->base.kref)) {
-> +			list_del_init(&vm->reclaim.lru_node);
-> +			continue;
-> +		}
-> +
-> +		mutex_unlock(&ptdev->reclaim.lock);
-> +
-> +		freed += drm_gem_lru_scan(&vm->reclaim.lru, nr_to_scan - freed,
-> +					  remaining, shrink, NULL);
-> +
-> +		mutex_lock(&ptdev->reclaim.lock);
-> +
-> +		/* If the VM is still in the temporary list, remove it so we
-> +		 * can proceed with the next VM.
-> +		 */
-> +		if (vm->reclaim.lru_node.prev == &vms) {
-> +			list_del_init(&vm->reclaim.lru_node);
-> +
-> +			/* Keep the VM around if there are still things to
-> +			 * reclaim, so we can preserve the LRU order when
-> +			 * re-inserting in ptdev->reclaim.vms at the end.
-> +			 */
-> +			if (vm->reclaim.lru.count > 0)
-> +				list_add_tail(&vm->reclaim.lru_node, &remaining_vms);
-> +		}
-> +
-> +		mutex_unlock(&ptdev->reclaim.lock);
-> +
-> +		panthor_vm_put(vm);
-> +
-> +		mutex_lock(&ptdev->reclaim.lock);
-> +	}
-> +
-> +	/* Re-insert VMs with remaining data to reclaim at the beginning of
-> +	 * the LRU. Note that any activeness change on the VM that happened
-> +	 * while we were reclaiming would have moved the VM out of our
-> +	 * temporary [remaining_]vms list, meaning anything we re-insert here
-> +	 * preserves the LRU order.
-> +	 */
-> +	list_splice_tail(&vms, &remaining_vms);
-> +	list_splice(&remaining_vms, &ptdev->reclaim.vms);
-> +	mutex_unlock(&ptdev->reclaim.lock);
-> +
-> +	return freed;
->  }
->
->  /**
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-> index 0e268fdfdb2f..3522fbbce369 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-> @@ -1,6 +1,7 @@
->  /* SPDX-License-Identifier: GPL-2.0 or MIT */
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
->
->  #ifndef __PANTHOR_MMU_H__
->  #define __PANTHOR_MMU_H__
-> @@ -46,6 +47,13 @@ struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
->  				     u64 kernel_auto_va_start,
->  				     u64 kernel_auto_va_size);
->
-> +void panthor_vm_update_bo_reclaim_lru_locked(struct panthor_gem_object *bo);
-> +int panthor_vm_evict_bo_mappings_locked(struct panthor_gem_object *bo);
-> +unsigned long
-> +panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
-> +			     unsigned int nr_to_scan, unsigned long *remaining,
-> +			     bool (*shrink)(struct drm_gem_object *,
-> +					    struct ww_acquire_ctx *));
->  int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec,
->  					struct panthor_vm *vm,
->  					u32 slot_count);
-> --
-> 2.52.0
+(idle)
 
+$ vcgencmd measure_clock v3d
+frequency(0)=0
 
-Adrian Larumbe
+(running glmark2)
+
+$ vcgencmd measure_clock v3d
+frequency(0)=960016128
+
+To ease testing in Raspberry Pi 4 and 5, I prepared a downstream branch
+backporting this series to rpi-6.18.y [1].
+
+[1] https://github.com/mairacanal/linux-rpi/tree/v3d/downstream/power-management-v5
+
+Best regards,
+- Maíra
+
+---
+v1 -> v2: https://lore.kernel.org/r/20250728-v3d-power-management-v1-0-780f922b1048@igalia.com
+
+- [1/5] NEW PATCH: "clk: bcm: rpi: Add missing logs if firmware fails" (Stefan Wahren)
+- [2/5] Remove the "Fixes:" tag (Stefan Wahren)
+- [2/5] dev_err_ratelimited() instead of dev_err() (Stefan Wahren)
+- [2/5] Instead of logging the clock ID, use clk_hw_get_name(hw) to log the name (Stefan Wahren)
+- [2/5] Add a newline character at the end of the log message (Stefan Wahren)
+- [2/5] Use CLK_IS_CRITICAL for all clocks that can't be disabled (Maxime Ripard)
+- [3/5] NEW PATCH: "clk: bcm: rpi: Maximize V3D clock"
+- [4/5] Use devm_reset_control_get_optional_exclusive() (Philipp Zabel)
+- [4/5] Make sure that resource are cleaned in the inverse order of allocation (Philipp Zabel)
+
+v2 -> v3: https://lore.kernel.org/r/20250731-v3d-power-management-v2-0-032d56b01964@igalia.com
+
+- Rebased on top of drm-misc-next
+- Patches "[PATCH v2 1/5] clk: bcm: rpi: Add missing logs if firmware
+  fails", "[PATCH v2 2/5] clk: bcm: rpi: Turn firmware clock on/off when
+  preparing/unpreparing", and "[PATCH v2 3/5] clk: bcm: rpi: Maximize
+  V3D clock" were applied to clk-next.
+- [1/4] NEW PATCH: "clk: bcm: rpi: Let V3D consumers manage clock rate"
+- [2/4] NEW PATCH: "clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED"
+- [3/4] Added Philipp's R-b (Philipp Zabel)
+- [4/4] s/DRM_ERROR/drm_err
+- [4/4] Set the clock rate to 0 during suspend and to the maximum rate
+  during resume
+
+v3 -> v4: https://lore.kernel.org/r/20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com
+
+- Rebased on top of drm-misc-next
+- [1/6, 3/6] Add Melissa's A-b (Melissa Wen)
+- [2/6] NEW PATCH: "clk: bcm: rpi: Add a comment about RPI_FIRMWARE_SET_CLOCK_STATE
+  behavior" (Stefan Wahren)
+- [4/6] NEW PATCH: "drm/v3d: Use devm_reset_control_get_optional_exclusive()" (Melissa Wen)
+- [5/6] Include more context to the commit message (Melissa Wen)
+- [5/6, 6/6] Instead of creating the function v3d_gem_allocate(), use v3d_gem_init()
+  and move HW initialization out of it (Melissa Wen)
+
+v4 -> v5: https://lore.kernel.org/r/20260126-v3d-power-management-v4-0-caf2df16d4e2@igalia.com
+
+- [2/7] Add Stefan's A-b (Stefan Wahren)
+- [2/7, 5/7, 6/7] Add Melissa's R-b (Melissa Wen)
+- [4/7] NEW PATCH: "pmdomain: bcm: bcm2835-power: Increase ASB control timeout"
+- [7/7] Remove redundant pm_runtime_mark_last_busy() from v3d_pm_runtime_put()
+- [7/7] Use pm_runtime_get_if_active() in v3d_mmu_flush_all() instead of
+  pm_runtime_get_noresume() + pm_runtime_active()
+- [7/7] Add missing PM runtime calls to v3d_perfmon_start() and v3d_perfmon_stop()
+
+---
+Maíra Canal (7):
+      clk: bcm: rpi: Let V3D consumers manage clock rate
+      clk: bcm: rpi: Add a comment about RPI_FIRMWARE_SET_CLOCK_STATE behavior
+      clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED
+      pmdomain: bcm: bcm2835-power: Increase ASB control timeout
+      drm/v3d: Use devm_reset_control_get_optional_exclusive()
+      drm/v3d: Allocate all resources before enabling the clock
+      drm/v3d: Introduce Runtime Power Management
+
+ drivers/clk/bcm/clk-raspberrypi.c    |  15 ++--
+ drivers/gpu/drm/v3d/Makefile         |   3 +-
+ drivers/gpu/drm/v3d/v3d_debugfs.c    |  23 ++++-
+ drivers/gpu/drm/v3d/v3d_drv.c        | 163 +++++++++++++++++------------------
+ drivers/gpu/drm/v3d/v3d_drv.h        |  20 +++++
+ drivers/gpu/drm/v3d/v3d_gem.c        |  25 +++---
+ drivers/gpu/drm/v3d/v3d_irq.c        |  15 ++--
+ drivers/gpu/drm/v3d/v3d_mmu.c        |  10 ++-
+ drivers/gpu/drm/v3d/v3d_perfmon.c    |  18 +++-
+ drivers/gpu/drm/v3d/v3d_power.c      |  96 +++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_submit.c     |  19 +++-
+ drivers/pmdomain/bcm/bcm2835-power.c |   5 +-
+ 12 files changed, 286 insertions(+), 126 deletions(-)
+---
+base-commit: df4dc947c46bb9f80038f52c6e38cb2d40c10e50
+change-id: 20250728-v3d-power-management-eebb2024dc96
+
