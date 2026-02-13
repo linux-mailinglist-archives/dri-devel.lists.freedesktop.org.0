@@ -2,140 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKY0AnJZj2lxQgEAu9opvQ
+	id MFAOF7ldj2mZQgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:03:46 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:22:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EBD13877D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A6713897B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 18:22:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8028010E02B;
-	Fri, 13 Feb 2026 17:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9032710E2C6;
+	Fri, 13 Feb 2026 17:21:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FWGbedGk";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZcpU4Zxm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QkwHIigN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02EBE10E02B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 17:03:40 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61DB8RsJ2093750
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 17:03:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=YZdH6ExLJouxP5fU/TtsTdoL
- JnFhnqsdlD+R4tXVzho=; b=FWGbedGkWjAaYNkG70roD9icnTsPN5ESxS/YFIYf
- r5s9Ni6T+tUFImBNVwUppc0cL29KziDo5PpXCHbdl1YPd9MSr5CTE4LqbvwAUNDh
- +qqvyV9Ua8VP+sIYODj7pj6Yhig3HFgVxAXYCUAf0ceD91AHysuEKfOphpEBKvSs
- shV6wOZMFzr1G+jjgIDYieAECepyshv5J2qcaNtx5K614Z9+KZcinHSbSzHkItvd
- rezMqVKSlSvyu4Wje+hCd+GvDZa4Toc5HRJuPmZVE1/sRBAbgFTaROfx4JNoUWTH
- 3VVSD8wYOLeoj+VXwoZ+mLHULDtSZwJTdcPMqzmJ+HaSXA==
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c9k6y4qn9-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 17:03:39 +0000 (GMT)
-Received: by mail-ua1-f70.google.com with SMTP id
- a1e0cc1a2514c-948bcdc4aa9so5568213241.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 09:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771002219; x=1771607019;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YZdH6ExLJouxP5fU/TtsTdoLJnFhnqsdlD+R4tXVzho=;
- b=ZcpU4Zxmj616euSUcJHhzmlORtblHtjfWkbw0W8K89PNIW/CIj3LFla/eSMoVLppHm
- OAmPmS4536M9Im48iNxmgkj6z1zsZaPJYlcGj1lp7Zx10gOq12xc5ZOzhKuQKFtSgfHx
- FMoQ6mba6GkVICYf4GNMv/KPPZE7SmCUEGFmAR4BLMFLbNK/6gg9mlzdbVeg5UwfRf68
- tRvadTFA7Gg1hnYopLlTMWxmoIBQRBFzMNCzpYQBxF+g/Gr0Tmk8++t3tayPT6xFjhsV
- WTCfa59/v9T1c4tieBI8dnUjf2hfighxBQXGX36qZZhyOV36HIDetNirHwPYAzLo7KOd
- EDLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771002219; x=1771607019;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YZdH6ExLJouxP5fU/TtsTdoLJnFhnqsdlD+R4tXVzho=;
- b=bCYfv8wUdfF8K5HtP2YCsxbMpVfWt+NmEW84rig+TBrbq35386ETwYdvs4+FB6Eg0P
- vhdTqMDzHBrFbRSWVv2raw7Ujw1SoUKZMawpHh4SCAqESw7Pi/umwwdj6krwUfMPSKIe
- E2ysW6fKJ16OMnW6U558GZuANVFYh7tNdKppe31vRNl638iAjZkEXM8twbQg5Lj+bMsm
- 75MzNvsFSeJFJg/dZ/6m4qRfCaztU1Kj+SZWAehDLGBdnu/0Q5EPEYX8DeMy8VFCWaKk
- /XvDQpCcThMOM3arDWZEM1RYqxYLabuSywg3ly2kaCiOO8V08y9bHsJBZsOddqV6ay1y
- mIPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWb2dwjFeP83ulDdDQlTyA3tSjKHKJ68TMHHXuOSwYPWhUKdPZoG4mcVt/L9v5Nsf02QFWjZwdl2Pw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0LGyssOOdCVqODXM1RoOq+OVu1SJ3wFGXEBorczytlDjixwLw
- 69gHi+078mD/u+bkOfBJwNLeJTf0hdgUKyKVruX+zX9lOJ44oFPzGVl8t9VEP9gimeqBAnehtt4
- NNorgAfnPq9oiNY74OTfsaaiGywktU7ai2MqR7ExNWMjHHJIXxdMTABpIyVNC03bJkHorRvQ=
-X-Gm-Gg: AZuq6aLgSDMplu9PEVRbtwHgpb6OD0aVC/MeUADJZZSx6sWJmEuo/sDc6KlfS1GvGTs
- +ONSVhTV/a3n3jXUkSal30pvKRJlfwUlB8jNfzyewVcpXtWrm3Gzk0n4oHt4XrTbKF+6HIaJCD9
- Sk3Pd4ojz+Rpk66JwbzX2nMnvI51WxGzOtCwepTfLyiEaSA5+UZHbD1tLgdiC7PhvIPyLS9st0n
- 6rDWSW0VJB9yO8YgHSHVoCmqveDVbVSKad0FVLr5Q404onw7bISw4nMixnQYCqjcIUT5sJc52Cm
- 6TTTP7UgXwtIxOj6G4oC6v7iSfG9OdT7Vu0W8eBRMD1LH3jAKsKH3PUmiq2z0jkFnH3ULCaNfon
- z/laC0qZIdMON6gExGHzRpR5IMAdZE94TmAwKf+aflkK7/l1FJ3gKTfMZ8iVwtrBO8P3cmLV2Ai
- cpUbRN5s12pLsg/gPyU+XwY7LRvpsKQkmhQVQ=
-X-Received: by 2002:a05:6102:2ac1:b0:5f5:4f68:9f7e with SMTP id
- ada2fe7eead31-5fe2ad39bd3mr51938137.8.1771002219173; 
- Fri, 13 Feb 2026 09:03:39 -0800 (PST)
-X-Received: by 2002:a05:6102:2ac1:b0:5f5:4f68:9f7e with SMTP id
- ada2fe7eead31-5fe2ad39bd3mr51857137.8.1771002218650; 
- Fri, 13 Feb 2026 09:03:38 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59e5f5635a3sm1717634e87.8.2026.02.13.09.03.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Feb 2026 09:03:37 -0800 (PST)
-Date: Fri, 13 Feb 2026 19:03:36 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 2/4] drm/msm/dpu: Defer SSPP allocation until CRTC
- check
-Message-ID: <pufuo7jq4olww3ksyawqkoee34cl4fhtpfh3sh2kfuimajswod@gv4rp6wsnrhx>
-References: <20260213-msm-next-quad-pipe-split-v18-0-5815158d3635@linaro.org>
- <20260213-msm-next-quad-pipe-split-v18-2-5815158d3635@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213-msm-next-quad-pipe-split-v18-2-5815158d3635@linaro.org>
-X-Authority-Analysis: v=2.4 cv=NsTcssdJ c=1 sm=1 tr=0 ts=698f596c cx=c_pps
- a=R6oCqFB+Yf/t2GF8e0/dFg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=KKAkSRfTAAAA:8
- a=sJjDOZd7UmfH7BeDoGEA:9 a=CjuIK1q_8ugA:10 a=TD8TdBvy0hsOASGTdmB-:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDEzMSBTYWx0ZWRfX3Gb+90ixi4hM
- DferVfmsryp+WDpetFuRZYYXuIwVaEKo64joi8bQ0NKrEK4dfDnJQlefatNV3BKnUV6+mxsyRn5
- IE0v5/m7EvIy5cyoiShAzDu2iSe8AVX9vDkFZYgmM0U3ddlCVy1DNERf+RRI/kS3C7XueIdxJ7M
- jBTgtsRPq28xSECB4ZdG0SXOlALzeZlMSkdZ10FMpgMwJYeCKxftw1k0hoKpRwShZ1visj7LbDl
- AAUie7FKFhlwkylJ0T3JJQEREPmvIcGkGXBLBNAEJIAsTShdLx48o30p/x94xmEySUHkxEntIbJ
- p2rCESU9C00EQ3Ku13IhkdcIVuP+xwPkXCBSlqMv/eDq2mLvfyBfwdUHzwFuzcxwAnvSriXMQlR
- nwPlT097T+T6+g8TvJZL7M2Fw1N/QC9sMIEKwxXqqNc/aH7CSFxyLSpTfpMel8ZZkAqY1dtUVC0
- WH+WPMe9lnIL/4o7hDg==
-X-Proofpoint-GUID: CVuiIJ2eHJPH-QqvQ8IQBr0ySaMhYajK
-X-Proofpoint-ORIG-GUID: CVuiIJ2eHJPH-QqvQ8IQBr0ySaMhYajK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-13_03,2026-02-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130131
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81B810E2C6;
+ Fri, 13 Feb 2026 17:21:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7AAA36001A;
+ Fri, 13 Feb 2026 17:12:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E526DC116C6;
+ Fri, 13 Feb 2026 17:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771002778;
+ bh=GYGlNH6ZtsYX+o3QMvwEg6+pg9JnYhrAAMOAOmTrVFE=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=QkwHIigNW/q1zQQTcR6ZM1LW4H6/cAgQd+wi9Y/fodGx9uCK0t5675f2Vby90NuZL
+ SBq0Kf+bcQgQPmzwCWCOBt1+PR0dX1n0JX+W5vZFXwl1PTC7k/VIklE8cJFvMaLllx
+ 47ENJD+dl9692Kqp7JSOT1r3MKFrrDLVkEU7aLaBSuz+X/LNK1fOuaUrRXTV3iH6t/
+ 8hfMK5CIvfuWWB/ktOH/3EdFvnvhTgQCTq8SrzLHNSCe8es6geNGi9ShzCAbi2gA2F
+ HrtgEDJok+B6ZX/e9dfK2th1VYqb3mGXU7XqRp1QNNOA9Em9Ftcnwico0rbqYCYHL0
+ FGtWAQDCKkL/g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Feb 2026 18:12:54 +0100
+Message-Id: <DGE036OEW8ZK.1PX0DRV8R9EVB@kernel.org>
+Subject: Re: [PATCH v2 1/2] drm/nouveau: Fetch zcull info from device
+Cc: "Lyude Paul" <lyude@redhat.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Mary Guillemard"
+ <mary@mary.zone>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+To: "Mel Henning" <mhenning@darkrefraction.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260205-zcull3-v2-0-ac572f38cc7b@darkrefraction.com>
+ <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
+In-Reply-To: <20260205-zcull3-v2-1-ac572f38cc7b@darkrefraction.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,319 +68,206 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,poorly.run,somainline.org,gmail.com,ffwll.ch,oss.qualcomm.com,linaro.org,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:jun.nie@linaro.org,m:abhinav.kumar@linux.dev,m:lumag@kernel.org,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[redhat.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,mary.zone,lists.freedesktop.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 99EBD13877D
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,darkrefraction.com:email]
+X-Rspamd-Queue-Id: 74A6713897B
 X-Rspamd-Action: no action
 
-On Fri, Feb 13, 2026 at 10:54:26PM +0800, Jun Nie wrote:
-> Currently, mapping plane to SSPP occurs during the plane check phase for
-> non-virtual plane case. The SSPP allocation and plane mapping occurs during
-> crtc check phase for virtual plane case. Defer these SSPP operations until
+On Thu Feb 5, 2026 at 7:56 PM CET, Mel Henning wrote:
+> This information will be exposed to userspace in the following commit.
+>
+> Signed-off-by: Mel Henning <mhenning@darkrefraction.com>
 
-Nit: CRTC
+For someone looking at this commit, this commit message is not very useful.
 
-> CRTC check stage to unify the 2 cases, and ease later revisement for
-> quad-pipe change.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+Please add at least a brief explanation of what the patch does and - even m=
+ore
+important - why it does it. See also [1].
+
+[1] https://docs.kernel.org/process/submitting-patches.html#describe-your-c=
+hanges
+
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   3 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 155 +++++++++++++-----------------
->  2 files changed, 66 insertions(+), 92 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 6bf7c46379aed..797296b14264e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1534,8 +1534,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  			return rc;
->  	}
->  
-> -	if (dpu_use_virtual_planes &&
-> -	    (crtc_state->planes_changed || crtc_state->zpos_changed)) {
-> +	if (crtc_state->planes_changed || crtc_state->zpos_changed) {
->  		rc = dpu_crtc_reassign_planes(crtc, crtc_state);
+>  drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h   | 19 +++++++++++++
+>  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c   |  9 ++++--
+>  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c   | 32 ++++++++++++++++=
+++++--
+>  .../drm/nouveau/nvkm/subdev/gsp/rm/r570/nvrm/gr.h  | 19 +++++++++++++
+>  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/rm.h    |  2 +-
+>  5 files changed, 75 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h b/drivers/g=
+pu/drm/nouveau/include/nvkm/engine/gr.h
+> index a2333cfe6955..490ce410f6cb 100644
+> --- a/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h
+> +++ b/drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h
+> @@ -3,9 +3,28 @@
+>  #define __NVKM_GR_H__
+>  #include <core/engine.h>
+> =20
+> +struct nvkm_gr_zcull_info {
+> +	__u32 width_align_pixels;
+> +	__u32 height_align_pixels;
+> +	__u32 pixel_squares_by_aliquots;
+> +	__u32 aliquot_total;
+> +	__u32 zcull_region_byte_multiplier;
+> +	__u32 zcull_region_header_size;
+> +	__u32 zcull_subregion_header_size;
+> +	__u32 subregion_count;
+> +	__u32 subregion_width_align_pixels;
+> +	__u32 subregion_height_align_pixels;
+> +
+> +	__u32 ctxsw_size;
+> +	__u32 ctxsw_align;
+> +};
+> +
+>  struct nvkm_gr {
+>  	const struct nvkm_gr_func *func;
+>  	struct nvkm_engine engine;
+> +
+> +	struct nvkm_gr_zcull_info zcull_info;
+> +	bool has_zcull_info;
+>  };
+> =20
+>  u64 nvkm_gr_units(struct nvkm_gr *);
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c b/drive=
+rs/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
+> index ddb57d5e73d6..73844e1e7294 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gr.c
+> @@ -249,7 +249,7 @@ r535_gr_get_ctxbuf_info(struct r535_gr *gr, int i,
+>  }
+> =20
+>  static int
+> -r535_gr_get_ctxbufs_info(struct r535_gr *gr)
+> +r535_gr_get_ctxbufs_and_zcull_info(struct r535_gr *gr)
 
-dpu_crtc_reassing_planes() starts by freeing all SSPPs. It should not be
-used in a non-virtual-plane case. I'd suggest duplicating the function
-and stripping out all code and data related to virtual planes.
+Why did you combine those two callbacks? Why not extend struct nvkm_rm_api_=
+gr
+with another callback?
 
->  		if (rc < 0)
->  			return rc;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 66f240ce29d07..be1a7fcf11b81 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1119,102 +1119,24 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->  	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->  										 plane);
->  	int ret = 0;
-> -	struct dpu_plane *pdpu = to_dpu_plane(plane);
-> -	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-> -	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> -	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
-> -	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
-> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
-> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
-> -	const struct drm_crtc_state *crtc_state = NULL;
-> -	uint32_t max_linewidth = dpu_kms->catalog->caps->max_linewidth;
-> +	struct drm_crtc_state *crtc_state = NULL;
->  
->  	if (new_plane_state->crtc)
->  		crtc_state = drm_atomic_get_new_crtc_state(state,
->  							   new_plane_state->crtc);
->  
-> -	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> -
-> -	if (!pipe->sspp)
-> -		return -EINVAL;
-> -
->  	ret = dpu_plane_atomic_check_nosspp(plane, new_plane_state, crtc_state);
->  	if (ret)
->  		return ret;
->  
-> -	ret = dpu_plane_split(plane, new_plane_state, crtc_state);
-> -	if (ret)
-> -		return ret;
-> -
->  	if (!new_plane_state->visible)
->  		return 0;
->  
-> -	if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> -					      pipe->sspp,
-> -					      msm_framebuffer_format(new_plane_state->fb),
-> -					      max_linewidth)) {
-> -		DPU_DEBUG_PLANE(pdpu, "invalid " DRM_RECT_FMT " /" DRM_RECT_FMT
-> -				" max_line:%u, can't use split source\n",
-> -				DRM_RECT_ARG(&pipe_cfg->src_rect),
-> -				DRM_RECT_ARG(&r_pipe_cfg->src_rect),
-> -				max_linewidth);
-> -		return -E2BIG;
-> -	}
-> -
-> -	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> -}
-> -
-> -static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
-> -					  struct drm_atomic_state *state)
-> -{
-> -	struct drm_plane_state *plane_state =
-> -		drm_atomic_get_plane_state(state, plane);
-> -	struct drm_plane_state *old_plane_state =
-> -		drm_atomic_get_old_plane_state(state, plane);
-> -	struct dpu_plane_state *pstate = to_dpu_plane_state(plane_state);
-> -	struct drm_crtc_state *crtc_state = NULL;
-> -	int ret, i;
-> -
-> -	if (IS_ERR(plane_state))
-> -		return PTR_ERR(plane_state);
-> -
-> -	if (plane_state->crtc)
-> -		crtc_state = drm_atomic_get_new_crtc_state(state,
-> -							   plane_state->crtc);
-> -
-> -	ret = dpu_plane_atomic_check_nosspp(plane, plane_state, crtc_state);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = dpu_plane_split(plane, plane_state, crtc_state);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (!plane_state->visible) {
-> -		/*
-> -		 * resources are freed by dpu_crtc_assign_plane_resources(),
-> -		 * but clean them here.
-> -		 */
-> -		for (i = 0; i < PIPES_PER_PLANE; i++)
-> -			pstate->pipe[i].sspp = NULL;
-> -
-> -		return 0;
-> -	}
-> -
->  	/*
-> -	 * Force resource reallocation if the format of FB or src/dst have
-> -	 * changed. We might need to allocate different SSPP or SSPPs for this
-> -	 * plane than the one used previously.
-> +	 * To trigger the callback of dpu_assign_plane_resources() to
-> +	 * finish the sspp assignment or allocation and check.
->  	 */
-> -	if (!old_plane_state || !old_plane_state->fb ||
-> -	    old_plane_state->src_w != plane_state->src_w ||
-> -	    old_plane_state->src_h != plane_state->src_h ||
-> -	    old_plane_state->crtc_w != plane_state->crtc_w ||
-> -	    old_plane_state->crtc_h != plane_state->crtc_h ||
-> -	    msm_framebuffer_format(old_plane_state->fb) !=
-> -	    msm_framebuffer_format(plane_state->fb))
-> -		crtc_state->planes_changed = true;
-> -
-> +	crtc_state->planes_changed = true;
-
-Why do we need to enforce this? Previously it was limited to the cases
-when the plane has actually changed and required revalidation.
-
+>  {
+>  	NV2080_CTRL_INTERNAL_STATIC_GR_GET_CONTEXT_BUFFERS_INFO_PARAMS *info;
+>  	struct nvkm_subdev *subdev =3D &gr->base.engine.subdev;
+> @@ -265,6 +265,9 @@ r535_gr_get_ctxbufs_info(struct r535_gr *gr)
+>  		r535_gr_get_ctxbuf_info(gr, i, &info->engineContextBuffersInfo[0].engi=
+ne[i]);
+> =20
+>  	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, info);
+> +
+> +	gr->base.has_zcull_info =3D false;
+> +
 >  	return 0;
 >  }
->  
-> @@ -1261,9 +1183,9 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  					      struct dpu_global_state *global_state,
->  					      struct drm_atomic_state *state,
->  					      struct drm_plane_state *plane_state,
-> +					      const struct drm_crtc_state *crtc_state,
->  					      struct drm_plane_state **prev_adjacent_plane_state)
->  {
-> -	const struct drm_crtc_state *crtc_state = NULL;
->  	struct drm_plane *plane = plane_state->plane;
->  	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->  	struct dpu_rm_sspp_requirements reqs;
-> @@ -1273,10 +1195,6 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  	const struct msm_format *fmt;
->  	int i, ret;
->  
-> -	if (plane_state->crtc)
-> -		crtc_state = drm_atomic_get_new_crtc_state(state,
-> -							   plane_state->crtc);
-> -
->  	pstate = to_dpu_plane_state(plane_state);
->  	for (i = 0; i < STAGES_PER_PLANE; i++)
->  		prev_adjacent_pstate[i] = prev_adjacent_plane_state[i] ?
-> @@ -1288,6 +1206,10 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  	if (!plane_state->fb)
->  		return -EINVAL;
->  
-> +	ret = dpu_plane_split(plane, plane_state, crtc_state);
-> +	if (ret)
-> +		return ret;
-> +
->  	fmt = msm_framebuffer_format(plane_state->fb);
->  	reqs.yuv = MSM_FORMAT_IS_YUV(fmt);
->  	reqs.scale = (plane_state->src_w >> 16 != plane_state->crtc_w) ||
-> @@ -1318,14 +1240,56 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
->  }
->  
-> +static int dpu_plane_assign_resources(struct drm_crtc *crtc,
-> +				      struct dpu_global_state *global_state,
-> +				      struct drm_atomic_state *state,
-> +				      struct drm_plane_state *plane_state,
-> +				      const struct drm_crtc_state *crtc_state,
-> +				      struct drm_plane_state **prev_adjacent_plane_state)
-> +{
-> +	struct drm_plane *plane = plane_state->plane;
-> +	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> +	struct dpu_plane_state *pstate = to_dpu_plane_state(plane_state);
-> +	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
-> +	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
-> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
-> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
-> +	struct dpu_plane *pdpu = to_dpu_plane(plane);
-> +	int ret;
-> +
-> +	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> +	if (!pipe->sspp)
-> +		return -EINVAL;
-> +
-> +	ret = dpu_plane_split(plane, plane_state, crtc_state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> +					      pipe->sspp,
-> +					      msm_framebuffer_format(plane_state->fb),
-> +					      dpu_kms->catalog->caps->max_linewidth)) {
-> +		DPU_DEBUG_PLANE(pdpu, "invalid " DRM_RECT_FMT " /" DRM_RECT_FMT
-> +				" max_line:%u, can't use split source\n",
-> +				DRM_RECT_ARG(&pipe_cfg->src_rect),
-> +				DRM_RECT_ARG(&r_pipe_cfg->src_rect),
-> +				dpu_kms->catalog->caps->max_linewidth);
-> +		return -E2BIG;
-> +	}
-> +
-> +	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> +}
-> +
->  int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->  			       struct drm_atomic_state *state,
->  			       struct drm_crtc *crtc,
->  			       struct drm_plane_state **states,
->  			       unsigned int num_planes)
->  {
-> -	unsigned int i;
->  	struct drm_plane_state *prev_adjacent_plane_state[STAGES_PER_PLANE] = { NULL };
-> +	const struct drm_crtc_state *crtc_state = NULL;
-> +	unsigned int i;
-> +	int ret;
->  
->  	for (i = 0; i < num_planes; i++) {
->  		struct drm_plane_state *plane_state = states[i];
-> @@ -1334,8 +1298,19 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
->  		    !plane_state->visible)
->  			continue;
->  
-> -		int ret = dpu_plane_virtual_assign_resources(crtc, global_state,
-> +		if (plane_state->crtc)
-> +			crtc_state = drm_atomic_get_new_crtc_state(state,
-> +								   plane_state->crtc);
-> +
-> +		if (!dpu_use_virtual_planes)
-> +			ret = dpu_plane_assign_resources(crtc, global_state,
-> +							 state, plane_state,
-> +							 crtc_state,
-> +							 prev_adjacent_plane_state);
-
-This is an overkill for the non-virtual case. We don't need adjancent
-states, we don't need the array of plane state pointers, etc.
-
-> +		else
-> +			ret = dpu_plane_virtual_assign_resources(crtc, global_state,
->  							     state, plane_state,
-> +							     crtc_state,
->  							     prev_adjacent_plane_state);
->  		if (ret)
->  			return ret;
-> @@ -1772,7 +1747,7 @@ static const struct drm_plane_helper_funcs dpu_plane_helper_funcs = {
->  static const struct drm_plane_helper_funcs dpu_plane_virtual_helper_funcs = {
->  	.prepare_fb = dpu_plane_prepare_fb,
->  	.cleanup_fb = dpu_plane_cleanup_fb,
-> -	.atomic_check = dpu_plane_virtual_atomic_check,
-> +	.atomic_check = dpu_plane_atomic_check,
->  	.atomic_update = dpu_plane_atomic_update,
+> =20
+> @@ -312,7 +315,7 @@ r535_gr_oneinit(struct nvkm_gr *base)
+>  	 *
+>  	 * Also build the information that'll be used to create channel context=
+s.
+>  	 */
+> -	ret =3D rm->api->gr->get_ctxbufs_info(gr);
+> +	ret =3D rm->api->gr->get_ctxbufs_and_zcull_info(gr);
+>  	if (ret)
+>  		goto done;
+> =20
+> @@ -352,5 +355,5 @@ r535_gr_dtor(struct nvkm_gr *base)
+> =20
+>  const struct nvkm_rm_api_gr
+>  r535_gr =3D {
+> -	.get_ctxbufs_info =3D r535_gr_get_ctxbufs_info,
+> +	.get_ctxbufs_and_zcull_info =3D r535_gr_get_ctxbufs_and_zcull_info,
 >  };
->  
-> 
-> -- 
-> 2.43.0
-> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c b/drive=
+rs/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
+> index b6cced9b8aa1..3e7af2ffece9 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gr.c
+> @@ -164,9 +164,10 @@ r570_gr_scrubber_init(struct r535_gr *gr)
+>  }
+> =20
+>  static int
+> -r570_gr_get_ctxbufs_info(struct r535_gr *gr)
+> +r570_gr_get_ctxbufs_and_zcull_info(struct r535_gr *gr)
+>  {
+>  	NV2080_CTRL_INTERNAL_STATIC_GR_GET_CONTEXT_BUFFERS_INFO_PARAMS *info;
+> +	NV2080_CTRL_GR_GET_ZCULL_INFO_PARAMS *zcull_info;
+>  	struct nvkm_subdev *subdev =3D &gr->base.engine.subdev;
+>  	struct nvkm_gsp *gsp =3D subdev->device->gsp;
+> =20
+> @@ -179,13 +180,40 @@ r570_gr_get_ctxbufs_info(struct r535_gr *gr)
+>  	for (int i =3D 0; i < ARRAY_SIZE(info->engineContextBuffersInfo[0].engi=
+ne); i++)
+>  		r535_gr_get_ctxbuf_info(gr, i, &info->engineContextBuffersInfo[0].engi=
+ne[i]);
+> =20
+> +	NV2080_CTRL_INTERNAL_ENGINE_CONTEXT_BUFFER_INFO zcull =3D info->engineC=
+ontextBuffersInfo[0]
+> +		.engine[NV0080_CTRL_FIFO_GET_ENGINE_CONTEXT_PROPERTIES_ENGINE_ID_GRAPH=
+ICS_ZCULL];
+> +	gr->base.zcull_info.ctxsw_size =3D zcull.size;
+> +	gr->base.zcull_info.ctxsw_align =3D zcull.alignment;
+> +
+>  	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, info);
+> +
+> +	zcull_info =3D nvkm_gsp_rm_ctrl_rd(&gsp->internal.device.subdevice,
+> +					 NV2080_CTRL_CMD_GR_GET_ZCULL_INFO,
+> +					 sizeof(*zcull_info));
+> +	if (WARN_ON(IS_ERR(zcull_info)))
 
--- 
-With best wishes
-Dmitry
+What justifies this WARN_ON()? To me this seems like normal error handling,=
+ i.e.
+it is not a violation of some API invariant, etc. Also, this is in the driv=
+er's
+probe() path.
+
+> +		return PTR_ERR(zcull_info);
+> +
+> +	gr->base.zcull_info.width_align_pixels =3D zcull_info->widthAlignPixels=
+;
+> +	gr->base.zcull_info.height_align_pixels =3D zcull_info->heightAlignPixe=
+ls;
+> +	gr->base.zcull_info.pixel_squares_by_aliquots =3D zcull_info->pixelSqua=
+resByAliquots;
+> +	gr->base.zcull_info.aliquot_total =3D zcull_info->aliquotTotal;
+> +	gr->base.zcull_info.zcull_region_byte_multiplier =3D zcull_info->zcullR=
+egionByteMultiplier;
+> +	gr->base.zcull_info.zcull_region_header_size =3D zcull_info->zcullRegio=
+nHeaderSize;
+> +	gr->base.zcull_info.zcull_subregion_header_size =3D zcull_info->zcullSu=
+bregionHeaderSize;
+> +	gr->base.zcull_info.subregion_count =3D zcull_info->subregionCount;
+> +	gr->base.zcull_info.subregion_width_align_pixels =3D zcull_info->subreg=
+ionWidthAlignPixels;
+> +	gr->base.zcull_info.subregion_height_align_pixels =3D zcull_info->subre=
+gionHeightAlignPixels;
+> +
+> +	nvkm_gsp_rm_ctrl_done(&gsp->internal.device.subdevice, zcull_info);
+> +
+> +	gr->base.has_zcull_info =3D true;
+> +
+>  	return 0;
+>  }
