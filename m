@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIS/MuM0j2lGMgEAu9opvQ
+	id iMhfOx82j2n2MgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:27:47 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:33:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3188B1370F6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D26E13712F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 15:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CD810E7E8;
-	Fri, 13 Feb 2026 14:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F54C10E08F;
+	Fri, 13 Feb 2026 14:33:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T6V+Ob2l";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IQTnMH5A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6582B10E08F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 14:27:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 776E510E08F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 14:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770992861;
- bh=94rsKxbVJTCiK6jNrZbgnfbiXES4Wxn0cP+Aok/q8So=;
+ s=mail; t=1770993178;
+ bh=qnSypbY6LZaolUO/OilxrUesEiJrM70AYzxCLD5qJ38=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=T6V+Ob2lUi6TQHt49jk3pxyarGnMqrWXRRBTWtD4tzsf9WIvM/0nV4uuvMFyI2wkN
- CcMoH2dy9SnccmaowrAxfvxDQiey2AGZr95DJVS/mB4CdDy03kxNVs+E109+41SVgQ
- ZPAJvRr/lSZElZZkECKXIs9DxN9SVehWHQHavuXN4RM7hq6vJb2UbtAE0n0BummehM
- oIpCphyCRMTEkJ7ZdyflGG8eBBp3s8t6N+oxtGtqczJMuovzrxTPcGUPNRDki1AR9B
- zxUx+yYWptu2GtuAcPQtOtJ9CPypcTKCxBqYIxA2vg9xJigFuYEHT/H07Qyevi83Is
- TIqJJOjiEraSQ==
+ b=IQTnMH5A62deCf6qBjRFoPha2mbGA0164GvrfRhAbAP+tigsvWYcmyQ0L90FMAhPp
+ s4qWmoKcNbvPDYu6bzH3kwFCOLsppssK62M8FQ48LEeQ/5d3iot/vYFXSDHcq+nVS5
+ AUfaLWqOq6IzvKT0nwKvy8mIsD7CtfHYETkWJxrdKnuXbLYO+pLOVly5L1D2BBGs+p
+ yENp1Bc7FvlfapqGlpbXOKROpwGPhfz0Gl2Qebc405/zcVOikebbazBvoBa7xU3N9e
+ Zqsy7BRxBR8CL50Juuw8E8FX0t3+eesPkdCY6POw77lb+HeiYIlgKDNtOuQEQdMLvN
+ 4E/JwurJR1XeA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C804C17E1406;
- Fri, 13 Feb 2026 15:27:40 +0100 (CET)
-Date: Fri, 13 Feb 2026 15:27:33 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D53D717E00AC;
+ Fri, 13 Feb 2026 15:32:57 +0100 (CET)
+Date: Fri, 13 Feb 2026 15:32:53 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: "Christian =?UTF-8?B?S8O2bmln?=" <ckoenig.leichtzumerken@gmail.com>
 Cc: phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 4/8] dma-buf: inline spinlock for fence protection v4
-Message-ID: <20260213152733.36789fa2@fedora>
-In-Reply-To: <20260210102232.1642-5-christian.koenig@amd.com>
+Subject: Re: [PATCH 6/8] dma-buf: use inline lock for the stub fence v2
+Message-ID: <20260213153253.29016148@fedora>
+In-Reply-To: <20260210102232.1642-7-christian.koenig@amd.com>
 References: <20260210102232.1642-1-christian.koenig@amd.com>
- <20260210102232.1642-5-christian.koenig@amd.com>
+ <20260210102232.1642-7-christian.koenig@amd.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -100,336 +100,71 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3188B1370F6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6D26E13712F
 X-Rspamd-Action: no action
 
-On Tue, 10 Feb 2026 11:01:59 +0100
+On Tue, 10 Feb 2026 11:02:01 +0100
 "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
 
-> Implement per-fence spinlocks, allowing implementations to not give an
-> external spinlock to protect the fence internal statei. Instead a spinlock
-> embedded into the fence structure itself is used in this case.
+> Using the inline lock is now the recommended way for dma_fence
+> implementations.
 >=20
-> Shared spinlocks have the problem that implementations need to guarantee
-> that the lock live at least as long all fences referencing them.
+> So use this approach for the framework's internal fences as well.
 >=20
-> Using a per-fence spinlock allows completely decoupling spinlock producer
-> and consumer life times, simplifying the handling in most use cases.
+> Also saves about 4 bytes for the external spinlock.
 >=20
-> v2: improve naming, coverage and function documentation
-> v3: fix one additional locking in the selftests
-> v4: separate out some changes to make the patch smaller,
->     fix one amdgpu crash found by CI systems
+> v2: drop unnecessary changes
 >=20
 > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Reviewed-by: Philipp Stanner <phasta@kernel.org>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 > ---
->  drivers/dma-buf/dma-fence.c             | 21 ++++++++++++++++-----
->  drivers/dma-buf/sync_debug.h            |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h  |  2 +-
->  drivers/gpu/drm/drm_crtc.c              |  2 +-
->  drivers/gpu/drm/drm_writeback.c         |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_fence.c |  3 ++-
->  drivers/gpu/drm/qxl/qxl_release.c       |  3 ++-
->  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   |  3 ++-
->  drivers/gpu/drm/xe/xe_hw_fence.c        |  3 ++-
->  include/linux/dma-fence.h               | 19 +++++++++++++------
->  10 files changed, 41 insertions(+), 19 deletions(-)
+>  drivers/dma-buf/dma-fence.c | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
 >=20
 > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 56aa59867eaa..1833889e7466 100644
+> index 1833889e7466..541e20aa4e6c 100644
 > --- a/drivers/dma-buf/dma-fence.c
 > +++ b/drivers/dma-buf/dma-fence.c
-> @@ -343,7 +343,6 @@ void __dma_fence_might_wait(void)
->  }
->  #endif
+> @@ -24,7 +24,6 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
+>  EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
+>  EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
 > =20
+> -static DEFINE_SPINLOCK(dma_fence_stub_lock);
+>  static struct dma_fence dma_fence_stub;
+> =20
+>  /*
+> @@ -123,12 +122,9 @@ static const struct dma_fence_ops dma_fence_stub_ops=
+ =3D {
+> =20
+>  static int __init dma_fence_init_stub(void)
+>  {
+> -	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
+> -		       &dma_fence_stub_lock, 0, 0);
 > -
->  /**
->   * dma_fence_signal_timestamp_locked - signal completion of a fence
->   * @fence: the fence to signal
-> @@ -1067,7 +1066,6 @@ static void
->  __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *op=
-s,
->  	         spinlock_t *lock, u64 context, u64 seqno, unsigned long flags)
->  {
-> -	BUG_ON(!lock);
->  	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
-> =20
->  	kref_init(&fence->refcount);
-> @@ -1078,10 +1076,15 @@ __dma_fence_init(struct dma_fence *fence, const s=
-truct dma_fence_ops *ops,
->  	 */
->  	RCU_INIT_POINTER(fence->ops, ops);
->  	INIT_LIST_HEAD(&fence->cb_list);
-> -	fence->lock =3D lock;
->  	fence->context =3D context;
->  	fence->seqno =3D seqno;
->  	fence->flags =3D flags | BIT(DMA_FENCE_FLAG_INITIALIZED_BIT);
-> +	if (lock) {
-> +		fence->extern_lock =3D lock;
-> +	} else {
-> +		spin_lock_init(&fence->inline_lock);
-> +		fence->flags |=3D BIT(DMA_FENCE_FLAG_INLINE_LOCK_BIT);
-
-Hm, does this even make a different in term of instructions to check for
-a bit instead of extern_lock =3D=3D NULL? If not, I'd be in favor of
-killing this redundancy and checking extern_lock against NULL in
-dma_fence_spinlock().
-
-> +	}
->  	fence->error =3D 0;
-> =20
->  	trace_dma_fence_init(fence);
-> @@ -1091,7 +1094,7 @@ __dma_fence_init(struct dma_fence *fence, const str=
-uct dma_fence_ops *ops,
->   * dma_fence_init - Initialize a custom fence.
->   * @fence: the fence to initialize
->   * @ops: the dma_fence_ops for operations on this fence
-> - * @lock: the irqsafe spinlock to use for locking this fence
-> + * @lock: optional irqsafe spinlock to use for locking this fence
->   * @context: the execution context this fence is run on
->   * @seqno: a linear increasing sequence number for this context
->   *
-> @@ -1101,6 +1104,10 @@ __dma_fence_init(struct dma_fence *fence, const st=
-ruct dma_fence_ops *ops,
->   *
->   * context and seqno are used for easy comparison between fences, allowi=
-ng
->   * to check which fence is later by simply using dma_fence_later().
-> + *
-> + * It is strongly discouraged to provide an external lock. This is only =
-allowed
-> + * for legacy use cases when multiple fences need to be prevented from
-> + * signaling out of order.
->   */
->  void
->  dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-> @@ -1114,7 +1121,7 @@ EXPORT_SYMBOL(dma_fence_init);
->   * dma_fence_init64 - Initialize a custom fence with 64-bit seqno suppor=
-t.
->   * @fence: the fence to initialize
->   * @ops: the dma_fence_ops for operations on this fence
-> - * @lock: the irqsafe spinlock to use for locking this fence
-> + * @lock: optional irqsafe spinlock to use for locking this fence
->   * @context: the execution context this fence is run on
->   * @seqno: a linear increasing sequence number for this context
->   *
-> @@ -1124,6 +1131,10 @@ EXPORT_SYMBOL(dma_fence_init);
->   *
->   * Context and seqno are used for easy comparison between fences, allowi=
-ng
->   * to check which fence is later by simply using dma_fence_later().
-> + *
-> + * It is strongly discouraged to provide an external lock. This is only =
-allowed
-> + * for legacy use cases when multiple fences need to be prevented from
-> + * signaling out of order.
->   */
->  void
->  dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *op=
-s,
-> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-> index 02af347293d0..c49324505b20 100644
-> --- a/drivers/dma-buf/sync_debug.h
-> +++ b/drivers/dma-buf/sync_debug.h
-> @@ -47,7 +47,7 @@ struct sync_timeline {
-> =20
->  static inline struct sync_timeline *dma_fence_parent(struct dma_fence *f=
-ence)
->  {
-> -	return container_of(fence->lock, struct sync_timeline, lock);
-> +	return container_of(fence->extern_lock, struct sync_timeline, lock);
+> +	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops, NULL, 0, 0);
+>  	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>  		&dma_fence_stub.flags);
+> -
+>  	dma_fence_signal(&dma_fence_stub);
+>  	return 0;
 >  }
+> @@ -160,11 +156,7 @@ struct dma_fence *dma_fence_allocate_private_stub(kt=
+ime_t timestamp)
+>  	if (fence =3D=3D NULL)
+>  		return NULL;
 > =20
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_vm.h
-> index 139642eacdd0..d5c41e24fb51 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -638,7 +638,7 @@ static inline uint64_t amdgpu_vm_tlb_seq(struct amdgp=
-u_vm *vm)
->  	 * sure that the dma_fence structure isn't freed up.
->  	 */
->  	rcu_read_lock();
-> -	lock =3D vm->last_tlb_flush->lock;
-> +	lock =3D dma_fence_spinlock(vm->last_tlb_flush);
->  	rcu_read_unlock();
+> -	dma_fence_init(fence,
+> -		       &dma_fence_stub_ops,
+> -		       &dma_fence_stub_lock,
+> -		       0, 0);
+> -
+> +	dma_fence_init(fence, &dma_fence_stub_ops, NULL, 0, 0);
+>  	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>  		&fence->flags);
 > =20
->  	spin_lock_irqsave(lock, flags);
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index a7797d260f1e..17472915842f 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -159,7 +159,7 @@ static const struct dma_fence_ops drm_crtc_fence_ops;
->  static struct drm_crtc *fence_to_crtc(struct dma_fence *fence)
->  {
->  	BUG_ON(fence->ops !=3D &drm_crtc_fence_ops);
-> -	return container_of(fence->lock, struct drm_crtc, fence_lock);
-> +	return container_of(fence->extern_lock, struct drm_crtc, fence_lock);
->  }
-> =20
->  static const char *drm_crtc_fence_get_driver_name(struct dma_fence *fenc=
-e)
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeb=
-ack.c
-> index 95b8a2e4bda6..624a4e8b6c99 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -81,7 +81,7 @@
->   *	From userspace, this property will always read as zero.
->   */
-> =20
-> -#define fence_to_wb_connector(x) container_of(x->lock, \
-> +#define fence_to_wb_connector(x) container_of(x->extern_lock, \
->  					      struct drm_writeback_connector, \
->  					      fence_lock)
-> =20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/no=
-uveau/nouveau_fence.c
-> index 4a193b7d6d9e..c282c94138b2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -41,7 +41,8 @@ static const struct dma_fence_ops nouveau_fence_ops_leg=
-acy;
->  static inline struct nouveau_fence_chan *
->  nouveau_fctx(struct nouveau_fence *fence)
->  {
-> -	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
-> +	return container_of(fence->base.extern_lock, struct nouveau_fence_chan,
-> +			    lock);
->  }
-> =20
->  static bool
-> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_=
-release.c
-> index 06b0b2aa7953..37d4ae0faf0d 100644
-> --- a/drivers/gpu/drm/qxl/qxl_release.c
-> +++ b/drivers/gpu/drm/qxl/qxl_release.c
-> @@ -62,7 +62,8 @@ static long qxl_fence_wait(struct dma_fence *fence, boo=
-l intr,
->  	struct qxl_device *qdev;
->  	unsigned long cur, end =3D jiffies + timeout;
-> =20
-> -	qdev =3D container_of(fence->lock, struct qxl_device, release_lock);
-> +	qdev =3D container_of(fence->extern_lock, struct qxl_device,
-> +			    release_lock);
-> =20
->  	if (!wait_event_timeout(qdev->release_event,
->  				(dma_fence_is_signaled(fence) ||
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_fence.c
-> index 85795082fef9..d251eec57df9 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-> @@ -47,7 +47,8 @@ struct vmw_event_fence_action {
->  static struct vmw_fence_manager *
->  fman_from_fence(struct vmw_fence_obj *fence)
->  {
-> -	return container_of(fence->base.lock, struct vmw_fence_manager, lock);
-> +	return container_of(fence->base.extern_lock, struct vmw_fence_manager,
-> +			    lock);
->  }
-> =20
->  static void vmw_fence_obj_destroy(struct dma_fence *f)
-> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_=
-fence.c
-> index ae8ed15b64c5..14720623ad00 100644
-> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
-> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-> @@ -124,7 +124,8 @@ static struct xe_hw_fence *to_xe_hw_fence(struct dma_=
-fence *fence);
-> =20
->  static struct xe_hw_fence_irq *xe_hw_fence_irq(struct xe_hw_fence *fence)
->  {
-> -	return container_of(fence->dma.lock, struct xe_hw_fence_irq, lock);
-> +	return container_of(fence->dma.extern_lock, struct xe_hw_fence_irq,
-> +			    lock);
->  }
-> =20
->  static const char *xe_hw_fence_get_driver_name(struct dma_fence *dma_fen=
-ce)
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 88c842fc35d5..6eabbb1c471c 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -34,7 +34,8 @@ struct seq_file;
->   * @ops: dma_fence_ops associated with this fence
->   * @rcu: used for releasing fence with kfree_rcu
->   * @cb_list: list of all callbacks to call
-> - * @lock: spin_lock_irqsave used for locking
-> + * @extern_lock: external spin_lock_irqsave used for locking
-> + * @inline_lock: alternative internal spin_lock_irqsave used for locking
->   * @context: execution context this fence belongs to, returned by
->   *           dma_fence_context_alloc()
->   * @seqno: the sequence number of this fence inside the execution contex=
-t,
-> @@ -49,6 +50,7 @@ struct seq_file;
->   * of the time.
->   *
->   * DMA_FENCE_FLAG_INITIALIZED_BIT - fence was initialized
-> + * DMA_FENCE_FLAG_INLINE_LOCK_BIT - use inline spinlock instead of exter=
-nal one
->   * DMA_FENCE_FLAG_SIGNALED_BIT - fence is already signaled
->   * DMA_FENCE_FLAG_TIMESTAMP_BIT - timestamp recorded for fence signaling
->   * DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT - enable_signaling might have been c=
-alled
-> @@ -66,7 +68,10 @@ struct seq_file;
->   * been completed, or never called at all.
->   */
->  struct dma_fence {
-> -	spinlock_t *lock;
-> +	union {
-> +		spinlock_t *extern_lock;
-> +		spinlock_t inline_lock;
-> +	};
->  	const struct dma_fence_ops __rcu *ops;
->  	/*
->  	 * We clear the callback list on kref_put so that by the time we
-> @@ -100,6 +105,7 @@ struct dma_fence {
-> =20
->  enum dma_fence_flag_bits {
->  	DMA_FENCE_FLAG_INITIALIZED_BIT,
-> +	DMA_FENCE_FLAG_INLINE_LOCK_BIT,
->  	DMA_FENCE_FLAG_SEQNO64_BIT,
->  	DMA_FENCE_FLAG_SIGNALED_BIT,
->  	DMA_FENCE_FLAG_TIMESTAMP_BIT,
-> @@ -381,11 +387,12 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fen=
-cep)
->   * dma_fence_spinlock - return pointer to the spinlock protecting the fe=
-nce
->   * @fence: the fence to get the lock from
->   *
-> - * Return the pointer to the extern lock.
-> + * Return either the pointer to the embedded or the external spin lock.
->   */
->  static inline spinlock_t *dma_fence_spinlock(struct dma_fence *fence)
->  {
-> -	return fence->lock;
-> +	return test_bit(DMA_FENCE_FLAG_INLINE_LOCK_BIT, &fence->flags) ?
-> +		&fence->inline_lock : fence->extern_lock;
->  }
-> =20
->  /**
-> @@ -396,7 +403,7 @@ static inline spinlock_t *dma_fence_spinlock(struct d=
-ma_fence *fence)
->   * Lock the fence, preventing it from changing to the signaled state.
->   */
->  #define dma_fence_lock_irqsave(fence, flags)	\
-> -	spin_lock_irqsave(fence->lock, flags)
-> +	spin_lock_irqsave(dma_fence_spinlock(fence), flags)
-> =20
->  /**
->   * dma_fence_unlock_irqrestore - unlock the fence and irqrestore
-> @@ -406,7 +413,7 @@ static inline spinlock_t *dma_fence_spinlock(struct d=
-ma_fence *fence)
->   * Unlock the fence, allowing it to change it's state to signaled again.
->   */
->  #define dma_fence_unlock_irqrestore(fence, flags)	\
-> -	spin_unlock_irqrestore(fence->lock, flags)
-> +	spin_unlock_irqrestore(dma_fence_spinlock(fence), flags)
-> =20
->  /**
->   * dma_fence_assert_held - lockdep assertion that fence is locked
 
