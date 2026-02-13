@@ -2,107 +2,189 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qDHcMIWNj2kXRgEAu9opvQ
+	id kJ/8BYuQj2lGRgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 21:45:57 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 21:58:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDC41397FD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 21:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F982139858
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Feb 2026 21:58:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB0C10E1B7;
-	Fri, 13 Feb 2026 20:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B09F410E317;
+	Fri, 13 Feb 2026 20:58:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aX7yXxl2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MUS9fLuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643B710E1B7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 20:45:52 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id
- a640c23a62f3a-b884d5c787bso173262366b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 12:45:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1771015546; x=1771620346;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XjReM9ADg6zhlxMDPHdkasEcLNhY554Cqko3b+W+YjU=;
- b=aX7yXxl2p7rP4cf6NACQK54KMfDzDQ0ZdjUzoklmXjpB0nR+VawNfQEATlVKcFTeW2
- NJVKPuVnNYR4bLEF07PCGJ8VolzhG41txEwKPtgYN+zAzCDElBM7v/4bpU1xbmi0QXCg
- Zsrf6+7ISmlmPAFXM7qhY7nmx7tuvQGwl1jo8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771015546; x=1771620346;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=XjReM9ADg6zhlxMDPHdkasEcLNhY554Cqko3b+W+YjU=;
- b=uzWnpCBiUqkJAiRNMYkaCWYRTO8Zk/BsOkoi3LC0s1n8+t/ZgaGl+GQJZCBk6rTy+R
- Unth+K44NQSy7QCfAxYjS8lswEsQsVDitbiYjSKmwSQc3oGwnu3NouSNXck4UQhQ9tXu
- c1eZKlfswLJiROsKgsOp+Yw4aaFTqadYi/pSNWhgNTa0TFJZJ7JqBDdG22rCAj4rLKPK
- EyACtowgls5RRiz7KRQjFt0+108IekkVea9p5SfVDDie6+SZDfblV7fQDXoTmk6dAMpH
- q2O5Pj7bLmoSABExxQFzjNzbJoSaq4ylv5t5nvSj2pIfRjRQjUZFbE2dANgbend5ALj4
- t0lA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUrHh53MPt69WtXGhuB95CIac07lECqYRyiJluRKtkGsw5KogtG9f1yNtklNapxBe+BXeCZg6GA6/w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwA1q1n/OE2leq+wRiaF1TfZsrQcOhT2e+qE8i3iqLWvDPl/d4v
- olCtlHPPzqVBnYR/nhGuYF4ne37n5jm8tWUpp9c5vNlN0dxty671GiyDFsfthL8Z2bjlDolrGhB
- xxzrMDFGTjmM=
-X-Gm-Gg: AZuq6aIikA4VqpHN1skMXkt3/oTj+cHAkAU07EgP2Keu6ll4grOrrnTj9f5ytaFEgsW
- TJOwx15mN/M0Ck6ZjJ9pNPGS51nvyJXhunzEZp/e2AbDT649kaWDMpkBv+DGysSSnUiwPRrabUo
- ngUtR6LJ2CL2ZdVXKzelxbt/yK3nUsSM0/+WPBmI/misZk1aJWozIYuXlAnF7xZsQZlrtqkxl04
- 3exsm5kFaHCw5+nAKmH2Ae+tlHBvG1jykSNO1/qv5tSBtBVFkQdn707TteNMcoEIW1Lu8dLwVQW
- SIpwrzf+aYZE02BiozeI2ESvELg3KvqmLfQRrZpuTAoXxQdMTc/wEkviEWz5NFN/VzlUzT7KajL
- Cq8Lw8zcMbFDPgtZ7/oy+nT73eZBgUgpyLAnKVJTVhOZuRT3OdJLO55RFphbnFIrrsU4IyjQyOd
- aJBu4/wJpNMUXoJNpkat1+raoDG2iX2VanSBRiPWYcedZqTPU1vG2yA9/OgWySwQ==
-X-Received: by 2002:a17:907:8689:b0:b87:324b:9ae1 with SMTP id
- a640c23a62f3a-b8fc3c7e2d3mr44937266b.40.1771015546060; 
- Fri, 13 Feb 2026 12:45:46 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com.
- [209.85.221.48]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc7385d99sm1040366b.17.2026.02.13.12.45.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Feb 2026 12:45:45 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-43590777e22so861646f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 12:45:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpdbrYnTDrsJBUpi1FmPjhav/oTCVFLxSGh/FzQ4ySA46Bp6cfWZp7MI9y9jn9CZiWbNqISPs6WnM=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:144b:b0:431:808:2d58 with SMTP id
- ffacd0b85a97d-4379db98611mr1384034f8f.51.1771015542925; Fri, 13 Feb 2026
- 12:45:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20260206123758.374555-1-fra.schnyder@gmail.com>
- <CAD=FV=UO3wHqGKep67pY04PgBJKgvOgDf8u1qxeXmWkgVMLXiQ@mail.gmail.com>
- <20260206161054.GA101724@francesco-nb>
- <CAD=FV=VvePQt9LgupM+hW72doRja4UPBj6sBXUh091yHFxcxVw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VvePQt9LgupM+hW72doRja4UPBj6sBXUh091yHFxcxVw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 13 Feb 2026 12:45:31 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VLNXWT2_e=nk2MsQVmFCuJmw9sgDAwntGo0nE0Q3sADQ@mail.gmail.com>
-X-Gm-Features: AZwV_Qiw3C9EmV38eXLLKegttFQVVJNwB5dzTwKeOXTHmmgbU3iR_KdDERbJVB4
-Message-ID: <CAD=FV=VLNXWT2_e=nk2MsQVmFCuJmw9sgDAwntGo0nE0Q3sADQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Enable HPD polling if IRQ is
- not used
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Franz Schnyder <fra.schnyder@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Franz Schnyder <franz.schnyder@toradex.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D200510E2C2;
+ Fri, 13 Feb 2026 20:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771016327; x=1802552327;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=xaWKf/JFp719aR8II3b9IeSRqfViytaSjb4BaTGM+pg=;
+ b=MUS9fLuFCNWzKUYA2wHCcJ0bpBI+wI18AAl4a1PhMh2Vvv3YFG72ganw
+ AlK01E+Fbm9uVNuQiqdCEUhcRnVjw5HrLpWm3uMGZdODZIrvikn2nN+RD
+ OYQcht8uMR9m632psQ/HQKkkQTFVR+E91RNLwcsuSR7JGqwI0Me7OWsjh
+ khahZP5Hnc+bgUcZ8BnWe3pXYZoMHIAXB+sg5x1WTKV12OLA5kC3AnqCi
+ 4HSS8iyh1ExmrbBIB3abhtDMsAQFp+TJhc5RtbH6HlGjvdXg4nkNJr/06
+ WbQinK78QiXKxts40vs36yUvGl97JHbr+QcnCBsK8+VrI0lOg54Xn0cbQ Q==;
+X-CSE-ConnectionGUID: pVcp2f2jSGa6Eom4yXIzxw==
+X-CSE-MsgGUID: h4aoWHwTQ4CJS3fg5Lweyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71231740"
+X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; d="scan'208";a="71231740"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2026 12:58:46 -0800
+X-CSE-ConnectionGUID: BAU68+plTLe4X3EkByb0ZQ==
+X-CSE-MsgGUID: CTLOTZARRQWZI7Fmnbz6rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; d="scan'208";a="217993754"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2026 12:58:47 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Fri, 13 Feb 2026 12:58:45 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Fri, 13 Feb 2026 12:58:45 -0800
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.10) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Fri, 13 Feb 2026 12:58:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=brQAvLQ1Cn11U74FV8aAz9kcfZSzQUgL/55x+5Avov+kqa1P0CB4rpl97qF0yqvYeamKqm0uss50KK1cI3+4ns8HEW/bueD0LYnv9ug3TZc/4VTYxiJ2a1JRtdWMHeMTtGFOqobt2rUtfkL5P/EJUZfrC40ZMSvxtlRh//mPhfxbUegHZw+IV4cagKZOaQOR7iX4ovKyZJS3D00auH5WQUWLi9XfjbUogap2aXWMu9qLsHVTR7Kt4TKxi9g60bwMb3Ezd8IU1R4M44Fm6a544h243OCv2Al8g3XNiEBSF7bt/BXHSXmpR2RtKkLmRoaWuUdFEnTyK3aWlSw1VVRe9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5OzfsfYblcgYX/NVffUjFgJH/4+6J2iTx3au5INk4i4=;
+ b=InF/FRNiJ+cL9Q+kCDsiRU1Ecjxu9g916tATwl6r1dU9mKpNzx6wFCRhGzq/99L+/vWscDYxB5wQXVwCqHYI05wE8nreVwCQRtD21ch48ssrAmStOa0Z8eR4X9EPhyW3TrrWieCaf1SbSiHrArkzjlYlMiLtFH0Evm3Lru781jKZI71UDlzDsJadFjHyI+kbox62XAuWC826mlYB9nrPOfZE7JuLczAeXajTcSOiU27XpGfMlXBuNZrz57OH5P3TCvrxx8MIYfOe+iqH/SQW2OtaPO/UMk5vU0AEI5Hz+sS0G5Hr8Emi6pUst9p4yIgI0KyvnfTd+eFXTuTfKS/wfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5456.namprd11.prod.outlook.com (2603:10b6:5:39c::14)
+ by DM4PR11MB5280.namprd11.prod.outlook.com (2603:10b6:5:38b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Fri, 13 Feb
+ 2026 20:58:44 +0000
+Received: from DM4PR11MB5456.namprd11.prod.outlook.com
+ ([fe80::62e5:4a7c:f965:9082]) by DM4PR11MB5456.namprd11.prod.outlook.com
+ ([fe80::62e5:4a7c:f965:9082%6]) with mapi id 15.20.9611.012; Fri, 13 Feb 2026
+ 20:58:44 +0000
+From: "Lin, Shuicheng" <shuicheng.lin@intel.com>
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+CC: "Gupta, Saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex"
+ <alex.zuo@intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "Brost, Matthew"
+ <matthew.brost@intel.com>, "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Wajdeczko, Michal" <Michal.Wajdeczko@intel.com>, "Mrozek, Michal"
+ <michal.mrozek@intel.com>, "Jadav, Raag" <raag.jadav@intel.com>, "Briano,
+ Ivan" <ivan.briano@intel.com>, "Auld, Matthew" <matthew.auld@intel.com>
+Subject: RE: [PATCH v33 2/5] drm/xe/xe_pagefault: Track address precision per
+ pagefault
+Thread-Topic: [PATCH v33 2/5] drm/xe/xe_pagefault: Track address precision per
+ pagefault
+Thread-Index: AQHcl4hZjtn/d6x3HEKwbRawrV84U7WBJHbA
+Date: Fri, 13 Feb 2026 20:58:43 +0000
+Message-ID: <DM4PR11MB5456A34841A0C65BB023A359EA61A@DM4PR11MB5456.namprd11.prod.outlook.com>
+References: <20260206164731.8395-7-jonathan.cavitt@intel.com>
+ <20260206164731.8395-9-jonathan.cavitt@intel.com>
+In-Reply-To: <20260206164731.8395-9-jonathan.cavitt@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5456:EE_|DM4PR11MB5280:EE_
+x-ms-office365-filtering-correlation-id: eaa3d809-f045-48fe-26d4-08de6b42ac88
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?ww94CujTIyzmdNyeQ8KwNCYAMwQejJvP0ss8gDlKAARAgTYyh/C0OGx21OoA?=
+ =?us-ascii?Q?/ufudCzwRAHXsgKCErWpK2OdgvbcIDecRMtpnVZ27saXWOAeUc0xQk4XBGw4?=
+ =?us-ascii?Q?OnI3ppafNaMmD7uXkMOEQgvXLwK8k3S6BanEgau5l81FKre6qkgo2NFiT70E?=
+ =?us-ascii?Q?wf/FBoFDEnTkLlXxIlFkLzpWlrX1kIE3pArz+o5djmMh3Vmsi7DqVhnyLrZZ?=
+ =?us-ascii?Q?wtlUgqOWnrhaMIyu6OGsOypH32xNA4u/tJVrNS1WS7HnsCpMD7KSEQF+Ij/l?=
+ =?us-ascii?Q?lfMuNDrLYMp5o9nCWKRlCwb5ZnnbYKFm43dwbGWJOoXgaWK2+7yfAq+vHXXi?=
+ =?us-ascii?Q?9VbUjbci3746JqFivD5lce5CZ/9CV5FscCoKRXvyC6WOBu2xYRYPsLOySwkr?=
+ =?us-ascii?Q?oKwOhi0xbDwcaJr0aZrxpGezvEtWFxLAsa1T+09e/3kRGNaDqRkD0HkkVmYZ?=
+ =?us-ascii?Q?T1XsghpFRSBTAYLVcF3NSCGbPymHO+qVf+zE4gVBawNPtPffoey5/6sO5u4y?=
+ =?us-ascii?Q?gGK+D1tC2yvMF55JKPyTcZK5BSwdw//nzF0lnlGeRy1zdh6tmRxLcFhafhlB?=
+ =?us-ascii?Q?I9BnEmIrJifXn2PMxqENs9hAghqGE7/5nf99M30vRhPVSqNNbXrRGgt8Ze/+?=
+ =?us-ascii?Q?m91Om+n8f24j/8unBqJgjUzHNclXuh974NFkh25rKMldyQs3B9BvGMufuwX/?=
+ =?us-ascii?Q?SovUVnF2+u10nu9xd/oZHHLh449kOjjE1KM2n13BX9W8lFI7DCIPcSDS+Sxb?=
+ =?us-ascii?Q?aqXwGekxd6xb6kabQpQloybmYZeJ42M/sDXQspzJhHMA7UpR/F/EQN2QpvtK?=
+ =?us-ascii?Q?i+HUPuLfjqt3jw3HxCU3MntyCbyhp5CywWbW3R+UNMfi2jxejzmM5xAGTOYP?=
+ =?us-ascii?Q?5bh9UMG+UxwfbGLT1rDHvSVRrJDTO5E/xVYSX+X6AC5oesB1F1jS3rL1KEeD?=
+ =?us-ascii?Q?exk9QkNKTnWtebWx3qBfRyKjI29wkQWTNblYBfBd2/CHu2NeQtJZUzdsmWas?=
+ =?us-ascii?Q?GM9GgvFD9oIV316296XPYyllVcTdtJtPOqTY4R2G/6MiuR4vhBq1LebcX1I2?=
+ =?us-ascii?Q?Qu5UdgzyWY2bCab4ZtjW+AROdzLcHKCJEuP+zC1/ifM5V4/nrZCLBk7MgWGK?=
+ =?us-ascii?Q?U9YLS62LSPbaf7Yi+bpFs7ajknfRf5T+m7LOwd0BrLrbWuNiLLlXIkbEc7Y0?=
+ =?us-ascii?Q?54qBTfqq+zB+xxOnUrf8iXX9Ur6ix31iJY83GHx1IKnvoMpIQ/2h/b2xJAZ+?=
+ =?us-ascii?Q?laLGBItVRsZailksevuOEimEfM8rm3av4BPjZZ7t9IM7j1kMA1bZfCisYJs+?=
+ =?us-ascii?Q?H+8elrCkYWEJ5Kwvnb2jBJ+9ItHV6iJFocP5GH5niCAuRbAlCUFj4gJZVPJq?=
+ =?us-ascii?Q?z6NVGQoLgOjUFI56NHQ6vPtZu46YxIIGs2+1980tWWufE8lK6T9recAQ2zz/?=
+ =?us-ascii?Q?8EhtWoc8yHvibREhKhLUWEb8MqsxnXGbEfd9gnPkIywkwPZKiDsCQ/IS2iIW?=
+ =?us-ascii?Q?2uyogzvHLJspjzELWDCsahLdkzqZ63DdHQv+Ys2SU22pxA9L7T80JasAn3lu?=
+ =?us-ascii?Q?PPd6I9d/1VNYnWDs08nAhGO4cAKJAb0Fn5fsApRdC2MZNpMABezfEYr+nbdK?=
+ =?us-ascii?Q?pbG1MuOPVZuJd65W8bG6ojw=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5456.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700021); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rrZ5GoHj59jaLKD8CnAoruWytPH/AzhA+RNOUCEElIB+W/+TnK/1VQQi/cLp?=
+ =?us-ascii?Q?HjjzGu2lo/FPV7jpbj3OEEiejqpMrhZhgoT/bcaw9C7R2Ds0bN3khdJmfxDr?=
+ =?us-ascii?Q?UwdQOSY7yg81uCtshyVUl4kplQ7jq8F+utZCpkkO0oMEYzdlEWBwvn+oP1FM?=
+ =?us-ascii?Q?FtbwkMvftt+97WO/Gd3+32fPzrmOr5H4Q6rRg1HmjbUmMmCiEReKHtwvkgA/?=
+ =?us-ascii?Q?+764AdapvhVcQdRVzR4k9AVn0WJUITMfBGDT9Qsfe1zU5kchGwxYknhPH/vW?=
+ =?us-ascii?Q?o3Tj2JBggN5jl+lla1GRyUHA/dLr6AUo5W4a0Belu4SxGGF5seDjnRDDRiQU?=
+ =?us-ascii?Q?aYCP3tDHLTNpOSTCen7siX39FvzvJQKIY00s7CoLU3i0wKc9Gvzg/0SlL0Y6?=
+ =?us-ascii?Q?ks1uv8iDiyqQ2KNMvM5x8EtyL8WH1w5zGOXc7VwyNdDmxIUDG4RdjilhkJiy?=
+ =?us-ascii?Q?ndgKV1Kxfo9ZntIbMHfdITF6qDgivOxdvwLseRX+j7xBIPBuV7XxIjadUO5j?=
+ =?us-ascii?Q?iYDeo9/xWAD9paz3hronGniYNdptZgMurNz3wg0UHR/yIcnq7vl7oAtU7wou?=
+ =?us-ascii?Q?j4gFzUFid0UcPAuwFmgTdlVPj66jP0R0JHDufLE12mVfyWEBTmqKUEn/PK0E?=
+ =?us-ascii?Q?8ZUf6uu3pAZPEv0J1eIm4aNqH/2B1/nH77yl0ob5o7r9fLThdttLe43IbR8x?=
+ =?us-ascii?Q?ryZklvgM/vaVgimF8fR3ZWthbZpiX7EyR2cmtL0PYDaBzcnI3zx49iydQ8Tb?=
+ =?us-ascii?Q?0qiYF0vLTtyF+OBJpPM9t6TwstqZepWm+oE3zIT0dp5qLXRI+/J9hqDzbNpk?=
+ =?us-ascii?Q?sArTZuVc5swfRE8zUdOZ4axX7W81/n6W5u5JDIe5adw2LtrfsiqQ3CJ+mXXs?=
+ =?us-ascii?Q?tSjTGMIe8LognmUwnTR+HL8uZ8QH+Qtfm6FStsSdhl0cCXzDLgbtqR4voHGk?=
+ =?us-ascii?Q?neozUJwr52Vjl8TuCvIE9S7fH0ZKN5V2JIK7JMbWs/hSzqjFnbt9PbGZoXUX?=
+ =?us-ascii?Q?fNckhYUqUjwJsGEarAcqXpUcRRaXYtXrBcJwPz37nxbTElhIx6SAaK4vKIKB?=
+ =?us-ascii?Q?lyBhQv3+cKQxqZY+9Gq9uXB84Uko7wMUVDH2Hs+2v24kjhSrKsTrMiDLdMId?=
+ =?us-ascii?Q?C5FQHJ8ukQEmyGORzOr2tzVrsM2KX0KEp8mOByzS4C+y7GH0weykivfP3OwG?=
+ =?us-ascii?Q?DvS7Nxhe4pK/rFG/DsApCcevDda6lfIIDfwG6niqMc16vAkcFbecjYzK4hSZ?=
+ =?us-ascii?Q?lXi0IifhyvUjg4AIQeBNrG2Ak+DiqDOVPUhx0Fjv0eDfTXC02b9fKXGg59TO?=
+ =?us-ascii?Q?G9fzAaK9Zfg8mwx4doucPy4g2KElTN3YgizKetVYXYUWWP3sj6Pn3v3QpCFN?=
+ =?us-ascii?Q?QWdpSVVxNivnlpUcwxF+oR9oZeS7ppCuWJmZTHW5Fn4g2xxfKHy6yWIgJR+8?=
+ =?us-ascii?Q?HbUYCc6z/t/LRmFOm5+eJPD39zJWeSJCcf2dnVOVhLPvpfy9RMI3wLjBnO7d?=
+ =?us-ascii?Q?zHTMz6Af3k7OGX9m2mMZOgN4UrGrDjp7CRORCS2WVGBVAQvXoNfgcapGtTxB?=
+ =?us-ascii?Q?T801LtO1hFVg+jAFTC4gweqsrHJFBcytXmoseZz2lQ+XZr8MnT+XFsH0w6ZR?=
+ =?us-ascii?Q?L44ruedC2adlJj0qlaD3U6HwqxxfVeWDYNT/wkAbKLGxwI8oyBtDaTtktypp?=
+ =?us-ascii?Q?nTpylQYHqFEMlpoWICuMJ0xErpQsWscCxSaMH8fNTNgbSf50shWvKDfrejXx?=
+ =?us-ascii?Q?DbSDdpFZog=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5456.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eaa3d809-f045-48fe-26d4-08de6b42ac88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2026 20:58:43.9563 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Z7QkAgLgP5qum1YlBjGk0LSB7Xg2ggdh43nmR/JVggaD/jOJRXufRgKCXCUHfP99ls9D3e7NbvUmswc2ExJWzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5280
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,134 +200,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:francesco@dolcini.it,m:fra.schnyder@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:franz.schnyder@toradex.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:fraschnyder@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,toradex.com,lists.freedesktop.org,vger.kernel.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,chromium.org:dkim,dolcini.it:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2EDC41397FD
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,DM4PR11MB5456.namprd11.prod.outlook.com:mid];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shuicheng.lin@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 6F982139858
 X-Rspamd-Action: no action
 
-Hi,
+On Fri, Feb 6, 2026 8:48 AM Jonathan Cavitt wrote:
+> Add an address precision field to the pagefault consumer.  This captures =
+the
+> fact that pagefaults are reported on a SZ_4K granularity by GuC, meaning =
+the
+> reported pagefault address is only the address of the page where the faul=
+ting
+> access occurred rather than the exact address of the fault.  This field i=
+s
+> necessary in case more reporters are added where the granularity can be
+> different.
+>=20
+> v2:
+> - Keep u8 values together (Matt Brost)
+>=20
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 
-On Fri, Feb 6, 2026 at 8:27=E2=80=AFAM Doug Anderson <dianders@chromium.org=
-> wrote:
->
-> Hi,
->
-> On Fri, Feb 6, 2026 at 8:11=E2=80=AFAM Francesco Dolcini <francesco@dolci=
-ni.it> wrote:
-> >
-> > Hello Doug,
-> >
-> > On Fri, Feb 06, 2026 at 07:46:10AM -0800, Doug Anderson wrote:
-> > > On Fri, Feb 6, 2026 at 4:38=E2=80=AFAM Franz Schnyder <fra.schnyder@g=
-mail.com> wrote:
-> > > >
-> > > > From: Franz Schnyder <franz.schnyder@toradex.com>
-> > > >
-> > > > Fallback to polling to detect hotplug events on systems without
-> > > > interrupts.
-> > > >
-> > > > On systems where the interrupt line of the bridge is not connected,
-> > > > the bridge cannot notify hotplug events. Only add the
-> > > > DRM_BRIDGE_OP_HPD flag if an interrupt has been registered
-> > > > otherwise remain in polling mode.
-> > > >
-> > > > Fixes: 9133bc3f0564 ("drm/bridge: ti-sn65dsi86: Add support for Dis=
-playPort mode with HPD")
-> > > > Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for Display=
-Port connector type")
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Franz Schnyder <franz.schnyder@toradex.com>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++++--
-> > > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > It's weird that you have two fixes, but upon closer inspection, I see
-> > > why you tagged it as you did.
-> > >
-> > > The first commit that landed, commit 55e8ff842051 ("drm/bridge:
-> > > ti-sn65dsi86: Add HPD for DisplayPort connector type"), was still
-> > > using polling mode and just using the HPD line for polling. That
-> > > commit incorrectly set the flag "DRM_BRIDGE_OP_HPD". So the proper
-> > > backport to kernels with just that commit would be to take away that
-> > > flag. Unfortunately, I didn't notice this problem during the review
-> > > and I don't personally have any hardware using this bridge for DP,
-> > > only eDP.
-> > >
-> > > The second commit that landed, commit 9133bc3f0564 ("drm/bridge:
-> > > ti-sn65dsi86: Add support for DisplayPort mode with HPD"), actually
-> > > added support for the HPD interrupt. After this commit, your fix
-> > > (which makes the flag "DRM_BRIDGE_OP_HPD" depend on the IRQ) is the
-> > > correct one.
-> > >
-> > > Unfortunately, I think the above will confuse the stable scripts.
-> > > Since your patch applied cleanly atop the first commit then it will
-> > > picked to any kernels with it, even if they don't have the second
-> > > commit.
-> > >
-> > > I think the first commit landed in v6.16 and the second commit isn't
-> > > yet in any stable release.
-> > >
-> > > Maybe the right way to look at this is to just call the 2nd patch a
-> > > prereq? So this:
-> > >
-> > > Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for
-> > > DisplayPort connector type")
-> > > Cc: <stable@vger.kernel.org> # 6.16: 9133bc3f0564: drm/bridge: ti-sn6=
-5dsi86: Add
-> > >
-> > > That will cause the 2nd patch to get picked up for stable too, but
-> > > that would be preferable to having just your fix without the 2nd
-> > > patch. Alternatively, you could try to add some other note to the
-> > > stable team to help them arrive at the right backport.
-> >
-> > We had some internal review before sending this patch and I am the one
-> > that suggested to put both commit as fixes in the end.
-> >
-> > I agree that your solution is the correct one (I am not familiar with
-> > the syntax there, but I agree on the concept), assuming
-> > nobody disagree on this, should we send a v2, or are you going to amend
-> > the commit message when applying it?
->
-> You can see the docs at:
->
-> Documentation/process/stable-kernel-rules.rst
->
-> As long as you agree with what I came up with, there's no need for you
-> to resend and I can adjust it when I land the patch. I'll still let it
-> sit on the list for at least next week to give others a chance to
-> review / comment.
+LGTM.
+Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
 
-Pushed to drm-misc-fixes with the updated Fixes / stable line.
+> ---
+>  drivers/gpu/drm/xe/xe_guc_pagefault.c   | 1 +
+>  drivers/gpu/drm/xe/xe_pagefault.c       | 2 ++
+>  drivers/gpu/drm/xe/xe_pagefault_types.h | 8 +++++++-
+>  3 files changed, 10 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_guc_pagefault.c
+> b/drivers/gpu/drm/xe/xe_guc_pagefault.c
+> index 719a18187a31..79b790fedda8 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_pagefault.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_pagefault.c
+> @@ -74,6 +74,7 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32
+> *msg, u32 len)
+>  				      << PFD_VIRTUAL_ADDR_HI_SHIFT) |
+>  		(FIELD_GET(PFD_VIRTUAL_ADDR_LO, msg[2]) <<
+>  		 PFD_VIRTUAL_ADDR_LO_SHIFT);
+> +	pf.consumer.addr_precision =3D 12;
+>  	pf.consumer.asid =3D FIELD_GET(PFD_ASID, msg[1]);
+>  	pf.consumer.access_type =3D FIELD_GET(PFD_ACCESS_TYPE, msg[2]);
+>  	pf.consumer.fault_type =3D FIELD_GET(PFD_FAULT_TYPE, msg[2]); diff --
+> git a/drivers/gpu/drm/xe/xe_pagefault.c
+> b/drivers/gpu/drm/xe/xe_pagefault.c
+> index 922a4f3344b1..a24de27eb303 100644
+> --- a/drivers/gpu/drm/xe/xe_pagefault.c
+> +++ b/drivers/gpu/drm/xe/xe_pagefault.c
+> @@ -231,6 +231,7 @@ static void xe_pagefault_print(struct xe_pagefault
+> *pf)  {
+>  	xe_gt_info(pf->gt, "\n\tASID: %d\n"
+>  		   "\tFaulted Address: 0x%08x%08x\n"
+> +		   "\tAddress Precision: %lu\n"
+>  		   "\tFaultType: %d\n"
+>  		   "\tAccessType: %d\n"
+>  		   "\tFaultLevel: %d\n"
+> @@ -239,6 +240,7 @@ static void xe_pagefault_print(struct xe_pagefault
+> *pf)
+>  		   pf->consumer.asid,
+>  		   upper_32_bits(pf->consumer.page_addr),
+>  		   lower_32_bits(pf->consumer.page_addr),
+> +		   BIT(pf->consumer.addr_precision),
+>  		   pf->consumer.fault_type,
+>  		   pf->consumer.access_type,
+>  		   pf->consumer.fault_level,
+> diff --git a/drivers/gpu/drm/xe/xe_pagefault_types.h
+> b/drivers/gpu/drm/xe/xe_pagefault_types.h
+> index d3b516407d60..333db12713ef 100644
+> --- a/drivers/gpu/drm/xe/xe_pagefault_types.h
+> +++ b/drivers/gpu/drm/xe/xe_pagefault_types.h
+> @@ -67,6 +67,12 @@ struct xe_pagefault {
+>  		u64 page_addr;
+>  		/** @consumer.asid: address space ID */
+>  		u32 asid;
+> +		/**
+> +		 * @consumer.addr_precision: precision of the page fault
+> address.
+> +		 * u8 rather than u32 to keep compact - actual precision is
+> +		 * BIT(consumer.addr_precision).  Currently only 12
+> +		 */
+> +		u8 addr_precision;
+>  		/**
+>  		 * @consumer.access_type: access type, u8 rather than enum
+> to
+>  		 * keep size compact
+> @@ -85,7 +91,7 @@ struct xe_pagefault {
+>  		/** @consumer.engine_instance: engine instance */
+>  		u8 engine_instance;
+>  		/** consumer.reserved: reserved bits for future expansion */
+> -		u8 reserved[7];
+> +		u8 reserved[6];
+>  	} consumer;
+>  	/**
+>  	 * @producer: State for the producer (i.e., HW/FW interface).
+> Populated
+> --
+> 2.43.0
 
-[1/1] drm/bridge: ti-sn65dsi86: Enable HPD polling if IRQ is not used
-      commit: 0b87d51690dd5131cbe9fbd23746b037aab89815
