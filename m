@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPWoJjrKj2nMTgEAu9opvQ
+	id 2DbNBX/Kj2ntTgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1766D13A5B4
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EBB13A6AE
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6407410E852;
-	Sat, 14 Feb 2026 01:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEACE10E857;
+	Sat, 14 Feb 2026 01:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XtNLGchE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Maa9S8zt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E7D10E852
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:04:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C709710E857
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:06:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 67E3143DFB;
- Sat, 14 Feb 2026 01:04:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A848C16AAE;
- Sat, 14 Feb 2026 01:04:54 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9C64B443D3;
+ Sat, 14 Feb 2026 01:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FC3C19423;
+ Sat, 14 Feb 2026 01:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771031095;
- bh=K0RHdhb85AGX3NTk3JN8BCHnVTm2XLyO2NxEyhx2MrM=;
+ s=k20201202; t=1771031163;
+ bh=FJSLGiaQrTdjaNFn5/fWJS1Yn2FwKMG/XhZ9Z4b/a8I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XtNLGchEDT/k8TJGpB+GUrzqE/+TEFigkHYtpSQywEP1pyrkl8mLvKjhz1BOyrSvh
- p2nk545VRGdL9fSTfXmOs1bpxVlcr5FUI9w3bW24QgA2M4jUKIcJNElmr34RHn+gyo
- ozhNnDWavXTCkqQ0oRE3y92t9yxArOzKE/8Tf1nwKGNz5e4Aqih/5h2dEq4XJewTzI
- N0UU1RAEsgtjjPmK7W43jkVfaR2kA7kf+wy78Jicg0dkKHppGmRI+EKHeaVKwxrN9n
- 9iyxytVnzzgV8s8ux8jI7U/kX/K3Ir0mRPFRS4qA4xeA0PMKwcmh+pD1qDBEo2iMEp
- mDlCryNBDru1g==
+ b=Maa9S8ztrtxiPXcPPr4zD9VhGNCx1BtgDUwmW05/XWWzkZ3mtUdkNg9op/dHMjhkM
+ OcanWHJ9p9IUmjvSaNr9Jh2Y3gGNnbrlj5GUlwuhEB60Rc10v3AfIal46VwhneOYTT
+ LohWm9IZ7gbqK1BGTS26CVUEFoMvlQqI+zgYNhSpCpZoDyy5UkwVDASazCKgRmM1Ze
+ PTIGb2o/5RShVC4sFraTJ7vtj63nYhtYTevzriFXIrGYXG8TT2aK/bbQ3lSfKz4jl/
+ y8kYQbTlM1Wjb+o9t8tIYjzgS6OWOk+VJT36Wj+zr9lpLiThAzW+XrMvQjGidjzJSf
+ FyHXVKErFgW5A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Tuo Li <islituo@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.19-6.12] drm/panel: Fix a possible null-pointer
- dereference in jdi_panel_dsi_remove()
-Date: Fri, 13 Feb 2026 19:58:59 -0500
-Message-ID: <20260214010245.3671907-59-sashal@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Sasha Levin <sashal@kernel.org>, dharma.b@microchip.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.19] drm/atmel-hlcdc: destroy properly the plane
+ state in the reset callback
+Date: Fri, 13 Feb 2026 19:59:25 -0500
+Message-ID: <20260214010245.3671907-85-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -72,163 +76,260 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:islituo@gmail.com,m:neil.armstrong@linaro.org,m:sashal@kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:ludovic.desroches@microchip.com,m:manikandan.m@microchip.com,m:sashal@kernel.org,m:dharma.b@microchip.com,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:linux-arm-kernel@lists.infradead.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,linaro.org,kernel.org,lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:email]
-X-Rspamd-Queue-Id: 1766D13A5B4
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,microchip.com:email]
+X-Rspamd-Queue-Id: 82EBB13A6AE
 X-Rspamd-Action: no action
 
-From: Tuo Li <islituo@gmail.com>
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
 
-[ Upstream commit 95eed73b871111123a8b1d31cb1fce7e902e49ea ]
+[ Upstream commit 81af99cbd9e4f238011af811d544fff75641fc25 ]
 
-In jdi_panel_dsi_remove(), jdi is explicitly checked, indicating that it
-may be NULL:
+If there is a plane state to destroy when doing a plane reset, destroy
+it using the atmel_hlcdc_plane_destroy_state() function. So we call
+__drm_atomic_helper_plane_destroy_state() and avoid code duplication.
 
-  if (!jdi)
-    mipi_dsi_detach(dsi);
-
-However, when jdi is NULL, the function does not return and continues by
-calling jdi_panel_disable():
-
-  err = jdi_panel_disable(&jdi->base);
-
-Inside jdi_panel_disable(), jdi is dereferenced unconditionally, which can
-lead to a NULL-pointer dereference:
-
-  struct jdi_panel *jdi = to_panel_jdi(panel);
-  backlight_disable(jdi->backlight);
-
-To prevent such a potential NULL-pointer dereference, return early from
-jdi_panel_dsi_remove() when jdi is NULL.
-
-Signed-off-by: Tuo Li <islituo@gmail.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://patch.msgid.link/20251218120955.11185-1-islituo@gmail.com
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+Link: https://patch.msgid.link/20251218-lcd_cleanup_mainline-v2-8-df837aba878f@microchip.com
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis
+## Analysis of the Commit
 
 ### Commit Message Analysis
 
-The commit message is clear and well-structured. It identifies a **null
-pointer dereference** in `jdi_panel_dsi_remove()`. The existing code
-checks `if (!jdi)` but only calls `mipi_dsi_detach(dsi)` without
-returning, so execution falls through to `jdi_panel_disable(&jdi->base)`
-which dereferences the NULL `jdi` pointer. This is a classic missing-
-return-after-early-check bug.
-
-The commit has been **Reviewed-by** a subsystem maintainer (Neil
-Armstrong), lending credibility.
+The commit message says: "destroy properly the plane state in the reset
+callback" — the key word is **properly**. This suggests the previous
+destruction was **improper**, meaning there was a bug in the old code.
 
 ### Code Change Analysis
 
-The fix is extremely small and surgical — it adds braces around the
-existing `if (!jdi)` block and inserts a `return;` statement:
+Let me examine the old vs new `atmel_hlcdc_plane_reset()` function
+carefully.
 
+**Old code (being removed):**
 ```c
-- if (!jdi)
-+       if (!jdi) {
-                mipi_dsi_detach(dsi);
-+               return;
-+       }
+if (p->state) {
+    state = drm_plane_state_to_atmel_hlcdc_plane_state(p->state);
+    if (state->base.fb)
+        drm_framebuffer_put(state->base.fb);
+    kfree(state);
+    p->state = NULL;
+}
 ```
 
-This is a textbook null-pointer dereference fix. The original code
-intended to handle the `jdi == NULL` case (DSI-LINK2 interface that only
-needs detach), but forgot to return early, causing the function to
-continue and dereference `jdi` through `jdi_panel_disable(&jdi->base)`.
+**New code (replacement):**
+```c
+if (p->state) {
+    atmel_hlcdc_plane_atomic_destroy_state(p, p->state);
+    p->state = NULL;
+}
+```
 
-### Bug Classification
+**What `atmel_hlcdc_plane_atomic_destroy_state()` does that the old
+inline code did NOT:**
+```c
+static void atmel_hlcdc_plane_atomic_destroy_state(...)
+{
+    // 1. Frees DMA descriptors from the DMA pool
+    for (i = 0; i < ARRAY_SIZE(state->dscrs); i++) {
+        dma_pool_free(dc->dscrpool, state->dscrs[i],
+                      state->dscrs[i]->self);
+    }
+    // 2. Puts the framebuffer reference
+    if (s->fb)
+        drm_framebuffer_put(s->fb);
+    // 3. Frees the state
+    kfree(state);
+}
+```
 
-- **Type**: NULL pointer dereference
-- **Trigger**: When `jdi_panel_dsi_remove()` is called for the DSI-LINK2
-  interface where `mipi_dsi_get_drvdata(dsi)` returns NULL
-- **Consequence**: Kernel oops/crash due to dereferencing a NULL pointer
-- **Severity**: Medium-High — this is a crash in a driver removal path,
-  triggered during device unbind or module unload
+### Bug Identified: DMA Descriptor Resource Leak
+
+The old reset code was **missing the DMA pool free** for the descriptors
+(`state->dscrs[i]`). Every time `atmel_hlcdc_plane_reset()` was called
+with an existing plane state, the DMA descriptors allocated from
+`dc->dscrpool` were **leaked** — they were never returned to the DMA
+pool.
+
+This is a **real resource leak**. DMA pool memory is coherent DMA
+memory, a finite and precious resource, especially on embedded ARM
+systems where this Atmel HLCDC display controller runs. DMA pool
+exhaustion can lead to allocation failures and display malfunction.
+
+Additionally, the old code was also **missing the
+`__drm_atomic_helper_plane_destroy_state()` call** that the proper
+destroy function would provide (though in this driver the destroy
+function doesn't call it either, it does its own fb put + kfree).
+However, the DMA descriptor leak is the primary bug.
+
+### Additional Change: CSC Initialization
+
+The new reset function also adds:
+```c
+if (plane->layer.desc->layout.csc)
+    dc->desc->ops->lcdc_csc_init(plane, plane->layer.desc);
+```
+
+This is a **new addition** — CSC (Color Space Conversion) initialization
+during plane reset. This is arguably a feature addition or a separate
+fix for missing initialization. This adds a bit of risk since it's not
+purely fixing the leak but also changing initialization behavior.
 
 ### Scope and Risk Assessment
 
-- **Lines changed**: 3 lines (add braces and a `return`)
-- **Files changed**: 1 file
-- **Risk**: Extremely low — the fix is obviously correct and cannot
-  introduce regressions. It only adds an early return when `jdi` is
-  NULL, which is clearly the intended behavior given the existing NULL
-  check.
+- **Files changed:** 1 file
+- **Net change:** The function is reorganized, and the core fix (using
+  proper destroy) is straightforward
+- **Risk:** LOW for the resource leak fix. MEDIUM for the CSC init
+  addition — but CSC init during reset is standard practice and the code
+  only runs on Atmel HLCDC hardware
+- **Subsystem:** DRM driver for a specific ARM SoC (Atmel/Microchip
+  SAM9/SAMA5) — limited blast radius
 
-### Stable Kernel Criteria
+### Stable Criteria Assessment
 
-1. **Obviously correct and tested**: Yes — reviewed by subsystem
-   maintainer, trivially correct
-2. **Fixes a real bug**: Yes — NULL pointer dereference leading to
-   kernel crash
-3. **Fixes an important issue**: Yes — crash in driver removal path
-4. **Small and contained**: Yes — 3 lines in a single file
-5. **No new features**: Correct — pure bug fix
-6. **Applies cleanly**: Likely — the change is very localized
+1. **Obviously correct:** Yes — the DMA descriptors were being leaked;
+   they must be freed via the proper destroy path
+2. **Fixes a real bug:** Yes — DMA pool memory leak on plane reset
+3. **Important issue:** Moderate — resource leak in a display driver; on
+   embedded systems with limited DMA pool memory, this could eventually
+   cause display failures
+4. **Small and contained:** Yes — one file, one function reorganized
+5. **No new features:** The CSC init addition is borderline — it's
+   initialization that was arguably missing, but it does add new
+   behavior
+6. **Applies cleanly:** Would need to verify, but it's self-contained
 
-### Dependencies
+### Concerns
 
-This patch is self-contained with no dependencies on other commits.
+1. The CSC initialization addition goes beyond the pure leak fix and
+   introduces new behavior. This makes it slightly riskier than a pure
+   fix.
+2. The commit message doesn't emphasize the DMA descriptor leak — it's
+   described as avoiding "code duplication," which undersells the actual
+   bug being fixed. This is a classic case of a bug fix disguised as
+   cleanup.
+3. No `Fixes:` tag or syzbot report, but the bug is clearly visible in
+   the code.
 
-### User Impact
+### Verdict
 
-This affects users of the JDI LPM102A188A panel (used in some
-Chromebook-style devices). When the panel's DSI link is being removed
-(e.g., during driver unbind or system shutdown), the kernel would crash.
-While this is a niche driver, the fix is risk-free and prevents a real
-crash.
+The core of this commit fixes a **real DMA pool memory leak** — DMA
+descriptors were not being freed when the plane state was destroyed
+during reset. This is a legitimate resource leak bug fix. The change is
+small, contained to a single driver file, and the fix approach (reusing
+the existing proper destroy function) is obviously correct.
+
+The CSC initialization addition adds some risk but is limited to
+specific hardware and is part of proper plane reset behavior.
+
+On balance, the resource leak fix makes this worth backporting despite
+the small additional CSC change.
 
 **YES**
 
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 52 +++++++++----------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-index 23462065d726b..ea975170fafff 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-@@ -434,8 +434,10 @@ static void jdi_panel_dsi_remove(struct mipi_dsi_device *dsi)
- 	int err;
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 92132be9823f1..0ffec44c6d317 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -1155,32 +1155,6 @@ static int atmel_hlcdc_plane_alloc_dscrs(struct drm_plane *p,
+ 	return -ENOMEM;
+ }
  
- 	/* only detach from host for the DSI-LINK2 interface */
--	if (!jdi)
-+	if (!jdi) {
- 		mipi_dsi_detach(dsi);
-+		return;
+-static void atmel_hlcdc_plane_reset(struct drm_plane *p)
+-{
+-	struct atmel_hlcdc_plane_state *state;
+-
+-	if (p->state) {
+-		state = drm_plane_state_to_atmel_hlcdc_plane_state(p->state);
+-
+-		if (state->base.fb)
+-			drm_framebuffer_put(state->base.fb);
+-
+-		kfree(state);
+-		p->state = NULL;
+-	}
+-
+-	state = kzalloc(sizeof(*state), GFP_KERNEL);
+-	if (state) {
+-		if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
+-			kfree(state);
+-			drm_err(p->dev,
+-				"Failed to allocate initial plane state\n");
+-			return;
+-		}
+-		__drm_atomic_helper_plane_reset(p, &state->base);
+-	}
+-}
+-
+ static struct drm_plane_state *
+ atmel_hlcdc_plane_atomic_duplicate_state(struct drm_plane *p)
+ {
+@@ -1222,6 +1196,32 @@ static void atmel_hlcdc_plane_atomic_destroy_state(struct drm_plane *p,
+ 	kfree(state);
+ }
+ 
++static void atmel_hlcdc_plane_reset(struct drm_plane *p)
++{
++	struct atmel_hlcdc_plane_state *state;
++	struct atmel_hlcdc_dc *dc = p->dev->dev_private;
++	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
++
++	if (p->state) {
++		atmel_hlcdc_plane_atomic_destroy_state(p, p->state);
++		p->state = NULL;
 +	}
- 
- 	err = jdi_panel_disable(&jdi->base);
- 	if (err < 0)
++
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (state) {
++		if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
++			kfree(state);
++			drm_err(p->dev,
++				"Failed to allocate initial plane state\n");
++			return;
++		}
++		__drm_atomic_helper_plane_reset(p, &state->base);
++	}
++
++	if (plane->layer.desc->layout.csc)
++		dc->desc->ops->lcdc_csc_init(plane, plane->layer.desc);
++}
++
+ static const struct drm_plane_funcs layer_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
 -- 
 2.51.0
 
