@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gJwxEa7Kj2ntTgEAu9opvQ
+	id 4NneNLDKj2nMTgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:54 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EEB13A72B
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6BA13A73A
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03BDC10E85F;
-	Sat, 14 Feb 2026 01:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9895910E860;
+	Sat, 14 Feb 2026 01:06:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UV8C9Peq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nY+Kx0cA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812F510E85F
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:06:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1C0710E85F
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:06:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F0D5E60054;
+ by tor.source.kernel.org (Postfix) with ESMTP id 1C60460054;
+ Sat, 14 Feb 2026 01:06:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F85C16AAE;
  Sat, 14 Feb 2026 01:06:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36D5C116C6;
- Sat, 14 Feb 2026 01:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771031209;
- bh=z/oYzgU4t2PyZ7v/2SPXdzZhUBGX4rlVOPLQkFhjCKQ=;
+ s=k20201202; t=1771031210;
+ bh=IDD3DAK4VPVwQIYH1EtoSuTGGiyhKcoUDZYGTxl0HnM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UV8C9PeqK2ZhJyRELQFjNITcMTEOKqlhUd9Q0pQLusEOwyMHnicc119pjWAAokLqq
- 6taIljEm8jCu/YYwF/jPlEBxaHDW0B+dmIWJC0MSeF+w9nkUyAg3UasN3v7rNe4Gqe
- eKSKB8oAyTEFcXGdj21tLxsnRKui15OK/NNu3kCR3qisv+NsckNIzc11R+Kv7xLk+E
- PO80oEKODbFgqyE0y16sKYY2D66pNbYyf3F5XsuntZ7bDWKF6sNTlsY4uvhjYEaV9D
- X1Dz6Z8pnvUql6ouAW22T583JBIm9ELBlnTUE3eAgH5+ICRjwpd1hi7XUGtP2ks0WW
- g9PaR/Ib0wR1A==
+ b=nY+Kx0cAx5e582wKL2b05L8UU2Ia1JqXBRmNt7QhPNvV0DJP3mFSBmbKD/DlHhomh
+ RmaZEKX9ZUUFCurvvOqCmGCkhiRJ+lzUiS+iwvElw9vZgIUDnCbY0B8BsEvDo4pMTs
+ C1bQdFfGAH3iZfTosNs9GVSsKej/44oUrUGIOJBqXV2SxnKX39G23+45lia6YRjb7B
+ Xln6kNDIKo+G8mzx7P7goAbBq62T2Nfu7kiqchXRAwPQjTE0OWuPicYu+BuKPn7rid
+ YrFfNZEuohsJNMMHkCZXeDEPtihKsshmbtCQE0P7qGueV94Hyd0NpaKSM/eu7UQGjl
+ nxnKQRpWEuidg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Lizhi Hou <lizhi.hou@amd.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Sasha Levin <sashal@kernel.org>, mamin506@gmail.com,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.19-6.18] accel/amdxdna: Fix tail-pointer polling in
- mailbox_get_msg()
-Date: Fri, 13 Feb 2026 19:59:43 -0500
-Message-ID: <20260214010245.3671907-103-sashal@kernel.org>
+Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ Douglas Anderson <dianders@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.19] drm/panel-edp: Add CSW MNE007QB3-1
+Date: Fri, 13 Feb 2026 19:59:44 -0500
+Message-ID: <20260214010245.3671907-104-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -53,7 +51,6 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,247 +67,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:lizhi.hou@amd.com,m:maciej.falkowski@linux.intel.com,m:sashal@kernel.org,m:mamin506@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:yelangyan@huaqin.corp-partner.google.com,m:dianders@chromium.org,m:sashal@kernel.org,m:neil.armstrong@linaro.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,gmail.com,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: A9EEB13A72B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,chromium.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6A6BA13A73A
 X-Rspamd-Action: no action
 
-From: Lizhi Hou <lizhi.hou@amd.com>
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 
-[ Upstream commit cd77d5a4aaf8c5c1d819f47cf814bf7d4920b0a2 ]
+[ Upstream commit b1ea3babb67dcb8b0881c2ab49dfba88b1445856 ]
 
-In mailbox_get_msg(), mailbox_reg_read_non_zero() is called to poll for a
-non-zero tail pointer. This assumed that a zero value indicates an error.
-However, certain corner cases legitimately produce a zero tail pointer.
-To handle these cases, remove mailbox_reg_read_non_zero(). The zero tail
-pointer will be treated as a valid rewind event.
+Add support for the CSW MNE007QB3-1, pleace the EDID here for
+subsequent reference.
 
-Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Link: https://patch.msgid.link/20251204181603.793824-1-lizhi.hou@amd.com
+00 ff ff ff ff ff ff 00 0e 77 7c 14 00 00 00 00
+00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
+36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
+30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
+00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 5b
+
+70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
+5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
+20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
+00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
+ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Link: https://patch.msgid.link/20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Good - `mailbox_get_tailptr()` already exists in v6.14 and the fix uses
-it. No dependency issues.
+All the analysis is complete. Here is my detailed assessment:
 
-## Comprehensive Analysis
+---
+
+## Analysis: drm/panel-edp: Add CSW MNE007QB3-1
 
 ### 1. Commit Message Analysis
 
-The commit title explicitly says "Fix" and the message clearly describes
-the bug: `mailbox_reg_read_non_zero()` polls for a non-zero tail
-pointer, **incorrectly assuming that a zero value indicates an error**.
-However, zero is a legitimate tail pointer value in certain corner cases
-(ring buffer rewind events). The fix removes the flawed polling function
-and instead uses a simple direct read via the existing
-`mailbox_get_tailptr()`.
+The commit adds support for a new revision of the CSW MNE007QB3-1 eDP
+panel. The EDID data is included for reference. The panel name
+"MNE007QB3-1" already exists in the driver with product ID 0x146e (added
+in commit 490b30fbaca2a), but this adds a *new variant* of the same
+panel identified by product ID 0x147c with different timing
+requirements. The author is from Huaqin (a major Chromebook ODM), and
+the commit was reviewed/applied by Douglas Anderson (the `panel-edp`
+subsystem maintainer).
 
-### 2. Code Change Analysis - The Bug Mechanism
+### 2. Code Change Analysis
 
-The bug is in `mailbox_reg_read_non_zero()`:
+The change is a **single line addition**:
 
-```115:129:/home/sasha/linux-
-autosel/drivers/accel/amdxdna/amdxdna_mailbox.c
-static int mailbox_reg_read_non_zero(struct mailbox_channel *mb_chann,
-u32 mbox_reg, u32 *val)
-{
-        struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
-        void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
-        int ret, value;
-
-        /* Poll till value is not zero */
-        ret = readx_poll_timeout(readl, ringbuf_addr, value,
-                                 value, 1 /* us */, 100);
-        if (ret < 0)
-                return ret;
-
-        *val = value;
-        return 0;
-}
-```
-
-This function uses `readx_poll_timeout()` with `value` as both the
-variable AND the condition (the condition is just `value`, i.e.,
-truthy/non-zero). It polls every 1us for up to 100us. If the tail
-pointer register is zero after 100us, it returns `-ETIMEDOUT`.
-
-The call site in `mailbox_get_msg()`:
-
-```289:290:/home/sasha/linux-
-autosel/drivers/accel/amdxdna/amdxdna_mailbox.c
-        if (mailbox_reg_read_non_zero(mb_chann,
-mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
-                return -EINVAL;
-```
-
-When the function times out (tail is legitimately zero),
-`mailbox_get_msg()` returns `-EINVAL`.
-
-**The catastrophic consequence** is in `mailbox_rx_worker()` (in v6.14):
-
-```377:386:/home/sasha/linux-
-autosel/drivers/accel/amdxdna/amdxdna_mailbox.c
-                /* Other error means device doesn't look good, disable
-irq. */
-                if (unlikely(ret)) {
-                        MB_ERR(mb_chann, "Unexpected ret %d, disable
-irq", ret);
-                        WRITE_ONCE(mb_chann->bad_state, true);
-                        disable_irq(mb_chann->msix_irq);
-                        break;
-                }
-```
-
-Any return other than `0` or `-ENOENT` causes:
-1. `bad_state = true` is set **permanently** (never reset)
-2. `disable_irq()` is called (in v6.14)
-3. All future work items check `bad_state` and immediately return
-4. The mailbox channel is **permanently dead** - no more firmware
-   communication is possible
-5. The AMD AI Engine accelerator becomes non-functional
-
-**When does tail=0 legitimately occur?** The ring buffer protocol uses a
-TOMBSTONE marker when wrapping. After the writer (firmware, for the I2X
-channel) writes a TOMBSTONE at the end of the buffer and wraps to the
-start, the tail pointer can be zero briefly or permanently depending on
-the firmware's message scheduling. The commit describes this as a "valid
-rewind event."
-
-### 3. Fix Correctness
-
-The fix replaces the flawed polling function with a direct register
-read:
 ```c
-tail = mailbox_get_tailptr(mb_chann, CHAN_RES_I2X);
+EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100,
+"MNE007QB3-1"),
 ```
 
-This is obviously correct because the existing validation in
-`mailbox_get_msg()` properly handles a zero tail:
-- `tail > ringbuf_size || !IS_ALIGNED(tail, 4)` → 0 passes (aligned and
-  within bounds)
-- `head == tail` → if head is also 0, returns `-ENOENT` (empty buffer,
-  which is the correct behavior)
-- If head != 0 and tail == 0, the function processes messages normally
-  (rewind scenario)
+This adds a new entry to the `edp_panels[]` table, which is a static
+lookup table mapping EDID panel IDs to timing delay parameters. The new
+entry:
+- Vendor: CSW ('C', 'S', 'W')
+- Product ID: 0x147c (distinct from the existing 0x146e)
+- Delay: `delay_200_500_e50_d100` (hpd_absent=200ms, unprepare=500ms,
+  enable=50ms, disable=100ms)
+- Name: "MNE007QB3-1"
+
+The delay structure `delay_200_500_e50_d100` already exists in the
+source (line 1839-1844) and is used by other panels (MNB601LS1-4,
+TL140VDMS03-01). No new code, structures, or functionality is added.
+
+### 3. Classification: New Device ID
+
+This falls squarely into the **"New Device IDs"** exception category for
+stable backports. The `panel-edp.c` driver is a well-established driver
+that uses a table-driven approach to match eDP panels by their EDID
+identifiers and apply the correct power sequencing timings. Adding a new
+entry to this table is functionally equivalent to adding a new PCI/USB
+device ID to an existing driver.
+
+Without this entry, a device using this specific panel revision (EDID
+product ID 0x147c) would not have proper power sequencing timings. This
+can result in:
+- Display initialization failures
+- Screen flickering or artifacts
+- Panel damage from incorrect power sequencing
+- The panel being treated as unknown and potentially not working at all
 
 ### 4. Scope and Risk Assessment
 
-- **Size**: 1 file changed, 1 insertion, 18 deletions (net -17 lines)
-- **Scope**: Entirely self-contained within the mailbox driver
-- **Risk**: Very low - the fix removes a polling function and replaces
-  it with a simple direct read, relying on already-existing validation
-  code
-- **Regression potential**: Near zero - all the defensive checks (bounds
-  validation, alignment, empty-buffer check) remain intact
+- **Lines changed**: 1 (one line added)
+- **Files touched**: 1 (`drivers/gpu/drm/panel/panel-edp.c`)
+- **Complexity**: Trivially low
+- **Risk of regression**: Effectively zero. The new entry is a static
+  table addition matched only by a specific panel ID (0x147c). It cannot
+  affect any existing panel or any other code path. The delay structure
+  it references already exists and is used by other panels.
+- **Dependencies**: None. The `EDP_PANEL_ENTRY` macro and
+  `delay_200_500_e50_d100` structure exist in all recent stable kernels
+  that have the panel-edp driver.
 
-### 5. Dependencies
+### 5. User Impact
 
-- No dependencies on other commits
-- `mailbox_get_tailptr()` already exists in v6.14 (line 152)
-- The patch applies cleanly to v6.14.y stable (surrounding code is
-  identical)
+This panel is used in Chromebooks (the commit comes from Huaqin, a
+Chromebook manufacturer, with the `corp-partner.google.com` email
+address). Chromebooks frequently use stable/LTS kernels (especially
+ChromeOS). Without this backport, Chromebooks using this specific panel
+revision would have display issues. This is a **real hardware
+enablement** issue for production devices.
 
-### 6. User Impact
+### 6. Stability Indicators
 
-- Affects users of AMD AI Engine (XDNA) accelerators (Ryzen AI NPUs)
-- The bug causes the accelerator to become permanently non-functional
-  when the tail pointer is legitimately zero
-- This is a **device-killing bug** that requires driver reload/reboot to
-  recover
-- The amdxdna driver exists in stable trees starting from v6.14
+- Applied by Douglas Anderson (`dianders@chromium.org`), the well-known
+  panel-edp maintainer
+- The pattern is identical to dozens of other panel additions that are
+  routinely backported
+- The referenced delay structure has been in the kernel for a long time
+- Zero risk of runtime regression
 
-### 7. Stability Indicators
+### 7. Dependency Check
 
-- Has `Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>`
-- Author is `Lizhi Hou <lizhi.hou@amd.com>` - an AMD engineer and the
-  primary amdxdna driver developer
-- The fix was accepted via the drm subsystem merge path
+No dependencies. The commit is completely self-contained. The
+`delay_200_500_e50_d100` structure and the `EDP_PANEL_ENTRY` macro exist
+in all stable kernels that have this driver.
 
 ### Conclusion
 
-This commit fixes a real, severe bug where a false positive error
-detection (treating zero tail pointer as invalid) permanently kills the
-mailbox communication channel in the AMD XDNA accelerator driver. The
-consequence is the accelerator device becoming completely non-functional
-until driver reload/reboot. The fix is small (net -17 lines), obviously
-correct (removes incorrect assumption, relies on existing validation),
-self-contained (single file, no dependencies), and applies cleanly to
-the v6.14 stable tree. It meets all stable kernel criteria.
+This is a textbook example of a stable-appropriate device ID addition.
+It is a single-line, zero-risk table entry that enables a specific
+hardware panel variant used in production Chromebook devices. The driver
+already exists in stable, the delay structure already exists, and the
+change cannot affect any other hardware. It meets all stable kernel
+criteria: obviously correct, fixes a real issue (hardware not working),
+small and contained, no new features.
 
 **YES**
 
- drivers/accel/amdxdna/amdxdna_mailbox.c | 19 +------------------
- 1 file changed, 1 insertion(+), 18 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-index 858df97cd3fbd..a60a85ce564cb 100644
---- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-+++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-@@ -112,22 +112,6 @@ static u32 mailbox_reg_read(struct mailbox_channel *mb_chann, u32 mbox_reg)
- 	return readl(ringbuf_addr);
- }
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 415b894890ad7..023fbbb10eb4f 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -2033,6 +2033,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE007QS5-2"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE007QB2-2"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MNE007QB3-1"),
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100, "MNE007QB3-1"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1519, &delay_200_500_e80_d50, "MNF601BS1-3"),
  
--static int mailbox_reg_read_non_zero(struct mailbox_channel *mb_chann, u32 mbox_reg, u32 *val)
--{
--	struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
--	void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
--	int ret, value;
--
--	/* Poll till value is not zero */
--	ret = readx_poll_timeout(readl, ringbuf_addr, value,
--				 value, 1 /* us */, 100);
--	if (ret < 0)
--		return ret;
--
--	*val = value;
--	return 0;
--}
--
- static inline void
- mailbox_set_headptr(struct mailbox_channel *mb_chann, u32 headptr_val)
- {
-@@ -286,8 +270,7 @@ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
- 	u32 start_addr;
- 	int ret;
- 
--	if (mailbox_reg_read_non_zero(mb_chann, mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
--		return -EINVAL;
-+	tail = mailbox_get_tailptr(mb_chann, CHAN_RES_I2X);
- 	head = mb_chann->i2x_head;
- 	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_I2X);
- 	start_addr = mb_chann->res[CHAN_RES_I2X].rb_start_addr;
+ 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
 -- 
 2.51.0
 
