@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oAkFKQrKj2ndTgEAu9opvQ
+	id 8OrkAy7Kj2nMTgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:10 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4B513A4FD
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0BB13A591
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:04:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7070110E84F;
-	Sat, 14 Feb 2026 01:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF12310E855;
+	Sat, 14 Feb 2026 01:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uIxhxb90";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uiYOuHwj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D82710E84F
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:04:07 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA36610E855
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:04:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 75A04440B8;
- Sat, 14 Feb 2026 01:04:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94FBDC19423;
- Sat, 14 Feb 2026 01:04:06 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4678F60140;
+ Sat, 14 Feb 2026 01:04:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD802C19424;
+ Sat, 14 Feb 2026 01:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771031047;
- bh=KR/FHgN7nG2Nb9nRMckFi7HQe+G37MuwiCnYErJmsiQ=;
+ s=k20201202; t=1771031082;
+ bh=lR0EcdqMlWvvA5jNcysPjb3oxsAOoV8NqBkIPRIFeqk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uIxhxb90F4MW+drqRPM8F/d5gLFeivD3Xsuk2k4Ksh1rHOufgYhRYO7LBq0sbgs8V
- TIk2z8np6SDvq3MQcYbW4lDvqhUI5Yhy7/HSX+/uHztgIuQqLI57VZt/RkLrPTwLKa
- b9MirqSRtLpZ7NuEQT5xy51SGJ1GMFYJ33/DV5NUsDtaTOqxPW5X9sh+heZLHcMFed
- ChkK6Qurj069oV77l0WEXYiKmoXnprEhElhNYnFKNt4PjGrIq3r6hUV2BL4syz0EwK
- lmZEcUq6RhN/cMJmkbrzCFN5GM8m64UdpIHoeUBYZMZF97qg3+uZnwebiovrtBGElR
- TQ8MA99erMeiw==
+ b=uiYOuHwjAI+UUvqFU/vXWNnbZpvYQrt6DNFNeeNXfO1HSYtsllP0oduuL9oFmlG4S
+ yiHQ494CFy26H/ZNkQ4MZUWBNH9rwGxaQ+YPMGC7V/wxoOBl3WtdvAdNFQZF0ybdHu
+ kmFC21O8SNo2FaoEX+Ll+DIKShzFPDc6xRuUkU/KcrDRND7ZiJ7tBvAHCBIehL3xHu
+ E6DsKhcyE8SS6lz04ut4/b9xlB1oMZyOU5SaJkqA5T0qAQzkEuYZiqUbFocVtFbz4Q
+ aNN4+6p99XxntJ45TUBXW3HGo93lzoLdotgONbQ0tmn6FiOo11GwULY6iKE112YpAB
+ z942pLpBZarQg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] drm: renesas: rz-du: mipi_dsi: fix kernel
- panic when rebooting for some panels
-Date: Fri, 13 Feb 2026 19:58:37 -0500
-Message-ID: <20260214010245.3671907-37-sashal@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Sasha Levin <sashal@kernel.org>, dharma.b@microchip.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.19-5.15] drm/atmel-hlcdc: don't reject the commit if
+ the src rect has fractional parts
+Date: Fri, 13 Feb 2026 19:58:54 -0500
+Message-ID: <20260214010245.3671907-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,7 +82,7 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:hvilleneuve@dimonoff.com,m:biju.das.jz@bp.renesas.com,m:sashal@kernel.org,m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:ludovic.desroches@microchip.com,m:manikandan.m@microchip.com,m:sashal@kernel.org,m:dharma.b@microchip.com,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:linux-arm-kernel@lists.infradead.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -95,120 +98,182 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 1C4B513A4FD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url]
+X-Rspamd-Queue-Id: 7E0BB13A591
 X-Rspamd-Action: no action
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
 
-[ Upstream commit 64aa8b3a60a825134f7d866adf05c024bbe0c24c ]
+[ Upstream commit 06682206e2a1883354ed758c09efeb51f435adbd ]
 
-Since commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
-we may get the following kernel panic, for some panels, when rebooting:
+Don’t reject the commit when the source rectangle has fractional parts.
+This can occur due to scaling: drm_atomic_helper_check_plane_state() calls
+drm_rect_clip_scaled(), which may introduce fractional parts while
+computing the clipped source rectangle. This does not imply the commit is
+invalid, so we should accept it instead of discarding it.
 
-  systemd-shutdown[1]: Rebooting.
-  Call trace:
-   ...
-   do_serror+0x28/0x68
-   el1h_64_error_handler+0x34/0x50
-   el1h_64_error+0x6c/0x70
-   rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
-   mipi_dsi_device_transfer+0x44/0x58
-   mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
-   ili9881c_unprepare+0x38/0x88
-   drm_panel_unprepare+0xbc/0x108
-
-This happens for panels that need to send MIPI-DSI commands in their
-unprepare() callback. Since the MIPI-DSI interface is stopped at that
-point, rzg2l_mipi_dsi_host_transfer() triggers the kernel panic.
-
-Fix by moving rzg2l_mipi_dsi_stop() to new callback function
-rzg2l_mipi_dsi_atomic_post_disable().
-
-With this change we now have the correct power-down/stop sequence:
-
-  systemd-shutdown[1]: Rebooting.
-  rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
-  ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
-  rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
-  reboot: Restarting system
-
-Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-Link: https://patch.msgid.link/20260112154333.655352-1-hugo@hugovil.com
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+Link: https://patch.msgid.link/20251120-lcd_scaling_fix-v1-1-5ffc98557923@microchip.com
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is important context: The MSTOP commit (56de5e305d4b) that causes
-the regression is only in v6.18+. However, looking at the commit message
-more carefully — the issue is about the **ordering** of DSI stop vs
-panel unprepare. The MSTOP commit may have just made the issue more
-visible (by making the clock gating more aggressive), but the
-fundamental ordering bug (stopping DSI before the panel can send its
-shutdown commands) could potentially affect earlier kernels too, even if
-it manifests differently.
+## Analysis of drm/atmel-hlcdc: don't reject the commit if the src rect
+has fractional parts
 
-That said, for stable trees before 6.18, the triggering commit doesn't
-exist, so this specific panic may not manifest. For 6.18.y stable, this
-would be very relevant.
+### 1. COMMIT MESSAGE ANALYSIS
+
+The commit message clearly describes a bug fix: the driver was
+incorrectly rejecting valid plane configurations when the source
+rectangle had fractional (subpixel) parts. The fractional parts are
+legitimately introduced by `drm_rect_clip_scaled()` during the atomic
+check process, but the driver was treating them as invalid input and
+returning `-EINVAL`.
+
+Keywords: "don't reject" — this is fixing a false rejection of valid
+display configurations.
+
+### 2. CODE CHANGE ANALYSIS
+
+The change is straightforward and well-contained:
+
+**What was happening before:**
+1. `hstate->src_x/y/w/h` were assigned the raw 16.16 fixed-point values
+   from `s->src`
+2. A check was performed: if any of these values had bits set in the
+   lower 16 bits (fractional part, via `SUBPIXEL_MASK = 0xffff`), the
+   function returned `-EINVAL`
+3. Only after passing that check were the values right-shifted by 16 to
+   get integer pixel coordinates
+
+**What happens now:**
+1. `hstate->src_x/y/w/h` are assigned the values right-shifted by 16
+   immediately (converting to integer pixels)
+2. The subpixel mask check is completely removed
+3. The `SUBPIXEL_MASK` macro definition is removed as it's no longer
+   needed
+
+**The bug:** `drm_atomic_helper_check_plane_state()` calls
+`drm_rect_clip_scaled()`, which can introduce fractional parts when
+computing clipped source rectangles during scaling operations. This is
+normal DRM behavior — the fractional parts represent subpixel precision
+in the scaling calculation. The Atmel HLCDC hardware doesn't support
+subpixel addressing, so the correct behavior is to truncate (>> 16) and
+use integer coordinates, not reject the entire configuration.
+
+**Impact of the bug:** When scaling is involved and clipping produces
+fractional coordinates, display operations would fail with `-EINVAL`.
+This means users would see display failures (plane updates rejected) in
+legitimate scaling scenarios. This is a real user-visible bug — display
+output fails when it shouldn't.
+
+### 3. CLASSIFICATION
+
+This is a **bug fix**. The driver was incorrectly rejecting valid atomic
+commits, causing display failures during scaling operations. No new
+features are added, no new APIs introduced.
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed:** ~15 lines removed, ~4 lines modified — very small
+- **Files touched:** 1 file (`atmel_hlcdc_plane.c`)
+- **Subsystem:** DRM driver for Atmel HLCDC (embedded ARM display
+  controller)
+- **Risk:** Very low. The change simply truncates subpixel precision
+  instead of rejecting it. The hardware can only address whole pixels
+  anyway, so truncation is the correct behavior. The integer parts of
+  the coordinates are unchanged.
+- **Could it break something?** Extremely unlikely. The only behavioral
+  change is accepting configurations that were previously rejected. The
+  pixel coordinates used are identical (same >> 16 operation, just done
+  earlier).
+
+### 5. USER IMPACT
+
+This affects users of Atmel/Microchip SAM9/SAMA5 SoC-based embedded
+systems that use the HLCDC display controller with plane scaling. When
+scaling is active and clipping occurs, display updates would fail. This
+is a real-world scenario for embedded display applications.
+
+### 6. STABILITY INDICATORS
+
+- **Reviewed-by:** Manikandan Muralidharan (subsystem maintainer)
+- **Author:** Ludovic Desroches (Microchip engineer, familiar with the
+  hardware)
+- The fix is logically sound — truncating subpixel coordinates is
+  standard practice in DRM drivers that don't support subpixel precision
+
+### 7. DEPENDENCY CHECK
+
+The commit is self-contained. It doesn't depend on any other changes.
+The code it modifies (`atmel_hlcdc_plane_atomic_check`) has been present
+in stable trees for a long time. The functions it interacts with
+(`drm_atomic_helper_check_plane_state`, `drm_rect_width/height`) are
+standard DRM helpers available in all stable trees.
 
 ### Summary
 
-- **What it fixes**: Kernel panic on reboot for systems using Renesas
-  RZ/G2L MIPI-DSI with panels that send commands during `unprepare()`
-- **Severity**: High — kernel panic prevents clean reboot
-- **Fix quality**: Small, surgical, follows standard DRM bridge
-  patterns, tested by maintainer
-- **Risk**: Very low — same operations in correct order, limited to one
-  driver
-- **Scope**: Single file, ~15 lines changed
-- **Dependencies**: Driver exists in v6.12+; the specific regression
-  trigger (MSTOP) is only in v6.18+, but the fix is still correct
-  ordering regardless
-
-This is a clear, well-tested fix for a kernel panic. It's small,
-surgical, obviously correct (using `atomic_post_disable` is the standard
-pattern for this), and has been tested by the subsystem maintainer. It
-meets all stable kernel criteria.
+This is a small, well-understood bug fix for an incorrect rejection of
+valid display configurations in the Atmel HLCDC driver. The fix is
+surgical (removes an overly strict validation check and shifts the
+coordinate conversion earlier), has been reviewed by the subsystem
+maintainer, and carries minimal risk of regression. It fixes a real
+user-visible bug (display failures during scaling with clipping) that
+affects embedded systems using this display controller.
 
 **YES**
 
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 3b52dfc0ea1e0..b164e3a62cc2f 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -646,6 +646,13 @@ static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
- 
- 	rzg2l_mipi_dsi_stop_video(dsi);
- 	rzg2l_mipi_dsi_stop_hs_clock(dsi);
-+}
-+
-+static void rzg2l_mipi_dsi_atomic_post_disable(struct drm_bridge *bridge,
-+					       struct drm_atomic_state *state)
-+{
-+	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
-+
- 	rzg2l_mipi_dsi_stop(dsi);
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index c0075894dc422..ec1fb5f9549a2 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -79,8 +79,6 @@ drm_plane_state_to_atmel_hlcdc_plane_state(struct drm_plane_state *s)
+ 	return container_of(s, struct atmel_hlcdc_plane_state, base);
  }
  
-@@ -681,6 +688,7 @@ static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
- 	.atomic_pre_enable = rzg2l_mipi_dsi_atomic_pre_enable,
- 	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
- 	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
-+	.atomic_post_disable = rzg2l_mipi_dsi_atomic_post_disable,
- 	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
- };
+-#define SUBPIXEL_MASK			0xffff
+-
+ static uint32_t rgb_formats[] = {
+ 	DRM_FORMAT_C8,
+ 	DRM_FORMAT_XRGB4444,
+@@ -745,24 +743,15 @@ static int atmel_hlcdc_plane_atomic_check(struct drm_plane *p,
+ 	if (ret || !s->visible)
+ 		return ret;
  
+-	hstate->src_x = s->src.x1;
+-	hstate->src_y = s->src.y1;
+-	hstate->src_w = drm_rect_width(&s->src);
+-	hstate->src_h = drm_rect_height(&s->src);
++	hstate->src_x = s->src.x1 >> 16;
++	hstate->src_y = s->src.y1 >> 16;
++	hstate->src_w = drm_rect_width(&s->src) >> 16;
++	hstate->src_h = drm_rect_height(&s->src) >> 16;
+ 	hstate->crtc_x = s->dst.x1;
+ 	hstate->crtc_y = s->dst.y1;
+ 	hstate->crtc_w = drm_rect_width(&s->dst);
+ 	hstate->crtc_h = drm_rect_height(&s->dst);
+ 
+-	if ((hstate->src_x | hstate->src_y | hstate->src_w | hstate->src_h) &
+-	    SUBPIXEL_MASK)
+-		return -EINVAL;
+-
+-	hstate->src_x >>= 16;
+-	hstate->src_y >>= 16;
+-	hstate->src_w >>= 16;
+-	hstate->src_h >>= 16;
+-
+ 	hstate->nplanes = fb->format->num_planes;
+ 	if (hstate->nplanes > ATMEL_HLCDC_LAYER_MAX_PLANES)
+ 		return -EINVAL;
 -- 
 2.51.0
 
