@@ -2,110 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eB1AL4YxkGkTWwEAu9opvQ
+	id mC1YCj84kGkuXgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 09:25:42 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 09:54:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283DC13B633
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 09:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566A213B789
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 09:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D603B10E1C8;
-	Sat, 14 Feb 2026 08:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5EAF10E140;
+	Sat, 14 Feb 2026 08:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i3PNlu/y";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="gxo6fmRF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC0710E1C8
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 08:25:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D519F404A4;
- Sat, 14 Feb 2026 08:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7F7C19421;
- Sat, 14 Feb 2026 08:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771057537;
- bh=IKqjHL4d6xRU3L75phhHFiawOQlj4uERLb3B+euoB8s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=i3PNlu/yEa52fEPWTsjxadTO69t6XtWUGsqEvp/hlyrTb71vLFjP0ikv+YpW5hIUi
- 73Y2mRN6pn7zN4yVSiCcJxunmA4OuYk1q+Y/vIVJG1rs5p0lZutYvf5acsGbjIn7CR
- +FTt3EbO7UJhCuyeKnKVB2LR2Qnf1dirFi1Nc6GMAtfv/Q07haX24ui/C2Ube/qN8e
- 33SxeJfF383iA+tlo/5nLEDRytDAHGWpvHw8DcPzgxrUC+YNwJNQzezlqtbgUj2g0h
- aB8CXZT8eD0k0clEUqxglPSzLmf600WqP//AUHBF1Wj4TKHJnmQk9mwR5dNHlNHGah
- oSM01xf8yWDFQ==
-Message-ID: <ab216e50-4441-4ced-b3da-6d3537ee3943@kernel.org>
-Date: Sat, 14 Feb 2026 09:25:31 +0100
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3B710E140
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 08:54:17 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-35621aa8c7fso1015364a91.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 00:54:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1771059257; x=1771664057; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lc57BIyf+rpMQq/MZFlMnmSDpsnEdM6gcXuGUQPWrdM=;
+ b=gxo6fmRFYstNWgk5mPxcZOM5LQ5cmtqbC483txSd7jmNqBhVn+1xQq6AHTX9NRm1PC
+ Zvhg/aMitzOKoFnGc3YvGj6gAUHNpbSu7EvXDj+tQeQBmNgBIkKHcg6tYXjAqGPoGert
+ JcRf07brqX7t6rSGKUSTmAp/V0Nn7m80dQOsr+V1p5JIIbaRHMKJZdojoI3KK//lThyQ
+ XKPLd2z7wrQdxHXNZPtwI/P+G6Iv8eLnCXwoy+1MuDND2gRoAC0WDQJ0vbQ7shQq7g6e
+ 3MwEsCDsOjXAy6n8TIMCtuk8SP6FBJa/gcNi7MI+/ZJRqSPxkRFVUrebp9fqU9POGSPr
+ yH4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771059257; x=1771664057;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lc57BIyf+rpMQq/MZFlMnmSDpsnEdM6gcXuGUQPWrdM=;
+ b=NDYHGzDJyu/kLI4A34CkgJm8BlpZYG6HzUAzqKZGC40iLf+NqbeXTbr4Dw0uQolSt/
+ FlE3shyWRRGhhnAK2Pv8IO2wpSt8Yx15F6RB0jky26u1tRRBOCp0oc81HwjrOwhU3h3e
+ qYK4XGDHFj1x5Ag4Z+E/X+9Ubw6+tszoNi5YPeh3OhJaBE3rbEBLlzooL8x/MRcfzDRb
+ e/6hyrUWbk9JSY4xT3yLZ2Cfcdw96vSiIr6qSdez8KylVZ0kb9B8GkbHczpj8bpNKwHs
+ 2vncalSnSoA8Rr9NkhaV23WLdkWrZ4n61nqo9u8cLJ/aBFAMPS4ZwMcjWD/4Tpd6A9PR
+ R2BA==
+X-Gm-Message-State: AOJu0Yx3DRU9rP6UkMVKHu/sSwHpxdjAdYj9v8wLU15Zma2Tmj1eKZBH
+ iGozRGaKVjOacFtrfOkSBooLxNpvCfZFYy7OVonoJWKQH4IW/bKTbKCn5UNkFYnaaLM=
+X-Gm-Gg: AZuq6aKGGtKrwiTAbEaHYCuxyoxDIj350BL7+SrPtZqhKCfGfyYMjFX2kQii4b79Fer
+ c/hZp3igLC3TMA5GidPgPTNMSKERGfMs3L4Z61j3u4/64/lhYqgIQyCsurokzOQjVtUMVRoQYuF
+ nOMdTNYhUVtcbueg3b0F66lUbzuAXr6WVHff8JggzfRQc0hbg3n12ARN5VWIFHZSqn8oTzAqvw4
+ jRn9BhHDS/rS/smGNrlmLRK5REn+kayhZThS185JZaGrwoR1s1NUnAGb0I3GF1RPNH/wc75F/g/
+ 7SVbxKmwB66r0f4wVQ0iJ3g7pFwSmyVsrveKjQYgIWNYCM6nEXR/EXh8AK+JzcKdOjOvs0ymzPY
+ kFr5z1meI9F4NOpKqgcuHQY81TNMpCSznc8Sw1UsRNPTig3uyc+RDsMcX6B52/ePdXcfPfkZ/uf
+ 1zLFjRpb+XoOUlVDvHbVhebwO7Jf7eMQDnhJA5kY1bybHDnEGS5tagOYr5svyvGKyLLFEQWA==
+X-Received: by 2002:a17:90b:2b4c:b0:356:2c7b:c010 with SMTP id
+ 98e67ed59e1d1-35844a4c620mr2090265a91.11.1771059256848; 
+ Sat, 14 Feb 2026 00:54:16 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3567ebc3af1sm10256622a91.15.2026.02.14.00.54.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Feb 2026 00:54:16 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ mani@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, dev@kael-k.io,
+ kever.yang@rock-chips.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v3 0/3] support for taiguan-xti05101-01a MIPI-DSI panel
+Date: Sat, 14 Feb 2026 16:54:06 +0800
+Message-Id: <20260214085409.3489057-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: arm: qcom: document google,
- bonito-tianma board
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yifei@zhan.science
-References: <20260210023300.15785-1-mailingradian@gmail.com>
- <20260210023300.15785-2-mailingradian@gmail.com>
- <06503bb7-0d82-4407-815f-6f3851069041@kernel.org>
- <l223eppwztijuzg5plro5pfphlrsy4amouytri5vlzijwwsjio@wdkwscirvood>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <l223eppwztijuzg5plro5pfphlrsy4amouytri5vlzijwwsjio@wdkwscirvood>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,57 +95,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [4.19 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[google.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),reject];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:mani@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dianders@chromium.org,m:yelangyan@huaqin.corp-partner.google.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	GREYLIST(0.00)[pass,meta];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:yifei@zhan.science,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linaro.org,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org,zhan.science];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[yelangyan@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[yelangyan@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DKIM_TRACE(0.00)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 283DC13B633
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 566A213B789
 X-Rspamd-Action: no action
 
-On 13/02/2026 19:09, Dmitry Baryshkov wrote:
-> On Tue, Feb 10, 2026 at 10:12:05AM +0100, Krzysztof Kozlowski wrote:
->> On 10/02/2026 03:32, Richard Acayan wrote:
->>> The google,bonito-sdc board compatible represents the Google Pixel 3a XL
->>
->> I do not see sdc anywhere in the diff.
->>
->>> with a Tianma/Novatek NT37700F panel. Document it in the bindings.
->>
->> What is bonito? Why bonito is compatible with sdm670?
-> 
-> bonito is a name for the Pixel 3a XL devices (like sorgo and other
-> google names).
+The panel uses the Jadard JD9365DA-H3 display controller, which is already
+supported by the existing panel driver. This series introduces a new
+vendor prefix, adds the corresponding devicetree compatible, and extends
+the panel driver to support this specific panel variant.
 
+Changes in v3:
+- Use vendor prefix "taiguanck" to match the verifiable company domain
+  as requested during review.
+- Link to v2: https://lore.kernel.org/all/20260213071946.1436852-1-yelangyan@huaqin.corp-partner.google.com/
 
-`git grep bonito` gives me something quite different, so commit msg must
-explain the name (except correcting other mistakes).
+Changes in v2:
+- PATCH 1/3: Clarify the origin of the "taiguan" vendor prefix as requested during review.
+- Link to v1: https://lore.kernel.org/all/20260205154657.3085820-1-yelangyan@huaqin.corp-partner.google.com/
 
-Best regards,
-Krzysztof
+Langyan Ye (3):
+  dt-bindings: vendor: add taiguanck
+  dt-bindings: display: panel: Add compatible for TAIGUAN XTI05101-01A
+  drm/panel: panel-jadard-jd9365da-h3: support for taiguan-xti05101-01a
+    MIPI-DSI panel
+
+ .../display/panel/jadard,jd9365da-h3.yaml     |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 244 ++++++++++++++++++
+ 3 files changed, 247 insertions(+)
+
+-- 
+2.34.1
+
