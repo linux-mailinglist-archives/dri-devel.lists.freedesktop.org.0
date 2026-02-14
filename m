@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yIjkJNbJj2nMTgEAu9opvQ
+	id KPdHEe/Jj2ndTgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:03:18 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:03:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A65813A43B
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEC113A49E
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:03:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA6B10E850;
-	Sat, 14 Feb 2026 01:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 178B110E844;
+	Sat, 14 Feb 2026 01:03:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z2WB94f6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ed5G0EKn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B938D10E850
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:03:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A179C10E844
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:03:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5CE0741A73;
- Sat, 14 Feb 2026 01:03:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BF2AC19424;
- Sat, 14 Feb 2026 01:03:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 876FA41713;
+ Sat, 14 Feb 2026 01:03:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5540CC116C6;
+ Sat, 14 Feb 2026 01:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771030995;
- bh=RhXjg4zDobOMLNOMmuAqdHXzgxH7E7RKn3tniYRXLis=;
+ s=k20201202; t=1771031019;
+ bh=Nr6HY9tCKQiB7HyVyKbj/Vo6neuw+52XUIkxsknqJNw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z2WB94f6tg4S4JaySUk/cUmKX82/gpKoydG7fIMdkyT069hJL/FN3snBHNagEfoix
- RixH7lEZQPOl9u07WXDya3v1dwKRjlD1Up3BZKv6JZoe685/2B6wXinvV9jAVlfdAe
- uPlmfVB80DyvPj4MO9RHLtD+LReVQQvZVLwYx49UFV0QVgfctOJrcZ8SzCUS9go/A1
- rOhF11rpJ7AqUpEYK+hswWbm7qxd1OtxwH5AmRGZOuAL8o8r28eo8xEpR5KAfwpTED
- bke0wVXN+Y710WdYvZFBJenXxvR4XMGeUF6mVBMBxD/2dFp3yIOQzdqzvxlxcKSpzD
- H7OirnTPRMqQw==
+ b=ed5G0EKna2vsyV887GX53Ipkz2PHgwpr2HGJe8lhV+e9igtJFU3OOSkru23mXdBvL
+ YwdpY9meZTiT62LmJh9K9jxV0HCYuhAm0oF4S49eymOjWudtv1chWXSZcO0B5/8YVX
+ 82PcPYX9iDxxb6AGuyJDp9Xm1CNocXVmd7kvR0IeZRGU779d8jSzuBD71CzoEbUjvR
+ DZnedSqQ010a1b4dYWZ9GH52GflBWpj+pjSgde4jMIRwcg9ZhMFyYHbNijZs36QjKC
+ TDNMbbLXkRTTc2zqslLGY8v1+h7MWLqAVNmJaVJ/C9vYTCuoxCfl4JGJTByGt3EWSV
+ i4nyFwHbkDrWw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Val Packett <val@packett.cool>, Douglas Anderson <dianders@chromium.org>,
- Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.19-6.18] drm/panel-edp: Add AUO B140QAX01.H panel
-Date: Fri, 13 Feb 2026 19:58:17 -0500
-Message-ID: <20260214010245.3671907-17-sashal@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Sasha Levin <sashal@kernel.org>, dharma.b@microchip.com,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.19-5.10] drm/atmel-hlcdc: fix use-after-free of
+ drm_crtc_commit after release
+Date: Fri, 13 Feb 2026 19:58:25 -0500
+Message-ID: <20260214010245.3671907-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -51,6 +55,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,212 +72,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:ludovic.desroches@microchip.com,m:manikandan.m@microchip.com,m:sashal@kernel.org,m:dharma.b@microchip.com,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:linux-arm-kernel@lists.infradead.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:val@packett.cool,m:dianders@chromium.org,m:sashal@kernel.org,m:neil.armstrong@linaro.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,chromium.org:email]
-X-Rspamd-Queue-Id: 0A65813A43B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,microchip.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: BAEC113A49E
 X-Rspamd-Action: no action
 
-From: Val Packett <val@packett.cool>
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
 
-[ Upstream commit bcd752c706c357229185a330ab450b86236d9031 ]
+[ Upstream commit bc847787233277a337788568e90a6ee1557595eb ]
 
-A 14-inch 2560x1600 60Hz matte touch panel, found on a Dell Latitude 7455
-laptop (second-source with BOE NE14QDM), according to online sources it's
-also found on the Latitude 7440 and some ASUS models.
+The atmel_hlcdc_plane_atomic_duplicate_state() callback was copying
+the atmel_hlcdc_plane state structure without properly duplicating the
+drm_plane_state. In particular, state->commit remained set to the old
+state commit, which can lead to a use-after-free in the next
+drm_atomic_commit() call.
 
-Raw EDID dump:
+Fix this by calling
+__drm_atomic_helper_duplicate_plane_state(), which correctly clones
+the base drm_plane_state (including the ->commit pointer).
 
-00 ff ff ff ff ff ff 00 06 af a4 0b 00 00 00 00
-00 20 01 04 a5 1e 13 78 03 ad f5 a8 54 47 9c 24
-0e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 f0 68 00 a0 a0 40 2e 60 30 20
-35 00 2d bc 10 00 00 1a f3 53 00 a0 a0 40 2e 60
-30 20 35 00 2d bc 10 00 00 1a 00 00 00 fe 00 36
-39 52 31 57 80 42 31 34 30 51 41 58 00 00 00 00
-00 02 41 21 a8 00 01 00 00 1a 41 0a 20 20 00 a1
+It has been seen when closing and re-opening the device node while
+another DRM client (e.g. fbdev) is still attached:
 
-Don't have datasheet access, but the same timing as for other panels from
-the same manufacturer works fine.
+=============================================================================
+BUG kmalloc-64 (Not tainted): Poison overwritten
+-----------------------------------------------------------------------------
 
-Signed-off-by: Val Packett <val@packett.cool>
-[dianders: Moved to the right location in the table]
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Link: https://patch.msgid.link/20251206173739.2222940-1-val@packett.cool
+0xc611b344-0xc611b344 @offset=836. First byte 0x6a instead of 0x6b
+FIX kmalloc-64: Restoring Poison 0xc611b344-0xc611b344=0x6b
+Allocated in drm_atomic_helper_setup_commit+0x1e8/0x7bc age=178 cpu=0
+pid=29
+ drm_atomic_helper_setup_commit+0x1e8/0x7bc
+ drm_atomic_helper_commit+0x3c/0x15c
+ drm_atomic_commit+0xc0/0xf4
+ drm_framebuffer_remove+0x4cc/0x5a8
+ drm_mode_rmfb_work_fn+0x6c/0x80
+ process_one_work+0x12c/0x2cc
+ worker_thread+0x2a8/0x400
+ kthread+0xc0/0xdc
+ ret_from_fork+0x14/0x28
+Freed in drm_atomic_helper_commit_hw_done+0x100/0x150 age=8 cpu=0
+pid=169
+ drm_atomic_helper_commit_hw_done+0x100/0x150
+ drm_atomic_helper_commit_tail+0x64/0x8c
+ commit_tail+0x168/0x18c
+ drm_atomic_helper_commit+0x138/0x15c
+ drm_atomic_commit+0xc0/0xf4
+ drm_atomic_helper_set_config+0x84/0xb8
+ drm_mode_setcrtc+0x32c/0x810
+ drm_ioctl+0x20c/0x488
+ sys_ioctl+0x14c/0xc20
+ ret_fast_syscall+0x0/0x54
+Slab 0xef8bc360 objects=21 used=16 fp=0xc611b7c0
+flags=0x200(workingset|zone=0)
+Object 0xc611b340 @offset=832 fp=0xc611b7c0
+
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+Link: https://patch.msgid.link/20251024-lcd_fixes_mainlining-v1-2-79b615130dc3@microchip.com
+Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is the same author (Val Packett), same laptop (Dell Latitude 7455),
-and a second-source panel for it. Let me verify this is a pure one-line
-panel ID addition and check the exact diff once more.
-
-The commit message itself says this AUO B140QAX01.H is a "second-source
-with BOE NE14QDM" -- meaning the Dell Latitude 7455 can come with either
-panel, and the BOE variant was already added.
-
-## Analysis
-
-### 1. COMMIT MESSAGE ANALYSIS
-
-The commit adds a new eDP panel entry for the **AUO B140QAX01.H** panel.
-Key details:
-- 14-inch 2560x1600 60Hz matte touch panel
-- Found on real shipping hardware: **Dell Latitude 7455**, Dell Latitude
-  7440, and some ASUS models
-- It's a second-source panel alongside the already-listed BOE NE14QDM
-- Author has the actual hardware and tested it
-- Reviewed by Douglas Anderson (the `panel-edp` subsystem maintainer)
-
-### 2. CODE CHANGE ANALYSIS
-
-The change is a **single line addition** to the `edp_panels[]` table:
+This confirms the fix. The key lines in the helper are:
 
 ```c
-EDP_PANEL_ENTRY('A', 'U', 'O', 0x0ba4, &delay_200_500_e50,
-"B140QAX01.H"),
+state->fence = NULL;
+state->commit = NULL;      // THIS is the critical fix
+state->fb_damage_clips = NULL;
 ```
 
-This uses:
-- The existing `EDP_PANEL_ENTRY` macro
-- An existing delay structure `delay_200_500_e50` (used by nearly all
-  other AUO panels in the table)
-- Placed in the correct sorted position (after 0x04a4, before 0x105c)
+The old code was missing the `state->commit = NULL` step. By using the
+helper, the commit pointer is properly set to NULL in the duplicated
+state, preventing the use-after-free when the old state's commit is
+freed.
 
-There is **zero new logic, zero new delay structures, zero new
-functions** -- it is purely a data table entry.
+Additionally, `state->fence` and `state->fb_damage_clips` were also not
+being properly handled in the old code — the helper fixes multiple
+potential issues at once.
 
-### 3. CLASSIFICATION: Device ID / Hardware Enablement
+### 3. CLASSIFICATION
 
-This falls squarely under the **"NEW DEVICE IDs"** exception category
-for stable backports:
-- Adding a panel ID to an existing driver (`panel-edp.c`)
-- The driver infrastructure already exists in all stable trees where
-  `panel-edp.c` exists
-- The `delay_200_500_e50` delay structure already exists
-- The `EDP_PANEL_ENTRY` macro already exists
+- **Bug type**: Use-after-free (UAF) — one of the most critical bug
+  categories for stable
+- **Severity**: HIGH — UAF can lead to kernel crashes, data corruption,
+  and potentially security vulnerabilities
+- **Reproducibility**: PROVEN — the commit includes a full stack trace
+  from a real reproduction
 
-### 4. USER IMPACT: What happens without this entry?
+### 4. SCOPE AND RISK ASSESSMENT
 
-Looking at the code in `generic_edp_panel_probe()` (lines 805-825):
+- **Lines changed**: Net -1 line (replaced 2 lines with 1 line)
+- **Files touched**: 1 file (`atmel_hlcdc_plane.c`)
+- **Complexity**: Minimal — uses the standard, well-tested DRM helper
+  function
+- **Risk of regression**: Extremely low — this replaces incorrect manual
+  code with the standard pattern used by virtually all other DRM drivers
+- **The destroy_state function already uses
+  `__drm_atomic_helper_plane_destroy_state`**, so using the duplicate
+  counterpart is the correct and symmetric approach
 
-```809:825:drivers/gpu/drm/panel/panel-edp.c
-        /*
-  - We're using non-optimized timings and want it really obvious that
-  - someone needs to add an entry to the table, so we'll do a WARN_ON
-  - splat.
-         */
-        if (WARN_ON(!panel->detected_panel)) {
-                dev_warn(dev,
-                         "Unknown panel %s %#06x, using conservative
-timings\n",
-                         vend, product_id);
-                panel_edp_set_conservative_timings(panel, desc);
-        } else {
-                dev_info(dev, "Detected %s %s (%#06x)\n",
-                         vend, panel->detected_panel->ident.name,
-product_id);
-                /* Update the delay; everything else comes from EDID */
-                desc->delay = *panel->detected_panel->delay;
-        }
-```
+### 5. USER IMPACT
 
-Without this entry:
-1. A **WARN_ON** fires in the kernel log (a kernel warning/splat) every
-   boot on affected Dell/ASUS laptops
-2. The panel falls back to **conservative timings** (`unprepare=2000ms`,
-   `enable=200ms`) instead of the proper timings (`hpd_absent=200ms`,
-   `unprepare=500ms`, `enable=50ms`), meaning **noticeably slower
-   display initialization** with unnecessary delays
-3. The WARN_ON trace in dmesg can confuse users and show up in automated
-   bug reporting tools
-
-### 5. SCOPE AND RISK ASSESSMENT
-
-- **Lines changed**: 1 line added
-- **Files changed**: 1 file
-- **Risk**: Essentially zero. This is a pure data addition to a lookup
-  table. It cannot affect any other panel or any other code path. The
-  entry only matches when the EDID panel ID is exactly `AUO 0x0ba4`.
-- **Dependencies**: None. Uses only existing macros and delay
-  structures.
+- Affects users of Atmel HLCDC display controllers (common in
+  Atmel/Microchip SoCs used in embedded systems)
+- The bug triggers when closing and re-opening display device nodes
+  while another client (e.g., fbdev emulation) remains — a realistic
+  scenario
+- Impact when triggered: kernel BUG (slab corruption), which can lead to
+  crashes or worse
 
 ### 6. STABILITY INDICATORS
 
-- **Reviewed-by**: Douglas Anderson (the panel-edp maintainer for
-  ChromeOS/DRM)
-- **Tested**: Author has the actual Dell Latitude 7455 hardware
-- **Pattern**: Identical to dozens of other panel additions in this file
-  (e.g., BOE NE14QDM for the same laptop was added similarly)
+- **Reviewed-by**: Manikandan Muralidharan (subsystem maintainer for
+  this driver)
+- **Author**: Ludovic Desroches from Microchip — the hardware vendor's
+  own engineer
+- The fix uses a well-established DRM helper function that has been
+  stable for years
 
 ### 7. DEPENDENCY CHECK
 
-No dependencies. The `EDP_PANEL_ENTRY` macro and `delay_200_500_e50`
-structure have existed in the kernel for years, well before any current
-stable tree branch points. This will apply cleanly to any stable tree
-that has the panel-edp driver.
+- `__drm_atomic_helper_plane_duplicate_state()` has existed in the
+  kernel since at least 4.x series — no dependency issues for any active
+  stable tree
+- The atmel-hlcdc driver exists in all active stable trees
+- The fix is completely self-contained — no other patches needed
 
-## Conclusion
+### Summary
 
-This is a textbook example of a **device ID addition to an existing
-driver** -- one of the explicitly allowed exception categories for
-stable backports. It:
-
-- Is a single-line data table entry with zero risk of regression
-- Fixes a real user-visible issue (WARN_ON splat + degraded display
-  timing on Dell Latitude 7455/7440 and some ASUS laptops)
-- Uses only existing infrastructure (macro, delay structure)
-- Has been reviewed by the subsystem maintainer
-- Has been tested on real hardware
-- Will apply cleanly to stable trees
+This is a textbook stable backport candidate:
+- **Obviously correct**: Replaces broken manual code with the standard
+  DRM helper
+- **Fixes a real bug**: UAF proven with stack trace
+- **Small and contained**: 1 file, net -1 line change
+- **No new features**: Pure bug fix
+- **Low regression risk**: Uses established, well-tested helper function
+- **Real-world impact**: Reproducible crash scenario on embedded
+  hardware
 
 **YES**
 
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 2c35970377431..85dd3f4cb8e1c 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1880,6 +1880,7 @@ static const struct panel_delay delay_80_500_e50_d50 = {
-  */
- static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x04a4, &delay_200_500_e50, "B122UAN01.0"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x0ba4, &delay_200_500_e50, "B140QAX01.H"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x105c, &delay_200_500_e50, "B116XTN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120XAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x125c, &delay_200_500_e50, "Unknown"),
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index ec1fb5f9549a2..e55e88d44e829 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -1160,8 +1160,7 @@ atmel_hlcdc_plane_atomic_duplicate_state(struct drm_plane *p)
+ 		return NULL;
+ 	}
+ 
+-	if (copy->base.fb)
+-		drm_framebuffer_get(copy->base.fb);
++	__drm_atomic_helper_plane_duplicate_state(p, &copy->base);
+ 
+ 	return &copy->base;
+ }
 -- 
 2.51.0
 
