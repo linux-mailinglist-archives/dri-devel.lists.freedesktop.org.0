@@ -2,155 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eOZrA5IJkGkFVgEAu9opvQ
+	id MnIdKak+kGmiXwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 06:35:14 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 10:21:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7C613B235
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 06:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDACB13B8F7
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 10:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0158110E1BD;
-	Sat, 14 Feb 2026 05:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3F410E26D;
+	Sat, 14 Feb 2026 09:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="ekUl1Jgt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VWcDq/s6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022099.outbound.protection.outlook.com [52.101.96.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0270D10E1BD;
- Sat, 14 Feb 2026 05:35:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cUmMHlP+6tBdBbeBR9U1Z7/nEXR2pGA2gTpaknQMKK99EK8vXv0xJWlVPRvQ6tDb0DNaNpBZ6yZjuJYsMusxg/oWJ+9MT+qzI8ZOa48pSGplZqH6mLJxD71g/9sdGbsj9fy70GYl4mPKHlCckYmjLtn2Q/qcBtMqTDPKQ+4jM9opmfQjt/M0Y/mTLbWbYeW4Al3xqplpUpEo5SdO19zVzKX4naKZSHeIXST+h5kpodzFNCbZOuFdzsVaFR063XSAq3Ptfr8MHfQlprWESqx7KY2KhCuV9aCKNx2e0uAB79afV0/oaVvAW6JPsAmLjfvaaDupok2ApZf4/eU+Uy9eBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2RhLSj+WgniiwLn6FewymLFGbWYG/HRQtO48ldzyoUs=;
- b=aHIcA0gEVjGc/6ej05+CKkaXOhN2IP1nwOyBBR8C97ye0Tiu3hlGGUT5nbf4vt/EwX4jZqbXIDOh9V3dkEe0Vf3hWkeOhIIqHy8YbMC2LNVam0OHEER0oNHkDvDbLnnOThDw7vj5SxHQuopK/VKiyN11/7AkLncKygolBB/9IbK8Jm0JGQsAZNcnRGzIMnqOFB4soLe1DOKhCMJBbmtNpfB1SFlzjsu/YB2kip9bvQQGIuRzfsCDdfrWt9GHeublM+SZgIIXwy5Du0CeEInayaziAh7EP3H3zStr55fO5sBuBO0tfvDmo8VmkSaVVCB6lb3JkNAb2TtZG0+5oz0dhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2RhLSj+WgniiwLn6FewymLFGbWYG/HRQtO48ldzyoUs=;
- b=ekUl1JgtOdh3QHpJWa4/WIWfWUvyBsI1k1zJaCxfAf4J83uNuXPWXuAAEOmMbjYB7a2gn7nkWDppgCbiAqYleeTBkoow38PVxKVc5H7DdifYc0ppuIGu35dmNJNco4fTVqWtrMdXdTEP6a8tRZK8LeaDkjKWyKNgT8itnLaFC5Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB1781.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:34::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Sat, 14 Feb
- 2026 05:35:04 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9611.013; Sat, 14 Feb 2026
- 05:35:04 +0000
-From: Gary Guo <gary@garyguo.net>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] gpu: nova-core: convert to use new `dma_write!` syntax
-Date: Sat, 14 Feb 2026 13:33:40 +0800
-Message-ID: <20260214053344.1994776-4-gary@garyguo.net>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260214053344.1994776-1-gary@garyguo.net>
-References: <20260214053344.1994776-1-gary@garyguo.net>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TY4PR01CA0017.jpnprd01.prod.outlook.com
- (2603:1096:405:2bf::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F10710E07F
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 07:01:38 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-8230c2d3128so790589b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Feb 2026 23:01:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771052497; x=1771657297; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=t3fS/jBrz25JfiVnibsVI6lmnN85JbB8A6Q8rODhA7A=;
+ b=VWcDq/s6mFBg51ED/X0MYl2D3b5FGJEFgT08Z/zl4PjjLlKS63heuYeMyHbG93eGEf
+ Sivme+lrzU3rh1FmQut1OxgY3KmwXPJtBANfYZVEqV3s/wL9naXOHXW3UwfyXmfJ96Us
+ gQOyeF+oCHbMk25vs5wa/ZRrtIFkMVRVHIdl30z08HoWMwtaCR+Fs+kgv1JGofGCTory
+ Uo6RV/8dve58C7uB+zpkh4sirv9JhFJo7PF3bDzQYRHEhRSgJKWCrXjA1SVRMjWdw6Lg
+ Yf1ymIqqUK2v2ziYYt21fXd0DXgNDF+0adsO1HE43/zYInh44dhNKx1SUnnWwuMQEYhx
+ i2vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771052497; x=1771657297;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=t3fS/jBrz25JfiVnibsVI6lmnN85JbB8A6Q8rODhA7A=;
+ b=s1qfLdEiDpmzzW3w6Q0XI1n2fVsXIAWJ6LHNM2mrFv2VtOUYd/MJDuUfKTlpf8NcHe
+ 8WurcgarPsxFBUL+w6T6JJrYosrUQ7qhkfOJNEiN5xg4YjbETojXZq9wpWMAr9yNupJu
+ GrchX5V0ELkCYwR4+Dakcyrr0a4gCjBefDoqJ7+KWnqp5FSdBq505J7LvRwrz22GrzoX
+ RgJv+ACiHbTU2I4c0vfQKZkOT8IMmHUjGhk6HbCw+eVjmi2vT+RJmW5Re25IJGmZPKOv
+ ndEiZ/sqd5R4WQ5BQj2ggkjDUWuGuUJQ7XEmM8PpiPFoloWxvZBbOeFCtbvKrOcK/XmM
+ Mkvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZNWtIz4iSEit5QSNZrtMdDXT/OA3Wr6FOar8ib8vYkx+iouvEgi8qMUfeDAkRIOvdmjUDiCed1uU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyEZ7+W0uOstrja6PzJ7mdBwIDMcvbm38w0RhVGbnwA1Cqma9M9
+ JhmdOWjXOOa3cTKLjdmVvHvuH6MbDTmilPHj+ZYyXyaViZY+E5Eyj/Uk
+X-Gm-Gg: AZuq6aJhY3LJ3gO5SH+IFOmBziuy3EA4a91RI4lznq4NJU9Vw7G5mvZcUf3EAexgLVj
+ ukVqzPG4bAvQhVBnX6cw4LjIlDABhlo64tL+apgxdKBYtNAa0k//XkwhvYAJ/BCcl5Yt2iu6Lvo
+ 4sv3uIXJaXXavhFu8gacADhaynS5+AKhzuTgPvVh4F/qzH5e9LfUaQrYNhyW+NOLO5qxV8uhF4v
+ +H358GhWmDM8+7UAZHDA6WMrGfBuNr1bTiEl1Qa3bOglSJ5nPOfl1HoD+TnkiXGgxdk/KnbwQlz
+ pD7sUfwbw9jy6DLTEv9mF9l0CrVsdpoow+EmuUgc+HY9DULOBHg3kUTUn2h+dK3qFhnOEMzwsqS
+ VRvseWwh5H9+HooxRAg5AuyM7yHXgF3RwKXVKp46XoQE+iwwMMPQ/DyT+tNwCQZrHEJ1iYsDqFZ
+ Ofm68HBCq7Vg7L+vaS5ktgkwOZVbEJsyIlRSrxesTrgQ==
+X-Received: by 2002:a05:6a21:d82:b0:35f:6e12:186f with SMTP id
+ adf61e73a8af0-3946c733f3cmr4041961637.23.1771052497293; 
+ Fri, 13 Feb 2026 23:01:37 -0800 (PST)
+Received: from debian.ari ([152.58.179.225]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c6e533155fdsm1072674a12.27.2026.02.13.23.01.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Feb 2026 23:01:36 -0800 (PST)
+From: Archit Anant <architanant5@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Cc: airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com, nathan@kernel.org,
+ geert+renesas@glider.be, marcus.folkesson@gmail.com, david@lechnology.com,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Archit Anant <architanant5@gmail.com>
+Subject: [RFC PATCH] drm/sitronix: add ST7789V panel driver
+Date: Sat, 14 Feb 2026 12:31:23 +0530
+Message-Id: <20260214070123.41374-1-architanant5@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB1781:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc316201-70c1-4257-8df5-08de6b8ace31
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|10070799003|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UqpYmGS5kgKm2SLWm1xAektuYa65YLjH+zcVRGc6Dlr+RJe/XmZfrbshjPOq?=
- =?us-ascii?Q?7/HZkxmvDnUXvfMkywHDUoI58e2QXAcTPAcmZJVWHvrZk22xpcNt7dtRFrIN?=
- =?us-ascii?Q?CZPjk0OX5IbCKb+G/W1x69u5EX0hoWFTa54nTwTNxh4FcpH1gcIE7zPtxStQ?=
- =?us-ascii?Q?bUKsdqNIezfI07yATD1MYCQei+rPakwwLQh8H44xAYsh/iZOGGZNulxava1d?=
- =?us-ascii?Q?3QxKWbN/peJuduPcnYzLbLqYMxps0cfHcP1RHJW+Ug94v1w2+VsBqoOUdysY?=
- =?us-ascii?Q?wXRDK0BZPfNwfOi/ZUnf9lmoogr+VO5Fg0ovV8hNOq4GxTimEJs+TMP6tolk?=
- =?us-ascii?Q?CarzClzvj1Oh+6Vz99BljdTkr4fgPjBO44ifZUB7biOPhfe9Ia3AVyK7jgKy?=
- =?us-ascii?Q?waDqf2MNdj8LVzX5EhBBofGJdtGUjAo0IYOSHSX6yhi2Vas8k2/ZCJLMtcsV?=
- =?us-ascii?Q?V8wUXmMZjj6rEraeSivkhJTVrSbxHWLtnhrxd1xuDcoGnPn58X7nLJYEiy9d?=
- =?us-ascii?Q?xgI7CJOUcLZTc+UbEl0iLLooUqbuc++FUfne5jOhzzoBP2ViCNJj6kBvRAX2?=
- =?us-ascii?Q?PTMC/37dY7qCj89UIkLuhyScBAMl1FxedNrf+iFR595Atxn/XaLE+haTAiLo?=
- =?us-ascii?Q?OBU62HFjpwJ0oeO8xjJTN6HxubbwlXYPuqhkWlLIsDK3YPZFIjc6skygCx2v?=
- =?us-ascii?Q?3SB9DeqJmaKfCtLYJy3YKxTKrWlSlEvBjuN96kGGaotRwK0+TGxhpQRzyTmr?=
- =?us-ascii?Q?FQdwoRFvT2KQaVUORRU0qiaRu3V6hFQfxuSKts8IYuVxcpn8u8JDHUFAxEty?=
- =?us-ascii?Q?ovAgea6n2T+0z0jq2gXG1l6icEZHU5iX7wVHowy+TfFPnVTg69ouFFPYpK7Q?=
- =?us-ascii?Q?vAVMFj4qsyqQQxe2T7vR70OYNL+7dcEo+FpPyXJocGWTahmoT32K6Fy8aD0S?=
- =?us-ascii?Q?lKR013AAc/E1CmpYA9St3i5UbsAEHOQCIdG+t/ClvtpKFgSmr/Q2++QdqRBW?=
- =?us-ascii?Q?q4y6mnh2fpxu2D9mF4wa/C+yOBObNukGvGJizMuiFbb/bKCQAeVffvLrbrh8?=
- =?us-ascii?Q?tfVowVGjjn4lxzowJXe+E7JWz5jeNl/loVECAmotpVYu6ZEX7Ejx+je4quDM?=
- =?us-ascii?Q?sOR0bPriUXwU58Lwd4PYQjlm3qiYdklrJS6b5XtStKlE8LbAIY3GRlECAx0z?=
- =?us-ascii?Q?APiRnn4syJ9UCdefYDpuCztNGtaWbpRkN+bX3mPMgycdc5CzxA8QWFMeZ7Wy?=
- =?us-ascii?Q?+8NgmcbAZXuKQ7irYOSiB2nWnbfJmwYv4ir+ylwokAlPUFbJtTXRY6vxAGrW?=
- =?us-ascii?Q?1W45Lxgxp70uhYxy2p/he+O8MBWFyOtaVbnLOXRJUdAHhYl/Pyj0EiKn6V64?=
- =?us-ascii?Q?ZeDamqjf6wlAfIT34+6fNUTTP14b+anX5rxbcywYdAfWfrhVzMJAxE5X+b8t?=
- =?us-ascii?Q?dE0POy/j/l5oEM6QCtavVluLRSwSqiw2CahD44cSd//qdIK32r9vj8vJxm6i?=
- =?us-ascii?Q?i29b/2MXNou/bjbcCs3znbC+h2azSiKph2QsMbpP2ppb8Pm7twp95hB8wBSJ?=
- =?us-ascii?Q?t83u+dckDnkLJmwMvKZSxOcm5A9d26EMlg2Bl/tsvuIMNJseUrcUMYdGm8Si?=
- =?us-ascii?Q?Pw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014)(921020);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YIf0m1QUhQrfycZ46M4QeAxRHnKyIlMGwEdlTQZUQ0ozcQyDn+pomWhhl/4q?=
- =?us-ascii?Q?imua0C8iph3/cTfb7am3GlPxSj0b36qcN0T4CnjFE8irQiotZQA6h4i7WGKh?=
- =?us-ascii?Q?NTXqYZpv0KvyLjdAbKv+Oq0ozHBx7b0UYkgJFxt4jXGRm+XUNVCKI3kOiIYS?=
- =?us-ascii?Q?+Ci3SVyUIBdYf4hogqx2usMaNsXAk3uJS3T2S/Cmc6RPbMN8YdGdOHxw8HPP?=
- =?us-ascii?Q?G30drPbTxn5+LMk77o2BIe54AmQxauvZ3s6bbm8t53dFysMjvsGbd1l/WiEh?=
- =?us-ascii?Q?dnV2BNVaglCjNZ8U2WOeVtfLPhzL5m5fLiB3e0v081PcdunTOE7zA0Il1WI4?=
- =?us-ascii?Q?A9IRsoHL9MUqvHaC0KPldnISaqIhn35b2DCZASgu4gbx913f2BssennAihW9?=
- =?us-ascii?Q?xgaokC7SI5DKoSXkG/tZN2dwC9JKd6bKhLRg6PP15OdBuK/C9yS5To5yYM02?=
- =?us-ascii?Q?FmrPKyrbcZjtT5hnuC37z/C5SwMto0XSXXGchbM1xCYbFkwUFQmHMzsgglxB?=
- =?us-ascii?Q?24VJIMT18xYkvXfQ7reHAAE6H5CIqcggogRYMV7NjptU/brJ+rp49uYlqQOD?=
- =?us-ascii?Q?Vhda3GYPtlPzzrGjHo5LaaSgD4mMiB9AHV0sIlwFXX2Glhs4GsCkn8xZAoVT?=
- =?us-ascii?Q?kaxw5D6EfvO0Up+R/krgsyNVGjWL0uEnc3qSmrXFc4kuLHHBjCU1feEj1ko6?=
- =?us-ascii?Q?3VX1ksnWtBqj64qIffgiJ/TmISHj/OZADy62RRRv4+BfCPKBp95+9UgV+O0T?=
- =?us-ascii?Q?TSu+PSrNRKdKhz81OEm78+kfqqqoWE7GCPjaW8pmNRAImDPrq2ddQlnMpjUA?=
- =?us-ascii?Q?iLMKf2jiR/5ZexEJYHUpm/1Tjh6GnAvR7mo9KEFK23lrKkDrKRX5YNedd565?=
- =?us-ascii?Q?T+X17g9CxT/zxgbZUWLvH8q6QbM4K7ZHONWcqGms67fx0PF1T57yciXBqETe?=
- =?us-ascii?Q?b2f/qhgWhyxBpmsa0Hc8gJOmtQ4ssjl57rqdo42RlUvbdBdqXeT1ANGKk8ii?=
- =?us-ascii?Q?I1Na0SKyzTsIqHwLLgfvUGi/MGd6GjIdaIKhUCxIklzqIG8XWxN6XuIKE8cW?=
- =?us-ascii?Q?hmR7aJDbrpQ+laXRVCQyDGMMqoT2BCW2nZMoxHbM7oqYC2zm1Z77rZOjWIF0?=
- =?us-ascii?Q?WBD0FQAHpYrGeC9KwWxfi9RzsFUB1+CFCEXeTsTOXdn04kz4mnLyAt8/IPgQ?=
- =?us-ascii?Q?wOZlew92mmfRUQKIMin3Yr/2rmervf3ZfvLlkG+WRqVL3GUr9TrbG4LQjuZr?=
- =?us-ascii?Q?CIPTqf0SlHuLgGK7xBChbIdk3ehNTma9k5Jzzm2Nu213JfnOxN7bHeboKWrO?=
- =?us-ascii?Q?gzVR4fXmzS9k7eQJT/0dt8/lCrPwJPo7CKGVgMVuvo/KFg40yy56oBpJcx8J?=
- =?us-ascii?Q?/PocmTtFAsx0nIjXhJxjt3FvVtDrJqz9O+HFBmJznQfjrRc6klRI1ClbXWYs?=
- =?us-ascii?Q?kTQADihHdaXvr+TpJeia2Qy+bwLOikttziFFmMMUah9Wtes2qFdyH8pwHCau?=
- =?us-ascii?Q?EKj51m9HxY9VeCZBAoJkpnMu2hjr8iskeFGq32ZaGbBfklFWZrjOLyIhhnoM?=
- =?us-ascii?Q?eZp1k5yIoC1jszrT41BVPV0vSVPzt9ibaueB38aXamF1cDTo9MRkLnn9ygp4?=
- =?us-ascii?Q?9RMDGTCSA+ThDlrn+ybghv7yLGNHVHYAMWBoo6w9+hEsEiXvTMcLJut1AM6J?=
- =?us-ascii?Q?F1VrUMtZoyeJfZZJebGkzcl/4ISHprQNckvkK0ZA2DeGWvzDbR1f+gQQDqw4?=
- =?us-ascii?Q?d6JcyTwDXUCnAYJO2Lh34kN6tRPpDWSpJlwicIfdKODTvuESc4XA+TEhKnlM?=
-X-MS-Exchange-AntiSpam-MessageData-1: Wi/f7sU5DTYRuw==
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc316201-70c1-4257-8df5-08de6b8ace31
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2026 05:35:04.4461 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fKCq5gI8KRyRz5XWNFdyFYSvTugZrzzzbO0MOGmWQP9K8K4yZjk4HC5iOFnNZuXykfQVHuFvaOR/q2vbfT5nUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1781
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 14 Feb 2026 09:21:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,104 +93,417 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:david@lechnology.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:architanant5@gmail.com,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,nvidia.com,gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,redhat.com,kernel.org,glider.be,lechnology.com,tronnes.org,lists.freedesktop.org,vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[garyguo.net:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:mid,garyguo.net:dkim,garyguo.net:email]
-X-Rspamd-Queue-Id: 2E7C613B235
+	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: EDACB13B8F7
 X-Rspamd-Action: no action
 
-`dma_write!(dma, projection, value)` is the new syntax to be used.
+Add a DRM driver for Sitronix ST7789V display controllers using the
+mipi_dbi interface.
 
-Signed-off-by: Gary Guo <gary@garyguo.net>
+Currently, support for this controller is split between a legacy fbdev
+driver in staging (fb_st7789v.c) and a DRM panel driver that requires
+9-bit SPI words (panel-sitronix-st7789v.c). This new driver uses the
+mipi_dbi helper to support standard 8-bit SPI with a D/C GPIO, which
+is the configuration used by the vast majority of hobbyist and
+embedded hardware.
+
+The initialization sequence is ported from the staging driver and
+supports several panels:
+- Generic 240x320 profile
+- HannStar HSD20 IPS
+- Inanbo T28CP45TN89-V17
+- EDT ET028013DMA
+- Jasonic JT240MHQS-HWT-EK-E3
+
+Signed-off-by: Archit Anant <architanant5@gmail.com>
 ---
- drivers/gpu/nova-core/gsp.rs      | 14 +++++++-------
- drivers/gpu/nova-core/gsp/boot.rs |  2 +-
- drivers/gpu/nova-core/gsp/cmdq.rs | 10 +++++++---
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/sitronix/Kconfig   |  17 ++
+ drivers/gpu/drm/sitronix/Makefile  |   2 +
+ drivers/gpu/drm/sitronix/st7789v.c | 307 +++++++++++++++++++++++++++++
+ 3 files changed, 326 insertions(+)
+ create mode 100644 drivers/gpu/drm/sitronix/st7789v.c
 
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 174feaca0a6b..25cd48514c77 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -143,14 +143,14 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
-                     // _kgspInitLibosLoggingStructures (allocates memory for buffers)
-                     // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
-                     dma_write!(
--                        libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
--                    )?;
-+                        libos, [0]?, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
-+                    );
-                     dma_write!(
--                        libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
--                    )?;
--                    dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
--                    dma_write!(rmargs[0].inner = fw::GspArgumentsCached::new(cmdq))?;
--                    dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
-+                        libos, [1]?, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
-+                    );
-+                    dma_write!(libos, [2]?, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0));
-+                    dma_write!(rmargs, [0]?.inner, fw::GspArgumentsCached::new(cmdq));
-+                    dma_write!(libos, [3]?, LibosMemoryRegionInitArgument::new("RMARGS", rmargs));
-                 },
-             }))
-         })
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index be427fe26a58..94833f7996e8 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -157,7 +157,7 @@ pub(crate) fn boot(
+diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
+index 6de7d92d9b74..7a2c66677003 100644
+--- a/drivers/gpu/drm/sitronix/Kconfig
++++ b/drivers/gpu/drm/sitronix/Kconfig
+@@ -40,3 +40,20 @@ config DRM_ST7735R
  
-         let wpr_meta =
-             CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
-+        dma_write!(wpr_meta, [0]?, GspFwWprMeta::new(&gsp_fw, &fb_layout));
+ 	  If M is selected the module will be called st7735r.
  
-         self.cmdq
-             .send_command(bar, commands::SetSystemInfo::new(pdev))?;
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 46819a82a51a..ae54708c38eb 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -201,9 +201,13 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
- 
-         let gsp_mem =
-             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
--        dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES))?;
--        dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
-+        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle())?);
-+        dma_write!(
-+            gsp_mem,
-+            [0]?.cpuq.tx,
-+            MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES)
-+        );
-+        dma_write!(gsp_mem, [0]?.cpuq.rx, MsgqRxHeader::new());
- 
-         Ok(Self(gsp_mem))
-     }
++config DRM_ST7789V
++	tristate "DRM support for Sitronix ST7789V display panels"
++	depends on DRM && SPI
++	select DRM_CLIENT_SELECTION
++	select DRM_GEM_DMA_HELPER
++	select DRM_KMS_HELPER
++	select DRM_MIPI_DBI
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	  DRM driver for Sitronix ST7789V panels connected via SPI.
++	  This driver supports several panels including:
++	  * HannStar HSD20 IPS
++	  * Inanbo T28CP45TN89-V17
++	  * EDT ET028013DMA
++	  * Jasonic JT240MHQS-HWT-EK-E3
++
++	  If M is selected the module will be called st7789v.
+diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitronix/Makefile
+index bd139e5a6995..96b2a4d85368 100644
+--- a/drivers/gpu/drm/sitronix/Makefile
++++ b/drivers/gpu/drm/sitronix/Makefile
+@@ -1,3 +1,5 @@
+ obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
+ obj-$(CONFIG_DRM_ST7586)		+= st7586.o
+ obj-$(CONFIG_DRM_ST7735R)		+= st7735r.o
++obj-$(CONFIG_DRM_ST7789V)		+= st7789v.o
++
+diff --git a/drivers/gpu/drm/sitronix/st7789v.c b/drivers/gpu/drm/sitronix/st7789v.c
+new file mode 100644
+index 000000000000..4ce4b46d8df2
+--- /dev/null
++++ b/drivers/gpu/drm/sitronix/st7789v.c
+@@ -0,0 +1,307 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * DRM driver for Sitronix ST7789V LCD panels
++ *
++ * Copyright (C) 2026 Archit Anant <architanant5@gmail.com>
++ */
++
++#include <linux/bits.h>
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/spi/spi.h>
++#include <linux/gpio/consumer.h>
++#include <linux/delay.h>
++#include <linux/backlight.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_mipi_dbi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/clients/drm_client_setup.h>
++#include <drm/drm_fbdev_dma.h>
++#include <video/mipi_display.h>
++
++#define ST7789V_PORCTRL      0xb2
++#define ST7789V_GCTRL        0xb7
++#define ST7789V_VCOMS        0xbb
++#define ST7789V_LCMCTRL      0xc0
++#define ST7789V_VDVVRHEN     0xc2
++#define ST7789V_VRHS         0xc3
++#define ST7789V_VDVS         0xc4
++#define ST7789V_VCMOFSET     0xc5
++#define ST7789V_FRCTRL2      0xc6
++#define ST7789V_PWCTRL1      0xd0
++#define ST7789V_PVGAMCTRL    0xe0
++#define ST7789V_NVGAMCTRL    0xe1
++
++#define ST7789V_MADCTL_MY  BIT(7)
++#define ST7789V_MADCTL_MX  BIT(6)
++#define ST7789V_MADCTL_MV  BIT(5)
++#define ST7789V_MADCTL_BGR BIT(3)
++
++
++struct st7789v_cfg {
++	const struct drm_display_mode mode;
++	unsigned int left_offset;
++	unsigned int top_offset;
++	bool is_ips;   /* Controls PORCTRL and GCTRL timings */
++	bool invert;   /* Controls Color Inversion (positive/negative) */
++};
++struct st7789v_priv {
++	struct mipi_dbi_dev dbidev; /* Must be first for .release() */
++	const struct st7789v_cfg *cfg;
++};
++
++
++/* 1. Generic Fallback (Matches default behavior of fb_st7789v.c) */
++static const struct st7789v_cfg generic_cfg = {
++	.mode = { DRM_SIMPLE_MODE(240, 320, 0, 0) },
++	.is_ips = false,
++	.invert = true,
++};
++
++/* 2. HannStar 2.0" IPS (The specific panel handled in staging) */
++static const struct st7789v_cfg hsd20_ips_cfg = {
++	.mode = { DRM_SIMPLE_MODE(240, 320, 31, 41) },
++	.is_ips = true,
++	.invert = true,
++};
++
++/* 3. Inanbo 2.8" (From the 9-bit driver: No Inversion) */
++static const struct st7789v_cfg inanbo_panel_cfg = {
++	.mode = { DRM_SIMPLE_MODE(240, 320, 43, 57) },
++	.is_ips = false,
++	.invert = false,
++};
++
++/* 4. EDT 2.8" (From the 9-bit driver: Normal Inversion) */
++static const struct st7789v_cfg edt_panel_cfg = {
++	.mode = { DRM_SIMPLE_MODE(240, 320, 43, 58) },
++	.is_ips = false,
++	.invert = true,
++};
++
++/* 5. Jasonic 2.4" (From the 9-bit driver: Custom Height + Offset) */
++static const struct st7789v_cfg jasonic_panel_cfg = {
++	.mode = { DRM_SIMPLE_MODE(240, 280, 37, 43) },
++	.is_ips = true,
++	.invert = true,
++	.top_offset = 38,
++};
++
++DEFINE_DRM_GEM_DMA_FOPS(st7789v_fops);
++
++static const struct drm_driver st7789v_driver = {
++    .driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++    .fops               = &st7789v_fops,
++    DRM_GEM_DMA_DRIVER_OPS_VMAP,
++    DRM_FBDEV_DMA_DRIVER_OPS,
++    .debugfs_init       = mipi_dbi_debugfs_init,
++    .name               = "st7789v",
++    .desc               = "Sitronix ST7789V",
++    .major              = 1,
++    .minor              = 0,
++};
++
++static void st7789v_pipe_enable(struct drm_simple_display_pipe *pipe,
++                                struct drm_crtc_state *crtc_state,
++                                struct drm_plane_state *plane_state)
++{
++    struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++    struct st7789v_priv *priv = container_of(dbidev, struct st7789v_priv, dbidev);
++    struct mipi_dbi *dbi = &dbidev->dbi;
++    int ret,idx; 
++
++    if (!drm_dev_enter(pipe->crtc.dev, &idx))
++        return;
++
++    ret = mipi_dbi_poweron_reset(dbidev); 
++    if (ret)
++		goto out_exit;
++
++    mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
++    msleep(150);
++
++    mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
++    msleep(500);
++
++    mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
++
++    if (priv->cfg->is_ips) {
++        mipi_dbi_command(dbi, ST7789V_PORCTRL, 0x05, 0x05, 0x00, 0x33, 0x33);
++        mipi_dbi_command(dbi, ST7789V_GCTRL, 0x75);
++    } else {
++        mipi_dbi_command(dbi, ST7789V_PORCTRL, 0x0c, 0x0c, 0x00, 0x33, 0x33);
++        mipi_dbi_command(dbi, ST7789V_GCTRL, 0x35);
++    }
++
++    mipi_dbi_command(dbi, ST7789V_VCOMS, 0x20); 
++    mipi_dbi_command(dbi, ST7789V_LCMCTRL, 0x2c);
++    mipi_dbi_command(dbi, ST7789V_VDVVRHEN, 0x01);
++    mipi_dbi_command(dbi, ST7789V_VRHS, 0x12);
++    mipi_dbi_command(dbi, ST7789V_VDVS, 0x20);
++    mipi_dbi_command(dbi, ST7789V_FRCTRL2, 0x0f);
++    mipi_dbi_command(dbi, ST7789V_PWCTRL1, 0xa4, 0xa1);
++
++    mipi_dbi_command(dbi, ST7789V_PVGAMCTRL, 
++                     0xd0, 0x04, 0x0d, 0x11, 0x13, 0x2b, 0x3f, 0x54, 
++                     0x4c, 0x18, 0x0d, 0x0b, 0x1f, 0x23);
++    mipi_dbi_command(dbi, ST7789V_NVGAMCTRL, 
++                     0xd0, 0x04, 0x0c, 0x11, 0x13, 0x2c, 0x3f, 0x44, 
++                     0x51, 0x2f, 0x1f, 0x1f, 0x20, 0x23);
++
++    if (priv->cfg->invert)
++        mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE);
++    else
++        mipi_dbi_command(dbi, MIPI_DCS_EXIT_INVERT_MODE);
++    mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
++    msleep(100);
++
++    u8 addr_mode = 0;
++
++    switch (dbidev->rotation) {
++    case 90:
++
++        addr_mode = ST7789V_MADCTL_MV | ST7789V_MADCTL_MY;
++        break;
++    case 180:
++        addr_mode = ST7789V_MADCTL_MX | ST7789V_MADCTL_MY;
++        break;
++    case 270:
++        addr_mode = ST7789V_MADCTL_MV | ST7789V_MADCTL_MX;
++        break;
++    default: 
++        addr_mode = 0;
++        break;
++    }
++
++    addr_mode |= ST7789V_MADCTL_BGR; 
++
++    mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
++
++    mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
++
++out_exit:
++    drm_dev_exit(idx);
++}
++
++static const struct drm_simple_display_pipe_funcs st7789v_pipe_funcs = 
++{
++    DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(st7789v_pipe_enable),
++};
++
++static int st7789v_probe(struct spi_device *spi)
++{
++    struct device *dev = &spi->dev;
++    const struct st7789v_cfg *cfg;
++    struct mipi_dbi_dev *dbidev;
++    struct st7789v_priv *priv;
++    struct drm_device *drm;
++    struct mipi_dbi *dbi;
++    struct gpio_desc *dc;
++    u32 rotation = 0;
++    int ret;
++
++    cfg = device_get_match_data(&spi->dev);
++
++	if (!cfg)
++		cfg = (void *)spi_get_device_id(spi)->driver_data;
++
++	priv = devm_drm_dev_alloc(dev, &st7789v_driver,
++				  struct st7789v_priv, dbidev.drm);
++
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
++
++    dbidev = &priv->dbidev;
++    priv->cfg = cfg;
++
++    dbi = &dbidev->dbi;
++    drm = &dbidev->drm;
++
++    spi_set_drvdata(spi, drm);
++
++    dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
++    if (IS_ERR(dbi->reset))
++        return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
++
++    dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
++    if (IS_ERR(dc))
++        return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
++
++    dbidev->backlight = devm_of_find_backlight(dev);
++    if (IS_ERR(dbidev->backlight))
++        return PTR_ERR(dbidev->backlight);
++    
++    dbidev->left_offset = priv->cfg->left_offset;
++    dbidev->top_offset = priv->cfg->top_offset;
++    
++    device_property_read_u32(dev, "rotation", &rotation);
++
++    ret = mipi_dbi_spi_init(spi, dbi, dc);
++    if (ret)
++        return ret;
++    
++    ret = mipi_dbi_dev_init(dbidev, &st7789v_pipe_funcs, &cfg->mode, rotation);
++    if (ret)
++        return ret;
++
++    drm_mode_config_reset(drm);
++    
++    ret = drm_dev_register(drm, 0);
++    if (ret)
++        return ret;
++
++    drm_client_setup(drm, NULL);
++
++    return 0;
++}
++
++static void st7789v_remove(struct spi_device *spi)
++{
++    struct drm_device *drm = spi_get_drvdata(spi);
++    drm_dev_unplug(drm);
++    drm_atomic_helper_shutdown(drm);
++}
++
++static void st7789v_shutdown(struct spi_device *spi)
++{
++    drm_atomic_helper_shutdown(spi_get_drvdata(spi));
++}
++
++
++static const struct of_device_id st7789v_of_match[] = {
++	{ .compatible = "sitronix,st7789v", .data = &generic_cfg },
++	{ .compatible = "hannstar,hsd20-ips", .data = &hsd20_ips_cfg },
++	{ .compatible = "inanbo,t28cp45tn89-v17", .data = &inanbo_panel_cfg },
++	{ .compatible = "edt,et028013dma", .data = &edt_panel_cfg },
++	{ .compatible = "jasonic,jt240mhqs-hwt-ek-e3", .data = &jasonic_panel_cfg },
++	{  }
++};
++MODULE_DEVICE_TABLE(of, st7789v_of_match);
++
++static const struct spi_device_id st7789v_id[] = {
++    { "st7789v", 0 },
++    { },
++};
++MODULE_DEVICE_TABLE(spi, st7789v_id);
++
++static struct spi_driver st7789v_spi_driver = {
++    .driver = {
++        .name = "st7789v",
++        .of_match_table = st7789v_of_match,
++    },
++    .probe = st7789v_probe,
++    .remove = st7789v_remove,
++    .shutdown = st7789v_shutdown,
++    .id_table = st7789v_id,
++};
++
++module_spi_driver(st7789v_spi_driver);
++
++MODULE_DESCRIPTION("Sitronix ST7789V DRM driver");
++MODULE_AUTHOR("Archit Anant <architanant5@gmail.com>");
++MODULE_LICENSE("GPL");
+\ No newline at end of file
 -- 
-2.51.2
+2.39.5
 
