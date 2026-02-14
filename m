@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NneNLDKj2nMTgEAu9opvQ
+	id KLTeEsDKj2nMTgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:56 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:07:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6BA13A73A
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38E413A784
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Feb 2026 02:07:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9895910E860;
-	Sat, 14 Feb 2026 01:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667F610E865;
+	Sat, 14 Feb 2026 01:07:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nY+Kx0cA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DHklg+yv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C0710E85F
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:06:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8232210E861
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 01:07:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1C60460054;
- Sat, 14 Feb 2026 01:06:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F85C16AAE;
- Sat, 14 Feb 2026 01:06:49 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E89FF60140;
+ Sat, 14 Feb 2026 01:07:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9DA6C116C6;
+ Sat, 14 Feb 2026 01:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771031210;
- bh=IDD3DAK4VPVwQIYH1EtoSuTGGiyhKcoUDZYGTxl0HnM=;
+ s=k20201202; t=1771031226;
+ bh=QKj6dUEnCesw0xEfA6z3Eo3aFX4Ezav57Y5BHRstK/8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nY+Kx0cAx5e582wKL2b05L8UU2Ia1JqXBRmNt7QhPNvV0DJP3mFSBmbKD/DlHhomh
- RmaZEKX9ZUUFCurvvOqCmGCkhiRJ+lzUiS+iwvElw9vZgIUDnCbY0B8BsEvDo4pMTs
- C1bQdFfGAH3iZfTosNs9GVSsKej/44oUrUGIOJBqXV2SxnKX39G23+45lia6YRjb7B
- Xln6kNDIKo+G8mzx7P7goAbBq62T2Nfu7kiqchXRAwPQjTE0OWuPicYu+BuKPn7rid
- YrFfNZEuohsJNMMHkCZXeDEPtihKsshmbtCQE0P7qGueV94Hyd0NpaKSM/eu7UQGjl
- nxnKQRpWEuidg==
+ b=DHklg+yv0QGS+xm/ahnSPD+sYUIm8uQTsgi/910KUrEhM8utG8xhtaoiVdqmC1rtD
+ a5ktpWxkovjraYjsib5v4LJz2RhyYBRMxOAMv8cCfGYFBj2ByRgCxhdGGMkiupb25y
+ 7o3P1k9ENZjdcCrCwixtd236lxkMGAtBIghRROStrnJuw9zaGXLl38lgHLu/IYptv9
+ RnKfJDozIcttXUfB86EGL+KYYZbUN8SqC4Y6TtfqYePWYnJOVxQOciAjjzpAWcYsfV
+ +v6i8zYR7Zzd+n0tioZQD8SyXbmiVlpzZ8FrAxXOwcp+qsZ29Js8auSn2EOlQ4TgPc
+ DpdcePJffgUAw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- Douglas Anderson <dianders@chromium.org>, Sasha Levin <sashal@kernel.org>,
- neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.19] drm/panel-edp: Add CSW MNE007QB3-1
-Date: Fri, 13 Feb 2026 19:59:44 -0500
-Message-ID: <20260214010245.3671907-104-sashal@kernel.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Sasha Levin <sashal@kernel.org>,
+ liviu.dudau@arm.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.19-6.18] drm/panthor: Always wait after sending a
+ command to an AS
+Date: Fri, 13 Feb 2026 19:59:51 -0500
+Message-ID: <20260214010245.3671907-111-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -51,6 +52,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,193 +69,341 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:sashal@kernel.org,m:liviu.dudau@arm.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:yelangyan@huaqin.corp-partner.google.com,m:dianders@chromium.org,m:sashal@kernel.org,m:neil.armstrong@linaro.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,chromium.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6A6BA13A73A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email]
+X-Rspamd-Queue-Id: D38E413A784
 X-Rspamd-Action: no action
 
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-[ Upstream commit b1ea3babb67dcb8b0881c2ab49dfba88b1445856 ]
+[ Upstream commit d2c6fde56d451ca48a5e03428535ce3dbc8fc910 ]
 
-Add support for the CSW MNE007QB3-1, pleace the EDID here for
-subsequent reference.
+There's currently no situation where we want to issue a command to an
+AS and not wait for this command to complete. The wait is either
+explicitly done (LOCK, UNLOCK) or it's missing (UPDATE). So let's
+turn write_cmd() into as_send_cmd_and_wait() that has the wait after
+a command is sent.
 
-00 ff ff ff ff ff ff 00 0e 77 7c 14 00 00 00 00
-00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
-0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
-30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
-3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
-00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 5b
+v2:
+- New patch
 
-70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
-00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
-5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
-20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
-00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
-ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+v3:
+- Collect R-b
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Link: https://patch.msgid.link/20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com
+v4:
+- No changes
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+Link: https://patch.msgid.link/20251128084841.3804658-2-boris.brezillon@collabora.com
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-All the analysis is complete. Here is my detailed assessment:
+## Comprehensive Analysis
 
----
+### 1. COMMIT MESSAGE ANALYSIS
 
-## Analysis: drm/panel-edp: Add CSW MNE007QB3-1
+The commit message states: *"There's currently no situation where we
+want to issue a command to an AS and not wait for this command to
+complete. The wait is either explicitly done (LOCK, UNLOCK) or it's
+missing (UPDATE)."*
 
-### 1. Commit Message Analysis
+This is a clear admission that the `AS_COMMAND_UPDATE` command paths are
+**missing a required wait** for command completion. The commit author
+(Boris Brezillon, the panthor subsystem author) explicitly identifies
+this as a bug: the hardware requires waiting for every AS command to
+complete, but `UPDATE` commands were missing this wait.
 
-The commit adds support for a new revision of the CSW MNE007QB3-1 eDP
-panel. The EDID data is included for reference. The panel name
-"MNE007QB3-1" already exists in the driver with product ID 0x146e (added
-in commit 490b30fbaca2a), but this adds a *new variant* of the same
-panel identified by product ID 0x147c with different timing
-requirements. The author is from Huaqin (a major Chromebook ODM), and
-the commit was reviewed/applied by Douglas Anderson (the `panel-edp`
-subsystem maintainer).
+### 2. CODE CHANGE ANALYSIS - THE BUG
 
-### 2. Code Change Analysis
+#### Before the fix:
 
-The change is a **single line addition**:
+The original `write_cmd()` function at line 513-523 only:
+1. Waits for the MMU to be ready to accept a command (`wait_ready()`
+   before writing)
+2. Writes the command to the `AS_COMMAND` register
+3. **Does NOT wait for the command to complete**
 
-```c
-EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100,
-"MNE007QB3-1"),
+```507:523:drivers/gpu/drm/panthor/panthor_mmu.c
+static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
+{
+        // ...polls AS_STATUS for AS_ACTIVE to clear...
+}
+
+static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+{
+        int status;
+        status = wait_ready(ptdev, as_nr);  // Wait BEFORE sending
+        if (!status)
+                gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
+        return status;  // Returns IMMEDIATELY - no wait AFTER
+}
 ```
 
-This adds a new entry to the `edp_panels[]` table, which is a static
-lookup table mapping EDID panel IDs to timing delay parameters. The new
-entry:
-- Vendor: CSW ('C', 'S', 'W')
-- Product ID: 0x147c (distinct from the existing 0x146e)
-- Delay: `delay_200_500_e50_d100` (hpd_absent=200ms, unprepare=500ms,
-  enable=50ms, disable=100ms)
-- Name: "MNE007QB3-1"
+#### The inconsistent callers:
 
-The delay structure `delay_200_500_e50_d100` already exists in the
-source (line 1839-1844) and is used by other panels (MNB601LS1-4,
-TL140VDMS03-01). No new code, structures, or functionality is added.
+- **`lock_region()`** (line 556): Calls `write_cmd(AS_COMMAND_LOCK)` —
+  the subsequent call to `wait_ready()` exists at line 591 in
+  `mmu_hw_do_operation_locked()`. So LOCK effectively waited, but in a
+  fragmented way.
+- **`mmu_hw_do_operation_locked()`** (line 604): Calls
+  `write_cmd(AS_COMMAND_UNLOCK)` followed by `wait_ready()` at line 607.
+  So UNLOCK explicitly waited.
+- **`panthor_mmu_as_enable()`** (line 636): Calls
+  `write_cmd(AS_COMMAND_UPDATE)` — **NO subsequent `wait_ready()`!** The
+  function returns immediately.
+- **`panthor_mmu_as_disable()`** (line 651): Calls
+  `write_cmd(AS_COMMAND_UPDATE)` — **NO subsequent `wait_ready()`!**
+  Same bug.
 
-### 3. Classification: New Device ID
+#### What this means:
 
-This falls squarely into the **"New Device IDs"** exception category for
-stable backports. The `panel-edp.c` driver is a well-established driver
-that uses a table-driven approach to match eDP panels by their EDID
-identifiers and apply the correct power sequencing timings. Adding a new
-entry to this table is functionally equivalent to adding a new PCI/USB
-device ID to an existing driver.
+When the MMU address space is enabled or disabled via
+`AS_COMMAND_UPDATE`, the code does not wait for the GPU hardware to
+finish processing the command. This is a **hardware protocol violation**
+— the software proceeds to use the address space (or assume it's been
+disabled) before the GPU has actually completed the operation.
 
-Without this entry, a device using this specific panel revision (EDID
-product ID 0x147c) would not have proper power sequencing timings. This
-can result in:
-- Display initialization failures
-- Screen flickering or artifacts
-- Panel damage from incorrect power sequencing
-- The panel being treated as unknown and potentially not working at all
+#### The consequences of this bug:
 
-### 4. Scope and Risk Assessment
+1. **`panthor_mmu_as_enable()`**: Called when activating a VM's address
+   space for GPU usage (line 792 in `panthor_vm_active`). After this
+   returns, the code sets `refcount_set(&vm->as.active_cnt, 1)` and
+   unlocks the mutex. Subsequent GPU operations may start using this
+   address space **before the UPDATE command has completed on the
+   hardware**, potentially causing GPU faults, page translation
+   failures, or data corruption.
 
-- **Lines changed**: 1 (one line added)
-- **Files touched**: 1 (`drivers/gpu/drm/panel/panel-edp.c`)
-- **Complexity**: Trivially low
-- **Risk of regression**: Effectively zero. The new entry is a static
-  table addition matched only by a specific panel ID (0x147c). It cannot
-  affect any existing panel or any other code path. The delay structure
-  it references already exists and is used by other panels.
-- **Dependencies**: None. The `EDP_PANEL_ENTRY` macro and
-  `delay_200_500_e50_d100` structure exist in all recent stable kernels
-  that have the panel-edp driver.
+2. **`panthor_mmu_as_disable()`**: Called in multiple critical paths:
+   - MMU fault handler (line 1694): Disabling a faulting AS. If the
+     UPDATE hasn't completed, subsequent fault handling may race.
+   - Device suspend/reset (lines 1723, 2687): During orderly shutdown.
+     If UPDATE doesn't complete, cleanup may be incomplete.
+   - VM idle path (line 1843): Normal VM deactivation.
 
-### 5. User Impact
+#### Cross-reference with panfrost driver:
 
-This panel is used in Chromebooks (the commit comes from Huaqin, a
-Chromebook manufacturer, with the `corp-partner.google.com` email
-address). Chromebooks frequently use stable/LTS kernels (especially
-ChromeOS). Without this backport, Chromebooks using this specific panel
-revision would have display issues. This is a **real hardware
-enablement** issue for production devices.
+The older `panfrost` driver (for earlier Mali GPUs) has the **exact same
+bug pattern** at lines 188 and 204 — `panfrost_mmu_enable()` and
+`panfrost_mmu_disable()` also call `write_cmd(AS_COMMAND_UPDATE)`
+without waiting. This confirms it's a long-standing inherited bug from
+the original code.
 
-### 6. Stability Indicators
+### 3. CLASSIFICATION
 
-- Applied by Douglas Anderson (`dianders@chromium.org`), the well-known
-  panel-edp maintainer
-- The pattern is identical to dozens of other panel additions that are
-  routinely backported
-- The referenced delay structure has been in the kernel for a long time
-- Zero risk of runtime regression
+This is a **real bug fix**: it adds a missing hardware synchronization
+wait after sending a command to the GPU's MMU address space hardware.
+The fix ensures the software doesn't proceed until the hardware has
+actually processed the address space configuration change.
 
-### 7. Dependency Check
+However, the commit message is written more as a "cleanup/consolidation"
+rather than explicitly calling out the bug's user-visible symptoms. The
+author says the wait is "missing" for UPDATE, confirming it's a bug, but
+doesn't describe specific symptoms (crashes, GPU faults, etc.).
 
-No dependencies. The commit is completely self-contained. The
-`delay_200_500_e50_d100` structure and the `EDP_PANEL_ENTRY` macro exist
-in all stable kernels that have this driver.
+### 4. SCOPE AND RISK ASSESSMENT
 
-### Conclusion
+- **Lines changed**: ~30 lines across 1 file
+- **Files touched**: 1 (`drivers/gpu/drm/panthor/panthor_mmu.c`)
+- **Subsystem**: GPU driver (drm/panthor) — affects only Mali CSF GPUs
+  (Valhall/5th Gen)
+- **Risk**: LOW — The change adds a `wait_ready()` call (a 100μs timeout
+  poll) that was already being done for all other AS commands. This is
+  the correct hardware protocol.
+- **Regression risk**: Very low. The only negative effect could be a
+  very slight latency increase on the AS enable/disable path (up to
+  100μs per operation), which is negligible.
 
-This is a textbook example of a stable-appropriate device ID addition.
-It is a single-line, zero-risk table entry that enables a specific
-hardware panel variant used in production Chromebook devices. The driver
-already exists in stable, the delay structure already exists, and the
-change cannot affect any other hardware. It meets all stable kernel
-criteria: obviously correct, fixes a real issue (hardware not working),
-small and contained, no new features.
+### 5. USER IMPACT
+
+- Panthor driver was introduced in kernel v6.10, so stable trees 6.10.y
+  through 6.18.y would be affected
+- Users of Mali Valhall (G710, G610) and 5th Gen (G720, G620) GPUs are
+  affected
+- This includes some Chromebook models, RK3588-based boards, and
+  MediaTek platforms
+- Without this fix, users may experience intermittent GPU faults,
+  translation errors, or subtle corruption when VMs are
+  activated/deactivated rapidly (e.g., during context switches,
+  suspend/resume)
+
+### 6. DEPENDENCY CHECK
+
+The commit applies on top of `24f028b91ed3` ("drm/panthor: Simplify
+mmu_hw_do_operation_locked"), which is already in the tree. The current
+code in the tree already has the simplified
+`mmu_hw_do_operation_locked()` with the switch statement that the diff's
+context matches. The commit appears self-contained and doesn't require
+other patches from its series.
+
+However, the diff context shows it changes `lock_region()` to also
+error-check and use the new combined `as_send_cmd_and_wait()`, and
+`mmu_hw_do_operation_locked()` removes a now-redundant `wait_ready()`.
+This is all within one function/file and is self-contained.
+
+### 7. STABILITY INDICATORS
+
+- **Reviewed-by: Steven Price** — ARM Mali kernel developer/maintainer
+- The patch went through 4 revisions (v1 through v4), indicating careful
+  review
+- The author (Boris Brezillon) is the original panthor driver author
+
+### 8. CONCERNS
+
+- The commit is patch 2 of a series. We should check if the series has
+  other critical patches. However, this specific commit is self-
+  contained in its fix.
+- The commit message frames this as consolidation rather than urgent
+  bugfix. But the actual code change fixes a real, documented missing
+  wait.
+- The bug may be hard to trigger in practice if the hardware is fast
+  enough to process UPDATE commands before subsequent operations happen.
+  But under load or on slower hardware, it could manifest as
+  intermittent GPU faults.
+
+### VERDICT
+
+This commit fixes a **real hardware synchronization bug** — a missing
+`wait_ready()` after `AS_COMMAND_UPDATE` in the MMU address space
+management. The fix is:
+- Small and contained (1 file, ~30 lines)
+- Obviously correct (all other AS commands already waited; this makes
+  UPDATE consistent)
+- Fixes a potential race between software and hardware that could cause
+  GPU faults
+- Low regression risk (just adds a hardware completion poll)
+- Self-contained (no external dependencies beyond what's already in
+  stable)
+- Reviewed by the ARM Mali maintainer
+
+While the bug may be hard to trigger in practice, the consequences (GPU
+translation faults, potential data corruption) are serious when it does
+trigger, and the fix is minimal and safe.
 
 **YES**
 
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 415b894890ad7..023fbbb10eb4f 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -2033,6 +2033,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE007QS5-2"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE007QB2-2"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MNE007QB3-1"),
-+	EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100, "MNE007QB3-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1519, &delay_200_500_e80_d50, "MNF601BS1-3"),
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index f6339963e4960..d70acff33d41e 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -510,27 +510,29 @@ static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
+ 	return ret;
+ }
  
- 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
+-static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
++static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+ {
+ 	int status;
+ 
+ 	/* write AS_COMMAND when MMU is ready to accept another command */
+ 	status = wait_ready(ptdev, as_nr);
+-	if (!status)
++	if (!status) {
+ 		gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
++		status = wait_ready(ptdev, as_nr);
++	}
+ 
+ 	return status;
+ }
+ 
+-static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+-			u64 region_start, u64 size)
++static int lock_region(struct panthor_device *ptdev, u32 as_nr,
++		       u64 region_start, u64 size)
+ {
+ 	u8 region_width;
+ 	u64 region;
+ 	u64 region_end = region_start + size;
+ 
+ 	if (!size)
+-		return;
++		return 0;
+ 
+ 	/*
+ 	 * The locked region is a naturally aligned power of 2 block encoded as
+@@ -553,7 +555,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+ 
+ 	/* Lock the region that needs to be updated */
+ 	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
+-	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
++	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
+ }
+ 
+ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+@@ -586,9 +588,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+ 	 * power it up
+ 	 */
+ 
+-	lock_region(ptdev, as_nr, iova, size);
+-
+-	ret = wait_ready(ptdev, as_nr);
++	ret = lock_region(ptdev, as_nr, iova, size);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -601,10 +601,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+ 	 * at the end of the GPU_CONTROL cache flush command, unlike
+ 	 * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
+ 	 */
+-	write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
+-
+-	/* Wait for the unlock command to complete */
+-	return wait_ready(ptdev, as_nr);
++	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UNLOCK);
+ }
+ 
+ static int mmu_hw_do_operation(struct panthor_vm *vm,
+@@ -633,7 +630,7 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+ 	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
+ 	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
+ 
+-	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
++	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UPDATE);
+ }
+ 
+ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+@@ -648,7 +645,7 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+ 	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
+ 	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
+ 
+-	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
++	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UPDATE);
+ }
+ 
+ static u32 panthor_mmu_fault_mask(struct panthor_device *ptdev, u32 value)
 -- 
 2.51.0
 
