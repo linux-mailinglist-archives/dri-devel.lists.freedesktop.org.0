@@ -2,116 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UNBLBHxMkmkkswEAu9opvQ
+	id nWO+G9xXkmm9tAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:45:16 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E566C13FEBD
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B019D14016C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE1410E097;
-	Sun, 15 Feb 2026 22:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3CE410E02F;
+	Sun, 15 Feb 2026 23:33:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lechnology.com header.i=@lechnology.com header.b="fFTI7smI";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FGfmTx2e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galaxy.gendns.com (galaxy.gendns.com [66.235.175.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9EE10E097
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 22:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8snpD8Bebmqh0zyEQUMB1FF785p6PDsWMDPxHDr2XyI=; b=fFTI7smIjGbcwH4XSSbTHoenVq
- zv4SiHb8xJzuxaeD3clHhTVSc35DaQv8UOj8+y0bDYx6u+HsDnFGqEzkq8k3AI3zx+hNBoUwiIkCW
- /F+aVD0eX6KCXmf0BGR/gya4Csi7a6WZcFXUpNwHIkXCI/u4EcDu27KsLwtUwSimJvjO3AuzX4GdW
- 50Eymyfmpo6FTRmB3VD8N8rG8psARY8NkkMGx/h/we6DV+0ngEUSTxGjJ/Os3aTnugl4q3k5UfnHR
- JXId790SBd+L0lWOhVDHnJyeoweo03SnaNdYIFSp45e/+cCKwbzJrhdbuvoZhDTEhr9a3Ab7NJAn0
- BdnC5M1w==;
-Received: from ip98-183-112-25.ok.ok.cox.net ([98.183.112.25]:44954
- helo=[192.168.1.142])
- by galaxy.gendns.com with essmtpa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
- (Exim 4.99.1) (envelope-from <david@lechnology.com>)
- id 1vrkrU-00000003Tz4-1nP4; Sun, 15 Feb 2026 17:45:07 -0500
-Message-ID: <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
-Date: Sun, 15 Feb 2026 16:45:06 -0600
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0805910E02F
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 23:33:42 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4836f363d0dso21750015e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 15:33:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771198421; x=1771803221;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w8jWJ2aXKPj6Qh0lM2R1FNp2IKfJGxSgtw7F79r6crc=;
+ b=FGfmTx2ee90OUZiPgSvrjQxuEN3kciI8Is4DFRERaMyR24KmhYmJ+obonfQ2q7AW0y
+ CUCSrkbc4MCIUFAT/nHSb/jVTx1OePX9znACoIEOQMbroCt/ILAhdTPJhNOTyI1SrWdc
+ BdHjy+6Aye99nH4vSUy7w9boXenEQnpkT2iekrCVBv2M1IS1QlvBWhFEbTDonx1veLF7
+ UxLTAIsVmmZAbZ/xyVNhffsoukfmYBD7sG+VjCrwlkHGeXfl6euZflYFUX/T0s++9Mnn
+ seFdaX1cblQJmFJ/L/wardGd5tsZWXhBlfQAezmZZQ+jVA57invxNP/DAm9o+gfXAsHg
+ OLiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771198421; x=1771803221;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w8jWJ2aXKPj6Qh0lM2R1FNp2IKfJGxSgtw7F79r6crc=;
+ b=M72QjC9KtUzMFGsVKeVX+ehtPnlfnIroO6+uK/Z52n4enw6+/HBCZzk1k4QAvFVyg+
+ yrk4erC2eW2A/re4HJqfV+zguGCQ8RB3O1wbb4St83F7GDnYCB4uTAeSWLndnhrR7UzJ
+ +k6qBl7w4Dl2ZI9K4ppBRpC17Jf+RxsZvmkluJ2uUfr/cJ9ZvAtAu4WAVFjZGwlt3adu
+ 9GvY7W3oXadfzw/WGVCF1JLYNaOSfqNO6g6rTNsFQ4HnklO9gpPZLpgdX/J8KjtT/A4h
+ 9IDYC/A138DUIlfEu/Tj7SLRHPoR4lr2G1YGh3cFckMkOao3mb49Qe2ORyo6atQg8ErI
+ AOkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOsWQ2P3PwVyeLtTjNl/J4bwFujCnHftD5AvxK7YSqAWcX1ngIfckAHM4NkRD+Rhu0b410ShcS2lA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhRVO6LntISZ6axFQ6faWQC0m6P5CbaDKMZhrYdvq7pbJQTyVI
+ 0mmS13tAfkSMW22PEpZCw1WRzc5sD4SQP9fw3LC9P7Qx0+H1U2eHltEvpY3JlVif5f4=
+X-Gm-Gg: AZuq6aIzq2y2cSMVhVMgdwoshD0CpYtqb9t3vZc+1EjqKUwfkjZNi1uh7g4Z788RmBf
+ JqMBf13HkCwUBaM+4LmnQptIUnnA2N+TQKzSEfqFvn6l50tmDRulzX0+iX5slrooAt5RY1Ktz8G
+ P5q0yi5JvbWdoQV4X+XTGLYw7eAc8PdsWzeS/yn3CrR8VjrUP2m3LO8Vv+NDR5Zmmc5z9gYjmAq
+ OEWctXLK8w5bWZRdnjw6vkKCXRYTg+lOgsFnn3V/y1pe1h/qGmxIcdTRx53W9kbJNFYlCfnVjmq
+ 55ii8q+EJxwYsFsLbiBBuLrHylu7ppBiFz6lZ/h7s19I8KpZs6WP1wre32LKe9UI4BtSY23FgMZ
+ V7lAV79DXNUO7JMFN5pBV6HeTNYxmqzR0sVhkZr4t/Npnfn9GZmPJWkfuv2SyfZEKUW3/+2cY4C
+ S+OILix2+xRN3rai2f1AE/mOYzz6vBzW6XFMr0TDU=
+X-Received: by 2002:a05:600c:a09:b0:480:4d38:7abc with SMTP id
+ 5b1f17b1804b1-48379bbc49emr95365535e9.11.1771198421343; 
+ Sun, 15 Feb 2026 15:33:41 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-43796ac9d77sm21225426f8f.33.2026.02.15.15.33.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Feb 2026 15:33:41 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Helge Deller <deller@gmx.de>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/7] fbdev: au1100fb: support COMPILE_TEST and fix
+ multi-device support and other cleanups
+Date: Mon, 16 Feb 2026 00:33:16 +0100
+Message-ID: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
-To: Archit Anant <architanant5@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com,
- nathan@kernel.org, geert+renesas@glider.be, marcus.folkesson@gmail.com,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260214070123.41374-1-architanant5@gmail.com>
- <3bb62aa4-d3b5-4dba-b3bf-fc1a82264274@lechnology.com>
- <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
-Content-Language: en-US
-From: David Lechner <david@lechnology.com>
-Autocrypt: addr=david@lechnology.com; keydata=
- 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
-In-Reply-To: <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - galaxy.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: galaxy.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: galaxy.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1318;
+ i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
+ bh=uozvdbMQBMtquqml4NMEEzAMX5hTqQKt2p8A23ayY08=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkle9VAc2+d+3YIVZwdPHcqkP3jZo75jAGyHUv
+ t0sT3O8HYWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZJXvQAKCRCPgPtYfRL+
+ TuX8CACZ8Ml2lm8CHMdrmEcc1VAnwx0Lcyh6d3Yu4PNDD+r4Yxz28SQr+NkjUMmQYMa1SaxM7zO
+ 4iG/l4JtGIM3vTJnC1gbFmoDSr0IsjpxzzZbzJDzoxAIKo3h8/cwcwpObXqmdCv6yj3lTtFYOwG
+ /8KSxOfPf1qDiInl0whVZHVODrOnapyLJu8w+YlAw/PaEfBYqH19mUUDvquSYYC53iaFWZa77MU
+ 3YLdhi5cUHmvb/cxw1ilZMkTdf8RfZjdmQihSQjn3bEAj7HtaAWzwBwvxnsaKcwpmLJzveIk3C6
+ EL35pHcdX4MiOtKf1BYZZvpq7kMCgFJyRGVi/XnKryAyr5ay
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,66 +106,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[lechnology.com:s=default];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_X_AS(0.00)[davidmain@lechnology.com];
-	DMARC_NA(0.00)[lechnology.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:architanant5@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
-	HAS_X_GMSV(0.00)[davidmain+lechnology.com/only user confirmed/virtual account not confirmed];
-	FORGED_SENDER(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmx.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[baylibre.com];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,redhat.com,glider.be,tronnes.org,lists.freedesktop.org,vger.kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	HAS_X_SOURCE(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	DKIM_TRACE(0.00)[lechnology.com:-];
-	HAS_X_ANTIABUSE(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lechnology.com:mid]
-X-Rspamd-Queue-Id: E566C13FEBD
+	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: B019D14016C
 X-Rspamd-Action: no action
 
-On 2/14/26 11:21 PM, Archit Anant wrote:
-> Hi David,
-> 
->> Do we actually need a custom driver for these or can we use
->> drivers/gpu/drm/tiny/panel-mipi-dbi.c with a firmware file for
->> init?
-> 
-> That was my initial thought as well, but looking at the staging driver
-> (fb_st7789v.c), there is conditional logic in the initialization sequence.
-> 
-> The HSD20_IPS panel requires different PORCTRL (0xB2), GCTRL (0xB7), and
-> Gamma (0xE0/E1) settings compared to the standard panel. A static
-> firmware blob via panel-mipi-dbi would not allow selecting between
-> these configurations based on the compatible string, so a dedicated
-> driver seemed necessary to preserve this support.
-> 
-> Best regards,
-> Archit
+Hello,
 
-If two different panels are not 100% compatible with each other, they
-should not have the same compatible string.
+here comes v5. Changes since v4 (see
+https://lore.kernel.org/cover.1771163316.git.u.kleine-koenig@baylibre.com)
+are only fixes for the few justified checkpatch warnings in the immense
+number of false positives. (That is: break a long line that was already
+before over 100 chars long, a typo in a commit log and a whitespace
+issue that was introduced in patch #1.)
 
-It seems like it would be much more efficient to fix the existing
-devicetree/driver if needed rather than writing an entire new driver.
+Best regards
+Uwe
+
+Uwe Kleine-König (7):
+  fbdev: au1100fb: Don't store device specific data in global variables
+  fbdev: au1100fb: Mark several local functions as static
+  fbdev: au1100fb: Use proper conversion specifiers in printk formats
+  fbdev: au1100fb: Make driver compilable on non-mips platforms
+  fbdev: au1100fb: Replace custom printk wrappers by pr_*
+  fbdev: au1100fb: Fold au1100fb.h into its only user
+  fbdev: au1100fb: Replace license boilerplate by SPDX header
+
+ drivers/video/au1100fb.c       |   0
+ drivers/video/fbdev/Kconfig    |   3 +-
+ drivers/video/fbdev/au1100fb.c | 487 +++++++++++++++++++++++++++------
+ drivers/video/fbdev/au1100fb.h | 379 -------------------------
+ 4 files changed, 406 insertions(+), 463 deletions(-)
+ create mode 100644 drivers/video/au1100fb.c
+ delete mode 100644 drivers/video/fbdev/au1100fb.h
+
+
+base-commit: bc57657bd3e64feaac5b4bf3fbd7f8a2fd09f4f8
+-- 
+2.47.3
+
