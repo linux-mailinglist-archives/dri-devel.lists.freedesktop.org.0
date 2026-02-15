@@ -2,69 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EZxHRBykWkoiwEAu9opvQ
+	id +A4ONs1zkWluiwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 08:13:20 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 08:20:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE4713E324
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 08:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446A713E368
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 08:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D90910E1A6;
-	Sun, 15 Feb 2026 07:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202A310E233;
+	Sun, 15 Feb 2026 07:20:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vATdvhTX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JtUeT0Cn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7AF10E1A6
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 07:13:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BA344437B2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 07:13:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F29C2BCB0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 07:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771139594;
- bh=T+2YgmZCyE4C+I+RkFGx+TjN0SFl1Bbne2hkNWWCq8I=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=vATdvhTXqdsTLkR43pbGnZgzP0fwRNukAV0UdhY6eSkl1ZsysaJb0pIvamVZT2E9z
- gyskIQPGPKxYIpYhCA8RlI5lGEAo/xib99lySI0Gnheq6SFv5TXdKAHEKW4IP8DhXT
- 4AsggrfTo1Gmnn4B97py0+3Cmqc00IGqVloQ/DSOZLN9LhmVaYVZ7OiPZCgsmLNVpC
- fry/0AGMXtaOeiza4bFH2VhPpg3lRJ+mUrPS/BML2SDo5qtqGX2TxYJ3nbwPGMQyd/
- 5qfw1VVWlLZhR8j8KkUIc+31eOcdubbxPmiqXpEz7u3OtHfR/QxyCJ/Vi9bx7646KJ
- p/wWY80SJe4mw==
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-3878de20527so13700661fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 23:13:14 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B6B10E233
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 07:20:40 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-4377174e1ebso1550867f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 23:20:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771140039; cv=none;
+ d=google.com; s=arc-20240605;
+ b=ZfgEdN2gSbe1tLPgPCOYGp2Y1n2r/zFgzw3M+yecOMeDnPeD3rnpErAedYCXCGkcIs
+ bOm4vseXAcRQ2whdQuobYFAyvNAEhOpqg2QAAmpaL1Uj/eO4R3erfsvTX5MV20TKnci0
+ fSRbOeU7YByJbbaLVEB9AIygUcA/4K+yNq4yuVDkD/DbkE8bLGHJXC74K0DRUn1HdTAh
+ Np42lV7yHgfLbyvuOs4mUenc2sKCNJpFotHxZU7E+pLkBFhrhprXXuFZW38UYDl9aZrE
+ uboRDMmyjEi3559ud+E4UTp1VUd1HL42wgIclA0JLV5clcKmKgs2uaoiux9+PHgQnymo
+ SgFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=zrl8aWdaaVOiH5RwKkza6kCyl+a95ccxt2cwlIZXNr0=;
+ fh=2ANSFcy3wH+8asE9RLjuI/gD50gRb5FGnNN/KYbm7+Y=;
+ b=h1wKgl4w453cI9UBkL7hq6jrzfM76P2/djTdIqRQLRUrp4bkBFIWE/tmQyexQN5Vr8
+ fb4e3dTJQql9IBvhc+yTV2XJQXMfX/SzH5kAuYvdCygNuygs6EJxEgl1ikGy1TdfiSw3
+ IF2+jbha+DAmWZB4XKqTrqjiVcBlEmWgCcEYBqQ0qV7i+HCInIp3aIqJtfmjAJ83YuIs
+ 9VAC2U1BSSVwNawiRw2JBLlBiopsvfKf2aJkemgz76CiDL3v0/6LFFJf/JOzcbA7Puo5
+ Uj9aH5OggV45NUKIwxEOAul4XxfSuKVE43by8EpVhkLqYW0LCS7tSBYNFP3eWw4/vNLs
+ Ezmg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771140039; x=1771744839; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zrl8aWdaaVOiH5RwKkza6kCyl+a95ccxt2cwlIZXNr0=;
+ b=JtUeT0CnGK7Ts6SvxucjabjBs3zJb2K565xO4HsKc6BJ4wDb6/qAO1iJB8q1dUkqel
+ 1xYVGpGO9xkUkEy0bvtLzuNqlIWTM1w0JNompNQNrPUT3Wvye3jA+DngvMqIdYJe6Klj
+ LhRPeVW2IDufU5NsJbs1DDGYVDh0k6P3BuilbRSrJK7DUkWGqFXbXD/oxYqsBAUEPEMT
+ lBlCbEpeEu5htZMi41AlJSWXd/p1DsCN30MIV+KICSQbcuZi/i5rw/lvxnljGrcqiK6e
+ 1UkKj8nwcZ6Qx4U+oqFgRNBVk79yXM5RnmYBhysUpRqbZ/wEMLcpT+0L8bfaG/7ZyBVo
+ P1aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771140039; x=1771744839;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=zrl8aWdaaVOiH5RwKkza6kCyl+a95ccxt2cwlIZXNr0=;
+ b=KoDnyRK2M6StgLuaMyHoz4shQl4D2TkQH4boC7F+UPwqUWhjvLkKJ0mflpcXwwgM9V
+ AMHju/a7ys1KwulROKQAd+DEG+gcbxH8npBEXDcvQ2k1iWtbiBJ+BBYVMHzFusUXbk12
+ qQ+WYOeOV4hcB8EvZbjyMCWolQ1Y/FiPU+Zjkg8bhmL+uVfWQY+3MupmZ6Lrmxap+8ln
+ h3MoCMcayky2fnVTrP4XMXf6VkLlpXgKuRxEwsTX0s01bNJbLyqjk4dGXRHPaZjAJEkb
+ IGa3aofsgS/x9C8m6cMP+yGOOzwRy+DUWcTmyIprPhhZ/wAOyf7CnZ293dhlUoKjkHES
+ skXw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZ/iN+iNhh1IjGM+hPAllxTAO/SaZxAApLc1e3Q3RJUAR7rp1h0URyA1GJiek313EKWgsy2LcvzPE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxr2WiwHtxECgabl3IkbiJ6yfe8xtaHLJ3UYfI4Jxh/hSZWtJCl
- GycwX4fB+aNk16HBuBOff39d2sE1uTUhrDD0vgbUQ4q3yqBOH9ngklaInvdbo/0SZ5WNbmyet91
- v9Xf9EGH7MGrvru8v+cdJMNCuipEBV4w=
-X-Received: by 2002:a05:651c:3042:b0:385:f3df:c375 with SMTP id
- 38308e7fff4ca-3881b97c4d6mr8983961fa.36.1771139592579; Sat, 14 Feb 2026
- 23:13:12 -0800 (PST)
+ AJvYcCWSUOnFgAEUmwD1dkuK9AuLmTVN/pQTbOUEp5JBF4bvq7Wx/PBWZ4IpeK12mmUQQ/cHbsdFNxHsLTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzn7NIvJD08ONBj0gac3oX7oKykcaOBz95O85T2bfLAGmfBuQyi
+ UrD8FX/XgxtvnUPrzCMKAmSuWnZ+vZ1baWHR/80yvsHvgyIQspKOu2XZK6Sm7vb6NRKdvuQ5zVK
+ u1azvkp7xLUy0W4yNW6qWRxm2vuhVO1w=
+X-Gm-Gg: AZuq6aJ4cuZzVFrCuf0Ezo9PtNjheYxMBWzbC93flwAmfSMREHmhJMBwAb8T/EaQjVv
+ Qh07eWc/ipkgyD4nt/que5CiXEXRjY3yDmeILIIF7R6Qdo2uT8Ygk4s+Cr4zQsblRHqZAbik9OV
+ te+sY9ZjU35+lBR5fI9joo0KFvXESK7OQrb4s4enruomND/+/le0lSBnDAAT5JILmrYbigDBCbh
+ eTw5AgBCONy2owSozdduvk4hoWGV86Tl4dt9bhFHumfcWsWdDs57k4PEHoz61s9EiLgrFoSKfKD
+ CWihLNQj
+X-Received: by 2002:a05:6000:1843:b0:435:e3bd:5838 with SMTP id
+ ffacd0b85a97d-437978dd2fcmr12170774f8f.25.1771140039258; Sat, 14 Feb 2026
+ 23:20:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-8-jernej.skrabec@gmail.com>
- <CAGb2v67B_2SMsDbATVu51Ed+2o+6=FRLw7KmjeL1KYgxm=gyDw@mail.gmail.com>
- <5047516.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <5047516.GXAFRqVoOG@jernej-laptop>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Feb 2026 15:13:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64L1bhOTkVegmd=H83ceVkQSQCAA5h=wu_YjpDS1nuvog@mail.gmail.com>
-X-Gm-Features: AaiRm52URlQdYETFUTCV8VojqZTbAYlBjxg9KO2lGpt3t4I6YTUR894fs5tx07g
-Message-ID: <CAGb2v64L1bhOTkVegmd=H83ceVkQSQCAA5h=wu_YjpDS1nuvog@mail.gmail.com>
-Subject: Re: [PATCH 7/7] drm/sun4i: switch DE33 to new bindings
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
- sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20251204060627.4727-1-clamor95@gmail.com>
+ <20251204060627.4727-4-clamor95@gmail.com>
+ <10344542.CDJkKcVGEf@senjougahara>
+In-Reply-To: <10344542.CDJkKcVGEf@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Sun, 15 Feb 2026 09:20:27 +0200
+X-Gm-Features: AaiRm51pnGpJ3XDXTbcvtaOsnyvgv9p2WlCbpT_dV5xTzz18pENDfpMLAaczCh0
+Message-ID: <CAPVz0n20hHAf9tFqUNYSO18rvvPbbY5nyVRB-KpiKD2ih=Vfpg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7 RESEND] ARM: tn7: adjust panel node
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,432 +117,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:neil.armstrong@linaro.org,m:maarten.lankhorst@linux.intel.com,m:mperttunen@nvidia.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:dianders@chromium.org,m:sam@ravnborg.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[sholland.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,baylibre.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linaro.org,linux.intel.com,nvidia.com,kernel.org,suse.de,gmail.com,ffwll.ch,chromium.org,ravnborg.org,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: DBE4713E324
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 446A713E368
 X-Rspamd-Action: no action
 
-On Sun, Feb 15, 2026 at 3:03=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
+=D1=87=D1=82, 15 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 09:15 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> Hi Chen-Yu,
+> On Thursday, December 4, 2025 3:06=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > Adjust panel node in Tegra Note 7 according to the updated schema.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  arch/arm/boot/dts/nvidia/tegra114-tn7.dts | 13 +++++++------
+> >  1 file changed, 7 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/nvidia/tegra114-tn7.dts b/arch/arm/boot/=
+dts/nvidia/tegra114-tn7.dts
+> > index bfbdb345575a..75fbafb4a872 100644
+> > --- a/arch/arm/boot/dts/nvidia/tegra114-tn7.dts
+> > +++ b/arch/arm/boot/dts/nvidia/tegra114-tn7.dts
+> > @@ -43,7 +43,9 @@ panel@0 {
+> >                               compatible =3D "lg,ld070wx3-sl01";
+> >                               reg =3D <0>;
+> >
+> > -                             power-supply =3D <&vdd_lcd>;
+> > +                             vdd-supply =3D <&avdd_lcd>;
+> > +                             vcc-supply =3D <&dvdd_lcd>;
+> > +
+> >                               backlight =3D <&backlight>;
+> >                       };
+> >               };
+> > @@ -101,11 +103,10 @@ smps45 {
+> >                                               regulator-boot-on;
+> >                                       };
+> >
+> > -                                     smps6 {
+> > +                                     avdd_lcd: smps6 {
+> >                                               regulator-name =3D "va-lc=
+d-hv";
+> > -                                             regulator-min-microvolt =
+=3D <3000000>;
+> > -                                             regulator-max-microvolt =
+=3D <3000000>;
+> > -                                             regulator-always-on;
+> > +                                             regulator-min-microvolt =
+=3D <3160000>;
+> > +                                             regulator-max-microvolt =
+=3D <3160000>;
+> >                                               regulator-boot-on;
+> >                                       };
+> >
+> > @@ -325,7 +326,7 @@ lcd_bl_en: regulator-lcden {
+> >               regulator-boot-on;
+> >       };
+> >
+> > -     vdd_lcd: regulator-lcd {
+> > +     dvdd_lcd: regulator-lcd {
+> >               compatible =3D "regulator-fixed";
+> >               regulator-name =3D "VD_LCD_1V8";
+> >               regulator-min-microvolt =3D <1800000>;
+> >
 >
-> Dne =C4=8Detrtek, 25. december 2025 ob 10:49:47 Srednjeevropski standardn=
-i =C4=8Das je Chen-Yu Tsai napisal(a):
-> > On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-> > <jernej.skrabec@gmail.com> wrote:
-> > >
-> > > Now that everything is in place, switch DE33 to new bindings.
-> > >
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.c | 130 +++++++++++++++-----------=
---
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.h |  10 +--
-> > >  2 files changed, 71 insertions(+), 69 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/su=
-n4i/sun8i_mixer.c
-> > > index fde3b677e925..da213e54e653 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > @@ -13,6 +13,7 @@
-> > >  #include <linux/of.h>
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/of_graph.h>
-> > > +#include <linux/of_platform.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/reset.h>
-> > >
-> > > @@ -24,6 +25,7 @@
-> > >  #include <drm/drm_probe_helper.h>
-> > >
-> > >  #include "sun4i_drv.h"
-> > > +#include "sun50i_planes.h"
-> > >  #include "sun8i_mixer.h"
-> > >  #include "sun8i_ui_layer.h"
-> > >  #include "sun8i_vi_layer.h"
-> > > @@ -256,7 +258,6 @@ static void sun8i_mixer_commit(struct sunxi_engin=
-e *engine,
-> > >  {
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > >         u32 bld_base =3D sun8i_blender_base(mixer);
-> > > -       struct regmap *bld_regs =3D sun8i_blender_regmap(mixer);
-> > >         struct drm_plane_state *plane_state;
-> > >         struct drm_plane *plane;
-> > >         u32 route =3D 0, pipe_en =3D 0;
-> > > @@ -293,16 +294,16 @@ static void sun8i_mixer_commit(struct sunxi_eng=
-ine *engine,
-> > >                 route |=3D layer->index << SUN8I_MIXER_BLEND_ROUTE_PI=
-PE_SHIFT(zpos);
-> > >                 pipe_en |=3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> > >
-> > > -               regmap_write(bld_regs,
-> > > +               regmap_write(engine->regs,
-> > >                              SUN8I_MIXER_BLEND_ATTR_COORD(bld_base, z=
-pos),
-> > >                              SUN8I_MIXER_COORD(x, y));
-> > > -               regmap_write(bld_regs,
-> > > +               regmap_write(engine->regs,
-> > >                              SUN8I_MIXER_BLEND_ATTR_INSIZE(bld_base, =
-zpos),
-> > >                              SUN8I_MIXER_SIZE(w, h));
-> > >         }
-> > >
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_ROUTE(bld_base), rou=
-te);
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_ROUTE(bld_base),=
- route);
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_PIPE_CTL(bld_bas=
-e),
-> > >                      pipe_en | SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-> > >
-> > >         if (mixer->cfg->de_type !=3D SUN8I_MIXER_DE33)
-> > > @@ -317,7 +318,6 @@ static struct drm_plane **sun8i_layers_init(struc=
-t drm_device *drm,
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > >         int plane_cnt =3D mixer->cfg->ui_num + mixer->cfg->vi_num;
-> > >         enum drm_plane_type type;
-> > > -       unsigned int phy_index;
-> > >         int i;
-> > >
-> > >         planes =3D devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes),=
- GFP_KERNEL);
-> > > @@ -332,12 +332,8 @@ static struct drm_plane **sun8i_layers_init(stru=
-ct drm_device *drm,
-> > >                 else
-> > >                         type =3D DRM_PLANE_TYPE_OVERLAY;
-> > >
-> > > -               phy_index =3D i;
-> > > -               if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > -                       phy_index =3D mixer->cfg->map[i];
-> > > -
-> > >                 layer =3D sun8i_vi_layer_init_one(drm, type, mixer->e=
-ngine.regs,
-> > > -                                               i, phy_index, plane_c=
-nt,
-> > > +                                               i, i, plane_cnt,
-> > >                                                 &mixer->cfg->lay_cfg)=
-;
-> > >                 if (IS_ERR(layer)) {
-> > >                         dev_err(drm->dev,
-> > > @@ -357,12 +353,8 @@ static struct drm_plane **sun8i_layers_init(stru=
-ct drm_device *drm,
-> > >                 else
-> > >                         type =3D DRM_PLANE_TYPE_OVERLAY;
-> > >
-> > > -               phy_index =3D index;
-> > > -               if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > -                       phy_index =3D mixer->cfg->map[index];
-> > > -
-> > >                 layer =3D sun8i_ui_layer_init_one(drm, type, mixer->e=
-ngine.regs,
-> > > -                                               index, phy_index, pla=
-ne_cnt,
-> > > +                                               index, index, plane_c=
-nt,
-> > >                                                 &mixer->cfg->lay_cfg)=
-;
-> > >                 if (IS_ERR(layer)) {
-> > >                         dev_err(drm->dev, "Couldn't initialize %s pla=
-ne\n",
-> > > @@ -376,16 +368,25 @@ static struct drm_plane **sun8i_layers_init(str=
-uct drm_device *drm,
-> > >         return planes;
-> > >  }
-> > >
-> > > +static struct drm_plane **sun50i_layers_init(struct drm_device *drm,
-> > > +                                            struct sunxi_engine *eng=
-ine)
-> > > +{
-> > > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > > +
-> > > +       if (IS_ENABLED(CONFIG_DRM_SUN50I_PLANES))
-> > > +               return sun50i_planes_setup(mixer->planes_dev, drm, en=
-gine->id);
-> > > +
-> > > +       return NULL;
-> > > +}
-> > > +
-> > >  static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
-> > >                                  const struct drm_display_mode *mode)
-> > >  {
-> > >         struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> > > -       struct regmap *bld_regs;
-> > >         u32 bld_base, size, val;
-> > >         bool interlaced;
-> > >
-> > >         bld_base =3D sun8i_blender_base(mixer);
-> > > -       bld_regs =3D sun8i_blender_regmap(mixer);
-> > >         interlaced =3D !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
-> > >         size =3D SUN8I_MIXER_SIZE(mode->hdisplay, mode->vdisplay);
-> > >
-> > > @@ -397,14 +398,14 @@ static void sun8i_mixer_mode_set(struct sunxi_e=
-ngine *engine,
-> > >         else
-> > >                 regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_S=
-IZE, size);
-> > >
-> > > -       regmap_write(bld_regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base), s=
-ize);
-> > > +       regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTSIZE(bld_base=
-), size);
-> > >
-> > >         if (interlaced)
-> > >                 val =3D SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> > >         else
-> > >                 val =3D 0;
-> > >
-> > > -       regmap_update_bits(bld_regs, SUN8I_MIXER_BLEND_OUTCTL(bld_bas=
-e),
-> > > +       regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld=
-_base),
-> > >                            SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
-> > >
-> > >         DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\=
-n",
-> > > @@ -417,8 +418,14 @@ static const struct sunxi_engine_ops sun8i_engin=
-e_ops =3D {
-> > >         .mode_set       =3D sun8i_mixer_mode_set,
-> > >  };
-> > >
-> > > +static const struct sunxi_engine_ops sun50i_engine_ops =3D {
-> > > +       .commit         =3D sun8i_mixer_commit,
-> > > +       .layers_init    =3D sun50i_layers_init,
-> > > +       .mode_set       =3D sun8i_mixer_mode_set,
-> > > +};
-> > > +
-> > >  static const struct regmap_config sun8i_mixer_regmap_config =3D {
-> > > -       .name           =3D "layers",
-> > > +       .name           =3D "display",
-> > >         .reg_bits       =3D 32,
-> > >         .val_bits       =3D 32,
-> > >         .reg_stride     =3D 4,
-> > > @@ -433,14 +440,6 @@ static const struct regmap_config sun8i_top_regm=
-ap_config =3D {
-> > >         .max_register   =3D 0x3c,
-> > >  };
-> > >
-> > > -static const struct regmap_config sun8i_disp_regmap_config =3D {
-> > > -       .name           =3D "display",
-> > > -       .reg_bits       =3D 32,
-> > > -       .val_bits       =3D 32,
-> > > -       .reg_stride     =3D 4,
-> > > -       .max_register   =3D 0x20000,
-> > > -};
-> > > -
-> > >  static int sun8i_mixer_of_get_id(struct device_node *node)
-> > >  {
-> > >         struct device_node *ep, *remote;
-> > > @@ -463,17 +462,14 @@ static int sun8i_mixer_of_get_id(struct device_=
-node *node)
-> > >
-> > >  static void sun8i_mixer_init(struct sun8i_mixer *mixer)
-> > >  {
-> > > -       struct regmap *top_regs, *disp_regs;
-> > >         unsigned int base =3D sun8i_blender_base(mixer);
-> > > +       struct regmap *top_regs;
-> > >         int plane_cnt, i;
-> > >
-> > > -       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33) {
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > >                 top_regs =3D mixer->top_regs;
-> > > -               disp_regs =3D mixer->disp_regs;
-> > > -       } else {
-> > > +       else
-> > >                 top_regs =3D mixer->engine.regs;
-> > > -               disp_regs =3D mixer->engine.regs;
-> > > -       }
-> > >
-> > >         /* Enable the mixer */
-> > >         regmap_write(top_regs, SUN8I_MIXER_GLOBAL_CTL,
-> > > @@ -483,25 +479,25 @@ static void sun8i_mixer_init(struct sun8i_mixer=
- *mixer)
-> > >                 regmap_write(top_regs, SUN50I_MIXER_GLOBAL_CLK, 1);
-> > >
-> > >         /* Set background color to black */
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(ba=
-se),
-> > >                      SUN8I_MIXER_BLEND_COLOR_BLACK);
-> > >
-> > >         /*
-> > >          * Set fill color of bottom plane to black. Generally not nee=
-ded
-> > >          * except when VI plane is at bottom (zpos =3D 0) and enabled=
-.
-> > >          */
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(b=
-ase),
-> > >                      SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-> > > -       regmap_write(disp_regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0=
-),
-> > > +       regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLO=
-R(base, 0),
-> > >                      SUN8I_MIXER_BLEND_COLOR_BLACK);
-> > >
-> > >         plane_cnt =3D mixer->cfg->vi_num + mixer->cfg->ui_num;
-> > >         for (i =3D 0; i < plane_cnt; i++)
-> > > -               regmap_write(disp_regs,
-> > > +               regmap_write(mixer->engine.regs,
-> > >                              SUN8I_MIXER_BLEND_MODE(base, i),
-> > >                              SUN8I_MIXER_BLEND_MODE_DEF);
-> > >
-> > > -       regmap_update_bits(disp_regs, SUN8I_MIXER_BLEND_PIPE_CTL(base=
-),
-> > > +       regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE=
-_CTL(base),
-> > >                            SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
-> > >  }
-> > >
-> > > @@ -532,7 +528,6 @@ static int sun8i_mixer_bind(struct device *dev, s=
-truct device *master,
-> > >         if (!mixer)
-> > >                 return -ENOMEM;
-> > >         dev_set_drvdata(dev, mixer);
-> > > -       mixer->engine.ops =3D &sun8i_engine_ops;
-> > >         mixer->engine.node =3D dev->of_node;
-> > >
-> > >         if (of_property_present(dev->of_node, "iommus")) {
-> > > @@ -562,6 +557,11 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >         if (!mixer->cfg)
-> > >                 return -EINVAL;
-> > >
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33)
-> > > +               mixer->engine.ops =3D &sun50i_engine_ops;
-> >
-> > You're missing an IS_ENABLED() clause here if you wanted to make the DE=
- 3.3
-> > planes driver optional. Though as I mentioned in the other patch, split=
-tig
-> > the two modules might not work.
-> >
-> > > +       else
-> > > +               mixer->engine.ops =3D &sun8i_engine_ops;
-> > > +
-> > >         regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > >         if (IS_ERR(regs))
-> > >                 return PTR_ERR(regs);
-> > > @@ -584,17 +584,6 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >                         dev_err(dev, "Couldn't create the top regmap\=
-n");
-> > >                         return PTR_ERR(mixer->top_regs);
-> > >                 }
-> > > -
-> > > -               regs =3D devm_platform_ioremap_resource_byname(pdev, =
-"display");
-> > > -               if (IS_ERR(regs))
-> > > -                       return PTR_ERR(regs);
-> > > -
-> > > -               mixer->disp_regs =3D devm_regmap_init_mmio(dev, regs,
-> > > -                                                        &sun8i_disp_=
-regmap_config);
-> > > -               if (IS_ERR(mixer->disp_regs)) {
-> > > -                       dev_err(dev, "Couldn't create the disp regmap=
-\n");
-> > > -                       return PTR_ERR(mixer->disp_regs);
-> > > -               }
-> > >         }
-> > >
-> > >         mixer->reset =3D devm_reset_control_get(dev, NULL);
-> > > @@ -634,6 +623,33 @@ static int sun8i_mixer_bind(struct device *dev, =
-struct device *master,
-> > >
-> > >         clk_prepare_enable(mixer->mod_clk);
-> > >
-> > > +       if (mixer->cfg->de_type =3D=3D SUN8I_MIXER_DE33) {
-> > > +               struct platform_device *pdev;
-> > > +               struct device_node *np;
-> > > +               void *data;
-> > > +
-> > > +               np =3D of_parse_phandle(dev->of_node, "allwinner,plan=
-es", 0);
-> > > +               if (!np) {
-> > > +                       ret =3D -ENODEV;
-> > > +                       goto err_disable_mod_clk;
-> > > +               }
-> > > +
-> > > +               pdev =3D of_find_device_by_node(np);
-> >
-> > You need to add a matching put_device() in the unbind function.
-> >
-> > Side note:
-> >
-> > This bind function is using a lot of devm_ functions. These have the wr=
-ong
-> > lifetime. I think it would be better if we could move resource acquisit=
-ion
-> > into the probe function.
+> Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 >
-> Looking a bit more into this, this requires a bit more work. For example,=
- clocks
-> can be provided by tcon-top, which are created only in bind callback. Bas=
-ically,
-> whole sun4i-drm driver depends on devm_* calls in bind functions. This wo=
-uld
-> need careful analysis of all driver calls and then refactoring drivers on=
-e by one.
 
-Unfortunately so. However most of them just require moving the initial
-context memory allocation and whatever resource acquisition over. It
-shouldn't be that messy.
+Hi Thierry!
 
-> IMO tcon-top driver needs to be refactored to plain clock driver without =
-component
-> bind/unbind functions. Although this may cause slightly higher power cons=
-umption
-> if device doesn't have display but driver is loaded nevertheless.
->
-> What do you think?
-
-It's just the bus clock that's enabled all the time, so I think that's fine=
-.
-However since it sits in the middle of the whole OF graph, you either need
-to make sun4i-drm know to skip that when adding all the components, or just
-keep a dummy bind callback and component to make it happy.
-
-
-Thanks
-ChenYu
+This is the only remaining patch from the original series. May you
+please pick it or should I resend it?
