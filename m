@@ -2,103 +2,192 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8ERRLnQ8kmn2sAEAu9opvQ
+	id 0KDFD308kmn2sAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:36:52 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:37:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCFE13FCA8
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950FD13FCC4
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:37:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BBCC10E070;
-	Sun, 15 Feb 2026 21:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B1410E079;
+	Sun, 15 Feb 2026 21:36:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CBCF2W9Z";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=dirk.behme@gmx.de header.b="kxYs6qEq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7BDD10E1D7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:34:39 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-79639c2d2b5so23673007b3.2
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Feb 2026 21:34:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771133679; cv=none;
- d=google.com; s=arc-20240605;
- b=LZRx6wFLV8jUqFO/9s9DIrAiiZHOOo/NdbepIjWzUgEbMJec3fp+h7lQKr4M3JxygI
- QQr+H04LWi0hnSH3fZsOChvFM5UnOuUW2i26sNHUrBGHBMPXsfk7usEzPzpogMpMTbqd
- DkLyTSA0vtU2tssfRpPzAPlkCxLWH36+yqpvEf8Z+oRGpJxmM3oJRbcd04Nxx5+sluuM
- NsCtqOHhNTRr3VUUNIEMbHTuzFbQHhi9tfPsX4wZhKBaaZ6hMPXkcEpeZQRP0NM2SqFU
- Xz4l2MLO08alLvUEOQ/UAejZq1X/ej4YKN8U+mczxjzi+4VExSMSVIn76Mc4snx9+rDx
- jPDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=qQzjI17HaTqBNcaAfSdO/K7xxYopjF3U1Ks0jvqILwM=;
- fh=nzJQNWY/tgHcctUfIfN/1QsssEE1hYkR14F91ctMrmE=;
- b=YusqTeHOgrk83nnqBEKVxjVOniVGE4Xdwvg4XDsRFoPycgwCW8zD0G352ns4xne18t
- FtPzl5Igebwtom6u/iONv2Mdm9Wwx4rK1ETcdJYBpk5I3kW4e5ICJwcB9Hekxqr6hirr
- HH/hfqabAWC6srNRfS7mp78fJVRgHk0xOF3qw6F7d/6LVG9xFMQ7CD0fBsvbZqqzgkea
- CBSnl//jYpu5GCSd4d1Xz4/Lggu3EMxhziKMiEOHGVa78fF8E09lJjPgvmjHGZNjH78a
- whc+ObXW3Qi14DWOGnf190XpRiFl2EAD6KFd8rQJNkX6OaRPFWezIfcRGzAM4QRuwLL7
- ldNw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771133679; x=1771738479; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qQzjI17HaTqBNcaAfSdO/K7xxYopjF3U1Ks0jvqILwM=;
- b=CBCF2W9ZHqu7tbyJv4zFUsSj1N/aIKkXjCdZNvYduzlOnIY/LEhHGYRXbag+yL+Eb4
- g7pOH4neUmSOPWBisNo1/7T3UujbIW/s1ODuedLJJagS6MaG3bSmPtvNpk8E8sa53tN9
- rbXj4DBWgXPKGCjA9u8uEXsdrIUU17hJIIBqcC4qeMJpAWqZNXvjB8h6DryQ0b9HGk7Z
- LoWR84joqYnwYAHwZXO5EU8ezviXr6iUr1dXkx1PfYfvdS05zXhF+nCUWUAz+rgGcKyz
- fWnQelWX0NQUPTCDYt3UEwJ2w5CFtU+JN3OvUNTC6v1TAw7WiIUffu4uk+xKpeKAzRuq
- Qacw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771133679; x=1771738479;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=qQzjI17HaTqBNcaAfSdO/K7xxYopjF3U1Ks0jvqILwM=;
- b=KepGvl1RuGfD+HQTKYDtUMsrC5cgKWuf68VgOye65R4uVED0MUybBA0XGm5kajOz9h
- VE/rx2XWVDlzKClSJEUYvx2EP84+WgmT2XSVfTSN+txYS0XBesIFjyfdMF/XJEmUf5V/
- n78XuaQHOk4aAVuZZLqK1YZ4yLMcBY2+AQj7hALANsElQWcz4xU81es3zXkhoR7VZpy7
- OG9Q7dtx1cyj1CG5Nb6ESsjlWnd3iWQqAJtlBAX4vQtmqpMgW592B9DvNTVsxClJOqLG
- 9h13W3vOwfIbm53H0CwhSJbmR4OTOAucSVLb/zGI8GUbbKN8m9b1AbVGoyzUGlBsAD/5
- tbaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkqX3Q90QQmFUlvDTxetAOM1SSY2b4wmO1NZdTjKgCxm2PoV4+DPsapgGhJAsdBXXy5SLLZRGtG38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPIfy3j06BsBeHEAfJ9twXd2UxL2aGEWCUDEqzLZKsASB90ubv
- vww1cZTG8NGnRirP4h/czU30xpIqsMpI7yf9S8OB9jW2aMzkxnh/gS6aYUu9EW60IIA1qDUpNtB
- fhKK37fEq+xGY6Eb34niFDrzRilO3NQk=
-X-Gm-Gg: AZuq6aJgLLZnjzE8mibHW4YQ4jUtbeBFTQcHQ564bhfOHet7E4mmITY8n9Y2r+too58
- aOsHm0MKnIBFp0llq5N9gqUebE8hgFRK0tH52ra1fVG6n0V/ZJ4o7lqvHIMDNBvKrNvnwI24i6w
- le6xl3YUnCp2q0yZE7nrEt1HESbIPCxu7Ee1NdBp3hlcXlrUn/FlHkBWETuwDvtV9ttpcIALLtP
- oXkOuXmaO6hciMWcmnbaPgsd/1AeeZwadegCwlCXYxP3dO5Ypm6nUh7QIutt+jGANOxFZu22Cgd
- cUDBXsExl6CkDnMjKDKO45G3yKXUydpOUn5Ql5R58Q==
-X-Received: by 2002:a05:690c:110:b0:796:4969:e789 with SMTP id
- 00721157ae682-7979e90d82amr61896687b3.69.1771133678785; Sat, 14 Feb 2026
- 21:34:38 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7960810E1A6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 06:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1771137759; x=1771742559; i=dirk.behme@gmx.de;
+ bh=AdcHYF4G/k6Zrjgfn4uMhaEygzOQ4eiFPqSXvL8Shyw=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=kxYs6qEqggL4ULenD08/H++rJS0Qa/he2vbgbQgsRcdvarSVx5NCEuvol5nZwqF1
+ gMmKWgicGg4pKMqidqBV9UV9zpqaX4hWeJ/okoQKhAXHSFzRaNopdmIEt/7T5nsPf
+ P6Zn6sCQjN5LXQ6Ki/BZY2JqtYZIIH4rDUFAQzWdw00Po45heUOMN1R7uaTRpt4KD
+ LFsXG6c25x4RjQb8bDxc9Wj/uJv5oDgu42hMlr0sqZuP1sf1bjpK1eLbG5GsRhiLq
+ rwbDKh3cMZ2k1p/mz3PK56xYvZyaEtSslfwY3WbwIdo0k1DijkkubS+3volbhR5Tk
+ L6HHLjNGIwoifE21sw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.178.42] ([84.129.20.229]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmjq-1wKXx63E5K-00OJ5P; Sun, 15
+ Feb 2026 07:42:39 +0100
+Message-ID: <ab0b9f9c-3a05-42f3-b4a7-ddb6ab0d37a4@gmx.de>
+Date: Sun, 15 Feb 2026 07:42:05 +0100
 MIME-Version: 1.0
-References: <20260214070123.41374-1-architanant5@gmail.com>
- <CAGb2v679248jj4CwQhYAbTUiPJ1=-JqX15CaNY94Cj_dFXwZXw@mail.gmail.com>
-In-Reply-To: <CAGb2v679248jj4CwQhYAbTUiPJ1=-JqX15CaNY94Cj_dFXwZXw@mail.gmail.com>
-From: Archit Anant <architanant5@gmail.com>
-Date: Sun, 15 Feb 2026 11:04:27 +0530
-X-Gm-Features: AZwV_QjVlcNybe6kVjhwN6Iia_Ic0Ar4CEuJik1LKVeEUCSBEspIboQigmzjbUI
-Message-ID: <CADJHxWCzbzD3MK+NLS3UVqXeH4cKop-ErNSnn_RUmAzRLmk7Mw@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
-To: wens@kernel.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com, nathan@kernel.org, 
- geert+renesas@glider.be, marcus.folkesson@gmail.com, david@lechnology.com, 
- noralf@tronnes.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 31/42] dept: assign unique dept_key to each distinct
+ wait_for_completion() caller
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
+ neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org
+References: <20251205071855.72743-1-byungchul@sk.com>
+ <20251205071855.72743-32-byungchul@sk.com>
+Content-Language: de-AT-frami, en-US
+From: Dirk Behme <dirk.behme@gmx.de>
+In-Reply-To: <20251205071855.72743-32-byungchul@sk.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:aWhWMgelEECPmC8s4cDGobXX6S7QtiNME6Biy1AWp+3e//5sbQ5
+ y9wEC0GO6LExJy0TTxPgi7hn9knznFwU+a3hirtKlPOCAxJAmR+f4VZcqBi5p6St8Nc30fU
+ oiV/7SpKGjIQCoOsBc01ZMd0fVmfFXBllNez+QIS6oLVPBXw4NlthHwsLkGV+AXk0sSs7K4
+ GRT5XuyhIHBhQJdzZpoIw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OmiIocz3wZw=;W0wkBau9AOTYHToDyhFSvTXvQnG
+ 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
 X-Mailman-Approved-At: Sun, 15 Feb 2026 21:36:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,544 +204,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:david@lechnology.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:byungchul@sk.com,m:linux-kernel@vger.kernel.org,m:kernel_team@skhynix.com,m:torvalds@linux-foundation.org,m:damien.lemoal@opensource.wdc.com,m:linux-ide@vger.kernel.org,m:adilger.kernel@dilger.ca,m:linux-ext4@vger.kernel.org,m:mingo@redhat.com,m:peterz@infradead.org,m:will@kernel.org,m:tglx@linutronix.de,m:rostedt@goodmis.org,m:joel@joelfernandes.org,m:sashal@kernel.org,m:daniel.vetter@ffwll.ch,m:duyuyang@gmail.com,m:johannes.berg@intel.com,m:tj@kernel.org,m:tytso@mit.edu,m:willy@infradead.org,m:david@fromorbit.com,m:amir73il@gmail.com,m:gregkh@linuxfoundation.org,m:kernel-team@lge.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:mhocko@kernel.org,m:minchan@kernel.org,m:hannes@cmpxchg.org,m:vdavydov.dev@gmail.com,m:sj@kernel.org,m:jglisse@redhat.com,m:dennis@kernel.org,m:cl@linux.com,m:penberg@kernel.org,m:rientjes@google.com,m:vbabka@suse.cz,m:ngupta@vflare.org,m:linux-block@vger.kernel.org,m:josef@toxicpanda.com,m:linux-fsdevel@vger.kernel.org,m:jac
+ k@suse.cz,m:jlayton@kernel.org,m:dan.j.williams@intel.com,m:hch@infradead.org,m:djwong@kernel.org,m:rodrigosiqueiramelo@gmail.com,m:melissa.srw@gmail.com,m:hamohammed.sa@gmail.com,m:harry.yoo@oracle.com,m:chris.p.wilson@intel.com,m:gwan-gyeong.mun@intel.com,m:max.byungchul.park@gmail.com,m:boqun.feng@gmail.com,m:longman@redhat.com,m:yunseong.kim@ericsson.com,m:ysk@kzalloc.com,m:yeoreum.yun@arm.com,m:netdev@vger.kernel.org,m:matthew.brost@intel.com,m:her0gyugyu@gmail.com,m:corbet@lwn.net,m:catalin.marinas@arm.com,m:bp@alien8.de,m:x86@kernel.org,m:hpa@zytor.com,m:luto@kernel.org,m:sumit.semwal@linaro.org,m:gustavo@padovan.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:petr.pavlu@suse.com,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett
+ .org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:chuck.lever@oracle.com,m:neil@brown.name,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dirk.behme@gmx.de,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,redhat.com,glider.be,lechnology.com,tronnes.org,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_NONE(0.00)[];
+	FREEMAIL_FROM(0.00)[gmx.de];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmx.de:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_GT_50(0.00)[166];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dirk.behme@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[skhynix.com,linux-foundation.org,opensource.wdc.com,vger.kernel.org,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1CCFE13FCA8
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim]
+X-Rspamd-Queue-Id: 950FD13FCC4
 X-Rspamd-Action: no action
 
-Hi ChenYu,
-
-Thank you for the detailed review and the pointers toward the documentation=
+On 05.12.25 08:18, Byungchul Park wrote:
+> wait_for_completion() can be used at various points in the code and it's
+> very hard to distinguish wait_for_completion()s between different usages=
 .
-I will ensure the headers are sorted alphabetically and the driver name
-conflict is resolved in the next iteration.
+> Using a single dept_key for all the wait_for_completion()s could trigger
+> false positive reports.
+>=20
+> Assign unique dept_key to each distinct wait_for_completion() caller to
+> avoid false positive reports.
+>=20
+> While at it, add a rust helper for wait_for_completion() to avoid build
+> errors.
+>=20
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
+>  kernel/sched/completion.c  |  60 +++++++++++-----------
+>  rust/helpers/completion.c  |   5 ++
+>  3 files changed, 120 insertions(+), 45 deletions(-)
+>=20
+...
+> diff --git a/rust/helpers/completion.c b/rust/helpers/completion.c
+> index b2443262a2ae..5bae5e749def 100644
+> --- a/rust/helpers/completion.c
+> +++ b/rust/helpers/completion.c
+> @@ -6,3 +6,8 @@ void rust_helper_init_completion(struct completion *x)
+>  {
+>  	init_completion(x);
+>  }
+> +
+> +void rust_helper_wait_for_completion(struct completion *x)
 
-> The reset logic in mipi_dbi is inverted when compared to panel-st7789v.
-> mipi_dbi needs to be taught the "proper" reset polarity.
+Please add `__rust_helper`:
 
-Noted. I will look into the mipi_dbi core to see how to handle the reset
-polarity correctly.
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit=
+/rust/helpers/completion.c?h=3Dnext-20260213&id=3D1c7a6f48f7eeb3014584d2fc=
+55fc67f0cbaeef69
 
-> Instead this functionality could be merged into the existing panel-st7789=
-v
-> driver. You mentioned above that that driver only supports the 9-bit SPI
-> transfer mode. However porting that driver over to mipi_dbi would fix thi=
-s,
-> and remove some redundant code. And tinydrm support could be added on top
-> of that.
->
-> I actually mentioned I was going to work on this on IRC. But I only porte=
-d
-> the driver over to use mipi_dbi, and haven't gotten around to adding
-> tinydrm support. I can send out the conversion patches if that helps
-> you.
+Best regards
 
-That would be fantastic and would save a lot of redundant effort. If you
-send out the patches to convert the existing panel-st7789v driver to
-mipi_dbi, I would be happy to build the 'tiny' (simple display pipe)
-support on top of your series.
+Dirk
 
-Please CC me when you post them, and I will rebase my work accordingly.
-
-Best regards,
-Archit
-
-On Sat, Feb 14, 2026 at 6:35=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
->
-> On Sat, Feb 14, 2026 at 5:21=E2=80=AFPM Archit Anant <architanant5@gmail.=
-com> wrote:
-> >
-> > Add a DRM driver for Sitronix ST7789V display controllers using the
-> > mipi_dbi interface.
-> >
-> > Currently, support for this controller is split between a legacy fbdev
-> > driver in staging (fb_st7789v.c) and a DRM panel driver that requires
-> > 9-bit SPI words (panel-sitronix-st7789v.c). This new driver uses the
-> > mipi_dbi helper to support standard 8-bit SPI with a D/C GPIO, which
-> > is the configuration used by the vast majority of hobbyist and
-> > embedded hardware.
->
-> Notes about this below.
->
-> >
-> > The initialization sequence is ported from the staging driver and
-> > supports several panels:
-> > - Generic 240x320 profile
-> > - HannStar HSD20 IPS
-> > - Inanbo T28CP45TN89-V17
-> > - EDT ET028013DMA
-> > - Jasonic JT240MHQS-HWT-EK-E3
->
-> First of all, please run scripts/checkpatch.pl on patches before you send
-> them. The indentation is all wrong. The script would have caught it.
->
-> And check out Documentation/process/submitting-patches.rst for any other
-> steps you should do before submitting patches.
->
-> > Signed-off-by: Archit Anant <architanant5@gmail.com>
-> > ---
-> >  drivers/gpu/drm/sitronix/Kconfig   |  17 ++
-> >  drivers/gpu/drm/sitronix/Makefile  |   2 +
-> >  drivers/gpu/drm/sitronix/st7789v.c | 307 +++++++++++++++++++++++++++++
-> >  3 files changed, 326 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/sitronix/st7789v.c
-> >
-> > diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitroni=
-x/Kconfig
-> > index 6de7d92d9b74..7a2c66677003 100644
-> > --- a/drivers/gpu/drm/sitronix/Kconfig
-> > +++ b/drivers/gpu/drm/sitronix/Kconfig
-> > @@ -40,3 +40,20 @@ config DRM_ST7735R
-> >
-> >           If M is selected the module will be called st7735r.
-> >
-> > +config DRM_ST7789V
-> > +       tristate "DRM support for Sitronix ST7789V display panels"
-> > +       depends on DRM && SPI
-> > +       select DRM_CLIENT_SELECTION
-> > +       select DRM_GEM_DMA_HELPER
-> > +       select DRM_KMS_HELPER
-> > +       select DRM_MIPI_DBI
-> > +       select BACKLIGHT_CLASS_DEVICE
-> > +       help
-> > +         DRM driver for Sitronix ST7789V panels connected via SPI.
-> > +         This driver supports several panels including:
-> > +         * HannStar HSD20 IPS
-> > +         * Inanbo T28CP45TN89-V17
-> > +         * EDT ET028013DMA
-> > +         * Jasonic JT240MHQS-HWT-EK-E3
-> > +
-> > +         If M is selected the module will be called st7789v.
-> > diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitron=
-ix/Makefile
-> > index bd139e5a6995..96b2a4d85368 100644
-> > --- a/drivers/gpu/drm/sitronix/Makefile
-> > +++ b/drivers/gpu/drm/sitronix/Makefile
-> > @@ -1,3 +1,5 @@
-> >  obj-$(CONFIG_DRM_ST7571_I2C)           +=3D st7571-i2c.o
-> >  obj-$(CONFIG_DRM_ST7586)               +=3D st7586.o
-> >  obj-$(CONFIG_DRM_ST7735R)              +=3D st7735r.o
-> > +obj-$(CONFIG_DRM_ST7789V)              +=3D st7789v.o
-> > +
->
-> Empty line not needed.
->
-> > diff --git a/drivers/gpu/drm/sitronix/st7789v.c b/drivers/gpu/drm/sitro=
-nix/st7789v.c
-> > new file mode 100644
-> > index 000000000000..4ce4b46d8df2
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/sitronix/st7789v.c
-> > @@ -0,0 +1,307 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * DRM driver for Sitronix ST7789V LCD panels
-> > + *
-> > + * Copyright (C) 2026 Archit Anant <architanant5@gmail.com>
-> > + */
-> > +
-> > +#include <linux/bits.h>
-> > +#include <linux/module.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/spi/spi.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/backlight.h>
->
-> Sort this group alphabetically.
->
-> > +
-> > +#include <drm/drm_device.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_managed.h>
-> > +#include <drm/drm_mipi_dbi.h>
-> > +#include <drm/drm_modes.h>
-> > +#include <drm/drm_gem_dma_helper.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/clients/drm_client_setup.h>
-> > +#include <drm/drm_fbdev_dma.h>
->
-> Sort this group alphabetically.
->
-> And add an empty line here for group separation.
->
-> > +#include <video/mipi_display.h>
-> > +
-> > +#define ST7789V_PORCTRL      0xb2
-> > +#define ST7789V_GCTRL        0xb7
-> > +#define ST7789V_VCOMS        0xbb
-> > +#define ST7789V_LCMCTRL      0xc0
-> > +#define ST7789V_VDVVRHEN     0xc2
-> > +#define ST7789V_VRHS         0xc3
-> > +#define ST7789V_VDVS         0xc4
-> > +#define ST7789V_VCMOFSET     0xc5
-> > +#define ST7789V_FRCTRL2      0xc6
-> > +#define ST7789V_PWCTRL1      0xd0
-> > +#define ST7789V_PVGAMCTRL    0xe0
-> > +#define ST7789V_NVGAMCTRL    0xe1
-> > +
-> > +#define ST7789V_MADCTL_MY  BIT(7)
-> > +#define ST7789V_MADCTL_MX  BIT(6)
-> > +#define ST7789V_MADCTL_MV  BIT(5)
-> > +#define ST7789V_MADCTL_BGR BIT(3)
-> > +
-> > +
-> > +struct st7789v_cfg {
-> > +       const struct drm_display_mode mode;
-> > +       unsigned int left_offset;
-> > +       unsigned int top_offset;
-> > +       bool is_ips;   /* Controls PORCTRL and GCTRL timings */
-> > +       bool invert;   /* Controls Color Inversion (positive/negative) =
-*/
-> > +};
-> > +struct st7789v_priv {
-> > +       struct mipi_dbi_dev dbidev; /* Must be first for .release() */
-> > +       const struct st7789v_cfg *cfg;
-> > +};
-> > +
-> > +
-> > +/* 1. Generic Fallback (Matches default behavior of fb_st7789v.c) */
-> > +static const struct st7789v_cfg generic_cfg =3D {
-> > +       .mode =3D { DRM_SIMPLE_MODE(240, 320, 0, 0) },
-> > +       .is_ips =3D false,
-> > +       .invert =3D true,
-> > +};
-> > +
-> > +/* 2. HannStar 2.0" IPS (The specific panel handled in staging) */
-> > +static const struct st7789v_cfg hsd20_ips_cfg =3D {
-> > +       .mode =3D { DRM_SIMPLE_MODE(240, 320, 31, 41) },
-> > +       .is_ips =3D true,
-> > +       .invert =3D true,
-> > +};
-> > +
-> > +/* 3. Inanbo 2.8" (From the 9-bit driver: No Inversion) */
-> > +static const struct st7789v_cfg inanbo_panel_cfg =3D {
-> > +       .mode =3D { DRM_SIMPLE_MODE(240, 320, 43, 57) },
-> > +       .is_ips =3D false,
-> > +       .invert =3D false,
-> > +};
-> > +
-> > +/* 4. EDT 2.8" (From the 9-bit driver: Normal Inversion) */
-> > +static const struct st7789v_cfg edt_panel_cfg =3D {
-> > +       .mode =3D { DRM_SIMPLE_MODE(240, 320, 43, 58) },
-> > +       .is_ips =3D false,
-> > +       .invert =3D true,
-> > +};
-> > +
-> > +/* 5. Jasonic 2.4" (From the 9-bit driver: Custom Height + Offset) */
-> > +static const struct st7789v_cfg jasonic_panel_cfg =3D {
-> > +       .mode =3D { DRM_SIMPLE_MODE(240, 280, 37, 43) },
-> > +       .is_ips =3D true,
-> > +       .invert =3D true,
-> > +       .top_offset =3D 38,
-> > +};
-> > +
-> > +DEFINE_DRM_GEM_DMA_FOPS(st7789v_fops);
-> > +
-> > +static const struct drm_driver st7789v_driver =3D {
-> > +    .driver_features    =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMI=
-C,
-> > +    .fops               =3D &st7789v_fops,
-> > +    DRM_GEM_DMA_DRIVER_OPS_VMAP,
-> > +    DRM_FBDEV_DMA_DRIVER_OPS,
-> > +    .debugfs_init       =3D mipi_dbi_debugfs_init,
-> > +    .name               =3D "st7789v",
-> > +    .desc               =3D "Sitronix ST7789V",
-> > +    .major              =3D 1,
-> > +    .minor              =3D 0,
-> > +};
-> > +
-> > +static void st7789v_pipe_enable(struct drm_simple_display_pipe *pipe,
-> > +                                struct drm_crtc_state *crtc_state,
-> > +                                struct drm_plane_state *plane_state)
-> > +{
-> > +    struct mipi_dbi_dev *dbidev =3D drm_to_mipi_dbi_dev(pipe->crtc.dev=
-);
-> > +    struct st7789v_priv *priv =3D container_of(dbidev, struct st7789v_=
-priv, dbidev);
-> > +    struct mipi_dbi *dbi =3D &dbidev->dbi;
-> > +    int ret,idx;
-> > +
-> > +    if (!drm_dev_enter(pipe->crtc.dev, &idx))
-> > +        return;
-> > +
-> > +    ret =3D mipi_dbi_poweron_reset(dbidev);
-> > +    if (ret)
-> > +               goto out_exit;
-> > +
-> > +    mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
-> > +    msleep(150);
-> > +
-> > +    mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-> > +    msleep(500);
-> > +
-> > +    mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FM=
-T_16BIT);
-> > +
-> > +    if (priv->cfg->is_ips) {
-> > +        mipi_dbi_command(dbi, ST7789V_PORCTRL, 0x05, 0x05, 0x00, 0x33,=
- 0x33);
-> > +        mipi_dbi_command(dbi, ST7789V_GCTRL, 0x75);
-> > +    } else {
-> > +        mipi_dbi_command(dbi, ST7789V_PORCTRL, 0x0c, 0x0c, 0x00, 0x33,=
- 0x33);
-> > +        mipi_dbi_command(dbi, ST7789V_GCTRL, 0x35);
-> > +    }
-> > +
-> > +    mipi_dbi_command(dbi, ST7789V_VCOMS, 0x20);
-> > +    mipi_dbi_command(dbi, ST7789V_LCMCTRL, 0x2c);
-> > +    mipi_dbi_command(dbi, ST7789V_VDVVRHEN, 0x01);
-> > +    mipi_dbi_command(dbi, ST7789V_VRHS, 0x12);
-> > +    mipi_dbi_command(dbi, ST7789V_VDVS, 0x20);
-> > +    mipi_dbi_command(dbi, ST7789V_FRCTRL2, 0x0f);
-> > +    mipi_dbi_command(dbi, ST7789V_PWCTRL1, 0xa4, 0xa1);
-> > +
-> > +    mipi_dbi_command(dbi, ST7789V_PVGAMCTRL,
-> > +                     0xd0, 0x04, 0x0d, 0x11, 0x13, 0x2b, 0x3f, 0x54,
-> > +                     0x4c, 0x18, 0x0d, 0x0b, 0x1f, 0x23);
-> > +    mipi_dbi_command(dbi, ST7789V_NVGAMCTRL,
-> > +                     0xd0, 0x04, 0x0c, 0x11, 0x13, 0x2c, 0x3f, 0x44,
-> > +                     0x51, 0x2f, 0x1f, 0x1f, 0x20, 0x23);
-> > +
-> > +    if (priv->cfg->invert)
-> > +        mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE);
-> > +    else
-> > +        mipi_dbi_command(dbi, MIPI_DCS_EXIT_INVERT_MODE);
-> > +    mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-> > +    msleep(100);
-> > +
-> > +    u8 addr_mode =3D 0;
-> > +
-> > +    switch (dbidev->rotation) {
-> > +    case 90:
-> > +
-> > +        addr_mode =3D ST7789V_MADCTL_MV | ST7789V_MADCTL_MY;
-> > +        break;
-> > +    case 180:
-> > +        addr_mode =3D ST7789V_MADCTL_MX | ST7789V_MADCTL_MY;
-> > +        break;
-> > +    case 270:
-> > +        addr_mode =3D ST7789V_MADCTL_MV | ST7789V_MADCTL_MX;
-> > +        break;
-> > +    default:
-> > +        addr_mode =3D 0;
-> > +        break;
-> > +    }
-> > +
-> > +    addr_mode |=3D ST7789V_MADCTL_BGR;
-> > +
-> > +    mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-> > +
-> > +    mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-> > +
-> > +out_exit:
-> > +    drm_dev_exit(idx);
-> > +}
-> > +
-> > +static const struct drm_simple_display_pipe_funcs st7789v_pipe_funcs =
-=3D
-> > +{
-> > +    DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(st7789v_pipe_enable),
-> > +};
-> > +
-> > +static int st7789v_probe(struct spi_device *spi)
-> > +{
-> > +    struct device *dev =3D &spi->dev;
-> > +    const struct st7789v_cfg *cfg;
-> > +    struct mipi_dbi_dev *dbidev;
-> > +    struct st7789v_priv *priv;
-> > +    struct drm_device *drm;
-> > +    struct mipi_dbi *dbi;
-> > +    struct gpio_desc *dc;
-> > +    u32 rotation =3D 0;
-> > +    int ret;
-> > +
-> > +    cfg =3D device_get_match_data(&spi->dev);
-> > +
-> > +       if (!cfg)
-> > +               cfg =3D (void *)spi_get_device_id(spi)->driver_data;
-> > +
-> > +       priv =3D devm_drm_dev_alloc(dev, &st7789v_driver,
-> > +                                 struct st7789v_priv, dbidev.drm);
-> > +
-> > +       if (IS_ERR(priv))
-> > +               return PTR_ERR(priv);
-> > +
-> > +    dbidev =3D &priv->dbidev;
-> > +    priv->cfg =3D cfg;
-> > +
-> > +    dbi =3D &dbidev->dbi;
-> > +    drm =3D &dbidev->drm;
-> > +
-> > +    spi_set_drvdata(spi, drm);
->
-> Maybe also add power supply regulator support to make it complete?
->
-> > +    dbi->reset =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIG=
-H);
-> > +    if (IS_ERR(dbi->reset))
-> > +        return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get =
-GPIO 'reset'\n");
->
-> The reset logic in mipi_dbi is inverted when compared to panel-st7789v.
-> mipi_dbi needs to be taught the "proper" reset polarity.
->
-> > +
-> > +    dc =3D devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-> > +    if (IS_ERR(dc))
-> > +        return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc=
-'\n");
->
-> This should be optional, since mipi_dbi can handle the "no dc" case.
->
-> > +
-> > +    dbidev->backlight =3D devm_of_find_backlight(dev);
-> > +    if (IS_ERR(dbidev->backlight))
-> > +        return PTR_ERR(dbidev->backlight);
-> > +
-> > +    dbidev->left_offset =3D priv->cfg->left_offset;
-> > +    dbidev->top_offset =3D priv->cfg->top_offset;
-> > +
-> > +    device_property_read_u32(dev, "rotation", &rotation);
-> > +
-> > +    ret =3D mipi_dbi_spi_init(spi, dbi, dc);
-> > +    if (ret)
-> > +        return ret;
-> > +
-> > +    ret =3D mipi_dbi_dev_init(dbidev, &st7789v_pipe_funcs, &cfg->mode,=
- rotation);
-> > +    if (ret)
-> > +        return ret;
-> > +
-> > +    drm_mode_config_reset(drm);
-> > +
-> > +    ret =3D drm_dev_register(drm, 0);
-> > +    if (ret)
-> > +        return ret;
-> > +
-> > +    drm_client_setup(drm, NULL);
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static void st7789v_remove(struct spi_device *spi)
-> > +{
-> > +    struct drm_device *drm =3D spi_get_drvdata(spi);
-> > +    drm_dev_unplug(drm);
-> > +    drm_atomic_helper_shutdown(drm);
-> > +}
-> > +
-> > +static void st7789v_shutdown(struct spi_device *spi)
-> > +{
-> > +    drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-> > +}
-> > +
-> > +
-> > +static const struct of_device_id st7789v_of_match[] =3D {
-> > +       { .compatible =3D "sitronix,st7789v", .data =3D &generic_cfg },
-> > +       { .compatible =3D "hannstar,hsd20-ips", .data =3D &hsd20_ips_cf=
-g },
-> > +       { .compatible =3D "inanbo,t28cp45tn89-v17", .data =3D &inanbo_p=
-anel_cfg },
-> > +       { .compatible =3D "edt,et028013dma", .data =3D &edt_panel_cfg }=
-,
-> > +       { .compatible =3D "jasonic,jt240mhqs-hwt-ek-e3", .data =3D &jas=
-onic_panel_cfg },
-> > +       {  }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, st7789v_of_match);
->
-> We typically don't want two drivers matching on the same devices. The
-> driver match and probe order becomes hard to predict.
->
-> Instead this functionality could be merged into the existing panel-st7789=
-v
-> driver. You mentioned above that that driver only supports the 9-bit SPI
-> transfer mode. However porting that driver over to mipi_dbi would fix thi=
-s,
-> and remove some redundant code. And tinydrm support could be added on top
-> of that.
->
-> I actually mentioned I was going to work on this on IRC. But I only porte=
-d
-> the driver over to use mipi_dbi, and haven't gotten around to adding
-> tinydrm support. I can send out the conversion patches if that helps
-> you.
->
-> > +
-> > +static const struct spi_device_id st7789v_id[] =3D {
-> > +    { "st7789v", 0 },
->
-> You should add all the other ones as well. OF-based SPI driver module
-> loading doesn't seem to work. I think that's a known issue?
->
-> > +    { },
-> > +};
-> > +MODULE_DEVICE_TABLE(spi, st7789v_id);
-> > +
-> > +static struct spi_driver st7789v_spi_driver =3D {
-> > +    .driver =3D {
-> > +        .name =3D "st7789v",
->
-> And you definitely can't have two drivers with the same name.
->
-> > +        .of_match_table =3D st7789v_of_match,
-> > +    },
-> > +    .probe =3D st7789v_probe,
-> > +    .remove =3D st7789v_remove,
-> > +    .shutdown =3D st7789v_shutdown,
-> > +    .id_table =3D st7789v_id,
-> > +};
-> > +
->
-> Empty line not needed here.
->
-> > +module_spi_driver(st7789v_spi_driver);
-> > +
-> > +MODULE_DESCRIPTION("Sitronix ST7789V DRM driver");
-> > +MODULE_AUTHOR("Archit Anant <architanant5@gmail.com>");
-> > +MODULE_LICENSE("GPL");
-> > \ No newline at end of file
->
->     ^
->
->
-> ChenYu
-
-
-
---=20
-Sincerely,
-Archit Anant
