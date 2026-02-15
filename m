@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EB/hNTuJkWnHjgEAu9opvQ
+	id 2FHhNTyJkWnHjgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:11 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B42813E510
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED9B13E518
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B972B10E1F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2B5810E357;
 	Sun, 15 Feb 2026 08:52:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hf9Z4twa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F5tQ+SJc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7932B890D2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 08:52:05 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id
- a640c23a62f3a-b885e8c6727so350549066b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:52:05 -0800 (PST)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7140A8994A
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 08:52:06 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-b8f9b5240a2so318132966b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:52:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771145524; x=1771750324; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771145525; x=1771750325; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vwGBtXFk1MdqTYWNq1qSMVdXV9NE9jqVwCgbeAQpywc=;
- b=Hf9Z4twawp73SriSB/JZZt0t9+JxL+tDcQeFxps2x/3l00C1eHLxEnivlqE/c55Zu2
- NxUVnqBzIJmHsk0cFy8ve59BexOpp6ni8SNfSOHfDuaN/S22FUudbOMYZxkZjPUSHPoj
- U9W/wZlU4xDj6PIFD3vD+Az2gDJ572aw5UfLWn94l4uUbQtGJQVSjn+y1tKhID2AI0ba
- HLJhsGfdz2EFdV4pfjFbwP+XoURewdgEewkYLxoXbdJBxM8JRjVLgfq8hvm/4CF/ZyoE
- kSg9h4zr4gpedQhpguRA8+/c9NDm90YX/3YMPkp4f3hFg2X6jdHZbZAurBBCfAOT3PX/
- ugwQ==
+ bh=apz6SKQjxrkiY9Y8cAWfLh3BY8/2ZKfxWZr/8LI9FLs=;
+ b=F5tQ+SJc1+mfVtfnGOlYIVQmVZxG96N95p4E1FTIROipiaVrawKIr6bTrYwz8azQXa
+ EL4eaF5UqYJ0UlxTKVJ0JWj0fg4r5Zm2ifBIHWiQtFLsXMI0nOA7n5u3AOc+YaB2g1ir
+ pazIGmo/mpX5XuXaG99gVaky1MfrR+V0jFo8r4HIkm3F6tMQsaRubGpg925JbJqJRJU+
+ KA/UfeTGY/Y7B3AUVGxAT1UJ1vw4jQ0keKTHrRQvIqV0UnHkQ1wwrIaE29efNxNRLwmo
+ kOxhPOaCVlSrZoBdM+x5ciyAEf+2KfKOPg+d8QDBR3wa2sL8gpyIOA1lufqDatT9zGX9
+ z0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771145524; x=1771750324;
+ d=1e100.net; s=20230601; t=1771145525; x=1771750325;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=vwGBtXFk1MdqTYWNq1qSMVdXV9NE9jqVwCgbeAQpywc=;
- b=WYVAR4mdcHiF5NWhq7+LgwJ5aHp/SR3wYoLe8hQEQeeoJKQDFkcL56ZP0fn7y5vASz
- O6KFVd4CW04JwkUBfTQBZdTms0oxzP2rMTWUtuwbymecf/g2PbmHd7eEE0EM9XN0Lwgl
- ZlPNFlPjzm5y+ZRT/u1gGzIWAaXw6EIOp1jUj9HB1psj5XTLatGdLHfg1PrSxkOK/XU1
- 6C52CuZBsfWjVlm+SBcAjY785T7l3dXxXwBYvCpuiPBlMQ32dCm1c/E3BeKYX2i/4CLf
- EeOWeuTDnDSnVQhnMa74Mobn9VC4le/YLIe2dO7mxXfeCbYrerijG309YnVBHCQ9yNj6
- SnYQ==
-X-Gm-Message-State: AOJu0YyeMw9gjDc/ggwJMqFTGz3jRZ9oD6nkFpFusI+rOQWWtKJi/R+b
- ip5peB/xMJjhrA7N7145Uho9n4QoXRejcD8oiw+Toig1JlQ9Qr8njKmr
-X-Gm-Gg: AZuq6aJWuIIPCUiYWgQEyNqV91Nfm0V0HJLlesGoIDf7sm7ZK4vfIXEPfiaNWw/7VNI
- VtHPLJKtpPalNOeTmuWzHkdOyEG8rlXBiBmGho7OR7XO4w8z8Dn8oHUwdXqNXjYik01J2+104Ji
- rEvgvLJ29A6Hppt6AUdAo/ldB8PEHyVIYeEkS2lmvieXzFuaMA0tdlyoBR0HfNMkAf8i72hZcsE
- sNKuBWFRWvTk6ObTnTQip03GW3QScFt79iq32IMGyK2Uw5Bztyn3/f5Exk0oJWlzLMZsPWOdzQ9
- dASGTT0sfNiCKbVeNj11fCFJSEQle5BvrQ86jzN//G7+vnx+NCYpv4ke9kvotiPYz/Iu/+ZR8aY
- Di/wAnr9HJxfjnDF2CcR0WMUrVDuZNbv2mfoNAJfa77EIeohtclZlxtBxvhZHjGRw5DjD1Pmwla
- TyOu2yDzd7Riyn
-X-Received: by 2002:a17:907:c0a:b0:b88:58e5:86ff with SMTP id
- a640c23a62f3a-b8fc0216b5emr402120566b.0.1771145523737; 
- Sun, 15 Feb 2026 00:52:03 -0800 (PST)
+ bh=apz6SKQjxrkiY9Y8cAWfLh3BY8/2ZKfxWZr/8LI9FLs=;
+ b=OByeOwzXUMOOgOlylNoWl7N0LPdF1dwp1d8dbQn0RXzWXFzOBhl7BWiXY2PsNgsgiL
+ xmXPRCCIoV6owKEi7q1bW8Gh4LWoF6Lg09ooyRU34oNstA8uHxUIRkj4Ny6cqjauloxI
+ nqviDOM0/KUq6thrh2XLBF1ldsypwPX6tfj/bXgtCkk8/SEDNgcLqQK3Zkk3hSEeLYQN
+ 7wnJ5S6jx1gxiH1MjcKjQxjkFPUQ+4fsY+CjPNmGDH9zP5joFvjL26NFn5H5JfgXrOS/
+ Ir875yczvGLiAw8Mg4QCkbZrPYRxqJ3Kmjd6oMHr+Tr+JTVF30XLmchfA3upMG4P5/Gj
+ /N4w==
+X-Gm-Message-State: AOJu0YwKDfThRkbIY0AiSoenln8+RWwNQr4Ngft9qa6ZIMzxHUKksQ9i
+ ta7fGswZCpalwu6165/32SierwkWCQYT0+6+04/HmrAvTAtRshNC4gYc
+X-Gm-Gg: AZuq6aKoDmPkzC0hrheUHUWOE++d61j/M+Pq0KHIwy/6cDh7uf5+KTru0BO/mNltnrb
+ YFJ8ECVCpU3JoLmbkicEFuIinGLRtFuQjE/lH0h7FHBH04schPMchLiLtME5IDu3UsjF7X0OlDV
+ 8MrR98Eu0QKSoC6lXZw7Q0KphAPok/KFfAO9/QggvZPUyTUclG/TGzZ1r9sYbJXEkQD7KZk7FkG
+ pHbzAnivimOlR7xThwomVbmTK7tqgo8KuoPbszpM+wTmwPYSz8rMhQZz4pJGyKCvySNeH//kteW
+ 36R4nwI+cYPbScXoSKORRzk1i6p3PyfhRTfBhKGhssi7gfvSRr7Jn5Z/qSQfrkicLTjv11AAIax
+ oLEac+cDmDSHiUERpjCr81HHKvmh6uZOvIyfTxUMLks9O+xnMNL6AB+pH/z994ZIDcHkPsgqGBW
+ B6FHe4r3UqzjbP
+X-Received: by 2002:a17:907:8690:b0:b86:e937:d097 with SMTP id
+ a640c23a62f3a-b8fb44767d7mr372985466b.38.1771145524794; 
+ Sun, 15 Feb 2026 00:52:04 -0800 (PST)
 Received: from xeon ([188.163.112.48]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc7629b63sm139799766b.35.2026.02.15.00.52.02
+ a640c23a62f3a-b8fc7629b63sm139799766b.35.2026.02.15.00.52.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 00:52:03 -0800 (PST)
+ Sun, 15 Feb 2026 00:52:04 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -73,9 +73,10 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Simona Vetter <simona@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/5] drm/panel: r61307/r69328: return accumulated errors
-Date: Sun, 15 Feb 2026 10:51:38 +0200
-Message-ID: <20260215085140.20499-5-clamor95@gmail.com>
+Subject: [PATCH v1 5/5] drm/panel: r61307/r69328: convert to
+ devm_mipi_dsi_attach
+Date: Sun, 15 Feb 2026 10:51:39 +0200
+Message-ID: <20260215085140.20499-6-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260215085140.20499-1-clamor95@gmail.com>
 References: <20260215085140.20499-1-clamor95@gmail.com>
@@ -129,61 +130,67 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8B42813E510
+X-Rspamd-Queue-Id: 8ED9B13E518
 X-Rspamd-Action: no action
 
-Return accumulated errors from dsi function calls.
+Switch to device managed version of mipi_dsi_attach.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-renesas-r61307.c | 4 ++--
- drivers/gpu/drm/panel/panel-renesas-r69328.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-renesas-r61307.c | 7 +------
+ drivers/gpu/drm/panel/panel-renesas-r69328.c | 7 +------
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-renesas-r61307.c b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-index 2cc3bd66d6d4..70bda074dd0d 100644
+index 70bda074dd0d..d8185cc1b5d6 100644
 --- a/drivers/gpu/drm/panel/panel-renesas-r61307.c
 +++ b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-@@ -150,7 +150,7 @@ static int renesas_r61307_enable(struct drm_panel *panel)
- 	mipi_dsi_dcs_set_display_on_multi(&ctx);
- 	mipi_dsi_msleep(&ctx, 50);
+@@ -261,7 +261,7 @@ static int renesas_r61307_probe(struct mipi_dsi_device *dsi)
  
--	return 0;
-+	return ctx.accum_err;
+ 	drm_panel_add(&priv->panel);
+ 
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret) {
+ 		drm_panel_remove(&priv->panel);
+ 		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+@@ -273,11 +273,6 @@ static int renesas_r61307_probe(struct mipi_dsi_device *dsi)
+ static void renesas_r61307_remove(struct mipi_dsi_device *dsi)
+ {
+ 	struct renesas_r61307 *priv = mipi_dsi_get_drvdata(dsi);
+-	int ret;
+-
+-	ret = mipi_dsi_detach(dsi);
+-	if (ret)
+-		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+ 
+ 	drm_panel_remove(&priv->panel);
  }
- 
- static int renesas_r61307_disable(struct drm_panel *panel)
-@@ -162,7 +162,7 @@ static int renesas_r61307_disable(struct drm_panel *panel)
- 	mipi_dsi_msleep(&ctx, 100);
- 	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
- 
--	return 0;
-+	return ctx.accum_err;
- }
- 
- static int renesas_r61307_unprepare(struct drm_panel *panel)
 diff --git a/drivers/gpu/drm/panel/panel-renesas-r69328.c b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-index b5fe127634ae..0ed143f77e50 100644
+index 0ed143f77e50..bfe2787f8f53 100644
 --- a/drivers/gpu/drm/panel/panel-renesas-r69328.c
 +++ b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-@@ -117,7 +117,7 @@ static int renesas_r69328_enable(struct drm_panel *panel)
- 	mipi_dsi_dcs_set_display_on_multi(&ctx);
- 	mipi_dsi_msleep(&ctx, 50);
+@@ -217,7 +217,7 @@ static int renesas_r69328_probe(struct mipi_dsi_device *dsi)
  
--	return 0;
-+	return ctx.accum_err;
+ 	drm_panel_add(&priv->panel);
+ 
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret) {
+ 		drm_panel_remove(&priv->panel);
+ 		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+@@ -229,11 +229,6 @@ static int renesas_r69328_probe(struct mipi_dsi_device *dsi)
+ static void renesas_r69328_remove(struct mipi_dsi_device *dsi)
+ {
+ 	struct renesas_r69328 *priv = mipi_dsi_get_drvdata(dsi);
+-	int ret;
+-
+-	ret = mipi_dsi_detach(dsi);
+-	if (ret)
+-		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+ 
+ 	drm_panel_remove(&priv->panel);
  }
- 
- static int renesas_r69328_disable(struct drm_panel *panel)
-@@ -129,7 +129,7 @@ static int renesas_r69328_disable(struct drm_panel *panel)
- 	mipi_dsi_msleep(&ctx, 60);
- 	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
- 
--	return 0;
-+	return ctx.accum_err;
- }
- 
- static int renesas_r69328_unprepare(struct drm_panel *panel)
 -- 
 2.51.0
 
