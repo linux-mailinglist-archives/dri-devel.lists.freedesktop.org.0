@@ -2,95 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGquDCnRkWmLnAEAu9opvQ
+	id EJ+pHyfRkWmJnAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:05 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D0E13EC64
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E07713EC57
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690C010E0D0;
-	Sun, 15 Feb 2026 13:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6703310E19C;
+	Sun, 15 Feb 2026 13:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2H8Bdgvu";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="x0NfHkub";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6EB10E0D0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 13:58:57 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-48374014a77so18954355e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:58:57 -0800 (PST)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299E610E0D0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 13:58:58 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id
+ 5b1f17b1804b1-48069a48629so22468725e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:58:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771163936; x=1771768736;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771163937; x=1771768737;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fhki4gKsDPvT6xO+It70bVVw01PZcqITB4DychbCA1E=;
- b=2H8BdgvuiyELXd1QeDAuivquXX9W/xzHHmxRo0drvR/rk+C5Hhag4KRIv4r1VYovTf
- HSyQ2PtMB636w/pgj9XVQ0LRqlAlx+8Z3PIMsxFw2823vcwfJqJPXCe1S8zO4ynynLfx
- UsdtpbnhvaWuNmIB4P0U1+SXU1bXqEYI7ealO51HBAD9Xh036Od7xLnxdV4UtyfQCtRc
- LpNp3WHVHAaT2WIoTm8iuIDo1xNWAiXrV1Pf2ypELmWArTqD1O7SanKFsCbL16hrQ7yr
- vWsV+TtCG3n0ork+CFV5/rzDEcSMJmHpb72POfMUiqvloVdrH/e6Bh/wpb/V/fwhjg0G
- nt4g==
+ bh=87Z0X132XhQ0qIp2UdTelILbwyGX1bUUxXRUUNesvoY=;
+ b=x0NfHkubAX3yEXR+4VnqIwTRshgo8wOQXoLFDeTSQzY1U80H7KyvpPTZnikRAtByNB
+ WIMmPu5hp+3m2z4gkulcPtMq7la+oDRlUx8WUG+g1Yb8DKorcIC9ku7qCxyFW2D0SGy7
+ uUj0HDOxo3n3l8ucL5mzp6d0/SzS6nvaXvYtyemb/loPC97glJOnJ+/u5cS41w1emuhj
+ pZ85xtc6t3Fnus027ptOL7Keo8yv9wsMqBCu+FMPAUSSxN5njdhRVpuXN9EKRt21MYdY
+ YQmTnaxd7UVn85Nomj5CPpJSGH2FhNM+cOB8qYrkKerQmLWkzEBhN9Bki1xI9nyR+nID
+ xXKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771163936; x=1771768736;
+ d=1e100.net; s=20230601; t=1771163937; x=1771768737;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=fhki4gKsDPvT6xO+It70bVVw01PZcqITB4DychbCA1E=;
- b=JRv1lGV33z3Th28uokO+wk/ZSh6zhqsuTzfYEfBnlL9rCUymn9aRfLSo5/V+tEuNZ/
- DZcIMx9fuzMhz3jOgCDMbgtrbwpoYYiTC4STYeosABGqTVgT/6eN33gRc4GyLu7vq5Uc
- +519AYEGQF6D03b/kYlMPpJA86k/AlVo44qZu+AL/oxBiUxtm9zUzIdotJiCuN2+F0Ik
- 62/WZ/MNgl+boIMR0E0P9EqLfpNYPWRD8cAPdQ4ukkf9lOn+434J9uTbbmfLeEeHDEF3
- JPKAHprsphPwyr5O0INCBF2hYgf7B8iJTJZThkkKCERX/8MFGyvLldz67V56yC+8z76l
- whmQ==
+ bh=87Z0X132XhQ0qIp2UdTelILbwyGX1bUUxXRUUNesvoY=;
+ b=fAUcux7QKcPd07/FPgqkE+Un61D5LQVoc+zJS86sAHHIYHGUu1VG0IAafjs+Oaa30W
+ hCc+7JTPKSYRAGtKoKCph89RCH85OmGOkEyb3ZgurMFQbpho3qnuEONWGGw6MSGHUP5m
+ boS7X/M0delzhbFR4vtn2xeil6BT0MdHU+xO+qaYHqZO9Z1vzU2wOgMeNGiDeRsrTNmD
+ hxMGsC7iflmDkH6Oasckch0ZYF8gL20eHFT2BF8JMM6qsjlFKVJoYrV9SGfWHJw2GsYP
+ M6kVby8PKjZ6Ab/k1nbvPf4yjM3h9ldqfmC2zXQ/7npKWDoTm9FrvzVrZyRtIXZIzMTI
+ 7TUw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVOPvOezvRKJQFj9ol3FnsGhjCPLrDJn5EZ+S0A0aLAhW66fTcNoZQLLH8H9DP8+d5QCoskT0UNVuw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywh+UpN3NepxmPIvRbnHUolh1AOsMLyFZXIgTexpA5xtk0Ia9xm
- d4M2LkAg4WR0Fo1CXDTZFI4IGFl2jtQuTjULo9vEfLbusyZVrEVrgPa7/ev0/1ITJRg=
-X-Gm-Gg: AZuq6aK9h/+IovY3G31ENUeR0eHhZtJqdQyKBKFFx7uU07l/bHk0BY6bZJOXSbhvJY0
- 1q/d9f+5W4joasNjJ3yvY2OA6ilyeay3mQoLq2XFXSC9uFpCiL5u02fXKSxqTOpMu+qDCNTImPo
- NSdhah+2F4O5+kvS6SlbqINR9rtrkvqcWVXjgtpLAs8KWpFw+dz2OxKqpCZ0Lz30VBtTnO+wQEB
- Ict9yXkEM8IqbRc6/E8gVXEd3YPdW+SPhfDPpG0pONJS9cbhO1HCULcISwEyaI9BGaUjX3AWoDl
- B7NtqOnc/PTUYkI1+tb96ffOlz6YuTJBlda/ykVmxEZ16zgf+pwF1ElLI8lvBdJItH1pH2xce9W
- UCoLf/g641z3egKEjmzzja2fhQ559+WA06Ex2NyDo+I55qBTGqmWWjTaGjtkU04iSftc2Xnb+3k
- dbP7AOLiA4cIUGLfQQtYaLipyAaQO3CiFFGNUxXKY=
-X-Received: by 2002:a05:600c:3151:b0:480:1d0b:2d32 with SMTP id
- 5b1f17b1804b1-48373a0aed5mr136494685e9.12.1771163935262; 
- Sun, 15 Feb 2026 05:58:55 -0800 (PST)
+ AJvYcCVmWeY4yy+BJZerBgQZ4mTtH4tTGublJc1uNpratD5ZpMMWvlCMOrRgu0dTdYrrJ2RfgwdncDoMrfI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3iJdi35V6bPqpr4dd8tzZTUMXA+d6Z9jZydiCeUolPXyYfEw3
+ GgAvCvygCDebGC9EY9UnATl57tPxAuiDLgKqu/Dsx9DdAukCciNU0ETOBg3ilTIwbUA=
+X-Gm-Gg: AZuq6aLhsfF8LsDLdNGpOifVhbQfOSKF93Aghu/MPhL4U148sq5glCXRLvOeoO1007Q
+ iUmiT/SkKkV0ubtK6GBTC4e/SIoBn8o01OGptPwwERZyAHEMFvuVpfQlDkvmnoMlKg6Xo4uZyKL
+ GqAw47sAkomRyyZMiINj+D1qsOlMz/YczvRlb8oPsqFrpAvudR8+EU6GASwv5KZc6nILHoi1Dwj
+ KpflzLOQ2/3YTTXoxtrVifmpxD8sjTzNw1r0mR1rW0tSzwhsdefgkaNKV4LMSEiaH8YlFDcmvel
+ QiygsblzoAjf4j1dwnyUPKR4ixkE6b48xzl47gNMEraatgOPqGSl6XZ+AXvLLl68i4yjO5D+Md1
+ DON5aSs4tWWZuX1G+Z9RbbcnfLtSzyXYN40i7gbiYFZK7o+YSctNeMn5zfCs1G0+kF8fsALNW1U
+ wzVMWz+7w2aFI4LHmvRSWP6Lbv7qrR
+X-Received: by 2002:a05:600c:3f0c:b0:47d:5e02:14e5 with SMTP id
+ 5b1f17b1804b1-483739ffa1emr139206625e9.5.1771163936672; 
+ Sun, 15 Feb 2026 05:58:56 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-48370a3ee00sm62065325e9.1.2026.02.15.05.58.54
+ 5b1f17b1804b1-48370a41be2sm104270675e9.1.2026.02.15.05.58.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 05:58:54 -0800 (PST)
+ Sun, 15 Feb 2026 05:58:56 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Helge Deller <deller@gmx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 1/7] fbdev: au1100fb: Don't store device specific data in
- global variables
-Date: Sun, 15 Feb 2026 14:58:28 +0100
-Message-ID: <384ec8818490781bff67b94488d28702da2936fd.1771163316.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v4 2/7] fbdev: au1100fb: Mark several local functions as static
+Date: Sun, 15 Feb 2026 14:58:29 +0100
+Message-ID: <927329dfdcf1afab17f70280c965302ff2d78782.1771163316.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771163316.git.u.kleine-koenig@baylibre.com>
 References: <cover.1771163316.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6478;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2951;
  i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=4la8TwyhvmUsolxWT2IKcIbH80LEB7rogpe50paSgX0=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkdEGL3TRaUA+u1LM7Zz91WCALv1wm/RbfBNuC
- +KmR4CzutqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZHRBgAKCRCPgPtYfRL+
- TtFHB/9dhKfgxCNDkZROAuU/wyvxnp3AHALqUkmmrS1uUxHljs3/dSDSUN3za26GAXeUr2zFXpv
- pXBTYp3EWgTN7XummXpNobeGeCi14iBrx4NKtQRX3KYq1QAnPLdNZ7CGBgPKbFSQC1Gf/D9eYbJ
- AYPhp1uPjTFWpkhR/53YOUhRa/3/EOY7QovbKt9GguAYA3MHUvIARqyxEmakd92dlSeopEvpYdG
- xqyk7DqvMFmbx5rMlC+XoPROj+4mIDL/O+j+bN7GbeYwefL9hch5uulq3zPMsnjPuXL0iiF0O5k
- DLSTOGcmXD25WLJyDNL87KGsmT7WFwZ6Ie1V+J/nrP2FxoDY
+ bh=/32w9PvZgcOs3+X7N8oELcxM04YQkhM/L2MiPZZxpNU=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkdEJ/rWuZgCU2dfdQu/j8D+QG0hlVfj4t/J72
+ 0mKTbLqgliJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZHRCQAKCRCPgPtYfRL+
+ TvQkB/9a0iRSh+6t2Lj1M6gqJHTHmACyzy0cpN+aH/okkpVO5f6epCEQdclcEBqoKePVL4KRHPP
+ PYzCpnXmqLVFxu7yVtx9U/a3fxP98iYmRHVS6F1yg5ZR7uG5/oqDzadlxjKDbLvL6UGvIu6Jhc2
+ a75hbHTsqpIJiQhUZSNgvLufe90TAgekoGsAGTErV7XmMAsF8Pgbr5epOl4Z/jp/iySc4Agxih3
+ DIpfPuhZoyiaePiqg4qvH+mCCx/nAX35YRNSX1oKWdkAQln8nGnAuBX2A0rws5lgjm+HG8EloBY
+ 2ynmrAWR/ykYuFeFtIKSKuSBPR34OtMcC2T1jXQM+xlNgxkf
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -140,191 +139,78 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	RCPT_COUNT_THREE(0.00)[4];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: D7D0E13EC64
+X-Rspamd-Queue-Id: 2E07713EC57
 X-Rspamd-Action: no action
 
-Using global data to store device specific data is a bad pattern that
-breaks if there is more than one device. So expand driver data and drop
-the global variables.
+This fixes several (fatal) compiler warnings à la
 
-While there is probably no machine that has two or more au1100fb
-devices, this makes the driver a better template for new drivers and
-saves some memory if there is no such bound device.
-
-bloat-o-meter reports (for ARCH=arm allmodconfig + CONFIG_FB_AU1100=y
-and ignoring the rename of the init function):
-
-	add/remove: 1/4 grow/shrink: 2/2 up/down: 1360/-4800 (-3440)
-	Function                                     old     new   delta
-	au1100fb_drv_probe                          2648    3328    +680
-	$a                                         12808   13484    +676
-	au1100fb_drv_resume                          404     400      -4
-	au1100fb_fix                                  68       -     -68
-	au1100fb_var                                 160       -    -160
-	fbregs                                      2048       -   -2048
-	$d                                          9525    7009   -2516
-	Total: Before=38664, After=35224, chg -8.90%
+	drivers/video/fbdev/au1100fb.c:530:6: error: no previous prototype for ‘au1100fb_drv_remove’ [-Werror=missing-prototypes]
+	  523 | void au1100fb_drv_remove(struct platform_device *dev)
+	      |      ^~~~~~~~~~~~~~~~~~~
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
-I think this doesn't need a Fixes line, but if you want, it would be:
-
-	Fixes: 3b495f2bb749 ("Au1100 FB driver uplift for 2.6.")
-	Fixes: f77f50ca1a23 ("[PATCH] au1100fb: add power management support")
----
- drivers/video/fbdev/au1100fb.c | 65 +++++++++++++++-------------------
- drivers/video/fbdev/au1100fb.h |  5 +++
- 2 files changed, 34 insertions(+), 36 deletions(-)
+ drivers/video/fbdev/au1100fb.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index feaa1061c436..7bc224a8455c 100644
+index 7bc224a8455c..b1da51683de7 100644
 --- a/drivers/video/fbdev/au1100fb.c
 +++ b/drivers/video/fbdev/au1100fb.c
-@@ -84,21 +84,6 @@ struct fb_bitfield rgb_bitfields[][4] =
- 	{ { 8, 4, 0 },  { 4, 4, 0 }, { 0, 4, 0 }, { 0, 0, 0 } },
- };
+@@ -120,7 +120,7 @@ static int au1100fb_fb_blank(int blank_mode, struct fb_info *fbi)
+  * Set hardware with var settings. This will enable the controller with a specific
+  * mode, normally validated with the fb_check_var method
+ 	 */
+-int au1100fb_setmode(struct au1100fb_device *fbdev)
++static int au1100fb_setmode(struct au1100fb_device *fbdev)
+ {
+ 	struct fb_info *info;
+ 	u32 words;
+@@ -219,7 +219,7 @@ int au1100fb_setmode(struct au1100fb_device *fbdev)
+ /* fb_setcolreg
+  * Set color in LCD palette.
+  */
+-int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue, unsigned transp, struct fb_info *fbi)
++static int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue, unsigned transp, struct fb_info *fbi)
+ {
+ 	struct au1100fb_device *fbdev;
+ 	u32 *palette;
+@@ -278,7 +278,7 @@ int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned
+ /* fb_pan_display
+  * Pan display in x and/or y as specified
+  */
+-int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
++static int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
+ {
+ 	struct au1100fb_device *fbdev;
+ 	int dy;
+@@ -325,7 +325,7 @@ int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
+  * Map video memory in user space. We don't use the generic fb_mmap method mainly
+  * to allow the use of the TLB streaming flag (CCA=6)
+  */
+-int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
++static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
+ {
+ 	struct au1100fb_device *fbdev = to_au1100fb_device(fbi);
  
--static struct fb_fix_screeninfo au1100fb_fix = {
--	.id		= "AU1100 FB",
--	.xpanstep 	= 1,
--	.ypanstep 	= 1,
--	.type		= FB_TYPE_PACKED_PIXELS,
--	.accel		= FB_ACCEL_NONE,
--};
--
--static struct fb_var_screeninfo au1100fb_var = {
--	.activate	= FB_ACTIVATE_NOW,
--	.height		= -1,
--	.width		= -1,
--	.vmode		= FB_VMODE_NONINTERLACED,
--};
--
- /* fb_blank
-  * Blank the screen. Depending on the mode, the screen will be
-  * activated with the backlight color, or desactivated
-@@ -432,19 +417,26 @@ static int au1100fb_drv_probe(struct platform_device *dev)
- 		return -EFAULT;
- 	}
- 
--	au1100fb_fix.mmio_start = regs_res->start;
--	au1100fb_fix.mmio_len = resource_size(regs_res);
-+	fbdev->info.fix = (struct fb_fix_screeninfo) {
-+		.mmio_start = regs_res->start,
-+		.mmio_len = resource_size(regs_res),
-+		.id = "AU1100 FB",
-+		.xpanstep = 1,
-+		.ypanstep = 1,
-+		.type = FB_TYPE_PACKED_PIXELS,
-+		.accel = FB_ACCEL_NONE,
-+	};
- 
- 	if (!devm_request_mem_region(&dev->dev,
--				     au1100fb_fix.mmio_start,
--				     au1100fb_fix.mmio_len,
-+				     fbdev->info.fix.mmio_start,
-+				     fbdev->info.fix.mmio_len,
- 				     DRIVER_NAME)) {
- 		print_err("fail to lock memory region at 0x%08lx",
--				au1100fb_fix.mmio_start);
-+			  fbdev->info.fix.mmio_start);
- 		return -EBUSY;
- 	}
- 
--	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(au1100fb_fix.mmio_start);
-+	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.fix.mmio_start);
- 
- 	print_dbg("Register memory map at %p", fbdev->regs);
- 	print_dbg("phys=0x%08x, size=%d", fbdev->regs_phys, fbdev->regs_len);
-@@ -469,22 +461,27 @@ static int au1100fb_drv_probe(struct platform_device *dev)
- 		return -ENOMEM;
- 	}
- 
--	au1100fb_fix.smem_start = fbdev->fb_phys;
--	au1100fb_fix.smem_len = fbdev->fb_len;
-+	fbdev->info.fix.smem_start = fbdev->fb_phys;
-+	fbdev->info.fix.smem_len = fbdev->fb_len;
- 
- 	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
- 	print_dbg("phys=0x%08x, size=%dK", fbdev->fb_phys, fbdev->fb_len / 1024);
- 
- 	/* load the panel info into the var struct */
--	au1100fb_var.bits_per_pixel = fbdev->panel->bpp;
--	au1100fb_var.xres = fbdev->panel->xres;
--	au1100fb_var.xres_virtual = au1100fb_var.xres;
--	au1100fb_var.yres = fbdev->panel->yres;
--	au1100fb_var.yres_virtual = au1100fb_var.yres;
-+	fbdev->info.var = (struct fb_var_screeninfo) {
-+		.activate = FB_ACTIVATE_NOW,
-+		.height = -1,
-+		.width = -1,
-+		.vmode = FB_VMODE_NONINTERLACED,
-+		.bits_per_pixel = fbdev->panel->bpp,
-+		.xres = fbdev->panel->xres,
-+		.xres_virtual = fbdev->panel->xres,
-+		.yres = fbdev->panel->yres,
-+		.yres_virtual = fbdev->panel->yres,
-+	};
- 
- 	fbdev->info.screen_base = fbdev->fb_mem;
- 	fbdev->info.fbops = &au1100fb_ops;
--	fbdev->info.fix = au1100fb_fix;
- 
- 	fbdev->info.pseudo_palette =
- 		devm_kcalloc(&dev->dev, 16, sizeof(u32), GFP_KERNEL);
-@@ -497,8 +494,6 @@ static int au1100fb_drv_probe(struct platform_device *dev)
- 		return -EFAULT;
- 	}
- 
--	fbdev->info.var = au1100fb_var;
--
- 	/* Set h/w registers */
- 	au1100fb_setmode(fbdev);
- 
-@@ -545,9 +540,7 @@ void au1100fb_drv_remove(struct platform_device *dev)
+@@ -517,7 +517,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 	return -ENODEV;
  }
  
- #ifdef CONFIG_PM
--static struct au1100fb_regs fbregs;
--
--int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
-+static int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
+-void au1100fb_drv_remove(struct platform_device *dev)
++static void au1100fb_drv_remove(struct platform_device *dev)
  {
- 	struct au1100fb_device *fbdev = platform_get_drvdata(dev);
+ 	struct au1100fb_device *fbdev = NULL;
  
-@@ -559,7 +552,7 @@ int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
- 
- 	clk_disable(fbdev->lcdclk);
- 
--	memcpy(&fbregs, fbdev->regs, sizeof(struct au1100fb_regs));
-+	memcpy(&fbdev->pm_regs, fbdev->regs, sizeof(struct au1100fb_regs));
- 
+@@ -557,7 +557,7 @@ static int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
  	return 0;
  }
-@@ -572,7 +565,7 @@ int au1100fb_drv_resume(struct platform_device *dev)
- 	if (!fbdev)
- 		return 0;
  
--	memcpy(fbdev->regs, &fbregs, sizeof(struct au1100fb_regs));
-+	memcpy(fbdev->regs, &fbdev->pm_regs, sizeof(struct au1100fb_regs));
- 
- 	ret = clk_enable(fbdev->lcdclk);
- 	if (ret)
-diff --git a/drivers/video/fbdev/au1100fb.h b/drivers/video/fbdev/au1100fb.h
-index 79f4048726f1..dc53d063fcc3 100644
---- a/drivers/video/fbdev/au1100fb.h
-+++ b/drivers/video/fbdev/au1100fb.h
-@@ -105,6 +105,11 @@ struct au1100fb_device {
- 	size_t       		regs_len;
- 	unsigned int 		regs_phys;
- 
-+#ifdef CONFIG_PM
-+	/* stores the register values during suspend */
-+	struct au1100fb_regs 	pm_regs;
-+#endif
-+
- 	unsigned char* 		fb_mem;		/* FrameBuffer memory map */
- 	size_t	      		fb_len;
- 	dma_addr_t    		fb_phys;
+-int au1100fb_drv_resume(struct platform_device *dev)
++static int au1100fb_drv_resume(struct platform_device *dev)
+ {
+ 	struct au1100fb_device *fbdev = platform_get_drvdata(dev);
+ 	int ret;
 -- 
 2.47.3
 
