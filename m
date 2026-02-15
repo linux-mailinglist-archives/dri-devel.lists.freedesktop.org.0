@@ -2,92 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id nWO+G9xXkmm9tAEAu9opvQ
+	id MN36C95Xkmm9tAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:48 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B019D14016C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B48140184
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3CE410E02F;
-	Sun, 15 Feb 2026 23:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7DB510E0B4;
+	Sun, 15 Feb 2026 23:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FGfmTx2e";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QBI0GI1M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0805910E02F
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 23:33:42 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4836f363d0dso21750015e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 15:33:42 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF4F10E0B4
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 23:33:45 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-437711e9195so1776987f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 15:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771198421; x=1771803221;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771198424; x=1771803224;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w8jWJ2aXKPj6Qh0lM2R1FNp2IKfJGxSgtw7F79r6crc=;
- b=FGfmTx2ee90OUZiPgSvrjQxuEN3kciI8Is4DFRERaMyR24KmhYmJ+obonfQ2q7AW0y
- CUCSrkbc4MCIUFAT/nHSb/jVTx1OePX9znACoIEOQMbroCt/ILAhdTPJhNOTyI1SrWdc
- BdHjy+6Aye99nH4vSUy7w9boXenEQnpkT2iekrCVBv2M1IS1QlvBWhFEbTDonx1veLF7
- UxLTAIsVmmZAbZ/xyVNhffsoukfmYBD7sG+VjCrwlkHGeXfl6euZflYFUX/T0s++9Mnn
- seFdaX1cblQJmFJ/L/wardGd5tsZWXhBlfQAezmZZQ+jVA57invxNP/DAm9o+gfXAsHg
- OLiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771198421; x=1771803221;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w8jWJ2aXKPj6Qh0lM2R1FNp2IKfJGxSgtw7F79r6crc=;
- b=M72QjC9KtUzMFGsVKeVX+ehtPnlfnIroO6+uK/Z52n4enw6+/HBCZzk1k4QAvFVyg+
- yrk4erC2eW2A/re4HJqfV+zguGCQ8RB3O1wbb4St83F7GDnYCB4uTAeSWLndnhrR7UzJ
- +k6qBl7w4Dl2ZI9K4ppBRpC17Jf+RxsZvmkluJ2uUfr/cJ9ZvAtAu4WAVFjZGwlt3adu
- 9GvY7W3oXadfzw/WGVCF1JLYNaOSfqNO6g6rTNsFQ4HnklO9gpPZLpgdX/J8KjtT/A4h
- 9IDYC/A138DUIlfEu/Tj7SLRHPoR4lr2G1YGh3cFckMkOao3mb49Qe2ORyo6atQg8ErI
- AOkA==
+ bh=pELAZvBYJ7zPaLRs/K/s8XgiLo8Mv18z9SfAbA1/CD0=;
+ b=QBI0GI1MHOIsxTB9EQftn3SZP2NXUh3eRTMMfyEx+n47LQGykjzj/V+t1ChTJMqSfv
+ 3f9/xglEKo1BdoirnLvb35hsCrygaCrhFW7F/3L81pr89euUY6TtrBij/KY8si6p9gf2
+ AC+FyEgkhmvQD+FHKaO29i6nltP3kz1/9lPqCUcmlTUeF8/KzcbWSkp0ufc3vQ4xl8IB
+ xJ3ZygrTLbbWHk20InBQIV1KFcWkMKFt4vpjfi43Eke5RA7OU7RizvjFwuWzF2RpmO7s
+ OQyNMs8+dDl5rRa7Ec/RVc6ZetClNMzucqW9HOXvau5fEaUSgDhLDhuBMHIb8EeWuyLC
+ ih0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771198424; x=1771803224;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=pELAZvBYJ7zPaLRs/K/s8XgiLo8Mv18z9SfAbA1/CD0=;
+ b=l2wrJg/iEQx5ye352/PU+zXqbYRrHJmLpHaK+j7dGNs/e0KJjZBHBO76gPrY2ukfbv
+ /xajGBpu40d7o1E8s9iPN7f7xj8hTyWnz+PVHAGR6gkHjw24PZZYTtI0mjI1EdcJUSUp
+ IL0423cM3bouLHUQhXYqA6mHhpGXc/veMtaYuz9EDVOaWc18PJyU91Pb9dIbLz0aFRKc
+ eFegGtxi72QLJwJvxFrrOurCpXovywZhGM7RFX53qbcZvMmt+O+WghKxN/3LqtHxt0Wz
+ xMX/D2lQc0G8RLhhuDMhdZHp1StrNIcJHDjiB7xkaBT+hY3EM7CmZotQ06maCPxfz35o
+ 5NYg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOsWQ2P3PwVyeLtTjNl/J4bwFujCnHftD5AvxK7YSqAWcX1ngIfckAHM4NkRD+Rhu0b410ShcS2lA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhRVO6LntISZ6axFQ6faWQC0m6P5CbaDKMZhrYdvq7pbJQTyVI
- 0mmS13tAfkSMW22PEpZCw1WRzc5sD4SQP9fw3LC9P7Qx0+H1U2eHltEvpY3JlVif5f4=
-X-Gm-Gg: AZuq6aIzq2y2cSMVhVMgdwoshD0CpYtqb9t3vZc+1EjqKUwfkjZNi1uh7g4Z788RmBf
- JqMBf13HkCwUBaM+4LmnQptIUnnA2N+TQKzSEfqFvn6l50tmDRulzX0+iX5slrooAt5RY1Ktz8G
- P5q0yi5JvbWdoQV4X+XTGLYw7eAc8PdsWzeS/yn3CrR8VjrUP2m3LO8Vv+NDR5Zmmc5z9gYjmAq
- OEWctXLK8w5bWZRdnjw6vkKCXRYTg+lOgsFnn3V/y1pe1h/qGmxIcdTRx53W9kbJNFYlCfnVjmq
- 55ii8q+EJxwYsFsLbiBBuLrHylu7ppBiFz6lZ/h7s19I8KpZs6WP1wre32LKe9UI4BtSY23FgMZ
- V7lAV79DXNUO7JMFN5pBV6HeTNYxmqzR0sVhkZr4t/Npnfn9GZmPJWkfuv2SyfZEKUW3/+2cY4C
- S+OILix2+xRN3rai2f1AE/mOYzz6vBzW6XFMr0TDU=
-X-Received: by 2002:a05:600c:a09:b0:480:4d38:7abc with SMTP id
- 5b1f17b1804b1-48379bbc49emr95365535e9.11.1771198421343; 
- Sun, 15 Feb 2026 15:33:41 -0800 (PST)
+ AJvYcCVkEeU4PblbpDuyZY3SviUtmZRzBXCB0ZwLiOU2vc/xL/jyYGGl2eL5HqhvwISDHYSNpIx9iR521r4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxt8oSsazR6gYr60Ond1PCNreZUDZdc32TsYN7Iu75EyY8y/ebH
+ sAhGTezPDbSqtR5b8dvfYwevgwj732fQeuOKX81Gn281GO/8y5PNCltFG1diTZW8jvM=
+X-Gm-Gg: AZuq6aL0DSJH8Q4ucZCzl5m98VK4vp7Y0v3AAq16ZaNdzIMY/9ckVlPDVpKExuSjdYN
+ wWWfi8EYaYw8TyXK/0Z7eBLI2+IVOOEyqnoBwYDPLutneGepcxC1Tfu0nVKzoVOh9s1Kd6tPIMs
+ UrjaHsy5V3jY3HmXFTM0KGaX8SV6j39HOsbJ1TaX+FHrdLb5tpKGXTJ7djwSIazOahHmZjU9kaD
+ 8j9ZBp0KLXmUEayE8VPcZNlCNzVaSeWCKsQjxkIw+LWJ/nvAuy7EK9smUIxfMoQL2ChUe95/2Se
+ FmsqluuUg4W57kK8AFxx0goEJkz0EVoY/AaVeMxy+QbnUpnJNXOb0bAjrDO4cRPbVKqvaj65dh9
+ L66xVCls4ChlxyOuF+DUNDc8Yjt56oPFC8wwkSStDnUfShclun4XJRH9yI9/SIXtJVCi1aaZ5nX
+ 3no79RTWNeEA2C7kpFJEdC9DQ5ISyG
+X-Received: by 2002:a5d:588d:0:b0:437:7710:5204 with SMTP id
+ ffacd0b85a97d-43796afa1eemr18656547f8f.53.1771198423572; 
+ Sun, 15 Feb 2026 15:33:43 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-43796ac9d77sm21225426f8f.33.2026.02.15.15.33.39
+ ffacd0b85a97d-43796ac7d91sm22790478f8f.26.2026.02.15.15.33.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 15:33:41 -0800 (PST)
+ Sun, 15 Feb 2026 15:33:43 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Helge Deller <deller@gmx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 0/7] fbdev: au1100fb: support COMPILE_TEST and fix
- multi-device support and other cleanups
-Date: Mon, 16 Feb 2026 00:33:16 +0100
-Message-ID: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v5 1/7] fbdev: au1100fb: Don't store device specific data in
+ global variables
+Date: Mon, 16 Feb 2026 00:33:17 +0100
+Message-ID: <e8529f101d5bf5d4cfa5ae7db4e6de1f9ff87803.1771198101.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
+References: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1318;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6477;
  i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=uozvdbMQBMtquqml4NMEEzAMX5hTqQKt2p8A23ayY08=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkle9VAc2+d+3YIVZwdPHcqkP3jZo75jAGyHUv
- t0sT3O8HYWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZJXvQAKCRCPgPtYfRL+
- TuX8CACZ8Ml2lm8CHMdrmEcc1VAnwx0Lcyh6d3Yu4PNDD+r4Yxz28SQr+NkjUMmQYMa1SaxM7zO
- 4iG/l4JtGIM3vTJnC1gbFmoDSr0IsjpxzzZbzJDzoxAIKo3h8/cwcwpObXqmdCv6yj3lTtFYOwG
- /8KSxOfPf1qDiInl0whVZHVODrOnapyLJu8w+YlAw/PaEfBYqH19mUUDvquSYYC53iaFWZa77MU
- 3YLdhi5cUHmvb/cxw1ilZMkTdf8RfZjdmQihSQjn3bEAj7HtaAWzwBwvxnsaKcwpmLJzveIk3C6
- EL35pHcdX4MiOtKf1BYZZvpq7kMCgFJyRGVi/XnKryAyr5ay
+ bh=hhm4j8GECKHBQ6/lpgUgfJqXCG0ZunFIpiac9ZrFSRY=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkle/AQNIpdvKpv37jW/13IcI6MSCxDyJMn5lW
+ hfOYRAJhPWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZJXvwAKCRCPgPtYfRL+
+ TrETCACgzJXL0Hjx/HkKXgCTpU74REA8e+SVjmltXMMA7png7bK0JIIthASlxo9mIh2ecjkholt
+ bv9RtPeiU2UJBPM0139mRKIJEgjgVql2E6k+Az9FUiolo2fo02w/K4z8GuZFpvd5LpsaKGG4EXW
+ VoEBj8ooCSi1v9Lk4k2LyfO5djxLqJHOnY5aNs5BVc+FDd1d6vg8j6WkJ48lHNesjVZnMZYk5IN
+ dWJb8BlRRFww36eaFxD5Xw4dfjeHoyULCmmK/roU4eGu8KJBXDP9KYjH3bIRC952XnMWDDoQnEi
+ RQ7D2lcFbDDOx2cl2yAYQ3duTyTZM7bd2Vj0/xR7jBfkN7fm
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -136,40 +139,191 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: B019D14016C
+X-Rspamd-Queue-Id: D3B48140184
 X-Rspamd-Action: no action
 
-Hello,
+Using global data to store device specific data is a bad pattern that
+breaks if there is more than one device. So expand driver data and drop
+the global variables.
 
-here comes v5. Changes since v4 (see
-https://lore.kernel.org/cover.1771163316.git.u.kleine-koenig@baylibre.com)
-are only fixes for the few justified checkpatch warnings in the immense
-number of false positives. (That is: break a long line that was already
-before over 100 chars long, a typo in a commit log and a whitespace
-issue that was introduced in patch #1.)
+While there is probably no machine that has two or more au1100fb
+devices, this makes the driver a better template for new drivers and
+saves some memory if there is no such bound device.
 
-Best regards
-Uwe
+bloat-o-meter reports (for ARCH=arm allmodconfig + CONFIG_FB_AU1100=y
+and ignoring the rename of the init function):
 
-Uwe Kleine-König (7):
-  fbdev: au1100fb: Don't store device specific data in global variables
-  fbdev: au1100fb: Mark several local functions as static
-  fbdev: au1100fb: Use proper conversion specifiers in printk formats
-  fbdev: au1100fb: Make driver compilable on non-mips platforms
-  fbdev: au1100fb: Replace custom printk wrappers by pr_*
-  fbdev: au1100fb: Fold au1100fb.h into its only user
-  fbdev: au1100fb: Replace license boilerplate by SPDX header
+	add/remove: 1/4 grow/shrink: 2/2 up/down: 1360/-4800 (-3440)
+	Function                                     old     new   delta
+	au1100fb_drv_probe                          2648    3328    +680
+	$a                                         12808   13484    +676
+	au1100fb_drv_resume                          404     400      -4
+	au1100fb_fix                                  68       -     -68
+	au1100fb_var                                 160       -    -160
+	fbregs                                      2048       -   -2048
+	$d                                          9525    7009   -2516
+	Total: Before=38664, After=35224, chg -8.90%
 
- drivers/video/au1100fb.c       |   0
- drivers/video/fbdev/Kconfig    |   3 +-
- drivers/video/fbdev/au1100fb.c | 487 +++++++++++++++++++++++++++------
- drivers/video/fbdev/au1100fb.h | 379 -------------------------
- 4 files changed, 406 insertions(+), 463 deletions(-)
- create mode 100644 drivers/video/au1100fb.c
- delete mode 100644 drivers/video/fbdev/au1100fb.h
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+I think this doesn't need a Fixes line, but if you want, it would be:
 
+	Fixes: 3b495f2bb749 ("Au1100 FB driver uplift for 2.6.")
+	Fixes: f77f50ca1a23 ("[PATCH] au1100fb: add power management support")
+---
+ drivers/video/fbdev/au1100fb.c | 65 +++++++++++++++-------------------
+ drivers/video/fbdev/au1100fb.h |  5 +++
+ 2 files changed, 34 insertions(+), 36 deletions(-)
 
-base-commit: bc57657bd3e64feaac5b4bf3fbd7f8a2fd09f4f8
+diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
+index feaa1061c436..7bc224a8455c 100644
+--- a/drivers/video/fbdev/au1100fb.c
++++ b/drivers/video/fbdev/au1100fb.c
+@@ -84,21 +84,6 @@ struct fb_bitfield rgb_bitfields[][4] =
+ 	{ { 8, 4, 0 },  { 4, 4, 0 }, { 0, 4, 0 }, { 0, 0, 0 } },
+ };
+ 
+-static struct fb_fix_screeninfo au1100fb_fix = {
+-	.id		= "AU1100 FB",
+-	.xpanstep 	= 1,
+-	.ypanstep 	= 1,
+-	.type		= FB_TYPE_PACKED_PIXELS,
+-	.accel		= FB_ACCEL_NONE,
+-};
+-
+-static struct fb_var_screeninfo au1100fb_var = {
+-	.activate	= FB_ACTIVATE_NOW,
+-	.height		= -1,
+-	.width		= -1,
+-	.vmode		= FB_VMODE_NONINTERLACED,
+-};
+-
+ /* fb_blank
+  * Blank the screen. Depending on the mode, the screen will be
+  * activated with the backlight color, or desactivated
+@@ -432,19 +417,26 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 		return -EFAULT;
+ 	}
+ 
+-	au1100fb_fix.mmio_start = regs_res->start;
+-	au1100fb_fix.mmio_len = resource_size(regs_res);
++	fbdev->info.fix = (struct fb_fix_screeninfo) {
++		.mmio_start = regs_res->start,
++		.mmio_len = resource_size(regs_res),
++		.id = "AU1100 FB",
++		.xpanstep = 1,
++		.ypanstep = 1,
++		.type = FB_TYPE_PACKED_PIXELS,
++		.accel = FB_ACCEL_NONE,
++	};
+ 
+ 	if (!devm_request_mem_region(&dev->dev,
+-				     au1100fb_fix.mmio_start,
+-				     au1100fb_fix.mmio_len,
++				     fbdev->info.fix.mmio_start,
++				     fbdev->info.fix.mmio_len,
+ 				     DRIVER_NAME)) {
+ 		print_err("fail to lock memory region at 0x%08lx",
+-				au1100fb_fix.mmio_start);
++			  fbdev->info.fix.mmio_start);
+ 		return -EBUSY;
+ 	}
+ 
+-	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(au1100fb_fix.mmio_start);
++	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.fix.mmio_start);
+ 
+ 	print_dbg("Register memory map at %p", fbdev->regs);
+ 	print_dbg("phys=0x%08x, size=%d", fbdev->regs_phys, fbdev->regs_len);
+@@ -469,22 +461,27 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 		return -ENOMEM;
+ 	}
+ 
+-	au1100fb_fix.smem_start = fbdev->fb_phys;
+-	au1100fb_fix.smem_len = fbdev->fb_len;
++	fbdev->info.fix.smem_start = fbdev->fb_phys;
++	fbdev->info.fix.smem_len = fbdev->fb_len;
+ 
+ 	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+ 	print_dbg("phys=0x%08x, size=%dK", fbdev->fb_phys, fbdev->fb_len / 1024);
+ 
+ 	/* load the panel info into the var struct */
+-	au1100fb_var.bits_per_pixel = fbdev->panel->bpp;
+-	au1100fb_var.xres = fbdev->panel->xres;
+-	au1100fb_var.xres_virtual = au1100fb_var.xres;
+-	au1100fb_var.yres = fbdev->panel->yres;
+-	au1100fb_var.yres_virtual = au1100fb_var.yres;
++	fbdev->info.var = (struct fb_var_screeninfo) {
++		.activate = FB_ACTIVATE_NOW,
++		.height = -1,
++		.width = -1,
++		.vmode = FB_VMODE_NONINTERLACED,
++		.bits_per_pixel = fbdev->panel->bpp,
++		.xres = fbdev->panel->xres,
++		.xres_virtual = fbdev->panel->xres,
++		.yres = fbdev->panel->yres,
++		.yres_virtual = fbdev->panel->yres,
++	};
+ 
+ 	fbdev->info.screen_base = fbdev->fb_mem;
+ 	fbdev->info.fbops = &au1100fb_ops;
+-	fbdev->info.fix = au1100fb_fix;
+ 
+ 	fbdev->info.pseudo_palette =
+ 		devm_kcalloc(&dev->dev, 16, sizeof(u32), GFP_KERNEL);
+@@ -497,8 +494,6 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 		return -EFAULT;
+ 	}
+ 
+-	fbdev->info.var = au1100fb_var;
+-
+ 	/* Set h/w registers */
+ 	au1100fb_setmode(fbdev);
+ 
+@@ -545,9 +540,7 @@ void au1100fb_drv_remove(struct platform_device *dev)
+ }
+ 
+ #ifdef CONFIG_PM
+-static struct au1100fb_regs fbregs;
+-
+-int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
++static int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
+ {
+ 	struct au1100fb_device *fbdev = platform_get_drvdata(dev);
+ 
+@@ -559,7 +552,7 @@ int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
+ 
+ 	clk_disable(fbdev->lcdclk);
+ 
+-	memcpy(&fbregs, fbdev->regs, sizeof(struct au1100fb_regs));
++	memcpy(&fbdev->pm_regs, fbdev->regs, sizeof(struct au1100fb_regs));
+ 
+ 	return 0;
+ }
+@@ -572,7 +565,7 @@ int au1100fb_drv_resume(struct platform_device *dev)
+ 	if (!fbdev)
+ 		return 0;
+ 
+-	memcpy(fbdev->regs, &fbregs, sizeof(struct au1100fb_regs));
++	memcpy(fbdev->regs, &fbdev->pm_regs, sizeof(struct au1100fb_regs));
+ 
+ 	ret = clk_enable(fbdev->lcdclk);
+ 	if (ret)
+diff --git a/drivers/video/fbdev/au1100fb.h b/drivers/video/fbdev/au1100fb.h
+index 79f4048726f1..b7bf6e005572 100644
+--- a/drivers/video/fbdev/au1100fb.h
++++ b/drivers/video/fbdev/au1100fb.h
+@@ -105,6 +105,11 @@ struct au1100fb_device {
+ 	size_t       		regs_len;
+ 	unsigned int 		regs_phys;
+ 
++#ifdef CONFIG_PM
++	/* stores the register values during suspend */
++	struct au1100fb_regs	pm_regs;
++#endif
++
+ 	unsigned char* 		fb_mem;		/* FrameBuffer memory map */
+ 	size_t	      		fb_len;
+ 	dma_addr_t    		fb_phys;
 -- 
 2.47.3
 
