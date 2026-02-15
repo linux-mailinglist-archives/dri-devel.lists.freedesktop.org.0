@@ -2,94 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EJ+pHyfRkWmJnAEAu9opvQ
+	id GGTKEyrRkWlFnAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:03 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E07713EC57
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0402013EC73
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6703310E19C;
-	Sun, 15 Feb 2026 13:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BA910E1AB;
+	Sun, 15 Feb 2026 13:59:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="x0NfHkub";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IjfpF0sb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 299E610E0D0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 13:58:58 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id
- 5b1f17b1804b1-48069a48629so22468725e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:58:58 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 597C910E0D0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 13:58:59 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-48336a6e932so13891405e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771163937; x=1771768737;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771163938; x=1771768738;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=87Z0X132XhQ0qIp2UdTelILbwyGX1bUUxXRUUNesvoY=;
- b=x0NfHkubAX3yEXR+4VnqIwTRshgo8wOQXoLFDeTSQzY1U80H7KyvpPTZnikRAtByNB
- WIMmPu5hp+3m2z4gkulcPtMq7la+oDRlUx8WUG+g1Yb8DKorcIC9ku7qCxyFW2D0SGy7
- uUj0HDOxo3n3l8ucL5mzp6d0/SzS6nvaXvYtyemb/loPC97glJOnJ+/u5cS41w1emuhj
- pZ85xtc6t3Fnus027ptOL7Keo8yv9wsMqBCu+FMPAUSSxN5njdhRVpuXN9EKRt21MYdY
- YQmTnaxd7UVn85Nomj5CPpJSGH2FhNM+cOB8qYrkKerQmLWkzEBhN9Bki1xI9nyR+nID
- xXKA==
+ bh=7rfGoVyH7QzemOXYwDCpxwn3sKTnq0CRHqTEQ4ExGNE=;
+ b=IjfpF0sb8Wc6Spy0yUODTPnnXGhsDH4V/v+revc9qgijhZrCa07kWLZJEcj1bVvR7U
+ XTUjr/YjZ4qClaDPMxUnY+IQbbPgpq5FmZhckcrEMGyjI/WIc3c4raM9jcSZOB+fBf7c
+ njku6Fx/E2Q9Jqso1Fbw3kgz/WxA0cR0wGAiY4NX/R+KdqzUIxiXe8ee4vtZEFxnWLux
+ SMnvy7J2garrKEk3V+cwA7ET4gEhNGQFsJov+/UGADJX2HNfq/5LO4SdAoxOX4azsVfw
+ ilfsV+uRnyVJRjuQJsMzuohgrMLeDv65OGx+d0K8grchApdpnzK/tRwfDeRsMc8DO3J/
+ kjgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771163937; x=1771768737;
+ d=1e100.net; s=20230601; t=1771163938; x=1771768738;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=87Z0X132XhQ0qIp2UdTelILbwyGX1bUUxXRUUNesvoY=;
- b=fAUcux7QKcPd07/FPgqkE+Un61D5LQVoc+zJS86sAHHIYHGUu1VG0IAafjs+Oaa30W
- hCc+7JTPKSYRAGtKoKCph89RCH85OmGOkEyb3ZgurMFQbpho3qnuEONWGGw6MSGHUP5m
- boS7X/M0delzhbFR4vtn2xeil6BT0MdHU+xO+qaYHqZO9Z1vzU2wOgMeNGiDeRsrTNmD
- hxMGsC7iflmDkH6Oasckch0ZYF8gL20eHFT2BF8JMM6qsjlFKVJoYrV9SGfWHJw2GsYP
- M6kVby8PKjZ6Ab/k1nbvPf4yjM3h9ldqfmC2zXQ/7npKWDoTm9FrvzVrZyRtIXZIzMTI
- 7TUw==
+ bh=7rfGoVyH7QzemOXYwDCpxwn3sKTnq0CRHqTEQ4ExGNE=;
+ b=Dbxh2LUKZzowpqXEUVVqzElFsP0P2pFPNxjH/8CZBPwtySfe5jQR1nfsmewDLYIgcb
+ oqcZTkkf9Vm1L/B409fHugWwsdS2iPH5N6/iLFQ7xxNH6cwtnJuHwqWPtijbSnqv2AEF
+ 0uNrmQNzCjWh53qyNScJCCmKQIhf544qA0Tf0Q6Eo2QX+nf1TRxi2YvTq3VGKGBUOBMb
+ IbyZCT2GNOLKSGpUs7TW3xxZbMA4+PmH2Pfo9LFhinkoPyHKpgmLNFmSwVWDBfMaLJLM
+ j+Z1kopd94V6mkXhllcqwForpwxp1Wo3EatidmCMDhpDWJSI/8VT0tFFqXrgL1odRXOx
+ 4NgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmWeY4yy+BJZerBgQZ4mTtH4tTGublJc1uNpratD5ZpMMWvlCMOrRgu0dTdYrrJ2RfgwdncDoMrfI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3iJdi35V6bPqpr4dd8tzZTUMXA+d6Z9jZydiCeUolPXyYfEw3
- GgAvCvygCDebGC9EY9UnATl57tPxAuiDLgKqu/Dsx9DdAukCciNU0ETOBg3ilTIwbUA=
-X-Gm-Gg: AZuq6aLhsfF8LsDLdNGpOifVhbQfOSKF93Aghu/MPhL4U148sq5glCXRLvOeoO1007Q
- iUmiT/SkKkV0ubtK6GBTC4e/SIoBn8o01OGptPwwERZyAHEMFvuVpfQlDkvmnoMlKg6Xo4uZyKL
- GqAw47sAkomRyyZMiINj+D1qsOlMz/YczvRlb8oPsqFrpAvudR8+EU6GASwv5KZc6nILHoi1Dwj
- KpflzLOQ2/3YTTXoxtrVifmpxD8sjTzNw1r0mR1rW0tSzwhsdefgkaNKV4LMSEiaH8YlFDcmvel
- QiygsblzoAjf4j1dwnyUPKR4ixkE6b48xzl47gNMEraatgOPqGSl6XZ+AXvLLl68i4yjO5D+Md1
- DON5aSs4tWWZuX1G+Z9RbbcnfLtSzyXYN40i7gbiYFZK7o+YSctNeMn5zfCs1G0+kF8fsALNW1U
- wzVMWz+7w2aFI4LHmvRSWP6Lbv7qrR
-X-Received: by 2002:a05:600c:3f0c:b0:47d:5e02:14e5 with SMTP id
- 5b1f17b1804b1-483739ffa1emr139206625e9.5.1771163936672; 
- Sun, 15 Feb 2026 05:58:56 -0800 (PST)
+ AJvYcCU9rAPns8QLmAHaoryetqgkFq7kI9xIihfkQPBhAiHsLZVUC9PhsM/wJb9NEheaivYjaet9nVR0kI8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXlOfv/d6cdN+/k1yZm2ZbqyrHlhE6GwMdDSl/2j1gR/dg3QCJ
+ E/UX2eRx9j2+Nk8efvtbWY4hzb9z60SKOCMBGIr3TWiBxx+4sDGdVAy7EU91kDVdhoc=
+X-Gm-Gg: AZuq6aID8Bpu4ClXgZ5REXn5yl7LtU58jJZXAhktjZdkVB577E3qf5SUZ5mf4CIHPRp
+ UwlqB95nayE0nao9n+m8yRCkzOEbtzS9fYpf8GlpG3zLaEBCKyiELkt3+iMPjcZb6oT1zEJWGzN
+ GJ4GpUj9pQPQO1WUiX3RDgs2IlHDfic8PD2siLshCG5wBhU+SKQ4TJihptxQ/1dfd1FDDuwkwmB
+ vfTLdJMl70fu5aYcIzsu/0Ju+rU5MIDBPJPMoGP8cwQp+69+sgZzGoRL6rRSRLzb6/EqpX0mVCt
+ cESXMfRw/dQHtK0635CxJpvqe50fwRtlme11GVuD+uSeir5f2pcfGJsa9ZZZpbKACLSUVvVD7DD
+ ocz8AXv5q0NOGp0m7gCeaaXSc9Ihq/lWjo/U5abBG5SB7SmXhP5xxujhpk5hxWJMVSKKomGoEp+
+ n8i3zvjLgPxFtLqDb7d65iabBR1do94HIXfxDZn1k=
+X-Received: by 2002:a05:600c:8b61:b0:480:1b65:b744 with SMTP id
+ 5b1f17b1804b1-48379bf7907mr78962345e9.28.1771163937888; 
+ Sun, 15 Feb 2026 05:58:57 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-48370a41be2sm104270675e9.1.2026.02.15.05.58.56
+ 5b1f17b1804b1-4834d82a4c4sm625296895e9.10.2026.02.15.05.58.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 05:58:56 -0800 (PST)
+ Sun, 15 Feb 2026 05:58:57 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Helge Deller <deller@gmx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/7] fbdev: au1100fb: Mark several local functions as static
-Date: Sun, 15 Feb 2026 14:58:29 +0100
-Message-ID: <927329dfdcf1afab17f70280c965302ff2d78782.1771163316.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v4 3/7] fbdev: au1100fb: Use proper conversion specifiers in
+ printk formats
+Date: Sun, 15 Feb 2026 14:58:30 +0100
+Message-ID: <3e1577c91f4dacb3cc45baf8edeb33a53cfc0c40.1771163316.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771163316.git.u.kleine-koenig@baylibre.com>
 References: <cover.1771163316.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2951;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2019;
  i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=/32w9PvZgcOs3+X7N8oELcxM04YQkhM/L2MiPZZxpNU=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkdEJ/rWuZgCU2dfdQu/j8D+QG0hlVfj4t/J72
- 0mKTbLqgliJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZHRCQAKCRCPgPtYfRL+
- TvQkB/9a0iRSh+6t2Lj1M6gqJHTHmACyzy0cpN+aH/okkpVO5f6epCEQdclcEBqoKePVL4KRHPP
- PYzCpnXmqLVFxu7yVtx9U/a3fxP98iYmRHVS6F1yg5ZR7uG5/oqDzadlxjKDbLvL6UGvIu6Jhc2
- a75hbHTsqpIJiQhUZSNgvLufe90TAgekoGsAGTErV7XmMAsF8Pgbr5epOl4Z/jp/iySc4Agxih3
- DIpfPuhZoyiaePiqg4qvH+mCCx/nAX35YRNSX1oKWdkAQln8nGnAuBX2A0rws5lgjm+HG8EloBY
- 2ynmrAWR/ykYuFeFtIKSKuSBPR34OtMcC2T1jXQM+xlNgxkf
+ bh=WDPMJYitsaZOczzGc6r7cwWt+IFe7ij1QjyvVhnA2xI=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkdEL8OYewHuCfLGaJt5OK1OFr60mmRCF1WWKQ
+ VJhHTrsg5yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZHRCwAKCRCPgPtYfRL+
+ TmwdB/oCQHyznbHbbHG+wytDWTFDuT+/+1ODskvIRCGnMus9zw96fpJ65J+m9vHSBw41WBWCGiu
+ ahUvsPyKc2Qhmf9w//YwFJno25zByYBJy+lEg50OhvMsTqGFhR62p3hCNHEDzsuzUh09Xsx8Oxy
+ wf5TkJZ0rWn/Sjia7Crzr+stvGR1NOO9Hm0d8uF6FcYIZybjnqvpV8kNaXnz0tBZg4UuP4i5as+
+ gqxEHQ1i8asiNRrKTFmf9s3P0Dc79VAW/dDEEAEfMRbhqyrMTEZQW/G4HGfjgK9hJoHsOE0H9Pm
+ zU5e33oc8UZF9ln4kVT6revmaDywiCtajEOoqBJMA4iLfXoG
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -139,78 +140,53 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	RCPT_COUNT_THREE(0.00)[4];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: 2E07713EC57
+X-Rspamd-Queue-Id: 0402013EC73
 X-Rspamd-Action: no action
 
-This fixes several (fatal) compiler warnings à la
+%zu is the dedicated type for size_t. %d only works on 32bit
+architectures where size_t is typedef'd to be unsigned int. (And then
+the signedness doesn't fit, but `gcc -Wformat` doesn't stumble over this.
+Also the size of dma_addr_t is architecture dependant and it should be
+printkd using %pad (and the value passed by reference).
 
-	drivers/video/fbdev/au1100fb.c:530:6: error: no previous prototype for ‘au1100fb_drv_remove’ [-Werror=missing-prototypes]
-	  523 | void au1100fb_drv_remove(struct platform_device *dev)
-	      |      ^~~~~~~~~~~~~~~~~~~
+This prepares allowing this driver to be compiled on non-mips platforms.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/video/fbdev/au1100fb.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/au1100fb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index 7bc224a8455c..b1da51683de7 100644
+index b1da51683de7..e43687ac74a1 100644
 --- a/drivers/video/fbdev/au1100fb.c
 +++ b/drivers/video/fbdev/au1100fb.c
-@@ -120,7 +120,7 @@ static int au1100fb_fb_blank(int blank_mode, struct fb_info *fbi)
-  * Set hardware with var settings. This will enable the controller with a specific
-  * mode, normally validated with the fb_check_var method
- 	 */
--int au1100fb_setmode(struct au1100fb_device *fbdev)
-+static int au1100fb_setmode(struct au1100fb_device *fbdev)
- {
- 	struct fb_info *info;
- 	u32 words;
-@@ -219,7 +219,7 @@ int au1100fb_setmode(struct au1100fb_device *fbdev)
- /* fb_setcolreg
-  * Set color in LCD palette.
-  */
--int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue, unsigned transp, struct fb_info *fbi)
-+static int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue, unsigned transp, struct fb_info *fbi)
- {
- 	struct au1100fb_device *fbdev;
- 	u32 *palette;
-@@ -278,7 +278,7 @@ int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned
- /* fb_pan_display
-  * Pan display in x and/or y as specified
-  */
--int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
-+static int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
- {
- 	struct au1100fb_device *fbdev;
- 	int dy;
-@@ -325,7 +325,7 @@ int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
-  * Map video memory in user space. We don't use the generic fb_mmap method mainly
-  * to allow the use of the TLB streaming flag (CCA=6)
-  */
--int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
-+static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
- {
- 	struct au1100fb_device *fbdev = to_au1100fb_device(fbi);
+@@ -439,7 +439,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.fix.mmio_start);
  
-@@ -517,7 +517,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
- 	return -ENODEV;
- }
+ 	print_dbg("Register memory map at %p", fbdev->regs);
+-	print_dbg("phys=0x%08x, size=%d", fbdev->regs_phys, fbdev->regs_len);
++	print_dbg("phys=0x%08x, size=%zu", fbdev->regs_phys, fbdev->regs_len);
  
--void au1100fb_drv_remove(struct platform_device *dev)
-+static void au1100fb_drv_remove(struct platform_device *dev)
- {
- 	struct au1100fb_device *fbdev = NULL;
+ 	c = clk_get(NULL, "lcd_intclk");
+ 	if (!IS_ERR(c)) {
+@@ -456,7 +456,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 					    PAGE_ALIGN(fbdev->fb_len),
+ 					    &fbdev->fb_phys, GFP_KERNEL);
+ 	if (!fbdev->fb_mem) {
+-		print_err("fail to allocate framebuffer (size: %dK))",
++		print_err("fail to allocate framebuffer (size: %zuK))",
+ 			  fbdev->fb_len / 1024);
+ 		return -ENOMEM;
+ 	}
+@@ -465,7 +465,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 	fbdev->info.fix.smem_len = fbdev->fb_len;
  
-@@ -557,7 +557,7 @@ static int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
- 	return 0;
- }
+ 	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+-	print_dbg("phys=0x%08x, size=%dK", fbdev->fb_phys, fbdev->fb_len / 1024);
++	print_dbg("phys=0x%pad, size=%zuK", &fbdev->fb_phys, fbdev->fb_len / 1024);
  
--int au1100fb_drv_resume(struct platform_device *dev)
-+static int au1100fb_drv_resume(struct platform_device *dev)
- {
- 	struct au1100fb_device *fbdev = platform_get_drvdata(dev);
- 	int ret;
+ 	/* load the panel info into the var struct */
+ 	fbdev->info.var = (struct fb_var_screeninfo) {
 -- 
 2.47.3
 
