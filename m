@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id R164HzaJkWnHjgEAu9opvQ
+	id uB1sLD2JkWnHjgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:06 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CAD13E4F5
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A55C13E521
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 09:52:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF1E10E257;
-	Sun, 15 Feb 2026 08:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF1710E358;
+	Sun, 15 Feb 2026 08:52:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cLFPvU11";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GRmSdtqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D16610E257
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79D210E355
  for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 08:52:02 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-b884a84e622so295412366b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:52:01 -0800 (PST)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-b883c8dfb00so425176766b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:52:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771145520; x=1771750320; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8tVDkTri3VxfXdp3zpIf2l+EgGyuGo/k3ehF2vjyzko=;
- b=cLFPvU11wSSvcM3IISBBII9Gf3BkRQQpY6avIESUSPvcC4nz2jrxynlEqltCju4fmB
- 8gQwF6ZZ43L/Au9XnrRDTlzI4AL9+zxDqby6zOvA4Qf/RpVOZI9tUUtXDnoqsxkhzZ46
- T9wKyKRmqsb7lV75nSFIcAhRGuGViJeUYeu5g+Yf/6N89fHdv9WqoPz29Pe3jkgLS+/X
- vAcUcXkiLWrbXmPfPFIhoY3NYsdVQzh8XEhuafz9lokjSCqrzG3aZaKEXkMW+eZyaWIh
- njnpQI+28yy8a5y+Mh/911x4WkgfthBaXYx4G/+ldJY0YLOkI8MCSlZL/fOaqrKdlduC
- MjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771145520; x=1771750320;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1771145521; x=1771750321; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8tVDkTri3VxfXdp3zpIf2l+EgGyuGo/k3ehF2vjyzko=;
- b=paaXp78U5sLeBgrCwccmvCZlApvpBtI5FBUsjKodHISevLdiVZoamv7wOnV2g/zr93
- NYMZPGvQelL7OXL8SyQDjsxSzMBsGFcXIOJpnkmQcyiiIqPWUoRy1HaPKepJbgNuvp9O
- EtWLHBzFDhkGNNeEjOnk7Ha8FisijHsT3PXopR0I1kxnYrsUvoJ4nBmVfV6Rm39qdP1D
- f6IeZm6wfKp0couKmIpQrvOUYAWmELg03ZjR2gWKJjnr3T3sK31cqCG7ruIr9q7C4f8x
- 3vag7tY/yEYuinsVEQQKZhzQqQAaIddPTV/HV7YJX4JQF8vGokEjjqVURV3GHlExUS8v
- KpPA==
-X-Gm-Message-State: AOJu0YwgQh+DL5wbYaf7zRyyPO7BMoTqFvWaZs1ZN+TRx6x4dpWaKajA
- DZ2PCpvs84QVa0SffKYjrtUwzZ4SIOVSIe1ozHD4GqNlUw6EgYTBIc7c
-X-Gm-Gg: AZuq6aL09KFoWBl+GvCkmo/ze3JAtuwaN9hd9tRCKAdfA58WIIasJSMfABJ8DtRAoVW
- oXg1+SjhJandgqfEjSuZEQRdNZRHNTIePd/9KLCXM7TuN4WMLg3hIEyZ+23eJB22o9a5bXx9MXf
- zCWPm7jIIwaY2W2yLO7bPUsyl1hqqT5ADTE+gb+NBVkfevCv/jwZaOm+AhGRpUQlNvUPDgBezq2
- Rd2eFfoUq6U3udwvgdxiKBu4lLVcncfCDcqPNQalQ9X5n1Aj/irIpfvO+Q3Z/UlR10SIc4Z6LFk
- bun8c/56M4JZkaCzNqDRXMGKKSKhNljQuKdFXL/SDyJOrW8Iy8viD+mJ6WmZQ1fQY9svW3C3Tf9
- V1Irl8itcYemqRPZ3yZX+w6gvRBY0K8trHkuoUVsrRVyMhG2UEuGQRe/F781+s8BjZWeegAepQ5
- bspb7mYhSPug52
-X-Received: by 2002:a17:907:d22:b0:b8f:8456:4af5 with SMTP id
- a640c23a62f3a-b8facca1400mr408857066b.5.1771145520264; 
- Sun, 15 Feb 2026 00:52:00 -0800 (PST)
+ bh=MlvES5BQowFnveKWOlQvLxyVour2p9sJV5ltUYs6/Rk=;
+ b=GRmSdtqo0rdhTsRaS/O7O1fZ6pOvIjnSV1DKjdgv4lafTewcN11fHxUh6AjetZriAd
+ GBcGtFMoQB+dFZVkff5clHN29syr0O0IXhMw/9BAa5mlVDpqo0e3c2TMD16qILVf6rRH
+ bgdyYKcJ75bRI7IVCh4qzFC+aSneTVTu++X4WsRkCtfX27qS0jhLPRfWvo8xDjZt1pbo
+ wqF1oW03jDR8N0Mowd4CpVs4TbtLA350Y+o+B5dG1LLE1kxEFwIgYTigjKpBC+RFGWWE
+ 5ZJv1BIOn88VyOXkTXPvgKLh5WJVslSmEnxtDA+zPO3mJrrlf2suciyWDSkoc8ndzIlS
+ MN7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771145521; x=1771750321;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=MlvES5BQowFnveKWOlQvLxyVour2p9sJV5ltUYs6/Rk=;
+ b=Oa/loNI8e67OqWKibYg9lulavxwz4iKF7wGNyrNm1Gw4oNvkix4O82e/ZU5P6dliEN
+ 5UeYRWtrgKuUFDIEfGKtM5wPuneNIR5VTtLFVf50Pm96UWoWeXU+EqDMydWZOsS/gs4m
+ 3ffejwMN3XLG5rqEFSp6hAOj+7CnqaWSMvyJbUUo4wzPfUiznDWUXeEQFlgNtl/d2CDh
+ DkRKt2Wx8Ls7zBH5LplZflg3JJPLIJH+JE0Qqotn5Yqfyka4jwu5uc/6UqIC1bU3ng9G
+ U+gH0Od75qbZjpTpekUQfCbWcipoe+DrLjV4qjfQjMu6cmJwiy+v1vevTV3hc30RUsgE
+ K7hw==
+X-Gm-Message-State: AOJu0YwixfKQI0TTMy1Xu5OXzEHS30OrUNLlakQQqPXJGs0PbonMn5cg
+ 9N0L4jnCsSHskMF5q3jE9IFRFIKHctBFKQ9sB/W8wEQy5R1ZOqg0FuIS
+X-Gm-Gg: AZuq6aIOtY1BttbGC9aRUXiemwRzHjR/wa4IILMKs2A6Ne8AXBCEiQfkRBacPPDN/HQ
+ d+XXKra9bMn/r1U390Q+qLNy3I3ldm+TVQZXMPtNyCVbmT0a5Wq2ghZNGNkbUnKOgAlSJkEsEw6
+ lbTOoIDxh6yk30TCNRTNYzE1KUeKNRcd7aojYq+Mlb7k2mtPFR7iVnliyTjzE0aGIGaXJXbpHkR
+ yd4+tipnF5PCyBxz64GBliFOZ+AI7MGIrbGaE8FB61N2RKtQpCm4a8UwDZ3M3a8RW8dNXFOLLfi
+ HLDhLmKtYDwqH/hzvjOf8rhiyBqxVvJzXbK+2jSCSz3+M707Mo1aJ9L8Y3rlSi/XGEYCMTm+x+m
+ qz+AKR2hh0eedlRg2QiilgbJ0UYiijTfg0+6+Vq9+OQwhHLqIyryI6ZAdqKykxA5MHrxSnpaJyF
+ mhBlDqUNFC+Fgw
+X-Received: by 2002:a17:907:86a9:b0:b87:6b9c:6386 with SMTP id
+ a640c23a62f3a-b8fb4532632mr371016366b.56.1771145521058; 
+ Sun, 15 Feb 2026 00:52:01 -0800 (PST)
 Received: from xeon ([188.163.112.48]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc7629b63sm139799766b.35.2026.02.15.00.51.59
+ a640c23a62f3a-b8fc7629b63sm139799766b.35.2026.02.15.00.52.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 00:51:59 -0800 (PST)
+ Sun, 15 Feb 2026 00:52:00 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -72,10 +73,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Simona Vetter <simona@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/5] drm/panel: r61307/r69328: minor updates
-Date: Sun, 15 Feb 2026 10:51:34 +0200
-Message-ID: <20260215085140.20499-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/5] drm/panel: r61307: align with schema property
+Date: Sun, 15 Feb 2026 10:51:35 +0200
+Message-ID: <20260215085140.20499-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260215085140.20499-1-clamor95@gmail.com>
+References: <20260215085140.20499-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,25 +129,29 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 02CAD13E4F5
+X-Rspamd-Queue-Id: 8A55C13E521
 X-Rspamd-Action: no action
 
-Align r61307 with schema property and update r61307/r69328 according
-to latest DRM changes.
+Rename renesas,inversion to renesas,column-inversion according to schema.
 
-Svyatoslav Ryhel (5):
-  drm/panel: r61307: align with schema property
-  drm/panel: r61307/r69328: convert to
-    drm_connector_helper_get_modes_fixed
-  drm/panel: r61307/r69328: remove redundant checks
-  drm/panel: r61307/r69328: return accumulated errors
-  drm/panel: r61307/r69328: convert to devm_mipi_dsi_attach
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ drivers/gpu/drm/panel/panel-renesas-r61307.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/panel/Kconfig                |  2 +
- drivers/gpu/drm/panel/panel-renesas-r61307.c | 40 ++++----------------
- drivers/gpu/drm/panel/panel-renesas-r69328.c | 38 +++----------------
- 3 files changed, 15 insertions(+), 65 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-renesas-r61307.c b/drivers/gpu/drm/panel/panel-renesas-r61307.c
+index 319415194839..873ef856184b 100644
+--- a/drivers/gpu/drm/panel/panel-renesas-r61307.c
++++ b/drivers/gpu/drm/panel/panel-renesas-r61307.c
+@@ -259,7 +259,7 @@ static int renesas_r61307_probe(struct mipi_dsi_device *dsi)
+ 		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio),
+ 				     "Failed to get reset gpios\n");
+ 
+-	if (device_property_read_bool(dev, "renesas,inversion"))
++	if (device_property_read_bool(dev, "renesas,column-inversion"))
+ 		priv->inversion = true;
+ 
+ 	if (device_property_read_bool(dev, "renesas,contrast"))
 -- 
 2.51.0
 
