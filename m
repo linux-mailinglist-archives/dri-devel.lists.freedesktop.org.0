@@ -2,108 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id lziFBQBHkmmcsgEAu9opvQ
+	id UNBLBHxMkmkkswEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:21:52 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:45:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5454413FE44
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E566C13FEBD
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 23:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E613B10E05B;
-	Sun, 15 Feb 2026 22:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE1410E097;
+	Sun, 15 Feb 2026 22:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MuiMfJnt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lechnology.com header.i=@lechnology.com header.b="fFTI7smI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AB110E05B
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 22:21:46 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-7d4beaf25deso1895548a34.0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 14:21:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771194105; cv=none;
- d=google.com; s=arc-20240605;
- b=PZEd1uGRxYZyit7Jyj2kje733G6DPMmk0rqUR3AbKEkf+842TnKZY8xmRr4FHogsrp
- gp/NzP6wwRsJo/OSEAiKf0b6y9Sa1P++jxMvYq8o4pBeCTBtuH5h0jFTVXbCP85mefby
- uO4mkTct7+NWSU8PbFdIgfF9arUPx9nUeWKvtiYkkTy/M8evHfLYTId200yvYb9KmB9z
- lle074JCgjEPWjXQU3YiXuS5mDM8KzVbs38X143aVQNqbbubYHqj26sVN4INbwnuLc/q
- 3s1oFMUsZ2NJbZbJdmpvSTUlpQq3CsYim4CtKWeKRKpraJV8oiHQvdf/zOaMiZWQT+Xm
- qWuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=JoXcfX7QZiwqawmcK7WDWbqjkD7o01Kl41BVrnneLZk=;
- fh=r5sB6UVIwU5HwLX2AAw0O+jiswwlF3fgFKXJKhjkn18=;
- b=kvgCM4hSSwiGxuHNWatvidoJHxE38gU1CeOobCarjiLUCvYfT7n631HyHIsXH0gi/M
- 6ExUmiaFZeyYCfaUXxptsjsV4SmSWK87m2qurA40IBk8kNlX0iL9uaL3O0UdDbooFgyS
- m/Exye5hi0SxsdwfrV4iQ2Jzw1HnlFAg14qPAvUMfYiLTFvMJZx8TPzMLrI06Ola4w8N
- jOtDu8jO/G7Cv4V7KLJ0H7baY+dOxG0ojxKrd0riJbc9dGM7YPhwN6URZRdHqiHjW05O
- iPvgh0I7thilU7YKu3U1keBFgN+1Zw+P4932DuMTjbv6qF11mbNyUpip4in8qBBF1m5b
- FtjQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771194105; x=1771798905; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JoXcfX7QZiwqawmcK7WDWbqjkD7o01Kl41BVrnneLZk=;
- b=MuiMfJntpByvRUipCoqXa7z6tF50l+oIJa8v/TVrVaMxL/m80/jv0LJi7ujCfYH1mb
- e/jZRG/vH8sFfwYZiv7fnrMr6mOOgs28bnLnvlKv2mwr+/sg3EcqG3shloVgQpj5maao
- Gv3j1ptiofa8dV6AsEqoEdCMpMKN9H/GqpFecr/efYVs8BBcZMLMa2ylcesazaO1ptaH
- 6hncvcr7Gj3oyJV5e6op1JawCFcmYeaAqU6f6YQR8SZZvYKMaxHi4YEdncBBb1TTKkoM
- K7szizzDCL/mGPzsE6ZXwD2O0OYNfIBhBqSZDFUGdKqQ87awIznOLLVW64XGlgG1tXq1
- QwMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771194105; x=1771798905;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=JoXcfX7QZiwqawmcK7WDWbqjkD7o01Kl41BVrnneLZk=;
- b=tb5HVUmLFwYQe4z5HyjfidoYNDCKrWpIa3kx1+nhSBV6LcIUuxBaKOd+gzeD/x4LuD
- rGK6E5CT3fvdFaDsZqnXhNToFze+8Nng0hyC+Q9DXXQxC1JR0KztZwCEKPqX3BHN/7Ua
- u2/m1Snvh5Wus4khCp7Ls17q/3diYQusyzfXHiRWsKSHm5QwbogYSkIThN37jjr9s/cd
- tibg2nxOr42U8sXTOTXFbMS9hrl81m7FcBK5zX+0ERcpnkXLEdo8XELnwnkVZ64B1GVq
- lRdnrp3kwbSu2ir8PP5VK9uZE8uWNJHnE5YrxGq6sWwdc8yZjzg74gmiH6yavvVFoeai
- /aMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX4gJ1NGtC4nkE3yU4U+6QmtlDblgxBx2dfGZBnVgTF1KTb+jJe8Uu4Hyep/QM/aC1aZ2aAQM/qkSo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBfik70uTs0LTHHJ6j/q6+7yCceg4M3bfc2HRbPdY6UQFrQiJP
- agNrnpLjK2eVINIY4rahmx5bjrKZCG9w3J8CwkGJj3sdElZd/ngx5+MeJl6a14sVtEsqHohwS04
- QIkbViAJ2MI2u60Q43S1JVvXRdy4k5IA=
-X-Gm-Gg: AZuq6aJO7BZxh86BOtFcNsJc7m/Xb5k4e7mjQ161NKgqFkUxd3ZRVAt5WuojdTlagpI
- QkvRNcsiUDbg7NN8cze4GGL1ruvDB4SCGG/CgCwuXzSr1V2hmu0k+mIcSZycW49v4SJc3+Iot/a
- Y/tJegiTTn66UZpawgUJFEe0VSa9Ht0ndfwi6q8XGBftbod6rbGBK+UmrWYj1ZTZXU+uKB/jm+f
- QZjxjZmtcT/WalCReE7P9q6uEyBXMbZon0eH4HcGyrWj7Ysf/EkhTcCqn8ba9O4CIbJfjhHzB1t
- sDtqEo+o0PAyEjc1
-X-Received: by 2002:a05:6820:3090:b0:676:ad01:3c2a with SMTP id
- 006d021491bc7-678220d7fd0mr4298684eaf.21.1771194105145; Sun, 15 Feb 2026
- 14:21:45 -0800 (PST)
+Received: from galaxy.gendns.com (galaxy.gendns.com [66.235.175.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9EE10E097
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 22:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8snpD8Bebmqh0zyEQUMB1FF785p6PDsWMDPxHDr2XyI=; b=fFTI7smIjGbcwH4XSSbTHoenVq
+ zv4SiHb8xJzuxaeD3clHhTVSc35DaQv8UOj8+y0bDYx6u+HsDnFGqEzkq8k3AI3zx+hNBoUwiIkCW
+ /F+aVD0eX6KCXmf0BGR/gya4Csi7a6WZcFXUpNwHIkXCI/u4EcDu27KsLwtUwSimJvjO3AuzX4GdW
+ 50Eymyfmpo6FTRmB3VD8N8rG8psARY8NkkMGx/h/we6DV+0ngEUSTxGjJ/Os3aTnugl4q3k5UfnHR
+ JXId790SBd+L0lWOhVDHnJyeoweo03SnaNdYIFSp45e/+cCKwbzJrhdbuvoZhDTEhr9a3Ab7NJAn0
+ BdnC5M1w==;
+Received: from ip98-183-112-25.ok.ok.cox.net ([98.183.112.25]:44954
+ helo=[192.168.1.142])
+ by galaxy.gendns.com with essmtpa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+ (Exim 4.99.1) (envelope-from <david@lechnology.com>)
+ id 1vrkrU-00000003Tz4-1nP4; Sun, 15 Feb 2026 17:45:07 -0500
+Message-ID: <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
+Date: Sun, 15 Feb 2026 16:45:06 -0600
 MIME-Version: 1.0
-References: <20260215100302.136719-1-work@onurozkan.dev>
- <20260215100302.136719-2-work@onurozkan.dev>
-In-Reply-To: <20260215100302.136719-2-work@onurozkan.dev>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 15 Feb 2026 16:21:34 -0600
-X-Gm-Features: AaiRm50FAT8RVr0tUWCN3V2Yh-fEe1_rpCxpthfdlSnrl4R1jpbzNo5n6ndNC5o
-Message-ID: <CAHCN7xJJgLxPSf0QJ9nvY4Z3BguDmYJtpeprT+obD5DgA8rOgQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panthor: treat sram as mandatory except mt8196
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
+To: Archit Anant <architanant5@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com,
+ nathan@kernel.org, geert+renesas@glider.be, marcus.folkesson@gmail.com,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260214070123.41374-1-architanant5@gmail.com>
+ <3bb62aa4-d3b5-4dba-b3bf-fc1a82264274@lechnology.com>
+ <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
+Content-Language: en-US
+From: David Lechner <david@lechnology.com>
+Autocrypt: addr=david@lechnology.com; keydata=
+ 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
+In-Reply-To: <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - galaxy.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: galaxy.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: galaxy.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,110 +127,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [1.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_REJECT(1.00)[lechnology.com:s=default];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_X_AS(0.00)[davidmain@lechnology.com];
+	DMARC_NA(0.00)[lechnology.com];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aford173@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:architanant5@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
+	HAS_X_GMSV(0.00)[davidmain+lechnology.com/only user confirmed/virtual account not confirmed];
+	FORGED_SENDER(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,redhat.com,glider.be,tronnes.org,lists.freedesktop.org,vger.kernel.org];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aford173@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 5454413FE44
+	HAS_X_SOURCE(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	DKIM_TRACE(0.00)[lechnology.com:-];
+	HAS_X_ANTIABUSE(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lechnology.com:mid]
+X-Rspamd-Queue-Id: E566C13FEBD
 X-Rspamd-Action: no action
 
-On Sun, Feb 15, 2026 at 4:04=E2=80=AFAM Onur =C3=96zkan <work@onurozkan.dev=
-> wrote:
->
-> If sram-supply is missing, Panthor falls back to a
-> dummy regulator with a warning. This implicit behavior
-> hides missing DT wiring behind regulator core fallback.
->
-> Make SRAM handling explicit: require sram-supply for all
-> Panthor compatibles except mt8196-mali where GPU supplies
-> are intentionally managed outside Panthor and DT does not
-> model sram-supply for that compatible.
->
-> This keeps DT power modeling explicit and avoids relying on
-> dummy-regulator fallback.
->
-> Link: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
-panthor/panthor_devfreq.c
-> index 2249b41ca4af..5f6075f18fe3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> @@ -206,12 +206,17 @@ int panthor_devfreq_init(struct panthor_device *ptd=
-ev)
->          * But without knowing if it's beneficial or not (in term of powe=
-r
->          * consumption), or how much it slows down the suspend/resume ste=
-ps,
->          * let's just keep regulators enabled for the device lifetime.
-> +        *
-> +        * Treat sram-supply as mandatory except for mt8196-mali. It mana=
-ges
-> +        * SRAM outside Panthor so this driver must not require direct co=
-ntrol
-> +        * over it.
->          */
-> -       ret =3D devm_regulator_get_enable_optional(dev, "sram");
-> -       if (ret && ret !=3D -ENODEV) {
-> -               if (ret !=3D -EPROBE_DEFER)
-> +       if (!of_device_is_compatible(dev->of_node, "mediatek,mt8196-mali"=
-)) {
+On 2/14/26 11:21 PM, Archit Anant wrote:
+> Hi David,
+> 
+>> Do we actually need a custom driver for these or can we use
+>> drivers/gpu/drm/tiny/panel-mipi-dbi.c with a firmware file for
+>> init?
+> 
+> That was my initial thought as well, but looking at the staging driver
+> (fb_st7789v.c), there is conditional logic in the initialization sequence.
+> 
+> The HSD20_IPS panel requires different PORCTRL (0xB2), GCTRL (0xB7), and
+> Gamma (0xE0/E1) settings compared to the standard panel. A static
+> firmware blob via panel-mipi-dbi would not allow selecting between
+> these configurations based on the compatible string, so a dedicated
+> driver seemed necessary to preserve this support.
+> 
+> Best regards,
+> Archit
 
-I wonder if a more generic device tree flag would be better here.
-What happens if others do the same as Mediatek or Mediatek decides to
-do this with more processors and this list grows?  It seems like a
-panthor binding might be useful to prevent future bloat.  As of right
-now, the 8196 isn't uptream,so it seems like adding this flag would be
-harmless to everything else, and it woudl likely be required on mt8196
+If two different panels are not 100% compatible with each other, they
+should not have the same compatible string.
 
-
-adam
-
-
-> +               ret =3D devm_regulator_get_enable_optional(dev, "sram");
-> +               if (ret) {
->                         DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram=
- supply\n");
-> -               return ret;
-> +                       return ret;
-> +               }
->         }
->
->         opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
-> --
-> 2.51.2
->
->
+It seems like it would be much more efficient to fix the existing
+devicetree/driver if needed rather than writing an entire new driver.
