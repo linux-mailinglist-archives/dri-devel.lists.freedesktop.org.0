@@ -2,131 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFLGCL8OkmlLqAEAu9opvQ
+	id aJk7E8IOkmlJqAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 19:21:51 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 19:21:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C522D13F5C4
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 19:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AFF13F5D2
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 19:21:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D770510E36C;
-	Sun, 15 Feb 2026 18:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 152A010E370;
+	Sun, 15 Feb 2026 18:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E+RgyxQW";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ayd4dtRP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gQBHR3PU";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eTTcmsdR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEEEB10E36C
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:46 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D674510E370
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:50 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61FBtQRh094263
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:46 GMT
+ 61F5Xoks126165
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=wwOwIZrghwl
- 5hfUtSY4NZTKubqv0dn/EyjKwV7U9g9A=; b=E+RgyxQWdFXLZYrSJYq5GRl3oig
- HV9uQBOR3sDUmD8PIfsybURlJxigPozzSSHtQXEdYHefD8jtBrK/DH0jGSMYNAfe
- eQ/vXvY6j4aEKajjwKXB+0Xi2dY4TnmxotEAETbDVt4F5lANd8YjBGasdTTrzUqF
- qatfTrsSvRq+Wlp90+ADZQmfpUQwK0fpfVF4fw5G6iQCFZKUUOBwQhrj84HuaxpB
- KVKYal5eutZm8NVkKEtG4ajciuxqN52MWW86dc1CTXgltqOEIW8qleCWuW5jODJ0
- r3BQKoKZLWedg4EMOG320WMXHlFtV444FxWQfv9KcvPvgusj4I7aC1Y9PCw==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cajb8tj7g-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=Q9Y1cdwy9BG
+ TV0V5PwHxjZOzyujS+TRJsJwWN1L6Km8=; b=gQBHR3PUylcBdn5Qs0sf2f1hk3n
+ XmNVeuHtfMQwyyvqoqsDfgFa92d9yf+TQ+Hw0rO0i9ReHIPqKG8KO2yiCbSIgPFA
+ 6HGnKb4XPaV2MABg0B3iWc9ypHBQh7Mj0FfEHWB6WYnrlXdumXg5TYpbbh9jXG37
+ pNaODDZMkFPP8Z7CAMNX5dKfTFnjTdDadK4icAyRjg0hZJPuDvapJLbFYirKQ+x/
+ BXp+JIxu58o1MRp5vKMh+BbT33qOCf43nDx8iHyNMZAl0M6lbzZR3o13165Czs8t
+ BlII2dYs/Ci8DgMeSg7BQMxPO0yTbU0Vucz1wWSpU7gWxet4Uzt8L1iXW+w==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cb6bugxq5-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:46 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-35845fcf0f5so1313572a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 10:21:46 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 18:21:50 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-2aad3f8367bso29061825ad.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 10:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771179706; x=1771784506;
+ d=oss.qualcomm.com; s=google; t=1771179710; x=1771784510;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wwOwIZrghwl5hfUtSY4NZTKubqv0dn/EyjKwV7U9g9A=;
- b=ayd4dtRP9RptnNuhoysnTrhTQJBnfkhN9CJSWneo/Je4P0qyJhX+46Dp0ayghN4N6s
- VceVpEmuNDVwYymKuvdtjVSTFU0Q8q19njqcEuuv7BOpySxIWjNjbOCY5Uc1z6vueMsk
- p7VoGAehtxkCpr2EqD2tMqkZnn5gG0qRo5oXstu8dNCos6Na8RbA+98tPuJDCEWfy04E
- mn+K5fcWQp32VNicYcLJTQx0FwRSu6/1Fo2wQblkTzWw+2BP1mMgVV4jr/22iqsEQ+3t
- WKrThg4QTD5LMpAM+T0X42Ql14mW0f/hyeF+p3Q9W6Esz1U3/QxlinH5Tw7thqQj89RD
- KY8Q==
+ bh=Q9Y1cdwy9BGTV0V5PwHxjZOzyujS+TRJsJwWN1L6Km8=;
+ b=eTTcmsdRLRsXqbBMTcNhRycvfpe4qhiPJJqhoVQtmnvvVk0X91abOmLUkWhmoxlTmn
+ V4IWPFq93KfLW4+tBTuE2oZpsW+hi1cfJCNjpDVVrWhP7FyYNRof4FZdwwpCT5vKgtdJ
+ H4HMYhOXzMlDt29J1CrsIpBAb4b8H5WJWT9KknKufhIoRX36cMqv/9cV1QPUtfSHBrCJ
+ B6VsifnlUAwp5kPpuKzC0ip9jlItKspV01JDcG8cEBMAMFs1+OLgN7+IeOYpy8mCbAbr
+ U0yaWHTE47cpbdB1tY6aTTqC1KzapZI0dilpU07uVyq8HYtpaes96w0QQhvn1sHliW8n
+ /VsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771179706; x=1771784506;
+ d=1e100.net; s=20230601; t=1771179710; x=1771784510;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=wwOwIZrghwl5hfUtSY4NZTKubqv0dn/EyjKwV7U9g9A=;
- b=cMYTQU+YpBT9V3ya/oELwQv5UBwMaC+eLgByBjzgMN1nEIGHg2lIkCUfGJj1LfMRB6
- 4tyfnL3U7rskjr8XqdrSp9KoGnhMNbJVs656NRGLpPjP61HwhUDTQ+Icy93hlADZpapZ
- ODUqYj6tv8/RIiEbjKdoxB+xaJ1VxEt4L2P+Pm6nnqwqmRhGNwbbzyaAuRY0PvGkCmWM
- HU6hMyyFaEIj587OimdCsmaPORWFgo3fS50zHNPx+8sdi/JoFpiSP+QyaQOcPcWVPLiP
- 8gbzCXdA9vEOfo+RcEF0dsDEknNvouF50pvIjYEZwTcH3deDlkLQ6EPccb8LmfMR4aFU
- jw/Q==
+ bh=Q9Y1cdwy9BGTV0V5PwHxjZOzyujS+TRJsJwWN1L6Km8=;
+ b=FjPP1DLrAiduVDTKp4Pp89tMitfnHACFyybZ9JkceYCrYogoLSePuocq4qGkrxA2dt
+ sgx1he8evgI9IUXo+Br7iqwCbpjqr1FhU9S4CyzHmV9Q32vp5zMNmR3bPStTN5majS/M
+ fFdz8aQu45IAjatmpWNauVD26CekoY726ARve+2W/ufqvzNRF698pD7fCDPTVIno0KmU
+ KYieaIhnZcyxRBLdISlPKCmpnwuZR3xgBD//84vqCacEm2A5Va2PMyqWNr7KeiFO3xO9
+ qAnogs4c2qZhsRinCED//8sigtDE3an14JGnq1IC6rFLUaa0Ek1MsDxP/0vJvCS5BsdI
+ /x8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYSV4zxQHy/oEM2Uc2aDvoroalBVEtUT2qlmIPa59u6JuZsKOYE/A92JIt/aa+6vuT8kY68XN/HRk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjEBoqjY38obF89JBrBVJJ3AtmFSV7JeOKK6kwDTXdob40O6dR
- 1vFNdzWWA2TrFNITe1A3UdNte1uTtQnVGqvA8YSLnynQ8bBh3FYIxwacxUACO//jMHslTNHi0AH
- 7/GMdCe/GKLgZTuDSyKCDnjcQlOVoThZNc++kH4XZN4tg4kDXwVBqwX2psbBMlWuhWDE342o=
-X-Gm-Gg: AZuq6aIQEu/yvafGikPM53aioq/aacRibxclC6zjeurX9QX/Vxzp0lCwPYxQT+p+xvW
- k1cxmLWrZa5XDmG34sAY9Lnd4GCEy7z9Jb28uI938RQ0CMrTtfqdw5W8914zagMi/EQuGU005we
- fCpbovpGI/G2N32g1zUkmY5tFyDJL8eOecx6Jpij2RxrqmgFORKbCBzU9u4qCmM2YSAsh66b+nH
- 7+VtpyqWszHjgmCfpC8U8lRkpRT+qbIgOBu+qMDwtTRV21JrtYk6hAItrsUZAdQjPUS4Wajt5OP
- 87Gl1hrNd7KVo+0zqdLn/3trCnkrTZja87FQXjLfO12KHLX0SQAW/d+iJyZ/mHx51NxFADucjsR
- ZUf0N3ETToM9pCh0gSvNGEVXr6v++M69tDL4SGfp+JbjTZOGHLmxbfA==
-X-Received: by 2002:a17:90b:3e48:b0:353:2972:74a4 with SMTP id
- 98e67ed59e1d1-357b51ad1c2mr5356583a91.13.1771179705642; 
- Sun, 15 Feb 2026 10:21:45 -0800 (PST)
-X-Received: by 2002:a17:90b:3e48:b0:353:2972:74a4 with SMTP id
- 98e67ed59e1d1-357b51ad1c2mr5356567a91.13.1771179705097; 
- Sun, 15 Feb 2026 10:21:45 -0800 (PST)
+ AJvYcCVSCbLJlj8IbiShxRqWuaKWXkYeHVGuCsEkAEGzJyvcAbJLKJ2OIGY7sbSPe3Qig4L4UsjU6NPUPHI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxF6scPTWxllSVS38T69uGP07yVZwb2Dbnl6Uk/jgUBujNknC2l
+ Zshd6lZWCFRx3Vh7byY8w/QiO0aHSFhjrMgQdCbrYUfv1OqZW8pWNJfXRuqSt3Pw3p0vahRoSrr
+ 6IX9Xaw8vwyVp/K2OqHahwZV2y0gQuWNZeFMiqn882Usf08B9JggJyTknNu72v7eJakIwE4o=
+X-Gm-Gg: AZuq6aK12jyMYr0J6Yz3EloecbH6B2fMHMsKvkSVAAcfsVDsxH/cG1+jQmdCJ/iS7N3
+ 8aTIvjcDy0eAvfM1KjZvEa78fazBWS1AOh8YiwzUnz/7b6DPNupr/3vovTr+Z5YRhn6Q1hrksPb
+ eT+ICGOCP3m8TPPz46hRC/w1mUE9RD7rKRPlrFpuo85BhFY8Evk5iVp218quBaSxqZ9BCpBaDWW
+ vywOaSavZ2JuVllBn7O/Mtk5BnYJgRNL6Sr8IOp0rx6o6NwIYdN7qAVvgUF19yJIR2h3EFbu66Q
+ polKxXw+ZvjL/VqCq5HEvBsIZnxAZ09TVIgAIGd3et5KHl8oljcW+Ego4GrqEfMRR513XbOK5Vn
+ 5V//o95w4wMcdmbuLYuFnx8GvzOsRIm+9kgR5hTXCDTM1r99b2TDnHw==
+X-Received: by 2002:a17:90b:57ce:b0:356:22b5:704f with SMTP id
+ 98e67ed59e1d1-35844a4f70emr6013775a91.15.1771179709677; 
+ Sun, 15 Feb 2026 10:21:49 -0800 (PST)
+X-Received: by 2002:a17:90b:57ce:b0:356:22b5:704f with SMTP id
+ 98e67ed59e1d1-35844a4f70emr6013761a91.15.1771179709203; 
+ Sun, 15 Feb 2026 10:21:49 -0800 (PST)
 Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-35662e537desm17425381a91.4.2026.02.15.10.21.41
+ 98e67ed59e1d1-35662e537desm17425381a91.4.2026.02.15.10.21.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 10:21:44 -0800 (PST)
+ Sun, 15 Feb 2026 10:21:48 -0800 (PST)
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 To: srini@kernel.org, linux-arm-msm@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
  linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
  dri-devel@lists.freedesktop.org, arnd@arndb.de,
- dmitry.baryshkov@oss.qualcomm.com
-Subject: [PATCH v6 1/4] misc: fastrpc: Move fdlist to invoke context structure
-Date: Sun, 15 Feb 2026 23:51:32 +0530
-Message-Id: <20260215182136.3995111-2-ekansh.gupta@oss.qualcomm.com>
+ dmitry.baryshkov@oss.qualcomm.com,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [PATCH v6 2/4] misc: fastrpc: Replace hardcoded ctxid mask with
+ GENMASK
+Date: Sun, 15 Feb 2026 23:51:33 +0530
+Message-Id: <20260215182136.3995111-3-ekansh.gupta@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260215182136.3995111-1-ekansh.gupta@oss.qualcomm.com>
 References: <20260215182136.3995111-1-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE1MDE1NCBTYWx0ZWRfX0i4ch49RHKIe
- ors8kcecushoUojR1LkzafT9xZBxg1ek/wKShS5Q5oCcvKtXbYU6S2CJdfZnmVy7nCKvVtiyfzP
- 3wt+YtWIWd7OotrX3EHdJsDMlPs/VYIkPJpsgwMvL+kUE5ibHqtiWJks7IlFv8ejXP+/dS2netz
- BnoUReXCjOoDK6VUKyyTJzFvH+XJ1FmCPGKkq4cqLsfbjLE8SsMxcOJFjxDeLiL/ePIxUyhWG97
- Ni6gEsKt2/nPnfxVkq0NmUmzcIDB9lVDzJxd5HgELooHZz5Z4VUnqFQVDLc4LyF2jJ4kS1QE+My
- s3LOBPx+U1E7cwKM8V4XbtMvJAEW3jILD8KkXwEogDqnBQBj6DAr38kyJaBa4aVMf7vvmH/qnG8
- Bxp2oWzrXPIIOw/3I1IXedel7uIsCQXPRu6J6UF/pAX24HbEOfCphfuWAw2oJ+JsWxscNt8ZYVT
- zg4rIM/U2/z/oB+g6xg==
-X-Proofpoint-ORIG-GUID: tRW3Tw5hU7e_bejb9v8IBnurIZRKzXNQ
-X-Authority-Analysis: v=2.4 cv=Pe/yRyhd c=1 sm=1 tr=0 ts=69920eba cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: P7-S1FXhnuWlFjOIsGssPmtN8I6nwCA0
+X-Proofpoint-ORIG-GUID: P7-S1FXhnuWlFjOIsGssPmtN8I6nwCA0
+X-Authority-Analysis: v=2.4 cv=M8dA6iws c=1 sm=1 tr=0 ts=69920ebe cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=EUspDBNiAAAA:8
- a=hRzSbfjIAxXVlyYcgJ4A:9 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: tRW3Tw5hU7e_bejb9v8IBnurIZRKzXNQ
+ a=9Nm459TXYEgc-GpAQpYA:9 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE1MDE1NCBTYWx0ZWRfX7c5V7VqqFxX4
+ bnQXCbqxOzGef47VjGP+Ir7nwMS+iCm3SOID+pA6pQNeC9+FlMRNCVG8ZNAPyo41gqyekVQTcwL
+ mh5Gr48rq7X814NOPda0V+pI9ueHKFudarPWnncnZizWkNr+kidQJkcefQso3BLFpiloUA/Ca3x
+ TygySPuVWTub2P4R5596ADRCT+rz02WXPSXNVKGebTgk2X8AirAdfFUAhkp+AmhLnXh5umpW3Ys
+ TbM1Fya6AV+siot7sCgLh5BnF58HYtN/txmxxtkxRooMMXjm2UB18sfbsUc2PLkYJqjJEzSSskB
+ qvzuIxJIxewuDypOqaFMBna0eSR0mWJC4kOu468In5bRI8bYdn+BcVEhGN0NPIOoGzRZDF8zTAr
+ ZyQCFMTz5X5Nt1SNbSJVNr9TE5GbdclFLydeuY46+1/gXnNJ7tkWmNOS1CNH1Do9jOTIAKLpDnd
+ oJiKYqmk1rKxTsloFzg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-15_06,2026-02-13_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- bulkscore=0 malwarescore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602150154
+ spamscore=0 adultscore=0 suspectscore=0 bulkscore=0 impostorscore=0
+ clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602150154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,103 +147,89 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,s:lists@lfdr.de];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_NONE(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C522D13F5C4
+X-Rspamd-Queue-Id: E8AFF13F5D2
 X-Rspamd-Action: no action
 
-The fdlist is currently part of the meta buffer, computed during
-put_args. This leads to code duplication when preparing and reading
-critical meta buffer contents used by the FastRPC driver.
+Replace the hardcoded context ID mask (0xFF0) with GENMASK(11, 4) to
+improve readability and follow kernel bitfield conventions. Use
+FIELD_PREP and FIELD_GET instead of manual shifts for setting and
+extracting ctxid values.
 
-Move fdlist to the invoke context structure to improve maintainability
-and reduce redundancy. This centralizes its handling and simplifies
-meta buffer preparation and reading logic.
-
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 ---
- drivers/misc/fastrpc.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ drivers/misc/fastrpc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 4f5a79c50f58..ce397c687161 100644
+index ce397c687161..0d8d89a2e220 100644
 --- a/drivers/misc/fastrpc.c
 +++ b/drivers/misc/fastrpc.c
-@@ -233,6 +233,7 @@ struct fastrpc_invoke_ctx {
- 	int pid;
- 	int client_id;
- 	u32 sc;
-+	u64 *fdlist;
- 	u32 *crc;
- 	u64 ctxid;
- 	u64 msg_sz;
-@@ -1018,6 +1019,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
- 	rpra = ctx->buf->virt;
- 	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
- 	pages = fastrpc_phy_page_start(list, ctx->nscalars);
-+	ctx->fdlist = (u64 *)(pages + ctx->nscalars);
- 	args = (uintptr_t)ctx->buf->virt + metalen;
- 	rlen = pkt_size - metalen;
- 	ctx->rpra = rpra;
-@@ -1120,18 +1122,10 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
- 	union fastrpc_remote_arg *rpra = ctx->rpra;
- 	struct fastrpc_user *fl = ctx->fl;
- 	struct fastrpc_map *mmap = NULL;
--	struct fastrpc_invoke_buf *list;
--	struct fastrpc_phy_page *pages;
--	u64 *fdlist;
--	int i, inbufs, outbufs, handles;
-+	int i, inbufs;
- 	int ret = 0;
+@@ -37,7 +37,7 @@
+ #define FASTRPC_CTX_MAX (256)
+ #define FASTRPC_INIT_HANDLE	1
+ #define FASTRPC_DSP_UTILITIES_HANDLE	2
+-#define FASTRPC_CTXID_MASK (0xFF0)
++#define FASTRPC_CTXID_MASK GENMASK(11, 4)
+ #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+ #define INIT_FILE_NAMELEN_MAX (128)
+ #define FASTRPC_DEVICE_NAME	"fastrpc"
+@@ -515,7 +515,7 @@ static void fastrpc_context_free(struct kref *ref)
+ 		fastrpc_buf_free(ctx->buf);
  
- 	inbufs = REMOTE_SCALARS_INBUFS(ctx->sc);
--	outbufs = REMOTE_SCALARS_OUTBUFS(ctx->sc);
--	handles = REMOTE_SCALARS_INHANDLES(ctx->sc) + REMOTE_SCALARS_OUTHANDLES(ctx->sc);
--	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
--	pages = fastrpc_phy_page_start(list, ctx->nscalars);
--	fdlist = (uint64_t *)(pages + inbufs + outbufs + handles);
+ 	spin_lock_irqsave(&cctx->lock, flags);
+-	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
++	idr_remove(&cctx->ctx_idr, FIELD_GET(FASTRPC_CTXID_MASK, ctx->ctxid));
+ 	spin_unlock_irqrestore(&cctx->lock, flags);
  
- 	for (i = inbufs; i < ctx->nbufs; ++i) {
- 		if (!ctx->maps[i]) {
-@@ -1153,9 +1147,9 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
- cleanup_fdlist:
- 	/* Clean up fdlist which is updated by DSP */
- 	for (i = 0; i < FASTRPC_MAX_FDLIST; i++) {
--		if (!fdlist[i])
-+		if (!ctx->fdlist[i])
- 			break;
--		if (!fastrpc_map_lookup(fl, (int)fdlist[i], &mmap))
-+		if (!fastrpc_map_lookup(fl, (int)ctx->fdlist[i], &mmap))
- 			fastrpc_map_put(mmap);
+ 	kfree(ctx->maps);
+@@ -651,7 +651,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+ 		spin_unlock_irqrestore(&cctx->lock, flags);
+ 		goto err_idr;
  	}
+-	ctx->ctxid = ret << 4;
++	ctx->ctxid = FIELD_PREP(FASTRPC_CTXID_MASK, ret);
+ 	spin_unlock_irqrestore(&cctx->lock, flags);
  
+ 	kref_init(&ctx->refcount);
+@@ -2506,7 +2506,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+ 	if (len < sizeof(*rsp))
+ 		return -EINVAL;
+ 
+-	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 4);
++	ctxid = FIELD_GET(FASTRPC_CTXID_MASK, rsp->ctx);
+ 
+ 	spin_lock_irqsave(&cctx->lock, flags);
+ 	ctx = idr_find(&cctx->ctx_idr, ctxid);
 -- 
 2.34.1
 
