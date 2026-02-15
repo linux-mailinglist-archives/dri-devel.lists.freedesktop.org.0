@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QHB4CX08kmn2sAEAu9opvQ
+	id WGoZC3g8kmn2sAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:37:01 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:36:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B873F13FCC5
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF3F13FCB6
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 22:36:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D55BF10E231;
-	Sun, 15 Feb 2026 21:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C201510E095;
+	Sun, 15 Feb 2026 21:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NEhINE6E";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aHILrSBf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
  [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C53E10E010
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 08:55:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B1210E010
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 08:55:41 +0000 (UTC)
 Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4836f4cbe0bso16494605e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:55:39 -0800 (PST)
+ 5b1f17b1804b1-480706554beso21595565e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 00:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771145738; x=1771750538; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sAQNxQv4JzsX9m+4gmiEwv4VehekE5HhN8PtLOEQY1Y=;
- b=NEhINE6EHNViY/nNDCLtt6XljPM39LsaP0MtApyf3JM5qIN0K7kLQlaDIynotcvDlS
- eB0VFbTo4SO1FSx/y0+WCZIdUmg8MqHSh5QWIMHv6kmGYlBr9hlXJkOESutfDga+aMGj
- AORJKP7ghhTFestlM04doVwL+IZb3Q5poAUJ80unqnfj0fWGdfMXHOjdEDHkixiFVmqt
- SIGY16KCtbS+hjEIuZMaS64sLpPY7tixdrbkYVx7pPMfTUhuuqIFWMqrD7BeAmDJGm2q
- /DA0BPgx+1ZAHLu/k51FEmCOQbchG4LHrJEOT7xCnybkhNZq70ybgkQw/Dq7ZV4FE0EB
- pZyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771145738; x=1771750538;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1771145740; x=1771750540; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sAQNxQv4JzsX9m+4gmiEwv4VehekE5HhN8PtLOEQY1Y=;
- b=c881cOnymXFc04jZOHDkMgwgOn8jFUTpK1u2cUSLWDW8l0o2qtjzwgkaTzKNC3Uy5J
- fQEKwbiX8nGohTm/MrfTOWKbq5UZKmyIwm4ho1ZtTg2GBkURROeZnsjkZ46RLUafgm+q
- HZvNDt2rh8kQ4JNUOMu0MNwWuLwXv1V8Tr/gGs7Zu5eVNAOo2QhMmR6eovqG2N1JrzUL
- 0aPwtG+ON+5kxvt63sCZIIPLJUv2H9JeY+fFcdRwgFvAUAfiBvRAmtpRuPxLizWz6FS5
- rJo3Pv+1GBsiQVMWiPoLz7HfTrigKCUMQvfo5UtSs53H/IuY1EfQlLg4UBbCOUb1d9Qg
- G3BQ==
+ bh=T8EVs3djMjehVjELOyPKlz6f3ecqc5eYir0MGFdbhOo=;
+ b=aHILrSBfaZCwBu3OFjKfAHjdKZDMNLLZHqeA2AqBmLOf6pAV/8I2xj/hIJADvpr0e8
+ i+5JreTgg4Ze90BpbhHq8aZbtriyDW5LkGHO/0FyfRlBbjiPiJ9hPZtiixUafgW0U6PF
+ nfXeJSGHwyh7rWP3U+LFKs5nDyFiYAJV/An5vfihqllKM3gmumoSAWO2I5HmiVzyuOY4
+ 2VMhrL2s2U472MoLf9mwhhUDATHsjTId9jFrnMthM7fiFnWTWo56CsPRycA2zPuT/JK8
+ pmaZ55eBv4Yl4cRS6zUvCsB4fUO53NqHA/fdmok+jVeIs3j4i5Kh3axUcZ/P1kpTMBLY
+ 0KAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771145740; x=1771750540;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=T8EVs3djMjehVjELOyPKlz6f3ecqc5eYir0MGFdbhOo=;
+ b=A6eX+BnMCj5o4mOw91FWCJtfavcUX0puo13JBGvKcmhr9TgqCK9f5zuV4lBBWFfklE
+ DOurNI3aQQudORLUjSjRQV8ukze0hiCHAdlXd4QX0tyi3j8tAQBpw41iwS6q+JBoJ15c
+ 5YnZrGtRAuGmbBQzEGKrx1mm6dGB6OjitmMcmyXWhzdVUfpeNVTVHVPAhqeBJ/r78Kql
+ i8jfgtUXUc03HdGk36HdXUZzQQ/ZFJgwqLNl+tEc2tx3uDymv7ALbYAS4UBht7aAMOU7
+ B8kiqRHXliFM2/clZVh8byfqzCOR6h/jdeEtDwcBiRhyLyZ3DN1VbNqPWTUaTbTnKeKT
+ +v9g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJbadwB+fIjYIbkK0rBlonwYxOsEi6qHaE8JOwVZa1j3rBi1VW+hty6rYl8Q7ozmGV4gZdudq51Bs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxe0h1XBpb1khrXshizZJir87rxoBVe3mvcXkgHkjs0Ecg6E82s
- wH6WEoaKnOMrtoN5oGc2Eg9eqZmyN2BIR2q4eSONy+dhNJkDBylA9PWc
-X-Gm-Gg: AZuq6aKeZe1Zx71XqoASEJMMZk0d2IsqoRpe5SATif6iytr0aZfkmlppSvQJB573kdQ
- 9/zXgA/lujgDW+g1ZGsHHy0O2u1uCyXW25XgCNiJsKpfd+3JjgLdlWRcYNJdQRvWjnZSDrb3c1b
- 6+6zI1oSX0XIcvokCAEQQn51fLPEQ/oGqeHzBCNAbl+zEHdVYbv3qMuOHsZUf2BY644oNpurBLD
- btsmrmnpuzQsxRYmslOE3GD1tz4604bq5SY8DxWT7691EBYTJ3rW4+vSGdEaQ32Y609RJWt8CQ8
- NH7iup0HzC4NP+ONHO68U9m8tec3XursXO4VFFiBfuUlM6Xrcvnd4Z2QOZWYaV0GTTchDs3qBnm
- zrGvAFsUpW3nkYBUEM+I6O2deF8KwtXeDBQ0SeUvL4eNkAZ4OXcegO/mk2bhdcL97ol/9a3gvZC
- 3sdVMApFe94H7FJSq2dbo=
-X-Received: by 2002:a05:600c:314f:b0:483:6d4e:9811 with SMTP id
- 5b1f17b1804b1-48373a73ec5mr119238475e9.31.1771145737543; 
- Sun, 15 Feb 2026 00:55:37 -0800 (PST)
+ AJvYcCVdAb2UbH5ngKvOYzUawdqCmEwx/L546CY2trvVSTHvrm+OtsU3LrLXgCMtzIRXefrznQiCxUMb3QU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4peWFfpjmQ6ldxgKrfYIbZixCxUfQHJJl5mk4j0YLqtR9gSHY
+ IVOH9fhMk/5yiw/mas38u99167ZKsm1MF3OwF9EPJn0QeyMaauWbtmhR
+X-Gm-Gg: AZuq6aJLKpQY1p2dIaltclnOm5MM8Fsf5YagbXlRxvzeXsDNqDf48VekyVvtcC5yRMn
+ ad6nffXJ9gfxPXkGc8LonWDfx7INYcfBIFWHvdQ66jgXWAcp5WvuUpLFwneExhjdG+urP1nNIMv
+ uyYMenuyshiLcZydpLKNkZkv+vIuvNAduIlTlz2ZUYjT/fHayvFYXHXBJ1tR590XuAJLO2rRWdF
+ QP28M8D0Pdje5z4fRO2uSSAjdO+n70m02jjkLCmZ8EvVOYaRL5eIiTNcFNrtM6Ruz+Dj/Bbj/Ut
+ +ZMY90g6OR+8+E8fLyOM4d+lLg17Xe41Muc9+DIck5CM4cUkp0/PhQh8rstGc3IeBh/7f4y8Nqj
+ AYxkCOH2Xva9+LR25J8w+45H7DWc52AlHiLM/aMIi13JA+jmmf06zV04KbIiY0754lBt/+n8OF9
+ ByNZWK8vn1LrvyOxpSi34=
+X-Received: by 2002:a05:600c:6814:b0:483:43da:6c87 with SMTP id
+ 5b1f17b1804b1-48379c14894mr77535195e9.33.1771145739686; 
+ Sun, 15 Feb 2026 00:55:39 -0800 (PST)
 Received: from luca-vm.lan ([154.61.61.58]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4834d5d78cfsm547211675e9.1.2026.02.15.00.55.36
+ 5b1f17b1804b1-4834d5d78cfsm547211675e9.1.2026.02.15.00.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 00:55:37 -0800 (PST)
+ Sun, 15 Feb 2026 00:55:39 -0800 (PST)
 From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
 To: linux-mediatek@lists.infradead.org
 Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
@@ -83,10 +84,13 @@ Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
  Jitao Shi <jitao.shi@mediatek.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
-Subject: [PATCH 0/4] Add support for mt8167 display blocks
-Date: Sun, 15 Feb 2026 08:53:52 +0000
-Message-ID: <cover.1771144723.git.l.scorcia@gmail.com>
+Subject: [PATCH 1/4] arm64: dts: mt8167: Reorder nodes according to mmio
+ address
+Date: Sun, 15 Feb 2026 08:53:53 +0000
+Message-ID: <b7d7c27dda4dc1779425c57d187b84abaf6a1093.1771144723.git.l.scorcia@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1771144723.git.l.scorcia@gmail.com>
+References: <cover.1771144723.git.l.scorcia@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 15 Feb 2026 21:36:42 +0000
@@ -140,36 +144,135 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B873F13FCC5
+X-Rspamd-Queue-Id: 7FF3F13FCB6
 X-Rspamd-Action: no action
 
-This series adds support for the display blocks on MediaTek mt8167.
-Tested on Xiaomi Mi Smart Clock x04g.
+In preparation for adding display nodes. No other changes.
 
-The first patch just does some reordering of dts nodes with no other changes
-as this makes later patches cleaner and easier to follow.
+Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+---
+ arch/arm64/boot/dts/mediatek/mt8167.dtsi | 68 ++++++++++++------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
-Luca Leonardo Scorcia (3):
-  arm64: dts: mt8167: Reorder nodes according to mmio address
-  dt-bindings: display: mediatek: Add compatibles for MediaTek mt8167
-  arm64: dts: mediatek: mt8167: Add DRM nodes
-
-Val Packett (1):
-  gpu: drm: mediatek: ovl: add specific entry for mt8167
-
- .../display/mediatek/mediatek,aal.yaml        |   1 +
- .../display/mediatek/mediatek,ccorr.yaml      |   4 +-
- .../display/mediatek/mediatek,dither.yaml     |   1 +
- .../display/mediatek/mediatek,dsi.yaml        |   5 +-
- .../display/mediatek/mediatek,gamma.yaml      |   1 +
- .../display/mediatek/mediatek,ovl.yaml        |   1 +
- .../display/mediatek/mediatek,rdma.yaml       |   1 +
- .../display/mediatek/mediatek,wdma.yaml       |   4 +-
- .../bindings/phy/mediatek,dsi-phy.yaml        |   1 +
- arch/arm64/boot/dts/mediatek/mt8167.dtsi      | 450 ++++++++++++++++--
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  12 +
- 11 files changed, 446 insertions(+), 35 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/mediatek/mt8167.dtsi b/arch/arm64/boot/dts/mediatek/mt8167.dtsi
+index 2374c0953057..27cf32d7ae35 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8167.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8167.dtsi
+@@ -29,12 +29,6 @@ infracfg: infracfg@10001000 {
+ 			#clock-cells = <1>;
+ 		};
+ 
+-		apmixedsys: apmixedsys@10018000 {
+-			compatible = "mediatek,mt8167-apmixedsys", "syscon";
+-			reg = <0 0x10018000 0 0x710>;
+-			#clock-cells = <1>;
+-		};
+-
+ 		scpsys: syscon@10006000 {
+ 			compatible = "mediatek,mt8167-scpsys", "syscon", "simple-mfd";
+ 			reg = <0 0x10006000 0 0x1000>;
+@@ -101,18 +95,6 @@ power-domain@MT8167_POWER_DOMAIN_CONN {
+ 			};
+ 		};
+ 
+-		imgsys: syscon@15000000 {
+-			compatible = "mediatek,mt8167-imgsys", "syscon";
+-			reg = <0 0x15000000 0 0x1000>;
+-			#clock-cells = <1>;
+-		};
+-
+-		vdecsys: syscon@16000000 {
+-			compatible = "mediatek,mt8167-vdecsys", "syscon";
+-			reg = <0 0x16000000 0 0x1000>;
+-			#clock-cells = <1>;
+-		};
+-
+ 		pio: pinctrl@1000b000 {
+ 			compatible = "mediatek,mt8167-pinctrl";
+ 			reg = <0 0x1000b000 0 0x1000>;
+@@ -124,12 +106,36 @@ pio: pinctrl@1000b000 {
+ 			interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		apmixedsys: apmixedsys@10018000 {
++			compatible = "mediatek,mt8167-apmixedsys", "syscon";
++			reg = <0 0x10018000 0 0x710>;
++			#clock-cells = <1>;
++		};
++
++		iommu: m4u@10203000 {
++			compatible = "mediatek,mt8167-m4u";
++			reg = <0 0x10203000 0 0x1000>;
++			mediatek,larbs = <&larb0>, <&larb1>, <&larb2>;
++			interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_LOW>;
++			#iommu-cells = <1>;
++		};
++
+ 		mmsys: syscon@14000000 {
+ 			compatible = "mediatek,mt8167-mmsys", "syscon";
+ 			reg = <0 0x14000000 0 0x1000>;
+ 			#clock-cells = <1>;
+ 		};
+ 
++		larb0: larb@14016000 {
++			compatible = "mediatek,mt8167-smi-larb";
++			reg = <0 0x14016000 0 0x1000>;
++			mediatek,smi = <&smi_common>;
++			clocks = <&mmsys CLK_MM_SMI_LARB0>,
++				 <&mmsys CLK_MM_SMI_LARB0>;
++			clock-names = "apb", "smi";
++			power-domains = <&spm MT8167_POWER_DOMAIN_MM>;
++		};
++
+ 		smi_common: smi@14017000 {
+ 			compatible = "mediatek,mt8167-smi-common";
+ 			reg = <0 0x14017000 0 0x1000>;
+@@ -139,14 +145,10 @@ smi_common: smi@14017000 {
+ 			power-domains = <&spm MT8167_POWER_DOMAIN_MM>;
+ 		};
+ 
+-		larb0: larb@14016000 {
+-			compatible = "mediatek,mt8167-smi-larb";
+-			reg = <0 0x14016000 0 0x1000>;
+-			mediatek,smi = <&smi_common>;
+-			clocks = <&mmsys CLK_MM_SMI_LARB0>,
+-				 <&mmsys CLK_MM_SMI_LARB0>;
+-			clock-names = "apb", "smi";
+-			power-domains = <&spm MT8167_POWER_DOMAIN_MM>;
++		imgsys: syscon@15000000 {
++			compatible = "mediatek,mt8167-imgsys", "syscon";
++			reg = <0 0x15000000 0 0x1000>;
++			#clock-cells = <1>;
+ 		};
+ 
+ 		larb1: larb@15001000 {
+@@ -159,6 +161,12 @@ larb1: larb@15001000 {
+ 			power-domains = <&spm MT8167_POWER_DOMAIN_ISP>;
+ 		};
+ 
++		vdecsys: syscon@16000000 {
++			compatible = "mediatek,mt8167-vdecsys", "syscon";
++			reg = <0 0x16000000 0 0x1000>;
++			#clock-cells = <1>;
++		};
++
+ 		larb2: larb@16010000 {
+ 			compatible = "mediatek,mt8167-smi-larb";
+ 			reg = <0 0x16010000 0 0x1000>;
+@@ -168,13 +176,5 @@ larb2: larb@16010000 {
+ 			clock-names = "apb", "smi";
+ 			power-domains = <&spm MT8167_POWER_DOMAIN_VDEC>;
+ 		};
+-
+-		iommu: m4u@10203000 {
+-			compatible = "mediatek,mt8167-m4u";
+-			reg = <0 0x10203000 0 0x1000>;
+-			mediatek,larbs = <&larb0>, <&larb1>, <&larb2>;
+-			interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_LOW>;
+-			#iommu-cells = <1>;
+-		};
+ 	};
+ };
 -- 
 2.43.0
 
