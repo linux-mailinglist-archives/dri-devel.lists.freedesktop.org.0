@@ -2,94 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKdRNt9Xkmm9tAEAu9opvQ
+	id 2HH7FOFXkmm9tAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:51 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1C9140192
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E4B14019A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 00:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63AC10E0B7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D2B10E0C0;
 	Sun, 15 Feb 2026 23:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="M06O0gch";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="wIZ3YJWR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9962710E0B4
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 23:33:46 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id
- 5b1f17b1804b1-483487335c2so23784515e9.2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 15:33:46 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C164310E0B7
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 23:33:48 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4806bf39419so33114735e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 15:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771198425; x=1771803225;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771198427; x=1771803227;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ivo/Wb4H9AjzUdzXBvtBO+/I7i8l2LirEG2mTIslkVQ=;
- b=M06O0gchpDc00SmtKDVkz/+c5LByUqXd+4xc25P+6ZbM5UJng6HxCpcvKxbXf9BPlh
- LWyD9n3MbMcPSMMjJYBqCfEgpCXfeRgTlamNhr+V5qNBCqLJj7c+aBLyHchbsKsTAm6m
- k7ys7CwMyvwj5YZ/Mc6pWVVLM5TiSY/WLj6Q6/Vt6cKz/eT4VBwz4uNra4NAGgssf3OM
- 9yb0GXBGOG0x9kpXQ8pYolMVXv9uz/EUCq1+z5WAUv60Ux1mvuIeAoZ9DQmmtSoAu/8b
- HqY3jG0NgxsbVrUWxgsv8K5KuOxi/qc1XOxLiw32Jlaw6LE1mfTUebhYS0NgsZmQQGr+
- tttQ==
+ bh=riZ6PWdFfyeNlDheq9J/VZWbSjXQ8eOOU0u+w/mWLKY=;
+ b=wIZ3YJWR2jLPQwkY+PLiBtbLCuKWIadFLfTrKcMnQ54TmyFPSEORwPhf7YVobD2+mZ
+ CKsafwTISq61rE9LrlywFl3+c7XtbEq/zO8gKDI3BiLpnvbcdQNvBU5+YMoo0o8AvuNs
+ OQPeML97ovydTz6fzhKFGlZ/nTRiLM3tW9KNHa5iXCc4OJo9tH08sEkzm/ckY+QcAV13
+ 98IKceWPG7JeA7Ttj/89XNEExuTJLeTO5yaIkY0RRi0+j9qAOM/L/a1bQ7BY4ImRz89K
+ EJLos+Rx5PrS7FRvB+45ubuProV+pCC1kdR17uxtyXKEVRuXG2ZL+GhAANRe3MXupMeZ
+ cnmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771198425; x=1771803225;
+ d=1e100.net; s=20230601; t=1771198427; x=1771803227;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Ivo/Wb4H9AjzUdzXBvtBO+/I7i8l2LirEG2mTIslkVQ=;
- b=sJ7ajbBq5xZVVMHRmRx0cus0eaP6VcYgTogZ3zRpXfSS1Osfgs3vcGE4X7pfK76W+C
- zSQtFmVfwebAXPhXsOztAJBILpjHA+KlRoIs1w+eTdJNjcakmxclcdyWP7Qhmc8Cep1J
- px63AQgoSXAgR+V6fdlsJIvHwI9pRlzTVAyV2UAr+4STWVE9HBRTqBlDWeFMDMGwEfTi
- xqV+kvRGIon1UjKpMkQv4Z+1esCJMTTlu8as+AQj4KQVOIw2ueW0RbowEt6KKuU0ax5w
- T8exFBN7m5YS4nqyVZRn2ZNzOpvrvt8/kcS4feLuR29sTHkY9e4fEmw6GyFqX5l6aFvX
- brKA==
+ bh=riZ6PWdFfyeNlDheq9J/VZWbSjXQ8eOOU0u+w/mWLKY=;
+ b=c3tB29zzO5xHpBq67DAXFXhGG90aG58mbhin+gsJDLDr7dR4V+IgqUJ1SO47wTCtkv
+ h3XFJ+GmSmFkNqBItSt16XBDuH+Kh/Xahdm3vYve+F4i9S8h3XWerh5Nyxj+f7pIENPo
+ VUBoludyMex3N9NZwLFTgMgo3tsV8ckDvkksC5a2ZVNdtC1XDwb5My3jdu4BLJXpsQHv
+ ePyeGjA+AQysD12oMcq+Afq5GkHKEMQIfKz/Bc3wSYx+1AYo858cvzztJAsgT+pGwwS9
+ w0EcCNZRb5klA08LDH3sHyWRDT3he854hsXBdBuKWBxiJZQli0XOmGokA9dIAPZ48K+d
+ qCKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmXl2ikm3jOY0obf/gH2Ph1HoRU43C4njBSaDCL27VcMA1C33KecY6cLE9yW1zd9EBqs3v7g1syY4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5MOsGWuysQGKc7bzwmBa4d2tlat0O/iSIBzSr/edBRjWXuzq/
- lIO41exvskvXtQZpQUq4SG6kEQZWsaWMqnXEpPBH0smDcE6+0ApmEuFYUVWWcovDLw8=
-X-Gm-Gg: AZuq6aKrZtlJx4UFvKPpTp/Q3L/YLDiFz573yV0cofOJtGoU4zRYuHjNie6LRTApXK4
- Y2bOxtP+0+WmbLuzrnsxzV7GIR1oIRNPpIIJ5I2p7U9sg4xLODPQ3/AZnbBv7Wz54Uy2yJk6K45
- AQGJb9ZYvfXWEai+kGtdzBWXyU8FwhpaB57EG9mQtqjx8r/keNrSLUDi+ZbU0KGZMZ0TUf4JoYg
- UYlUIi+rZsnX62gYLYWG/NCU3Vs+nQB3UkWkzCqKCvu/gifsGWW8soaPo/4qnCTOnVpuiSuvvaB
- FmlGPqWJZoIRhbWVGnpNB/k3WZj3rgnJMW1oMUTgsbdU+NvL2UDzGTvr73BvPc6qBfSgSnyfPFi
- 3EgzxVvEzLPYtRcpA0ybOc6RKGYR6AwDR+GyUg2uG6rU2BR+UIplUYaJ86mOP80KfV6L1Oi4t7f
- AZoP8mEBTWUPVMqgCLZIj/r410XrTFHM7DtCU+5qs=
-X-Received: by 2002:a05:600c:6989:b0:480:3a71:92b2 with SMTP id
- 5b1f17b1804b1-48373a44055mr155545025e9.26.1771198425059; 
- Sun, 15 Feb 2026 15:33:45 -0800 (PST)
+ AJvYcCVJp+KNfJPppM0F+i6b55bUc505kPRyeiRECAaRsvca1U89IuDmQs/gyDi35v/mi6c/qAX+nKZKcSc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6a0+wkcXY4lRdcpdxCUJDaLa3GCz5Mqe9OehHaJRuoxc60WUl
+ +t34rm2aJDS2gBkncNj317r6HSv0TfND59jZs8fb2Ly5yQo4TYuICkI15bPD/xZeeiU=
+X-Gm-Gg: AZuq6aLfvCzioNnQMWxTC2gsDZW0X6tAcK9MB8rYMiGoD0rU0NFWgFsW/YgkEP0XJOM
+ kvzb3hpU9YZyH7/QKQ3/+MFNQz06cda54KS3gQEaL5m0DSZ2fRKbNFSq/9KBtmfu7uOs5cKkJGd
+ 9nVX1nw1M/TenjhCIu8fW34i22wxrOLwToeVDfsu9NPin30/aYOVcE2DR0I5syFaN0r6VgY9P+e
+ 9xvpYP1QmxCiMTvX78Xh+guGPkBnbmxxxSnxuf9VaCHmtLvrmHJhik3BQCLo0ANJghubOPtqk3k
+ Pbor7yWO1btYc5/fzmx2lT6B9cHhjZ1PVEYa0qr+wDIxI2z7ERJY9GAJBLZVYfRzOQeL1dkjwHV
+ DmB0Y5SmIGrZNPRC1dtqgRY+5EV1Sw7o+7xLe6RYhERf7Ez2UweAoO3dc3P8fxyuulOce5mywNv
+ fT4djDzb39vEfnMHNYBr6Yo83U5pjh
+X-Received: by 2002:a05:600c:8b32:b0:47e:e59c:67c5 with SMTP id
+ 5b1f17b1804b1-48378d7250emr126740185e9.8.1771198427340; 
+ Sun, 15 Feb 2026 15:33:47 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-4834d82a4c4sm661803245e9.10.2026.02.15.15.33.44
+ ffacd0b85a97d-43796ad112bsm22934376f8f.36.2026.02.15.15.33.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 15:33:44 -0800 (PST)
+ Sun, 15 Feb 2026 15:33:47 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Helge Deller <deller@gmx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 2/7] fbdev: au1100fb: Mark several local functions as static
-Date: Mon, 16 Feb 2026 00:33:18 +0100
-Message-ID: <3c08f87439d503ade5a6c0a628ff23f1e32af91e.1771198101.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v5 3/7] fbdev: au1100fb: Use proper conversion specifiers in
+ printk formats
+Date: Mon, 16 Feb 2026 00:33:19 +0100
+Message-ID: <67e84da83038879b933c3c40a3715c2ca82a4813.1771198101.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
 References: <cover.1771198101.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2959;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2019;
  i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=cNISZOqeKk8QMk5edubEElUWhcYpjBpybGx8Xr4QHLk=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpklfClP4HcN9n84CROa8hNaWVi+C24Wt3+Mh2+
- 206HBosg5qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZJXwgAKCRCPgPtYfRL+
- TvGHCACQxypYsmo2xxRZ9jvO3UjvW8dFTUZQ4486H52AcIcTov/FuAOG6oOcNUUIh3BzACgp2Vj
- 7s0K7IY1+5mnJZvKvJFUokOEFrbBJy7vXSRcZ/32Q4G86qfE+Lry3cbfrP5ywxsMiGRYBL9W7h4
- 9uT5gUrOenc6yyaMzmg/bGZXnaiPAouustxStXI+SpcFKuz+hfGJcSzG8N/U3IvKO3vslLQbKpe
- FBuWn3OIG8vF0UDfZNnzTwjyZwSC0CkX3ltcwZoUixuYgjD3Dcr2UkWkP6DNrJbi8PAcBqPYnlr
- 6pYnZs+JHMQZujtHc0YM56WEaIcAmCoEFgG4Siv02catdwj1
+ bh=C+TkgfpREa8zIVzwPsqZ+/CMmjGONBaTrnA3gNijQlo=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpklfEdt8klR1hZb6Sfbm5eRG4XF5wQH2rt73y2
+ XmGiszbXzeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZJXxAAKCRCPgPtYfRL+
+ TqQFCACcqZCdYcACZnKLN5Af2fitxAn5w9sPoYdRoIUuln7Qx55503VKvU5tCcQoeejdWT2ccR5
+ 89msNoXlP8uUh9/B/+1Pa5orfqRDdC7aA6u0BA8RowS72J3xrGUSbZWa1EArGfxR+5l7GQVWfdx
+ boWk1NhDNVTGUNXX8taTGpm7k8DTSS2HTuTM2oeKzAGn3zxWfEMP9q4ALSZT7dWR9Oox0q+vY2m
+ f/f/bXYI0UarJsZNKf8gmVuKO/vXFhkjy9kjbNIrUKs0UcfSjgXwwW+PL9RN4s/8eCJrrfY7ktm
+ DqmeQ8rwnXcgwEIi9E6OYzT0W62r5SGpXdSsfjZJBslcWaBS
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -138,79 +139,53 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 8E1C9140192
+X-Rspamd-Queue-Id: 05E4B14019A
 X-Rspamd-Action: no action
 
-This fixes several (fatal) compiler warnings à la
+%zu is the dedicated type for size_t. %d only works on 32bit
+architectures where size_t is typedef'd to be unsigned int. (And then
+the signedness doesn't fit, but `gcc -Wformat` doesn't stumble over this.
+Also the size of dma_addr_t is architecture dependent and it should be
+printkd using %pad (and the value passed by reference).
 
-	drivers/video/fbdev/au1100fb.c:530:6: error: no previous prototype for ‘au1100fb_drv_remove’ [-Werror=missing-prototypes]
-	  523 | void au1100fb_drv_remove(struct platform_device *dev)
-	      |      ^~~~~~~~~~~~~~~~~~~
+This prepares allowing this driver to be compiled on non-mips platforms.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/video/fbdev/au1100fb.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/au1100fb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index 7bc224a8455c..1abaa8e81315 100644
+index 1abaa8e81315..398375793f57 100644
 --- a/drivers/video/fbdev/au1100fb.c
 +++ b/drivers/video/fbdev/au1100fb.c
-@@ -120,7 +120,7 @@ static int au1100fb_fb_blank(int blank_mode, struct fb_info *fbi)
-  * Set hardware with var settings. This will enable the controller with a specific
-  * mode, normally validated with the fb_check_var method
- 	 */
--int au1100fb_setmode(struct au1100fb_device *fbdev)
-+static int au1100fb_setmode(struct au1100fb_device *fbdev)
- {
- 	struct fb_info *info;
- 	u32 words;
-@@ -219,7 +219,8 @@ int au1100fb_setmode(struct au1100fb_device *fbdev)
- /* fb_setcolreg
-  * Set color in LCD palette.
-  */
--int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue, unsigned transp, struct fb_info *fbi)
-+static int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue,
-+				 unsigned transp, struct fb_info *fbi)
- {
- 	struct au1100fb_device *fbdev;
- 	u32 *palette;
-@@ -278,7 +279,7 @@ int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned
- /* fb_pan_display
-  * Pan display in x and/or y as specified
-  */
--int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
-+static int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
- {
- 	struct au1100fb_device *fbdev;
- 	int dy;
-@@ -325,7 +326,7 @@ int au1100fb_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *fbi)
-  * Map video memory in user space. We don't use the generic fb_mmap method mainly
-  * to allow the use of the TLB streaming flag (CCA=6)
-  */
--int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
-+static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
- {
- 	struct au1100fb_device *fbdev = to_au1100fb_device(fbi);
+@@ -440,7 +440,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.fix.mmio_start);
  
-@@ -517,7 +518,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
- 	return -ENODEV;
- }
+ 	print_dbg("Register memory map at %p", fbdev->regs);
+-	print_dbg("phys=0x%08x, size=%d", fbdev->regs_phys, fbdev->regs_len);
++	print_dbg("phys=0x%08x, size=%zu", fbdev->regs_phys, fbdev->regs_len);
  
--void au1100fb_drv_remove(struct platform_device *dev)
-+static void au1100fb_drv_remove(struct platform_device *dev)
- {
- 	struct au1100fb_device *fbdev = NULL;
+ 	c = clk_get(NULL, "lcd_intclk");
+ 	if (!IS_ERR(c)) {
+@@ -457,7 +457,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 					    PAGE_ALIGN(fbdev->fb_len),
+ 					    &fbdev->fb_phys, GFP_KERNEL);
+ 	if (!fbdev->fb_mem) {
+-		print_err("fail to allocate framebuffer (size: %dK))",
++		print_err("fail to allocate framebuffer (size: %zuK))",
+ 			  fbdev->fb_len / 1024);
+ 		return -ENOMEM;
+ 	}
+@@ -466,7 +466,7 @@ static int au1100fb_drv_probe(struct platform_device *dev)
+ 	fbdev->info.fix.smem_len = fbdev->fb_len;
  
-@@ -557,7 +558,7 @@ static int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t state)
- 	return 0;
- }
+ 	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+-	print_dbg("phys=0x%08x, size=%dK", fbdev->fb_phys, fbdev->fb_len / 1024);
++	print_dbg("phys=0x%pad, size=%zuK", &fbdev->fb_phys, fbdev->fb_len / 1024);
  
--int au1100fb_drv_resume(struct platform_device *dev)
-+static int au1100fb_drv_resume(struct platform_device *dev)
- {
- 	struct au1100fb_device *fbdev = platform_get_drvdata(dev);
- 	int ret;
+ 	/* load the panel info into the var struct */
+ 	fbdev->info.var = (struct fb_var_screeninfo) {
 -- 
 2.47.3
 
