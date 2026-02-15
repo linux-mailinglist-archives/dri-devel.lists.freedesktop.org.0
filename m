@@ -2,113 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IK7KL9OfkWlMkgEAu9opvQ
+	id mKuzISXRkWlFnAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 11:28:35 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E1013E7AC
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 11:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9F013EC3A
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Feb 2026 14:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6D110E0EE;
-	Sun, 15 Feb 2026 10:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612D810E045;
+	Sun, 15 Feb 2026 13:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kdj/ttr7";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1GLgRlO3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FE310E0EE
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 43E4340D60;
- Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8E4C4CEF7;
- Sun, 15 Feb 2026 10:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771151311;
- bh=bGxgpM8q1KtuaIR5W2mi8ypkghhvkWa49uvXgAGIbZc=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=Kdj/ttr7V6ZOO32v/GouOpUDsEbrxgqw39j/gBi0e4VWvx1VT0KSG6ZIaCuUXoqxJ
- YUV9TZjYgt2Dm2zr3w9hhWv2Nx0JknpX581wZfldfbWqQPJd43wBcWVHLZ27bj72Z5
- MMa83PteR0hCY8sT3eyTySM4S9iyU80G035BmT+al7PMwM3q6sX0ktN/52/EEt5OOF
- pPmdfQJkjVfABF1BwdTwQu+F/c4ZGknSpaCNw1NkIt0nNtKO/kXSHvZpiKyz4MjCPe
- Htg4tH6dnjN2+yZjwO5nbN7JQxM2V5oJ+ruYxZX5atPEQCsk+U1BwWcFT82E/Gi2T5
- 9/67B192ldLTg==
-Message-ID: <6a7cae58-f1a2-4641-832f-cd479a0bcc43@kernel.org>
-Date: Sun, 15 Feb 2026 11:28:22 +0100
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2710E045
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 13:58:55 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4833115090dso21536705e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 05:58:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771163934; x=1771768734;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GMS55t/V9fY9Xp7NFJdKphTgR5hjSDfiqXHxnjBq6kw=;
+ b=1GLgRlO3ZWmGBOL/q3P0ot711Fln/RVcvwSDO4/L1pDbYMoZSyLR2JNaKEAK1SDisA
+ JOuUVBX0TdOiLyBdXeNT7HG6qUUzofvng71leEylk48WhuCNa1+WYZyfBzDn8Avfqtdg
+ N4RjCmEpNAfgkf+LneBDichhvucQzupPK6jO8sGeGbAs+3hm9rkI09dhwK5UpQZdrr3M
+ Efzwr3ireF13L6M57RT36WjneYRfk1WhHVQ8V8WUgIpO9l7VBVxjzPJbx7wF0YmqsrhE
+ lEkCQEXuyxIuNexXXI5WBcpmLs81Hc2nhUjDmZM4vlHZSz4gOpFx8jSnk8IZJjrvJr6a
+ QG+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771163934; x=1771768734;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GMS55t/V9fY9Xp7NFJdKphTgR5hjSDfiqXHxnjBq6kw=;
+ b=f0l9S+JpcqVX2PwXRIRLEvTVnZwa0zOqoHfpFNj15OUb0ZIvrXcZlPgNz+Dt8irojO
+ Zi1Xwa5U6wYzC4uKWYO3eX+NT4fAB2TNGI559/QMNdrp0CrnlauF11jubr1aP2gjlgqE
+ 09tbzdbedwZ0aDhHPiL7zG0nru/sea5BDc/96lRBnBhQZWF0HhB39tqjCR5lRp+kfxg6
+ npfdV2KaD3jvq3mwFEYAd+j3POiW4OLbIRNtAtr3jCER1Xm03IKYtbalPmJqIXIkUCb0
+ KViynGN12xrpwKLsyZXgvx7T1K8lAT5z+u+yNv9JcREIpvuRjBr4Q7aDkw8HkuhzYX9t
+ wL2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEeY3ip+znec1cXasJWQba5AiRJrIGYVOfs3lp+PkNchVutqVkSzkZqDfKdo5yb9qER4gEomCNoik=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+pOqBuqineV0mS3tHpv1X9jqfnNDn+ftrmKhV4J41unmFCz9K
+ WUdBpHYtb92b0KHSAH69XNW50Y9F/kJxPSbJlnxyFuFCpkodRsCEMJEG1fCYTSpl3IM=
+X-Gm-Gg: AZuq6aIDo4F3rmwQ3qNLuY1fwXzO1Y5v3bW9Z2F/17Ds2qUhL5hSItBeSPWvea/R7BX
+ 3twfVa6i61P1V+eQxaAMkowhUcUO/vQ7vAGg3s8PklR0WtDj5vhxBoEyZaW8/lXu/HzgA8UF5HQ
+ OHOZVSEQpehjoOXtkZslWrHgPTo5llm/zke+K1ta2q8OU69Bqj5rrRbMIKYlEAcStSmManA+tCa
+ y16hG54jE/AiBWduKdyMQwvhrrlxfltBFJdYnWF0JtvRgAE5py6LuODNeTbQzr2LVtovTejC1ft
+ kj4+xwLK/QCzU/Yp+oFQ80Z/BNOgJxDaJa48LgGFu51cQDNjAxvlnySlOx1jJlOZkTs2fr79lqY
+ uKGsbt4NhXV4MsM354YOVP2BZ26cvVV235lBYzxVUwBR0pWqm5/ZZ8iAVhtWdcp7gX5BMPhDZFV
+ /OT//TsYDnuIDYmjO+NfkGdbHqhhA6
+X-Received: by 2002:a05:600c:1549:b0:477:7a53:f493 with SMTP id
+ 5b1f17b1804b1-48373a5d7b6mr125230325e9.23.1771163933666; 
+ Sun, 15 Feb 2026 05:58:53 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-48370ac3564sm168021765e9.5.2026.02.15.05.58.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Feb 2026 05:58:53 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Helge Deller <deller@gmx.de>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/7] fbdev: au1100fb: support COMPILE_TEST and fix
+ multi-device support and other cleanups
+Date: Sun, 15 Feb 2026 14:58:27 +0100
+Message-ID: <cover.1771163316.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] arm64: dts + drm/panthor: require explicit GPU
- sram-supply
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven
- <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20260215100156.135374-1-work@onurozkan.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260215100156.135374-1-work@onurozkan.dev>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1534;
+ i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
+ bh=9uUi7nXMjeT93n+Xkdzqc2t9wJ4cGV5DzI4vsf5mkaU=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpkdEEhCtlw8Y2ymPubtY2wyZRtmxMjDjgwb0JC
+ WlUnh0EVXmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaZHRBAAKCRCPgPtYfRL+
+ TssmB/4pcWObZqz7acQq4uBFVjrCI780gmeX3/zYHbtWsYTaZvKGTe8cMy/QmLq6w5YjtBV+NaK
+ t6EXxx1MWKY3ZpDKRXVnIXLyo5trDGV91Vn8P7CdzcgwghEqVb2Xvpi60ySzU8TtZaQ10EzYGBa
+ PplMGWB11qVBGXmgVi1rrx/OUCCWLGVnWkTt9687Q1jYe4O0xYlLj0T7Os27N3lX7VScwGHiVWM
+ 16XJe5d++qJ1R8dnXl4m/LYB5FGdhAOj7r7MOv6qwf3cy81C7VxeClKT340FyxeTVHXqgi9El5f
+ 2HTmicTpbzLQerM3rlLGW8axJ1c71eUNidSyYWtZYjvzaUSR
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,60 +107,82 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:alim.akhtar@samsung.com,m:angelogioacchino.delregno@collabora.com,m:boris.brezillon@collabora.com,m:wens@kernel.org,m:conor+dt@kernel.org,m:airlied@gmail.com,m:devicetree@vger.kernel.org,m:geert+renesas@glider.be,m:heiko@sntech.de,m:jernej.skrabec@gmail.com,m:krzk+dt@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:magnus.damm@gmail.com,m:matthias.bgg@gmail.com,m:mripard@kernel.org,m:robh@kernel.org,m:samuel@sholland.org,m:simona@ffwll.ch,m:steven.price@arm.com,m:tzimmermann@suse.de,m:conor@kernel.org,m:geert@glider.be,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:magnusdamm@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmx.de];
+	DMARC_NA(0.00)[baylibre.com];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FREEMAIL_TO(0.00)[onurozkan.dev,samsung.com,collabora.com,kernel.org,gmail.com,vger.kernel.org,lists.freedesktop.org,glider.be,sntech.de,lists.infradead.org,lists.linux.dev,arm.com,linux.intel.com,sholland.org,ffwll.ch,suse.de];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 34E1013E7AC
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: 8E9F013EC3A
 X-Rspamd-Action: no action
 
-On 15/02/2026 11:01, Onur Özkan wrote:
-> Hi all,
-> 
-> This series follows the discussion around panthor's SRAM regulator handling
-> and the DT expectations for mali GPU nodes.
-> 
-> Today, if sram-supply is missing in the DT file, panthor falls back to
-> a dummy regulator with a warning. This implicit behavior hides missing
-> DT wiring behind regulator core fallback.
-> 
-> As discussed in [1], the agreed direction is:
-> - Update DTs to explicitly provide sram-supply, when no separate SRAM
->   rail exists, use the same regulator as mali-supply.
-> - Make panthor to treat sram-supply as mandatory for all compatibles
->   except mt8196-mali (as that SoC manages SRAM outside panthor).
-> 
+Hello,
 
-Your threading is messed/broken. Start using b4 or just use git
-format-patch in a standard way (so one command and then one command for
-sending).
+here comes v4 fixing and cleaning up the au1100fb driver (which given
+that it currently doesn't compile probably isn't used at all :-\).
 
-Best regards,
-Krzysztof
+v3 is available at
+https://lore.kernel.org/all/cover.1770572936.git.u.kleine-koenig@baylibre.com.
+Changes since then:
+
+ - rebase to bc57657bd3e64feaac5b4bf3fbd7f8a2fd09f4f8 from an earlier
+   version of that patch in next
+
+ - Squash the two printk format patches into a single patch
+
+ - Continue to depend on FB=y (v3 made the driver only depend on FB
+   resulting in an FTBFS)
+
+ - Fix a typo patch #5
+
+ - Patches #6 and #7 are new.
+
+Have fun!
+Uwe
+
+Uwe Kleine-König (7):
+  fbdev: au1100fb: Don't store device specific data in global variables
+  fbdev: au1100fb: Mark several local functions as static
+  fbdev: au1100fb: Use proper conversion specifiers in printk formats
+  fbdev: au1100fb: Make driver compilable on non-mips platforms
+  fbdev: au1100fb: Replace custom printk wrappers by pr_*
+  fbdev: au1100fb: Fold au1100fb.h into its only user
+  fbdev: au1100fb: Replace license boilerplate by SPDX header
+
+ drivers/video/au1100fb.c       |   0
+ drivers/video/fbdev/Kconfig    |   3 +-
+ drivers/video/fbdev/au1100fb.c | 486 +++++++++++++++++++++++++++------
+ drivers/video/fbdev/au1100fb.h | 379 -------------------------
+ 4 files changed, 405 insertions(+), 463 deletions(-)
+ create mode 100644 drivers/video/au1100fb.c
+ delete mode 100644 drivers/video/fbdev/au1100fb.h
+
+
+base-commit: bc57657bd3e64feaac5b4bf3fbd7f8a2fd09f4f8
+-- 
+2.47.3
+
