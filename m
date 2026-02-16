@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Go/Eob0kmkS0gEAu9opvQ
+	id yAnHGwj1kmko0gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:42:14 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:44:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8EB1426F1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C177614272E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1B910E028;
-	Mon, 16 Feb 2026 10:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8781410E224;
+	Mon, 16 Feb 2026 10:44:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OmBwJPlV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6E610E028
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 10:42:09 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vrw2i-0007nE-Km; Mon, 16 Feb 2026 11:41:28 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vrw2f-00138T-12;
- Mon, 16 Feb 2026 11:41:26 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
- (envelope-from <mfe@pengutronix.de>) id 1vrw2g-00000005pMv-2DGA;
- Mon, 16 Feb 2026 11:41:26 +0100
-Date: Mon, 16 Feb 2026 11:41:26 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- luca.ceresoli@bootlin.com, Frank.Li@nxp.com
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v9 0/3] Add i.MX91/93 parallel display support
-Message-ID: <fpnruayalannx3jrsjqfjzawrzxazy7ioo7ufxcwkbwj2eezfp@6i6ty7fz5xtc>
-References: <20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC110E202
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 10:44:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0C30E6011F;
+ Mon, 16 Feb 2026 10:44:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381F9C116C6;
+ Mon, 16 Feb 2026 10:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771238657;
+ bh=PVqVaBr/n+vwwiVRZTvOnHrcTVldkSg7n8bljp1tGzo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OmBwJPlVNExeRF54zvsjriY5JlorTcvzKff5l9TBCiGJeN5TtxLsvVzNEpxJtLzS3
+ jJkx2NBYEUYEQMpagAVbB7iT2d1gV/4HnKU0LCBBu87yA0163B3k9R9lSjrvBXeAu9
+ S8BXhkbcQuJXeBERpqFgLSCeGXVSArZY3wO+6c3NvLyJFmMrZ5LTdapPGjowOns/br
+ /9OjdVF+NW7pwbKvlZSPHRfeJFNm4YooDvmf6MVsH1biZKzm3Uh193l7KYi6GTbUqa
+ ux+LpFR7/ApWvdPLe2qxIxPyM+tIDQp8tvsJgcMPWioZOrUhxde1TX7puX9hlGD7rs
+ 1tPLgguHKnBCQ==
+Date: Mon, 16 Feb 2026 11:44:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>, 
+ Iago Toral Quiroga <itoral@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ kernel-dev@igalia.com
+Subject: Re: [PATCH v5 2/7] clk: bcm: rpi: Add a comment about
+ RPI_FIRMWARE_SET_CLOCK_STATE behavior
+Message-ID: <20260216-vigilant-resourceful-coati-32baed@houat>
+References: <20260213-v3d-power-management-v5-0-7a8b381eb379@igalia.com>
+ <20260213-v3d-power-management-v5-2-7a8b381eb379@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xzldcocj7z527ets"
 Content-Disposition: inline
-In-Reply-To: <20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20260213-v3d-power-management-v5-2-7a8b381eb379@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,138 +74,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.39 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.91 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	DMARC_NA(0.00)[pengutronix.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:Frank.Li@nxp.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pengutronix.de:url,pengutronix.de:email]
-X-Rspamd-Queue-Id: 6D8EB1426F1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email]
+X-Rspamd-Queue-Id: C177614272E
 X-Rspamd-Action: no action
+
+
+--xzldcocj7z527ets
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/7] clk: bcm: rpi: Add a comment about
+ RPI_FIRMWARE_SET_CLOCK_STATE behavior
+MIME-Version: 1.0
 
 Hi,
 
-maybe this fell through the cracks due to the maintainership change,
-therefore a gentle ping :)
-
-+To Frank
-
-Regards,
-  Marco
-
-On 26-01-15, Marco Felsch wrote:
-> Hi,
-> 
-> this patchset adds the driver, dt-bindings and dt integration required
-> to drive a parallel display on the i.MX93.
-> 
-> Since the i.MX91 register layout equals the one from the i.MX93, I added
-> the support for both but tested only the i.MX93 case.
-> 
-> This patchset depends on:
->  - https://lore.kernel.org/all/20251201-v6-18-topic-imx93-blkctrl-v1-0-b57a72e60105@pengutronix.de/
-> 
-> @Conor Dooley
-> I dropped your r-b tag since I added the 'bus-width' property.
-> 
-> Regards,
->   Marco
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+On Fri, Feb 13, 2026 at 03:52:55PM -0300, Ma=EDra Canal wrote:
+> On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
+> actually power off the clock. Document this behavior so that clock
+> consumers understand they may need to set the rate to minimum before
+> disabling for meaningful power savings.
+>=20
+> Suggested-by: Stefan Wahren <wahrenst@gmx.net>
+> Acked-by: Stefan Wahren <wahrenst@gmx.net>
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
 > ---
-> Changes in v9:
-> - Link to v8: https://lore.kernel.org/r/20260113-v6-18-topic-imx93-parallel-display-v8-0-4abccdc473a5@pengutronix.de
-> - dt-bindings: drop unncessary changes (Frank)
-> - imx93-pdfc: drop bridge.driver_private usage (Luca)
-> - Kconfig: Adapt Kconfig symbol and prompt (Luca)
-> 
-> Changes in v8:
-> - Link to v7: https://lore.kernel.org/r/20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de
-> - dt-bindings: add nxp,imx91-pdfc compatible (Liu)
-> - dt-bindings: use video-interfaces.yaml# (Liu)
-> - dt-bindings: s/data lanes/data lines/ (Liu)
-> - dt-bindings: drop 'reg' poperty
-> - dt-bindings: drop #address-cells, #size-cells
-> - imx93-pdfc: drop drm/drm_print.h include (Liu)
-> - imx93-pdfc: s/exist/exists/ (Liu)
-> - imx93-pdfc: drop MEDIA_BUS_FMT_FIXED from imx93_pdfc_bus_output_fmts
-> - imx93-pdfc: imx93_pdfc_bus_output_fmt_supported: make fmt const
-> - imx93-pdfc: Rework input-fmt selection to always fallback to a sane
->               default.
-> - imx93-pdfc: imx93_pdfc_bridge_atomic_check: make use of
-> 	      imx93_pdfc_bus_output_fmt_supported() 
-> - imx93-pdfc: drop 'reg' dt-property usage
-> - imx93-pdfc: imx93_pdfc_bridge_probe: pass -1 for endpoint reg value (Liu)
-> 
-> Changes in v7:
-> - Link to v6: https://lore.kernel.org/r/20251201-v6-18-topic-imx93-parallel-display-v6-0-7b056e1e5b1e@pengutronix.de
-> - Add missing bits.h and bitfield.h headers (lkp)
-> 
-> Changes in v6:
-> - Link to v5: https://lore.kernel.org/all/20250304082434.834031-1-victor.liu@nxp.com/
-> - Add bus-width support
-> - rebase onto v6.18-rc1
-> - add review feedback (Alexander)
-> - driver license "GPL v2" -> "GPL" (checkpatch)
-> - make use of reg of-property
-> - fix to short Kconfig description (checkpath)
-> - add OF integration
-> 
-> ---
-> Liu Ying (2):
->       dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC subnode to schema and example
->       drm/bridge: imx: Add i.MX93 parallel display format configuration support
-> 
-> Marco Felsch (1):
->       arm64: dts: imx93: Add parallel display output nodes
-> 
->  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml |  78 +++++++
->  arch/arm64/boot/dts/freescale/imx91_93_common.dtsi |  54 +++++
->  arch/arm64/boot/dts/freescale/imx93.dtsi           |  12 ++
->  drivers/gpu/drm/bridge/imx/Kconfig                 |  11 +
->  drivers/gpu/drm/bridge/imx/Makefile                |   1 +
->  drivers/gpu/drm/bridge/imx/imx93-pdfc.c            | 226 +++++++++++++++++++++
->  6 files changed, 382 insertions(+)
-> ---
-> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> change-id: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
-> 
-> Best regards,
-> -- 
-> Marco Felsch <m.felsch@pengutronix.de>
-> 
-> 
+>  drivers/clk/bcm/clk-raspberrypi.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-rasp=
+berrypi.c
+> index 9783385d5859836898683209e320fcc928dfdc71..2e63121af0900ac9b4874b666=
+cf6d02baa8be11c 100644
+> --- a/drivers/clk/bcm/clk-raspberrypi.c
+> +++ b/drivers/clk/bcm/clk-raspberrypi.c
+> @@ -308,6 +308,12 @@ static void raspberrypi_fw_unprepare(struct clk_hw *=
+hw)
+>  	u32 state =3D 0;
+>  	int ret;
+> =20
+> +	/*
+> +	 * On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
+> +	 * actually power off the clock. To achieve meaningful power consumption
+> +	 * reduction, consumers need to set the clock rate to minimum before
+> +	 * disabling it.
+> +	 */
+>  	ret =3D raspberrypi_clock_property(rpi->firmware, data,
+>  					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
+>  	if (ret)
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+This creates a pretty weird hole in the abstraction layer and clock API.
+Like, if you set the minimum rate, unprepare the clock, and then put the
+clock handle, the minimum is not there anymore and you don't have that
+guarantee anymore.
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+I don't think we ever nailed the semantics of what happens to the clock
+range once the clock is disabled. And if we do, it's not because a clock
+consumer disables and clock that it's actually disabled.
+
+Couldn't we turn it backward and always set the ideal minimum firmware
+rate before disabling the clock (possibly by checking the firmware
+version first) ?
+
+Maxime
+
+--xzldcocj7z527ets
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZL09QAKCRAnX84Zoj2+
+djAVAX9Q18LM3+xl6lnztiRizzCV0M1hYddMtP85RAk7fw/L5yDk+YQhTBRCMnwk
+ZknIze0Bf2qnOyS9bBuPn/Kb6JyP4n0xHs0o7sS9KDjZ1ZKMguDNgmRaXmc/AHXs
+oaQUSyfJ2g==
+=kbtw
+-----END PGP SIGNATURE-----
+
+--xzldcocj7z527ets--
