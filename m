@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8C6WMaxJk2kT3QEAu9opvQ
+	id GNwIMKtJk2kT3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:32 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC9A14652C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E4C146524
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5FA10E3C5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C77810E3C4;
 	Mon, 16 Feb 2026 16:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KMPUsgY5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J+rRvzrb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6636E10E3BC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:26 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id
- a640c23a62f3a-b8de2b5a122so59438166b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:26 -0800 (PST)
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE70B10E3BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:27 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id
+ a640c23a62f3a-b8dd0168b90so55575566b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771260325; x=1771865125; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771260326; x=1771865126; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zE1wS+bzyklMWC6UGg3g+8h32nwAI9MGCOjGOVsA3s4=;
- b=KMPUsgY5b9mp2Y5O/Q/s6PjEiEtdfuIcH1b0moiC9qyNFoec5r/o9gBzqNBypo8VZg
- L3fOWWs+MJ8Lizd185iScNm1TP8B5sOJWyRz8kHfCWaxleR7Gr5YVVaY6cSMUiQmUQWg
- kslS46suTDKbkwrCUY9rf23wdtn/sRv9iJWf0NQkKy6TY7pJV9vrrvAs/2LbwphH/69A
- YmJ/W4PrF30bg5t+06UBUSf/BtZe3rao0i9/GRprhaCEk46eO2rhWCAg3MnXLJSw6jji
- hxZXy+R5FiIjtV16VpEDzWVuTrB03qcoPfySzFQr+j8SOLrQQPFC25enD+xFlf1UkHU/
- zLnQ==
+ bh=1Ztq3hyjq4dBqjOVD+VwET2LGqK9hc4CUPcVZQOdgeE=;
+ b=J+rRvzrbm2UFM7+3+5qRE5yQtJlWdkStQiWfof3DwlZyNhN/mop/L664bUty87sD7/
+ 0kLGs8efkxQIiY1cYZWS0TfOdh+XKDVVvZbmOQ7oFsm8JPzEZsCEU0A/v1crH5VIPeiJ
+ 8JeuvdAZprYY2ruaFk1ZTuIGdIniXPVNbrzQws9jfz/Q2eq+ZC7EdCTcdltS7r6Du3iX
+ 8FVfSFoRWPDMEqATvjTlgsb2OJIPP3hotjM8n2our5yRX5aZnLq5sCtjRHXF7VMmY4V1
+ L53byrsSCQQaixRt6E7OjwjTNq+mqi6EFEDMb8nCchsxvzYX+tC9HtOakBgQY1h86ZMQ
+ lFUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771260325; x=1771865125;
+ d=1e100.net; s=20230601; t=1771260326; x=1771865126;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=zE1wS+bzyklMWC6UGg3g+8h32nwAI9MGCOjGOVsA3s4=;
- b=R1Ivs4dv4C6V/HzG3op8l9k8JWyGZDLZKPC/CKE53Qr4PApLFQl4BNKN7yqj9MkEPZ
- BjvDSA/otrrR4gQRqyHfHmLnSLwT1Uw84XqTvYFxrpDFya1ml7pJ4oMEKR3po4wb5VtF
- A0kydkgFmM3EQQJhDZXS+BhvC26tzqGugHMBb9A015em1WnRL+/zXWYqnpVvDIhYzXrG
- XQSeb6jA8m4pAXjw4IiuBon6ej5mXvWzj3FNTiLE/Z4uQCBVSpr8FC+kIZikO+3cbbcU
- wvVFOkwJFHUMvWGh35eAkZvD35Xbmt1giDIQH6UQ4kxxWBtsq6UqB2wwQoI6BEYUWUWM
- 6UkA==
+ bh=1Ztq3hyjq4dBqjOVD+VwET2LGqK9hc4CUPcVZQOdgeE=;
+ b=foxb1bzisyWzLdwiW5SGMwyVG0cz8hZecKXDy2mENC9XPL+KaygcjXrAGwBnSgMRJ/
+ 90KRG+pYpm3mr2sC3hk+5AdbNck1npFqRX2MGT0B9tlwTp9VUMmb+pvLCYgeDvDlm1G4
+ 7g6IGU7jGINH2aBVh0DwcC1S/K8G4XxoaYmV13E/FS163gRSyc/HipLEJSIrSNvfTa4w
+ ulgAD7h3D8swvL5jFFoCFagy3L6Wk9BEDfgFjNrxXjQrfqeYVYjxg3h/BroTsdrbrRRl
+ OKvhIEZz8p64VswJmX3cyp6YYEZGwedzVBHM8sXNoDwINCmOmrTaZ9vxXjwHhYrHqCWc
+ Q6eQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxdbvXSOs9HcYw70B0WUhpEnx12a4fE64OOS01YIkpU9XuV3ak1zJDxCBxlGOsrHssN7f9JonQJL4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxUpUfq5rY1M045Ue1LyhanrubYwCO8qbq0G4GVQo77t7WxTrM0
- Vxjmlm0tyoRoQYdAQXy1cU4QRUAHhldYimB3eAMSdOU8uJ/gYYhqUPXA
-X-Gm-Gg: AZuq6aLG6xgnQLBMgYXgvfpsCYF0lv8fknimnAidrNrUs6qXo16xgPxvirhbVW2qhoA
- DRpog+dRpl5JHaA06SZPPyGVBsh4RuTW+9hzNu7ox0UFUKunUCteJz3iLP0Kjw5QBFhKRf89FIy
- b28jUcuj7BPx6crPVB8lEBTcMkaqyG/ScVgKz/F3bj2BQXYajVNJoBoak6XOnBxeUpWSG5bf+Aw
- LZ8UFDWYMayzuxpLxHEvndb8sjG12VF4tzjA70DIJDkw67HH3Gnst5wpDb52pzo/8LcrYY4SuvA
- Xk38ZB1NVWLKaxlZEBF3OhkYcsC1xHMtG9pYk3TwHKk0/E+yFtGoOJK3uu5Do9BpzsduY8/DD9+
- KTPW20vBRRf6duqdbfTS79xeXb4/DiNIRFrrtQe5KnnGczEk4oK5uj9dpPAmlUtaqyb1jzsGFYA
- w+bsnxgbM3sfoGiVNXDKgn0jBdArqWbkykgTFci3C0Dk5YxBtkCnZTXcYSIEmddBmbBTIJT8e51
- rwI
-X-Received: by 2002:a17:907:6eab:b0:b87:1eaf:3762 with SMTP id
- a640c23a62f3a-b8face929c5mr359565066b.7.1771260324718; 
- Mon, 16 Feb 2026 08:45:24 -0800 (PST)
+ AJvYcCVydu3jxGT1fFneoMfOT4BlhKCz5bDviw+ke3o03Vk9o/tfmxriheRqj1BKwqwh2zU9ma6lUaKqpl0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwASLc6oM9/i1LAbg0HzO1snzfm0QF4DprexZ10TbsaAU81FKYX
+ KUqN1Zvx+LUEl8pZZJyD4ykbomBZEb1akMo7OXefLsTipoZ96K0jAC1L
+X-Gm-Gg: AZuq6aLOsAZNbd3tAKjLux28K0jstW5RfdV4YjGWaRUr6PU9cIkAwNjPptQ/hth6boQ
+ ROtHLc1atTejzAKX3fwVN8y4UXOi1i9+aZVu5IvxHKANSzAn/ZcbGS02WKoFGkBhuPf+KQpSOqe
+ Ogu3qaMVvIXkHNXFRaX8PEcZe6P6uGep01PEXPGHGZnJSNPN/coDMNOu4EIx7o+U7cG7wkh4go0
+ fO5QiobJiKcTcXunP27qij2qkMWTn/NFv7bmR5PCDyaPW7xK61mvEhPTyHdtKrr1mgnN6mrgtyy
+ ZTQ0Pbli7/voLjfGx1kCayzCegR/BDatctkgH7ZsVJkQAJMwcnJggnEjIG5n+pZKDWMO7vMjndk
+ 51kRTT1+Xsfc2d9DzpuIeQan6EJq23NeDKrDca6j50i4x3KQ0Yqbs4e6O+wu9vAnquttI7bl91e
+ uibkjWmgIhG0nrS3rpzRZPgmDL0DBZEJmHxrPbDLH09z6D3aGMNy7WuyjQeKWek8aXiZdLDSvhB
+ 6cl
+X-Received: by 2002:a17:907:608c:b0:b8f:e96:7880 with SMTP id
+ a640c23a62f3a-b8fac86c68dmr364359766b.0.1771260326136; 
+ Mon, 16 Feb 2026 08:45:26 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.23
+ a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Feb 2026 08:45:24 -0800 (PST)
+ Mon, 16 Feb 2026 08:45:25 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -77,9 +77,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v4 04/27] drm/amd/display: Move DisplayID vrr parsing
-Date: Mon, 16 Feb 2026 17:44:53 +0100
-Message-ID: <20260216164516.36803-5-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 05/27] drm/amd/display: Always try to parse AMD vsdb
+Date: Mon, 16 Feb 2026 17:44:54 +0100
+Message-ID: <20260216164516.36803-6-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
@@ -135,41 +135,74 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7BC9A14652C
+X-Rspamd-Queue-Id: 74E4C146524
 X-Rspamd-Action: no action
 
 [Why]
-DisplayID vrr parsing was always attempted, even though it's data is
-only ever used in the DP/eDP path.
+Allows us to make the code inside amdgpu_dm_update_freesync_caps() more
+concise and prepares for vsdb usage outside of HDMI and
+DP -> HDMI 2.1 dongles.
 
 [How]
-Move the parsing to where it's actually needed
+Move the parsing function outside of specific signal type blocks.
+Merge signal type checks and freesync_supported checks
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 27 ++++++++-----------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 903264b26d1f..be3bb5a86959 100644
+index be3bb5a86959..64d1dae4d214 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13326,12 +13326,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13322,6 +13322,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 		goto update;
+ 
+ 	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
++	parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
+ 
  	if (amdgpu_dm_connector->dc_link)
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
+@@ -13343,28 +13344,22 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
+ 		}
  
--	/* Some eDP panels only have the refresh rate range info in DisplayID */
--	if (is_monitor_range_invalid(connector))
--		parse_edid_displayid_vrr(connector, edid);
--
- 	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 	    sink->sink_signal == SIGNAL_TYPE_EDP) {
-+		/* Some eDP panels only have the refresh rate range info in DisplayID */
-+		if (is_monitor_range_invalid(connector))
-+			parse_edid_displayid_vrr(connector, edid);
+-	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
+-		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
+-		if (vsdb_info.freesync_supported) {
+-			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
+-			freesync_capable = copy_range_to_amdgpu_connector(connector);
+-		}
++	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_info.freesync_supported) {
++		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
++		freesync_capable = copy_range_to_amdgpu_connector(connector);
+ 	}
  
- 		if (dpcd_caps.allow_invalid_MSA_timing_param)
- 			freesync_capable = copy_range_to_amdgpu_connector(connector);
+ 	if (amdgpu_dm_connector->dc_link)
+ 		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
+ 
+-	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST) {
+-		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
+-		if (vsdb_info.freesync_supported) {
+-			amdgpu_dm_connector->pack_sdp_v1_3 = true;
+-			amdgpu_dm_connector->as_type = as_type;
+-			amdgpu_dm_connector->vsdb_info = vsdb_info;
++	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST && vsdb_info.freesync_supported) {
++		amdgpu_dm_connector->pack_sdp_v1_3 = true;
++		amdgpu_dm_connector->as_type = as_type;
++		amdgpu_dm_connector->vsdb_info = vsdb_info;
+ 
+-			parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
+-			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
+-			freesync_capable = copy_range_to_amdgpu_connector(connector);
+-		}
++		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
++		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
++		freesync_capable = copy_range_to_amdgpu_connector(connector);
+ 	}
+ 
+ update:
 -- 
 2.53.0
 
