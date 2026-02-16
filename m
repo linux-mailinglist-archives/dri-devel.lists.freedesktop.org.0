@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SlmjMfemk2ly7QEAu9opvQ
+	id mH57NmLqkmlSzwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:58:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BE11480E6
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCE314229B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57AEF10E251;
-	Mon, 16 Feb 2026 23:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97DB310E232;
+	Mon, 16 Feb 2026 09:58:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zhan.science header.i=@zhan.science header.b="trbBbA1Z";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HM/R20Us";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
- Mon, 16 Feb 2026 09:57:33 UTC
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
- [91.218.175.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 500AA10E10B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:57:33 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhan.science;
- s=key1; t=1771235533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eUTuchl87bbjf0z6lqoJU4OxzcdpLm8oToWJMNMm/EQ=;
- b=trbBbA1ZK7USsGShnG+154Ny8pqqf4dJpNNMMVDLIkrgrsK+QM5DRsNbkj1qPNMl8AaS4c
- JHfN/8o+XGzTgt9t457Xm84bArZJ9zATm8htzJ3BZPUOI7ICgqNaZuLhhv0iHtCsTh6KRL
- MiBEkHNG+ILALQT+TFykXLqVGxTpqAxXs1pfwBK3ias1mAgavx1HQsS4cBbUdHngThFCSs
- ULt/ENYZ5wMzb0lxWOcmfZwqzpO/Ms+G0KxeW/X1Duh+V9ANcbJaPMdqIEu+HSxbMCiOGq
- q4+AjB8Xu/ID6iIVqqk5XUBLf7idqf4tZ6YwI198dkIAfy/2zad5DBKMM76WPQ==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Feb 2026 09:51:57 +0000
-Message-Id: <DGGAL7I1KRM8.1DSZIKWRHLEPM@zhan.science>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Yifei Zhan" <yifei@zhan.science>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Richard Acayan"
- <mailingradian@gmail.com>
-Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konradybcio@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
- <jesszhan0024@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Thierry Reding"
- <thierry.reding@gmail.com>, "Sam Ravnborg" <sam@ravnborg.org>,
- <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 3/6] drm/panel: Add Novatek/Tianma NT37700F panel
-References: <20260210023300.15785-1-mailingradian@gmail.com>
- <20260210023300.15785-4-mailingradian@gmail.com>
- <gpkuq7b6mae5ib2xvphmir66pb6ysexhhfqkorve5zewkj4ofc@ryccazsoxqm7>
-In-Reply-To: <gpkuq7b6mae5ib2xvphmir66pb6ysexhhfqkorve5zewkj4ofc@ryccazsoxqm7>
-X-Migadu-Flow: FLOW_OUT
-X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA3A10E294;
+ Mon, 16 Feb 2026 09:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771235935; x=1802771935;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HUt4rqZ2fje0URexSeQQX/obsRdC0qT49DnUVeI8mdA=;
+ b=HM/R20UsSmwpCCFGoWq4TA8ovc0qLBfmBzxy152RbNYqCavbsNwL7ZS2
+ LmpNi/ghTo7OJuoKLLe5txwqjqVEgDwfUt/Vfs+SHuMhFK0sG6T5JJwrH
+ leJp3zQ5VEykdL1i7L5FwOxNVixAk5VRjYtg3UzjRBcoa4G4eYy4A7SGb
+ MM8XRRuQeYWMnJ6zy/Jo2ji07zFduPJop6DYlSIJJDqaUM+71d5DXT5QQ
+ RJMIQpwgRGK5mHi9Oy9VP5LKTmPc7lCBl28/w1hKzqP/e98FaKxU1CONo
+ W8UxKIMZqE3V238a0/ExB2ulfCZYwQCIxD5qw8/niyhvTLsRRl0K6pCfi Q==;
+X-CSE-ConnectionGUID: sdO00HAJRdaozsYGsVy/xQ==
+X-CSE-MsgGUID: JwtIdciJSOOYRXxwQdK7tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72357151"
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="72357151"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 01:58:55 -0800
+X-CSE-ConnectionGUID: fpmz0ppiTE2DH7oYriXNfw==
+X-CSE-MsgGUID: eOehBjC2SYCzbuZe4BlF9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="242697891"
+Received: from black.igk.intel.com ([10.91.253.5])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 01:58:51 -0800
+Date: Mon, 16 Feb 2026 10:58:48 +0100
+From: Raag Jadav <raag.jadav@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com
+Subject: Re: [PATCH v6 2/5] drm/xe/xe_drm_ras: Add support for XE DRM RAS
+Message-ID: <aZLqWI9cOdBXNxeB@black.igk.intel.com>
+References: <20260216064726.2542819-7-riana.tauro@intel.com>
+ <20260216064726.2542819-9-riana.tauro@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260216064726.2542819-9-riana.tauro@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,74 +78,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[zhan.science,quarantine];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[zhan.science:s=key1];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[yifei@zhan.science,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yifei@zhan.science,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[raag.jadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[zhan.science:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zhan.science:mid,zhan.science:dkim,zhan.science:email]
-X-Rspamd-Queue-Id: 45BE11480E6
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,black.igk.intel.com:mid]
+X-Rspamd-Queue-Id: 6DCE314229B
 X-Rspamd-Action: no action
 
-On Fri Feb 13, 2026 at 6:07 PM UTC, Dmitry Baryshkov wrote:
-> On Mon, Feb 09, 2026 at 09:32:57PM -0500, Richard Acayan wrote:
->> Some Pixel 3a XL devices have a Tianma panel. Add support for it, with
->> the aid of linux-mdss-dsi-panel-driver-generator.
->>=20
->> Link: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-ge=
-nerator
->> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
->> ---
->>  drivers/gpu/drm/panel/Kconfig                 |   9 +
->>  drivers/gpu/drm/panel/Makefile                |   1 +
->>  .../gpu/drm/panel/panel-novatek-nt37700f.c    | 294 ++++++++++++++++++
->>  3 files changed, 304 insertions(+)
->>  create mode 100644 drivers/gpu/drm/panel/panel-novatek-nt37700f.c
+On Mon, Feb 16, 2026 at 12:17:28PM +0530, Riana Tauro wrote:
+> Allocate correctable, uncorrectable nodes for every xe device. Each node
+> contains error component, counters and respective query counter functions.
+> 
+> Add basic functionality to create and register drm nodes.
 
-<--cut-->
+...
 
->>=20
->> +// TODO: Check if /sys/class/backlight/.../actual_brightness actually r=
-eturns
->> +// correct values. If not, remove this function.
->
-> Any chance of checking it?
+> +static void cleanup_node_param(struct xe_drm_ras *ras, const enum drm_xe_ras_error_severity severity)
+> +{
+> +	struct drm_ras_node *node = &ras->node[severity];
+> +
+> +	kfree(node->device_name);
+> +	kfree(ras->info[severity]);
+> +
+> +	node->device_name = NULL;
+> +	ras->info[severity] = NULL;
+> +}
 
+Nit: Unwind is usually in LIFO order, but this doesn't particularly look
+harmful either. So upto you.
 
-I tested this with my Pixel3A XL with tianma panel, it worked correctly.
-/sys/class/backlight/.../actual_brightness returns same value
-as /sys/class/backlight/.../brightness and I'm able to change brightness
-level.
-                                                                           =
-                                                                           =
-                                                              =20
-Tested-by: Yifei Zhan <yifei@zhan.science> =20
->
+Raag
