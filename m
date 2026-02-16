@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAlfA4iDk2k46AEAu9opvQ
+	id oKbpEOODk2k46AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:52:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:53:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B474D1478E2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AC714793B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0782E10E0EF;
-	Mon, 16 Feb 2026 20:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D00C910E3DE;
+	Mon, 16 Feb 2026 20:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="Oew0V/a2";
+	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="F5p2hkB1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
- Mon, 16 Feb 2026 20:52:14 UTC
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801FC10E0DC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:52:14 +0000 (UTC)
-Received: from relay10 (localhost.localdomain [127.0.0.1])
- by relay10.grserver.gr (Proxmox) with ESMTP id 291C0459D0;
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF3710E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:53:49 +0000 (UTC)
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+ by relay11.grserver.gr (Proxmox) with ESMTP id 84FF7C606E;
  Mon, 16 Feb 2026 22:45:55 +0200 (EET)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay10.grserver.gr (Proxmox) with ESMTPS id 2B00145975;
- Mon, 16 Feb 2026 22:45:54 +0200 (EET)
+ by relay11.grserver.gr (Proxmox) with ESMTPS id 0FB6EC6032;
+ Mon, 16 Feb 2026 22:45:55 +0200 (EET)
 Received: from antheas-z13 (unknown
  [IPv6:2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id 397F01FDD77;
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 06B701FE763;
  Mon, 16 Feb 2026 22:45:53 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1771274753;
- bh=5I15CEIJuFRaaPVr6U40/B0JeGSgzopw8BSrUr+LxNI=; h=From:To:Subject;
- b=Oew0V/a2vMDpcAYx7yxjv5u7Ll0/cwGxcolrwt04NlI73v7gG7dwhPW5w92eRHOcU
- zCdpDdMFQ2Rt/R+hMMws6iol8Hr/cTnQeR6/cY8d25PTeRWRnb2PNaHrLQF9oVDI3v
- 2v2qtfbN5Ro5eu5l0YcI4yd2JANPf/RML4878VGk8OsRXNxtEyMVG2NT59RrxaXTur
- bbMjIcKM+LHMJHXMErrJ2HlfpXScXXoq4j1hd+PTCV3SVrMMeTSMjhVQbyiVRylMVV
- hju1dC0PguS8wD9vn88P4lk0nmSB7T6JPSxX7kGUgX4vk+xvU/iEMJ6QZ2fDpT81oD
- fS25i7QQrRbBQ==
+ s=default; t=1771274754;
+ bh=MDMhq8pDyKshvijAoiZWBAxIPPTVq0gQHaqRQr57V3M=; h=From:To:Subject;
+ b=F5p2hkB1AC1MYLXSI1mhQFNIx9c91P0RCQhciuX1bQYuR7K+mnx4UmkdXSnXTSYdn
+ iMkBMgkqB9nC3w77yz+BkLw0MGiwQ0SMbtp7p2enHKhVrs4QWFhAvp5VFK01bgSF1F
+ 4SYD2LQ4bcH887hwcKA+AZKm1/ic0zdolsSqWdAjryxxXdh0YuQLcnsOf8CtEQ3Q7v
+ Z45P7vwG0sX1QRawc+o7EgWfMSRfVPLJD0rQmr6x6KuziAxVmuIhMP6fzjm+MkuYAU
+ uGbFB4asMcjxlkSYwaA3+o1dd2x1T/yMMKkQ4KWh+O1R0dn8BvWvyL39KmvucSXsjQ
+ cbIp15Ry41F8g==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1)
  smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
@@ -56,15 +54,16 @@ Cc: linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, philm@manjaro.org,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v2 00/14] drm: panel-orientation-quirks: Add various handheld
- quirks
-Date: Mon, 16 Feb 2026 21:45:33 +0100
-Message-ID: <20260216204547.293291-1-lkml@antheas.dev>
+Subject: [PATCH v2 01/14] drm: panel-orientation-quirks: Add AOKZOE A1 Pro
+Date: Mon, 16 Feb 2026 21:45:34 +0100
+Message-ID: <20260216204547.293291-2-lkml@antheas.dev>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260216204547.293291-1-lkml@antheas.dev>
+References: <20260216204547.293291-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177127475371.3070151.9210313217055670043@linux3247.grserver.gr>
+X-PPP-Message-ID: <177127475452.3070181.18219793646901672136@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -108,38 +107,34 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: B474D1478E2
+X-Rspamd-Queue-Id: 19AC714793B
 X-Rspamd-Action: no action
 
-Same as V1 with an additional four quirks. Also fixed indents on A1 Pro.
-Contains various handhelds. If we can merge this great.
+The AOKZOE A1 Pro has a portrait 16:10 panel, add a quirk for it.
 
-On top of torvalds/master.
-
+Reviewed-by: Philip Müller <philm@manjaro.org>
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
-V1: https://lore.kernel.org/lkml/20250904175025.3249650-1-lkml@antheas.dev/
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Antheas Kapenekakis (14):
-  drm: panel-orientation-quirks: Add AOKZOE A1 Pro
-  drm: panel-orientation-quirks: Add additional ID for Ayaneo 2021
-  drm: panel-orientation-quirks: Add Ayaneo 3
-  drm: panel-orientation-quirks: Add OneXPlayer X1 variants
-  drm: panel-orientation-quirks: Add OneXPlayer X1 Mini variants
-  drm: panel-orientation-quirks: Add OneXPlayer F1 variants
-  drm: panel-orientation-quirks: Add OneXPlayer G1 variants
-  drm: panel-orientation-quirks: Add GPD Win Max (2021)
-  drm: panel-orientation-quirks: Add GPD Pocket 4
-  drm: panel-orientation-quirks: Add Zeenix Lite and Pro
-  drm: panel-orientation-quirks: add SuiPlay0X1
-  drm: panel-orientation-quirks: Add OneXPlayer X1z
-  drm: panel-orientation-quirks: Add AOKZOE A2 Pro
-  drm: panel-orientation-quirks: Add OneXPlayer X1 Air
-
- .../gpu/drm/drm_panel_orientation_quirks.c    | 132 ++++++++++++++++++
- 1 file changed, 132 insertions(+)
-
-
-base-commit: 0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 3a218fb592ce..736280302f76 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -179,6 +179,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Win600"),
+ 		},
+ 		.driver_data = (void *)&lcd720x1280_rightside_up,
++	}, {	/* AOKZOE A1 Pro */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AOKZOE"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AOKZOE A1 Pro"),
++		},
++		.driver_data = (void *)&lcd1200x1920_leftside_up,
+ 	}, {	/* Asus T100HA */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
 -- 
 2.52.0
 
