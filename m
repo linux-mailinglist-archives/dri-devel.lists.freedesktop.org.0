@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CEAyDel/k2nm5wEAu9opvQ
+	id gAlfA4iDk2k46AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:36:57 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:52:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27DA1477BD
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B474D1478E2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:52:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1343A10E0DB;
-	Mon, 16 Feb 2026 20:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0782E10E0EF;
+	Mon, 16 Feb 2026 20:52:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ACSZ/i+t";
+	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="Oew0V/a2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19CC110E3E5;
- Mon, 16 Feb 2026 20:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=ngboZP6RIhPLTK4sHHipZMO6vB+HpttFiw7t3wOgM8g=; b=ACSZ/i+ttVMlGxaUyvJib7QK/t
- K6d4cFwUFYgRGVmD3huPTFnVWI1TPRE1HiMKV0ngwmX3PszBCG94mjloI8UEp2ttYfs55r3AwAoWE
- jURYrg+YBx+E3Y3qrCx0XXYQMobsg0bjfPMpK1LXS+yjL6rADH7dGlHyo+QgMOJAhqUdb0haDG4D2
- zsRooq6wjrwb/iGhJOcNnh9Diw/BOAPBpJhlIfmIxtC4EmeKlXp458kUGSwMWhPTnRrR2ObYc522+
- kMoutKL7YBxMHcmVjJM5NrhA21lRDdGXUlfNAgRmUEHzqRArCQokmA5y22hl7Rl7r9w5eU/08j39R
- dcutj0HA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vs5Kg-00000007GA9-3C2d; Mon, 16 Feb 2026 20:36:38 +0000
-Message-ID: <e80c212c-9220-4621-8b21-5ce382ed92e5@infradead.org>
-Date: Mon, 16 Feb 2026 12:36:36 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 20/20] drm/bridge: Document bridge chain format
- selection
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Feb 2026 20:52:14 UTC
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801FC10E0DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:52:14 +0000 (UTC)
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+ by relay10.grserver.gr (Proxmox) with ESMTP id 291C0459D0;
+ Mon, 16 Feb 2026 22:45:55 +0200 (EET)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay10.grserver.gr (Proxmox) with ESMTPS id 2B00145975;
+ Mon, 16 Feb 2026 22:45:54 +0200 (EET)
+Received: from antheas-z13 (unknown
+ [IPv6:2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 397F01FDD77;
+ Mon, 16 Feb 2026 22:45:53 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1771274753;
+ bh=5I15CEIJuFRaaPVr6U40/B0JeGSgzopw8BSrUr+LxNI=; h=From:To:Subject;
+ b=Oew0V/a2vMDpcAYx7yxjv5u7Ll0/cwGxcolrwt04NlI73v7gG7dwhPW5w92eRHOcU
+ zCdpDdMFQ2Rt/R+hMMws6iol8Hr/cTnQeR6/cY8d25PTeRWRnb2PNaHrLQF9oVDI3v
+ 2v2qtfbN5Ro5eu5l0YcI4yd2JANPf/RML4878VGk8OsRXNxtEyMVG2NT59RrxaXTur
+ bbMjIcKM+LHMJHXMErrJ2HlfpXScXXoq4j1hd+PTCV3SVrMMeTSMjhVQbyiVRylMVV
+ hju1dC0PguS8wD9vn88P4lk0nmSB7T6JPSxX7kGUgX4vk+xvU/iEMJ6QZ2fDpT81oD
+ fS25i7QQrRbBQ==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1)
+ smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-20-5722ce175dd5@collabora.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260216-color-format-v8-20-5722ce175dd5@collabora.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, philm@manjaro.org,
+ Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v2 00/14] drm: panel-orientation-quirks: Add various handheld
+ quirks
+Date: Mon, 16 Feb 2026 21:45:33 +0100
+Message-ID: <20260216204547.293291-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177127475371.3070151.9210313217055670043@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,127 +83,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.99 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
+	R_DKIM_ALLOW(-0.20)[antheas.dev:s=default];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,manjaro.org,antheas.dev];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[collabora.com,amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[infradead.org:-];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	DMARC_NA(0.00)[antheas.dev];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[antheas.dev:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,infradead.org:mid]
-X-Rspamd-Queue-Id: D27DA1477BD
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkml@antheas.dev,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: B474D1478E2
 X-Rspamd-Action: no action
 
+Same as V1 with an additional four quirks. Also fixed indents on A1 Pro.
+Contains various handhelds. If we can merge this great.
+
+On top of torvalds/master.
+
+---
+V1: https://lore.kernel.org/lkml/20250904175025.3249650-1-lkml@antheas.dev/
+
+Antheas Kapenekakis (14):
+  drm: panel-orientation-quirks: Add AOKZOE A1 Pro
+  drm: panel-orientation-quirks: Add additional ID for Ayaneo 2021
+  drm: panel-orientation-quirks: Add Ayaneo 3
+  drm: panel-orientation-quirks: Add OneXPlayer X1 variants
+  drm: panel-orientation-quirks: Add OneXPlayer X1 Mini variants
+  drm: panel-orientation-quirks: Add OneXPlayer F1 variants
+  drm: panel-orientation-quirks: Add OneXPlayer G1 variants
+  drm: panel-orientation-quirks: Add GPD Win Max (2021)
+  drm: panel-orientation-quirks: Add GPD Pocket 4
+  drm: panel-orientation-quirks: Add Zeenix Lite and Pro
+  drm: panel-orientation-quirks: add SuiPlay0X1
+  drm: panel-orientation-quirks: Add OneXPlayer X1z
+  drm: panel-orientation-quirks: Add AOKZOE A2 Pro
+  drm: panel-orientation-quirks: Add OneXPlayer X1 Air
+
+ .../gpu/drm/drm_panel_orientation_quirks.c    | 132 ++++++++++++++++++
+ 1 file changed, 132 insertions(+)
 
 
-On 2/16/26 5:01 AM, Nicolas Frattaroli wrote:
-> The bridge chain format selection behaviour was, until now,
-> undocumented. With the addition of the "color format" DRM property, it's
-> not sufficiently complex enough that documentation is warranted,
-> especially for driver authors trying to do the right thing.
-> 
-> Add a high-level overview of how the process is supposed to work, and
-> mention what the display driver is supposed to do if it wants to make
-> use of this functionality.
-> 
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
->  drivers/gpu/drm/drm_bridge.c          | 39 +++++++++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 781129f78b06..47c4f593cf9d 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -181,6 +181,12 @@ Bridge Operations
->  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
->     :doc: bridge operations
->  
-> +Bridge Chain Format Selection
-> +-----------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> +   :doc: bridge chain format selection
-> +
->  Bridge Connector Helper
->  -----------------------
->  
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 36a5158f0554..93ef52c37e2c 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -198,6 +198,45 @@
->   * driver.
->   */
->  
-> +/**
-> + * DOC: bridge chain format selection
-> + *
-> + * A bridge chain, from display output processor to connector, may contain
-> + * bridges capable of converting between bus formats on their inputs, and
-> + * output formats on their outputs. For example, a bridge may be able to convert
-> + * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-> + * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-> + * formats.
-> + *
-> + * Further adding to this, a desired output color format, as specified with the
-> + * "color format" DRM property, might not correspond to what the display driver
-> + * should set at its output 1:1. The bridge chain it feeds into may only be able
-
-Preferably put "1:1" after "might not correspond".
-
-> + * to reach the desired output format, if a conversion from a different starting
-> + * format is performed.
-> + *
-> + * To deal with this complexity, the recursive bridge chain bus format selection
-> + * logic starts with the last bridge in the chain, usually the connector, and
-> + * then recursively walks the chain of bridges backwards to the first bridge,
-> + * trying to find a path.
-> + *
-> + * For a display driver to work in such a scenario, it should read the first
-> + * bridge's bridge state to figure out which bus format the chain resolved to.
-> + * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-> + * output format should be used.
-> + *
-> + * Special handling is done for HDMI as it relates to format selection. Instead
-> + * of directly using the "color format" DRM property for bridge chains that end
-> + * in HDMI bridges, the bridge chain format selection logic will trust the logic
-> + * that set the HDMI output format. For the common HDMI state helper
-> + * functionality, this means that %DRM_COLOR_FORMAT_ENUM_AUTO will allow
-> + * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-> + * high but the mode and connector allow it.
-> + *
-> + * For bridge chains that do not end in an HDMI bridge,
-> + * %DRM_COLOR_FORMAT_ENUM_AUTO will be satisfied with the first output format on
-> + * the last bridge for which it can find a path back to the first bridge.
-> + */
-> +
->  /* Protect bridge_list and bridge_lingering_list */
->  static DEFINE_MUTEX(bridge_lock);
->  static LIST_HEAD(bridge_list);
-> 
-
-Thanks.
+base-commit: 0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
 -- 
-~Randy
+2.52.0
+
 
