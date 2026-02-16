@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAaBAVXhkmknzgEAu9opvQ
+	id GOJbIjzjkmndzgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:20:21 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:28:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811C5141EBE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4F1141F3D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7FC10E07C;
-	Mon, 16 Feb 2026 09:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A27E310E041;
+	Mon, 16 Feb 2026 09:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ayjIeEOC";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="CPCKfPDi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0698B10E07C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:20:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 273BD600BB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1D3CC2BC86
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771233616;
- bh=avTj0o+2GMh+N3h9ZYs78VKql7iJG5xwsXxFbx15ilw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ayjIeEOCpfu1MIqYnVfDuQijJh1+HlscjHcUQPoCrn53O5XBlZZoB3grqu4yq2zZT
- fwA4bO/kX729hdSbjjCMxIsCccf7S+D/hQv+02is3eyaw3AIxsUraKXBbK1UekCrHS
- /KZOgFLdaQIm+AFanvVtzZjWycK1+tmG8ITiBFkxEzr6JDzWNPKCZwRHA9FlxozFA2
- MZnoDZS7FJP0SzCpN8ln9wvHApmj3kz0D/PFZfD73FcPCWTUEHTp1FKUUruTAvICxb
- 1q47oCZ8oytik+w6gjZLnIM38QEENH8r0jxe6xuPxRLnskz8P8R5cnhRdxlc+r8E0T
- vNrsjIOcDroaw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C63A2C53BC9; Mon, 16 Feb 2026 09:20:16 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 221089] amdgpu: Regression in Linux 7.0 with RX-580: BUG:
- unable to handle page fault for address: fffffffffffffff1
-Date: Mon, 16 Feb 2026 09:20:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221089-2300-8BcFc2Auej@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221089-2300@https.bugzilla.kernel.org/>
-References: <bug-221089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5BA10E041;
+ Mon, 16 Feb 2026 09:28:22 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fDyBC406lz9vDx;
+ Mon, 16 Feb 2026 10:28:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1771234099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xrnqCAaSli5/FQRdIXyZ88I9oAN4JNz7CSF+8kqQWjQ=;
+ b=CPCKfPDimpPMuukfGC4X2vFdpvcL1kWE7p+GE/LP0H5HiRSqGsUEE10h/3BrQE8ymULMmN
+ gkvJtCHHRK9PX8ZpFFdkpXlSc0G5MHH8SnK9HFKd5Ty2EkKGyYf2B+XnAkdglnzDzjyakJ
+ y9df8f2F5/BqLzlUwxDn1yU1vC321BMooeZtJ8JBx7Lqsgi9fvk5Q4fozbGDF9JJPPN+7H
+ h9EC5EAZYj+hAzFejLedWTk0g5e25+xtobpKoAOFhcInH7z5hZK8VQTg1DPv8GceZpseDW
+ XluQ3W0E/M58oEGMs7lfbmqDP48KaON2pLudpOqKS80G85iNmab6tcPi+kH+Jw==
+Message-ID: <7f4a86ad-d642-444c-a576-17ff9caaa934@mailbox.org>
+Date: Mon, 16 Feb 2026 10:28:13 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH v3 1/2] drm: introduce KMS recovery mechanism
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, =?UTF-8?Q?Timur_Krist=C3=B3f?=
+ <timur.kristof@gmail.com>, Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260212230905.688006-1-someguy@effective-light.com>
+ <2e359cd9-0192-44d0-886f-7f93a8b0a4fa@amd.com> <aY99D-yXVydpMdwy@hal-station>
+ <85319290-4027-4eb8-95d1-9009d23f2294@mailbox.org>
+ <aZD0W7V_6--2yqNK@hal-station>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <aZD0W7V_6--2yqNK@hal-station>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 62359b98baf74e21a94
+X-MBO-RS-META: ji19nbhxmym4obz7fekxib6m8podn94n
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +82,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_NONE(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 811C5141EBE
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 5E4F1141F3D
 X-Rspamd-Action: no action
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221089
+On 2/14/26 23:16, Hamza Mahfooz wrote:
+> On Sat, Feb 14, 2026 at 03:02:49PM +0100, Michel Dänzer wrote:
+>> Why couldn't a full modeset?
+> 
+> As far as I see it the only reasons why we should be timing out is
+> either an interrupt went missing (perhaps due to a race condition in
+> driver code) or hung hardware. In either case, the interrupt associated
+> with the page flip for the current commit is long gone.
 
---- Comment #11 from Michel D=C3=A4nzer (michel@daenzer.net) ---
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/6386a0bcdb7e4c20943d398=
-3520ebc22f041a226
-should fix this, it's already queued for 7.0.
+That's a matter of bookkeeping, the interrupt isn't required to keep track of the commit and complete it.
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>> In principle it's possible to do (the equivalent of) a modeset with the current state for all CRTCs, no need to do it separately per CRTC.
+> 
+> AFAIK that is what the uevent is already doing (unless I'm mistaken).
+
+This is about just doing a full modeset, which isn't something user space can do in response to a wedged event.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
