@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yAnHGwj1kmko0gEAu9opvQ
+	id sEcSACX3kmlx0gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:44:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:53:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C177614272E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:44:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634F914283E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:53:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8781410E224;
-	Mon, 16 Feb 2026 10:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE4010E011;
+	Mon, 16 Feb 2026 10:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OmBwJPlV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OjIK17Wm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC110E202
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 10:44:18 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CC610E011
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 10:53:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0C30E6011F;
- Mon, 16 Feb 2026 10:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381F9C116C6;
- Mon, 16 Feb 2026 10:44:17 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E99F241993;
+ Mon, 16 Feb 2026 10:53:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ED90C116C6;
+ Mon, 16 Feb 2026 10:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771238657;
- bh=PVqVaBr/n+vwwiVRZTvOnHrcTVldkSg7n8bljp1tGzo=;
+ s=k20201202; t=1771239199;
+ bh=73r6oJYAaTQYUPIRlcSqiRsKUT5t9iC1ySrVJ3cv2PA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OmBwJPlVNExeRF54zvsjriY5JlorTcvzKff5l9TBCiGJeN5TtxLsvVzNEpxJtLzS3
- jJkx2NBYEUYEQMpagAVbB7iT2d1gV/4HnKU0LCBBu87yA0163B3k9R9lSjrvBXeAu9
- S8BXhkbcQuJXeBERpqFgLSCeGXVSArZY3wO+6c3NvLyJFmMrZ5LTdapPGjowOns/br
- /9OjdVF+NW7pwbKvlZSPHRfeJFNm4YooDvmf6MVsH1biZKzm3Uh193l7KYi6GTbUqa
- ux+LpFR7/ApWvdPLe2qxIxPyM+tIDQp8tvsJgcMPWioZOrUhxde1TX7puX9hlGD7rs
- 1tPLgguHKnBCQ==
-Date: Mon, 16 Feb 2026 11:44:14 +0100
+ b=OjIK17WmA0PJWl07PJBGiRBzUlffMMg2xOvZiE5oM0n6kc2Vd+/BhKjlBy700yag3
+ YKu3VHDVat4mK4p4XdZOeznRaw3ZDdBlWmCqn85Vso3REjKwvDAdV9ndz3yjccgNJB
+ CjSZh/dQj8kZiwSbwL7VhfyuN22WR0R5pbG5T9k8+xFTh/HtevsNdrGLFNLsxnnORl
+ GVM1WC6D9Klv0Ho2RCijaUoFH3DJ19vJO0W1zBnl6n7JqckbMh3PVT+NoSXw5BBIn2
+ X4Jp+/E72Gi7RxPth6eC8AoYL/FjM4IaJX6uoR5UDo7ptvBHtGml1T08DXaM5ihisa
+ /pVQzuZlUCWvg==
+Date: Mon, 16 Feb 2026 11:53:16 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
 Cc: Michael Turquette <mturquette@baylibre.com>, 
@@ -49,16 +49,16 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
  kernel-dev@igalia.com
-Subject: Re: [PATCH v5 2/7] clk: bcm: rpi: Add a comment about
- RPI_FIRMWARE_SET_CLOCK_STATE behavior
-Message-ID: <20260216-vigilant-resourceful-coati-32baed@houat>
+Subject: Re: [PATCH v5 3/7] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
+ CLK_IGNORE_UNUSED
+Message-ID: <20260216-brave-ara-of-typhoon-cf90ba@houat>
 References: <20260213-v3d-power-management-v5-0-7a8b381eb379@igalia.com>
- <20260213-v3d-power-management-v5-2-7a8b381eb379@igalia.com>
+ <20260213-v3d-power-management-v5-3-7a8b381eb379@igalia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xzldcocj7z527ets"
+ protocol="application/pgp-signature"; boundary="7u5coffnzyskofrz"
 Content-Disposition: inline
-In-Reply-To: <20260213-v3d-power-management-v5-2-7a8b381eb379@igalia.com>
+In-Reply-To: <20260213-v3d-power-management-v5-3-7a8b381eb379@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,81 +106,48 @@ X-Spamd-Result: default: False [-2.91 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email]
-X-Rspamd-Queue-Id: C177614272E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 634F914283E
 X-Rspamd-Action: no action
 
 
---xzldcocj7z527ets
+--7u5coffnzyskofrz
 Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 2/7] clk: bcm: rpi: Add a comment about
- RPI_FIRMWARE_SET_CLOCK_STATE behavior
+Subject: Re: [PATCH v5 3/7] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
+ CLK_IGNORE_UNUSED
 MIME-Version: 1.0
 
 Hi,
 
-On Fri, Feb 13, 2026 at 03:52:55PM -0300, Ma=EDra Canal wrote:
-> On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
-> actually power off the clock. Document this behavior so that clock
-> consumers understand they may need to set the rate to minimum before
-> disabling for meaningful power savings.
+On Fri, Feb 13, 2026 at 03:52:56PM -0300, Ma=EDra Canal wrote:
+> If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will skip
+> HSM initialization, which would result in a bus lockup. However, those
+> clocks are consumed by drivers (vc4 and HEVC decoder drivers,
+> respectively), which means that they can be enabled/disabled by the
+> drivers.
 >=20
-> Suggested-by: Stefan Wahren <wahrenst@gmx.net>
-> Acked-by: Stefan Wahren <wahrenst@gmx.net>
-> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
+> drivers when appropriate.
+>=20
+> Acked-by: Melissa Wen <mwen@igalia.com>
 > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> ---
->  drivers/clk/bcm/clk-raspberrypi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-rasp=
-berrypi.c
-> index 9783385d5859836898683209e320fcc928dfdc71..2e63121af0900ac9b4874b666=
-cf6d02baa8be11c 100644
-> --- a/drivers/clk/bcm/clk-raspberrypi.c
-> +++ b/drivers/clk/bcm/clk-raspberrypi.c
-> @@ -308,6 +308,12 @@ static void raspberrypi_fw_unprepare(struct clk_hw *=
-hw)
->  	u32 state =3D 0;
->  	int ret;
-> =20
-> +	/*
-> +	 * On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
-> +	 * actually power off the clock. To achieve meaningful power consumption
-> +	 * reduction, consumers need to set the clock rate to minimum before
-> +	 * disabling it.
-> +	 */
->  	ret =3D raspberrypi_clock_property(rpi->firmware, data,
->  					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
->  	if (ret)
 
-This creates a pretty weird hole in the abstraction layer and clock API.
-Like, if you set the minimum rate, unprepare the clock, and then put the
-clock handle, the minimum is not there anymore and you don't have that
-guarantee anymore.
-
-I don't think we ever nailed the semantics of what happens to the clock
-range once the clock is disabled. And if we do, it's not because a clock
-consumer disables and clock that it's actually disabled.
-
-Couldn't we turn it backward and always set the ideal minimum firmware
-rate before disabling the clock (possibly by checking the firmware
-version first) ?
+It looks like sync_state would be a better candidate to handle this?
 
 Maxime
 
---xzldcocj7z527ets
+--7u5coffnzyskofrz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZL09QAKCRAnX84Zoj2+
-djAVAX9Q18LM3+xl6lnztiRizzCV0M1hYddMtP85RAk7fw/L5yDk+YQhTBRCMnwk
-ZknIze0Bf2qnOyS9bBuPn/Kb6JyP4n0xHs0o7sS9KDjZ1ZKMguDNgmRaXmc/AHXs
-oaQUSyfJ2g==
-=kbtw
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZL3HAAKCRAnX84Zoj2+
+dohuAYC0vDJ/FuiU+oa1la5DCBEUlwydHTREfOq8Kpked+NeLcX1cm7K6HxdBWAK
+w8XBDiYBgPoI8xNj91inpm/hk0GtF3FcEv28ZHvBeTOznX63UWUs6ba5A4/AOq9z
+JpUmgE0Glg==
+=awDT
 -----END PGP SIGNATURE-----
 
---xzldcocj7z527ets--
+--7u5coffnzyskofrz--
