@@ -2,106 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPgHH+ymk2ln7QEAu9opvQ
+	id oayKCDo6k2kG2wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:39:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06991480A1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E99E145B43
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:39:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E3D10E3FF;
-	Mon, 16 Feb 2026 23:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC3710E081;
+	Mon, 16 Feb 2026 15:39:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hrb+//AZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nGfvKh91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
- [74.125.224.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC6910E3A3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:38:33 +0000 (UTC)
-Received: by mail-yx1-f45.google.com with SMTP id
- 956f58d0204a3-64acd19e1dfso2969786d50.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:38:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771256313; cv=none;
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFB010E08D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:39:31 +0000 (UTC)
+Received: by mail-dl1-f48.google.com with SMTP id
+ a92af1059eb24-1244bce2c17so158869c88.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:39:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771256371; cv=none;
  d=google.com; s=arc-20240605;
- b=RaYKJDUrukulr9C3Mh8bE8e6cZSsmAndI69jZqsH/2HgJJDNeIt4FsJsOUMjOcrl/V
- yj/b+OkfqP9MHHhxs47dwQYQAACt/w5f3+UvZVckZynD8J/IB7e3Q/PMxmutL80fIDAp
- AYkW6YMFeaWV1JmPfgtXIxCYMYUxCz3gjRiuLHbTMWJ2FrOq9lAS8EEehMLQIQhO8fKX
- Qo01Tto2vLc/h9HR17hoHhyTGkS7yvC7O3twkXEWV1stjTwjSE/YEc20P2DFgTGlNjgp
- 12H7CDGiIWL/kRSB7z7kbHwLKhByUwHvPWUN8dLHO57YtOpdkhClr8Ui0ZhnAaSfYQdL
- 2Syg==
+ b=M8UetDe+GLOU6oPyY+d6TJUEjce8cw2x88Ye1+3rE4e6G+kOvKUgsecEE0g/JftcH0
+ 6OSBe60tv+IZviBDYf32lCADpvmTNTPlPcY5RZpCtplIvaoqhpsj2TWivgAjP1emfLpj
+ jMIey6exoeIDP/oA/rsyLCjiqMYX10GyPe8jaB9jG2uNVgPYVSwouwrjvbbHE+CurtCE
+ 8WC6MWI5iCZLX1JQHbuDnmZZ7GdEmOQnNggsIOudMth/mn2lyGXc7J9FzwaoZhk0eYVd
+ CzcgB07nMaQiOI+EmQfWMutwNCPM5zslfUVPDH7ozOOsXyZCz/8mxHjPbn96DscU5M0J
+ KZ4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
- fh=zQdYOyOEMHl4yV8+j8zukDeesz0lAUyNe6xrpIqYy/o=;
- b=OtfKGUcIPEFdChf1r+O2IevHn9E6rLab8Ih0PakCgvocnMZsaDFbvUq1n5AQKG8DT+
- pFyNte7mOROtVKvSluHg/rozJh03xSA7Bhce4OVoHL3gnjR2UWMIvHIigr/3lvwWl78v
- ZjiiIaaKUTczW9Vh5J8JNolrwC4RguG96ZTKsSk8WnjkwQIfMtOvzuxoHupSZtgBahNe
- aySaw3a+k21CvuN71sNQ54hmiiqPhHqg/7RuBM3ptEi3+RSmbJjNr6Uj4AVzxSdn08Sq
- Gj2A0Uc2uvJwZs9jekkNZk7/3oj1lhswYK0/A3kNPder5ES3kMc+7zLWzM+HU9Qf2itc
- rZww==; darn=lists.freedesktop.org
+ bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
+ fh=qgQ6Ekx2sOgnJviNC5UGuoXilImIGK3cNXF/oDOLYSs=;
+ b=SPhdXzHlKj8T0I0n9Aqr9MjxpI4Wrq/UywfiobMeDqNaKBx8sKQeTv3I8+iOiNszUf
+ JArJ+2KSqfso9JPRI5/XDSOExftVkQFc2jm410+1oJ4q60onf/SlJv/RBsihN0BiiFLu
+ FKSq66vwUr2BXBu7zYG49Z/ymvZgg9QwFSUAf3fsBhprLjD/9FQAI6ge2MHUwzaFSrr5
+ 5fXjdcIytUUYHllF+FWPvnro+7KiPQDpelAaORkpL43mO5ox4kS58/HJ9lSwO3Rw0GXf
+ DdX+GmuN4K/vqdKraqLxBeNvSMsyBnRLzdYOTKfCEDjW6eDD0NqhCw7qwJBTHf0AUHxg
+ 8ApA==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771256313; x=1771861113; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771256371; x=1771861171; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
- b=Hrb+//AZawlFZCovK61oZ143bbn6GgXCwBTTo01jhjbkes/yRhyy+lFV2hfqbGCM1t
- 8XZApZh3lqwj8Y0mm9cFUTOzLfIolaTXz9Q5NFXCCjjWCC55LpZaXw+cUIczC71I8zOC
- 9P/xI4fN75FL0vOYh/6wFZad5kYH/cpiwwa7wqfUaGn8ZaYeX5s14tkflNnKsowbVCmw
- q5ZEV5t7VZfwjdHfr0a1obl3pS8QUgh0sk93tw5UsmCZ/wkyySmQABqfmTP776OOmbN+
- h5q7p7JF8AJmNWp16dIA4rZNY5/XmRF8IzZozlOb5b4rgqTVnrEX7Vy4jdZ6IRlTwD5Z
- sQVA==
+ bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
+ b=nGfvKh91gQfq/IWoQ1Prrg95JK2gQY0fh50p7nQoQJ3zib8zhjDjniQevucGj90KFz
+ VtKyQrlf+eAowa2YkU1OpUQyHG55kkjjMehdLQnPKevKuqMY0/Jd0G4uqiVVJEXpK2cy
+ uFVxKK4/7JAqMBAWzsnrMJNDgnIQdRprTYzUsztNXC+z4K2jtShFfajWwynX9Iz3jizd
+ jz0L20OsddF1z5e6IuYnQZCpIhU5T56by1w5qSu6xAXWfD2oEUbeDHa1zeR5YDijAjou
+ xG0gSHcPp2WkmTiZoYA5sYU79E5UOD2M8Gc0dhAGGFLiXPJhRXeyzjU6rE9zEGblgn+9
+ bnKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771256313; x=1771861113;
+ d=1e100.net; s=20230601; t=1771256371; x=1771861171;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
- b=bpfyQeT6b1OfrfCp9W7JQte89lYmLC/Ylhb3eo0HdVd6NVu7UQ9tYREXUh6IfeJD0B
- yJq7YsXIwKcxktDGQUbLRUuDNjJzt5quw8AqKiZQG/PEaYis5JeCD1Vo5dZqE+OrAEXV
- XJWJM9bsEGc+vuHiTTMwhocYEGyi1lmYbGsGMFWN63H4wCXcYiZwlyw0DR4EwN09sdkF
- gp3vFUdX8v538wNx/SNfWsXgTMr0yyJQCQGS3r7V3HIVVt5Gjg52jxVlW3+e8AElxYr6
- UH7NH6f6p4lThJ1B0SDcpimLxJaMs0t1EyZuYYAMK0lsiSi0FFbDZIIXS8vHP3kzhm6b
- TZBw==
+ bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
+ b=X4tSHg+s0AdJ9lHYgepekLY0TvGXhc+RzIvhbhERcxjzSZQ+w7R51TLdz8PbK8SY6h
+ oT/lAukhrQL0uQ+x554VcAxMC3sQns1YiqLEM8imB6OUf3uci/m6yHCyDiJ8yVXCInRq
+ gT6E0+zon7GrWLp+0QMFGRQrumYyz02iInS9nnEJjOy+uCEpgPDGPtmDVuJMSzIoarHe
+ xArG78wHpLE17fOu2LMAIFLBHt1VkxNncO431HY/EjW4HYGwuBkULR9MdHcMvG+2WaXG
+ cwZtASOH0ZUNQdlUrsYiGgVydt/m3ykBC9OKVQkyy+9IAGF5E6bWZi2coW5CwrO7szGS
+ pg8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2NEKvSEGdl/WgYaPRncn1A+nU2rjDTC9nmPNfalQUjxSmm40DBs6F5ri4KShRxiJRfoMsu4xOcLU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2qwlP+8G86JZYAyPmyO5zLOgdGJ/pUI3I9CXGUgbkGJJ43rOa
- A5DuRiSMIPuUJ0/NUVdIOIG6KUPQ6abnoqny5Uq3wIVyfr9D9zSzbmNIWg/skyvrL/4lwHiT2nO
- uZ6FBwGCj7IlA4RzZp11c3tkDl2oWn+A=
-X-Gm-Gg: AZuq6aJyWCalVwaoMRZ397Qa855VLgbQGTm6RmDO9zstmPHivDygQtSQiFmznGqsB6F
- iNN1ks0QUAyfyuOMckLBrEuFgM5jGmWaAxll31H/fP3IGNbu6gtGpgcLVnhaaFBUXfR8fKjvnvw
- tvVbSMhD9sdKu7Xe0BsS1ybXgFfrPTBsEifS30Aj7luaYOYQY1JJf7fI81z29soWGfd3bs3MDg2
- uVx9bJxqMYKO0qEATDSDdakBSXLPgKYzw/UtX5ADUty/PN4J1QKCjB2EH9v+kj4I7EORzHFJNnL
- UtzgqkfwVYnNe9O8tadEbfAPMqJfI1fTYqISKzLuN/91kV0anPZf
-X-Received: by 2002:a53:d015:0:b0:64a:d716:c8b5 with SMTP id
- 956f58d0204a3-64c1979ba03mr7245099d50.18.1771256312871; Mon, 16 Feb 2026
- 07:38:32 -0800 (PST)
+ AJvYcCWqP9lIo5Z843blQV77TeRIjqR5bhIDKz2F/uv/WcY4FJdt0nlK0zC6KkPdOO0NA0o36UUp/uWNoEo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5xcucxb7UHN0EuNlYNc7MU8R1Q8/cnt2R7CWPqGhfjXkeiJpW
+ uhO2Wn00kWv2Rx/BsjLH1eicDURmeEi1lLhGxcotJoIgkLV1EtHaZH9GYyPVxvZDbMVti0Ncnnh
+ uBTyfUsq3bU3se/MznbA7mSIL1YwrqPA=
+X-Gm-Gg: AZuq6aLa3dXnDst4kP0hsbNXW5uAwwnE1z9pRc8UEipzVDu4uSRh0byktw9P60pa46T
+ iLhe5KAN5kc5aPHLb4Bz1tpqty0VEvC4p0DX2kW7yESkzNOShPK7+xiaKWWjGSB5xGPywjt+IGL
+ cADTsl/a3pZYxYgEaNVbo3LqSBqxYCnKylcesyoKGqVRzUE3qb3tVcVnrL9oRv50vLBVPuEv22u
+ izBhShN/TfDyTkbgJzs/Al8m6vNMKg0XBqCYjNe4rIouQ2GjL6eb3x22FJeNWxY7mwWjKu4kwT0
+ c+ZDekV5NOjY2FzS5iAOwOYVMDw7JnBzAJcGNbENxO7T1D4oYtxw1GkCDL7EJ63AsfTjlw==
+X-Received: by 2002:a05:7022:b93:b0:127:2d87:f0fa with SMTP id
+ a92af1059eb24-127398117bemr2871932c88.4.1771256370330; Mon, 16 Feb 2026
+ 07:39:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20260214070123.41374-1-architanant5@gmail.com>
- <CAGb2v679248jj4CwQhYAbTUiPJ1=-JqX15CaNY94Cj_dFXwZXw@mail.gmail.com>
- <CADJHxWCzbzD3MK+NLS3UVqXeH4cKop-ErNSnn_RUmAzRLmk7Mw@mail.gmail.com>
- <87ikbx6sf1.fsf@ocarina.mail-host-address-is-not-set>
-In-Reply-To: <87ikbx6sf1.fsf@ocarina.mail-host-address-is-not-set>
-From: Archit Anant <architanant5@gmail.com>
-Date: Mon, 16 Feb 2026 21:08:20 +0530
-X-Gm-Features: AZwV_QiXtBl77GaJAvJl1GfZ1mRg72oXG5PskwudBonhn6SiiGASLFYWwAX0yvw
-Message-ID: <CADJHxWD-UpjgGKst_CDPqXHADVPJY6KL296VFOq6WFBEKqVong@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: wens@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, nathan@kernel.org, 
- geert+renesas@glider.be, marcus.folkesson@gmail.com, david@lechnology.com, 
- noralf@tronnes.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20260206223828.33061-1-mario.kleiner.de@gmail.com>
+In-Reply-To: <20260206223828.33061-1-mario.kleiner.de@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 16 Feb 2026 10:39:18 -0500
+X-Gm-Features: AaiRm52EOYj-okIlSlxWKrJwP9FVULI7wkjN1UPMFdj7PbYikOnQP0p8sKBPk_M
+Message-ID: <CADnq5_Nbm7i+b2ykCrYBXJLha3ow74PWVQ_8hVmB=Btim2Jdew@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Use same max plane scaling limits for
+ all 64 bpp formats
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,118 +111,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:javierm@redhat.com,m:wens@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:david@lechnology.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mario.kleiner.de@gmail.com,m:amd-gfx@lists.freedesktop.org,m:alexander.deucher@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:mariokleinerde@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,glider.be,lechnology.com,tronnes.org,lists.freedesktop.org,vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: B06991480A1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 4E99E145B43
 X-Rspamd-Action: no action
 
-On Mon, Feb 16, 2026 at 1:17=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
+Applied.  Thanks!
 
-Hi Javier,
+Alex
 
+On Fri, Feb 6, 2026 at 5:39=E2=80=AFPM Mario Kleiner <mario.kleiner.de@gmai=
+l.com> wrote:
 >
-> Archit Anant <architanant5@gmail.com> writes:
+> The plane scaling hw seems to have the same min/max plane scaling limits
+> for all 16 bpc / 64 bpp interleaved pixel color formats.
 >
-> Hello Archit,
+> Therefore add cases to amdgpu_dm_plane_get_min_max_dc_plane_scaling() for
+> all the 16 bpc fixed-point / unorm formats to use the same .fp16
+> up/downscaling factor limits as used by the fp16 floating point formats.
 >
-> > Hi ChenYu,
-> >
-> > Thank you for the detailed review and the pointers toward the documenta=
-tion.
-> > I will ensure the headers are sorted alphabetically and the driver name
-> > conflict is resolved in the next iteration.
-> >
-> >> The reset logic in mipi_dbi is inverted when compared to panel-st7789v=
-.
-> >> mipi_dbi needs to be taught the "proper" reset polarity.
-> >
-> > Noted. I will look into the mipi_dbi core to see how to handle the rese=
-t
-> > polarity correctly.
-> >
-> >> Instead this functionality could be merged into the existing panel-st7=
-789v
-> >> driver. You mentioned above that that driver only supports the 9-bit S=
-PI
-> >> transfer mode. However porting that driver over to mipi_dbi would fix =
-this,
-> >> and remove some redundant code. And tinydrm support could be added on =
-top
-> >> of that.
-> >>
-> >> I actually mentioned I was going to work on this on IRC. But I only po=
-rted
-> >> the driver over to use mipi_dbi, and haven't gotten around to adding
-> >> tinydrm support. I can send out the conversion patches if that helps
-> >> you.
-> >
-> > That would be fantastic and would save a lot of redundant effort. If yo=
-u
-> > send out the patches to convert the existing panel-st7789v driver to
-> > mipi_dbi, I would be happy to build the 'tiny' (simple display pipe)
-> > support on top of your series.
-> >
+> So far, 16 bpc unorm formats were not handled, and the default: path
+> returned max/min factors for 32 bpp argb8888 formats, which were wrong
+> and bigger than what many DCE / DCN hw generations could handle.
 >
-> I think we want to get rid of the simple display pipeline and instead jus=
-t
-> use regulator atomic helpers, even for the tiny DRM drivers.
+> The result sometimes was misscaling of framebuffers with
+> DRM_FORMAT_XRGB16161616, DRM_FORMAT_ARGB16161616, DRM_FORMAT_XBGR16161616=
+,
+> DRM_FORMAT_ABGR16161616, leading to very wrong looking display, as tested
+> on Polaris11 / DCE-11.2.
 >
-> Please take a look to previous commits such as 2037174993c8 ("drm/bochs:
-> Use regular atomic helpers") or 622113b9f11f ("drm/ssd130x: Replace simpl=
-e
-> display helpers with the atomic helpers").
+> So far this went unnoticed, because only few userspace clients used such
+> 16 bpc unorm framebuffers, and those didn't use hw plane scaling, so they
+> did not experience this issue.
 >
+> With upcoming Mesa 26 exposing 16 bpc unorm formats under both OpenGL
+> and Vulkan under Wayland, and the upcoming GNOME 50 Mutter Wayland
+> compositor allowing for direct scanout of these formats, the scaling
+> hw will be used on these formats if possible for HiDPI display scaling,
+> so it is important to use the correct hw scaling limits to avoid wrong
+> display.
+>
+> Tested on AMD Polaris 11 / DCE 11.2 with upcoming Mesa 26 and GNOME 50
+> on HiDPI displays with scaling enabled. The mutter Wayland compositor now
+> correctly falls back to scaling via desktop compositing instead of direct
+> scanout, thereby avoiding wrong image display. For unscaled mode, it
+> correctly uses direct scanout.
+>
+> Fixes: 580204038f5b ("drm/amd/display: Enable support for 16 bpc fixed-po=
+int framebuffers.")
+> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> Tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index d3e62f511c8f..394880ec1078 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1060,10 +1060,15 @@ static void amdgpu_dm_plane_get_min_max_dc_plane_=
+scaling(struct drm_device *dev,
+>                 *min_downscale =3D plane_cap->max_downscale_factor.nv12;
+>                 break;
+>
+> +       /* All 64 bpp formats have the same fp16 scaling limits */
+>         case DRM_FORMAT_XRGB16161616F:
+>         case DRM_FORMAT_ARGB16161616F:
+>         case DRM_FORMAT_XBGR16161616F:
+>         case DRM_FORMAT_ABGR16161616F:
+> +       case DRM_FORMAT_XRGB16161616:
+> +       case DRM_FORMAT_ARGB16161616:
+> +       case DRM_FORMAT_XBGR16161616:
+> +       case DRM_FORMAT_ABGR16161616:
+>                 *max_upscale =3D plane_cap->max_upscale_factor.fp16;
+>                 *min_downscale =3D plane_cap->max_downscale_factor.fp16;
+>                 break;
 > --
-> Best regards,
+> 2.43.0
 >
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
-
-Thank you for pointing this out. I based this implementation on the
-existing st7735r driver, which currently uses the simple pipe.
-
-I will study the bochs and ssd130x commits to understand the migration to
-regular atomic helpers.
-
-If the goal is to move tiny DRM drivers away from the simple pipe, updating
-the Sitronix drivers to this new pattern sounds much better.
-I will incorporate this into my plan for the next iteration
-(building on top of ChenYu's work).
-
---=20
-Sincerely,
-Archit Anant
