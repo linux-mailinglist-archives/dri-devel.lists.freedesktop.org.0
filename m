@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHzVKposk2mZ2AEAu9opvQ
+	id eLJcACYvk2ke2QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 15:41:30 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 15:52:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BB0144C30
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 15:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6427F144D3B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 15:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D23410E0C8;
-	Mon, 16 Feb 2026 14:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2ADF10E084;
+	Mon, 16 Feb 2026 14:52:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="NyvCOl3o";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="HBGVAsml";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net
- [178.154.239.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B454410E0C8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 14:41:25 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c1f:1311:0:640:df31:0])
- by forward501a.mail.yandex.net (Yandex) with ESMTPS id 0B3A68095D;
- Mon, 16 Feb 2026 17:41:23 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id 9fZpnRiGtW20-b1bTBWDR; 
- Mon, 16 Feb 2026 17:41:21 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
- s=mail; t=1771252882;
- bh=F2UA0yW+NVCi0Rj+zD3YngWiaGKgRpmAvZ4q7nxAizA=;
- h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
- b=NyvCOl3o32x+iw1Q465tLwUlGI6/pT7B+o8ykON6zPRVCpP9TWHQVo66Dl0dXUpYO
- XEjlGZ5m3fQsjtEv8rMvU1yImXWRtRnxzzZotGxdsv9PNj1r0BsVLrp8K4LdU+VB1L
- ZfkUfT5iG17ey+b/r53LyB2iWI72kZkpO+NQZFKc=
-Authentication-Results: mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net;
- dkim=pass header.i=@onurozkan.dev
-Date: Mon, 16 Feb 2026 17:41:07 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v1 2/2] drm/panthor: treat sram as mandatory except mt8196
-Message-ID: <20260216174107.1b9c03a4@nimda>
-In-Reply-To: <20260216103743.626c71e3@fedora>
-References: <20260215100302.136719-1-work@onurozkan.dev>
- <20260215100302.136719-2-work@onurozkan.dev>
- <20260216103743.626c71e3@fedora>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E67C110E084
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 14:52:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=RPnQgcHxYfbqFjlRYnFLS1cwYlgOh/zM07Hp6vPSqdM=; b=HBGVAsml8V0fl71ZgnRoczazyI
+ Der0yqO2h4bblNHhZAYf2fh6fL8owWxjRzX+m8xKcgS4ufglrfccsTPGkFVzD+2mIsYFYgxyfyKA8
+ StXoXhESvNmqWNFM94SsXnR84zI3G60QQF8dVhvUKUWe7duwmqK0pvP9BQgwBbn43spk=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:34398
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vrzxD-0003SL-Gz; Mon, 16 Feb 2026 09:52:04 -0500
+Date: Mon, 16 Feb 2026 09:52:02 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: patches@lists.linux.dev, stable@vger.kernel.org, Hugo Villeneuve
+ <hvilleneuve@dimonoff.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Message-Id: <20260216095202.0d28465b7059aaf8b7506f2c@hugovil.com>
+In-Reply-To: <20260214010245.3671907-37-sashal@kernel.org>
+References: <20260214010245.3671907-1-sashal@kernel.org>
+ <20260214010245.3671907-37-sashal@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -2.4 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-3.4 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH AUTOSEL 6.19-6.18] drm: renesas: rz-du: mipi_dsi: fix
+ kernel panic when rebooting for some panels
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,118 +72,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
+	DMARC_NA(0.00)[hugovil.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:sashal@kernel.org,m:patches@lists.linux.dev,m:stable@vger.kernel.org,m:hvilleneuve@dimonoff.com,m:biju.das.jz@bp.renesas.com,m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[onurozkan.dev:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 11BB0144C30
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[hugovil.com:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dimonoff.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6427F144D3B
 X-Rspamd-Action: no action
 
-On Mon, 16 Feb 2026 10:37:43 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+Hi Sasha,
 
-> On Sun, 15 Feb 2026 13:02:51 +0300
-> Onur =C3=96zkan <work@onurozkan.dev> wrote:
->=20
-> > If sram-supply is missing, Panthor falls back to a
-> > dummy regulator with a warning. This implicit behavior
-> > hides missing DT wiring behind regulator core fallback.
-> >=20
-> > Make SRAM handling explicit: require sram-supply for all
-> > Panthor compatibles except mt8196-mali where GPU supplies
-> > are intentionally managed outside Panthor and DT does not
-> > model sram-supply for that compatible.
-> >=20
-> > This keeps DT power modeling explicit and avoids relying on
-> > dummy-regulator fallback.
-> >=20
-> > Link: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
-> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_devfreq.c | 13 +++++++++----
-> >  1 file changed, 9 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> > b/drivers/gpu/drm/panthor/panthor_devfreq.c index
-> > 2249b41ca4af..5f6075f18fe3 100644 ---
-> > a/drivers/gpu/drm/panthor/panthor_devfreq.c +++
-> > b/drivers/gpu/drm/panthor/panthor_devfreq.c @@ -206,12 +206,17 @@
-> > int panthor_devfreq_init(struct panthor_device *ptdev)
-> >  	 * But without knowing if it's beneficial or not (in term
-> > of power
-> >  	 * consumption), or how much it slows down the
-> > suspend/resume steps,
-> >  	 * let's just keep regulators enabled for the device
-> > lifetime.
-> > +	 *
-> > +	 * Treat sram-supply as mandatory except for mt8196-mali.
-> > It manages
-> > +	 * SRAM outside Panthor so this driver must not require
-> > direct control
-> > +	 * over it.
-> >  	 */
-> > -	ret =3D devm_regulator_get_enable_optional(dev, "sram");
-> > -	if (ret && ret !=3D -ENODEV) {
-> > -		if (ret !=3D -EPROBE_DEFER)
-> > +	if (!of_device_is_compatible(dev->of_node,
-> > "mediatek,mt8196-mali")) {
->=20
-> Rather than checking for specific compats here, let's go for
-> a dont_need_sram_supply bool in panthor_soc_data.
->=20
+On Fri, 13 Feb 2026 19:58:37 -0500
+Sasha Levin <sashal@kernel.org> wrote:
 
-Makes sense.
+> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> 
+> [ Upstream commit 64aa8b3a60a825134f7d866adf05c024bbe0c24c ]
+> 
+> Since commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
+> we may get the following kernel panic, for some panels, when rebooting:
+> 
+>   systemd-shutdown[1]: Rebooting.
+>   Call trace:
+>    ...
+>    do_serror+0x28/0x68
+>    el1h_64_error_handler+0x34/0x50
+>    el1h_64_error+0x6c/0x70
+>    rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+>    mipi_dsi_device_transfer+0x44/0x58
+>    mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+>    ili9881c_unprepare+0x38/0x88
+>    drm_panel_unprepare+0xbc/0x108
+> 
+> This happens for panels that need to send MIPI-DSI commands in their
+> unprepare() callback. Since the MIPI-DSI interface is stopped at that
+> point, rzg2l_mipi_dsi_host_transfer() triggers the kernel panic.
+> 
+> Fix by moving rzg2l_mipi_dsi_stop() to new callback function
+> rzg2l_mipi_dsi_atomic_post_disable().
+> 
+> With this change we now have the correct power-down/stop sequence:
+> 
+>   systemd-shutdown[1]: Rebooting.
+>   rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
+>   ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
+>   rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
+>   reboot: Restarting system
+> 
+> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Link: https://patch.msgid.link/20260112154333.655352-1-hugo@hugovil.com
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> 
+> LLM Generated explanations, may be completely bogus:
+> 
+> This is important context: The MSTOP commit (56de5e305d4b) that causes
+> the regression is only in v6.18+. However, looking at the commit message
+> more carefully — the issue is about the **ordering** of DSI stop vs
+> panel unprepare. The MSTOP commit may have just made the issue more
+> visible (by making the clock gating more aggressive), but the
+> fundamental ordering bug (stopping DSI before the panel can send its
+> shutdown commands) could potentially affect earlier kernels too, even if
+> it manifests differently.
+> 
+> That said, for stable trees before 6.18, the triggering commit doesn't
+> exist, so this specific panic may not manifest. For 6.18.y stable, this
+> would be very relevant.
 
-> > +		ret =3D devm_regulator_get_enable_optional(dev,
-> > "sram");
->=20
-> If we assume SRAM supply is mandatory, should this be
-> devm_regulator_get_enable() instead?
->
+This analysis is correct.
 
-That was the first thing I did but when I tested it, it didn't work as
-expected because devm_regulator_get_enable() fell back to the dummy
-regulator without returning an error.
+Hugo.
 
-Regards,
-Onur
-=20
-> > +		if (ret) {
-> >  			DRM_DEV_ERROR(dev, "Couldn't
-> > retrieve/enable sram supply\n");
-> > -		return ret;
-> > +			return ret;
-> > +		}
-> >  	}
-> > =20
-> >  	opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
->=20
 
+> 
+> ### Summary
+> 
+> - **What it fixes**: Kernel panic on reboot for systems using Renesas
+>   RZ/G2L MIPI-DSI with panels that send commands during `unprepare()`
+> - **Severity**: High — kernel panic prevents clean reboot
+> - **Fix quality**: Small, surgical, follows standard DRM bridge
+>   patterns, tested by maintainer
+> - **Risk**: Very low — same operations in correct order, limited to one
+>   driver
+> - **Scope**: Single file, ~15 lines changed
+> - **Dependencies**: Driver exists in v6.12+; the specific regression
+>   trigger (MSTOP) is only in v6.18+, but the fix is still correct
+>   ordering regardless
+> 
+> This is a clear, well-tested fix for a kernel panic. It's small,
+> surgical, obviously correct (using `atomic_post_disable` is the standard
+> pattern for this), and has been tested by the subsystem maintainer. It
+> meets all stable kernel criteria.
+> 
+> **YES**
+> 
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> index 3b52dfc0ea1e0..b164e3a62cc2f 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -646,6 +646,13 @@ static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+>  
+>  	rzg2l_mipi_dsi_stop_video(dsi);
+>  	rzg2l_mipi_dsi_stop_hs_clock(dsi);
+> +}
+> +
+> +static void rzg2l_mipi_dsi_atomic_post_disable(struct drm_bridge *bridge,
+> +					       struct drm_atomic_state *state)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +
+>  	rzg2l_mipi_dsi_stop(dsi);
+>  }
+>  
+> @@ -681,6 +688,7 @@ static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
+>  	.atomic_pre_enable = rzg2l_mipi_dsi_atomic_pre_enable,
+>  	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
+>  	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
+> +	.atomic_post_disable = rzg2l_mipi_dsi_atomic_post_disable,
+>  	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
+>  };
+>  
+> -- 
+> 2.51.0
+> 
+
+
+-- 
+Hugo Villeneuve
