@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDhVJVNCk2kA3AEAu9opvQ
+	id iNUbBHdCk2kA3AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:14:11 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:14:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29239145FA2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8B4145FC0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:14:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD3810E087;
-	Mon, 16 Feb 2026 16:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B498710E3B2;
+	Mon, 16 Feb 2026 16:14:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OQEK5Azi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="heNUzaiL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7FF10E087
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:14:08 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-4359a302794so2337170f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:14:08 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47BB10E3B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:14:42 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-4362507f396so3248288f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:14:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1771258447; x=1771863247; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1771258481; x=1771863281; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=0ben+fYxU9x35Dz6yHbOIsof6+Krn5+skByxyeCmdbY=;
- b=OQEK5AziFO3rysQVpOJD6NqmIg3U0CNIPoF6ZQs484Xb2bFnYV64WZJFCDFPozx/f+
- eGmtjo/Ilr0xu+sCIjFEwC0x+PykygZiLR7QBJ3gW+autCr3eDCd39ty7I6wk6EPzZ/n
- cDn++QeFkTpKgPm6JoNW2Izg1cIf6iTL858D8c3W3Z5zmaP6ayXk9NHDnhxydNODdJk1
- m0ImHEzwyPt+rysAOloiH3Z6Qk/8ahUrIXiVnjMgVbQazglgT3pmhVZE0Addfpxea7Jh
- 8QhEeWMQOx8VthcpljPxlmuhCrXiTvlBvq2WvTBToxFNYd5UXaU3aQ1LZDjhzDJEnO/T
- L+yg==
+ :reply-to; bh=YBOE+Anr8vUR4aIW1HzZup3vQzErzRhY8eC+0tt761g=;
+ b=heNUzaiLM8eTIRP2YBq0CDS9nZr2PwxyZj65A4H45wJyuHZ+DqgYPmgus4qyLzjOWk
+ djmjm4uVqvwaPR6BRLe1/o2JoQurgyNm2AcSYz/ylWrREAZ6mFYjwFUKh4L+k2JJFPMA
+ zsdCcmzn20+xY3MdJJfzbpaprYyBao3pdpys9UpAS+KbFVWbM8hPHlxZwNVFUCmnKrID
+ LIdbXeNtDORnjpyPHhqj8/b9oTJsaC1Ja1HEXPHaxhFnYVyPYOvMj54MiijPz1XC7Cgr
+ 4BhgWyLG0mTeLFE1DuZTt+0E8zYjv7JfqEshWcIFILdEHr/vYG3CV/0DzfFbLhfb9Nrp
+ 46YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771258447; x=1771863247;
+ d=1e100.net; s=20230601; t=1771258481; x=1771863281;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0ben+fYxU9x35Dz6yHbOIsof6+Krn5+skByxyeCmdbY=;
- b=w6j8ndefwYOKOVyfb2mz8uOS+XKWAnsqz2v0/a/2agLnD+STD1vzuJdlSd4kL/o6hJ
- drn4gLDSRZCFnz/RLd2vsLDnHJDKa1fVnYYOXOk6cjth8n7oCTdG5g8Dc9brApfnVs97
- 3qPgVue0G9aejwgMjQHwUYJd5rwFTMQDVObInlbZUn/x/jWDz6KLppQ8ppoZg+3DjLdB
- FNRTG/uAugPjtFkEZLb1I1T6YHbvE20MQ5CowHxCTmsACTLcr/8B37kp4PPQDT+bopj/
- NZCFLqDo7t1IsP0vwONWE7mTitaHpRDVR2naVSEf+O8ngIF9Q6uDe9NowdiBbnkN4vYR
- Poqw==
-X-Gm-Message-State: AOJu0Yw3Q3/Dmk2IAqmWS9KcSTOL/kC7RjdS5G45gcusOmDELkTeVk0F
- zFIQQH+yj5m9LQRRM3EcQf4kxyOUih5OG3M+JRWJYPfOUO0NsxQ/Pu84k5+7afNWiR0=
-X-Gm-Gg: AZuq6aJUDK1XmumIbgjnD37SsehFSOpkNauomo1PuFp8MQjpMj2pDE+uL3o+a8BPoyx
- w5gFI2vIKV5HWypQYUW2qMmL8lezZh7AOP8p5vEXlo5rGb9HqgCVk0rais9Hj050FrbQOcjJUZ6
- yjidEuwsa1goXBGhVx1qw6HnH3r8TuHxYQtpDhfs7uVHLzDHEVLOWn6/H4FYwl7TKu1/GAxoG98
- UgPI/fQZatTlgNlqYzztuf/q5xPcaFFBAsdpu5m0DS9ipQ4f9bm3AtwjS5sJli7Xbaoj8iHYARc
- Hj50QapCS48B17kAYFXUvwsw2qa2VUtLAp0waF6t24bUXfnXCeH6wmM0uNDwfE8ZsnA/wbK7Va9
- WSPI9aKSANbG9Cs5dE3PtsnHBaQwsGVGUChBusFnq9lvcROyL9F/K6GKvT3lXyqilWDbLKLRTBX
- pijphyEXS/bnyuI07ixv64VSBkLk+/PCsNBfsm8VO6+JRVNrJ+aIRsfJftsmAudclORkOiBfqZ4
- AFOxw==
-X-Received: by 2002:a05:6000:4310:b0:437:719d:a753 with SMTP id
- ffacd0b85a97d-4379db3414bmr16542788f8f.11.1771258446468; 
- Mon, 16 Feb 2026 08:14:06 -0800 (PST)
+ bh=YBOE+Anr8vUR4aIW1HzZup3vQzErzRhY8eC+0tt761g=;
+ b=mVPva6RYepme850uaIUTJaSwZ4oZIGhkkeJwjc4N5UO9mDHNuptw8G+tGCOeh44Azz
+ qXCUgMUH5KzO2ir80warhoD9hR3ha4Elh58YJhyRf0iZFlC0O1CoRr8bgLekQdeK3Vct
+ YpAKDJnAeswt73CLwhZHUznLyCH+JVLOHKaQuaDdvPSfrI0FZ2tu74T9j3hsBdJ9diGU
+ PY4pcKsvWUFi9GvqPx25564tQkxphjz73Bmd3HjNSoOFFX/TI3iJmqTO7U86/qDkxYal
+ T6+xfqFJX9BlKrxjEJUl4vyGfY2u2YtLyhOrah9k17apxTCUijmtxoNH9ytVfGj0DQVB
+ Ns8Q==
+X-Gm-Message-State: AOJu0Yzz8RilXYqZaHAFA1FYIlHB3X2r7xWtGltf9Aawj5ypb/TDXDZL
+ O8ZX0xUAvpxysjQjjWFvaowX67A/VM91tZrS/w7295d1awSzRlOP0ZVIvHEC7hvT7pA=
+X-Gm-Gg: AZuq6aK1t+CyjRhXDfYki7DQiRKgqZkRRX9mqG3CbiadsJ2XloDj4mTJeukwgK3LLkJ
+ U5L+8xQIGSm4XFQY6f1bFnoGX2Ozs636uzRmYy32DKZ7eVxO3iZdy9t4wJuSCX6cgnddLuLL6Zr
+ Uysu4s6UdVerA9NSnRXn2VCt6eIAbZWUiB3uavA5g+mTRVvLQvnjVGV/oTNubtfGFouige09CTy
+ 2qrMn8CYk5dlVsUiA6NUsn1ZHuBg+jWfm4Xjjjoyinm1q/x9KeJK+veaKACjVP9orLy2CiEIISx
+ M3bDDINPbsvq7uonZTeFzvKkBVOh60pvPn4az3VkwBHVG3Fp7G+7YIWqCvNzsOGqHDXdq3y844l
+ X1kdxyeiBP/RB9epoM0iZ8JcKki+9I3SeSgVWsjjIYACqpMKZ5wYhsq6klAmvsGsEP3KrXQDTle
+ cg25rQtdET/Gn+WdzMJm0e+IAASaaZOPQ+cVlUjxFKIapp3VMtIB+ckjhuzqpkbI7BxFNVem1to
+ U9S5Q==
+X-Received: by 2002:a05:6000:430c:b0:437:677b:4a24 with SMTP id
+ ffacd0b85a97d-437978cdde0mr21787157f8f.15.1771258481138; 
+ Mon, 16 Feb 2026 08:14:41 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a?
  ([2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43796a6a5f0sm27482504f8f.11.2026.02.16.08.14.05
+ ffacd0b85a97d-43796ac8209sm29732239f8f.30.2026.02.16.08.14.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Feb 2026 08:14:06 -0800 (PST)
-Message-ID: <c588c5b4-82ec-4d4c-a3f4-5f81c6fcebaf@linaro.org>
-Date: Mon, 16 Feb 2026 17:14:05 +0100
+ Mon, 16 Feb 2026 08:14:40 -0800 (PST)
+Message-ID: <6f8896e1-6bf9-4997-9bf3-d5fffbdd4701@linaro.org>
+Date: Mon, 16 Feb 2026 17:14:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v1 2/5] drm/panel: r61307/r69328: convert to
- drm_connector_helper_get_modes_fixed
+Subject: Re: [PATCH v1 3/5] drm/panel: r61307/r69328: remove redundant checks
 To: Svyatoslav Ryhel <clamor95@gmail.com>,
  Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -82,7 +81,7 @@ To: Svyatoslav Ryhel <clamor95@gmail.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20260215085140.20499-1-clamor95@gmail.com>
- <20260215085140.20499-3-clamor95@gmail.com>
+ <20260215085140.20499-4-clamor95@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -109,7 +108,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260215085140.20499-3-clamor95@gmail.com>
+In-Reply-To: <20260215085140.20499-4-clamor95@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -162,120 +161,116 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 29239145FA2
+X-Rspamd-Queue-Id: 6B8B4145FC0
 X-Rspamd-Action: no action
 
 On 2/15/26 09:51, Svyatoslav Ryhel wrote:
-> Switch to use of drm_connector_helper_get_modes_fixed helper for get_modes
-> operation.
+> This is now done by the DRM framework itself.
 > 
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->   drivers/gpu/drm/panel/Kconfig                |  2 ++
->   drivers/gpu/drm/panel/panel-renesas-r61307.c | 17 +++--------------
->   drivers/gpu/drm/panel/panel-renesas-r69328.c | 17 +++--------------
->   3 files changed, 8 insertions(+), 28 deletions(-)
+>   drivers/gpu/drm/panel/panel-renesas-r61307.c | 10 ----------
+>   drivers/gpu/drm/panel/panel-renesas-r69328.c | 10 ----------
+>   2 files changed, 20 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 477c54c90b01..47de5f6a9143 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -700,6 +700,7 @@ config DRM_PANEL_RENESAS_R61307
->   	depends on OF
->   	depends on DRM_MIPI_DSI
->   	depends on BACKLIGHT_CLASS_DEVICE
-> +	select VIDEOMODE_HELPERS
->   	help
->   	  Say Y here if you want to enable support for KOE tx13d100vm0eaa
->   	  IPS-LCD module with Renesas R69328 IC. The panel has a 1024x768
-> @@ -713,6 +714,7 @@ config DRM_PANEL_RENESAS_R69328
->   	depends on OF
->   	depends on DRM_MIPI_DSI
->   	depends on BACKLIGHT_CLASS_DEVICE
-> +	select VIDEOMODE_HELPERS
->   	help
->   	  Say Y here if you want to enable support for JDI dx12d100vm0eaa
->   	  IPS-LCD module with Renesas R69328 IC. The panel has a 720x1280
 > diff --git a/drivers/gpu/drm/panel/panel-renesas-r61307.c b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-> index 873ef856184b..45afa44af114 100644
+> index 45afa44af114..2cc3bd66d6d4 100644
 > --- a/drivers/gpu/drm/panel/panel-renesas-r61307.c
 > +++ b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-> @@ -14,6 +14,7 @@
->   #include <drm/drm_mipi_dsi.h>
->   #include <drm/drm_modes.h>
->   #include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
+> @@ -35,8 +35,6 @@ struct renesas_r61307 {
 >   
->   #define R61307_MACP		0xb0 /* Manufacturer CMD Protect */
->   #define   R61307_MACP_ON	0x03
-> @@ -202,25 +203,13 @@ static const struct drm_display_mode renesas_r61307_mode = {
->   	.vtotal = 1024 + 24 + 8 + 2,
->   	.width_mm = 76,
->   	.height_mm = 101,
-> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
->   };
+>   	struct gpio_desc *reset_gpio;
 >   
->   static int renesas_r61307_get_modes(struct drm_panel *panel,
->   				    struct drm_connector *connector)
->   {
-> -	struct drm_display_mode *mode;
+> -	bool prepared;
 > -
-> -	mode = drm_mode_duplicate(connector->dev, &renesas_r61307_mode);
-> -	if (!mode)
-> -		return -ENOMEM;
+>   	bool dig_cont_adj;
+>   	bool inversion;
+>   	u32 gamma;
+> @@ -92,9 +90,6 @@ static int renesas_r61307_prepare(struct drm_panel *panel)
+>   	struct device *dev = &priv->dsi->dev;
+>   	int ret;
+>   
+> -	if (priv->prepared)
+> -		return 0;
 > -
-> -	drm_mode_set_name(mode);
-> -
-> -	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> -	connector->display_info.width_mm = mode->width_mm;
-> -	connector->display_info.height_mm = mode->height_mm;
-> -	drm_mode_probed_add(connector, mode);
-> -
-> -	return 1;
-> +	return drm_connector_helper_get_modes_fixed(connector, &renesas_r61307_mode);
+>   	ret = regulator_enable(priv->vcc_supply);
+>   	if (ret) {
+>   		dev_err(dev, "failed to enable vcc power supply\n");
+> @@ -113,7 +108,6 @@ static int renesas_r61307_prepare(struct drm_panel *panel)
+>   
+>   	renesas_r61307_reset(priv);
+>   
+> -	priv->prepared = true;
+>   	return 0;
 >   }
 >   
->   static const struct drm_panel_funcs renesas_r61307_panel_funcs = {
+> @@ -175,9 +169,6 @@ static int renesas_r61307_unprepare(struct drm_panel *panel)
+>   {
+>   	struct renesas_r61307 *priv = to_renesas_r61307(panel);
+>   
+> -	if (!priv->prepared)
+> -		return 0;
+> -
+>   	usleep_range(10000, 11000);
+>   
+>   	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> @@ -187,7 +178,6 @@ static int renesas_r61307_unprepare(struct drm_panel *panel)
+>   	usleep_range(2000, 3000);
+>   	regulator_disable(priv->vcc_supply);
+>   
+> -	priv->prepared = false;
+>   	return 0;
+>   }
+>   
 > diff --git a/drivers/gpu/drm/panel/panel-renesas-r69328.c b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-> index 46287ab04c30..b40bfd702fac 100644
+> index b40bfd702fac..b5fe127634ae 100644
 > --- a/drivers/gpu/drm/panel/panel-renesas-r69328.c
 > +++ b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-> @@ -14,6 +14,7 @@
->   #include <drm/drm_mipi_dsi.h>
->   #include <drm/drm_modes.h>
->   #include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
->   
->   #define R69328_MACP		0xb0 /* Manufacturer Access CMD Protect */
->   #define   R69328_MACP_ON	0x03
-> @@ -167,25 +168,13 @@ static const struct drm_display_mode renesas_r69328_mode = {
->   	.vtotal = 1280 + 6 + 3 + 1,
->   	.width_mm = 59,
->   	.height_mm = 105,
-> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> @@ -33,8 +33,6 @@ struct renesas_r69328 {
+>   	struct regulator *vdd_supply;
+>   	struct regulator *vddio_supply;
+>   	struct gpio_desc *reset_gpio;
+> -
+> -	bool prepared;
 >   };
 >   
->   static int renesas_r69328_get_modes(struct drm_panel *panel,
->   				    struct drm_connector *connector)
->   {
-> -	struct drm_display_mode *mode;
+>   static inline struct renesas_r69328 *to_renesas_r69328(struct drm_panel *panel)
+> @@ -56,9 +54,6 @@ static int renesas_r69328_prepare(struct drm_panel *panel)
+>   	struct device *dev = &priv->dsi->dev;
+>   	int ret;
+>   
+> -	if (priv->prepared)
+> -		return 0;
 > -
-> -	mode = drm_mode_duplicate(connector->dev, &renesas_r69328_mode);
-> -	if (!mode)
-> -		return -ENOMEM;
-> -
-> -	drm_mode_set_name(mode);
-> -
-> -	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> -	connector->display_info.width_mm = mode->width_mm;
-> -	connector->display_info.height_mm = mode->height_mm;
-> -	drm_mode_probed_add(connector, mode);
-> -
-> -	return 1;
-> +	return drm_connector_helper_get_modes_fixed(connector, &renesas_r69328_mode);
+>   	ret = regulator_enable(priv->vdd_supply);
+>   	if (ret) {
+>   		dev_err(dev, "failed to enable vdd power supply\n");
+> @@ -77,7 +72,6 @@ static int renesas_r69328_prepare(struct drm_panel *panel)
+>   
+>   	renesas_r69328_reset(priv);
+>   
+> -	priv->prepared = true;
+>   	return 0;
 >   }
 >   
->   static const struct drm_panel_funcs renesas_r69328_panel_funcs = {
+> @@ -142,9 +136,6 @@ static int renesas_r69328_unprepare(struct drm_panel *panel)
+>   {
+>   	struct renesas_r69328 *priv = to_renesas_r69328(panel);
+>   
+> -	if (!priv->prepared)
+> -		return 0;
+> -
+>   	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+>   
+>   	usleep_range(5000, 6000);
+> @@ -152,7 +143,6 @@ static int renesas_r69328_unprepare(struct drm_panel *panel)
+>   	regulator_disable(priv->vddio_supply);
+>   	regulator_disable(priv->vdd_supply);
+>   
+> -	priv->prepared = false;
+>   	return 0;
+>   }
+>   
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
