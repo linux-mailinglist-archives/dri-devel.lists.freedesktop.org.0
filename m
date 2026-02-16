@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GNwQBRCnk2ln7QEAu9opvQ
+	id SNZtLQGnk2ly7QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:24:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA113148132
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E7C148107
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116A410E406;
-	Mon, 16 Feb 2026 23:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03CAE10E40D;
+	Mon, 16 Feb 2026 23:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="OTtvQBQE";
+	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="IVU2yros";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011017.outbound.protection.outlook.com [52.101.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2A0710E13F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:02:29 +0000 (UTC)
+ (mail-northeuropeazon11011070.outbound.protection.outlook.com [52.101.65.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D27510E18A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:02:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t8inlipKWTETfhA0/w7AfP4Mdh/Vf4PWUW0xwYkN+bfesKddoV+uZHV7DBhBYUSz0MTYbhVnKRIMK8z/Y3Xx1zcFa8SLkzYXhdUJHoHuS1npXpjt8Jikr1Bp1gSg8pbbxfJfdnlOUhMUbcqfhauTf/pDeGksYvNMvhRjH8rOoZ5bT/e55Vzy57+i21QLGNUUDT8lKDu2Xx0tNqfpnYkNH8EX1eEirjUp5m+TQQcSSFVf6fXb9wsM/VOTX+sk+26iwHnzGCWqNP0FQzbrxqr+Gp1oSoJYP9Z18TTLpdlX9z3aP29KFIB3B9bkEyTtd+F4IE7xJ+9tR5HsYFfeO5tASQ==
+ b=Arg9wXk7/hmmS8mvXQtSoOq5t/bPwJPZbouKAV4vUIbH6nbifA6sKOzj6N+h+oIjfbcF5M99qSXCAfd1Gl8wNf9GnLxZWiLQ8Wekcb9M8pd8ha2YYu3nNbj1kXssj3H03ViueVxO7dfEMg5lo+/N4ZCXnh/p1iJStroQePDmwVikrGFCyNkdoRmBgxM6Dog4ufNAmhsNqYDt7Nh69CTkYHK3o4G21ILmNnDBFwSbnC2CZh/JlQjkxxKPBUjrQ9bwPbc6H+/wePJn0uwlrGXftup6CTe4AiE6YpBzGkXqdXNA2erYZXa8TuOyinBs9tvFITx39kxVKXDVXIO1pilNMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hKzVFXh68BLbZsPa9jiihTw5vANIJn8C+vLJRIFBfbw=;
- b=WctqH0aNiM5VXFQuv4J5hJvCJSdaDql6vLoQ/rmqmXStKTITO9sbb+nQ86MUyPnXaaHHVx6B6SKYaMDr0U7VZ3BQWXaIf5l6xYMOaimqBsI/2LrRWeocE6BXsgfV7x6RBmta6fdD8fYcZqs9khKF3sRpG3hfx9XDkFVcs9InuJ6mNKbOMORt5suEppDGO/eZJodceLHfPv9iudDXMnHO28VZ4pk6eHjY8IckpgH8lwM78Sjmuu+sO5DrhO95gW0sAaceQ4w/uJjGts31kL9j+XiL4iQUB4Ek+KViDRPkdXIw1lh+ASANmKgvfcz7ajcQ/9FWpisZsiY+Lw7YtiN0NQ==
+ bh=W64Q13eCvXOVwz2qaZ+ugzyvOrLsOaHt3rdulLfSpQY=;
+ b=Kxhw3dS+WvbSIxLatOfcGBEMP03zafTGBGSfkZhn8qwALm35Pqt7DZBRMCt52okqVXnwsOnGmFY0siLxpz83iAS7jsPjiQyIqJ20HDrvq2b17+H/lAVccHYG9gfbEoo9JEuV5EMNArMDS830yq60SNHDK2oCNcggwgj1ickRH0Y+ixjFoz0OLwyFxZxXKWeTMg/6tTQ6XS/mqK00yUjg23vqvXYqwgo6H7iEk4dKGVZuYJyVlXQ5dywpic2sNxU0jrWjUjXCX2Oo7nLWKvmoiYfkn7IVH3Y5EdpmZ3Mu4DvLF4ZylAQpa34NFR9EKtCMyIqVwTp+YsNH6jgiFibigw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hKzVFXh68BLbZsPa9jiihTw5vANIJn8C+vLJRIFBfbw=;
- b=OTtvQBQE0682pKVQdC5GBZsXeMvmG9EVftr+o8wPh6tSeoyFog+VZtLvfUW9jthAsk9Er5+u42ViY1UUQbnhFazkGzKduEAByrHP4YXBYQoggvRzIeox958rfgxx+EMZ+UvwWPi4QYSN0ivo5EOCLYIARoLBY3bXoVLDTSSYL8CHYbTPx7hIB12OW4H8nAoW7liqsVwA3WUAa3bMWbJ3EHwIt8b7Q2VvPCJRDco1g1hoB90rMDkDQ9yXZzNwhh8P5kw1Zsrp0DX27AY/KvnV49WQlYDPQdh0DhaGmhJLUvAf7mZJifa5oNaMIeinI21oJhJc2Rh8FlDPJ2k9ZQXliw==
+ bh=W64Q13eCvXOVwz2qaZ+ugzyvOrLsOaHt3rdulLfSpQY=;
+ b=IVU2yrosu1Z2AYLIdi52J7qRch3lhKI4aGyqKeEzWg/oxnZlV9fpAKcCcSDxZ0st8CQ971JEOKazCK7mj/vU3+AYKclOOAPP367vpyu84U7hBfS/U2Imwubk71E9L1jqowoiQ1fI6yZQk/quhfXApSQrY4RS0OgDHAlBknBLEmoqW4UU8/Hdxm0g74nALGnLEVCdAaP4MXFDrsnAunfg+fMZPQttXFT3qNADLvrgSRHrba7X5qNzz1kIG9JjiEZgaI7gZGzPJO3gcxWlUT0uZWu2cYLO3SY38elUTacTnVPo+5D4qFTUM1ysi2oinlwDiUgZ/4KltmJ0qEktrzHgzQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PA4PR04MB9224.eurprd04.prod.outlook.com (2603:10a6:102:2a3::5)
  by MRWPR04MB12380.eurprd04.prod.outlook.com (2603:10a6:501:83::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
- 2026 15:02:26 +0000
+ 2026 15:02:29 +0000
 Received: from PA4PR04MB9224.eurprd04.prod.outlook.com
  ([fe80::8e54:4d38:df79:fd63]) by PA4PR04MB9224.eurprd04.prod.outlook.com
  ([fe80::8e54:4d38:df79:fd63%7]) with mapi id 15.20.9587.017; Mon, 16 Feb 2026
- 15:02:26 +0000
+ 15:02:29 +0000
 From: Larisa Grigore <larisa.grigore@oss.nxp.com>
 To: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
@@ -59,119 +59,118 @@ Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
  s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
  eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
  Larisa Grigore <larisa.grigore@oss.nxp.com>
-Subject: [PATCH 06/13] serial: linflexuart: Ensure FIFO is empty when entering
- INITM
-Date: Mon, 16 Feb 2026 16:01:58 +0100
-Message-ID: <20260216150205.212318-7-larisa.grigore@oss.nxp.com>
+Subject: [PATCH 07/13] serial: linflexuart: Revert earlycon workaround
+Date: Mon, 16 Feb 2026 16:01:59 +0100
+Message-ID: <20260216150205.212318-8-larisa.grigore@oss.nxp.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
 References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS4P250CA0005.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:5df::16) To PA4PR04MB9224.eurprd04.prod.outlook.com
+X-ClientProxiedBy: AS4P250CA0008.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5df::9) To PA4PR04MB9224.eurprd04.prod.outlook.com
  (2603:10a6:102:2a3::5)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PA4PR04MB9224:EE_|MRWPR04MB12380:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec2d2ec6-2600-48ea-d7f0-08de6d6c6548
+X-MS-Office365-Filtering-Correlation-Id: b3bd6f17-d50b-4dd5-b935-08de6d6c670f
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|376014|7416014|1800799024|19092799006|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0tZUmNFVzRCUUNUNWt4c3ZNSjFYbmtZZk9hbkNSR25YL0E1ak5vNXNpZjZy?=
- =?utf-8?B?VjZ4TFo1a1puYXpiclhCUm83MEw5eGhGODVmQnorRnNuV0g1dVdjRHlXV3lK?=
- =?utf-8?B?Q285alhkVmRiNk5RSCsrVUREalpwYVdIRnYxUlRySEJaR05QWE45Tm54bEov?=
- =?utf-8?B?YzNNTm1QbGYzNFBJOTQxRDBtK21wU3lkcU9NVkM2aVgxMFRTYzJOZ1NVSUJL?=
- =?utf-8?B?QjdwTXM4VEx1RjErMG9SMmZTNDA4K0E5eWI1dzRnYVdNS3QxUDFUY3hkODY1?=
- =?utf-8?B?NWhsa2pjVG92d0FxUi9DTWR1Nm9TdTVYRVRONGZ2N2k3ZEJhazFpalMxN2Ji?=
- =?utf-8?B?bnloTXNKYWNvN0JxMHROQXdOc1VIaHFCN1UwK0ZlWFo2VlQ1QzQyb2Nwcm9R?=
- =?utf-8?B?ZmVYQ1hhTUprWVNEWkFTRG1HTG9pRm0vd3F1ckhYcGdlNlBDVnZneDZUVWg0?=
- =?utf-8?B?V3ZSUVgyQWNvRW9xUVM5MVVhMVRkcCsrMHYrZFpPSmcvV3NKTG4vQWpVVVhq?=
- =?utf-8?B?RUE5OHpOUmRiNFBBMG0zNkZjM3k3M2REVHRSVitDVit0bTViM2pTRW9VMGpt?=
- =?utf-8?B?T2phYVhyUWhmRDJ0eUZudFV4cG96N2pScGU5Ly80djJzcHJCN29mRDhyOXJR?=
- =?utf-8?B?WnpSQ3FYbGd3dEFHWGtzSGxTMlFPRWFzaSsxR0lOaURWY21LbFpFdEwvL05M?=
- =?utf-8?B?NG9RQzVsNWRDb1ByZTdZNVJkYmRvVFpQUmJESjVGOStzdkVXNHNvN1dXQzh6?=
- =?utf-8?B?OHhXTlg3akdnR1k2UmVWb0NqaHhYak1rQnczWlkwd0tFc0ZTUE5MT3o2cUtG?=
- =?utf-8?B?NlRMbGUya1Bna3ZIZC9hdzdVR2drWXVzSW0zd1pvQkRtSzM5M3FLR1NJYTk5?=
- =?utf-8?B?S0JZcUxrQzRwTklzQ05DMXpaQ2Nja0grRkMyTU8vRkY5VGsrcHE3Qzh1VWx0?=
- =?utf-8?B?dG9QQ3IzWmRHb1NiaW04VVlkbHhkcUFOZSthaVhnbU9xZ1kvYVVDL2plUmR3?=
- =?utf-8?B?anlua2dFQm9kd0tVZW81Z0xjd0pRZ2xPSEpWUkwrRTlyNkpEKy9UVzVQOEpK?=
- =?utf-8?B?TjhpMDY1cjVLbGc4WktYYWFGcXByN1d6dEE3aEtiMnJyOGhQZFA1ZzBVQWVz?=
- =?utf-8?B?MkNWcDE1VytsTkVZYTJ2a3F2WU1wNXFCSWpVYUl3UTAzZlpleUdmN3ptTjcr?=
- =?utf-8?B?RHhCMEM4STBMdkgxQ1pzcFBxRnZuRzl0UVZSMEpneVAwc0ZzMjNXTGdrenhQ?=
- =?utf-8?B?ZE9iU0o4YWVudlJDdjNQTUdLTlovNU5Ta2Y2OU1mdlFETER1UEswVCt0NVlm?=
- =?utf-8?B?MEtkQ0ZGU2dxeWxOUEtUWHpwTVNIN2YwZjdVSm1wWXB0bzlHdGtDMXJ2MnQ2?=
- =?utf-8?B?aEVRbm1YeHVuYXdydmVNZm5lMHl6U2YzMUprclhXM2NGc1ptTnh2Z3l3VUFY?=
- =?utf-8?B?TTJhelJ0ZXRCQVRNeHQrdUtObmM3TEFxRFR2U0VmazFDS045VUlFYzc3akZY?=
- =?utf-8?B?cW9vOVpQeEczZnFRdWVmSTA2TUcvUEpuTVNybDMvbDhvVXBKWXFKanJhU1hL?=
- =?utf-8?B?UXRTMFRiY2JNMjNDc2l2dmE5bEZIZERsRU9WeW5ma25wWVlCbUN6MGdoU3JF?=
- =?utf-8?B?YWJqSWo4T291eWJxajZqanZ0NVE3b3RjaFRDc0hsR2FUWXIzNEVDSG1ra0tN?=
- =?utf-8?B?Mm9mZWQ2bDZid043QVZIS2FUMTBiSEpDKzNuZU0rT3RLT09KUnZ4WDllZW8v?=
- =?utf-8?B?WDlhS1d3QXhYeDE4OURhUGhUeThFMmtHMmo4cjkzdDR0bGtYZlJNdm9KWDNQ?=
- =?utf-8?B?R0JDcXUzYzUxOGgzUVdZR3ZHV0pIV2d5SXB3N29xTk9BN1J0ZXBBVUsxWk5y?=
- =?utf-8?B?YktiT1FqM1E4Wkd6YlJhTlNVRWNvZCtQWEdnY0lpVWFmNUZYYjFaNWZ1UU90?=
- =?utf-8?B?a3JDbnQvTFlwM3RDN2JXR0YwSUE2YmJDaGF1MGhTaWU1Z3BrWjZiNlpTRVR0?=
- =?utf-8?B?amNuRElnbVByckF6VjA4WFVnYkc2dlU1RmpFa3kzSTRFdkFXVXE2Q3VtdWRH?=
- =?utf-8?B?eGlUV2RGQ2phamJPWEt0VTdhNDJJazJ0U2JHMEMyb1RyVVNYdTdGTkV4VkEz?=
- =?utf-8?B?MVdtK0tWTzg1dDhzVmxJZ1ljZDZ3ZGhZZCtTVU1vcENyQThRbzROdG11L28v?=
- =?utf-8?B?M3c9PQ==?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UU05bkVLSm4zMnFwbzRURk9nditPYlJZRWlGaUhvSkdOc0xsMzFFRWlDckRZ?=
+ =?utf-8?B?Nlh5ZmhEWVZMSVBWSFRRWTVaWWdhbzJkR0pDMHBJa1RrSjR5akp0cFk1ZGpW?=
+ =?utf-8?B?MDBCdy9zTHI1NTBKaHJFMkRxS0pyekRZV3B2QVBFUXgvZWxoaXR2NUVtbyto?=
+ =?utf-8?B?K1RqcXhYc2hXUmNSb0pLK2h3NUlmNjh0NmJvbXdsWXVsclRtbXRTWHExSzlv?=
+ =?utf-8?B?T1FpeWFIYjRlYTRtUTBzbzVWaEI3Y1N5aFJIN1ppdlZpVU8vZ0RPVzJEb3cx?=
+ =?utf-8?B?amtvZjFNb0ZlZnhJM29rT2lTK0ppVm1BYVluWmdkTTl3V0VqMWV5ekJzbDho?=
+ =?utf-8?B?aktUcm0vV3NmdURkbkFjSVkxaFJNQ1ZZQ0RVeFRUekRnUWZCM0RCZVhqZkZp?=
+ =?utf-8?B?WExHS3ROS0pxRDJxZXdIelF0N1V4cE5zLzArN0dLOWp5SHF6Rmp0Mkg3SWFQ?=
+ =?utf-8?B?Zzl3RmllN29Jbm4zejlIR0V6VkE3ZXRTTll5N2ZUd1lDNEpuTEJTTDJTNmRL?=
+ =?utf-8?B?UmlybklqZkhnRHRjMlU3VTBxSVhuTU96WmtKRGcrdDZYMEFOdTBOYlhMR24v?=
+ =?utf-8?B?dzhMVjMvSHFsQUVKM05TQ1krZWEwd2YrYjNuTnNBeUJlQUZ0VTU1ZDRxeC9n?=
+ =?utf-8?B?MEZxZHVVRWZkczIyQU8yd1A4TW9VVmNlY2U1c1RnNDNBMTVja3Q1QkxyeGp0?=
+ =?utf-8?B?cGxMRm1aUit5R2FHZ0lvTmlBU3BkZlc5bnlSMEFpNmRFUUZLZHRleDdsSWlW?=
+ =?utf-8?B?OGkyNjRGU3BTaWdjZ0o0dlVRZUdCTUozZnBzVFdZRTNPTGZxZFV5WkxaeDhs?=
+ =?utf-8?B?SGNZMmtvVWQ3b2pHRk1MOWRhU1BEcWN6M3dJZGR3c2U0UzFxS1J0b3VWMmo0?=
+ =?utf-8?B?a0owUkUxSlJ1NXJQNU9ONkpyQlpUVzhjQ1MydHd3WTFtcktVNiswYVdxT0ls?=
+ =?utf-8?B?cGM5OXJ3UEIzbVpWY0lUTDFHOWUwY2JPWE1TUDIwWnQ2bmZFcURhRmFQZHRy?=
+ =?utf-8?B?TFhLM2VpeEhMWXZTZUJhQjJnNDdjQ1RFL3RVdHMxM1pqVEkwd20vMDFTdFNJ?=
+ =?utf-8?B?K24zN3Bpeno2bHVlVHBSVTFveGkvZWs3YzNwdGQwY0xNUVJOTjRTNDVQNW01?=
+ =?utf-8?B?UjViSmpDZjdwQVZjRXBMU1d4WGFJaldjaElyRGtSSVIwUElBNUJnS2grZTdm?=
+ =?utf-8?B?aGFVT1hkOWwxUjFrbUtUOEYvQ1hleGhBV3hxam9na1hoM0tyd2JoRDFEcGNO?=
+ =?utf-8?B?SVk2QWx4TExvRENTQkhiR3hxL2M1UHZJTmNOSzJLRlVaT3FKbzJ0ZFl3dHlz?=
+ =?utf-8?B?cDZlQlFrVG56OU9HVEsxdEpxS24zNXVYYUlJZ1haSGhFNHQyWUkwYXozYUZw?=
+ =?utf-8?B?V01WTVBNS2ZtWWdZUDNWTVh1dFh3bCt5WTBTd2VYeVRpZHk5cjJMZXVUZ2o1?=
+ =?utf-8?B?U1F2K2ZhZnZlRDZjRFl6WUkyOXp2TjZ1SDRBV2svNzZTMEhGOWtkd2NxMjVS?=
+ =?utf-8?B?QlYvMW4wUk1FR0twRm5jSTVyVUx0Sml1Z0Y4ZWdIQUxINHBDQUc5NVMraDA2?=
+ =?utf-8?B?dFAxaGg2RGRiYTlvYzcwMjFucXY1V0xzckh0ZDE1blZUU0RqV0krRUt3NUkw?=
+ =?utf-8?B?RG9MczkwZDNNdGY1MkdkbnhNYlBXVjlSOXREM2xSaHZ2S1owdWlZaDg1WTJ2?=
+ =?utf-8?B?YjgrVXBrakJmVlNmQlc0S0RoSzhWNXkzbHQ4TzRyTkp5OUZHeU9pR2hobUxp?=
+ =?utf-8?B?bTRvVzdKa0JHLytDYmRsUnpFaUlSR3dnaDhESVlMYlF1WFBCZG9BRXV2VFdE?=
+ =?utf-8?B?K1krb1ZPMkxZQWF0Vm5PRGxHOWtjaHB4RElDTTEvcjVYU3EvdzBhVmNIdFJG?=
+ =?utf-8?B?d0pUd05LK3pvZ3BQMDFRSlRSUGtUNmErT3RodFduTnllNWh4STBablUzMU9M?=
+ =?utf-8?B?SUU0aU1QbU9yaGgxYWF1dWVEU3FTaitMUkZVNWJDVTdXS253NXd1NWpaYzVT?=
+ =?utf-8?B?WndaZk9mS2FVbFBLU2Y4MTMwcG9TMWJ4QlBmazUyem9zUFhCVWptTlFsWjlF?=
+ =?utf-8?B?WVV6L1ZoWlFFbkFRT01PWGlnUmt6bzZWMXlET1NDWHhBUzB2LzA1TkNEOHdn?=
+ =?utf-8?B?VS9NS0xzWmRLUDlvd2lYRnpXaVNHTy9mNU9qbkVjZExQSUhUVWFsY0ZxaHA3?=
+ =?utf-8?B?UUE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PA4PR04MB9224.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(7416014)(1800799024)(19092799006)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkw3Qkk4Y0g5THR2VEFDRGRVZ2l2UzZKMFFiNWgxME9tekVZQjBWUlZaRWVE?=
- =?utf-8?B?ZFhqZ1lheTArSTM4ZG8vakx1SGFic0FOQzA0cGRiZFY4TUlLbFFNcUh4YW9o?=
- =?utf-8?B?aDQwLzk2dVJQK0F3K2k3UnJ5Rlk0NTFZcld3OGNNWDdRN21OOGxHZWt1MW9X?=
- =?utf-8?B?NUJOYkFROEJLZngrK3FpQUNIRlVFcjc4L3NkS2EwcTFXN0dKVmgzLzdFVTdh?=
- =?utf-8?B?MHVyN2txeW9OWTA1YVFpV1RCdWQrOHZBV1g4cEFpZjM0b2NJTXFONlZ6OS94?=
- =?utf-8?B?bnBERVp3elJXYVJPVkFTaG15dGN3dm5ZTlNDejJkUVVQRSt0eG1EWUNxcytR?=
- =?utf-8?B?YkZPOHc5b1FqNlJaUW91dSs5aHlDYWw3dEMzYVlVMkJQU29ZVGlYQnFEMzhK?=
- =?utf-8?B?SU9nT1lYL2JmUWR3U2prUyt0K2FFODhMSWhaWXdpcHo4OGZQQnQrd08zcERN?=
- =?utf-8?B?a0hZYzVhNGI1MUs5RmxXTUhKNlAvbEdDalJhRTY5SW9kREZZQ1ZaL1hzSllD?=
- =?utf-8?B?eXBvMG9uckFCRFVGV283SDYwQ1dSQXUyclpOakJQSmlzY1NQU0duYnh6bHBI?=
- =?utf-8?B?L3NHMXNMczJqdEFQbkNtaSsrYng3VmxtTm4yZ3hGUHZXeVQvamFPcFBsV2dx?=
- =?utf-8?B?ODFxcURMd3N4Tk5DcnRuYWVTQXlpZGpCd1hvQXEyTWRZcjZSRVZHVU5wWHk4?=
- =?utf-8?B?cEFsWGhaOTc5aUpWajNSL25sYWxvOHZYcGRWMEFSY24xczdPRkljdVFMcWZY?=
- =?utf-8?B?a0xjUjZDMmlzby8wejJhZW1WMk80d21OdldTTnRJQ1hvdXA5bXJrdG9icDhW?=
- =?utf-8?B?cWtnK1NxVGNYNHlCSEt0OWpMbXZFdFNnYXFWdjRvOE8ycE5zNUk1M3JZQUt3?=
- =?utf-8?B?dktLL3lVbmJITUduckRvVE9LZ3BHT3QwNmt4anZkajR0aTdlTUpIUXoyUkky?=
- =?utf-8?B?SlN2WWJOWVQ2UGNwRVZsb2ZObUIyZWdJUmVNK0ozeTllZCtvcEtwMnQ1V2xU?=
- =?utf-8?B?cVQzVTNlSzZZWUdvaXFOOWVtN2Z1SStxUk1Zay84OWplVjczRSsvcm40Vncr?=
- =?utf-8?B?dU5sNmRRY0tSSm0wRjE0T2VQRFc0UHRFWlZ1NHRtUldpam1WdE1nUzgxVStX?=
- =?utf-8?B?Ty84MnF5b1FTWk9vczkzWkQ1bFByVk5BL2I2dU1GZlF5QW1MU014dWplcnRk?=
- =?utf-8?B?dWt6UXRZV3VlV2hGREo0NWIzUHhCVTRadkcyWVpINXBVTk1pZC9sKzI2SlNO?=
- =?utf-8?B?ZEF0bFh1R2xBSnQvSWpiVStJNTZCWFhuS01hTFgzMEJSSXdRdXEwNUlERXVP?=
- =?utf-8?B?dk5DaFFZNWlSNWNXWjMyMmtrb0l4dnZ3U2svYVkrN0plVXZTdEVMelJ6TlJz?=
- =?utf-8?B?b3FXNi9NYndTTGZjbHpLcFRudTVSQ0JKeS9qOW82TzdXRUQ3UENhY2VleDdR?=
- =?utf-8?B?ekhoRmQ2QUVrVEdNNWpCdXFvYjdSMXc0OFYvc241R3hIT3VMNG0xTXBVUUV6?=
- =?utf-8?B?WktESXJWL2swRE1qbXF0TlErbkVseXc2eVMyV3N2QzYxSGdrRklza1J3by90?=
- =?utf-8?B?eUs2cTZEKytqN01QSEVBcmxSKzQ3RnY5b011NWZ0UXkrVkU1Wk5NREh1cjNj?=
- =?utf-8?B?UWhPZEVGVXR3V3krOXZqRUVMdDViS0UweU9lOXQzQWVEZzRXbVBlcDF4dm9Y?=
- =?utf-8?B?eGJoVXE0eWFnZlZ2R1hqejNOcVdpeVJkRC92MXAxeGs4N3Z0UzJQa1RLV1l1?=
- =?utf-8?B?ZzBBVHl3MFl1OHRKaHdTV0IxSldzbVJ5T3hBQXQxZnAxanpESUFtOEtYclZR?=
- =?utf-8?B?NXlpQW1CZy85aGxhcE5OVzYxOTBXMVczWHR0bUNZY1FPbVBGQ1VLK3lERFVi?=
- =?utf-8?B?TStZR2xyeFRzVHNPUW52KzlMRUo0Slh5VmZTQllWaXJ1dUtnbUF0OGtITUtI?=
- =?utf-8?B?eU0yZEpFVTZlQlVCWnZ3UGw4YTJjOE1CTHVvUmRDNmg2YkhlVURXMUdJdEQy?=
- =?utf-8?B?ZjQyUi9lcnFTWnE1T3B6MEdhZWpqejM4RngydU1SbWZLeUFaNGo5MHdmTzRx?=
- =?utf-8?B?TkVVY1ByVTkvTlIyeFkyV08wTVdzYVg3d2wwVndldFpXV3NHK0pTWURFS3RX?=
- =?utf-8?B?M3UwRnhYSHR5U3hYK3NxbnAvM2xPTk9JWVhZTUJlbHFXeW5XZFUza3dQUno3?=
- =?utf-8?B?SnRmbUphcXR1VmpabHZtckFNTVNKc3FFVVhkcHJ6QTQ1cnk2VmV1N1JCSmVG?=
- =?utf-8?B?YmVmZG9zNUExZ2NjNXJ6cHh4WWVFVk9WeGMxV3V0MThNRUNuam5kQTBFM1Rx?=
- =?utf-8?B?VEp6VE9aWGxxSURhNzJWOGtGSVJKakZHNklENWZKbDdLRysyOGMrNkJrNURi?=
- =?utf-8?Q?Ux82asiLxqsVTteE=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THpVcGV3dlVYUnEyVUxUYUo0Z2FBM1hMUkNnaUppQ2hWdXBwb082LzJpVG40?=
+ =?utf-8?B?WEV1TGVMdEEyUzFpZkt5YktFWG1INnozbndHWDkyVCtWQk43TXFWTllYQVR0?=
+ =?utf-8?B?OWZsOXhiWkxvakhGemxLVm16eHpOVmNWS2JGN3BGUHh5b2M4VjNGL2RjSU9k?=
+ =?utf-8?B?Z0kxQmRxVGx4N094SndaaXF1eFRQa3V6WVFWdGRmeGU5UjhjeFpBSEJ3MWhu?=
+ =?utf-8?B?anZ4RktCVzk3dVFTakRFQnBBVTRiRXZGVUlWd1lrdWppbGs2L05jQ1Q3OXh6?=
+ =?utf-8?B?Z0dsT0V2QldXY2xMUXg3RGtBbDlucXFxS2pkRU93UGJJdGNodkhEbXJkbm1L?=
+ =?utf-8?B?dkZWTnNXemtRQkdMdTlkbkxGNFNuYlBGN1NOMUFGcVJ0UWJuRURkQ2E3RWhZ?=
+ =?utf-8?B?MkhpTjFPMnZRV3ZsMWc2ZCtFM2Uxdi9yNWtONk5wandYMi9LUVZaV3BFMjFt?=
+ =?utf-8?B?NTBXMkpOQURoaWhTTys2QjJvQmM5ZEQrNUt0MlMyZmlCSlVRdFZEWTZTNHNz?=
+ =?utf-8?B?bUR2ZzJSSVl2VVhIRXNiSmFydTBVaG5VZGlJeEdPYzh1S1RKWjhiU1I1NVd0?=
+ =?utf-8?B?ZzVTblE1Yi90RTVSeTd4LzlCcWJvQm1EMU1Nd2MwdGs1cUh0SmliWmN4TXhU?=
+ =?utf-8?B?emJLcm91UkJYZjBPRG1Nc2Z1RnpvL2djVjFFNWdMWGpqa1lSZjBBbnJXdUgz?=
+ =?utf-8?B?MDJVeWgxS083NWc2R1A3MkM5bXlmTW5sS1paQVlyaXczL2h3ZlVJekRBcFh1?=
+ =?utf-8?B?RzBRMjJ5VFczUzRVTXREMnVmZjYrUFBzclFZKzZYdlNqeEc4VnZxN3RmelFt?=
+ =?utf-8?B?ZW1jTTZRNW9ESzFORGZGZzJsckJOR0hwUVZOVkxoMjhWckwwTm54TUtuUjF4?=
+ =?utf-8?B?Y0F5VFRHT1I0WnN0ODMza1NDcHNrRElqVkdOSm5IaHdldmEzekQ0YXNnUU8r?=
+ =?utf-8?B?djlPSERzeDJoTGJuckFqUGlUU1lPeHU4bVZQWVRXa3hCbHFHWW9HWnVSczlJ?=
+ =?utf-8?B?RExNeHpQeHBSUU1WanhLOWR1blhkQmJiWmVLZ1BXVU13WUdvUzVYVmRFS0pP?=
+ =?utf-8?B?Q3dYMkF1MTlUNFE0WU9VVUprbldFMnhwRXdKVFVkT0NtRVdDU2EwN1p6ZTE0?=
+ =?utf-8?B?STBOQnVZVjdHN3B1ck9rcjM2TzdqYk43T2NiR1Rhd05QeitveDRzZDErWkpa?=
+ =?utf-8?B?THJOKysxMzE4Q01GTms4T3liS1FLNkdReUxpa1Zha2I2dEIxR3hMcGo0MTNt?=
+ =?utf-8?B?dnk0QUtRUFJ0VFVpTFNpRnB4YmtBK0NnS1NzZVhVcG9EL1ZpRjBvbGYzSmNq?=
+ =?utf-8?B?cGc5a1ZVRE1sTHVBK292cklhRElteWlLZVdlMkR5TmNoUWRxa1VhRzRQRnJ4?=
+ =?utf-8?B?Ymt0ci9BTXU1OFd5YUxHT1hZbFEzV0NEaHBGV0ZJdS9OZktkanZxY2JOUGto?=
+ =?utf-8?B?S0FaM3hQSzF3cjFiWGc2SDI4Q1NsRU5MckthdWJ0MTMxK3ZUVk9tUFJmTlpa?=
+ =?utf-8?B?dlVEMk15VnN6eURiN2VSUzljYUMzWnNXcFVSb3k4UWhsSld6Ny9JUUtlSjhV?=
+ =?utf-8?B?Y1o0MXFRd2duRk5WbVM5T0NiOTBObXdySEVCYTI5NmdKWUZrNVdxTThOdXlW?=
+ =?utf-8?B?T0dPN1FkRlkrb1lCSjZIMjNwL1pOUjhXL1dEUDM0N0hYbjU3eE9kdkFPVzg3?=
+ =?utf-8?B?SUxsNW9xVVgrY0NGZEFxZXhPS2t6Vjk5VWROZHZ1TjJYWjE1bGprQ1B2R3B2?=
+ =?utf-8?B?cFU4OG8rNzlDYlFHY21XenczQzc4Wll1NUZWaEdUWU1QMnhNSVl4VkNUWlVr?=
+ =?utf-8?B?dGtLblUwVGhqMmxDeGk1NHVyWDZ1Z2ZjVFFyVGZzK1VMeFpjOEVxNHJ6N2Ji?=
+ =?utf-8?B?RjBuNzJBK1MvOW92ak1oNHpIc0ZadmVzc29tdGV0QWNIejFScnZwV0xzS2Vq?=
+ =?utf-8?B?NFBCM1krMXp5OVpnTHZuOTFXVEpmRmhqMVJQR1NRQm56VTdOTzhHTXNjK3VF?=
+ =?utf-8?B?OTVrcHk2U2VtMS9mUUl4YzU1Z2tQZ2tVTUxFb2kzcTJydkExeDNVSXVscGI0?=
+ =?utf-8?B?RHdkUW1WY0NTV1BvSGRoM1AybXNpOUhyRkV6VmZnR1lrWHJLbDVUZ3F4WWpk?=
+ =?utf-8?B?UkdneFg4QVF3eCtuSTZKVG15ZDlzalJ1R1FPTnN0VWRxVjZLZFVTMWl4TlJr?=
+ =?utf-8?B?U1FYc1prR0lYU2c3U2Z0NEc4VDNuWE9NdlJ6aWVxdFF2eVdTbEcwQytkRlA4?=
+ =?utf-8?B?NWhqZ0pZMmVpamtmNjlGUkZGakVRR3B3U1BUQTdhMll5MDZFems4em8wSUJj?=
+ =?utf-8?B?ekRqRWJRODk5emNrWjE4ZWZTcEdQMFgzVGpHZ0FDdkh4cTIwck02VmtBQUhF?=
+ =?utf-8?Q?QJGAv3smVVYXiaBM=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec2d2ec6-2600-48ea-d7f0-08de6d6c6548
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3bd6f17-d50b-4dd5-b935-08de6d6c670f
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9224.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:02:26.1991 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:02:29.1313 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ridMPomz7MvWI8PsA+/hO5aZBFS7xdJgWyXpl3zK9b8oqKB2emH+pSs+XA2153j/xogLjQLMZvEX7m8uR89NSQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4mwPtI6bropyOQJwKTHN0HGtQf/aRmKMesPJw4O7OYjVHzes3OnQIEsmTLPEVXDKEqeJa/AHSSr1mLF9oZxfgw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRWPR04MB12380
 X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -219,120 +218,152 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:mid,NXP1.onmicrosoft.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: BA113148132
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 69E7C148107
 X-Rspamd-Action: no action
 
-In FIFO mode, wait until UARTCR.TDFL_TFC(number Tx FIFO) entries reach 0
-before entering INITM mode.
-Failing to do so may lead to undefined behavior, such as:
-- corrupted characters being printed.
-- the device is not able to receive or transmit any character.
-
-In linflex_set_termios, transmission and reception should be disabled
-before entering INITM mode, as already done in linflex_setup_watermark.
-
-This patch corrects the behavior that was previously addressed by the
-earlycon workaround, making that workaround no longer necessary. The
-next patch will remove it.
+The workaround is no longer needed, as we now wait for the TX FIFO to be
+empty before entering INITM mode.
+This ensures proper behavior without requiring the previous earlycon
+workaround added in commit
+09864c1cdf5c ("tty: serial: Add linflexuart driver for S32V234").
 
 Fixes: 09864c1cdf5c ("tty: serial: Add linflexuart driver for S32V234")
 Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
 ---
- drivers/tty/serial/fsl_linflexuart.c | 45 ++++++++++++++++++++++++++--
- 1 file changed, 42 insertions(+), 3 deletions(-)
+ drivers/tty/serial/fsl_linflexuart.c | 87 +---------------------------
+ 1 file changed, 1 insertion(+), 86 deletions(-)
 
 diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
-index 768b3c67a614..c1d069dc8089 100644
+index c1d069dc8089..fb5f325416c0 100644
 --- a/drivers/tty/serial/fsl_linflexuart.c
 +++ b/drivers/tty/serial/fsl_linflexuart.c
-@@ -3,7 +3,7 @@
-  * Freescale LINFlexD UART serial port driver
-  *
-  * Copyright 2012-2016 Freescale Semiconductor, Inc.
-- * Copyright 2017-2019 NXP
-+ * Copyright 2017-2019, 2021 NXP
-  */
+@@ -141,14 +141,6 @@ MODULE_DEVICE_TABLE(of, linflex_dt_ids);
  
- #include <linux/console.h>
-@@ -74,6 +74,17 @@
- 
- #define LINFLEXD_UARTCR_ROSE		BIT(23)
- 
-+#define LINFLEXD_UARTCR_RDFLRFC_OFFSET	10
-+#define LINFLEXD_UARTCR_RDFLRFC_MASK	(0x7 << LINFLEXD_UARTCR_RDFLRFC_OFFSET)
-+#define LINFLEXD_UARTCR_RDFLRFC(uartcr)	(((uartcr) \
-+					& LINFLEXD_UARTCR_RDFLRFC_MASK) >> \
-+					LINFLEXD_UARTCR_RDFLRFC_OFFSET)
-+#define LINFLEXD_UARTCR_TDFLTFC_OFFSET	13
-+#define LINFLEXD_UARTCR_TDFLTFC_MASK	(0x7 << LINFLEXD_UARTCR_TDFLTFC_OFFSET)
-+#define LINFLEXD_UARTCR_TDFLTFC(uartcr)	(((uartcr) \
-+					& LINFLEXD_UARTCR_TDFLTFC_MASK) >> \
-+					LINFLEXD_UARTCR_TDFLTFC_OFFSET)
-+
- #define LINFLEXD_UARTCR_RFBM		BIT(9)
- #define LINFLEXD_UARTCR_TFBM		BIT(8)
- #define LINFLEXD_UARTCR_WL1		BIT(7)
-@@ -140,6 +151,17 @@ static struct {
- } earlycon_buf;
+ #ifdef CONFIG_SERIAL_FSL_LINFLEXUART_CONSOLE
+ static struct uart_port *earlycon_port;
+-static bool linflex_earlycon_same_instance;
+-static DEFINE_SPINLOCK(init_lock);
+-static bool during_init;
+-
+-static struct {
+-	char *content;
+-	unsigned int len, cap;
+-} earlycon_buf;
  #endif
  
-+static inline void linflex_wait_tx_fifo_empty(struct uart_port *port)
-+{
-+	unsigned long cr = readl(port->membase + UARTCR);
-+
-+	if (!(cr & LINFLEXD_UARTCR_TFBM))
-+		return;
-+
-+	while (LINFLEXD_UARTCR_TDFLTFC(readl(port->membase + UARTCR)))
-+		;
-+}
-+
- static void linflex_stop_tx(struct uart_port *port)
- {
- 	unsigned long ier;
-@@ -326,6 +348,11 @@ static void linflex_setup_watermark(struct uart_port *sport)
- 	cr &= ~(LINFLEXD_UARTCR_RXEN | LINFLEXD_UARTCR_TXEN);
- 	writel(cr, sport->membase + UARTCR);
- 
-+	/* In FIFO mode, we should make sure the fifo is empty
-+	 * before entering INITM.
-+	 */
-+	linflex_wait_tx_fifo_empty(sport);
-+
- 	/* Enter initialization mode by setting INIT bit */
- 
- 	/* set the Linflex in master mode and activate by-pass filter */
-@@ -412,8 +439,17 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
- 
- 	uart_port_lock_irqsave(port, &flags);
- 
--	cr = readl(port->membase + UARTCR);
--	old_cr = cr;
-+	old_cr = readl(port->membase + UARTCR) &
-+		~(LINFLEXD_UARTCR_RXEN | LINFLEXD_UARTCR_TXEN);
-+	cr = old_cr;
-+
-+	/* In FIFO mode, we should make sure the fifo is empty
-+	 * before entering INITM.
-+	 */
-+	linflex_wait_tx_fifo_empty(port);
-+
-+	/* disable transmit and receive */
-+	writel(old_cr, port->membase + UARTCR);
- 
- 	/* Enter initialization mode by setting INIT bit */
- 	cr1 = LINFLEXD_LINCR1_INIT | LINFLEXD_LINCR1_MME;
-@@ -510,6 +546,9 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
- 
- 	writel(cr1, port->membase + LINCR1);
- 
-+	cr |= (LINFLEXD_UARTCR_TXEN) | (LINFLEXD_UARTCR_RXEN);
-+	writel(cr, port->membase + UARTCR);
-+
- 	uart_port_unlock_irqrestore(port, flags);
+ static inline void linflex_wait_tx_fifo_empty(struct uart_port *port)
+@@ -619,48 +611,6 @@ static void linflex_console_putchar(struct uart_port *port, unsigned char ch)
+ 	}
  }
  
+-static void linflex_earlycon_putchar(struct uart_port *port, unsigned char ch)
+-{
+-	unsigned long flags;
+-	char *ret;
+-
+-	if (!linflex_earlycon_same_instance) {
+-		linflex_console_putchar(port, ch);
+-		return;
+-	}
+-
+-	spin_lock_irqsave(&init_lock, flags);
+-	if (!during_init)
+-		goto outside_init;
+-
+-	if (earlycon_buf.len >= 1 << CONFIG_LOG_BUF_SHIFT)
+-		goto init_release;
+-
+-	if (!earlycon_buf.cap) {
+-		earlycon_buf.content = kmalloc(EARLYCON_BUFFER_INITIAL_CAP,
+-					       GFP_ATOMIC);
+-		earlycon_buf.cap = earlycon_buf.content ?
+-				   EARLYCON_BUFFER_INITIAL_CAP : 0;
+-	} else if (earlycon_buf.len == earlycon_buf.cap) {
+-		ret = krealloc(earlycon_buf.content, earlycon_buf.cap << 1,
+-			       GFP_ATOMIC);
+-		if (ret) {
+-			earlycon_buf.content = ret;
+-			earlycon_buf.cap <<= 1;
+-		}
+-	}
+-
+-	if (earlycon_buf.len < earlycon_buf.cap)
+-		earlycon_buf.content[earlycon_buf.len++] = ch;
+-
+-	goto init_release;
+-
+-outside_init:
+-	linflex_console_putchar(port, ch);
+-init_release:
+-	spin_unlock_irqrestore(&init_lock, flags);
+-}
+-
+ static void linflex_string_write(struct uart_port *sport, const char *s,
+ 				 unsigned int count)
+ {
+@@ -739,8 +689,6 @@ static int __init linflex_console_setup(struct console *co, char *options)
+ 	int parity = 'n';
+ 	int flow = 'n';
+ 	int ret;
+-	int i;
+-	unsigned long flags;
+ 	/*
+ 	 * check whether an invalid uart number has been specified, and
+ 	 * if so, search for the first available port that does have
+@@ -758,43 +706,10 @@ static int __init linflex_console_setup(struct console *co, char *options)
+ 	else
+ 		linflex_console_get_options(sport, &parity, &bits);
+ 
+-	if (earlycon_port && sport->mapbase == earlycon_port->mapbase) {
+-		linflex_earlycon_same_instance = true;
+-
+-		spin_lock_irqsave(&init_lock, flags);
+-		during_init = true;
+-		spin_unlock_irqrestore(&init_lock, flags);
+-
+-		/* Workaround for character loss or output of many invalid
+-		 * characters, when INIT mode is entered shortly after a
+-		 * character has just been printed.
+-		 */
+-		udelay(PREINIT_DELAY);
+-	}
+-
+ 	linflex_setup_watermark(sport);
+ 
+ 	ret = uart_set_options(sport, co, baud, parity, bits, flow);
+ 
+-	if (!linflex_earlycon_same_instance)
+-		goto done;
+-
+-	spin_lock_irqsave(&init_lock, flags);
+-
+-	/* Emptying buffer */
+-	if (earlycon_buf.len) {
+-		for (i = 0; i < earlycon_buf.len; i++)
+-			linflex_console_putchar(earlycon_port,
+-				earlycon_buf.content[i]);
+-
+-		kfree(earlycon_buf.content);
+-		earlycon_buf.len = 0;
+-	}
+-
+-	during_init = false;
+-	spin_unlock_irqrestore(&init_lock, flags);
+-
+-done:
+ 	return ret;
+ }
+ 
+@@ -814,7 +729,7 @@ static void linflex_earlycon_write(struct console *con, const char *s,
+ {
+ 	struct earlycon_device *dev = con->data;
+ 
+-	uart_console_write(&dev->port, s, n, linflex_earlycon_putchar);
++	uart_console_write(&dev->port, s, n, linflex_console_putchar);
+ }
+ 
+ static int __init linflex_early_console_setup(struct earlycon_device *device,
 -- 
 2.47.0
 
