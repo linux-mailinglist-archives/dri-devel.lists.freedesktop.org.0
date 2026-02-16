@@ -2,91 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCQzKzELk2nw1AEAu9opvQ
+	id C8j0LWQOk2k71QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:18:57 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:32:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE0A14346E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F651435A1
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:32:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D1D10E00B;
-	Mon, 16 Feb 2026 12:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3DDA10E02E;
+	Mon, 16 Feb 2026 12:32:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kPBIMA/s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JUcmUY9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD8410E00B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 12:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=C2NvsMxoWNVuUqRhdvvQV3f9iNA9+S0f6QJVA/XX1tA=; b=kPBIMA/sRAOsa3jwN6/PZ5Tk0O
- 2dxAzeWhKqPER+8aVa5N4vM08Mr9G5ewBkId/zezYtybBPS+oF0SKGSXy1NUsRPQRcj7JiUTZO95E
- He2I40ZGS9BSoK8uDOkAoQyUKC1LxbaWFECwDaQuhSCANE3i6tXufhgx+VB08EI+LX/7oWdDlprXg
- lJoFvUliz6A+5eu+oWPFSGx4XhVIrjep86hp8ZocGod9b62hIaPwUBhGPcTiqPz2/ZgAya8FbcCWR
- 4NBufBjqivKo/z3djmIh6vZWL8KaK3X+e13CZNSRgQEbko2ySfEy3K8bv1RA/Rq5PpJ5J5OXWVTqO
- IAPvLL8A==;
-Received: from [187.36.210.68] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vrxYl-001Hhw-My; Mon, 16 Feb 2026 13:18:39 +0100
-Message-ID: <b55ac433-4fe7-4179-9777-278022ccd3cb@igalia.com>
-Date: Mon, 16 Feb 2026 09:18:31 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E15610E02E;
+ Mon, 16 Feb 2026 12:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771245151; x=1802781151;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=CITy+8EMh84DNAbeDL48LMMVlXiONUa8bsO3qrnO1kY=;
+ b=JUcmUY9P4tlROOXiJhWlwm3z6E8EbQd4Up/VzHesJdmq0Zf1zYRjlD3/
+ iUnmPH8QVfVL36L7WAeBUjcP/Sl3+KM3YKmlfN2coDOzvQ2zxLg9EAzMV
+ C99WDtELtHiCOi5JBs611tX/01i7TBhiOJxMC2MtW3F+9WVHFCfxz45Sr
+ 1hi/f/YLlBhiiKaIGbE9FClnDIlLWLSx077Iu2Iqwf7bgMBNWe4fzU8IJ
+ q5vkdQcBnTJd7g2SQ/gqOME5fTROlcL+NXlJx0PIDPQZwta2QBdDyFGJc
+ O8M/vKzqDF6wyH6qtwAml0169dRpt2p0KQ6Q7uCtqsKcqlqxbg7euNDrm Q==;
+X-CSE-ConnectionGUID: k5A0TOymSF6hTRauRUiy4Q==
+X-CSE-MsgGUID: 7Spj8U4FS7CjQjLGb7KuAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="83688123"
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="83688123"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 04:32:31 -0800
+X-CSE-ConnectionGUID: 7+GHjh2IRVWWUGZcimDmGw==
+X-CSE-MsgGUID: Qm91n4I6R6OVsgp2BrIsSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="212160935"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.231])
+ ([10.245.244.231])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 04:32:27 -0800
+Message-ID: <dca855eb1de92fce96f6be418c8646705564cf69.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/pagemap: pass pagemap_addr by reference
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Himal Prasad Ghimiray	
+ <himal.prasad.ghimiray@intel.com>, Lucas De Marchi <demarchi@kernel.org>, 
+ Matthew Auld <matthew.auld@intel.com>, Dafna Hirschfeld
+ <dafna.hirschfeld@intel.com>, Francois Dugast	 <francois.dugast@intel.com>,
+ dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
+Date: Mon, 16 Feb 2026 13:32:25 +0100
+In-Reply-To: <20260216121709.2345721-1-arnd@kernel.org>
+References: <20260216121709.2345721-1-arnd@kernel.org>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/7] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
- CLK_IGNORE_UNUSED
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>,
- Chema Casanova <jmcasanova@igalia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20260213-v3d-power-management-v5-0-7a8b381eb379@igalia.com>
- <20260213-v3d-power-management-v5-3-7a8b381eb379@igalia.com>
- <20260216-brave-ara-of-typhoon-cf90ba@houat>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Content-Language: en-US
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20260216-brave-ara-of-typhoon-cf90ba@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,79 +84,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,intel.com];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
+	RCVD_TLS_LAST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1CE0A14346E
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arndb.de:email,intel.com:dkim,linux.intel.com:mid]
+X-Rspamd-Queue-Id: E2F651435A1
 X-Rspamd-Action: no action
 
-Hi Maxime,
+On Mon, 2026-02-16 at 13:16 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> Passing a structure by reference into a function is sometimes
+> problematic,
 
-On 16/02/26 07:53, Maxime Ripard wrote:
-> Hi,
-> 
-> On Fri, Feb 13, 2026 at 03:52:56PM -0300, Maíra Canal wrote:
->> If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will skip
->> HSM initialization, which would result in a bus lockup. However, those
->> clocks are consumed by drivers (vc4 and HEVC decoder drivers,
->> respectively), which means that they can be enabled/disabled by the
->> drivers.
->>
->> Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
->> drivers when appropriate.
->>
->> Acked-by: Melissa Wen <mwen@igalia.com>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> 
-> It looks like sync_state would be a better candidate to handle this?
+Do you mean passing by *value* is problematic?
 
-I have the impression that CLK_IGNORE_UNUSED is still a better fit here.
+> for a number of reasons. Of of these is a warning from the 32-bit arm
+> compiler:
+>=20
+> drivers/gpu/drm/drm_gpusvm.c: In function '__drm_gpusvm_unmap_pages':
+> drivers/gpu/drm/drm_gpusvm.c:1152:33: note: parameter passing for
+> argument of type 'struct drm_pagemap_addr' changed in GCC 9.1
+> =C2=A01152 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dpagemap->ops-
+> >device_unmap(dpagemap,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0
+> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> =C2=A01153 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> dev, *addr);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0
+> ~~~~~~~~~~~
+>=20
+> This particular problem is harmless since we are not mixing compiler
+> versions
+> inside of the compiler. However, passing this by reference avoids the
+> warning
+> along with providing slightly better calling conventions as it avoids
+> an
+> extra copy on the stack.
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> =C2=A0drivers/gpu/drm/drm_gpusvm.c=C2=A0 | 2 +-
+> =C2=A0drivers/gpu/drm/drm_pagemap.c | 2 +-
+> =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0 | 8 ++++----
+> =C2=A0include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A04 files changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gpusvm.c
+> b/drivers/gpu/drm/drm_gpusvm.c
+> index c25f50cad6fe..81626b00b755 100644
+> --- a/drivers/gpu/drm/drm_gpusvm.c
+> +++ b/drivers/gpu/drm/drm_gpusvm.c
+> @@ -1150,7 +1150,7 @@ static void __drm_gpusvm_unmap_pages(struct
+> drm_gpusvm *gpusvm,
+> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addr->dir);
+> =C2=A0			else if (dpagemap && dpagemap->ops-
+> >device_unmap)
+> =C2=A0				dpagemap->ops-
+> >device_unmap(dpagemap,
+> -							=C2=A0=C2=A0=C2=A0 dev,
+> *addr);
+> +							=C2=A0=C2=A0=C2=A0 dev,
+> addr);
+> =C2=A0			i +=3D 1 << addr->order;
+> =C2=A0		}
+> =C2=A0
+> diff --git a/drivers/gpu/drm/drm_pagemap.c
+> b/drivers/gpu/drm/drm_pagemap.c
+> index d0041c947a28..22579806c055 100644
+> --- a/drivers/gpu/drm/drm_pagemap.c
+> +++ b/drivers/gpu/drm/drm_pagemap.c
+> @@ -318,7 +318,7 @@ static void
+> drm_pagemap_migrate_unmap_pages(struct device *dev,
+> =C2=A0			struct drm_pagemap_zdd *zdd =3D page-
+> >zone_device_data;
+> =C2=A0			struct drm_pagemap *dpagemap =3D zdd-
+> >dpagemap;
+> =C2=A0
+> -			dpagemap->ops->device_unmap(dpagemap, dev,
+> pagemap_addr[i]);
+> +			dpagemap->ops->device_unmap(dpagemap, dev,
+> &pagemap_addr[i]);
+> =C2=A0		} else {
+> =C2=A0			dma_unmap_page(dev, pagemap_addr[i].addr,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PAGE_SIZE <<
+> pagemap_addr[i].order, dir);
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> b/drivers/gpu/drm/xe/xe_svm.c
+> index 213f0334518a..184cfaac8baf 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -1676,13 +1676,13 @@ xe_drm_pagemap_device_map(struct drm_pagemap
+> *dpagemap,
+> =C2=A0
+> =C2=A0static void xe_drm_pagemap_device_unmap(struct drm_pagemap
+> *dpagemap,
+> =C2=A0					struct device *dev,
+> -					struct drm_pagemap_addr
+> addr)
+> +					struct drm_pagemap_addr
+> *addr)
+> =C2=A0{
+> -	if (addr.proto !=3D XE_INTERCONNECT_P2P)
+> +	if (addr->proto !=3D XE_INTERCONNECT_P2P)
+> =C2=A0		return;
+> =C2=A0
+> -	dma_unmap_resource(dev, addr.addr, PAGE_SIZE << addr.order,
+> -			=C2=A0=C2=A0 addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +	dma_unmap_resource(dev, addr->addr, PAGE_SIZE << addr-
+> >order,
+> +			=C2=A0=C2=A0 addr->dir, DMA_ATTR_SKIP_CPU_SYNC);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void xe_pagemap_destroy_work(struct work_struct *work)
+> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> index 2baf0861f78f..74a32d0dacd8 100644
+> --- a/include/drm/drm_pagemap.h
+> +++ b/include/drm/drm_pagemap.h
+> @@ -95,7 +95,7 @@ struct drm_pagemap_ops {
+> =C2=A0	 */
+> =C2=A0	void (*device_unmap)(struct drm_pagemap *dpagemap,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev,
+> -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr addr);
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr *addr);
 
-First, the clock framework has no sync_state integration. The only use
-of sync_state in clock drivers is done by Qualcomm's clock controllers,
-which uses icc_sync_state for the interconnect framework. From my
-understanding, CLK_IGNORE_UNUSED is the idiomatic mechanism for "don't
-disable this clock during clk_disable_unused() and allow drivers to 
-manage it", which is exactly what we are looking for.
+Makes sense, although this should preferrably be
 
-Apart from that, if we decide to use sync_state, I'm not sure we could
-handle granularity. sync_state is a per-device mechanism, not per-clock,
-and clk-raspberrypi provides multiple clocks (consumed by different
-drivers). With CLK_IGNORE_UNUSED, the protection is per-clock: once a
-driver calls clk_prepare_enable/unprepare() it manages that clock,
-regardless of what other consumers of other clocks are doing.
+const struct drm_pagemap_addr *addr;
 
-Best regards,
-- Maíra
+Thanks,
+Thomas
 
-> 
-> Maxime
 
+
+
+> =C2=A0
+> =C2=A0	/**
+> =C2=A0	 * @populate_mm: Populate part of the mm with @dpagemap
+> memory,
