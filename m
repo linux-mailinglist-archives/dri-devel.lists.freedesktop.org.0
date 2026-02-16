@@ -2,100 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oayKCDo6k2kG2wEAu9opvQ
+	id eE43Alk/k2kg2wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:39:38 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:01:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E99E145B43
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313AE145DB0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC3710E081;
-	Mon, 16 Feb 2026 15:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C57510E3C1;
+	Mon, 16 Feb 2026 16:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nGfvKh91";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zuuUg2MI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFB010E08D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:39:31 +0000 (UTC)
-Received: by mail-dl1-f48.google.com with SMTP id
- a92af1059eb24-1244bce2c17so158869c88.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:39:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771256371; cv=none;
- d=google.com; s=arc-20240605;
- b=M8UetDe+GLOU6oPyY+d6TJUEjce8cw2x88Ye1+3rE4e6G+kOvKUgsecEE0g/JftcH0
- 6OSBe60tv+IZviBDYf32lCADpvmTNTPlPcY5RZpCtplIvaoqhpsj2TWivgAjP1emfLpj
- jMIey6exoeIDP/oA/rsyLCjiqMYX10GyPe8jaB9jG2uNVgPYVSwouwrjvbbHE+CurtCE
- 8WC6MWI5iCZLX1JQHbuDnmZZ7GdEmOQnNggsIOudMth/mn2lyGXc7J9FzwaoZhk0eYVd
- CzcgB07nMaQiOI+EmQfWMutwNCPM5zslfUVPDH7ozOOsXyZCz/8mxHjPbn96DscU5M0J
- KZ4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
- fh=qgQ6Ekx2sOgnJviNC5UGuoXilImIGK3cNXF/oDOLYSs=;
- b=SPhdXzHlKj8T0I0n9Aqr9MjxpI4Wrq/UywfiobMeDqNaKBx8sKQeTv3I8+iOiNszUf
- JArJ+2KSqfso9JPRI5/XDSOExftVkQFc2jm410+1oJ4q60onf/SlJv/RBsihN0BiiFLu
- FKSq66vwUr2BXBu7zYG49Z/ymvZgg9QwFSUAf3fsBhprLjD/9FQAI6ge2MHUwzaFSrr5
- 5fXjdcIytUUYHllF+FWPvnro+7KiPQDpelAaORkpL43mO5ox4kS58/HJ9lSwO3Rw0GXf
- DdX+GmuN4K/vqdKraqLxBeNvSMsyBnRLzdYOTKfCEDjW6eDD0NqhCw7qwJBTHf0AUHxg
- 8ApA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4759B10E3BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:01:22 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-65c01595276so1398993a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:01:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771256371; x=1771861171; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
- b=nGfvKh91gQfq/IWoQ1Prrg95JK2gQY0fh50p7nQoQJ3zib8zhjDjniQevucGj90KFz
- VtKyQrlf+eAowa2YkU1OpUQyHG55kkjjMehdLQnPKevKuqMY0/Jd0G4uqiVVJEXpK2cy
- uFVxKK4/7JAqMBAWzsnrMJNDgnIQdRprTYzUsztNXC+z4K2jtShFfajWwynX9Iz3jizd
- jz0L20OsddF1z5e6IuYnQZCpIhU5T56by1w5qSu6xAXWfD2oEUbeDHa1zeR5YDijAjou
- xG0gSHcPp2WkmTiZoYA5sYU79E5UOD2M8Gc0dhAGGFLiXPJhRXeyzjU6rE9zEGblgn+9
- bnKQ==
+ d=linaro.org; s=google; t=1771257681; x=1771862481; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=QUAlu6XYigsGBemijuVDswvQMOiLK2+waYYTQNmfMck=;
+ b=zuuUg2MIXqcpnPdP2RdZSgA0BK84D6s+qoUzGA20nTH20Rq+Kh1g6lJrvNfdsm/tXJ
+ +vn1d2tlyR0e/3uzd97Qbp/2HeChsK3qN5DFbIRb8tgew69yVWKTYeKroXPZ8nj2Sa0z
+ VUZillg43cVN91kGZWHcLdMEOLlUGvzO8HcmyXfvZ5zOTLApOQ33UfLfadk3+Utg3eSG
+ I5rc5QZw8oWyeVC0hdAflTMTgZ+5wGfUMM/kBRwKgJmmTJbMBCvHsa8ndjWhXEoKLaHN
+ ptHRtH9yneLceVhwk1Qi6abthrzBlAfYG/ibmvh7is40bcaa+9Cu6NYQZ9my9gVCUn61
+ CImQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771256371; x=1771861171;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Ob2CEqEmP3Zi8vE7TSabzak1pONCQRxWk1dG5MIku6s=;
- b=X4tSHg+s0AdJ9lHYgepekLY0TvGXhc+RzIvhbhERcxjzSZQ+w7R51TLdz8PbK8SY6h
- oT/lAukhrQL0uQ+x554VcAxMC3sQns1YiqLEM8imB6OUf3uci/m6yHCyDiJ8yVXCInRq
- gT6E0+zon7GrWLp+0QMFGRQrumYyz02iInS9nnEJjOy+uCEpgPDGPtmDVuJMSzIoarHe
- xArG78wHpLE17fOu2LMAIFLBHt1VkxNncO431HY/EjW4HYGwuBkULR9MdHcMvG+2WaXG
- cwZtASOH0ZUNQdlUrsYiGgVydt/m3ykBC9OKVQkyy+9IAGF5E6bWZi2coW5CwrO7szGS
- pg8Q==
+ d=1e100.net; s=20230601; t=1771257681; x=1771862481;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QUAlu6XYigsGBemijuVDswvQMOiLK2+waYYTQNmfMck=;
+ b=e1g+1HuO+h4+DAxWeldRUPZAOHAuPhl5ZjEeW3my6MFsMRqf9LQ24WeV2NeTLnZ1V9
+ JQmUNFwoFk3zoOsDdSmnaV6s6jIxM3NEC9UTh4Z9Fh98VdcbTRc1CJ2741PgaQHijtvA
+ kAPGR/sKQ53j1Pzu7WO0Bxer6BuyDD1iyWqJ/3F+phdr6dwRI2qpi/hxxA2fvnCSKp3H
+ oOW3m+1V59IFB64FFHufkoH8GbLLhJf5v+e6EHYZHvmsZz2p46qHSZ1ZDrBXXKrFCwKJ
+ 9zF+1NTMbDc3NYoMmHEbABJ5qe5r463yKSYbKCnNt3jdTqazbdTpNoStgV4GcK/+VL8b
+ db/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqP9lIo5Z843blQV77TeRIjqR5bhIDKz2F/uv/WcY4FJdt0nlK0zC6KkPdOO0NA0o36UUp/uWNoEo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5xcucxb7UHN0EuNlYNc7MU8R1Q8/cnt2R7CWPqGhfjXkeiJpW
- uhO2Wn00kWv2Rx/BsjLH1eicDURmeEi1lLhGxcotJoIgkLV1EtHaZH9GYyPVxvZDbMVti0Ncnnh
- uBTyfUsq3bU3se/MznbA7mSIL1YwrqPA=
-X-Gm-Gg: AZuq6aLa3dXnDst4kP0hsbNXW5uAwwnE1z9pRc8UEipzVDu4uSRh0byktw9P60pa46T
- iLhe5KAN5kc5aPHLb4Bz1tpqty0VEvC4p0DX2kW7yESkzNOShPK7+xiaKWWjGSB5xGPywjt+IGL
- cADTsl/a3pZYxYgEaNVbo3LqSBqxYCnKylcesyoKGqVRzUE3qb3tVcVnrL9oRv50vLBVPuEv22u
- izBhShN/TfDyTkbgJzs/Al8m6vNMKg0XBqCYjNe4rIouQ2GjL6eb3x22FJeNWxY7mwWjKu4kwT0
- c+ZDekV5NOjY2FzS5iAOwOYVMDw7JnBzAJcGNbENxO7T1D4oYtxw1GkCDL7EJ63AsfTjlw==
-X-Received: by 2002:a05:7022:b93:b0:127:2d87:f0fa with SMTP id
- a92af1059eb24-127398117bemr2871932c88.4.1771256370330; Mon, 16 Feb 2026
- 07:39:30 -0800 (PST)
+ AJvYcCXCvHB42HrKv8IHetkPEcmGksAlBuy7PQlw9Nxfc2s49Oq09mEywP6AcpZxYuSWBNpUUoHSoTRrvY4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKj4O2kpQEDIHwz4aSVaH0DXnLOcJj7FHaJUZh/ugTnVzytQWf
+ lO2qgh0FGggkWxdCGgmKQg9/JZDa5KA8wbUZA/LBHbDAqFXPqQsHK3VjA/L3STHPmDU=
+X-Gm-Gg: AZuq6aKbJqZF9PTPwxifyQZIK2HSp5CWDPR7fOeXRFBM3S/CTjIPtHMJaqmtyCJlWw4
+ ZiJnfyJ1ElwCdwL6mJiGmllD6NpVbTvw/58d83ERoaSnARYIbe8QUj/bYX6m3an2XSpGNOKWstd
+ fRPhWq/9NzfSpuqb20EpBlQyEMW8ZWeBuPxu7xOTBbHocPCxYyPihk6VdpK2+Oy1NvEEmfYkhGq
+ 4x5k18+nWWm57P2WOxOhKAWjtbWJjwhZn4LdA0bGXz/B3fAeDIhTaW4+zkUh6oIcfv+UZ29+yQI
+ 7SUqjRIbFWnOOoEkrcr/l+QvY8mvUce96pMw1y6WbsxmBwJ9jdBghEVi2w1RE690pVPLR/RyBQI
+ ezyCn7iM0MajtAe2Ov3TJjIBMLadG6mdfFQPFdL5kvWtPA9kKdH8I6O7VHQ6W3j0GJENDFh/aTa
+ 8glXfLHAnMmFICoxOuSvMIPRwexw7/mxri8XKt5AU48RK55GbIPaWlIiqTc8078MKUxE53LMKmB
+ Clmhg==
+X-Received: by 2002:a17:907:6d22:b0:b88:505d:2ac with SMTP id
+ a640c23a62f3a-b8fc38f90eamr352340766b.1.1771257680468; 
+ Mon, 16 Feb 2026 08:01:20 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a?
+ ([2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8fc76c7015sm259165666b.66.2026.02.16.08.01.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Feb 2026 08:01:20 -0800 (PST)
+Message-ID: <b10bf126-d664-42e4-a333-10657eca6d94@linaro.org>
+Date: Mon, 16 Feb 2026 17:01:18 +0100
 MIME-Version: 1.0
-References: <20260206223828.33061-1-mario.kleiner.de@gmail.com>
-In-Reply-To: <20260206223828.33061-1-mario.kleiner.de@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Feb 2026 10:39:18 -0500
-X-Gm-Features: AaiRm52EOYj-okIlSlxWKrJwP9FVULI7wkjN1UPMFdj7PbYikOnQP0p8sKBPk_M
-Message-ID: <CADnq5_Nbm7i+b2ykCrYBXJLha3ow74PWVQ_8hVmB=Btim2Jdew@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Use same max plane scaling limits for
- all 64 bpp formats
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 1/2] drm/panel: simple: Add Waveshare 13.3" panel
+ support
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Simona Vetter <simona@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,118 +131,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mario.kleiner.de@gmail.com,m:amd-gfx@lists.freedesktop.org,m:alexander.deucher@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:mariokleinerde@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:marek.vasut+renesas@mailbox.org,m:conor+dt@kernel.org,m:airlied@gmail.com,m:geert+renesas@glider.be,m:jesszhan0024@gmail.com,m:krzk+dt@kernel.org,m:maarten.lankhorst@linux.intel.com,m:magnus.damm@gmail.com,m:mripard@kernel.org,m:robh@kernel.org,m:sam@ravnborg.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,glider.be,linux.intel.com,ravnborg.org,ffwll.ch,suse.de,vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 4E99E145B43
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas,dt];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: 313AE145DB0
 X-Rspamd-Action: no action
 
-Applied.  Thanks!
-
-Alex
-
-On Fri, Feb 6, 2026 at 5:39=E2=80=AFPM Mario Kleiner <mario.kleiner.de@gmai=
-l.com> wrote:
->
-> The plane scaling hw seems to have the same min/max plane scaling limits
-> for all 16 bpc / 64 bpp interleaved pixel color formats.
->
-> Therefore add cases to amdgpu_dm_plane_get_min_max_dc_plane_scaling() for
-> all the 16 bpc fixed-point / unorm formats to use the same .fp16
-> up/downscaling factor limits as used by the fp16 floating point formats.
->
-> So far, 16 bpc unorm formats were not handled, and the default: path
-> returned max/min factors for 32 bpp argb8888 formats, which were wrong
-> and bigger than what many DCE / DCN hw generations could handle.
->
-> The result sometimes was misscaling of framebuffers with
-> DRM_FORMAT_XRGB16161616, DRM_FORMAT_ARGB16161616, DRM_FORMAT_XBGR16161616=
-,
-> DRM_FORMAT_ABGR16161616, leading to very wrong looking display, as tested
-> on Polaris11 / DCE-11.2.
->
-> So far this went unnoticed, because only few userspace clients used such
-> 16 bpc unorm framebuffers, and those didn't use hw plane scaling, so they
-> did not experience this issue.
->
-> With upcoming Mesa 26 exposing 16 bpc unorm formats under both OpenGL
-> and Vulkan under Wayland, and the upcoming GNOME 50 Mutter Wayland
-> compositor allowing for direct scanout of these formats, the scaling
-> hw will be used on these formats if possible for HiDPI display scaling,
-> so it is important to use the correct hw scaling limits to avoid wrong
-> display.
->
-> Tested on AMD Polaris 11 / DCE 11.2 with upcoming Mesa 26 and GNOME 50
-> on HiDPI displays with scaling enabled. The mutter Wayland compositor now
-> correctly falls back to scaling via desktop compositing instead of direct
-> scanout, thereby avoiding wrong image display. For unscaled mode, it
-> correctly uses direct scanout.
->
-> Fixes: 580204038f5b ("drm/amd/display: Enable support for 16 bpc fixed-po=
-int framebuffers.")
-> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-> Tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
+On 1/17/26 01:49, Marek Vasut wrote:
+> Add WaveShare 13.3inch 1920x1080 DSI Capacitive Touch Display support.
+> 
+> While the panel is described as DPI panel, it is part of a larger unit
+> in non-removable metal casing, so the actual internal configuration is
+> not known. The panel is attached to "waveshare,dsi2dpi" bridge via DT.
+> It is likely that internally, this panel is an LVDS panel, connected to
+> ICN6211 DSI-to-DPI bridge and then another unknown DPI-to-LVDS bridge.
+> 
+> Current device link is at https://www.waveshare.com/13.3inch-dsi-lcd.htm
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index d3e62f511c8f..394880ec1078 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -1060,10 +1060,15 @@ static void amdgpu_dm_plane_get_min_max_dc_plane_=
-scaling(struct drm_device *dev,
->                 *min_downscale =3D plane_cap->max_downscale_factor.nv12;
->                 break;
->
-> +       /* All 64 bpp formats have the same fp16 scaling limits */
->         case DRM_FORMAT_XRGB16161616F:
->         case DRM_FORMAT_ARGB16161616F:
->         case DRM_FORMAT_XBGR16161616F:
->         case DRM_FORMAT_ABGR16161616F:
-> +       case DRM_FORMAT_XRGB16161616:
-> +       case DRM_FORMAT_ARGB16161616:
-> +       case DRM_FORMAT_XBGR16161616:
-> +       case DRM_FORMAT_ABGR16161616:
->                 *max_upscale =3D plane_cap->max_upscale_factor.fp16;
->                 *min_downscale =3D plane_cap->max_downscale_factor.fp16;
->                 break;
-> --
-> 2.43.0
->
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Jessica Zhang <jesszhan0024@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V3: New patch. Note that the compatible string is already part of
+>      Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 91ab280869bac..40a73c32b0b17 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -4998,6 +4998,33 @@ static const struct panel_desc vl050_8048nt_c01 = {
+>   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+>   };
+>   
+> +static const struct drm_display_mode waveshare_133inch_mode = {
+> +	.clock = 148500,
+> +	.hdisplay = 1920,
+> +	.hsync_start = 1920 + 88,
+> +	.hsync_end = 1920 + 88 + 44,
+> +	.htotal = 1920 + 88 + 44 + 148,
+> +	.vdisplay = 1080,
+> +	.vsync_start = 1080 + 4,
+> +	.vsync_end = 1080 + 4 + 5,
+> +	.vtotal = 1080 + 4 + 5 + 36,
+> +	.flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_PHSYNC,
+> +};
+> +
+> +static const struct panel_desc waveshare_133inch = {
+> +	.modes = &waveshare_133inch_mode,
+> +	.num_modes = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 293,
+> +		.height = 163,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
+> +		     DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE,
+> +};
+> +
+>   static const struct drm_display_mode winstar_wf35ltiacd_mode = {
+>   	.clock = 6410,
+>   	.hdisplay = 320,
+> @@ -5598,6 +5625,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "vxt,vl050-8048nt-c01",
+>   		.data = &vl050_8048nt_c01,
+> +	}, {
+> +		.compatible = "waveshare,13.3inch-panel",
+> +		.data = &waveshare_133inch,
+>   	}, {
+>   		.compatible = "winstar,wf35ltiacd",
+>   		.data = &winstar_wf35ltiacd,
+
+LGTM
+
+
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Thanks,
+Neil
