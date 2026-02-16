@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFjsFzdMk2mi3AEAu9opvQ
+	id cFWKCjlMk2mi3AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:56:23 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:56:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F141467D2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7821467DA
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:56:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE0C310E1B8;
-	Mon, 16 Feb 2026 16:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8F010E06A;
+	Mon, 16 Feb 2026 16:56:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bz5zSQV3";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0t1mzztA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F88F10E1B8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:56:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADD010E06A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:56:20 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 918DAC16A13;
- Mon, 16 Feb 2026 16:56:28 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 79D8AC16A15;
+ Mon, 16 Feb 2026 16:56:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 7EAB0606CF;
- Mon, 16 Feb 2026 16:56:17 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 69AFD606CF;
+ Mon, 16 Feb 2026 16:56:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 519E110368016; Mon, 16 Feb 2026 17:56:11 +0100 (CET)
+ with ESMTPSA id C22F510368019; Mon, 16 Feb 2026 17:56:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1771260976; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=rk33jShkc5GyZhH4ODiSXr2qkDwH0lTssejEJ6ovQ6U=;
- b=bz5zSQV3pLrKKxR0fLQsaBJAvoAvaUGQzTK+LpxUzlhx+i180FBz/iFwzA3caeM7gbmbkU
- izBSorum1pxK4fcOoH9EFdpsH/etwbJ860KKT+z4LaIpsSKxK0HvJjPZKkM/xGkEkwJJoL
- vpH0IzssWWlGxu76/KzjCuW+cd07Ed+aVTycQk/15TrIrFr/XjzL+zD2Frn+KQHQUNX8Cc
- dU5hfQD9/avEq2h5iLwBemuJjQwTODdJBbK73R43iiXcSssyb0/sspuRI1ZLMlwIGFOc9O
- Q3LIzh4H5i4RM48NGlc/fIVT1gw/4tQiHX5oz9U4B9cb8Z5sdw9BATfJgsM/Kg==
+ t=1771260978; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=sC4bAGIJDG3yyvTBBbsE91LqqXHjAZB97T8h25dY4js=;
+ b=0t1mzztA+BNXLahIfAmH2E6QJ6kshnwGDk7Oiyf4VeQCNeKcb4ZMB6HyVFoJBCMBuRRnq/
+ /jMlF/p4Ft7L+DeFei/7Phv4hs7XjpK36PbgiyohDEZskKvjI9zwq7Iy42w+k/tdFSnmEr
+ 0NskbHG+XwPELNyK6YYFVOPdQyyYyMEHdDI6CSl2FpjIFi5MCOM6PX9Aq9iwKbrCabwDxy
+ ClxXe0XZX6R1LjUeQtzO7lvNCntk/rjIphQGGNz5gb9JfEPesGSbov/QwhAmvjKKeeUBFi
+ eWuIAEbGxr5k5WZBonJn7I9K9MreBjMX/I1ySokQVkOLPOf4oNXnKwhRO9t+hw==
 From: "Kory Maincent (TI)" <kory.maincent@bootlin.com>
-Subject: [PATCH v2 0/3] Add support for Seeed Studio BeagleBone HDMI cape
- overlay
-Date: Mon, 16 Feb 2026 17:55:51 +0100
-Message-Id: <20260216-feature_bbge-v2-0-22805cfdbf62@bootlin.com>
+Date: Mon, 16 Feb 2026 17:55:52 +0100
+Subject: [PATCH v2 1/3] ARM: dts: ti: Enable overlays for am335x
+ BeagleBoard devicetrees
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIABdMk2kC/3WMQQ7CIBBFr9LMWgxMrVpX3sM0BtrBTqJgAImm4
- e5i9y7ff/lvgUiBKcKpWSBQ5sjeVcBNA+Os3Y0ET5UBJe4lKhSWdHoFuhpTXd/i8SAN0mQ7qJd
- nIMvvNXcZKs8ckw+ftZ7Vb/0TykpIgb1UO12dbbuz8T7d2W1H/4ChlPIFmoudV6oAAAA=
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260216-feature_bbge-v2-1-22805cfdbf62@bootlin.com>
+References: <20260216-feature_bbge-v2-0-22805cfdbf62@bootlin.com>
+In-Reply-To: <20260216-feature_bbge-v2-0-22805cfdbf62@bootlin.com>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
  Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
  Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
@@ -91,11 +91,11 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS(0.00)[m:aaro.koskinen@iki.fi,m:andreas@kemnade.info,m:khilman@baylibre.com,m:rogerq@kernel.org,m:tony@atomide.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:thomas.petazzoni@bootlin.com,m:linux-omap@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:luca.ceresoli@bootlin.com,m:praneeth@ti.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:louis.chauvet@bootlin.com,m:kory.maincent@bootlin.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[bootlin.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCPT_COUNT_TWELVE(0.00)[23];
@@ -110,47 +110,38 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D3F141467D2
+X-Rspamd-Queue-Id: EF7821467DA
 X-Rspamd-Action: no action
 
-Add devicetree overlay for the Seeed Studio BeagleBone HDMI cape, which
-provides HDMI output via an ITE IT66121 HDMI bridge and audio support
-through McASP.
-
-https://www.seeedstudio.com/Seeed-Studio-BeagleBoner-Green-HDMI-Cape.html
-
-This overlay requires the recent tilcdc cleanup patch series that was merged
-to drm-misc-next to function properly:
-https://lore.kernel.org/lkml/20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com/
-
-With this DRM tree dependency I don't know if this series should land in
-DRM tree or in OMAP tree.
+Allow overlays to be applied to am335x BeagleBoard boards. This adds
+around ~40% to the total size of the DTB files on average.
 
 Signed-off-by: Kory Maincent (TI) <kory.maincent@bootlin.com>
 ---
+
 Changes in v2:
 - Enable overlays only for am335x BeagleBoard boards.
-- Squash defconfig changes in one patch.
-- Link to v1: https://lore.kernel.org/r/20260212-feature_bbge-v1-0-29014a212f35@bootlin.com
-
 ---
-Kory Maincent (TI) (3):
-      ARM: dts: ti: Enable overlays for am335x BeagleBoard devicetrees
-      ARM: multi_v7_defconfig: omap2plus_defconfig: Enable ITE IT66121 driver
-      ARM: dts: am335x: Add Seeed Studio BeagleBone HDMI cape overlay
+ arch/arm/boot/dts/ti/omap/Makefile | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- arch/arm/boot/dts/ti/omap/Makefile                 |  13 ++
- .../boot/dts/ti/omap/am335x-bone-hdmi-00a0.dtso    | 157 +++++++++++++++++++++
- arch/arm/configs/multi_v7_defconfig                |   2 +
- arch/arm/configs/omap2plus_defconfig               |   1 +
- 4 files changed, 173 insertions(+)
----
-base-commit: 40c1ccc1a3b86259e455a9a5082d5c8e0f944d62
-change-id: 20260212-feature_bbge-932870b2edf5
+diff --git a/arch/arm/boot/dts/ti/omap/Makefile b/arch/arm/boot/dts/ti/omap/Makefile
+index 14e500846875e..dcc6d4422e411 100644
+--- a/arch/arm/boot/dts/ti/omap/Makefile
++++ b/arch/arm/boot/dts/ti/omap/Makefile
+@@ -175,3 +175,11 @@ dtb-$(CONFIG_SOC_TI81XX) += \
+ 	dm8148-t410.dtb \
+ 	dm8168-evm.dtb \
+ 	dra62x-j5eco-evm.dtb
++
++# Enable support for device-tree overlays
++DTC_FLAGS_am335x-bone += -@
++DTC_FLAGS_am335x-boneblack += -@
++DTC_FLAGS_am335x-boneblack-wireless += -@
++DTC_FLAGS_am335x-bonegreen += -@
++DTC_FLAGS_am335x-bonegreen-wireless += -@
++DTC_FLAGS_am335x-bonegreen-eco += -@
 
-Best regards,
 -- 
-Köry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.43.0
 
