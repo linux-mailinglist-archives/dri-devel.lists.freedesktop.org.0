@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEXFKIAzk2lx2gEAu9opvQ
+	id 0H0DGKYzk2mG2gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:10:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:11:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F311452DF
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87BD145314
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 16:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BB5E10E089;
-	Mon, 16 Feb 2026 15:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF28010E3AC;
+	Mon, 16 Feb 2026 15:11:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DMougBDf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ftkfm0nK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5E3910E089
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:10:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0706410E39C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:11:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 46803600C4;
- Mon, 16 Feb 2026 15:10:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D96C116C6;
- Mon, 16 Feb 2026 15:10:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 674F96012A;
+ Mon, 16 Feb 2026 15:11:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E998BC116C6;
+ Mon, 16 Feb 2026 15:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771254652;
- bh=OlztcMC0eVRsKXKtyYoyiNyW7I1vqat7vjnVFJhepxI=;
+ s=k20201202; t=1771254689;
+ bh=PN7JuZ0MWYp3x4UY+Sr1aCCdlWCIA2xS8o7MwthqdS4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DMougBDfE6VrLTrxM2AWjOhtP8+F1grSaI1X4D2sKDw3Of5Kf3b8avUVVlRp7V7oK
- 9OEpDUA+L7o10PhpurjlVb+Owc9oOa4RgWORdb+LXVcZaET3jf774rLR42ZlpCP10D
- jVi2xX4/69h+hL4PTQj4aWz5JdF/aKusUwpWeO3/dqANDIYb2yaYRBLUfGRgcvlqB9
- 8DVADzYVcrGZ9SuJazAgIMhLiMjuVQsWAJoYDpzkF8cV5QsWYxgaLWohITTnt5R5yH
- HnbwBo8/yFGjF26Hxjobj+v+cdKgpc6royeyFhlDFWaFPTWzZvGPt3ooRS45J8Zxco
- oHa0giLnZ71kg==
-Message-ID: <be18bbef-02f1-416b-ad2a-739261b3cd97@kernel.org>
-Date: Mon, 16 Feb 2026 16:10:44 +0100
+ b=ftkfm0nKVpL/WcEvY2rnmi2r3bcql47QcEn/8OiKR8fl4I2TH69w98jrxOjk3KZHD
+ yZTvhKULXH1NcaHDTYEzix8vDE5I2cCJKJfJJY+0XBCGjGizx20gCz+VIaw1bSeCHX
+ kL3rRUC5hU6TOhGd7YQ1AaL1BS6xWNRvmwD0kR/MCOeagu1YIygMyv1sg6K6b4+0vh
+ +iqliDiYug2hH0mD6GEkDraPHrBUNx4+XOjKV95tdLJyHTjnHM1C6HkO+ShLMB+I/n
+ P10aRKSryoLykGcRCnOyToXngRI4V0mKVWdG95hZoMLlLU6UcovjithuKuRrHUkeSb
+ UaiaAwCTVZj9w==
+Message-ID: <3ca29f96-2b17-493f-a5f6-d770b6fa8530@kernel.org>
+Date: Mon, 16 Feb 2026 16:11:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] dt-bindings: serial: fsl-linflexuart: add dma
- properties
+Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
 To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
  jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -51,9 +50,10 @@ Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
  eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
- Radu Pirea <radu-nicolae.pirea@nxp.com>
+ Radu Pirea <radu-nicolae.pirea@nxp.com>, Phu Luu An <phu.luuan@nxp.com>,
+ Js Ha <js.ha@nxp.com>, Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
 References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
+ <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
+In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,10 +128,10 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:phu.luuan@nxp.com,m:js.ha@nxp.com,m:ghennadi.procopciuc@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -149,27 +149,32 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: 15F311452DF
+X-Rspamd-Queue-Id: B87BD145314
 X-Rspamd-Action: no action
 
 On 16/02/2026 16:02, Larisa Grigore wrote:
-> From: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Add support for using DMA to avoid generating one interrupt per
+> character and losing characters while copy-paste.
+> In UART mode, the DMA capability can be used only if the UART Tx/Rx
+> buffers are configured as FIFOs.
+> If the DMA related properties are missing from the device tree, the
+> driver will fall back to interrupt + Buffer mode.
+> On the RX side, a timer is used to periodically poll for received data.
 > 
-> Add 'dmas' and 'dma-names' properties to describe optional DMA support
-> for RX and TX channels in the LINFlexD UART controller.
-
-Same question as in other patch about existing devices.
-
-> 
-> This allows the device tree to specify DMA channels used for UART data
-> transfers. If not specified, the driver will fall to interrupt-based
-> operations.
-> 
-> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
-> Co-developed-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
 > Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-> ---
+> Co-developed-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
+> Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
+> Co-developed-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Co-developed-by: Phu Luu An <phu.luuan@nxp.com>
+> Signed-off-by: Phu Luu An <phu.luuan@nxp.com>
+> Co-developed-by: Js Ha <js.ha@nxp.com>
+> Signed-off-by: Js Ha <js.ha@nxp.com>
+> Co-developed-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
+> Signed-off-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
 
+
+Incorrect DCO chain. Please read submitting patches document.
 
 Best regards,
 Krzysztof
