@@ -2,155 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cPs/BJZ8k2ko5wEAu9opvQ
+	id CEAyDel/k2nm5wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:22:46 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:36:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71447147707
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27DA1477BD
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:36:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A11610E03C;
-	Mon, 16 Feb 2026 20:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1343A10E0DB;
+	Mon, 16 Feb 2026 20:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Se8dKZEt";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ACSZ/i+t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com
- (mail-westeuropeazon11013011.outbound.protection.outlook.com [52.101.72.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AF410E03C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:22:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MOL+14PTXgtgCKDuPU0Q7/b6Xt6/Npi9djgrtqv7xnbqv+Ue/cY6WQbe9Y6FPNJ5phdspceoAKE48GCcA/OjYG+KItiFlLjZA6JE6GO+bBkjmCblRdoWjgOlzVEzbNFjVG2O+2hJVTyKKRgrgDVeU5HeTBGTxO3QuX4liK7OlrPs9m1NX+G9Xdlq8iw0IFtwYAPhXtzRpYfMAMYbJl0tEV77xJi1U9S5w053vDbWEbf1U/fZup3iShx5mcIQPPrB1rBoEYVDAeLjpvlOhQtfYXsaM5Yn9O+LAInjtUcJLpDJKVyLtRp6zUN6vt0/vSBLiraZtnJOAcG13t8KaUH4lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wqs7gvB0H/Kb1SOSrr2atgC5c3NkwlOAbP14h6GUMFc=;
- b=AYOnsVG64SbtW33hq0KKNJsQxfzyJ09keFz4SbTYdtxKgc3QRxp/hobN4uMbAKJpux0mxQdAqkziqKeojsB+8892z0FO0yYBwmkK53J6Zep4hBwvJtrlI+DrSttaJUy16nZFQJDIJAtPrCBzv7L4c/V4Vhw706gRIDImHNWUqK7KHYf6r1QiwuHeZ3kMUOeBNQwHhiS8aqVnZX/n7LbRA0YeGpDNjcqesiPbqZorBht/TFJs69RQkrW0//0tFtNJbktGXTAdg1StMk7gkFnLrESKaawWsYksaxsU2NDTqk5sMM6irdRwPFW40dLa9G730rgSjBJ5EnfXgRNgayLYPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wqs7gvB0H/Kb1SOSrr2atgC5c3NkwlOAbP14h6GUMFc=;
- b=Se8dKZEt94Aro7NjLuMO1YbErzEuLNX3HRGaJ3RFLed3WfpyEwiV3/KdQzne7RbXGtrucPv4GOnohV5SKD8AM/3/a7eHhvfecdhOmxoBz0rreznvTU8JkVi52EPopPRAJlDzxcZ/rkoWuiE9SKfgYipsSs3lSvlWkiTDYSZdVaHyaIJsqACd1XJwyYG6IwkPD3Xrq0OiYi/0CQDdnh1WBTdRjCdzvxBHFkhr0v1kKrTZF5zGrcq8S+aqoC1xHSbdbB+NPP1aQMHhxCwFK8m3/YUfrOb9kglrkJaNfweU0Oe7JxJyESMcrmNBgZUuS1QXfJ5QDeUgahtj3k/S1rTV0g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AM8PR04MB7810.eurprd04.prod.outlook.com (2603:10a6:20b:237::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
- 2026 20:22:37 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9611.013; Mon, 16 Feb 2026
- 20:22:37 +0000
-Date: Mon, 16 Feb 2026 15:22:28 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Larisa Grigore <larisa.grigore@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, chester62515@gmail.com,
- cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
- stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com,
- aruizrui@redhat.com, eballetb@redhat.com, echanude@redhat.com,
- jkangas@redhat.com
-Subject: Re: [PATCH 02/13] serial: linflexuart: Clean SLEEP bit in LINCR1
- after suspend
-Message-ID: <aZN8hKJSsnnYhy1m@lizhi-Precision-Tower-5810>
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-3-larisa.grigore@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260216150205.212318-3-larisa.grigore@oss.nxp.com>
-X-ClientProxiedBy: PH8P220CA0032.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:348::10) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19CC110E3E5;
+ Mon, 16 Feb 2026 20:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=ngboZP6RIhPLTK4sHHipZMO6vB+HpttFiw7t3wOgM8g=; b=ACSZ/i+ttVMlGxaUyvJib7QK/t
+ K6d4cFwUFYgRGVmD3huPTFnVWI1TPRE1HiMKV0ngwmX3PszBCG94mjloI8UEp2ttYfs55r3AwAoWE
+ jURYrg+YBx+E3Y3qrCx0XXYQMobsg0bjfPMpK1LXS+yjL6rADH7dGlHyo+QgMOJAhqUdb0haDG4D2
+ zsRooq6wjrwb/iGhJOcNnh9Diw/BOAPBpJhlIfmIxtC4EmeKlXp458kUGSwMWhPTnRrR2ObYc522+
+ kMoutKL7YBxMHcmVjJM5NrhA21lRDdGXUlfNAgRmUEHzqRArCQokmA5y22hl7Rl7r9w5eU/08j39R
+ dcutj0HA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vs5Kg-00000007GA9-3C2d; Mon, 16 Feb 2026 20:36:38 +0000
+Message-ID: <e80c212c-9220-4621-8b21-5ce382ed92e5@infradead.org>
+Date: Mon, 16 Feb 2026 12:36:36 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM8PR04MB7810:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb9abc81-a88a-4b8f-ee7e-08de6d991fff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|1800799024|52116014|376014|366016|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+SiK2OClYapmfVk0RUw7Vq2OcV4gZ9E6KTotRxw0EzRPrghvR79iKfOJiRO/?=
- =?us-ascii?Q?BpcJ5pqFGOdDegKIbigihIKw9Xw+S1qY7/bcbis+YK8D2jIdJO00hGxOZDCz?=
- =?us-ascii?Q?479SsfJBRCwGcvnrNajP+o887vwGZgaQqkEYIhXdzdUaaWI0DymBSLDt2qNv?=
- =?us-ascii?Q?ePmi/UevzfK2lKrWH/vDddHF2B6npCft61VVcSIvhLFKVciCFksArw/GrP2n?=
- =?us-ascii?Q?ho7sfMJcu0aKTbXxvqcF7nhb+w8gto2ZeE+x2H6DjfCjBR5mhoDyarHxFafy?=
- =?us-ascii?Q?lSEdReFb01Y9IhAWCIAjWzQFUbJil6cwsVz7YTQdd1cSXnWHAOUY4M+WkqCX?=
- =?us-ascii?Q?VEtefAurPCcpsBCERSUUVtxG/SPo9J+QjxO+XjsGvOJZIbMrboz3JZrfQwHb?=
- =?us-ascii?Q?xO1qupHILguHfsCOydo6BpmZKM+KMcdfZh+jhFWw9vwd3Syxwa6ZJs2i5mUe?=
- =?us-ascii?Q?J8BO8+HMbOYnJ6jdHjXD1Me7KubuAMhNfOXQrcO34dz8aq7U/u0KyZLjbfl2?=
- =?us-ascii?Q?Hg4nWpX95Z3q+kHgZylgOa/eZ0n12VBUUe9lwlC3aaxCKK5EDYi82l1Hyzuh?=
- =?us-ascii?Q?0ePf0BydBEobiW2PRzB1UiB4sQPRnvj9lHaF6qImu025ODF1JBXaJw9jh2ur?=
- =?us-ascii?Q?ZSXOXrv8D4tEFWmN2L/QhTWJXBPvmvAMhcC1czyWFWP7JkuXLqxJ9OoP3YRH?=
- =?us-ascii?Q?luR5UyvaqBLIXBEN7/T+TpC9r8Y4C7CGiaoWKSAm60nx8GAzo1WfIcjh9XJV?=
- =?us-ascii?Q?g0pE7eb9xQoosfeq4jgvD514wreEFTtEAbK2+c0FMNK6zA6Vew0g6E5kGEME?=
- =?us-ascii?Q?LNpQ877z8nM/PMALcNa6NP3kCfe8n/NKzCj5w+vIMZoTp8EVStvKU27Y7ESo?=
- =?us-ascii?Q?wuZCWJMyDWPfxMiOypCjD0z4EMshQS8+rKX/bh5VltFXROWZqBUmgw0lviK+?=
- =?us-ascii?Q?Q4+kXL2seOZcYzHEBzbYfzfy2T3kaWrdIpK4OzpdLUhdCJgMvQ43ccewpUva?=
- =?us-ascii?Q?8BfByJTyfUsScR+4E4NO2YpNuy2esUAo/AvVt6CklyCnlPJRVVkW9NSqwTTo?=
- =?us-ascii?Q?7GOwoEKg6RE4G7ULeplv09h4X36hTNG7ZJsEbUZfc75dLYE/n+DYrSzV0yX2?=
- =?us-ascii?Q?2ePW99XK21Fl9VQJm8Gx1/w4vOpOaHkG+97sn5FBMtyw1nQ5SmpN9S+JHGTS?=
- =?us-ascii?Q?mWULxFRNjvgnYkLVOdAl+qFwdDgAfrllfSJuUhPrhVQOc7jDji/li15OqD7m?=
- =?us-ascii?Q?oecVgK9xqjdgF6ChaW3LNjrn/WfNln2VJuq0vbElI2PahpnaBykeNRLzzJbJ?=
- =?us-ascii?Q?JagzZoLKGgC8GH/CuMBcj7K/EsWJhvvvENIF3ecWBWqTUFRGQPomQW4XYKSP?=
- =?us-ascii?Q?3QAWWLxHm1E+jDtmXHZBWKlNjFmgblEoBL8f+ShoKkJ+gnHUVogxdhSo7KF9?=
- =?us-ascii?Q?7vJwzLyBRD18l6apUHJRH+nOS639oteTAtDF4Uab+WPu+DnRlkqHPJUZLNKE?=
- =?us-ascii?Q?YOAIQxLTZRVwOHzhy6LUOBdKjpzQnQHY6r6VHtDDcpECGSn95nTCL1WBaJkE?=
- =?us-ascii?Q?IAKUeb/VM4KC9c6AGT0F19TIFCxkuFA1Os0s/tKZyLAMhPjy9IfldPHd7n1B?=
- =?us-ascii?Q?AgCd9nkgGWXHEFL6dMOVbFM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(1800799024)(52116014)(376014)(366016)(7416014)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?76U+bEQJvfChgePqbzV530aCmwVYOCGBpEY0gHf5CwvtX1dTP7ldvbr4r180?=
- =?us-ascii?Q?qAjN2P2mFMRvxM+0fvq8IUo34XRUra0xGpKRFy0qhWqubS/N1+K5gU65qt/d?=
- =?us-ascii?Q?qWlMAPSggyZI1ASYLICSinYNGS6R3d9c7GXF4zZiLWdNw4yaFeGlg23+cMUh?=
- =?us-ascii?Q?+0RofKNAAGcbgCbkvz9v+xrearcV20pxT+H+cTmI5DyPQAkPY+m968iOlgq4?=
- =?us-ascii?Q?ucgX20rFZtDutP2EhMO9UQlJYyoOTgaJS/u2nY6bj0WaX7UCwuayQGkG+2Dt?=
- =?us-ascii?Q?x4aWIWW6+5f1rXe0soLlh6tFuynU7Ot03kSwLTCGNT9u3ratO6q6ERbo3Y+i?=
- =?us-ascii?Q?ZxPW32WVO+k63cF+mJZ9lQshU6B/pQ3j0iUk8veLcIQnyTv5K+HG3c138tGr?=
- =?us-ascii?Q?y7nfPuEgV1iCiMAyKva2pGuNHi+1UMznYaYRKluq7/BZUQfEmbd8pWiMxi5O?=
- =?us-ascii?Q?AEwb/p1qnlgkdRkGWWd8kG8driRVFX40pnuMMSBLm+sq57INCgYa7HJMZ3Lg?=
- =?us-ascii?Q?d1lIU8cite/rdtUhbe30rOPbu6wielG0VgNkRN/QJGu356fSS1960GS9iF6x?=
- =?us-ascii?Q?1cQ4fMm777RKlotCwo2X6lDZZVaQZ3b34ddIQMF40ig59yeAKi/VoCpYdIBV?=
- =?us-ascii?Q?0jL6x6ZzUpphp7UaxN0krqWqoTK+O3gEjueSXPc4BQtTbdzOhgjy8k7DqWrh?=
- =?us-ascii?Q?xDP1WnpxtB3AuMjqPjZt8uQi4hwzmSR8FbJJDueBsutjRvqyidcDYUWWeWyp?=
- =?us-ascii?Q?eCt5OWr1ghA5sPmQpZIpmYnsltdmZYNePxL1nG8615PsC5Nt7pa8gMLawn91?=
- =?us-ascii?Q?lffP74cXPWajcRTHHeWPoLJlZACKqAPbgqLFM31ZZ16s/6KT+eF0CE/te2mL?=
- =?us-ascii?Q?pd3unjvmPa8xomhJgr4V4WV7ixFlOnMM0AVzCwu5pA5mrh9FlyyJvEijpW5g?=
- =?us-ascii?Q?nRCA7ygNM/LBu+a9xKTfh1+v81JYbJR154+6rOvLnFvXtbgXGit7b7XPHnCd?=
- =?us-ascii?Q?2SolikgM3lMj3kf5AOJCX5TkF+kxO8hthIhS80/8nCXnurgETEYF2J5JGI2/?=
- =?us-ascii?Q?aNfhA3Nblq9hlqfUbx08hnc0Mh7oYtYW85h9Lx6zxdR0nuUMNNPHgODUAKll?=
- =?us-ascii?Q?TKihZhs1zn1+Dmv/hTSJ23H4+S+OGjK+TKPoS+pBoqPSaQsvvxQtm2RflprH?=
- =?us-ascii?Q?H4LeXbqud9otQbRTZnRRL18wpkDMpTioLHEtl/A4+VVQ3UeIKHuc5W6pldL2?=
- =?us-ascii?Q?IVqSR9eyZ8R43vGScfiWQMDe8Yuty791OA18ZZh9jkuK109H+MPuuj4g0s7Q?=
- =?us-ascii?Q?70tRLwU4Foe7444BTjuRV9KjpFknKjxuYIqvw6zM/0HV+Ifdff4l1bp/RPrz?=
- =?us-ascii?Q?qFyZMUrn86gjyue7h4z9O4vrMggjRlnmjDXJmOBGE6vVg9wmk0OomrI411VE?=
- =?us-ascii?Q?7oAkVMQSWVUHBdWAql9/7M93hlQyw7nEZ5Ilv6FYQ7H92D281E65Xee713B6?=
- =?us-ascii?Q?1v0Ozwx8BqQLZJTBiisiWTEzajOXjjsugYTghc97rOBZzA/Xbip5uz2gO4Iz?=
- =?us-ascii?Q?PJocKlt1E7muP/vBz9KZt3Db6ftXbcaDXOTreFNSMe8TgUQcClswjrdQozFC?=
- =?us-ascii?Q?eKnggcR7rXlaSlRpk4ms39m9+aK313ukpOToBtE1JPHWzIW+s2Ss6RVsMjnX?=
- =?us-ascii?Q?+uvJhRnuFTlbWP2gIrhu6R4eQ5arc35Xg2u3d2oX6KxpI0k+?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb9abc81-a88a-4b8f-ee7e-08de6d991fff
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 20:22:36.9548 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gbTXoTP9Ox3xcmm0EI3b0aUyRb8/Gl2c9ArMuhcrK6sgBn48CBWSTxbe6Pdze7C2q/paYGQH57Y84w/+bIAX/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7810
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 20/20] drm/bridge: Document bridge chain format
+ selection
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
+ <20260216-color-format-v8-20-5722ce175dd5@collabora.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260216-color-format-v8-20-5722ce175dd5@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,72 +87,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [1.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[collabora.com,amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,redhat.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DKIM_TRACE(0.00)[infradead.org:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 71447147707
+	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,infradead.org:mid]
+X-Rspamd-Queue-Id: D27DA1477BD
 X-Rspamd-Action: no action
 
-On Mon, Feb 16, 2026 at 04:01:54PM +0100, Larisa Grigore wrote:
-> When coming back from reset, we need to re-initialize LINCR1 register.
-> SLEEP bit should be cleared, otherwise we can't enter INITM mode.
 
-serial: linflexuart: Clean SLEEP bit in LINCR1 at linflex_set_termios()
 
-Re-initialize LINCR1 register (Clear the SLEEP bit) at
-linflex_set_termios(), otherwise the controller cannot enter INITM mode
-after suspend/resume.
-
-Frank
->
-> Fixes: 09864c1cdf5c ("tty: serial: Add linflexuart driver for S32V234")
-> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
+On 2/16/26 5:01 AM, Nicolas Frattaroli wrote:
+> The bridge chain format selection behaviour was, until now,
+> undocumented. With the addition of the "color format" DRM property, it's
+> not sufficiently complex enough that documentation is warranted,
+> especially for driver authors trying to do the right thing.
+> 
+> Add a high-level overview of how the process is supposed to work, and
+> mention what the display driver is supposed to do if it wants to make
+> use of this functionality.
+> 
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  drivers/tty/serial/fsl_linflexuart.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
-> index 5a410e2d56ac..016011fd8760 100644
-> --- a/drivers/tty/serial/fsl_linflexuart.c
-> +++ b/drivers/tty/serial/fsl_linflexuart.c
-> @@ -413,8 +413,7 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
->  	old_cr = cr;
->
->  	/* Enter initialization mode by setting INIT bit */
-> -	cr1 = readl(port->membase + LINCR1);
-> -	cr1 |= LINFLEXD_LINCR1_INIT;
-> +	cr1 = LINFLEXD_LINCR1_INIT | LINFLEXD_LINCR1_MME;
->  	writel(cr1, port->membase + LINCR1);
->
->  	/* wait for init mode entry */
-> --
-> 2.47.0
->
+>  Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
+>  drivers/gpu/drm/drm_bridge.c          | 39 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 781129f78b06..47c4f593cf9d 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -181,6 +181,12 @@ Bridge Operations
+>  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+>     :doc: bridge operations
+>  
+> +Bridge Chain Format Selection
+> +-----------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> +   :doc: bridge chain format selection
+> +
+>  Bridge Connector Helper
+>  -----------------------
+>  
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 36a5158f0554..93ef52c37e2c 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -198,6 +198,45 @@
+>   * driver.
+>   */
+>  
+> +/**
+> + * DOC: bridge chain format selection
+> + *
+> + * A bridge chain, from display output processor to connector, may contain
+> + * bridges capable of converting between bus formats on their inputs, and
+> + * output formats on their outputs. For example, a bridge may be able to convert
+> + * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
+> + * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
+> + * formats.
+> + *
+> + * Further adding to this, a desired output color format, as specified with the
+> + * "color format" DRM property, might not correspond to what the display driver
+> + * should set at its output 1:1. The bridge chain it feeds into may only be able
+
+Preferably put "1:1" after "might not correspond".
+
+> + * to reach the desired output format, if a conversion from a different starting
+> + * format is performed.
+> + *
+> + * To deal with this complexity, the recursive bridge chain bus format selection
+> + * logic starts with the last bridge in the chain, usually the connector, and
+> + * then recursively walks the chain of bridges backwards to the first bridge,
+> + * trying to find a path.
+> + *
+> + * For a display driver to work in such a scenario, it should read the first
+> + * bridge's bridge state to figure out which bus format the chain resolved to.
+> + * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
+> + * output format should be used.
+> + *
+> + * Special handling is done for HDMI as it relates to format selection. Instead
+> + * of directly using the "color format" DRM property for bridge chains that end
+> + * in HDMI bridges, the bridge chain format selection logic will trust the logic
+> + * that set the HDMI output format. For the common HDMI state helper
+> + * functionality, this means that %DRM_COLOR_FORMAT_ENUM_AUTO will allow
+> + * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
+> + * high but the mode and connector allow it.
+> + *
+> + * For bridge chains that do not end in an HDMI bridge,
+> + * %DRM_COLOR_FORMAT_ENUM_AUTO will be satisfied with the first output format on
+> + * the last bridge for which it can find a path back to the first bridge.
+> + */
+> +
+>  /* Protect bridge_list and bridge_lingering_list */
+>  static DEFINE_MUTEX(bridge_lock);
+>  static LIST_HEAD(bridge_list);
+> 
+
+Thanks.
+-- 
+~Randy
+
