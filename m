@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WMdCDLlJk2mi3AEAu9opvQ
+	id IBspBcBJk2kT3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:45 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75E6146572
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C1C146590
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D45DE10E3C8;
-	Mon, 16 Feb 2026 16:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE30510E3CF;
+	Mon, 16 Feb 2026 16:45:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="juya/zF7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dqi4IxGE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9C110E3CC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:42 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-b8fa19e6186so64122266b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:41 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6395B10E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:43 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-b8f8fa9067fso37157866b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771260340; x=1771865140; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771260342; x=1771865142; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4ejmSd8nb43tZXdHKG5XI+JEcgisrugoqcCJvx2EkNE=;
- b=juya/zF79o4YcOv0zi4UfdD2FyfDOY/DxRaDmTdho2PugtxITgaD0NMzCMRWKO08c/
- bNYWYXP2mA77bkoQxKq0pD8vt+ZGlIlsURftFchJQ6rkH6P4hG3A2ar5g3dP5RHHkcch
- OPrIexaeCpWicOnliyDGlSHHG6OzfzCZ8WzwJ9OBfWTVWIHS1Xeicdnt4Mm50cTyW8Zh
- MN7PQOOMGW34rolayhaG04QQxuM/rxiFP01imBuyJydW3TKCgy+hcOWjzinQvwklBY+S
- RDlasQMEHCGNyA+MUT6W0F3gDMhvaT0JlZt0tlYqyp8w6oVWV/aDwuEw9ODxKUOSkfYq
- LKew==
+ bh=V3FLqJPrUOmwXQvUvRLSCbWo9qs/90WV/TQwHFimOx4=;
+ b=dqi4IxGEpJSKGR2GlGwMJyEE24gerB3RQ1ZM9pvrPSaA9gUq7xf0r5mWdVFmZ2Vn9s
+ UPdjMI8siKE11UwcxxgaA3qf3PeaYqJ2HdiTPw85yVJdzkevZJ8tiy9KHzswTW5OZ51U
+ RTlLnNYvDjb2SwNntPkrP9TXTQC1caBahDWJVLl0tBl9u+bVcsLp9qCEPLbniQge1UL8
+ BnJIbXyTkbGC+bIil1DQz26uBWxuJSACu4or0Wp+zXE17MYYXNitGQlA8kkLVpxYWwgu
+ tMrT1+Aa5kfw9b2+BcTKBaDeFsrw2db6EPdh6zNXkRZy8jS/7ssNqLfNsh6WeDVr2umX
+ N1kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771260340; x=1771865140;
+ d=1e100.net; s=20230601; t=1771260342; x=1771865142;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=4ejmSd8nb43tZXdHKG5XI+JEcgisrugoqcCJvx2EkNE=;
- b=TTAdC/PKp93X4oHWiUBxvx8G7VF6GS1utx5lQF3Sfj/xgYtz4puotjtCAqKSz5PIE3
- w0nsAIDBBlnbiF4Ka5GpD7MKdGwoUuLsDGQPT0EOjzSD99XGdO7g2Ey+WP/HoXpeUmN0
- XuBLI90Rs2JKvpPER1l96GhNx8D//e2eE84ZYEGm1j/Arj0niuKVTtkP9RorPJ73p/U5
- pIxtcp3rVhgvczffWesR70c6t3tG8L3fIho2/rlWdWBUfzygi4oTmPWZyJ9+Di11QdgG
- qwHaneeMk8zw0EeI/voVNssHMBQZP6H3ZX5qM+dhJkEJhUMdalQpf93l5eFvWIqWbJMb
- gdfg==
+ bh=V3FLqJPrUOmwXQvUvRLSCbWo9qs/90WV/TQwHFimOx4=;
+ b=ToFi3ytcUzcDVDdYOSo6J019/GQOOZvDab/024c2hhxoKdSG13Jf9u5DdQd9lbSd0q
+ 5ZmsZ+4MlLJVsAKBdahSBdNZV580wgiGbM2YFkYShtqx3l5+GvoasOYVTSZs/F3iqKJ3
+ 72AZ2rNset/jHUjwlrKGRSh/mVFyaUc2m2r47nEbr/hOtJMZPPf9SpABuIW8pDy1X2in
+ FTuq25PxqmlZ4QY5dThah1GNsBm6TsjUigMfw+TpgwEMy2D1ybnEkvrW8QcL4JVG2rrV
+ EgUNGG1pGUULWm7N9guotvc0jQt0sTkZLQaIdp0JkqXngDodSVMnMGuDvbkTp/gl5K+I
+ vraA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWj1ZStO2o+CPQRMgfO2Y/OO31R4Xky5A+8PR+KXlGRbxq9bcbQM4NNq51Dt46KCJPJPQ09gDWI9i8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx84tiSAbLGzEueutxCTEHiJ1rWbXEtNRR0bBu9qbYk97Lsv5LC
- C097AXMVWPJv2BXjyb2TuGszs56WioCn8SBXCwLUY3OVm/lEMfsgWDwG
-X-Gm-Gg: AZuq6aI/EPQyGmYh3+tNeQEMnyNRskKqKQTiw0r04y9aZUVu8MTk65DQhjYwMo+0Hpx
- /TYjI+KTLwi8QsA0bmc3rLGu5DUNXgLBwQdliHXdIdaoTnebPESuCYGh4K7wc2ESx/4gOVQJJvm
- JjkM2ymUA6PONOYqN3JedFHuExkyF8EpKuiCXsj74sAp9BuZ9oyEmRp/wTYeI8HOdQH/0+YRnTd
- EieqgqyBet9g2Fxa+hsAh9a6VyrT6oXaDa8UfGgMqSDAkO0nlAVzfvCMll3xpUxpIjk8XFwTnIJ
- Q2bQOL2IJ6UkfLhkrHlGJc2JVnCpCEn8IrtL8wD1sqsDVL/vnyFhEjJEwmiXp3ZIP1f7Anq2Kar
- 6LJRfdbZxn5QvYkvy3LRRX+1ttR1Gedf/W34dPDJYmzc28T0DsUs0fywHx1QQqtYr5seTi0eR9F
- Fg5eEAWtfO7kaQvAu6VZOdGJROxs4qqcJACEVSdUBN5nXW9sbcTiqKTtxemgA/sc+09dmboMHbX
- aHR+Fk/5UnMchQ=
-X-Received: by 2002:a17:907:2da6:b0:b8d:fc50:c2f0 with SMTP id
- a640c23a62f3a-b8facc5a3aamr377443266b.2.1771260340409; 
- Mon, 16 Feb 2026 08:45:40 -0800 (PST)
+ AJvYcCUN6Kp/XxeAbQniLy3h3yyZoAVwvebjoEOM00maX/RzjFb9jMCN/8FnmWoWvsEjKd8VneyEzfCfHrI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/d4o0/s93HDHXa9pZHdLstlpEpZOIF9HEZrrquwiUSUQSoJt+
+ DSzQtjJIdIaFZj39FdkblChjO4aA13SfWmeD2qgvcWV3Vw5URBD1FK1M
+X-Gm-Gg: AZuq6aK2SwqY9JDEhBWjMZnGvvj2zEueSfiEZnKBn6l/yIRTWRwiMR/yk1UQ/iUX65K
+ zQKdkaYGE9pk7al59p3jnURH3rvFNEL4BZdKZKx1O3YKIXKw+THa+WaB2fgIcEnzTlGf+dtgC2A
+ e+qI/4s30N3D3qiHcIQfDgi869fBwlHIoLDO6kjd3QPgQR7jwZX9HITD/BQEOgnoSwCBK+exRGp
+ IxY5U94tggiHubBx/pqno9XAXGvU8/2yx1uK6nzpvAYLkIBCBJqBUqb1DUlmUiKg1lyjzFeVH/C
+ MGebqQXkiTRbZK1E5TMVfCye4iqbYu2mklhEuEWC8Wq1tfP9XwAoahDgWUbPME4QwlmQwYPcKct
+ tCc0mL5fQA915q7lFgSbFd6LKIEId4uM8k1EMXomBLVBaio5QLCFXgZrwOOGV3CRURx4b1DNgeG
+ a2t1WV3MNRUZZR/Hme761Eu7ihssRW/n1JKIsfrQ7aTguLJJAQ41haF6MsKMrrJ44auLKgUzJTI
+ HFK
+X-Received: by 2002:a17:907:72c6:b0:b8e:92e:d2ef with SMTP id
+ a640c23a62f3a-b8facf879c6mr396937766b.5.1771260341718; 
+ Mon, 16 Feb 2026 08:45:41 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.39
+ a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Feb 2026 08:45:40 -0800 (PST)
+ Mon, 16 Feb 2026 08:45:41 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -77,9 +77,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v4 16/27] drm/amd/display: Build HDMI vsif in correct slot
-Date: Mon, 16 Feb 2026 17:45:05 +0100
-Message-ID: <20260216164516.36803-17-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 17/27] drm/amd/display: Save HDMI gaming info to edid caps
+Date: Mon, 16 Feb 2026 17:45:06 +0100
+Message-ID: <20260216164516.36803-18-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
@@ -135,34 +135,62 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D75E6146572
+X-Rspamd-Queue-Id: B5C1C146590
 X-Rspamd-Action: no action
 
 [Why]
-HDMI vsif was assigned to vsp_infopacket (FreeSync) field
+We need info about these features in parts of the driver where fishing
+for drm_connector struct is infeasible.
 
 [How]
-Build HDMI vsif in the correct hfvsif_infopacket field
+Add three new fields to dc_edid_caps and fill them if connected device
+is HDMI based on it's EDID
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 7 ++++++-
+ drivers/gpu/drm/amd/display/dc/dc_types.h                 | 7 ++++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 991e2262ecbc..288437ada2a5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7391,7 +7391,7 @@ create_stream_for_sink(struct drm_connector *connector,
- 	update_stream_signal(stream, sink);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 690558584a0f..c24476182fdf 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -137,7 +137,12 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 				  edid_caps->display_name,
+ 				  AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
  
- 	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
--		mod_build_hf_vsif_infopacket(stream, &stream->vsp_infopacket);
-+		mod_build_hf_vsif_infopacket(stream, &stream->hfvsif_infopacket);
+-	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
++	if (connector->display_info.is_hdmi) {
++		edid_caps->edid_hdmi = true;
++		edid_caps->allm = connector->display_info.hdmi.allm;
++		edid_caps->fva = connector->display_info.hdmi.vrr_cap.fva;
++		edid_caps->hdmi_vrr = connector->display_info.hdmi.vrr_cap.supported;
++	}
  
- 	if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 	    stream->signal == SIGNAL_TYPE_DISPLAY_PORT_MST ||
+ 	if (edid_caps->edid_hdmi)
+ 		populate_hdmi_info_from_connector(&connector->display_info.hdmi, edid_caps);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
+index bddb16bb76d4..2efca21a6561 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
+@@ -210,9 +210,14 @@ struct dc_edid_caps {
+ 
+ 	uint32_t max_tmds_clk_mhz;
+ 
+-	/*HDMI 2.0 caps*/
++	/* HDMI 2.0 caps */
+ 	bool lte_340mcsc_scramble;
+ 
++	/* HDMI 2.1 caps */
++	bool allm;
++	bool fva;
++	bool hdmi_vrr;
++
+ 	bool edid_hdmi;
+ 	bool hdr_supported;
+ 	bool rr_capable;
 -- 
 2.53.0
 
