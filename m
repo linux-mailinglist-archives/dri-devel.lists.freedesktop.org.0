@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOJbIjzjkmndzgEAu9opvQ
+	id YAsyK3PlkmlSzwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:28:28 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:37:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4F1141F3D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16627141FE5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:37:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27E310E041;
-	Mon, 16 Feb 2026 09:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CED110E0FB;
+	Mon, 16 Feb 2026 09:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="CPCKfPDi";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I2oKvwoH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5BA10E041;
- Mon, 16 Feb 2026 09:28:22 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA6110E10B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1771234669;
+ bh=qKKaBe4wf2RPk6OJWEKoKbKnw8/kv7zGYyXRckENEUk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=I2oKvwoHlI8oSPvQHSJXXW0H+75phIPDMf1wu11+r2nCrG7sPX4d6GeUd373hlnkZ
+ VQY/qoPjgZh3gTS6czi3gfPJ/3Zt/HueoprNTYXysbI8e9vbhlVBajuhoA4PiXo/Fm
+ bem+wpW58TJlZcscN47Hqf/MwSyAZyLoDnSXQG7YcooUur9JbfxiLpVEVTVk1k93r0
+ 6yWlwvjrpobD13y/YZfDS56vsMY2e66Xg+nUIWN/qEeDI+6RKexXCjmaDVy4vENgE8
+ CUtuE8mfzaSWAU0VUIdkhC2pE7vM2XVE9QUbj+VyXINf1n+nghNXEoqwu13ea9+h66
+ FwfZ3OG9qPKdQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fDyBC406lz9vDx;
- Mon, 16 Feb 2026 10:28:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1771234099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xrnqCAaSli5/FQRdIXyZ88I9oAN4JNz7CSF+8kqQWjQ=;
- b=CPCKfPDimpPMuukfGC4X2vFdpvcL1kWE7p+GE/LP0H5HiRSqGsUEE10h/3BrQE8ymULMmN
- gkvJtCHHRK9PX8ZpFFdkpXlSc0G5MHH8SnK9HFKd5Ty2EkKGyYf2B+XnAkdglnzDzjyakJ
- y9df8f2F5/BqLzlUwxDn1yU1vC321BMooeZtJ8JBx7Lqsgi9fvk5Q4fozbGDF9JJPPN+7H
- h9EC5EAZYj+hAzFejLedWTk0g5e25+xtobpKoAOFhcInH7z5hZK8VQTg1DPv8GceZpseDW
- XluQ3W0E/M58oEGMs7lfbmqDP48KaON2pLudpOqKS80G85iNmab6tcPi+kH+Jw==
-Message-ID: <7f4a86ad-d642-444c-a576-17ff9caaa934@mailbox.org>
-Date: Mon, 16 Feb 2026 10:28:13 +0100
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E067817E137B;
+ Mon, 16 Feb 2026 10:37:48 +0100 (CET)
+Date: Mon, 16 Feb 2026 10:37:43 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v1 2/2] drm/panthor: treat sram as mandatory except mt8196
+Message-ID: <20260216103743.626c71e3@fedora>
+In-Reply-To: <20260215100302.136719-2-work@onurozkan.dev>
+References: <20260215100302.136719-1-work@onurozkan.dev>
+ <20260215100302.136719-2-work@onurozkan.dev>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/2] drm: introduce KMS recovery mechanism
-To: Hamza Mahfooz <someguy@effective-light.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Ivan Lipski <ivan.lipski@amd.com>, =?UTF-8?Q?Timur_Krist=C3=B3f?=
- <timur.kristof@gmail.com>, Dominik Kaszewski <dominik.kaszewski@amd.com>,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260212230905.688006-1-someguy@effective-light.com>
- <2e359cd9-0192-44d0-886f-7f93a8b0a4fa@amd.com> <aY99D-yXVydpMdwy@hal-station>
- <85319290-4027-4eb8-95d1-9009d23f2294@mailbox.org>
- <aZD0W7V_6--2yqNK@hal-station>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <aZD0W7V_6--2yqNK@hal-station>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 62359b98baf74e21a94
-X-MBO-RS-META: ji19nbhxmym4obz7fekxib6m8podn94n
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,54 +74,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	MAILLIST(-0.20)[mailman];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5E4F1141F3D
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 16627141FE5
 X-Rspamd-Action: no action
 
-On 2/14/26 23:16, Hamza Mahfooz wrote:
-> On Sat, Feb 14, 2026 at 03:02:49PM +0100, Michel Dänzer wrote:
->> Why couldn't a full modeset?
-> 
-> As far as I see it the only reasons why we should be timing out is
-> either an interrupt went missing (perhaps due to a race condition in
-> driver code) or hung hardware. In either case, the interrupt associated
-> with the page flip for the current commit is long gone.
+On Sun, 15 Feb 2026 13:02:51 +0300
+Onur =C3=96zkan <work@onurozkan.dev> wrote:
 
-That's a matter of bookkeeping, the interrupt isn't required to keep track of the commit and complete it.
+> If sram-supply is missing, Panthor falls back to a
+> dummy regulator with a warning. This implicit behavior
+> hides missing DT wiring behind regulator core fallback.
+>=20
+> Make SRAM handling explicit: require sram-supply for all
+> Panthor compatibles except mt8196-mali where GPU supplies
+> are intentionally managed outside Panthor and DT does not
+> model sram-supply for that compatible.
+>=20
+> This keeps DT power modeling explicit and avoids relying on
+> dummy-regulator fallback.
+>=20
+> Link: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
+> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
+> ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
+panthor/panthor_devfreq.c
+> index 2249b41ca4af..5f6075f18fe3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -206,12 +206,17 @@ int panthor_devfreq_init(struct panthor_device *ptd=
+ev)
+>  	 * But without knowing if it's beneficial or not (in term of power
+>  	 * consumption), or how much it slows down the suspend/resume steps,
+>  	 * let's just keep regulators enabled for the device lifetime.
+> +	 *
+> +	 * Treat sram-supply as mandatory except for mt8196-mali. It manages
+> +	 * SRAM outside Panthor so this driver must not require direct control
+> +	 * over it.
+>  	 */
+> -	ret =3D devm_regulator_get_enable_optional(dev, "sram");
+> -	if (ret && ret !=3D -ENODEV) {
+> -		if (ret !=3D -EPROBE_DEFER)
+> +	if (!of_device_is_compatible(dev->of_node, "mediatek,mt8196-mali")) {
 
+Rather than checking for specific compats here, let's go for
+a dont_need_sram_supply bool in panthor_soc_data.
 
->> In principle it's possible to do (the equivalent of) a modeset with the current state for all CRTCs, no need to do it separately per CRTC.
-> 
-> AFAIK that is what the uevent is already doing (unless I'm mistaken).
+> +		ret =3D devm_regulator_get_enable_optional(dev, "sram");
 
-This is about just doing a full modeset, which isn't something user space can do in response to a wedged event.
+If we assume SRAM supply is mandatory, should this be
+devm_regulator_get_enable() instead?
 
+> +		if (ret) {
+>  			DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram supply\n");
+> -		return ret;
+> +			return ret;
+> +		}
+>  	}
+> =20
+>  	opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
