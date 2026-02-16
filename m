@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKCTBZqDkmkEugEAu9opvQ
+	id rZBcOpOLkmnqugEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 03:40:26 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 04:14:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38825140ABA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 03:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499B7140B5C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 04:14:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB6DC10E0FF;
-	Mon, 16 Feb 2026 02:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4125610E122;
+	Mon, 16 Feb 2026 03:14:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MHORJyfn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dimv1euL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F9310E0FF
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 02:40:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDAB10E120
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 03:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771209620; x=1802745620;
+ t=1771211662; x=1802747662;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=Q+c3RfmNudyA6okLo+b6gNeR3tguUr+7BZ3rKjSmwsE=;
- b=MHORJyfnsdcM4IbSDTP9Fg0UaUHz/PiXGvVufQkJp2uc/66MkAp9owli
- 5eOviDkL1fV/+LiXbLrJLLi4PkSvavjIE8fOouJjBzB9mZLCrCr6ifLqp
- HfRmBkITI7hZFDcQzgBv5EOn2GO6FCZ23NtYn84KJic+0AHgobd7TDc6Q
- 3Y//qg65d/UvSxFl1U2sZiaMuIREwOZtVE7tDxKRmsNlB6aoVR3VNh+7U
- Z4f7mCeQu7MiLBR+P1c2EE90JHSEiZf6Coi0D3GKmTf43OyQ6osdGegjo
- nC0fhc58ybAxkUVQWOpycPcLvKb2C80LX39045U5KlELvad9mteT5mzwJ w==;
-X-CSE-ConnectionGUID: lzwbhhoeS9WVqe/d3hB20Q==
-X-CSE-MsgGUID: ecTq1NrgSGSZZvMgh9eiwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72339104"
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="72339104"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2026 18:40:19 -0800
-X-CSE-ConnectionGUID: FNjSZKsPQKSeUnZ2ulGTAA==
-X-CSE-MsgGUID: Te9ANFRZQ9+VG5o4AwGH0w==
+ bh=4NxdKFFSCCFyD3pan62EKU0kYRrwZk5F4+pfzhDm7pA=;
+ b=dimv1euLs0cnDVCWLdc1+i1wPers9s/a4pROLzWpjMhUQNpKbnHWxv4s
+ eYBdLIGX0L5rgd3ycG7PcUHdt4pkSk8ZwyuFteL8tZbWgpl9OF40rALAg
+ Tz2Ri/RKEKs7M74HfZxSGIAQJ/3oloxuDdbvgbvLSmtGKDu2VWC4MhN9s
+ yRa11xk3nyGIOV2FafW9943ULXwZ9C1cjmUIleoinJ8LztVVp+ZUJv32h
+ Nfd94POyQT3E/VX0YaeSejWHGVCRhNFgFP4TvFcFA9+mgvSjPYTPd+TEN
+ xBO5B8XnAUFAWkTRkyF2F2jLRg9aKzykgJJoNWQ74I+V+9EnkUWyJvlBL A==;
+X-CSE-ConnectionGUID: P3JlZ52MSVSztZ2H6j5KNw==
+X-CSE-MsgGUID: ZC5XS7kZQnagxH/pQALg6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72006849"
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="72006849"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2026 19:14:21 -0800
+X-CSE-ConnectionGUID: 6pESEqZmSjyyzN9tP9AFVg==
+X-CSE-MsgGUID: DHC1voLmT9iBeKUaVaWxqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="244056967"
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="213574603"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 15 Feb 2026 18:40:15 -0800
+ by orviesa007.jf.intel.com with ESMTP; 15 Feb 2026 19:14:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vroWz-00000000zKO-1Mvg;
- Mon, 16 Feb 2026 02:40:13 +0000
-Date: Mon, 16 Feb 2026 10:39:54 +0800
+ (envelope-from <lkp@intel.com>) id 1vrp3v-00000000zMe-45RS;
+ Mon, 16 Feb 2026 03:14:15 +0000
+Date: Mon, 16 Feb 2026 11:13:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, srini@kernel.org,
  linux-arm-msm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de,
- dmitry.baryshkov@oss.qualcomm.com,
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+ quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ arnd@arndb.de, dmitry.baryshkov@oss.qualcomm.com,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Subject: Re: [PATCH v6 2/4] misc: fastrpc: Replace hardcoded ctxid mask with
  GENMASK
-Message-ID: <202602161009.M2K52X34-lkp@intel.com>
+Message-ID: <202602161130.5b7COBet-lkp@intel.com>
 References: <20260215182136.3995111-3-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -86,17 +85,17 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:ekansh.gupta@oss.qualcomm.com,m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:ekansh.gupta@oss.qualcomm.com,m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:oe-kbuild-all@lists.linux.dev,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -110,8 +109,8 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:mid,intel.com:dkim,intel.com:email,git-scm.com:url]
-X-Rspamd-Queue-Id: 38825140ABA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,intel.com:mid,intel.com:dkim,intel.com:email,01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 499B7140B5C
 X-Rspamd-Action: no action
 
 Hi Ekansh,
@@ -128,27 +127,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc
 base:   char-misc/char-misc-testing
 patch link:    https://lore.kernel.org/r/20260215182136.3995111-3-ekansh.gupta%40oss.qualcomm.com
 patch subject: [PATCH v6 2/4] misc: fastrpc: Replace hardcoded ctxid mask with GENMASK
-config: hexagon-randconfig-001-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161009.M2K52X34-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161009.M2K52X34-lkp@intel.com/reproduce)
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260216/202602161130.5b7COBet-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161130.5b7COBet-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161009.M2K52X34-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161130.5b7COBet-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/misc/fastrpc.c:518:29: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/misc/fastrpc.c: In function 'fastrpc_context_free':
+>> drivers/misc/fastrpc.c:518:36: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
      518 |         idr_remove(&cctx->ctx_idr, FIELD_GET(FASTRPC_CTXID_MASK, ctx->ctxid));
-         |                                    ^
->> drivers/misc/fastrpc.c:654:15: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                    ^~~~~~~~~
+   drivers/misc/fastrpc.c: In function 'fastrpc_context_alloc':
+>> drivers/misc/fastrpc.c:654:22: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
      654 |         ctx->ctxid = FIELD_PREP(FASTRPC_CTXID_MASK, ret);
-         |                      ^
-   drivers/misc/fastrpc.c:2509:10: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2509 |         ctxid = FIELD_GET(FASTRPC_CTXID_MASK, rsp->ctx);
-         |                 ^
-   3 errors generated.
+         |                      ^~~~~~~~~~
 
 
 vim +/FIELD_GET +518 drivers/misc/fastrpc.c
