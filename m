@@ -2,116 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oF8INMdCk2kA3AEAu9opvQ
+	id aMQ7ON9Dk2kP3AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:16:07 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:20:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F22145FF3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B158146098
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB3410E0D2;
-	Mon, 16 Feb 2026 16:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF0A10E3BE;
+	Mon, 16 Feb 2026 16:20:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="osinRoJt";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="B4yPlamJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8982C10E0D2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:16:03 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-4362507f0bcso2862291f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:16:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1771258562; x=1771863362; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=DKJ7LQxP686mUB8k5bHigcsySoErWd50V3vEEJlbK3c=;
- b=osinRoJtPx5Z/BGYRl4RlgqYMuMUTWL55VwBUxss/7BKmu99OyoKwPOVhFzVRV4r7C
- uSFMoIo2DfVOPC1UrvZ1HR793G7OKPyE1DjH6/m17R57O2miz5SWwg8BAjFCJr55ouEC
- htY3Uj83ooGRdcgMJT1ljUO19qYzaGbMQzBHInH/cI6FExyLMxPg3Mrucyc7HOAV3rI3
- KJP0M34JsDRIezEXmjUnFeb2JhfwpI4fNhTJ1lADo/h4NS5Qfhl9r7FflxC0OoQb4Utq
- tdwwJpi1KmzItvkzdAJLVYs97jOTPPEfKDNgdfspcVd4G3mhiKmnw6Ky74cT0sM254xR
- Cumw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771258562; x=1771863362;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DKJ7LQxP686mUB8k5bHigcsySoErWd50V3vEEJlbK3c=;
- b=dKRowySsQBVOhx4VJ4LQw+lXT3XzLWl0i+OdRTOBerjbjAUi+xOk1dEaaw7x/Rs/it
- /N2vM3PJipm4syNjkqfwZBE4a8nPomJvm9akd8qArBTMYcx5+6C7SohSc6eF1iXV0uyA
- iICrgBTttUtXFORLt+pjg36QL0Yjg6kfr5fyVWMebqa62aPBaWIe3hkB0mb6VvUPJ76i
- D9fJogQ0NbXWMtCszIk4B0+Sw3nbCsugFuxj70Y76XDgMkQVEkkID1YOwTel2UCJKXH8
- gMNkFbCnJvII9adAbQhavSVXYYhmU8DNrqgYH+fMwAMHjbRWy5UjPJI57mFTuoQ9Mqub
- dnOw==
-X-Gm-Message-State: AOJu0Yx31WjfEZa1PrYSbsRjj7zZ33fG0Au7WzfuV02x56gISgZVM+5f
- q/FCgX59Y2ymkaq29zXcEkA5BgLwFZfoINeLY5s1rx2Tq4YDpU7W8mcj+gLMV70kL28=
-X-Gm-Gg: AZuq6aJ9uum/c0+zBIkkFm7Ku17aTKa8SndFKpW4fIdmjXVKXfSGjUd440lWOAUF3n1
- oiwSJ4lchfVZ+aVMqH4iqtR6W20M3w76xTeXJfbc9ddQjlvsqhEkyDgwNkZe32wKOu2hYJjIrnp
- tI5n+ikWzlOwo684xhEJJ7XVBtr7qWPxudTOTGZ+TlBefXLRKDWkqjlRrEGWaWLj4dxUAwXNDMQ
- QX7BinVewEzAlAzpcjejGm5OAN0Z6UaOUaYYGAkggx+UIRdRf9q1YODh3BskjcQH1iYZgnZcC86
- 5hr/+uXmgNc8elxJlq4/PXe3Kp8VRsA/FtGFKmBNyDG5xswNtpNW+5AZ2SKYvjm8nQYv4qQCALO
- n8MUFBsDkux6P1MCLoy8dxku5h1XEhs55i1PHf6083cHSCDoE5jAsPFh8cxzWCTYt4ZXhde65DZ
- R88U3oVck7oOaCARPou9sUme9jsL0cnEeivwYuwAlxS+E1/OYBX5qWEVT8x+Hv6p8pzzDqJ8jea
- /MOFg==
-X-Received: by 2002:a05:6000:228a:b0:430:fd0e:a502 with SMTP id
- ffacd0b85a97d-4379d61a68amr14266998f8f.22.1771258561718; 
- Mon, 16 Feb 2026 08:16:01 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a?
- ([2a01:e0a:106d:1080:80b4:8b51:72a6:9e2a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43796a5ac87sm30128089f8f.3.2026.02.16.08.16.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Feb 2026 08:16:01 -0800 (PST)
-Message-ID: <8e3416cc-4221-4ff2-91ef-9bd55e6bdf0e@linaro.org>
-Date: Mon, 16 Feb 2026 17:16:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v1 5/5] drm/panel: r61307/r69328: convert to
- devm_mipi_dsi_attach
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260215085140.20499-1-clamor95@gmail.com>
- <20260215085140.20499-6-clamor95@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260215085140.20499-6-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED3E10E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:20:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771258836; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=EoEA20ToSh90rrByLbaVgbOnKe+vEJ0RThTX6JqduT5AO3hy2JyBGr9D6w/xVcPJ7URpBTGYGuMIxhTikLXQMb3qszqWh7udW9kaXxh0zX8tf7GS8LtU13Lpbi8tJbn24zTYJnJemgN/SqPCmoZuX6HgupgypR3i2h9ByvYINFY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1771258836;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=P2xroIIh/DM8tp91K7Cib803UTQjy6CguhTIfspWUfA=; 
+ b=D1XD9NtKD25rF9gPU4Wr/fHjv8QyUAH8qxy6Puu4DcnZktp47eDgNuIbsl8noQIcf8EOWYfMFWbfbvmllcjdMTBk/+xy/rRVD0k5zQGp9tdKohLiLTQJlRbiUOsmrNXo9P2ARIPCU+srr+bckTLOIXn3PYXHXXFVOPmzhTenhgI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771258836; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=P2xroIIh/DM8tp91K7Cib803UTQjy6CguhTIfspWUfA=;
+ b=B4yPlamJ5+1HyYDPaa6uwLf2neNGAu6aFaS9rDnfCGuisxQNe2fhTxKqZ9Ld5jK3
+ 15eze8M7E5OHl5OvhInW0Gkwm+St8sO54VkBCSdQ1qdvpz3qEC9Elr7Mcq8FARtiNQF
+ V19QgC2spoFTng33AlWrFCRbaLNKz9di+KaFKRhI=
+Received: by mx.zohomail.com with SMTPS id 1771258835129346.09214209574554;
+ Mon, 16 Feb 2026 08:20:35 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v2 0/4] rust: Add ARef support for work items
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
+Date: Mon, 16 Feb 2026 13:20:15 -0300
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <196AEBB6-29A6-4F0F-917B-A042F422698C@collabora.com>
+References: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tejun Heo <tj@kernel.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,109 +76,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch];
-	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:mid,linaro.org:replyto,linaro.org:dkim,linaro.org:email];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
+	FORGED_RECIPIENTS(0.00)[m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 38F22145FF3
+	APPLE_MAILER_COMMON(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3B158146098
 X-Rspamd-Action: no action
 
-On 2/15/26 09:51, Svyatoslav Ryhel wrote:
-> Switch to device managed version of mipi_dsi_attach.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+
+
+> On 4 Feb 2026, at 17:40, Daniel Almeida <daniel.almeida@collabora.com> =
+wrote:
+>=20
+> This series adds ARef<T> support for both regular and delayed work =
+items.=20
+>=20
+> - Patches 1 and 3 actually implement the support in workqueue.rs
+> - Patches 2 and 4 adds a corresponding implementation in drm::Device =
+that
+>  dispatches the calls to the underlying T::Data.
+>=20
+> This was tested on Tyr, and is actually needed in order to obtain a
+> &drm::Device when handling work items. This is then needed in order to
+> allocate GEM objects inside the work handler that processes the tiler =
+OOM
+> (out of memory) events. The current series sets the stage so that the =
+above
+> is possible in the future.
+>=20
+> This is currently based on v6.19-rc8. I hope we can land all four =
+commits
+> on a single tree, but otherwise let me know whether I should split the
+> workqueue.rs changes from the drm::Device ones and rebase accordingly.
+>=20
 > ---
->   drivers/gpu/drm/panel/panel-renesas-r61307.c | 7 +------
->   drivers/gpu/drm/panel/panel-renesas-r69328.c | 7 +------
->   2 files changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-renesas-r61307.c b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-> index 70bda074dd0d..d8185cc1b5d6 100644
-> --- a/drivers/gpu/drm/panel/panel-renesas-r61307.c
-> +++ b/drivers/gpu/drm/panel/panel-renesas-r61307.c
-> @@ -261,7 +261,7 @@ static int renesas_r61307_probe(struct mipi_dsi_device *dsi)
->   
->   	drm_panel_add(&priv->panel);
->   
-> -	ret = mipi_dsi_attach(dsi);
-> +	ret = devm_mipi_dsi_attach(dev, dsi);
->   	if (ret) {
->   		drm_panel_remove(&priv->panel);
->   		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-> @@ -273,11 +273,6 @@ static int renesas_r61307_probe(struct mipi_dsi_device *dsi)
->   static void renesas_r61307_remove(struct mipi_dsi_device *dsi)
->   {
->   	struct renesas_r61307 *priv = mipi_dsi_get_drvdata(dsi);
-> -	int ret;
-> -
-> -	ret = mipi_dsi_detach(dsi);
-> -	if (ret)
-> -		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
->   
->   	drm_panel_remove(&priv->panel);
->   }
-> diff --git a/drivers/gpu/drm/panel/panel-renesas-r69328.c b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-> index 0ed143f77e50..bfe2787f8f53 100644
-> --- a/drivers/gpu/drm/panel/panel-renesas-r69328.c
-> +++ b/drivers/gpu/drm/panel/panel-renesas-r69328.c
-> @@ -217,7 +217,7 @@ static int renesas_r69328_probe(struct mipi_dsi_device *dsi)
->   
->   	drm_panel_add(&priv->panel);
->   
-> -	ret = mipi_dsi_attach(dsi);
-> +	ret = devm_mipi_dsi_attach(dev, dsi);
->   	if (ret) {
->   		drm_panel_remove(&priv->panel);
->   		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-> @@ -229,11 +229,6 @@ static int renesas_r69328_probe(struct mipi_dsi_device *dsi)
->   static void renesas_r69328_remove(struct mipi_dsi_device *dsi)
->   {
->   	struct renesas_r69328 *priv = mipi_dsi_get_drvdata(dsi);
-> -	int ret;
-> -
-> -	ret = mipi_dsi_detach(dsi);
-> -	if (ret)
-> -		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
->   
->   	drm_panel_remove(&priv->panel);
->   }
+> Changes in v2:
+> - Rebased on v6.19-rc8
+> - Cc workqueue maintainers
+> - Patch 2 kept the old import style, since drm/device.rs is not yet
+>  converted.
+> - Link to v1: =
+https://lore.kernel.org/r/20260115-aref-workitem-v1-0-9883e00f0509@collabo=
+ra.com
+>=20
+> ---
+> Daniel Almeida (4):
+>      rust: workqueue: add support for ARef<T>
+>      rust: drm: dispatch work items to the private data
+>      rust: workqueue: add delayed work support for ARef<T>
+>      rust: drm: dispatch delayed work items to the private data
+>=20
+> rust/kernel/drm/device.rs | 66 ++++++++++++++++++++++++++++++--
+> rust/kernel/workqueue.rs  | 96 =
+++++++++++++++++++++++++++++++++++++++++++++---
+> 2 files changed, 152 insertions(+), 10 deletions(-)
+> ---
+> base-commit: 18f7fcd5e69a04df57b563360b88be72471d6b62
+> change-id: 20260115-aref-workitem-0f57e4fb81ca
+>=20
+> Best regards,
+> --=20
+> Daniel Almeida <daniel.almeida@collabora.com>
+>=20
 
+Friendly ping for the workqueue maintainers here: any comments?=20
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+=E2=80=94 Daniel
 
-Thanks,
-Neil
