@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIgwJ5wVk2nq1QEAu9opvQ
+	id GE+aJqYVk2nq1QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:03:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:03:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F276143940
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DD2143950
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9936C10E393;
-	Mon, 16 Feb 2026 13:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8478510E38F;
+	Mon, 16 Feb 2026 13:03:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="QnHSAO8p";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="OzL7AXPv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB92410E394;
- Mon, 16 Feb 2026 13:03:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771246993; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 551B810E38D;
+ Mon, 16 Feb 2026 13:03:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771247001; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=mAWObq6MZgJ36ToIxOtOeHBGuQQEqoD/NhcJjCl+LdP+3iQIhFFi6DlL20ObQZt13rEVtWlpKsnBlLANhf1H7hmp/iVTRYGkfoH2ocQCj7UxVB6HoAObCDbWNljZEVU0MbVf8dkNNwr0XDn0s99R64tnBGUxVHhhp9iPTAW+wcU=
+ b=Ju4u/R9VFHvRc4eFYAJ940nCfQai7uTtLse9wAmk7atHiaPy+ID9zQcuAPOGdJhbx3up2bKtzNZX7DaYmkNCzWDjwjSKikFnSMIGDFrs5kNTJQyakliFWUZNKIgiOdi4jH7fmMG+oZYMhj68G744QX6hNemig4LSa99PQqbvzyA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771246993;
+ s=zohoarc; t=1771247001;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=L4TB1VZvZtMLKUs37afR6aj+cqotV2KSEgyNjdp9AC0=; 
- b=LxwFXJfQGhhTEl8Dc4cCNKnSUb6INmQLT6fxjKpRhOdbegbtvEyL9yKaZKtSnBSIqtBq7XXAsodHllL3RhX/1ktCSfXT5OPC6C3Ij7wx+9pcuqWXsMyzB1eJB+CDLPsAGrqGDgKtCVG5FmPC8xuISw0VoHJneuhxMp6MYwR8ruE=
+ bh=aAKo1twm4zvOU57OmqnMmeCHmOgUWQwHKdY/derPNZ0=; 
+ b=eu/KPwydHyYdKSnpS7L3A2RnsyC5Gk0nZ0+rAVbfCltzh6DXMMFMe8kcGrm9dN3EYvTfJUy/2TUXISpxaU+kFIoPCDZ9/pw6eC0KsRYZLiQa2p2G51CYOst5Xzx5jYDGKa0NEiabTMXy6jKiCjzLMuh0scXq6UHAR6A8Gw3KTYI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246993; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771247001; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=L4TB1VZvZtMLKUs37afR6aj+cqotV2KSEgyNjdp9AC0=;
- b=QnHSAO8pYsKzoV16mt7Uwwf3HpGMSnzo2lnx6b9y8KVo/+sXO8AW/9pItxSZjbFs
- QfUTGzJLwZSeahb6h4/eiPD0XaQ/FiSJBUfTvkSOF2YR0Xs648o5jF+m/XB9UvkDyh+
- AHWSP50/BeuQD1OlXwhkTizk4usUX07cu/af1seY=
-Received: by mx.zohomail.com with SMTPS id 177124699234966.93187605725814;
- Mon, 16 Feb 2026 05:03:12 -0800 (PST)
+ bh=aAKo1twm4zvOU57OmqnMmeCHmOgUWQwHKdY/derPNZ0=;
+ b=OzL7AXPvNUoDGRUQZxdxi8/vIDs3Zd3rYVpoRUwXa2y+riED8BUmJu9rJ33U3qOS
+ zbSRPvDUPmpBxVxENAfoNdKNydYPmAZCbszSNnuUjRdpSGra2THzTixGLP0IW2tw8cI
+ gSDsskGdn3TDuo3vRzgFY2/3eGTHjqPIzYTV3kYU=
+Received: by mx.zohomail.com with SMTPS id 1771246999224749.212783556211;
+ Mon, 16 Feb 2026 05:03:19 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 16 Feb 2026 14:01:27 +0100
-Subject: [PATCH v8 13/20] drm/bridge: dw-hdmi-qp: Implement
- atomic_get_output_bus_fmts
+Date: Mon, 16 Feb 2026 14:01:28 +0100
+Subject: [PATCH v8 14/20] drm/rockchip: dw_hdmi_qp: Implement "color
+ format" DRM property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
+Message-Id: <20260216-color-format-v8-14-5722ce175dd5@collabora.com>
 References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 In-Reply-To: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -119,228 +119,226 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
-X-Rspamd-Queue-Id: 4F276143940
+X-Rspamd-Queue-Id: 47DD2143950
 X-Rspamd-Action: no action
 
-The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
-to recursively select a suitable output format in a bridge chain.
+Switch between requested color formats by setting the right bus formats,
+configuring the VO GRF registers, and setting the right output mode.
 
-As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
-formats determined by which formats the platform-specific integration of
-the hardware supports, and the chosen HDMI output bit depth.
+To do this, the encoder's atomic_check queries the bus format of the
+first bridge, which was determined by the bridge chain recursive format
+selection. Pick the input format if it's !FIXED, otherwise, pick the
+output format.
 
-Implement this callback. The returned u32* buffer is supposed to be
-freed by the caller of this callback, as specified by the callback's
-documentation.
+The previously unused GRF register color format defines are redone as
+well. Both RK3588 and RK3576 use the same defines; it didn't look like
+this as there was a typo in the previously (unused) definition.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 178 +++++++++++++++++++++++++++
- 1 file changed, 178 insertions(+)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 107 ++++++++++++++++++++++---
+ 1 file changed, 98 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index d649a1cf07f5..4c00218e5fd7 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 1a09bcc96c3e..e2fa1aa53394 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 @@ -11,6 +11,7 @@
- #include <linux/export.h>
- #include <linux/i2c.h>
- #include <linux/irq.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/hw_bitfield.h>
+ #include <linux/mfd/syscon.h>
 +#include <linux/media-bus-format.h>
- #include <linux/minmax.h>
  #include <linux/module.h>
- #include <linux/mutex.h>
-@@ -749,6 +750,182 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
- 	return adap;
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
+@@ -43,10 +44,6 @@
+ #define RK3576_8BPC			0x0
+ #define RK3576_10BPC			0x6
+ #define RK3576_COLOR_FORMAT_MASK	GENMASK(7, 4)
+-#define RK3576_RGB			0x9
+-#define RK3576_YUV422			0x1
+-#define RK3576_YUV444			0x2
+-#define RK3576_YUV420			0x3
+ #define RK3576_CECIN_MASK		BIT(3)
+ 
+ #define RK3576_VO0_GRF_SOC_CON14	0x0038
+@@ -74,8 +71,6 @@
+ #define RK3588_8BPC			0x0
+ #define RK3588_10BPC			0x6
+ #define RK3588_COLOR_FORMAT_MASK	GENMASK(3, 0)
+-#define RK3588_RGB			0x0
+-#define RK3588_YUV420			0x3
+ #define RK3588_SCLIN_MASK		BIT(9)
+ #define RK3588_SDAIN_MASK		BIT(10)
+ #define RK3588_MODE_MASK		BIT(11)
+@@ -87,6 +82,11 @@
+ #define HOTPLUG_DEBOUNCE_MS		150
+ #define MAX_HDMI_PORT_NUM		2
+ 
++#define RK_COLOR_FMT_RGB		0x0
++#define RK_COLOR_FMT_YUV422		0x1
++#define RK_COLOR_FMT_YUV444		0x2
++#define RK_COLOR_FMT_YUV420		0x3
++
+ struct rockchip_hdmi_qp {
+ 	struct device *dev;
+ 	struct regmap *regmap;
+@@ -115,6 +115,33 @@ static struct rockchip_hdmi_qp *to_rockchip_hdmi_qp(struct drm_encoder *encoder)
+ 	return container_of(rkencoder, struct rockchip_hdmi_qp, encoder);
  }
  
-+static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
-+					   const u8 *buffer, size_t len)
-+{
-+	u32 val, i, j;
-+
-+	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
-+		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * DW HDMI QP IP uses a different byte format from standard AVI info
-+	 * frames, though generally the bits are in the correct bytes.
-+	 */
-+	val = buffer[1] << 8 | buffer[2] << 16;
-+	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
-+
-+	for (i = 0; i < 4; i++) {
-+		for (j = 0; j < 4; j++) {
-+			if (i * 4 + j >= 14)
-+				break;
-+			if (!j)
-+				val = buffer[i * 4 + j + 3];
-+			val |= buffer[i * 4 + j + 3] << (8 * j);
-+		}
-+
-+		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
-+	}
-+
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-+
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
-+		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
-+					   const u8 *buffer, size_t len)
-+{
-+	u32 val, i;
-+
-+	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
-+		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
-+		return -EINVAL;
-+	}
-+
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
-+
-+	val = buffer[1] << 8 | buffer[2] << 16;
-+	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
-+
-+	for (i = 0; i <= buffer[2]; i++) {
-+		if (i % 4 == 0)
-+			val = buffer[3 + i];
-+		val |= buffer[3 + i] << ((i % 4) * 8);
-+
-+		if ((i % 4 == 3) || i == buffer[2])
-+			dw_hdmi_qp_write(hdmi, val,
-+					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
-+	}
-+
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
-+		       PKTSCHED_PKT_EN);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Static values documented in the TRM
-+ * Different values are only used for debug purposes
++/**
++ * dw_hdmi_qp_rockchip_bus_fmt_to_reg - converts a bus format to a GRF reg value
++ * @bus_fmt: One of the MEDIA_BUS_FMT_s allowed by this driver's atomic_check
++ *
++ * Returns: an unshifted value to be written to the COLOR_FORMAT GRF register
++ * on success, or %-EINVAL if the bus format is not supported.
 + */
-+#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
-+#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
-+
-+static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
-+					     const u8 *buffer, size_t len)
++static int __pure dw_hdmi_qp_rockchip_bus_fmt_to_reg(u32 bus_fmt)
 +{
-+	/*
-+	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
-+	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
-+	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
-+	 *
-+	 * PB0: CheckSum
-+	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
-+	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
-+	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
-+	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
-+	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
-+	 * PB6~PB10: Reserved
-+	 *
-+	 * AUDI_CONTENTS0 default value defined by HDMI specification,
-+	 * and shall only be changed for debug purposes.
-+	 */
-+	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
-+			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
-+
-+	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
-+	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
-+	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
-+
-+	/* Enable ACR, AUDI, AMD */
-+	dw_hdmi_qp_mod(hdmi,
-+		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-+		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-+		       PKTSCHED_PKT_EN);
-+
-+	/* Enable AUDS */
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
-+
-+	return 0;
-+}
-+
-+static u32*
-+dw_hdmi_qp_bridge_get_output_bus_fmts(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state,
-+				      unsigned int *num_output_fmts)
-+{
-+	unsigned int num_fmts = 0;
-+	u32 *out_fmts;
-+
-+	/*
-+	 * bridge->supported_formats is a bit field of the HDMI_COLORSPACE_* enums.
-+	 * These enums are defined by the HDMI standard, and currently top out at
-+	 * 7. Consequently, BIT(7) is the highest bit that will be set here, unless
-+	 * the standard runs out of reserved pixel formats. Therefore, hweight8()
-+	 * will give an accurate count of how many bus formats we'll output.
-+	 */
-+	out_fmts = kmalloc_array(hweight8(bridge->supported_formats), sizeof(u32),
-+				 GFP_KERNEL);
-+	if (!out_fmts) {
-+		*num_output_fmts = 0;
-+		return NULL;
++	switch (bus_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++		return RK_COLOR_FMT_RGB;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_UYVY10_1X20:
++		return RK_COLOR_FMT_YUV422;
++	case MEDIA_BUS_FMT_YUV8_1X24:
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		return RK_COLOR_FMT_YUV444;
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		return RK_COLOR_FMT_YUV420;
 +	}
 +
-+	switch (conn_state->hdmi.output_bpc) {
-+	case 12:
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_RGB))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB121212_1X36;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV444))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV12_1X36;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV422))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY12_1X24;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV420))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY12_0_5X36;
++	return -EINVAL;
++}
++
+ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+ {
+ 	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+@@ -130,29 +157,83 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+ 		hdmi->ctrl_ops->enc_init(hdmi, to_rockchip_crtc_state(crtc->state));
+ }
+ 
++/**
++ * dw_hdmi_qp_rockchip_get_vop_format - get the bus format VOP should output
++ * @encoder: pointer to a &struct drm_encoder
++ * @conn_state: pointer to the current atomic &struct drm_connector_state
++ *
++ * Determines which bus format the Rockchip video processor should output as
++ * to feed into the bridge chain.
++ *
++ * Returns a MEDIA_BUS_FMT_* on success, or %0 on error.
++ */
++static u32 dw_hdmi_qp_rockchip_get_vop_format(struct drm_encoder *encoder,
++					      struct drm_connector_state *conn_state)
++{
++	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
++	struct drm_bridge_state *bstate;
++
++	bridge = drm_bridge_chain_get_first_bridge(encoder);
++	if (!bridge)
++		return 0;
++
++	bstate = drm_atomic_get_bridge_state(conn_state->state, bridge);
++	if (!bstate)
++		return 0;
++
++	if (bstate->input_bus_cfg.format != MEDIA_BUS_FMT_FIXED)
++		return bstate->input_bus_cfg.format;
++
++	return bstate->output_bus_cfg.format;
++}
++
+ static int
+ dw_hdmi_qp_rockchip_encoder_atomic_check(struct drm_encoder *encoder,
+ 					 struct drm_crtc_state *crtc_state,
+ 					 struct drm_connector_state *conn_state)
+ {
+-	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+ 	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
++	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+ 	union phy_configure_opts phy_cfg = {};
++	u32 ingest_fmt;
+ 	int ret;
+ 
++	ingest_fmt = dw_hdmi_qp_rockchip_get_vop_format(encoder, conn_state);
++	if (!ingest_fmt)
++		return -EINVAL;
++
+ 	if (hdmi->tmds_char_rate == conn_state->hdmi.tmds_char_rate &&
+-	    s->output_bpc == conn_state->hdmi.output_bpc)
++	    s->output_bpc == conn_state->hdmi.output_bpc &&
++	    s->bus_format == ingest_fmt)
+ 		return 0;
+ 
++	switch (ingest_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++	case MEDIA_BUS_FMT_YUV8_1X24:
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
 +		break;
-+	case 10:
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_RGB))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB101010_1X30;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV444))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV10_1X30;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV422))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY10_1X20;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV420))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++		s->output_mode = ROCKCHIP_OUT_MODE_YUV422;
++		break;
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		s->output_mode = ROCKCHIP_OUT_MODE_YUV420;
 +		break;
 +	default:
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_RGB))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB888_1X24;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV444))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV8_1X24;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV422))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY8_1X16;
-+		if (bridge->supported_formats & BIT(HDMI_COLORSPACE_YUV420))
-+			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
-+		break;
++		return -EINVAL;
 +	}
 +
-+	*num_output_fmts = num_fmts;
-+
-+	return out_fmts;
-+}
-+
- static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
- 					    struct drm_atomic_state *state)
- {
-@@ -1192,6 +1369,7 @@ static int dw_hdmi_qp_cec_transmit(struct drm_bridge *bridge, u8 attempts,
- #endif /* CONFIG_DRM_DW_HDMI_QP_CEC */
+ 	phy_cfg.hdmi.tmds_char_rate = conn_state->hdmi.tmds_char_rate;
+ 	phy_cfg.hdmi.bpc = conn_state->hdmi.output_bpc;
  
- static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
-+	.atomic_get_output_bus_fmts = dw_hdmi_qp_bridge_get_output_bus_fmts,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	ret = phy_configure(hdmi->phy, &phy_cfg);
+ 	if (!ret) {
+ 		hdmi->tmds_char_rate = conn_state->hdmi.tmds_char_rate;
+-		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
+ 		s->output_type = DRM_MODE_CONNECTOR_HDMIA;
+ 		s->output_bpc = conn_state->hdmi.output_bpc;
++		s->bus_format = ingest_fmt;
+ 	} else {
+ 		dev_err(hdmi->dev, "Failed to configure phy: %d\n", ret);
+ 	}
+@@ -382,6 +463,7 @@ static void dw_hdmi_qp_rk3588_io_init(struct rockchip_hdmi_qp *hdmi)
+ static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 				       struct rockchip_crtc_state *state)
+ {
++	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
+ 	u32 val;
+ 
+ 	if (state->output_bpc == 10)
+@@ -389,12 +471,16 @@ static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 	else
+ 		val = FIELD_PREP_WM16(RK3576_COLOR_DEPTH_MASK, RK3576_8BPC);
+ 
++	if (likely(color >= 0))
++		val |= FIELD_PREP_WM16(RK3576_COLOR_FORMAT_MASK, color);
++
+ 	regmap_write(hdmi->vo_regmap, RK3576_VO0_GRF_SOC_CON8, val);
+ }
+ 
+ static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 				       struct rockchip_crtc_state *state)
+ {
++	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
+ 	u32 val;
+ 
+ 	if (state->output_bpc == 10)
+@@ -402,6 +488,9 @@ static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 	else
+ 		val = FIELD_PREP_WM16(RK3588_COLOR_DEPTH_MASK, RK3588_8BPC);
+ 
++	if (likely(color >= 0))
++		val |= FIELD_PREP_WM16(RK3588_COLOR_FORMAT_MASK, color);
++
+ 	regmap_write(hdmi->vo_regmap,
+ 		     hdmi->port_id ? RK3588_GRF_VO1_CON6 : RK3588_GRF_VO1_CON3,
+ 		     val);
 
 -- 
 2.53.0
