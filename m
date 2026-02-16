@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKk5HEAZk2nD1QEAu9opvQ
+	id QJsJAj8Zk2nD1QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FF0143C21
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88832143C1A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B910A10E13D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE0A10E0A0;
 	Mon, 16 Feb 2026 13:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF16410E0A0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 13:18:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD7110E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 13:18:50 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1vryUs-000740-AH; Mon, 16 Feb 2026 14:18:42 +0100
+ id 1vryUs-00074P-Sv; Mon, 16 Feb 2026 14:18:42 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
  helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1vryUq-0014Zg-10;
- Mon, 16 Feb 2026 14:18:41 +0100
+ (envelope-from <p.zabel@pengutronix.de>) id 1vryUr-0014Zk-15;
+ Mon, 16 Feb 2026 14:18:42 +0100
 Received: from pza by lupine with local (Exim 4.98.2)
- (envelope-from <p.zabel@pengutronix.de>) id 1vryUr-00000000C1Z-2OoU;
- Mon, 16 Feb 2026 14:18:41 +0100
-Message-ID: <0b980d087bfe54262cef61821cbd70f5b71fc592.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/imx: ipuv3-plane: support underlay plane
+ (envelope-from <p.zabel@pengutronix.de>) id 1vryUs-00000000C1r-2TUz;
+ Mon, 16 Feb 2026 14:18:42 +0100
+Message-ID: <663e399a7492829c0c368a2e24cfc4a6ebd55780.camel@pengutronix.de>
+Subject: Re: [PATCH 1/2] drm/imx: ipuv3-plane: decouple zpos from plane type
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Michael Tretter <m.tretter@pengutronix.de>, Maarten Lankhorst	
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
@@ -43,10 +43,10 @@ To: Michael Tretter <m.tretter@pengutronix.de>, Maarten Lankhorst
  <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
-Date: Mon, 16 Feb 2026 14:18:41 +0100
-In-Reply-To: <20260216-drm-imx-underlay-plane-v1-2-2dcbd1fd4ef5@pengutronix.de>
+Date: Mon, 16 Feb 2026 14:18:42 +0100
+In-Reply-To: <20260216-drm-imx-underlay-plane-v1-1-2dcbd1fd4ef5@pengutronix.de>
 References: <20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de>
- <20260216-drm-imx-underlay-plane-v1-2-2dcbd1fd4ef5@pengutronix.de>
+ <20260216-drm-imx-underlay-plane-v1-1-2dcbd1fd4ef5@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -100,48 +100,18 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pengutronix.de:mid,pengutronix.de:email]
-X-Rspamd-Queue-Id: 43FF0143C21
+X-Rspamd-Queue-Id: 88832143C1A
 X-Rspamd-Action: no action
 
 On Mo, 2026-02-16 at 13:44 +0100, Michael Tretter wrote:
-> The IPUv3 overlay plane may be placed over or under the primary plane.
-> Use an immutable position of 1 for the primary plane and a mutable
-> position including 0 and 2 for the overlay plane, to allow placing the
-> overlay plane over and under the primary plane.
+> The overlay plane may be placed over or under the primary plane. Using
+> zpos to determine, if the plane is the primary or overlay plane is not
+> valid anymore.
+>=20
+> Use the plane type for determining the name of the plane in the error
+> message.
 >=20
 > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/im=
-x/ipuv3/ipuv3-plane.c
-> index dfd036f3195e..ddad5ea92aad 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-> @@ -890,7 +890,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *d=
-ev, struct ipu_soc *ipu,
->  {
->  	struct ipu_plane *ipu_plane;
->  	const uint64_t *modifiers =3D ipu_format_modifiers;
-> -	unsigned int zpos =3D (type =3D=3D DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
-> +	unsigned int primary_zpos =3D 1;
->  	unsigned int format_count;
->  	const uint32_t *formats;
->  	int ret;
-> @@ -928,12 +928,14 @@ struct ipu_plane *ipu_plane_init(struct drm_device =
-*dev, struct ipu_soc *ipu,
->  	else
->  		drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
-> =20
-> -	if (dp =3D=3D IPU_DP_FLOW_SYNC_BG || dp =3D=3D IPU_DP_FLOW_SYNC_FG)
-> -		ret =3D drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0,
-> -						     1);
-> +	if ((dp =3D=3D IPU_DP_FLOW_SYNC_BG || dp =3D=3D IPU_DP_FLOW_SYNC_FG) &&
 
-These checks is not necessary anymore. The only overlay plane is (dp =3D=3D
-IPU_DP_FLOW_SYNC_FG).
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-
-regards
-Philipp
