@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCzDM80Vk2nq1QEAu9opvQ
+	id iKk5HEAZk2nD1QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:04:13 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C491439E6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FF0143C21
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 14:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A048D10E3A1;
-	Mon, 16 Feb 2026 13:04:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TpI+HGfu";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B910A10E13D;
+	Mon, 16 Feb 2026 13:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D0D10E3A1;
- Mon, 16 Feb 2026 13:04:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771247041; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aO0ol4Xm+xfSjJiCg+KyUrIbHnPu1MP5NQXAn+fpRSArMd6fOLQYeoPXXZFu4kXkCkYHWZ/uwS5YarOe+IAmPSz197YyErZu17YYGSpslD0YqZWnZ7Q+EUb5RVM+pN3oQ030629G6+VWS1/ebTo36oot4cFbqDhTC21a2bcVHyA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771247041;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=BLlh5tMdDTOTAyn9YXs6jsTluhyEk/QVY+om/HYDdXE=; 
- b=ZlUC/2ufWjGMMl2ldxRbthgi1flf0CzzrE4/v7aIbmaaFtLfdRT7cmUjVC1qZw4BaiBEW/dqAeGBgOkOkIshe40sd+6cumfi6FN6IXsT5Hr1MD/gBgzM7fdKwFyIAeZm9WTdlauOfOdebp/ME/Z8EDfIUwAjLvIxzzOhE1qmB5g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771247041; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=BLlh5tMdDTOTAyn9YXs6jsTluhyEk/QVY+om/HYDdXE=;
- b=TpI+HGfux3uM6fju3juoVVawKSOOV0jpAVViySf0ijaf9LfryH8gpsfApa/jfs0T
- njFbv9/MpcCNi+e8oDL4aWVI2hIGx8j144YeGxhN3L1qbcrC4xWk/HQtHdGy0hP5Gw/
- cA/WBxu0VwXUvswYeqwv2/Pu6eSbpDxt2oqfnkSo=
-Received: by mx.zohomail.com with SMTPS id 1771247040667463.91219852265397;
- Mon, 16 Feb 2026 05:04:00 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 16 Feb 2026 14:01:34 +0100
-Subject: [PATCH v8 20/20] drm/bridge: Document bridge chain format
- selection
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF16410E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 13:18:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1vryUs-000740-AH; Mon, 16 Feb 2026 14:18:42 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1vryUq-0014Zg-10;
+ Mon, 16 Feb 2026 14:18:41 +0100
+Received: from pza by lupine with local (Exim 4.98.2)
+ (envelope-from <p.zabel@pengutronix.de>) id 1vryUr-00000000C1Z-2OoU;
+ Mon, 16 Feb 2026 14:18:41 +0100
+Message-ID: <0b980d087bfe54262cef61821cbd70f5b71fc592.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm/imx: ipuv3-plane: support underlay plane
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Michael Tretter <m.tretter@pengutronix.de>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Shawn Guo	 <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+Date: Mon, 16 Feb 2026 14:18:41 +0100
+In-Reply-To: <20260216-drm-imx-underlay-plane-v1-2-2dcbd1fd4ef5@pengutronix.de>
+References: <20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de>
+ <20260216-drm-imx-underlay-plane-v1-2-2dcbd1fd4ef5@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-color-format-v8-20-5722ce175dd5@collabora.com>
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
-In-Reply-To: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,118 +71,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:m.tretter@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[pengutronix.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[p.zabel@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[p.zabel@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
-X-Rspamd-Queue-Id: 73C491439E6
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pengutronix.de:mid,pengutronix.de:email]
+X-Rspamd-Queue-Id: 43FF0143C21
 X-Rspamd-Action: no action
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+On Mo, 2026-02-16 at 13:44 +0100, Michael Tretter wrote:
+> The IPUv3 overlay plane may be placed over or under the primary plane.
+> Use an immutable position of 1 for the primary plane and a mutable
+> position including 0 and 2 for the overlay plane, to allow placing the
+> overlay plane over and under the primary plane.
+>=20
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
+>  drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/im=
+x/ipuv3/ipuv3-plane.c
+> index dfd036f3195e..ddad5ea92aad 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+> +++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+> @@ -890,7 +890,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *d=
+ev, struct ipu_soc *ipu,
+>  {
+>  	struct ipu_plane *ipu_plane;
+>  	const uint64_t *modifiers =3D ipu_format_modifiers;
+> -	unsigned int zpos =3D (type =3D=3D DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
+> +	unsigned int primary_zpos =3D 1;
+>  	unsigned int format_count;
+>  	const uint32_t *formats;
+>  	int ret;
+> @@ -928,12 +928,14 @@ struct ipu_plane *ipu_plane_init(struct drm_device =
+*dev, struct ipu_soc *ipu,
+>  	else
+>  		drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
+> =20
+> -	if (dp =3D=3D IPU_DP_FLOW_SYNC_BG || dp =3D=3D IPU_DP_FLOW_SYNC_FG)
+> -		ret =3D drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0,
+> -						     1);
+> +	if ((dp =3D=3D IPU_DP_FLOW_SYNC_BG || dp =3D=3D IPU_DP_FLOW_SYNC_FG) &&
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
+These checks is not necessary anymore. The only overlay plane is (dp =3D=3D
+IPU_DP_FLOW_SYNC_FG).
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 39 +++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 36a5158f0554..93ef52c37e2c 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,45 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond to what the display driver
-+ * should set at its output 1:1. The bridge chain it feeds into may only be able
-+ * to reach the desired output format, if a conversion from a different starting
-+ * format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_COLOR_FORMAT_ENUM_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_COLOR_FORMAT_ENUM_AUTO will be satisfied with the first output format on
-+ * the last bridge for which it can find a path back to the first bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
-
--- 
-2.53.0
-
+regards
+Philipp
