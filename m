@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oHUkDNvnkmlSzwEAu9opvQ
+	id SlmjMfemk2ly7QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:48:11 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0A51420F4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 10:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BE11480E6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1B6110E060;
-	Mon, 16 Feb 2026 09:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57AEF10E251;
+	Mon, 16 Feb 2026 23:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bCeF2KEg";
+	dkim=pass (2048-bit key; unprotected) header.d=zhan.science header.i=@zhan.science header.b="trbBbA1Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 695A610E060
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:48:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1771235286;
- bh=iIEvNz79W3Gc+2Ria4HM539VpSXcxo0H+XPzxfA5D3E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bCeF2KEgF5cWxWzTJY74hqwP6EvGEOCRBnydy66AyQKVCPP4/1lY7kL8UBlHMyZb+
- wndOIofEluq93Hi8EFVm9uZqKqIs7N+EN5XEGUyDTraey6XCPeOd26bEocXXsQC/6K
- ihqpEkD+GdYozO1khMN2d9gdhc4jr+OB5e2uawHimwHZY9B2ZF0+IdMHROHldTjsDw
- AKbfBNWHPbX0RPNXOAjj6ApL36nV02SDY6GVjX0hA8JhYiSfESfvEDotVN8MHB9JEQ
- znO5bjxul2b0oa+faCFuNMwYf1Q+Gn4iuzvTZZ0W1vQtSnZ18/aRod1QdlLAYeJmYP
- wl4D1l5rB/Osw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BEAFF17E1517;
- Mon, 16 Feb 2026 10:48:05 +0100 (CET)
-Date: Mon, 16 Feb 2026 10:48:01 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Christian =?UTF-8?B?S8O2bmln?=
- <ckoenig.leichtzumerken@gmail.com>, matthew.brost@intel.com,
- sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 4/8] dma-buf: inline spinlock for fence protection v4
-Message-ID: <20260216104801.214f3b3c@fedora>
-In-Reply-To: <668921abf453f3cb65aca13a9c06e8c81c46a411.camel@mailbox.org>
-References: <20260210102232.1642-1-christian.koenig@amd.com>
- <20260210102232.1642-5-christian.koenig@amd.com>
- <20260213152733.36789fa2@fedora>
- <668921abf453f3cb65aca13a9c06e8c81c46a411.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Feb 2026 09:57:33 UTC
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
+ [91.218.175.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 500AA10E10B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 09:57:33 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhan.science;
+ s=key1; t=1771235533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eUTuchl87bbjf0z6lqoJU4OxzcdpLm8oToWJMNMm/EQ=;
+ b=trbBbA1ZK7USsGShnG+154Ny8pqqf4dJpNNMMVDLIkrgrsK+QM5DRsNbkj1qPNMl8AaS4c
+ JHfN/8o+XGzTgt9t457Xm84bArZJ9zATm8htzJ3BZPUOI7ICgqNaZuLhhv0iHtCsTh6KRL
+ MiBEkHNG+ILALQT+TFykXLqVGxTpqAxXs1pfwBK3ias1mAgavx1HQsS4cBbUdHngThFCSs
+ ULt/ENYZ5wMzb0lxWOcmfZwqzpO/Ms+G0KxeW/X1Duh+V9ANcbJaPMdqIEu+HSxbMCiOGq
+ q4+AjB8Xu/ID6iIVqqk5XUBLf7idqf4tZ6YwI198dkIAfy/2zad5DBKMM76WPQ==
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Feb 2026 09:51:57 +0000
+Message-Id: <DGGAL7I1KRM8.1DSZIKWRHLEPM@zhan.science>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Yifei Zhan" <yifei@zhan.science>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Richard Acayan"
+ <mailingradian@gmail.com>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
+ <jesszhan0024@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Thierry Reding"
+ <thierry.reding@gmail.com>, "Sam Ravnborg" <sam@ravnborg.org>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 3/6] drm/panel: Add Novatek/Tianma NT37700F panel
+References: <20260210023300.15785-1-mailingradian@gmail.com>
+ <20260210023300.15785-4-mailingradian@gmail.com>
+ <gpkuq7b6mae5ib2xvphmir66pb6ysexhhfqkorve5zewkj4ofc@ryccazsoxqm7>
+In-Reply-To: <gpkuq7b6mae5ib2xvphmir66pb6ysexhhfqkorve5zewkj4ofc@ryccazsoxqm7>
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,141 +80,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[zhan.science,quarantine];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[zhan.science:s=key1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[yifei@zhan.science,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yifei@zhan.science,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[zhan.science:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,intel.com,linaro.org,lists.freedesktop.org,lists.linaro.org];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:dkim,amd.com:email]
-X-Rspamd-Queue-Id: 8F0A51420F4
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zhan.science:mid,zhan.science:dkim,zhan.science:email]
+X-Rspamd-Queue-Id: 45BE11480E6
 X-Rspamd-Action: no action
 
-On Mon, 16 Feb 2026 08:33:21 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+On Fri Feb 13, 2026 at 6:07 PM UTC, Dmitry Baryshkov wrote:
+> On Mon, Feb 09, 2026 at 09:32:57PM -0500, Richard Acayan wrote:
+>> Some Pixel 3a XL devices have a Tianma panel. Add support for it, with
+>> the aid of linux-mdss-dsi-panel-driver-generator.
+>>=20
+>> Link: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-ge=
+nerator
+>> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+>> ---
+>>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>>  drivers/gpu/drm/panel/Makefile                |   1 +
+>>  .../gpu/drm/panel/panel-novatek-nt37700f.c    | 294 ++++++++++++++++++
+>>  3 files changed, 304 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/panel/panel-novatek-nt37700f.c
 
-> On Fri, 2026-02-13 at 15:27 +0100, Boris Brezillon wrote:
-> > On Tue, 10 Feb 2026 11:01:59 +0100
-> > "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
-> >  =20
-> > > Implement per-fence spinlocks, allowing implementations to not give an
-> > > external spinlock to protect the fence internal statei. Instead a spi=
-nlock
-> > > embedded into the fence structure itself is used in this case.
-> > >=20
-> > > Shared spinlocks have the problem that implementations need to guaran=
-tee
-> > > that the lock live at least as long all fences referencing them.
-> > >=20
-> > > Using a per-fence spinlock allows completely decoupling spinlock prod=
-ucer
-> > > and consumer life times, simplifying the handling in most use cases.
-> > >=20
-> > > v2: improve naming, coverage and function documentation
-> > > v3: fix one additional locking in the selftests
-> > > v4: separate out some changes to make the patch smaller,
-> > > =C2=A0=C2=A0=C2=A0 fix one amdgpu crash found by CI systems
-> > >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > ---
-> > > =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 ++++++++++++++++-----
-> > > =C2=A0drivers/dma-buf/sync_debug.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/drm_crtc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/drm_writeback.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c |=C2=A0 3 ++-
-> > > =C2=A0drivers/gpu/drm/qxl/qxl_release.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 3 ++-
-> > > =C2=A0drivers/gpu/drm/vmwgfx/vmwgfx_fence.c=C2=A0=C2=A0 |=C2=A0 3 ++-
-> > > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3 ++-
-> > > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 +++++++++++++------
-> > > =C2=A010 files changed, 41 insertions(+), 19 deletions(-)
-> > >=20
-> > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > index 56aa59867eaa..1833889e7466 100644
-> > > --- a/drivers/dma-buf/dma-fence.c
-> > > +++ b/drivers/dma-buf/dma-fence.c
-> > > @@ -343,7 +343,6 @@ void __dma_fence_might_wait(void)
-> > > =C2=A0}
-> > > =C2=A0#endif
-> > > =C2=A0
-> > > -
-> > > =C2=A0/**
-> > > =C2=A0 * dma_fence_signal_timestamp_locked - signal completion of a f=
-ence
-> > > =C2=A0 * @fence: the fence to signal
-> > > @@ -1067,7 +1066,6 @@ static void
-> > > =C2=A0__dma_fence_init(struct dma_fence *fence, const struct dma_fenc=
-e_ops *ops,
-> > > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spinlock_t *l=
-ock, u64 context, u64 seqno, unsigned long flags)
-> > > =C2=A0{
-> > > -	BUG_ON(!lock);
-> > > =C2=A0	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_nam=
-e);
-> > > =C2=A0
-> > > =C2=A0	kref_init(&fence->refcount);
-> > > @@ -1078,10 +1076,15 @@ __dma_fence_init(struct dma_fence *fence, con=
-st struct dma_fence_ops *ops,
-> > > =C2=A0	 */
-> > > =C2=A0	RCU_INIT_POINTER(fence->ops, ops);
-> > > =C2=A0	INIT_LIST_HEAD(&fence->cb_list);
-> > > -	fence->lock =3D lock;
-> > > =C2=A0	fence->context =3D context;
-> > > =C2=A0	fence->seqno =3D seqno;
-> > > =C2=A0	fence->flags =3D flags | BIT(DMA_FENCE_FLAG_INITIALIZED_BIT);
-> > > +	if (lock) {
-> > > +		fence->extern_lock =3D lock;
-> > > +	} else {
-> > > +		spin_lock_init(&fence->inline_lock);
-> > > +		fence->flags |=3D BIT(DMA_FENCE_FLAG_INLINE_LOCK_BIT); =20
-> >=20
-> > Hm, does this even make a different in term of instructions to check for
-> > a bit instead of extern_lock =3D=3D NULL? If not, I'd be in favor of
-> > killing this redundancy and checking extern_lock against NULL in
-> > dma_fence_spinlock(). =20
->=20
-> extern_lock and inline_lock are a union, so they overlap each other.
-> inline_lock will only be equivalent to all zeros after initializing a
-> new fence to 0.
->=20
->=20
-> P.
->=20
-> PS: Can you terminate messages by a delimiter or by cropping? I give
-> this tip sometimes, because often the reviewer has to scroll emails
-> down to the end to see whether there are further comments. I terminate
-> my messages with "P." for that purpose ;]
+<--cut-->
 
-I tend to strip messages and quote only the bits I comment on. I get
-this time I didn't, my bad.
+>>=20
+>> +// TODO: Check if /sys/class/backlight/.../actual_brightness actually r=
+eturns
+>> +// correct values. If not, remove this function.
+>
+> Any chance of checking it?
+
+
+I tested this with my Pixel3A XL with tianma panel, it worked correctly.
+/sys/class/backlight/.../actual_brightness returns same value
+as /sys/class/backlight/.../brightness and I'm able to change brightness
+level.
+                                                                           =
+                                                                           =
+                                                              =20
+Tested-by: Yifei Zhan <yifei@zhan.science> =20
+>
