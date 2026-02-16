@@ -2,96 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBU9JBjxkmlA0QEAu9opvQ
+	id SAZPHDvxkmlA0QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:27:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:28:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2A114256B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31DD142572
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 11:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C058410E219;
-	Mon, 16 Feb 2026 10:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D00610E220;
+	Mon, 16 Feb 2026 10:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QoVCZpcx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BOjZpmUs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7627910E219
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 10:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1771237651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hk8CBoYpz3dwO5PhoMkU68RAZD40pLAZOBfvpSAMLv0=;
- b=QoVCZpcxkMpHDDTySVYhoYfW9ukq81DXHgQr/qIMQI1yTkY9imYFzHZcRuiUc70WQn9PqP
- buBhLLmNY3D2G/Eq2/zClJxw4PpOXu0kbZ7E11yGpFq4NBoOxkwoDURxOxvmDIYuhD9qdl
- 0aZRw97x6Tpxro3z5KfNaCb4E5Fjipk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-62-e657c8ayNPenjbL-KO-NLg-1; Mon, 16 Feb 2026 05:27:30 -0500
-X-MC-Unique: e657c8ayNPenjbL-KO-NLg-1
-X-Mimecast-MFC-AGG-ID: e657c8ayNPenjbL-KO-NLg_1771237649
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-437700715ddso3073283f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 02:27:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771237649; x=1771842449;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hk8CBoYpz3dwO5PhoMkU68RAZD40pLAZOBfvpSAMLv0=;
- b=BET9stja+ZHwVWTxOBMvIT8mOD/7ZiBwqiqZ0CBSZ5HLcFvyLQZsfsi2esLFrjS1UA
- TYcXe33Gd61l9vaQzpcIq8ThbB0rhpdCmaKJqRugwSR9zzId4avRVhtr6N5UO/fhqVcp
- Besqef3hlq00fAV+YDiDaBYoQr/d+LImXfOg+O09ZZj5E+pJtvM/pd3oVjQ8mwb4el4m
- hz71pnLLxT8TH4mc6Cnyg4UibK54PDp/epbI8UEzYh+4aNUQNA3Xez0FD8gS+cOLcxQf
- p9SN6FX77Pgv8WQNp0PLI+iJPJMipyuepLOgk/VZbGpapKdsqg7/Z204afcNUFv/nIBr
- JSVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyAi28AVs/+GFlvhF5Jfd+1sEiOMnnkC4jvvQFTNNacnMhufyF0c0ZFjXtKTSaAdquMw/sO/fpD2Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5Y/FQSQEvA+wt/GcucoscTRAQLuYnSo1U3X+hpIeAlrsHk1Q3
- RFTMP3yOMgdQa4KExsDwGYyG0m/x+Z0puFIEXNTI2Zg/KJCcJ2w1KannHc+R7eV02Wzwm4T2AmF
- UYBSjQRaS695ns/Wo18DlCRjIaSyGVznwlh6VKplyyR4N1UJNOJ16eIAzeLuWvnl87FxlXQ==
-X-Gm-Gg: AZuq6aIIqF3YlkqWol8cGJLPAwh6M62+aeBBsH06bZPIXuo7NLERoxHyOiE4ZcwB8ot
- kngqGT7ooz0MCMxZCSSJFMpSYJqSJvYm0hxsUumvRggjk0WdVqekmXZqEu4OonSt0rJiqtnw2+G
- W2ADeOTFxXtAe/+4TD7j2swaes+ylAL3q3DEW0fAhFsjy2KaUt2p8QOeHHVoQYB9L3xslvS5u9X
- Np/jpeAPVkhiAgMMi42F7KwMi51epDAUa50PHKiZqkDnIVappXr/fepewApD7RE7fYWbU03CXDq
- Rsv6r7C1zajX8HDNH7ZluYGq0MT8wf5k80NekVHfTjdlA3csrZQl2znFwazWJJg+cN/f2642w86
- qYLSp98xCiXDsjd1iCLTlISP7149KNsZ/AAFtSqWmoTOUgQmkVyapDht9Fud8AStI27heSf1oFw
- PQqw91
-X-Received: by 2002:a05:600c:8b4c:b0:480:5678:1fdd with SMTP id
- 5b1f17b1804b1-4837105240amr173558745e9.12.1771237648686; 
- Mon, 16 Feb 2026 02:27:28 -0800 (PST)
-X-Received: by 2002:a05:600c:8b4c:b0:480:5678:1fdd with SMTP id
- 5b1f17b1804b1-4837105240amr173558365e9.12.1771237648269; 
- Mon, 16 Feb 2026 02:27:28 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483719b8e71sm236692635e9.2.2026.02.16.02.27.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Feb 2026 02:27:27 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
- briannorris@chromium.org, jwerner@chromium.org, samuel@sholland.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 12/12] drm/sysfb: corebootdrm: Support panel orientation
-In-Reply-To: <20260203135519.417931-13-tzimmermann@suse.de>
-References: <20260203135519.417931-1-tzimmermann@suse.de>
- <20260203135519.417931-13-tzimmermann@suse.de>
-Date: Mon, 16 Feb 2026 11:27:26 +0100
-Message-ID: <87bjhp6l0x.fsf@ocarina.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F3D10E220;
+ Mon, 16 Feb 2026 10:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771237688; x=1802773688;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7BPZZX1a0vWZQpA3GDvT9q2vm3Wj7jWqIzohjFPB8GY=;
+ b=BOjZpmUsWFq2HL2IOdeOl/aRezH0DprAsHFC8G7LLne0rT/4MfIsx8IZ
+ JSmvgRv78doDy/1UwUWjMXRCgPdPRsJcwZYLKmcn0SABGlH86X0usdJ8h
+ R9otNgOpxSlKQFEqBCxPmQhyvaMDqBgpU7O1Jh5kiJ6tRnMzCPKUtc2Gg
+ TsiaofkDHjuHWvOU9Sf5ZAIAXAiYAoQHmWBGhem3EVbUAdXIClnTcLZyX
+ JmsxtWYEHzXAdJ9lHJwZo6a72ismUV7WW0qPuRiaF0455hZ0M2QcAj3tb
+ arvuz40M63FVkEUrJsZORiSEAA8zwXG5sEOBqs7h1mLj4Jh7yTrptHKtO A==;
+X-CSE-ConnectionGUID: kipuUDbhSY6jtH00INxGIg==
+X-CSE-MsgGUID: h+YmnerLRnuSWRa70n/2yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="83753504"
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="83753504"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 02:28:07 -0800
+X-CSE-ConnectionGUID: fM0UaXf0T4iYKZv/TL1rfg==
+X-CSE-MsgGUID: lsR9qRCRSA6AMIDWmfVNtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; d="scan'208";a="212563946"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.239])
+ ([10.245.244.239])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 02:28:06 -0800
+Message-ID: <9ed1ed4f-5942-4e59-ad68-c038cb83c755@intel.com>
+Date: Mon, 16 Feb 2026 10:28:03 +0000
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RYAzeOO2c597q4lXzDP_1SRewdTMmeb74mqp3PNOwFo_1771237649
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: Fix uninitialized buddy for built-in drivers
+To: Joel Fernandes <joelagnelf@nvidia.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, intel-xe@lists.freedesktop.org,
+ Peter Senna Tschudin <peter.senna@linux.intel.com>
+References: <20260213152047.179628-1-koen.koning@linux.intel.com>
+ <77fc0550-cbb4-4796-85ea-c552e12125c1@nvidia.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <77fc0550-cbb4-4796-85ea-c552e12125c1@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,62 +78,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:tzungbi@kernel.org,m:briannorris@chromium.org,m:jwerner@chromium.org,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[suse.de,kernel.org,chromium.org,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[javierm@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[javierm@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ocarina.mail-host-address-is-not-set:mid,chromium.org:email,suse.de:email]
-X-Rspamd-Queue-Id: DF2A114256B
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[matthew.auld@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email,nvidia.com:email];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: E31DD142572
 X-Rspamd-Action: no action
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On 13/02/2026 17:27, Joel Fernandes wrote:
+> On 2/13/2026 10:20 AM, Koen Koning wrote:
+>> Move buddy to the start of the link order, so its __init runs before any
+>> other built-in drivers that may depend on it. Otherwise, a built-in
+>> driver that tries to use the buddy allocator will run into a kernel NULL
+>> pointer dereference because slab_blocks is uninitialized.
+>>
+>> Specifically, this fixes drm/xe (as built-in) running into a kernel
+>> panic during boot, because it uses buddy during device probe.
+>>
+>> Fixes: ba110db8e1bc ("gpu: Move DRM buddy allocator one level up (part two)")
+>> Cc: Joel Fernandes <joelagnelf@nvidia.com>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> Cc: intel-xe@lists.freedesktop.org
+>> Tested-by: Peter Senna Tschudin <peter.senna@linux.intel.com>
+>> Signed-off-by: Koen Koning <koen.koning@linux.intel.com>
+>> ---
+>>   drivers/gpu/Makefile | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+>> index 5cd54d06e262..b4e5e338efa2 100644
+>> --- a/drivers/gpu/Makefile
+>> +++ b/drivers/gpu/Makefile
+>> @@ -2,8 +2,9 @@
+>>   # drm/tegra depends on host1x, so if both drivers are built-in care must be
+>>   # taken to initialize them in the correct order. Link order is the only way
+>>   # to ensure this currently.
+>> +# Similarly, buddy must come first since it is used by other drivers.
+>> +obj-$(CONFIG_GPU_BUDDY)	+= buddy.o
+> 
+> Rather than relying on fragile link ordering, would it be better to use an
+> earlier initcall level for the buddy allocator?
 
-> Add fields and constants for coreboot framebuffer orientation. Set
-> corebootdrm's DRM connector state from the values. Not all firmware
-> provides orientation, so make it optional. Systems without, continue
-> to use unknown orientation.
->
-> v3:
-> - comment on _HAS_ORIENTATION semantics (Tzung-Bi)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Julius Werner <jwerner@chromium.org>
-> ---
+Ok, makes sense. Should we go with something like 
+subsys_initcall(gpu_buddy_module_init) here?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> 
+> Thanks,
+> 
 
