@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iBaRB0eEk2k46AEAu9opvQ
+	id tNYAG0uEk2lu6AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A713147995
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412FB1479A4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0DB10E1D3;
-	Mon, 16 Feb 2026 20:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7915F10E3E8;
+	Mon, 16 Feb 2026 20:55:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="OUSeni7v";
+	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="DlxJPGJu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay14.grserver.gr (relay14.grserver.gr [157.180.73.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CDE10E3DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBAA10E3E8
  for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:55:31 +0000 (UTC)
 Received: from relay14 (localhost [127.0.0.1])
- by relay14.grserver.gr (Proxmox) with ESMTP id 9B51B408DF;
- Mon, 16 Feb 2026 20:45:59 +0000 (UTC)
+ by relay14.grserver.gr (Proxmox) with ESMTP id 8FD5F408CA;
+ Mon, 16 Feb 2026 20:46:00 +0000 (UTC)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay14.grserver.gr (Proxmox) with ESMTPS id 1D7D64043C;
- Mon, 16 Feb 2026 20:45:59 +0000 (UTC)
+ by relay14.grserver.gr (Proxmox) with ESMTPS id 11EA7407C8;
+ Mon, 16 Feb 2026 20:46:00 +0000 (UTC)
 Received: from antheas-z13 (unknown
  [IPv6:2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id 17C2B1FE5E3;
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id E00C21FE763;
  Mon, 16 Feb 2026 22:45:58 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1771274758;
- bh=UljxfsTKD9UBfPauwKILIp5oK4Y7+e/NnrO6C43T06M=; h=From:To:Subject;
- b=OUSeni7vMyH/K68yzP9SPXpg39tjp3dVx48ODA7Sgs9r0cVTc02w5p2vUkB6pkFQe
- PrlB01BNDognjpm6YbT1vyIgGnmlyHZAeOkY1FZWiS9JNEKBX2UhtQ2pdZIsamqnob
- +ZrbNQtAoPlQ7LNuglapRi7yXLr0M4xOa1WURu5Ztp0jmeUiMwV8/0tlwaj1ntHiit
- 2Id+HkcjiMUk3sOckeUea4hxRCrEjHAN03RJUythp0jmzVVRcwrOWAsD+RkEQ+Q1Uk
- 6I0mj8qJaFTF1T0JCJ3Hy6Php5D3BA6/IG74t2DDEpK+kfXJY4M0gBvOLbK9EnhWT5
- b3+TWxik7u9/g==
+ s=default; t=1771274759;
+ bh=fP9/8XBhHyEwEUyscZm0FaQNqfXLEjEbbOdusAYVYSw=; h=From:To:Subject;
+ b=DlxJPGJueeBZziSRkL4VRUnsd2di7UNmX0yYTq87T6XxUgqdeCO3c4LmMmb2D2rND
+ JW0riGR4X08b9r6qrCrT/SOdhtyph0XEAEbaDpBsHPxwTp/9VNd4cUABHhnO0wBg7v
+ piKAbCC+nRKJ0cz/581af96UmVpoRylqdnTg+vZHjtLVXkX3jqrDo2rek0H7rnAQ5j
+ /989A/+n0qgedWxJHAgJTsdh476BWv2r6xYHK2P9u5RZsr6Dy0Tz/NM5bMB7ulEA11
+ wbxxVcVEz86pu2AP4lqRG6LRgA7kV8WHzV7HqnsF5JIHa9Mo629e3X8zpYr1CIh0bW
+ QQrSxqqOqsauQ==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1)
  smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
@@ -54,17 +54,17 @@ Cc: linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, philm@manjaro.org,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v2 06/14] drm: panel-orientation-quirks: Add OneXPlayer F1
+Subject: [PATCH v2 07/14] drm: panel-orientation-quirks: Add OneXPlayer G1
  variants
-Date: Mon, 16 Feb 2026 21:45:39 +0100
-Message-ID: <20260216204547.293291-7-lkml@antheas.dev>
+Date: Mon, 16 Feb 2026 21:45:40 +0100
+Message-ID: <20260216204547.293291-8-lkml@antheas.dev>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260216204547.293291-1-lkml@antheas.dev>
 References: <20260216204547.293291-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177127475864.3070399.11846077725155602398@linux3247.grserver.gr>
+X-PPP-Message-ID: <177127475961.3070448.11254858512170793257@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -108,46 +108,38 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 9A713147995
+X-Rspamd-Queue-Id: 412FB1479A4
 X-Rspamd-Action: no action
 
-The OneXPlayer F1Pro has a 144hz 1920x1080 portrait OLED panel.
-Add a quirk to correct the panel portrait orientation. In addition,
-it comes with a red limited edition variant in the Chinese market,
-so add that as well. Then, add the 8840U non-pro variant as well.
+Add quirks for the new clamshell device OneXPlayer G1 for both AMD
+and Intel. The device has a 1600x2560p 144hz LCD panel.
 
 Reviewed-by: Philip Müller <philm@manjaro.org>
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 1ee66e4db0e9..af45d79622b5 100644
+index af45d79622b5..675a0aeb750e 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -540,6 +540,24 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro EVA-02"),
+@@ -558,6 +558,18 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1Pro"),
  		},
- 		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) LE Red variant */
+ 		.driver_data = (void *)&lcd1080x1920_leftside_up,
++	}, {	/* OneXPlayer OneXFly G1 AMD */
 +		.matches = {
 +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 A"),
 +		},
-+		.driver_data = (void *)&lcd1080x1920_leftside_up,
-+	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) Hawk Point */
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer OneXFly G1 Intel */
 +		.matches = {
 +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 OLED"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 i"),
 +		},
-+		.driver_data = (void *)&lcd1080x1920_leftside_up,
-+	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) Strix Point */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1Pro"),
-+		},
-+		.driver_data = (void *)&lcd1080x1920_leftside_up,
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
  	}, {	/* OrangePi Neo */
  		.matches = {
  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
