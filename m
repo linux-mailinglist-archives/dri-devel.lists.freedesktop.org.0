@@ -2,37 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OOtSGz8Rk2lw1QEAu9opvQ
+	id uCmmIkARk2lw1QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:44:47 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:44:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119841436D1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECC01436DA
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 13:44:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CEE910E37B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163ED10E37C;
 	Mon, 16 Feb 2026 12:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6037E10E072
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 12:44:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C695710E149
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 12:44:40 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1vrxxo-0002kM-Fj; Mon, 16 Feb 2026 13:44:32 +0100
+ id 1vrxxo-0002kM-ME; Mon, 16 Feb 2026 13:44:32 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 0/2] drm/imx: ipuv3-plane: support underlay plane
-Date: Mon, 16 Feb 2026 13:44:29 +0100
-Message-Id: <20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de>
+Date: Mon, 16 Feb 2026 13:44:30 +0100
+Subject: [PATCH 1/2] drm/imx: ipuv3-plane: decouple zpos from plane type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAC0Rk2kC/x3MQQqEMAxA0atI1gZqlYJeZZhFbaIGtEqKooh3t
- 7h8i/9vSKzCCbriBuVDkqwxoyoLCJOPI6NQNlhjnbGVQ9IFZTlxj8Q6+wu32UfGxpnQh5aoDh5
- yvCkPcn7j3/95Xnh548hoAAAA
-X-Change-ID: 20260216-drm-imx-underlay-plane-460cbc9dd3ca
+Message-Id: <20260216-drm-imx-underlay-plane-v1-1-2dcbd1fd4ef5@pengutronix.de>
+References: <20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de>
+In-Reply-To: <20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -66,16 +64,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.61 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS(0.00)[m:p.zabel@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:m.tretter@pengutronix.de,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	DMARC_NA(0.00)[pengutronix.de];
 	MIME_TRACE(0.00)[0:+];
@@ -93,34 +91,44 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 119841436D1
+X-Rspamd-Queue-Id: 5ECC01436DA
 X-Rspamd-Action: no action
 
-The IPUv3 overlay plane may be placed over or under the primary plane.
-This series allows user space tools to properly detect that the overlay
-plane may be used as an underlay.
+The overlay plane may be placed over or under the primary plane. Using
+zpos to determine, if the plane is the primary or overlay plane is not
+valid anymore.
 
-The first patch removes the assumption that the primary plane has the
-default zpos 0 and the overlay plane has zpos 1. This allows changing
-the zpos more freely.
-
-The second patch changes the default zpos of the planes. The primary
-plane always has the fixed zpos 1, which allows the overlay plane with
-zpos 0 to 2 to be placed relative to this fixed primary plane.
+Use the plane type for determining the name of the plane in the error
+message.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Michael Tretter (2):
-      drm/imx: ipuv3-plane: decouple zpos from plane type
-      drm/imx: ipuv3-plane: support underlay plane
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
----
-base-commit: 20e0c197802c545db220157fafd567a10f2b7672
-change-id: 20260216-drm-imx-underlay-plane-460cbc9dd3ca
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+index db50eccea0ca..dfd036f3195e 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+@@ -915,7 +915,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 					       type, NULL);
+ 	if (IS_ERR(ipu_plane)) {
+ 		DRM_ERROR("failed to allocate and initialize %s plane\n",
+-			  zpos ? "overlay" : "primary");
++			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay");
+ 		return ipu_plane;
+ 	}
+ 
+@@ -949,7 +949,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 	ret = ipu_plane_get_resources(dev, ipu_plane);
+ 	if (ret) {
+ 		DRM_ERROR("failed to get %s plane resources: %pe\n",
+-			  zpos ? "overlay" : "primary", &ret);
++			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay", &ret);
+ 		return ERR_PTR(ret);
+ 	}
+ 
 
-Best regards,
 -- 
-Michael Tretter <m.tretter@pengutronix.de>
+2.47.3
 
