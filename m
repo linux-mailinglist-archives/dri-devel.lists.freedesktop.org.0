@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uC1lCkeEk2k46AEAu9opvQ
+	id 8FkDMOiDk2k46AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:54:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF79147997
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E02147950
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 21:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9A210E3DF;
-	Mon, 16 Feb 2026 20:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D1210E3F4;
+	Mon, 16 Feb 2026 20:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="BdbusWAd";
+	dkim=pass (2048-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="I3hjgGxQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 572 seconds by postgrey-1.36 at gabe;
- Mon, 16 Feb 2026 20:55:31 UTC
-Received: from relay14.grserver.gr (relay14.grserver.gr [157.180.73.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B6810E1D3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:55:31 +0000 (UTC)
-Received: from relay14 (localhost [127.0.0.1])
- by relay14.grserver.gr (Proxmox) with ESMTP id E5693408A1;
- Mon, 16 Feb 2026 20:45:57 +0000 (UTC)
+X-Greylist: delayed 474 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Feb 2026 20:53:53 UTC
+Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263A410E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 20:53:53 +0000 (UTC)
+Received: from relay12 (localhost [127.0.0.1])
+ by relay12.grserver.gr (Proxmox) with ESMTP id 0B66EBC213;
+ Mon, 16 Feb 2026 22:45:58 +0200 (EET)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay14.grserver.gr (Proxmox) with ESMTPS id B2B43407C8;
- Mon, 16 Feb 2026 20:45:56 +0000 (UTC)
+ by relay12.grserver.gr (Proxmox) with ESMTPS id 67EEEBC043;
+ Mon, 16 Feb 2026 22:45:57 +0200 (EET)
 Received: from antheas-z13 (unknown
  [IPv6:2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id C677A1FE763;
- Mon, 16 Feb 2026 22:45:55 +0200 (EET)
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 9133D1FE5E3;
+ Mon, 16 Feb 2026 22:45:56 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1771274756;
- bh=iu4eyKR8jURUOXWaTazTCUC09//HNOl71Atbpbe08kU=; h=From:To:Subject;
- b=BdbusWAdYKBhcQb5aW/e3u5QjF6sDvbRrZxiWGs+r3YC2yp5EJpkKZRR8hMLHYon6
- qUQlgU60l8HmWMRDDRKrn6zbpl/6L5CSqFfguMipYGv1ydkxZAFLjPGras3kd4rbhV
- IeZRdoCpWFJKgz0yBxHFi+LUlV6M5KjcpcWeaxGkEpneAGhwVEgnadzE247kVFU9xI
- cOGzO+yah8McMlJJ9hZvUIwR6krKpZjptx+wSBmD7NAr3c/1z8KFFhlyDjlxwU/zsP
- CdMoUx5TsNoE95en8dabwKCknB6Sy+xonVWj8JUv3Ujw7Be+0LWcM6165gqEMMtsRb
- anTTBvO5cG94w==
+ s=default; t=1771274757;
+ bh=JMth+yZy9w8XIi3MZHgfDlw5IRkJTq+dU7RVO45lplM=; h=From:To:Subject;
+ b=I3hjgGxQ00r6qYQGM8isOWS7f/Audn6DocSm/gRhEdy/lEjH+ZgAkROfy4qixU4f4
+ pkI6GbEaXI/oI1p4Aw/CG2jBBUb5+GhNRP9zNBmCobwtHpEYCg17JZR7kZBqeiHHGU
+ yQRK25sRJlIctF8qt+JoUvFa8gG/FY4W+0DkLAfzLhmSZFu2IuaIKjgdEzmzvVds2h
+ OYYu8jG+qQyNY2wgZDafRULR30j48OFss/o79X7bAZbEeDlG+0VoT9FdqBhjisaUJb
+ EyuurzRBbYWEW4VO3G1Vjbx7QmGUfFFQSCTKKteWm3WT7OSJe17ordzGkZdltSkIDK
+ 1zPcc23VUigxA==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 2a05:f6c5:43c3:0:378a:d3f6:f8b0:bed1)
  smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
@@ -56,16 +56,17 @@ Cc: linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, philm@manjaro.org,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v2 03/14] drm: panel-orientation-quirks: Add Ayaneo 3
-Date: Mon, 16 Feb 2026 21:45:36 +0100
-Message-ID: <20260216204547.293291-4-lkml@antheas.dev>
+Subject: [PATCH v2 04/14] drm: panel-orientation-quirks: Add OneXPlayer X1
+ variants
+Date: Mon, 16 Feb 2026 21:45:37 +0100
+Message-ID: <20260216204547.293291-5-lkml@antheas.dev>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260216204547.293291-1-lkml@antheas.dev>
 References: <20260216204547.293291-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177127475628.3070272.346082725582217185@linux3247.grserver.gr>
+X-PPP-Message-ID: <177127475707.3070316.5493660884239566887@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -109,40 +110,54 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: BDF79147997
+X-Rspamd-Queue-Id: 72E02147950
 X-Rspamd-Action: no action
 
-The Ayaneo 3 comes with two panels, an OLED right side up 1080p panel
-and an IPS landscape 1080p panel. However, both have the same DMI data.
-This quirk adds support for the portrait OLED panel.
-
-As the landscape panel is 1920x1080 and the right side up panel is
-1080x1920, the width and height arguments are used to differentiate
-the panels.
+The OneXPlayer X1 series features a 2k 10.95 display with a portrait
+orientation. Add quirks to set the panel orientation to portrait mode
+to the Intel, AMD, and EVA-02 variants.
 
 Reviewed-by: Philip Müller <philm@manjaro.org>
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../gpu/drm/drm_panel_orientation_quirks.c    | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 23e736469aab..f745db95c394 100644
+index f745db95c394..2efffe962460 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -209,6 +209,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_MATCH(DMI_PRODUCT_NAME, "AYANEO 2"),
+@@ -504,6 +504,30 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
  		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
-+	}, {	/* AYANEO 3 */
+ 		.driver_data = (void *)&lcd1200x1920_leftside_up,
++	}, {	/* OneXPlayer X1 AMD */
 +		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYANEO 3"),
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 A"),
 +		},
-+		.driver_data = (void *)&lcd1080x1920_rightside_up,
- 	}, {	/* AYA NEO 2021 */
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer X1 Intel */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 i"),
++		},
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer X1 AMD Strix Point */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro"),
++		},
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer X1Pro EVA variant with Intel */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro EVA-02"),
++		},
++		.driver_data = (void *)&lcd1600x2560_leftside_up,
+ 	}, {	/* OrangePi Neo */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
 -- 
 2.52.0
 
