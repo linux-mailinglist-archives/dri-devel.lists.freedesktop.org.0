@@ -2,102 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OJk8GvKmk2ln7QEAu9opvQ
+	id QPgHH+ymk2ln7QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0421480B7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06991480A1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61FED10E3FE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E3D10E3FF;
 	Mon, 16 Feb 2026 23:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K/oBpoQF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hrb+//AZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com
- [74.125.224.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9888010E3B5
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:35:17 +0000 (UTC)
-Received: by mail-yx1-f49.google.com with SMTP id
- 956f58d0204a3-64ae5f0777dso3088769d50.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:35:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771256116; cv=none;
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
+ [74.125.224.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC6910E3A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:38:33 +0000 (UTC)
+Received: by mail-yx1-f45.google.com with SMTP id
+ 956f58d0204a3-64acd19e1dfso2969786d50.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:38:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771256313; cv=none;
  d=google.com; s=arc-20240605;
- b=PaOff4lq5tgvCsTt1XJcBJreHM4GoNMTxlRhNeULQko2bAHRE4BZKB3FMZJjUbPmTD
- aLU/El3BVw69UJsGLVJYpqnjoyaUhBUF0UkY5En5yHEl+EM1AZKcfOEobFZBAwcvAlvJ
- iE6RAOSfsxVMsfVW++jYEtN8UpC3bfdTyOLl+ZR0OUIqJgedeETtqg95LgpgDnPTVeUX
- xAjs1gYlEBB8css7vly7MAeeImex3Yp72broSyzB2GXgWYR9/QZ+K4GxzsuHO6+lXYhA
- XXfZGJxNLMLCtFvVYRkN7qsq2p2XCoxQbI7lsTYwqGWq82/dOoCTZ0vpuv76fT2JXAOM
- GYxg==
+ b=RaYKJDUrukulr9C3Mh8bE8e6cZSsmAndI69jZqsH/2HgJJDNeIt4FsJsOUMjOcrl/V
+ yj/b+OkfqP9MHHhxs47dwQYQAACt/w5f3+UvZVckZynD8J/IB7e3Q/PMxmutL80fIDAp
+ AYkW6YMFeaWV1JmPfgtXIxCYMYUxCz3gjRiuLHbTMWJ2FrOq9lAS8EEehMLQIQhO8fKX
+ Qo01Tto2vLc/h9HR17hoHhyTGkS7yvC7O3twkXEWV1stjTwjSE/YEc20P2DFgTGlNjgp
+ 12H7CDGiIWL/kRSB7z7kbHwLKhByUwHvPWUN8dLHO57YtOpdkhClr8Ui0ZhnAaSfYQdL
+ 2Syg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
- fh=ZYITwNoeEx8XZFGeQmtUeMgbuBfZ3GtGJnRyla0MdW4=;
- b=j2qYPczpIsmIydjDbMEJF+JkrhCphsuiVlUfaWWi3oCAHROVzzvQ6ws8FawiE0Csg7
- YrAr7u/qDmNZ68d/YmtSikalEVZaqhLIXElkNqfbWRe7jitLBQng0Z5uaN/UFvIEKMB/
- 6bJCoFqPm58FMl4dsytN1S4GXltsAwM/Bn+93mpuOJDoo94VBlLlpIyNFKM7qq1PmbJa
- bbrfrnWtrmfy5iZ2duid7nHM4uPI5UaNU66Tw2BBQSjSVgklDa6mLETAF7btSCCTqFbI
- gyuTsDY5SyHy/et9zDjx5PklVK69WE+52M9CPwM2XrIh0Z6qxyJu2WSovKU4Dvw7JIl3
- YSAA==; darn=lists.freedesktop.org
+ bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
+ fh=zQdYOyOEMHl4yV8+j8zukDeesz0lAUyNe6xrpIqYy/o=;
+ b=OtfKGUcIPEFdChf1r+O2IevHn9E6rLab8Ih0PakCgvocnMZsaDFbvUq1n5AQKG8DT+
+ pFyNte7mOROtVKvSluHg/rozJh03xSA7Bhce4OVoHL3gnjR2UWMIvHIigr/3lvwWl78v
+ ZjiiIaaKUTczW9Vh5J8JNolrwC4RguG96ZTKsSk8WnjkwQIfMtOvzuxoHupSZtgBahNe
+ aySaw3a+k21CvuN71sNQ54hmiiqPhHqg/7RuBM3ptEi3+RSmbJjNr6Uj4AVzxSdn08Sq
+ Gj2A0Uc2uvJwZs9jekkNZk7/3oj1lhswYK0/A3kNPder5ES3kMc+7zLWzM+HU9Qf2itc
+ rZww==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771256116; x=1771860916; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771256313; x=1771861113; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
- b=K/oBpoQFNwPi7hdrqTxqya9mRcQZijCzBwYURKHEK80YPvH/K3ZAmHEMEAkMVV1pMA
- Yg+A4Y8mrHew7UNWYia6TnhSaKJbu9v8SZN5nH4corh+31bqqgHmVJHHtFaGPaU2v3w2
- SS/H3ZUMHPExbqnukNmCsU/ciG43P9YOflL8fZdCN8ivGWk1KoqeuYlpVQMRxH3z5kUR
- VVmnDB0nib32ldcigiaRCvv5ifeOandvaiuT8KkxGLWA1M8gW7SSl3mtpweP61e4EAVR
- vz0KQ9tPz5gl2EughE7HWUzXRkcd3/W7fAs+qnXGGUV0cQwN1tcRZNOgOj0oaIU1QUbZ
- QUCw==
+ bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
+ b=Hrb+//AZawlFZCovK61oZ143bbn6GgXCwBTTo01jhjbkes/yRhyy+lFV2hfqbGCM1t
+ 8XZApZh3lqwj8Y0mm9cFUTOzLfIolaTXz9Q5NFXCCjjWCC55LpZaXw+cUIczC71I8zOC
+ 9P/xI4fN75FL0vOYh/6wFZad5kYH/cpiwwa7wqfUaGn8ZaYeX5s14tkflNnKsowbVCmw
+ q5ZEV5t7VZfwjdHfr0a1obl3pS8QUgh0sk93tw5UsmCZ/wkyySmQABqfmTP776OOmbN+
+ h5q7p7JF8AJmNWp16dIA4rZNY5/XmRF8IzZozlOb5b4rgqTVnrEX7Vy4jdZ6IRlTwD5Z
+ sQVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771256116; x=1771860916;
+ d=1e100.net; s=20230601; t=1771256313; x=1771861113;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
- b=derPF2GKGGtYHHGRIhV1b1XFWaqjNYuSVQvHZ9h9s6XL16FM91tqcIrE7LDE/+oCOq
- +QNh0vHLvIwghjW34MKJGgimn90H+llJ17y6aVhuezl3DxfcQ7lUNJqUOG9d5pSv2FVG
- vpw0O21M1xwRSpiPhRHi/dd0Njv6fHSgg1J0tap8Nbw520U9KpWn5iR2sv09Y+IRBgsf
- vufURgIfOkLCPXSqjiVwiT8daPhG/ls80vTtnYV7/ibPMOw+dxS12lv3uQeZ99gdCbqf
- AEptQrNPzDy6zNbHdOZdvNccfzftja0QTMX/urGX6danv87oPBjfOSPNoBlbKP/tYqLo
- K5VA==
+ bh=fODsp8Wd2KEMymq0wmcad9m/8kvNOfes2fVQf0jcTVc=;
+ b=bpfyQeT6b1OfrfCp9W7JQte89lYmLC/Ylhb3eo0HdVd6NVu7UQ9tYREXUh6IfeJD0B
+ yJq7YsXIwKcxktDGQUbLRUuDNjJzt5quw8AqKiZQG/PEaYis5JeCD1Vo5dZqE+OrAEXV
+ XJWJM9bsEGc+vuHiTTMwhocYEGyi1lmYbGsGMFWN63H4wCXcYiZwlyw0DR4EwN09sdkF
+ gp3vFUdX8v538wNx/SNfWsXgTMr0yyJQCQGS3r7V3HIVVt5Gjg52jxVlW3+e8AElxYr6
+ UH7NH6f6p4lThJ1B0SDcpimLxJaMs0t1EyZuYYAMK0lsiSi0FFbDZIIXS8vHP3kzhm6b
+ TZBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRu/mBiHtDecNw2LDqhu57EruwaibzVD2r/mFYjpyhkF+nhxMf5z0AOziGbeJw7u3CS3w699U5xRU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLTM4Te9rihxIwBKF9aF50WEodbuEv7ktBD6b0zLU+7wNNJBR6
- EYXaeH20CVYnHeI/Hk8hDDMP6XYe089DxqOsyUWFQcvPcRPgbIvlvTX0R9FijNLfw7uI7xMATDv
- 3PGo7AkOJafEchEb5UdjQGevs7PjICTg=
-X-Gm-Gg: AZuq6aIOTR8usSsI3NR5JR8nWkaPjdrqpdeLDIk+oQrpJvhVQK8PuUpNUSyzBiF5/rb
- EsmXDFpPXbw3nkSvWGNzaedXjfbytbedgbgadbXKN/OlyxinMQkyhWT+v6O6hCykQIWym1M4Bdk
- 4FeVgoehEeX1UjkflC9vTWv87RqXdRtzFHNp9coz5fPO1fK1T8skoBjPQMMlOtZax9TqV37VkV7
- 97g3G1KZrGgbxMiyBu5K6KdAkKHnDt8jO4q0U05V5OLUp5nIHrFFlRkjLa2m7JBwRIwA4DhlZ66
- lMW2EfN+9v6fF/v7tkzLtBDTC0Ea+yS/j0bYiCqUYGJ+tWVDbPJa
-X-Received: by 2002:a05:690c:368e:b0:795:294c:fd3d with SMTP id
- 00721157ae682-797a0cca6c4mr183176837b3.50.1771256116367; Mon, 16 Feb 2026
- 07:35:16 -0800 (PST)
+ AJvYcCW2NEKvSEGdl/WgYaPRncn1A+nU2rjDTC9nmPNfalQUjxSmm40DBs6F5ri4KShRxiJRfoMsu4xOcLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2qwlP+8G86JZYAyPmyO5zLOgdGJ/pUI3I9CXGUgbkGJJ43rOa
+ A5DuRiSMIPuUJ0/NUVdIOIG6KUPQ6abnoqny5Uq3wIVyfr9D9zSzbmNIWg/skyvrL/4lwHiT2nO
+ uZ6FBwGCj7IlA4RzZp11c3tkDl2oWn+A=
+X-Gm-Gg: AZuq6aJyWCalVwaoMRZ397Qa855VLgbQGTm6RmDO9zstmPHivDygQtSQiFmznGqsB6F
+ iNN1ks0QUAyfyuOMckLBrEuFgM5jGmWaAxll31H/fP3IGNbu6gtGpgcLVnhaaFBUXfR8fKjvnvw
+ tvVbSMhD9sdKu7Xe0BsS1ybXgFfrPTBsEifS30Aj7luaYOYQY1JJf7fI81z29soWGfd3bs3MDg2
+ uVx9bJxqMYKO0qEATDSDdakBSXLPgKYzw/UtX5ADUty/PN4J1QKCjB2EH9v+kj4I7EORzHFJNnL
+ UtzgqkfwVYnNe9O8tadEbfAPMqJfI1fTYqISKzLuN/91kV0anPZf
+X-Received: by 2002:a53:d015:0:b0:64a:d716:c8b5 with SMTP id
+ 956f58d0204a3-64c1979ba03mr7245099d50.18.1771256312871; Mon, 16 Feb 2026
+ 07:38:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20260214070123.41374-1-architanant5@gmail.com>
- <3bb62aa4-d3b5-4dba-b3bf-fc1a82264274@lechnology.com>
- <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
- <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
-In-Reply-To: <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
+ <CAGb2v679248jj4CwQhYAbTUiPJ1=-JqX15CaNY94Cj_dFXwZXw@mail.gmail.com>
+ <CADJHxWCzbzD3MK+NLS3UVqXeH4cKop-ErNSnn_RUmAzRLmk7Mw@mail.gmail.com>
+ <87ikbx6sf1.fsf@ocarina.mail-host-address-is-not-set>
+In-Reply-To: <87ikbx6sf1.fsf@ocarina.mail-host-address-is-not-set>
 From: Archit Anant <architanant5@gmail.com>
-Date: Mon, 16 Feb 2026 21:05:05 +0530
-X-Gm-Features: AZwV_QgKPeVb6e3ZGS3zNZ2N5kL9uh9wKDlTC5A9Kf7xgSu5YQQQeXfzjHaqUOo
-Message-ID: <CADJHxWA2N8x853A3LjCZkip5-Lp6jWWUBTgN8MZWajHFU7o4tA@mail.gmail.com>
+Date: Mon, 16 Feb 2026 21:08:20 +0530
+X-Gm-Features: AZwV_QiXtBl77GaJAvJl1GfZ1mRg72oXG5PskwudBonhn6SiiGASLFYWwAX0yvw
+Message-ID: <CADJHxWD-UpjgGKst_CDPqXHADVPJY6KL296VFOq6WFBEKqVong@mail.gmail.com>
 Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
-To: David Lechner <david@lechnology.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com, nathan@kernel.org, 
- geert+renesas@glider.be, marcus.folkesson@gmail.com, noralf@tronnes.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: wens@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, nathan@kernel.org, 
+ geert+renesas@glider.be, marcus.folkesson@gmail.com, david@lechnology.com, 
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
@@ -121,18 +122,18 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:david@lechnology.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:javierm@redhat.com,m:wens@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:david@lechnology.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -142,57 +143,91 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,redhat.com,glider.be,tronnes.org,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,glider.be,lechnology.com,tronnes.org,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lechnology.com:email]
-X-Rspamd-Queue-Id: 9E0421480B7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: B06991480A1
 X-Rspamd-Action: no action
 
-On Mon, Feb 16, 2026 at 4:15=E2=80=AFAM David Lechner <david@lechnology.com=
-> wrote:
+On Mon, Feb 16, 2026 at 1:17=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
 
-Hi David,
+Hi Javier,
 
 >
-> On 2/14/26 11:21 PM, Archit Anant wrote:
-> > Hi David,
-> >
-> >> Do we actually need a custom driver for these or can we use
-> >> drivers/gpu/drm/tiny/panel-mipi-dbi.c with a firmware file for
-> >> init?
-> >
-> > That was my initial thought as well, but looking at the staging driver
-> > (fb_st7789v.c), there is conditional logic in the initialization sequen=
-ce.
-> >
-> > The HSD20_IPS panel requires different PORCTRL (0xB2), GCTRL (0xB7), an=
-d
-> > Gamma (0xE0/E1) settings compared to the standard panel. A static
-> > firmware blob via panel-mipi-dbi would not allow selecting between
-> > these configurations based on the compatible string, so a dedicated
-> > driver seemed necessary to preserve this support.
-> >
-> > Best regards,
-> > Archit
+> Archit Anant <architanant5@gmail.com> writes:
 >
-> If two different panels are not 100% compatible with each other, they
-> should not have the same compatible string.
+> Hello Archit,
 >
-> It seems like it would be much more efficient to fix the existing
-> devicetree/driver if needed rather than writing an entire new driver.
+> > Hi ChenYu,
+> >
+> > Thank you for the detailed review and the pointers toward the documenta=
+tion.
+> > I will ensure the headers are sorted alphabetically and the driver name
+> > conflict is resolved in the next iteration.
+> >
+> >> The reset logic in mipi_dbi is inverted when compared to panel-st7789v=
+.
+> >> mipi_dbi needs to be taught the "proper" reset polarity.
+> >
+> > Noted. I will look into the mipi_dbi core to see how to handle the rese=
+t
+> > polarity correctly.
+> >
+> >> Instead this functionality could be merged into the existing panel-st7=
+789v
+> >> driver. You mentioned above that that driver only supports the 9-bit S=
+PI
+> >> transfer mode. However porting that driver over to mipi_dbi would fix =
+this,
+> >> and remove some redundant code. And tinydrm support could be added on =
+top
+> >> of that.
+> >>
+> >> I actually mentioned I was going to work on this on IRC. But I only po=
+rted
+> >> the driver over to use mipi_dbi, and haven't gotten around to adding
+> >> tinydrm support. I can send out the conversion patches if that helps
+> >> you.
+> >
+> > That would be fantastic and would save a lot of redundant effort. If yo=
+u
+> > send out the patches to convert the existing panel-st7789v driver to
+> > mipi_dbi, I would be happy to build the 'tiny' (simple display pipe)
+> > support on top of your series.
+> >
+>
+> I think we want to get rid of the simple display pipeline and instead jus=
+t
+> use regulator atomic helpers, even for the tiny DRM drivers.
+>
+> Please take a look to previous commits such as 2037174993c8 ("drm/bochs:
+> Use regular atomic helpers") or 622113b9f11f ("drm/ssd130x: Replace simpl=
+e
+> display helpers with the atomic helpers").
+>
+> --
+> Best regards,
+>
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>
 
-Agreed. ChenYu Tsai mentioned he is working on refactoring the existing
-panel-sitronix-st7789v driver to use mipi_dbi.
+Thank you for pointing this out. I based this implementation on the
+existing st7735r driver, which currently uses the simple pipe.
 
-Once that is ready, I can add the HSD20-IPS panel support to that driver
-using a distinct compatible string and associated configuration data,
-rather than forking a new driver.
+I will study the bochs and ssd130x commits to understand the migration to
+regular atomic helpers.
 
-I will drop this standalone driver patch and wait for Chen-Yu's series.
+If the goal is to move tiny DRM drivers away from the simple pipe, updating
+the Sitronix drivers to this new pattern sounds much better.
+I will incorporate this into my plan for the next iteration
+(building on top of ChenYu's work).
 
 --=20
 Sincerely,
