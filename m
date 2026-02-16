@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QGsbKsxJk2kT3QEAu9opvQ
+	id 4N8CGs1Jk2kT3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:46:04 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:46:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1611465CB
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7851465D3
 	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 17:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDA110E3D1;
-	Mon, 16 Feb 2026 16:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F6D10E3C6;
+	Mon, 16 Feb 2026 16:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EDWawg1X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tc3dAaiq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83A3C10E3D3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:51 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id
- a640c23a62f3a-b8f7f7a1b80so42157466b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:51 -0800 (PST)
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD85010E3D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:45:52 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id
+ 4fb4d7f45d1cf-65c1d6c2459so156919a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:45:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771260350; x=1771865150; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771260351; x=1771865151; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8GHywGhoa9nMFX4SKcKZGp9++GBGqwr6bmHnyfGvrOs=;
- b=EDWawg1X3Ug5z1kKxLc+n+JFkpnv+Qgw9mCzoDanpw9F+ufRMw+Fs5revMplq5v0Be
- hrRjviyDTB+5+XYIs5h23CA1vSgE6DujppUzUCUDLg+uLH/qBpAYMtPGJclpNzlqnmLY
- daQ1hklIJ0smZAaHYRGRhUGDKpP1/D44Rq3pmomnT8wgXwtf0V0J8TeVB9M6J/p/De5M
- YSOJPip1Pf02ba/vwo2/rhzlv/mzBZIjPShEjMli9eGTgG4X5bx35Dx7gfNFMRn6e61h
- L//ZsIFE+J+M0UeX0ZogX8YXezsk5drmOvzW+Eh7AomYPXSSxkJPriTWIs6fw5IN0jkl
- wvLA==
+ bh=il27DEcymwLna7hK1ELrrYkujYqTcKdi5syqhicz4KY=;
+ b=Tc3dAaiqWgeKvv8pCgS46fZaR4wfdqo1XGla/h/GxPMPmUJqknncrGstljWsZBuHri
+ DIvgKCkCeyErHWn0VL5/cJRu5Re+B9Fj8SN0Uh16U9qYcabcgCyFfNa5y56pwu3amy0E
+ m6sdQ8oBIUIZSE62uDeT2KCVOX25SFrAvELwI46Lvc4Bc16+WOi7mYWKrcuGC8XI85Ie
+ dX6yDwlAMJJ/D2TxKA4/RFw8uJumDu4sy9KO1VPOGFKtd3S1Pr/QGObzXp/Brke5PZbg
+ SUOmC9r/xF/XFMRvDqi0i+TK2nSK/aSvr9P/IPU5uSdW4wQuY98RX9BjiXg2IVTiUEL5
+ aq9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771260350; x=1771865150;
+ d=1e100.net; s=20230601; t=1771260351; x=1771865151;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=8GHywGhoa9nMFX4SKcKZGp9++GBGqwr6bmHnyfGvrOs=;
- b=m9VShuAzPVtakeEYBF1oZaoaXuKy+CxnBgIJyiaVNVclQ7lEn+cYzl8bzOwHtewgdb
- mboXX/GL8wEYk916VB+ELVaQ4SWSO0R3CPpGlJjUzwWSjc7LLJ4pPaNEVJ4eVsw4sY28
- ZL1bbdTyvj9aJyC7VH0/lpGto5QPOk8n3tTq5ftDdjoWx6UxPzKaEcBltSiqYIya+s1S
- +0/PkKss37qjQv9USBF6Bl86i1fPMuZRqQIJWuLqguMH/KRl/EAdKqLf7xupswdLcf2N
- lJnsCvcihLJDNy59rlwdPUtZ7WCc617P2x3c3y2ZGDSOi6EM0k3Ke0PKJdOySLLymruC
- hFEg==
+ bh=il27DEcymwLna7hK1ELrrYkujYqTcKdi5syqhicz4KY=;
+ b=n32GD50tJs+3LCva9HbwvQ5SydSc3bjkzwi2MiQNgu83InFr37bNQB8Wlkr8MfduuW
+ kxBJLHj1xa9H5sKGEzDHQXnTtL7BdFsc7SwIeyAozi7Pu9zi1sWxyjBVFWi3jpO1ZZOM
+ VNIZHrWTwmQEkGvHbQoXGzvoPb44nGJQQz9xn387ndfve+ZwutjVWHrN29xOsSiDpXt7
+ BbdKTe8nUcogkNsTJJ10FZ99yttSA76wyb3QGy6yO24VeY/Uj5Uuewgk4kNoSrsg+v9f
+ HW/fambNS+G5eztCebyEztdMXykKraCBQZ+gNt8l4L30Lg8CXOap/xIC3gOm8HobtlEj
+ BG7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfJIl4NRGaWieQ7IQOgBob7t/SISXEQOsFgBclFA6JgxnZT0dF1dck/i1vyPGdFyq+DsnfEprVhJU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkVM8a7nB/OSC9ApEBw/EJy3W3xFMl3E+gW4N2SY5NPxGQFZbj
- xEau7CCPwiiWDCF6CRPlYCe1wox17TdBp7AnrPPYArVDGlb1I7olPe3P
-X-Gm-Gg: AZuq6aIcEQo0HRubsjIlvBamZVSD0iCQdqBk9iudehiNAa6v5BRPVUR1HRE2QC6/lPb
- mCPbjw5pdFURBUHHl00gmYA14IjQdenKcGKB3y9oGxnkShTf0PYAobhSHmdMdc3JxbRZm9MaPFU
- 2LVPoIrwR4wKjuKsjgsmlnK1p99BvKP2PlWazYp81qwVDIC1kr38ICUbF2QqeEJvJ5VO0rbozfr
- MWWdv//OR4Sl8fsZaVE7WgInB8PdKeMGW7CHWXdg9URTew4aQn1Xk+u+Gqs2KLNp/PDFFhLSS9c
- 5bktdy9DYuf9lxJNuQTa0NFQfRH8/XPV4lV5+yzmRSpXkDwP9zG/4IxPMLVBa6Nbk1qmV/5YBBQ
- ywwW4VUSQ1q+2H1IA/aDt2TxQNR0J6l5L+fuONBGJGWlUTdvMbVMxotIvGr2D117dAWZ21mcUvl
- AUAXjjFOof8Q9P3DyPpoeup+aRqsbxRr+iCwsJwEUo9MaxVcGcQWYQe7cjzx1inDqgpQk5LZ4v3
- W5SWtCKCdV6A4Y=
-X-Received: by 2002:a17:906:6a0f:b0:b8e:7dcb:7f23 with SMTP id
- a640c23a62f3a-b8facc9d34dmr363796266b.2.1771260349806; 
- Mon, 16 Feb 2026 08:45:49 -0800 (PST)
+ AJvYcCXwFwZaJ33TDr/J/Vy7lgQhrzy50uY1UoB7Ye35aJ/jnHBqFn+fxW6nY+JESA5g3w4dywtgp5bZY3s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTmSB6B6koQZZQvsgfBfSjhx4noz38KROjgIZR4ic+Pms4TKWb
+ wffxDoPq0OffcI8Niy6grPGCYKG8lSMcP6N9u+sistZTn4xKIxSUzICK
+X-Gm-Gg: AZuq6aKds874dAYgBzgxo9/+nXsPM5SkdkToQolCBH8InPfU4Xgzoo6kL6wICQIxdRI
+ H3MVFZMBlqf4CpN5AEIEIWfStS+pJpM5eG9tYgzZTMUY6JFhN8bbOFJS4mmmpQIH0Q2suehbhFZ
+ rKFrn608HiWwhnZFJV0/WrgHXGcwgfTw7m1yakh23P+bgYF/9T8jTutWlNnE6/hTnWUlf0LtCJW
+ ZsnijnprQZt2Gy2add/Za5ov0uuGS9iWtqtAqrVa7cD8V8TW0iI0XeFLieqPtEyQDdrSMaamng3
+ wOz3ZQGyWDGBDOVNZnwVlsQh2nq76p3aiPBVhv/lZcpUSqGDoRm4o9aq9YIOP2t8sDAYDlDd5ls
+ oF+sm1zKxeIw67O8l8jS6pCdB/mTyf4T4o+RSoe4JOYXASMOMHh7FWVRonl8sJ3UI4Mram7dklI
+ Vy+i6Gaugrhxbza4vHqP866kX4SxbOIwN6NG7o4uWGAPNCb9pKm5Y0nZlQ0k5TkVNSNEaVt6gbA
+ QTa
+X-Received: by 2002:a17:906:6a24:b0:b87:3c3a:cb7e with SMTP id
+ a640c23a62f3a-b8face00ea5mr368595266b.6.1771260351124; 
+ Mon, 16 Feb 2026 08:45:51 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.48
+ a640c23a62f3a-b8fc735d185sm264683866b.14.2026.02.16.08.45.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Feb 2026 08:45:49 -0800 (PST)
+ Mon, 16 Feb 2026 08:45:50 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -77,9 +77,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v4 23/27] drm: Add passive_vrr_disabled property to crtc
-Date: Mon, 16 Feb 2026 17:45:12 +0100
-Message-ID: <20260216164516.36803-24-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v4 24/27] drm: Add passive_vrr_capable property to connector
+Date: Mon, 16 Feb 2026 17:45:13 +0100
+Message-ID: <20260216164516.36803-25-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
@@ -135,126 +135,167 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5B1611465CB
+X-Rspamd-Queue-Id: 1A7851465D3
 X-Rspamd-Action: no action
 
-Many TVs and other HDMI sinks suffer from blanking and possibly other
-glitches when VRR is toggled. With VRR present on such sinks and
-vrr_on_desktop enabled, they behave like the signal is always variable,
-even in fixed refresh rate situations. DisplayPort and eDP enforce
-seamless VRR transitions but HDMI unfortunately doesn't.
+Supplement to the passive_vrr_disabled crtc property
 
-Keep VRR toggled if it's supported and not explicitly disabled. It can
-be used for any VRR sinks, but this is mainly targeted for HDMI.
-
-Functionally, for an end user, this is the same as normal, fixed refresh
-rate mode. The only difference is that sink is kept in VRR state which
-enables seamless transitions into/out of variable refresh rate.
-
-Basically, the driver shouldn't change it's behavior around VRR_ENABLED
-set to false, jut keep sending info packets/frames with VRR/FreeSync/
-G-Sync/HDMI VRR active.
-
-Enabled by default for sinks that claim it's support
+Drivers can add the property to a connector with
+drm_connector_attach_passive_vrr_capable_property().
+The value should be updated based on driver and hardware capability
+by using drm_connector_set_passive_vrr_capable_property().
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 4 ++++
- drivers/gpu/drm/drm_crtc.c        | 2 ++
- drivers/gpu/drm/drm_mode_config.c | 6 ++++++
- include/drm/drm_crtc.h            | 9 +++++++++
- include/drm/drm_mode_config.h     | 6 ++++++
- 5 files changed, 27 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 73 +++++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h     | 15 +++++++
+ 2 files changed, 88 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index b2cb5ae5a139..a3ad2fe3306b 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -383,6 +383,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 		return ret;
- 	} else if (property == config->prop_vrr_enabled) {
- 		state->vrr_enabled = val;
-+	} else if (property == config->prop_passive_vrr_disabled) {
-+		state->passive_vrr_disabled = val;
- 	} else if (property == config->degamma_lut_property) {
- 		ret = drm_property_replace_blob_from_id(dev,
- 					&state->degamma_lut,
-@@ -448,6 +450,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		*val = (state->mode_blob) ? state->mode_blob->base.id : 0;
- 	else if (property == config->prop_vrr_enabled)
- 		*val = state->vrr_enabled;
-+	else if (property == config->prop_passive_vrr_disabled)
-+		*val = state->passive_vrr_disabled;
- 	else if (property == config->degamma_lut_property)
- 		*val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
- 	else if (property == config->ctm_property)
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index a7797d260f1e..4f2c871552e5 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -322,6 +322,8 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
- 					   config->prop_out_fence_ptr, 0);
- 		drm_object_attach_property(&crtc->base,
- 					   config->prop_vrr_enabled, 0);
-+		drm_object_attach_property(&crtc->base,
-+					   config->prop_passive_vrr_disabled, 0);
- 	}
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 272d6254ea47..5bb38b80e214 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2346,6 +2346,16 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+  *
+  *	Absence of the property should indicate absence of support.
+  *
++ * "passive_vrr_capable":
++ *	Optional &drm_connector boolean property that drivers should attach
++ *	with drm_connector_attach_passive_vrr_capable_property() on
++ *	connectors that could support keeping variable refresh rate signalling
++ *	in fixed-refresh rate scenarios like desktop work. Drivers should update
++ *	the property value by calling
++ *	drm_connector_set_passive_vrr_capable_property().
++ *
++ *	Absence of the property should indicate absence of support.
++ *
+  * "VRR_ENABLED":
+  *	Default &drm_crtc boolean property that notifies the driver that the
+  *	content on the CRTC is suitable for variable refresh rate presentation.
+@@ -2364,6 +2374,17 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+  *
+  *	The driver may place further restrictions within these minimum
+  *	and maximum bounds.
++ *
++ * "PASSIVE_VRR_DISABLED":
++ *	Default &drm_crtc boolean property that notifies the driver that the
++ *	VRR singalling should be disabled in fixed refresh rate scenarios.
++ *	Functionally, psssive vrr works the same as VRR_ENABLED == false
++ *	but works around displays blanking (mainly HDMI) that do not support
++ *	seamless VRR transitions. Also helps with brightness flickering during
++ *	VRR transitions.
++ *
++ *	Passive VRR mode is not that useful for DP/eDP sinks where seamless VRR
++ *	transitions are enforced by the standard.
+  */
  
- 	return 0;
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 25f376869b3a..542d21d7ca36 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -340,6 +340,12 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
- 		return -ENOMEM;
- 	dev->mode_config.prop_vrr_enabled = prop;
+ /**
+@@ -2397,6 +2418,37 @@ int drm_connector_attach_vrr_capable_property(
+ }
+ EXPORT_SYMBOL(drm_connector_attach_vrr_capable_property);
  
-+	prop = drm_property_create_bool(dev, 0,
-+			"PASSIVE_VRR_DISABLED");
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.prop_passive_vrr_disabled = prop;
++/**
++ * drm_connector_attach_passive_vrr_capable_property - creates the
++ * passive_vrr_capable property
++ * @connector: connector to create the passive_vrr_capable property on.
++ *
++ * This is used by atomic drivers to add support for querying
++ * variable refresh rate on desktop capability for a connector.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_attach_passive_vrr_capable_property(
++	struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop;
 +
- 	prop = drm_property_create(dev,
- 			DRM_MODE_PROP_BLOB,
- 			"DEGAMMA_LUT", 0);
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 66278ffeebd6..59dbb7ce1358 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -299,6 +299,15 @@ struct drm_crtc_state {
++	if (!connector->passive_vrr_capable_property) {
++		prop = drm_property_create_bool(dev, DRM_MODE_PROP_IMMUTABLE,
++			"passive_vrr_capable");
++		if (!prop)
++			return -ENOMEM;
++
++		connector->passive_vrr_capable_property = prop;
++		drm_object_attach_property(&connector->base, prop, 0);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_attach_passive_vrr_capable_property);
++
+ /**
+  * drm_connector_attach_scaling_mode_property - attach atomic scaling mode property
+  * @connector: connector to attach scaling mode property on.
+@@ -2968,6 +3020,27 @@ void drm_connector_set_vrr_capable_property(
+ }
+ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+ 
++/**
++ * drm_connector_set_passive_vrr_disabled_capable_property - sets the variable refresh
++ * rate on desktop capable property for a connector
++ * @connector: drm connector
++ * @capable: True if the connector is variable refresh rate on desktop capable
++ *
++ * Should be used by atomic drivers to update the indicated support for
++ * variable refresh rate on desktop over a connector.
++ */
++void drm_connector_set_passive_vrr_capable_property(
++		struct drm_connector *connector, bool capable)
++{
++	if (!connector->passive_vrr_capable_property)
++		return;
++
++	drm_object_property_set_value(&connector->base,
++				      connector->passive_vrr_capable_property,
++				      capable);
++}
++EXPORT_SYMBOL(drm_connector_set_passive_vrr_capable_property);
++
+ /**
+  * drm_connector_set_panel_orientation - sets the connector's panel_orientation
+  * @connector: connector for which to set the panel-orientation property.
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index dab9d5521f41..30dd9737bfe0 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2101,6 +2101,17 @@ struct drm_connector {
  	 */
- 	bool vrr_enabled;
+ 	struct drm_property *vrr_capable_property;
  
 +	/**
-+	 * @passive_vrr_disabled:
++	 * @passive_vrr_capable_property: Optional property to help userspace
++	 * query hardware support for passive variable refresh rate on a
++	 * connector. Drivers can add the property to a connector by
++	 * calling drm_connector_attach_passive_vrr_capable_property().
 +	 *
-+	 * Indicates if variable refresh rate on desktop should be enabled for
-+	 * the CRTC. Support for the requested state will depend on driver and
-+	 * hardware capabiltiy - lacking support is not treated as failure.
++	 * This should be updated only by calling
++	 * drm_connector_set_passive_vrr_capable_property().
 +	 */
-+	bool passive_vrr_disabled;
++	struct drm_property *passive_vrr_capable_property;
 +
  	/**
- 	 * @self_refresh_active:
- 	 *
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 2e848b816218..541cfaba67a2 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -679,6 +679,12 @@ struct drm_mode_config {
- 	 * whether variable refresh rate should be enabled on the CRTC.
- 	 */
- 	struct drm_property *prop_vrr_enabled;
-+	/**
-+	 * @prop_passive_vrr_disabled: Default atomic CRTC property to indicate
-+	 * whether passive variable refresh rate should be disabled
-+	 * on the CRTC.
-+	 */
-+	struct drm_property *prop_passive_vrr_disabled;
- 
- 	/**
- 	 * @dvi_i_subconnector_property: Optional DVI-I property to
+ 	 * @colorspace_property: Connector property to set the suitable
+ 	 * colorspace supported by the sink.
+@@ -2495,6 +2506,8 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
+ 					       u32 scaling_mode_mask);
+ int drm_connector_attach_vrr_capable_property(
+ 		struct drm_connector *connector);
++int drm_connector_attach_passive_vrr_capable_property(
++		struct drm_connector *connector);
+ int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector);
+ int drm_connector_attach_colorspace_property(struct drm_connector *connector);
+ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
+@@ -2517,6 +2530,8 @@ void drm_connector_set_link_status_property(struct drm_connector *connector,
+ 					    uint64_t link_status);
+ void drm_connector_set_vrr_capable_property(
+ 		struct drm_connector *connector, bool capable);
++void drm_connector_set_passive_vrr_capable_property(
++		struct drm_connector *connector, bool capable);
+ int drm_connector_set_panel_orientation(
+ 	struct drm_connector *connector,
+ 	enum drm_panel_orientation panel_orientation);
 -- 
 2.53.0
 
