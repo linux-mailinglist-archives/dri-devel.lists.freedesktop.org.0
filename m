@@ -2,86 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KJmBA9m0kmmtwgEAu9opvQ
+	id 4IE2DVC2kmkLwwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 07:10:33 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 07:16:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4329114112A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 07:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84368141165
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 07:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B366110E04D;
-	Mon, 16 Feb 2026 06:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76AB710E090;
+	Mon, 16 Feb 2026 06:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XEyTdsRA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ULc2GWC8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D678710E04D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 06:10:26 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-48373a4bca3so12702975e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Feb 2026 22:10:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771222225; x=1771827025;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SJZWZC5spayAzpOmngv84WsW+TBUL+/34ATLWEqj1r0=;
- b=XEyTdsRAQMq+bGTpy2ai3CHn5x1gCb0sL1ZNiqlihtSKG3pW7LbRZRWf5+y1Rsj5uS
- wZgtNukz3XDxO8g/sNTYfdiJAHmM+XaSALxPW51Q8+nFuQD14oScKbdl/uPqK9MryU1G
- Ck8cNW5qMDr9+u+EzIThzUm+19t2vw3sOsHod0kFfRRMjjJ7HwJF2Ky5slwFxLtxKvTI
- YiorUD1vKqZF7gM4ayt8+lTkbkMRML4tDQmc+7GuHGrDNYA2i/4KCHl0UtQVNrFhhPyT
- R5gLu826Blst9D0r3ditQIiNzancLRhXSAmnxPC5QwUptQTB+sPD7pcMKAYAyHLpwQSR
- lgZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771222225; x=1771827025;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SJZWZC5spayAzpOmngv84WsW+TBUL+/34ATLWEqj1r0=;
- b=cnxkelyyZ8nabRP5abi60ZtFu4iOtFMbzwFMuUEUHeMZh5OVKGOIM611gFMaiUhoXS
- rZRaHFuYtZEnfQzwau2N5RHsdhdDbkkmVXqEXBvGbg04KIVaQc8mPYdQOxrrj7Tdt3Jm
- 5uwXILYwhSYWf1HMTNLyZ5Hb2jyWfCaX/w2DTVekOMSs7uN/LRvpm8Pibfa+bDGL9pnM
- TPAFHorEfpHileL6LLVRAgRHPiEMU2xG7j7mAF6zKO9SdPxyW7VK0ZY7cu9axxvxgGS1
- M+zl17myO9x1SPn3szICm3DFA2B2FWsA0mQrhXhhBNGq/+kfbogG8fBrqGuPzpyYEEM4
- P4KA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfkTvium0ElOmifJI2nhEnJl1eC5s7nhVYiNXQyHjrkwP4WpkGiYCKIgTzFCbD8DTVMl3powN1FTk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+HVwt8czfHQuYJow8zFxTRpWnqRErI0bgv4G7EUlfHxt4X6SB
- Ui8LJxoj7jVRBimjaWG3rvC51dCM9BnLR09O/XB70HZbUX40I+OXvlZuIZMhjeZYsbI=
-X-Gm-Gg: AZuq6aLipqv6yPaoinZqrpwEbwQplJBW4cBmK9hDkg2/u2zxLhte+PHE63WD+QGEq8i
- GjEIDM4rIQRtmpUstX2QY+IXXRx4yrI+w8U2Tusn38iBwMsHhJqGytBN7YhiciWRIKSG9SQBI6p
- vQJiOfsRfWzwdu+EbtNdaV45PiBVdLMilS5PGX6Ivwude367hunzXsmKpp/yVJVxMHiwoj0UFwF
- VBFG1yBcglDKNforB8UCoFoFeTJGrAUQnq+xlRE/FkvqEa20B4fbawloRZpF2REcGYZtnB5Zb8n
- CdIZ5Mk7C4NGdtNMIxfyv2HYQx+LVf2viyW1zgdu2JEQ2b6oAyXtIMrWYc8ikl1HcMUesJbeCrT
- 5MPEOjvFiOMj8ucASa1kvCrgzTUyto5j/6YqmhUTJKe5e4/+P+5unnnYzJtvMwn44LN53vb7Yp6
- 2FsxTaZc9JaQ5PMjHUCqbdfz3p7+IH
-X-Received: by 2002:a05:600c:1912:b0:480:69ae:f0e9 with SMTP id
- 5b1f17b1804b1-48379ba54aemr115518735e9.16.1771222225241; 
- Sun, 15 Feb 2026 22:10:25 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-48371998777sm267682385e9.1.2026.02.15.22.10.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Feb 2026 22:10:24 -0800 (PST)
-Date: Mon, 16 Feb 2026 07:10:24 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- lumag@kernel.org, mehdi.djait@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/tiny: sharp-memory: fix pointer error dereference
-Message-ID: <aZK0bnHw63orpP3I@monoceros>
-References: <20260216040438.43702-1-ethantidmore06@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE93310E009;
+ Mon, 16 Feb 2026 06:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771222603; x=1802758603;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zvcXt9MN4GKPEz3KQuXj2I1bR5fGlkMnKatc0eg6Etc=;
+ b=ULc2GWC8KI8ysZXEcTrNU4fsL7VXA8+8uUXnPd5HkdTqHmWZBtLggrN6
+ eJuO5lfja7QVxlQAaiCMTr+rFhDdAJXj9Lv/rjXyhZlYIs1uYY5Vtvtwy
+ 1SkB1fcQhnubBTeoC00+aaYeyUYgVBgCJuo2TM0tU3Q4f62TQx7A9BZIu
+ SHodx6MdRWV8SdG+naXyp7KhThDQpcCiSAJQum/GwUNxOqSMng0sPuZGO
+ zyxkoecGhERBIdAn4JmlLnTCylX18d5g0LdwjnPcEZptqH5YK78OjIDub
+ RaNRwhsOvSbBrowQYFeElgF2kxW5jeLl6QgP+ioy4OdTGHjAVyj41MX5p w==;
+X-CSE-ConnectionGUID: PL57P1tmSTy6Op+QrrA96w==
+X-CSE-MsgGUID: afC135R3TBmHYOjq5P0pYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72291995"
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="72291995"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2026 22:16:43 -0800
+X-CSE-ConnectionGUID: RgB51ZaUQkuP3rPFjV0WkQ==
+X-CSE-MsgGUID: 2v98bsGES2GOYenJbKuDJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; d="scan'208";a="212087443"
+Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2026 22:16:38 -0800
+From: Riana Tauro <riana.tauro@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
+ raag.jadav@intel.com, Riana Tauro <riana.tauro@intel.com>
+Subject: [PATCH v6 0/5] Introduce DRM_RAS using generic netlink for RAS
+Date: Mon, 16 Feb 2026 12:17:26 +0530
+Message-ID: <20260216064726.2542819-7-riana.tauro@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gat22qmrijur7gs2"
-Content-Disposition: inline
-In-Reply-To: <20260216040438.43702-1-ethantidmore06@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,81 +76,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ethantidmore06@gmail.com,m:lanzano.alex@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:lumag@kernel.org,m:mehdi.djait@bootlin.com,m:linux-kernel@vger.kernel.org,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,bootlin.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4329114112A
+	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,patchwork.freedesktop.org:url]
+X-Rspamd-Queue-Id: 84368141165
 X-Rspamd-Action: no action
 
+This work is a continuation of the great work started by Aravind ([1] and [2])
+in order to fulfill the RAS requirements and proposal as previously discussed
+and agreed in the Linux Plumbers accelerator's bof of 2022 [3].
 
---gat22qmrijur7gs2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tiny: sharp-memory: fix pointer error dereference
-MIME-Version: 1.0
+[1]: https://lore.kernel.org/dri-devel/20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com/
+[2]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
+[3]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
 
-On Sun, Feb 15, 2026 at 10:04:38PM -0600, Ethan Tidmore wrote:
-> The function devm_drm_dev_alloc() returns a pointer error upon failure
-> not NULL. Change null check to pointer error check.
->=20
-> Detected by Smatch:
-> drivers/gpu/drm/tiny/sharp-memory.c:549 sharp_memory_probe() error:
-> 'smd' dereferencing possible ERR_PTR()
->=20
-> Fixes: b8f9f21716fec ("drm/tiny: Add driver for Sharp Memory LCD")
-> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+During the past review round, Lukas pointed out that netlink had evolved
+in parallel during these years and that now, any new usage of netlink families
+would require the usage of the YAML description and scripts.
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+With this new requirement in place, the family name is hardcoded in the yaml file,
+so we are forced to have a single family name for the entire drm, and then we now
+we are forced to have a registration.
 
-Best regards
-Uwe
+So, while doing the registration, we now created the concept of drm-ras-node.
+For now the only node type supported is the agreed error-counter. But that could
+be expanded for other cases like telemetry, requested by Zack for the qualcomm accel
+driver.
 
---gat22qmrijur7gs2
-Content-Type: application/pgp-signature; name="signature.asc"
+In this first version, only querying counter is supported. But also this is expandable
+to future introduction of multicast notification and also clearing the counters.
 
------BEGIN PGP SIGNATURE-----
+This design with multiple nodes per device is already flexible enough for driver
+to decide if it wants to handle error per device, or per IP block, or per error
+category. I believe this fully attend to the requested AMD feedback in the earlier
+reviews.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmStM0ACgkQj4D7WH0S
-/k5o3gf+OhPsbnoeTUGSxPOCOvNNgI2tBciQssanxZhjPSLBQwUrPS6wpEtOjs/f
-n5FTou39SpOTMZmBUAbGzqpcR8dAOxBxWAZZjzCn1WHSiulLN1p9g4Q45e7UVLbL
-B8RGPi4ekyOvgTS2G26ED23QbdCu2FVSZ66D51SnZQy5VTmJnA6DHz/bTwhysJsi
-lXqEEo5X5uYJKa7ksv7/8iWF59yVXWINGvrDEtiGoMhuCq9RS5Tvawk2ISceDT0v
-RPSTh1esgmKLxKNzb2+pvLbeZpiru2FLE9mlTI/uWuwTyWPgYpUab1DeK1ZH+DoA
-AwuVGNvbMvAPupTyjxdj2GcM1X4B8Q==
-=0JBq
------END PGP SIGNATURE-----
+So, my proposal is to start simple with this case as is, and then iterate over
+with the drm-ras in tree so we evolve together according to various driver's RAS
+needs.
 
---gat22qmrijur7gs2--
+I have provided a documentation and the first Xe implementation of the counter
+as reference.
+
+Also, it is worth to mention that we have a in-tree pyynl/cli.py tool that entirely
+exercises this new API, hence I hope this can be the reference code for the uAPI
+usage, while we continue with the plan of introducing IGT tests and tools for this
+and adjusting the internal vendor tools to open with open source developments and
+changing them to support these flows.
+
+Example:
+
+List Nodes:
+
+$ sudo ynl --family drm_ras --dump list-nodes
+[{'device-name': '0000:03:00.0',
+  'node-id': 0,
+  'node-name': 'correctable-errors',
+  'node-type': 'error-counter'},
+ {'device-name': '0000:03:00.0',
+  'node-id': 1,
+  'node-name': 'uncorrectable-errors',
+  'node-type': 'error-counter'}]
+
+Get Error counters:
+
+$ sudo ynl --family drm_ras  --dump get-error-counters --json '{"node-id":1}'
+[{'error-id': 1, 'error-name': 'core-compute', 'error-value': 0},
+ {'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}]
+
+Query Error counter:
+
+$ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":1, "error-id":2}'
+{'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
+
+
+IGT : https://patchwork.freedesktop.org/patch/689729/?series=157409&rev=3
+
+Rev2: Fix review comments
+      Add support for GT and SOC errors
+
+Rev3: Add uAPI for errors and nodes
+      Update documentation
+
+Rev4: Use only correctable and uncorrectable error nodes
+      use REG_BIT
+      remove redundant error strings
+
+Rev5: Split patch 2
+      use atomic_t
+      fix memory leaks
+      fix logs
+      fix hook failure
+      change component and severity UAPI
+
+Rev6: fix alignment
+      fix comparison in CSC error
+      add severity string to csc error
+      rename soc error handler base register variables
+      deallocate info if drm ras registeration fails
+      rename init function to xe_drm_ras_init()
+      fix htmldocs errors
+      Add 'depends on NET' for drm ras netlink
+
+Riana Tauro (4):
+  drm/xe/xe_drm_ras: Add support for XE DRM RAS
+  drm/xe/xe_hw_error: Integrate DRM RAS with hardware error handling
+  drm/xe/xe_hw_error: Add support for Core-Compute errors
+  drm/xe/xe_hw_error: Add support for PVC SoC errors
+
+Rodrigo Vivi (1):
+  drm/ras: Introduce the DRM RAS infrastructure over generic netlink
+
+ Documentation/gpu/drm-ras.rst              | 107 +++++
+ Documentation/gpu/index.rst                |   1 +
+ Documentation/netlink/specs/drm_ras.yaml   | 130 ++++++
+ drivers/gpu/drm/Kconfig                    |  10 +
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_drv.c                  |   6 +
+ drivers/gpu/drm/drm_ras.c                  | 354 ++++++++++++++++
+ drivers/gpu/drm/drm_ras_genl_family.c      |  42 ++
+ drivers/gpu/drm/drm_ras_nl.c               |  54 +++
+ drivers/gpu/drm/xe/Makefile                |   1 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  86 +++-
+ drivers/gpu/drm/xe/xe_device_types.h       |   4 +
+ drivers/gpu/drm/xe/xe_drm_ras.c            | 186 +++++++++
+ drivers/gpu/drm/xe/xe_drm_ras.h            |  15 +
+ drivers/gpu/drm/xe/xe_drm_ras_types.h      |  48 +++
+ drivers/gpu/drm/xe/xe_hw_error.c           | 451 +++++++++++++++++++--
+ include/drm/drm_ras.h                      |  76 ++++
+ include/drm/drm_ras_genl_family.h          |  17 +
+ include/drm/drm_ras_nl.h                   |  24 ++
+ include/uapi/drm/drm_ras.h                 |  49 +++
+ include/uapi/drm/xe_drm.h                  |  79 ++++
+ 21 files changed, 1699 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/gpu/drm-ras.rst
+ create mode 100644 Documentation/netlink/specs/drm_ras.yaml
+ create mode 100644 drivers/gpu/drm/drm_ras.c
+ create mode 100644 drivers/gpu/drm/drm_ras_genl_family.c
+ create mode 100644 drivers/gpu/drm/drm_ras_nl.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.h
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras_types.h
+ create mode 100644 include/drm/drm_ras.h
+ create mode 100644 include/drm/drm_ras_genl_family.h
+ create mode 100644 include/drm/drm_ras_nl.h
+ create mode 100644 include/uapi/drm/drm_ras.h
+
+-- 
+2.47.1
+
