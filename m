@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IAD/K1Lbkmn3zAEAu9opvQ
+	id iO5IIvTbkmn3zAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 09:54:42 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 09:57:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15105141B6B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 09:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B93141BBB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Feb 2026 09:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0177410E192;
-	Mon, 16 Feb 2026 08:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07E2310E1B6;
+	Mon, 16 Feb 2026 08:57:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V6VdsYkw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7454710E192
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:54:37 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id
- 71dfb90a1353d-56636dc53a6so1134393e0c.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 00:54:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771232076; x=1771836876;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=amIuxySa6dDUHXa+BAvlMLYYKh0V6dJe17/ltsM6dbs=;
- b=RdbVxJnc2m6ipXUCXGNBE29ilYUESK7eRsSSJxX3W6s9RlAM334leS3t1vYDIokRdg
- IDG8qAJiqx+Nku27BTGmjz5YBiw/j3QyL0WUeHaQbnlNNElvoCI3Db2AKjDBxLzWWSHI
- 4EBEqg9sZQkEYzs2wLn7rNa82L9042iSAZyTf6Fkzw8DJkTXy9fNgmrB1Y/ybVH5BfJM
- 1m6A0PVY44QlyP8Jub/EVvP+SRC7pzW/PCc2q8U64+umucSrS8y/EiTRO9CnXZIGDwhn
- Y/Ot52fl404jhICJDrQ4ZoDLdPLFYkqfn/9jSZinLQJjs4hHxEC1bTHeV+dh8VxcatzE
- 1pmg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqn1kqr+DSsgKp/ZL/WV3d6WAeuRnmlkPE/mJ/nKv/6JYfjl+jlkKgdLEtKEFkEaBfvUQEVO6qqac=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8uK+AKySiqvu/Lqam/mzXFKMGB6c9Tr4G3HlKDV3t7uiu9poV
- UU3MFIXQZSkHsVF6yEG1csoM39fSVQ+6zHwMI09qkA57DAS3qHsoNH0exngA3uWB
-X-Gm-Gg: AZuq6aLU7OHPNSdBuyhhDUWctMV3kc7W7m8BJqemkHmnRb823UW2uTxglFDeA5Pq2GO
- rvn3TSVwI+gKVxDZH7i0IwOpzm/M3urR3XRaLKnAkrTxJxNefAuqF003MQd7F818PL9L7KfAqBr
- KriVkb4EMcUifds5836T8sOUSr6Jz/4v4u7lvfXBysZatPjnJr5GrHruRxBoaIKrv8kI1WXmPi6
- nRZ6EukQqa2cq+g6emFt6Fpk2rrkn0Yv3D/d2VuQryZUnc78vLYypdXHFSRSXg0xmcB1t3jBGNU
- CCQ6sggCsPxNwQ9sDIbTKCMxnOOCY2PVrRmyypQMIrJtIDJ0HD0gfKetE6JpHu74i9q1uAbtTTx
- pqmo+OxFE6uoZehaedOetHXdeE+T9KVkvJbcBBJiuvwihnOBMZYMs4fhtZ7Un3gN86wyi53WMYw
- RiyGympdR+TIboJF8Yots0NhLic7drrd3PgsNLfrfSPdtHnaCz5y1f1iZhLWD19e1d8y/TDj0=
-X-Received: by 2002:a05:6122:c9e:b0:566:36e7:8934 with SMTP id
- 71dfb90a1353d-5676aa4d9damr2765594e0c.16.1771232076155; 
- Mon, 16 Feb 2026 00:54:36 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
- [209.85.217.46]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5674c247320sm7024321e0c.18.2026.02.16.00.54.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Feb 2026 00:54:35 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id
- ada2fe7eead31-5fc456c3742so500686137.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 00:54:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXETFSPeMRQBn2Tu0MMyYirjia6aICkgkirve1vEf5AQ8XG/Bd5oZ0kHVvpJ9SuxcyWBZzPU3Vh1CE=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:5110:b0:5ef:bd3a:ab1f with SMTP id
- ada2fe7eead31-5fe1afbda79mr3606828137.34.1771232075129; Mon, 16 Feb 2026
- 00:54:35 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAAA410E1F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 08:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1771232239;
+ bh=Q2wZ05+kkbpTiaWuLV2p79VJg8YBx8ve3kJWksjnV4U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V6VdsYkwhO2T6ofbx21wM2gFf5qoFcJTfQu2YLrgp4JwL5Qe4iG/rNt0WQMSABc3i
+ 0sd9LULh8XWr62useoiKP8w79SLaz+PY2Mobolg10WgBshYGqYIKRpDRldHYAq/pxd
+ jxO2BaSyCWkh/lCGmlo7g5M0JHNDZ3A0Y/DqbwV7CWa0iZ//+Ix1j97AWn0Mxrejxq
+ muy9ZkiLRRudTnUEaDtBrJmfGjXtl6RHWaqRY/d7TyKZKeiTJaNrS+5xY84l2E1a1l
+ QiOLrxePMOr3iEMdg4177AZp6Z6BbT5FokpT4AgnkZWUYHKqZFTUCH9dteM/XQ0PZS
+ jBUVswYnAikfA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A5E8017E131F;
+ Mon, 16 Feb 2026 09:57:18 +0100 (CET)
+Date: Mon, 16 Feb 2026 09:57:14 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dmitry
+ Osipenko <dmitry.osipenko@collabora.com>, Chris Diamand
+ <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
+ kernel@collabora.com
+Subject: Re: [PATCH v3 9/9] drm/panthor: Add a GEM shrinker
+Message-ID: <20260216095714.40a7e5ec@fedora>
+In-Reply-To: <aY9oM5MY6Jntm3oy@sobremesa>
+References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
+ <20260211080343.1887134-10-boris.brezillon@collabora.com>
+ <aY9oM5MY6Jntm3oy@sobremesa>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
- <0e9f963b-00e0-43d1-b567-cb10b8f66df1@mailbox.org>
- <CAMuHMdVOUzanEufhWqOL0nv81xCYh4YNAX_waG6y9PyUZ030tg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVOUzanEufhWqOL0nv81xCYh4YNAX_waG6y9PyUZ030tg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 16 Feb 2026 09:54:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU-jRhW65cxeApFbCK+XgRazPOTABcbmBC3J38pwXfzJQ@mail.gmail.com>
-X-Gm-Features: AaiRm53fj_d9e6w8NbwYy6InUSZHagi7WeBARKJlpME8J2ANfsii8ZwJtSbH60k
-Message-ID: <CAMuHMdU-jRhW65cxeApFbCK+XgRazPOTABcbmBC3J38pwXfzJQ@mail.gmail.com>
-Subject: Re: drm/imagination: genpd_runtime_suspend() crash
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Marek Vasut <marek.vasut@mailbox.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux PM list <linux-pm@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,152 +79,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.61 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS(0.00)[m:ulf.hansson@linaro.org,m:rafael@kernel.org,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:marek.vasut@mailbox.org,m:linux-pm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:adrian.larumbe@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,collabora.com,intel.com,google.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 15105141B6B
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim]
+X-Rspamd-Queue-Id: E1B93141BBB
 X-Rspamd-Action: no action
 
-Hi Ulf, Rafael,
+On Fri, 13 Feb 2026 18:23:34 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-On Thu, 22 Jan 2026 at 16:35, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Sat, 3 Jan 2026 at 19:25, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> > On 10/29/25 3:08 PM, Geert Uytterhoeven wrote:
-> > >       default_suspend_ok+0xb4/0x20c (P)
-> > >       genpd_runtime_suspend+0x11c/0x4e0
-> > >       __rpm_callback+0x44/0x1cc
-> > >       rpm_callback+0x6c/0x78
-> > >       rpm_suspend+0x108/0x564
-> > >       pm_runtime_work+0xb8/0xbc
-> > >       process_one_work+0x144/0x280
-> > >       worker_thread+0x2c8/0x3d0
-> > >       kthread+0x128/0x1e0
-> > >       ret_from_fork+0x10/0x20
-> > >      Code: aa1303e0 52800863 b0005661 912dc021 (f9402095)
-> > >      ---[ end trace 0000000000000000 ]---
-> > >
-> > > This driver uses manual PM Domain handling for multiple PM Domains.  In
-> > > my case, pvr_power_domains_fini() calls dev_pm_domain_detach() (twice),
-> > > which calls dev_pm_put_subsys_data(), and sets dev->power.subsys_data to
-> > > NULL when psd->refcount reaches zero.
-> > >
-> > > Later/in parallel, default_suspend_ok() calls dev_gpd_data():
-> > >
-> > >      static inline struct generic_pm_domain_data *dev_gpd_data(struct
-> > > device *dev)
-> > >      {
-> > >              return to_gpd_data(dev->power.subsys_data->domain_data);
-> > >      }
-> > >
-> > > triggering the NULL pointer dereference.  Depending on timing, it may
-> > > crash earlier or later in genpd_runtime_suspend(), or not crash at all
-> > > (initially, I saw it only with extra debug prints in the genpd subsystem).
-> >
-> > I came to the same conclusion when revisiting it yesterday and today.
-> >
-> > The power 3dg-{a,b} domains are in RPM_SUSPENDING state, the
-> > __rpm_callback() is running and it unlocks dev->power.lock spinlock for
-> > just long enough, that the pvr_power_domains_fini() can issue
-> > dev_pm_domain_detach() and then dev_pm_put_subsys_data() , which unsets
-> > subsys_data, which are later still used by the __rpm_callback() (really
-> > the genpd_runtime_suspend() -> suspend_ok() it calls for this domain).
-> >
-> > But, I wonder if the problem is actually in the CPG MSSR clock domain
-> > driver. The pvr_power_domains_fini() dev_pm_domain_detach() really calls
-> > cpg_mssr_detach_dev() which calls pm_clk_destroy() and that invokes the
-> > dev_pm_domain_detach() which unsets the subsys_data . The
-> > pm_clk_destroy() documentation is explicit about it unsetting the
-> > subsys_data .
-> >
-> > I wonder if what we need to do instead, is patch the CPG MSSR clock
-> > domain driver such, that it would surely NOT call pm_clk_destroy()
-> > before the domain transitioned from RPM_SUSPENDING -> RPM_SUSPENDED
-> > state and surely is done with all its __rpm_callback() invocations ?
-> >
-> > Can you please test this change and see if it fixes the problem ?
-> >
-> > The barrier should guarantee that the domain is settled and no more
-> > callbacks are still running.
->
-> Thank you, that indeed fixes the issue!
->
-> However, I am not so sure this barrier belongs in the .detach_dev()
-> callback.  The documentation for almost all dev_pm_domain_{at,de}tach*()
-> functions states:
->
->      * Callers must ensure proper synchronization of this function with power
->      * management callbacks.
->
-> However, I couldn't find any user that calls pm_runtime_barrier() first.
->
-> In case of multiple PM domains, it is even more complicated, as
-> dev_pm_domain_attach_list() (and pvr_power_domains_init(), which is
-> basically an open-coded variant of the former) creates a list of virtual
-> devices, which all need synchronization.  For the devres-enabled version
-> (devm_pm_domain_attach_list()), the caller cannot take care of calling
-> pm_runtime_barrier() anyway, so it has to be handled by the PM core?
+> > +static int remap_evicted_vma(struct drm_gpuvm_bo *vm_bo,
+> > +			     struct panthor_vma *evicted_vma,
+> > +			     struct panthor_vm_op_ctx *op_ctx)
+> > +{
+> > +	struct panthor_vm *vm =3D container_of(vm_bo->vm, struct panthor_vm, =
+base);
+> > +	struct panthor_gem_object *bo =3D to_panthor_bo(vm_bo->obj);
+> > +	struct drm_gpuva *va;
+> > +	bool found =3D false;
+> > +	int ret;
+> > +
+> > +	ret =3D panthor_vm_op_ctx_prealloc_pts(op_ctx);
+> > +	if (ret)
+> > +		goto out_cleanup;
+> > +
+> > +	/* Take op_lock to protect against va insertion/removal. */
+> > +	mutex_lock(&vm->op_lock);
+> > +	drm_gpuvm_bo_for_each_va(va, vm_bo) {
+> > +		struct panthor_vma *vma =3D container_of(va, struct panthor_vma, bas=
+e);
+> > +
+> > +		if (vma !=3D evicted_vma)
+> > +			continue;
+> > +
+> > +		/* We can't rely solely on pointer equality, because the VMA might h=
+ave been
+> > +		 * freed and a new one allocated at the same address. If the evicted=
+ bit
+> > +		 * is still set, we're sure it's our VMA, because population/evictio=
+n is
+> > +		 * serialized with the BO resv lock.
+> > +		 */ =20
+>=20
+> At first I thought to avoid having VM_BIND operations change the VM's VMA=
+'s in the interval between
+> select_evicted_vma() and remap_evicted_vma(), maybe you could take the VM=
+'s operation lock around both of them
+> in panthor_vm_restore_vmas(). But because the same lock is taken in the d=
+ma signalling path and
+> panthor_vm_op_ctx_prealloc_pts() can sleep, then we cannot do that. Maybe=
+ you could add a note clarifying this?
 
-Any guidance from the PM people?
-Thanks!
+Sure, how about
 
-> > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> > @@ -24,6 +24,7 @@
-> >   #include <linux/platform_device.h>
-> >   #include <linux/pm_clock.h>
-> >   #include <linux/pm_domain.h>
-> > +#include <linux/pm_runtime.h>
-> >   #include <linux/psci.h>
-> >   #include <linux/reset-controller.h>
-> >   #include <linux/slab.h>
-> > @@ -656,8 +657,10 @@ int cpg_mssr_attach_dev(struct generic_pm_domain
-> > *unused, struct device *dev)
-> >
-> >   void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct
-> > device *dev)
-> >   {
-> > -       if (!pm_clk_no_clocks(dev))
-> > +       if (!pm_clk_no_clocks(dev)) {
-> > +               pm_runtime_barrier(dev);
-> >                 pm_clk_destroy(dev);
-> > +       }
-> >   }
-> >
-> >   static void cpg_mssr_genpd_remove(void *data)
+index 78b875a59d1e..9ce4077bef8e 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2395,7 +2395,11 @@ static int remap_evicted_vma(struct drm_gpuvm_bo *vm=
+_bo,
+        if (ret)
+                goto out_cleanup;
+=20
+-       /* Take op_lock to protect against va insertion/removal. */
++       /* Take op_lock to protect against va insertion/removal. Note that =
+the
++        * evicted_vma selection was done with the same lock held, but we h=
+ad
++        * to release it so we can allocate PTs, because this very same lock
++        * is taken in a DMA-signalling path.
++        */
+        mutex_lock(&vm->op_lock);
+        drm_gpuvm_bo_for_each_va(va, vm_bo) {
+                struct panthor_vma *vma =3D container_of(va, struct panthor=
+_vma, base);
+@@ -2403,10 +2407,11 @@ static int remap_evicted_vma(struct drm_gpuvm_bo *v=
+m_bo,
+                if (vma !=3D evicted_vma)
+                        continue;
+=20
+-               /* We can't rely solely on pointer equality, because the VM=
+A might have been
+-                * freed and a new one allocated at the same address. If th=
+e evicted bit
+-                * is still set, we're sure it's our VMA, because populatio=
+n/eviction is
+-                * serialized with the BO resv lock.
++               /* Because we had to release the lock between the evicted_v=
+ma selection
++                * and its repopulation, we can't rely solely on pointer eq=
+uality (the
++                * VMA might have been freed and a new one allocated at the=
+ same address).
++                * If the evicted bit is still set, we're sure it's our VMA=
+, because
++                * population/eviction is serialized with the BO resv lock.
+                 */
+                if (vma->evicted)
+                        found =3D true;
 
-Gr{oetje,eeting}s,
+?
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
