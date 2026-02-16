@@ -2,179 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aC4BMe6mk2ln7QEAu9opvQ
+	id OJk8GvKmk2ln7QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:26 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007B11480A8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0421480B7
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 00:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C3A10E3FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61FED10E3FE;
 	Mon, 16 Feb 2026 23:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="UUJDXdrM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K/oBpoQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com
- (mail-francesouthazon11011011.outbound.protection.outlook.com
- [40.107.130.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A77310E081
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:27:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ODsKYQ/DHwT2VcQd9MgI8dXOWXkQotK9N93z1NMX+lRd+vkWNH5yTxYODM3ab5Jsz8AvCYKQaaExWU/HyuNmMIwDUcForoHZY9z51+SQmQQaecy+//02qLCnE6L6Wy7Ygrovv3utw/RAPyhVnaSPsWt8DC3WzqwrxRO+W+KGuwyFUtvBNaLTq8U3SEnFgsKQ6+xBYUAsT6scyoj7LRynjGssu+wsHTD1XYkNUWF0Lr5KDvQNeOq6+ktC4QC7BwWjm5inuaO+yi4EYji8t8hF1X9e3OeoGZ1acjrMO3LZg4/7LSmx+UPCsthSDnMzLDcVgxfcvOIz3jXGUiMFjLFVVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IlQVEyJW9yK9OgCR5/aOJe52tQue4cjArJ9sqOfqheg=;
- b=nM5mHEsZeZpZLSxi47+dcpK6MiuwflQnhGlTa+PhKjKCV7V0aaImjqc8xVuoKuPNu5FWvlgosG7PJp+AyBanNInxwJwhu4/A8f7SrCbj/lCpvBYA8QKhiy2Gt24JF2rezt5Abo4rfeRiyKshpePFXA5r2UwMlQ5vL0tvWw0N2vVkBIpAtifhiPYbMb9Rw7EKuxmekW3Hj8lD/zq1L2TIggCC/fbWT/LBpB0lTWfrVRGlba1cq0ygT8RKn/XdJ9hszqN074oMwv6zY0G+X34WqBI6P3mUTEdNgBg44bBm3ayL934D2ofNHxwE/bjH8qtD1RAVl02EBTu4JV7PuzoF8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IlQVEyJW9yK9OgCR5/aOJe52tQue4cjArJ9sqOfqheg=;
- b=UUJDXdrM5l149QWzB9k2lies5ebUb4ZvuDfyg5ONlVz9BW5ijXP3oissj5IzPd2DEcIA6zSBjC6FQAMzG+lad5iYRvo4T0JODmMNVBPC01L30R0fLuyw/6R5gNO8DMzTs8DQ7XAzpD4YyaCs5GwNhzIJ2+mpXuXMQc8OjSrLhnG1Afsk1gvPOEa5l1Prm9EPJjuKxzK5OTply3zh5zyTxkXz+7KaRdFW0sH19QH8XqxQpD4kvcSZyrWEK8nNkd0gXfwQgUWmmY1fovJwnUN6OQbO2EAxnHW/f+rSUe9CnpD6ZYw2O05AI/3n5BY1HUh8xdw1aXdgMOE2GZW8whnu4Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com (2603:10a6:20b:3f2::13)
- by DUZPR04MB9746.eurprd04.prod.outlook.com (2603:10a6:10:4b1::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
- 2026 15:26:59 +0000
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::e99:f504:ce75:9bed]) by AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::e99:f504:ce75:9bed%3]) with mapi id 15.20.9611.013; Mon, 16 Feb 2026
- 15:26:59 +0000
-Message-ID: <5c0251b6-5228-4077-a21f-4da179949b90@oss.nxp.com>
-Date: Mon, 16 Feb 2026 17:29:57 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] dt-bindings: serial: fsl-linflexuart: add dma
- properties
-To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- chester62515@gmail.com, cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
- stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
- eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
- Radu Pirea <radu-nicolae.pirea@nxp.com>
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@oss.nxp.com>
-In-Reply-To: <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P191CA0029.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::34) To AS8PR04MB8247.eurprd04.prod.outlook.com
- (2603:10a6:20b:3f2::13)
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com
+ [74.125.224.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9888010E3B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 15:35:17 +0000 (UTC)
+Received: by mail-yx1-f49.google.com with SMTP id
+ 956f58d0204a3-64ae5f0777dso3088769d50.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 07:35:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771256116; cv=none;
+ d=google.com; s=arc-20240605;
+ b=PaOff4lq5tgvCsTt1XJcBJreHM4GoNMTxlRhNeULQko2bAHRE4BZKB3FMZJjUbPmTD
+ aLU/El3BVw69UJsGLVJYpqnjoyaUhBUF0UkY5En5yHEl+EM1AZKcfOEobFZBAwcvAlvJ
+ iE6RAOSfsxVMsfVW++jYEtN8UpC3bfdTyOLl+ZR0OUIqJgedeETtqg95LgpgDnPTVeUX
+ xAjs1gYlEBB8css7vly7MAeeImex3Yp72broSyzB2GXgWYR9/QZ+K4GxzsuHO6+lXYhA
+ XXfZGJxNLMLCtFvVYRkN7qsq2p2XCoxQbI7lsTYwqGWq82/dOoCTZ0vpuv76fT2JXAOM
+ GYxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
+ fh=ZYITwNoeEx8XZFGeQmtUeMgbuBfZ3GtGJnRyla0MdW4=;
+ b=j2qYPczpIsmIydjDbMEJF+JkrhCphsuiVlUfaWWi3oCAHROVzzvQ6ws8FawiE0Csg7
+ YrAr7u/qDmNZ68d/YmtSikalEVZaqhLIXElkNqfbWRe7jitLBQng0Z5uaN/UFvIEKMB/
+ 6bJCoFqPm58FMl4dsytN1S4GXltsAwM/Bn+93mpuOJDoo94VBlLlpIyNFKM7qq1PmbJa
+ bbrfrnWtrmfy5iZ2duid7nHM4uPI5UaNU66Tw2BBQSjSVgklDa6mLETAF7btSCCTqFbI
+ gyuTsDY5SyHy/et9zDjx5PklVK69WE+52M9CPwM2XrIh0Z6qxyJu2WSovKU4Dvw7JIl3
+ YSAA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771256116; x=1771860916; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
+ b=K/oBpoQFNwPi7hdrqTxqya9mRcQZijCzBwYURKHEK80YPvH/K3ZAmHEMEAkMVV1pMA
+ Yg+A4Y8mrHew7UNWYia6TnhSaKJbu9v8SZN5nH4corh+31bqqgHmVJHHtFaGPaU2v3w2
+ SS/H3ZUMHPExbqnukNmCsU/ciG43P9YOflL8fZdCN8ivGWk1KoqeuYlpVQMRxH3z5kUR
+ VVmnDB0nib32ldcigiaRCvv5ifeOandvaiuT8KkxGLWA1M8gW7SSl3mtpweP61e4EAVR
+ vz0KQ9tPz5gl2EughE7HWUzXRkcd3/W7fAs+qnXGGUV0cQwN1tcRZNOgOj0oaIU1QUbZ
+ QUCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771256116; x=1771860916;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=m7Zin8SCAGhBM2qXa/UxtLNL7lsiswaHfzlLDmlaKAM=;
+ b=derPF2GKGGtYHHGRIhV1b1XFWaqjNYuSVQvHZ9h9s6XL16FM91tqcIrE7LDE/+oCOq
+ +QNh0vHLvIwghjW34MKJGgimn90H+llJ17y6aVhuezl3DxfcQ7lUNJqUOG9d5pSv2FVG
+ vpw0O21M1xwRSpiPhRHi/dd0Njv6fHSgg1J0tap8Nbw520U9KpWn5iR2sv09Y+IRBgsf
+ vufURgIfOkLCPXSqjiVwiT8daPhG/ls80vTtnYV7/ibPMOw+dxS12lv3uQeZ99gdCbqf
+ AEptQrNPzDy6zNbHdOZdvNccfzftja0QTMX/urGX6danv87oPBjfOSPNoBlbKP/tYqLo
+ K5VA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRu/mBiHtDecNw2LDqhu57EruwaibzVD2r/mFYjpyhkF+nhxMf5z0AOziGbeJw7u3CS3w699U5xRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLTM4Te9rihxIwBKF9aF50WEodbuEv7ktBD6b0zLU+7wNNJBR6
+ EYXaeH20CVYnHeI/Hk8hDDMP6XYe089DxqOsyUWFQcvPcRPgbIvlvTX0R9FijNLfw7uI7xMATDv
+ 3PGo7AkOJafEchEb5UdjQGevs7PjICTg=
+X-Gm-Gg: AZuq6aIOTR8usSsI3NR5JR8nWkaPjdrqpdeLDIk+oQrpJvhVQK8PuUpNUSyzBiF5/rb
+ EsmXDFpPXbw3nkSvWGNzaedXjfbytbedgbgadbXKN/OlyxinMQkyhWT+v6O6hCykQIWym1M4Bdk
+ 4FeVgoehEeX1UjkflC9vTWv87RqXdRtzFHNp9coz5fPO1fK1T8skoBjPQMMlOtZax9TqV37VkV7
+ 97g3G1KZrGgbxMiyBu5K6KdAkKHnDt8jO4q0U05V5OLUp5nIHrFFlRkjLa2m7JBwRIwA4DhlZ66
+ lMW2EfN+9v6fF/v7tkzLtBDTC0Ea+yS/j0bYiCqUYGJ+tWVDbPJa
+X-Received: by 2002:a05:690c:368e:b0:795:294c:fd3d with SMTP id
+ 00721157ae682-797a0cca6c4mr183176837b3.50.1771256116367; Mon, 16 Feb 2026
+ 07:35:16 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8247:EE_|DUZPR04MB9746:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc7249b8-6c07-4ed4-aefb-08de6d6fd37c
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|19092799006|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?amsra1o0OVlhZ1o3YWlzMkxFQmh6bnUzMHk3UXMrR2FjZTYzSzg2STF2ei9V?=
- =?utf-8?B?SUJhWnhPdlhuVFR2SkZvU3lEWWFqTGp2Zy8yaW9oU2JoMjdGa2pja2V1bnov?=
- =?utf-8?B?UDc1VGxNelFQUU9GYy90aU1SVW83eXFJL2dYVVp3Vzk0QkE1ZTVrWEo4KzRk?=
- =?utf-8?B?elRQL0Z0Wm9XbXVHelkwSjdTb2x1MDR1ODhDWXRhWVNNYjArQlRjOGl2YWR0?=
- =?utf-8?B?S1k2UWxoTmdtKzVWNDBlQmhGT2krZVhqOVduRnByMStEVm5odEFGazZvM2lo?=
- =?utf-8?B?Z2lRWjN2M0d3N3U0VDZwckNPWXdGd1JlTlU3aHoyRnlkQVRHY0xhQndwN1kr?=
- =?utf-8?B?SGlyVGRONnBlUUZKTnljYUxoSGIyMmhld2Vudm1mbUJ6ZHd6Tml5VC9WdXkz?=
- =?utf-8?B?N2RvU0pRQkJDaTYwWVc2S1ZyK2hTN3Z3OWVpdmlxeEtsR0E1RmdTVDhXRGY0?=
- =?utf-8?B?RjIwVWpaRFNqS1NsNitvbDA5a3BwNDNaNGZSaUVqTjF0NG1HVGhXYkV6Q09P?=
- =?utf-8?B?SFk0bUh3MW1uWFV2UTFKdHpZeHZISEl6VEVBek5kTHBUcFZPdzR4dU5HL2Zr?=
- =?utf-8?B?RTdVNDZ0QmU2eUlTWUhTUUZVSWFNMDNqRlI4QmlnSG5RaTlVYi9yNHliQTBM?=
- =?utf-8?B?bUozeWZzQVlDOXFXZUtieUg4K0pndGtLTHVhZGc4ZVkyb3ZmVE42SmJRdDhx?=
- =?utf-8?B?ZkFWdjFvWTJGTXdXamtZbDRRQzlpc0lkZkNyWHdRaFVpKytQcENPNEdYM1ll?=
- =?utf-8?B?MXdOb0FQcXZ5dEo4NWlvbWY4anRBOFJVYURkU0cybWVYRWN0aWxzaEsycklF?=
- =?utf-8?B?VkMyTFNDdDVFL0J6Nkd6R3YvdVFCQWFoWlYrTFY2Wk5CTzE4akxzSGNESmFs?=
- =?utf-8?B?VzE3aEtmSEZVemNYWWkwKzNEQmt6VEdRbCtjdEtPbXpURVhrVDhPK1owV253?=
- =?utf-8?B?RDROSjRPWTczaXVSRzFTeHF3Z1FmdjFRWUV3MHdnc0xpRVAyRWdjYzVHTDJi?=
- =?utf-8?B?WVlNbU1rQ29WZ1J2NDJsN3VSUTU1T1RYaitiZjBObHI3N1FNc1JNUHNpZ01I?=
- =?utf-8?B?UU55bk9IUUZOYVc3ZEQ3NENkSm5KVjhPWWpOcUVLdEZ6V3BucnZDWEU5OUUz?=
- =?utf-8?B?UTFBdGpmZkVSaXVZVzh1dzdBVGpVRitGS0l3bTNoM0k1RGZNaDYwSlFWUURx?=
- =?utf-8?B?MUhueGJ0ckdKM0V6cUt6Njh5cXAzR2dQK0hTSzJUVHlTdWhtRVBtM3ExN0U1?=
- =?utf-8?B?ZFpVallvVC9nNzFnR0xKL1UyMmxKNUtvbEh5QXZ0a0FPeUZGNDJHQmdtTWZK?=
- =?utf-8?B?cHpsdnMrTTJ0Y21jOXRndzdiTnQzWDNzWlVuSDNTL0Y5QjhxamxCK1ZWdEp2?=
- =?utf-8?B?MjFJRWgzd1NtT2NJNDNqU3hMa1BMRTVEcXRES0N2ZHBudWZKdnQ5MFEzKzM4?=
- =?utf-8?B?anV4RlRnMGhxWkRqT1ozNnJtTDZZazZVNHFxc2ZsTkkvSVlBV0srenVJT1Z1?=
- =?utf-8?B?T3BnRFlFRWZDb0JlTnlkSjVhZ1NESFZ0bWdqVHFPNXBlNkVNdmlCZmx6OVEz?=
- =?utf-8?B?VW9hRWhlM1JSR2Q4Q3RMTE1RQnpUTU1TQXZhUUFUUStrN2hqWHliNDVyY0RF?=
- =?utf-8?B?NHFxWWcwWFVDTjltSGkyZFk0UFJsRVViRXUwWTNTNndSL2RHWlB5VG1kTytx?=
- =?utf-8?B?MkYxc3BwRWIxL3hySDNjQUluOGNEV210R1ZiYlpLQjBJYWN5UThXZ2k2SzBV?=
- =?utf-8?B?d2JBdGprVEJlOGx5QW42UXBWY0piZnZSbzdGOXI4cGpCbVJlbTdZcXZrSlRS?=
- =?utf-8?B?Q2ltLzJTb0NJcXZWakVyWjdxRE1xMy9pdzJCaXA5MzdCSE9UQnRTR2hVRnNU?=
- =?utf-8?B?V05zemFyblBsODRqQTBwNWxPYmtoUHNQRUozKzRMcHZQWkdwVzJxb3ZZWUlx?=
- =?utf-8?B?WDRNOWsxYkg5UXBadjhraTR6eXFUakhZcGdOK2lqMFpFVnk1dml1c2cyQ3Bv?=
- =?utf-8?B?V253cmJCL0lMWnJlRXlCVzBReHZ1NDRLRE5WOERWeW50MXhiNjRtUzdYL0Nl?=
- =?utf-8?B?RkNXUWdpdXpDQm13cU52ZnJDeUEya3dGOUx0Vm1YaFNFTGlWVElaU3FrdkJR?=
- =?utf-8?B?RVl0alRQWWs4cEFPQ09SejcxNVhGeWhZL0szTkhoa3Z2L2hCWTVRT21DbFBr?=
- =?utf-8?Q?Q4XTmyA8LcgjWWU+bzt7Oyg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR04MB8247.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(19092799006)(1800799024)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ci9tSkltUytMVURWTEhFY3ZFNmZLYU1JTWg4a1VNRlVHdGZYeUxobFpGWTAy?=
- =?utf-8?B?TENaVEx4WGc5T2MwTUZYZlZXL3Z0VUZqZXZHeVM5ZnVVSjJZMmJ4UWI5aGtY?=
- =?utf-8?B?WEJ1RWtmdWg4Vi90bmZSdW5CbDA1b2x1bnlzSlljalJNNDRhM1U4WElKcnFq?=
- =?utf-8?B?YlNxaUxxckhpYTZ3cm1ZV1dnekRXdUl5enV2bFk5Q1lKdXZhQm1NcDVob3Za?=
- =?utf-8?B?b2V0YjBDRk4zcXNleTVuQ2xTalhPUHdyK2s5NU13TTZ5eXpRK1F4SHNtYklS?=
- =?utf-8?B?YlJrTXNuMDVmL1lJb3hGbUNENVZkWXJvNTFLTmdnUVVidU5mSElob25xQlcz?=
- =?utf-8?B?QkY4RXUvNWtvTHJQdldjdmtsb0NtaGpQQlhucHd2am1JdkNGTHdPTm9xVi94?=
- =?utf-8?B?VjFLaE1MQ0swWExUa3RwZ011NlRRLzNSY1dNc0ZLRzNhMTUwNmFNKzM0SXg3?=
- =?utf-8?B?LzFaWW9pTlJnbFJYS25MNDc2eTJWMnJ1Vk1lbk9reHhESHpmLzZkNHdwZ0sw?=
- =?utf-8?B?R3g3TG9kb1R5VEFTSnVmZS9FNUlidGlvN0plc1l4ZDlhZThDZDN0WDhGTTIr?=
- =?utf-8?B?cGNkMTdYNUV1Y093SjVlaFphK0NneXV3WVA4QnB6RGt3VnRVd1VFZnN3QUIw?=
- =?utf-8?B?Sm10TFRQTTN4VU1ycGxTc2ZGRm9zZEpzeDJaaDlQVWhRUVNUVDhLOHY4QzFy?=
- =?utf-8?B?MjBNbHB4MFZTeG9JcXJ6QlZxM3FUUXFDdFV3RDljZG11VjdUd1QwZ3FVVVp4?=
- =?utf-8?B?MG1VM2VpZ21MbE9yUkJsa1NENE13MVNWcFB1dnQzekJ1Q2VyMUJXNjBwZS85?=
- =?utf-8?B?QVBhMVUvQ05UODdPTTBhbEJSYjNvTDdWYktoTUtEdG9EMXFOWWxaa1h2a1Iz?=
- =?utf-8?B?a2svZWx6NUVPTFIvUVV4TjlKUjBUQXpHeGg5NWxUYWhvOFlkamFmU1pCRzFU?=
- =?utf-8?B?TDVDa2h0dEppWVBtN1JISnliVjhNUjBvK1UyVnpycFhFWU9SZVMrWlVDQTlH?=
- =?utf-8?B?aW9rN1pDU1FGbU9EcnRLZDNiQzQvUkY4enlMU2pHUXJWUVRYbis5SkpnS1gy?=
- =?utf-8?B?OVlLRGdSeWI4UDRESk9oMG5GK2t0Y0JadmVhOUhiZWU2QjJKNHo1ZDJzZWFq?=
- =?utf-8?B?ZVBUWW83WEUvWFZabU5ZU0N3eWdZZEViTE9KL2tVTXRKYjlVK01MN2VDU2hq?=
- =?utf-8?B?TU9uOTRkWUdJWjNtYUxId0NCZTVvQUVzMXNNbElTbS9NbkVtZlUzUmFSakU0?=
- =?utf-8?B?K1g4QnA3NEFBMDh1ZUVRakNTczlPZS9kWmpweXloSXE2UitLUHBwTHEwU2ND?=
- =?utf-8?B?OWt4dmxma2w3SEdQYllWMDN1QUgrSmZnaVRRRmlIY3h0ZWpOQWFDQ29HUzJu?=
- =?utf-8?B?WVpsYktNdUNGMWduZnl4NTI1ekJ4RjJnZkN2Vk55MmJ0eEtnZEJncVpwWjZu?=
- =?utf-8?B?bWpxWmY2RHk5TkhWWmdIU3c2eklyODRsc2d6Nmg3aTUzL3VNQjlra2xnSnMw?=
- =?utf-8?B?czBhQjR4NXRhRWhzTU9PTHRXTWNpMW5LdXkvdUJQdVFmYnpZemNUbmFLS0xW?=
- =?utf-8?B?RUlxOVNrN1lRNGhXdlVjeHN6cXdvTlJrTTh1NVNQUUZCTlVXUzdNdVRUWXhT?=
- =?utf-8?B?ejRNRDJXUlU1MVNRS051ZUF3bXh5SFkraUNNYVA5R3dKY0NVdWZyemdmK1BM?=
- =?utf-8?B?d213YVYvYUdWbVBXcmlqbHBwemNXRm5BMWJLYXdjTExRODJEdHZTcnEwd2ZD?=
- =?utf-8?B?VXRXY01NNVUyK2dNeTF0dlIvdHpaY1JVNGtxeFpXYzkzNXFpS1lOaW85TzFC?=
- =?utf-8?B?eEdsSWEwOUVURkZvcG43Vk9OU0dqSDh5WmRaUTg2aFA3MDA3OXQvdTlmSTZn?=
- =?utf-8?B?QjRzSlFvSEUvYjAzZVNoV2FlY1h1TUI0UUttZ0NVUmZpZ1hqOTZsem50Vm9U?=
- =?utf-8?B?NTNJZWJoOEpTQUxhdHVudWtXeGxXZ05BWTVhVzFTY2FEN1FpQ2lsL0JoMkI2?=
- =?utf-8?B?ekZOeG9wYUt0Z3ZIM2ZpM3FFOU4xLy83Zkh5VzZFdWo1QjRIaVFXZUxHeWZw?=
- =?utf-8?B?ZVNGem9xWEVEYThlYmJ1WnA2QmZWc1Z5RHNQbFoxTkhjWWRjMVZLaHJBcUhQ?=
- =?utf-8?B?N2tOcGRGbklmcVcxUjJVVzNyV1NNS1NEQm8rZFk0RUQrRjNGTDc3OW9ManBj?=
- =?utf-8?B?dDlXeWUxVE9mb1VxSTA3dVQrY0hSVWV2dUNGcmdxUjFkVmVkeldLVFEvUHgx?=
- =?utf-8?B?YVpMZmhIQWxJM2d4Q0FWcnJTQ3hjWitHTjVYN3RDakZ5Um44bEI2SXppdWlV?=
- =?utf-8?B?RGRCRHIzbzB4eTlRMXIvN2FNVHFhM3lmTVEvOTd6OSt5MnRRdm8wdz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc7249b8-6c07-4ed4-aefb-08de6d6fd37c
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8247.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:26:59.1940 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qBsqMBg5MZmHqInQlhZYl0WQgvNvxHW9mjkikn2WGh2pLv/mdM671SHJ7mci/KxjfgVknvEdc8KWGoGnBMLV7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9746
+References: <20260214070123.41374-1-architanant5@gmail.com>
+ <3bb62aa4-d3b5-4dba-b3bf-fc1a82264274@lechnology.com>
+ <CADJHxWDgARMDXCKJ+F+z2mOooqxptPfjbYk2dVG38scZ7hNSaA@mail.gmail.com>
+ <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
+In-Reply-To: <dc0b7b09-d6a2-4e14-904a-d26396998529@lechnology.com>
+From: Archit Anant <architanant5@gmail.com>
+Date: Mon, 16 Feb 2026 21:05:05 +0530
+X-Gm-Features: AZwV_QgKPeVb6e3ZGS3zNZ2N5kL9uh9wKDlTC5A9Kf7xgSu5YQQQeXfzjHaqUOo
+Message-ID: <CADJHxWA2N8x853A3LjCZkip5-Lp6jWWUBTgN8MZWajHFU7o4tA@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/sitronix: add ST7789V panel driver
+To: David Lechner <david@lechnology.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, javierm@redhat.com, nathan@kernel.org, 
+ geert+renesas@glider.be, marcus.folkesson@gmail.com, noralf@tronnes.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Mon, 16 Feb 2026 23:23:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -191,68 +116,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[daniel.baluta@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:david@lechnology.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:nathan@kernel.org,m:geert+renesas@glider.be,m:marcus.folkesson@gmail.com,m:noralf@tronnes.org,m:linux-kernel@vger.kernel.org,m:geert@glider.be,m:marcusfolkesson@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.baluta@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,redhat.com,glider.be,tronnes.org,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,nxp.com:email,NXP1.onmicrosoft.com:dkim]
-X-Rspamd-Queue-Id: 007B11480A8
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lechnology.com:email]
+X-Rspamd-Queue-Id: 9E0421480B7
 X-Rspamd-Action: no action
 
+On Mon, Feb 16, 2026 at 4:15=E2=80=AFAM David Lechner <david@lechnology.com=
+> wrote:
 
-On 2/16/26 17:02, Larisa Grigore wrote:
-> [You don't often get email from larisa.grigore@oss.nxp.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+Hi David,
+
 >
-> From: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> On 2/14/26 11:21 PM, Archit Anant wrote:
+> > Hi David,
+> >
+> >> Do we actually need a custom driver for these or can we use
+> >> drivers/gpu/drm/tiny/panel-mipi-dbi.c with a firmware file for
+> >> init?
+> >
+> > That was my initial thought as well, but looking at the staging driver
+> > (fb_st7789v.c), there is conditional logic in the initialization sequen=
+ce.
+> >
+> > The HSD20_IPS panel requires different PORCTRL (0xB2), GCTRL (0xB7), an=
+d
+> > Gamma (0xE0/E1) settings compared to the standard panel. A static
+> > firmware blob via panel-mipi-dbi would not allow selecting between
+> > these configurations based on the compatible string, so a dedicated
+> > driver seemed necessary to preserve this support.
+> >
+> > Best regards,
+> > Archit
 >
-> Add 'dmas' and 'dma-names' properties to describe optional DMA support
-> for RX and TX channels in the LINFlexD UART controller.
+> If two different panels are not 100% compatible with each other, they
+> should not have the same compatible string.
 >
-> This allows the device tree to specify DMA channels used for UART data
-> transfers. If not specified, the driver will fall to interrupt-based
-> operations.
->
-> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
-> Co-developed-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
+> It seems like it would be much more efficient to fix the existing
+> devicetree/driver if needed rather than writing an entire new driver.
 
-If both of you worked on this patch then the last lines must read:
+Agreed. ChenYu Tsai mentioned he is working on refactoring the existing
+panel-sitronix-st7789v driver to use mipi_dbi.
 
-Co-developed-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+Once that is ready, I can add the HSD20-IPS panel support to that driver
+using a distinct compatible string and associated configuration data,
+rather than forking a new driver.
 
-Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+I will drop this standalone driver patch and wait for Chen-Yu's series.
 
-Co-developed-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-
-Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-
-
-See: https://docs.kernel.org/process/submitting-patches.html
-
+--=20
+Sincerely,
+Archit Anant
