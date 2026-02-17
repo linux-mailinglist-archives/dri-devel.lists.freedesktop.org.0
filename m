@@ -2,136 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKEELBFZlGkXDAIAu9opvQ
+	id 8P1DBSRalGkXDAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:03:29 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:08:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B6714BBBC
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7059414BC94
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 766D210E24F;
-	Tue, 17 Feb 2026 12:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13EB10E4C3;
+	Tue, 17 Feb 2026 12:08:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SvbWnXo8";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OyGsv/OB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RkTvF5p0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE7E710E24F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:03:26 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61HB3lO71943250
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:03:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=1UH/chMZ48M9K3k9g62/VMEN
- kbu6JZ9ebl5YxGNzHvc=; b=SvbWnXo8bVE01HdxoVB5dHi5gBvJ9U7fXumHtkL9
- 1/oG4zpREtQ0vkQZfhKVmviqD42HYskFk7WTyNcCfF8pyuNGrMh1puRifu3T2vVM
- Xirm1G0KQsS83oebSmproKhjz4faBSoN1Mv2Z92V6OAOTmh0vuUkHixyK8uMus1d
- ZiqkIOz0i1FnRSYZ09bpqYJBCLzfM4rgN1Cj17zYs5hp6meMeKZEEihISBcD82uE
- 6Y7taVlfcGOQnTAoBjrkAkHaiujdgI6TGlB3r07eqFBda/NYQoEW0YdgREDW/s0a
- bLQygjbeJnS5caEz+4td3v5j8leySwazNzfKzzeBaMuoiA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ccq4g0666-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:03:25 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8cb52a9c0eeso3373439085a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 04:03:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771329805; x=1771934605;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1UH/chMZ48M9K3k9g62/VMENkbu6JZ9ebl5YxGNzHvc=;
- b=OyGsv/OB2KDyFEchRMgP+NnwmBYX2MIvUyVAoTiJy1VzapdfbYoQgTEyHFnPjBk2qz
- wuFroowZdQA5ScNsVpzZ2h0zFHX6nEm7Lf4fmHe5/P5mS63AX3pJW/6IQqdVbh0SnM/X
- +RwEseMskvVUtYfA9FN0oTSYKKJ57sB2Y3skfjZmv4JLxdvJsiAN/xcURIYD2PkSSmzd
- 0D7pOoEJ0cJF9TDpqmmFj9KtZH/jpuz25CsIAN6+tCPKW97LD/j1FxW7jlE7T3T1xjtR
- G4J+TBB8K1Ig4NS+dn1k2crpxc2rGfzsDEgx1Cy5m566ZYiME24RlLFos1OjIdNfh5Wg
- dZdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771329805; x=1771934605;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1UH/chMZ48M9K3k9g62/VMENkbu6JZ9ebl5YxGNzHvc=;
- b=gMCsbaNqSS+jLH4IJrFxExDhJun2ZT+IfZ8aa8Q17JHBOy1t0Ui2X4YltNlT2Ksume
- +UsJdVrQMsGruClZg4248JYmBxtvCU985X/WzTA/nkM9w6vCLEZtyrHpnYcgfHvy1Oyc
- w1Ol9jdMcSeTpGNqXusieEpc1PRqMPgEzlErnc6pvC8VS5vKBB9yLM3jbDnQ35lmFZ08
- 2QjZym9tGo2KgXqz71/j8nuvUSx7MZJ0mU0dB7X1Jm4F7mZRRe4aYuZvRoEC6JJTTRfI
- VpzXXvGoZHFlxVbKmT5/RTg6HcoO7eAjHIdWtzvIQt1wGNl9KydmKTwe5yjOwGd3tma7
- bI0Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUgTtaPQKqJHmnAKMe/nDDzKTNNVp+ElH2sudvdlVtibk8pTWeDxAlIqd0UUuEfam6X+pM8GuxN87A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOK5lKOoNyvPwH0ot9LHOElz9wj1cXYss+BuUbUQvsNeLoIet/
- mC4dPZutAmRQFfsgkBFP0SZgHElEXOqBv58UGBQzOmFVkh2rfv6tKKm1Ou35MxrkyS8YFX7Ozq5
- Hn6+811M2YTaRF7GUPxUHyeP0jxu1VNxpdPWzGMnywitIgd/eU5yRCz9isvzhq5yWq4Nmy4Q=
-X-Gm-Gg: AZuq6aI/pB6WZzD3NnGUxxwS1qqlEwISdPN8e8G3Sjby3GorlgSd/SDO38ngD/8KAWl
- 77TPG/dov+qcpHHpHdvLpoTesFwY6tiFgD0wCgGYsRRMRUxMs68Aog/vtVki3w/Pdy+IMfoxqGC
- 74pwcwD2xHlgqQSx9aoDhkMUaUUOPmCz9gvNMcXOws/BjIXOcOaJYjOfh/Reb0kQeofmuIL6zoQ
- XdqjeVFtZDKdpcYf2PTf7FUpnlDNXdrcp7sULCF1bkvs4PRzA8n1XlRC4ElujsgEeXFhhYJgw6b
- 98AlbDd9Zn0iwbhbRCo1sKXj+6fJyEbdBNQlaFLmQzYKBMZHn5qZESyemb5uSPC3xPn1isvX85q
- 114WYx2Flc3i9916OTklC6AIzYRV4ijM7lB5h
-X-Received: by 2002:a05:620a:a508:b0:8cb:4d9b:6b48 with SMTP id
- af79cd13be357-8cb4d9b6f08mr1048829785a.6.1771329805257; 
- Tue, 17 Feb 2026 04:03:25 -0800 (PST)
-X-Received: by 2002:a05:620a:a508:b0:8cb:4d9b:6b48 with SMTP id
- af79cd13be357-8cb4d9b6f08mr1048825385a.6.1771329804732; 
- Tue, 17 Feb 2026 04:03:24 -0800 (PST)
-Received: from oss.qualcomm.com ([86.121.162.109])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4836aa0847asm555188455e9.3.2026.02.17.04.03.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Feb 2026 04:03:24 -0800 (PST)
-Date: Tue, 17 Feb 2026 14:03:22 +0200
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Cc: robh@kernel.org, srini@kernel.org, amahesh@qti.qualcomm.com,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, mathieu.poirier@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH V3 4/5] arm64: dts: qcom: glymur: Add ADSP and CDSP for
- Glymur SoC
-Message-ID: <45m4c3g222mfkyiff4qqcvfwjfeqszrfvsg6dcwrlnanvrodtg@ilheo3ppgwsf>
-References: <20260129001358.770053-1-sibi.sankar@oss.qualcomm.com>
- <20260129001358.770053-5-sibi.sankar@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8350110E4C1;
+ Tue, 17 Feb 2026 12:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771330080; x=1802866080;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=YwxEXvDEC1pyxVNIUoP/h4TexZO7NaJyK71yndpiZZM=;
+ b=RkTvF5p0EAgvCPFWu/TcD5N9puzS46POFtk/QkYnhLUHlS4XHca7NrUD
+ bwVTooc+TbWT3xLCnkticg9xiej7JRhiyONtilyL+cWKwpaWX4CzIITNU
+ lMO4a3icVmW8hpyNM1RSQyBB+oBiByUMf20IGIaV0arEaY3wZ3UcDNWKn
+ hkZbxPJGkdoK2vsKRMZleHdodYZg89umS7DFWKt2CsVdFCA96fBifbE0W
+ WXzM4k8Spe7ejOw73L7ar92uzsEH5gJ1gZtncpM6vmCkVzHOF7mIjn35e
+ cVjbXdI6DnwqjZdY8ilTO50/816LxG01jaRyFlS2bRdE+eJAHXZqhutcd g==;
+X-CSE-ConnectionGUID: dcO5kz3ESQ+6m2wwO7qtXA==
+X-CSE-MsgGUID: vQiiMj5cQqiD2PCV+LdgKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89980945"
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; d="scan'208";a="89980945"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2026 04:07:59 -0800
+X-CSE-ConnectionGUID: sWv8Wc4OQPKmxzaSAEeRXA==
+X-CSE-MsgGUID: FybM/rXjTXy3L0CJBH/Wtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; d="scan'208";a="244460072"
+Received: from gsd-build.iind.intel.com ([10.190.229.167])
+ by orviesa002.jf.intel.com with ESMTP; 17 Feb 2026 04:07:57 -0800
+From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 1/3] drm/sa: Split drm_suballoc_new() into SA alloc and
+ init helpers
+Date: Tue, 17 Feb 2026 12:07:47 +0000
+Message-ID: <20260217120745.1074232-6-satyanarayana.k.v.p@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260217120745.1074232-5-satyanarayana.k.v.p@intel.com>
+References: <20260217120745.1074232-5-satyanarayana.k.v.p@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129001358.770053-5-sibi.sankar@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE3MDA5OSBTYWx0ZWRfXzLt+xn4+VTLU
- AxSthE59RN6rcmMqnloCGURvn51gmaZ44rZYc0oMsm8Zxo5lCrCYIMcbEgIS5qeKDn1sJglCcIQ
- 3v03fC2h7OE47ydWuxgFrCvw88pPkG6GZV99sxBYGMvVcAGZdFMhirMom1vPlTYdLPQm0tbdbAZ
- 3yQFuR2vnxQbh0DNjVOXAk10qOYw2EsxQyfx4vjVkrDFJ7c3J04ROQavVF6WpjDeATOo27UOazx
- pHhLNP14npmzri5s+4KzUU4H9hqvZchZ6OrdMceKfDqWx2AbIeJIbFAiBS2g+FktVnIf8bVJpms
- BVdB+uOm9685pU9E/L6cTFGAS1itTnAF1n234n5i1jO9B3rJocd4vCCFM2pzYebXqMRmVopj5h8
- B7hxo1ZJ5DhDDypsMmm0hccbEfsUCW7q+RV0d2EGg/IwzUwkUVBmNwP7PiH3f124udCWis9oRTh
- CA+PnhqmuGXVrxyOPRQ==
-X-Proofpoint-ORIG-GUID: uLXTUhTePW7TkTgzCGRexLbV-WKiUcYp
-X-Proofpoint-GUID: uLXTUhTePW7TkTgzCGRexLbV-WKiUcYp
-X-Authority-Analysis: v=2.4 cv=YdiwJgRf c=1 sm=1 tr=0 ts=6994590d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=oauzzCmhM186DRC0Y2yWPg==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=EUspDBNiAAAA:8 a=JOSM2k-csAVseA6ZNKgA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-17_01,2026-02-16_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 spamscore=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602170099
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,44 +79,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sibi.sankar@oss.qualcomm.com,m:robh@kernel.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mathieu.poirier@linaro.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 28B6714BBBC
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[satyanarayana.k.v.p@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 7059414BC94
 X-Rspamd-Action: no action
 
-On 26-01-29 05:43:57, Sibi Sankar wrote:
-> Add remoteproc PAS loader for ADSP and CDSP with its fastrpc nodes.
-> 
-> Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+drm_suballoc_new() currently both allocates the SA object using kmalloc()
+and searches for a suitable hole in the sub-allocator for the requested
+size. If SA allocation is done by holding sub-allocator mutex, this design
+can lead to reclaim safety issues.
 
-Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+By splitting the kmalloc() step outside of the critical section, we allow
+the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
+the initialization step that holds reclaim-tainted locks (sub-allocator
+mutex) operates in a reclaim-unsafe context with pre-allocated memory.
+
+This separation prevents potential deadlocks where memory reclaim could
+attempt to acquire locks that are already held during the sub-allocator
+operations.
+
+Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+---
+V4 -> V5:
+- None.
+
+V3 -> V4:
+- None.
+
+V2 -> V3:
+- Updated commit message (Matt, Thomas & Christian).
+- Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
+
+V1 -> V2:
+- Splitted drm_suballoc_new() into drm_suballoc_alloc() and
+drm_suballoc_init() (Thomas).
+---
+ drivers/gpu/drm/drm_suballoc.c | 110 ++++++++++++++++++++++++++-------
+ include/drm/drm_suballoc.h     |   8 +++
+ 2 files changed, 97 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
+index 879ea33dbbc4..b97ffcd98d45 100644
+--- a/drivers/gpu/drm/drm_suballoc.c
++++ b/drivers/gpu/drm/drm_suballoc.c
+@@ -123,7 +123,7 @@ static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
+ 	list_del_init(&sa->olist);
+ 	list_del_init(&sa->flist);
+ 	dma_fence_put(sa->fence);
+-	kfree(sa);
++	drm_suballoc_release(sa);
+ }
+ 
+ static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
+@@ -293,45 +293,74 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
+ }
+ 
+ /**
+- * drm_suballoc_new() - Make a suballocation.
++ * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
++ * @gfp: gfp flags used for memory allocation.
++ *
++ * Allocate memory for an uninitialized suballoc object. Intended usage is
++ * allocate memory for suballoc object outside of a reclaim tainted context
++ * and then be initialized at a later time in a reclaim tainted context.
++ *
++ * @drm_suballoc_release should be used to release the memory if returned
++ * suballoc object is in uninitialized state.
++ *
++ * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
++ */
++struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
++{
++	struct drm_suballoc *sa;
++
++	sa = kmalloc(sizeof(*sa), gfp);
++	if (!sa)
++		return ERR_PTR(-ENOMEM);
++
++	return sa;
++}
++EXPORT_SYMBOL(drm_suballoc_alloc);
++
++/**
++ * drm_suballoc_release() - Release memory for suballocation.
++ * @sa: The struct drm_suballoc.
++ */
++void drm_suballoc_release(struct drm_suballoc *sa)
++{
++	kfree(sa);
++}
++EXPORT_SYMBOL(drm_suballoc_release);
++
++/**
++ * drm_suballoc_init() - Initialize a suballocation.
+  * @sa_manager: pointer to the sa_manager
++ * @sa: The struct drm_suballoc.
+  * @size: number of bytes we want to suballocate.
+- * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+- *       the argument is provided for suballocations from reclaim context or
+- *       where the caller wants to avoid pipelining rather than wait for
+- *       reclaim.
+  * @intr: Whether to perform waits interruptible. This should typically
+  *        always be true, unless the caller needs to propagate a
+  *        non-interruptible context from above layers.
+  * @align: Alignment. Must not exceed the default manager alignment.
+  *         If @align is zero, then the manager alignment is used.
+  *
+- * Try to make a suballocation of size @size, which will be rounded
+- * up to the alignment specified in specified in drm_suballoc_manager_init().
++ * Try to make a suballocation on a pre-allocated suballoc object of size @size,
++ * which will be rounded up to the alignment specified in specified in
++ * drm_suballoc_manager_init().
+  *
+- * Return: a new suballocated bo, or an ERR_PTR.
++ * Return: zero on success, errno on failure.
+  */
+-struct drm_suballoc *
+-drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+-		 gfp_t gfp, bool intr, size_t align)
++int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
++		      struct drm_suballoc *sa, size_t size,
++		      bool intr, size_t align)
+ {
+ 	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
+ 	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
+ 	unsigned int count;
+ 	int i, r;
+-	struct drm_suballoc *sa;
+ 
+ 	if (WARN_ON_ONCE(align > sa_manager->align))
+-		return ERR_PTR(-EINVAL);
++		return -EINVAL;
+ 	if (WARN_ON_ONCE(size > sa_manager->size || !size))
+-		return ERR_PTR(-EINVAL);
++		return -EINVAL;
+ 
+ 	if (!align)
+ 		align = sa_manager->align;
+ 
+-	sa = kmalloc(sizeof(*sa), gfp);
+-	if (!sa)
+-		return ERR_PTR(-ENOMEM);
+ 	sa->manager = sa_manager;
+ 	sa->fence = NULL;
+ 	INIT_LIST_HEAD(&sa->olist);
+@@ -348,7 +377,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 			if (drm_suballoc_try_alloc(sa_manager, sa,
+ 						   size, align)) {
+ 				spin_unlock(&sa_manager->wq.lock);
+-				return sa;
++				return 0;
+ 			}
+ 
+ 			/* see if we can skip over some allocations */
+@@ -385,8 +414,47 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 	} while (!r);
+ 
+ 	spin_unlock(&sa_manager->wq.lock);
+-	kfree(sa);
+-	return ERR_PTR(r);
++	return r;
++}
++EXPORT_SYMBOL(drm_suballoc_init);
++
++/**
++ * drm_suballoc_new() - Make a suballocation.
++ * @sa_manager: pointer to the sa_manager
++ * @size: number of bytes we want to suballocate.
++ * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
++ *       the argument is provided for suballocations from reclaim context or
++ *       where the caller wants to avoid pipelining rather than wait for
++ *       reclaim.
++ * @intr: Whether to perform waits interruptible. This should typically
++ *        always be true, unless the caller needs to propagate a
++ *        non-interruptible context from above layers.
++ * @align: Alignment. Must not exceed the default manager alignment.
++ *         If @align is zero, then the manager alignment is used.
++ *
++ * Try to make a suballocation of size @size, which will be rounded
++ * up to the alignment specified in specified in drm_suballoc_manager_init().
++ *
++ * Return: a new suballocated bo, or an ERR_PTR.
++ */
++struct drm_suballoc *
++drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
++		 gfp_t gfp, bool intr, size_t align)
++{
++	struct drm_suballoc *sa;
++	int err;
++
++	sa = drm_suballoc_alloc(gfp);
++	if (IS_ERR(sa))
++		return sa;
++
++	err = drm_suballoc_init(sa_manager, sa, size, intr, align);
++	if (err) {
++		drm_suballoc_release(sa);
++		return ERR_PTR(err);
++	}
++
++	return sa;
+ }
+ EXPORT_SYMBOL(drm_suballoc_new);
+ 
+diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
+index 7ba72a81a808..b8d1d5449fd8 100644
+--- a/include/drm/drm_suballoc.h
++++ b/include/drm/drm_suballoc.h
+@@ -53,6 +53,14 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
+ 
+ void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
+ 
++struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
++
++void drm_suballoc_release(struct drm_suballoc *sa);
++
++int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
++		      struct drm_suballoc *sa, size_t size, bool intr,
++		      size_t align);
++
+ struct drm_suballoc *
+ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 		 gfp_t gfp, bool intr, size_t align);
+-- 
+2.43.0
+
