@@ -2,99 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0K9VAmaNlGn6FQIAu9opvQ
+	id AKboL151lGlmEAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:46:46 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 15:04:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F1814DACD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:46:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143C614CF31
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 15:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8736510E126;
-	Tue, 17 Feb 2026 15:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78A3410E25E;
+	Tue, 17 Feb 2026 14:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K5y72xv+";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ImZ3NB8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7214010E279
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 15:46:42 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-65a1eb5dcb7so360085a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:46:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771343201; x=1771948001; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/Nsb9d4cdh3TIN7gk7P/dLzs//wsu5O2NugIegk+Dvg=;
- b=K5y72xv+26eDHfbj2HJhTev3FYo5IdBZ984zmRA86bTPFytSxZce5g12u/2OyrYmr3
- G9QpGLUCfRnhrX+cPGvwkFi/gzukK1n6ZrxnT46vn601vDOLbd9zI9UKO5/5rPamoaoS
- 0vKFN3U+15DOm/jtZPCfdHZVdGBTUrVpPeEoI0OGg/T8iSvHYuVK9jKTZRoUPWFz36+d
- 6VvCereZtLmGt7dhTeFrdWw+l77MWVCcVOJ5SXvkQFbjqFCJR3jjlxN5M1ra+GyR4HJA
- mv4z1Qnh0LXTK40hquAMUKRAF+5gGhvWnXwiGinII44/ThIyVIHO3pYIROKDJhn9Sj7v
- DrEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771343201; x=1771948001;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/Nsb9d4cdh3TIN7gk7P/dLzs//wsu5O2NugIegk+Dvg=;
- b=EXpRT3doilkTsdbrM4+trNwl0ADflY2xK5+HoqS8ezlgJ5EU/PT8d81xa7q0kQ1Ty+
- qxCCsQoqzWv0qZ/XJqQn/E4A1GQmh6xZ0RzQEmR1XT0ZX8twDU90zcURww8ixN35sSDb
- RD2tMQcUBzeX8f699hcS+R2Os628a0X3v/caDNcx4aaXcY41DO5HwqHyJ1s2ypJkItzu
- 5/Zw+I6ONQm4JNvXxMhn3kIhJREGU3smJfFL/o3Fk8OfBSMomvWhRa3gi9rAmJ46OReb
- XZ1/OJKUppjvMq7AWueOXdsTwj6cTFfuZFC5p3H0QjYWjoBCOr13+RfESjlQLzlnhJzB
- tlFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJqijrMBKRfTNEvG/sBFTbkW1C2c780HXFR9qugDt6IqxCh4QDWrcRsVJQQWHLD3NsQGog+VoTWm0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxP+YuPSfDVPsGZRDeIusqi7Pov2CzbatoI8U25NrA12jjuvi5V
- MNB6C5jhnofMAgSnIoSmH/Dfzme4/0TSny0p+P6qis5k3Xl1TqXjbjTTPN+HL/qQ
-X-Gm-Gg: AZuq6aIh8Cvp0ztX442i6eA/ANfH92PTUPeGdGCcjYzbMrAcmzHqE0VHWGrbt2oPRC8
- J+5dwMkzK2//D5S2pA4fJ5sETshP/IAJup82XLXeiaYyeNSg1p6YJQBH61fzcEJp2MxIHGXKlQ9
- cPjp4PqergqWBTznPMNBhZTNo2gXXz1yjsyf14Pki/WQCfjlvhsHkweNWkwGp9M8q1ytnpG5Ci6
- XsdsPXQCT2B+9+/NLbOx1knA7xTd+9TNxI/e9J3+zJ9CSKeXEzdVypWW3Jg+8wx9KeDG4FLDql/
- dHDxqf/Inc9LAE/LmRfNr1b9TrUbMxZZKNHEWWjDI75sff4jompk8WYq7joFvhWaza6DOqJYmMb
- X3nTtuWt/4zgcVVYqG8obm+Jxo3YnJycNwb9zExWWgo7suZdhT9RoN1T4KWiursLna5xsIXAYQs
- TA8wgHzctaMR90i2U=
-X-Received: by 2002:a05:600c:b93:b0:47a:94fc:d063 with SMTP id
- 5b1f17b1804b1-48370e38ba0mr147624125e9.1.1771336712310; 
- Tue, 17 Feb 2026 05:58:32 -0800 (PST)
-Received: from skbuf ([2a02:2f04:d501:d900:ac3e:d4d0:5059:7047])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48378b5196esm129721775e9.8.2026.02.17.05.58.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Feb 2026 05:58:31 -0800 (PST)
-Date: Tue, 17 Feb 2026 15:58:28 +0200
-From: Vladimir Oltean <olteanv@gmail.com>
-To: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-Cc: linux-mediatek@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jitao Shi <jitao.shi@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 3/6] dt-bindings: display: mediatek: Correct
- compatibility for mt8167-dsi
-Message-ID: <20260217135828.4hgbyhnz5nuzm6p7@skbuf>
-References: <cover.1771258407.git.l.scorcia@gmail.com>
- <ff920a7cc94f2b0c03d4bb55142030fded30d07c.1771258407.git.l.scorcia@gmail.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAE7110E25E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 14:04:09 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fFhFy3H7Gz9ss3;
+ Tue, 17 Feb 2026 15:04:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1771337046; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ppRD/uPxe+TTRNocgCzCwGOgX3BbHQSLRy7z1y3OVtU=;
+ b=ImZ3NB8uC842fnWRwfcSQz9+235VRMXHpI50PJUhqU9C48XkVHWqqnYAAPMgcVdNy1e5a3
+ Vi8i/MJK6llhGBRp1i/dtz0Vc0qJdiCjJf7dbWKx1xp9Gmr0BFoSHLikg7pKqkNms/H0yS
+ VLSKHTUR+yoe1eiuhW8ML9qX0EBBwsCkbsDspAd/6s0AoagAH9YygcQmWqwDehrYH3eW53
+ UkCckDZF8BsVaTiLNmB1WmBM7xupGO5k1LXp1TX18bf4/yd9VeHpXCBklNigmFzHFJVH9l
+ S3bA5eqsF0C1NG5bdc3X5Rfl8V02VvpAozXuLaZUyFXVv+Ezt78XBTob2N5Esw==
+Message-ID: <3d90656315ab0b52f4725ca7c2cd10859d1e4f69.camel@mailbox.org>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alice
+ Ryhl <aliceryhl@google.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, phasta@kernel.org, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Gary Guo <gary@garyguo.net>, Benno Lossin
+ <lossin@kernel.org>,  Daniel Almeida <daniel.almeida@collabora.com>, Joel
+ Fernandes <joelagnelf@nvidia.com>,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  rust-for-linux@vger.kernel.org
+Date: Tue, 17 Feb 2026 15:03:57 +0100
+In-Reply-To: <d9e00d8c-93c0-45f8-95f2-3235fb781e7a@amd.com>
+References: <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
+ <aYsFKOVrsMQeAHoi@google.com> <20260210133617.0a4be958@fedora>
+ <aYsvc3Q8h-Gg27-g@google.com> <20260210142631.6f8a3411@fedora>
+ <aYs3VVH_UXMFa5oC@google.com>
+ <f4c32d9a-7303-4a50-aafc-8039102fbd3e@amd.com>
+ <aYtJznZcCEYBffil@google.com>
+ <d9e00d8c-93c0-45f8-95f2-3235fb781e7a@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ff920a7cc94f2b0c03d4bb55142030fded30d07c.1771258407.git.l.scorcia@gmail.com>
+X-MBO-RS-ID: a39b3d18f28fd9b1e90
+X-MBO-RS-META: 3szqqireognodmxtjpexkd4wuwt4jhd1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,77 +79,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:l.scorcia@gmail.com,m:linux-mediatek@lists.infradead.org,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:chunfeng.yun@mediatek.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:jitao.shi@mediatek.com,m:fparent@baylibre.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-phy@lists.infradead.org,m:lscorcia@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:aliceryhl@google.com,m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[olteanv@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,gmail.com,ffwll.ch,garyguo.net,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[olteanv@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,pengutronix.de,gmail.com,ffwll.ch,linux.intel.com,suse.de,mediatek.com,linaro.org,collabora.com,baylibre.com,lists.freedesktop.org,vger.kernel.org];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 65F1814DACD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 143C614CF31
 X-Rspamd-Action: no action
 
-Hi Luca,
-
-On Mon, Feb 16, 2026 at 04:22:14PM +0000, Luca Leonardo Scorcia wrote:
-> Remove the dedicated "mediatek,mt8167-dsi" compatible from the device list and
-> describe it as compatible with mt2701 instead. It is safe to do so because:
-> 
-> - Bootloader doesn't rely on this single compatible; and
-> - There was never any upstreamed devicetree using this single compatible; and
-> - The MT8167 DSI Controller is fully compatible with the one found in MT2701.
-> 
-> Fixes: 8867c4b39361 ("dt-bindings: display: mediatek: dsi: add documentation for MT8167 SoC")
-
-Not sure which direction this patch will go in the next revision, but
-(if this patch remains in this form, and intended as a bug fix) please
-do not mix fixes for the current (and stable) kernel with new development
-for the next kernel in the same series. They are supposed to be applied
+On Tue, 2026-02-10 at 16:45 +0100, Christian K=C3=B6nig wrote:
+> On 2/10/26 16:07, Alice Ryhl wrote:
+> > On Tue, Feb 10, 2026 at 02:56:52PM +0100, Christian K=C3=B6nig wrote:
+> > > On 2/10/26 14:49, Alice Ryhl wrote:
+> > > > On Tue, Feb 10, 2026 at 02:26:31PM +0100, Boris Brezillon wrote:
+> > > > > On Tue, 10 Feb 2026 13:15:31 +0000
+> > > > > Alice Ryhl <aliceryhl@google.com> wrote:
+> > > > >=20
+> > > > > > On Tue, Feb 10, 2026 at 01:36:17PM +0100, Boris Brezillon wrote=
+:
+> > > > > > > On Tue, 10 Feb 2026 10:15:04 +0000
+> > > > > > > Alice Ryhl <aliceryhl@google.com> wrote:
+> > > > > > > =C2=A0=20
+> > > > > > > > impl MustBeSignalled<'_> {
+> > > > > > > > =C2=A0=C2=A0=C2=A0 /// Drivers generally should not use thi=
+s one.
+> > > > > > > > =C2=A0=C2=A0=C2=A0 fn i_promise_it_will_be_signalled(self) =
+-> WillBeSignalled { ... }
+> > > > > > > >=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 /// One way to ensure the fence has been=
+ signalled is to signal it.
+> > > > > > > > =C2=A0=C2=A0=C2=A0 fn signal_fence(self) -> WillBeSignalled=
+ {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.fence.signa=
+l();
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.i_promise_i=
+t_will_be_signalled()
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > >=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 /// Another way to ensure the fence will=
+ be signalled is to spawn a
+> > > > > > > > =C2=A0=C2=A0=C2=A0 /// workqueue item that promises to sign=
+al it.
+> > > > > > > > =C2=A0=C2=A0=C2=A0 fn transfer_to_wq(
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wq: &Workqueue,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 item: impl DmaFe=
+nceWorkItem,
+> > > > > > > > =C2=A0=C2=A0=C2=A0 ) -> WillBeSignalled {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // briefly obtai=
+n the lock class of the wq to indicate to
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // lockdep that =
+the signalling path "blocks" on arbitrary jobs
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // from this wq =
+completing
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::lock_a=
+cquire(&wq->key);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::lock_r=
+elease(&wq->key);
+> > > > > > > >=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // enqueue the j=
+ob
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wq.enqueue(item,=
+ wq);
+> > > > > > > >=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // The signature=
+ of DmaFenceWorkItem::run() promises to arrange
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // for it to be =
+signalled.
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.i_promise_i=
+t_will_be_signalled()
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }=C2=A0=20
+> > > > > > >=20
+> > > > > > > I guess what's still missing is some sort of `transfer_to_hw(=
+)`
+> > > > > > > function and way to flag the IRQ handler taking over the fenc=
+e
+> > > > > > > signaling token.=C2=A0=20
+> > > > > >=20
+> > > > > > Yes, transfer to hardware needs to be another piece of logic si=
+milar to
+> > > > > > transfer to wq. And I imagine there are many ways such a transf=
+er to
+> > > > > > hardware could work.
+> > > > > >=20
+> > > > > > Unless you have a timeout on it, in which case the WillBeSignal=
+led is
+> > > > > > satisfied by the fact you have a timeout alone, and the signall=
+ing that
+> > > > > > happens from the irq is just an opportunistic signal from outsi=
+de the
+> > > > > > dma fence signalling critical path.
+> > > > >=20
+> > > > > Yes and no. If it deadlocks in the completion WorkItem because of
+> > > > > allocations (or any of the forbidden use cases), I think we want =
 to
-https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/log/?h=next
-and
-https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/log/?h=fixes
-respectively.
+> > > > > catch that, because that's a sign fences are likely to end up wit=
+h
+> > > > > timeouts when they should have otherwise been signaled properly.
+> > > > >=20
+> > > > > > Well ... unless triggering timeouts can block on GFP_KERNEL
+> > > > > > allocations...
+> > > > >=20
+> > > > > I mean, the timeout handler should also be considered a DMA-signa=
+lling
+> > > > > path, and the same rules should apply to it.
+> > > >=20
+> > > > I guess that's fair. Even with a timeout you want both to be signal=
+ling
+> > > > path.
+> > > >=20
+> > > > I guess more generally, if a fence is signalled by mechanism A or B=
+,
+> > > > whichever happens first, you have the choice between:
+> > >=20
+> > > That doesn't happen in practice.
+> > >=20
+> > > For each fence you only have one signaling path you need to guarantee
+> > > forward progress for.
+> > >=20
+> > > All other signaling paths are just opportunistically optimizations
+> > > which *can* signal the fence, but there is no guarantee that they
+> > > will.
+> > >=20
+> > > We used to have some exceptions to that, especially around aborting
+> > > submissions, but those turned out to be a really bad idea as well.=C2=
+=A0=20
+> > >=20
+> > > Thinking more about it you should probably enforce that there is only
+> > > one signaling path for each fence signaling.
+> >=20
+> > I'm not really convinced by this.
+> >=20
+> > First, the timeout path must be a fence signalling path because the
+> > reason you have a timeout in the first place is because the hw might
+> > never signal the fence. So if the timeout path deadlocks on a
+> > kmalloc(GFP_KERNEL) and the hw never comes around to wake you up, boom.
+>=20
+> Mhm, good point. On the other hand the timeout handling should probably b=
+e considered part of the normal signaling path.
 
-(also see Documentation/process/stable-kernel-rules.rst for what is
-generally considered to be a bug fix. We don't use the word "fix" very
-lightly, there needs to be a user-visible impact.)
 
-To help the build test automation select the proper base branch, you can
-use the "phy-next" or "phy-fixes" git subject prefixes when generating
-your patches.
+Why would anyone want to allocate in a timeout path in the first place =E2=
+=80=93 especially for jobqueue?
 
-You can send fixes at any time, but please send new development for the
-next kernel only when the merge window isn't open (unless it is marked
-as RFC, then it can also be sent any time).
+Timeout -> close the associated ring. Done.
+JobQueue will signal the done_fences with -ECANCELED.=20
+
+What would the driver want to allocate in its timeout path, i.e.: timeout c=
+allback.
+
+
+P.
