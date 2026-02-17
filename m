@@ -2,99 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0OD0NkiQlGk9FgIAu9opvQ
+	id mDsZIh+RlGk9FgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:04 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:02:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C4614DC89
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F2A14DD28
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A058510E501;
-	Tue, 17 Feb 2026 15:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7710010E4F8;
+	Tue, 17 Feb 2026 16:02:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="s4BAOGS5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9czVcI0X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s4BAOGS5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9czVcI0X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E9qoWt1U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622D810E501
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 15:59:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AA1A25BD53;
- Tue, 17 Feb 2026 15:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771343925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9npnIorpOQ/7JaeREJgGuIeoG5PYzNJaUSXuaS1fzHk=;
- b=s4BAOGS5Kpbm89YhN723qk3KpktVUfOFrZu8BW/l+KmADL8JdseV5JwM1xyyjy2iqTaro0
- 459so/zi6AVzShvHPPzkrhS7sJuDEStkCSs2YBP9TeAl+EZ4uGSenJ+oEWQTj42xxMweSP
- bUx+2pWh6sI61TdPxNSxOq1wPkpHlME=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771343925;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9npnIorpOQ/7JaeREJgGuIeoG5PYzNJaUSXuaS1fzHk=;
- b=9czVcI0XVzzjRl+xft76lFGQMATp9fLiyjWa1hYFrwDX446x3qjG3aa0jb/xp+0YGeaZjP
- fzQvsD9wkG7LLQDQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=s4BAOGS5;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9czVcI0X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771343925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9npnIorpOQ/7JaeREJgGuIeoG5PYzNJaUSXuaS1fzHk=;
- b=s4BAOGS5Kpbm89YhN723qk3KpktVUfOFrZu8BW/l+KmADL8JdseV5JwM1xyyjy2iqTaro0
- 459so/zi6AVzShvHPPzkrhS7sJuDEStkCSs2YBP9TeAl+EZ4uGSenJ+oEWQTj42xxMweSP
- bUx+2pWh6sI61TdPxNSxOq1wPkpHlME=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771343925;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9npnIorpOQ/7JaeREJgGuIeoG5PYzNJaUSXuaS1fzHk=;
- b=9czVcI0XVzzjRl+xft76lFGQMATp9fLiyjWa1hYFrwDX446x3qjG3aa0jb/xp+0YGeaZjP
- fzQvsD9wkG7LLQDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 487543EA66;
- Tue, 17 Feb 2026 15:58:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id sHl6EDWQlGk9PgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 17 Feb 2026 15:58:45 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
- javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 12/12] drm/sysfb: corebootdrm: Support panel orientation
-Date: Tue, 17 Feb 2026 16:56:22 +0100
-Message-ID: <20260217155836.96267-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260217155836.96267-1-tzimmermann@suse.de>
-References: <20260217155836.96267-1-tzimmermann@suse.de>
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC1310E502
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 16:02:30 +0000 (UTC)
+Received: by mail-dl1-f42.google.com with SMTP id
+ a92af1059eb24-1275750cfadso33843c88.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 08:02:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771344149; cv=none;
+ d=google.com; s=arc-20240605;
+ b=ar/uuZinfWhkFBeCGarbdipA0T/DzlRCCOYsLnlmQQ+DIx9vqOEb0juo+F2RMAN28E
+ zZdNycwzVJoKg7eEeT1VKi9L0gd/3Kf5+m9SCz1aOeXMC0KW2mxL69yZQui0rmtuPz0a
+ JQGG6CO4MbNC/TicepUYx1UfIepbTxKLFOtha6erdxntRE1emhuytowkPeZIim8Ohnjk
+ ccKn/KeZ6PfK/z9ikTI8DwlG+msvq4IGx08Qu0R5xrBSR3yogh4oTuaQaBn9SOQlYBlZ
+ tqcLkIDKKFKfkkX/8pVdVZMCIZz7r9ATslsGLCq/Ea6ZLir6QvDj2QsmV87SGJVVykuJ
+ RmLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=EqXPlDnCCR4VXmK4w3wj/qdnA6EVnGunafgo1gp6IFQ=;
+ fh=HriwcL4oTOCNXd87EBdNnR9M+ySwvYHDtLudyarRwo4=;
+ b=cYuD6DNZtCQPurJUhQd8hKkb9ed/0UHdLB+Tayk6mnhWDuSPiWRqQTncCA6vayMzJ2
+ DntpoRfSv///wjprfj+vwtvTYLRIAd4TwVWQnuq8E//7KcG81U1+kXgALym/ZWuXPdRN
+ h3v7NGvpikOfEKqiNehgjHiQOfVABxG2SqOjHFkIL789us9mhgw+13DPI2L2wr77ZNWj
+ K0kAH+V3D5YhMiSPV+UmzTkaZlru3GSVNufVYGIHF/WRDtHEoaInfdjn+M0UoDDG2yCl
+ dNfLA2Yc9W+P9n6rZNXHodFtOHVHjlulX1s9yws1koyFH/BsXZo3pbnYNOLtvG5uIZxi
+ ZdGg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771344149; x=1771948949; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EqXPlDnCCR4VXmK4w3wj/qdnA6EVnGunafgo1gp6IFQ=;
+ b=E9qoWt1UXz4GqAF3vUOSVMN6elXtsv/tzqEdr0MdDhWLnOHzCSJ7rzIAJa9YRZSQS5
+ dotvjjIOwkEYu9Os68Fb6Rr5UTY/oN9kMX92KaQVGD6ztmKbkKAA7fTVsj804OXmWDgX
+ MqZJPucr0qh6NZfhiQt+TiSgAvzB9aGUhr2vYSb0rlFkN8MVKsKTZrSuMQVtcDzD5tOV
+ eesTLk/KvsHwyxuP47PVRRuIWEkM6zqK8nvJoQ8qZRMEnGnLxn+jp3ohjSz8OKcebhPZ
+ NYB7WRVspsKH9vO/1EMV1evkf3KQCzeTvqnkZzYRbMYbMGV82sg5Q/hJKZ4XtFPxt+T3
+ vHCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771344149; x=1771948949;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=EqXPlDnCCR4VXmK4w3wj/qdnA6EVnGunafgo1gp6IFQ=;
+ b=RGEHyPFpWEADgDmdRhpHxvHy1yRY+DwLMExWiMfXwinrFRGYfN3LEg6Vx4oG/jzNY1
+ MZs2Oyh+b0Fx6ERb4KmXIhoZHIp7xi0UHnaeFpFt/DnsJRM0yw7HM8FuYYVO9c8o5EHV
+ IifJLGEVAR+j8p9ue3vM+5NkeEQ1q28noDSothGS/6g2Uf/svg25LlHotT6CIj2JiL/i
+ pTaMx4nXHhaMxtI1cOv0M0WnRTLuNCGpQP01UbbOVQoVO0Cy3zBfxV+1Rb8H7KBK1qYF
+ MN/kha8zwwwh9GNnKHve0pBBMnpEa6bL664yONlUHO2cDeHuy9awxix4FoNJnRIKhAvI
+ DfVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnb4WcSkYKgNE7zcBUeb91mLAGVudtExb0EIBEB9cW902NAQs+61vPD2I4dq7KzWrNUJ0cVeAyBoo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyfAqwRl987V0bxs/z1cYTH6rjCV8Lsvb8rtf2chJeIblpeH9DV
+ XoWfyZHPTXkafrt8n7a5wIh4y8ES5TlMbLgPj+zWVt32QMfFfyUYBWBxLp5QbNSSKE/L2MGHyuz
+ Wv+npPdKFtwsCRE2o95YhXnBaq5bkZIY=
+X-Gm-Gg: AZuq6aL312WQZz96aC6u+GAaZAECotzRt3t5UZcKiWiE6YuKmYupBtndip3DtjBtMPn
+ T1U7eVujBBhu5u20NQqtXjIvfdobcNZEojm3+QU8TsVHICkCSKvBtgN9k+Xp9DUz3U66A/GFD5L
+ 4IG3rNjAQgnRKUNkE082eQCE6nUnzFMsuwRKIonzyih7hUr2jSgBnTV+xl1CC2xnB1T3uXvWYrl
+ YMpxk99wT4smMxg9qizcv+eVJjkVsMwTKv04CWd8O81r3rmex/9jcCj6FciE53ECUwF6ozwsTs/
+ mBvrafdcGH0/5VH8mqzqGFVEtakFS65hTwuKxDqvVLq62L+PwhATWzfH173zEMWF/8oNPA==
+X-Received: by 2002:a05:7022:2508:b0:11e:3e9:3e98 with SMTP id
+ a92af1059eb24-127399685bfmr3520040c88.7.1771344148947; Tue, 17 Feb 2026
+ 08:02:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+References: <20260211102657.4180-1-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <20260211102657.4180-1-pierre-eric.pelloux-prayer@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 17 Feb 2026 11:02:15 -0500
+X-Gm-Features: AaiRm51NhEBeOoc9apveFMnbjgnXnafm5yb1e5nA61D0DGNbsMPeN_hhEcOJsMo
+Message-ID: <CADnq5_NsUnDMCQHH=cGVLpkqZeBE-ntaTALN=OYLZdLNg6qz-A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/6] drm/amdgpu: include ip discovery data in
+ devcoredump
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,170 +113,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzungbi@kernel.org,m:briannorris@chromium.org,m:jwerner@chromium.org,m:javierm@redhat.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,m:tzimmermann@suse.de,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:pierre-eric.pelloux-prayer@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,chromium.org:email]
-X-Rspamd-Queue-Id: 81C4614DC89
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 09F2A14DD28
 X-Rspamd-Action: no action
 
-Add fields and constants for coreboot framebuffer orientation. Set
-corebootdrm's DRM connector state from the values. Not all firmware
-provides orientation, so make it optional. Systems without, continue
-to use unknown orientation.
+On Wed, Feb 11, 2026 at 5:28=E2=80=AFAM Pierre-Eric Pelloux-Prayer
+<pierre-eric.pelloux-prayer@amd.com> wrote:
+>
+> This is the best way to describe the GPU to a tool loading
+> the devcoredump.
+>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
+.com>
 
-v3:
-- comment on _HAS_ORIENTATION semantics (Tzung-Bi)
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Julius Werner <jwerner@chromium.org>
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org> # coreboot
----
- drivers/gpu/drm/sysfb/corebootdrm.c | 30 +++++++++++++++++++++++++----
- include/linux/coreboot.h            | 13 +++++++++++++
- 2 files changed, 39 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/sysfb/corebootdrm.c b/drivers/gpu/drm/sysfb/corebootdrm.c
-index 745318580a5d..5dc6f3c76f7b 100644
---- a/drivers/gpu/drm/sysfb/corebootdrm.c
-+++ b/drivers/gpu/drm/sysfb/corebootdrm.c
-@@ -110,6 +110,26 @@ static phys_addr_t corebootdrm_get_address_fb(struct drm_device *dev, resource_s
- 	return fb->physical_address;
- }
- 
-+static enum drm_panel_orientation corebootdrm_get_orientation_fb(struct drm_device *dev,
-+								 const struct lb_framebuffer *fb)
-+{
-+	if (!LB_FRAMEBUFFER_HAS_ORIENTATION(fb))
-+		return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+
-+	switch (fb->orientation) {
-+	case LB_FRAMEBUFFER_ORIENTATION_NORMAL:
-+		return DRM_MODE_PANEL_ORIENTATION_NORMAL;
-+	case LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_LEFT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
-+	}
-+
-+	return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+}
-+
- /*
-  * Simple Framebuffer device
-  */
-@@ -168,7 +188,8 @@ static const struct drm_mode_config_funcs corebootdrm_mode_config_funcs = {
- 	DRM_SYSFB_MODE_CONFIG_FUNCS,
- };
- 
--static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
-+static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev,
-+					enum drm_panel_orientation orientation)
- {
- 	struct drm_sysfb_device *sysfb = &cdev->sysfb;
- 	struct drm_device *dev = &sysfb->dev;
-@@ -234,8 +255,7 @@ static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
- 	if (ret)
- 		return ret;
- 	drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
--	drm_connector_set_panel_orientation_with_quirk(connector,
--						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+	drm_connector_set_panel_orientation_with_quirk(connector, orientation,
- 						       width, height);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
-@@ -276,6 +296,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	int width, height, pitch;
- 	resource_size_t size;
- 	phys_addr_t address;
-+	enum drm_panel_orientation orientation;
- 	struct resource *res, *mem = NULL;
- 	struct resource aperture;
- 	void __iomem *screen_base;
-@@ -320,6 +341,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	address = corebootdrm_get_address_fb(dev, size, fb);
- 	if (!address)
- 		return -EINVAL;
-+	orientation = corebootdrm_get_orientation_fb(dev, fb);
- 
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
-@@ -375,7 +397,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	 * DRM mode setting and registration
- 	 */
- 
--	ret = corebootdrm_mode_config_init(cdev);
-+	ret = corebootdrm_mode_config_init(cdev, orientation);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
-index 885da106fee3..5d40ca7a1d89 100644
---- a/include/linux/coreboot.h
-+++ b/include/linux/coreboot.h
-@@ -47,6 +47,11 @@ struct lb_cbmem_entry {
- 	u32 id;
- };
- 
-+#define LB_FRAMEBUFFER_ORIENTATION_NORMAL	0
-+#define LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP	1
-+#define LB_FRAMEBUFFER_ORIENTATION_LEFT_UP	2
-+#define LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP	3
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -65,6 +70,7 @@ struct lb_framebuffer {
- 	u8  blue_mask_size;
- 	u8  reserved_mask_pos;
- 	u8  reserved_mask_size;
-+	u8  orientation;
- };
- 
- /*
-@@ -74,4 +80,11 @@ struct lb_framebuffer {
- #define LB_FRAMEBUFFER_HAS_LFB(__fb) \
- 	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
- 
-+/*
-+ * True if the coreboot-provided data is large enough to hold information
-+ * on the display orientation. False otherwise.
-+ */
-+#define LB_FRAMEBUFFER_HAS_ORIENTATION(__fb) \
-+	((__fb)->size >= offsetofend(struct lb_framebuffer, orientation))
-+
- #endif /* _LINUX_COREBOOT_H */
--- 
-2.52.0
-
+> ---
+>  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 42 +++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h |  3 ++
+>  3 files changed, 47 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> index 0bb430853a9f..42a969512dcc 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> @@ -262,6 +262,8 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, =
+size_t count,
+>                 }
+>         }
+>
+> +       amdgpu_discovery_dump(coredump->adev, &p);
+> +
+>         /* IP firmware information */
+>         drm_printf(&p, "\nIP Firmwares\n");
+>         amdgpu_devcoredump_fw_info(coredump->adev, &p);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_discovery.c
+> index 41e63c286912..d7325c23fa53 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+> @@ -1380,6 +1380,48 @@ static void amdgpu_discovery_sysfs_fini(struct amd=
+gpu_device *adev)
+>         kobject_put(&ip_top->kobj);
+>  }
+>
+> +/* devcoredump support */
+> +void amdgpu_discovery_dump(struct amdgpu_device *adev, struct drm_printe=
+r *p)
+> +{
+> +       struct ip_discovery_top *ip_top =3D adev->discovery.ip_top;
+> +       struct ip_die_entry *ip_die_entry;
+> +       struct list_head *el_die, *el_hw_id, *el_hw_inst;
+> +       struct ip_hw_id *hw_id;
+> +       struct kset *die_kset;
+> +       struct ip_hw_instance *ip_inst;
+> +       int i =3D 0, j;
+> +
+> +       die_kset =3D &ip_top->die_kset;
+> +
+> +       drm_printf(p, "\nHW IP Discovery\n");
+> +       spin_lock(&die_kset->list_lock);
+> +       list_for_each(el_die, &die_kset->list) {
+> +               drm_printf(p, "die %d\n", i++);
+> +               ip_die_entry =3D to_ip_die_entry(list_to_kobj(el_die));
+> +
+> +               list_for_each(el_hw_id, &ip_die_entry->ip_kset.list) {
+> +                       hw_id =3D to_ip_hw_id(list_to_kobj(el_hw_id));
+> +                       drm_printf(p, "hw_id %d %s\n", hw_id->hw_id, hw_i=
+d_names[hw_id->hw_id]);
+> +
+> +                       list_for_each(el_hw_inst, &hw_id->hw_id_kset.list=
+) {
+> +                               ip_inst =3D to_ip_hw_instance(list_to_kob=
+j(el_hw_inst));
+> +                               drm_printf(p, "\tinstance %d\n", ip_inst-=
+>num_instance);
+> +                               drm_printf(p, "\tmajor %d\n", ip_inst->ma=
+jor);
+> +                               drm_printf(p, "\tminor %d\n", ip_inst->mi=
+nor);
+> +                               drm_printf(p, "\trevision %d\n", ip_inst-=
+>revision);
+> +                               drm_printf(p, "\tharvest 0x%01X\n", ip_in=
+st->harvest);
+> +                               drm_printf(p, "\tnum_base_addresses %d\n"=
+,
+> +                                          ip_inst->num_base_addresses);
+> +                               for (j =3D 0; j < ip_inst->num_base_addre=
+sses; j++)
+> +                                       drm_printf(p, "\tbase_addr[%d] 0x=
+%08X\n",
+> +                                                  j, ip_inst->base_addr[=
+j]);
+> +                       }
+> +               }
+> +       }
+> +       spin_unlock(&die_kset->list_lock);
+> +}
+> +
+> +
+>  /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D */
+>
+>  static int amdgpu_discovery_reg_base_init(struct amdgpu_device *adev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_discovery.h
+> index 4ce04486cc31..c8242992c912 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.h
+> @@ -30,6 +30,7 @@
+>  #define DISCOVERY_TMR_OFFSET    (64 << 10)
+>
+>  struct ip_discovery_top;
+> +struct drm_printer;
+>
+>  struct amdgpu_discovery_info {
+>         struct debugfs_blob_wrapper debugfs_blob;
+> @@ -47,4 +48,6 @@ int amdgpu_discovery_get_nps_info(struct amdgpu_device =
+*adev,
+>                                   struct amdgpu_gmc_memrange **ranges,
+>                                   int *range_cnt, bool refresh);
+>
+> +void amdgpu_discovery_dump(struct amdgpu_device *adev, struct drm_printe=
+r *p);
+> +
+>  #endif /* __AMDGPU_DISCOVERY__ */
+> --
+> 2.43.0
+>
