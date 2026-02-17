@@ -2,78 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8IBPAzL5k2m0+AEAu9opvQ
+	id 4CKiD1L8k2n4+AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 06:14:26 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 06:27:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D964148C54
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 06:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E491F148CE5
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 06:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D89210E1BF;
-	Tue, 17 Feb 2026 05:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 060CF10E43A;
+	Tue, 17 Feb 2026 05:27:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DKAoAsU5";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TIlgbO1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984C410E1BF
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 05:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771305260; x=1802841260;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4AsbFdAWsCtcCPmpmwch4smnpgukaOnM/aovJKQ2Y5c=;
- b=DKAoAsU5R1+ObDCvlA9hQfDb+CR6n1AqutRSAAK2hngRp+yueWVzZwC4
- FdJlzIBTtP6TF8XJIfIxfn9Pk6CVrCUZVH0u8JW5Ej6rjRgXw7BTY8YGO
- ZIaZ0+D/W+RBBhLiT0BrekBAc6kER2MPMn1TL3CTnq/n9fdoI9FEFYMLK
- SzNqCYKuQJ84PX2ePMtjAh4S+isgh0G4LYSCqIdQUsGy7qREq5VeBSsFn
- jmCDSNB48wT63SDgfLixyvCLjMZYR6kXoXCfzby/gy3MUzDT7i5yQ/pK5
- +FGL1x86eOdlsEPN0Xy5HK8tyw7zps+Qts3TavhTXJRetQOWHtuEFcJVm w==;
-X-CSE-ConnectionGUID: TZ4YSeeoTWq+iKzu2aN21A==
-X-CSE-MsgGUID: 1m8GM1IVS/iyftiX4YFY0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89785723"
-X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; d="scan'208";a="89785723"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2026 21:14:19 -0800
-X-CSE-ConnectionGUID: UvN4Fvm1TmanATuYUzlP+w==
-X-CSE-MsgGUID: PmEu3jx7Rnivyu7Uk2ockw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; d="scan'208";a="213061276"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 16 Feb 2026 21:14:14 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vsDPY-000000010dA-086V;
- Tue, 17 Feb 2026 05:14:12 +0000
-Date: Tue, 17 Feb 2026 13:13:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Robert Chiras <robert.chiras@nxp.com>, Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@puri.sm,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Oliver F. Brown" <oliver.brown@oss.nxp.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-Subject: Re: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync
- timing
-Message-ID: <202602171326.PoWR3Iye-lkp@intel.com>
-References: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FE510E206;
+ Tue, 17 Feb 2026 05:27:41 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61GNunqW1935465; Tue, 17 Feb 2026 05:27:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 3BxA4miqDIYOLKIcAaLqUANJmnRjEKPnTXy72ZA8o0c=; b=TIlgbO1TItRjzDGN
+ l16ab4NwKHqjxBZrOuj/Gkp8UNlL1Xl+Jh8QGIXW/k4HCoi0z4Z6KrO1dBUer/dl
+ QJ0SdgUPh+klzdW7ZrQD3PfnGvLEojcfzYLJLO1bD7ACG1kIArUUos+YWkMoACD0
+ cnnJ3+iZIksRFMX7h6rSCDWXa/dmhCmy5TqcKbn0nf8lY0Pxd6IekUHv7G7at+F5
+ Mc4uFn3anFgDc9F5R9dlhPJNG6RQ3dXCJ9Dvs5MPYXs5lIngeAJ1SUc2E3RAxT33
+ vJzYJWyUQ0K9jEUEvIW/HdtF0cvJe6sUS0nWkDTwFi287UTNXUBRN3kQ90iUz+RT
+ BzjnhQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cc662sa4k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Feb 2026 05:27:27 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 61H5RQEk031672
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Feb 2026 05:27:26 GMT
+Received: from [10.204.79.129] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 16 Feb
+ 2026 21:27:19 -0800
+Message-ID: <4ae28713-9996-4662-85c1-52321e317eee@quicinc.com>
+Date: Tue, 17 Feb 2026 10:57:16 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/2] arm64: dts: qcom: qcs8300: add Display Serial
+ Interface device nodes
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <andersson@kernel.org>,
+ <robh@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonathan@marek.ca>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20260124203925.2614008-1-quic_amakhija@quicinc.com>
+ <20260124203925.2614008-2-quic_amakhija@quicinc.com>
+ <CAFEp6-16r0eo3z0muGWk0G2-NGa-G7PdyM92z19xKPpE46v3mg@mail.gmail.com>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <CAFEp6-16r0eo3z0muGWk0G2-NGa-G7PdyM92z19xKPpE46v3mg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE3MDA0MyBTYWx0ZWRfX96evfY2n0c+f
+ kCoeJ1mFo8KDnkxw7yn4ypyyFoI20SxxEV7FrBeVf/Mb3iNHGwTNKbeKx/P9LBm5TxtLpp+vnMJ
+ p8NONYcDi91INoYGrTfIEBcBOgNJOXAl9xZCuvAoRGBy9nY/JQFAAzjCJCO4X0jIxYJnMrfduDc
+ SsavOdTi28QwMuSykFht+2ea+g5fZu8+kekhcrauzA4N1PITeYxILUS0uPSCcqTeW7Ie92gxDca
+ VbuKNCMw6AW6yVlNi6rZEd87rMSZoWdNsAToRiGb5DO8CCEX+OrLVXnQM8te9PbDYxjeJYcpT5c
+ jctYWSVyPPzcx1v8Yyxt0iLhTjcD/Flh0qBGbgFnZpAD3O2oPQlwGP3Hc/goD8Q6O1Ma+gkT1u+
+ RSJAM8S3P/i46A27BuQs1NweDkh85x41UYPEfVr7fqCxQysux5cX8hGk+IpWHu3LoF/EZgib8Fr
+ KStamIN9iCJV+5uj2dg==
+X-Authority-Analysis: v=2.4 cv=Y6b1cxeN c=1 sm=1 tr=0 ts=6993fc3f cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=9P1oJjtBLAIuoJThx18A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: hIdkFj0eyqlwPXQIFiCuSEZ0hs9-aDqo
+X-Proofpoint-ORIG-GUID: hIdkFj0eyqlwPXQIFiCuSEZ0hs9-aDqo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-16_08,2026-02-16_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ bulkscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602170043
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,209 +120,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[puri.sm,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,sigxcpu.org,nxp.com];
-	FORGED_RECIPIENTS(0.00)[m:sebastian.krzyszkowiak@puri.sm,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sam@ravnborg.org,m:agx@sigxcpu.org,m:robert.chiras@nxp.com,m:festevam@gmail.com,m:oe-kbuild-all@lists.linux.dev,m:kernel@puri.sm,m:linux-kernel@vger.kernel.org,m:oliver.brown@oss.nxp.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com,oss.qualcomm.com,poorly.run,somainline.org,kernel.org,intel.com,linaro.org,ideasonboard.com,marek.ca,kwiboo.se,quicinc.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[quic_amakhija@quicinc.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[quicinc.com:+];
+	HAS_XOIP(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 2D964148C54
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,ae94000:email,0.0.0.1:email,qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E491F148CE5
 X-Rspamd-Action: no action
 
-Hi Sebastian,
+On 2/12/2026 3:57 PM, Loic Poulain wrote:
+> Hi Ayushi,
+> 
+> On Sat, Jan 24, 2026 at 9:39 PM Ayushi Makhija
+> <quic_amakhija@quicinc.com> wrote:
+>>
+>> Add device tree nodes for the DSI0 controller with their corresponding
+>> PHY found on Qualcomm QCS8300 SoC.
+>>
+>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>> ---
+>>  arch/arm64/boot/dts/qcom/monaco.dtsi | 105 ++++++++++++++++++++++++++-
+>>  1 file changed, 104 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/monaco.dtsi b/arch/arm64/boot/dts/qcom/monaco.dtsi
+>> index 5d2df4305d1c..7dda05bda3e7 100644
+>> --- a/arch/arm64/boot/dts/qcom/monaco.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/monaco.dtsi
+>> @@ -3,6 +3,7 @@
+>>   * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>   */
+>>
+>> +#include <dt-bindings/clock/qcom,dsi-phy-28nm.h>
+>>  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
+>>  #include <dt-bindings/clock/qcom,rpmh.h>
+>>  #include <dt-bindings/clock/qcom,sa8775p-camcc.h>
+>> @@ -5573,9 +5574,19 @@ port@0 {
+>>                                                 reg = <0>;
+>>
+>>                                                 dpu_intf0_out: endpoint {
+>> +
+>>                                                         remote-endpoint = <&mdss_dp0_in>;
+>>                                                 };
+>>                                         };
+>> +
+>> +                                       port@1 {
+>> +                                               reg = <1>;
+>> +
+>> +                                               dpu_intf1_out: endpoint {
+>> +
+>> +                                                       remote-endpoint = <&mdss_dsi0_in>;
+>> +                                               };
+>> +                                       };
+>>                                 };
+>>
+>>                                 mdp_opp_table: opp-table {
+>> @@ -5603,6 +5614,96 @@ opp-650000000 {
+>>                                 };
+>>                         };
+>>
+>> +                       mdss_dsi0: dsi@ae94000 {
+>> +                               compatible = "qcom,qcs8300-dsi-ctrl",
+>> +                                            "qcom,sa8775p-dsi-ctrl",
+>> +                                            "qcom,mdss-dsi-ctrl";
+>> +                               reg = <0x0 0x0ae94000 0x0 0x400>;
+>> +                               reg-names = "dsi_ctrl";
+>> +
+>> +                               interrupt-parent = <&mdss>;
+>> +                               interrupts = <4>;
+>> +
+>> +                               clocks = <&dispcc MDSS_DISP_CC_MDSS_BYTE0_CLK>,
+>> +                                        <&dispcc MDSS_DISP_CC_MDSS_BYTE0_INTF_CLK>,
+>> +                                        <&dispcc MDSS_DISP_CC_MDSS_PCLK0_CLK>,
+>> +                                        <&dispcc MDSS_DISP_CC_MDSS_ESC0_CLK>,
+>> +                                        <&dispcc MDSS_DISP_CC_MDSS_AHB_CLK>,
+>> +                                        <&gcc GCC_DISP_HF_AXI_CLK>;
+>> +                               clock-names = "byte",
+>> +                                             "byte_intf",
+>> +                                             "pixel",
+>> +                                             "core",
+>> +                                             "iface",
+>> +                                             "bus";
+>> +
+>> +                               assigned-clocks = <&dispcc MDSS_DISP_CC_MDSS_BYTE0_CLK_SRC>,
+>> +                                                 <&dispcc MDSS_DISP_CC_MDSS_PCLK0_CLK_SRC>;
+>> +                               assigned-clock-parents = <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
+>> +                                                        <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>;
+>> +
+>> +                               phys = <&mdss_dsi0_phy>;
+> 
+> I'm quite sure DSI requires a refgen regulator, so add the proper
+> refgen-supply link.
+> 
+Hi Loic, sure will add in new patchset.
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0f2acd3148e0ef42bdacbd477f90e8533f96b2ac]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Krzyszkowiak/drm-bridge-nwl-dsi-Correct-MIPI-DSI-horizontal-sync-timing/20260217-015316
-base:   0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
-patch link:    https://lore.kernel.org/r/20260216-nwl-sync-timing-v1-1-b0ff6ecf204a%40puri.sm
-patch subject: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync timing
-config: i386-randconfig-006-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171326.PoWR3Iye-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/gpu/drm/bridge/nwl-dsi.o: in function `nwl_dsi_config_dpi':
->> drivers/gpu/drm/bridge/nwl-dsi.c:338:(.text+0x1dcb): undefined reference to `__udivdi3'
->> ld: drivers/gpu/drm/bridge/nwl-dsi.c:339:(.text+0x1e2e): undefined reference to `__udivdi3'
-   ld: drivers/gpu/drm/bridge/nwl-dsi.c:340:(.text+0x1e8f): undefined reference to `__udivdi3'
-
-
-vim +338 drivers/gpu/drm/bridge/nwl-dsi.c
-
-   255	
-   256	static int nwl_dsi_config_dpi(struct nwl_dsi *dsi)
-   257	{
-   258		u32 mode;
-   259		int color_format;
-   260		bool burst_mode;
-   261		int hfront_porch, hback_porch, vfront_porch, vback_porch;
-   262		int hsync_len, vsync_len;
-   263		int hfp, hbp, hsa;
-   264		unsigned long long pclk_period;
-   265		unsigned long long hs_period;
-   266		int h_blank, pkt_hdr_len, pkt_len;
-   267	
-   268		hfront_porch = dsi->mode.hsync_start - dsi->mode.hdisplay;
-   269		hsync_len = dsi->mode.hsync_end - dsi->mode.hsync_start;
-   270		hback_porch = dsi->mode.htotal - dsi->mode.hsync_end;
-   271	
-   272		vfront_porch = dsi->mode.vsync_start - dsi->mode.vdisplay;
-   273		vsync_len = dsi->mode.vsync_end - dsi->mode.vsync_start;
-   274		vback_porch = dsi->mode.vtotal - dsi->mode.vsync_end;
-   275	
-   276		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hfront_porch = %d\n", hfront_porch);
-   277		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hback_porch = %d\n", hback_porch);
-   278		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hsync_len = %d\n", hsync_len);
-   279		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hdisplay = %d\n", dsi->mode.hdisplay);
-   280		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vfront_porch = %d\n", vfront_porch);
-   281		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vback_porch = %d\n", vback_porch);
-   282		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vsync_len = %d\n", vsync_len);
-   283		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vactive = %d\n", dsi->mode.vdisplay);
-   284		DRM_DEV_DEBUG_DRIVER(dsi->dev, "clock = %d kHz\n", dsi->mode.clock);
-   285	
-   286		color_format = nwl_dsi_get_dpi_pixel_format(dsi->format);
-   287		if (color_format < 0) {
-   288			DRM_DEV_ERROR(dsi->dev, "Invalid color format 0x%x\n",
-   289				      dsi->format);
-   290			return color_format;
-   291		}
-   292		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pixel fmt = %d\n", dsi->format);
-   293	
-   294		nwl_dsi_write(dsi, NWL_DSI_INTERFACE_COLOR_CODING, NWL_DSI_DPI_24_BIT);
-   295		nwl_dsi_write(dsi, NWL_DSI_PIXEL_FORMAT, color_format);
-   296		nwl_dsi_write(dsi, NWL_DSI_VSYNC_POLARITY,
-   297			      dsi->mode.flags & DRM_MODE_FLAG_PVSYNC ?
-   298			      NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH :
-   299			      NWL_DSI_VSYNC_POLARITY_ACTIVE_LOW);
-   300		nwl_dsi_write(dsi, NWL_DSI_HSYNC_POLARITY,
-   301			      dsi->mode.flags & DRM_MODE_FLAG_PHSYNC ?
-   302			      NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH :
-   303			      NWL_DSI_HSYNC_POLARITY_ACTIVE_LOW);
-   304	
-   305		burst_mode = (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_BURST) &&
-   306			     !(dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE);
-   307	
-   308		if (burst_mode) {
-   309			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, NWL_DSI_VM_BURST_MODE);
-   310			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL, 256);
-   311		} else {
-   312			mode = ((dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) ?
-   313					NWL_DSI_VM_BURST_MODE_WITH_SYNC_PULSES :
-   314					NWL_DSI_VM_NON_BURST_MODE_WITH_SYNC_EVENTS);
-   315			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, mode);
-   316			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL,
-   317				      dsi->mode.hdisplay);
-   318		}
-   319	
-   320		pclk_period = ALIGN(PSEC_PER_SEC, dsi->mode.clock * 1000);
-   321		do_div(pclk_period, dsi->mode.clock * 1000);
-   322		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pclk_period: %llu\n", pclk_period);
-   323	
-   324		hs_period = ALIGN(PSEC_PER_SEC, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
-   325		do_div(hs_period, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
-   326		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hs_period: %llu\n", hs_period);
-   327	
-   328		/*
-   329		 * Calculate the bytes needed, according to the RM formula:
-   330		 * Time of DPI event = time to transmit x number of bytes on the DSI
-   331		 * interface
-   332		 * dpi_event_size * dpi_pclk_period = dsi_bytes * 8 * hs_bit_period /
-   333		 * num_lanes
-   334		 * ===>
-   335		 * dsi_bytes = dpi_event_size * dpi_pclk_period * num_lanes /
-   336		 * (8 * hs_bit_period)
-   337		 */
- > 338		hfp = hfront_porch * pclk_period * dsi->lanes / (8 * hs_period);
- > 339		hbp = hback_porch * pclk_period * dsi->lanes / (8 * hs_period);
-   340		hsa = hsync_len * pclk_period * dsi->lanes / (8 * hs_period);
-   341	
-   342		/* Make sure horizontal blankins are even numbers */
-   343		hfp = roundup(hfp, 2);
-   344		hbp = roundup(hbp, 2);
-   345		hsa = roundup(hsa, 2);
-   346	
-   347		/*
-   348		 * We need to subtract the packet header length: 32
-   349		 * In order to make sure we don't get negative values,
-   350		 * subtract a proportional value to the total length of the
-   351		 * horizontal blanking duration.
-   352		 */
-   353		h_blank = hfp + hbp + hsa;
-   354	
-   355		pkt_len = roundup(((hfp * 100 / h_blank) * 32) / 100, 2);
-   356		pkt_hdr_len = pkt_len;
-   357		hfp -= pkt_len;
-   358	
-   359		pkt_len = roundup(((hbp * 100 / h_blank) * 32) / 100, 2);
-   360		pkt_hdr_len += pkt_len;
-   361		hbp -= pkt_len;
-   362	
-   363		hsa -= (32 - pkt_hdr_len);
-   364	
-   365		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
-   366			hfp = hfront_porch;
-   367		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP)
-   368			hbp = hback_porch;
-   369		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
-   370			hsa = hsync_len;
-   371	
-   372		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hfp: %d\n", hfp);
-   373		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hbp: %d\n", hbp);
-   374		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hsa: %d\n", hsa);
-   375	
-   376		nwl_dsi_write(dsi, NWL_DSI_HFP, hfp);
-   377		nwl_dsi_write(dsi, NWL_DSI_HBP, hbp);
-   378		nwl_dsi_write(dsi, NWL_DSI_HSA, hsa);
-   379	
-   380		nwl_dsi_write(dsi, NWL_DSI_ENABLE_MULT_PKTS, 0x0);
-   381		nwl_dsi_write(dsi, NWL_DSI_BLLP_MODE, 0x1);
-   382		nwl_dsi_write(dsi, NWL_DSI_USE_NULL_PKT_BLLP, 0x0);
-   383		nwl_dsi_write(dsi, NWL_DSI_VC, 0x0);
-   384	
-   385		nwl_dsi_write(dsi, NWL_DSI_PIXEL_PAYLOAD_SIZE, dsi->mode.hdisplay);
-   386		nwl_dsi_write(dsi, NWL_DSI_VACTIVE, dsi->mode.vdisplay - 1);
-   387		nwl_dsi_write(dsi, NWL_DSI_VBP, vback_porch);
-   388		nwl_dsi_write(dsi, NWL_DSI_VFP, vfront_porch);
-   389	
-   390		return nwl_dsi_clear_error(dsi);
-   391	}
-   392	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Ayushi
