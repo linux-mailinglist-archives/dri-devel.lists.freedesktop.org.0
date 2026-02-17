@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +KgrH5filGmjIgIAu9opvQ
+	id OAjJCn3hlGlqIgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:15 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:45:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF715106E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC00E150D93
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC2210E52C;
-	Tue, 17 Feb 2026 21:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0362510E137;
+	Tue, 17 Feb 2026 21:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="M7VU6osu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dzatSmBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-13.smtp.spacemail.com (out-13.smtp.spacemail.com
- [63.250.43.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9507710E2B6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:01 +0000 (UTC)
-Received: from mac.pk.shawcable.net (S0106dceb699ec90f.pk.shawcable.net
- [24.69.43.232])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNX09XLz6tkL;
- Tue, 17 Feb 2026 21:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=r-sc.ca;
- s=spacemail; t=1771364429;
- bh=5Uwy6bs1Cu3Ac5nEuDpfkKyR0IflWXmYqx0YiyUoMG8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=M7VU6osuYR6HrU3vBA9eg5GVCmLkn7ea8rhTEYrz9abHI5NTraXwc30RLt8WCXT+c
- PdyzAFlGLMwYfaio8MnsGdqumgJf/X7nsdQmtUd6h8+zR7H18kyNbq6DUk5eixaUWi
- +gY4X7iwjBw+p+8jBPQLR9wxXv1t4ga7cdf+ApS7E0ZZMqsThuJMijPMK9I5fIEMz7
- d2FOsCJGKkQer58CCusZDisLhFbf4SdE8KMqAzteISVBp6Z8k+mcR6g6gb5tlAOQXr
- +oiFfSTscMxpOVnIsKqgx0L6dmmtW5Fjh6WjSXvy6EYVgmRQ6sUCtyFOjHTVCapCFc
- BQRXiuozzwXqA==
-From: Ross Cawston <ross@r-sc.ca>
-Date: Tue, 17 Feb 2026 13:39:53 -0800
-Subject: [PATCH 5/5] accel/rocket: Use per-task interrupt mask and handle
- PPU completion interrupts
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B735B10E137
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:45:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id EBE666185B;
+ Tue, 17 Feb 2026 21:45:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F222CC4CEF7;
+ Tue, 17 Feb 2026 21:45:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771364727;
+ bh=JPTM2IadFeMvKIMn4IZtSDZBa3m3Kmc9Y1jeip9vad4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dzatSmBb5dRdKVM7QGegf8H9JKCVmt1CyPf4WmQL1F5Vq5SXeawmvTvZVsb4Lidi3
+ 9tTPWPv5cblZv1V/ofOpaxUTWKnootvYiDk6wdTAKdhIWv1fWWyljUAbFhZd+bjzko
+ pLHcn6JwMnFM+UwxuY6s3DyC7rhoZdsXQlIQTzMXOhSv/iRwG+NGdcZs5nQJSk6x41
+ xpkoXNEMWrORVa5tgQ6/8hquM6Aw84uaut69bgWEeNICcaA4c5BfneDqQIrZQSeis2
+ lKQBfio9w2Mtf1o99NqkXh9X8R5Aur9Lw3+jfXeQax305vnY+hxAFO/PeRYw2g0Z3k
+ Cx7hrRUUZ0kCg==
+Date: Tue, 17 Feb 2026 14:45:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Helge Deller <deller@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [GIT PULL] fbdev fixes and updates for v7.0-rc1
+Message-ID: <20260217214523.GA3380010@ax162>
+References: <aZBlTsIwTzS0tqBD@carbonx1>
+ <177110244909.2897141.11184148040863874004.pr-tracker-bot@kernel.org>
+ <aZDpCUcIXLmuydoF@carbonx1>
+ <CAHk-=wj03hLzK2D=+OYmjgcmGM+XYymp8GyaEs=C0=rXG2nb7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260217-accel-rocket-clean-base-v1-5-d72354325a25@r-sc.ca>
-References: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
-In-Reply-To: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Ross Cawston <ross@r-sc.ca>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=2929;
- i=ross@r-sc.ca; s=20260217; h=from:subject:message-id;
- bh=HWs1IC84v/YwZQbKpNwoGA0gGWlv8oAPh64TkdQpIug=;
- b=0rgR3wqnVOIYyoNpDkvr/gy3tbo9wKUJ9qM52KuhTyctnPeFJa4yPynjJ/VXvSIOmrmk+l+sr
- v8eOz6MDQ5RBZbDHgb3VWeRKXUur3aLY6dY+d1SOOl+8LhM964SPt8k
-X-Developer-Key: i=ross@r-sc.ca; a=ed25519;
- pk=c50mfTDLKsgS2tlqXEZEvb/VGiLvxjsLOw5M50DxhtM=
-X-Envelope-From: ross@r-sc.ca
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj03hLzK2D=+OYmjgcmGM+XYymp8GyaEs=C0=rXG2nb7w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +68,70 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[r-sc.ca:s=spacemail];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[r-sc.ca];
-	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:ross@r-sc.ca,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:deller@kernel.org,m:nsc@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[ross@r-sc.ca,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[tomeuvizoso.net,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ross@r-sc.ca,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[r-sc.ca:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,r-sc.ca:mid,r-sc.ca:dkim,r-sc.ca:email]
-X-Rspamd-Queue-Id: 2FFF715106E
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AC00E150D93
 X-Rspamd-Action: no action
 
-The current driver hard-codes interrupt mask and clear to DPU_0 | DPU_1
-and only checks DPU completion in the IRQ handler. This causes timeouts
-on PPU-only tasks and DPU→PPU pipelined jobs.
+Hi Linus,
 
-Use the new per-task int_mask field to set INTERRUPT_MASK to the
-correct terminal block(s):
-  - conv / standalone DPU → DPU_0 | DPU_1
-  - PPU / DPU→PPU pipeline → PPU_0 | PPU_1
+On Sat, Feb 14, 2026 at 02:47:47PM -0800, Linus Torvalds wrote:
+> [ Adding Kconfig maintainers and linux-kbuild list ]
+> 
+> On Sat, 14 Feb 2026 at 13:30, Helge Deller <deller@kernel.org> wrote:
+> >
+> > Linus, I'm really sorry, but I messed up drivers/gpu/drm/Kconfig while
+> > trying to fix a merge conflict.
+> > My patch series should not have touched drivers/gpu/drm/Kconfig at all.
+> > That's purely my fault and not the fault of the patch author.
+> 
+> Humm. Funky how the Kconfig parts never complained about the
+> duplication of all those source lines, so the problem was basically
+> entirely hidden and things still "worked" even though that Kconfig
+> file had been so messed up.
+> 
+> I'm not sure if the Kconfig tools could perhaps warn about this kind
+> of duplication - we might have some of it intentionally - but it does
+> make me go "Hmm".
+> 
+> Nathan, Nicolas, comments? See that commit ca4ee40bf13d for the
+> partial revert, and notice how Kconfig is entirely happy both before
+> and after that..
 
-Also:
-- clear all relevant interrupt bits (0x1ffff) instead of just DPU
-- accept PPU_0 / PPU_1 completions in the IRQ handler
+It seems like we should be able to check if we have seen an sourced
+Kconfig already, presumably somewhere in or around zconf_nextfile() in
+scripts/kconfig/lexer.l. Not sure how complicated it will be, I will see
+if I can wire something like that up during the next development cycle
+(amongst the other things on my plate). Given how wonky that looks in
+menuconfig and the like, maybe it is worth making that a hard error.
 
-Fixes correct completion detection for non-convolutional and pipelined
-workloads.
-
-Signed-off-by: Ross Cawston <ross@r-sc.ca>
----
- drivers/accel/rocket/rocket_job.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index 1dcc0c945f7f..ce54913baa46 100644
---- a/drivers/accel/rocket/rocket_job.c
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -162,8 +162,20 @@ static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *jo
- 	rocket_pc_writel(core, REGISTER_AMOUNTS,
- 			 PC_REGISTER_AMOUNTS_PC_DATA_AMOUNT((task->regcmd_count + 1) / 2 - 1));
- 
--	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
--	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
-+	/*
-+	 * Enable interrupts for the last block in this task's pipeline.
-+	 *
-+	 * The int_mask field from userspace specifies which block completion
-+	 * signals that this task is done:
-+	 *   - Conv/DPU tasks: DPU_0 | DPU_1
-+	 *   - PPU tasks (DPU→PPU pipeline): PPU_0 | PPU_1
-+	 *
-+	 * Only enabling the terminal block's interrupt prevents the kernel
-+	 * from stopping the pipeline early (e.g. DPU fires before PPU has
-+	 * finished writing its output).
-+	 */
-+	rocket_pc_writel(core, INTERRUPT_MASK, task->int_mask);
-+	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
- 
- 	rocket_pc_writel(core, TASK_CON, PC_TASK_CON_RESERVED_0(1) |
- 					 PC_TASK_CON_TASK_COUNT_CLEAR(1) |
-@@ -449,8 +461,17 @@ static irqreturn_t rocket_job_irq_handler(int irq, void *data)
- 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
- 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_WRITE_ERROR);
- 
--	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
--	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
-+	/*
-+	 * Check for any job completion interrupt: DPU or PPU.
-+	 *
-+	 * Conv and standalone DPU jobs signal via DPU_0/DPU_1.
-+	 * PPU pooling jobs signal via PPU_0/PPU_1.
-+	 * We must recognize both to avoid PPU job timeouts.
-+	 */
-+	if (!(raw_status & (PC_INTERRUPT_RAW_STATUS_DPU_0 |
-+						PC_INTERRUPT_RAW_STATUS_DPU_1 |
-+						PC_INTERRUPT_RAW_STATUS_PPU_0 |
-+						PC_INTERRUPT_RAW_STATUS_PPU_1)))
- 		return IRQ_NONE;
- 
- 	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-
--- 
-2.52.0
-
+Cheers,
+Nathan
