@@ -2,170 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kCA4A4jWk2l79AEAu9opvQ
+	id M7x0KRvgk2n09QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 03:46:32 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 04:27:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E7A1488D7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 03:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B971489C8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 04:27:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCFA10E42E;
-	Tue, 17 Feb 2026 02:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A2410E115;
+	Tue, 17 Feb 2026 03:27:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="k7lgCSvB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RDW0+wzG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11012053.outbound.protection.outlook.com
- [40.93.195.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D346610E42E;
- Tue, 17 Feb 2026 02:46:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DSSta9WcFx7ETmWkAKPv+4uJBZPVdiSSdXd3KR3CRh1ZbEnxY1Li2EV9rf1i/h6p0ebBiSxh2B6WjDR/DDd49Yvakchv/a7fIb3oWYAt8nIJsnZZjEHSetOdqeI/4a5X0gKqfgvFtrVPKOzrTNFvPanuLl7nXQXjxTT6/bLEvwfAuBgaZni0IO4germDzmvWCJQpe15nxYKBGy6AQ7Nk+r6LoHRuc5VreBy+alOsVEdmH0oeuJQiCZ50UDA6O1GRO2Q8hXH1MLzJWNjA+ainXTt/t4UX9NlxYIHPlObUhOx4OkgWe/Zuyumose+0wDpkZPCpsOMFTfWeWdhMrQsLRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/Y9PaoZ8Vpecjs3GN3ARpEx8h9R956WmXtaOf394/E=;
- b=fX0Z6R047LHB6ZMPhaCzDNYW6zVkU8X6HfIBDxXyjBlsGCfE8+Avzu/vSYEpBmCIC4+Ip3T/3b3wpKoI7IaSCSsR0TosfeVXVNBKsQvKiA5RH3wsZR2C9uxNeFF0SLevk/kxJlBES/nWh5+mJX8//6n/nDhyMqQAPfJtD9IPcsQ3WKBsr4G8uqVIKihlXQlv3zBdYeWqKiVZexYevS8oLHIxe1LATCagD3ylj8REpeVLg3SxJ5h0lNhMkzsWLcEGSIqH6j9rB4AQndWLFpUZM0MNiZcUZ7e4Y/4BHk1KKV4IoabuP5ttc8O/63HenOraiU3XqD8tkT04VSqaC2GTFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u/Y9PaoZ8Vpecjs3GN3ARpEx8h9R956WmXtaOf394/E=;
- b=k7lgCSvBqpP2sj5zASOogGvu0W/Qh1FgUpkBhzVaaHo/7m0/eoPUuOz+e+0Suw22si/0pR/xceMoeBdXBha5bX8rGgcyeRxQWfSG61C1aiYBrsoS7OtQ9RQJ7tSyQCfwdf5y2BeEdX0QFY70qJn9DfzXjFaDtZc0FRvAXQjcO4iCbu/Z4lEgii8G/gVzSNxBz/kqsNX1NSh6g4edTxImNndY+kxqHxRZSiuWUHgb2GDSZjmywGqsTgnnYZlTjsk+uvzHmSoemq0XmO5yFy9WwZwzTFziaGQhrlzTub8sObH31QtNPKzHYsj39wFRLgwLJYcwPwK4XeUcAvxZWXKqbA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS7PR12MB9476.namprd12.prod.outlook.com (2603:10b6:8:250::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Tue, 17 Feb
- 2026 02:46:25 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%3]) with mapi id 15.20.9611.013; Tue, 17 Feb 2026
- 02:46:25 +0000
-From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Tue, 17 Feb 2026 11:45:56 +0900
-Subject: [PATCH v3 8/8] gpu: nova-core: gsp: use available device reference
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260217-nova-misc-v3-8-b4e2d45eafbc@nvidia.com>
-References: <20260217-nova-misc-v3-0-b4e2d45eafbc@nvidia.com>
-In-Reply-To: <20260217-nova-misc-v3-0-b4e2d45eafbc@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
- Edwin Peer <epeer@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- Alexandre Courbot <acourbot@nvidia.com>, Gary Guo <gary@garyguo.net>
-X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TYCP286CA0043.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29d::14) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92AD010E115
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 03:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771298838; x=1802834838;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=2m6koxxuM7n6l/jOLQFHEQ1o9KyPZ+dboD1swuR9uQY=;
+ b=RDW0+wzGfW3yF9yqM9OnCqgZ0nFD6dSqu23veUBKpzbPpfJs95/e2Rb1
+ lfUgUO9+YrbJIdeNOJGuiXmH1xkwCZ9DT/7A+ovYXKKn5JFS4jAPI+lWe
+ PkkoqLNKS7Vf9TQVFLAl/FX/X6K0TeC9LxTajb4Z9d8y6PGC0N2LEaVn8
+ eivU95N3wzRt2Q64X5d8BctqBlcYrCnxGvCUN5ROUmI+fjiME1fltJYxh
+ wgubWVmgZanJMWdlXKTxcLczGGt4w2/w73WZgyGWa/EHj3Yv525YyM2O6
+ xlM5vdD5Z3Ke80EpdIlrzaywHJ2870D2wnPERtgYkjbGgf+QolZOk/SG8 w==;
+X-CSE-ConnectionGUID: BXACjQiaSnitBUVqOV2R8g==
+X-CSE-MsgGUID: xVshDn9xRoGvE3YGKbQuEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="97829865"
+X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; d="scan'208";a="97829865"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2026 19:27:18 -0800
+X-CSE-ConnectionGUID: DlXPHptKQkOBfFFlFw7TwA==
+X-CSE-MsgGUID: DTibiXF/SNqAIcHhtzd3Aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; d="scan'208";a="217726185"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 16 Feb 2026 19:27:11 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vsBjx-000000010aG-0HmP;
+ Tue, 17 Feb 2026 03:27:09 +0000
+Date: Tue, 17 Feb 2026 11:26:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, chester62515@gmail.com,
+ cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
+ stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com,
+ aruizrui@redhat.com, eballetb@redhat.com, echanude@redhat.com,
+ jkangas@redhat.com, Larisa Grigore <larisa.grigore@oss.nxp.com>,
+ Radu Pirea <radu-nicolae.pirea@nxp.com>,
+ Phu Luu An <phu.luuan@nxp.com>, Js Ha <js.ha@nxp.com>,
+ Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
+Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
+Message-ID: <202602171112.rMhRspEp-lkp@intel.com>
+References: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB9476:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8778b99d-e1da-45c6-5cd2-08de6dcebe10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|376014|1800799024|10070799003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Zlkzd3FuVkNpME96byszQlY4Vk9qcHlKeHBwSGVpNUxtR1p4bzZiTWFSaWNU?=
- =?utf-8?B?YkoxQWNlUEdLZTVxc2wrNm9SL2xHK2dVVHRZTTBUaFlubGRUNzlaV2p6bUtz?=
- =?utf-8?B?ckNjQnlPbVhkZCtzZ1dlbkFCUHVNZjArQ2VSbVZnMDVsa05VaWdlV1ZnbW96?=
- =?utf-8?B?TzZ5ZEUxdFdBRzV2UkZlR2M3bHFST3AyLzUyRTAxV0JhMldINmxJQ0toN05J?=
- =?utf-8?B?aXBLYS9WM3NrTmZGTHF4Y2JaM05Ndmx3bzFYYkNNUVhSTmpRQXd4aHBzbmNm?=
- =?utf-8?B?dGN6alppSzRzZVk0YVNRcGJFVmlWbGNzRm1wV0dsQkxIMEhIRWptaitzZTM4?=
- =?utf-8?B?cU5FUEJwR1JRQVdUeUpUQXNFYm9zSGhSbTZIekpjajQ4WTJwRll1RVR5Y1VL?=
- =?utf-8?B?dXdVTk1tSzJmRGgvd0ZoNHpUMXNESmVqWmlmUWdoalVLYVY1Y2tYa1Z4OUxO?=
- =?utf-8?B?dUVxOCtsOU05cTR1RVozV2Judmx1WFFNTjUybExTaDdwWXFzK1k5Z0ovVStk?=
- =?utf-8?B?Ymx5U0xqVGpWSjJLMWlVWkJXblZjdWNIQ2d0cnVEM3dIVU5DZ3FWdWJIOFVl?=
- =?utf-8?B?MUFHSTIreU5VbmY3Uktma0NpcE1BYjFvZDBiOVRmQkR1SnFaeUNBNUUrN1Fw?=
- =?utf-8?B?VHpZVWROdjErUmRpbk1pY09xTXhVNmZqeUpGYUw5MEpPTENlRWl6bzdyTXV0?=
- =?utf-8?B?WEhlN0xHQ21zWWo3UzJlU2s3M3F4NnhhR0dXZXVLQ1NvTk1SeWN1MG9lR3V5?=
- =?utf-8?B?eWU1WDYzbmxrS2hZYWM1aVluSjl0OHVrNngycFBNay9rdlQ0bFBQM2w3b3R3?=
- =?utf-8?B?WFU4N2lQcWg1UlhhVHVRRW15WFp0a3BKd2sxMU90cld0RE44NmZVMjJBckFo?=
- =?utf-8?B?WkNlaXQxOUtZa2pJT0FlYlJzcEpqRmkxaXlTdTRpcFdiSWYrUW9HUGNvMzJV?=
- =?utf-8?B?bHlVMzVjdjBDZFd2NVBDdm5kSGFjcFlIUlZmejlJTlJ6SUszRThOMytxaStD?=
- =?utf-8?B?SWFnVEtnd3d2RlRxckx2NFZZMnpGV0k5cHZ1QW1iVys5elpXSGY3ekh2WWNQ?=
- =?utf-8?B?c1hUUTdzUTRvWmQ4TzBUTXdsOEJ2MUlIMmtBaVU4YytPeWZnUEFqQnVzWjRw?=
- =?utf-8?B?bzBaNk1BL2wwNTJ3ZHRtbHRyRXd3RmVFeG5nc2ZYdjJzV2tTYWtpSVBEekxR?=
- =?utf-8?B?TnNOMmZMSlVuc3QxaDhFR2N2dWxmMDNaK2VNYWxKQ3YyU3hYdzZuaXZISG1W?=
- =?utf-8?B?Y0ZTVkFWWDFPRWczaUV3Q0t2TzNXdGcrV2N3L2RZME81c2d3Q3NrdW52bU5O?=
- =?utf-8?B?bTdEY0xuUTIyRkcwKzc2blNGK2ZUTHpuN0NnZjY2WFNhTm9yNjNXalZaK1dq?=
- =?utf-8?B?ei8yTklYU1VSVFFSaUFNTFoxUDV2N3lQb3NrY0krT1p4eUFzRSt4T09oVy9p?=
- =?utf-8?B?L3NpRTN1OFZ2OWQvUlBnZnVjbWlCT21GTk9SbGRWR0ltR0VpSlpPRWFPMTBI?=
- =?utf-8?B?MkNKUDNidVlzVkNybkRHNTg5NEY0MWo3SjM3OHRmN25tZklyYWJodXhvNitQ?=
- =?utf-8?B?ai9ZNktnQVVvcWFudVNreEM4TmJ6TGNuNUEydk9ubGFYRW11dE5NR0xXbElX?=
- =?utf-8?B?MUlBTFY4RUI1blpoR1dFcklLK3B6SFlkSS8vakVIbEhFOXpBc2VqNG1xeGpR?=
- =?utf-8?B?TkZGSUhrYUU4VkJZT1N0SUxOWDFKaXp5TWdTVzNmaDdOOUw2VHVlNXhMZ2FM?=
- =?utf-8?B?Y3g4ZlRRcjgzL3V2MnVKbzNaMncrK2ErWHlwcHdhSUg3eE5OZ3pJRzZYL3lL?=
- =?utf-8?B?a3FabDU1WjcrOWdyQnBZdktEMmxYL2p4bk52MlplOHpqUG1Fbm9WU0FDRVBZ?=
- =?utf-8?B?VWpPUW5nQmh2bS9wSFdManIvZWx1bFhTNFUzWVBQVkFSMDRMVmlBWWpZR24y?=
- =?utf-8?B?aEUzdVRnL0dla3VRbU11ZjRHa3FwZ0lybHlvM2VOSFhxSk5YSkVZUTlDNHVh?=
- =?utf-8?B?R3l1bm8wWnZHM3F2ZnJZS2NubDFjWmJRcXJSY3NmSlNYSGg5VlRoYitBWFlH?=
- =?utf-8?B?by9XVG9yMjFUSHl0SGdwbFdpZ1VKSUhsdkk5amhPRlVDOG5EODhQQzFJektT?=
- =?utf-8?Q?tqCI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(10070799003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVcwOE9hRGVqQXh4dDNEL2ZBbWdtTjQzU0J3UnBYTHRRK0Z3dzVTQWhZZ3ZV?=
- =?utf-8?B?M1F1NkJTNXB4Z0dmbXVaSnJGcTZEcGJ3THdiTlV4OWNSOU40RTBScUNMSGVs?=
- =?utf-8?B?d0s5ZkYxSGdxVWRLSG1uSFBIS0RZam1DNHZVLy9HZ3pFWVcxbE5NTGF5RHRL?=
- =?utf-8?B?cVN6VEliRkx3dS9IUE5TN1UyVU1mV25TeU1DUFBEN0NlV2RnTElOVlhzZmRa?=
- =?utf-8?B?UTRqV3J3bm9ZRGhNaUx0ZDJZcGd2ZzdQQWZ1bFZ3Si85RnFhTjN0MWpjaHd3?=
- =?utf-8?B?Q2FvaWxPZFUxendETks1VGhrWnoxd2xNOHF0TUQzS0NFYWMzcFBTeW0xVWR5?=
- =?utf-8?B?QTl5ZU9BMXZKT3JvcGxqNHBjT3R2WTY1dnFrVnNqWStZMVNOcTJxamlGTTdQ?=
- =?utf-8?B?cHZSWm9CY2FzZFpXNlgySXFOVHUwajZoZHNaVE5wbDdPd3hpVWtJWlpMYlNr?=
- =?utf-8?B?bWNycUhBdUtzM084dnVCUHVVbXNsTVJCUjdqTlkreDJZVmFNOTBJc25Wa3hn?=
- =?utf-8?B?Um5ydStJWndraCtvODlGYWg4OU15QlQ2Z0lhN1Q2WVhQdklXMWlCZVhnQmhH?=
- =?utf-8?B?eTgxUDdmKzFRbHRCOHU2SkZRcVVwQW9vT1JHTW1YRjRFNysrZkFnSTBTQzdW?=
- =?utf-8?B?L08yeUVQa3dOckU2Znl2Nk1WZDE2bG1kMFBXQ1VuRjlJdFlKRzdBQXpucnNX?=
- =?utf-8?B?K1JacXhzT3N1cEN6UG9jUXRZNVhkNjYwSWkwNS9hcHNjNlFwUEg2R04vc0JG?=
- =?utf-8?B?UWpla1BTTlk0enlJZVhZMEVyck8yMWYzZm03T3dIdUk3NFFaOWR6Rjl2c2lI?=
- =?utf-8?B?eTltbjFMMitIS2lUVWRQSW43T2p3T1RkYWY0aEg3NXZSbk1ER3Rua2phcFRl?=
- =?utf-8?B?SjdtTnVPRjYvRU5BTG9kc043R0MvenBwMEpEZElSWTFXOExtR2FLdmlERk9S?=
- =?utf-8?B?NUg4aGJuMWZOZkdKN2czOUlVSHlLSDdCWlcrN0E2ZnBqM2dkTm1hbE1JN2xa?=
- =?utf-8?B?Zk9naS9pZk9mMW8yYThKTCtQaVNBeXA5SGp2STF6WGgxZlhueVgvcnA0LzJz?=
- =?utf-8?B?MThPYzJmV2t6U1BhV0lKTEZJbzR5MUVTdzFYUmpVcm5MbzBqNG9LSnFWVERN?=
- =?utf-8?B?QVM5WGo1Z2JYQi95b1g0M1d6VmFwS3lKZzNOQkwwdnVyN3duNk0vZXkyczdw?=
- =?utf-8?B?UlljOTkwL0FrUUVkN3RHTnpnc1lwL0pjNEQrTnlqVUFwSVByWlB1dTJMOXlZ?=
- =?utf-8?B?T0EzWkNrd0x6VTZsZCtxSytGM1pFZ2J6anhwV3N2T3pXMWlUWk1KdTdiZVBD?=
- =?utf-8?B?VG1RcjF5a01RdHk2dVFWbDVxOWJCSEM3UUlYWkh0SEJCbDYwZ3EwWWFWOTAx?=
- =?utf-8?B?TE1HQUs1T3RLVE9QaU1IQ0FxZ2lpRTNaWkxGdE9ialRpS1VWRE1PYzV5R1g5?=
- =?utf-8?B?TFJsOXlzLzJFL3lVaXI3V0NFa21GUUJFTmdJcWhGUkJmajVuUjU4bmV5UVpQ?=
- =?utf-8?B?OWR2MkRNVlo3anFjeDNNUnVsNVhhMnc4dGtGYXg5eVlCbTFzUVNVbFYzTENC?=
- =?utf-8?B?dDUvQ1ZraXYxL3JvaldwelkyM2NpVjg1eTZGSlc0cTZFRVgrWDUwaVNxaS9w?=
- =?utf-8?B?ODNGbi9jQlJ2R3hJSHlsMk55QTgvY2tlelJKQURRcjBwWGVoNm80cTNDVWNh?=
- =?utf-8?B?UkFkbFZ6OENaRzMwdVFXOHVqSENKd1JrcUVYYlo3SDVkZHU0WUZLWXp5UHBz?=
- =?utf-8?B?dW1rNkVIa2hHeHFpK1BWUkF2ZlN5NmtQRE5rNmQ4VHB2cEV6RmlGVFhPU1p5?=
- =?utf-8?B?bkdjRVNpcUFXQ3o1WklFQ2k4alpRbXZiRWVDUnZucTJqMVNpU1J1eXFCRVFI?=
- =?utf-8?B?Y01KYklYa2hZWUtrMmxjWS9McHRUcjI3dWIzT3kvWis4MUNiUnV1dWtFZ1Nm?=
- =?utf-8?B?UDk0enlIaXhTUjlsR00rUE1PUHBNQWdBZCtGb2puYUJvZkxYYzVjVHZvTXEw?=
- =?utf-8?B?bHdpL1VKcFhlY0lJYlM4MTNqUTZZRHVJRThyY3VzSEwyUHFNQWFtcytvRE1s?=
- =?utf-8?B?TmhheXhyUFd0b250NnFidTNHMmNEL2d5RnZ5L3NWbzhJZ1BZSHdzQUd1ZFA3?=
- =?utf-8?B?cW8yZUFFYmN1alUwWlM1WVNwSW1MaXBjTzB0RzRaNEd3RGZvaFIvcm9ETG14?=
- =?utf-8?B?VEF4bW00aXFtcTllUjdHdHpwRVc1aVhVYUhKUGFMZFExaG5JcEwxcDVFdXpO?=
- =?utf-8?B?WVA4YURkTzBQaGV0dStIZ082LzNKZUNpa0g0Vm5BSmpOelRNbVhlZkJVSS84?=
- =?utf-8?B?eEQ4bzZoRENJN2J5Z21aV3R2Tk5tWUw3SWthUlRXNndub1IrdjhCdEVvOVd3?=
- =?utf-8?Q?5zhQR8dO3KEzmLYYszAzC3EM2MolEVWQXCxPRJis6wcAY?=
-X-MS-Exchange-AntiSpam-MessageData-1: baZG9Mj3r9fFmw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8778b99d-e1da-45c6-5cd2-08de6dcebe10
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 02:46:25.3900 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2myan4Th40UqwN0ySbsoxietzX/GsCQ+03K6plQ7h6L5dOHl53wqXCJRbbupsCqKFo/y7YLcsLmyCUXqyf6byg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9476
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,120 +89,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com,ffwll.ch];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: A7E7A1488D7
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
+	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:phu.luuan@nxp.com,m:js.ha@nxp.com,m:ghennadi.procopciuc@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,git-scm.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 79B971489C8
 X-Rspamd-Action: no action
 
-We already have a regular reference to the `Device`, so we don't need to
-repeatedly acquire one in this method.
+Hi Larisa,
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
----
- drivers/gpu/nova-core/gsp/boot.rs | 34 ++++++++--------------------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index be427fe26a58..93651243ab1b 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -170,15 +170,10 @@ pub(crate) fn boot(
-             Some(libos_handle as u32),
-             Some((libos_handle >> 32) as u32),
-         )?;
--        dev_dbg!(
--            pdev.as_ref(),
--            "GSP MBOX0: {:#x}, MBOX1: {:#x}\n",
--            mbox0,
--            mbox1
--        );
-+        dev_dbg!(dev, "GSP MBOX0: {:#x}, MBOX1: {:#x}\n", mbox0, mbox1);
- 
-         dev_dbg!(
--            pdev.as_ref(),
-+            dev,
-             "Using SEC2 to load and run the booter_load firmware...\n"
-         );
- 
-@@ -190,19 +185,10 @@ pub(crate) fn boot(
-             Some(wpr_handle as u32),
-             Some((wpr_handle >> 32) as u32),
-         )?;
--        dev_dbg!(
--            pdev.as_ref(),
--            "SEC2 MBOX0: {:#x}, MBOX1{:#x}\n",
--            mbox0,
--            mbox1
--        );
-+        dev_dbg!(dev, "SEC2 MBOX0: {:#x}, MBOX1{:#x}\n", mbox0, mbox1);
- 
-         if mbox0 != 0 {
--            dev_err!(
--                pdev.as_ref(),
--                "Booter-load failed with error {:#x}\n",
--                mbox0
--            );
-+            dev_err!(dev, "Booter-load failed with error {:#x}\n", mbox0);
-             return Err(ENODEV);
-         }
- 
-@@ -216,11 +202,7 @@ pub(crate) fn boot(
-             Delta::from_secs(5),
-         )?;
- 
--        dev_dbg!(
--            pdev.as_ref(),
--            "RISC-V active? {}\n",
--            gsp_falcon.is_riscv_active(bar),
--        );
-+        dev_dbg!(dev, "RISC-V active? {}\n", gsp_falcon.is_riscv_active(bar),);
- 
-         // Create and run the GSP sequencer.
-         let seq_params = GspSequencerParams {
-@@ -228,7 +210,7 @@ pub(crate) fn boot(
-             libos_dma_handle: libos_handle,
-             gsp_falcon,
-             sec2_falcon,
--            dev: pdev.as_ref().into(),
-+            dev: dev.into(),
-             bar,
-         };
-         GspSequencer::run(&mut self.cmdq, seq_params)?;
-@@ -239,8 +221,8 @@ pub(crate) fn boot(
-         // Obtain and display basic GPU information.
-         let info = commands::get_gsp_info(&mut self.cmdq, bar)?;
-         match info.gpu_name() {
--            Ok(name) => dev_info!(pdev.as_ref(), "GPU name: {}\n", name),
--            Err(e) => dev_warn!(pdev.as_ref(), "GPU name unavailable: {:?}\n", e),
-+            Ok(name) => dev_info!(dev, "GPU name: {}\n", name),
-+            Err(e) => dev_warn!(dev, "GPU name unavailable: {:?}\n", e),
-         }
- 
-         Ok(())
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus robh/for-next linus/master v6.19 next-20260216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Larisa-Grigore/serial-linflexuart-Fix-locking-in-set_termios/20260216-231403
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260216150205.212318-13-larisa.grigore%40oss.nxp.com
+patch subject: [PATCH 12/13] serial: linflexuart: Add DMA support
+config: i386-buildonly-randconfig-002-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171112.rMhRspEp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171112.rMhRspEp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171112.rMhRspEp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/tty/serial/fsl_linflexuart.c:1095:6: warning: variable 'baud' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1095 |         if (port->uartclk) {
+         |             ^~~~~~~~~~~~~
+   drivers/tty/serial/fsl_linflexuart.c:1113:67: note: uninitialized use occurs here
+    1113 |         lfport->dma_rx_timeout = msecs_to_jiffies(DIV_ROUND_UP(10000000, baud));
+         |                                                                          ^~~~
+   include/linux/math.h:49:22: note: expanded from macro 'DIV_ROUND_UP'
+      49 | #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+         |                      ^
+   include/uapi/linux/const.h:51:46: note: expanded from macro '__KERNEL_DIV_ROUND_UP'
+      51 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+         |                                              ^
+   drivers/tty/serial/fsl_linflexuart.c:1095:2: note: remove the 'if' if its condition is always true
+    1095 |         if (port->uartclk) {
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_linflexuart.c:970:19: note: initialize the variable 'baud' to silence this warning
+     970 |         unsigned int baud;
+         |                          ^
+         |                           = 0
+   drivers/tty/serial/fsl_linflexuart.c:205:13: warning: unused function 'linflex_console_putchar' [-Wunused-function]
+     205 | static void linflex_console_putchar(struct uart_port *port, unsigned char ch);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +1095 drivers/tty/serial/fsl_linflexuart.c
+
+1d3f5f07fafc712 Radu Pirea           2026-02-16   959  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   960  static void
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   961  linflex_set_termios(struct uart_port *port, struct ktermios *termios,
+bec5b814d46c2a7 Ilpo Järvinen        2022-08-16   962  		    const struct ktermios *old)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   963  {
+0b34325c5f79f1f Larisa Grigore       2026-02-16   964  	struct linflex_port *lfport = to_linflex_port(port);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   965  	unsigned long flags;
+1312e6586227421 Larisa Grigore       2026-02-16   966  	unsigned long cr, old_cr, cr1, gcr;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   967  	unsigned int old_csize = old ? old->c_cflag & CSIZE : CS8;
+1d3f5f07fafc712 Radu Pirea           2026-02-16   968  	unsigned long ibr, fbr, divisr, dividr;
+1d3f5f07fafc712 Radu Pirea           2026-02-16   969  	unsigned char ldiv_mul;
+1d3f5f07fafc712 Radu Pirea           2026-02-16   970  	unsigned int baud;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   971  
+a75137a58feb092 Radu Pirea           2026-02-16   972  	uart_port_lock_irqsave(port, &flags);
+a75137a58feb092 Radu Pirea           2026-02-16   973  
+0b34325c5f79f1f Larisa Grigore       2026-02-16   974  	_linflex_stop_rx(port);
+0b34325c5f79f1f Larisa Grigore       2026-02-16   975  	_linflex_stop_tx(port);
+0b34325c5f79f1f Larisa Grigore       2026-02-16   976  
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   977  	old_cr = readl(port->membase + UARTCR) &
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   978  		~(LINFLEXD_UARTCR_RXEN | LINFLEXD_UARTCR_TXEN);
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   979  	cr = old_cr;
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   980  
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   981  	/* In FIFO mode, we should make sure the fifo is empty
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   982  	 * before entering INITM.
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   983  	 */
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   984  	linflex_wait_tx_fifo_empty(port);
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   985  
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   986  	/* disable transmit and receive */
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16   987  	writel(old_cr, port->membase + UARTCR);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   988  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   989  	/* Enter initialization mode by setting INIT bit */
+5e8e1ccacae0470 Larisa Grigore       2026-02-16   990  	cr1 = LINFLEXD_LINCR1_INIT | LINFLEXD_LINCR1_MME;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   991  	writel(cr1, port->membase + LINCR1);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   992  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   993  	/* wait for init mode entry */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   994  	while ((readl(port->membase + LINSR)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   995  		& LINFLEXD_LINSR_LINS_MASK)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   996  		!= LINFLEXD_LINSR_LINS_INITMODE)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   997  		;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   998  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09   999  	/*
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1000  	 * only support CS8 and CS7, and for CS7 must enable PE.
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1001  	 * supported mode:
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1002  	 *	- (7,e/o,1)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1003  	 *	- (8,n,1)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1004  	 *	- (8,e/o,1)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1005  	 */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1006  	/* enter the UART into configuration mode */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1007  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1008  	while ((termios->c_cflag & CSIZE) != CS8 &&
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1009  	       (termios->c_cflag & CSIZE) != CS7) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1010  		termios->c_cflag &= ~CSIZE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1011  		termios->c_cflag |= old_csize;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1012  		old_csize = CS8;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1013  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1014  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1015  	if ((termios->c_cflag & CSIZE) == CS7) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1016  		/* Word length: WL1WL0:00 */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1017  		cr = old_cr & ~LINFLEXD_UARTCR_WL1 & ~LINFLEXD_UARTCR_WL0;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1018  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1019  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1020  	if ((termios->c_cflag & CSIZE) == CS8) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1021  		/* Word length: WL1WL0:01 */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1022  		cr = (old_cr | LINFLEXD_UARTCR_WL0) & ~LINFLEXD_UARTCR_WL1;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1023  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1024  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1025  	if (termios->c_cflag & CMSPAR) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1026  		if ((termios->c_cflag & CSIZE) != CS8) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1027  			termios->c_cflag &= ~CSIZE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1028  			termios->c_cflag |= CS8;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1029  		}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1030  		/* has a space/sticky bit */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1031  		cr |= LINFLEXD_UARTCR_WL0;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1032  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1033  
+1312e6586227421 Larisa Grigore       2026-02-16  1034  	gcr = readl(port->membase + GCR);
+1312e6586227421 Larisa Grigore       2026-02-16  1035  
+1312e6586227421 Larisa Grigore       2026-02-16  1036  	if (termios->c_cflag & CSTOPB) {
+1312e6586227421 Larisa Grigore       2026-02-16  1037  		/* Use 2 stop bits. */
+1312e6586227421 Larisa Grigore       2026-02-16  1038  		cr = (cr & ~LINFLEXD_UARTCR_SBUR_MASK) |
+1312e6586227421 Larisa Grigore       2026-02-16  1039  			LINFLEXD_UARTCR_SBUR_2SBITS;
+1312e6586227421 Larisa Grigore       2026-02-16  1040  		/* Set STOP in GCR field for 2 stop bits. */
+1312e6586227421 Larisa Grigore       2026-02-16  1041  		gcr = (gcr & ~LINFLEXD_GCR_STOP_MASK) |
+1312e6586227421 Larisa Grigore       2026-02-16  1042  			LINFLEXD_GCR_STOP_2SBITS;
+1312e6586227421 Larisa Grigore       2026-02-16  1043  	} else {
+1312e6586227421 Larisa Grigore       2026-02-16  1044  		/* Use 1 stop bit. */
+1312e6586227421 Larisa Grigore       2026-02-16  1045  		cr = (cr & ~LINFLEXD_UARTCR_SBUR_MASK) |
+1312e6586227421 Larisa Grigore       2026-02-16  1046  			LINFLEXD_UARTCR_SBUR_1SBITS;
+1312e6586227421 Larisa Grigore       2026-02-16  1047  		/* Set STOP in GCR field for 1 stop bit. */
+1312e6586227421 Larisa Grigore       2026-02-16  1048  		gcr = (gcr & ~LINFLEXD_GCR_STOP_MASK) |
+1312e6586227421 Larisa Grigore       2026-02-16  1049  			LINFLEXD_GCR_STOP_1SBITS;
+1312e6586227421 Larisa Grigore       2026-02-16  1050  	}
+1312e6586227421 Larisa Grigore       2026-02-16  1051  	/* Update GCR register. */
+1312e6586227421 Larisa Grigore       2026-02-16  1052  	writel(gcr, port->membase + GCR);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1053  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1054  	/* parity must be enabled when CS7 to match 8-bits format */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1055  	if ((termios->c_cflag & CSIZE) == CS7)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1056  		termios->c_cflag |= PARENB;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1057  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1058  	if ((termios->c_cflag & PARENB)) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1059  		cr |= LINFLEXD_UARTCR_PCE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1060  		if (termios->c_cflag & PARODD)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1061  			cr = (cr | LINFLEXD_UARTCR_PC0) &
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1062  			     (~LINFLEXD_UARTCR_PC1);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1063  		else
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1064  			cr = cr & (~LINFLEXD_UARTCR_PC1 &
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1065  				   ~LINFLEXD_UARTCR_PC0);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1066  	} else {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1067  		cr &= ~LINFLEXD_UARTCR_PCE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1068  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1069  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1070  	port->read_status_mask = 0;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1071  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1072  	if (termios->c_iflag & INPCK)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1073  		port->read_status_mask |=	(LINFLEXD_UARTSR_FEF |
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1074  						 LINFLEXD_UARTSR_PE0 |
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1075  						 LINFLEXD_UARTSR_PE1 |
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1076  						 LINFLEXD_UARTSR_PE2 |
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1077  						 LINFLEXD_UARTSR_PE3);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1078  	if (termios->c_iflag & (IGNBRK | BRKINT | PARMRK))
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1079  		port->read_status_mask |= LINFLEXD_UARTSR_FEF;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1080  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1081  	/* characters to ignore */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1082  	port->ignore_status_mask = 0;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1083  	if (termios->c_iflag & IGNPAR)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1084  		port->ignore_status_mask |= LINFLEXD_UARTSR_PE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1085  	if (termios->c_iflag & IGNBRK) {
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1086  		port->ignore_status_mask |= LINFLEXD_UARTSR_PE;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1087  		/*
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1088  		 * if we're ignoring parity and break indicators,
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1089  		 * ignore overruns too (for real raw support).
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1090  		 */
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1091  		if (termios->c_iflag & IGNPAR)
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1092  			port->ignore_status_mask |= LINFLEXD_UARTSR_BOF;
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1093  	}
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1094  
+1d3f5f07fafc712 Radu Pirea           2026-02-16 @1095  	if (port->uartclk) {
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1096  		ldiv_mul = linflex_ldiv_multiplier(port);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1097  		baud = uart_get_baud_rate(port, termios, old, 0,
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1098  					  port->uartclk / ldiv_mul);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1099  
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1100  		/* update the per-port timeout */
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1101  		uart_update_timeout(port, termios->c_cflag, baud);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1102  
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1103  		divisr = port->uartclk;
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1104  		dividr = ((unsigned long)baud * ldiv_mul);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1105  
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1106  		ibr = divisr / dividr;
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1107  		fbr = ((divisr % dividr) * 16 / dividr) & 0xF;
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1108  
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1109  		writel(ibr, port->membase + LINIBRR);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1110  		writel(fbr, port->membase + LINFBRR);
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1111  	}
+1d3f5f07fafc712 Radu Pirea           2026-02-16  1112  
+0b34325c5f79f1f Larisa Grigore       2026-02-16  1113  	lfport->dma_rx_timeout = msecs_to_jiffies(DIV_ROUND_UP(10000000, baud));
+0b34325c5f79f1f Larisa Grigore       2026-02-16  1114  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1115  	writel(cr, port->membase + UARTCR);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1116  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1117  	cr1 &= ~(LINFLEXD_LINCR1_INIT);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1118  
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1119  	writel(cr1, port->membase + LINCR1);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1120  
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16  1121  	cr |= (LINFLEXD_UARTCR_TXEN) | (LINFLEXD_UARTCR_RXEN);
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16  1122  	writel(cr, port->membase + UARTCR);
+fb1da4d7f0bec28 Larisa Grigore       2026-02-16  1123  
+0b34325c5f79f1f Larisa Grigore       2026-02-16  1124  	_linflex_start_rx(port);
+0b34325c5f79f1f Larisa Grigore       2026-02-16  1125  	_linflex_start_tx(port);
+0b34325c5f79f1f Larisa Grigore       2026-02-16  1126  
+7c6725ffd581335 Thomas Gleixner      2023-09-14  1127  	uart_port_unlock_irqrestore(port, flags);
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1128  }
+09864c1cdf5c537 Stefan-gabriel Mirea 2019-08-09  1129  
 
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
