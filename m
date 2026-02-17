@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mAa0G7WflGknGAIAu9opvQ
+	id SGLgJLiflGknGAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:53 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4508714E7F0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFC214E7FF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF81C10E51F;
-	Tue, 17 Feb 2026 17:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB30610E529;
+	Tue, 17 Feb 2026 17:04:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FA910E51F;
- Tue, 17 Feb 2026 17:04:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A35410E51F;
+ Tue, 17 Feb 2026 17:04:50 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id EE5CE3F213;
- Tue, 17 Feb 2026 18:04:45 +0100 (CET)
+ by psionic.psi5.com (Postfix) with ESMTPSA id D101848A3B;
+ Tue, 17 Feb 2026 18:04:47 +0100 (CET)
 From: Simon Richter <Simon.Richter@hogyros.de>
 To: linux-pci@vger.kernel.org
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH 3/5] vgaarb: mark vga_get family as __must_check
-Date: Wed, 18 Feb 2026 02:04:17 +0900
-Message-ID: <20260217170419.236739-4-Simon.Richter@hogyros.de>
+Subject: [PATCH 4/5] pci: check if VGA decoding was really activated
+Date: Wed, 18 Feb 2026 02:04:18 +0900
+Message-ID: <20260217170419.236739-5-Simon.Richter@hogyros.de>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260217170419.236739-1-Simon.Richter@hogyros.de>
 References: <20260217170419.236739-1-Simon.Richter@hogyros.de>
@@ -75,58 +75,37 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[hogyros.de];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4508714E7F0
+X-Rspamd-Queue-Id: 6AFC214E7FF
 X-Rspamd-Action: no action
 
-These functions can return an error, but some callers expect they don't, and
-unconditionally access VGA registers afterwards and call vga_put.
+PCI bridges are allowed to refuse activating VGA decoding, by simply ignoring
+attempts to set the bit that enables it, so after setting the bit, read it
+back to verify.
+
+One example of such a bridge is the root bridge in IBM PowerNV.
 
 Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
 ---
- include/linux/vgaarb.h | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/pci/pci.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
-index 97129a1bbb7d..de683d499dfa 100644
---- a/include/linux/vgaarb.h
-+++ b/include/linux/vgaarb.h
-@@ -27,7 +27,8 @@ struct pci_dev;
- 
- #ifdef CONFIG_VGA_ARB
- void vga_set_legacy_decoding(struct pci_dev *pdev, unsigned int decodes);
--int vga_get(struct pci_dev *pdev, unsigned int rsrc, int interruptible);
-+int __must_check vga_get(struct pci_dev *pdev, unsigned int rsrc,
-+		int interruptible);
- void vga_put(struct pci_dev *pdev, unsigned int rsrc);
- struct pci_dev *vga_default_device(void);
- void vga_set_default_device(struct pci_dev *pdev);
-@@ -39,7 +40,7 @@ static inline void vga_set_legacy_decoding(struct pci_dev *pdev,
- 		unsigned int decodes)
- {
- };
--static inline int vga_get(struct pci_dev *pdev, unsigned int rsrc,
-+static inline int __must_check vga_get(struct pci_dev *pdev, unsigned int rsrc,
- 		int interruptible)
- {
- 	return 0;
-@@ -74,7 +75,7 @@ static inline int vga_client_register(struct pci_dev *pdev,
-  *
-  * On success, release the VGA resource again with vga_put().
-  */
--static inline int vga_get_interruptible(struct pci_dev *pdev,
-+static inline int __must_check vga_get_interruptible(struct pci_dev *pdev,
- 					unsigned int rsrc)
- {
- 	return vga_get(pdev, rsrc, 1);
-@@ -89,7 +90,7 @@ static inline int vga_get_interruptible(struct pci_dev *pdev,
-  *
-  * On success, release the VGA resource again with vga_put().
-  */
--static inline int vga_get_uninterruptible(struct pci_dev *pdev,
-+static inline int __must_check vga_get_uninterruptible(struct pci_dev *pdev,
- 					  unsigned int rsrc)
- {
- 	return vga_get(pdev, rsrc, 0);
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index f3244630bfd0..0984a0aefb88 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -6198,6 +6198,12 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
+ 				cmd &= ~PCI_BRIDGE_CTL_VGA;
+ 			pci_write_config_word(bridge, PCI_BRIDGE_CONTROL,
+ 					      cmd);
++			if (decode) {
++				pci_read_config_word(bridge, PCI_BRIDGE_CONTROL,
++						     &cmd);
++				if(!(cmd & PCI_BRIDGE_CTL_VGA))
++					return -EIO;
++			}
+ 		}
+ 		bus = bus->parent;
+ 	}
 -- 
 2.47.3
 
