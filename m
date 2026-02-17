@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGzrAQ1ylWn8RQIAu9opvQ
+	id YHZ9HxFylWkWRgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78CE153D50
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AA5153D6C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF6D10E113;
-	Wed, 18 Feb 2026 08:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52AC210E57A;
+	Wed, 18 Feb 2026 08:02:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=zohomail.com header.i=mhklkml@zohomail.com header.b="a96ICpz4";
+	dkim=pass (1024-bit key; unprotected) header.d=zohomail.com header.i=mhklkml@zohomail.com header.b="BDkZPA5e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com
  [136.143.188.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534EA10E4E7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 18:23:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771352624; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17C6788DA9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 18:24:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771352626; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=WjuzFw+PXrNUmSxsL2pcyWyyYuQrFGTIENy2fxTeW++Z2yc+TPwweU0M3TvECGqYW97ql7GiMSR0xclAuY7V6447jYJY9MytUooYZ4KUAu5IUOz9yR1BqcEUIXnrScoT+01L84taEm++deKzsLeG2Sm31TfyLG+XjuonbqFmkUY=
+ b=elYPn0Vr4RsE0bGjcitHsOdQN16Q+v3K63PxWAitrUR9vjmro/DjYCWRX/gB4z+NPBLHHiV9jp09oPT4VyA78HsblZQi9nfEt3qmajM8F05WnSNpq2QhL8LWYZrUNE5/3JwrY4eTwXCmJ+/NWwqnki+Wh4JxJi+5ZB3o2ZUFLKI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771352624;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Reply-To:Reply-To:Subject:Subject:To:To:Message-Id;
- bh=secGQ8gJ+A/aEZorjaD129GrmUJMAQLRoILQUsk1s34=; 
- b=bKnf2gemc3jdXyQ+ot/MrmQ/fKBFrejkBsIUgEv7z44UTZ5AVVd/Nt7UHEKTZckFw1lReKiD8ms99tXK30a2P8WP1SyDu8kY6jgaWsjLOODh0gemgPhYerxyY6brreK3FUFxsO21+e2JABsgKLAMqorIuu2ERwBCvnNuYibka/o=
+ s=zohoarc; t=1771352626;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Reply-To:References:Subject:Subject:To:To:Message-Id;
+ bh=bCbocMqgUYFnJ+oYDgGHoTYrgPMBZlnF95h5ckvogTc=; 
+ b=Xzwl2HRyIlgivVwG9d5uR7Zln+XtbHKKYYgCthhSZ1Z4ltHiglA6acM7mP9i44yLV8vMROYf0MwESSL4KiCIg0A8L/Yqb1Wj/ewdBmq4TRcAltPZ4dCY6FxxkFm59JEtwnIuXVClKEUV7aF8wtkiB3L5vpcZfrgFkw4dUA/rPxg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=zohomail.com;
  spf=pass  smtp.mailfrom=mhklkml@zohomail.com;
  dmarc=pass header.from=<mhklkml@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771352624; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771352626; 
  s=zm2022; d=zohomail.com; i=mhklkml@zohomail.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:Reply-To:Reply-To:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
- bh=secGQ8gJ+A/aEZorjaD129GrmUJMAQLRoILQUsk1s34=;
- b=a96ICpz45/EPLzCwtsjQJGSQeywaIvJs1+vm5euokPV0k+5IBJ8i0Y41w1nxozwj
- 2o+NEcwhTZgCHoQUlaFTIF48qy23jTYSMt6k6PAG6REcR+T1bR+n3zf9aPtXvNYZ2Yl
- IvP23iG6xsXXZJtiNsHlpKZKOaEKRPGjwpof53WM=
-Received: by mx.zohomail.com with SMTPS id 1771352621999530.8202478046807;
- Tue, 17 Feb 2026 10:23:41 -0800 (PST)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:Reply-To:Reply-To:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+ bh=bCbocMqgUYFnJ+oYDgGHoTYrgPMBZlnF95h5ckvogTc=;
+ b=BDkZPA5eqeBJQZ9hfSejXzc4Ssff0BgcpM4EteApGsJ49atosvnHoFi6HQUqDj2m
+ mN/mFVQRUzGRo7befhRhY3VzjdqiGVMwU+ZaGyUunlmbnQrQWKN81IhWPFnV/bm7MbW
+ aMVX1BhP2CepPOaizmY8Z5J19MubOg1aNy+ZwfEI=
+Received: by mx.zohomail.com with SMTPS id 1771352623819939.9981858150902;
+ Tue, 17 Feb 2026 10:23:43 -0800 (PST)
 From: Michael Kelley <mhklkml@zohomail.com>
 To: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
@@ -50,14 +50,16 @@ To: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
  ryasuoka@redhat.com, jfalempe@redhat.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-hyperv@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v2 1/2] Drivers: hv: vmbus: Provide option to skip VMBus
- unload on panic
-Date: Tue, 17 Feb 2026 10:23:34 -0800
-Message-Id: <20260217182335.265585-1-mhklkml@zohomail.com>
+Subject: [PATCH v2 2/2] drm/hyperv: During panic do VMBus unload after frame
+ buffer is flushed
+Date: Tue, 17 Feb 2026 10:23:35 -0800
+Message-Id: <20260217182335.265585-2-mhklkml@zohomail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260217182335.265585-1-mhklkml@zohomail.com>
+References: <20260217182335.265585-1-mhklkml@zohomail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Feedback-ID: rr08011227ccb303be702fc9b91d3953f30000e29f6a2f9b0bf7f5bad0ef5b2e8081a2669eea31ad3ebd845e:zu08011227eb7b9ae6314e7f1f0b2a639800000b19db97a9b3666c59faac2d54943373ed5f06961ee1a3990b:rf0801122679a09cfd55e7bbdf618a9a6a00002ace3421f4f745b2d350401f57001777dd36ccb57310860b:ZohoMail
+Feedback-ID: rr08011227b2401215a7bf2b8306f9898d000025434cf800c0383b4465d5f9756fcc758ae3994a376c0510ac:zu08011227b23318a12f7d079f4eda8acf000022701c04a2c86e6073d06bac3e2f27ba60d6a0fac42dd94141:rf08011226056746b3e97faaae845a475700004e492f8612d1d2d6af5354727a3ac0c9b7a183b60a6beecc:ZohoMail
 X-ZohoMailClient: External
 X-Mailman-Approved-At: Wed, 18 Feb 2026 08:02:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,13 +93,13 @@ X-Spamd-Result: default: False [2.69 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_REPLYTO(0.00)[outlook.com];
 	FROM_NEQ_ENVFROM(0.00)[mhklkml@zohomail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:drawat.floss@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kys@microsoft.com,m:haiyangz@microsoft.com,m:wei.liu@kernel.org,m:decui@microsoft.com,m:longli@microsoft.com,m:ryasuoka@redhat.com,m:jfalempe@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-hyperv@vger.kernel.org,m:stable@vger.kernel.org,m:drawatfloss@gmail.com,s:lists@lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,microsoft.com,redhat.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[mhklkml@zohomail.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:drawat.floss@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kys@microsoft.com,m:haiyangz@microsoft.com,m:wei.liu@kernel.org,m:decui@microsoft.com,m:longli@microsoft.com,m:ryasuoka@redhat.com,m:jfalempe@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-hyperv@vger.kernel.org,m:stable@vger.kernel.org,m:drawatfloss@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -106,133 +108,103 @@ X-Spamd-Result: default: False [2.69 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	DKIM_TRACE(0.00)[zohomail.com:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	TO_DN_NONE(0.00)[];
 	HAS_REPLYTO(0.00)[mhklinux@outlook.com];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: C78CE153D50
+X-Rspamd-Queue-Id: 31AA5153D6C
 X-Rspamd-Action: no action
 
 From: Michael Kelley <mhklinux@outlook.com>
 
-Currently, VMBus code initiates a VMBus unload in the panic path so
-that if a kdump kernel is loaded, it can start fresh in setting up its
-own VMBus connection. However, a driver for the VMBus virtual frame
-buffer may need to flush dirty portions of the frame buffer back to
-the Hyper-V host so that panic information is visible in the graphics
-console. To support such flushing, provide exported functions for the
-frame buffer driver to specify that the VMBus unload should not be
-done by the VMBus driver, and to initiate the VMBus unload itself.
-Together these allow a frame buffer driver to delay the VMBus unload
-until after it has completed the flush.
+In a VM, Linux panic information (reason for the panic, stack trace,
+etc.) may be written to a serial console and/or a virtual frame buffer
+for a graphics console. The latter may need to be flushed back to the
+host hypervisor for display.
 
-Ideally, the VMBus driver could use its own panic-path callback to do
-the unload after all frame buffer drivers have finished. But DRM frame
-buffer drivers use the kmsg dump callback, and there are no callbacks
-after that in the panic path. Hence this somewhat messy approach to
-properly sequencing the frame buffer flush and the VMBus unload.
+The current Hyper-V DRM driver for the frame buffer does the flushing
+*after* the VMBus connection has been unloaded, such that panic messages
+are not displayed on the graphics console. A user with a Hyper-V graphics
+console is left with just a hung empty screen after a panic. The enhanced
+control that DRM provides over the panic display in the graphics console
+is similarly non-functional.
+
+Commit 3671f3777758 ("drm/hyperv: Add support for drm_panic") added
+the Hyper-V DRM driver support to flush the virtual frame buffer. It
+provided necessary functionality but did not handle the sequencing
+problem with VMBus unload.
+
+Fix the full problem by using VMBus functions to suppress the VMBus
+unload that is normally done by the VMBus driver in the panic path. Then
+after the frame buffer has been flushed, do the VMBus unload so that a
+kdump kernel can start cleanly. As expected, CONFIG_DRM_PANIC must be
+selected for these changes to have effect. As a side benefit, the
+enhanced features of the DRM panic path are also functional.
 
 Fixes: 3671f3777758 ("drm/hyperv: Add support for drm_panic")
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
-Changes in v2: None
+Changes in v2: Removed test of CONFIG_PRINTK in deciding whether
+   to have VMBus skip the unload. A separate patch by Jocelyn Falempe
+   incorporates the CONFIG_PRINTK dependency into CONFIG_DRM_PANIC.
 
- drivers/hv/channel_mgmt.c |  1 +
- drivers/hv/hyperv_vmbus.h |  1 -
- drivers/hv/vmbus_drv.c    | 25 ++++++++++++++++++-------
- include/linux/hyperv.h    |  3 +++
- 4 files changed, 22 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c     |  5 +++++
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 15 ++++++++-------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 74fed2c073d4..5de83676dbad 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -944,6 +944,7 @@ void vmbus_initiate_unload(bool crash)
- 	else
- 		vmbus_wait_for_unload();
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index 06b5d96e6eaf..b6bf6412ae34 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -150,6 +150,10 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
+ 		goto err_free_mmio;
+ 	}
+ 
++	/* If DRM panic path is stubbed out VMBus code must do the unload */
++	if (IS_ENABLED(CONFIG_DRM_PANIC))
++		vmbus_set_skip_unload(true);
++
+ 	drm_client_setup(dev, NULL);
+ 
+ 	return 0;
+@@ -169,6 +173,7 @@ static void hyperv_vmbus_remove(struct hv_device *hdev)
+ 	struct drm_device *dev = hv_get_drvdata(hdev);
+ 	struct hyperv_drm_device *hv = to_hv(dev);
+ 
++	vmbus_set_skip_unload(false);
+ 	drm_dev_unplug(dev);
+ 	drm_atomic_helper_shutdown(dev);
+ 	vmbus_close(hdev->channel);
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index 7978f8c8108c..d48ca6c23b7c 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -212,15 +212,16 @@ static void hyperv_plane_panic_flush(struct drm_plane *plane)
+ 	struct hyperv_drm_device *hv = to_hv(plane->dev);
+ 	struct drm_rect rect;
+ 
+-	if (!plane->state || !plane->state->fb)
+-		return;
++	if (plane->state && plane->state->fb) {
++		rect.x1 = 0;
++		rect.y1 = 0;
++		rect.x2 = plane->state->fb->width;
++		rect.y2 = plane->state->fb->height;
+ 
+-	rect.x1 = 0;
+-	rect.y1 = 0;
+-	rect.x2 = plane->state->fb->width;
+-	rect.y2 = plane->state->fb->height;
++		hyperv_update_dirt(hv->hdev, &rect);
++	}
+ 
+-	hyperv_update_dirt(hv->hdev, &rect);
++	vmbus_initiate_unload(true);
  }
-+EXPORT_SYMBOL_GPL(vmbus_initiate_unload);
  
- static void vmbus_setup_channel_state(struct vmbus_channel *channel,
- 				      struct vmbus_channel_offer_channel *offer)
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index cdbc5f5c3215..5d3944fc93ae 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -440,7 +440,6 @@ void hv_vss_deinit(void);
- int hv_vss_pre_suspend(void);
- int hv_vss_pre_resume(void);
- void hv_vss_onchannelcallback(void *context);
--void vmbus_initiate_unload(bool crash);
- 
- static inline void hv_poll_channel(struct vmbus_channel *channel,
- 				   void (*cb)(void *))
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 6785ad63a9cb..97dfa529d250 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -69,19 +69,29 @@ bool vmbus_is_confidential(void)
- }
- EXPORT_SYMBOL_GPL(vmbus_is_confidential);
- 
-+static bool skip_vmbus_unload;
-+
-+/*
-+ * Allow a VMBus framebuffer driver to specify that in the case of a panic,
-+ * it will do the VMbus unload operation once it has flushed any dirty
-+ * portions of the framebuffer to the Hyper-V host.
-+ */
-+void vmbus_set_skip_unload(bool skip)
-+{
-+	skip_vmbus_unload = skip;
-+}
-+EXPORT_SYMBOL_GPL(vmbus_set_skip_unload);
-+
- /*
-  * The panic notifier below is responsible solely for unloading the
-  * vmbus connection, which is necessary in a panic event.
-- *
-- * Notice an intrincate relation of this notifier with Hyper-V
-- * framebuffer panic notifier exists - we need vmbus connection alive
-- * there in order to succeed, so we need to order both with each other
-- * [see hvfb_on_panic()] - this is done using notifiers' priorities.
-  */
- static int hv_panic_vmbus_unload(struct notifier_block *nb, unsigned long val,
- 			      void *args)
- {
--	vmbus_initiate_unload(true);
-+	if (!skip_vmbus_unload)
-+		vmbus_initiate_unload(true);
-+
- 	return NOTIFY_DONE;
- }
- static struct notifier_block hyperv_panic_vmbus_unload_block = {
-@@ -2848,7 +2858,8 @@ static void hv_crash_handler(struct pt_regs *regs)
- {
- 	int cpu;
- 
--	vmbus_initiate_unload(true);
-+	if (!skip_vmbus_unload)
-+		vmbus_initiate_unload(true);
- 	/*
- 	 * In crash handler we can't schedule synic cleanup for all CPUs,
- 	 * doing the cleanup for current CPU only. This should be sufficient
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index dfc516c1c719..b0502a336eb3 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1334,6 +1334,9 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
- 			bool fb_overlap_ok);
- void vmbus_free_mmio(resource_size_t start, resource_size_t size);
- 
-+void vmbus_initiate_unload(bool crash);
-+void vmbus_set_skip_unload(bool skip);
-+
- /*
-  * GUID definitions of various offer types - services offered to the guest.
-  */
+ static const struct drm_plane_helper_funcs hyperv_plane_helper_funcs = {
 -- 
 2.25.1
 
