@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8MldEI7ilGmWIgIAu9opvQ
+	id ILGTBJTilGmWIgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:06 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68A2151027
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F7F151067
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A446E10E2B6;
-	Tue, 17 Feb 2026 21:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCC310E530;
+	Tue, 17 Feb 2026 21:50:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="HxDxg4Vk";
+	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="c+3i52pm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-03.smtp.spacemail.com (out-03.smtp.spacemail.com
- [63.250.43.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3689F10E2B6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:01 +0000 (UTC)
+Received: from out-13.smtp.spacemail.com (out-13.smtp.spacemail.com
+ [63.250.43.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1969110E2B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:02 +0000 (UTC)
 Received: from mac.pk.shawcable.net (S0106dceb699ec90f.pk.shawcable.net
  [24.69.43.232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNP1yfGz6tkL;
- Tue, 17 Feb 2026 21:40:21 +0000 (UTC)
+ by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNR3f8pz6tkM;
+ Tue, 17 Feb 2026 21:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=r-sc.ca;
- s=spacemail; t=1771364423;
- bh=oTz3oWFK5OfP2qYkAaOru18NOUe5Uc5v0FwjeqftcXk=;
+ s=spacemail; t=1771364425;
+ bh=i2/2h3twt+ZWYOxhg0qj91iP6oQyKNIMoDg7PwtB6dM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=HxDxg4VkycB2TqNC+bUIRp4nMiYINiBSVkq80kIhsOZ7ilCk6Jfxi3RYEfi6e45pu
- HYHVxxpQ0eeqbLMohzrUUYeh7vBTesqisaass1NA8mXBeUEu9Wei6Ojqpzh0LQrTX2
- pG3l12j/V/yxU98KgkpX6wapBAMHNM/YIZlJerVFhx0lq+ehLJEqM+KjtBowuez0xh
- 8AQTunrWCHk+6eJsKVEqJk3D555553BuWkCHsab2SQrgqP2RTDqE8xM6Y0hO8jaKve
- VayHMHx9KmGReyY1kl53e4wX57jr+rhnsz+gOkXfdw3N9f2jxHuAWyclogg5yFYHIi
- AsWLprdXsUlvQ==
+ b=c+3i52pmVkNyW4+sGHjRAOEnAUW4mTtO74haAYbbJoox6EWlBsdaj7RbUBdmQ5RKI
+ orodcK38f86+s0uOfrepwndtxpDojsN1ZkRVMDHxQ5Xjs1rvZNTm1rFz0/mF75AoUd
+ yoUmGS1DBHppy43DT+RpIHZ8BlvT4kIUUuyrPSLJ7r7EhBiFzJkZeLB50mp+ryxPtb
+ zaG0EuL/NI3qkf2RcPm9khtaHxypJzePhW0AQKg+pe/jt4qoxhDn/LfHJXbqev0HOM
+ jn1U4mHjZXYHxJ1GScoOLR+nQGMilhjnU3nz96K2OmqZifZYs7dIH/JVvT54US96gI
+ 0y/iaPqicVMxg==
 From: Ross Cawston <ross@r-sc.ca>
-Date: Tue, 17 Feb 2026 13:39:50 -0800
-Subject: [PATCH 2/5] accel/rocket: Enable ping-pong mode only for
- multi-task jobs
+Date: Tue, 17 Feb 2026 13:39:51 -0800
+Subject: [PATCH 3/5] accel/rocket: Add per-task flags and interrupt mask to
+ UAPI and kernel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260217-accel-rocket-clean-base-v1-2-d72354325a25@r-sc.ca>
+Message-Id: <20260217-accel-rocket-clean-base-v1-3-d72354325a25@r-sc.ca>
 References: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
 In-Reply-To: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
@@ -55,11 +55,11 @@ To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Ross Cawston <ross@r-sc.ca>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=1192;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=2842;
  i=ross@r-sc.ca; s=20260217; h=from:subject:message-id;
- bh=Cb4+IVDkbQUsrtBc50YqMxFErQMDOR9dE7jYs8FPuWs=;
- b=kgV09ggsxo5ywlguj5jWKWb/WbBAvwB77ZRO5dWWnXtIeQV1nOhqsXh7n4fUUlfxyrg/OTmQi
- LKUIGFFWzzcCK+8X0UtBix1CHw8nPF9FNXp53t0Hn/5B4pdmGsSObB5
+ bh=VVUhz8zvdbOtmRMr4903pZBKIMyDW8HDNtWn1p9X3mM=;
+ b=7tce/8rUj1Ez3tX+T0SIKAC4ZjopLXBhKwyEg/mnXfYPbXVkyXtt0l7pOSnWi/5X8wFa+LuQF
+ exqoacfWxmIDe5Hp+IvpGz4nIOCjAVZXaGhivB9am17tl9QULoUmh0E
 X-Developer-Key: i=ross@r-sc.ca; a=ed25519;
  pk=c50mfTDLKsgS2tlqXEZEvb/VGiLvxjsLOw5M50DxhtM=
 X-Envelope-From: ross@r-sc.ca
@@ -89,8 +89,8 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:ross@r-sc.ca,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[ross@r-sc.ca,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[ross@r-sc.ca,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_TO(0.00)[tomeuvizoso.net,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
@@ -109,37 +109,103 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,r-sc.ca:mid,r-sc.ca:dkim,r-sc.ca:email]
-X-Rspamd-Queue-Id: A68A2151027
+X-Rspamd-Queue-Id: B8F7F151067
 X-Rspamd-Action: no action
 
-Ping-pong mode (PC_TASK_CON_TASK_PP_EN) is required for chaining multiple
-tasks in a job, but is unnecessary overhead for single-task jobs.
+Add two new fields to struct drm_rocket_task (UAPI) and struct rocket_task
+(kernel):
 
-Set it conditionally based on job->task_count to avoid pointless buffer
-management cycles and slightly reduce per-job latency/power on simple
-workloads.
+- u32 int_mask: which block completion interrupt(s) should signal task done
+- u32 flags: currently only ROCKET_TASK_SKIP_CNA_CORE
 
-No functional change or risk of corruption for existing jobs - backward
-compatible.
+In rocket_copy_tasks():
+- copy the new fields
+- default int_mask to DPU_0 | DPU_1 when userspace passes zero (backward compatible)
+
+No functional change yet - old userspace continues to work unchanged.
 
 Signed-off-by: Ross Cawston <ross@r-sc.ca>
 ---
- drivers/accel/rocket/rocket_job.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/accel/rocket/rocket_job.c |  8 ++++++++
+ drivers/accel/rocket/rocket_job.h |  2 ++
+ include/uapi/drm/rocket_accel.h   | 25 +++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+)
 
 diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index acd606160dc9..369b60805d5f 100644
+index 369b60805d5f..34898084cc56 100644
 --- a/drivers/accel/rocket/rocket_job.c
 +++ b/drivers/accel/rocket/rocket_job.c
-@@ -143,7 +143,7 @@ static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *jo
- 	rocket_pc_writel(core, TASK_CON, PC_TASK_CON_RESERVED_0(1) |
- 					 PC_TASK_CON_TASK_COUNT_CLEAR(1) |
- 					 PC_TASK_CON_TASK_NUMBER(1) |
--					 PC_TASK_CON_TASK_PP_EN(1));
-+					 PC_TASK_CON_TASK_PP_EN(job->task_count > 1 ? 1 : 0));
+@@ -96,6 +96,14 @@ rocket_copy_tasks(struct drm_device *dev,
  
- 	rocket_pc_writel(core, TASK_DMA_BASE_ADDR, PC_TASK_DMA_BASE_ADDR_DMA_BASE_ADDR(0x0));
+ 		rjob->tasks[i].regcmd = task.regcmd;
+ 		rjob->tasks[i].regcmd_count = task.regcmd_count;
++		rjob->tasks[i].int_mask = task.int_mask;
++		rjob->tasks[i].flags = task.flags;
++
++		/* Default to DPU completion if no mask specified */
++		if (!rjob->tasks[i].int_mask) {
++			rjob->tasks[i].int_mask = PC_INTERRUPT_MASK_DPU_0 |
++									PC_INTERRUPT_MASK_DPU_1;
++		}
+ 	}
  
+ 	return 0;
+diff --git a/drivers/accel/rocket/rocket_job.h b/drivers/accel/rocket/rocket_job.h
+index 4ae00feec3b9..6931dfed8615 100644
+--- a/drivers/accel/rocket/rocket_job.h
++++ b/drivers/accel/rocket/rocket_job.h
+@@ -13,6 +13,8 @@
+ struct rocket_task {
+ 	u64 regcmd;
+ 	u32 regcmd_count;
++	u32 int_mask;
++	u32 flags;
+ };
+ 
+ struct rocket_job {
+diff --git a/include/uapi/drm/rocket_accel.h b/include/uapi/drm/rocket_accel.h
+index d0685e372b79..ae0d8e48afcd 100644
+--- a/include/uapi/drm/rocket_accel.h
++++ b/include/uapi/drm/rocket_accel.h
+@@ -90,6 +90,11 @@ struct drm_rocket_fini_bo {
+ 	__u32 reserved;
+ };
+ 
++/**
++ * Flags for drm_rocket_task.flags
++ */
++#define ROCKET_TASK_SKIP_CNA_CORE		0x1
++
+ /**
+  * struct drm_rocket_task - A task to be run on the NPU
+  *
+@@ -106,6 +111,26 @@ struct drm_rocket_task {
+ 	 * buffer
+ 	 */
+ 	__u32 regcmd_count;
++
++	/**
++	 * Input: Interrupt mask specifying which block completion signals
++	 * that this task is done. Uses PC_INTERRUPT_MASK_* bits.
++	 *
++	 * For conv/DPU tasks: DPU_0 | DPU_1 (0x0300)
++	 * For PPU tasks:      PPU_0 | PPU_1 (0x0C00)
++	 *
++	 * If zero, defaults to DPU_0 | DPU_1 for backwards compatibility.
++	 */
++	__u32 int_mask;
++
++	/**
++	 * Input: Task flags.
++	 *
++	 * ROCKET_TASK_SKIP_CNA_CORE: Skip CNA and Core S_POINTER MMIO
++	 * writes for this task. Used for standalone DPU element-wise
++	 * and PPU pooling tasks that don't use CNA/Core.
++	 */
++	__u32 flags;
+ };
+ 
+ /**
 
 -- 
 2.52.0
