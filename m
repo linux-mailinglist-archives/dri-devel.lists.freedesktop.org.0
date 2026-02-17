@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGIFGPkclGn0/wEAu9opvQ
+	id aFW4B5YelGk1AAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:47:05 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:53:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE27E1494B4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6AE14965D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7864D10E107;
-	Tue, 17 Feb 2026 07:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADD510E453;
+	Tue, 17 Feb 2026 07:53:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VmW8SglM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LNnvFNt8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7518410E107
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:01 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E6210E453
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:53:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D8E6660133
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E301C19421
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7DEB2407B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:53:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5168FC2BCB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771314420;
- bh=dxnGa/cVc8wiz3CAx5xyZwQLQ3WeJqp8d7JK62vveYc=;
+ s=k20201202; t=1771314829;
+ bh=tA2t5oeOUZ8eAwOpBVyGbemY7+jVRLWknKxnMDhCYms=;
  h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=VmW8SglM+nLULxuqktoFTPGxWAF+Sl6D0VixW4NVolzSyYSmZ512sppxaA7VdjBKW
- +FcjNrjTRPO3MILfzYeYORBbp8vdBRlIJecGPR7duKqOcNnE6BaXWe971Xd1Si5exs
- P7bKbd0zFfQXol6OapQFLDY6aQnyLDBd8Qqtvng09cua4lgRlihG2hX0pg1z+ZFjOz
- HCj3Ql+rTGMze+fkXp28GyN7fgOH5baBLa5IwPqXo2RRudS1P5hjMjgvDGiX8rDjq/
- VMyYy4QK0YbkzqDglil4TiTXCQMS9rZwhuDOTgyQ47dsCnhq8coopi98NZpWp/iwWL
- tUOCaUbfvJXOw==
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-59e6491f1a2so4105551e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 23:47:00 -0800 (PST)
+ b=LNnvFNt8TzdVxP6kq+X0upGc19BXHfJFty3jpW6tHWQJBEFvfpyonpjVgsx+jJ8mW
+ OhxWML1LoAuUxm6+M0IARUuQl8IpXeq3+tOEtWsvJuEwOD9nRjWDP/3PsuMsv7RZQ0
+ xsb/4z/aHIf8IXV9W1PuBJDPsydg617d4nwN8d9c9v8y5b0MP32wNRAZT+Yeq1YnIF
+ tKMvS140nE/O7gk0LldojB8VqdP+gJKoyiKObJFg59UEgD+cQ5qxdiadZ1yhraRSTT
+ v8KRahk1cQUgDZRiKE/Ps5AcYuVJ6HpkkhH2HZ8FWx/l2liL76A5UDmxW0kJacNQvz
+ bLZC7NTveINRg==
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-38706f96202so24713091fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 23:53:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqnkVJ91m50UZ4mOCgBlIcvK+PBhdJq514KCyqtT0hUI7jCQzoQz1ttV5LVqJ8sEJt99vdDcSyYbQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzARWPAbql69file623sl5l//CBp59CxCQtimQl1cq/ysVyL9ua
- C+uLiejG0KdVOcy2fUWo1Fa2xUdlI7ykpZQyLXM8tZERta4dzQ62WqZKOD77iAMfmcC4ozb+paC
- wKbeRVWd0Ig3eK6fVMWnZgpA9OdhvG5I=
-X-Received: by 2002:a05:6512:b10:b0:59e:4a2f:9911 with SMTP id
- 2adb3069b0e04-59f6cfe394amr3433880e87.23.1771314418957; Mon, 16 Feb 2026
- 23:46:58 -0800 (PST)
+ AJvYcCWAmKOGUL842YNvun2rJfJcSCFhwcxScjYcUEX+KAXaBrmupg4a+H7A8KyyW+BaXnZYpV1AfnEhy+8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6Np5ASSJPhOIDFh4adNhJH5dWoDjgT037AYc4VgHDtqrEPl1o
+ bQBuVvDoD5pJFEpfDRBXjPyImHoPCxzptIpjgxBm6ARB+xMbJPSIdnA95oRblF8QOkLYKAVzPt5
+ DeLuKDWXD9scsqkt6IgHDD7mhxba2wO4=
+X-Received: by 2002:a2e:be1e:0:b0:383:1232:379a with SMTP id
+ 38308e7fff4ca-3881050bca3mr34254911fa.2.1771314827466; Mon, 16 Feb 2026
+ 23:53:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20260217063647.3160826-1-wens@kernel.org>
- <20260217063647.3160826-3-wens@kernel.org>
-In-Reply-To: <20260217063647.3160826-3-wens@kernel.org>
+References: <20260217014801.60760-1-ethantidmore06@gmail.com>
+In-Reply-To: <20260217014801.60760-1-ethantidmore06@gmail.com>
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 17 Feb 2026 15:46:46 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65VfqySctgx0XZOA0UN+FOwwXw9ubCXmy-VNy4ouLNspQ@mail.gmail.com>
-X-Gm-Features: AaiRm53C01_zHKmVcItSQPEtYM86NeiYnzpVZ7IGrq00V0FaA2dulzpxY63wYBg
-Message-ID: <CAGb2v65VfqySctgx0XZOA0UN+FOwwXw9ubCXmy-VNy4ouLNspQ@mail.gmail.com>
-Subject: Re: [RFT PATCH 2/2] drm/panel: sitronix-st7789v: Convert to mipi_dbi
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Michael Riesch <michael.riesch@collabora.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Archit Anant <architanant5@gmail.com>, dri-devel@lists.freedesktop.org, 
+Date: Tue, 17 Feb 2026 15:53:34 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64iwahkDyuTtWo3YsdgExBu-fs8XRcsgPvWX5ETb=irtg@mail.gmail.com>
+X-Gm-Features: AaiRm53D6IJmr1XrVqkJyD7FBEAc639vco0g_d6NG7g082rgVzjQ9c8XaAjLhcg
+Message-ID: <CAGb2v64iwahkDyuTtWo3YsdgExBu-fs8XRcsgPvWX5ETb=irtg@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: backend: fix error pointer dereference
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: jernej.skrabec@gmail.com, samuel@sholland.org, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+ simona@ffwll.ch, neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -86,24 +79,25 @@ Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sebastian.reichel@collabora.com,m:gerald.loacker@wolfvision.net,m:michael.riesch@collabora.com,m:miquel.raynal@bootlin.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:architanant5@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ethantidmore06@gmail.com,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:neil.armstrong@linaro.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,wolfvision.net,bootlin.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SEM_FAIL(0.00)[131.252.210.177:query timed out];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,sholland.org,kernel.org,linux.intel.com,suse.de,ffwll.ch,linaro.org,lists.freedesktop.org,lists.infradead.org,lists.linux.dev,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -119,23 +113,25 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: DE27E1494B4
+X-Rspamd-Queue-Id: DF6AE14965D
 X-Rspamd-Action: no action
 
-Please ignore this version. This had a change that was half squashed in.
+On Tue, Feb 17, 2026 at 9:48=E2=80=AFAM Ethan Tidmore <ethantidmore06@gmail=
+.com> wrote:
+>
+> The function drm_atomic_get_plane_state() can return an error pointer
+> and is not checked for it. Add error pointer check.
+>
+> Detected by Smatch:
+> drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() er=
+ror:
+> 'plane_state' dereferencing possible ERR_PTR()
+>
+> Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for =
+the frontend")
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-On Tue, Feb 17, 2026 at 2:37=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
-e:
->
-> The wire protocol of the ST7789V is basically MIPI DBI. Switch to the
-> mipi_dbi helpers to reduce some code. This also ends up adding support
-> for 8-bit D/C mode. The reset logic in the mipi_dbi helpers is also
-> used.
->
-> While at it, also clean up st7789v_check_id() to use ST7789V_IDS_SIZE
-> to declare the ids array size and sizeof(ids) where the size is
-> needed.
->
-> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
