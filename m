@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OMSAL2xk2kK7wEAu9opvQ
+	id aAENEcixk2kK7wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 01:09:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 01:09:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C99148381
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 01:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC471483A9
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 01:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF1610E413;
-	Tue, 17 Feb 2026 00:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1138810E415;
+	Tue, 17 Feb 2026 00:09:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SlYBcxfO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e+yxo96D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D15E10E413
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 00:09:29 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-8c70ab3b5fcso477527685a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:09:29 -0800 (PST)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C531D10E415
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 00:09:40 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-8cb5138df1aso240387585a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 16:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771286968; x=1771891768; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771286980; x=1771891780; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wJNsYMYd9WE61KVnWXqfq16TaaDDlcF/LGemXO+3tJs=;
- b=SlYBcxfOvN72YVbRVl1rn3x6e7p8iHWH5UI8boKVMXjNxJzacqNs+jPdKYKmPDiVMG
- RKc6SYU9KXA8M2DP5gQlGujaq8K3Y/B/DjyEkmLU+XIna8VS83CwUcjDckZuRkbaPAPk
- UfbomEVjclF7gnZ9qf4xJCrK6NhFXHCDUK+u3c4aX295rD64zfu8tcErwzIB9q2udEX0
- fK8siSp3I0059XMNeJLgFQ+Pahw+P7fYxfUycbYkUvvucZrpotkFhcRbTSekTFjStBRB
- HsydP3Rh7dg8uPCYbs6G3mdktVc28DUf3Ng4KC3f6rGJsBuXOucVg9ByNuv5eKqb5as2
- vqbQ==
+ bh=Oa4VVnq/PmbRXPOCA0iMVFkR6b/DwoIi4kzwka75JGM=;
+ b=e+yxo96DdBFSBPvyoN38gfVC4n1qciez2RqyUUUgecUdC3dehaPHY/LfdUktk4UNL/
+ uqmIxtwVAuu+H79OOjYH+RFbw5xc9oAlT8m7ko6MYGXPfJlb4evrV/niCxtmosKrqU5B
+ C/I/WFa8YC/oVJJ09SY6w+UdIV/BpM1PMxRYm3UDj1ZkSElR8/gqPh2M0JywVP/JOSpR
+ 7k1TSPkk17X+RHp0svIu8Vl2lz4OsB/MxA1JDwdGyBHDdcq6HiEwEjY9HBuBGzFw2i6P
+ 3dHQ21aal3IKmpUUOBRFMGwHFFFhf+YngkZXpUhpzAP9fdoq8/OYe29Vfzuv3XQst1Q2
+ xZoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771286968; x=1771891768;
+ d=1e100.net; s=20230601; t=1771286980; x=1771891780;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=wJNsYMYd9WE61KVnWXqfq16TaaDDlcF/LGemXO+3tJs=;
- b=brxDsruduLjm3kVWyuTHhwy2PKSIieg9WTO1m1ZqKXoTg8NUT6wsYqFeQVN0MfmoOQ
- RZEjG/yzn1PblvSc1+1rsLJYInsM59dtaiwsV3Oc+ezWdigNuFFETXEjcEzbOvBjan/e
- NAWnioZw+zWbW4ijO8uAtUt3MaCN3Cu7eS4ALsbe62mRbcUFQ9GrECbLBK+oQFst8IxS
- PDLopiVVd4gzm6AIpgQFWX9s3RKrpq5iXheHuRleFcZ3Mo1FOmU/iEN5EuADdU7lstiF
- tRdsifcsauH2MyYxk7kmSTO+CBet9IYDWSuQOWpMsG2D32vm9f9I69Kdb7OMVMYrlLo6
- JSTA==
+ bh=Oa4VVnq/PmbRXPOCA0iMVFkR6b/DwoIi4kzwka75JGM=;
+ b=r47TPgrSk9wFnqqwyQBkDo2cQnePQNiRorqHrRBKwQsb8c7mofRee7lIuMpZxICCuf
+ v8Kne/yf2erS6zTFgz4pqaRRGRZ30OlJl+XT8bZ2KhFBbtVRPzs7ILd/KsreHla8pqCl
+ v2GJsJP+jo+C8TmZY20YPZ/I32fWHzm5d7wdNlv/OOxAPL+lv3aJdryhfVfeiqvUHx/h
+ CRQRlTnPIaxjelavF1zFZitey4Vf8nibmz0xtOR36PQejai3L9VUNxllhRg1hQhldKeg
+ zPHVbpofblHKRIL2wTR96gJ3bf8PeacAJ9Zpaq6AqtzvymfADx6FM9N+tdt1u3bZyG7u
+ 7nDQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMLJJJv7V9YrjiEpfeXSiuQTCwpkjv9LuZfN0YliMnYR6JVwN30qE5NE9OGSL+8XTWsslYi1EakGM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1aLSJbHGcyB9YesCJuF79Snz9hKrr9IUiMFB8iI7uHa84ZzUL
- URwZNipRYkNMUBQWM8D8pBcZ/kOAjZAXAJtN5BJRfFzXKlf/c+NqYCmz
-X-Gm-Gg: AZuq6aIkcx1eg+091l7CNyp90W/ffIyl+gPmZtpx7NuuCunAa/maIxVgx1rvOd75Pgh
- CSS5NhSX4DIIw7MBoGneOytKdAVEZW/OQmY0ZaPkVvasZ01eS0uOxjIbtzQ5zFLgaf+XqsxpXPS
- 03amm9ADMTNRwJ5uFaWPBJ7KjA64Yiz5KSL7OcEUPN2jdtvA9Neld7v7J1su2di9BPwGC4Iz80C
- k3nFdlQaPLuYd6MzGALWX3Wah+XyZtuKorTJ2ls51hYND13ku+DOboei4Essm1h3q1ehxuL9ytk
- 6t1TA05MQpx1Glf9/aNZElxZGGde+akw+/nTjVFxoiCT4OKOqtjRcc/3r94ovXtv2kb08kpaFFa
- JBW2ukbtzBtEtO7L7p7l8slQS/9ppZapvo0KsCvuCH+ssRgpD/xEFOTUZVdERw52baDKNZWmQ/x
- PVVgmTU+WrdW6WR0g59puep23cmbz6Jg==
-X-Received: by 2002:a05:620a:28cb:b0:89f:7109:185f with SMTP id
- af79cd13be357-8cb4bf97d9cmr1114663385a.31.1771286968267; 
- Mon, 16 Feb 2026 16:09:28 -0800 (PST)
+ AJvYcCVmn1r1OwhWU6bpF17OnuOwJfgywNRGGGp8ggxSnwHR8Qip6uF/9/Dhm+zF4DJvxVV0GF2bz5h4ypM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJOKAaPiFRAKHXoxWd96zam+/Mj4xHaZvcgqg0Rd17Q3VkQHap
+ TUnn5gG3TIUjxPeiehjI/IjRGmUXvA2IYTmVWwagkCe7PVNt3Z34hkEu
+X-Gm-Gg: AZuq6aLhbV9ATb3DfaQArAdoiKagtA9ouDmCLVQmpYnCmk0Ur8VnV/FM+MMAW9SltnX
+ Q9FVTA8m/DxGXwdxTbKRcbsdYYpNUDc1Ce1s3aYg9AbASyOX1hFTAkCT4tLk1OamXXcXIhcpOaM
+ GJdxx2zX5A5YIMmdSEg+Mn8iBC61NkFRxzDRg+K34XtTongrfpXTzLRRpPiWXrbRrDlhXykobcH
+ nKt3bUc4VXSXGYvr3tKBDfVcFEsZJ4lQYP7wUaz8UQNWaGm8bIAJ6o2j/J/vLt2nq5VsxYXe94G
+ 2iJhVCs3F1P4f4OIEY72aED36rYGtLQ1lHnXyHoH8UG6WNIY1rp5E9DKAgQCJmK4TVsO0KuA6Xn
+ osX7bPVivzT6FaRgLe3aGE/uFnnG13TOHJWKM2gQmzsOp+t8tnyUcN7SLVP8YIVlYMewo64f73s
+ QgLs5Gm1dTxYGwiWDVOSVKCB8NCo+z4w==
+X-Received: by 2002:a05:620a:2952:b0:8cb:4289:6c1a with SMTP id
+ af79cd13be357-8cb4c01e31amr1045501585a.75.1771286979891; 
+ Mon, 16 Feb 2026 16:09:39 -0800 (PST)
 Received: from localhost ([184.144.58.243]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8cb2b0bc162sm1399256785a.2.2026.02.16.16.09.27
+ 6a1803df08f44-8971cdc554fsm150087946d6.48.2026.02.16.16.09.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Feb 2026 16:09:27 -0800 (PST)
+ Mon, 16 Feb 2026 16:09:39 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -81,10 +81,10 @@ To: Bjorn Andersson <andersson@kernel.org>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: yifei@zhan.science,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v2 5/6] arm64: dts: qcom: sdm670-google: add common device
- tree include
-Date: Mon, 16 Feb 2026 19:08:53 -0500
-Message-ID: <20260217000854.131242-6-mailingradian@gmail.com>
+Subject: [PATCH v2 6/6] arm64: dts: qcom: add support for pixel 3a xl with the
+ tianma panel
+Date: Mon, 16 Feb 2026 19:08:54 -0500
+Message-ID: <20260217000854.131242-7-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260217000854.131242-1-mailingradian@gmail.com>
 References: <20260217000854.131242-1-mailingradian@gmail.com>
@@ -141,832 +141,76 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 29C99148381
+X-Rspamd-Queue-Id: ADC471483A9
 X-Rspamd-Action: no action
 
-The Pixel 3a XL can be supported by reusing most of the device tree from
-the Pixel 3a. Move the common elements to a common device tree include
-like with other devices.
+The Pixel 3a XL has variants with either a Samsung Display Controller (SDC)
+panel or a Tianma panel. Add the device tree for the variant with the
+Tianma panel.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- ...le-sargo.dts => sdm670-google-common.dtsi} |  18 +-
- .../boot/dts/qcom/sdm670-google-sargo.dts     | 710 +-----------------
- 2 files changed, 21 insertions(+), 707 deletions(-)
- copy arch/arm64/boot/dts/qcom/{sdm670-google-sargo.dts => sdm670-google-common.dtsi} (97%)
+ arch/arm64/boot/dts/qcom/Makefile             |  1 +
+ .../dts/qcom/sdm670-google-bonito-tianma.dts  | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/qcom/sdm670-google-bonito-tianma.dts
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-similarity index 97%
-copy from arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-copy to arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-index 2e86bed9ea8c..c47e78aeef9e 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-@@ -6,8 +6,6 @@
-  * Copyright (c) 2022, Richard Acayan. All rights reserved.
-  */
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 6f34d5ed331c..6237aeb0e36d 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -245,6 +245,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sdm632-motorola-ocean.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sdm636-sony-xperia-ganges-mermaid.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sdm660-xiaomi-lavender.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sdm670-google-sargo.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sdm670-google-bonito-tianma.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sdm845-db845c.dtb
  
--/dts-v1/;
--
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/leds/common.h>
-@@ -28,9 +26,6 @@
- /delete-node/ &gpu_mem;
- 
- / {
--	model = "Google Pixel 3a";
--	compatible = "google,sargo", "qcom,sdm670";
--
- 	aliases { };
- 
- 	battery: battery {
-@@ -38,7 +33,6 @@ battery: battery {
- 
- 		voltage-min-design-microvolt = <3312000>;
- 		voltage-max-design-microvolt = <4400000>;
--		charge-full-design-microamp-hours = <3000000>;
- 	};
- 
- 	chosen {
-@@ -50,11 +44,9 @@ chosen {
- 
- 		framebuffer: framebuffer@9c000000 {
- 			compatible = "simple-framebuffer";
--			reg = <0 0x9c000000 0 (1080 * 2220 * 4)>;
--			width = <1080>;
--			height = <2220>;
--			stride = <(1080 * 4)>;
-+			/* dimensions and size are in specific device trees */
- 			format = "a8r8g8b8";
-+			status = "disabled";
- 		};
- 	};
- 
-@@ -518,8 +510,6 @@ rmi4-f01@1 {
- 
- 		rmi4_f12: rmi4-f12@12 {
- 			reg = <0x12>;
--			touchscreen-x-mm = <62>;
--			touchscreen-y-mm = <127>;
- 			syna,sensor-type = <1>;
- 		};
- 	};
-@@ -534,7 +524,7 @@ &mdss_dsi0 {
- 	status = "okay";
- 
- 	panel: panel@0 {
--		compatible = "samsung,s6e3fa7-ams559nk06";
-+		/* compatible is provided in specific device trees */
- 		reg = <0>;
- 
- 		reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
-@@ -544,6 +534,8 @@ panel: panel@0 {
- 
- 		power-supply = <&vreg_l6b_3p3>;
- 
-+		status = "disabled";
-+
- 		port {
- 			panel_in: endpoint {
- 				remote-endpoint = <&mdss_dsi0_out>;
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-index 2e86bed9ea8c..7a3e24997232 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-@@ -1,715 +1,37 @@
--// SPDX-License-Identifier: GPL-2.0
+ sdm845-db845c-navigation-mezzanine-dtbs	:= sdm845-db845c.dtb sdm845-db845c-navigation-mezzanine.dtbo
+diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-bonito-tianma.dts b/arch/arm64/boot/dts/qcom/sdm670-google-bonito-tianma.dts
+new file mode 100644
+index 000000000000..da309434b511
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/sdm670-google-bonito-tianma.dts
+@@ -0,0 +1,38 @@
 +// SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Device tree for Google Pixel 3a, adapted from google-blueline device tree,
-- * xiaomi-lavender device tree, and oneplus-common device tree.
-+ * Device tree for Google Pixel 3a (non-XL).
-  *
-- * Copyright (c) 2022, Richard Acayan. All rights reserved.
-+ * Copyright (c) 2023, Richard Acayan. All rights reserved.
-  */
- 
- /dts-v1/;
- 
--#include <dt-bindings/gpio/gpio.h>
--#include <dt-bindings/input/input.h>
--#include <dt-bindings/leds/common.h>
--#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
--#include <dt-bindings/power/qcom-rpmpd.h>
--#include "sdm670.dtsi"
--#include "pm660.dtsi"
--#include "pm660l.dtsi"
--
--/delete-node/ &mpss_region;
--/delete-node/ &venus_mem;
--/delete-node/ &wlan_msa_mem;
--/delete-node/ &cdsp_mem;
--/delete-node/ &mba_region;
--/delete-node/ &adsp_mem;
--/delete-node/ &ipa_fw_mem;
--/delete-node/ &ipa_gsi_mem;
--/delete-node/ &gpu_mem;
++/*
++ * Device tree for Google Pixel 3a XL with the panel connected to the Samsung
++ * Display Controller.
++ *
++ * Copyright (c) 2023-2024, Richard Acayan. All rights reserved.
++ */
++
++/dts-v1/;
++
 +#include "sdm670-google-common.dtsi"
- 
- / {
- 	model = "Google Pixel 3a";
- 	compatible = "google,sargo", "qcom,sdm670";
--
--	aliases { };
--
--	battery: battery {
--		compatible = "simple-battery";
--
--		voltage-min-design-microvolt = <3312000>;
--		voltage-max-design-microvolt = <4400000>;
--		charge-full-design-microamp-hours = <3000000>;
--	};
--
--	chosen {
--		stdout-path = "serial0:115200n8";
--
--		#address-cells = <2>;
--		#size-cells = <2>;
--		ranges;
--
--		framebuffer: framebuffer@9c000000 {
--			compatible = "simple-framebuffer";
--			reg = <0 0x9c000000 0 (1080 * 2220 * 4)>;
--			width = <1080>;
--			height = <2220>;
--			stride = <(1080 * 4)>;
--			format = "a8r8g8b8";
--		};
--	};
--
--	gpio-keys {
--		compatible = "gpio-keys";
--		autorepeat;
--
--		pinctrl-names = "default";
--		pinctrl-0 = <&vol_up_pin>;
--
--		key-vol-up {
--			label = "Volume Up";
--			linux,code = <KEY_VOLUMEUP>;
--			gpios = <&pm660l_gpios 7 GPIO_ACTIVE_LOW>;
--		};
--	};
--
--	reserved-memory {
--		#address-cells = <2>;
--		#size-cells = <2>;
--
--		mpss_region: mpss@8b000000 {
--			reg = <0 0x8b000000 0 0x9800000>;
--			no-map;
--		};
--
--		venus_mem: venus@94800000 {
--			reg = <0 0x94800000 0 0x500000>;
--			no-map;
--		};
--
--		wlan_msa_mem: wlan-msa@94d00000 {
--			reg = <0 0x94d00000 0 0x100000>;
--			no-map;
--		};
--
--		cdsp_mem: cdsp@94e00000 {
--			reg = <0 0x94e00000 0 0x800000>;
--			no-map;
--		};
--
--		mba_region: mba@95600000 {
--			reg = <0 0x95600000 0 0x200000>;
--			no-map;
--		};
--
--		adsp_mem: adsp@95800000 {
--			reg = <0 0x95800000 0 0x2200000>;
--			no-map;
--		};
--
--		ipa_fw_mem: ipa-fw@97a00000 {
--			reg = <0 0x97a00000 0 0x10000>;
--			no-map;
--		};
--
--		ipa_gsi_mem: ipa-gsi@97a10000 {
--			reg = <0 0x97a10000 0 0x5000>;
--			no-map;
--		};
--
--		gpu_mem: gpu@97a15000 {
--			reg = <0 0x97a15000 0 0x2000>;
--			no-map;
--		};
--
--		framebuffer-region@9c000000 {
--			reg = <0 0x9c000000 0 0x2400000>;
--			no-map;
--		};
--
--		/* Also includes ramoops regions */
--		debug_info_mem: debug-info@a1800000 {
--			reg = <0 0xa1800000 0 0x411000>;
--			no-map;
--		};
--	};
--
--	/*
--	 * The touchscreen regulator seems to be controlled somehow by a gpio.
--	 * Model it as a fixed regulator and keep it on. Without schematics we
--	 * don't know how this is actually wired up...
--	 */
--	ts_1p8_supply: ts-1p8-regulator {
--		compatible = "regulator-fixed";
--		regulator-name = "ts_1p8_supply";
--
--		regulator-min-microvolt = <1800000>;
--		regulator-max-microvolt = <1800000>;
--
--		gpio = <&pm660_gpios 12 GPIO_ACTIVE_HIGH>;
--		enable-active-high;
--	};
--
--	vph_pwr: vph-pwr-regulator {
--		compatible = "regulator-fixed";
--		regulator-name = "vph_pwr";
--		regulator-min-microvolt = <3312000>;
--		regulator-max-microvolt = <3312000>;
--
--		regulator-always-on;
--		regulator-boot-on;
--	};
--
--	/*
--	 * Supply map from xiaomi-lavender specifies this as the supply for
--	 * ldob1, ldob9, ldob10, ldoa2, and ldoa3, while downstream specifies
--	 * this as a power domain. Set this as a fixed regulator with the same
--	 * voltage as lavender until display is needed to avoid unneccessarily
--	 * using a deprecated binding (regulator-fixed-domain).
--	 */
--	vreg_s2b_1p05: vreg-s2b-regulator {
--		compatible = "regulator-fixed";
--		regulator-name = "vreg_s2b";
--		regulator-min-microvolt = <1050000>;
--		regulator-max-microvolt = <1050000>;
--	};
--
--	cam_front_ldo: cam-front-ldo-regulator {
--		compatible = "regulator-fixed";
--		regulator-name = "cam_front_ldo";
--		regulator-min-microvolt = <1352000>;
--		regulator-max-microvolt = <1352000>;
--		regulator-enable-ramp-delay = <135>;
--
--		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
--		enable-active-high;
--
--		pinctrl-0 = <&cam_front_ldo_pin>;
--		pinctrl-names = "default";
--	};
--
--	cam_vio_ldo: cam-vio-ldo-regulator {
--		compatible = "regulator-fixed";
--		regulator-name = "cam_vio_ldo";
--		regulator-min-microvolt = <1800000>;
--		regulator-max-microvolt = <1800000>;
--		regulator-enable-ramp-delay = <233>;
--
--		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
--		enable-active-high;
--
--		pinctrl-0 = <&cam_vio_pin>;
--		pinctrl-names = "default";
--	};
--};
--
--&apps_rsc {
--	regulators-0 {
--		compatible = "qcom,pm660-rpmh-regulators";
--		qcom,pmic-id = "a";
--
--		vdd-s1-supply = <&vph_pwr>;
--		vdd-s2-supply = <&vph_pwr>;
--		vdd-s3-supply = <&vph_pwr>;
--		vdd-s4-supply = <&vph_pwr>;
--		vdd-s5-supply = <&vph_pwr>;
--		vdd-s6-supply = <&vph_pwr>;
--
--		vdd-l1-l6-l7-supply = <&vreg_s6a_0p87>;
--		vdd-l2-l3-supply = <&vreg_s2b_1p05>;
--		vdd-l5-supply = <&vreg_s2b_1p05>;
--		vdd-l8-l9-l10-l11-l12-l13-l14-supply = <&vreg_s4a_2p04>;
--		vdd-l15-l16-l17-l18-l19-supply = <&vreg_bob>;
--
--		/*
--		 * S1A (FTAPC0), S2A (FTAPC1), S3A (HFAPC1) are managed
--		 * by the Core Power Reduction hardened (CPRh) and the
--		 * Operating State Manager (OSM) HW automatically.
--		 */
--
--		vreg_s4a_2p04: smps4 {
--			regulator-min-microvolt = <1808000>;
--			regulator-max-microvolt = <2040000>;
--			regulator-enable-ramp-delay = <200>;
--		};
--
--		vreg_s6a_0p87: smps6 {
--			regulator-min-microvolt = <1224000>;
--			regulator-max-microvolt = <1352000>;
--			regulator-enable-ramp-delay = <150>;
--		};
--
--		/* LDOs */
--		vreg_l1a_1p225: ldo1 {
--			regulator-min-microvolt = <1200000>;
--			regulator-max-microvolt = <1250000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l2a_1p0: ldo2 {
--			regulator-min-microvolt = <1000000>;
--			regulator-max-microvolt = <1000000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l3a_1p0: ldo3 {
--			regulator-min-microvolt = <1000000>;
--			regulator-max-microvolt = <1000000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l5a_0p848: ldo5 {
--			regulator-min-microvolt = <800000>;
--			regulator-max-microvolt = <800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l6a_1p3: ldo6 {
--			regulator-min-microvolt = <1248000>;
--			regulator-max-microvolt = <1304000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l7a_1p2: ldo7 {
--			regulator-min-microvolt = <1200000>;
--			regulator-max-microvolt = <1200000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l8a_1p8: ldo8 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--			regulator-always-on;
--		};
--
--		vreg_l9a_1p8: ldo9 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l10a_1p8: ldo10 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l11a_1p8: ldo11 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l12a_1p8: ldo12 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l13a_1p8: ldo13 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l14a_1p8: ldo14 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <1800000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l15a_1p8: ldo15 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <2950000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l16a_2p7: ldo16 {
--			regulator-min-microvolt = <2696000>;
--			regulator-max-microvolt = <2696000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l17a_1p8: ldo17 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <2950000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l19a_3p3: ldo19 {
--			regulator-min-microvolt = <3000000>;
--			regulator-max-microvolt = <3312000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--	};
--
--	regulators-1 {
--		compatible = "qcom,pm660l-rpmh-regulators";
--		qcom,pmic-id = "b";
--
--		vdd-s1-supply = <&vph_pwr>;
--		vdd-s2-supply = <&vph_pwr>;
--		vdd-s3-s4-supply = <&vph_pwr>;
--		vdd-s5-supply = <&vph_pwr>;
--
--		vdd-l1-l9-l10-supply = <&vreg_s2b_1p05>;
--		vdd-l2-supply = <&vreg_bob>;
--		vdd-l3-l5-l7-l8-supply = <&vreg_bob>;
--		vdd-l4-l6-supply = <&vreg_bob>;
--		vdd-bob-supply = <&vph_pwr>;
--
--		/* LDOs */
--		vreg_l1b_0p925: ldo1 {
--			regulator-min-microvolt = <880000>;
--			regulator-max-microvolt = <900000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l2b_2p95: ldo2 {
--			regulator-min-microvolt = <1800000>;
--			regulator-max-microvolt = <2960000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l3b_3p0: ldo3 {
--			regulator-min-microvolt = <2850000>;
--			regulator-max-microvolt = <3008000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l4b_2p95: ldo4 {
--			regulator-min-microvolt = <2960000>;
--			regulator-max-microvolt = <2960000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l5b_2p95: ldo5 {
--			regulator-min-microvolt = <2960000>;
--			regulator-max-microvolt = <2960000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l6b_3p3: ldo6 {
--			regulator-min-microvolt = <3008000>;
--			regulator-max-microvolt = <3300000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l7b_3p125: ldo7 {
--			regulator-min-microvolt = <3088000>;
--			regulator-max-microvolt = <3100000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		vreg_l8b_3p3: ldo8 {
--			regulator-min-microvolt = <3300000>;
--			regulator-max-microvolt = <3312000>;
--			regulator-enable-ramp-delay = <250>;
--		};
--
--		/*
--		 * Downstream specifies a fixed voltage of 3.312 V, but the
--		 * PMIC4 BOB ranges don't support that. Widen the range a
--		 * little to avoid adding a new BOB regulator type.
--		 */
--		vreg_bob: bob {
--			regulator-min-microvolt = <3296000>;
--			regulator-max-microvolt = <3328000>;
--			regulator-enable-ramp-delay = <500>;
--		};
--	};
--};
--
--&camss {
--	vdda-phy-supply = <&vreg_l1a_1p225>;
--	vdda-pll-supply = <&vreg_s6a_0p87>;
--
--	status = "okay";
--};
--
--&camss_port1 {
--	camss_endpoint1: endpoint {
--		data-lanes = <0 1 2 3>;
--		remote-endpoint = <&cam_front_endpoint>;
--	};
--};
--
--&cci {
--	pinctrl-0 = <&cci1_default>;
--	pinctrl-1 = <&cci1_sleep>;
--	pinctrl-names = "default", "sleep";
--
--	status = "okay";
--};
--
--&cci_i2c1 {
--	camera@1a {
--		compatible = "sony,imx355";
--		reg = <0x1a>;
--
--		clocks = <&camcc CAM_CC_MCLK2_CLK>;
--
--		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
--		assigned-clock-rates = <19200000>;
--
--		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
--
--		avdd-supply = <&cam_front_ldo>;
--		dvdd-supply = <&cam_front_ldo>;
--		dovdd-supply = <&cam_vio_ldo>;
--
--		pinctrl-0 = <&cam_mclk2_default>;
--		pinctrl-names = "default";
--
--		rotation = <270>;
--		orientation = <0>;
--
--		port {
--			cam_front_endpoint: endpoint {
--				link-frequencies = /bits/ 64 <360000000>;
--				remote-endpoint = <&camss_endpoint1>;
--			};
--		};
--	};
--};
--
--&gcc {
--	protected-clocks = <GCC_QSPI_CORE_CLK>,
--			   <GCC_QSPI_CORE_CLK_SRC>,
--			   <GCC_QSPI_CNOC_PERIPH_AHB_CLK>;
--};
--
--&gpi_dma1 {
--	status = "okay";
--};
--
--&gpu {
--	status = "okay";
--};
--
--&gpu_zap_shader {
--	firmware-name = "qcom/sdm670/sargo/a615_zap.mbn";
--};
--
--&i2c9 {
--	clock-frequency = <100000>;
--	status = "okay";
--
--	synaptics-rmi4-i2c@20 {
--		compatible = "syna,rmi4-i2c";
--		reg = <0x20>;
--		interrupts-extended = <&tlmm 125 IRQ_TYPE_EDGE_FALLING>;
--
--		pinctrl-names = "default";
--		pinctrl-0 = <&touchscreen_default>;
--
--		vio-supply = <&ts_1p8_supply>;
--
--		syna,reset-delay-ms = <200>;
--		syna,startup-delay-ms = <200>;
--
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		rmi4-f01@1 {
--			reg = <0x01>;
--			syna,nosleep-mode = <1>;
--		};
--
--		rmi4_f12: rmi4-f12@12 {
--			reg = <0x12>;
--			touchscreen-x-mm = <62>;
--			touchscreen-y-mm = <127>;
--			syna,sensor-type = <1>;
--		};
--	};
- };
- 
--&mdss {
--	status = "okay";
++
++/ {
++	model = "Google Pixel 3a XL (with Tianma panel)";
++	compatible = "google,bonito-tianma", "google,bonito", "qcom,sdm670";
++};
++
 +&battery {
-+	charge-full-design-microamp-hours = <3000000>;
- };
- 
--&mdss_dsi0 {
--	vdda-supply = <&vreg_l1a_1p225>;
++	charge-full-design-microamp-hours = <3700000>;
++};
++
 +&framebuffer {
-+	reg = <0 0x9c000000 0 (1080 * 2220 * 4)>;
++	reg = <0 0x9c000000 0 (1080 * 2160 * 4)>;
 +	width = <1080>;
-+	height = <2220>;
++	height = <2160>;
 +	stride = <(1080 * 4)>;
- 	status = "okay";
--
--	panel: panel@0 {
--		compatible = "samsung,s6e3fa7-ams559nk06";
--		reg = <0>;
--
--		reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
--
--		pinctrl-names = "default";
--		pinctrl-0 = <&panel_default>;
--
--		power-supply = <&vreg_l6b_3p3>;
--
--		port {
--			panel_in: endpoint {
--				remote-endpoint = <&mdss_dsi0_out>;
--			};
--		};
--	};
- };
- 
--&mdss_dsi0_out {
--	remote-endpoint = <&panel_in>;
--	data-lanes = <0 1 2 3>;
--};
--
--&mdss_dsi0_phy {
--	vdds-supply = <&vreg_l1b_0p925>;
--	status = "okay";
--};
--
--&mdss_mdp {
++	status = "okay";
++};
++
 +&panel {
-+	compatible = "samsung,s6e3fa7-ams559nk06";
- 	status = "okay";
- };
- 
--&pm660_charger {
--	monitored-battery = <&battery>;
--	status = "okay";
--};
--
--&pm660_gpios {
--	cam_vio_pin: cam-vio-state {
--		pins = "gpio13";
--		function = "normal";
--		power-source = <0>;
--	};
--};
--
--&pm660_rradc {
--	status = "okay";
--};
--
--&pm660l_flash {
--	status = "okay";
--
--	led-0 {
--		function = LED_FUNCTION_FLASH;
--		color = <LED_COLOR_ID_WHITE>;
--		led-sources = <1>, <2>;
--		led-max-microamp = <500000>;
--		flash-max-microamp = <1500000>;
--		flash-max-timeout-us = <1280000>;
--	};
--};
--
--&pm660l_gpios {
--	cam_front_ldo_pin: cam-front-state {
--		pins = "gpio4";
--		function = "normal";
--		power-source = <0>;
--	};
--
--	vol_up_pin: vol-up-state {
--		pins = "gpio7";
--		function = "normal";
--		qcom,drive-strength = <PMIC_GPIO_STRENGTH_NO>;
--		input-enable;
--		bias-pull-up;
--	};
--};
--
--&pon_pwrkey {
--	status = "okay";
--};
--
--&pon_resin {
--	linux,code = <KEY_VOLUMEDOWN>;
--	status = "okay";
--};
--
--&qupv3_id_1 {
--	status = "okay";
--};
--
--&sdhc_1 {
--	supports-cqe;
--	mmc-hs200-1_8v;
--	mmc-hs400-1_8v;
--	mmc-ddr-1_8v;
--
--	qcom,ddr-config = <0xc3040873>;
--
--	vmmc-supply = <&vreg_l4b_2p95>;
--	vqmmc-supply = <&vreg_l8a_1p8>;
--
--	status = "okay";
--};
--
--&tlmm {
--	gpio-reserved-ranges = <0 4>, <81 4>;
--
--	panel_default: panel-default-state {
--		te-pins {
--			pins = "gpio10";
--			function = "mdp_vsync";
--			drive-strength = <2>;
--			bias-pull-down;
--		};
--
--		reset-pins {
--			pins = "gpio75";
--			function = "gpio";
--			drive-strength = <8>;
--			bias-disable;
--		};
--
--		mode-pins {
--			pins = "gpio76";
--			function = "gpio";
--			drive-strength = <8>;
--			bias-disable;
--		};
--	};
--
--	touchscreen_default: ts-default-state {
--		ts-reset-pins {
--			pins = "gpio99";
--			function = "gpio";
--			drive-strength = <2>;
--			bias-pull-up;
--			output-high;
--		};
--
--		ts-irq-pins {
--			pins = "gpio125";
--			function = "gpio";
--			drive-strength = <2>;
--			bias-disable;
--		};
--
--		ts-switch-pins {
--			pins = "gpio135";
--			function = "gpio";
--			drive-strength = <2>;
--			bias-disable;
--			output-low;
--		};
--	};
--};
--
--&usb_1_hsphy {
--	vdd-supply = <&vreg_l1b_0p925>;
--	vdda-pll-supply = <&vreg_l10a_1p8>;
--	vdda-phy-dpdm-supply = <&vreg_l7b_3p125>;
--
--	status = "okay";
--};
--
--&usb_1 {
--	qcom,select-utmi-as-pipe-clk;
--	status = "okay";
--};
--
--&usb_1_dwc3 {
--	/* Only peripheral works for now */
--	dr_mode = "peripheral";
--
--	/* Do not assume that sdm670.dtsi will never support USB 3.0 */
--	phys = <&usb_1_hsphy>;
--	phy-names = "usb2-phy";
--	maximum-speed = "high-speed";
++	compatible = "novatek,nt37700f";
++	status = "okay";
++};
++
 +&rmi4_f12 {
-+	touchscreen-x-mm = <63>;
-+	touchscreen-y-mm = <127>;
- };
++	touchscreen-x-mm = <69>;
++	touchscreen-y-mm = <137>;
++};
 -- 
 2.53.0
 
