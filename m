@@ -2,103 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mmhqOC+RlGl3FgIAu9opvQ
+	id 6HyxL6ySlGl3FgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:02:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:09:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C631F14DD47
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B8D14DE77
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 17:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A858610E506;
-	Tue, 17 Feb 2026 16:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E20F10E507;
+	Tue, 17 Feb 2026 16:09:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j3vZi/un";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jdI9ajUo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com
- [74.125.82.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2360A10E506
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 16:02:51 +0000 (UTC)
-Received: by mail-dy1-f178.google.com with SMTP id
- 5a478bee46e88-2ba6737fafbso248526eec.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 08:02:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771344170; cv=none;
- d=google.com; s=arc-20240605;
- b=HlU7ws/kN7yZAJh2PApIs4rhr9aH97ICrbzpQXPzqld9OQSjVOVTkf0zVEm71bNP1D
- DKPXnRZb+/+tVImtHmsa5x8bYjD2BYOWCrjTt00giPk67NmASCmHd4QMbTFalSOBm5mH
- bFKMgQ4VsGtHgBwSuukY0kQTilhmOtjFsFnVv9bnexXcqRdaBnf+inOiZt96PFmzg5g8
- VONH0rD6PSa8PeqGUuNnDN31yOCM11KlvE4b3VRMiBUCUMn5bxbC34LDer0/peSex/Gj
- b/1tf9N/R/702qfBEfqdCHsnTwxPY8JjVhvvRpozuNJSZBa7W9e2FT0OSjQt5NVOlI9N
- oOwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=ds5w4fDDQjAmUOKkCZAAHm6bwPF1jPuCREKc474PPb8=;
- fh=JS9SbTD8IYeW7D1lftsbtKDe2d/MNCZh6IqQZPuHm7U=;
- b=QNicKzyfDhK/QOCMoC53GILGnfW685zTilhUPG/Q5USCimpEpXNKQtfrVXtskpByCG
- BoMLINhdTTk6YvSR6mEWvlzrd4FQ+XKoquV6z5XllE5fTwn/8s9ODDp879E4mzyGwQiG
- 7An/urgVZAjbblSa9vJBjAAPsOpWPYA8/VLKYpzNrTnYpHd3Ac/De0zIGSJAQ1C9CTYd
- jbjDqstIZ/D5kmmxnt9LVFNsB9RlCbyxhLt/02xj6CmY9l6JjxAx1CSLX9kHupl5iy6d
- PCdZUjftc4u4Zs2VDfkP7QPcJyzbDoVHkTsUnY2QmHf8MV3EIMsTOK32ExbybuR6ysNS
- ltYg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771344170; x=1771948970; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ds5w4fDDQjAmUOKkCZAAHm6bwPF1jPuCREKc474PPb8=;
- b=j3vZi/unS9wJdm2vdx6TcIzxA2hCwhqvEKUpYFZvs/kbzCi2xZIBQRrVIpPMYK+JAJ
- 0StUD/9LbPUK3suB6fWhs5ODWO0n6ziuZn/+YiBxumuqmGLwIdqq+Qn65uV8ZhWrvPce
- naCYEKgtgZbQy+65fpNAGLY5YRs5ksWYLcTp41gJA9um86M/aZjf6TFT6XSpGiE7c9gH
- 4sHk1eJjF1PuWjuvhKQD2xdHSn644qjgdbBj9Zs7uuxKdURso/xI2zX4zJgl3gCZGm7x
- QtodQtBqNPotnHujGFP+W5sBYZeOnP3C5yP5t+RGKl+hTzKtZTYVfEZixLWWVeQ9PGgc
- EJ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771344170; x=1771948970;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ds5w4fDDQjAmUOKkCZAAHm6bwPF1jPuCREKc474PPb8=;
- b=R4yx0TpwGumZcIUKZegOwFpcJYOs3JIYT7FSjePr0itGDWjVnob7tPXIRAtqdZ75xL
- pOa+tc2mCm0z8uXZzkPGzkp0Gv9f67SElnYPd5ZR+2p3Oy961An5sivJew/qPXmlYcBv
- 4xMV12/ZFn9FzJx3T3O1bRbfJf6N8Wrs6Hz2Cqh1p8aAeSZ/CZDaCihZIOd/7o0ASTI9
- SrGykS6YREQZYot5hcdxcLrt6PXx53PRVVr9TLfoZI+a2eo0TTslHjiARp2qtgRdsS6j
- O1wdPctJSj6b6/7rrE6Do2sCfYJ7WC7oRQxrZMLgA+AhvfA78Ffh8jkCoBF5FG8dPnEy
- xefQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhtJGk5t15cBEhPkTxkstz+Fk025lPLgXSifuJFdLAV910KtVl8MyCZeNWAAsuXPBfCGwKcwhEXVc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFqwG8bPlvtzUtLebSIA5H80scMYsjSjvyY4Mk8vaeq3Y6mXdJ
- afjIkfcGy6B/agf2LGvxd/G7SuDj0KuWzKdeH8lNW3HyjntWARsxDcgMHNMxUn92jo3c3rRUeNV
- LT1CI9Kq6er/FtgAjvHtluL9hdJFTg+U=
-X-Gm-Gg: AZuq6aKhufVDnThBogZuUMMp3NBDG73ONohlIgTrjRvDVFiaukgnuOXZdxjUyMQgHOi
- YfJWSiNJYDtV9c1LiYAc0EXgtt5JrMQ/2O8xVQV1lzZKj0GN6tZHbnJBYdeeouOK9huV5dM/boN
- TLZeLL+WxFHNkgsngYwTZpDpeeSb6CT+p2ksIJfWXJMH9Qx6Qo4Uza26c+FBzuBVX6GSW1ce3q5
- +NzVIrpNA0Qw9KPpHm8wG05luVWQIV2jMQeltf1uOZjZutJRezcFjzulo9spMPzve0CHcS3vqs3
- vweyvlqgY7KLV2EA8XNi8B3qrLUzcSf0sNG4s8I+jzj3+QlF0YXqtN/hEN3/q7tPjwCYsg==
-X-Received: by 2002:a05:7022:3f88:b0:127:1186:8139 with SMTP id
- a92af1059eb24-127399924b3mr2422472c88.7.1771344169843; Tue, 17 Feb 2026
- 08:02:49 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEA9B10E508
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 16:09:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1771344550;
+ bh=oj5P0IlCAmq5u6uQiTJRMhcL4zzj1vWIrVqyNs511+g=;
+ h=From:Date:Subject:To:Cc:From;
+ b=jdI9ajUoFpYWROHwud5emVcYcYmdduhc4kQ35JUNOO7peCot0an1riXYdVpy15UpO
+ ETLXfKFK9efVmrR0I7cvtB8gz8Zqb9dClE4kf1PY4LdYdeZzuhD/JSGPZIupvTZMRL
+ lIKT8Nw+Yc5u2kRixBUdseS+yw6SLx1sGdZRwNWRCFD/sPmb8bRkQaUTRyQEy36UtF
+ tSwV6duRVjUbt3EMAQVjMWG3rvOALn3umccshdhZoBp/Dni4V0/GVYChJwpGdm1/It
+ OJsqn5kj31WVRb8S9n6FIA6uBvdXcqtveY2BbYRaOakOhoH/ydI+ka/5zCfWA3XMoh
+ Z3dRmuCuTAF1g==
+Received: from jupiter.universe (dyndsl-091-248-212-099.ewe-ip-backbone.de
+ [91.248.212.99])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sre)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 66E9A17E0330;
+ Tue, 17 Feb 2026 17:09:10 +0100 (CET)
+Received: by jupiter.universe (Postfix, from userid 1000)
+ id 0DDB4480024; Tue, 17 Feb 2026 17:09:10 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Tue, 17 Feb 2026 17:08:45 +0100
+Subject: [PATCH RFC] drm/rockchip: vop2: Add clock rate mode check
 MIME-Version: 1.0
-References: <20260211102657.4180-1-pierre-eric.pelloux-prayer@amd.com>
- <20260211102657.4180-2-pierre-eric.pelloux-prayer@amd.com>
-In-Reply-To: <20260211102657.4180-2-pierre-eric.pelloux-prayer@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 17 Feb 2026 11:02:37 -0500
-X-Gm-Features: AaiRm52PCCSzU4QYVzs4N2Ex_L7aEWiZQn__J-gR4mjdzdGVpgCy8sdjxtXFQqk
-Message-ID: <CADnq5_N8tOnB6TRTESD724F-X4_ak=f83qJ-cKSZX3ntmg9mkQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/6] drm/amdgpu: move devcoredump generation to a worker
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260217-vop2-clk-rate-check-v1-1-989b569119ba@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAIySlGkC/x3MwQpAQBCA4VfRnE0xh11clQdwlcM2BhOhXUnJu
+ 9scv8P/PxDEqwSokge8XBp03yLyNAGe3TYJ6hANlJHJKLd47Qchrwt6dwryLLwgmYJMaW3BjiG
+ Wh5dR7//aQdvU0L/vB10WRr5qAAAA
+X-Change-ID: 20260217-vop2-clk-rate-check-268269778cac
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: Daniel Stone <daniels@collabora.com>, Alexey Charkov <alchark@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5101;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=oj5P0IlCAmq5u6uQiTJRMhcL4zzj1vWIrVqyNs511+g=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGmUkqVmnkE0ziEh65jDJYT0fQOrGQj+8CiIZ
+ y0teNN50VKhdokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJplJKlAAoJENju1/PI
+ O/qa2+AQAIC1BxwLivVGw37HyasWny64ye/T3KMZr+M2AIFOa6P6p7HlyS9arV1Mx5qPzo846bV
+ F48bjx/uX0G8TeO8DHyNNjRnqg/aVxruL2INDUJ3B0PKSBkTHj/VxLhXYf6rSR0TLPopPDmnTQS
+ tRO6i60rNK5kONUyaNTWVvQiANUmkkteC5sq2wzq2VYyBus2iSvsnpQSP6SkTldEqS0nv7UXQx0
+ tC9MBxMN7FwyHR1r5qXh3PvB1jjzU5zAaVrSdOqGPm1hMIN737/i4In6LSYqDGFWqHHuA0KIV98
+ 4DWInIrWHZyfUdQLFpuSkpezKZwu3r5gk0lLVyYKpbZGefMQV0ys6R0Ie5Cr8brMQcTR1dWQbIN
+ Xbe4To763dEiW76Iywx5jWUu3vH0T2lPiX95+NHdmrjNAVyzyTwfBCXlKzZJIm0k6jgIw1lPxxn
+ LyYZ0n8DGusM3jryXYsF+hqKQ1ugBW3wgDb1zlZvyUtIf8RADSGCzx+jRHCnYJqpX6zKxo1Zuzu
+ 4nWXK0UoqLnONQgEHiGvfxSKEBu8QgqkHMjlxlp3EAYiZTQxgrpJVQ0IHJJcDG0o+er50MN+dG6
+ oMVFOBIKu56OtSD51wlElnjHkJoOmGV8kp6S9lbv6ZjhJnH0pXGHnLyVkCZqy81nisr+xVM36QW
+ 8CZJTJB1H4K4ladVaMlk17Q==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,245 +94,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:pierre-eric.pelloux-prayer@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:daniels@collabora.com,m:alchark@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:sebastian.reichel@collabora.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[sebastian.reichel@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[collabora.com,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sebastian.reichel@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: C631F14DD47
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 19B8D14DE77
 X-Rspamd-Action: no action
 
-On Wed, Feb 11, 2026 at 5:28=E2=80=AFAM Pierre-Eric Pelloux-Prayer
-<pierre-eric.pelloux-prayer@amd.com> wrote:
->
-> Update the way drm_coredump_printer is used based on its documentation
-> and Xe's code: the main idea is to generate the final version in one go
-> and then use memcpy to return the chunks requested by the caller of
-> amdgpu_devcoredump_read.
->
-> The generation is moved to a separate worker thread.
->
-> This cuts the time to copy the dump from 40s to ~0s on my machine.
->
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
-.com>
+The display might offer modes, which exceed the maximum clock rate of a
+video output. This usually happens for displays that offer refresh rates
+above 60 Hz. This results in no picture being displayed without manual
+intervention. Fix this by teaching the driver about the maximum
+achievable clock rates.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+I've taken the max. clock rate information from the video output
+information of the RK3568/RK3588/RK3576 datasheets. The real max. clock
+rates should be above those to take blank times into account. I haven't
+found the proper information source for this. I hope Andy can help out.
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  3 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  1 +
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 10 ++++++++++
+ 3 files changed, 14 insertions(+)
 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index ec3b4fde10db..1051418e5fff 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1434,6 +1434,9 @@ static enum drm_mode_status vop2_crtc_mode_valid(struct drm_crtc *crtc,
+ 	if (mode->hdisplay > vp->data->max_output.width)
+ 		return MODE_BAD_HVALUE;
+ 
++	if (mode->clock > vp->data->max_clock_rate / 1000)
++		return MODE_CLOCK_HIGH;
++
+ 	return MODE_OK;
+ }
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+index 9124191899ba..42d70426bf08 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+@@ -225,6 +225,7 @@ struct vop2_video_port_data {
+ 	u16 gamma_lut_len;
+ 	u16 cubic_lut_len;
+ 	struct vop_rect max_output;
++	u32 max_clock_rate;
+ 	const u8 pre_scan_max_dly[4];
+ 	unsigned int offset;
+ 	/**
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+index f3950e8476a7..8be2cf0c47b6 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+@@ -559,18 +559,21 @@ static const struct vop2_video_port_data rk3568_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 9 * 9 * 9,
+ 		.max_output = { 4096, 2304 },
++		.max_clock_rate = 4096 * 2304 * 60,
+ 		.pre_scan_max_dly = { 69, 53, 53, 42 },
+ 		.offset = 0xc00,
+ 	}, {
+ 		.id = 1,
+ 		.gamma_lut_len = 1024,
+ 		.max_output = { 2048, 1536 },
++		.max_clock_rate = 2048 * 1536 * 60,
+ 		.pre_scan_max_dly = { 40, 40, 40, 40 },
+ 		.offset = 0xd00,
+ 	}, {
+ 		.id = 2,
+ 		.gamma_lut_len = 1024,
+ 		.max_output = { 1920, 1080 },
++		.max_clock_rate = 1920 * 1080 * 60,
+ 		.pre_scan_max_dly = { 40, 40, 40, 40 },
+ 		.offset = 0xe00,
+ 	},
+@@ -775,6 +778,7 @@ static const struct vop2_video_port_data rk3576_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 9 * 9 * 9, /* 9x9x9 */
+ 		.max_output = { 4096, 2304 },
++		.max_clock_rate = 4096 * 2304 * 120,
+ 		/* win layer_mix hdr  */
+ 		.pre_scan_max_dly = { 10, 8, 2, 0 },
+ 		.offset = 0xc00,
+@@ -785,6 +789,7 @@ static const struct vop2_video_port_data rk3576_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 729, /* 9x9x9 */
+ 		.max_output = { 2560, 1600 },
++		.max_clock_rate = 2560 * 1600 * 60,
+ 		/* win layer_mix hdr  */
+ 		.pre_scan_max_dly = { 10, 6, 0, 0 },
+ 		.offset = 0xd00,
+@@ -793,6 +798,7 @@ static const struct vop2_video_port_data rk3576_vop_video_ports[] = {
+ 		.id = 2,
+ 		.gamma_lut_len = 1024,
+ 		.max_output = { 1920, 1080 },
++		.max_clock_rate = 1920 * 1080 * 60,
+ 		/* win layer_mix hdr  */
+ 		.pre_scan_max_dly = { 10, 6, 0, 0 },
+ 		.offset = 0xe00,
+@@ -1061,6 +1067,7 @@ static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 9 * 9 * 9, /* 9x9x9 */
+ 		.max_output = { 4096, 2304 },
++		.max_clock_rate = 7680 * 4320 * 60,
+ 		/* hdr2sdr sdr2hdr hdr2hdr sdr2sdr */
+ 		.pre_scan_max_dly = { 76, 65, 65, 54 },
+ 		.offset = 0xc00,
+@@ -1070,6 +1077,7 @@ static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 729, /* 9x9x9 */
+ 		.max_output = { 4096, 2304 },
++		.max_clock_rate = 4096 * 2304 * 60,
+ 		.pre_scan_max_dly = { 76, 65, 65, 54 },
+ 		.offset = 0xd00,
+ 	}, {
+@@ -1078,12 +1086,14 @@ static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
+ 		.gamma_lut_len = 1024,
+ 		.cubic_lut_len = 17 * 17 * 17, /* 17x17x17 */
+ 		.max_output = { 4096, 2304 },
++		.max_clock_rate = 4096 * 2304 * 60,
+ 		.pre_scan_max_dly = { 52, 52, 52, 52 },
+ 		.offset = 0xe00,
+ 	}, {
+ 		.id = 3,
+ 		.gamma_lut_len = 1024,
+ 		.max_output = { 2048, 1536 },
++		.max_clock_rate = 1920 * 1080 * 60,
+ 		.pre_scan_max_dly = { 52, 52, 52, 52 },
+ 		.offset = 0xf00,
+ 	},
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  5 ++
->  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 66 +++++++++++++++++--
->  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h  |  9 +++
->  3 files changed, 74 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index 057c8bd2ad89..ae81a428cfb5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1200,6 +1200,11 @@ struct amdgpu_device {
->
->         struct amdgpu_reset_domain      *reset_domain;
->
-> +#ifdef CONFIG_DEV_COREDUMP
-> +       /* If a coredump state capture is in progress don't start a new o=
-ne. */
-> +       bool coredump_in_progress;
-> +#endif
-> +
->         struct mutex                    benchmark_mutex;
->
->         bool                            scpm_enabled;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> index 42a969512dcc..0808ca98ccd9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> @@ -34,6 +34,8 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool s=
-kip_vram_check,
->  }
->  #else
->
-> +#define AMDGPU_CORE_DUMP_SIZE_MAX (256 * 1024 * 1024)
-> +
->  const char *hw_ip_names[MAX_HWIP] =3D {
->         [GC_HWIP]               =3D "GC",
->         [HDP_HWIP]              =3D "HDP",
-> @@ -196,11 +198,9 @@ static void amdgpu_devcoredump_fw_info(struct amdgpu=
-_device *adev,
->  }
->
->  static ssize_t
-> -amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
-> -                       void *data, size_t datalen)
-> +amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_core=
-dump_info *coredump)
->  {
->         struct drm_printer p;
-> -       struct amdgpu_coredump_info *coredump =3D data;
->         struct drm_print_iterator iter;
->         struct amdgpu_vm_fault_info *fault_info;
->         struct amdgpu_ip_block *ip_block;
-> @@ -208,7 +208,6 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, =
-size_t count,
->
->         iter.data =3D buffer;
->         iter.offset =3D 0;
-> -       iter.start =3D offset;
->         iter.remain =3D count;
->
->         p =3D drm_coredump_printer(&iter);
-> @@ -323,11 +322,60 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset=
-, size_t count,
->         return count - iter.remain;
->  }
->
-> +static ssize_t
-> +amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
-> +                       void *data, size_t datalen)
-> +{
-> +       struct amdgpu_coredump_info *coredump =3D data;
-> +       ssize_t byte_copied;
-> +
-> +       if (!coredump)
-> +               return -ENODEV;
-> +
-> +       flush_work(&coredump->work);
-> +
-> +       if (!coredump->formatted)
-> +               return -ENODEV;
-> +
-> +       if (offset >=3D coredump->formatted_size)
-> +               return 0;
-> +
-> +       byte_copied =3D count < coredump->formatted_size - offset ? count=
- :
-> +               coredump->formatted_size - offset;
-> +       memcpy(buffer, coredump->formatted + offset, byte_copied);
-> +
-> +       return byte_copied;
-> +}
-> +
->  static void amdgpu_devcoredump_free(void *data)
->  {
-> +       struct amdgpu_coredump_info *coredump =3D data;
-> +
-> +       cancel_work_sync(&coredump->work);
-> +       coredump->adev->coredump_in_progress =3D false;
-> +       kfree(coredump->formatted);
->         kfree(data);
->  }
->
-> +static void amdgpu_devcoredump_deferred_work(struct work_struct *work)
-> +{
-> +       struct amdgpu_coredump_info *coredump =3D container_of(work, type=
-of(*coredump), work);
-> +
-> +       dev_coredumpm(coredump->adev->dev, THIS_MODULE, coredump, 0, GFP_=
-NOWAIT,
-> +                     amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> +
-> +       /* Do a one-time preparation of the coredump output because
-> +        * repeatingly calling drm_coredump_printer is very slow.
-> +        */
-> +       coredump->formatted_size =3D
-> +               amdgpu_devcoredump_format(NULL, AMDGPU_CORE_DUMP_SIZE_MAX=
-, coredump);
-> +       coredump->formatted =3D kvzalloc(coredump->formatted_size, GFP_KE=
-RNEL);
-> +       if (!coredump->formatted)
-> +               return;
-> +       amdgpu_devcoredump_format(coredump->formatted, coredump->formatte=
-d_size, coredump);
-> +       coredump->adev->coredump_in_progress =3D false;
-> +}
-> +
->  void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
->                      bool vram_lost, struct amdgpu_job *job)
->  {
-> @@ -335,10 +383,15 @@ void amdgpu_coredump(struct amdgpu_device *adev, bo=
-ol skip_vram_check,
->         struct amdgpu_coredump_info *coredump;
->         struct drm_sched_job *s_job;
->
-> +       if (adev->coredump_in_progress)
-> +               return;
-> +
->         coredump =3D kzalloc(sizeof(*coredump), GFP_NOWAIT);
->         if (!coredump)
->                 return;
->
-> +       adev->coredump_in_progress =3D true;
-> +
->         coredump->skip_vram_check =3D skip_vram_check;
->         coredump->reset_vram_lost =3D vram_lost;
->
-> @@ -361,8 +414,9 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool=
- skip_vram_check,
->
->         ktime_get_ts64(&coredump->reset_time);
->
-> -       dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> -                     amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> +       /* Kick off coredump formatting to a worker thread. */
-> +       INIT_WORK(&coredump->work, amdgpu_devcoredump_deferred_work);
-> +       queue_work(system_unbound_wq, &coredump->work);
->
->         drm_info(dev, "AMDGPU device coredump file has been created\n");
->         drm_info(dev, "Check your /sys/class/drm/card%d/device/devcoredum=
-p/data\n",
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-> index ef9772c6bcc9..4c37a852b74a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-> @@ -35,9 +35,18 @@ struct amdgpu_coredump_info {
->         struct amdgpu_device            *adev;
->         struct amdgpu_task_info         reset_task_info;
->         struct timespec64               reset_time;
-> +
-> +       struct work_struct work;
-> +
->         bool                            skip_vram_check;
->         bool                            reset_vram_lost;
->         struct amdgpu_ring              *ring;
-> +       /* Readable form of coredevdump, generate once to speed up
-> +        * reading it (see drm_coredump_printer's documentation).
-> +        */
-> +       ssize_t                         formatted_size;
-> +       char                            *formatted;
-> +
->  };
->  #endif
->
-> --
-> 2.43.0
->
+---
+base-commit: 9702969978695d9a699a1f34771580cdbb153b33
+change-id: 20260217-vop2-clk-rate-check-268269778cac
+
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
+
