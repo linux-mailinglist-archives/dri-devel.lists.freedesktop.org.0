@@ -2,65 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGkPAJIclGn0/wEAu9opvQ
+	id MGIFGPkclGn0/wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:45:22 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:47:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA16149476
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:45:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE27E1494B4
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:47:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803B210E108;
-	Tue, 17 Feb 2026 07:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7864D10E107;
+	Tue, 17 Feb 2026 07:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sti2F08u";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VmW8SglM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A6E10E108
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:45:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7518410E107
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 727EB60133;
- Tue, 17 Feb 2026 07:45:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71C2C4CEF7;
- Tue, 17 Feb 2026 07:45:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D8E6660133
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E301C19421
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771314316;
- bh=2SCaHPmmHOUeBJaqZQWfCOmJYKDO1gw3Ra7MsZgfvIE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sti2F08ueeiU39mBUfR0M/+OzAunNriD5726YArYv3Ytwug+iYhx1WTVaDU9AJ3Se
- OfsuthKBSGJIXBQMmH5U9bRzXBkhQYrKLOn3jym1LQSHAWBtDegwT9dGutvOqkVOCY
- IXeu7UzG1aPx7N1UGfePhicKwajugo/XKHxh0CASpZMANS87XbHixco/FvKuVVRr+A
- z1xW4dG0B6C4YvCis1QIb26100F5hwH7m8PQzpuEUyOStdEzrtiohfPOyOqcs3ZnBo
- b1fkl2rlF8z3ZYH8UC3U3iAD8yFFkdFkxMoSII9XUBd2RECYbMvVa/sTZL1/SdwcQv
- vDyc4ZIj0TVRQ==
-Date: Tue, 17 Feb 2026 08:45:11 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>, 
- Iago Toral Quiroga <itoral@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- kernel-dev@igalia.com
-Subject: Re: [PATCH v5 3/7] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
- CLK_IGNORE_UNUSED
-Message-ID: <20260217-quaint-phenomenal-macaw-20b550@houat>
-References: <20260213-v3d-power-management-v5-0-7a8b381eb379@igalia.com>
- <20260213-v3d-power-management-v5-3-7a8b381eb379@igalia.com>
- <20260216-brave-ara-of-typhoon-cf90ba@houat>
- <b55ac433-4fe7-4179-9777-278022ccd3cb@igalia.com>
+ s=k20201202; t=1771314420;
+ bh=dxnGa/cVc8wiz3CAx5xyZwQLQ3WeJqp8d7JK62vveYc=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=VmW8SglM+nLULxuqktoFTPGxWAF+Sl6D0VixW4NVolzSyYSmZ512sppxaA7VdjBKW
+ +FcjNrjTRPO3MILfzYeYORBbp8vdBRlIJecGPR7duKqOcNnE6BaXWe971Xd1Si5exs
+ P7bKbd0zFfQXol6OapQFLDY6aQnyLDBd8Qqtvng09cua4lgRlihG2hX0pg1z+ZFjOz
+ HCj3Ql+rTGMze+fkXp28GyN7fgOH5baBLa5IwPqXo2RRudS1P5hjMjgvDGiX8rDjq/
+ VMyYy4QK0YbkzqDglil4TiTXCQMS9rZwhuDOTgyQ47dsCnhq8coopi98NZpWp/iwWL
+ tUOCaUbfvJXOw==
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-59e6491f1a2so4105551e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Feb 2026 23:47:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqnkVJ91m50UZ4mOCgBlIcvK+PBhdJq514KCyqtT0hUI7jCQzoQz1ttV5LVqJ8sEJt99vdDcSyYbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzARWPAbql69file623sl5l//CBp59CxCQtimQl1cq/ysVyL9ua
+ C+uLiejG0KdVOcy2fUWo1Fa2xUdlI7ykpZQyLXM8tZERta4dzQ62WqZKOD77iAMfmcC4ozb+paC
+ wKbeRVWd0Ig3eK6fVMWnZgpA9OdhvG5I=
+X-Received: by 2002:a05:6512:b10:b0:59e:4a2f:9911 with SMTP id
+ 2adb3069b0e04-59f6cfe394amr3433880e87.23.1771314418957; Mon, 16 Feb 2026
+ 23:46:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="tgdafevhsdd5reyk"
-Content-Disposition: inline
-In-Reply-To: <b55ac433-4fe7-4179-9777-278022ccd3cb@igalia.com>
+References: <20260217063647.3160826-1-wens@kernel.org>
+ <20260217063647.3160826-3-wens@kernel.org>
+In-Reply-To: <20260217063647.3160826-3-wens@kernel.org>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 17 Feb 2026 15:46:46 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65VfqySctgx0XZOA0UN+FOwwXw9ubCXmy-VNy4ouLNspQ@mail.gmail.com>
+X-Gm-Features: AaiRm53C01_zHKmVcItSQPEtYM86NeiYnzpVZ7IGrq00V0FaA2dulzpxY63wYBg
+Message-ID: <CAGb2v65VfqySctgx0XZOA0UN+FOwwXw9ubCXmy-VNy4ouLNspQ@mail.gmail.com>
+Subject: Re: [RFT PATCH 2/2] drm/panel: sitronix-st7789v: Convert to mipi_dbi
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>, 
+ Michael Riesch <michael.riesch@collabora.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Archit Anant <architanant5@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,120 +82,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sebastian.reichel@collabora.com,m:gerald.loacker@wolfvision.net,m:michael.riesch@collabora.com,m:miquel.raynal@bootlin.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:architanant5@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[collabora.com,wolfvision.net,bootlin.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_REPLYTO(0.00)[wens@kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4DA16149476
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: DE27E1494B4
 X-Rspamd-Action: no action
 
+Please ignore this version. This had a change that was half squashed in.
 
---tgdafevhsdd5reyk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 3/7] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
- CLK_IGNORE_UNUSED
-MIME-Version: 1.0
-
-On Mon, Feb 16, 2026 at 09:18:31AM -0300, Ma=EDra Canal wrote:
-> On 16/02/26 07:53, Maxime Ripard wrote:
-> > On Fri, Feb 13, 2026 at 03:52:56PM -0300, Ma=EDra Canal wrote:
-> > > If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will s=
-kip
-> > > HSM initialization, which would result in a bus lockup. However, those
-> > > clocks are consumed by drivers (vc4 and HEVC decoder drivers,
-> > > respectively), which means that they can be enabled/disabled by the
-> > > drivers.
-> > >=20
-> > > Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
-> > > drivers when appropriate.
-> > >=20
-> > > Acked-by: Melissa Wen <mwen@igalia.com>
-> > > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> >=20
-> > It looks like sync_state would be a better candidate to handle this?
->=20
-> I have the impression that CLK_IGNORE_UNUSED is still a better fit here.
->=20
-> First, the clock framework has no sync_state integration. The only use
-> of sync_state in clock drivers is done by Qualcomm's clock controllers,
-> which uses icc_sync_state for the interconnect framework.
-
-It's done at the device level, so you don't really need any kind of
-integration, you could roll your own implementation.
-
-> From my understanding, CLK_IGNORE_UNUSED is the idiomatic mechanism
-> for "don't disable this clock during clk_disable_unused() and allow
-> drivers to manage it", which is exactly what we are looking for.
-
-Ish. CLK_IGNORE_UNUSED is kind of a hack that only does the first part
-of what you stated. After clk_disable_unused(), all bets are off and for
-all you know, all the unused clocks could still be disabled. You can
-trigger such a condition if a driver gets and enables the clock, fails
-to probe and disables it.
-
-It's been mostly used for clocks that should never be disabled on the
-system (and has been superseded by CLK_IS_CRITICAL for this use-case),
-or to ignore clk_disable_unused, where sync_state() is the superior
-solution.
-
-> Apart from that, if we decide to use sync_state, I'm not sure we could
-> handle granularity. sync_state is a per-device mechanism, not per-clock,
-> and clk-raspberrypi provides multiple clocks (consumed by different
-> drivers). With CLK_IGNORE_UNUSED, the protection is per-clock: once a
-> driver calls clk_prepare_enable/unprepare() it manages that clock,
-> regardless of what other consumers of other clocks are doing.
-
-sync_state would replace clk_ignore_unused, so would run on the
-controller device and disable all active clocks with no users.
-
-But yeah, maybe CLK_IGNORE_UNUSED is good enough still.
-
-Maxime
-
---tgdafevhsdd5reyk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZQcggAKCRAnX84Zoj2+
-dqAZAX9FIC16SlVDcviD9Y2sRbwr9brIcP4q0nuFqEvJfNkrfyS0IsifP24IJvPP
-Mp/qj6sBgLxZd73gcDi35g0a9b0sOWqUJUzX4FUCqrqRdRRbb5gSzdpoopNycn4f
-O1jlFJnbwg==
-=jSWZ
------END PGP SIGNATURE-----
-
---tgdafevhsdd5reyk--
+On Tue, Feb 17, 2026 at 2:37=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
+e:
+>
+> The wire protocol of the ST7789V is basically MIPI DBI. Switch to the
+> mipi_dbi helpers to reduce some code. This also ends up adding support
+> for 8-bit D/C mode. The reset logic in the mipi_dbi helpers is also
+> used.
+>
+> While at it, also clean up st7789v_check_id() to use ST7789V_IDS_SIZE
+> to declare the ids array size and sizeof(ids) where the size is
+> needed.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
