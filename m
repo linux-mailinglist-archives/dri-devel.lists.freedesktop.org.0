@@ -2,61 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6LZ4KaA0lGlAAgIAu9opvQ
+	id oDBtIQo1lGlAAgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 10:28:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 10:29:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF1214A5ED
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 10:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E909914A64E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 10:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F364710E4AB;
-	Tue, 17 Feb 2026 09:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E2310E4AE;
+	Tue, 17 Feb 2026 09:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XTUArIkQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Af5fWNkH";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N4aMKRql";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528C610E10A
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 09:27:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0B22E44413;
- Tue, 17 Feb 2026 09:27:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE18C4AF09;
- Tue, 17 Feb 2026 09:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771320471;
- bh=NNpamjb6/2EhUf0wzaqXXerTArB9ffwgxPdZbID8l9w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XTUArIkQ1REad2xVRfbdfdfxibYJKpZb49JaM5tgeIKlKKGd95+bv5Nlk3pmnHp44
- hZ7jd2nlsEwgnQFNMDbT0ZVP3iO1kN1raOhhadOYAGJIiRl37RqL32y8yDCTrLPHN2
- sRKavuIMGDs7wNPyQH1xAEH1RQYMOpK2nyS+TKRnwdW69PFGbBZNq3x1wOA4733I1Y
- 1qCy/1z6GoVZ86HDfAZMnGkAu2LJtEpugh7qfGcIq/ej3PBS1szxipIsp++8rFij/U
- 3Y46PNaR/NQQQouldQOMStULU1k/ECKRRHqqmyhH4g4s25A2tJ6Fzp0RTHnH9uzSND
- vJ1i/rK4TDk5w==
-Received: by wens.tw (Postfix, from userid 1000)
- id 93FCE5FCAE; Tue, 17 Feb 2026 17:27:49 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A2910E4AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 09:29:41 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61GKDSWC597248
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 09:29:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ PAJ+8ZH4GA3UgmlDTl80DaFGepw/jrlHBe1aFbiN+eg=; b=Af5fWNkHN5Qlf7Su
+ kQDcsJRyyn2UkSV1epFnT04VAn2RG6MmPLSDzfrkaYgN+LfP/iAWEiwtz1iWKm4O
+ wCWDffWWW1fuMjTmL6amwN8tzJSrUBbmx8c+avKVlwfqlW3VNKxGgxeQWXtj7M7X
+ oc5x4903/SzR4iE8L2nsK9lQ1qmTBd1IQ6J/4BKt77MxxUAr7/artx2+E8xQOVkP
+ J8gZWPhoNZY1aIuXnvebSKH7i4D0K/C1ylIgJpR+bQinmJ1BQfbFt2AfV3J3rpyZ
+ UpqaPxvjeHVrl2L/cnvISwoNkCvBxQtDQ5ZoOIKv2xkT6AWCXh7lsuE8N0nNDCMZ
+ v76dUA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cca3619rq-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 09:29:41 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-8946c23cf90so31958726d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 01:29:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1771320580; x=1771925380;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PAJ+8ZH4GA3UgmlDTl80DaFGepw/jrlHBe1aFbiN+eg=;
+ b=N4aMKRqlqoNmmbZp5opNBwJTg6KElOM+JkYPFbPFNlTuaizwSQMXT/NJFrhj356Re+
+ SlkS8Q8a4KWSb1cuT8xQtdp9ocHRLYzbXUzf3Y9i90Vh0iH9Q2VqqvgIcBd6HZb3JCET
+ iymVC7clq2dpjwHffy/CaKkcw/iDoAOFGIYXHJandAIR9KXhw075YP1U5+sXu1jSO1Op
+ UltIpwzhoMJCxGUnEAgiC/ESUGARg7rTkk7amiZbLgK2R4RFMF60I2HJxux10eNUE81/
+ ygBYX9WPxzCMH6/3Ww4GFKxunjA4iEcb+I3DpSlSbqLAoUITpZpsz3HcXVdnKCRFt5mf
+ UuHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771320580; x=1771925380;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PAJ+8ZH4GA3UgmlDTl80DaFGepw/jrlHBe1aFbiN+eg=;
+ b=KcGNCNr43ePkTUr/1RER7Vl0fE8YVqcjo/yXOl3BfRPSO+Y2y0Kn+lm/00ZoMCk0hT
+ QfBblfhSnseuMMuCnNSjM0qZRV5IKyjJgUJG0JTJ01l74JvKQMXNz3EVZpQ1sqQwurXo
+ 5F4TXt1nSAmnYvW4jgyvQPAGTi1z7KKTIlPaA7xEgakbYVQdxPG1wIQelS6ULO78M35X
+ ZJsn0EDvf0jKxnsSxYe/kFscAAIrO4zAwXphl1czjcAvOoyIlTuQ3s5o3215w/BcCpUp
+ NwVPx8bAGMWFiQLjGze6qVCg/letMUz7wULYUwbZ+M6Kb+yclbhw2uwe79WJV7stFm+W
+ Wl9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsmqr32tNvyxsyXO4nZt7NyiqcROPNM2B8s2t1lrfinJiE7MmPhAUOM8KAfCDb4PvMqlJxQxvOlMM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0o42qcKm5jy2HNrqKR0+B648WZHGp6Cm9iR9opVwy8fq/5YUj
+ 2m94TkkQxHSRvbjaOZBkN4lKUAaEHVHuKtvtLRbiONQgP27pKlT5qeEItbqQiWMR4MuPjPJBXr1
+ wXbKbWNIUcjoDIbThd1zG0E7NoMNm9cQTZ9FYwbxpv+0BNzlsInzPtQG2GR6dfNTQytR2f+g=
+X-Gm-Gg: AZuq6aJAr8eSixafaiCQcrWtbYeljaSuJ2GtYwAojHVuXTususJeMAW37QYczNxxPZC
+ Y1RGkouzRy1ubP3tggMdwVOgLVXRitQIg65A+mDIShKjs9BZ+XBgZHRU4j0hXuWHmJFT5mfnAAU
+ B9gsOtQlV4ZRQ5YtzTSXVjrz4lr59xcLpH57JPal4rlIuicwNRx+uJ07X5TzZ1ovd/dbW9qPB/4
+ 7vyBsxw25w5GCvSl6WOXMnO+EncxtPA8xq8p3ccGGocrQqANdQA+r19AfANdaXkDBwsaOsT9TUF
+ Vi/IlfKMDz0RJpFyn+x/bLiWltp45Z4l/xt5qJ8iLsCSzlnosXJKvs6rtFPs2/VHQFp7qv+KO1i
+ grsFV4Bt3bhpkUXqHGcr6ubPKIKYYdHgXTb6SVTQwN/oD6fVMM1N/L5YEX9ztLtq6l4/OWXW9Z/
+ DDDxQ=
+X-Received: by 2002:a05:6214:8093:b0:896:ff63:5e6a with SMTP id
+ 6a1803df08f44-897347edef5mr142990696d6.7.1771320580323; 
+ Tue, 17 Feb 2026 01:29:40 -0800 (PST)
+X-Received: by 2002:a05:6214:8093:b0:896:ff63:5e6a with SMTP id
+ 6a1803df08f44-897347edef5mr142990356d6.7.1771320579722; 
+ Tue, 17 Feb 2026 01:29:39 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8fc763bacfsm337458866b.36.2026.02.17.01.29.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Feb 2026 01:29:39 -0800 (PST)
+Message-ID: <0d318ba2-5ec5-4eba-b060-9c8a2fd3defc@oss.qualcomm.com>
+Date: Tue, 17 Feb 2026 10:29:36 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] arm64: dts: qcom: add support for pixel 3a xl with
+ the tianma panel
+To: Richard Acayan <mailingradian@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Michael Riesch <michael.riesch@collabora.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Archit Anant <architanant5@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 2/2] drm/panel: sitronix-st7789v: Convert to mipi_dbi
-Date: Tue, 17 Feb 2026 17:27:37 +0800
-Message-ID: <20260217092738.3238016-3-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260217092738.3238016-1-wens@kernel.org>
-References: <20260217092738.3238016-1-wens@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: yifei@zhan.science
+References: <20260217000854.131242-1-mailingradian@gmail.com>
+ <20260217000854.131242-7-mailingradian@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260217000854.131242-7-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE3MDA3OCBTYWx0ZWRfXxCIZMPvQRZMG
+ 5zmI4MRsCv0Q9af2RmGNdfVDZ6WJaVzjUxRk811lxs2p/SuuYcK4xSI1TOLS2yL0koeccSs4qSQ
+ /G5pWPwUEte2AK0IWscJUebtd5Z03bsFYkHjcPtODbSjvlM9lubUNZ/yOotzSuKP2fER7WCp9wl
+ 2ygkFcBTiwMK7TSl41US/JaV/h14OUzr8++FlCUsg9wFZrFDwIqX3LnX9zIu1PXMmx9v2nTH758
+ dHnJEweEeoctAKiso4hA1g4jdH6qg6rP1a6V/kvErPmrpWD9vjAxDd/2G4iHi+F3tbKyVUHdYAZ
+ C5U+3TcJ0pCGilC0vAHy1WIgMbxmK4uy7CtRmMuv90ESoHOxYiUmZQc8yqGERK3cntYIGXSGb8k
+ b/JOl/ZfigR4wHUhRb8Ly6Jzdd5XBKVdpZM3BNcXgB3wh6bcbNg0W7nTEmoXNdPHCyqbwU6wKq2
+ bFkvBOcSbKiSeRlbTSg==
+X-Authority-Analysis: v=2.4 cv=b+G/I9Gx c=1 sm=1 tr=0 ts=69943505 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=nkUbddICNmq_qF48:21 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=i-uTSsb2jE1798FbZwUA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: q3ixxI81JcvR38gkfUwi2kNbslJqqEdc
+X-Proofpoint-ORIG-GUID: q3ixxI81JcvR38gkfUwi2kNbslJqqEdc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-17_01,2026-02-16_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602170078
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,507 +161,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,wolfvision.net,bootlin.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sebastian.reichel@collabora.com,m:gerald.loacker@wolfvision.net,m:michael.riesch@collabora.com,m:miquel.raynal@bootlin.com,m:wens@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:architanant5@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:yifei@zhan.science,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3BF1214A5ED
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E909914A64E
 X-Rspamd-Action: no action
 
-The wire protocol of the ST7789V is basically MIPI DBI. Switch to the
-mipi_dbi helpers to reduce some code. This also ends up adding support
-for 8-bit D/C mode. The reset logic in the mipi_dbi helpers is also
-used.
+On 2/17/26 1:08 AM, Richard Acayan wrote:
+> The Pixel 3a XL has variants with either a Samsung Display Controller (SDC)
+> panel or a Tianma panel. Add the device tree for the variant with the
+> Tianma panel.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
 
-While at it, also clean up st7789v_check_id() to use ST7789V_IDS_SIZE
-to declare the ids array size and sizeof(ids) where the size is
-needed.
+[...]
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
-Changes since v1:
-- Fix compile error from half changed reset GPIO handling
----
- drivers/gpu/drm/panel/Kconfig                 |   1 +
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 306 +++++++-----------
- 2 files changed, 110 insertions(+), 197 deletions(-)
+> +&framebuffer {
+> +	reg = <0 0x9c000000 0 (1080 * 2160 * 4)>;
+> +	width = <1080>;
+> +	height = <2160>;
+> +	stride = <(1080 * 4)>;
+> +	status = "okay";
+> +};
+> +
+> +&panel {
+> +	compatible = "novatek,nt37700f";
+> +	status = "okay";
+> +};
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 307152ad7759..64325874d3e2 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -1011,6 +1011,7 @@ config DRM_PANEL_SITRONIX_ST7789V
- 	tristate "Sitronix ST7789V panel"
- 	depends on OF && SPI
- 	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_MIPI_DBI
- 	help
- 	  Say Y here if you want to enable support for the Sitronix
- 	  ST7789V controller for 240x320 LCD panels
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index d5f821d6b23c..b77e616f2994 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -14,6 +14,7 @@
- 
- #include <drm/drm_device.h>
- #include <drm/drm_modes.h>
-+#include <drm/drm_mipi_dbi.h>
- #include <drm/drm_panel.h>
- 
- #define ST7789V_RAMCTRL_CMD		0xb0
-@@ -125,9 +126,9 @@ struct st7789_panel_info {
- 
- struct st7789v {
- 	struct drm_panel panel;
-+	struct mipi_dbi dbi;
- 	const struct st7789_panel_info *info;
- 	struct spi_device *spi;
--	struct gpio_desc *reset;
- 	struct regulator *power;
- 	enum drm_panel_orientation orientation;
- };
-@@ -142,86 +143,23 @@ static inline struct st7789v *panel_to_st7789v(struct drm_panel *panel)
- 	return container_of(panel, struct st7789v, panel);
- }
- 
--static int st7789v_spi_write(struct st7789v *ctx, enum st7789v_prefix prefix,
--			     u8 data)
--{
--	struct spi_transfer xfer = { };
--	u16 txbuf = ((prefix & 1) << 8) | data;
--
--	xfer.tx_buf = &txbuf;
--	xfer.len = sizeof(txbuf);
--
--	return spi_sync_transfer(ctx->spi, &xfer, 1);
--}
--
--static int st7789v_write_command(struct st7789v *ctx, u8 cmd)
--{
--	return st7789v_spi_write(ctx, ST7789V_COMMAND, cmd);
--}
--
--static int st7789v_write_data(struct st7789v *ctx, u8 cmd)
--{
--	return st7789v_spi_write(ctx, ST7789V_DATA, cmd);
--}
--
--static int st7789v_read_data(struct st7789v *ctx, u8 cmd, u8 *buf,
--			     unsigned int len)
--{
--	struct spi_transfer xfer[2] = { };
--	struct spi_message msg;
--	u16 txbuf = ((ST7789V_COMMAND & 1) << 8) | cmd;
--	u16 rxbuf[4] = {};
--	u8 bit9 = 0;
--	int ret, i;
--
--	switch (len) {
--	case 1:
--	case 3:
--	case 4:
--		break;
--	default:
--		return -EOPNOTSUPP;
--	}
--
--	spi_message_init(&msg);
--
--	xfer[0].tx_buf = &txbuf;
--	xfer[0].len = sizeof(txbuf);
--	spi_message_add_tail(&xfer[0], &msg);
--
--	xfer[1].rx_buf = rxbuf;
--	xfer[1].len = len * 2;
--	spi_message_add_tail(&xfer[1], &msg);
--
--	ret = spi_sync(ctx->spi, &msg);
--	if (ret)
--		return ret;
--
--	for (i = 0; i < len; i++) {
--		buf[i] = rxbuf[i] >> i | (bit9 << (9 - i));
--		if (i)
--			bit9 = rxbuf[i] & GENMASK(i - 1, 0);
--	}
--
--	return 0;
--}
--
- static int st7789v_check_id(struct drm_panel *panel)
- {
- 	const u8 st7789v_ids[ST7789V_IDS_SIZE] = ST7789V_IDS;
- 	struct st7789v *ctx = panel_to_st7789v(panel);
- 	bool invalid_ids = false;
- 	int ret, i;
--	u8 ids[3];
-+	u8 ids[ST7789V_IDS_SIZE];
- 
- 	if (ctx->spi->mode & SPI_NO_RX)
- 		return 0;
- 
--	ret = st7789v_read_data(ctx, MIPI_DCS_GET_DISPLAY_ID, ids, ST7789V_IDS_SIZE);
-+	ret = mipi_dbi_command_stackbuf(&ctx->dbi, MIPI_DCS_GET_DISPLAY_ID,
-+					ids, sizeof(ids));
- 	if (ret)
- 		return ret;
- 
--	for (i = 0; i < ST7789V_IDS_SIZE; i++) {
-+	for (i = 0; i < sizeof(ids); i++) {
- 		if (ids[i] != st7789v_ids[i]) {
- 			invalid_ids = true;
- 			break;
-@@ -379,6 +317,7 @@ static enum drm_panel_orientation st7789v_get_orientation(struct drm_panel *p)
- static int st7789v_prepare(struct drm_panel *panel)
- {
- 	struct st7789v *ctx = panel_to_st7789v(panel);
-+	struct mipi_dbi *dbi = &ctx->dbi;
- 	u8 mode, pixel_fmt, polarity;
- 	int ret;
- 
-@@ -416,10 +355,7 @@ static int st7789v_prepare(struct drm_panel *panel)
- 	if (ret)
- 		return ret;
- 
--	gpiod_set_value(ctx->reset, 1);
--	msleep(30);
--	gpiod_set_value(ctx->reset, 0);
--	msleep(120);
-+	mipi_dbi_hw_reset(&ctx->dbi);
- 
- 	/*
- 	 * Avoid failing if the IDs are invalid in case the Rx bus width
-@@ -429,101 +365,81 @@ static int st7789v_prepare(struct drm_panel *panel)
- 	if (ret)
- 		dev_warn(panel->dev, "Unrecognized panel IDs");
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_EXIT_SLEEP_MODE));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE));
- 
- 	/* We need to wait 120ms after a sleep out command */
- 	msleep(120);
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx,
--						MIPI_DCS_SET_ADDRESS_MODE));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx,
--						MIPI_DCS_SET_PIXEL_FORMAT));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, pixel_fmt));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PORCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xc));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xc));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PORCTRL_IDLE_BP(3) |
--					     ST7789V_PORCTRL_IDLE_FP(3)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx,
--					     ST7789V_PORCTRL_PARTIAL_BP(3) |
--					     ST7789V_PORCTRL_PARTIAL_FP(3)));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_GCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_GCTRL_VGLS(5) |
--					     ST7789V_GCTRL_VGHS(3)));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VCOMS_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0x2b));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_LCMCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_LCMCTRL_XMH |
--					     ST7789V_LCMCTRL_XMX |
--					     ST7789V_LCMCTRL_XBGR));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VDVVRHEN_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_VDVVRHEN_CMDEN));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VRHS_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xf));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VDVS_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0x20));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_FRCTRL2_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xf));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PWCTRL1_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PWCTRL1_MAGIC));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PWCTRL1_AVDD(2) |
--					     ST7789V_PWCTRL1_AVCL(2) |
--					     ST7789V_PWCTRL1_VDS(1)));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PVGAMCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP63(0xd)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP1(0xca)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP2(0xe)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP4(8)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP6(9)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP13(7)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP20(0x2d)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP27(0xb) |
--					     ST7789V_PVGAMCTRL_VP36(3)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP43(0x3d)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_JP1(3) |
--					     ST7789V_PVGAMCTRL_VP50(4)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP57(0xa)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP59(0xa)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP61(0x1b)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP62(0x28)));
--
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_NVGAMCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN63(0xd)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN1(0xca)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN2(0xf)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN4(8)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN6(8)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN13(7)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN20(0x2e)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN27(0xc) |
--					     ST7789V_NVGAMCTRL_VN36(5)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN43(0x40)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_JN1(3) |
--					     ST7789V_NVGAMCTRL_VN50(4)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN57(9)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN59(0xb)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN61(0x1b)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN62(0x28)));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, 0));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, pixel_fmt));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_PORCTRL_CMD, 0xc, 0xc, 0,
-+					   ST7789V_PORCTRL_IDLE_BP(3) |
-+					   ST7789V_PORCTRL_IDLE_FP(3),
-+					   ST7789V_PORCTRL_PARTIAL_BP(3) |
-+					   ST7789V_PORCTRL_PARTIAL_FP(3)));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_GCTRL_CMD,
-+					   ST7789V_GCTRL_VGLS(5) |
-+					   ST7789V_GCTRL_VGHS(3)));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_VCOMS_CMD, 0x2b));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_LCMCTRL_CMD,
-+					   ST7789V_LCMCTRL_XMH |
-+					   ST7789V_LCMCTRL_XMX |
-+					   ST7789V_LCMCTRL_XBGR));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_VDVVRHEN_CMD,
-+					   ST7789V_VDVVRHEN_CMDEN));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_VRHS_CMD, 0xf));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_VDVS_CMD, 0x20));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_FRCTRL2_CMD, 0xf));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_PWCTRL1_CMD,
-+					   ST7789V_PWCTRL1_MAGIC,
-+					   ST7789V_PWCTRL1_AVDD(2) |
-+					   ST7789V_PWCTRL1_AVCL(2) |
-+					   ST7789V_PWCTRL1_VDS(1)));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_PVGAMCTRL_CMD,
-+					   ST7789V_PVGAMCTRL_VP63(0xd),
-+					   ST7789V_PVGAMCTRL_VP1(0xca),
-+					   ST7789V_PVGAMCTRL_VP2(0xe),
-+					   ST7789V_PVGAMCTRL_VP4(8),
-+					   ST7789V_PVGAMCTRL_VP6(9),
-+					   ST7789V_PVGAMCTRL_VP13(7),
-+					   ST7789V_PVGAMCTRL_VP20(0x2d),
-+					   ST7789V_PVGAMCTRL_VP27(0xb) |
-+					   ST7789V_PVGAMCTRL_VP36(3),
-+					   ST7789V_PVGAMCTRL_VP43(0x3d),
-+					   ST7789V_PVGAMCTRL_JP1(3) |
-+					   ST7789V_PVGAMCTRL_VP50(4),
-+					   ST7789V_PVGAMCTRL_VP57(0xa),
-+					   ST7789V_PVGAMCTRL_VP59(0xa),
-+					   ST7789V_PVGAMCTRL_VP61(0x1b),
-+					   ST7789V_PVGAMCTRL_VP62(0x28)));
-+
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_NVGAMCTRL_CMD,
-+					   ST7789V_NVGAMCTRL_VN63(0xd),
-+					   ST7789V_NVGAMCTRL_VN1(0xca),
-+					   ST7789V_NVGAMCTRL_VN2(0xf),
-+					   ST7789V_NVGAMCTRL_VN4(8),
-+					   ST7789V_NVGAMCTRL_VN6(8),
-+					   ST7789V_NVGAMCTRL_VN13(7),
-+					   ST7789V_NVGAMCTRL_VN20(0x2e),
-+					   ST7789V_NVGAMCTRL_VN27(0xc) |
-+					   ST7789V_NVGAMCTRL_VN36(5),
-+					   ST7789V_NVGAMCTRL_VN43(0x40),
-+					   ST7789V_NVGAMCTRL_JN1(3) |
-+					   ST7789V_NVGAMCTRL_VN50(4),
-+					   ST7789V_NVGAMCTRL_VN57(9),
-+					   ST7789V_NVGAMCTRL_VN59(0xb),
-+					   ST7789V_NVGAMCTRL_VN61(0x1b),
-+					   ST7789V_NVGAMCTRL_VN62(0x28)));
- 
- 	if (ctx->info->invert_mode) {
--		ST7789V_TEST(ret, st7789v_write_command(ctx,
--						MIPI_DCS_ENTER_INVERT_MODE));
-+		ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE));
- 	} else {
--		ST7789V_TEST(ret, st7789v_write_command(ctx,
--						MIPI_DCS_EXIT_INVERT_MODE));
-+		ST7789V_TEST(ret, mipi_dbi_command(dbi,	MIPI_DCS_EXIT_INVERT_MODE));
- 	}
- 
- 	if (ctx->info->partial_mode) {
-@@ -539,36 +455,27 @@ static int st7789v_prepare(struct drm_panel *panel)
- 		 * add margins.
- 		 */
- 
--		ST7789V_TEST(ret, st7789v_write_command(
--					  ctx, MIPI_DCS_ENTER_PARTIAL_MODE));
--
--		ST7789V_TEST(ret, st7789v_write_command(
--					  ctx, MIPI_DCS_SET_PAGE_ADDRESS));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[0]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[1]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[2]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[3]));
--
--		ST7789V_TEST(ret, st7789v_write_command(
--					  ctx, MIPI_DCS_SET_PARTIAL_ROWS));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[0]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[1]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[2]));
--		ST7789V_TEST(ret, st7789v_write_data(ctx, area_data[3]));
-+		ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_ENTER_PARTIAL_MODE));
-+
-+		ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS,
-+						   area_data[0], area_data[1],
-+						   area_data[2], area_data[3]));
-+
-+		ST7789V_TEST(ret, mipi_dbi_command(dbi, MIPI_DCS_SET_PARTIAL_ROWS,
-+						   area_data[0], area_data[1],
-+						   area_data[2], area_data[3]));
- 	}
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_RAMCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RAMCTRL_DM_RGB |
--					     ST7789V_RAMCTRL_RM_RGB));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RAMCTRL_EPF(3) |
--					     ST7789V_RAMCTRL_MAGIC));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_RAMCTRL_CMD,
-+					   ST7789V_RAMCTRL_DM_RGB |
-+					   ST7789V_RAMCTRL_RM_RGB,
-+					   ST7789V_RAMCTRL_EPF(3) |
-+					   ST7789V_RAMCTRL_MAGIC));
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_RGBCTRL_CMD));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, mode |
--					     ST7789V_RGBCTRL_RCM(2) |
--					     polarity));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_VBP(8)));
--	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_HBP(20)));
-+	ST7789V_TEST(ret, mipi_dbi_command(dbi, ST7789V_RGBCTRL_CMD,
-+					   mode | ST7789V_RGBCTRL_RCM(2) | polarity,
-+					   ST7789V_RGBCTRL_VBP(8),
-+					   ST7789V_RGBCTRL_HBP(20)));
- 
- 	return 0;
- }
-@@ -577,7 +484,7 @@ static int st7789v_enable(struct drm_panel *panel)
- {
- 	struct st7789v *ctx = panel_to_st7789v(panel);
- 
--	return st7789v_write_command(ctx, MIPI_DCS_SET_DISPLAY_ON);
-+	return mipi_dbi_command(&ctx->dbi, MIPI_DCS_SET_DISPLAY_ON);
- }
- 
- static int st7789v_disable(struct drm_panel *panel)
-@@ -585,7 +492,7 @@ static int st7789v_disable(struct drm_panel *panel)
- 	struct st7789v *ctx = panel_to_st7789v(panel);
- 	int ret;
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_SET_DISPLAY_OFF));
-+	ST7789V_TEST(ret, mipi_dbi_command(&ctx->dbi, MIPI_DCS_SET_DISPLAY_OFF));
- 
- 	return 0;
- }
-@@ -595,7 +502,7 @@ static int st7789v_unprepare(struct drm_panel *panel)
- 	struct st7789v *ctx = panel_to_st7789v(panel);
- 	int ret;
- 
--	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_ENTER_SLEEP_MODE));
-+	ST7789V_TEST(ret, mipi_dbi_command(&ctx->dbi, MIPI_DCS_ENTER_SLEEP_MODE));
- 
- 	regulator_disable(ctx->power);
- 
-@@ -615,6 +522,7 @@ static int st7789v_probe(struct spi_device *spi)
- {
- 	struct device *dev = &spi->dev;
- 	struct st7789v *ctx;
-+	struct gpio_desc *dc;
- 	int ret;
- 
- 	ctx = devm_drm_panel_alloc(dev, struct st7789v, panel,
-@@ -625,11 +533,6 @@ static int st7789v_probe(struct spi_device *spi)
- 	spi_set_drvdata(spi, ctx);
- 	ctx->spi = spi;
- 
--	spi->bits_per_word = 9;
--	ret = spi_setup(spi);
--	if (ret < 0)
--		return dev_err_probe(&spi->dev, ret, "Failed to setup spi\n");
--
- 	ctx->info = device_get_match_data(&spi->dev);
- 
- 	ctx->power = devm_regulator_get(dev, "power");
-@@ -637,11 +540,16 @@ static int st7789v_probe(struct spi_device *spi)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get regulator\n");
- 
--	ctx->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
--	ret = PTR_ERR_OR_ZERO(ctx->reset);
-+	ctx->dbi.reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	ret = PTR_ERR_OR_ZERO(ctx->dbi.reset);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get reset line\n");
- 
-+	dc = devm_gpiod_get_optional(&spi->dev, "dc", GPIOD_OUT_LOW);
-+	ret = PTR_ERR_OR_ZERO(dc);
-+	if (ret)
-+		return dev_err_probe(&spi->dev, ret, "Failed to get GPIO for D/C\n");
-+
- 	ret = drm_panel_of_backlight(&ctx->panel);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-@@ -650,6 +558,10 @@ static int st7789v_probe(struct spi_device *spi)
- 	if (ret)
- 		return dev_err_probe(&spi->dev, ret, "Failed to get orientation\n");
- 
-+	ret = mipi_dbi_spi_init(spi, &ctx->dbi, dc);
-+	if (ret)
-+		return dev_err_probe(&spi->dev, ret, "Failed to init MIPI DBI\n");
-+
- 	drm_panel_add(&ctx->panel);
- 
- 	return 0;
--- 
-2.47.3
+I don't really get why you disable the panel/framebuffer by default if
+all of the "includees" enable it anyway
 
+otherwise 
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+Konrad
