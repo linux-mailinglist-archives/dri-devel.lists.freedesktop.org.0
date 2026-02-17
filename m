@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HAJHcNclGm3DAIAu9opvQ
+	id SG5DKcFclGm3DAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:15 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2878214BDD9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38BE14BDD2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070DB10E250;
-	Tue, 17 Feb 2026 12:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044AB10E249;
+	Tue, 17 Feb 2026 12:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PgozRn4e";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="J+0JS3bT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D2E10E249
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:19:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B8410E250
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8FOCovjdqg6EGk7eroN8pbGsbCemvqyCciQPm2uysWI=; b=PgozRn4evrXTlg18vOa9vUWVTf
- fIVpWU2sESA3GLUg67h39d0WuoiVqex282Y4C2dPfjmWDK7HTbTApn/wGQWx5U+WIYAIzx3r2sfds
- z4O0l048/1k+YTELL21uDl7i/IPjk2ZRrSDvJcQrlG+Dw9P8BEaU1zpzLm329FM+i/lpBDanEgvdA
- VD693mvAb4gxuZRoFM7lULbTEPPzIXIEbKqFH+FFl8eI7BVI20Jmo6807ISl7HpaX9BP10s36hFdt
- 61BVZB5dTtAAUHxH95hVUAIMBh0j/yWxzars4f/TRc9x1C2zj/ECGU4rlq6O1c9gKEGCvtxKO7wQK
- 9EC2dx1g==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4i24J01WSrTGFXgUWBWrpPuRCwSwcV1qotLmUQ3EK9Y=; b=J+0JS3bTAA2dKpd6bltVevh+7O
+ n6eQ/lPgC8C6bmC+mgMrVDAx2XquknXXVArwva9FqOQoVX7ih2jdnK6WS00quH2twVemljrbsZ4rM
+ UZGMbiiFiyUUijKJ46c0R1sIVilDcU1GxwfaVvI7eSufgDmJ0bPSt6hldATSEerkMpRxC0i9tepo2
+ EnXhFGRpj5iqiMTP4CD5aQZ2TvxhZOJIGEVhv8sn0N7EjRAtmZaC5hplm5kLx2iKe5ajD5tfIIZM1
+ 74ASLu+i9WQua1keXsfMPP8LOccyddgPVMzC3ANBnw771hduBGd3TwpSp/7G3JP8Md/18BJJapjlk
+ 5wcZLw9g==;
 Received: from [187.36.210.68] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vsK2g-001eTt-Cf; Tue, 17 Feb 2026 13:19:02 +0100
+ id 1vsK2i-001eTt-5m; Tue, 17 Feb 2026 13:19:04 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: [PATCH 0/6] drm/v3d: Improve v3d_stats lifetime and locking
-Date: Tue, 17 Feb 2026 09:18:48 -0300
-Message-Id: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
+Date: Tue, 17 Feb 2026 09:18:49 -0300
+Subject: [PATCH 1/6] drm/v3d: Handle error from drm_sched_entity_init()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKhclGkC/x3MwQqEIBCA4VeJOTeQisL2KtGhbGyHSmMMCaJ3X
- 9njd/j/BzIJU4a+eUCocOYUK1TbgP9OcSXkpRp0p12nlcViFhTKdOGe/MZxRT5OSQVDIOW8sdZ
- 9Zqj5KRT4/q+H8X1/KMVh4GoAAAA=
-X-Change-ID: 20260215-v3d-reset-locking-improv-ffe16c35569b
+Message-Id: <20260217-v3d-reset-locking-improv-v1-1-0db848016869@igalia.com>
+References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
+In-Reply-To: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, 
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
  Maxime Ripard <mripard@kernel.org>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1936; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=mrmdU5bZEjmRCVVVE4CTctYyniXnUVx6En1MYb9v9pE=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBplFyzHG7+QCIG3xGexPwbpYFPti8/mNZlY60MA
- wUtXqSzs8GJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaZRcswAKCRA/8w6Kdoj6
- qqfRB/9nDXCfn5h65XAOTbrvRnpyHbt617ts5Af88b/Q3+zCjTUV5OiGEd+BoEwblJndKnOPBq1
- aDNkXTUZGFy/YM9HbGfGqHUszqDNLA/7/UvScFTBB28j2TtVTC2jhTEW8UgX5zODHyU1wwrHHMQ
- VG5i7ZqMc2FLrJ6HAHMIg3b46+Y7p03Noot7e6xICpGwJh0sP3pPfq4flEcSejrr6WkrZ16vJid
- vB6WF47et/xsTbGaPfjUN9h1RdfPHpDTLEyGE9aeBKo6K0A8MXxusbqle6xEWJgaswJ2eibdAZU
- lP72p8ipDe5iilrsXmSXFBDABe29dBSKNG+q5tgSdVI+CkqJ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1846; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=pY6XLbJElNzC+SjJVZuCUq7Odirb1owp1CQc7x7/BlE=;
+ b=owGbwMvMwMFo/5mvq6zj1yrG02pJDJlTYjY7vbXhd9Ru/K152eqptqTWfPUnDx7fCam0KU1rr
+ Nh0ouN0J6MxCwMjB4OsmCLLjyextYxi5eyay8ovwgxiZQKZwsDFKQAT4dPiYFg7mfHIIZfWo5VB
+ dz+6aDta2q7klQ+r7OXQeFlzcKKtxUEf0UlROcaudzY9ZDl0a37BxFezc5YpJ8z7X+H0cpJQtrV
+ AqZvy03nGf7X8D0xt/DfH0Nx29TQe0/mKzi0eN/qqttnPbTnLtTRF2Eg7wGbWzlKfxcqBPk4TVJ
+ 0N5p0XYgpjmc6Y//S4RG4Yy6ZjjXIynqfNJHTmc1tpn+yR2LmVU17zOHPbnPUz2rRPF8pcFbZQt
+ NnPLvNPLkhQ63b90urjB0yWRnvbneWYEsAVtES078mkL+v/ORuUz1ZZebvHOqEhLuFBZdueBzVK
+ 6w25+Dt6Fpo/kLD52SBUeMNo1eHuNS+uKq1cuklOkm07AA==
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,10 +87,10 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:tvrtko.ursulin@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,m:mcanal@igalia.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
@@ -109,50 +106,61 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 2878214BDD9
+X-Rspamd-Queue-Id: F38BE14BDD2
 X-Rspamd-Action: no action
 
-This series aims to improve the `struct v3d_stats` lifetime management.
-The commit fa6a20c87470 ("drm/v3d: Address race-condition between per-fd
-GPU stats and fd release") addressed a race-condition between the per-fd
-GPU stats and the fd release by clearing `job->file_priv` before the V3D
-per-fd structure is freed and assuring that `job->file_priv` exists
-during the per-fd GPU stats updates.
+drm_sched_entity_init() can fail but its return value is currently being
+ignored in v3d_open(). Check the return value and properly unwind
+on failure by destroying any already-initialized scheduler entities.
 
-However, this approach introduced a tricky file_priv NULL-ing dance with
-the `queue_lock` spinlock. This series aims to address this issue in a
-simpler way: converting `v3d_stats` from embedded structs to
-heap-allocated, refcounted objects. This simplifies the code and leaves
-`queue_lock` exclusively for job management.
-
-The series also switches to raw seqcount helpers to resolve a lockdep
-annotation issue, fixes missing error handling in drm_sched_entity_init(),
-and removes the now-unnecessary dedicated fence_lock.
-
-Best regards,
-- Maíra
-
+Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
-Maíra Canal (2):
-      drm/v3d: Handle error from drm_sched_entity_init()
-      drm/v3d: Remove dedicated fence_lock
+ drivers/gpu/drm/v3d/v3d_drv.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-Tvrtko Ursulin (4):
-      drm/v3d: Use raw seqcount helpers instead of fighting with lockdep
-      drm/v3d: Refcount v3d_stats
-      drm/v3d: Hold v3d_stats references in each job
-      drm/v3d: Attach per-fd reset counters to v3d_stats
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 8de4f151a5c02cbf970e72933d1a275968088357..acdfd43af9ee4b66bf7c39ba8160106e4726738a 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -131,7 +131,7 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	struct v3d_file_priv *v3d_priv;
+ 	struct drm_gpu_scheduler *sched;
+-	int i;
++	int i, ret;
+ 
+ 	v3d_priv = kzalloc(sizeof(*v3d_priv), GFP_KERNEL);
+ 	if (!v3d_priv)
+@@ -141,9 +141,11 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 
+ 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
+ 		sched = &v3d->queue[i].sched;
+-		drm_sched_entity_init(&v3d_priv->sched_entity[i],
+-				      DRM_SCHED_PRIORITY_NORMAL, &sched,
+-				      1, NULL);
++		ret = drm_sched_entity_init(&v3d_priv->sched_entity[i],
++					    DRM_SCHED_PRIORITY_NORMAL, &sched,
++					    1, NULL);
++		if (ret)
++			goto err_sched;
+ 
+ 		memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
+ 		seqcount_init(&v3d_priv->stats[i].lock);
+@@ -153,6 +155,12 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	file->driver_priv = v3d_priv;
+ 
+ 	return 0;
++
++err_sched:
++	for (i--; i >= 0; i--)
++		drm_sched_entity_destroy(&v3d_priv->sched_entity[i]);
++	kfree(v3d_priv);
++	return ret;
+ }
+ 
+ static void
 
- drivers/gpu/drm/v3d/v3d_drv.c    |  53 +++++++++-------
- drivers/gpu/drm/v3d/v3d_drv.h    |  46 +++++++++-----
- drivers/gpu/drm/v3d/v3d_fence.c  |   2 +-
- drivers/gpu/drm/v3d/v3d_gem.c    |  43 ++++++++-----
- drivers/gpu/drm/v3d/v3d_irq.c    |   2 +-
- drivers/gpu/drm/v3d/v3d_sched.c  | 133 +++++++++++++++------------------------
- drivers/gpu/drm/v3d/v3d_submit.c |   6 ++
- drivers/gpu/drm/v3d/v3d_sysfs.c  |   2 +-
- 8 files changed, 147 insertions(+), 140 deletions(-)
----
-base-commit: 0ef1dcf4c16bb6d90e8fbf7b18f3d76b79fcde9d
-change-id: 20260215-v3d-reset-locking-improv-ffe16c35569b
+-- 
+2.52.0
 
