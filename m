@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id msNQCpDilGmjIgIAu9opvQ
+	id +KgrH5filGmjIgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:08 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C987A151038
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF715106E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C5110E4F1;
-	Tue, 17 Feb 2026 21:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC2210E52C;
+	Tue, 17 Feb 2026 21:50:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="eNv5WZ30";
+	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="M7VU6osu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out-13.smtp.spacemail.com (out-13.smtp.spacemail.com
  [63.250.43.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF0010E2B6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9507710E2B6
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:01 +0000 (UTC)
 Received: from mac.pk.shawcable.net (S0106dceb699ec90f.pk.shawcable.net
  [24.69.43.232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNT5Q57z6tkL;
- Tue, 17 Feb 2026 21:40:25 +0000 (UTC)
+ by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNX09XLz6tkL;
+ Tue, 17 Feb 2026 21:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=r-sc.ca;
- s=spacemail; t=1771364427;
- bh=I99tBoI9TXIsELu4UV+lme4CdAPu87/8INed4CLN2Xc=;
+ s=spacemail; t=1771364429;
+ bh=5Uwy6bs1Cu3Ac5nEuDpfkKyR0IflWXmYqx0YiyUoMG8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=eNv5WZ309Xa1dp3x4ZA8q8+PncDehOESp9osofBRzyx9aaRASOJxXC3C3SfJ0tcGL
- IMw9hleVIxPWBRSchSJuMAEv7uoQBCtTlygEMBY7BIvwJ2btipId7KAQMs0WOGoOfK
- NW25zRpzP7o8OuHIgTToNa01h2FqCEo3pkApVpfYKHxDIE9LukuY77Bh4YJQF2o/DC
- DeBprkYjEYSe9Ugcc0mKQLJPGvvFACdO6H22vtg8RsXKsT1aUDRQa1MS7TZVqtJKJj
- UkGDgY5JgHvOw3tleHPfYiVw6XscpcKHdSCegGp44sAFUSyBsqDTeEIzgL7jVQxOkK
- S+8e3JJkArDpA==
+ b=M7VU6osuYR6HrU3vBA9eg5GVCmLkn7ea8rhTEYrz9abHI5NTraXwc30RLt8WCXT+c
+ PdyzAFlGLMwYfaio8MnsGdqumgJf/X7nsdQmtUd6h8+zR7H18kyNbq6DUk5eixaUWi
+ +gY4X7iwjBw+p+8jBPQLR9wxXv1t4ga7cdf+ApS7E0ZZMqsThuJMijPMK9I5fIEMz7
+ d2FOsCJGKkQer58CCusZDisLhFbf4SdE8KMqAzteISVBp6Z8k+mcR6g6gb5tlAOQXr
+ +oiFfSTscMxpOVnIsKqgx0L6dmmtW5Fjh6WjSXvy6EYVgmRQ6sUCtyFOjHTVCapCFc
+ BQRXiuozzwXqA==
 From: Ross Cawston <ross@r-sc.ca>
-Date: Tue, 17 Feb 2026 13:39:52 -0800
-Subject: [PATCH 4/5] accel/rocket: Skip CNA/Core S_POINTER initialization
- for standalone tasks
+Date: Tue, 17 Feb 2026 13:39:53 -0800
+Subject: [PATCH 5/5] accel/rocket: Use per-task interrupt mask and handle
+ PPU completion interrupts
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260217-accel-rocket-clean-base-v1-4-d72354325a25@r-sc.ca>
+Message-Id: <20260217-accel-rocket-clean-base-v1-5-d72354325a25@r-sc.ca>
 References: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
 In-Reply-To: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
@@ -55,11 +55,11 @@ To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Ross Cawston <ross@r-sc.ca>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=3130;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=2929;
  i=ross@r-sc.ca; s=20260217; h=from:subject:message-id;
- bh=O8dvO9jPl5/KKxBPfvLRBDq6Xf6UbiLZvL/YK3iBv6E=;
- b=FUfnHHgYQ3mGQnnW03s2TeWiOl5l1ePobjC4leeQItxLJwGfzksgx9brJvYAl5DJ2/76Aq+AY
- T+UM3Hbb4U1Ct3zp8s1xBnAkYKNeCrnFbOuJRL0E8tfH05IYu/ocZS5
+ bh=HWs1IC84v/YwZQbKpNwoGA0gGWlv8oAPh64TkdQpIug=;
+ b=0rgR3wqnVOIYyoNpDkvr/gy3tbo9wKUJ9qM52KuhTyctnPeFJa4yPynjJ/VXvSIOmrmk+l+sr
+ v8eOz6MDQ5RBZbDHgb3VWeRKXUur3aLY6dY+d1SOOl+8LhM964SPt8k
 X-Developer-Key: i=ross@r-sc.ca; a=ed25519;
  pk=c50mfTDLKsgS2tlqXEZEvb/VGiLvxjsLOw5M50DxhtM=
 X-Envelope-From: ross@r-sc.ca
@@ -109,84 +109,77 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,r-sc.ca:mid,r-sc.ca:dkim,r-sc.ca:email]
-X-Rspamd-Queue-Id: C987A151038
+X-Rspamd-Queue-Id: 2FFF715106E
 X-Rspamd-Action: no action
 
-Standalone DPU (element-wise) and PPU (pooling, etc.) tasks do not use
-the CNA or Core blocks. Writing S_POINTER to those blocks re-arms them
-with stale/uninitialized state, leading to corruption.
+The current driver hard-codes interrupt mask and clear to DPU_0 | DPU_1
+and only checks DPU completion in the IRQ handler. This causes timeouts
+on PPU-only tasks and DPU→PPU pipelined jobs.
 
-Introduce ROCKET_TASK_SKIP_CNA_CORE flag (added in previous patch) so
-userspace can indicate such tasks. When set, skip the CNA and Core
-S_POINTER MMIO writes.
+Use the new per-task int_mask field to set INTERRUPT_MASK to the
+correct terminal block(s):
+  - conv / standalone DPU → DPU_0 | DPU_1
+  - PPU / DPU→PPU pipeline → PPU_0 | PPU_1
 
-Also move the per-core extra bit (bit 28 × core index) inside the same
-conditional - it is only needed when CNA/Core are actually used.
+Also:
+- clear all relevant interrupt bits (0x1ffff) instead of just DPU
+- accept PPU_0 / PPU_1 completions in the IRQ handler
+
+Fixes correct completion detection for non-convolutional and pipelined
+workloads.
 
 Signed-off-by: Ross Cawston <ross@r-sc.ca>
 ---
- drivers/accel/rocket/rocket_job.c | 41 +++++++++++++++++++++++++++------------
- 1 file changed, 29 insertions(+), 12 deletions(-)
+ drivers/accel/rocket/rocket_job.c | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index 34898084cc56..1dcc0c945f7f 100644
+index 1dcc0c945f7f..ce54913baa46 100644
 --- a/drivers/accel/rocket/rocket_job.c
 +++ b/drivers/accel/rocket/rocket_job.c
-@@ -116,7 +116,6 @@ rocket_copy_tasks(struct drm_device *dev,
- static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *job)
- {
- 	struct rocket_task *task;
--	unsigned int extra_bit;
- 
- 	/* Don't queue the job if a reset is in progress */
- 	if (atomic_read(&core->reset.pending))
-@@ -129,17 +128,35 @@ static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *jo
- 
- 	rocket_pc_writel(core, BASE_ADDRESS, 0x1);
- 
--	 /* From rknpu, in the TRM this bit is marked as reserved */
--	extra_bit = 0x10000000 * core->index;
--	rocket_cna_writel(core, S_POINTER, CNA_S_POINTER_POINTER_PP_EN(1) |
--					   CNA_S_POINTER_EXECUTER_PP_EN(1) |
--					   CNA_S_POINTER_POINTER_PP_MODE(1) |
--					   extra_bit);
--
--	rocket_core_writel(core, S_POINTER, CORE_S_POINTER_POINTER_PP_EN(1) |
--					    CORE_S_POINTER_EXECUTER_PP_EN(1) |
--					    CORE_S_POINTER_POINTER_PP_MODE(1) |
--					    extra_bit);
-+	/*
-+	 * Initialize CNA and Core S_POINTER for ping-pong mode via MMIO.
-+	 *
-+	 * Each core needs a per-core extra_bit (bit 28 * core_index) which
-+	 * the TRM marks as reserved but the BSP rknpu driver sets. Without
-+	 * it, non-zero cores hang. This MUST be done via MMIO (not regcmd)
-+	 * because userspace doesn't know which core the scheduler picks.
-+	 *
-+	 * For standalone DPU/PPU tasks (element-wise ops, pooling), CNA
-+	 * and Core have no work. Writing their S_POINTERs would re-arm
-+	 * them with stale state from the previous conv task, corrupting
-+	 * the DPU/PPU output. Userspace signals this via the
-+	 * ROCKET_TASK_SKIP_CNA_CORE flag.
-+	 */
-+	if (!(task->flags & ROCKET_TASK_SKIP_CNA_CORE)) {
-+		unsigned int extra_bit = 0x10000000 * core->index;
-+
-+		rocket_cna_writel(core, S_POINTER,
-+				  CNA_S_POINTER_POINTER_PP_EN(1) |
-+				  CNA_S_POINTER_EXECUTER_PP_EN(1) |
-+				  CNA_S_POINTER_POINTER_PP_MODE(1) |
-+				  extra_bit);
-+
-+		rocket_core_writel(core, S_POINTER,
-+				   CORE_S_POINTER_POINTER_PP_EN(1) |
-+				   CORE_S_POINTER_EXECUTER_PP_EN(1) |
-+				   CORE_S_POINTER_POINTER_PP_MODE(1) |
-+				   extra_bit);
-+	}
- 
- 	rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+@@ -162,8 +162,20 @@ static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *jo
  	rocket_pc_writel(core, REGISTER_AMOUNTS,
+ 			 PC_REGISTER_AMOUNTS_PC_DATA_AMOUNT((task->regcmd_count + 1) / 2 - 1));
+ 
+-	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
+-	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
++	/*
++	 * Enable interrupts for the last block in this task's pipeline.
++	 *
++	 * The int_mask field from userspace specifies which block completion
++	 * signals that this task is done:
++	 *   - Conv/DPU tasks: DPU_0 | DPU_1
++	 *   - PPU tasks (DPU→PPU pipeline): PPU_0 | PPU_1
++	 *
++	 * Only enabling the terminal block's interrupt prevents the kernel
++	 * from stopping the pipeline early (e.g. DPU fires before PPU has
++	 * finished writing its output).
++	 */
++	rocket_pc_writel(core, INTERRUPT_MASK, task->int_mask);
++	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+ 
+ 	rocket_pc_writel(core, TASK_CON, PC_TASK_CON_RESERVED_0(1) |
+ 					 PC_TASK_CON_TASK_COUNT_CLEAR(1) |
+@@ -449,8 +461,17 @@ static irqreturn_t rocket_job_irq_handler(int irq, void *data)
+ 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+ 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_WRITE_ERROR);
+ 
+-	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
+-	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
++	/*
++	 * Check for any job completion interrupt: DPU or PPU.
++	 *
++	 * Conv and standalone DPU jobs signal via DPU_0/DPU_1.
++	 * PPU pooling jobs signal via PPU_0/PPU_1.
++	 * We must recognize both to avoid PPU job timeouts.
++	 */
++	if (!(raw_status & (PC_INTERRUPT_RAW_STATUS_DPU_0 |
++						PC_INTERRUPT_RAW_STATUS_DPU_1 |
++						PC_INTERRUPT_RAW_STATUS_PPU_0 |
++						PC_INTERRUPT_RAW_STATUS_PPU_1)))
+ 		return IRQ_NONE;
+ 
+ 	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
 
 -- 
 2.52.0
