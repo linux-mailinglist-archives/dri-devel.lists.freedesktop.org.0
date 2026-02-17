@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mOjRAspclGm3DAIAu9opvQ
+	id GPmJMkBdlGm3DAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:22 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:21:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC1C14BDFD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C92F14BE3E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 13:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC1910E4CE;
-	Tue, 17 Feb 2026 12:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F5A10E4C6;
+	Tue, 17 Feb 2026 12:21:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="SuEm4duQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bqS1BbBq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B0C510E4CC
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 12:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=GIej0ily7WnSrqU0W64FQXGZwiNhMRB89pCjmhe2c5k=; b=SuEm4duQXMHXoVr8GUgQKy2KOF
- OOvtfS0FDIgAOo1sAa1IHI2QEjGHXB7A+hnYv+in7E/i1f88cRcAS1yAjH6BoViUbd8N31cdMcGQT
- moTdXJF3LEbgGOwr56SwiD6SyLJdOHS61XOrwoBkyY4lNyFDG5mv/zzeaVuQqRQX0L7Ugqg/U8Sht
- oh5RqeF2HromI3JeJUxKLmr+dIY4vsfMTuJxn8O2aNgaelQSERB42wnU+fLlUtVAyebGj4ZynUPqS
- /hdVCkmO/8qOznbMIwUa/XPXZSeqZuO23xDX87NJQn/vAnXlGSg5tqGpsbBU/xzgIMGlQtySRdbzi
- GnOdzfbg==;
-Received: from [187.36.210.68] (helo=janis.local)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vsK2r-001eTt-2f; Tue, 17 Feb 2026 13:19:13 +0100
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Tue, 17 Feb 2026 09:18:54 -0300
-Subject: [PATCH 6/6] drm/v3d: Remove dedicated fence_lock
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF17010E4C6;
+ Tue, 17 Feb 2026 12:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771330876; x=1802866876;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=4izq+YKgwQE8GCdVAv9mdn7fCEn5yMG7iw+rehpJHsY=;
+ b=bqS1BbBqj+o6WQ2/ybKLgboo3gwnSmzGYFh5n8/DN1Up4vBSMbdgYg4W
+ ikOcPvz02VWFrHQylGUhR2hhuoGJOM/wxmOsHwP1t0E7EQkrYk/sDGmlx
+ Lr46xsSrCKZx+npPPYQD+1PMXuO8ChOpr6/+FBVIgjGhNjbTSNn/LzYup
+ fVhwfJNVN5+i8bK9ONbLkE+0Kc/tWPylpe9Lrw0xAMZOWR2VNXXoj0wiq
+ riOwZ4pHZBfAO4FiPRz5f8ZEqBIiEHYOTJ9klrgS7870FdxBb61LyT+XP
+ kdZ4lqlTrvZ+bsdQ+YBCO0Dg6m8rxVE5PZIyY0GR9j1dh4YyXzMhUbE1X g==;
+X-CSE-ConnectionGUID: pbB9PotjTsuL8FXBgDSZ1w==
+X-CSE-MsgGUID: qWaBw+4HSEOzKw6gEaLH+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89809022"
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; d="scan'208";a="89809022"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2026 04:21:15 -0800
+X-CSE-ConnectionGUID: KPTNaLOrTzi6YVibenDfZw==
+X-CSE-MsgGUID: uS7PpQBgQFGX8WpgMolvUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; d="scan'208";a="212082673"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.127])
+ ([10.245.245.127])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2026 04:21:11 -0800
+Message-ID: <9973d23893b3ce8ca4132e72fe833b6066b277c0.camel@linux.intel.com>
+Subject: Re: [PATCH] [v2] drm/pagemap: pass pagemap_addr by reference
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Himal Prasad Ghimiray	
+ <himal.prasad.ghimiray@intel.com>, Matthew Auld <matthew.auld@intel.com>, 
+ Francois Dugast <francois.dugast@intel.com>, Andrew Morton
+ <akpm@linux-foundation.org>, 	dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 	intel-xe@lists.freedesktop.org
+Date: Tue, 17 Feb 2026 13:21:09 +0100
+In-Reply-To: <bf08403abbacbd656a4ba78ae83a4e9163719cbc.camel@linux.intel.com>
+References: <20260216134644.1025365-1-arnd@kernel.org>
+ <bf08403abbacbd656a4ba78ae83a4e9163719cbc.camel@linux.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260217-v3d-reset-locking-improv-v1-6-0db848016869@igalia.com>
-References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
-In-Reply-To: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- Maxime Ripard <mripard@kernel.org>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2625; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=ME8bZFoL5aJd/Dpdqn2DNmDb/JexMJR6PRr3FQ6UYaE=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBplFy0ad9h+Qu3M8nYlGO75X86XT2q1n4Tdt5vC
- pxu7GYg7fqJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaZRctAAKCRA/8w6Kdoj6
- qm1PCACC+x7vE5s6/lDg/nBnwl6hvGBRkSZDXY9n5BmUGmNATAM6rDo1JLcDSdKRD3iIkvPvuTZ
- 3NJwQ8C8vKFzOvN2pxc4qggMW/cuksUfHESrVKvKJCJiLviXO0v3VB+XJUBTvbHK2vHxC/nLBlI
- Oz3FPdjYloiUhHtEiZG3YKRfMvpnkwRZKMY2EVUvKVPvxLS0p7kCRkQw9GC7aMX9m9qv/TVD64U
- 2g7rWQbeWakiqLBYTsM9Tma0CVkmmQy4RAcMqeXr3fkqSAjP4lPJpNYSqexd5KGkxvRaWl4Vv2Z
- vAVKMMH/Ut4uclJo8fGcxG+FOcn4P9dgnlya6t14LTjvZOre
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,98 +84,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:tvrtko.ursulin@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,m:mcanal@igalia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,intel.com];
+	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[6];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: AEC1C14BDFD
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,arndb.de:email,linux.intel.com:mid]
+X-Rspamd-Queue-Id: 0C92F14BE3E
 X-Rspamd-Action: no action
 
-Commit adefb2ccea1e ("drm/v3d: create a dedicated lock for dma fence")
-split `fence_lock` from `queue_lock` because v3d_job_update_stats() was
-taking `queue_lock` to protect `job->file_priv` during stats collection
-in the IRQ handler. Using the same lock for both DMA fence signaling and
-stats protection in a IRQ context caused issues on PREEMPT_RT.
+On Mon, 2026-02-16 at 14:59 +0100, Thomas Hellstr=C3=B6m wrote:
+> On Mon, 2026-02-16 at 14:46 +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >=20
+> > Passing a structure by value into a function is sometimes
+> > problematic,
+> > for a number of reasons. Of of these is a warning from the 32-bit
+> > arm
+> > compiler:
+> >=20
+> > drivers/gpu/drm/drm_gpusvm.c: In function
+> > '__drm_gpusvm_unmap_pages':
+> > drivers/gpu/drm/drm_gpusvm.c:1152:33: note: parameter passing for
+> > argument of type 'struct drm_pagemap_addr' changed in GCC 9.1
+> > =C2=A01152 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dpagemap->ops-
+> > > device_unmap(dpagemap,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0
+> > ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > =C2=A01153 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0
+> > dev, *addr);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0
+> > ~~~~~~~~~~~
+> >=20
+> > This particular problem is harmless since we are not mixing
+> > compiler
+> > versions
+> > inside of the compiler. However, passing this by reference avoids
+> > the
+> > warning
+> > along with providing slightly better calling conventions as it
+> > avoids
+> > an
+> > extra copy on the stack.
+> >=20
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>=20
+> Thanks.
+>=20
+> Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+>=20
+> Will push to drm-misc-fixes once CI is complete.
 
-Since then, the stats infrastructure has been reworked: v3d_stats is now
-refcounted and jobs hold their own references to stats objects, so
-v3d_job_update_stats() no longer takes `queue_lock` at all.
+Merged to drm-xe-next. Will likely appear after the next drm-xe-fixes
+PR in 7.0-rc2.
 
-With the original reason for the split gone, merge `fence_lock` back
-into `queue_lock` to simplify the locking scheme.
+Thanks,
+Thomas
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_drv.h   | 2 --
- drivers/gpu/drm/v3d/v3d_fence.c | 2 +-
- drivers/gpu/drm/v3d/v3d_gem.c   | 1 -
- 3 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 3de485abd8fc274b361cd17a00cab189d8e69643..6a3cad933439812d78da5797749c020a9bf46402 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -71,8 +71,6 @@ struct v3d_queue_state {
- 	/* Currently active job for this queue */
- 	struct v3d_job *active_job;
- 	spinlock_t queue_lock;
--	/* Protect dma fence for signalling job completion */
--	spinlock_t fence_lock;
- };
- 
- /* Performance monitor object. The perform lifetime is controlled by userspace
-diff --git a/drivers/gpu/drm/v3d/v3d_fence.c b/drivers/gpu/drm/v3d/v3d_fence.c
-index c82500a1df73bc454cd09ff04bf7a78833a3e473..8f8471adae34af7a444f5eeca4ef08d66ac1b7b5 100644
---- a/drivers/gpu/drm/v3d/v3d_fence.c
-+++ b/drivers/gpu/drm/v3d/v3d_fence.c
-@@ -15,7 +15,7 @@ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q)
- 	fence->dev = &v3d->drm;
- 	fence->queue = q;
- 	fence->seqno = ++queue->emit_seqno;
--	dma_fence_init(&fence->base, &v3d_fence_ops, &queue->fence_lock,
-+	dma_fence_init(&fence->base, &v3d_fence_ops, &queue->queue_lock,
- 		       queue->fence_context, fence->seqno);
- 
- 	return &fence->base;
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 859e63dd7e9738e3a3702edfb857ec3e844b052b..75d9eccd796664e67277c1f83ad59063f164d1da 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -296,7 +296,6 @@ v3d_gem_init(struct drm_device *dev)
- 		queue->fence_context = dma_fence_context_alloc(1);
- 
- 		spin_lock_init(&queue->queue_lock);
--		spin_lock_init(&queue->fence_lock);
- 	}
- 
- 	spin_lock_init(&v3d->mm_lock);
 
--- 
-2.52.0
-
+>=20
+> /Thomas
+>=20
+>=20
+> > ---
+> > =C2=A0drivers/gpu/drm/drm_gpusvm.c=C2=A0 | 2 +-
+> > =C2=A0drivers/gpu/drm/drm_pagemap.c | 2 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0 | 8 ++++----
+> > =C2=A0include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> > =C2=A04 files changed, 7 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_gpusvm.c
+> > b/drivers/gpu/drm/drm_gpusvm.c
+> > index c25f50cad6fe..81626b00b755 100644
+> > --- a/drivers/gpu/drm/drm_gpusvm.c
+> > +++ b/drivers/gpu/drm/drm_gpusvm.c
+> > @@ -1150,7 +1150,7 @@ static void __drm_gpusvm_unmap_pages(struct
+> > drm_gpusvm *gpusvm,
+> > =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addr->dir);
+> > =C2=A0			else if (dpagemap && dpagemap->ops-
+> > > device_unmap)
+> > =C2=A0				dpagemap->ops-
+> > > device_unmap(dpagemap,
+> > -							=C2=A0=C2=A0=C2=A0 dev,
+> > *addr);
+> > +							=C2=A0=C2=A0=C2=A0 dev,
+> > addr);
+> > =C2=A0			i +=3D 1 << addr->order;
+> > =C2=A0		}
+> > =C2=A0
+> > diff --git a/drivers/gpu/drm/drm_pagemap.c
+> > b/drivers/gpu/drm/drm_pagemap.c
+> > index d0041c947a28..22579806c055 100644
+> > --- a/drivers/gpu/drm/drm_pagemap.c
+> > +++ b/drivers/gpu/drm/drm_pagemap.c
+> > @@ -318,7 +318,7 @@ static void
+> > drm_pagemap_migrate_unmap_pages(struct device *dev,
+> > =C2=A0			struct drm_pagemap_zdd *zdd =3D page-
+> > > zone_device_data;
+> > =C2=A0			struct drm_pagemap *dpagemap =3D zdd-
+> > > dpagemap;
+> > =C2=A0
+> > -			dpagemap->ops->device_unmap(dpagemap, dev,
+> > pagemap_addr[i]);
+> > +			dpagemap->ops->device_unmap(dpagemap, dev,
+> > &pagemap_addr[i]);
+> > =C2=A0		} else {
+> > =C2=A0			dma_unmap_page(dev, pagemap_addr[i].addr,
+> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PAGE_SIZE <<
+> > pagemap_addr[i].order, dir);
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > index 213f0334518a..78f4b2c60670 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -1676,13 +1676,13 @@ xe_drm_pagemap_device_map(struct
+> > drm_pagemap
+> > *dpagemap,
+> > =C2=A0
+> > =C2=A0static void xe_drm_pagemap_device_unmap(struct drm_pagemap
+> > *dpagemap,
+> > =C2=A0					struct device *dev,
+> > -					struct drm_pagemap_addr
+> > addr)
+> > +					const struct
+> > drm_pagemap_addr *addr)
+> > =C2=A0{
+> > -	if (addr.proto !=3D XE_INTERCONNECT_P2P)
+> > +	if (addr->proto !=3D XE_INTERCONNECT_P2P)
+> > =C2=A0		return;
+> > =C2=A0
+> > -	dma_unmap_resource(dev, addr.addr, PAGE_SIZE <<
+> > addr.order,
+> > -			=C2=A0=C2=A0 addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > +	dma_unmap_resource(dev, addr->addr, PAGE_SIZE << addr-
+> > > order,
+> > +			=C2=A0=C2=A0 addr->dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static void xe_pagemap_destroy_work(struct work_struct *work)
+> > diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> > index 2baf0861f78f..c848f578e3da 100644
+> > --- a/include/drm/drm_pagemap.h
+> > +++ b/include/drm/drm_pagemap.h
+> > @@ -95,7 +95,7 @@ struct drm_pagemap_ops {
+> > =C2=A0	 */
+> > =C2=A0	void (*device_unmap)(struct drm_pagemap *dpagemap,
+> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev,
+> > -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr addr);
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_pagemap_addr *addr);
+> > =C2=A0
+> > =C2=A0	/**
+> > =C2=A0	 * @populate_mm: Populate part of the mm with @dpagemap
+> > memory,
