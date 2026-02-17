@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKhUDYQSlGlB/wEAu9opvQ
+	id GMTjIYcSlGlB/wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:02:28 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:02:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924611491AD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:02:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389511491B4
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 08:02:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F18510E44F;
-	Tue, 17 Feb 2026 07:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C68710E45F;
+	Tue, 17 Feb 2026 07:02:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="UF2/6JUt";
+	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="iuQ5293A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6634D10E44F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:02:24 +0000 (UTC)
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6F710E455
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 07:02:28 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
- s=key1; t=1771311742;
+ s=key1; t=1771311747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QrJL52H3P+sZw3D88DjO+0Dvn3Xt8fjuAIAZXJfqjlQ=;
- b=UF2/6JUtQCxjTjQrY0QVkbwMgVrmbiwJNhqfvZqyK+Uj92p+neG1hqb8EK+U7CGhqRlSL5
- sSbt+Jf3m7VVk8Ih6ElF8d9bnz8Gasrf46lCsizmipOXJhl7H/3zaXPZvUC5ibEl5mIA3G
- zZAUWrjDaNJ3fyWEfAI336Jkhkqk2CHB+snVaa7edhu++/QLfO1oCHhNV/2VC+VKb9d1KY
- BvPBxcnz0/HQ+OyaVCs2rCz3hQzKzQ0o2Qz61ECd8H+ZroAH9PVu7Bzk+DlmWY4YD6Sa4t
- QIRfSiBCuVxXAVQiAjqjwe2cgRzJEIUuKgaxDhGmUByENs1Jm26foCBWeQf3iQ==
+ bh=CurkBCDBoSHvQL72S8wPE7bvhT/px5KQEHYARnZIZ/w=;
+ b=iuQ5293A51Bq2wdelf03oW4hhk1/p5JYKFKoOCKDuVeAhwzi4RqrmB9KVmlk21QluJ4qMG
+ dUilg6zZ02Kpv7K0iHoY+xPTfP4C3dk14sLn7/pYA5XJtKoB/n0KXMpIiBU7WU/FZRdYUH
+ djt6rY2KA0Xf8bLRJg6gugTN7An/iH6Ta1kJnOb4o5IVcsqPZRKX7MDC7d9Dejo0lVOad6
+ 4LmBhb6zfawy7SkiBtssn+YBVptjQOaafvbzFQCwNAui8Xpc67BA0j7cyHitvjtY1JPA/b
+ QGgXmzxKS+E+k1CW1CJALL5OvzSBswD/l+YIJ9UQHJGH3p6j/ZSW9hba8HJ41A==
 From: Val Packett <val@packett.cool>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -45,10 +45,10 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
  ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org,
  Val Packett <val@packett.cool>
-Subject: [PATCH 3/4] drm/panel: himax-hx83102: Add support for Holitech
- HTF065H045
-Date: Tue, 17 Feb 2026 04:00:11 -0300
-Message-ID: <20260217070121.190108-4-val@packett.cool>
+Subject: [PATCH 4/4] drm/panel: himax-hx83102: Add support for DSI DCS
+ backlight control
+Date: Tue, 17 Feb 2026 04:00:12 -0300
+Message-ID: <20260217070121.190108-5-val@packett.cool>
 In-Reply-To: <20260217070121.190108-1-val@packett.cool>
 References: <20260217070121.190108-1-val@packett.cool>
 MIME-Version: 1.0
@@ -101,129 +101,123 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,packett.cool:mid,packett.cool:dkim,packett.cool:email]
-X-Rspamd-Queue-Id: 924611491AD
+X-Rspamd-Queue-Id: 389511491B4
 X-Rspamd-Action: no action
 
-This 720x1600 panel is found in several Motorola/Lenovo smartphones like
-the Moto G9 Play (guamp). The initialization sequence is based on the
-datasheet. Add it to the existing HX83102 panel driver.
+The HTF065H045 panel based on the HX83102 controller does use DCS
+commands for controlling backlight brightness. Make the driver fall back
+to DCS when no external backlight has been defined in the device tree,
+like many other drivers do.
 
 Signed-off-by: Val Packett <val@packett.cool>
 ---
- drivers/gpu/drm/panel/panel-himax-hx83102.c | 86 +++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ drivers/gpu/drm/panel/panel-himax-hx83102.c | 65 +++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-index 1d3bb5dca559..34e0e956db48 100644
+index 34e0e956db48..8b2a68ee851e 100644
 --- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
 +++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-@@ -701,6 +701,67 @@ static int starry_2082109qfh040022_50e_init(struct hx83102 *ctx)
- 	return dsi_ctx.accum_err;
- }
+@@ -7,6 +7,7 @@
+  * Based on drivers/gpu/drm/panel/panel-himax-hx8394.c
+  */
  
-+static int holitech_htf065h045_init(struct hx83102 *ctx)
++#include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+@@ -76,6 +77,8 @@ struct hx83102_panel_desc {
+ 		unsigned int height_mm;
+ 	} size;
+ 
++	bool has_backlight;
++
+ 	int (*init)(struct hx83102 *ctx);
+ };
+ 
+@@ -913,6 +916,7 @@ static const struct hx83102_panel_desc holitech_htf065h045_desc = {
+ 		.width_mm = 68,
+ 		.height_mm = 151,
+ 	},
++	.has_backlight = true,
+ 	.init = holitech_htf065h045_init,
+ };
+ 
+@@ -1049,6 +1053,59 @@ static const struct drm_panel_funcs hx83102_drm_funcs = {
+ 	.get_orientation = hx83102_get_orientation,
+ };
+ 
++static int hx83102_bl_update_status(struct backlight_device *bl)
 +{
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness = backlight_get_brightness(bl);
++	int ret;
 +
-+	msleep(50);
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
 +
-+	hx83102_enable_extended_cmds(&dsi_ctx, true);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x22, 0x44, 0x27, 0x27, 0x32,
-+				     0x52, 0x57, 0x39, 0x08, 0x08, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0x00, 0x06, 0x40, 0x00,
-+				     0x0e, 0xae, 0x38, 0x00, 0x00, 0x00, 0x00, 0xf4, 0xa0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x01, 0x58, 0x01, 0x58, 0x01,
-+				     0x58, 0x03, 0x58, 0x03, 0xff, 0x01, 0x20, 0x00, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x10, 0x00, 0x17, 0x00, 0x63, 0x37, 0x0e, 0x0e, 0x00, 0x00,
-+				     0x32, 0x10, 0x08, 0x00, 0x08, 0x32, 0x16, 0x4e, 0x06, 0x4e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x04, 0x0c, 0xb2, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x24, 0x25, 0x18, 0x18, 0x19,
-+				     0x19, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+				     0x18, 0x18, 0x18, 0x06, 0x07, 0x04, 0x05, 0x18, 0x18, 0x18,
-+				     0x18, 0x02, 0x03, 0x00, 0x01, 0x20, 0x21, 0x18, 0x18, 0x18,
-+				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP2, 0x00, 0x09, 0x16, 0x1f, 0x28,
-+				     0x4b, 0x65, 0x6d, 0x74, 0x70, 0x89, 0x8d, 0x91, 0xa0, 0x9e,
-+				     0xa8, 0xb2, 0xc8, 0xc9, 0x65, 0x6d, 0x78, 0x7f, 0x00, 0x09,
-+				     0x16, 0x1f, 0x28, 0x4b, 0x65, 0x6d, 0x74, 0x70, 0x89, 0x8d,
-+				     0x91, 0xa0, 0x9e, 0xa8, 0xb2, 0xc8, 0xc9, 0x65, 0x6d, 0x78,
-+				     0x7f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xff, 0x14, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0xff, 0xff, 0xff, 0xff,
-+				     0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-+				     0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa, 0xaa,
-+				     0xaa, 0xaa, 0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x70, 0x23, 0xa8, 0x93, 0xb2,
-+				     0xc0, 0xc0, 0x01, 0x10, 0x00, 0x00, 0x00, 0x0d, 0x3d, 0x82,
-+				     0x77, 0x04, 0x01, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x00, 0x53, 0x00, 0x02, 0x59);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0x00, 0x04, 0x9e, 0xf6,
-+				     0x00, 0x5d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x42, 0x00, 0x33, 0x00, 0x33,
-+				     0x88, 0xb3, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x20, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x7f, 0x03, 0xf5);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
++	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
++	if (ret < 0)
++		return ret;
 +
-+	return dsi_ctx.accum_err;
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return 0;
 +}
 +
- static const struct drm_display_mode starry_mode = {
- 	.clock = 162680,
- 	.hdisplay = 1200,
-@@ -833,6 +894,28 @@ static const struct hx83102_panel_desc starry_2082109qfh040022_50e_desc = {
- 	.init = starry_2082109qfh040022_50e_init,
- };
- 
-+static const struct drm_display_mode holitech_htf065h045_default_mode = {
-+	.clock = 90720,
-+	.hdisplay = 720,
-+	.hsync_start = 720 + 40,
-+	.hsync_end = 720 + 40 + 40,
-+	.htotal = 720 + 40 + 40 + 40,
-+	.vdisplay = 1600,
-+	.vsync_start = 1600 + 186,
-+	.vsync_end = 1600 + 186 + 2,
-+	.vtotal = 1600 + 186 + 2 + 12,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++static int hx83102_bl_get_brightness(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness;
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
++	if (ret < 0)
++		return ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return brightness;
++}
++
++static const struct backlight_ops hx83102_bl_ops = {
++	.update_status = hx83102_bl_update_status,
++	.get_brightness = hx83102_bl_get_brightness,
 +};
 +
-+static const struct hx83102_panel_desc holitech_htf065h045_desc = {
-+	.modes = &holitech_htf065h045_default_mode,
-+	.size = {
-+		.width_mm = 68,
-+		.height_mm = 151,
-+	},
-+	.init = holitech_htf065h045_init,
-+};
++static struct backlight_device *
++hx83102_create_dcs_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.brightness = 4095,
++		.max_brightness = 4095,
++	};
 +
- static int hx83102_enable(struct drm_panel *panel)
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++					      &hx83102_bl_ops, &props);
++}
++
+ static int hx83102_panel_add(struct hx83102 *ctx)
  {
- 	msleep(130);
-@@ -1069,6 +1152,9 @@ static const struct of_device_id hx83102_of_match[] = {
- 	{ .compatible = "starry,himax83102-j02",
- 	  .data = &starry_desc
- 	},
-+	{ .compatible = "holitech,htf065h045",
-+	  .data = &holitech_htf065h045_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, hx83102_of_match);
+ 	struct device *dev = &ctx->dsi->dev;
+@@ -1080,6 +1137,14 @@ static int hx83102_panel_add(struct hx83102 *ctx)
+ 	if (err)
+ 		return err;
+ 
++	/* Use DSI-based backlight as fallback if available */
++	if (ctx->desc->has_backlight && !ctx->base.backlight) {
++		ctx->base.backlight = hx83102_create_dcs_backlight(ctx->dsi);
++		if (IS_ERR(ctx->base.backlight))
++			return dev_err_probe(dev, PTR_ERR(ctx->base.backlight),
++					     "Failed to create backlight\n");
++	}
++
+ 	ctx->base.funcs = &hx83102_drm_funcs;
+ 	ctx->base.dev = &ctx->dsi->dev;
+ 
 -- 
 2.52.0
 
