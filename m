@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMC0IpgMlGn4/QEAu9opvQ
+	id 0LcXGpoMlGn4/QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 07:37:12 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 07:37:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9BD149005
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 07:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1D614900C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 07:37:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB9710E448;
-	Tue, 17 Feb 2026 06:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7787A10E449;
+	Tue, 17 Feb 2026 06:37:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eSktyi9z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="njYfn1+L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6955810E1DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D89510E448
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 06:37:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 947A060133;
+ by tor.source.kernel.org (Postfix) with ESMTP id 978326057A;
  Tue, 17 Feb 2026 06:37:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25383C4CEF7;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29607C4AF0B;
  Tue, 17 Feb 2026 06:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1771310225;
- bh=dTSMhCoTawp87AU7Cy0n0WfT/muvtx6IV9W5sVlbD54=;
- h=From:To:Cc:Subject:Date:From;
- b=eSktyi9ziG7E5UMcEtHpT7GSZYKUPrNhHikQNmwm3pyNrGk6fMC58P+85WFLM85MJ
- /AXK9BTXI68W25Gax/9c58YsE7NVNQb/5qCsxKKOwfjDaOf8gnp1n63WYgr8ayPrVc
- ClK3L8QxDjmV5GeJvFhjizTJaosw9Mk6akRpRtBmFzL1p4EEG+JDlxqpNNn3sNw2yc
- FBXRQivfp5lmABFAAokvMRZdqJg7aYOtgmrLzVYeRrEhHnzI/RHS8oXIL67W2oQH82
- 0rY4eUQQReemJr63wA7K119yUc2XC0Y79IFR7yS5UnoP65LtTZbagnZBVdkGNjGhMO
- EQH2fD4ObIC3A==
+ bh=uGjzkrhdhXqwSIJbMckxgT5nNy3d6MsSF3Jryrexppc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=njYfn1+Lxa9ZOudVq/alNThuCJSvN1gK71IKqFJLD1JYM00ORUiiVfs4XXo3nmv8G
+ CgPLd7fFxSCLj2lzo5qV6dscLvJUDD81qFdO2rJOEmeNWAlDaq0OOyh04OuyPuumvl
+ erKV75LKATxwffKhEYe3UiQNaD++F7fIKWtx5bmQrLNlQJ2pSwvlUJnVqCshM151sH
+ OVntSAdPdtoLPnRwgwyEKl9uF1wtIp53LtHlC18uR8h9XApWDDAH8Ad8FKkwVM3xT5
+ 6DV0q7zLiYGabO0/o234MV2f5Hxdpg3nWh+zRRoDpzFjisXg89TQ4tviByi52ZeV0O
+ eYoiwJhgkWiAg==
 Received: by wens.tw (Postfix, from userid 1000)
- id 86F075FDFB; Tue, 17 Feb 2026 14:37:02 +0800 (CST)
+ id 90D9E5F755; Tue, 17 Feb 2026 14:37:02 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -49,10 +49,13 @@ Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Archit Anant <architanant5@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH 0/2] drm/panel: sitronix-st7789v: Convert to mipi_dbi
-Date: Tue, 17 Feb 2026 14:36:42 +0800
-Message-ID: <20260217063647.3160826-1-wens@kernel.org>
+Subject: [RFT PATCH 1/2] drm/mipi-dbi: Provide option to invert reset GPIO
+ logic
+Date: Tue, 17 Feb 2026 14:36:43 +0800
+Message-ID: <20260217063647.3160826-2-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260217063647.3160826-1-wens@kernel.org>
+References: <20260217063647.3160826-1-wens@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,46 +106,60 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5F9BD149005
+X-Rspamd-Queue-Id: 3E1D614900C
 X-Rspamd-Action: no action
 
-Hi folks,
+When mipi_dbi (tinydrm) was added, the reset handling assumed that
+"logic high" or "active" was out of reset, while "logic low" or
+"inactive" was in reset. This is the opposite of how many reset
+bindings are written, wherein "active" means the reset is active, i.e
+the device is put or held in reset.
 
-This small series converts the st7789v panel to use the mipi-dbi helpers
-for register access.
+Provide an option to invert the logic so that drivers for bindings with
+"active is in reset" using mipi_dbi can use the common reset handling.
 
-Originally I intended to also add tinydrm support. My purpose was just
-to test a TFT module that is on the Avaota A1 board. Archit is interested
-in working on this driver, and I already used his/her previous patch to
-check that my TFT was sort of working, albeit probably with the wrong
-internal parameters. So this series will serve as a base for that work.
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 4 ++--
+ include/drm/drm_mipi_dbi.h     | 9 +++++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-Patch 1 adds an option to invert the reset GPIO logic in the mipi-dbi
-helpers. The reset logic originally assumes "high" is out of reset,
-so an "enable" GPIO rather than a "reset" GPIO. However the st7789v
-drivers assumes the proper "reset" GPIO logic.
-
-Patch 2 converts all SPI register accesses in the st7789v to use the
-mipi_dbi helpers. This actually reduces the number of function calls,
-as the command and data portions of each message are combined. This
-conversion also lets the driver support 8-bit plus D/C GPIO transfers.
-
-
-This series is unfortunately only compile tested, as I do not have an
-st7789v panel that is wired up for RGB input. So please help test the
-changes.
-
-
-Chen-Yu Tsai (2):
-  drm/mipi-dbi: Provide option to invert reset GPIO logic
-  drm/panel: sitronix-st7789v: Convert to mipi_dbi
-
- drivers/gpu/drm/drm_mipi_dbi.c                |   4 +-
- drivers/gpu/drm/panel/Kconfig                 |   1 +
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 304 +++++++-----------
- include/drm/drm_mipi_dbi.h                    |   9 +
- 4 files changed, 120 insertions(+), 198 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 00482227a9cd..7fa1f73a38a4 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -713,9 +713,9 @@ void mipi_dbi_hw_reset(struct mipi_dbi *dbi)
+ 	if (!dbi->reset)
+ 		return;
+ 
+-	gpiod_set_value_cansleep(dbi->reset, 0);
++	gpiod_set_value_cansleep(dbi->reset, dbi->invert_reset ? 1 : 0);
+ 	usleep_range(20, 1000);
+-	gpiod_set_value_cansleep(dbi->reset, 1);
++	gpiod_set_value_cansleep(dbi->reset, dbi->invert_reset ? 0 : 1);
+ 	msleep(120);
+ }
+ EXPORT_SYMBOL(mipi_dbi_hw_reset);
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index f45f9612c0bc..6cebf74bcecc 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -44,6 +44,15 @@ struct mipi_dbi {
+ 	 */
+ 	bool swap_bytes;
+ 
++	/**
++	 * @invert_reset: Invert reset logic level.
++	 *
++	 * This is needed as drm_mipi_dbi (formerly tinydrm) introduced reset
++	 * GPIO controls with "logic high" being "out of reset", while other
++	 * bindings typically have "logic high" as "in reset".
++	 */
++	bool invert_reset;
++
+ 	/**
+ 	 * @reset: Optional reset gpio
+ 	 */
 -- 
 2.47.3
 
