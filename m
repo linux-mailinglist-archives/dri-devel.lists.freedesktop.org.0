@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNw7CcC5lGlmHQIAu9opvQ
+	id eKN/BfS6lGmKHQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 19:56:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 20:01:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8570D14F66F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 19:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDB414F6C7
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 20:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6BF110E281;
-	Tue, 17 Feb 2026 18:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6843810E287;
+	Tue, 17 Feb 2026 19:01:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W22NpWKd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ibdXRU58";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E00D10E281
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 18:55:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1DAB4444AD;
- Tue, 17 Feb 2026 18:55:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEB4C2BC86;
- Tue, 17 Feb 2026 18:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771354556;
- bh=QhK2g8tqzLJSJiRA4xE5aFPe+bVdVRnzCI3pwb04wDY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=W22NpWKd1TbMuPEYySZ8yzibkDazuvYh1vQkwpL2AH0VI+Eec2moxorzDq7XjC7al
- YeinIWzvSYKUtoI5piOvnHse0n8c7sCsY6UbUakM4QbCicL1ts1QQgjrW7Y+7xE41I
- YX24SD1xEeg80K2g2FMDER4JeSlN+4fMg6gv4Se3SBZfnnBRIXdlGoZyXK5YU1k4sY
- 76rVvh7QFYVXPpONHXqRReSCsO1MF6vgx4cOq4Rfjj6ZVhrlPd9cGdckDB+cGWrzMT
- uE+fLv+xklzcEm5S9IwbNbbwhDFAsgJWZk52EzDYo5grmN5PPPrni1f440pJGgBe4m
- jXnOd2jZMg0zQ==
-Message-ID: <fefd7aaf-b2af-437d-9b51-f70d1b355a63@kernel.org>
-Date: Tue, 17 Feb 2026 12:55:54 -0600
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31CB10E1D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 19:01:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771354850; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Jy7zm2A/TmXHz6m59qKxEzafJJfNXpRt8Ldcdt/yfDUX5hH1T1HQ4FU+g2Hi79DTMm9IOp3o8Ay5eKFVFPazxrmFD+FPWsyHkjJ9shqdRyqD11sj+JSNL6BL8PfabhFkRGNn+mnDbs9jg8TFTHCh5LeLRqXrJkfDTvxoRhe038U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1771354850;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=0SlXOYmBUvjMmHeyse+PEdc4wzsaLd/IvgI6qX6ZwVo=; 
+ b=OdB5clfqhvrpqTGu89YLCmhN+ur4dychs5fO60MNpS90ERvLlt291wdEZ2iGC/ukbDgHwXkI3FXu7HO57Qzr4RljGoOOYpnTvHn4SQ3rS/GKphQKlxjfCm3Y1q5/AZxplMIN98cY5JVcVCs8LztyYucwsFwpo0+gHRmbX6Dd7FA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771354850; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=0SlXOYmBUvjMmHeyse+PEdc4wzsaLd/IvgI6qX6ZwVo=;
+ b=ibdXRU58kxsdjqPVVBCgOvfPySuvhrGNMAISm52faXZAHLh+Af+2XJb3oNxBYp5f
+ +9rTmC/At/yD2zSK3ql0QO0jGMH+G39D6Zun3iK5zeYyNqsV7d2NGJCINsnCXrH3jit
+ 47PollRJERsoyOcZrpI2FxrCt+Fo8HruAmYFB3ZI=
+Received: by mx.zohomail.com with SMTPS id 17713548482601016.7540505993686;
+ Tue, 17 Feb 2026 11:00:48 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v7 0/2] Pass down hot-plug CONNECTOR ID to user-space
+Date: Tue, 17 Feb 2026 20:00:22 +0100
+Message-Id: <20260217-hot-plug-passup-v7-0-f8221b2aab51@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Fix out-of-bounds memset in command
- slot handling
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- maciej.falkowski@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20260217185415.1781908-1-lizhi.hou@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260217185415.1781908-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2VPzU7DMAx+lSpnXJKWZWMn3gPt4DbOaqldgpNWo
+ KnvTlbKBXyxPtnf310lEqakztVdCS2cONwKOD5Vqh/wdiVgV7BqdGO1aQwMIUMc5ytETGmO4E/
+ kdOuPfflQhRWFPH9uiu+Xgr2ECfIghL86B/MY27TtqTYH82LAwITCc6qXEd1bH8YRuyBY92HaJ
+ YU+5pIt/+iqDhNBuU6cz5WTYsDxed/q4TpwykG+tlqL3Th7g/Zfg8WCBkT01rhXq7vuT4LLuq7
+ fWQTWQCgBAAA=
+X-Change-ID: 20260121-hot-plug-passup-f8ed03f7c202
+To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Daniel Stone <daniel.stone@collabora.com>, 
+ Ian Forbes <ian.forbes@broadcom.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Marius Vlad <marius.vlad@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +84,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lizhi.hou@amd.com,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:ville.syrjala@linux.intel.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:daniel.stone@collabora.com,m:ian.forbes@broadcom.com,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:kernel@collabora.com,m:nicolas.frattaroli@collabora.com,m:marius.vlad@collabora.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,bootlin.com,collabora.com,broadcom.com,oss.qualcomm.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 8570D14F66F
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6EDB414F6C7
 X-Rspamd-Action: no action
 
-On 2/17/26 12:54 PM, Lizhi Hou wrote:
-> The remaining space in a command slot may be smaller than the size of
-> the command header. Clearing the command header with memset() before
-> verifying the available slot space can result in an out-of-bounds write
-> and memory corruption.
-> 
-> Fix this by moving the memset() call after the size validation.
-> 
-> Fixes: 3d32eb7a5ecf ("accel/amdxdna: Fix cu_idx being cleared by memset() during command setup")
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> ---
->   drivers/accel/amdxdna/aie2_message.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-> index 7d7dcfeaf794..8fbbc3280468 100644
-> --- a/drivers/accel/amdxdna/aie2_message.c
-> +++ b/drivers/accel/amdxdna/aie2_message.c
-> @@ -694,11 +694,11 @@ aie2_cmdlist_fill_npu_cf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *siz
->   	u32 cmd_len;
->   	void *cmd;
->   
-> -	memset(npu_slot, 0, sizeof(*npu_slot));
->   	cmd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
->   	if (*size < sizeof(*npu_slot) + cmd_len)
->   		return -EINVAL;
->   
-> +	memset(npu_slot, 0, sizeof(*npu_slot));
->   	npu_slot->cu_idx = amdxdna_cmd_get_cu_idx(cmd_bo);
->   	if (npu_slot->cu_idx == INVALID_CU_IDX)
->   		return -EINVAL;
-> @@ -719,7 +719,6 @@ aie2_cmdlist_fill_npu_dpu(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
->   	u32 cmd_len;
->   	u32 arg_sz;
->   
-> -	memset(npu_slot, 0, sizeof(*npu_slot));
->   	sn = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
->   	arg_sz = cmd_len - sizeof(*sn);
->   	if (cmd_len < sizeof(*sn) || arg_sz > MAX_NPU_ARGS_SIZE)
-> @@ -728,6 +727,7 @@ aie2_cmdlist_fill_npu_dpu(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
->   	if (*size < sizeof(*npu_slot) + arg_sz)
->   		return -EINVAL;
->   
-> +	memset(npu_slot, 0, sizeof(*npu_slot));
->   	npu_slot->cu_idx = amdxdna_cmd_get_cu_idx(cmd_bo);
->   	if (npu_slot->cu_idx == INVALID_CU_IDX)
->   		return -EINVAL;
-> @@ -751,7 +751,6 @@ aie2_cmdlist_fill_npu_preempt(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t
->   	u32 cmd_len;
->   	u32 arg_sz;
->   
-> -	memset(npu_slot, 0, sizeof(*npu_slot));
->   	pd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
->   	arg_sz = cmd_len - sizeof(*pd);
->   	if (cmd_len < sizeof(*pd) || arg_sz > MAX_NPU_ARGS_SIZE)
-> @@ -760,6 +759,7 @@ aie2_cmdlist_fill_npu_preempt(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t
->   	if (*size < sizeof(*npu_slot) + arg_sz)
->   		return -EINVAL;
->   
-> +	memset(npu_slot, 0, sizeof(*npu_slot));
->   	npu_slot->cu_idx = amdxdna_cmd_get_cu_idx(cmd_bo);
->   	if (npu_slot->cu_idx == INVALID_CU_IDX)
->   		return -EINVAL;
-> @@ -787,7 +787,6 @@ aie2_cmdlist_fill_npu_elf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
->   	u32 cmd_len;
->   	u32 arg_sz;
->   
-> -	memset(npu_slot, 0, sizeof(*npu_slot));
->   	pd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
->   	arg_sz = cmd_len - sizeof(*pd);
->   	if (cmd_len < sizeof(*pd) || arg_sz > MAX_NPU_ARGS_SIZE)
-> @@ -796,6 +795,7 @@ aie2_cmdlist_fill_npu_elf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
->   	if (*size < sizeof(*npu_slot) + arg_sz)
->   		return -EINVAL;
->   
-> +	memset(npu_slot, 0, sizeof(*npu_slot));
->   	npu_slot->type = EXEC_NPU_TYPE_ELF;
->   	npu_slot->inst_buf_addr = pd->inst_buf;
->   	npu_slot->save_buf_addr = pd->save_buf;
+I will be taking over this series from Marius Vlad. 
+
+This series addresses a shortcoming whereby a hot plug event is sent
+without it being passed the actual connector that caused it. This takes
+into consideration both the polling path and the HPD (Hot Plug Detect)
+path. It also adds support for the vkms driver (using ConfigFS) for
+propagating the connector ID when changing the connector's status.
+
+The motivation is that user-space applications such as Weston would
+previously receive non-connector-specific hotplug events, and then have
+to figure out themselves which connector needs to have a modeset
+executed on. This notably did not work when the hotplug events came in
+too fast, resulting in Weston missing an on-off-on transition of a
+connector, seeing that its state was unchanged from "on" so can't be the
+one that was hotplugged, and skipping reinitialising it as it looks
+through the other connectors that could've caused it.
+
+The real world implication is that on setups with slightly sketchy HDMI
+connections, a brief flicker in the HPD signal could result in video
+output bidding farewell entirely until a manual proper re-plug was
+performed.
+
+By sending connector specific hotplug events, this ambiguity is
+resolved without any change to the user-space API.
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Changes in v7:
+- Drop the two vkms patches, as I don't want them to be blocked on
+  review. I still think they're correct, but they're not essential and
+  don't need to block this series.
+- Link to v6: https://lore.kernel.org/r/20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com
+
+Changes in v6:
+- Rewrote cover letter to explain the motivation for this series more
+  plainly
+- Rename "status_changed" to "pending_hp"
+- Set "pending_hp" in the existing path that would also affect
+  epoch_counter
+- No longer set the boolean in drm_helper_probe_single_connector_modes,
+  as it does not appear to be necessary
+- Reword commits to better justify the changes
+- Link to v5: https://lore.kernel.org/r/20251111162338.15141-1-marius.vlad@collabora.com/
+
+Changes in v5:
+- vkms: add support for sending the CONNECTOR ID when hot-plugging through
+  ConfigFS - as reported by Louis, vkms can now make use of ConfigFS to
+  simulate connector status.
+- vkms: add a small change to ignore previous/old drm connector status
+  when sending out hot-plug uevent.
+- Link to v4: https://lore.kernel.org/r/20251103174558.7709-1-marius.vlad@collabora.com/
+
+Changes in v4:
+- removed the "This patch" bit - Dmitry
+- added a short note when the flag is set and cleared - Dmitry
+- address double dead-locking detected - kbot: https://lore.kernel.org/dri-devel/202509251410.fdfbcac3-lkp@intel.com/
+- virtual connectors do not seem have any kind of hotplug - added
+  polling in vkms - as noted by Ian
+- Link to v3: https://lore.kernel.org/r/20250923083636.4749-1-marius.vlad@collabora.com/
+
+Changes in v3:
+- Address comments from Dmitry:
+  - guard connector status write with mode_config.mutex
+  - avoid setting up the connector status and immediately unset it. Do the
+    unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
+- Link to v2: https://lore.kernel.org/r/20250729165708.9947-1-marius.vlad@collabora.com/
+
+Changes in v2:
+- Address comments from Daniel:
+  - split patch into 2, one that introduces a bool to track connector
+    connection status change and a patch that uses that to be able to send
+    hot plug events with the proper CONNECTOR ID to udev and further pass
+    that down to user-space
+  - nuke out mutex when iterating connector list
+  - fix typo
+- Link to v1: https://lore.kernel.org/r/20250627131751.2004-1-marius.vlad@collabora.com/
+
+Marius Vlad (4):
+  drm: Introduce a new connector status
+  drm: Propagate connector status change
+  vkms: Do not send hotplug events for same connector status
+  vkms: Pass the vkms connector as opposed to the vkms device
+
+ drivers/gpu/drm/drm_connector.c       |  1 +
+ drivers/gpu/drm/drm_probe_helper.c    | 39 +++++++++++++++++++++++----
+ drivers/gpu/drm/drm_sysfs.c           |  1 +
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 12 +++++++--
+ drivers/gpu/drm/vkms/vkms_connector.c |  6 ++---
+ drivers/gpu/drm/vkms/vkms_connector.h |  4 +--
+ include/drm/drm_connector.h           |  3 +++
+ 7 files changed, 54 insertions(+), 12 deletions(-)
+
+--
+2.47.2
+
+---
+Marius Vlad (2):
+      drm: Introduce pending_hp to drm_connector
+      drm: Send per-connector hotplug events
+
+ drivers/gpu/drm/drm_connector.c    |  1 +
+ drivers/gpu/drm/drm_probe_helper.c | 39 +++++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/drm_sysfs.c        |  2 ++
+ include/drm/drm_connector.h        |  3 +++
+ 4 files changed, 40 insertions(+), 5 deletions(-)
+---
+base-commit: e66c64e4f12e55cad35c680f1e328a7c7ee92cab
+change-id: 20260121-hot-plug-passup-f8ed03f7c202
+
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
