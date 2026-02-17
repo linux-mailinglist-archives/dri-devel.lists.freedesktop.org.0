@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WI1dF7CflGknGAIAu9opvQ
+	id mJVkE7KflGknGAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECC314E7DB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B9014E7E2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 18:04:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD86A10E525;
-	Tue, 17 Feb 2026 17:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B2E10E540;
+	Tue, 17 Feb 2026 17:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB8510E523;
- Tue, 17 Feb 2026 17:04:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEB910E534;
+ Tue, 17 Feb 2026 17:04:44 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id 5129A3F1BA;
- Tue, 17 Feb 2026 18:04:40 +0100 (CET)
+ by psionic.psi5.com (Postfix) with ESMTPSA id 34A883F204;
+ Tue, 17 Feb 2026 18:04:41 +0100 (CET)
 From: Simon Richter <Simon.Richter@hogyros.de>
 To: linux-pci@vger.kernel.org
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH 0/5] bridges without VGA support
-Date: Wed, 18 Feb 2026 02:04:14 +0900
-Message-ID: <20260217170419.236739-1-Simon.Richter@hogyros.de>
+Subject: [PATCH 1/5] vgaarb: pass vga_get errors to userspace
+Date: Wed, 18 Feb 2026 02:04:15 +0900
+Message-ID: <20260217170419.236739-2-Simon.Richter@hogyros.de>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260217170419.236739-1-Simon.Richter@hogyros.de>
+References: <20260217170419.236739-1-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,36 +75,42 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[hogyros.de];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DECC314E7DB
+X-Rspamd-Queue-Id: C9B9014E7E2
 X-Rspamd-Action: no action
 
-Hi,
+If vga_get fails, return the error code via the write syscall.
 
-this allows bridges to refuse forwarding VGA, and reports this upwards as an
-error, because we cannot set up valid decoding for the requested device in this
-case.
+Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
+---
+ drivers/pci/vgaarb.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-I think it should be fine to leave VGA forwarding enabled on lower bridges if a
-bridge closer to the root refused to enable forwarding, because no accesses can
-reach there anyway.
-
-   Simon
-
-Simon Richter (5):
-  vgaarb: pass vga_get errors to userspace
-  vgaarb: pass errors from pci_set_vga_state up
-  vgaarb: mark vga_get family as __must_check
-  pci: check if VGA decoding was really activated
-  pci: mark return value of pci_set_vga_state as __must_check
-
- drivers/pci/pci.c      |  6 ++++++
- drivers/pci/vgaarb.c   | 22 +++++++++++++++++++---
- include/linux/pci.h    |  2 +-
- include/linux/vgaarb.h |  9 +++++----
- 4 files changed, 31 insertions(+), 8 deletions(-)
-
-
-base-commit: 9702969978695d9a699a1f34771580cdbb153b33
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 87143e235033..5c2719cb1bfa 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -1134,6 +1134,7 @@ static ssize_t vga_arb_write(struct file *file, const char __user *buf,
+ 	char kbuf[64], *curr_pos;
+ 	size_t remaining = count;
+ 
++	int err;
+ 	int ret_val;
+ 	int i;
+ 
+@@ -1165,7 +1166,12 @@ static ssize_t vga_arb_write(struct file *file, const char __user *buf,
+ 			goto done;
+ 		}
+ 
+-		vga_get_uninterruptible(pdev, io_state);
++		err = vga_get_uninterruptible(pdev, io_state);
++		if (unlikely(err))
++		{
++			ret_val = err;
++			goto done;
++		}
+ 
+ 		/* Update the client's locks lists */
+ 		for (i = 0; i < MAX_USER_CARDS; i++) {
 -- 
 2.47.3
 
