@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8NUYMEWQlGk9FgIAu9opvQ
+	id 8PE9ME+QlGlXFgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595C914DC82
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA9914DC97
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 16:59:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC50B10E500;
-	Tue, 17 Feb 2026 15:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429C610E503;
+	Tue, 17 Feb 2026 15:59:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OCuSTqdW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ysA4CXel";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OCuSTqdW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ysA4CXel";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rdeMW/Iz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6lfP/72U";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rdeMW/Iz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6lfP/72U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840D410E4F9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 15:58:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAFE10E501
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 15:58:59 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A52823E76F;
- Tue, 17 Feb 2026 15:58:42 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 09E593E7A7;
+ Tue, 17 Feb 2026 15:58:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771343922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771343923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndoyu6K/XcpM1integHhMZJM85WuaRnQJ8LFyisgsNk=;
- b=OCuSTqdW+EgLuD9WKZqBf8Q0mWkrtJhU5UeFMkF+QtwjFmvt8jlWi8cdGE2t6QsUwko09T
- kYYj+CGqi8uARDxxWJ1PY/heTZvpBBLfvIdbtawU03KrE12FJQL6UJ+HblCRUB29PWL3YA
- 9IVNd2xzKgTxB9Uo0vE9XqwgeultZxc=
+ bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
+ b=rdeMW/IzP+FKaLxvz3TOBxS4QR2LYzd8pLMrGMDjML+gm60/VZJz9W10W7CEQzuxxXiD9n
+ kDz+25rl/zuF7quKDbN+hE/Vv6/2Uh4XnR7u2jNYEcbDlCSfEKEX7za6kk3bC2noy/38Z5
+ RstcSh7q7RdDqyuhc5WUOwWbRJ2r0aA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771343922;
+ s=susede2_ed25519; t=1771343923;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndoyu6K/XcpM1integHhMZJM85WuaRnQJ8LFyisgsNk=;
- b=ysA4CXel2AvJTXadrBykNI7hwF2N0R/cbnow3353nDLgGHuDInd3qZSmerHBcnXngsp+2b
- Rk9JYbKupZAc3EDw==
+ bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
+ b=6lfP/72UCMAtwzs8SoY94M1c+oxBFWX/0F0Q/IfA1Y3L09a9+NSKbtoaE7XkPQlIhgKBlw
+ 8/soa7hlQj+MmlAQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771343922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771343923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndoyu6K/XcpM1integHhMZJM85WuaRnQJ8LFyisgsNk=;
- b=OCuSTqdW+EgLuD9WKZqBf8Q0mWkrtJhU5UeFMkF+QtwjFmvt8jlWi8cdGE2t6QsUwko09T
- kYYj+CGqi8uARDxxWJ1PY/heTZvpBBLfvIdbtawU03KrE12FJQL6UJ+HblCRUB29PWL3YA
- 9IVNd2xzKgTxB9Uo0vE9XqwgeultZxc=
+ bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
+ b=rdeMW/IzP+FKaLxvz3TOBxS4QR2LYzd8pLMrGMDjML+gm60/VZJz9W10W7CEQzuxxXiD9n
+ kDz+25rl/zuF7quKDbN+hE/Vv6/2Uh4XnR7u2jNYEcbDlCSfEKEX7za6kk3bC2noy/38Z5
+ RstcSh7q7RdDqyuhc5WUOwWbRJ2r0aA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771343922;
+ s=susede2_ed25519; t=1771343923;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndoyu6K/XcpM1integHhMZJM85WuaRnQJ8LFyisgsNk=;
- b=ysA4CXel2AvJTXadrBykNI7hwF2N0R/cbnow3353nDLgGHuDInd3qZSmerHBcnXngsp+2b
- Rk9JYbKupZAc3EDw==
+ bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
+ b=6lfP/72UCMAtwzs8SoY94M1c+oxBFWX/0F0Q/IfA1Y3L09a9+NSKbtoaE7XkPQlIhgKBlw
+ 8/soa7hlQj+MmlAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 419803EA66;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A14A63EA65;
  Tue, 17 Feb 2026 15:58:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eO2QDjKQlGk9PgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +B8DJjKQlGk9PgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 17 Feb 2026 15:58:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
@@ -82,18 +82,17 @@ To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 04/12] firmware: google: framebuffer: Tie platform device
- to PCI hardware
-Date: Tue, 17 Feb 2026 16:56:14 +0100
-Message-ID: <20260217155836.96267-5-tzimmermann@suse.de>
+Subject: [PATCH v4 05/12] firmware: google: framebuffer: Fix dependencies
+Date: Tue, 17 Feb 2026 16:56:15 +0100
+Message-ID: <20260217155836.96267-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260217155836.96267-1-tzimmermann@suse.de>
 References: <20260217155836.96267-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,158 +140,39 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: 595C914DC82
+X-Rspamd-Queue-Id: 2AA9914DC97
 X-Rspamd-Action: no action
 
-Use the PCI device as parent of the system-framebuffer device instead
-of the coreboot device. Prevents SIGBUS or SIGSEG after hot-unplug of
-the PCI device while the framebuffer is active.
-
-The simple-framebuffer device depends on the PCI hardware, so this
-device needs to be its parent. The current coreboot parent is no
-longer needed after the system-framebuffer device has been created.
-
-On systems without PCI or if no PCI parent device could be found,
-the platform device hangs on the platform bus directly.
-
-The fix here is similar to code in sysfb, which contained that same
-bug.
+The framebuffer on the coreboot bus represents an entry in the
+coreboot payload table; not the actual device. [1] Hence it must
+not depend on any other driver setting.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://lore.kernel.org/dri-devel/CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com/ # [1]
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Acked-by: Julius Werner <jwerner@chromium.org>
 ---
- .../firmware/google/framebuffer-coreboot.c    | 82 +++++++++++++++++--
- 1 file changed, 77 insertions(+), 5 deletions(-)
+ drivers/firmware/google/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index 767515a30a52..07e9c7be94fa 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/module.h>
-+#include <linux/pci.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- #include <linux/sysfb.h>
-@@ -21,14 +22,71 @@
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 41b78f5cb735..3ab3e089328b 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -59,11 +59,11 @@ config GOOGLE_MEMCONSOLE_X86_LEGACY
  
- #define CB_TAG_FRAMEBUFFER 0x12
+ config GOOGLE_FRAMEBUFFER_COREBOOT
+ 	tristate "Coreboot Framebuffer"
+-	depends on FB_SIMPLE || DRM_SIMPLEDRM
+ 	depends on GOOGLE_COREBOOT_TABLE
+ 	help
+ 	  This option enables the kernel to search for a framebuffer in
+-	  the coreboot table.  If found, it is registered with simplefb.
++	  the coreboot table.  If found, it is registered with a platform
++	  device of type simple-framebuffer.
  
-+#if defined(CONFIG_PCI)
-+static bool framebuffer_pci_dev_is_enabled(struct pci_dev *pdev)
-+{
-+	/*
-+	 * TODO: Try to integrate this code into the PCI subsystem
-+	 */
-+	int ret;
-+	u16 command;
-+
-+	ret = pci_read_config_word(pdev, PCI_COMMAND, &command);
-+	if (ret != PCIBIOS_SUCCESSFUL)
-+		return false;
-+	if (!(command & PCI_COMMAND_MEMORY))
-+		return false;
-+	return true;
-+}
-+
-+static struct pci_dev *framebuffer_parent_pci_dev(struct resource *res)
-+{
-+	struct pci_dev *pdev = NULL;
-+	const struct resource *r = NULL;
-+
-+	while (!r && (pdev = pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev)))
-+		r = pci_find_resource(pdev, res);
-+
-+	if (!r || !pdev)
-+		return NULL; /* not found; not an error */
-+
-+	if (!framebuffer_pci_dev_is_enabled(pdev)) {
-+		pci_dev_put(pdev);
-+		return ERR_PTR(-ENODEV);
-+	}
-+
-+	return pdev;
-+}
-+#else
-+static struct pci_dev *framebuffer_parent_pci_dev(struct resource *res)
-+{
-+	return NULL;
-+}
-+#endif
-+
-+static struct device *framebuffer_parent_dev(struct resource *res)
-+{
-+	struct pci_dev *pdev;
-+
-+	pdev = framebuffer_parent_pci_dev(res);
-+	if (IS_ERR(pdev))
-+		return ERR_CAST(pdev);
-+	else if (pdev)
-+		return &pdev->dev;
-+
-+	return NULL;
-+}
-+
- static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
- 
- static int framebuffer_probe(struct coreboot_device *dev)
- {
- 	int i;
- 	struct lb_framebuffer *fb = &dev->framebuffer;
-+	struct device *parent;
- 	struct platform_device *pdev;
- 	struct resource res;
-+	int ret;
- 	struct simplefb_platform_data pdata = {
- 		.width = fb->x_resolution,
- 		.height = fb->y_resolution,
-@@ -57,6 +115,10 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 	if (res.end <= res.start)
- 		return -EINVAL;
- 
-+	parent = framebuffer_parent_dev(&res);
-+	if (IS_ERR(parent))
-+		return PTR_ERR(parent);
-+
- 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
- 		if (fb->bits_per_pixel     == formats[i].bits_per_pixel &&
- 		    fb->red_mask_pos       == formats[i].red.offset &&
-@@ -67,17 +129,27 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 		    fb->blue_mask_size     == formats[i].blue.length)
- 			pdata.format = formats[i].name;
- 	}
--	if (!pdata.format)
--		return -ENODEV;
-+	if (!pdata.format) {
-+		ret = -ENODEV;
-+		goto out_put_device_parent;
-+	}
- 
--	pdev = platform_device_register_resndata(&dev->dev,
-+	pdev = platform_device_register_resndata(parent,
- 						 "simple-framebuffer", 0,
- 						 &res, 1, &pdata,
- 						 sizeof(pdata));
--	if (IS_ERR(pdev))
-+	if (IS_ERR(pdev)) {
-+		ret = PTR_ERR(pdev);
- 		pr_warn("coreboot: could not register framebuffer\n");
-+		goto out_put_device_parent;
-+	}
-+
-+	ret = 0;
- 
--	return PTR_ERR_OR_ZERO(pdev);
-+out_put_device_parent:
-+	if (parent)
-+		put_device(parent);
-+	return ret;
- }
- 
- static const struct coreboot_device_id framebuffer_ids[] = {
+ config GOOGLE_MEMCONSOLE_COREBOOT
+ 	tristate "Firmware Memory Console"
 -- 
 2.52.0
 
