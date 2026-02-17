@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UODeMZLilGmjIgIAu9opvQ
+	id uNIpBZLilGmWIgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD0715105F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4596151055
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 22:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80BD10E52E;
-	Tue, 17 Feb 2026 21:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DEA10E517;
+	Tue, 17 Feb 2026 21:50:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="htTQ26al";
+	dkim=pass (2048-bit key; secure) header.d=r-sc.ca header.i=@r-sc.ca header.b="B+61kZd7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-13.smtp.spacemail.com (out-13.smtp.spacemail.com
- [63.250.43.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE9B10E4F1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:01 +0000 (UTC)
+X-Greylist: delayed 581 seconds by postgrey-1.36 at gabe;
+ Tue, 17 Feb 2026 21:50:00 UTC
+Received: from out-03.smtp.spacemail.com (out-03.smtp.spacemail.com
+ [63.250.43.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BECB710E2B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:50:00 +0000 (UTC)
 Received: from mac.pk.shawcable.net (S0106dceb699ec90f.pk.shawcable.net
  [24.69.43.232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNJ4yN0z6tkL;
- Tue, 17 Feb 2026 21:40:16 +0000 (UTC)
+ by mail.spacemail.com (Postfix) with ESMTPSA id 4fFtNM04RYz6tkM;
+ Tue, 17 Feb 2026 21:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=r-sc.ca;
- s=spacemail; t=1771364418;
- bh=Qo/jLa8Ma2FOndLpihsjh6g9gmv48ZIBli5wYJ9gg6c=;
- h=From:Subject:Date:To:Cc:From;
- b=htTQ26al3LR/ohXcZ3e8N0XMgSRakjGeJ2ZP7LL/XhokQ3UIu6fzMGKJimD0Ihomc
- 8jVi3JRDS1Ck71gluAFReDsfoenIkRw5PKKFeAE0FzHWRBL9ue+AN+Ho90E1ZdkcDr
- YIFJaM+SjgHHi5ptJv1JXpgJQ2n+CMOKnrXBxqVgz19ElEhBHMRmUL4PFNZqVwx6To
- ZNqkC8744QHj+NYCVj4sTAC7eDZNeLRweYTv0FEVbgem5mgcCR2bUp30nWGIOeypog
- 5fUhl9D+hE+G1FsNVH7qtTbmDMIvprbMQSnhpZiDpwa8clO0Pyl+3tsqTPGzocmQF9
- HA80W0CVU/3rA==
+ s=spacemail; t=1771364420;
+ bh=C1++cyFjnAcOq78eiBHr2N5hpkpKmBO2ac0BHicm6JM=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=B+61kZd7qjgKiLtwV+4zd3QlnWvt3hd1n0P3ywMf8a4MJV5Kyf33RzqoYt6uxrN+k
+ +amNd0sCWYYVeA9u0MS1eMw5pLKWi4KwLFBWsIQtrLFU4efVeVRZA+7jf7C5yxL2bJ
+ 6g8mydI9EOL8SLskM5KcSLFMBqAdoufZxLj8ZNKPQC8qT9rEcpB41vLJokOsmkHhJ9
+ dTXRqejYGEFNDBHvw71EO0e44XkuH0XeYpCveyRgFEoxLos1LnImYrcsxEdKA06n5E
+ O/aw12cMU4hjnY6lwfZq7ZE9lkL5l5HGl9E/7fb1rJktue1Mm4CoTbUekeryN4tSac
+ mpaXZNurgyTLg==
 From: Ross Cawston <ross@r-sc.ca>
-Subject: [PATCH 0/5] accel/rocket: Support standalone DPU/PPU tasks and
- pipelined workloads
-Date: Tue, 17 Feb 2026 13:39:48 -0800
-Message-Id: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
+Date: Tue, 17 Feb 2026 13:39:49 -0800
+Subject: [PATCH 1/5] accel/rocket: Fix error path in BO creation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqDMBBG4avIrDuQBIyhVyku4vRvHQxRkiKCe
- HdDl9/ivZMqiqLSszupYNeqa26wj45kjvkL1nczOeO8cXbgKILEZZUFP5aEmHmKFdwPYhCC7y0
- 8tXor+OjxP7/G67oBelIx/WkAAAA=
-X-Change-ID: 20260217-accel-rocket-clean-base-57c0e88651e6
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260217-accel-rocket-clean-base-v1-1-d72354325a25@r-sc.ca>
+References: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
+In-Reply-To: <20260217-accel-rocket-clean-base-v1-0-d72354325a25@r-sc.ca>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -57,11 +56,11 @@ To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Ross Cawston <ross@r-sc.ca>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=1823;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771364416; l=775;
  i=ross@r-sc.ca; s=20260217; h=from:subject:message-id;
- bh=+HW60++zZgm+CdQIuXBfWSgJ2xzF3207WAPL1PMXe8s=;
- b=G8K6aT43k8Mw0JlZErarkO5IPzgEQIj5hluZO7r6YErKRr7oNpMBUkZRD2FMCnbx15GK2tCuM
- 3zjzsG+/XttBm4glvG9IMTha/4JEPfI2si8cFmHdFwTKmIRBa6gFqgQ
+ bh=ZmP9RgOUTYIiHlUT4V9Yl0L96rep3kPBiWGlpC11Vy8=;
+ b=WmmfmKgGcn/cs693cF97YX5MbBU4smuQH1A1q2cPLJS3Du86Iokg3YWAKoLwrBsMrUC9t5B3d
+ sh5apspTYygBrv4oVuS+qJe1//CFkW1qZLHRtPoPABbb4etJXetb/fR
 X-Developer-Key: i=ross@r-sc.ca; a=ed25519;
  pk=c50mfTDLKsgS2tlqXEZEvb/VGiLvxjsLOw5M50DxhtM=
 X-Envelope-From: ross@r-sc.ca
@@ -111,52 +110,31 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,r-sc.ca:mid,r-sc.ca:dkim,r-sc.ca:email]
-X-Rspamd-Queue-Id: 9FD0715105F
+X-Rspamd-Queue-Id: D4596151055
 X-Rspamd-Action: no action
 
-The Rocket NPU supports multiple workload types beyond convolutional jobs:
-- Standalone post-processing (PPU) tasks (pooling, element-wise ops, etc.)
-- Pipelined DPU→PPU workloads
-
-The current driver has limitations preventing these from working correctly:
-- CNA/Core S_POINTER registers are always written, re-arming stale state
-- Interrupt handling is hard-coded to DPU only, causing PPU timeouts
-- Ping-pong mode is always enabled
-
-This series fixes these while preserving backward compatibility.
-
-Patch breakdown:
-1/5 Fix error path in BO creation (cleanup/fix)
-2/5 Enable ping-pong mode only for multi-task jobs (optimization)
-3/5 Add per-task int_mask and flags to UAPI/kernel (new knobs)
-4/5 Skip CNA/Core S_POINTER init for standalone tasks
-5/5 Use per-task interrupt mask and handle PPU completions
-
-Derived from vendor BSP behavior.
-
-Tested on OrangePi 5 Ultra and Radxa Rock 5B (RK3588).
-
-Thanks for review!
+Check the return value of iommu_map_sgtable() after releasing the
+mm_lock. Previously an error would be silently ignored.
 
 Signed-off-by: Ross Cawston <ross@r-sc.ca>
 ---
-Ross Cawston (5):
-      accel/rocket: Fix error path in BO creation
-      accel/rocket: Enable ping-pong mode only for multi-task jobs
-      accel/rocket: Add per-task flags and interrupt mask to UAPI and kernel
-      accel/rocket: Skip CNA/Core S_POINTER initialization for standalone tasks
-      accel/rocket: Use per-task interrupt mask and handle PPU completion interrupts
+ drivers/accel/rocket/rocket_gem.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/accel/rocket/rocket_gem.c |  2 +
- drivers/accel/rocket/rocket_job.c | 80 ++++++++++++++++++++++++++++++---------
- drivers/accel/rocket/rocket_job.h |  2 +
- include/uapi/drm/rocket_accel.h   | 25 ++++++++++++
- 4 files changed, 92 insertions(+), 17 deletions(-)
----
-base-commit: 17f8d2009367c3da82882f70ccbdca9f8c7b5f20
-change-id: 20260217-accel-rocket-clean-base-57c0e88651e6
+diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/rocket_gem.c
+index 624c4ecf5a34..db1ff3544af2 100644
+--- a/drivers/accel/rocket/rocket_gem.c
++++ b/drivers/accel/rocket/rocket_gem.c
+@@ -95,6 +95,8 @@ int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *
+ 					 rkt_obj->size, PAGE_SIZE,
+ 					 0, 0);
+ 	mutex_unlock(&rocket_priv->mm_lock);
++	if (ret)
++		goto err;
+ 
+ 	ret = iommu_map_sgtable(rocket_priv->domain->domain,
+ 				rkt_obj->mm.start,
 
-Best regards,
 -- 
-Ross Cawston <ross@r-sc.ca>
+2.52.0
 
