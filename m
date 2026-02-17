@@ -2,167 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHMFMhexlGlbGgIAu9opvQ
+	id sGzrAQ1ylWn8RQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 19:19:03 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D0814EFCC
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Feb 2026 19:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78CE153D50
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22AA10E0FC;
-	Tue, 17 Feb 2026 18:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF6D10E113;
+	Wed, 18 Feb 2026 08:02:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="EDjB51qk";
+	dkim=pass (1024-bit key; unprotected) header.d=zohomail.com header.i=mhklkml@zohomail.com header.b="a96ICpz4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013037.outbound.protection.outlook.com
- [40.93.201.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F70210E0FC;
- Tue, 17 Feb 2026 18:18:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bh6KM9C8idu2xYuklyi4YJpnuQ2JyrQcozUKwh+LlOiEMHpCoGoy6xlRvEghzHGaiQ+eBwfinFV+iD0fRVTiGbPN0YwLaNoxKXqH23U+7SiWW87F5L7Ed0uMuKEh3WS4be431ES7e1DGr+xigUKIBSOzkPvrmS36Fu249lp81vZRae3JPT7ofsdMIw4elyrnhU7MJkqQRfWTDsqwb4aeV44Ba1Lm+Qy9VYx4HJR8PEFxh/SNxA0qXsllLBfRYnqZ3XmF1uC1PF9rmu0WJhoRg6E2HBjTh2wx8sIXZvpGpJ79cN1dk6wKnnKzeo8wVH+56bEX8tXPhFnsqIvYBDwHVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gBEP8Xx8sV22WxoGJ36c4T2tiv/EhhSmT5q7hi7Iz+Y=;
- b=k2jmI1no3Vw+rub89SawocK4LKhz0Y+KT5vJRdPViaGRNKFv3cSwKBlKbDT+nkSbUe1yVrX4kpxJaW+2nP1nk/V3KCfH3smrbxpqFXC9Q2N5Gmd8lUdjlW0qxzmTXj6bNC6fNdPTbr6l12nEydTO07NAjP4IVhV0h5v3nSDslbVDkDlJnlE8mSvTRQkVBVD/NuIgI67y/dD6MYo0X6CkSdM2ine9bZq8tOLR++DnG3O1KqKCHm8Q3/SRZI2gq/FkXRQIgTeU7tHhWs+5LaFRbd6V8GJD0d9+Dw28DSs6+cJi2GXnf9zzYwXIyhJ2IYZnuFQsVTVamlVq9l1ZUzB5Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gBEP8Xx8sV22WxoGJ36c4T2tiv/EhhSmT5q7hi7Iz+Y=;
- b=EDjB51qkSniF4EwKnV9pwdKA/2VyKmPOQSt6vMzgpmCNgebG1S1qPib+9lJmZX7sSeNNaI/6Yxf4UPXA0k5VSnp6dhwZvewLMt3hn5HVwPFSTAtERNEnooOjuQQ01EmLWp0CnCd2Q4MVu9RKG//UGHbT31TqcdgW55Ai4PLmyQXUeyaKAFKO7GYXb0pLKe6ryg64m6plrZltddeNlAxDcuTsDsTCnEoaJ+HrTgBk52do6xQ1abPtoIps+WsMAw5YwtOrjGm2e+/BiWQxDii/DxShGa7gGVllLSieMiA/veifk0hcl8yrF0AG3uztzAijCMCbcln1MUikwrDVVkyG/Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- SA5PPF8BD1FB094.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8d3)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Tue, 17 Feb
- 2026 18:18:43 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9632.010; Tue, 17 Feb 2026
- 18:18:41 +0000
-Message-ID: <b03da418-4e62-4256-9c2a-8a1a271fbeca@nvidia.com>
-Date: Tue, 17 Feb 2026 10:18:31 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] gpu: nova-core: gsp: add continuation record support
-To: Eliot Courtney <ecourtney@nvidia.com>, Danilo Krummrich
- <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260212-cmdq-continuation-v1-0-73079ded55e6@nvidia.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20260212-cmdq-continuation-v1-0-73079ded55e6@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0036.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::11) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com
+ [136.143.188.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 534EA10E4E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 18:23:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771352624; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WjuzFw+PXrNUmSxsL2pcyWyyYuQrFGTIENy2fxTeW++Z2yc+TPwweU0M3TvECGqYW97ql7GiMSR0xclAuY7V6447jYJY9MytUooYZ4KUAu5IUOz9yR1BqcEUIXnrScoT+01L84taEm++deKzsLeG2Sm31TfyLG+XjuonbqFmkUY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1771352624;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Reply-To:Reply-To:Subject:Subject:To:To:Message-Id;
+ bh=secGQ8gJ+A/aEZorjaD129GrmUJMAQLRoILQUsk1s34=; 
+ b=bKnf2gemc3jdXyQ+ot/MrmQ/fKBFrejkBsIUgEv7z44UTZ5AVVd/Nt7UHEKTZckFw1lReKiD8ms99tXK30a2P8WP1SyDu8kY6jgaWsjLOODh0gemgPhYerxyY6brreK3FUFxsO21+e2JABsgKLAMqorIuu2ERwBCvnNuYibka/o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=zohomail.com;
+ spf=pass  smtp.mailfrom=mhklkml@zohomail.com;
+ dmarc=pass header.from=<mhklkml@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771352624; 
+ s=zm2022; d=zohomail.com; i=mhklkml@zohomail.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:Reply-To:Reply-To:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+ bh=secGQ8gJ+A/aEZorjaD129GrmUJMAQLRoILQUsk1s34=;
+ b=a96ICpz45/EPLzCwtsjQJGSQeywaIvJs1+vm5euokPV0k+5IBJ8i0Y41w1nxozwj
+ 2o+NEcwhTZgCHoQUlaFTIF48qy23jTYSMt6k6PAG6REcR+T1bR+n3zf9aPtXvNYZ2Yl
+ IvP23iG6xsXXZJtiNsHlpKZKOaEKRPGjwpof53WM=
+Received: by mx.zohomail.com with SMTPS id 1771352621999530.8202478046807;
+ Tue, 17 Feb 2026 10:23:41 -0800 (PST)
+From: Michael Kelley <mhklkml@zohomail.com>
+To: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+ ryasuoka@redhat.com, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH v2 1/2] Drivers: hv: vmbus: Provide option to skip VMBus
+ unload on panic
+Date: Tue, 17 Feb 2026 10:23:34 -0800
+Message-Id: <20260217182335.265585-1-mhklkml@zohomail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|SA5PPF8BD1FB094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b5ea236-196f-4cda-f07e-08de6e50fa8d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWRjS3VBODQ5U0o3VU5ZUEt6QWZZdXMzajFqNkFoeE1tZGlRL3ZJMEdMTEhx?=
- =?utf-8?B?Tmx0SHcvTCtPcmR6bXM2WXJJbmdxRTlXbXdBMDRQWDF4Y2hHMVJUOW1QaVh0?=
- =?utf-8?B?Q1haeThTSjc2VzdSS1EzR3FncjJIUFc2Y2tSNjRNSGpHdG4xcmpKUnhWK1pm?=
- =?utf-8?B?aHMramhraXZaaklGUDM2ckI3S2Nad0w0YUFiSTU3ZFhVNUFiN0xWWTlyZldr?=
- =?utf-8?B?Z2MvdXZ2aTNoTkQ5c2NWSXZFLzB0YnRCSjdZeHl1U1pzTkgza3hvV0F5SitW?=
- =?utf-8?B?T3JnZ01Rejc4NVBRNGw4MkRtWksyOHI4SkIxVGgxVURXME4zMmtEeWgxbkxY?=
- =?utf-8?B?clpmWFF5MTZxTDVySkUxS3ZmKzUwZGpLb1FzcTRqNG9iWFRldjBreVRTYXdx?=
- =?utf-8?B?bE1BUzRUMHdDRmVoelgyeVpwY1pVdUg3WDlIS2hZWTZFR2M4N0tPYWpDZlkr?=
- =?utf-8?B?WFgwM2FKMnJXdE1mUVhYYk53bG1DQWlvTEZpY21ILzdWblk5L0R6Z1hYOTV1?=
- =?utf-8?B?NzhvWkQrdUtWQ3kyWFl6RFFXRHFvQnFIbk9NcG9nVkZacGxjNEpYSVJEN2t5?=
- =?utf-8?B?aCtXeVRGQ0F1NEd6UGY2SjRvSkVkREh5c2VFcTJIdHJkTytCZ2c1ZVUwSGNq?=
- =?utf-8?B?SkhLMC9wOFdta3NlRFc5OERORDJXV29Gb1ZNMzl1TmUwa3pQR0pPdGN6dnRD?=
- =?utf-8?B?NUhRQWRCQnEwVCs0bmYvNmhzZEZjdFE2dU95VS9QQWFsaTMyREJlQzQ2TXZU?=
- =?utf-8?B?blZGWHNDbG5jNW10QUhOUDlMQU5NL3FXNWVWWGJFeVE0cWxKemV6Wm0yVGdL?=
- =?utf-8?B?YkFGMndGMVJvL1VnVFNXTzhxU3BZalRCMW1xN1JNb3l2RWdIOUliRStDbE94?=
- =?utf-8?B?akxZS0swcTVtRUpGTHFHZ2FuY1Z2U3JnYXRwR3crYi9mVHdLY21ZaEFHMVpx?=
- =?utf-8?B?MUNsUy9iUTFoZ3RvMk5QV1IyMm5PZFVEOHdQRVhHTmRJejV4djNONElsS2JN?=
- =?utf-8?B?TkwxT0V4ZEVtTjExbFJ4TGduK2tJL0lQTWtDcWhFQ2hVZURIWUZpWnY5MTNY?=
- =?utf-8?B?dk1Od3Njb1pzS2FFdkRXOTdSUWNPeDhjNVJWaTZteFhKN3FpUGhMNVExcTE3?=
- =?utf-8?B?SGJ1eUpoeiswRUFoOXFtUkhWSTZuRUlra1d3bHE3clFGUXhFbVk4OVFXTEFH?=
- =?utf-8?B?SGtmY2pFa3JLb3ZsR2NWY2ZTbG8yemF4Sk9SVWl2emZWbWtoaFg0dHF0T1Rp?=
- =?utf-8?B?VjMwUEpPRG9YWVNnUEt4UTZhS3ZoeVBlSk1xeEJ4QkFML2FwRkdQdVdBN2hK?=
- =?utf-8?B?Y29GcVlCVXhtcGdudGJxam1sQjljOUk3aFk0R1hHTENkUmtZV01qaTAxNkpn?=
- =?utf-8?B?bzhFN0drbmRIMFlWZ0k3TW1FejdST0lSUTFlc2pNbnN2K0todWZGVll6S0ty?=
- =?utf-8?B?Zytnd0k1SW1reExXaUlQUi9PQ1RRMng2UG90a2F1RzVxYzNlWmZ6RU10bHJQ?=
- =?utf-8?B?OU1ZMHB5MnhBTXVidnVGblh1TkFIZlRoR3VBYU1GOVNkZTA4Y1JWa09tZkhw?=
- =?utf-8?B?MEV3WHozQ1JsM1UzY2JoQU13YTJaMEhEUGhzUWY3WkFuZFBxNHpMSEpZWllq?=
- =?utf-8?B?SlJtSDVPTHZJVVBrajBFbGFpNCticDYyVkJ0ZTVlS2h2QjZKdnNlN2pndVhj?=
- =?utf-8?B?THpvUmM1R2h2clJyQlhkd2RXU0dYRE95a2lkL1ZHdzRDTWZNOStwMndkQUdT?=
- =?utf-8?B?OU5FM21VUGpZN2UzempPV29qUlRWYlZOcHZ2WWRDT09KY0g5MDQ5UHNTQWZT?=
- =?utf-8?B?NHdOalBFOStsZ0k1UmlISFhKd29HQXJTTDZTZ290YmRKS2szRTNXQ2NkMWpS?=
- =?utf-8?B?Nm5zWEhzTkJkakM2MmgxaTMzRmtIdjJlN2pveEdvYTh6MXhwRnVwRXVGL1JM?=
- =?utf-8?B?RUNQb0NyNERuMTFFTmJQMWhKZTVyVTQ4Sys4UmRUVVBoWG1zeGtadVVkcThu?=
- =?utf-8?B?Umt3UUE0QTZKTXNabFpJZzNLMjRvODZmQzhMU2lMeXVDTTlEaHV5K3BTSWY5?=
- =?utf-8?B?Wis4TUw4U0l3VUsvcU5rVVdXZ0sxWEE4NEFmc0lFaXA0dXB6SENlOS9QZkVu?=
- =?utf-8?Q?2cp0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PR12MB9416.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWdSN2VXemJ5RFJHRTRhcDdBRCtybG5GQnl2RnFLbUw4RStuTVhZb1JBYm83?=
- =?utf-8?B?anlXSkRiK1ZPWTRIbThyelpGWlFkZ2JCN1hrZjBsQUVxbXY3WlMvTjJBcmk1?=
- =?utf-8?B?a1Evdk5laU1pTGJwd1o2dncrZi9ZSFZZUkZLejBjQm9XWXFYSUJuQjZwREZq?=
- =?utf-8?B?OWEwbnV4Ny9sZnpMZnhZRXZKbXFTU0g1M1BkV1ZUWWNHaVczZGs2cEZ4YmFs?=
- =?utf-8?B?NTkxQml5bFVlOTROU1JqS2VhSFB0RXZ6SENKOHJmMGMwcHNNUExabjVUODhy?=
- =?utf-8?B?VnIxdGZYd2xSQVlrSUM4TTZxU1dvZU93ZnZoYWRWWnQ4cjZNQU5IRGZGdWRP?=
- =?utf-8?B?SE9sRzlpNkxhTDRMekl0d1grMnMrWGFOTzJHa2lNajRmdFUyZXBWeG1GWnVJ?=
- =?utf-8?B?aDhvRUg4a0tYRGNzbG9GMmkwODQxM2Y0N2JaRnFYQkxERk81QU5RN1BacDVy?=
- =?utf-8?B?RVlrd2VYekxmSGcvcVNHYm1kbFZMUGpQN3ZoTXpJMVFnbkVXbENaRmJmS2JB?=
- =?utf-8?B?UjZFaGpaT3pDUWJNSW1WVWlBQ3B5V0JJZzBQRlgwY1R6M0RybVJBeXFKaUZu?=
- =?utf-8?B?WFFDU1VickR4YmMwaStRVjNMTzN4OTFqWHQwbnovanBqR3NnZm1jUmk4MHpL?=
- =?utf-8?B?dGMrc3pFdy9pNm8yNnNWamxyeUpmd2lGOFg0NjRYRDNyMUNYejdhMERQanpu?=
- =?utf-8?B?NHJwL1FXcjJwQjcrMXdsMW5aeVFoeHZONE5FbTFEbG9MZDBzN3BTWVhjWThz?=
- =?utf-8?B?NEpMQnltTE42d2FMcFdWR3VjSU5wdXFyYWpwQm5JL1N6c1pRM21mZzc3aGli?=
- =?utf-8?B?TEFLZkJ2T25VazRSa2tDMHVzMlFZQVlQMnV2Z1dzZC9lcWUyemc5OWlrVDky?=
- =?utf-8?B?dWVJc1RNcitTTnhKbzFLRVVqYmNGS1RkKzd1YUZsVVJaVGxOWEdJdUpEUTBn?=
- =?utf-8?B?eUF0RHB0VnJHTmRxeVZNSWNUVFdpZUFQM1BnTVB5cm1EeDBwcVBGTHJkZCt6?=
- =?utf-8?B?NnorMzhSa3o0RU9saHpJN0MvcEdSc3lnUHlKQldmbG41RjQ1MlpsQWpxbE04?=
- =?utf-8?B?engxMEt1YzZoWE0wVlUvTnlEclJEaUpnaCt6cWVHTzdlQmZZd1BpSnd4ZUNn?=
- =?utf-8?B?Y1BXY00wUThXSk96dThaRXkydXRFR3ZTYjN6YUNSd3hrd3NCTXVXRXFtUElw?=
- =?utf-8?B?RG1UQ1NzOWgzY2lEN3cxLzV4QWpKRmt5YWYxalFGc0tJd1dmYnIyL0hIcGhs?=
- =?utf-8?B?dDh2a0o4TmloOWc0Q3JKYlUwNW5RUDBvRzFwc1R1QmtzOHpmUy92Q1NHa1Rk?=
- =?utf-8?B?ZWtEMkJuQ0YxVytoRGordVRVYS9PaThwVnFLTUpxQU5aR0dGV2VFQ0tSbnRH?=
- =?utf-8?B?MXA0eUgrQnA5SDRnWUdHd2lJNncrMTZMczB4RWVtZktXSVJFRFJ6OHJLNzI3?=
- =?utf-8?B?dk1IR1VCWmdIM3Eyc2I1MEtzR3YxaEw4Qi9rVmp0UEFmQTk5QzdGOWdZNkRG?=
- =?utf-8?B?WUEwdXpqTXRMMXBDQUpMQVI1Q0tzcU1DM1YxbzEzTlRvaXZHVTFGMWZmYTJC?=
- =?utf-8?B?ek16dVdsYXRkMitDdE9nNmZpamtoSXp2OHNwSWJWMHFqeUtNd1JEZ0xMQlor?=
- =?utf-8?B?Q1RZUXlFcmhYd2lqZytLR2dNdGJjKys1T08yYUE4b3cwSUhnTFpZZk1HOEFM?=
- =?utf-8?B?SS9yL2hKeUNJakswZ1c5WW5meGFPSzU1WEp0d1NwOGI1ZXlKWS9iblcxdnVE?=
- =?utf-8?B?QUEwV3Bma29MVERZZzBCYk4vUU5TaXNwYU9LdjFTVThCOUh1dmlTbnhtSXd2?=
- =?utf-8?B?TW8vVytWYVhlb2xoT0N2MGRvaks3a1ZMR1VjYjlnVlNnWUJaME01VDNEajlx?=
- =?utf-8?B?Y3BUdE1Sa2FIR21DaE52QkJvYW5kTEdSNG5IUm5IdEdTV05NWFFNOU1mZU9i?=
- =?utf-8?B?MHJ3eHk4djMyTVI3MmlEZVZrWmV4cFBSakR0RllTbFBNTlU5R3lSTjBsZUwy?=
- =?utf-8?B?b0JQdUlObjR4OExGZ2s4ckRabVlsbCtqSnMzUnlUV0pCaDBOMGFtcWtZcXg3?=
- =?utf-8?B?SWc3R2o2RkoxUWJNaUcvdDZrWEpBOHNDWkZTcW9YMXlOV0VkNUdJQW1nWDN5?=
- =?utf-8?B?TWJSZzlsS0JtVXlqR3cyUG53c1JtYjFZdDlNSHlTY0tiUUQxY3gxR2JMV2Uw?=
- =?utf-8?B?OHFQdjJMQzhlakpJaExHcURkUzFMVHd3aXdZa2NsY1d5RENIMW5vSWRyY1Zj?=
- =?utf-8?B?Z2tkN3BubEtXQzlLS3ZQRGxqa1NjUmNzSkRkWDFVVVRacE01N21DeW9SZjJ4?=
- =?utf-8?B?ajFVbGhFRUttTkhaMkhtN015dTJYRXUrL0hHaGlYTDVIakhhT3h6dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b5ea236-196f-4cda-f07e-08de6e50fa8d
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 18:18:41.6105 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wrwf4QxY3ek2nH8OgZfn2d0BuihMxGNWK70HogjOuzL6JfLUew2MUat1sEjS66Er+DSh1Yev6HoMd6Tc4sqFfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF8BD1FB094
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227ccb303be702fc9b91d3953f30000e29f6a2f9b0bf7f5bad0ef5b2e8081a2669eea31ad3ebd845e:zu08011227eb7b9ae6314e7f1f0b2a639800000b19db97a9b3666c59faac2d54943373ed5f06961ee1a3990b:rf0801122679a09cfd55e7bbdf618a9a6a00002ace3421f4f745b2d350401f57001777dd36ccb57310860b:ZohoMail
+X-ZohoMailClient: External
+X-Mailman-Approved-At: Wed, 18 Feb 2026 08:02:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,80 +72,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mhklinux@outlook.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [2.69 / 15.00];
+	FREEMAIL_REPLYTO_NEQ_FROM(2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[zohomail.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[zohomail.com:s=zm2022];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
-	FROM_NEQ_ENVFROM(0.00)[jhubbard@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_REPLYTO(0.00)[outlook.com];
+	FROM_NEQ_ENVFROM(0.00)[mhklkml@zohomail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,microsoft.com,redhat.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 35D0814EFCC
+	FORGED_SENDER(0.00)[mhklkml@zohomail.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:drawat.floss@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kys@microsoft.com,m:haiyangz@microsoft.com,m:wei.liu@kernel.org,m:decui@microsoft.com,m:longli@microsoft.com,m:ryasuoka@redhat.com,m:jfalempe@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-hyperv@vger.kernel.org,m:stable@vger.kernel.org,m:drawatfloss@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[zohomail.com:+];
+	TO_DN_NONE(0.00)[];
+	HAS_REPLYTO(0.00)[mhklinux@outlook.com];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: C78CE153D50
 X-Rspamd-Action: no action
 
-On 2/11/26 10:28 PM, Eliot Courtney wrote:
-> GSP commands over 16 pages need to be sent using "continuation records"
-> which essentially means splitting the payload over multiple commands.
+From: Michael Kelley <mhklinux@outlook.com>
 
-Let's please include rust-for-linux on Cc for Nova patches, for a while
-longer at least.
+Currently, VMBus code initiates a VMBus unload in the panic path so
+that if a kdump kernel is loaded, it can start fresh in setting up its
+own VMBus connection. However, a driver for the VMBus virtual frame
+buffer may need to flush dirty portions of the frame buffer back to
+the Hyper-V host so that panic information is visible in the graphics
+console. To support such flushing, provide exported functions for the
+frame buffer driver to specify that the VMBus unload should not be
+done by the VMBus driver, and to initiate the VMBus unload itself.
+Together these allow a frame buffer driver to delay the VMBus unload
+until after it has completed the flush.
 
-thanks,
-John Hubbard
+Ideally, the VMBus driver could use its own panic-path callback to do
+the unload after all frame buffer drivers have finished. But DRM frame
+buffer drivers use the kmsg dump callback, and there are no callbacks
+after that in the panic path. Hence this somewhat messy approach to
+properly sequencing the frame buffer flush and the VMBus unload.
 
-> 
-> This series adds a command type `ContinuationRecord` which just writes
-> its header and whatever payload it is given. It also adds a type
-> `WrappingCommand` which supports splitting a large RPC into smaller
-> ones.
-> 
-> The send pathway uses `WrappingCommand` to send all commands, but if
-> the command fits into 16 pages, it still writes directly into the
-> command queue. If it is larger than 16 pages and needs continuation
-> records, it writes into a staging buffer, so there is one copy.
-> 
-> This patch series uses EIO for mis-sized commands to be consistent with
-> the rest of the code.
-> 
-> Patch 6 introduces a single helper send_continuation_record. This is
-> because the compiler can't properly infer the types without this.
-> 
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> ---
-> Eliot Courtney (7):
->        gpu: nova-core: gsp: sort MsgFunction variants alphabetically
->        gpu: nova-core: gsp: add mechanism to wait for space on command queue
->        gpu: nova-core: gsp: add checking oversized commands
->        gpu: nova-core: gsp: clarify invariant on command queue
->        gpu: nova-core: gsp: unconditionally call variable payload handling
->        gpu: nova-core: gsp: support large RPCs via continuation record
->        gpu: nova-core: gsp: add tests for WrappingCommand
-> 
->   drivers/gpu/nova-core/gsp/cmdq.rs     | 113 ++++++++++++++--
->   drivers/gpu/nova-core/gsp/commands.rs | 247 ++++++++++++++++++++++++++++++++++
->   drivers/gpu/nova-core/gsp/fw.rs       | 102 +++++++-------
->   3 files changed, 401 insertions(+), 61 deletions(-)
-> ---
-> base-commit: cea7b66a80412e2a5b74627b89ae25f1d0110a4b
-> change-id: 20260203-cmdq-continuation-b99f3d5966c3
-> 
-> Best regards,
+Fixes: 3671f3777758 ("drm/hyperv: Add support for drm_panic")
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+Changes in v2: None
+
+ drivers/hv/channel_mgmt.c |  1 +
+ drivers/hv/hyperv_vmbus.h |  1 -
+ drivers/hv/vmbus_drv.c    | 25 ++++++++++++++++++-------
+ include/linux/hyperv.h    |  3 +++
+ 4 files changed, 22 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 74fed2c073d4..5de83676dbad 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -944,6 +944,7 @@ void vmbus_initiate_unload(bool crash)
+ 	else
+ 		vmbus_wait_for_unload();
+ }
++EXPORT_SYMBOL_GPL(vmbus_initiate_unload);
+ 
+ static void vmbus_setup_channel_state(struct vmbus_channel *channel,
+ 				      struct vmbus_channel_offer_channel *offer)
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index cdbc5f5c3215..5d3944fc93ae 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -440,7 +440,6 @@ void hv_vss_deinit(void);
+ int hv_vss_pre_suspend(void);
+ int hv_vss_pre_resume(void);
+ void hv_vss_onchannelcallback(void *context);
+-void vmbus_initiate_unload(bool crash);
+ 
+ static inline void hv_poll_channel(struct vmbus_channel *channel,
+ 				   void (*cb)(void *))
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 6785ad63a9cb..97dfa529d250 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -69,19 +69,29 @@ bool vmbus_is_confidential(void)
+ }
+ EXPORT_SYMBOL_GPL(vmbus_is_confidential);
+ 
++static bool skip_vmbus_unload;
++
++/*
++ * Allow a VMBus framebuffer driver to specify that in the case of a panic,
++ * it will do the VMbus unload operation once it has flushed any dirty
++ * portions of the framebuffer to the Hyper-V host.
++ */
++void vmbus_set_skip_unload(bool skip)
++{
++	skip_vmbus_unload = skip;
++}
++EXPORT_SYMBOL_GPL(vmbus_set_skip_unload);
++
+ /*
+  * The panic notifier below is responsible solely for unloading the
+  * vmbus connection, which is necessary in a panic event.
+- *
+- * Notice an intrincate relation of this notifier with Hyper-V
+- * framebuffer panic notifier exists - we need vmbus connection alive
+- * there in order to succeed, so we need to order both with each other
+- * [see hvfb_on_panic()] - this is done using notifiers' priorities.
+  */
+ static int hv_panic_vmbus_unload(struct notifier_block *nb, unsigned long val,
+ 			      void *args)
+ {
+-	vmbus_initiate_unload(true);
++	if (!skip_vmbus_unload)
++		vmbus_initiate_unload(true);
++
+ 	return NOTIFY_DONE;
+ }
+ static struct notifier_block hyperv_panic_vmbus_unload_block = {
+@@ -2848,7 +2858,8 @@ static void hv_crash_handler(struct pt_regs *regs)
+ {
+ 	int cpu;
+ 
+-	vmbus_initiate_unload(true);
++	if (!skip_vmbus_unload)
++		vmbus_initiate_unload(true);
+ 	/*
+ 	 * In crash handler we can't schedule synic cleanup for all CPUs,
+ 	 * doing the cleanup for current CPU only. This should be sufficient
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index dfc516c1c719..b0502a336eb3 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1334,6 +1334,9 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
+ 			bool fb_overlap_ok);
+ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
+ 
++void vmbus_initiate_unload(bool crash);
++void vmbus_set_skip_unload(bool skip);
++
+ /*
+  * GUID definitions of various offer types - services offered to the guest.
+  */
+-- 
+2.25.1
 
