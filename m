@@ -2,178 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ABk6B/OrlWkbTgIAu9opvQ
+	id AIWRNN2mlWkQTAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 13:09:23 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:47:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741A2156382
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 13:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0481560FD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:47:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF3D10E5B1;
-	Wed, 18 Feb 2026 12:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF8310E173;
+	Wed, 18 Feb 2026 11:47:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="MbV2km0O";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AQbfpSam";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011025.outbound.protection.outlook.com [52.101.70.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E3510E5B1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 12:09:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=csUR7QbJz1GP0vJh+p5gkift8VSR/Y7Zs76tQ5lPef4H+98kPhbpaWxYwQ+oIMpRkrmsmh0eBvQMq00Hkokk6v67wDQ6Yo7ojGK2EDWQp6n3GIB169Jds2P3qJ8bnlpjzCnnaE3B8KHWrhORcsnRra2EhTuyfmrbJlhKLYTOkrCrZkpPmZpxr8v8HJaX2zk9bx7mR9tIxR2ZVFoc8KmH29xoe1ZTPlXJ4YH0XyEpPLP7JEkz46d7SLXMfRuiu0Z189kugLUffXYPWn6WC55Y2YQkk9em9vyfLxIMzyVud5yuVs34VlqDnIoOzG99S0pcgyQyeO4m4MuIlxsjBBgL8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=609ppVu1Q6CkY5n7c8nVTiDYTvkvs1atfXPGrjYEF0w=;
- b=Nvlk5ZVZl1P+U3ZQA6J01Q3g8xtCAZ/qXDMDAVzDt5+9kFO5Nk/HLlvudyq3rP9F1tSiat8diICNS94XqFEpKhz3thn/WYIk05ZRC1RmIaxaALDf2QOSIRKRxqsphUahD6cFqUOM0O+Ytyedc7c5/D0aZuu7z8z3LyAEskk+FZh3YRW179xlJoPjL3k7P6Q2M9NJlgIvvOT0D/kvBtHxnTOBPYphk13KU2gkb0rf7QMCTYcjiKBr4acfGpPIaXeimVWi7xZx/k00s+mbqNJKarYj7GSSwnKC9bNs4duPE2+qSYe9vEsFSyEbivVSg5E2s5io/T3TL46gx5np+lgKaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=609ppVu1Q6CkY5n7c8nVTiDYTvkvs1atfXPGrjYEF0w=;
- b=MbV2km0Omr5oIzCevnO4SK0KHPDN45b4pcgh5xTcmFjNXcm+TnrwwRg31S8tO588Xx2Sxb40PEug9DMiEao8ObOyduCSnJx2J3ZVdfSJl5AzM/8X4WL9FBbl5NouUeBJNoTAKYBCdBZcCCEiKo0PZUjPG5EXxJyi1LMrAEIbBJHctAwoZEkNm73np9Ib4EQfBl3n1aeeTIO5FGdSZOR9eu+OLfDh84j0obFoNkCwdDSuMdaIf96ePMXCk4PrWtJWN5QEm47dU8RnqLSYrQDtMLCLFW760niFBrvSC9M6iaZMDkMddqgN4HLIvrkbnhUHvEkR4LhhsnIlGtU/fGJbhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PA4PR04MB9224.eurprd04.prod.outlook.com (2603:10a6:102:2a3::5)
- by AM0PR04MB11878.eurprd04.prod.outlook.com (2603:10a6:20b:6fb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
- 2026 12:09:13 +0000
-Received: from PA4PR04MB9224.eurprd04.prod.outlook.com
- ([fe80::8e54:4d38:df79:fd63]) by PA4PR04MB9224.eurprd04.prod.outlook.com
- ([fe80::8e54:4d38:df79:fd63%7]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 12:09:12 +0000
-Message-ID: <ac8a285a-a2c7-473b-9c1e-fd7433d67b30@oss.nxp.com>
-Date: Wed, 18 Feb 2026 14:09:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] serial: linflexuart: Clean SLEEP bit in LINCR1
- after suspend
-To: Frank Li <Frank.li@nxp.com>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, chester62515@gmail.com, cosmin.stoica@nxp.com,
- adrian.nitu@freescale.com, stefan-gabriel.mirea@nxp.com,
- Mihaela.Martinas@freescale.com, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, s32@nxp.com, imx@lists.linux.dev,
- clizzi@redhat.com, aruizrui@redhat.com, eballetb@redhat.com,
- echanude@redhat.com, jkangas@redhat.com
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-3-larisa.grigore@oss.nxp.com>
- <aZN8hKJSsnnYhy1m@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Larisa Ileana Grigore <larisa.grigore@oss.nxp.com>
-In-Reply-To: <aZN8hKJSsnnYhy1m@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P251CA0002.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:21b::7) To PA4PR04MB9224.eurprd04.prod.outlook.com
- (2603:10a6:102:2a3::5)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17CA10E173;
+ Wed, 18 Feb 2026 11:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771415257; x=1802951257;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MAH7TGbnVRFc2KBkwqmBjV/HGAENwXt73MADjlj2FKM=;
+ b=AQbfpSamMg/tZ7ZE10Pxf2RyJ5xMsZMc2deXMVkbser8YeeRpwpJsmC8
+ VoHd8lKx2eATLhGdx5S1pOoIbJPNRol7TyaTUM1jDRCu3jyOfhzBKPrXN
+ V13LfRzbq3YT9+gyYuax2nJMv2oWWwWl66Z4Xu65SIpj3wbQVEcIdWcYn
+ Z0V/nEkPXoZYA/3eJPCXQjL37s3mXbZWsnDi11tqPtix0XgcshO3rtDl6
+ d5emJG0nvdvN3kjr8L5QOoNXZ4XH79BsvC1iYLIzo5t0QKGmLBH85Xupp
+ cM9Y3vZOAQhz57Bn5PnElzoByJrU4HJJgCwl2HcotZHC1SO/oSw7FPqrq w==;
+X-CSE-ConnectionGUID: NKE0aay0ScWvl+Y4DrUsZw==
+X-CSE-MsgGUID: i43IP5SGSfyw9yEDXx1Ocw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72665151"
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="72665151"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2026 03:47:37 -0800
+X-CSE-ConnectionGUID: Yii22dsWRemMktBgOuh/Zg==
+X-CSE-MsgGUID: /uAG1LQXQMasKEn0IhtM0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="212537837"
+Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2026 03:47:32 -0800
+From: Riana Tauro <riana.tauro@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
+ raag.jadav@intel.com, Riana Tauro <riana.tauro@intel.com>
+Subject: [PATCH v7 0/5] Introduce DRM_RAS using generic netlink for RAS
+Date: Wed, 18 Feb 2026 17:49:02 +0530
+Message-ID: <20260218121904.157295-7-riana.tauro@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9224:EE_|AM0PR04MB11878:EE_
-X-MS-Office365-Filtering-Correlation-Id: a73c23b2-e2fc-4fe9-e911-08de6ee686f5
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|376014|7416014|366016|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YmtFVEtTcG4yeTJQYzVYMEVmUnBMTmxudEx4Z3c2T3JFL0N2amYzbVcyMXpN?=
- =?utf-8?B?VjJLams2dHdEbURaanRuNGQrd1IrdG9KSkJmSUM1bUthMnkwTUM0SUNtT0tx?=
- =?utf-8?B?c0xHRDF3UHoyN0k4Sk5VM2s1MUJCTFNUQ25HNURzRTZQdUo1ZjhXSTBjak1n?=
- =?utf-8?B?RUdJdXJXam8rcmRrWFptZ3gzeHFyTXhhSUZ2T0d4RU1PcUtTdHBQYXpVbWdi?=
- =?utf-8?B?SitkaTc0ZEhLRDNyenJSZnVjOHo5Z0xMNldmSndIOW9NVktWSFkvcWRZUVYy?=
- =?utf-8?B?dkRRalg1ZnRMUE4zbUU2djBydHdmWHIwMnlIeGl2YTBwNDV3MlRLQUFiTGQv?=
- =?utf-8?B?ZkQwNnFJbGxhYloySXdFSU5BZTdkNWRYRWpXeG12MSs1RXk0dkk0WmdaYUp5?=
- =?utf-8?B?NEI3TnZ4d002K2hodlYzZGI0anArVUNOSUdGenIzazdMbjRCekEvSklBRUc3?=
- =?utf-8?B?Q3JuTFN0VHhKdjJaK3B6dFc5cEc1SkI2Qkp5SUl1RkNPMnNPTFplbU0yd2Ru?=
- =?utf-8?B?VVpiQ043REJ6UmVQMTJvZnVTOW5vUTloTVpUR1IxRS9DcXVXeGxRTGl1Sk8w?=
- =?utf-8?B?TlZGTXMxK2pidWpBYXVwMVpXMXEyM0dOY1Z5OXRIZ21EUkZvbEJBSStleWxO?=
- =?utf-8?B?bWpXcUNlejYvakFubDIrbmlwbjRsMEtjQVRhYjM2WFVOTTZHd2F2a0w3alRS?=
- =?utf-8?B?THZ5QVRVUWx6bWcvNGdieUNsNmVtQTQvRklaMGgxK3gwQW1OSEErYTdYdTZB?=
- =?utf-8?B?TXJtemdkUlg0NEYreXQzQmd1bU5EbFVvMEJlV09meGFOQ3pkeUlUMWZvdXpY?=
- =?utf-8?B?bHYrU0JnT0ZBTVJRM1NTRC96VGRTbThYTmROdytTL3MzNUlxUVRPcGJxb0J3?=
- =?utf-8?B?TzFZdHZXV3lJdlFOc3dYUEtsSDJmZjVka281Ly84ZUQrclRmWUJkREJTTE4w?=
- =?utf-8?B?TzgvQXRlZVU2NklYU2FOT0ZlVU5RKyt2WSt2bHJCWGVZZmdoMGNibHd6SGpW?=
- =?utf-8?B?OG5TUXVsbER3c1JzOFU5MFErWmlrTm14YnZOUGtINUtDWncyS1JUZEhOZ25Q?=
- =?utf-8?B?RENLcXFzRHRoSDFvVzlTaTdRUlZwcGlEQjU4b25Yd2tnSnVEZnUyblhGYTVm?=
- =?utf-8?B?QldHQXhCUXc4K1cvSytldGdpc1hjL2w1bStZMTBMNzhTYisrc2FpRnJRSHlY?=
- =?utf-8?B?N1BLVmg4Z1F2aUY1elBsQ0Z3VllFK09wczVXcUgyaXVaRkk3VEJ6bkRJOHRk?=
- =?utf-8?B?cElyZmdHc0w2azZ2RkdoM3NBTEZZUEc2TE5ObVY3THh6MEtOdXBmOEJPUThy?=
- =?utf-8?B?NDNYT0VJYkM2ZFN2d1NPcm5EUFNDNzlvTktIQTN2empUNWpRQWp1VUwweEhB?=
- =?utf-8?B?WmJSMTgzKzU0WEc5b0hteDlMdlVCTG5La0ROOFNNUXRYZmlsV05OOGFNQjBU?=
- =?utf-8?B?dGZJRytQQ3QxQW5oa0pFNWgySCtsV0VXOHRoZWVuUUE3SVFKcnVmekUveUxu?=
- =?utf-8?B?MU12OFlkT3Y0d1E1Mk1PRzVPT1c5YU5QT1dMcElNc25oSjNBcjcyYjdpQTRK?=
- =?utf-8?B?SVpCbmRic3QzZS9QSFZTR25kWVBuSWt2OFh1M1hOVkNZa3VMZWErOWQvNWRD?=
- =?utf-8?B?U1JiTzRsajRhcFh6bU9mUWpWRjQ4UjMxSEJXWGlwaGQ3TS9Nc0QrTVRDa1ky?=
- =?utf-8?B?bHRqUnM5ZS8rUzhCblRNWlJUT21nNjVHWTN6VUo5c3pZditBTUR1U08rbWFq?=
- =?utf-8?B?T1hmK0l1eU1EN1VmZlFwUHVGdlB0SlJjMjRwdFNoUWVPSytJdGNKUkxoeW5h?=
- =?utf-8?B?YWVnakEraFB2OEdZZ1ZLSUxJTkdZbVU1TVRLZ0RsMTJNMjV1SUd5NHU0L0Rv?=
- =?utf-8?B?YnBVdWQ3VGhYWVJHc2l0WnAzR3E0bmtGQ0tXTjllczNpUEhrc2VGb2FTRXlD?=
- =?utf-8?B?c01pOThUMzNtMDh6MldYTzUveDJHRHRMbktxOTY5NmJEblo4cURlUkxsYjNz?=
- =?utf-8?B?NlFGT1dQR0E4b2ZVQWhoSS9pREt4UFRmbGV4MDJna1Q3VWI1VWtZcmp0WGxP?=
- =?utf-8?B?dmxuZWxJeE0xZzVjaStCak8reW10WDVGRFo4bFRHcVh2amNOdEc2OFh4Y0JB?=
- =?utf-8?Q?mhXk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9224.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(376014)(7416014)(366016)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TWUxNnI0QVdnaElJSThqQWxhbC9RTW1rT01uRFRIMFdlTXAxMzl3QXgvN2c2?=
- =?utf-8?B?VndqTDludWh3NkpqMHZsNWlxYXA2UExnQ1R3TGJHNE8ra05xZGg2VFBoc0Z0?=
- =?utf-8?B?UUpqTndMQVE4UW5tdlBnOWNjaXpPRGFUWnYrSjNzTTBibThsOXBDZTFJRk14?=
- =?utf-8?B?S0VyejBueW5KeXhHcmF1cGxFRGZNR0luYW5WWWhWMkVvamxtaVdEb28xNmM4?=
- =?utf-8?B?V0Uxc3JzSVNkUWIrbnNsK0hMMkxzZ2JYbUIwdnZhN0VsSGU2NU5LbzVYMWRE?=
- =?utf-8?B?aHlXV2VwYjJIUjVPamYrdlF5bmp2QUJGMHZCTTVIT3hsK1pndXVlWVEwQzZT?=
- =?utf-8?B?SzFkUGYwTTBub3RqZ3VjYjd0ek9PVUxNWHFYMUFoU3hFVE1MYkNxNDhyTnVm?=
- =?utf-8?B?bEYxSVlQVTA5cFBGK1JlYlRKS3BibFQvcEZRd1dtbjZkcUhTWGEvZndvY05y?=
- =?utf-8?B?UEZwdUhzZTF0ZVMxRi85VHVjdjZmeXJ2bnUxK3BFK2UrN3V5QWhQdEhkaW9W?=
- =?utf-8?B?aDI2YVQyeDBPM0x0OWFON1VlQk1waFVzY3JSaGk4eDg4NzNTZ1pYRHZ2aUw3?=
- =?utf-8?B?bUNLcGRVZENvSWhTYlREaDZKZkhCNnoxdzdMWk0vNWNsdUwwMzRuM3kzZ1h4?=
- =?utf-8?B?RGtOOU1abWtJcW9GOXEzbmFWZXNuc2ZScjI2STlHNXJpd1ZPYmc4TzcxRWls?=
- =?utf-8?B?L0RkSE5Xa0J2L2lMblNNMTFWM1N2amg4OTNVREk1dUc4Wk1IdzFBV1hjeEl3?=
- =?utf-8?B?WW5jakFQSG51bmFRdVpsMWNLajBid3QzNldTQnhzejFodTBRaTV3aXVsTG5X?=
- =?utf-8?B?UmF4c2VlZ2V4WmVKOVRQbFplcFRyNGIwRlUyb0M0bTBwUW40N202aE1Vb1NZ?=
- =?utf-8?B?NFNmYS95ZTFlTDVUTHdPMU1McU1ZYStmOEwzY0lJajd0MHlHMHhOQ09hOVBH?=
- =?utf-8?B?dGFMbUI4Rm9WbU5na0dnRzBISDBtU0ZFZ2prTUpGSDkySTNsT0RmMjBwRk5V?=
- =?utf-8?B?UkJPbHVkQ3pkVXJUZ3BTdGcwREIyV3AvSGhkYUhra2krMVRoQW9ZNkJpSEM1?=
- =?utf-8?B?YUlKdzQzTWhsMWlKZDRaeXVWR2N2aXg4aVBmRm5KZW9mWHk5bk5MK08xQ2cy?=
- =?utf-8?B?UkJmU1Eyby9DYmZHcmVoZGJXc2tJWFBEUTl1M2FCV291d3o0b2tzRFJ0dHFJ?=
- =?utf-8?B?ZXB3cmt3OElMbW9yTEZRQkNSakVrWUEwNU90c3dnRE1GSGg5UjBiMW4vTmc4?=
- =?utf-8?B?ZU0zS2FuSEVDZmJVUmpha3FlcEdnWGhDTndhMHgvUTRZQmttQjRmcE51YUFC?=
- =?utf-8?B?UnFLRmw2K0ZaZW5nMW9XeW9ISGJrVkxITEZzMlI2WkxqY3hWRGRPaDVPZTZD?=
- =?utf-8?B?L05IWCt3bk1VM2ZFd1V3NmZFWmluVkVjeEovYzMvb3VpL3N2Zzd0Z0FsZEo5?=
- =?utf-8?B?M25OT1JzQ2NSczN4OUVNNndWaTV3QnhGaUJSMndTZXg3eURmYmFrQmpOeDZV?=
- =?utf-8?B?UFhheHFpb09ONGJQQXhxdWoyWVdUUW1CQWp5dThjMkJtdlpXRmExSmFlMUlH?=
- =?utf-8?B?K2JUUkdCSlNUd014QnZERkxZV1lGUHZsc0JnVHlpem1MTG1kZ2RwT3NVK0Jw?=
- =?utf-8?B?VzFwUFBpWGNIbTRDWkRPZ2FXUk5zTG9TWU5CN1plZHl4VGRkYThBeFdUZEdz?=
- =?utf-8?B?Yk1VdUQxOHNWTi9iMHNXbitoVXEwVXZWdVVIZGhhRVhuSytTc1Q1VEppZTlZ?=
- =?utf-8?B?aThtRUZLQlN4ZVl2MlBnNGlwVExwM2lVanh1Z3BwRXZMQWJPS3hqQ1YwSURh?=
- =?utf-8?B?elFKcUFycUNGSGNLTmo4SU80M1N2SmRQUlhaMWZ5QkZyQWREeXdmZ2tFV1J6?=
- =?utf-8?B?aXJkQTZWakRFeDkvdWFZdW9ZNEFlcElBck0yeWo2bmZ0VXJia1hwWVlwTmN2?=
- =?utf-8?B?aXB0R1F3N3p4cWV6U1d3K1V5U3psTWtwSHRzTVVtc0thWi8reE1FQ0ZVYkR5?=
- =?utf-8?B?Wk5NRXE5ZDRjOCtuQ21IUlNNTVI0Wkl3WEFNRmVIT0tXNE0xVER6enBvUEtF?=
- =?utf-8?B?bWRRZC9aRmo1RlJQUXhiSk1aTTJkNHVtYW5QbWc0OU5OVll5NVRzUGJSbkRo?=
- =?utf-8?B?UlU4eG5OQTNUaW5JSGJZck5IRTlmOU1NWTBOYis0V0tjaDRoU2IyQmsvNEh1?=
- =?utf-8?B?NTZDRVRocWZ4ZE0vbWRHWUljSzVLN2RGY1R2RkwzMXYrdkJzL2pjRFB4WXM5?=
- =?utf-8?B?WUoxUWlrSHBaN2xudkkxenJNbnNOTVcvTk1nNE43bmcwMnZraFExQXVwOGUr?=
- =?utf-8?B?ekVkMUowQXdPYWRSYW1ESW5oakx1dGRETGIzdzNaNlFWS05BbDM4QT09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a73c23b2-e2fc-4fe9-e911-08de6ee686f5
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9224.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 12:09:12.3843 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xC4ozTyngscfv/RvuzRv6Qt9jfiGfk6ScBD1XAlTpEBkJ//+enC0bkTaE2NVStNV+THvGndqXDd1FuGUCLPwEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB11878
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,77 +76,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[larisa.grigore@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[larisa.grigore@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,redhat.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:mid,nxp.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,NXP1.onmicrosoft.com:dkim]
-X-Rspamd-Queue-Id: 741A2156382
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3E0481560FD
 X-Rspamd-Action: no action
 
-On 2/16/2026 10:22 PM, Frank Li wrote:
-> On Mon, Feb 16, 2026 at 04:01:54PM +0100, Larisa Grigore wrote:
->> When coming back from reset, we need to re-initialize LINCR1 register.
->> SLEEP bit should be cleared, otherwise we can't enter INITM mode.
-> 
-> serial: linflexuart: Clean SLEEP bit in LINCR1 at linflex_set_termios()
-> 
-> Re-initialize LINCR1 register (Clear the SLEEP bit) at
-> linflex_set_termios(), otherwise the controller cannot enter INITM mode
-> after suspend/resume.
-> 
-> Frank
->>
+This work is a continuation of the great work started by Aravind ([1] and [2])
+in order to fulfill the RAS requirements and proposal as previously discussed
+and agreed in the Linux Plumbers accelerator's bof of 2022 [3].
 
-Thanks!
+[1]: https://lore.kernel.org/dri-devel/20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com/
+[2]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
+[3]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
 
->> Fixes: 09864c1cdf5c ("tty: serial: Add linflexuart driver for S32V234")
->> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
->> ---
->>   drivers/tty/serial/fsl_linflexuart.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
->> index 5a410e2d56ac..016011fd8760 100644
->> --- a/drivers/tty/serial/fsl_linflexuart.c
->> +++ b/drivers/tty/serial/fsl_linflexuart.c
->> @@ -413,8 +413,7 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
->>   	old_cr = cr;
->>
->>   	/* Enter initialization mode by setting INIT bit */
->> -	cr1 = readl(port->membase + LINCR1);
->> -	cr1 |= LINFLEXD_LINCR1_INIT;
->> +	cr1 = LINFLEXD_LINCR1_INIT | LINFLEXD_LINCR1_MME;
->>   	writel(cr1, port->membase + LINCR1);
->>
->>   	/* wait for init mode entry */
->> --
->> 2.47.0
->>
+During the past review round, Lukas pointed out that netlink had evolved
+in parallel during these years and that now, any new usage of netlink families
+would require the usage of the YAML description and scripts.
+
+With this new requirement in place, the family name is hardcoded in the yaml file,
+so we are forced to have a single family name for the entire drm, and then we now
+we are forced to have a registration.
+
+So, while doing the registration, we now created the concept of drm-ras-node.
+For now the only node type supported is the agreed error-counter. But that could
+be expanded for other cases like telemetry, requested by Zack for the qualcomm accel
+driver.
+
+In this first version, only querying counter is supported. But also this is expandable
+to future introduction of multicast notification and also clearing the counters.
+
+This design with multiple nodes per device is already flexible enough for driver
+to decide if it wants to handle error per device, or per IP block, or per error
+category. I believe this fully attend to the requested AMD feedback in the earlier
+reviews.
+
+So, my proposal is to start simple with this case as is, and then iterate over
+with the drm-ras in tree so we evolve together according to various driver's RAS
+needs.
+
+I have provided a documentation and the first Xe implementation of the counter
+as reference.
+
+Also, it is worth to mention that we have a in-tree pyynl/cli.py tool that entirely
+exercises this new API, hence I hope this can be the reference code for the uAPI
+usage, while we continue with the plan of introducing IGT tests and tools for this
+and adjusting the internal vendor tools to open with open source developments and
+changing them to support these flows.
+
+Example:
+
+List Nodes:
+
+$ sudo ynl --family drm_ras --dump list-nodes
+[{'device-name': '0000:03:00.0',
+  'node-id': 0,
+  'node-name': 'correctable-errors',
+  'node-type': 'error-counter'},
+ {'device-name': '0000:03:00.0',
+  'node-id': 1,
+  'node-name': 'uncorrectable-errors',
+  'node-type': 'error-counter'}]
+
+Get Error counters:
+
+$ sudo ynl --family drm_ras  --dump get-error-counters --json '{"node-id":1}'
+[{'error-id': 1, 'error-name': 'core-compute', 'error-value': 0},
+ {'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}]
+
+Query Error counter:
+
+$ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":1, "error-id":2}'
+{'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
+
+
+IGT : https://patchwork.freedesktop.org/patch/689729/?series=157409&rev=3
+
+Rev2: Fix review comments
+      Add support for GT and SOC errors
+
+Rev3: Add uAPI for errors and nodes
+      Update documentation
+
+Rev4: Use only correctable and uncorrectable error nodes
+      use REG_BIT
+      remove redundant error strings
+
+Rev5: Split patch 2
+      use atomic_t
+      fix memory leaks
+      fix logs
+      fix hook failure
+      change component and severity UAPI
+
+Rev6: fix alignment
+      fix comparison in CSC error
+      add severity string to csc error
+      rename soc error handler base register variables
+      deallocate info if drm ras registeration fails
+      rename init function to xe_drm_ras_init()
+      fix htmldocs errors
+      Add 'depends on NET' for drm ras netlink
+
+Rev7: add macro for gt vector length and master local registers
+      print errors on failure
+
+Riana Tauro (4):
+  drm/xe/xe_drm_ras: Add support for XE DRM RAS
+  drm/xe/xe_hw_error: Integrate DRM RAS with hardware error handling
+  drm/xe/xe_hw_error: Add support for Core-Compute errors
+  drm/xe/xe_hw_error: Add support for PVC SoC errors
+
+Rodrigo Vivi (1):
+  drm/ras: Introduce the DRM RAS infrastructure over generic netlink
+
+ Documentation/gpu/drm-ras.rst              | 107 +++++
+ Documentation/gpu/index.rst                |   1 +
+ Documentation/netlink/specs/drm_ras.yaml   | 130 ++++++
+ drivers/gpu/drm/Kconfig                    |  10 +
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_drv.c                  |   6 +
+ drivers/gpu/drm/drm_ras.c                  | 354 ++++++++++++++++
+ drivers/gpu/drm/drm_ras_genl_family.c      |  42 ++
+ drivers/gpu/drm/drm_ras_nl.c               |  54 +++
+ drivers/gpu/drm/xe/Makefile                |   1 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  86 +++-
+ drivers/gpu/drm/xe/xe_device_types.h       |   4 +
+ drivers/gpu/drm/xe/xe_drm_ras.c            | 186 +++++++++
+ drivers/gpu/drm/xe/xe_drm_ras.h            |  15 +
+ drivers/gpu/drm/xe/xe_drm_ras_types.h      |  48 +++
+ drivers/gpu/drm/xe/xe_hw_error.c           | 451 +++++++++++++++++++--
+ include/drm/drm_ras.h                      |  76 ++++
+ include/drm/drm_ras_genl_family.h          |  17 +
+ include/drm/drm_ras_nl.h                   |  24 ++
+ include/uapi/drm/drm_ras.h                 |  49 +++
+ include/uapi/drm/xe_drm.h                  |  79 ++++
+ 21 files changed, 1699 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/gpu/drm-ras.rst
+ create mode 100644 Documentation/netlink/specs/drm_ras.yaml
+ create mode 100644 drivers/gpu/drm/drm_ras.c
+ create mode 100644 drivers/gpu/drm/drm_ras_genl_family.c
+ create mode 100644 drivers/gpu/drm/drm_ras_nl.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.h
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras_types.h
+ create mode 100644 include/drm/drm_ras.h
+ create mode 100644 include/drm/drm_ras_genl_family.h
+ create mode 100644 include/drm/drm_ras_nl.h
+ create mode 100644 include/uapi/drm/drm_ras.h
+
+-- 
+2.47.1
 
