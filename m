@@ -2,62 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YBwUMwABlmlHYAIAu9opvQ
+	id kGxPBF0Glmm4YQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:12:16 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:35:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64156158959
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9C2158BDB
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD7E110E615;
-	Wed, 18 Feb 2026 18:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BC910E053;
+	Wed, 18 Feb 2026 18:35:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qewEg8Uo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fCOWJGGf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E0410E615
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 18:12:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3BD3D6132F;
- Wed, 18 Feb 2026 18:12:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73949C116D0;
- Wed, 18 Feb 2026 18:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771438330;
- bh=dPrOwsESVofZYLh0PyNZE+DF+vp34upCcdpBDuawO9I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qewEg8UoS5SctdkCAnSNSRmqxfPueSQ5YYWDYOyUGNCDgi35xCQ3T9OO0z7pQzH0E
- pZ3IFg81+fcplt9NRr4IuGiklLraceImha5UKU4yJpB1+fKRB1iD9M/P5uEypPKyPQ
- d8f//lX6I+9KkHao//de6c7wWJwCkbL+2MdDVGAtNHhozCY8wzN+dszJYjz3KM8lZm
- RniTJBLyPNWbOveBGP9V/I9sZ9WMpf58rfEijHRdBlicZepQQNWLcM4+s5iI52cOBu
- 4dJVQaZSE1CiC0JF60eomizmjO6ZHTr/Y9pbkyIv9cw0VH0dXFZmdvsq6LMboY5bzk
- Mu7V3FeKdNLLg==
-Date: Wed, 18 Feb 2026 18:12:05 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- neil.armstrong@linaro.org, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, mani@kernel.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, dev@kael-k.io,
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dianders@chromium.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: vendor: add taiguanck
-Message-ID: <20260218-humorous-cubicle-d92673d8f910@spud>
-References: <20260214085409.3489057-1-yelangyan@huaqin.corp-partner.google.com>
- <20260214085409.3489057-2-yelangyan@huaqin.corp-partner.google.com>
- <20260216-appendix-recipient-1836ea619cf6@spud>
- <d8873481-8028-4ff4-8152-b01c420a2c0f@kernel.org>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E765F10E053
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 18:35:03 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-48069a48629so1403555e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 10:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771439702; x=1772044502; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
+ b=fCOWJGGfwHF2OT/OATRZFkhy8Y6n31F8akf7VTmOQIM6FmdCtbRIh0wEPhO5i7RjS7
+ r4EcJiKAvUOGIXxgu0XugbpjuIsj5DMnZqkasVAyZOma4RTeUT2UsSumSiK4bkO730px
+ MKMCToZm5Cv8ixTNCBHOjyAbo1UkG2NOJ0jMc9/4u0YP2w59z2QUbVAMs27AstqXFEWg
+ o2Uye6RPPkLxYoSHXlaLet5XFC7yVrzJTMFk7JpCwF6JgPdWPcL551XQbXfxL/FdHJSs
+ GyBLlFqLn7W8Pz5GHi+JnUloaC71YPKO+y1OAUKlzOrf6j05DrVEQxmtH4pzH06q82FU
+ iXcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771439702; x=1772044502;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0uK3LnBVqJtacrpaTeNsmEDEPVfCDtIQ6jE7L3gZNMs=;
+ b=AQp1qPG2kcaA8A11zjFrC9hRFHdqxSGd6D+OtA+UVWy5BHCXCI7d84nxoz2DpgpTwv
+ Emil3t64GDpIBgub6mB5aZuLvMRE3VpNXJIm0m08U4SrP4Ws8dkbYZimCg2JG2oNhcUw
+ 59hf4axeXKJLxquCs2tVIDX2ldXf8eCsrA643hBQvzycTNaTojaArY4OZ8nYV7FbAFdT
+ 31Ss5cwawqQYfFtXQXJTiDR/yDFt2CGoUQVHTAVGm4H5auwn75U/rw+WwakxI9kf+xzh
+ UE3hItkhbdhU2+GA+JPIS8z3ODGnN1a5TDuezsPHdRu0YxhRX7M/5F46KggKOov2MJsI
+ x7Ew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBpByyUzQxxRtoPGqkwC0Iq9vXx8/7CNu+8WGpywE713UUPk/h0BZQZTbiaZYuU2+DX8HKIlrnRYY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxBuufIG7Ec1c+m/ThinbLutAc2Cjjg1zzNfTrkKHIK13zIOB4
+ miH8n3pZRJbwGSnaX+ttt30TX+ItgEi6F22ZlZojk9KAumhSPpoSLYM+
+X-Gm-Gg: AZuq6aIGTLrgunoOE6WC3jRAAxvp0OVH1inXCUi3sQVS0FqmJzXP1TopnaJs6yI908e
+ q4ExuQQwzPoOtET83aDFfA5LgkWRSn0jRTM3Li1wFRvZ5lES1QPqecZw6KyNoiW6FjXh7WgnDRa
+ jvjRANieV/YeA+vz8XghuXyauZ+PzuBcMZcmvmErB+/JLb+gzI+5ytjBw1KslY7NV+Gz07L1Iis
+ JGF9Ft00/846/igvuvCCbcvGVm5yKreTUSmk44F4CyHPnWZ6dm+4liQI395qtQSanuErOcFddBP
+ L54oH+8FWDTDn/5dRA+GTKGoPaLHryMmoi4/5nY/Z+ZbTKtARD6kZaO6MOiYu+rw+JcRZaXekRO
+ TPqZFrrjatpqY9udrqQ6qQP1597nHyVnoIMXPYntClIbxScUwAgP4+6xIpQT4GVvBr+v0NgIvFL
+ MVhppOpIQotSt4OlMVHXDqTe9I46jiY8tu57b/21AKDBfcSbYdlT8i6+TkQbZkdD72vqFmYT2MW
+ xhubVICEyht7+4W
+X-Received: by 2002:a05:600c:458a:b0:483:6f37:1b33 with SMTP id
+ 5b1f17b1804b1-48373a58babmr277783835e9.30.1771439702159; 
+ Wed, 18 Feb 2026 10:35:02 -0800 (PST)
+Received: from jernej-laptop (86-58-126-118.dynamic.telemach.net.
+ [86.58.126.118]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4834d482480sm640635785e9.0.2026.02.18.10.35.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Feb 2026 10:35:01 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: mixer: Fix layer init code
+Date: Wed, 18 Feb 2026 19:34:54 +0100
+Message-ID: <20260218183454.7881-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wOml6nMJNdJsKlra"
-Content-Disposition: inline
-In-Reply-To: <d8873481-8028-4ff4-8152-b01c420a2c0f@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,83 +95,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:yelangyan@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:mani@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dianders@chromium.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:samuel@sholland.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:jernej.skrabec@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[jernejskrabec@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jernejskrabec@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,sholland.org,lists.freedesktop.org,lists.infradead.org,lists.linux.dev,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 64156158959
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 4C9C2158BDB
 X-Rspamd-Action: no action
 
+Code refactoring dropped extra NULL sentinel entry at the end of the drm
+planes array.
 
---wOml6nMJNdJsKlra
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add it back.
 
-On Wed, Feb 18, 2026 at 08:59:31AM +0100, Krzysztof Kozlowski wrote:
-> On 16/02/2026 18:49, Conor Dooley wrote:
-> > On Sat, Feb 14, 2026 at 04:54:07PM +0800, Langyan Ye wrote:
-> >> Add the "taiguanck" vendor prefix for Shenzhen Top Group Technology Co=
-=2E, Ltd.
-> >>
-> >> The prefix is derived from the vendor's website domain:
-> >> www.taiguanck.com/en/, which uses "taiguanck" as the primary
-> >=20
-> > This website doesn't exist it seems. I get an ERR_EMPTY_RESPONSE.
->=20
-> I commented on this already v2, which was ignored by author, waited one
-> week to get it fixed and still not fixed. Website seems real, though,
-> according to Google.
+Reported-by: Chen-Yu Tsai <wens@kernel.org>
+Closes: https://lore.kernel.org/linux-sunxi/CAGb2v65wY2pF6sR+0JgnpLa4ysvjght5hAKDa1RUyo=zEKXreg@mail.gmail.com/
+Fixes: 5fd711adc0ba ("drm/sun4i: layer: move num of planes calc out of layer code")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-tbf, the author of the patch may have no ability to fix it if that's the
-case, I assumed it was a typo or something. It's probably fair enough to
-just ack it then even if the website is not working for us.
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index ce9c155bfad7..02acc7cbdb97 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -321,7 +321,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ 	unsigned int phy_index;
+ 	int i;
+ 
+-	planes = devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes), GFP_KERNEL);
++	planes = devm_kcalloc(drm->dev, plane_cnt + 1, sizeof(*planes), GFP_KERNEL);
+ 	if (!planes)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-- 
+2.53.0
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
-Cheers,
-Conor.
-
---wOml6nMJNdJsKlra
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaZYA7AAKCRB4tDGHoIJi
-0oYUAP9lXMNmbzT4lOlUJaGz8OQP18eYgKVwBkgcZWSRhUkyRgEAqnz2/9ClPYEZ
-y1nuL7CZlGk36RNDZhmwrDerApwB8ws=
-=dvDv
------END PGP SIGNATURE-----
-
---wOml6nMJNdJsKlra--
