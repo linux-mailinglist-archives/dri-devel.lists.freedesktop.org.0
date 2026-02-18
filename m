@@ -2,179 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNfbJ5WplWlVTAIAu9opvQ
+	id ELtcMmGqlWkxTQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:59:17 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 13:02:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D3F1562C7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D41156342
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 13:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9631110E5BE;
-	Wed, 18 Feb 2026 11:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E87410E5B0;
+	Wed, 18 Feb 2026 12:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="OlSgX/mL";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="mJt3vhg1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013062.outbound.protection.outlook.com
- [40.107.162.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B529110E5B6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 11:59:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KcnRY61oF7go2I4ihLiIT5d6V2oQYZfjYXS41ewVP13s6jAVPLld6BMWepBJuwH4GUeZ3peQ2Ske2jPQbdd5yQY7UIf716gJMRoAycfGN/tsYk5SLEWazVA1/ERs1sERvMbEpSPC8QHc8bQFXduBli7tXN9wCUTqXKS6aVoxtu7wfIdka9ZyGM+Cx9hJhQdoLqXKRJbxsQ/SK7DUuZ/TSo9NujolRL1Q5sDQt+EADseC4QCphHM7iI1byBeecIMOstVokIhRZl1ZKrf7syjeNrnhy+UalGtMKEPf4pTKf415Q0qTrYKGFpxn2ltI7Vav3HwmgLuo0KiZlTzBR4jcBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M7X/MJKp8/PIf82tpGKdqdN3yg6js2Df5FS4DxXoRgs=;
- b=rS9pRE78X2O62LkEJy53StEl+jOgPnoye//XuqAbMCIJ1mW/vUcrtEOGgjF9o8LiG+4WEf4qIegFR2+nl6OGGjznx5eBvR1A0TsWxB30fvtHiQqz1rZZOKz0AM8wadi3DqzdY2kP7G1S6aqtAEjUeY4fhnv7y2EgPx86EuFQXIH7b6GXcNasurzRhnMK0QJ4lyjH88cuN6hGq6tXGGj7Ax77nN0x8iJopI6za/u6u2kjvb9aaHRifFuTCqKDFZ4N3u/7CCy1W1zdjSGsGFkHX7zEcjPm+n3U/TKbppDITa+C/2hHS+bxV7B2X1ICB8ffAFld/02KhB0RR1CPBNVrZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M7X/MJKp8/PIf82tpGKdqdN3yg6js2Df5FS4DxXoRgs=;
- b=OlSgX/mL/kIq+Jd1x5XegL/5a8LHqMQiMB+c6T9GpjqJmGpSMEtlf1/18VU2SuCPUGYgz9jLJTye1O/uQU0mN715HKJ58MAu8QxyU7xKgohsYmQeclRtbkr5yqKJOrkxViM8kHybUudjf0bcnngFwNqYUX1KMrPnCLx7tm6IgwU1it/02G4O5hasFYjqf33V3v/jqwPLGmpLMk39xlbGtIiq2FlSf7A/McetEv4H65/Fbaxzuuusgr8tqEZJ58MFlNwAYfFIyk34V8cEFTc5SL1D87acJcikgmmHa2Obx1IMOXtW8407kScFTyXmF4F/ZH4wAhz0/VNoi3iA7dgLFw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PA4PR04MB9224.eurprd04.prod.outlook.com (2603:10a6:102:2a3::5)
- by AS8PR04MB8181.eurprd04.prod.outlook.com (2603:10a6:20b:3f5::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
- 2026 11:59:07 +0000
-Received: from PA4PR04MB9224.eurprd04.prod.outlook.com
- ([fe80::8e54:4d38:df79:fd63]) by PA4PR04MB9224.eurprd04.prod.outlook.com
- ([fe80::8e54:4d38:df79:fd63%7]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 11:59:07 +0000
-Message-ID: <0c02809d-2108-4261-ae36-c68cc7a169e1@oss.nxp.com>
-Date: Wed, 18 Feb 2026 13:58:58 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] serial: linflexuart: Fix locking in set_termios
-To: Frank Li <Frank.li@nxp.com>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, chester62515@gmail.com, cosmin.stoica@nxp.com,
- adrian.nitu@freescale.com, stefan-gabriel.mirea@nxp.com,
- Mihaela.Martinas@freescale.com, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, s32@nxp.com, imx@lists.linux.dev,
- clizzi@redhat.com, aruizrui@redhat.com, eballetb@redhat.com,
- echanude@redhat.com, jkangas@redhat.com,
- Radu Pirea <radu-nicolae.pirea@nxp.com>
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-2-larisa.grigore@oss.nxp.com>
- <aZN7Hx_aK4ta1ksL@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Larisa Ileana Grigore <larisa.grigore@oss.nxp.com>
-In-Reply-To: <aZN7Hx_aK4ta1ksL@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0045.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5dd::17) To PA4PR04MB9224.eurprd04.prod.outlook.com
- (2603:10a6:102:2a3::5)
+Received: from sonic311-23.consmr.mail.gq1.yahoo.com
+ (sonic311-23.consmr.mail.gq1.yahoo.com [98.137.65.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1E810E5B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 12:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1771416155; bh=3BQTFc13IykX/O18WiZHKF2HHevh/eAXq63WJYaQhVc=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=mJt3vhg15DX/+fpb8TDvblWOiQKYWhTKgp0F7HMXavE9Vxox6nPa/VbBIHoCb4I1Dybc/ap8gfJPIFhj8Fk7965sj6g03cT4lNNhCJHHGnOoszYO5uEApLh4fYAj8nXUDIyZDLIf+99I4yebjmCsTu9wH3YukNnut4kDilaejro6nK8vdBO1oODK5NsOocdXPnXZUh4VJiiK30AY2Z7paq4IsYsQAy5ttDTRViRr2VBrh5zIs3JfEqvgakqlMmvz+pQeRQ2Y0Be1b74u0xvTTBMPdXPhoCyGatYxDReHmrGXxCak1l3fqeWl72AzvhStuW7DI6rMiLpctve693neVA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1771416155; bh=K9Y7TUlEZkQ3RBz3vnqX60loHCTThuBaGPGQkS/gAU7=;
+ h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
+ b=pWAiikO4DMmm0SG4/0pQPZt4e6QyblJesy9v363ri4wvmbGGmHb96amGIxYz6oTQ9nn0xtRcHGAb2/bM4l4FahHfAeoA5VH+qzvng4+/o/7ui1z58UGW93qUpXwmflF4fSS3YDH2Yo4lUA2LqONJKhToRwjI/KkEIrgzfHKSMctPDbhfFUr+GZDVkGBNLFd8/0pwQ+DpIxskdpu5Z1mvhB3BtRVuDxApiXVd31cdNSPKQD7zYLlRLPkx/ZVZtJ01xrJnOWtPc+/bGzEFKz7ppJzOcyAJRWzBCznIDKHOd5S1qYhhvK4pCt4pUx6s2EFGtR1kqlko/DG7VKFvWi/jMw==
+X-YMail-OSG: SVrRgLQVM1nKCtIP3abOfPAYNGOdFhWrF607qYy0ND88UEcEQSWsJru2HWFrOmL
+ TBzsWdQ5nRGheD7teZjquKzaekYkRWsZHsgsEQjLWZQ5dYx0j3AYxr_PGouh3s5IWP.wdiEON2MG
+ Nv5AP6t_6cVclFDwH9SaOPMiR98gmDmP08dow9xGumE4BDGolFrzLu5hlDLAmDhtYgEdDIOGGdMi
+ xjmv9ecRcSfsQQi.EpRfHIBGWfkrYjXa2v352.bh_EDu36brtyxfwu7WqBOLtus4K1tmPt9QghSK
+ U1PQSTfDmijceN53yqhl_RMdckkgeYWapOeWcPwmnYMqm7NK_P7RBw7dyRietcFWlJNWRjLQi4Ao
+ wMIUT4WcRLFeAh357YDIEC422ZGzvEz2ocnoaOK5chmeeTaze9jyFwEd7q.t6OaIvYV34Z5Olbae
+ vJ49JYcsB7IAfhV5i6e3ES91TQHwL28LsReYg8ZS2p8iNZSNG607opljI1BfHjMERG7illzmAoiL
+ EN_Y3mCzY2R5V36p4ExZaprV1uMUXPJlBTPBzMXfgNgVFbGskaFnvZou_YCXct8cZ7SuVXjpq.Yf
+ 4EoSnlsL7G1x1jDrnUuDX1uHqklOHD_T05cvI.nx5Ue5pa2EXKWaxYkUTxU6sWHtM5x08MAz7J5Q
+ fuyPLGEieCtqGHqCISLVoVEY9ZiUwnALLaC1i6N7p1iD.THM0tItRCpXws3TpXThB7EczPZeGL4T
+ n0jXeX69yNtmiw2pny6whbjQF88a0Oj98TXBDtN1U6N88yypYmzE5nYdBayUz0urhCx3KHw6nBiO
+ PmGPk1_Y1v5j0kcWDAQHoXkiKRaUAuQ8bmMyGQi9RyzpKO0pE6mjprvawnjjvrK8e0_BYDOGcjpI
+ jwNzVizylKWx6XhU21Avw.MD4HXvHY4oFGQt6nopQRnYBW1IHcU7QYe7zVrj0dyiOhubSWZNuEDo
+ NlEbsPMnpZ6CGWpx1U6IykEqdp3MZ.M7F1cdaFn7stdWMMD3GLjg7.oQzQXA2sjifgdLcYYi2FtY
+ 8W_9ePCx_LQh_lgvM19vbkNpTTezlZ9NWxkPsrwEC9YxBU2Dgb7ef5Z1qQr0jFXIgUvkkBJt7jRc
+ jBnbP51BS2UxbSV0_npFJ50xSnQwdtHWyYQns6antCUr2bKuL8FHcNjWTRJ8zou4blStlormyaW.
+ P5Z1jBvWYTOUzthk8AeP5QU4yVW2N.BXZtROf29.72slVJN25SaUbUOEBkgnGXAelIdRGyOWA1OS
+ ljNwqWszoGPdns3K.bcEPbw5RrZd3Cv.4vGSMNrsHPs7GDowurouD9znMNZVcqUD4e9NwdPWmtLE
+ n.9GACa5J0.ubnHIcp747fg3Ilk9xigNg.jd0qmHJyKVP7_boORWCO2Q6b5FSgTzNdcbA4W4KcWF
+ v.V4jPB3K6ftRPyO70PvuKNKy0semmLVy_dRo02oJ3JiCnleKcQly7afQx_tWcqNh8TRjf8o3Nr4
+ dNNf8tIxDkNYDyMICQqIeO.6m2kjhAus7RXmZLqYfflIi8ls1_a6fSTgHSmbdL74xxJ4Jo0Zr_t4
+ _e4hV4iRbddaKzn7K9dow7vmiEKuwX3jT7w5wLxHBImqHSDJgyd7Q238lm_cUeQfBTynw36YZO1t
+ 1cDLrjX5QWKUGNJv54qJ7Xir525grQq2W1Lbesjcve5RkLajE7TNN0GFRkBuyFLLr5KLz49u5FGj
+ 12iLFZ4o6wIDGj8gMqupWIH0FaGc8WegOui3HEnyORNehsN1lJKK__6m5AfAnTBUOOBSKAsNQ5M0
+ qkwmHp58DBV2nnCYTAya4y32LIOLCXiYHFic4fMxkE69XLw0qmcKFZuiU8Chr3cRviMqvsTBaP.t
+ U4hMAp.dKZRfbx0nuHPeA6fqVYU5i5Thiu7BM.SmVBFElkaYiNBLmF3m6gqPZhH3dnEeHtrZaoJc
+ uPhcchgXS871cxHm.7St7SsXoiwxj4BDpevUCUw4Ya_IRs6E1JvuxC6GFqqykOuiVpHPpSbzQMmc
+ nSPVEBxZRd70SN0TXhBRhKctyfa6Gjjpj9Vh_IueDNjSso1DoslmUOKt5.wo5eLmQV3bwERAEiB9
+ vBFcSOB41VOc93msDls65GykTB4JckvJqw46D3sDUNFZjWY_G1vRhclLNXr2TjTDUYdkUzB7.mwP
+ vG5zWxvdqwYobdNQctPk90waht7DdPAweXbJcnwH8qBkh5lH5lxPszr6BEHvOakNVWfDbhdor0e2
+ JzCijzAQHlfw..q0lSSCnd3_aP__dSLaza2qirA1QcMjjjm.8UifTRS.zd3Gw1CaHh1om
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 5699e698-545b-4546-9e38-4c099dec1194
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic311.consmr.mail.gq1.yahoo.com with HTTP; Wed, 18 Feb 2026 12:02:35 +0000
+Received: by hermes--production-ir2-bbcfb4457-w955t (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 6a069ce74045bc10a3175461acc893fe; 
+ Wed, 18 Feb 2026 12:02:32 +0000 (UTC)
+Message-ID: <d827671270aa6e8bdee9ec28a862a45660806073.camel@aol.com>
+Subject: Re: [PATCH v4] drm/gud: fix NULL crtc dereference on display disable
+From: Ruben Wauters <rubenru09@aol.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Shenghao Yang	
+ <me@shenghaoyang.info>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel
+ test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Date: Wed, 18 Feb 2026 12:02:25 +0000
+In-Reply-To: <4af7f0ca-5778-4ed9-9983-1c365cc1b3b8@suse.de>
+References: <20260218054711.63982-1-me@shenghaoyang.info>
+ <4af7f0ca-5778-4ed9-9983-1c365cc1b3b8@suse.de>
+Autocrypt: addr=rubenru09@aol.com; prefer-encrypt=mutual;
+ keydata=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
+ eIvzsqg==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-+V8Kc+i992lMNExFAmn4"
+User-Agent: Evolution 3.56.2 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9224:EE_|AS8PR04MB8181:EE_
-X-MS-Office365-Filtering-Correlation-Id: 995bfb67-9f64-47c2-e9ec-08de6ee51eb7
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|19092799006; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UTVrVkVaUm9JZngvL3lPZytYdU11RnFsM2tXaHoxY3lVMGRZT3QrS3N5ZjNr?=
- =?utf-8?B?a0drakZXUnNVa3Y5Mnlvc1NyWm5INEpWRURHdFNDa2JoVDV5UVBwZzZSNzdi?=
- =?utf-8?B?YkFvTWNhWWxSMFBEWWJpSXYyRVpVODliLzJ5OVczN0RXREg0SlJsN1Z6UVVJ?=
- =?utf-8?B?ZXYyandNT2JrNUZhRWxTcFhNYkJibVEvR0VyNFZwbnpNeUJjOW80Y3RzQUxi?=
- =?utf-8?B?VzkxTnB4eXo1eHA2OTFzYmJZQVhtckVja0I1a2dCK2crVXZONjluYWxJY1li?=
- =?utf-8?B?K0J1ejE0WFBtaFUvVStnT1ZuSXYySy9adE1MQTdTTUtieDd1WUhmS0phNlNT?=
- =?utf-8?B?VldXYURsQ1IvNUx3bXZ1SU5Bek5UV05GS3NuNEJTVDRTcVZyU2l3UkdyNDRs?=
- =?utf-8?B?LzEyVjdTSzJVRnNvTWMyUzg3dHBYVVhlYmxHMTdqT25FYXNoMWJYQ3UvcjNa?=
- =?utf-8?B?a3U4TEpYU1o3cTZab1FJZTcyeHlnTitzMHJoRkJEZjRwTEJabkRaaW94T0Qx?=
- =?utf-8?B?NFlDVXFsaGZWck1QNTluUUVqTDFXMy9VczFlSkV3UDd4L1lzT1NkZ1BQbTRl?=
- =?utf-8?B?N0F5OWc3V2k0WVMwbUNnVzRpNWhiNDkrSVd3LzhTMzY4TU5scVZIZG51L1d1?=
- =?utf-8?B?aDN5Q1pOaWhGaVlPczZ5dTB2QjNjRUh0WldMVUVGY3lkQ2V3U1ZSaDVBb2pD?=
- =?utf-8?B?M3dsY0toUTZzamxtZWpaT2hkK1FkaWtFLzUrcHc4UnROWmg4NHVtYVVqZXJX?=
- =?utf-8?B?dWJnamI1ajY5blljOTJXbDZjUTRqOXBlbHR5aGNaOG9vNXVrMkRaMThKcW9v?=
- =?utf-8?B?QXN0ZkdYTHhPUUZ5RisxV0JEU1Q3aHc0cFEzTFBGNDJGZUR2dFZMdnptTEJO?=
- =?utf-8?B?RjNNSDdPZkJzVDdPbTFMYWRoa2E1OEFTWmh3SGRLWXlPT1FsbHF2TlA0VEhh?=
- =?utf-8?B?N0hzZ1gwZEt2M1I3emYySTFGMW1wSEVLQytqM3YvdXRWOEN6NDhjTkdsM0Fy?=
- =?utf-8?B?VmxUVFkvL1pSbnJLNmNmTW5WL1IxVGNQRFdweFhNMjQ1ZVE2Ynk5amkxVU1i?=
- =?utf-8?B?UVlRZ0NOYkFRdU5hL2hUWUhmVG4rRnFYb2NtNk4zQnE1dmFWclA4RHlLcFhl?=
- =?utf-8?B?bGExUkE1R0xyOGpWMHZhVVVFdlBwUUZTL1N4eXE3NktTdUNaekptdXEyYlRr?=
- =?utf-8?B?NFdjbk1pZVFseXhpbDNBT1doa3J3NXcwSVoweWtSVnFxajd2NS9jR3hRRThZ?=
- =?utf-8?B?dE42Uy8ySkJDc2JpOG5EZHpHdHY2ZnpOWFZ5Nkw3eTlreFFQMmp4UFZlWWNl?=
- =?utf-8?B?bHo2bUt1blhra005NzdLUWphYXZPTFZ6MndXSm1XMXpudGJ5M1REQisxdTBl?=
- =?utf-8?B?bk54SnAzbjY4WWJlbUFQYkw1NVUxNUJhTFY5ZXZtNHlWQUVUeUkzMzJwTTMz?=
- =?utf-8?B?TE5OZU1kVldJeTZlUnhwbmN0M3ZlU2kxTDNRNWNGSWFHdUZpOWxYaVFYdTJN?=
- =?utf-8?B?VDlZWTZQcVR5TGR3dFh0ZlBJTlBoZjJoTW1OZzF5RFE2MGpCeXdGUVZ4QXd3?=
- =?utf-8?B?VzNtbFE1QzVPQzBFSEU1cmZqT2ZvYWNwVVI4UzB4VXMwL1ZqTndtMEpET2U0?=
- =?utf-8?B?OWYybTZrQWNLQkRPSkh5QVF0RDRSeWJ6blAyZkhqZTgrR1hyS2lnNVVleE5q?=
- =?utf-8?B?emQ0UVN4ZStqQmpyRjMxcjlZdGZlVlJJSm15citJZlZTMFZoQ2xuQWs0Tnpt?=
- =?utf-8?B?U3NHMWF3VDQ5TUlBaG5neXFKbzVrbm5ERmtnend3YWwrVVN5d3lKK2RuMjVo?=
- =?utf-8?B?amN3QkRkRWZnRWpaL0x0Qkpkd29jY2lZOHlMK1JJWDJjTW90Y1AyczlIZU1J?=
- =?utf-8?B?UWFXbTJXcms4bHlIOElwa21EVVBsbFJFWWhqckdocGw0dmpNcHIrc1RYU2dm?=
- =?utf-8?B?ZnVFQnB4b3lycFFyTTFidzFubkx3WlFTT2pJbkk4RW1NTXRjVVBvaTZPL3E0?=
- =?utf-8?B?UnEydlpWU2FyUW9KTC81VG9IYXdtaE1UVEUvMkEzdnN5aCtzdjEzNExtdTUx?=
- =?utf-8?B?eDdselNtbG4wczhNa0tYY1ZQWlRkTmNacnpyVlZEdXltM1N6ZDNnUDZRTVhQ?=
- =?utf-8?Q?81+M=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9224.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(19092799006); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkNsNzZXU1pPaTBVd041NE4yS1A1c3FWTUdaaVlyY2l6TVg1VnJwd2w2WlZu?=
- =?utf-8?B?Sm1DU0tHc2huL1pGMzhabVArN25Kd0RmZGlxQkZGRURtbGd2Y0cxRmdmWEts?=
- =?utf-8?B?Y2ltVFh3eG95Q0g5VG55Z2RMZTE3S25jMzJvWmZpU0hqWU85ZTNSa2J4VUlB?=
- =?utf-8?B?NmVBQmpMTlUrZ1lrKzd1NHJWR1dHcEQ0c0ZHVmZGMVRKNnpyQ2RmbXM0UFRl?=
- =?utf-8?B?SE92TDRNbGtYeWVYbHNPQXBCWHNGckpXY05NZXo4L3doYjJjQlFxVkQySllK?=
- =?utf-8?B?MVJWSEJ6YXZZdlhQOWp1UEdLUlNjcXRZSnN0WjRPRUJPc0I2eEZEUVJKcmdp?=
- =?utf-8?B?UExWSDdaTzgvVDRsNzNyQUlLLy84V2wvVVNPQXpvVG5ML3NpRjc3N1BrLy9T?=
- =?utf-8?B?aitwdFVRczRHTUpNVVdHdUx4WVFlWGtodW50WmJ2dGVPTzFnMytmQTFRSnlS?=
- =?utf-8?B?a1lkb1U5eC82WHFsZ3Z2Mktkc0EyQ0M4RkgrZ1dWTSsxY3VWWjllandvVUtp?=
- =?utf-8?B?VzdaNkNkeW5sZE5jamVOcGljS1JDSC9nTkh1Z2RCOEJsZXZNNnJwSmhIYlNB?=
- =?utf-8?B?TndFV3FaVnM0NEZvQ09rSEJRUnVja1p0M2htY3d3Q2RGckh4WlBneU50SGI3?=
- =?utf-8?B?RkVrbit3cHRhZ2hnL2V6Szc3bnI5RzRDWDlpbFdNL1ZMTlZ5ZldraWRuYmk0?=
- =?utf-8?B?Q2IrMzZ5Ylo3b2xNVUIxRGRyZ015aEx4UVdMWnZLK2RSTGVUNi9tVnZ5bXhN?=
- =?utf-8?B?cGlTL1ZoVFdpL3Z6TjJlOGtQOGd0VmhJdk0rZjA0ZVZaMklIWTZpZ09PdVFh?=
- =?utf-8?B?WmdTeFNka2RYRzB5a0JhVmxaNnVWSGllSkYzRjU0bE9RQXlFVnYyUmRyMWlR?=
- =?utf-8?B?U2JJak5iK0ZvekNObHh2bTNVOHV5Nk9VUWFPZ1g4UWJ4a2VScFUxeGYrR2FZ?=
- =?utf-8?B?T1FUUlBiN2hHVUo4azRHS0NNck45dWJVYVlvdExaMWRxbzJ4dStBb1NQdjRt?=
- =?utf-8?B?VHZvYnpvMGltYVo1WXZXVjlaOFcvVlpMNEVpZEtnM25RYlBSWldWUWdXb0JF?=
- =?utf-8?B?QURYQUYvdUZVNm5jUzlYZTJ1aHJJb1BiYWo1TUZiRFowZEZMdnhjMVVnbGY0?=
- =?utf-8?B?MlJMTkRmNXNiTXoyNUx4ODNmdVBMVmZtODk1aC8rQlkzaWswVGRIb0tzYVVS?=
- =?utf-8?B?WCt1MmJuTzc4VDVPQndPSHkzRTJndjNOYk9RTlJxRlQzcWh3Z1RXSU9hYk5v?=
- =?utf-8?B?Q3VBbDVJSVRac0Q2djNUSWlZZDZRajJ1OTFRMXNQU1ZORy8rM1RDd3ZqN1ll?=
- =?utf-8?B?WTROMXM2NHJLcnRzVTlQM0RZR2phMHl1Rlk5N29KYUFVbU1laWgxcHFaKzli?=
- =?utf-8?B?SHhQZDVTdHJQR2hyeXdoU2VyR0thUmZrY0orMjVweGg0aWs5Z1pnS3RlUzd5?=
- =?utf-8?B?TloxanVUcmZmQVRDY1hoN285RGpaWVlzbE9YSi8weW94QjVwN0dLK3kzUHd5?=
- =?utf-8?B?SFpoV1cySjBKaGs2cHBRQjlQSWhVMEFPNTFoM3A4VWdaWnRGU2N6WUNudVJ5?=
- =?utf-8?B?SVJRNFJhbGVtcU1LcmtZZDNLdFZtd1ErU1hrNkhmWGxGTEtCRnNLOEVibHFy?=
- =?utf-8?B?bHQvY0R5eVFUaGVmdFN2RXVvVHdpbFU4UEQ3SHZwS2M4eXlxSjBKWVVtSlFG?=
- =?utf-8?B?dDZCTEw4WjJ2Sk9BRHRza1ZDNmRJZWpIYzdiaXA4SWp2dDA1eWRWNnpiY3ps?=
- =?utf-8?B?NXBwN1F0VkZtRWZ5ekY3eVI5YW1vcVF0T0RjUjN0RFUrUkJpTjRIVzBPWnZk?=
- =?utf-8?B?dzZhMy9CQi9qVXgrbU9leW5TZUdzVmFWTXBDNUYrY0lZQWFiemM5VVd3MHV5?=
- =?utf-8?B?SkZER1Z0eTJCa1FpOUVGYkFjQzFCWkJjRU1wdWxvQ0dGRVMyUzVGaktFS296?=
- =?utf-8?B?ZFZaWEZNSk81ZmR0blBxQmhWZG1CdmNqODdXejIvNUl6Z1dINmtHZ1g0ditt?=
- =?utf-8?B?aEFZZDdhSFI2cytKR1o1Rk5CT1lYRTFWcXVLeUl1d0pMR0o2d0J4V1RTYWQ1?=
- =?utf-8?B?aEk4M0NOUTVobXk3dnBFSm50TUpZOVI0N3c0OUk0eHp6U3EzdnN3T01IQ3k1?=
- =?utf-8?B?KzNENFBFMVkwckltU0ViUjZ4elhMM2o2dlF6WnI5TUtEaW5vMWF1cXYwOWM0?=
- =?utf-8?B?bjhKdVZ1MFRLQ1ovc3QwRlQwaEJ1QWhTR1JuVXlUTWRiS1NISHhCbHoza090?=
- =?utf-8?B?S1Z2WmJzRGlURnA1ekpRdGVoSFR1d2NLZGd1MVVZeFdFWjQxMXlmaHBhRjh0?=
- =?utf-8?B?V0NuU1lBTnFEZDNCbm9wR0s3RU9QVXp2WWFaQTc5NXRkQ1FNeEtoUT09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 995bfb67-9f64-47c2-e9ec-08de6ee51eb7
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9224.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 11:59:07.8486 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zJ1DWgTE8AeMuf0jD+Jserr0C7ainTTYSU8ljoEk21o3aZOqwaeBwfUBerrY7KPBWPirIZ40yzzvP6ftxstDTQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8181
+X-Mailer: WebService/1.1.25198
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,94 +134,311 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+X-Spamd-Result: default: False [5.09 / 15.00];
+	URIBL_BLACK(7.50)[shenghaoyang.info:email];
+	SIGNED_PGP(-2.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[larisa.grigore@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:me@shenghaoyang.info,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lkp@intel.com,m:dan.carpenter@linaro.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	R_DKIM_ALLOW(0.00)[aol.com:s=a2048];
+	FREEMAIL_TO(0.00)[suse.de,shenghaoyang.info,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[rubenru09@aol.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[aol.com];
+	GREYLIST(0.00)[pass,meta];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[larisa.grigore@oss.nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,redhat.com];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[aol.com,reject];
+	DKIM_TRACE(0.00)[aol.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[rubenru09@aol.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177:c];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:mid]
-X-Rspamd-Queue-Id: D4D3F1562C7
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:email,intel.com:email]
+X-Rspamd-Queue-Id: F2D41156342
 X-Rspamd-Action: no action
 
-On 2/16/2026 10:16 PM, Frank Li wrote:
-> On Mon, Feb 16, 2026 at 04:01:53PM +0100, Larisa Grigore wrote:
->> From: Radu Pirea <radu-nicolae.pirea@nxp.com>
->>
->> Take the port->lock when set_termios is called, otherwise if characters
->> are sent while IP is in init mode, the IP will hang in an uncertain
->> state.
-> 
-> According to patch, you move it before read(UARTCR). can explain why hang?
-> 
-> Frank
 
-Hello Frank,
+--=-+V8Kc+i992lMNExFAmn4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the review! This change was made to not let anyone send 
-characters (for example calling `linflex_console_putchar`) while 
-LINFlexD is entering INIT mode. The INIT mode is entered when setting 
-LINFLEXD_LINCR1_INIT in LINCR1. UARTCR should also be protected with a 
-lock since it can be modified from different other places.
-I will update the commit description.
+On Wed, 2026-02-18 at 09:06 +0100, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 18.02.26 um 06:47 schrieb Shenghao Yang:
+> > gud_plane_atomic_update() currently handles both crtc state and
+> > framebuffer updates - the complexity has led to a few accidental
+> > NULL pointer dereferences.
+> >=20
+> > Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
+> > on USB disconnect") [1] fixed an earlier dereference but planes
+> > can also be disabled in non-hotplug paths (e.g. display disables
+> > via the desktop environment). The drm_dev_enter() call would not
+> > cause an early return in those and subsequently oops on
+> > dereferencing crtc:
+> >=20
+> > BUG: kernel NULL pointer dereference, address: 00000000000005c8
+> > CPU: 6 UID: 1000 PID: 3473 Comm: kwin_wayland Not tainted 6.18.2-200.va=
+nilla.gud.fc42.x86_64 #1 PREEMPT(lazy)
+> > RIP: 0010:gud_plane_atomic_update+0x148/0x470 [gud]
+> >   <TASK>
+> >   drm_atomic_helper_commit_planes+0x28e/0x310
+> >   drm_atomic_helper_commit_tail+0x2a/0x70
+> >   commit_tail+0xf1/0x150
+> >   drm_atomic_helper_commit+0x13c/0x180
+> >   drm_atomic_commit+0xb1/0xe0
+> > info ? __pfx___drm_printfn_info+0x10/0x10
+> >   drm_mode_atomic_ioctl+0x70f/0x7c0
+> >   ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> >   drm_ioctl_kernel+0xae/0x100
+> >   drm_ioctl+0x2a8/0x550
+> >   ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> >   __x64_sys_ioctl+0x97/0xe0
+> >   do_syscall_64+0x7e/0x7f0
+> >   ? __ct_user_enter+0x56/0xd0
+> >   ? do_syscall_64+0x158/0x7f0
+> >   ? __ct_user_enter+0x56/0xd0
+> >   ? do_syscall_64+0x158/0x7f0
+> >   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> >=20
+> > Split out crtc handling from gud_plane_atomic_update() into
+> > atomic_enable() and atomic_disable() functions to delegate
+> > crtc state transitioning work to the DRM helpers.
+> >=20
+> > To preserve the gud state commit sequence [2], switch to
+> > the runtime PM version of drm_atomic_helper_commit_tail() which
+> > ensures that crtcs are enabled (hence sending the
+> > GUD_REQ_SET_CONTROLLER_ENABLE and GUD_REQ_SET_DISPLAY_ENABLE
+> > requests) before a framebuffer update is sent.
+> >=20
+> > [1] https://lore.kernel.org/all/20251231055039.44266-1-me@shenghaoyang.=
+info/
+> > [2] https://github.com/notro/gud/wiki/GUD-Protocol#display-state
+> >=20
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/r/202601142159.0v8ilfVs-lkp@intel.com/
+> > Fixes: 73cfd166e045 ("drm/gud: Replace simple display pipe with DRM ato=
+mic helpers")
+> > Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Regards,
-Larisa
->>
->> Fixes: 09864c1cdf5c ("tty: serial: Add linflexuart driver for S32V234")
->> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
->> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
->> ---
->>   drivers/tty/serial/fsl_linflexuart.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/tty/serial/fsl_linflexuart.c b/drivers/tty/serial/fsl_linflexuart.c
->> index e70a56de1fce..5a410e2d56ac 100644
->> --- a/drivers/tty/serial/fsl_linflexuart.c
->> +++ b/drivers/tty/serial/fsl_linflexuart.c
->> @@ -407,6 +407,8 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
->>   	unsigned long cr, old_cr, cr1;
->>   	unsigned int old_csize = old ? old->c_cflag & CSIZE : CS8;
->>
->> +	uart_port_lock_irqsave(port, &flags);
->> +
->>   	cr = readl(port->membase + UARTCR);
->>   	old_cr = cr;
->>
->> @@ -475,8 +477,6 @@ linflex_set_termios(struct uart_port *port, struct ktermios *termios,
->>   		cr &= ~LINFLEXD_UARTCR_PCE;
->>   	}
->>
->> -	uart_port_lock_irqsave(port, &flags);
->> -
->>   	port->read_status_mask = 0;
->>
->>   	if (termios->c_iflag & INPCK)
->> --
->> 2.47.0
->>
+Acked-by: Ruben Wauters <rubenru09@aol.com>
 
+Thanks for the patch.
+>=20
+> Although you might want to reconsider the mode_changed test in=20
+> atomic_enable. See my reply to v3 on this.
+>=20
+> Best regards
+> Thomas
+>=20
+> > ---
+> > v4: Send SET_DISPLAY_ENABLE=3D1 unconditionally on crtc enable
+> > v3: Dropped stable AUTOSEL opt out
+> > v2: Moved controller and display control commands to crtc
+> >      enable / disable functions.
+> >=20
+> > [v3]: https://lore.kernel.org/lkml/20260203172630.10077-1-me@shenghaoya=
+ng.info/
+> > [v2]: https://lore.kernel.org/lkml/20260201095956.21042-1-me@shenghaoya=
+ng.info/
+> > [v1]: https://lore.kernel.org/lkml/20260118125044.54467-1-me@shenghaoya=
+ng.info/
+> >=20
+> >   drivers/gpu/drm/gud/gud_drv.c      |  9 ++++-
+> >   drivers/gpu/drm/gud/gud_internal.h |  4 ++
+> >   drivers/gpu/drm/gud/gud_pipe.c     | 59 +++++++++++++++++++++--------=
+-
+> >   3 files changed, 53 insertions(+), 19 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_dr=
+v.c
+> > index 42135a48d92e..a2000991ecbe 100644
+> > --- a/drivers/gpu/drm/gud/gud_drv.c
+> > +++ b/drivers/gpu/drm/gud/gud_drv.c
+> > @@ -339,7 +339,9 @@ static int gud_stats_debugfs(struct seq_file *m, vo=
+id *data)
+> >   }
+> >  =20
+> >   static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs =3D {
+> > -	.atomic_check =3D drm_crtc_helper_atomic_check
+> > +	.atomic_check =3D drm_crtc_helper_atomic_check,
+> > +	.atomic_enable =3D gud_crtc_atomic_enable,
+> > +	.atomic_disable =3D gud_crtc_atomic_disable,
+> >   };
+> >  =20
+> >   static const struct drm_crtc_funcs gud_crtc_funcs =3D {
+> > @@ -364,6 +366,10 @@ static const struct drm_plane_funcs gud_plane_func=
+s =3D {
+> >   	DRM_GEM_SHADOW_PLANE_FUNCS,
+> >   };
+> >  =20
+> > +static const struct drm_mode_config_helper_funcs gud_mode_config_helpe=
+rs =3D {
+> > +	.atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
+> > +};
+> > +
+> >   static const struct drm_mode_config_funcs gud_mode_config_funcs =3D {
+> >   	.fb_create =3D drm_gem_fb_create_with_dirty,
+> >   	.atomic_check =3D drm_atomic_helper_check,
+> > @@ -499,6 +505,7 @@ static int gud_probe(struct usb_interface *intf, co=
+nst struct usb_device_id *id)
+> >   	drm->mode_config.min_height =3D le32_to_cpu(desc.min_height);
+> >   	drm->mode_config.max_height =3D le32_to_cpu(desc.max_height);
+> >   	drm->mode_config.funcs =3D &gud_mode_config_funcs;
+> > +	drm->mode_config.helper_private =3D &gud_mode_config_helpers;
+> >  =20
+> >   	/* Format init */
+> >   	formats_dev =3D devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
+> > diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/g=
+ud_internal.h
+> > index d27c31648341..a5b7e53cf79c 100644
+> > --- a/drivers/gpu/drm/gud/gud_internal.h
+> > +++ b/drivers/gpu/drm/gud/gud_internal.h
+> > @@ -62,6 +62,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8 reque=
+st, u8 val);
+> >  =20
+> >   void gud_clear_damage(struct gud_device *gdrm);
+> >   void gud_flush_work(struct work_struct *work);
+> > +void gud_crtc_atomic_enable(struct drm_crtc *crtc,
+> > +			   struct drm_atomic_state *state);
+> > +void gud_crtc_atomic_disable(struct drm_crtc *crtc,
+> > +			   struct drm_atomic_state *state);
+> >   int gud_plane_atomic_check(struct drm_plane *plane,
+> >   			   struct drm_atomic_state *state);
+> >   void gud_plane_atomic_update(struct drm_plane *plane,
+> > diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_p=
+ipe.c
+> > index 4b77be94348d..6c62080213c7 100644
+> > --- a/drivers/gpu/drm/gud/gud_pipe.c
+> > +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> > @@ -580,6 +580,44 @@ int gud_plane_atomic_check(struct drm_plane *plane=
+,
+> >   	return ret;
+> >   }
+> >  =20
+> > +void gud_crtc_atomic_enable(struct drm_crtc *crtc,
+> > +			   struct drm_atomic_state *state)
+> > +{
+> > +	struct drm_device *drm =3D crtc->dev;
+> > +	struct gud_device *gdrm =3D to_gud_device(drm);
+> > +	int idx;
+> > +
+> > +	if (!drm_dev_enter(drm, &idx))
+> > +		return;
+> > +
+> > +	if (crtc->state->mode_changed || crtc->state->connectors_changed) {
+> > +		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+> > +		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+> > +	}
+> > +
+> > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 1);
+> > +
+> > +	drm_dev_exit(idx);
+> > +}
+> > +
+> > +void gud_crtc_atomic_disable(struct drm_crtc *crtc,
+> > +			   struct drm_atomic_state *state)
+> > +{
+> > +	struct drm_device *drm =3D crtc->dev;
+> > +	struct gud_device *gdrm =3D to_gud_device(drm);
+> > +	int idx;
+> > +
+> > +	if (!drm_dev_enter(drm, &idx))
+> > +		return;
+> > +
+> > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 0);
+> > +
+> > +	if (crtc->state->mode_changed || crtc->state->connectors_changed)
+> > +		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
+> > +
+> > +	drm_dev_exit(idx);
+> > +}
+> > +
+> >   void gud_plane_atomic_update(struct drm_plane *plane,
+> >   			     struct drm_atomic_state *atomic_state)
+> >   {
+> > @@ -607,24 +645,12 @@ void gud_plane_atomic_update(struct drm_plane *pl=
+ane,
+> >   		mutex_unlock(&gdrm->damage_lock);
+> >   	}
+> >  =20
+> > -	if (!drm_dev_enter(drm, &idx))
+> > +	if (!crtc || !drm_dev_enter(drm, &idx))
+> >   		return;
+> >  =20
+> > -	if (!old_state->fb)
+> > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+> > -
+> > -	if (fb && (crtc->state->mode_changed || crtc->state->connectors_chang=
+ed))
+> > -		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+> > -
+> > -	if (crtc->state->active_changed)
+> > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->active=
+);
+> > -
+> > -	if (!fb)
+> > -		goto ctrl_disable;
+> > -
+> >   	ret =3D drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+> >   	if (ret)
+> > -		goto ctrl_disable;
+> > +		goto out;
+> >  =20
+> >   	drm_atomic_helper_damage_iter_init(&iter, old_state, new_state);
+> >   	drm_atomic_for_each_plane_damage(&iter, &damage)
+> > @@ -632,9 +658,6 @@ void gud_plane_atomic_update(struct drm_plane *plan=
+e,
+> >  =20
+> >   	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+> >  =20
+> > -ctrl_disable:
+> > -	if (!crtc->state->enable)
+> > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
+> > -
+> > +out:
+> >   	drm_dev_exit(idx);
+> >   }
+
+--=-+V8Kc+i992lMNExFAmn4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEE3obNNdPQ9V5CQi2Y0n5QwFCuDOEFAmmVqlEbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJENJ+UMBQrgzhV8IP/3ySiCLxZA8Th+7diIyd
+mgyRbOwhN5q1RTgEE8xd/QDc067G610U2CUFJ8TQPz6ZqS7/pCMWJyzzaQTkI6K9
+2CKH4I+HTktrMNZ+15ZPYaGyOPxecjcmwZdyQBYTslstFO2TZRknZCy6kb/zIgUw
+lbQSN6KDnnGP11CR4jrI467ZvGiBKBTK39rnHoA77pS4cW4yobBzKx8VRjqoS2JW
+P0mtheJNkTfZx5OfknYbo/YEGHJZkWnNCjrtIQ5gEgV0qTIs9wvqtYyJLmtxLpua
+LX5E4pcS7SySK3ANsqLYByKzJKiP5fmUFo3ekzXcUx6HHq4+DmUYGgTDo+8fjSXZ
+8ai8pK4jLV9cbN/81yk3xf3kv6ZveepUfmFICF8ceQaSsTSLNHne/1gzi3ZNrBnL
+BysxcN7gSHLGKKsoqIlZnPuzUsil1Rfa3XQqNNDJ9DmFuiiPdtiLmBveZcNQgeNm
+ZJWmFj8gPlw9hR4HOHmTufWUSxyv36AiX0FTRb5L2PNvcrG4y8PyoZBvkhttVZuB
+Hnt42lpjfsC/d9REUwIlokQtYS67+Ky0fCVyH3wIHJehb0xarxjOHUSYMEGXNT2Y
+sWoQOFGHvoFnIei7U0WecAN93PzPo9cXXsr8D1cqj0E599YmY6fmjXagkGfiKyH/
+E7NZwx5LjIqACpg+3IjAeqkk
+=R8VN
+-----END PGP SIGNATURE-----
+
+--=-+V8Kc+i992lMNExFAmn4--
