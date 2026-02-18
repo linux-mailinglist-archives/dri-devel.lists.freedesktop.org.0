@@ -2,130 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MBryMcrQlWlEVAIAu9opvQ
+	id cIt0IZzRlWlEVAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 15:46:34 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 15:50:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDBB15722C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 15:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E974D1572C0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 15:50:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8515A10E244;
-	Wed, 18 Feb 2026 14:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D716110E5D4;
+	Wed, 18 Feb 2026 14:49:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GwnnAFsU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1wJMQ6zN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GwnnAFsU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1wJMQ6zN";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gsjADQmZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D86310E244
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 14:46:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47DCD10E08F;
+ Wed, 18 Feb 2026 14:49:56 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BC9305BD14;
- Wed, 18 Feb 2026 14:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771425989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fGKDJ4THMz9v0N;
+ Wed, 18 Feb 2026 15:49:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1771426192;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mu1NGmnXNc4AyCZSXr1pfBQAJiv0zhlkZYlaYlftfyg=;
- b=GwnnAFsUk9kBDGvw2nb0TydZGY+oMff6cHumktM1uqq3UYQIx3pu8mjowZCjHGjIgMiWtq
- LnPkPlPWTaGLs0aug8XwnoflXwaKPbyIBwr68O+fgZ+sllKhjR9s2gI+n1WFffw/ZJaqKE
- tLVypnrLbOiAi66f9InS3sf4TlN4oUM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771425989;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mu1NGmnXNc4AyCZSXr1pfBQAJiv0zhlkZYlaYlftfyg=;
- b=1wJMQ6zNoyQPzjmofA+5TvjQpD5SBuwm4A/NiuULHrRwadqMLmfpyNEfyt4yKp2i6H8Ubd
- S6a1c4kgJMOI5RAw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GwnnAFsU;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1wJMQ6zN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771425989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mu1NGmnXNc4AyCZSXr1pfBQAJiv0zhlkZYlaYlftfyg=;
- b=GwnnAFsUk9kBDGvw2nb0TydZGY+oMff6cHumktM1uqq3UYQIx3pu8mjowZCjHGjIgMiWtq
- LnPkPlPWTaGLs0aug8XwnoflXwaKPbyIBwr68O+fgZ+sllKhjR9s2gI+n1WFffw/ZJaqKE
- tLVypnrLbOiAi66f9InS3sf4TlN4oUM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771425989;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mu1NGmnXNc4AyCZSXr1pfBQAJiv0zhlkZYlaYlftfyg=;
- b=1wJMQ6zNoyQPzjmofA+5TvjQpD5SBuwm4A/NiuULHrRwadqMLmfpyNEfyt4yKp2i6H8Ubd
- S6a1c4kgJMOI5RAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D81F3EA65;
- Wed, 18 Feb 2026 14:46:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id UgpnFcXQlWlqMAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 18 Feb 2026 14:46:29 +0000
-Message-ID: <8c7e3be1-bba8-4c2f-84e5-75cdc24f2e18@suse.de>
-Date: Wed, 18 Feb 2026 15:46:28 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=zxBCLyRvOJ5lqOVGE65eX36//gHoC2z4soCTqVkxnC4=;
+ b=gsjADQmZjBy2F5dSOBk4gwmQaew+NNUoM0kun5/cNP/6LIpYUpBsW/ypmy/4c9it14wvEX
+ gqiWMGKrsR3Snc6y+69LvAvSwo7mWyna/JAJzTHgEWtpBg4AxOuHvNd9s/AAeQfAHp9xJ1
+ awTxYRVhPvt3VZpKc3NtmGpkOQpI7vje8L1vwGdRSj5J13PEKFDe2m2U4kVJ9s7F3Wzj5r
+ BWEOVPC/GiF8XIrgkOGa0e0OeH8saVe+kFXTjZzmGsIfYNB8JR58mgTFRokQwpslt2vEJw
+ h4mkGMtTi1sn4HnBaRmjSubCG0G/BE4NKItE5qNBMABGAcoX+Zbvw75mLKIsVQ==
+Message-ID: <e750ca62-8a2e-47e2-b154-c7cdaf5e270e@mailbox.org>
+Date: Wed, 18 Feb 2026 15:49:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/gud: fix NULL crtc dereference on display disable
-To: Shenghao Yang <me@shenghaoyang.info>, Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
+Subject: Re: [RFC PATCH v1 1/2] drm/syncobj: Add DRM_IOCTL_SYNCOBJ_QUERY_ERROR
+ to query fence error status
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yicong Hui <yiconghui@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
-References: <20260203172630.10077-1-me@shenghaoyang.info>
- <0356024b-e951-4f87-98fc-2ecaf25f0ac4@suse.de>
- <8c5ff095-539e-4c63-b811-efb7de8002ce@shenghaoyang.info>
- <6440e721-daea-4d1d-a920-7eb786dec7f5@suse.de>
- <6b763e11-447a-4db7-9c73-1dc941425d71@shenghaoyang.info>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <6b763e11-447a-4db7-9c73-1dc941425d71@shenghaoyang.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ wayland-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org
+References: <20260213120836.81283-1-yiconghui@gmail.com>
+ <20260213120836.81283-2-yiconghui@gmail.com>
+ <f1100dad-b9ff-4ba2-987c-4d5cb4c1122c@amd.com>
+ <bc491356-6db4-4466-ab0f-2f2a47f4da77@mailbox.org>
+ <0e7c3ee9-54b1-4ecc-b960-6e2fda6ab3ae@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <0e7c3ee9-54b1-4ecc-b960-6e2fda6ab3ae@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-MBO-RS-ID: 255a56dab5c43b695d3
+X-MBO-RS-META: 7a15mxse9kjrodfsn1tj5peigx31bk5x
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,103 +75,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:me@shenghaoyang.info,m:rubenru09@aol.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lkp@intel.com,m:dan.carpenter@linaro.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[shenghaoyang.info,aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2EDBB15722C
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E974D1572C0
 X-Rspamd-Action: no action
 
-Hi
-
-Am 18.02.26 um 15:29 schrieb Shenghao Yang:
-> Hi,
->
-> On 18/2/26 16:04, Thomas Zimmermann wrote:
->
->> Hi
->>
->> Am 18.02.26 um 05:22 schrieb Shenghao Yang:
->>> Hi,
->>>
->>> Thanks for taking a look!
->>>
->>> On 6/2/26 15:52, Thomas Zimmermann wrote:
->>>
->>>>>     +void gud_crtc_atomic_enable(struct drm_crtc *crtc,
->>>>> +               struct drm_atomic_state *state)
->>>>> +{
->>>>> +    struct drm_device *drm = crtc->dev;
->>>>> +    struct gud_device *gdrm = to_gud_device(drm);
->>>>> +    int idx;
->>>>> +
->>>>> +    if (!drm_dev_enter(drm, &idx))
->>>>> +        return;
->>>>> +
->>>>> +    if (crtc->state->mode_changed || crtc->state->connectors_changed) {
->>>> I think you can do this unconditionally. Atomic_enable is supposed to be a full modeset and take some time.  For simple pageflips, this function doesn't run at all.
+On 2/17/26 15:45, Christian König wrote:
+> On 2/17/26 15:35, Michel Dänzer wrote:
+>> On 2/17/26 11:29, Christian König wrote:
 >>>>
->>> I was trying this with proptest and toggling DPMS - the atomic_disable() and
->>> atomic_enable() functions get called in that path even if the mode doesn't
->>> change.
+>>>> @@ -732,6 +732,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>>>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+>>>>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+>>>>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+>>>> +	DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_QUERY_ERROR, drm_syncobj_query_error_ioctl,
+>>>> +		      DRM_RENDER_ALLOW),
 >>>
->>> The driver in 6.12 LTS (before the atomic changes) didn't send
->>> SET_CONTROLLER_ENABLE commands on DPMS changes either, so I thought it'd be
->>> safer to do the same here.
->> Leave it as it is if you like. But in DRM, we don't have real DPMS support for atomic modesetting. The DPMS on state is a full atomic_enable and the off and blanking states are atomic_disable IIRC. Doing that would be the correct handling.
-> Ah - gotcha. I'll do some testing with the conditional removed.
-> The worry about changing command sequences was a bit pedantic anyway -
-> DPMS would have caused an instant oops in the current tree and nobody else
-> has reported anything yet.
->
-> Would y'all be happy to take a v5 afterwards? Apologies for all the
-> iterations here :/
+>>> My educated guess is that userspace doesn't want to call this IOCTL separately because of performance reasons.
+>>>
+>>> Instead add some additional flag to DRM_SYNCOBJ_WAIT_FLAGS_* so that the IOCTL aborts the wait and returns an error as soon as it sees any fence with an error.
+>>>
+>>> Another DRM_SYNCOBJ_QUERY_FLAGS_* is potentially also useful to query the error on a number of drm_syncobjs at the same time.
+>>>
+>>> But in general since this is not a HW feature the userspace developers need to voice their requirements and explain how they want to have that implemented.
+>>
+>> mutter currently doesn't use the syncobj-specific ioctls to wait for a syncobj (timeline point) to signal / check if it has. Instead, it uses drmSyncobjEventfd / drmSyncobjExportSyncFile to get an eventfd / sync_file representing the timeline point / fence, then checks the status of the fd and waits for it to signal using generic poll()-style functionality. So unless the error condition can be communicated via the latter (and plumbed through glib APIs), mutter would need to check for fence errors separately.
+> 
+> Good point, poll() has a POLLERR flag for that but I have no idea if eventfd supports that in any way. So potentially doable as well but a bit more work.
+> 
+> Using a new DRM_SYNCOBJ_QUERY_FLAGS_ERROR on all signaled syncobj as separate way to query if there was an error should work for you in the meantime?
 
-I'm OK with that. No worries.
+Yeah should be fine, though if POLLERR is possible, that might save constantly calling into the kernel to check for an error status that won't happen the vast majority of the time?
 
-Best regards
-Thomas
 
->
-> Thanks,
->
-> Shenghao
->
->
+The bigger question might be what user space can do with the error status. I wrote down some ideas for mutter in https://gitlab.gnome.org/GNOME/mutter/-/issues/4624 .
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
