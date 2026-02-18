@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLRTJ7l6lWl8RwIAu9opvQ
+	id 6L1oKLF6lWl8RwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:39:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:39:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7021542BA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56941154283
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 09:39:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7124010E585;
-	Wed, 18 Feb 2026 08:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D1610E58C;
+	Wed, 18 Feb 2026 08:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="eQ7A0QRM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n47Hhbhd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eQ7A0QRM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n47Hhbhd";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bB1uGvDG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mMAEt0q5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bB1uGvDG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mMAEt0q5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2475C10E585
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 08:39:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE88010E589
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 08:39:09 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D809A3E6F2;
- Wed, 18 Feb 2026 08:39:03 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2151B3E6F3;
+ Wed, 18 Feb 2026 08:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771403943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771403944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KcqdIEuyqZbwAcDIbummLGMBVqW6LxpC7bOENZ3olu0=;
- b=eQ7A0QRMnZAFiliALKu61DLApAE3r/HjP5t4M84hFgWvWtTk737O3THR87TV+bovYoZpGo
- u7UbN3VZAGp9BGUPS9Yu81IZAj+27/POJ622hdtlf35jkSfzg3jVMuXM2Fxx2yNziT7zNB
- 4nLVMUduWyM9v8gCP1rDkdhUmw05TXU=
+ bh=wHTcLFDIDFmcbV8Dnl4TDKco30itr077plX6MeCLa9A=;
+ b=bB1uGvDGOIys4IUzjQaZs3w4t8tl4BjKb+c1VNqxpCps1D6JVtzeUmj90cPQJEgzSrwy0H
+ qQnL+5QWIWI63gMxIrEHGk+EK/lmjKHl8zcU50NSCYlNvLKgRRiAegyP6fcVi4YQfpz4Ys
+ f4gCs1ZQruhs6F8eJuN39CXFtw4a1RI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771403943;
+ s=susede2_ed25519; t=1771403944;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KcqdIEuyqZbwAcDIbummLGMBVqW6LxpC7bOENZ3olu0=;
- b=n47HhbhdIHDHf/HMryBFcl0nh9/EjrWSOPkmRJkcQJZjGYQw9LY9RAl81BSVe9EDme5tpq
- vL1ryynW0S5bvvCQ==
+ bh=wHTcLFDIDFmcbV8Dnl4TDKco30itr077plX6MeCLa9A=;
+ b=mMAEt0q5THvMQV2uNOQRwiI4VK05HdlXJ7N0Favn1dDa20aYSw2mD3/73USV9X7+KVj+90
+ bfocoGHu4NAb7SAA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eQ7A0QRM;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=n47Hhbhd
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bB1uGvDG;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mMAEt0q5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771403943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771403944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KcqdIEuyqZbwAcDIbummLGMBVqW6LxpC7bOENZ3olu0=;
- b=eQ7A0QRMnZAFiliALKu61DLApAE3r/HjP5t4M84hFgWvWtTk737O3THR87TV+bovYoZpGo
- u7UbN3VZAGp9BGUPS9Yu81IZAj+27/POJ622hdtlf35jkSfzg3jVMuXM2Fxx2yNziT7zNB
- 4nLVMUduWyM9v8gCP1rDkdhUmw05TXU=
+ bh=wHTcLFDIDFmcbV8Dnl4TDKco30itr077plX6MeCLa9A=;
+ b=bB1uGvDGOIys4IUzjQaZs3w4t8tl4BjKb+c1VNqxpCps1D6JVtzeUmj90cPQJEgzSrwy0H
+ qQnL+5QWIWI63gMxIrEHGk+EK/lmjKHl8zcU50NSCYlNvLKgRRiAegyP6fcVi4YQfpz4Ys
+ f4gCs1ZQruhs6F8eJuN39CXFtw4a1RI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771403943;
+ s=susede2_ed25519; t=1771403944;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KcqdIEuyqZbwAcDIbummLGMBVqW6LxpC7bOENZ3olu0=;
- b=n47HhbhdIHDHf/HMryBFcl0nh9/EjrWSOPkmRJkcQJZjGYQw9LY9RAl81BSVe9EDme5tpq
- vL1ryynW0S5bvvCQ==
+ bh=wHTcLFDIDFmcbV8Dnl4TDKco30itr077plX6MeCLa9A=;
+ b=mMAEt0q5THvMQV2uNOQRwiI4VK05HdlXJ7N0Favn1dDa20aYSw2mD3/73USV9X7+KVj+90
+ bfocoGHu4NAb7SAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90B9C3EA66;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF44A3EA67;
  Wed, 18 Feb 2026 08:39:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id SPfuIad6lWn8LwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +PAwMad6lWn8LwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 18 Feb 2026 08:39:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: gregkh@linuxfoundation.org,
@@ -84,10 +84,9 @@ To: gregkh@linuxfoundation.org,
 	sam@ravnborg.org
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 01/13] fbdev: Declare src parameter of fb_pad_ helpers as
- constant
-Date: Wed, 18 Feb 2026 09:15:52 +0100
-Message-ID: <20260218083855.10743-2-tzimmermann@suse.de>
+Subject: [PATCH 02/13] vt: Remove trailing whitespaces
+Date: Wed, 18 Feb 2026 09:15:53 +0100
+Message-ID: <20260218083855.10743-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260218083855.10743-1-tzimmermann@suse.de>
 References: <20260218083855.10743-1-tzimmermann@suse.de>
@@ -142,75 +141,29 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 2B7021542BA
+X-Rspamd-Queue-Id: 56941154283
 X-Rspamd-Action: no action
 
-Fbdev's padding helpers do not modify the source buffer. Declare the
-parameter as 'const'.
-
-Fbcon's font-rendering code calls these helpers with the font data.
-Declaring src as const will allow for making the font data constant
-as well.
-
-While at it, also remove the extern qualifier from the function
-declarations in the header file.
+Fix coding style. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/core/fbmem.c |  6 +++---
- include/linux/fb.h               | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/console_struct.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index eff757ebbed1..9c78fd32e7b3 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -91,14 +91,14 @@ EXPORT_SYMBOL(fb_get_color_depth);
- /*
-  * Data padding functions.
-  */
--void fb_pad_aligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 s_pitch, u32 height)
-+void fb_pad_aligned_buffer(u8 *dst, u32 d_pitch, const u8 *src, u32 s_pitch, u32 height)
- {
- 	__fb_pad_aligned_buffer(dst, d_pitch, src, s_pitch, height);
- }
- EXPORT_SYMBOL(fb_pad_aligned_buffer);
- 
--void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx, u32 height,
--				u32 shift_high, u32 shift_low, u32 mod)
-+void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, const u8 *src, u32 idx, u32 height,
-+			     u32 shift_high, u32 shift_low, u32 mod)
- {
- 	u8 mask = (u8) (0xfff << shift_high), tmp;
- 	int i, j;
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index b8b6f54f3312..9a8051f258ac 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -606,9 +606,9 @@ extern int register_framebuffer(struct fb_info *fb_info);
- extern void unregister_framebuffer(struct fb_info *fb_info);
- extern int devm_register_framebuffer(struct device *dev, struct fb_info *fb_info);
- extern char* fb_get_buffer_offset(struct fb_info *info, struct fb_pixmap *buf, u32 size);
--extern void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx,
--				u32 height, u32 shift_high, u32 shift_low, u32 mod);
--extern void fb_pad_aligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 s_pitch, u32 height);
-+void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, const u8 *src, u32 idx, u32 height,
-+			     u32 shift_high, u32 shift_low, u32 mod);
-+void fb_pad_aligned_buffer(u8 *dst, u32 d_pitch, const u8 *src, u32 s_pitch, u32 height);
- extern void fb_set_suspend(struct fb_info *info, int state);
- extern int fb_get_color_depth(struct fb_var_screeninfo *var,
- 			      struct fb_fix_screeninfo *fix);
-@@ -625,8 +625,8 @@ static inline void unlock_fb_info(struct fb_info *info)
- 	mutex_unlock(&info->lock);
- }
- 
--static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
--					   u8 *src, u32 s_pitch, u32 height)
-+static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch, const u8 *src, u32 s_pitch,
-+					   u32 height)
- {
- 	u32 i, j;
- 
+diff --git a/include/linux/console_struct.h b/include/linux/console_struct.h
+index 13b35637bd5a..ebdb9750d348 100644
+--- a/include/linux/console_struct.h
++++ b/include/linux/console_struct.h
+@@ -120,7 +120,7 @@ struct vc_data {
+ 	unsigned short	vc_complement_mask;	/* [#] Xor mask for mouse pointer */
+ 	unsigned short	vc_s_complement_mask;	/* Saved mouse pointer mask */
+ 	unsigned long	vc_pos;			/* Cursor address */
+-	/* fonts */	
++	/* fonts */
+ 	unsigned short	vc_hi_font_mask;	/* [#] Attribute set for upper 256 chars of font or 0 if not supported */
+ 	struct console_font vc_font;		/* Current VC font set */
+ 	unsigned short	vc_video_erase_char;	/* Background erase character */
 -- 
 2.52.0
 
