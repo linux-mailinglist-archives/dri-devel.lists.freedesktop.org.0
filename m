@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLWsGRgllmn0bAIAu9opvQ
+	id WMv5Hh0llmn0bAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:16 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1483159831
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1CB159838
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5369710E28F;
-	Wed, 18 Feb 2026 20:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9CB10E10D;
+	Wed, 18 Feb 2026 20:46:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LwZI3KoG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CBBUe1eN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFBB10E28F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 20:46:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E917710E10D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 20:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wc20MlQbqkAccfy6VOlre7N+okiQofqCBOYxOYTMgDc=; b=LwZI3KoG7qO0vBDL4ZlUZiQ0fj
- j3DIaFlgw0s97pKeCM0Oxb6mr24/zvMX0qgLSc0WB2cfNzT6f4my+u7h8UKbPvl0/H+9gTZZIa5Z0
- T9V2Iv3WFpab5ZJJz/g5bIUrGfN/RWGr4YzgDaOKK+cbXCLc1b7r/zm0+HSdeDJsjSm1f/pR52fBa
- iUk3AS2W1R1UKcMkxWVoSZLRVE8YM+TxHi9iPErtUsWBWMWpLKrLhG5Gsq7PdUyB5SAQEKpPDWDcV
- 0E4/qXIOg1I78zJ/4fdgAQ5Dx+oYukfeMyxNGwBtI0+VAeW1rvwFUXlND+XD3VLVMFMAMUz+0BF6v
- m2S+DRkA==;
+ bh=dJUICxDk015PLfzQs3JF41wFjRVpYrqT9S2gtAwBHi0=; b=CBBUe1eN3YrWLixRbeYzi0iD/U
+ NPfAu7N+i5EBiT6p0VJKmMUEhZ3nc3hKBdBSi+bzeNBGUD/u5Lb1v7Yj9B0kLAIPqNqAGDkozC5iE
+ HjbnYhY5n3bbLePKDfSOSAcn2+Nav4gDYfOD+wVjTnYTJs/mbTMa6Hr0tIbop868PufozLrJw7ubc
+ 8+IvOnHvQduFpZTkEjG3S1mVmOnEVAwSELgv/pxtXtJbZCB9tN+RB8JJK2Mt++6FJ4aJ+0yXklOoQ
+ JOrJT92gT0ckNzJTvsph32M7WXj6fAfg3EpvVrmNWRD08h2unLV7notQgsjrYRnn1ZZZJcivdH+vL
+ 94OSSQgQ==;
 Received: from [187.36.210.68] (helo=1.0.0.127.in-addr.arpa)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vsoQu-002Czn-W8; Wed, 18 Feb 2026 21:46:05 +0100
+ id 1vsoR1-002Czn-8e; Wed, 18 Feb 2026 21:46:11 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Wed, 18 Feb 2026 17:45:00 -0300
-Subject: [PATCH v6 2/6] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
- CLK_IGNORE_UNUSED
+Date: Wed, 18 Feb 2026 17:45:01 -0300
+Subject: [PATCH v6 3/6] pmdomain: bcm: bcm2835-power: Increase ASB control
+ timeout
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260218-v3d-power-management-v6-2-40683fd39865@igalia.com>
+Message-Id: <20260218-v3d-power-management-v6-3-40683fd39865@igalia.com>
 References: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
 In-Reply-To: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -59,15 +59,15 @@ Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1280; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=kVPYyJOSjqrHPsXntL3UrxCC1YymPVyxfC+PxCVmc0w=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpliT45uVs8NNRW9d/+HQBINjfmVTyDtcwaiUfR
- cUBxLrHun2JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaZYk+AAKCRA/8w6Kdoj6
- qkCKB/4ynquetMwRfYlFKsJ/AElYaZdud/iyRyj9IvInTXgvxWiKyFvjNY+Xx5SJ/kEtk3aAsg8
- F2g0Cp1Ru0dsSTlPSRngNMvntwxp7230cM6ChPpm3JJ9SM2He5jN2Rd/hXWZVKfpodieE265OFc
- Q3C5pJsKegOahjSQeqroBfhls2UDjp9dzpry01RdWQr89d2+iejJklSq5k8QTFe4r0iWPIYH1Hb
- zek6RkgoXhWQMszIYoUBPg1AmKEduvcHpZpwtkta2PpsnXNgBnJr/3aDNle/v5e9aLoqlshFqps
- aEwiL755dvcZsWgKjhtbEGLIfnyZgqIuGGa/Vmyl8c7tfz32
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1846; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=/i7oD+HdEV5+FKpKWf+g///6ddnKCJYwQMS7LWp2oV8=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpliT5P9XiXDOHTDoiVcbz9TJ9qIpK79AuFWnau
+ IyPfH2YHBWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaZYk+QAKCRA/8w6Kdoj6
+ quUhCACIysUXtrkRvQYkkrInI6yjQJvz67fNCnfp1u2KrfJgVeR0VMGQGnjA+2o9mhe+uE2Om1A
+ gqYZCSsCo+s6ovFbvYg9lvQXoXfWSWzGzWaJ8chw8ulwNQ6ly2zFOn9uRxzc5SCRhU8x4/MXEGP
+ nY4vNB9Uo9cNAqvjmPg/Pt0+TtyG1VOqz6a0EaorKDUHhMC7E1971vbRRDP0QApPAUNYBx2g0qr
+ d6uNPX4pdT+5x5k+YnSOxEWL6tNStyWRnoD7NU+LKVqmQwFHtew+NWhVkeqcWQBEenWXjweLa7h
+ +IsBXIdXTGRHqhfSBYNUJ5XHtHZD26kXhYT5aKflei/+WosW
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,50 +110,59 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-0.955];
+	NEURAL_HAM(-0.00)[-0.957];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F1483159831
+X-Rspamd-Queue-Id: EB1CB159838
 X-Rspamd-Action: no action
 
-If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will skip
-HSM initialization, which would result in a bus lockup. However, those
-clocks are consumed by drivers (vc4 and HEVC decoder drivers,
-respectively), which means that they can be enabled/disabled by the
-drivers.
+The bcm2835_asb_control() function uses a tight polling loop to wait
+for the ASB bridge to acknowledge a request. During intensive workloads,
+this handshake intermittently fails for V3D's master ASB on BCM2711,
+resulting in "Failed to disable ASB master for v3d" errors during
+runtime PM suspend. As a consequence, the failed power-off leaves V3D in
+a broken state, leading to bus faults or system hangs on later accesses.
 
-Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
-drivers when appropriate.
+As the timeout is insufficient in some scenarios, increase the polling
+timeout from 1us to 5us, which is still negligible in the context of a
+power domain transition. Also, move the start timestamp to after the
+MMIO write, as the write latency is counted against the timeout,
+reducing the effective wait time for the hardware to respond.
 
-Acked-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pmdomain/bcm/bcm2835-power.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 0d6e4f43c3bac0e7b38934c5c6e4db51211233de..83cdb2a34c84f34ba834608259d22e2b48b90c9d 100644
---- a/drivers/clk/bcm/clk-raspberrypi.c
-+++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -142,12 +142,12 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 	[RPI_FIRMWARE_PIXEL_CLK_ID] = {
- 		.export = true,
- 		.minimize = true,
--		.flags = CLK_IS_CRITICAL,
-+		.flags = CLK_IGNORE_UNUSED,
- 	},
- 	[RPI_FIRMWARE_HEVC_CLK_ID] = {
- 		.export = true,
- 		.minimize = true,
--		.flags = CLK_IS_CRITICAL,
-+		.flags = CLK_IGNORE_UNUSED,
- 	},
- 	[RPI_FIRMWARE_ISP_CLK_ID] = {
- 		.export = true,
+diff --git a/drivers/pmdomain/bcm/bcm2835-power.c b/drivers/pmdomain/bcm/bcm2835-power.c
+index 1d29addfe036348e82293693b4059e504bb25575..7b9eea10a24e26835deeca84c60ccb616b99a508 100644
+--- a/drivers/pmdomain/bcm/bcm2835-power.c
++++ b/drivers/pmdomain/bcm/bcm2835-power.c
+@@ -166,8 +166,6 @@ static int bcm2835_asb_control(struct bcm2835_power *power, u32 reg, bool enable
+ 		break;
+ 	}
+ 
+-	start = ktime_get_ns();
+-
+ 	/* Enable the module's async AXI bridges. */
+ 	if (enable) {
+ 		val = readl(base + reg) & ~ASB_REQ_STOP;
+@@ -176,9 +174,10 @@ static int bcm2835_asb_control(struct bcm2835_power *power, u32 reg, bool enable
+ 	}
+ 	writel(PM_PASSWORD | val, base + reg);
+ 
++	start = ktime_get_ns();
+ 	while (!!(readl(base + reg) & ASB_ACK) == enable) {
+ 		cpu_relax();
+-		if (ktime_get_ns() - start >= 1000)
++		if (ktime_get_ns() - start >= 5000)
+ 			return -ETIMEDOUT;
+ 	}
+ 
 
 -- 
 2.52.0
