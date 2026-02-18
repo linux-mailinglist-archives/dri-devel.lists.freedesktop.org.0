@@ -2,139 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKwQATrrlmkzrAIAu9opvQ
+	id wHvuLSLflWneVgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 11:51:38 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:47:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8450215DFE4
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 11:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F861157769
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:47:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6F010E6A4;
-	Thu, 19 Feb 2026 10:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B97C10E2F8;
+	Wed, 18 Feb 2026 15:47:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="gldyKQL6";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="gldyKQL6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AhXrfGKk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B75410E5D2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 15:08:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 36DB15BD20;
- Wed, 18 Feb 2026 15:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1771427308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5lyt323+HbZYpoX64Rl3vcxfunKzUx7dWbFHruMcR5o=;
- b=gldyKQL6ACDQdncmwMAad+Z99WShbTJgDNbsPhcbC0DQiA3KedeIyVic93hD8vv78dtV5k
- mpXWOEOKQDyHkeA1GRi52v9RwnG2zVxhkBv7o7JMU+8dwRIwmS7XltK2XFgm+L7TqcdAoi
- 1nUoIbVbEo1ghf+4y8+Ad7p6+tMf3RI=
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.com header.s=susede1 header.b=gldyKQL6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1771427308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5lyt323+HbZYpoX64Rl3vcxfunKzUx7dWbFHruMcR5o=;
- b=gldyKQL6ACDQdncmwMAad+Z99WShbTJgDNbsPhcbC0DQiA3KedeIyVic93hD8vv78dtV5k
- mpXWOEOKQDyHkeA1GRi52v9RwnG2zVxhkBv7o7JMU+8dwRIwmS7XltK2XFgm+L7TqcdAoi
- 1nUoIbVbEo1ghf+4y8+Ad7p6+tMf3RI=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B3DA3EA65;
- Wed, 18 Feb 2026 15:08:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4AnNIevVlWkRRwAAD6G6ig
- (envelope-from <petr.pavlu@suse.com>); Wed, 18 Feb 2026 15:08:27 +0000
-Message-ID: <7765df86-b08a-4f70-900d-4b4d85c07d49@suse.com>
-Date: Wed, 18 Feb 2026 16:08:19 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA31510E2F8;
+ Wed, 18 Feb 2026 15:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771429662; x=1802965662;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=K+iH29TtCXJ6v5Z8IIgSFqctiFYFm3En9kdiaopfkhM=;
+ b=AhXrfGKk+0x2GhyVTYXDk86zSVhHRFRvJDVjMqpneiCZCwHLWcmVwQYl
+ nnvAXBj0/i0VgtCWWHX1hhIJiwNL22pc74cixc7EM0lvXM5gqyefnh1Id
+ UQA0yz3r7wHMJq3Dul8Z/JFe6goxjcRzGvExcXkUWhvuOGmC+oy4CDYe6
+ XHe4jgERjLMYtZ+uv53D8OAasalihirCkemo0T5xassCN5dwoM7E8nfJB
+ Wne/Kaiymt083LKvQZrxPSBuqNV89kc8Ssp8hfze2VPJ3erWaBMkyNB1+
+ RhUzbdYM5W/xoE1CIhEEEt4yzPP64JQ5dweIr+K1lBL3PkNbs/kvvVLNY w==;
+X-CSE-ConnectionGUID: 6UlRl4t0QLme9SyBg0q7yw==
+X-CSE-MsgGUID: wzFpnHCxRVSC5Y4OP1MN7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="83224402"
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="83224402"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2026 07:47:41 -0800
+X-CSE-ConnectionGUID: m6lhFJ0pRYWbLZprSl0X9Q==
+X-CSE-MsgGUID: RHwmEWnTQkaKHahIyp2Btg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="212889142"
+Received: from gsd-build.iind.intel.com ([10.190.229.167])
+ by fmviesa007.fm.intel.com with ESMTP; 18 Feb 2026 07:47:38 -0800
+From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Maarten Lankhorst <dev@lankhorst.se>
+Subject: [PATCH v6 1/3] drm/sa: Split drm_suballoc_new() into SA alloc and
+ init helpers
+Date: Wed, 18 Feb 2026 15:47:30 +0000
+Message-ID: <20260218154728.1508151-6-satyanarayana.k.v.p@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260218154728.1508151-5-satyanarayana.k.v.p@intel.com>
+References: <20260218154728.1508151-5-satyanarayana.k.v.p@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 34/42] dept: add module support for struct
- dept_event_site and dept_event_site_dep
-To: Byungchul Park <byungchul@sk.com>
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
- damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
- peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
- rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
- daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
- tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
- gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
- arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, da.gomez@kernel.org,
- samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
- neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org,
- urezki@gmail.com, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
- anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
- kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
- ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
- baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251205071855.72743-1-byungchul@sk.com>
- <20251205071855.72743-35-byungchul@sk.com>
- <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
- <20260213055006.GA55430@system.software.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260213055006.GA55430@system.software.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -1.01
-X-Spam-Level: 
-X-Mailman-Approved-At: Thu, 19 Feb 2026 10:51:28 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,215 +79,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[skhynix.com,linux-foundation.org,opensource.wdc.com,vger.kernel.org,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu];
-	FORGED_RECIPIENTS(0.00)[m:byungchul@sk.com,m:kernel_team@skhynix.com,m:torvalds@linux-foundation.org,m:damien.lemoal@opensource.wdc.com,m:linux-ide@vger.kernel.org,m:adilger.kernel@dilger.ca,m:linux-ext4@vger.kernel.org,m:mingo@redhat.com,m:peterz@infradead.org,m:will@kernel.org,m:tglx@linutronix.de,m:rostedt@goodmis.org,m:joel@joelfernandes.org,m:sashal@kernel.org,m:daniel.vetter@ffwll.ch,m:duyuyang@gmail.com,m:johannes.berg@intel.com,m:tj@kernel.org,m:tytso@mit.edu,m:willy@infradead.org,m:david@fromorbit.com,m:amir73il@gmail.com,m:gregkh@linuxfoundation.org,m:kernel-team@lge.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:mhocko@kernel.org,m:minchan@kernel.org,m:hannes@cmpxchg.org,m:vdavydov.dev@gmail.com,m:sj@kernel.org,m:jglisse@redhat.com,m:dennis@kernel.org,m:cl@linux.com,m:penberg@kernel.org,m:rientjes@google.com,m:vbabka@suse.cz,m:ngupta@vflare.org,m:linux-block@vger.kernel.org,m:josef@toxicpanda.com,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,m:jlayton@kernel.org,
- m:dan.j.williams@intel.com,m:hch@infradead.org,m:djwong@kernel.org,m:rodrigosiqueiramelo@gmail.com,m:melissa.srw@gmail.com,m:hamohammed.sa@gmail.com,m:harry.yoo@oracle.com,m:chris.p.wilson@intel.com,m:gwan-gyeong.mun@intel.com,m:max.byungchul.park@gmail.com,m:boqun.feng@gmail.com,m:longman@redhat.com,m:yunseong.kim@ericsson.com,m:ysk@kzalloc.com,m:yeoreum.yun@arm.com,m:netdev@vger.kernel.org,m:matthew.brost@intel.com,m:her0gyugyu@gmail.com,m:corbet@lwn.net,m:catalin.marinas@arm.com,m:bp@alien8.de,m:x86@kernel.org,m:hpa@zytor.com,m:luto@kernel.org,m:sumit.semwal@linaro.org,m:gustavo@padovan.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.
- com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:chuck.lever@oracle.com,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[petr.pavlu@suse.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[satyanarayana.k.v.p@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[165];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:mid,suse.com:dkim,sk.com:email]
-X-Rspamd-Queue-Id: 8450215DFE4
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 0F861157769
 X-Rspamd-Action: no action
 
-On 2/13/26 6:50 AM, Byungchul Park wrote:
-> On Wed, Jan 07, 2026 at 01:19:00PM +0100, Petr Pavlu wrote:
->> On 12/5/25 8:18 AM, Byungchul Park wrote:
->>> struct dept_event_site and struct dept_event_site_dep have been
->>> introduced to track dependencies between multi event sites for a single
->>> wait, that will be loaded to data segment.  Plus, a custom section,
->>> '.dept.event_sites', also has been introduced to keep pointers to the
->>> objects to make sure all the event sites defined exist in code.
->>>
->>> dept should work with the section and segment of module.  Add the
->>> support to handle the section and segment properly whenever modules are
->>> loaded and unloaded.
->>>
->>> Signed-off-by: Byungchul Park <byungchul@sk.com>
->>
->> Below are a few comments from the module loader perspective.
-> 
-> Sorry about the late reply.  I've been going through some major life
-> changes lately. :(
-> 
-> Thank you sooooo~ much for your helpful feedback.  I will leave my
-> opinion below.
-> 
-[...]
->>> diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
->>> index b14400c4f83b..07d883579269 100644
->>> --- a/kernel/dependency/dept.c
->>> +++ b/kernel/dependency/dept.c
->>> @@ -984,6 +984,9 @@ static void bfs(void *root, struct bfs_ops *ops, void *in, void **out)
->>>   * event sites.
->>>   */
->>>
->>> +static LIST_HEAD(dept_event_sites);
->>> +static LIST_HEAD(dept_event_site_deps);
->>> +
->>>  /*
->>>   * Print all events in the circle.
->>>   */
->>> @@ -2043,6 +2046,33 @@ static void del_dep_rcu(struct rcu_head *rh)
->>>       preempt_enable();
->>>  }
->>>
->>> +/*
->>> + * NOTE: Must be called with dept_lock held.
->>> + */
->>> +static void disconnect_event_site_dep(struct dept_event_site_dep *esd)
->>> +{
->>> +     list_del_rcu(&esd->dep_node);
->>> +     list_del_rcu(&esd->dep_rev_node);
->>> +}
->>> +
->>> +/*
->>> + * NOTE: Must be called with dept_lock held.
->>> + */
->>> +static void disconnect_event_site(struct dept_event_site *es)
->>> +{
->>> +     struct dept_event_site_dep *esd, *next_esd;
->>> +
->>> +     list_for_each_entry_safe(esd, next_esd, &es->dep_head, dep_node) {
->>> +             list_del_rcu(&esd->dep_node);
->>> +             list_del_rcu(&esd->dep_rev_node);
->>> +     }
->>> +
->>> +     list_for_each_entry_safe(esd, next_esd, &es->dep_rev_head, dep_rev_node) {
->>> +             list_del_rcu(&esd->dep_node);
->>> +             list_del_rcu(&esd->dep_rev_node);
->>> +     }
->>> +}
->>> +
->>>  /*
->>>   * NOTE: Must be called with dept_lock held.
->>>   */
->>> @@ -2384,6 +2414,8 @@ void dept_free_range(void *start, unsigned int sz)
->>>  {
->>>       struct dept_task *dt = dept_task();
->>>       struct dept_class *c, *n;
->>> +     struct dept_event_site_dep *esd, *next_esd;
->>> +     struct dept_event_site *es, *next_es;
->>>       unsigned long flags;
->>>
->>>       if (unlikely(!dept_working()))
->>> @@ -2405,6 +2437,24 @@ void dept_free_range(void *start, unsigned int sz)
->>>       while (unlikely(!dept_lock()))
->>>               cpu_relax();
->>>
->>> +     list_for_each_entry_safe(esd, next_esd, &dept_event_site_deps, all_node) {
->>> +             if (!within((void *)esd, start, sz))
->>> +                     continue;
->>> +
->>> +             disconnect_event_site_dep(esd);
->>> +             list_del(&esd->all_node);
->>> +     }
->>> +
->>> +     list_for_each_entry_safe(es, next_es, &dept_event_sites, all_node) {
->>> +             if (!within((void *)es, start, sz) &&
->>> +                 !within(es->name, start, sz) &&
->>> +                 !within(es->func_name, start, sz))
->>> +                     continue;
->>> +
->>> +             disconnect_event_site(es);
->>> +             list_del(&es->all_node);
->>> +     }
->>> +
->>>       list_for_each_entry_safe(c, n, &dept_classes, all_node) {
->>>               if (!within((void *)c->key, start, sz) &&
->>>                   !within(c->name, start, sz))
->>> @@ -3337,6 +3387,7 @@ void __dept_recover_event(struct dept_event_site_dep *esd,
->>>
->>>       list_add(&esd->dep_node, &es->dep_head);
->>>       list_add(&esd->dep_rev_node, &rs->dep_rev_head);
->>> +     list_add(&esd->all_node, &dept_event_site_deps);
->>>       check_recover_dl_bfs(esd);
->>>  unlock:
->>>       dept_unlock();
->>> @@ -3347,6 +3398,23 @@ EXPORT_SYMBOL_GPL(__dept_recover_event);
->>>
->>>  #define B2KB(B) ((B) / 1024)
->>>
->>> +void dept_mark_event_site_used(void *start, void *end)
->>
->> Nit: I suggest that dept_mark_event_site_used() take pointers to
->> dept_event_site_init, which would catch the type mismatch with
-> 
-> IMO, this is the easiest way to get all the pointers from start to the
-> end, or I can't get the number of the pointers.  It's similar to the
-> initcalls section for device drivers.
+drm_suballoc_new() currently both allocates the SA object using kmalloc()
+and searches for a suitable hole in the sub-allocator for the requested
+size. If SA allocation is done by holding sub-allocator mutex, this design
+can lead to reclaim safety issues.
 
-This was a minor suggestion.. The idea is to simply change the function
-signature to:
+By splitting the kmalloc() step outside of the critical section, we allow
+the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
+the initialization step that holds reclaim-tainted locks (sub-allocator
+mutex) operates in a reclaim-unsafe context with pre-allocated memory.
 
-void dept_mark_event_site_used(struct dept_event_site_init **start,
-			       struct dept_event_site_init **end))
+This separation prevents potential deadlocks where memory reclaim could
+attempt to acquire locks that are already held during the sub-allocator
+operations.
 
-This way, the compiler can provide proper type checking to ensure that
-correct pointers are passed to dept_mark_event_site_used(). It would
-catch the type mismatch with module::dept_event_sites.
+Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <dev@lankhorst.se>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-> 
->> module::dept_event_sites.
->>
->>> +{
->>> +     struct dept_event_site_init **evtinitpp;
->>> +
->>> +     for (evtinitpp = (struct dept_event_site_init **)start;
->>> +          evtinitpp < (struct dept_event_site_init **)end;
->>> +          evtinitpp++) {
->>> +             (*evtinitpp)->evt_site->used = true;
->>> +             (*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
->>> +             list_add(&(*evtinitpp)->evt_site->all_node, &dept_event_sites);
->>> +
->>> +             pr_info("dept_event_site %s@%s is initialized.\n",
->>> +                             (*evtinitpp)->evt_site->name,
->>> +                             (*evtinitpp)->evt_site->func_name);
->>> +     }
->>> +}
->>> +
->>>  extern char __dept_event_sites_start[], __dept_event_sites_end[];
->>
->> Related to the above, __dept_event_sites_start and
->> __dept_event_sites_end can already be properly typed here.
-> 
-> How can I get the number of the pointers?
+---
+V5 -> V6:
+- Renamed drm_suballoc_init() to drm_suballoc_insert() (Maarten).
 
-Similarly here, changing the code to:
+V4 -> V5:
+- None.
 
-extern struct dept_event_site_init *__dept_event_sites_start[], *__dept_event_sites_end[];
+V3 -> V4:
+- None.
 
-It is the same for the initcalls you mentioned. The declarations of
-their start/end symbols are also already properly typed as
-initcall_entry_t[] in include/linux/init.h.
+V2 -> V3:
+- Updated commit message (Matt, Thomas & Christian).
+- Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
 
+V1 -> V2:
+- Splitted drm_suballoc_new() into drm_suballoc_alloc() and
+drm_suballoc_init() (Thomas).
+---
+ drivers/gpu/drm/drm_suballoc.c | 114 ++++++++++++++++++++++++++-------
+ include/drm/drm_suballoc.h     |   8 +++
+ 2 files changed, 100 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
+index 879ea33dbbc4..54f3918616a5 100644
+--- a/drivers/gpu/drm/drm_suballoc.c
++++ b/drivers/gpu/drm/drm_suballoc.c
+@@ -123,7 +123,7 @@ static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
+ 	list_del_init(&sa->olist);
+ 	list_del_init(&sa->flist);
+ 	dma_fence_put(sa->fence);
+-	kfree(sa);
++	drm_suballoc_release(sa);
+ }
+ 
+ static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
+@@ -293,45 +293,76 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
+ }
+ 
+ /**
+- * drm_suballoc_new() - Make a suballocation.
++ * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
++ * @gfp: gfp flags used for memory allocation.
++ *
++ * Allocate memory for an uninitialized suballoc object. Intended usage is
++ * allocate memory for suballoc object outside of a reclaim tainted context
++ * and then be initialized at a later time in a reclaim tainted context.
++ *
++ * @drm_suballoc_release should be used to release the memory if returned
++ * suballoc object is in uninitialized state.
++ *
++ * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
++ */
++struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
++{
++	struct drm_suballoc *sa;
++
++	sa = kmalloc(sizeof(*sa), gfp);
++	if (!sa)
++		return ERR_PTR(-ENOMEM);
++
++	sa->manager = NULL;
++
++	return sa;
++}
++EXPORT_SYMBOL(drm_suballoc_alloc);
++
++/**
++ * drm_suballoc_release() - Release memory for suballocation.
++ * @sa: The struct drm_suballoc.
++ */
++void drm_suballoc_release(struct drm_suballoc *sa)
++{
++	kfree(sa);
++}
++EXPORT_SYMBOL(drm_suballoc_release);
++
++/**
++ * drm_suballoc_insert() - Initialize a suballocation and insert a hole.
+  * @sa_manager: pointer to the sa_manager
++ * @sa: The struct drm_suballoc.
+  * @size: number of bytes we want to suballocate.
+- * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+- *       the argument is provided for suballocations from reclaim context or
+- *       where the caller wants to avoid pipelining rather than wait for
+- *       reclaim.
+  * @intr: Whether to perform waits interruptible. This should typically
+  *        always be true, unless the caller needs to propagate a
+  *        non-interruptible context from above layers.
+  * @align: Alignment. Must not exceed the default manager alignment.
+  *         If @align is zero, then the manager alignment is used.
+  *
+- * Try to make a suballocation of size @size, which will be rounded
+- * up to the alignment specified in specified in drm_suballoc_manager_init().
++ * Try to make a suballocation on a pre-allocated suballoc object of size @size,
++ * which will be rounded up to the alignment specified in specified in
++ * drm_suballoc_manager_init().
+  *
+- * Return: a new suballocated bo, or an ERR_PTR.
++ * Return: zero on success, errno on failure.
+  */
+-struct drm_suballoc *
+-drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+-		 gfp_t gfp, bool intr, size_t align)
++int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
++			struct drm_suballoc *sa, size_t size,
++			bool intr, size_t align)
+ {
+ 	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
+ 	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
+ 	unsigned int count;
+ 	int i, r;
+-	struct drm_suballoc *sa;
+ 
+ 	if (WARN_ON_ONCE(align > sa_manager->align))
+-		return ERR_PTR(-EINVAL);
++		return -EINVAL;
+ 	if (WARN_ON_ONCE(size > sa_manager->size || !size))
+-		return ERR_PTR(-EINVAL);
++		return -EINVAL;
+ 
+ 	if (!align)
+ 		align = sa_manager->align;
+ 
+-	sa = kmalloc(sizeof(*sa), gfp);
+-	if (!sa)
+-		return ERR_PTR(-ENOMEM);
+ 	sa->manager = sa_manager;
+ 	sa->fence = NULL;
+ 	INIT_LIST_HEAD(&sa->olist);
+@@ -348,7 +379,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 			if (drm_suballoc_try_alloc(sa_manager, sa,
+ 						   size, align)) {
+ 				spin_unlock(&sa_manager->wq.lock);
+-				return sa;
++				return 0;
+ 			}
+ 
+ 			/* see if we can skip over some allocations */
+@@ -385,8 +416,47 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 	} while (!r);
+ 
+ 	spin_unlock(&sa_manager->wq.lock);
+-	kfree(sa);
+-	return ERR_PTR(r);
++	return r;
++}
++EXPORT_SYMBOL(drm_suballoc_insert);
++
++/**
++ * drm_suballoc_new() - Make a suballocation.
++ * @sa_manager: pointer to the sa_manager
++ * @size: number of bytes we want to suballocate.
++ * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
++ *       the argument is provided for suballocations from reclaim context or
++ *       where the caller wants to avoid pipelining rather than wait for
++ *       reclaim.
++ * @intr: Whether to perform waits interruptible. This should typically
++ *        always be true, unless the caller needs to propagate a
++ *        non-interruptible context from above layers.
++ * @align: Alignment. Must not exceed the default manager alignment.
++ *         If @align is zero, then the manager alignment is used.
++ *
++ * Try to make a suballocation of size @size, which will be rounded
++ * up to the alignment specified in specified in drm_suballoc_manager_init().
++ *
++ * Return: a new suballocated bo, or an ERR_PTR.
++ */
++struct drm_suballoc *
++drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
++		 gfp_t gfp, bool intr, size_t align)
++{
++	struct drm_suballoc *sa;
++	int err;
++
++	sa = drm_suballoc_alloc(gfp);
++	if (IS_ERR(sa))
++		return sa;
++
++	err = drm_suballoc_insert(sa_manager, sa, size, intr, align);
++	if (err) {
++		drm_suballoc_release(sa);
++		return ERR_PTR(err);
++	}
++
++	return sa;
+ }
+ EXPORT_SYMBOL(drm_suballoc_new);
+ 
+@@ -402,7 +472,7 @@ void drm_suballoc_free(struct drm_suballoc *suballoc,
+ {
+ 	struct drm_suballoc_manager *sa_manager;
+ 
+-	if (!suballoc)
++	if (!suballoc || !suballoc->manager)
+ 		return;
+ 
+ 	sa_manager = suballoc->manager;
+diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
+index 7ba72a81a808..b8ec64039c8a 100644
+--- a/include/drm/drm_suballoc.h
++++ b/include/drm/drm_suballoc.h
+@@ -53,6 +53,14 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
+ 
+ void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
+ 
++struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
++
++void drm_suballoc_release(struct drm_suballoc *sa);
++
++int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
++			struct drm_suballoc *sa, size_t size, bool intr,
++			size_t align);
++
+ struct drm_suballoc *
+ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+ 		 gfp_t gfp, bool intr, size_t align);
 -- 
-Thanks,
-Petr
+2.43.0
+
