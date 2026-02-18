@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sJ2YCoOClWlWSAIAu9opvQ
+	id +GhgEc2ElWmwSAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:35 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:22:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6014A154998
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9747154AD3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E669610E597;
-	Wed, 18 Feb 2026 09:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 338E289A72;
+	Wed, 18 Feb 2026 09:22:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="MzRJ/ezY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4160210E598
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 09:12:28 +0000 (UTC)
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <m.tretter@pengutronix.de>)
- id 1vsdbe-0001kM-CM; Wed, 18 Feb 2026 10:12:26 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Wed, 18 Feb 2026 10:12:06 +0100
-Subject: [PATCH v4 3/3] drm/panel: add LXD M9189A panel driver
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5CA89336;
+ Wed, 18 Feb 2026 09:22:15 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fG9yC63cFz9sv3;
+ Wed, 18 Feb 2026 10:22:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1771406531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f1WlGRyLmEQi81e8JtaRgJcHapL8yJgp0TPQOTPJE2E=;
+ b=MzRJ/ezYcFxH7cYkRsxxmT7JxR3zh+wELr4edUCrFyw1JgNu18oTNsbx5D2tpAhVJkL6lk
+ 9pzjvMZeFgoOIidunxF3K2wGFo3R9SlXcOmEnlp2EM4xld9UUHADB34J2K1LtEsEB+qFKv
+ 1YZ1v0exaCplP+x6TusFIvpg7/48efz+Nu8ly54TccFBvA+j9TPBqyYyRnCZwUQUhxezVe
+ JUfEJHomsJPFMahVPm9TAzgM5QLaWvLED3Kuyi95Vm6hhJUjG4WP3lKtmOPS+BfC5YWJtR
+ lG7QrhgC3RUy9Oibl+3BGYc9quAJtnU2c6tKgvi5Jm/oU8rh/mTAafPacvJcJQ==
+Message-ID: <8588dcbc-621e-43db-9d69-32398f75d9e6@mailbox.org>
+Date: Wed, 18 Feb 2026 10:22:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v3 1/2] drm: introduce KMS recovery mechanism
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, =?UTF-8?Q?Timur_Krist=C3=B3f?=
+ <timur.kristof@gmail.com>, Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260212230905.688006-1-someguy@effective-light.com>
+ <2e359cd9-0192-44d0-886f-7f93a8b0a4fa@amd.com> <aY99D-yXVydpMdwy@hal-station>
+ <85319290-4027-4eb8-95d1-9009d23f2294@mailbox.org>
+ <aZD0W7V_6--2yqNK@hal-station>
+ <7f4a86ad-d642-444c-a576-17ff9caaa934@mailbox.org>
+ <aZULq2bDnZpdXvIg@hal-station>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <aZULq2bDnZpdXvIg@hal-station>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260218-drm-panel-ek79007ad3-v4-3-8ec448bf3ede@pengutronix.de>
-References: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
-In-Reply-To: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Rouven Czerwinski <r.czerwinski@pengutronix.de>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-X-Mailer: b4 0.14.3
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-MBO-RS-ID: 5bec9753da37bff3d12
+X-MBO-RS-META: 3qi5dkauuahme9n17zfjc9xfp75ypc5j
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,370 +85,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:r.czerwinski@pengutronix.de,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:kernel@pengutronix.de,m:m.tretter@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[pengutronix.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,puri.sm:email,fairphone.com:email]
-X-Rspamd-Queue-Id: 6014A154998
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim]
+X-Rspamd-Queue-Id: E9747154AD3
 X-Rspamd-Action: no action
 
-From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+On 2/18/26 01:45, Hamza Mahfooz wrote:
+> On Mon, Feb 16, 2026 at 10:28:13AM +0100, Michel Dänzer wrote:
+>> On 2/14/26 23:16, Hamza Mahfooz wrote:
+>>> On Sat, Feb 14, 2026 at 03:02:49PM +0100, Michel Dänzer wrote:
+>>>> Why couldn't a full modeset?
+>>>
+>>> As far as I see it the only reasons why we should be timing out is
+>>> either an interrupt went missing (perhaps due to a race condition in
+>>> driver code) or hung hardware. In either case, the interrupt associated
+>>> with the page flip for the current commit is long gone.
+>>
+>> That's a matter of bookkeeping, the interrupt isn't required to keep track of the commit and complete it.
+> 
+> Oh, if you're talking about sending out a "fake"
+> drm_crtc_send_vblank_event(), I had considered that. Though,
+> drivers that have hardware vblank counters take ownership of the
+> relevant `struct drm_pending_vblank_event` [1] pretty early on.
+> So, there wouldn't be a way to ensure that they send that out
+> and that would mean we never get a chance to force a full modeset.
 
-The LXD M9189A panel is based on the EK79007AD3 DSI display controller.
-It currently supports only 4 lane operation.
+"never get a chance" why? The driver can do a full modeset and then send out the event(s) with the current vblank sequence number(s) and timestamp(s) at that time.
 
-Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
-Changes in v4:
-- Fix typo in driver name ("panel-lxa-m9189a")
 
-Changes in v3:
-- Change maintainer to Michael Tretter <m.tretter@pengutronix.de>
-- Fix error code if regulator is missing
-- Request power-supply instead of vdd-supply
+>>>> In principle it's possible to do (the equivalent of) a modeset with the current state for all CRTCs, no need to do it separately per CRTC.
+>>>
+>>> AFAIK that is what the uevent is already doing (unless I'm mistaken).
+>>
+>> This is about just doing a full modeset, which isn't something user space can do in response to a wedged event.
+> 
+> I was referring to what compositors are doing in response to
+> `drm_kms_helper_hotplug_event()`. Perhaps, the enum constants should be
+> renamed, since the forced modeset is actually sent when the current
+> reset phase is DRM_KMS_RESET_NONE (the phase is updated before sending
+> out the event though).
 
-v2:
-- use _multi functions
-- remove unnecessary dcs_nop function
-- calculate pixelclock with timings
-suggested by Dmitry Baryshkov
+Ah, you're talking about the drm_kms_helper_hotplug_event call in drm_atomic_helper_wait_for_flip_done (I thought "uevent" referred to drm_dev_wedged_event in patch 2).
 
-- rename functions to m9189_ prefix
-- rename struct and c file to use m9189
-- fix commit title to mention m9189
----
- MAINTAINERS                              |   6 +
- drivers/gpu/drm/panel/Kconfig            |   9 ++
- drivers/gpu/drm/panel/Makefile           |   1 +
- drivers/gpu/drm/panel/panel-lxd-m9189a.c | 243 +++++++++++++++++++++++++++++++
- 4 files changed, 259 insertions(+)
+I don't know about other compositors, but I don't think mutter will do a modeset in response to a hotplug event if no KMS state changed (because some monitors can generate spurious hotplug events).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e08767323763..ba4030a4d154 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7948,6 +7948,12 @@ F:	Documentation/devicetree/bindings/display/lvds.yaml
- F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
- F:	drivers/gpu/drm/panel/panel-lvds.c
- 
-+DRM DRIVER FOR LXD M9189A PANELS
-+M:	Michael Tretter <m.tretter@pengutronix.de>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml
-+F:	drivers/gpu/drm/panel/panel-lxd-m9189a.c
-+
- DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
- M:	Guido Günther <agx@sigxcpu.org>
- R:	Purism Kernel Team <kernel@puri.sm>
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 7a83804fedca..b7d35a73080e 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -442,6 +442,15 @@ config DRM_PANEL_LG_SW43408
- 	  pixel. It provides a MIPI DSI interface to the host and has a
- 	  built-in LED backlight.
- 
-+config DRM_PANEL_LXD_M9189A
-+	tristate "LXD M9189A MIPI-DSI LCD panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for the LXD M9189A 4-Lane
-+	  1024x600 MIPI DSI panel.
-+
- config DRM_PANEL_MAGNACHIP_D53E6EA8966
- 	tristate "Magnachip D53E6EA8966 DSI panel"
- 	depends on OF && SPI
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index b9562a6fdcb3..d1303455a374 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
- obj-$(CONFIG_DRM_PANEL_LG_LD070WX3) += panel-lg-ld070wx3.o
- obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
- obj-$(CONFIG_DRM_PANEL_LG_SW43408) += panel-lg-sw43408.o
-+obj-$(CONFIG_DRM_PANEL_LXD_M9189A) += panel-lxd-m9189a.o
- obj-$(CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966) += panel-magnachip-d53e6ea8966.o
- obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
- obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3051D) += panel-newvision-nv3051d.o
-diff --git a/drivers/gpu/drm/panel/panel-lxd-m9189a.c b/drivers/gpu/drm/panel/panel-lxd-m9189a.c
-new file mode 100644
-index 000000000000..68019e1e43a9
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-lxd-m9189a.c
-@@ -0,0 +1,243 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree.
-+ * Copyright (c) 2024 Luca Weiss <luca.weiss@fairphone.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/types.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+/* Manufacturer specific DSI commands */
-+#define EK79007AD3_GAMMA1		0x80
-+#define EK79007AD3_GAMMA2		0x81
-+#define EK79007AD3_GAMMA3		0x82
-+#define EK79007AD3_GAMMA4		0x83
-+#define EK79007AD3_GAMMA5		0x84
-+#define EK79007AD3_GAMMA6		0x85
-+#define EK79007AD3_GAMMA7		0x86
-+#define EK79007AD3_PANEL_CTRL3		0xB2
-+
-+struct m9189_panel {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct regulator *supply;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *standby_gpio;
-+};
-+
-+static inline struct m9189_panel *to_m9189_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct m9189_panel, panel);
-+}
-+
-+static void m9189_reset(struct m9189_panel *m9189)
-+{
-+	gpiod_set_value_cansleep(m9189->reset_gpio, 0);
-+	msleep(20);
-+	gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-+	msleep(30);
-+	gpiod_set_value_cansleep(m9189->reset_gpio, 0);
-+	msleep(55);
-+}
-+
-+static int m9189_on(struct m9189_panel *m9189)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = m9189->dsi };
-+
-+	ctx.dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	/* Gamma 2.2 */
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA1, 0x48);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA2, 0xB8);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA3, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA4, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA5, 0x58);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA6, 0xD2);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA7, 0x88);
-+	mipi_dsi_msleep(&ctx, 50);
-+
-+	/* 4 Lanes */
-+	mipi_dsi_generic_write_multi(&ctx, (u8[]){ EK79007AD3_PANEL_CTRL3, 0x70 }, 2);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int m9189_disable(struct drm_panel *panel)
-+{
-+	struct m9189_panel *m9189 = to_m9189_panel(panel);
-+	struct mipi_dsi_multi_context ctx = { .dsi = m9189->dsi };
-+
-+	ctx.dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	gpiod_set_value_cansleep(m9189->standby_gpio, 1);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int m9189_prepare(struct drm_panel *panel)
-+{
-+	struct m9189_panel *m9189 = to_m9189_panel(panel);
-+	struct device *dev = &m9189->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_enable(m9189->supply);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(m9189->standby_gpio, 0);
-+	msleep(20);
-+	m9189_reset(m9189);
-+
-+	ret = m9189_on(m9189);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-+		regulator_disable(m9189->supply);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int m9189_unprepare(struct drm_panel *panel)
-+{
-+	struct m9189_panel *m9189 = to_m9189_panel(panel);
-+
-+	gpiod_set_value_cansleep(m9189->standby_gpio, 1);
-+	msleep(50);
-+
-+	gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-+	regulator_disable(m9189->supply);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode m9189_mode = {
-+	.clock = (1024 + 160 + 160 + 10) * (600 + 12 + 23 + 1) * 60 / 1000,
-+	.hdisplay = 1024,
-+	.hsync_start = 1024 + 160,
-+	.hsync_end = 1024 + 160 + 160,
-+	.htotal = 1024 + 160 + 160 + 10,
-+	.vdisplay = 600,
-+	.vsync_start = 600 + 12,
-+	.vsync_end = 600 + 12 + 23,
-+	.vtotal = 600 + 12 + 23 + 1,
-+	.width_mm = 154,
-+	.height_mm = 86,
-+};
-+
-+static int m9189_get_modes(struct drm_panel *panel,
-+				  struct drm_connector *connector)
-+{
-+	return drm_connector_helper_get_modes_fixed(connector, &m9189_mode);
-+}
-+
-+static const struct drm_panel_funcs m9189_panel_funcs = {
-+	.prepare = m9189_prepare,
-+	.unprepare = m9189_unprepare,
-+	.disable = m9189_disable,
-+	.get_modes = m9189_get_modes,
-+};
-+
-+static int lxd_m9189_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct m9189_panel *m9189;
-+	int ret;
-+
-+	m9189 = devm_kzalloc(dev, sizeof(*m9189), GFP_KERNEL);
-+	if (!m9189)
-+		return -ENOMEM;
-+
-+	m9189->supply = devm_regulator_get(dev, "power");
-+	if (IS_ERR(m9189->supply))
-+		return dev_err_probe(dev, PTR_ERR(m9189->supply),
-+				     "Failed to get power-supply\n");
-+
-+	m9189->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(m9189->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(m9189->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	m9189->standby_gpio = devm_gpiod_get(dev, "standby", GPIOD_OUT_LOW);
-+	if (IS_ERR(m9189->standby_gpio))
-+		return dev_err_probe(dev, PTR_ERR(m9189->standby_gpio),
-+				     "Failed to get standby-gpios\n");
-+
-+	m9189->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, m9189);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-+
-+	drm_panel_init(&m9189->panel, dev, &m9189_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	m9189->panel.prepare_prev_first = true;
-+
-+	ret = drm_panel_of_backlight(&m9189->panel);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-+
-+	drm_panel_add(&m9189->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-+		drm_panel_remove(&m9189->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void lxd_m9189_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct m9189_panel *m9189 = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&m9189->panel);
-+}
-+
-+static const struct of_device_id lxd_m9189_of_match[] = {
-+	{ .compatible = "lxd,m9189a" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, lxd_m9189_of_match);
-+
-+static struct mipi_dsi_driver lxd_m9189_driver = {
-+	.probe = lxd_m9189_probe,
-+	.remove = lxd_m9189_remove,
-+	.driver = {
-+		.name = "panel-lxd-m9189a",
-+		.of_match_table = lxd_m9189_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(lxd_m9189_driver);
-+
-+MODULE_DESCRIPTION("DRM driver for LXD M9189A MIPI-DSI panels");
-+MODULE_LICENSE("GPL");
+(Just one more reason why kicking the full modeset can down to user space is questionable)
+
 
 -- 
-2.47.3
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
