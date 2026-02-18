@@ -2,178 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CdJKHItlmmlbwIAu9opvQ
+	id eOxXG6IzlmktcAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 22:21:54 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 22:48:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534DC159F5F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 22:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD9C15A643
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 22:48:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F9E10E6AC;
-	Wed, 18 Feb 2026 21:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A2E10E2C2;
+	Wed, 18 Feb 2026 21:48:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ghlkt1jp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OuAp+iYr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011057.outbound.protection.outlook.com
- [40.93.194.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D13FA10E699;
- Wed, 18 Feb 2026 21:21:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vMM4bGAFQTsZA8YVrEovUUcufPXYyai2nUmiwHo9421Ch14a0cnhuAqnWc/7p9qu3LeT800bpLWh+nZobfAKlH4pbzqgBKoaLeSc5LY/XpFFMX4a8VY4Ks+7Lv9ihoJvgsC6cS4vY4UNK6FWwuolCh1GydJFE2zNL4DJg6UriZbgx1A8VauAyfWu6QgBBT1dUm8JUjC5FG78hnyqIguYNpe+QYX90B6VSRxuP6PJLSMu07xfU5c6m5M2ubFC3ZeWnOImNWdAmSjfpb4TdnMkbuEZJBKWH/fU5nyknokU6rfFtKXcR/EpxJyVMZoco023mKO8ZE1JAm6hIx5qcpayiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oEFoi0XF3NRMKs/0e55+d2lFKLXGaXv3MzDlki0jRHs=;
- b=THE3HelhnY5mE+tfTLKqYJ13AXfrMtUYUmlURwZzoBPS0x+vj5tHdwyl/jHWIe0QPiKenDvebR3wtQ12o627YVI6PneRu7DAusfVTtJTwvCf2Uke6qDEOedItcSCIP/AGTS6cUjXGGJSbz8kGFfzPH8C4i8TAFfe1VjB9jtMpGn24j0VZ8HCVFY/MM5a+DlnZoPuQeITmWRu4sUJFZbaoR4WZp1VwIwhQJ4f909QTzKBS0+/ROEZfVnpz8WGQ55PpoP7F3ooNk6UqPOwH7f177ObfAcacl59+lOlRbp5xFv3Xo5eOx8FJ6E9hcKpd/OjJ2FweJArPYGJDNnGwKl2AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oEFoi0XF3NRMKs/0e55+d2lFKLXGaXv3MzDlki0jRHs=;
- b=ghlkt1jp0jbYexMnu9gliu9C4+oQUpQA/A4/soLvpUNGffJY2lDDlASFr3jAutw8m9QVvVMRPhyK4Cq2tMrY/s2dxcXic5o5elAM5vW7I4I4K+B1sdSaxg958DYx0pDgndaBzHroD/4nkMuNsaUtJQD7hVzGsF4csh3o82/VCvCMIIf8psvH5mZCJN6gzyZ/QWwSVKaqs3WqX7yLUSUi50Mz15UkgZ7Rno0EofiyCWcvdA1rZao957h3/MLIrgAVaFkYgs2tNn1gmfxHqAeKesTkYrmbFadjYHDMRF5GzGmm8unO/PEWLVzJICLehf/0dssG6YY3xWSruyJlKaoaZQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- PH7PR12MB6636.namprd12.prod.outlook.com (2603:10b6:510:212::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Wed, 18 Feb
- 2026 21:21:42 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 21:21:41 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Joel Fernandes <joelagnelf@nvidia.com>, Nikola Djukic <ndjukic@nvidia.com>
-Subject: [PATCH v7 23/23] nova-core: mm: Add BarUser to struct Gpu and create
- at boot
-Date: Wed, 18 Feb 2026 16:20:20 -0500
-Message-Id: <20260218212020.800836-24-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260218212020.800836-1-joelagnelf@nvidia.com>
-References: <20260218212020.800836-1-joelagnelf@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR1501CA0034.namprd15.prod.outlook.com
- (2603:10b6:207:17::47) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BCE110E2C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 21:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771451294; x=1802987294;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IWjVj/f0p/cVs98D/JBHnUR2ir7uqscmcLwif2ekJKs=;
+ b=OuAp+iYrU+1JqpymziuqPxiLihu2LjEeVnLek2NYKDPdsp1vQSkFVPK5
+ FdKhL3huApPTBEFbXwRR5P/Ru0Iv3f4HUQUSh08NAfWXrTKgqv1qjob1+
+ PQ2BavtURulydSYKIXr/I7q/ipUxgriNKlg1JBQ+yuJ5Yhlu30JUay8O2
+ 8ojsAV18i5qA24jwGtbgs9tdu9D/p1aR/fovMNNzahwYM+Vq8Jhmxjggn
+ vr/aonf7izDXfuKSPv/eeUoxRSGBQxdb4pxEli3z9YIcOsdbnIwaVJIec
+ q4Kfqn1dG9Ijvh7JVTd4Gl9k5H2uLGOKOVM5YfrKT8uG6bO3e1YgUllnB g==;
+X-CSE-ConnectionGUID: V3Mt8n1hTn6WPa1/2i5lwg==
+X-CSE-MsgGUID: XHX6o6m7RjOJ/c5WtoxLqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="72438601"
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; d="scan'208";a="72438601"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2026 13:48:13 -0800
+X-CSE-ConnectionGUID: grLfGY/1RCSDZnjnbhpJaw==
+X-CSE-MsgGUID: ycPOfQM0SR2vfb7xMqWRNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; d="scan'208";a="218465029"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 18 Feb 2026 13:48:10 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vspOy-000000012l2-0cJj;
+ Wed, 18 Feb 2026 21:48:08 +0000
+Date: Thu, 19 Feb 2026 05:47:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
+ deller@gmx.de, sam@ravnborg.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from
+ public header file
+Message-ID: <202602190548.KwDrx2RS-lkp@intel.com>
+References: <20260218083855.10743-14-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH7PR12MB6636:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c319d2f-5666-4997-4e32-08de6f33b5a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CDMJHqlqBAx5rnAfBaQmElB8YOVDKl21ndD8M2QxzbcZ0LWrbXQ9NG9tuWSf?=
- =?us-ascii?Q?Cx5ANKGpO8FU3PLLW4P38omQDBtjYpkTNmxEwKfuohF4Fz155ZvL5ItAuEO2?=
- =?us-ascii?Q?VZALkk2Ov4HOL1s/vrT4iQVO57+edDBpbCAer0MT+fg8zjetLmDgnqi3O6x6?=
- =?us-ascii?Q?GfUHI3E94oorsJNJXmW4VxYf9o4wVufd6TD1LZZufeMiFCLILPCrynvbg7IU?=
- =?us-ascii?Q?GgSbs8scMsNbP5qVyW2DUfFq0Z11iIRlXougYs+zU/vlxMDmOIV7VuhGNYjQ?=
- =?us-ascii?Q?7IKACANL2GYerXrfSy2hKn1/roYCIKS49zfi8kZl0yziejsuZjNPGmWPEOg2?=
- =?us-ascii?Q?4V5EfyE3zoN2B7YyOxbJKUPhX8S8JdN7cXXtnkJBioZiB0aOSRM9YRMYhbI3?=
- =?us-ascii?Q?IaAGivx505JUr82wbzO6XwdoeEvAn4EEKxNJaphkZHMdW0lFEImQq9Vv02n9?=
- =?us-ascii?Q?iCSmNJOPf7gUBHe7ZdpGCH+iPNvSel/gBZ9+heJd1yQt7fVCywdmnajZZQS6?=
- =?us-ascii?Q?qkkkAqYWme4EnFvrSkwkhxDhFAo61EeXhKp0QmGC0ZZSsMrCMR764vrzdy3n?=
- =?us-ascii?Q?qmIrga8zp6aOHiZBEXrokXXTvPe5CeNPgYivl4yzL0Uhg5mpuZMxeWC34HPk?=
- =?us-ascii?Q?IQ05GlmJ2KVzds8emxzuJQtjfony51XJaNvIs78Nf/Ze718oWTZUrHE99RZk?=
- =?us-ascii?Q?coh2xWaSuxTcxoXS237/OMlSWvJgZn0Q5TB3MzQ/oJd+nvFr/aAcHlQ5Rvp2?=
- =?us-ascii?Q?uHQ7MzdUEpG/mpf9UQA2JXQml2MzDNPQvDtHztUzSLLh+TmUeODFxtiLfNFl?=
- =?us-ascii?Q?XYSdc90kzvlI9523/iES56TPJScEb+LQdJ6iAjTHwmgGqnjhW4iGErvLy/+n?=
- =?us-ascii?Q?vJyUSIvJX8HB26rrJDK+Dnizjo7pmw5DIwzoTktUF206bOkJVNBD34mpl1+7?=
- =?us-ascii?Q?+77rXq0OxWXfSZbFO/gOYr5cI7x8k36E9hyu02gqzN1Fh2+0a7LsxUn+K2XH?=
- =?us-ascii?Q?HCzcOzZR+1VYNA3mIbRWe55hzfk1FmjfaYZx1EnaYPqzQbCpmBp2G2tY8M+7?=
- =?us-ascii?Q?Vobr0x6Al5eyWfV77i/Afz+ZksJfYABwb6rTWtk5gEFUOKd5nhycgBKjxPSR?=
- =?us-ascii?Q?eAc9HJAKmx6l4efl9jmuKHxMkOtcDgYzokvIopaNCqS4X4/mMc9821hSWG4x?=
- =?us-ascii?Q?IDcIXbddXSRbigaCV7vXqRS6MyMIKTGSLcyEccy6rhA5KMPP2JpztcvuI+Ip?=
- =?us-ascii?Q?6LwEuAC5zD8q5K+lNFHlOHXKRSg1KO2V9kzaj4NNlkeGES4ei7Q+M3EHFBUK?=
- =?us-ascii?Q?qlkVZbgR3uDcxalDSrUJuvYWbCWNCZOaW11/1v2kkXg75G43n1soEXraPNEF?=
- =?us-ascii?Q?Pgr0YVH839fb0qsggh8V9Ks+B8L2AMYeJdCtD7yRil6DF6+W/6MxAGcOCOhv?=
- =?us-ascii?Q?7SL8kWWWgWyZ+3PPPbfGzZ0k+SPSyBk93eUUqSoDJeou2+Ywrmdydaggm5BI?=
- =?us-ascii?Q?+W0wLaCbl9CFNlzoXzOFITfxHJUubP5rfeRWA3kBJ01s3aurSVuRNWZQbXLx?=
- =?us-ascii?Q?B/+gZ38pYkE55MgBMMw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MD7/HA18MlDKQ7OF31CvU1E17IcM2cU16ejQyBdX2iH81cVYj5plW+vljj+e?=
- =?us-ascii?Q?X8GSC0RMszgzOdVGhi+5dN4rHOcA9WTeLVZHN0yyBV352wEi5w5E0vK59Wl/?=
- =?us-ascii?Q?fmvgbpiwywdXl798A9M7kh7bZ6hIPBxhvf9DAzfu4VQS2Onp9YXK2ubvqq31?=
- =?us-ascii?Q?QX8Kq0HqwBmMFG3rhBCG+A9lBZFsC67krYTwsRlr6Bg3Jl3lY1IfUwDCvAJ+?=
- =?us-ascii?Q?i6Ua6ImX45wp2rp7jXWhUbbrwUBpDa7Dj1brh7X1+jO0kFizNSpNtteDf1ta?=
- =?us-ascii?Q?RBWMGH6ZswOXxCwlamzNNUPmdS0c3DBJkyBwzD3RZe+5yrr5mc5BkFjTWAcs?=
- =?us-ascii?Q?tZahJKbjsGpJnM80Dp79wZ9OCd2/0uh5p59shDk/HZ9scdIwJ495KBDoiWcC?=
- =?us-ascii?Q?KqjEDV07arhnUWcaCeCNaOFw9HucYnqIpYITg8IwIisNEyfSn3Ze5yzUwjDQ?=
- =?us-ascii?Q?JoFW40Jx6d6hXqrB0LwgA/6pSzCxTrn3xY6nevlKFj9A0+UDOs55dE73/Suz?=
- =?us-ascii?Q?rV5uIX5GdfUxoaHM73pVZ39SF15DZmhidEKW0rlSzioYs+BUm6B+3Xsv89tN?=
- =?us-ascii?Q?vMasHhRvtmHFLmIqLI7vy6JoGZ+VBfa3R9yN4Ae+N7+6F0Z6iNIyx96e/sMb?=
- =?us-ascii?Q?9wYfq6yvdJgzx9ZnddZvQcjJ/AixcObE3OBYi5sTbwlYxhm6tJkZF9dVKNNO?=
- =?us-ascii?Q?oHSsWdrUAO8m9BgjXYDF+7ZZKw73SPoshSXmNuiWCqnBw4z+UrtdLPQtBZqr?=
- =?us-ascii?Q?MLt7MVWvNUnhKqTsNQMLgXwyTqGrgx3ISg0AqrFKy2n5zGb4Cwpp5hewmj0U?=
- =?us-ascii?Q?u8opg1Laab0iw4dsSxvbdfAe7b53dh7/hsFKHgIF/yISmC5RFGKBiaHPYI1b?=
- =?us-ascii?Q?Yr04uxNaAhS+COuFBW2QKUsdx1MsEpf4elDo2dTjs6tNxMM38Qh8kiFSkmmN?=
- =?us-ascii?Q?MrvYct6acEO42rrLEzV9UOQdCxH1GvlxrSFJppDfCdRhqeq25I/qMN+mfmKD?=
- =?us-ascii?Q?Ky4ZhVjmL7+akYQtPwGYUjwIqxdLkPkVTB48xq5grXr2QVUDTn3qCPVoJYmx?=
- =?us-ascii?Q?X/QYt/TYiQgHsxuNGQQZfVu668ct92utENOK/EAwVjhC/lllywJfZ67o6cRw?=
- =?us-ascii?Q?9//kbXBYv4V9U0sLL6fp1y0Td08PK/MnLZOz+gk46yfTq7XITWOau9EWPNCS?=
- =?us-ascii?Q?945a5oXcZSOoYCBNItsvsR2orPXTJ+HLZuXe9NUHy9w4LTXtv+QxRbY2CkF/?=
- =?us-ascii?Q?Bxh5w2+bvx+XnR2Az5DYrez0VKNcA4TgKZS3QlxrctL6K7PlWlG7WPxSjtx+?=
- =?us-ascii?Q?Vig9UD4JiTSGp/qzAoq9GrzfkuvvOnjBRKCOdMBVa1dK/BMtS+AaKzP2HmEu?=
- =?us-ascii?Q?lldbC7QmYkTN42pCxL/Sqg3YSjrxGJtXQPu8v4nioK01ZJ3rIRlCxc3NTI3U?=
- =?us-ascii?Q?V5+Oeeb5htjxeenKdq3VJRASnjczNqEwEtbvBC08nCCHstLm39yWR5Qw5JnD?=
- =?us-ascii?Q?MxZbV5LxUGce5b4zNroRKhvkLShdn7uUSo6uroKqVjMSLUhGSdz5Mo5/LXQz?=
- =?us-ascii?Q?9zQozmprF9NCoxWZKPwookuXQkZu5Wd2EAFuSPhLdqxqFdg2+z49WL5HlJH3?=
- =?us-ascii?Q?J634/OvfCUDQM8rGrP+yTQKn2Vfs64kwBhr9cBhVLpT0Irqrl5gU8ALsT2qk?=
- =?us-ascii?Q?eojgIbzl057vn8APPuxMpIgO5nuBBI2bRqGWaplVGS1wDO5uohXIUl44fDV5?=
- =?us-ascii?Q?TYDseo/Ffg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c319d2f-5666-4997-4e32-08de6f33b5a3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 21:21:41.6863 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GBnH3t+aq3yiWwcPoUzeSVaPIk3L7yExpChp6cJ6jXpaGPmYtzTcl+5E8BYczob0yDCN5yZZGvWoWMhpODYSnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6636
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260218083855.10743-14-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,117 +78,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	RCPT_COUNT_GT_50(0.00)[53];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:gregkh@linuxfoundation.org,m:deller@gmx.de,m:sam@ravnborg.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[suse.de,linuxfoundation.org,gmx.de,ravnborg.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email]
-X-Rspamd-Queue-Id: 534DC159F5F
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 9BD9C15A643
 X-Rspamd-Action: no action
 
-Add a BarUser field to struct Gpu and eagerly create it during GPU
-initialization. The BarUser provides the BAR1 user interface for CPU
-access to GPU virtual memory through the GPU's MMU.
+Hi Thomas,
 
-The BarUser is initialized using BAR1 PDE base address from GSP static
-info, MMU version and BAR1 size obtained from platform device.
+kernel test robot noticed the following build errors:
 
-Cc: Nikola Djukic <ndjukic@nvidia.com>
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
----
- drivers/gpu/nova-core/gpu.rs | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+[auto build test ERROR on 0082025812a31eda451fb14f13f52683ed375c49]
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 670a2a89c6ec..159ccea8464a 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -26,7 +26,12 @@
-         commands::GetGspStaticInfoReply,
-         Gsp, //
-     },
--    mm::GpuMm,
-+    mm::{
-+        bar_user::BarUser,
-+        pagetable::MmuVersion,
-+        GpuMm,
-+        VramAddress, //
-+    },
-     regs,
- };
- 
-@@ -35,6 +40,7 @@
- struct BootParams {
-     usable_vram_start: u64,
-     usable_vram_size: u64,
-+    bar1_pde_base: u64,
- }
- 
- macro_rules! define_chipset {
-@@ -272,6 +278,8 @@ pub(crate) struct Gpu {
-     gsp: Gsp,
-     /// Static GPU information from GSP.
-     gsp_static_info: GetGspStaticInfoReply,
-+    /// BAR1 user interface for CPU access to GPU virtual memory.
-+    bar_user: BarUser,
- }
- 
- impl Gpu {
-@@ -285,6 +293,7 @@ pub(crate) fn new<'a>(
-         let boot_params: Cell<BootParams> = Cell::new(BootParams {
-             usable_vram_start: 0,
-             usable_vram_size: 0,
-+            bar1_pde_base: 0,
-         });
- 
-         try_pin_init!(Self {
-@@ -329,6 +338,7 @@ pub(crate) fn new<'a>(
-                 boot_params.set(BootParams {
-                     usable_vram_start: usable_vram.start,
-                     usable_vram_size: usable_vram.end - usable_vram.start,
-+                    bar1_pde_base: info.bar1_pde_base(),
-                 });
- 
-                 info
-@@ -345,6 +355,16 @@ pub(crate) fn new<'a>(
-                 })?
-             },
- 
-+            // Create BAR1 user interface for CPU access to GPU virtual memory.
-+            // Uses the BAR1 PDE base from GSP and full BAR1 size for VA space.
-+            bar_user: {
-+                let params = boot_params.get();
-+                let pdb_addr = VramAddress::new(params.bar1_pde_base);
-+                let mmu_version = MmuVersion::from(spec.chipset.arch());
-+                let bar1_size = pdev.resource_len(1)?;
-+                BarUser::new(pdb_addr, mmu_version, bar1_size)?
-+            },
-+
-             bar: devres_bar,
-         })
-     }
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Declare-src-parameter-of-fb_pad_-helpers-as-constant/20260218-164243
+base:   0082025812a31eda451fb14f13f52683ed375c49
+patch link:    https://lore.kernel.org/r/20260218083855.10743-14-tzimmermann%40suse.de
+patch subject: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from public header file
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602190548.KwDrx2RS-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190548.KwDrx2RS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602190548.KwDrx2RS-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/sparc/kernel/btext.c:195:30: error: use of undeclared identifier 'font_sun_8x16'; did you mean 'font_vga_8x16'?
+     195 |         const unsigned char *font       = font_sun_8x16.data + font_index;
+         |                                           ^~~~~~~~~~~~~
+         |                                           font_vga_8x16
+   include/linux/font.h:99:31: note: 'font_vga_8x16' declared here
+      99 | extern const struct font_desc font_vga_8x16;
+         |                               ^
+   1 error generated.
+
+
+vim +195 arch/sparc/kernel/btext.c
+
+c57ec52f2647e5 David S. Miller        2009-11-27  190  
+c57ec52f2647e5 David S. Miller        2009-11-27  191  static void draw_byte(unsigned char c, long locX, long locY)
+c57ec52f2647e5 David S. Miller        2009-11-27  192  {
+c57ec52f2647e5 David S. Miller        2009-11-27  193  	unsigned char *base	= calc_base(locX << 3, locY << 4);
+0f1991949d9bd5 Dr. David Alan Gilbert 2023-08-07  194  	unsigned int font_index = c * 16;
+0f1991949d9bd5 Dr. David Alan Gilbert 2023-08-07 @195  	const unsigned char *font	= font_sun_8x16.data + font_index;
+c57ec52f2647e5 David S. Miller        2009-11-27  196  	int rb			= dispDeviceRowBytes;
+c57ec52f2647e5 David S. Miller        2009-11-27  197  
+c57ec52f2647e5 David S. Miller        2009-11-27  198  	switch(dispDeviceDepth) {
+c57ec52f2647e5 David S. Miller        2009-11-27  199  	case 24:
+c57ec52f2647e5 David S. Miller        2009-11-27  200  	case 32:
+c57ec52f2647e5 David S. Miller        2009-11-27  201  		draw_byte_32(font, (unsigned int *)base, rb);
+c57ec52f2647e5 David S. Miller        2009-11-27  202  		break;
+c57ec52f2647e5 David S. Miller        2009-11-27  203  	case 15:
+c57ec52f2647e5 David S. Miller        2009-11-27  204  	case 16:
+c57ec52f2647e5 David S. Miller        2009-11-27  205  		draw_byte_16(font, (unsigned int *)base, rb);
+c57ec52f2647e5 David S. Miller        2009-11-27  206  		break;
+c57ec52f2647e5 David S. Miller        2009-11-27  207  	case 8:
+c57ec52f2647e5 David S. Miller        2009-11-27  208  		draw_byte_8(font, (unsigned int *)base, rb);
+c57ec52f2647e5 David S. Miller        2009-11-27  209  		break;
+c57ec52f2647e5 David S. Miller        2009-11-27  210  	}
+c57ec52f2647e5 David S. Miller        2009-11-27  211  }
+c57ec52f2647e5 David S. Miller        2009-11-27  212  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
