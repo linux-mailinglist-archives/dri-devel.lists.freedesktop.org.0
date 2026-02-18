@@ -2,77 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MJyvAWvClWmBUgIAu9opvQ
+	id HqdjHdfClWmNUgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:45:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C79156CDE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A58156CF5
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064A310E5CF;
-	Wed, 18 Feb 2026 13:45:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fireburn-co-uk.20230601.gappssmtp.com header.i=@fireburn-co-uk.20230601.gappssmtp.com header.b="rUpGzuI0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A9610E5BD;
+	Wed, 18 Feb 2026 13:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA5810E5CF
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 13:45:10 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-483770e0b25so48304895e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 05:45:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20230601.gappssmtp.com; s=20230601; t=1771422308; x=1772027108;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nBxBlG0CqiDp7wzT8YiCu+b5xM1pw9txP3OMlw0eY2g=;
- b=rUpGzuI0/QbcIe69aU4sQKXu3B4NQT2AAq2sl3+sRjSFBs2nFeMqkqed2ujp+m4v/i
- j06OE9B6up5MCmq+qj+zEC79DuG2hqvzcf9aP6KWFgUsdPG0BVH0bis9ULQXYYqPIUtG
- /JA5e0xN0wEctocGyoBGWhyPZjhjnx0gat6ovkJr6Fg+99ucsPjqorGdX1UR4YYajwAM
- NGGB2AyeReMPWpX9IGIhhUy6KgoO65JDxkMNCO5ZV72m/mV/qUJv/LwdYUdKRgP8+SZe
- gtx1Atc7hGJ9gbqXfNlYQ89OcHqwry6hGM4mmEuVWi4uBLljmxL/HvLPwpQK1lvR/gnM
- BI5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771422308; x=1772027108;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nBxBlG0CqiDp7wzT8YiCu+b5xM1pw9txP3OMlw0eY2g=;
- b=Ke4b2g1WJ4wOaZDJiOQATZa82wiw7oWfrwwO8cZekrSFGTZn5LOB9HkhA8bnXPzC6K
- E0bEsd0KRM3Nsz3oYw5z5kWqi3J+5Q/XeiJZimV+0IY7N9HU733dFJtoE5W7TjwWxzLX
- tvBNXdiMosQ1fe9XVFxaQENczb3ZQptzkBP4b3Yhr/BSvbaoPv0Dt5qcpVhSb5BOXXV1
- LLU2dsyGokTc2mG7maZWRkbEqR7BYfp69SuoCuqKZQ6XBBA8Qpb6DXMTxuv8sD9kzRnz
- 7/iRPDLAocFOc40YN1mE8ud338kOW7zu7ggYSuWBpqQLrbD1WtqAi+W67O5AiDyA1mMO
- JP0A==
-X-Gm-Message-State: AOJu0YyWkjGFfiAnOM+l2Le/gJn+3u1MkqegjBMAmdu1leNYFef74apd
- 7MiGqMbi3zOjLxPqZOBg2wph0E8kavX3WXiuqHxJWgO69Lu2/vsWZA4Jrn7rzoVFvAKhgzgT0Kf
- i8wI=
-X-Gm-Gg: AZuq6aLwt7iKkIYolUBB4z0/ibT/L7j2ATZlloVx14lfFNjWrp7q+8Zr0kKjMnmNRmR
- qPnnoHuS5Hzo0aT7jDGMFjHKGWswWhpT45AdBz2OaJGxS6SWbKQAJ9QKCLtnpf1db2TVZUYXfS9
- nmZuZuu6lZmn4OyDT3YBvZAHSI6SFikMGT1NCXrBAtQg896UkuuQZZUnJ+z7uzI4AbHXT4wx4nR
- j35b7X+ahLsT+j1ZmasmCx+K7GOh4lCcD2WQby4HZ02CZp93bk0ISnEwif2F/aA7DtG2nScSJYU
- JXuL71xvC446ljz6ogpzYLoaRU+bsx0MHGuYOaN+ty1e6d3dZkST2wjjbYQOCX/0MFiV0ZOVdxU
- 7794JFuvMoRLUf+wruYiE3FRcBhPC7Q7S5KTh5gbqHGQo41wUQF+5PwJ/i8sX74VAHjutzyxbC3
- /iUHZgO5GIqYQA7nezW7BRaLQnb//aq9NmD5uF0EE=
-X-Received: by 2002:a05:600c:3b10:b0:480:4b59:9327 with SMTP id
- 5b1f17b1804b1-4838c063f8emr124148575e9.1.1771422307897; 
- Wed, 18 Feb 2026 05:45:07 -0800 (PST)
-Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:8363:ff71:698c:eb67])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43796a74918sm42018264f8f.17.2026.02.18.05.45.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Feb 2026 05:45:07 -0800 (PST)
-From: Mike Lothian <mike@fireburn.co.uk>
-To: dri-devel@lists.freedesktop.org
-Cc: Mike Lothian <mike@fireburn.co.uk>
-Subject: [PATCH] drm/amdgpu: increase queue timeout to 3 seconds
-Date: Wed, 18 Feb 2026 13:44:52 +0000
-Message-ID: <20260218134452.112147-1-mike@fireburn.co.uk>
-X-Mailer: git-send-email 2.53.0
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F25510E2F2;
+ Wed, 18 Feb 2026 13:46:58 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by psionic.psi5.com (Postfix) with ESMTPSA id 15B983F1F5;
+ Wed, 18 Feb 2026 14:46:54 +0100 (CET)
+From: Simon Richter <Simon.Richter@hogyros.de>
+To: linux-pci@vger.kernel.org
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Simon Richter <Simon.Richter@hogyros.de>
+Subject: [PATCH v2 0/5] Bridges without VGA support
+Date: Wed, 18 Feb 2026 22:46:28 +0900
+Message-ID: <20260218134633.461181-1-Simon.Richter@hogyros.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260217170419.236739-1-Simon.Richter@hogyros.de>
+References: <20260217170419.236739-1-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,59 +51,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[fireburn-co-uk.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWO(0.00)[2];
-	DMARC_NA(0.00)[fireburn.co.uk];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[fireburn-co-uk.20230601.gappssmtp.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mike@fireburn.co.uk,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[fireburn.co.uk:mid,fireburn.co.uk:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 83C79156CDE
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[hogyros.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,hogyros.de:mid]
+X-Rspamd-Queue-Id: 00A58156CF5
 X-Rspamd-Action: no action
 
-This fixes a timeout whilst running GravityMark v1.89 Fullscreen VK RT
+Hi,
 
-Fixes: 1bea57ea7544 ("drm/amdgpu: reduce queue timeout to 2 seconds v2")
-Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2 fixes the formatting errors.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index c7f44422939f..00f495b8c4f0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4204,9 +4204,9 @@ static int amdgpu_device_get_job_timeout_settings(struct amdgpu_device *adev)
- 	long timeout;
- 	int ret = 0;
- 
--	/* By default timeout for all queues is 2 sec */
-+	/* By default timeout for all queues is 3 sec */
- 	adev->gfx_timeout = adev->compute_timeout = adev->sdma_timeout =
--		adev->video_timeout = msecs_to_jiffies(2000);
-+		adev->video_timeout = msecs_to_jiffies(3000);
- 
- 	if (!strnlen(input, AMDGPU_MAX_TIMEOUT_PARAM_LENGTH))
- 		return 0;
+This allows bridges to refuse forwarding VGA, and reports this upwards as an
+error, because we cannot set up valid decoding for the requested device in this
+case.
+
+I think it should be fine to leave VGA forwarding enabled on lower bridges if a
+bridge closer to the root refused to enable forwarding, because no accesses can
+reach there anyway.
+
+   Simon
+
+Simon Richter (5):
+  vgaarb: pass vga_get errors to userspace
+  vgaarb: pass errors from pci_set_vga_state up
+  vgaarb: mark vga_get family as __must_check
+  pci: check if VGA decoding was really activated
+  pci: mark return value of pci_set_vga_state as __must_check
+
+ drivers/pci/pci.c      |  6 ++++++
+ drivers/pci/vgaarb.c   | 20 +++++++++++++++++---
+ include/linux/pci.h    |  4 ++--
+ include/linux/vgaarb.h | 15 ++++++++-------
+ 4 files changed, 33 insertions(+), 12 deletions(-)
+
 -- 
-2.53.0
+2.47.3
 
