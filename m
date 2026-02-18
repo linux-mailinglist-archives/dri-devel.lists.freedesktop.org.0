@@ -2,73 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EClTADAllmn0bAIAu9opvQ
+	id TopxAUgnlmkvbgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:40 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:55:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A483715987A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D2E1599A9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 21:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE3310E314;
-	Wed, 18 Feb 2026 20:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39E110E316;
+	Wed, 18 Feb 2026 20:55:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aq8Biwzt";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Sr3htqzz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1981210E2AC
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 20:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/IZM1elfnl6KGzMsKpeeZ82R+CiQsEgLjV2VtPSNTYo=; b=aq8Biwzt1Typd/f4QmUa4L2rHP
- fjjeS8loIx17mRutcaiydo1E5ZGLW6YUQeV8KR0e/F69CwSyYPP6H/N7opHDkn9ApfBeqDawzoPjS
- jVW6Wv+piqZ9tGLGA07NdNNgQ59ECaOyuIDp3kkl9ESOfEm/QuIQjo81t+mDSrHZXssRHs0q1WC0w
- Y/13n5NocGTMjWfa35sGlMljIXCoL13FNh1eGN25VtRBPEfcqcVy6SCamWvRW+wQLXBGqNql20Uqr
- sQjqeOe/iLFCmYqrnboLfxt/OcZANJsptzdK5XmSHVwPijTc44Rouudosp8rB9G+FfrQgWgGdb2Xk
- NzNS+aRA==;
-Received: from [187.36.210.68] (helo=1.0.0.127.in-addr.arpa)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vsoRI-002Czn-Du; Wed, 18 Feb 2026 21:46:28 +0100
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Wed, 18 Feb 2026 17:45:04 -0300
-Subject: [PATCH v6 6/6] drm/v3d: Introduce Runtime Power Management
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010063.outbound.protection.outlook.com [52.101.56.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A0610E316;
+ Wed, 18 Feb 2026 20:55:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xibyAHIrqLmZhLICEoTiqEHcvALr4x5jUWS0bfAUZFPBV50c9J1I2Z6AVQKxo2oHi5K97EyymZEmJSmqJNzgGYPgY8uNsi0GBwHv7jI3jkC7S6SXufnssrL+9SqdKDF/F/lzPTfXhrmtsYSguHko+rFJz0cpcp3DW3ZxiMCXAn0JBW/AWE4ZjIDn4XLnQHRlQnGPPOqtmg2Fcu6tKdONTcs072bS7xtNxtIfHkpOErTxDQvQ28vREGFRbKTitnWbRdh5yPLBKc+x/wZc/m7UpInYtmimQ1DSz8I+oDfYaXVnvYCwbfTE51u+TIo8MclbNZ7PyRPOZ+BuALznhC3Ylw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w2TAqTG7olg71rrxfsek/73j8+daHV/6SEM9tKho2Q4=;
+ b=MeaEpA6DDlFiqMKyiPrjcWTSYUQH1wIuXeJoyOuY6XwcC/xcN9X2Hcg/SYPKV1WVjWu5IBwXcQoZvfqfsc6ldPNCMvpbOLbAT1HUK8IfctHaxiTVQddgA/Z7RLqXs6MVQEz0mn+uhSYI9T72fAOtTVi4NAhlZtgmft9g5pOAlS9TBnH8pxke2gP7hSoNRuT7jJwq+r6l3N7er8C1S1Vkjd8T4E6gses1K9Fs7MnWU8oGGuOspu+z7pFYkT5+cRp+GtAxpj7sJlvfXA4oR8AZoGL+UQzDPJei98NWLURViBSjU4qiNi5kTkS7AuIeJHJSQXpc6e+PXgOzMkk4f8WdRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w2TAqTG7olg71rrxfsek/73j8+daHV/6SEM9tKho2Q4=;
+ b=Sr3htqzzG0ypsk4M6AdXVPJs1tehVvttUPLkysPxzUHDlFnfwVM1u1egTvU/Y3VWxpMEcj+KQQZHumH7sCYiQ4tEuLCL7QifN+bEt/Pewu97doEJORbVMHwT8rJq5MD1gIGirw42m/q4qP6kOc+9Nlwndl8YOsj9nnY1WFsT8WaDawFffvvSbhd/Nx/dDf8diPlwu1/eb9DYGrO2Uw657Cm3gMxRJDUiL5YGE/wkvAXoe3LD7405MSbKe3hRN3SD4iWTh5i9jFFatraIVndRSZEAb+7uU9HZAlFSXU+5VyNtfiOodVgmuQOXyDwekK8sGqGGbM6VkJ7NLGJRpxUFVw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ PH0PR12MB8031.namprd12.prod.outlook.com (2603:10b6:510:28e::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.14; Wed, 18 Feb 2026 20:55:26 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
+ 20:55:25 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Joel Fernandes <joelagnelf@nvidia.com>, Nikola Djukic <ndjukic@nvidia.com>
+Subject: [PATCH v10 0/8] Preparatory patches for nova-core memory management
+Date: Wed, 18 Feb 2026 15:54:58 -0500
+Message-Id: <20260218205507.689429-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260218-v3d-power-management-v6-6-40683fd39865@igalia.com>
-References: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
-In-Reply-To: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>, 
- Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
- Chema Casanova <jmcasanova@igalia.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15300; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=S37v/Tln6zLhRRl2fYuoM4BxmLHQ4HSmxxLDTyGSGlE=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpliT52shWEnoAWmNJcsmF9lmPQZJesGvmjR/hN
- Bwd3Zg+oc+JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaZYk+QAKCRA/8w6Kdoj6
- qkTSCACz6pzfh/A7ICsjXYphgICqPsv7PnDgJUOP5EzK0+l5XPXRsmTeNvI+94WcG8qx1YqUUd9
- S6UmeIvN5EoPhveLH3u0SkuiJbEjqWKqaS1Ho9p1Dcuwsv+odRlIFii8ayu8yhBpw7JzfTXmiKi
- qVoCFApV1u1a4Ahlkf0SdEILqkP0NDihl3zr4MoERkQXtlsmpeEvpRw9SmiWEgIRMkxiixui4LS
- rszzPp/DzbLzzuk62AQgn7tD71cGXBLrTNjnWth0+HQkBi4hQ58V1smx2t5uC8bCZKnLVYYhKCI
- 2iBBBVmLzq4Vy3h7ifA0yiB50pTy8uv+UDKRaZUDz6eDXFTK
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+Content-Type: text/plain
+X-ClientProxiedBy: IA4P221CA0003.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:559::7) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH0PR12MB8031:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76f9a318-54df-4424-7521-08de6f300a1c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lQyJsPjBEeksxpnqrvzkoXbwFtKsgQIXYAo7iGbIhnumOZis+rHroK/kpXZO?=
+ =?us-ascii?Q?Tki3cHDKZE8L9+xQm/slPcz9c2tbiHUnjvgI8zABLXTWYyWcuhH/Dz4LTfRu?=
+ =?us-ascii?Q?/K062T8I5ATvK1bpXo9D6V8n10eGTz8LjMIOgH7eSCBAVX+Fp9d+zUo4sTWV?=
+ =?us-ascii?Q?+PSA/9LGhHlf3PujjRBpMBiAMI6w1orXp4/XlyODUk5uJaFRCnEdYWdyHWI5?=
+ =?us-ascii?Q?2yCzLTiBbAJz/XjQ4mVHc1GPakkQGyxN8IViqePD6GBimv5YIAZZfDC/UHkB?=
+ =?us-ascii?Q?tuomMXR25Ym4IfIUOO5l/bw2OkXnJze5tvbPTKqsk2kHCF/Ul/ew7XzHz0Ko?=
+ =?us-ascii?Q?OVtyq1bI54afLtgvFUHGkwV96djRQqtA+VcCFKMFCxbl/vgn/ZB3F2WUjm0f?=
+ =?us-ascii?Q?mAt+OG1t3aTLUljy1vM133sQugPEBFHqusquh0btXnkfmLttbKNE5Jt9Oala?=
+ =?us-ascii?Q?6lOMAbGu662gw7FRjcCNAxps7AS5KDLzK+g2bSQMXsQMVXZQTZUtTLFY3TC2?=
+ =?us-ascii?Q?P+VSghqiP7WxR5dj47FrTpvBRsEf4rhK03/H/yHDgYMtvoYx+iH+XDFhTwoG?=
+ =?us-ascii?Q?R5gVbn9bi7hic0Dn/RkSOOg65VbnP+UaL8BPTAuRnNAFBOEZDC4E3lG/G3/f?=
+ =?us-ascii?Q?5SMlg40pBzVbE/C0sIkV5Xpp29nS+YzfUyuwlqnw9Hy86IJubpPXHH6TsMu5?=
+ =?us-ascii?Q?8SpkQ8C7ImVCC3yheBtG0m3AbhcZWRaTgDq5WSfW0pHhfdH1/Jo3FPqF3YDQ?=
+ =?us-ascii?Q?PgLqin9ZVrqzOvMB90VYFhOc88W45RWMijxIX23HZpmMJpUOi5WiOFlrfCFS?=
+ =?us-ascii?Q?XkAicNdeUVqjSO47odQKxu0oKk0mMIPLlJKy8DkvM1AgC50YAEsG07LfDZQu?=
+ =?us-ascii?Q?PPST1nOWF4TRUxNzKJ5gb6LkfFAVOQeDaQDRs2HQ+zwcTOteBbZ5RlpBP0vR?=
+ =?us-ascii?Q?V8hTWpm7qqstkDuWkveqNIVa8vXewIJJy+asm2TQFzdWRUONzFlkvebtENUs?=
+ =?us-ascii?Q?/01ggabZxv/4htwXBvSVsS0k4lkt0FeekbxboCJnxhn+Kufz1H0Bgq79No2r?=
+ =?us-ascii?Q?T9bjV01Tt30hL9ADEoIrKYjrSG+KW5JhqzpJz+0v5S/MtrqJNdvgIlOfzgDf?=
+ =?us-ascii?Q?RQEenpbURO3wQvybc6ILTTqtV9zkUedm+RybyBuG8Ym/Fjlz6qnxoeAlECpK?=
+ =?us-ascii?Q?MnND9h/LMm8wzoYs3mp5xd1aWNfqs4aOO2wQikCLZnrkhATxw8yOcXSP5vwQ?=
+ =?us-ascii?Q?+IN7DeSNda8ucuWk+/GPOImMFhXD6JbZCiqIrWQUjR1BrB1dnUqCFTI7uqjT?=
+ =?us-ascii?Q?saoUnAwTB7qeWaeh1B3FNfQuWWKZyswgjzuHDLS3kiG68lzeNKHdw6zBHkCF?=
+ =?us-ascii?Q?KGXMEr2iRM49lZwIc9IrFgZGqSynjwU+UTK/J6IwSe03VwOjqka67y0AfTYn?=
+ =?us-ascii?Q?R/EBu3N/b1/qsURqjmAhZc7jztmQ5rD3QYZ52SkGYlSmGFZJfUMYqW3soV9h?=
+ =?us-ascii?Q?+TLlLDQIZdAshcgeD/G8L25QI03slwGAO3W5h9H3QlXYgQkXpuR/JKHf1rjU?=
+ =?us-ascii?Q?vGA1o5JPPiXmJ9j56PtV+2rXwu0OliX6qeE9apQrGOnrcg8vz5CrnYHvFSbH?=
+ =?us-ascii?Q?qw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RFQg34Gk988DStmoBKlXXL6l4M5eDjT6XDVy25Jdu7adW0LKpyPqP29pKp7B?=
+ =?us-ascii?Q?VS9u79l2wjkWXpLfN5I1kYuJxs327pyb2vPm3fqvCKUtUiwy+a1GdOvqQqzd?=
+ =?us-ascii?Q?dQSxPAyS1PF6xQK6sJDJveEB5iz5U/2P1k0mMJpFOY0zGiw77vSbMjb433bB?=
+ =?us-ascii?Q?CfowVLrWwnYvUx24EWb9FcMvw7uFqjgZlJn+Cu0mhkdzrzSdEv9rvFx4eUPh?=
+ =?us-ascii?Q?awEEQyv2epH2zAEtc0UJorur5okf4DmdeiEB+MSscZSv+N02CI4ZK8xbC4RE?=
+ =?us-ascii?Q?zCtowzCUfe4AZpFAQI/CGdNCwKsxl9Oz2idky2F/RyZW9aOm0jhG2klocG5n?=
+ =?us-ascii?Q?bdJRvvTGxrJksybsM+RW2fclaFSqgoT8Fuu9Dhfpn7p9yBxNz6uLjQERs6xF?=
+ =?us-ascii?Q?6EhgI8Wec+/hDi2u/opo+pixz2Hms/CJgbF6qfhvgal2fK90vOZC21BRD+rA?=
+ =?us-ascii?Q?7fxIg0d1/wDs3AO2z9+4LeRr0WA1CSSgCyVTvoTIH0gptrMMAtqOYCYW2Ig1?=
+ =?us-ascii?Q?OQiDYHe2Y+6H7jJrLelFcir0zQZ8wdIbU9NBlDwRAasKXFxSr5F9VauV0K4k?=
+ =?us-ascii?Q?QavVZ2ROluy3mOFyCb3FfUlQksjsMFThIQIp7zblXITUrXhIU3Y4DnR118hC?=
+ =?us-ascii?Q?5RkE7mNzBxqOfU+IyTM2e2eaWExvI2Xhmp05xq9FtDH+J8mxC3D87aeXoupc?=
+ =?us-ascii?Q?ULhdr/GANNMpqmZfulManSRZO4fSrMD+Z4MHNv1iQNKRv9bPwk9WkbqXdesZ?=
+ =?us-ascii?Q?GxTxZem+Rro4XV7b+WNxjzrpsSbv0hzIG6NLOhYjzDOQtZkVc3hoOGCxkxGA?=
+ =?us-ascii?Q?NZmDWrsO+N1OF5kiFzneZ+bCsxaSrwifCbINogAbu0VoWCXiYEXg4uLXmgu6?=
+ =?us-ascii?Q?qyUAHNmd7WKcVGa/qKziX/jdKP8/neGXNUA2BdXuwKgETS8N3XEUPa8fttHM?=
+ =?us-ascii?Q?5qtf88YmGRVoA0VQs/1Bk2uTK3yyhXIiMCHIOr2mi1Kpr3WSdJ2u8xi3ufTs?=
+ =?us-ascii?Q?hNIxtNDR63Ow5oxi5zjeh/vix/eNvE7PtN4opvemZMnEDGAhW0nNEVB9Va3I?=
+ =?us-ascii?Q?YyOuL8nFO11JLSraVK5aye6T+04td+w5xU8ChNjprPpdtkoI0+xbHYvshp8M?=
+ =?us-ascii?Q?CDxbpiklNxpWsAJBbbwKjCsz0BDm4B6a5qdTKzs5+ubryWTpm4MZ/ObM8Po6?=
+ =?us-ascii?Q?8MBJrwC7tf3IgB0IgTWVjT1iRsB2AKxtDL6KBcLvYpbdZa2fv21tp6AgCYum?=
+ =?us-ascii?Q?9Ggaz8oYdZMGU6dETkQZb+qT9fjZAPnznprw27sd89U1aDh5KgSZBMhB+BkE?=
+ =?us-ascii?Q?ynMHSCu592UkRtqUG1rVpZihlT8n+DKH28ljs1pXYhEIcCLBZU75I1dCx7u6?=
+ =?us-ascii?Q?gE4536E+xeAWaeG2gK4a7i0asLoUkckEMH95OtUMbZX4Sd4OdnSqqCmVtkeV?=
+ =?us-ascii?Q?VQ2dHT8+QQ8gp5NCGblWRcpyVHMBm+mWOkVA3C3qf7dgI+P6NzQyrCNhx9dc?=
+ =?us-ascii?Q?pU/pNhdM1pV7NQXkAwmahGYgykpkRsWyCHCOUK7mrw0RPWhEDRpp7JvLgHTu?=
+ =?us-ascii?Q?bvwIep0NRogHtgKbwrlb0///awv68kcQqf1yvaRmxfTKwpc2zYPJWY4WQ9Q0?=
+ =?us-ascii?Q?gq1mQ9sPE647AJ/hjtgRjtaxwLWprD9OgflSqul5sPyqE7mnm8HIyTvFMTjY?=
+ =?us-ascii?Q?DMPS4+AHxDZaWheFEkglA+71LRoQkXJWq52jLDImS7UKSHOHQku39ZvKwOlp?=
+ =?us-ascii?Q?Yki57EarMw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76f9a318-54df-4424-7521-08de6f300a1c
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 20:55:25.4832 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hdBQYGtNEVPtUFxhokNYCeo35m86ndpylPWUyAg7sBv6fanLeuq7t9JIebIJS7GlabK8P3NRRgyNrZt6ktV1ww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,585 +163,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,m:mcanal@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-0.953];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A483715987A
+X-Rspamd-Queue-Id: 69D2E1599A9
 X-Rspamd-Action: no action
 
-Commit 90a64adb0876 ("drm/v3d: Get rid of pm code") removed the last
-bits of power management code that V3D had, which were actually never
-hooked. Therefore, currently, the GPU clock is enabled during probe
-and only disabled when removing the driver.
+These are initial preparatory patches needed for nova-core memory management
+support. The series moves the DRM buddy allocator one level up so it can be
+shared across GPU subsystems, adds Rust FFI and clist bindings, and creates
+Rust GPU buddy allocator bindings.
 
-Implement proper power management using the kernel's Runtime PM
-framework.
+The clist/ffi patches are ready, reviewed by Gary and Danilo. Miguel, can you
+pull those via the rust tree?
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/Makefile      |  3 +-
- drivers/gpu/drm/v3d/v3d_debugfs.c | 23 ++++++++++-
- drivers/gpu/drm/v3d/v3d_drv.c     | 84 ++++++++++++++++++---------------------
- drivers/gpu/drm/v3d/v3d_drv.h     | 17 ++++++++
- drivers/gpu/drm/v3d/v3d_mmu.c     | 10 ++++-
- drivers/gpu/drm/v3d/v3d_perfmon.c | 18 +++++++--
- drivers/gpu/drm/v3d/v3d_power.c   | 83 ++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_submit.c  | 19 +++++++--
- 8 files changed, 198 insertions(+), 59 deletions(-)
+The non-Rust DRM buddy related patches are already being pulled into upstream
+by Dave Airlie but I have included them here as they are needed for the rest of
+the patches (thanks to Dave for reworking them so they applied).
 
-diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-index b7d673f1153bef16db3800e50b2bfaf36bf8871b..9cb1fd4e4091dbb56e6a73e2b8a51fa0d242698b 100644
---- a/drivers/gpu/drm/v3d/Makefile
-+++ b/drivers/gpu/drm/v3d/Makefile
-@@ -13,7 +13,8 @@ v3d-y := \
- 	v3d_trace_points.o \
- 	v3d_sched.o \
- 	v3d_sysfs.o \
--	v3d_submit.o
-+	v3d_submit.o \
-+	v3d_power.o
- 
- v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index 89f24eec62a74ec49b28f0b22dbf626ba7a35206..634cc796ba2324dc497694c070f2cfffcc4424c9 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -97,7 +97,11 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
- 	struct drm_debugfs_entry *entry = m->private;
- 	struct drm_device *dev = entry->dev;
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
--	int i, core;
-+	int i, core, ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	for (i = 0; i < ARRAY_SIZE(v3d_hub_reg_defs); i++) {
- 		const struct v3d_reg_def *def = &v3d_hub_reg_defs[i];
-@@ -139,6 +143,8 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
- 		}
- 	}
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	return 0;
- }
- 
-@@ -148,7 +154,11 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 	struct drm_device *dev = entry->dev;
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
- 	u32 ident0, ident1, ident2, ident3, cores;
--	int core;
-+	int core, ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	ident0 = V3D_READ(V3D_HUB_IDENT0);
- 	ident1 = V3D_READ(V3D_HUB_IDENT1);
-@@ -207,6 +217,8 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 		}
- 	}
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	return 0;
- }
- 
-@@ -234,6 +246,11 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	uint32_t cycles;
- 	int core = 0;
- 	int measure_ms = 1000;
-+	int ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	if (v3d->ver >= V3D_GEN_41) {
- 		int cycle_count_reg = V3D_PCTR_CYCLE_COUNT(v3d->ver);
-@@ -253,6 +270,8 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	msleep(measure_ms);
- 	cycles = V3D_CORE_READ(core, V3D_PCTR_0_PCTR0);
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	seq_printf(m, "cycles: %d (%d.%d Mhz)\n",
- 		   cycles,
- 		   cycles / (measure_ms * 1000),
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 592ef610d6a4bb7dfe64acf6f7283c947e9d2921..b46fa42d2a7c105d0e4617b200cc3c549c9e0e4d 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -59,6 +59,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		[DRM_V3D_PARAM_V3D_CORE0_IDENT1] = V3D_CTL_IDENT1,
- 		[DRM_V3D_PARAM_V3D_CORE0_IDENT2] = V3D_CTL_IDENT2,
- 	};
-+	int ret;
- 
- 	if (args->pad != 0)
- 		return -EINVAL;
-@@ -75,12 +76,19 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		if (args->value != 0)
- 			return -EINVAL;
- 
-+		ret = v3d_pm_runtime_get(v3d);
-+		if (ret)
-+			return ret;
-+
- 		if (args->param >= DRM_V3D_PARAM_V3D_CORE0_IDENT0 &&
- 		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
- 			args->value = V3D_CORE_READ(0, offset);
- 		} else {
- 			args->value = V3D_READ(offset);
- 		}
-+
-+		v3d_pm_runtime_put(v3d);
-+
- 		return 0;
- 	}
- 
-@@ -287,36 +295,6 @@ static const struct of_device_id v3d_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, v3d_of_match);
- 
--static void
--v3d_idle_sms(struct v3d_dev *v3d)
--{
--	if (v3d->ver < V3D_GEN_71)
--		return;
--
--	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
--
--	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
--				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
--		drm_err(&v3d->drm, "Failed to power up SMS\n");
--	}
--
--	v3d_reset_sms(v3d);
--}
--
--static void
--v3d_power_off_sms(struct v3d_dev *v3d)
--{
--	if (v3d->ver < V3D_GEN_71)
--		return;
--
--	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
--
--	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
--				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
--		drm_err(&v3d->drm, "Failed to power off SMS\n");
--	}
--}
--
- static int
- map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
- {
-@@ -400,19 +378,26 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto dma_free;
- 
--	ret = clk_prepare_enable(v3d->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
- 		goto gem_destroy;
--	}
- 
--	v3d_idle_sms(v3d);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		goto gem_destroy;
-+
-+	/* If PM is disabled, we need to call v3d_power_resume() manually. */
-+	if (!IS_ENABLED(CONFIG_PM)) {
-+		ret = v3d_power_resume(dev);
-+		if (ret)
-+			goto gem_destroy;
-+	}
- 
- 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
- 	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
- 	ret = dma_set_mask_and_coherent(dev, mask);
- 	if (ret)
--		goto clk_disable;
-+		goto runtime_pm_put;
- 
- 	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
- 
-@@ -433,26 +418,27 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	v3d->rev = V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV);
- 
- 	v3d_init_hw_state(v3d);
--	v3d_mmu_set_page_table(v3d);
--	v3d_irq_enable(v3d);
-+
-+	pm_runtime_set_autosuspend_delay(dev, 50);
-+	pm_runtime_use_autosuspend(dev);
- 
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
--		goto irq_disable;
-+		goto runtime_pm_put;
- 
- 	ret = v3d_sysfs_init(dev);
- 	if (ret)
- 		goto drm_unregister;
- 
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
- 	return 0;
- 
- drm_unregister:
- 	drm_dev_unregister(drm);
--irq_disable:
--	v3d_irq_disable(v3d);
--clk_disable:
--	v3d_power_off_sms(v3d);
--	clk_disable_unprepare(v3d->clk);
-+runtime_pm_put:
-+	pm_runtime_put_sync_suspend(dev);
- gem_destroy:
- 	v3d_gem_destroy(drm);
- dma_free:
-@@ -470,21 +456,27 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(drm);
- 
--	v3d_power_off_sms(v3d);
-+	pm_runtime_suspend(dev);
- 
--	clk_disable_unprepare(v3d->clk);
-+	/* If PM is disabled, we need to call v3d_power_suspend() manually. */
-+	if (!IS_ENABLED(CONFIG_PM))
-+		v3d_power_suspend(dev);
- 
- 	v3d_gem_destroy(drm);
- 
- 	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
- }
- 
-+static DEFINE_RUNTIME_DEV_PM_OPS(v3d_pm_ops, v3d_power_suspend,
-+				 v3d_power_resume, NULL);
-+
- static struct platform_driver v3d_platform_driver = {
- 	.probe		= v3d_platform_drm_probe,
- 	.remove		= v3d_platform_drm_remove,
- 	.driver		= {
- 		.name	= "v3d",
- 		.of_match_table = v3d_of_match,
-+		.pm = pm_ptr(&v3d_pm_ops),
- 	},
- };
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index ff90ef6876d65241975f259b44c6f09941d12ecb..ff61a2510742e46f246f3935d2d0487d7202b201 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -3,6 +3,7 @@
- 
- #include <linux/delay.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/spinlock_types.h>
- #include <linux/workqueue.h>
- 
-@@ -321,6 +322,8 @@ struct v3d_job {
- 
- 	/* Callback for the freeing of the job on refcount going to 0. */
- 	void (*free)(struct kref *ref);
-+
-+	bool has_pm_ref;
- };
- 
- struct v3d_bin_job {
-@@ -594,6 +597,20 @@ int v3d_mmu_set_page_table(struct v3d_dev *v3d);
- void v3d_mmu_insert_ptes(struct v3d_bo *bo);
- void v3d_mmu_remove_ptes(struct v3d_bo *bo);
- 
-+/* v3d_power.c */
-+int v3d_power_suspend(struct device *dev);
-+int v3d_power_resume(struct device *dev);
-+
-+static __always_inline int v3d_pm_runtime_get(struct v3d_dev *v3d)
-+{
-+	return pm_runtime_resume_and_get(v3d->drm.dev);
-+}
-+
-+static __always_inline int v3d_pm_runtime_put(struct v3d_dev *v3d)
-+{
-+	return pm_runtime_put_autosuspend(v3d->drm.dev);
-+}
-+
- /* v3d_sched.c */
- void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
- 				   unsigned int count);
-diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
-index c513a393c0313772650fd6d7236127b2dc4101d9..630c64e51d2f2ad30e59fa2b175487efe0bfba49 100644
---- a/drivers/gpu/drm/v3d/v3d_mmu.c
-+++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-@@ -39,7 +39,11 @@ static bool v3d_mmu_is_aligned(u32 page, u32 page_address, size_t alignment)
- 
- int v3d_mmu_flush_all(struct v3d_dev *v3d)
- {
--	int ret;
-+	int ret = 0;
-+
-+	/* Flush the PTs only if we're already awake */
-+	if (!pm_runtime_get_if_active(v3d->drm.dev))
-+		return 0;
- 
- 	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
- 		  V3D_MMUC_CONTROL_ENABLE);
-@@ -48,7 +52,7 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
- 			 V3D_MMUC_CONTROL_FLUSHING), 100);
- 	if (ret) {
- 		dev_err(v3d->drm.dev, "MMUC flush wait idle failed\n");
--		return ret;
-+		goto pm_put;
- 	}
- 
- 	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-@@ -59,6 +63,8 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
- 	if (ret)
- 		dev_err(v3d->drm.dev, "MMU TLB clear wait idle failed\n");
- 
-+pm_put:
-+	v3d_pm_runtime_put(v3d);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-index c090fc30ba4b2c502cbdc4310ee0c35f6c8aefb0..1c3c0b8c46b8fcb7697742011bbd8311dc8cddb7 100644
---- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-+++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-@@ -232,6 +232,9 @@ void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon *perfmon)
- 	if (WARN_ON_ONCE(!perfmon || v3d->active_perfmon))
- 		return;
- 
-+	if (!pm_runtime_get_if_active(v3d->drm.dev))
-+		return;
-+
- 	ncounters = perfmon->ncounters;
- 	mask = GENMASK(ncounters - 1, 0);
- 
-@@ -257,6 +260,8 @@ void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon *perfmon)
- 	V3D_CORE_WRITE(0, V3D_PCTR_0_OVERFLOW, mask);
- 
- 	v3d->active_perfmon = perfmon;
-+
-+	v3d_pm_runtime_put(v3d);
- }
- 
- void v3d_perfmon_stop(struct v3d_dev *v3d, struct v3d_perfmon *perfmon,
-@@ -268,10 +273,11 @@ void v3d_perfmon_stop(struct v3d_dev *v3d, struct v3d_perfmon *perfmon,
- 		return;
- 
- 	mutex_lock(&perfmon->lock);
--	if (perfmon != v3d->active_perfmon) {
--		mutex_unlock(&perfmon->lock);
--		return;
--	}
-+	if (perfmon != v3d->active_perfmon)
-+		goto out;
-+
-+	if (!pm_runtime_get_if_active(v3d->drm.dev))
-+		goto out_clear;
- 
- 	if (capture)
- 		for (i = 0; i < perfmon->ncounters; i++)
-@@ -279,7 +285,11 @@ void v3d_perfmon_stop(struct v3d_dev *v3d, struct v3d_perfmon *perfmon,
- 
- 	V3D_CORE_WRITE(0, V3D_V4_PCTR_0_EN, 0);
- 
-+	v3d_pm_runtime_put(v3d);
-+
-+out_clear:
- 	v3d->active_perfmon = NULL;
-+out:
- 	mutex_unlock(&perfmon->lock);
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_power.c b/drivers/gpu/drm/v3d/v3d_power.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..f3d30ef5de4ea6ecdbd21c438b8af54bdf4d0dba
---- /dev/null
-+++ b/drivers/gpu/drm/v3d/v3d_power.c
-@@ -0,0 +1,83 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Copyright (C) 2026 Raspberry Pi */
-+
-+#include <linux/clk.h>
-+#include <linux/reset.h>
-+
-+#include <drm/drm_print.h>
-+
-+#include "v3d_drv.h"
-+#include "v3d_regs.h"
-+
-+static void
-+v3d_resume_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
-+		drm_err(&v3d->drm, "Failed to power up SMS\n");
-+	}
-+
-+	v3d_reset_sms(v3d);
-+}
-+
-+static void
-+v3d_suspend_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
-+		drm_err(&v3d->drm, "Failed to power off SMS\n");
-+	}
-+}
-+
-+int v3d_power_suspend(struct device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	v3d_irq_disable(v3d);
-+	v3d_suspend_sms(v3d);
-+
-+	if (v3d->reset)
-+		reset_control_assert(v3d->reset);
-+
-+	clk_disable_unprepare(v3d->clk);
-+
-+	return 0;
-+}
-+
-+int v3d_power_resume(struct device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+	int ret;
-+
-+	ret = clk_prepare_enable(v3d->clk);
-+	if (ret)
-+		return ret;
-+
-+	if (v3d->reset) {
-+		ret = reset_control_deassert(v3d->reset);
-+		if (ret)
-+			goto clk_disable;
-+	}
-+
-+	v3d_resume_sms(v3d);
-+	v3d_mmu_set_page_table(v3d);
-+	v3d_irq_enable(v3d);
-+
-+	return 0;
-+
-+clk_disable:
-+	clk_disable_unprepare(v3d->clk);
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 794c3571662de7eb566bf4c0561571d7618dd234..fea7573505cd0d2b84d21efda88ed4da657d18d4 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -103,6 +103,9 @@ v3d_job_free(struct kref *ref)
- 	if (job->perfmon)
- 		v3d_perfmon_put(job->perfmon);
- 
-+	if (job->has_pm_ref)
-+		v3d_pm_runtime_put(job->v3d);
-+
- 	kfree(job);
- }
- 
-@@ -184,13 +187,13 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 				if (copy_from_user(&in, handle++, sizeof(in))) {
- 					ret = -EFAULT;
- 					drm_dbg(&v3d->drm, "Failed to copy wait dep handle.\n");
--					goto fail_deps;
-+					goto fail_job_init;
- 				}
- 				ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv, in.handle, 0);
- 
- 				// TODO: Investigate why this was filtered out for the IOCTL.
- 				if (ret && ret != -ENOENT)
--					goto fail_deps;
-+					goto fail_job_init;
- 			}
- 		}
- 	} else {
-@@ -198,14 +201,22 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 
- 		// TODO: Investigate why this was filtered out for the IOCTL.
- 		if (ret && ret != -ENOENT)
--			goto fail_deps;
-+			goto fail_job_init;
-+	}
-+
-+	/* CPU jobs don't require hardware resources */
-+	if (queue != V3D_CPU) {
-+		ret = v3d_pm_runtime_get(v3d);
-+		if (ret)
-+			goto fail_job_init;
-+		job->has_pm_ref = true;
- 	}
- 
- 	kref_init(&job->refcount);
- 
- 	return 0;
- 
--fail_deps:
-+fail_job_init:
- 	drm_sched_job_cleanup(&job->base);
- 	return ret;
- }
+I will post the nova-core memory management patches as a separate follow-up
+series just after this one.
 
+The git tree with all these patches can be found at:
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova/mm)
+
+Joel Fernandes (7):
+  gpu: Move DRM buddy allocator one level up (part one)
+  gpu: Move DRM buddy allocator one level up (part two)
+  rust: ffi: Convert pub use to pub mod and create ffi module
+  rust: clist: Add support to interface with C linked lists
+  rust: gpu: Add GPU buddy allocator bindings
+  nova-core: mm: Select GPU_BUDDY for VRAM allocation
+  nova-core: Kconfig: Sort select statements alphabetically
+
+Koen Koning (1):
+  gpu: Fix uninitialized buddy for built-in drivers
+
+ Documentation/gpu/drm-mm.rst                  |   10 +-
+ MAINTAINERS                                   |   15 +-
+ drivers/gpu/Kconfig                           |   13 +
+ drivers/gpu/Makefile                          |    3 +-
+ drivers/gpu/buddy.c                           | 1322 +++++++++++++++++
+ drivers/gpu/drm/Kconfig                       |    5 +-
+ drivers/gpu/drm/Kconfig.debug                 |    1 -
+ drivers/gpu/drm/Makefile                      |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |   12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   79 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |   20 +-
+ drivers/gpu/drm/drm_buddy.c                   | 1277 +---------------
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |    2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c       |   10 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |   55 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |    4 +-
+ .../drm/i915/selftests/intel_memory_region.c  |   20 +-
+ drivers/gpu/drm/tests/Makefile                |    1 -
+ drivers/gpu/drm/tests/drm_exec_test.c         |    2 -
+ drivers/gpu/drm/tests/drm_mm_test.c           |    2 -
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |    4 +-
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |   18 +-
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |    4 +-
+ drivers/gpu/drm/xe/xe_res_cursor.h            |   34 +-
+ drivers/gpu/drm/xe/xe_svm.c                   |   12 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   71 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h    |    4 +-
+ drivers/gpu/nova-core/Kconfig                 |    3 +-
+ drivers/gpu/tests/Makefile                    |    4 +
+ .../gpu_buddy_test.c}                         |  416 +++---
+ .../lib/drm_random.c => tests/gpu_random.c}   |   18 +-
+ .../lib/drm_random.h => tests/gpu_random.h}   |   18 +-
+ drivers/video/Kconfig                         |    1 +
+ include/drm/drm_buddy.h                       |  163 +-
+ include/linux/gpu_buddy.h                     |  177 +++
+ rust/bindings/bindings_helper.h               |   11 +
+ rust/helpers/gpu.c                            |   23 +
+ rust/helpers/helpers.c                        |    2 +
+ rust/helpers/list.c                           |   17 +
+ rust/kernel/ffi/clist.rs                      |  327 ++++
+ rust/kernel/ffi/mod.rs                        |    9 +
+ rust/kernel/gpu/buddy.rs                      |  537 +++++++
+ rust/kernel/gpu/mod.rs                        |    5 +
+ rust/kernel/lib.rs                            |    5 +-
+ 45 files changed, 2893 insertions(+), 1846 deletions(-)
+ create mode 100644 drivers/gpu/Kconfig
+ create mode 100644 drivers/gpu/buddy.c
+ create mode 100644 drivers/gpu/tests/Makefile
+ rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (67%)
+ rename drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c} (59%)
+ rename drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h} (53%)
+ create mode 100644 include/linux/gpu_buddy.h
+ create mode 100644 rust/helpers/gpu.c
+ create mode 100644 rust/helpers/list.c
+ create mode 100644 rust/kernel/ffi/clist.rs
+ create mode 100644 rust/kernel/ffi/mod.rs
+ create mode 100644 rust/kernel/gpu/buddy.rs
+ create mode 100644 rust/kernel/gpu/mod.rs
+
+Cc: Nikola Djukic <ndjukic@nvidia.com>
+base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
 -- 
-2.52.0
+2.34.1
 
