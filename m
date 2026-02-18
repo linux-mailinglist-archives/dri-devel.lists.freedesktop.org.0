@@ -2,66 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qP8gGRGnlWlVTAIAu9opvQ
+	id 6HG3Fpa6lWntUQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:48:33 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:11:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F065C156124
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 12:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F4415687C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B04F10E5B2;
-	Wed, 18 Feb 2026 11:48:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SvB8KT9o";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F25CF10E306;
+	Wed, 18 Feb 2026 13:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA6910E5AC;
- Wed, 18 Feb 2026 11:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771415311; x=1802951311;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rCoHTa9z3VXOIO+JfbS8w+8Wf4PT64o+1q1SJFzSTpk=;
- b=SvB8KT9obgWO/bH+L19wYBo/9l/I5rysyPTtREaagFehrT4g8E4ukZ1Q
- czk8Y+a1jLnVELqaMrzcuYBjW6oK/A9E5O/59q6OB+Cxxc2GNm/+IsweM
- a/tCeaKTfr2l4+7uDxtKhWoEzk1hqqPjkcB5fbG3TpPCsvvDAATDBeMXt
- XtWWznzJlE/dZR28oZgujxbSOWQUEdqwqCCmnL8uvaIsWpljop8KcYC7u
- APeiK4ZAursosQLcSPtCYMQR3gDbs9bOSNLlc6Ar/fiJyYOM/G+zR/324
- 2nZdOzEB+HUUwJyJsSHqQhBHn1jm7KJBBZId49mSBwY73pH2EkkhwRz+z w==;
-X-CSE-ConnectionGUID: BvMA23aDT7mROFOK4wpaqQ==
-X-CSE-MsgGUID: S2PqbaDXRFisvbWH7QQEBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72665256"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="72665256"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2026 03:48:30 -0800
-X-CSE-ConnectionGUID: EVEJf8KuRCaQGOlqCrxYvw==
-X-CSE-MsgGUID: XxIm06QpQ4OCu27nYWUc5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="212537928"
-Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2026 03:48:25 -0800
-From: Riana Tauro <riana.tauro@intel.com>
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D210610E2ED;
+ Wed, 18 Feb 2026 13:11:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by psionic.psi5.com (Postfix) with ESMTPSA id 3682B3F1F5;
+ Wed, 18 Feb 2026 14:11:41 +0100 (CET)
+From: Simon Richter <Simon.Richter@hogyros.de>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
- raag.jadav@intel.com, Riana Tauro <riana.tauro@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: [PATCH v7 5/5] drm/xe/xe_hw_error: Add support for PVC SoC errors
-Date: Wed, 18 Feb 2026 17:49:07 +0530
-Message-ID: <20260218121904.157295-12-riana.tauro@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260218121904.157295-7-riana.tauro@intel.com>
-References: <20260218121904.157295-7-riana.tauro@intel.com>
+Cc: Simon Richter <Simon.Richter@hogyros.de>
+Subject: [PATCH v2 1/1] drm/i915: handle failure from vga_get
+Date: Wed, 18 Feb 2026 22:10:46 +0900
+Message-ID: <20260218131131.460105-1-Simon.Richter@hogyros.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260217165214.236482-2-Simon.Richter@hogyros.de>
+References: <20260217165214.236482-2-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,362 +51,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ffwll.ch,gmail.com];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: F065C156124
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DMARC_NA(0.00)[hogyros.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url,hogyros.de:mid,hogyros.de:email]
+X-Rspamd-Queue-Id: D8F4415687C
 X-Rspamd-Action: no action
 
-Report the SoC nonfatal/fatal hardware error and update the counters.
+This function returns an error code. If that code is non-zero, VGA decoding
+is undefined, and the lock counter has not been increased, so it is not
+valid to access registers or call vga_put afterwards.
 
-$ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":0, "error-id":2}'
-{'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
-
-Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-Reviewed-by: Raag Jadav <raag.jadav@intel.com>
+Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/1824
 ---
-v2: Add ID's and names as uAPI (Rodrigo)
+ drivers/gpu/drm/i915/display/intel_vga.c | 31 ++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
 
-v3: reorder and align arrays
-    remove redundant string err
-    use REG_BIT
-    fix aesthic review comments (Raag)
-    use only correctable/uncorrectable error severity (Aravind)
-
-v4: fix comments
-    use master as variable name
-    add static_assert (Raag)
-
-v5: remove blank lines
-    fix alignment
-    rename variables of base registers
-    move register initialization outside loop (Raag)
-
-v6: add macro for master local reg (Raag)
----
- drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  25 +++
- drivers/gpu/drm/xe/xe_hw_error.c           | 206 +++++++++++++++++++++
- 2 files changed, 231 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-index cd17d7d7372c..046e1756c698 100644
---- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-@@ -41,6 +41,7 @@
- 									  DEV_ERR_STAT_NONFATAL))
- 
- #define   XE_CSC_ERROR					17
-+#define   XE_SOC_ERROR					16
- #define   XE_GT_ERROR					0
- 
- #define ERR_STAT_GT_FATAL_VECTOR_0			0x100260
-@@ -60,4 +61,28 @@
- #define ERR_STAT_GT_VECTOR_REG(hw_err, x)		(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
- 							 ERR_STAT_GT_COR_VECTOR_REG(x) : \
- 							 ERR_STAT_GT_FATAL_VECTOR_REG(x))
-+
-+#define SOC_PVC_MASTER_BASE				0x282000
-+#define SOC_PVC_SLAVE_BASE				0x283000
-+
-+#define SOC_GCOERRSTS					0x200
-+#define SOC_GNFERRSTS					0x210
-+#define SOC_GLOBAL_ERR_STAT_REG(base, x)		XE_REG(_PICK_EVEN((x), \
-+									  (base) + SOC_GCOERRSTS, \
-+									  (base) + SOC_GNFERRSTS))
-+#define   SOC_SLAVE_IEH					REG_BIT(1)
-+#define   SOC_IEH0_LOCAL_ERR_STATUS			REG_BIT(0)
-+#define   SOC_IEH1_LOCAL_ERR_STATUS			REG_BIT(0)
-+
-+#define SOC_GSYSEVTCTL					0x264
-+#define SOC_GSYSEVTCTL_REG(master, slave, x)		XE_REG(_PICK_EVEN((x), \
-+									  (master) + SOC_GSYSEVTCTL, \
-+									  (slave) + SOC_GSYSEVTCTL))
-+
-+#define SOC_LERRUNCSTS					0x280
-+#define SOC_LERRCORSTS					0x294
-+#define SOC_LOCAL_ERR_STAT_REG(base, hw_err)		XE_REG(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
-+							       (base) + SOC_LERRCORSTS : \
-+							       (base) + SOC_LERRUNCSTS)
-+
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-index f27773ffdb59..72dd3c7f2ef5 100644
---- a/drivers/gpu/drm/xe/xe_hw_error.c
-+++ b/drivers/gpu/drm/xe/xe_hw_error.c
-@@ -19,6 +19,7 @@
- #define GT_HW_ERROR_MAX_ERR_BITS		16
- #define HEC_UNCORR_FW_ERR_BITS			4
- #define XE_RAS_REG_SIZE				32
-+#define XE_SOC_NUM_IEH				2
- 
- #define PVC_ERROR_MASK_SET(hw_err, err_bit)	((hw_err == HARDWARE_ERROR_CORRECTABLE) ? \
- 						 (PVC_COR_ERR_MASK & REG_BIT(err_bit)) : \
-@@ -37,6 +38,7 @@ static const char * const hec_uncorrected_fw_errors[] = {
- 
- static const unsigned long xe_hw_error_map[] = {
- 	[XE_GT_ERROR]	= DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
-+	[XE_SOC_ERROR]	= DRM_XE_RAS_ERR_COMP_SOC_INTERNAL,
- };
- 
- enum gt_vector_regs {
-@@ -63,6 +65,101 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_
- 	return DRM_XE_RAS_ERR_SEV_UNCORRECTABLE;
+diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+index 6fc3e3702cb8..24635e7b27e6 100644
+--- a/drivers/gpu/drm/i915/display/intel_vga.c
++++ b/drivers/gpu/drm/i915/display/intel_vga.c
+@@ -112,12 +112,16 @@ static bool intel_pci_bridge_set_vga(struct pci_dev *pdev, bool enable)
+ 	return old & PCI_BRIDGE_CTL_VGA;
  }
  
-+static const char * const pvc_master_global_err_reg[] = {
-+	[0 ... 1]	= "Undefined",
-+	[2]		= "HBM SS0: Channel0",
-+	[3]		= "HBM SS0: Channel1",
-+	[4]		= "HBM SS0: Channel2",
-+	[5]		= "HBM SS0: Channel3",
-+	[6]		= "HBM SS0: Channel4",
-+	[7]		= "HBM SS0: Channel5",
-+	[8]		= "HBM SS0: Channel6",
-+	[9]		= "HBM SS0: Channel7",
-+	[10]		= "HBM SS1: Channel0",
-+	[11]		= "HBM SS1: Channel1",
-+	[12]		= "HBM SS1: Channel2",
-+	[13]		= "HBM SS1: Channel3",
-+	[14]		= "HBM SS1: Channel4",
-+	[15]		= "HBM SS1: Channel5",
-+	[16]		= "HBM SS1: Channel6",
-+	[17]		= "HBM SS1: Channel7",
-+	[18 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_global_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_slave_global_err_reg[] = {
-+	[0]		= "Undefined",
-+	[1]		= "HBM SS2: Channel0",
-+	[2]		= "HBM SS2: Channel1",
-+	[3]		= "HBM SS2: Channel2",
-+	[4]		= "HBM SS2: Channel3",
-+	[5]		= "HBM SS2: Channel4",
-+	[6]		= "HBM SS2: Channel5",
-+	[7]		= "HBM SS2: Channel6",
-+	[8]		= "HBM SS2: Channel7",
-+	[9]		= "HBM SS3: Channel0",
-+	[10]		= "HBM SS3: Channel1",
-+	[11]		= "HBM SS3: Channel2",
-+	[12]		= "HBM SS3: Channel3",
-+	[13]		= "HBM SS3: Channel4",
-+	[14]		= "HBM SS3: Channel5",
-+	[15]		= "HBM SS3: Channel6",
-+	[16]		= "HBM SS3: Channel7",
-+	[17]		= "Undefined",
-+	[18]		= "ANR MDFI",
-+	[19 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_slave_global_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_slave_local_fatal_err_reg[] = {
-+	[0]		= "Local IEH: Malformed PCIe AER",
-+	[1]		= "Local IEH: Malformed PCIe ERR",
-+	[2]		= "Local IEH: UR conditions in IEH",
-+	[3]		= "Local IEH: From SERR Sources",
-+	[4 ... 19]	= "Undefined",
-+	[20]		= "Malformed MCA error packet (HBM/Punit)",
-+	[21 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_slave_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_master_local_fatal_err_reg[] = {
-+	[0]		= "Local IEH: Malformed IOSF PCIe AER",
-+	[1]		= "Local IEH: Malformed IOSF PCIe ERR",
-+	[2]		= "Local IEH: UR RESPONSE",
-+	[3]		= "Local IEH: From SERR SPI controller",
-+	[4]		= "Base Die MDFI T2T",
-+	[5]		= "Undefined",
-+	[6]		= "Base Die MDFI T2C",
-+	[7]		= "Undefined",
-+	[8]		= "Invalid CSC PSF Command Parity",
-+	[9]		= "Invalid CSC PSF Unexpected Completion",
-+	[10]		= "Invalid CSC PSF Unsupported Request",
-+	[11]		= "Invalid PCIe PSF Command Parity",
-+	[12]		= "PCIe PSF Unexpected Completion",
-+	[13]		= "PCIe PSF Unsupported Request",
-+	[14 ... 19]	= "Undefined",
-+	[20]		= "Malformed MCA error packet (HBM/Punit)",
-+	[21 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_master_local_nonfatal_err_reg[] = {
-+	[0 ... 3]	= "Undefined",
-+	[4]		= "Base Die MDFI T2T",
-+	[5]		= "Undefined",
-+	[6]		= "Base Die MDFI T2C",
-+	[7]		= "Undefined",
-+	[8]		= "Invalid CSC PSF Command Parity",
-+	[9]		= "Invalid CSC PSF Unexpected Completion",
-+	[10]		= "Invalid PCIe PSF Command Parity",
-+	[11 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_local_nonfatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+#define PVC_MASTER_LOCAL_REG_INFO(hw_err)	((hw_err == HARDWARE_ERROR_FATAL) ? \
-+						 pvc_master_local_fatal_err_reg : \
-+						 pvc_master_local_nonfatal_err_reg)
-+
- static bool fault_inject_csc_hw_error(void)
+-static bool intel_vga_get(struct intel_display *display, bool mmio)
++static int __must_check intel_vga_get(struct intel_display *display, bool mmio,
++				      bool *old_io_decode)
  {
- 	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-@@ -141,6 +238,26 @@ static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
- 				    name, severity_str, i, err);
- }
+ 	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
++	int err;
  
-+static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
-+			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
-+{
-+	const char *severity_str = error_severity[severity];
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_drm_ras *ras = &xe->ras;
-+	struct xe_drm_ras_counter *info = ras->info[severity];
-+	const char *name;
-+
-+	name = reg_info[err_bit];
-+
-+	if (strcmp(name, "Undefined")) {
-+		if (severity == DRM_XE_RAS_ERR_SEV_CORRECTABLE)
-+			drm_warn(&xe->drm, "%s SOC %s detected", name, severity_str);
-+		else
-+			drm_err_ratelimited(&xe->drm, "%s SOC %s detected", name, severity_str);
-+		atomic_inc(&info[index].counter);
+-	if (mmio)
+-		return false;
++	if (mmio) {
++		*old_io_decode = false;
++		return 0;
 +	}
-+}
-+
- static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
- 				u32 error_id)
- {
-@@ -217,6 +334,92 @@ static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error
+ 
+ 	/*
+ 	 * Bypass the VGA arbiter on the iGPU and just enable
+@@ -130,10 +134,14 @@ static bool intel_vga_get(struct intel_display *display, bool mmio)
+ 	 * grab any VGA IO access when IO decode is enabled, regardless
+ 	 * of how any other VGA routing bits are configured.
+ 	 */
+-	if (display->platform.dgfx)
+-		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++	if (display->platform.dgfx) {
++		err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++		if (unlikely(err))
++			return err;
++	}
+ 
+-	return intel_pci_set_io_decode(pdev, true);
++	*old_io_decode = intel_pci_set_io_decode(pdev, true);
++	return 0;
+ }
+ 
+ static void intel_vga_put(struct intel_display *display, bool io_decode, bool mmio)
+@@ -175,6 +183,7 @@ void intel_vga_disable(struct intel_display *display)
+ 	bool io_decode;
+ 	u8 msr, sr1;
+ 	u32 tmp;
++	int err;
+ 
+ 	if (!intel_vga_decode_is_enabled(display)) {
+ 		drm_dbg_kms(display->drm, "VGA decode is disabled\n");
+@@ -216,7 +225,15 @@ void intel_vga_disable(struct intel_display *display)
+ 			goto reset_vgacntr;
  	}
- }
  
-+static void soc_slave_ieh_handler(struct xe_tile *tile, const enum hardware_error hw_err, u32 error_id)
-+{
-+	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-+	unsigned long slave_global_errstat, slave_local_errstat;
-+	struct xe_mmio *mmio = &tile->mmio;
-+	u32 regbit, slave;
-+
-+	slave = SOC_PVC_SLAVE_BASE;
-+	slave_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err));
-+
-+	if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
-+		slave_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err));
-+
-+		if (hw_err == HARDWARE_ERROR_FATAL) {
-+			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE)
-+				log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
-+					      regbit, error_id);
-+		}
-+
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err),
-+				slave_local_errstat);
-+	}
-+
-+	for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
-+		log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
-+
-+	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err), slave_global_errstat);
-+}
-+
-+static void soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
-+				 u32 error_id)
-+{
-+	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_mmio *mmio = &tile->mmio;
-+	unsigned long master_global_errstat, master_local_errstat;
-+	u32 master, slave, regbit;
-+	int i;
-+
-+	if (xe->info.platform != XE_PVC)
-+		return;
-+
-+	master = SOC_PVC_MASTER_BASE;
-+	slave = SOC_PVC_SLAVE_BASE;
-+
-+	/* Mask error type in GSYSEVTCTL so that no new errors of the type will be reported */
-+	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-+		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master, slave, i), ~REG_BIT(hw_err));
-+
-+	if (hw_err == HARDWARE_ERROR_CORRECTABLE) {
-+		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err), REG_GENMASK(31, 0));
-+		goto unmask_gsysevtctl;
-+	}
-+
-+	/*
-+	 * Read the master global IEH error register, if BIT(1) is set then process
-+	 * the slave IEH first. If BIT(0) in global error register is set then process
-+	 * the corresponding local error registers.
+-	io_decode = intel_vga_get(display, mmio);
++	/* This should not fail, because vga_get will only report errors for
++	 * dGPUs that are unreachable via the bridge, and cannot be made
++	 * reachable either. We shouldn't even get here for this case, but if
++	 * we do, we assume that the bridge will also refuse future requests
++	 * to forward VGA accesses.
 +	 */
-+	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err));
-+	if (master_global_errstat & SOC_SLAVE_IEH)
-+		soc_slave_ieh_handler(tile, hw_err, error_id);
-+
-+	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
-+		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err));
-+
-+		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE)
-+			log_soc_error(tile, PVC_MASTER_LOCAL_REG_INFO(hw_err), severity, regbit, error_id);
-+
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err), master_local_errstat);
-+	}
-+
-+	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
-+		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
-+
-+	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err), master_global_errstat);
-+
-+unmask_gsysevtctl:
-+	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-+		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master, slave, i),
-+				(HARDWARE_ERROR_MAX << 1) + 1);
-+}
-+
- static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
- {
- 	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-@@ -279,8 +482,11 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
- 					    "TILE%d reported %s %s, bit[%d] is set\n",
- 					    tile->id, name, severity_str, err_bit);
- 		}
-+
- 		if (err_bit == XE_GT_ERROR)
- 			gt_hw_error_handler(tile, hw_err, error_id);
-+		if (err_bit == XE_SOC_ERROR)
-+			soc_hw_error_handler(tile, hw_err, error_id);
- 	}
++	err = intel_vga_get(display, mmio, &io_decode);
++	if (unlikely(err))
++		goto reset_vgacntr;
  
- clear_reg:
+ 	drm_WARN_ON(display->drm, !mmio && !intel_pci_has_vga_io_decode(pdev));
+ 
 -- 
-2.47.1
+2.47.3
 
