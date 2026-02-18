@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2F4pOzfrlmkzrAIAu9opvQ
+	id YBwUMwABlmlHYAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 11:51:35 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:12:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B0415DFDD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 11:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64156158959
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 19:12:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C99C10E291;
-	Thu, 19 Feb 2026 10:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD7E110E615;
+	Wed, 18 Feb 2026 18:12:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=yahoo.pl header.i=@yahoo.pl header.b="ktG4Owel";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qewEg8Uo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic302-21.consmr.mail.ir2.yahoo.com
- (sonic302-21.consmr.mail.ir2.yahoo.com [87.248.110.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C25E10E301
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 18:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048;
- t=1771437833; bh=cbK30hxiRbkNBexcacpbyQUDpOSeiciDJhpo4iehvfc=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=ktG4OwelrfSQaCAaAc2t2V2uMD5kBKNutZPZgPgOJUAL4GD6el1jTlxsylB/MGMpIVFJ91iXKh5mmcQ2AA/BKyUiGdSuHK0jZShHZh2dbLisyXSP8yvIk0eET7ZxBbJ6DE+K/AtZIC5wAkS6z9BnPUXpmJBN4Eu19/pIFmMu4MjmhxYv3G1JiafVFVBv0abX69a39WsKMleKQnmBq3YyGi6esO6dupIgvBzryun+0Dppsamc56BLq6UHZE/AJjGpaX1OjDQ8zQlcaLO6siCaI9NHd7MYSoYeT/Ij5YTzS/qi73IDBlH1XXKkET7ODN0o6mPKz2fHm094qBnLvI5bnA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1771437833; bh=iBmuNS0S0W3VbpXc8UJQj+axoJ/jGVme1kcWB24gfjA=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=RkcYAMY+NHdZ15sa6p2bqnFEItoZoSLJLFdaUMVk/tKPGb6bhXeB1k1wL8B7MKuN/6HIiyNTGgL6DrmLl2Ttc1zKUY2N+KTCu/g3/jrcX35BcLTagu3AyOf/s+6UnC+FTmq/snv7xWN5arA/VphT4f+5AEoI5QMk6sc7Dy0T0/+raq7CnzXpJ99XLS/F8uYBwBE752C6Jbkr7z81zDLuPknx7jqjiRkS33oMYcifXuwfCl02z/NrrFRhR6hJV9qeOr/iFIcFloXEGxU2qLeLp4XhwhiDQ8JhGciJvHRZO8OvoQ191U9lsAUMEf4c+0svftZgn/Hya0wcJXT5D8JGfQ==
-X-YMail-OSG: qXvIDw4VM1mFpUMsULFTrJU4c9cBr__k.Eobri7affEQtx5enCN8jNRnlfon8LN
- T7Rlipfdg5HQ99BGVgGHAtHkINyN0kf3YGsQILjCBWQnu.ssXKM.wyiIKAyzmRQLf9tU9udG.dHs
- eB6aW_tuZZAuOJLohl90ITHwNMidOueLglgkniQnGIO1Xo3hsixiG03QNe5eReIlxmMiEJHQbiAY
- UZRiow.eojaQIVsrPwLuCbOEkwZPMawr9KdUh_jCXzPQtcEDgkO6BnpPdUhcgakhUWIwXRknNYOG
- ACQ_qEtHTSF_UIfOs91Hdk7_NMiRDK61q4CTUcqw_dS_690WvjJpcXgXHhFiM23J2R8BeesK8PSZ
- qTF1oHtFaQzME_JoIScrvDT3emMJOYydLhTmVUS3eBzClTFMB6Yh72R3yphq15rqW1Kx71BkPuyQ
- hmf6tnSwRA8ARrWwU0Ae417Z5BQzAqKPMNizoJz2yPqVD64T7DxQqAj1An0Le6Y0HdoY2mm.__RF
- eYJAgm0e9LWJcn6TynbQ7W2ZPgspnm1UI98k0fweGlzFM0qUe9rsLWXGwiKsKCGqS_1qSn7fAfOV
- kT_ZpTDTZamIR4vqQaJgP1DJuj5.KLkJp8efTTboebq4fp.nMn0ZHpThn1nmDqECwP2qYOv_t7uQ
- wra1RjxcCtYGJgTdCZefQHybtZrGeaG2YCRV3ubO8jsLVzCK_tThgJHT3s4ORtDroPVgaQv6yrXn
- BTdff3NXBazIKCCmADI5jRMQ9ndAn5oZ9Acbkm6p8fqZ_0_HTGqkuP_T.L3XNtkbMKrVIEXaT9cs
- gO235qMyK8Zc05q__T9yxCMN73FQ0VOHgogWovtEKLLFp6bAveNXPmIetIEwjlqqIvy6QcnMeAqk
- cjDfArogm.pj7rtzBsVsVNf0aPuHFSzu6iBwrBoCXUSQXenp5fjCr3gO1BSM8saRlf.ay6Y2DwSl
- wQqILdovXpLooyC_jQGBE_42l4p1Tn_zExb9solZxlUqRLXDjqPVxyc.k1Adpa3C2VrOfzR4RKdK
- g3FtIa9yF5q.BLY7rvLRI3RUBW28k.aT3QDKQzVYrraETDxOmqnpnO192Wm8hBhVoBhP9JXHkA1a
- R2fhZzP5i0jnigqSOtCIe3WjLm3y.6caaOgrlPvDmGEsW6RgsN5vpBqs4RDAvAwA1VbR2gYNVLj6
- IbiI2l.iO4UINsryzQ00QZpCTqKWQzTgyBMmUFf7tQvrHQlvUno5dsV6ItIRTymGCnBAk8IOO9tP
- 0OY7PDq8V1lNIrrE0gsROySXD4oFRTmrR_JaQW9q8XCOTfXoZwEjeekwufjI2FevAb_TZ_viIU4V
- l6kCHqXBmgp0a0mxrmNZndpLamuR8RCYnt5qriOK4p7Y.gMlqvHkcFUaf.JAj8rg5SVdGbmv_7EM
- msyIHGZs5Tvt_IHfEBdW3np6LDEB7wB9v4HNOLf9u5WSdFlWVMO7vXtIbtCro5k9SWYsjexlJTxq
- IR0I7Hf_X_oLTzP3Klya5oSccadBR.FPX3e3dLLHa8avyGL.Fn.IWqDmO2WLoGz9AZTxyvuOwEID
- kYtp2YuoN_eIIIU84ubzxL.cWjRbYh2ZzbBz0RjZWL5Xbk9LcGZR_dpBKYCtE3YflychW0UGwvX9
- 4LCeT861v5CV_I_4bXdbNY4nvM4ysr_tjZklN7WRfq3aDQuvyP9zn57Z2Fz5YQLhGKQ9.a5j0BBu
- n.60zwnDJPx2tbIxNgh3F0htkR2ANnE46fjvh2CX7qIwpona28Haav6uoVp6Bd54YCPM8OvadUIx
- iKWZFudWMi5fhWVWUIHE6jqDQm_jf2KLxiiNxkd4gT202fRfgl8dZw8QmCelKBXkph_W.cz6jd72
- luydj5e5PoTtB5l2_zcbRTTQUCNmFF3QjSTZME0_s1FQV6_IVQD8DfDHTIixQyCSzdSOEyhveThx
- wOO3Lznadm7bYMviz1yq_7R6oZ3SOca8LCdki4Nkd7FlrxvXHB8oj0DFO7C_3l15viyhyZsQlAKJ
- moIXl3r8k5I91ySPcT5iSymB3vG0kUFs0ZK5RYLKXLTfmQUxzuAsKKT_vsYelfs2P96LZB8LfQlS
- _ypJHlN1zqgB3eiXm2zVLwiLLQi54x50R.X7iWngkN.4YRNePmUs_Q36S1M0zTLGPZ1.Zn0VVBgH
- srXQCJpeLGl.1pzdUkWATsancW7SBPP4jCqaAKXHSuMooOjcSCaCZZasYalL8CaRJUXSkNL7ZmFl
- gEb.8pruw91F1zCM_ZgbjEzRWQbWvmSDR8Hqn0pO0cRz8gWZJPNhkbeCcQbiV2D6y_lh5HfdGmUl
- s0vyHnA2aUDJ13_ywcQ--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: a14cd034-e18e-4282-9e40-1eb10f74d2c2
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic302.consmr.mail.ir2.yahoo.com with HTTP; Wed, 18 Feb 2026 18:03:53 +0000
-Received: by hermes--production-ir2-bbcfb4457-g6b6v (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID fa0dd80118d0af9e03c772f1b03d5629; 
- Wed, 18 Feb 2026 18:03:50 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: fbtft: fb_upd161704: replace udelay with usleep_range
-Date: Wed, 18 Feb 2026 19:03:47 +0100
-Message-ID: <20260218180347.88034-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E0410E615
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 18:12:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3BD3D6132F;
+ Wed, 18 Feb 2026 18:12:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73949C116D0;
+ Wed, 18 Feb 2026 18:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771438330;
+ bh=dPrOwsESVofZYLh0PyNZE+DF+vp34upCcdpBDuawO9I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qewEg8UoS5SctdkCAnSNSRmqxfPueSQ5YYWDYOyUGNCDgi35xCQ3T9OO0z7pQzH0E
+ pZ3IFg81+fcplt9NRr4IuGiklLraceImha5UKU4yJpB1+fKRB1iD9M/P5uEypPKyPQ
+ d8f//lX6I+9KkHao//de6c7wWJwCkbL+2MdDVGAtNHhozCY8wzN+dszJYjz3KM8lZm
+ RniTJBLyPNWbOveBGP9V/I9sZ9WMpf58rfEijHRdBlicZepQQNWLcM4+s5iI52cOBu
+ 4dJVQaZSE1CiC0JF60eomizmjO6ZHTr/Y9pbkyIv9cw0VH0dXFZmdvsq6LMboY5bzk
+ Mu7V3FeKdNLLg==
+Date: Wed, 18 Feb 2026 18:12:05 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ neil.armstrong@linaro.org, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, heiko@sntech.de, mani@kernel.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, dev@kael-k.io,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: vendor: add taiguanck
+Message-ID: <20260218-humorous-cubicle-d92673d8f910@spud>
+References: <20260214085409.3489057-1-yelangyan@huaqin.corp-partner.google.com>
+ <20260214085409.3489057-2-yelangyan@huaqin.corp-partner.google.com>
+ <20260216-appendix-recipient-1836ea619cf6@spud>
+ <d8873481-8028-4ff4-8152-b01c420a2c0f@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260218180347.88034-1-tomasz.unger.ref@yahoo.pl>
-X-Mailman-Approved-At: Thu, 19 Feb 2026 10:51:28 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wOml6nMJNdJsKlra"
+Content-Disposition: inline
+In-Reply-To: <d8873481-8028-4ff4-8152-b01c420a2c0f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,99 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linux.dev,yahoo.pl];
-	FORGED_SENDER(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:tomasz.unger@yahoo.pl,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:yelangyan@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:mani@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dianders@chromium.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NO_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A0B0415DFDD
+X-Rspamd-Queue-Id: 64156158959
 X-Rspamd-Action: no action
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+--wOml6nMJNdJsKlra
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
-index c680160d6380..62862f021b28 100644
---- a/drivers/staging/fbtft/fb_upd161704.c
-+++ b/drivers/staging/fbtft/fb_upd161704.c
-@@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* oscillator start */
- 	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
--	udelay(100);
-+	usleep_range(100, 110);
- 
- 	/* y-setting */
- 	write_reg(par, 0x0024, 0x007B);	/* amplitude setting */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0025, 0x003B);	/* amplitude setting */
- 	write_reg(par, 0x0026, 0x0034);	/* amplitude setting */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0027, 0x0004);	/* amplitude setting */
- 	write_reg(par, 0x0052, 0x0025);	/* circuit setting 1 */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0053, 0x0033);	/* circuit setting 2 */
- 	write_reg(par, 0x0061, 0x001C);	/* adjustment V10 positive polarity */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0062, 0x002C);	/* adjustment V9 negative polarity */
- 	write_reg(par, 0x0063, 0x0022);	/* adjustment V34 positive polarity */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0064, 0x0027);	/* adjustment V31 negative polarity */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0065, 0x0014);	/* adjustment V61 negative polarity */
--	udelay(10);
-+	usleep_range(10, 12);
- 	write_reg(par, 0x0066, 0x0010);	/* adjustment V61 negative polarity */
- 
- 	/* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
-@@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* Power supply setting */
- 	write_reg(par, 0x0019, 0x0000);	/* DC/DC output setting */
--	udelay(200);
-+	usleep_range(200, 220);
- 	write_reg(par, 0x001A, 0x1000);	/* DC/DC frequency setting */
- 	write_reg(par, 0x001B, 0x0023);	/* DC/DC rising setting */
- 	write_reg(par, 0x001C, 0x0C01);	/* Regulator voltage setting */
--- 
-2.53.0
+On Wed, Feb 18, 2026 at 08:59:31AM +0100, Krzysztof Kozlowski wrote:
+> On 16/02/2026 18:49, Conor Dooley wrote:
+> > On Sat, Feb 14, 2026 at 04:54:07PM +0800, Langyan Ye wrote:
+> >> Add the "taiguanck" vendor prefix for Shenzhen Top Group Technology Co=
+=2E, Ltd.
+> >>
+> >> The prefix is derived from the vendor's website domain:
+> >> www.taiguanck.com/en/, which uses "taiguanck" as the primary
+> >=20
+> > This website doesn't exist it seems. I get an ERR_EMPTY_RESPONSE.
+>=20
+> I commented on this already v2, which was ignored by author, waited one
+> week to get it fixed and still not fixed. Website seems real, though,
+> according to Google.
 
+tbf, the author of the patch may have no ability to fix it if that's the
+case, I assumed it was a typo or something. It's probably fair enough to
+just ack it then even if the website is not working for us.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+Cheers,
+Conor.
+
+--wOml6nMJNdJsKlra
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaZYA7AAKCRB4tDGHoIJi
+0oYUAP9lXMNmbzT4lOlUJaGz8OQP18eYgKVwBkgcZWSRhUkyRgEAqnz2/9ClPYEZ
+y1nuL7CZlGk36RNDZhmwrDerApwB8ws=
+=dvDv
+-----END PGP SIGNATURE-----
+
+--wOml6nMJNdJsKlra--
