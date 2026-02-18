@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mKBgAtvClWmNUgIAu9opvQ
+	id ICP3GtnClWmNUgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:07 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59E2156D04
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FED156CFC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 14:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DF910E5C0;
-	Wed, 18 Feb 2026 13:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBFEF10E5BF;
+	Wed, 18 Feb 2026 13:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8FA10E5BF;
- Wed, 18 Feb 2026 13:47:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0FC10E5BF;
+ Wed, 18 Feb 2026 13:47:01 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id 6444E3F204;
- Wed, 18 Feb 2026 14:46:57 +0100 (CET)
+ by psionic.psi5.com (Postfix) with ESMTPSA id 4EE843F206;
+ Wed, 18 Feb 2026 14:46:59 +0100 (CET)
 From: Simon Richter <Simon.Richter@hogyros.de>
 To: linux-pci@vger.kernel.org
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH v2 1/5] vgaarb: pass vga_get errors to userspace
-Date: Wed, 18 Feb 2026 22:46:29 +0900
-Message-ID: <20260218134633.461181-2-Simon.Richter@hogyros.de>
+Subject: [PATCH v2 2/5] vgaarb: pass errors from pci_set_vga_state up
+Date: Wed, 18 Feb 2026 22:46:30 +0900
+Message-ID: <20260218134633.461181-3-Simon.Richter@hogyros.de>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260218134633.461181-1-Simon.Richter@hogyros.de>
 References: <20260217170419.236739-1-Simon.Richter@hogyros.de>
@@ -76,41 +76,62 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[hogyros.de];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,hogyros.de:mid,hogyros.de:email]
-X-Rspamd-Queue-Id: C59E2156D04
+X-Rspamd-Queue-Id: 23FED156CFC
 X-Rspamd-Action: no action
 
-If vga_get fails, return the error code via the write syscall.
+pci_set_vga_state returns an error code, which so far has been ignored.
+Pass this code through __vga_tryget (via ERR_PTR).
 
 Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
 ---
- drivers/pci/vgaarb.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/pci/vgaarb.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 87143e235033..188885d30d41 100644
+index 188885d30d41..93f695f9d768 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -1134,6 +1134,7 @@ static ssize_t vga_arb_write(struct file *file, const char __user *buf,
- 	char kbuf[64], *curr_pos;
- 	size_t remaining = count;
+@@ -215,6 +215,7 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
+ 	struct vga_device *conflict;
+ 	unsigned int pci_bits;
+ 	u32 flags = 0;
++	int err = 0;
  
-+	int err;
- 	int ret_val;
- 	int i;
+ 	/*
+ 	 * Account for "normal" resources to lock. If we decode the legacy,
+@@ -307,7 +308,9 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
+ 		if (change_bridge)
+ 			flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
  
-@@ -1165,7 +1166,11 @@ static ssize_t vga_arb_write(struct file *file, const char __user *buf,
- 			goto done;
+-		pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
++		err = pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
++		if (unlikely(err))
++			return ERR_PTR(err);
+ 		conflict->owns &= ~match;
+ 
+ 		/* If we disabled normal decoding, reflect it in owns */
+@@ -337,7 +340,9 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
+ 	if (wants & VGA_RSRC_LEGACY_MASK)
+ 		flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
+ 
+-	pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
++	err = pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
++	if (unlikely(err))
++		return ERR_PTR(err);
+ 
+ 	vgadev->owns |= wants;
+ lock_them:
+@@ -455,6 +460,10 @@ int vga_get(struct pci_dev *pdev, unsigned int rsrc, int interruptible)
  		}
- 
--		vga_get_uninterruptible(pdev, io_state);
-+		err = vga_get_uninterruptible(pdev, io_state);
-+		if (unlikely(err)) {
-+			ret_val = err;
-+			goto done;
+ 		conflict = __vga_tryget(vgadev, rsrc);
+ 		spin_unlock_irqrestore(&vga_lock, flags);
++		if (IS_ERR(conflict)) {
++			rc = PTR_ERR(conflict);
++			break;
 +		}
+ 		if (conflict == NULL)
+ 			break;
  
- 		/* Update the client's locks lists */
- 		for (i = 0; i < MAX_USER_CARDS; i++) {
 -- 
 2.47.3
 
