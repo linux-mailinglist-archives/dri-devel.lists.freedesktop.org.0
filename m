@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QNAbAZ07lmkDcwIAu9opvQ
+	id yB5/HAs8lmkDcwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:24:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C789115A9A4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0691715A9CE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:24:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA70F10E633;
-	Wed, 18 Feb 2026 22:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48CA210E639;
+	Wed, 18 Feb 2026 22:24:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cTqtQAr9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TwgT2mGC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB1D10E323
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 22:22:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A14210E639;
+ Wed, 18 Feb 2026 22:24:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 527CA6185E;
- Wed, 18 Feb 2026 22:22:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F6FC19421;
- Wed, 18 Feb 2026 22:22:13 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 9BE8C6132F;
+ Wed, 18 Feb 2026 22:24:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAF6C116D0;
+ Wed, 18 Feb 2026 22:24:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771453334;
- bh=ZHxw9mjElurFBBFJ5JXCeGqeCu/86mNjtr5wW+CUw/U=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=cTqtQAr94tPVsOJC9u3krItTnDDk/5NByGKEubxgdIs3mXY2vpsEbjUT5inY0oRFt
- 6G1ot150bG357fmIMNMluq6CER1Yn9BFXCtn4J5bsJPe/GrrewSveDyMukPpA7gNNb
- +vrQvQNY/NlqAbvtGuxyAihB2DSxDpAZmMfVVaxKRsfOM1xNyF4F5RWIk0+wzZGwBX
- Fx9QLOYn6d/f2v4igRPB4xVzRvhdni4ePHbk6JD6wspYnycMp51SEdFVE0WEOrEOE0
- ZXeilo/XUEB2wzDXYBuL5skC6VT3Eb/wMyhSgX0glnNGaJgC0l5ZR16y1VcET2Go0M
- 85HkWvZfhd0Eg==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Date: Wed, 18 Feb 2026 16:21:57 -0600
-Subject: [PATCH 3/3] accel: ethosu: Handle possible underflow in IFM size
- calculations
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260218-ethos-fixes-v1-3-be3fa3ea9a30@kernel.org>
-References: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
-In-Reply-To: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- Anders Roxell <anders.roxell@linaro.org>, Oded Gabbay <ogabbay@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Frank Li <Frank.Li@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.15-dev
+ s=k20201202; t=1771453447;
+ bh=zQn0Q5wZfpk7S2Q8aholhB3Xtns3J/Vj36VDYCIlYi8=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=TwgT2mGCxSaU1yc8PMjqS55Ur7/a+wcxjcuI7d3a/94mTa3Y0AFqYd/8nfUv6vyfD
+ /+3lemhhupa/JVo+a3IYXvGC3201kjnFg5Onw6DBAhhr+vCuKQn7l0gPnfsR94W995
+ UHPgkpQZZVzmhIYLPrJKPweANgPFyY3bDzoh3h3YDbhbiaQTCQJp5tkdlRVQcSuDKB
+ KjxlfU9jFUzFS+N1jySX9rYXvlqjc7b1gKJxkbw4FGrB5wAFqi5HnX/QobLQsLPIPO
+ gavC4Nd3rxv/iSA/ViW2EZlvZmUtgIbD7CtX7eXRN5vl6azqgaCEQMmVPgKEDS5NSP
+ H8QFIWWJvfLkw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Feb 2026 23:24:01 +0100
+Message-Id: <DGIFU4JV4U47.QNCVFND4EA40@kernel.org>
+Subject: Re: [PATCH v10 0/8] Preparatory patches for nova-core memory
+ management
+Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Dave
+ Airlie" <airlied@redhat.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Koen Koning"
+ <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
+ Djukic" <ndjukic@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260218205507.689429-1-joelagnelf@nvidia.com>
+In-Reply-To: <20260218205507.689429-1-joelagnelf@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +71,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:anders.roxell@linaro.org,m:ogabbay@kernel.org,m:tzimmermann@suse.de,m:Frank.Li@nxp.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C789115A9A4
+X-Rspamd-Queue-Id: 0691715A9CE
 X-Rspamd-Action: no action
 
-If the command stream has larger padding sizes than the IFM and OFM
-diminsions, then the calculations will underflow to a negative value.
-The result is a very large region bounds which is caught on submit, but
-it's better to catch it earlier.
+On Wed Feb 18, 2026 at 9:54 PM CET, Joel Fernandes wrote:
+> The clist/ffi patches are ready, reviewed by Gary and Danilo. Miguel, can=
+ you
+> pull those via the rust tree?
 
-Current mesa ethosu driver has a signedness bug which resulted in
-padding of 127 (the max) and triggers this issue.
+I requested changes in the last version and have yet to go through this one=
+. I
+also think that Alex still has some comments (Cc'd him).
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
- drivers/accel/ethosu/ethosu_gem.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Please note that if this goes through the Rust tree, we have to wait for th=
+e
+full upcoming cycle before we can land the GPU buddy abstractions.
 
-diff --git a/drivers/accel/ethosu/ethosu_gem.c b/drivers/accel/ethosu/ethosu_gem.c
-index a735f860a119..d1169001c83d 100644
---- a/drivers/accel/ethosu/ethosu_gem.c
-+++ b/drivers/accel/ethosu/ethosu_gem.c
-@@ -245,11 +245,14 @@ static int calc_sizes(struct drm_device *ddev,
- 			((st->ifm.stride_kernel >> 1) & 0x1) + 1;
- 		u32 stride_x = ((st->ifm.stride_kernel >> 5) & 0x2) +
- 			(st->ifm.stride_kernel & 0x1) + 1;
--		u32 ifm_height = st->ofm.height[2] * stride_y +
-+		s32 ifm_height = st->ofm.height[2] * stride_y +
- 			st->ifm.height[2] - (st->ifm.pad_top + st->ifm.pad_bottom);
--		u32 ifm_width  = st->ofm.width * stride_x +
-+		s32 ifm_width = st->ofm.width * stride_x +
- 			st->ifm.width - (st->ifm.pad_left + st->ifm.pad_right);
- 
-+		if (ifm_height < 0 || ifm_width < 0)
-+			return -EINVAL;
-+
- 		len = feat_matrix_length(info, &st->ifm, ifm_width,
- 					 ifm_height, st->ifm.depth);
- 		dev_dbg(ddev->dev, "op %d: IFM:%d:0x%llx-0x%llx\n",
+Alternatively, if it goes through the Rust tree, Miguel can provide a signe=
+d tag
+for me to merge or we can simply take it through the drm-rust tree in the f=
+irst
+place, if Miguel agrees with that.
 
--- 
-2.51.0
+> The non-Rust DRM buddy related patches are already being pulled into upst=
+ream
 
+They are in drm-misc-next, I will merge into drm-rust-next once they hit
+drm-next and -rc1 is out.
+
+> I will post the nova-core memory management patches as a separate follow-=
+up
+> series just after this one.
+>
+> The git tree with all these patches can be found at:
+> git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova/=
+mm)
+
+This is now (at least) the third time I have to ask for a patch changelog.
+
+	"When sending a next version, add a patch changelog to the cover letter
+	or to individual patches explaining difference against previous
+	submission (see The canonical patch format)." [1, 2]
+
+Please, add a patch changelog.
+
+(This also goes for the nova-core MM series, which is flagged as v7 despite
+actually being v2).
+
+[1] https://docs.kernel.org/process/submitting-patches.html#respond-to-revi=
+ew-comments
+[2] https://docs.kernel.org/process/submitting-patches.html#the-canonical-p=
+atch-format
