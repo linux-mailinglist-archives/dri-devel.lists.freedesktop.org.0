@@ -2,38 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8LeVHH+ClWlWSAIAu9opvQ
+	id cInPBIWClWlWSAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:31 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F307315497A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE471549A1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E556510E53A;
-	Wed, 18 Feb 2026 09:12:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E8910E598;
+	Wed, 18 Feb 2026 09:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1A610E53A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1B710E596
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 09:12:28 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1vsdbe-0001kM-0u; Wed, 18 Feb 2026 10:12:26 +0100
+ id 1vsdbe-0001kM-8L; Wed, 18 Feb 2026 10:12:26 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v4 0/3] drm/panel: add LXD M9189A
-Date: Wed, 18 Feb 2026 10:12:03 +0100
-Message-Id: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
+Date: Wed, 18 Feb 2026 10:12:04 +0100
+Subject: [PATCH v4 1/3] dt-bindings: vendor-prefixes: Add lxd
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGOClWkC/22NQQ6CMBBFr0K6dszQIk1deQ/DomFGmKiFtEgwh
- LtbiUuX7yX//VUljsJJnYtVRZ4lyRAyVIdCtb0PHYNQZqVR16jRAcUnjD7wA/huHaL1ZKBGdNa
- Vnkgbladj5Jsse/baZO4lTUN87y+z+dpfsMT/wdkAQkva2YpOtTP2MnLoXlMcgixHYtVs2/YBu
- qpya70AAAA=
-X-Change-ID: 20260209-drm-panel-ek79007ad3-6009791add23
+Message-Id: <20260218-drm-panel-ek79007ad3-v4-1-8ec448bf3ede@pengutronix.de>
+References: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
+In-Reply-To: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Rouven Czerwinski <r.czerwinski@pengutronix.de>, 
@@ -95,51 +92,42 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pengutronix.de:mid,pengutronix.de:email]
-X-Rspamd-Queue-Id: F307315497A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AAE471549A1
 X-Rspamd-Action: no action
 
-Add support for the LXD M9189A panel based on the EK79007AD3 DSI display
-controller.
+From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
 
-This series is based on the v2 by Rouven Czerwinski. Since I took over
-the series, I changed the maintainer for the driver and bindings to
-myself. Furthermore, I updated the device tree binding to use
-panel-common.yaml as a base and fixed a compiler warning for the driver.
+Add vendor prefix for LXD Research & Display, LLC.
+Link: https://www.lxdinc.com/
 
+Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v4:
-- Fix subject of dt-bindings patch
-- Make backlight a required property
-- Fix typo in driver name
-- Link to v3: https://patch.msgid.link/20260210-drm-panel-ek79007ad3-v3-0-cd2974d56937@pengutronix.de
+- none
 
 Changes in v3:
-- Add cover letter
-- Change maintainer to myself
-- Use panel-common.yaml as base for dt binding
-- Fix compiler warning about uninitialized variable
-- Link to v2: https://patch.msgid.link/20241025141130.3179166-1-r.czerwinski@pengutronix.de
-
+- none
 ---
-Rouven Czerwinski (3):
-      dt-bindings: vendor-prefixes: Add lxd
-      dt-bindings: display: panel: add LXD M9189A
-      drm/panel: add LXD M9189A panel driver
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/lxd,m9189a.yaml         |  64 ++++++
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- MAINTAINERS                                        |   6 +
- drivers/gpu/drm/panel/Kconfig                      |   9 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-lxd-m9189a.c           | 243 +++++++++++++++++++++
- 6 files changed, 325 insertions(+)
----
-base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-change-id: 20260209-drm-panel-ek79007ad3-6009791add23
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index c7591b2aec2a..90d5ef1f15b3 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -963,6 +963,8 @@ patternProperties:
+     description: Liebherr-Werk Nenzing GmbH
+   "^lxa,.*":
+     description: Linux Automation GmbH
++  "^lxd,.*":
++    description: LXD Research & Display, LLC
+   "^m5stack,.*":
+     description: M5Stack
+   "^macnica,.*":
 
-Best regards,
 -- 
-Michael Tretter <m.tretter@pengutronix.de>
+2.47.3
 
