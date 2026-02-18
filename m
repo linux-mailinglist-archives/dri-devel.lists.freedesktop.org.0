@@ -2,84 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6dtMAdRSlWl6OgIAu9opvQ
+	id jfaCI1BVlWl5OwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:49:08 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:59:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2671532C0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6E3153308
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:59:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C5410E563;
-	Wed, 18 Feb 2026 05:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBDF110E1DD;
+	Wed, 18 Feb 2026 05:59:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="DBHpm3JG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YiHAYhz/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1ABD10E197
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 05:49:01 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-c6e18da0f82so271279a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 21:49:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shenghaoyang.info; s=google; t=1771393741; x=1771998541;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=L/Kj/5Xgr8gKZrPyXJkXeSAAqt29f63/gJJhoCtap5U=;
- b=DBHpm3JGUCh7QxTSGytlfm1q4B4u5ouFCFzX+DzY0DdwSYDQGzejqcP394+Hwkmy+G
- 0oJlPfcL8/z+FbYx0ivCg/wnLlpot8zpTrlIhDV72zjoJYv48ssgSfaAUoy6SZvmepRg
- 2T2FDKyUXQCCeaC9d5EjLCdHDJoYvXy0FEPElSWkijMm5+p7vwLKj3nrf7S2DpnyNpJa
- dLTgrnitpEP9sljEpRgxB7VBRae3aXuU3Ltc1rCEPxhZu3qDUizEe8gx6ovoyOj9ABVJ
- 3k8fLHnQUDz0BjS719ZEza0QCxztOhk4EcoH5MvhRReK9Dy4DUj2AbWxG9hGKOxQw27Y
- I3Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771393741; x=1771998541;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L/Kj/5Xgr8gKZrPyXJkXeSAAqt29f63/gJJhoCtap5U=;
- b=rwnen/MwvLFTYXJdCllSjYj5vaO9J6sJAgxDETamNe2SkcLIMS4cADGzP2OZKAEd7M
- Mq0t/ZXJlxfcATnGm1WcRSWx74XWJKp569zxBgLEtADWHxb7NxUh5t6Ci2XKfNR5Q5Nf
- ErI4S902n6UX5n/LSk9mauEWDjGvaYC/VPPr6RIUO7eyo0BQPGP12kWNcYIusSClx+WV
- MQQX2X7OoAIJc+2D1Gmk4akyJtjvYVvINsdKy4zE3pPakGrvh57f2t2TVXDic+KM5gLw
- DZmAvAMy9j0/NqwNLkJHIOErdv/Lbyq6OKRL0LQ3Qy83dMv949c7t924Roc1OOQ92SXa
- huuA==
-X-Gm-Message-State: AOJu0YwMsD+zOH+HoqQDgHCS9+3BVVgzc8Bj/O0b7qAZVBViHI1ZgwBs
- TDR30bQGoxPy0xyI0yaIhP1n3ItA5Nxfwc4C558RMd5wPOp6Ir21DD1FQRVJg43zjILrvMjfRl2
- uCB16
-X-Gm-Gg: AZuq6aJP4hDMZzuYMcigiaLna/m2NgIdLvH261rMuRDqnS6HTCRopuzY30tC7KbBnUS
- gJfu4xkXdpioLN8MqfT7sQMm3TIg/YNBupw2twrlll5Dc0wzS5bx521iyRnzewdwbwqwcwMzyD+
- umXdW6vPsqikrO8EJ/vX8V4VxCV4ISvCLFlQDXks3tH6dAA2jz7/p1NP2xGQcHfajXmMW6yxrTa
- Z3SoK03AFX07nBZ88bgMgUFHqPiejPA37n7MNSaHbRmHeWIgWWyggcCOOnyEi1m9MhUsDv65t4b
- QLiDMnTMaK4br6Gn8Kn/iZPFqLZ4RMNd5KoQNLrDflCMvm61E9x0zE6llBXnrr1+XQmEFdgovEY
- 3vgMQmwwbqBLQEnU3bNdWjRJiubtwb3LfovP4F4U34V7TcUzDOUbzm4HKFLcG8ffOj/ODRkvZu+
- uj8Xunn8EDWMaAXmeD5MIw
-X-Received: by 2002:a05:6a00:39a5:b0:824:91f5:aa2d with SMTP id
- d2e1a72fcca58-824c6119c5emr9806459b3a.5.1771393741340; 
- Tue, 17 Feb 2026 21:49:01 -0800 (PST)
-Received: from localhost ([132.147.84.99]) by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-824c6a3f83csm15923133b3a.17.2026.02.17.21.48.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Feb 2026 21:49:00 -0800 (PST)
-From: Shenghao Yang <me@shenghaoyang.info>
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shenghao Yang <me@shenghaoyang.info>, kernel test robot <lkp@intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v4] drm/gud: fix NULL crtc dereference on display disable
-Date: Wed, 18 Feb 2026 13:47:11 +0800
-Message-ID: <20260218054711.63982-1-me@shenghaoyang.info>
-X-Mailer: git-send-email 2.53.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EC810E197;
+ Wed, 18 Feb 2026 05:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771394380; x=1802930380;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=DLItL20ZbEHuUuPcnGLdYf8yVxg7xkjOqr1FMwt1L3Y=;
+ b=YiHAYhz/wDVxBXkXPTD6zG/kPVrEsInlzvjOEo2DaBeq+wax+AXETXw9
+ kK9SNXjV1ioN/XzSy4RKw1TB3z4XJu02WhqG/E1qW0ZvTqrHfLL4QJmWj
+ G/XLL3fPEEa9ZCPYGwpa9EvDb8+APXdMClmXq5z82JYUrtdZ/JC+NSvvs
+ yyVDPiftdaKsZNdtYpzzu+LLzOgCwX+0dGa1fkc+vVZkJIyeGxYvuiHTV
+ WUlVlqDE0WOchMQTFl/AEzZd1g9usjoBqnZ3TIryw9qTLox2FGfhug++q
+ OnwU7vwZvn1AhkEHw6fdVtWiBAtn5vYOEk2tDV02VtjzXMkdAlQ3X7ygj w==;
+X-CSE-ConnectionGUID: kLEyNEvGQq2M48TAIQbgOQ==
+X-CSE-MsgGUID: icLGGTQHSBO6OzpbPZ7VHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72515355"
+X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; d="scan'208";a="72515355"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2026 21:59:39 -0800
+X-CSE-ConnectionGUID: vDiaKcdXSNSrTvLxUt+5Yg==
+X-CSE-MsgGUID: R0Aq4GcxSZGgIIjI/Oqtvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; d="scan'208";a="214211115"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 17 Feb 2026 21:59:37 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vsab1-0000000126m-08zs;
+ Wed, 18 Feb 2026 05:59:35 +0000
+Date: Wed, 18 Feb 2026 13:59:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Simon Richter <Simon.Richter@hogyros.de>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Simon Richter <Simon.Richter@hogyros.de>
+Subject: Re: [PATCH 3/5] vgaarb: mark vga_get family as __must_check
+Message-ID: <202602181332.NDKD0g1P-lkp@intel.com>
+References: <20260217170419.236739-4-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260217170419.236739-4-Simon.Richter@hogyros.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,248 +76,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [8.69 / 15.00];
-	URIBL_BLACK(7.50)[shenghaoyang.info:mid,shenghaoyang.info:dkim,shenghaoyang.info:email];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:rubenru09@aol.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:me@shenghaoyang.info,m:lkp@intel.com,m:dan.carpenter@linaro.org,s:lists@lfdr.de];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
-	FROM_HAS_DN(0.00)[];
-	GREYLIST(0.00)[pass,meta];
-	FORGED_SENDER(0.00)[me@shenghaoyang.info,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_ALLOW(0.00)[shenghaoyang.info:s=google];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[me@shenghaoyang.info,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DMARC_POLICY_ALLOW(0.00)[shenghaoyang.info,reject];
-	DKIM_TRACE(0.00)[shenghaoyang.info:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,linaro.org:email,shenghaoyang.info:mid,shenghaoyang.info:dkim,shenghaoyang.info:email]
-X-Rspamd-Queue-Id: 1B2671532C0
-X-Rspamd-Action: add header
-X-Spam: Yes
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: CD6E3153308
+X-Rspamd-Action: no action
 
-gud_plane_atomic_update() currently handles both crtc state and
-framebuffer updates - the complexity has led to a few accidental
-NULL pointer dereferences.
+Hi Simon,
 
-Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
-on USB disconnect") [1] fixed an earlier dereference but planes
-can also be disabled in non-hotplug paths (e.g. display disables
-via the desktop environment). The drm_dev_enter() call would not
-cause an early return in those and subsequently oops on
-dereferencing crtc:
+kernel test robot noticed the following build warnings:
 
-BUG: kernel NULL pointer dereference, address: 00000000000005c8
-CPU: 6 UID: 1000 PID: 3473 Comm: kwin_wayland Not tainted 6.18.2-200.vanilla.gud.fc42.x86_64 #1 PREEMPT(lazy)
-RIP: 0010:gud_plane_atomic_update+0x148/0x470 [gud]
- <TASK>
- drm_atomic_helper_commit_planes+0x28e/0x310
- drm_atomic_helper_commit_tail+0x2a/0x70
- commit_tail+0xf1/0x150
- drm_atomic_helper_commit+0x13c/0x180
- drm_atomic_commit+0xb1/0xe0
-info ? __pfx___drm_printfn_info+0x10/0x10
- drm_mode_atomic_ioctl+0x70f/0x7c0
- ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
- drm_ioctl_kernel+0xae/0x100
- drm_ioctl+0x2a8/0x550
- ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
- __x64_sys_ioctl+0x97/0xe0
- do_syscall_64+0x7e/0x7f0
- ? __ct_user_enter+0x56/0xd0
- ? do_syscall_64+0x158/0x7f0
- ? __ct_user_enter+0x56/0xd0
- ? do_syscall_64+0x158/0x7f0
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[auto build test WARNING on 9702969978695d9a699a1f34771580cdbb153b33]
 
-Split out crtc handling from gud_plane_atomic_update() into
-atomic_enable() and atomic_disable() functions to delegate
-crtc state transitioning work to the DRM helpers.
+url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Richter/vgaarb-pass-vga_get-errors-to-userspace/20260218-010647
+base:   9702969978695d9a699a1f34771580cdbb153b33
+patch link:    https://lore.kernel.org/r/20260217170419.236739-4-Simon.Richter%40hogyros.de
+patch subject: [PATCH 3/5] vgaarb: mark vga_get family as __must_check
+config: i386-randconfig-141-20260218 (https://download.01.org/0day-ci/archive/20260218/202602181332.NDKD0g1P-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181332.NDKD0g1P-lkp@intel.com/reproduce)
 
-To preserve the gud state commit sequence [2], switch to
-the runtime PM version of drm_atomic_helper_commit_tail() which
-ensures that crtcs are enabled (hence sending the
-GUD_REQ_SET_CONTROLLER_ENABLE and GUD_REQ_SET_DISPLAY_ENABLE
-requests) before a framebuffer update is sent.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602181332.NDKD0g1P-lkp@intel.com/
 
-[1] https://lore.kernel.org/all/20251231055039.44266-1-me@shenghaoyang.info/
-[2] https://github.com/notro/gud/wiki/GUD-Protocol#display-state
+All warnings (new ones prefixed by >>):
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202601142159.0v8ilfVs-lkp@intel.com/
-Fixes: 73cfd166e045 ("drm/gud: Replace simple display pipe with DRM atomic helpers")
-Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
----
-v4: Send SET_DISPLAY_ENABLE=1 unconditionally on crtc enable
-v3: Dropped stable AUTOSEL opt out
-v2: Moved controller and display control commands to crtc
-    enable / disable functions.
+>> drivers/gpu/drm/i915/display/intel_vga.c:68:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+      68 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vga.c:93:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+      93 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
-[v3]: https://lore.kernel.org/lkml/20260203172630.10077-1-me@shenghaoyang.info/
-[v2]: https://lore.kernel.org/lkml/20260201095956.21042-1-me@shenghaoyang.info/
-[v1]: https://lore.kernel.org/lkml/20260118125044.54467-1-me@shenghaoyang.info/
 
- drivers/gpu/drm/gud/gud_drv.c      |  9 ++++-
- drivers/gpu/drm/gud/gud_internal.h |  4 ++
- drivers/gpu/drm/gud/gud_pipe.c     | 59 +++++++++++++++++++++---------
- 3 files changed, 53 insertions(+), 19 deletions(-)
+vim +/warn_unused_result +68 drivers/gpu/drm/i915/display/intel_vga.c
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 42135a48d92e..a2000991ecbe 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -339,7 +339,9 @@ static int gud_stats_debugfs(struct seq_file *m, void *data)
- }
- 
- static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
--	.atomic_check = drm_crtc_helper_atomic_check
-+	.atomic_check = drm_crtc_helper_atomic_check,
-+	.atomic_enable = gud_crtc_atomic_enable,
-+	.atomic_disable = gud_crtc_atomic_disable,
- };
- 
- static const struct drm_crtc_funcs gud_crtc_funcs = {
-@@ -364,6 +366,10 @@ static const struct drm_plane_funcs gud_plane_funcs = {
- 	DRM_GEM_SHADOW_PLANE_FUNCS,
- };
- 
-+static const struct drm_mode_config_helper_funcs gud_mode_config_helpers = {
-+	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-+};
-+
- static const struct drm_mode_config_funcs gud_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create_with_dirty,
- 	.atomic_check = drm_atomic_helper_check,
-@@ -499,6 +505,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
- 	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
- 	drm->mode_config.funcs = &gud_mode_config_funcs;
-+	drm->mode_config.helper_private = &gud_mode_config_helpers;
- 
- 	/* Format init */
- 	formats_dev = devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
-diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/gud_internal.h
-index d27c31648341..a5b7e53cf79c 100644
---- a/drivers/gpu/drm/gud/gud_internal.h
-+++ b/drivers/gpu/drm/gud/gud_internal.h
-@@ -62,6 +62,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8 request, u8 val);
- 
- void gud_clear_damage(struct gud_device *gdrm);
- void gud_flush_work(struct work_struct *work);
-+void gud_crtc_atomic_enable(struct drm_crtc *crtc,
-+			   struct drm_atomic_state *state);
-+void gud_crtc_atomic_disable(struct drm_crtc *crtc,
-+			   struct drm_atomic_state *state);
- int gud_plane_atomic_check(struct drm_plane *plane,
- 			   struct drm_atomic_state *state);
- void gud_plane_atomic_update(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 4b77be94348d..6c62080213c7 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -580,6 +580,44 @@ int gud_plane_atomic_check(struct drm_plane *plane,
- 	return ret;
- }
- 
-+void gud_crtc_atomic_enable(struct drm_crtc *crtc,
-+			   struct drm_atomic_state *state)
-+{
-+	struct drm_device *drm = crtc->dev;
-+	struct gud_device *gdrm = to_gud_device(drm);
-+	int idx;
-+
-+	if (!drm_dev_enter(drm, &idx))
-+		return;
-+
-+	if (crtc->state->mode_changed || crtc->state->connectors_changed) {
-+		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
-+		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
-+	}
-+
-+	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 1);
-+
-+	drm_dev_exit(idx);
-+}
-+
-+void gud_crtc_atomic_disable(struct drm_crtc *crtc,
-+			   struct drm_atomic_state *state)
-+{
-+	struct drm_device *drm = crtc->dev;
-+	struct gud_device *gdrm = to_gud_device(drm);
-+	int idx;
-+
-+	if (!drm_dev_enter(drm, &idx))
-+		return;
-+
-+	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 0);
-+
-+	if (crtc->state->mode_changed || crtc->state->connectors_changed)
-+		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
-+
-+	drm_dev_exit(idx);
-+}
-+
- void gud_plane_atomic_update(struct drm_plane *plane,
- 			     struct drm_atomic_state *atomic_state)
- {
-@@ -607,24 +645,12 @@ void gud_plane_atomic_update(struct drm_plane *plane,
- 		mutex_unlock(&gdrm->damage_lock);
- 	}
- 
--	if (!drm_dev_enter(drm, &idx))
-+	if (!crtc || !drm_dev_enter(drm, &idx))
- 		return;
- 
--	if (!old_state->fb)
--		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
--
--	if (fb && (crtc->state->mode_changed || crtc->state->connectors_changed))
--		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
--
--	if (crtc->state->active_changed)
--		gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->active);
--
--	if (!fb)
--		goto ctrl_disable;
--
- 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
- 	if (ret)
--		goto ctrl_disable;
-+		goto out;
- 
- 	drm_atomic_helper_damage_iter_init(&iter, old_state, new_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage)
-@@ -632,9 +658,6 @@ void gud_plane_atomic_update(struct drm_plane *plane,
- 
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- 
--ctrl_disable:
--	if (!crtc->state->enable)
--		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
--
-+out:
- 	drm_dev_exit(idx);
- }
+0c80d60ae63461 Ville Syrjälä 2025-04-17  43  
+4fb8783165b7c6 Jani Nikula   2019-10-01  44  /* Disable the VGA plane that we never use */
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  45  void intel_vga_disable(struct intel_display *display)
+4fb8783165b7c6 Jani Nikula   2019-10-01  46  {
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  47  	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  48  	i915_reg_t vga_reg = intel_vga_cntrl_reg(display);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  49  	enum pipe pipe;
+0c80d60ae63461 Ville Syrjälä 2025-04-17  50  	u32 tmp;
+4fb8783165b7c6 Jani Nikula   2019-10-01  51  	u8 sr1;
+4fb8783165b7c6 Jani Nikula   2019-10-01  52  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  53  	tmp = intel_de_read(display, vga_reg);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  54  	if (tmp & VGA_DISP_DISABLE)
+a3af0140663dc3 Emil Velikov  2021-06-04  55  		return;
+a3af0140663dc3 Emil Velikov  2021-06-04  56  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  57  	if (display->platform.cherryview)
+0c80d60ae63461 Ville Syrjälä 2025-04-17  58  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK_CHV, tmp);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  59  	else if (has_vga_pipe_sel(display))
+0c80d60ae63461 Ville Syrjälä 2025-04-17  60  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK, tmp);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  61  	else
+0c80d60ae63461 Ville Syrjälä 2025-04-17  62  		pipe = PIPE_A;
+0c80d60ae63461 Ville Syrjälä 2025-04-17  63  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  64  	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
+0c80d60ae63461 Ville Syrjälä 2025-04-17  65  		    pipe_name(pipe));
+0c80d60ae63461 Ville Syrjälä 2025-04-17  66  
+4fb8783165b7c6 Jani Nikula   2019-10-01  67  	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
+4fb8783165b7c6 Jani Nikula   2019-10-01 @68  	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+f0bb41fad02e03 Jani Nikula   2022-02-02  69  	outb(0x01, VGA_SEQ_I);
+f0bb41fad02e03 Jani Nikula   2022-02-02  70  	sr1 = inb(VGA_SEQ_D);
+f0bb41fad02e03 Jani Nikula   2022-02-02  71  	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
+4fb8783165b7c6 Jani Nikula   2019-10-01  72  	vga_put(pdev, VGA_RSRC_LEGACY_IO);
+4fb8783165b7c6 Jani Nikula   2019-10-01  73  	udelay(300);
+4fb8783165b7c6 Jani Nikula   2019-10-01  74  
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  75  	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  76  	intel_de_posting_read(display, vga_reg);
+4fb8783165b7c6 Jani Nikula   2019-10-01  77  }
+4fb8783165b7c6 Jani Nikula   2019-10-01  78  
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
