@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ArFyB5c7lmkDcwIAu9opvQ
+	id sAPaJpo7lmkDcwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B0D15A986
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7142115A995
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8DA410E03D;
-	Wed, 18 Feb 2026 22:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE29C10E323;
+	Wed, 18 Feb 2026 22:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FppAmKrS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nTInkkkb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F27610E03D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 22:22:11 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB6710E323
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 22:22:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1928B40308;
+ by tor.source.kernel.org (Postfix) with ESMTP id 589396132F;
+ Wed, 18 Feb 2026 22:22:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2EEC19421;
  Wed, 18 Feb 2026 22:22:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF3F8C116D0;
- Wed, 18 Feb 2026 22:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771453330;
- bh=lzLcD0AsNtvgIa4v+iQyMVG3o2l0D6Gk5ly9tU1d0gw=;
- h=From:Subject:Date:To:Cc:From;
- b=FppAmKrSFhR8Y316Y6xj63PncDQq0u5M6DLGt+w63laXqXpZwzreZBEw0MHOeSUeG
- i4Y4EOpn/1ycZ01h4EqHKvmdFjTdPTskgmtjSHpOYKVJdmi6So2Ra10AJ4yFX6kTau
- yqmwL9nBCZrzgl2+Pg+M/3uWBUQAGAihf8S8IhWguywq/XL17SXWfg47pO0TqfWb+t
- urYfNto+yt9wvKqj9mMyZMKi2wbFYMxKQnNqz5NDjyqR15O35pQYSJzy/cafiDh3aU
- EbWHRMsRANtvm5+/LQHs2arpxb6ym5bZ1+gzgpgdKBOCF1WemWdUtZSBcjhYvNXAVP
- EDOh0NhWI2+pg==
+ s=k20201202; t=1771453332;
+ bh=kczQf5pveMrT0v9OOfXTflG7Z8dLFCGJWHb4Bpgb2OU=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=nTInkkkbchdY2PxOwa8QHmu7TRmxC2KzPod/2wMz3GlOKzGhj0GBT+sqGvMlCK+Ti
+ At4yoOYbjMm7KYIGplcHVUDN6UsvIWarUzKwaURgbk+HPWRGxFqvV35BuC+WaVEXjM
+ VghcUoyh9Aeki3KvKIIuZqXmRZdfrV68CXENucMVYJWjAXo+K2BFft/mw6QCItG7Gw
+ Ud32b25nIYWkjt7PuplVLNyLo5A/7F8lO4+PKF+nlyM6zEBvw7qela8hJsNkiTqS9J
+ 8XLLF823TigOf9VJ5vCd1whC9X59OkM00yGBKgFc4CGLnQE37VRt6uvaCgYevNycLy
+ dSaIsY3m39w9A==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [PATCH 0/3] accel: ethosu: Runtime PM refcounting and cmd stream
- validation fixes
-Date: Wed, 18 Feb 2026 16:21:54 -0600
-Message-Id: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
+Date: Wed, 18 Feb 2026 16:21:55 -0600
+Subject: [PATCH 1/3] accel: ethosu: Fix job submit error clean-up refcount
+ underflows
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAII7lmkC/x3LQQqAIBBA0avIrBPUsKyrRAupKWej4UQE4t2Tl
- o/PL8CYCRlmUSDjQ0wpNuhOwBZ8PFHS3gxGmUEZ7STeIbE86EWW2FvlvB0n6wy048r4hzYsa60
- fwanwbF0AAAA=
-X-Change-ID: 20260218-ethos-fixes-e3508a579582
+Message-Id: <20260218-ethos-fixes-v1-1-be3fa3ea9a30@kernel.org>
+References: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
+In-Reply-To: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
  Anders Roxell <anders.roxell@linaro.org>, Oded Gabbay <ogabbay@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Frank Li <Frank.Li@nxp.com>
@@ -79,9 +77,9 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -98,27 +96,84 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 96B0D15A986
+X-Rspamd-Queue-Id: 7142115A995
 X-Rspamd-Action: no action
 
-This is series of fixes for issues I found in testing additional models 
-and adding more supported operations in mesa.
+If the job submit fails before adding the job to the scheduler queue
+such as when the GEM buffer bounds checks fail, then doing a
+ethosu_job_put() results in a pm_runtime_put_autosuspend() without the
+corresponding pm_runtime_resume_and_get(). The dma_fence_put()'s are
+also unnecessary, but seem to be harmless.
 
+Split the ethosu_job_cleanup() function into 2 parts for the before
+and after the job is queued.
+
+Fixes: 5a5e9c0228e6 ("accel: Add Arm Ethos-U NPU driver")
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Rob Herring (Arm) (3):
-      accel: ethosu: Fix job submit error clean-up refcount underflows
-      accel: ethosu: Fix NPU_OP_ELEMENTWISE validation with scalar
-      accel: ethosu: Handle possible underflow in IFM size calculations
-
- drivers/accel/ethosu/ethosu_gem.c | 12 +++++++++---
  drivers/accel/ethosu/ethosu_job.c | 26 ++++++++++++++++++--------
- 2 files changed, 27 insertions(+), 11 deletions(-)
----
-base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-change-id: 20260218-ethos-fixes-e3508a579582
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-Best regards,
---  
-Rob Herring (Arm) <robh@kernel.org>
+diff --git a/drivers/accel/ethosu/ethosu_job.c b/drivers/accel/ethosu/ethosu_job.c
+index 26e7a2f64d71..70a144803b09 100644
+--- a/drivers/accel/ethosu/ethosu_job.c
++++ b/drivers/accel/ethosu/ethosu_job.c
+@@ -143,23 +143,29 @@ static int ethosu_job_push(struct ethosu_job *job)
+ 	return ret;
+ }
+ 
++static void ethosu_job_err_cleanup(struct ethosu_job *job)
++{
++	unsigned int i;
++
++	for (i = 0; i < job->region_cnt; i++)
++		drm_gem_object_put(job->region_bo[i]);
++
++	drm_gem_object_put(job->cmd_bo);
++
++	kfree(job);
++}
++
+ static void ethosu_job_cleanup(struct kref *ref)
+ {
+ 	struct ethosu_job *job = container_of(ref, struct ethosu_job,
+ 						refcount);
+-	unsigned int i;
+ 
+ 	pm_runtime_put_autosuspend(job->dev->base.dev);
+ 
+ 	dma_fence_put(job->done_fence);
+ 	dma_fence_put(job->inference_done_fence);
+ 
+-	for (i = 0; i < job->region_cnt; i++)
+-		drm_gem_object_put(job->region_bo[i]);
+-
+-	drm_gem_object_put(job->cmd_bo);
+-
+-	kfree(job);
++	ethosu_job_err_cleanup(job);
+ }
+ 
+ static void ethosu_job_put(struct ethosu_job *job)
+@@ -454,12 +460,16 @@ static int ethosu_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
+ 		}
+ 	}
+ 	ret = ethosu_job_push(ejob);
++	if (!ret) {
++		ethosu_job_put(ejob);
++		return 0;
++	}
+ 
+ out_cleanup_job:
+ 	if (ret)
+ 		drm_sched_job_cleanup(&ejob->base);
+ out_put_job:
+-	ethosu_job_put(ejob);
++	ethosu_job_err_cleanup(ejob);
+ 
+ 	return ret;
+ }
+
+-- 
+2.51.0
 
