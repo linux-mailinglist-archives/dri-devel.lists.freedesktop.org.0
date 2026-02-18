@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yN5HIBwGlWl5KAIAu9opvQ
+	id zK3cJOgDlWlbKAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 01:21:48 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 01:12:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3476415236E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 01:21:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDC31521E2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 01:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F1910E549;
-	Wed, 18 Feb 2026 00:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6E010E557;
+	Wed, 18 Feb 2026 00:12:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="gB3nRKNh";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="o9ad/bb9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012048.outbound.protection.outlook.com
- [40.107.200.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8855410E549;
- Wed, 18 Feb 2026 00:21:44 +0000 (UTC)
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013029.outbound.protection.outlook.com
+ [40.107.201.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E4010E54D;
+ Wed, 18 Feb 2026 00:12:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wpfvTqHwHoc0eOhsVKpJhmXNHqMLa4N8nigEC0QPJqn0QKtz4zDUj+JPcMLYcVUXs1FL7MX6woanKBhYe7waelVm2DdB4JoeQ3os6rI/7HM1NSJ17zK1vnMaZZGqOs1gH4NmqlLpFg9UZUsiPOoBpNVHd3S/CNkTRuTXtexyFEL6WmPI52Z+Trla0JrPMonFxlaFrRD55CcYLhaMIsOUUtmgyZ/YAJGfyxiuBDeACVsbjvtP4RvvwvtYT04odsxIfdz+FiMdoL8OWfMjINF1xfuvvxfY5P420HBsE5bt12vWb+4lQk3lZ4yd1j2kcIMwUmgtsIszRM4DhcxNRNar/w==
+ b=y6Dhmih6fqa6oPY5LHABG3T1kgzvNP6S2JZbnDtVPrwicaRxiO9F3x+k7w2MY0bE8TOc9dG8YRaJvJ3ZAT/u0/ciCebOHPaAzHc8Qb77ZhzomU2eFe9Sb2b9htH+1iZ139hcRhODkZz7v664W4mT7+68eYxtOc4AMb36wlSy+6Ezl3xrFFymKA6b5gFxE3kkW5QTNREK29W+85Cx6UOgHh1GMt88BcLsOtgswC0s7O6fucursNVz2aBjPtKUCkW1/sZ+AhJxH2FTvmLIf9txfEV1cjigi9ZzZlDHazpYeSsMPOc+gtCqszbE3eWdmD/eRhbhY6p3Drnthh4Ni4Sgsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rqfrcRURbFQBF2ammul/YzfTE/g/e//hwDZAVS123Xo=;
- b=CvehU122ytDNHhHv+EkD5otO8MsJ+nw4hwcQkgM4+yvKxLc1le1M8gJOROBjeF0Spdqp69r6c8TVNVyV9neSkbzwG+jtmc+WONig+sS4d+UwsNhweHsc/vLEEmOb972NzPEl1WC7HirhqNM/Coo7z6H4vx3+5K4Dz+1QG+qOW2nlAUkCwTxP9soeZeV3UMewZnNaXjZttybFpI9AhK6jJ5XpQuzuLVlyU51RDWdPn6atzGGsKs9D3IPmEclgRjqRCdzID2ALl9eS4UDXSDwWv+iz2RWc00RQmAIvGoZNSQ4PvL/MrPlODpBBtkmJshYX6IfXFwdf7ZUHmFQDQnu97g==
+ bh=z4i+bkTLDcoIUzzcgpV/diAllVKYcdx8zs7JLlopuYY=;
+ b=jS5vUQGQ3m9GWoezrBNglPfQfdqKorCdeQXlzztcmFIcYfyESXzKKq8DMV5XM+U0fEHQAO9qbqB76fqadB4i9Su+ujnzK4dfAg0M5Q09OnI6os9WDaXwo5uCDr9Nj1bcL5bPSKYAwTNPc5Y/RZ6U3ynZBRECM9nti7SBoxqPZWJHygsrrRVzOJGtckVbJP9fHwxNKIjBuTdfn+yHZkGDkWlPiTf0cnQWz1AkA7LcxL+1aABkcRGzZ6v1ndxwl5lHsSbKzw5oupkDI8RMqASmfBn69d/FBp2MgwBG7xZdgTOzmwAdoGr/VG7+BGdsCOwUPULyxm2SYntus9F0lIj5gg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rqfrcRURbFQBF2ammul/YzfTE/g/e//hwDZAVS123Xo=;
- b=gB3nRKNhJNFKOH8OX/9G7ds0RpojFYxXECd71uwccgsW8S24iRdNARMqCaCezKo50QnmzNLLBWRgUvP953zT7or7Nvr5tGGumJDR/uit/1QGa3Le0Cjw9J3FRw5ZQ4jcXps7g9rYYMLkqu3S4b1cp5INzMHHUjkMEIp2xWz+m5J55Pjov1TBlfEfiXNT2+Nle9pZGsuAWWtBUW7WTiIUPOwdfSAcqRxv4+4D8f9Vml+WHj9A1sNvGU0pSTYCaYjMdrnaVuWKffXgMCiEaCKbVAsTviaHdpaPeiUi6Q3c0+oU6b6jQDzYQiomexIFphN/uKrQDl60D1tdU6MX83xADA==
+ bh=z4i+bkTLDcoIUzzcgpV/diAllVKYcdx8zs7JLlopuYY=;
+ b=o9ad/bb9HfxcS9Hvztoeaaui/EWGN0pNAMUzb93NO2i/qm1W+sQ+qxH0Sta6WErj2gyPoUIcYS2VIUKwqLzvDsLxruImbmgtQ4tJxrqa+bQpA53yRq0PiTcHU9ht212658YswbxgP1TwQ3LpV3BuTRyXAYVZFeBEZ71rokNLLcOUKpoTKhZN0w56KqbmBPQ0DpovUYrAlINYubBti2SHr1HwhG+oRl5YHQXWNiZVlZchDdfPyPCfdr8SpJjxMrVgOCcFvOjcDGUV9qIgJ4ZH+vBFZX8yopZTYgEe4rta0m5tsL86YxXNsTkNiufQIKTtnpgQI3Bj59ZVjwdCwcjX/g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by CY3PR12MB9629.namprd12.prod.outlook.com (2603:10b6:930:101::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
- 2026 00:21:38 +0000
+ by DS7PR12MB8202.namprd12.prod.outlook.com (2603:10b6:8:e1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 18 Feb
+ 2026 00:12:07 +0000
 Received: from LV8PR12MB9620.namprd12.prod.outlook.com
  ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
  ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9611.013; Wed, 18 Feb 2026
- 00:21:38 +0000
+ 00:12:07 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: 
 Cc: Christian Koenig <christian.koenig@amd.com>,
@@ -60,95 +60,95 @@ Cc: Christian Koenig <christian.koenig@amd.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH RFC 21/26] dma-buf: Add the Physical Address List DMA mapping
- type
-Date: Tue, 17 Feb 2026 20:11:52 -0400
-Message-ID: <21-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
+Subject: [PATCH RFC 22/26] vfio/pci: Add physical address list support to
+ DMABUF
+Date: Tue, 17 Feb 2026 20:11:53 -0400
+Message-ID: <22-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
 In-Reply-To: <0-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR15CA0061.namprd15.prod.outlook.com
- (2603:10b6:208:237::30) To LV8PR12MB9620.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1P221CA0023.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c5::10) To LV8PR12MB9620.namprd12.prod.outlook.com
  (2603:10b6:408:2a1::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|CY3PR12MB9629:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23862799-22ca-4682-9e31-08de6e83aeab
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS7PR12MB8202:EE_
+X-MS-Office365-Filtering-Correlation-Id: f81ce967-0b40-4fb6-15db-08de6e8256bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JxE5mIUs3LSeQxT5nmpEYjBITpLz9b70NwVBdKhk5wgA/4G9lmcEfoJKsQbB?=
- =?us-ascii?Q?id0PnDFl9LL5eAEesoTypDOqL7wMJ+YBicTCh576+H1fI5Pgeeleu16J/BsV?=
- =?us-ascii?Q?r+9vIYtSHdU7YgzJZ6CVpHJ6HPUM0OVQSbbR694QBqZ7U/mqVlD05WWnN/LR?=
- =?us-ascii?Q?H6dM31v1AE03mxAQuwDI5MO0oKx55pcTRqYdNbnzjrsmtE5Z5QbGfsWlM2kw?=
- =?us-ascii?Q?b8WtqReyUDnNjPIak0uVfqoPljEBihqWaRUmlVUw41JeiKeCGlsjkwNsZe2c?=
- =?us-ascii?Q?Fd9+ZLCTs79R/osOkw96kWcdGWMPPX0saDyuG6Z5gX6jNKpuYp7uC/QzgzCC?=
- =?us-ascii?Q?2TPh8H8dB9Uk7TAXaT7+n68yQpIQo8XrJtvcUHbP1g2LPcMd1D0BguXG5V+z?=
- =?us-ascii?Q?vrEPZYLkfyMe8Xy0stqPRxQioshkUegDYm+oEJejsJqcv/LxYCpMG61idfHt?=
- =?us-ascii?Q?01gpvybG9LMY6D+AJsMX2qP1nMAjjsgzGrajbfUSC4tPrNM0hJGJ8JjrKpvU?=
- =?us-ascii?Q?xjJKrXNz0ZPrsOrQ14TC2hi+nCuBVfh6H00JBpykOLf/tYj27/Z+FGPqruEc?=
- =?us-ascii?Q?PIwf14u0wAu+EqF1E2MR3wjV15XxqOl1oirAff3lLY2AH6dzsXvnybrX0Gxl?=
- =?us-ascii?Q?HOtE7GVCANkB9yk8GqFl9VFqatBkwXJzRQlzwRa9YVGyrElBeBxhxoYXkxgD?=
- =?us-ascii?Q?NKTJMbvv5i4V4ezrIUj8d7cBFF6ZCeiXbaHudqBWwxsPjxvnj1V7qpmSVEZJ?=
- =?us-ascii?Q?2I6fZzzWxdo94HmQL8Ll/+npWJ304BoYwOrKV5hVpqoNU/4aRAjsg6EjE112?=
- =?us-ascii?Q?KrKnEiIBOTDUf5drCFvwQp7X8Gnhvmy+iAqAHQ6ABZRtFJlTGMEFf81o9tej?=
- =?us-ascii?Q?eZhBYQXM+8hS81rdyx9jN78fHvE4qJOFVEev2WA6+NcUkrlVsztJSTPrMBnf?=
- =?us-ascii?Q?LQc0X7zToMzejXRZqtWXra82CG5tQjPubPThgKqgEUoQj0nAbui/h4u2EaF/?=
- =?us-ascii?Q?ySfgGIO3EB5VL6GZ5tBAx5cQB+dFFNiQdlEqFP0iRRkYar0YUhoI7gSd4w+U?=
- =?us-ascii?Q?84dAoaUCIxHR4t0GtWgB6siE3xnAGhXuHpkunGwCOgm/5Lx+wVjK1U9K9tuq?=
- =?us-ascii?Q?P4ssmjlzqEY+TwGhKMjjTFK2ywhSeVi6v7UeF9s0qujewsTnw2CdrfuR+thf?=
- =?us-ascii?Q?jKMPx3P9vUyYbMrgebsQoiP43QKQcSvegDDWeeRp/6eQoLyhhjTx9GHiWg4j?=
- =?us-ascii?Q?pjLEmz1vVWlzhBK3cyR9MzNGcvs4iF1hdey4/tCWnaTGJhw7zxMg0IGJIQaR?=
- =?us-ascii?Q?02oJ97Rb5nAxcaTspi9a/6cEyd3Go6NV85drSKVTidmgMEpzc0u8q1WtLzqn?=
- =?us-ascii?Q?Pbl6u71z15ugIciCtgOcGD7jf1COZO3AWcVNmhSgAthnpcDkxdP/3Yt4ja4k?=
- =?us-ascii?Q?O2/l9xunAcIKb8IV2Im+QOrIL8um0NlocJ+yhLHubEBwQ8zIDkgCrox4Oqss?=
- =?us-ascii?Q?qiMLTC5uTibPAI4akssVWcg1EL0dfaFWGcMpjUHzWEYtHWTMbd8FB3/JzA+W?=
- =?us-ascii?Q?aT7st04ee+95UnqOpoQ=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?C6O5pAtEsIuc3U0nG+q+bPnweGSGsz8nNXFANKoQETHDplV2c8RVoDhPUVLV?=
+ =?us-ascii?Q?Vb4Muqb/25txvyHRIyOOq0P0IjUbDod0FgsS3ARGrmFaBmDvEa/9/C/QJSW3?=
+ =?us-ascii?Q?BhXLY842T9fkOvcRKS/dPg/k6mAcDCnfvDWlmv23X8+pbukBF/Dx9gSgX2Gt?=
+ =?us-ascii?Q?1uosjEex2Grb9J+J+NmX2Vcd2nXiO7Zu42mFeJkGkdP75TLgmlG5w5myIvyl?=
+ =?us-ascii?Q?D+vSZAqeK2H7HgnCh9K005H43uGBVSh1qdATE/KrM9frOpxtZXoFaXvlhki6?=
+ =?us-ascii?Q?zbLMNyMqg6jqQfft03wbUxTDHgesUGvug5MqabjbVctnZkvai0SURrW3Aclp?=
+ =?us-ascii?Q?jaWNohldjfzmmSMq84Rn7p1sDE1FnTckoL7DDhXDcut5p33NMMPpldymP2oj?=
+ =?us-ascii?Q?AbUVt5OyWy+8tPcnyGwtWl06qGKks6MIUZ27tZE+LhIQTO+kC/QZe4juSWtL?=
+ =?us-ascii?Q?Q0vn2easXXIp/E1dJPjlKe5wHObXlANoq2aIx7IdDdffWYZjwpxn+9IF7PJ/?=
+ =?us-ascii?Q?ubJ52PP4EMQznwhb2i0gTD+co6R8GbVFMXvzl5jVker11zvfWkzolXA8Llzt?=
+ =?us-ascii?Q?n/JTYWrHhpnBSQb60fNehL5zMEcJPk+EC9nfzd5/BxUaEVdPpcm4Tq1wRrhn?=
+ =?us-ascii?Q?aR/E/IfGO4ucRHFkjWdz1DTxjWpEPx0aBBiLmkM5fsvCEo4JyetVqMAGxZ20?=
+ =?us-ascii?Q?3/nG2Rz5NCQ+4oG3qqY7yxLT8dfE6c1ZOsArW1GAifGajsXYqu3uX2PU0stP?=
+ =?us-ascii?Q?Zn2bRPWDec8zUVXUNj3WqInHKsUGNmtOzbEOk6kUkdg/URjaRRg5XJXry+cV?=
+ =?us-ascii?Q?0/9HkcMttWZdLdRdWgPTh5uboAutAzguQFq6vUFc6sS6N9/QXNWB29RG7/3B?=
+ =?us-ascii?Q?fDx+IGMzNXj6QnCq1DCK6CNzuUnVvmxwyxxdm8Vp0Bp+GLxT91rawA2VAtHi?=
+ =?us-ascii?Q?X5VzZoBhh1Hut5A7qPu0tcERD2XfpreoKhTuB2RuNPJx0FX83DIP78GMzBqm?=
+ =?us-ascii?Q?uVaItRkg0K1aOxth1ZQCbo8jXCIFfBd91pp82r5PEK7kOYX0BM3jRJi0Gw3/?=
+ =?us-ascii?Q?xYDzmRyYBXPez4L9SzkxVnkrUu2FI/uiFaow9Mnw2pkgTJE9y9/qSzEWjnX3?=
+ =?us-ascii?Q?eWhy+wk+VM5q+dGbF39pCzsVfscLhzLO8YhJ/97vR3a9oY+4DEHPw2haeLA1?=
+ =?us-ascii?Q?34vMupSePu/m2fsJ0Xdj2zrf/ugmndvSGpiZAfe9g7SbxOp+r4dJaIxNU8+c?=
+ =?us-ascii?Q?LKtDlEMDcu8G6zudFhPWB23lqkzSUrXNbJIGCHvuoFgSo+s3Kq2b3EQmVJ9E?=
+ =?us-ascii?Q?6gVxorAaIV4vRSv7Lw64ZnW6TUxjDJh4Uw398TokMMaA3B96a0UiKV7MnG7i?=
+ =?us-ascii?Q?V63WEfkXNFlJ23iHXcpjPaSWE3kZdX3YAGYE1VjEOdHGkIw+lSB9ANlFV83G?=
+ =?us-ascii?Q?CzbMSpkaG/E+1sWFd+8XCTRLwOnX/gd9mTrf0PvrXO3pc6kaL9ee6ugzcSUW?=
+ =?us-ascii?Q?TNANGBR/2LlQW+TYT8AwPuS3BVOrds7StfxcgIEw9akCGxNayUIRO+kCOBMs?=
+ =?us-ascii?Q?sNMx6VXVcjxaQCdJ/kw=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:LV8PR12MB9620.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jak9PIRMhOz1n40AJoU+MjvbIYDtMYKxdKz1keJaUPfvZOanaC4rAdzZHBif?=
- =?us-ascii?Q?5gUCCWcw8lFYc6xJV7AvDpsH3OO9KskNkPQTzB8zKKYWnDwK5uG5OjFHAnL2?=
- =?us-ascii?Q?3NrrySGhVh/wTSY3XguaB1uM5rcIOkQuvG32hUhBbU3X4THx9FOak1O4350+?=
- =?us-ascii?Q?OgmiQ3eqnGRsxI3RQo7c8SBNgKd1qMFvL2Z3jxH+E1fHk6SjmZQgRQ66wHaG?=
- =?us-ascii?Q?AbqYHb43br1EW39NtGfPiSOq78029gDVtNQuW/57mntGDRdjKe1oS7+H4ugY?=
- =?us-ascii?Q?CLHnC4ungLL6l02CJVzl6gCIgVOhjICfDErAYP2szMQF+huNB4a1zh0YM8H+?=
- =?us-ascii?Q?+wP+jmRPuius5OQTnFcxJbcoxMOM/MofeqQDjoAkJzznViA9gOlqerdNuI7E?=
- =?us-ascii?Q?Rwp89EERX5oNTJ8rgzr+P5MOLO2vDFS80nSkLozQvrK1UOq4CoV4jOYFy840?=
- =?us-ascii?Q?OZicsdlM+iLs5BMwq6LARug2nCrJkAkvuzgVvtSZlehyg/A9buX1+t33dskg?=
- =?us-ascii?Q?RbOMxMCMS/cCROheXJuELJ89lyXPVfpEHT9wl719jbSLCCFyW7Aco7Lf3qJE?=
- =?us-ascii?Q?02Rh/PG2qST6v4JI9KiF3RGwlZqAFjernipcap2dl1NV7i67cqI0vN22zMCH?=
- =?us-ascii?Q?uMrlCZyLJiGhQaiU+26VSKWLjjSgVz+JpdFX7CZeXxl6WbM+fQBMO4TH2myQ?=
- =?us-ascii?Q?SbcNIVJTzUChkoH54yLC6D1OcwuqhVHCmBiG+GbrciGnA7scU+q53+n1zroc?=
- =?us-ascii?Q?a42eg5PHkP3wlV3N6whb0qz6xLmd+nxEpG0D7jbz7A+FI/UOE2hTfe/fWmIr?=
- =?us-ascii?Q?CAIknIEoWFtk5DhLDgs8Mu+Q6DvgbZJ1V6tRmpZk3hlyj64KYVXcnt8Pdu9V?=
- =?us-ascii?Q?jTYAZXSdKZISyViQ1W2GvaFXvnSiGt63sZebwgVUNcvFkouqnMmZ45Govia6?=
- =?us-ascii?Q?NuAPUJpD3Y98sVFo9TxD8Fp+YZEcWyEEWSUZrZqCv4ODw+gmQ1rAD4BvPd/R?=
- =?us-ascii?Q?IFjeSL4H0l6lZewIPQwhPRJCOev5mzuJQBDgr4KvZXLNdStcAM/UX2nkew/0?=
- =?us-ascii?Q?gBtJt5MZd1dlx6E500Lf1P4fVU+IEvkoQrYiBVDuneAogpp0tikfjgH0Hajg?=
- =?us-ascii?Q?FBhxksSCAFuHb30pHyiiTtIXNiSfAR4JcsE5bj6Kqq4ZDKIU3S0RgVmHQKLl?=
- =?us-ascii?Q?NPIUnuHnbbxLjPw0qCJrROoAMYSPiHo+p9wM8CrunHllFseyfFHtqDUZiysm?=
- =?us-ascii?Q?RLLQonqG084p5/8x8ed6AtzDw4xe/UYu1ygh8pkSBNbUaFDMJcEbhWCl+i+1?=
- =?us-ascii?Q?JJnrys0GTWHLIB2zTNOY2IIW1GrJr1Xk0hlpf0f0ud7zsuVS9XduttwpIckM?=
- =?us-ascii?Q?YTOYRq2i3aBpOctjkYqRQH0i52xlWjn/O2iJDQq0E12hA11xu6aT9X7fMSUG?=
- =?us-ascii?Q?I1fNZLAWnURT8hAIubwsHjPyZy8v6V4tNGdNSlLTo5+vxgZ8RxrvxvJD6dzW?=
- =?us-ascii?Q?jel4pNAuqZhOLejj9yOlujxsrYzab7JE7Oe+vLjFCTaiAjUqw0PFILeElpvM?=
- =?us-ascii?Q?gMVBaCpQKwNEYNo4tNXQTQf1Ovvo9GnInGJ8+Dpd40JpnHH/d8mKg/m4LoWk?=
- =?us-ascii?Q?t76LtBSmCWAQIcggtzTB8TEpK8S7raSiGARQrWVU6V7XDBkAEPCl1z5dGn6G?=
- =?us-ascii?Q?WuJTAR+H5/Ywx9mKIYRPTT8mouqhCyKLY0fR0D8Q6qR9YVGn2QMl6P960Gcp?=
- =?us-ascii?Q?Q1YZXeVZrw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T6zJlaimwrMn8KW+n/4FTQI/5M+A3m30JY5Gy1cLTpLlgDtvVo7LW8Nm7U6U?=
+ =?us-ascii?Q?EpBKTr+UIpBDy9KYqoFoEi/5ndtKpSr8X5LMc1s0GURMJMFx4p+2DOEh23Ij?=
+ =?us-ascii?Q?FGuNtkrMuR+8Gzp5PQbl/aaSQBMBLw1Ys75nHj9V+hJQe3doj8jitneuyqp5?=
+ =?us-ascii?Q?IEHubEWX6/Pfn3/ZTzkyO3qoQqP6XSTzuNEG32uXpxW4D97HFvj2hTPq2gXt?=
+ =?us-ascii?Q?9LOmK0Pct+nBlp31Z89QXFaYLOo2PVfZKPGdU5cVge6LPHLtUERTvzVvKLDn?=
+ =?us-ascii?Q?1l0sSf3Wkz5p0oDiRnbGoqTY7wSgY/rUvrVJG5NjtHeVALXQox5FGjrOuLM6?=
+ =?us-ascii?Q?HYJq3pegL4Lzrh+AD1X5EmqhLLfty/m9xpLZ72xAuqoupjLlSeY1XYEj/IAC?=
+ =?us-ascii?Q?3C6NRFj9gH2XsBrT3kd4bgz8NQE84/SWvm2t8hsZ8uimCWJxeuPxKyUissY5?=
+ =?us-ascii?Q?vdovKWZK4POBqHXcq6UtxPjSiJHHK+3yCcT/PiCpPCekOTcv7LWxa0AtFQVa?=
+ =?us-ascii?Q?oZarwu6IXQnlMD+ArqDzHpH+qFUN5Mq//tPJcOmWwzSd1qP5ldtCOuZshOBm?=
+ =?us-ascii?Q?D7RlrdgDwO1Xn7rmvrE3oaxERTIYdCgOXSnAt7ougFJ+HOOj7QCDc05rpRm3?=
+ =?us-ascii?Q?9zvTo+026ykv1DMl7GBsBSXDVbFIRqstWyqbU+aNgGG3BUB00E8z/KbHmizv?=
+ =?us-ascii?Q?HPzGDk8esKN3AA7qG4sihAB3HnuBQBQXY8njYPr8cMtKoBzLoeTMQAy+YG7l?=
+ =?us-ascii?Q?rUvzPASaovYLbfPMIn8WEeaXLIdRy+rJv3Gvoo9DyIfmcjo4QgkVW7UYuZkB?=
+ =?us-ascii?Q?n64BClGMkp3DhUtocxq60lzwybW6KBHpqylKTLDRX1Y78cdQIoUPdkkot2C7?=
+ =?us-ascii?Q?dZU7ENX6Ik3GHaG3aMGSH1+VCQa2OP2l3lHwN/dhw75RBbVoe/AbL0dHcOzh?=
+ =?us-ascii?Q?HNwce8Ru2fGhcYwWC6qdhM5XU2kmHZsVpniGdKWUpr9zGkwlYw4kCGcRjMFG?=
+ =?us-ascii?Q?GkV/ME0m22R41j8RqynuH7sTn+x1ZwwP3HcCReXH9kIE0V9lEHkHqEFVQGex?=
+ =?us-ascii?Q?nxbrar3DZLB/YV7FiitBSM1ApUuuUrqhJkJhpjk4WOp2FXR1yyFvscsj1mhD?=
+ =?us-ascii?Q?cjTvNGKeoK9+iYVjukW2MNtkYZS+JrVufDXnYoNzYfBoeu6hbcZ8d+d9dTTd?=
+ =?us-ascii?Q?fzfpQ7Remqn3rIyykRwU/2q0xq2igSwp3IxV4jwGKsSc5aIrsfz3O/0lKtN5?=
+ =?us-ascii?Q?LbJ8KmClozW8b3vwmZw8nlwAlIMOJiZLnKGT4plDqzFiKCCceJaLNT6XAvao?=
+ =?us-ascii?Q?QpTvKzaHYCyaHaPIA14QO3amf/myKE2UBZmBBvjAtYwrImqc6q4eODPcMqRN?=
+ =?us-ascii?Q?E7B0QC6bCoepujeo+uRgquBbFrIAHtSC1ilRa8wKVM7X/UgaSMFQiyKbPx1z?=
+ =?us-ascii?Q?tHNohTzezfaIohmFeOJYn03IkLBuhwqv0iT12qqgIl4/hy8riA+5fpOCXgV+?=
+ =?us-ascii?Q?YZreuBuyfKo2R3BAbpR4L/Zk9jdYO+WoSWzSL59WgQc62ztO2bahgnNnJNVk?=
+ =?us-ascii?Q?usfIl1V9wjEZSPbAIBA3knN+3DijVdNW+dVkVoV6j3zCu4pkK7NeqKp4gclq?=
+ =?us-ascii?Q?jc+GdNd6RuUsgcEQBvzRJzRdP4jj0zw0msiq3QSXJmvkcgcgQ9Dl4Xd8BlEv?=
+ =?us-ascii?Q?f3yWT85PCvTKioX1Fwl3cGEGChOkmWZyasS1Pk4NZhrDIf2UsBU7qAgeDnC6?=
+ =?us-ascii?Q?+vw5QAbHyA=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23862799-22ca-4682-9e31-08de6e83aeab
+X-MS-Exchange-CrossTenant-Network-Message-Id: f81ce967-0b40-4fb6-15db-08de6e8256bd
 X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 00:21:38.6287 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 00:12:01.4712 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Sskir//+2FLvuTIOOt5cQ0LQ+r41G+rER5bnA2AWNZPKNZos7HaWtTj8m/FLxqHs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9629
+X-MS-Exchange-CrossTenant-UserPrincipalName: ErSqXZobZT5Ynh2KC+AofBqH7LEhFFUdlYNiNo+XxDouVSXbj4QXOXHbIr35uA6n
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,160 +182,78 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[Nvidia.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: 3476415236E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 0FDC31521E2
 X-Rspamd-Action: no action
 
-This type is required by iommufd and kvm as dmabuf importers.
-
-Due to sensitivity about abusing physical addresses, restrict importers by
-using EXPORT_SYMBOL_FOR_MODULES(). Only iommufd can implement an importer,
-the kernel module loader will enforce this.
-
-Allow anything to implement an exporter as there are use cases in
-DPDK/SPDK to connect GPU memory into VFIO/iommufd and it is hard to abuse
-the API as an exporter.
-
-The physical address list exporter returns a physical address list in a
-simple kvalloc'd array of struct phys_vec.
-
-For now all entries are assumed to be MMIO and iommufd will map into
-the IOMMU using the IOMMU_MMIO flag.
+Simply return a copy of the phys_vec.
 
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/dma-buf/dma-buf-mapping.c | 63 +++++++++++++++++++++++++++++++
- include/linux/dma-buf-mapping.h   | 42 +++++++++++++++++++++
- 2 files changed, 105 insertions(+)
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 34 ++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-index baa96b37e2c6bd..d9d6b9b5bf05c6 100644
---- a/drivers/dma-buf/dma-buf-mapping.c
-+++ b/drivers/dma-buf/dma-buf-mapping.c
-@@ -349,3 +349,66 @@ struct dma_buf_mapping_type dma_buf_mapping_sgt_type = {
- 	.debugfs_dump = dma_buf_sgt_debugfs_dump,
+diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+index c7addef5794abf..f8d5848a47ff55 100644
+--- a/drivers/vfio/pci/vfio_pci_dmabuf.c
++++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+@@ -77,10 +77,39 @@ static const struct dma_buf_mapping_sgt_exp_ops vfio_pci_dma_buf_sgt_ops = {
+ 	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
  };
- EXPORT_SYMBOL_NS_GPL(dma_buf_mapping_sgt_type, "DMA_BUF");
-+
-+static const struct dma_buf_mapping_pal_exp_ops *
-+to_pal_exp_ops(struct dma_buf_attachment *attach)
-+{
-+	return container_of(attach->map_type.exp_ops,
-+			    struct dma_buf_mapping_pal_exp_ops, ops);
-+}
-+
-+/**
-+ * dma_buf_pal_map_phys - Obtain the physical address list for a PAL attachment
-+ * @attach: The DMA-buf attachment
-+ *
-+ * Calls the exporter's map_phys() callback to retrieve the physical address
-+ * list for the buffer. The caller must hold the dma-buf's reservation lock.
-+ *
-+ * This symbol is restricted to iommufd to prevent misuse.
-+ *
-+ * Returns the physical address list on success, or an ERR_PTR on failure.
-+ * The returned list must be freed with dma_buf_pal_unmap_phys().
-+ */
-+struct dma_buf_phys_list *
-+dma_buf_pal_map_phys(struct dma_buf_attachment *attach)
-+{
-+	dma_resv_assert_held(attach->dmabuf->resv);
-+	return to_pal_exp_ops(attach)->map_phys(attach);
-+}
-+/*
-+ * Restricted, iommufd is the only importer allowed to prevent misuse of this
-+ * API.
-+ */
-+EXPORT_SYMBOL_FOR_MODULES(dma_buf_pal_map_phys, "iommufd");
-+
-+/**
-+ * dma_buf_pal_unmap_phys - Unmap a physical address list
-+ * @attach: The DMA-buf attachment
-+ * @phys: The physical address list returned by dma_buf_pal_map_phys()
-+ *
-+ * Returns the mapping back to the exporter. After this point the importer may
-+ * not touch any of the addresses in any way.
-+ */
-+void dma_buf_pal_unmap_phys(struct dma_buf_attachment *attach,
-+			    struct dma_buf_phys_list *phys)
-+{
-+	to_pal_exp_ops(attach)->unmap_phys(attach, phys);
-+}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_pal_unmap_phys, "DMA_BUF");
-+
-+static inline void
-+dma_buf_pal_finish_match(struct dma_buf_match_args *args,
-+			 const struct dma_buf_mapping_match *exp,
-+			 const struct dma_buf_mapping_match *imp)
-+{
-+	args->attach->map_type = (struct dma_buf_mapping_match){
-+		.type = &dma_buf_mapping_pal_type,
-+		.exp_ops = exp->exp_ops,
-+	};
-+}
-+
-+struct dma_buf_mapping_type dma_buf_mapping_pal_type = {
-+	.name = "Physical Address List",
-+	.finish_match = dma_buf_pal_finish_match,
-+};
-+EXPORT_SYMBOL_NS_GPL(dma_buf_mapping_pal_type, "DMA_BUF");
-diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mapping.h
-index ac859b8913edcd..10831ce2e72851 100644
---- a/include/linux/dma-buf-mapping.h
-+++ b/include/linux/dma-buf-mapping.h
-@@ -269,4 +269,46 @@ DMA_BUF_EMAPPING_SGT_P2P(const struct dma_buf_mapping_sgt_exp_ops *exp_ops,
- 			.exporter_requires_p2p = DMA_SGT_NO_P2P,         \
- 		} })
  
-+/*
-+ * Physical Address List mapping type
-+ *
-+ * Use of the Physical Address List type is restricted to prevent abuse of the
-+ * physical addresses API. Please check with the DMA BUF maintainers before
-+ * trying to use it.
-+ */
-+struct dma_buf_phys_list {
-+	size_t length;
-+	struct dma_buf_phys_vec phys[] __counted_by(length);
-+};
-+
-+extern struct dma_buf_mapping_type dma_buf_mapping_pal_type;
-+
-+struct dma_buf_mapping_pal_exp_ops {
-+	struct dma_buf_mapping_exp_ops ops;
-+	struct dma_buf_phys_list *(*map_phys)(struct dma_buf_attachment *attach);
-+	void (*unmap_phys)(struct dma_buf_attachment *attach,
-+			   struct dma_buf_phys_list *phys);
-+};
-+
-+struct dma_buf_phys_list *
-+dma_buf_pal_map_phys(struct dma_buf_attachment *attach);
-+void dma_buf_pal_unmap_phys(struct dma_buf_attachment *attach,
-+			    struct dma_buf_phys_list *phys);
-+
-+static inline struct dma_buf_mapping_match DMA_BUF_IMAPPING_PAL(void)
++static struct dma_buf_phys_list *
++vfio_pci_dma_pal_map_phys(struct dma_buf_attachment *attach)
 +{
-+	return (struct dma_buf_mapping_match){
-+		.type = &dma_buf_mapping_pal_type,
-+	};
++	struct vfio_pci_dma_buf *priv = attach->dmabuf->priv;
++	struct dma_buf_phys_list *phys;
++
++	phys = kvmalloc(struct_size(phys, phys, priv->nr_ranges), GFP_KERNEL);
++	if (!phys)
++		return ERR_PTR(-ENOMEM);
++
++	phys->length = priv->nr_ranges;
++	memcpy(phys->phys, priv->phys_vec,
++	       sizeof(phys->phys[0]) * priv->nr_ranges);
++
++	return phys;
 +}
 +
-+static inline struct dma_buf_mapping_match
-+DMA_BUF_EMAPPING_PAL(const struct dma_buf_mapping_pal_exp_ops *exp_ops)
++static void vfio_pci_dma_pal_unmap_phys(struct dma_buf_attachment *attach,
++					struct dma_buf_phys_list *phys)
 +{
-+	return (struct dma_buf_mapping_match){
-+		.type = &dma_buf_mapping_pal_type,
-+		.exp_ops = &exp_ops->ops,
-+	};
++	/* FIXME when rebased on Leon's series this manages the refcount */
++	kvfree(phys);
 +}
 +
- #endif
++static const struct dma_buf_mapping_pal_exp_ops vfio_pci_dma_buf_pal_ops = {
++	.map_phys = vfio_pci_dma_pal_map_phys,
++	.unmap_phys = vfio_pci_dma_pal_unmap_phys,
++};
++
+ static int vfio_pci_dma_buf_match_mapping(struct dma_buf_match_args *args)
+ {
+ 	struct vfio_pci_dma_buf *priv = args->dmabuf->priv;
+-	struct dma_buf_mapping_match sgt_match[1];
++	struct dma_buf_mapping_match sgt_match[2];
+ 
+ 	dma_resv_assert_held(priv->dmabuf->resv);
+ 
+@@ -91,7 +120,8 @@ static int vfio_pci_dma_buf_match_mapping(struct dma_buf_match_args *args)
+ 	if (!priv->vdev)
+ 		return -ENODEV;
+ 
+-	sgt_match[0] = DMA_BUF_EMAPPING_SGT_P2P(&vfio_pci_dma_buf_sgt_ops,
++	sgt_match[0] = DMA_BUF_EMAPPING_PAL(&vfio_pci_dma_buf_pal_ops);
++	sgt_match[1] = DMA_BUF_EMAPPING_SGT_P2P(&vfio_pci_dma_buf_sgt_ops,
+ 						priv->vdev->pdev);
+ 
+ 	return dma_buf_match_mapping(args, sgt_match, ARRAY_SIZE(sgt_match));
 -- 
 2.43.0
 
