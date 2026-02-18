@@ -2,65 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id jfaCI1BVlWl5OwIAu9opvQ
+	id dTUIKDhelWk0PwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:59:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 07:37:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6E3153308
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 06:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21A5153777
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 07:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBDF110E1DD;
-	Wed, 18 Feb 2026 05:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF21610E197;
+	Wed, 18 Feb 2026 06:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YiHAYhz/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZXByU6x9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88EC810E197;
- Wed, 18 Feb 2026 05:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771394380; x=1802930380;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=DLItL20ZbEHuUuPcnGLdYf8yVxg7xkjOqr1FMwt1L3Y=;
- b=YiHAYhz/wDVxBXkXPTD6zG/kPVrEsInlzvjOEo2DaBeq+wax+AXETXw9
- kK9SNXjV1ioN/XzSy4RKw1TB3z4XJu02WhqG/E1qW0ZvTqrHfLL4QJmWj
- G/XLL3fPEEa9ZCPYGwpa9EvDb8+APXdMClmXq5z82JYUrtdZ/JC+NSvvs
- yyVDPiftdaKsZNdtYpzzu+LLzOgCwX+0dGa1fkc+vVZkJIyeGxYvuiHTV
- WUlVlqDE0WOchMQTFl/AEzZd1g9usjoBqnZ3TIryw9qTLox2FGfhug++q
- OnwU7vwZvn1AhkEHw6fdVtWiBAtn5vYOEk2tDV02VtjzXMkdAlQ3X7ygj w==;
-X-CSE-ConnectionGUID: kLEyNEvGQq2M48TAIQbgOQ==
-X-CSE-MsgGUID: icLGGTQHSBO6OzpbPZ7VHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72515355"
-X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; d="scan'208";a="72515355"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2026 21:59:39 -0800
-X-CSE-ConnectionGUID: vDiaKcdXSNSrTvLxUt+5Yg==
-X-CSE-MsgGUID: R0Aq4GcxSZGgIIjI/Oqtvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; d="scan'208";a="214211115"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 17 Feb 2026 21:59:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vsab1-0000000126m-08zs;
- Wed, 18 Feb 2026 05:59:35 +0000
-Date: Wed, 18 Feb 2026 13:59:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simon Richter <Simon.Richter@hogyros.de>, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Simon Richter <Simon.Richter@hogyros.de>
-Subject: Re: [PATCH 3/5] vgaarb: mark vga_get family as __must_check
-Message-ID: <202602181332.NDKD0g1P-lkp@intel.com>
-References: <20260217170419.236739-4-Simon.Richter@hogyros.de>
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
+ [74.125.224.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D71E10E197
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 06:37:40 +0000 (UTC)
+Received: by mail-yx1-f46.google.com with SMTP id
+ 956f58d0204a3-64ad019bb5eso4514442d50.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Feb 2026 22:37:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771396659; cv=none;
+ d=google.com; s=arc-20240605;
+ b=Xffv9CXZ/2CO1I5zzq1KxSqE/sZi4/2bvbxiTZZ/kpoUd4b8YJlfOskuQaK6p24z0g
+ QJgDZsTsukFCoGKeCoHZmSaeSjEiGiid5YMmpnDBJduO0NLIrLJ3PD9vhe04YM20GyPe
+ 0pD8VM77lSJ3QXLeoj/4bEKfoqMAZQj0zLj3NX66vJADDpTmxQTTeKLfQr4TdBkDZj/b
+ lz0hCA+z0SBS0Mb4W5V6qM7FP6kLptTduxAnlg2O5uYXmOUQRQMC0SKVRlc7GHFSxc6V
+ 2sOqEeDnfBUhCVy4uh6XRCYkwnud7lLAEM7cZDVcZMNQjvmamtihySG6CBRe+nwZ6Z5s
+ GSLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Ds7YQxw27ANmnMy4vFgBOW8wmj7bD1TJWIiuI1meKdw=;
+ fh=yNAJp0lFt1083z+WKXpbl1i6+f4nKC7EuF0VxflM9Wo=;
+ b=jzORYx91elJNVzYHPmMscvNDSGpHeXt/x8+1efEDEjO6igFWIQe/cscO2WZ3PpLXnY
+ xYGUoNDfPNcEpt6qGsl8O44a4dO4YAFkdvyAUEBt6ShfAT9c2dC1PQDyIRMnsu6IQqbv
+ E6le4ldXUyxX6JDbxaRH95+xnz6zCdiKcYI/5Py+DwieWI8R/dAgEZysAk9wxXaFSnk4
+ /aM18pK1w9H8iOgZGw2mVSUMsog2HYVIrw5vkIGud+TOc6NmDICo6es0kAGXjVmPDh77
+ FNdm5BJQac56i76GucsQA+YOw8PYHI2/LdacdaGwyLObE2/YoskP2XA3bdhoEmcXhgeW
+ gomg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771396659; x=1772001459; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ds7YQxw27ANmnMy4vFgBOW8wmj7bD1TJWIiuI1meKdw=;
+ b=ZXByU6x9JmOHoq5hOBNC6iF/BLZm8E7U3mS9YVeTUwsDNSgS5eSz2GoyKbREI7M6hf
+ B1ypzRlEE3NLbAHWdTYbnD35RREba1ErUjb4V4Xxw8znytqnYxaX2DI8pG7Xc/QVsHBE
+ J4Z3V+F42VAZ8prLINDS4leyhsQZRvwCvp5qy9UDEkEaYeqSTP8YprcUzF54WvabWpvT
+ ThZub37HcL1GLXcATNxXdaRm7GBwCSRnHuzE4uYmt9+3keZyJ9nOAJiHc8TyEerAgFSj
+ eTpan6wJOYOH/dff0wXFuTYjCS0DWBPKYS9fjPcInmmO4Pg8aJJT3WCGHt//k2QKwV1v
+ Xa3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771396659; x=1772001459;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Ds7YQxw27ANmnMy4vFgBOW8wmj7bD1TJWIiuI1meKdw=;
+ b=AkWEQRWE4pIYRa295MBXewKXw//EQCr71EVBvkIO9Yw8j5/xbFVzkimRg7nQbIR4I9
+ sgBmnRzFHEptEvpWL9RFdL861O4FOadRP8SmRnJMx7Z8wrunIvNP03JjLNsNQ5eGYDUI
+ 4J3UnhCBzpB1ShY//LVMzCzDd+yLv0iQd5zef9NeDlUmDY1kU1RAFWvEMnKwd1DJuKw6
+ hhEX/3Jrt+lGwFEdekqBwLtL6leYkrGqqcIHrO0iimwoaDCO9OjDVc9Dlo7hGZQD7A8D
+ TEXTmmOprQvYdZnQm0D/Xdp/tFWRmFW9YmNmGQoAPO1pu5riLZ1LBYliiRiPmnCIvT9z
+ lTRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXGEbavDaeL88wgubf7lahHanEFztaM/CsQOu3noe6Kn4p+ned4uU9IpvvKNqD7l1IiXvhqunNjzD8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywf4NvqhDgDliEKc5cU+TwSkBdZtVyZkQ6fDYgt9E1apzxLH7Pc
+ ubQP3daoeEv75wgGAcJvgz1v8RcsPSvDhN+pqepYOe8AuFF6HAsb830gLJxHcFjJIi6PIGdnfl9
+ KU+r5RSckXGPgF0QcbHbnrhBUAd6kWeQ=
+X-Gm-Gg: AZuq6aKu5t+Le2NB2FsdN6zw9WaCzZqfYAObej/eUuDng7GNhu2Lspn++isPE1xdCbR
+ 73Jb9jM8htTJ48mdnvRu63ttz8KBDPjInMRhMd9G+hlM41xI+PWNinApZIBxFr7jLfvQvZY61WD
+ 3T5SXjfOrrX/Z52Rc3rwl1v5x9NVfjUA5U+RGReS8RnAy1+oqUQOvS1tPIBemZnqR7D6Jg3ZGcq
+ 1nI/k763S9JPcu5EsoqOS2qZym4dDBGxEl5uusmtNzzgZYJPByMByCJDEl9GC1mN/pAicTYiGN/
+ V3PD4/0Jg6DFro5LOpmm0Aa2Fth68/gY1/SCMw==
+X-Received: by 2002:a53:b118:0:b0:64c:21c4:d017 with SMTP id
+ 956f58d0204a3-64c21c4d535mr8472876d50.78.1771396658906; Tue, 17 Feb 2026
+ 22:37:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260217170419.236739-4-Simon.Richter@hogyros.de>
+References: <20260217092738.3238016-1-wens@kernel.org>
+In-Reply-To: <20260217092738.3238016-1-wens@kernel.org>
+From: Archit Anant <architanant5@gmail.com>
+Date: Wed, 18 Feb 2026 12:07:27 +0530
+X-Gm-Features: AZwV_QhuV-mjrGEKCT_oX3GbO4x-xStrhOVF6asGfzRrTBmYvZQLSDtpj0Pd4JE
+Message-ID: <CADJHxWB5b2jMXV2ut49beh5gc1ebfYV+yS_WfFeK=PiVaHw1+g@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 0/2] drm/panel: sitronix-st7789v: Convert to
+ mipi_dbi
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>, 
+ Michael Riesch <michael.riesch@collabora.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +120,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sebastian.reichel@collabora.com,m:gerald.loacker@wolfvision.net,m:michael.riesch@collabora.com,m:miquel.raynal@bootlin.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: CD6E3153308
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[architanant5@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,collabora.com,wolfvision.net,bootlin.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: F21A5153777
 X-Rspamd-Action: no action
 
-Hi Simon,
+On Tue, Feb 17, 2026 at 2:57=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wrot=
+e:
+>
+> Hi folks,
+>
+> This small series converts the st7789v panel to use the mipi-dbi helpers
+> for register access.
+>
+> Originally I intended to also add tinydrm support. My purpose was just
+> to test a TFT module that is on the Avaota A1 board. Archit is interested
+> in working on this driver, and I already used his/her previous patch to
+> check that my TFT was sort of working, albeit probably with the wrong
+> internal parameters. So this series will serve as a base for that work.
+>
+> Patch 1 adds an option to invert the reset GPIO logic in the mipi-dbi
+> helpers. The reset logic originally assumes "high" is out of reset,
+> so an "enable" GPIO rather than a "reset" GPIO. However the st7789v
+> drivers assumes the proper "reset" GPIO logic.
+>
+> Patch 2 converts all SPI register accesses in the st7789v to use the
+> mipi_dbi helpers. This actually reduces the number of function calls,
+> as the command and data portions of each message are combined. This
+> conversion also lets the driver support 8-bit plus D/C GPIO transfers.
+>
+>
+> This series is unfortunately only compile tested, as I do not have an
+> st7789v panel that is wired up for RGB input. So please help test the
+> changes.
+>
+>
+> Thanks
+> ChenYu
+>
 
-kernel test robot noticed the following build warnings:
+Hi ChenYu,
 
-[auto build test WARNING on 9702969978695d9a699a1f34771580cdbb153b33]
+Thank you for sharing the series.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Richter/vgaarb-pass-vga_get-errors-to-userspace/20260218-010647
-base:   9702969978695d9a699a1f34771580cdbb153b33
-patch link:    https://lore.kernel.org/r/20260217170419.236739-4-Simon.Richter%40hogyros.de
-patch subject: [PATCH 3/5] vgaarb: mark vga_get family as __must_check
-config: i386-randconfig-141-20260218 (https://download.01.org/0day-ci/archive/20260218/202602181332.NDKD0g1P-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181332.NDKD0g1P-lkp@intel.com/reproduce)
+I=E2=80=99ll focus on completing the transition to the mipi_dbi helpers,
+ensuring the reset
+handling works correctly with the optional logic inversion, and updating
+st7789v_check_id() to use ST7789V_IDS_SIZE and sizeof(ids) as discussed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602181332.NDKD0g1P-lkp@intel.com/
+Although I don=E2=80=99t have access to the hardware, I=E2=80=99ll make sur=
+e the series builds
+cleanly and review the changes carefully. I=E2=80=99ll also verify that the
+8-bit SPI + D/C
+GPIO configuration is handled correctly at the driver level.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_vga.c:68:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-      68 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_vga.c:93:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-      93 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +/warn_unused_result +68 drivers/gpu/drm/i915/display/intel_vga.c
-
-0c80d60ae63461 Ville Syrjälä 2025-04-17  43  
-4fb8783165b7c6 Jani Nikula   2019-10-01  44  /* Disable the VGA plane that we never use */
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  45  void intel_vga_disable(struct intel_display *display)
-4fb8783165b7c6 Jani Nikula   2019-10-01  46  {
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  47  	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  48  	i915_reg_t vga_reg = intel_vga_cntrl_reg(display);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  49  	enum pipe pipe;
-0c80d60ae63461 Ville Syrjälä 2025-04-17  50  	u32 tmp;
-4fb8783165b7c6 Jani Nikula   2019-10-01  51  	u8 sr1;
-4fb8783165b7c6 Jani Nikula   2019-10-01  52  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  53  	tmp = intel_de_read(display, vga_reg);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  54  	if (tmp & VGA_DISP_DISABLE)
-a3af0140663dc3 Emil Velikov  2021-06-04  55  		return;
-a3af0140663dc3 Emil Velikov  2021-06-04  56  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  57  	if (display->platform.cherryview)
-0c80d60ae63461 Ville Syrjälä 2025-04-17  58  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK_CHV, tmp);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  59  	else if (has_vga_pipe_sel(display))
-0c80d60ae63461 Ville Syrjälä 2025-04-17  60  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK, tmp);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  61  	else
-0c80d60ae63461 Ville Syrjälä 2025-04-17  62  		pipe = PIPE_A;
-0c80d60ae63461 Ville Syrjälä 2025-04-17  63  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  64  	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
-0c80d60ae63461 Ville Syrjälä 2025-04-17  65  		    pipe_name(pipe));
-0c80d60ae63461 Ville Syrjälä 2025-04-17  66  
-4fb8783165b7c6 Jani Nikula   2019-10-01  67  	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
-4fb8783165b7c6 Jani Nikula   2019-10-01 @68  	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-f0bb41fad02e03 Jani Nikula   2022-02-02  69  	outb(0x01, VGA_SEQ_I);
-f0bb41fad02e03 Jani Nikula   2022-02-02  70  	sr1 = inb(VGA_SEQ_D);
-f0bb41fad02e03 Jani Nikula   2022-02-02  71  	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
-4fb8783165b7c6 Jani Nikula   2019-10-01  72  	vga_put(pdev, VGA_RSRC_LEGACY_IO);
-4fb8783165b7c6 Jani Nikula   2019-10-01  73  	udelay(300);
-4fb8783165b7c6 Jani Nikula   2019-10-01  74  
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  75  	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  76  	intel_de_posting_read(display, vga_reg);
-4fb8783165b7c6 Jani Nikula   2019-10-01  77  }
-4fb8783165b7c6 Jani Nikula   2019-10-01  78  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Sincerely,
+Archit Anant
