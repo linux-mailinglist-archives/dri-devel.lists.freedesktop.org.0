@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cInPBIWClWlWSAIAu9opvQ
+	id oID1FoGClWlrSAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:37 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE471549A1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3555154988
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 10:12:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E8910E598;
-	Wed, 18 Feb 2026 09:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB91010E596;
+	Wed, 18 Feb 2026 09:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1B710E596
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4130910E597
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 09:12:28 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1vsdbe-0001kM-8L; Wed, 18 Feb 2026 10:12:26 +0100
+ id 1vsdbe-0001kM-AD; Wed, 18 Feb 2026 10:12:26 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Wed, 18 Feb 2026 10:12:04 +0100
-Subject: [PATCH v4 1/3] dt-bindings: vendor-prefixes: Add lxd
+Date: Wed, 18 Feb 2026 10:12:05 +0100
+Subject: [PATCH v4 2/3] dt-bindings: display: panel: add LXD M9189A
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260218-drm-panel-ek79007ad3-v4-1-8ec448bf3ede@pengutronix.de>
+Message-Id: <20260218-drm-panel-ek79007ad3-v4-2-8ec448bf3ede@pengutronix.de>
 References: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
 In-Reply-To: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -40,8 +40,7 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>, 
- Krzysztof Kozlowski <krzk@kernel.org>
+ kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
 X-Mailer: b4 0.14.3
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
 X-SA-Exim-Mail-From: m.tretter@pengutronix.de
@@ -76,7 +75,7 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -92,41 +91,107 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AAE471549A1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: F3555154988
 X-Rspamd-Action: no action
 
 From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
 
-Add vendor prefix for LXD Research & Display, LLC.
-Link: https://www.lxdinc.com/
+The LXD M9189A is a 1024x600 MIPI-DSI panel.
 
 Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v4:
-- none
+- Remove "YAML schema for" from subject line
+- Make backlight a required property
 
 Changes in v3:
-- none
----
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+- Change maintainer to Michael Tretter <m.tretter@pengutronix.de>
+- Use panel-common.yaml as base
+- Rename vdd-supply to power-supply
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2aec2a..90d5ef1f15b3 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -963,6 +963,8 @@ patternProperties:
-     description: Liebherr-Werk Nenzing GmbH
-   "^lxa,.*":
-     description: Linux Automation GmbH
-+  "^lxd,.*":
-+    description: LXD Research & Display, LLC
-   "^m5stack,.*":
-     description: M5Stack
-   "^macnica,.*":
+v2:
+- add missing port property
+- fix example to use vdd supply
+found by running make dt_binding_check as suggested by the bot
+- fix missing A in M9189A title
+- fix compatible
+found after v1 submission
+---
+ .../bindings/display/panel/lxd,m9189a.yaml         | 64 ++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml b/Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml
+new file mode 100644
+index 000000000000..226974a4077f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/lxd,m9189a.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LXD M9189A DSI Display Panel
++
++maintainers:
++  - Michael Tretter <m.tretter@pengutronix.de>
++
++allOf:
++  - $ref: panel-common.yaml
++
++properties:
++  compatible:
++    const: lxd,m9189a
++
++  reg:
++    maxItems: 1
++
++  standby-gpios:
++    description: GPIO used for the standby pin
++    maxItems: 1
++
++  reset-gpios: true
++  power-supply: true
++  backlight: true
++  port: true
++
++required:
++  - compatible
++  - reg
++  - standby-gpios
++  - reset-gpios
++  - power-supply
++  - backlight
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      panel@0 {
++        compatible = "lxd,m9189a";
++        reg = <0>;
++        backlight = <&backlight>;
++        reset-gpios = <&gpio3 25 GPIO_ACTIVE_LOW>;
++        standby-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
++        power-supply = <&reg_display_3v3>;
++
++        port {
++          mipi_panel_in: endpoint {
++            remote-endpoint = <&mipi_dsi_out>;
++          };
++        };
++      };
++    };
 
 -- 
 2.47.3
