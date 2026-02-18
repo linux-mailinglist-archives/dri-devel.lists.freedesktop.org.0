@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KCPnGJk7lmkDcwIAu9opvQ
+	id QNAbAZ07lmkDcwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:17 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F8015A98E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C789115A9A4
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 23:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF81B10E630;
-	Wed, 18 Feb 2026 22:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA70F10E633;
+	Wed, 18 Feb 2026 22:22:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vPX4atLZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cTqtQAr9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D981A10E323
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 22:22:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFB1D10E323
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 22:22:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5A79E61858;
+ by tor.source.kernel.org (Postfix) with ESMTP id 527CA6185E;
+ Wed, 18 Feb 2026 22:22:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F6FC19421;
  Wed, 18 Feb 2026 22:22:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA34FC116D0;
- Wed, 18 Feb 2026 22:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771453333;
- bh=6MIqgY4UQrceA2s9yZ6szCOXqUxXrfrLCpqE1Gg3myk=;
+ s=k20201202; t=1771453334;
+ bh=ZHxw9mjElurFBBFJ5JXCeGqeCu/86mNjtr5wW+CUw/U=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=vPX4atLZTSW93kyNyMIi+fG3N9D0EjyclpzEMVtLRoowsgTf/FrN+hf1c4+VmKLEN
- /w7aucS3uAtnHcbabrTiosuFLWg1zBWtLxyNzrG3CuubJULpWf7RVsJ7JJodhVQV/V
- U/JLAqRTOtRXKoOYIRrGy2uEtum7SZm6EpW10UGCf16wfUhErEuh4A8rLl6hqbbeKB
- eJPHUeHfctSsWt/HdTINKbesNhAM8inNAsVUceXmyVCCqkVMILIJ0EjlwDjHvLeVYD
- 8ltTE3uNyMw3C8aSdkyZk1p0ErZQIrkXtG8H0nKSj9yh2fDUsRZ53NBAkwZuHi1qDF
- bIPo83l08a8NQ==
+ b=cTqtQAr94tPVsOJC9u3krItTnDDk/5NByGKEubxgdIs3mXY2vpsEbjUT5inY0oRFt
+ 6G1ot150bG357fmIMNMluq6CER1Yn9BFXCtn4J5bsJPe/GrrewSveDyMukPpA7gNNb
+ +vrQvQNY/NlqAbvtGuxyAihB2DSxDpAZmMfVVaxKRsfOM1xNyF4F5RWIk0+wzZGwBX
+ Fx9QLOYn6d/f2v4igRPB4xVzRvhdni4ePHbk6JD6wspYnycMp51SEdFVE0WEOrEOE0
+ ZXeilo/XUEB2wzDXYBuL5skC6VT3Eb/wMyhSgX0glnNGaJgC0l5ZR16y1VcET2Go0M
+ 85HkWvZfhd0Eg==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Date: Wed, 18 Feb 2026 16:21:56 -0600
-Subject: [PATCH 2/3] accel: ethosu: Fix NPU_OP_ELEMENTWISE validation with
- scalar
+Date: Wed, 18 Feb 2026 16:21:57 -0600
+Subject: [PATCH 3/3] accel: ethosu: Handle possible underflow in IFM size
+ calculations
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260218-ethos-fixes-v1-2-be3fa3ea9a30@kernel.org>
+Message-Id: <20260218-ethos-fixes-v1-3-be3fa3ea9a30@kernel.org>
 References: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
 In-Reply-To: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
@@ -96,36 +96,43 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F3F8015A98E
+X-Rspamd-Queue-Id: C789115A9A4
 X-Rspamd-Action: no action
 
-The NPU_OP_ELEMENTWISE instruction uses a scalar value for IFM2 if the
-IFM2_BROADCAST "scalar" mode is set. It is a bit (7) on the u65 and
-part of a field (bits 3:0) on the u85. The driver was hardcoded to the
-u85.
+If the command stream has larger padding sizes than the IFM and OFM
+diminsions, then the calculations will underflow to a negative value.
+The result is a very large region bounds which is caught on submit, but
+it's better to catch it earlier.
 
-Fixes: 5a5e9c0228e6 ("accel: Add Arm Ethos-U NPU driver")
+Current mesa ethosu driver has a signedness bug which resulted in
+padding of 127 (the max) and triggers this issue.
+
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/accel/ethosu/ethosu_gem.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/accel/ethosu/ethosu_gem.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/ethosu/ethosu_gem.c b/drivers/accel/ethosu/ethosu_gem.c
-index 473b5f5d7514..a735f860a119 100644
+index a735f860a119..d1169001c83d 100644
 --- a/drivers/accel/ethosu/ethosu_gem.c
 +++ b/drivers/accel/ethosu/ethosu_gem.c
-@@ -417,7 +417,10 @@ static int ethosu_gem_cmdstream_copy_and_validate(struct drm_device *ddev,
- 				return ret;
- 			break;
- 		case NPU_OP_ELEMENTWISE:
--			use_ifm2 = !((st.ifm2.broadcast == 8) || (param == 5) ||
-+			use_scale = ethosu_is_u65(edev) ?
-+				    (st.ifm2.broadcast & 0x80) :
-+				    (st.ifm2.broadcast == 8);
-+			use_ifm2 = !(use_scale || (param == 5) ||
- 				(param == 6) || (param == 7) || (param == 0x24));
- 			use_ifm = st.ifm.broadcast != 8;
- 			ret = calc_sizes_elemwise(ddev, info, cmd, &st, use_ifm, use_ifm2);
+@@ -245,11 +245,14 @@ static int calc_sizes(struct drm_device *ddev,
+ 			((st->ifm.stride_kernel >> 1) & 0x1) + 1;
+ 		u32 stride_x = ((st->ifm.stride_kernel >> 5) & 0x2) +
+ 			(st->ifm.stride_kernel & 0x1) + 1;
+-		u32 ifm_height = st->ofm.height[2] * stride_y +
++		s32 ifm_height = st->ofm.height[2] * stride_y +
+ 			st->ifm.height[2] - (st->ifm.pad_top + st->ifm.pad_bottom);
+-		u32 ifm_width  = st->ofm.width * stride_x +
++		s32 ifm_width = st->ofm.width * stride_x +
+ 			st->ifm.width - (st->ifm.pad_left + st->ifm.pad_right);
+ 
++		if (ifm_height < 0 || ifm_width < 0)
++			return -EINVAL;
++
+ 		len = feat_matrix_length(info, &st->ifm, ifm_width,
+ 					 ifm_height, st->ifm.depth);
+ 		dev_dbg(ddev->dev, "op %d: IFM:%d:0x%llx-0x%llx\n",
 
 -- 
 2.51.0
