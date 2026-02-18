@@ -2,110 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id pXjSOiVqlWkzQwIAu9opvQ
+	id mMNPMW5xlWmgRAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 08:28:37 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 08:59:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEBF153A98
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 08:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC76153D1B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 08:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F5110E56F;
-	Wed, 18 Feb 2026 07:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B28989811;
+	Wed, 18 Feb 2026 07:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=goldelico.com header.i=@goldelico.com header.b="dPiOy1kD";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="8Y33m6qL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oOHuwSxK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4990610E56F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 07:28:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771399700; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=qlQTB35yqRaleZiARsUXNGgfLr7+6uDXK627aisjzVBk65OfF/HxSYKGa/Wd/7PJwT
- ib0nsaIeENa4U+SGqw249cJXec8IWHzPSSThrcdJfmJfXRs6Q+lGkxpM/Cytx4h2Mkcn
- BW2jWSHvq55tupo2t6dis8xVONLXQ9D3xidvoUebDImyN3S+6pw/pvztK9eI1URCAFIk
- 73XMbpZHXYGAU4oL9eAYe8ynvRkfM2KXDWdlGpKFsGJoSSKczKLdejP1sd05kwi5zQn2
- BVNv0jGcKg4h8ksN+CityhpEwCDMkiPW1XG7ux8xJW9h8OZl/7eLhqqMkCKBbvQuc8qH
- XErA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1771399700;
- s=strato-dkim-0002; d=strato.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=u86cw3tjl8hdVmS71Xuy45XeU5ZCNXcT6zOzax89Suw=;
- b=DCZKBR2FOOyS0qYuvpebUxS35GpI1uXZ8fAsmCY6FKUIltMb1YKwH3RwnNa0vh/egA
- oZmZJ8XIRXOVsZh9PrDR1mZHUscb1Jtshe4Up7jDYGyRLTVLGt/0ySv5FtpNGUX3k/Lb
- W75PWf7qHlkX7LDw+wefO1GDyNxXI/0XO22Gv4yUVlB7DtaUxD0s9LbbqYtG5er+6n17
- 6vt+m7LsvK5iKblK7G1hHOGwV6P6pl/rPNMjeRHTBOxAfs8g2HDkDAcNThnT7RyO/2WF
- EUKP4vRz3C0JIm+Nkc3ojZ4yTnQpMO173sdX3wY7IblVyUrijE2R+Bs6VsPkMF1ntp0E
- QZ7A==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1771399700;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=u86cw3tjl8hdVmS71Xuy45XeU5ZCNXcT6zOzax89Suw=;
- b=dPiOy1kD3OJQLdZeDi/510rxp3uOjpwjlhbgAP4+BRwPGHumfotxrJ8P2W5AdNUgJd
- 9Xua+Loxfvp7/XbVPMF3DzbR0iNRT7y+RQ+q22kD5FLLzr1AuW++UPQSYuVv2nMbeMwX
- tijWmkFKDlswd0ABYEfuN4W9uzgtapfCyJcP77pBVovvUhgSFhzmaXpJPu2vPJWRISSX
- TLn0vmlxGPXtJgRDlhOl/g3Kj7sv/P4eJs6fJj4/6NeTXu+xJ6tf/T7kSR4sGus99J5J
- WoJQRYXKRmudbzlmursTwTCsEe5Ek2aEWLFxJznDpTX9VyNI/w8czSqTuKqmvRRSf0LI
- ZjRg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1771399700;
- s=strato-dkim-0003; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=u86cw3tjl8hdVmS71Xuy45XeU5ZCNXcT6zOzax89Suw=;
- b=8Y33m6qLBiNtqtrUtnJK+4LKyYvRmzP/2O5N0XA5jzP5BRRcwbAvs0E220qraSoWH9
- 398tRVTxaXqSWk4DQSBQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yeDAZ"
-Received: from smtpclient.apple by smtp.strato.de (RZmta 55.0.1 DYNA|AUTH)
- with ESMTPSA id Q3a36b21I7SHJkR
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 18 Feb 2026 08:28:17 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: Re: [PATCH 1/5] ARM: dts: ti: Enable overlays for all DTB files
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20260217103638.30149f16@kmaincent-XPS-13-7390>
-Date: Wed, 18 Feb 2026 08:28:06 +0100
-Cc: Robert Nelson <robertcnelson@gmail.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Bajjuri Praneeth <praneeth@ti.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Louis Chauvet <louis.chauvet@bootlin.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FDFC6C9E-710B-4723-A453-5CAE25CBBC1B@goldelico.com>
-References: <20260212-feature_bbge-v1-0-29014a212f35@bootlin.com>
- <20260212-feature_bbge-v1-1-29014a212f35@bootlin.com>
- <B3366A17-641F-4E02-A5D4-978F525E0A96@goldelico.com>
- <20260212174718.7daccb70@kemnade.info>
- <719BF710-26DF-49AB-A016-D2306F0389E2@goldelico.com>
- <20260212231907.6120a2e2@kemnade.info>
- <CAOCHtYicmeSzH5Q2_qTwAZw3s+__JRwUrXvz01+KCsJJHAznUw@mail.gmail.com>
- <20260216161155.09fae580@kmaincent-XPS-13-7390>
- <0EE0658D-56A7-480C-BF71-6B2EB81DC41C@goldelico.com>
- <20260217103638.30149f16@kmaincent-XPS-13-7390>
-To: Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: Apple Mail (2.3826.700.81.1.4)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDFC89811
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 07:59:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7FA3C600AE;
+ Wed, 18 Feb 2026 07:59:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7DFC19421;
+ Wed, 18 Feb 2026 07:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771401577;
+ bh=ULxemH3Xk/mOHxLnKuNS/eVnwphKde/tjf1vSOAtaow=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oOHuwSxKhTAQYXHQjplJvnL+WM3TymHc9jOIsu5hq0rutVSaIEZUujQJX0EIYqCiY
+ svaMlmZMkTCUPzYes1wd74JA2JtADZTQofaBlqtBNsbQzjiP8t5oIHQ4n1aWE/6yJ+
+ zct3+u4hfTbkq2bB2cv5EVqK8tTcZRtGReVUr72hka762ypCGvKtEOiJHO7iBlMxhS
+ Lefh/OG3jMtFPS90naZLtvORvP4JJQh6KklWf5y7WTWbAbyCY2yc73nwrsrLhlCzKm
+ 3wfFexICaslUwBUNMe/zlpvGS1j6wtVtlFimJMECd+/sjis4SsOJAMd4ojTnEiadMX
+ wLD5yATbVFJzw==
+Message-ID: <d8873481-8028-4ff4-8152-b01c420a2c0f@kernel.org>
+Date: Wed, 18 Feb 2026 08:59:31 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] dt-bindings: vendor: add taiguanck
+To: Conor Dooley <conor@kernel.org>,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ mani@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, dev@kael-k.io,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org
+References: <20260214085409.3489057-1-yelangyan@huaqin.corp-partner.google.com>
+ <20260214085409.3489057-2-yelangyan@huaqin.corp-partner.google.com>
+ <20260216-appendix-recipient-1836ea619cf6@spud>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260216-appendix-recipient-1836ea619cf6@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,140 +115,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.89 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[goldelico.com : SPF not aligned (relaxed),quarantine];
-	R_DKIM_REJECT(1.00)[goldelico.com:s=strato-dkim-0002,goldelico.com:s=strato-dkim-0003];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:strato.com:reject}];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robertcnelson@gmail.com,m:andreas@kemnade.info,m:aaro.koskinen@iki.fi,m:khilman@baylibre.com,m:rogerq@kernel.org,m:tony@atomide.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:thomas.petazzoni@bootlin.com,m:linux-omap@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:luca.ceresoli@bootlin.com,m:praneeth@ti.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:louis.chauvet@bootlin.com,m:kory.maincent@bootlin.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[hns@goldelico.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	GREYLIST(0.00)[pass,meta];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[goldelico.com:-];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hns@goldelico.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,kemnade.info,iki.fi,baylibre.com,kernel.org,atomide.com,armlinux.org.uk,bootlin.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,ti.com,linux.intel.com,suse.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:conor@kernel.org,m:yelangyan@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:mani@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dianders@chromium.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4BEBF153A98
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 2CC76153D1B
 X-Rspamd-Action: no action
 
-Hi Kory,
+On 16/02/2026 18:49, Conor Dooley wrote:
+> On Sat, Feb 14, 2026 at 04:54:07PM +0800, Langyan Ye wrote:
+>> Add the "taiguanck" vendor prefix for Shenzhen Top Group Technology Co., Ltd.
+>>
+>> The prefix is derived from the vendor's website domain:
+>> www.taiguanck.com/en/, which uses "taiguanck" as the primary
+> 
+> This website doesn't exist it seems. I get an ERR_EMPTY_RESPONSE.
 
-> Am 17.02.2026 um 10:36 schrieb Kory Maincent =
-<kory.maincent@bootlin.com>:
->=20
-> On Tue, 17 Feb 2026 09:58:04 +0100
-> H. Nikolaus Schaller <hns@goldelico.com> wrote:
->=20
->> Hi Kory,
->>=20
->>> Am 16.02.2026 um 16:11 schrieb Kory Maincent =
-<kory.maincent@bootlin.com>:
->>>=20
->>>>>>>=20
->>>>>>>>> Am 12.02.2026 um 16:26 schrieb Kory Maincent (TI)
->>>>>>>>> <kory.maincent@bootlin.com>:
->>>>>>>>>=20
->>>>>>>>> Allow overlays to be applied to any DTB. This adds around ~40% =
-to the
->>>>>>>>> total size of the DTB files on average.   =20
->>>=20
->>> Yes, I will move on to this solution for now to avoid too many =
-complaints
->>> about the devicetree size increases. =20
->>=20
->> I have done some experimentation with this patch (on top of v6.19 and =
-our
->> private defconfig) but could not find any DTB size increase.
->>=20
->> Does it require another patch or CONFIG change?
->=20
-> No, but maybe you had already the "DTC_FLAGS=3D-@" option enabled =
-while building
-> you image.
-> This options add the "__symbols__" node listing the symbols to the =
-built
-> devicetree:
-> $ fdtdump arch/arm/boot/dts/ti/omap/am335x-bonegreen-eco.dtb =
-2>/dev/null | grep symbols
-
-Yes, indeed there is a __symbols__ node in all .dtb I have checked.
-
-With make V=3D1 (on v6.19.0 + some local extensions) I see
-
-./scripts/dtc/dtc -o arch/arm/boot/dts/ti/omap/am335x-bonegreen.dtb -b 0 =
--iarch/arm/boot/dts/ti/omap/ -i./scripts/dtc/include-prefixes =
--Wno-interrupt_provider --symbol -Wno-unique_unit_address =
--Wno-unit_address_vs_reg -Wno-avoid_unnecessary_addr_size =
--Wno-alias_paths -Wno-graph_child_address -Wno-simple_bus_reg   =
--Wno-unique_unit_address -Wno-unit_address_vs_reg =
--Wno-avoid_unnecessary_addr_size -Wno-alias_paths =
--Wno-graph_child_address -Wno-interrupt_map -Wno-simple_bus_reg   -d =
-arch/arm/boot/dts/ti/omap/.am335x-bonegreen.dtb.d.dtc.tmp =
-arch/arm/boot/dts/ti/omap/.am335x-bonegreen.dtb.dts.tmp
-
-So --symbol is already included, even without your patch.
-
-With your patch I see:
-
-./scripts/dtc/dtc -o arch/arm/boot/dts/ti/omap/am335x-bonegreen.dtb -b 0 =
--iarch/arm/boot/dts/ti/omap/ -i./scripts/dtc/include-prefixes -@ =
--Wno-interrupt_provider --symbol -Wno-unique_unit_address =
--Wno-unit_address_vs_reg -Wno-avoid_unnecessary_addr_size =
--Wno-alias_paths -Wno-graph_child_address -Wno-simple_bus_reg   =
--Wno-unique_unit_address -Wno-unit_address_vs_reg =
--Wno-avoid_unnecessary_addr_size -Wno-alias_paths =
--Wno-graph_child_address -Wno-interrupt_map -Wno-simple_bus_reg   -d =
-arch/arm/boot/dts/ti/omap/.am335x-bonegreen.dtb.d.dtc.tmp =
-arch/arm/boot/dts/ti/omap/.am335x-bonegreen.dtb.dts.tmp
-
-Here we have -@ and --symbol (synonyms for dtc).
-
-Well, I finally could trace it down to a malicious infection of our =
-LetuxOS tree
-by some ODROID kernel patch to scripts/Makefile.lib (0ac84640f12c). That =
-patch
-globally modifies the DTC_FLAGS mechanism and permanently adds --symbol =
-instead of adding
--@ in the arch/board specific Makefile like you propose here.
-
-So now I know why I didn't see any increase in size (because it was =
-never reduced).
-
-With removing this I now get 67179 bytes as default for =
-am335x-bonegreen.dtb.
-And with your patch I get (back) to 94260 bytes so I can confirm a 40.3% =
-increase.
-
-Please proceed as planned (I don't think it necessarily has to be =
-limited to
-motherboards with an expansion card system, although that would be a =
-good
-indication of its usefulness), and thank you for bringing our local =
-issue
-to my attention.
-
-BR and thanks,
-Nikolaus
+I commented on this already v2, which was ignored by author, waited one
+week to get it fixed and still not fixed. Website seems real, though,
+according to Google.
 
 
+Best regards,
+Krzysztof
