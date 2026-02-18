@@ -2,68 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wHvuLSLflWneVgIAu9opvQ
+	id 8M5pO7nhlWliVwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:47:46 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:58:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F861157769
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2304157870
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Feb 2026 16:58:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B97C10E2F8;
-	Wed, 18 Feb 2026 15:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F4410E5EA;
+	Wed, 18 Feb 2026 15:58:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AhXrfGKk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NSnB7yKh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA31510E2F8;
- Wed, 18 Feb 2026 15:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771429662; x=1802965662;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=K+iH29TtCXJ6v5Z8IIgSFqctiFYFm3En9kdiaopfkhM=;
- b=AhXrfGKk+0x2GhyVTYXDk86zSVhHRFRvJDVjMqpneiCZCwHLWcmVwQYl
- nnvAXBj0/i0VgtCWWHX1hhIJiwNL22pc74cixc7EM0lvXM5gqyefnh1Id
- UQA0yz3r7wHMJq3Dul8Z/JFe6goxjcRzGvExcXkUWhvuOGmC+oy4CDYe6
- XHe4jgERjLMYtZ+uv53D8OAasalihirCkemo0T5xassCN5dwoM7E8nfJB
- Wne/Kaiymt083LKvQZrxPSBuqNV89kc8Ssp8hfze2VPJ3erWaBMkyNB1+
- RhUzbdYM5W/xoE1CIhEEEt4yzPP64JQ5dweIr+K1lBL3PkNbs/kvvVLNY w==;
-X-CSE-ConnectionGUID: 6UlRl4t0QLme9SyBg0q7yw==
-X-CSE-MsgGUID: wzFpnHCxRVSC5Y4OP1MN7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="83224402"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="83224402"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2026 07:47:41 -0800
-X-CSE-ConnectionGUID: m6lhFJ0pRYWbLZprSl0X9Q==
-X-CSE-MsgGUID: RHwmEWnTQkaKHahIyp2Btg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; d="scan'208";a="212889142"
-Received: from gsd-build.iind.intel.com ([10.190.229.167])
- by fmviesa007.fm.intel.com with ESMTP; 18 Feb 2026 07:47:38 -0800
-From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Maarten Lankhorst <dev@lankhorst.se>
-Subject: [PATCH v6 1/3] drm/sa: Split drm_suballoc_new() into SA alloc and
- init helpers
-Date: Wed, 18 Feb 2026 15:47:30 +0000
-Message-ID: <20260218154728.1508151-6-satyanarayana.k.v.p@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260218154728.1508151-5-satyanarayana.k.v.p@intel.com>
-References: <20260218154728.1508151-5-satyanarayana.k.v.p@intel.com>
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C778510E5ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 15:58:45 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-c46d4a02ff5so385616a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 07:58:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771430325; cv=none;
+ d=google.com; s=arc-20240605;
+ b=LICg6PoaRTGY3LumCZX8ibUQDB6lIwea0VzS+foAKwu4UKfnVX6lmWoNqZMUs118/v
+ v1Yx8daKRxdaSM5njyFscEXm6LU8vaAtY4RLqHb9aJqtjvHBlpmKYPagXc/mXHpGSYt9
+ m3C3UzGMYe27CpB50kV+ULGmx+nDRgHgUJusdxycI0GLYwmaBzk9x8W+Gi9Rip0qjOZ/
+ i1q4qp7nZ6kKWr+OZjTZ39pQZSqoXJlR0svCzHhLtTUNXeSeLdPeoJy7tSPFDuPGM5kB
+ nHr3KQyiRb8TOtE+EPJE7Jj+vdm9XCBtPUMp7C/rxlzyByPyJt8qJng0a0qEbtfStF/g
+ WRKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=+jEZRhKDKJOk8SBTSDYiUNsfqMbSOB+ljt4JuK9uCrE=;
+ fh=uwbSHout8PmRvf636Vcex9AMhRMlFEt8wb69btPSDTk=;
+ b=XsM2FeB0Dt7dN38dW+lQ7QNV+pDODq10sBnyavFHgjShN7eKe1kCqJrDmG89H4HSQ9
+ +PpfOoGVcy7ptk/CNulV8exuFdi6loap7Zacekj5OYpQjTujTtiazBh92P7PRard9xZn
+ jgY6RzLoAcyMHqP0pmGtiARbSqOjntLtQ3jS//OdntA9b60GuD7jJYKxGAnyvrbD3bMM
+ S7zCCkTP95CfK5ZVF03MsYopW9enk6s1kvDZWxnruzEWDQSdrlG7XL3GUqM+AUFgmKOa
+ n8PfK1vZjHGzmXT+1YU0LHLWTkxt//bl40gSzeKdS0mqmDBpDm3NOCr9dqI0pg+E8BvG
+ 53uA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771430325; x=1772035125; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+jEZRhKDKJOk8SBTSDYiUNsfqMbSOB+ljt4JuK9uCrE=;
+ b=NSnB7yKhswAMWxXSRg1C7/1smf1Df3U4mxBLMTqYZ6RPfj/oCraAMANh23/w+V2jjM
+ u09iLO/9Rt1fkA9p8XFew2/D3j0HMrhbLheyDijRu7pwY27oV1b5O1Eew6ZUou39RdTO
+ uHfHz2OiAdI9EE79m0PSyQiUs6kTMk5nj8ksvCtayXKEBUYCGSauceZsD8nOK/RPlS5M
+ JOKJa/jaKlnThUPpv7m8PlTzrJLOTdnEBQHjlclT8J+uZ93ox74R68mlRkTlwvR7UXXv
+ LVQac6wLbedwHvaRcECtVBrLe6+lykm9sZxIcwqzoTlxDoWJuYWSmSiR/WMV9O5Oe0j8
+ JSfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771430325; x=1772035125;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=+jEZRhKDKJOk8SBTSDYiUNsfqMbSOB+ljt4JuK9uCrE=;
+ b=kuwJHhclcCEhjRmBXKbOv/ltZwWaIquHaw5isK+p8LVgfN8lkN7DOHbZ9j8u+c2fb1
+ dMRtvKpkv42cQUdlQmS/mMdV8aGxE0Maq6bafLNe+fQCJrAbnicLS/QXFY5veTaxnRP9
+ RnBl4jzNfqLZv5IgaFDPAHRc5+fVJ2uDCAD5ZxBKkK6AIizb7k4ODCPAAm4eq1RUs6Ph
+ F/zam1NRT3dusZywi10wt4PXXmBDMmH29e8K+7LTeK64uWpWAT2OPC7O5Xgd5C/P/Uf4
+ dse3hIA2990MSxrE/SXOB774F969u9zKVrZS3Q2xm5+lYwZVizs9Ey5EACzwgCA4WR9n
+ +IpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8YAbw0P+eGVvuEtNfeeic70qK1ZjwTW177JqTD0zGbAlzzB8RRYZYJr6MdGoCgMAi1SMErAk+B5Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsrznahhZ9Vkl1RPXzPiDvVGsEK1HWJz8sibx0WKiu5vPa5sNA
+ YtCjwiUTmCvCCIhIvq6weNvICCFCN0xapghs+/wjQ9dGPSlQuXL28gru03xbC8khgzzTDaIjshC
+ Infvt+wOtfMbVvGOJm6mK5qQj2y2z2oc=
+X-Gm-Gg: AZuq6aIO4b9/8k8BpRJR2wRNJopGKYEf/ZWTJUyQzEZ4bATCjI5PDQAsrtKBdd9MEty
+ Pv3yMCG3vcSPzl7FqDOwwmvn+H+iEHYwXJtKf9K6h/f8Z2Ev1/VtP+QWnHBjqxJQQ/NkNKQhhBZ
+ psM4pvT8iGKlcNiloYjqMvcMRE8lfzz4V5RxGPxUj+Yeu0+Z8tqLSqGK8zfImh47sdSxQQwwe7d
+ vbDxqMcFQO8ORMhMzPmAaI933KKCRWJUij+hjowwMdJbGAnDmq/HIkPKCzBnVK4TLwLvrmePwjn
+ TkSWZCE=
+X-Received: by 2002:a17:90b:28c4:b0:340:bca2:cf82 with SMTP id
+ 98e67ed59e1d1-356a7a44588mr12483278a91.4.1771430325136; Wed, 18 Feb 2026
+ 07:58:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
+ <CACu1E7EDmLPhUFyouD=W6n+U7=oo7+6PY0Gz9=3pVpT2Qu9Z6w@mail.gmail.com>
+ <CACSVV00iiAXGOqV2HZs9KREoqatE0eNBZjFH9hSFMmNaX3_RXw@mail.gmail.com>
+ <CACu1E7Fh=GbLTiedj6OqtUxWiZbCVcKmsEzV6FYan5G6r1uyUA@mail.gmail.com>
+ <c99beabf-9841-44cd-9450-2f339d1d5c41@oss.qualcomm.com>
+In-Reply-To: <c99beabf-9841-44cd-9450-2f339d1d5c41@oss.qualcomm.com>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Wed, 18 Feb 2026 10:58:33 -0500
+X-Gm-Features: AaiRm51N5SpqVVJUQBLh2elCdDaV2cuIU7D7DKaGqf9-QJjihmDNYzh8f93hCZk
+Message-ID: <CACu1E7EnveTSzi2QD83xEgsqrM1H33KCqMqcaLE-VebgOMbh0g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Retrieve information about DDR from SMEM
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: rob.clark@oss.qualcomm.com, Konrad Dybcio <konradybcio@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Sean Paul <sean@poorly.run>, 
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,274 +122,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_NEQ_ENVFROM(0.00)[satyanarayana.k.v.p@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:rob.clark@oss.qualcomm.com,m:konradybcio@kernel.org,m:andersson@kernel.org,m:kees@kernel.org,m:gustavoars@kernel.org,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-hardening@vger.kernel.org,m:freedreno@lists.freedesktop.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[cwabbott0@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 0F861157769
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cwabbott0@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: A2304157870
 X-Rspamd-Action: no action
 
-drm_suballoc_new() currently both allocates the SA object using kmalloc()
-and searches for a suitable hole in the sub-allocator for the requested
-size. If SA allocation is done by holding sub-allocator mutex, this design
-can lead to reclaim safety issues.
+On Tue, Feb 17, 2026 at 6:23=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 1/9/26 10:03 PM, Connor Abbott wrote:
+> > On Fri, Jan 9, 2026 at 3:41=E2=80=AFPM Rob Clark <rob.clark@oss.qualcom=
+m.com> wrote:
+> >>
+> >> On Fri, Jan 9, 2026 at 11:11=E2=80=AFAM Connor Abbott <cwabbott0@gmail=
+.com> wrote:
+> >>>
+> >>> On Thu, Jan 8, 2026 at 9:22=E2=80=AFAM Konrad Dybcio <konradybcio@ker=
+nel.org> wrote:
+> >>>>
+> >>>> SMEM allows the OS to retrieve information about the DDR memory.
+> >>>> Among that information, is a semi-magic value called 'HBB', or Highe=
+st
+> >>>> Bank address Bit, which multimedia drivers (for hardware like Adreno
+> >>>> and MDSS) must retrieve in order to program the IP blocks correctly.
+> >>>>
+> >>>> This series introduces an API to retrieve that value, uses it in the
+> >>>> aforementioned programming sequences and exposes available DDR
+> >>>> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
+> >>>> information can be exposed in the future, as needed.
+> >>>>
+> >>>> Patch 3 should really be merged after 1&2
+> >>>
+> >>> No. The HBB value currently returned by the bootloader is *not* alway=
+s
+> >>> the same as what we use currently, because some SoCs (like SM8250)
+> >>> with the same DT ship with multiple different DRAM configurations and
+> >>> we've been using a sub-optimal value the whole time. After all, that'=
+s
+> >>> the whole point of using the bootloader value. But patches 1&2 will
+> >>> only make the DPU use the bootloader value for HBB, not the GPU. So o=
+n
+> >>> one of the affected SoCs, it will introduce a mismatch. You can't
+> >>> change anything until the GPU side uses the new ubwc config as its
+> >>> source of truth.
+> >>
+> >> Hmm, how is this even working today if DPU is using HBB from the
+> >> global table but GPU is not?  Are we just getting lucky with
+> >> compositors that don't know about modifiers and end up scanning out
+> >> linear?
+> >
+> > It works out as well as it's always worked out, i.e. we try to make
+> > GPU and DPU config match and pray that we didn't mess it up. At least
+> > now we'll get a warning when they don't match.
+> >
+> >>
+> >> We do log warnings when the global ubwc config does not match the
+> >> "fixed up" config.. google search for those msgs doesn't seem to turn
+> >> up anything other than the patch which introduced them.  Idk if that
+> >> is conclusive in any way, but I hope that means we could just delete
+> >> the fixup code on the GPU side.  I suppose we could add:
+> >>
+> >>        *cfg =3D *common_cfg;
+> >>
+> >> after the warning as a first step.  That would maybe get some bug
+> >> reports along with enough details in dmesg?
+> >
+> > Yes, the plan was always to delete the fixup code in the GPU config.
+> > And even that first step would be enough to prevent regressions when
+> > switching to the bootloader HBB value.
+> >
+> > There is a problem in that ubwc_swizzle isn't as well tested. Older
+> > parts supporting UBWC 1.0-3.0 partially or entirely ignore
+> > ubwc_swizzle, because it wasn't configurable back then, but we rely on
+> > it being set correctly in Mesa for VK_EXT_host_image_copy and sparse
+> > textures. So if ubwc_swizzle is incorrect you probably wouldn't
+> > notice, until you hit the HIC codepath in zink or some game using
+> > sparse textures. I think we fixed up all the cases where it was
+> > incorrectly set to 0x1 instead of 0x7, but it would be worth it to
+> > check again.
+>
+> Just to double-check, is your expectation to just double-check the kernel
+> settings, or would that require some intervention on the mesa side too?
+>
+> Konrad
 
-By splitting the kmalloc() step outside of the critical section, we allow
-the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
-the initialization step that holds reclaim-tainted locks (sub-allocator
-mutex) operates in a reclaim-unsafe context with pre-allocated memory.
+Just to double-check the kernel, and I double-checked since then and
+everything seems to be right.
 
-This separation prevents potential deadlocks where memory reclaim could
-attempt to acquire locks that are already held during the sub-allocator
-operations.
-
-Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <dev@lankhorst.se>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
----
-V5 -> V6:
-- Renamed drm_suballoc_init() to drm_suballoc_insert() (Maarten).
-
-V4 -> V5:
-- None.
-
-V3 -> V4:
-- None.
-
-V2 -> V3:
-- Updated commit message (Matt, Thomas & Christian).
-- Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
-
-V1 -> V2:
-- Splitted drm_suballoc_new() into drm_suballoc_alloc() and
-drm_suballoc_init() (Thomas).
----
- drivers/gpu/drm/drm_suballoc.c | 114 ++++++++++++++++++++++++++-------
- include/drm/drm_suballoc.h     |   8 +++
- 2 files changed, 100 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
-index 879ea33dbbc4..54f3918616a5 100644
---- a/drivers/gpu/drm/drm_suballoc.c
-+++ b/drivers/gpu/drm/drm_suballoc.c
-@@ -123,7 +123,7 @@ static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
- 	list_del_init(&sa->olist);
- 	list_del_init(&sa->flist);
- 	dma_fence_put(sa->fence);
--	kfree(sa);
-+	drm_suballoc_release(sa);
- }
- 
- static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
-@@ -293,45 +293,76 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
- }
- 
- /**
-- * drm_suballoc_new() - Make a suballocation.
-+ * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
-+ * @gfp: gfp flags used for memory allocation.
-+ *
-+ * Allocate memory for an uninitialized suballoc object. Intended usage is
-+ * allocate memory for suballoc object outside of a reclaim tainted context
-+ * and then be initialized at a later time in a reclaim tainted context.
-+ *
-+ * @drm_suballoc_release should be used to release the memory if returned
-+ * suballoc object is in uninitialized state.
-+ *
-+ * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
-+ */
-+struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
-+{
-+	struct drm_suballoc *sa;
-+
-+	sa = kmalloc(sizeof(*sa), gfp);
-+	if (!sa)
-+		return ERR_PTR(-ENOMEM);
-+
-+	sa->manager = NULL;
-+
-+	return sa;
-+}
-+EXPORT_SYMBOL(drm_suballoc_alloc);
-+
-+/**
-+ * drm_suballoc_release() - Release memory for suballocation.
-+ * @sa: The struct drm_suballoc.
-+ */
-+void drm_suballoc_release(struct drm_suballoc *sa)
-+{
-+	kfree(sa);
-+}
-+EXPORT_SYMBOL(drm_suballoc_release);
-+
-+/**
-+ * drm_suballoc_insert() - Initialize a suballocation and insert a hole.
-  * @sa_manager: pointer to the sa_manager
-+ * @sa: The struct drm_suballoc.
-  * @size: number of bytes we want to suballocate.
-- * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
-- *       the argument is provided for suballocations from reclaim context or
-- *       where the caller wants to avoid pipelining rather than wait for
-- *       reclaim.
-  * @intr: Whether to perform waits interruptible. This should typically
-  *        always be true, unless the caller needs to propagate a
-  *        non-interruptible context from above layers.
-  * @align: Alignment. Must not exceed the default manager alignment.
-  *         If @align is zero, then the manager alignment is used.
-  *
-- * Try to make a suballocation of size @size, which will be rounded
-- * up to the alignment specified in specified in drm_suballoc_manager_init().
-+ * Try to make a suballocation on a pre-allocated suballoc object of size @size,
-+ * which will be rounded up to the alignment specified in specified in
-+ * drm_suballoc_manager_init().
-  *
-- * Return: a new suballocated bo, or an ERR_PTR.
-+ * Return: zero on success, errno on failure.
-  */
--struct drm_suballoc *
--drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
--		 gfp_t gfp, bool intr, size_t align)
-+int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-+			struct drm_suballoc *sa, size_t size,
-+			bool intr, size_t align)
- {
- 	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
- 	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
- 	unsigned int count;
- 	int i, r;
--	struct drm_suballoc *sa;
- 
- 	if (WARN_ON_ONCE(align > sa_manager->align))
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 	if (WARN_ON_ONCE(size > sa_manager->size || !size))
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 
- 	if (!align)
- 		align = sa_manager->align;
- 
--	sa = kmalloc(sizeof(*sa), gfp);
--	if (!sa)
--		return ERR_PTR(-ENOMEM);
- 	sa->manager = sa_manager;
- 	sa->fence = NULL;
- 	INIT_LIST_HEAD(&sa->olist);
-@@ -348,7 +379,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
- 			if (drm_suballoc_try_alloc(sa_manager, sa,
- 						   size, align)) {
- 				spin_unlock(&sa_manager->wq.lock);
--				return sa;
-+				return 0;
- 			}
- 
- 			/* see if we can skip over some allocations */
-@@ -385,8 +416,47 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
- 	} while (!r);
- 
- 	spin_unlock(&sa_manager->wq.lock);
--	kfree(sa);
--	return ERR_PTR(r);
-+	return r;
-+}
-+EXPORT_SYMBOL(drm_suballoc_insert);
-+
-+/**
-+ * drm_suballoc_new() - Make a suballocation.
-+ * @sa_manager: pointer to the sa_manager
-+ * @size: number of bytes we want to suballocate.
-+ * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
-+ *       the argument is provided for suballocations from reclaim context or
-+ *       where the caller wants to avoid pipelining rather than wait for
-+ *       reclaim.
-+ * @intr: Whether to perform waits interruptible. This should typically
-+ *        always be true, unless the caller needs to propagate a
-+ *        non-interruptible context from above layers.
-+ * @align: Alignment. Must not exceed the default manager alignment.
-+ *         If @align is zero, then the manager alignment is used.
-+ *
-+ * Try to make a suballocation of size @size, which will be rounded
-+ * up to the alignment specified in specified in drm_suballoc_manager_init().
-+ *
-+ * Return: a new suballocated bo, or an ERR_PTR.
-+ */
-+struct drm_suballoc *
-+drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
-+		 gfp_t gfp, bool intr, size_t align)
-+{
-+	struct drm_suballoc *sa;
-+	int err;
-+
-+	sa = drm_suballoc_alloc(gfp);
-+	if (IS_ERR(sa))
-+		return sa;
-+
-+	err = drm_suballoc_insert(sa_manager, sa, size, intr, align);
-+	if (err) {
-+		drm_suballoc_release(sa);
-+		return ERR_PTR(err);
-+	}
-+
-+	return sa;
- }
- EXPORT_SYMBOL(drm_suballoc_new);
- 
-@@ -402,7 +472,7 @@ void drm_suballoc_free(struct drm_suballoc *suballoc,
- {
- 	struct drm_suballoc_manager *sa_manager;
- 
--	if (!suballoc)
-+	if (!suballoc || !suballoc->manager)
- 		return;
- 
- 	sa_manager = suballoc->manager;
-diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
-index 7ba72a81a808..b8ec64039c8a 100644
---- a/include/drm/drm_suballoc.h
-+++ b/include/drm/drm_suballoc.h
-@@ -53,6 +53,14 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
- 
- void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
- 
-+struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
-+
-+void drm_suballoc_release(struct drm_suballoc *sa);
-+
-+int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-+			struct drm_suballoc *sa, size_t size, bool intr,
-+			size_t align);
-+
- struct drm_suballoc *
- drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
- 		 gfp_t gfp, bool intr, size_t align);
--- 
-2.43.0
-
+Connor
