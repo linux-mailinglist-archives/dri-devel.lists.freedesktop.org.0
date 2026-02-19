@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPZXJtyGl2kgzwIAu9opvQ
+	id GC/tIOiGl2kgzwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:55:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:55:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94B2162F9E
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106D9162FAC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:55:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A3810E75E;
-	Thu, 19 Feb 2026 21:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7390310E75D;
+	Thu, 19 Feb 2026 21:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="EBKuNgLv";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="qe2QH4Ux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E3610E75E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 21:55:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2C910E75D
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 21:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=lZv+df5NO0+5Xc5NCKKFtzaxnLR/jTbxBoMuKEZB77o=; b=EBKuNgLvoe8ZFAiOoz7ANGCQCA
- 8SNKNAn91iWzvXGEUp2tcv52gG/Jg/8lNRN/eXlKfG8KikLpWDqekTNhV843o9LfbWTiywNuEDOlF
- EVyn5J+tk0gB6y/0hIoXypy8Q2LXO//bHNoDeFDy3/2sSLHxlfR26NlKrub3zu0q1HuuRZTKLmi33
- X7vTW+s99l2KZJGumxLBX2h3qJosixodJaO9WoQG6Sv9UAYXXI0rdQQrEzlsdsh1EUx6dLH2PcLtg
- Z1OjEzbOkwFeFcZms/fAJJ9l72A/Y/ooWoK+4XRXUNGaiTF7tys6o0ATJR23CT3HU9q4Kdg+O5WQj
- W7bOTY3g==;
+ bh=UFGLO5ghkb/ygEmpH6DW7+rmkmeY5EiUoQ4IldiUV2o=; b=qe2QH4UxGRCv3km4KpI0EWQCy3
+ JgYJldIb9MH3SHe5LH9VS3XitfFvXjbCu/yHtUCDcaT/D4DpVHCyB37MQYxk0PCGgcmJPuudXcase
+ zhLwmT3dztURF1KEV3MFzTwq/SV4doC/nuflqvbtWg86Efqdy4l3NtOoT1Uqa1+PBKUuZ0zK3I4KC
+ WkXxCravwRXB4gY9VVf1hr/GKFYnWdxkLC8W4uT8kmtnOW+tSiPFQSa7yYMNReEZVWDSGOR7OQt2r
+ hi3jGK2e19ALChvYhRGuJGHyrZNdZOHGnwifl+jUj2U4vLtlKZJ/P4rgEbv5GaAzuDwuPGe/6neAB
+ 2d42E03Q==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vtBzj-0000000C7DW-3C9h; Thu, 19 Feb 2026 21:55:36 +0000
+ id 1vtBzw-0000000C7F7-3v1n; Thu, 19 Feb 2026 21:55:49 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
+Cc: Randy Dunlap <rdunlap@infradead.org>, Zack Rusin <zack.rusin@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH RESEND] drm/tegra: dp: fix kernel-doc warnings in dp.h
-Date: Thu, 19 Feb 2026 13:55:35 -0800
-Message-ID: <20260219215535.469520-1-rdunlap@infradead.org>
+Subject: [PATCH RESEND] drm/vmwgfx: fix kernel-doc warnings in vmwgfx_drv.h
+Date: Thu, 19 Feb 2026 13:55:48 -0800
+Message-ID: <20260219215548.470810-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,109 +63,444 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.49 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [1.99 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
 	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[infradead.org,broadcom.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[infradead.org,linux.intel.com,kernel.org,suse.de,gmail.com,nvidia.com,vger.kernel.org,ffwll.ch];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[infradead.org:-];
-	NEURAL_HAM(-0.00)[-0.939];
+	NEURAL_HAM(-0.00)[-0.966];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ffwll.ch:email,infradead.org:mid,infradead.org:email,intel.com:email,suse.de:email]
-X-Rspamd-Queue-Id: E94B2162F9E
+X-Rspamd-Queue-Id: 106D9162FAC
 X-Rspamd-Action: no action
 
-Use correct kernel-doc format and add missing nested struct entries to
-eliminate kernel-doc warnings:
+Fix 45+ kernel-doc warnings in vmwgfx_drv.h:
+- spell a struct name correctly
+- don't have structs between kernel-doc and its struct
+- end description of struct members with ':'
+- start all kernel-doc lines with " *"
+- mark private struct member and enum value with "private:"
+- add kernel-doc for enum vmw_dma_map_mode
+- add missing struct member comments
+- add missing function parameter comments
+- convert "/**" to "/*" for non-kernel-doc comments
+- add missing "Returns:" comments for several functions
+- correct a function parameter name
 
-Warning: drivers/gpu/drm/tegra/dp.h:28 Incorrect use of kernel-doc format:
- * tps3_supported:
-Warning: drivers/gpu/drm/tegra/dp.h:54 struct member 'tps3_supported'
- not described in 'drm_dp_link_caps'
-dp.h:73: warning: Function parameter or struct member 'apply_training'
- not described in 'drm_dp_link_ops'
-dp.h:73: warning: Function parameter or struct member 'configure'
- not described in 'drm_dp_link_ops'
-dp.h:160: warning: Excess struct member 'cr' description in 'drm_dp_link'
+to eliminate kernel-doc warnings (examples):
+
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:128 struct vmw_bo; error:
+ Cannot parse struct or union!
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:151 struct member 'used_prio'
+ not described in 'vmw_resource'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:151 struct member 'mob_node'
+ not described in 'vmw_resource'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:199 bad line: SM4 device.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:270 struct member 'private'
+ not described in 'vmw_res_cache_entry'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:280 Enum value
+ 'vmw_dma_alloc_coherent' not described in enum 'vmw_dma_map_mode'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:280 Enum value
+ 'vmw_dma_map_bind' not described in enum 'vmw_dma_map_mode'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:295 struct member 'addrs'
+ not described in 'vmw_sg_table'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:295 struct member 'mode'
+ not described in 'vmw_sg_table'
+vmwgfx_drv.h:309: warning: Excess struct member 'num_regions' description
+ in 'vmw_sg_table'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:402 struct member 'filp'
+ not described in 'vmw_sw_context'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:732 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:742 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:762 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:887 No description found for
+ return value of 'vmw_fifo_caps'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:901 No description found for
+ return value of 'vmw_is_cursor_bypass3_enabled'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:906 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:961 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:996 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1082 cannot understand
+ function prototype: 'const struct dma_buf_ops vmw_prime_dmabuf_ops;'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1303 struct member 'do_cpy'
+ not described in 'vmw_diff_cpy'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1385 function parameter 'fmt'
+ not described in 'VMW_DEBUG_KMS'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1389 This comment starts with
+ '/**', but isn't a kernel-doc comment.
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1426 function parameter 'vmw'
+ not described in 'vmw_fifo_mem_read'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1426 No description found for
+ return value of 'vmw_fifo_mem_read'
+Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1441 function parameter
+ 'fifo_reg' not described in 'vmw_fifo_mem_write'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: <bcm-kernel-feedback-list@broadcom.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Simona Vetter <simona@ffwll.ch>
 ---
- drivers/gpu/drm/tegra/dp.h |   12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |   93 +++++++++++++++-----------
+ 1 file changed, 57 insertions(+), 36 deletions(-)
 
---- linux-next-20260218.orig/drivers/gpu/drm/tegra/dp.h
-+++ linux-next-20260218/drivers/gpu/drm/tegra/dp.h
-@@ -26,7 +26,7 @@ struct drm_dp_link_caps {
- 	bool enhanced_framing;
+--- linux-next-20260218.orig/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ linux-next-20260218/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -96,12 +96,17 @@ struct vmwgfx_hash_item {
  
- 	/**
--	 * tps3_supported:
-+	 * @tps3_supported:
- 	 *
- 	 * training pattern sequence 3 supported for equalization
- 	 */
-@@ -62,12 +62,12 @@ void drm_dp_link_caps_copy(struct drm_dp
+ struct vmw_res_func;
+ 
++struct vmw_bo;
++struct vmw_bo;
++struct vmw_resource_dirty;
++
+ /**
+- * struct vmw-resource - base class for hardware resources
++ * struct vmw_resource - base class for hardware resources
+  *
+  * @kref: For refcounting.
+  * @dev_priv: Pointer to the device private for this resource. Immutable.
+  * @id: Device id. Protected by @dev_priv::resource_lock.
++ * @used_prio: Priority for this resource.
+  * @guest_memory_size: Guest memory buffer size. Immutable.
+  * @res_dirty: Resource contains data not yet in the guest memory buffer.
+  * Protected by resource reserved.
+@@ -117,18 +122,16 @@ struct vmw_res_func;
+  * pin-count greater than zero. It is not on the resource LRU lists and its
+  * guest memory buffer is pinned. Hence it can't be evicted.
+  * @func: Method vtable for this resource. Immutable.
+- * @mob_node; Node for the MOB guest memory rbtree. Protected by
++ * @mob_node: Node for the MOB guest memory rbtree. Protected by
+  * @guest_memory_bo reserved.
+  * @lru_head: List head for the LRU list. Protected by @dev_priv::resource_lock.
+  * @binding_head: List head for the context binding list. Protected by
+  * the @dev_priv::binding_mutex
++ * @dirty: resource's dirty tracker
+  * @res_free: The resource destructor.
+  * @hw_destroy: Callback to destroy the resource on the device, as part of
+  * resource destruction.
   */
- struct drm_dp_link_ops {
- 	/**
--	 * @apply_training:
-+	 * @apply_training: apply the link training
- 	 */
- 	int (*apply_training)(struct drm_dp_link *link);
- 
- 	/**
--	 * @configure:
-+	 * @configure: configure the DP link
- 	 */
- 	int (*configure)(struct drm_dp_link *link);
+-struct vmw_bo;
+-struct vmw_bo;
+-struct vmw_resource_dirty;
+ struct vmw_resource {
+ 	struct kref kref;
+ 	struct vmw_private *dev_priv;
+@@ -196,8 +199,8 @@ struct vmw_surface_offset;
+  * @quality_level: Quality level.
+  * @autogen_filter: Filter for automatically generated mipmaps.
+  * @array_size: Number of array elements for a 1D/2D texture. For cubemap
+-                texture number of faces * array_size. This should be 0 for pre
+-		SM4 device.
++ *              texture number of faces * array_size. This should be 0 for pre
++ *		SM4 device.
+  * @buffer_byte_stride: Buffer byte stride.
+  * @num_sizes: Size of @sizes. For GB surface this should always be 1.
+  * @base_size: Surface dimension.
+@@ -265,18 +268,24 @@ struct vmw_fifo_state {
+ struct vmw_res_cache_entry {
+ 	uint32_t handle;
+ 	struct vmw_resource *res;
++	/* private: */
+ 	void *private;
++	/* public: */
+ 	unsigned short valid_handle;
+ 	unsigned short valid;
  };
-@@ -113,6 +113,8 @@ struct drm_dp_link_train {
-  * @max_lanes: maximum number of lanes supported on the link
-  * @caps: capabilities supported on the link (see &drm_dp_link_caps)
-  * @aux_rd_interval: AUX read interval to use for training (in microseconds)
-+ * @aux_rd_interval.cr: clock recovery read interval
-+ * @aux_rd_interval.ce: channel equalization read interval
-  * @edp: eDP revision (0x11: eDP 1.1, 0x12: eDP 1.2, ...)
-  * @rate: currently configured link rate
-  * @lanes: currently configured number of lanes
-@@ -126,10 +128,6 @@ struct drm_dp_link {
  
- 	struct drm_dp_link_caps caps;
+ /**
+  * enum vmw_dma_map_mode - indicate how to perform TTM page dma mappings.
++ * @vmw_dma_alloc_coherent: Use TTM coherent pages
++ * @vmw_dma_map_populate: Unmap from DMA just after unpopulate
++ * @vmw_dma_map_bind: Unmap from DMA just before unbind
+  */
+ enum vmw_dma_map_mode {
+-	vmw_dma_alloc_coherent, /* Use TTM coherent pages */
+-	vmw_dma_map_populate,   /* Unmap from DMA just after unpopulate */
+-	vmw_dma_map_bind,       /* Unmap from DMA just before unbind */
++	vmw_dma_alloc_coherent,
++	vmw_dma_map_populate,
++	vmw_dma_map_bind,
++	/* private: */
+ 	vmw_dma_map_max
+ };
  
--	/**
--	 * @cr: clock recovery read interval
--	 * @ce: channel equalization read interval
--	 */
- 	struct {
- 		unsigned int cr;
- 		unsigned int ce;
+@@ -284,8 +293,11 @@ enum vmw_dma_map_mode {
+  * struct vmw_sg_table - Scatter/gather table for binding, with additional
+  * device-specific information.
+  *
++ * @mode: which page mapping mode to use
++ * @pages: Array of page pointers to the pages.
++ * @addrs: DMA addresses to the pages if coherent pages are used.
+  * @sgt: Pointer to a struct sg_table with binding information
+- * @num_regions: Number of regions with device-address contiguous pages
++ * @num_pages: Number of @pages
+  */
+ struct vmw_sg_table {
+ 	enum vmw_dma_map_mode mode;
+@@ -353,6 +365,7 @@ struct vmw_ctx_validation_info;
+  * than from user-space
+  * @fp: If @kernel is false, points to the file of the client. Otherwise
+  * NULL
++ * @filp: DRM state for this file
+  * @cmd_bounce: Command bounce buffer used for command validation before
+  * copying to fifo space
+  * @cmd_bounce_size: Current command bounce buffer size
+@@ -729,7 +742,7 @@ extern void vmw_svga_disable(struct vmw_
+ bool vmwgfx_supported(struct vmw_private *vmw);
+ 
+ 
+-/**
++/*
+  * GMR utilities - vmwgfx_gmr.c
+  */
+ 
+@@ -739,7 +752,7 @@ extern int vmw_gmr_bind(struct vmw_priva
+ 			int gmr_id);
+ extern void vmw_gmr_unbind(struct vmw_private *dev_priv, int gmr_id);
+ 
+-/**
++/*
+  * User handles
+  */
+ struct vmw_user_object {
+@@ -759,7 +772,7 @@ void *vmw_user_object_map_size(struct vm
+ void vmw_user_object_unmap(struct vmw_user_object *uo);
+ bool vmw_user_object_is_mapped(struct vmw_user_object *uo);
+ 
+-/**
++/*
+  * Resource utilities - vmwgfx_resource.c
+  */
+ struct vmw_user_resource_conv;
+@@ -819,7 +832,7 @@ static inline bool vmw_resource_mob_atta
+ 	return !RB_EMPTY_NODE(&res->mob_node);
+ }
+ 
+-/**
++/*
+  * GEM related functionality - vmwgfx_gem.c
+  */
+ struct vmw_bo_params;
+@@ -833,7 +846,7 @@ extern int vmw_gem_object_create_ioctl(s
+ 				       struct drm_file *filp);
+ extern void vmw_debugfs_gem_init(struct vmw_private *vdev);
+ 
+-/**
++/*
+  * Misc Ioctl functionality - vmwgfx_ioctl.c
+  */
+ 
+@@ -846,7 +859,7 @@ extern int vmw_present_ioctl(struct drm_
+ extern int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+ 				      struct drm_file *file_priv);
+ 
+-/**
++/*
+  * Fifo utilities - vmwgfx_fifo.c
+  */
+ 
+@@ -880,9 +893,11 @@ extern int vmw_cmd_flush(struct vmw_priv
+ 
+ 
+ /**
+- * vmw_fifo_caps - Returns the capabilities of the FIFO command
++ * vmw_fifo_caps - Get the capabilities of the FIFO command
+  * queue or 0 if fifo memory isn't present.
+  * @dev_priv: The device private context
++ *
++ * Returns: capabilities of the FIFO command or %0 if fifo memory not present
+  */
+ static inline uint32_t vmw_fifo_caps(const struct vmw_private *dev_priv)
+ {
+@@ -893,9 +908,11 @@ static inline uint32_t vmw_fifo_caps(con
+ 
+ 
+ /**
+- * vmw_is_cursor_bypass3_enabled - Returns TRUE iff Cursor Bypass 3
+- * is enabled in the FIFO.
++ * vmw_is_cursor_bypass3_enabled - check Cursor Bypass 3 enabled setting
++ * in the FIFO.
+  * @dev_priv: The device private context
++ *
++ * Returns: %true iff Cursor Bypass 3 is enabled in the FIFO
+  */
+ static inline bool
+ vmw_is_cursor_bypass3_enabled(const struct vmw_private *dev_priv)
+@@ -903,7 +920,7 @@ vmw_is_cursor_bypass3_enabled(const stru
+ 	return (vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_CURSOR_BYPASS_3) != 0;
+ }
+ 
+-/**
++/*
+  * TTM buffer object driver - vmwgfx_ttm_buffer.c
+  */
+ 
+@@ -927,7 +944,7 @@ extern void vmw_piter_start(struct vmw_p
+  *
+  * @viter: Pointer to the iterator to advance.
+  *
+- * Returns false if past the list of pages, true otherwise.
++ * Returns: false if past the list of pages, true otherwise.
+  */
+ static inline bool vmw_piter_next(struct vmw_piter *viter)
+ {
+@@ -939,7 +956,7 @@ static inline bool vmw_piter_next(struct
+  *
+  * @viter: Pointer to the iterator
+  *
+- * Returns the DMA address of the page pointed to by @viter.
++ * Returns: the DMA address of the page pointed to by @viter.
+  */
+ static inline dma_addr_t vmw_piter_dma_addr(struct vmw_piter *viter)
+ {
+@@ -951,14 +968,14 @@ static inline dma_addr_t vmw_piter_dma_a
+  *
+  * @viter: Pointer to the iterator
+  *
+- * Returns the DMA address of the page pointed to by @viter.
++ * Returns: the DMA address of the page pointed to by @viter.
+  */
+ static inline struct page *vmw_piter_page(struct vmw_piter *viter)
+ {
+ 	return viter->pages[viter->i];
+ }
+ 
+-/**
++/*
+  * Command submission - vmwgfx_execbuf.c
+  */
+ 
+@@ -993,7 +1010,7 @@ extern int vmw_execbuf_copy_fence_user(s
+ 					int32_t out_fence_fd);
+ bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd);
+ 
+-/**
++/*
+  * IRQs and wating - vmwgfx_irq.c
+  */
+ 
+@@ -1016,7 +1033,7 @@ bool vmw_generic_waiter_add(struct vmw_p
+ bool vmw_generic_waiter_remove(struct vmw_private *dev_priv,
+ 			       u32 flag, int *waiter_count);
+ 
+-/**
++/*
+  * Kernel modesetting - vmwgfx_kms.c
+  */
+ 
+@@ -1048,7 +1065,7 @@ extern int vmw_resource_pin(struct vmw_r
+ extern void vmw_resource_unpin(struct vmw_resource *res);
+ extern enum vmw_res_type vmw_res_type(const struct vmw_resource *res);
+ 
+-/**
++/*
+  * Overlay control - vmwgfx_overlay.c
+  */
+ 
+@@ -1063,20 +1080,20 @@ int vmw_overlay_unref(struct vmw_private
+ int vmw_overlay_num_overlays(struct vmw_private *dev_priv);
+ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
+ 
+-/**
++/*
+  * GMR Id manager
+  */
+ 
+ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
+ void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
+ 
+-/**
++/*
+  * System memory manager
+  */
+ int vmw_sys_man_init(struct vmw_private *dev_priv);
+ void vmw_sys_man_fini(struct vmw_private *dev_priv);
+ 
+-/**
++/*
+  * Prime - vmwgfx_prime.c
+  */
+ 
+@@ -1292,7 +1309,7 @@ extern void vmw_cmdbuf_irqthread(struct
+  * @line: The current line of the blit.
+  * @line_offset: Offset of the current line segment.
+  * @cpp: Bytes per pixel (granularity information).
+- * @memcpy: Which memcpy function to use.
++ * @do_cpy: Which memcpy function to use.
+  */
+ struct vmw_diff_cpy {
+ 	struct drm_rect rect;
+@@ -1380,13 +1397,14 @@ vm_fault_t vmw_bo_vm_mkwrite(struct vm_f
+ 
+ /**
+  * VMW_DEBUG_KMS - Debug output for kernel mode-setting
++ * @fmt: format string for the args
+  *
+  * This macro is for debugging vmwgfx mode-setting code.
+  */
+ #define VMW_DEBUG_KMS(fmt, ...)                                               \
+ 	DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
+ 
+-/**
++/*
+  * Inline helper functions
+  */
+ 
+@@ -1417,11 +1435,13 @@ static inline void vmw_fifo_resource_dec
+ 
+ /**
+  * vmw_fifo_mem_read - Perform a MMIO read from the fifo memory
+- *
++ * @vmw: The device private structure
+  * @fifo_reg: The fifo register to read from
+  *
+  * This function is intended to be equivalent to ioread32() on
+  * memremap'd memory, but without byteswapping.
++ *
++ * Returns: the value read
+  */
+ static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
+ {
+@@ -1431,8 +1451,9 @@ static inline u32 vmw_fifo_mem_read(stru
+ 
+ /**
+  * vmw_fifo_mem_write - Perform a MMIO write to volatile memory
+- *
+- * @addr: The fifo register to write to
++ * @vmw: The device private structure
++ * @fifo_reg: The fifo register to write to
++ * @value: The value to write
+  *
+  * This function is intended to be equivalent to iowrite32 on
+  * memremap'd memory, but without byteswapping.
