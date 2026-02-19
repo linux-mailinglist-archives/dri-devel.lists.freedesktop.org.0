@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ZtwaGfr0lmktrgIAu9opvQ
+	id kNy9NP30lmndrQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1262415E4D4
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB7D15E4E2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692BD10E694;
-	Thu, 19 Feb 2026 11:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED2210E6C5;
+	Thu, 19 Feb 2026 11:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE9710E694
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 11:33:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303AA10E6A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 11:33:12 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1vt2HH-0003qW-FA; Thu, 19 Feb 2026 12:33:03 +0100
+ id 1vt2HH-0003qW-HA; Thu, 19 Feb 2026 12:33:03 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Thu, 19 Feb 2026 12:32:57 +0100
-Subject: [PATCH v2 1/2] drm/imx: ipuv3-plane: decouple zpos from plane type
+Date: Thu, 19 Feb 2026 12:32:58 +0100
+Subject: [PATCH v2 2/2] drm/imx: ipuv3-plane: support underlay plane
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260219-drm-imx-underlay-plane-v2-1-26ef829c5483@pengutronix.de>
+Message-Id: <20260219-drm-imx-underlay-plane-v2-2-26ef829c5483@pengutronix.de>
 References: <20260219-drm-imx-underlay-plane-v2-0-26ef829c5483@pengutronix.de>
 In-Reply-To: <20260219-drm-imx-underlay-plane-v2-0-26ef829c5483@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
@@ -86,52 +86,71 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.882];
+	NEURAL_HAM(-0.00)[-0.879];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1262415E4D4
+X-Rspamd-Queue-Id: AAB7D15E4E2
 X-Rspamd-Action: no action
 
-The overlay plane may be placed over or under the primary plane. Using
-zpos to determine, if the plane is the primary or overlay plane is not
-valid anymore.
+The IPUv3 overlay plane may be placed over or under the primary plane.
 
-Use the plane type for determining the name of the plane in the error
-message.
+Set the zpos of the primary to an immutable position of 1 to have the
+possibility to place the other plane underneath it.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Set the zpos of other planes (the overlay plane) to a mutable value
+between 0 (the lowest possible value of a zpos) and directly above the
+primary plane with the latter being the default.
+
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v2:
-- none
+- Simplify and remove duplicate check for primary plane
+- Rephrase commit message
 ---
- drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-index db50eccea0ca..dfd036f3195e 100644
+index dfd036f3195e..f078235ed07b 100644
 --- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
 +++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
-@@ -915,7 +915,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 					       type, NULL);
- 	if (IS_ERR(ipu_plane)) {
- 		DRM_ERROR("failed to allocate and initialize %s plane\n",
--			  zpos ? "overlay" : "primary");
-+			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay");
- 		return ipu_plane;
- 	}
+@@ -890,7 +890,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ {
+ 	struct ipu_plane *ipu_plane;
+ 	const uint64_t *modifiers = ipu_format_modifiers;
+-	unsigned int zpos = (type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
++	unsigned int primary_zpos = 1;
+ 	unsigned int format_count;
+ 	const uint32_t *formats;
+ 	int ret;
+@@ -923,17 +923,16 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 	ipu_plane->dma = dma;
+ 	ipu_plane->dp_flow = dp;
  
-@@ -949,7 +949,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	ret = ipu_plane_get_resources(dev, ipu_plane);
- 	if (ret) {
- 		DRM_ERROR("failed to get %s plane resources: %pe\n",
--			  zpos ? "overlay" : "primary", &ret);
-+			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay", &ret);
+-	if (type == DRM_PLANE_TYPE_PRIMARY)
++	if (type == DRM_PLANE_TYPE_PRIMARY) {
+ 		drm_plane_helper_add(&ipu_plane->base, &ipu_primary_plane_helper_funcs);
+-	else
+-		drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
+-
+-	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
+-		ret = drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0,
+-						     1);
+-	else
+ 		ret = drm_plane_create_zpos_immutable_property(&ipu_plane->base,
+-							       0);
++							       primary_zpos);
++	} else {
++		drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
++		ret = drm_plane_create_zpos_property(&ipu_plane->base,
++						     primary_zpos + 1, 0,
++						     primary_zpos + 1);
++	}
+ 	if (ret)
  		return ERR_PTR(ret);
- 	}
  
 
 -- 
