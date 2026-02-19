@@ -2,86 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iBKGAvgemGnhAgMAu9opvQ
+	id wJXLKewfl2nwuwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 15:36:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0596165D9B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F5E15F970
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 15:36:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C8110E7D8;
-	Fri, 20 Feb 2026 08:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D68D10E6E8;
+	Thu, 19 Feb 2026 14:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=yahoo.pl header.i=@yahoo.pl header.b="hpoMxVM7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XZNNiI6R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic313-20.consmr.mail.ir2.yahoo.com
- (sonic313-20.consmr.mail.ir2.yahoo.com [77.238.179.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0177010E025
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 14:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048;
- t=1771511387; bh=VaWBo28dAnDUHCoe27rah1Dd7vMGiZtW4luXFceOsR8=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=hpoMxVM7CPkon7gFet2ionzRhAi6f+6NVfrPcidbtWY/Gmbf7mmtmybRbnPiThD2KcVXK/mPJ8W9l3PPI38x7JLDX6XQiXlsGp12l1eT0nrsxRHLORBFI68nUSPSPN4vqHnMK2hZlA0KK2Bjt3kOkqQTRlHCKSr1mmYbweDDf8FEJy52ic6utbBYrs+55P12yuC9sR0QYyfAieUilOp5QeFNUafk0xd+KMIVONxk+ROMyAjK03Dz5Q0iME60E2l0Q8/p5pkhXuTtbrDSVpihNflj0OOs7TG/yZysSrj47EwS+xxhL0UX8LcnvLzKZjN8kAhsE6qbfM/771BEYSnLmg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1771511387; bh=DVU6hsjuvlgw77AnII+fJPKXgUPBadS2QXiXa8Z/Vd0=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=PN5WPjnQ0rnDY7gQZbNW2B0Scdt+SNzoFzWedgye8srVFHmsDx1rtwJXVHhPWlaIbEaRLaA9SDF7LdUcaGc+9Enh8V+WQtsng6KghPQeQFd6MPWsE9d9mesVUrJloueo4Fb/TMqOd3Vcr8xa1kF8uAdtiLV0TBHsaxXRtDMxDPV7f7dGjHbGlBF93afajoT9d1lLPmW/9s9CgqusGCXY9EkUBo5gB9F/grCEy396kf4wcofZhSxi51slzSyHOZNifO1FWBotzf3bXXJl76sjCw7+hytYDlrkq32AYp7A2eo0kAVecQGlkC0KWEC+921AiKL3dBe3Er05WqumhGEKng==
-X-YMail-OSG: hKG6g38VM1kjQAph1KGJncCm6PCG1lp6B6am4wmamr1YwcT.tdBGJprRfGCBNG3
- 9PANml9LdJknnHPQcF8DTt.GndYiyCM_an16l92eF9.6M_8roz.ewiSBfze1czBN7g3wpmkfgKb4
- nNpiaJYHcL363wMA77.jLnc4Cup3GCYyXevnxGBzBY6GXIKua4WalUAUinPf4WVa3NQJJLKEaWq6
- DKyL_69mv63BUrwSZwEi50ZxOyd2c8l_96BTiihm6LAkTXxX.8DzThf38q4NogPoXT7stVJ3gtKN
- MT6mvuOyqP3Cs5UsCsu11ni6POHWULl1d3.3Xx9QIpuJ8D0Wjxn93ZM9uy7yqVRJBxutBKIZNxJw
- jvzG0ndwcG_BFSEjExI41mylJCBhXPxgFjTVJcczGnqfLNelsW8DJLz8WojgLBQbSTpiALME8bRD
- Is7sHKBnsca1g5KYIBM12id83uGfN6arzzF.JJY0ReX5YqSEu7LSyK.WmjsiTFMZZ142z9S6qVEz
- lC_xri6ykOBltN25Y0DD4bSN5bt8xwbizekLMouOR7i6u0mjqsow4fwAAeddqUsxqUccCcegcNlE
- Vl_OG01r0Gi1m_6_rObZo25Il5eMkXEejaEZjeXUrZBhA1GkvBe1FHqurxmalwFAyGkxL3fba6hx
- q_izTfiLA5C5JBJMPFcH6Ski4JxfDZsLHQu.uGOHzb5tycEqXPKIkc4uu92oqbJ5iQmMFjiT2bGz
- QkZdwXJKmHTVSrI54cVba9fY5rmkzuQ20AUAUeSUXdPVxmsSgjvdrglW9ctSDJYQoSdRDoleyVlT
- LfVsT.rJWFG.Vio9S9t4vHpsMmhN6iN5HZS1yAHS8fIm7xItNYRct2geDznnJr1QW8irMxzAo3ia
- zrbdWTWbIc9YKTmZ87MDcWZ1v0R4PSYahfW_gnYDejtS6HaBMftZXAaC5uOQFaJtYjxLMtfNafSQ
- MsU0FyVDLuXF3mM7a5zngRhVCC_AHSC2oOz_PNs79CRzOdqxwcXKUmGgjVZksNHjP7ZFpo9wkxae
- qPQUqm58W8t4RosTX4JisnhVf6Dqv9.gNsQHpZv.Ngk6xEqB4gePutJkNgkl9qxC2Jtbb4Uj8YcK
- 15XjA_udd_plYedgxNs807.de_bXU6Nkkmw9eOmQ7M91b.zDNO6cWwMR_GDxfWdLiwnvhxc34gbq
- DSqKOhAVkgYmgOgkVRzSTgNuUQIiQOAKzX4y4PY0wG6R8jIiPDaMfF5E5KFF7SuuMx6U2rjMZ11N
- ym5V.U_Q3Zm__ZI7XNhC9dwOGMdEo7T.7FUqx6KOYmDJ017MghmkbfusC7roS7CH_dXG.eWHuIl8
- q1OHk26c.Ai.D0Vvw55KLv_zURCF6LCHDaD5pLY4y_0WO6mWrNoCbUtudQcSm92RBwqpBq_LjytE
- YadprEhu0l3xceF1PuaejSPtM6eGDTcFW4zYH1wQOGFWxtRVnfuv5.YnhIeUM4lnCXunknvCJ0WN
- Kr1byvMfopC1OUV9PTVK4JzdGqzKCHXVUKqGEI.UIHER0TVlDtKl3s5eaVgqL3yc9Zmh_NdKkBVX
- 9xXM21MPAGfnYjtU.fWBZ8pr8o9N4km5YuO4uO.DrwShUzt_mJq1udmRLmAflKR0Vh1D0Vbc5VNO
- xsKwm7Aso550jXaPKYACGewXqJLpZrNY3HGerABKV38NWopYm0V1N4Qvvssnl8kcAoqW2TkbH_O2
- WZuYULyjcZwlCvCsv8QGODLlS4qnW1EeVlrQYGpJGuM.9UWK7EssyxAHJoAWClXNKmt3IX7mTnb9
- FqAoRBOZ0cLNQL46jLzBEZ9cgpK65UiRPrTXzDTvJ2XYLx77A9UaDioIhmwZrZzi.QkF8l5Jyl5b
- Ru2DKCEybyp58roZBS.uXab.iViV7ub0qGBTiBY4EqE6TMq2VhYGDyMUShMFRLEu1EP47nzEFd12
- 10c6GJohQbF5uOsGtLv1uyza_xRSu3MOHGN9gUM1PMxHRlgw.uLIeeSGb.wTiFsA_7nih1KmzbXU
- 4NvZiQxfjHGpR6.1fddoD4XD005VecAfbU.e2ivJZv2IbN3MB74_33F.PXumUr68rsljxT1zExJC
- usrxt6WGGtXVIpyS6VjzOD379eCy.OXifobMaM_9KH1X9ZMQzktV6L4iqFm1xCh7lbBj4l5WEyS3
- coOe2u6fbD4vj6d.kt2t7qMQQwT6FK_.YTVOevSvmg0pJsSozbdbaIj3Z0PE4xNuPN9ag.0RslRS
- DKlQoxIEk4mowzdb_HU_s3XLAdFmG8_oCKX_UXzUHuXBvyztGJRF9CI.6r2NUV4YlflQExCdmQK7
- .WvrxQFKARZdp2OhN
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 1fb9b03f-ec83-47e9-91c1-112ee54bd454
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic313.consmr.mail.ir2.yahoo.com with HTTP; Thu, 19 Feb 2026 14:29:47 +0000
-Received: by hermes--production-ir2-bbcfb4457-wbfpp (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 986b859eb286868e95113c044e92cb9f; 
- Thu, 19 Feb 2026 14:29:46 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH v2] staging: fbtft: fb_tinylcd: replace udelay() with fsleep()
-Date: Thu, 19 Feb 2026 15:29:42 +0100
-Message-ID: <20260219142942.74087-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260219142942.74087-1-tomasz.unger.ref@yahoo.pl>
-X-Mailman-Approved-At: Fri, 20 Feb 2026 08:44:31 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF95910E6E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 14:36:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E8D9160145;
+ Thu, 19 Feb 2026 14:36:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78253C4CEF7;
+ Thu, 19 Feb 2026 14:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771511784;
+ bh=U2h2fXNq15bonU/KsOObw8GNtWEaVPPYqkxrii9vizc=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=XZNNiI6Rz6imH5O12Lk7KKFRXfS2dFCRKz2nUJDHS9/3PiSgqvtlz6Pjlywmx7cgM
+ msZhhuGCsA5jBO7aD58zJIgVRn2jFYZjm1Gu1WOtjAVc77mTdTLt6m/pZuFlI3JO2X
+ M0QHBcExPY+g6gftvCqT0gbbrAlT2AQJe92M/tz68mpsMteBORDyzKk4bEfREmqNcB
+ EDrt19LHu3b1/DCsgwGY8zptjGlbKJKljfidY7BZjsHK9LCaHpfr/IhFH67meJkxxU
+ t7m2go690IBO/U1h8FPWWvh5x8jdFmlBY0OEFKavmioys8NDrI0OHGQMfbgH7o6/72
+ tPSChGf39Np8A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Feb 2026 15:36:20 +0100
+Message-Id: <DGJ0IL3LLZRW.3JC9RY1GDIJA6@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v4 1/6] rust: drm: add base GPUVM immediate mode
+ abstraction
+Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, "Janne Grunau" <j@jannau.net>, "Matthew
+ Brost" <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Lyude Paul" <lyude@redhat.com>, "Asahi
+ Lina" <lina+kernel@asahilina.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+References: <20260130-gpuvm-rust-v4-0-8364d104ff40@google.com>
+ <20260130-gpuvm-rust-v4-1-8364d104ff40@google.com>
+In-Reply-To: <20260130-gpuvm-rust-v4-1-8364d104ff40@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,74 +68,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linux.dev,yahoo.pl];
-	FORGED_SENDER(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:tomasz.unger@yahoo.pl,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NO_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A0596165D9B
+X-Rspamd-Queue-Id: 22F5E15F970
 X-Rspamd-Action: no action
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+On Fri Jan 30, 2026 at 3:24 PM CET, Alice Ryhl wrote:
+> +/// A DRM GPU VA manager.
+> +///
+> +/// This object is refcounted, but the "core" is only accessible using a=
+ special unique handle. The
+> +/// core consists of the `core` field and the GPUVM's interval tree.
 
-fsleep() is the preferred modern API for flexible sleeping as it
-automatically selects the best sleep mechanism based on the duration.
-Replace udelay() with fsleep() to improve power efficiency.
+I think this is still a bit confusing, I think we should just rename GpuVmC=
+ore
+to UniqueGpuVm and rewrite this to something like:
 
-init_display() is a driver initialization callback which runs in
-sleeping context, so fsleep() is safe to use here.
+"The driver specific data of of `GpuVm` is only accessible through a
+[`UniqueGpuVm`], which guarantees exclusive access."
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Changes in v2:
-- Added sleeping context justification to commit message
-- Replaced usleep_range() with fsleep() as suggested by Andy Shevchenko 
+> +/// # Invariants
+> +///
+> +/// * Stored in an allocation managed by the refcount in `self.vm`.
+> +/// * Access to `data` and the gpuvm interval tree is controlled via the=
+ [`GpuVmCore`] type.
+> +#[pin_data]
+> +pub struct GpuVm<T: DriverGpuVm> {
+> +    #[pin]
+> +    vm: Opaque<bindings::drm_gpuvm>,
+> +    /// Accessed only through the [`GpuVmCore`] reference.
+> +    data: UnsafeCell<T>,
+> +}
+> +
+> +// SAFETY: By type invariants, the allocation is managed by the refcount=
+ in `self.vm`.
+> +unsafe impl<T: DriverGpuVm> AlwaysRefCounted for GpuVm<T> {
+> +    fn inc_ref(&self) {
+> +        // SAFETY: By type invariants, the allocation is managed by the =
+refcount in `self.vm`.
+> +        unsafe { bindings::drm_gpuvm_get(self.vm.get()) };
+> +    }
+> +
+> +    unsafe fn dec_ref(obj: NonNull<Self>) {
+> +        // SAFETY: By type invariants, the allocation is managed by the =
+refcount in `self.vm`.
+> +        unsafe { bindings::drm_gpuvm_put((*obj.as_ptr()).vm.get()) };
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> GpuVm<T> {
+> +    const fn vtable() -> &'static bindings::drm_gpuvm_ops {
+> +        &bindings::drm_gpuvm_ops {
+> +            vm_free: Some(Self::vm_free),
+> +            op_alloc: None,
+> +            op_free: None,
+> +            vm_bo_alloc: None,
+> +            vm_bo_free: None,
+> +            vm_bo_validate: None,
+> +            sm_step_map: None,
+> +            sm_step_unmap: None,
+> +            sm_step_remap: None,
+> +        }
+> +    }
+> +
+> +    /// Creates a GPUVM instance.
+> +    #[expect(clippy::new_ret_no_self)]
+> +    pub fn new<E>(
+> +        name: &'static CStr,
+> +        dev: &drm::Device<T::Driver>,
+> +        r_obj: &T::Object,
+> +        range: Range<u64>,
+> +        reserve_range: Range<u64>,
+> +        data: T,
 
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Let's be flexibile and also accept an impl PinInit<T, E> instead.
 
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..3fb15df31592 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -41,7 +41,7 @@ static int init_display(struct fbtft_par *par)
- 		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
--	udelay(250);
-+	fsleep(250);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	return 0;
--- 
-2.53.0
+> +    ) -> Result<GpuVmCore<T>, E>
+> +    where
+> +        E: From<AllocError>,
+> +        E: From<core::convert::Infallible>,
+> +    {
+> +        let obj =3D KBox::try_pin_init::<E>(
+> +            try_pin_init!(Self {
+> +                data: UnsafeCell::new(data),
+> +                vm <- Opaque::ffi_init(|vm| {
+> +                    // SAFETY: These arguments are valid. `vm` is valid =
+until refcount drops to
+> +                    // zero.
+> +                    unsafe {
+> +                        bindings::drm_gpuvm_init(
+> +                            vm,
+> +                            name.as_char_ptr(),
+> +                            bindings::drm_gpuvm_flags_DRM_GPUVM_IMMEDIAT=
+E_MODE
+> +                                | bindings::drm_gpuvm_flags_DRM_GPUVM_RE=
+SV_PROTECTED,
+> +                            dev.as_raw(),
+> +                            r_obj.as_raw(),
+> +                            range.start,
+> +                            range.end - range.start,
+> +                            reserve_range.start,
+> +                            reserve_range.end - reserve_range.start,
+> +                            const { Self::vtable() },
+> +                        )
+> +                    }
+> +                }),
+> +            }? E),
+> +            GFP_KERNEL,
+> +        )?;
+> +        // SAFETY: This transfers the initial refcount to the ARef.
+> +        Ok(GpuVmCore(unsafe {
+> +            ARef::from_raw(NonNull::new_unchecked(KBox::into_raw(
+> +                Pin::into_inner_unchecked(obj),
+> +            )))
+> +        }))
+> +    }
+> +
+> +    /// Access this [`GpuVm`] from a raw pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The pointer must reference the `struct drm_gpuvm` in a valid [`G=
+puVm<T>`] that remains
+> +    /// valid for at least `'a`.
+> +    #[inline]
+> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::drm_gpuvm) -> &'a Sel=
+f {
+> +        // SAFETY: Caller passes a pointer to the `drm_gpuvm` in a `GpuV=
+m<T>`. Caller ensures the
+> +        // pointer is valid for 'a.
+> +        unsafe { &*kernel::container_of!(Opaque::cast_from(ptr), Self, v=
+m) }
 
+I'd pull the Opaque::cast_from() call out of the unsafe block.
+
+> +    }
+> +
+> +    /// Returns a raw pointer to the embedded `struct drm_gpuvm`.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm {
+> +        self.vm.get()
+> +    }
+> +
+> +    /// The start of the VA space.
+> +    #[inline]
+> +    pub fn va_start(&self) -> u64 {
+> +        // SAFETY: The `mm_start` field is immutable.
+> +        unsafe { (*self.as_raw()).mm_start }
+> +    }
+> +
+> +    /// The length of the GPU's virtual address space.
+> +    #[inline]
+> +    pub fn va_length(&self) -> u64 {
+> +        // SAFETY: The `mm_range` field is immutable.
+> +        unsafe { (*self.as_raw()).mm_range }
+> +    }
+> +
+> +    /// Returns the range of the GPU virtual address space.
+> +    #[inline]
+> +    pub fn va_range(&self) -> Range<u64> {
+> +        let start =3D self.va_start();
+> +        // OVERFLOW: This reconstructs the Range<u64> passed to the cons=
+tructor, so it won't fail.
+> +        let end =3D start + self.va_length();
+> +        Range { start, end }
+> +    }
+> +
+> +    /// Clean up buffer objects that are no longer used.
+> +    #[inline]
+> +    pub fn deferred_cleanup(&self) {
+> +        // SAFETY: This GPUVM uses immediate mode.
+> +        unsafe { bindings::drm_gpuvm_bo_deferred_cleanup(self.as_raw()) =
+}
+> +    }
+> +
+> +    /// Check if this GEM object is an external object for this GPUVM.
+> +    #[inline]
+> +    pub fn is_extobj(&self, obj: &T::Object) -> bool {
+> +        // SAFETY: We may call this with any GPUVM and GEM object.
+> +        unsafe { bindings::drm_gpuvm_is_extobj(self.as_raw(), obj.as_raw=
+()) }
+> +    }
+> +
+> +    /// Free this GPUVM.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Called when refcount hits zero.
+> +    unsafe extern "C" fn vm_free(me: *mut bindings::drm_gpuvm) {
+> +        // SAFETY: Caller passes a pointer to the `drm_gpuvm` in a `GpuV=
+m<T>`.
+> +        let me =3D unsafe { kernel::container_of!(Opaque::cast_from(me),=
+ Self, vm).cast_mut() };
+> +        // SAFETY: By type invariants we can free it when refcount hits =
+zero.
+> +        drop(unsafe { KBox::from_raw(me) })
+> +    }
+> +}
+> +
+> +/// The manager for a GPUVM.
+
+This description seems a bit odd. In the end, the trait makes GPUVM aware o=
+f
+other driver specific types. So, maybe a better name would be
+gpuvm::DriverAttributes, gpuvm::DriverTypes, gpuvm::DriverInfo or just
+gpuvm::Driver. My favorite is gpuvm::DriverInfo.
+
+We should also change the doc-comment accordingly. Maybe somthing like: "Th=
+is
+trait make the [`GpuVm`] aware of the other driver specific DRM types."
+
+> +pub trait DriverGpuVm: Sized {
+> +    /// Parent `Driver` for this object.
+> +    type Driver: drm::Driver<Object =3D Self::Object>;
+> +
+> +    /// The kind of GEM object stored in this GPUVM.
+> +    type Object: IntoGEMObject;
+> +}
