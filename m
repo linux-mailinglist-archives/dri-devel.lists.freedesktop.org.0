@@ -2,116 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GQcCqZYl2lPxAIAu9opvQ
+	id OEFXEfBil2mnxgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 19:38:30 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:22:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F99161BC5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 19:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43E7161EA9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:22:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81CF510E737;
-	Thu, 19 Feb 2026 18:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CADD410E73A;
+	Thu, 19 Feb 2026 19:22:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jtaAo+jL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UF9WAmSX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com
- [74.125.82.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 467F210E737
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 18:38:24 +0000 (UTC)
-Received: by mail-dy1-f169.google.com with SMTP id
- 5a478bee46e88-2b8095668ebso23163eec.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 10:38:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771526303; cv=none;
- d=google.com; s=arc-20240605;
- b=GWxyTIhdl1gejaJkni1FNI7O14IfBD7bNqgp5qiZeUwAmgpzb8F9Z8e3Euyn+Hw1Ld
- esdJJSIs2q5ISMT6O8/HH/tE5p8KsWjhDoWrL8uJPb6rPc8Y3iiAMk+1VZRXQlXemRam
- Y4v5vMtnzKh7Hg2VPGEDy1IBDqC3pQNgSWOE6q5/zoW5eb4kHbRCc/B/q7hUuPWtiPJR
- L3Fr6Dp6VTiG2liI18AgsHswTVo5jcQoqlh6MQoXe8G+5cP53+055IRGrrYsrKs90WdT
- WXAH8aCKXB1bCRqqxqYNWYPjCoNaBbBE+4HeYKb6WirWzLqUWso6g8L+seb2fKDQXMPp
- Qp6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=2/99nRZ95IjeVc75LvwCdBJOe5YtV3DPyqkMVVh+UtY=;
- fh=g9J02Rsb44C2CKj2QE2n+goytoIccrahb8S39PC4Xvo=;
- b=e59yUMrz0RsqQz661dQ54k3Jatu0w4HaVMxyzjq2JC/92RcRlXwbAGBKV41hACbWlA
- 68XMfBRn1SEfO/+ZVrkDUbCg9z91Ii7Bqno2jKpvDUU7J7/vimO+qxWbQpZAc2d8PxBR
- Ox5PVB2HFwuEFd75dh0gSHw4vmk0XDxNYKmDIu6VU5aNWO/9dcKIwcKNmH/Ra78KtvM9
- oDl4+x1q165llFixahDwHP0YgnVkc4cNinZFORZRx00tesv5R5VceQj77416fgz0b8a5
- mC9wJn7RKCdOF/S/vOOb/s7q/LP5yGfNKf46PmUZUsoXesh1L+jqqGlJ8FELUxcSek/2
- 4zDw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771526303; x=1772131103; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2/99nRZ95IjeVc75LvwCdBJOe5YtV3DPyqkMVVh+UtY=;
- b=jtaAo+jLA6PodvlGAb6g0/54DyPTtKG+pcU5x8v45aNnd87Iv1ahJGLyK+RXxZMfUC
- aMmva2CsJYDNE1MdQ2bv1ddAEDSKP6IklmS3iNy3rFhMcPs8JTtkHzzu35v9LVjRD5Fk
- qPR/AjCaAKdigXVsmdufVYo8wp+/NmqPNX7DyoEISX6wiOGqO9dXthsNUMy+WIEp2Ero
- bo/SKtGVDj34v1vZNaoLLWmPxHlWOD2GxX69MPadNx8/T9Itjt3fEvZpU2Tb0QJtr3gC
- GyldHdsXGk0w39Faf6Wqp6tx2NbK+d0AO0znwdB5r8xfCLfqYdjBZcI3v/I+pd2T9Tjh
- EWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771526303; x=1772131103;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=2/99nRZ95IjeVc75LvwCdBJOe5YtV3DPyqkMVVh+UtY=;
- b=rzInpO2rcFPGy6c7/yYCUZID7vXyq63+wRulMuldYBMUijw2Wl0vGmHvUT/5xwG6y/
- jH+XgbaDu4fWZcX+uZP0XnpGqmk2p/VlL2hv0mSGn7+d/yO0asLDziAeI+iYjm8cYKhy
- prhZa1z6xpG2Qbyz5ta/H915Kzp0T3J+pB0544N9Kd7W18mJYPLdO4wxOZYXRvyr3s+r
- dv+1v7XwF8klmeSrlt7Oqc3c88CIi3pyMV+0F0ZjcELKgzCbsIa/Wm0dahTuqWwXZYeI
- am7u2+CUq/m9NbH0CypSEUymMkoohYThdvJeARHukOQhZVey4wuTg6ahZtqB8KVdRZ/Q
- dM+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyRmWdmoslbVKORSy0Ypi3iBL5xuwf7tb5Ybcxy3Ybsp5QB1NQWII6W5VG5B86rIME/JuweY4vq6U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyI+inZvblk2BCNBFHOMb+aNbyChN4U0h/RqPJMuAE8KOVYWIsP
- KoKrBoCXJN09uWXwQMh84XhS8ZB+jsk/AEt/WBDmdWFcSvU5QQMnEpt/xspreCRzt9s7QIAT1pn
- 9O2y5cqPmxIxE0MX4jinQ9MGfooHiMIQ=
-X-Gm-Gg: AZuq6aJS/jv8kMV8idWlGpo1E8RwHngJyz86S0zKh1T4L/pkMd+ti6KftYWMdiGmOuc
- Bez6QpZrUy/imCKjWZE0wH47HJ2w8pk36zHZJ9CBHopDKL/C5yA8XYJTb4qVn5xpRJ2Ce/0SJFH
- NjpfO9/0Rns8ajEXlfr6OHjbGMfr+GEAyb2+QatLmtmaynfT3Q5VJEsTYHnUYM9+vR0Bq7yfksV
- kEeiOVWH0TOUAFfYOd2qFmlVCN7LORZphUu3HgycBh74G5yC5gSXBEt7e5xpWGcxSjugf65BHFP
- b0iAajNq+wvLKa8jyM/6y2PUrcmO450cZPZZRIP/PnIpV8MD1vx19NYCP2dpkJN72r/DusFY0VE
- OuMGhA7up68hovPyEcNL9G1Y7
-X-Received: by 2002:a05:7301:9f12:b0:2b7:ff3a:af82 with SMTP id
- 5a478bee46e88-2bab9fdaf9emr5325750eec.1.1771526303423; Thu, 19 Feb 2026
- 10:38:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGIWDQTR76Y5.34L9IHKU2SEKI@kernel.org>
- <eadfa4662f403fa01f19c1c17a435c1a@nvidia.com>
- <15a193fc-b2b9-476e-a9f6-57e3a210b74f@nvidia.com>
- <DGJ2TNVD8AS7.2P0HYYKKE8CBQ@kernel.org>
- <6a2b1bbe-7a36-4162-9110-a00eed69f156@nvidia.com>
-In-Reply-To: <6a2b1bbe-7a36-4162-9110-a00eed69f156@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 19 Feb 2026 19:38:09 +0100
-X-Gm-Features: AaiRm53j9rn-ZQL0hiiQAUk0BjVlxqB7i8xeJadkWVN54mZayvqJi7_JF18SlVU
-Message-ID: <CANiq72=2Hx9QYbdFee7FZzF2tt9dzAOs7A+xe=tAXZi3_o2DCg@mail.gmail.com>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-To: Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Dave Airlie <airlied@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- Nikola Djukic <ndjukic@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11F610E73A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:22:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1A08A60054;
+ Thu, 19 Feb 2026 19:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB3DC4CEF7;
+ Thu, 19 Feb 2026 19:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771528938;
+ bh=W3ZS+i4Di872LQ0S4OOaNbHiSvr0uLsqYRcd3yHifcM=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=UF9WAmSXzQ/eqO1LE8Vz1b5m/RrIi/LHq3p3o1rsthcb3K1k+Acfjh5ri8C3fc2F0
+ N//Qai93xXHf6cy6S+EJHzpyRrqZRroniwrF+uomWKq/+oth/e/r+ZX1b0xVJUfWfV
+ DzZVkOT+/+v94L/q1B2Fx27cF58ni9KN+HsPcGfQ7etGqsKwbTjwCiWuRJizgBFoC2
+ FTL/chwkLRSIxuJ2rG5SsjdXR+UFyPBuiGu1nTaKve1XvsJBgB7Lh/x4yQV3LM/7YV
+ vij3/tdnJlMZkll6CLyFjO0JAFmD9T5eHbjIj1a/nPJ0owpDu/bJlLorodItju0716
+ MO+dklMJDf+6Q==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Feb 2026 20:22:14 +0100
+Message-Id: <DGJ6LHIVMV03.MM7RWYBJHBIQ@kernel.org>
+Subject: Re: [PATCH v4 3/6] rust: gpuvm: add GpuVm::obtain()
+Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, "Janne Grunau" <j@jannau.net>, "Matthew
+ Brost" <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Lyude Paul" <lyude@redhat.com>, "Asahi
+ Lina" <lina+kernel@asahilina.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260130-gpuvm-rust-v4-0-8364d104ff40@google.com>
+ <20260130-gpuvm-rust-v4-3-8364d104ff40@google.com>
+In-Reply-To: <20260130-gpuvm-rust-v4-3-8364d104ff40@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,59 +67,345 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:joelagnelf@nvidia.com,m:acourbot@nvidia.com,m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:koen.koning@linux.intel.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,nvidia.com:email]
-X-Rspamd-Queue-Id: 94F99161BC5
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A43E7161EA9
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 7:07=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
->
-> Yeah, this is a good idea. I am Ok with that. Alex/Miguel, you're Ok with=
- this too?
->
-> If all in agreement, I can make this change for next revision.
+On Fri Jan 30, 2026 at 3:24 PM CET, Alice Ryhl wrote:
+> +/// Represents that a given GEM object has at least one mapping on this =
+[`GpuVm`] instance.
+> +///
+> +/// Does not assume that GEM lock is held.
+> +#[repr(C)]
+> +#[pin_data]
+> +pub struct GpuVmBo<T: DriverGpuVm> {
+> +    #[pin]
+> +    inner: Opaque<bindings::drm_gpuvm_bo>,
+> +    #[pin]
+> +    data: T::VmBoData,
+> +}
+> +
+> +impl<T: DriverGpuVm> GpuVmBo<T> {
+> +    pub(super) const ALLOC_FN: Option<unsafe extern "C" fn() -> *mut bin=
+dings::drm_gpuvm_bo> =3D {
+> +        use core::alloc::Layout;
+> +        let base =3D Layout::new::<bindings::drm_gpuvm_bo>();
+> +        let rust =3D Layout::new::<Self>();
+> +        assert!(base.size() <=3D rust.size());
+> +        if base.size() !=3D rust.size() || base.align() !=3D rust.align(=
+) {
+> +            Some(Self::vm_bo_alloc)
+> +        } else {
+> +            // This causes GPUVM to allocate a `GpuVmBo<T>` with `kzallo=
+c(sizeof(drm_gpuvm_bo))`.
+> +            None
 
-It would be very good to get you guys (and NVIDIA) more involved in
-general, so thank you! :) -- (and Danilo for proposing it)
+So, if T::VmBoData is a ZST *and* needs drop, we may end up allocating on t=
+he C
+side and freeing on the Rust side.
 
-Do you want that I set up a branch for that like `rust-ffi`? It is
-usually what we are doing lately for things like this, and slowly
-splitting things into more pieces. I see you both have already sent in
-the past a few GIT PULLs etc., so possibly this is not that
-interesting for you, but we can still do it.
+I assume this is intentional and there is nothing wrong with it, but withou=
+t a
+comment it might be a bit subtle.
 
-Cheers,
-Miguel
+Another subtlety is that vm_bo_free() and vm_bo_alloc() assume that inner i=
+s
+always the first member. I'd probably add a brief comment why this even has=
+ to
+be the case, i.e. vm_bo_alloc() does not return *mut c_void, but *mut
+bindings::drm_gpuvm_bo.
+
+> +        }
+> +    };
+> +
+> +    pub(super) const FREE_FN: Option<unsafe extern "C" fn(*mut bindings:=
+:drm_gpuvm_bo)> =3D {
+> +        if core::mem::needs_drop::<Self>() {
+> +            Some(Self::vm_bo_free)
+> +        } else {
+> +            // This causes GPUVM to free a `GpuVmBo<T>` with `kfree`.
+> +            None
+> +        }
+> +    };
+> +
+> +    /// Custom function for allocating a `drm_gpuvm_bo`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Always safe to call.
+> +    unsafe extern "C" fn vm_bo_alloc() -> *mut bindings::drm_gpuvm_bo {
+> +        KBox::<Self>::new_uninit(GFP_KERNEL | __GFP_ZERO)
+> +            .map(KBox::into_raw)
+> +            .unwrap_or(ptr::null_mut())
+> +            .cast()
+> +    }
+> +
+> +    /// Custom function for freeing a `drm_gpuvm_bo`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The pointer must have been allocated with [`GpuVmBo::ALLOC_FN`],=
+ and must not be used after
+> +    /// this call.
+> +    unsafe extern "C" fn vm_bo_free(ptr: *mut bindings::drm_gpuvm_bo) {
+> +        // SAFETY:
+> +        // * The ptr was allocated from kmalloc with the layout of `GpuV=
+mBo<T>`.
+> +        // * `ptr->inner` has no destructor.
+> +        // * `ptr->data` contains a valid `T::VmBoData` that we can drop=
+.
+> +        drop(unsafe { KBox::<Self>::from_raw(ptr.cast()) });
+> +    }
+> +
+> +    /// Access this [`GpuVmBo`] from a raw pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// For the duration of `'a`, the pointer must reference a valid `dr=
+m_gpuvm_bo` associated with
+> +    /// a [`GpuVm<T>`].
+> +    #[inline]
+> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::drm_gpuvm_bo) -> &'a =
+Self {
+
+I think this a good candidate for crate private, as we don't want drivers t=
+o use
+this, but still use it in other DRM core modules.
+
+> +        // SAFETY: `drm_gpuvm_bo` is first field and `repr(C)`.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> +
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+
+Less important, but probably also only needed in core DRM code.
+
+> +        self.inner.get()
+> +    }
+> +
+> +    /// The [`GpuVm`] that this GEM object is mapped in.
+> +    #[inline]
+> +    pub fn gpuvm(&self) -> &GpuVm<T> {
+> +        // SAFETY: The `obj` pointer is guaranteed to be valid.
+> +        unsafe { GpuVm::<T>::from_raw((*self.inner.get()).vm) }
+> +    }
+> +
+> +    /// The [`drm_gem_object`](crate::gem::Object) for these mappings.
+> +    #[inline]
+> +    pub fn obj(&self) -> &T::Object {
+> +        // SAFETY: The `obj` pointer is guaranteed to be valid.
+> +        unsafe { <T::Object as IntoGEMObject>::from_raw((*self.inner.get=
+()).obj) }
+> +    }
+> +
+> +    /// The driver data with this buffer object.
+> +    #[inline]
+> +    pub fn data(&self) -> &T::VmBoData {
+> +        &self.data
+> +    }
+> +}
+> +
+> +/// A pre-allocated [`GpuVmBo`] object.
+> +///
+> +/// # Invariants
+> +///
+> +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData`, has =
+a refcount of one, and is
+> +/// absent from any gem, extobj, or evict lists.
+> +pub(super) struct GpuVmBoAlloc<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+> +
+> +impl<T: DriverGpuVm> GpuVmBoAlloc<T> {
+> +    /// Create a new pre-allocated [`GpuVmBo`].
+> +    ///
+> +    /// It's intentional that the initializer is infallible because `drm=
+_gpuvm_bo_put` will call
+> +    /// drop on the data, so we don't have a way to free it when the dat=
+a is missing.
+> +    #[inline]
+> +    pub(super) fn new(
+> +        gpuvm: &GpuVm<T>,
+> +        gem: &T::Object,
+> +        value: impl PinInit<T::VmBoData>,
+> +    ) -> Result<GpuVmBoAlloc<T>, AllocError> {
+> +        // CAST: `GpuVmBoAlloc::vm_bo_alloc` ensures that this memory wa=
+s allocated with the layout
+> +        // of `GpuVmBo<T>`. The type is repr(C), so `container_of` is no=
+t required.
+> +        // SAFETY: The provided gpuvm and gem ptrs are valid for the dur=
+ation of this call.
+> +        let raw_ptr =3D unsafe {
+> +            bindings::drm_gpuvm_bo_create(gpuvm.as_raw(), gem.as_raw()).=
+cast::<GpuVmBo<T>>()
+> +        };
+> +        let ptr =3D NonNull::new(raw_ptr).ok_or(AllocError)?;
+> +        // SAFETY: `ptr->data` is a valid pinned location.
+> +        let Ok(()) =3D unsafe { value.__pinned_init(&raw mut (*raw_ptr).=
+data) };
+> +        // INVARIANTS: We just created the vm_bo so it's absent from lis=
+ts, and the data is valid
+> +        // as we just initialized it.
+> +        Ok(GpuVmBoAlloc(ptr))
+> +    }
+> +
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub(super) fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        // SAFETY: The pointer references a valid `drm_gpuvm_bo`.
+> +        unsafe { (*self.0.as_ptr()).inner.get() }
+> +    }
+> +
+> +    /// Look up whether there is an existing [`GpuVmBo`] for this gem ob=
+ject.
+> +    #[inline]
+> +    pub(super) fn obtain(self) -> GpuVmBoRegistered<T> {
+> +        let me =3D ManuallyDrop::new(self);
+> +        // SAFETY: Valid `drm_gpuvm_bo` not already in the lists.
+> +        let ptr =3D unsafe { bindings::drm_gpuvm_bo_obtain_prealloc(me.a=
+s_raw()) };
+> +
+> +        // Add the vm_bo to the extobj list if it's an external object, =
+and if the vm_bo does not
+> +        // already exist. (If we are using an existing vm_bo, it's alrea=
+dy in the extobj list.)
+> +        if ptr::eq(ptr, me.as_raw()) && me.gpuvm().is_extobj(me.obj()) {
+> +            let resv_lock =3D me.gpuvm().raw_resv();
+> +            // SAFETY: The GPUVM is still alive, so its resv lock is too=
+.
+> +            unsafe { bindings::dma_resv_lock(resv_lock, ptr::null_mut())=
+ };
+
+Maybe add a TODO to replace this with a proper lock guard once available?
+
+> +            // SAFETY: We hold the GPUVMs resv lock.
+> +            unsafe { bindings::drm_gpuvm_bo_extobj_add(ptr) };
+> +            // SAFETY: We took the lock, so we can unlock it.
+> +            unsafe { bindings::dma_resv_unlock(resv_lock) };
+> +        }
+> +
+> +        // INVARIANTS: Valid `drm_gpuvm_bo` in the GEM list.
+> +        // SAFETY: `drm_gpuvm_bo_obtain_prealloc` always returns a non-n=
+ull ptr
+> +        GpuVmBoRegistered(unsafe { NonNull::new_unchecked(ptr.cast()) })
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Deref for GpuVmBoAlloc<T> {
+> +    type Target =3D GpuVmBo<T>;
+> +    #[inline]
+> +    fn deref(&self) -> &GpuVmBo<T> {
+> +        // SAFETY: By the type invariants we may deref while `Self` exis=
+ts.
+> +        unsafe { self.0.as_ref() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Drop for GpuVmBoAlloc<T> {
+> +    #[inline]
+> +    fn drop(&mut self) {
+> +        // TODO: Call drm_gpuvm_bo_destroy_not_in_lists() directly.
+> +        // SAFETY: It's safe to perform a deferred put in any context.
+> +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) };
+> +    }
+> +}
+> +
+> +/// A [`GpuVmBo`] object in the GEM list.
+> +///
+> +/// # Invariants
+> +///
+> +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` and i=
+s present in the gem list.
+> +pub struct GpuVmBoRegistered<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+
+I know that I proposed to rename this from GpuVmBoResident to GpuVmBoRegist=
+ered
+in a drive-by comment on v3.
+
+But now that I have a closer look, I think it would be nice to just have Gp=
+uVmBo
+being the registered one and GpuVmBoAlloc being the pre-allocated one.
+
+As it is currently, I think it is bad to ever present a &GpuVmBo to a drive=
+r
+because it implies that we don't know whether it is a pre-allocated one or =
+a
+"normal", registered one. But we do always know.
+
+For instance, in patch 6 we give out &'op GpuVmBo<T>, but it actually carri=
+es
+the invariant of being registered.
+
+Of course, we could fix this by giving out a &'op GpuVmBoRegistered<T> inst=
+ead,
+but it would be nice to not have drivers be in touch with a type that can b=
+e one
+or the other.
+
+I know that the current GpuVmBo<T> also serves the purpose of storing commo=
+n
+code. Maybe we can make it private, call it GpuVmBoInner<T> and have inline
+forwarding methods for GpuVmBo<T> and GpuVmBoAlloc<T>. This is slightly mor=
+e
+overhead in this implementation due to the forwarding methods, but less
+ambiguity for drivers, which I think is more important.
+
+> +impl<T: DriverGpuVm> GpuVmBoRegistered<T> {
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        // SAFETY: The pointer references a valid `drm_gpuvm_bo`.
+> +        unsafe { (*self.0.as_ptr()).inner.get() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Deref for GpuVmBoRegistered<T> {
+> +    type Target =3D GpuVmBo<T>;
+> +    #[inline]
+> +    fn deref(&self) -> &GpuVmBo<T> {
+> +        // SAFETY: By the type invariants we may deref while `Self` exis=
+ts.
+> +        unsafe { self.0.as_ref() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Drop for GpuVmBoRegistered<T> {
+> +    #[inline]
+> +    fn drop(&mut self) {
+> +        // SAFETY: It's safe to perform a deferred put in any context.
+> +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) };
+> +    }
+> +}
