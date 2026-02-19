@@ -2,66 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id HCqaHeCIlmkUhAIAu9opvQ
+	id 4GXhFEmMlmn+hAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 04:52:00 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:06:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E4415BEA8
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 04:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B0115BFBB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B6C10E66C;
-	Thu, 19 Feb 2026 03:51:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="La4X65W6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1B2C10E673;
+	Thu, 19 Feb 2026 04:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F404810E66C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 03:51:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A925543EDD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 03:51:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59364C4CEF7
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 03:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771473115;
- bh=X46UpLW2j+eyZ6ykAjkS0HlxNYklVA+kQjtmNdaEaUs=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=La4X65W6UQ6ne9cUU6H55pRNgKhI5jBhi55Zj0Ym0G63aaG+rrIMo/D211v1/gLha
- H1GXM+6YGhdTVtrs8FjDryYB/hPmC3HSasw/WgjAlLxjduM+XY2FBOyA8nWrYEwmoT
- 2ljArH4oOzoRAexxb2BYaijdTPgf0FWEhq1z9z4XXTMC0d8LT92P5/CJeEuQld9kit
- 7Go88e/N5TRnEQveqS6MN+1MUl2EXFGXs/aGgjxSrQg66MBh7EhtuJBBFi9YfkEETc
- 1Lca7nwdZ7ObS3+3uGPzD2SpnPG1wn5ncXtSs/byesyvzCbooNxyQQayxh0T49Mh7t
- tatYqoBVncgcA==
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-38710d7d8baso3741071fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Feb 2026 19:51:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWsgSTb5FktaG1dVpgZDJ2kbnfDmY918yM7ZSaZOWoBoznOmgMY5Ef+t1OMuE+RsLXNXGW+7UA6vw0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRx99zzrlYc5umLF4A+J6zAuprRdYJ3lVFN+/qb8PrmIz0YsF5
- mwzxsSld/hTaJZ9VGQeFsbuRBjPzjfgGWiMJrfFbadl/RgPjU+TXa5Vn//FKd9AF7GnNTvuT4uT
- wMIQj0L7bmqi/XAfJhgIsO/7KOjcgmeM=
-X-Received: by 2002:a05:651c:e17:b0:386:4776:2a04 with SMTP id
- 38308e7fff4ca-3881b8da106mr46506631fa.16.1771473113628; Wed, 18 Feb 2026
- 19:51:53 -0800 (PST)
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A6210E672;
+ Thu, 19 Feb 2026 04:06:28 +0000 (UTC)
+Received: from [IPV6:2400:2410:b120:f200:a1f3:73da:3a04:160d] (unknown
+ [IPv6:2400:2410:b120:f200:a1f3:73da:3a04:160d])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by psionic.psi5.com (Postfix) with ESMTPSA id E296A3F1F5;
+ Thu, 19 Feb 2026 05:06:24 +0100 (CET)
+Message-ID: <9f297568-5616-40b6-b401-df1af57d5e14@hogyros.de>
+Date: Thu, 19 Feb 2026 13:06:22 +0900
 MIME-Version: 1.0
-References: <20260218183454.7881-1-jernej.skrabec@gmail.com>
-In-Reply-To: <20260218183454.7881-1-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 19 Feb 2026 11:51:41 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64Y0G1UFRJCue+x107WDj_9Nk0cXuMp3AV4yTKW7QbFsA@mail.gmail.com>
-X-Gm-Features: AaiRm531971J2FLwKv3FM0ppn6z4yZUtNAfD_zMfFtAHtrup-P3e9dbLMfVsCt8
-Message-ID: <CAGb2v64Y0G1UFRJCue+x107WDj_9Nk0cXuMp3AV4yTKW7QbFsA@mail.gmail.com>
-Subject: Re: [PATCH] drm/sun4i: mixer: Fix layer init code
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Bridges without VGA support
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20260218175111.GA3434382@bhelgaas>
+Content-Language: en-US
+From: Simon Richter <Simon.Richter@hogyros.de>
+In-Reply-To: <20260218175111.GA3434382@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,64 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:samuel@sholland.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,sholland.org,lists.freedesktop.org,lists.infradead.org,lists.linux.dev,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: E0E4415BEA8
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_THREE(0.00)[3];
+	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[hogyros.de];
+	RCVD_TLS_LAST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
+	RCPT_COUNT_THREE(0.00)[4]
+X-Rspamd-Queue-Id: D4B0115BFBB
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 2:35=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> Code refactoring dropped extra NULL sentinel entry at the end of the drm
-> planes array.
->
-> Add it back.
->
-> Reported-by: Chen-Yu Tsai <wens@kernel.org>
-> Closes: https://lore.kernel.org/linux-sunxi/CAGb2v65wY2pF6sR+0JgnpLa4ysvj=
-ght5hAKDa1RUyo=3DzEKXreg@mail.gmail.com/
-> Fixes: 5fd711adc0ba ("drm/sun4i: layer: move num of planes calc out of la=
-yer code")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
+Hi Bjorn,
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+On 2/19/26 2:51 AM, Bjorn Helgaas wrote:
+
+> I'm not sure if you also fixed the kernel test robot warnings
+> (https://lore.kernel.org/all/202602180912.N7IZbIal-lkp@intel.com,
+> https://lore.kernel.org/all/202602181332.NDKD0g1P-lkp@intel.com).
+
+I think I did, but the () are still missing, will do another round.
+
+> I assume this series fixes some problem where VGA isn't enabled
+> correctly in some topology?  It wasn't obvious to me from the commit
+> logs, but it would be good to include that if so.
+
+It's the missing error handling if VGA cannot be enabled because a 
+bridge on the way doesn't support VGA forwarding and hardwires the VGA 
+bit to zero.
+
+The i915 driver has a workaround for two internal state machines that go 
+out of sync when voltage regulators are reprogrammed, so it needs to 
+perform a few VGA accesses on initialization, or there is a risk of a 
+bus error later when control is returned to vgacon.
+
+This isn't a concern if VGA accesses *never* work, so we can simply skip 
+it in this case, but we need to know that there was an error.
+
+The i915 counterpart to this is
+
+     https://patchwork.freedesktop.org/series/161721/
+
+which changes code introduced in December, so if the pci/vgaarb patches 
+are backported, that one also needs to be backported manually.
+
+That's what the __must_check are for, the warnings they generate go away 
+when the i915 patch is applied, so it probably makes sense to do that first.
+
+So, for v3:
+
+  - expand commit messages with the text above
+  - recheck commit message style
+
+Does it make sense to Cc stable on these?
+
+    Simon
