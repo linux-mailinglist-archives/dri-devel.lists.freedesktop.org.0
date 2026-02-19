@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iDo4AH6Tl2mL1AIAu9opvQ
+	id yEK1Ett6l2m6zAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 23:49:34 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:04:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67294163600
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 23:49:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94D81628A2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8456B10E33E;
-	Thu, 19 Feb 2026 22:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4AC810E74F;
+	Thu, 19 Feb 2026 21:04:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dXOkDEQY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EWoneLC1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B75C710E33E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 22:49:30 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-8c70ab3b5fcso200425785a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 14:49:30 -0800 (PST)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A88610E74F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 21:04:23 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-8cb3b3e643dso91626485a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 13:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771541370; x=1772146170; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771535062; x=1772139862; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MfQfBaf9AAlms3smQ5+Ri25UHHgHjEr008f22TiaTqo=;
- b=dXOkDEQYFz58jSHQYHjARiUZfoDkl13fOp2bci/no4gvg+sAK7STlRZ4UKeH8AECob
- ZxlTXtctoI86IEzP89MF/BAdfks9lIMhxa+Ql5LWbW96eaG6jPOvCFYTV2ROw0IQnzCy
- V3kkydBW/dKvO+m0iIrhK29sx56B3jzZvQ1GZsoOBZhnI4c1aVVWnmo1UnmQNHIUafFp
- osP9vr6cnkI9IDAefsreS1ryFCvd7EehQpXe4EpJNfgvO7iXQwuosdQEs83XukJW67JJ
- c7CdPGNBaCbM5Ug+MCw7svSMqu1/Zp1UImit/YVWPj6uBpbWXJ4O6baEKpM+98OcEy7U
- eahA==
+ bh=Gnop4z34aVye00gIQguUoewYT5lM9SytbUgSGtePF4w=;
+ b=EWoneLC10atKHe3Z4r8cewlvbG50MBANc2BpVjH2vnbtUcRZ/kIoUQ2UuqQWkBuiP7
+ ZwiOYnWR5BuMg3X36O0+JSGWxVI5NOF6HSXED8zWEa7alClmOadfV6MdxGB8c+/JeuKR
+ ULUJh9S5wf+J7rYqYpyI23CN9pC5OlU7KdjtjXA2ewUMbTdaXd/NLvqf8gJPVQal6lYa
+ +Lqlj/hRHg/qXsz0n76TD5x8Fp6sXA1WfWap134MA1ZG1PBLg/iYh5OiGP44HX+3XGt3
+ 3GDGdUWLSKn6Lg695kiKrFWalr++86jq+R7hMund4VvAvA1xjRRfsFFu1jyCuhbKrss2
+ 172A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771541370; x=1772146170;
+ d=1e100.net; s=20230601; t=1771535062; x=1772139862;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=MfQfBaf9AAlms3smQ5+Ri25UHHgHjEr008f22TiaTqo=;
- b=nxQJorNtzY9Ckt57TzllMYw7oYsJ1SNjUMZB++LcRrWMBsGPDh1+LQwkuI2Xe1rcc4
- j9OSMQXDfB/MGbUGX3ZNkrSmy60lFB4ZQP6NtMqShcFFNqeRP68s7no9O+OL4h0sQpjk
- Zd0d+JL3aK+3KwOackM4+RlRDieLmau3VjQ6nMgsBiiuAwsuyp3omTNfIx3/pgHIp0AU
- Sd4a4WIpPrh3g9niS5eO3603h0Jpd+kJ+dfXAl04tYJSHvkMwBzDWJ5YqsXRgBZJ76/7
- 7sehbNnE4cLny9dUxFMyFR8XHAyvTGSuUs5um2eeiurq5xNXJCwtvo/T/nEjRcRnsvP8
- ZXrg==
+ bh=Gnop4z34aVye00gIQguUoewYT5lM9SytbUgSGtePF4w=;
+ b=a5UnlLsSK3E3zc4N2TqC+cPL2FKt81SYK7CsGKOn+oNsNQE2/ZMV6WdNalaXzu5Sen
+ kFYI8sOwVQCAA5nQ7ImMvnQXe2hHNpHJWoEHxkaV0cd9q/saGS4pHp7c1pb1Ltup/yUG
+ Z12y6dpgU3+xtJX+OANWoiepcFj57yXu+bVrfX0kbPrxeoefLdnYRtSzfcDHVvHp1HGB
+ RI9RtgUrK3SIrV/Wg+8Nkf7UbmPC4LkdULBNkyCo2/rZ5R2xJqSwSku3gKjA9ssCEW1M
+ r/1fSsKQ5Y3xIFKlrPzk7dYYp8UfCICbD6X+aA5Ju46nlMsnzOKFU6A5T9g2KmpHeGnb
+ Mxfg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmKL/CKU8FMvY5HvWqYNtuKtIsueuZV7gu/A6fyxbZe5ysWgd8YAnJfmMz1pDEjDSCSxzsJwjf8A0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzx4+ZkjYdIx2W9AdzC/zvfooqB7aOMw7jAA3kxlQbjyTd4XSZG
- 84YYojZTFU3wjw24VzJoppxIIgGUzcCj70m3M21IXgK690+e4Tb090Bc
-X-Gm-Gg: AZuq6aIqQJfLsFMKAjRLHWVVUBMJUX1bXKgzb0pdZA2tbzsM+imSpMakoOl/5AdNPqc
- kBUDlUmd+5+xpgqTpmtmEIucJu11G0Ks4AK0fjAuzLZVFuqXpHLwimaXY843+yN7jjvrzeD5+aa
- TMFVbuX+xI2JLKu4vXumhK+YoluTf4wZP57Espi2FPA3WkbYZnmffltnX5NdJb5NAh8GpJ+kS/P
- Q8wHA1YnkLp2PWhiHa4Tcbk3oAznp//zRCqo0zFsHc3WcI48o7XGiC0GJkwLp/SZB6sLFafZko9
- YG3gha12BNQALwPKLYOzrA7sBWA+dB+Dv7wH/JegtYB29PKbtz6kq8WNHwfkrybSdSE4Q5BwCcB
- WAjiC/zebOreGqjWdi+gkUyeAyFbuA8eYR1Bz5BcO4HrM4q8I4ZtT/YDVMaP4e4jLGNmCvnHu0w
- Lrm+ncGgbF6ndEUQWZGoqgY69tLsevzv3wnHhYNA8N2El/lSe7O1SkKGyDMnxrKe6u3U1ZJWnoK
- kilojVUe4E=
-X-Received: by 2002:a05:622a:613:b0:4f1:d85c:d7c3 with SMTP id
- d75a77b69052e-506b4020b97mr249828281cf.66.1771535059258; 
- Thu, 19 Feb 2026 13:04:19 -0800 (PST)
+ AJvYcCUk1HFyP6sAV05SeHBJJzdopfZdPk+Hk/BslJUFGnjGTyIntJupuTVvHLBTPN5EYbFsw3Q1uZBkoKU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUJDzbXuYnVktOTb2TQpBwUBPG4sY+sRv5qrq+pRvJ+zWSO/hj
+ pBsCPqG1Kyk4BgtUu9KnKUB5+/L+SDlrHzWdQwQkVEjSZuNjxmM7MQrK
+X-Gm-Gg: AZuq6aLGS0s659fBvkVd2NNM/CGDguQGtbKMeiAbepIJdWxmmgvnLluLuM3+FTcghjo
+ a/AM6wYd3zcFwUiRVRd4rZR5/GzKOUxVOWdeyXDHNq+ebVEfWIGYN+YPJYbmVaaeRXcDAl/TGbV
+ j//S1GMHnw2WVbi2Os7XuvC8Xky8fXXJEgMP9SOayvQW4s08ygkP/Gl+NHo1+l7jRYGoTJzJtqg
+ gHqQWfYSSaaU0rmKV9jnILwbxzM1woPNo+rgpGN+ENcZTr2cRDlDQczGa9XdN+BvlXO3q7VzLS0
+ Dl4/9qt0EkB46fjQDexqkmHngJ3fe5lKruHBEobGX2uWK9fWS6WMKyVfYvT2Bp2wh1+NSFNuCz8
+ No3XF7nxn90Ya7uKbjKKTxcgsOEiowGRfKJtPSF6dIEZxv2LBEojUsb2R+XiZFm+RytRVwPaowC
+ NeA6ts50PDYVDAjBRsoU+Dd4ciTrxgscL9NdtteHytN6ht9Ker7/2WD9Nwu0G/SyANpt0+YBen6
+ N6EN909PTg=
+X-Received: by 2002:ac8:7d55:0:b0:502:9e5b:2d83 with SMTP id
+ d75a77b69052e-506e9264731mr79699451cf.75.1771535062155; 
+ Thu, 19 Feb 2026 13:04:22 -0800 (PST)
 Received: from mighty.stonybrook.edu (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-506b275d59fsm153971511cf.32.2026.02.19.13.04.17
+ d75a77b69052e-506b275d59fsm153971511cf.32.2026.02.19.13.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Feb 2026 13:04:18 -0800 (PST)
+ Thu, 19 Feb 2026 13:04:21 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
  conor+dt@kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
@@ -79,10 +79,11 @@ To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
  thierry.reding@gmail.com, tony@atomide.com, tzimmermann@suse.de,
  andrzej.hajda@intel.com, bavishimithil@gmail.com
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: [PATCH v6 1/8] ARM: dts: twl6032: Add DTS file for TWL6032 PMIC
-Date: Thu, 19 Feb 2026 16:04:00 -0500
-Message-ID: <20260219210408.5451-2-bavishimithil@gmail.com>
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v6 2/8] dt-bindings: vendor-prefixes: Add Doestek
+Date: Thu, 19 Feb 2026 16:04:01 -0500
+Message-ID: <20260219210408.5451-3-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219210408.5451-1-bavishimithil@gmail.com>
 References: <20260219210408.5451-1-bavishimithil@gmail.com>
@@ -117,140 +118,52 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:andreas@kemnade.info,m:conor+dt@kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jesszhan0024@gmail.com,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:bavishimithil@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:andreas@kemnade.info,m:conor+dt@kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jesszhan0024@gmail.com,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:bavishimithil@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_TO(0.00)[iki.fi,gmail.com,kemnade.info,kernel.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,bp.renesas.com,ffwll.ch,atomide.com,suse.de,intel.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[27];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.48:email,ti.com:url]
-X-Rspamd-Queue-Id: 67294163600
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A94D81628A2
 X-Rspamd-Action: no action
 
-Add a dedicated DTS file for the TWL6032 PMIC (Phoenix Lite). Already
-has driver support with TWL6030 (Phoenix) since both of them are so
-similar, some nodes can be reused from TWL6030 as well
-
-This can be included in the board files like twl6030
-Example:
-...
-&i2c1 {
-    twl: twl@48 {
-        reg = <0x48>;
-        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-        interrupt-controller;
-        interrupt-parent = <&gic>;
-    };
-};
-
-/include/ "twl6032.dtsi"
-...
-
-Used in devices like samsung-espresso, amazon-jem, epson-embt2ws etc
+Add vendor prefix for Doestek Co., Ltd.
+Link: http://www.doestek.co.kr/
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm/boot/dts/ti/omap/twl6032.dtsi | 77 ++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 arch/arm/boot/dts/ti/omap/twl6032.dtsi
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/ti/omap/twl6032.dtsi b/arch/arm/boot/dts/ti/omap/twl6032.dtsi
-new file mode 100644
-index 000000000..d599a2ca6
---- /dev/null
-+++ b/arch/arm/boot/dts/ti/omap/twl6032.dtsi
-@@ -0,0 +1,77 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Integrated Power Management Chip
-+ * https://www.ti.com/lit/ds/symlink/twl6032.pdf
-+ */
-+
-+&twl {
-+	compatible = "ti,twl6032";
-+	interrupt-controller;
-+	#interrupt-cells = <1>;
-+
-+	rtc {
-+		compatible = "ti,twl4030-rtc";
-+		interrupts = <11>;
-+	};
-+
-+	vio: regulator-vio {
-+		compatible = "ti,twl6032-vio";
-+	};
-+
-+	ldo1: regulator-ldo1 {
-+		compatible = "ti,twl6032-ldo1";
-+	};
-+
-+	ldo2: regulator-ldo2 {
-+		compatible = "ti,twl6032-ldo2";
-+	};
-+
-+	ldo3: regulator-ldo3 {
-+		compatible = "ti,twl6032-ldo3";
-+	};
-+
-+	ldo4: regulator-ldo4 {
-+		compatible = "ti,twl6032-ldo4";
-+	};
-+
-+	ldo5: regulator-ldo5 {
-+		compatible = "ti,twl6032-ldo5";
-+	};
-+
-+	ldo6: regulator-ldo6 {
-+		compatible = "ti,twl6032-ldo6";
-+	};
-+
-+	ldoln: regulator-ldoln {
-+		compatible = "ti,twl6032-ldoln";
-+	};
-+
-+	ldousb: regulator-ldousb {
-+		compatible = "ti,twl6032-ldousb";
-+	};
-+
-+	smps4: regulator-smps4 {
-+		compatible = "ti,twl6032-smps4";
-+	};
-+
-+	gpadc: gpadc {
-+		compatible = "ti,twl6032-gpadc";
-+		interrupts = <3>;
-+		#io-channel-cells = <1>;
-+	};
-+
-+	twl_usb_comparator: usb-comparator {
-+		compatible = "ti,twl6030-usb";
-+		interrupts = <4>, <10>;
-+	};
-+
-+	twl_pwm: pwm {
-+		compatible = "ti,twl6030-pwm";
-+		#pwm-cells = <2>;
-+	};
-+
-+	twl_pwmled: pwmled {
-+		compatible = "ti,twl6030-pwmled";
-+		#pwm-cells = <2>;
-+	};
-+};
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index c7591b2ae..70a195fc6 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -437,6 +437,8 @@ patternProperties:
+     description: D-Link Corporation
+   "^dmo,.*":
+     description: Data Modul AG
++  "^doestek,.*":
++    description: Doestek Co., Ltd.
+   "^domintech,.*":
+     description: Domintech Co., Ltd.
+   "^dongwoon,.*":
 -- 
 2.43.0
 
