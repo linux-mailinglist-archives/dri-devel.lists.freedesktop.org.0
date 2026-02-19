@@ -2,175 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AEDPNhWRlmlrhgIAu9opvQ
+	id exjQF6GWlmlXhwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:27:01 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:50:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5325715C02F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A229015C0E6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 05:50:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6048410E678;
-	Thu, 19 Feb 2026 04:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D9A10E067;
+	Thu, 19 Feb 2026 04:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="fEszf6t7";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="kcP4+gNS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010053.outbound.protection.outlook.com [52.101.85.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707BE10E67E;
- Thu, 19 Feb 2026 04:26:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K0BftYT9PLrnmC3xMn4g9IupH0BWFE+0ELq2Frd9XD3p/g08VU7u0AZ2oCkbWEasJ5s2my/5iG0yN78zT4v2ibRB9VEQbxJQ5k8wr1MgRTnLRucetGXYAwNtBHVK6VaEuaDf3V+vdnsTUtuQZnH0gt84cutwsYyFrheHHDadlfMDb/A0fejncZkPSrUMs/EM5S5j9aMS5ZuWJBGCrtUOAcQaw9+/UbvCGNAs6sJ6kDNoLg+2r/3oxd0bymBG6s6sp2kdvmyoMS/ez9aI8ryMQyjjJEpkwgxIU7UQAzqjjmogdnrJxM0R0foxALUiIL2HPwJoPL/jjNTZnzKsYbtyaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6h2+pwjgAQ7fUWxPxkbxcft7BOYRMTTyJf9myfZAzsE=;
- b=W1ihW/He1yKzppfoJCygGVyuwGCJ2gZNQcKHX5HnT/DztFepld9nfG7rLyJjVcerr+Z3EeXXGiEfj7oC7R33WToSzB/9ncH+MJxtEMrO3np0HlhvI+IkhblV9U8i9G4WN49q+8tcF7z9P3w8GwvKo8me+KYp+0MlaruOgKqI9qku/6ytO5+gDDFZsElAO2xR+EKpr9ePZBqreV7vyOjmLuMYVke1Uqw27dUBgWlqu6x2F/CHxn77eVTSxhKoW+BAJ5cISzfuAqi4zsaai6urLqLK5LFzSpBIE5kj9PJo1y9mQCDeORGu6pAQk9HlT78l522wJ+lUx+fBpVJpaFJT3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6h2+pwjgAQ7fUWxPxkbxcft7BOYRMTTyJf9myfZAzsE=;
- b=fEszf6t7ji6UFv9M1J79Y57GlH/4uldkZb4NjzGI4b4UW9+OM9mo2FsJOEZW0a3DFxGI7nk7bePNF5l/6V5d2NEjQU0g+4WT6Uf6OWBDUnwMap9KoDZss+E9sfSjlZe08hujJBP9yshWcdfBIzVn+uicrhaP0ktruZgN6DpzCHn/G/Q9r16nNN7qG06nUKVKfU2d5rrkAoAq2RmB01yiwUXM8jIDkP71VeV57Or01HC1dhjyCUi/i/gJHM/8CiC76xJ4YUMdKZtWZR2pmbrGh3UYMT4nABQSHJGMhQytb/sJLCcYuJEVTiJuBjVaMghoJolr+hi+4L0t+0Blz/YLmQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CY8PR12MB8243.namprd12.prod.outlook.com (2603:10b6:930:78::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
- 2026 04:26:53 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%3]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 04:26:52 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Feb 2026 13:26:48 +0900
-Message-Id: <DGINJVYFSYU0.115RA9K7O8KGN@nvidia.com>
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Dave Airlie" <airlied@redhat.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
- Djukic" <ndjukic@nvidia.com>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
-In-Reply-To: <20260218205507.689429-6-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TY4PR01CA0047.jpnprd01.prod.outlook.com
- (2603:1096:405:372::7) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+X-Greylist: delayed 418 seconds by postgrey-1.36 at gabe;
+ Thu, 19 Feb 2026 04:50:33 UTC
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
+ [91.218.175.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8118110E067
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 04:50:33 +0000 (UTC)
+Message-ID: <7b4d9e08-122b-4c4b-868e-d48ec0f59dce@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1771476212;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MzIYd8Bu6oYmjdq1gkTQwThMj3+Mr0OUwvt9JYbMgDg=;
+ b=kcP4+gNSFzT9Ojfg+u/nAE86J7X1YCQaUm0MRgc4M1bbjaYv/sUhB2LoobSiDSzjlxTWYK
+ cq1k7BbKRZCoRq80TBaGDCvJFTcp1jqbhrIUqKDk6pGLptfmyFaHzocLljJ1A5I4KeSLFf
+ KYzXLrMumHfN0sB8IyBtf5Df95DLUeI=
+Date: Wed, 18 Feb 2026 20:43:26 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB8243:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64287a89-6bc3-4268-97f8-08de6f6f1b6d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|10070799003|376014|7416014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SGNVNnJ3aytBR00rM3NBYnV2OUNZZ1h4MENhTW94NFZXVFhwM2pSQ2pIdDNY?=
- =?utf-8?B?WkJxd29xU0xta1BLcDlETGVyZGpyZ1Rjd0FOSTd5bnlVTFZZTWplL1MyeU9a?=
- =?utf-8?B?WjhkKy9tR2NFYVBxWjdKL2hQUE9zRUg1OGVLaWVPZTV4Q056RmF5ZG04SzNB?=
- =?utf-8?B?NEUvVzNCSlVYREFIbnNWRWRjMmpWa09STVFiazR0QmlMQ3NFSStTVEhMY29O?=
- =?utf-8?B?L2x1VDZORHdLNTltazVtUG9LUUxqQUZsdXpXc3NHVkVab3ZBMFh1WWZDWDhO?=
- =?utf-8?B?N0NNTzlWMHJEaEJqNWJsejZqa0lVbHpOTU44WUFzQ28ySk1tb1d2a3N6cVZz?=
- =?utf-8?B?aDMzRE5rajltTllaaWk0WW0rbGxKbVhVRnFIWlFGRHFPbkR4eDdQR1VuUzls?=
- =?utf-8?B?STFqajdGMGVDQnAxQkphd0dKQ2RScDR4ZnhsemV2NzVCcWZoZm5yNFdKUkhq?=
- =?utf-8?B?N1VWTkpCWlhiejBKc3V0VG9Ub0c2MkduSlVBbCtMR091d1pHMFlrZzdGWEdm?=
- =?utf-8?B?Nm9aSmJSb1g1V2lpUHRLdUQ3YlNwTWZ0eUhXOXh1dStOdHVCMCtQMm9GQWJp?=
- =?utf-8?B?dVZNL2l1OEpRaFRKSThSSTFjd3RLellXTHduQ29Za0wvZjRkTWNIMEJ1eW15?=
- =?utf-8?B?TzdDekV1czluWFZ6YWRzaCtCcmV2blAyVFk3Q2JDcjJFd0NHemx4Y0k2NU1Q?=
- =?utf-8?B?U0I3RmNOVEZnZ2lCc2xrRGEycVZJK1h6OUNRbVJBNFN0YTloWW1rTm9MNWNa?=
- =?utf-8?B?N1JzRVVNK2Q5dVF3eVpVODd3YTJkS2pFSVVrVmpYcm03V0xYNlIrSEdFTCt6?=
- =?utf-8?B?SFlWWkppZWlERENSWFRTNmgyVmF0MFUwT0tIaytWYllTc1hna1Q5VEdyNUJI?=
- =?utf-8?B?alRJTTNNQVEyVDdzTW43SnJYaFZQQWViWEp0aGw0Q0xsNzZWRTdndHlOa0Jj?=
- =?utf-8?B?dTlNU1p2enJwS2JyREpDd3BZRFhRVVI1VGpEQWVlU3pKend2UzNReCs3QUU2?=
- =?utf-8?B?QW9wTXV3UmhhU3BJWGhNU0M1KzlrRDIvM1VCVlM3WlNpaVhXcmJoVFB1K094?=
- =?utf-8?B?Z2N3Tms2YzJRNEhUSmRYTkZqdlMrbkcyRjc1UmQxRElTOVhlcFkwK2JvK2lT?=
- =?utf-8?B?T3hBL2NpaGcyelo4eUFIZktRaW9IcFN6OFhybDI3dUplYVV1aHFqSm82dDVr?=
- =?utf-8?B?bU5naWVtM25HQ0FFWjlKY0s1L29RUEF2U1ByQks1TElNQXhKNXB4ZUZJdk1K?=
- =?utf-8?B?Yy9CTThXVHI4SWROMjhiZk15M1RGenVCZHhWV1FXOTdLbUtGQTBRMnBWWlJr?=
- =?utf-8?B?RWxDcnphSmFGZHVlR004Q1VrMXA1MW1DOUFXZmYwdEpWMm44TU5PUjZJaDNZ?=
- =?utf-8?B?UVdIRVlVOVJobm93enFPRXRJZ3FNclJVTUNxSzF4V1hFSlhBZHVQajluaWtx?=
- =?utf-8?B?MG1UWVBwUUhvb01sVXFCSTRYZDRlRUlqUXFmS3hIWGk3QkNma003ZzMycS9l?=
- =?utf-8?B?MTA4WXJtYmI3cFA3aWduTmVOMkdvS3F2U1NhN0FiWTVWUWRqWkpjMURVWVFv?=
- =?utf-8?B?SDM3MXBydWxnSUphRWlUZWhlRWZFKzA5eVFWWWFGRmVUOWZ1UVlEVHZ0d1NP?=
- =?utf-8?B?Sm82d3FRQlM2SnRvdisybmh0KzRUS3FYNnYwQUpybk43OU0zTFk3YmI1eU41?=
- =?utf-8?B?WUFkV1hxTnUvL0p4UjE3Z2VlcVIzUGpPbkN1S3Q3b2k3ZUgyRmRDcUxlRVJH?=
- =?utf-8?B?WGdjbjFuNm80dUZ6L1dUS25zb1RVSGVINWRKYlptQUJCZGNGTnpNQ1FJLzFi?=
- =?utf-8?B?WnhFblpYdmtIdHVTdWg3b04vM09KR2VieGVJNzF4bkFJdGxxb0xsUDNTWUFo?=
- =?utf-8?B?TVFFTGRNaFNkUzJjdE9FbFJuVGlkb21qSjZsRUo0eWhQRWRZTkM1WFhmSmZp?=
- =?utf-8?B?T3N2UzlWaEViakhpT1A0bk9wR0FjbWxscXAyZEFwQ2hwOG4vUFRiaWVuc0Rz?=
- =?utf-8?B?djRVNjlrdmtnMk43M3pydlI3dXhuTkJrSXhFQUxLUU1UQUVvTXlPayt1L2dU?=
- =?utf-8?B?akxUM1RTVTNXd21GTVJmL05rUmJhM01YZmJ2M1R2QnRzMjVTZmpTd1krWGNt?=
- =?utf-8?Q?3yA0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(10070799003)(376014)(7416014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDVKZTlHRnllMjU0SkNTMm5rQW5DTEZuNlc5bWtvNmtTQkdwTHRCQVJvdzNh?=
- =?utf-8?B?a3ZRdnYzd3N4b1NRVXdLd2U4bjJjQ2JlWWlmV0NnWFBPZExCamVmR2hpVHJy?=
- =?utf-8?B?NDhnS2wxRmdDVWVDSVhDck5KYVlsRWVVMkxLRXJpcjdrY3FZQk5BYlBva0da?=
- =?utf-8?B?SlJQblZsMTdDQ3FBZ0FsdUtGUVdaZE9lSk5xakNjQmt2Y1lKbFROZEJhdENX?=
- =?utf-8?B?NFdscU9henRRM1lvYU1vN1hzWW5QTDNUTGZrajdpcDczaFZ5TkJNQ3lqTDBx?=
- =?utf-8?B?RWVKN3FwR0Q1eCsyRU1NMUpkR2ZiNjdZZ2Fsek9rWndrMEhvQjdKK0R5bm1M?=
- =?utf-8?B?NWZBRmRhZWYzTytnaWhtYkg3bXJ6NzlhOHFwOWJPN0JzUWV4cm1FTWdZZWV2?=
- =?utf-8?B?eWJUN0o4enJ6dlFHamdJelJKaER3SkRNVFF4RTNWd2t2UCtYRVB0ZHE2OEd0?=
- =?utf-8?B?THhoelV0SGE1WmRqTnd2UGt3SllTUTM0NjZFSiswZnA1VjVSWm9hK3Z1MEFI?=
- =?utf-8?B?VUZld0t1cXpROUc0R0U2N2hucmpDdytqMytaekYzL3JFenhSRDUvRFA0SlZv?=
- =?utf-8?B?M3NTV2x6ZmR3M2I4K3hIaVVNTUZNVCtaNWFCT0R3NzhWaGxpM0JNcjZjTldm?=
- =?utf-8?B?UFJqczdYTzA1TmdXWFJNZUhsdlUvS09jaFNIbUZndnIzMXBZc1NBMWg5d1JQ?=
- =?utf-8?B?QmdkU2hLL3AvdTNzQk4wa3A3Y0VwQXhkRzh1NWgxMVQ4UlJObFI5ZXgrbkdE?=
- =?utf-8?B?VzN6SXBtNXJKdDFvSFkvTklVMnhMV1NpeURpZy9CVU1mcjJLbVJNMjZ4UlBq?=
- =?utf-8?B?b05yYnZMQ1dRUjhTa2NTdXZNNDNGbWc1TkVZaTY1WDFYMWZvSDFOZGQ0c1V4?=
- =?utf-8?B?YXoxUE53S09wT2U1ODA2Ymp5OVJhVUpwVU9PWjZGUUhFNnJ4bTdRdlF5TXZl?=
- =?utf-8?B?Z1htVW9oNjhkZ2J0TG15bFd4RFMrSWhVM3MyVHcycGRXVHVRUmk1K0VCNThy?=
- =?utf-8?B?bWovN0wxZFRpS1AxLzRFZ1A5V0xuVUxBOXRGMXdDdGh5VnhJTThYV0RhdWF5?=
- =?utf-8?B?Q3ZSYkJZSVhoZGZRUk54dDNVZkdmaEdhaTNtbEhEbUhRblhjcy9GME5tSFdm?=
- =?utf-8?B?OGE2UUlJbWdsT0ZrVHhTQVlFS3NnNFN4R0NUMmhLN3JDTjJVVkxQZk4xaEYr?=
- =?utf-8?B?d0FxdFBJdlRRaGcra3IwZE9CdjM4ZDNLZ2wxTlBYOEtRdERRRkIwTkFNcmN6?=
- =?utf-8?B?T1g4NDJ1UlRnODl1NjVyc21xcEt4MUF6eWlET1ZSd2JCYlExNHpVSkNsWUJY?=
- =?utf-8?B?amVGRk5TRFpTUFNodC9BQWNqL0Q2WVpBbFpZZE5yL3hST1R3ZEs0enBEdDI3?=
- =?utf-8?B?cVhMM2N6VFhRYlRyeGpoc0gvbXpjcThzckRuWnFKKzhCREROR2VVZlh4SHJ5?=
- =?utf-8?B?OU5jUDc1amZhSmhtZ1pBM0Q2S0N5b1BmZWdYendZRW5qQ043a1BFU3JEamJP?=
- =?utf-8?B?TGNsZVNRU3Y1eXJqQUlLNlRBRlVnM1duQ2FJbWwrbzVOK1NQQUlzeGtweDhR?=
- =?utf-8?B?dWUrMkJxWjVsM1NwQVBMMWdLTVZVYTArK0pMaWx0Qk9wYTlTU0d4ckZwTURE?=
- =?utf-8?B?K1VHRVZqVFNjSGIxS0NZSXVNTytyMjJrL0huUmZiQjdlaC8vUHJhWlA3UHJp?=
- =?utf-8?B?a3BYcnhhYXpCaGo4Z016Ykc1QzViRDdQSTAxNGJDbG1qc3dndnNRUnBDVnN2?=
- =?utf-8?B?UjQ0aytna2tRZHBleEw4ZG5HNFo1OVZSdWNyaCtHY1FtMmFrbFltMTRoaGxz?=
- =?utf-8?B?anJ2amNsUngwSkUyOC9vMEd1UUY4MkZIWWtRQ0hSMFBZc3kzODR4UVdwVGht?=
- =?utf-8?B?ak1zeTFJMENockFDU2ZxTGs2VWhUbXZGNFVBbm5ZVmJITzJRblFZbTgxaTZL?=
- =?utf-8?B?S29rdm1mL3lVVXBSVVcwSkhOclpvMUVFaTFlY3dIUCtSVGVxdnVkVkFNbDBJ?=
- =?utf-8?B?Z2hLWGtWc3VUZG5jK1o1NnJiSjkwczNwOHF5blV6WWN4YlMzbHFGT0pHdUFr?=
- =?utf-8?B?MmhkTHZYMjlLVWhkbEc0MEJhWlhmWGtIZ0dmZlhDdURuZHN5aEJieFZySzZp?=
- =?utf-8?B?Q2NrR2oxMW9TcTVGajMrcEpJRzlGV240TmJpeHBvemJ4YkJIZTNxdHc2OHM2?=
- =?utf-8?B?RkJxbHlzSkU2dmN6Z0FKSlpodUdKM2tRVHQrUm83VUNPNW90S1U0UCs0Y1lm?=
- =?utf-8?B?dC9ZVDhJQTlodW4yUEVQYnFXVkl5eUVXQy9WRmlXZVZxdFlKNndRQVEyZGhR?=
- =?utf-8?B?SXViZWZVaWpEWGVGYkFtR01VYWFDNW5CV3NaS1d6bVRvQTdJUE1vODdWVFI2?=
- =?utf-8?Q?MhidUJ029DqshX/BDvbBc+zcenpW7rlLg+8qJqoN8YGz0?=
-X-MS-Exchange-AntiSpam-MessageData-1: ssmvrRGPGiSOfQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64287a89-6bc3-4268-97f8-08de6f6f1b6d
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 04:26:52.8580 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ckH68MQN/gc+EUQl2VL5irib+osrepDEH+ptE/1EWhALAReNbALhoX0NWOXqF9XgPLvpKsCiUZZEZlDOl9NWqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8243
+Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+To: Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jianxin Xiong <jianxin.xiong@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+ etom@igel.co.jp
+References: <20211122110817.33319-1-mie@igel.co.jp>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20211122110817.33319-1-mie@igel.co.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,67 +71,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mie@igel.co.jp,m:zyjzyj2000@gmail.com,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:daniel.vetter@ffwll.ch,m:dledford@redhat.com,m:jgg@ziepe.ca,m:jianxin.xiong@intel.com,m:leon@kernel.org,m:maorg@nvidia.com,m:sean.hefty@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-rdma@vger.kernel.org,m:dhobsong@igel.co.jp,m:taki@igel.co.jp,m:etom@igel.co.jp,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com];
+	FREEMAIL_TO(0.00)[igel.co.jp,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_SENDER(0.00)[yanjun.zhu@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yanjun.zhu@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: 5325715C02F
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,spinics.net:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A229015C0E6
 X-Rspamd-Action: no action
 
-On Thu Feb 19, 2026 at 5:55 AM JST, Joel Fernandes wrote:
-<snip>
-> +use core::{
-> +    iter::FusedIterator,
-> +    marker::PhantomData, //
-> +};
-> +
-> +use crate::{
-> +    bindings,
-> +    types::Opaque, //
-> +};
-> +
-> +use pin_init::{
-> +    pin_data,
-> +    pin_init,
-> +    PinInit //
+在 2021/11/22 3:08, Shunsuke Mie 写道:
+> This patch series add a dma-buf support for rxe driver.
+> 
+> A dma-buf based memory registering has beed introduced to use the memory
+> region that lack of associated page structures (e.g. device memory and CMA
+> managed memory) [1]. However, to use the dma-buf based memory, each rdma
+> device drivers require add some implementation. The rxe driver has not
+> support yet.
+> 
+> [1] https://www.spinics.net/lists/linux-rdma/msg98592.html
+> 
+> To enable to use the dma-buf memory in rxe rdma device, add some changes
+> and implementation in this patch series.
+> 
+> This series consists of two patches. The first patch changes the IB core
+> to support for rdma drivers that has not dma device. The secound patch adds
+> the dma-buf support to rxe driver.
+> 
+Hi, Shunsuke Mie
 
-`rustfmt` fixed this to
+I was revisiting your 2021 proposal around dma-buf integration with RDMA 
+and the related discussions at the time.
 
-    PinInit, //
+As you know, dma-buf usage in RDMA-related workflows has gained more 
+traction recently, and we are seeing increasing interest in 
+heterogeneous memory and cross-device buffer sharing. Given the changes 
+in the ecosystem since then, I’m wondering whether you think the 
+original direction might be worth reconsidering.
 
-<snip>
-> +impl<'a> FusedIterator for CListHeadIter<'a> {}
-> +
-> +/// A typed C linked list with a sentinel head intended for FFI use-case=
-s where
-> +/// C subsystem manages a linked list that Rust code needs to read. Gene=
-rally
-> +/// required only for special cases.
-> +///
-> +/// A sentinel head [`ClistHead`] represents the entire linked list and =
-can be used
+Do you have any interest in continuing that line of work, or updating 
+the design based on today’s context? If not, I’d still appreciate your 
+perspective on what you see as the main blockers from the previous 
+discussions, and whether you think the landscape has changed enough to 
+justify another attempt.
 
-Typo: `CListHead` (rustdoc complained about this).
+Depending on the direction, we may consider exploring dma-buf support in 
+rxe or at the core level, but I’d prefer to first understand your view 
+before moving forward.
+
+Zhu Yanjun
+
+> Related user space RDMA library changes are provided as a separate patch.
+> 
+> v4:
+> * Fix warnings, unused variable and casting
+> v3: https://www.spinics.net/lists/linux-rdma/msg106776.html
+> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
+> * Fix to use dma-buf-map helpers
+> v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
+> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
+> * Instead of using a dummy dma_device to attach dma-buf, just store
+>    dma-buf to use software RDMA driver
+> * Use dma-buf vmap() interface
+> * Check to pass tests of rdma-core
+> v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
+> * The initial patch set
+> * Use ib_device as dma_device.
+> * Use dma-buf dynamic attach interface
+> * Add dma-buf support to rxe device
+> 
+> Shunsuke Mie (2):
+>    RDMA/umem: Change for rdma devices has not dma device
+>    RDMA/rxe: Add dma-buf support
+> 
+>   drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
+>   drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+>   drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
+>   drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+>   include/rdma/ib_umem.h                |   1 +
+>   5 files changed, 166 insertions(+), 4 deletions(-)
+> 
 
