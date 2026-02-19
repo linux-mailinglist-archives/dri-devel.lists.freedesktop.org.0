@@ -2,94 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UP8wIFbIlmkGmwIAu9opvQ
+	id MH2MIMfPlmkZoQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 09:22:46 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 09:54:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47C115D095
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 09:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFBA15D21D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 09:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7FE10E315;
-	Thu, 19 Feb 2026 08:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A6A10E07F;
+	Thu, 19 Feb 2026 08:54:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KvTqu6fD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="haRxJfuf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B50810E67F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 08:22:41 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id
- 5b1f17b1804b1-4837634de51so3038855e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 00:22:40 -0800 (PST)
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8BB110E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 08:54:27 +0000 (UTC)
+Received: by mail-dl1-f43.google.com with SMTP id
+ a92af1059eb24-127337e3870so59766c88.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 00:54:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771491267; cv=none;
+ d=google.com; s=arc-20240605;
+ b=fkWfiSsTZvp4AfIYujNavyde5geQ4u/nZxeinnRjcMmeDGySverAEkiaSJgMT9Wd0x
+ 2PgYb3WHGky9hbrcIth0Pti70aOkUliuz/fD2dRhzFw07Bwkb35PksHALSe9qR7nbtqU
+ SO9RH0oKpVSho/ihyBmzFdRAFvhJoX3brGrQ2/UkhsAOj/W5GqMnrTVOH5k2SukMoUa8
+ KjhJec1Gko4VoxgcBkyOJOWFiMljPm6oXc/E3L32pJyIBGgzYP9GtnlfcGqdFlRvXinF
+ iUpdH+F/kt6DqnyKtEZ2Jmu2PuqVK20eOM5D2NNn+vVDxCKkyhd0bMOtJQXs1avsfHyb
+ CYjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=g8xC20PjlQRA9OqDEMwSqMg/DaSzTbKRCj2DbPKEt6Y=;
+ fh=Ub2oaWGh8Tql6o/mSFgxoZHRkugEaSohNxewBq9kpOM=;
+ b=iYrdB892Y+HeaHOjTEhGzC9VPT9GJIBGMpEYxpCNEVDPfuBPqDzGDUlI4PAweXzLaD
+ 2MUNCoPj3+wioRSYQ69u56U0GMP1APRZ0BOMHBWFxzP3gbgnlWcE9T1YeLspTZaYMEji
+ c3fb9w1UiRAQgf5i7YJ/hepVwTEpkebRtrtn7uVaA/Tsx3ZS15XjEhNxUfsKd/Apy0RZ
+ yRfN61CT++6ZdXUDibcKuMb3eOmLO39SxVtsirw3cDkP2cs4Ml66s2GKJCcLp2E1MwRW
+ PtBcO/SzrCzPRTRRHMC3p5TGsnzomMXbagAEo+DDBBKYDhH5S9M+oP21LK8Y50SgwVID
+ 4riA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1771489359; x=1772094159; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0D6P+pMy0FNkLSD5nYId8+lNUqZXXTENXB4evIwBeIY=;
- b=KvTqu6fD3mWBuV1W5YaUOmppaQceCRQk637K/+A4ENzq1Dz5lStHq2jrLJYQaivhsw
- 2CiOAc2xFJZ2FjWwKq/qFYP5vBCRIyQFvS1klz5la3W572iy1O9kvk5Lqutpb4EFk6wR
- D0O4LT1cCpwnGiFVvZlIJoRnAnITsgoO8EaRylscwCVb6eKP/EsJtJRV0XLTs2ZdMfkM
- S3SzZzNAjslueJ6COTvZaGf6KFVNcdeoeiQMgdGKHZe1t/wqjLjfHiXHNrsUzw0IwYBr
- NjHfnwLYVy54z6Lp+OgTj0pKSUnqMVItz6LXZXCGg5HQGvf5ObGVggkqmy4jGU4oy5MW
- mCiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771489359; x=1772094159;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1771491267; x=1772096067; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0D6P+pMy0FNkLSD5nYId8+lNUqZXXTENXB4evIwBeIY=;
- b=wFA8ZyKZ8+fS2hvdrA+74AYHDcRxrc0BL9Go5Lbs8XdsS0LgfCEHKnRcvrUOKEymuG
- OxRYyaBXQ3t0H5MWALWYaF6D/4b1iTXXQ4yYSOEUUnP8urubXI/wfLLVJYJTLerTK8uU
- 9AcWJZgHY2GCQCLwQevu1aXA7+Gz+PoeItPup5cLz0VjYOG07Jc+tbMxS704fXFllyve
- KQIctuq/bdPQmtx3YrIM91RXuZCvxZGHTFJzfV4afiSmXvzCHpzHr/Pke49Km6vN9Zh4
- IdasOvYBslr+tqIklxslf0zg9KEvpLToLGt/cX2skdsChG1eXd68G+TzOgV1lIfcyqsv
- FSJw==
+ bh=g8xC20PjlQRA9OqDEMwSqMg/DaSzTbKRCj2DbPKEt6Y=;
+ b=haRxJfufUKpgOvV5aqze50H0KAWrI8iQ4O2fc/qzy6AHLJ2kjAdH2SeR71FuRlmZYq
+ dmgysQI5WO1wYA2rSYNWmqkb7Hfgh+gy2mdi+KF+miYfv4Al6BV0wTzobyrb5cTxlymq
+ SMn/USHwkGi8/XGBe+lQH/Ww2TVCQ9k0MN5b9tZLLLTHRcXpi6JTdvvvt1pbpLIXHdpR
+ qNeicDoJv6hdjS4XhdwHiYtA3hLMQeSzKsTlZs4kGr6x7+/qFLIiscPiU4TpANWQnh5g
+ vrlQZaaZBpZ+Fc63TM+/nkkz5RfiKcHiQA9tQaiESNIOAD3lI0pa+6e+csku63yg9hRJ
+ ZBYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771491267; x=1772096067;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=g8xC20PjlQRA9OqDEMwSqMg/DaSzTbKRCj2DbPKEt6Y=;
+ b=UdtDurQ0ZZ15+mrmiinE7H7qzSAJQGsdqAsQa9CYfqUTffSrpv6sYGRjgFpW2Yw4tl
+ UwbPC8MaF7o4pFrSqFLZKiGnzkju4D62WP8HRDtnVzZCrpWJChX5Y6qjX7oj1SFdRPSh
+ 1DP0vErDRBhcbBqibXzcGm3VKjb6CRs7AO+v6WsEJFIBK8/GfcwwyCnK1lezzFNEtkm8
+ 0p3YrTAA9VEtMFHl4QbmwHvAretrcZx08UseGhBcAjBQKeXO2+wsFRkD7yk24Idpjeof
+ IozgcY7XjCXHYl4L/SsD67mMxbf0l1cTAYezY6tfRuY5UwqaM8gaEs79V3FN3lCifoM3
+ hCSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1DKrgODvhg92/9FPHmyIbXNrE2Mt+f/EbMYQ6CEZpJ1COIGb9jZQux9ZiownQBo7cfPjGnZAvTbM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyjqj6vxlIFyIU/tzTQxFGMemTd7hWeJDkGEfQYwtJEnnPXt+AB
- A0jbQNR9yLgkoSgA+eN+bT3FsBkOuIXo7qHrtIjlOPIa4sPfGT45oo7w3JCxllYhdsEjxVFuaJ0
- WFsn4XjQ=
-X-Gm-Gg: AZuq6aJ6F9GxH2gXLbunG6SGAUG733dAHj5SWp2Rqx/0Dzj5KZusia6rp27mwpZClhD
- hLdACS8diM0wrF+dSNtxo8kjY86emJSdCcssirlA8mwd3qvZI6oKmMm6QUaT+Yb4O0V3/4IAuSw
- gBfZmVHvSsuZHXFl1kY8T2b9CqAAC8mm6rXOrr9dx3pJNE/DXZBG1mXgEYpY2mB1ONzBJHJMh8l
- 6HrGQiJIKRrHefiXigZ9ZkAmEBwzezCIzz3+Sh+66xYWp/tiZp1gAXrYJiHfGOJyEQ4gUftRrax
- /FW0PkbkretNuDnqQ+S6ahMTydr24mVNF4VLka4aB68eqeDpF4UIK1qKCGLKMgYHCnqGhKe4mgJ
- YAqIxiLfv1z6chnMhGbNVOQBX79BRekR0LLJ2pRfRt38aPuwTB8EyueVJiWtbzhdgH9z1OltdO0
- tALoYld6n2KDp+ir9KIP66UDgkk9c0
-X-Received: by 2002:a05:600c:870b:b0:483:6f37:1b56 with SMTP id
- 5b1f17b1804b1-48371051b15mr358346635e9.10.1771489359323; 
- Thu, 19 Feb 2026 00:22:39 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4839f986118sm12865185e9.21.2026.02.19.00.22.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Feb 2026 00:22:38 -0800 (PST)
-Date: Thu, 19 Feb 2026 11:22:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Larisa Grigore <larisa.grigore@oss.nxp.com>,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, chester62515@gmail.com,
- cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
- stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com,
- aruizrui@redhat.com, eballetb@redhat.com, echanude@redhat.com,
- jkangas@redhat.com, Larisa Grigore <larisa.grigore@oss.nxp.com>,
- Radu Pirea <radu-nicolae.pirea@nxp.com>,
- Phu Luu An <phu.luuan@nxp.com>, Js Ha <js.ha@nxp.com>,
- Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
-Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
-Message-ID: <202602171109.6YSFXcJ3-lkp@intel.com>
+ AJvYcCWqQOR4yBBru/9jFckHywRFTYahUjoP+2yEIamIfPxEm3VKD1sfRIAFEsAqRgpil/+IrtV7ZWfPkhA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyoEhnxMeVX3Eg59kP2L8tR25eQvL/+NFxJqY85D+TCvPK6DDPy
+ kg19zvw+NJD/IehJgjdUbyQ3Z8doo//4Xf3GvcIlI9H+pat1t5JIs3BhTNcrevkMlntznnZZc8E
+ R+oAInRWGYhPRu0kitwLcchOOLB7XCNg=
+X-Gm-Gg: AZuq6aIf4QrY7Fbim8W98a/Pz/RyuoCuzH5PLfCsg0j4iLxiQZGbBZ6SlOIHtL1TLkR
+ saQx2361n3LHiW0QvDGuS6O3kU6YsUwOs2jljUKfOTaXSOi3uKuH3DY/e/TD/tGTcYuPLZaVJ/d
+ ijHGiON9XNEEJ+6kDIiZb1nEBtckCvGESvh/xe9noshGWM7aF7JJkwSxvi3fkDTzwwe5gIfgcvN
+ UEru8VCA8/okbXY77l7Nb1njsPi6CO8mQrsBRccIR90g5a9ZzgHmwnnYiH4TSt/7rSMWFnbbKh8
+ jLPTM5Eykd/zcH6kGEJs8NjiBKUDFNMIE4f0hhK9Ri002VXAKm9esOOXOYs/SKxZZzI3YIG/0rZ
+ C6/bYmmIRQcEWit+A/U1cHgPd
+X-Received: by 2002:a05:7022:419d:b0:11b:65e:f33 with SMTP id
+ a92af1059eb24-127397d8800mr4979968c88.1.1771491266834; Thu, 19 Feb 2026
+ 00:54:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
+References: <20260218205507.689429-1-joelagnelf@nvidia.com>
+ <20260218205507.689429-7-joelagnelf@nvidia.com>
+ <DGIOJQC5HEAT.262OM2KS7C2HE@nvidia.com>
+In-Reply-To: <DGIOJQC5HEAT.262OM2KS7C2HE@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 19 Feb 2026 09:54:14 +0100
+X-Gm-Features: AaiRm517O8N5cgdFr-9hA2xKEEuwUHYT4nDXwLjBAL8577hK96CpY5pCEg8UfyE
+Message-ID: <CANiq72mH=sCfO8+HnVp=m219b3drWZbqUWE=NJn=M3y4ng3qXA@mail.gmail.com>
+Subject: Re: [PATCH v10 6/8] rust: gpu: Add GPU buddy allocator bindings
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,169 +121,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:koen.koning@linux.intel.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:oe-kbuild@lists.linux.dev,m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:lkp@intel.com,m:oe-kbuild-all@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:jkangas@redhat.com,m:radu-nicolae.pirea@nxp.com,m:phu.luuan@nxp.com,m:js.ha@nxp.com,m:ghennadi.procopciuc@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FREEMAIL_TO(0.00)[lists.linux.dev,oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,git-scm.com:url,linaro.org:email,linaro.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:email]
-X-Rspamd-Queue-Id: E47C115D095
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,nvidia.com:email]
+X-Rspamd-Queue-Id: DCFBA15D21D
 X-Rspamd-Action: no action
 
-Hi Larisa,
+On Thu, Feb 19, 2026 at 6:13=E2=80=AFAM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> rustdoc complains that this links to a private item in a public doc - we
+> should not mention `GpuBuddyInner` here.
 
-kernel test robot noticed the following build warnings:
+If you all think something should be mentioned for practical reasons,
+then please don't let `rustdoc` force you to not mention it, i.e.
+please feel free to remove the square brackets if needed.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In other words, I don't want the intra-doc links convention we have to
+make it harder for you to write certain things exceptionally.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Larisa-Grigore/serial-linflexuart-Fix-locking-in-set_termios/20260216-231403
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20260216150205.212318-13-larisa.grigore%40oss.nxp.com
-patch subject: [PATCH 12/13] serial: linflexuart: Add DMA support
-config: i386-randconfig-141-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171109.6YSFXcJ3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+I hope that helps.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602171109.6YSFXcJ3-lkp@intel.com/
-
-smatch warnings:
-drivers/tty/serial/fsl_linflexuart.c:1441 linflex_probe() warn: missing unwind goto?
-
-vim +1441 drivers/tty/serial/fsl_linflexuart.c
-
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1377  static int linflex_probe(struct platform_device *pdev)
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1378  {
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1379  	struct device_node *np = pdev->dev.of_node;
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1380  	struct linflex_port *lfport;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1381  	struct uart_port *sport;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1382  	struct resource *res;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1383  	int ret;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1384  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1385  	lfport = devm_kzalloc(&pdev->dev, sizeof(*lfport), GFP_KERNEL);
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1386  	if (!lfport)
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1387  		return -ENOMEM;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1388  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1389  	sport = &lfport->port;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1390  	sport->dev = &pdev->dev;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1391  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1392  	lfport->dma_tx_chan = dma_request_chan(sport->dev, "tx");
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1393  	if (IS_ERR(lfport->dma_tx_chan)) {
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1394  		ret = PTR_ERR(lfport->dma_tx_chan);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1395  		if (ret == -EPROBE_DEFER)
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1396  			return ret;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1397  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1398  		dev_info(sport->dev,
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1399  			 "DMA tx channel request failed, operating without tx DMA %ld\n",
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1400  			 PTR_ERR(lfport->dma_tx_chan));
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1401  		lfport->dma_tx_chan = NULL;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1402  	}
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1403  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1404  	lfport->dma_rx_chan = dma_request_chan(sport->dev, "rx");
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1405  	if (IS_ERR(lfport->dma_rx_chan)) {
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1406  		ret = PTR_ERR(lfport->dma_rx_chan);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1407  		if (ret == -EPROBE_DEFER) {
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1408  			dma_release_channel(lfport->dma_tx_chan);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1409  			return ret;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1410  		}
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1411  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1412  		dev_info(sport->dev,
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1413  			 "DMA rx channel request failed, operating without rx DMA %ld\n",
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1414  			 PTR_ERR(lfport->dma_rx_chan));
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1415  		lfport->dma_rx_chan = NULL;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1416  	}
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1417  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1418  	ret = of_alias_get_id(np, "serial");
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1419  	if (ret < 0) {
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1420  		dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1421  		goto linflex_probe_free_dma;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1422  	}
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1423  	if (ret >= UART_NR) {
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1424  		dev_err(&pdev->dev, "driver limited to %d serial ports\n",
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1425  			UART_NR);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1426  		ret = -ENOMEM;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1427  		goto linflex_probe_free_dma;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1428  	}
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1429  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1430  	sport->line = ret;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1431  
-8c6d7e5fd50b45 Yangtao Li           2023-07-12  1432  	sport->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1433  	if (IS_ERR(sport->membase)) {
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1434  		ret = PTR_ERR(sport->membase);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1435  		goto linflex_probe_free_dma;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1436  	}
-8c6d7e5fd50b45 Yangtao Li           2023-07-12  1437  	sport->mapbase = res->start;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1438  
-4e8da86fc1f767 Zhang Shurong        2023-08-26  1439  	ret = platform_get_irq(pdev, 0);
-4e8da86fc1f767 Zhang Shurong        2023-08-26  1440  	if (ret < 0)
-4e8da86fc1f767 Zhang Shurong        2023-08-26 @1441  		return ret;
-
-No clean up?
-
-4e8da86fc1f767 Zhang Shurong        2023-08-26  1442  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1443  	sport->iotype = UPIO_MEM;
-4e8da86fc1f767 Zhang Shurong        2023-08-26  1444  	sport->irq = ret;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1445  	sport->ops = &linflex_pops;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1446  	sport->flags = UPF_BOOT_AUTOCONF;
-4151bbed79f98b Dmitry Safonov       2019-12-13  1447  	sport->has_sysrq = IS_ENABLED(CONFIG_SERIAL_FSL_LINFLEXUART_CONSOLE);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1448  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1449  	ret = linflex_init_clk(lfport);
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1450  	if (ret)
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1451  		goto linflex_probe_free_dma;
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1452  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1453  	linflex_ports[sport->line] = sport;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1454  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1455  	platform_set_drvdata(pdev, lfport);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1456  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1457  	ret = uart_add_one_port(&linflex_reg, sport);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1458  	if (ret) {
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1459  		clk_bulk_disable_unprepare(LINFLEX_CLK_NUM, lfport->clks);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1460  		goto linflex_probe_free_dma;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1461  	}
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1462  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1463  	return 0;
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1464  
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1465  linflex_probe_free_dma:
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1466  	if (lfport->dma_tx_chan)
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1467  		dma_release_channel(lfport->dma_tx_chan);
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1468  	if (lfport->dma_rx_chan)
-0b34325c5f79f1 Larisa Grigore       2026-02-16  1469  		dma_release_channel(lfport->dma_rx_chan);
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1470  
-1d3f5f07fafc71 Radu Pirea           2026-02-16  1471  	return ret;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1472  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Cheers,
+Miguel
