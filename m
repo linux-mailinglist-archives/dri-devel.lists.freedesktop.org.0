@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OBR4LMo0l2kCvwIAu9opvQ
+	id mCiQJ4A1l2kCvwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 17:05:30 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 17:08:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FDF1607C1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 17:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179DE16083B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 17:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12EF10E700;
-	Thu, 19 Feb 2026 16:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BACC10E708;
+	Thu, 19 Feb 2026 16:08:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DiQ6Yt4v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BDAyRH0O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE41810E6FA;
- Thu, 19 Feb 2026 16:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771517127; x=1803053127;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=9lEPORuaOVTBoyf/QwymDDqFphBNEuGIQ69z5AI2H4M=;
- b=DiQ6Yt4v/NcKKo8n2VcSIFNHV1PXDQS7D3mtPtwygJC8jVTi7YGo7HP5
- 5V8UqNjmphXOeW1S6UYFWCST0LR+b/mtfHN8nJG+YUzQiyFEbjQRjRbsN
- BcnxOhNMjGJKaVofqK9r2hzIiu9K6uvFNv8vszGv18nLQY8GNSh9bixX0
- KHnB5vHANNwDeFwmAgfsyWHSULffi4uqTA7rCmSDmvxMMvev7OjP5+UFX
- AyfiJu0OZKwLQnndyslINl297ciSnQ5ddBuE3v07RadAcn191X6j1s14Q
- DzYG9otceZqq0+etMR3EY9HrYRei76rPWFYRp9fPmcq2VoGAuyXNK4Hae g==;
-X-CSE-ConnectionGUID: EaKJL+79Ruit+eqogupsFg==
-X-CSE-MsgGUID: l9sy43rrR2eX2VxhgFLCxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="90188898"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; d="scan'208";a="90188898"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2026 08:05:27 -0800
-X-CSE-ConnectionGUID: 5Yyy7i89R1uR+XmD5hL03g==
-X-CSE-MsgGUID: 95eS7j2LSCO0+Frly+fT+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; d="scan'208";a="219073361"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.155])
- ([10.245.244.155])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2026 08:05:25 -0800
-Message-ID: <60540156b531e9bad4fef010ad53746a805382d5.camel@linux.intel.com>
-Subject: Re: [PATCH v7 1/3] drm/sa: Split drm_suballoc_new() into SA alloc
- and init helpers
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, Michal Wajdeczko	
- <michal.wajdeczko@intel.com>, Matthew Auld <matthew.auld@intel.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Maarten Lankhorst	 <dev@lankhorst.se>
-Date: Thu, 19 Feb 2026 17:05:12 +0100
-In-Reply-To: <20260219105433.2234194-6-satyanarayana.k.v.p@intel.com>
-References: <20260219105433.2234194-5-satyanarayana.k.v.p@intel.com>
- <20260219105433.2234194-6-satyanarayana.k.v.p@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBE510E708
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 16:08:28 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-4359228b7c6so885160f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 08:08:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771517307; x=1772122107; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fOYnxIyNPPSNbIMpYulGVtIoiRB9WNbtlfaoiBTGyz0=;
+ b=BDAyRH0Oau9NYQCj0GuAPNJN4j1WndMZXreLtXZPI1mhE+bHSOf6avU76z4Fl6M/RI
+ 1DwDdJHr8xtCC279AyHoqqOv9n5Puc4R1gGriytBWyr41fHseV2pxKEWBLKLNBO+nMXJ
+ PJNB1Ju2U74tesaJlzQ2km2Bgqkmlb+nWYRotWNGmBmzMyzUiAuci/CpZ4xbJfWpqnat
+ 7zs3Wdu2aRLpJw2etPKxUMhIfD87WAMyRCZc900FYzDWNJZ/yabDtOy/tQDrgvC/Ostn
+ kKc28JSRMs9o2/FyX8Fz0rGCOB55E/x81lvNJLUqh2piEKpYejAX8dEFPzk8vHvDWbYW
+ kLvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771517307; x=1772122107;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fOYnxIyNPPSNbIMpYulGVtIoiRB9WNbtlfaoiBTGyz0=;
+ b=ipinpdX6K2GtbGDGLL05yjy40+V/Hw36ajiZjcg6WMfmCMHE3umSR6PFV7OkgU759P
+ 7Elweh9y5twRB6XEVCz4K05N5icaTE6ylSmTIjs0d3qR/SaG2Zht3lQksl6jmVuAViPC
+ MLyWN0YfQwZc8hUc5UiGJ45qWcXUoH6PEwPXUuLS8ky4R8R/oITwmY5iIt6fVu5FtmE9
+ kJ9psNgqM2N5J7sIY9u1Eu0i7e7GoKjP0609BeRNbr0NitTA7frp/HuFnAvPV0xe34nG
+ cZsusT4/GRa4FCPsSqXUC9JB9BZPUCficzUeB95ISg7KBh4IxlEOvemQj8OnxX1FcJ8f
+ ng8Q==
+X-Gm-Message-State: AOJu0YxU6Ur8f3jnFaB2fEQLksvNfkAgU5AlsU84SJ2TXG0RVTykvoMA
+ FQxg5Sr22p14gDHGOw8JkG3PVvaGa8OrleI7OBqJyZzwG8FVvhW/3nXe
+X-Gm-Gg: AZuq6aKUgEgS6t4MKAVOG1baHMxmj9u3x1Qb2RStwbySG2Gk9HQ4dHGc1G13TmgJM5F
+ Tq8r+xXEUWPiu2nC0iRQXN8iXRNGMc1tGEjqa18MLnUp7WZhdhP3cQt4SZ4EjH2h2sfpkVj2fiJ
+ F7ugb9WbpzkGYCcK8rZrd4ZvWT+bTij7V/NE688eY4MRgbzUT9vyDGT++8xSkQ+RVy4IDAT8zdx
+ 9eLZBJD57P2ACHhcpRwsY7TielE6oYreXiF/yJE/2jsLXW9VcrQ5GZdqupeASs1vRIOqjs2TKuu
+ tkOvSEi8xByqLAWhkUu05wjPg0VUHJ1IXhLNf3QwwnJ/9+lDUhOs166ZT2Pz0PXJnZEwAy3iWpG
+ SefH9GxECE8FlzGwcfJhEUdpbFMJ3wIj8jG/Sk6KJPB4CtKoU71Vqd9ZPlpyvBmY1uunkJjli1a
+ 7RaISOORsz5yYObhVL8nV+CAzJrC4dwR4ZgZya
+X-Received: by 2002:a05:600c:314c:b0:477:54f9:6ac2 with SMTP id
+ 5b1f17b1804b1-48379b318f6mr277051255e9.0.1771517306694; 
+ Thu, 19 Feb 2026 08:08:26 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:1503:b900:9c42:5977:662a:d02d])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-43796ac82f7sm54580031f8f.28.2026.02.19.08.08.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Feb 2026 08:08:26 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: phasta@mailbox.org,
+	matthew.brost@intel.com,
+	sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: 
+Date: Thu, 19 Feb 2026 17:07:03 +0100
+Message-ID: <20260219160822.1529-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,317 +93,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [1.44 / 15.00];
+	R_MIXED_CHARSET(1.25)[subject];
+	EMPTY_SUBJECT(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_FROM(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 08FDF1607C1
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 179DE16083B
 X-Rspamd-Action: no action
 
-On Thu, 2026-02-19 at 10:54 +0000, Satyanarayana K V P wrote:
-> drm_suballoc_new() currently both allocates the SA object using
-> kmalloc()
-> and searches for a suitable hole in the sub-allocator for the
-> requested
-> size. If SA allocation is done by holding sub-allocator mutex, this
-> design
-> can lead to reclaim safety issues.
->=20
-> By splitting the kmalloc() step outside of the critical section, we
-> allow
-> the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring
-> that
-> the initialization step that holds reclaim-tainted locks (sub-
-> allocator
-> mutex) operates in a reclaim-unsafe context with pre-allocated
-> memory.
->=20
-> This separation prevents potential deadlocks where memory reclaim
-> could
-> attempt to acquire locks that are already held during the sub-
-> allocator
-> operations.
->=20
-> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Maarten Lankhorst <dev@lankhorst.se>
+Hi everyone,
 
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+dma_fences have ever lived under the tyranny dictated by the module
+lifetime of their issuer, leading to crashes should anybody still holding
+a reference to a dma_fence when the module of the issuer was unloaded.
 
+The basic problem is that when buffer are shared between drivers
+dma_fence objects can leak into external drivers and stay there even
+after they are signaled. The dma_resv object for example only lazy releases
+dma_fences.
 
->=20
-> ---
-> V6 -> V7:
-> - Dropped R-B to review again with the new changes.
-> - Dropped drm_suballoc_release() which was introduced in this patch.
-> (Maarten).
->=20
-> V5 -> V6:
-> - Renamed drm_suballoc_init() to drm_suballoc_insert() (Maarten).
->=20
-> V4 -> V5:
-> - None.
->=20
-> V3 -> V4:
-> - None.
->=20
-> V2 -> V3:
-> - Updated commit message (Matt, Thomas & Christian).
-> - Removed timeout logic from drm_suballoc_init(). (Thomas &
-> Christian).
->=20
-> V1 -> V2:
-> - Splitted drm_suballoc_new() into drm_suballoc_alloc() and
-> drm_suballoc_init() (Thomas).
-> ---
-> =C2=A0drivers/gpu/drm/drm_suballoc.c | 105 ++++++++++++++++++++++++++----=
--
-> --
-> =C2=A0include/drm/drm_suballoc.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 =
-++
-> =C2=A02 files changed, 91 insertions(+), 20 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_suballoc.c
-> b/drivers/gpu/drm/drm_suballoc.c
-> index 879ea33dbbc4..1acb5363b65d 100644
-> --- a/drivers/gpu/drm/drm_suballoc.c
-> +++ b/drivers/gpu/drm/drm_suballoc.c
-> @@ -293,45 +293,66 @@ static bool drm_suballoc_next_hole(struct
-> drm_suballoc_manager *sa_manager,
-> =C2=A0}
-> =C2=A0
-> =C2=A0/**
-> - * drm_suballoc_new() - Make a suballocation.
-> + * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
-> + * @gfp: gfp flags used for memory allocation.
-> + *
-> + * Allocate memory for an uninitialized suballoc object. Intended
-> usage is
-> + * allocate memory for suballoc object outside of a reclaim tainted
-> context
-> + * and then be initialized at a later time in a reclaim tainted
-> context.
-> + *
-> + * @drm_suballoc_free() should be used to release the memory if
-> returned
-> + * suballoc object is in uninitialized state.
-> + *
-> + * Return: a new uninitialized suballoc object, or an ERR_PTR(-
-> ENOMEM).
-> + */
-> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
-> +{
-> +	struct drm_suballoc *sa;
-> +
-> +	sa =3D kmalloc(sizeof(*sa), gfp);
-> +	if (!sa)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	sa->manager =3D NULL;
-> +
-> +	return sa;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_alloc);
-> +
-> +/**
-> + * drm_suballoc_insert() - Initialize a suballocation and insert a
-> hole.
-> =C2=A0 * @sa_manager: pointer to the sa_manager
-> + * @sa: The struct drm_suballoc.
-> =C2=A0 * @size: number of bytes we want to suballocate.
-> - * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL
-> but
-> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the argument is provided for suba=
-llocations from reclaim
-> context or
-> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 where the caller wants to avoid p=
-ipelining rather than wait
-> for
-> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reclaim.
-> =C2=A0 * @intr: Whether to perform waits interruptible. This should
-> typically
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 always be true, unless=
- the caller needs to propagate a
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 non-interruptible cont=
-ext from above layers.
-> =C2=A0 * @align: Alignment. Must not exceed the default manager alignment=
-.
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If @align is zer=
-o, then the manager alignment is used.
-> =C2=A0 *
-> - * Try to make a suballocation of size @size, which will be rounded
-> - * up to the alignment specified in specified in
-> drm_suballoc_manager_init().
-> + * Try to make a suballocation on a pre-allocated suballoc object of
-> size @size,
-> + * which will be rounded up to the alignment specified in specified
-> in
-> + * drm_suballoc_manager_init().
-> =C2=A0 *
-> - * Return: a new suballocated bo, or an ERR_PTR.
-> + * Return: zero on success, errno on failure.
-> =C2=A0 */
-> -struct drm_suballoc *
-> -drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
-> size,
-> -		 gfp_t gfp, bool intr, size_t align)
-> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-> +			struct drm_suballoc *sa, size_t size,
-> +			bool intr, size_t align)
-> =C2=A0{
-> =C2=A0	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
-> =C2=A0	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
-> =C2=A0	unsigned int count;
-> =C2=A0	int i, r;
-> -	struct drm_suballoc *sa;
-> =C2=A0
-> =C2=A0	if (WARN_ON_ONCE(align > sa_manager->align))
-> -		return ERR_PTR(-EINVAL);
-> +		return -EINVAL;
-> =C2=A0	if (WARN_ON_ONCE(size > sa_manager->size || !size))
-> -		return ERR_PTR(-EINVAL);
-> +		return -EINVAL;
-> =C2=A0
-> =C2=A0	if (!align)
-> =C2=A0		align =3D sa_manager->align;
-> =C2=A0
-> -	sa =3D kmalloc(sizeof(*sa), gfp);
-> -	if (!sa)
-> -		return ERR_PTR(-ENOMEM);
-> =C2=A0	sa->manager =3D sa_manager;
-> =C2=A0	sa->fence =3D NULL;
-> =C2=A0	INIT_LIST_HEAD(&sa->olist);
-> @@ -348,7 +369,7 @@ drm_suballoc_new(struct drm_suballoc_manager
-> *sa_manager, size_t size,
-> =C2=A0			if (drm_suballoc_try_alloc(sa_manager, sa,
-> =C2=A0						=C2=A0=C2=A0 size, align)) {
-> =C2=A0				spin_unlock(&sa_manager->wq.lock);
-> -				return sa;
-> +				return 0;
-> =C2=A0			}
-> =C2=A0
-> =C2=A0			/* see if we can skip over some allocations
-> */
-> @@ -385,8 +406,47 @@ drm_suballoc_new(struct drm_suballoc_manager
-> *sa_manager, size_t size,
-> =C2=A0	} while (!r);
-> =C2=A0
-> =C2=A0	spin_unlock(&sa_manager->wq.lock);
-> -	kfree(sa);
-> -	return ERR_PTR(r);
-> +	return r;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_insert);
-> +
-> +/**
-> + * drm_suballoc_new() - Make a suballocation.
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate.
-> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL
-> but
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the argument is provided for suba=
-llocations from reclaim
-> context or
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 where the caller wants to avoid p=
-ipelining rather than wait
-> for
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reclaim.
-> + * @intr: Whether to perform waits interruptible. This should
-> typically
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 always be true, unless the =
-caller needs to propagate a
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 non-interruptible context f=
-rom above layers.
-> + * @align: Alignment. Must not exceed the default manager alignment.
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If @align is zero, th=
-en the manager alignment is used.
-> + *
-> + * Try to make a suballocation of size @size, which will be rounded
-> + * up to the alignment specified in specified in
-> drm_suballoc_manager_init().
-> + *
-> + * Return: a new suballocated bo, or an ERR_PTR.
-> + */
-> +struct drm_suballoc *
-> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
-> size,
-> +		 gfp_t gfp, bool intr, size_t align)
-> +{
-> +	struct drm_suballoc *sa;
-> +	int err;
-> +
-> +	sa =3D drm_suballoc_alloc(gfp);
-> +	if (IS_ERR(sa))
-> +		return sa;
-> +
-> +	err =3D drm_suballoc_insert(sa_manager, sa, size, intr,
-> align);
-> +	if (err) {
-> +		drm_suballoc_free(sa, NULL);
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	return sa;
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(drm_suballoc_new);
-> =C2=A0
-> @@ -405,6 +465,11 @@ void drm_suballoc_free(struct drm_suballoc
-> *suballoc,
-> =C2=A0	if (!suballoc)
-> =C2=A0		return;
-> =C2=A0
-> +	if (!suballoc->manager) {
-> +		kfree(suballoc);
-> +		return;
-> +	}
-> +
-> =C2=A0	sa_manager =3D suballoc->manager;
-> =C2=A0
-> =C2=A0	spin_lock(&sa_manager->wq.lock);
-> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
-> index 7ba72a81a808..29befdda35d2 100644
-> --- a/include/drm/drm_suballoc.h
-> +++ b/include/drm/drm_suballoc.h
-> @@ -53,6 +53,12 @@ void drm_suballoc_manager_init(struct
-> drm_suballoc_manager *sa_manager,
-> =C2=A0
-> =C2=A0void drm_suballoc_manager_fini(struct drm_suballoc_manager
-> *sa_manager);
-> =C2=A0
-> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
-> +
-> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-> +			struct drm_suballoc *sa, size_t size, bool
-> intr,
-> +			size_t align);
-> +
-> =C2=A0struct drm_suballoc *
-> =C2=A0drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
-> size,
-> =C2=A0		 gfp_t gfp, bool intr, size_t align);
+So what happens is that when the module who originally created the dma_fence
+unloads the dma_fence_ops function table becomes unavailable as well and so
+any attempt to release the fence crashes the system.
+
+Previously various approaches have been discussed, including changing the
+locking semantics of the dma_fence callbacks (by me) as well as using the
+drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
+from their actual users, but none of them are actually solving all problems.
+
+Tvrtko did some really nice prerequisite work by protecting the returned
+strings of the dma_fence_ops by RCU. This way dma_fence creators where
+able to just wait for an RCU grace period after fence signaling before
+they could be save to free those data structures.
+
+Now this patch set here goes a step further and protects the whole
+dma_fence_ops structure by RCU, so that after the fence signals the
+pointer to the dma_fence_ops is set to NULL when there is no wait nor
+release callback given. All functionality which use the dma_fence_ops
+reference are put inside an RCU critical section, except for the
+deprecated issuer specific wait and of course the optional release
+callback.
+
+Additional to the RCU changes the lock protecting the dma_fence state
+previously had to be allocated external. This set here now changes the
+functionality to make that external lock optional and allows dma_fences
+to use an inline lock and be self contained.
+
+v4:
+
+Rebases the whole set on upstream changes, especially the cleanup
+from Philip in patch "drm/amdgpu: independence for the amdkfd_fence!".
+
+Adding two patches which brings the DMA-fence self tests up to date.
+The first selftest changes removes the mock_wait and so actually starts
+testing the default behavior instead of some hacky implementation in the
+test. This one got upstreamed independent of this set.
+The second drops the mock_fence as well and tests the new RCU and inline
+spinlock functionality.
+
+v5:
+
+Rebase on top of drm-misc-next instead of drm-tip, leave out all driver
+changes for now since those should go through the driver specific paths
+anyway.
+
+Address a few more review comments, especially some rebase mess and
+typos. And finally fix one more bug found by AMDs CI system.
+
+v6:
+
+Minor style changes, re-ordered patch #1, dropped the scheduler fence
+change for now
+
+v7:
+
+The patch adding the dma_fence_was_initialized() function was pushed
+upstream individually since that is really an independent cleanup.
+
+Fixed some missing i915 bits in patch "dma-buf: abstract fence locking".
+
+v8:
+
+Cleaned up commit messages and code comments some more, added missing
+rbs.
+
+Last call to add an rb or comment before I'm going to push this to
+drm-misc-next.
+
+Please review and comment,
+Christian.
+
