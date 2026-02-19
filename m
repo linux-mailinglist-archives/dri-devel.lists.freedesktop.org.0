@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UL2hD8B2l2nVywIAu9opvQ
+	id 4G7oHZ93l2nVywIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 21:46:56 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 21:50:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C381626A1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 21:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8948162745
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 21:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B32910E74C;
-	Thu, 19 Feb 2026 20:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9BA210E74D;
+	Thu, 19 Feb 2026 20:50:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SJw46u6i";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R6zB8ijl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 742AB10E74C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 20:46:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 919C760054
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 20:46:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4053BC19423
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 20:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771534010;
- bh=g1ZK9UZDmFp98J8GhLJb6jKYDbjXccLzoBkC4EU78HA=;
- h=From:To:Subject:Date:From;
- b=SJw46u6iaeeVjRyjsuoc/1SzJllVnANEETeHwZaFnfd2mHlfl2U+PYr7Z+tkG2BEG
- CkTFS7SFnLXIS+6uvPo6nxaQubFxdaj5OO7dUo6NQm992TDwcoEFL3ozIK2o9iq+Rl
- O8VO/28XXrva1SMMCcxANYlP1hWbGb0+Z+8maVGn/YCTGIw6NQ6hBWmUQVyUAROTF/
- kBcYSXflTDwvMTfzITsbKd3ucHlse5ugASUdPJL9gVcmRZ04k8Co5zZEE3mmcNEahe
- yQJebF5QjHpo+Ew+UDG8rlzDWDFJFspaqlHLSEztR17Rc1Ss+nmYalh8HkKgGynUWL
- RDvGzAzC92TMw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 326DAC41614; Thu, 19 Feb 2026 20:46:50 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 221106] New: [TTM] Buffer eviction failed - associated with
- screen freezes with QXL/Spice
-Date: Thu, 19 Feb 2026 20:46:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: devzero@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221106-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7379510E332;
+ Thu, 19 Feb 2026 20:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771534234; x=1803070234;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3HAtS4OL4OwsgIfFhlW/s5kThNhN/PLfoPtumyP/520=;
+ b=R6zB8ijl35l6W/lkP52BPyPfgPeOBB4bV9Ec0CUX5OI9haOXAaEjGeqf
+ cq22h0n0bcvDBW4IF7wWsqUms7QcMRsfo4pWtkdCSIPRHxtzafoDFHXgd
+ EosVi27Kli0kNBZXMaoYjF5AMfplRvruiv2vu1vG2Sm37R5zr4essOZF+
+ TFelHiNvuejyk5moIXeEZaa6IZRSQwJbZmzpqfrqEb7EUq2liD62Y0kFN
+ 5F8sr/Lv7e57kwxwzCu56zwKDPMsvYyFKVK9nhqQ06U3X0qPwwvkefVaC
+ 2k20kiegW/k+54oiUuDHeeHt5WNKDD/3lx46wloeaOLXT8Ygx/D2k4P5w A==;
+X-CSE-ConnectionGUID: U5uDyVeHSjitz6ILgAUVbg==
+X-CSE-MsgGUID: Gacvn1cjQUC694m5khxqog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="83255805"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; d="scan'208";a="83255805"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2026 12:50:34 -0800
+X-CSE-ConnectionGUID: KaJ++UEbT+yseLHsrDb7Ig==
+X-CSE-MsgGUID: 9m5K/RJhQTef1dajPzudzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; d="scan'208";a="218796489"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2026 12:50:34 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: matthew.auld@intel.com
+Subject: [PATCH] drm/gpusvm: Fix drm_gpusvm_pages_valid_unlocked() kernel-doc
+Date: Thu, 19 Feb 2026 12:50:29 -0800
+Message-Id: <20260219205029.1011336-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,89 +71,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[proxmox.com:url,osdl.org:email,lindi.iki.fi:url];
-	NEURAL_HAM(-0.00)[-0.987];
-	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: A1C381626A1
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: C8948162745
 X-Rspamd-Action: no action
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221106
+The kernel-doc for drm_gpusvm_pages_valid_unlocked() was stale and still
+referenced old range-based arguments and naming. Update the documentation
+to match the current function arguments and signature.
 
-            Bug ID: 221106
-           Summary: [TTM] Buffer eviction failed - associated with screen
-                    freezes with QXL/Spice
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: devzero@web.de
-        Regression: No
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/drm_gpusvm.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Hello,=20
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index 81626b00b755..2e229bc944f0 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1338,14 +1338,14 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
+ 
+ /**
+- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
++ * drm_gpusvm_pages_valid_unlocked() - GPU SVM pages valid unlocked
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
+  *
+- * This function determines if a GPU SVM range pages are valid. Expected be
+- * called without holding gpusvm->notifier_lock.
++ * This function determines if a GPU SVM pages are valid. Expected be called
++ * without holding gpusvm->notifier_lock.
+  *
+- * Return: True if GPU SVM range has valid pages, False otherwise
++ * Return: True if GPU SVM pages are valid, False otherwise
+  */
+ static bool drm_gpusvm_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
+ 					    struct drm_gpusvm_pages *svm_pages)
+-- 
+2.34.1
 
-i opened up a bugticket at https://bugzilla.proxmox.com/show_bug.cgi?id=3D7=
-320 ,
-which was closed with the notice, that nobody would probably fix QXL driver
-issues anymore.=20
-
-as we can see, spice qxl is much better quality then virtio:
-https://lindi.iki.fi/lindi/qxl/spice_qxl_vs_virtio.webm, so i don't want to
-give up that early.=20
-
-from my suspicion, i'm not sure if this is only a qxl driver issue but not a
-memory management / fragmentation issue around TTM, too - as we have these
-messages whenever there are freezes:
-
-[  407.915718] [TTM] Buffer eviction failed
-[  690.692852] hrtimer: interrupt took 5425371 ns
-[  997.482081] [TTM] Buffer eviction failed
-[ 1021.034156] [TTM] Buffer eviction failed
-[ 2027.215362] input: spice vdagent tablet as /devices/virtual/input/input9
-[ 2481.259265] NOTICE: Automounting of tracing to debugfs is deprecated and
-will be removed in 2030
-[ 3439.716485] [TTM] Buffer eviction failed
-
-i see a lot of development has been with TTM component, too.
-
-in proxmox, i increased virtual qxl/spice graphics card memory from the def=
-ault
-of 16mb to 32mb and things running much more stable/reliable/smoothly with
-that, i could not yet trigger longer freezes like with 16mb, so the question
-is, what happens here and why - and could perhapssomeone with deeper knowle=
-dge
-have a look on what's happening here and what's causing the buffer eviction
-failures. the happen in sync with the gui freezes.=20
-
-thank you
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
