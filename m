@@ -2,167 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GvP0EsoGl2lWtwIAu9opvQ
+	id GNSxGzsHl2lmtwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 13:49:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 13:51:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D9115EB01
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 13:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932CA15EB9C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 13:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 122B610E14D;
-	Thu, 19 Feb 2026 12:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F6210E066;
+	Thu, 19 Feb 2026 12:51:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NNiFOeEI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pbDes6RN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012008.outbound.protection.outlook.com [52.101.43.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF3110E14D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 12:49:09 +0000 (UTC)
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013049.outbound.protection.outlook.com
+ [40.93.196.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A31A10E066;
+ Thu, 19 Feb 2026 12:51:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UuNu9Ppl2MjKf6HWeCyEXk9LhCAWH8GvEVPhsB0tu/3HuH+//NIj3BYMEuEGEMLitP97rwesjt0dzvqGjyPWGtvZWCsCUupu8wOyQA7a1PIeSsqVB0fAjYWhXPO7Dj7DR1QEI3mNsD9sKtT0rSLm8gmQz8YTjQFKM3vAmIlbmcbM8ECbdvF2xxplZ40PJ8aFriYjHnSItWfWM5X1yx/ohEDg38zUKo5wMcdQPOlYC6jRM2LGMa4vpwVj58IKraJAu9MqtYLQ8fuCvnY+u+SMJkW9RWLPqaaC9lZrJtRkfkkTFsj67iLy42JZEulID4IxkS8wh9Sq5OE/dsianYHioA==
+ b=LN3FYWxtOrU6VJIDAfkwpK2wB96/eigaPhlWoKDQB1iziDhUVZatk+0d4nfF0OZIqcBmOVdxcRaqc8vZAlrTAYT6OmJDWZD4dzVG2jIAhaDs6Z+uK+gINyBvmGacKG6rYbCQoYvzsDm17lE9/OHLN1wlo09JNYOTlyf1dT22LS8hffFuxZGMguQAJxW8mKBd0F0vtyCXUjhc4BWPCtNAJTABpFhVjAFH/6sx3nxU2dga3IX57d+PHfqB/px11FRQ7++oZmEbCaI/9TUyScS/Qr6NKFsJu/WzvENobO1rTxsKKHXeo+YMVc2mxvODWbI5ftnDKMT2KcY4pr4Pa4uzNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=omLmkGEJjmpqyWoUjKGDA6Oa1iQhSWT/QQDYkllHxwk=;
- b=eM2ywDQ1L4SIf4mSv2Y/boBLCX/Ii3X+yAOx6Z9SVmpE3raW+yC42UakN7fmSzUSe0yBJbFTRlhvNLR1OzSbh4+uzn3mS9hO61UQnTaF6tTu0CDkzvkE6QBvdRyilmJHAfhdTdnWt5hXYARO6ec2Lg7DLxs73O0xTCbp5vagDk5DxAGmVL8sFC7RGVkqD0rSHPXS9DP1bqi3QjQ2r5uddSh9jWITYxFJxNTFSbpIALulH4E/lsfq+MrZHbgHcbkmCcfB8zVKsnHxRtVgCcfksVvZw+deGquNCIoOWYtfdN093FO7ij6Hs/HlzTPGhSQQ9A+BJSLjAXH+iCQ41Uxvyg==
+ bh=ivirxMEyBGQ/YdzGW2JpbvtdV0aMcVH/rHc4KWE/Yc8=;
+ b=GKvYiVRwTOR+LQVQvxN5br7P+V2lZzAGjC2/rTofWAnlgCMbH/oV03kpVytfCxctv7pHsTGF/knpEnMg3ftGMYfnH6p1Nn4THyU3NGFejZBEITyDTHPDf5SuO3Ai6MPqrehPzAi/JMHeuyRaDYaXJcPJIxzba79vx2XXn8I5r5Qgs8AEJUMtgZ8Ncow9tvlkbgmcnd8QQjTfuxQjLKgsyj/0jOrw2HAfSR7IJEuOBrcZRFlZIz8etqqwDRq9AehIyCRTjb3KwWIvgYEz7Gj+38S09385RIZRe5rNb8h23eu3Ud4enNp9JhhqEqvNtP74d8ctGMEt3dPwnjkfUfiZNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=omLmkGEJjmpqyWoUjKGDA6Oa1iQhSWT/QQDYkllHxwk=;
- b=NNiFOeEI8QCyvDCHNtLqxbAxKepU91pr8ycy8+gdpWxBxHXzLfUCYOTe/30OaxdUT7Whi5v6hRr14fiaBvRIjaxCe5KOKgs0FuH4zhaBLT6PadgigvqpVAxZJY9He8AqM6ib/fx8uRAVXxTx1GRTaRJzxI4mnQov7ec3jpkFSdc=
+ bh=ivirxMEyBGQ/YdzGW2JpbvtdV0aMcVH/rHc4KWE/Yc8=;
+ b=pbDes6RN4Lj2ByTvbKNeQz9313A0MVNsMcykhNqnZ4lKlEA7CDgSpOEHdxST/c16n+ZZ+YBggTZHpRrVU+0YZVgKqquY0/UD8qUB0FxxELFT6CI2O7LUENRee/H3rBckoOSlSkByhBrlFAAToGBXYbnC8Fp+zUA5ctVXsPo2EA4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH2PR12MB9541.namprd12.prod.outlook.com (2603:10b6:610:27e::21)
+ by SA3PR12MB7877.namprd12.prod.outlook.com (2603:10b6:806:31b::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
- 2026 12:49:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Thu, 19 Feb
+ 2026 12:50:59 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9611.008; Thu, 19 Feb 2026
- 12:49:05 +0000
-Message-ID: <78a4d1de-0e0c-486a-8054-1a89d6db15f0@amd.com>
-Date: Thu, 19 Feb 2026 13:49:01 +0100
+ 12:50:58 +0000
+Message-ID: <64f75111-81ca-4c10-ba2a-36df556692dc@amd.com>
+Date: Thu, 19 Feb 2026 13:50:52 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] dma-buf: protected fence ops by RCU v5
-To: phasta@kernel.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20260210102232.1642-1-christian.koenig@amd.com>
- <20260210102232.1642-2-christian.koenig@amd.com>
- <f1345723cc5a61cdec5a6f168f71a323b822b7e2.camel@mailbox.org>
- <f357c2fc-3c72-42ac-b079-849222de4c6e@gmail.com>
- <9f929535744546bcb4eed26f6c27b4497ebc37bb.camel@mailbox.org>
- <53a84ddb-9202-48bb-bcb1-e76ee3097eb7@amd.com>
- <4d5d718fb646f8723ab31452b906f9bfee029e9f.camel@mailbox.org>
+Subject: Re: [PATCH v7 1/3] drm/sa: Split drm_suballoc_new() into SA alloc and
+ init helpers
+To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <dev@lankhorst.se>
+References: <20260219105433.2234194-5-satyanarayana.k.v.p@intel.com>
+ <20260219105433.2234194-6-satyanarayana.k.v.p@intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <4d5d718fb646f8723ab31452b906f9bfee029e9f.camel@mailbox.org>
+In-Reply-To: <20260219105433.2234194-6-satyanarayana.k.v.p@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0071.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::9) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB9541:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fd009f4-7ea0-4234-c4ef-08de6fb543e9
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7877:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4fdbe71-9fbd-4386-eb3e-08de6fb58712
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z1RMOFhvUjdCQ0Fjc3ZEYUNZcVcxaytabS9aOVZDbU0wYXQyTzVod1djajBr?=
- =?utf-8?B?SW5hOHpBYVpnaVZrVHowalFLYzRDc0tTaVYyeithYjVPcnh6cmQreDhFTjdF?=
- =?utf-8?B?dExvbDVTcXYyS0FWQjhydFFxWm9vOE5HQ2tiTFBUWmM2YTRYdlJkejFhQksv?=
- =?utf-8?B?S1lLL2UvOVBrN2ZFU2FOQnVFc3pUZktCcEoyakNOaDdtZjRWNGZFc1VGWmVZ?=
- =?utf-8?B?dExzQXppTE5vVHk1OW9DN09VakFIMkpTbTZ6QjZabnJjR1dzOThhVXp6Y2U0?=
- =?utf-8?B?R1B6bzZuVS9nSHRHTmFKQXQ2ZWVQMWtZVU5ESVUvYUxJRnVYSFFqUXEwT294?=
- =?utf-8?B?K0VBWml3Z2dsZmo4TkJFdjV5a3hERnMxVjlqZytEbmdNVnRMWVNadUdZc0tX?=
- =?utf-8?B?ZjZhTldFTm1wZjFxVlVPc3U1ZUFLNEk1WjZpYlhSWXArMTdVU1NlSVhXYXd5?=
- =?utf-8?B?OHdZd2V4bk9xZmVJK0FBS3p1dWtHaElqWGpOanBsdVIreEVxNGhrMkJtcTg4?=
- =?utf-8?B?bVpYMks2b05EWjhZM3FvbmlhTzlJemJBWHBkSWY1N1FLSVJEMjF1eEpRNFRm?=
- =?utf-8?B?clNnayswazhNT05wZkJIWU1oazE5K3pBelU5K25KRk5nSmUrZlBZUkNoRXVW?=
- =?utf-8?B?SG83RUdteHJOZWVRZG4wcTl5UkJySlRsblBmU3NuVGZZb3EvOEIydU90cE8x?=
- =?utf-8?B?SGN2cjdNUGdWM1pLR3hGVFNpaGJLeWZ1Rm84T1ZDWXliajFkMm5PU3ZobnpJ?=
- =?utf-8?B?TytPQjFrK2Ryd3pXMm9xeUV6d1lac3Jxc2wwMno5Y1lpRDltaUpGaUN6dWJX?=
- =?utf-8?B?aXg5RTJMVmFYT3BIdHpPYnZWdjYwWDF1YU8xRVNjRHFqY0lNMG05MVpCRmRU?=
- =?utf-8?B?TExrS1FnOUpuajVNN3FLdGtzL0toL0htQ1duZ3F5RFM1eEV1NTJhcFFuT3VB?=
- =?utf-8?B?b09FU2NKRHNFOEUrN3Ruck1VS21xdFEwTmMzQVh2cDNVVHFHQk5abGRBQkVG?=
- =?utf-8?B?OEM1WTRVMGdiMVkwUWg5QWpaRWNvdTJpOVVsQjFKWUZJTkp6c0ZmWHJIUHFZ?=
- =?utf-8?B?UFR1NTQzUE5wRUxFQ2pjVGdNelRrSlBjUGJnR2dSRzZ6cE4ySzVLZWpVUHpH?=
- =?utf-8?B?WGZ1YURaTHoxUjFja1dZeDFWd3FTWGFMK2dKcGJuV01zSmV5VDgwbU5aY0dz?=
- =?utf-8?B?MFhIQnkzUkp1a1IxbWJtR3Q2WlB4M3hDWEl6NTdrVmk1eVdTNTI0ZWM3L2JC?=
- =?utf-8?B?YWZQU1JRRUZPaSsxajB2b2pzTjJ1YkhHT1E5b3NCWExlV3VIVTdmcjlHSGhw?=
- =?utf-8?B?cXJ6aWpBVnp3NXRVSlFsZWZCdndleVo4YWNmdTB1UDVqMGo4QzFFcEJZN2FI?=
- =?utf-8?B?MldWeUJNMTl6aDVsaURpU0ZNUTdXV1FoUFVWNnpZQmxVT2RJMlcvbkFyY2dH?=
- =?utf-8?B?M0FwT2dJU3BjOHA2bURFak0zb1Nmb2RaQ2dUZmNpcmtBaHZ4a1dGTUVkSkpF?=
- =?utf-8?B?WXBMcFVDb3FObDFjM2Q0K3FoQ2lLaVVkcnNMWlo2K1ZDaVcyZlU3bjRzM1Uv?=
- =?utf-8?B?V2F0SEVvMllBK3ZtUzJCRmxwR093b1FpK1czK3prREE5YXQrQTl4TmFySUxZ?=
- =?utf-8?B?N2I3TmVsVWsxbHFpYTk4R3UxUk5oZVdqYTlGRjZLbE9EaE14bEQrSnRtUG9N?=
- =?utf-8?B?amhlVXNFWVdXbzFNTWs1cklXam9YSEVlNlVIQ3grcTRRYnBWSzB3c2ltN3da?=
- =?utf-8?B?WlZSdU1OQStDVnhEZDY5aVVCVzZFdGw1MTM5Si85bE1UT0g1VVlGU1ZXcXJV?=
- =?utf-8?B?ZUQ0Q0hIZTZHSk9SYnU1MVpjRUxRdE1TVWhJVFpQQVoxNkVRbkJGREh0Q3NH?=
- =?utf-8?B?R1RwQ2NWa2t6c2tsVVhrVEM2L084R0xWYkhSaUFKbmtRb2Y3aWk2YlEyZmlB?=
- =?utf-8?B?TWU1RjRZMXZGdHo2MHM5TXljcmYwWkVIOW9WV1A2WHdUV0NTVmh4NVM1UGZR?=
- =?utf-8?B?VC9EUGJFL2crNDRIL2dNQU9UdDdSTFMzNEZvNm4yUFlHQU9yYzRkVHMzL3JV?=
- =?utf-8?B?OWMwdUlyVVl6S085U2dRTzAzU1N2blpSekxmK3p2QVFFblFRMkI2dlY3QTVD?=
- =?utf-8?Q?2Noo=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?THVUdzNGZXkxY0JwSDhObmZzR05oNGxBaFNSdm5CWHZ0V1VNUHAzclI1ZTFy?=
+ =?utf-8?B?UXB2N2gxNldsR2g4aHlxTHY2dm55czYvMjdOUTdPd0g4RndJTGJpakMveVRX?=
+ =?utf-8?B?VFNRTmQ0c2R4KzQ3a0g3RGJrMUxnRW1zajN4dVRXSlZFWGkrMU9PVTdQYUU0?=
+ =?utf-8?B?VDJocUFRVVVEZjZ6b2JMSngwSllUdjFDOWlkT3U5eEEreUI3VlpIYW9jZkNl?=
+ =?utf-8?B?T0k0TFA0SHNnYytJTUxWa3lpdWpsd1JwK1JheGhWKzdlMEtFRStkeVJRRjJO?=
+ =?utf-8?B?bldnTExUM2RqQlhScTFRZVZnOWU3NEtiYjhPdXlMdFNDd3JoZkw0c0tBcGlL?=
+ =?utf-8?B?SmhnUE9CWjJtZGtZUUhpL3U5YkZQQ3p6Qm5QZWlpdnpGU0Zqa2ZKc2tEWGR5?=
+ =?utf-8?B?aEpwRHViVzBYcTJ4eW5mcFJ0Q2h3SXVMYzAxQWEraHBDdHN5cGdXLzdjNjlv?=
+ =?utf-8?B?bFAxdVFXcTFubEV2OFBMN3FFYzd1dlZZMlhpd09TU2wrVWNhQ1A3RDA3SHR1?=
+ =?utf-8?B?VDQ5OXRKVlZWdTRPV0Ftb2FMdHZvYXF1Rk9qOGJDRW11K1Y2NnRqZGMvNHBm?=
+ =?utf-8?B?VXhOSHA1alZYMEhjK240ZVltUDlSZEpMWC95Ny9NSEprUWdUVXBJcFpRRTZa?=
+ =?utf-8?B?MGthWmhDNE5lUXZtOVBMbmJ6eEdzb0orL3hFOUFoU1pnalRocGxNaHR0RnZ5?=
+ =?utf-8?B?cXR0WHlFUWV4TFQxUjIzcUdzWDlPRUh1VXZVTFhWUXkzdDF2cGlqSGVyMXBF?=
+ =?utf-8?B?S0wrendOeG4zcnkyWGRzdFplY3RFSmFUZmZqbmlZM09wQm5JUlEwRWZKQldq?=
+ =?utf-8?B?bis5UmU4eDRyK04xRFJRZE1XcGFoRk9rQStNd3ZPZFpWV0dQKzhNRkphZHJq?=
+ =?utf-8?B?bkErT0RMUkVrR1hTYitQaWNuU0czd240dDFzNm1PaE1xZ2dXSmdqNHdCY0F4?=
+ =?utf-8?B?d2FRbTF0NHFPKzZ3MldHaDd1UUNqeFN5clc2QmZXZFY0ZFFHYTRmUHIwRXNI?=
+ =?utf-8?B?dE9sNS9RcVVTcmNGK3JYbURkWFNsRW5HK1hGNkN6dXFpekpTTVk2bkpmaXBZ?=
+ =?utf-8?B?bFB1ZnFWb2VhQ0FzREtRUVJOZWEvVnhiV1FxS0JBOUdsNXhsNlA4NGdSb0s3?=
+ =?utf-8?B?RGZkRUZvT0VFNXkzNzE5MmZDcDJ1UTNvNUNpSkVzSnpkS3FpNjJ5U1J1V2VX?=
+ =?utf-8?B?cVNBU01QdStlSUtyckJLYjFEelJETStjWVZOVGJxR3RaU1NvTlJXOThFRzZr?=
+ =?utf-8?B?RHUzekU5Rmx0ZGhrZHpIZUlGVERONno5RC9iVVZmTE1iREIrTTkxNkl2Y3Zm?=
+ =?utf-8?B?K0ZvNmw0eHBwbXJscUpVdnhDTExob3o0Y0VPN0g5ZmE0M0NTZnRPcGF6VlFQ?=
+ =?utf-8?B?NlNKbWlKSFQ1QitUVTFUSGpwekUrUldLQStMQ2V0SWdVcktjbGNpZ0owYmNT?=
+ =?utf-8?B?eENsL3U5UER4dnVNMDc3d1JzT3FwZ1dtS0YzQ1dGVUl1YldkdzZITU4ydmRx?=
+ =?utf-8?B?NzZKR3pjenFqOGVSWU5sbWZmMWg3TXFOcDZ6MjY4N3dHaHBFbzVKWmpvZFFu?=
+ =?utf-8?B?VEE2d0ZWTmtPYm5LMENBOTJUUlNCSldjRVUrcERJdmlWZ2llT3poU3BYaTBC?=
+ =?utf-8?B?OFZQdWJIU002SmM1KzJyR0RMb0tBd2E2UURNOW5QRVFmeXhrUXN4WFVyTFN6?=
+ =?utf-8?B?ZFlLQWtxNkNORldIZHdIbFpESnFmdDJaU0ZyUzJBRmFCT09hU3RJVUJORUsw?=
+ =?utf-8?B?KzZVWmxqR3NBSkM0NU1vMmxjakN6YVlmeTFEekFaZU5YbnkrbTQxUE4yblFN?=
+ =?utf-8?B?dnA1VSs3U3UrVEYwazU0MWRsalpQOGRxOENBSWtsSUgyQjduMGw4UncxUTJ3?=
+ =?utf-8?B?MlNmbmxwSDh6NFgwUHRYSy9HcElHNGdRQkg1TE42akRzZnNaK1U2L2xOdFYx?=
+ =?utf-8?B?MmZtZis0UGZhZ2RJREpOVG5Uamx0MzR6NkRVSGlSSVNUdHNZLzBUS3ZPWm1n?=
+ =?utf-8?B?TkRNN3p2akJhU05idnNsOXZPQkRoVHJ1UUd2S1ZPaWJjWnRIRmpMZ1l3WklB?=
+ =?utf-8?B?YVhzdG5FaGtQakVzZGhTUWZndFVtMVkycGZSQVNFYU03ZTZvSUFXTndDZjVU?=
+ =?utf-8?Q?2dAg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkVaYk1yZmNRalAyV1pOSk0xLzdNREx6blNBMTV6N2IzaDlnNGliZEczT1hS?=
- =?utf-8?B?bXRyZzVZYmZsYVc3S1JEV3M2T2pyM2YyQzd5L3JYMmlEWDh1Wnk3azF1UVp1?=
- =?utf-8?B?QWJKeGNOQkdhRW4xR2FvTlAzczZ6QjRIcURHS3dyWEUzUE1xQVpDRzhWUS8r?=
- =?utf-8?B?Vk5sbExaZU4vbnA4MDhaOHpuaEhpaXdoMTRmL3QwRGo3eS9hQWc3WGplaGdV?=
- =?utf-8?B?MkpWM092dkR2R2F3QURhTWtsZWhQK2hLY1FwWUZoZXJjZlBHbUhBMWlZcHFR?=
- =?utf-8?B?YkpzYTlRTjVjOTdURUYxUTYzL2M5QUF1eldNbUNTSnVHL0JMMmd2KzU0TTJw?=
- =?utf-8?B?emIxa1pBOGc3ajZYbldFaW0wYVJQV05kQTV1QnoyU1JJMnp0NXlMSU1IM2Rm?=
- =?utf-8?B?OWZEYTMzQ2NJcUE5YVFPUjcyYlJLS2tVMmxHeTZLMmhJa3ExRzNBdzJMRVFw?=
- =?utf-8?B?SjBUQitMYWtWU3orejg5dGJBdWp1ZzIzS2tvM3J5KzJCNHI5dHpTYVpaOWNr?=
- =?utf-8?B?SjI4cXhGRGpRZmRJUmFGOVIzTnYxYWk1M2JyL25HZjlGUlFhbVJhemRBdDlv?=
- =?utf-8?B?TXFLRVdWTXFRYURaK010bEZNRnlMK2grV2pIeDYwRE9hSTRjK25HNkZtRWVs?=
- =?utf-8?B?a3N1UWJ0eTBnSjd4NzJXa0RWOEtNTjJ6T3pzT04xYVIrVm53ejBxZjdtMDVB?=
- =?utf-8?B?V1VwSnJGc2M5eGVtaEtzNDRSYW53ZHZ2R1VjTlcxbVBocDdxTnhPY1prUlVY?=
- =?utf-8?B?RVJhRkxReHJrUzBuY2ViMUNWUjdTV1diOHZlZkkvRy9qN0ZGT0Jlbm1jRy9v?=
- =?utf-8?B?WXNRLzczR0FyU0d2NXNNVFVQZTR5YUdmNGtSKzdSR0ZqVkVTNHJLN3JvS2I0?=
- =?utf-8?B?NmdmTi8rR1VTYjVCSFlzVjhGWkZNSy90UzVScERrSGZmM2RINzZ2QlJ1UWZy?=
- =?utf-8?B?QWxwaUFZYmk5T0tuNDFYUE1jZDVxZ2ZLdjcxYllnQmNVemJXdm13aktZQjBh?=
- =?utf-8?B?a0VreXo4NXYxM0xZcW4rd3NVNEtDUUhzaEZPUHhtbmErdjgxclkvQ0g3UmZE?=
- =?utf-8?B?MEdZT2xESUduU3RxSFhURllQS1BRUXRyaWxMWGFUN1A5MUhUejhENlk3K0ZR?=
- =?utf-8?B?a004ZUxzMEowMFFXTXdsRDFVOEVabVQ2OUZkZVpydG9hY2VIMXZWenNhKzlu?=
- =?utf-8?B?dGxFdUtqUDlLTjl2WlpIT3UwK04zYWFWYUtvTW56TzZpSm12VkZ2WkpWTHNO?=
- =?utf-8?B?ZzRPc2l5OEtDRnlheVdBVFkrZWFScHBQYjQ3alBLcWwzTDZMY3NPUXArV2Jt?=
- =?utf-8?B?akp1S0dUZnNyTXh3WWJackJoU3Z2dkhYQmpPV0tBZVZzbS9DejdoRnJTbEd5?=
- =?utf-8?B?ZGFOWGkyQUI2SU54bU1rd25YNE8ydTVZWDNUb0NwWVpKM1cwNXM2Y1hkUWlE?=
- =?utf-8?B?VjhaOEpPbk0vS2dTOHIvRVVPcmlsYWp5RGY0dmI2M1NnN0hIUi9tV2NZNXFq?=
- =?utf-8?B?ZERqYjFxUW1XSnRoR0U4dnRiMUxUUml0eTdoTTZRYTY3QVpDTlM0Z1J0VmpD?=
- =?utf-8?B?NnNrbHZzc2J4d1pNSHZVYUVHR05CcEJTYmVpdVE1OUZRYzZpOWtqMG5UTUE4?=
- =?utf-8?B?NnhIblZucEQrVS9WaDhHbHQ5dmxpMkRCMFR4U21aVnFRMTQxVWZ5UExsMHlL?=
- =?utf-8?B?eFZ5aUlxS25qekdwVmpxMDJ5OU51akJ1ZHJlTnJSQXRJeTcwTGIyRTlRR1U4?=
- =?utf-8?B?N2h4S3VJZDRqbUQ0YSsyaVd6T1hPdHcyNjBFZ0ZxMGN3a0dJTlhWcVBkTVhL?=
- =?utf-8?B?UEV4aDdjcmZiQUtyZEFEYkh0YmYyV1dPaktXSE5wTUc3MG9IZmdaYnhISk5u?=
- =?utf-8?B?aURybzFPdllJY0o4VkdZZW5waVpIWmdEejA3LzIwaWg2dTgxTWNhdjQ3dzFv?=
- =?utf-8?B?SjlQUDZvM3VuRm5EUnBaMmhCN2lZTVpHdFZEYnNrNDVpUERXRXViN3NYYlA4?=
- =?utf-8?B?aUNtR3NRWUsyVlEvTkZiR2NIVVJkM2VvZXhaUW9iVksrK3h5cGN2M0FwV2VH?=
- =?utf-8?B?OE9sRnBaN0NlRDhmZU1KWjJGQjdpTnN6VUNTeEdSWlJwYVdmWndpWjVITW16?=
- =?utf-8?B?SjZTblJPeDJuaTR6Ym5OWDNzSGV5QlFWM0tkTHkzdmNZZXA1Tm9jSGNDR0p0?=
- =?utf-8?B?MkFXaUhrUjh2aTBQQldoaVM5eTJ5bjRFaXhBTkY4Y0hvM2NjUWF5bGNzSlNB?=
- =?utf-8?B?THNFenlpRTNrNVJTZzRtL2M5ZHl5WGtIQVZ3TFRrY1R2dGFIN0hrQi9PSXZ3?=
- =?utf-8?Q?ZcQ2gY+HTrVFDjji71?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFZzUThKcXlvbXlISDV6R2ZNckg2M2pnRDJkeVZLRVVGMU1MK1Jqai9ySEM2?=
+ =?utf-8?B?RXBJYzNJM0ZhaTNLOUxIa1dFMHAxbVI1K1cwdXk2VjFFaDZxdVUwdWxhbUdJ?=
+ =?utf-8?B?MHJXT2hhRnRyUUVEaG0wQnIxM1Y2Q3ZvK2lpL1VTOU9wS2JiRjUrQXFIUXA4?=
+ =?utf-8?B?YzlWcmJ3K3ErTDdhQXhwcHUzS25kcVlwUjJMQmkzZTFJWnpoRFNCdDhBYzBs?=
+ =?utf-8?B?cjdRTUlYdkJwUDROVlJ1NlVqQm5oNi9iSHl0N1RiT0tIQTBkUTFhZVZTWmJj?=
+ =?utf-8?B?NzhYVXJWTzZnNXpmL1k0V3Vha3g2VE9mN1FUS3cyRFN4SjlHZ2xoUmUrc25T?=
+ =?utf-8?B?WWFiT0lLdWU3TVFtWEtDNXArSHFkMEhiOGRHZ2lYemxxL2QzMThwOWdUd0J5?=
+ =?utf-8?B?aWV6OHNjRGN3S1FROThFUk01a3pocXJUWUdDZTdmNGFueWdPZjJWYVl0L1ZV?=
+ =?utf-8?B?MUVBTmQwc3RBanZ1SzFyb1oyZ0hqMUxoak5KVkpYcmMyUFk1TWNGSStUMDdk?=
+ =?utf-8?B?akZnY01LSU5lbkZzWHJnSklsa0lLNHRPKzk1T1EyQnMyY0dvOHoyUFdiQUo0?=
+ =?utf-8?B?aStCSDVJa1FkTjhURHdJTG9DcXNraG8zUmhGQ0swN2NYVFc4U2Y5cVJVS1h2?=
+ =?utf-8?B?QmxCM2h6RnNsK211WlhYVEpGdEVaYTllcC82ZFM3RW1nc25CR0tEajZlamlC?=
+ =?utf-8?B?aVVVL2FrWGgwOE1aVjdndjV5QkFoaStGcTZRZjdTT2ZlcWZXdVQzdHRKMUJp?=
+ =?utf-8?B?Wm5VOG1WSmNwaUYyNXE0dENveXM0TjVBTGlZdWVYdHJFaFRHRzE5VENVeFRB?=
+ =?utf-8?B?Rm1JRUZUZU5WdTFtT3BvZ1B4MU01cTBhVXVOd3duVWRDZ1Z2eXlkNXpQd0Ez?=
+ =?utf-8?B?U3JwYlBDc05qVTRWY0ZVRk8xMWxuYzVSVWpFRzQwNTNWVzFxakFmQmFibXJh?=
+ =?utf-8?B?VUZYQzA0MVlKc0VVRVBkNFVETXJlSk1zdU0yWTB1Uk5mVE9HbUN3VVd5M0pk?=
+ =?utf-8?B?Q2dwRExza1h0bk1zbGRPemZFcHlReTBlUHl3QTBkVmNVRU5iWGRQdDVpM0lR?=
+ =?utf-8?B?czQzVnQzelpITmxTaGFMcHBYUUhIQ2QxbERZMnFvZTJ1VGt3eGlRZm5iOTVM?=
+ =?utf-8?B?cVZ3RDlKUXp0V1U5MW9raGp6eWRrZ2crTk80d3dXRWM3VDRkSkFJeTNKTGt1?=
+ =?utf-8?B?M004c1VJK1BIRGtYZ0F1NUxzNnpoQmpPUkZaRkdZOFpmSC9Qd1VqZEg0Qklp?=
+ =?utf-8?B?TnlkeUlPUWdpOVYrc3dXVWtQeHFESmZsSW9VcVNseHpCQldsUjB5STNibExF?=
+ =?utf-8?B?WkJQYStKd25KNXhxSDYwOFZRbFJvdkYxbFhKOEtab21wTnBXMXE3SGlsNVhQ?=
+ =?utf-8?B?OXVkd1NUbDJETHhIbXlVVjBWM1dHR0dpTkxoUWg2K0l0anRqUzMvZlFzb2Z5?=
+ =?utf-8?B?eWl5ZDN0OGN3b0taMW9GQVRSWDJ0TzFSTUp3bDBMUEhJWDUraExIWHlqa1di?=
+ =?utf-8?B?TEc5Z29URHRKOFhOL0lLVTdOMkxLZ2k3RmprdXhsRzFaU2N4M1JjZlZMRzN2?=
+ =?utf-8?B?Um9BVzRTZ3pQMzZtaWtJQnRDWDkvaDBOVzc1ZVZuR0xCU1J3MktWajBYVmRS?=
+ =?utf-8?B?QjNQT09tWEVFK3M1VzdjUDZlUzN2TzRoRlkwL3NWODZ1VEpvejBVS0daVHdY?=
+ =?utf-8?B?Um9OckNUNGMycHlnK0tZd0J6MTVBUWZ0VzlyNDE5M3VKZy9SOUVic1JVb3hr?=
+ =?utf-8?B?VTBmWWFGZGJ6ZzA2UWh6aS80YnRrQXRrL3diUW1GQzRIUkZackVkbHh6K3Nj?=
+ =?utf-8?B?ejFjbkxVSFFVVWZ3N3pyLzBVRjd0c2ZNQm9zcUx1NGpvNmtrS0srbGdiWGRq?=
+ =?utf-8?B?VjFseWYxaTBtaThjaEVMNERoTDRjclFFRzNvVDdTSktVT1cwdFNGWDFrTUhz?=
+ =?utf-8?B?eXY5d05YMEJ4NkJHMFZpNlpZRlFzWGJQeWJkM1BKMVpaN3JXOTBwVWtlZ1h0?=
+ =?utf-8?B?NTFHeDhVaGFVcVRIZXFGV3dzbkdRL0FxV0tZT29DWTlnczZ2Q0xGZ1Y2c0VG?=
+ =?utf-8?B?L1hMc2cwWjBONnRNV0R4T08rNU9SWHhMbHBmcXJZaE9rWUNKTGhQSFNnVERm?=
+ =?utf-8?B?Q0VSM1VtRVJYcmFINlAwVXRRbzJxRFRsbU9YNmE3MUhRclkvVlQ2T2hsMTZS?=
+ =?utf-8?B?cytSWlV3WFlVaFNhVE9ZTFVsdEhQQm4rb1kvWWNydUt4ZEdvWVpKTTdNamRU?=
+ =?utf-8?B?N2VFOWY1ZXJPOVNIR2lVRVRSQ0N4dk4weU9ldGhYbkQ2TEdzczVTRGxiUTJr?=
+ =?utf-8?Q?gOgz8gbV0ehdYHI5hR?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fd009f4-7ea0-4234-c4ef-08de6fb543e9
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4fdbe71-9fbd-4386-eb3e-08de6fb58712
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 12:49:05.5661 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 12:50:58.2909 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lKdWY1bXlMytcG6jqoaWcxBDF1Ex7+mY7O61cSRgX3pNGx/5Qtrz4y8PrkfgxqxL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9541
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0z/m27TXJ/h/E4Zy6W93R1sUbOjs364wf9YaFFrbKoAosFkhK3tvmkbUW4wm4MFN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7877
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,119 +183,260 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 98D9115EB01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email,lists.freedesktop.org:email,intel.com:email];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: 932CA15EB9C
 X-Rspamd-Action: no action
 
-On 2/19/26 11:35, Philipp Stanner wrote:
-> On Thu, 2026-02-19 at 11:23 +0100, Christian König wrote:
->> On 2/12/26 09:56, Philipp Stanner wrote:
->>>>>> @@ -454,13 +465,19 @@ dma_fence_test_signaled_flag(struct dma_fence *fence)
->>>>>>  static inline bool
->>>>>>  dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>>>>  {
->>>>>> +	const struct dma_fence_ops *ops;
->>>>>> +
->>>>>>  	if (dma_fence_test_signaled_flag(fence))
->>>>>>  		return true;
->>>>>>  
->>>>>> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>>>>> +	rcu_read_lock();
->>>>>> +	ops = rcu_dereference(fence->ops);
->>>>>> +	if (ops->signaled && ops->signaled(fence)) {
->>>>>
->>>>> Maybe you can educate me a bit about RCU here – couldn't this still
->>>>> race? If the ops were unloaded before you take rcu_read_lock(),
->>>>> rcu_dereference() would give you an invalid pointer here since you
->>>>> don't check for !ops, no?
->>>>
->>>> Perfectly correct thinking, yes.
->>>>
->>>> But the check for !ops is added in patch #2 when we actually start to set ops = NULL when the fence signals.
->>>>
->>>> I intentionally separated that because it is basically the second step in making the solution to detach the fence ops from the module by RCU work.
->>>>
->>>> We could merge the two patches together, but I think the separation actually makes sense should anybody start to complain about the additional RCU overhead.
->>>>
->>>
->>> Alright, makes sense. However the above does not read correct..
->>>
->>> But then my question would be: What's the purpose of this patch, what
->>> does it solve or address atomically?
->>
->> Adding the RCU annotation and related logic, e.g. rcu_read_lock()/rcu_read_unlock()/rcu_dereference() etc...
->>
->> This allows the automated statically RCU checker to validate what we do here and point out potential mistakes.
->>
->> Additional to that should adding the rcu_read_lock() protection cause performance problems it will bisect to this patch here alone.
+On 2/19/26 11:54, Satyanarayana K V P wrote:
+> drm_suballoc_new() currently both allocates the SA object using kmalloc()
+> and searches for a suitable hole in the sub-allocator for the requested
+> size. If SA allocation is done by holding sub-allocator mutex, this design
+> can lead to reclaim safety issues.
 > 
-> Alright, thx for the info. Very useful
+> By splitting the kmalloc() step outside of the critical section, we allow
+> the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
+> the initialization step that holds reclaim-tainted locks (sub-allocator
+> mutex) operates in a reclaim-unsafe context with pre-allocated memory.
 > 
->>
->>> Adding RCU here does not yet change behavior and it does not solve the
->>> unloading problem, does it?
->>
->> Nope, no functional behavior change. It's purely to get the automated checkers going.
->>
->>> If it's a mere preperational step and the patches should not be merged,
->>> I'd guard the above with a simple comment like "Cleanup preparation.
->>> 'ops' can yet not be NULL, but this will be the case subsequently."
->>
->> A comment added in this patch and removed in the next one? Na, that sounds like overkill to me.
+> This separation prevents potential deadlocks where memory reclaim could
+> attempt to acquire locks that are already held during the sub-allocator
+> operations.
 > 
-> ACK.
-> But then lets do a normalkill by adding the info you provided above
-> into the commit message, shall we? ^_^
-> 
-> "At first glance it is counter intuitive to protect a constant function
-> pointer table by RCU, but this allows modules providing the function
-> table to unload by waiting for an RCU grace period."
-> 
-> This doesn't reveal what the patch is actually about, just that
-> something is counter-intuitive to someone already very familiar with
-> the series' intent and the code's deeper background :)
-> 
-> "This or that about dma_fence shall be cleaned up in subsequent
-> patches. To prepare for that, add … which allows the RCU checker to
-> validate …"
+> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Maarten Lankhorst <dev@lankhorst.se>
 
-I've already added the sentence "...As first step to solve this issue protect the fence ops by RCU." in the commit message to make it clear that this is not a full solution to the issue.
+Maarten had a good point here, that cleanup approach is definately more defensive.
 
-> *Philipp reads that*: ["Ah, this patch is in preparation and allows the
-> RCU checker to validate everything!"]
-
-Yeah, mentioning the RCU checker is clearly a good idea. Going to add that.
-
-Christian.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
 > 
-> ;p
+> ---
+> V6 -> V7:
+> - Dropped R-B to review again with the new changes.
+> - Dropped drm_suballoc_release() which was introduced in this patch.
+> (Maarten).
 > 
-> P.
+> V5 -> V6:
+> - Renamed drm_suballoc_init() to drm_suballoc_insert() (Maarten).
+> 
+> V4 -> V5:
+> - None.
+> 
+> V3 -> V4:
+> - None.
+> 
+> V2 -> V3:
+> - Updated commit message (Matt, Thomas & Christian).
+> - Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
+> 
+> V1 -> V2:
+> - Splitted drm_suballoc_new() into drm_suballoc_alloc() and
+> drm_suballoc_init() (Thomas).
+> ---
+>  drivers/gpu/drm/drm_suballoc.c | 105 ++++++++++++++++++++++++++-------
+>  include/drm/drm_suballoc.h     |   6 ++
+>  2 files changed, 91 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
+> index 879ea33dbbc4..1acb5363b65d 100644
+> --- a/drivers/gpu/drm/drm_suballoc.c
+> +++ b/drivers/gpu/drm/drm_suballoc.c
+> @@ -293,45 +293,66 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
+>  }
+>  
+>  /**
+> - * drm_suballoc_new() - Make a suballocation.
+> + * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
+> + * @gfp: gfp flags used for memory allocation.
+> + *
+> + * Allocate memory for an uninitialized suballoc object. Intended usage is
+> + * allocate memory for suballoc object outside of a reclaim tainted context
+> + * and then be initialized at a later time in a reclaim tainted context.
+> + *
+> + * @drm_suballoc_free() should be used to release the memory if returned
+> + * suballoc object is in uninitialized state.
+> + *
+> + * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
+> + */
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
+> +{
+> +	struct drm_suballoc *sa;
+> +
+> +	sa = kmalloc(sizeof(*sa), gfp);
+> +	if (!sa)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	sa->manager = NULL;
+> +
+> +	return sa;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_alloc);
+> +
+> +/**
+> + * drm_suballoc_insert() - Initialize a suballocation and insert a hole.
+>   * @sa_manager: pointer to the sa_manager
+> + * @sa: The struct drm_suballoc.
+>   * @size: number of bytes we want to suballocate.
+> - * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+> - *       the argument is provided for suballocations from reclaim context or
+> - *       where the caller wants to avoid pipelining rather than wait for
+> - *       reclaim.
+>   * @intr: Whether to perform waits interruptible. This should typically
+>   *        always be true, unless the caller needs to propagate a
+>   *        non-interruptible context from above layers.
+>   * @align: Alignment. Must not exceed the default manager alignment.
+>   *         If @align is zero, then the manager alignment is used.
+>   *
+> - * Try to make a suballocation of size @size, which will be rounded
+> - * up to the alignment specified in specified in drm_suballoc_manager_init().
+> + * Try to make a suballocation on a pre-allocated suballoc object of size @size,
+> + * which will be rounded up to the alignment specified in specified in
+> + * drm_suballoc_manager_init().
+>   *
+> - * Return: a new suballocated bo, or an ERR_PTR.
+> + * Return: zero on success, errno on failure.
+>   */
+> -struct drm_suballoc *
+> -drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+> -		 gfp_t gfp, bool intr, size_t align)
+> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
+> +			struct drm_suballoc *sa, size_t size,
+> +			bool intr, size_t align)
+>  {
+>  	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
+>  	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
+>  	unsigned int count;
+>  	int i, r;
+> -	struct drm_suballoc *sa;
+>  
+>  	if (WARN_ON_ONCE(align > sa_manager->align))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  	if (WARN_ON_ONCE(size > sa_manager->size || !size))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  
+>  	if (!align)
+>  		align = sa_manager->align;
+>  
+> -	sa = kmalloc(sizeof(*sa), gfp);
+> -	if (!sa)
+> -		return ERR_PTR(-ENOMEM);
+>  	sa->manager = sa_manager;
+>  	sa->fence = NULL;
+>  	INIT_LIST_HEAD(&sa->olist);
+> @@ -348,7 +369,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  			if (drm_suballoc_try_alloc(sa_manager, sa,
+>  						   size, align)) {
+>  				spin_unlock(&sa_manager->wq.lock);
+> -				return sa;
+> +				return 0;
+>  			}
+>  
+>  			/* see if we can skip over some allocations */
+> @@ -385,8 +406,47 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  	} while (!r);
+>  
+>  	spin_unlock(&sa_manager->wq.lock);
+> -	kfree(sa);
+> -	return ERR_PTR(r);
+> +	return r;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_insert);
+> +
+> +/**
+> + * drm_suballoc_new() - Make a suballocation.
+> + * @sa_manager: pointer to the sa_manager
+> + * @size: number of bytes we want to suballocate.
+> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+> + *       the argument is provided for suballocations from reclaim context or
+> + *       where the caller wants to avoid pipelining rather than wait for
+> + *       reclaim.
+> + * @intr: Whether to perform waits interruptible. This should typically
+> + *        always be true, unless the caller needs to propagate a
+> + *        non-interruptible context from above layers.
+> + * @align: Alignment. Must not exceed the default manager alignment.
+> + *         If @align is zero, then the manager alignment is used.
+> + *
+> + * Try to make a suballocation of size @size, which will be rounded
+> + * up to the alignment specified in specified in drm_suballoc_manager_init().
+> + *
+> + * Return: a new suballocated bo, or an ERR_PTR.
+> + */
+> +struct drm_suballoc *
+> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+> +		 gfp_t gfp, bool intr, size_t align)
+> +{
+> +	struct drm_suballoc *sa;
+> +	int err;
+> +
+> +	sa = drm_suballoc_alloc(gfp);
+> +	if (IS_ERR(sa))
+> +		return sa;
+> +
+> +	err = drm_suballoc_insert(sa_manager, sa, size, intr, align);
+> +	if (err) {
+> +		drm_suballoc_free(sa, NULL);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return sa;
+>  }
+>  EXPORT_SYMBOL(drm_suballoc_new);
+>  
+> @@ -405,6 +465,11 @@ void drm_suballoc_free(struct drm_suballoc *suballoc,
+>  	if (!suballoc)
+>  		return;
+>  
+> +	if (!suballoc->manager) {
+> +		kfree(suballoc);
+> +		return;
+> +	}
+> +
+>  	sa_manager = suballoc->manager;
+>  
+>  	spin_lock(&sa_manager->wq.lock);
+> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
+> index 7ba72a81a808..29befdda35d2 100644
+> --- a/include/drm/drm_suballoc.h
+> +++ b/include/drm/drm_suballoc.h
+> @@ -53,6 +53,12 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
+>  
+>  void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
+>  
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
+> +
+> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
+> +			struct drm_suballoc *sa, size_t size, bool intr,
+> +			size_t align);
+> +
+>  struct drm_suballoc *
+>  drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  		 gfp_t gfp, bool intr, size_t align);
 
