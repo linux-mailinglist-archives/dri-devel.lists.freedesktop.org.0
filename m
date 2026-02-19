@@ -2,142 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0FZPAqVnl2nfxwIAu9opvQ
+	id 6M78HCVpl2muyAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:42:29 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:48:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B7F162193
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1645E162296
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 20:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84A3E10E742;
-	Thu, 19 Feb 2026 19:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84BDD10E746;
+	Thu, 19 Feb 2026 19:48:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sz1AkQez";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TVaRcHcj";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="f38Iljbq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 600F010E742
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:42:24 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61JH3PEv1009132
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:42:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- sqVevzHA5yFYdbn4seYcAEFxgZSYb3dH9h1uQYK5+vc=; b=Sz1AkQez6keY1MSh
- QwO1Th8Who8Gg/x7ChJPUMx2HZCqpHAtvNmHavqJcKyzzCL8LoHZLm5Q58l7tPOo
- L1RgQ6b/rcW1h1l0t6xv3c+CrLB5CFL5zqOihuSldE3Ae/kUmZOw7k8oWDyJyc0R
- r5hC0SzLt1YSTtHakD07f6idnMkpe7wS65H2LcgkJqBsKjVr1Ilc80lmXtEgNSz9
- BedTN5BjFnQ5uvPYVOafSaZ5vtuSHzMI1Np6KrmpYtVNvBMJ9qGqp945Zj+ozR7W
- sC1OSqVaiSmWypVIsShtjbSq23FxrrFCUidQpBcTGNwMX0tg5YQkkbrUrPYpbzA3
- Vy6yIw==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ce2gehe32-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:42:23 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-2aad5fc5b2fso11452645ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 11:42:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771530143; x=1772134943;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sqVevzHA5yFYdbn4seYcAEFxgZSYb3dH9h1uQYK5+vc=;
- b=TVaRcHcjvPtszomZgWm5hQiD55xffi5C5zVmzBXeZPy333kw52uGHNAOCnHEKZfcQg
- t3SDytBQrdJZQzoAWfGJi/kkS3BDLJ6jI/W2teb3QiunGD9yFeFnKe6d6I7vlKwSxzWr
- l2cxfvVnoLEQ10p1x4zDTyC66dNxEokl60CmBtjefih8Bir/tjr/a5A+5ptJqOBD7MDX
- ETD3fQvxGomJ67+1NsUPXjBK/PUzzqC8wQRcXGATv00uP0hXO7vjcWA8dh7ldUpGIKTf
- JSyEIY7Jsc968VEustoLTHK8J67BjPIY4u4SsE+ll92Irdyi8Oms6gFicpdG/6FUuvhH
- nNEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771530143; x=1772134943;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sqVevzHA5yFYdbn4seYcAEFxgZSYb3dH9h1uQYK5+vc=;
- b=VAuCGCEuCxScTvApC8wIBqWLpIqy2LzeLOgKfV1mZ0QHPj9izibS+5IamCFx5BxpD9
- pQ+ivPsN5iTiyOQs5e0NgP9LrX9/h7xM0wLRrHxkzTLOY1fB/zEjeDGvJRhyaBpAuHwx
- o00gupDdEWoNH8N6hdhS89gFRmrjIU+3J+iInY22IWm/AbuDmjdi7K0AQve+eFJCoxmH
- kQvTDGGWHHb/efxuFF/8V5Wl4080AHehJFYQm9cvFcHVNHwkfa8Zf+CWaqppaCfCP07b
- 8lyOU9EHa+NFai9Il4kDdaIOQhZW+4PK9YrHrrdHMBJ5XaVPKUk/4wlHAC6rTzbgFjMm
- Ny3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWatl+YHLKEPPCC3HIy9Knzzd9Ey3EAYjrfXzP4bwhy7JPu/MkduonolMlsEp1yYjCBGN/dBzLwuSQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4tmxkKVGahaX9+6OIBNc3jStv6Az4Wq9n/JOVkebMSa7TVegv
- uAPgvafCGBZtZ4JcGXVF1sx38Aw5+Dc+LjMsd24AfDlXNu+d/qMy7s5/L1kDB2nMMQoxQO5mw3c
- fmD9ahMsyLSaR4v/aD9kyAA5S5KzC97ejUrKz5psoUIba7AmfvIyJgqKSubuwAW0zqEDgP7k=
-X-Gm-Gg: AZuq6aLde2Wq+lHDiWhJ+OnX7IHfO0tY/CzuDPzXUPsJm3nqYMexGygyM2B5e5hUOgz
- UtgUwPw48nXxkBztGITY8NUCbsA8TK1GzeiA8i63UvzXcdW3nu3dE33F7+/xNtvm5i4InYVI6yd
- X4dTINwyy5mMzJkVrxkEVrDF21mfZStWllKctwsZQeRp7j7E9N9Cvqo2iXN0qWaxKz9gmh17lta
- oelAPVuY0qpCvnRiP9MxGGYnc3ESrLFU2zJKl7ZHJsaXIh6J12oVG/UDtf/O2N7NoxR2+4gK36F
- bxKjVSMJe/Z4zBr7GN2MwekYaX/dcT0R1hGQC/BbqN3fOTZwjIonMckFNST8kXgh6n5blRs1qaA
- 3hbwM9XVh70ODYYAiEzwVNxW8dOMxruCx90td+XAJMRTdzQ==
-X-Received: by 2002:a17:903:286:b0:2ab:2633:d986 with SMTP id
- d9443c01a7336-2ad50f9fcf5mr59629735ad.49.1771530142879; 
- Thu, 19 Feb 2026 11:42:22 -0800 (PST)
-X-Received: by 2002:a17:903:286:b0:2ab:2633:d986 with SMTP id
- d9443c01a7336-2ad50f9fcf5mr59629445ad.49.1771530142357; 
- Thu, 19 Feb 2026 11:42:22 -0800 (PST)
-Received: from [192.168.1.6] ([106.222.231.214])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ad1a6fa229sm169698005ad.18.2026.02.19.11.42.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Feb 2026 11:42:22 -0800 (PST)
-Message-ID: <d3119277-3205-49cb-81c6-1b12d10c5ec8@oss.qualcomm.com>
-Date: Fri, 20 Feb 2026 01:12:15 +0530
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010012.outbound.protection.outlook.com [52.101.61.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92CF10E743;
+ Thu, 19 Feb 2026 19:48:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gSsu2QEwIrnszIakYY4XZtVT4zRc+DKU9AFxCXTY3AHID3EMyt1zh46OOXCXUnakTLYahkC9PhCgS6VFb+R4jffi5DTbjHy7kKW41aEDgxBviuI6HLQiH/aaJd1iaJyVv5S0zfQ6OnUM87KVoJaVa3+mPCIszyzmKenghqjQzAjSeh3fuh/P60I1pDcvlW/nd48qIZvdJ0dRtwhN0tt3UfI0CfVQxM0Uk2iYqvamK5lBPrNWXUxH5w+1j67yQ/wwh+FOY62IrYXF6S61aqLW0wUGKTdc59ysaJ6nhh1jfAmXsKuYlnR4r/QIHHk1gF9bH+JatxC2i893E54KG61TUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q+j6jVOXYkuTUnXNZywacQfp34JireSz3Fn+pSkrMkg=;
+ b=wUwuZBE1vLiDb7aRhU+Gjy2Rn8mk822Izf3o0I5xZydko4Lzb3kXFWWMcobBx/iVQtx65fpFJK6TklyVBmv4SrElS5FVhIDCRRkivKEQLWL/Uj/rqGosuJKTmMjPcKmlfDtH7prC15HFBmiP5pdWrs3vNVU5TcoalDrOP+TU9C9SziQ906HE3fmZBwmfe7jSSwJBaemmTBFpu9OK3gw5roCLt3z2e2D9sjo6seoMc6ZQs5AI+0BA8kn1iPf8/yLXmr4WOvH5lgM94eX+7OvAWMT2o8tKj1CItapQ1NIPINYW534XqoWxIRgfWxlo8HREjvPHb3FuwRPnMMcrZyVI7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q+j6jVOXYkuTUnXNZywacQfp34JireSz3Fn+pSkrMkg=;
+ b=f38Iljbq57X7+C3v3kdvzjcLNNboS1Ve/UNsjvfMTVSGZOxRi7A/KWd9kn871IOS3VMM+3y9Dkni75xzJ8Lt3IW05yxJ1BCbHqyucOJT6nO7W03Cv0MxsiQqKPokmDDbq37WfBc/QemQFHyroOcemMdwLQISkGKJj39DBoXzjddlbX8Y9FdGbRk1Tcqh/DOyoSCDV6UfKpjdwsWpmAmzfIASMfkib+iqDkuaevXNQpta1XXVANreY048lFyO1NlZBQ6BTfQa+ITE48M1jyL1NMITN1GQo6UN0VDIRWTP7uWnXVWA7+9Vr//O01JNrwGt6QA7QnC/gahVL+vNis0+CQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ IA0PR12MB7722.namprd12.prod.outlook.com (2603:10b6:208:432::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.16; Thu, 19 Feb 2026 19:48:40 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
+ 19:48:40 +0000
+Date: Thu, 19 Feb 2026 14:48:38 -0500
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v7 00/23] nova-core: Add memory management support
+Message-ID: <20260219194838.GA1013545@joelbox2>
+References: <DGJ1G3D32OMK.30HANB1W46XVL@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DGJ1G3D32OMK.30HANB1W46XVL@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0120.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::35) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: add missing MODULE_DEVICE_ID definitions
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Lo=C3=AFc_Minier?= <loic.minier@oss.qualcomm.com>
-References: <20260219-msm-device-id-v1-1-9e7315a6fd20@oss.qualcomm.com>
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260219-msm-device-id-v1-1-9e7315a6fd20@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=Z5/h3XRA c=1 sm=1 tr=0 ts=6997679f cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ak1KJoLj4JlN8czLuyNMyw==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=fs4y5QUGM0Q0NtUbLCQA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-GUID: 5yZQchBiVDbho0Vtj_6IsBRjWcbUkRUe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE5MDE3OSBTYWx0ZWRfX+vxAmTwWbtJi
- ZuqagIC5Gvl2/6KUbCBNakqvn8s/d+HojJFPzSSsouGjKEoYAd/KWfjgExT30Ci/YhV6v5R/mcV
- cSu9hg0Ff54oiMpFB/31ulIx2jM6EsUfLU7rDupi4wSsJ1kDtvOZzlDr5+Zae3t+ibrFVHIsPK/
- 32GZjRe7z/ff/2c8dUm9yvZxIQmfszS4aq1WHn0Do999hdAppuwY43JUpxhDaYZk9lwJlMhNk8q
- 25247lN4LW5bhWSm7zvUtNRO7ooT1l7EYzq24Y+Y64U+cg9iLq2H6gFdi69Rl3iVahKVsn1n/jl
- WtFQtwaUetRjumgp7LlF5IDXmDy+lMOkMydsZOZsWyBAlmFDO43y2GiqA8vbIq5JDMt4baL5ABQ
- tpPN4aucOwyqfSZZV27q/w2bRQjc9/wN9PyoBoRQ6/71bqqHbFbCk/46t3lMve5j5kadLLHGj0V
- XVP/Ru0Ped6h/SBdzCA==
-X-Proofpoint-ORIG-GUID: 5yZQchBiVDbho0Vtj_6IsBRjWcbUkRUe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-19_04,2026-02-19_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602190179
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA0PR12MB7722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9aa8e3a2-c0bf-4126-87b4-08de6fefe13b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?knnMzP7jZeLejYtRucfhjeQFn4Pl3AoP/w3ifDMJNxkS6eMawVrcjnXGWC4e?=
+ =?us-ascii?Q?hwklJH8sHyDOjjrV9NpZQBEAsPs61OAkmDs3HFrO3FEzMAAl8S8SmC6qS7lE?=
+ =?us-ascii?Q?ptrDFq9+w4VbgkLvpedZr53bq0D+34xGKqHEGO0wn+0GTbGomH+HdhSFdPMF?=
+ =?us-ascii?Q?oXxk1NrUXkgPZI6kDVEXYxX1EIuVxNHVyCp2vODcQj88VlGOA9MgXM8bd2DZ?=
+ =?us-ascii?Q?TEKsulBNTILZ0yg2rcCIWGuXefoldnd/jWE54NI8C3TuVM2vdmqr1M1/mzXR?=
+ =?us-ascii?Q?sFOCBVpRtreF3XI73sHCOivCjki/9H/TGFMntBbeD7AoVw37QVar+9+hj898?=
+ =?us-ascii?Q?tmkVQ1ARHOX5N079qi20090PvswhZLI6HNhBcdmmff2nYwvBCsJTJ0hxGsOO?=
+ =?us-ascii?Q?0ZFVC81LaNNxVXhg+9IsCpJW5sz3S2RYfgwbXThRUY4uSK1+QwMKfVtnz9IL?=
+ =?us-ascii?Q?20NhHMsZuLjK2xckceGxZPJrrpN/KqO0vz1vHMWLGlBa744IevkPqnmGBUmo?=
+ =?us-ascii?Q?/754BEjlG76o4bzGk3myofRgW5n9YGNO7MVrybb0cup3uu+P8/w/2l3LdWxG?=
+ =?us-ascii?Q?874CbHkY/wqaKoWYEPtl5J8kJqb6xieNVX63sRCudsilyz2xVUXYed4aa/7e?=
+ =?us-ascii?Q?tcpu1PfhdvAxDPd6vWoUV+D8W6SuCYgQQfD3+ykLzeHJX3pba0jc+lQsn2pp?=
+ =?us-ascii?Q?wSfhCskxZqYAmE58ICXTCZ5LvLndpbMljDjYIh9mOuGiZLt5ygbHsLqvPkQ9?=
+ =?us-ascii?Q?px/awnL290g/m7rKp//m/iySuC763LHRBiKCvUgJfJB1eftJWMCqLQ5/IsfA?=
+ =?us-ascii?Q?N/fT2jkCRDmxoWCSbVRfVqDANuga0WT3JtFpAe+FswCNPGOYbMZbjD4qLGKS?=
+ =?us-ascii?Q?oFHNvqbvxXIScP9s9gkCctNJUD7H+mRbObZ3eYkRMUPB7c/mnq3x7RUskQc+?=
+ =?us-ascii?Q?McbWSDzC+keNEbjf2bZ36j89DMX9rIAACI5B5BH1hIki+dxO+G98QKApajit?=
+ =?us-ascii?Q?b+x3HSgPK+5RnfhpKjzfQb0uHs3mk5RrccnGiHQ5cgcYddPyreCgKR14NLRV?=
+ =?us-ascii?Q?f81+un6wEdAKVFS6FdDmF0h1KVEgnbDvAiA+LWZqNTIGE4iJztDhwNEUWWah?=
+ =?us-ascii?Q?J8VErJQ50aPUlvaU/5ovh+8/Mkh9rRFQDqzIzqPES1Z7JnedbLc07W1Ig3wh?=
+ =?us-ascii?Q?cLicEAC8EikbvDeLDNHhoNBibKfQmS3gFWS9GQXHwDsA9B8KF6lKo/8Fx8AW?=
+ =?us-ascii?Q?2JQF3YinfC0pNkXT700jzPT9BE740LLeTYyre15e+56rfv8cCJu4ck3TbnLE?=
+ =?us-ascii?Q?5h4k56WI/OEP1w6ihphUa9EymlpoS+pa4V0GnlR4xKC8Nhe/p3o5gA0c3n+U?=
+ =?us-ascii?Q?fdP1L6MouuivDcHH/Ms/uVs6KmhL697OQaJ6gL5kaqJZrZAsGEMQMSRf3EcC?=
+ =?us-ascii?Q?RYP3Ohv1TfxkbVf5xjtJLmYU8396i4Lnt4gho7W8X5YXv8ltjThkkpry8Pda?=
+ =?us-ascii?Q?gOrToB7bD0nmVmuor+K6yOKcUHgBas3aH7ZR2HqR8H7IjCOk0pU7fIGy46pV?=
+ =?us-ascii?Q?1Lu5Xv4y3PuhrSUgl4g=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RD+p4rlUd+MZ0FJvfo+/Fwu8YF4SfXzNA4gEKli5IpVPFVnQv7KKB9mSeyhk?=
+ =?us-ascii?Q?lJsO6IwA3i/WagBLV9Vu7idWGC/VofnnfpJtQ1zbOmpzrzkS0x0aan1MmFiT?=
+ =?us-ascii?Q?IzzgtHwp4vpBcLFWbWwZyTDYbMXyDFZ/MKGp3+DmS1Wm4Oqa9ybWtt2F+5YL?=
+ =?us-ascii?Q?X5mmG1DUkVYUs3LcxS7iMScbZceifA97nc36cQLswGagRPVhSZexBsACLP/F?=
+ =?us-ascii?Q?JvOzTCU0oAt3jGrMABHdBl+O35CLrFL6IiNnnyQXBUVIzIzZURvGJqdkM48T?=
+ =?us-ascii?Q?So6BxyMLIiN3YhLxUMK08F8WFrv1rCbg9qQWrxShqfwAm7F1ffp9sV7urvD4?=
+ =?us-ascii?Q?TIjMdT1X1rN+OX79/1S1HWAGMMHSyCJqKHHvZN1J6rThKyGO+sYrPcuNSCif?=
+ =?us-ascii?Q?ex+SAzp3j1TKT0BW9j+CvDrCHUKy9jVK9mnmqbkNohKWfQ8aoMg+heTOrJVB?=
+ =?us-ascii?Q?JYgjYzPd79tRCd5nG+Wk4ocs2Xg5gK0COfwmVXypLNrWWk1AAbn7NgVY7iO1?=
+ =?us-ascii?Q?g6cTycxQQiLi8oQF0qmB4Jymv7iUoKx0t+HOitT5CW/s66eDlR1h3pRWMI1p?=
+ =?us-ascii?Q?Hs0id8F2j9wfu7Gh5ep1z4879n8cP1qsBPA0z8e6OGuy3tdUM08//2bDWN66?=
+ =?us-ascii?Q?NPNsN+YJpXaP3ndssLnzWg10+xocVYvAdP2UStzhpeiUeeXHcSsd8Hflwm88?=
+ =?us-ascii?Q?QvRZBeanbZ0rpOS9k/YR/qgx+HkugXYhqxLKzvIWnnmmYDDSi4x0x4Jw/GCE?=
+ =?us-ascii?Q?8yah7ndnz/VP0eWtHOhdSLrJfScN8kFgQlzY8G2tVH0KmjFyoP6DhbXTlHpn?=
+ =?us-ascii?Q?LalgDQl3Rm6q29i+FQaKXtj8Xjt9iZJH4bYT6YVnKpud/36/ABKhadJ9/bFe?=
+ =?us-ascii?Q?nLLKttLqWGBd+9dBe23oZMwCz4lLMWUcCLkvW2DuLK8VlcnMPhSnt8In9/5P?=
+ =?us-ascii?Q?mhIMwfE+qn44wkhnApRMr8TOX+nqZo/hOwReR4EvYrqd+mLstR1sLaBauilK?=
+ =?us-ascii?Q?+X2xa/J8HUNkcaiXAzwffsZQ7GXUUGZ/LQ8k+9UnECUEkM8QPphu5ynsmzsp?=
+ =?us-ascii?Q?42LHMOsdRnVSrwSEyXzxZWKNL9Gna793xI92EmkkDLK0huKpgz+3WMJXTM9X?=
+ =?us-ascii?Q?VbjBaLH1oQ4fIlOYq6+IfXzlf6sziAzMyPNxRiEEeUm66d0n/0LKSwktRjUs?=
+ =?us-ascii?Q?5lMV+8wjRRyJoX0kFCzvZ51WucC7ScAuFIDYe5F2QwjZtZAFkR6LWShfrcJ+?=
+ =?us-ascii?Q?PtbXOpa4NkUUoxYax73ZhbBTrGAAa6Pif1n1Lf0Sjr7GHP1phm9j3mhbIuwJ?=
+ =?us-ascii?Q?v3o1QxAq0oc84ML4TvQZVH7llHbejmlyRZtK7DaITHtoAd5lTKypFPE0K8H3?=
+ =?us-ascii?Q?JRrvqXH0oLw37n1RUw8DgO2SvEz9Of8lOVKrtNjw3264afnsx4+n02ZNYRCd?=
+ =?us-ascii?Q?EHperMKeDNfww0ONFx8+XM8QMG8qC+f2r3a6hLgeDuIQ6fhb16HQBASUG6Py?=
+ =?us-ascii?Q?6xzSc5Ah8IfmR4Q/N+DAzbTHaRNpLTxraEqBJYJ81IWKj8DQA+6z/x+zhr8K?=
+ =?us-ascii?Q?YMctqV2lYluC0JxQI6GDi++QTaue5ZCOg4WrB6jrBAMEnKj3G6ec/5Pdioz6?=
+ =?us-ascii?Q?00xg2bRd5DKpKFcWVu6ADdhlmwIyZgRLzKpPqn6YkLafBFMbyI/I0bdsumFK?=
+ =?us-ascii?Q?p4ngpuBZmJHV1ag6vzf8aX/X/+5s/63+GVK5DpKIRafDmxvAIy9+WgNW0dgt?=
+ =?us-ascii?Q?LQ6ekvDM9g=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9aa8e3a2-c0bf-4126-87b4-08de6fefe13b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 19:48:40.1375 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c+k3BPmk3Ocb3gxmPPMlM/T47dN2ZnJmOpMKhTP+NazDHMXNwQMCTrdBfR/CShHWsbxvil40TVBCOsnGIrPbBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,152 +181,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:loic.minier@oss.qualcomm.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,gmail.com,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[44];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_SENDER(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: A0B7F162193
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1645E162296
 X-Rspamd-Action: no action
 
-On 2/19/2026 5:49 PM, Dmitry Baryshkov wrote:
-> The drm/msm module bundles several drivers, each of them having a
-> separate OF match table, however only MDSS (subsystem) and KMS devices
-> had corresponding MODULE_DEVICE_ID tables. Thus, if the platform has
-> enabled only the GPU device (without enabling display counterparts), the
-> module will not be picked up and loaded by userspace.
-> 
-> Add MODULE_DEVICE_ID to the GPU driver and to all other drivers in this
-> module.
-> 
-> Fixes: 55459968176f ("drm/msm: add a330/apq8x74")
-> Reported-by: Loïc Minier <loic.minier@oss.qualcomm.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> The Fixes tag points to the first commit introducing OF-based GPU
-> matching (and thus possibility for the headless GPU binding). Other
-> are not usable without the main MDP4 / MDP5 / DPU drivers, so they
-> didn't get the Fixes tags of their own.
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
->  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
->  drivers/gpu/drm/msm/dsi/dsi.c              | 1 +
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      | 1 +
->  drivers/gpu/drm/msm/hdmi/hdmi.c            | 1 +
->  drivers/gpu/drm/msm/hdmi/hdmi_phy.c        | 1 +
->  6 files changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 554d746f115b..4edfe80c5be7 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -302,6 +302,7 @@ static const struct of_device_id dt_match[] = {
->  	{ .compatible = "qcom,kgsl-3d0" },
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, dt_match);
->  
->  static int adreno_runtime_resume(struct device *dev)
->  {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 476848bf8cd1..d2124d625485 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -210,6 +210,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
->  	{ .compatible = "qcom,x1e80100-dp", .data = &msm_dp_desc_x1e80100 },
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, msm_dp_dt_match);
->  
->  static struct msm_dp_display_private *dev_get_dp_display_private(struct device *dev)
->  {
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index d8bb40ef820e..3c9f01ed6271 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -198,6 +198,7 @@ static const struct of_device_id dt_match[] = {
->  	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290" },
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, dt_match);
->  
->  static const struct dev_pm_ops dsi_pm_ops = {
->  	SET_RUNTIME_PM_OPS(msm_dsi_runtime_suspend, msm_dsi_runtime_resume, NULL)
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> index 7937266de1d2..c59375aaae19 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> @@ -582,6 +582,7 @@ static const struct of_device_id dsi_phy_dt_match[] = {
->  #endif
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, dsi_phy_dt_match);
->  
->  /*
->   * Currently, we only support one SoC for each PHY type. When we have multiple
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 5afac09c0d33..d5ef5089c9e9 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -441,6 +441,7 @@ static const struct of_device_id msm_hdmi_dt_match[] = {
->  	{ .compatible = "qcom,hdmi-tx-8660", .data = &hdmi_tx_8960_config },
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, msm_hdmi_dt_match);
->  
->  static struct platform_driver msm_hdmi_driver = {
->  	.probe = msm_hdmi_dev_probe,
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-> index 667573f1db7c..f726555bb681 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-> @@ -204,6 +204,7 @@ static const struct of_device_id msm_hdmi_phy_dt_match[] = {
->  	  .data = &msm_hdmi_phy_8998_cfg },
->  	{}
->  };
-> +MODULE_DEVICE_TABLE(of, msm_hdmi_phy_dt_match);
->  
->  static struct platform_driver msm_hdmi_phy_platform_driver = {
->  	.probe      = msm_hdmi_phy_probe,
-> 
+Hi Alex,
 
-https://lore.kernel.org/lkml/20260124-adreno-module-table-v1-1-9c2dbb2638b4@oss.qualcomm.com/
-fwiw, there was a related patch that I posted recently. We can drop that.
+Thanks for taking the time to go through the series and for the effort
+of doing the reordering. Just to clarify, do you mean I should be
+sending each of the phases separately for review instead of in one
+series?
 
-Reviewed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+By any chance, do you have the tree after doing the rearrangement that I
+could take a look at? That would be very helpful so I don't repeat your
+rearrangement effort.
 
--Akhil.
+Some comments below:
 
-> ---
-> base-commit: fe9e3edb6a215515d1148d32a5c445c5bdd7916f
-> change-id: 20260219-msm-device-id-84b95d22c0b0
-> 
-> Best regards,
+> Nice series, a few overall remarks before I dive deeper into each patch:
+>
+> - Use `gpu: nova-core:` (not just `nova-core:`) as the patch prefix.
+
+Done.
+
+> - There were a few clippy warnings/rustfmt diffs when I built it.
+> - There are build failures introduced in patches 11 and 18 - basically
+>   the series doesn't build from 11 until the last patch.
+> - This patchset is using the `module/mod.rs` pattern instead of
+>   `module.rs` for new modules. The latter is the preferred norm IIUC.
+
+I will work on fixing these based on the reordered patches for the next
+spin.
+
+> Phase 1: GSP plumbing
+> - nova-core: gsp: Return GspStaticInfo and FbLayout from boot()
+> - nova-core: gsp: Extract usable FB region from GSP
+> - nova-core: fb: Add usable_vram field to FbLayout
+>
+> These constitute a logical change by themselves, by getting more
+> information from the GSP to know how much VRAM we have. You could even
+> display the result as a dev_info of dev_dbg to remove the only remaining
+> `dead_code`.
+
+This looks good to me.
+
+> Phase 2: PRAMIN support
+> - nova-core: mm: Add support to use PRAMIN windows to write to VRAM
+> - docs: gpu: nova-core: Document the PRAMIN aperture mechanism
+>
+> PRAMIN is needed by everything that follows.
+
+This looks good to me.
+
+> Phase 3: GpuMm
+> - nova-core: mm: Add common memory management types
+> - nova-core: mm: Add TLB flush support
+> - nova-core: mm: Add GpuMm centralized memory manager
+> - nova-core: mm: Use usable VRAM region for buddy allocator
+>
+> The common memory management types patch and TLB give us all we need to
+> introduce GpuMm, which makes it more accessible that after going through
+> all the page table types which it doesn't depend on. This culminates
+> with using the result of phase 1, which also allows you to get rid of
+> the temporary 1MB window hack if you rearrange the code a bit.
+
+Yeah, that is a nice advantage!
+
+> Phase 4: page tables / VMM
+> - nova-core: mm: Add common types for all page table formats
+> - nova-core: mm: Add MMU v2 page table types
+> - nova-core: mm: Add MMU v3 page table types
+> - nova-core: mm: Add unified page table entry wrapper enums
+> - nova-core: mm: Add page table walker for MMU v2/v3
+> - nova-core: mm: Add Virtual Memory Manager
+> - nova-core: mm: Add virtual address range tracking to VMM
+> - nova-core: mm: Add multi-page mapping API to VMM
+>
+> The main course, required for BAR1 - these follow the original order.
+
+Sounds good.
+
+> Phase 5: BAR1
+> - nova-core: Add BAR1 aperture type and size constant
+> - nova-core: gsp: Add BAR1 PDE base accessors
+> - nova-core: mm: Add BAR1 user interface
+> - nova-core: mm: Add BarUser to struct Gpu and create at boot
+
+These sound good to me.
+
+> All the BAR1 stuff now happens in one place. There is certainly room for
+> merging a few patches to avoid introducing dead code and eliminating
+> just after.
+
+Yeah, I tried to keep the commits at a reasonable size to make review
+easier. I will look into merging a little more to see where it is possible.
+
+> Phase 6: tests
+> - nova-core: mm: Add PRAMIN aperture self-tests
+> - nova-core: mm: Add BAR1 memory management self-tests
+
+This sounds good to me.
+
+> I have done this reordering locally and it seems to build fine.
+
+Please share your reorder tree if you still have it. That would likely save
+me a lot of effort. Thanks.
+
+> I'll do a patch-by-patch review following this order, but I wanted to
+> share it first for other reviewers of this revision as it makes the
+> series more accessible IMHO.
+
+Looking forward to it. Thanks!
+
+--
+Joel Fernandes
 
