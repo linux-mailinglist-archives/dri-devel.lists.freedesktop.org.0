@@ -2,38 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UETDJfz0lmndrQIAu9opvQ
+	id ZtwaGfr0lmktrgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3959715E4DB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1262415E4D4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 12:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749ED10E6A9;
-	Thu, 19 Feb 2026 11:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692BD10E694;
+	Thu, 19 Feb 2026 11:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B6310E694
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 11:33:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE9710E694
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 11:33:11 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.tretter@pengutronix.de>)
- id 1vt2HH-0003qW-DF; Thu, 19 Feb 2026 12:33:03 +0100
+ id 1vt2HH-0003qW-FA; Thu, 19 Feb 2026 12:33:03 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v2 0/2] drm/imx: ipuv3-plane: support underlay plane
-Date: Thu, 19 Feb 2026 12:32:56 +0100
-Message-Id: <20260219-drm-imx-underlay-plane-v2-0-26ef829c5483@pengutronix.de>
+Date: Thu, 19 Feb 2026 12:32:57 +0100
+Subject: [PATCH v2 1/2] drm/imx: ipuv3-plane: decouple zpos from plane type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOj0lmkC/4WNQQqDMBBFryKz7pQktUK76j3ERcyMOqBREhVFv
- HtTL9Dle/DfPyByEI7wzg4IvEqU0ScwtwxcZ33LKJQYjDKFMrpACgPKsOHiiUNvd5x66xnzQrn
- avYgezkIaT4Eb2a5wWSXuJM5j2K+fVf/s3+SqUaEhV5NuKOfm+ZnYt8scRi/bnRiq8zy/6fhSE
- 8EAAAA=
-X-Change-ID: 20260216-drm-imx-underlay-plane-460cbc9dd3ca
+Message-Id: <20260219-drm-imx-underlay-plane-v2-1-26ef829c5483@pengutronix.de>
+References: <20260219-drm-imx-underlay-plane-v2-0-26ef829c5483@pengutronix.de>
+In-Reply-To: <20260219-drm-imx-underlay-plane-v2-0-26ef829c5483@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -89,46 +86,54 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.887];
+	NEURAL_HAM(-0.00)[-0.882];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3959715E4DB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1262415E4D4
 X-Rspamd-Action: no action
 
-The IPUv3 overlay plane may be placed over or under the primary plane.
-This series allows user space tools to properly detect that the overlay
-plane may be used as an underlay.
+The overlay plane may be placed over or under the primary plane. Using
+zpos to determine, if the plane is the primary or overlay plane is not
+valid anymore.
 
-The first patch removes the assumption that the primary plane has the
-default zpos 0 and the overlay plane has zpos 1. This allows changing
-the zpos more freely.
+Use the plane type for determining the name of the plane in the error
+message.
 
-The second patch changes the default zpos of the planes. The primary
-plane always has the fixed zpos 1, which allows the overlay plane with
-zpos 0 to 2 to be placed relative to this fixed primary plane.
-
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v2:
-- Simplify check for primary plane
-- Rephrase commit message of Patch 2
-- Link to v1: https://patch.msgid.link/20260216-drm-imx-underlay-plane-v1-0-2dcbd1fd4ef5@pengutronix.de
-
+- none
 ---
-Michael Tretter (2):
-      drm/imx: ipuv3-plane: decouple zpos from plane type
-      drm/imx: ipuv3-plane: support underlay plane
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
----
-base-commit: 20e0c197802c545db220157fafd567a10f2b7672
-change-id: 20260216-drm-imx-underlay-plane-460cbc9dd3ca
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+index db50eccea0ca..dfd036f3195e 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c
+@@ -915,7 +915,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 					       type, NULL);
+ 	if (IS_ERR(ipu_plane)) {
+ 		DRM_ERROR("failed to allocate and initialize %s plane\n",
+-			  zpos ? "overlay" : "primary");
++			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay");
+ 		return ipu_plane;
+ 	}
+ 
+@@ -949,7 +949,7 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 	ret = ipu_plane_get_resources(dev, ipu_plane);
+ 	if (ret) {
+ 		DRM_ERROR("failed to get %s plane resources: %pe\n",
+-			  zpos ? "overlay" : "primary", &ret);
++			  (type == DRM_PLANE_TYPE_PRIMARY) ? "primary" : "overlay", &ret);
+ 		return ERR_PTR(ret);
+ 	}
+ 
 
-Best regards,
 -- 
-Michael Tretter <m.tretter@pengutronix.de>
+2.47.3
 
