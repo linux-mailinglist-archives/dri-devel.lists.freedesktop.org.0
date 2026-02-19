@@ -2,108 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGJ7KR1El2kiwQIAu9opvQ
+	id YGPWKZ1Gl2m2wQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 18:10:53 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 18:21:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099A5160F84
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 18:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0917D1611EE
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 18:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E49FE10E05E;
-	Thu, 19 Feb 2026 17:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6413D10E71F;
+	Thu, 19 Feb 2026 17:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G9KyqO9w";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RCydY3dT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5BFD10E05E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 17:10:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B81410E71F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 17:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1771521047;
+ s=mimecast20190719; t=1771521687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ufSHZcVh+Dpk6NOIfY9tkcU2Fx29sq1FQcHOa9iMf4=;
- b=G9KyqO9wZI9mJQAYXngkcgCqisUEXwiaUb2tRvtxb0Co0OFqTXe9Fd39wfQzEic9G8B+AD
- QoJvD4qDQTlqhCBBnqQnkZRQTAzfsIFJDwHp0Kbdn5GrmXswC9OGG28YNjSd48ms6q4Y/F
- Iux/9fwqKbyKFIHVDKukDcpUgpQwItc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a+MlxWO2a/5NxxDnoLl6rDcBacWRef25tqpr85yXgBM=;
+ b=RCydY3dT5Jp4U4g1nemVhH64THAWDmlvyGQ3FaoONVfx2dx6Qlmkrzrap1h2QUfB9fiuV+
+ lD3EHW4pVGKPc4vXXKRSYffU7151knNUkee6Sq6rMkn5NrYZxKgF6yAbyhdztaNUDQpBBT
+ UzCpyfatzJCnkpizn6nsKx2uBnfLgIg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-VV6uy6UMOW-Kg41FIDb1Hw-1; Thu, 19 Feb 2026 12:10:44 -0500
-X-MC-Unique: VV6uy6UMOW-Kg41FIDb1Hw-1
-X-Mimecast-MFC-AGG-ID: VV6uy6UMOW-Kg41FIDb1Hw_1771521043
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8c71655aa11so1166428585a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 09:10:43 -0800 (PST)
+ us-mta-618-GInqFSuLMkmXMNDR8aKivQ-1; Thu, 19 Feb 2026 12:21:26 -0500
+X-MC-Unique: GInqFSuLMkmXMNDR8aKivQ-1
+X-Mimecast-MFC-AGG-ID: GInqFSuLMkmXMNDR8aKivQ_1771521686
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c70ef98116so975822985a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 09:21:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771521043; x=1772125843;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1ufSHZcVh+Dpk6NOIfY9tkcU2Fx29sq1FQcHOa9iMf4=;
- b=FP3C2EfookMjTs5RD/B+sYjPaB429kTScbtCmRH5phrSr2pReQAva8gkQzAHfstzBV
- bYjm7gvHgcwPI+L0NWDnuUbyMZo62uxaY7kvLQalrNCl9KvSRvKjuK0rs7d+zNbFj+Es
- 3sokKF77XlDhC3jd4q8kMfzqIvsvcBeTfepfolB8nV3NlvHk29OmAok0UqitLaQKFQBa
- iTLZqpJmxMA/EIP1rVSUtTqKIAa5avM9e8CY0ng/UtGdqSixCfwUp4M/7uAaDXdcAhgO
- O6hxdkXXeut7mfidpzo6M/Y//wRDsvYejTHVJBtQyjn+Hds7St2wH81uf0UkOgSigo+O
- RJdw==
+ d=1e100.net; s=20230601; t=1771521685; x=1772126485;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a+MlxWO2a/5NxxDnoLl6rDcBacWRef25tqpr85yXgBM=;
+ b=pY1kEVVEzqFtELzOxzMoks4mIWPYcP1MmbRSpDDJiL4XDqOiFvvCW/gw0v0YByC14q
+ PdFIOfAMJBT9phGcyc3yEaYV6iIO4hNhvSzUYYMBzs+qPWNWzFbHYJLQkYSBAtuDBkIC
+ 12sbQ2Q06lPyVoxPBsjjixWLaQaJlS9u2vgfqchyCC3pkgNUOEE72Imr1LsMg5MNK5OH
+ ezzsfTUqEbm6xSYMuWGy81GiZNq0fsZnS4gr91Tcly5GE6zXpVDyOgI8F0gyqwK+LFMQ
+ m1BpsZJdZr4kf/ltVJt7hyPYNZeD3osvMoOle3QtNh/2cRleitZfkUTzp5fztJheUOdY
+ Q9gQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCV9UrT++zGhJseNfFbvZxrxiDtZk6gmBjeSCRt8zjLPmMEudkGFRDyurf+6qnVQpCrwG7b2iunAI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLwjpcPbKm36cA9m9UR3YnllyaEmsMWab+PGWOoXKt2uw+9AI7
- GmjB8/51JrES+LT3NKcK7b4MNP6NH+idv9f/TVP2dPHN9ObybMaYOgQA+nt+jXC/7kpEVnv8qzE
- yhDO23FX8tmfRs1DRZrE/qjUDIKqRJUn59j/8ko5nRtDZ4mkhiYpV+ZvS1ZvCXRGvTr3TJA==
-X-Gm-Gg: AZuq6aJRJnoIPkyDSsk33QdVptSacOZcHHisjeuAQotLLt6EtiUFXR7mgBnRDCWU+ku
- r7swixqPrR8ZZELsPdbOn56UgCSTkA/psmXZCtcc6O2xSrc4C4biL6dK4znFQjlrPwEGxiZUJsR
- LSWq3WZ5mVemssYtZCNIlYCzn6Jp8eGp3T49mUUa5AXrhXaSs10EwIaUmKrmA4QLIgeC/tEeqP3
- a7/BgZ6+fcQbutzSOT9VwnKmZFt6PrI2U6TPeMeiOG6omwda34XZ4iiyzS/p6rLRNfXoULKECmS
- d+f6OZetAinUATqBVqoO6W6nPaxKnIGarOhsVt5DodAiZ4mqEZIvgRJGHhFwjSgpnw9dgx6UsbA
- iH77qdI3cTe3zEhr1H4cF0npFefAHS6gyarCCnFbO2U05KbpeO6Dp4OJrVXofvL8=
-X-Received: by 2002:a05:620a:44c2:b0:8c7:fdc:e877 with SMTP id
- af79cd13be357-8cb740b5c53mr703611385a.41.1771521043251; 
- Thu, 19 Feb 2026 09:10:43 -0800 (PST)
-X-Received: by 2002:a05:620a:44c2:b0:8c7:fdc:e877 with SMTP id
- af79cd13be357-8cb740b5c53mr703604885a.41.1771521042525; 
- Thu, 19 Feb 2026 09:10:42 -0800 (PST)
+ AJvYcCVS8eSaJziXkXQUbfAKpiBmZtpgQXJqAV7jNWG2gD52U9MBm7d21/yUCbojOU79DjDsbqLGdH9rY60=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxlLTr41qyN9osLHDXcU0sipY0FeGYIs2H6x/DEJmQj13wKCnGT
+ fwrq1lL3Xm4fhYPDyy1fr9bcyW0lI00mSZWnW6c3Is/VTAQFYyH0s2erReIasyeLJOJJQu/OV1j
+ MlQkFRI/LNwxBzaHedHVVStVqj4+ZEegv67GIH4yNPecK9oLyYz1bMizfucU/swNk1D9lvNtlsJ
+ bghA==
+X-Gm-Gg: AZuq6aIzSAHrgY4S/3Ksw8rmpCGN4WQq++Bc9YdaXZocrHyoDSmk2NouojmhnCITxcJ
+ b52L8ve/aspQvUmUBoWhOOtAnEaktRwr5TuxR6shYe8jHjlh9/6vynITkCUeTMXpOnmQoxlV4EM
+ aT4O31+zNlvoXm2PooDCbOlq8FCkR69FkCZOKjneIj5CSaHQArlOAdqKyifeSGU6qqhcFZzaFLO
+ 1sdgJDMzy4gBGbV+fzdbLvX7ZpS+TdUaS4SvJnmEcvOHOlDjNKC89tw8LSoPicXY/toN1mqxD51
+ KDY5eQffOeRe42394OxsG5Txwmwqc5adyybfdL4olaRN3Y4ny682vRP4JZEw3QrDjpOpQx8JkIP
+ 2Pd4z3/HXaEotvLyohAIYnG09x573FKVp/cIlSxLbJbXx8cG/IMOhQ7yr+HKajlM=
+X-Received: by 2002:a05:620a:4148:b0:8cb:3f0e:7740 with SMTP id
+ af79cd13be357-8cb79f3269dmr425869985a.51.1771521685030; 
+ Thu, 19 Feb 2026 09:21:25 -0800 (PST)
+X-Received: by 2002:a05:620a:4148:b0:8cb:3f0e:7740 with SMTP id
+ af79cd13be357-8cb79f3269dmr425866385a.51.1771521684499; 
+ Thu, 19 Feb 2026 09:21:24 -0800 (PST)
 Received: from localhost (pool-100-17-19-56.bstnma.fios.verizon.net.
  [100.17.19.56]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8cb2b0e12eesm2128955585a.15.2026.02.19.09.10.41
+ d75a77b69052e-50684b94e9fsm210902201cf.24.2026.02.19.09.21.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Feb 2026 09:10:42 -0800 (PST)
-Date: Thu, 19 Feb 2026 12:10:41 -0500
+ Thu, 19 Feb 2026 09:21:24 -0800 (PST)
+Date: Thu, 19 Feb 2026 12:21:23 -0500
 From: Eric Chanudet <echanude@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+To: Maxime Ripard <mripard@redhat.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Brian Starkey <Brian.Starkey@arm.com>, 
  John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- linux-mm@kvack.org
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org
 Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
-Message-ID: <aZdAOMBRdRw59fa0@fedora>
+Message-ID: <aZdEMlKE_kGheI-b@fedora>
 References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
  <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
- <435330fd-ecdd-43c7-8527-f285c03c6421@amd.com>
+ <20260219-illustrious-tungsten-starfish-5dad8c@houat>
 MIME-Version: 1.0
-In-Reply-To: <435330fd-ecdd-43c7-8527-f285c03c6421@amd.com>
+In-Reply-To: <20260219-illustrious-tungsten-starfish-5dad8c@houat>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: OUO-UFq6IoB6FtN1lZ1K6BjqZZNdEzRQpXXHCLhepzQ_1771521043
+X-Mimecast-MFC-PROC-ID: BW80uIzkPA0msh81DRWBmyCU9W72im62YY5PQmaJ0Vs_1771521686
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,18 +122,18 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:mripard@redhat.com,m:aesteve@redhat.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mripard@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:aesteve@redhat.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[redhat.com:+];
@@ -152,13 +151,13 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 099A5160F84
+X-Rspamd-Queue-Id: 0917D1611EE
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian König wrote:
+On Thu, Feb 19, 2026 at 10:16:37AM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> 
-> On 2/18/26 18:14, Eric Chanudet wrote:
+> On Wed, Feb 18, 2026 at 12:14:12PM -0500, Eric Chanudet wrote:
 > > The cma dma-buf heaps let userspace allocate buffers in CMA regions
 > > without enforcing limits. Since each cma region registers in dmem,
 > > charge against it when allocating a buffer in a cma heap.
@@ -185,6 +184,13 @@ On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian König wrote:
 > >  	int vmap_cnt;
 > >  	void *vaddr;
 > > +	struct dmem_cgroup_pool_state *pool;
+> 
+> I guess we should add an #if IS_ENABLED #endif guard for dmem?
+> 
+
+Sure, I saw the other user (ttm) didn't, but that makes sense as the
+field is useless if dmem is not enabled.
+
 > >  };
 > >  
 > >  struct dma_heap_attachment {
@@ -201,48 +207,27 @@ On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian König wrote:
 > >  		align = CONFIG_CMA_ALIGNMENT;
 > >  
 > > +	if (mem_accounting) {
-> 
-> Since mem_accounting is a module parameter it is possible to make it changeable during runtime.
-> 
-> IIRC it currently is read only, but maybe add a one line comment that the cma heap now depends on that.
-> 
-
-Agreed, while read-only it is easily missed without at least a comment.
-Alternatively, should that value be captured in the init callback to
-guaranty it is set once and make this requirement clearer?
-
-Thanks,
-
-> Apart from that the series looks totally sane to me.
-> 
-> Regards,
-> Christian.
-> 
 > > +		ret = dmem_cgroup_try_charge(
 > > +			cma_get_dmem_cgroup_region(cma_heap->cma), size,
 > > +			&buffer->pool, NULL);
-> > +		if (ret)
-> > +			goto free_buffer;
-> > +	}
-> > +
-> >  	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-> >  	if (!cma_pages)
-> > -		goto free_buffer;
-> > +		goto uncharge_cgroup;
-> >  
-> >  	/* Clear the cma pages */
-> >  	if (PageHighMem(cma_pages)) {
-> > @@ -376,6 +387,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-> >  	kfree(buffer->pages);
-> >  free_cma:
-> >  	cma_release(cma_heap->cma, cma_pages, pagecount);
-> > +uncharge_cgroup:
-> > +	dmem_cgroup_uncharge(buffer->pool, size);
-> >  free_buffer:
-> >  	kfree(buffer);
-> >  
-> > 
 > 
+> This alone doesn't call for a new version, but adhering to the kernel
+> coding style would look like this:
+> 
+> +		ret = dmem_cgroup_try_charge(cma_get_dmem_cgroup_region(cma_heap->cma),
+> +					     size, &buffer->pool, NULL);
+
+Will add to v3 with the other changes.
+
+Thanks,
+
+> 
+> It looks good to me otherwise,
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> 
+> Maxime
+
+
 
 -- 
 Eric Chanudet
