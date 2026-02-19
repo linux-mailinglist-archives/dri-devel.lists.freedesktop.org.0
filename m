@@ -2,93 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHX3Gut6l2m7zAIAu9opvQ
+	id EIalD4B+l2kOzQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:04:43 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:20:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F601628E0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80419162B67
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 22:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E78DE10E75A;
-	Thu, 19 Feb 2026 21:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D806E10E06B;
+	Thu, 19 Feb 2026 21:19:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ij5XR9wM";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4Wsyd4r5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDDA10E759
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 21:04:37 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-5033387c80aso31751621cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 13:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771535076; x=1772139876; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=meO53koivOwOs9Bd8q7AbA+V+PS952tTGxoKR0dH/Dg=;
- b=Ij5XR9wM+3ir7Rgty/brW1WzHNDrODxkpN6AuhG2y6qzO0bTYF9qPnSOYPJK/4cSWb
- WD1yUUKgTYaowIfA1s0D3V/xvNlj+CmQrWjDxsrR0SIZMr35ZNbZmM7O83MJcb6b9LPU
- U5opcryIXXRnhexqtR7QrKj8cuvGbq9q+o8IWgi8jqBpbjonfdLiMMc6LVOiQPg7AvA+
- Fl8AcoE9B1ShJ9poijJU5XqwQcLhj6f1C5qsvxjnGJISYfAkzLWAnQVOa3meAIwMvTIe
- 1zKOFyLLxOTnEunq4qhzwnlMrxSegS6qqO7ajtS/d4O6Gzau13hSyeodSvM9WAfZhCw/
- w2ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771535076; x=1772139876;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=meO53koivOwOs9Bd8q7AbA+V+PS952tTGxoKR0dH/Dg=;
- b=P6tQWFEci4n7i84nRGs8Z/chrvtnFtl9bGphagDJrXhUWjTLvgM9222Dey0gBUxAeo
- oz+ZnuGwquYcmZEUlGsaKa8lplnFCjWkRl7OrmrI3bs3ZeKJLfRJklW4S4zbu70BZaEx
- 98qq5KEsRNP823ONGEZwx1P2YH+RWkHAZmMLsIowreuv3hLdPvg+NYP3ub9lNwLxVn3H
- AKmLYTxZd7jmVD7YvVMGgFSdFnOZDjbm+ulbxpw2aB51Fg0nQslbG2BL0Ej+scNhl//N
- EOyh9Bg6L/0rFS4BVIEKExXLGmEQ+c4NhIsG2YxHyT4KyZQzYqxxqImdVud1Bm5c1VlU
- 4Egg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWJRcZcDDUEPv5I/QJvFHkNmYzOvklBqI9sISniPAkV4y/dAhR1jsYShoTrAKaQxo9uWZp0HobpNaI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWUxTva02JM0xxC0S4hLY6XCfk9VS6o6hgIo/jG/MvkziNnnNS
- B8Pby+wlrenikWUakDH+1RO7dREpcCOL1E5WLU94YML55DdiLEuBmIdr
-X-Gm-Gg: AZuq6aJ99rUAFE9uFI8ZD6Rj8ZXG8fGNIpUXit+yLxB/V1lsL+PVnFSr9UcxgRO1r9v
- /1lFSsr35jd1/FyxzDPbhxasMfxU2qXk5aQBJoPciaT+HKyrnMwhrt6cCH9FVaQY+RrIUazrUY1
- 1LLcuKaPxNdGf15KEjgrkxhxFVoFvYEmgN9r0WJzSWNXsf5YFs9HrX6Kd38Nzn/qdTDtYXRRfKv
- wJqEGTjtrMCY5XgewgrNBZ7zWlzn8EcUjAlJIEWLzXud/6PBPoWeAv2+nrVbblhwGw3Ct3f293F
- iqiLopGV9CxlruC/Z80YS5MsbXMmJPwaweub3iCjrNpnW0rxOeb2uiC+ILXgJHZjFVhFtsDa2vY
- qXMh8lI0s7AgGcd2N9zFhXPDKksl78z4iEpQ35KS34f/XTpcOmCVsTV9v5/1HOjdSwajUf42uxi
- 5ZBocbmFe50/qpXemiQS5v0UJqYr+xIBGKbcSV/IjaqaTTjISXrI4q76KhnDaPjqoxsy9Ogg2D5
- JwvZ5u3MS0=
-X-Received: by 2002:a05:622a:142:b0:4ee:232e:4950 with SMTP id
- d75a77b69052e-506f33285c4mr39123511cf.8.1771535076074; 
- Thu, 19 Feb 2026 13:04:36 -0800 (PST)
-Received: from mighty.stonybrook.edu (nat-130-245-192-1.resnet.stonybrook.edu.
- [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-506b275d59fsm153971511cf.32.2026.02.19.13.04.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Feb 2026 13:04:35 -0800 (PST)
-From: Mithil Bavishi <bavishimithil@gmail.com>
-To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
- conor+dt@kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- khilman@baylibre.com, krzk+dt@kernel.org,
- laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, neil.armstrong@linaro.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, jesszhan0024@gmail.com,
- rfoss@kernel.org, robh@kernel.org, rogerq@kernel.org, simona@ffwll.ch,
- thierry.reding@gmail.com, tony@atomide.com, tzimmermann@suse.de,
- andrzej.hajda@intel.com, bavishimithil@gmail.com
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: [PATCH v6 8/8] ARM: dts: ti: omap: samsung-espresso10: Add initial
- support for Galaxy Tab 2 10.1
-Date: Thu, 19 Feb 2026 16:04:07 -0500
-Message-ID: <20260219210408.5451-9-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260219210408.5451-1-bavishimithil@gmail.com>
-References: <20260219210408.5451-1-bavishimithil@gmail.com>
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010032.outbound.protection.outlook.com
+ [40.93.198.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25BE910E06B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 21:19:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fCWVXiJv39fLgeppTsjTauGFt13Tw7/R/q4/6z1E/tuC0pwQXwEfR8TEEJJMtIcufwTWbBQw+D1KNrPkIUY5iYsVrqg/t7klnB7suQkZc3mS1uNvykNdjDxc+TOpj5gaB/D+CesZXcDfKeY2KRESYV7HA8hH3C0F/EJ25Q2eTe6nMmVl65OxDInCzdO/irjyLMxuimDsyBTX3tCA1Pk+2rU90uFIsTeaJNlNPxEK7oElcVS9EiMbEuN3qS69hDg0LSKazOljcZM3oJbswJTBgrGx2SKoLR4TBi7Yj93h8uZcBS0VleV+/8gmGXw3lySn70Wy2YcDJuL0Et+uITYRFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rUc7zGpIy5zXbrLsPuWC5nPZeQIRnafVE4NTIbrGKEE=;
+ b=F1ul32jdk/JCEIPsyPGqndtj52/2s+B0e/6IEOQi52GIGvrplSXv2+SfYodQXB7oYnPp/BovU72ziUJDelgnHlKf2Zw2b3L6XXQybNIVlZK9FgMnGlW+VncOoT+yLVFaY526/hniuNw8Spfn8PqzcxdIbGGby4Fv4fngwv2zrBO5yLgMHJZ9DAF6Sj11V+8YhChqepjOU8OBkGoPGuKCB2xRNSO7rwOBHEIKSIOKz/t6Izmf8H5v2Rrvcg9H/o0JVph77+cSYvKSe8w6yH4EA9paZOFn80IJBSTIzSkmdywZma/WFwPlf0I77EbDEfbUGxYh9SHta8MEqgijhQiCoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rUc7zGpIy5zXbrLsPuWC5nPZeQIRnafVE4NTIbrGKEE=;
+ b=4Wsyd4r5QTbwbpGp8Qv/KCiClXNKQZkmAOnksC43VeJr91xdA+QsV2r2WztSZEE3UrZenZnZ8xfYP1NznDzqOo+cY0BnvUkCCMXKKdOWpNKV/3xmfRRoMLdOgOOyT34QSWUU0R5C+OEXQXvcy8MweUuECE10W1qZAvlClx2YsWI=
+Received: from SA9P223CA0010.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:26::15)
+ by SJ0PR12MB8616.namprd12.prod.outlook.com (2603:10b6:a03:485::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Thu, 19 Feb
+ 2026 21:19:50 +0000
+Received: from SN1PEPF00036F3E.namprd05.prod.outlook.com
+ (2603:10b6:806:26:cafe::a6) by SA9P223CA0010.outlook.office365.com
+ (2603:10b6:806:26::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.15 via Frontend Transport; Thu,
+ 19 Feb 2026 21:19:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SN1PEPF00036F3E.mail.protection.outlook.com (10.167.248.22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Thu, 19 Feb 2026 21:19:49 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 19 Feb
+ 2026 15:19:48 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 19 Feb 2026 15:19:48 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Validate command buffer payload count
+Date: Thu, 19 Feb 2026 13:19:46 -0800
+Message-ID: <20260219211946.1920485-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3E:EE_|SJ0PR12MB8616:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6916155-52e8-42f8-2c77-08de6ffc9d53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fuT5gdMX3ra2iyRHmic8aqRkrXjrDm2EXiNAX7bIx/6tUNnlYATczHRWF16d?=
+ =?us-ascii?Q?14XhMdyJrwv+KMR6TV2QUzZ03iSRUj35twpECTZgc06ydED8JNSiuUqmm7Ki?=
+ =?us-ascii?Q?tDSLTs3JJs+4fpZ37IcwiHuT2+Kntnh4AJjZST/uxZ3vyF3oVx9V2ioqMO/M?=
+ =?us-ascii?Q?fdev17dzs+GlePDEvMBNXAdXNLMnjG7jaufA0HKuwDwed3yoFIMDkAxHF2du?=
+ =?us-ascii?Q?ZjxzO5DFOWgyc9/rTVOOt9yNqbGez/K5egUQ+4lz7DxOMIgWnJexvydwXl/n?=
+ =?us-ascii?Q?5+TD7N3ntdgXM3fzekGb6j+VP2eQHBRoLU8Ipf+LyhR3GfgvoVBD5uyUi3Yc?=
+ =?us-ascii?Q?CrU0Ypyvcak1I/8mXLUlHjEs8tSIoLA1mCcJq6qvorVmvRF3gjUoEDtA8cMM?=
+ =?us-ascii?Q?0P6c30Aw+QfUhP/c3mbFodDAOJODYVDJWJik9A35uphBjKRFPyTUbhruXKAw?=
+ =?us-ascii?Q?gagW7x+7VobC5djMEgpUMhtHfTK+/DAf4zHc5worYe4ngvCtVgOTd6yBHv5J?=
+ =?us-ascii?Q?5tlwhEOXMlDDZ2hTNK7fQqi/wChZEA9Y7xltoQ68/MYRUbkKjmgwo6yHgVbu?=
+ =?us-ascii?Q?VGLHm4InNHHY97Bx1M6AqB3r03pRARewkKbaWbxtYolI7ZjoWrclbcQ7YQq5?=
+ =?us-ascii?Q?ihAuyxGnMSuP0QY7zQ1VD2ZaLTEhgmexIwOP8lX5MHuI+ys+h6Qu5tGSqzKl?=
+ =?us-ascii?Q?sQEVf0cJRsMK7oUEQDc/Rc7zKaOswNF5foNOLaNAn+SFOjWcH/E4NL9TZ8VG?=
+ =?us-ascii?Q?4mGtvWWp5/u8DErkLtq7zSeyeue7XIHRkQe2D6conCIKaZX7GWJuSZApsfRp?=
+ =?us-ascii?Q?TVZaReYXSUTW8xpAT4q3RExO5O74gJgs+4epnHAHRMBQo7KjQBcX5w5ufRsC?=
+ =?us-ascii?Q?ueTLZTBp1zNx+P/hy6WMsLaUXNmiX014+uiuaxORTMEfXBEbp/B8tNOHAEOk?=
+ =?us-ascii?Q?5/wgt9Rm/gTPvGzrXU9Rl2nUmE33PjC1gUq7Z6EbhdFbw2BJOlkxZejkxl/X?=
+ =?us-ascii?Q?zye41O21Iygn/f/CRMA1pczXb1X4sIVHA20nX+68kDmoqplBU/buGP/OClc9?=
+ =?us-ascii?Q?MrZswqPwAHqfDzTMKTj5TPw+JenMc7zAN4amelhMSdotS1Y5DCkbO9FlY93D?=
+ =?us-ascii?Q?4b1tUytxsmq03H2MeNjP/sYgs7RBQash4N3ofsoPmsAX3ZLfp/XZQsPu7Lce?=
+ =?us-ascii?Q?JZ09opE5g8j7+6IwdkukRKBUf8YzbxcBhdGp0lG0L1LQWXum31pnaj/PJMlA?=
+ =?us-ascii?Q?gAgYugqTcJCAG2ku/bSEk+bZf+orotjMlth61NDyPmBs0ID9f2BMGAM8XhAF?=
+ =?us-ascii?Q?z+TeGy+FalfwoZxHfEkIhVVuBddWr1E9iBbK8Ub2XGE58zKsByPnbQAmTgOy?=
+ =?us-ascii?Q?N0JFFOkguR9FpFu7eIyArFhGGpjIWnclg3HmFTtCy8ldNR3jvuYUkaLCpunk?=
+ =?us-ascii?Q?4RKg6S/tXEuyF8+Dsx76jDgK9QfrUI/QUPPmHuOhflrqFVacG7tsaoh+odae?=
+ =?us-ascii?Q?8RN62dCYyfaA9Yci+ZMWN3gA645hXivDB5bPkg3EbJJofxwBsB4koAr1fTzq?=
+ =?us-ascii?Q?u05hZj2aQp2dSiBBtMWtPWGjWue0jH+OB+khEjTq2bu95t2/XjnATZsfyB2u?=
+ =?us-ascii?Q?J0Kq3hodFDYHTa4Uvygrol8vtHMnF9Xni1oYzSNSOPnQlqK3lgb/3dHhqDMP?=
+ =?us-ascii?Q?3WdOcg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: LmhINTvd9DJ4kqLfTaDvWDUqtQ6tx91SRYo7Ik7OBhZWHR6Y9bqepvKJFaMzlCOh/KV7xn4cvIGWOGkr9PJo/2jwIOpH/jbaqv2JUm1GxO74Bqra1D/bSyoiR0CE4hWTZGj8IxPB/P/goDskdRR+tovaIBCoBZuB6b3mBf/qzVt9gsz0dBc6Juf4EMTZMxeCy+iIpgCp7oKw5YhyrgeAfCiU3C4QGMTpHpMuBMA8bRO7iXt9MAh1bq91nKL4dd4G8EI6MNM5pA/eAhL6GERAAfk0rym8/zYOViQpcqWYoCqzlXb5Xk7LvOkXHDYH4mmqbR98U/TW0KWUJV65uF7qRWtfWQX91nbu3P8q8vAQr+BsBF9zpkbpV6S7VOAJFjnCm9ZvLkZjwe3yiueAGGmYA41LE92aucodN5S6yOeGiaSMq1n/pUIL9bifTVWOYdC8
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 21:19:49.4802 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6916155-52e8-42f8-2c77-08de6ffc9d53
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00036F3E.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8616
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,176 +144,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:andreas@kemnade.info,m:conor+dt@kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jesszhan0024@gmail.com,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:bavishimithil@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[iki.fi,gmail.com,kemnade.info,kernel.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,bp.renesas.com,ffwll.ch,atomide.com,suse.de,intel.com];
+	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.6:email,0.0.0.20:email,0.0.0.11:email];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email]
-X-Rspamd-Queue-Id: 99F601628E0
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 80419162B67
 X-Rspamd-Action: no action
 
-Create a device tree for the 10 inch variants (P5100, P5110, P5113)
+The count field in the command header is used to determine the valid
+payload size. Verify that the valid payload does not exceed the remaining
+buffer space.
 
-Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- arch/arm/boot/dts/ti/omap/Makefile            |   1 +
- .../dts/ti/omap/omap4-samsung-espresso10.dts  | 104 ++++++++++++++++++
- 2 files changed, 105 insertions(+)
- create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
+ drivers/accel/amdxdna/amdxdna_ctx.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/ti/omap/Makefile b/arch/arm/boot/dts/ti/omap/Makefile
-index d24f13efd..140ac39b3 100644
---- a/arch/arm/boot/dts/ti/omap/Makefile
-+++ b/arch/arm/boot/dts/ti/omap/Makefile
-@@ -81,6 +81,7 @@ dtb-$(CONFIG_ARCH_OMAP4) += \
- 	omap4-var-dvk-om44.dtb \
- 	omap4-var-stk-om44.dtb \
- 	omap4-samsung-espresso7.dtb \
-+	omap4-samsung-espresso10.dtb \
- 	omap4-xyboard-mz609.dtb \
- 	omap4-xyboard-mz617.dtb
- dtb-$(CONFIG_SOC_AM33XX) += \
-diff --git a/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
-new file mode 100644
-index 000000000..5c00d67ac
---- /dev/null
-+++ b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
-@@ -0,0 +1,104 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+/dts-v1/;
-+
-+#include "omap4-samsung-espresso-common.dtsi"
-+#include <dt-bindings/power/summit,smb347-charger.h>
-+/ {
-+	model = "Samsung Galaxy Tab 2 (10 inch)";
-+	compatible = "samsung,espresso10", "ti,omap4430", "ti,omap4";
-+
-+	i2c-gpio5 {
-+		smb347: charger@6 {
-+			compatible = "summit,smb347";
-+			reg = <0x6>; // 0x0C >> 1
-+			interrupt-parent = <&gpio2>;
-+			interrupts = <0 IRQ_TYPE_EDGE_BOTH>;
-+
-+			summit,enable-usb-charging;
-+			summit,enable-charge-control = <SMB3XX_CHG_ENABLE_SW>;
-+			summit,chip-temperature-threshold-celsius = <120>;
-+			summit,usb-current-limit-microamp = <1800000>;
-+		};
-+	};
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&backlight_pins>;
-+		pwms = <&pwm10 0 1600 0>;
-+		power-supply = <&reg_lcd>;
-+		enable-gpios = <&gpio3 31 GPIO_ACTIVE_HIGH>;
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <7>;
-+	};
-+
-+	panel {
-+		compatible = "samsung,ltn101al03", "panel-lvds";
-+		power-supply = <&reg_lcd>;
-+		width-mm = <223>;
-+		height-mm = <125>;
-+		data-mapping = "vesa-24";
-+		backlight = <&backlight>;
-+
-+		panel-timing {
-+			clock-frequency = <69818000>;
-+
-+			hback-porch = <64>;
-+			hactive = <1280>;
-+			hfront-porch = <16>;
-+			hsync-len = <48>;
-+
-+			vback-porch = <11>;
-+			vactive = <800>;
-+			vfront-porch = <16>;
-+			vsync-len = <3>;
-+
-+			hsync-active = <0>;
-+			vsync-active = <0>;
-+			de-active = <1>;
-+			pixelclk-active = <1>;
-+		};
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&bridge_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c3 {
-+	touchscreen@20 {
-+		compatible = "syna,rmi4-i2c";
-+		reg = <0x20>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		interrupt-parent = <&gpio2>;
-+		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&touch_pins>;
-+
-+		//avdd-supply = <&reg_touch_ldo_en>;
-+		vdd-supply = <&ldo6>;
-+
-+		syna,reset-delay-ms = <200>;
-+		syna,startup-delay-ms = <200>;
-+
-+		touchscreen-size-x = <1280>;
-+		touchscreen-size-y = <800>;
-+
-+		rmi4-f01@1 {
-+			reg = <0x01>;
-+			syna,nosleep-mode = <1>;
-+		};
-+
-+		rmi4-f11@11 {
-+			reg = <0x11>;
-+			touchscreen-size-x = <1280>;
-+			touchscreen-size-y = <800>;
-+			syna,sensor-type = <1>;
-+		};
-+	};
-+};
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
+index d17aef89a0ad..cf4d3af67bf7 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.c
++++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+@@ -104,7 +104,10 @@ void *amdxdna_cmd_get_payload(struct amdxdna_gem_obj *abo, u32 *size)
+ 
+ 	if (size) {
+ 		count = FIELD_GET(AMDXDNA_CMD_COUNT, cmd->header);
+-		if (unlikely(count <= num_masks)) {
++		if (unlikely(count <= num_masks ||
++			     count * sizeof(u32) +
++			     offsetof(struct amdxdna_cmd, data[0]) >
++			     abo->mem.size)) {
+ 			*size = 0;
+ 			return NULL;
+ 		}
 -- 
-2.43.0
+2.34.1
 
