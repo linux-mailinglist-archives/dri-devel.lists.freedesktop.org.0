@@ -2,67 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMNsIdVwlmlqfQIAu9opvQ
+	id 0CUFKKdxlmlqfQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 03:09:25 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 03:12:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB34C15B8A5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 03:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150FC15B99B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 03:12:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE30710E651;
-	Thu, 19 Feb 2026 02:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA87C10E652;
+	Thu, 19 Feb 2026 02:12:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ByYpSEL1";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pvyFQCyN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6AFB10E651
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 02:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771466960; x=1803002960;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7m30KQ51G2XBIZqrYYiXK7MzBNceBX0PbiFcf364MuU=;
- b=ByYpSEL1J/FBgKYw55EkWiG0pu5dcHbBAsiOLE7+1bqfgGiMuBkLMTvp
- tMmYHAjZh2OqSfZPYUMFWGwPQP1W1+hbaiFijoCb7FZNju4FeO0yBqStW
- fKfoYlfbpbtrhxV+fd92LpkCTi9k6tGWV62YSv6Rih2mbgF0tsNoP6f59
- 7vY5CibhICb710D906WkK+0uFQu/g3V/7Ws9u8HLPGjkKF4osWJQW4YWj
- 4bobHpfTCMmw1XZ9WLsn+/XBDvfTpLuJyX7nRi82MFM6wr3tkWXSMPT3/
- ByVMhHbCnF0E4ubYFx1ci/XkZirP1tRZYuq4F4NIgXK0h9mKaJLsjHfsl w==;
-X-CSE-ConnectionGUID: R7JcVJsBTtaXd3L7DHK17g==
-X-CSE-MsgGUID: x23NmbZJSUmKNCEEAo18qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="71753754"
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; d="scan'208";a="71753754"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2026 18:09:19 -0800
-X-CSE-ConnectionGUID: pLBckp4rS0C2M5q/V9Eabg==
-X-CSE-MsgGUID: XgxoqCM3QVmbKj/kGVpR+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; d="scan'208";a="252075932"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 18 Feb 2026 18:09:17 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vstTe-000000012tE-3GYS;
- Thu, 19 Feb 2026 02:09:14 +0000
-Date: Thu, 19 Feb 2026 10:08:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
- deller@gmx.de, sam@ravnborg.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from
- public header file
-Message-ID: <202602191044.XKx5ACdn-lkp@intel.com>
-References: <20260218083855.10743-14-tzimmermann@suse.de>
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011036.outbound.protection.outlook.com [52.101.62.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6737710E652;
+ Thu, 19 Feb 2026 02:12:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aWm0Ejl9a+iE34HYjNlauvkROTVcfs8rHTIcXHqMpPfU3awQIAIO9Y+wMqoHdzA0jrPemON/n7Gi79tpmaGX0J2J6avlNKRWkWdP5SnpuskoqGfFqcabXjQXqRmt+iLGslVeRKLTESj6Dv5e6zGq17kzP7UJGQY/LDExxkzaBb73whpvfPFj+kjnTXF8WzEy6/1r6U6TBS2/R6Ps5nI83TX5cYdZdN9QEUPm0cT3hMu+83v3ESR1z5+3M5mEwP2L5W3m9LyZR+zNes0rXCGPjuTUv0cpqG/FVRvdqdacb18JAwH0qkwOgZ98fkwqBR78NS9FxlNqOyo1C+WJkaOu1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LH9OaNZ6LtiSBmpGRg2ka79zt862a+QTSr4ow+hWRMI=;
+ b=xXmZ6jXng7mO46mN44TOno9M+jn8m0aoMG9mollLaQLZoY+nb94VoyLB0C08dzo3zzFwEur7IGJgJBtUlrw9bC7oe0G/sl0JFbuyR8hv8Q/aAieWAQT0f7mYu47Fsbtns0PeJgMGacm38TW5BEm4PDPQnpA3r4d6JE7mpu+CtVQsg5vxoZvkn7sSvehCyA83+KKb73eDZIQkSwVCK7cxyYNlWJdm1h75LNNAqZXvS0ule/IUuRGbMNEKh15VsGXTRF1DuO3yoOt/0P4xrNyxdhuSJaBCWABbsnxtnI3IkKpYcg7o22a+etZHsrCNabtQFIMoz0eo4zGnrIkL6KYXvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LH9OaNZ6LtiSBmpGRg2ka79zt862a+QTSr4ow+hWRMI=;
+ b=pvyFQCyN4/7KowCVq9WCaG5ebQNPcG4FnY9qB22w/F6bN7T8UKL+TAqngK6LMCgkDjmX0IhwvoE/w2unt+2tAoaHaZ98Ou+Z5ezJalW+RdYVhYugOgWuXuKPd6n+Ed01GncMj+IJ7EXpL0+MIV6VwERS7UVMOjMtDIObA/f+JwV+jfrA54BRUz07nXGUJx//+GLPeWvZzr4I0D2HM9Eg9gkS+ykCT34QvZsRxsiBbtbDN3DtVXzNw049ULIckMgYuG8fYWp9WYnxrkev9WimcGdActy44rWFoRCMgZV+k3dNGVohQN6pArxY1K72Re/tOPkK5CgNeUvZXKaY7QlKow==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS0PR12MB7702.namprd12.prod.outlook.com (2603:10b6:8:130::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Thu, 19 Feb
+ 2026 02:12:47 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%3]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
+ 02:12:47 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Feb 2026 11:12:42 +0900
+Message-Id: <DGIKP80A3B3F.FVME95TBM5JD@nvidia.com>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Gary
+ Guo" <gary@garyguo.net>
+Subject: Re: [PATCH v3 0/8] gpu: nova-core: miscellaneous improvements
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260217-nova-misc-v3-0-b4e2d45eafbc@nvidia.com>
+ <DGH7DVJRH25E.2C9F743QLF6IA@kernel.org>
+In-Reply-To: <DGH7DVJRH25E.2C9F743QLF6IA@kernel.org>
+X-ClientProxiedBy: TY4P301CA0064.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36a::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260218083855.10743-14-tzimmermann@suse.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS0PR12MB7702:EE_
+X-MS-Office365-Filtering-Correlation-Id: 854b16e5-53e5-44b4-d742-08de6f5c5fb5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?T0tkdTFRVWRERVlLYURQbytUZkhqbkpMbTZidnRmSXV4TnNvK1FSTXc1TnJK?=
+ =?utf-8?B?bHhNeU9LZmVoVC9SdFJqZ1RrZUEzeFFORFk2aXJDWUttOTNIUmc2YWNadWhW?=
+ =?utf-8?B?bTIxZUw4MnI4SjhwVG9oSFBmWG5aaXdtMEh0S1RxZjNEemdzYTFyWGxaeWRx?=
+ =?utf-8?B?UGFPR3RtWm9Welg3L3I5TWZXbGp6a0ppeSsvWGQvaU11endSM1AzTkFDdzRP?=
+ =?utf-8?B?VGk5dDJxZUtSY3FsY0haQzR0V0VUdGdPMVFsV0pXcWU0SjRCSkZkOFV0WnY2?=
+ =?utf-8?B?QlB4MFB1NGNRazljTDlmN1hzVm92R0hjWDZuNWlwL0V1bHBYUVFjWmsySWpW?=
+ =?utf-8?B?VVFEVDQzQXJ2d2I1RmpLU2psMzZCSnNBNVpYV05PUWYwNkRYdFlSTkZZcHpC?=
+ =?utf-8?B?QVBBM0tIZGxsWkZtWnE3djdVSVZ6ejFuQUxBSEMzV3ZSL1JETC84SEpqcldG?=
+ =?utf-8?B?UDN5RDcweGdkOVlJUm1odlB4OHBKdWlPSWJaVVA0OEV5SENZMzR4U3gzekhz?=
+ =?utf-8?B?Ukx3S0Q0dk8zUktzZDI3QUh6ejVJbmgvb1lYVXdlejgybjljSWRzTzZ1aGlJ?=
+ =?utf-8?B?ZHlzbGpBaWRQNXdGcmpIaUU4MDl1N3BsMFRuRzA1U000M1c2enNCcHhsZmlE?=
+ =?utf-8?B?cmloeWZRNXVJUkhFUlp2V29USzhBT0J5eWhtSTZGbTB3NmxmZGp4ZjdkYitU?=
+ =?utf-8?B?UTUxTkQ1T1lweTJLaGxFQzZYNlp5dm9ENjN3ME9qa1ZmK2tyaWp1Q1dBTDJo?=
+ =?utf-8?B?YU9XenJ5eUxUd04xd1hTSXVVSzJFcVUwM1g4Q0xMQUhhOTJYeFlXY2dxNytk?=
+ =?utf-8?B?MlNCMDVxSkVYOXRseWtzTzB4emNDL1dVcGlYd05CQ0lIOWxVQlF2S0xFdnBp?=
+ =?utf-8?B?STh3dzBOeVIweVJyVy90NUpUWUptYlV4UDBvelkydSs5cmRXdlJZUnlPdjd1?=
+ =?utf-8?B?VHBnYmRVTkxrNWwvNURVUTF4WXF4bXE0cnB4cytlR2FmekkrVGIyRGt2NjVv?=
+ =?utf-8?B?UU93UEd5UWs1eFk5SG5CdjNIZDhwRnVSNjJqUXNLSEFHeVFpdU5CbERQUDAv?=
+ =?utf-8?B?cWQrRmU2eXpDeXVaWjVweGsyQURya2pvYUlVeFFhRlFHTWI3cmE1amhObjh1?=
+ =?utf-8?B?bitjYlprY3VoeVZzUmZDV09GZ21TeDFqdmM4QlMxSXY3ZEtpaWF0NWhFNGRD?=
+ =?utf-8?B?YkhOR0FKVldUYzJNeFA4REp5ZXJZY000UmRtamtTQjhyTDhkTElFUnZLZ2hy?=
+ =?utf-8?B?cDdTUThBTzd3MzJ1R1NTdFQ4SEFMeFBpNXk0RUpnTjVOMEdpTHBGWXJsenBa?=
+ =?utf-8?B?NTFvY2RHb2w4M0I5eFZJUDg5MXIyd3NIdzcxMVRjWlNsOUpZMVVJUEdyOTdE?=
+ =?utf-8?B?TkVXejYrdnU1OXdGekhlbG5ERHc1ZEkyWjE1am9rRllRL2VoYytiZnRDUGJD?=
+ =?utf-8?B?V3N6SXkzb3NLeXdraHQxemhQM0VmNHZYUEVqaWoxQ2Q5WFNCa0drRHlXNVZI?=
+ =?utf-8?B?alk0QThyOGJBT2FiTFJCRkhxazRPVzQ3b3hrSE5YT0lORWZaUVEveldsdkFq?=
+ =?utf-8?B?QlJ0Slc2K09PTjczR2c0TVRxM2pBcm1oKzZyWk9XWFVjZEx3ZVVlS0xucXNk?=
+ =?utf-8?B?Z1prNm55OUhlOFRNNkkvWlh5UjI3ZTNJcThFWkVvUmZwT0VXVHRuczE5R0FU?=
+ =?utf-8?B?V3l4VTVxL0lLNXZOZUM4OFQyZGtYUHoxNUtacERSVktCQ3Eya2xMeDg1QkY5?=
+ =?utf-8?B?UjVVR3U3VE9nRHgrNHFUZU4yS1EyNkNlMlp0cGRoUkhzTWVlV3VYMHlpRkRN?=
+ =?utf-8?B?QkZEaWJXMHNJb3lGUzh4bUZMUEw3ajhDaHhCY0R4L04rSm9rVEZRZXhMMGpH?=
+ =?utf-8?B?dDVEeVFwczZxQlo3YXllLzZEYlZMbUlWRkpoZlQyS0RKT3Jmdmgvb3RWWk5Z?=
+ =?utf-8?B?cU9rYkhzK1lacDdXd2lwTlRHNTJpQ3hzQ0JpQnhoMXJ5RHJ2dW16aTJFY2Jq?=
+ =?utf-8?B?RE5mdkZBamhYT3VBMVhCVTRMM2ZTTjM4ckRUMDduWmdZKzhldlpMM2IxNWJu?=
+ =?utf-8?B?UTBJb2RqZkk1aU1NRXhYeGNwaW1KWHROZnZKdmdDMWtMSnYyUytJdU5aV0tF?=
+ =?utf-8?Q?Hfzk=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(376014)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzFRa29QYTBEOGgvNlZsSG5Id3hHY1Y3YXZDVjd3YlZWMC9QaFdHZC8xRzZ0?=
+ =?utf-8?B?RXlYb2JJZENhRERFM1VadkEvVHBqRTg5Q3FITWg1Vk1JRi95ZlpDMm5SSmZa?=
+ =?utf-8?B?WFhHNk8zZnJTcjF5VmplSnkzN1A1alpaL3B0UHcrNlljVDZJU2ozNVAzUEQ3?=
+ =?utf-8?B?Zys1V0xZZXRKTkNHWWNvY3lDaUxUdjBuS1JhdFp3VEpjRkVobDlzRmRKMFB3?=
+ =?utf-8?B?Mm0xNDV5bHVnME5JZzBkcEtpajdCMUVLdzdFODc0ekcydEtTQndYRG10Vk9a?=
+ =?utf-8?B?L3BzckNsZWVBSlA0VDBSc2tEeHRXV2I5eU9mZGdVVlo4RGs0YWlPVTJjWjhs?=
+ =?utf-8?B?Q3VLVjhLUTZWbUVBRmUvSnBkdUliUVhuWm5yTFpTd2V2TFByVml3ME5ZNlN0?=
+ =?utf-8?B?Zmw0QzNNTnFTOE9tc3o3Q3pUTWY1TmNtRUxOZGl6bVdYZHRJT2psVHFWMFdv?=
+ =?utf-8?B?TW5nRmIvTk9SbWxENlZlczJoT0V0b201S0pIMDFZVlorWkhyNnZnRzlWZWJl?=
+ =?utf-8?B?aDNQa2JEY2N1UFJySXIxdDkvMXc3OTJVUXBrelBvSzdYejZQMURKM3d6RTUr?=
+ =?utf-8?B?bDh6enVHMW13ekFwaVdCdkg5a1hwelV5bEZxM3M0Y1pDVk1rYTN0YmM4YlBz?=
+ =?utf-8?B?dng3azI0NnNwcmNySTEzRm9iZTZlMTUrRmZ1UUtYQitHcVR0YnMweHpnd2Rj?=
+ =?utf-8?B?Z29ucGJaajJLcW10cVQ4MW9hUnV1MWJYYk5oTU41ajZRbUdwa1hzcysyTEEy?=
+ =?utf-8?B?Q0tMWWVEZmUzWExZOXRXajhyWnFEVEE4eU8xVkJyaC85TnRHclpTOUxGaTJS?=
+ =?utf-8?B?V29Rdk44STB6b2hUaFRDSWloTmYzNTlTbkxJbjVSeTdYcUo1QllVcTYrMTdH?=
+ =?utf-8?B?aHZ3U0hVc3pvQkwxYmxyak1sblg4UkFScDkvM29DTTZMSXVZcmlQVUhnSk9B?=
+ =?utf-8?B?dnNCcWhVTXE1REZ1Q21YcWZMVi9wbVZvakdQMEpzQjMyRmcwbGh5c25GMkxI?=
+ =?utf-8?B?TC9WZnkrbUx5bWl6cEJ3a3EyNi9wd05NbkZKZmUyYldkcWhFenpPeERkSy9R?=
+ =?utf-8?B?bUw1dXRBUXZUQXNjZzFEb1ArNkV2Q3phYjZvS25KZzZIMkplV29BcWZEMzhu?=
+ =?utf-8?B?SXhod09tUHhGdnh3bzg5Wnk4R2draElySTRSMHhoeWVmUEdnZlJZNU5GaUVj?=
+ =?utf-8?B?VkNNRXV6ZktsZFhoM3RSbTlvN1JNT1VNUXZrTCszRnFvZmlFbHllMCtQWVBH?=
+ =?utf-8?B?NjVvdDc0RVNORjB2WURLcEx1SWdQRjRxR2NqMHIzRWppSzZrQjNHSVlZMGwy?=
+ =?utf-8?B?V2lTUEhMMzNLeFp5ZjJQam9QS3haQWtxT3JkU1VrZ2trK0NOY2J5Yk5FZ1dL?=
+ =?utf-8?B?R1hRK05EWnlYdXp0Wk4yZ0ZjYjJKT0VMS3lOS25NWjk2WWtrY1VxTlFlcC8w?=
+ =?utf-8?B?NUlEVnBNYzFVVHZzUDl0c280S3ZDQUZWN0FFbU1HeW9vMUV0bFl5TGNNMEYz?=
+ =?utf-8?B?TkhRUVZ3cmhCY1pQeXNCbUZPZXdhV3I5cGhVcUs3SUg1OHR0eW5ZbEVMbkI1?=
+ =?utf-8?B?aGE0NUswM1FWU2JlNllVRE9zV1dtQ3ZaK3BCTlFnblJ2bTZMclBQZTRiNGxC?=
+ =?utf-8?B?WFpJMHVXbG1tTk1tQUdieWFFdHlPYlh3Q1EwWS9jNHF6MGcxa2I4eGFtU1Nt?=
+ =?utf-8?B?TUlBNHN6VGlRSkF3SmJZYWt1YVBKYkpkUkg2L2I1TUJpYUpqQUE4RzMxNmty?=
+ =?utf-8?B?ZUsraVRZckgzNzhOcTBVNFRlaE54dmdYYnVMbjdXU2M0blV4a1hxci82endo?=
+ =?utf-8?B?dUFRTGdRTDZ5YWFob3d3ZVJneitjOElHOTArTVhJQmlWWnpiTkR3b2l1K0Qz?=
+ =?utf-8?B?M3BEbld3c1RnQk9Rb3FBelZGYXlTdjVHUi9rNkd5M3pybjdFYXZ3SDBtTDR4?=
+ =?utf-8?B?bUFzOEVOenBPRmJFcHlwbURXSldScWlQNHhmYTd5YnZhaTRETUFPY3g0bG85?=
+ =?utf-8?B?K1VaYVdndUJOQkF5SzhvOFVKREFQM01jVDNpRkJRVGhLdE9FS1BhTHJsOHFI?=
+ =?utf-8?B?UklKK01hbTFZMEw0WUU2NDVBYnM0MFNCbkpPU254SU1sWkhBcml6bEdXSjY1?=
+ =?utf-8?B?eFRTdEVKd0FNZUxpdTIvUFFUbm53b0Z2d3R4NVoyS1F3NDZSYWZyMUxqUzBr?=
+ =?utf-8?B?TEc3R3JMK3RLR2VhdWxrK3p4WFNNaFNRcFhiaHUzU2FEK2hiMWhJM0kxZjBZ?=
+ =?utf-8?B?c0x3cGM4OVdhRU9ETnM5K2FVMjhHYmswTlNRQzMzTUNYTWxoSVdDc1FuUWxz?=
+ =?utf-8?B?WUM0cDBMTW8rRUpXQlcwTEV2NlljemUwRjBPZjIvUEs3enh1SnFidUc2RzZj?=
+ =?utf-8?Q?tLpAxfCXUc/dhsB4iAZBPvh6rvLZJ/eLaJO3b3zfWgxNb?=
+X-MS-Exchange-AntiSpam-MessageData-1: M/YfxZxc1qY7Vg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 854b16e5-53e5-44b4-d742-08de6f5c5fb5
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 02:12:46.9940 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h8YACjlrMW9m5GffYAhcXQKim1PS5Aggia+ayGEs+P/DMLUOoKeiZ5o+6k/FpBFWQDpaBhogx9SA9fB2iPiAug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,106 +181,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:gregkh@linuxfoundation.org,m:deller@gmx.de,m:sam@ravnborg.org,m:oe-kbuild-all@lists.linux.dev,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[suse.de,linuxfoundation.org,gmx.de,ravnborg.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,01.org:url,font_sun_8x16.data:url]
-X-Rspamd-Queue-Id: CB34C15B8A5
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 150FC15B99B
 X-Rspamd-Action: no action
 
-Hi Thomas,
+On Tue Feb 17, 2026 at 8:33 PM JST, Danilo Krummrich wrote:
+> On Tue Feb 17, 2026 at 3:45 AM CET, Alexandre Courbot wrote:
+>> A few simple, loosely-related small improvements for nova-core,
+>> including reporting unprocessed data in GSP messages, removal of
+>> unnecessary code in GSP and the sequencer, and leveraging the Zeroable
+>> derive macro and core library's CStr. Probably nothing too
+>> controversial, so I plan on applying it soon after -rc1 gets released.
+>>
+>> This revision is based on master.
+>>
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>
+> With my comments in patch 7 addressed,
+>
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0082025812a31eda451fb14f13f52683ed375c49]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Declare-src-parameter-of-fb_pad_-helpers-as-constant/20260218-164243
-base:   0082025812a31eda451fb14f13f52683ed375c49
-patch link:    https://lore.kernel.org/r/20260218083855.10743-14-tzimmermann%40suse.de
-patch subject: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from public header file
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602191044.XKx5ACdn-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602191044.XKx5ACdn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602191044.XKx5ACdn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/powerpc/kernel/btext.c:23:
-   arch/powerpc/kernel/btext.c: In function 'draw_byte':
->> arch/powerpc/kernel/btext.c:467:46: error: 'font_sun_8x16' undeclared (first use in this function); did you mean 'font_vga_8x16'?
-     467 |         const unsigned char *font = PTRRELOC(font_sun_8x16.data) + font_index;
-         |                                              ^~~~~~~~~~~~~
-   arch/powerpc/include/asm/setup.h:19:34: note: in definition of macro 'PTRRELOC'
-      19 | #define PTRRELOC(x)     ((typeof(x)) add_reloc_offset((unsigned long)(x)))
-         |                                  ^
-   arch/powerpc/kernel/btext.c:467:46: note: each undeclared identifier is reported only once for each function it appears in
-     467 |         const unsigned char *font = PTRRELOC(font_sun_8x16.data) + font_index;
-         |                                              ^~~~~~~~~~~~~
-   arch/powerpc/include/asm/setup.h:19:34: note: in definition of macro 'PTRRELOC'
-      19 | #define PTRRELOC(x)     ((typeof(x)) add_reloc_offset((unsigned long)(x)))
-         |                                  ^
-
-
-vim +467 arch/powerpc/kernel/btext.c
-
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  462  
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  463  static noinline void draw_byte(unsigned char c, long locX, long locY)
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  464  {
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  465  	unsigned char *base	= calc_base(locX << 3, locY << 4);
-0ebc7feae79ac0 Dr. David Alan Gilbert 2023-08-25  466  	unsigned int font_index = c * 16;
-b94b7356756164 Finn Thain             2025-11-10 @467  	const unsigned char *font = PTRRELOC(font_sun_8x16.data) + font_index;
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  468  	int rb			= dispDeviceRowBytes;
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  469  
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  470  	rmci_maybe_on();
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  471  	switch(dispDeviceDepth) {
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  472  	case 24:
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  473  	case 32:
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  474  		draw_byte_32(font, (unsigned int *)base, rb);
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  475  		break;
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  476  	case 15:
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  477  	case 16:
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  478  		draw_byte_16(font, (unsigned int *)base, rb);
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  479  		break;
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  480  	case 8:
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  481  		draw_byte_8(font, (unsigned int *)base, rb);
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  482  		break;
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  483  	}
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  484  	rmci_maybe_off();
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  485  }
-7191b615759ec1 Benjamin Herrenschmidt 2013-07-25  486  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks! Staging for applying after -rc1 is released, with the comments
+on patch 7 addressed.
