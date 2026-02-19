@@ -2,54 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qIl7GyEZl2nKugIAu9opvQ
+	id iBKGAvgemGnhAgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 15:07:29 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B242515F538
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Feb 2026 15:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0596165D9B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D0A10E6DB;
-	Thu, 19 Feb 2026 14:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C8110E7D8;
+	Fri, 20 Feb 2026 08:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="uVrTZFJm";
+	dkim=pass (2048-bit key; unprotected) header.d=yahoo.pl header.i=@yahoo.pl header.b="hpoMxVM7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com
- [95.215.58.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0FFB10E6DB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 14:07:21 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1771510037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=GLL0hMMb2bPLV0tfTIggik125ECVperRQtqT9MYhWvA=;
- b=uVrTZFJm+ukVTXzzPDVGP0KElyNdCbQ4/7SOqVYPlN5fC15jZFTpwA8zzYMHGdTNMLsCWw
- oB7xr13GB+Nyi2s9V5PcApq9DpVzRIwsMEyhnIIgxaAcLHzv+eXAVEzK5hM2nel0IZEA0a
- ppIfCMKwXErHS+YB5YpnRCJs/pGk5Zs=
-From: Marco Pagani <marco.pagani@linux.dev>
-To: Tvrtko Ursulin <tursulin@ursulin.net>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Marco Pagani <marco.pagani@linux.dev>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sched: Add new KUnit test suite for concurrent job
- submission
-Date: Thu, 19 Feb 2026 15:07:10 +0100
-Message-ID: <20260219140711.3296237-1-marco.pagani@linux.dev>
+Received: from sonic313-20.consmr.mail.ir2.yahoo.com
+ (sonic313-20.consmr.mail.ir2.yahoo.com [77.238.179.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0177010E025
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 14:29:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048;
+ t=1771511387; bh=VaWBo28dAnDUHCoe27rah1Dd7vMGiZtW4luXFceOsR8=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=hpoMxVM7CPkon7gFet2ionzRhAi6f+6NVfrPcidbtWY/Gmbf7mmtmybRbnPiThD2KcVXK/mPJ8W9l3PPI38x7JLDX6XQiXlsGp12l1eT0nrsxRHLORBFI68nUSPSPN4vqHnMK2hZlA0KK2Bjt3kOkqQTRlHCKSr1mmYbweDDf8FEJy52ic6utbBYrs+55P12yuC9sR0QYyfAieUilOp5QeFNUafk0xd+KMIVONxk+ROMyAjK03Dz5Q0iME60E2l0Q8/p5pkhXuTtbrDSVpihNflj0OOs7TG/yZysSrj47EwS+xxhL0UX8LcnvLzKZjN8kAhsE6qbfM/771BEYSnLmg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1771511387; bh=DVU6hsjuvlgw77AnII+fJPKXgUPBadS2QXiXa8Z/Vd0=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=PN5WPjnQ0rnDY7gQZbNW2B0Scdt+SNzoFzWedgye8srVFHmsDx1rtwJXVHhPWlaIbEaRLaA9SDF7LdUcaGc+9Enh8V+WQtsng6KghPQeQFd6MPWsE9d9mesVUrJloueo4Fb/TMqOd3Vcr8xa1kF8uAdtiLV0TBHsaxXRtDMxDPV7f7dGjHbGlBF93afajoT9d1lLPmW/9s9CgqusGCXY9EkUBo5gB9F/grCEy396kf4wcofZhSxi51slzSyHOZNifO1FWBotzf3bXXJl76sjCw7+hytYDlrkq32AYp7A2eo0kAVecQGlkC0KWEC+921AiKL3dBe3Er05WqumhGEKng==
+X-YMail-OSG: hKG6g38VM1kjQAph1KGJncCm6PCG1lp6B6am4wmamr1YwcT.tdBGJprRfGCBNG3
+ 9PANml9LdJknnHPQcF8DTt.GndYiyCM_an16l92eF9.6M_8roz.ewiSBfze1czBN7g3wpmkfgKb4
+ nNpiaJYHcL363wMA77.jLnc4Cup3GCYyXevnxGBzBY6GXIKua4WalUAUinPf4WVa3NQJJLKEaWq6
+ DKyL_69mv63BUrwSZwEi50ZxOyd2c8l_96BTiihm6LAkTXxX.8DzThf38q4NogPoXT7stVJ3gtKN
+ MT6mvuOyqP3Cs5UsCsu11ni6POHWULl1d3.3Xx9QIpuJ8D0Wjxn93ZM9uy7yqVRJBxutBKIZNxJw
+ jvzG0ndwcG_BFSEjExI41mylJCBhXPxgFjTVJcczGnqfLNelsW8DJLz8WojgLBQbSTpiALME8bRD
+ Is7sHKBnsca1g5KYIBM12id83uGfN6arzzF.JJY0ReX5YqSEu7LSyK.WmjsiTFMZZ142z9S6qVEz
+ lC_xri6ykOBltN25Y0DD4bSN5bt8xwbizekLMouOR7i6u0mjqsow4fwAAeddqUsxqUccCcegcNlE
+ Vl_OG01r0Gi1m_6_rObZo25Il5eMkXEejaEZjeXUrZBhA1GkvBe1FHqurxmalwFAyGkxL3fba6hx
+ q_izTfiLA5C5JBJMPFcH6Ski4JxfDZsLHQu.uGOHzb5tycEqXPKIkc4uu92oqbJ5iQmMFjiT2bGz
+ QkZdwXJKmHTVSrI54cVba9fY5rmkzuQ20AUAUeSUXdPVxmsSgjvdrglW9ctSDJYQoSdRDoleyVlT
+ LfVsT.rJWFG.Vio9S9t4vHpsMmhN6iN5HZS1yAHS8fIm7xItNYRct2geDznnJr1QW8irMxzAo3ia
+ zrbdWTWbIc9YKTmZ87MDcWZ1v0R4PSYahfW_gnYDejtS6HaBMftZXAaC5uOQFaJtYjxLMtfNafSQ
+ MsU0FyVDLuXF3mM7a5zngRhVCC_AHSC2oOz_PNs79CRzOdqxwcXKUmGgjVZksNHjP7ZFpo9wkxae
+ qPQUqm58W8t4RosTX4JisnhVf6Dqv9.gNsQHpZv.Ngk6xEqB4gePutJkNgkl9qxC2Jtbb4Uj8YcK
+ 15XjA_udd_plYedgxNs807.de_bXU6Nkkmw9eOmQ7M91b.zDNO6cWwMR_GDxfWdLiwnvhxc34gbq
+ DSqKOhAVkgYmgOgkVRzSTgNuUQIiQOAKzX4y4PY0wG6R8jIiPDaMfF5E5KFF7SuuMx6U2rjMZ11N
+ ym5V.U_Q3Zm__ZI7XNhC9dwOGMdEo7T.7FUqx6KOYmDJ017MghmkbfusC7roS7CH_dXG.eWHuIl8
+ q1OHk26c.Ai.D0Vvw55KLv_zURCF6LCHDaD5pLY4y_0WO6mWrNoCbUtudQcSm92RBwqpBq_LjytE
+ YadprEhu0l3xceF1PuaejSPtM6eGDTcFW4zYH1wQOGFWxtRVnfuv5.YnhIeUM4lnCXunknvCJ0WN
+ Kr1byvMfopC1OUV9PTVK4JzdGqzKCHXVUKqGEI.UIHER0TVlDtKl3s5eaVgqL3yc9Zmh_NdKkBVX
+ 9xXM21MPAGfnYjtU.fWBZ8pr8o9N4km5YuO4uO.DrwShUzt_mJq1udmRLmAflKR0Vh1D0Vbc5VNO
+ xsKwm7Aso550jXaPKYACGewXqJLpZrNY3HGerABKV38NWopYm0V1N4Qvvssnl8kcAoqW2TkbH_O2
+ WZuYULyjcZwlCvCsv8QGODLlS4qnW1EeVlrQYGpJGuM.9UWK7EssyxAHJoAWClXNKmt3IX7mTnb9
+ FqAoRBOZ0cLNQL46jLzBEZ9cgpK65UiRPrTXzDTvJ2XYLx77A9UaDioIhmwZrZzi.QkF8l5Jyl5b
+ Ru2DKCEybyp58roZBS.uXab.iViV7ub0qGBTiBY4EqE6TMq2VhYGDyMUShMFRLEu1EP47nzEFd12
+ 10c6GJohQbF5uOsGtLv1uyza_xRSu3MOHGN9gUM1PMxHRlgw.uLIeeSGb.wTiFsA_7nih1KmzbXU
+ 4NvZiQxfjHGpR6.1fddoD4XD005VecAfbU.e2ivJZv2IbN3MB74_33F.PXumUr68rsljxT1zExJC
+ usrxt6WGGtXVIpyS6VjzOD379eCy.OXifobMaM_9KH1X9ZMQzktV6L4iqFm1xCh7lbBj4l5WEyS3
+ coOe2u6fbD4vj6d.kt2t7qMQQwT6FK_.YTVOevSvmg0pJsSozbdbaIj3Z0PE4xNuPN9ag.0RslRS
+ DKlQoxIEk4mowzdb_HU_s3XLAdFmG8_oCKX_UXzUHuXBvyztGJRF9CI.6r2NUV4YlflQExCdmQK7
+ .WvrxQFKARZdp2OhN
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 1fb9b03f-ec83-47e9-91c1-112ee54bd454
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic313.consmr.mail.ir2.yahoo.com with HTTP; Thu, 19 Feb 2026 14:29:47 +0000
+Received: by hermes--production-ir2-bbcfb4457-wbfpp (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 986b859eb286868e95113c044e92cb9f; 
+ Thu, 19 Feb 2026 14:29:46 +0000 (UTC)
+From: tomasz.unger@yahoo.pl
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+Subject: [PATCH v2] staging: fbtft: fb_tinylcd: replace udelay() with fsleep()
+Date: Thu, 19 Feb 2026 15:29:42 +0100
+Message-ID: <20260219142942.74087-1-tomasz.unger@yahoo.pl>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260219142942.74087-1-tomasz.unger.ref@yahoo.pl>
+X-Mailman-Approved-At: Fri, 20 Feb 2026 08:44:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,431 +97,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_FROM(0.00)[yahoo.pl];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[ursulin.net,intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	FORGED_RECIPIENTS(0.00)[m:tursulin@ursulin.net,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:marco.pagani@linux.dev,m:linux-kernel@vger.kernel.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[marco.pagani@linux.dev,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linux.dev,yahoo.pl];
+	FORGED_SENDER(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:tomasz.unger@yahoo.pl,s:lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marco.pagani@linux.dev,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[yahoo.pl:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: B242515F538
+	FROM_NO_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A0596165D9B
 X-Rspamd-Action: no action
 
-Add a new test suite to simulate concurrent job submissions to the DRM
-scheduler. The suite includes two initial test cases: (i) a primary test
-case for parallel job submission and (ii) a secondary test case for
-interleaved job submission and completion. In the first test case, worker
-threads concurrently submit jobs to the scheduler and then the timeline is
-manually advanced. In the second test case, worker threads periodically
-submit a sequence of jobs to the mock scheduler. Periods are chosen as
-harmonic, starting from a base period, to allow interleaving between
-submission and completion. To avoid impractically large execution times,
-periods are cycled. The timeline is advanced automatically when the jobs
-completes. This models how job submission from userspace (in process
-context) may interleave with job completion (hrtimer callback interrupt
-context, in the test case) by a physical device.
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Signed-off-by: Marco Pagani <marco.pagani@linux.dev>
----
-Changes in v1:
-- Split the original suite into two test cases (Tvrtko Ursulin).
-- General test refactoring and variable renaming for clarity.
-- Changed parameters to have a fairer workload distribution.
-- Improved cleanup logic.
-- Added kunit_info() prints for tracing workers.
----
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 338 ++++++++++++++++++
- 1 file changed, 338 insertions(+)
+fsleep() is the preferred modern API for flexible sleeping as it
+automatically selects the best sleep mechanism based on the duration.
+Replace udelay() with fsleep() to improve power efficiency.
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 82a41a456b0a..391edcbaf43a 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -2,6 +2,8 @@
- /* Copyright (c) 2025 Valve Corporation */
+init_display() is a driver initialization callback which runs in
+sleeping context, so fsleep() is safe to use here.
+
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+Changes in v2:
+- Added sleeping context justification to commit message
+- Replaced usleep_range() with fsleep() as suggested by Andy Shevchenko 
+
+ drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
+index 9469248f2c50..3fb15df31592 100644
+--- a/drivers/staging/fbtft/fb_tinylcd.c
++++ b/drivers/staging/fbtft/fb_tinylcd.c
+@@ -41,7 +41,7 @@ static int init_display(struct fbtft_par *par)
+ 		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+ 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+-	udelay(250);
++	fsleep(250);
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
  
- #include <linux/delay.h>
-+#include <linux/completion.h>
-+#include <linux/workqueue.h>
- 
- #include "sched_tests.h"
- 
-@@ -235,6 +237,341 @@ static void drm_sched_basic_cancel(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
- }
- 
-+struct sched_concurrent_context {
-+	struct drm_mock_scheduler *sched;
-+	struct workqueue_struct *sub_wq;
-+	struct kunit *test;
-+	struct completion wait_go;
-+};
-+
-+KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_fini_wrap, drm_mock_sched_fini,
-+			    struct drm_mock_scheduler *);
-+
-+KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_entity_free_wrap, drm_mock_sched_entity_free,
-+			    struct drm_mock_sched_entity *);
-+
-+static void complete_destroy_workqueue(void *context)
-+{
-+	struct sched_concurrent_context *ctx = (struct sched_concurrent_context *)context;
-+
-+	complete_all(&ctx->wait_go);
-+
-+	destroy_workqueue(ctx->sub_wq);
-+}
-+
-+static int drm_sched_concurrent_init(struct kunit *test)
-+{
-+	struct sched_concurrent_context *ctx;
-+	int ret;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, ctx);
-+
-+	init_completion(&ctx->wait_go);
-+
-+	ctx->sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-+
-+	ret = kunit_add_action_or_reset(test, drm_mock_sched_fini_wrap, ctx->sched);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	/* Use an unbounded workqueue to maximize job submission concurrency */
-+	ctx->sub_wq = alloc_workqueue("drm-sched-submitters-wq", WQ_UNBOUND,
-+				      WQ_UNBOUND_MAX_ACTIVE);
-+	KUNIT_ASSERT_NOT_NULL(test, ctx->sub_wq);
-+
-+	ret = kunit_add_action_or_reset(test, complete_destroy_workqueue, ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ctx->test = test;
-+	test->priv = ctx;
-+
-+	return 0;
-+}
-+
-+struct drm_sched_parallel_params {
-+	const char *description;
-+	unsigned int num_jobs;
-+	unsigned int num_workers;
-+};
-+
-+static const struct drm_sched_parallel_params drm_sched_parallel_cases[] = {
-+	{
-+		.description = "Workers submitting multiple jobs against a single entity",
-+		.num_jobs = 4,
-+		.num_workers = 16,
-+	},
-+};
-+
-+static void
-+drm_sched_parallel_desc(const struct drm_sched_parallel_params *params, char *desc)
-+{
-+	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_sched_parallel, drm_sched_parallel_cases, drm_sched_parallel_desc);
-+
-+struct parallel_worker {
-+	struct work_struct work;
-+	struct sched_concurrent_context *ctx;
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_sched_job **jobs;
-+	unsigned int id;
-+};
-+
-+static void drm_sched_parallel_worker(struct work_struct *work)
-+{
-+	const struct drm_sched_parallel_params *params;
-+	struct sched_concurrent_context *test_ctx;
-+	struct parallel_worker *worker;
-+	unsigned int i;
-+
-+	worker = container_of(work, struct parallel_worker, work);
-+	test_ctx = worker->ctx;
-+	params = test_ctx->test->param_value;
-+
-+	wait_for_completion(&test_ctx->wait_go);
-+
-+	kunit_info(test_ctx->test, "Parallel worker %u started\n", worker->id);
-+
-+	for (i = 0; i < params->num_jobs; i++)
-+		drm_mock_sched_job_submit(worker->jobs[i]);
-+}
-+
-+/*
-+ * Spawns workers that submit a sequence of jobs to the mock scheduler.
-+ * Once all jobs are submitted, the timeline is manually advanced.
-+ */
-+static void drm_sched_parallel_submit_test(struct kunit *test)
-+{
-+	struct sched_concurrent_context *ctx = test->priv;
-+	const struct drm_sched_parallel_params *params = test->param_value;
-+	struct parallel_worker *workers;
-+	unsigned int i, j, completed_jobs;
-+	bool done;
-+	int ret;
-+
-+	workers = kunit_kcalloc(test, params->num_workers, sizeof(*workers),
-+				GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, workers);
-+
-+	/*
-+	 * Init workers only after all jobs and entities have been successfully
-+	 * allocated. In this way, the cleanup logic for when an assertion fail
-+	 * can be simplified.
-+	 */
-+	for (i = 0; i < params->num_workers; i++) {
-+		workers[i].id = i;
-+		workers[i].ctx = ctx;
-+		workers[i].entity = drm_mock_sched_entity_new(test,
-+							      DRM_SCHED_PRIORITY_NORMAL,
-+							      ctx->sched);
-+
-+		ret = kunit_add_action_or_reset(test, drm_mock_sched_entity_free_wrap,
-+						workers[i].entity);
-+		KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+		workers[i].jobs = kunit_kcalloc(test, params->num_jobs,
-+						sizeof(*workers[i].jobs), GFP_KERNEL);
-+		KUNIT_ASSERT_NOT_NULL(test, workers[i].jobs);
-+
-+		for (j = 0; j < params->num_jobs; j++)
-+			workers[i].jobs[j] = drm_mock_sched_job_new(test,
-+								    workers[i].entity);
-+	}
-+
-+	for (i = 0; i < params->num_workers; i++) {
-+		INIT_WORK(&workers[i].work, drm_sched_parallel_worker);
-+		queue_work(ctx->sub_wq, &workers[i].work);
-+	}
-+
-+	complete_all(&ctx->wait_go);
-+	flush_workqueue(ctx->sub_wq);
-+
-+	for (i = 0; i < params->num_workers; i++) {
-+		for (j = 0; j < params->num_jobs; j++) {
-+			done = drm_mock_sched_job_wait_scheduled(workers[i].jobs[j],
-+								 HZ);
-+			KUNIT_ASSERT_TRUE(test, done);
-+
-+			done = drm_mock_sched_job_is_finished(workers[i].jobs[j]);
-+			KUNIT_ASSERT_FALSE(test, done);
-+		}
-+	}
-+
-+	completed_jobs = drm_mock_sched_advance(ctx->sched,
-+						params->num_workers * params->num_jobs);
-+	KUNIT_ASSERT_EQ(test, completed_jobs, params->num_workers * params->num_jobs);
-+
-+	for (i = 0; i < params->num_workers; i++) {
-+		for (j = 0; j < params->num_jobs; j++) {
-+			done = drm_mock_sched_job_is_finished(workers[i].jobs[j]);
-+			KUNIT_ASSERT_TRUE(test, done);
-+		}
-+	}
-+}
-+
-+struct drm_sched_interleaved_params {
-+	const char *description;
-+	unsigned int job_base_period_us;
-+	unsigned int periods_cycle;
-+	unsigned int num_jobs;
-+	unsigned int num_workers;
-+};
-+
-+static const struct drm_sched_interleaved_params drm_sched_interleaved_cases[] = {
-+	{
-+		.description = "Workers submitting single jobs against a single entity",
-+		.job_base_period_us = 100,
-+		.periods_cycle = 10,
-+		.num_jobs = 1,
-+		.num_workers = 32,
-+	},
-+	{
-+		.description = "Workers submitting multiple jobs against a single entity",
-+		.job_base_period_us = 100,
-+		.periods_cycle = 10,
-+		.num_jobs = 4,
-+		.num_workers = 16,
-+	},
-+};
-+
-+static void
-+drm_sched_interleaved_desc(const struct drm_sched_interleaved_params *params, char *desc)
-+{
-+	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_sched_interleaved, drm_sched_interleaved_cases,
-+		  drm_sched_interleaved_desc);
-+
-+struct interleaved_worker {
-+	struct work_struct work;
-+	struct sched_concurrent_context *ctx;
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_sched_job **jobs;
-+	unsigned int id;
-+	unsigned int period_us;
-+	unsigned int timeout_us;
-+};
-+
-+static void drm_sched_interleaved_worker(struct work_struct *work)
-+{
-+	const struct drm_sched_interleaved_params *params;
-+	struct sched_concurrent_context *test_ctx;
-+	struct interleaved_worker *worker;
-+	unsigned int i;
-+	bool done;
-+
-+	worker = container_of(work, struct interleaved_worker, work);
-+	test_ctx = worker->ctx;
-+	params = test_ctx->test->param_value;
-+
-+	wait_for_completion(&test_ctx->wait_go);
-+
-+	kunit_info(test_ctx->test, "Interleaved worker %u with period %u us started\n",
-+		   worker->id, worker->period_us);
-+
-+	/* Release jobs as a periodic sequence */
-+	for (i = 0; i < params->num_jobs; i++) {
-+		drm_mock_sched_job_set_duration_us(worker->jobs[i], worker->period_us);
-+		drm_mock_sched_job_submit(worker->jobs[i]);
-+
-+		done = drm_mock_sched_job_wait_finished(worker->jobs[i],
-+							usecs_to_jiffies(worker->timeout_us));
-+		if (!done)
-+			kunit_info(test_ctx->test, "Job %u of worker %u timedout\n",
-+				   i, worker->id);
-+	}
-+}
-+
-+/*
-+ * Spawns workers that submit a periodic sequence of jobs to the mock scheduler.
-+ * Uses harmonic periods to allow interleaving and cycles through them to prevent
-+ * excessively large execution times. Since the scheduler serializes jobs from all
-+ * workers, the timeout is set to the hyperperiod with a 2x safety factor. Entities
-+ * and jobs are pre-allocated in the main thread to avoid using KUnit assertions in
-+ * the workers.
-+ */
-+static void drm_sched_interleaved_submit_test(struct kunit *test)
-+{
-+	struct sched_concurrent_context *ctx = test->priv;
-+	const struct drm_sched_interleaved_params *params = test->param_value;
-+	struct interleaved_worker *workers;
-+	unsigned int period_max_us, timeout_us;
-+	unsigned int i, j;
-+	bool done;
-+	int ret;
-+
-+	workers = kunit_kcalloc(test, params->num_workers, sizeof(*workers),
-+				GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, workers);
-+
-+	period_max_us = params->job_base_period_us * (1 << params->periods_cycle);
-+	timeout_us = params->num_workers * period_max_us * 2;
-+
-+	/*
-+	 * Init workers only after all jobs and entities have been successfully
-+	 * allocated. In this way, the cleanup logic for when an assertion fail
-+	 * can be simplified.
-+	 */
-+	for (i = 0; i < params->num_workers; i++) {
-+		workers[i].id = i;
-+		workers[i].ctx = ctx;
-+		workers[i].timeout_us = timeout_us;
-+
-+		if (i % params->periods_cycle == 0)
-+			workers[i].period_us = params->job_base_period_us;
-+		else
-+			workers[i].period_us = workers[i - 1].period_us * 2;
-+
-+		workers[i].entity = drm_mock_sched_entity_new(test,
-+							      DRM_SCHED_PRIORITY_NORMAL,
-+							      ctx->sched);
-+
-+		ret = kunit_add_action_or_reset(test, drm_mock_sched_entity_free_wrap,
-+						workers[i].entity);
-+		KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+		workers[i].jobs = kunit_kcalloc(test, params->num_jobs,
-+						sizeof(*workers[i].jobs), GFP_KERNEL);
-+		KUNIT_ASSERT_NOT_NULL(test, workers[i].jobs);
-+
-+		for (j = 0; j < params->num_jobs; j++) {
-+			workers[i].jobs[j] = drm_mock_sched_job_new(test,
-+								    workers[i].entity);
-+			done = drm_mock_sched_job_is_finished(workers[i].jobs[j]);
-+			KUNIT_ASSERT_FALSE(test, done);
-+		}
-+	}
-+
-+	for (i = 0; i < params->num_workers; i++) {
-+		INIT_WORK(&workers[i].work, drm_sched_interleaved_worker);
-+		queue_work(ctx->sub_wq, &workers[i].work);
-+	}
-+
-+	complete_all(&ctx->wait_go);
-+	flush_workqueue(ctx->sub_wq);
-+
-+	for (i = 0; i < params->num_workers; i++) {
-+		for (j = 0; j < params->num_jobs; j++) {
-+			done = drm_mock_sched_job_is_finished(workers[i].jobs[j]);
-+			KUNIT_ASSERT_TRUE(test, done);
-+		}
-+	}
-+}
-+
-+static struct kunit_case drm_sched_concurrent_tests[] = {
-+	KUNIT_CASE_PARAM(drm_sched_parallel_submit_test, drm_sched_parallel_gen_params),
-+	KUNIT_CASE_PARAM(drm_sched_interleaved_submit_test, drm_sched_interleaved_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_concurrent = {
-+	.name = "drm_sched_concurrent_tests",
-+	.init = drm_sched_concurrent_init,
-+	.test_cases = drm_sched_concurrent_tests,
-+};
-+
- static struct kunit_case drm_sched_cancel_tests[] = {
- 	KUNIT_CASE(drm_sched_basic_cancel),
- 	{}
-@@ -556,6 +893,7 @@ static struct kunit_suite drm_sched_credits = {
- };
- 
- kunit_test_suites(&drm_sched_basic,
-+		  &drm_sched_concurrent,
- 		  &drm_sched_timeout,
- 		  &drm_sched_cancel,
- 		  &drm_sched_priority,
+ 	return 0;
 -- 
-2.52.0
+2.53.0
 
