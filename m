@@ -2,91 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mC9GBgIfmGnhAgMAu9opvQ
+	id mFIpN5/Wl2k99QIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:50 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 04:35:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD994165DB7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C001164673
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 04:35:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F31B910E7EE;
-	Fri, 20 Feb 2026 08:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7B310E771;
+	Fri, 20 Feb 2026 03:35:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mIp/6N7K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SRiPeXyU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E809610E771
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 03:35:22 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-59e6491f1a2so1912523e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:35:22 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C1810E771
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 03:35:55 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-2aaf9191da3so10144085ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 19:35:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771558521; x=1772163321; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qs3XtAW37afRA0+1P/Gos74N1AN9EdwS5RQcuwJVsX8=;
- b=mIp/6N7K3VXw4zFwiXo2IzSuOnqy2bdz06eHp+3qdAvdyD0hujxFwRMjNF+cfJ7NBI
- JKkMmn7XUBQHC4UMfjHPBAIcKNTSbIrqn//WVFVg3Cuv0LqX+37R0oZR5qF48OM4rw0D
- B1rTT6RmRZl1uodsrQO93jjj0k9XqUBoJBbwcADVYQ0020GUE6rt/PSjukFTSYHZD0Je
- mnoxiNv+x1zaNk3pG+dwAoinlHTuRePxSPp0Z0Mi8OsngmLhEFRa3VivXUEHlnSuJrhY
- a2i1dA63s3W+j/hRUsYn/PrIUA+HZNY57Dbb/cSzrAATwKwvXMmj/hG/1b452cW3kC8i
- m05g==
+ d=gmail.com; s=20230601; t=1771558555; x=1772163355; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U9RtH3VDdHvCGowWw21cotg2dMzVihzJvU6s07yH8n4=;
+ b=SRiPeXyUAZdfxE0rxJkA9ov7tXHpoXDPUNFRiM58bK3yu3TFL4+HGTgxYxqSVuCT03
+ STC+7z6j+Ithri9f8iimaxridqermwKfrsd3WOkD7aQ8Db67wDYE08ZMcXs4cOLmhHYg
+ nbAjJSvlMP8V9cfwskrkbmJ4jzfKwDDn4B+xw1xNquDtO+VdsbC5iUatXJqMQrQoLM9q
+ eLNFeylmxZ7TncTNk98WRJzgh87uR8OUfD3c5cMbVcOZEy0WrTNfBvkW2TAAVhv/HkOc
+ wmqGynkA+NgppNvD1mMd+QzZFPliGmjZv3hIIo6OxLV35WxxDGopmg82cyRHh5rWGsx4
+ BJvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771558521; x=1772163321;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qs3XtAW37afRA0+1P/Gos74N1AN9EdwS5RQcuwJVsX8=;
- b=hjXalVncwge8dqNlLGMDIIrB4DsHXBMENhUt4GIfh3Tl6nRu6JEw9SbXegeLTICFj+
- CKgRHp5F2fesP71Njls/Ij+FgSJn6vw4avSUygz9N+2qx0JVrZZk6F+/7qKUSoouddmt
- yLVyWSXVIknGm354slgef0GN4WWEWwZAuj/PI8rpVLxGrP/5dfA+McVa1CHn6jTL4G1b
- yPd60AN6iTsb4L/x3RGA6bJq8KheMTiE5Awk3JDtoW+2z7YpaUIbeDTsYmbil0EBc2Vf
- 3xg+9ASK3itSYpABOpAvnrgoZ8yJAehytHf65DMNKDQ1aWMI/zhGBEbZH9do4c7iHhGd
- se7Q==
-X-Gm-Message-State: AOJu0Ywcg2YzhdP6vUBY2BoSrHZw8gZdrsinpAh1srn/r6uMsUIk9SmL
- d/IDjDBHOIc2fWyTrJs4a+dJJUOl0GqELr419M8ZswMWQDmpaOBvGGw=
-X-Gm-Gg: AZuq6aIFVE3CZnMDlSGNOG1J8AZEvrWdYF2dC07BeqJBcktqXRp1CRub57MNnlNxL/Z
- +cxMQG8lMANgWTNmyaUvZOnLJdyqF/CIHuAox6f6B+HEnkchACe2HynzBy9IZ+ekvMhlB1xNPlE
- uTu3YMNK5iOHW2HvQ//YlRE+xmoKCyu13DZMTIAdjSadurTqyI4FuUbghJ0kaeLVOzSmZDBn3z6
- 19voN4vPt/ReJjFKHhoHtww1L2oDxadNjWgAqwojX4JshVCrWtnS12vcBChiDASccxTMgWZU7XO
- UGgsOx9/SJh4BKz/Y60ULWthX9+ZrE9rUGLCaU5CDQO0wBbevi0pvjFw/BBHWJjG46isZIqU0B6
- rzaVyqNjLIrYtUWBDWsbgz4tZOTgLvM4GJGhOey/tqCFS6sHgf32m5AAcIfiSP+GVwwboKxEiAY
- LL/W2/1g0=
-X-Received: by 2002:a05:6512:acf:b0:59e:62ea:239c with SMTP id
- 2adb3069b0e04-5a011eb09e2mr110065e87.8.1771558521108; 
- Thu, 19 Feb 2026 19:35:21 -0800 (PST)
-Received: from localhost ([2a0e:e6c0:20d0:4f00::1d])
+ d=1e100.net; s=20230601; t=1771558555; x=1772163355;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U9RtH3VDdHvCGowWw21cotg2dMzVihzJvU6s07yH8n4=;
+ b=Z/qHqc+rswHyvtVotFm2RJ8Ly8iNdaiGxntMdg1jDUqQn+zpHmUjrH060eRm13wfXC
+ hL0YaUvdBstIWDoAF3D2YgkJF7OWK84A7rw8QAThYsherLdVKSRg2mekC3BZrrhsrHLq
+ 0QjxiKUKgDdz2/mbSywCbiH6C0mV/0Xw6THlN/qDrBcvKTzHrVH3skz/b1MjUyOCLxpB
+ nazV1nNLQHY5ZNJ/YuvTn0J3g1gpy51UZI1xtM4Dn/auvwlxkMHbWi8S+rPN/cVlyhvy
+ mI6KooIh8JRiJbRDPoTzrQ11H444JyPYdq594f9VzhxpvF4oD0abBMDrV9yu9mgwX8aJ
+ rR+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEA6sPINiW0fCC/+KowlDBXmknqkQ7YcFXC38u72V6YCHNYmGSL3hVVOdTvhzVDeNfZOVwaruYCJo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBpQ0NHgV3lkUU7OkZuVIAsiUKq0oQszwDF3rSceA104VKUoH6
+ olKEJT0THe48nOg5mIT/8xuS+YOFePy9ANZWaGVCprgWUvimeZr7yGra
+X-Gm-Gg: AZuq6aJvAN1m/MuXyAIv6hQLxtzTQOM8QayefDRXEklApq68jP+g3jTHbbClDJekLxK
+ /gwajtWH2hjVRFoUVi/zwbHOQ0BsdxI2hhDgikcoTOh/qI6Cocy0gqSUq6A996wOLGxnI0mbiGv
+ ga02Lyr6VEn6pZ47BfpJag3hYjvGALf8cUdfDZEPEvnLtlpud6rLr9CUr0cv3vLvKPFVDlkjOac
+ z+DROlzeX2STLrCWSIFcfmJvMyRkZyOZXAMTMSAsnK2F1wRFV4fIHBbBis4TseXDssOA1d+pef3
+ 1YEnV6j2IFl9PkwlRAIP2cirRPvndi1bpWYE9ZavRHAq5+9ra2aNi1e1x1irEoGSnf2Lj73VUlq
+ Q6wK7RV0F8ldUULudShCIgt3WDnWpJv4dJrXn2A0Ku1MZefG5vcFfzMxE1p1Vd7//od3rfz6g6f
+ DWDRAa5ADeeP130ZNAWIZwKuWB5SU15RLQrsEfhBE8WhZ04brCvYbpWGHbolf8
+X-Received: by 2002:a17:903:2a8f:b0:2aa:e285:f249 with SMTP id
+ d9443c01a7336-2ad50e757a5mr67786975ad.1.1771558554897; 
+ Thu, 19 Feb 2026 19:35:54 -0800 (PST)
+Received: from name2965-Precision-7820-Tower.. ([121.185.236.165])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59e5f5ad733sm5745912e87.69.2026.02.19.19.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Feb 2026 19:35:20 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Feb 2026 06:35:19 +0300
-Message-Id: <DGJH30US2XMK.S2HOHR14LIW0@gmail.com>
-Cc: <dri-devel@lists.freedesktop.org>, <regressions@lists.linux.dev>,
- <mwen@igalia.com>, <mario.limonciello@amd.com>, <alex.hung@amd.com>,
- <daniel.wheeler@amd.com>, <rodrigo.siqueira@amd.com>,
- <alexander.deucher@amd.com>, <harry.wentland@amd.com>,
- <sunpeng.li@amd.com>, <christian.koenig@amd.com>, <huangalex409@gmail.com>
-Subject: Re: [REGRESSION] VRR not detected on a DisplayPort monitor using an
- AMD GPU
-From: "Ivan Sergeev" <ivan8215145640@gmail.com>
-To: "Mario Limonciello" <superm1@kernel.org>, "Ivan Sergeev"
- <ivan8215145640@gmail.com>, <amd-gfx@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0
-References: <CAKx_Wg7_HBxuq5W4T_AmoFYJGQpa6TAS_Fx9SUzyy1itPmj5Bw@mail.gmail.com>
- <090d89a2-4f80-44ef-827c-6462d8948493@kernel.org>
- <DGJFVPAQJA15.378GMU7XZXLU@gmail.com> <DGJGDIRQWDG7.XHHKF6UQP0HG@gmail.com>
- <c70fe261-7fb0-4af5-b755-f02b193c8c5f@kernel.org>
-In-Reply-To: <c70fe261-7fb0-4af5-b755-f02b193c8c5f@kernel.org>
-X-Mailman-Approved-At: Fri, 20 Feb 2026 08:44:31 +0000
+ d9443c01a7336-2ad1a9d5cf8sm177143675ad.52.2026.02.19.19.35.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Feb 2026 19:35:54 -0800 (PST)
+From: Jeongjun Park <aha310510@gmail.com>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH 6.19.y 6.18.y 0/2] drm/exynos: vidi: fix various memory
+ corruption bugs
+Date: Fri, 20 Feb 2026 12:35:48 +0900
+Message-Id: <20260220033550.124346-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,44 +98,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:gregkh@linuxfoundation.org,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:aha310510@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.linux.dev,igalia.com,amd.com,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ivan8215145640@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,samsung.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DD994165DB7
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 4C001164673
 X-Rspamd-Action: no action
 
-On Fri Feb 20, 2026 at 6:14 AM MSK, Mario Limonciello wrote:
->
-> Can you check out at your bad commit and apply just 7f2b5237e313 at the=
-=20
-> bad commit?  Confirm that fixes it.
+This backport patch should have been backported along with commit 52b330799e2d
+("drm/exynos: vidi: use ctx->lock to protect struct vidi_context member
+variables related to memory alloc/free"), but was written separately because
+some commits were missing.
 
-Applied 7f2b5237e313 on top of 0159f88a99c9 and the issue persists.
+https://lore.kernel.org/all/20260119082553.195181-1-aha310510@gmail.com/
+
+After this patch is backported, we plan to write additional patches to
+backport to the remaining longterm kernels.
+
+Jeongjun Park (2):
+  drm/exynos: vidi: use priv->vidi_dev for ctx lookup in vidi_connection_ioctl()
+  drm/exynos: vidi: fix to avoid directly dereferencing user pointer
+
+ drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 36 +++++++++++++++++++++++++++++++-----
+ 2 files changed, 32 insertions(+), 5 deletions(-)
