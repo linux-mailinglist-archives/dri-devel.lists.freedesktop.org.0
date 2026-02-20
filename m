@@ -2,80 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OAD0Cm7Gl2lg8QIAu9opvQ
+	id YJHuAW3Gl2lg8QIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 03:26:54 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 03:26:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51571643F6
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 03:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC541643EF
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 03:26:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A7610E76C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB6D10E768;
 	Fri, 20 Feb 2026 02:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yd9jqYEb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KoBb6NT9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC91C10E768
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 02:26:47 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-43591b55727so1525393f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 18:26:47 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922E710E768
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 02:26:48 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-43767807da6so1169127f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 18:26:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771554406; x=1772159206; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771554407; x=1772159207; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pJloV9r3ybizJNpOABCJHtRr3/jWkPGIyeA16Sq8DIo=;
- b=Yd9jqYEb9ikPeki7zI0LdBCKqb0ueacLu6/9DfAIxNLFZiatyRPxeVucDfQWatVNWn
- duGna2gaPU+LbUct6DOMcR8OUHeh99V097e1d/7Q3+LnMCejKaFiCsTeY5Bdm+J7hPIr
- fGGk5pu9cdlARVZ7yTuNEhGsHIkgf0ryO8IU29godDxhkIxIE93w00Yo7R1Y/o8T1py6
- zXLqJ2AQdqmdBkvyvrGPPZ/NIYig/RWAqxMCJvtyW0pgkgIyARVQduMrQ042XhOx4NH3
- s/8osBi81MFolauD0FurYpY1WoNItJF2m6PW6xQalSth0GvpLrraUVeMLxzJmpnW9E9c
- f+jQ==
+ bh=i143R6oTYaMRVTgVRJMuG7Fi9AjA6YkMNWJRTVzxJWI=;
+ b=KoBb6NT9nv6IqIPkCsAkxZ8rtmMJ/gE3fSMje/4x9IIejTmdG7tzYB85Ftm1SB3xis
+ e/dAoND71ObFwgkKL+L5GL5a8rDA6yfFd01mD4NlEta9Ljr1oq/ZsYov3Qg3DQyXj59+
+ kV4xDyQYoJZqvaX9tw5VyaQHxavWNBG/as6qM6NMDRIBe0+36hZgKOKSONTcUiPoaB28
+ cHytkBzZnA9anHz/L4y0lpmqubvQFudcGKwXkpPYAQYJADj4ATyik8UoQAk6rsACN0Uh
+ ZMKp6rP/UXj4sYwCK3aeogILR+MyqLi6Zkws9vKIBpTUTKQFnldSdwyZ4JNAEYhRsZX6
+ WnRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771554406; x=1772159206;
+ d=1e100.net; s=20230601; t=1771554407; x=1772159207;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=pJloV9r3ybizJNpOABCJHtRr3/jWkPGIyeA16Sq8DIo=;
- b=rEWztOyigtQ4Z4bqzoDZvfkCNBiWbL49KD8N3OMAkpefnl9QY+gVIvOAqcB7yyOT+c
- DOzRzOlxHV/LLCsUgkboGl3hgkD2zsiltmcIzycDt94xloaYJUO3QHmkDDCNMhV3OYZw
- OWanR1aAUM7KsYYgGWBfhknPU0smeYf95WpCPLsC76h7/FdM++d6GJA/GlQ9pMuo7I2O
- MYNR/EC7xsQ8hhS4iSjuadkRGcYvk1suXkPjXohrxcfLFXOThfBFh2uXHBV7oJ32s1pO
- wTWOdKcBrk5z//Ctjc/Xfwf+W8BPEesN2Af6zbvU4kuSF8OPgegV8SuTCIBEwrAqB5dt
- p+bg==
-X-Gm-Message-State: AOJu0Yw6v/lVcwW2V1UvHOwJvxiEfytt8mPTbd4+4qiGwhSbbK+aWb6i
- qJWjSd2T95yOa00FdG7jITQCVgz4RazqKgO70mJMzfs3eTYm6lgg/M84
-X-Gm-Gg: AZuq6aIWhuQxsXWybtNZKZOg+ozlZdhf8CAQf4p+f0Jk5LJLXKs3duH/L1IxxO4Qqc4
- j0y+phMk3TTWatMl6OMO+P3Iqs4BhtDdTDhjhpnLo0wWM/Tg017ku7WWmwCpsDjYPo5Fcq7WGIx
- z6Cqdgv+HfWnRQTmOb/Cwy07saU6uu7cUPhxH8klqfALlktjykfH3XzIjtm0yx1tKlvtoJbdwpG
- S5dJGtKfRj1GEMY6DblKjbA+fOIvbILX8ngPzq21hURMi6SVTXyCKwVLT4yx23PIkikIdWRZDkq
- xG5q7HBcKmQfEP/KE8irlh7ORDZp/hX/dWkz+1JNXrxYgwxfg706C//IDgAhyjdkUn+NzAWr7l7
- NYEQbhci1MOkY+LtXWetIAqRIaz+o4JzvaqRNEjYA6gde3lb35o+wVEQe/31NKzuUqmpNT/5OKz
- ZY5GbQZD4xMvamg496ptb7L0HUEdd2qW6Fi83u5b60jo0DAUq5hfSqk8m+jLsB2K5IfE1MYi409
- 63+9zU=
-X-Received: by 2002:a05:6000:2601:b0:436:3707:2bfb with SMTP id
- ffacd0b85a97d-4379db934a8mr33089800f8f.34.1771554406141; 
- Thu, 19 Feb 2026 18:26:46 -0800 (PST)
+ bh=i143R6oTYaMRVTgVRJMuG7Fi9AjA6YkMNWJRTVzxJWI=;
+ b=MrKHSlCuiJLIzxpD8p9olfZmuIY8P37AKD5QN9gJLWg743MfNHyWkzsIi3MWAV2aTW
+ 6IAi2pgsyBc4BXZBQSJWmnzDwctySTwIkDc2NsJKpLce811vXHBDLPBs7Ha5wxN8gqbk
+ zpMtuSe5JARm/Qik/m0dwgFOuL6d1aj5RUHFLLaEIhgsO35x7ZnkbqkzJmYd/HLB3mxX
+ rZlcz6ytmyB5c9lsBvCgX4WWrSZ+NvFNAQRjrTiDwBgEu/9lHNY5xEBS+AvjQZ/wNl2H
+ 1iEKuY22qJBWCsvVlEFQBP+kOjmrC5MijBt3KLLXa61x6hkW7ZnSW64OgtLJtDpQ7oqv
+ QeYg==
+X-Gm-Message-State: AOJu0YyKNsr+5KFzJb8+AfWPtQea7c+6s1htWIZ4yLCDsOlLYgNxe/Th
+ G4DKEaDxOLoBqTtdbJPBVeSgbj4NobokjGgbAsb+fTVICfuB6wqQakYI
+X-Gm-Gg: AZuq6aILTzKWeH+CAONVgjl8S/qQg8lHZgeTwsxCVx3Hxx/ukLiJFwZIeq96dfNXNDo
+ ctAUIEfhtzs7F725yy+wsvYEM0C1u8HxZs9o5Y0uYgddV3PWr5wr6lPV2fQI/qCiveVrTPbjn6n
+ Lk0mvHWQUpmslfoFY5fv3Q6+IUFeG3WHvRbg2EklgJ/OohhAkqSd9iJDT33R4Prl2Jps5/KHDpV
+ gbcnZ1hNzUHVhIzzujH4h+s/pHUDOvNEsWohBTfRnsIwS15F/bpmvuh+1tsboNPRQqFiLOM5Ab5
+ KzbqjYsisixYXL7H2ucws0DX4ZHHzPLWSZw5WqgU7PvSX1f366eAhvZvKBso360VaAyTEcuM0Gw
+ 2abmoOZxNt1L0GtX/k3qRhRUcwav+Mtr9EbzvpKEsoV7fwXqpYYG4apBIhR2HEi9hvuVnb72nNl
+ cizdJeSgH4Ip5jxxtFCbp0gZ+XVyCPHr8keH+bHHV+V2GNrRrYKM/NSzGjFwgfalhzWJng
+X-Received: by 2002:a05:6000:22c9:b0:437:707e:9f57 with SMTP id
+ ffacd0b85a97d-43958d55f30mr12299521f8f.0.1771554407038; 
+ Thu, 19 Feb 2026 18:26:47 -0800 (PST)
 Received: from Arch-Spectre.dur.ac.uk ([129.234.0.168])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43796ad0166sm53446975f8f.35.2026.02.19.18.26.45
+ ffacd0b85a97d-43796ad0166sm53446975f8f.35.2026.02.19.18.26.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Feb 2026 18:26:45 -0800 (PST)
+ Thu, 19 Feb 2026 18:26:46 -0800 (PST)
 From: Yicong Hui <yiconghui@gmail.com>
 To: christian.koenig@amd.com,
 	michel.daenzer@mailbox.org
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
  Yicong Hui <yiconghui@gmail.com>
-Subject: [RFC PATCH v2 2/3] drm/syncobj: Add
- DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR ioctl flag
-Date: Fri, 20 Feb 2026 02:26:27 +0000
-Message-ID: <20260220022631.2205037-3-yiconghui@gmail.com>
+Subject: [RFC PATCH v2 3/3] drm/syncobj/doc: Remove starter task from todo list
+Date: Fri, 20 Feb 2026 02:26:28 +0000
+Message-ID: <20260220022631.2205037-4-yiconghui@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260220022631.2205037-1-yiconghui@gmail.com>
 References: <20260220022631.2205037-1-yiconghui@gmail.com>
@@ -130,101 +128,45 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: B51571643F6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8DC541643EF
 X-Rspamd-Action: no action
 
-Add DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR ioctl flag for the
-ioctls DRM_IOCTL_SYNCOBJ_WAIT and DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT, which
-will make them abort their wait and return the error code and its
-associated syncobj.
+Remove the starter task for adding a way to query syncobjs error codes
+through an ioctl.
 
-Suggested-by: Christian König <christian.koenig@amd.com>
-Suggested-by: Michel Dänzer <michel.daenzer@mailbox.org>
 Signed-off-by: Yicong Hui <yiconghui@gmail.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 25 +++++++++++++++++++++----
- include/uapi/drm/drm.h        |  1 +
- 2 files changed, 22 insertions(+), 4 deletions(-)
+ Documentation/gpu/todo.rst | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 322f64b72775..fb55fd46fb84 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1139,6 +1139,13 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 			if (!fence)
- 				continue;
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 520da44a04a6..8dcb1901142e 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -878,22 +878,6 @@ Contact: Javier Martinez Canillas <javierm@redhat.com>
  
-+			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR) && fence->error) {
-+				if (idx)
-+					*idx = i;
-+				timeout = fence->error;
-+				goto done_waiting;
-+			}
-+
- 			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
- 			    dma_fence_is_signaled(fence) ||
- 			    (!entries[i].fence_cb.func &&
-@@ -1242,8 +1249,12 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
- 							 wait->flags,
- 							 timeout, &first,
- 							 deadline);
--		if (timeout < 0)
-+		if (timeout < 0) {
-+			if (wait->flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR)
-+				wait->first_signaled = first;
-+
- 			return timeout;
-+		}
- 		wait->first_signaled = first;
- 	} else {
- 		timeout = drm_timeout_abs_to_jiffies(timeline_wait->timeout_nsec);
-@@ -1253,8 +1264,12 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
- 							 timeline_wait->flags,
- 							 timeout, &first,
- 							 deadline);
--		if (timeout < 0)
-+		if (timeout < 0) {
-+			if (timeline_wait->flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR)
-+				timeline_wait->first_signaled = first;
-+
- 			return timeout;
-+		}
- 		timeline_wait->first_signaled = first;
- 	}
- 	return 0;
-@@ -1332,7 +1347,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ Level: Advanced
  
- 	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
- 			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
--			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-+			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE |
-+			 DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR;
+-Querying errors from drm_syncobj
+-================================
+-
+-The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
+-
+-One minor feature still missing is a generic DRM IOCTL to query the error
+-status of binary and timeline drm_syncobj.
+-
+-This should probably be improved by implementing the necessary kernel interface
+-and adding support for that in the userspace stack.
+-
+-Contact: Christian König
+-
+-Level: Starter
+-
+ DRM GPU Scheduler
+ =================
  
- 	if (args->flags & ~possible_flags)
- 		return -EINVAL;
-@@ -1376,7 +1392,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- 	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
- 			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
- 			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
--			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-+			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE |
-+			 DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR;
- 
- 	if (args->flags & ~possible_flags)
- 		return -EINVAL;
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 2640cc0a09fe..bc958af5a910 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -977,6 +977,7 @@ struct drm_syncobj_transfer {
- #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
- #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
- #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline to deadline_nsec */
-+#define DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR (1 << 4) /* abort upon any fence failure return err */
- struct drm_syncobj_wait {
- 	__u64 handles;
- 	/* absolute timeout */
 -- 
 2.53.0
 
