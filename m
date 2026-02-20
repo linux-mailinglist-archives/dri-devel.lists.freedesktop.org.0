@@ -2,159 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHXUK0m0l2lq6gIAu9opvQ
+	id gAo9Gpe1l2kf6wIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 02:09:29 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 02:15:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FED164152
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 02:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E491641B3
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 02:15:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F3810E343;
-	Fri, 20 Feb 2026 01:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115E510E348;
+	Fri, 20 Feb 2026 01:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="klgVFUyK";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TbrzHDR0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022120.outbound.protection.outlook.com [52.101.96.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB0010E343;
- Fri, 20 Feb 2026 01:09:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PYGGVO8LvP/oRuHNOAbRnCR56fOw141oTA0bnvAbkSZ8UYPbJfsm5MDEwngMh2dsDE/grep8bzM7QlHgtHLRxmWuDHPVRw0n9V6RRokoB3ojdwcCilvn6OMiyXM3F10EQjU6pBbHTNrbtworj4RgGfEcxA5vrOYzScGdESSChbbOgDBynpnYMeCAzROo9fyBEqD/7X8CSKuvZJRsvtcmRBTDQqeCkBCXvacCYSUsS/sa3ls67MXlaYJdbcvSWbwJjP6CWEdq4L5OZv3WxxlZRVpY41Rrj9kupgU44ghGS95e9L8InOtZHD1gCr1l53W4KCi0Fk3n+Vhopcs74ZraOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=04mFZPYhzWttCU9mQt0SqLEzT1VqhB8KYEyuxRflweo=;
- b=R1a5D5yYoPW/yULwvYuK22Gw3vnlH/gtoqeitZITXl9lvYhlNJkhf6JkxI+6H9HmJ+TJk5KRwtfwqc8pMH3CxO2SXNxycRnGMzdc+E+5xu6WGYrf+BGXYVMPe8ttawMurgRSR1lwLq/eJJmSSC0XjV+7EQDgcMQeN+rKA5VxZ92WwQQ2+n7jxlffL5yBiyTE5IzJjwfKrpFMV401ilAD6aHDrXNapbMKDBeXm5wuLIm6Iiq+zpHEFIqA6DmgA2b3v46mNNHYIO4+BShUYs5oeMx4v6U9j9Meqj6VJQidxborwAHioTVdXMdsVuZZ91/c4768Wz8ugrigOSuoXPwp/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=04mFZPYhzWttCU9mQt0SqLEzT1VqhB8KYEyuxRflweo=;
- b=klgVFUyKeu87fveiuFtQr4j+2BpgMAzLw/ilmNabWuFPvBu5fKKato/IP8Y7J21Ntpo+FMXOplVZ1iLJz4kCVMVwujPIpC5bqeFTPTnnSoDeMt96ycU0zoBgHT0e1OoxupWq+b0XdQHiUuNQTnYYPUZQIXQRDAJaxDt94hjquC0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO7P265MB7780.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:413::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Fri, 20 Feb
- 2026 01:09:22 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
- 01:09:22 +0000
-Date: Fri, 20 Feb 2026 01:09:22 +0000
-From: Gary Guo <gary@garyguo.net>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Alexandre Courbot
- <acourbot@nvidia.com>, Dave Airlie <airlied@redhat.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Koen Koning <koen.koning@linux.intel.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-In-Reply-To: <DGJ2TNVD8AS7.2P0HYYKKE8CBQ@kernel.org>
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGIWDQTR76Y5.34L9IHKU2SEKI@kernel.org>
- <eadfa4662f403fa01f19c1c17a435c1a@nvidia.com>
- <15a193fc-b2b9-476e-a9f6-57e3a210b74f@nvidia.com>
- <DGJ2TNVD8AS7.2P0HYYKKE8CBQ@kernel.org>
-Message-ID: <4ad9fd6598e2688c88f6ef22c088c683@garyguo.net>
-X-Sender: gary@garyguo.net
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0227.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C84910E348
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 01:14:58 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4806b0963a9so35685e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 17:14:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771550097; cv=none;
+ d=google.com; s=arc-20240605;
+ b=NpP6i/saXpos5rXAlELl6NLfnYulsZo/L3hvIv+yD9qOuiZmu/kuu5o2jlyoAKUWPa
+ W4HiI9lWp3qAac7HeVL6W+RxJKbNEk08E4wQI7gpBZSSJ8uipiO1GkpyERIRsfQ2uHgz
+ eNJeSJODkg/ahAVgt5qkT6uG9yCCcKgAHWAjBZE9qSbE9KN33Y4xG3bwSRi+HnCvLi35
+ rhUf5BXqGgrFMvov4q1Oef582V5tbgrJYsb4ZWjQl/u5hV4xB/+Em3rHP2H7UEkyVsK+
+ zVbT21RyBa/44kFix1q49kfpvp1DrE5PU9phZfaWGPxCciVqi/lKta20dmpfszCdCul0
+ X+LA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+ fh=OJpaA7AjLIC4Y/QOXRJPTYMt7yxpijPx+nzytkzSbD0=;
+ b=JhUhas0XeQSZszfrvLBKHUCYalN9WpBBTXBy0rOv1aqqNN5VcSMrnlOXlIk4KaEhXx
+ raQF/ng/zWMxUS7Q9hdnx3fvedvunQSTrb02Pp8fjt/18tPldeN14mUNL0EyhlOx/WXA
+ XK4E0S+OKsOSob7HnczMQWw87NPJ3RILmzoZZMfT2GZI3uTU8mXnHvp+P9hqiaKcM65I
+ nPmnbOu9Z7iBp44Mo8Sp5VmCd7xFHij18+QGv9Xaug8swr1VQmZAiUbl6il5zgZX2PU8
+ gIjSuuVKhRI07v9W/NCzF8VXUMPP3cX1NX4+JX0X4cd8qMm8PXS/c1cdCvrp4AJuzmS0
+ zL1Q==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1771550097; x=1772154897;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+ b=TbrzHDR0Pu/DvaD0vQfJSZIzWMTUauygBkEPHOMOZkqXxXwqW4RfiLXonFrRrK38gD
+ YF1CmWAuGEX15PFGUnuf1XbD2XyEy51CRX0CDupxTED8+ComMi3yVuDQy0ddoIqNLexF
+ Egx1NwQ5j/Qtg5I6bLqX6BzGbY23yuXgTg7Jx138usf7tIYYpN+C3bDV8j9is18rCZsX
+ hKt6/ptG6jR9ZcArMCb7oVjyf5UcXPr6y3We65Rra/6GvBb32ZNdmwaHEsYd4s29J196
+ x8HV0O7ooCGv+7MdtiYNCknu81gxMTDfscih0LXZ4REkoKN5w0779H0/cT2HYmBqyqIR
+ 7ArQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771550097; x=1772154897;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+ b=YYjIu1JZZKBwHP1bJcnQvlrJZo6d53eA2R6YC/N1Jv6tWlXLCUeton57YxYdIBdbmo
+ BHDa3YHjqwcDx8uh4h8RWCArY7w93DspNE9wDuot8alKrAQA/BGAAPn4NGgWm3VgjhHY
+ /2IE8IroSv8enosZ/7DJbzKniWGR4jraEjOD7aXOTe73cNKon40T/zRzcpTIAoT0ikR2
+ Pxu2OW0eXPxxkNQpl3GOC7fzTexP5nD+cIt9iso8RFy2Nv24YJxfFTEIuVAhyDdyQMLk
+ BaLcPMVCuLKfjeTO3fPA/5S12nPN7hAjJdoSJHT7yko97XC8EgZ4MgeyFIXgxApfGh5k
+ Igwg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXujdYHa8feVuPsp+i0rCotnO6XCiM6hUSTVAbbqORlrX/DxlCBtFEbtpECCZ4EveGiJmzBMefhBKY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/OURLWJJhBI+Y+KD/JAmH4ZQvgONfWOxEZjd6dCr4iHVerq/u
+ SAYfiTvTFmJOxeWGzoWMgY0fkGp/m3mncHDkygaq4LfWZJBGH3VyXVuD2wU1kgjzMy2aAeQiWXm
+ fj07gc8K+C0HckFZpd/rjMWBvlGE61UhQONBcv1Fm
+X-Gm-Gg: AZuq6aK1jjk3SLoheykmioTa2aPEF07pKuroRoS7DvlZjkbquteZi/DGdJexon3eX90
+ nquhI3/f/HjldL5/eaWYUOivbYSTSOo3rA0gUog7sxVZlj93MraSu8DHSoUWw4rTp4yC28L+c0E
+ B4UwsEf/v+dhOLfwoYGxaIp5FQgS0htFPpnc0KQ+gyzJ/cbegg0W/4KjoiNWauZ91oden7aCZMv
+ zJAcjj289KTdz3cht0EEy68Ag0Ib0NnefIAISs1MfhFBPszbjJnwlXlKkMT58Jb0gkbOy5T0E53
+ +cxPaDg7c5HlkbOQczfH3tEVI0bD9DtX5ECbIMQVdXTnp5cWmOVA1zQTRZfxDee76gKTKsT3aXD
+ 3dg2D
+X-Received: by 2002:a05:600d:108:20b0:483:7f52:162b with SMTP id
+ 5b1f17b1804b1-483a3e452bcmr287525e9.0.1771550096636; Thu, 19 Feb 2026
+ 17:14:56 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB7780:EE_
-X-MS-Office365-Filtering-Correlation-Id: e182c470-3223-48be-1dc9-08de701caeb5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|376014|1800799024|7416014|366016; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?h39gMk87xajuqVnDrr2FqDlUHc+tcH9cvU6IYxpsjrxx3eOUnKp2LlUE9rax?=
- =?us-ascii?Q?1OIFdjnYMITrhl4hkQKKigiXt8Eb6pnoACxx4i8LZ+xpAcf2lD85pyd0Xqae?=
- =?us-ascii?Q?rtTdC8nZB7friaIHBl80VDN9AC+UWONKsPzoUdTTgcETOm5sL0tMFZ8ooDEN?=
- =?us-ascii?Q?04rvkBh+jdyeEO2JSFqVi9Z2/9VzR/GB6mk5mxH6ZAq3yGBY24k/kfJxtm5Q?=
- =?us-ascii?Q?ALYiZpNLgZMOMKEVU1v086QiQ9LZLmSJ2An+LyjdMdkuUzcM1XCxTByz23Ps?=
- =?us-ascii?Q?44gTuWZay9W0sqHnDQXeMOeAtuifYgnRq1o6HxaJnoLy7PI25IrCvy1iZXKJ?=
- =?us-ascii?Q?H9PYYy6iAFNpG8xkB//facyAbgqWLGMp7MWplucpc3ubtMtw6hPP18O1Pl0t?=
- =?us-ascii?Q?JPV68X/HRH8ldwnW/ZS1ya0Zh4d9i8+rAepXirpARUtKxDyvYwKTozoNOiTw?=
- =?us-ascii?Q?6kM0WP5QHD2013RGxP7OjYYpFjLeP1qEpZHyzRgmrICJevdWSkVKmnUmjWn1?=
- =?us-ascii?Q?6IxQEkp1IUwoDpRVHIK9sOsRRFEOZ/+ryEz2iOMrh66IpVt5OXb93dapyTq9?=
- =?us-ascii?Q?/iqa28hCNVga8JOKZjI8OFXPVpJzowN2lEikxcYEzzr2Bq7A3yhJi1F5NmQL?=
- =?us-ascii?Q?8q5QT2fXLRe2uijipHjsUeUCTJTj8+YwBzR8ekrIul8NjQ8+axivSZbz3+YA?=
- =?us-ascii?Q?ZKCdl11huOZ6QKSPN0FscJGFz9muuJ/brX2AKtFFSJEZ6CG+eHDvzco/zqDL?=
- =?us-ascii?Q?eCUrS1LvR0Ki2NYOWWXrJIou0QiTVR1TRDbMFKvkX7/ATPTtZP/GgIoOvG9g?=
- =?us-ascii?Q?A/KgT0IKHLmrLGDRY7fJ4e4ezsH7zAcDAbrKECOhrxON+fgJEEaayH3t6+Xn?=
- =?us-ascii?Q?dA1T7+ght5Sq1+sQRbxv3yJ9vFi9HMiYypH82TkgOgg6GMxeJXrnqS30UR6G?=
- =?us-ascii?Q?e9CIZiaefmxIzSC/+EDixzsYuUh4mTVgOH9K5qVOeo5vokJIt/ql8bhD4d2M?=
- =?us-ascii?Q?ySF0oMqN47mHInGk23o3waWO97rfcuw/OZatT4Z9u5Bb8v5Ah5OKNC+tt3El?=
- =?us-ascii?Q?eCWFssG5uHqZrzqmWAnXy2wxAneztNbJjpqwfFkoThH7bPlHT4AHQkjbyDks?=
- =?us-ascii?Q?WaYfEYB1tk5Ri2SZHVl7SWscOzvqBX5J8ObBu6N/m7zDGhA0uR0bhGk4Epym?=
- =?us-ascii?Q?i6+M0pTldxGe52UiEklOqcVqm2AXADuraepWesJ5a8JMi0XfRIK6gOl2yFsE?=
- =?us-ascii?Q?IJIM7qBkk5WmZZTeukpjuJiNA1RuNbPt2WZncR8MxCEIUl6t0+TxAsYEQ04i?=
- =?us-ascii?Q?MO3jr0waUVWRICWsXPeFlDRxQJW7lAdvIPdKgrSX4/64ytkgoQ5gZ/YlNbKM?=
- =?us-ascii?Q?xqrx6J7LKIdQzyWyFoorn+F8he7iCN3iDToS12C+PZ2hDR1afOTmuesG4IcB?=
- =?us-ascii?Q?RYUqSp2yqcOy8Gsjl7+2BancPRJ8Bd6HXt5SgDvfSalfxEllNLfKxfDxroec?=
- =?us-ascii?Q?Vfbqsi7tqaWKQ8Vz5xSpFRATwHGmv6xQynQ/MdCQHDNtTbDJicGid4sKKjHy?=
- =?us-ascii?Q?YbRnsP3jEg9gicIlrpQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(376014)(1800799024)(7416014)(366016); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0vyDjoe6jmJnY/4pgvOS4Ueje2u0aBBdOB28bUaScPV7ralxOJIXl6ji9/oZ?=
- =?us-ascii?Q?OUtWxPXlAscG0ykmZ8Lc4DXXEzZpNFtYNTHcWvO5xjqLGX5IIvjOcVKZaYla?=
- =?us-ascii?Q?gfMGkAeobRX/OCP1EaZhyTATZVqILwFDWsQYe7TtdDfHtMl4+cltYM3JK8Mh?=
- =?us-ascii?Q?szY2t1WALEM3ZoR4MRjOvirFYwL//NeTEdN0Usoq7DHM/7dxRU7IQhcyRV4P?=
- =?us-ascii?Q?c5PbQ6Jel+Ev0Bzx8cuwmbmONWXufP9GwLgJIEjSXRoCMz1Eb0YWOsNp338W?=
- =?us-ascii?Q?8hmHNyam3gD3M7p6OAP648LWyAh7uWQremOLGLhmf70rSrwl3fCoZe5EZSTg?=
- =?us-ascii?Q?0Auo8TGxQW9Dqa1e8qxCGIF9i50fF0/Z+y03ZO+T7k3TeouY695tbpOUMWqV?=
- =?us-ascii?Q?ZpMcdbzeb2zaPMe9bzfzzf3YdzUtnZyS8kPanaEdw7hnwiywMxImlv35i9BF?=
- =?us-ascii?Q?5Vppl1T/1ZZO+8QSwMsEecDA8UQJpFUHJEc/DK1gObRTHUe6+2DzQHJE6tQf?=
- =?us-ascii?Q?GQ+6qysUnM0nFAZc79WQ0zSq9fCAfbB9LWEpOaT6jy7mH5DBcRAVe4flCV1T?=
- =?us-ascii?Q?9EtRGXYI5xh33FjQrcRBjoDOEUeuVWls0g25FhIoxuTnpRQ0zkimVBwgP0oI?=
- =?us-ascii?Q?Am5lME2hxnC6JmpDjnZ4imq7FVoCtEcgAsCXEqLMH3d1pDEfKVet6A2VHAgm?=
- =?us-ascii?Q?dd4OLBrzhDvFMh+TSEXKqIPEJy4Vx93hfifCAnMNV14JcYoyR9arYaA/Fjhe?=
- =?us-ascii?Q?cs0BhFd7xDKxcuV4nO/mJMy+EOxaO/cWKHT91apGjSgBv3/9/cMi1r9zOY8c?=
- =?us-ascii?Q?TFPEF7cmBokxtDQrLBrAJIr2rQiJFeFlT+r8ktLj4ilqLvTWZKGfUwlKw1T5?=
- =?us-ascii?Q?f2NuO/sdVNMgKKaAxdZ0SjS9IcO8l7xzgWEa8OVAN+wDm07crIP3gTyzG9r7?=
- =?us-ascii?Q?1dnJFKXUv2jcvb3OdxGxBNIxe5IrgPg0fUXH9kYiF9cjIvWbatndOMkbthNl?=
- =?us-ascii?Q?B0C4s5nb2ZAApyXD3kKni92Sc+n8cPYyKJkUTGdTnMcWVxUXxtLlrBrOgSV8?=
- =?us-ascii?Q?ou0lukvg9mmwnY+iwo5sKb24sKDboxQJjiCahF5GdS6s7EiiFMhsa0YCp8F+?=
- =?us-ascii?Q?k3ECVDn5PP6Fc5/OlMlqqjQy664lJXzfr/yQkKM2YA7lkZ+vpNXEBMwjawK4?=
- =?us-ascii?Q?JCRyrKlmfjacDNw2t+ulosSLEhYAmOtnvFtW1uCCiXFdIcrSlm7/NtkC4aXY?=
- =?us-ascii?Q?Xl5iJuaeq6nrw9wa1BdzwTgjv8qMtglT/Ttp9f4tLXoSJit76prM4GntAglH?=
- =?us-ascii?Q?ue1e0Yfhhg2BSkssIurX0NASs+1BptEQxwbAK9RzX+AW3Q4dcIQSuHcRaA77?=
- =?us-ascii?Q?Yz76vq4UgVuEDt6MX+I1DnCgE9h0f0CDYNgyYgC9kcSEeuemH3UJQPk+W4c5?=
- =?us-ascii?Q?00pxIn9ttbpFJubusSYrPNfDlBUHM0l/8bUFWPnlcd62983/FvmgUMRdZiVG?=
- =?us-ascii?Q?0v3fz5d9SBrBTXmfiD5irvqQ4L0Ccpg6XDal93pMaQAb3D9fFHTSgu+TKSGX?=
- =?us-ascii?Q?kRnvjD5TvMJJT/3dvFGW8ZoB9bxRxx0e1So+x4QYln+F0AoEmwERK7VLpbnn?=
- =?us-ascii?Q?SwP9TXkxdYvp2GU0je7rpEGif7x5Wab0qJMQZWmZfJ/waEP/mR41T8KthFIs?=
- =?us-ascii?Q?vtZwmiXj1poMLzLTaPX4th7y5PDLax6VV4+wPAy57LhGjIhxFW8SRQKq8QXm?=
- =?us-ascii?Q?LFZFSKwwnQ=3D=3D?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e182c470-3223-48be-1dc9-08de701caeb5
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 01:09:22.6664 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AsO98+O/7GHPEpLyQ9nlgOcH5b58lwyVp9/XJkhlMI7Vmm7qytY2mZww/z6v9QrLBMz1K7+AiH8tjqLns4r+SA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7780
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+In-Reply-To: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 19 Feb 2026 17:14:42 -0800
+X-Gm-Features: AaiRm51VY-6IMlt-ihglkgENMjUfEiHWPo38nPxJvuL5b9iXSTZyagxYxax_pqI
+Message-ID: <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@redhat.com>, 
+ Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org,
+ Maxime Ripard <mripard@kernel.org>, 
+ Yosry Ahmed <yosryahmed@google.com>, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,78 +126,100 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:echanude@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:christian.koenig@amd.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:mripard@redhat.com,m:aesteve@redhat.com,m:linux-mm@kvack.org,m:mripard@kernel.org,m:yosryahmed@google.com,m:shakeel.butt@linux.dev,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,kernel.org,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 21FED164152
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D0E491641B3
 X-Rspamd-Action: no action
 
-On 2026-02-19 16:24, Danilo Krummrich wrote:
-> On Thu Feb 19, 2026 at 4:44 PM CET, Joel Fernandes wrote:
->>
->>
->> On 2/19/2026 10:27 AM, Joel Fernandes wrote:
->>> On Thu, Feb 19, 2026 at 12:21:56PM +0100, Danilo Krummrich wrote:
->>>> On Wed Feb 18, 2026 at 9:55 PM CET, Joel Fernandes wrote:
->>>>> +RUST TO C LIST INTERFACES
->>>> Maybe this should just be "RUST [FFI]" instead (in case Alex and you want to
->>>> sign up for looking after FFI helper infrastructure in general)?
->>>
->>> Good idea, done.
->>
->> Actually, I am not sure we want to commit to entire RUST FFI infra though its
->> pretty tiny right now. Most of this infra right now is clist, let us start with
->> keeping it as is "RUST TO C LIST INTERFACES" ? Or we could make it "C LIST
->> INTERFACES [RUST]" sections.
-> 
-> I feel like it makes a bit more sense to have an entry for the entire class of
-> "RUST [FFI]" infrastructure.
+On Wed, Feb 18, 2026 at 9:15=E2=80=AFAM Eric Chanudet <echanude@redhat.com>=
+ wrote:
 
-I don't think so. Most of the kernel crate is doing FFI. We have a `ffi` crate
-defining FFI types, we have `CStr`/`CString` which in Rust std is inside `std::ffi`,
-etc.
+Hi Eric,
 
-I feel that the FFI infra is the core responsibility of the top-level Rust entry,
-while specific stuff can be splitted out.
+> An earlier series[1] from Maxime introduced dmem to the cma allocator in
+> an attempt to use it generally for dma-buf. Restart from there and apply
+> the charge in the narrower context of the CMA dma-buf heap instead.
+>
+> In line with introducing cgroup to the system heap[2], this behavior is
+> enabled based on dma_heap.mem_accounting, disabled by default.
+>
+> dmem is chosen for CMA heaps as it allows limits to be set for each
+> region backing each heap. The charge is only put in the dma-buf heap for
+> now as it guaranties it can be accounted against a userspace process
+> that requested the allocation.
 
-Best,
-Gary
+But CMA memory is system memory, and regular (non-CMA) movable
+allocations can occur out of these CMA areas. So this splits system
+memory accounting between memcg (from [2]) and dmem. If I want to put
+a limit on system memory use I have to adjust multiple limits (memcg +
+dmems) and know how to divide the total between them all.
 
-> 
-> I could imagine that we will find quite some more cases where an FFI abstraction
-> layer makes sense; at some point it might even go the other way around.
-> 
-> Once that happens, I think it would be good to have people looking after
-> intermediate FFI layers in general. But it does not have to be you of course.
-> 
-> Maybe we can create the "RUST [FFI]" entry already with the following
-> constraint:
-> 
-> 	RUST [FFI]
-> 	M:	Joel Fernandes <joelagnelf@nvidia.com> (CLIST)
-> 	M:	Alexandre Courbot <acourbot@nvidia.com> (CLIST)
-> 	L:	rust-for-linux@vger.kernel.org
-> 	S:	Maintained
-> 	F:	rust/kernel/ffi/
+How do you envision using this combination of different controllers?
+
+Thanks,
+T.J.
+
+> [1] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@k=
+ernel.org/
+> [2] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ec=
+c6b62cc446@redhat.com/
+>
+> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> ---
+> Changes in v2:
+> - Rebase on Maxime's introduction of dmem to the cma allocator:
+>   https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@ker=
+nel.org/
+> - Remove the dmem region registration from the cma dma-buf heap
+> - Remove the misplaced logic for the default region.
+> - Link to v1: https://lore.kernel.org/r/20260130-dmabuf-heap-cma-dmem-v1-=
+1-3647ea993e99@redhat.com
+>
+> ---
+> Eric Chanudet (1):
+>       dma-buf: heaps: cma: charge each cma heap's dmem
+>
+> Maxime Ripard (2):
+>       cma: Register dmem region for each cma region
+>       cma: Provide accessor to cma dmem region
+>
+>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
+>  include/linux/cma.h              |  9 +++++++++
+>  mm/cma.c                         | 20 +++++++++++++++++++-
+>  mm/cma.h                         |  3 +++
+>  4 files changed, 45 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 948e195dfaa56e48eabda591f97630502ff7e27e
+> change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+>
+> Best regards,
+> --
+> Eric Chanudet <echanude@redhat.com>
+>
