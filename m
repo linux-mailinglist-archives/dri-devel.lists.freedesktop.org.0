@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4DmDFxKGmGnKJQMAu9opvQ
+	id 0KOQN/GGmGnKJQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 17:04:34 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 17:08:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66EB1692AF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 17:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4012A1692ED
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 17:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2165010E810;
-	Fri, 20 Feb 2026 16:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A28610E80F;
+	Fri, 20 Feb 2026 16:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rt379We7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BDQJbxeo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4EF910E810
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 16:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771603471; x=1803139471;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=m9D3rZMXWsxR28UIy+AURSw791Dq0yvuFK7s7xCNnMk=;
- b=Rt379We7DKnB+UmwqCE6leY4AIOJ+Tbrg326GuIkRi2NGlbpNG7e0IfC
- oYGyKHO54JCEggipqcV6L40qQQ1mm65KBLwL9BPp/3hW0A3HsvV8dXoQ4
- 8rqmGVNrrL8h+kStvC6LkE4BBd/8vOmymgT1pcF7CUI3yDqrkxfb43HTB
- +PukzdyXFKvrdIzNNcX9ibw8qcbEIHI2Mep3NnMhqeV8Ue2HZEgv9tP8h
- EF1egzHrwnLMiBp6QG1hn4OJJTe0zPsBuHGH5gT6KyzX4c4FI4t2HkbTR
- MegsXW0vAek+1zDG4fiGUZtMWyGAZj1nQXXT3MXMCVl4ve/ivC1/1rLx/ g==;
-X-CSE-ConnectionGUID: 0qRcuCUPR6mdDyo8NIPGpw==
-X-CSE-MsgGUID: L9YBppGuSOuOctgev2ixzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="84057692"
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; d="scan'208";a="84057692"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2026 08:04:30 -0800
-X-CSE-ConnectionGUID: AqRhlSzzSRq5gFtWujJm6w==
-X-CSE-MsgGUID: 4RQ1QI70TSyBK78/GJLwpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; d="scan'208";a="213433538"
-Received: from try2-8594.igk.intel.com ([10.91.220.58])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2026 08:04:28 -0800
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- karol.wachowski@linux.intel.com, lizhi.hou@amd.com,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Update FW Boot API to version 3.29.4
-Date: Fri, 20 Feb 2026 17:01:16 +0100
-Message-ID: <20260220160116.220367-1-maciej.falkowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA86E10E80F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 16:08:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7F10743B01;
+ Fri, 20 Feb 2026 16:08:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 550F5C19421;
+ Fri, 20 Feb 2026 16:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771603693;
+ bh=UuWmFuz2m0mN4cMlxdeJvkzkx5VgTQVuM6TTLhpowr8=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=BDQJbxeob9xDYgpdgCGDiBLLFhNY8g1cPoZS2tcPBj9mGd/aXJbKOPvaB/eGlpJ4x
+ vAj2XePUs3AhJxwNGcF/lghrwWDftMuP0OjobiYfXHW2IIQ4RXF7cP+h37ynZKvS/i
+ /5lNb/lgeVuBR0MoVcpIDYgr9JSU/U30hlnR3/2B+DKQTO913m2cfHi8PndKHPm1IE
+ +t669Gg/X0hjisK6olYM2a2X2TeVbb1j+emMEV/0Yz3p4Cjx4SiwAIgfWBgAoUKLj/
+ I5uX0RlFnrv6c84I+p+COEtJ7lpGv8I3bTt6n3sLEHs4+BQEmXr29X6ykXeTXd3gsy
+ rmjoIi6bfruew==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Feb 2026 17:08:09 +0100
+Message-Id: <DGJX3FI97W1G.371MAMC60FX24@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v4 3/6] rust: gpuvm: add GpuVm::obtain()
+Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, "Janne Grunau" <j@jannau.net>, "Matthew
+ Brost" <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Lyude Paul" <lyude@redhat.com>, "Asahi
+ Lina" <lina+kernel@asahilina.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+References: <20260130-gpuvm-rust-v4-0-8364d104ff40@google.com>
+ <20260130-gpuvm-rust-v4-3-8364d104ff40@google.com>
+ <DGJ6LHIVMV03.MM7RWYBJHBIQ@kernel.org> <aZgYY_fetgz_GDR8@google.com>
+In-Reply-To: <aZgYY_fetgz_GDR8@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,469 +68,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com];
-	FROM_NEQ_ENVFROM(0.00)[maciej.falkowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.996];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[intel.com:+];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,linux.intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E66EB1692AF
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4012A1692ED
 X-Rspamd-Action: no action
 
-Update firmware boot API to the version 3.29.4.
-Remove unused boot parameters from
-the vpu_firmware_header structure.
+On Fri Feb 20, 2026 at 9:16 AM CET, Alice Ryhl wrote:
+>> > +    /// Access this [`GpuVmBo`] from a raw pointer.
+>> > +    ///
+>> > +    /// # Safety
+>> > +    ///
+>> > +    /// For the duration of `'a`, the pointer must reference a valid =
+`drm_gpuvm_bo` associated with
+>> > +    /// a [`GpuVm<T>`].
+>> > +    #[inline]
+>> > +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::drm_gpuvm_bo) -> &=
+'a Self {
+>>=20
+>> I think this a good candidate for crate private, as we don't want driver=
+s to use
+>> this, but still use it in other DRM core modules.
+>>=20
+>> > +        // SAFETY: `drm_gpuvm_bo` is first field and `repr(C)`.
+>> > +        unsafe { &*ptr.cast() }
+>> > +    }
+>> > +
+>> > +    /// Returns a raw pointer to underlying C value.
+>> > +    #[inline]
+>> > +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+>>=20
+>> Less important, but probably also only needed in core DRM code.
+>
+> For cases like these two, I do think one can run into cases where you
+> want them to be public. E.g. the vma confusion bugfix uses a raw pointer
+> for now:
+> https://lore.kernel.org/all/20260218-binder-vma-check-v2-1-60f9d695a990@g=
+oogle.com/
 
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
----
- drivers/accel/ivpu/vpu_boot_api.h | 211 +++++++++++++-----------------
- 1 file changed, 93 insertions(+), 118 deletions(-)
+I think we should make them public once actually needed.
 
-diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
-index 218468bbbcad..a41170bbc6b7 100644
---- a/drivers/accel/ivpu/vpu_boot_api.h
-+++ b/drivers/accel/ivpu/vpu_boot_api.h
-@@ -1,12 +1,22 @@
- /* SPDX-License-Identifier: MIT */
- /*
-- * Copyright (c) 2020-2024, Intel Corporation.
-+ * Copyright (c) 2020-2025, Intel Corporation.
-+ */
-+
-+/**
-+ * @addtogroup Boot
-+ * @{
-+ */
-+
-+/**
-+ * @file
-+ * @brief Boot API public header file.
-  */
- 
- #ifndef VPU_BOOT_API_H
- #define VPU_BOOT_API_H
- 
--/*
-+/**
-  *  The below values will be used to construct the version info this way:
-  *  fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
-  *  VPU_BOOT_API_VER_MINOR;
-@@ -16,24 +26,24 @@
-  *  partial info a build error will be generated.
-  */
- 
--/*
-+/**
-  * Major version changes that break backward compatibility.
-  * Major version must start from 1 and can only be incremented.
-  */
- #define VPU_BOOT_API_VER_MAJOR 3
- 
--/*
-+/**
-  * Minor version changes when API backward compatibility is preserved.
-  * Resets to 0 if Major version is incremented.
-  */
--#define VPU_BOOT_API_VER_MINOR 28
-+#define VPU_BOOT_API_VER_MINOR 29
- 
--/*
-+/**
-  * API header changed (field names, documentation, formatting) but API itself has not been changed
-  */
--#define VPU_BOOT_API_VER_PATCH 3
-+#define VPU_BOOT_API_VER_PATCH 4
- 
--/*
-+/**
-  * Index in the API version table
-  * Must be unique for each API
-  */
-@@ -41,7 +51,7 @@
- 
- #pragma pack(push, 4)
- 
--/*
-+/**
-  * Firmware image header format
-  */
- #define VPU_FW_HEADER_SIZE    4096
-@@ -61,44 +71,41 @@ struct vpu_firmware_header {
- 	u32 firmware_version_size;
- 	u64 boot_params_load_address;
- 	u32 api_version[VPU_FW_API_VER_NUM];
--	/* Size of memory require for firmware execution */
-+	/** Size of memory require for firmware execution */
- 	u32 runtime_size;
- 	u32 shave_nn_fw_size;
--	/*
-+	/**
- 	 * Size of primary preemption buffer, assuming a 2-job submission queue.
- 	 * NOTE: host driver is expected to adapt size accordingly to actual
- 	 * submission queue size and device capabilities.
- 	 */
- 	u32 preemption_buffer_1_size;
--	/*
-+	/**
- 	 * Size of secondary preemption buffer, assuming a 2-job submission queue.
- 	 * NOTE: host driver is expected to adapt size accordingly to actual
- 	 * submission queue size and device capabilities.
- 	 */
- 	u32 preemption_buffer_2_size;
--	/*
-+	/**
- 	 * Maximum preemption buffer size that the FW can use: no need for the host
- 	 * driver to allocate more space than that specified by these fields.
- 	 * A value of 0 means no declared limit.
- 	 */
- 	u32 preemption_buffer_1_max_size;
- 	u32 preemption_buffer_2_max_size;
--	/* Space reserved for future preemption-related fields. */
-+	/** Space reserved for future preemption-related fields. */
- 	u32 preemption_reserved[4];
--	/* FW image read only section start address, 4KB aligned */
-+	/** FW image read only section start address, 4KB aligned */
- 	u64 ro_section_start_address;
--	/* FW image read only section size, 4KB aligned */
-+	/** FW image read only section size, 4KB aligned */
- 	u32 ro_section_size;
- 	u32 reserved;
- };
- 
--/*
-+/**
-  * Firmware boot parameters format
-  */
- 
--#define VPU_BOOT_PLL_COUNT     3
--#define VPU_BOOT_PLL_OUT_COUNT 4
--
- /** Values for boot_type field */
- #define VPU_BOOT_TYPE_COLDBOOT 0
- #define VPU_BOOT_TYPE_WARMBOOT 1
-@@ -166,7 +173,7 @@ enum vpu_trace_destination {
- #define VPU_TRACE_PROC_BIT_ACT_SHV_3 22
- #define VPU_TRACE_PROC_NO_OF_HW_DEVS 23
- 
--/* VPU 30xx HW component IDs are sequential, so define first and last IDs. */
-+/** VPU 30xx HW component IDs are sequential, so define first and last IDs. */
- #define VPU_TRACE_PROC_BIT_30XX_FIRST VPU_TRACE_PROC_BIT_LRT
- #define VPU_TRACE_PROC_BIT_30XX_LAST  VPU_TRACE_PROC_BIT_SHV_15
- 
-@@ -175,15 +182,7 @@ struct vpu_boot_l2_cache_config {
- 	u8 cfg;
- };
- 
--struct vpu_warm_boot_section {
--	u32 src;
--	u32 dst;
--	u32 size;
--	u32 core_id;
--	u32 is_clear_op;
--};
--
--/*
-+/**
-  * When HW scheduling mode is enabled, a present period is defined.
-  * It will be used by VPU to swap between normal and focus priorities
-  * to prevent starving of normal priority band (when implemented).
-@@ -206,24 +205,24 @@ struct vpu_warm_boot_section {
-  * Enum for dvfs_mode boot param.
-  */
- enum vpu_governor {
--	VPU_GOV_DEFAULT = 0, /* Default Governor for the system */
--	VPU_GOV_MAX_PERFORMANCE = 1, /* Maximum performance governor */
--	VPU_GOV_ON_DEMAND = 2, /* On Demand frequency control governor */
--	VPU_GOV_POWER_SAVE = 3, /* Power save governor */
--	VPU_GOV_ON_DEMAND_PRIORITY_AWARE = 4 /* On Demand priority based governor */
-+	VPU_GOV_DEFAULT = 0, /** Default Governor for the system */
-+	VPU_GOV_MAX_PERFORMANCE = 1, /** Maximum performance governor */
-+	VPU_GOV_ON_DEMAND = 2, /** On Demand frequency control governor */
-+	VPU_GOV_POWER_SAVE = 3, /** Power save governor */
-+	VPU_GOV_ON_DEMAND_PRIORITY_AWARE = 4 /** On Demand priority based governor */
- };
- 
- struct vpu_boot_params {
- 	u32 magic;
- 	u32 vpu_id;
- 	u32 vpu_count;
--	u32 pad0[5];
--	/* Clock frequencies: 0x20 - 0xFF */
-+	u32 reserved_0[5];
-+	/** Clock frequencies: 0x20 - 0xFF */
- 	u32 frequency;
--	u32 pll[VPU_BOOT_PLL_COUNT][VPU_BOOT_PLL_OUT_COUNT];
-+	u32 reserved_1[12];
- 	u32 perf_clk_frequency;
--	u32 pad1[42];
--	/* Memory regions: 0x100 - 0x1FF */
-+	u32 reserved_2[42];
-+	/** Memory regions: 0x100 - 0x1FF */
- 	u64 ipc_header_area_start;
- 	u32 ipc_header_area_size;
- 	u64 shared_region_base;
-@@ -234,41 +233,24 @@ struct vpu_boot_params {
- 	u32 global_aliased_pio_size;
- 	u32 autoconfig;
- 	struct vpu_boot_l2_cache_config cache_defaults[VPU_BOOT_L2_CACHE_CFG_NUM];
--	u64 global_memory_allocator_base;
--	u32 global_memory_allocator_size;
-+	u32 reserved_3[3];
- 	/**
- 	 * ShaveNN FW section VPU base address
- 	 * On VPU2.7 HW this address must be within 2GB range starting from L2C_PAGE_TABLE base
- 	 */
- 	u64 shave_nn_fw_base;
--	u64 save_restore_ret_address; /* stores the address of FW's restore entry point */
--	u32 pad2[43];
--	/* IRQ re-direct numbers: 0x200 - 0x2FF */
-+	u64 save_restore_ret_address; /** stores the address of FW's restore entry point */
-+	u32 reserved_4[43];
-+	/** IRQ re-direct numbers: 0x200 - 0x2FF */
- 	s32 watchdog_irq_mss;
- 	s32 watchdog_irq_nce;
--	/* ARM -> VPU doorbell interrupt. ARM is notifying VPU of async command or compute job. */
-+	/** ARM -> VPU doorbell interrupt. ARM is notifying VPU of async command or compute job. */
- 	u32 host_to_vpu_irq;
--	/* VPU -> ARM job done interrupt. VPU is notifying ARM of compute job completion. */
-+	/** VPU -> ARM job done interrupt. VPU is notifying ARM of compute job completion. */
- 	u32 job_done_irq;
--	/* VPU -> ARM IRQ line to use to request MMU update. */
--	u32 mmu_update_request_irq;
--	/* ARM -> VPU IRQ line to use to notify of MMU update completion. */
--	u32 mmu_update_done_irq;
--	/* ARM -> VPU IRQ line to use to request power level change. */
--	u32 set_power_level_irq;
--	/* VPU -> ARM IRQ line to use to notify of power level change completion. */
--	u32 set_power_level_done_irq;
--	/* VPU -> ARM IRQ line to use to notify of VPU idle state change */
--	u32 set_vpu_idle_update_irq;
--	/* VPU -> ARM IRQ line to use to request counter reset. */
--	u32 metric_query_event_irq;
--	/* ARM -> VPU IRQ line to use to notify of counter reset completion. */
--	u32 metric_query_event_done_irq;
--	/* VPU -> ARM IRQ line to use to notify of preemption completion. */
--	u32 preemption_done_irq;
--	/* Padding. */
--	u32 pad3[52];
--	/* Silicon information: 0x300 - 0x3FF */
-+	/** Padding. */
-+	u32 reserved_5[60];
-+	/** Silicon information: 0x300 - 0x3FF */
- 	u32 host_version_id;
- 	u32 si_stepping;
- 	u64 device_id;
-@@ -294,7 +276,7 @@ struct vpu_boot_params {
- 	u32 crit_tracing_buff_size;
- 	u64 verbose_tracing_buff_addr;
- 	u32 verbose_tracing_buff_size;
--	u64 verbose_tracing_sw_component_mask; /* TO BE REMOVED */
-+	u64 verbose_tracing_sw_component_mask; /** TO BE REMOVED */
- 	/**
- 	 * Mask of destinations to which logging messages are delivered; bitwise OR
- 	 * of values defined in vpu_trace_destination enum.
-@@ -308,11 +290,7 @@ struct vpu_boot_params {
- 	/** Mask of trace message formats supported by the driver */
- 	u64 tracing_buff_message_format_mask;
- 	u64 trace_reserved_1[2];
--	/**
--	 * Period at which the VPU reads the temp sensor values into MMIO, on
--	 * platforms where that is necessary (in ms). 0 to disable reads.
--	 */
--	u32 temp_sensor_period_ms;
-+	u32 reserved_6;
- 	/** PLL ratio for efficient clock frequency */
- 	u32 pn_freq_pll_ratio;
- 	/**
-@@ -347,11 +325,11 @@ struct vpu_boot_params {
- 	 *       1: IPC message required to save state on D0i3 entry flow.
- 	 */
- 	u32 d0i3_delayed_entry;
--	/* Time spent by VPU in D0i3 state */
-+	/** Time spent by VPU in D0i3 state */
- 	u64 d0i3_residency_time_us;
--	/* Value of VPU perf counter at the time of entering D0i3 state . */
-+	/** Value of VPU perf counter at the time of entering D0i3 state . */
- 	u64 d0i3_entry_vpu_ts;
--	/*
-+	/**
- 	 * The system time of the host operating system in microseconds.
- 	 * E.g the number of microseconds since 1st of January 1970, or whatever
- 	 * date the host operating system uses to maintain system time.
-@@ -359,57 +337,52 @@ struct vpu_boot_params {
- 	 * The KMD is required to update this value on every VPU reset.
- 	 */
- 	u64 system_time_us;
--	u32 pad4[2];
--	/*
-+	u32 reserved_7[2];
-+	/**
- 	 * The delta between device monotonic time and the current value of the
- 	 * HW timestamp register, in ticks. Written by the firmware during boot.
- 	 * Can be used by the KMD to calculate device time.
- 	 */
- 	u64 device_time_delta_ticks;
--	u32 pad7[14];
--	/* Warm boot information: 0x400 - 0x43F */
--	u32 warm_boot_sections_count;
--	u32 warm_boot_start_address_reference;
--	u32 warm_boot_section_info_address_offset;
--	u32 pad5[13];
--	/* Power States transitions timestamps: 0x440 - 0x46F*/
--	struct {
--		/* VPU_IDLE -> VPU_ACTIVE transition initiated timestamp */
-+	u32 reserved_8[30];
-+	/** Power States transitions timestamps: 0x440 - 0x46F*/
-+	struct power_states_timestamps {
-+		/** VPU_IDLE -> VPU_ACTIVE transition initiated timestamp */
- 		u64 vpu_active_state_requested;
--		/* VPU_IDLE -> VPU_ACTIVE transition completed timestamp */
-+		/** VPU_IDLE -> VPU_ACTIVE transition completed timestamp */
- 		u64 vpu_active_state_achieved;
--		/* VPU_ACTIVE -> VPU_IDLE transition initiated timestamp */
-+		/** VPU_ACTIVE -> VPU_IDLE transition initiated timestamp */
- 		u64 vpu_idle_state_requested;
--		/* VPU_ACTIVE -> VPU_IDLE transition completed timestamp */
-+		/** VPU_ACTIVE -> VPU_IDLE transition completed timestamp */
- 		u64 vpu_idle_state_achieved;
--		/* VPU_IDLE -> VPU_STANDBY transition initiated timestamp */
-+		/** VPU_IDLE -> VPU_STANDBY transition initiated timestamp */
- 		u64 vpu_standby_state_requested;
--		/* VPU_IDLE -> VPU_STANDBY transition completed timestamp */
-+		/** VPU_IDLE -> VPU_STANDBY transition completed timestamp */
- 		u64 vpu_standby_state_achieved;
- 	} power_states_timestamps;
--	/* VPU scheduling mode. Values defined by VPU_SCHEDULING_MODE_* macros. */
-+	/** VPU scheduling mode. Values defined by VPU_SCHEDULING_MODE_* macros. */
- 	u32 vpu_scheduling_mode;
--	/* Present call period in milliseconds. */
-+	/** Present call period in milliseconds. */
- 	u32 vpu_focus_present_timer_ms;
--	/* VPU ECC Signaling */
-+	/** VPU ECC Signaling */
- 	u32 vpu_uses_ecc_mca_signal;
--	/* Values defined by POWER_PROFILE* macros */
-+	/** Values defined by POWER_PROFILE* macros */
- 	u32 power_profile;
--	/* Microsecond value for DCT active cycle */
-+	/** Microsecond value for DCT active cycle */
- 	u32 dct_active_us;
--	/* Microsecond value for DCT inactive cycle */
-+	/** Microsecond value for DCT inactive cycle */
- 	u32 dct_inactive_us;
--	/* Unused/reserved: 0x488 - 0xFFF */
--	u32 pad6[734];
-+	/** Unused/reserved: 0x488 - 0xFFF */
-+	u32 reserved_9[734];
- };
- 
--/* Magic numbers set between host and vpu to detect corruption of tracing init */
-+/** Magic numbers set between host and vpu to detect corruption of tracing init */
- #define VPU_TRACING_BUFFER_CANARY (0xCAFECAFE)
- 
--/* Tracing buffer message format definitions */
-+/** Tracing buffer message format definitions */
- #define VPU_TRACING_FORMAT_STRING 0
- #define VPU_TRACING_FORMAT_MIPI	  2
--/*
-+/**
-  * Header of the tracing buffer.
-  * The below defined header will be stored at the beginning of
-  * each allocated tracing buffer, followed by a series of 256b
-@@ -421,53 +394,55 @@ struct vpu_tracing_buffer_header {
- 	 * @see VPU_TRACING_BUFFER_CANARY
- 	 */
- 	u32 host_canary_start;
--	/* offset from start of buffer for trace entries */
-+	/** offset from start of buffer for trace entries */
- 	u32 read_index;
--	/* keeps track of wrapping on the reader side */
-+	/** keeps track of wrapping on the reader side */
- 	u32 read_wrap_count;
- 	u32 pad_to_cache_line_size_0[13];
--	/* End of first cache line */
-+	/** End of first cache line */
- 
- 	/**
- 	 * Magic number set by host to detect corruption
- 	 * @see VPU_TRACING_BUFFER_CANARY
- 	 */
- 	u32 vpu_canary_start;
--	/* offset from start of buffer from write start */
-+	/** offset from start of buffer from write start */
- 	u32 write_index;
--	/* counter for buffer wrapping */
-+	/** counter for buffer wrapping */
- 	u32 wrap_count;
--	/* legacy field - do not use */
-+	/** legacy field - do not use */
- 	u32 reserved_0;
- 	/**
--	 * Size of the log buffer include this header (@header_size) and space
--	 * reserved for all messages. If @alignment` is greater that 0 the @Size
--	 * must be multiple of @Alignment.
-+	 * Size of the log buffer including this header (`header_size`) and space
-+	 * reserved for all messages. If `alignment` is greater than 0, the `size`
-+	 * must be a multiple of `alignment`.
- 	 */
- 	u32 size;
--	/* Header version */
-+	/** Header version */
- 	u16 header_version;
--	/* Header size */
-+	/** Header size */
- 	u16 header_size;
--	/*
-+	/**
- 	 * Format of the messages in the trace buffer
- 	 * 0 - null terminated string
- 	 * 1 - size + null terminated string
- 	 * 2 - MIPI-SysT encoding
- 	 */
- 	u32 format;
--	/*
-+	/**
- 	 * Message alignment
- 	 * 0 - messages are place 1 after another
- 	 * n - every message starts and multiple on offset
- 	 */
--	u32 alignment; /* 64, 128, 256 */
--	/* Name of the logging entity, i.e "LRT", "LNN", "SHV0", etc */
-+	u32 alignment; /** 64, 128, 256 */
-+	/** Name of the logging entity, i.e "LRT", "LNN", "SHV0", etc */
- 	char name[16];
- 	u32 pad_to_cache_line_size_1[4];
--	/* End of second cache line */
-+	/** End of second cache line */
- };
- 
- #pragma pack(pop)
- 
- #endif
-+
-+///@}
--- 
-2.43.0
+> I'm generally not so worried about methods like these being public
+> because they can't be used without unsafe.
 
+Yeah, but my experience is that drivers can get very creative in figuring o=
+ut
+how to abuse APIs. I think it's best to keep the surface for this as small =
+as
+possible.
+
+>> > +/// A [`GpuVmBo`] object in the GEM list.
+>> > +///
+>> > +/// # Invariants
+>> > +///
+>> > +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` an=
+d is present in the gem list.
+>> > +pub struct GpuVmBoRegistered<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+>>=20
+>> I know that I proposed to rename this from GpuVmBoResident to GpuVmBoReg=
+istered
+>> in a drive-by comment on v3.
+>>=20
+>> But now that I have a closer look, I think it would be nice to just have=
+ GpuVmBo
+>> being the registered one and GpuVmBoAlloc being the pre-allocated one.
+>>=20
+>> As it is currently, I think it is bad to ever present a &GpuVmBo to a dr=
+iver
+>> because it implies that we don't know whether it is a pre-allocated one =
+or a
+>> "normal", registered one. But we do always know.
+>
+> Actually, I think GpuVmBo is already the registered one.
+> GpuVmBoRegistered is just ARef<GpuVmBo<T>>.
+
+GpuVmBoAlloc<T> dereferences to GpuVmBo<T>, so currently it is not.
+
+>> For instance, in patch 6 we give out &'op GpuVmBo<T>, but it actually ca=
+rries
+>> the invariant of being registered.
+>>=20
+>> Of course, we could fix this by giving out a &'op GpuVmBoRegistered<T> i=
+nstead,
+>> but it would be nice to not have drivers be in touch with a type that ca=
+n be one
+>> or the other.
+>>=20
+>> I know that the current GpuVmBo<T> also serves the purpose of storing co=
+mmon
+>> code. Maybe we can make it private, call it GpuVmBoInner<T> and have inl=
+ine
+>> forwarding methods for GpuVmBo<T> and GpuVmBoAlloc<T>. This is slightly =
+more
+>> overhead in this implementation due to the forwarding methods, but less
+>> ambiguity for drivers, which I think is more important.
+>
+> I think we should keep the current state that GpuVmBo is registered, and
+> only GpuVmBoAlloc is not. That is most useful.
+
+We seem to agree then: What I want is that from a driver perspective there =
+is
+only GpuVmBo<T> (which is the registered thing) and GpuVmBoAlloc<T> which i=
+s the
+pre-allocated thing, i.e.  no separate GpuVmBoRegistered<T> type.
