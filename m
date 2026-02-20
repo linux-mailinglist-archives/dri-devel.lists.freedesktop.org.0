@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Eb2M9/8l2kf/AIAu9opvQ
+	id yAahF/L5l2mH+wIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:19:11 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:06:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CC9164EC6
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:19:11 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD07164E4B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE1710E139;
-	Fri, 20 Feb 2026 06:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B860B10E351;
+	Fri, 20 Feb 2026 06:06:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ysOn/ZQp";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fipWH8sZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA4F10E139;
- Fri, 20 Feb 2026 06:06:16 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 455C110E351;
+ Fri, 20 Feb 2026 06:06:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4209B61843;
- Fri, 20 Feb 2026 06:06:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 276E2C116D0;
- Fri, 20 Feb 2026 06:06:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0069043592;
+ Fri, 20 Feb 2026 06:06:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A889C116D0;
+ Fri, 20 Feb 2026 06:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1771567574;
- bh=K4J5kwrWG6Klaz0TWaWDwYqm9sura75BmlC5zDrxEic=;
+ s=korg; t=1771567597;
+ bh=BcVh7QoITwEkqqlbvdhlz2tR9z11qLDn4GSoqYaFwDE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ysOn/ZQp+kpa+h+su/QdYoLZ9kPZfUB18kZEl0AJHkHijbDfpt0RdrOevuMjaVu81
- l1PvMbTSwjKI86Bd9q1r25ghHZKdw5pWXi95I7G6jOF1Qg4KM01QWvN+HICS2qXn1A
- 3Z1DD67/W89jg84AxoptP8KaqH7t077dKwYf5hlM=
-Date: Fri, 20 Feb 2026 07:06:11 +0100
+ b=fipWH8sZRf3blBBr14Z0J1HDAQvkwKKq+SbkPTI7laBCmWqEm2A+KdFMqtLeQGGw1
+ zvGLwjxWJQyhrHM1GXnQc28s0t6e0WDY+3vLeTyEaNYPimI87222dHAPsdnec3CkDi
+ C7TqEGbNP5T2mroszFFx1dmc7dKFiMCI48FFNW/Q=
+Date: Fri, 20 Feb 2026 07:06:34 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Koen Koning <koen.koning@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Joel Fernandes <joelagnelf@nvidia.com>,
  Matthew Auld <matthew.auld@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Chunming Zhou <david1.zhou@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- stable@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] drm/sched: fix module_init() usage
-Message-ID: <2026022007-radiator-schnapps-e557@gregkh>
+ Dave Airlie <airlied@redhat.com>,
+ Peter Senna Tschudin <peter.senna@linux.intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] gpu/buddy: fix module_init() usage
+Message-ID: <2026022016-creole-limpness-6ae7@gregkh>
 References: <20260216111902.110286-1-koen.koning@linux.intel.com>
  <20260219213858.370675-1-koen.koning@linux.intel.com>
- <20260219213858.370675-3-koen.koning@linux.intel.com>
+ <20260219213858.370675-2-koen.koning@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260219213858.370675-3-koen.koning@linux.intel.com>
+In-Reply-To: <20260219213858.370675-2-koen.koning@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +64,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.69 / 15.00];
+X-Spamd-Result: default: False [3.29 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2610:10:20:722:a800:ff:fe36:1795:c];
 	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	GREYLIST(0.00)[pass,body];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,nvidia.com,intel.com,kernel.org,amd.com,pengutronix.de,gmail.com,vger.kernel.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linuxfoundation.org:dkim,pengutronix.de:email]
-X-Rspamd-Queue-Id: 65CC9164EC6
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:2610:10::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: DCD07164E4B
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 10:38:57PM +0100, Koen Koning wrote:
+On Thu, Feb 19, 2026 at 10:38:56PM +0100, Koen Koning wrote:
 > Use subsys_initcall() instead of module_init() (which compiles to
-> device_initcall() for built-ins) for sched_fence, so its initialization
-> code always runs before any (built-in) drivers.
+> device_initcall() for built-ins) for buddy, so its initialization code
+> always runs before any (built-in) drivers.
 > This happened to work correctly so far due to the order of linking in
 > the Makefiles, but this should not be relied upon.
 
-The linking order of Makefiles should ALWAYS be relied on.  If that were
-to somehow change, so many things will blow up.
-
-But be careful, none of this fixes the issue if you use modules, so you
-still have to have symbols resolving properly.
-
-
-> 
-> Fixes: 4983e48c85392 ("drm/sched: move fence slab handling to module init/exit")
-> Cc: Chunming Zhou <david1.zhou@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: stable@vger.kernel.org
-
-Why is this for stable if it doesn't actually fix a real issue?
+Same here, Makefile order can always be relied on.
 
 thanks,
 
