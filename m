@@ -2,96 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBsTEjQ8mGnbDgMAu9opvQ
+	id wDcFHGY8mGnbDgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:49:24 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:50:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F28016701F
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D848A167051
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9005110E0EE;
-	Fri, 20 Feb 2026 10:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12BFE10E221;
+	Fri, 20 Feb 2026 10:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NrzujvOS";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="EyRMYhJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD8610E0EE
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 10:49:19 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-48371bb515eso25000255e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 02:49:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771584558; cv=none;
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2373110E221
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 10:50:11 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-43638a33157so1805130f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 02:50:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771584609; cv=none;
  d=google.com; s=arc-20240605;
- b=LLP2R2IKerwWhk4pSB302QrHHqvgt7ZIhWHC7rBcvDkw7lJrQcO8ObXnJ6J7rN1oP7
- pzvhdptHlJ71G7ZP3oC5wc8G7ZqdAI6xY3PXSDTtBNOIAUIbhVrhH6EYK8QmEL2E60iG
- 7M4GGD2oaWuppEOiwH31woTTqDLyOG10OMTzr8ruWmJgNQyiEjoYXUXlm70PcxdcceiX
- sGL2STltdQigHfRyUULotO5919fuxdEKe4c+w2Kf6nN95T7k6eXnRBmVeZv5WYyvxx+q
- MZr4Xr1Pv8obQhBu7AKBm5fJaovcD+doVotndJ5v01brjG7ruklI0g0JSFSmLlIip8hS
- QncA==
+ b=AGnVOQ1coMagITh3RAsFt9Q2Xx5/JLH4tA1SlHd/IfnEvfGkvoUlhrxtvcBCfxFwCK
+ Gode8U/5XmSN8uWiFFQ24U2wJbVjSATQLP/ckPtXoDwPLqXYpdq8XcM3j4ynjHySQRLr
+ IUDqGgy7vfYeRULMybpoAIq8azyEKEJJmLKWAv5KXxFW91H937jSC9ki+5+bzG4py/Ly
+ 4JybTjxINFAE06X9dPwomei2c9Uw8ZsZQ/fr4IJBQr5N35RBJCKaus5y7dHdV28M22OU
+ gmksDWt4+Eg4gtc5fF4MPtqjGeVKWI+oiJxqwAbVLBTsX5HtaPKUwaA7ZeRrybt7AYcT
+ MdCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=Ab0aEJOyc1j8sAVck7x1NuXrJJFBzT+zHKOVXAo2rqQ=;
- fh=6Ms04hU5b7NoeDiyK2D5m589zX5Sast6o49Vp3hjmlA=;
- b=WkQ5BhBqraFq5KG8WvC/5eKbIHMfegYzyRaqW4egMZyVnedR7oB6J/DFuqCdooXKM7
- IDtmEHnZL/O8TNJjtGcD0fIBt7Xp9/aDepX0f6oBHPCpV3uxXmaqTGRusaqQvLY3O7/C
- AAo6O2kaZATP4yhyHlIoo5303QekVCN/QBkZXxVVSLrVkY5Ca7dqunFWiZhprxzapdu6
- PWUVlWnYwlM/kwyRIpyfHnFlhmf6YH9OcoyrREtIoOk+oC7yHuI2J/8M9GZIV+9to8r5
- VxrGUTorL1Q/il6EYAnowWXF4O5MBpD22eu1tSztAc8LEoH9nmIn/WLm0k7sgaieOYPB
- cqRA==; darn=lists.freedesktop.org
+ bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
+ fh=KW5LONcyrclHegWxvMjM+2ml9TPFyBdY2IlHw7HkDZ4=;
+ b=KNN6wZAOSdTeYkGs4aLGdD1qayBHImL+EsqDC5+sgvqqBHYJIo59d1M+uYAT7kM1pQ
+ cd0/jgaO1ue5e5vrVI4Q9RZx80mzdaYI1NyjrIRHzfWXGBPdIUODKasUvPjDEdKXXd8v
+ mFM7olzYmgkJ8iWyPCLdP/RujBFVWy+TpMJO0rJlpSwzpJF0LWnkb6IOL99NyHgJlyMn
+ svqBst7FYAW0TqYOztuxy6RP40TF0I4ySNLqDxV0lAz7KWrY4rbkgMK3+pNAX/2WCH/k
+ yyT0SgERf/qD4JfECamfgKCspID6TT2G1qj6IPXTn0OzFRBFZrqW/f6856MZatqxEmfC
+ 0ixA==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1771584558; x=1772189358;
+ d=google.com; s=20230601; t=1771584609; x=1772189409;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ab0aEJOyc1j8sAVck7x1NuXrJJFBzT+zHKOVXAo2rqQ=;
- b=NrzujvOSufGAOseN4UiuppGEQ6ZzdoknvBfmvpGPHH/Yb8r056i5vKF/1mufuDwdz6
- XmFrmgOwlhg4Vce6ytxMNLfzaIqsr4BGjruO57mFdXvsRNoyiMjgciURzXSobiY0xbGy
- S1hSK+9RmMsgifm93rWKVpbb8wfoy7RzLQDapNzni2pNt8TXeXjvlDMN9Q3BTFG+/a8I
- PTRdt7MxAAv4GT5zv88dhKim//oymgTPO3J/S9PLQ5D5e2ZeQdw+j/NNN8w9EAHi1z0A
- XM+vTOI4JCI56Xe9Fl3BGuhO/Rr1ZMYEu/GWhpxUK4zUQcXAdpOg0Bl91jjfDP+nb/KO
- Ttog==
+ bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
+ b=EyRMYhJLlT3FLYecXx5D0iCH3kNExPYQ/0ciVK3s2uEkqlhnrKnoMQkCMGzwgJYHVK
+ j1brVnmIq/nQXRPUJ+XCvxTLgHFjqNz/n10OVk9Kn5zJMpdFc7Y0FWnO0FMbpAuaSWAk
+ BUEv+yGjiWfTli8re5rV+jldU9H3CTELSF6ctJZ+9lIC6vzOM3xHA9YmWTsd/F43KN5K
+ moSSXahJMiQnggmD2tD0oF0veknzij41zSEf6gHenK292F+mKMH6JfWdVcr/CSnp5MAz
+ XFRb8qSprDQTYSO0cUbq6uY9FSYAirB++AiWm54OCuOrlmmwToWXeiVaMZ90e4uToipW
+ laDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771584558; x=1772189358;
+ d=1e100.net; s=20230601; t=1771584609; x=1772189409;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Ab0aEJOyc1j8sAVck7x1NuXrJJFBzT+zHKOVXAo2rqQ=;
- b=Gd+k1lDyDMOLA1plNVwlN+Fn3VqECSZpbRJ1ZH7sAPsOP1CNnNAg+vyxazVKBjia5V
- c2q2V5EwNIjXKX87QqZzLlNO2XJgrDKnGCkldB3mO8XCA3GOUoDDMKMJPrfVQePJMgSy
- KBxHrjQ7AAd1dvzi2TcoJCVUT10zsm3j7E6Noye5og1VnnJ0xN4NY7kPtW8ty3v5n+Kw
- qTmK9d93bF2wB4W9O4w7WIhnj0XpJW8HYAUbuVXvTmfhzBxLtwjpBEhWQgRWW54cpyy1
- Xf81K4cEDXKyUZrOHaykEm78cPn4hv2svA0qinrxcRvzZgMdPacGGKp3dcA7rce8Jahv
- eF1Q==
+ bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
+ b=nIXZ6mBYY6UGucvFs7AUzSV9YAbgfhBkcZP+Ss1nAbSlTogn9TczKKVXGTKRekbmyB
+ 5J8Up3WGYbnYNFheBu9jPT4/pYPPiqjTiilwwzvYsUtGOYUDm46itpfHv+kDIiZCnp4b
+ PB+FRicf+Jzl1EWcRuaZcREzZAS78adGxtGFM8sk3SrwUcsdzLadewXSHhCEJvePB7w7
+ LFHVXJPQyuX3VYoaUbQS3cx7/3EKCrkTLmJprQgt+8+2YMz5jz2R/YID6TKSZKtkap7v
+ jjVVuVBAhw8Xyl8441vvJQfiTCQGD5DwFWg9cqv6sBwuCdQb7Q+6PtRXcGC19zvGJKTx
+ UTjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBqrmDPt1Pxq+eW0e2RBOff9R5erh4Xu5YmpZdrGAgpDMrAUm41cwrSX/KYCDCxaJmSHaidPHhdbA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywmy2yAYBrCxBwtw/cWzL9CQhlBf7O6kJLiVrJPHAMDQKWBJZla
- hjDsMbBlfu9jKYgieKxjkL5Xh2e1cXQHaLgqpr3Vv733ciYm0RaKBo1tsRmCuOrwnvjnqDum7Yx
- 5lu2yoUmGd5+TAhlbIdWJBHTNIQIz0A48CSr5mdkW
-X-Gm-Gg: AZuq6aJX4sptDkOJ1jgwXSRFAmNPL857O1+ioOKCpHN3JsgNnjKYVYe5bT3xpq4OvKM
- GbbuIKozXU1DeR7/naFvCeqM0yPNcCQwOZM5XfHDOwo5ceL2SvYF7lLV3txC0AQVzaWGp9AwR3J
- nw7fcE3HFRJJplWUT+cIHyqnOLP+64QyYckVwB1exPzf2jbtvOoTAueo7YvwGFXMpaRVMNpHcY0
- qkmAKIz9/5FqbB0skOOX9cNCrDi6SzajCR4TAxvM+gXmZSKNzsVK5Lmjb5Y/w7WXrHkjaUPqI+K
- NxbAJGPHq+2mQCi6Af07flexg34jkiojpm95Og==
-X-Received: by 2002:a05:600c:5289:b0:483:71f7:2782 with SMTP id
- 5b1f17b1804b1-48398b0990dmr130223325e9.12.1771584557648; Fri, 20 Feb 2026
- 02:49:17 -0800 (PST)
+ AJvYcCVmY2SwYxfVI8DaRSYmfOG5fJmrxP7Zwr7LUBfCc/AHvTl/yU/jlJW4n0hHSv5P82mDzqsFv52q0+s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUsEjlrjnW4UGcvJ+IpECgfCPZ2aHDrHtKQtZ+1PDpAmSExqcI
+ kifyr3tf1OyVD/JhYBpVe/gN7EDWMXWTNDBr1q65fKeUI6Xyx143gH+tvRjvJjR7Ol5U5dAftTg
+ 48bS5I4iR7hjbFDoKZvRPD+P5NkaCr7KsboFGJWJA
+X-Gm-Gg: AZuq6aKEytnDMkdoVpwMGJJ68lV3RwLqPQncMi7S6AvDe+w4IerCQUAsl9GiYKzlNGV
+ bd1D2dSmYI4fHPvO81WBuuSEpnWxyY4qziIGI5SZ1Z7h9WSgw0Q7w013Ba1UGgBZP5ml0ZfrrtR
+ 8/Klf6FZ82VKda0d7K8jnM7Zp1zTPz5GgFcvFXNShmiOgj9rFxFhouFBRADnA6Bt3zxf/wWgzxF
+ qJMdSZmlfmwVwEwRx8bdHI5gMyguJ8UkLodgObTm8Oo4MW10YhVHiVpOT33mUcshLP2Ow1XhPa0
+ EYSpD+yYJAqt99G4nQ5nT9blT/jbDTWEHJ6UAA==
+X-Received: by 2002:a05:6000:2409:b0:435:95c9:6895 with SMTP id
+ ffacd0b85a97d-43958e00ce5mr15101201f8f.18.1771584608836; Fri, 20 Feb 2026
+ 02:50:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20260220-unique-ref-v15-0-893ed86b06cc@kernel.org>
- <20260220-unique-ref-v15-9-893ed86b06cc@kernel.org>
-In-Reply-To: <20260220-unique-ref-v15-9-893ed86b06cc@kernel.org>
+ <20260220-unique-ref-v15-3-893ed86b06cc@kernel.org>
+In-Reply-To: <20260220-unique-ref-v15-3-893ed86b06cc@kernel.org>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 20 Feb 2026 11:49:06 +0100
-X-Gm-Features: AaiRm51MAhLW1OtRkAHOYwRwshfGarw67yqaE2vYRvgLvB2RCqsl8u_ReojFPGo
-Message-ID: <CAH5fLggNQD+TbA7rXVB5w+O+qHcJcYC4u0b3W+mHR2DZiUe4eQ@mail.gmail.com>
-Subject: Re: [PATCH v15 9/9] rust: page: add `from_raw()`
+Date: Fri, 20 Feb 2026 11:49:57 +0100
+X-Gm-Features: AaiRm525n9TXR47KvplRQPUHuuUwgU5iN4_ng3kUHWK8LN9TrQcHulfhA1IhjZ4
+Message-ID: <CAH5fLggNjCZ3AvHnhO8O0cmd33B3zMbfq+hhNvonznTsLLtgYw@mail.gmail.com>
+Subject: Re: [PATCH v15 3/9] rust: Add missing SAFETY documentation for `ARef`
+ example
 To: Andreas Hindborg <a.hindborg@kernel.org>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -115,7 +116,7 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
  rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org, 
  linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
- linux-pci@vger.kernel.org
+ linux-pci@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -143,13 +144,13 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:boqun@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:igorkorotinlinux@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:boqun@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:oliver.mangold@pm.me,m:igorkorotinlinux@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
+	RCPT_COUNT_TWELVE(0.00)[39];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[google.com:+];
@@ -158,49 +159,70 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,gmail.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,google.com,vger.kernel.org,lists.freedesktop.org,kvack.org];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,gmail.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,google.com,vger.kernel.org,lists.freedesktop.org,kvack.org,pm.me];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,samsung.com:email]
-X-Rspamd-Queue-Id: 7F28016701F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,pm.me:email,collabora.com:email]
+X-Rspamd-Queue-Id: D848A167051
 X-Rspamd-Action: no action
 
 On Fri, Feb 20, 2026 at 10:52=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
 l.org> wrote:
 >
-> Add a method to `Page` that allows construction of an instance from `stru=
-ct
-> page` pointer.
+> From: Oliver Mangold <oliver.mangold@pm.me>
 >
-> Signed-off-by: Andreas Hindborg <a.hindborg@samsung.com>
+> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
+>
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 > ---
->  rust/kernel/page.rs | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  rust/kernel/sync/aref.rs | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >
-> diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
-> index 4591b7b01c3d2..803f3e3d76b22 100644
-> --- a/rust/kernel/page.rs
-> +++ b/rust/kernel/page.rs
-> @@ -191,6 +191,17 @@ pub fn nid(&self) -> i32 {
->          unsafe { bindings::page_to_nid(self.as_ptr()) }
->      }
+> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
+> index 61caddfd89619..efe16a7fdfa5d 100644
+> --- a/rust/kernel/sync/aref.rs
+> +++ b/rust/kernel/sync/aref.rs
+> @@ -129,12 +129,14 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+>      /// # Examples
+>      ///
+>      /// ```
+> -    /// use core::ptr::NonNull;
+> -    /// use kernel::sync::aref::{ARef, RefCounted};
+> +    /// # use core::ptr::NonNull;
+> +    /// # use kernel::sync::aref::{ARef, RefCounted};
+>      ///
+
+Either keep the imports visible or delete this empty line. And either
+way, it doesn't really fit in this commit.
+
+>      /// struct Empty {}
+>      ///
+> -    /// # // SAFETY: TODO.
+> +    /// // SAFETY: The `RefCounted` implementation for `Empty` does not =
+count references and never
+> +    /// // frees the underlying object. Thus we can act as owning an inc=
+rement on the refcount for
+> +    /// // the object that we pass to the newly created `ARef`.
+>      /// unsafe impl RefCounted for Empty {
+>      ///     fn inc_ref(&self) {}
+>      ///     unsafe fn dec_ref(_obj: NonNull<Self>) {}
+> @@ -142,7 +144,7 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+>      ///
+>      /// let mut data =3D Empty {};
+>      /// let ptr =3D NonNull::<Empty>::new(&mut data).unwrap();
+> -    /// # // SAFETY: TODO.
+> +    /// // SAFETY: We keep `data` around longer than the `ARef`.
+>      /// let data_ref: ARef<Empty> =3D unsafe { ARef::from_raw(ptr) };
+>      /// let raw_ptr: NonNull<Empty> =3D ARef::into_raw(data_ref);
+>      ///
 >
-> +    /// Create a `&Page` from a raw `struct page` pointer
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// `ptr` must be valid for use as a reference for the duration of `=
-'a`.
-> +    pub unsafe fn from_raw<'a>(ptr: *const bindings::page) -> &'a Self {
-> +        // SAFETY: By function safety requirements, ptr is not null and =
-is
-> +        // valid for use as a reference.
-> +        unsafe { &*Opaque::cast_from(ptr).cast::<Self>() }
-
-If you're going to do a pointer cast, then keep it simple and just do
-&*ptr.cast().
-
-Alice
+> --
+> 2.51.2
+>
+>
