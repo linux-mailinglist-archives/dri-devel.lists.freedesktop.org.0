@@ -2,47 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MP8KOWEdmGnp/wIAu9opvQ
+	id XgHaDYQemGnhAgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:37:53 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:42:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BF1165D01
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FD6165D58
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 09:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBFF910E7F0;
-	Fri, 20 Feb 2026 08:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBBF10E7FC;
+	Fri, 20 Feb 2026 08:42:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="Ygd+mLi5";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="czbTCmZ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lankhorst.se (unknown [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3FEC10E7EB;
- Fri, 20 Feb 2026 08:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
- s=default; t=1771576668;
- bh=hfuiKbZoiFCdq6MXoxyC1QnOf4JbUHSRhvGeWVtO/UA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ygd+mLi51GLCi0eC2c+EoXxZSORJlds+tSDj0V3QLkVeEorJD2DUr2uJ4vJyndfDZ
- xep0YcFkzuAhp7cUUySMvTVXuVxnh2bh74hk0ueugoiu4ug24k3Qc7MY9XLY63+gdF
- iZ30CE/yFnkymmASNTSone1g4Na2BOsMguWOEOtahqG1eC3XJKdLNhcXse/gqehfhW
- uvLvtJs6JO69SVC4JihMMsETmsf4Fb2XJrQ5iYh6PxUwlrEIlv/jtdFiuStA6RTCdt
- a5FmXZbt/iHKNg2bdcGbtg4weJLRGo3935qAt3+pbNdnnDLaq4mCI8ODGvo18Dtgrp
- VHDxdPWl068qQ==
-From: Maarten Lankhorst <dev@lankhorst.se>
-To: intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <dev@lankhorst.se>
-Subject: [i915-rt v6 24/24] FOR-CI: bump MAX_STACK_TRACE_ENTRIES
-Date: Fri, 20 Feb 2026 09:37:22 +0100
-Message-ID: <20260220083657.28815-50-dev@lankhorst.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260220083657.28815-26-dev@lankhorst.se>
-References: <20260220083657.28815-26-dev@lankhorst.se>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13BB10E7FC;
+ Fri, 20 Feb 2026 08:42:38 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4fHNzb1xgcz9tLw;
+ Fri, 20 Feb 2026 09:42:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1771576955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g83C4/nIOxPzfLeHkhnI9mKu3fxHDhlKgc9uEJ+5WJw=;
+ b=czbTCmZ+HPvmKCusJSUC/Ju58YpG3A0RR07ukIo1RCpD2wVNYBIcOwbO4q1UTU/UZVf8YP
+ gDXIaUYpX0T6RGdImLtiWoMU2i5bjwJH9PD7Fdd+O9swaDMiCoc9cbIeSJQZQCJwZAAySX
+ jOa5pMTOk4n4k+Mfr9KpBDsq+n19zOV5mjKhq+FLlO2+A9IuJ1lnEDPO+mATPf4ojQGMzo
+ r9MG/por5c+/nle8bI9c262lmPubGAYQvcYiNoKR7Z+PnibFEuC+XB3f5q2q0YVwIjj6g6
+ jsKjGKoI4yElEFhIt7EHEuRt8ez3h5lYXaaGO0+Zy5Ph415KcXUSXu3P+K1Erw==
+Message-ID: <dab8d21b-1d28-48c6-87bf-f2060e2d2f1e@mailbox.org>
+Date: Fri, 20 Feb 2026 09:42:28 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH v3 1/2] drm: introduce KMS recovery mechanism
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, =?UTF-8?Q?Timur_Krist=C3=B3f?=
+ <timur.kristof@gmail.com>, Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260212230905.688006-1-someguy@effective-light.com>
+ <2e359cd9-0192-44d0-886f-7f93a8b0a4fa@amd.com> <aY99D-yXVydpMdwy@hal-station>
+ <85319290-4027-4eb8-95d1-9009d23f2294@mailbox.org>
+ <aZD0W7V_6--2yqNK@hal-station>
+ <7f4a86ad-d642-444c-a576-17ff9caaa934@mailbox.org>
+ <aZULq2bDnZpdXvIg@hal-station>
+ <8588dcbc-621e-43db-9d69-32398f75d9e6@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <8588dcbc-621e-43db-9d69-32398f75d9e6@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 3622ad96cd3a711f12c
+X-MBO-RS-META: gpdipzkqupcje8wq8z5w5ub47n6h8ij3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +86,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[lankhorst.se,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[lankhorst.se:s=default];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[dev@lankhorst.se,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[lankhorst.se:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B6BF1165D01
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim]
+X-Rspamd-Queue-Id: 70FD6165D58
 X-Rspamd-Action: no action
 
-We're hitting a bug in CI where MAX_STACK_TRACE_ENTRIES is set too low.
-My guess is the repeated loading/unloading is creating multiples of the
-same entries. As a hack just reset lockdep. This might only be necessary
-for CI + PREEMPT_RT.
+On 2/18/26 10:22, Michel Dänzer wrote:
+> On 2/18/26 01:45, Hamza Mahfooz wrote:
+>> On Mon, Feb 16, 2026 at 10:28:13AM +0100, Michel Dänzer wrote:
+>>> On 2/14/26 23:16, Hamza Mahfooz wrote:
+>>>> On Sat, Feb 14, 2026 at 03:02:49PM +0100, Michel Dänzer wrote:
+>>>>
+>>>>> In principle it's possible to do (the equivalent of) a modeset with the current state for all CRTCs, no need to do it separately per CRTC.
+>>>>
+>>>> AFAIK that is what the uevent is already doing (unless I'm mistaken).
+>>>
+>>> This is about just doing a full modeset, which isn't something user space can do in response to a wedged event.
+>>
+>> I was referring to what compositors are doing in response to
+>> `drm_kms_helper_hotplug_event()`. Perhaps, the enum constants should be
+>> renamed, since the forced modeset is actually sent when the current
+>> reset phase is DRM_KMS_RESET_NONE (the phase is updated before sending
+>> out the event though).
+> 
+> Ah, you're talking about the drm_kms_helper_hotplug_event call in drm_atomic_helper_wait_for_flip_done (I thought "uevent" referred to drm_dev_wedged_event in patch 2).
+> 
+> I don't know about other compositors, but I don't think mutter will do a modeset in response to a hotplug event if no KMS state changed (because some monitors can generate spurious hotplug events).
 
-Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
----
- lib/Kconfig.debug | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+FWIW, if it really turns out impossible for the kernel to do a modeset itself (which I remain unconvinced of), one way to require a modeset from user space is to set the "link-status" connector property to "Bad".
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 1e1776049a84e..e8da58d2bf5c8 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1545,8 +1545,8 @@ config LOCKDEP_CHAINS_BITS
- config LOCKDEP_STACK_TRACE_BITS
- 	int "Size for MAX_STACK_TRACE_ENTRIES (as Nth power of 2)"
- 	depends on LOCKDEP && !LOCKDEP_SMALL
--	range 10 26
--	default 19
-+	range 22 26
-+	default 22
- 	help
- 	  Try increasing this value if you hit "BUG: MAX_STACK_TRACE_ENTRIES too low!" message.
- 
+
 -- 
-2.51.0
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
