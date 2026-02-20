@@ -2,183 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLInEP77l2ns+wIAu9opvQ
+	id EJZOJA/+l2lN/AIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:15:26 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:24:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC8B164E85
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2B6164F24
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 07:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F2810E78F;
-	Fri, 20 Feb 2026 06:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6810E1DB;
+	Fri, 20 Feb 2026 06:24:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GQZ2n5tI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yzm9KJiW";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UYhJ8Cys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD2310E78E;
- Fri, 20 Feb 2026 06:15:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771568122; x=1803104122;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=Nw8x4SXuej5jvmhgAQZ4oYNG6SvvFNP/2FOhoEJshGo=;
- b=GQZ2n5tII0e12ogLN45MkvEUfinWmDH1ZopW4oDOMvd5Mc6bi2TUpxYe
- BYIzBGAb70J2BkohaaowOhhBrLndmQyLSpJLuF2hKbJtwb+jNEQopSwLQ
- 10bdqaTndx13kthpw0X2+8Vz2hjOiRHWf0/7+U8KfmbpWSdqNz/71c2xW
- dyOgLjpmyf5LByB6imr5Z9G/36pbYL39JCknjN5jRdNdIDFbvAly3H6p4
- Urn4HyM665bTmh4VWAqa1wZiR2iSiy5uiOul17G+sXaI2HiPBUyqeQMFL
- 0y1oeugNVBFhL8Q3tM8Zt5YklGka4Mn1/H3f+uTcegvMqhFU4MmA7UoNl A==;
-X-CSE-ConnectionGUID: PojoxmM2SO6s6qLpj6+d9Q==
-X-CSE-MsgGUID: 7FTiKkwfQQWFeimxWHiD/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="60236334"
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; d="scan'208";a="60236334"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2026 22:15:21 -0800
-X-CSE-ConnectionGUID: I2SNTUpuSieymbSCIYF0EA==
-X-CSE-MsgGUID: NFdWZ0NsSSWattRXmz671w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; d="scan'208";a="212917875"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2026 22:15:21 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 22:15:20 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 19 Feb 2026 22:15:20 -0800
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.64) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 22:15:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nq3Z29Wsmw2+8dyOSYAG8L6th9gMvxvjOPx1mYrLv8rnrWnnY9zw/Md4MePgF0AzaFgbVnH2AIgfI0bfXICL4GaYUeAeZ8LwEFFbHFiEmc1AP2hiLyp0bv/EjEwlWVYCOPotNN4FAni4u7av35EE6Waus/BOJ+G3pnGQmEDS10OY98RJdc7fSlR3eKDqn8WKnwWFs6pAkBbKhZM7oenqkxYPJ2rpFdygld2/ApX5nTpGLk1/5rPkTcQw1NDlfXYhSsq1p4oZsyj2ZsSGp7WdZ3cZ6Pp5g+kcmdfvROklGf8uWao2yrC+ka+64PKR5S7bLiZv8wz27uQBL9C88JtPaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p3Qj4OimsvsSPc30jgKSCj7QyHeqDUVmyUAGyshSTtY=;
- b=G/QWeIqkyQxMQSO1POIaKpR0PcgpqxRuUyc8s3udxy7LdrPtSyNWs5zKNtuB6gzd66xBLE4Hfe3S9lYEdaDcxNwZF82Mm2WtRDalna/2BMtdq2zwjux4yzdEa2yUOXtMEVGSu1YKusp8RqKYCUkpk7QyG9mKFVk0IO3LS2TuzB/1D8qXxHhKVSsWfNNNpdAHgndMMUh3YzMtUZ8h09baE8gxL3aANmnen+EWESCs8trIf3b1Lgi6W0Zpip/hfthikaEYS2v8DknOfPZrodyXZLtGRNrPXoQdb639+fd8euynFkAQjkXS6Ca+YdnbALnvBgacsgFaoI1f5jpFcJ8EQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DS7PR11MB8783.namprd11.prod.outlook.com (2603:10b6:8:254::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 20 Feb
- 2026 06:15:10 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
- 06:15:10 +0000
-Date: Thu, 19 Feb 2026 22:15:07 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, Maarten Lankhorst <dev@lankhorst.se>
-Subject: Re: [PATCH v8 1/3] drm/sa: Split drm_suballoc_new() into SA alloc
- and init helpers
-Message-ID: <aZf7616z7z0MOykV@lstrano-desk.jf.intel.com>
-References: <20260220055519.2485681-5-satyanarayana.k.v.p@intel.com>
- <20260220055519.2485681-6-satyanarayana.k.v.p@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260220055519.2485681-6-satyanarayana.k.v.p@intel.com>
-X-ClientProxiedBy: MW4P223CA0023.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::28) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C1110E1DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 06:24:10 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61K5SPGS3864200
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 06:24:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=I8V20AH9DivawdN2WvBcTWCf
+ zrYOSe1nOSQ/HpoI7LA=; b=Yzm9KJiWcACzwaN9QsvBFZ0KsMe107c3NEUe9EKb
+ W48Vg5hl8glRl1tSaHcSPeXceWS3lJSOZ5KIizX2KVqW4YfTshs5vwJyXNIZvhM2
+ xaajYwtpAWscn2gntasa/wcKdJ2zeIAF2ZYs65WQto4nwgkZO9utr6wV8aqhTZM7
+ vSp3YiBOJ6PXcRxZ2N+2T+2+DLttrLjaEtAPZsXcw3mBAKprUqbm15RcE18nsIoZ
+ Uu9MtCjamQ1G7dnW3DY58G1rNYE/JFuATcbe3hrOtA4L98PHhilS3ZwcQ3C0ZnFL
+ jgUBC3yFOXBaw1OggrsE0eOWXa1Opu/3WJAvMmyg2A8z0A==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ce2ghtv5t-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 06:24:10 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2ab03332dadso9244475ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Feb 2026 22:24:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1771568649; x=1772173449;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=I8V20AH9DivawdN2WvBcTWCfzrYOSe1nOSQ/HpoI7LA=;
+ b=UYhJ8Cys7CSE7saQMIyImqK5pWp+bDro421WDITJ44STT+7zP5oMQ7fkIKiaczp/Uz
+ S7BguNrgderGalUSbIgckWmrl9MUZRC6pN52SXW0+flQ/PHriTjH6dAkqXybDPXvbKAm
+ fasGcJHyw448oHdJ9DZeIolCVhckweWffHbpX6FKD9d3VGbdZ9ZmzbQ/vW+Vj4cVsQyo
+ /thfN4rUXmjVQm9XCIHT6elvRC5dXiry3uM4jEQJysnWgDhJPQcHn87r3ICMRtavZlT6
+ bFdSKM9kgeoXDcSRbyo2bGx8uYYkF9sv5mjDRjs2QaMU8/5W5yGFVVSlbmwIgR60Jfjw
+ pxfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771568649; x=1772173449;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=I8V20AH9DivawdN2WvBcTWCfzrYOSe1nOSQ/HpoI7LA=;
+ b=MT87LddSm4xtQlMadHfL06V9hH5DVOyxZ2gbuL6HV4UWS9Zx+Fec5rpjSkKQEcrUEn
+ sdgj+EzKyhiTBSLVUJpJPXhn8JQ2vIEl/gDgRKH8wPtrfT5BsU6Mv7U5duI5Ayv8FhtB
+ 1s6TrLt0RNCVdWKGHnx8BykG9NtbMh4okLRR9J9nj6uDJRjdBiciL9mj4mU3ieBeWivG
+ q5HyA1PPq2Eh/iT8GpBnzc+SKLFzpjyvJF5DPiVIMQxr4SxT2GeB19em4Hkotim6LnbV
+ PSG7tny2l9O+HvxG6kpSLtZYou3bKATK7H0mEgjh9fRfn8iacoowngiieQ2UbmB5JUJG
+ CT8A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9FzfoZqaHro39+T1w66urbti7SsUwANentUebm/W2ivpo+zSomaV8ViTniZCHhuii/IfQ3CfOEDI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyH+bCd4BJ2SCLojpuyzzWPcYvQPEb48kvmCvkumMVD3TyACz57
+ aACPtCKq8Aq5JZCOgw+Lv2xSQrkJTwqMox15NIMYTH1piQ4Ruc6RqXNvVmmAFpQcrVGBSdazgWS
+ sLSc65JvJTw1gtBEnNCCEoPdbYZbWRZrneeqybgdzMzwWOOmf+gXUlNt93t9nhInXmNo4Rlu38W
+ RHJWY=
+X-Gm-Gg: AZuq6aIQJKnvo6bdR/Fxlt8pv3sgMXzB391Oxe+0IEqTSnumTZJ2qe46TCaxV8wWmqw
+ pxBLD4h7nNhKFLdEW2q4jYpcT0Z5+RMYhRaR3qx3P5VA/LfsQX2XOkTb3ws/1bqTCWgzPc/hoty
+ k+MK9uFinp+FpETbVHGVhn0H2DWRIV05GtX0VlDCat+HZs+wWpU9W1Qa75jV0aXQ65o3xfFeq9z
+ Jn1NDglO93w8aaGxFKyBIbq6JsUqQBg8cZ8iVqDsL6l+NCyKBwu7atQroby07lXa1UBG6qHgS5W
+ cF069ROJ2AUrrScfnsOSUC9U8X+l7xDSoaGg05AlAhqpNQlifQOFdlL5ujLsPqaNywDXjyI5HH7
+ aA6ZcYmRu/CG5P1xrpeFE1Tsu12zuANSVKapz7zRkl7ks3LgIgAmu3jr0kH0Zyc8cbMc6EPsPZ/
+ /1VcbdOma5wCI13bGtnEuCUfulTA+JsCxOISz1jVP6oA==
+X-Received: by 2002:a17:902:e785:b0:2a9:5fa7:3d9b with SMTP id
+ d9443c01a7336-2ab4cfd5202mr169705255ad.7.1771568649228; 
+ Thu, 19 Feb 2026 22:24:09 -0800 (PST)
+X-Received: by 2002:a17:902:e785:b0:2a9:5fa7:3d9b with SMTP id
+ d9443c01a7336-2ab4cfd5202mr169705155ad.7.1771568648755; 
+ Thu, 19 Feb 2026 22:24:08 -0800 (PST)
+Received: from hu-vishsain-blr.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2ad1a73b0fesm183300375ad.38.2026.02.19.22.24.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Feb 2026 22:24:08 -0800 (PST)
+Date: Fri, 20 Feb 2026 11:54:00 +0530
+From: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Tony <syyang@lontium.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, prahlad.valluru@oss.qualcomm.com,
+ Prahlad Valluru <vvalluru@qti.qualcomm.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: bridge: lt8713sx: Add bindings
+Message-ID: <aZf+AJrEKTPs8nRn@hu-vishsain-blr.qualcomm.com>
+References: <20251228-lt8713sx-bridge-driver-v3-0-9169fbef0e5b@oss.qualcomm.com>
+ <20251228-lt8713sx-bridge-driver-v3-1-9169fbef0e5b@oss.qualcomm.com>
+ <ua6ewpauwabzyf4srnawqz6znsvrzkkl75zwqhpxk4ltdnzvj6@dkntys7skfan>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS7PR11MB8783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93c22738-8460-4b5c-e7ad-08de7047669b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?mvWYwimX3YuhbFht+eNE058ze7Wsc0LglLdCp1lZ9PLpJnW6bKi1+lcgCL?=
- =?iso-8859-1?Q?J2+8ZriOgRNbx03Wrh7ECFgsT/6l5h3ya3ugg93WVYHG2lwobFPsIaIbeH?=
- =?iso-8859-1?Q?28kjyOEzOf99wyC1UjyNI3MVVdiUOAGmS24jNf3a0PRqoE7bEqEA/lD0q5?=
- =?iso-8859-1?Q?Effq0DlEG0+U/PeMiL+pZJh9jfNf0iYByDq2IL9ODM9YpCcHUJe50O7vHn?=
- =?iso-8859-1?Q?mM16pSYAQ3g/kzTQPfGJvvhn3plq08wVHMy1ffThtrBSBjaH3+6Ki0/Uo0?=
- =?iso-8859-1?Q?U/ZCBDLxiOyP++83+KQ9GnGXD9EpsO8Ilgp6/66UUF67NFZtL+UrhHrFDn?=
- =?iso-8859-1?Q?El8meFnAUWrl7RIyg2tEZ6/N1cDL6AIZXJHg3jycQLKGQwfzZ1JIRzDoSy?=
- =?iso-8859-1?Q?awGnBVQxGEqXH+kY9YoC5QovGPJKLYMro+RWh4gHCR0OwhgEkIY4hnit8b?=
- =?iso-8859-1?Q?T4blpBdpvfu5r3Tg3gFlytnBp3rA3aXGHJupV39esxYEqLJnZVpKm+X9wI?=
- =?iso-8859-1?Q?ohpCd4D18tANlwafRboiyDyUPQSBxTaFl3VYaLsQQDYiFqIqprUy/1COK0?=
- =?iso-8859-1?Q?w77cFZlgQISAEoRdJWmRKFT+pAy1zL9WKqjwcmVSM/XZm8Y8cbY5lGNmgu?=
- =?iso-8859-1?Q?IymHqdkcoKcYjxkWGohBIn/XLIYx7KKEmwcBRrYof1NbcXiAcMKfispoyD?=
- =?iso-8859-1?Q?HQrk3W175T8QKjWtFHsHoMNJOWGmwo58t6xcXr8+qbNtv/IPIKfJ7+rxeo?=
- =?iso-8859-1?Q?3x2ZMugA/+pZwKD/o7KUvGgNCShvj+8SjIXeSSGXtaAxWyb6tJJymkfXYa?=
- =?iso-8859-1?Q?4b6nB4XCyPK/2Z7U2+XvyRN0qGdsnmj4/xYjAxomHrDfrp+Chu/1H+jFCO?=
- =?iso-8859-1?Q?EnWjiEE6ma9e1C175leDqTDoDy6DIdPjKLkHveHplR+X6rIVNdcHJ6MCG1?=
- =?iso-8859-1?Q?pkX+v3dAVgeY0Vwz0zG0orcjSNMsyNDQROnqObYLCHY0+3CqbyF/0w5RRt?=
- =?iso-8859-1?Q?HawlSvqLnIr4AmLd7nYABHCoCT05q7qW9UwZ8lFIpq48cydw7H8rLVPYH0?=
- =?iso-8859-1?Q?SZnRRL3GododedJ4OKxGeboBmboE9qOb53BP9Ot+hfI6rR0TpsIx8+SFcD?=
- =?iso-8859-1?Q?rfU89kprLMu2rQBzKAkfmH7BqGIh4d1tv2zAJxqhhfv8UyA8EwYSxGAFAx?=
- =?iso-8859-1?Q?+G+eemxm5NUyoWBZXrQS0z+OGxT/ukGlRgium6cJs8ar6l7IdAM//J6A62?=
- =?iso-8859-1?Q?a78SVa4Vyw0RVfVGRg1GRYqRhKX4TjLkfcI1uWlJru03PO8aJjHEiBpb26?=
- =?iso-8859-1?Q?DjejBrwhzT6D3aL2tbxjWNmNbtMuVXsAH3eL4xeNtC6uMSrwkyy2n6DJGx?=
- =?iso-8859-1?Q?QEjfdfStrLLVp+f8mozzS93U7qvu3snDiZ3KG1u4cMJK0tfXtMmxCifE6b?=
- =?iso-8859-1?Q?UDHXIFsihV/0sLVLYF/1iE2lf8h/wHOqROfyCVd70cDlT0/gypxyN2LyDN?=
- =?iso-8859-1?Q?OZlGnHV44s8svJKcHGP69O1nCm83patl9QxskOehDmuGy96b4qJ2CggMmz?=
- =?iso-8859-1?Q?/I2lnGvUH3LYTyYU6twnBavZMekIcubjxF15h3cXV+m0XnTQ9wTGMBl6oA?=
- =?iso-8859-1?Q?gVPXWGUDFLkUw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?btMU43Oxs66zfZMwG2iwi2p+IkmnU6jGaOvUESrQjnjIs7Dkw/ISl6fVMW?=
- =?iso-8859-1?Q?q0K4FPVPQZmYZY1LvNPUOyC+0R50MxF+8Y8QmU5v2/ohYPxhgp+s7PG2YB?=
- =?iso-8859-1?Q?GrCeHHg2GZslMJUQ+awwpDDYuodkMb9qNyfYhhvD/vyOq/se6HrTJEwyJQ?=
- =?iso-8859-1?Q?PN+Va4UASE74uXGARABQKwrzv4RMHgdu7PXFCKzDksrYF0WKWlOxaMkfpe?=
- =?iso-8859-1?Q?bHnzreCZrS5w15z6VeTWesAhQeAm9NFyD0rfIqL6LAf5UqbDs6zFCh2yVE?=
- =?iso-8859-1?Q?AFEIciJzKOxYYVi5Yn12qd0sM10peQBRNcXw1xUF4A5UatuCP5uAQULL53?=
- =?iso-8859-1?Q?oJI7IZG15cLsunAVBjCuva2Mwng8Hke0OCi4rovkSUAFTGyj2DTp4tAz4Q?=
- =?iso-8859-1?Q?PiNpvcciTSs+EvTaom5t84yeEzqIYXu2AQp1PQghZOzQzaq8bAZWN2oOPC?=
- =?iso-8859-1?Q?wVKj9SRWHUxeLmJKBaGBPGp8/72wEahrvDsYLkbVaVwInCRT3T1KSzzfWa?=
- =?iso-8859-1?Q?YFyXZnjVodT2PvD32OROn8DCJvZ2eo4gWdhsDj8JvYjhwrlxQQqcHm3Pjp?=
- =?iso-8859-1?Q?RCIXO8cz8aGt8b+yDH9oI7Dwq+FhYCbII0s0Vij4gPxnnvLcZ4/J2b1K+o?=
- =?iso-8859-1?Q?Z40oCyHjrSwfMIqutWF8QKlBpmkkQL/nIJCE/qn4WmjxZg/nPsROZ7OAXL?=
- =?iso-8859-1?Q?psF9BJypVHo37AVFIIgoheOcjwtwd0Nw22+PQYdJ9OzZkaaJ+1LpLeKxmd?=
- =?iso-8859-1?Q?n9V2vyX80PKhDu1wjqbGDU7TCFOmlC7/RQ6uB5jQI5jIJQ+Ga8tLzqQFPH?=
- =?iso-8859-1?Q?mx6kFm1TIGuJofXJtM17OzLCCynrP700OAKVfrvxWvSvS0/4MYxHiE8K4Q?=
- =?iso-8859-1?Q?luZY3N1OQxtwWmttzBBsrXLQS1mR3NiawTQ3ceGL1K3mvUJbvgArBe4Bte?=
- =?iso-8859-1?Q?A1o2tcTxtVVzHqZF7vKG7U7jMjryP8e3tHX8JOdCFVtBoRbdds5U68nD5w?=
- =?iso-8859-1?Q?1bv9y8ZYULe18692R12csM0K/GHuJUoiewA05pqkAwgkI7TpnmsBRo5dgs?=
- =?iso-8859-1?Q?LVFQ/1alQBEt1NWcro4DYufpgA2nUQLOA3I8HuzlzLFFvlqUBsDV7rw1ub?=
- =?iso-8859-1?Q?yRi2DMzC5jg0V2J7Q95LEusMk9yBrnYN9aTBzcNSXSFCXwgRp4cQ147HMk?=
- =?iso-8859-1?Q?u5NWbsfKmZRsM/XZ/acgbjVzXrIC95EjzzWv05hluuUegr+A9COoZPva2z?=
- =?iso-8859-1?Q?KnQWahIJuNuWaaxSgTiPhK4ANwePS0LkRuFPngQkVF0Sy1BQ3YYT9uFUOO?=
- =?iso-8859-1?Q?K/e9PWeLicRLV0zGCPGU8HmipEH5WTX1Ld+P9OZb1pU/d2+ZotxBYzWw7I?=
- =?iso-8859-1?Q?XyHYEuvjBrk9CJwXx8INGioKK5tDCumqbNaPEvFkazjj7SCcQHRJzcBtJv?=
- =?iso-8859-1?Q?+Bhfyh2dioIicrZ9ymNFSlF7o62FPMqGhB3PxjOSRZa7lJaeeS3edr3qNV?=
- =?iso-8859-1?Q?E1f0qSFOHsAeSuAmSCJtl8m7ceqamNO2EmHyLKu6x8cDAJdImuSxPKFYFG?=
- =?iso-8859-1?Q?1KcTxjYkH8xMI1JDIWmYjT1Bf45mtSzeRiAp/nkcHaTKRWCLQZUijCg2q+?=
- =?iso-8859-1?Q?vZ8NaV2TT0ZMbXJ16bFt7oxLNhcuCPiKmlHc61MPS+6IXy+BmlMKyNMqIl?=
- =?iso-8859-1?Q?uRCfQEQwXi7/vHqHOSOea0BDvkLY6ZBtepisB6uSYpaa0UQyw37sDdNAlK?=
- =?iso-8859-1?Q?QeOc/zfTA6QSyHVi4K2AhNpHh39iuFr+TV9y6TYzVcmeFIOxfs3/+xKVx+?=
- =?iso-8859-1?Q?ljqNKPyFezPUdkhK+wTwE8iqkHz5hkU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93c22738-8460-4b5c-e7ad-08de7047669b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 06:15:10.1575 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ABsF4U8mCcH+xN9+nIOYQd8bnXR5EbGQLQCgwfsrddzJZ7XzgE/WRtusF3619p0FyyF1ySaRclNSayb1/JjHlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8783
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ua6ewpauwabzyf4srnawqz6znsvrzkkl75zwqhpxk4ltdnzvj6@dkntys7skfan>
+X-Proofpoint-ORIG-GUID: Usef3zW5HBjpGPJG-71N2UgwmPCq9gsJ
+X-Authority-Analysis: v=2.4 cv=dqzWylg4 c=1 sm=1 tr=0 ts=6997fe0a cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=Kz8-B0t5AAAA:8 a=i8Grg5fijvnERB4Ir38A:9
+ a=CjuIK1q_8ugA:10 a=1OuFwYUASf3TG4hYMiVC:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=RuZk68QooNbwfxovefhk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIwMDA1NCBTYWx0ZWRfX0sjmNvf61+Ss
+ d5uMpxlWnWeREvhve/Ws9tO+ZRZ8gM5gow9FDvypQfII2HXeYa4qUVFVnsQl67LlLf/XY80oeAX
+ 7wy8nMfKgn0Z08XV5NEFN+G+D0G2tQcQHgjbBGoO5eF/xnGcJTTf61pQJ8slcwTEs27/hmSVU0N
+ kwhImO8jqB4s9wNk019KZxnk6ysHoEgM7APe20RgSvHhlkrnppXHBwhFpdRzvM6Mt6sZy5p1n58
+ IZXUVV4SOPfrye3SA5aOTiymBO58xJ2uQZtKsH8MCGHEXFkH1QVjy0MZBe59+yZIVfQKLoWM9wF
+ vGnz0FNon07jUP0ApcZDXuM3SqqZKcMgvXRmc9Qm81wjeBV7f4+vjQyF3ULVQ4vnJDJPuZGu8tL
+ /Z8AnZSIMn25zuziv1Dbk23O3pUyZLhKHYNJKxSnn4Je4PwkDmrbeAkquTrei6uCIB2KswrdSKm
+ Mroo1fhs+Wstsyoa18Q==
+X-Proofpoint-GUID: Usef3zW5HBjpGPJG-71N2UgwmPCq9gsJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-19_06,2026-02-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602200054
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,271 +157,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,lontium.com,lists.freedesktop.org,vger.kernel.org,oss.qualcomm.com,qti.qualcomm.com];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,lankhorst.se:email,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email,lstrano-desk.jf.intel.com:mid];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:syyang@lontium.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prahlad.valluru@oss.qualcomm.com,m:vvalluru@qti.qualcomm.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_SENDER(0.00)[vishnu.saini@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vishnu.saini@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 8EC8B164E85
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,hu-vishsain-blr.qualcomm.com:mid,0.0.0.1:email]
+X-Rspamd-Queue-Id: ED2B6164F24
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 05:55:21AM +0000, Satyanarayana K V P wrote:
-> drm_suballoc_new() currently both allocates the SA object using kmalloc()
-> and searches for a suitable hole in the sub-allocator for the requested
-> size. If SA allocation is done by holding sub-allocator mutex, this design
-> can lead to reclaim safety issues.
+On Sun, Dec 28, 2025 at 04:20:46PM +0200, Dmitry Baryshkov wrote:
+> On Sun, Dec 28, 2025 at 05:10:39PM +0530, Vishnu Saini wrote:
+> > Add bindings for lt8713sx.
+> > 
+> > Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
+> > Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
+> > Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
+> > ---
+> >  .../bindings/display/bridge/lontium,lt8713sx.yaml  | 101 +++++++++++++++++++++
+> >  1 file changed, 101 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
+> > new file mode 100644
+> > index 000000000000..0a6dc56e337c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
+> > @@ -0,0 +1,101 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/lontium,lt8713sx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Lontium LT8713SX Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0/DP++ bridge-hub
+> > +
+> > +maintainers:
+> > +  - Tony <syyang@lontium.com>
 > 
-> By splitting the kmalloc() step outside of the critical section, we allow
-> the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
-> the initialization step that holds reclaim-tainted locks (sub-allocator
-> mutex) operates in a reclaim-unsafe context with pre-allocated memory.
+> Is he/she aware of this?
+>
+yes, Got the confirmation in email for upstreaming. I will add him in CC in next patch. 
+> > +
+> > +description:
+> > +  The Lontium LT8713SX is a Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0 converter
+> > +  that integrates one DP input and up to three configurable output interfaces
+> > +  (DP1.4 / HDMI2.0 / DP++), with SST/MST functionality and audio support.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - lontium,lt8713sx
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  vcc-supply:
+> > +    description: Regulator for 3.3V vcc.
+> > +
+> > +  vdd-supply:
+> > +    description: Regulator for 1.1V vdd.
+> > +
+> > +  reset-gpios:
+> > +    description: GPIO connected to active low RESET pin.
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          DP port for DP input from soc to bridge chip
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          DP port for DP output from bridge
+> > +
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Additional DP port for DP output from bridge
 > 
-> This separation prevents potential deadlocks where memory reclaim could
-> attempt to acquire locks that are already held during the sub-allocator
-> operations.
-> 
-> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
-
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Maarten Lankhorst <dev@lankhorst.se>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> 
-> ---
-> V7 -> V8:
-> - Add missing sa->manager=NULL in the error flow in drm_suballoc_insert()
-> (Matt)
-> 
-> V6 -> V7:
-> - Dropped R-B to review again with the new changes.
-> - Dropped drm_suballoc_release() which was introduced in this patch.
-> (Maarten).
-> 
-> V5 -> V6:
-> - Renamed drm_suballoc_init() to drm_suballoc_insert() (Maarten).
-> 
-> V4 -> V5:
-> - None.
-> 
-> V3 -> V4:
-> - None.
-> 
-> V2 -> V3:
-> - Updated commit message (Matt, Thomas & Christian).
-> - Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
-> 
-> V1 -> V2:
-> - Splitted drm_suballoc_new() into drm_suballoc_alloc() and
-> drm_suballoc_init() (Thomas).
-> ---
->  drivers/gpu/drm/drm_suballoc.c | 106 ++++++++++++++++++++++++++-------
->  include/drm/drm_suballoc.h     |   6 ++
->  2 files changed, 92 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
-> index 879ea33dbbc4..dc9bef3c0419 100644
-> --- a/drivers/gpu/drm/drm_suballoc.c
-> +++ b/drivers/gpu/drm/drm_suballoc.c
-> @@ -293,45 +293,66 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
->  }
->  
->  /**
-> - * drm_suballoc_new() - Make a suballocation.
-> + * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
-> + * @gfp: gfp flags used for memory allocation.
-> + *
-> + * Allocate memory for an uninitialized suballoc object. Intended usage is
-> + * allocate memory for suballoc object outside of a reclaim tainted context
-> + * and then be initialized at a later time in a reclaim tainted context.
-> + *
-> + * @drm_suballoc_free() should be used to release the memory if returned
-> + * suballoc object is in uninitialized state.
-> + *
-> + * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
-> + */
-> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
-> +{
-> +	struct drm_suballoc *sa;
-> +
-> +	sa = kmalloc(sizeof(*sa), gfp);
-> +	if (!sa)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	sa->manager = NULL;
-> +
-> +	return sa;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_alloc);
-> +
-> +/**
-> + * drm_suballoc_insert() - Initialize a suballocation and insert a hole.
->   * @sa_manager: pointer to the sa_manager
-> + * @sa: The struct drm_suballoc.
->   * @size: number of bytes we want to suballocate.
-> - * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
-> - *       the argument is provided for suballocations from reclaim context or
-> - *       where the caller wants to avoid pipelining rather than wait for
-> - *       reclaim.
->   * @intr: Whether to perform waits interruptible. This should typically
->   *        always be true, unless the caller needs to propagate a
->   *        non-interruptible context from above layers.
->   * @align: Alignment. Must not exceed the default manager alignment.
->   *         If @align is zero, then the manager alignment is used.
->   *
-> - * Try to make a suballocation of size @size, which will be rounded
-> - * up to the alignment specified in specified in drm_suballoc_manager_init().
-> + * Try to make a suballocation on a pre-allocated suballoc object of size @size,
-> + * which will be rounded up to the alignment specified in specified in
-> + * drm_suballoc_manager_init().
->   *
-> - * Return: a new suballocated bo, or an ERR_PTR.
-> + * Return: zero on success, errno on failure.
->   */
-> -struct drm_suballoc *
-> -drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
-> -		 gfp_t gfp, bool intr, size_t align)
-> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-> +			struct drm_suballoc *sa, size_t size,
-> +			bool intr, size_t align)
->  {
->  	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
->  	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
->  	unsigned int count;
->  	int i, r;
-> -	struct drm_suballoc *sa;
->  
->  	if (WARN_ON_ONCE(align > sa_manager->align))
-> -		return ERR_PTR(-EINVAL);
-> +		return -EINVAL;
->  	if (WARN_ON_ONCE(size > sa_manager->size || !size))
-> -		return ERR_PTR(-EINVAL);
-> +		return -EINVAL;
->  
->  	if (!align)
->  		align = sa_manager->align;
->  
-> -	sa = kmalloc(sizeof(*sa), gfp);
-> -	if (!sa)
-> -		return ERR_PTR(-ENOMEM);
->  	sa->manager = sa_manager;
->  	sa->fence = NULL;
->  	INIT_LIST_HEAD(&sa->olist);
-> @@ -348,7 +369,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
->  			if (drm_suballoc_try_alloc(sa_manager, sa,
->  						   size, align)) {
->  				spin_unlock(&sa_manager->wq.lock);
-> -				return sa;
-> +				return 0;
->  			}
->  
->  			/* see if we can skip over some allocations */
-> @@ -385,8 +406,48 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
->  	} while (!r);
->  
->  	spin_unlock(&sa_manager->wq.lock);
-> -	kfree(sa);
-> -	return ERR_PTR(r);
-> +	sa->manager = NULL;
-> +	return r;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_insert);
-> +
-> +/**
-> + * drm_suballoc_new() - Make a suballocation.
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate.
-> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
-> + *       the argument is provided for suballocations from reclaim context or
-> + *       where the caller wants to avoid pipelining rather than wait for
-> + *       reclaim.
-> + * @intr: Whether to perform waits interruptible. This should typically
-> + *        always be true, unless the caller needs to propagate a
-> + *        non-interruptible context from above layers.
-> + * @align: Alignment. Must not exceed the default manager alignment.
-> + *         If @align is zero, then the manager alignment is used.
-> + *
-> + * Try to make a suballocation of size @size, which will be rounded
-> + * up to the alignment specified in specified in drm_suballoc_manager_init().
-> + *
-> + * Return: a new suballocated bo, or an ERR_PTR.
-> + */
-> +struct drm_suballoc *
-> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
-> +		 gfp_t gfp, bool intr, size_t align)
-> +{
-> +	struct drm_suballoc *sa;
-> +	int err;
-> +
-> +	sa = drm_suballoc_alloc(gfp);
-> +	if (IS_ERR(sa))
-> +		return sa;
-> +
-> +	err = drm_suballoc_insert(sa_manager, sa, size, intr, align);
-> +	if (err) {
-> +		drm_suballoc_free(sa, NULL);
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	return sa;
->  }
->  EXPORT_SYMBOL(drm_suballoc_new);
->  
-> @@ -405,6 +466,11 @@ void drm_suballoc_free(struct drm_suballoc *suballoc,
->  	if (!suballoc)
->  		return;
->  
-> +	if (!suballoc->manager) {
-> +		kfree(suballoc);
-> +		return;
-> +	}
-> +
->  	sa_manager = suballoc->manager;
->  
->  	spin_lock(&sa_manager->wq.lock);
-> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
-> index 7ba72a81a808..29befdda35d2 100644
-> --- a/include/drm/drm_suballoc.h
-> +++ b/include/drm/drm_suballoc.h
-> @@ -53,6 +53,12 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
->  
->  void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
->  
-> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
-> +
-> +int drm_suballoc_insert(struct drm_suballoc_manager *sa_manager,
-> +			struct drm_suballoc *sa, size_t size, bool intr,
-> +			size_t align);
-> +
->  struct drm_suballoc *
->  drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
->  		 gfp_t gfp, bool intr, size_t align);
+> Why do you have only two output ports here? The datasheet documents
+> three ports.
+Currently using only 2 ports in rb4 main board, 3rd edp port is in mezz board.
+Will add one more port in next patch.
+> > +
+> > +    required:
+> > +      - port@0
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        bridge@4f {
+> > +            compatible = "lontium,lt8713sx";
+> > +            reg = <0x4f>;
+> > +            reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
+> > +
+> > +            ports {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +
+> > +                port@0 {
+> > +                    reg = <0>;
+> > +                    lt8713sx_dp_in: endpoint {
+> > +                        remote-endpoint = <&mdss_dp0_out>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@1 {
+> > +                    reg = <1>;
+> > +                    lt8713sx_dp0_out: endpoint {
+> > +                        remote-endpoint = <&dp0_connector_in>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@2 {
+> > +                    reg = <2>;
+> > +                    lt8713sx_dp1_out: endpoint {
+> > +                        remote-endpoint = <&dp1_connector_in>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > 
+> > -- 
+> > 2.34.1
+> > 
+Sorry maintainers for delay in update on lt8713sx driver and dt series.
+I was on travel and than went on leave for a couple of weeks. Will be dedicately work on this now. 
 > -- 
-> 2.43.0
-> 
+> With best wishes
+> Dmitry
