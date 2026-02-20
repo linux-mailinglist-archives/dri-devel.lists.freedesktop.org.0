@@ -2,123 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wDcFHGY8mGnbDgMAu9opvQ
+	id UEFQGcRUmGmSGQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:50:14 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 13:34:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D848A167051
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 11:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B896916782D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 13:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12BFE10E221;
-	Fri, 20 Feb 2026 10:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D89F10E35B;
+	Fri, 20 Feb 2026 12:24:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="EyRMYhJL";
+	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="aCAOLCUb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2373110E221
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 10:50:11 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-43638a33157so1805130f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 02:50:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771584609; cv=none;
- d=google.com; s=arc-20240605;
- b=AGnVOQ1coMagITh3RAsFt9Q2Xx5/JLH4tA1SlHd/IfnEvfGkvoUlhrxtvcBCfxFwCK
- Gode8U/5XmSN8uWiFFQ24U2wJbVjSATQLP/ckPtXoDwPLqXYpdq8XcM3j4ynjHySQRLr
- IUDqGgy7vfYeRULMybpoAIq8azyEKEJJmLKWAv5KXxFW91H937jSC9ki+5+bzG4py/Ly
- 4JybTjxINFAE06X9dPwomei2c9Uw8ZsZQ/fr4IJBQr5N35RBJCKaus5y7dHdV28M22OU
- gmksDWt4+Eg4gtc5fF4MPtqjGeVKWI+oiJxqwAbVLBTsX5HtaPKUwaA7ZeRrybt7AYcT
- MdCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
- fh=KW5LONcyrclHegWxvMjM+2ml9TPFyBdY2IlHw7HkDZ4=;
- b=KNN6wZAOSdTeYkGs4aLGdD1qayBHImL+EsqDC5+sgvqqBHYJIo59d1M+uYAT7kM1pQ
- cd0/jgaO1ue5e5vrVI4Q9RZx80mzdaYI1NyjrIRHzfWXGBPdIUODKasUvPjDEdKXXd8v
- mFM7olzYmgkJ8iWyPCLdP/RujBFVWy+TpMJO0rJlpSwzpJF0LWnkb6IOL99NyHgJlyMn
- svqBst7FYAW0TqYOztuxy6RP40TF0I4ySNLqDxV0lAz7KWrY4rbkgMK3+pNAX/2WCH/k
- yyT0SgERf/qD4JfECamfgKCspID6TT2G1qj6IPXTn0OzFRBFZrqW/f6856MZatqxEmfC
- 0ixA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1771584609; x=1772189409;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
- b=EyRMYhJLlT3FLYecXx5D0iCH3kNExPYQ/0ciVK3s2uEkqlhnrKnoMQkCMGzwgJYHVK
- j1brVnmIq/nQXRPUJ+XCvxTLgHFjqNz/n10OVk9Kn5zJMpdFc7Y0FWnO0FMbpAuaSWAk
- BUEv+yGjiWfTli8re5rV+jldU9H3CTELSF6ctJZ+9lIC6vzOM3xHA9YmWTsd/F43KN5K
- moSSXahJMiQnggmD2tD0oF0veknzij41zSEf6gHenK292F+mKMH6JfWdVcr/CSnp5MAz
- XFRb8qSprDQTYSO0cUbq6uY9FSYAirB++AiWm54OCuOrlmmwToWXeiVaMZ90e4uToipW
- laDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771584609; x=1772189409;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=UAf0+WPiEFSXz/CCPkkC3DmUlSyhmOoTBssum21ipoU=;
- b=nIXZ6mBYY6UGucvFs7AUzSV9YAbgfhBkcZP+Ss1nAbSlTogn9TczKKVXGTKRekbmyB
- 5J8Up3WGYbnYNFheBu9jPT4/pYPPiqjTiilwwzvYsUtGOYUDm46itpfHv+kDIiZCnp4b
- PB+FRicf+Jzl1EWcRuaZcREzZAS78adGxtGFM8sk3SrwUcsdzLadewXSHhCEJvePB7w7
- LFHVXJPQyuX3VYoaUbQS3cx7/3EKCrkTLmJprQgt+8+2YMz5jz2R/YID6TKSZKtkap7v
- jjVVuVBAhw8Xyl8441vvJQfiTCQGD5DwFWg9cqv6sBwuCdQb7Q+6PtRXcGC19zvGJKTx
- UTjA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmY2SwYxfVI8DaRSYmfOG5fJmrxP7Zwr7LUBfCc/AHvTl/yU/jlJW4n0hHSv5P82mDzqsFv52q0+s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUsEjlrjnW4UGcvJ+IpECgfCPZ2aHDrHtKQtZ+1PDpAmSExqcI
- kifyr3tf1OyVD/JhYBpVe/gN7EDWMXWTNDBr1q65fKeUI6Xyx143gH+tvRjvJjR7Ol5U5dAftTg
- 48bS5I4iR7hjbFDoKZvRPD+P5NkaCr7KsboFGJWJA
-X-Gm-Gg: AZuq6aKEytnDMkdoVpwMGJJ68lV3RwLqPQncMi7S6AvDe+w4IerCQUAsl9GiYKzlNGV
- bd1D2dSmYI4fHPvO81WBuuSEpnWxyY4qziIGI5SZ1Z7h9WSgw0Q7w013Ba1UGgBZP5ml0ZfrrtR
- 8/Klf6FZ82VKda0d7K8jnM7Zp1zTPz5GgFcvFXNShmiOgj9rFxFhouFBRADnA6Bt3zxf/wWgzxF
- qJMdSZmlfmwVwEwRx8bdHI5gMyguJ8UkLodgObTm8Oo4MW10YhVHiVpOT33mUcshLP2Ow1XhPa0
- EYSpD+yYJAqt99G4nQ5nT9blT/jbDTWEHJ6UAA==
-X-Received: by 2002:a05:6000:2409:b0:435:95c9:6895 with SMTP id
- ffacd0b85a97d-43958e00ce5mr15101201f8f.18.1771584608836; Fri, 20 Feb 2026
- 02:50:08 -0800 (PST)
+Received: from lankhorst.se (unknown [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4794E10E1A8;
+ Fri, 20 Feb 2026 12:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+ s=default; t=1771590272;
+ bh=h8gesliv2aJhuiBkLG/BT/6Z3Rk89daisOe021JD1A0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=aCAOLCUb5QadOcugreIqGg29CYem9i6wqgO3WTp3qTrXawR/Fnrd+7NvUtzLjcvWd
+ 7v45qAEC1BUC6YeD87K3b3eJ0eeEf1EqeTMZ9CFNeEfb87lC5TniPZGqykEbSUlpPI
+ SrOberbcPT4CvOoKJS/aXR4+uxH9gzP9YfChg+qSafeJgrkubFIUPakF6cKjaePyrC
+ m9CAxxczh4UdaKKjBjZ/SWD1W5IV1y/jtuK4L3/qG/AbkVhuM4WhUyxX7cfVo1dWdx
+ kqd33/io+VOfogWFlDnncf8yCNtVU7YLBTS7/CDfP6fHPeDzDipZpC323/WXRN93A/
+ k53yz87vuxARA==
+From: Maarten Lankhorst <dev@lankhorst.se>
+To: intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <dev@lankhorst.se>
+Subject: [i915-rt v6.1 1/1] drm/vblank_work: Add methods to schedule
+ vblank_work in 2 stages
+Date: Fri, 20 Feb 2026 13:24:25 +0100
+Message-ID: <20260220122425.97902-2-dev@lankhorst.se>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260220083657.28815-27-dev@lankhorst.se>
+References: <20260220083657.28815-27-dev@lankhorst.se>
 MIME-Version: 1.0
-References: <20260220-unique-ref-v15-0-893ed86b06cc@kernel.org>
- <20260220-unique-ref-v15-3-893ed86b06cc@kernel.org>
-In-Reply-To: <20260220-unique-ref-v15-3-893ed86b06cc@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 20 Feb 2026 11:49:57 +0100
-X-Gm-Features: AaiRm525n9TXR47KvplRQPUHuuUwgU5iN4_ng3kUHWK8LN9TrQcHulfhA1IhjZ4
-Message-ID: <CAH5fLggNjCZ3AvHnhO8O0cmd33B3zMbfq+hhNvonznTsLLtgYw@mail.gmail.com>
-Subject: Re: [PATCH v15 3/9] rust: Add missing SAFETY documentation for `ARef`
- example
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
- Serge Hallyn <sergeh@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Igor Korotin <igor.korotin.linux@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
- linux-pci@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,95 +59,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [8.69 / 15.00];
+	URIBL_BLACK(7.50)[lankhorst.se:mid,lankhorst.se:dkim,lankhorst.se:email];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	BAD_REP_POLICIES(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:boqun@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:oliver.mangold@pm.me,m:igorkorotinlinux@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
+	R_DKIM_ALLOW(0.00)[lankhorst.se:s=default];
+	GREYLIST(0.00)[pass,body];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,gmail.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,google.com,vger.kernel.org,lists.freedesktop.org,kvack.org,pm.me];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[lankhorst.se,none];
+	DKIM_TRACE(0.00)[lankhorst.se:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[dev@lankhorst.se,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.462];
+	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,pm.me:email,collabora.com:email]
-X-Rspamd-Queue-Id: D848A167051
-X-Rspamd-Action: no action
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lankhorst.se:mid,lankhorst.se:dkim,lankhorst.se:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B896916782D
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-On Fri, Feb 20, 2026 at 10:52=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
-l.org> wrote:
->
-> From: Oliver Mangold <oliver.mangold@pm.me>
->
-> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
->
-> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> ---
->  rust/kernel/sync/aref.rs | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
-> index 61caddfd89619..efe16a7fdfa5d 100644
-> --- a/rust/kernel/sync/aref.rs
-> +++ b/rust/kernel/sync/aref.rs
-> @@ -129,12 +129,14 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
->      /// # Examples
->      ///
->      /// ```
-> -    /// use core::ptr::NonNull;
-> -    /// use kernel::sync::aref::{ARef, RefCounted};
-> +    /// # use core::ptr::NonNull;
-> +    /// # use kernel::sync::aref::{ARef, RefCounted};
->      ///
+In case of vblank evasion in intel/display, it's necessary to
+perform some work in advance, so the critical section will always run in
+constant time on PREEMPT_RT.
 
-Either keep the imports visible or delete this empty line. And either
-way, it doesn't really fit in this commit.
+By preparing all the work in advance, the part that needs to finish in
+constant time only has to write a single variable instead. This allows
+PREEMPT_RT to keep the interrupts disabled at the most critical part,
+without completely reworking all locks to be raw spinlocks.
 
->      /// struct Empty {}
->      ///
-> -    /// # // SAFETY: TODO.
-> +    /// // SAFETY: The `RefCounted` implementation for `Empty` does not =
-count references and never
-> +    /// // frees the underlying object. Thus we can act as owning an inc=
-rement on the refcount for
-> +    /// // the object that we pass to the newly created `ARef`.
->      /// unsafe impl RefCounted for Empty {
->      ///     fn inc_ref(&self) {}
->      ///     unsafe fn dec_ref(_obj: NonNull<Self>) {}
-> @@ -142,7 +144,7 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
->      ///
->      /// let mut data =3D Empty {};
->      /// let ptr =3D NonNull::<Empty>::new(&mut data).unwrap();
-> -    /// # // SAFETY: TODO.
-> +    /// // SAFETY: We keep `data` around longer than the `ARef`.
->      /// let data_ref: ARef<Empty> =3D unsafe { ARef::from_raw(ptr) };
->      /// let raw_ptr: NonNull<Empty> =3D ARef::into_raw(data_ref);
->      ///
->
-> --
-> 2.51.2
->
->
+Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+---
+I had a small bug where I set armed = true for drm_vblank_work_schedule_disabled(),
+fortunately found by CI. Fix it to ensure work is delayed correctly.
+
+ drivers/gpu/drm/drm_vblank_work.c | 106 ++++++++++++++++++++++--------
+ include/drm/drm_vblank_work.h     |  12 ++++
+ 2 files changed, 92 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+index 70f0199251ea0..6acb240b9c112 100644
+--- a/drivers/gpu/drm/drm_vblank_work.c
++++ b/drivers/gpu/drm/drm_vblank_work.c
+@@ -54,7 +54,8 @@ void drm_handle_vblank_works(struct drm_vblank_crtc *vblank)
+ 	assert_spin_locked(&vblank->dev->event_lock);
+ 
+ 	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
+-		if (!drm_vblank_passed(count, work->count))
++		/* READ_ONCE pairs with WRITE_ONCE in drm_vblank_work_enable() */
++		if (!READ_ONCE(work->armed) || !drm_vblank_passed(count, work->count))
+ 			continue;
+ 
+ 		list_del_init(&work->node);
+@@ -86,30 +87,8 @@ void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank)
+ 	wake_up_all(&vblank->work_wait_queue);
+ }
+ 
+-/**
+- * drm_vblank_work_schedule - schedule a vblank work
+- * @work: vblank work to schedule
+- * @count: target vblank count
+- * @nextonmiss: defer until the next vblank if target vblank was missed
+- *
+- * Schedule @work for execution once the crtc vblank count reaches @count.
+- *
+- * If the crtc vblank count has already reached @count and @nextonmiss is
+- * %false the work starts to execute immediately.
+- *
+- * If the crtc vblank count has already reached @count and @nextonmiss is
+- * %true the work is deferred until the next vblank (as if @count has been
+- * specified as crtc vblank count + 1).
+- *
+- * If @work is already scheduled, this function will reschedule said work
+- * using the new @count. This can be used for self-rearming work items.
+- *
+- * Returns:
+- * %1 if @work was successfully (re)scheduled, %0 if it was either already
+- * scheduled or cancelled, or a negative error code on failure.
+- */
+-int drm_vblank_work_schedule(struct drm_vblank_work *work,
+-			     u64 count, bool nextonmiss)
++static int __drm_vblank_work_schedule(struct drm_vblank_work *work,
++				      u64 count, bool nextonmiss, bool armed)
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+ 	struct drm_device *dev = vblank->dev;
+@@ -139,6 +118,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 		rescheduling = true;
+ 	}
+ 
++	work->armed = armed;
+ 	work->count = count;
+ 	cur_vbl = drm_vblank_count(dev, vblank->pipe);
+ 	passed = drm_vblank_passed(cur_vbl, count);
+@@ -147,7 +127,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 			     "crtc %d vblank %llu already passed (current %llu)\n",
+ 			     vblank->pipe, count, cur_vbl);
+ 
+-	if (!nextonmiss && passed) {
++	if (!nextonmiss && passed && armed) {
+ 		drm_vblank_put(dev, vblank->pipe);
+ 		ret = kthread_queue_work(vblank->worker, &work->base);
+ 
+@@ -167,8 +147,82 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 		wake_up_all(&vblank->work_wait_queue);
+ 	return ret;
+ }
++
++/**
++ * drm_vblank_work_schedule - schedule a vblank work
++ * @work: vblank work to schedule
++ * @count: target vblank count
++ * @nextonmiss: defer until the next vblank if target vblank was missed
++ *
++ * Schedule @work for execution once the crtc vblank count reaches @count.
++ *
++ * If the crtc vblank count has already reached @count and @nextonmiss is
++ * %false the work starts to execute immediately.
++ *
++ * If the crtc vblank count has already reached @count and @nextonmiss is
++ * %true the work is deferred until the next vblank (as if @count has been
++ * specified as crtc vblank count + 1).
++ *
++ * If @work is already scheduled, this function will reschedule said work
++ * using the new @count. This can be used for self-rearming work items.
++ *
++ * Returns:
++ * %1 if @work was successfully (re)scheduled, %0 if it was either already
++ * scheduled or cancelled, or a negative error code on failure.
++ */
++int drm_vblank_work_schedule(struct drm_vblank_work *work,
++			     u64 count, bool nextonmiss)
++{
++	return __drm_vblank_work_schedule(work, count, nextonmiss, true);
++}
+ EXPORT_SYMBOL(drm_vblank_work_schedule);
+ 
++
++/**
++ * drm_vblank_work_schedule_disabled - schedule a vblank work, withoug enabling
++ * @work: vblank work to schedule
++ * @count: target vblank count
++ *
++ * Schedule @work for execution once the crtc vblank count reaches @count.
++ *
++ * The vblank work will not be scheduled until drm_vblank_work_enable() is called.
++ * If the crtc vblank count has already reached @count, the work will still
++ * not be scheduled until the first following vblank.
++ *
++ * If @work is already scheduled, this function will reschedule said work
++ * using the new @count. This can be used for self-rearming work items.
++ *
++ * Returns:
++ * %1 if @work was successfully (re)scheduled, %0 if it was either already
++ * scheduled or cancelled, or a negative error code on failure.
++ */
++int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count)
++{
++	return __drm_vblank_work_schedule(work, count, true, false);
++}
++EXPORT_SYMBOL(drm_vblank_work_schedule_disabled);
++
++/**
++ * drm_vblank_work_enable - enable vblank work
++ * @work: vblank work to enable
++ *
++ * This function is specifically only for when drm_vblank_work_schedule_disabled() is
++ * called. It allows for the work to be armed in any context, without any locks.
++ *
++ * The work will be signalled earliest at the @count argument, if it has been passed,
++ * it will signalled at the next vblank.
++ *
++ * This is particularly useful for PREEMPT_RT, where the spin_lock is converted
++ * into a sleeping rtmutex, and vblank evasion requires some work to be
++ * scheduled on completion with interrupts disabled.
++ */
++void drm_vblank_work_enable(struct drm_vblank_work *work)
++{
++	WARN_ON(work->armed);
++	WRITE_ONCE(work->armed, true);
++}
++EXPORT_SYMBOL(drm_vblank_work_enable);
++
+ /**
+  * drm_vblank_work_cancel_sync - cancel a vblank work and wait for it to
+  * finish executing
+diff --git a/include/drm/drm_vblank_work.h b/include/drm/drm_vblank_work.h
+index e04d436b72973..e19351200da24 100644
+--- a/include/drm/drm_vblank_work.h
++++ b/include/drm/drm_vblank_work.h
+@@ -47,6 +47,14 @@ struct drm_vblank_work {
+ 	 */
+ 	int cancelling;
+ 
++	/**
++	 * @armed: If false, the work item has been added to the
++	 * drm_vblank_crtc.pending_work list, but will not yet be signalled.
++	 *
++	 * Call drm_vblank_work_enable() to fire on next vblank.
++	 */
++	bool armed;
++
+ 	/**
+ 	 * @node: The position of this work item in
+ 	 * &drm_vblank_crtc.pending_work.
+@@ -64,6 +72,10 @@ struct drm_vblank_work {
+ 
+ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 			     u64 count, bool nextonmiss);
++
++int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count);
++void drm_vblank_work_enable(struct drm_vblank_work *work);
++
+ void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
+ 			  void (*func)(struct kthread_work *work));
+ bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work);
+-- 
+2.51.0
+
