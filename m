@@ -2,95 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iM21MH53mGlrJAMAu9opvQ
+	id cLbaNcV3mGlrJAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 16:02:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 16:03:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE2D1689A2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 16:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DDF1689D4
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Feb 2026 16:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A7AE10E809;
-	Fri, 20 Feb 2026 15:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961B610E7FF;
+	Fri, 20 Feb 2026 15:03:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mfiM0Jys";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JGIGWlbi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B6E10E809
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 15:02:14 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id
- ada2fe7eead31-5f52ebff12aso69654137.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 07:02:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771599733; cv=none;
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
+ [209.85.222.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A221610E7FF
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 15:03:30 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id
+ a1e0cc1a2514c-948b5faf377so83376241.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 07:03:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771599810; cv=none;
  d=google.com; s=arc-20240605;
- b=YWnpiVf01Un529GyqojN8082u37fKVZRdx4GoWeP/+tEi4C7g98sHVNorztx/3t3hN
- OG6QQySXNOo7ThIOjU6OukWjHxtvf8LqKV9HxM3iBfgTFfqKzijAHxlrGwqHv6LJvIMC
- eZdU5Gg7k80zyrSGVDAYmswjFVpqW2ua++0QpZ2dgbJDuiwkpFpnlaaahYqlNCj3EWta
- /X6NZ0bbt4JQTtQaWcCLXeaoFoKbGn/cyU4s87RmKRtD/x/1Nb3OEfEFTk93h486IASm
- PCvHtLm1eNoaGVmBbfTYWOYI1ShRWNhusNHEeHNBlog9VrJs/xTTwaJMURRU7KzsbI19
- GLnQ==
+ b=c8zyQqSL2C8Js8WUArtBVEyUHFCgsmxlruGuAvU1dfQptdCIkrqPGTO9EYwGB/zVN5
+ 2yDTYf9Usqg1bSZeSpRod6sRnonZpLhZlKWb+MGL9+vp0w9rSkGtTGXLtqfyLWZ0g529
+ 8TO9n56bSGAq1CQBA5fXf4Z7zYJtuhtDN0f4yFCef1kUMfgrMF8D7Uk9bzjNYxqyAaHv
+ yydHzSaVfRiQIDLQane6Q6pS1TRP/8OUpXQcqu7eWPt1cU/WJp87IXYPnz29DkG1H97a
+ 2CcXY8DsfJJgwGDMjlV6GgA6bXvDB8gyoLiRXoil5G2NsA3lIk08og0hSjigugZVGF4w
+ WqiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature;
- bh=LXf8ZAEWmgK4CVNigc0TPHiOo/zpIdTw7aieRuqY3F0=;
- fh=Jo9r5b06WjhfClaDt2lD5OVWFY91XBSqwJPcNMQvpK8=;
- b=iqWLMHhiIOpfOCyFKhIQa7RKq0UjaC/GqxQaUoOqDP6V5egLeTua5TmnxVHVjzGX5Q
- jTOLypJa1mKkBxMrJiZSNyU8O2UV9FrXJpm56bxIw0w4xO/+E/JzpK6JPvjN+2igbOGz
- e0eS82mgBYI83vlydZ3Da5wsW7VjSi69RrOThI+0xtq/prmwzCUNQOQDoQe/VBh4IIqx
- bJ6WriTIXFJDiHpPR/DnIYEx0qATQWS4cPWezW4qRkUfdx25NHHh7f3snLMGoC+lmuc9
- BtGM6ECfnt+j2HnJx57TAsKBNcLqEhRe/lUKvJoljbk7/QAsV4KvyARH4yPiyuZj4D2q
- jOZA==; darn=lists.freedesktop.org
+ bh=Odg/Bm82TvOBrG+gqcQac8dhCg7ncUD3MQyHzmQJP2w=;
+ fh=9BRX9ZDY115nQeNkjSa3xAo/kHfuYXmgiYKE9aLbjfI=;
+ b=BOEUBQH0Yx4LZty0ZzASLXfC6Qn7CgCpoYQaPz0+WFg5i7fFeiQVDKFkjltSX+jX1P
+ 0RgjW5QjK6S3COum45yJuErOE2+g7zNwD7OULBmNb79oWoiFcHnMfv9vdfwiIIrsTm/9
+ D/0yPNf29MkDAGXpL2KegL6uYgom3q/8WzkzIw3zI3WzJTaT7bveKDNI74qityJVBDbw
+ exGlU0CynvBOe1t2t8WuXfapYcrfyXYXdja2+LbN/rjLkTQM8Z5xYPdlr0PShSUN9saT
+ No1JiV62TYe+ukERnm/nXC9KGR++B3QwLbc21yfafsZwqzTkfRtFIcfyl0msyOzRRhFf
+ SAww==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1771599733; x=1772204533; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1771599810; x=1772204610; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LXf8ZAEWmgK4CVNigc0TPHiOo/zpIdTw7aieRuqY3F0=;
- b=mfiM0JysEEJjp3HY6g5E3f1CbIhvXCqXYoc4JOIunu+0FMQRZbdJQR9wDVCADcA3SO
- vPAY4ZHDJOcLgwUmyorAZML8aviYXES2Oq8fURr8Ll/6NKMkXosgpKbCWHdeqQQAnzXB
- f9o/Zui+QT+UoAwCY3I7tU4osItScFyDqdm0NwMXCzWlZ2onrIHUebPeyYFMpEN9RFX8
- Nr00SeguC+NerV6I+DIACZS020peb8FnxxLDs+EfpYYqlh1+lAS8aobJ3b1IhrEMJCzD
- BiGQimFbIZ2+MCpiyfweXjgjl8tzTO4N9gJpAdL/1OGsk8r2AAlgwMBTUew5X+MLP1sw
- 3hzA==
+ bh=Odg/Bm82TvOBrG+gqcQac8dhCg7ncUD3MQyHzmQJP2w=;
+ b=JGIGWlbigYVCp/pSVjiY8N5DUHBVrn7QBHYXlOZoriitKGwLxBFrwBmG0WCB1kqXRn
+ EG/V7txy+9DcIeq6uU5LwhphYTSI/womf91lwSw+erPJ3aPsG2/h9+UNfr4DVKV+HFZ9
+ z+LajxUCut3yhnoRAu346QNp9TeFLkt1INsbkgoWnqb/fPvjf4Ovsfm0uxUk9LQV3DFz
+ l2RzIrIo2aIBRsT5SnB6nbV2NPUlKAwsnhGKv5Egz+Z+tmtIGdaouQKLkbQf9NvBM8Zo
+ JDnJNhG5219mZN7ILJwxjKMFkkWZR51EZvowCBUF2RPu6GAZoJSAsJN4dqTHEqdpfciK
+ EPRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771599733; x=1772204533;
+ d=1e100.net; s=20230601; t=1771599810; x=1772204610;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LXf8ZAEWmgK4CVNigc0TPHiOo/zpIdTw7aieRuqY3F0=;
- b=IPmnJilV/bv6Q7rDszOQclNJ1UABIyJdmRMbwqrXxIx6lEnwvpgeK7GfdrG1NgN8Hc
- LNoAWLkCNZ4kiT8RFD4qbXF0elLpz1LBzfX5ro+kkR3keHwKwbD7V1BFdKzs9WVkk7z/
- r2X36L0fwxnGpPKkxlz5LCrSz5fYVPBm5MENh1SHi4+jGQ64BGkrzWZFDPFZvgL6u0Sa
- T7kFdERj4VTszYE17WH8jaWvoBvhXEc5CS1SeHXIRzRXuyq0TOR3MfWDnRJVzxTwxM7o
- S9p+UVu63OKqkGQUAXzTuYSfNCo/N4Y3LnA8nqnwEqE/xOwbpmsFgvpCZVNysKkKzhot
- AOeg==
+ bh=Odg/Bm82TvOBrG+gqcQac8dhCg7ncUD3MQyHzmQJP2w=;
+ b=mOgjoGCCMBCn91TWhcrB+LqJRiA9QrJxamlE5YwowW+A4sEcP2myiughQHgazDSPZB
+ lUdH8LZqSsiQzLZAH88Qj6N7Msl+qz1F1EF5k0+gdoQQIJ3pvlqFhddcO7HcWnVDje7U
+ oA1CMq/5A8aL5pi21GnBpo1OP8oTJbmxRaK8HwxR5FakqUSg/svUgwJWjfZMddJvPJai
+ LTiO37orxDFQhyEFtKgtrhSXI0+VUX3/h3ka85Y5Ckmjn1ltpx3eagmkYH38c4aXLOCI
+ U4+1+HzhVcA+Gop1LsO4VyqCYAfAv2hI0nuh2lFQmWytkvoswREGJMXYb8pSr06lRdbK
+ wFTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURnM1WNp/xzPOoRwXtigBUC3Ftwm63R6xr+Tucv4yA1/Tr2y5UZOpTMwMsiahKT/XSCnSBKAVeiDM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhPGkvgFxjmLbFG0rA3/O+xWEqYNSsdVBQWt+QVw86Nv91/Dh7
- N/6V4UoSuA0cJn9xCoXgnYT0W5qRTRQWKC3wgD/PwUZ/X2HEvbtN4Vvx92nYBnA9DUStagREnn1
- 1Y92YZnB+MkN57BlkWqPXnK4l//bL0ZO7Ky5kkgm79Q==
-X-Gm-Gg: AZuq6aIUrHuRgQTNNYbZmQdF8Wz4PHtqy6s62LMvgpw5XecUh+0O9C1vipRlqDFq0m7
- btnsUFU3VTZmZ0culFbpl1dSDfxJGVmbmanY38EZtGNNPuimSoWH2TbHmr6RzjXaqW+gFFp0IcZ
- pzuqlv7rtKF7N9c/dHYKydfSDxw5QgS+4ruf/mFMZc0HS6VAcoVycGa2XeLfNr9V+Nsb2GNA0LY
- LMTWO6wZAtE4zsq1p1NWgHTR9YlCfUOhTOCQMmjSYvG3vn/4cTtA47OTSlruv+NJaywRrTBlko/
- Aknv8SAOSqwsT/4C
-X-Received: by 2002:a05:6102:3708:b0:5db:cc92:26f3 with SMTP id
- ada2fe7eead31-5feb2fdf403mr24006137.3.1771599732103; Fri, 20 Feb 2026
- 07:02:12 -0800 (PST)
+ AJvYcCUoeTh1qdlDlN7qKCSxxJoGtcTwhmCXLqlPDK+Bvvbtg/5QCef/TV55GUIcZ67i2cBPJ2/ZIRBgMUw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8EutBEauczyZ2nsedvhgdQc/WnBn46Cn0b6lKGDTQs8LJ2W8R
+ nCNqpzY2+u4spAicoRagEeGW/WCMsYxHh9lSPMHCR0tWZuQ2gbc2m3oni/p+fxCUM3TBDCW7QWo
+ 5Y1Wmck1hLJDsM5QRzR3nZDg29jCF+yXUciYHB9snAw==
+X-Gm-Gg: AZuq6aKXhT4nJ3qgOyk5oXOvL2c0Jyb2j/aXprkYKieo8ARPNqjSKcoOn/aknfSRuDL
+ T6cuyNsyK7pi5HTG3jpgmIZYtN0fkb2v+RqXU7zArULF7AMItnxutq/kek8/+qQusbrFufETRaN
+ xhD5kMy72s9KUcvq0f9fbmXoXyVyXgmaCgJvyu5sEuqohugPqtssKkFYORoQ6DCoedOQd9RKV1b
+ 2Tb9g5bQkS5ZFynGZ6mS5HJCXZFO8uOiGTfHFue6w0h26t5IFLd0ehQ8gT89IzNlDS13MoVek+H
+ wdP58cKs8vmbNMX+
+X-Received: by 2002:ac5:c7b4:0:b0:568:8fbe:a0e1 with SMTP id
+ 71dfb90a1353d-5688fbead67mr3316529e0c.1.1771599809389; Fri, 20 Feb 2026
+ 07:03:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20260218-ethos-fixes-v1-0-be3fa3ea9a30@kernel.org>
- <20260218-ethos-fixes-v1-2-be3fa3ea9a30@kernel.org>
-In-Reply-To: <20260218-ethos-fixes-v1-2-be3fa3ea9a30@kernel.org>
+ <20260218-ethos-fixes-v1-3-be3fa3ea9a30@kernel.org>
+In-Reply-To: <20260218-ethos-fixes-v1-3-be3fa3ea9a30@kernel.org>
 From: Anders Roxell <anders.roxell@linaro.org>
-Date: Fri, 20 Feb 2026 16:02:00 +0100
-X-Gm-Features: AaiRm507TwY53z6SEbXXZGFXg2qFlKrcfRU4p5GNQPv27asHtT9MeyWluCzW-TU
-Message-ID: <CADYN=9LFdrDzE-k_QcPtgYt=RBSaS5r7AA_HD2i3eg4MRRVR_Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] accel: ethosu: Fix NPU_OP_ELEMENTWISE validation with
- scalar
+Date: Fri, 20 Feb 2026 16:03:17 +0100
+X-Gm-Features: AaiRm503LMZuKmUZCmPaIFqOMB4DTBLKNsXTQv1BSlK7kwkNgXFqppgxvOrsFCo
+Message-ID: <CADYN=9KcLBmchj5hZnQoOD7P3L+ek+F2OR3bnN4edkYUMAtByA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] accel: ethosu: Handle possible underflow in IFM size
+ calculations
 To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Frank Li <Frank.Li@nxp.com>,
@@ -130,53 +130,62 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[linaro.org:+];
 	MISSING_XM_UA(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[anders.roxell.linaro.org:query timed out];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[anders.roxell@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:email,linaro.org:dkim]
-X-Rspamd-Queue-Id: 6CE2D1689A2
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,linaro.org:dkim,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 43DDF1689D4
 X-Rspamd-Action: no action
 
 On Wed, 18 Feb 2026 at 23:22, Rob Herring (Arm) <robh@kernel.org> wrote:
 >
-> The NPU_OP_ELEMENTWISE instruction uses a scalar value for IFM2 if the
-> IFM2_BROADCAST "scalar" mode is set. It is a bit (7) on the u65 and
-> part of a field (bits 3:0) on the u85. The driver was hardcoded to the
-> u85.
+> If the command stream has larger padding sizes than the IFM and OFM
+> diminsions, then the calculations will underflow to a negative value.
+
+Nit is "diminsions" -> "dimensions"
+
+> The result is a very large region bounds which is caught on submit, but
+> it's better to catch it earlier.
 >
-> Fixes: 5a5e9c0228e6 ("accel: Add Arm Ethos-U NPU driver")
+> Current mesa ethosu driver has a signedness bug which resulted in
+> padding of 127 (the max) and triggers this issue.
+>
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
 Reviewed-and-Tested-by: Anders Roxell <anders.roxell@linaro.org>
 
 > ---
->  drivers/accel/ethosu/ethosu_gem.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/accel/ethosu/ethosu_gem.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/accel/ethosu/ethosu_gem.c b/drivers/accel/ethosu/ethosu_gem.c
-> index 473b5f5d7514..a735f860a119 100644
+> index a735f860a119..d1169001c83d 100644
 > --- a/drivers/accel/ethosu/ethosu_gem.c
 > +++ b/drivers/accel/ethosu/ethosu_gem.c
-> @@ -417,7 +417,10 @@ static int ethosu_gem_cmdstream_copy_and_validate(struct drm_device *ddev,
->                                 return ret;
->                         break;
->                 case NPU_OP_ELEMENTWISE:
-> -                       use_ifm2 = !((st.ifm2.broadcast == 8) || (param == 5) ||
-> +                       use_scale = ethosu_is_u65(edev) ?
-> +                                   (st.ifm2.broadcast & 0x80) :
-> +                                   (st.ifm2.broadcast == 8);
-> +                       use_ifm2 = !(use_scale || (param == 5) ||
->                                 (param == 6) || (param == 7) || (param == 0x24));
->                         use_ifm = st.ifm.broadcast != 8;
->                         ret = calc_sizes_elemwise(ddev, info, cmd, &st, use_ifm, use_ifm2);
+> @@ -245,11 +245,14 @@ static int calc_sizes(struct drm_device *ddev,
+>                         ((st->ifm.stride_kernel >> 1) & 0x1) + 1;
+>                 u32 stride_x = ((st->ifm.stride_kernel >> 5) & 0x2) +
+>                         (st->ifm.stride_kernel & 0x1) + 1;
+> -               u32 ifm_height = st->ofm.height[2] * stride_y +
+> +               s32 ifm_height = st->ofm.height[2] * stride_y +
+>                         st->ifm.height[2] - (st->ifm.pad_top + st->ifm.pad_bottom);
+> -               u32 ifm_width  = st->ofm.width * stride_x +
+> +               s32 ifm_width = st->ofm.width * stride_x +
+>                         st->ifm.width - (st->ifm.pad_left + st->ifm.pad_right);
+>
+> +               if (ifm_height < 0 || ifm_width < 0)
+> +                       return -EINVAL;
+> +
+>                 len = feat_matrix_length(info, &st->ifm, ifm_width,
+>                                          ifm_height, st->ifm.depth);
+>                 dev_dbg(ddev->dev, "op %d: IFM:%d:0x%llx-0x%llx\n",
 >
 > --
 > 2.51.0
