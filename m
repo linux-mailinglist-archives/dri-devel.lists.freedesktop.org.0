@@ -2,98 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8N55KolImWklSgMAu9opvQ
+	id SKHkBvZImWk+SgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:54:17 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:56:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B2D16C39D
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A0F16C3B6
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41AD710E122;
-	Sat, 21 Feb 2026 05:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BFD10E12D;
+	Sat, 21 Feb 2026 05:56:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hlViucer";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A1cMOCoR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D396110E122
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 05:54:14 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-65a2fea1a1eso6103684a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 21:54:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771653253; cv=none;
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC0CD10E12F
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 05:56:01 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-b8845cb5862so456082466b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 21:56:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771653360; cv=none;
  d=google.com; s=arc-20240605;
- b=hmrUHKENAz4wYyk2+wpdvxcQQb5uisTnt+asiVMNc90/8h8tHb0ws5kKZbX2JGjcgm
- QTHV/wXZ0+WTTlYPswRqcaPE0SRQVk5/aQQiznZt0sEhdFDz5CPJAqYA90FWYL5ltiio
- FyeEvpD+zqvyLoiszAgpvIrnxU6VXg5kol46VBrspeYRKbeROgjBN5Q4YZCnKTJrqeE7
- NYiOBLj+k0G+43mSKFuTcFRVMZag0ocV2FKfXVOQMmYGGUnC0jf23TkJtaj2cnh2PswX
- D7dawn8tWJ2Q4WDDkDgOwB1v5j2ZlM+XTr/jb+vks4J/cLxB5tvI1UbLqNyWYyhFhSGq
- SDIg==
+ b=XIulxt8eDscMo2UFGSzbmKy2Wtphu6LECTbgtEAIW4j/46fLz1p4VU3SKSjtKkGkCa
+ 8eclgsPrZnq/inSK9R8UNX1vpq+14UDOUOHDPUt4H37I2+n/3wh8TaMnPDSOXf+8p3rr
+ NWqpQd8i3jkVse/eKOGrnoN/u1cLmSQAIHioHI15l+Isygps6PZqwPzNVMuNyPMwAzIi
+ jMiHjDPQCsSHPbc6j/LZTOob0S3p20ELBFMI7Kb6KeeYO6LfO+71zpMSLBJ746go3XZR
+ WkFUpD4dS5OtE1FsFukSsdAuSGHzdH1l+OVT5fx+pnQSDc4yMycjX5Y1ov2fGWUP4A31
+ RB5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=+tgY/mGK3l60LP3OprA602wtr51m0b3f7apbXmR/PtQ=;
- fh=BuIq5nVURTQoKlMsUlshzRGw7yaU9LHEL/jVTWBFLWQ=;
- b=X3xZEPvy7fasCZmZvBeIVcvc/VSizocNZgnImX86wFhsZpVkr3YVGsjUcV7dYvIpEB
- 34Pa6Hghg+RFdYmVhFkK0+pK9KnyiRRRIDb0WVyGaafI5P06tgfyt75wYaKVpB/cPwdc
- BvYqVAjxB1gh4ZUJq8FC4qb3QIr6D+CIF0oMii0ipdek6AEmC2R72HiYGb9GbJ0GeSGh
- 3THJzFHfnp89WCzJOoEs9BdulIe0sXPd0+u0LyWsHOst9yvf6b6Xzn1menWkMzZEfHH7
- NF0SKjvO0XB3DyDOTYOMJjx3lDjACK01JPTMoRwof94aBoEpTQ8+tVh/57n9QH/6BPRF
- vN7A==; darn=lists.freedesktop.org
+ bh=Ccv9mwt6mLX9xX+lxZglunKn+JwfoIDQEFEaLtcrLyQ=;
+ fh=Z7O4r+lNe8Zwe+DFaR+JEgbJmf1BQoHWr/ddOqQphvk=;
+ b=SQlwwwRpgLzuhXsJE8DLEJZ4MT0OSlkpP10Ttkye6n0OFd87WWXDSehK6aH7FFhigT
+ Zlz/HFlwGFCZLY2vipK5ZKvw8u/d+2rKY5VTcdXybwArWgtvF4p0Lmt+XxV/dM0wjd7J
+ AjDXYBTO9cCAcqzl/Nc7b53+qZc/861nDU4ofUXJMO7/hQL6vN68aq1cMXf25TfkeWxV
+ dapcHZLmO06drZ8FGkPlLK+lO9hNmT3eVOe3fBqGnRQxv3z5UkjV2Rf7vQN0mHi8quR4
+ eH+ol22/XA+2BWsitSFyfJRj2yV9K5rw/7r8DvAnNkQSzrQkOcgLE8gQQiy/t6d6CKAt
+ N+7w==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771653253; x=1772258053; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771653360; x=1772258160; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+tgY/mGK3l60LP3OprA602wtr51m0b3f7apbXmR/PtQ=;
- b=hlViucerc0uSByJ3zYHnh701eKX1M8CB/pdL8drrX71B+IYIndKuMzbA0QgHqhU28n
- MYYRSIr76F+QVsyz4N/AcfhctuceUwoj5GMEtnMquOPpqpnUrnMuHfR1zrI/p9LbFnTw
- xzeKmHMG+DG7it8ztLPY4QvQ4g+mB9asT0T1n+D5k79EusK/C2k/Ns1dyLT0HX4gmjUF
- 3gLq8FZCZAaY3R6m8EaAUZGCAEZCMg/sYttl/aieEG6q9AsJEnTysvdOhzniIsuASGj7
- iYzeMEapPuP0OR9EdrPp5X2qJ3vMPDPQfj0IxhuWax5ct7CklLmfMBVn8aRnr9GycFYN
- jvBw==
+ bh=Ccv9mwt6mLX9xX+lxZglunKn+JwfoIDQEFEaLtcrLyQ=;
+ b=A1cMOCoRjBnQsBmsQeR/sta1GgHoX5V7AV5+DHynhrx9By4p4p5T/8jyfUlc1lpCi9
+ huiE85MBSarpYBcO59rkMM7YTviOo2EPyx4MT7svmLTFxT5Fp1e4naqAXvXYagi3qKsS
+ T7yzvAVwU9R8nwESAG2rsB1uTv0Y3MmS2JC6nE0f5vHrEUd85JUdx+C0ID2HEdHGWWkO
+ eGv6Be3WmutYTH9hjfbU691NDzM+xE5sYGzXil+CcWTLy1y5Smjo6Bf4qGOZryASAvcy
+ U42WM3BlKtxxV6JazURouaLly7syrkU0X5I5nWzIwttClb8ZP2oIDu7bTg/Ey/z0xddq
+ k66Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771653253; x=1772258053;
+ d=1e100.net; s=20230601; t=1771653360; x=1772258160;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=+tgY/mGK3l60LP3OprA602wtr51m0b3f7apbXmR/PtQ=;
- b=KQ0w2ci+xhR2LtQuA2w5/+SXFKSQxYr7LFiVlh7VKBEEQIK3glwx1c9N0o2PS1EkR6
- 8Wx8qtxRhQUa7em6okMLmUJdhFzPX4gEbJKsV/SYpH3wgV4wJ2eZC2CxB1O2LdJWFKit
- TjcYz5THOWA7EJNCo0EKrILc/vUpuTFZO3h6cb17xr5VRdmvOWXGpGLenneHZnArSzJz
- NLFhAKqptDBadexb5p9HpG73/0tWdisSvD1GCJv8IVjoZw941TnTiXLYPRHWjzxU8m8i
- acE0nRO0N3LZmOI9iS9RPtfcmsL+tWtl63BriZmMEdbY1WliqdNmYogmALWy+WgMTwZY
- P0Vw==
+ bh=Ccv9mwt6mLX9xX+lxZglunKn+JwfoIDQEFEaLtcrLyQ=;
+ b=trVwZxltCrh+4Bn2CGMzUtE8KMwMokwkg/gVHaTeJL4nW2t4qBHPemi0wop7T2fjv9
+ ys4Pa8UPezv4MuC7w5Yj8JKlv1YVgOPHa2TrDJ6/dEIAnifJDEhqHDZXjI5d34ep81rX
+ bjvu5o3fErtfHwZjqIBNCuRu7GI7NXoH1tKVOoQUNFgPdXwdu8kf+NiSdE0jJGiohLS3
+ znF8EhP5G3iP/Y7Q1GOj43Ys3xxdJjsCAwh0ZUfHR/WFWk8DUcFIJnDVsjFWoEB9KBD3
+ dFmO4BknK+up70kPXu9A/z6CBCS+SMFF8UAwEn8Qw8WRQFh3Mr461xEY0d3/BaNJ+vee
+ Ps3w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqV6Kw9feTAOotWpvMSy8vR87I49uqcYl68Ys6Q4h+GwxKsK7FgowWtpt+YAPoQjGIj8LYajG3beM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyn/EhJRSBjQVlTw4TKU4/tYyvPD7OQCVrDxEarhYkgARTe7YJ4
- yPhTEUndxixrDPGOz+/wuGZptuPc8FZb9jS67YORcotR5o7ETtSbTdwM7nGEFX9L0ZMsfFef19l
- afQG7a1gz2vAZCSSwtDTwA5EatDh0Tt4=
-X-Gm-Gg: AZuq6aK8UpaQK1GBXV94w6X+pvlWdBE9oDIb/sxaFA8+UXowmRFAqvFAwMtwuUNxIi9
- fdQ/7NEGXRJv3XP+YMWoC7JYxOrZrjGo2gG/D4Prw3dnj5XXenbNmm3DzANmYNRq1XPWzsD1iPm
- /rDnzvrlWO3gkMm+zr0rpiROKumPgfy0J0ZX/q9KVGij0yf9mNz0BMAwBYZLK58qMP8AYp9/KEe
- l7530JDKxI7kxDO75p5M5J/zRq8nmbTlAOORmwt/7W2MXxkn2667SWVJEUgXVlGLmKOOUOLqUsQ
- YaWosjaWyjt814CaBqEMMugJLwk5pyNFY2J3OiOv9AsU/SYXIGcR67dLty+VjTNRHKC1m2Coh3t
- H7JnnfQ==
-X-Received: by 2002:a17:907:728e:b0:b8a:e013:9c5b with SMTP id
- a640c23a62f3a-b9080ec254fmr125502166b.4.1771653253038; Fri, 20 Feb 2026
- 21:54:13 -0800 (PST)
+ AJvYcCUvTlfM+Psgt1N7Xwlf2Nxyml2+Wmn4xR8d4b0YT8gWLFP/tHNlC6Km8i3Wz/NJASAerKO+Ff9A4kE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzjc2YXF57ksD84QxUFohLSC5XqGp4t524QzCqN6QsBYN5YMH8B
+ xz/Qpow5z98eemsBbYj1nDrbqfgK8mk0rkq7SjnVfAALxQhDH8cZ+D1URJzOz7n4WTxzDexhMSe
+ 0UsJoajyjFr5QMoN9B1PMImcf2+aniRY=
+X-Gm-Gg: AZuq6aI6wv6YMR2rEO4FoqOwHHbBmMZLqXQOoqsCsA5mSssGLZ6xmokwB+nJhjYGJ5B
+ jcb7WYJt0zkB8Ve5YXYFiVBRxOvUCg8s2dMAvWVuoACilMZEdcz06BO8MzSPkhtexrTBSWeP9ct
+ H0AxWKtjpvE4HgvaOWoDmlD+OynT/2NQO32YwdC+NX6qrso1yhkRzfGrdE4e13mu39nP9z2u5Au
+ jEMgUsEZB4L7aur9E/1dwHenT7za5dmU8eRLTN/RBWbn4BFRM/HaoTZdk7chBof2xubbcd73njm
+ AwMs7X5+Nwuwmk3V/oH7Pj4yLUs8xzkm/2R1EZYxbA5XwqJ/9+V7AXAp1JLIgQZCROXdl9JjyOv
+ 8qzyMZQ==
+X-Received: by 2002:a17:906:fd85:b0:b86:f558:ecc0 with SMTP id
+ a640c23a62f3a-b9081b4d0ecmr105154766b.29.1771653359889; Fri, 20 Feb 2026
+ 21:55:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20260221034402.69537-1-rosenp@gmail.com>
- <20260221034402.69537-2-rosenp@gmail.com>
- <2026022132-gem-stylishly-2c49@gregkh>
-In-Reply-To: <2026022132-gem-stylishly-2c49@gregkh>
+ <2026022126-calculate-matador-e7bd@gregkh>
+In-Reply-To: <2026022126-calculate-matador-e7bd@gregkh>
 From: Rosen Penev <rosenp@gmail.com>
-Date: Fri, 20 Feb 2026 21:54:02 -0800
-X-Gm-Features: AaiRm51WLD1sxY9MNhXBFSAsYS9PctRSAkLeekgnCI2YpU7VawQg_l6hW2FQy2s
-Message-ID: <CAKxU2N8g+BRzyZ=5dWjrL3Eb4zRz-_yfv29tfJL2uvJpZWZUcw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Revert "drm/amd/pm: Disable MCLK switching on SI at
- high pixel clocks"
+Date: Fri, 20 Feb 2026 21:55:48 -0800
+X-Gm-Features: AaiRm52sd4wHVH4fvoty83VydXFtxyvYUG7iNjF0rTjocALxFyz7eMIIRUKgihM
+Message-ID: <CAKxU2N_+88yrYYv6B+VMSkSgpVBBBFiHo1e_yXV6FWX-bLw9nQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] 6.12 and below: amdgpu: fix panic with SI and DC
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: stable@vger.kernel.org, Kenneth Feng <kenneth.feng@amd.com>, 
  Alex Deucher <alexander.deucher@amd.com>,
@@ -152,23 +150,29 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linuxfoundation.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 16B2D16C39D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 71A0F16C3B6
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 9:40=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+On Fri, Feb 20, 2026 at 9:41=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
 > wrote:
 >
-> On Fri, Feb 20, 2026 at 07:44:01PM -0800, Rosen Penev wrote:
-> > This reverts commit d033e8cf4e8f6395102cdbc3cb00dc7cb9542f53.
+> On Fri, Feb 20, 2026 at 07:44:00PM -0800, Rosen Penev wrote:
+> > The first commit is needed for the second one to be reverted cleanly.
+> >
+> > The second breaks DC support on my AMD 7750. Kernel panics and I get a
+> > black screen on boot. With these two reverted, 6.12 is usable again.
+> >
+> > Tried to git cherry-pick the fixes but that proved to be difficult to
+> > do cleanly.
+> >
+> > I see 6.6 also has these two commits.
+> >
+> > Not sure what the proper procedure is to request reverts on stable
+> > kernels.
 >
-> Why?  You need to explain why you do something, not just what you are
-> doing.
-Not sure how to specify that it's a requirement for the second patch
-so that git revert works without problems.
->
-> And this is a 6.12.59 commit, explain, in detail why you aren't wanting
-> it reverted anywhere else INCLUDING upstream.
+> Close, see my comments on the first patch.
+OK. I'll wait a bit before resubmitting.
 >
 > thanks,
 >
