@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SPYhHR4qmWk6RQMAu9opvQ
+	id CNgqGB0qmWk6RQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 04:44:30 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 04:44:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2949F16C102
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 04:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58CF16C0F8
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 04:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9782D10E10E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7CB10E11C;
 	Sat, 21 Feb 2026 03:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M4gOzhY8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gVIYrVXv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F7C10E10E
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 03:44:22 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-823081bb15fso1578574b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 19:44:22 -0800 (PST)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB7510E10E
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 03:44:24 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-82318b640beso1471127b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 19:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771645462; x=1772250262; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771645464; x=1772250264; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rJmFbB3FwMiKYWU/wDkbhYitxVoyIrAuDm/JRU1AydA=;
- b=M4gOzhY8tkMZlqCVXTcNV7sElzvpS36HLc4HSFSeH7zC1tm4pqmYFIuVNLx5e+KCvZ
- 4JCGTU43y9sEmj0wl5Vzq8nL0IcEr/9ifzYMdJiTfPeFgrHETHQuP3ybVwrALXKBfcqk
- hXLwLCQJVPJ1heuqH4nQCZ7LkBK28brpF8vncgbWjQezw0rPHJzqhjnThS8i1bVDloxO
- WqYS0Pms0Tu2+pxqUw4aJBlYAZF2rwKGPmpXTJ+udhfmBVP1cYqnAPAACfVnurXZUYTE
- BIeM9/+uPCb/vG2SdCnOoSYW2PaOPs6oJvyIlOBRSIetQSV1fu3gfTROmU01Dam+x7bs
- XH+g==
+ bh=M8mQ/6om80WOoxF8Tb2IxdKJHO+VtjTLYYsstxqzSHM=;
+ b=gVIYrVXvoDT9QemnysEuaTSz73g0FS0rm9BWadJJTPWwhEK3NbHHv8rRthaZGe4yhn
+ qnIsvhnkGdQJsod/sXgxWQZruxuLVCZvMhRCSqy0XpmKOaSbF4EPja/Tum3aUnAjQMXt
+ PkzWPeBtYvx6zyuyrfmu2+umcWVVblGd2PJ9DoLYZEcep58RlG9zGYp6cOqGK6p79hfh
+ /JgXL9r1OjqIdP6uE7wVMZMEqj6AohPl/7rg3rgjG+lUnYAsJtwMalc22bqVQ4vMNUQI
+ UVbGLXjztDbjY8z3gUsljeQBdlznKICUZ11V9e+kpD3xGLGzp55+Us9eieIltOJSaQLR
+ v76g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771645462; x=1772250262;
+ d=1e100.net; s=20230601; t=1771645464; x=1772250264;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=rJmFbB3FwMiKYWU/wDkbhYitxVoyIrAuDm/JRU1AydA=;
- b=IOIfiTDBUSYJuVS94N9a8ji1dH4bTk40Kw4u8HfU9ZLvQvWfVcOqOUF+y3vYCV4wi6
- oqFkkue3pu6r6KlKsvjOSH8JaeBGEpcIYTZg65DRUbdUwn8e9/88kPFu+ZDf64U8TDXV
- TBIFcbKRbXoVH8Pobqh4pA3jovtnk8/3qGdSSLAu2wP0mgKacJkigdqG/s0c0nBEqXTh
- jw8KXAf4B95cRHCtbbgSLXdpMh3rxs0FhDB8ybO3Q0pESfw8UptnVuekJia5riwBrrzl
- ObTiqKq3oO9/vsyB33/SgsZvBU/zvysJ4mKRtCiSUJsVszMQfqLpBJeBJpeKIHj8Q59K
- Wi/A==
+ bh=M8mQ/6om80WOoxF8Tb2IxdKJHO+VtjTLYYsstxqzSHM=;
+ b=aLS6T9xqxooBNfC63KxrlseAj719b6PzYF18gqTFBwbkIJqduw2u6NsWmHxqqHEJaJ
+ YMIiFEoHbuEuOrpWYawID4aj8zHzRkawBLZIUVZENymJj2dRB8YMbwKKXPKKbX21036Y
+ aemfE1hOwyMDdlxuucvZmCCdYWvGh9eX5+xepV46ZlRhoMOX2VMDMWCa2gL+TdQ8qD8b
+ LcJ1luPjYER2lBRs/VvZA3PGwRBGHGCRWT6tAE95pdcpnKKMWvqMzDHHMziCJgpXKtsr
+ v6r6TnvojKQBqIXWyqCpaSmIVfVglsGZjEb7fMTMb8+zuU7WjW06ry9MpItU8hSV2vFA
+ CUyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMwjYwMLbb7GkI+2fydC4rPPo6TA59dljcmnvyp/StgUPXhTzFSQSuBcxqHPbFc/6py0BrjhfIYKE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0X4MsT14UY7jPmkQfyJL2I98kuBA2E4iAhnC2BW9sKfgtr1Bx
- uF4DSLMcVypbAhP9f7+nWtNSUvugvsurqoHCyFVav0odo7vEP+6n+djk
-X-Gm-Gg: AZuq6aK1fX0L3ZEaqfkKhYdgie03pW3sr/PuN51rpbEH1J3Ck0ognO9ngxdUfEaXVkT
- RFf2xRKNcm/AAaa4JOLPndTF4600VxfDaQqztQ7X9vsUeP1Pa3Um9FHdkHxwAXkRZSJ0QVjmLNa
- 0bmRV44alnr7xZP2uKneOk7pkFXv0BImcVnQudPGXu6p4ps9A1q2xOeKY6vAZAEOgInbiWFtGNc
- RR1rQTHCzuce0g4bsy9AsvaLHu0BBi2N5kB9eXrG6XCOoWzsfhqMyA10ydvuNsiddJdWjoQjelN
- n5KKOj5kCF1iGsFbGC7Fcrcc/Q8MRC3ge6lEuviHKCw/s2GQXQB3OX1Cmif8q1mqpIom63P0mAd
- VoLdSyJi+jjS7wrVA3jPD1sxPS8q5jMJG9kFd4SXI03lPlkGwbrMeGw8rMH2REg02Ozwy
-X-Received: by 2002:a05:6a00:430c:b0:822:682d:2c5f with SMTP id
- d2e1a72fcca58-826da948eddmr1927546b3a.28.1771645462263; 
- Fri, 20 Feb 2026 19:44:22 -0800 (PST)
+ AJvYcCVh4gEersOnvJyIxmXKNLPEIaOF87B6/kxv+TBiIY0n88jncRFchTYxpCbB0Ad8QJywVoxh8+Ws1bk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyfLk3x8b9adkSNOzHqtEELp/6QGL/qI+Z7PyUqmhqEHJGBq+0z
+ cw4kKFWhiOpvKWPjIgzsg2obWZLdjzNVRvJ4N2n3WdWIn4QSMUNNYwFf
+X-Gm-Gg: AZuq6aJT8Rd+K1XRTw6cie33OJ0oKSysFaveRThsQc4LnfcGoGaagtHw5NttV97yLfp
+ I/pJ6+dYMIsykzIk8gomul7UcolI592O3vfRKUbeHhwXBylFOaGtoMA/HYVEMgJZuEdn0kHjoYI
+ HY1f5n+Z3S973v61kthV6H0qTSw0lyVwyOlXMPLcMf8AOeP7ixSkxG1gjlCxw5MQ/6lDqJyN/fC
+ MThz+VPB1axjTgDCt9SocVAy/jR4t+/FdMsrHXHt5EMRCWvkNSPChLKyC4+4JFApbDrnKB/uRxa
+ 8vfj3CGg00EBaHH+dspWUFhIs/Q55zEGvEtsjrHWFyJcUBk7PUvYNNIcP9h/r8T0symo1Yi8nk4
+ A96ugerb2PrAfmTv6LSUc1oiCiAZgOBJxBC0Dx0woEqT31rFSYuMI1qTi+J3VK3DC8FAC
+X-Received: by 2002:a05:6a00:392a:b0:81f:2b25:ca73 with SMTP id
+ d2e1a72fcca58-826daa021c5mr1721717b3a.38.1771645463914; 
+ Fri, 20 Feb 2026 19:44:23 -0800 (PST)
 Received: from ryzen ([2601:644:8000:56f5::8bd])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-826dd8ba11bsm714951b3a.50.2026.02.20.19.44.20
+ d2e1a72fcca58-826dd8ba11bsm714951b3a.50.2026.02.20.19.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Feb 2026 19:44:21 -0800 (PST)
+ Fri, 20 Feb 2026 19:44:23 -0800 (PST)
 From: Rosen Penev <rosenp@gmail.com>
 To: stable@vger.kernel.org
 Cc: Kenneth Feng <kenneth.feng@amd.com>,
@@ -76,10 +76,10 @@ Cc: Kenneth Feng <kenneth.feng@amd.com>,
  amd-gfx@lists.freedesktop.org (open list:AMD POWERPLAY AND SWSMU),
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] Revert "drm/amd/pm: Disable MCLK switching on SI at high
- pixel clocks"
-Date: Fri, 20 Feb 2026 19:44:01 -0800
-Message-ID: <20260221034402.69537-2-rosenp@gmail.com>
+Subject: [PATCH 2/2] Revert "drm/amd/pm: Disable SCLK switching on Oland with
+ high pixel clocks (v3)"
+Date: Fri, 20 Feb 2026 19:44:02 -0800
+Message-ID: <20260221034402.69537-3-rosenp@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260221034402.69537-1-rosenp@gmail.com>
 References: <20260221034402.69537-1-rosenp@gmail.com>
@@ -133,34 +133,81 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 2949F16C102
+X-Rspamd-Queue-Id: B58CF16C0F8
 X-Rspamd-Action: no action
 
-This reverts commit d033e8cf4e8f6395102cdbc3cb00dc7cb9542f53.
+This reverts commit 0bb91bed82d414447f2e56030d918def6383c026.
+
+This commit breaks stable kernels older than 6.18 that are booted with
+radeon.si_support=0 amdgpu.si_support=1 amdgpu.dc=1
+
+In 6.17, threre are further commits that are needed to get the DC
+codepath in amdgpu for Southern Islands GPUs working but they seem to be
+too much of a hastle to backport cleanly. The simplest solution is to
+revert this problematic commit
 
 Cc: Timur Kristóf <timur.kristof@gmail.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 31 ----------------------
+ 1 file changed, 31 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-index 29cecfab0704..05eaa06dfa34 100644
+index 05eaa06dfa34..c4386c86153b 100644
 --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
 +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-@@ -3486,11 +3486,6 @@ static void si_apply_state_adjust_rules(struct amdgpu_device *adev,
- 	 * for these GPUs to calculate bandwidth requirements.
- 	 */
- 	if (high_pixelclock_count) {
--		/* Work around flickering lines at the bottom edge
--		 * of the screen when using a single 4K 60Hz monitor.
--		 */
--		disable_mclk_switching = true;
+@@ -3426,14 +3426,12 @@ static void si_apply_state_adjust_rules(struct amdgpu_device *adev,
+ {
+ 	struct  si_ps *ps = si_get_ps(rps);
+ 	struct amdgpu_clock_and_voltage_limits *max_limits;
+-	struct amdgpu_connector *conn;
+ 	bool disable_mclk_switching = false;
+ 	bool disable_sclk_switching = false;
+ 	u32 mclk, sclk;
+ 	u16 vddc, vddci, min_vce_voltage = 0;
+ 	u32 max_sclk_vddc, max_mclk_vddci, max_mclk_vddc;
+ 	u32 max_sclk = 0, max_mclk = 0;
+-	u32 high_pixelclock_count = 0;
+ 	int i;
+ 
+ 	if (adev->asic_type == CHIP_HAINAN) {
+@@ -3466,35 +3464,6 @@ static void si_apply_state_adjust_rules(struct amdgpu_device *adev,
+ 		}
+ 	}
+ 
+-	/* We define "high pixelclock" for SI as higher than necessary for 4K 30Hz.
+-	 * For example, 4K 60Hz and 1080p 144Hz fall into this category.
+-	 * Find number of such displays connected.
+-	 */
+-	for (i = 0; i < adev->mode_info.num_crtc; i++) {
+-		if (!(adev->pm.dpm.new_active_crtcs & (1 << i)) ||
+-			!adev->mode_info.crtcs[i]->enabled)
+-			continue;
 -
- 		/* On Oland, we observe some flickering when two 4K 60Hz
- 		 * displays are connected, possibly because voltage is too low.
- 		 * Raise the voltage by requiring a higher SCLK.
+-		conn = to_amdgpu_connector(adev->mode_info.crtcs[i]->connector);
+-
+-		if (conn->pixelclock_for_modeset > 297000)
+-			high_pixelclock_count++;
+-	}
+-
+-	/* These are some ad-hoc fixes to some issues observed with SI GPUs.
+-	 * They are necessary because we don't have something like dce_calcs
+-	 * for these GPUs to calculate bandwidth requirements.
+-	 */
+-	if (high_pixelclock_count) {
+-		/* On Oland, we observe some flickering when two 4K 60Hz
+-		 * displays are connected, possibly because voltage is too low.
+-		 * Raise the voltage by requiring a higher SCLK.
+-		 * (Voltage cannot be adjusted independently without also SCLK.)
+-		 */
+-		if (high_pixelclock_count > 1 && adev->asic_type == CHIP_OLAND)
+-			disable_sclk_switching = true;
+-	}
+-
+ 	if (rps->vce_active) {
+ 		rps->evclk = adev->pm.dpm.vce_states[adev->pm.dpm.vce_level].evclk;
+ 		rps->ecclk = adev->pm.dpm.vce_states[adev->pm.dpm.vce_level].ecclk;
 -- 
 2.53.0
 
