@@ -2,61 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aM2MC0UImWn1PAMAu9opvQ
+	id SGpnMSIMnGlL/QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 02:20:05 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:13:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB6216BADB
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 02:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B12F172F77
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0309910E062;
-	Sat, 21 Feb 2026 01:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA91A10E271;
+	Mon, 23 Feb 2026 08:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fvgHkFGM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y69RQlh+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3503510E062
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 01:20:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 055C44436D;
- Sat, 21 Feb 2026 01:20:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87DDC116C6;
- Sat, 21 Feb 2026 01:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771636799;
- bh=s4ZwMshjU59jZ6GkcrhB72j4scqDWUWN8/aZMHMCYvw=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=fvgHkFGM47HRdtm+1Ee6J8gPmaswbAQbykMwcU37TAURIOEn7XFviNbCK8yubCuit
- CP2i6m4Rz8nXMul863Eq089V56fYO61DwLF7LbfgKDz6tuounQYPYsdMHt4hHXC96m
- aG0Go/3RzDoDJKrgWfePe48vy+x63+kHkRpvlO7Se934iI1HwujAONtlUcymKmuLto
- 0CNAtyk8Fngds7OqajN0Zg57oXxzUspl2AskVf5ETszJpp4tuIFuL0bK9jfoCMfLqy
- E1T2j2SUZnfPpNZhRd9h4h2qchfjs3KCk4CnL6JW5xA0fPQCHhDkoC05NxqOjzaedc
- t2RhmbmE/KFEQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- 02D783808200; Sat, 21 Feb 2026 01:20:09 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 7.0-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
-References: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2026-02-21
-X-PR-Tracked-Commit-Id: ae9e8654579709c2f10b8c86a8467e1710d4599f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d4a292c5f8e65d2784b703c67179f4f7d0c7846c
-Message-Id: <177163680763.969912.4315239452770614425.pr-tracker-bot@kernel.org>
-Date: Sat, 21 Feb 2026 01:20:07 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F3410E0F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 01:39:21 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-38706b63929so24593471fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 17:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771637960; x=1772242760; darn=lists.freedesktop.org;
+ h=in-reply-to:references:mime-version:content-transfer-encoding:from
+ :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=VxhPVUyoO3hiTWkFoFkhmqlDhO5q4VD+zDs9agEE6iI=;
+ b=Y69RQlh+tvkaCQ7IigtHgjdBYMJCNp9K4II8BncJo7LeQWQl6ZthX3dIGlw4v63CgP
+ BHGZw5c0vLxIQscrfSpLwzjjOlxDe1OlQm3EoPf/tuyfQBKYPMAP/P09vm0cF7ynTPtU
+ ennFuC/FRg+S8KPybEQNjD2nCyA9ShmyiaSSeqWjP5bkOOyNSyLUhwAkL4/lWMUbnV8u
+ cmBDgp0UmBPW3QUV/neV/Wowti/RQSFkkOGC4doOy+rGtf7AF8ZXdUUtyhhM/c3NhCFp
+ 1TVguOfSxOuM45e/BWbjT4SR0GLYbqOjSiDyGuNq+4BZdqmF230wLfVMuYGvU/ILMiSE
+ 56XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771637960; x=1772242760;
+ h=in-reply-to:references:mime-version:content-transfer-encoding:from
+ :subject:cc:to:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VxhPVUyoO3hiTWkFoFkhmqlDhO5q4VD+zDs9agEE6iI=;
+ b=iUT5tuGy8Sxytmn9QEukp9Eekvd9U+ZgaROf7fQDeun9xxm9g6igb2pVfmhlqm5TW1
+ +MGF7ALGEsglN3yY/o6v4zQms4E9xD/2322/CMH181BtdDLzVcN/uhqvCqVAkhVgN0LY
+ rjVrxUcxKlZtMR/y+9OMhwG5Tqkf1rUYLqpU4Qa7+QQarfh38fClImjUYnrmbytHVnME
+ EGIWq4qpTdnVyU+B9Xg8Av5n70i4ZmWSpkUI5xLIm3JWEG3ke8lyjhYSbZhuUJX+b3jr
+ Nj1nOcqrt9i9KS/zaVWmFMYUuF/zpByU/LmtQoOKVMwT51yGSYULVUaSzSyLp331jit3
+ wuew==
+X-Gm-Message-State: AOJu0YzDPlsKPGR1cFWIpM35xvwcAwpRg1C2Kn0nq7jXXuAa9Y3clbe5
+ GVwlwwonZPHSxSnx7fdSjBeymMNHUIAouwR801G8S8nR6ZboVtjgaFE=
+X-Gm-Gg: AZuq6aJw9YQz59Rgx2mEtHu3qu6becVDGq7egp8J7eHsuRKu/HncfSl+lLp2oaokkhm
+ +wpbyR7yP3kHfYCLoQ7ja0nUuvBVYqnr2DbzuQ5dUIYx6HNAtI4atWrGYh/XMfn5oEN0JDMXvcw
+ imKr+Sj7IIckTLm1UDGX3RHCV8hLjAaYmfCh8Y/z9vAJ1alrxbTXfDB++MFKKoD9sCQ8ZlM7yZH
+ faQWamvNxtNOycrzR3p9BJ7GBHtUp2JGmZrTPm6V+n78ot64hqyRV8ODMcx2W1fPgF48iDnXkcO
+ eIPJXSx08GX5EYMZ2SkREgyrJE2t/Ds2tOzLSf5laVrML8bYsSSjqmvJOHjf0A5nl5jpAT68Jlj
+ UMDnwDQZKkEwnrCHVdiGIyrgDLWE1oc9Slvaj1MMkDdqE0hd4KX9rPdr7pBX5DqU+SbMPtG+S0A
+ pXvgguUvll
+X-Received: by 2002:a05:651c:31dc:b0:386:8f97:d0b4 with SMTP id
+ 38308e7fff4ca-389a5e4cf70mr5274401fa.33.1771637959898; 
+ Fri, 20 Feb 2026 17:39:19 -0800 (PST)
+Received: from localhost ([2a0e:e6c0:20d0:4f00::1d])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-389a78d2326sm1752321fa.15.2026.02.20.17.39.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Feb 2026 17:39:19 -0800 (PST)
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Feb 2026 04:39:18 +0300
+Message-Id: <DGK98QFUDRR2.1RCLDXI8XRBFR@gmail.com>
+To: "Melissa Wen" <mwen@igalia.com>, "Ivan Sergeev"
+ <ivan8215145640@gmail.com>, "Mario Limonciello" <superm1@kernel.org>,
+ <amd-gfx@lists.freedesktop.org>
+Cc: <dri-devel@lists.freedesktop.org>, <regressions@lists.linux.dev>,
+ <mario.limonciello@amd.com>, <alex.hung@amd.com>, <daniel.wheeler@amd.com>,
+ <rodrigo.siqueira@amd.com>, <alexander.deucher@amd.com>,
+ <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <christian.koenig@amd.com>,
+ <huangalex409@gmail.com>
+Subject: Re: [REGRESSION] VRR not detected on a DisplayPort monitor using an
+ AMD GPU
+From: "Ivan Sergeev" <ivan8215145640@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: aerc 0.21.0
+References: <CAKx_Wg7_HBxuq5W4T_AmoFYJGQpa6TAS_Fx9SUzyy1itPmj5Bw@mail.gmail.com>
+ <090d89a2-4f80-44ef-827c-6462d8948493@kernel.org>
+ <DGJFVPAQJA15.378GMU7XZXLU@gmail.com> <DGJGDIRQWDG7.XHHKF6UQP0HG@gmail.com>
+ <c70fe261-7fb0-4af5-b755-f02b193c8c5f@kernel.org>
+ <DGJH30US2XMK.S2HOHR14LIW0@gmail.com>
+ <bed447c7-07a3-46a8-9bcf-da352810883b@igalia.com>
+In-Reply-To: <bed447c7-07a3-46a8-9bcf-da352810883b@igalia.com>
+X-Mailman-Approved-At: Mon, 23 Feb 2026 08:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,51 +105,65 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DATE_IN_PAST(1.00)[54];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:torvalds@linux-foundation.org,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	TO_DN_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:ivan8215145640@gmail.com,m:superm1@kernel.org,m:amd-gfx@lists.freedesktop.org,m:regressions@lists.linux.dev,m:mario.limonciello@amd.com,m:alex.hung@amd.com,m:daniel.wheeler@amd.com,m:rodrigo.siqueira@amd.com,m:alexander.deucher@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:christian.koenig@amd.com,m:huangalex409@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ivan8215145640@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[igalia.com,gmail.com,kernel.org,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[pr-tracker-bot@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ivan8215145640@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.linux.dev,amd.com,gmail.com];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NO_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EBB6216BADB
+X-Rspamd-Queue-Id: 7B12F172F77
 X-Rspamd-Action: no action
 
-The pull request you sent on Sat, 21 Feb 2026 06:53:39 +1000:
+On Sat Feb 21, 2026 at 1:47 AM MSK, Melissa Wen wrote:
+> Can you check if the attached patch resolves the issue?
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2026-02-21
+The patch does resolve the issue!
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d4a292c5f8e65d2784b703c67179f4f7d0c7846c
+There was a problem with my particular setup caused by the fact that my
+greeter didn't have the VRR feature enabled, which made the desktop
+environment take longer to start and the following error messages were
+printed to the kernel log:
 
-Thank you!
+amdgpu 0000:2d:00.0: amdgpu: SMU: I'm not done with your previous command: =
+SMN_C2PMSG_66:0x00000028 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:2d:00.0: amdgpu: Failed to enable gfxoff!
+amdgpu 0000:2d:00.0: amdgpu: SMU: I'm not done with your previous command: =
+SMN_C2PMSG_66:0x00000028 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:2d:00.0: amdgpu: Failed to set workload mask 0x00000001
+amdgpu 0000:2d:00.0: amdgpu: (-62) failed to disable fullscreen 3D power pr=
+ofile mode
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+These errors do not appear without the patch, nor do they appear with
+the patch if the greeter and the DE have VRR enabled (in my case, GDM
+and GNOME Shell respectively). I have not tested the case of greeter
+having VRR enabled, but disabled in DE.
