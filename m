@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id lFS4A0VbmWkCTAMAu9opvQ
+	id +DYxNklbmWkCTAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 08:14:13 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 08:14:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB1116C57D
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 08:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4052A16C58C
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 08:14:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B03EC10E12F;
-	Sat, 21 Feb 2026 07:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6254F10E15E;
+	Sat, 21 Feb 2026 07:14:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mOzMPp9t";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PzjP1EG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1F4210E12F
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 07:14:06 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2aaf9191da3so17272025ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 23:14:06 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1AD610E15E
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 07:14:13 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-2ab46931cf1so23376575ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Feb 2026 23:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771658046; x=1772262846; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6IKOTzapiakFq4HtZzwyVzRQJQvCqcV3Mpo3AQvBCcY=;
- b=mOzMPp9teQPlVIs7jdfib45zfjzFL60FQ9qcsQm6YelAfSEvL1MHV381/M35HpLH+O
- cLvQgRTozWvRVMuS++EZe6B9/3XoJLMfgfSx7wmJFHc3aCqV9c9KUtToMehq9TC/oTfx
- TU5gH2rbH3V3p8Mh88dQ2oH8Dh2iDQOmSM9QlLQViVFhxhVSuLCP/kl2l+I4MhSEzWhp
- mEGRZ5Pq/bPjR9pryij5rnBaBaca4YSDlwJoxvpgXWloyPnmXn02ZGhFXmDboyL8Umnz
- koH2+mTqXpaOAkCHyMPnV/PeUvW6ckJu7WsU2kLb7xTFc8Xq9IZhWw44iKrXJFL5Byja
- wvYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771658046; x=1772262846;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1771658053; x=1772262853; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6IKOTzapiakFq4HtZzwyVzRQJQvCqcV3Mpo3AQvBCcY=;
- b=Xkvy5aTLFWSTN8Muq/Z9Axnr8MIYQUBrjCHirh74dZueILBN2vm0HOutzW/2DWz8rg
- Bzpx9dG5mRV91bRV68QZWtwSGPXDGSLaiLHkHkYf3pln/anCNTYw2sa9K0TLaCuGNamF
- x4g1saE/MvqhrMye3JICZRLwzXpK9D2wShy0Gq7izck7Hb7CI9bFf5Xrlo4NfZpjuBY7
- z+ol/pI9pkXCKp0MdgGnZVv3s1sN+rW5fdTijt2/aID4idCey20ZOfRTEHao7zTFqjuR
- IRTsH85D68NvbkLwVH3XKHAObB1wxIizizoSMVV9qgmKAu0M9l9E8K0knRKeVcvH6RO0
- HBYg==
+ bh=IJY8ZZY4WMcXwGgxq6y3UB/v+Z7nyRkvGlTdnxwP0hk=;
+ b=PzjP1EG119e+3Svyl/WxDOAgeBvvWdK+1pDld28rT75O1LGxTqOSrD+SNoIuM0vAFS
+ fyJQpWAA8zGuYTF3Pt4LOt+w6NJz9RbiVuMzbZoxIMFDZ2DlPbZ2Nbq6aRF7Ty0to2v2
+ G6Bcg0Tt99tBM0wsFYIrnjD9y3XTzUWua1KAroSLOM4icJM2XrYHDUKxhtjqGEIkXs/M
+ S2LAfR80tKmN7HOc2dQaxU9/2lK1GECnaZPAcnlvV8788XlnLQ8iyDPTPA/R2saoVgUD
+ 7hCaLiBO8Xo2zPqfmWL1LkTf3RVSW8tuABgu9MSMSw4h0F9hSmKi7UXShkE0KmtTktr1
+ QTAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771658053; x=1772262853;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=IJY8ZZY4WMcXwGgxq6y3UB/v+Z7nyRkvGlTdnxwP0hk=;
+ b=suTvRx0ISN8E+6fDv827ty1VvbjJisMGsgcOkftAoYDXjJbrhomERYMK5kPYU96JrW
+ pV5LNbo74D/O5oHmxsZjVQggcLEFLRAAvDqulZYe0iWcYmAb3q6AV0cGkoUlhTnZTQ2i
+ fvlognJwIWC4eWlQTgFzES3IlOH+/Oj9zq9j9cnNIOnF+PmgelPqYacFDTwwkNEQRjrl
+ DB0G5qB35UDJfQsmifBTJrcS0bW014q25dztOlgez2Bs11D6Wi/HgEhV2PXqlkZw6etp
+ NgNixOUKGeGUrj+JzmFM5o45gMod/PWUfS6uQCmocsmBId7hoIs3x7smVZXsApPId85l
+ grlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUlioKgt1WW3lN3mr9W7Nve5+DgyDVRJU4QLXfzMSRR1PXobUtdaD2PAI6DTNKhQZPl+ObwHKUeAIY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxd4GJ5MqJ0YzE1bg1u6lUfsmNnhV8YuMqzJ1jiNX6ebEwWK2G+
- aA1YYVbFY1IGc8yFzv8aqgoYYoQuX9PFQZbBbLWxnqeT5fhwLSggh45l
-X-Gm-Gg: AZuq6aL4HlUGHKUPuxJ3hGQ1yCR8pT67x+uKbmUzRoPTSd0oTIaBE1rUrRXVyrV91nL
- +l+eo4t8Jcq7P924hkS8iABwjKvBRTsajCtMVBvuevoEwlwoU/niCjKggUJ1ixTma5u7P15od/X
- WTuJn30SMxsU5cUZNe1aenTz6PpeB1fWsPF5RS9r3WxXgwm1PO5vaiztCvOEh1pMj77UQjdGYu1
- 6A9bXhIgcuKDVPhviC6lZiXF574++fGllbAoPcsNCzBXWqVfkS3fXvBmIfk78m4ZrgMdr+VT8b3
- f0qL/3Fk4pxhBZYD2/tSzjxCsFYR/po3wjs65f73d4xKfXCWKnUX/ikbzqkIHZ1dk/bKHZtaxTF
- OMG1SLwdpIoEZ4DBuKQXhGkchgMufMKN2eGF2XrolJpwJf4B9Lz55aOoiQ8W4UytSAWnwIxe8V4
- 6OQpO/NQ227BMjz+7Nlt8skxC7eNwEUK6cPuUfoeSemA==
-X-Received: by 2002:a17:903:1a2d:b0:2aa:e817:1bd3 with SMTP id
- d9443c01a7336-2ad744e1731mr23124425ad.29.1771658046239; 
- Fri, 20 Feb 2026 23:14:06 -0800 (PST)
+ AJvYcCW8LHWnPSMgV1/v5PskhQdd9qWmoHnr1gZYCIh+zYj6anU44s3sc8dyVGZHbgdqRyLo9THobb6jads=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw50mQCUFHyaeCTii0yqJAC8ltlU3XKKfmw4IT2szDTB23Kmcux
+ oenHgLcN+1IHh+B1blQC6Y/X4WGhRGt/zbbVQFYjTJUbVOuDdJPaFX5g
+X-Gm-Gg: AZuq6aLyF8/VHFvzkaEnndKliCnx7RaqKVXxJTps/11r9tezNtLuHCQfZbYOO5+EiiM
+ 4aieF8ZQyEEcfAEv6CzLQe2XWhh9x+CyyR57D1Dicbq2wYliWPTl1Wz/Efp+JkOZddhZNWNfvRd
+ T6uL8ITzkrg4WMY677nwdejb3W4PezmQfjla4nlCbd+INg4bw96/XyWyK4ZIWp55T7aLMS7AngK
+ EpVrgwWYGLhGinyjY0Blo6RRHeln2Rr8/FYjStfhbkfz9HKmCuPZuXRzUcRymuIN3x798WtJzMW
+ jylADZI5WVVFCPIp+l4x90Pr80z68cY6oiY28SvhptCewCXTgNtjL3dNhFW7iKPFF2+qEnwtuyO
+ JfNiqV33XbGi7FBkppH/AzuTvnJVfzpsLaUJicDRcv7MQV7HvibdIoXG2oJzmpqSs8aksHRKc61
+ /CYCmCITsUTbkcuXgdF3hfARtlZXsBFuYb8ihvdhntmQ==
+X-Received: by 2002:a17:903:2f85:b0:2aa:f43d:7c41 with SMTP id
+ d9443c01a7336-2ad741f51admr21007435ad.10.1771658053228; 
+ Fri, 20 Feb 2026 23:14:13 -0800 (PST)
 Received: from debian.ari ([152.58.178.174]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ad7500e2a7sm12657355ad.46.2026.02.20.23.13.58
+ d9443c01a7336-2ad7500e2a7sm12657355ad.46.2026.02.20.23.14.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Feb 2026 23:14:05 -0800 (PST)
+ Fri, 20 Feb 2026 23:14:12 -0800 (PST)
 From: Archit Anant <architanant5@gmail.com>
 To: neil.armstrong@linaro.org, jesszhan0024@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
@@ -72,11 +73,13 @@ Cc: sebastian.reichel@collabora.com, gerald.loacker@wolfvision.net,
  michael.riesch@collabora.com, miquel.raynal@bootlin.com, wens@kernel.org,
  airlied@gmail.com, simona@ffwll.ch, architanant5@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v3 0/3] drm/panel: sitronix-st7789v: Convert to mipi_dbi
- and add tinydrm
-Date: Sat, 21 Feb 2026 12:43:48 +0530
-Message-Id: <20260221071351.22772-1-architanant5@gmail.com>
+Subject: [RFC PATCH v3 1/3] drm/mipi-dbi: Provide option to invert reset GPIO
+ logic
+Date: Sat, 21 Feb 2026 12:43:49 +0530
+Message-Id: <20260221071351.22772-2-architanant5@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260221071351.22772-1-architanant5@gmail.com>
+References: <20260221071351.22772-1-architanant5@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -129,52 +132,62 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5BB1116C57D
+X-Rspamd-Queue-Id: 4052A16C58C
 X-Rspamd-Action: no action
 
-This series modernizes the ST7789V display driver by converting it to
-the mipi_dbi framework and adding standalone display support.
+From: Chen-Yu Tsai <wens@kernel.org>
 
-Patches 1 and 2 (by Chen-Yu Tsai) refactor the driver to use the
-mipi_dbi helpers for register access. This enables support for 8-bit SPI
-+ D/C GPIO configurations, removing the previous 9-bit SPI restriction.
+When mipi_dbi (tinydrm) was added, the reset handling assumed that
+"logic high" or "active" was out of reset, while "logic low" or
+"inactive" was in reset. This is the opposite of how many reset
+bindings are written, wherein "active" means the reset is active, i.e
+the device is put or held in reset.
 
-Patch 3 (my contribution) builds upon Chen-Yu's work to add the
-drm_simple_display_pipe infrastructure. This allows the panel driver
-to register as a full DRM device (tinydrm) when a master display
-controller is not present.
+Provide an option to invert the logic so that drivers for bindings with
+"active is in reset" using mipi_dbi can use the common reset handling.
 
-Hardware Testing Status:
-Like Chen-Yu, I do not currently possess the ST7789V hardware wired for
-these configurations. This series is compile-tested only. I am sending
-this as an RFC to get feedback on the hybrid (Panel + TinyDRM)
-architecture while we wait/search for hardware testers.
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 4 ++--
+ include/drm/drm_mipi_dbi.h     | 9 +++++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-Device Tree Bindings:
-Note: The Device Tree bindings for the newly introduced 'hannstar,hsd20-ips' 
-compatible string are currently undocumented. I intend to submit the 
-accompanying YAML schema as a follow-up patch once the C-level 
-architecture is reviewed and confirmed to be the preferred direction.
-
-Changes in v3:
-- Combined Chen-Yu's mipi_dbi conversion patches with the tinydrm extension.
-- Added support for the HannStar HSD20-IPS panel.
-- Refactored the architecture into a "Hybrid" driver that supports both 
-standalone SPI and external display controllers.
-
-Archit Anant (1):
-  drm/panel: sitronix-st7789v: add standalone tinydrm support
-
-Chen-Yu Tsai (2):
-  drm/mipi-dbi: Provide option to invert reset GPIO logic
-  drm/panel: sitronix-st7789v: Convert to mipi_dbi
-
- drivers/gpu/drm/drm_mipi_dbi.c                |   4 +-
- drivers/gpu/drm/panel/Kconfig                 |   1 +
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 417 +++++++++---------
- include/drm/drm_mipi_dbi.h                    |   9 +
- 4 files changed, 227 insertions(+), 204 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 00482227a9cd..7fa1f73a38a4 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -713,9 +713,9 @@ void mipi_dbi_hw_reset(struct mipi_dbi *dbi)
+ 	if (!dbi->reset)
+ 		return;
+ 
+-	gpiod_set_value_cansleep(dbi->reset, 0);
++	gpiod_set_value_cansleep(dbi->reset, dbi->invert_reset ? 1 : 0);
+ 	usleep_range(20, 1000);
+-	gpiod_set_value_cansleep(dbi->reset, 1);
++	gpiod_set_value_cansleep(dbi->reset, dbi->invert_reset ? 0 : 1);
+ 	msleep(120);
+ }
+ EXPORT_SYMBOL(mipi_dbi_hw_reset);
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index f45f9612c0bc..6cebf74bcecc 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -44,6 +44,15 @@ struct mipi_dbi {
+ 	 */
+ 	bool swap_bytes;
+ 
++	/**
++	 * @invert_reset: Invert reset logic level.
++	 *
++	 * This is needed as drm_mipi_dbi (formerly tinydrm) introduced reset
++	 * GPIO controls with "logic high" being "out of reset", while other
++	 * bindings typically have "logic high" as "in reset".
++	 */
++	bool invert_reset;
++
+ 	/**
+ 	 * @reset: Optional reset gpio
+ 	 */
 -- 
 2.39.5
 
