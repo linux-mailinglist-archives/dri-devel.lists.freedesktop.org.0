@@ -2,111 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFepBXZxmWkfUAMAu9opvQ
+	id RKivDOxzmWlrUAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 09:48:54 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 09:59:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FE416C6E5
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 09:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D0616C70E
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 09:59:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D48AD10E093;
-	Sat, 21 Feb 2026 08:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3EC410E004;
+	Sat, 21 Feb 2026 08:59:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XwcCNsDU";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="02r6ueLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC89310E093
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 08:48:47 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-65a3527c5easo5028115a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 00:48:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771663726; cv=none;
- d=google.com; s=arc-20240605;
- b=N5T/04BWrChY1qfa1yvbdB9VnHOEKFybzr4QOPUpo5QHHgpeVUvbmKNtuYHh5vrFaS
- Zn2/Gweh7CvWXeLgupE6u+JZDyS5uVtTvMUNRlcPPC8DrQ60+6thXHhfXZIRS9NsYhbb
- asPB2Mq76GFHx3f5rciSDzXMqB9vZ2mpzn+ecqWdU0lj/i2sXQnsEZ76Qj/y+h8SRy2k
- 0EdKdRuy3LuuoScBPbEmIEnrpaEcmDBdBA/b60w7mn52snshKqVzMo6RR5ccBIqOdZoz
- hEtsfcOes41o2cE2NCYke3TJXYVJhe+uoWdhfS/Sy5Wkg4nAKWm0bv9itYCX1Ml52jZF
- 7qtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=2EY5qpVvBsTDuSWve1J1gQhJ93SfOnHR3h2XpXzEvYk=;
- fh=6bOTqtqHoU/nukP/O8qO/OIIf6aO6XGw/neEi2FfTbk=;
- b=K5fDLJm7N6h52mc0zdVVmpX5tIBgjt8bdvOsuzeT3UCjrgUiSouCqiF96pZBSGarGt
- rSOuxDQtG39x3wDcV/s00AOUwya8tBcPlvvSxZOirkcS9zb0SB0n/4MtlrH56D4BmzwZ
- whRbGSQuurr3TFyqG4oIkpsIjrPpNIzFVH212z9EUziDPBkDoRsuCPu9J4OUOaWs7dhH
- T1/1w6wx2PgZ1fhCHH3W7xK4ysL0tWx0EM9e/r9R+hsLRrC9IcXBekRgR91cOgQEByeU
- XR+Y4G2beGWd0FlbAg53f1x//WMEhfDZp62k8vVoxHifDt5gpzsT3FoVte3FGs4TCNVC
- ZQTw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73D6210E004
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 08:59:18 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-4836b7c302fso23220835e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 00:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771663726; x=1772268526; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2EY5qpVvBsTDuSWve1J1gQhJ93SfOnHR3h2XpXzEvYk=;
- b=XwcCNsDUE3wy19+vabGPR4EJR4Y4D3qyivsgBUdE/1vAy63LpYlS9S+oeG1rQn6ILh
- 4845kLRidfNHN2cxcAp2oe9R0g1B8Lbrc+GNreV2bLwTDbDu6Ar2ZL6zdPLB8YJLt1b9
- gEqbPf2AXajtQCa0UW2fXhsmin8R2IkF7053ZnsBrpnlxdEzcjp97E1VfJWtD1FuyrSY
- AU7jmxto16XNuoVYTT5Ls2i8x5xr/Smn7HzIXMylRuEV2cfcPb5yuHKyecIhxT2crKUk
- tB6ciyrHpKgkHtU6G7mSdF3Ink7HlfObKwgbQSuQHwR1a54gINsQ5MYH2fa0sWuHmCJF
- ZvBQ==
+ d=google.com; s=20230601; t=1771664357; x=1772269157;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6zMqqgKoh/9hUmXKLa8W/Ktm8MqMG46VT0cs/LJ1MPQ=;
+ b=02r6ueLttmrsH85pAtUonNBPDWaS/+FEnhHe8IhfSIBLoO3yTvJdR/k3zFEVt2p1Oi
+ 4NudQ1srvM/NYWG1JpsVLPouKTTF/MTDtVWCyjcBCjBZybgiEohMEIVXushj/Pj6PkMx
+ WakiU/4ydpqWbvojk0JptPrnWUeCckrvDh2zzYKG18rceY+iQHcivqT09d6IC9e5A3y7
+ I+Lk5YzifYrN7W/8l6OU23Cp1aFwxjWDaz6SF+hCqbmoBksaHQRw08O1ouLyWGeqX9ht
+ B3PrBdueLga3EgKRVbmU/JExR+y/z/3keMsnqTrFXEg1hiMIZWJdifVPE5cy1L+bM+6V
+ GsXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771663726; x=1772268526;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=2EY5qpVvBsTDuSWve1J1gQhJ93SfOnHR3h2XpXzEvYk=;
- b=YaWKcVKRpGbNMUtYCwjqNuJSJ/AGr4wEsex8xiadN8piP+c//cy9a0pBhCixhsdIOH
- qBkJ97pvKgJNUW8uu+263O0Cj+ghoMas5XvoBgLrtaAsmo4ytsv2swP3lDlFLX6k2SS5
- cdbfCcpULCHSB5/1X1cwnhS8DUscfrjuR+QPG7KbdrvC25wARzXRdCZuL4JX5pBRJk7u
- CsoSPdsHywTnk2OUB46rsP3JYMk48GUB/1XGATbQeIIxSn3PVve8d5JG+M/H1b+OMxro
- kgiwtNKhbVpnqMMHnXRDsoiQxbNhFurUQBJhcpc1vLVrV9hOO+T3vx7llZrBB4gXvTZJ
- yCUw==
+ d=1e100.net; s=20230601; t=1771664357; x=1772269157;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6zMqqgKoh/9hUmXKLa8W/Ktm8MqMG46VT0cs/LJ1MPQ=;
+ b=DRMcXhtYpcKj6V8imtdTB8uSrYRhxtz/yWVZNa0TcxArB//FjEAiC4vK+2LsFdvowZ
+ MapRqduI9IeyEyPfmw6p7TkjMIyYqjGWkxnjDIcwEwBaxDBfJXthjwB3C966haymO67X
+ 8OAYdJLuASbPEecMrprvKGnOwAODUa9GxOYo6vKsujbNnStTCJsD+iS2zznRwQy36YZQ
+ 5DnnKmGRTYjR5GZD8ZLPd2bArHq5l7PO3oIWNgyFQ87o6IXOgbE+XS0kMv99OYkazxAy
+ QATVMmmy2xh81cG3gOyroynraAhV72bmx6WDH82gI+k0+a/sXW75op140TTiLXhP5ElS
+ 57VQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNaIGi33h00Fscu/p8tDL3Zyafw7Gx8zN7ZIjIYK2lFZG+yY8XBKhrnfEsd1QfcgAJq5mGt1nlNnU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlrHMjUnGRft+u6jxWq9OoVvi3PBOJLDfPajzEZ3MuQXyBk5he
- RQ4RgmwjGpCG/0FbDVt770vTNpZMwEN4k85RJkVb7FzFs1kiCTkRf9mhjHEygcMaBREKvm4l/U5
- gnFkvsZ2crRRVAPeU4dVAmjeRvv0PqJU=
-X-Gm-Gg: AZuq6aJeg47iruHmdOcvSh9ezHiwmLLzUZ17gFeBlJn3RahUQbHFNry0ujLjxE7nGrv
- r8HECebb5j+oX2OAPnUuGFI36g78Sk0MSN9Pd0bxPgKvTE+denVQSRmnZLy04s9ss0hXk+CeS9v
- UyDEq+4OxKcFcqQ4cOzNJhlT/WQW1utzwmjdpy2+I9HKYlDywxTdPXbNSbOLDndS6u6qVm9EdsE
- Nix8451vKXHqLTjNSjucxYRYFZ6K3uGL1y/aN19BacKXNYR/daTkos394Z78Fca32WqtWPUP4Ia
- iJYYpUWEUqMlHSfj8IOpJKVU/5iV/Tbc9H74jRY392I4wGdUpGuKcptIs2mSFMQ9xNobdNvkabj
- T3lhXgQ==
-X-Received: by 2002:a17:907:3c91:b0:b87:b0ba:5d2d with SMTP id
- a640c23a62f3a-b9081c42436mr136091166b.57.1771663725994; Sat, 21 Feb 2026
- 00:48:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20260221034402.69537-1-rosenp@gmail.com>
- <20260221034402.69537-3-rosenp@gmail.com>
- <2026022148-unsorted-pushover-8262@gregkh>
- <CAKxU2N9dJg9dy05h6oGgWidc81-kdGw=jUuM-i4KL1=EhevrZw@mail.gmail.com>
- <2026022126-chair-spout-641a@gregkh>
-In-Reply-To: <2026022126-chair-spout-641a@gregkh>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Sat, 21 Feb 2026 00:48:34 -0800
-X-Gm-Features: AaiRm51RjwwZfhQIEJaLMLmlDT-qI7j28uWxDcE_9CBb9uX55P5V7cGqPAMw40E
-Message-ID: <CAKxU2N9Fz7SCHUah3LbWSwyyO61v5iB0A0cPkMBBBZ+pF4gWwA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "drm/amd/pm: Disable SCLK switching on Oland
- with high pixel clocks (v3)"
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stable@vger.kernel.org, Kenneth Feng <kenneth.feng@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- "open list:AMD POWERPLAY AND SWSMU" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ AJvYcCXqsARIo3q3wVtRXSqhB8plMscaGwVGjy4E/XkKja4BXoGiE7dDlQZGMM9iHAepWMF5CgFReksb2p0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFojJFgCekpkzzJ9dXclsPRGjd0xEgiQQCz1kKbcc5j1mFX9e7
+ 8x/90zgId3xpcr4wO1wkLCQZYadaHVirsrZJCgkgcqnsrMg9xpA4RkZUCRxEK3rwhMZAi1WhG3Z
+ Q4OWXBJ/0X7pV8Gz3cQ==
+X-Received: from wmbz1.prod.google.com ([2002:a05:600c:c081:b0:483:6f89:e2c8])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1e09:b0:480:25ae:9993 with SMTP id
+ 5b1f17b1804b1-483a962e3c9mr39685415e9.20.1771664356547; 
+ Sat, 21 Feb 2026 00:59:16 -0800 (PST)
+Date: Sat, 21 Feb 2026 08:59:15 +0000
+In-Reply-To: <20260218205507.689429-6-joelagnelf@nvidia.com>
+Mime-Version: 1.0
+References: <20260218205507.689429-1-joelagnelf@nvidia.com>
+ <20260218205507.689429-6-joelagnelf@nvidia.com>
+Message-ID: <aZlz49VtPA0JbEGx@google.com>
+Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
+ linked lists
+From: Alice Ryhl <aliceryhl@google.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Dave Airlie <airlied@redhat.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,79 +94,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:stable@vger.kernel.org,m:kenneth.feng@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:Xinhui.Pan@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,amd.com,gmail.com,ffwll.ch,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:acourbot@nvidia.com,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:koen.koning@linux.intel.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,umich.edu,nvidia.com,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,linuxfoundation.org:email]
-X-Rspamd-Queue-Id: 31FE416C6E5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 81D0616C70E
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 10:33=E2=80=AFPM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
-> On Fri, Feb 20, 2026 at 09:52:29PM -0800, Rosen Penev wrote:
-> > On Fri, Feb 20, 2026 at 9:41=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
-.org> wrote:
-> > >
-> > > On Fri, Feb 20, 2026 at 07:44:02PM -0800, Rosen Penev wrote:
-> > > > This reverts commit 0bb91bed82d414447f2e56030d918def6383c026.
-> > > >
-> > > > This commit breaks stable kernels older than 6.18 that are booted w=
-ith
-> > > > radeon.si_support=3D0 amdgpu.si_support=3D1 amdgpu.dc=3D1
-> > > >
-> > > > In 6.17, threre are further commits that are needed to get the DC
-> > > > codepath in amdgpu for Southern Islands GPUs working but they seem =
-to be
-> > > > too much of a hastle to backport cleanly. The simplest solution is =
-to
-> > > > revert this problematic commit
-> > >
-> > > Ok, this is better, but still, this only applies to 6.12.y, right?
-> > The reverted commit (or rather the one from master) was backported to
-> > at least 6.12 and 6.6. I didn't check what other kernels include it.
->
-> I see it in the following kernel releases:
->         6.1.156 6.6.112 6.12.53 6.17.3 6.18
->
-> All except 6.17.y is currently being supported.
-Yes. I complained about 6.17 being broken at the time and luckily the
-proper fixes got backported to 6.17. There's no issue there.
+On Wed, Feb 18, 2026 at 03:55:03PM -0500, Joel Fernandes wrote:
+> Add a new module `clist` for working with C's doubly circular linked
+> lists. Provide low-level iteration over list nodes.
+> 
+> Typed iteration over actual items is provided with a `clist_create`
+> macro to assist in creation of the `CList` type.
+> 
+> Cc: Nikola Djukic <ndjukic@nvidia.com>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Acked-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-Those fixes are too involved to be cleanly backported to older
-kernels, hence the revert being needed.
+In general this looks like a useful tool to write other abstractions, so
+that's good. A few nits below.
 
-I'll mention 6.1 in v2.
->
-> thanks,
->
-> greg k-h
+Also, I think it would make more sense to split this series into two
+with titles like this:
+
+* Add clist helper for writing abstractions using C lists
+* Move buddy alloctor one level up
+
+That way, you can tell what the series actually does from its title.
+Yes, the 'why' of a series is very important, and must be included in
+the cover letter or commit messages, but I think the title of a series
+should explain the 'what', not the 'why'.
+
+> +impl CListHead {
+> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
+> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+> +    /// - The list and all linked `list_head` nodes must not be modified by non-Rust code
+> +    ///   for the lifetime `'a`.
+
+I don't think C vs Rust is useful here. What you want is that the list
+is not modified by random other code in ways you didn't expect. It
+doesn't matter if it's C or Rust code that carries out the illegal
+modification.
+
+> +// SAFETY: [`CListHead`] can be sent to any thread.
+> +unsafe impl Send for CListHead {}
+> +
+> +// SAFETY: [`CListHead`] can be shared among threads as it is not modified
+> +// by non-Rust code per safety requirements of [`CListHead::from_raw`].
+> +unsafe impl Sync for CListHead {}
+
+Same here. If another piece of Rust code modifies the list in parallel
+from another thread, you'll have a bad time too. C vs Rust does not
+matter.
+
+Alice
