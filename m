@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QEcRA/iUmWnzVAMAu9opvQ
+	id GCsqEBSWmWkKVQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 12:20:24 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 12:25:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8991416CC09
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 12:20:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEEB16CC2B
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 12:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68DD10E06F;
-	Sat, 21 Feb 2026 11:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9338410E03F;
+	Sat, 21 Feb 2026 11:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZUgBxCPg";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aDnA8IWe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE9210E06F
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 11:20:19 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-4836bf1a920so33389305e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 03:20:19 -0800 (PST)
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69D7D10E03F
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 11:25:03 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-435a2de6ec0so1886628f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Feb 2026 03:25:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1771672818; x=1772277618;
+ d=google.com; s=20230601; t=1771673102; x=1772277902;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=BHG+anh2NPJoM/5HPN4gxSqeakHjDTk4rshPOUldzpc=;
- b=ZUgBxCPgdBNfYZtb32lwCtai7TdgAloJNe3h/V0OUEDhHRbu45K3Db218+JCw0A+JN
- YYAUVG2XkY6mi+XD56bq18H8cJXUYgVEqTJhry03iIDKiwZZgWh1eC00Caqm6xY2qjqW
- uMF1ZH+qsMkXHyuUMX77sakSeiMvOPABuSNQCa/yfde1txLPcJwGTsoc8PjFnIdKRAAH
- 8IThV1KltKQrU3KanyieX/8wdgvPJ1ZEpF63XOxkUN0DinuTW+CI2mlaHjvSa/EN0rsq
- r4tIyli/YmxUC0NMpRqiuTlmEPDGDMSL8cmQnpDXDWk3VQiPXrA8NQbbRTWQTgmROnpW
- WI5Q==
+ bh=f8YL6PU9vF9SwHv8rkTr1QPaGp/GGsGjVuq4QPNTros=;
+ b=aDnA8IWeHE6qJR0XCqjyNNSr8VhsAKkRjbLPaHB5sTLmRJDn3bi94WvuxatiGGKrVT
+ 31yqypTl4+niYst59EG38BPim8aKmKbtMAbFxTfrzBwPexKZ86Nw9lLEeltXrCcuF0Dx
+ CzxIpLQs8AmIufMWv9dNqcxjaFv9CYeTuQUeMVyTTL1dHPLQFHcbJzinxjSiWTquH50y
+ 2ruS3beTWrVROITgf8nKd2iOB1bh0qSt4bnEFcTgRCMy4kzPD2bRW+YCfO3Op69k1t2V
+ Zau7crPVRP6xpKZ30KNreX81iY2VMg1SCC0eHdBnypDOgej8GJk8MPlvPU1Zujgoqe16
+ 868A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771672818; x=1772277618;
+ d=1e100.net; s=20230601; t=1771673102; x=1772277902;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BHG+anh2NPJoM/5HPN4gxSqeakHjDTk4rshPOUldzpc=;
- b=fyZlwPinUbjJ/xaesnyoVxYoeES+pmscAyEz/CJE4tt0IkYv5plUxwYaYkgK640Xb1
- xW/4zcA0SXR5huNGLSkDK4fyC6WcgVY+X0ZfxrdCyCeJbl0TCiyQThlJJZnE5g4Yqt/U
- kOgEFd1Qavr9S9UAVi14jaXj2BH9vcn0tA8ZrVJ67tJurX9dCdc3lE1q5Mn6mDmfQQA3
- FxDoT5uBO2/h7Dfo76OzAx17ALZ2baLDwSlta74Nk0Sr0fnJGvkdX/dq/wKiaTclg6En
- /6k2gZcSedkMJ4/mx4ayGunkgynYp0aIt0qQ9l004+OQ8NAOWO1e7/yg8UqF9VQoItnx
- uqlA==
-X-Gm-Message-State: AOJu0YyR19HFmHUQhBYe9aZ5MR8pBKsN+uqfesWwUXK+DfsfUfCFXB1G
- A2Rjyf1nl1sfeS2R/FEc3JQ6cepzg61Wq8QOYPNAZSe7TRoj9r6zYptAPvZNmtw7rZSoYJA3dki
- kBB+2ud7ekhucDborRA==
-X-Received: from wmby20.prod.google.com ([2002:a05:600c:c054:b0:483:7890:570f])
+ bh=f8YL6PU9vF9SwHv8rkTr1QPaGp/GGsGjVuq4QPNTros=;
+ b=nSnlyTyUhBdAJYe8eJ7/Yot+all9FPnNhBTKWSC+ukhKVpVG6fufHqvkvyI/cUIiCc
+ Hu2FOYHy1V0lK4TWmwyw+FswFGXOKd4J/X8HV/EhHC8qmEnLGjX968UviSkgGlOWzqnN
+ aCbNNPM9kpNllX2yXfWH5rX/StORAt+TQMzQ/iGhFdmah7qn9jwmi6DgkCH3AhtPBS34
+ xhC0s3TN/1J0rnUll7ZUAfpE8AB+iGBUgqaCyGkRUAl3tzLplyyVH6mt/OKiDUN3zO+U
+ 1dR7MVt6pE+LXOtDuhjnxFNzz48+KC3GRgtLcAxL9OV/Tcs3beZL2krD5lcet2UOCWns
+ P7yQ==
+X-Gm-Message-State: AOJu0YxzdVMFyQzeKs+oWZs1oXBvQSCZNQlcJxcIsarhfVDvdP/02mAC
+ KT7+Wy2t8FLWJwN8lImYknKtdfCQDTnE6sczNHDrk1Uu5jwHCV03SPsn2eejhrctmejNaC4zelF
+ klj22DTni0eEOET7BaQ==
+X-Received: from wrs11.prod.google.com ([2002:a05:6000:64b:b0:437:812c:3178])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:6986:b0:483:703e:4ad9 with SMTP id
- 5b1f17b1804b1-483a962e00emr36391475e9.19.1771672818245; 
- Sat, 21 Feb 2026 03:20:18 -0800 (PST)
-Date: Sat, 21 Feb 2026 11:20:17 +0000
-In-Reply-To: <20260212013713.304343-9-deborah.brouwer@collabora.com>
+ 2002:a05:6000:26c2:b0:435:a8e7:62de with SMTP id
+ ffacd0b85a97d-4396f18f942mr4497791f8f.58.1771673101699; 
+ Sat, 21 Feb 2026 03:25:01 -0800 (PST)
+Date: Sat, 21 Feb 2026 11:25:00 +0000
+In-Reply-To: <20260212013713.304343-13-deborah.brouwer@collabora.com>
 Mime-Version: 1.0
 References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
- <20260212013713.304343-9-deborah.brouwer@collabora.com>
-Message-ID: <aZmU8QUpu_gL9JDr@google.com>
-Subject: Re: [PATCH 08/12] drm/tyr: add MMU module
+ <20260212013713.304343-13-deborah.brouwer@collabora.com>
+Message-ID: <aZmWDIITgaEGkTU0@google.com>
+Subject: Re: [PATCH 12/12] drm/tyr: add firmware loading and MCU boot support
 From: Alice Ryhl <aliceryhl@google.com>
 To: Deborah Brouwer <deborah.brouwer@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
@@ -115,37 +115,44 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8991416CC09
+X-Rspamd-Queue-Id: BBEEB16CC2B
 X-Rspamd-Action: no action
 
-On Wed, Feb 11, 2026 at 05:37:09PM -0800, Deborah Brouwer wrote:
-> From: Boris Brezillon <boris.brezillon@collabora.com>
+On Wed, Feb 11, 2026 at 05:37:13PM -0800, Deborah Brouwer wrote:
+> Add firmware loading and management for the Mali CSF GPU. This introduces
+> the fw module that loads the Mali GPU firmware binary, parses it into
+> sections, and maps those sections into the MCU VM at the required
+> virtual addresses.
 > 
-> Add a Memory Management Unit (MMU) driver for Tyr. The MMU wraps a
-> SlotManager for allocating hardware address space slots. The underlying
-> AddressSpaceManager performs MMU operations including enabling/disabling
-> address spaces, flushing page tables, and locking regions for page table
-> updates.
+> On probe, the firmware is loaded, its sections are mapped and populated,
+> the MCU VM is activated, and the MCU is booted.
 > 
+> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-> +/// Any resource/information that will be used by the AddressSpaceManager
-> +/// to make a VM active is present in VmAsData.
-> +///
-> +/// On activation, we will pass an Arc<VmAsData> that will be stored in
-> +/// the slot to make sure the page table and the underlying resources
-> +/// (pages) used by the AS slot won't go away while the MMU points to
-> +/// those.
-> +pub(crate) struct VmAsData {
-> +    /// Tracks this VM's binding to a hardware address space slot.
-> +    as_seat: LockedBy<Seat, AsSlotManager>,
-> +    /// Hardware configuration for this address space.
-> +    as_config: AddressSpaceConfig,
-> +    /// Page table (managed by devres).
-> +    pub(crate) page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
+> +/// Loaded firmware with sections mapped into MCU VM.
+> +pub(crate) struct Firmware {
+> +    /// Platform device reference (needed to access the MCU JOB_IRQ registers).
+> +    pdev: ARef<platform::Device>,
+> +
+> +    /// Iomem need to access registers.
+> +    iomem: Arc<Devres<IoMem>>,
+> +
+> +    /// MCU VM.
+> +    vm: Arc<Vm>,
+> +
+> +    /// List of firmware sections.
+> +    #[expect(dead_code)]
+> +    sections: KVec<KBox<Section>>,
 
-I don't think the Box is needed if you #[pin] this field.
+Why the box?
+
+> +            let section_start = parsed.data_range.start as usize;
+> +            let section_end = parsed.data_range.end as usize;
+> +            let mut data = KVec::new();
+> +            data.extend_from_slice(&fw.data()[section_start..section_end], GFP_KERNEL)?;
+
+Could this access be out of bounds?
 
 Alice
