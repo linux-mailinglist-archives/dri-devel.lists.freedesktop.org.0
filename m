@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cIqsMH1FmWnNSQMAu9opvQ
+	id +KoaBphFmWnNSQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:41:17 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:41:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609D716C319
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91C216C330
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Feb 2026 06:41:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB9910E11F;
-	Sat, 21 Feb 2026 05:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2C3D10E120;
+	Sat, 21 Feb 2026 05:41:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SvJV7tIT";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jiY6AZ35";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC6C10E14A;
- Sat, 21 Feb 2026 05:41:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADED10E120;
+ Sat, 21 Feb 2026 05:41:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 307604359B;
- Sat, 21 Feb 2026 05:41:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A17CBC4CEF7;
- Sat, 21 Feb 2026 05:41:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E6E2944206;
+ Sat, 21 Feb 2026 05:41:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68461C4CEF7;
+ Sat, 21 Feb 2026 05:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1771652473;
- bh=EtABGilW/ybxyF/sBxk1E7K/D842FMAghACNgHJRUZk=;
+ s=korg; t=1771652500;
+ bh=dILJaJLWNaymGhs7gSN08DU8nY4kViwy9GwyMBXqpl8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SvJV7tIToUjndHp8UPEN96Pi3sKQXusH2kwOSFLfhGp7TDWo9mYVtiS+7/HxYDQTw
- af9XHIeVDazzUpb89IvjJNYgnor4B0VSYfOme6APdYD1jUwd48aCFCFz8MZgORz4cm
- h6JkUWbE87I0hVELf0fHZhv4O4swRHsJeZHz7Pjo=
-Date: Sat, 21 Feb 2026 06:41:07 +0100
+ b=jiY6AZ35TrJOFjA1SxH9rqIxI/9lg0sGDlmZm4m0KItyXLqq+68cSfrFgFjKVITcq
+ ZZccWg8G7+I79sWX/wGnmMyCbKuUXT3k0pckiYC4UCTzEtXnKB2iFiou75i6IDzYGD
+ j90LzJWXFruCYdx0DAIk4Y63nBRMxqvFEmHfrGhI=
+Date: Sat, 21 Feb 2026 06:41:37 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Rosen Penev <rosenp@gmail.com>
 Cc: stable@vger.kernel.org, Kenneth Feng <kenneth.feng@amd.com>,
@@ -43,15 +43,13 @@ Cc: stable@vger.kernel.org, Kenneth Feng <kenneth.feng@amd.com>,
  "open list:AMD POWERPLAY AND SWSMU" <amd-gfx@lists.freedesktop.org>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] Revert "drm/amd/pm: Disable SCLK switching on Oland
- with high pixel clocks (v3)"
-Message-ID: <2026022148-unsorted-pushover-8262@gregkh>
+Subject: Re: [PATCH 0/2] 6.12 and below: amdgpu: fix panic with SI and DC
+Message-ID: <2026022126-calculate-matador-e7bd@gregkh>
 References: <20260221034402.69537-1-rosenp@gmail.com>
- <20260221034402.69537-3-rosenp@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260221034402.69537-3-rosenp@gmail.com>
+In-Reply-To: <20260221034402.69537-1-rosenp@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,21 +94,24 @@ X-Spamd-Result: default: False [3.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 609D716C319
+X-Rspamd-Queue-Id: A91C216C330
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 07:44:02PM -0800, Rosen Penev wrote:
-> This reverts commit 0bb91bed82d414447f2e56030d918def6383c026.
+On Fri, Feb 20, 2026 at 07:44:00PM -0800, Rosen Penev wrote:
+> The first commit is needed for the second one to be reverted cleanly.
 > 
-> This commit breaks stable kernels older than 6.18 that are booted with
-> radeon.si_support=0 amdgpu.si_support=1 amdgpu.dc=1
+> The second breaks DC support on my AMD 7750. Kernel panics and I get a
+> black screen on boot. With these two reverted, 6.12 is usable again.
 > 
-> In 6.17, threre are further commits that are needed to get the DC
-> codepath in amdgpu for Southern Islands GPUs working but they seem to be
-> too much of a hastle to backport cleanly. The simplest solution is to
-> revert this problematic commit
+> Tried to git cherry-pick the fixes but that proved to be difficult to
+> do cleanly.
+> 
+> I see 6.6 also has these two commits.
+> 
+> Not sure what the proper procedure is to request reverts on stable
+> kernels.
 
-Ok, this is better, but still, this only applies to 6.12.y, right?
+Close, see my comments on the first patch.
 
 thanks,
 
