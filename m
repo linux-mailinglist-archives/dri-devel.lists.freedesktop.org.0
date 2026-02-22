@@ -2,138 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4DzALN5nm2nszAMAu9opvQ
+	id YJiIOMwgnGkZ/wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 21:32:30 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:41:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635E5170521
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 21:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A0E174126
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6991910E0FC;
-	Sun, 22 Feb 2026 20:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B7210E2CE;
+	Mon, 23 Feb 2026 09:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wv4u07dy";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="O6+poqsD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ggrorTE3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B6010E02D
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 20:32:25 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61MJPMjE2643478
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 20:32:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=vixSB/xeTFdgfFUWBT+u0QL5
- zCV4kpNBkYe9LQ4nqNU=; b=Wv4u07dy2Ft1iw9haiqH4Loacfv3m9xl6lEex1LH
- 8ogODMOHAhaVffWskCpTuJLT0OFymC/IaPIOdiQbq78joB46xUbgcREP+z0Goc8+
- Pl7VdGJOx6EQwePPV+xs3HiiAtIpNxlN9gLwxtbRJHiNgPtKgLL+3WEJSgo0fjwD
- iiXNszTvQ3wbhx/Q46pvT1C3Fo718qdkqTYASBq+VXH0cB8VDMFYZPMQNjMgETFY
- bdAzhIwL3mXiSUT7B4zkyv8GoOHJ6fEfC5VLYE3a6RXm0rNU2r4ReRdQt9akuPZQ
- 0R8GJ3TCArqUaB4ALVeolqfJRpWYT0cefHgtCSo/zqqvVg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5vj2p5v-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 20:32:24 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-50336ebabe0so734313771cf.1
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 12:32:24 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
+ [209.85.217.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B384A10E12C
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 21:53:23 +0000 (UTC)
+Received: by mail-vs1-f50.google.com with SMTP id
+ ada2fe7eead31-5fa26e497feso1163353137.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 13:53:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771797202; cv=none;
+ d=google.com; s=arc-20240605;
+ b=T25yTFZrFtwJsxrZUeSKVVQy2BVoaI+uAI0BG4jZ0u/2G/A3+LERBPponXZgIxcFzQ
+ x9ziCgt8UVf4YTYrLpVF9AKA5Mugpu6ZKrJS+sksWfmDHjB0RE5Z3nSnqVVg3mMZn4Az
+ f+30n+79lJ2mpd2XqAPdAk4BjTi9b2pGmZwZuCqQ1DSbrT2D+AWG61kgSEyZj2p78WaR
+ gXUfR2z3gYbRGOGFvfSMruw8ulpQWHVU/fKTAUsrPlMbXDwLTeq8QtNE1OTAe5o0qSZX
+ rSjPv+Ofbe3ZvM4V7X7bphjVWciTAwRge62w+w4XDJdUG8cPgJnYqINYwCFZ0HsdUxnY
+ n4YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+ bh=MNeGMhAb3TmH7KVHq/DigEL+n2cB/alR7oOTtMkE/zY=;
+ fh=KiAtJHOS4Dli/KUudnYa1qCtO2cipqDqQU2rvrggc2A=;
+ b=OsdSoJFxQqiX/+R5SAz/0AQvp7/FTEP9sXZjSFep0WuFO7/+huTo8uH17cfXTowiLz
+ btvUr27CC66HMN0E7YTChaXAfCm9Al7pOGsGtkH2OFkyBOifbP57HNKnMF1JdO6KhmY7
+ RDLPIoZEtvTOjSQX1Np27UE37dM1HRqifsM8jbH5rGnOUELxQelTDDAvDFfvJ+njAwFk
+ 2SFi+G8p0IKG3dz9IupeNJR0xTod2N2y9qYzuw1ThjJLsauB7PRucK++hNmrqNOMCBJI
+ EFHMyhp0Wx6hq0e8kRAX8MdKvVXF7a/x/4EyxT62OH16nPoE4vLutFROD4/wfYa8crnG
+ BSTA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771792344; x=1772397144;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vixSB/xeTFdgfFUWBT+u0QL5zCV4kpNBkYe9LQ4nqNU=;
- b=O6+poqsD4BLdRs77fv1OSCez2Mh8DalTZqMIJiT9M4J5ddO/RxMCC5Atx4iEOZP8og
- ceuqZEkep6Lu/gp1tRVUAEkdsMitUgLibslnRuUbBaL/txbVV3I21K0XotYdp3G8Cjd0
- Q8DhGQf/lxT7pRXXdW/GuwV3Y5P/KUMadaBrC7uEyKHjq9hBW0fMlnFnENjsiHIL/U+v
- HuNbadF3/m4O/n9DpCk1scT4Gw+J+nrhrsHLDTjYIwpLDQ2ADkbszZ2KClS/JBEZqTsU
- uzGjEiIQFhPH8WFeN6N9xAsfSg62w5kF3gtgitQuhSqOwPdy5qRN9+Tln3dq1HFttEvy
- 60YA==
+ d=gmail.com; s=20230601; t=1771797202; x=1772402002; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=MNeGMhAb3TmH7KVHq/DigEL+n2cB/alR7oOTtMkE/zY=;
+ b=ggrorTE3FKrRrREnyYykRAxJSIo8zHwzpnrNb7GMKdXLtsA0KYHDtcyYAPN0Vt/quB
+ 3v78DTzfRyU+u9locrMXRZ2iQ1ZqOWgp5f9ksXbKjvcw7VqSkL8akuyk1l0g1Xy3e8lz
+ eqIQ4fzy3yR27vRUbxd8z1yf7AcX3rfpBB3+Ij1Go3EttRFpNjgCVzAADKqTFF1xR45l
+ kvUxLTM6zYgUWW8GkmjS2JvKqZ4lckyUEfDzLMt+Fs1VB7GoM7+oBQKbB7Jg/z4jgkkN
+ wMrkVD+IgThwIvdpqD6LQ/k9zU2qW5euj2xH2tK2GNWs2GFu+qE4BaMF9wMe1L4/Ma4H
+ 8IJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771792344; x=1772397144;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vixSB/xeTFdgfFUWBT+u0QL5zCV4kpNBkYe9LQ4nqNU=;
- b=KIJ0UR9sO7UBbe+H0c0a9h1HSLll50R4uehzllo44RLEWay//q2pd13CbPxXaq106T
- 5nQkDPk/CsvTRXM0vmYW2BdVGO/FNUH2+knQgfVzMb82zTREfXAEh2jaQXVp8qEL9mA4
- qjghWhzKS5TfMvo1lB7JhZISBaRIyqXn5GmJ8jwGbp+O/hVsakpXf4jwagmTQAZxAnjp
- B+8VrhyOJ08x1YweV9y5S6PMU7Sebf4C4xN30fn1crbqXTxGnLBbq1XN7ekhN/QdIX7y
- zDn+FIbADIEXpVGImgz/ZYT3QbUHVijXhqsvXm27YEZLuagig6WaLjDmH6lHsuhGq7Ho
- hqxw==
+ d=1e100.net; s=20230601; t=1771797202; x=1772402002;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MNeGMhAb3TmH7KVHq/DigEL+n2cB/alR7oOTtMkE/zY=;
+ b=W3XyNAV5TzTWsQLtescwGZ/btMlHwLqWMVdYXtgtSg5OTBRnPAdS/Edy0LBgUQG+Cg
+ HFtnsQq1vXFvr7XPQm+DVp6YhC8yaknvi+gRYaGCK5o4kF0b8qxgNEmScbZkqv4avzA1
+ BbCf5F++7mVso70r50L381XV9RjUC3yxxaZkzJbL1lFEhZuRCqqQyjyj9bVBzNa/WhR/
+ 4sV2yj7rigOvZFOU3ubC9A4Zza4PWaKHOBTgdIFV4VgP4SS6cut7oOktE01KR34UaRC5
+ 9ViXqwskPHWkL9gwz2Ssc1ZaWbC2njBjCzTKlSfgcq/pftllzpWp4FlcCrvQqNHi53+L
+ IOpw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1efYh4hnRWTbcDtmMnNXkB1HKYaRqMvXGlShpEW6j3r/CD/b/oY8yHjvOj2IEiF0nVi139r+T3qs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWS5V80zs7rzy9/CKfCgUbEgZ3cs8IMo9yu16HVOiuGlm4IhbT
- 3vFjFqN4n2N/YHsUv3up1YuSWbVSQA8DiW+gn94Zwz3fFAJst6c6x5KaJiUyhygEbnzGWa8v+9x
- aWLcnNwVcZPIhh4iKHS711fJSWtbxLk99r14LNgJqs+C54pWN/Hr4ZM/UiNdjET+TCGDHPAg=
-X-Gm-Gg: AZuq6aK3TJ/cUV7MhQ+w8uDZP1UrzId0WvwIpR7tm3HMkFidCmFThxHKn9hywXaSjrz
- kjiRBsqzD/2rXENG3TvfJzKtTjOrmHlQNYvEJoGFduWnV6JazBN9u9Yu9/nvmestckg5Nul/WcW
- +yfY6aBbkhdTknLMKWP7KpTbutvgWjIfSF1wbM9uW61gTpYiVR4Okfh3HONz4Bx0h3XlDDt/aRo
- p5W8k+So6Zky11h31ASdLtXtgvCeif2NpBVh6Kh0GfF2yESgyU/W8nsaN2h6Oy+UQ9IWAkGJVBK
- A7JWAjmBtJCIW4J0ggGFhyGaloQ9WPPpNrWtn9K2sTwpIWMvDxFYkJFaGd2GKJO+KMQaNyOQlUc
- ONoFZvYPhayWvzsKZtdM9lomLL9RKN//wPVjQOfRwNuzFqV6B0QNVCnp7Lr/+dSobSm17fM5KXf
- 3TRstpUJ/E+GPMQ1HgW2Q8WcgvQ5MOqupz4II=
-X-Received: by 2002:a05:620a:1a8e:b0:8c7:109d:e9b3 with SMTP id
- af79cd13be357-8cb8c66aa2cmr760472485a.37.1771792343704; 
- Sun, 22 Feb 2026 12:32:23 -0800 (PST)
-X-Received: by 2002:a05:620a:1a8e:b0:8c7:109d:e9b3 with SMTP id
- af79cd13be357-8cb8c66aa2cmr760470485a.37.1771792343240; 
- Sun, 22 Feb 2026 12:32:23 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a0eeb4c60bsm1154322e87.84.2026.02.22.12.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Feb 2026 12:32:22 -0800 (PST)
-Date: Sun, 22 Feb 2026 22:32:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Mahadevan P <mahadevan.p@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: enable separate_gpu_kms by default
-Message-ID: <srjcr7fosp2zvkpw4q63tbguu3edrg6ojv5zabtjbej5lr5opq@slodmuzofzyi>
-References: <20260223-seperate_gpu_kms-v1-1-e8231e7f1685@oss.qualcomm.com>
+ AJvYcCW1wFn6qVXFF6RVNIxPzkNHDs+DeCVZrtKY9Vwm6Abxg6tE+1/u9rzlALqCjfabEFRaFqkFB+8wlf0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXpBVk8Ma5CYvDLS5AZsApEFYdxETjilzAbGQq1D8w6MUb90GF
+ wKxdfxZhRYy3mvLUqLxut1+O2tSF7l5AYfjDMxpDugQ1ZOq0UfDfPkKaP+MXZctfEdWaVD+7JmI
+ WsuFofZDJ2H8zNFfPfxA0Ju4Zm2xe2Nc=
+X-Gm-Gg: AZuq6aI/DHUbqb0WClN1Ro4Is+yTICOhVTBI7om2aXYpqiCPuaQPH+eqm/tsQBF41PC
+ Me+70Kq99aIIfQDl0AHsCxlBZfsKZwAJzc13nS2eYKT/x9AtBhabA/4t2ISSs1MVvWN7sfQ+eyZ
+ wwVDErMTrKYC3AVmxo/IyTHNnpmyWpeXfA2H90la1AeUCDqLetotErMOy2fZp6h2vl6sRGTa4o6
+ NKP/ScRmzLGCpoqzkXUBprymVtiA8EjyLFXrXF9YdRvEOFsJ5eBKsO+2dyKdSCPmNFuj+TnhgPL
+ ic8uvE++0tcLtuHLsBmGEz25J/76qwP2uisjdRGHafxF6Z6Skfe18Jp7VgFwJrpfjOhcX94NMqd
+ sE+NxsIxyF3uI+AZoii4b
+X-Received: by 2002:a05:6102:c4e:b0:5ef:b3b7:6e3f with SMTP id
+ ada2fe7eead31-5feb2e88fe4mr2402295137.3.1771797202335; Sun, 22 Feb 2026
+ 13:53:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260223-seperate_gpu_kms-v1-1-e8231e7f1685@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIyMDE5NyBTYWx0ZWRfX6Uwr8rIyML8/
- ykvDFY3OvNFdMFxSS+FGoJ8wBHFTFop0PI7SxRNCoI1CLJKo7njncyFbvLyicE2mEi3I+ZXxoo3
- xKA4x0NAILqN5anAzLwoos411HxmKVuMj5cG7xhsyuPI+EqFaTrwDzjfrzO0+i2UDeE+gooWVR9
- iXUpj6Ee/ssA2wL9oroTLPzPv3IeZk8N/hYIxLYGUexLsBVHhVsc1Z+eyoRPqtp3IY4CbndaGb0
- kh5gaw8EWR69lxHxeFradqOXF8kOPm2Kp3aFnndiLrMkWZMnNZ+fXGrCf1KnvDWsNym+cA2iEnZ
- +MEpqiQ/sQyDT1iKjTwWbQv2wXCgV76trUoJUQMhWddse+IAl+tgKdg121Vi4FiXpGu5pcr/Slf
- cO3piRvVaLsqeHBsZavuHFg9CTyD7u0hvoAljh1mVpsTde1KS4yZiGzycLSO4pxnk0BV91uiiVw
- mhE0JE8Or20eD1GmPTg==
-X-Authority-Analysis: v=2.4 cv=T5KBjvKQ c=1 sm=1 tr=0 ts=699b67d8 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=VCWYR0DOrcW2_Bky3Y0A:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: Ezgzpfs1sKwGseByIccnzoijm6mU5LWA
-X-Proofpoint-ORIG-GUID: Ezgzpfs1sKwGseByIccnzoijm6mU5LWA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-22_05,2026-02-20_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602220197
+From: =?UTF-8?B?QW5kcsOpcyBQw6lyZXo=?= <andres.f.perez@gmail.com>
+Date: Sun, 22 Feb 2026 21:53:02 +0000
+X-Gm-Features: AaiRm50IWhxla8T7yEDMx81GClupXU0m2trQyK_dBcW8HtLqcMb9UhSaFMoA9w8
+Message-ID: <CAD0gVBtsG5Gfpq6hNDnCXMPzKw_o4nXLsY_GqftckfHaVPmC7A@mail.gmail.com>
+Subject: [REGRESSION] Display freeze on VT switch back to X11 since v6.16
+To: stable@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: regressions@lists.linux.dev
+Content-Type: multipart/alternative; boundary="000000000000dbfd0b064b70ae9f"
+X-Mailman-Approved-At: Mon, 23 Feb 2026 09:41:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,81 +115,268 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.60 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	R_MIXED_CHARSET(0.71)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mahadevan.p@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:regressions@lists.linux.dev,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[andresfperez@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[vger.kernel.org,ideasonboard.com,kernel.org,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andresfperez@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_FROM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 635E5170521
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 58A0E174126
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 12:40:10AM +0530, Mahadevan P wrote:
-> On targets with multiple display subsystems, such as SA8775P, the GPU
-> binds to the first display subsystem that probes. This implicit binding
-> prevents subsequent display subsystems from probing successfully,
-> breaking multi-display support.
-> 
-> Enable separate_gpu_kms by default to decouple GPU and display subsystem
-> probing. This allows each display subsystem to initialize independently,
-> ensuring that all display subsystems are probed.
-> 
-> Signed-off-by: Mahadevan P <mahadevan.p@oss.qualcomm.com>
-> ---
-> Depends on:
-> 	https://lore.kernel.org/lkml/20260124-adreno-module-table-v1-1-9c2dbb2638b4@oss.qualcomm.com/
-> 	https://lore.kernel.org/all/20260217071420.2240380-1-mkuntuma@qti.qualcomm.com/
+--000000000000dbfd0b064b70ae9f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-What exactly depends on this patchset?
+# OVERVIEW
 
-> ---
->  drivers/gpu/drm/msm/msm_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index ed2a61c66ac9..65119fb3dfa2 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -54,7 +54,7 @@ static bool modeset = true;
->  MODULE_PARM_DESC(modeset, "Use kernel modesetting [KMS] (1=on (default), 0=disable)");
->  module_param(modeset, bool, 0600);
->  
-> -static bool separate_gpu_kms;
-> +static bool separate_gpu_kms = true;
->  MODULE_PARM_DESC(separate_gpu_drm, "Use separate DRM device for the GPU (0=single DRM device for both GPU and display (default), 1=two DRM devices)");
->  module_param(separate_gpu_kms, bool, 0400);
+Since kernel v6.16.1, switching from an X11 session to a text VT and back
+freezes the display on a ThinkPad P15 Gen 2. The system remains responsive
+over SSH; only the display is frozen. Bisecting identified commit
+d1b618e7954802fe ("media: uvcvideo: Do not turn on the camera for some
+ioctls") as the trigger. Reverting the logic change in that commit fixes VT
+switching
+on v6.16.1, v6.17.9, and v6.18.9, but that is not an actual solution.
+Wayland
+compositors (e.g., river and sway) are not affected.
 
-The patch LGTM, but I'd prefer to get confirmation from Rob.
+Last good:  v6.15.9
+First bad:  v6.16.1
+Bisect result: d1b618e7954802fe media: uvcvideo: Do not turn on the camera
+for some ioctls
 
-BTW: have you tested it with X11? Are you still getting accelerated GPU?
+## Hardware:   Lenovo ThinkPad P15 Gen 2i (20YQ0031US)
+CPU:        Intel Core i7-11800H (Tiger Lake-H)
+iGPU:        Intel UHD Graphics (TGL GT1)
+dGPU:       NVIDIA T1200 (not involved in eDP output; driver: nvidia-open)
+Display:    15.6" 1920x1080 eDP, 10 bpc capable (EDID 1.4)
+Webcam:     Integrated Camera on PCH xHCI (Bus 003 Port 004)
+Firmware:   LENOVO N37ET61W (1.97)
+OS:         Arch Linux, Nix home-manager, X11 + xmonad, no display manager
 
--- 
-With best wishes
-Dmitry
+## Symptoms and reproduction steps:
+1. Boot, start X11 on tty1 (startx).
+2. Switch to tty2 (Ctrl+Alt+F2): works.
+3. Switch back to tty1 (Ctrl+Alt+F1): display freezes.
+   - Frozen on the last frame shown before switching away.
+   - System is fully responsive over SSH.
+   - Other VTs switch normally between each other as long as X11 is not
+active on them.
+   - Killing X does not recover the display. A reboot is required.
+
+# DEBUG ANALYSIS
+
+On v6.16.1, the VT switch back to X triggers a full modeset due to pipe
+configuration mismatches detected by intel_pipe_config_compare:
+
+[drm:intel_pipe_config_compare] fastset requirement not met in pipe_bpp
+  (expected 30, found 24)
+[drm:intel_pipe_config_compare] fastset requirement not met in dp_m_n
+  (expected link 269484/524288, found link 336855/524288)
+[drm:intel_pipe_config_compare] fastset requirement not met in dpll_hw_stat=
+e
+  (expected cfgcr0: 0xe001a5, found cfgcr0: 0x1c2)
+[drm:intel_pipe_config_compare] fastset requirement not met in port_clock
+  (expected 270000, found 216000)
+[drm:intel_atomic_check] forcing full modeset
+
+On v6.15.9, the same VT switch shows no such messages.
+no pipe_config_compare runs, no modeset, no freeze.
+
+# BISECT AND VERIFICATION
+
+The bisect converged on d1b618e7954802fe in the uvcvideo driver. This
+commit adds a switch statement to uvc_v4l2_unlocked_ioctl that allows
+certain V4L2 IOCTLS to call video_ioctl2 directly without first calling
+uvc_pm_get/uvc_pm_put. Prior to this commit, all ioctls called uvc_pm_get
+before video_ioctl2.
+
+## VT switching verification across kernel versions:
+
+  v6.12.74 arch pkg:   WORKS
+  v6.15.9 arch pkg:    WORKS
+  v6.15.9 from source: WORKS
+  v6.16.1 with d1b618e reverted:     WORKS
+  v6.17.9 with PM wrapping restored: WORKS
+  v6.18.9 with PM wrapping restored: WORKS
+
+  v6.16.1 from source:  FREEZES
+  v6.16.1 arch pkg:     FREEZES
+  v6.17.9 arch pkg:     FREEZES
+  v6.18.9 from source:  FREEZES
+  v6.18.9 arch pkg:     FREEZES
+
+## Things that do not eliminate the freeze
+
+  - module_blacklist=3Duvcvideo on boot
+  - CONFIG_USB_VIDEO_CLASS=3Dn (compiled out)
+  - i915.enable_psr=3D0
+  - Bypassing intel_vrr_transcoder_enable/disable (no-op)
+  - xrandr --output eDP-1 --set "max bpc" 10
+  - Xorg config FBDepth 30 (No effect on pipe_bpp)
+
+## Workaround patch
+
+Reverting the optimization from d1b618e to restore the unconditional
+uvc_pm_get/put wrapping for all ioctls. This is not a proper fix.
+
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c
+b/drivers/media/usb/uvc/uvc_v4l2.c
+index 9e4a251eca88..15057b47ec4f 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1199,33 +1199,12 @@ static long uvc_v4l2_unlocked_ioctl(struct file
+*file,
+  unsigned int converted_cmd =3D v4l2_translate_cmd(cmd);
+  int ret;
+
+- /* The following IOCTLs need to turn on the camera. */
+- switch (converted_cmd) {
+- case UVCIOC_CTRL_MAP:
+- case UVCIOC_CTRL_QUERY:
+- case VIDIOC_G_CTRL:
+- case VIDIOC_G_EXT_CTRLS:
+- case VIDIOC_G_INPUT:
+- case VIDIOC_QUERYCTRL:
+- case VIDIOC_QUERYMENU:
+- case VIDIOC_QUERY_EXT_CTRL:
+- case VIDIOC_S_CTRL:
+- case VIDIOC_S_EXT_CTRLS:
+- case VIDIOC_S_FMT:
+- case VIDIOC_S_INPUT:
+- case VIDIOC_S_PARM:
+- case VIDIOC_TRY_EXT_CTRLS:
+- case VIDIOC_TRY_FMT:
+- ret =3D uvc_pm_get(handle->stream->dev);
+- if (ret)
+- return ret;
+- ret =3D video_ioctl2(file, cmd, arg);
+- uvc_pm_put(handle->stream->dev);
++ ret =3D uvc_pm_get(handle->stream->dev);
++ if (ret)
+  return ret;
+- }
+-
+- /* The other IOCTLs can run with the camera off. */
+- return video_ioctl2(file, cmd, arg);
++ ret =3D video_ioctl2(file, cmd, arg);
++ uvc_pm_put(handle->stream->dev);
++ return ret;
+ }
+
+ const struct v4l2_ioctl_ops uvc_ioctl_ops =3D {
+
+Andr=C3=A9s
+
+--000000000000dbfd0b064b70ae9f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div># OVERVIEW<br><br>Since kernel v6.16.1, switching fro=
+m an X11 session to a text VT and back<br>freezes the display on a ThinkPad=
+ P15 Gen 2. The system remains responsive<br>over SSH; only the display is =
+frozen. Bisecting identified commit<br>d1b618e7954802fe (&quot;media: uvcvi=
+deo: Do not turn on the camera for some<br>ioctls&quot;) as the trigger. Re=
+verting the logic change in that commit fixes VT switching<br>on v6.16.1, v=
+6.17.9, and v6.18.9, but that is not an actual solution. Wayland=C2=A0</div=
+><div>compositors (e.g., river and sway) are not affected.<br><br>Last good=
+: =C2=A0v6.15.9<br>First bad: =C2=A0v6.16.1<br>Bisect result: d1b618e795480=
+2fe media: uvcvideo: Do not turn on the camera for some ioctls<br><br>## Ha=
+rdware: =C2=A0 Lenovo ThinkPad P15 Gen 2i (20YQ0031US)<br>CPU: =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0Intel Core i7-11800H (Tiger Lake-H)<br>iGPU: =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0Intel UHD Graphics (TGL GT1)</div><div>dGPU:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0NVIDIA T1200 (not involved in eDP output; driver: nvidia-open)<br=
+>Display: =C2=A0 =C2=A015.6&quot; 1920x1080 eDP, 10 bpc capable (EDID 1.4)<=
+br>Webcam: =C2=A0 =C2=A0 Integrated Camera on PCH xHCI (Bus 003 Port 004)<b=
+r>Firmware: =C2=A0 LENOVO N37ET61W (1.97)<br>OS: =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 Arch Linux, Nix home-manager, X11 + xmonad, no display manager<br><br>#=
+# Symptoms and reproduction steps:<br>1. Boot, start X11 on tty1 (startx).<=
+br>2. Switch to tty2 (Ctrl+Alt+F2): works.<br>3. Switch back to tty1 (Ctrl+=
+Alt+F1): display freezes.<br>=C2=A0 =C2=A0- Frozen on the last frame shown =
+before switching away.<br>=C2=A0 =C2=A0- System is fully responsive over SS=
+H.<br>=C2=A0 =C2=A0- Other VTs switch normally between each other as long a=
+s X11 is not active on them.<br>=C2=A0 =C2=A0- Killing X does not recover t=
+he display. A reboot is required.<br><br># DEBUG ANALYSIS<br><br>On v6.16.1=
+, the VT switch back to X triggers a full modeset due to pipe<br>configurat=
+ion mismatches detected by intel_pipe_config_compare:<br><br>[drm:intel_pip=
+e_config_compare] fastset requirement not met in pipe_bpp<br>=C2=A0 (expect=
+ed 30, found 24)<br>[drm:intel_pipe_config_compare] fastset requirement not=
+ met in dp_m_n<br>=C2=A0 (expected link 269484/524288, found link 336855/52=
+4288)<br>[drm:intel_pipe_config_compare] fastset requirement not met in dpl=
+l_hw_state<br>=C2=A0 (expected cfgcr0: 0xe001a5, found cfgcr0: 0x1c2)<br>[d=
+rm:intel_pipe_config_compare] fastset requirement not met in port_clock<br>=
+=C2=A0 (expected 270000, found 216000)<br>[drm:intel_atomic_check] forcing =
+full modeset<br><br>On v6.15.9, the same VT switch shows no such messages.<=
+br>no pipe_config_compare runs, no modeset, no freeze.<br><br># BISECT AND =
+VERIFICATION<br><br>The bisect converged on d1b618e7954802fe in the uvcvide=
+o driver. This<br>commit adds a switch statement to uvc_v4l2_unlocked_ioctl=
+ that allows<br>certain V4L2 IOCTLS to call video_ioctl2 directly without f=
+irst calling<br>uvc_pm_get/uvc_pm_put. Prior to this commit, all ioctls cal=
+led uvc_pm_get<br>before video_ioctl2.<br><br>## VT switching verification =
+across kernel versions:<br><br>=C2=A0 v6.12.74 arch pkg: =C2=A0 WORKS<br>=
+=C2=A0 v6.15.9 arch pkg: =C2=A0 =C2=A0WORKS<br>=C2=A0 v6.15.9 from source: =
+WORKS<br>=C2=A0 v6.16.1 with d1b618e reverted: =C2=A0 =C2=A0 WORKS<br>=C2=
+=A0 v6.17.9 with PM wrapping restored: WORKS<br>=C2=A0 v6.18.9 with PM wrap=
+ping restored: WORKS<br><br>=C2=A0 v6.16.1 from source: =C2=A0FREEZES<br>=
+=C2=A0 v6.16.1 arch pkg: =C2=A0 =C2=A0 FREEZES<br>=C2=A0 v6.17.9 arch pkg: =
+=C2=A0 =C2=A0 FREEZES<br>=C2=A0 v6.18.9 from source:=C2=A0 FREEZES</div><di=
+v>=C2=A0 v6.18.9 arch pkg: =C2=A0 =C2=A0 FREEZES<br><br>## Things that do n=
+ot eliminate the freeze<br><br>=C2=A0 - module_blacklist=3Duvcvideo on boot=
+<br>=C2=A0 - CONFIG_USB_VIDEO_CLASS=3Dn (compiled out)<br>=C2=A0 - i915.ena=
+ble_psr=3D0<br>=C2=A0 - Bypassing intel_vrr_transcoder_enable/disable (no-o=
+p)<br>=C2=A0 - xrandr --output eDP-1 --set &quot;max bpc&quot; 10<br>=C2=A0=
+ - Xorg config FBDepth 30 (No effect on pipe_bpp)<br><br>## Workaround patc=
+h<br><br>Reverting the optimization from d1b618e to restore the uncondition=
+al<br>uvc_pm_get/put wrapping for all ioctls. This is not a proper fix.<br>=
+<br>diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/u=
+vc_v4l2.c<br>index 9e4a251eca88..15057b47ec4f 100644<br>--- a/drivers/media=
+/usb/uvc/uvc_v4l2.c<br>+++ b/drivers/media/usb/uvc/uvc_v4l2.c<br>@@ -1199,3=
+3 +1199,12 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,<br>=C2=
+=A0	unsigned int converted_cmd =3D v4l2_translate_cmd(cmd);<br>=C2=A0	int r=
+et;<br>=C2=A0<br>-	/* The following IOCTLs need to turn on the camera. */<b=
+r>-	switch (converted_cmd) {<br>-	case UVCIOC_CTRL_MAP:<br>-	case UVCIOC_CT=
+RL_QUERY:<br>-	case VIDIOC_G_CTRL:<br>-	case VIDIOC_G_EXT_CTRLS:<br>-	case =
+VIDIOC_G_INPUT:<br>-	case VIDIOC_QUERYCTRL:<br>-	case VIDIOC_QUERYMENU:<br>=
+-	case VIDIOC_QUERY_EXT_CTRL:<br>-	case VIDIOC_S_CTRL:<br>-	case VIDIOC_S_E=
+XT_CTRLS:<br>-	case VIDIOC_S_FMT:<br>-	case VIDIOC_S_INPUT:<br>-	case VIDIO=
+C_S_PARM:<br>-	case VIDIOC_TRY_EXT_CTRLS:<br>-	case VIDIOC_TRY_FMT:<br>-		r=
+et =3D uvc_pm_get(handle-&gt;stream-&gt;dev);<br>-		if (ret)<br>-			return =
+ret;<br>-		ret =3D video_ioctl2(file, cmd, arg);<br>-		uvc_pm_put(handle-&g=
+t;stream-&gt;dev);<br>+	ret =3D uvc_pm_get(handle-&gt;stream-&gt;dev);<br>+=
+	if (ret)<br>=C2=A0		return ret;<br>-	}<br>-<br>-	/* The other IOCTLs can r=
+un with the camera off. */<br>-	return video_ioctl2(file, cmd, arg);<br>+	r=
+et =3D video_ioctl2(file, cmd, arg);<br>+	uvc_pm_put(handle-&gt;stream-&gt;=
+dev);<br>+	return ret;<br>=C2=A0}<br>=C2=A0<br>=C2=A0const struct v4l2_ioct=
+l_ops uvc_ioctl_ops =3D {</div><div><div dir=3D"ltr" class=3D"gmail_signatu=
+re" data-smartmail=3D"gmail_signature"><br>Andr=C3=A9s</div></div></div>
+
+--000000000000dbfd0b064b70ae9f--
