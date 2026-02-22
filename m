@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yC/GKK+Fm2mj1AMAu9opvQ
+	id BE73BKSFm2mj1AMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 23:39:43 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 23:39:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C5C1709C5
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 23:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6061709AF
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Feb 2026 23:39:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65BB110E1AC;
-	Sun, 22 Feb 2026 22:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26F4510E1C4;
+	Sun, 22 Feb 2026 22:39:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="ABegtPgL";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="gpaeyFyS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4D410E1A3
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 22:39:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC1810E1CF
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 22:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=t6aXQXpI+hIYWNJc19FQH/iLzUzzb2eomDnK90HQ/As=; b=ABegtPgLMfWzF/O2dxbd08oCG1
- OUidPXyqteouqHDzW+i0cTKhoQoeLbCykwEb2iZrP0RpJJgGaMYG+9S+FUlkyuTeoAbnOhfAUVwSr
- h97scWnztvIrnWo/Wi1z62DjAp2OoJPuCRHVXeoDsABsBxOXNjd8C9yKCp4vAnvNWlpvmNAvkveJG
- ezl8OPLal7svSL7aZpyVd/l9TSNpDQp9QZzFn+veJ7Il5vWgNYUGc/q1GIqI8nXJAAoglN8FpPQgC
- xgotDkSJrfPZvDkjTItHgvQsqITADOiUaRcQ/zqCEOO6ul9R5E0Pkm3U/hK19j6DBzyr0yoPzkw4h
- Shu06cFw==;
+ bh=HkoheiRsOgkGH0y6gauMEvPaM5M/sNlnyx5re4y4PJs=; b=gpaeyFySadCynK+2NX5d3KON33
+ L95Z3MH8w0BPO8BTXwJxg5JcQmaqKkwslXa4Cb+4UX3aGg/vujLXU1HtWnsSpqeWdw9/yQQgFQ/uE
+ ITNwh4ipkA1rq+y6vdWFmeHCwg3Bl23pOBNGEEfnWJhjwu4mjEAHz5F1Q1XC5QYtaYUCB+gTqZMKn
+ WbFcS90JweO9+FwHt7WoFBXkrH6ttcdXxCkgzeCCTWbXCf8St4Lu3gFB+6ugPdlXwwhOZbZIhXJds
+ 1Y+BZiMc6V7/iyd2UwGEP6jG0h4DCk2TbHajeYUt9jVwsgZ4M14KeyAlf1QMYDCgS9y+rKB/TuY8h
+ UHbSvr4Q==;
 From: Heiko Stuebner <heiko@sntech.de>
-To: dmitry.baryshkov@oss.qualcomm.com,
-	Andy Yan <andyshrk@163.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, alchark@gmail.com,
- andrzej.hajda@intel.com, conor+dt@kernel.org,
- cristian.ciocaltea@collabora.com, airlied@gmail.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, kever.yang@rock-chips.com,
- krzk+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, nicolas.frattaroli@collabora.com,
- robh@kernel.org, rfoss@kernel.org, hjc@rock-chips.com,
- sebastian.reichel@collabora.com, simona@ffwll.ch, tzimmermann@suse.de,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: (subset) [PATCH v3 0/5] Add DisplayPort support for rk3576
-Date: Sun, 22 Feb 2026 23:39:02 +0100
-Message-ID: <177179992291.1861430.1386382709600780109.b4-ty@sntech.de>
+To: neil.armstrong@linaro.org, dianders@chromium.org, thierry.reding@gmail.com,
+ sam@ravnborg.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, jesszhan0024@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: (subset) [PATCH v2 0/4] Properly support FriendlyElec HD702E
+Date: Sun, 22 Feb 2026 23:39:11 +0100
+Message-ID: <177179992303.1861430.2329914012385519373.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20260206010421.443605-1-andyshrk@163.com>
-References: <20260206010421.443605-1-andyshrk@163.com>
+In-Reply-To: <cover.1769191673.git.robin.murphy@arm.com>
+References: <cover.1769191673.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -73,55 +64,56 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:dianders@chromium.org,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:robin.murphy@arm.com,m:heiko@sntech.de,m:jesszhan0024@gmail.com,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:andyshrk@163.com,m:heiko@sntech.de,m:alchark@gmail.com,m:andrzej.hajda@intel.com,m:conor+dt@kernel.org,m:cristian.ciocaltea@collabora.com,m:airlied@gmail.com,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:kever.yang@rock-chips.com,m:krzk+dt@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:nicolas.frattaroli@collabora.com,m:robh@kernel.org,m:rfoss@kernel.org,m:hjc@rock-chips.com,m:sebastian.reichel@collabora.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:andy.yan@rock-chips.com,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,163.com];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[heiko@sntech.de,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[sntech.de,gmail.com,intel.com,kernel.org,collabora.com,kwiboo.se,rock-chips.com,ideasonboard.com,linux.intel.com,linaro.org,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[sntech.de,gmail.com,lists.freedesktop.org,lists.infradead.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[linaro.org,chromium.org,gmail.com,ravnborg.org,arm.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[sntech.de:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[sntech.de:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:mid,sntech.de:dkim,sntech.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 46C5C1709C5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:mid,sntech.de:dkim,sntech.de:email]
+X-Rspamd-Queue-Id: 8D6061709AF
 X-Rspamd-Action: no action
 
 
-On Fri, 06 Feb 2026 09:04:10 +0800, Andy Yan wrote:
-> The DisplayPort found on RK3576 is very similar to that of RK3588,
-> but work in dual pixel mode and support for MST.
+On Fri, 23 Jan 2026 19:22:19 +0000, Robin Murphy wrote:
+> v1: https://lore.kernel.org/linux-rockchip/cover.1767111804.git.robin.murphy@arm.com/
 > 
-> This patch series aims to add basic display output, not include audio
-> and MST, which will be the work for the next stage.
+> Changelogs in the patches - fingers crossed this is good to go now,
+> thanks all for the acks and reviews.
 > 
-> Tested with 2 lane standard DP port and USB-C Alt mode output now.
-> For those who want to give it a try, I have a reference branch here[0].
+> Cheers,
+> Robin.
 > 
 > [...]
 
 Applied, thanks!
 
-[5/5] arm64: dts: rockchip: Add DisplayPort dt node for rk3576
-      commit: 753ed4fa4e815669a025e08f5101ce0d91f46c8a
+[3/4] arm64: dts: rockchip: Move RK3399 eDP pinctrl to boards
+      commit: 638fa970ac669e5d0fb2c5cc0bea3d4443299ac6
+[4/4] arm64: dts: rockchip: Add overlay for FriendlyElec HD702E
+      commit: 25afddad23b8e91fcff625756e51a805e288ab38
 
 Best regards,
 -- 
