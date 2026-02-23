@@ -2,122 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBLGEzJNnGnYDQQAu9opvQ
+	id EKj/BnRPnGktDwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:50:58 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:00:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D6A176745
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D34D176812
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06C2F10E39D;
-	Mon, 23 Feb 2026 12:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1E110E2F3;
+	Mon, 23 Feb 2026 13:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OD8Ue7PE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hGBNZT4Z";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OD8Ue7PE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hGBNZT4Z";
+	dkim=pass (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="I3bFgT2y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3E410E39D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 12:50:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
+ Mon, 23 Feb 2026 13:00:28 UTC
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de
+ [46.38.247.119])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E34A010E2F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 13:00:28 +0000 (UTC)
+Received: from mors-relay-8404.netcup.net (localhost [127.0.0.1])
+ by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4fKLNQ35qxz88w2;
+ Mon, 23 Feb 2026 13:52:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+ s=key2; t=1771851142;
+ bh=mdtAPt1u+G474DblEe+23KFM0HhOnWGgYfp1KftsXRs=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=I3bFgT2y9LPnCCOPaotswFyOaXR9XbMFe/T568GuLEpAsa85n2yENXGCsA4bqq6E7
+ mKB1bXCxBevo1dqc7809o0YnoYEhvpAZl2IUEfBgUzrzF5BV9Jd6imBXBjjQMp1xRl
+ 1kpR/fTMQrot4TsXhHh0Eo2gdXOw4vvpwbq8jJw3FtePM7ZDg0/Meh+mIxkPqBlIww
+ bWdh2hCEpNrTF3ZqwcpoD6EKWjK2keUvFBpOFjS4w406mNTw12jCo1MhX9kYOyk1Rd
+ RFU6imGALJo+qA4gOssUSMGt7GR3oA6bqYprnamtZlVUcIqj5bDXr7c3UrppF4LkUG
+ Z7hsKRm2jKr+Q==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+ by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4fKLNQ2MJ1z4xMh;
+ Mon, 23 Feb 2026 13:52:22 +0100 (CET)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C2BCD3EC9B;
- Mon, 23 Feb 2026 12:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771851052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=apw//bbHl+6HtIYypxcsVubkXJ1SaDNZkpxt6R5SX/I=;
- b=OD8Ue7PEAhZf8tByHTBHvPAwhFt9YXpLlHUn0qClh3SXKlIZhwWIRejbFkiTE9hySxcBnC
- SMG/LskoqeVI0GDGptBGiP722zM42c6lOnqnWdOgLlztW1mejItN9ZGgPZK4gH7IS6VUYK
- H0DwecmzcqqEMbhoSQ5uXZaalftLZew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771851052;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=apw//bbHl+6HtIYypxcsVubkXJ1SaDNZkpxt6R5SX/I=;
- b=hGBNZT4ZhBaJ2c07/2KNYHCOhTIefQ0IEppqqRL61ZN9LtLqwYoD426VrBZykHUySC1BKI
- fowFet9uLBwhr/Ag==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OD8Ue7PE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hGBNZT4Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771851052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=apw//bbHl+6HtIYypxcsVubkXJ1SaDNZkpxt6R5SX/I=;
- b=OD8Ue7PEAhZf8tByHTBHvPAwhFt9YXpLlHUn0qClh3SXKlIZhwWIRejbFkiTE9hySxcBnC
- SMG/LskoqeVI0GDGptBGiP722zM42c6lOnqnWdOgLlztW1mejItN9ZGgPZK4gH7IS6VUYK
- H0DwecmzcqqEMbhoSQ5uXZaalftLZew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771851052;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=apw//bbHl+6HtIYypxcsVubkXJ1SaDNZkpxt6R5SX/I=;
- b=hGBNZT4ZhBaJ2c07/2KNYHCOhTIefQ0IEppqqRL61ZN9LtLqwYoD426VrBZykHUySC1BKI
- fowFet9uLBwhr/Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81F243EA68;
- Mon, 23 Feb 2026 12:50:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6Df/HSxNnGlpAQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 23 Feb 2026 12:50:52 +0000
-Message-ID: <2afb371d-ce4f-46b6-bbd6-7b3554807a6e@suse.de>
-Date: Mon, 23 Feb 2026 13:50:52 +0100
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by policy02-mors.netcup.net (Postfix) with ESMTPS id 4fKLNP2j6Xz8sbC;
+ Mon, 23 Feb 2026 13:52:21 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown
+ [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+ by mxe9fb.netcup.net (Postfix) with ESMTPSA id 12D8F66F54;
+ Mon, 23 Feb 2026 13:52:20 +0100 (CET)
+Authentication-Results: mxe9fb;
+ spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f)
+ smtp.mailfrom=regressions@leemhuis.info
+ smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <b4f8ca7a-02b1-4e72-896b-87a00db6338b@leemhuis.info>
+Date: Mon, 23 Feb 2026 13:52:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] fbdev: defio: Protect against device/module removal
-To: deller@gmx.de, simona@ffwll.ch, jayalk@intworks.biz
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20260122131213.992810-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260122131213.992810-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: Time from regression report to a merge of a fix (was Re: [git pull]
+ drm fixes for 7.0-rc1)
+To: Dave Airlie <airlied@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Alex Deucher
+ <alexander.deucher@amd.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
+Content-Language: de-DE, en-US
+In-Reply-To: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-PPP-Message-ID: <177185114042.2019614.14186409466347414161@mxe9fb.netcup.net>
+X-NC-CID: x30qopvKun9vn/QR/x+byNHbWOc83WU2jyoWB7Te+eSVhp8cy2c=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,72 +90,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:simona@ffwll.ch,m:jayalk@intworks.biz,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:torvalds@linux-foundation.org,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:alexander.deucher@amd.com,m:regressions@lists.linux.dev,s:lists@lfdr.de];
+	DMARC_NA(0.00)[leemhuis.info];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de,ffwll.ch,intworks.biz];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,ffwll.ch];
+	FORGED_SENDER(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_ALL(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[leemhuis.info:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Queue-Id: B2D6A176745
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0D34D176812
 X-Rspamd-Action: no action
 
-ping for review
+Lo!
 
-Am 22.01.26 um 14:08 schrieb Thomas Zimmermann:
-> There's a long-standing bug in defio where the framebuffer device or
-> module gets removed while mmap'ed areas of the framebuffer memory
-> persists in userspace. Page faults in the area then operate on defined
-> state.
+On 2/20/26 21:53, Dave Airlie wrote:
 >
-> Patches 1 and 2 fix these problems. Patches 3 and 4 build upon the fix
-> and put defio state into the correct places.
->
-> Thomas Zimmermann (4):
->    fbdev: defio: Disconnect deferred I/O from the lifetime of struct
->      fb_info
->    fbdev: defio: Keep module reference from VMAs
->    fbdev: defio: Move variable state into struct fb_deferred_io_state
->    fbdev: defio: Move pageref array to struct fb_deferred_io_state
->
->   drivers/video/fbdev/core/fb_defio.c | 266 ++++++++++++++++++++--------
->   include/linux/fb.h                  |   9 +-
->   2 files changed, 195 insertions(+), 80 deletions(-)
->
->
-> base-commit: a3ecd278f9a05323fab7471760a7ea10081251d6
+> This is the fixes and cleanups for the end of the merge window, it's
+> nearly all amdgpu, with some amdkfd, then a pagemap core fix, i915/xe
+> display fixes, and some xe driver fixes. Nothing seems out of the
+> ordinary, except amdgpu is a little more volume than usual.
+> 
+> Let me know if there are any issues,
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+Well, there were two fixes in here that made me wonder if our processes
+need some optimization to get regressions fixed at least somewhat as
+fast as Linus wants them to be fixed[1]:
+
+* One fix in here was for a amdgpu regression introduced in v6.19-rc6
+(and also affecting many stable series due to backports). The fix was
+ready within ~2 days and could even have made v6.19 -- but it only
+reached mainline through this PR on Friday. IOW: After two weeks. Which
+got me wondering, "Should we do something to merge fixes like that
+faster"? And yes, it's the merge window – but that's also when Arch
+Linux and openSUSE Tumbleweed usually jump to the latest mainline series
+and thus expose regressions like this to many users, so I guess it would
+be good to get them fixed at least as fast as outside of merge windows.
+
+* One fix in here was for a i915/xe regression introduced in v6.18-rc1.
+Once reported, it took about six weeks to get fixed – and then nearly 10
+days for the fix to reach mainline. Looking at this, I once more
+wondered if this could have been merged faster. But even more I wondered
+why the culprit wasn't reverted, as that's what Linus afaics wants when
+it takes this long.
+
+Note, these are examples of problems that happen in other subsystems as
+well; I chose to bring it up here just because they were good examples,
+as both regressions were also reported at least three times, so those
+are not really corner cases. See below for all the details.
+
+[1] "But if it's a regression with a known commit that caused it, I
+think the rule of thumb [to fix it] should generally be "within a week",
+preferably before the next rc."
+https://lore.kernel.org/all/CAHk-%3Dwi86AosXs66-yi54%2BmpQjPu0upxB8ZAfG%2BLsMyJmcuMSA@mail.gmail.com/
 
 
+> Mario Limonciello (2):
+>       [...]
+>       drm/amd: Fix hang on amdgpu unload by using pci_dev_is_disconnected()
+
+This is f7afda7fcd169a ("drm/amd: Fix hang on amdgpu unload by using
+pci_dev_is_disconnected()") [authored: 2026-02-05 17:42:54 GMT+1;
+committed: 2026-02-05 23:25:57 GMT+1 by Alex; next arrival:
+next-20260209; merged: 2026-02-21 00:36:38 GMT+1; v6.19-post].
+
+It fixes a regression that has been reported at least three times:
+
+* On Tue, 3 Feb 2026 17:27:00 -0500 (EST):
+https://lore.kernel.org/all/b0c22deb-c0fa-3343-33cf-fd9a77d7db99@absolutedigital.net/
+
+* On February 5, 2026 at 1:30:12 PM GMT+1:
+https://gitlab.freedesktop.org/drm/amd/-/issues/4944
+
+* February 18, 2026 at 9:30:39 PM GMT+1:
+https://gitlab.freedesktop.org/drm/amd/-/issues/4984
+
+And likely a fourth time on February 7, 2026 at 7:25:40 PM GMT+1:
+https://gitlab.freedesktop.org/drm/amd/-/issues/4953
+
+The culprit is 28695ca09d3264 ("drm/amd: Clean up kfd node on surprise
+disconnect") [also known as 6a23e7b4332c10; authored: 2026-01-07
+22:37:28; committed: 2026-01-14 20:51:36; next arrival: next-20260119;
+merged: 2026-01-16 22:48:18; v6.19-rc6 (2026-01-19 00:42:45), v6.18.7
+(2026-01-23 11:21:37), v6.12.67 (2026-01-23 11:18:52), v6.6.122
+(2026-01-30 10:27:43)]
+
+Mario and Alex thus had a fix ready and committed within about two days
+after it was first reported. It thus is an "immediate fix" (yeah!), just
+how Linus wants it (see [1] above).
+
+But then it took two weeks to get it mainlined -- and will now take a
+few days more to reach all those stable trees where it is needed, too.
+
+Give the dates above it could have reached 6.19 (released 2026-02-08
+22:03:27 GMT+1) if we really had wanted to.
+
+That fix could also have made the main drm PR this merge window (send
+Wed, 11 Feb 2026 17:26:03 +1000:), as Alex already asked for merging on
+Fri, 6 Feb 2026 14:27:06 -0500:
+https://lore.kernel.org/all/CAPM=9tzgmO1PWeuxjAxqOmS5PTsOe8jHP9Poy23q6tvY66B1KQ@mail.gmail.com/
+https://lore.kernel.org/all/20260206192706.59396-1-alexander.deucher@amd.com/
+
+If it made that pull, the fix could be in stable already by now. Maybe
+Alex PR just fell through the cracks. Happens, but overall this still
+made me wonder:
+
+(1) Should there maybe have been an additional PR this merge window to
+speed things up? Or some fast track for regressions?
+
+(2) Or should the fix (or a revert of the culprit) maybe even have been
+sent to Linus for 6.19? That would have saved at least one user from
+bisecting and reporting the regression (and likely a few others that
+never reported it).
+
+From Linus' mail I linked above, I'd assume he would have preferred the
+second option here, even if it would have been a last minute fix. If so:
+how could we make that happen more often in the future?
+
+Side note: yes, unbinding a module is likely something only a few users
+do -- but given those three or four reports, it seems it's not that
+unusual. And I don't care too much about this specific fix anyway, as
+it's just an example for the "time it takes fixes for recent regressions
+to reach mainline" aspect that I see all the time in many subsystems. To
+elaborate on that, let me give another example:
+
+> Imre Deak (2):
+>       drm/i915/dp: Fix pipe BPP clamping due to HDR
+
+This is now fe26ae6ac8b88f ("drm/i915/dp: Fix pipe BPP clamping due to
+HDR") [authored: 2026-02-09 14:38:16 GMT+1; committed: 2026-02-12
+07:03:08 GMT+1; next arrival: next-20260212; merged: 2026-02-21 00:36:38
+GMT+1; v6.19-post].
+
+That commit fixes a regressions that has been reported at least three times:
+
+* On December 30, 2025 at 5:07:48 PM GMT+1
+https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15503
+
+* On January 13, 2026 at 11:51:11 PM GMT+1
+https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7052
+
+* On February 15, 2026 at 10:13:48 PM GMT+1
+https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7269
+
+That regression is caused by ba49a4643cf53c ("drm/i915/dp: Set min_bpp
+limit to 30 in HDR mode") [authored: 2025-07-30 07:55:23 GMT+;
+committed: 2025-08-19 08:32:40 GMT+; next arrival: next-20250820;
+merged: 2025-10-02 21:47:25 GMT+; v6.18-rc1 (2025-10-12 22:42:36 GMT+)].
+
+The regression took way longer to get resolved than the first example,
+which makes me wonder:
+
+(1) Should the culprit have been reverted weeks ago to get closer to the
+"immediate fix" target that Linus wants?
+
+(2) This fix also took nine days from being committed to reaching
+mainline. It came a bit too late for the first drm PR this cycle. So
+again: Would more frequent PRs help here? Or some fast-track path for
+regression fixes?
+
+Ciao, Thorsten
