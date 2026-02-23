@@ -2,67 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id exk8G2X1m2kg+QMAu9opvQ
+	id OGN5O9T3m2mp+QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 07:36:21 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 07:46:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15F71722F6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 07:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63867172513
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 07:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB8910E24B;
-	Mon, 23 Feb 2026 06:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8383510E245;
+	Mon, 23 Feb 2026 06:46:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E9wOGwQl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Sr9oif5L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA8310E249
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 06:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771828577; x=1803364577;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=OWpm1fw5X1UlFpCnVACOZoldwrjn3bzGtBX9HF0dZNU=;
- b=E9wOGwQl3zFqYvr2bOystPM5iuwb5vX1ICSMN219G35rZf47Xh2sMape
- 2tXNe9wJV4ddT5PPP8TMUYOVCvidvS7aNiVqM4iQfFoAsWFlK655W8UpB
- YtAv/sIVqPQQG0ORp1WTKcUhlcO1XfmeNWiXBq8sy9MjHExzvtIm3JyRv
- hrRbOIIXVDADxpCrC7FnOFOgADwF9CLFhdQrPBhj2kuMyf2E67EvCn9hP
- SsWlsZOBqEjWrrF9YsyXp7jPkerf1ih1uizKKTyirvYyhW3FhL/3PJjep
- lssnsL43U5DoniW58F9cWekv+TWtRnDm6Eb0NJ4RSB6d39LuEWuJIk0Bl g==;
-X-CSE-ConnectionGUID: YrpCrxGPTXafNGczUgcePg==
-X-CSE-MsgGUID: jZHZLjzYRNepqaZTBI8wlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="90224098"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="90224098"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2026 22:36:17 -0800
-X-CSE-ConnectionGUID: KndYkeIaQ5KAIY8yqpFynA==
-X-CSE-MsgGUID: SLaBY/5eRzqfZrdq1+pKmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="219973537"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.194])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2026 22:36:15 -0800
-Date: Mon, 23 Feb 2026 08:36:12 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Richard Hughes <hughsient@gmail.com>
-Subject: Re: power saving, dpcd access and fwupd/userspace expectations
-Message-ID: <aZv1XP3vkXQrdFxs@intel.com>
-References: <CAPM=9twkqUu=CJ6+AotavnDga5F=2SGRcjLeZNRy1soFbrO6cA@mail.gmail.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428A510E245
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 06:46:40 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-59e4a04f059so5155889e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Feb 2026 22:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771829198; x=1772433998; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lxcBP+ESvpawuLsGb9d/pcO8jYBLNDB5e/63teiMRdU=;
+ b=Sr9oif5LHX86JEvTRJ1QPA+BrAZJCg0xUn6lp6KDcOX6hf5s/ISGyroq8cf5Q3vkfD
+ ndCrZKK+J3juZEgbChMbmHPKEQG80yENhTEFYbrTX/1ZeWFcPi20dMBHkjeskkefottu
+ jtravEvzzYkSQvuKm/hBGQv3zdJL4lRgo56s+c2OEQ/1GAktiWW4jej+uvtpRF2zkk0t
+ ry489HX4AXa0AmvsePKTLGVp9uiaP5Y3iK5vrJaXqtba8WxcfMcxxapBMmgDMntt8r9v
+ J//a7ApIY2o4k8tfdLgEyMcT/jACPbesvf1B6roqfpvdxm3TRyp1A0ol3wNEc6uh2F0l
+ yGfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771829198; x=1772433998;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lxcBP+ESvpawuLsGb9d/pcO8jYBLNDB5e/63teiMRdU=;
+ b=rW2beirL6/mMsFrO8LSwWdnQdMWwQL4d7FODDSrcXa+qJnVTATJXeedwBtsIyzeyTh
+ fcAlrwshQRaZcEkKrbNbuhn9ZnzzOfLSZxfgQlMM3ICPkaME+A2QkZWq8OthsC6EEApQ
+ MwVGGaQ0NNMhfm/OrNCSKZb0VKFNOHPs59ItYXVPvY9RH1mHmTQWQleTRucnbPDJDXRy
+ qsWa9wNqa3pef7DbjzMSDwnwFt5K2ARfUuEHV7bFy6ZqRMeBzFG0tFk0hlq5K/JOKa3M
+ K1t585nbek6PpmQ7dVt+Kkzs0UvPtOZglHfUn4vhpng3F6VY3TWtu3HMIb+L7tGeN2l4
+ 2WMw==
+X-Gm-Message-State: AOJu0YzEbGFGukYhjw5Wx5neSGEMM2ry/ePJmShbReNuU8fuLPoAQv7x
+ euR/LUc4tbWjEl6No5DqOa1121r0AysNAt+WbcxQG00S5njlaa6+Wo/o
+X-Gm-Gg: AZuq6aJCf0S+MsbHe/jJ26jgB25kqjMFjzdZrQO6zB7SMqLL3RZW2dPNj1aqIv9fBob
+ ME7A3en6Rf5+IBehN7+Rb4/0x1+DVMWbZgw2Cu4Bb7GjQJmjl0PcYzLTwsFy2/lHvYAx/0+Yrgc
+ vEsLkLuDXt5UD2v4gtzEm8UpVBpNraHoHKyh/Uo0fknyDQN6OP9QMivr7H3pgB35qK47G9AIYOO
+ KBrEdNxaWODZsB0MTTQzz0i1uhWM/7yB8KMKXrLe2GNL7AWjI/9SFWICMq9MiNR+8UOeMMpp+dN
+ kt8sojz/1Q9VqYFMhap3dobg0AVMg4v4feTxbZcwL+YAcGng4Exzl7TNdi0UHRFtG8exz9Gykl0
+ h9ROmeOkgCLfhFdNMlYXeorbj5+ap1SZAIh7I5UIDxgCyxyCi/nKNd6FjLEqYLqpNyWCggsPmHa
+ smuyp8nzCCtbemGFX4TDf5v7U=
+X-Received: by 2002:a05:6512:3f16:b0:59e:44fd:8047 with SMTP id
+ 2adb3069b0e04-5a0ed8a5360mr2505423e87.28.1771829198192; 
+ Sun, 22 Feb 2026 22:46:38 -0800 (PST)
+Received: from xeon ([188.163.112.76]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a0eeb0b89asm1386201e87.2.2026.02.22.22.46.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Feb 2026 22:46:37 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] gpu/drm: panel: add support for DSI panel used in
+ Motorola Atrix 4G and Droid X2
+Date: Mon, 23 Feb 2026 08:46:28 +0200
+Message-ID: <20260223064630.12720-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPM=9twkqUu=CJ6+AotavnDga5F=2SGRcjLeZNRy1soFbrO6cA@mail.gmail.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,84 +95,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.48 / 15.00];
-	R_MIXED_CHARSET(0.83)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:hughsient@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:clamor95@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com];
-	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: E15F71722F6
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 63867172513
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 08:54:43AM +1000, Dave Airlie wrote:
-> I've been hitting a problem on the laptop I used as my desktop for the
-> last while, and I finally has the inspiration to track it down this
-> morning at 5am.
-> 
-> The problem is when nouveau goes into runtime pm suspend, and fwupd
-> hits the /dev/drm_dp_aux* nothing wakes up nouveau, we get to sending
-> a message to GSP and it times out and I get an oops and things fail.
-> 
-> Now the question I have is what do we want to do in this situation, do
-> we really want to restore power to the GPU because fwupd is probing
-> possibly attached docks, or whatever. Like do we want to integrate the
-> drm_dp_aux stuff into the power domains properly so we can have a
-> proper hierarchy so it wakes up the parent device when it gets used,
-> or do we just want to return -EBUSY from the driver when the device is
-> dynamically off.
-> 
-> I'll probably submit a patch doing the latter when I get to writing it
-> and test it on my laptop.
+Add support for the DSI LCD panel module found in Motorola Atrix 4G or
+Droid X2 smartphones. Exact panel vendor and model are unknown hence panel
+uses generic compatible based on board where it is used. The panel has a
+540x960 resolution with 24 bit RGB per pixel.
 
-FWIW i915 has always woken up the device for any kind of userspace
-access that needs to poke the hardware.
+---
+Changes in v2:
+- updated schema commit description
+---
 
-Simply returning -EBUSY or something doesn't sound very safe in
-case the hardware powers down while the DPCD access for some
-firmware update has already started. I suppose at the very least
-you'd need to hold some kind of power reference even if you don't
-wake the hardware. Though if you already have to figure out the
-correct power reference then I'm not sure why you wouldn't just
-wake it up anyway.
+Svyatoslav Ryhel (2):
+  dt-bindings: display: panel: document Atrix 4G and Droid X2 DSI panel
+  gpu/drm: panel: add support for DSI panel used in Motorola Atrix 4G
+    and Droid X2
 
-And if you don't wake the hardware, is is safe to let the device
-power down during a firmware update because then only some of
-AUX transfers would go through and subsequent ones could still
-fail.
-
-I've also occasionally wondered what happens to the thing whose
-firmware is being updated if other AUX transfers are happening at
-the same time...
+ .../display/panel/motorola,mot-panel.yaml     |  69 +++++
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-motorola-mot.c    | 244 ++++++++++++++++++
+ 4 files changed, 326 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-motorola-mot.c
 
 -- 
-Ville Syrjälä
-Intel
+2.51.0
+
