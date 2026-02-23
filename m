@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBKCHz4bnGkZ/wMAu9opvQ
+	id EG1pMkMbnGkZ/wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:17:50 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:17:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B10173B71
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD4A173B80
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:17:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C3310E2B2;
-	Mon, 23 Feb 2026 09:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDA9010E2A0;
+	Mon, 23 Feb 2026 09:17:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="no4nlTgz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iQFXgIk9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 410AE10E2A9;
- Mon, 23 Feb 2026 09:17:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C9410E2A7;
+ Mon, 23 Feb 2026 09:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771838267; x=1803374267;
+ t=1771838273; x=1803374273;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=wuNncTDf7aNB+KmQiCWYP6QZ7+MIWRY1LdqW7ruGoVM=;
- b=no4nlTgz4ETjFkCq+UkZT1Xb2JekFJg+DAtBrXeMCTLex8gmUQ82v0ab
- Yp9y4850H24YnZqf/zMLHWH3/x1pvzhS946bYZeAGkMVnpW/1+g/ADSTl
- EXx95QSLIAcNlSJDrl7G3Q7CVI6YjbkwbyV0tMSffYlsrXgG/6v82sRUe
- L+xkANkuF1B993MZEI+vMHHEZGhZPRcRZEB99mRY88m6eWzCT3cEsBGcL
- +Ir8CSuOfNBkAbxRO8iQpRuO37Ivp0HIQ4sB/9XFCLW5UBKwq4uKN8pbk
- KIu27xKcAeiIf3IoCAlYf12Ggnm4QiUjsjojR/kw5uXM2fN9W3Gt+HQ5X g==;
-X-CSE-ConnectionGUID: 4LiN7DAXQDO0/u0770MGlw==
-X-CSE-MsgGUID: +jazJjkCRVuFrbEufb56ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="76690770"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="76690770"
+ bh=fGxJu/2ranX5VWjqU2P7zv0AR+2Q2x1Rp25uMDhoB6M=;
+ b=iQFXgIk95YQfuAXI4oiFOYiTm5Pa8jFD9knQpYMZFLKdqLgOfAaQmrJq
+ RzT1rVuYA79R5zIEZAhXo3jWtDuir/QMh2MOV1DP7D3ByVyOFZ4QY3lL8
+ MuL5W2TZQxClfl/pCxPE//SVVwdHvFUnenNmvadn4CHEsQY2H2avo2X8M
+ oCFG/o9DyfkBkF6zpeoid8NsOy2gmpADw3q7s7VOMbbcbAtnxJDca1xQA
+ k3yLfqh6Olikz2vwoJ5qcPrbD/DerAxHx4uCNyymOBAfL3jeHT3Rj41go
+ fdMYyeqt0EAta92sSwPSqgczlN+tYribqbkh4t91nxxcoDygYQE8KPfJJ A==;
+X-CSE-ConnectionGUID: nijenvy9QsOQfZ4/MN/yNQ==
+X-CSE-MsgGUID: SrUCbVjWRsSAVSFGvc5wpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="76690781"
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="76690781"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 01:17:47 -0800
-X-CSE-ConnectionGUID: A506h/w5S5eLCKSQKdk4jg==
-X-CSE-MsgGUID: VfQGMvvWS5abkhQbGw1c4w==
+ 23 Feb 2026 01:17:52 -0800
+X-CSE-ConnectionGUID: 5jDjnRRISFGycMj+cZdTfw==
+X-CSE-MsgGUID: FkHq4xL0QY6SK3f875rfEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="220048808"
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="220048814"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa005.fm.intel.com with ESMTP; 23 Feb 2026 01:17:42 -0800
+ by fmviesa005.fm.intel.com with ESMTP; 23 Feb 2026 01:17:47 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Mon, 23 Feb 2026 14:46:01 +0530
-Subject: [PATCH v10 3/7] drm/atomic: Call complete_signaling only if
- prepare_signaling is done
+Date: Mon, 23 Feb 2026 14:46:02 +0530
+Subject: [PATCH v10 4/7] drm/atomic: Allocate atomic_state at the beginning
+ of atomic_ioctl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-atomic-v10-3-f59c8def2e70@intel.com>
+Message-Id: <20260223-atomic-v10-4-f59c8def2e70@intel.com>
 References: <20260223-atomic-v10-0-f59c8def2e70@intel.com>
 In-Reply-To: <20260223-atomic-v10-0-f59c8def2e70@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -109,44 +109,99 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 50B10173B71
+X-Rspamd-Queue-Id: 7FD4A173B80
 X-Rspamd-Action: no action
 
-Upon returning valid error code on atomic_ioctl failure, changes have
-been done to goto error/out in cases of error instead of returining to
-accommodate returning the failure codes. As part of this change
-complete_signaling() will be called as part of cleanup. Check if the
-fences are initialized/prepared before completing.
+Move atomic_state allocation to the beginning of the atomic_ioctl
+to accommodate drm_mode_atomic_err_code usage for returning error
+code on failures.
+As atomic state is required for drm_mode_atomic_err_code to store the
+error codes.
+
+v7: Reframe commit message (Suraj)
+v8: Moved the clearing fence change to a different patch (Suraj/Louis)
+v9: Free allocated atomic_state before return on error, move this change
+from patch 5 (Suraj)
+v10: Re-order, exchange 3 and 4th patch to ensure cleanup is done in
+order (Suraj)
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_atomic_uapi.c | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 87de41fb445931ff8383b45839fca63123026f8e..ac84b9a9c25844985816b9c0843c44e6e763d048 100644
+index ac84b9a9c25844985816b9c0843c44e6e763d048..f295a397c26c24c6414a25bacff051bd694260c5 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1569,7 +1569,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_out_fence_state *fence_state;
- 	int ret = 0;
--	unsigned int i, j, num_fences;
-+	unsigned int i, j, num_fences = 0;
- 	bool async_flip = false;
+@@ -1576,6 +1576,14 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+ 		return -EOPNOTSUPP;
  
- 	/* disallow for drivers not supporting atomic: */
-@@ -1719,7 +1719,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
++	state = drm_atomic_state_alloc(dev);
++	if (!state)
++		return -ENOMEM;
++
++	drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
++	state->acquire_ctx = &ctx;
++	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
++
+ 	/* disallow for userspace that has not enabled atomic cap (even
+ 	 * though this may be a bit overkill, since legacy userspace
+ 	 * wouldn't know how to call this ioctl)
+@@ -1583,24 +1591,28 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 	if (!file_priv->atomic) {
+ 		drm_dbg_atomic(dev,
+ 			       "commit failed: atomic cap not enabled\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
  	}
  
- out:
--	complete_signaling(dev, state, fence_state, num_fences, !ret);
-+	if (num_fences)
-+		complete_signaling(dev, state, fence_state, num_fences, !ret);
+ 	if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS) {
+ 		drm_dbg_atomic(dev, "commit failed: invalid flag\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
  
- 	if (ret == -EDEADLK) {
- 		drm_atomic_state_clear(state);
+ 	if (arg->reserved) {
+ 		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	if (arg->flags & DRM_MODE_PAGE_FLIP_ASYNC) {
+ 		if (!dev->mode_config.async_page_flip) {
+ 			drm_dbg_atomic(dev,
+ 				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported\n");
+-			return -EINVAL;
++			ret = -EINVAL;
++			goto out;
+ 		}
+ 
+ 		async_flip = true;
+@@ -1611,16 +1623,10 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT)) {
+ 		drm_dbg_atomic(dev,
+ 			       "commit failed: page-flip event requested with test-only commit\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+-	state = drm_atomic_state_alloc(dev);
+-	if (!state)
+-		return -ENOMEM;
+-
+-	drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
+-	state->acquire_ctx = &ctx;
+-	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
+ 	state->plane_color_pipeline = file_priv->plane_color_pipeline;
+ 
+ retry:
 
 -- 
 2.25.1
