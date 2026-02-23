@@ -2,144 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DM/LpUfnGkZ/wMAu9opvQ
+	id 6DGvJ7ofnGkZ/wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:36:21 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:36:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270DA173FFD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF9317401A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:36:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12A810E2B1;
-	Mon, 23 Feb 2026 09:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3CE10E2B6;
+	Mon, 23 Feb 2026 09:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gz58tQmR";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ig1/JTpJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OCS/Oxe+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE8D10E2B1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:36:17 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61N8bEs43018272
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:36:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SYGjE+XjICFU+//eucHg+2ZzKIQx8dcU/7z9xFG21vM=; b=Gz58tQmRE/iJoV8k
- J0/JttB64qlBpYibGzTX6Zn5lv/n92CMIVAqWDSrmeNiPudLmBZN75cDy8J63hLK
- 4DbriMib5EMSLZJLTX4O/1w+RUaUZJ68L/+gA1xYOyAv4Tg9C+7cuaqOWXONE1dj
- d1FSCL+joohBZKHLtbC+GMbCo2XZv3MPl7NBDnItZB9GBGFB4FpG0zKgBW4jGvHN
- bZkSaUNboM+Jyw15QjRwbdIi5R0kzPy7D7BQwYyoboYcEWonC+ptc7Vvwg0jJwsm
- NS0SuxWkESi6z/2lIHAoPx8GtxgNmpSkRpCOH1woyhA+WvZro+4bxDWHETD3B8DS
- HFtj7Q==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5u8m5ms-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:36:16 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-2a8fc061ce1so348253755ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 01:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771839375; x=1772444175;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SYGjE+XjICFU+//eucHg+2ZzKIQx8dcU/7z9xFG21vM=;
- b=ig1/JTpJWHYI8uB6/RSO973Lw3lWbpKsDGxL392KIkfU6aBy7cE8qX8mK+rjn1w2+A
- 6qx8eyPWu1TYYzizEK1DtdRYX7BiD2NSZ9j9s4J/kP59QxKO5ZHXNPYluZ/55k42PPFU
- nd+gaDetnzBh3Q0Uib2xrnHCEOzmS/+3eDDMkdb6ftZcQmCQZlniRCBc3XdrT8cvVL2x
- WQ5jz+FEpI2jJJKCLSgmW9XToGGCo3ZYQmirMf46JcssDqdldaB0Z59Xho4uS/3B4cGI
- h9fL01yoD8muq82EJ6g7iKyGk8huHAGR2E4gZSYVqqsOveUvaaYWLfGlEVHiKdRKOZNj
- /Prw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771839375; x=1772444175;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SYGjE+XjICFU+//eucHg+2ZzKIQx8dcU/7z9xFG21vM=;
- b=IrUIWna99vKjWMTFYzNizmC/xT10T5UHBe0USvWu6SMNfde1HYhwKKSH+BKW5lY1vu
- keVH3jCO5jRx4Ty3uLsF4pUnxyaAKgYkLCd/SgLbvoDLXaf36oSBCB69+STw+FrQzjf+
- pjyrqWgHwYKmT8UjP1qAUSIHN5Q3Jg0AIiIL/K3ceR/0Th4fOIiubFzoKa141LO0mikp
- nahSkl3C3RwSe5asEs9HL1UQ2ThyxoBDTH+wRg8WjuxWqLuZc+GBPUWAzJAhU1UucKZ+
- ZWrKSOBMN5S0BR2epk065Py0KaSq+wHZr2MdWo2Sx7GddFlTBdQxgCVDDz9cO6xjoQGD
- xLgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVwuCqIVQNIqFaN/M+KataH1ftpjyasnsO1SUd3/1v9IdWIPOTUrDeKISS9HcTnUscYKn3flVn8fX0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHbfLT+0A0LMnKoeWtPXGNkw9OQu5ezuY6+7IdVMZ3o710jZz0
- ukZ2sBwT5pj4apPGd21ApRwxxrtvfRhgpZ9lks4DaJa8XLngivzW1m86qZeiQo+E0PsrXCq+M42
- q12RT3xlBUrFTl3bR5d+W+3+mup6878xm2s5SMVHeBeXdY1oZ2/91B843ML9fxZFs8zVjt8I=
-X-Gm-Gg: ATEYQzypHvkfCsDKztgCZvMj++uyN0xi42hisXsAJ0ejnqcYQg3tscvKlrhgK6DGdSY
- L6he1y1MbA8OD0T3huopngpMcWRv/J6b5cYQROM4gqcQJJFAOkRt716vlNF175R25EhNN54vq3n
- IxOg1s8hhwoFEYgaekVUpbsdzKfLixo3wcBMI9nyV8i4d593/5MveFNgnIO4Na2D6Gczb3SACBq
- yXrHG8TTiUAVAtM/TvlPa4iiORjhoLnCnjTddia1VbB7nTysHW+odljQ8qmKGnayWA38tSoFgn8
- xziDShdnSe+J7kAoorVkbumHYnbGMw/t0XuUhoLKx1mR8LJHzmvwwuCeAyFIo5YJrxMGLj3FrCU
- rNc2YTP9hqXPckyz/8CkBk5RiC9wgDdajdoCToJeDRmfib/CrQvPZ9x9FRNh8pmVnVIDpSB8p1o
- 9kLdC6EcSLWm6UEcfTFVBhttrZDS6cXCHmENyr+s8=
-X-Received: by 2002:a17:902:cece:b0:2aa:f0ec:3701 with SMTP id
- d9443c01a7336-2ad743e22cfmr80923505ad.2.1771839375153; 
- Mon, 23 Feb 2026 01:36:15 -0800 (PST)
-X-Received: by 2002:a17:902:cece:b0:2aa:f0ec:3701 with SMTP id
- d9443c01a7336-2ad743e22cfmr80923205ad.2.1771839374726; 
- Mon, 23 Feb 2026 01:36:14 -0800 (PST)
-Received: from [10.190.200.237]
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ad7503d406sm65521675ad.75.2026.02.23.01.36.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Feb 2026 01:36:14 -0800 (PST)
-Message-ID: <ffecf0ae-f826-4690-8ec5-c19011f2c50b@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 15:06:09 +0530
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E0210E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:36:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A65D960054;
+ Mon, 23 Feb 2026 09:36:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB8EC19424;
+ Mon, 23 Feb 2026 09:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771839413;
+ bh=0jMHGP/ybufSz9lSb0ZxZMotoqEwnfv1L084yPjko08=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OCS/Oxe+Dxgz+x+xdUK/MYBO0KYN9A8SZFhWmTCCYz09A6lLOmm0uN5o6h7jMzG2Q
+ jRFenKp9st0gV3TjgABTQgDrtgQ4hthtQYeoS8BvjHkxFb9TZa+DzTqltblbK0bnZj
+ PTURObvt0rZihgvX4BA4ptBpDGCg21GZiA8k6fRayqylGJCXCLs+FligqQjx4JlxJ8
+ wtf6nUlUn96LYP8M84pt9Zs2vz1o92hBGuSRYaOBpe7yA9Nxf547jnW90lIsB1uO9R
+ TW30TzjPUMgqMt/5wwjjya/3hUZIk5rkroJnbqCWY1RiILUhVwYeJVt9SE06Rrnl22
+ BMoG/sCdcY2zA==
+Message-ID: <492f2fdd-3f1f-4303-b512-ef90b649910a@kernel.org>
+Date: Mon, 23 Feb 2026 10:36:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 1/5] dt-bindings: remoteproc: qcom,sm8550-pas: Add
- Glymur ADSP
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: robh@kernel.org, srini@kernel.org, amahesh@qti.qualcomm.com,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, mathieu.poirier@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-References: <20260129001358.770053-1-sibi.sankar@oss.qualcomm.com>
- <20260129001358.770053-2-sibi.sankar@oss.qualcomm.com>
- <20260205-succinct-honest-badger-52e1b7@quoll>
+Subject: Re: [PATCH v1 00/11] Zero page->private when freeing pages
+To: Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-erofs@lists.ozlabs.org, linux-block@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jason Xing <kernelxing@tencent.com>, Yushan Zhou <katrinzhou@tencent.com>,
+ "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Eric Sandeen <sandeen@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Carlos Llamas <cmllamas@google.com>,
+ Alice Ryhl <aliceryhl@google.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Gao Xiang <xiang@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale
+ <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>,
+ Chunhai Guo <guochunhai@vivo.com>
+References: <20260223032641.1859381-1-ziy@nvidia.com>
+ <aZvXevheBMQ6LuUu@casper.infradead.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-In-Reply-To: <20260205-succinct-honest-badger-52e1b7@quoll>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aZvXevheBMQ6LuUu@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 7l8zTnJGQKniiagzjfJ11GhfcaINftnL
-X-Authority-Analysis: v=2.4 cv=cJftc1eN c=1 sm=1 tr=0 ts=699c1f90 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=njHKLakQ8Vn3IMBtrbEA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-ORIG-GUID: 7l8zTnJGQKniiagzjfJ11GhfcaINftnL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA4NCBTYWx0ZWRfXzPPzvjUL75FN
- Bn+F+7IO+A1Fgh6JZEw+9KJMFB2P9ycy7VxQptCKY6PyNESvdN4+mnUdfjCFmSDm/BPg/67bV/q
- D/GoA9wAxYMvN/1904IjczrnW4rdCtiktu+gM1a6N8TPVzDPWI15v6xBU+bI43Al2VIAnZlZl6X
- pgud0QHbou2tzgZVAXNb4JrPzr1AeVfHEpyy4TT/HA0wGh/5OesDSejesvpNczqASp2wEN40wu7
- 4Y1ysuGzsOT+Mi7ZxLT25XnMXtQVhh+HGN8+ZUHJXPBPoImF/bPEBZ5jkrgVIOCl4BlXCC2/d1M
- Z43yfidhsJpy4yyBGNQwLvtJUrDY4sDo9PHXWEb3fzuijKcpw2+glgSLwc4vuqB2Qc3HYyog1jG
- 0Ei8/rFUsOaPQSeGDbz4s4+gYwe/apHqY9p/p/LjGiMfF0bykb2oqIRsTd+R1b4uiqKhfx5A7m4
- kiN/G+dFicms/L+E8Lw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_01,2026-02-20_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602230084
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,81 +141,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:robh@kernel.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mathieu.poirier@linaro.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:willy@infradead.org,m:ziy@nvidia.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:linux-erofs@lists.ozlabs.org,m:linux-block@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:lorenzo.stoakes@oracle.com,m:baolin.wang@linux.alibaba.com,m:Liam.Howlett@oracle.com,m:npache@redhat.com,m:ryan.roberts@arm.com,m:dev.jain@arm.com,m:baohua@kernel.org,m:lance.yang@linux.dev,m:surenb@google.com,m:mhocko@suse.com,m:jackmanb@google.com,m:hannes@cmpxchg.org,m:kernelxing@tencent.com,m:katrinzhou@tencent.com,m:mhiramat@kernel.org,m:vbabka@kernel.org,m:cl@gentwo.org,m:rientjes@google.com,m:roman.gushchin@linux.dev,m:harry.yoo@oracle.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:axboe@kernel.dk,m:brauner@kernel.org,m:kprateek.nayak@amd.com,m:dave@stgolabs.net,m:sandeen@redhat.com,m:gregkh@linuxfounda
+ tion.org,m:arve@android.com,m:tkjos@android.com,m:cmllamas@google.com,m:aliceryhl@google.com,m:dlemoal@kernel.org,m:johannes.thumshirn@wdc.com,m:dennis@kernel.org,m:tj@kernel.org,m:xiang@kernel.org,m:zbestahu@gmail.com,m:jefflexu@linux.alibaba.com,m:dhavale@google.com,m:lihongbo22@huawei.com,m:guochunhai@vivo.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[sibi.sankar@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,linux-foundation.org,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,oracle.com,linux.alibaba.com,redhat.com,arm.com,kernel.org,linux.dev,google.com,suse.com,cmpxchg.org,tencent.com,gentwo.org,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,kernel.dk,stgolabs.net,linuxfoundation.org,android.com,wdc.com,huawei.com,vivo.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[sibi.sankar@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_GT_50(0.00)[57];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 270DA173FFD
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1BF9317401A
 X-Rspamd-Action: no action
 
+On 2/23/26 05:28, Matthew Wilcox wrote:
+> On Sun, Feb 22, 2026 at 10:26:30PM -0500, Zi Yan wrote:
+>> Based on a recent discussion with David Hildenbrand on page->private
+>> is not zero when a page is freed[1], this patchset is trying to fix all
+>> users do not zero ->private when freeing a page and add checks to make
+>> sure all freed pages have ->private set to zero. For compound pages,
+>> both head page and tail pages need to have ->private set to zero.
+> 
+> Sorry, I didn't notice this conversation.  It seems entirely unnecessary
+> to me to zero out page->private before freeing.
+> 
+> I'm a bit confused that ac1ea219590c was needed too; I thought we
+> cleared page->private in the allocation path, and I don't see why
+> it needs to be cleared in the freeing path.  split_page() should be
+> clearing page->private.
 
-On 2/5/2026 4:04 PM, Krzysztof Kozlowski wrote:
-> On Thu, Jan 29, 2026 at 05:43:54AM +0530, Sibi Sankar wrote:
->> Document compatible for Qualcomm Glymur ADSP PAS which is fully
->> compatible with Qualcomm Kaanapali ADSP PAS.
->>
->> Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
->> ---
->>
->> Changes in v3:
->> - A few variants of the SoC are expected to run Linux at EL1 hence the
->>    iommus properties are left optional.
->> - Link to v2: https://lore.kernel.org/all/20251029-knp-remoteproc-v2-0-6c81993b52ea@oss.qualcomm.com/
->>
->>   .../devicetree/bindings/remoteproc/qcom,sm8550-pas.yaml         | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/remoteproc/qcom,sm8550-pas.yaml b/Documentation/devicetree/bindings/remoteproc/qcom,sm8550-pas.yaml
->> index b117c82b057b..fb6e0b4f54e8 100644
->> --- a/Documentation/devicetree/bindings/remoteproc/qcom,sm8550-pas.yaml
->> +++ b/Documentation/devicetree/bindings/remoteproc/qcom,sm8550-pas.yaml
->> @@ -29,6 +29,7 @@ properties:
->>             - qcom,x1e80100-cdsp-pas
->>         - items:
->>             - enum:
->> +              - qcom,glymur-adsp-pas
->>                 - qcom,kaanapali-adsp-pas
-> There is no such hunk... I think this continues my comments from Sep/Oct
-> 2025 that creating such patches, with multiple dependencies makes more
-> difficult to review.
-Hey Krzysztof, Thanks for taking time to review the series :) I'll give 
-some more context here to ensure that your comments were followed and 
-this is just a one-off. This patch was held off from the dependent 
-Kaanapali patches since it wasn't clear at that time if this SoC would 
-be running at EL1. Only with that confirmation and given that dependent 
-patch was on the list for a couple of weeks with Rbs, this series got 
-posted out. -Sibi
-> I mark it as not applicable, please send when your dependencies hit the
-> tree so I can review it in proper context.
->
-> Best regards,
-> Krzysztof
->
+See discussion at 
+https://lore.kernel.org/linux-mm/cbc3b5b3-09b5-4e3c-99f0-a1f67582afff@kernel.org/
+
+> 
+> Can we discuss this at the THP Cabal meeting on Wednesday?  I don't
+> think that introducing this new rule that page->private must be cleared
+> by the users is a good idea.
+
+The benefit is that only the users that really use page->private will 
+also zero it out.
+
+This implies that all pages that enter+leave the page allocator will 
+have page->private initialized and we can also likely do:
+
+diff --git a/mm/internal.h b/mm/internal.h
+index 9e0577413087..4ecdae78e0d2 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -724,7 +724,6 @@ static inline void prep_compound_tail(struct page 
+*head, int tail_idx)
+
+         p->mapping = TAIL_MAPPING;
+         set_compound_head(p, head);
+-       set_page_private(p, 0);
+  }
+
+  extern void prep_compound_page(struct page *page, unsigned int order);
+
+
+Which is rather nice.
+
+-- 
+Cheers,
+
+David
