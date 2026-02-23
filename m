@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLdEAzpKnGmODAQAu9opvQ
+	id uPHjNTxKnGmODAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:38:18 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:38:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7770176357
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7182C17636E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F096510E37D;
-	Mon, 23 Feb 2026 12:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1C110E38A;
+	Mon, 23 Feb 2026 12:38:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a/A9Vi6E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bcF7dNOO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9974B10E38A;
- Mon, 23 Feb 2026 12:38:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC29910E38B;
+ Mon, 23 Feb 2026 12:38:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8147E44544;
- Mon, 23 Feb 2026 12:38:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029CDC19424;
- Mon, 23 Feb 2026 12:38:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9460243E56;
+ Mon, 23 Feb 2026 12:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED4BC19424;
+ Mon, 23 Feb 2026 12:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771850294;
- bh=xcY3l/8COfPuaTeSpHCsQ4ZAHRp7isNRAnvmtk1jgYM=;
+ s=k20201202; t=1771850297;
+ bh=E4vvEItn79WGzKgXGSH0mp3TOP6nutTFxyRtaK2HbS0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a/A9Vi6Ec/X/9SVwamVz3wZGv3pxdxI42K4iek1SpF6QJYwfUlQn9uSDhDSU458vH
- 9OedVfBrQKMAemFudfXVlHCaEB+Ma5QYQApjkNHsiI904cQ/2doZvzclFI0FgOjlmM
- vuJRKsgI3PLP8L0J8M/SMsnuDX+kq7iUhgPVyK7qcVqtRzBizv9P5JoWr5ekHKOGiW
- R2eQkEOSSTGPOiS7aCQHpsjTdWz1D5g2NDmA+sPwypnrzPeSNFGRw9o61R0s2py2R2
- OJXM2ZlMkqyLrcryqCzRsta0+wHNq/Q6hSeEqgKiBX4OWaE23bM2UjbyT/YMq6rztJ
- Yb2rENPbmJi+g==
+ b=bcF7dNOOfWvNBsvinztYtWy19o21UyBR4YYU6UciyfzzI8V015YS2kAiJWrNuWyii
+ tpFojFIecIKAAN07VP0Z422k2hOFIh9rcnoBfjSVCL8I88Rd11zzgKwjt69k6abV/1
+ pWdtMPyVeNSQdsyHD6bjtM7jo1dUxcuLaRDc7A505+Gcuys1Z+VrmK6HTP3nvV7AWK
+ 2r4ChczJbXEB3eXezMa2y7laB7dM29qQTcE1QanEUy+BMyMmIjv4KGXCzdOt4gWCN8
+ MRk3WDTBCQnAgvXDecXg2SUoYJiAwOL6w2kOkRFl6lDWzUFsjqdWXfkhRHT59jW7M+
+ ZrKy5pDsuI0mw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Wayne Lin <Wayne.Lin@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+Cc: Clay King <clayking@amd.com>, Aric Cyr <aric.cyr@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.10] drm/amd/display: Avoid updating surface
- with the same surface under MPO
-Date: Mon, 23 Feb 2026 07:37:28 -0500
-Message-ID: <20260223123738.1532940-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.12] drm/amd/display: bypass post csc for
+ additional color spaces in dal
+Date: Mon, 23 Feb 2026 07:37:30 -0500
+Message-ID: <20260223123738.1532940-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260223123738.1532940-1-sashal@kernel.org>
 References: <20260223123738.1532940-1-sashal@kernel.org>
@@ -99,24 +98,25 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: A7770176357
+X-Rspamd-Queue-Id: 7182C17636E
 X-Rspamd-Action: no action
 
-From: Wayne Lin <Wayne.Lin@amd.com>
+From: Clay King <clayking@amd.com>
 
-[ Upstream commit 1a38ded4bc8ac09fd029ec656b1e2c98cc0d238c ]
+[ Upstream commit 7d9ec9dc20ecdb1661f4538cd9112cd3d6a5f15a ]
 
-[Why & How]
-Although it's dummy updates of surface update for committing stream
-updates, we should not have dummy_updates[j].surface all indicating
-to the same surface under multiple surfaces case. Otherwise,
-copy_surface_update_to_plane() in update_planes_and_stream_state()
-will update to the same surface only.
+[Why]
+For RGB BT2020 full and limited color spaces, overlay adjustments were
+applied twice (once by MM and once by DAL). This results in incorrect
+colours and a noticeable difference between mpo and non-mpo cases.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+[How]
+Add RGB BT2020 full and limited color spaces to list that bypasses post
+csc adjustment.
+
+Reviewed-by: Aric Cyr <aric.cyr@amd.com>
+Signed-off-by: Clay King <clayking@amd.com>
 Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -125,101 +125,175 @@ LLM Generated explanations, may be completely bogus:
 
 ## Analysis
 
-### What the commit fixes
+### What the Commit Fixes
 
-This is a clear **indexing bug** in `amdgpu_dm_atomic_commit_tail()`. In
-a loop iterating over `status->plane_count` planes:
+This commit fixes a **color correctness bug** in AMD display driver for
+DCN3.0+ hardware. The bug causes incorrect colors when BT2020 RGB
+content is displayed with multi-plane overlay (MPO).
 
-```c
-for (j = 0; j < status->plane_count; j++)
-    dummy_updates[j].surface = status->plane_states[0];  // BUG: always
-[0]
-```
+**Root cause**: The old logic used a numeric enum comparison
+`color_space >= COLOR_SPACE_YCBCR601` to decide whether to apply ICSC or
+bypass post-CSC. Looking at the enum values:
 
-The fix changes `plane_states[0]` to `plane_states[j]`, so each dummy
-update references its correct corresponding plane state instead of all
-pointing to the first one.
+| Color Space | Value | Should Bypass? | Old Behavior |
+|---|---|---|---|
+| COLOR_SPACE_SRGB | 1 | YES | bypass (correct) |
+| COLOR_SPACE_MSREF_SCRGB | 4 | YES | bypass (correct) |
+| COLOR_SPACE_YCBCR601 | 5 | NO | ICSC (correct) |
+| COLOR_SPACE_2020_RGB_FULLRANGE | 11 | **YES** | **ICSC (WRONG)** |
+| COLOR_SPACE_2020_RGB_LIMITEDRANGE | 12 | **YES** | **ICSC (WRONG)** |
 
-### Bug impact
+Since `COLOR_SPACE_2020_RGB_FULLRANGE` (11) and
+`COLOR_SPACE_2020_RGB_LIMITEDRANGE` (12) are numerically >=
+`COLOR_SPACE_YCBCR601` (5), the old code incorrectly applied ICSC
+instead of bypassing post-CSC. This resulted in overlay adjustments
+being applied twice (by MM and DAL), causing visibly wrong colors in MPO
+vs non-MPO rendering.
 
-This bug affects **Multi-Plane Overlay (MPO)** scenarios where
-`status->plane_count > 1`. When multiple planes are active:
+### Fix Approach
 
-1. **All dummy updates point to the same surface** -
-   `copy_surface_update_to_plane()` processes the same plane repeatedly,
-   ignoring other planes in the composition
-2. **The sort by `layer_index` becomes meaningless** - all entries have
-   the same layer_index since they reference the same plane
-3. **`dc_update_planes_and_stream()` operates on incorrect data** -
-   stream updates that should touch all planes only affect one
+The fix replaces the fragile numeric comparison with an explicit switch-
+case function `dpp3_should_bypass_post_csc_for_colorspace()` that
+enumerates all RGB color spaces that should bypass post CSC. This is
+both a bug fix and a robustness improvement — future enum additions
+won't silently break the logic.
 
-This causes incorrect display behavior under MPO, which is used for
-hardware-accelerated video overlay, cursor planes, and compositing.
+### Stable Kernel Criteria Assessment
 
-### Meets stable criteria
+1. **Fixes a real bug**: Yes — visible color corruption for BT2020 RGB
+   content with MPO
+2. **Obviously correct**: Yes — the switch-case explicitly lists RGB
+   color spaces; reviewed by AMD's display lead (Aric Cyr)
+3. **Small and contained**: Yes — ~30 lines added across 3 files, all in
+   the same subsystem
+4. **No new features**: Correct — this only fixes existing color space
+   handling
+5. **Risk**: Low — the change only affects which color spaces bypass
+   post-CSC; worst case is reverting to the same incorrect behavior
 
-- **Obviously correct**: Classic `[0]` vs `[j]` indexing bug in a loop -
-  the fix is a single character change
-- **Fixes a real bug**: MPO plane updates are broken when multiple
-  planes are active
-- **Small and contained**: Single line change, zero risk of regression
-- **No new features**: Pure bug fix
-- **Reviewed and tested**: Has `Reviewed-by: Harry Wentland`, `Tested-
-  by: Daniel Wheeler`
+### Concerns for Backporting
 
-### Bug origin
+- **dcn401_dpp.c** was introduced in April 2024 (kernel ~6.10), so this
+  portion won't apply to older stable trees (6.6.y, 6.1.y, etc.). The
+  dcn30 portion should apply to kernels with DCN3.0 support (5.8+).
+- **dcn10 and dcn20** have the same buggy pattern but are NOT fixed by
+  this commit. This is not a blocker for backporting — the dcn30/dcn401
+  fix stands on its own.
+- The file paths were refactored in Feb 2024 (from `dc/dcn30/` to
+  `dc/dpp/dcn30/`), so the patch will need path adjustment for older
+  stable trees.
 
-The bug was introduced in commit `efc8278eecfd5` (Feb 2021) which was a
-revert that restored older code containing this indexing error. The bug
-has been present for ~5 years, affecting all stable trees that contain
-this code path.
+### User Impact
 
-### Risk assessment
-
-**Extremely low risk.** This is a one-character fix (`0` → `j`) that
-corrects an obvious loop indexing mistake. There is no conceivable way
-this change could cause a regression - the previous behavior (all
-pointing to `plane_states[0]`) was simply wrong.
+Users with AMD GPUs (RDNA2+) displaying HDR/BT2020 RGB content see
+incorrect colors when the compositor uses multi-plane overlay. This is a
+real-world visual bug affecting desktop and media playback scenarios.
 
 ### Verification
 
-- **Verified the buggy line exists** at `amdgpu_dm.c:10954` via Read
-  tool - confirmed `plane_states[0]` in loop
-- **Verified bug introduction**: `git log --no-walk efc8278eecfd5`
-  confirmed it was a revert from Feb 2021 that restored the buggy code
-- **Verified the fix commit**: `git show 1a38ded4bc8ac` confirmed Wayne
-  Lin authored the fix, merged to master
-- **Verified code flow**: The agent traced
-  `dc_update_planes_and_stream()` → `update_planes_and_stream_state()` →
-  `copy_surface_update_to_plane()` which iterates over each surface
-  update, confirming that having all dummy_updates point to the same
-  surface causes only one plane to be updated
-- **Verified `dm_plane_layer_index_cmp()`** sorts by
-  `surface->layer_index` - with all surfaces the same, sorting is a no-
-  op (broken)
-- **Verified the fix is in master** via `git branch -a --contains
-  1a38ded4bc8ac`
-- **Could not independently verify** user-reported display issues under
-  MPO, but the code analysis clearly shows the bug mechanism
+- Verified enum `dc_color_space` in `dc_hw_types.h` lines 642-666:
+  confirmed `COLOR_SPACE_2020_RGB_FULLRANGE=11` and
+  `COLOR_SPACE_2020_RGB_LIMITEDRANGE=12` are both >=
+  `COLOR_SPACE_YCBCR601=5`, confirming the bug mechanism
+- Verified the same buggy pattern `color_space >= COLOR_SPACE_YCBCR601`
+  exists in dcn10_dpp.c (line 398), dcn20_dpp.c (line 239), dcn30_dpp.c
+  (line 379), and dcn401_dpp.c (line 209) — confirming this is a long-
+  standing bug
+- Verified dcn401_dpp.c was introduced April 2024 (commit
+  `70839da6360500a`), limiting backport applicability for dcn401 portion
+  to kernels >= ~6.10
+- Verified dcn30_dpp.c was moved to current path Feb 2024 — older stable
+  trees will have it at `dc/dcn30/dcn30_dpp.c`
+- Verified the new function `dpp3_should_bypass_post_csc_for_colorspace`
+  does not exist in the current tree yet (this commit introduces it),
+  confirming no dependency issues
+- Could NOT verify whether specific user bug reports exist on mailing
+  lists (unverified, but the commit message describes concrete user-
+  visible symptoms)
+
+### Summary
+
+This is a clear bug fix for visible color corruption affecting AMD
+display users with BT2020 RGB content. The fix is small, well-reviewed,
+and low-risk. The only backporting consideration is path adjustments for
+older stable trees and the dcn401 portion only applying to recent
+kernels.
 
 **YES**
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c  | 21 ++++++++++++++++---
+ .../drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h  |  4 ++++
+ .../amd/display/dc/dpp/dcn401/dcn401_dpp.c    |  6 +++---
+ 3 files changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e004fc3893edf..7fae54e47292b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10961,7 +10961,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 			continue;
- 		}
- 		for (j = 0; j < status->plane_count; j++)
--			dummy_updates[j].surface = status->plane_states[0];
-+			dummy_updates[j].surface = status->plane_states[j];
+diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c b/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c
+index ef4a161171814..c7923531da83d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c
++++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c
+@@ -376,10 +376,10 @@ void dpp3_cnv_setup (
  
- 		sort(dummy_updates, status->plane_count,
- 		     sizeof(*dummy_updates), dm_plane_layer_index_cmp, NULL);
+ 		tbl_entry.color_space = input_color_space;
+ 
+-		if (color_space >= COLOR_SPACE_YCBCR601)
+-			select = INPUT_CSC_SELECT_ICSC;
+-		else
++		if (dpp3_should_bypass_post_csc_for_colorspace(color_space))
+ 			select = INPUT_CSC_SELECT_BYPASS;
++		else
++			select = INPUT_CSC_SELECT_ICSC;
+ 
+ 		dpp3_program_post_csc(dpp_base, color_space, select,
+ 				      &tbl_entry);
+@@ -1541,3 +1541,18 @@ bool dpp3_construct(
+ 	return true;
+ }
+ 
++bool dpp3_should_bypass_post_csc_for_colorspace(enum dc_color_space dc_color_space)
++{
++	switch (dc_color_space) {
++	case COLOR_SPACE_UNKNOWN:
++	case COLOR_SPACE_SRGB:
++	case COLOR_SPACE_XR_RGB:
++	case COLOR_SPACE_SRGB_LIMITED:
++	case COLOR_SPACE_MSREF_SCRGB:
++	case COLOR_SPACE_2020_RGB_FULLRANGE:
++	case COLOR_SPACE_2020_RGB_LIMITEDRANGE:
++		return true;
++	default:
++		return false;
++	}
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h b/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h
+index d4a70b4379eaf..6a61b99d6a798 100644
+--- a/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h
++++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.h
+@@ -644,4 +644,8 @@ void dpp3_program_cm_dealpha(
+ 
+ void dpp3_cm_get_gamut_remap(struct dpp *dpp_base,
+ 			     struct dpp_grph_csc_adjustment *adjust);
++
++bool dpp3_should_bypass_post_csc_for_colorspace(
++		enum dc_color_space dc_color_space);
++
+ #endif /* __DC_HWSS_DCN30_H__ */
+diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
+index 96c2c853de42c..2d6a646462e21 100644
+--- a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
++++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
+@@ -206,10 +206,10 @@ void dpp401_dpp_setup(
+ 
+ 		tbl_entry.color_space = input_color_space;
+ 
+-		if (color_space >= COLOR_SPACE_YCBCR601)
+-			select = INPUT_CSC_SELECT_ICSC;
+-		else
++		if (dpp3_should_bypass_post_csc_for_colorspace(color_space))
+ 			select = INPUT_CSC_SELECT_BYPASS;
++		else
++			select = INPUT_CSC_SELECT_ICSC;
+ 
+ 		dpp3_program_post_csc(dpp_base, color_space, select,
+ 			&tbl_entry);
 -- 
 2.51.0
 
