@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKSnEPMpnGl1AAQAu9opvQ
+	id 2LarFecpnGl1AAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4D9174BF3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A950174BBE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9CF610E2E1;
-	Mon, 23 Feb 2026 10:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF65910E2DC;
+	Mon, 23 Feb 2026 10:20:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="uSM6qThO";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="YlkMoh8h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF28010E2E0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:20:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B9510E2DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1771842029; x=1803378029;
+ t=1771842019; x=1803378019;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XGUvf+KenQzk8k4vozQBvoxGs/tTB8x65xysSNH3uRc=;
- b=uSM6qThOtu8f6za+GXZW4gfDMCqwWTrsbepnS13RT3vvk2v6zFf7bWIr
- VVAg1wQryb+b5FFLNu/i9XDSdHXK4VfsfP5L67dKHKUO2IdK8eIidc4fO
- ElsCHqNYfw6WvuZdzywjqNPPWp36hfEINF/c4mVt/Nhshim1OOGGQHQQ0
- iABb5aXR/TH3hI7QfJ8GIU9HDdlKpUPlCVoO90ZAus09c7eVyO05aEL/d
- //yYrz8KL9Yqbhc2KsBF8FkZuqupwS3RGzDN/6AoTLU+SbboTWsqSGkHy
- j/APUh4jGyGTMw1D68kcjR74bxVyAWz2cryvAdM1PQBX5Opy2bSdMknfR w==;
-X-CSE-ConnectionGUID: xLxJrVz4SA+TZ2kb8t2UqQ==
-X-CSE-MsgGUID: d6Eg9STLReWgxqckjEf6tw==
-X-IronPort-AV: E=Sophos;i="6.21,306,1763449200"; d="scan'208";a="220994672"
+ bh=SlO0Q8vJ+yci4yGpTaLDlVlevoqk4pzFvMHvGyAYDTE=;
+ b=YlkMoh8hjzH6zBINYhcuEmjAoa5Op7a9ZjqO3CBea8CuQ+mPE3e6p2IP
+ 4a2Te37ahHd3JFFsXzm7uHCHn5fghX7F7JU4OVWJnnDyk1ZAG1HvGmgVj
+ HJcewuEgi6HcPTmuAJNAKoShS3zOrSVl++KDEdYFDq/Ty3xCG6130XNLV
+ 7zZqeIduJE1N4cr35kVX3WaTzfp8U2V3VyLI/RIUtX4J1uw0IsAJiMsv8
+ 9CLpyLc11Jdoyttb2mRHZgXMcq+yXd8cunNkiyZxWkndGWLNWLF8lvGKv
+ EEA18X3pW+jc38vH5ZaPktciFUc0rMVuuqVgZPdKZpSxcPvoBH/Hfw6Bi A==;
+X-CSE-ConnectionGUID: dKUGnVN8SY6a+wGmQv7obw==
+X-CSE-MsgGUID: By9YC4OeSqy+Ol2Ny+ULhg==
+X-IronPort-AV: E=Sophos;i="6.21,306,1763449200"; d="scan'208";a="220994662"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 03:20:29 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
- chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 23 Feb 2026 03:20:18 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Mon, 23 Feb 2026 03:20:00 -0700
+ 15.1.2507.58; Mon, 23 Feb 2026 03:20:04 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Mon, 23 Feb 2026 03:19:54 -0700
+ 15.1.2507.58 via Frontend Transport; Mon, 23 Feb 2026 03:20:00 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
@@ -54,12 +54,11 @@ To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <claudiu.beznea@tuxon.dev>, <lee@kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
-CC: <manikandan.m@microchip.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>
-Subject: [PATCH v3 2/4] drm: atmel-hlcdc: configure LVDS PLL clock rate for
- LVDS Displays
-Date: Mon, 23 Feb 2026 15:49:18 +0530
-Message-ID: <20260223101920.284697-3-manikandan.m@microchip.com>
+CC: <manikandan.m@microchip.com>
+Subject: [PATCH v3 3/4] drm: atmel-hlcdc: bypass clock divider for LVDS
+ displays
+Date: Mon, 23 Feb 2026 15:49:19 +0530
+Message-ID: <20260223101920.284697-4-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260223101920.284697-1-manikandan.m@microchip.com>
 References: <20260223101920.284697-1-manikandan.m@microchip.com>
@@ -91,127 +90,136 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:lee@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:manikandan.m@microchip.com,m:dharma.b@microchip.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,microchip.com,bootlin.com,tuxon.dev,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[manikandan.m@microchip.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,microchip.com,bootlin.com,tuxon.dev,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:lee@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:manikandan.m@microchip.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[manikandan.m@microchip.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[microchip.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.997];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AC4D9174BF3
+X-Rspamd-Queue-Id: 0A950174BBE
 X-Rspamd-Action: no action
 
-From: Dharma Balasubiramani <dharma.b@microchip.com>
+For LVDS displays with pre-configured PLL clock, bypass the clock
+divider calculation by setting ATMEL_XLCDC_CLKBYP flag.
+For non-LVDS displays, retain existing clock divider calculation logic
+to determine appropriate clock scaling based on display requirements.
 
-As per datasheet, The LVDS PLL clock runs at 7 times the
-panel pixel clock.
-Set the LVDS PLL clock to eliminate the need of assiging
-them in the DT and fallback to sys_clk for non-LVDS displays
-with proper error handling.
-
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
-Changes in v3:
-- Rephrase commit message and comment block
-
-Changes in v2:
-- Rephrase commit message and comment block
+changes in v3:
+- Introduce ATMEL_XLCDC_CLKBYP to this series
 ---
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 36 ++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 65 ++++++++++---------
+ include/linux/mfd/atmel-hlcdc.h               |  1 +
+ 2 files changed, 36 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index b075f291847f..26c9fbdfd871 100644
+index 26c9fbdfd871..73ac5ebbe121 100644
 --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
 +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -100,7 +100,10 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
- 		drm_connector_list_iter_end(&iter);
- 	}
+@@ -127,39 +127,44 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
+ 		     (adj->crtc_hdisplay - 1) |
+ 		     ((adj->crtc_vdisplay - 1) << 16));
  
--	ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
-+	if (crtc->dc->hlcdc->lvds_pll_clk)
-+		ret = clk_prepare_enable(crtc->dc->hlcdc->lvds_pll_clk);
-+	else
-+		ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
- 	if (ret)
- 		return;
- 
-@@ -187,7 +190,10 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
- 			   ATMEL_XLCDC_DPI : ATMEL_HLCDC_MODE_MASK),
- 			   cfg);
- 
--	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
-+	if (crtc->dc->hlcdc->lvds_pll_clk)
-+		clk_disable_unprepare(crtc->dc->hlcdc->lvds_pll_clk);
-+	else
-+		clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
- }
- 
- static enum drm_mode_status
-@@ -243,7 +249,11 @@ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
- 				    10, 1000))
- 		drm_warn(dev, "Atmel LCDC status register CLKSTS timeout\n");
- 
--	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
-+	if (crtc->dc->hlcdc->lvds_pll_clk)
-+		clk_disable_unprepare(crtc->dc->hlcdc->lvds_pll_clk);
-+	else
-+		clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
-+
- 	pinctrl_pm_select_sleep_state(dev->dev);
- 
- 	pm_runtime_allow(dev->dev);
-@@ -256,15 +266,33 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
- {
- 	struct drm_device *dev = c->dev;
- 	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
-+	struct drm_display_mode *adj = &c->state->adjusted_mode;
- 	struct regmap *regmap = crtc->dc->hlcdc->regmap;
- 	unsigned int status;
-+	int ret;
- 
- 	pm_runtime_get_sync(dev->dev);
- 
- 	pm_runtime_forbid(dev->dev);
- 
- 	pinctrl_pm_select_default_state(dev->dev);
--	clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
-+
-+	/*
-+	 * Set LVDS PLL clock rate (7x pixel clock) if available
-+	 */
+-	prate = clk_get_rate(crtc->dc->hlcdc->sys_clk);
+-	mode_rate = adj->crtc_clock * 1000;
+-	if (!crtc->dc->desc->fixed_clksrc) {
+-		prate *= 2;
+-		cfg |= ATMEL_HLCDC_CLKSEL;
+-		mask |= ATMEL_HLCDC_CLKSEL;
+-	}
 +	if (crtc->dc->hlcdc->lvds_pll_clk) {
-+		ret = clk_set_rate(crtc->dc->hlcdc->lvds_pll_clk,
-+				   (adj->clock * 7000));
-+		if (ret) {
-+			drm_err(dev, "Failed to set LVDS PLL clk rate: %d\n", ret);
-+			return;
-+		}
-+		ret = clk_prepare_enable(crtc->dc->hlcdc->lvds_pll_clk);
++		cfg |= ATMEL_XLCDC_CLKBYP;
++		mask |= ATMEL_XLCDC_CLKBYP;
 +	} else {
-+		ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
-+	}
-+	if (ret)
-+		return;
++		prate = clk_get_rate(crtc->dc->hlcdc->sys_clk);
++		mode_rate = adj->crtc_clock * 1000;
++		if (!crtc->dc->desc->fixed_clksrc) {
++			prate *= 2;
++			cfg |= ATMEL_HLCDC_CLKSEL;
++			mask |= ATMEL_HLCDC_CLKSEL;
++		}
  
- 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_PIXEL_CLK);
- 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+-	div = DIV_ROUND_UP(prate, mode_rate);
+-	if (div < 2) {
+-		div = 2;
+-	} else if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK) {
+-		/* The divider ended up too big, try a lower base rate. */
+-		cfg &= ~ATMEL_HLCDC_CLKSEL;
+-		prate /= 2;
+ 		div = DIV_ROUND_UP(prate, mode_rate);
+-		if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK)
+-			div = ATMEL_HLCDC_CLKDIV_MASK;
+-	} else {
+-		int div_low = prate / mode_rate;
+-
+-		if (div_low >= 2 &&
+-		    (10 * (prate / div_low - mode_rate) <
+-		     (mode_rate - prate / div)))
+-			/*
+-			 * At least 10 times better when using a higher
+-			 * frequency than requested, instead of a lower.
+-			 * So, go with that.
+-			 */
+-			div = div_low;
+-	}
++		if (div < 2) {
++			div = 2;
++		} else if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK) {
++			/* The divider ended up too big, try a lower base rate. */
++			cfg &= ~ATMEL_HLCDC_CLKSEL;
++			prate /= 2;
++			div = DIV_ROUND_UP(prate, mode_rate);
++			if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK)
++				div = ATMEL_HLCDC_CLKDIV_MASK;
++		} else {
++			int div_low = prate / mode_rate;
++
++			if (div_low >= 2 &&
++			    (10 * (prate / div_low - mode_rate) <
++			     (mode_rate - prate / div)))
++				/*
++				 * At least 10 times better when using a higher
++				 * frequency than requested, instead of a lower.
++				 * So, go with that.
++				 */
++				div = div_low;
++		}
+ 
+-	cfg |= ATMEL_HLCDC_CLKDIV(div);
++		cfg |= ATMEL_HLCDC_CLKDIV(div);
++	}
+ 
+ 	if (connector &&
+ 	    connector->display_info.bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
+index 07c2081867fd..19504d3ea12c 100644
+--- a/include/linux/mfd/atmel-hlcdc.h
++++ b/include/linux/mfd/atmel-hlcdc.h
+@@ -44,6 +44,7 @@
+ #define ATMEL_XLCDC_HEO_UPDATE		BIT(3)
+ 
+ #define ATMEL_HLCDC_CLKPOL		BIT(0)
++#define ATMEL_XLCDC_CLKBYP		BIT(1)
+ #define ATMEL_HLCDC_CLKSEL		BIT(2)
+ #define ATMEL_HLCDC_CLKPWMSEL		BIT(3)
+ #define ATMEL_HLCDC_CGDIS(i)		BIT(8 + (i))
 -- 
 2.25.1
 
