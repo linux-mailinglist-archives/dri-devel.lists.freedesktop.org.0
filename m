@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sFfMJvEpnGl1AAQAu9opvQ
+	id CDUFO2VinWksPQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD50174BE5
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95582183C95
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D401F10E2E0;
-	Mon, 23 Feb 2026 10:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C736010E4F9;
+	Tue, 24 Feb 2026 08:33:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="FVpXi2po";
+	dkim=pass (2048-bit key; secure) header.d=hughsie.com header.i=@hughsie.com header.b="FZiyg9V6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC16610E2DF
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1771842029; x=1803378029;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vjqIhiJxs6JHNJjy3nkn1q/yYzON4Q52MgQA4PpbPqs=;
- b=FVpXi2poC6e0b4tFy8lFL9chEd7m9Gzsg+emaER54Qr1oLwey6DNhagu
- ZYeu/Kjh+G1AKedsqG0zSRcoKnDOTKGgXi7LtcDVPM/oTfEeV/VY/vCpV
- oNUD0V0Pl4t3dl1U3QH+AjyvILCDGZac28CDTI5d5rpdT2FK+wc3wYMsp
- yanX9xe1sNSqMnRWTxnsm4486VifEHwI+3mrSHwftTSWMyJ6YFH2ORCTb
- cxatTeFFGK7AzzS7lquAEQghzn7hXiV5U5Sq0GHxX9qV8i5L0mzA/lbC7
- bac8+cToy0qyIN9+hxt04sJInSGIJd9r2yV2h7obHomvUHQi3Dl1wMIhT w==;
-X-CSE-ConnectionGUID: ChxBJAjBQ1ilC27p33J+dg==
-X-CSE-MsgGUID: 8D3HoVY6Qo2xIp3x1ULiQw==
-X-IronPort-AV: E=Sophos;i="6.21,306,1763449200"; d="scan'208";a="54141480"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 03:20:29 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
- chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Mon, 23 Feb 2026 03:20:10 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Mon, 23 Feb 2026 03:20:05 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-CC: <manikandan.m@microchip.com>
-Subject: [PATCH v3 4/4] drm: atmel-hlcdc: add support for LVDS output formats
-Date: Mon, 23 Feb 2026 15:49:20 +0530
-Message-ID: <20260223101920.284697-5-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260223101920.284697-1-manikandan.m@microchip.com>
-References: <20260223101920.284697-1-manikandan.m@microchip.com>
+Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
+ [109.224.244.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABD810E2F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hughsie.com;
+ s=protonmail; t=1771842968; x=1772102168;
+ bh=wlPxbYQ09raR8c9f9yh3OyWNVoqzxtgCNjZCxQ9kzho=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=FZiyg9V6pOhoOzknoWg+nRjGNaKV8Cqos2UiFhGwVYieb1p7RWezat3P79dQliFyA
+ 2USclfi3LyifUt503vKbpjRmqqvwywB1j7k5bgzy+9o91Cd9PfzexGw2H61TgQh1/r
+ etdIzHriECJVixV/H1bH+kDO1aJ1RjxxxkGGXwIteywV/gYfJsT/Iiok+R4UqxfXp7
+ Sg631jPXtkNB2qFRl3HkUkPt4QTGKPFkkPBNzEWGbe5KxpTPzYTKI+94g9uVpfRtl+
+ EZ9iACbBV5XdGgd7xyUvZVnIs1vwsK+Pdmn0ekNgotFXISkf/PEIuotChPDWbO4Ypw
+ /M8QtslRe31ew==
+Date: Mon, 23 Feb 2026 10:36:04 +0000
+To: Dave Airlie <airlied@gmail.com>
+From: Richard Hughes <richard@hughsie.com>
+Cc: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Richard Hughes <hughsient@gmail.com>
+Subject: Re: power saving, dpcd access and fwupd/userspace expectations
+Message-ID: <V7Oft5ogN7avgue7E2hBbe-LFTwSat4fxeq2JDFZZ2WVrY-RhI7ppGW679951_y6m35aiOhwticn9RJWQSpN0Pyl4WaAwm7s25Ce2d86nUo=@hughsie.com>
+In-Reply-To: <CAPM=9twLVo3reNhokXdUH7j7rSWe=JspaF4=Up9ziVMo1kC4uQ@mail.gmail.com>
+References: <CAPM=9twkqUu=CJ6+AotavnDga5F=2SGRcjLeZNRy1soFbrO6cA@mail.gmail.com>
+ <aZv1XP3vkXQrdFxs@intel.com>
+ <CAPM=9twLVo3reNhokXdUH7j7rSWe=JspaF4=Up9ziVMo1kC4uQ@mail.gmail.com>
+Feedback-ID: 110239754:user:proton
+X-Pm-Message-ID: 74c00448a7ae83fd7304e002cfbce83e2bd5dc8d
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,112 +66,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[hughsie.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[hughsie.com:s=protonmail];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[manikandan.m@microchip.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,microchip.com,bootlin.com,tuxon.dev,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:lee@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:manikandan.m@microchip.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:ville.syrjala@linux.intel.com,m:hughsient@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[richard@hughsie.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,lists.freedesktop.org,gmail.com];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[manikandan.m@microchip.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[microchip.com:+];
-	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[richard@hughsie.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[hughsie.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4DD50174BE5
+X-Rspamd-Queue-Id: 95582183C95
 X-Rspamd-Action: no action
 
-Add support for LVDS displays to handle format negotiation with
-the following bus formats:
-	- RGB888_1X7X4_SPWG
-	- RGB888_1X7X4_JEIDA
-	- RGB666_1X7X3_SPWG
-	- RGB666_1X18
+On Monday, 23 February 2026 at 07:35, Dave Airlie <airlied@gmail.com> wrote=
+:
+> In that case we should probably hook the dpcd device into runtime
+> power and have it make sure that the parent is awake, so if someone
+> opens the dpcd device and keeps it open, we keep the power on?
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
-changes in v3:
-- Repharse commit message
----
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
+I think that's sensible. I'm also not against fwupd also poking the hardwar=
+e before and after the update, e.g. like a powersave "inhibit" that gets en=
+abled and disabled.
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 73ac5ebbe121..919f9991a779 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -390,6 +390,42 @@ static int atmel_xlcdc_connector_output_dsi(struct drm_encoder *encoder,
- 	return supported_fmts;
- }
- 
-+static int atmel_xlcdc_connector_output_lvds(struct drm_encoder *encoder,
-+					     struct drm_display_info *info)
-+{
-+	int j;
-+	unsigned int supported_fmts = 0;
-+
-+	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+	case 0:
-+		break;
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+		return ATMEL_HLCDC_RGB666_OUTPUT;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+		return ATMEL_HLCDC_RGB888_OUTPUT;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	for (j = 0; j < info->num_bus_formats; j++) {
-+		switch (info->bus_formats[j]) {
-+		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		case MEDIA_BUS_FMT_RGB666_1X18:
-+			supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
-+			break;
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+			supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+	return supported_fmts;
-+}
-+
- static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- {
- 	struct drm_connector *connector = state->connector;
-@@ -408,6 +444,8 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 	 */
- 	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI)
- 		return atmel_xlcdc_connector_output_dsi(encoder, info);
-+	else if (encoder->encoder_type == DRM_MODE_ENCODER_LVDS)
-+		return atmel_xlcdc_connector_output_lvds(encoder, info);
- 
- 	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
- 	case 0:
--- 
-2.25.1
+> > I've also occasionally wondered what happens to the thing whose
+> > firmware is being updated if other AUX transfers are happening at
+> > the same time...
+> That is a good question also.
 
+Ideally, I'd like vendors to use the USB interface to update dock hardware =
+-- it's much safer as you said. At the moment the problem is "solved" by lo=
+ts of retries. :/
+
+Richard
