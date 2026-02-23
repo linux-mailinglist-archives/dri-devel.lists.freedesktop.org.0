@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8CCMOsR/nGm6IQQAu9opvQ
+	id GK52GMh/nGmLIgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:26:44 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:26:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7100F179BA1
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB5E179BB9
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAFA10E3E2;
-	Mon, 23 Feb 2026 16:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B69D10E3E6;
+	Mon, 23 Feb 2026 16:26:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ei9PGdBX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OX6b9f1A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6C4E10E3E2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:26:40 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-4362197d174so2892729f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:26:40 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F83810E3E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:26:42 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4837634de51so20259095e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771863999; x=1772468799; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771864001; x=1772468801; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KDLimeHtxVS5SKcWIzN8e9OscOYHFIeGGM22w7ht1RY=;
- b=Ei9PGdBXyMYzflU/vfMTzSaXkpjg+orM3adoaCphZb1Z+8jU+oT1c3On7Va16XrSVG
- niqcyxMsmGEIWf4+Ec7q6AW+9MJztMiuZ6/69noogBkswaPiD3SlJmW6DXQwVeiOtCQ/
- AhBgQ45Zz85rpaFoxAU0egh6uLYHvJX7Yvzz7+LJcqZbK1/NQLnj/yub7pFhMD017HR1
- e/qhRq87HRBVJ4WKRNjxKGf4pook+5r2pTWu6XjonHIVr2xotFHcDSgUJQyvsEirREfy
- 08WmEnARu96gNthv0Xx6PGKW1y6PSKXv7em9CJC/XCbmXQ7REF6VoshSDHVXCnM6MUdN
- VTSw==
+ bh=Qf/+YOrO2BrvqafNFjJO+GVFFHfE339w5tpogT6PGGo=;
+ b=OX6b9f1AJRizirDhgkzPsQ0jInPhrixeNEr4Q6DgSHg0m8aT8YuV6+e+1hZXGE1RRX
+ U+oIgsFJHv3nGN0aMI+pIKP0A1bVO/RiSTRV30AeCXkhSYjrmSyeFKnhB19lb5uiuQX7
+ L6ikOTeD3D4CL8YQPyH8awJDzFPbMMC3VLWqMBgSqBwetsfp4EjKdmj0LFiycWsh+PJ4
+ 2+9j0EwSDh5aFlDQHv9LffCbCLEN8mkQEk186zgz2Yc6f7jNLj950KM50eUtoTCBPpqt
+ l5XXev9K/GVY9484Ht/MmEofGJwa5uM5wO9+Y88hlVJjg9+U/iK7T1yTUKd7bsxuaFUQ
+ cVpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771863999; x=1772468799;
+ d=1e100.net; s=20230601; t=1771864001; x=1772468801;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=KDLimeHtxVS5SKcWIzN8e9OscOYHFIeGGM22w7ht1RY=;
- b=aFl4FGyyuT54wZl8chRbFFEDwrV562vh46iVqnYbBV2V4XmDgFl2UDOkUi8iXP1Sdh
- r+k6LmRWKKano23BR+hqbU2LQl/DQSDZJJ47oUwNJ3K+VMP9A/N9AfFL3WVSr8Rf1mav
- ci7TnyJPYWPZpsedWfXkDGCc/56ObpuhfBT/N4/OQhmqNXq9+mmjrFNTc4Hj5sa4xIQk
- eIOjO3Zb5xI+AoBwMoc+eVvyVgp6HHOv5EpgT5I8GCgJ3ztah7udH1IHjZKD9hK96uS1
- dys+/3xy//VLO9eMq/fApMHvEHxD1Rm5H3thuz1Pti6Cq2Rdhq1txtOmLjjxO1YRDdXy
- dhmg==
+ bh=Qf/+YOrO2BrvqafNFjJO+GVFFHfE339w5tpogT6PGGo=;
+ b=mdK71cJWjKADDYvM7SH0fooqNE0YlotZQqSoPHhM46jB3ItYyXX6BtVFEOTpFTH5+/
+ wfqTpXfwPsY+DmtDg8N+SqToQfThT1BBt9pOBweVHlLJa5XDrKCtxa+dzrxPxmcfrryy
+ 6cBh5p5+SifkKUBKL9GTIRH4MZeI1+DzqveMjR7/+N9bJ+H9xaEVLoaIdzYe9/B/9QH9
+ xYzSNIqtyqX0739sYE0lPwpq8+cxohIRQ9dzTzQUfFiJWLmFY+c8GzThjK1Ffvr9gLI6
+ V5S969KR8gPskaJ4G0CNmkBKb6BmH74bJmvQCBf/NC+vO5V298+zKtF5Rts+WXr7gYTF
+ BKaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9vhgm2BnWqfiCLyF40v/ZVFOftYEm4rCY1Jk+dqJ2TVXTRwaGMp0u653e8qJRF53hVQfeTw5nv0Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy4iFi5zYbenYjDweHqHRHThq1QwBY2jDdOTFFtIyaigGpRi84X
- OMu2/hN5QE/t+hMRnG1dbd7McyBqERClVRVPcha8N66sDpNPGc6lJX2F
-X-Gm-Gg: ATEYQzyzGsMF6iIXpwoGq9JLWb6ZWKvygSAGPK+vU7mNQD726Sv8U/ubWRdvL3HksG6
- C1vYEcTr//eQ6rnrf3cTkZrusBPVX6wkWdQrdMw+6i/ZPqSvdFPHuKyEaTsxbT0K7KbkDse+82M
- PYlUgby6abYFDnoADZrYC86bS6acwP8JVX3ZNt+EaHOjxf7H9kWhkE0XiIrI6gaVbKUAqlJQx2L
- 5a1XRxkrABcC8VR3pIBSGnZPrIFGCYzFrhibhSKYkevLx0V4iUudhxSAtO/izNu+UMlxw6GUB74
- NbSCXmj+V4ijhDcH+DYblYb067fl8Q5iUY+EASjp8QGKe/enm/hcKhC/C2uvRBFWD6v5lKyCZlE
- ZXcJLhKjyQ6TzEM4198HjAxg2/Ri7+Fb72F2So/8mpGEWqkvn8BjsW/jcKe1D7S9m7tK8Mtf8WJ
- zCqP7Q5OS5kK02YN9nDOo=
-X-Received: by 2002:a05:6000:4282:b0:437:7168:af37 with SMTP id
- ffacd0b85a97d-4396f1808aemr16070237f8f.42.1771863998881; 
- Mon, 23 Feb 2026 08:26:38 -0800 (PST)
+ AJvYcCU1teaVhmVXZhNb9UMQoMB2hAp6i2HCNbsAFmxz76ezWRT2WFPPt3axKeJcVRL/2PU9/ONRbOBtcPA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHK622S7g5XJNzv41UgiGKj9UF89iyxAf4L1ry7KrFTmitaPBZ
+ wEf/Ha41LIvF/ffaU7fx8POCrq84FYiTKQMegH3ZjYXy48Y+j2vJbUbE
+X-Gm-Gg: AZuq6aLNbVpaoJN4ONbKqedF5Yk9zs12DqrDLz+SJ36epYUR/q/5YZr9CCSpV/k7jMf
+ R3sFdrUg79fJuNtD1RWsyYcULbDTdhNeYNxprCopsHZevUZMeuU0YC4OhuYxhct6HIjVj1r+e0d
+ 2flgaCz4e0WfPSZ3nuQOue2JG10VHVhZSY5Ryno1VsBM2fWFcnFwClnh7qb0sNpNeOgmxJ6jRnl
+ 0pu1k/XuFGEYNzHyX2MyW3PhaR7RKvTSZd6xDjnk4pganh9jaR1DWxvYznBDH5WdzUI1x93FCe8
+ +DA/Us8ujifqT3HRusFtppGf0CC243S3PB9m8Sj1GLLENtvsT6nZDANCbfE1JV250SKGHL1QvTA
+ kYcFGVwSGl3z9vZd0GOiGOpoaIJjUgPP+T6KGw1Xt+SdAptVF0js2fUEoITvf1KuP/6aHrpp+XX
+ 51YbJRnmjNp3vmftYNWLI=
+X-Received: by 2002:a05:600c:154b:b0:483:7ae2:1737 with SMTP id
+ 5b1f17b1804b1-483a962e486mr129723295e9.17.1771864001041; 
+ Mon, 23 Feb 2026 08:26:41 -0800 (PST)
 Received: from luca-vm.lan ([154.61.61.58]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970d5463dsm19120357f8f.34.2026.02.23.08.26.37
+ ffacd0b85a97d-43970d5463dsm19120357f8f.34.2026.02.23.08.26.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 08:26:38 -0800 (PST)
+ Mon, 23 Feb 2026 08:26:40 -0800 (PST)
 From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
 To: linux-mediatek@lists.infradead.org
 Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
@@ -84,10 +84,10 @@ Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
-Subject: [PATCH v3 2/6] dt-bindings: display: mediatek: Add compatibles for
- MediaTek mt8167
-Date: Mon, 23 Feb 2026 16:22:46 +0000
-Message-ID: <66eafae30f9fe00b469e79d385c1ddd24d209475.1771863641.git.l.scorcia@gmail.com>
+Subject: [PATCH v3 3/6] dt-bindings: phy: mediatek,
+ dsi-phy: Add support for mt8167
+Date: Mon, 23 Feb 2026 16:22:47 +0000
+Message-ID: <92530e0a31eca1feb822f5c5fd4ac894937dd6c7.1771863641.git.l.scorcia@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1771863641.git.l.scorcia@gmail.com>
 References: <cover.1771863641.git.l.scorcia@gmail.com>
@@ -108,150 +108,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [2.49 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_REJECT(1.00)[gmail.com:s=20230601];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:linux-mediatek@lists.infradead.org,m:l.scorcia@gmail.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:angelogioacchino.delregno@collabora.com,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:chunfeng.yun@mediatek.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:matthias.bgg@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-phy@lists.infradead.org,m:lscorcia@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[23];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,collabora.com,kernel.org,pengutronix.de,ffwll.ch,linux.intel.com,suse.de,mediatek.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-mediatek@lists.infradead.org,m:l.scorcia@gmail.com,m:angelogioacchino.delregno@collabora.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:chunfeng.yun@mediatek.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:matthias.bgg@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-phy@lists.infradead.org,m:lscorcia@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:-];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_CC(0.00)[gmail.com,collabora.com,oss.qualcomm.com,kernel.org,pengutronix.de,ffwll.ch,linux.intel.com,suse.de,mediatek.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	NEURAL_HAM(-0.00)[-0.997];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7100F179BA1
+X-Rspamd-Queue-Id: CDB5E179BB9
 X-Rspamd-Action: no action
 
-Add compatibles for various display-related blocks of MediaTek mt8167.
+Add support for the MediaTek mt8167 SoC: the DSI PHY found
+in this chip is fully compatible with the one found in the mt2701 SoC.
 
 Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,aal.yaml    | 1 +
- .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml  | 4 +++-
- .../devicetree/bindings/display/mediatek/mediatek,dither.yaml | 1 +
- .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml  | 1 +
- .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml    | 1 +
- .../devicetree/bindings/display/mediatek/mediatek,rdma.yaml   | 1 +
- .../devicetree/bindings/display/mediatek/mediatek,wdma.yaml   | 4 +++-
- 7 files changed, 11 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-index daf90ebb39bf..4bbea72b292a 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-@@ -33,6 +33,7 @@ properties:
-           - enum:
-               - mediatek,mt2712-disp-aal
-               - mediatek,mt6795-disp-aal
-+              - mediatek,mt8167-disp-aal
-           - const: mediatek,mt8173-disp-aal
-       - items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-index fca8e7bb0cbc..5c5068128d0c 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-@@ -25,7 +25,9 @@ properties:
-           - mediatek,mt8183-disp-ccorr
-           - mediatek,mt8192-disp-ccorr
-       - items:
--          - const: mediatek,mt8365-disp-ccorr
-+          - enum:
-+              - mediatek,mt8167-disp-ccorr
-+              - mediatek,mt8365-disp-ccorr
-           - const: mediatek,mt8183-disp-ccorr
-       - items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-index abaf27916d13..891c95be15b9 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-@@ -26,6 +26,7 @@ properties:
-           - mediatek,mt8183-disp-dither
-       - items:
-           - enum:
-+              - mediatek,mt8167-disp-dither
-               - mediatek,mt8186-disp-dither
-               - mediatek,mt8188-disp-dither
-               - mediatek,mt8192-disp-dither
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-index 48542dc7e784..ec1054bb06d4 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-@@ -28,6 +28,7 @@ properties:
-       - items:
-           - enum:
-               - mediatek,mt6795-disp-gamma
-+              - mediatek,mt8167-disp-gamma
-           - const: mediatek,mt8173-disp-gamma
-       - items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-index 4f110635afb6..679f731f0f15 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+index acdbce937b0a..c6d0bbdbe0e2 100644
+--- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
 @@ -23,6 +23,7 @@ properties:
-     oneOf:
-       - enum:
-           - mediatek,mt2701-disp-ovl
-+          - mediatek,mt8167-disp-ovl
-           - mediatek,mt8173-disp-ovl
-           - mediatek,mt8183-disp-ovl
-           - mediatek,mt8192-disp-ovl
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-index 878f676b581f..cb187a95c11e 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-@@ -36,6 +36,7 @@ properties:
-           - enum:
-               - mediatek,mt7623-disp-rdma
-               - mediatek,mt2712-disp-rdma
-+              - mediatek,mt8167-disp-rdma
-           - const: mediatek,mt2701-disp-rdma
        - items:
            - enum:
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-index a3a2b71a4523..816841a96133 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-@@ -24,7 +24,9 @@ properties:
-       - enum:
-           - mediatek,mt8173-disp-wdma
+               - mediatek,mt7623-mipi-tx
++              - mediatek,mt8167-mipi-tx
+           - const: mediatek,mt2701-mipi-tx
        - items:
--          - const: mediatek,mt6795-disp-wdma
-+          - enum:
-+              - mediatek,mt6795-disp-wdma
-+              - mediatek,mt8167-disp-wdma
-           - const: mediatek,mt8173-disp-wdma
- 
-   reg:
+           - enum:
 -- 
 2.43.0
 
