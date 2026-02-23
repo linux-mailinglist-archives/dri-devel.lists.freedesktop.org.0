@@ -2,100 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2DzRGf2lnGkYJwQAu9opvQ
+	id gPH1KQWmnGkYJwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:09:49 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:09:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1648817C074
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB1C17C082
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583B610E42A;
-	Mon, 23 Feb 2026 19:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5529310E421;
+	Mon, 23 Feb 2026 19:09:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kG4wmDO4";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BI8pVZbC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RpEkL3VY";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="g6KqfGKv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B820C10E421
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:46 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE8E10E421
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:53 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61NGFSUu3936387
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:45 GMT
+ 61NC2iJG3151827
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MJPcPVRr65YeMFEr02KOUusve8jQFGasCqgJNjYMLUY=; b=kG4wmDO43TdEaah1
- kwFIpoYkIqCc8p+LATPySwod2UV5df+9/oqv80f2xPZlLyZL/yXusCxU389jJsBc
- ZbbT7SrcP8OT/3jRIQzRMpU8PoKAO8JOXMGHHFHGEq6vNqeqgRruSXxWh1yW+sks
- PvgmRZ1/3z/rBosdenfDeZjliUBQjyOZk3XwHpAlEuLlMR+eKEDGIz9+qHlaDFlU
- 7jpVvgjmyC+SqFBUQZaxOdwGID8oqptoesxk6hVJ9Q1wt5g6/weVvVNyvH8KdOlq
- YJA4l58cj//HbrZye7jl/1IWU/GWwxZPgTrC7zaxek4+W/x/YY2n/0DOf9MqH06y
- K0Po/w==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgt8mgjhe-1
+ lsNmoBqASYHT9cEHp6wiIElpPi1KeWEI5rpj2+q1iIA=; b=RpEkL3VYvUKXqlya
+ rYKRGcHWELDmVNYUNjnxgaIdhwD3KZgSYGrqLnKFuPWyuvoQM1Xt/tB8z+itdjaL
+ hUMX7cRvkVeH1g+D5hG/1D5cI4Ai56L1IOftdKHXVO9Vaazy29/L5DUIYI7z2weP
+ jzqBj92+V55qvY8gekJVzOhP4EhUq7Vjl8qBLKzi/7fi5OMOIVIIr1ZybznKDKaJ
+ rLqgDg2+tvUKMjunp9+3WWW/IG8ukDYG21pMIKylZ0a0yqugjrbgXAENI4aHIQm+
+ YuEhYfWYiDAF1iL+8ObVpGRdMq7Iv4sVPPiO4Y2Q6lpjgmnH0QNyyU2apjaYbDhh
+ 6QBuwA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgpj89byh-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:45 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2ad7e454f38so196683075ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 11:09:45 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:09:52 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2aaf0dbd073so57487505ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 11:09:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771873784; x=1772478584;
+ d=oss.qualcomm.com; s=google; t=1771873792; x=1772478592;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MJPcPVRr65YeMFEr02KOUusve8jQFGasCqgJNjYMLUY=;
- b=BI8pVZbCoTP9lPD0D23gf7s7DmCS+pQiOri1X3eRE2dr8hHqiKYMdIcWSw6OlEsw/b
- HGIZBTgKzI6RYR3MGGi+FVhYRZeUQiFEHC11ID5/A9LoXVBQO+zTocJm0iyMC4mHDhFJ
- dkO6pzlgjLHYSneWvgbfSRCiq5Hl87eCaMCosxyToR6K/Xk8UpMqiwvvdPPUx/IhaItK
- 2tHx7ZzhleoGUevRFLLoOIe9TjrEIc5gV8OgYYRqgqITxYYxTpCxLTyLC5UBkeMRdNZb
- QdTKd19ff+G+/dldkWOnCfXdoKYFcnmuN6+cKZMTjow3D5p3ELLnN7Fqsm0qq+YZDWvY
- 8Seg==
+ :reply-to; bh=lsNmoBqASYHT9cEHp6wiIElpPi1KeWEI5rpj2+q1iIA=;
+ b=g6KqfGKvh0irZW1K/p789K02BnzVQgoQ1tTN6JEauNLjqQaIhZm1Zvdj0v1T8IwDNr
+ o8sSoGAJsB31wcKi5zuN+63MKpw5ublzKPxUK2nfqVO4QFIerZDtd+OK9+szwPQaQ7Rh
+ smijVomajtheLAl5cRDsCRT6Rk5Ty63EOkXVn5Tfy/D+7iKmVhLps/750Oml94DJC5Q9
+ ZEJ+HlDrlKl4SOuw7JexlTbehgtqE2fQ1PwmO24mfj7ZUPhGkAzYLvQwIVj38OekLVrp
+ eH9eCO7E8BshS4J6NQHfbKAgtK99JfLLSHJlCmRj8Fyv/ZI11KZPFwTlOtPreixKe6lN
+ ZGlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771873784; x=1772478584;
+ d=1e100.net; s=20230601; t=1771873792; x=1772478592;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=MJPcPVRr65YeMFEr02KOUusve8jQFGasCqgJNjYMLUY=;
- b=ZoqFslRnsoVa4CTFgUbNt1+yZFYg1uC170kz8zZ2NVsKICsxT9xW4X4Y6+YgAxYv1v
- RZFGqaj9Op+U/odnpplPsxSUn304Y44IPdRw3aK5e8N63KQxw/Zmag8vbIQ9PC4p5TaV
- sxDoTxSFB+AfHGXWZTNFREM0eOfRAKvtIDOpXyLTQtvelxhSnRXGuez5YFGCc6P1xaJs
- Im9RA/AsYY0EaMlq2tFC68QOOJye8SOl8rkNhzI3qNi2OyjM289/K0PUkjnY5w45w+8h
- Yz2fhFik7mrwJEXcYzE+QShxL+NyXDABOYCAaCq2uS70HpF/YhiqizRy6FDbM4Dmrkxa
- +BsA==
-X-Gm-Message-State: AOJu0Yy+PAyrRtKQDZxMTJFVRFccF2lCkVBSEW8klWjm2r+vRNDjD4gS
- iUDpFdD4ci1JGzMgX47EW9hfcv5eZ8bZe9OG3D9WO7giZqTZShqpJNHRHDGZXTLAfER+vS9XOtz
- dthJIcICIJWeAKCE9k4T1wyFhm7HOYpPaROa2Oaii1rafE8rwEzVWTVBrip3waFtgQ//jdSI=
-X-Gm-Gg: ATEYQzzGVpph6pBhs+7tIf3E2Iutd5vijeSEXeDSueP03BAF0V8BHuXbTxTq3Ad7ybl
- uefjZLIewixXcxyY3J0wcUm7NWbFdRN/LoKvOw+/LCdQf5b9a25691GPliCA1nuOOhAqTN30k4b
- dm/j8yy+6iOTdO1d5raB8rnIo2kTudS/QCJDFH7ATfrEiJOsy+N3DdWAOcO4lKniNgAxXDNGJ8K
- xGZJTgCrGnw7EJL8DRWzUEYiP6xe5A87LTgow+tF+oOfqx+n6k7BUrWHQYBinOZj8yWFv4SU9q+
- SBc9zdyJVzDEVi86B+gelw/Nq3i9IhctzIx0RREZa9Dw4Oi4rpHS9CnyaftjY4ePmVZETYwvLTP
- 0Aq+wSyTp0IYrlPzsqna2aSEpymhA5fshg+abAjUGc3ukawbDcDLm3Q==
-X-Received: by 2002:a17:903:2445:b0:2aa:ecec:a447 with SMTP id
- d9443c01a7336-2ad74504e77mr105283035ad.36.1771873784301; 
- Mon, 23 Feb 2026 11:09:44 -0800 (PST)
-X-Received: by 2002:a17:903:2445:b0:2aa:ecec:a447 with SMTP id
- d9443c01a7336-2ad74504e77mr105282525ad.36.1771873783703; 
- Mon, 23 Feb 2026 11:09:43 -0800 (PST)
+ bh=lsNmoBqASYHT9cEHp6wiIElpPi1KeWEI5rpj2+q1iIA=;
+ b=Hmn/SVYIRWX1qARk6IKzUn17ppIPGDKHZkPdtPtbV7h6yS/kGtWxSMJq3g1VT/xkWi
+ p/8H//hC+XFnbad5jPSzDa60BL6MUf8UIHX7SWsczGWPvqlolOhTqNcBgasT88AAnpSI
+ +Z7qBLziRIRsW9U4nurt0zw19HoXhms+RvAdJkRfqhyuimVUf1R8S7UoQ4AsoaCO6to+
+ V5qOqJjqbWs8lg9lMpHfe6LSs1MQHR4/GQ0zn0Hdi9Qn74ZZXQIyO0H6g4ral+MAXRFQ
+ SdGYmyvcbZk92sM7OD5YOcJH37jQjeR64kKXw3wTA62cnrMizmQiy/CDQ6l08TyIwcoS
+ f9iQ==
+X-Gm-Message-State: AOJu0YyLu76d5ZmrvCxaSnwIJlVCZCdfUgqGpUGST9YuMVixynBAi6RH
+ M1H8Wq7mAzjqg7/SoV6Zr35xEq3k1vKnSSEvmWHFAGLLaNEMX9cHCEJn4lYdEm9Flz4/B0sEBtI
+ wQegXvbIaL9yefRYmcCDp1/JicK3xVV0Adlt1wQSvWh89r+o++XRQulLdZK9RFPCF7n8oXlk=
+X-Gm-Gg: ATEYQzx0zXnX4510F1JYlFo6eiXArNLMrVRDCqEJmfGloQ7hvQlbcKzIgX88Z2k700u
+ kL+rzAz79EJ5n9iSry/PlPaBQrMwxqtvXDRoh/U8SEzXRI3ztaMp6TCwc8mxpBLl5Vxbdc2zRRL
+ /zc2ZjtYFpNgd35ux1AVG9zL9AR/YLYQrh5olur1E01tlEWUQgMtpec8IngDxdlvyIQSrZDqdIc
+ V4T2FSCndAHyQYKUWdjfPyHekjmZ895l/grvf97SkX0pmwLQXyo2Vqxu9PaT9qYAazKU9aLn21C
+ SpDAzINzWCnDhcl9N50YmYRyEyVjayRJ56ybmxM/fSfR2helzG1gGXOotU0+2V7pxLn8zdTCh5h
+ BphziBwSjdigGA/ZffGT0VXBajOFJYBUBIYJG9gtbGv4Tlcp8oSlTVQ==
+X-Received: by 2002:a17:902:ced0:b0:2a0:d629:903c with SMTP id
+ d9443c01a7336-2ad74516615mr88514105ad.30.1771873791652; 
+ Mon, 23 Feb 2026 11:09:51 -0800 (PST)
+X-Received: by 2002:a17:902:ced0:b0:2a0:d629:903c with SMTP id
+ d9443c01a7336-2ad74516615mr88513935ad.30.1771873791111; 
+ Mon, 23 Feb 2026 11:09:51 -0800 (PST)
 Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ad74e34e18sm83501505ad.10.2026.02.23.11.09.36
+ d9443c01a7336-2ad74e34e18sm83501505ad.10.2026.02.23.11.09.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 11:09:42 -0800 (PST)
+ Mon, 23 Feb 2026 11:09:50 -0800 (PST)
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Date: Tue, 24 Feb 2026 00:38:57 +0530
-Subject: [PATCH RFC 03/18] accel/qda: Add RPMsg transport for Qualcomm DSP
- accelerator
+Date: Tue, 24 Feb 2026 00:38:58 +0530
+Subject: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
+ and integrate with IOMMU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-qda-firstpost-v1-3-fe46a9c1a046@oss.qualcomm.com>
+Message-Id: <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
 In-Reply-To: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
 To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -117,38 +117,37 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Chenna Kesava Raju <quic_chennak@quicinc.com>,
  Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771873753; l=10008;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771873753; l=4943;
  i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=iLQ8c+Sm/Die53QHNPeJqNsBysDvS6aLmEkWX2M3O8g=;
- b=ZBLecOZ8SdMNZ1UUQFp4TQ5Efvw9R8lIP8FX7UXoOp+NWgdD2+C0PgFZix6DyqkZ4sVZhzdR6
- j5DF2sxp1K4BUEuwKGYj3zRftFADwXcz/jCBY6b3tdpgazbABOsCbPo
+ bh=kVGIvUQYd8fYwcDgOBRxiOF7ByQocRT92vAbYBLm9bM=;
+ b=rUIy5HgCLDRhZVp2IzTGLrvCMsULd21ubbtDKIPuQIn9m/tfFsvEGy2LbREw4uK3leLblRQUp
+ ul4rak0R2xhAnwPvhY8PF/SfHK0rFwibTRGVhaul0H1g9UdEczMQ+K5
 X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
  pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Authority-Analysis: v=2.4 cv=J/unLQnS c=1 sm=1 tr=0 ts=699ca5f9 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE2NiBTYWx0ZWRfXzpRF6tgx7c+a
+ mUgMlQp8vxdqVet8uj8YbCSM3doTDHxw2fw+HG7i+N/krnYDqIh+UMXMFTr3VyHhkus1Ae91nFT
+ gDexcJUSELbGqLfW1diaLqfe/tMClUJdvPl8QX7MHhpAYWxRKjZuvdnylQRVxH0R0tBLPH4b/+1
+ TPTQLqtDN5uqdZb3M8xYu6sSfE0VgjM7H88ISFaSs+H0igUglYnXqd3bVtMm1jUnf2+f02tRWSS
+ Z4BJ4GKTvfeQnBzM9iDvnf4Jp5Svmds3HY7UpDGbTnNXr8voBccalSHBI6txR76hIPftkGAq+N2
+ yi337Nsw8RVLgqYa4vOb2BDjrC7WLs/0p3SODgY5RZKj49RjCWOy465lBs4Vh/B2ht8abfiPfHu
+ ilZEL0GUFMUf898gyurw3HfPYYPuoI96aC6pJi3WEaJn77Nn6UEy7Ikxk726OcMCu0Zce54jzN1
+ d4CA+KpXvBSECzgJMWQ==
+X-Proofpoint-GUID: cZ7rOr9RGtXrMe-Pfn_7uXz7CRG3QvSY
+X-Authority-Analysis: v=2.4 cv=Z5Lh3XRA c=1 sm=1 tr=0 ts=699ca600 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=FHHk3UexkictpjMLSY0A:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-ORIG-GUID: hcv1HNt0KETFyU7QjvMzqsHSTdSUg7eU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE2NiBTYWx0ZWRfX5GIqb5mHVXwP
- ctmsWDlU8tcDqVBDowXRMvYTyQ4wg5fBJMmiz5K1nOZaUzoJwL6QCi56j1ShbuhEKoVyFJudYJz
- MEhBl7cFVMYS6artJfrZpnMH11mBm6BwzsFuh8EdTDv2Sni5n8t0XQnvUwU6p8zfVeHd259b0C3
- hd8TZ2qhSWUxNG00eHvyMt6V/+8hSWIrRU+yCl72ba5fPgk4RwWby2Q9YCG1x52LG7I+HdrrgDB
- XBYLKChx4f8BFKK/ZW0n0Hp0UJyhrDfBjN36+OFx8NaQT8WZW6fmqvshhk9vYvgTmI3QJxibdUs
- nr9X+FS4qm9sy/uvEbM0zhgLc6dwO+8c7bnITldN7tHop4JXbYmaCQyGRGFzqJPCozTFZtbeVPj
- AHzzoqRh0yoFaUdRcE4Q/cc1MR/WENJqduQD7qHEv8/NkazB4gdJPVqOYRWvch6th574QChjrPJ
- Mbx2LZwtILoSNkR07ug==
-X-Proofpoint-GUID: hcv1HNt0KETFyU7QjvMzqsHSTdSUg7eU
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=Rss5_8j3o1z-bWaeIIsA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: cZ7rOr9RGtXrMe-Pfn_7uXz7CRG3QvSY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_04,2026-02-23_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 suspectscore=0 adultscore=0 spamscore=0 bulkscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602230166
+ clxscore=1015 suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,367 +194,157 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 1648817C074
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 1FB1C17C082
 X-Rspamd-Action: no action
 
-Extend the Qualcomm DSP accelerator (QDA) driver with an RPMsg-based
-transport used to discover and manage DSP instances.
+Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
+DSP accelerator (QDA) driver to represent DSP CB devices that require
+IOMMU configuration. This separates the CB bus from the QDA driver and
+allows QDA to remain a loadable module while the bus is always built-in.
 
-This patch introduces:
+A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
+selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
+updated to descend into the QDA directory for both built-in and module
+builds so that the CB bus is compiled into vmlinux while the driver
+remains modular.
 
-- A core qda_dev structure with basic device state (rpmsg device,
-  device pointer, lock, removal flag, DSP name).
-- Logging helpers that integrate with dev_* when a device is available
-  and fall back to pr_* otherwise.
-- An RPMsg client driver that binds to the Qualcomm FastRPC service and
-  allocates a qda_dev instance using devm_kzalloc().
-- Basic device initialization and teardown paths wired into the module
-  init/exit.
-
-The RPMsg driver currently sets the DSP name from a "label" property in
-the device tree, which will be used by subsequent patches to distinguish
-between different DSP domains (e.g. ADSP, CDSP).
+The CB bus is registered at postcore_initcall() time and is exposed to
+the IOMMU core through iommu_buses[] in the same way as the Tegra
+host1x context-bus. This enables later patches to create CB devices on
+this bus and obtain IOMMU domains for them.
 
 Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 ---
- drivers/accel/qda/Kconfig     |   1 +
- drivers/accel/qda/Makefile    |   4 +-
- drivers/accel/qda/qda_drv.c   |  41 ++++++++++++++-
- drivers/accel/qda/qda_drv.h   |  91 ++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_rpmsg.c | 119 ++++++++++++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_rpmsg.h |  17 ++++++
- 6 files changed, 270 insertions(+), 3 deletions(-)
+ drivers/accel/Makefile              |  1 +
+ drivers/accel/qda/Kconfig           |  5 +++++
+ drivers/accel/qda/Makefile          |  2 ++
+ drivers/accel/qda/qda_compute_bus.c | 23 +++++++++++++++++++++++
+ drivers/iommu/iommu.c               |  4 ++++
+ include/linux/qda_compute_bus.h     | 22 ++++++++++++++++++++++
+ 6 files changed, 57 insertions(+)
 
+diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+index 58c08dd5f389..9ed843cd293f 100644
+--- a/drivers/accel/Makefile
++++ b/drivers/accel/Makefile
+@@ -6,4 +6,5 @@ obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+ obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+ obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+ obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
++obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda/
+ obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+\ No newline at end of file
 diff --git a/drivers/accel/qda/Kconfig b/drivers/accel/qda/Kconfig
-index 3c78ff6189e0..484d21ff1b55 100644
+index 484d21ff1b55..ef1fa384efbe 100644
 --- a/drivers/accel/qda/Kconfig
 +++ b/drivers/accel/qda/Kconfig
-@@ -7,6 +7,7 @@ config DRM_ACCEL_QDA
+@@ -3,11 +3,16 @@
+ # Qualcomm DSP accelerator driver
+ #
+ 
++
++config DRM_ACCEL_QDA_COMPUTE_BUS
++	bool
++
+ config DRM_ACCEL_QDA
  	tristate "Qualcomm DSP accelerator"
  	depends on DRM_ACCEL
  	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on RPMSG
+ 	depends on RPMSG
++	select DRM_ACCEL_QDA_COMPUTE_BUS
  	help
  	  Enables the DRM-based accelerator driver for Qualcomm's Hexagon DSPs.
  	  This driver provides a standardized interface for offloading computational
 diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
-index 573711af1d28..e7f23182589b 100644
+index e7f23182589b..242684ef1af7 100644
 --- a/drivers/accel/qda/Makefile
 +++ b/drivers/accel/qda/Makefile
-@@ -5,4 +5,6 @@
- 
- obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
- 
--qda-y := qda_drv.o
-+qda-y := \
-+	qda_drv.o \
-+	qda_rpmsg.o \
-diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-index 18b0d3fb1598..389c66a9ad4f 100644
---- a/drivers/accel/qda/qda_drv.c
-+++ b/drivers/accel/qda/qda_drv.c
-@@ -2,16 +2,53 @@
- // Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
- #include <linux/module.h>
- #include <linux/kernel.h>
-+#include <linux/atomic.h>
-+#include "qda_drv.h"
-+#include "qda_rpmsg.h"
+@@ -8,3 +8,5 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+ qda-y := \
+ 	qda_drv.o \
+ 	qda_rpmsg.o \
 +
-+static void cleanup_device_resources(struct qda_dev *qdev)
-+{
-+	mutex_destroy(&qdev->lock);
-+}
-+
-+void qda_deinit_device(struct qda_dev *qdev)
-+{
-+	cleanup_device_resources(qdev);
-+}
-+
-+/* Initialize device resources */
-+static void init_device_resources(struct qda_dev *qdev)
-+{
-+	qda_dbg(qdev, "Initializing device resources\n");
-+
-+	mutex_init(&qdev->lock);
-+	atomic_set(&qdev->removing, 0);
-+}
-+
-+int qda_init_device(struct qda_dev *qdev)
-+{
-+	init_device_resources(qdev);
-+
-+	qda_dbg(qdev, "QDA device initialized successfully\n");
-+	return 0;
-+}
- 
- static int __init qda_core_init(void)
- {
--	pr_info("QDA: driver initialization complete\n");
-+	int ret;
-+
-+	ret = qda_rpmsg_register();
-+	if (ret)
-+		return ret;
-+
-+	qda_info(NULL, "QDA driver initialization complete\n");
- 	return 0;
- }
- 
- static void __exit qda_core_exit(void)
- {
--	pr_info("QDA: driver exit complete\n");
-+	qda_rpmsg_unregister();
-+	qda_info(NULL, "QDA driver exit complete\n");
- }
- 
- module_init(qda_core_init);
-diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
++obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+diff --git a/drivers/accel/qda/qda_compute_bus.c b/drivers/accel/qda/qda_compute_bus.c
 new file mode 100644
-index 000000000000..bec2d31ca1bb
+index 000000000000..1d9c39948fb5
 --- /dev/null
-+++ b/drivers/accel/qda/qda_drv.h
-@@ -0,0 +1,91 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+#ifndef __QDA_DRV_H__
-+#define __QDA_DRV_H__
-+
-+#include <linux/device.h>
-+#include <linux/mutex.h>
-+#include <linux/rpmsg.h>
-+#include <linux/xarray.h>
-+
-+/* Driver identification */
-+#define DRIVER_NAME "qda"
-+
-+/* struct qda_dev - Main device structure for QDA driver */
-+struct qda_dev {
-+	/* RPMsg device for communication with remote processor */
-+	struct rpmsg_device *rpdev;
-+	/* Underlying device structure */
-+	struct device *dev;
-+	/* Mutex protecting device state */
-+	struct mutex lock;
-+	/* Flag indicating device removal in progress */
-+	atomic_t removing;
-+	/* Name of the DSP (e.g., "cdsp", "adsp") */
-+	char dsp_name[16];
-+};
-+
-+/**
-+ * qda_get_log_device - Get appropriate device for logging
-+ * @qdev: QDA device structure
-+ *
-+ * Returns the most appropriate device structure for logging messages.
-+ * Prefers qdev->dev, or returns NULL if the device is being removed
-+ * or invalid.
-+ */
-+static inline struct device *qda_get_log_device(struct qda_dev *qdev)
-+{
-+	if (!qdev || atomic_read(&qdev->removing))
-+		return NULL;
-+
-+	if (qdev->dev)
-+		return qdev->dev;
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Logging macros
-+ *
-+ * These macros provide consistent logging across the driver with automatic
-+ * function name inclusion. They use dev_* functions when a device is available,
-+ * falling back to pr_* functions otherwise.
-+ */
-+
-+/* Error logging - always logs and tracks errors */
-+#define qda_err(qdev, fmt, ...) do { \
-+	struct device *__dev = qda_get_log_device(qdev); \
-+	if (__dev) \
-+		dev_err(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-+	else \
-+		pr_err(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-+} while (0)
-+
-+/* Info logging - always logs, can be filtered via loglevel */
-+#define qda_info(qdev, fmt, ...) do { \
-+	struct device *__dev = qda_get_log_device(qdev); \
-+	if (__dev) \
-+		dev_info(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-+	else \
-+		pr_info(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-+} while (0)
-+
-+/* Debug logging - controlled via dynamic debug (CONFIG_DYNAMIC_DEBUG) */
-+#define qda_dbg(qdev, fmt, ...) do { \
-+	struct device *__dev = qda_get_log_device(qdev); \
-+	if (__dev) \
-+		dev_dbg(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-+	else \
-+		pr_debug(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-+} while (0)
-+
-+/*
-+ * Core device management functions
-+ */
-+int qda_init_device(struct qda_dev *qdev);
-+void qda_deinit_device(struct qda_dev *qdev);
-+
-+#endif /* __QDA_DRV_H__ */
-diff --git a/drivers/accel/qda/qda_rpmsg.c b/drivers/accel/qda/qda_rpmsg.c
-new file mode 100644
-index 000000000000..a8b24a99ca13
---- /dev/null
-+++ b/drivers/accel/qda/qda_rpmsg.c
-@@ -0,0 +1,119 @@
++++ b/drivers/accel/qda/qda_compute_bus.c
+@@ -0,0 +1,23 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+#include <linux/module.h>
-+#include <linux/rpmsg.h>
-+#include <linux/of_platform.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include "qda_drv.h"
-+#include "qda_rpmsg.h"
++#include <linux/device.h>
++#include <linux/init.h>
 +
-+static int qda_rpmsg_init(struct qda_dev *qdev)
-+{
-+	dev_set_drvdata(&qdev->rpdev->dev, qdev);
-+	return 0;
-+}
-+
-+/* Utility function to allocate and initialize qda_dev */
-+static struct qda_dev *alloc_and_init_qdev(struct rpmsg_device *rpdev)
-+{
-+	struct qda_dev *qdev;
-+
-+	qdev = devm_kzalloc(&rpdev->dev, sizeof(*qdev), GFP_KERNEL);
-+	if (!qdev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	qdev->dev = &rpdev->dev;
-+	qdev->rpdev = rpdev;
-+
-+	qda_dbg(qdev, "Allocated and initialized qda_dev\n");
-+	return qdev;
-+}
-+
-+static int qda_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len, void *priv, u32 src)
-+{
-+	/* Dummy function for rpmsg driver */
-+	return 0;
-+}
-+
-+static void qda_rpmsg_remove(struct rpmsg_device *rpdev)
-+{
-+	struct qda_dev *qdev = dev_get_drvdata(&rpdev->dev);
-+
-+	qda_info(qdev, "Removing RPMsg device\n");
-+
-+	atomic_set(&qdev->removing, 1);
-+
-+	mutex_lock(&qdev->lock);
-+	qdev->rpdev = NULL;
-+	mutex_unlock(&qdev->lock);
-+
-+	qda_deinit_device(qdev);
-+
-+	qda_info(qdev, "RPMsg device removed\n");
-+}
-+
-+static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
-+{
-+	struct qda_dev *qdev;
-+	int ret;
-+	const char *label;
-+
-+	qda_dbg(NULL, "QDA RPMsg probe starting\n");
-+
-+	qdev = alloc_and_init_qdev(rpdev);
-+	if (IS_ERR(qdev))
-+		return PTR_ERR(qdev);
-+
-+	ret = of_property_read_string(rpdev->dev.of_node, "label", &label);
-+	if (!ret) {
-+		strscpy(qdev->dsp_name, label, sizeof(qdev->dsp_name));
-+	} else {
-+		qda_info(qdev, "QDA DSP label not found in DT\n");
-+		return ret;
-+	}
-+
-+	ret = qda_rpmsg_init(qdev);
-+	if (ret) {
-+		qda_err(qdev, "RPMsg init failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = qda_init_device(qdev);
-+	if (ret)
-+		return ret;
-+
-+	qda_info(qdev, "QDA RPMsg probe completed successfully for %s\n", qdev->dsp_name);
-+	return 0;
-+}
-+
-+static const struct of_device_id qda_rpmsg_id_table[] = {
-+	{ .compatible = "qcom,fastrpc" },
-+	{},
++struct bus_type qda_cb_bus_type = {
++	.name = "qda-compute-cb",
 +};
-+MODULE_DEVICE_TABLE(of, qda_rpmsg_id_table);
++EXPORT_SYMBOL_GPL(qda_cb_bus_type);
 +
-+static struct rpmsg_driver qda_rpmsg_driver = {
-+	.probe = qda_rpmsg_probe,
-+	.remove = qda_rpmsg_remove,
-+	.callback = qda_rpmsg_cb,
-+	.drv = {
-+		.name = "qcom,fastrpc",
-+		.of_match_table = qda_rpmsg_id_table,
-+	},
-+};
-+
-+int qda_rpmsg_register(void)
++static int __init qda_cb_bus_init(void)
 +{
-+	int ret = register_rpmsg_driver(&qda_rpmsg_driver);
++	int err;
 +
-+	if (ret)
-+		qda_err(NULL, "Failed to register RPMsg driver: %d\n", ret);
-+
-+	return ret;
++	err = bus_register(&qda_cb_bus_type);
++	if (err < 0) {
++		pr_err("qda-compute-cb bus registration failed: %d\n", err);
++		return err;
++	}
++	return 0;
 +}
 +
-+void qda_rpmsg_unregister(void)
-+{
-+	unregister_rpmsg_driver(&qda_rpmsg_driver);
-+}
-diff --git a/drivers/accel/qda/qda_rpmsg.h b/drivers/accel/qda/qda_rpmsg.h
++postcore_initcall(qda_cb_bus_init);
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 4926a43118e6..5dee912686ee 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -33,6 +33,7 @@
+ #include <trace/events/iommu.h>
+ #include <linux/sched/mm.h>
+ #include <linux/msi.h>
++#include <linux/qda_compute_bus.h>
+ #include <uapi/linux/iommufd.h>
+ 
+ #include "dma-iommu.h"
+@@ -178,6 +179,9 @@ static const struct bus_type * const iommu_buses[] = {
+ #ifdef CONFIG_CDX_BUS
+ 	&cdx_bus_type,
+ #endif
++#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
++	&qda_cb_bus_type,
++#endif
+ };
+ 
+ /*
+diff --git a/include/linux/qda_compute_bus.h b/include/linux/qda_compute_bus.h
 new file mode 100644
-index 000000000000..348827bff255
+index 000000000000..807122d84e3f
 --- /dev/null
-+++ b/drivers/accel/qda/qda_rpmsg.h
-@@ -0,0 +1,17 @@
++++ b/include/linux/qda_compute_bus.h
+@@ -0,0 +1,22 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#ifndef __QDA_RPMSG_H__
-+#define __QDA_RPMSG_H__
++#ifndef __QDA_COMPUTE_BUS_H__
++#define __QDA_COMPUTE_BUS_H__
 +
-+#include "qda_drv.h"
++#include <linux/device.h>
 +
 +/*
-+ * Transport layer registration
++ * Custom bus type for QDA compute context bank (CB) devices
++ *
++ * This bus type is used for manually created CB devices that represent
++ * IOMMU context banks. The custom bus allows proper IOMMU configuration
++ * and device management for these virtual devices.
 + */
-+int qda_rpmsg_register(void);
-+void qda_rpmsg_unregister(void);
++#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
++extern struct bus_type qda_cb_bus_type;
++#endif
 +
-+#endif /* __QDA_RPMSG_H__ */
++#endif /* __QDA_COMPUTE_BUS_H__ */
 
 -- 
 2.34.1
