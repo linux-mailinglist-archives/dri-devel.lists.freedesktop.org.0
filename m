@@ -2,109 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yFn2CgbOnGnjKQQAu9opvQ
+	id wK9zMNDOnGlhKgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 23:00:38 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 23:04:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D1D17DE80
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 23:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A0117DF3A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 23:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B4C10E317;
-	Mon, 23 Feb 2026 22:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B412110E44D;
+	Mon, 23 Feb 2026 22:03:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="OA3tbc/u";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BEjUgVYi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A477010E317
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 22:00:32 +0000 (UTC)
-Received: from [IPV6:2a02:f000:10bd:e301::471] (unknown
- [IPv6:2a02:f000:10bd:e301::471])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 283265340910;
- Mon, 23 Feb 2026 23:00:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1771884026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OfNdnh8UpvKMsEODve5COdAX3WULSjfDNFrUtEn2DOs=;
- b=OA3tbc/uTGkcys1i9pFAI6SLGqqqcxGvw19B95U2pQ59LvgWr5GDbPmm447O+zL6Sl1h2c
- RTEaFp8RJjO8TN7YW9df7mwo8RVTOv2cI0VzjhZvNm+H6/rtmip0w2a0Fhrv1yhz0IeHDf
- s53kzCTQoJSIlyanjM2JlOpiKaP9xvQ=
-Message-ID: <44283903-f11d-4b13-a6c7-6f0d40a3d00b@ixit.cz>
-Date: Mon, 23 Feb 2026 23:00:25 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B88710E314
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 22:03:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 49869600AE;
+ Mon, 23 Feb 2026 22:03:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6270C19421;
+ Mon, 23 Feb 2026 22:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771884234;
+ bh=VVU2sUGh8t0gjnf+zZg+WfT/cx0o5bOSQjRE4IJooMM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BEjUgVYiAWkmQdHLEBr3X+5uW7PDvbvfiEz/S/w8gyKHvjc5X7EZiWEb1sGoqgIdr
+ B1w0zEDzTWHWR/pVK2nX/mtPqEM8IKFoQOrETRRnjSmzwd6nUjXzRRJNhKPmv07GrJ
+ i48QKmCiBJrAj/9PxNaoZ/wiAnLTYqP58pn03bnzS2J+i119BgJbMjaz2c6w4G90jm
+ rba2mz/FHkh60rRXAN4dBthIMJTstckiOhDVYUtnZG7s3Ya+W+xSPkvywW8BGlqYYL
+ WltQqAOWUerhnKlaNuvdNXnNtd7Y1971aC7n+JfbnvhRIGzgkqZ2JXK11ogo02l8ek
+ Q6/Vlg/z0LWSg==
+Date: Mon, 23 Feb 2026 16:03:49 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>, 
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 00/18] accel/qda: Introduce Qualcomm DSP Accelerator
+ driver
+Message-ID: <ysqmm2lfy5zfad2wplxihafwktmhldisddgpjqrqwyynhakmsi@deptrcggcptl>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] drm: panel: Add Samsung S6E8FCO
-To: Yedaya Katsman <yedaya.ka@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Kamil_Go=C5=82da?=
- <kamil.golda@protonmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260223-panel-patches-v2-0-1b6ad471d540@gmail.com>
- <20260223-panel-patches-v2-2-1b6ad471d540@gmail.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260223-panel-patches-v2-2-1b6ad471d540@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,22 +77,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:yedaya.ka@gmail.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kamil.golda@protonmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:yedayaka@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:ekansh.gupta@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_TO(0.00)[gmail.com,linaro.org,ffwll.ch,linux.intel.com,kernel.org,suse.de,protonmail.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,oss.qualcomm.com,quicinc.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -143,417 +100,310 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ixit.cz:+];
-	NEURAL_HAM(-0.00)[-0.997];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[protonmail.com:email,ixit.cz:mid,ixit.cz:dkim,ixit.cz:email]
-X-Rspamd-Queue-Id: A4D1D17DE80
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lkml.org:url,qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 10A0117DF3A
 X-Rspamd-Action: no action
 
-On 23/02/2026 21:26, Yedaya Katsman wrote:
-> Add driver for Samsung S6E8FCO DSI video mode panel, used in
-> Xiaomi Mi A3 mobile phone.
+On Tue, Feb 24, 2026 at 12:38:54AM +0530, Ekansh Gupta wrote:
+> This patch series introduces the Qualcomm DSP Accelerator (QDA) driver,
+> a modern DRM-based accelerator implementation for Qualcomm Hexagon DSPs.
+> The driver provides a standardized interface for offloading computational
+> tasks to DSPs found on Qualcomm SoCs, supporting all DSP domains (ADSP,
+> CDSP, SDSP, GDSP).
 > 
-> Co-developed-by: Kamil Gołda <kamil.golda@protonmail.com>
-> Signed-off-by: Kamil Gołda <kamil.golda@protonmail.com>
-> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> The QDA driver is designed as an alternative for the FastRPC driver
+> in drivers/misc/, offering improved resource management, better integration
+> with standard kernel subsystems, and alignment with the Linux kernel's
+> Compute Accelerators framework.
+> 
+
+If I understand correctly, this is just the same FastRPC protocol but
+in the accel framework, and hence with a new userspace ABI?
+
+I don't fancy the name "QDA" as an acronym for "FastRPC Accel".
+
+I would much prefer to see this living in drivers/accel/fastrpc and be
+named some variation of "fastrpc" (e.g. fastrpc_accel). (Driver name can
+be "fastrpc" as the other one apparently is named "qcom,fastrpc").
+
+> User-space staging branch
+> ============
+> https://github.com/qualcomm/fastrpc/tree/accel/staging
+> 
+> Key Features
+> ============
+> 
+> * Standard DRM accelerator interface via /dev/accel/accelN
+> * GEM-based buffer management with DMA-BUF import/export support
+> * IOMMU-based memory isolation using per-process context banks
+> * FastRPC protocol implementation for DSP communication
+> * RPMsg transport layer for reliable message passing
+> * Support for all DSP domains (ADSP, CDSP, SDSP, GDSP)
+> * Comprehensive IOCTL interface for DSP operations
+> 
+> High-Level Architecture Differences with Existing FastRPC Driver
+> =================================================================
+> 
+> The QDA driver represents a significant architectural departure from the
+> existing FastRPC driver (drivers/misc/fastrpc.c), addressing several key
+> limitations while maintaining protocol compatibility:
+> 
+> 1. DRM Accelerator Framework Integration
+>   - FastRPC: Custom character device (/dev/fastrpc-*)
+>   - QDA: Standard DRM accel device (/dev/accel/accelN)
+>   - Benefit: Leverages established DRM infrastructure for device
+>     management.
+> 
+> 2. Memory Management
+>   - FastRPC: Custom memory allocator with ION/DMA-BUF integration
+>   - QDA: Native GEM objects with full PRIME support
+>   - Benefit: Seamless buffer sharing using standard DRM mechanisms
+> 
+> 3. IOMMU Context Bank Management
+>   - FastRPC: Direct IOMMU domain manipulation, limited isolation
+>   - QDA: Custom compute bus (qda_cb_bus_type) with proper device model
+>   - Benefit: Each CB device is a proper struct device with IOMMU group
+>     support, enabling better isolation and resource tracking.
+>   - https://lore.kernel.org/all/245d602f-3037-4ae3-9af9-d98f37258aae@oss.qualcomm.com/
+> 
+> 4. Memory Manager Architecture
+>   - FastRPC: Monolithic allocator
+>   - QDA: Pluggable memory manager with backend abstraction
+>   - Benefit: Currently uses DMA-coherent backend, easily extensible for
+>     future memory types (e.g., carveout, CMA)
+> 
+> 5. Transport Layer
+>   - FastRPC: Direct RPMsg integration in core driver
+>   - QDA: Abstracted transport layer (qda_rpmsg.c)
+>   - Benefit: Clean separation of concerns, easier to add alternative
+>     transports if needed
+> 
+> 8. Code Organization
+>   - FastRPC: ~3000 lines in single file
+>   - QDA: Modular design across multiple files (~4600 lines total)
+
+"Now 50% more LOC and you need 6 tabs open in your IDE!"
+
+Might be better, but in itself it provides no immediate value.
+
+>     * qda_drv.c: Core driver and DRM integration
+>     * qda_gem.c: GEM object management
+>     * qda_memory_manager.c: Memory and IOMMU management
+>     * qda_fastrpc.c: FastRPC protocol implementation
+>     * qda_rpmsg.c: Transport layer
+>     * qda_cb.c: Context bank device management
+>   - Benefit: Better maintainability, clearer separation of concerns
+> 
+> 9. UAPI Design
+>   - FastRPC: Custom IOCTL interface
+>   - QDA: DRM-style IOCTLs with proper versioning support
+>   - Benefit: Follows DRM conventions, easier userspace integration
+> 
+> 10. Documentation
+>   - FastRPC: Minimal in-tree documentation
+>   - QDA: Comprehensive documentation in Documentation/accel/qda/
+>   - Benefit: Better developer experience, clearer API contracts
+> 
+> 11. Buffer Reference Mechanism
+>   - FastRPC: Uses buffer file descriptors (FDs) for all book-keeping
+>     in both kernel and DSP
+>   - QDA: Uses GEM handles for kernel-side management, providing better
+>     integration with DRM subsystem
+>   - Benefit: Leverages DRM GEM infrastructure for reference counting,
+>     lifetime management, and integration with other DRM components
+> 
+
+This is all good, but what is the plan regarding /dev/fastrpc-*?
+
+The idea here clearly is to provide an alternative implementation, and
+they seem to bind to the same toplevel compatible - so you can only
+compile one into your kernel at any point in time.
+
+So if I understand correctly, at some point in time we need to say
+CONFIG_DRM_ACCEL_QDA=m and CONFIG_QCOM_FASTRPC=n, which will break all
+existing user space applications? That's not acceptable.
+
+
+Would it be possible to have a final driver that is implemented as a
+accel, but provides wrappers for the legacy misc and ioctl interface to
+the applications?
+
+Regards,
+Bjorn
+
+> Key Technical Improvements
+> ===========================
+> 
+> * Proper device model: CB devices are real struct device instances on a
+>   custom bus, enabling proper IOMMU group management and power management
+>   integration
+> 
+> * Reference-counted IOMMU devices: Multiple file descriptors from the same
+>   process share a single IOMMU device, reducing overhead
+> 
+> * GEM-based buffer lifecycle: Automatic cleanup via DRM GEM reference
+>   counting, eliminating many resource leak scenarios
+> 
+> * Modular memory backends: The memory manager supports pluggable backends,
+>   currently implementing DMA-coherent allocations with SID-prefixed
+>   addresses for DSP firmware
+> 
+> * Context-based invocation tracking: XArray-based context management with
+>   proper synchronization and cleanup
+> 
+> Patch Series Organization
+> ==========================
+> 
+> Patches 1-2:   Driver skeleton and documentation
+> Patches 3-6:   RPMsg transport and IOMMU/CB infrastructure
+> Patches 7-9:   DRM device registration and basic IOCTL
+> Patches 10-12: GEM buffer management and PRIME support
+> Patches 13-17: FastRPC protocol implementation (attach, invoke, create,
+>                map/unmap)
+> Patch 18:      MAINTAINERS entry
+> 
+> Open Items
+> ===========
+> 
+> The following items are identified as open items:
+> 
+> 1. Privilege Level Management
+>   - Currently, daemon processes and user processes have the same access
+>     level as both use the same accel device node. This needs to be
+>     addressed as daemons attach to privileged DSP PDs and require
+>     higher privilege levels for system-level operations
+>   - Seeking guidance on the best approach: separate device nodes,
+>     capability-based checks, or DRM master/authentication mechanisms
+> 
+> 2. UAPI Compatibility Layer
+>   - Add UAPI compat layer to facilitate migration of client applications
+>     from existing FastRPC UAPI to the new QDA accel driver UAPI,
+>     ensuring smooth transition for existing userspace code
+>   - Seeking guidance on implementation approach: in-kernel translation
+>     layer, userspace wrapper library, or hybrid solution
+> 
+> 3. Documentation Improvements
+>   - Add detailed IOCTL usage examples
+>   - Document DSP firmware interface requirements
+>   - Create migration guide from existing FastRPC
+> 
+> 4. Per-Domain Memory Allocation
+>   - Develop new userspace API to support memory allocation on a per
+>     domain basis, enabling domain-specific memory management and
+>     optimization
+> 
+> 5. Audio and Sensors PD Support
+>   - The current patch series does not handle Audio PD and Sensors PD
+>     functionalities. These specialized protection domains require
+>     additional support for real-time constraints and power management
+> 
+> Interface Compatibility
+> ========================
+> 
+> The QDA driver maintains compatibility with existing FastRPC infrastructure:
+> 
+> * Device Tree Bindings: The driver uses the same device tree bindings as
+>   the existing FastRPC driver, ensuring no changes are required to device
+>   tree sources. The "qcom,fastrpc" compatible string and child node
+>   structure remain unchanged.
+> 
+> * Userspace Interface: While the driver provides a new DRM-based UAPI,
+>   the underlying FastRPC protocol and DSP firmware interface remain
+>   compatible. This ensures that DSP firmware and libraries continue to
+>   work without modification.
+> 
+> * Migration Path: The modular design allows for gradual migration, where
+>   both drivers can coexist during the transition period. Applications can
+>   be migrated incrementally to the new UAPI with the help of the planned
+>   compatibility layer.
+> 
+> References
+> ==========
+> 
+> Previous discussions on this migration:
+> - https://lkml.org/lkml/2024/6/24/479
+> - https://lkml.org/lkml/2024/6/21/1252
+> 
+> Testing
+> =======
+> 
+> The driver has been tested on Qualcomm platforms with:
+> - Basic FastRPC attach/release operations
+> - DSP process creation and initialization
+> - Memory mapping/unmapping operations
+> - Dynamic invocation with various buffer types
+> - GEM buffer allocation and mmap
+> - PRIME buffer import from other subsystems
+> 
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > ---
->   MAINTAINERS                                   |   1 +
->   drivers/gpu/drm/panel/Kconfig                 |  12 ++
->   drivers/gpu/drm/panel/Makefile                |   1 +
->   drivers/gpu/drm/panel/panel-samsung-s6e8fco.c | 293 ++++++++++++++++++++++++++
->   4 files changed, 307 insertions(+)
+> Ekansh Gupta (18):
+>       accel/qda: Add Qualcomm QDA DSP accelerator driver docs
+>       accel/qda: Add Qualcomm DSP accelerator driver skeleton
+>       accel/qda: Add RPMsg transport for Qualcomm DSP accelerator
+>       accel/qda: Add built-in compute CB bus for QDA and integrate with IOMMU
+>       accel/qda: Create compute CB devices on QDA compute bus
+>       accel/qda: Add memory manager for CB devices
+>       accel/qda: Add DRM accel device registration for QDA driver
+>       accel/qda: Add per-file DRM context and open/close handling
+>       accel/qda: Add QUERY IOCTL and basic QDA UAPI header
+>       accel/qda: Add DMA-backed GEM objects and memory manager integration
+>       accel/qda: Add GEM_CREATE and GEM_MMAP_OFFSET IOCTLs
+>       accel/qda: Add PRIME dma-buf import support
+>       accel/qda: Add initial FastRPC attach and release support
+>       accel/qda: Add FastRPC dynamic invocation support
+>       accel/qda: Add FastRPC DSP process creation support
+>       accel/qda: Add FastRPC-based DSP memory mapping support
+>       accel/qda: Add FastRPC-based DSP memory unmapping support
+>       MAINTAINERS: Add MAINTAINERS entry for QDA driver
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 545d4cf68b9ac27765c7981e668e32cfecf3366b..238b5332eaf0e0cfb9834084e24671ccaee79939 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8187,6 +8187,7 @@ DRM DRIVER FOR SAMSUNG S6E8FCO PANELS
->   M:	Yedaya Katsman <yedaya.ka@gmail.com>
->   S:	Maintained
->   F:	Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.yaml
-> +F:	drivers/gpu/drm/panel/panel-samsung-s6e8fco.c
->   
->   DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
->   M:	David Heidelberg <david@ixit.cz>
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 7a83804fedca1b688ce6fbe4295ec9009007e693..734640bb3f73c83e9273573aeb720ea1ba20862f 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -893,6 +893,18 @@ config DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01
->   	  ~5.6 inch AMOLED display, and the controller is driven by the MIPI
->   	  DSI protocol with 4 lanes.
->   
-> +config DRM_PANEL_SAMSUNG_S6E8FCO
-> +	tristate "Samsung S6E8FCO DSI video mode panel"
-> +	depends on OF
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	select DRM_MIPI_DSI
-> +	select VIDEOMODE_HELPERS
-> +	help
-> +	  Say Y or M here if you want to enable support for the Samsung video
-> +	  mode panel S6E8FCO. The panel has a 6.09 inch AMOLED display, with
-
-The S6E8.. is not panel, but Display Driver IC, the panel from the 
-replacement parts is likely one of M1906F9SH M1906F9SI, thus I would say 
-M1906F9.
-
-> +	  a resolution of 720x1560.
-> +	  Found in the Xiaomi Mi A3 smartphone (xiaomi-laurel).
-> +
->   config DRM_PANEL_SAMSUNG_SOFEF00
->   	tristate "Samsung SOFEF00 DSI panel controller"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index b9562a6fdcb38bfd0dfee9e8c11e16149ada4386..54eca60e5b57328ea94ed7880f4dead981f87fc1 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -91,6 +91,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24) += panel-samsung-s6e88a0-ams4
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01) += panel-samsung-s6e8aa5x01-ams561ra01.o
-> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8FCO) += panel-samsung-s6e8fco.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
->   obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
->   obj-$(CONFIG_DRM_PANEL_SHARP_LQ079L1SX01) += panel-sharp-lq079l1sx01.o
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8fco.c b/drivers/gpu/drm/panel/panel-samsung-s6e8fco.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..7bbbe8af3e2eb9021ed7f555cb4ad2b0d7ea55ee
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8fco.c
-> @@ -0,0 +1,293 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Copyright (c) 2025 Kamil Gołda <kamil.golda@protonmail.com>
-
-nitpick: you can also drop copyright year from your copyright or update, 
-up to you.
-
-> +// Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
-> +// Copyright (c) 2025, The Linux Foundation. All rights reserved.
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <video/mipi_display.h>
-> +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +struct s6e8fco_samsungp {
-> +	struct drm_panel panel;
-> +	struct mipi_dsi_device *dsi;
-> +	struct regulator_bulk_data *supplies;
-> +	struct gpio_desc *reset_gpio;
-> +};
-> +
-> +static const struct regulator_bulk_data s6e8fco_samsungp_supplies[] = {
-> +	{ .supply = "vddio" },
-> +	{ .supply = "ldo" },
-> +	{ .supply = "iovcc" },
-> +};
-> +
-> +static inline
-> +struct s6e8fco_samsungp *to_s6e8fco_samsungp(struct drm_panel *panel)
-> +{
-> +	return container_of_const(panel, struct s6e8fco_samsungp, panel);
-> +}
-> +
-> +static void s6e8fco_samsungp_reset(struct s6e8fco_samsungp *ctx)
-> +{
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(12000, 13000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(2000, 3000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(10000, 11000);
-> +}
-> +
-> +static int s6e8fco_samsungp_on(struct s6e8fco_samsungp *ctx)
-> +{
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0x5a, 0x5a);
-
-   #define s6e3fc2x01_test_key_on_lvl3(ctx) \
-           mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0x5a, 0x5a> +
-> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x0000);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
-> +				     0x20);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 50);
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04, 0xed);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xed,
-> +				     0xe4, 0x08, 0x96, 0xa4, 0x2a, 0x72, 0xe2,
-> +				     0xca, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
-
-   #define s6e3fc2x01_test_key_off_lvl3(ctx) \
-           mipi_dsi_dcs_write_seq_multi(ctx, 0xfc, 0xa5, 0xa5)
-
-etc. etc., check panel-samsung-s6e3fc2x01.c for example (and eventually 
-other surrounding drivers) and try to de-mystify the writes as much as 
-you can (ofc "reasonably" - as we don't have the datasheet).
-
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0x5a, 0x5a);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe1, 0x93);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x05, 0xf4);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf4, 0x03);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xed, 0x01, 0x81, 0x04);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
-> +
-> +	return dsi_ctx.accum_err;
-> +}
-> +
-> +static int s6e8fco_samsungp_off(struct s6e8fco_samsungp *ctx)
-> +{
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
-> +
-> +
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 20);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 120);
-> +
-> +	return dsi_ctx.accum_err;
-> +}
-> +
-> +static int s6e8fco_samsungp_prepare(struct drm_panel *panel)
-> +{
-> +	struct s6e8fco_samsungp *ctx = to_s6e8fco_samsungp(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(s6e8fco_samsungp_supplies), ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	s6e8fco_samsungp_reset(ctx);
-> +
-> +	ret = s6e8fco_samsungp_on(ctx);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +		regulator_bulk_disable(ARRAY_SIZE(s6e8fco_samsungp_supplies), ctx->supplies);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int s6e8fco_samsungp_unprepare(struct drm_panel *panel)
-> +{
-> +	struct s6e8fco_samsungp *ctx = to_s6e8fco_samsungp(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	ret = s6e8fco_samsungp_off(ctx);
-> +	if (ret < 0)
-> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	regulator_bulk_disable(ARRAY_SIZE(s6e8fco_samsungp_supplies), ctx->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode s6e8fco_samsungp_mode = {
-
-name the struct according to the panel, not (only) the DDIC.
-
-> +	.clock = (720 + 350 + 40 + 294) * (1560 + 17 + 2 + 5) * 60 / 1000,
-> +	.hdisplay = 720,
-> +	.hsync_start = 720 + 350,
-> +	.hsync_end = 720 + 350 + 40,
-> +	.htotal = 720 + 350 + 40 + 294,
-> +	.vdisplay = 1560,
-> +	.vsync_start = 1560 + 17,
-> +	.vsync_end = 1560 + 17 + 2,
-> +	.vtotal = 1560 + 17 + 2 + 5,
-> +	.width_mm = 65,
-> +	.height_mm = 140,
-> +	.type = DRM_MODE_TYPE_DRIVER,
-> +};
-> +
-> +static int s6e8fco_samsungp_get_modes(struct drm_panel *panel,
-> +				      struct drm_connector *connector)
-> +{
-> +	return drm_connector_helper_get_modes_fixed(connector, &s6e8fco_samsungp_mode);
-> +}
-> +
-> +static const struct drm_panel_funcs s6e8fco_samsungp_panel_funcs = {
-> +	.prepare = s6e8fco_samsungp_prepare,
-> +	.unprepare = s6e8fco_samsungp_unprepare,
-> +	.get_modes = s6e8fco_samsungp_get_modes,
-> +};
-> +
-> +static int s6e8fco_samsungp_bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = backlight_get_brightness(bl);
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return 0;
-> +}
-> +
-> +static int s6e8fco_samsungp_bl_get_brightness(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness;
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return brightness;
-> +}
-> +
-> +static const struct backlight_ops s6e8fco_samsungp_bl_ops = {
-> +	.update_status = s6e8fco_samsungp_bl_update_status,
-> +	.get_brightness = s6e8fco_samsungp_bl_get_brightness,
-> +};
-> +
-> +static struct backlight_device *
-> +s6e8fco_samsungp_create_backlight(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	const struct backlight_properties props = {
-> +		.type = BACKLIGHT_RAW,
-> +		.brightness = 268,
-
-~ 10% of brightness at boot? What is the scale? Shouldn't make sense to 
-set it around 50%? (just asking)
-
-> +		.max_brightness = 2047,
-> +	};
-> +
-> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-> +					      &s6e8fco_samsungp_bl_ops, &props);
-> +}
-> +
-> +static int s6e8fco_samsungp_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct s6e8fco_samsungp *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_drm_panel_alloc(dev, struct s6e8fco_samsungp, panel,
-> +				   &s6e8fco_samsungp_panel_funcs,
-> +				   DRM_MODE_CONNECTOR_DSI);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	ret = devm_regulator_bulk_get_const(dev,
-> +					    ARRAY_SIZE(s6e8fco_samsungp_supplies),
-> +					    s6e8fco_samsungp_supplies,
-> +					    &ctx->supplies);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ctx->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-> +				     "Failed to get reset-gpios\n");
-> +
-> +	ctx->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +
-> +	ctx->panel.prepare_prev_first = true;
-> +
-> +	ctx->panel.backlight = s6e8fco_samsungp_create_backlight(dsi);
-> +	if (IS_ERR(ctx->panel.backlight))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-> +				     "Failed to create backlight\n");
-> +
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		drm_panel_remove(&ctx->panel);
-> +		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void s6e8fco_samsungp_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct s6e8fco_samsungp *ctx = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ret = mipi_dsi_detach(dsi);
-> +	if (ret < 0)
-> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +}
-> +
-> +static const struct of_device_id s6e8fco_samsungp_of_match[] = {
-> +	{ .compatible = "samsung,s6e8fco" },
-
-Optimally the compatible should reflect the panel used, eg something 
-like samsung,s6e8fco-m1906f9 . It's possible there will be more panels 
-using this DDIC, then this would make it much clearer.
-
-Happy to see another phone panel heading to mainline, thanks for your work!
-
-David
-
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, s6e8fco_samsungp_of_match);
-> +
-> +static struct mipi_dsi_driver s6e8fco_samsungp_driver = {
-> +	.probe = s6e8fco_samsungp_probe,
-> +	.remove = s6e8fco_samsungp_remove,
-> +	.driver = {
-> +		.name = "panel-samsung-s6e8fco",
-> +		.of_match_table = s6e8fco_samsungp_of_match,
-> +	},
-> +};
-> +module_mipi_dsi_driver(s6e8fco_samsungp_driver);
-> +
-> +MODULE_AUTHOR("Kamil Gołda <kamil.golda@protonmail.com>");
-> +MODULE_DESCRIPTION("DRM driver for s6e8fco samsung amoled video mode dsi panel");
-> +MODULE_LICENSE("GPL");
+>  Documentation/accel/index.rst          |    1 +
+>  Documentation/accel/qda/index.rst      |   14 +
+>  Documentation/accel/qda/qda.rst        |  129 ++++
+>  MAINTAINERS                            |    9 +
+>  arch/arm64/configs/defconfig           |    2 +
+>  drivers/accel/Kconfig                  |    1 +
+>  drivers/accel/Makefile                 |    2 +
+>  drivers/accel/qda/Kconfig              |   35 ++
+>  drivers/accel/qda/Makefile             |   19 +
+>  drivers/accel/qda/qda_cb.c             |  182 ++++++
+>  drivers/accel/qda/qda_cb.h             |   26 +
+>  drivers/accel/qda/qda_compute_bus.c    |   23 +
+>  drivers/accel/qda/qda_drv.c            |  375 ++++++++++++
+>  drivers/accel/qda/qda_drv.h            |  171 ++++++
+>  drivers/accel/qda/qda_fastrpc.c        | 1002 ++++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_fastrpc.h        |  433 ++++++++++++++
+>  drivers/accel/qda/qda_gem.c            |  211 +++++++
+>  drivers/accel/qda/qda_gem.h            |  103 ++++
+>  drivers/accel/qda/qda_ioctl.c          |  271 +++++++++
+>  drivers/accel/qda/qda_ioctl.h          |  118 ++++
+>  drivers/accel/qda/qda_memory_dma.c     |   91 +++
+>  drivers/accel/qda/qda_memory_dma.h     |   46 ++
+>  drivers/accel/qda/qda_memory_manager.c |  382 ++++++++++++
+>  drivers/accel/qda/qda_memory_manager.h |  148 +++++
+>  drivers/accel/qda/qda_prime.c          |  194 +++++++
+>  drivers/accel/qda/qda_prime.h          |   43 ++
+>  drivers/accel/qda/qda_rpmsg.c          |  327 +++++++++++
+>  drivers/accel/qda/qda_rpmsg.h          |   57 ++
+>  drivers/iommu/iommu.c                  |    4 +
+>  include/linux/qda_compute_bus.h        |   22 +
+>  include/uapi/drm/qda_accel.h           |  224 +++++++
+>  31 files changed, 4665 insertions(+)
+> ---
+> base-commit: d4906ae14a5f136ceb671bb14cedbf13fa560da6
+> change-id: 20260223-qda-firstpost-4ab05249e2cc
 > 
-
--- 
-David Heidelberg
-
+> Best regards,
+> -- 
+> Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> 
+> 
