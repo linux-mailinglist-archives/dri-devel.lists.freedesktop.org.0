@@ -2,112 +2,194 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qA6lDVxinWksPQQAu9opvQ
+	id SKcSOja2nGkNKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:32 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:19:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD145183C0F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8483A17CCF0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:19:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC8210E4F5;
-	Tue, 24 Feb 2026 08:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF49010E30D;
+	Mon, 23 Feb 2026 20:18:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VKzKz9II";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HH/eo8Iz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com
- [74.125.82.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42E1310E12A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 20:17:17 +0000 (UTC)
-Received: by mail-dy1-f174.google.com with SMTP id
- 5a478bee46e88-2b82c605dbdso4488509eec.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 12:17:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771877836; cv=none;
- d=google.com; s=arc-20240605;
- b=KjsVU0OnVA/pk6ckTxdrfNnfn3G2ToyOSkzN+RgdKh0Nbc0oIQXrS9pxQpOQ4DQ6vI
- /nIk6zOLtFQyFpNJrZ9B6QPJPNBvXW3mstl7ev7e82QNUn8HpC06p2bsTOqCdDdIPmTR
- Da9D7WUumogg+Y9RC0xm0aLkSmBJXNdW8H2W46yQT0TCHSdOLl/eortykFPYRtRS0NRb
- AphWP/Vc9HpufuOYaotbm638ONKxxdpjmK12Pmhxw0V+3O309zJaIJ3JwEKkvuW/Ca0Z
- TPN6YfTVLX9FporamTPFRAeoqsXYxjaNHWV6FRFJLC5wbHu7OvyFAfJ6VOrxKPCMXZha
- 1GWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=ku3Mg3/oKQLa8vntyumKsTib+5PskclBL/D3UhM5Vrc=;
- fh=BFpjNDyjYNoApPHVQ6sri+AkMuM3985MVq6OzrPxji8=;
- b=IHw/lFuiI+pSf+pTWoqlAjHMmOWeypxudcYBcg7drcyg/jCbZ1P5HhOqLjQJ8+yuQL
- VcqI1ZZgBd7rAyWU5PnoBVATnZ3LFIE78ASnolH7MKYZZEOTVdzcRCWEDGyVgYqU7z95
- /O1xi4XXcIWZ/inlXQsqPmbSKVtayuPiYNUVHUD8H8OVvxSiBnhWwKfdMF1GGeAA1aE2
- Slsb7ybQz9MU+gze0zT75N+wsnMd5sM8gYcZE96dtt8VzxHCsU+gd5DKmVKOPBx29rK7
- TwqN+lpmoqONvMDLR4dmp+9kirsuJGaVyjaHDdaVRN6avhg7edGzIQlmIrr3HMlqT8tQ
- cSpQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771877836; x=1772482636; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ku3Mg3/oKQLa8vntyumKsTib+5PskclBL/D3UhM5Vrc=;
- b=VKzKz9IIS7aIAgLqTi6jO3Brbujf9BBNKEu0/XbmhD8nrDLjOO6H/Re59RLRwQoUNK
- ykjeSmMOeJ4Z4hGD1Lz3/54aJ+uqkoZoMXP9SBlhIC8rBGIFTwWwXr5gPn+8AQCXtvpi
- BCw8jsFPFEPbgi0MNsFqYDfERGQdjRD1SzC8xNbNDv8ij8KzSJjQ0iyeS0crUb3VN2r8
- bDq4sDg/keBQN6Adm4NSPyHo4r6x1LEE/L86nXAFEXscOJ/bMnBxoR2dQ/wnIZsqhISw
- awoK+VMAVmOAIFRbDvT9LZwvD/O9KJM2AqouRiVne6RtsBZKfD2H7P9Fx53vApZjBfdD
- h86g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771877836; x=1772482636;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ku3Mg3/oKQLa8vntyumKsTib+5PskclBL/D3UhM5Vrc=;
- b=fhsaQ/I16tyCb+jRW3N39yFPuFz8yo45gImtqXMV/Lar5uGRvi9n9M2eQdeCoXkqNi
- xna/JKfs1qVPfGbloNm2WczsCHgwp14cp993QHSA1cR4VS+13Uq70CfB857TijqHli1M
- 0rr949JxcAq2dZ3gSp9naWLifp/+MRSnxybIlkMoc3Iu5CLfSllKKJQFXTjiP0guVY7O
- slVp1EWrCJRoTvDUynLL4/B8qRXjF6zBPgPs38/2/R/Am8upTK9HmsfTNQNL+t73br2o
- 00nJQC8xEiyfzcivK8M2qhOncl5s56gs0OJ5KnwU8uXliXi6yq8HZ75ass/rhGziufgc
- 8J9A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWx9nSsKKC9FUeT7Zdjuu5LcMHtCQA7sHEaV1iJvDqEli/Zgv0Hpm7A162zlWG+CCLMKLE7eSfCgo0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7HeuGMaIWBDQKAqgz7MawPg4+bn45jjNYNSVzrksxbQgs9Qnb
- W9o5L90ZnNqSw0r+qbG19bQOyvRMB9Pxa4Hz6ACd9nhY1oFqLkq6mJPil3iayXAF+pKZONO/Y93
- ciX94HpsqMgn7fSIlojSTFOxJof2W2z0=
-X-Gm-Gg: ATEYQzzYXOh4uw/OdCjDtMf5rsoeFFuv7SLmHm7jBlDsUKBU5kXOUwZ6lSRtWZbmaxM
- zv6+v+h2Pwrkem1psLoQ2R+dgtXEorRKDbJm697lC6LE/0tgQldwNia0tfdjt1Eqa/r0kEnxHJP
- kVSgsF+IncVyGShv40c4P73vrje534PplCHTMdgxr8Jbp1/vAi6FMiUxQgMVkiGdFKxApDPgJhL
- fGsPGNeyAqkwsblCpRiXeRUiQWdAqLACdRiNUxR5cJ5Kq1C4iAu67Yja0PEkXkWAyGv70u9SqIp
- c3tC/jI=
-X-Received: by 2002:a05:7300:2308:b0:2ba:8e16:260e with SMTP id
- 5a478bee46e88-2bd7bae98aemr4722722eec.11.1771877835876; Mon, 23 Feb 2026
- 12:17:15 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56AEC10E12A;
+ Mon, 23 Feb 2026 20:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771877937; x=1803413937;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=SfMaUJpo7UxmPiWtxwys9aibwVeEoAix0atGBvwsT3w=;
+ b=HH/eo8IzPxOA9uvtRWc+D5wKHfXr9tpMs+e87pg+zAjrV9f/PJuuOv6y
+ mYGlNVsxC/nWrEvsDOJz3xywPnnzJw8PPawb/h4M6mIPzwxvjWWTjEP7d
+ vhYZimP3AyTGr5rWw4fjzbiAeHzcHv2rR5Vd3QZlfscoln8T832C+gU+r
+ 3tJ59IrhCyh1uy6Y611OsdQJp8Atd+yzO1IBjjgzWCtJwFB+u6lasKaHM
+ 4VogVwC2AUBrzYJr7zuTwo7QDAs16iq3kKBFVqFW2W7LOAle0FN4djAEM
+ OMrQxrN9jNRiMpAehlPvd17rNgN65ia2wqLBN2nvFU8own/9XKGG5mMZ+ w==;
+X-CSE-ConnectionGUID: z8u6FSjQQqqSpx1HYfDbDA==
+X-CSE-MsgGUID: G8kfl1VsTcOwvlQkScxY8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="98346439"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="98346439"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 12:18:45 -0800
+X-CSE-ConnectionGUID: q2FgYiyVRfmEsXpCPzsQ1A==
+X-CSE-MsgGUID: IxsjxBsISOmJZb4rSafEgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="219203723"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 12:18:45 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 23 Feb 2026 12:18:44 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Mon, 23 Feb 2026 12:18:44 -0800
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.15) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 23 Feb 2026 12:18:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JiDspxJXbj3krBLmKTRjOPXe+SafrjfuWwcppz4z2/jCkpSRHyRpGeuG/AsEiBKg8bGELxJuLdQJCCn70A72y9sWLzGA3evyGXF4yVdjf+oGuxzAiCrhEBpqwfzpi5vQ+MxyEfsJPmJzGBX1X1UN3BjZS+8X7HQmlYyQr/pjGZkYSLeUZ2bEJ37Zq97S4jLOtDMBAYLg1ZJv5RUQeX85m2Jmr2iy0Bifs7CyNwXtocThWgx7FLAfuhahBSJl1/dbU3l7/xUwnHJ0mSw4xbLZPnt5dN5DacuODaff6CBEyJEA7xCFlsf/2Xc51q1HVfWs/NSgIA4a1wOXiBSK1upedg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pyjNoQFfPi+IOSAFmi7lBbht4XK6ihLb0+RoDYWJFM4=;
+ b=jN7O77PFDmcn6QJ1Dbso11MNWddJp9Fhj1hJiEIuEJvRraB3oNLUKkKdebhufGHRqwHmF8xMm/qXPBRgmZ4a9Ej4dDFgnfTrdH8lMIuoT8gFJnJNJOUctBccCQI3ofxHD2YiKJiV/jC3HM1DolyzmaJ1d0J8b5QBCyXbxyKOKR1V6afcxbYgyx+aqjBIJ6QkVIMXdsdGAolXEepJUb+KIJQSLWLCWJGMAtaOxz7VnMQyz5SslFyg2kDE/7T0rV4dPg4QHGfENz+A+pYbSomoohFk2UwEZI+8V4GPslYclDHXkg5QP3oGUj+bxY0n3vDTWczZjxpOoSXuJ6BsIuNlqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB6763.namprd11.prod.outlook.com (2603:10b6:303:20b::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
+ 2026 20:18:41 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
+ 20:18:41 +0000
+Date: Mon, 23 Feb 2026 12:18:38 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] dma-buf: revert "use inline lock for the dma-fence-chain"
+Message-ID: <aZy2Hhu3SGQQPQbN@lstrano-desk.jf.intel.com>
+References: <20260223195705.206226-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260223195705.206226-1-christian.koenig@amd.com>
+X-ClientProxiedBy: MW4PR04CA0306.namprd04.prod.outlook.com
+ (2603:10b6:303:82::11) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-References: <20260223-panel-patches-v1-0-7756209477f9@gmail.com>
- <20260223-panel-patches-v1-2-7756209477f9@gmail.com>
- <5ibwkfovm2vvpin475c47lueomscnetwv6myglxqtaw7x26l2m@q6p5vye7itnh>
-In-Reply-To: <5ibwkfovm2vvpin475c47lueomscnetwv6myglxqtaw7x26l2m@q6p5vye7itnh>
-From: Yedaya Katsman <yedaya.ka@gmail.com>
-Date: Mon, 23 Feb 2026 22:17:02 +0200
-X-Gm-Features: AaiRm50W1tsviNG90UeMm0nn7lr90F7cH3ejpUjkJcKTj0bb54NI64GJklPJBu8
-Message-ID: <CAHuF_ZqVUvQSvQNnC55kDGE5KiDPPOphZCxOSmW_uqp5DGeCAA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drivers: gpu: drm: panel: Add Samsung S6E8FCO
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- =?UTF-8?B?S2FtaWwgR2/FgmRh?= <kamil.golda@protonmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6763:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc21075e-5a6c-4fc2-c748-08de7318bc68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXBaMmFHbnkyQnBPaVpBM2VvcHNaM3c3RlZRV2lWVGpuUUhxY3VWVzJZV1lV?=
+ =?utf-8?B?cStNVHRXVXlEOGJPK1BBcEJNZ0x2VmtZd3dPWnIwalhodlVuMzBlTWM1bHFN?=
+ =?utf-8?B?dEFaWS91K00wcTBtSHpQV2tMZVFhdlEwQ21aOVlNOFJKRkI0bHFoY2gvOVhO?=
+ =?utf-8?B?cTA4YU4yN0pZWEptWElsTXY0RjhkR3M0M3hnb1dnZUZDcWxZTFp1Vy9qYW9H?=
+ =?utf-8?B?Tk9IMDFITVNRUjZ0Z1NOamNBbWN2VEtlSExNV3k4bW10L2FFcjFKY3VEc3Qy?=
+ =?utf-8?B?TjRtVzUwcGFLRVZkbzFRTUxyTEwwdkNTMCtoVHIyaTc5OE5xd1JORm9NRnpN?=
+ =?utf-8?B?OEFjdXdQNzMrUUQrU3RjR0pSdEVweGdIemptbENzZ05ROU5YZFl1Z1RjcnFk?=
+ =?utf-8?B?THliU1M4NlFnenF3YXdMSHJFbzZ0Yk1BeUplN21DUWNSOFg5eUh1SlhPY3pi?=
+ =?utf-8?B?Q1cxVnpZeW5lNnAvOWFRQUg1VnpyRTJLMkpuUy8wNU1IM21QTUdBZFpRb3oz?=
+ =?utf-8?B?MHpKWUN4U2MrN3Jrb1ZocFBJdC9RKzArNm1OcERRQ3J0eXdFQTV5RUxLS3F4?=
+ =?utf-8?B?andqdVlNSTVFTGoxWGJFTDBVM1dPRkhNZElqWFhGcHpHR3JyVHBLd3lmMkUy?=
+ =?utf-8?B?Y1ZxZWFib1cyMnIvdGRvbTk5NjhNT21lb3krYmVZMXBNTEcrRzBzQ0lhSmt5?=
+ =?utf-8?B?L0JFajllYmRkT3ROcVE0WTd0K2hPTlNGNUtpbFBiRTJXdytObzd2YjVyYmRp?=
+ =?utf-8?B?SnRLSGdUWHRyUlYyUmt2M095QU51aEx1RVJ5Q05SVnBrSHJPRE5WWmZrejht?=
+ =?utf-8?B?ZDFwbFZ4QUNwRFVHTDVIWFp2M2UrYmJtQ04yVmpVeWw4VG9PK3VBeGV6TnZJ?=
+ =?utf-8?B?UHVLRlMxSEVyNkQyZWJteCsrL2tmd3dFaGkwUGdrUmdxMGYyQVhJWCtlc2lP?=
+ =?utf-8?B?dTdnKzF1YlZwTlJhTUZVN21lNlA0VDBKcjZMZmplcHBucHZuWTJYQTNBMnFQ?=
+ =?utf-8?B?NHBnV1l5blhXR2V2ejlrUTJRcEZhUHFJL3IvcCtyYkkrR2Z2NUdQYzV1TVgy?=
+ =?utf-8?B?bEN5YUlIY3M3dFVyTDJoam44N0tMNkM4aDhEY0RxZmhXWEhzV0wrSHBoMjhu?=
+ =?utf-8?B?K3poVDFRS3QzMEZSNHhrWVNENHJMb2kyU2pCc2lGUys1c3Y1bXBVV3pJSXlK?=
+ =?utf-8?B?S09iaU9RK3RlcDhxUHJFTnpRaGRMNXBLbUQ4MjBPSmZySzlhN05Pdm5Wc0xl?=
+ =?utf-8?B?VW4rOEJ4WUdOMzhaNkswdmdwcTJtS0pzU2w3aWNxOGRLK1ZXZkp1cVJBeTVF?=
+ =?utf-8?B?Vnh6c2FkYmFIZHBVcG1RSjhBU1RkUGsrQlcrak90U041SVUyWkFaTnBCVkFB?=
+ =?utf-8?B?MFluUWN4bHhRWHFyWlhTMHV6TmZLZlZFWTVHRHpBdUVVaVRLdEFJQjJTaEEz?=
+ =?utf-8?B?YkFSZHNZK1A0WEpmWW1EQWpabUVXbkUyM1FENk9oaEtiZVVSNEJtSnk4bUhN?=
+ =?utf-8?B?ZWFyR0tLL3AwR1Q4SWljR3gxZjV3Rk5IVVc4b0NBQUhNMnRJR0V0MFFLOTFD?=
+ =?utf-8?B?Q0Rsd1BLUXcyMURIN2RkbU03VTlTNHU4R0t5cXRiWnczZDRzbVVsTDVvcWlp?=
+ =?utf-8?B?ak5RWmtvaUwvQ2g5cE1pTHh3RnJYaEhUUFVHbW8xaW9nTkdJMDZqNUcxWXBJ?=
+ =?utf-8?B?RUVXczhoZW0rUEx5M3lDamFjWUkyU0luOUVqQy8rY0NTdHdoQ25HNDl2aUp6?=
+ =?utf-8?B?NmhuUFUyTEtiTlJhMkJaZW91aytVZDFreEJGOWpuc2RybHlzZ01oOVpHczIr?=
+ =?utf-8?B?ditnUVpSOTMvYkdKSUJVSkl1ZHJIU3QzQ3FkS1VSMzJubG0wQVZQT2l0c2c4?=
+ =?utf-8?B?T2gwWTl1eWxHUUEvbThTZHlJMzlwdE1JZ05KclRUK3pxUTIvVnpUMlIwSzAv?=
+ =?utf-8?B?cEVXdllDTk5XaWV5OER2LzJUYXVYVzZBbVlmK2xKL3ZpUVE5aFR3dVVJNEhh?=
+ =?utf-8?B?WEl5VWpYaHFNcGRSSGxtWVN1Q2tCanNjUmNPMVhNeDc2dUhQejJQejIybks5?=
+ =?utf-8?B?S3dmOUVyQXhvR2llVW81TU10L01hbFZmOUltT295UENVMllJODZ4UjdqUjFj?=
+ =?utf-8?Q?IMNU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGF0NEVLK1J4NmExMHJZejRUcWZRK0VkVE1YT3pwdExJSjNDbjdvRDVGcEc4?=
+ =?utf-8?B?ZUZad2RoWVVUUUg4YTBzR3o3Z0wxc3luZ2xEUWgwNEZLblFtVkxYeVdITEMy?=
+ =?utf-8?B?NlYyUTVIdzQwOUl2QnhvVFNVVmhHMWN2YnFIRDI5Sy81Q0k4M1l5QkpkUG4v?=
+ =?utf-8?B?TDVNa0hzM3lPcHpMTU12cGp0cERUamVmdkROMElEYlh1Y3ovVmZMWDk3b2RU?=
+ =?utf-8?B?SVpsU3lmTEdYTC82ZldraHBhRUhWdVZ1ZTdhcFZCV1U4cmRsZzc2TlVCcUpa?=
+ =?utf-8?B?M1BnTkk4bU11NmRRT0JCQmRCMlpDRGx4WDdXR1RETkg5Z1UwUFpSN2RFcXdJ?=
+ =?utf-8?B?Ym1HWER2U3BjZ3EvM094UDdTNDlJRkFOVUVVQlFqdzgyalVSOC9OZVcvMFNw?=
+ =?utf-8?B?eUEzbFlUMXNsQmtuTHY0RTc2TzBxVjRoR3AvbnQ4WC9IL3ZGYXltVjNyeHh1?=
+ =?utf-8?B?dmNpc1hDS1lYcnQwVGxPbk9RM0NpQStyK09PanpDV1NnZnlhc0JtZSs5UWx1?=
+ =?utf-8?B?RnhydjAxa2wwWXFkRHM2bm1sdFBJT1hMTkMyTTlOZGRhRm5HTEs1K2ZxTjdB?=
+ =?utf-8?B?VXlpTVpnVjdzSlBnZ1NuV3JxNGxmaGRGajRVakJjUlVPbkU0ejV6QUlXVDJV?=
+ =?utf-8?B?eWh1QlZzSnRTQklwNGkzRHQ3MTN5UmkzcWtIeDNDTytreTNramFuemFzK2la?=
+ =?utf-8?B?ZktKcDVBcWg5RUw5azBBM2J4aVRDVzRyYm5sM2wyaTJ6UVFMV3hsc3RwMHo4?=
+ =?utf-8?B?WXVGUVZ5UXlsL2NKZWdNejRmaXY5cVVFM0JONkdiSlkza2xDSHBzaGlYbytI?=
+ =?utf-8?B?dnhCcGdaNWRYeXRpeXZOWDlYZ3pYcWdSQzRpcmRDdWZRdEVBYWVPQWpOOTJJ?=
+ =?utf-8?B?U2xkZVY5d0xwakNHUjJ2VGNxRjNvNFhnVGJoclJrc0plWGdjejBRcEwrZkJ4?=
+ =?utf-8?B?MThhbEZqTENIbzRKblFVNUFoMXR6T1U3UWEyUGFtWDRMaDFzY2ZDeU5OTHh2?=
+ =?utf-8?B?YWhyVlhNcHUzWGNUcnBZeXlNZnJvNWFnSUlydzdTM3hBV09xdXVqeVliY0Vh?=
+ =?utf-8?B?dlN5aUFsbFJjWTRjeTJBM2l3bmhVa29OZlA4eDhiTFZZSlN4SkN5Y0VqMkdk?=
+ =?utf-8?B?bHovYVlFazFUQ3RmdjNzc1gxcjczSTVyV3JGS1Nnd3hqMnFqTDBZVkVwd3RN?=
+ =?utf-8?B?eHdQUmVqTXIzcFpMbkVSVU5yQkFPYzR2Z2pVMW92azczK2FCN2dhcjVJUG5T?=
+ =?utf-8?B?V3c4d0Jsa0dCT2VLYUhlVUp5RksyOU1aNUFHNnBxVTJUNjBXMlk0MCtQTjRz?=
+ =?utf-8?B?c1lTOWd6R2NSeExOWDNDWDdHRW1LMWp3aHVVaHlqV24vSDFzQWY3K3hZVXJO?=
+ =?utf-8?B?Y1JjMHBZTXdYR2pRRmFxRTFta1FMeHZNNTlSNTFoTU1EcVYyS0ZMZkJCOWZW?=
+ =?utf-8?B?aDd0NSsrSHZCZzREby9mb0xjNHZVMFpjaklVSlRITzZHVUFLZ1dwZWtocXZZ?=
+ =?utf-8?B?akU1a1I1K0hNb041YlRrcmdrZlpoT0hWOWNlZ2VaTldpdEVpL0VWOHB2aHRL?=
+ =?utf-8?B?ZHg1ZDNQM0FjSEwyVjBoMlZpTVA4NEJkeTM2WjlNd3pWK21UcHl0Z202Mi9u?=
+ =?utf-8?B?QkFqM1ltQnlOS0ZkQTRyL3M2WldMNThCK1Q5RVBLT29LVWhlS21ROFZKWnpR?=
+ =?utf-8?B?TE5PQ3VhRS9MK3BXU1J2Q0xmb1JNWnJ1NXk5UjZiVjdLMnhseXh3ZjFBSFFw?=
+ =?utf-8?B?N2FXb2llV0FoQTN5aFZHSmVxbklVNkhkbnJLVDcrQnUzdmVKd0VXZlRrakll?=
+ =?utf-8?B?ZXJWbXhpU2JoRTJWZ3dhV0puSTlyemg5TWNJOFNhTjY0TlAwTGxHaW9xZlhM?=
+ =?utf-8?B?d0I4TEZZaHAwZXQ1cVh5ZkhDSm1UZnU3RDk3Zy90SC8xOFpVOEE1S2VUK3Yr?=
+ =?utf-8?B?WndFZTJTN1BsYkNOeFF6WkhHSHQwTG9vY2o3akl3bFJSaDhzbGhXVlMvMWhD?=
+ =?utf-8?B?RFRFVzRGVXU2dWNGNHhaRlFwcE5QWjlJQk9yWHVxRy9VaVBOT2Rkb2gyM2Vq?=
+ =?utf-8?B?dDU0ajZoZEZKSU8wbTRiWDByZlZJVTdwS1Q2MEpieGVKa1Z2YU96ZTVOcDJl?=
+ =?utf-8?B?Mmp2czh5OVNIV211a1BMMDBJa0VDcFBCaDBBakNSTE1PWlFXWDFjMVlPYWlJ?=
+ =?utf-8?B?aXo0K1B6T2pDckFaYjdjeFk0bXVNUG1DbDkzMGtabllkcE1USnZWOXF5a09r?=
+ =?utf-8?B?VGNOZGpOb05aTnAzaUIwVHE4aHdwcW5sVWlOb1V6anBUTVZMRE1JVnlMVXpo?=
+ =?utf-8?B?SG90Um1IMFZPMysydGJTTTcwVnVtYVpGTHI5U0pzU0tzeml5Um5neXRsM05H?=
+ =?utf-8?Q?TSA8NrjicL8ZylXU=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc21075e-5a6c-4fc2-c748-08de7318bc68
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 20:18:41.2066 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: amjgAUYkKt1ss8lfAyDlT4w4M3U3nQ4tL2aMotgZa1RyLkVHlxMyWfq1VLoAsm3WzLZSMqIRO1UDwyhRUAOlcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6763
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,171 +205,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kamil.golda@protonmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:~postmarketos/upstreaming@lists.sr.ht,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,protonmail.com,lists.sr.ht,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,protonmail.com:email,ixit.cz:email,qualcomm.com:email]
-X-Rspamd-Queue-Id: DD145183C0F
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 8483A17CCF0
 X-Rspamd-Action: no action
 
-On Mon, 23 Feb 2026 at 21:37, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Mon, Feb 23, 2026 at 04:24:03PM +0200, Yedaya Katsman wrote:
-> > Add driver for Samsung S6E8FCO DSI video mode panel, used in
-> > Xiaomi Mi A3 mobile phone.
-> >
-> > Co-developed-by: Kamil Go=C5=82da <kamil.golda@protonmail.com>
-> > Signed-off-by: Kamil Go=C5=82da <kamil.golda@protonmail.com>
-> > Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
-> > ---
-> >  MAINTAINERS                                   |   1 +
-> >  drivers/gpu/drm/panel/Kconfig                 |  12 ++
-> >  drivers/gpu/drm/panel/Makefile                |   1 +
-> >  drivers/gpu/drm/panel/panel-samsung-s6e8fco.c | 293 ++++++++++++++++++=
-++++++++
-> >  4 files changed, 307 insertions(+)
->
-> Please change the subject to follow "drm: panel: foo bar baz".
-Ok
-> With that in place:
->
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Thanks
->
->
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 545d4cf68b9ac27765c7981e668e32cfecf3366b..238b5332eaf0e0cfb983408=
-4e24671ccaee79939 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8187,6 +8187,7 @@ DRM DRIVER FOR SAMSUNG S6E8FCO PANELS
-> >  M:   Yedaya Katsman <yedaya.ka@gmail.com>
-> >  S:   Maintained
-> >  F:   Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.y=
-aml
-> > +F:   drivers/gpu/drm/panel/panel-samsung-s6e8fco.c
-> >
-> >  DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
-> >  M:   David Heidelberg <david@ixit.cz>
-> > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kcon=
-fig
-> > index 7a83804fedca1b688ce6fbe4295ec9009007e693..734640bb3f73c83e9273573=
-aeb720ea1ba20862f 100644
-> > --- a/drivers/gpu/drm/panel/Kconfig
-> > +++ b/drivers/gpu/drm/panel/Kconfig
-> > @@ -893,6 +893,18 @@ config DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01
-> >         ~5.6 inch AMOLED display, and the controller is driven by the M=
-IPI
-> >         DSI protocol with 4 lanes.
-> >
-> > +config DRM_PANEL_SAMSUNG_S6E8FCO
-> > +     tristate "Samsung S6E8FCO DSI video mode panel"
-> > +     depends on OF
-> > +     depends on BACKLIGHT_CLASS_DEVICE
-> > +     select DRM_MIPI_DSI
-> > +     select VIDEOMODE_HELPERS
-> > +     help
-> > +       Say Y or M here if you want to enable support for the Samsung v=
-ideo
-> > +       mode panel S6E8FCO. The panel has a 6.09 inch AMOLED display, w=
-ith
-> > +       a resolution of 720x1560.
-> > +       Found in the Xiaomi Mi A3 smartphone (xiaomi-laurel).
-> > +
-> >  config DRM_PANEL_SAMSUNG_SOFEF00
-> >       tristate "Samsung SOFEF00 DSI panel controller"
-> >       depends on OF
-> > diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Mak=
-efile
-> > index b9562a6fdcb38bfd0dfee9e8c11e16149ada4386..54eca60e5b57328ea94ed78=
-80f4dead981f87fc1 100644
-> > --- a/drivers/gpu/drm/panel/Makefile
-> > +++ b/drivers/gpu/drm/panel/Makefile
-> > @@ -91,6 +91,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24) +=
-=3D panel-samsung-s6e88a0-ams4
-> >  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) +=3D panel-samsung-=
-s6e88a0-ams452ef01.o
-> >  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) +=3D panel-samsung-s6e8aa0.o
-> >  obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01) +=3D panel-samsu=
-ng-s6e8aa5x01-ams561ra01.o
-> > +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8FCO) +=3D panel-samsung-s6e8fco.o
-> >  obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) +=3D panel-samsung-sofef00.o
-> >  obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) +=3D panel-seiko-43wvf1g.o
-> >  obj-$(CONFIG_DRM_PANEL_SHARP_LQ079L1SX01) +=3D panel-sharp-lq079l1sx01=
-.o
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8fco.c b/drivers/gp=
-u/drm/panel/panel-samsung-s6e8fco.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..0a1a1c680ee143d2429a6e1=
-ea59a4fdd16b156b4
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8fco.c
-> > @@ -0,0 +1,293 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +// Copyright (c) 2025 Kamil Go=C5=82da <kamil.golda@protonmail.com>
-> > +// Generated with linux-mdss-dsi-panel-driver-generator from vendor de=
-vice tree:
-> > +// Copyright (c) 2026, The Linux Foundation. All rights reserved.
->
-> Hmm, so Kamil worked on it before it was written by LF? Are you sure
-> that the year here is correct?
+On Mon, Feb 23, 2026 at 08:57:05PM +0100, Christian König wrote:
+> This reverts commit a408c0ca0c411ca1ead995bdae3112a806c87556.
+> 
+> This causes a lockdep splat. Not really the right fix, but changing this
+> is more work than expected.
+> 
 
-What happened is kamil worked on it, and then I regenerated it again
-with the script. Re-considering it, the LF copyright should be from
-the start, I shouldn't have modified it, will fix, thanks for pointing
-it out!
+I think dma-fence-arrays will have the same issue.
 
-> > +
->
-> > +
-> > +static const struct backlight_ops s6e8fco_samsungp_bl_ops =3D {
-> > +     .update_status =3D s6e8fco_samsungp_bl_update_status,
-> > +     .get_brightness =3D s6e8fco_samsungp_bl_get_brightness,
->
-> Does it actually return the written value?
-Yes, writing to /sys/class/backlight/5e94000.dsi.0/brightness and
-reading from /sys/class/backlight/5e94000.dsi.0/actual_brightness
-works correctly.
+Can’t we just assign a lockdep key for chains and arrays?
 
-> > +};
-> > +
->
-> --
-> With best wishes
-> Dmitry
+Typing as fast as I could, I came up with this, and it seems to work:
 
-Regards, Yedaya
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index cd970eceaefb..d5cce24dca5b 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -200,6 +200,10 @@ void dma_fence_array_init(struct dma_fence_array *array,
+                          u64 context, unsigned seqno,
+                          bool signal_on_any)
+ {
++#if IS_ENABLED(CONFIG_PROVE_LOCKING)
++       static struct lock_class_key dma_fence_array_lock_key;
++#endif
++
+        WARN_ON(!num_fences || !fences);
+
+        array->num_fences = num_fences;
+@@ -208,6 +212,10 @@ void dma_fence_array_init(struct dma_fence_array *array,
+                       seqno);
+        init_irq_work(&array->work, irq_dma_fence_array_work);
+
++#if IS_ENABLED(CONFIG_PROVE_LOCKING)
++       lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
++#endif
++
+        atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+        array->fences = fences;
+
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index a707792b6025..aa144b8c3534 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -242,6 +242,9 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+                          struct dma_fence *fence,
+                          uint64_t seqno)
+ {
++#if IS_ENABLED(CONFIG_PROVE_LOCKING)
++       static struct lock_class_key dma_fence_chain_lock_key;
++#endif
+        struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+        uint64_t context;
+
+@@ -263,6 +266,10 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+        dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+                         context, seqno);
+
++#if IS_ENABLED(CONFIG_PROVE_LOCKING)
++       lockdep_set_class(&chain->base.inline_lock, &dma_fence_chain_lock_key);
++#endif
++
+        /*
+         * Chaining dma_fence_chain container together is only allowed through
+         * the prev fence and not through the contained fence.
+
+Matt
+
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-fence-chain.c | 3 ++-
+>  include/linux/dma-fence-chain.h   | 1 +
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index a707792b6025..a8a90acf4f34 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -245,6 +245,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>  	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+>  	uint64_t context;
+>  
+> +	spin_lock_init(&chain->lock);
+>  	rcu_assign_pointer(chain->prev, prev);
+>  	chain->fence = fence;
+>  	chain->prev_seqno = 0;
+> @@ -260,7 +261,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>  			seqno = max(prev->seqno, seqno);
+>  	}
+>  
+> -	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+> +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+>  			 context, seqno);
+>  
+>  	/*
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index df3beadf1515..5cd3ba53b4a1 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -46,6 +46,7 @@ struct dma_fence_chain {
+>  		 */
+>  		struct irq_work work;
+>  	};
+> +	spinlock_t lock;
+>  };
+>  
+>  
+> -- 
+> 2.43.0
+> 
