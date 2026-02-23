@@ -2,83 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGCSKkoPnGml/QMAu9opvQ
+	id gGAKLmwSnGkY/gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:26:50 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:40:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14279173065
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3107173283
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C492510E263;
-	Mon, 23 Feb 2026 08:26:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="YuCSGlnB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A3710E297;
+	Mon, 23 Feb 2026 08:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de
- [188.68.63.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF40510E263
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:26:44 +0000 (UTC)
-Received: from mors-relay-2501.netcup.net (localhost [127.0.0.1])
- by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4fKDTt3tKQz6D9H;
- Mon, 23 Feb 2026 09:26:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
- s=key2; t=1771835202;
- bh=sm6q1+ERW/BaOcu2jshdc2Eho9GqqWDTk0xMpvA9awk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YuCSGlnBs6uo8rYhCNuWFT1c8Nrr5ASloi7qT7mF6rEETrT6fqzQHm1PppOlqRB3X
- /Z1dVLkH0NnDHaSlzHB7FdKSQAwWemcUnvBA2IAHVtad4JDZ65JoU80wgT5yNU+AtR
- +KSwtgqRpEYlWRx+SMK+CaRrmKXQUt2eNkSvSjCVnz31bzIxkneAxxPYNhDWe8Iw2F
- EEmyuRfpdh3e+udFOCA5NoYmj/ROMlLX69rcUYGqvXTu/MEy95St7o41h7ZXdngRWv
- KGkXt5WIFJMSo0v65jT1fak9S8UFFwSde+LDO40KhyDdbql1RzAW/RwFsjncHy2Xzc
- cmwLen2M2f33A==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
- by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4fKDTt36vWz4xZG;
- Mon, 23 Feb 2026 09:26:42 +0100 (CET)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by policy02-mors.netcup.net (Postfix) with ESMTPS id 4fKDTp6ryqz8sWT;
- Mon, 23 Feb 2026 09:26:38 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown
- [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
- by mxe9fb.netcup.net (Postfix) with ESMTPSA id E600866F46;
- Mon, 23 Feb 2026 09:26:37 +0100 (CET)
-Authentication-Results: mxe9fb;
- spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f)
- smtp.mailfrom=regressions@leemhuis.info
- smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <068a5363-de97-4d67-94a9-c9a2baed68b0@leemhuis.info>
-Date: Mon, 23 Feb 2026 09:26:37 +0100
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F6D10E297
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:40:08 +0000 (UTC)
+Received: by mail-oo1-f72.google.com with SMTP id
+ 006d021491bc7-66b612efb4aso51781754eaf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 00:40:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771836008; x=1772440808;
+ h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nUp2sLsTQG2be743RxBuEK2iTbA/TXBt6KIKc8LeryU=;
+ b=tkrB2YCQOEW1myDWm/xOx1YzF5Eyy0e5WEArIaEDJm9CxwiOZp3DDR8aF0sD7HCED2
+ NhwOywxDmmMDSxOiMiovKSZANwtWN/wQXzGXPyqLT0sgbY8DotVnJLlRy2Z/HOmoJAIn
+ WeJRVfkc9rq8fJ0+tdOh7vn/wEKRul7nSPdViWlDJdz1NTDX+inmMxBLOj9xSXeiK9Pt
+ 7SyYWeOhW5CM7D9MnCg1JifLxU5cKfSuH75/ONdLgwFx7K1fR5tKEPRQ41j7MqLf6bBc
+ KgPuDzBVOzVhEIrxhsQJ4irhk5gZjulBDu5CNWRAE2w2MQFdE2TeJpkhhvBTNtFQtbJf
+ ht5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWr/QEz++N5Efd+rgkwwLQLBtICCWYvA3oUnF0g8DhcXPEnycnc5oeTM7JnujNNi9tAwNKLEQSYr5A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfcYTbc9uEiZlywJ6KbIkxx2WsSMrfAkz1qv/3El3sTcZ3Nr58
+ NFR8Y0r5kic9GvR3BhJOSC0cXB1xyT9rMo8JBJpJxkoLlsa7rnymMK7Af1CGTgKb/cGLQIDRbMO
+ IjupmxwZ6maQ2XsnEbJWt6D7hP+wRHAhfCyWeztDvsWGV8XSC4RohOuzv/7M=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Display freeze on VT switch back to X11 since v6.16
-To: Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?B?QW5kcsOpcyBQw6lyZXo=?= <andres.f.perez@gmail.com>
-Cc: stable@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev
-References: <CAD0gVBsyzYNA6ydPwg9mJ9VQzYg4zPAi24JQ13-=0KtdbQ039A@mail.gmail.com>
- <CANiDSCsMVE7qAcjcjbjhYSMoyypkR5Nq-ZA-e=CJVY5CUGAG7Q@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <CANiDSCsMVE7qAcjcjbjhYSMoyypkR5Nq-ZA-e=CJVY5CUGAG7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177183519851.1298619.12932841076943444255@mxe9fb.netcup.net>
-X-NC-CID: AQ3l18WOcfyVsWr3MsuKtObqMCjuDgmJUet3MF1F4RC9SMhvp/U=
+X-Received: by 2002:a05:6820:468c:b0:679:c41f:edf with SMTP id
+ 006d021491bc7-679c41f0fcdmr3630394eaf.29.1771836008198; Mon, 23 Feb 2026
+ 00:40:08 -0800 (PST)
+Date: Mon, 23 Feb 2026 00:40:08 -0800
+In-Reply-To: <20260223032641.1859381-1-ziy@nvidia.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <699c1268.050a0220.340abe.0d38.GAE@google.com>
+Subject: [syzbot ci] Re: Zero page->private when freeing pages
+From: syzbot ci <syzbot+cid1b0d4bbb448f87c@syzkaller.appspotmail.com>
+To: airlied@gmail.com, akpm@linux-foundation.org, aliceryhl@google.com, 
+ arve@android.com, axboe@kernel.dk, baohua@kernel.org, 
+ baolin.wang@linux.alibaba.com, brauner@kernel.org, christian.koenig@amd.com, 
+ cl@gentwo.org, cmllamas@google.com, dave@stgolabs.net, david@kernel.org, 
+ dennis@kernel.org, dev.jain@arm.com, dhavale@google.com, dlemoal@kernel.org, 
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org, 
+ guochunhai@vivo.com, hannes@cmpxchg.org, harry.yoo@oracle.com, 
+ jackmanb@google.com, jefflexu@linux.alibaba.com, johannes.thumshirn@wdc.com, 
+ katrinzhou@tencent.com, kernelxing@tencent.com, kprateek.nayak@amd.com, 
+ lance.yang@linux.dev, liam.howlett@oracle.com, lihongbo22@huawei.com, 
+ linux-block@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
+ maarten.lankhorst@linux.intel.com, matthew.auld@intel.com, 
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+ mripard@kernel.org, npache@redhat.com, ray.huang@amd.com, rientjes@google.com, 
+ roman.gushchin@linux.dev, ryan.roberts@arm.com, sandeen@redhat.com, 
+ simona@ffwll.ch, surenb@google.com, tj@kernel.org, tkjos@android.com, 
+ tzimmermann@suse.de, vbabka@kernel.org, xiang@kernel.org, zbestahu@gmail.com, 
+ ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,201 +84,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
+X-Spamd-Result: default: False [-0.51 / 15.00];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[leemhuis.info];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ribalda@chromium.org,m:andres.f.perez@gmail.com,m:stable@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:regressions@lists.linux.dev,m:andresfperez@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_TO(0.00)[chromium.org,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:akpm@linux-foundation.org,m:aliceryhl@google.com,m:arve@android.com,m:axboe@kernel.dk,m:baohua@kernel.org,m:baolin.wang@linux.alibaba.com,m:brauner@kernel.org,m:christian.koenig@amd.com,m:cl@gentwo.org,m:cmllamas@google.com,m:dave@stgolabs.net,m:david@kernel.org,m:dennis@kernel.org,m:dev.jain@arm.com,m:dhavale@google.com,m:dlemoal@kernel.org,m:gregkh@linuxfoundation.org,m:guochunhai@vivo.com,m:hannes@cmpxchg.org,m:harry.yoo@oracle.com,m:jackmanb@google.com,m:jefflexu@linux.alibaba.com,m:johannes.thumshirn@wdc.com,m:katrinzhou@tencent.com,m:kernelxing@tencent.com,m:kprateek.nayak@amd.com,m:lance.yang@linux.dev,m:liam.howlett@oracle.com,m:lihongbo22@huawei.com,m:linux-block@vger.kernel.org,m:linux-erofs@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:lorenzo.stoakes@oracle.com,m:maarten.lankhorst@linux.intel.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:mhiramat@kernel.org,m:mhocko@suse.com,m:mripard@kerne
+ l.org,m:npache@redhat.com,m:ray.huang@amd.com,m:rientjes@google.com,m:roman.gushchin@linux.dev,m:ryan.roberts@arm.com,m:sandeen@redhat.com,m:simona@ffwll.ch,m:surenb@google.com,m:tj@kernel.org,m:tkjos@android.com,m:tzimmermann@suse.de,m:vbabka@kernel.org,m:xiang@kernel.org,m:zbestahu@gmail.com,m:ziy@nvidia.com,m:syzbot@lists.linux.dev,m:syzkaller-bugs@googlegroups.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,google.com,android.com,kernel.dk,kernel.org,linux.alibaba.com,amd.com,gentwo.org,stgolabs.net,arm.com,lists.freedesktop.org,linuxfoundation.org,vivo.com,cmpxchg.org,oracle.com,wdc.com,tencent.com,linux.dev,huawei.com,vger.kernel.org,lists.ozlabs.org,kvack.org,linux.intel.com,intel.com,suse.com,redhat.com,ffwll.ch,suse.de,nvidia.com];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	TAGGED_FROM(0.00)[cid1b0d4bbb448f87c];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,ideasonboard.com,kernel.org,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,lists.freedesktop.org,lists.linux.dev];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[leemhuis.info:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[59];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.910];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,leemhuis.info:mid,leemhuis.info:dkim]
-X-Rspamd-Queue-Id: 14279173065
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,googlesource.com:url]
+X-Rspamd-Queue-Id: E3107173283
 X-Rspamd-Action: no action
 
+syzbot ci has tested the following series
+
+[v1] Zero page->private when freeing pages
+https://lore.kernel.org/all/20260223032641.1859381-1-ziy@nvidia.com
+* [PATCH v1 01/11] relay: zero page->private when freeing pages
+* [PATCH v1 02/11] mm/slub: zero page->private when freeing pages
+* [PATCH v1 03/11] drm/ttm: zero page->private when freeing pages
+* [PATCH v1 04/11] blk-mq: zero page->private when freeing pages
+* [PATCH v1 05/11] watch_queue: zero page->private when freeing pages
+* [PATCH v1 06/11] binder: zero page->private when freeing pages
+* [PATCH v1 07/11] null_blk: zero page->private when freeing pages
+* [PATCH v1 08/11] percpu: zero page->private when freeing pages
+* [PATCH v1 09/11] erofs: zero page->private when freeing pages
+* [PATCH v1 10/11] mm/huge_memory: add page->private check back in __split_folio_to_order()
+* [PATCH v1 11/11] mm/page_alloc: check page->private upon page free
+
+and found the following issue:
+WARNING in __free_frozen_pages
+
+Full report is available here:
+https://ci.syzbot.org/series/10f470ac-46ac-4e38-902d-dc86ae743494
+
+***
+
+WARNING in __free_frozen_pages
+
+tree:      mm-new
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
+base:      a6fdc327de4678e54b5122441c970371014117b0
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/0586347c-8ef1-427f-8a9c-7f6c08b616a9/config
+
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+NET: Registered PF_RXRPC protocol family
+Key type rxrpc registered
+Key type rxrpc_s registered
+NET: Registered PF_KCM protocol family
+lec:lane_module_init: lec.c: initialized
+mpoa:atm_mpoa_init: mpc.c: initialized
+l2tp_core: L2TP core driver, V2.0
+l2tp_ppp: PPPoL2TP kernel driver, V2.0
+l2tp_ip: L2TP IP encapsulation support (L2TPv3)
+l2tp_netlink: L2TP netlink interface
+l2tp_eth: L2TP ethernet pseudowire support (L2TPv3)
+l2tp_ip6: L2TP IP encapsulation support for IPv6 (L2TPv3)
+NET: Registered PF_PHONET protocol family
+8021q: 802.1Q VLAN Support v1.8
+sctp: Hash tables configured (bind 32/56)
+NET: Registered PF_RDS protocol family
+Registered RDS/infiniband transport
+Registered RDS/tcp transport
+tipc: Activated (version 2.0.0)
+NET: Registered PF_TIPC protocol family
+tipc: Started in single node mode
+smc: adding smcd device lo without pnetid
+NET: Registered PF_SMC protocol family
+9pnet: Installing 9P2000 support
+NET: Registered PF_CAIF protocol family
+NET: Registered PF_IEEE802154 protocol family
+Key type dns_resolver registered
+Key type ceph registered
+libceph: loaded (mon/osd proto 15/24)
+batman_adv: B.A.T.M.A.N. advanced 2025.5 (compatibility version 15) loaded
+openvswitch: Open vSwitch switching datapath
+NET: Registered PF_VSOCK protocol family
+mpls_gso: MPLS GSO support
+IPI shorthand broadcast: enabled
+sched_clock: Marking stable (19970046340, 93374727)->(20073238384, -9817317)
+registered taskstats version 1
+Loading compiled-in X.509 certificates
+Loaded X.509 cert 'Build time autogenerated kernel key: 98092a222e11368da223b039d625e21c3e2e069c'
+zswap: loaded using pool 842
+Demotion targets for Node 0: null
+Demotion targets for Node 1: null
+debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
+------------[ cut here ]------------
+page->private
+WARNING: mm/page_alloc.c:1433 at __free_frozen_pages+0x78e/0xe10, CPU#0: swapper/0/1
+Modules linked in:
+CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:__free_frozen_pages+0x78e/0xe10
+Code: 5f 5d e9 05 1e 00 00 48 b8 00 00 00 00 00 fc ff df 0f b6 44 05 00 84 c0 0f 85 d7 02 00 00 c7 03 ff ff ff ff e9 22 fc ff ff 90 <0f> 0b 90 e9 8d fc ff ff bd 01 00 00 00 83 f8 05 0f 85 bb fe ff ff
+RSP: 0000:ffffc900000676e0 EFLAGS: 00010282
+RAX: 1ffffd4000bad935 RBX: ffffea0005d6c9a8 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffea0005d6c9b4
+RBP: ffffea0005d6c9b8 R08: ffffea0005d6c9b7 R09: 1ffffd4000bad936
+R10: dffffc0000000000 R11: fffff94000bad937 R12: ffffea0005d6c980
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88818de64000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 000000000e54c000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ destroy_args+0x15d/0x570
+ debug_vm_pgtable+0x3f8/0x410
+ do_one_initcall+0x250/0x8d0
+ do_initcall_level+0x104/0x190
+ do_initcalls+0x59/0xa0
+ kernel_init_freeable+0x2a6/0x3e0
+ kernel_init+0x1d/0x1d0
+ ret_from_fork+0x51e/0xb90
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
 
 
-On 2/23/26 09:10, Ricardo Ribalda wrote:
-> Hi Andrés
-> 
-> Thanks for doing the bisecting
-> 
-> On Sun, 22 Feb 2026 at 22:56, Andrés Pérez <andres.f.perez@gmail.com> wrote:
->>
->> # OVERVIEW
->>
->> Since kernel v6.16.1, switching from an X11 session to a text VT and back
->> freezes the display on a ThinkPad P15 Gen 2. The system remains responsive
->> over SSH; only the display is frozen. Bisecting identified commit
->> d1b618e7954802fe ("media: uvcvideo: Do not turn on the camera for some
->> ioctls") as the trigger. Reverting the logic change in that commit
->> fixes VT switching
->> on v6.16.1, v6.17.9, and v6.18.9, but that is not an actual solution. Wayland
->> compositors (e.g., river and sway) are not affected.
->>
->> Last good:  v6.15.9
->> First bad:  v6.16.1
->> Bisect result: d1b618e7954802fe media: uvcvideo: Do not turn on the
->> camera for some ioctls
->>
->> ## Hardware:   Lenovo ThinkPad P15 Gen 2i (20YQ0031US)
->> CPU:        Intel Core i7-11800H (Tiger Lake-H)
->> iGPU:        Intel UHD Graphics (TGL GT1)
->> dGPU:       NVIDIA T1200 (not involved in eDP output; driver: nvidia-open)
+***
 
-Could this be caused by nvidia's own driver, even if it is not supposed
-to be involved? Might be worth ruling out with a proper vanilla kernel,
-ideally really fresh, so 7.0-rc1.
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
 
-Ciao, Thorsten
-
->> Display:    15.6" 1920x1080 eDP, 10 bpc capable (EDID 1.4)
->> Webcam:     Integrated Camera on PCH xHCI (Bus 003 Port 004)
->> Firmware:   LENOVO N37ET61W (1.97)
->> OS:         Arch Linux, Nix home-manager, X11 + xmonad, no display manager
->>
->> ## Symptoms and reproduction steps:
->> 1. Boot, start X11 on tty1 (startx).
->> 2. Switch to tty2 (Ctrl+Alt+F2): works.
->> 3. Switch back to tty1 (Ctrl+Alt+F1): display freezes.
->>    - Frozen on the last frame shown before switching away.
->>    - System is fully responsive over SSH.
->>    - Other VTs switch normally between each other as long as X11 is
->> not active on them.
->>    - Killing X does not recover the display. A reboot is required.
->>
->> # DEBUG ANALYSIS
->>
->> On v6.16.1, the VT switch back to X triggers a full modeset due to pipe
->> configuration mismatches detected by intel_pipe_config_compare:
->>
->> [drm:intel_pipe_config_compare] fastset requirement not met in pipe_bpp
->>   (expected 30, found 24)
->> [drm:intel_pipe_config_compare] fastset requirement not met in dp_m_n
->>   (expected link 269484/524288, found link 336855/524288)
->> [drm:intel_pipe_config_compare] fastset requirement not met in dpll_hw_state
->>   (expected cfgcr0: 0xe001a5, found cfgcr0: 0x1c2)
->> [drm:intel_pipe_config_compare] fastset requirement not met in port_clock
->>   (expected 270000, found 216000)
->> [drm:intel_atomic_check] forcing full modeset
->>
->> On v6.15.9, the same VT switch shows no such messages.
->> no pipe_config_compare runs, no modeset, no freeze.
->>
->> # BISECT AND VERIFICATION
->>
->> The bisect converged on d1b618e7954802fe in the uvcvideo driver. This
->> commit adds a switch statement to uvc_v4l2_unlocked_ioctl that allows
->> certain V4L2 IOCTLS to call video_ioctl2 directly without first calling
->> uvc_pm_get/uvc_pm_put. Prior to this commit, all ioctls called uvc_pm_get
->> before video_ioctl2.
->>
->> ## VT switching verification across kernel versions:
->>
->>   v6.12.74 arch pkg:   WORKS
->>   v6.15.9 arch pkg:    WORKS
->>   v6.15.9 from source: WORKS
->>   v6.16.1 with d1b618e reverted:     WORKS
->>   v6.17.9 with PM wrapping restored: WORKS
->>   v6.18.9 with PM wrapping restored: WORKS
->>
->>   v6.16.1 from source:  FREEZES
->>   v6.16.1 arch pkg:     FREEZES
->>   v6.17.9 arch pkg:     FREEZES
->>   v6.18.9 from source:  FREEZES
->>   v6.18.9 arch pkg:     FREEZES
->>
->> ## Things that do not eliminate the freeze
->>
->>   - module_blacklist=uvcvideo on boot
->>   - CONFIG_USB_VIDEO_CLASS=n (compiled out)
-> 
-> This is puzzling me a bit... You are saying that if you do not build
-> the uvc driver, the freeze is still happening?
-> 
-> Am I understanding this correctly?
-> 
->>   - i915.enable_psr=0
->>   - Bypassing intel_vrr_transcoder_enable/disable (no-op)
->>   - xrandr --output eDP-1 --set "max bpc" 10
->>   - Xorg config FBDepth 30 (No effect on pipe_bpp)
->>
->> ## Workaround patch
->>
->> Reverting the optimization from d1b618e to restore the unconditional
->> uvc_pm_get/put wrapping for all ioctls. This is not a proper fix.
->>
->> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
->> index 9e4a251eca88..15057b47ec4f 100644
->> --- a/drivers/media/usb/uvc/uvc_v4l2.c
->> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
->> @@ -1199,33 +1199,12 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,
->>   unsigned int converted_cmd = v4l2_translate_cmd(cmd);
->>   int ret;
->>
->> - /* The following IOCTLs need to turn on the camera. */
->> - switch (converted_cmd) {
->> - case UVCIOC_CTRL_MAP:
->> - case UVCIOC_CTRL_QUERY:
->> - case VIDIOC_G_CTRL:
->> - case VIDIOC_G_EXT_CTRLS:
->> - case VIDIOC_G_INPUT:
->> - case VIDIOC_QUERYCTRL:
->> - case VIDIOC_QUERYMENU:
->> - case VIDIOC_QUERY_EXT_CTRL:
->> - case VIDIOC_S_CTRL:
->> - case VIDIOC_S_EXT_CTRLS:
->> - case VIDIOC_S_FMT:
->> - case VIDIOC_S_INPUT:
->> - case VIDIOC_S_PARM:
->> - case VIDIOC_TRY_EXT_CTRLS:
->> - case VIDIOC_TRY_FMT:
->> - ret = uvc_pm_get(handle->stream->dev);
->> - if (ret)
->> - return ret;
->> - ret = video_ioctl2(file, cmd, arg);
->> - uvc_pm_put(handle->stream->dev);
->> + ret = uvc_pm_get(handle->stream->dev);
->> + if (ret)
->>   return ret;
->> - }
->> -
->> - /* The other IOCTLs can run with the camera off. */
->> - return video_ioctl2(file, cmd, arg);
->> + ret = video_ioctl2(file, cmd, arg);
->> + uvc_pm_put(handle->stream->dev);
->> + return ret;
->>  }
->>
->>  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
->>
->> Andrés
->>
-> 
-> 
-
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
