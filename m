@@ -2,88 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YIn0HG9UnGmSEAQAu9opvQ
+	id KPoZI7RYnGkAEQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:21:51 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:40:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5030176B7C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D7417711D
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 14:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45FB210E3A3;
-	Mon, 23 Feb 2026 13:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD8C10E3B2;
+	Mon, 23 Feb 2026 13:40:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="lka6LUW/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
- [209.85.217.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0151A10E3A1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 13:21:47 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id
- ada2fe7eead31-5fae01e8893so2487625137.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 05:21:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771852907; x=1772457707;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x0CXl7ooZIKZBR/9WuxpQTwfG3DhRjXklstmaRrGH4A=;
- b=mnP+omTHrDz8gVLlFtu6IFLnmSmWTrnIxTXqHpi2g4Kwjcu4T1Ae4CjKcnxZtT5WZB
- aIe3oViSa4vIpKkD+TmxztbfJlHj8vOxiWdlDqZhm94RBw5uqluXsFYBuPJrXt2HLK/U
- QrSdB+YG66+M6e4cyugvAqY/AAph9eDd8tXuI7EPRh5D/LQAjDcaSyEe+vzqmCtX0ehf
- PP+B4YcsBINeMK5Rh1yEjKBVBv5+jEwGyqi9daBrwC6x9TnsjHk1nSMcvyypfRXGOmcP
- 8oysqWlj1ybkZagIvcDJYO0SBMhal5M8WfSIpiYMItUelmcI/SZw64ZOneKvB4GypSqJ
- yhHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3jcvTZdNEtPSIdx8CG1ugjD3403BexzJvITp/W6AJAWv2mEQB4zivWMcm11bevxPUjs8P7Sx1Cm4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0qvtT33TBxx9MzA6ykTHtVox9GFOZMZ7Bq1Ixh5xm4jcZMgAC
- BzVf5cHw4+JpqxTNBH8cBS9YW4oIMtN4ReSCPdtp/8CUQrt9fZlwMiBaW9XzM3iU
-X-Gm-Gg: AZuq6aJQKOfIRwVMt6HFjXcmjQJHZNN2eUC54ekiTwMPOHbAeRjbcjtL1HIKkyuNHbM
- UarSw68E47pgRGCV9KdFQAnvrnU5SPDqfhIUDAG5ZsNakv9992QQ9L6TB0evFGMHBwC7+G16WF0
- JpmYqJgmIagdBhwIReR2OXS0Z9XfV+PlAdmj83jkpMuCk9GejuLNxf4ZCLAeBtgRkYzKBit50Rd
- Bhs3oFhnRkiUByVrq4/7QJuOQdtrgCpyprKFNfNKPZBIHCGsVzMBuXE0Iis8maFCFVOn1bVKghp
- OEhlgEs4wfE82s9Qdj5VAtBxNHAfpCI0jWItZckiz/0+18ARZDuiBJvVCuXZaAcnJHd+ImueknP
- V/IB+tBRQ5L7Ba28rhGhiS90Ub4t7ohpsVxob/00hbVOLg+XhoAaUCW8kO3i9KFXm9w5wv67zex
- mnuZiqqPqhhY3kuctyVL5UKIsjCRseRh9ftMBQXnqDxVfie2XCcr7/P67lzrhicwC5qaBQClwdU
- 6U=
-X-Received: by 2002:a05:6102:a4f:b0:5f5:256d:c0cd with SMTP id
- ada2fe7eead31-5feb31340a8mr4250048137.34.1771852906773; 
- Mon, 23 Feb 2026 05:21:46 -0800 (PST)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
- [209.85.221.176]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5feb6485fd5sm7525953137.11.2026.02.23.05.21.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Feb 2026 05:21:45 -0800 (PST)
-Received: by mail-vk1-f176.google.com with SMTP id
- 71dfb90a1353d-5665171836cso5177469e0c.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 05:21:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+zits1QKclSrYzVZ4ijUdO3c9MfDUTTtdu+ukDijZBgIz5IdSQItGUNkREOp7XbXHx2BDr0m3J0c=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:3306:b0:567:54cd:f258 with SMTP id
- 71dfb90a1353d-568e4883762mr3858484e0c.9.1771852905007; Mon, 23 Feb 2026
- 05:21:45 -0800 (PST)
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7566010E3B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 13:39:59 +0000 (UTC)
+Received: from [172.16.12.42] (89-24-64-24.customers.tmcz.cz [89.24.64.24])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 6DC635340140;
+ Mon, 23 Feb 2026 14:39:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1771853995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5dOiQjctgj2b9V/16bMa3NzZ55HGRNUN838whlEjlF0=;
+ b=lka6LUW/ycP33pE0QBaoGAoH+VbCgiGzbc5WFcpZ7P+KPInB2KdWkAxWKhIA8TUX4lNVZe
+ g5rYRxjbQRNLdSRPRX/awtD2NiAbF1X+NDfpOsfTS8eItzlMEy1tQ63ZW9y3a9V4AwO+7t
+ SbYfPSpy2z0qrl0U34wPELlTMcdjqFk=
+Message-ID: <599b42cc-02de-4430-b09a-3316677ff541@ixit.cz>
+Date: Mon, 23 Feb 2026 14:39:52 +0100
 MIME-Version: 1.0
-References: <20260113-device-support-info-v1-0-91e5db7f7294@imgtec.com>
- <20260113-device-support-info-v1-6-91e5db7f7294@imgtec.com>
-In-Reply-To: <20260113-device-support-info-v1-6-91e5db7f7294@imgtec.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 23 Feb 2026 14:21:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXEdzgbB=3nHTyAdM_4YjGy79wbe2nb5Uh8nGs4Fd4Jdw@mail.gmail.com>
-X-Gm-Features: AaiRm51wonfdpnxXafgHLkyNjFl6HLu4ultQI2-gg0aP3kgQDiY6wlG_WR4tQxI
-Message-ID: <CAMuHMdXEdzgbB=3nHTyAdM_4YjGy79wbe2nb5Uh8nGs4Fd4Jdw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/imagination: Warn or error on unsupported hardware
-To: Matt Coster <matt.coster@imgtec.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Frank Binns <frank.binns@imgtec.com>, Brajesh Gupta <brajesh.gupta@imgtec.com>,
- Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/8] drm/panel: sw43408: Add enable/disable and reset
+ functions
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ phodina@protonmail.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
+ <20251125-pixel-3-v4-4-3b706f8dcc96@ixit.cz>
+ <jqgwmjet2ncit5bqilvuqldxrtcapiozmpbk5klc5tybwbfezi@4muxgno7do45>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
+ 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
+ lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
+ 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
+ dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
+ F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
+ NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
+ 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
+ AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
+ k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
+ ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
+ AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
+ AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
+ afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
+ loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
+ jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
+ ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
+ VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
+ W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
+ zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
+ QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
+ UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
+ zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
+ 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
+ IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
+ jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
+ FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
+ aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
+ NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
+ AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
+ hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
+ rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
+ qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
+ 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
+ 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
+ 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
+ NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
+ GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
+ yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
+ zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
+ fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
+ ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
+In-Reply-To: <jqgwmjet2ncit5bqilvuqldxrtcapiozmpbk5klc5tybwbfezi@4muxgno7do45>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,175 +124,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frank.binns@imgtec.com,m:brajesh.gupta@imgtec.com,m:alessio.belle@imgtec.com,m:alexandru.dadu@imgtec.com,m:marek.vasut+renesas@mailbox.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,imgtec.com,mailbox.org,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:casey.connolly@linaro.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:marijn.suijten@somainline.org,m:lumag@kernel.org,m:vkoul@kernel.org,m:phodina@protonmail.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,somainline.org,protonmail.com,vger.kernel.org,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.970];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ixit.cz:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,imgtec.com:email,linux-m68k.org:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: D5030176B7C
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ixit.cz:mid,ixit.cz:dkim,ixit.cz:email]
+X-Rspamd-Queue-Id: E7D7417711D
 X-Rspamd-Action: no action
 
-Hi Matt,
+On 06/12/2025 05:25, Dmitry Baryshkov wrote:
+> On Tue, Nov 25, 2025 at 09:29:39PM +0100, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> Introduce enable(), disable() and reset() functions.
+>>
+>> The enable() and disable() callbacks keep the symmetry in the commands
+>> sent to the panel and also make a clearer distinction between panel
+>> initialization and configuration.
+> 
+> This also makes those to to be executed after starting the DSI stream.
+> Is it fine?
+> 
 
-On Tue, 13 Jan 2026 at 11:21, Matt Coster <matt.coster@imgtec.com> wrote:
-> Gate the use of unsupported hardware behind a new module parameter
-> (exp_hw_support).
->
-> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+Hello Dmitry,
 
-Thanks for your patch, which is now commit 1c21f240fbc1e47b
-("drm/imagination: Warn or error on unsupported hardware")
-in v7.0-rc1.
+I was wondering how the exact workflow looks, does this snippet reflect 
+real world?
 
-> --- a/drivers/gpu/drm/imagination/pvr_device.c
-> +++ b/drivers/gpu/drm/imagination/pvr_device.c
-> @@ -525,6 +525,77 @@ pvr_gpuid_decode_string(const struct pvr_device *pvr_dev,
->  }
->  EXPORT_SYMBOL_IF_KUNIT(pvr_gpuid_decode_string);
->
-> +static bool pvr_exp_hw_support;
-> +module_param_named(exp_hw_support, pvr_exp_hw_support, bool, 0600);
-> +MODULE_PARM_DESC(exp_hw_support, "Bypass runtime checks for fully supported GPU cores. WARNING: enabling this option may result in a buggy, insecure, or otherwise unusable driver.");
-> +
-> +/**
-> + * enum pvr_gpu_support_level - The level of support for a gpu_id in the current
-> + * version of the driver.
-> + *
-> + * @PVR_GPU_UNKNOWN: Cores that are unknown to the driver. These may not even exist.
-> + * @PVR_GPU_EXPERIMENTAL: Cores that have experimental support.
-> + * @PVR_GPU_SUPPORTED: Cores that are supported and maintained.
-> + */
-> +enum pvr_gpu_support_level {
-> +       PVR_GPU_UNKNOWN,
-> +       PVR_GPU_EXPERIMENTAL,
-> +       PVR_GPU_SUPPORTED,
-> +};
-> +
-> +static enum pvr_gpu_support_level
-> +pvr_gpu_support_level(const struct pvr_gpu_id *gpu_id)
-> +{
-> +       switch (pvr_gpu_id_to_packed_bvnc(gpu_id)) {
-> +       case PVR_PACKED_BVNC(33, 15, 11, 3):
-> +       case PVR_PACKED_BVNC(36, 53, 104, 796):
-> +               return PVR_GPU_SUPPORTED;
-> +
-> +       case PVR_PACKED_BVNC(36, 52, 104, 182):
-> +               return PVR_GPU_EXPERIMENTAL;
-> +
-> +       default:
-> +               return PVR_GPU_UNKNOWN;
-> +       }
-> +}
-> +
-> +static int
-> +pvr_check_gpu_supported(struct pvr_device *pvr_dev,
-> +                       const struct pvr_gpu_id *gpu_id)
-> +{
-> +       struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-> +
-> +       switch (pvr_gpu_support_level(gpu_id)) {
-> +       case PVR_GPU_SUPPORTED:
-> +               if (pvr_exp_hw_support)
-> +                       drm_info(drm_dev, "Module parameter 'exp_hw_support' was set, but this hardware is fully supported by the current driver.");
-> +
-> +               break;
-> +
-> +       case PVR_GPU_EXPERIMENTAL:
-> +               if (!pvr_exp_hw_support) {
-> +                       drm_err(drm_dev, "Unsupported GPU! Set 'exp_hw_support' to bypass this check.");
-> +                       return -ENODEV;
-> +               }
-> +
-> +               drm_warn(drm_dev, "Running on unsupported hardware; you may encounter bugs!");
-> +               break;
-> +
-> +       /* NOTE: This code path may indicate misbehaving hardware. */
-> +       case PVR_GPU_UNKNOWN:
-> +       default:
-> +               if (!pvr_exp_hw_support) {
-> +                       drm_err(drm_dev, "Unknown GPU! Set 'exp_hw_support' to bypass this check.");
+- The path ordering should be :
+- prepare()
+- (host/controller sets up link & starts sending video / enables bridge, 
+etc.)
+- enable()
+- disable()
+- (host/controller stops video / disables bridge, etc.)
+- unprepare()
+-
+- So: prepare happens before the display pipeline is driving, and enable 
+happens after the pipeline is ready and stable.
+I assume in case of poorly written host or bridge drive it may not work 
+like this, but in general it should?
 
-After marking the gpu device node enabled in DTS for Renesas Salvator-X
-with R-Car M3-W (as you are aware, it is still disabled upstream
-because the system may crash when the firmware is not found), this
-error message is triggered:
+If this workflow is correct, would it make sense I would incorporate the 
+phases between into the prepare/unprepare kernel docs?
 
-    powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set
-'exp_hw_support' to bypass this check.
+Thanks
+David
 
-and the driver fails to probe. Using the exp_hw_support flag makes
-the driver probe (when the firmware is available):
-
-    # echo 1 > /sys/module/powervr/parameters/exp_hw_support
-    # echo fd000000.gpu > /sys/bus/platform/drivers/powervr/bind
-    powervr fd000000.gpu: [drm] Running on unknown hardware; expect issues.
-    powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v1.fw
-    powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
-    [drm] Initialized powervr 1.0.0 for fd000000.gpu on minor 1
-
-I am not sure if this counts as a regression.  Given firmware is
-available for this device, I'd expect it to fall (at least) in the the
-PVR_GPU_EXPERIMENTAL case?
-
-Thanks!
-
-> +                       return -ENODEV;
-> +               }
-> +
-> +               drm_warn(drm_dev, "Running on unknown hardware; expect issues.");
-> +               break;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static char *pvr_gpuid_override;
->  module_param_named(gpuid, pvr_gpuid_override, charp, 0400);
->  MODULE_PARM_DESC(gpuid, "GPU ID (BVNC) to be used instead of the value read from hardware.");
-> @@ -555,7 +626,7 @@ pvr_load_gpu_id(struct pvr_device *pvr_dev)
->                         return err;
->         }
->
-> -       return 0;
-> +       return pvr_check_gpu_supported(pvr_dev, gpu_id);
->  }
->
->  /**
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[...]
