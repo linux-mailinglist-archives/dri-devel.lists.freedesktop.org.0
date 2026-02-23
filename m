@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KA27GSNKnGmODAQAu9opvQ
+	id uBOTCiZKnGmODAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:37:55 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:37:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB1D1762DD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:37:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2A7176302
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 13:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17FAC10E372;
-	Mon, 23 Feb 2026 12:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2179610E37A;
+	Mon, 23 Feb 2026 12:37:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gWlAZf+u";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ucDhgYLm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14CC210E372;
- Mon, 23 Feb 2026 12:37:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983B510E374;
+ Mon, 23 Feb 2026 12:37:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F0692407E3;
- Mon, 23 Feb 2026 12:37:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BAEC116D0;
- Mon, 23 Feb 2026 12:37:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7A49D4451F;
+ Mon, 23 Feb 2026 12:37:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352CFC116C6;
+ Mon, 23 Feb 2026 12:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771850271;
- bh=3uVzNyyLTtIloKiEc4ytCPRgNK6+M5PvDJ/8z1pKvxc=;
+ s=k20201202; t=1771850273;
+ bh=AY7DAd8/iJzlRwcE2gF3ydEu5wc5gzFPG4/2vw0iHOE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gWlAZf+ulTI40ttJmtbdOg9btbL4m31ERKZOmc00s1dBeHPu83ut3GbsvxGbpFax+
- 8cn6wFi2Mq4FyhL++DFt1iMPZgqkhBTNKgbpJUOAwmF1X1huTGaDthfb/bRZ2azHak
- iRqbYL6oVcD/ezNnQ6TVUMeuUEr4fhKfTLIfOsWIU2QSAq4ELbAJjfzvOKNQzzMXBa
- CtDf/fWwZHrfmh0O0v3nXZbHgPeome+jxlbffEH/EOGSbiKBoYgLi1zVBbOr0EceBB
- X3Wqwxreb8AnZ6wmOmj160x98N6b0NZYufLU6tNZ5EkuljciKw10U2E9xCOoQIdynX
- A2TfISHiriT4Q==
+ b=ucDhgYLmjVyMiVwMe7CM3uJxwIeqTguLG3xsDwwYsOFEb+gBhDJgzq4vL+zlEUeXC
+ pGy7eoH0PBwz1CAP5ChTgS4gNwXSUcE/JII9ZG13ACRTzdTPv0gLOCs70eXYvF4jV4
+ ZubHwERK9BktKU0fdUHjwrtMHH5KLpFwAo+P0nkqauYo/d2oRU9t0rc1GZh1Dx1ujL
+ AazTAEazpUiuDfs0Vriy73OUku3I1S368NSvRJwisEsz0g6OK/1yUHLtEIxkIN0UCF
+ a6aEGX7jy65fSysiaxvnx+N+TpZxPG+pNYy3BYLvvihDDc1ZyCyf9VUnfUv8ZgHg1D
+ kgeFnm6PwZ/Wg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Dan Wheeler <daniel.wheeler@amd.com>,
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Mangesh Gadre <Mangesh.Gadre@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] drm/amd/display: Fix writeback on DCN 3.2+
-Date: Mon, 23 Feb 2026 07:37:13 -0500
-Message-ID: <20260223123738.1532940-8-sashal@kernel.org>
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.18] drm/amdgpu: Skip vcn poison irq release on
+ VF
+Date: Mon, 23 Feb 2026 07:37:14 -0500
+Message-ID: <20260223123738.1532940-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260223123738.1532940-1-sashal@kernel.org>
 References: <20260223123738.1532940-1-sashal@kernel.org>
@@ -54,6 +54,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.3
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,220 +71,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: BCB1D1762DD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
+X-Rspamd-Queue-Id: CC2A7176302
 X-Rspamd-Action: no action
 
-From: Alex Hung <alex.hung@amd.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit 9ef84a307582a92ef055ef0bd3db10fd8ac75960 ]
+[ Upstream commit 8980be03b3f9a4b58197ef95d3b37efa41a25331 ]
 
-[WHAT]
-1. Set no scaling for writeback as they are hardcoded in DCN3.2+.
-2. Set no fast plane update for writeback commits.
+VF doesn't enable VCN poison irq in VCNv2.5. Skip releasing it and avoid
+call trace during deinitialization.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-Tested-by: Dan Wheeler <daniel.wheeler@amd.com>
+[   71.913601] [drm] clean up the vf2pf work item
+[   71.915088] ------------[ cut here ]------------
+[   71.915092] WARNING: CPU: 3 PID: 1079 at /tmp/amd.aFkFvSQl/amd/amdgpu/amdgpu_irq.c:641 amdgpu_irq_put+0xc6/0xe0 [amdgpu]
+[   71.915355] Modules linked in: amdgpu(OE-) amddrm_ttm_helper(OE) amdttm(OE) amddrm_buddy(OE) amdxcp(OE) amddrm_exec(OE) amd_sched(OE) amdkcl(OE) drm_suballoc_helper drm_display_helper cec rc_core i2c_algo_bit video wmi binfmt_misc nls_iso8859_1 intel_rapl_msr intel_rapl_common input_leds joydev serio_raw mac_hid qemu_fw_cfg sch_fq_codel dm_multipath scsi_dh_rdac scsi_dh_emc scsi_dh_alua efi_pstore ip_tables x_tables autofs4 btrfs blake2b_generic raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 hid_generic crct10dif_pclmul crc32_pclmul polyval_clmulni polyval_generic ghash_clmulni_intel usbhid 8139too sha256_ssse3 sha1_ssse3 hid psmouse bochs i2c_i801 ahci drm_vram_helper libahci i2c_smbus lpc_ich drm_ttm_helper 8139cp mii ttm aesni_intel crypto_simd cryptd
+[   71.915484] CPU: 3 PID: 1079 Comm: rmmod Tainted: G           OE      6.8.0-87-generic #88~22.04.1-Ubuntu
+[   71.915489] Hardware name: Red Hat KVM/RHEL, BIOS 1.16.3-2.el9_5.1 04/01/2014
+[   71.915492] RIP: 0010:amdgpu_irq_put+0xc6/0xe0 [amdgpu]
+[   71.915768] Code: 75 84 b8 ea ff ff ff eb d4 44 89 ea 48 89 de 4c 89 e7 e8 fd fc ff ff 5b 41 5c 41 5d 41 5e 5d 31 d2 31 f6 31 ff e9 55 30 3b c7 <0f> 0b eb d4 b8 fe ff ff ff eb a8 e9 b7 3b 8a 00 66 2e 0f 1f 84 00
+[   71.915771] RSP: 0018:ffffcf0800eafa30 EFLAGS: 00010246
+[   71.915775] RAX: 0000000000000000 RBX: ffff891bda4b0668 RCX: 0000000000000000
+[   71.915777] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[   71.915779] RBP: ffffcf0800eafa50 R08: 0000000000000000 R09: 0000000000000000
+[   71.915781] R10: 0000000000000000 R11: 0000000000000000 R12: ffff891bda480000
+[   71.915782] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+[   71.915792] FS:  000070cff87c4c40(0000) GS:ffff893abfb80000(0000) knlGS:0000000000000000
+[   71.915795] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   71.915797] CR2: 00005fa13073e478 CR3: 000000010d634006 CR4: 0000000000770ef0
+[   71.915800] PKRU: 55555554
+[   71.915802] Call Trace:
+[   71.915805]  <TASK>
+[   71.915809]  vcn_v2_5_hw_fini+0x19e/0x1e0 [amdgpu]
+
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Mangesh Gadre <Mangesh.Gadre@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed for a comprehensive analysis.
+Now I have a comprehensive understanding. Let me summarize the analysis.
 
 ## Analysis
 
 ### 1. Commit Message Analysis
 
-The commit title "Fix writeback on DCN 3.2+" clearly indicates a bug
-fix. The `[WHAT]` section describes two fixes:
-1. Setting no scaling (taps=1) for writeback since scaling is hardcoded
-   in DCN 3.2+
-2. Disabling fast plane updates for writeback commits
-
-The commit has strong trust indicators: Reviewed-by (Harry Wentland, a
-senior AMD display developer), Tested-by (Dan Wheeler, AMD's display
-testing lead), and sign-offs from multiple AMD developers.
+The commit fixes a **WARNING/call trace during deinitialization** on AMD
+GPU Virtual Functions (VF, i.e., SR-IOV guests). The commit message
+includes the full stack trace showing the `WARN_ON` trigger at
+`amdgpu_irq_put+0xc6/0xe0` called from `vcn_v2_5_hw_fini+0x19e/0x1e0`,
+occurring during `rmmod` of the amdgpu driver.
 
 ### 2. Code Change Analysis
 
-**Change 1 - Scaler taps (lines 10651-10654):**
-The scaler tap values are changed from `h_taps=4, v_taps=4, h_taps_c=2,
-v_taps_c=2` to all `1`. This is because:
-- DCN 3.2+ hardware has hardcoded writeback scaling, meaning the
-  software-configured scaler taps are not used by the hardware
-- Setting taps to 4/2 is incorrect because it tells the DML (Display
-  Mode Library) bandwidth calculation code that scaling with 4 taps is
-  active, when it's actually not. This is visible in
-  `dml2_translation_helper.c:1250-1253` and `dcn30_fpu.c:219-220` where
-  these values feed into bandwidth calculations
-- Wrong bandwidth estimates could cause writeback to fail validation or
-  produce incorrect output
+**The bug**: In `vcn_v2_5_hw_fini()`, the code unconditionally calls
+`amdgpu_irq_put()` for `ras_poison_irq` whenever RAS is supported.
+However, for SR-IOV VF (Virtual Function) environments,
+`amdgpu_irq_get()` was **never called** on this IRQ source during
+initialization. The IRQ enable path is in `amdgpu_vcn_ras_late_init()`
+which runs through the RAS block late init — but for VFs, the RAS
+interrupt operations are not fully initialized/enabled (as the comment
+in the fix says: "VF doesn't enable interrupt operations for RAS").
 
-**Change 2 - Writeback check in should_reset_plane (11 new lines):**
-A new check is added in `should_reset_plane()` to detect writeback
-commits (connectors of type `DRM_MODE_CONNECTOR_WRITEBACK` with an
-active `writeback_job`). When detected, the function returns `true`,
-forcing a full plane reset instead of a fast update.
+When `amdgpu_irq_put()` is called on an IRQ that was never enabled
+(refcount is 0), line 639 of `amdgpu_irq.c` triggers:
+`WARN_ON(!amdgpu_irq_enabled(adev, src, type))`, causing the stack trace
+shown in the commit message.
 
-This is needed because commit `435f5b369657c` ("Enable fast plane
-updates on DCN3.2 and above", v6.7-rc2) changed `should_reset_plane()`
-to allow fast updates on DCN 3.2+, skipping the full plane reset for
-`allow_modeset` states. However, writeback operations require the full
-plane reconfiguration path - the fast update path doesn't properly
-handle writeback state changes.
+**The fix**: Adds `!amdgpu_sriov_vf(adev)` check before calling
+`amdgpu_irq_put()`, so the IRQ release is skipped on VF — matching the
+fact that it was never enabled on VF. This is a minimal 2-line change
+(adding the VF check to the existing conditional).
 
-### 3. Bug Classification
+### 3. Classification
 
-This fixes a **functional correctness bug** where writeback (screen
-capture/recording via DRM writeback connectors) is broken on DCN 3.2+
-hardware (AMD Radeon RX 7000 series and later). Without this fix:
-- Writeback uses the fast plane update path, which is insufficient for
-  writeback configuration
-- Scaler tap parameters are incorrectly set, potentially causing DML
-  bandwidth validation issues
+This is a **bug fix** — it fixes a mismatched IRQ get/put that causes a
+WARNING and call trace during driver deinitialization (rmmod) on SR-IOV
+VF environments. The fix is:
+- Obviously correct (symmetry between init/fini paths)
+- Small and surgical (2-line change to an existing conditional)
+- Fixes a real user-visible issue (WARNING + call trace during rmmod)
+- No new features, no API changes
 
-### 4. Scope and Risk Assessment
+### 4. Scope and Risk
 
-- **Files changed:** 1 (`amdgpu_dm.c`)
-- **Lines changed:** ~15 lines modified/added
-- **Risk:** Low - the scaler tap change is a simple value change; the
-  `should_reset_plane` change adds an additional early-return condition
-  that is purely additive
-- **The writeback check only affects writeback commits** - normal
-  display operations are unaffected
-- **The scaler tap change only affects writeback parameters** - normal
-  display scaling is unaffected
+- **Very small change**: Only adds a VF check to an existing `if`
+  condition
+- **Low risk**: The change only affects SR-IOV VF environments, and it
+  simply skips an operation that should never have run in that context
+- **Single file**: Only `vcn_v2_5.c` is modified
+- **Well-understood pattern**: Other VCN versions (e.g., vcn_v4_0.c)
+  have similar structures, and the author (Lijo Lazar) is an AMD kernel
+  developer familiar with the subsystem
 
-### 5. Dependency Check
+### 5. User Impact
 
-- **Prerequisite 1:** Commit `435f5b369657c` ("Enable fast plane updates
-  on DCN3.2 and above") - present since v6.7-rc2. Without this commit,
-  the `should_reset_plane` change isn't needed (pre-DCN3.2 always does
-  full reset).
-- **Prerequisite 2:** Writeback support re-added in commit
-  `c81e13b929df2` (v6.8-rc1). Without this, the `dm_set_writeback`
-  function doesn't exist.
-- **Self-contained:** The commit doesn't depend on any other patches in
-  its series for correctness. Both changes are independent and additive.
-- **Applicable stable versions:** v6.8+ (where both prerequisites exist)
+This affects AMD GPU users running in SR-IOV virtualized environments
+(VMs using AMD GPU virtual functions). When they unload the amdgpu
+driver (rmmod), they see a WARNING call trace in the kernel log. While
+not a crash, this is a real operational annoyance and the WARN_ON could
+trigger panic-on-warn systems.
 
-### 6. User Impact
+### 6. Stability
 
-Users with DCN 3.2+ hardware (AMD RDNA3 / RX 7000 series GPUs, and
-newer) trying to use DRM writeback (screen capture, recording
-functionality) would find it broken without this fix. This affects real
-users attempting to use writeback features on modern AMD GPUs.
+- Reviewed by Mangesh Gadre (AMD engineer)
+- Signed off by Alex Deucher (AMD GPU maintainer)
+- The fix is logically straightforward — matching the fini path to what
+  the init path actually does
 
-### Verification
+### 7. Dependencies
 
-- Verified that commit `435f5b369657c` ("Enable fast plane updates on
-  DCN3.2 and above") was introduced in v6.7-rc2 via `git describe
-  --contains` - this is the commit that created the bug for writeback by
-  allowing fast updates on DCN 3.2+
-- Verified that writeback support was re-added in commit `c81e13b929df2`
-  in v6.8-rc1 via `git describe --contains` - this means the bug is
-  present since v6.8
-- Verified that the scaler_taps values are consumed by DML bandwidth
-  calculation code in `dml2_translation_helper.c:1250-1253` and
-  `dcn30_fpu.c:219-220` via grep
-- Verified that DCN 3.0+ (dcn30) DWB funcs do NOT have a `set_scaler`
-  function (unlike dcn20), confirming that hardware scaling is handled
-  differently on newer DCN
-- Verified the `should_reset_plane` function at line 11660 in the
-  current codebase - confirmed it does not have the writeback check
-- Verified via lore.kernel.org that this is patch 7/21 in a DC patch
-  series, reviewed by Harry Wentland, with no explicit dependency notes
-- Could NOT verify specific user reports of writeback failures on DCN
-  3.2+ (unverified) - the commit doesn't reference bug reports, but the
-  code analysis makes the bug mechanism clear
+None. The fix is self-contained and uses existing APIs
+(`amdgpu_sriov_vf()`) that have been in the kernel for a long time. The
+`vcn_v2_5.c` file and the relevant code paths exist in all supported
+stable trees that include VCN 2.5 support.
 
-### Conclusion
+## Verification
 
-This is a clear bug fix for broken writeback functionality on DCN 3.2+
-hardware. The change is small (15 lines), self-contained, low-risk,
-well-reviewed, and tested. It fixes a real functional regression where
-writeback was broken by the fast plane update optimization. It meets all
-stable kernel criteria: obviously correct, fixes a real bug, small and
-contained, no new features. The fix applies to stable trees v6.8+.
+- Read `vcn_v2_5.c:506-529` (pre-fix code on current tree) confirming
+  the `amdgpu_irq_put` call at line 524-525 lacks the VF check
+- Read `amdgpu_irq.c:623-646` confirming the `WARN_ON` at line 639
+  matches the stack trace
+- Read `amdgpu_vcn.c:1286-1310` confirming `amdgpu_vcn_ras_late_init`
+  calls `amdgpu_irq_get` for poison IRQ — but this may not run for VF
+  environments
+- Verified commit `8980be03b3f9a` exists in tree and matches the
+  analyzed patch
+- Searched for similar patterns (`sriov_vf` + `ras_poison_irq`) — no
+  other instance found, confirming this is the only VCN version patched
+  (VCN 2.5 specific)
+- The `vcn_v4_0.c` hw_fini was noted by the explore agent as having the
+  same pattern (no VF check before irq_put) — this is potentially a
+  separate issue for other VCN versions
+- Could NOT verify which stable trees contain VCN 2.5 support
+  specifically — unverified, but VCN 2.5 has been in the kernel since
+  ~5.4-5.5 era
+
+## Conclusion
+
+This is a small, surgical bug fix that resolves a WARNING/call trace
+during driver deinitialization on SR-IOV VF environments. It fixes an
+asymmetry between the init and fini paths (IRQ never enabled on VF, but
+unconditionally released). The fix is obviously correct, low risk, well-
+reviewed, and impacts real users of AMD GPU virtualization. It meets all
+stable kernel criteria.
 
 **YES**
 
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a8a59126b2d2b..a72394b05ab02 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10648,10 +10648,10 @@ static void dm_set_writeback(struct amdgpu_display_manager *dm,
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+index cebee453871c1..006a154511971 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+@@ -521,7 +521,9 @@ static int vcn_v2_5_hw_fini(struct amdgpu_ip_block *ip_block)
+ 		     RREG32_SOC15(VCN, i, mmUVD_STATUS)))
+ 			vinst->set_pg_state(vinst, AMD_PG_STATE_GATE);
  
- 	wb_info->dwb_params.capture_rate = dwb_capture_rate_0;
- 
--	wb_info->dwb_params.scaler_taps.h_taps = 4;
--	wb_info->dwb_params.scaler_taps.v_taps = 4;
--	wb_info->dwb_params.scaler_taps.h_taps_c = 2;
--	wb_info->dwb_params.scaler_taps.v_taps_c = 2;
-+	wb_info->dwb_params.scaler_taps.h_taps = 1;
-+	wb_info->dwb_params.scaler_taps.v_taps = 1;
-+	wb_info->dwb_params.scaler_taps.h_taps_c = 1;
-+	wb_info->dwb_params.scaler_taps.v_taps_c = 1;
- 	wb_info->dwb_params.subsample_position = DWB_INTERSTITIAL_SUBSAMPLING;
- 
- 	wb_info->mcif_buf_params.luma_pitch = afb->base.pitches[0];
-@@ -11667,6 +11667,8 @@ static bool should_reset_plane(struct drm_atomic_state *state,
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct dm_crtc_state *old_dm_crtc_state, *new_dm_crtc_state;
- 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
-+	struct drm_connector_state *new_con_state;
-+	struct drm_connector *connector;
- 	int i;
- 
- 	/*
-@@ -11677,6 +11679,15 @@ static bool should_reset_plane(struct drm_atomic_state *state,
- 	    state->allow_modeset)
- 		return true;
- 
-+	/* Check for writeback commit */
-+	for_each_new_connector_in_state(state, connector, new_con_state, i) {
-+		if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-+			continue;
-+
-+		if (new_con_state->writeback_job)
-+			return true;
-+	}
-+
- 	if (amdgpu_in_reset(adev) && state->allow_modeset)
- 		return true;
+-		if (amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__VCN))
++		/* VF doesn't enable interrupt operations for RAS */
++		if (!amdgpu_sriov_vf(adev) &&
++		    amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__VCN))
+ 			amdgpu_irq_put(adev, &vinst->ras_poison_irq, 0);
+ 	}
  
 -- 
 2.51.0
