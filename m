@@ -2,182 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONP3FdlsnGmcGAQAu9opvQ
+	id GGGwDaxtnGmcGAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:06:01 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:09:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA45617872E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:06:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602EA17880F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:09:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C407110E244;
-	Mon, 23 Feb 2026 15:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3352410E3AD;
+	Mon, 23 Feb 2026 15:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="W/aHRYZP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DE6U5u91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4F110E244
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 15:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1771859149; x=1772463949; i=deller@gmx.de;
- bh=JgxRNuk2YyPCzBD4zBrnzCUi6abaaZtBmeG58MmBvUY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=W/aHRYZPaPuTKQ4W1huP7RrvmRJDVzWjyWQ+eors5fDckQOvDA3IZEWM6jqO811F
- ru0wWHq5pu332PU9aGS57IVOfk6t2B0xjx/TDSSPjvCq2E8HLFX56SmdU7euZ55CN
- v3npHwhPxPcI1fIzLCHoSzxhc+ldKwn2LtS9iZIMLxbgmxLNPbS2qtUllt7bFJzdI
- sqrFa0GcBiKXI47SHdPeRXmAJOyhktPgaJSw4XaZk8xkkixdwwxzO5QxjRKUrmZoh
- pDUlzFpWcTQlsYbykQZdh/ilM2UUtOiOvr+UnGvcCpUigor7445PKouCmiEEa9B64
- F9HnkAhSsdRsSRZOBw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.9.0.6] ([109.250.51.98]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mq2nK-1vQPhG313C-00nrfL; Mon, 23
- Feb 2026 16:05:48 +0100
-Message-ID: <d8633caa-c01c-433c-8dd3-f300dac53a0b@gmx.de>
-Date: Mon, 23 Feb 2026 16:05:47 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDA5810E3AA;
+ Mon, 23 Feb 2026 15:09:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771859366; x=1803395366;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=jX4YDxdn5hgR786f9PadjSz7+ZrPnN0iXe5hkhrN2PA=;
+ b=DE6U5u91HgqxWM0LOnbzvN8aBN3/q3pcduo+C7cfiOfu7D7rzjz9SuO5
+ 9s+6R7LpZ4LcKi4rbORyRC9OeRpHzfn1yiAEusIo/a4JdvTUCc/OSxAMv
+ /SI/7ocN5cUC10lbJbhGY/PDNPzBfDuxuSVYxHmjt7td2PsSDx2oW1qeX
+ LEp1kKQgzMBXq/Ctjr/EdRBc2BJGTe+MUspDZO+RpMlCPrBCqEahcoSHD
+ Co/EqdGhWgiJcAuy6zqroXi2pnGNPvvMd6u51zXOhE8mM4folZmMR4V9D
+ 3e5ttFVklsnGuQmuubmKLVoMl+d04BmNxvbBjSIQun2JXPBWSjNCi9bCq A==;
+X-CSE-ConnectionGUID: E3GI4kRfQ1WcLJUd/Zsi4g==
+X-CSE-MsgGUID: bFCFZ948TtiXkNnvd2w4Jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72918990"
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="72918990"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 07:09:26 -0800
+X-CSE-ConnectionGUID: tvW/PNJnQRKPmCsweOOppg==
+X-CSE-MsgGUID: ZAYvV9BHSjqu7ioibYv9HA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="219136621"
+Received: from ksatya-dev.iind.intel.com ([10.190.229.161])
+ by fmviesa004.fm.intel.com with ESMTP; 23 Feb 2026 07:09:24 -0800
+From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [RFC v2 1/1] =?UTF-8?q?drm/xe/pf:=20Skip=20creating=20DRM=20devic?=
+ =?UTF-8?q?e=20entries=20in=20PF=20admin=E2=80=91only=20mode?=
+Date: Mon, 23 Feb 2026 15:09:51 +0000
+Message-ID: <20260223150951.1834063-2-satyanarayana.k.v.p@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260223150951.1834063-1-satyanarayana.k.v.p@intel.com>
+References: <20260223150951.1834063-1-satyanarayana.k.v.p@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from
- public header file
-To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
- sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260218083855.10743-1-tzimmermann@suse.de>
- <20260218083855.10743-14-tzimmermann@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20260218083855.10743-14-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FfpsMU5DGngediuVVmmomv4QJ8gGWeU+O95zx39bS6eAXvHx6V3
- 7f+YQ2cnUn9LlpwE76W0Y3Z9zdC36ssuubfR0rOjJi93GStqUhOk359eFIWUvN5kiqptWHT
- IhhUSQHYk1ORxLUWiqWprkM0rcEx7dVkS1/9GHH2tzPn1Xh8lpzUhS0XdwmLFWHa2Wzk17E
- yJpfaJVeJSfW0UKVxtfhg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OWeMfE9onY8=;E/nrIfuVI++RIa41AzuYg5t2w4m
- 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,97 +77,716 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.21 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip6:2610:10:20:722:a800:ff:fe36:1795:c];
-	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmx.de];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmx.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:2610:10::/32, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim]
-X-Rspamd-Queue-Id: AA45617872E
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[satyanarayana.k.v.p@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email,lists.freedesktop.org:email];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 602EA17880F
 X-Rspamd-Action: no action
 
-On 2/18/26 09:16, Thomas Zimmermann wrote:
-> diff --git a/include/linux/font.h b/include/linux/font.h
-> index 4ff956a1cd0a..6e9a4c93b47b 100644
-> --- a/include/linux/font.h
-> +++ b/include/linux/font.h
-> @@ -92,20 +92,12 @@ struct font_desc {
->   #define FONT6x8_IDX	12
->   #define TER10x18_IDX	13
->  =20
-> -extern const struct font_desc	font_vga_8x8,
-> -			font_vga_8x16,
-> -			font_pearl_8x8,
-> -			font_vga_6x11,
-> -			font_7x14,
-> -			font_10x18,
-> -			font_sun_8x16,
-> -			font_sun_12x22,
-> -			font_acorn_8x8,
-> -			font_mini_4x6,
-> -			font_6x10,
-> -			font_ter_16x32,
-> -			font_6x8,
-> -			font_ter_10x18;
-> +#if defined(CONFIG_FONT_8x8)
-> +extern const struct font_desc font_vga_8x8;
-> +#endif
-> +#if defined(CONFIG_FONT_8x16)
-> +extern const struct font_desc font_vga_8x16;
-> +#endif
+When the PF is configured for admin‑only mode, it is restricted to
+management functions and should not expose a device node that would
+allow users to run workloads.
 
-I suggest not to use all those #ifdef(CONFIG_XXX) in the header files.
-They are not necessary, and trigger a rebuild of a whole lot C-files
-in case one single CONFIG option is changed.
-Instead use it in the C-files only.
-That way (re-)compilation is faster and you still get a link/build error
-when a symbol is used although the config option is not set.
+In this mode, no DRM device entry is created; however, sysfs and debugfs
+interfaces for the PF remain available at:
 
-> diff --git a/lib/fonts/font.h b/lib/fonts/font.h
-> new file mode 100644
-> index 000000000000..00f65a3da5c2
-> --- /dev/null
-> +++ b/lib/fonts/font.h
-> @@ -0,0 +1,52 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef _LIB_FONTS_FONT_H
-> +#define _LIB_FONTS_FONT_H
-> +
-> +#include <linux/font.h>
-> +
-> +#if defined(CONFIG_FONT_PEARL_8x8)
-> +extern const struct font_desc font_pearl_8x8;
-> +#endif
-> +#if defined(CONFIG_FONT_6x11)
-> +extern const struct font_desc font_vga_6x11;
-> +#endif
-...
-same here...
+sysfs: /sys/devices/pci0000:00/<B:D:F>
+debugfs: /sys/kernel/debug/dri/<B:D:F>
 
-Helge
+Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+
+---
+V2 -> V3:
+- Introduced new helper function xe_debugfs_create_files() to create
+debugfs entries based on admin_only_pf mode or normal mode.
+
+V1 -> V2:
+- Rebased to latest drm-tip.
+- Update update_minor_dev() to debugfs_minor_dev().
+---
+ drivers/gpu/drm/xe/Makefile                   |  1 +
+ drivers/gpu/drm/xe/xe_debugfs.c               | 18 +++--
+ drivers/gpu/drm/xe/xe_debugfs_helpers.c       | 78 +++++++++++++++++++
+ drivers/gpu/drm/xe/xe_debugfs_helpers.h       | 27 +++++++
+ drivers/gpu/drm/xe/xe_device.c                | 20 +++--
+ drivers/gpu/drm/xe/xe_gsc_debugfs.c           |  8 +-
+ drivers/gpu/drm/xe/xe_gt_debugfs.c            | 20 +++--
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c   |  5 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c   |  5 +-
+ drivers/gpu/drm/xe/xe_guc_debugfs.c           | 20 ++---
+ drivers/gpu/drm/xe/xe_huc_debugfs.c           |  8 +-
+ drivers/gpu/drm/xe/xe_pxp_debugfs.c           | 23 ++++--
+ drivers/gpu/drm/xe/xe_sriov.h                 |  8 ++
+ drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c      |  5 +-
+ drivers/gpu/drm/xe/xe_sriov_vf.c              |  5 +-
+ drivers/gpu/drm/xe/xe_tile_debugfs.c          | 10 +--
+ drivers/gpu/drm/xe/xe_tile_sriov_pf_debugfs.c | 14 ++--
+ 17 files changed, 202 insertions(+), 73 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_debugfs_helpers.c
+ create mode 100644 drivers/gpu/drm/xe/xe_debugfs_helpers.h
+
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index 41ec698b3cc1..31901da1eff2 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -35,6 +35,7 @@ $(obj)/generated/%_device_wa_oob.c $(obj)/generated/%_device_wa_oob.h: $(obj)/xe
+ xe-y += xe_bb.o \
+ 	xe_bo.o \
+ 	xe_bo_evict.o \
++	xe_debugfs_helpers.o \
+ 	xe_dep_scheduler.o \
+ 	xe_devcoredump.o \
+ 	xe_device.o \
+diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debugfs.c
+index 844cfafe1ec7..b560c170aaf1 100644
+--- a/drivers/gpu/drm/xe/xe_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_debugfs.c
+@@ -13,6 +13,7 @@
+ 
+ #include "regs/xe_pmt.h"
+ #include "xe_bo.h"
++#include "xe_debugfs_helpers.h"
+ #include "xe_device.h"
+ #include "xe_force_wake.h"
+ #include "xe_gt_debugfs.h"
+@@ -512,22 +513,23 @@ static const struct file_operations disable_late_binding_fops = {
+ void xe_debugfs_register(struct xe_device *xe)
+ {
+ 	struct ttm_device *bdev = &xe->ttm;
+-	struct drm_minor *minor = xe->drm.primary;
+-	struct dentry *root = minor->debugfs_root;
+ 	struct ttm_resource_manager *man;
+ 	struct xe_tile *tile;
++	struct dentry *root;
+ 	struct xe_gt *gt;
+ 	u8 tile_id;
+ 	u8 id;
+ 
+-	drm_debugfs_create_files(debugfs_list,
+-				 ARRAY_SIZE(debugfs_list),
+-				 root, minor);
++	root = xe_debugfs_root_dir(xe);
++
++	xe_debugfs_create_files(debugfs_list,
++				ARRAY_SIZE(debugfs_list),
++				root, xe);
+ 
+ 	if (xe->info.platform == XE_BATTLEMAGE && !IS_SRIOV_VF(xe)) {
+-		drm_debugfs_create_files(debugfs_residencies,
+-					 ARRAY_SIZE(debugfs_residencies),
+-					 root, minor);
++		xe_debugfs_create_files(debugfs_residencies,
++					ARRAY_SIZE(debugfs_residencies),
++					root, xe);
+ 		fault_create_debugfs_attr("inject_csc_hw_error", root,
+ 					  &inject_csc_hw_error);
+ 	}
+diff --git a/drivers/gpu/drm/xe/xe_debugfs_helpers.c b/drivers/gpu/drm/xe/xe_debugfs_helpers.c
+new file mode 100644
+index 000000000000..c8b4a088cf28
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_debugfs_helpers.c
+@@ -0,0 +1,78 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2026 Intel Corporation
++ */
++
++#include <drm/drm_debugfs.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
++
++#include <linux/debugfs.h>
++
++#include "xe_debugfs_helpers.h"
++
++static int xe_debugfs_open(struct inode *inode, struct file *file)
++{
++	struct drm_info_node *node = inode->i_private;
++
++	return single_open(file, node->info_ent->show, node);
++}
++
++static const struct file_operations xe_debugfs_fops = {
++	.owner = THIS_MODULE,
++	.open = xe_debugfs_open,
++	.read = seq_read,
++	.llseek = seq_lseek,
++	.release = single_release,
++};
++
++/**
++ * xe_debugfs_create_files - Initialize a given set of debugfs files.
++ * @files: The array of files to create.
++ * @count: The number of files given.
++ * @root: debugfs dir root entry.
++ * @xe: the &xe_device to register
++ *
++ * Create a given set of debugfs files represented by an array of
++ * &struct drm_info_list in the given root directory. These files will be
++ * removed automatically on drm_debugfs_dev_fini().
++ *
++ * Returns 0 on success, negative error code on failure.
++ */
++int xe_debugfs_create_files(const struct drm_info_list *files, int count,
++			    struct dentry *root, struct xe_device *xe)
++{
++	struct drm_device *dev = &xe->drm;
++	struct drm_info_node *tmp;
++	struct drm_minor *minor;
++	int i;
++
++	if (!xe_device_is_admin_only(xe)) {
++		minor = dev->primary;
++		drm_debugfs_create_files(files, count, root, minor);
++		return 0;
++	}
++
++	for (i = 0; i < count; i++) {
++		u32 features = files[i].driver_features;
++
++		if (features && !drm_core_check_all_features(dev, features))
++			continue;
++
++		tmp = drmm_kzalloc(dev, sizeof(*tmp), GFP_KERNEL);
++		if (!tmp)
++			return -ENOMEM;
++
++		tmp->minor = drmm_kzalloc(dev, sizeof(*tmp->minor), GFP_KERNEL);
++		if (!tmp->minor)
++			return -ENOMEM;
++
++		tmp->minor->dev = dev;
++		tmp->dent = debugfs_create_file(files[i].name,
++						0444, root, tmp,
++						&xe_debugfs_fops);
++		tmp->info_ent = &files[i];
++	}
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/xe/xe_debugfs_helpers.h b/drivers/gpu/drm/xe/xe_debugfs_helpers.h
+new file mode 100644
+index 000000000000..15f9e51e0d27
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_debugfs_helpers.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2026-2027 Intel Corporation
++ */
++
++#ifndef _XE_DEBUGFS_HELPERS_H_
++#define _XE_DEBUGFS_HELPERS_H_
++
++#include "xe_gt_types.h"
++#include "xe_sriov.h"
++
++struct drm_info_list;
++
++int xe_debugfs_create_files(const struct drm_info_list *files, int count,
++			    struct dentry *root, struct xe_device *xe);
++
++static inline struct dentry *xe_debugfs_root_dir(struct xe_device *xe)
++{
++	struct drm_minor *minor = xe->drm.primary;
++
++	if (xe_device_is_admin_only(xe))
++		return xe->drm.debugfs_root;
++	else
++		return minor->debugfs_root;
++}
++#endif
++
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 3462645ca13c..e6df3091659f 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -971,15 +971,17 @@ int xe_device_probe(struct xe_device *xe)
+ 	if (err)
+ 		return err;
+ 
+-	err = drm_dev_register(&xe->drm, 0);
+-	if (err)
+-		return err;
++	if (!xe_device_is_admin_only(xe)) {
++		err = drm_dev_register(&xe->drm, 0);
++		if (err)
++			return err;
+ 
+-	xe_display_register(xe);
++		err = xe_oa_register(xe);
++		if (err)
++			goto err_drm_dev_unregister;
++	}
+ 
+-	err = xe_oa_register(xe);
+-	if (err)
+-		goto err_unregister_display;
++	xe_display_register(xe);
+ 
+ 	err = xe_pmu_register(&xe->pmu);
+ 	if (err)
+@@ -1014,6 +1016,7 @@ int xe_device_probe(struct xe_device *xe)
+ 
+ err_unregister_display:
+ 	xe_display_unregister(xe);
++err_drm_dev_unregister:
+ 	drm_dev_unregister(&xe->drm);
+ 
+ 	return err;
+@@ -1023,7 +1026,8 @@ void xe_device_remove(struct xe_device *xe)
+ {
+ 	xe_display_unregister(xe);
+ 
+-	drm_dev_unplug(&xe->drm);
++	if (!xe_device_is_admin_only(xe))
++		drm_dev_unplug(&xe->drm);
+ 
+ 	xe_bo_pci_dev_remove_all(xe);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_gsc_debugfs.c b/drivers/gpu/drm/xe/xe_gsc_debugfs.c
+index d4977e666946..cbd057ce8571 100644
+--- a/drivers/gpu/drm/xe/xe_gsc_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_gsc_debugfs.c
+@@ -9,6 +9,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_gt_types.h"
+ #include "xe_gsc.h"
+ #include "xe_pm.h"
+@@ -48,7 +49,6 @@ static const struct drm_info_list debugfs_list[] = {
+ 
+ void xe_gsc_debugfs_register(struct xe_gsc *gsc, struct dentry *parent)
+ {
+-	struct drm_minor *minor = gsc_to_xe(gsc)->drm.primary;
+ 	struct drm_info_list *local;
+ 	int i;
+ 
+@@ -63,7 +63,7 @@ void xe_gsc_debugfs_register(struct xe_gsc *gsc, struct dentry *parent)
+ 	for (i = 0; i < ARRAY_SIZE(debugfs_list); ++i)
+ 		local[i].data = gsc;
+ 
+-	drm_debugfs_create_files(local,
+-				 ARRAY_SIZE(debugfs_list),
+-				 parent, minor);
++	xe_debugfs_create_files(local,
++				ARRAY_SIZE(debugfs_list),
++				parent, gsc_to_xe(gsc));
+ }
+diff --git a/drivers/gpu/drm/xe/xe_gt_debugfs.c b/drivers/gpu/drm/xe/xe_gt_debugfs.c
+index f45306308cd6..24db5aef56a2 100644
+--- a/drivers/gpu/drm/xe/xe_gt_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_gt_debugfs.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_managed.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_device.h"
+ #include "xe_force_wake.h"
+ #include "xe_gt.h"
+@@ -339,11 +340,13 @@ void xe_gt_debugfs_register(struct xe_gt *gt)
+ 	struct xe_device *xe = gt_to_xe(gt);
+ 	struct drm_minor *minor = gt_to_xe(gt)->drm.primary;
+ 	struct dentry *parent = gt->tile->debugfs;
++	struct dentry *xe_debugfs_root;
+ 	struct dentry *root;
+ 	char symlink[16];
+ 	char name[8];
+ 
+-	xe_gt_assert(gt, minor->debugfs_root);
++	if (!xe_device_is_admin_only(xe))
++		xe_gt_assert(gt, minor->debugfs_root);
+ 
+ 	if (IS_ERR(parent))
+ 		return;
+@@ -367,14 +370,14 @@ void xe_gt_debugfs_register(struct xe_gt *gt)
+ 	debugfs_create_file("force_reset", 0600, root, gt, &force_reset_fops);
+ 	debugfs_create_file("force_reset_sync", 0600, root, gt, &force_reset_sync_fops);
+ 
+-	drm_debugfs_create_files(vf_safe_debugfs_list,
+-				 ARRAY_SIZE(vf_safe_debugfs_list),
+-				 root, minor);
++	xe_debugfs_create_files(vf_safe_debugfs_list,
++				ARRAY_SIZE(vf_safe_debugfs_list),
++				root, xe);
+ 
+ 	if (!IS_SRIOV_VF(xe))
+-		drm_debugfs_create_files(pf_only_debugfs_list,
+-					 ARRAY_SIZE(pf_only_debugfs_list),
+-					 root, minor);
++		xe_debugfs_create_files(pf_only_debugfs_list,
++					ARRAY_SIZE(pf_only_debugfs_list),
++					root, xe);
+ 
+ 	xe_uc_debugfs_register(&gt->uc, root);
+ 
+@@ -388,5 +391,6 @@ void xe_gt_debugfs_register(struct xe_gt *gt)
+ 	 * who may expect gt/ directory at the root level, not the tile level.
+ 	 */
+ 	snprintf(symlink, sizeof(symlink), "tile%u/%s", gt->tile->id, name);
+-	debugfs_create_symlink(name, minor->debugfs_root, symlink);
++	xe_debugfs_root = xe_debugfs_root_dir(xe);
++	debugfs_create_symlink(name, xe_debugfs_root, symlink);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
+index ffa27f66bba7..a8892fd9cf4c 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
+@@ -8,7 +8,7 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_debugfs.h>
+ 
+-#include "xe_debugfs.h"
++#include "xe_debugfs_helpers.h"
+ #include "xe_device.h"
+ #include "xe_gt.h"
+ #include "xe_gt_debugfs.h"
+@@ -806,7 +806,6 @@ static void pf_add_compat_attrs(struct xe_gt *gt, struct dentry *dent, unsigned
+ static void pf_populate_gt(struct xe_gt *gt, struct dentry *dent, unsigned int vfid)
+ {
+ 	struct xe_device *xe = gt_to_xe(gt);
+-	struct drm_minor *minor = xe->drm.primary;
+ 
+ 	if (vfid) {
+ 		pf_add_config_attrs(gt, dent, vfid);
+@@ -826,7 +825,7 @@ static void pf_populate_gt(struct xe_gt *gt, struct dentry *dent, unsigned int v
+ 		pf_add_policy_attrs(gt, dent);
+ 		pf_add_sched_groups(gt, dent, PFID);
+ 
+-		drm_debugfs_create_files(pf_info, ARRAY_SIZE(pf_info), dent, minor);
++		xe_debugfs_create_files(pf_info, ARRAY_SIZE(pf_info), dent, xe);
+ 	}
+ 
+ 	/* for backward compatibility only */
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c b/drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c
+index 507718326e1f..5d6ee9728f68 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c
+@@ -7,11 +7,11 @@
+ 
+ #include <drm/drm_debugfs.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_gt_debugfs.h"
+ #include "xe_gt_sriov_vf.h"
+ #include "xe_gt_sriov_vf_debugfs.h"
+ #include "xe_gt_types.h"
+-#include "xe_sriov.h"
+ 
+ /*
+  *      /sys/kernel/debug/dri/0/
+@@ -52,7 +52,6 @@ static const struct drm_info_list vf_info[] = {
+ void xe_gt_sriov_vf_debugfs_register(struct xe_gt *gt, struct dentry *root)
+ {
+ 	struct xe_device *xe = gt_to_xe(gt);
+-	struct drm_minor *minor = xe->drm.primary;
+ 	struct dentry *vfdentry;
+ 
+ 	xe_assert(xe, IS_SRIOV_VF(xe));
+@@ -68,7 +67,7 @@ void xe_gt_sriov_vf_debugfs_register(struct xe_gt *gt, struct dentry *root)
+ 		return;
+ 	vfdentry->d_inode->i_private = gt;
+ 
+-	drm_debugfs_create_files(vf_info, ARRAY_SIZE(vf_info), vfdentry, minor);
++	xe_debugfs_create_files(vf_info, ARRAY_SIZE(vf_info), vfdentry, xe);
+ 
+ 	/*
+ 	 *      /sys/kernel/debug/dri/BDF/
+diff --git a/drivers/gpu/drm/xe/xe_guc_debugfs.c b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+index 2f23119686d4..ddd3d209328a 100644
+--- a/drivers/gpu/drm/xe/xe_guc_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+@@ -8,6 +8,7 @@
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_managed.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_device_types.h"
+ #include "xe_gt_types.h"
+ #include "xe_guc.h"
+@@ -129,20 +130,19 @@ static const struct drm_info_list pf_only_debugfs_list[] = {
+ void xe_guc_debugfs_register(struct xe_guc *guc, struct dentry *parent)
+ {
+ 	struct xe_device *xe =  guc_to_xe(guc);
+-	struct drm_minor *minor = xe->drm.primary;
+ 
+-	drm_debugfs_create_files(vf_safe_debugfs_list,
+-				 ARRAY_SIZE(vf_safe_debugfs_list),
+-				 parent, minor);
++	xe_debugfs_create_files(vf_safe_debugfs_list,
++				ARRAY_SIZE(vf_safe_debugfs_list),
++				parent, xe);
+ 
+ 	if (!IS_SRIOV_VF(xe)) {
+-		drm_debugfs_create_files(pf_only_debugfs_list,
+-					 ARRAY_SIZE(pf_only_debugfs_list),
+-					 parent, minor);
++		xe_debugfs_create_files(pf_only_debugfs_list,
++					ARRAY_SIZE(pf_only_debugfs_list),
++					parent, xe);
+ 
+ 		if (!xe->info.skip_guc_pc)
+-			drm_debugfs_create_files(slpc_debugfs_list,
+-						 ARRAY_SIZE(slpc_debugfs_list),
+-						 parent, minor);
++			xe_debugfs_create_files(slpc_debugfs_list,
++						ARRAY_SIZE(slpc_debugfs_list),
++						parent, xe);
+ 	}
+ }
+diff --git a/drivers/gpu/drm/xe/xe_huc_debugfs.c b/drivers/gpu/drm/xe/xe_huc_debugfs.c
+index 80829967b3d7..59de78355eee 100644
+--- a/drivers/gpu/drm/xe/xe_huc_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_huc_debugfs.c
+@@ -9,6 +9,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_gt_types.h"
+ #include "xe_huc.h"
+ #include "xe_pm.h"
+@@ -48,7 +49,6 @@ static const struct drm_info_list debugfs_list[] = {
+ 
+ void xe_huc_debugfs_register(struct xe_huc *huc, struct dentry *parent)
+ {
+-	struct drm_minor *minor = huc_to_xe(huc)->drm.primary;
+ 	struct drm_info_list *local;
+ 	int i;
+ 
+@@ -63,7 +63,7 @@ void xe_huc_debugfs_register(struct xe_huc *huc, struct dentry *parent)
+ 	for (i = 0; i < ARRAY_SIZE(debugfs_list); ++i)
+ 		local[i].data = huc;
+ 
+-	drm_debugfs_create_files(local,
+-				 ARRAY_SIZE(debugfs_list),
+-				 parent, minor);
++	xe_debugfs_create_files(local,
++				ARRAY_SIZE(debugfs_list),
++				parent, huc_to_xe(huc));
+ }
+diff --git a/drivers/gpu/drm/xe/xe_pxp_debugfs.c b/drivers/gpu/drm/xe/xe_pxp_debugfs.c
+index d6e2e41bc88c..c807f992ed6a 100644
+--- a/drivers/gpu/drm/xe/xe_pxp_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_pxp_debugfs.c
+@@ -11,6 +11,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_device_types.h"
+ #include "xe_pxp.h"
+ #include "xe_pxp_types.h"
+@@ -96,17 +97,22 @@ static const struct drm_info_list debugfs_list[] = {
+ 
+ void xe_pxp_debugfs_register(struct xe_pxp *pxp)
+ {
+-	struct drm_minor *minor;
+ 	struct drm_info_list *local;
++	struct drm_minor *minor;
++	struct xe_device *xe;
+ 	struct dentry *root;
+ 	int i;
+ 
+ 	if (!xe_pxp_is_enabled(pxp))
+ 		return;
+ 
+-	minor = pxp->xe->drm.primary;
+-	if (!minor->debugfs_root)
+-		return;
++	xe = pxp->xe;
++
++	if (!xe_device_is_admin_only(xe)) {
++		minor = xe->drm.primary;
++		if (!minor->debugfs_root)
++			return;
++	}
+ 
+ #define DEBUGFS_SIZE	(ARRAY_SIZE(debugfs_list) * sizeof(struct drm_info_list))
+ 	local = drmm_kmalloc(&pxp->xe->drm, DEBUGFS_SIZE, GFP_KERNEL);
+@@ -119,11 +125,12 @@ void xe_pxp_debugfs_register(struct xe_pxp *pxp)
+ 	for (i = 0; i < ARRAY_SIZE(debugfs_list); ++i)
+ 		local[i].data = pxp;
+ 
+-	root = debugfs_create_dir("pxp", minor->debugfs_root);
++	root = xe_debugfs_root_dir(xe);
++	root = debugfs_create_dir("pxp", root);
+ 	if (IS_ERR(root))
+ 		return;
+ 
+-	drm_debugfs_create_files(local,
+-				 ARRAY_SIZE(debugfs_list),
+-				 root, minor);
++	xe_debugfs_create_files(local,
++				ARRAY_SIZE(debugfs_list),
++				root, xe);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_sriov.h b/drivers/gpu/drm/xe/xe_sriov.h
+index 72e55543c30e..be426afa90b1 100644
+--- a/drivers/gpu/drm/xe/xe_sriov.h
++++ b/drivers/gpu/drm/xe/xe_sriov.h
+@@ -37,6 +37,14 @@ static inline bool xe_device_is_sriov_vf(const struct xe_device *xe)
+ 	return xe_device_sriov_mode(xe) == XE_SRIOV_MODE_VF;
+ }
+ 
++static inline bool xe_device_is_admin_only(const struct xe_device *xe)
++{
++	if (xe_device_is_sriov_pf(xe) && xe->sriov.pf.admin_only)
++		return true;
++	else
++		return false;
++}
++
+ #define IS_SRIOV_PF(xe) xe_device_is_sriov_pf(xe)
+ #define IS_SRIOV_VF(xe) xe_device_is_sriov_vf(xe)
+ 
+diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
+index 81b377830d6d..68afcd5a0dc4 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
+@@ -6,6 +6,7 @@
+ #include <linux/debugfs.h>
+ #include <drm/drm_debugfs.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_device.h"
+ #include "xe_device_types.h"
+ #include "xe_pm.h"
+@@ -152,9 +153,7 @@ static const struct drm_info_list debugfs_list[] = {
+ 
+ static void pf_populate_pf(struct xe_device *xe, struct dentry *pfdent)
+ {
+-	struct drm_minor *minor = xe->drm.primary;
+-
+-	drm_debugfs_create_files(debugfs_list, ARRAY_SIZE(debugfs_list), pfdent, minor);
++	xe_debugfs_create_files(debugfs_list, ARRAY_SIZE(debugfs_list), pfdent, xe);
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/xe/xe_sriov_vf.c b/drivers/gpu/drm/xe/xe_sriov_vf.c
+index 29894bd081c0..61c8d199f18b 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_vf.c
++++ b/drivers/gpu/drm/xe/xe_sriov_vf.c
+@@ -6,6 +6,7 @@
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_managed.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_gt_sriov_vf.h"
+ #include "xe_guc.h"
+ #include "xe_sriov_printk.h"
+@@ -281,6 +282,6 @@ static const struct drm_info_list debugfs_list[] = {
+  */
+ void xe_sriov_vf_debugfs_register(struct xe_device *xe, struct dentry *root)
+ {
+-	drm_debugfs_create_files(debugfs_list, ARRAY_SIZE(debugfs_list),
+-				 root, xe->drm.primary);
++	xe_debugfs_create_files(debugfs_list, ARRAY_SIZE(debugfs_list),
++				root, xe);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_tile_debugfs.c b/drivers/gpu/drm/xe/xe_tile_debugfs.c
+index 5df2f461b7b7..79bd87c9fe67 100644
+--- a/drivers/gpu/drm/xe/xe_tile_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_tile_debugfs.c
+@@ -6,6 +6,7 @@
+ #include <linux/debugfs.h>
+ #include <drm/drm_debugfs.h>
+ 
++#include "xe_debugfs_helpers.h"
+ #include "xe_ggtt.h"
+ #include "xe_pm.h"
+ #include "xe_sa.h"
+@@ -123,8 +124,7 @@ static void tile_debugfs_create_vram_mm(struct xe_tile *tile)
+ void xe_tile_debugfs_register(struct xe_tile *tile)
+ {
+ 	struct xe_device *xe = tile_to_xe(tile);
+-	struct drm_minor *minor = xe->drm.primary;
+-	struct dentry *root = minor->debugfs_root;
++	struct dentry *root = xe_debugfs_root_dir(xe);
+ 	char name[8];
+ 
+ 	snprintf(name, sizeof(name), "tile%u", tile->id);
+@@ -139,9 +139,9 @@ void xe_tile_debugfs_register(struct xe_tile *tile)
+ 	 */
+ 	tile->debugfs->d_inode->i_private = tile;
+ 
+-	drm_debugfs_create_files(vf_safe_debugfs_list,
+-				 ARRAY_SIZE(vf_safe_debugfs_list),
+-				 tile->debugfs, minor);
++	xe_debugfs_create_files(vf_safe_debugfs_list,
++				ARRAY_SIZE(vf_safe_debugfs_list),
++				tile->debugfs, xe);
+ 
+ 	tile_debugfs_create_vram_mm(tile);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_tile_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_tile_sriov_pf_debugfs.c
+index 7f97db2f89bb..fd352be6840d 100644
+--- a/drivers/gpu/drm/xe/xe_tile_sriov_pf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_tile_sriov_pf_debugfs.c
+@@ -8,6 +8,7 @@
+ 
+ #include "xe_device.h"
+ #include "xe_device_types.h"
++#include "xe_debugfs_helpers.h"
+ #include "xe_gt_sriov_pf_config.h"
+ #include "xe_gt_sriov_pf_debugfs.h"
+ #include "xe_pm.h"
+@@ -183,20 +184,19 @@ static void pf_add_config_attrs(struct xe_tile *tile, struct dentry *dent, unsig
+ static void pf_populate_tile(struct xe_tile *tile, struct dentry *dent, unsigned int vfid)
+ {
+ 	struct xe_device *xe = tile->xe;
+-	struct drm_minor *minor = xe->drm.primary;
+ 	struct xe_gt *gt;
+ 	unsigned int id;
+ 
+ 	pf_add_config_attrs(tile, dent, vfid);
+ 
+ 	if (!vfid) {
+-		drm_debugfs_create_files(pf_ggtt_info,
+-					 ARRAY_SIZE(pf_ggtt_info),
+-					 dent, minor);
++		xe_debugfs_create_files(pf_ggtt_info,
++					ARRAY_SIZE(pf_ggtt_info),
++					dent, xe);
+ 		if (IS_DGFX(xe))
+-			drm_debugfs_create_files(pf_vram_info,
+-						 ARRAY_SIZE(pf_vram_info),
+-						 dent, minor);
++			xe_debugfs_create_files(pf_vram_info,
++						ARRAY_SIZE(pf_vram_info),
++						dent, xe);
+ 	}
+ 
+ 	for_each_gt_on_tile(gt, tile, id)
+-- 
+2.43.0
+
