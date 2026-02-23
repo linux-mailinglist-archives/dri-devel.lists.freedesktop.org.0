@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILPZG1QbnGkZ/wMAu9opvQ
+	id EJDdNtMbnGlF/wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:18:12 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:20:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449B1173BBF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F49173C87
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 10:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6679E10E2AF;
-	Mon, 23 Feb 2026 09:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3310E2BB;
+	Mon, 23 Feb 2026 09:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wiz95h6s";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M813Eax0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2791410E2B3;
- Mon, 23 Feb 2026 09:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771838289; x=1803374289;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=ITHiJ8mV8MjBhrvl31MX8m6mVWmn+8bPpVNr5l5vxvo=;
- b=Wiz95h6sviC0anwthvzdO/xNYiEpj0Omvd8vmyLJIoNHiu+Y56YyhtUp
- aALN9WqnREkOUc8dgCiV0UGJd4ntHQXcy/ieYvH7W3W1TsEHqs+B6AMpg
- OM2OmJscNzBOTy/m0Hc5TLkgfAuN3xfgEB7RnkqkN2D6FXslgNWeXKClS
- YcuU5JzPSXur4hVHx7ysokka3jfFQGu4QARaYL/B/ts0Vhq4naqWM/P9g
- 4+WhLhqBYs+7A5pgR86829CCK1Mrq030blVrI/V1mzpRBJhG8DhFdmwDI
- c0GfN7qn26TvwboX81UJxX1glmw4DsKQA1X6nPKsxshbHn4U12Yn0ZhTZ Q==;
-X-CSE-ConnectionGUID: O9HATJyVQdODTFbRu8fTGQ==
-X-CSE-MsgGUID: T5h6cVeYT9SEPhjUVhdAuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="76690818"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="76690818"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 01:18:09 -0800
-X-CSE-ConnectionGUID: yaAgtltqQfKYGdTddwCgOg==
-X-CSE-MsgGUID: 8nVWkjxQSo6zBsw3S0oBSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; d="scan'208";a="220048855"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa005.fm.intel.com with ESMTP; 23 Feb 2026 01:18:03 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Mon, 23 Feb 2026 14:46:05 +0530
-Subject: [PATCH v10 7/7] drm: Introduce DRM_CAP_ATOMIC_ERROR_REPORTING
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E44E010E2B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:20:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2F6486011F;
+ Mon, 23 Feb 2026 09:20:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD00CC116C6;
+ Mon, 23 Feb 2026 09:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771838413;
+ bh=a8y9ien3dgTnIN1+y6wyUKNJA/hUgzMlmJd31F1z9wM=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=M813Eax046KfvZ3SZYHbdp3BAkbC2VJztwEMp1LA//8HgukqgashDevmHXvdJvciI
+ xailhyQasJBZOK/+SsMSrHuFqxjwPsXmFuRIDr/cJIwPIPT0yY1sg/FKYOumhx2KbM
+ qbSf9qxtzVMyJ37hhoIqhOcvGXljD3U6KCQDmI6KL2hpHaSHzWGtH22QV5wT/zj/v/
+ I8j3NIouHbrvcPnKWgjToGeHASjb7RkDrB+PpkTygt7oo6MdUjTX/2MV53IQWtyOND
+ sF42+ezzKw3PsH2bS9SPHgbvAl57GS7SAjUUbxv02En6mAyZYkBkbCJypidGMi9YY2
+ YP9iSKWFoBoFw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B8DDCE98DFF;
+ Mon, 23 Feb 2026 09:20:13 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Subject: [PATCH 0/3] Add ITE IT6162 MIPI DSI to HDMI bridge driver
+Date: Mon, 23 Feb 2026 17:20:44 +0800
+Message-Id: <20260223-upstream-6162-v1-0-ebcc66ccb1fe@ite.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-atomic-v10-7-f59c8def2e70@intel.com>
-References: <20260223-atomic-v10-0-f59c8def2e70@intel.com>
-In-Reply-To: <20260223-atomic-v10-0-f59c8def2e70@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+X-B4-Tracking: v=1; b=H4sIAOwbnGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDIyNj3dKC4pKi1MRcXTNDMyNdY3NTw1Rzi5S05MQUJaCegqLUtMwKsHn
+ RsbW1AECYdJhfAAAA
+X-Change-ID: 20260223-upstream-6162-3751e78dfcad
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org, 
- harry.wentland@amd.com, uma.shankar@intel.com, louis.chauvet@bootlin.com, 
- naveen1.kumar@intel.com, ramya.krishna.yella@intel.com
-Cc: "Imported from f20260210-atomic-v9-5-525c88fd2402"@intel.com, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>, 
- Suraj Kandpal <suraj.kandpal@intel.com>
-X-Mailer: b4 0.15-dev
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, 
+ Hermes Wu <Hermes.Wu@ite.com.tw>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771838463; l=1356;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=a8y9ien3dgTnIN1+y6wyUKNJA/hUgzMlmJd31F1z9wM=;
+ b=U2VuZKFI4x72JUvV8RdMVHxPXE4vHWpvZ53F3EdDBmVeKoBSHCx8jbAb5XOcfBcyLnY3XVKgR
+ /60M7RfPcsHA/cxEjvBct7l3E7YEoHqrt01mHuNvVM+vFTruz8bNOub
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,80 +86,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,kde.org,amd.com,bootlin.com];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Pet.Weng@ite.com.tw,m:Kenneth.Hung@ite.com.tw,m:Hermes.Wu@ite.com.tw,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:Hermes.wu@ite.com.tw,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[Hermes.wu.ite.com.tw];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	HAS_REPLYTO(0.00)[Hermes.wu@ite.com.tw];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[arun.r.murthy@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 449B1173BBF
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ite.com.tw:mid,ite.com.tw:email,ite.com.tw:replyto]
+X-Rspamd-Queue-Id: 91F49173C87
 X-Rspamd-Action: no action
 
-The new capability informs users that atomic_ioctl() supports
-failure reporting when an error occurs.
+This patch series adds support for the ITE IT6162 MIPI DSI to HDMI
+bridge chip. The IT6162 is an I2C-controlled bridge that receives MIPI
+DSI input and outputs HDMI signals.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+The device supports the following configurations:
+  - Single MIPI DSI input: up to 4K @ 30Hz
+  - Dual MIPI DSI input (combined): up to 4K @ 60Hz
+
+This series introduces:
+  - dt-bindings: Add YAML binding document for ITE IT6162
+  - drm/bridge: Add ITE IT6162 MIPI DSI to HDMI bridge driver
+  - MAINTAINERS: Add entry for ITE IT6162 bridge driver
+
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/drm_ioctl.c | 3 +++
- include/uapi/drm/drm.h      | 7 +++++++
- 2 files changed, 10 insertions(+)
+Hermes Wu (3):
+      drm/bridge: Add ITE IT6162 MIPI DSI to HDMI bridge driver
+      dt-bindings: display: bridge: Add ITE IT6162 MIPI DSI to HDMI bridge
+      MAINTAINERS: Add entry for ITE IT6162 MIPI DSI to HDMI bridge driver
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index ff193155129e7e863888d8958458978566b144f8..59f2b5b53830fd3aadc6e18cf49f0660a99e9c96 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -304,6 +304,9 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
- 		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) &&
- 			     dev->mode_config.async_page_flip;
- 		break;
-+	case DRM_CAP_ATOMIC_ERROR_REPORTING:
-+		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) && 1;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 27cc159c1d275c7a7fe057840ef792f30a582bb7..6082410bcabfb4aa37b85e5f03d3611e5aed4aa5 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -812,6 +812,13 @@ struct drm_gem_change_handle {
-  * commits.
-  */
- #define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP	0x15
-+/**
-+ * DRM_CAP_ATOMIC_ERROR_REPORTING
-+ *
-+ * If set to 1, the driver supports reporting of failure codes on error in
-+ * atomic ioctl().
-+ */
-+#define DRM_CAP_ATOMIC_ERROR_REPORTING	0x16
- 
- /* DRM_IOCTL_GET_CAP ioctl argument type */
- struct drm_get_cap {
+ .../bindings/display/bridge/ite,it6162.yaml        |  156 ++
+ MAINTAINERS                                        |    8 +
+ drivers/gpu/drm/bridge/Kconfig                     |   17 +
+ drivers/gpu/drm/bridge/Makefile                    |    1 +
+ drivers/gpu/drm/bridge/ite-it6162.c                | 1876 ++++++++++++++++++++
+ 5 files changed, 2058 insertions(+)
+---
+base-commit: 38feb171b3f92d77e8061fafb5ddfffc2c13b672
+change-id: 20260223-upstream-6162-3751e78dfcad
 
+Best regards,
 -- 
-2.25.1
+Hermes Wu <Hermes.wu@ite.com.tw>
+
 
