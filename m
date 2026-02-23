@@ -2,110 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SMF1De58nGm6IQQAu9opvQ
+	id UIO3BmBinWk8PQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:14:38 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB9417981E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BED183C4A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0568935C;
-	Mon, 23 Feb 2026 16:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A36310E4FB;
+	Tue, 24 Feb 2026 08:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CfrqWhtw";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="WPWbjnnj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 592AC8935C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1771863273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sRIkg/BYhLPQ8g8f8DScTuB2QESp5uVFZC6HG+ckSTg=;
- b=CfrqWhtwHwsqlGb9RMyc0jTFj7btcUkY9xetR/GkwXIjksa1bO+iqXWtG3c6nI0mY5P9WM
- RqOICxu5YxO/KcOcoj8E9GYP81tSwbFHhwatpp5idYZcbfxa5OhYTUWiD7XACeuax8UvMH
- HwlY8QQQMw7siRpebRbLesqVEM8NxX0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-444-RyUO7BKYMZiv-5p4SMkHTA-1; Mon, 23 Feb 2026 11:14:31 -0500
-X-MC-Unique: RyUO7BKYMZiv-5p4SMkHTA-1
-X-Mimecast-MFC-AGG-ID: RyUO7BKYMZiv-5p4SMkHTA_1771863271
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-50340e2b4dfso221474211cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:14:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771863271; x=1772468071;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sRIkg/BYhLPQ8g8f8DScTuB2QESp5uVFZC6HG+ckSTg=;
- b=uRfDSVEwdz53N0PP6N6Sqerot4NBZvRr9Z6PZTMO56qbM/EyFeJ0zJ1Ci4EWb/OCXf
- fKLEHjOwLH66226hCt3qpFksMIAW0yzyRmtxcb6UXMDMkOSbFxP/rFd/weD270NbsYM/
- z3nO5GfQVOcoBWHuH7txr4uJK+v98HpypcbVJPHcgUjl4P6YrtbfhqFuYT45IK2kULaa
- tsI5sX2gXPjLrQdLqo6PxSxFQ9IpfGsbNGwGl6leJpx5AR1vkuSm7iujEGlduVM5L4vc
- 14qs3qSBJn9K2yrHL5YEEpXHHnWUfxGbiGD0tYs3OyBNdVs3LRChJ/HyW9SjkMhTE5sf
- uDIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXok0vc2nT+rMPK/+WwH0fG2Ft7qwXx983P6GMvkWCFBpwUbiIK6JWhbR74EDLOc5mGjUwJn3Ok+Mc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYiqgalx3384k5m0uT83A1Mjx8Uunp2j0wUqlx0FIrk9g3UHf4
- +bP3kvc1l9vwRJYkzjZ98eYKChfNiZGchTL640A3P5SkS11LHqOxq0R1GaxlCh4TLHAkyB79FlS
- wb+BqNRYI/KgMWuS8cQwXtYu5+r8ytlqVRGsW/8QlDMkMKfd6XYMRBTMeM5VSwbjP+KjfXg==
-X-Gm-Gg: AZuq6aJnY7YusojZTuiAXaUtuCPx+VRWFsVVZ7YSCbAYHQIPsaepibo66VdX/D9elCD
- 5ohyadT7mPPPrrD5O0hVGUQyQmBEmqiPS3a7Q1vXb9/IU2XZxf88bWcxWfEWs84iuc6MJb9ghgH
- NVp27FkhzrmDihL6E26vk7ClIAJ9PcC6U7ztrafxQQHgLZdo8ichmKsvWijepR0CxJNYxfz3ekk
- pvlQrQQH0nmKCjM7zQu6fw5B9RMysmJIKFbtI8pj9niphV/H2BH9Bh7KKMJO60vfhJ6FsXCVN3t
- kGJeKaBzxCrD1JJo/rrUv6aYbCRQmncMHcS0RKBqn1p7fa05qFirwiX5L5URcAP6vBAw3IL1BTM
- A/1tNn9W9MCdZZcOSi3xlfHBafFpVgv6pAEihrU8Ahq3R/fZHg2bL0wuyhdpTI04=
-X-Received: by 2002:a05:622a:1b9e:b0:501:17a9:5ff5 with SMTP id
- d75a77b69052e-5070bbd86aemr127615011cf.21.1771863270861; 
- Mon, 23 Feb 2026 08:14:30 -0800 (PST)
-X-Received: by 2002:a05:622a:1b9e:b0:501:17a9:5ff5 with SMTP id
- d75a77b69052e-5070bbd86aemr127614251cf.21.1771863270296; 
- Mon, 23 Feb 2026 08:14:30 -0800 (PST)
-Received: from localhost (pool-100-17-19-56.bstnma.fios.verizon.net.
- [100.17.19.56]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-5070d6a1ddasm71793581cf.21.2026.02.23.08.14.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 08:14:29 -0800 (PST)
-Date: Mon, 23 Feb 2026 11:14:29 -0500
-From: Eric Chanudet <echanude@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- linux-mm@kvack.org
-Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
-Message-ID: <aZxxGNRHvURLXU3E@x1nano>
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
- <435330fd-ecdd-43c7-8527-f285c03c6421@amd.com>
- <aZdAOMBRdRw59fa0@fedora>
- <0ff02d77-13e8-4b2c-b714-38037595d535@amd.com>
+Received: from mail-m32116.qiye.163.com (mail-m32116.qiye.163.com
+ [220.197.32.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E6B410E167
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:21:03 +0000 (UTC)
+Received: from [172.16.12.14] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 34b44f50a;
+ Tue, 24 Feb 2026 00:15:57 +0800 (GMT+08:00)
+Cc: shawn.lin@rock-chips.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Philipp Stanner <phasta@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 25/37] accel/qaic: Replace pci_alloc_irq_vectors() with
+ pcim_alloc_irq_vectors()
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+ <1771862143-89507-1-git-send-email-shawn.lin@rock-chips.com>
+ <41d7d63f-bcda-4182-9340-54d480473586@oss.qualcomm.com>
+From: Shawn Lin <shawn.lin@rock-chips.com>
+Message-ID: <6f0932f0-1e08-62a8-eb92-2380bb9f6928@rock-chips.com>
+Date: Tue, 24 Feb 2026 00:15:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <0ff02d77-13e8-4b2c-b714-38037595d535@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 1fdxP3ccAwtQUpPAk8X6gHPItrFqe9_HBLnYQRCsGu0_1771863271
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <41d7d63f-bcda-4182-9340-54d480473586@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9c8b4937c409cckunm8f51f82c98962b
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlLGlZPQkJLT0tCGh5MTkhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=WPWbjnnjbzLg8XQAO7EVzoV3katKKHr6FzaB+u7EmNlbQTAWBq3qz9Ui8TQFJF2BRvSp0oOyu6Z+tx0Rol0o6YMXNIrZG3fDIPln8nNOGTVwulXzaejRTvZCqoJQPZksFTSFs1q6TDVWUjsYl1bQOauLxPjS4c/Z3y59FHvpvnw=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=6sDnERtWKN0yo+2JS4OKnCU7q/x1fS633xTB1pvqPtk=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,151 +69,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:shawn.lin@rock-chips.com,m:linux-arm-msm@vger.kernel.org,m:bhelgaas@google.com,m:phasta@kernel.org,m:linux-pci@vger.kernel.org,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:mripard@redhat.com,m:aesteve@redhat.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[rock-chips.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 8FB9417981E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:mid,rock-chips.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E2BED183C4A
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 09:16:15AM +0100, Christian K�nig wrote:
-> On 2/19/26 18:10, Eric Chanudet wrote:
-> > On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian K�nig wrote:
-> >>
-> >>
-> >> On 2/18/26 18:14, Eric Chanudet wrote:
-> >>> The cma dma-buf heaps let userspace allocate buffers in CMA regions
-> >>> without enforcing limits. Since each cma region registers in dmem,
-> >>> charge against it when allocating a buffer in a cma heap.
-> >>>
-> >>> Signed-off-by: Eric Chanudet <echanude@redhat.com>
-> >>> ---
-> >>>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
-> >>>  1 file changed, 14 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> >>> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..bbd4f9495808da19256d97bd6a4dca3e1b0a30a0 100644
-> >>> --- a/drivers/dma-buf/heaps/cma_heap.c
-> >>> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> >>> @@ -27,6 +27,7 @@
-> >>>  #include <linux/scatterlist.h>
-> >>>  #include <linux/slab.h>
-> >>>  #include <linux/vmalloc.h>
-> >>> +#include <linux/cgroup_dmem.h>
-> >>>  
-> >>>  #define DEFAULT_CMA_NAME "default_cma_region"
-> >>>  
-> >>> @@ -58,6 +59,7 @@ struct cma_heap_buffer {
-> >>>  	pgoff_t pagecount;
-> >>>  	int vmap_cnt;
-> >>>  	void *vaddr;
-> >>> +	struct dmem_cgroup_pool_state *pool;
-> >>>  };
-> >>>  
-> >>>  struct dma_heap_attachment {
-> >>> @@ -276,6 +278,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
-> >>>  	kfree(buffer->pages);
-> >>>  	/* release memory */
-> >>>  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
-> >>> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
-> >>>  	kfree(buffer);
-> >>>  }
-> >>>  
-> >>> @@ -319,9 +322,17 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-> >>>  	if (align > CONFIG_CMA_ALIGNMENT)
-> >>>  		align = CONFIG_CMA_ALIGNMENT;
-> >>>  
-> >>> +	if (mem_accounting) {
-> >>
-> >> Since mem_accounting is a module parameter it is possible to make it changeable during runtime.
-> >>
-> >> IIRC it currently is read only, but maybe add a one line comment that the cma heap now depends on that.
-> >>
-> > 
-> > Agreed, while read-only it is easily missed without at least a comment.
-> > Alternatively, should that value be captured in the init callback to
-> > guaranty it is set once and make this requirement clearer?
-> 
-> It probably makes more sense to make nails with heads and make it runtime configurable.
-> 
-> I'm not sure how exactly dmem_cgroup_try_charge()/dmem_cgroup_uncharge() works, could be that it works correctly out of the box and you just need to initialize buffer->pool to NULL when mem_accounting is not enabled.
-> 
+Hi Jeff
 
-dmem_cgroup_uncharge() is called unconditionally and checks for NULL
-while buffer is kzalloc(), so buffer->pool is NULL from
-cma_heap_allocate() if mem_accounting is not set.
-
-Some buffers will be accounted for and some won't depending on when it's
-toggled and when buffers are requested, which didn't seem to serve much
-use and is why it's set read-only.
-
-> Regards,
-> Christian.
+在 2026/02/24 星期二 0:01, Jeff Hugo 写道:
+> On 2/23/2026 8:55 AM, Shawn Lin wrote:
+>> pcim_enable_device() no longer automatically manages IRQ vectors via 
+>> devres.
+>> Drivers must now manually call pci_free_irq_vectors() for cleanup. 
+>> Alternatively,
+>> pcim_alloc_irq_vectors() should be used.
 > 
-> > 
-> > Thanks,
-> > 
-> >> Apart from that the series looks totally sane to me.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>> +		ret = dmem_cgroup_try_charge(
-> >>> +			cma_get_dmem_cgroup_region(cma_heap->cma), size,
-> >>> +			&buffer->pool, NULL);
-> >>> +		if (ret)
-> >>> +			goto free_buffer;
-> >>> +	}
-> >>> +
-> >>>  	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-> >>>  	if (!cma_pages)
-> >>> -		goto free_buffer;
-> >>> +		goto uncharge_cgroup;
-> >>>  
-> >>>  	/* Clear the cma pages */
-> >>>  	if (PageHighMem(cma_pages)) {
-> >>> @@ -376,6 +387,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-> >>>  	kfree(buffer->pages);
-> >>>  free_cma:
-> >>>  	cma_release(cma_heap->cma, cma_pages, pagecount);
-> >>> +uncharge_cgroup:
-> >>> +	dmem_cgroup_uncharge(buffer->pool, size);
-> >>>  free_buffer:
-> >>>  	kfree(buffer);
-> >>>  
-> >>>
-> >>
-> > 
+> This seems to break bisect.  Surely you should update drivers before you 
+> go changing behavior.
+
+Patch 1 introduces pcim_alloc_irq_vectors() and then convert all needed
+users to it. Then the final patch(37) remove the implict IRQ vector
+management in pci_alloc_irq_vectors(). So the individual patch for each
+driver should be safe IMO. And if these patches go via a single
+tree with acks, it seems unlikely to break bisect.
+
 > 
-
--- 
-Eric Chanudet
-
+> -Jeff
+> 
