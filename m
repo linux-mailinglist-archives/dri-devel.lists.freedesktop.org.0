@@ -2,73 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGAKLmwSnGkY/gMAu9opvQ
+	id YNn+JmQVnGkq/gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:40:12 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:52:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3107173283
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4150173505
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 09:52:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A3710E297;
-	Mon, 23 Feb 2026 08:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B8C10E299;
+	Mon, 23 Feb 2026 08:52:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="do1bepG6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02F6D10E297
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:40:08 +0000 (UTC)
-Received: by mail-oo1-f72.google.com with SMTP id
- 006d021491bc7-66b612efb4aso51781754eaf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 00:40:08 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779D610E29B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 08:52:47 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-59e62834439so4504844e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 00:52:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771836766; cv=none;
+ d=google.com; s=arc-20240605;
+ b=AwqVeKqT/t/rXScAzm0u+vcEqWSSVM/1UMgg1hPijFJ4wW9CTE+D6KxrzED7ZYtBqq
+ 0f6bLC1is+7FB/Riv69L6C/RCr+ATfmVG6jTMJaIXAQKeLF/7kpLqrIDLi/QLGizAdBj
+ cDT/Q+21FYZ5BJ2nNKAoeg3L4R6BLdyCXTwsrhZrqm8DC9ARHp5OdBqJTxRHZ640Bb6Q
+ 0hPvM606hBjFAIc5mgUqwQOFUgnnEXIHEji/ZJqRFpMcuGHtJRHovN3a/7HZA2HPskYO
+ JlZ+WVB/VYj2POAxRQOA4LXpNvthT8Yk70jgU3OYG/N7CAtNI15Kj8JYXTFPhuWtHR++
+ 4p4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=8pMfDy0/3VKLDSPvg/zhyqaAQb/EPG1TE7b+CoYlVks=;
+ fh=bfPlUUnzo+Lm0g2+XQNYGS6hMGM4uaICPrG063XFgIA=;
+ b=HWB6i+Oph87YGv3Yqo/Ys0TIEDn9Le9SMe6RWjO9qxRxzmcZeKP4fULkcFFW9XbgXQ
+ i3UsFHC4N4lx4oIx7ej9cNG0HL3AFFuadcZoafS4RlTpUPVLpAPNTgVU0+2ked/bB001
+ mnzwFpxRGc/oYQWeda/sC/iYiQE9Z6h1DOQBLwWeUOTYnFXE1H0rUbmQW+m+JYCZoU+W
+ sTw1XiUZpIXaMnxqHzvn56mx9vmV/osam9GYLbx2Chf+8LYB6yhr8SyyRsa8lW6zblaq
+ +qMzrXWI9I46MavwpZIvgI7L2JZX9BI7fi1CccuAp8GDnDcGjveYdmwGYRAs1NUHk7Pu
+ nCiQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1771836766; x=1772441566; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8pMfDy0/3VKLDSPvg/zhyqaAQb/EPG1TE7b+CoYlVks=;
+ b=do1bepG6l4934cYzPhXZ4yAF2xq4A+OIPzrUQ1nkcbKme6TcjJ9OuhfNxifOgxT7qP
+ +Ly4M4WTjWgMkIndSGJFiB06k49f6d0Dj9+J5PdudsuVooiq9UgqntOcz1Y/buqIiH+q
+ 1y/rjttFarMU2Wl3fwNB522qod/vfRAri0pyehyYMwrO48tS8Md73bpZ7UQ3Cvbxd7yv
+ +cDzqA5teoU1VYcC0Ah7eyIbts+syOBPg2emVMAVGz16Hn8+6+5uT2jW4Sl1PKVdog4G
+ rmn9/xMrfz5E07rVl+KpVCwexCYJFYXYCEJWCVzrWF0fw7isKz90DV3tGpLX04j1qqh6
+ RdrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771836008; x=1772440808;
- h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nUp2sLsTQG2be743RxBuEK2iTbA/TXBt6KIKc8LeryU=;
- b=tkrB2YCQOEW1myDWm/xOx1YzF5Eyy0e5WEArIaEDJm9CxwiOZp3DDR8aF0sD7HCED2
- NhwOywxDmmMDSxOiMiovKSZANwtWN/wQXzGXPyqLT0sgbY8DotVnJLlRy2Z/HOmoJAIn
- WeJRVfkc9rq8fJ0+tdOh7vn/wEKRul7nSPdViWlDJdz1NTDX+inmMxBLOj9xSXeiK9Pt
- 7SyYWeOhW5CM7D9MnCg1JifLxU5cKfSuH75/ONdLgwFx7K1fR5tKEPRQ41j7MqLf6bBc
- KgPuDzBVOzVhEIrxhsQJ4irhk5gZjulBDu5CNWRAE2w2MQFdE2TeJpkhhvBTNtFQtbJf
- ht5w==
+ d=1e100.net; s=20230601; t=1771836766; x=1772441566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=8pMfDy0/3VKLDSPvg/zhyqaAQb/EPG1TE7b+CoYlVks=;
+ b=XfZ5X5WBwlih+1xlZKwkFUbOwc+ZmuSCcvAgspKLTzSjiwfWhdbyG0WugVUoiE1Cik
+ EpRDeWzmHCX7nWs+z0QvMrUeBFcJfn3I27CpsZ+ukiCpIYzCEYkReSKTS4Az60y7v6/I
+ mrETnBm7KhvYQ7ZC3Ylr4DP7IIVEE7eJfzuK40h1WDRYKOKyF0PDS1tgAvjHDSBrMjpf
+ HFeam8Eznq+xXIfW3ClZBEHN4364z5d1Dv8N9YYvEpipQHpTAxkWohOYHyG4967mHrPV
+ EVQWs8ttHfeBikDEHBKDPpFVtJ4Y7O3FdtOu77RnNkEjbqjJpXl13J+WyQi7aEtzNMPs
+ Cc8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWr/QEz++N5Efd+rgkwwLQLBtICCWYvA3oUnF0g8DhcXPEnycnc5oeTM7JnujNNi9tAwNKLEQSYr5A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfcYTbc9uEiZlywJ6KbIkxx2WsSMrfAkz1qv/3El3sTcZ3Nr58
- NFR8Y0r5kic9GvR3BhJOSC0cXB1xyT9rMo8JBJpJxkoLlsa7rnymMK7Af1CGTgKb/cGLQIDRbMO
- IjupmxwZ6maQ2XsnEbJWt6D7hP+wRHAhfCyWeztDvsWGV8XSC4RohOuzv/7M=
+ AJvYcCVwUOP/wlAZMO1XYr33e6xSwfSZmlRvETa8Gm+wDGfsEvdPNX894IzoNjH3TjidxIsy4rzYizEmZPk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrZn5zjPxLUvYaSot/QBuYTQl+1bD/LSLsn+EO//fdq1YCEJuy
+ 14xVMHnScPsf2RznBcp3ip1iLcxqPpxAG+lh+Di6Gfc+5CpV2A48iQrlh1CGdeMAEMgxpnyKIlw
+ S+8is3eLm4qPyzP2+pGKLm+KeG5nvtoaTasHjqp489nSXiWTDF0ST
+X-Gm-Gg: AZuq6aLPE2DuuRgcjNEIuaTkRzMwhT4k6ym/AXbs5URsdsXvTGi+9R54V08vhDM9kDx
+ vk+9HJoLm1xSU52ERMX2ylB974zkCtphmhlFF3gVuGf0+Uk8YmDWKRIRwjk2O1FgJqbRHYh5QiX
+ /YlEtkgjedJMql7JYzpFOmFcTOwiX53VDgfX4x4V4vFAiJnOz3NJ1kdKwmy/n/r+N3FEuHjI6m2
+ sLm2LtPtGN1lpbF+XorkfzBj+6XoWPtMuFwRCZByDGN/OqNVIg/a819AbUqEZdo7XH2GycYigtH
+ PFbQhTTkpn/M0szk9pJJNU5Hve+9Y6OM+pqBiY1j
+X-Received: by 2002:a05:6512:aca:b0:59d:eab0:c836 with SMTP id
+ 2adb3069b0e04-5a0ed87759bmr2452544e87.6.1771836765637; Mon, 23 Feb 2026
+ 00:52:45 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:468c:b0:679:c41f:edf with SMTP id
- 006d021491bc7-679c41f0fcdmr3630394eaf.29.1771836008198; Mon, 23 Feb 2026
- 00:40:08 -0800 (PST)
-Date: Mon, 23 Feb 2026 00:40:08 -0800
-In-Reply-To: <20260223032641.1859381-1-ziy@nvidia.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <699c1268.050a0220.340abe.0d38.GAE@google.com>
-Subject: [syzbot ci] Re: Zero page->private when freeing pages
-From: syzbot ci <syzbot+cid1b0d4bbb448f87c@syzkaller.appspotmail.com>
-To: airlied@gmail.com, akpm@linux-foundation.org, aliceryhl@google.com, 
- arve@android.com, axboe@kernel.dk, baohua@kernel.org, 
- baolin.wang@linux.alibaba.com, brauner@kernel.org, christian.koenig@amd.com, 
- cl@gentwo.org, cmllamas@google.com, dave@stgolabs.net, david@kernel.org, 
- dennis@kernel.org, dev.jain@arm.com, dhavale@google.com, dlemoal@kernel.org, 
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org, 
- guochunhai@vivo.com, hannes@cmpxchg.org, harry.yoo@oracle.com, 
- jackmanb@google.com, jefflexu@linux.alibaba.com, johannes.thumshirn@wdc.com, 
- katrinzhou@tencent.com, kernelxing@tencent.com, kprateek.nayak@amd.com, 
- lance.yang@linux.dev, liam.howlett@oracle.com, lihongbo22@huawei.com, 
- linux-block@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
- maarten.lankhorst@linux.intel.com, matthew.auld@intel.com, 
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
- mripard@kernel.org, npache@redhat.com, ray.huang@amd.com, rientjes@google.com, 
- roman.gushchin@linux.dev, ryan.roberts@arm.com, sandeen@redhat.com, 
- simona@ffwll.ch, surenb@google.com, tj@kernel.org, tkjos@android.com, 
- tzimmermann@suse.de, vbabka@kernel.org, xiang@kernel.org, zbestahu@gmail.com, 
- ziy@nvidia.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <20251224144708.61167-1-marco.crivellari@suse.com>
+In-Reply-To: <20251224144708.61167-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Mon, 23 Feb 2026 09:52:33 +0100
+X-Gm-Features: AaiRm50yF5Rlw7ATpftOWtV82_eD6bFHXzpnPtJ1vlADkXKmkv3g_Y7y2xwA-KI
+Message-ID: <CAAofZF5XSUVn+XW75rC76-Amibc3rZnG3QQhWxPtk7K6YMQx4w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Replace old wq name and add WQ_PERCPU and
+ WQ_UNBOUND to alloc_workqueue users
+To: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Christian Konig <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Philip Yang <yangp@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,159 +116,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.51 / 15.00];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:akpm@linux-foundation.org,m:aliceryhl@google.com,m:arve@android.com,m:axboe@kernel.dk,m:baohua@kernel.org,m:baolin.wang@linux.alibaba.com,m:brauner@kernel.org,m:christian.koenig@amd.com,m:cl@gentwo.org,m:cmllamas@google.com,m:dave@stgolabs.net,m:david@kernel.org,m:dennis@kernel.org,m:dev.jain@arm.com,m:dhavale@google.com,m:dlemoal@kernel.org,m:gregkh@linuxfoundation.org,m:guochunhai@vivo.com,m:hannes@cmpxchg.org,m:harry.yoo@oracle.com,m:jackmanb@google.com,m:jefflexu@linux.alibaba.com,m:johannes.thumshirn@wdc.com,m:katrinzhou@tencent.com,m:kernelxing@tencent.com,m:kprateek.nayak@amd.com,m:lance.yang@linux.dev,m:liam.howlett@oracle.com,m:lihongbo22@huawei.com,m:linux-block@vger.kernel.org,m:linux-erofs@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:lorenzo.stoakes@oracle.com,m:maarten.lankhorst@linux.intel.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:mhiramat@kernel.org,m:mhocko@suse.com,m:mripard@kerne
- l.org,m:npache@redhat.com,m:ray.huang@amd.com,m:rientjes@google.com,m:roman.gushchin@linux.dev,m:ryan.roberts@arm.com,m:sandeen@redhat.com,m:simona@ffwll.ch,m:surenb@google.com,m:tj@kernel.org,m:tkjos@android.com,m:tzimmermann@suse.de,m:vbabka@kernel.org,m:xiang@kernel.org,m:zbestahu@gmail.com,m:ziy@nvidia.com,m:syzbot@lists.linux.dev,m:syzkaller-bugs@googlegroups.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:frederic@kernel.org,m:bigeasy@linutronix.de,m:mhocko@suse.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:yangp@amd.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,google.com,android.com,kernel.dk,kernel.org,linux.alibaba.com,amd.com,gentwo.org,stgolabs.net,arm.com,lists.freedesktop.org,linuxfoundation.org,vivo.com,cmpxchg.org,oracle.com,wdc.com,tencent.com,linux.dev,huawei.com,vger.kernel.org,lists.ozlabs.org,kvack.org,linux.intel.com,intel.com,suse.com,redhat.com,ffwll.ch,suse.de,nvidia.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[cid1b0d4bbb448f87c];
+	FORGED_SENDER(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,amd.com,ffwll.ch];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.910];
+	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,googlesource.com:url]
-X-Rspamd-Queue-Id: E3107173283
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,suse.com:email,suse.com:dkim]
+X-Rspamd-Queue-Id: E4150173505
 X-Rspamd-Action: no action
 
-syzbot ci has tested the following series
+On Wed, Dec 24, 2025 at 3:47=E2=80=AFPM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> [...]
+> Marco Crivellari (4):
+>   drm/amdgpu: replace use of system_unbound_wq with system_dfl_wq
+>   drm/amdgpu: replace use of system_wq with system_dfl_wq
+>   amd/amdkfd: add WQ_UNBOUND to alloc_workqueue users
+>   drm/radeon: add WQ_PERCPU to alloc_workqueue users
+>
+>  drivers/gpu/drm/amd/amdgpu/aldebaran.c     | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 6 +++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 2 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_process.c   | 3 ++-
+>  drivers/gpu/drm/radeon/radeon_display.c    | 3 ++-
+>  5 files changed, 9 insertions(+), 7 deletions(-)
 
-[v1] Zero page->private when freeing pages
-https://lore.kernel.org/all/20260223032641.1859381-1-ziy@nvidia.com
-* [PATCH v1 01/11] relay: zero page->private when freeing pages
-* [PATCH v1 02/11] mm/slub: zero page->private when freeing pages
-* [PATCH v1 03/11] drm/ttm: zero page->private when freeing pages
-* [PATCH v1 04/11] blk-mq: zero page->private when freeing pages
-* [PATCH v1 05/11] watch_queue: zero page->private when freeing pages
-* [PATCH v1 06/11] binder: zero page->private when freeing pages
-* [PATCH v1 07/11] null_blk: zero page->private when freeing pages
-* [PATCH v1 08/11] percpu: zero page->private when freeing pages
-* [PATCH v1 09/11] erofs: zero page->private when freeing pages
-* [PATCH v1 10/11] mm/huge_memory: add page->private check back in __split_folio_to_order()
-* [PATCH v1 11/11] mm/page_alloc: check page->private upon page free
+Gentle ping.
 
-and found the following issue:
-WARNING in __free_frozen_pages
+Thanks.
 
-Full report is available here:
-https://ci.syzbot.org/series/10f470ac-46ac-4e38-902d-dc86ae743494
+--=20
 
-***
+Marco Crivellari
 
-WARNING in __free_frozen_pages
-
-tree:      mm-new
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
-base:      a6fdc327de4678e54b5122441c970371014117b0
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/0586347c-8ef1-427f-8a9c-7f6c08b616a9/config
-
-Bluetooth: RFCOMM ver 1.11
-Bluetooth: BNEP (Ethernet Emulation) ver 1.3
-Bluetooth: BNEP filters: protocol multicast
-Bluetooth: BNEP socket layer initialized
-Bluetooth: HIDP (Human Interface Emulation) ver 1.2
-Bluetooth: HIDP socket layer initialized
-NET: Registered PF_RXRPC protocol family
-Key type rxrpc registered
-Key type rxrpc_s registered
-NET: Registered PF_KCM protocol family
-lec:lane_module_init: lec.c: initialized
-mpoa:atm_mpoa_init: mpc.c: initialized
-l2tp_core: L2TP core driver, V2.0
-l2tp_ppp: PPPoL2TP kernel driver, V2.0
-l2tp_ip: L2TP IP encapsulation support (L2TPv3)
-l2tp_netlink: L2TP netlink interface
-l2tp_eth: L2TP ethernet pseudowire support (L2TPv3)
-l2tp_ip6: L2TP IP encapsulation support for IPv6 (L2TPv3)
-NET: Registered PF_PHONET protocol family
-8021q: 802.1Q VLAN Support v1.8
-sctp: Hash tables configured (bind 32/56)
-NET: Registered PF_RDS protocol family
-Registered RDS/infiniband transport
-Registered RDS/tcp transport
-tipc: Activated (version 2.0.0)
-NET: Registered PF_TIPC protocol family
-tipc: Started in single node mode
-smc: adding smcd device lo without pnetid
-NET: Registered PF_SMC protocol family
-9pnet: Installing 9P2000 support
-NET: Registered PF_CAIF protocol family
-NET: Registered PF_IEEE802154 protocol family
-Key type dns_resolver registered
-Key type ceph registered
-libceph: loaded (mon/osd proto 15/24)
-batman_adv: B.A.T.M.A.N. advanced 2025.5 (compatibility version 15) loaded
-openvswitch: Open vSwitch switching datapath
-NET: Registered PF_VSOCK protocol family
-mpls_gso: MPLS GSO support
-IPI shorthand broadcast: enabled
-sched_clock: Marking stable (19970046340, 93374727)->(20073238384, -9817317)
-registered taskstats version 1
-Loading compiled-in X.509 certificates
-Loaded X.509 cert 'Build time autogenerated kernel key: 98092a222e11368da223b039d625e21c3e2e069c'
-zswap: loaded using pool 842
-Demotion targets for Node 0: null
-Demotion targets for Node 1: null
-debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
-------------[ cut here ]------------
-page->private
-WARNING: mm/page_alloc.c:1433 at __free_frozen_pages+0x78e/0xe10, CPU#0: swapper/0/1
-Modules linked in:
-CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__free_frozen_pages+0x78e/0xe10
-Code: 5f 5d e9 05 1e 00 00 48 b8 00 00 00 00 00 fc ff df 0f b6 44 05 00 84 c0 0f 85 d7 02 00 00 c7 03 ff ff ff ff e9 22 fc ff ff 90 <0f> 0b 90 e9 8d fc ff ff bd 01 00 00 00 83 f8 05 0f 85 bb fe ff ff
-RSP: 0000:ffffc900000676e0 EFLAGS: 00010282
-RAX: 1ffffd4000bad935 RBX: ffffea0005d6c9a8 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffea0005d6c9b4
-RBP: ffffea0005d6c9b8 R08: ffffea0005d6c9b7 R09: 1ffffd4000bad936
-R10: dffffc0000000000 R11: fffff94000bad937 R12: ffffea0005d6c980
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff88818de64000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000e54c000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- destroy_args+0x15d/0x570
- debug_vm_pgtable+0x3f8/0x410
- do_one_initcall+0x250/0x8d0
- do_initcall_level+0x104/0x190
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x2a6/0x3e0
- kernel_init+0x1d/0x1d0
- ret_from_fork+0x51e/0xb90
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+L3 Support Engineer
