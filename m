@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJ5YDx14nGlfIAQAu9opvQ
+	id SO5RMVJinWksPQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:54:05 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B844179231
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 16:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F581183BB2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1FF010E2F7;
-	Mon, 23 Feb 2026 15:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74D3410E4E7;
+	Tue, 24 Feb 2026 08:33:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kwIx1Izv";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Fll11VsC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDBD10E2F4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 15:53:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2B8454405E;
- Mon, 23 Feb 2026 15:53:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E07C116D0;
- Mon, 23 Feb 2026 15:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1771862038;
- bh=qkjqYkFTFuAj/C4t0awBSfitUcWKs4RhCgxg9Y4+yLE=;
- h=From:To:Cc:Subject:Date:From;
- b=kwIx1IzvWyg55u6HMnx/1N6fq+HqIBwYoFd5rvxnIuUOoXIXbQVuvLGn9SoimVeiY
- ffVQPd15IX1lL5dMt1cv1Gv6oKSrADkzKFX16aRUvLpdC+Rf7J3vcbgncZ94sQQ/hM
- 90e7snTy2p8hTfR0hJXHz91Iskb0ik+RUXicW+oQ=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, stable <stable@kernel.org>
-Subject: [PATCH] drm/vc4: platform_get_irq_byname() returns an int
-Date: Mon, 23 Feb 2026 16:53:39 +0100
-Message-ID: <2026022339-cornflake-t-shirt-2471@gregkh>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Lines: 52
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1972;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=qkjqYkFTFuAj/C4t0awBSfitUcWKs4RhCgxg9Y4+yLE=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDJlzKph5cubsuMIlXxmWUryu6vfZt5/OWU1aklNUpBZ2b
- v4Gjr3HO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiD1wYFrSeMMldvtyPQbgy
- c0500bn7N9OzYhjmJ83k8+xYvVFzRrn7qqQbZzh4D/J1AgA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Received: from mail-m1973188.qiye.163.com (mail-m1973188.qiye.163.com
+ [220.197.31.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9810210E3D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 15:55:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 34b4045cd;
+ Mon, 23 Feb 2026 23:55:13 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Min Ma <mamin506@gmail.com>,
+	Lizhi Hou <lizhi.hou@amd.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Philipp Stanner <phasta@kernel.org>,
+ linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH 23/37] accel/amdxdna: Replace pci_alloc_irq_vectors() with
+ pcim_alloc_irq_vectors()
+Date: Mon, 23 Feb 2026 23:55:07 +0800
+Message-Id: <1771862107-89399-1-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+X-HM-Tid: 0a9c8b363aad09cckunm247f0236987db3
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0MeTVZMGUpITRlNH01MT0hWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=Fll11VsCeZzILEQYhdI840GLOF0L/LRQuzUY9TVT5omlusLuCObUcukaA/c2mhJNV7KpXt9WQV4UqYBhjWZsAeCBSJUZ2xUopC0/gQTovY2SS4VuqDdnIfW5zzyN0O1q3BJsLe442mUTN08NImgdHvPtJowO2esihaM7XpGXGOo=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=b1rS0Nsq28tkkImVqxJcjmEgZF3Hb2IkNJOiSkJHPQk=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,86 +64,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.19 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:ogabbay@kernel.org,m:bhelgaas@google.com,m:phasta@kernel.org,m:linux-pci@vger.kernel.org,m:shawn.lin@rock-chips.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com,amd.com];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linuxfoundation.org,kernel.org,raspberrypi.com,igalia.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[rock-chips.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 8B844179231
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,rock-chips.com:mid,rock-chips.com:dkim,rock-chips.com:email,amd.com:email]
+X-Rspamd-Queue-Id: 7F581183BB2
 X-Rspamd-Action: no action
 
-platform_get_irq_byname() will return a negative value if an error
-happens, so it should be checked and not just passed directly into
-devm_request_threaded_irq() hoping all will be ok.
+pcim_enable_device() no longer automatically manages IRQ vectors via devres.
+Drivers must now manually call pci_free_irq_vectors() for cleanup. Alternatively,
+pcim_alloc_irq_vectors() should be used.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: "Maíra Canal" <mcanal@igalia.com>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: stable <stable@kernel.org>
-Assisted-by: gkh_clanker_2000
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Min Ma <mamin506@gmail.com>
+To: Lizhi Hou <lizhi.hou@amd.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: linux-pci@vger.kernel.org
+Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index fda214b5a466..ac1c484c8a89 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2449,17 +2449,22 @@ static int vc4_hdmi_hotplug_init(struct vc4_hdmi *vc4_hdmi)
- 	int ret;
+ drivers/accel/amdxdna/aie2_pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index f70ccf0..3935a22 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -551,7 +551,7 @@ static int aie2_init(struct amdxdna_dev *xdna)
+ 		goto release_fw;
+ 	}
  
- 	if (vc4_hdmi->variant->external_irq_controller) {
--		unsigned int hpd_con = platform_get_irq_byname(pdev, "hpd-connected");
--		unsigned int hpd_rm = platform_get_irq_byname(pdev, "hpd-removed");
-+		int hpd = platform_get_irq_byname(pdev, "hpd-connected");
-+		if (hpd < 0)
-+			return hpd;
- 
--		ret = devm_request_threaded_irq(&pdev->dev, hpd_con,
-+		ret = devm_request_threaded_irq(&pdev->dev, hpd,
- 						NULL,
- 						vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
- 						"vc4 hdmi hpd connected", vc4_hdmi);
- 		if (ret)
- 			return ret;
- 
--		ret = devm_request_threaded_irq(&pdev->dev, hpd_rm,
-+		hpd = platform_get_irq_byname(pdev, "hpd-removed");
-+		if (hpd < 0)
-+			return hpd;
-+
-+		ret = devm_request_threaded_irq(&pdev->dev, hpd,
- 						NULL,
- 						vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
- 						"vc4 hdmi hpd disconnected", vc4_hdmi);
+-	ret = pci_alloc_irq_vectors(pdev, nvec, nvec, PCI_IRQ_MSIX);
++	ret = pcim_alloc_irq_vectors(pdev, nvec, nvec, PCI_IRQ_MSIX);
+ 	if (ret < 0) {
+ 		XDNA_ERR(xdna, "failed to alloc irq vectors, ret %d", ret);
+ 		goto release_fw;
 -- 
-2.53.0
+2.7.4
 
