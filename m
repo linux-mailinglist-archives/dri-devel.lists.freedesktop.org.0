@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GB+iJnA4nGlCBgQAu9opvQ
+	id 0G4hCYo4nGlCBgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 12:22:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 12:22:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F26F1756AD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 12:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71E71756B6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 12:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6EE10E36F;
-	Mon, 23 Feb 2026 11:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF75410E15F;
+	Mon, 23 Feb 2026 11:22:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ey8Oc4N/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SSTyAR/h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B588510E36A;
- Mon, 23 Feb 2026 11:22:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771845726; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=S2IB7ZD6DSdp0K9Cc0NBmF40o2LhuWVfCMBxDrxcFijbXLcaH0Lyf5O+2kZkLiznNdkANWcE+BWKHonsRq9KrsrbjcrODuvcKSNxIqKHvtuAbvhQuY8SR2HXpfIgKNQxPAR0kwT3+1adyLsr7+PsZ0/XmR6FDUPRTzuOt2Q3rRg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771845726;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=zE1zLu6pL3uqgPGPzZfTY/83E+cY4Cd10iRFX9/SaOs=; 
- b=Po53vDPX65HL6NClbbr3hhqP5yF7v8feEJRZ4aacu/eltttbeEFv2plJ6LJDIZFQ3ye/Yf/DnnD0kAORtkCD42bluLAxEQFl4MrlEVKBONaQE3/CtleL1546UG23I8FrPP7I7OKil6TwHw40C4Q84Y58qH6kwlEbMoRxjwnYajw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771845726; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=zE1zLu6pL3uqgPGPzZfTY/83E+cY4Cd10iRFX9/SaOs=;
- b=ey8Oc4N/ijwyIwISAsnqyuzxwVpaDXPyWdOQrkVUmuNLUqcBICMAqwTs8Zyvf7Uk
- V3SFa2egcB4yao+jcsR4TTgjiNmrdjggG0klVO2zrceXcT92E/POQQ6LygQdb1+w9tA
- wV1bodCAlzCCpYR9uF+d/exsYpJDZf2sbF9djF+0=
-Received: by mx.zohomail.com with SMTPS id 1771845725129427.58768335061166;
- Mon, 23 Feb 2026 03:22:05 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 13/20] drm/bridge: dw-hdmi-qp: Implement
- atomic_get_output_bus_fmts
-Date: Mon, 23 Feb 2026 12:21:56 +0100
-Message-ID: <5968719.DvuYhMxLoT@workhorse>
-In-Reply-To: <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
- <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FA510E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 11:22:46 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-48372facfedso44758075e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 03:22:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1771845765; x=1772450565;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ezzn5ZoGBmTqaL/WoWOOmJY3hi0ECWwZN/jUNRe/4RY=;
+ b=SSTyAR/hQUCDNtOjuqH643u6K12cS4BqEgli6HBtsS39ScVMTK5eVgAZDMO1LwqReA
+ kPlpNOgVqeXHVdGyczQFZ55Ev8svn5m50zBPh5Me5g4cXhK4aS9JcdMgknn0zv8wTLFB
+ 1kuPD2EftxxmKMyLTEVRQ0B1MCbl5U3i46na0LjUkHOQxLXZml9sGfxVlB0lEVdV6Dkv
+ noAqdyoV2zAH81uGz3YyHBmh2HcFNfTAH0hw/ZEiqVIGS0OQdXL034ipCXa6o8pcbc53
+ otVCdmBJZolxMmmr+UlSeNBI2OQRTJtDSBTxLjDllOsoQmkV5in9PAtJ87bBGf0+x44y
+ Pw8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771845765; x=1772450565;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ezzn5ZoGBmTqaL/WoWOOmJY3hi0ECWwZN/jUNRe/4RY=;
+ b=PYWoHtPyC5211ulKpny54YcBhShblg7MXVW6CC3bXodiZ89ACOHXlb3+/p5Lo+JBqu
+ V5rAqL1C5UfjsRSeb55k79MBwDCZRn4jpbbKUmuIL9MuRjhavbLLXG4dM+xpNSuvVMmY
+ xbt3CCTx9OQluJtUZDoT04m8uG1St7Jc63aS4XZ0245rEJJzCcV9uAo1TfeM7VbaNwsY
+ e9LE1+zgKOBY5WDK7nbJe0eIoSj9UC5RHRnM6ou8MRcNuhVtxilFNXgkXIVxzwRql3Kh
+ Z3I1agC//2xxoEFmmBfxuCe/G1RMAeJHQSv4AJyGGNNbpsuRJcN0SOEBUMj5O2GsgwvL
+ 7tYw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWvih86OvtFOF+Ie1NC52/s7XhBcjpuddF18TS5WygLAWRFQGlEme7qFUS+dVTjXz2YE9plpEaZFUc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxrxJXpR6IqqtJfQtamQG8DMtnOClJD/QSurcbVXbw+x9DJzIyC
+ l83TflTvVHRL9EVggrFJlIQ7J2loNalqP1DXL68dH1I1OiyK94QMSYM46SrA5M3bDURhATgB11T
+ s3oZq5n2jsKYgzORPEg==
+X-Received: from wmqc1.prod.google.com ([2002:a05:600c:a41:b0:483:702a:341c])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1f08:b0:46e:59bd:f7e2 with SMTP id
+ 5b1f17b1804b1-483a94c996fmr127902415e9.11.1771845765025; 
+ Mon, 23 Feb 2026 03:22:45 -0800 (PST)
+Date: Mon, 23 Feb 2026 11:22:44 +0000
+In-Reply-To: <DGMA3158PGED.1BQ63TEC2FC60@kernel.org>
+Mime-Version: 1.0
+References: <20260130-gpuvm-rust-v4-0-8364d104ff40@google.com>
+ <20260130-gpuvm-rust-v4-3-8364d104ff40@google.com>
+ <DGJ6LHIVMV03.MM7RWYBJHBIQ@kernel.org>
+ <aZgYY_fetgz_GDR8@google.com> <DGJX3FI97W1G.371MAMC60FX24@kernel.org>
+ <aZlw3SGmLetHwaTM@google.com> <DGKQH7Q9QONY.4GLSDMQ8DOY1@kernel.org>
+ <aZwalt_6KlOIDzkN@google.com> <DGMA3158PGED.1BQ63TEC2FC60@kernel.org>
+Message-ID: <aZw4hCxvx_2oFIha@google.com>
+Subject: Re: [PATCH v4 3/6] rust: gpuvm: add GpuVm::obtain()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, Janne Grunau <j@jannau.net>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Asahi Lina <lina+kernel@asahilina.net>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,198 +93,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	CTE_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim]
-X-Rspamd-Queue-Id: 3F26F1756AD
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A71E71756B6
 X-Rspamd-Action: no action
 
-On Sunday, 22 February 2026 11:42:39 Central European Standard Time Cristian Ciocaltea wrote:
-> Hi Nicolas,
+On Mon, Feb 23, 2026 at 11:44:12AM +0100, Danilo Krummrich wrote:
+> On Mon Feb 23, 2026 at 10:15 AM CET, Alice Ryhl wrote:
+> > On Sat, Feb 21, 2026 at 04:09:41PM +0100, Danilo Krummrich wrote:
+> >> On Sat Feb 21, 2026 at 9:46 AM CET, Alice Ryhl wrote:
+> >> > So, should we get rid of GpuVmBoRegistered in favor of ARef<GpuVm<T>>?
+> >> 
+> >> I wanted to avoid exposing the reference count, as I suspect drivers might not
+> >> need it in Rust, but I don't know for sure.
+> >> 
+> >> We could also define it as GpuVmBo<T>(ARef<GpuVmBoInner<T>>), where
+> >> GpuVmBoInner<T> is private, but I also don't want you to go back and forth with
+> >> this in case it turns out we do need drivers to be able to take a reference
+> >> count and I also don't think it hurts too much exposing the reference count,
+> >> even if not needed.
+> >> 
+> >> So, either is fine with me, ARef<GpuVmBo<T>> or
+> >> GpuVmBo<T>(ARef<GpuVmBoInner<T>>).
+> >
+> > I don't think GpuVmBo<T>(ARef<GpuVmBoInner<T>>) works because we need to
+> > be able to talk about both ARef<GpuVmBoInner<T>> and &GpuVmBoInner<T>.
+> > The reference type is returned by several different APIs, so the Inner
+> > type can't be private.
 > 
-> On 2/16/26 3:01 PM, Nicolas Frattaroli wrote:
-> > The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
-> > to recursively select a suitable output format in a bridge chain.
-> > 
-> > As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
-> > formats determined by which formats the platform-specific integration of
-> > the hardware supports, and the chosen HDMI output bit depth.
-> > 
-> > Implement this callback. The returned u32* buffer is supposed to be
-> > freed by the caller of this callback, as specified by the callback's
-> > documentation.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 178 +++++++++++++++++++++++++++
-> >  1 file changed, 178 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > index d649a1cf07f5..4c00218e5fd7 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/export.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/irq.h>
-> > +#include <linux/media-bus-format.h>
-> >  #include <linux/minmax.h>
-> >  #include <linux/module.h>
-> >  #include <linux/mutex.h>
-> > @@ -749,6 +750,182 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
-> >  	return adap;
-> >  }
-> >  
-> > +static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					   const u8 *buffer, size_t len)
-> > +{
-> > +	u32 val, i, j;
-> > +
-> > +	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
-> > +		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * DW HDMI QP IP uses a different byte format from standard AVI info
-> > +	 * frames, though generally the bits are in the correct bytes.
-> > +	 */
-> > +	val = buffer[1] << 8 | buffer[2] << 16;
-> > +	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
-> > +
-> > +	for (i = 0; i < 4; i++) {
-> > +		for (j = 0; j < 4; j++) {
-> > +			if (i * 4 + j >= 14)
-> > +				break;
-> > +			if (!j)
-> > +				val = buffer[i * 4 + j + 3];
-> > +			val |= buffer[i * 4 + j + 3] << (8 * j);
-> > +		}
-> > +
-> > +		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
-> > +		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					   const u8 *buffer, size_t len)
-> > +{
-> > +	u32 val, i;
-> > +
-> > +	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
-> > +		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	val = buffer[1] << 8 | buffer[2] << 16;
-> > +	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
-> > +
-> > +	for (i = 0; i <= buffer[2]; i++) {
-> > +		if (i % 4 == 0)
-> > +			val = buffer[3 + i];
-> > +		val |= buffer[3 + i] << ((i % 4) * 8);
-> > +
-> > +		if ((i % 4 == 3) || i == buffer[2])
-> > +			dw_hdmi_qp_write(hdmi, val,
-> > +					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
-> > +		       PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * Static values documented in the TRM
-> > + * Different values are only used for debug purposes
-> > + */
-> > +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
-> > +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
-> > +
-> > +static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					     const u8 *buffer, size_t len)
-> > +{
-> > +	/*
-> > +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
-> > +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
-> > +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
-> > +	 *
-> > +	 * PB0: CheckSum
-> > +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
-> > +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
-> > +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
-> > +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
-> > +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
-> > +	 * PB6~PB10: Reserved
-> > +	 *
-> > +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
-> > +	 * and shall only be changed for debug purposes.
-> > +	 */
-> > +	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
-> > +			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
-> > +
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
-> > +
-> > +	/* Enable ACR, AUDI, AMD */
-> > +	dw_hdmi_qp_mod(hdmi,
-> > +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> > +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> > +		       PKTSCHED_PKT_EN);
-> > +
-> > +	/* Enable AUDS */
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
-> 
-> Something's wrong with this patch as all the functions above have been dropped
-> since the HDMI VSI & SPD InfoFrames series [1] got merged.  The previous
-> revision was fine though, hence that's likely an unexpected artifact of the
-> latest rebase.
+> I meant NonNull<GpuVmBoInner<T>>, analogous to the current GpuVmBoRegistered.
 
-Oops, yeah, I think I messed this up during rebase. Thanks for letting me know!
+Not sure what you mean.
 
-> 
-> [1] https://lore.kernel.org/all/20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com/
-> 
+Ultimately there is GpuVmBo<T> which is just an Opaque wrapper. Around
+that, we need two pointer types: &_ and owned. The owned one can be
+ARef<_>, or it can be a custom pointer type like the patch has right
+now. Or maybe it could be Owned<_>, but it's honestly not a great match
+as it's not really unique.
 
-
-
-
+Alice
