@@ -2,125 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDKXL7OQnGnRJQQAu9opvQ
+	id WOeuB6aSnGnRJQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:38:59 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:47:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3D317AEDA
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C9517B072
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:47:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02EF410E2FA;
-	Mon, 23 Feb 2026 17:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0567310E203;
+	Mon, 23 Feb 2026 17:47:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NvMPcrsr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UfjzRdcq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47A5610E409
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 17:38:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771868335; x=1803404335;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=OFs+F2i4fpeRmsTH7tUJ5hO0npgCDxBo25FPhTX/hFs=;
- b=NvMPcrsrscxq4yCJYNHBwma5dXpYiaLlpl5YaiHU4AbKmW1dss4zVpgH
- eKc6wHV4HSpKqyOZ8UlLVlghXkur2gCHm4j/0tVPiKMiMs8WIyTYBU/2a
- 6yowW4cOU55qzj4P1UFjG06x85lKFyOgcBuajicG0+hQ7xUZWW5IVie0T
- CzejcQppfEPzmSpHn0vPl0BWBUbMvv0s0ke5e+Qjssqu807Hmk7eyaE7j
- rAcT4p6XKH7FNn0xujYAvGZ00DAcOtrZCn+DLE46UjHdqz7MQNGpBv4ef
- eZ4zNkJ8cO1QoE+PCo+ORxkR4NcdogZJ2/EBVMiLNS/FtyyTrgvpBtjZv g==;
-X-CSE-ConnectionGUID: CK6VAGolSKeSOe9bcOXKgA==
-X-CSE-MsgGUID: HLfhp5JOQQqp9Ey7T8BRNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="73050401"
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="73050401"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 09:38:54 -0800
-X-CSE-ConnectionGUID: i7eZdD4uRr+gNr/ct2htpA==
-X-CSE-MsgGUID: B0cv0ytAS2ClRPRHaDlf4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="214708424"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.245.222])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2026 09:38:36 -0800
-Date: Mon, 23 Feb 2026 19:38:33 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
- Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
- Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiri Kosina <jikos@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>,
- Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
- Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
- Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- "David S . Miller" <davem@davemloft.net>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Will Deacon <will@kernel.org>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Srujana Challa <schalla@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>,
- Antoine Tenart <atenart@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Raag Jadav <raag.jadav@intel.com>, Hans de Goede <hansg@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Robert Richter <rric@kernel.org>, Mark Brown <broonie@kernel.org>,
- Nirmal Patel <nirmal.patel@linux.intel.com>,
- Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
- Logan Gunthorpe <logang@deltatee.com>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
- dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
- netdev@vger.kernel.org, nic_swsd@realtek.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-usb@vger.kernel.org, iommu@lists.linux.dev,
- linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org,
- linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-serial@vger.kernel.org, mhi@lists.linux.dev,
- Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- linux-spi@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>,
- linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector management by
- removing devres auto-free
-Message-ID: <aZyQmc7nOt87jitX@smile.fi.intel.com>
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <CAHp75VeWD5A0r7-Uayyte1ZXXxdhLixd+z_y0xNeki0N+Ro=jQ@mail.gmail.com>
- <cb878741-7b61-b72c-5a72-6ed6d5091b1f@rock-chips.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6716210E203
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 17:47:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 868FF60141;
+ Mon, 23 Feb 2026 17:47:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A10C116C6;
+ Mon, 23 Feb 2026 17:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771868832;
+ bh=+Aw2Xh+r8FCGTL8bgRXwkwp9379G+pxf9QvZvi4Ov9E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UfjzRdcqugVEwJySaQoF8Tg2JbVpRGQjoltXaAY6vOcR0/CKJVAA0U8AVGGHmr7Df
+ 3TO1QDS/Ubrep1HG+Tyghh8ct97AEcM/JDi0IPu+Du5TGrBKQVwC5pCie7ggRQfl2V
+ 01jvn6qgzoqVgFTWqzKQ+v386ZKAS+3/EI8jFqzUJMIoL9bNiaBx9LYAC72GRDDzDk
+ bBgsjKEIrvcng4kzxxti+FOo2mGfS0nZDs4nONvgkjIKd6v9TWksdkzIsISOzCp3oN
+ C64jsq6YJXtIiKGGKO+8S/H0sLUzQZXjDqoInubpeDtWPVhgrYYhXs9HUj158z27zj
+ 2E0walVpXVuLQ==
+Date: Mon, 23 Feb 2026 11:47:11 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Conor Dooley <conor+dt@kernel.org>, geert@linux-m68k.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, tomm.merciai@gmail.com,
+ linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com,
+ Maxime Ripard <mripard@kernel.org>,
+ laurent.pinchart@ideasonboard.com, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 09/20] dt-bindings: display: renesas,rzg2l-du: Add
+ support for RZ/G3E SoC
+Message-ID: <177186883089.4167672.1887646442668136506.robh@kernel.org>
+References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <ca022fdbba5236c36e0cb3095db4c31e8e0cb1b8.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb878741-7b61-b72c-5a72-6ed6d5091b1f@rock-chips.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <ca022fdbba5236c36e0cb3095db4c31e8e0cb1b8.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,121 +76,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[gmail.com,suse.de,vger.kernel.org,linux.intel.com,baylibre.com,kernel.org,linux-m68k.org,glider.be,ideasonboard.com,bp.renesas.com,ffwll.ch,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
-	FORGED_RECIPIENTS(0.00)[m:shawn.lin@rock-chips.com,m:andy.shevchenko@gmail.com,m:bhelgaas@google.com,m:vaibhaavram.tl@microchip.com,m:kumaravel.thiagarajan@microchip.com,m:even.xu@intel.com,m:xinpeng.sun@intel.com,m:srinivas.pandruvada@linux.intel.com,m:jikos@kernel.org,m:alexandre.belloni@bootlin.com,m:wangzhou1@hisilicon.com,m:liulongfang@huawei.com,m:vkoul@kernel.org,m:lee@kernel.org,m:shaojijie@huawei.com,m:shenjian15@huawei.com,m:sgoutham@marvell.com,m:andrew+netdev@lunn.ch,m:hkallweit1@gmail.com,m:davem@davemloft.net,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:karol.wachowski@linux.intel.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:andreas.noever@gmail.com,m:westeri@kernel.org,m:tjeznach@rivosinc.com,m:will@kernel.org,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:dave@stgolabs.net,m:jonathan.cameron@huawei.com,m:schalla@marvell.com,m:bbhushan2@marvell.com,m:atenart@kernel.org,m:herbert@gondor.apana.org.au,m:raag.jadav@intel.c
- om,m:hansg@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:andy@kernel.org,m:mani@kernel.org,m:mika.westerberg@linux.intel.com,m:andi.shyti@kernel.org,m:rric@kernel.org,m:broonie@kernel.org,m:nirmal.patel@linux.intel.com,m:kurt.schwemmer@microsemi.com,m:logang@deltatee.com,m:linusw@kernel.org,m:brgl@kernel.org,m:sakari.ailus@linux.intel.com,m:bingbu.cao@intel.com,m:ulf.hansson@linaro.org,m:arnd@arndb.de,m:bentiss@kernel.org,m:linux-input@vger.kernel.org,m:linux-i3c@lists.infradead.org,m:dmaengine@vger.kernel.org,m:phasta@kernel.org,m:netdev@vger.kernel.org,m:nic_swsd@realtek.com,m:linux-arm-msm@vger.kernel.org,m:linux-usb@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-cxl@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:linux-serial@vger.kernel.org,m:mhi@lists.linux.dev,m:jsd@semihalf.com,m:linux-i2c@vger.kernel.org,m:daniel@zonque.org,m:haojian.zhuang@gmai
- l.com,m:linux-spi@vger.kernel.org,m:jonathan.derrick@linux.dev,m:linux-pci@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:andyshevchenko@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:airlied@gmail.com,m:tzimmermann@suse.de,m:linux-renesas-soc@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mturquette@baylibre.com,m:conor+dt@kernel.org,m:geert@linux-m68k.org,m:geert+renesas@glider.be,m:krzk+dt@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:magnus.damm@gmail.com,m:tomm.merciai@gmail.com,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:mripard@kernel.org,m:laurent.pinchart@ideasonboard.com,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:sboyd@kernel.org,m:simona@ffwll.ch,m:conor@kernel.org,m:geert@glider.be,m:krzk@kernel.org,m:magnusdamm@gmail.com,m:tommmerciai@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[87];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,smile.fi.intel.com:mid]
-X-Rspamd-Queue-Id: 2B3D317AEDA
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A3C9517B072
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 12:09:37AM +0800, Shawn Lin wrote:
-> 在 2026/02/23 星期一 23:50, Andy Shevchenko 写道:
-> > On Mon, Feb 23, 2026 at 5:32 PM Shawn Lin <shawn.lin@rock-chips.com> wrote:
-> > > 
-> > > This patch series addresses a long-standing design issue in the PCI/MSI
-> > > subsystem where the implicit, automatic management of IRQ vectors by
-> > > the devres framework conflicts with explicit driver cleanup, creating
-> > > ambiguity and potential resource management bugs.
-> > > 
-> > > ==== The Problem: Implicit vs. Explicit Management ====
-> > > Historically, `pcim_enable_device()` not only manages standard PCI resources
-> > > (BARs) via devres but also implicitly triggers automatic IRQ vector management
-> > > by setting a flag that registers `pcim_msi_release()` as a cleanup action.
-> > > 
-> > > This creates an ambiguous ownership model. Many drivers follow a pattern of:
-> > > 1. Calling `pci_alloc_irq_vectors()` to allocate interrupts.
-> > > 2. Also calling `pci_free_irq_vectors()` in their error paths or remove routines.
-> > > 
-> > > When such a driver also uses `pcim_enable_device()`, the devres framework may
-> > > attempt to free the IRQ vectors a second time upon device release, leading to
-> > > a double-free. Analysis of the tree shows this hazardous pattern exists widely,
-> > > while 35 other drivers correctly rely solely on the implicit cleanup.
-> > 
-> > Is this confirmed? What I read from the cover letter, this series was
-> > only compile-tested, so how can you prove the problem exists in the
-> > first place?
+
+On Fri, 13 Feb 2026 17:27:35 +0100, Tommaso Merciai wrote:
+> The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
+> Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
+> Processor (VSPD), and Display Unit (DU).
 > 
-> Yes, it's confirmed. My debug of a double free issue of a out-of-tree
-> PCIe wifi driver which uses
-> pcim_enable_device + pci_alloc_irq_vectors + pci_free_irq_vectors expose
-> it. And we did have a TODO to cleanup this hybrid usage, targeted in
-> this cycle[1] suggested by Philipp:
-
-Okay, fair enough. I think this bit was missing in the cover letter.
-
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=msi
-
-> > > ==== The Solution: Making Management Explicit ====
-> > > This series enforces a clear, predictable model:
-> > > 1.  New Managed API (Patch 1/37): Introduces pcim_alloc_irq_vectors() and
-> > >      pcim_alloc_irq_vectors_affinity(). Drivers that desire devres-managed IRQ
-> > >      vectors should use these functions, which set the is_msi_managed flag and
-> > >      ensure automatic cleanup.
-> > > 2.  Patches 2 through 36 convert each driver that uses pcim_enable_device() alongside
-> > >      pci_alloc_irq_vectors() and relies on devres for IRQ vector cleanup to instead
-> > >      make an explicit call to pcim_alloc_irq_vectors().
-> > > 3.  Core Change (Patch 37/37): With the former cleanup, now modifies pcim_setup_msi_release()
-> > >      to check only the is_msi_managed flag. This decouples automatic IRQ cleanup from
-> > >      pcim_enable_device(). IRQ vectors allocated via pci_alloc_irq_vectors*()
-> > >      are now solely the driver's responsibility to free with pci_free_irq_vectors().
-> > > 
-> > > With these changes, we clear ownership model: Explicit resource management eliminates
-> > > ambiguity and follows the "principle of least surprise." New drivers choose one model and
-> > > be consistent.
-> > > - Use `pci_alloc_irq_vectors()` + `pci_free_irq_vectors()` for explicit control.
-> > > - Use `pcim_alloc_irq_vectors()` for devres-managed, automatic cleanup.
-> > 
-> > Have you checked previous attempts? Why is your series better than those?
+>  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
+>  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
 > 
-> There seems not previous attempts.
+> Add new SoC-specific compatible string 'renesas,r9a09g047-du'.
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+> v4->v5:
+>  - Dropped renesas,id property and updated bindings
+>    accordingly.
+> 
+> v2->v3:
+>  - No changes.
+> 
+> v2->v3:
+>  - No changes.
+> 
+> v1->v2:
+>  - Use single compatible string instead of multiple compatible strings
+>    for the two DU instances, leveraging a 'renesas,id' property to
+>    differentiate between DU0 and DU1.
+>  - Updated commit message accordingly.
+> 
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
 
-Maybe we are looking to the different projects...
-
-https://lore.kernel.org/all/?q=pcim_alloc_irq_vectors
-
-> > > ==== Testing And Review ====
-> > > 1. This series is only compiled test with allmodconfig.
-> > > 2. Given the substantial size of this patch series, I have structured the mailing
-> > >     to facilitate efficient review. The cover letter, the first patch and the last one will be sent
-> > >     to all relevant mailing lists and key maintainers to ensure broad visibility and
-> > >     initial feedback on the overall approach. The remaining subsystem-specific patches
-> > >     will be sent only to the respective subsystem maintainers and their associated
-> > >     mailing lists, reducing noise.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
