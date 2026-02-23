@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WOzML/qAnGmLIgQAu9opvQ
+	id OE9CIt2CnGkKIwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:31:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:39:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC21179D17
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F44179F4A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:39:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01D810E0F8;
-	Mon, 23 Feb 2026 16:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAD410E3F6;
+	Mon, 23 Feb 2026 16:39:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tU+tAIO3";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aGJOp4cp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C401E10E0F8
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:31:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8F749439A4;
- Mon, 23 Feb 2026 16:31:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DA3C116C6;
- Mon, 23 Feb 2026 16:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771864311;
- bh=mkZX9bthwOnmlihIsb3M3krfMhzFMjXTFrQo7kXeUwI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tU+tAIO3YmZseIcWYuwlghq1OcEArNepaNoS2z0/h/FS9nGusNkqA8YNmYNZdqqVC
- XuKpMP8LASjAkHdfUbWQo8GRefrnJkkWTCjJrMdMmSOm/J8LtFo9kBXNOa+6dUeYni
- u/wsewa6ns7ZkvkCSzef5AAKt86NGjD6KCWa+rU/XDqjBv6rhQcU0U1LI9G5dM4SNm
- YYMKqTAy9dBABTqQzJwwrAbqZeIf5ipx3zdelOMZiowIT8e0AtNAqM9WIyHmLEFmbD
- G6o1OR5/bxOWVBllLtS+vBw3COvs/1btKKRmFYlOVywA9uD3JRjU89Hgtxy8JAUlqp
- z4pY4kqkQP4xg==
-Date: Mon, 23 Feb 2026 10:31:48 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Cc: robh@kernel.org, srini@kernel.org, amahesh@qti.qualcomm.com, 
- krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org, 
- mathieu.poirier@linaro.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH V3 3/5] dt-bindings: misc: qcom,fastrpc: Add compatible
- for Glymur
-Message-ID: <siuuvqcxcfw2be72hh2pu6csmw6qxy26ixnxppbfy7gtpzxxzd@vuucoicoj4h2>
-References: <20260129001358.770053-1-sibi.sankar@oss.qualcomm.com>
- <20260129001358.770053-4-sibi.sankar@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B9510E3F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1771864791;
+ bh=GU3xnXyHmn1mP9zwAI0ndO9wqT8jjc20jlPhIMyYZ3U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aGJOp4cpuNZIhOCgBm2vWH/Q7p9UCp+cYXlFkz/q+2dSREdLxaqWr/vcyPmfQi2Ak
+ v7pWlRC2cNSmfbgdWzOBQ0wM+YfKBqk1qZUufrVfYyutdcLd1Ary2uiq9SLb5JYzQd
+ VdWoMC4Yzmse2Hk7YzM34X6GNqo48+l6EZRQSGD3/M09DXhjPvVdKYjFzZxEVTyyme
+ 11Hm1M7B9NHN8qKtWyCN6hbg7PViSR1LExxjoMp4SeENj7PSUm60kOLEGV3bcMVNNF
+ 9uYE+VAXoaeld90Myr836VCVCFNcU7saSylxSvu5eElRSrW1fhST57q8YuKn54ivCx
+ LuH+Y+9OKKSHA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B212617E069A;
+ Mon, 23 Feb 2026 17:39:50 +0100 (CET)
+Message-ID: <3e0a65f8-3c65-4382-8c39-a6d30db2a52a@collabora.com>
+Date: Mon, 23 Feb 2026 17:39:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129001358.770053-4-sibi.sankar@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] drm/mediatek: dsi: Add compatible for mt8167-dsi
+To: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+ linux-mediatek@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chunfeng Yun
+ <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+References: <cover.1771863641.git.l.scorcia@gmail.com>
+ <2fbf179c03c61f527e2583f9df4f97f6aaf3297a.1771863641.git.l.scorcia@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <2fbf179c03c61f527e2583f9df4f97f6aaf3297a.1771863641.git.l.scorcia@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,80 +79,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:l.scorcia@gmail.com,m:linux-mediatek@lists.infradead.org,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:chunfeng.yun@mediatek.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:matthias.bgg@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-phy@lists.infradead.org,m:lscorcia@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
+	FORGED_SENDER(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:sibi.sankar@oss.qualcomm.com,m:robh@kernel.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:konradybcio@kernel.org,m:mathieu.poirier@linaro.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,linux.intel.com,suse.de,gmail.com,ffwll.ch,mediatek.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 4EC21179D17
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 13F44179F4A
 X-Rspamd-Action: no action
 
-On Thu, Jan 29, 2026 at 05:43:56AM +0530, Sibi Sankar wrote:
-> Document compatible for Qualcomm Glymur fastrpc which is fully compatible
-> with Qualcomm Kaanapali fastrpc.
+Il 23/02/26 17:22, Luca Leonardo Scorcia ha scritto:
+> The mt8167 DSI controller is fully compatible with the one found in
+> mt2701. Device tree documentation is already present upstream.
 > 
+> Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
 
-I assume this means that you have successfully called at least one
-FastRPC function on Glymur - with the WP firmware?
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Regards,
-Bjorn
 
-> Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/misc/qcom,fastrpc.yaml        | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> index d8e47db677cc..ca830dd06de2 100644
-> --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> @@ -18,9 +18,14 @@ description: |
->  
->  properties:
->    compatible:
-> -    enum:
-> -      - qcom,kaanapali-fastrpc
-> -      - qcom,fastrpc
-> +    oneOf:
-> +      - enum:
-> +          - qcom,kaanapali-fastrpc
-> +          - qcom,fastrpc
-> +      - items:
-> +          - enum:
-> +              - qcom,glymur-fastrpc
-> +          - const: qcom,kaanapali-fastrpc
->  
->    label:
->      enum:
-> -- 
-> 2.34.1
-> 
