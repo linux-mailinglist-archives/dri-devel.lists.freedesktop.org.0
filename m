@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OE9CIt2CnGkKIwQAu9opvQ
+	id 6PQnGcGEnGm7IwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:39:57 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:48:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F44179F4A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036EB17A1C3
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 17:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAD410E3F6;
-	Mon, 23 Feb 2026 16:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E7110E405;
+	Mon, 23 Feb 2026 16:47:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aGJOp4cp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lmIw2SbI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B9510E3F6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 16:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1771864791;
- bh=GU3xnXyHmn1mP9zwAI0ndO9wqT8jjc20jlPhIMyYZ3U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aGJOp4cpuNZIhOCgBm2vWH/Q7p9UCp+cYXlFkz/q+2dSREdLxaqWr/vcyPmfQi2Ak
- v7pWlRC2cNSmfbgdWzOBQ0wM+YfKBqk1qZUufrVfYyutdcLd1Ary2uiq9SLb5JYzQd
- VdWoMC4Yzmse2Hk7YzM34X6GNqo48+l6EZRQSGD3/M09DXhjPvVdKYjFzZxEVTyyme
- 11Hm1M7B9NHN8qKtWyCN6hbg7PViSR1LExxjoMp4SeENj7PSUm60kOLEGV3bcMVNNF
- 9uYE+VAXoaeld90Myr836VCVCFNcU7saSylxSvu5eElRSrW1fhST57q8YuKn54ivCx
- LuH+Y+9OKKSHA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B212617E069A;
- Mon, 23 Feb 2026 17:39:50 +0100 (CET)
-Message-ID: <3e0a65f8-3c65-4382-8c39-a6d30db2a52a@collabora.com>
-Date: Mon, 23 Feb 2026 17:39:49 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A709810E412;
+ Mon, 23 Feb 2026 16:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771865276; x=1803401276;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=fVntof4DMbaT6F/gG+obTaSH0DPmyluL1tF3c0xftWA=;
+ b=lmIw2SbIZdoR/yb2RLbaAQAfKLtK+mxOhkNkJY0kdSyTds17wQOXuWVq
+ ebOLT1R/4p9ru28uBHOltx5LOY8GwANy4P1fWsqEG+X1ShZ2TDWjAQoFm
+ 9uC/KgN1diTxdpqeMXwIUlnkcYE9E9Qjz/hE/9D7cYNfqQtTm82Y1JDDw
+ md1UNyI4e5AS2fn3IegKHwBuKhKRY8yCqjK1ZU+Lz3AtczHWKaHjYPsP9
+ sfEh4WXNzNCm0mHlnMS+HoP0tJvZtiDwgtVHwEq0RVfxfs3DZzM3BFquZ
+ LVeXAP/UQRzz1rWEvpfdtsmzHMjQG9ajfiDyUki8TIwLBzWI7d8FEDogi Q==;
+X-CSE-ConnectionGUID: lc5hx0QbT2uNiMxLLTOH+Q==
+X-CSE-MsgGUID: v7mEKDceQeuFNJFl4C/27w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71890903"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="71890903"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 08:47:56 -0800
+X-CSE-ConnectionGUID: /p80mIpFRH+rfRUI5PmzSg==
+X-CSE-MsgGUID: uXtCVaS3SYOckeJgSUIQhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="220126637"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.11])
+ ([10.245.244.11])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 08:47:54 -0800
+Message-ID: <a34a04bf-9f4e-4331-8275-93f21f27a19d@intel.com>
+Date: Mon, 23 Feb 2026 16:47:52 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] drm/mediatek: dsi: Add compatible for mt8167-dsi
-To: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
- linux-mediatek@lists.infradead.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chunfeng Yun
- <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
-References: <cover.1771863641.git.l.scorcia@gmail.com>
- <2fbf179c03c61f527e2583f9df4f97f6aaf3297a.1771863641.git.l.scorcia@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <2fbf179c03c61f527e2583f9df4f97f6aaf3297a.1771863641.git.l.scorcia@gmail.com>
+Subject: Re: [PATCH v4 1/2] drm/buddy: Improve offset-aligned allocation
+ handling
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20260217113900.10675-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20260217113900.10675-1-Arunpravin.PaneerSelvam@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,49 +79,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:l.scorcia@gmail.com,m:linux-mediatek@lists.infradead.org,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:chunfeng.yun@mediatek.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:matthias.bgg@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-phy@lists.infradead.org,m:lscorcia@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
-	FORGED_SENDER(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,linux.intel.com,suse.de,gmail.com,ffwll.ch,mediatek.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 13F44179F4A
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.auld@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 036EB17A1C3
 X-Rspamd-Action: no action
 
-Il 23/02/26 17:22, Luca Leonardo Scorcia ha scritto:
-> The mt8167 DSI controller is fully compatible with the one found in
-> mt2701. Device tree documentation is already present upstream.
+On 17/02/2026 11:38, Arunpravin Paneer Selvam wrote:
+> Large alignment requests previously forced the buddy allocator to search by
+> alignment order, which often caused higher-order free blocks to be split even
+> when a suitably aligned smaller region already existed within them. This led
+> to excessive fragmentation, especially for workloads requesting small sizes
+> with large alignment constraints.
 > 
-> Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+> This change prioritizes the requested allocation size during the search and
+> uses an augmented RB-tree field (subtree_max_alignment) to efficiently locate
+> free blocks that satisfy both size and offset-alignment requirements. As a
+> result, the allocator can directly select an aligned sub-region without
+> splitting larger blocks unnecessarily.
+> 
+> A practical example is the VKCTS test
+> dEQP-VK.memory.allocation.basic.size_8KiB.reverse.count_4000, which repeatedly
+> allocates 8 KiB buffers with a 256 KiB alignment. Previously, such allocations
+> caused large blocks to be split aggressively, despite smaller aligned regions
+> being sufficient. With this change, those aligned regions are reused directly,
+> significantly reducing fragmentation.
+> 
+> This improvement is visible in the amdgpu VRAM buddy allocator state
+> (/sys/kernel/debug/dri/1/amdgpu_vram_mm). After the change, higher-order blocks
+> are preserved and the number of low-order fragments is substantially reduced.
+> 
+> Before:
+>    order- 5 free: 1936 MiB, blocks: 15490
+>    order- 4 free:  967 MiB, blocks: 15486
+>    order- 3 free:  483 MiB, blocks: 15485
+>    order- 2 free:  241 MiB, blocks: 15486
+>    order- 1 free:  241 MiB, blocks: 30948
+> 
+> After:
+>    order- 5 free:  493 MiB, blocks:  3941
+>    order- 4 free:  246 MiB, blocks:  3943
+>    order- 3 free:  123 MiB, blocks:  4101
+>    order- 2 free:   61 MiB, blocks:  4101
+>    order- 1 free:   61 MiB, blocks:  8018
+> 
+> By avoiding unnecessary splits, this change improves allocator efficiency and
+> helps maintain larger contiguous free regions under heavy offset-aligned
+> allocation workloads.
+> 
+> v2:(Matthew)
+>    - Update augmented information along the path to the inserted node.
+> 
+> v3:
+>    - Move the patch to gpu/buddy.c file.
+> 
+> v4:(Matthew)
+>    - Use the helper instead of calling _ffs directly
+>    - Remove gpu_buddy_block_order(block) >= order check and drop order
+>    - Drop !node check as all callers handle this already
+>    - Return larger than any other possible alignment for __ffs64(0)
+>    - Replace __ffs with __ffs64
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Christian König <christian.koenig@amd.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
