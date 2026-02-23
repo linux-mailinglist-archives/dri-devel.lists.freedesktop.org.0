@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2LarFecpnGl1AAQAu9opvQ
+	id sFfMJvEpnGl1AAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:23 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A950174BBE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD50174BE5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 11:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF65910E2DC;
-	Mon, 23 Feb 2026 10:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D401F10E2E0;
+	Mon, 23 Feb 2026 10:20:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="YlkMoh8h";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="FVpXi2po";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58B9510E2DC
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:20:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC16610E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 10:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1771842019; x=1803378019;
+ t=1771842029; x=1803378029;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SlO0Q8vJ+yci4yGpTaLDlVlevoqk4pzFvMHvGyAYDTE=;
- b=YlkMoh8hjzH6zBINYhcuEmjAoa5Op7a9ZjqO3CBea8CuQ+mPE3e6p2IP
- 4a2Te37ahHd3JFFsXzm7uHCHn5fghX7F7JU4OVWJnnDyk1ZAG1HvGmgVj
- HJcewuEgi6HcPTmuAJNAKoShS3zOrSVl++KDEdYFDq/Ty3xCG6130XNLV
- 7zZqeIduJE1N4cr35kVX3WaTzfp8U2V3VyLI/RIUtX4J1uw0IsAJiMsv8
- 9CLpyLc11Jdoyttb2mRHZgXMcq+yXd8cunNkiyZxWkndGWLNWLF8lvGKv
- EEA18X3pW+jc38vH5ZaPktciFUc0rMVuuqVgZPdKZpSxcPvoBH/Hfw6Bi A==;
-X-CSE-ConnectionGUID: dKUGnVN8SY6a+wGmQv7obw==
-X-CSE-MsgGUID: By9YC4OeSqy+Ol2Ny+ULhg==
-X-IronPort-AV: E=Sophos;i="6.21,306,1763449200"; d="scan'208";a="220994662"
+ bh=vjqIhiJxs6JHNJjy3nkn1q/yYzON4Q52MgQA4PpbPqs=;
+ b=FVpXi2poC6e0b4tFy8lFL9chEd7m9Gzsg+emaER54Qr1oLwey6DNhagu
+ ZYeu/Kjh+G1AKedsqG0zSRcoKnDOTKGgXi7LtcDVPM/oTfEeV/VY/vCpV
+ oNUD0V0Pl4t3dl1U3QH+AjyvILCDGZac28CDTI5d5rpdT2FK+wc3wYMsp
+ yanX9xe1sNSqMnRWTxnsm4486VifEHwI+3mrSHwftTSWMyJ6YFH2ORCTb
+ cxatTeFFGK7AzzS7lquAEQghzn7hXiV5U5Sq0GHxX9qV8i5L0mzA/lbC7
+ bac8+cToy0qyIN9+hxt04sJInSGIJd9r2yV2h7obHomvUHQi3Dl1wMIhT w==;
+X-CSE-ConnectionGUID: ChxBJAjBQ1ilC27p33J+dg==
+X-CSE-MsgGUID: 8D3HoVY6Qo2xIp3x1ULiQw==
+X-IronPort-AV: E=Sophos;i="6.21,306,1763449200"; d="scan'208";a="54141480"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Feb 2026 03:20:18 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 03:20:29 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Mon, 23 Feb 2026 03:20:04 -0700
+ 15.2.2562.35; Mon, 23 Feb 2026 03:20:10 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Mon, 23 Feb 2026 03:20:00 -0700
+ 15.1.2507.58 via Frontend Transport; Mon, 23 Feb 2026 03:20:05 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
@@ -55,10 +55,9 @@ To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
 CC: <manikandan.m@microchip.com>
-Subject: [PATCH v3 3/4] drm: atmel-hlcdc: bypass clock divider for LVDS
- displays
-Date: Mon, 23 Feb 2026 15:49:19 +0530
-Message-ID: <20260223101920.284697-4-manikandan.m@microchip.com>
+Subject: [PATCH v3 4/4] drm: atmel-hlcdc: add support for LVDS output formats
+Date: Mon, 23 Feb 2026 15:49:20 +0530
+Message-ID: <20260223101920.284697-5-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260223101920.284697-1-manikandan.m@microchip.com>
 References: <20260223101920.284697-1-manikandan.m@microchip.com>
@@ -112,114 +111,80 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0A950174BBE
+X-Rspamd-Queue-Id: 4DD50174BE5
 X-Rspamd-Action: no action
 
-For LVDS displays with pre-configured PLL clock, bypass the clock
-divider calculation by setting ATMEL_XLCDC_CLKBYP flag.
-For non-LVDS displays, retain existing clock divider calculation logic
-to determine appropriate clock scaling based on display requirements.
+Add support for LVDS displays to handle format negotiation with
+the following bus formats:
+	- RGB888_1X7X4_SPWG
+	- RGB888_1X7X4_JEIDA
+	- RGB666_1X7X3_SPWG
+	- RGB666_1X18
 
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
 changes in v3:
-- Introduce ATMEL_XLCDC_CLKBYP to this series
+- Repharse commit message
 ---
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 65 ++++++++++---------
- include/linux/mfd/atmel-hlcdc.h               |  1 +
- 2 files changed, 36 insertions(+), 30 deletions(-)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 26c9fbdfd871..73ac5ebbe121 100644
+index 73ac5ebbe121..919f9991a779 100644
 --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
 +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -127,39 +127,44 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
- 		     (adj->crtc_hdisplay - 1) |
- 		     ((adj->crtc_vdisplay - 1) << 16));
+@@ -390,6 +390,42 @@ static int atmel_xlcdc_connector_output_dsi(struct drm_encoder *encoder,
+ 	return supported_fmts;
+ }
  
--	prate = clk_get_rate(crtc->dc->hlcdc->sys_clk);
--	mode_rate = adj->crtc_clock * 1000;
--	if (!crtc->dc->desc->fixed_clksrc) {
--		prate *= 2;
--		cfg |= ATMEL_HLCDC_CLKSEL;
--		mask |= ATMEL_HLCDC_CLKSEL;
--	}
-+	if (crtc->dc->hlcdc->lvds_pll_clk) {
-+		cfg |= ATMEL_XLCDC_CLKBYP;
-+		mask |= ATMEL_XLCDC_CLKBYP;
-+	} else {
-+		prate = clk_get_rate(crtc->dc->hlcdc->sys_clk);
-+		mode_rate = adj->crtc_clock * 1000;
-+		if (!crtc->dc->desc->fixed_clksrc) {
-+			prate *= 2;
-+			cfg |= ATMEL_HLCDC_CLKSEL;
-+			mask |= ATMEL_HLCDC_CLKSEL;
-+		}
- 
--	div = DIV_ROUND_UP(prate, mode_rate);
--	if (div < 2) {
--		div = 2;
--	} else if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK) {
--		/* The divider ended up too big, try a lower base rate. */
--		cfg &= ~ATMEL_HLCDC_CLKSEL;
--		prate /= 2;
- 		div = DIV_ROUND_UP(prate, mode_rate);
--		if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK)
--			div = ATMEL_HLCDC_CLKDIV_MASK;
--	} else {
--		int div_low = prate / mode_rate;
--
--		if (div_low >= 2 &&
--		    (10 * (prate / div_low - mode_rate) <
--		     (mode_rate - prate / div)))
--			/*
--			 * At least 10 times better when using a higher
--			 * frequency than requested, instead of a lower.
--			 * So, go with that.
--			 */
--			div = div_low;
--	}
-+		if (div < 2) {
-+			div = 2;
-+		} else if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK) {
-+			/* The divider ended up too big, try a lower base rate. */
-+			cfg &= ~ATMEL_HLCDC_CLKSEL;
-+			prate /= 2;
-+			div = DIV_ROUND_UP(prate, mode_rate);
-+			if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK)
-+				div = ATMEL_HLCDC_CLKDIV_MASK;
-+		} else {
-+			int div_low = prate / mode_rate;
++static int atmel_xlcdc_connector_output_lvds(struct drm_encoder *encoder,
++					     struct drm_display_info *info)
++{
++	int j;
++	unsigned int supported_fmts = 0;
 +
-+			if (div_low >= 2 &&
-+			    (10 * (prate / div_low - mode_rate) <
-+			     (mode_rate - prate / div)))
-+				/*
-+				 * At least 10 times better when using a higher
-+				 * frequency than requested, instead of a lower.
-+				 * So, go with that.
-+				 */
-+				div = div_low;
-+		}
- 
--	cfg |= ATMEL_HLCDC_CLKDIV(div);
-+		cfg |= ATMEL_HLCDC_CLKDIV(div);
++	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
++	case 0:
++		break;
++	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++	case MEDIA_BUS_FMT_RGB666_1X18:
++		return ATMEL_HLCDC_RGB666_OUTPUT;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++		return ATMEL_HLCDC_RGB888_OUTPUT;
++	default:
++		return -EINVAL;
 +	}
++
++	for (j = 0; j < info->num_bus_formats; j++) {
++		switch (info->bus_formats[j]) {
++		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++		case MEDIA_BUS_FMT_RGB666_1X18:
++			supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
++			break;
++		case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++		case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++			supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
++			break;
++		default:
++			break;
++		}
++	}
++	return supported_fmts;
++}
++
+ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
+ {
+ 	struct drm_connector *connector = state->connector;
+@@ -408,6 +444,8 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
+ 	 */
+ 	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI)
+ 		return atmel_xlcdc_connector_output_dsi(encoder, info);
++	else if (encoder->encoder_type == DRM_MODE_ENCODER_LVDS)
++		return atmel_xlcdc_connector_output_lvds(encoder, info);
  
- 	if (connector &&
- 	    connector->display_info.bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
-index 07c2081867fd..19504d3ea12c 100644
---- a/include/linux/mfd/atmel-hlcdc.h
-+++ b/include/linux/mfd/atmel-hlcdc.h
-@@ -44,6 +44,7 @@
- #define ATMEL_XLCDC_HEO_UPDATE		BIT(3)
- 
- #define ATMEL_HLCDC_CLKPOL		BIT(0)
-+#define ATMEL_XLCDC_CLKBYP		BIT(1)
- #define ATMEL_HLCDC_CLKSEL		BIT(2)
- #define ATMEL_HLCDC_CLKPWMSEL		BIT(3)
- #define ATMEL_HLCDC_CGDIS(i)		BIT(8 + (i))
+ 	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
+ 	case 0:
 -- 
 2.25.1
 
