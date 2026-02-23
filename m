@@ -2,102 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oG6wIldinWksPQQAu9opvQ
+	id oEisAT+6nGlHKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:27 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:36:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8A4183BCE
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAD317CFB5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1D810E4EE;
-	Tue, 24 Feb 2026 08:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CB110E444;
+	Mon, 23 Feb 2026 20:36:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c9fawWc4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AhZNfyDd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D080810E30F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 20:26:51 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-48373a4bca3so28698225e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 12:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771878410; x=1772483210; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=64I03f5whtjg6Z+0x9fPdRncv5f7XES5+UgOPq8bZgU=;
- b=c9fawWc4V2RswClg14S+hSg+HnX5C/l6KkHWJojQ95EXTYu/Gczx39Spd9PuOtUgTa
- yfmCKjinMNNr3g4S6W7/Q1uvRMbdRVmazmkDrsWEfZIp4EL3eYYqB2iSu10SvoercxHz
- B4cFJ/xemPjIrMCOjsH/Bb8805hPVg6SQlYRhIIzMfH9nTv+bSLI2NNO2Gj9uXba3vg9
- EaOosrjTymmGlf4xwOyWL96OF4UDRsNQsO0LwpZejm90grhxz4VGLvLGQwxSpq+ByhAc
- +XGIcI06SJjdst2BtjlhpjbK6LBQVJ3LB7lYwxPTc0li3rWkqBhGtwCHQTPITPQUCVdp
- p6Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771878410; x=1772483210;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=64I03f5whtjg6Z+0x9fPdRncv5f7XES5+UgOPq8bZgU=;
- b=wVTB7cKhLkrr+qa+1DDXaSsMM9a7JAHR13K43dPW9CgAo1W5vYoiogTHF6JJdsGF2U
- 2+yORDnP6H990NSVhBYLxgGDLIcGYa+PLecjCknb9ay6iqWuBYYLhUpjlNH+jEzkVmWM
- iyZWpytW5CZaD+hae61kRhHLrgPIJVEPje6dwNGDBgfKS7nHQdhk15uYMYUkuTY+9he9
- 3zX9sEcIFlW+xtxOfw4FoTogVcZCFIEiZTdKAIVRnF7ljy3dn+LSVeNvkuPKFfLmp0ZW
- qt4ccAonhaqezUuInC2q1C7Gb6QHURjzYZtw5riaXhdOhQA5N+4Ulp+IozHm66OX4kr8
- jTRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsHecWa8FQv/mFDrjjlxmypqg0lBS+QapYfUiA95Zw/JmYLRbJPCKAYE1Sa4EEJTKnDvP/FqdLT6w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5YnSDvYgLkFzcqyNp0j1IrRz9XCOZA3nsC9+Nmy3wZOkI44lI
- SSoIkraig/ZKeeS6DOliqGPChvj35Sra6S7NGwuMPJNWVW6tWOsqMyq5
-X-Gm-Gg: AZuq6aJDPQuFuQY7gCnEkNV4DBHyTThfj2GXKQUDZHR+dOgQq/Pv6RYAcfeSDXBn6bD
- Ga5ZmGGESgsnTRl88l9jOjTRz+q1K+QhtFXjamAbvcwsa+SwU0AeFhTI/97G7BAypD9EXBlOy2Q
- OA33XU0obm+vh4RO3iyPDZadLTWYGJLGZ3q4UyT8Vs8g3kSY/S0PPd9+DWjSmgRKZTOjhHBjTmg
- eRPBv/lIg+PVPDPU4UHI2vnZaeQGBM4QidyrIkn1fU6guUQz0Ys6VFnbKskPPeqJdiPILFwNCJx
- SLKOJ9woTOS9rZJhZR5tlrTMvLtW7BZNw+WBAG5ZTqMxD1/qM2fhIAr7GaAlXibo5ginx20HC0r
- jFdb7vXFfhNFHanZf/rx6jPl/p/ubXUQPn4GJ1X2AKiQWViExglCX8k0EanNQsC0hDz/YRODWBm
- xhl9qqy7yS7IyxaoARHjaqnRUz3SPAD94Ad09ut+LP3wromLgkEBZVf9VOvXTK/D0=
-X-Received: by 2002:a05:600c:45ce:b0:483:7813:90d8 with SMTP id
- 5b1f17b1804b1-483a95bd80fmr166896275e9.1.1771878409631; 
- Mon, 23 Feb 2026 12:26:49 -0800 (PST)
-Received: from [10.100.102.82] (46-116-183-56.bb.netvision.net.il.
- [46.116.183.56]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970d54c5csm21369551f8f.38.2026.02.23.12.26.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 12:26:49 -0800 (PST)
-From: Yedaya Katsman <yedaya.ka@gmail.com>
-Date: Mon, 23 Feb 2026 22:26:22 +0200
-Subject: [PATCH v2 3/3] arm64: dts: qcom: sm6125-xiaomi-laurel-sprout:
- Enable MDSS and add panel
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C04410E30F;
+ Mon, 23 Feb 2026 20:36:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=8N68AvewiJEiVoFb9Et69iCQWQxrvhKR8SCPUSqu5Pc=; b=AhZNfyDdmJM0bYKBtoiUjSriME
+ hM1wwEyYOhLYsXxlfw4If9c5Lq1Qbs/EDqjPmybc3t7L9cjOPpD+SHyQtY5tiJfLfBfbfQ7NsHKYp
+ xPCXtf8sgvaiyOPf04Y5sQdQ5GHwpwOjGOGvqgEeMZ45gFTo34DizTFQwpIn7qICkEWQveEAyJIMr
+ TCTs1huDAC4GdMJnGWj884jhAPy953wFtmU4WLMTC9CrYRh17X+B9M3CyKLhkVeTK6iDrKViLL3SW
+ gVVgmTNJJDqTkDmYplKIgs9Te7lIomB7h+utIHBoA3pgr7z3jJ0+YxI32Sp6GMr5Ic+3WAaY6IST4
+ Zx4znVjA==;
+Received: from [186.208.68.119] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vuceV-004QdK-MG; Mon, 23 Feb 2026 21:35:36 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
+ mario.limonciello@amd.com, mwen@igalia.com, alexander.deucher@amd.com,
+ alex.hung@amd.com
+Cc: Ivan Sergeev <ivan8215145640@gmail.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Mario Limonciello <superm1@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH] drm/drm_edid: ignore continuous frequency support for VRR
+Date: Mon, 23 Feb 2026 17:29:46 -0300
+Message-ID: <20260223203528.213275-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260223-panel-patches-v2-3-1b6ad471d540@gmail.com>
-References: <20260223-panel-patches-v2-0-1b6ad471d540@gmail.com>
-In-Reply-To: <20260223-panel-patches-v2-0-1b6ad471d540@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Kamil_Go=C5=82da?= <kamil.golda@protonmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Yedaya Katsman <yedaya.ka@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771878400; l=3240;
- i=yedaya.ka@gmail.com; s=20260113; h=from:subject:message-id;
- bh=CzJleqofENKnSdtHil5FSilRw3jXdV+MFbWEBQ/PF4k=;
- b=4Hhv4ch+g+2onoP3Oj07ZKaZi7xK++T1hTIP4SwL26WVmrtzuj8vNednVCZtqagKaNtpQGpLe
- ieKeg8ZLtT9Br/fX6to5HizVk92Xfd/E4/eBnIdCZV2bRg9R/PipQ5p
-X-Developer-Key: i=yedaya.ka@gmail.com; a=ed25519;
- pk=CgNmxD3tYSws5dZfpmJfc6re/bV/f47veVijddHLytk=
-X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,178 +72,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [2.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kamil.golda@protonmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:~postmarketos/upstreaming@lists.sr.ht,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:yedaya.ka@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:yedayaka@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_TO(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,protonmail.com];
-	TAGGED_FROM(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,amd.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,mailbox.org,lists.freedesktop.org,igalia.com,linux.intel.com,intel.com,amd.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.993];
+	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.sr.ht,lists.freedesktop.org,vger.kernel.org,gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,protonmail.com:email,0.0.0.0:email]
-X-Rspamd-Queue-Id: 1E8A4183BCE
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,cgit.freedesktop.org:url,intel.com:email]
+X-Rspamd-Queue-Id: ACAD317CFB5
 X-Rspamd-Action: no action
 
-Enable the MDSS nodes and add supplies and bindings for the Samsung
-S6E8FCO panel.
+Display can be VRR capable even if its EDID doesn't contain the
+Continuous Frequency flag. On the other hand, continuous frequency
+support is expected for smooth VRR and ensures better compatibility with
+VRR tehcnologies. As the lack of this flag can result in unexpected
+issues like tearing, get monitor range even without the guarantee of
+continuous frequency but add a debug message for unexpected results.
 
-The ldo and iovcc pins boot up with a current of 16 mA, but they work
-fine with 2mA, so I used that.
-
-Co-developed-by: Kamil Gołda <kamil.golda@protonmail.com>
-Signed-off-by: Kamil Gołda <kamil.golda@protonmail.com>
-Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
+CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
+CC: Jani Nikula <jani.nikula@intel.com>
+CC: Harry Wentland <harry.wentland@amd.com>
+CC: Mario Limonciello <superm1@kernel.org>
+CC: Alex Hung <alex.hung@amd.com>
+Reported-by: Ivan Sergeev <ivan8215145640@gmail.com>
+Fixes: 0159f88a ("drm/amd/display: remove redundant freesync parser for DP")
+Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts  | 94 ++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-index 994fb0412fcbdf5466f87a325c48b697a37b514b..10fd01143a644004b807fc455d2235f8e6a9737a 100644
---- a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-+++ b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-@@ -82,6 +82,32 @@ key-volume-up {
- 		};
- 	};
- 
-+	panel_ldo_supply: panel-ldo-supply {
-+		compatible = "regulator-fixed";
-+		regulator-name = "panel_ldo_supply";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-boot-on;
-+
-+		enable-active-high;
-+		gpio = <&tlmm 26 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&panel_ldo_en>;
-+		pinctrl-names = "default";
-+	};
-+
-+	panel_iovcc_supply: panel-iovcc-supply {
-+		compatible = "regulator-fixed";
-+		regulator-name = "panel_iovcc_supply";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-boot-on;
-+
-+		enable-active-high;
-+		gpio = <&tlmm 124 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&panel_iovcc_en>;
-+		pinctrl-names = "default";
-+	};
-+
- 	thermal-zones {
- 		rf-pa0-thermal {
- 			thermal-sensors = <&pm6125_adc_tm 0>;
-@@ -128,6 +154,46 @@ &hsusb_phy1 {
- 	status = "okay";
- };
- 
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vreg_l18a>;
-+
-+	pinctrl-0 = <&mdss_default>;
-+	pinctrl-1 = <&mdss_sleep>;
-+	pinctrl-names = "default", "sleep";
-+
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "samsung,s6e8fco";
-+		reg = <0>;
-+
-+		vddio-supply = <&vreg_l9a>;
-+		ldo-supply = <&panel_ldo_supply>;
-+		iovcc-supply = <&panel_iovcc_supply>;
-+		reset-gpios = <&tlmm 90 GPIO_ACTIVE_LOW>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+};
-+
-+
-+&mdss_dsi0_phy {
-+	status = "okay";
-+};
-+
- &pm6125_adc {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&camera_flash_therm &emmc_ufs_therm>;
-@@ -387,6 +453,34 @@ &sdhc_2 {
- 
- &tlmm {
- 	gpio-reserved-ranges = <22 2>, <28 6>;
-+
-+	panel_ldo_en: panel-ldo-default-state {
-+		pins = "gpio26";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
-+	mdss_default: mdss-default-state {
-+		pins = "gpio90";
-+		function = "gpio";
-+		drive-strength = <8>;
-+		bias-disable;
-+	};
-+
-+	mdss_sleep: mdss-sleep-state {
-+		pins = "gpio90";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-down;
-+	};
-+
-+	panel_iovcc_en: panel-iovcc-default-state {
-+		pins = "gpio124";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
- };
- 
- &ufs_mem_hc {
+Hello,
 
+After replacing the AMD driver-specific parser for VRR with the drm_edid
+implementation, monitors without the continuous frequency flag in their
+EDID stopped obtaining the monitor range because the DRM common code
+considers them incompatible with VRR if they don't advertise support to
+continuous frequencies. This differs from the original driver-specific
+parser of AMD, that only checked EDID version, EDID_DETAIL_MONITOR_RANGE
+and DRM_EDID_RANGE_LIMITS_ONLY_FLAG to determine the VRR range, so
+switching to DRM common code caused a regression (reported by Ivan).
+
+The commit ca2582c66b930 `drm/edid: Parse only the VRR range for
+continuous frequency displays` [1] introduced the Continuous Frequency
+flag condition. While it was created to avoid issues related to
+non-continuous refresh rates, it looks very restrictive to drivers that
+want to deal with VRR capable monitor even without the guarantee of
+continuous frequencies. I propose relaxing this restriction and adding a
+debug message if anyone experiences problems related to the lack of
+continuous frequency support.
+
+Maybe I'm missing something, so I would like to hear your opinions.
+
+Obs.: In addition to the display kernel developers who have already
+worked with this code, I am sending copies to some compositor developers
+who may have an opinion on it.
+
+[1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ca2582c66b930
+
+Thanks in advance,
+
+Melissa
+
+
+ drivers/gpu/drm/drm_edid.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index ff432ac6b569..8ebd1c17d78a 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6517,7 +6517,9 @@ static void drm_get_monitor_range(struct drm_connector *connector,
+ 		return;
+ 
+ 	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
+-		return;
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Display doesn't support continuous frequencies\n",
++			    connector->base.id, connector->name);
+ 
+ 	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
+ 
 -- 
-2.53.0
+2.51.0
 
