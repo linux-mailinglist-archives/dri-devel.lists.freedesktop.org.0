@@ -2,57 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGxBLMu8nGlSKAQAu9opvQ
+	id oAFgITjDnGnJKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:47:07 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 22:14:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157F517D1E8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 21:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358B017D6D8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 22:14:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3042010E454;
-	Mon, 23 Feb 2026 20:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3BD10E273;
+	Mon, 23 Feb 2026 21:14:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="PC0wzK1L";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cVXsvDaS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3388D10E44A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 20:47:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771879621; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZKZeW94t70X4iD0DWwGpypDad7txo1QGimp9IkDrQhlir610n79laegW/EVNC4SLk7VixmHc0pFrAdHUrRy1DSLvxdMoLXHilHgThpBzB2oJcxVA3GUl8l0TfMSN37wr+QDHkWCeAfZHvoSoPPUXhAG2ZbgUus4/HhQKEP2DWRw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771879621;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=omXsfdQG1ENNaS0crkFyTd4hZmbHa2t2VtU2JTI72oc=; 
- b=V+p721RyQBhHQh8EFNR92773SRo+ovBiZywTypQ4qS32GCibUjAz4b3OJvCJTGfK0/WrpvHAm9+gmYTndKBDVGfvw/Yi6rV3yDAhMX5tKXtuMuSGQUSAwquuv7+raltUjHW4nxArmRvhONzPK4NltvRUHGXpaLyB/JTLqFZwlcg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771879621; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=omXsfdQG1ENNaS0crkFyTd4hZmbHa2t2VtU2JTI72oc=;
- b=PC0wzK1L2jxBWpvHKdjrQAJ7L2xNmbienovd0IZIVkfDuSkRsPm0A5ZPfLSnbjk3
- /OB6zoCiZlxWgE1bU6bjr/PunsPJryiNOQkOL6bxut6cqibohJPTnN4IfLsJPI5yU/G
- yIEP7UdEkrqZ6B3VZ6B2U7yuXuSC/WfRhQI/sApU=
-Received: by mx.zohomail.com with SMTPS id 1771879620120162.0218336358172;
- Mon, 23 Feb 2026 12:47:00 -0800 (PST)
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
- boris.brezillon@collabora.com, deborah.brouwer@collabora.com
-Subject: [PATCH v2] drm/tyr: Clarify driver/device type names
-Date: Mon, 23 Feb 2026 12:46:48 -0800
-Message-ID: <20260223204648.208886-1-deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.52.0
-MIME-Version: 1.0
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011033.outbound.protection.outlook.com [52.101.52.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A11DE10E10D;
+ Mon, 23 Feb 2026 21:14:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sAdFn1RhwQ9oV3rFUC5jnPwKZ8ayu8UE0BgxTYE3FpxhYxQGca/AMfd+XVnMsHu2g7iQdsINRh8yoXrU+HHHWQSh4uo30tNF5A5VoxUGRA3UhArrZTUuIGGaw2kwhiD3KXMJhvShRG+c6fMNqDGPJiNjhEuZ9pNzwYxHXxElXfsGFxU45Hu8vvJmbcNCsIOVrL0MGHrkJ+zeUx8RascR1+xJV84IQ5G4mhyPsENMokPtmIizvNIytripmmirPNwt59TjMw2qZzNDxNBjXhGExAoQ5CI8FVU31bGtVrPma5m3ry3TVIcfvfCyoByW5KCxeyGZwosMEITsMIjQScO3Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ziCnCnad/2U0jJbatk8l5s9kM3psNGZ1xmghRM9H6RU=;
+ b=rBm+jkkJ5WcLbGOM4QPtyPQBqhDjnG+ONX7WbzT5q8lzcUt2Zv7Ub0T2ZpNOhcDAiYOwAQiXNfbvmHx+V1pgLo3sticwGVCVCuACudaej8CHCwrmJ/XH+yrB/G1Hooujr7Bl6mE+oVB+aoEznkOxGBIRTv5F2DkfGRllWw+ByQLejha4JPurJEJtTm+FqkEdI4zvDwyaubKDxD0OBTiKcjSNr56g1NC3TAqFncaCl67kdpIMCK0RPym4PGJB6bCQTAaknXeRWA42LdluglQ31Dl/yoGrHAQpba1oHCmMGwwIMNK9PnzAohDmfqG99bHjjGpVwf3/gnme86Ws/kfRXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ziCnCnad/2U0jJbatk8l5s9kM3psNGZ1xmghRM9H6RU=;
+ b=cVXsvDaS6+quaj2J2jqrGk/l3BcvzEtK5DNBZposF6EbvDXWVMAFQ4OzklWZM1RfZo+dIC/nhONsYK9XJZi42BSQ+gJ/siRN0Ml1TD+P/ReaNfMP2pTr7JHC97PWe1sz+A8ruTMRNsc37G5i252v8Qm4fb2hx+U4/gjuCxmXj+M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8)
+ by BL1PR12MB5922.namprd12.prod.outlook.com (2603:10b6:208:399::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
+ 2026 21:14:23 +0000
+Received: from BL1PR12MB5126.namprd12.prod.outlook.com
+ ([fe80::c3e7:1bc5:2b91:1cfe]) by BL1PR12MB5126.namprd12.prod.outlook.com
+ ([fe80::c3e7:1bc5:2b91:1cfe%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
+ 21:14:23 +0000
+Message-ID: <f670f350-7230-4bbc-9443-a6307429d7b3@amd.com>
+Date: Mon, 23 Feb 2026 16:14:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/colorop: Keep colorop state consistent across
+ atomic commits
+To: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: contact@emersion.fr, alex.hung@amd.com, daniels@collabora.com,
+ mwen@igalia.com, sebastian.wick@redhat.com, uma.shankar@intel.com,
+ ville.syrjala@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ jani.nikula@intel.com, louis.chauvet@bootlin.com, stable@vger.kernel.org
+References: <20260218065713.326417-1-chaitanya.kumar.borah@intel.com>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20260218065713.326417-1-chaitanya.kumar.borah@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR01CA0057.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::29) To BL1PR12MB5126.namprd12.prod.outlook.com
+ (2603:10b6:208:312::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|BL1PR12MB5922:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93aa6ede-f2d0-4dda-def3-08de732084ae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?d1lXVFlNRXd4WEJkNWZoNnB5OTJ3ZndPSGQ5L2JLUm1HYmU0UytpNDRqOHZs?=
+ =?utf-8?B?aDdrRTJZa3pjZWtXMVRVYmdwVVFHcnBTQ051c2lpV3RSclpyUk1hbWI3R2Ew?=
+ =?utf-8?B?R3lHOU1UbjBMU0RSQ2ZodTdXdjc4QVRZQzFyWUJBRjltREtYTFdhdG0wdldz?=
+ =?utf-8?B?QWtpeGtpWVpLbkFWcG1BMFMzaTd0L3lITGNxUVo5VGVuRTZJakIyUzZnbHBB?=
+ =?utf-8?B?YmtTK212dmNEOFl0SmVFNWJCU3FqdnlnaUVjOUJ6T3ZhTC9kVlM2Nmd2aFQ4?=
+ =?utf-8?B?UDNLYUppZS9SN2JuVWM5T2w3dGhnUGhOeWhDSEVORGNRNmdRK3B5d0dRTUx6?=
+ =?utf-8?B?WHJpMFFVNzYxMXI1a3cxZmtvQmNmNVRQWDIvZmdYY1kwOVFtMEd0c2lORWl3?=
+ =?utf-8?B?SitDcWQzdWRVTFJyeHJnWC9lR0JJVTZNRWZJUVVpYWMveHNoWGRVU05tUjFu?=
+ =?utf-8?B?WURjRlp1bDV0VE0rN2JWNDlkOFRHdVBzRkttQkFPUWJTSWRYbW5FUFU2MUdt?=
+ =?utf-8?B?R3FXUXV4QzNWVTRwakc4SnV5T080eUVTQ1VoaXA1SGhrZnBkR2k3UHJZRk1k?=
+ =?utf-8?B?ejJJK2FmaXZHMFRxYUVzTkxYcVJZZnlGVXQwODNsOXR3R2UyTFlGTkxOclpC?=
+ =?utf-8?B?eHdRNTNpay9keDNnUEZpbjZLakQzdE5XRmM1Y0hScVJCcTBDQzNUUnZrVTFu?=
+ =?utf-8?B?WVEzVEk1L1NxSFJYbUErVDljSEJ0NmpnU0N5ZVFvUWFlOHg1cWcrWW93N1pV?=
+ =?utf-8?B?ek9JUisyeGw0eDB4UzhUUlhHbVhtaVlTNTlpT3JzM0dUSGFQaG1Fak5UdzNZ?=
+ =?utf-8?B?VWV3czNMVGhaaTRzZER0TG5ybzVGYVdOK20vTjFTamd0Sy9ST3FwVnpQYmtO?=
+ =?utf-8?B?K05Rb1RnaXVDL09KWHlaK3orWnBPL09zVitadUJMYWF2TDF2NjJXZlpDbmY1?=
+ =?utf-8?B?VEtqTGEydzBaRzd2Q3gyRGRjUnVmWDJxUmVHR21IeTZZSVZqMEtTdHZVUmpr?=
+ =?utf-8?B?WXQ0dUVMWVhwY21QUUgvWUdValJhSmpvZ3ZBczdsYXY1WjNNWG5tZ2M2VDM4?=
+ =?utf-8?B?cmJpUmkyYnozQUFFUWNySnRpMVFTMFMzWHJOd2pjVlA0cUQ1TkxLaFJVakZM?=
+ =?utf-8?B?a3I0dlhza2UzbjdLaXZzUGNvbSt1M281TnllTERUdlZpZnJjaXgzUkVjeUFl?=
+ =?utf-8?B?UG9RTk5yL3ZTUnBhQTYwQ2NxdWErSG1FcUtsa2xtZTZDaWprZlo4YWdkeUJp?=
+ =?utf-8?B?QTBuL1BPL3QvR1VMSzdlUTRWWWZHVGsxWFRzWGVocVR6d2gwK1JlMVUxQ01K?=
+ =?utf-8?B?RlUyZ0dzdTVsRTB3Mmg3SFZJS2VUbTd3bk1CRnZZTllrT3lXd2xJWXdzWlVu?=
+ =?utf-8?B?S3FOQ1VJTUUxMGdCQWJCTldxZTJOVVp2RG5YV0ZFcVBQdkhDRHpla1IyUld2?=
+ =?utf-8?B?UlVFb3k3aURGb1kxZWVpQ0hjak1kQldnUWJLbjFHTThFekFBeDZzVDVBejlB?=
+ =?utf-8?B?SEZXSHBFSGFXdHZwYTgwRzJCMWNLWHFYZStDWVRhbXBMYXIxSGJueEkrbG92?=
+ =?utf-8?B?Ujd6RTVNS3hMQmh4ZjlkQ0JZN2FYbUw0c25jc3U5Qm1vOTJvUnN4YWRneThr?=
+ =?utf-8?B?WkR0bGZSTmpvM3BsME1WaTRRcDNYNk0vZis4VklQQW00dFE3WnAwWmxFZXIv?=
+ =?utf-8?B?akNHYncvNmtNS0ZINEYwRTlhM3NDd0NPeTdKb0pIcS9velJNNkF4bUNSZ1BG?=
+ =?utf-8?B?Y1ErcTIzMms0TzVWZTVVK21iSDNpeG5hSFI1aE5iZzZteUpWa3NzMWF3REFG?=
+ =?utf-8?B?cm1CMkNwcDhVZ09Jaysyc2hCcFRYdnlRaGJIVFd3QzBadEhsME4zT3dPWkhz?=
+ =?utf-8?B?L0FYYXlJRGlWazVIeUxXeXo2dGJrQWFmQUttTTBkUjE4enFUMlQxcWpVdk5C?=
+ =?utf-8?B?NlVoeDBwam9UTWg4UW9sV01DekRLVGZkcXIyYjVhQlllSTFCT1JTUDhwS2RX?=
+ =?utf-8?B?N2ZoalVBTWxEUDk3WkxlbldyWG81Ym0wU3ZKdStUZjVkVkh5TGlWUFBncUxp?=
+ =?utf-8?Q?vcEDm+?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5126.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmFJbFNDdzBxSzl0QXFxZkh6dm1oSEs1LzROZWgzdEdDa3l6NW52Vnd3VXk1?=
+ =?utf-8?B?YzJFc2dMTXQ2YXRXUTJ1MU90QmJjSkszR2dnSDdpMHZjZElyV0pSWnc3aUJV?=
+ =?utf-8?B?R2VnMUF2SjJjMDVhUVA1LytMNHZabWg4RGlFSXFWcUs5OHcwL3pMZnArak03?=
+ =?utf-8?B?TENUemIvN0lIOFhLUkU3b3ZDWk9SYksvV3Fxc0ZQT1JtMzZOd0ZoYTcxS3lZ?=
+ =?utf-8?B?cmdWZDlDekRibDVIUXNOc3V3Njl1MWF4eElmSHQxVDBPMWpYR2V5Y1NDcUg0?=
+ =?utf-8?B?dnIrdmRsMmd5ODlPZU1wc1pIR2k3azUrRmU3eERDbnNmU09tS29OM2Q2cEE4?=
+ =?utf-8?B?SGNKZ0d2OW1CZW9hVk1yVHZhSnp1TllpNFAwYktEOTd6MFphUklReG5OR1JT?=
+ =?utf-8?B?by9NL1JsUnk5NFNtVFRNSUJLeTV6K0JKSUJNNkpFa08yL1J0RE4waklGcytU?=
+ =?utf-8?B?dXVEK3JuUWd5VkF1aXREZkJHQmxDRTNNckFqOUpaWDRSTHhzWEorZUNoTVVE?=
+ =?utf-8?B?TjU3NnlvclRCbzRQQmpUdjBpNkJCTnlRMGwvWUFyQjRaWkxVbWczcTRRNnJk?=
+ =?utf-8?B?ZjhiNDJEODRoemhPMzFNbThTRVUycjl6UHl6QWtUZWEyS2Y3cDhSUlA3a0ky?=
+ =?utf-8?B?YzRJZHMvcGJVY21XSUtLTGdYbjhneTNXK3FIYXgxV3VwUUpiQXk0djMzTExo?=
+ =?utf-8?B?Q3FzSkVRWWRReEZDOGo0andHL0t3REJyTkVkRXUvTXBFUlhrVGRZeGY5RVdN?=
+ =?utf-8?B?RU9OODIvUFI4ZmlRK3NXc3ZBR1ZDVlF0bWNKWFhQb3Vxck5XRUpNSUhNeEJV?=
+ =?utf-8?B?OUlWbUpjMHV2T0JZaHllZlR3VWtNV2VmaHZiVXZRYjNpTElVclpXdjU3ZGxi?=
+ =?utf-8?B?V0F5U0xvRTJJRlNPQ3pQR1JXUXVidE5walBLRmhjckJxaE80MlVSTWlzZ2dx?=
+ =?utf-8?B?QjFSR2tyR3pxcWw4QVczNDl4aFZUMXFFN1FLODd0MjN2WnZsWHpObTNWS1BW?=
+ =?utf-8?B?ak1KQVJvZG5wRkJjUFFMSDhkc0treFFXNHZPR3ZyeTloQUk2Y2hGdjdqdmY3?=
+ =?utf-8?B?SVRaS1RZSVNLRHpBZTRibGhXRmVDR3ZKRFlkVWNUVkNQVTB6YVExV0tINzh3?=
+ =?utf-8?B?V01Xb29CNEUzS1JpcWhnUDVSVlE5QVFPQmpNYmdUYTJGTWp5aVVFQXpKWTBB?=
+ =?utf-8?B?NmF4ZkRjbStCYVZlRVB6YThOWTRmVDVJTTVIVExPUkpMYXNzMHZCMWR6T1pj?=
+ =?utf-8?B?OGFTbnZKRGFFNm5lNnBqNlY5NWo4SWp5STZ3dUMvY09oWEladzJvMGZPR01O?=
+ =?utf-8?B?dkd0aDZyS3RtcldoeHd5MU81ZExkY2NwMndrOU9lbDlkaGFVWUllNDNpRTI3?=
+ =?utf-8?B?ckxOSDh6TmQ1NndUVmRSRERLaVc3ZWYyeUxPR3MyRzkzOE53YzZtdGVyd3Nz?=
+ =?utf-8?B?aUFGalVXUWFOTTBkTHU0TGRPRFNwZnpRRXBXbVR6c1czYm8yOVFhVUNIU1M1?=
+ =?utf-8?B?NzZ5RmlkaHQzbEQ1dUF0eDh0UkZpR2tzRmJ0YkE2TVV5UGx1aG9qYzg2T1Np?=
+ =?utf-8?B?VXh2RExYZ1E2V3dUTVdvVFpMdHlUNDJVRkRMT0Fka2l2MmhteFhoT0Q4YUpZ?=
+ =?utf-8?B?WGl0TGx2bEJ3YVRKUTVjdVY0K1dDRWVvZy9aS1NzMjlmOHFXWFNjYlpENFl1?=
+ =?utf-8?B?UTVHaEUvckkxaFJGd2V2OUhDdkVHOVJ1anV4ZXMxK3JxcVpqMUJ3eTBPblE2?=
+ =?utf-8?B?dmhjaFdRWUZzTjNsTzg0UlkrMlhxVmRWUGhHTENlczl5VlFXMnBDNE82TlI3?=
+ =?utf-8?B?RkpCa1czSURLOEFTbVBwa1Z2S0FMMVNFZHpFU3hpT2NmUmFaWjVFWnIwY3N4?=
+ =?utf-8?B?Q0V3WnptLytJWVEyZXl2czJPaTNzVndubEJTeVFtSjk3OGUxK3dLMnNWanhu?=
+ =?utf-8?B?OHZlQ2NKQWJPS2MrUHR3dHc3QS91ZTVkVE9uOGxud1drTnR5NmRlSWQzbGtj?=
+ =?utf-8?B?RFFFYllEUTFheFZyMkpWRmZ5dWZDUjFqNHJaQzRYU2Z2MmtHMnVSeFoxeE9n?=
+ =?utf-8?B?a29mMnlQd2d6VmQyVzEyZzVsYThSbjRRdE56UFVvdWR0QStZcWpVM0daZVJM?=
+ =?utf-8?B?bDdNNytmQUJNUVgxK3lMOURZRElwUkthLzhxdE03WWZYY3NtWTJIbS9rOWZR?=
+ =?utf-8?B?MjVjcEl2SnMvMWZJK2tPM2pqdXgwd0t2M3A2cTRMNVBqTHVSSk02S1QvS1FP?=
+ =?utf-8?B?OEtWOUx2c05BeVRYWWhTQms5RFRCL3NVYUhKak9odFNOQmZRU3oxWnorNkcy?=
+ =?utf-8?B?UHNzY0NONG1kamd6d1phZUJJM0MrS0dKV01UbFlWQUhkZHdtYnpEUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93aa6ede-f2d0-4dda-def3-08de732084ae
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5126.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 21:14:23.6418 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8oyTznPMvQcpSky8yDqnjEdXnCkG7qsRtNqAjbkbFOeRoOtn+n0M/ZDBZeaQdKWG5Va4EuXKEyNITBAUcQeGZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5922
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,298 +177,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,igalia.com:email];
+	FROM_NEQ_ENVFROM(0.00)[harry.wentland@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,file.rs:url,driver.rs:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 157F517D1E8
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: 358B017D6D8
 X-Rspamd-Action: no action
 
-Currently the `TyrDriver` struct implements both `platform::Driver` and
-`drm::Driver`. For clarity, split up these two roles:
- - Introduce `TyrPlatformDeviceData` to implement `platform::Driver`, and
- - Introduce `TyrDrmDriver` to implement `drm::Driver`.
+On 2026-02-18 01:57, Chaitanya Kumar Borah wrote:
+> This series aims to keep colorop state consistent across atomic
+> transactions by ensuring it accurately reflects committed hardware
+> state and remains part of the atomic update whenever its associated
+> plane is involved.
+> 
+> It contains two changes:
+> - Preserves the bypass value in duplicated colorop state.
+> 
+> _drm_atomic_helper_colorop_duplicate_state() unconditionally reset
+> bypass to true, which means the duplicated state no longer reflects the
+> committed hardware state. Since bypass directly controls whether the
+> colorop is active in hardware, this can lead to an unintended disable
+> during subsequent commits.
+> 
+> This could potentially be a problem also for colorops where bypass value
+> is immutably false.
+> 
+> Conceptually, I consider 'bypass' to behave similar to 'visible' in plane 
+> state - it represents current HW state and should therefore be preserved
+> across duplication.
+> 
+> - Add affected colorops with affected plane
+> 
+> Colorops are unique in the DRM model. While they are DRM objects with their
+> own states, they are logically attached to a plane and exposed through
+> a plane property. In some sense, they share the same hierarchy as CRTC and
+> planes while following a different 'ownership' model.
+> 
+> Given that enabling a CRTC pulls in all its affected planes into the atomic
+> state, it follows that when a plane is added, its associated colorops are
+> also included. Otherwise, during modesets or internal commits, colorop state
+> may be missing from the transaction, resulting in inconsistent or incomplete
+> state updates.
+> 
 
-Also rename other variables to reflect their roles in the DRM context:
-- Rename `TyrDevice` to `TyrDrmDevice`
-- Rename `TyrData` to `TyrDrmDeviceData`
-- Rename `File` to `TyrDrmFileData`
-- Rename `DrmFile` to `TyrDrmFile`
+That tends to reflect my thinking when I wrote the colorop stuff.
 
-No functional changes are intended.
+> That said, I do have a concern about potentially inflating the atomic
+> state by automatically pulling in colorops from the core. It is not
+> entirely clear to me whether inclusion of affected colorops should be
+> handled in core, or left to individual drivers.
+> 
 
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
-Changes in v2:
-- Move the import TyrDrmDriver to a single line.
-- Rename the variable `tdev` -> `ddev` in file.rs to be
-consistent with the name used in driver.rs.
-Link to v1: https://lore.kernel.org/rust-for-linux/20260205185906.40940-1-deborah.brouwer@collabora.com/
+Could this lead drivers to reprogram possibly expensive colorops
+when they didn't change? It won't be an issue for amdgpu since we
+have another level of state tracking, but for drivers that strictly
+follow the atomic model it might lead to issues.
 
-This patch depends on: 
-[PATCH v2] drm/tyr: Use vertical style for imports
-https://lore.kernel.org/rust-for-linux/20260223203833.207955-1-deborah.brouwer@collabora.com/
+On the other hand it makes colorop handling less error-prone in amdgpu,
+and possibly fixes a bug I've come across where we get confused if an
+active colorop isn't part of the state.
 
- drivers/gpu/drm/tyr/driver.rs | 40 ++++++++++++++++++-----------------
- drivers/gpu/drm/tyr/file.rs   | 23 +++++++++-----------
- drivers/gpu/drm/tyr/gem.rs    |  9 +++-----
- drivers/gpu/drm/tyr/tyr.rs    |  4 ++--
- 4 files changed, 36 insertions(+), 40 deletions(-)
+Harry
 
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 259a5157eb47..7a42e5d96d82 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -30,7 +30,7 @@
- };
- 
- use crate::{
--    file::File,
-+    file::TyrDrmFileData,
-     gem::TyrObject,
-     gpu,
-     gpu::GpuInfo,
-@@ -39,16 +39,18 @@
- 
- pub(crate) type IoMem = kernel::io::mem::IoMem<SZ_2M>;
- 
-+pub(crate) struct TyrDrmDriver;
-+
- /// Convenience type alias for the DRM device type for this driver.
--pub(crate) type TyrDevice = drm::Device<TyrDriver>;
-+pub(crate) type TyrDrmDevice = drm::Device<TyrDrmDriver>;
- 
- #[pin_data(PinnedDrop)]
--pub(crate) struct TyrDriver {
--    _device: ARef<TyrDevice>,
-+pub(crate) struct TyrPlatformDeviceData {
-+    _device: ARef<TyrDrmDevice>,
- }
- 
- #[pin_data(PinnedDrop)]
--pub(crate) struct TyrData {
-+pub(crate) struct TyrDrmDeviceData {
-     pub(crate) pdev: ARef<platform::Device>,
- 
-     #[pin]
-@@ -71,9 +73,9 @@ pub(crate) struct TyrData {
- // that it will be removed in a future patch.
- //
- // SAFETY: This will be removed in a future patch.
--unsafe impl Send for TyrData {}
-+unsafe impl Send for TyrDrmDeviceData {}
- // SAFETY: This will be removed in a future patch.
--unsafe impl Sync for TyrData {}
-+unsafe impl Sync for TyrDrmDeviceData {}
- 
- fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
-     regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
-@@ -92,14 +94,14 @@ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
- kernel::of_device_table!(
-     OF_TABLE,
-     MODULE_OF_TABLE,
--    <TyrDriver as platform::Driver>::IdInfo,
-+    <TyrPlatformDeviceData as platform::Driver>::IdInfo,
-     [
-         (of::DeviceId::new(c"rockchip,rk3588-mali"), ()),
-         (of::DeviceId::new(c"arm,mali-valhall-csf"), ())
-     ]
- );
- 
--impl platform::Driver for TyrDriver {
-+impl platform::Driver for TyrPlatformDeviceData {
-     type IdInfo = ();
-     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
- 
-@@ -129,7 +131,7 @@ fn probe(
- 
-         let platform: ARef<platform::Device> = pdev.into();
- 
--        let data = try_pin_init!(TyrData {
-+        let data = try_pin_init!(TyrDrmDeviceData {
-                 pdev: platform.clone(),
-                 clks <- new_mutex!(Clocks {
-                     core: core_clk,
-@@ -143,10 +145,10 @@ fn probe(
-                 gpu_info,
-         });
- 
--        let tdev: ARef<TyrDevice> = drm::Device::new(pdev.as_ref(), data)?;
--        drm::driver::Registration::new_foreign_owned(&tdev, pdev.as_ref(), 0)?;
-+        let ddev: ARef<TyrDrmDevice> = drm::Device::new(pdev.as_ref(), data)?;
-+        drm::driver::Registration::new_foreign_owned(&ddev, pdev.as_ref(), 0)?;
- 
--        let driver = TyrDriver { _device: tdev };
-+        let driver = TyrPlatformDeviceData { _device: ddev };
- 
-         // We need this to be dev_info!() because dev_dbg!() does not work at
-         // all in Rust for now, and we need to see whether probe succeeded.
-@@ -156,12 +158,12 @@ fn probe(
- }
- 
- #[pinned_drop]
--impl PinnedDrop for TyrDriver {
-+impl PinnedDrop for TyrPlatformDeviceData {
-     fn drop(self: Pin<&mut Self>) {}
- }
- 
- #[pinned_drop]
--impl PinnedDrop for TyrData {
-+impl PinnedDrop for TyrDrmDeviceData {
-     fn drop(self: Pin<&mut Self>) {
-         // TODO: the type-state pattern for Clks will fix this.
-         let clks = self.clks.lock();
-@@ -182,15 +184,15 @@ fn drop(self: Pin<&mut Self>) {
- };
- 
- #[vtable]
--impl drm::Driver for TyrDriver {
--    type Data = TyrData;
--    type File = File;
-+impl drm::Driver for TyrDrmDriver {
-+    type Data = TyrDrmDeviceData;
-+    type File = TyrDrmFileData;
-     type Object = drm::gem::Object<TyrObject>;
- 
-     const INFO: drm::DriverInfo = INFO;
- 
-     kernel::declare_drm_ioctls! {
--        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, File::dev_query),
-+        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, TyrDrmFileData::dev_query),
-     }
- }
- 
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 48bff4476d74..450be5ab9aaf 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -7,35 +7,32 @@
-     uapi, //
- };
- 
--use crate::{
--    driver::TyrDevice,
--    TyrDriver, //
--};
-+use crate::driver::TyrDrmDriver;
- 
- #[pin_data]
--pub(crate) struct File {}
-+pub(crate) struct TyrDrmFileData {}
- 
- /// Convenience type alias for our DRM `File` type
--pub(crate) type DrmFile = drm::file::File<File>;
-+pub(crate) type TyrDrmFile = drm::file::File<TyrDrmFileData>;
- 
--impl drm::file::DriverFile for File {
--    type Driver = TyrDriver;
-+impl drm::file::DriverFile for TyrDrmFileData {
-+    type Driver = TyrDrmDriver;
- 
-     fn open(_dev: &drm::Device<Self::Driver>) -> Result<Pin<KBox<Self>>> {
-         KBox::try_pin_init(try_pin_init!(Self {}), GFP_KERNEL)
-     }
- }
- 
--impl File {
-+impl TyrDrmFileData {
-     pub(crate) fn dev_query(
--        tdev: &TyrDevice,
-+        ddev: &drm::Device<TyrDrmDriver>,
-         devquery: &mut uapi::drm_panthor_dev_query,
--        _file: &DrmFile,
-+        _file: &TyrDrmFile,
-     ) -> Result<u32> {
-         if devquery.pointer == 0 {
-             match devquery.type_ {
-                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
--                    devquery.size = core::mem::size_of_val(&tdev.gpu_info) as u32;
-+                    devquery.size = core::mem::size_of_val(&ddev.gpu_info) as u32;
-                     Ok(0)
-                 }
-                 _ => Err(EINVAL),
-@@ -49,7 +46,7 @@ pub(crate) fn dev_query(
-                     )
-                     .writer();
- 
--                    writer.write(&tdev.gpu_info)?;
-+                    writer.write(&ddev.gpu_info)?;
- 
-                     Ok(0)
-                 }
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 8f2d23e3c093..514524ae07ef 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -5,19 +5,16 @@
-     prelude::*, //
- };
- 
--use crate::driver::{
--    TyrDevice,
--    TyrDriver, //
--};
-+use crate::driver::TyrDrmDriver;
- 
- /// GEM Object inner driver data
- #[pin_data]
- pub(crate) struct TyrObject {}
- 
- impl gem::DriverObject for TyrObject {
--    type Driver = TyrDriver;
-+    type Driver = TyrDrmDriver;
- 
--    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, Error> {
-+    fn new(_dev: &kernel::drm::Device<TyrDrmDriver>, _size: usize) -> impl PinInit<Self, Error> {
-         try_pin_init!(TyrObject {})
-     }
- }
-diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
-index 861d1db43072..6eaa2135fe07 100644
---- a/drivers/gpu/drm/tyr/tyr.rs
-+++ b/drivers/gpu/drm/tyr/tyr.rs
-@@ -5,7 +5,7 @@
- //! The name "Tyr" is inspired by Norse mythology, reflecting Arm's tradition of
- //! naming their GPUs after Nordic mythological figures and places.
- 
--use crate::driver::TyrDriver;
-+use crate::driver::TyrPlatformDeviceData;
- 
- mod driver;
- mod file;
-@@ -14,7 +14,7 @@
- mod regs;
- 
- kernel::module_platform_driver! {
--    type: TyrDriver,
-+    type: TyrPlatformDeviceData,
-     name: "tyr",
-     authors: ["The Tyr driver authors"],
-     description: "Arm Mali Tyr DRM driver",
--- 
-2.52.0
+> My understanding of the atomic framework is still evolving, so
+> I would appreciate feedback from those more familiar with the intended
+> design direction.
+> 
+> ==
+> Chaitanya
+> 
+> P.S/Background/TL;DR:
+> 
+> I discovered inconsistency with the colorop state while analysing CRC mismatches
+> in kms_color_pipeline test cases[1]. Visual inspection reveals that while CRC is
+> being collected degamma block has been reset. This was traced back to the internal
+> commit that the driver does to disable PSR2 and selective fetch for CRC collection.
+> 
+> crtc_crc_open
+>     -> intel_crtc_set_crc_source
+>         -> intel_crtc_crc_setup_workarounds
+>             -> drm_atomic_commit
+> 
+> During this flow colorop states are never added to the atomic state which in turn
+> makes intel_plane_color_copy_uapi_to_hw_state() disable the colorops.
+> 
+> If we add the colorops, to the atomic state, the problem still persisted because
+> while duplicating the colorop state, 'bypass' was getting reset to true.
+> 
+> The two changes made in this series fixes the issue.
+> 
+> [1] https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_18001/shard-mtlp-6/igt@kms_color_pipeline@plane-lut1d.html
+> 
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Alex Hung <alex.hung@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Daniel Stone <daniels@collabora.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Alex Hung <alex.hung@amd.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> Cc: <stable@vger.kernel.org> #v6.19+
+> 
+> Chaitanya Kumar Borah (2):
+>   drm/colorop: Preserve bypass value in duplicate_state()
+>   drm/atomic: Add affected colorops with affected planes
+> 
+>  drivers/gpu/drm/drm_atomic.c  | 5 +++++
+>  drivers/gpu/drm/drm_colorop.c | 2 --
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> 
 
