@@ -2,167 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yOotJBKkm2mG4AMAu9opvQ
+	id eAW1Meqkm2nY4AMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 01:49:22 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 01:52:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031C7171036
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 01:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370DC17105F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 01:52:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBF610E1D3;
-	Mon, 23 Feb 2026 00:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABB910E1D8;
+	Mon, 23 Feb 2026 00:52:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="r4YJe/RP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kRqJTC7i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012015.outbound.protection.outlook.com [52.101.53.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E67210E155;
- Mon, 23 Feb 2026 00:49:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wBJUw2w7HQxtbrEfcYVhx140iG+FUoqMmmh8HPwV7WRU2gUVWhZbZWGFJk+ogwpkXNzrdx8JpWn2bFr8fTMDkUG/JOhYEzO1EM4vzKh75VuusTio3lnSaNbRXEMcW00wmiUPcZz+WdylPQKlt0/y6IhYQTAT1v9PmCzmDqwgA9PDWFKS94OFrknPGULm1FGimkqwPVWuFxZpidB+/0XaX4glWL19v45CQhC8NV9qceSCoJQu0zwsdNcgETZxP4ovHhuc0OPbUdCZ+1pI/5sJltJBdhrTRYxjCYfgnLmOgL3nRkrKRzzKVktl9LqvwpoJNOdMEK+pPLZ3pRuln2XBRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H/trVtwYcWlCGfrxeh7z37MpETv0RAFasyE7lixqyVA=;
- b=bjNFu8rjOSCI8AQQzvvJj0H6HQ8VTJ8pWo+yyQnzlgG9XTkS10Vt1BcZ07dHkxU9uOmevejxzWZguV5PWu7rdultjpBLEsi+4dQREMKfH9euflGj8PbNAaGEJFFIgNfjW1Vf8YZkD5nM+4VMykT2XtVtvb6jo8EaKrC7fW2QY2cAOTLbHyO9r5XtR4OK/ijdRHjf+lBMdqj8T50bdOWcrmiL6RTnEFKwmd9mBC0norlpcN+kTBSnW5OfJ7VBNpwbBwkKiSA/oucHNSogAn3g41R1gSK75KqEx1jq4dlmrR5b0IKRavmYXTqFHGeezJtR29UiBukDRhFzOB45zGQ8Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H/trVtwYcWlCGfrxeh7z37MpETv0RAFasyE7lixqyVA=;
- b=r4YJe/RPpkLD38L9zwBvAeoaLAehNTyGsB8nmVzQn3ArWyp9lru9HKDEa9FGCSGYP96e4vR2Q9OxKiSj6cU0uozgda1UGVN0Qv7lRE200tK5dDq+WPFxuO6VRmKV/ZEOSNo1vWJfg7hqW1A/Ou5QRx6jductocnhMFDw2OufqLVZybkACJiCQhO9CsZniVrIf9ACaxMqlbwkld18W7AqpBtBPdNGdIrwEa1i3CJszLDKmCqerBfmEtt5UDW9hpgNqt/BmUcuLVlHx5H0kY2b82LZAgKi1pznfyy2Vo89bLXlmxgHGvWfO1sZhHZQOdNCmzizBlthjm6xcxYZxg3H6A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- PH8PR12MB7327.namprd12.prod.outlook.com (2603:10b6:510:215::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.19; Mon, 23 Feb 2026 00:49:13 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 00:49:13 +0000
-Message-ID: <cdc31857-c9a0-4d05-a243-780dc9819cb7@nvidia.com>
-Date: Sun, 22 Feb 2026 19:49:11 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] gpu/buddy: fix module_init() usage
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Peter Senna Tschudin <peter.senna@linux.intel.com>, stable@vger.kernel.org
-References: <DGJPMOESHINC.1NGNT8LLY8DKW@kernel.org>
- <1771594440.99434@nvidia.com> <2026022156-citizen-shredding-5d6d@gregkh>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <2026022156-citizen-shredding-5d6d@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1P223CA0010.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::15) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5B910E155;
+ Mon, 23 Feb 2026 00:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771807973; x=1803343973;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=v3O/hJRhtaAfIBGB6kmmYnPZnpbQ1I1GcL6Vp1dZWrE=;
+ b=kRqJTC7iXrE/YYDZCXeBo2rbN+M/x9GpF2Z5JM6vNxYZV50HecatDuDC
+ L+anv1DJzqNh8tpJmsbdmT0rAkG77/huV17ARaaJpKJwYJsier8hr6mlN
+ JxovYrYmxl5dCRl1P9nqAcLvBSKKCs+ZuXP3m0VUUuoJM3Vu5WnTJ0yuu
+ ylIUg1DDk4FsDPvurryJ755fvF+E0AnRpVaxmtX/hKPr2mA3w7xKWRDvS
+ G4qAO1xpLeNXxi7mf7DOitw1u99GaMdGFpHp+V+1/bg4SvYJFKKraXOY2
+ ECnWDyWS3JgmgVxqt2Dz1kz461TyjopeMmp7Rc3wrwm4umz5YIAq6l0H4 w==;
+X-CSE-ConnectionGUID: hltwGbEzThuXLYX5i2GJVQ==
+X-CSE-MsgGUID: U7T6MfeSSWazjdd9JISjHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="75410492"
+X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; d="scan'208";a="75410492"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2026 16:52:52 -0800
+X-CSE-ConnectionGUID: LDlkWnofToWijWfQSBvBGA==
+X-CSE-MsgGUID: V8Xq84WXR6yJFnoAkA+ScA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; d="scan'208";a="238365912"
+Received: from lkp-server01.sh.intel.com (HELO c63097897875) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2026 16:52:51 -0800
+Received: from kbuild by c63097897875 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vuKBs-000000000Dx-3dpO;
+ Mon, 23 Feb 2026 00:52:48 +0000
+Date: Mon, 23 Feb 2026 08:52:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Simon Richter <Simon.Richter@hogyros.de>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Simon Richter <Simon.Richter@hogyros.de>
+Subject: Re: [PATCH v2 3/5] vgaarb: mark vga_get family as __must_check
+Message-ID: <202602230802.stvvFCIZ-lkp@intel.com>
+References: <20260218134633.461181-4-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH8PR12MB7327:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ac60295-c7c8-44f6-b7b1-08de72755d04
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bVQ3ZW80U1lVQ3JOck9MRk8xSGlmS1p0bk1Fd3N0VVRrZ1hDbWF2QVB1SjRF?=
- =?utf-8?B?cGNneVZ0OUUrSExhYVBrY2hGb1gvWEFRa0ZyalFIenlRKzlmenlXMGlMZzd5?=
- =?utf-8?B?Z093Mkg5UXl4OWNMbm5SWHUyMDQvR3JYV0lqaVBiQ3Q4MThIYUR5NWpZR1lV?=
- =?utf-8?B?SVlKZ0hmY253NHEweC9hbVZHZW5mTk1Lek9mQ3gxZTlwdEdob3hYQ3dkczRS?=
- =?utf-8?B?SkVUbnBtVklnN1lTMFlMVDJua3l5YjVEcFVzU1ZHME93dElXRFRrd2U1RlFj?=
- =?utf-8?B?V2E0NWtEWHp1cWtCcHBrcURrM2tIOXpFd2tyWFhyZktGMk1PMG5kbklMYnQ3?=
- =?utf-8?B?d1VpYWdRbkdzSkJoYnYxcnRWUm53WUZvbGs5YVN3enhPejBnZ3A3RWtpaFV5?=
- =?utf-8?B?OTc1KzdMMHFTOGVsVVNUaHNjaCtrbGpQSzBTdGZLYURCTWVLUTZGaWI4MWlV?=
- =?utf-8?B?TEovVXZiQk1QN0xBVGYzRFA0aHByYlRaaDFlUElZZHZmbUhRamh1YlRNdGVu?=
- =?utf-8?B?OVp2ZjFHQ3YzQ2JmaENxcWR5cnExdWNuS1kwNk56M3REZ3BiUXB1aEdueFRE?=
- =?utf-8?B?VGd5bm9IR1l4dEMxUVcyYmNzWng5bVk4MzhIUGYxbVBzRHY1bi9NeWFCTkgy?=
- =?utf-8?B?b2NVTG1FRks0YzNWcHZlVVFBY0pUZTQ4NEVwaGQ2ZE1selhVSWtxakxURElY?=
- =?utf-8?B?MElIRUdxRW52cUppbTR0bUhNd1VERk0zbzBPVHBma3J2cCtSZUxjQ05EMW5F?=
- =?utf-8?B?Q2JmbEVKUWRhTDErRDlSTUxxMndzRUJ5M3p5ODNiTnhxQ25VQThHZnk1MWhD?=
- =?utf-8?B?dE96OXdzZ3MxNlRhUEF1cDlERGc3QkF4WVliYW9VcUZmbU50UUVGYlZmMkp4?=
- =?utf-8?B?Ly9RRHB2emt0L0lNb3RrZXl4RGwvcDNBN0ZPOEN0TThFbkNKVDE5b0NnY1BL?=
- =?utf-8?B?dnErUVVja1lidXhaV016YUFJZzZBYmdCQnBKWG50NVIzRncvd1RJQTlsQTZx?=
- =?utf-8?B?bW5TVmtXVCszMDZYSWRTVWFrUmlLOUE1Zk5MNUJOWFhWSUtJYUg1MjBmZ0d6?=
- =?utf-8?B?Ym5FMEFPY2l3YjJ1MzY2RVhSSFl3VytkRVJqSFk1ckVHeEp3eVZsYjY3QUFM?=
- =?utf-8?B?SWRzbkRWU2pYdTlRY1NrWUFFK3ZsRXdGVzB3QTZKNUdKejVOb3lINTNXTEt0?=
- =?utf-8?B?S3g5S3E3cE9td0NXWFNoZXUvYU9Kek9aQzlJY1h3RVJNS0tkWmR1RmF3ZExt?=
- =?utf-8?B?cGoyT0Y4UjZwb1doK09RSkxrd1U2bGFhb29tRzU2QUc2WGFPZDNQNnNKbVor?=
- =?utf-8?B?RXJCbXpPZWtETk9OUXNQQU94a3FONGpkYlk2RTVxQmNualMzMDVFTnZ6eEM2?=
- =?utf-8?B?MURSRDJLQ2dQZzI3UDUwYm91aHhXUVREc0hJN0o4VG4rb2RGTm9vM0VJRGV1?=
- =?utf-8?B?SHBEV3Bvc21GNXdOVlFoVUdCcjc0cnRGbHRxM2t1VSs1QWE3WnZuRy9NYVBz?=
- =?utf-8?B?RmZDQzFWVS9qR2xWR2hkblBqZ1hhTXgwMGVEbGdMdE53YjRRUm13dGwxUVBO?=
- =?utf-8?B?WmxSeCtDb0E3RlQxc1VBUVh4Mmt0Tk1MUTJXRWUwUFdvNXpzWHBhMlRtTXNS?=
- =?utf-8?B?QUtnNWxLREpVTnNBbHVtRGwyV2VUY2QwcDRRcUpRai9XT3I3a3hlS29mM2lG?=
- =?utf-8?B?c2ZnMkVLZDhOQlUyUWJoSTczVWVtZkZJTDJqanUvajBVSmM2K0puVmhQZ0tM?=
- =?utf-8?B?Tys3Y0pZSi8vRWs2dU9wWVNaZGw5RWhHejBNVFNIV3NvTmcrYzA3anBEdFBP?=
- =?utf-8?B?eTY3c0tFN3V2Ym5ma3Q1SFVsZ281cmVWS1gwOGNnWmhRWEdkcUQzaVBmQ08r?=
- =?utf-8?B?ZE9pQzBDdkZiZXNpNEZLZ2w0N0dlWkZRN2FlTW9EcVltNnFMQ1IvTEordC9u?=
- =?utf-8?B?dUVpelNhQ0YwOEUyMlpwRnNMQVpEamRBdnl0dEg1RjNiVDlDTjlHNUYzMmpX?=
- =?utf-8?B?NS9oNWZxUi9xM0VjdENUMVZOTnlWQVhML0ZVVHFqUHQ0Z3JIZmYwaDRMbzN0?=
- =?utf-8?B?dHlLb3phYzRPN2ZqYms3SGlOemFvQWNKUUZsVWhMS081VCtNVkI4dHZXZ3VV?=
- =?utf-8?Q?X/v4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3NIdCtNakVKSjlva1RRcUdiRnBtR0V1WHU3d1JoNzNodW54b2hpTHJRRWdO?=
- =?utf-8?B?S2tUVFBMSkw2VWZ5Zy9hMWxqQmk3aElRaDBRNGNpMUE5cjMyZUs0VDBFK2hB?=
- =?utf-8?B?VzZUdDB5eE5jTXp0YmZ0ZVdzOENjNmFrdGxjNEowcTRCVXA0ejVVM3lvSFc0?=
- =?utf-8?B?VFY5dGMzeWsrd1lTQjYxNXV2QUlNdG5GcU1QZXVOQ1p6WThJUUs0YWg3RDRO?=
- =?utf-8?B?NDVFZkRDUVd6VjJBZ3hsbnZndTA5WmRiekZaZTBNcmtOSmgrSDBsMHhBL0Ns?=
- =?utf-8?B?Q2RFVzlSVysrRFVicDNEckVXQlF4YUZFN2dQcEU4WXhmN2ZkMjgyVzBnRGxq?=
- =?utf-8?B?eERwejMwWmxWajhmZVdjRDd5c05YbG1zS0wvYmt6Rm9iZGt3VGx6Y1VSb0gx?=
- =?utf-8?B?dlZZZWk3ZUF0a2lJT3llQVpqVVRJVkhSTnhxeWgyNXNTZGtHQ1ZzUHBNTm15?=
- =?utf-8?B?VGpDUVZ0QmJIclIrQnRYL2tuRm5iRlJ6MlhLK0xEMG0zeEJKUkx6anEzd3NH?=
- =?utf-8?B?OGtjVHdFTFRPTnVnZ0grMUxrVjdFeWw4UHQwWnZhTlBBZ0MyLzBickNxbG5x?=
- =?utf-8?B?VHFyVXkwcWxHV003Zy9lMDFzSDRwUnJRZVZuYi9Bd2VOZXMvcm5taWUwNjZT?=
- =?utf-8?B?OVd5eHk1WFJYWHkvV1ZHQUZxUktWN1ZWTXdDWldzOWhuR3E0dFE1YXUvdmc5?=
- =?utf-8?B?VmVGUXc5YVBXV0NGVzlHSDF0clU0V1Y0bkNUQTcxdk4vNTQyb1FaeWNHZktW?=
- =?utf-8?B?a2tCZ051azIrOEdDVTdjOFN4MGdmWnozL21FVkkwUHA4VzBoZDFRVll1LytM?=
- =?utf-8?B?MTVhUWlQTVBrRWdxN0N1RWpvM0UwOWxERmpBOTJ3S1JNODNTKy9FMFFHQ0R2?=
- =?utf-8?B?bVhacXdKVUthc0VmbmZ6cUdiS0UxaVBraXZhdXB0bjB3RVo1a3pSQngyTWlJ?=
- =?utf-8?B?REtLV0RaQmkrb1VkbTBOdnFBY3p4dnF6REtjeWNWZEg3RDQ1SHdUQWUwb3k5?=
- =?utf-8?B?b3RIbGg4OHdpVUNQTm5RaDNpQkY0RzVkRGVVVFEvbHZzbEtZaUlLZzZqM0la?=
- =?utf-8?B?MG9haHhlL1Ewc1owSHVZUUdBMjArdEJmODRVRHZVRVZHdTlJNjhNNTFKdnoy?=
- =?utf-8?B?S1BZYkJyZWFndGcybVhBbW0yVXBKbEJwbEkwL0g3Vll4U2E2b1hGL3FvaVZs?=
- =?utf-8?B?cTJiZHBiUEd5bXlMa3I1eU1OdFA3TjBZaFVJL2hMNlI0OUlGc2UzV0EzNGVR?=
- =?utf-8?B?VWhOWW9TY0FvQTZvRDhyVE8xdXZJaGs2eVdBdGF4VXVuYnJ3dUxXejRhQWdo?=
- =?utf-8?B?MHUranNFZnAzbTVuMVlxMkpLWmNYNnc0QldkUGNDQUtlcGZYYmtRT0NUSTB5?=
- =?utf-8?B?WUYrRnhzTERQVFpvTEdhOUpVVnFhOFFzV000elRYeG1rdTRSRFpDSDhldzR4?=
- =?utf-8?B?T1BZYkJIVE8zY010MEtZUjRIc3dPeWcwd0RWTG8zN3VYZjBlOTBCQVhsZEhj?=
- =?utf-8?B?RlpoM3ZkaS9qVFExU05tMHF0TmtITXR5OTR0NmEvN2tsSVBJdEhXMDhkb0xY?=
- =?utf-8?B?MWpJNUVHQzNJYkFxUm4zSW9nL2d5KzN0VGhMZ3lwY0ZiQ0RGWUttcmZxSW5i?=
- =?utf-8?B?M04vaUtHQ2VLR0U0VCtXek5rZStNUFhrSzZoQ0UxYXpUZSsxL0RSazdWcEpi?=
- =?utf-8?B?MDk2RWZ2a3cwelNHUmhyb3VMY2luT05jQU9HcDVRdDZ2NTBKRkhtWXFqWHIr?=
- =?utf-8?B?TXR1MXVnVXQrbGdvSjhhY3RSWGp3UFBGakRoQXBkV0MvZFJoVjZoNWNaUDJW?=
- =?utf-8?B?aFRZVWt5MW1iT1NYQ1BkUEdVeGFFSkd6cGRoWXJhKzA5eGVxSGFubEoxdnUw?=
- =?utf-8?B?SlgxNkwxemZhWHRMTHRBOWgyc2xWS3h2cDdSbmY4YzRYWU81V202ZUVhbXIv?=
- =?utf-8?B?ZmJJYStwYnZjYjBHZ3hlLzdPT2F3eUR1VkZCNWxlUXc3aDZ2Z2U0U3NzOUNa?=
- =?utf-8?B?QzgzSUF5NTNqOXJrcFNqTXdIZk9ZbS9rRldRYzdRbE11a3l1SE1XMExvZnBl?=
- =?utf-8?B?TVE4d2dZckhjL1VsdVR5blVqZS9YSC9UVmdaSDQ3RDQyaTdsUy9sV3FZUmgx?=
- =?utf-8?B?NEdBM1N2T0FiNVBxbDlVc0NUUjhYdGR1UjQxRmc4V044R0NGNFNoRGhNOUpM?=
- =?utf-8?B?djUxS3B5K3RtdnpKb2FTeEN6d1R6a1oxUnc5bEFPdDY2ZXBTbGx0Rk5yVVRI?=
- =?utf-8?B?a2lOQlNwWTlvRGpzdUpTNE4xdktBUmtPejdQeXJ3N01abVBMZndSUmdsU3BX?=
- =?utf-8?B?ZDlaV05mVkdDOGVobzZaNC9GY1VaSmM4Rmp6YTV3M0ZGN1llblNDUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac60295-c7c8-44f6-b7b1-08de72755d04
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 00:49:13.1921 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yZMBJBIIPFHLDR+B6RzYFvSkNbk9K4GImJh4AJsgUTIMLr7RPEDDnZN6vpsmmk31G/FfxRKCd960W4OC3gHdlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7327
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260218134633.461181-4-Simon.Richter@hogyros.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,109 +76,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: 031C7171036
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 370DC17105F
 X-Rspamd-Action: no action
 
+Hi Simon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus drm-misc/drm-misc-next drm/drm-next linus/master v6.19 next-20260220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Richter/vgaarb-pass-vga_get-errors-to-userspace/20260218-214939
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260218134633.461181-4-Simon.Richter%40hogyros.de
+patch subject: [PATCH v2 3/5] vgaarb: mark vga_get family as __must_check
+config: x86_64-randconfig-072-20250919 (https://download.01.org/0day-ci/archive/20260223/202602230802.stvvFCIZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260223/202602230802.stvvFCIZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602230802.stvvFCIZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/display/intel_vga.c: In function 'intel_vga_disable':
+>> drivers/gpu/drm/i915/display/intel_vga.c:68:9: error: ignoring return value of 'vga_get_uninterruptible' declared with attribute 'warn_unused_result' [-Werror=unused-result]
+      68 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vga.c: In function 'intel_vga_reset_io_mem':
+   drivers/gpu/drm/i915/display/intel_vga.c:93:9: error: ignoring return value of 'vga_get_uninterruptible' declared with attribute 'warn_unused_result' [-Werror=unused-result]
+      93 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-On 2/21/2026 12:44 AM, Greg KH wrote:
-> On Fri, Feb 20, 2026 at 08:55:52AM -0500, Joel Fernandes wrote:
->>> On Feb 20, 2026, at 5:17â€¯AM, Danilo Krummrich <dakr@kernel.org> wrote:
->>>
->>> ï»¿On Fri Feb 20, 2026 at 7:06 AM CET, Greg KH wrote:
->>>>> On Thu, Feb 19, 2026 at 10:38:56PM +0100, Koen Koning wrote:
->>>>> Use subsys_initcall() instead of module_init() (which compiles to
->>>>> device_initcall() for built-ins) for buddy, so its initialization code
->>>>> always runs before any (built-in) drivers.
->>>>> This happened to work correctly so far due to the order of linking in
->>>>> the Makefiles, but this should not be relied upon.
->>>>
->>>> Same here, Makefile order can always be relied on.
->>>
->>> I want to point out that Koen's original patch fixed the Makefile order:
->>>
->>> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
->>> index 5cd54d06e262..b4e5e338efa2 100644
->>> --- a/drivers/gpu/Makefile
->>> +++ b/drivers/gpu/Makefile
->>> @@ -2,8 +2,9 @@
->>> # drm/tegra depends on host1x, so if both drivers are built-in care must be
->>> # taken to initialize them in the correct order. Link order is the only way
->>> # to ensure this currently.
->>> +# Similarly, buddy must come first since it is used by other drivers.
->>> +obj-$(CONFIG_GPU_BUDDY)    += buddy.o
->>> obj-y            += host1x/ drm/ vga/ tests/
->>> obj-$(CONFIG_IMX_IPUV3_CORE)    += ipu-v3/
->>> obj-$(CONFIG_TRACE_GPU_MEM)        += trace/
->>> obj-$(CONFIG_NOVA_CORE)        += nova-core/
->>> -obj-$(CONFIG_GPU_BUDDY)        += buddy.o
->>>
->>> He was then suggested to not rely on this and rather use subsys_initcall().
->>
->> I take the blame for the suggestion; however, I am not yet convinced it is a bad
->> idea. 
->>>
->>> When I then came across the new patch using subsys_initcall() I made it worse; I
->>> badly confused this with something else and gave a wrong advise -- sorry Koen!
->>>
->>> (Of course, since this is all within the same subsystem, without any external
->>> ordering contraints, Makefile order is sufficient.)
->>
->> If we are still going to do the link ordering by reordering in the Makefile,
->> may I ask what is the drawback of doing the alternative - that is, not
->> relying on that (and its associated potential for breakage)?
->>
->> Even if Makefile ordering can be relied on, why do we want to rely on it if
->> there is an alternative? Also module_init() compiles to device_initcall() for
->> built-ins and this is shared infra.
->>
->> We use this technique in other code paths too, no? See
->> drivers/i2c/i2c-core-base.c:
->>
->>   /* We must initialize early, because some subsystems register i2c drivers
->>    * in subsys_initcall() code, but are linked (and initialized) before i2c.
->>    */
->>   postcore_initcall(i2c_init);
->>
->> If there is a drawback I am all ears but otherwise I would prefer the new
->> patch tbh. 
-> 
-> The "problem" is that the init levels are very "coarse", and the link
-> order is very specific.  You can play with init levels a lot, but what
-> happens if another driver also sets to the same init level, or an
-> earlier one to try to solve something that way?
-> 
-> So it can be a loosing battle for many things, choose the best and
-> simplest solution, but always remember, Makefile order matters, which is
-> what I was wanting to correct here.
-Fair enough, the solution you are suggesting also sounds good to me.
+vim +68 drivers/gpu/drm/i915/display/intel_vga.c
 
-thanks,
+0c80d60ae63461 Ville Syrjälä 2025-04-17  43  
+4fb8783165b7c6 Jani Nikula   2019-10-01  44  /* Disable the VGA plane that we never use */
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  45  void intel_vga_disable(struct intel_display *display)
+4fb8783165b7c6 Jani Nikula   2019-10-01  46  {
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  47  	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  48  	i915_reg_t vga_reg = intel_vga_cntrl_reg(display);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  49  	enum pipe pipe;
+0c80d60ae63461 Ville Syrjälä 2025-04-17  50  	u32 tmp;
+4fb8783165b7c6 Jani Nikula   2019-10-01  51  	u8 sr1;
+4fb8783165b7c6 Jani Nikula   2019-10-01  52  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  53  	tmp = intel_de_read(display, vga_reg);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  54  	if (tmp & VGA_DISP_DISABLE)
+a3af0140663dc3 Emil Velikov  2021-06-04  55  		return;
+a3af0140663dc3 Emil Velikov  2021-06-04  56  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  57  	if (display->platform.cherryview)
+0c80d60ae63461 Ville Syrjälä 2025-04-17  58  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK_CHV, tmp);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  59  	else if (has_vga_pipe_sel(display))
+0c80d60ae63461 Ville Syrjälä 2025-04-17  60  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK, tmp);
+0c80d60ae63461 Ville Syrjälä 2025-04-17  61  	else
+0c80d60ae63461 Ville Syrjälä 2025-04-17  62  		pipe = PIPE_A;
+0c80d60ae63461 Ville Syrjälä 2025-04-17  63  
+0c80d60ae63461 Ville Syrjälä 2025-04-17  64  	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
+0c80d60ae63461 Ville Syrjälä 2025-04-17  65  		    pipe_name(pipe));
+0c80d60ae63461 Ville Syrjälä 2025-04-17  66  
+4fb8783165b7c6 Jani Nikula   2019-10-01  67  	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
+4fb8783165b7c6 Jani Nikula   2019-10-01 @68  	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+f0bb41fad02e03 Jani Nikula   2022-02-02  69  	outb(0x01, VGA_SEQ_I);
+f0bb41fad02e03 Jani Nikula   2022-02-02  70  	sr1 = inb(VGA_SEQ_D);
+f0bb41fad02e03 Jani Nikula   2022-02-02  71  	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
+4fb8783165b7c6 Jani Nikula   2019-10-01  72  	vga_put(pdev, VGA_RSRC_LEGACY_IO);
+4fb8783165b7c6 Jani Nikula   2019-10-01  73  	udelay(300);
+4fb8783165b7c6 Jani Nikula   2019-10-01  74  
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  75  	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
+4b6e05c43b7542 Ville Syrjälä 2024-09-06  76  	intel_de_posting_read(display, vga_reg);
+4fb8783165b7c6 Jani Nikula   2019-10-01  77  }
+4fb8783165b7c6 Jani Nikula   2019-10-01  78  
 
---
-Joel Fernandes
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
