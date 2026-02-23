@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHSdKltinWksPQQAu9opvQ
+	id GDsDHVhinWksPQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:31 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2223F183C02
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE989183BD5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2141D10E4EF;
-	Tue, 24 Feb 2026 08:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7558D10E4F0;
+	Tue, 24 Feb 2026 08:33:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KuenMXb8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jtMW+HtT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE31710E454
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 14:24:11 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-437711e9195so2851976f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 06:24:11 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F58C10E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 14:24:14 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-48374014a77so45516945e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 06:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771856650; x=1772461450; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=I+2zu6waZ9ZINHmOeqTNg+8QIhX87rWd1dofyBo/XGE=;
- b=KuenMXb8XNYeFepmnNPiSn8Cc/nW/9k5w1YcJfQtWyNlyoDyFXpyUMTBh2dElO0Wpj
- UbKtEAEWPWrOn+vWmcqpwy7kG1KTdracOGGbLr+18Zfg0vhkt4/UtDfFTbJlhLXZUd6I
- DzLG55S6DwX84s7TJMM2mIoeK1e11jZnb2f/C6qUhL2FF+PSvByz7dAxBu+W0aEwiEAm
- uorDwJDbxr0dgpYXlWw5a6322mLd8zv4/vd9wCRJSqn2xjVuZgc5HK69rNOYC84cs68p
- AjupHII7ge6hhHGEUBLUx9iTqqR2YL75dlhCtJB0mpgu7bHP9cbFJNu0g15Hh7cnH8wB
- CCXw==
+ d=gmail.com; s=20230601; t=1771856653; x=1772461453; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=E2KmA+8Pfbp7g0ZPmDRNIiwTVdZh9YZrLO0rcJPB57Y=;
+ b=jtMW+HtTH6P+F1qyavJIR/zjMTINNfO2Qw1eZew2bbSrP0YApeXsmvyXeg+aujMmHb
+ /QgWAkmcWYVln7o4/hjvzcEU/Ye5foVw78wX0lgzus6tItd+SC9pd8AsOoXB1SvwTeXe
+ TRnrHVcUa8cDvPWTG9hs1LsuDhr5X+ib1w4ocjgObloKzE6cnie584WpVVeHpFW6ir7a
+ GPSlzCfRDDwH2L0seFfsTvmlcMip/5qsw5eIHPcJTQWe/K7HnP5cFC8aQ0+yfqCI/tPo
+ OFujZtAjy/WxGc2ZbheOk6PqWI7mwWqt8e7x5Ogct9IVYFA/EyfendOozcKAZlOaxgtW
+ Smag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771856650; x=1772461450;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I+2zu6waZ9ZINHmOeqTNg+8QIhX87rWd1dofyBo/XGE=;
- b=qFL33akUiGox4Ja8LMGl2yHANoGcNb7oLLjAYcqjSf17Rr/s84KeS2zq3RXoKfUnDi
- k0wIAbkJimns63WH6PgFI8FHRv6QnCEY60DlAzduI6WhqoNvh8eUrgjRWz4HtMnxiD1a
- WBEAEzM7LqOzmHmhY82gYPEx11rRiZlPOcaWdQGp5PWvlFTA4TUb21xGRJ5yLG4/ZWNV
- vePvr8XI+OSphAT0DT3m5AlYRTRq6P6k5vT/3Uoy5ZAu4ZAge7kcJwgSEWIauVdxXlyW
- G0E4sOEcGuQ6VNj256eqKT4LN+becNEkk3bgBvgYAgn2onp62ovqfOrb70hpLH+K6qi3
- MFmQ==
+ d=1e100.net; s=20230601; t=1771856653; x=1772461453;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=E2KmA+8Pfbp7g0ZPmDRNIiwTVdZh9YZrLO0rcJPB57Y=;
+ b=l7drvj+nELNxfUFd1GSzFmF8nIERe8j6b0FhMY9l7MuD8Cck3HT0CocZZXdNhL89x4
+ S86j9NT8P7X+zqPLWRZf6fZbTZ1mn4gTxOoFEtEzQukbpP38nJsgmzFTa1pfNljJ7VNo
+ ECPN93sprsI7Xm5SIK2+gYh7yTOBTIuS/IH0C0YMEoZNy95nR6UaKCRWzZInAiQtm8/p
+ HjtFgHUIQCWoEY6ESPMsA4DgvoRVlxDIPwPjUnpMDvpgcKZyzF4bi7EHGnIbGk0xtzZ0
+ ToDh8FUYNgwjFfVVCTpRD1KrE+l+0HrCe8XC1n8cO0tWCeLp8gcOCd/IKrOU9625/vAH
+ Zv5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJIzcwRUle6rL9LqIFW7T26RZ6pER564KorUAgBTAG+XD5sYWzeUlqm4vTIK82LtGyIgwuEAs6eGk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFnJ8CspcDumTdBqKMAb10/3lVqz5nf/8+kbisIcIbaeLg+uea
- uM0OO/PDtbtzd3ZccY/SgEEs7rl2MwSdIx/KiOUhMLnZq4d+3O5fCl9E
-X-Gm-Gg: ATEYQzx5QoYbGoLDyIJJ5QmyYOPDn7TF0X1U4IkxAnv32jiI5BCBvnF9VmfZ5YuiAV5
- M48n026oUnhjGi3+RprVoPY8Sv0JXuzwjR3plBSB1EZri2dwgSzVtRmVUbetACM4zGqyeo2zOwH
- cnRmY/0MHT5ORXN8zzjF1bnitfzFF+tOw6Pq+6VGf+kRtm+vnAqsw5GIXM8eYn3PHd/yopKGqEV
- 6B71Mde90GUJQzzN56qmqRaO4jPPIPVHvwWmy5Xpen83iSUllN/kyfFnPv9UiurdEb/LcVwEc0G
- +xRonsdvkZGa8aWhtjP+NyX15Y89fbGq2uTKVkvNILXepwmSk2XrCtdTA+Lk+fYo6bii58Uj9wK
- uw4Yj/dbSArhmPdnuy4YyBIxoROnfMOC9BZxyiD4JorB7l4czC/oqG/1665Ih9/X4C6SkSqxDWX
- 6RqG8LuQtVhlIOiByLt47r116NUfZr4yUwYNStzXVqMGXg0ksJPj1YLDTAHCJXCLQ=
-X-Received: by 2002:a05:6000:4021:b0:436:30b0:75a0 with SMTP id
- ffacd0b85a97d-4396f194254mr14347361f8f.37.1771856650195; 
- Mon, 23 Feb 2026 06:24:10 -0800 (PST)
+ AJvYcCXw13A5O56/9vw/OhgmIPhLvXaWV71TomRqsXoiCnM3hFveIFkPlC2ZyTQGTlcXOx5miOUtMcksXwo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8U/PccHBmYm0Q+NYZ5MRKH5FBZqbXn0bBfH6lwwo4/JA5aUw1
+ vNeitDYE3kGleqr6v8vwCoyuCQr+/UYthBp2I4+ndi6u9euyIQFCTNTZ
+X-Gm-Gg: AZuq6aKpFUgFjiP8Bx9/LbphzJkjMDloN4hlyUJcRjNdy0GZfGe5ZMfHlAliVTqtow5
+ hSgARNjmHkn2cYS3KZZY97mIem+gZRr2xvD396lM1QCGLJ2yGXQ7d7cQbYGrt1gE+P8qzHyR2JR
+ 8SKy/lCDS7GYpa5SXbpvlTBMPjNPHledHTveOouoUpxxSdz0i3sClZf55S1qQ3wKAet6DfZ4RAA
+ tqD8WVEiMElruw0AQmfY2Gjqgv1PYCHtgX5oVvGbhWiKS1H+g/kSEbGyhJPpLZHogMaxQHzIZPW
+ 4qeF3lrRVNUWRLKI05JW8aq9C5ePe+aTwm9WuwuDAbn+7Zs0A5LlIB+QRsHM0qwGB6ZMgjZFFA1
+ dL+yCkrWZtuIzBmNLsby0OaaVCNpfuHd5EnklDN0PKwVt4rm12KtxLFEY8RmDH9r2I1Rz2BLu4J
+ Bl56PNljF6Fl+iAEZJITpNaECEwmhUgjtlotW4mwEpFMeyfovDbfrjzfCv0I4AjYs=
+X-Received: by 2002:a05:600c:3e05:b0:483:6fc6:1e20 with SMTP id
+ 5b1f17b1804b1-483a95b5410mr153230345e9.9.1771856652458; 
+ Mon, 23 Feb 2026 06:24:12 -0800 (PST)
 Received: from [10.100.102.82] (46-116-183-56.bb.netvision.net.il.
  [46.116.183.56]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970bfa1bdsm18713233f8f.3.2026.02.23.06.24.08
+ ffacd0b85a97d-43970bfa1bdsm18713233f8f.3.2026.02.23.06.24.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 06:24:09 -0800 (PST)
+ Mon, 23 Feb 2026 06:24:12 -0800 (PST)
 From: Yedaya Katsman <yedaya.ka@gmail.com>
-Subject: [PATCH 0/3] Add support for the Samsung S6E8FCO display panel
-Date: Mon, 23 Feb 2026 16:24:01 +0200
-Message-Id: <20260223-panel-patches-v1-0-7756209477f9@gmail.com>
+Date: Mon, 23 Feb 2026 16:24:02 +0200
+Subject: [PATCH 1/3] dt-bindings: display: panel: Add Samsung S6E8FCO
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y3MywrCMBCF4VcpWRuZpO3YFhHfQ1xMkqkGe7OJR
- ZC+u/GyGfgPzPcSgWfPQTTZS8y8+ODHIYXaZMJeabiw9C610KARtKrkRAN36UZ75SCxRtfuGFy
- lQKSfaebWP7/e6fzrme+PxMbfKHoOgb5sk+3/Kuo8R4CtyqGupJYLdceJ7I1j3Npx7A4f2lBga
- ce+97HJXFEDEquCylblaNngThmjCsvOpKWlEsERivO6vgHnV3Bu5AAAAA==
-X-Change-ID: 20260218-panel-patches-696df7e0d810
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260223-panel-patches-v1-1-7756209477f9@gmail.com>
+References: <20260223-panel-patches-v1-0-7756209477f9@gmail.com>
+In-Reply-To: <20260223-panel-patches-v1-0-7756209477f9@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -92,11 +89,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, Yedaya Katsman <yedaya.ka@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771856648; l=1749;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771856648; l=2810;
  i=yedaya.ka@gmail.com; s=20260113; h=from:subject:message-id;
- bh=9y6D6xz5iEV1RlXfd71tFKG5C2AsAHLINlsH8NwvLQ0=;
- b=bRK40Pbiz6nb8aMZHw2Gw0SSib4spnpKUOIEypjCEEzz9zafYDQ4AM/cItCrg+kY/HpmLeuXD
- JlbZADyy9m0Bb32QxKGHHw0udZ0m9oXx9n7c/BeGyZy1aXE8cyptzNK
+ bh=V7fqUxwHPHnpclzLi48IhRpOeLBkH3gWfVtQ4pPChnA=;
+ b=fhpsupwfISjwnsevZ8FXMVKuyp5OVx51389rFkscMCKeLRab4QAjsX/0UzAsG/ttvJZ2hmY7h
+ 7olplTnimlSAvMYFK235Tx3nXIkWlT8wpYniDss53zdUWUmF1RjWAfu
 X-Developer-Key: i=yedaya.ka@gmail.com; a=ed25519;
  pk=CgNmxD3tYSws5dZfpmJfc6re/bV/f47veVijddHLytk=
 X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
@@ -133,8 +130,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
@@ -150,45 +147,108 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2223F183C02
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,protonmail.com:email,linaro.org:email,ixit.cz:email]
+X-Rspamd-Queue-Id: DE989183BD5
 X-Rspamd-Action: no action
 
-This adds a driver to support the Samsung S6E8FCO display panel found in Xiaomi
-Mi A3 (xiaomi-laurel). The driver is generated using
-linux-mdss-dsi-panel-driver-generator[0].
+Document Samsung S6E8FCO 6.09" 720x1560 panel
+found in the Xiaomi Mi A3 smartphone.
 
-The mdss reset dependency makes the screen work more reliably.
-
-[0]: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-Original tree with patches: https://gitlab.postmarketos.org/SzczurekYT/linux/-/tree/laurel
-
+Co-developed-by: Kamil Gołda <kamil.golda@protonmail.com>
+Signed-off-by: Kamil Gołda <kamil.golda@protonmail.com>
 Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
 ---
-Yedaya Katsman (3):
-      dt-bindings: display: panel: Add Samsung S6E8FCO
-      drivers: gpu: drm: panel: Add Samsung S6E8FCO
-      arm64: dts: qcom: sm6125-xiaomi-laurel-sprout: Enable MDSS and add panel
+ .../bindings/display/panel/samsung,s6e8fco.yaml    | 64 ++++++++++++++++++++++
+ MAINTAINERS                                        |  5 ++
+ 2 files changed, 69 insertions(+)
 
- .../bindings/display/panel/samsung,s6e8fco.yaml    |  64 +++++
- MAINTAINERS                                        |   6 +
- .../boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts  |  94 +++++++
- drivers/gpu/drm/panel/Kconfig                      |  12 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e8fco.c      | 293 +++++++++++++++++++++
- 6 files changed, 470 insertions(+)
----
-base-commit: d4906ae14a5f136ceb671bb14cedbf13fa560da6
-change-id: 20260218-panel-patches-696df7e0d810
-prerequisite-message-id: <20260216233600.13098-2-val@packett.cool>
-prerequisite-patch-id: 3fba84f11111406e0d530013fd45ad0eb389786b
-prerequisite-patch-id: 81440b7f28f9101d3dc5d4bad6dc86e39b81a026
-prerequisite-patch-id: 53469d8c9810169d058f1bfd27ac8399038aae74
-prerequisite-patch-id: 80809bee71eb6434f6699d5e5f8c7f9d4bcd1ca7
-prerequisite-patch-id: 0269e01c9c54a37bb92983635cd516342189aee5
-prerequisite-patch-id: e2bbf7c452d4da6d71b1a5194e0d7ce46584e113
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..8c042ce5f65bf317df48e109d88ebdc87ef5d5ed
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e8fco.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S6E8FCO AMOLED Panel
++
++maintainers:
++  - Yedaya Katsman <yedaya.ka@gmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e8fco
++
++  reg:
++    maxItems: 1
++
++  vddio-supply: true
++  ldo-supply: true
++  iovcc-supply: true
++  reset-gpios: true
++  port: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - ldo-supply
++  - iovcc-supply
++  - port
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e8fco";
++            reg = <0>;
++
++            vddio-supply = <&vreg_l9a>;
++            ldo-supply = <&panel_ldo_supply>;
++            iovcc-supply = <&panel_iovcc_supply>;
++
++            reset-gpios = <&tlmm 90 GPIO_ACTIVE_LOW>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e087673237636268346979ddc270f8cf0905c722..545d4cf68b9ac27765c7981e668e32cfecf3366b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8183,6 +8183,11 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
+ 
++DRM DRIVER FOR SAMSUNG S6E8FCO PANELS
++M:	Yedaya Katsman <yedaya.ka@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/samsung,s6e8fco.yaml
++
+ DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
+ M:	David Heidelberg <david@ixit.cz>
+ M:	Casey Connolly <casey.connolly@linaro.org>
 
-Best regards,
 -- 
-Yedaya Katsman <yedaya.ka@gmail.com>
+2.53.0
 
