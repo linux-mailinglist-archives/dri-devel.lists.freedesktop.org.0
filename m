@@ -2,174 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eHSJFq9dnGmkEwQAu9opvQ
+	id ANhYFaZenGkUFQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 15:01:19 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 15:05:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEBA1779F5
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 15:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2467177B66
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 15:05:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54AAB10E40F;
-	Mon, 23 Feb 2026 14:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F3410E44E;
+	Mon, 23 Feb 2026 14:05:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="gXteH5jG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ag9ZhFAe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011059.outbound.protection.outlook.com [40.107.208.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E78B010E40F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 14:01:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LeKmC0LsmfPem+R1TS5bhrYGWd89iYe2z0ZLVI+f4+OGnU8wu6xd4AuuL9jymIN2MiLURg9uw1KHrScXy8Ju5Pk6eVDZ5LaNIsyEGT28ax2BPlNb+OH1lJo3mUaSAuTFN4ER5DbHNAgN1rxLzmUxI5dtVChZtgDIbA79N+FUpPU0Cr4JgcBHFu2H6JBMSEhXBokvzE3P5kj3bWd68bmHySY5l0H6vEeyvFVtX6f8MHlvjkoQuKsk7cfosRQDx8ugoOJ7FJkf5i4+EB4hFLVNgRE71Cz/UM9hjpGy7RiDxtDk0LNDS9MqYXxx5qtGZMyT1P6/McjEkv9rtKtcgVeznA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RA0zjoYNmFL0OWZ7cWw4nReeVyWY0E1FWcoKzhPQyxo=;
- b=SegrqeCNGoFxuAgYAivYxhhmQwL2+MshOoEILVTWdn46uqpTVSeAJodUq6hDIwWNJQVy6j+6SRps1mNCPXyjUosCFwDgMfm9qakXkFLIhPIezJqwpCUnuHMZdbVc4DsKGNa1gEpK3fciWou/i/7zu43YjW0xtKdLBqWKhzC6V5D7GW27cae4dS3JUUg8TERE0kbGPXm5DkgmK9u8DwzwRsZpcu2uVXqe5bpDPVoHe9VfTKAX88y4k4WdQkJWaKjkhaSgiNua7Msr6EnkLVJUTcLUUUzKot76yR+iq/UG490d0DWQO8Y8Z7WSkrn3WgcHnIR5Sg5DmV1QKoBPT8vKdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RA0zjoYNmFL0OWZ7cWw4nReeVyWY0E1FWcoKzhPQyxo=;
- b=gXteH5jG7D+nbBorVFs4r1vl5SdOu01pzrdOQYyoxpv1Pnh/Bf2cZ3N5+rfEC7UK482vWmw317W6K7Y2qNHZV/y+vQmY8BxEBHC8JCI8wqLIKcZ5Us2y2lT/tIZGEwXmwL3c9lIXm6ghdEl9u8m9t5r8NoUPEbFfiHhCqL4tTIH+a2seqJZ9vrSMY55p4TjEvxUJcLBP/w2dTO1YjOn8CuarCmaXCHTPH8jdeEgTL5nQVcYBKMK17cSGD3K12R+lvZ/pUfSCIAgr6Z7GZvuLQeUAud6jiQ40r1nt7woLUVMzQa3dfqHBACwCBbOGA++0UiZ/IX5QLWaOIKXHnqDJew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SJ0PR12MB6807.namprd12.prod.outlook.com (2603:10b6:a03:479::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Mon, 23 Feb
- 2026 14:01:02 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 14:01:02 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-erofs@lists.ozlabs.org,
- linux-block@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Xing <kernelxing@tencent.com>, Yushan Zhou <katrinzhou@tencent.com>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Eric Sandeen <sandeen@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?utf-8?b?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Carlos Llamas <cmllamas@google.com>,
- Alice Ryhl <aliceryhl@google.com>, Damien Le Moal <dlemoal@kernel.org>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Gao Xiang <xiang@kernel.org>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
- Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>
-Subject: Re: [PATCH v1 00/11] Zero page->private when freeing pages
-Date: Mon, 23 Feb 2026 09:00:57 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <F1307EF8-7054-4135-B61A-62141A113394@nvidia.com>
-In-Reply-To: <aZxaIEFZr2NvO2eQ@infradead.org>
-References: <20260223032641.1859381-1-ziy@nvidia.com>
- <aZxaIEFZr2NvO2eQ@infradead.org>
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0223.namprd13.prod.outlook.com
- (2603:10b6:208:2bf::18) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+ [209.85.167.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0752710E44E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 14:05:21 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id
+ 5614622812f47-45f0b597eb4so2584713b6e.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 06:05:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771855521; cv=none;
+ d=google.com; s=arc-20240605;
+ b=eHjWOUOXwE8vNq/basF6XVkVuOUhfNTP8FR5MMZxTRG7i7u3ilZqlXYxs2bNWwNFMQ
+ DCthHJBLyThSGfyv6NIYvWPDy539Mn9/8HZIFhAUdwOl/8mIw+aapDAG9kZh6FF++Sto
+ EC8p8Pf2HSBIFOCTicIq+8gNv+V6gLM2D0b4uJL3zRGCwHLhn89qVMaTIxdp9S5SWPM2
+ uab414e1JFsbVInjGDeFKHF+wQygM5At242sdRhRhzNG6wlymU7gKdoQHH80L2GVGUt2
+ pGJtpt8ni41xr+qaznwcCeqgUqcRpV6w6k+tNV6DGa4Bxr4rK4/e0ib3Y5R7wsf9iiED
+ obMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=02i20cNAG6V19KWqUmdqEUoqgzs3TLmYZKkP6GGWQb8=;
+ fh=87l6OdHO2eaUbWKCbYOSYGFav3b4kVUbvbkP5jaObXo=;
+ b=JVgefFKt7Ta9KPyBoaazVY2WQP4PMzw5MnCdqje31R7sJKcvEE+03OQzDAKXs3fSkT
+ Mmeo4zBnswAChPvXpA+BsFoIyNu/2fKwlUOgu9DgDc132V4tLoBibJBBKGNAkx9E8MjB
+ YMXGCfaWR4kpFykvimbA6705P9YwLT+04z+r+NFmf6rHpvAuvj3wwofF3fe+ijAzPXdr
+ iFSC6jYKoXSizQj9lZYtdQsXNL+EIeSx/zhaYNp1ywoGps0L70ymRG5cqPl2n7f4c/4b
+ Frri7gSd+27CGpokjO8FJzwbN/8soBWENYRhgSzjIhPnCAthRDopkt2KrTxcKNAT07kS
+ bpgA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1771855521; x=1772460321; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=02i20cNAG6V19KWqUmdqEUoqgzs3TLmYZKkP6GGWQb8=;
+ b=Ag9ZhFAe6ypnnwrSDsfUP8OqkKp0VDM1eZ84k20z6zZbGeIpF++5GblrWU2bKStL1+
+ wSAut8y2xVcbi0nEE3noaEYcKHnptLp6TSplpS2G73xAYb01Wr9UAeCCEGp8D0pxO6FJ
+ Z45h2OF9jrJd8ycWDizHD29wkUGRVGsFiB6guVrlALeSuz+cfJpCrosGacMB+KdbQ4fQ
+ NVIA3itNJVzOu5t+XFiarw5yIQJiaFXNs18KyRLXFV3Ta5txTx52OzJHSV+S70F6Zks3
+ GHByh1yBfkOWoGXftlk4ZUm9qrob925DC1ohXBEKwuVN0U/Prxo9FqJchHHQAFID03o9
+ LSpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771855521; x=1772460321;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=02i20cNAG6V19KWqUmdqEUoqgzs3TLmYZKkP6GGWQb8=;
+ b=RKTPo3r04wbrKZ9yXYWra45VDDLxN2hLzmImBbh7EhtDH1Y1NAgMhtZMwxaL+5yrZZ
+ wt6d8uG9iS8uU0DrilcC8Dgxwd5Vi9kUWz5k9FckjYtf/VvZLE9qVNZW8GqudNhEB27H
+ Cscfi7aEy/DiPLRR9Qb2Ka27neUjKs1RZYf5PnRIQi71DP7V7SrI3hvoIsODesXs8UbE
+ OUbK37NGe+h85xRWSxnbUR2jx9lUvJLh9E+kl4onG+QJ+pYR9UsUSnuDuMyWoNyPT8tk
+ +z7VM8YM2ZbbBYpk/jyZ3FCrxxhkP1XJ5aVBpx5XIykJP1PtaJZh7yWlWZmSV2weGPf3
+ o6vA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWelfZ6THRJWw4dNlQsfdZ3Mi0MsaF7p/M30euErcM1JB6PYbw85d9jgktiriWQaLUqf4dR/sP/TX8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyr968Roc+ebGKbF6Zd4pBifhDf7Y8yz2WF1he3N+I0Nrcf2R3d
+ FTJiyAx+XDou3tyykpw/n6ulwRUMhi0wFNGfM1OjuGSl1NHeH1getrZiN0kZMZ37Ds6/cf8m1EA
+ MEcLogyEqjXiDeMBN7BLGYaGp1wndQUM=
+X-Gm-Gg: AZuq6aL9Pou/+4I0aQrFrmUxryw/+CfM/AvEA+H9BSfJFFrN4d+y/FZgoAWR/hOpCnZ
+ 8Dp2eoZaqBGrqvDeU4svcgIQrmquGpk/1e7GmyX0939w9b4dQgpmwuCf8zc0uaDsQIaHovP4vXZ
+ u8OzlUKeVo0EMXaHVK1+Dz0i2U3vhFgkUhlJ/dfXVSHkqfx+Q9sVoS5Ff1GiBN8EXPG+AStKAqT
+ WH93eslF+53ZDIJPo3fpywswgR9BLnijdEWd/BL4OmbL7aaOcQoVUVmELxKz58PuKCjOqDEDRFC
+ XIyFu0o=
+X-Received: by 2002:a05:6808:4f20:b0:45a:6cfe:b00 with SMTP id
+ 5614622812f47-4644638ad16mr4078070b6e.43.1771855521056; Mon, 23 Feb 2026
+ 06:05:21 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ0PR12MB6807:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2b9a761-ad77-48de-f16a-08de72e3fa90
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/thS8mhRNm18QJW8/IZN2O3S28wZ/DdEI0s8acVH5KaHGT3NoZvu+Hru1wSt?=
- =?us-ascii?Q?XvpBprr30tGyF9BzdPu1W/Xw21k92TlqGJ0sonpFt95fft5amCThQCIqBb/2?=
- =?us-ascii?Q?V3D5ClS2EMBVNWRlkETNQx8XRh9VgL461lAs4D1Bs87LLkh83sRGBVAUu7sA?=
- =?us-ascii?Q?E72GXPnQxb9/ysH0ugG4Gek2dqT8du9HifJPJrysWg8Hb9fKE6jgj9LCr1FA?=
- =?us-ascii?Q?OOclwBgIpdYgCzF/psOgeT/nrTIkQBOYV9idcZAaJzT2UNfctjoP1YXEGQd6?=
- =?us-ascii?Q?ahOvggH/96LRXgSRqYCAdnU3EhztGt3i1CP7QMm0ryJ7mdq3sEnXVyPyIFQ+?=
- =?us-ascii?Q?0YMPV6XczzBO7F1GQ1xpfVdGGTLLaWvfoPzj9cDoheLukAteiXUE2yPiozzz?=
- =?us-ascii?Q?IgngKPrWTGEjH084aXdhF6pqWxB7PYl0FMdTQJVdyBYL1gfEwscQCDJmn+Qi?=
- =?us-ascii?Q?HgHpui4xeVjZgg4LFJEcKYV9JfJN+zU5xsdBfZ1v8uol4x5EajNyBK2/wFbD?=
- =?us-ascii?Q?W+fr31SVlfc6pjVh0/RNIxMu1K+0bS1+PZp/C0PeVd4nwI2jOR1UvkpI7Z0u?=
- =?us-ascii?Q?p/opc0iTef7clco4wTQ0PtsioJYykrFPrS6orp9VToAp7XOCuZnZ8sS4NwYk?=
- =?us-ascii?Q?gDnoRfCZI11wkh5dTtOVH1iKSRpUFI7m0a9im97liSEZ1M9+CQB/8fJn5a6A?=
- =?us-ascii?Q?9mwAcnP8dbdYiPD9mKYzU3vo26qjD8ys9bMmzK0krQkUesNjXEIyaXc2vtKg?=
- =?us-ascii?Q?F7T1Hzpka7YLH/zwpu0E7hukJKb1k88TQvh0HxAkJrmHDxOYJxK3akow5uI6?=
- =?us-ascii?Q?IyTBm6uqza9UbPRGFIy6zDYBBx4aYxWOkiME8SVAMdlXw/3btaGhzt4sK5ig?=
- =?us-ascii?Q?syHk71CF6F+5vCuVp/BoRu/TW6LXwxNXjhVB8mIOCs+WRX9JKbzDETBgH7UA?=
- =?us-ascii?Q?MRabzVvArws8742Ld+up4frFfiKdgMqZzgTmqirwTmInIJSbtropWj6k5VLz?=
- =?us-ascii?Q?5IwiofyKne76/De+QAxy0APZwlzHVTTaoJwf/T6nebEJ1RgrFCD1e9IO4t9g?=
- =?us-ascii?Q?lW5VWlAqUmRwx1BUzoV2xtOuVJ7+ynvp4+8k2lkzFNHVqd9RHMfJO+RZFF0B?=
- =?us-ascii?Q?11yi81u0+fk3zyTAkpLNph1Jx88PZPYHsxfD65pCWOYdWMbkQ3KmYSGUL8Jm?=
- =?us-ascii?Q?R7rztdFVLAd4LKv5hkZ+wQI6MZGGCmvKefDdg8y1AWkBY5W04i2nafIPGxox?=
- =?us-ascii?Q?U8G4M/LoLIe7t27ihaFeIXjriotL1Xw/a4RunidPgIblCoaKfBBsHOdoUIyz?=
- =?us-ascii?Q?Lv3I8mhoYVxtNevGlJxDPMpiKlRYn9pBM6YE9LPnd1LLU/qYy3G4J1rORnoA?=
- =?us-ascii?Q?FQ6Q6FsPd4g4hQkLO1X8kF4MSwWo0m6+nFHRJkaW7Dki3mqsjhBtCrsSZ6eR?=
- =?us-ascii?Q?uqYRFYmaN21fWS6jt6PAuyGcYEwqQRbvW/W2k3Ggz/skfridRal1s6MJrN4x?=
- =?us-ascii?Q?5xwKh8sv1wZrwovHU46O8WLQHFk4GR/vo2WFX0v0faWyVT/gHE5W+7l7Ow7o?=
- =?us-ascii?Q?To1Djfk5b5+LzxX+Rz4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TapTRA6JpK9ULa41+EUoKA4MKoowlrKAMchpRUZyHCE7fsUtWim1T4apCd3H?=
- =?us-ascii?Q?g6HeXR8RSb020JpIA36zqvNL8tNMNukNgBxA+HoN2sPxVplJ1eTA5e8Nsr9O?=
- =?us-ascii?Q?s50nvmrLHYr+8bGBAIuqmr7jZry9+gBhlZmfOmZXyTPRrDCinbuqQpKJv679?=
- =?us-ascii?Q?GAGABuSIBgHBAIX9afsrnmKOipPQdqbWAUIQ40R+wfQZAttJQ+7kh1kTZIqc?=
- =?us-ascii?Q?q8z6/aKtZ57CslT6JpBq1KINR/PZIW3UzIWY/dEzXwIMzmBuYFrVThC0Ip1l?=
- =?us-ascii?Q?1+JSsvWSl8+PbHVTw/enkOXPYfYN2Wyo0h/4hq9OmUa/q9lEmld2Cg9ftaBK?=
- =?us-ascii?Q?oTVGc2skOmgMFVOuVbaz23a5CxiIvKj1lFVijVXaPz1PePOQpVht1TiTZyuQ?=
- =?us-ascii?Q?Jg9yVwndGIn0HOx6Th/bZvtRtB82I0T9HzugEwL/1Ji/IlDqHIMXFpqDOrrP?=
- =?us-ascii?Q?JT7gx8coF/iCDxHh3L2zyiCadPnpgM+x3jjXtzcBSJg9gofirFioreBcWyb9?=
- =?us-ascii?Q?jho5YxuNAc+VuquWkZy5Yh0UA/7x1YMjoTDtF12mdBj7u7tYKB/daBAQG0U/?=
- =?us-ascii?Q?ilywI8BiAi3Tm1DjQBB+Zjy5aKPvumi2+GQGxfnaQKKI5Ipy8XSts1nixIOJ?=
- =?us-ascii?Q?jsM1Pgi6XTqyP1qdMx/F/DfykL7UU2783Z0MHUGrvT+wp9priT/nq0++nxWN?=
- =?us-ascii?Q?SLyiiEsDJBogUZZJTGxgPL2Hpn8YZJt6zJKiR3/2tweL1l6fID+84vxMbH/G?=
- =?us-ascii?Q?NEnYl2T7BLZx8PQWsPXWlEjY+Bs1jK6i6J2a8k/Ku9dtAYQGArn0efs7HT7f?=
- =?us-ascii?Q?GxLpBTimU8bemXFOkaeGS/HitjygDHuyGR1tNAh5jV8hDChpCnB0x66P6OH4?=
- =?us-ascii?Q?8pmE0Wr1nQbudJ3soyG42LUNKLhyFhsKjP/ylDswVXrbtsFko0cQSHL0ogRA?=
- =?us-ascii?Q?91w66ynDKaIy7Ac6qACfHva15gPeTyAEecuifKuGVF0zigpMo0EUwG99zCut?=
- =?us-ascii?Q?5z2KLle2p/NRGRLoPMcphLlqFTA2JXPdq+c+w9zY/wmgv7MhENTDZdlEZWaN?=
- =?us-ascii?Q?4C3NgyD4THB7fwK1NmJDutqyidx6hSOgiW/ExAb/JNI+U331WBAsfSn8Fe0G?=
- =?us-ascii?Q?Ft/GmVqhrrGJCIzzm5l6GQNB1gwfTleVaLhaVXfCnQpZaNsB7Ai28w+X0Lm5?=
- =?us-ascii?Q?WSETwI44Bs+jFzrDCJRP66IX0gSc/L++GkEg0iRfxqca+8y9TZ93V7/7QdCn?=
- =?us-ascii?Q?+9dzir2/ToD0lKOrAIlvRb911bZsl2w4Z3lsvWi19qhSNlCPmRXVybBb7rKB?=
- =?us-ascii?Q?qAIKUTr5aI8gEer+kHEt+fG7g2fnRYoZa4CmTzhqMtyJR7lJwNz5gEGNqM/+?=
- =?us-ascii?Q?QdmtPVPGzMCUZayfoxVz2L5c4TU/Be4px3xztVqNfqtInRVVsFT+mjXcJqFu?=
- =?us-ascii?Q?0AOVQ1SZcGcSveOpH3o18XnLqfFI41ulcibZac7SYpsho9Qzjw0mhK4kEFRN?=
- =?us-ascii?Q?1oi343+efuda/DID8lJibvT8lH56ddtOkHYMbvjRUh8w/QavHU9W3vr3CeTC?=
- =?us-ascii?Q?pYZ4U1y+i1sxVuFkty2Se27I2OxaD3wcO3gowpfJUr5HB09fWZGqZRIjVNo9?=
- =?us-ascii?Q?HI5H+JSQ3qD0dCuWbTF/YuPJOdNJ4xXlI7mckjHNMt9mO6SmnD1AdPUeB7OQ?=
- =?us-ascii?Q?A66SzaPbTmgIM0Ca8ijASKjXEnfkm0ZPgf4SDzMhJuZTE8bb?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2b9a761-ad77-48de-f16a-08de72e3fa90
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 14:01:02.2262 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WU7/IpqlyyKJ9F4bofkIQpzWWJ/mparFy/Zu8Qyav6rAt/aa9c/2T0Dcl2oAn3O/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6807
+References: <20260206133458.226467-1-tzimmermann@suse.de>
+ <0d9ce3db-76e0-4468-9b0a-6c488f8eaa70@suse.de>
+In-Reply-To: <0d9ce3db-76e0-4468-9b0a-6c488f8eaa70@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Mon, 23 Feb 2026 15:05:09 +0100
+X-Gm-Features: AaiRm50IadgGube12bupDBvo0DbDEVpc0RzYmcR2XHS1sPaDkZ7ZjnThL_zYD3c
+Message-ID: <CAMeQTsYD6jWmuRgMddyQEX4YaGEa=fjrbsMc7hHYPxjAiC9Hjw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] drm/gma500: fbdev: Use client buffers
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,66 +111,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:hch@infradead.org,m:linux-mm@kvack.org,m:david@kernel.org,m:akpm@linux-foundation.org,m:linux-erofs@lists.ozlabs.org,m:linux-block@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:lorenzo.stoakes@oracle.com,m:baolin.wang@linux.alibaba.com,m:Liam.Howlett@oracle.com,m:npache@redhat.com,m:ryan.roberts@arm.com,m:dev.jain@arm.com,m:baohua@kernel.org,m:lance.yang@linux.dev,m:surenb@google.com,m:mhocko@suse.com,m:jackmanb@google.com,m:hannes@cmpxchg.org,m:kernelxing@tencent.com,m:katrinzhou@tencent.com,m:mhiramat@kernel.org,m:vbabka@kernel.org,m:cl@gentwo.org,m:rientjes@google.com,m:roman.gushchin@linux.dev,m:harry.yoo@oracle.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:axboe@kernel.dk,m:brauner@kernel.org,m:kprateek.nayak@amd.com,m:dave@stgolabs.net,m:sandeen@redhat.com,m:gregkh@linuxfounda
- tion.org,m:arve@android.com,m:tkjos@android.com,m:cmllamas@google.com,m:aliceryhl@google.com,m:dlemoal@kernel.org,m:johannes.thumshirn@wdc.com,m:dennis@kernel.org,m:tj@kernel.org,m:xiang@kernel.org,m:zbestahu@gmail.com,m:jefflexu@linux.alibaba.com,m:dhavale@google.com,m:lihongbo22@huawei.com,m:guochunhai@vivo.com,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kvack.org,kernel.org,linux-foundation.org,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org,oracle.com,linux.alibaba.com,redhat.com,arm.com,linux.dev,google.com,suse.com,cmpxchg.org,tencent.com,gentwo.org,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,kernel.dk,stgolabs.net,linuxfoundation.org,android.com,wdc.com,huawei.com,vivo.com];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[ziy@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	RSPAMD_URIBL_FAIL(0.00)[Nvidia.com:query timed out];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ziy@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	RCPT_COUNT_GT_50(0.00)[57];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER(0.00)[patrikrjakobsson@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[patrikrjakobsson@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0CEBA1779F5
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url,suse.de:email]
+X-Rspamd-Queue-Id: A2467177B66
 X-Rspamd-Action: no action
 
-On 23 Feb 2026, at 8:46, Christoph Hellwig wrote:
-
-> On Sun, Feb 22, 2026 at 10:26:30PM -0500, Zi Yan wrote:
->> Hi all,
->>
->> Based on a recent discussion with David Hildenbrand on page->private
->> is not zero when a page is freed[1], this patchset is trying to fix all
->> users do not zero ->private when freeing a page and add checks to make
->> sure all freed pages have ->private set to zero. For compound pages,
->> both head page and tail pages need to have ->private set to zero.
+On Mon, Feb 23, 2026 at 1:49=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 >
-> Requiring the user to clear a field before freeing is just a way to
-> awkward interface.  Don't do that.
+> ping for a review
 
-Page allocator hands the user a zero ->private. I think it is reasonable
-to require the user to return a zero ->private. Restoring things back
-to their original states is a common standard, isn't it? And most of
-users do that.
+Hi Thomas,
+Sorry, I'm very busy at the moment. I hope to get to this some time
+during this week.
 
-Do you have any example that shows doing such a thing is difficult,
-if not impossible?
+-Patrik
 
-
---
-Best Regards,
-Yan, Zi
+>
+> Am 06.02.26 um 14:21 schrieb Thomas Zimmermann:
+> > A client buffer holds the DRM framebuffer for an in-kernel DRM
+> > client. So far, gma500 has created an internal ad-hoc framebuffer
+> > for its fbdev emulation, while by-passing the regular interfaces
+> > used by user-space compositors.
+> >
+> > Replacing the existing code with a client buffer allows for stream-
+> > lining gma500 code and later also the fbdev helpers. The new framebuffe=
+r
+> > will be registered against the client's file and will support handles
+> > for GEM objects. This is then just another framebuffer within the DRM
+> > ecosystem.
+> >
+> > As there's still a custom GEM buffer object involved, patch 1 exports
+> > an interface to create a client buffer around it.
+> >
+> > Patches 2 and 3 update size calculation in gma500's fbdev emulation and
+> > makes it use the helpers provided by DRM.
+> >
+> > Patch 4 converts the code to client buffers and patch 5 removes the
+> > now-unused framebuffer code.
+> >
+> > Tested on an Atom N2800 Cedarview system.
+> >
+> > Thomas Zimmermann (5):
+> >    drm/client: Export drm_client_buffer_create()
+> >    drm/gma500: fbdev: Set framebuffer size to GEM object size
+> >    drm/gma500: fbdev: Calculate buffer geometry with format helpers
+> >    drm/gma500: fbdev: Use a DRM client buffer
+> >    drm/gma500: Create framebuffers with drm_gem_fb_create()
+> >
+> >   drivers/gpu/drm/drm_client.c         |   3 +-
+> >   drivers/gpu/drm/gma500/fbdev.c       | 101 +++++++++++++-------------
+> >   drivers/gpu/drm/gma500/framebuffer.c | 104 +++-----------------------=
+-
+> >   drivers/gpu/drm/gma500/psb_drv.h     |   6 --
+> >   include/drm/drm_client.h             |   3 +
+> >   5 files changed, 64 insertions(+), 153 deletions(-)
+> >
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstr. 146, 90461 N=C3=BCrnberg, Germany, www.suse.com
+> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG N=C3=
+=BCrnberg)
+>
+>
