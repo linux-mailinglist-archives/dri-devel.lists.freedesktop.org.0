@@ -2,81 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLUiORmxnGmYJwQAu9opvQ
+	id EGxsNQhwnWlyQAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:57:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:31:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973B317C97E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 20:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B77184A32
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DDA10E302;
-	Mon, 23 Feb 2026 19:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC59610E1C8;
+	Tue, 24 Feb 2026 09:31:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ObjHHjeD";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="k+g7/cjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6655A10E302
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 19:57:08 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-4362507f0bcso3365412f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 11:57:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771876627; x=1772481427; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tw/RWWMMz/LUZJDIOpoJvir9hIIBp+8IjqKcLBJIVLA=;
- b=ObjHHjeD0XJH/nXP9klgttv5LE7lDB5PeebJuRmt/mFP8LvO3YPwmDgZQOCn2ckPOk
- skbsHNl1oHj3kzASAMaUyzkL/eLBuRC63Whndu4lCHqSZuovxIm/YIRryCHxoWRBf7Zu
- td6EK+cPbKK7vFZ7zOnAK8dqoauGH9LCJyS7O9ptubk/xqLubYgpVxY7f8lgc0U7BJTS
- YvfMBY5PpHYSDIPFxSELanmxrLPz8YriUbIsIs8nxEmwepg7zxIeVMC8mfv8aUS69TYr
- l6W5eskCVXKnU0IatlGqyFYBuu7PudjeflnK2HeYFT6tWb5P91DgOE9qeUneHZf386lY
- j0Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771876627; x=1772481427;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tw/RWWMMz/LUZJDIOpoJvir9hIIBp+8IjqKcLBJIVLA=;
- b=Ji9nbx/tfEgnzOcVZ4A8FLJjcTUsiUHFiISIs9sQsQIbU+JQoV8+JjrjHzysdfnJOY
- SG8/wspQ6mEJFG3SZa7DuBLITNZiowf3vmcqrVa6HSD4jDBCjkOb0TiydXssRDXUhTFR
- 0JM2feSq8qQzQTc0p/BOvNGNcTZz2OwtgKSazpBsCv+CVNM5dvhELLgzN3lVsLy+b8rB
- CDS4e5QQys9MWLoGMZFbZuztaBEerlJvk5x/7f6H2qxs8sxCP0I594IZnHsE4v9lTOHO
- yuRiHFrq3csEeFqwiuF8R+mkMkmsViewzfFbVKO+RxwowHf4FWLSDiR6sf8TcmQejyOO
- W1cg==
-X-Gm-Message-State: AOJu0YxStRB7RZsOIWjuPGikEg7oZudiD0+sC2N5zE3gzBDSvVcLlMu/
- IQG8h6u21FaHFBYuCyyk8fwOSIM8e0416XiNMiXchFXjBVQBX/9lQRxY
-X-Gm-Gg: ATEYQzyECN20Q03M2EuTvM23oi0VHyi/E72b9oLiLggy99HTgn2x97gXXLbPXN1ExHu
- NcJgPLkwHl0WhhukPE8gi7KpSBjMyACz7HuYI5PxtmOo/CJqwnULDz0CKdTzYL6rUqc/kn3pcMo
- mi5H2UykFg7SikDu0GEh5+U+vsIwX5xiq9AkMmbBVT/umY2tog1eYR+aKhAL+N3yAta/toFbfw1
- iqIXq0TacnqaBi022mx+vysQr08U1hgYSgAfiZm2djUnlVz2WWUs6q42qqZt7t4NwoyvQmCkF0p
- HM1dV8vCFHOATuuuVDNaV8fim3K81MwEIS8qQh5gO7uE3yM75MWtMC1gLDUGr6i7llcbHU0tfCE
- V3i3XjTn07bmShpkvU2QSfO3wam7GE1UKxnis2LIBC3evnt+Od2B/qc9Sc4dBWygO4HnFPBrOIe
- VqjMGa1dweCqEuhXCiowchMSGXGHSiAq7mj7u0ZjLTaaZjZXE=
-X-Received: by 2002:a5d:5f82:0:b0:436:36cb:70b7 with SMTP id
- ffacd0b85a97d-439626c745emr28266383f8f.7.1771876626593; 
- Mon, 23 Feb 2026 11:57:06 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:1560:9500:6003:d1d5:d313:52eb])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970bf9f6csm23555492f8f.7.2026.02.23.11.57.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 11:57:06 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] dma-buf: revert "use inline lock for the dma-fence-chain"
-Date: Mon, 23 Feb 2026 20:57:05 +0100
-Message-ID: <20260223195705.206226-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.43.0
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012000.outbound.protection.outlook.com [52.101.43.0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A7510E1C8;
+ Tue, 24 Feb 2026 09:31:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zb3ChV46bcqBCYa68hLGzwxacCb4sETmGUgeK4N+kY/VQK0yRMwuOZJJAM7I/mV/VqZPOh7LJEzDCdrqo2XkzI/s4t9mJ5ahKrERORRxqBPArgN0HighRISj1islVAuNCKG1ZWIorZAz1m0uqHy44DKJqKxgDpQp2aTkTb6H0ooizAHIe4apSdvd272RgFRbYwsCrQhCkavKNGOPl8YYY71TY+2FwOz/KeRuOc3wNOXmuIu1ygMY7FiSxQuVkDVyRlArm7xTp3UYgFb1WF7aCOXuZWAwEN3zIWaJZQDv8tS+XDbSjOexUCnsslpWp1f6wEwcQ9RKoX7Rx8Juvf1cXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+51yilevSJ5b3oQ0HALqlc6znRMx58Bc13TCNuQ2LOU=;
+ b=coYMWFIYP+Kc4irTFgTkG84DJCqUfVi1m/1wMTq844MsHC03D6YC9SJEUs2lFi4s5szEcNIVXVIwttzTkl61QnjG3ZrlDqDh5ZxhZXlJmQaY6Fkl4DedScfYFdc2IyYVj6FEzexih4lCQcU2z2XGB3ojcHBBHCJ3xJvf2u0uzX4qxat4Mfcy6Jc1PL4etpxqrk0HbnxxXG2HedbaKortpg1B/Kj+JvI60lUU0Eol4qXaOnvlaFUnXWY9B5CiC2jUPWL0R9/6+HkfY4YJnCVcMwWq3xc648zDdgqkodR2hynrY4yj2RRbLB/HLiES6+L5as5XdFV1/j9550nZFytYYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+51yilevSJ5b3oQ0HALqlc6znRMx58Bc13TCNuQ2LOU=;
+ b=k+g7/cjtoJ34jqBrQf71hnh8CpIv2DVjjxmDwyK+7OvT2r3AHrU5SSPnhRy3CuC1358nNNTkAT0Mjqy+88ZuBd8nu4vAC99HXuVb/PAdo6JEMQzVKFDjkmNCJDsNnebvAcTwiJ9ogkXAQY3h7xYHwLWIgoPy1wWOV6zW72e4meeJdii7KENMUyx++z9ICyjGv4YPa7km0uyn9TtKietqOwCd9V0bbscRzmXDJjeVg+4kgHocB+3djd5L6BJs2sAApoGI7EgOabcLaQNwKSgnXclf1ANA+Zm/OgPSXuK4kEiZI+yLdsqrRnho59bVSH2QzEsktVjHX3vjkaPwLxCjUA==
+Received: from CH2PR19CA0019.namprd19.prod.outlook.com (2603:10b6:610:4d::29)
+ by DS0PR12MB8456.namprd12.prod.outlook.com (2603:10b6:8:161::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
+ 2026 09:31:42 +0000
+Received: from CH1PEPF0000A34A.namprd04.prod.outlook.com
+ (2603:10b6:610:4d:cafe::f7) by CH2PR19CA0019.outlook.office365.com
+ (2603:10b6:610:4d::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.22 via Frontend Transport; Tue,
+ 24 Feb 2026 09:31:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CH1PEPF0000A34A.mail.protection.outlook.com (10.167.244.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Tue, 24 Feb 2026 09:31:42 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Feb
+ 2026 01:31:23 -0800
+Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Feb
+ 2026 01:31:22 -0800
+Date: Mon, 23 Feb 2026 21:57:15 +0200
+From: Leon Romanovsky <leonro@nvidia.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, "Edward
+ Srouji" <edwards@nvidia.com>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>, "Intel
+ Graphics" <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20260223195715.GF10607@unreal>
+References: <aZyhDuaF5vi05KBY@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aZyhDuaF5vi05KBY@sirena.org.uk>
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34A:EE_|DS0PR12MB8456:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e17f256-aabf-4c6a-bcc5-08de738784f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|82310400026|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f2mN7yv4czVqogywa5a21lS/boQr4ft3zCzvDJXueC+i5bU9+0uv0w46xRPO?=
+ =?us-ascii?Q?YM8u7sinK9/kAg8333b9gG0ZE9jtIJUCBlQ6bMQJeCki1VxPff+XRqifXCZl?=
+ =?us-ascii?Q?DKaoZTf2poemGnEgsPMq+pVRqJsTtxwdEnP1blCW6u/vuTGg4nzcb6ReDadK?=
+ =?us-ascii?Q?kA4fwp3BLrcoFzBnljKGbDakdk1zsFTm1Xb+ctdhVKfliy5bVoCdvB/3f5pb?=
+ =?us-ascii?Q?Fv961O2qJIozdxYe14iZTpbUki/jPtU/2t29wV3+kzAzdVwMxuV68tI5+qYW?=
+ =?us-ascii?Q?+VTwxchKdMVdl1qpg6YVYTfuXIf9fO9v3cnnetjKIk2jDJdNKxRtGBPFr6tc?=
+ =?us-ascii?Q?+J9/VSiACph+Xba2GhZyTchCyeDZlIxotSlLnAgswCaQR1+O6xgkX7I4Pz4b?=
+ =?us-ascii?Q?WMgVPGK/O0uUZQe7y67gWWQkzdMPYd2x4W1QTPjTqBRkBC0OB9W3sZ/+Js/M?=
+ =?us-ascii?Q?ivdJqDgurdlDBu1+KXaiOs8QmYSXmjsrTiwIdE5C3tw5Fq7gQHBvy1/l2oia?=
+ =?us-ascii?Q?leJjaTumbBP05m8tV4JAIECs3Z2O1nOqCJrPLJZtXXCFVKwH4Ud3zAG8u1i6?=
+ =?us-ascii?Q?lNUv7ZLGLoDYdG5Rd39mpfyGx4va1XxQvsnbW18ZnMWEt9b5R3JwTeDdkuPW?=
+ =?us-ascii?Q?fqFoFU80rMcKbAP8XGdqBTEJsGhvSVJq1FLRJnOCOGQTWDlVnMPfRfQkmb5x?=
+ =?us-ascii?Q?y6ie4Er9qBhWDK5uwtFnjaRggBTn1XehTBMw3pXZUCYK+zqEWR2v7njZTz5L?=
+ =?us-ascii?Q?puTlgJ2PtUtvStEhQCy81Mri1o/ns5Ts70gfU7550GnXGObn+2PltCHtuEYU?=
+ =?us-ascii?Q?hELLoPKlslyrCkKxpjvNxBo0+27Q3tZhzyAjwxv3NaGQ6M7X8JSXvVNgaiie?=
+ =?us-ascii?Q?SL7jNtxikmoT6GD/yPW+BNRFmF7LRzRCdqG7h5Em8j1ft8str6lj3c4P/Vff?=
+ =?us-ascii?Q?Aq64+5sWIi1x4iNgUgSphlnJ2JRBAAtgWeC9cvJ6iXmIsbGaElzG5nJXeJkQ?=
+ =?us-ascii?Q?6q/tKWGhbxZHH8I8wxLXgJGr78XxXDEovHND68DUF7jo+M9Ulp1gqKcZN9CL?=
+ =?us-ascii?Q?wieXUERPVWwRw3zsD4RCj0hCIOEUOHE6t6HgcuhK8ZaDDRjMUcgfKZKE1jwL?=
+ =?us-ascii?Q?HV2sELp3a2nejhJts6EG+45KJvMYSf4FeSrI8oWV4qjVZk5Z0h2rJbHwrfkz?=
+ =?us-ascii?Q?E5kkGoTpn0KOorDjgMayfhw/+MnCSv6JOCb8LigLzne7pfGfTPUOx11gCavm?=
+ =?us-ascii?Q?iP/hn4CXCp6BnfyNPTrLkjuQGeeUDGvoGWl8SbUg12UIfDLIT3ixt3761S8n?=
+ =?us-ascii?Q?eekTJmZPgKvI3/jEYy6SshMq6VgFVRNseFX34j5PxUyMwm5A25zRHsEnvnrn?=
+ =?us-ascii?Q?H2YjVGdOyRkyI7cJGcMy+u+AgnXbbX767KEP4rZYG0ihUKFuWhhT1MNm9cmt?=
+ =?us-ascii?Q?ArIybqcpOa7w0735H8xfefG4oHOF9C3i6icTE93VJQsKnculDlOfyyNdczWy?=
+ =?us-ascii?Q?NdwLgaAwKGG1YsbPtrNR+7fffHVf0t4GG9i/hw0WRfuXbWSfSl11p67+ihb8?=
+ =?us-ascii?Q?6xHbQjnduDHhBv7XLUl8Vr1qsHDl2Q0a+ZeRW6sxsibmrjkvLGn20LxtpU6S?=
+ =?us-ascii?Q?xXFjzmE7BEPIjvnnWPeyxTU/5XBoErN4CGSpXOcPGYsIWMrqDP3eTLKRvU9t?=
+ =?us-ascii?Q?XwNNjQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: dhoO4rn+nCh+Qo9aCm8TcFAVoaLSHI2Gqx3Ks0nLS+EZPJ5YtpQYn3SGJAWzDXbMeSzMS6o015XYw7Sd6jy2FPVAKuoyTBCT/EIEKBtUpa1zUVut7DtdD1vtHwZV5buJ7eekfz/WejiseCOlIEL3LtCx+HIvOJQkMzcrUdx6QKkwTdh8HsOdeAccdrj7aqV6WElGOnbKQRcWp4I1cfFH37ZlZ7uPfSZb3DQ5WHhLn/xzE4fFVx3TFWQV7f85fbkVeZkDqtzZQhWq/3SLHdaldDi3HCsp5uq/6AeEWfDLywLyKj0Ibxg6g1/5DiIDY/7nQiaGYWo7pInxwCZTPnUQjjWecNJZS8XX18IN/8si0LPDSbyb1EeLOwzXZltibVdIsZTF/llczQ74Br+N7V4vNUPMlc2k35uB4q13qjg65JPaeX+A+lbMwIscpf6o7kdI
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 09:31:42.0126 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e17f256-aabf-4c6a-bcc5-08de738784f8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000A34A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8456
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,85 +154,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[];
+	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:intel-gfx@lists.freedesktop.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_XOIP(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leonro@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 973B317C97E
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 35B77184A32
 X-Rspamd-Action: no action
 
-This reverts commit a408c0ca0c411ca1ead995bdae3112a806c87556.
+On Mon, Feb 23, 2026 at 06:48:46PM +0000, Mark Brown wrote:
+> Hi all,
+> 
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c: In function 'rdma_user_mmap_entry_remove':
+> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c:249:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>   249 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>       |                 ^~~~~~~~~~~~~~~~~~~
+> make[6]: *** [/tmp/next/build/scripts/Makefile.build:289: drivers/infiniband/core/ib_core_uverbs.o] Error 1
+> make[6]: *** Waiting for unfinished jobs....
+> /tmp/next/build/drivers/infiniband/core/uverbs_std_types_dmabuf.c: In function 'uverbs_dmabuf_fd_destroy_uobj':
+> /tmp/next/build/drivers/infiniband/core/uverbs_std_types_dmabuf.c:170:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>   170 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>       |                 ^~~~~~~~~~~~~~~~~~~
+> make[6]: *** [/tmp/next/build/scripts/Makefile.build:289: drivers/infiniband/core/uverbs_std_types_dmabuf.o] Error 1
+> 
+> Caused by commit
+> 
+>   95308225e5bae (dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_mappings())
+> 
+> interacting with
+> 
+>   0ac6f4056c4a2 (RDMA/uverbs: Add DMABUF object type and operations)
+> 
+> from Linus' tree.  I have fixed this up as below and can carry as
+> needed.
+> 
+> From 89e7d4987e08a46f2db151cebba258a1bc01d628 Mon Sep 17 00:00:00 2001
+> From: Mark Brown <broonie@kernel.org>
+> Date: Mon, 23 Feb 2026 18:27:51 +0000
+> Subject: [PATCH] RDMA/uverbs: Update for semantic conflict with drm-misc
+> 
+> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c: In function 'rdma_user_mmap_entry_remove':
+> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c:249:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>   249 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>       |                 ^~~~~~~~~~~~~~~~~~~
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  drivers/infiniband/core/ib_core_uverbs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This causes a lockdep splat. Not really the right fix, but changing this
-is more work than expected.
+The change is correct. The
+dma_buf_move_notify->dma_buf_invalidate_mappings rename was merged to
+DRM tree before merge window and ib_core_uverbs change was brought
+during merge window from RDMA tree.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-fence-chain.c | 3 ++-
- include/linux/dma-fence-chain.h   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Christian,
 
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index a707792b6025..a8a90acf4f34 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -245,6 +245,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
- 	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
- 	uint64_t context;
- 
-+	spin_lock_init(&chain->lock);
- 	rcu_assign_pointer(chain->prev, prev);
- 	chain->fence = fence;
- 	chain->prev_seqno = 0;
-@@ -260,7 +261,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
- 			seqno = max(prev->seqno, seqno);
- 	}
- 
--	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
-+	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
- 			 context, seqno);
- 
- 	/*
-diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
-index df3beadf1515..5cd3ba53b4a1 100644
---- a/include/linux/dma-fence-chain.h
-+++ b/include/linux/dma-fence-chain.h
-@@ -46,6 +46,7 @@ struct dma_fence_chain {
- 		 */
- 		struct irq_work work;
- 	};
-+	spinlock_t lock;
- };
- 
- 
--- 
-2.43.0
+You should take this fix to your tree. RDMA tree doesn't have rename patches
+yet.
+
+Thanks
+
+> 
+> diff --git a/drivers/infiniband/core/ib_core_uverbs.c b/drivers/infiniband/core/ib_core_uverbs.c
+> index d3836a62a0049..d6e99c79cf183 100644
+> --- a/drivers/infiniband/core/ib_core_uverbs.c
+> +++ b/drivers/infiniband/core/ib_core_uverbs.c
+> @@ -246,7 +246,7 @@ void rdma_user_mmap_entry_remove(struct rdma_user_mmap_entry *entry)
+>  		dma_resv_lock(uverbs_dmabuf->dmabuf->resv, NULL);
+>  		list_del(&uverbs_dmabuf->dmabufs_elm);
+>  		uverbs_dmabuf->revoked = true;
+> -		dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+> +		dma_buf_invalidate_mappings(uverbs_dmabuf->dmabuf);
+>  		dma_resv_wait_timeout(uverbs_dmabuf->dmabuf->resv,
+>  				      DMA_RESV_USAGE_BOOKKEEP, false,
+>  				      MAX_SCHEDULE_TIMEOUT);
+> diff --git a/drivers/infiniband/core/uverbs_std_types_dmabuf.c b/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+> index dfdfcd1d1a446..149220a1599cf 100644
+> --- a/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+> +++ b/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+> @@ -167,7 +167,7 @@ static void uverbs_dmabuf_fd_destroy_uobj(struct ib_uobject *uobj,
+>         if (!uverbs_dmabuf->revoked) {
+>                 uverbs_dmabuf->revoked = true;
+>                 list_del(&uverbs_dmabuf->dmabufs_elm);
+> -               dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+> +               dma_buf_invalidate_mappings(uverbs_dmabuf->dmabuf);
+>                 dma_resv_wait_timeout(uverbs_dmabuf->dmabuf->resv,
+>                                       DMA_RESV_USAGE_BOOKKEEP, false,
+>                                       MAX_SCHEDULE_TIMEOUT);
+> 
+> -- 
+> 2.47.3
+> 
+
 
