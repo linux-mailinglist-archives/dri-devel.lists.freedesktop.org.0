@@ -2,161 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6MPeKceJnGlWJQQAu9opvQ
+	id cOsEMQ6KnGlWJQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:09:27 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:10:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E487417A619
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4517A17A6AA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Feb 2026 18:10:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11A489167;
-	Mon, 23 Feb 2026 17:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC4110E05A;
+	Mon, 23 Feb 2026 17:10:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bghbiY7u";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Z7cXrnLZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bxXmV20G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B73F89830
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 17:09:21 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61NGvR4u3478629
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 17:09:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=v4wJf3RfvYx/N6YOBwnzs0nO
- tYOlLmOqFKLIASO8YBs=; b=bghbiY7ue+A1njbaWrWACoe4QvDba1Ik19DEIiKM
- hnDcfP2Hvy1NzP0BgmD6Px+voM/fNRgWsGU9YDZG2S0LNO1An9ywI78EjFaW1Z/q
- pe6E0bCamsWXbzYOb4Yw8znPhMqHU37n1N4D1KJxS1zYa4Ymb1iPw0kRJ9xSl569
- xBmI0paS2tPNhGNiIRf+8D39CtkwDHiZQZwpj01qONyn9E8tNSXzEJnSe//vzonI
- 5yixri3ie5gm8Ch+2bLYlZjl1O2ZkRav2Z6BK8CU+rdK2InhgwRhagiKBM/eX24j
- NskMfvMIFTiF6rUviwUmthtXvp8bLTjPlyjtpCfT+bQl3g==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtv9r1wd-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 17:09:20 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-35641c14663so4859048a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 09:09:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771866560; cv=none;
- d=google.com; s=arc-20240605;
- b=YZZGnDAA4B4pyZKKU6cVhZ4jceeUICEVFJj3S3ag3oH1mJ2wWn6gboi8Un3Rzb9T8y
- +BIjQlEUGg8kiyc5L/uTc1eRz0iNoAZHc1CtOuTweAXh1kiCZagH22bRI1ZLWnNTbQGb
- K6dKnvwquaDV+klncOokoaAm6mFfIHp2dbEFNUyaAGazuOlQkGg7uyM4cCrrkUKAw1Dp
- 7fVZfHZGJN5vwXPjD3xioNUUpLK7eFLqbflISjm6srfazzz13S1O/Vv6mrbjqu5M4uFd
- dUmOxUWmL+T+MkVePMOs5bIHHBWlZir7oPdfEvwMxlmvEtIGuR/3TFwlMTuDG8YJzTGW
- XLkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=v4wJf3RfvYx/N6YOBwnzs0nOtYOlLmOqFKLIASO8YBs=;
- fh=jB0SELz54JJ+KZQTDZOCKas+aNOnm3WkIqMg0U5oLak=;
- b=GFIIH+h/npSiZLA2gFzpPd93DJnTTiQoWGZkLV/WRTrR6NN9i0PYrqjuwvogc69PPk
- RxBfVN0WJYUZVTnGLyL4eTxHGrF+Aa3rvYgMS4W2KJ7Ei23UpG6KvuYpAoYuHoS+dqfG
- ftn9psCUncZG29ECwAGEG0E5Khw+ItKd1Y5+GCKhOj7evdi2qLy22DZRbBX2oyyzuvwC
- VqqWIhYsBC8QXzXx6MYWfsN4q1s/im2t8tl3y4XVlSM+QliZz+J/3G1WKNhge6Uqv93x
- apCAPIDUqVOIWQgCU9pNpXJf2xxLSL1BgokXOy3PrDZ7anorLs0UMaDydg1BPkTVr2lv
- Mnig==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771866560; x=1772471360;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=v4wJf3RfvYx/N6YOBwnzs0nOtYOlLmOqFKLIASO8YBs=;
- b=Z7cXrnLZX6nNzBG3m+8pYtE1n/5f3BgsYiqusZXW816lbK2C8bxDisHYMb26QoaOE3
- iboem8WYtrBXmROfg2yH1K9UF6qTwL4egQB4TG0KbVDz9lpCfiNd9QD0jHOAqoQfQege
- h/vGwuWSHwI5RouIR57LHmhc92H5bkoD+r04V9wqRqZWNYuzRRH/Mvp02BfjvST0k8X+
- Ju0q31GBypWfC8tLx95IAtxmD7WEY/PZaPO7V68RongiUSqsT0zrpeMNP4saMmniSfe/
- S1ZwD2ITbcq2rzVXT+1CsXMQE8ovxkFRhxHQRiSygFl+t2PQIMoziR8OY4tsagOxNey8
- tXvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771866560; x=1772471360;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v4wJf3RfvYx/N6YOBwnzs0nOtYOlLmOqFKLIASO8YBs=;
- b=YL244pL/EjveeCcHHn/8sh14yXPwJTn5sByYZ8PHWvDnSAxS1Clw7yUdHlzJtT0kUu
- W9QJmBHBSZREOJQVGyrCxAC7sOhFTLyDzeGMUDf9551dLVeV25d5jlDRB8fBzHIHzOa6
- IRnInRVmyo5lJ17FzKQvVJl2jXlrTtUYoiL+NAExzPhzoC8mB4L9kmZ8NlzHQgoewXOe
- nDcIPZM71LQMQp0kXUdwB7Q24PFpHwtTm3Q5ksHoMIoy8SZGzHS3MoITmHKnW8AHkuIw
- woKPoErpxd+dPzp/k6Pv3E1EGa5e7Dqm8nu4+xNxZWXjARgq3tDmwCA9HbxM7wXk42lx
- kPHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWABw3ulQcX1QwF4x61m9DrY+C1b1zW8DUZAOXb4dWPU/MVbM4EnVsCMUjOhmbltHrTGIyJQHRRtY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8++hDoHM/uMeuqBEBFbjkVjM+BoAseVz8zjxMmUpjTBq1/X7S
- ud0pWgDDTJown4T7Mkbg5jyu0/HUhvzQozxmPCzhtk/aFXEmu96wsFo9q1LllIJCQSxa2ESYZyS
- H/ufXW3n59SraPsV8CkgDhgJGgHxjUKeiHIMNaPIwNOH24MjTvLZbev4MUoHfBhQ+c5Hxej/TMJ
- PWSjdwiayiPGIo0XOH/ab5Siv4Uo2E/aatbMvUjr1I7e4+CQ==
-X-Gm-Gg: ATEYQzwpmhcuZkQ0DX6uzy/xL0RrfxjEGTDfelJgeQRlo95Lsk8wA4VlACJ56DnYXPa
- wesfdu9QgyHfxYf27sdxA7RFA03llGqE3256L5Chds/2frFU7kPNvmxpy6JG3kA8NqOp2fKUczl
- KvfjD717v4WmVVpZUqq9oDFTH0l1nYr5ETbFNsu5I1oFhOe5d76g3n04GUOON4HsM3SNnmtincw
- xbPgNI=
-X-Received: by 2002:a17:90b:4d90:b0:340:bde5:c9e3 with SMTP id
- 98e67ed59e1d1-358ae8c2d4dmr8000831a91.23.1771866559437; 
- Mon, 23 Feb 2026 09:09:19 -0800 (PST)
-X-Received: by 2002:a17:90b:4d90:b0:340:bde5:c9e3 with SMTP id
- 98e67ed59e1d1-358ae8c2d4dmr8000792a91.23.1771866558625; Mon, 23 Feb 2026
- 09:09:18 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0198589830;
+ Mon, 23 Feb 2026 17:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771866635; x=1803402635;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=O0ZvE7y9t9xpfzGDEN2L3jg3C36sia6pyPmPJdqLoT4=;
+ b=bxXmV20GknMlbxhTpFm8UQTEvVU0jBSWBFoHKQFUalkk6N75SzYjQOgx
+ oMGaBDP++ZhlPVMLuKQuIYiVNGiAwuj5nXUJssLeQqoPy7i3n4IgTzAtn
+ aION0iGx/JmgaP5MTDLJcGDohxY9IAxaaaJvLrurn1wuJ/M4eUdPjyFdQ
+ tsumHYGmdlzc30OD9SWyuymXPdpMkR2MRwEwMXHNMy7ReHQGwaGt8vykN
+ cnUzLqeV5yy1WAbcXEMqExuO6EFdQHQV3pSwhWAgSpd07iUWEX1JDUpsQ
+ fd+bq9By+viHJW7fekGPGGE4zgT1SOnsFrSblWGE8pWg8k0SKR1TV18Uy Q==;
+X-CSE-ConnectionGUID: zdJyBvUmRpSyedNXLh7X1g==
+X-CSE-MsgGUID: RVs2xhbZSZ+MY3TlPAB7RA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71894010"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="71894010"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 09:10:35 -0800
+X-CSE-ConnectionGUID: Go9dg9wBTb6+JtsvV03RyA==
+X-CSE-MsgGUID: kya9xiABTiSr66o2f2ZQOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; d="scan'208";a="219742265"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.253])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2026 09:10:32 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>
+Subject: Re: [RFC v3] drm/i915/selftests: Prevent userspace mapping
+ invalidation
+Date: Mon, 23 Feb 2026 18:10:28 +0100
+Message-ID: <1986046.g5d078U9FE@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <dnqbdeooikcsklr2xk2uzh6shqddneuah27oobtyohahhfzp4q@23vsrz5343ny>
+References: <dnqbdeooikcsklr2xk2uzh6shqddneuah27oobtyohahhfzp4q@23vsrz5343ny>
 MIME-Version: 1.0
-References: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
- <20251125-pixel-3-v4-4-3b706f8dcc96@ixit.cz>
- <jqgwmjet2ncit5bqilvuqldxrtcapiozmpbk5klc5tybwbfezi@4muxgno7do45>
- <599b42cc-02de-4430-b09a-3316677ff541@ixit.cz>
-In-Reply-To: <599b42cc-02de-4430-b09a-3316677ff541@ixit.cz>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 19:09:07 +0200
-X-Gm-Features: AaiRm50Sx2_n8DihOL9hklXJdrc8Du7OFuYU-F2KAYpfUdG7jvJfCQgmVGzeJ0M
-Message-ID: <CAO9ioeVTyoG52=5TRFC3NJqKODXD5eGcpTax9SgCK3b-AznH1Q@mail.gmail.com>
-Subject: Re: [PATCH v4 4/8] drm/panel: sw43408: Add enable/disable and reset
- functions
-To: David Heidelberg <david@ixit.cz>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- phodina@protonmail.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=Vaf6/Vp9 c=1 sm=1 tr=0 ts=699c89c0 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=im9cganMwkklmwY8314A:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE0NyBTYWx0ZWRfXyZiOgq3GpeXb
- F4pVJel9piRrEHgMrIE9T3k7c3CrBWcX/3cBX58QPercUaHvps4KTDAG0qa5/cRFCm5eDdIFyNr
- JsRkKU48JtEvVv3IrTbyV9dr+eclPT65qkxNZcs6LKRIYqgsJBdojXsLgdRknFkYy2PVbg3flqV
- Av4ZeD6uApph9YkkOtok5vE2fiMhnzueAB/17geMkbEYSso+CGtlWvK1y+2r0LH+S1s0usNvjxP
- CF9taCJlNNocChKphBj1AjYDPUJT8Ejsm2XEw3bPa868MEzWLZAsdpZNd2qwUK7SCWjLQ1JMgT0
- Lc8uj12jzw+YVlBJI5clEe3yC5JJlIijN2KiBZ1QcUG9gmXfAesSaElHBgmr3Y7dzJV4Xu0Yw6m
- Vw4/Z6z/lhzMMMDB6fkDCsZ6fUXAYATvDwBW09YhDGUtI2flu7N1TPB8ZuafoVBmxz46h+QHZ3b
- O00oKH6sulm0STYlk7w==
-X-Proofpoint-ORIG-GUID: W727SeMS6sDIFDhido6hK3DBf25fLIVm
-X-Proofpoint-GUID: W727SeMS6sDIFDhido6hK3DBf25fLIVm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_04,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230147
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,95 +83,262 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	CTE_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:casey.connolly@linaro.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:marijn.suijten@somainline.org,m:lumag@kernel.org,m:vkoul@kernel.org,m:phodina@protonmail.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,somainline.org,protonmail.com,vger.kernel.org,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,ixit.cz:email,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: E487417A619
+	DBL_BLOCKED_OPENRESOLVER(0.00)[jkrzyszt-mobl2.ger.corp.intel.com:mid,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: 4517A17A6AA
 X-Rspamd-Action: no action
 
-On Mon, 23 Feb 2026 at 15:40, David Heidelberg <david@ixit.cz> wrote:
->
-> On 06/12/2025 05:25, Dmitry Baryshkov wrote:
-> > On Tue, Nov 25, 2025 at 09:29:39PM +0100, David Heidelberg via B4 Relay wrote:
-> >> From: David Heidelberg <david@ixit.cz>
-> >>
-> >> Introduce enable(), disable() and reset() functions.
-> >>
-> >> The enable() and disable() callbacks keep the symmetry in the commands
-> >> sent to the panel and also make a clearer distinction between panel
-> >> initialization and configuration.
-> >
-> > This also makes those to to be executed after starting the DSI stream.
-> > Is it fine?
-> >
->
-> Hello Dmitry,
->
-> I was wondering how the exact workflow looks, does this snippet reflect
-> real world?
->
-> - The path ordering should be :
-> - prepare()
-> - (host/controller sets up link & starts sending video / enables bridge,
-> etc.)
-> - enable()
-> - disable()
-> - (host/controller stops video / disables bridge, etc.)
-> - unprepare()
-> -
-> - So: prepare happens before the display pipeline is driving, and enable
-> happens after the pipeline is ready and stable.
-> I assume in case of poorly written host or bridge drive it may not work
-> like this, but in general it should?
->
-> If this workflow is correct, would it make sense I would incorporate the
-> phases between into the prepare/unprepare kernel docs?
+Hi Krzysztof,
 
-There is a very precise definition of the DSI host lifecycle. Please
-take a look and notice that for DSI hosts there are two different
-points:
-- the DSI link is started in LP mode, letting the host send commands
-to the DSI sink.
-- the video / CMD stream is started
+On Monday, 23 February 2026 16:21:48 CET Krzysztof Karas wrote:
+> Migration testing in i915 uses current task's address space to
+> allocate new userspace mapping, without registering real user
+> for that address space in mm_struct. Since PCI probe executes in
+> another process, "current" is unknown at the time the selftest
+> run [1].
 
-For multiple reasons those two stages are separate.
+I think that statement is too general.  PCI probe usually executes the
+driver's .probe function within the current kernel thread, though it 
+*may* decide to pass its execution to a kworker if it detects the probed 
+device's resources belong to a different NUMA cell in a multi-cell NUMA 
+system.  Do we know other conditions when that may happen?  Please 
+specify all such conditions we know about instead of potentially 
+suggesting that the delegation to a kworker is unconditional.
 
->
-> Thanks
-> David
->
-> [...]
+Thanks,
+Janusz
+
+> 
+> It was observed that mm->mm_users would occasionally be 0
+> or drop to 0 during the test, which reaped userspace mappings,
+> further leading to failures upon reading from userland memory.
+> 
+> Prevent this by waiting for usable address space and
+> artificially increasing its mm_users counter for the duration
+> of the test.
+> 
+> [1]:
+> IGT makes use of selftest on module load mechanism in i915:
+>  1) IGT recognizes arguments and passes them to libkmod while in
+>   userspace;
+>  2) libkmod forms and executes a syscall simulating a
+>   modprobe command, thus moving to kernel context;
+>  3) PCI code puts local_pci_probe() call onto a workqueue via
+>   work_on_cpu() macro in pci_call_probe(). Below backtrace shows
+>   call order between syscall and work_on_cpu() call:
+> 
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xc1/0xf0
+>  dump_stack+0x10/0x20
+>  pci_device_probe+0x205/0x280
+>  really_probe+0xf1/0x410
+>  __driver_probe_device+0x8c/0x190
+>  driver_probe_device+0x24/0xd0
+>  __driver_attach+0x10f/0x240
+>  ? __pfx___driver_attach+0x10/0x10
+>  bus_for_each_dev+0x7f/0xe0
+>  driver_attach+0x1e/0x30
+>  bus_add_driver+0x163/0x2a0
+>  driver_register+0x5e/0x130
+>  __pci_register_driver+0x80/0xa0
+>  i915_pci_register_driver+0x23/0x30 [i915]
+>  i915_init+0x37/0x120 [i915]
+>  ? __pfx_i915_init+0x10/0x10 [i915]
+>  do_one_initcall+0x5e/0x3a0
+>  do_init_module+0x97/0x2b0
+>  load_module+0x2d89/0x2e90
+>  ? kernel_read_file+0x2b1/0x320
+>  init_module_from_file+0xf4/0x120
+>  ? init_module_from_file+0xf4/0x120
+>  idempotent_init_module+0x117/0x330
+>  __x64_sys_finit_module+0x73/0xf0
+>  x64_sys_call+0x1d68/0x26b0
+>  do_syscall_64+0x93/0x1470
+>  ? do_syscall_64+0x1e4/0x1470
+>  ? ksys_lseek+0x4f/0xd0
+>  ? do_syscall_64+0x1e4/0x1470
+>  ? clear_bhb_loop+0x50/0xa0
+>  ? clear_bhb_loop+0x50/0xa0
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> 
+> note that pci_device_probe() calls __pci_device_probe(), which
+> then calls pci_call_probe() and both are static functions;
+>  4) at last, the actual probe is called from kworker and the
+>  selftests execute:
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xc1/0xf0
+>  dump_stack+0x10/0x20
+>  igt_mmap_migrate+0x302/0x7e0 [i915]
+>  __i915_subtests+0xb8/0x250 [i915]
+>  ? __pfx___i915_live_teardown+0x10/0x10 [i915]
+>  ? __pfx___i915_live_setup+0x10/0x10 [i915]
+>  i915_gem_mman_live_selftests+0x103/0x140 [i915]
+>  __run_selftests+0xc5/0x220 [i915]
+>  i915_live_selftests+0xaa/0x130 [i915]
+>  i915_pci_probe+0xee/0x1d0 [i915]
+>  local_pci_probe+0x47/0xb0
+>  work_for_cpu_fn+0x1a/0x30
+>  process_one_work+0x22e/0x6b0
+>  worker_thread+0x1e8/0x3d0
+>  ? __pfx_worker_thread+0x10/0x10
+>  kthread+0x11f/0x250
+>  ? __pfx_kthread+0x10/0x10
+>  ret_from_fork+0x344/0x3a0
+>  ? __pfx_kthread+0x10/0x10
+>  ret_from_fork_asm+0x1a/0x30
+> 
+> This operation of putting selftests into a forked process
+> creates a short delay in which another userspace process may be
+> handled by the scheduler, so IGT process is not the one from
+> which kernel borrows the address space.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14204
+> Fixes: 34b1c1c71d37 ("i915/selftest/igt_mmap: let mmap tests run in 
+kthread")
+> Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
+> ---
+> This has previously been a regular patch, but after many
+> deliberations and discussions with i915 team members we decided
+> that this should be made into a RFC, as this may still be an
+> incomplete solution.
+> 
+> This change is best effort to increase reliability of the
+> selftest. There will still be instances, where there is no
+> suitable address space available, because we rely on operating
+> system to be in a certain state, which we probably should not
+> force by ourselves. In this case, it would be sufficient to have
+> this test pass most of the time and silently skip if it cannot
+> execute safely.
+> 
+>  .../drm/i915/gem/selftests/i915_gem_mman.c    | 44 ++++++++++++++++---
+>  1 file changed, 39 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/
+gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> index 9d454d0b46f2..ccb00cd5e750 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> @@ -38,6 +38,8 @@ struct tile {
+>  	unsigned int swizzle;
+>  };
+>  
+> +bool skip_vma = true;
+> +
+>  static u64 swizzle_bit(unsigned int bit, u64 offset)
+>  {
+>  	return (offset & BIT_ULL(bit)) >> (bit - 6);
+> @@ -903,6 +905,9 @@ static int __igt_mmap(struct drm_i915_private *i915,
+>  	int err, i;
+>  	u64 offset;
+>  
+> +	if (skip_vma)
+> +		return 0;
+> +
+>  	if (!can_mmap(obj, type))
+>  		return 0;
+>  
+> @@ -1165,6 +1170,9 @@ static int __igt_mmap_migrate(struct 
+intel_memory_region **placements,
+>  	u64 offset;
+>  	int err;
+>  
+> +	if (skip_vma)
+> +		return 0;
+> +
+>  	obj = __i915_gem_object_create_user(i915, PAGE_SIZE,
+>  					    placements,
+>  					    n_placements);
+> @@ -1847,7 +1855,6 @@ static int igt_mmap_revoke(void *arg)
+>  int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
+>  {
+>  	int ret;
+> -	bool unuse_mm = false;
+>  	static const struct i915_subtest tests[] = {
+>  		SUBTEST(igt_partial_tiling),
+>  		SUBTEST(igt_smoke_tiling),
+> @@ -1860,14 +1867,41 @@ int i915_gem_mman_live_selftests(struct 
+drm_i915_private *i915)
+>  	};
+>  
+>  	if (!current->mm) {
+> -		kthread_use_mm(current->active_mm);
+> -		unuse_mm = true;
+> +		int timeout = 10;
+> +		/**
+> +		 * We want to use current->active_mm, which corresponds to 
+the
+> +		 * address space of a userspace process that was last 
+handled by
+> +		 * scheduler. It is possible that this memory is in the 
+middle
+> +		 * of cleanup indicated by mm_users == 0, in which case 
+kernel
+> +		 * waits until the process is finished to release its 
+mm_struct.
+> +		 * Borrowing that memory at that point is unsafe, because 
+it may
+> +		 * be freed at any point and taking additional references 
+to it
+> +		 * will not change the cleanup behavior.
+> +		 * Wait for a bit in hopes that another process is taken 
+by
+> +		 * scheduler and has reliable memory for us to map into.
+> +		 */
+> +		while (timeout--) {
+> +			if (mmget_not_zero(current->active_mm)) {
+> +				kthread_use_mm(current->active_mm);
+> +				skip_vma = false;
+> +				break;
+> +			}
+> +
+> +			msleep(1000);
+> +		}
+>  	}
+>  
+>  	ret = i915_live_subtests(tests, i915);
+>  
+> -	if (unuse_mm)
+> -		kthread_unuse_mm(current->active_mm);
+> +	if (!skip_vma) {
+> +		/**
+> +		 * The scheduler was working while the test executed,
+> +		 * so current->active_mm might have changed. Use the old
+> +		 * reference to the address space stored in current->mm.
+> +		 */
+> +		mmput_async(current->mm);
+> +		kthread_unuse_mm(current->mm);
+> +	}
+>  
+>  	return ret;
+>  }
+> 
 
 
 
--- 
-With best wishes
-Dmitry
+
