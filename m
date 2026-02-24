@@ -2,98 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJMZDf/qnGnqMAQAu9opvQ
+	id cHHvD4LvnGkaMQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:04:15 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:23:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B0518019E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9530E180317
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CD110E464;
-	Tue, 24 Feb 2026 00:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3910E07A;
+	Tue, 24 Feb 2026 00:23:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BiCxi3L9";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="bBet/m9j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCDA910E464
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 00:04:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B311A600AE;
- Tue, 24 Feb 2026 00:04:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E022C116C6;
- Tue, 24 Feb 2026 00:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771891447;
- bh=eSEVzSG1u7kDX0qIB57v1bGEdvuxp7q/644aS2mjq3Y=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BiCxi3L9JoXgkrh8SC5MAkJMhbY/Gt/ee8dkTYQlEReSuB4BTdHAinqlJ2OFDp6yS
- K2IocFIKpN9ibOJpRL9+VOLTSUbH7qQsPiBKrovipxTbo9eajt0gUvhxCDhwVDhO+8
- 5Rlxa1CWbGyQ9Q36KM5NC+FfklyKper67d1Qv2aJIuTZ7s4KnLHKQM7iB0zRPc84mq
- jsXCWBPoX2cNDpVLYgAQmic4uvU8sr2uc48rEwfkKkj6Mxf3f1OBn5Wx+AaROlWqSn
- ntIjCz+6RR634lgigRfzRx83aoqzpm4WdYAuAXJwSFy0UCaudKb02bX6tegaaBV0nb
- MfkMoAbVPBZkQ==
-Date: Mon, 23 Feb 2026 16:04:02 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, "Vaibhaav Ram T . L"
- <vaibhaavram.tl@microchip.com>, Kumaravel Thiagarajan
- <kumaravel.thiagarajan@microchip.com>, Even Xu <even.xu@intel.com>, Xinpeng
- Sun <xinpeng.sun@intel.com>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Jiri Kosina <jikos@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Zhou Wang
- <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>, Vinod
- Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>, Jijie Shao
- <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, Sunil Goutham
- <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, "David S . Miller" <davem@davemloft.net>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>, Karol Wachowski
- <karol.wachowski@linux.intel.com>, Min Ma <mamin506@gmail.com>, Lizhi Hou
- <lizhi.hou@amd.com>, Andreas Noever <andreas.noever@gmail.com>, Mika
- Westerberg <westeri@kernel.org>, Tomasz Jeznach <tjeznach@rivosinc.com>,
- Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>, Tian
- Tao <tiantao6@hisilicon.com>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan
- Cameron <jonathan.cameron@huawei.com>, Srujana Challa
- <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Antoine
- Tenart <atenart@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, Raag
- Jadav <raag.jadav@intel.com>, Hans de Goede <hansg@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
- <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>,
- Robert Richter <rric@kernel.org>, Mark Brown <broonie@kernel.org>, Nirmal
- Patel <nirmal.patel@linux.intel.com>, Kurt Schwemmer
- <kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao
- <bingbu.cao@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
- dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
- netdev@vger.kernel.org, nic_swsd@realtek.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-usb@vger.kernel.org, iommu@lists.linux.dev,
- linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org,
- linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-serial@vger.kernel.org, mhi@lists.linux.dev, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>,
- linux-i2c@vger.kernel.org, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
- <haojian.zhuang@gmail.com>, linux-spi@vger.kernel.org, Jonathan Derrick
- <jonathan.derrick@linux.dev>, linux-pci@vger.kernel.org,
- linux-gpio@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
-Message-ID: <20260223160402.3ad8f079@kernel.org>
-In-Reply-To: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E65310E07A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 00:23:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1771892602; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZnGvM+OjEuJSu0rxNwTBIL5b6cQ3hlfzSkhA4a2E4gvhf23ZmjWY3OogwwbWvtkn54Z9Gei3fZ4N9AVsQX7q4u2ZNb4BppYMcji7YXe/PypQs8VaBK+hNbTz0BFPYNF6vx54yCdStfVeSAzklNBvNQiNd0rXJFouhhCjI9KA/Tc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1771892602;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=CI7aESVSHPcmOkxY+BwLF80O1NQq1ArBaTxw6r28HKc=; 
+ b=BmFeYNwI0LHjJzd/M2jDZuM1mjDIGbEFKGv6yfj0VyF8lLDPgy02gwH11TYM355HADUKPv6Qgda3P32llEUO3QEOgAOt2BK89JNPrpKV2brhHEG6P6Z/l6SuWR8/osn51X4/G1RSSGkf1mSVvGGbR7Hnmoa6e4t6yMXq/+CAB8w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+ dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771892602; 
+ s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=CI7aESVSHPcmOkxY+BwLF80O1NQq1ArBaTxw6r28HKc=;
+ b=bBet/m9j/nI0SJzIlrBHVq4O71ynK/mElaq9WaQGRAyjTfxEyhzaKs8aoXYC1Zr6
+ 2SVjQPznoN2yfrI0dvA9Uj1Z+aUsDd4YSsDK0MwjOnBNNjZYOszgcovjVGPGgAIrJl7
+ Djh2eT2zFlTJulpKd9xJ3ZZPtyOQTuD2rTtKECnc=
+Received: by mx.zohomail.com with SMTPS id 1771892601649311.60930839879256;
+ Mon, 23 Feb 2026 16:23:21 -0800 (PST)
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org
+Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
+ boris.brezillon@collabora.com, dakr@kernel.org,
+ deborah.brouwer@collabora.com
+Subject: [PATCH v3] drm/tyr: Clarify driver/device type names
+Date: Mon, 23 Feb 2026 16:23:14 -0800
+Message-ID: <20260224002314.344675-1-deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,51 +69,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:shawn.lin@rock-chips.com,m:bhelgaas@google.com,m:vaibhaavram.tl@microchip.com,m:kumaravel.thiagarajan@microchip.com,m:even.xu@intel.com,m:xinpeng.sun@intel.com,m:srinivas.pandruvada@linux.intel.com,m:jikos@kernel.org,m:alexandre.belloni@bootlin.com,m:wangzhou1@hisilicon.com,m:liulongfang@huawei.com,m:vkoul@kernel.org,m:lee@kernel.org,m:shaojijie@huawei.com,m:shenjian15@huawei.com,m:sgoutham@marvell.com,m:andrew+netdev@lunn.ch,m:hkallweit1@gmail.com,m:davem@davemloft.net,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:karol.wachowski@linux.intel.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:andreas.noever@gmail.com,m:westeri@kernel.org,m:tjeznach@rivosinc.com,m:will@kernel.org,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:dave@stgolabs.net,m:jonathan.cameron@huawei.com,m:schalla@marvell.com,m:bbhushan2@marvell.com,m:atenart@kernel.org,m:herbert@gondor.apana.org.au,m:raag.jadav@intel.com,m:hansg@kernel.org,m:greg
- kh@linuxfoundation.org,m:jirislaby@kernel.org,m:andy@kernel.org,m:mani@kernel.org,m:mika.westerberg@linux.intel.com,m:andi.shyti@kernel.org,m:rric@kernel.org,m:broonie@kernel.org,m:nirmal.patel@linux.intel.com,m:kurt.schwemmer@microsemi.com,m:logang@deltatee.com,m:linusw@kernel.org,m:brgl@kernel.org,m:sakari.ailus@linux.intel.com,m:bingbu.cao@intel.com,m:ulf.hansson@linaro.org,m:arnd@arndb.de,m:bentiss@kernel.org,m:linux-input@vger.kernel.org,m:linux-i3c@lists.infradead.org,m:dmaengine@vger.kernel.org,m:phasta@kernel.org,m:netdev@vger.kernel.org,m:nic_swsd@realtek.com,m:linux-arm-msm@vger.kernel.org,m:linux-usb@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-cxl@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:linux-serial@vger.kernel.org,m:mhi@lists.linux.dev,m:andriy.shevchenko@linux.intel.com,m:jsd@semihalf.com,m:linux-i2c@vger.kernel.org,m:daniel@zonque.org,m:haojian.zhu
- ang@gmail.com,m:linux-spi@vger.kernel.org,m:jonathan.derrick@linux.dev,m:linux-pci@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[kuba@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[87];
-	NEURAL_HAM(-0.00)[-0.999];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,netdev];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 47B0518019E
+X-Rspamd-Queue-Id: 9530E180317
 X-Rspamd-Action: no action
 
-On Mon, 23 Feb 2026 23:29:40 +0800 Shawn Lin wrote:
-> pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are created for
-> pci device drivers which rely on the devres machinery to help cleanup the IRQ
-> vectors.
+Currently the `TyrDriver` struct implements both `platform::Driver` and
+`drm::Driver`. For clarity, split up these two roles:
+ - Introduce `TyrPlatformDriverData` to implement `platform::Driver`, and
+ - Introduce `TyrDrmDriver` to implement `drm::Driver`.
 
-If you can please add this API with just a few users, and then convert
-remaining users via the subsystem trees in the next cycle.
-There's no need to risk wasting maintainer time on conflicts with
-conversions like this.
+Also rename other variables to reflect their roles in the DRM context:
+- Rename `TyrDevice` to `TyrDrmDevice`
+- Rename `TyrData` to `TyrDrmDeviceData`
+- Rename `File` to `TyrDrmFileData`
+- Rename `DrmFile` to `TyrDrmFile`
+
+No functional changes are intended.
+
+Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+---
+Changes in v3:
+- Rename `TyrPlatformDeviceData` to `TyrPlatformDriverData`
+Link to v2: https://lore.kernel.org/rust-for-linux/20260223204648.208886-1-deborah.brouwer@collabora.com/
+
+Changes in v2:
+- Move the import TyrDrmDriver to a single line.
+- Rename the variable `tdev` -> `ddev` in file.rs to be
+consistent with the name used in driver.rs.
+Link to v1: https://lore.kernel.org/rust-for-linux/20260205185906.40940-1-deborah.brouwer@collabora.com/
+
+This patch depends on: 
+[PATCH v2] drm/tyr: Use vertical style for imports
+https://lore.kernel.org/rust-for-linux/20260223203833.207955-1-deborah.brouwer@collabora.com/
+
+ drivers/gpu/drm/tyr/driver.rs | 40 ++++++++++++++++++-----------------
+ drivers/gpu/drm/tyr/file.rs   | 23 +++++++++-----------
+ drivers/gpu/drm/tyr/gem.rs    |  9 +++-----
+ drivers/gpu/drm/tyr/tyr.rs    |  4 ++--
+ 4 files changed, 36 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index 259a5157eb47..611434641580 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -30,7 +30,7 @@
+ };
+ 
+ use crate::{
+-    file::File,
++    file::TyrDrmFileData,
+     gem::TyrObject,
+     gpu,
+     gpu::GpuInfo,
+@@ -39,16 +39,18 @@
+ 
+ pub(crate) type IoMem = kernel::io::mem::IoMem<SZ_2M>;
+ 
++pub(crate) struct TyrDrmDriver;
++
+ /// Convenience type alias for the DRM device type for this driver.
+-pub(crate) type TyrDevice = drm::Device<TyrDriver>;
++pub(crate) type TyrDrmDevice = drm::Device<TyrDrmDriver>;
+ 
+ #[pin_data(PinnedDrop)]
+-pub(crate) struct TyrDriver {
+-    _device: ARef<TyrDevice>,
++pub(crate) struct TyrPlatformDriverData {
++    _device: ARef<TyrDrmDevice>,
+ }
+ 
+ #[pin_data(PinnedDrop)]
+-pub(crate) struct TyrData {
++pub(crate) struct TyrDrmDeviceData {
+     pub(crate) pdev: ARef<platform::Device>,
+ 
+     #[pin]
+@@ -71,9 +73,9 @@ pub(crate) struct TyrData {
+ // that it will be removed in a future patch.
+ //
+ // SAFETY: This will be removed in a future patch.
+-unsafe impl Send for TyrData {}
++unsafe impl Send for TyrDrmDeviceData {}
+ // SAFETY: This will be removed in a future patch.
+-unsafe impl Sync for TyrData {}
++unsafe impl Sync for TyrDrmDeviceData {}
+ 
+ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
+     regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
+@@ -92,14 +94,14 @@ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
+ kernel::of_device_table!(
+     OF_TABLE,
+     MODULE_OF_TABLE,
+-    <TyrDriver as platform::Driver>::IdInfo,
++    <TyrPlatformDriverData as platform::Driver>::IdInfo,
+     [
+         (of::DeviceId::new(c"rockchip,rk3588-mali"), ()),
+         (of::DeviceId::new(c"arm,mali-valhall-csf"), ())
+     ]
+ );
+ 
+-impl platform::Driver for TyrDriver {
++impl platform::Driver for TyrPlatformDriverData {
+     type IdInfo = ();
+     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
+ 
+@@ -129,7 +131,7 @@ fn probe(
+ 
+         let platform: ARef<platform::Device> = pdev.into();
+ 
+-        let data = try_pin_init!(TyrData {
++        let data = try_pin_init!(TyrDrmDeviceData {
+                 pdev: platform.clone(),
+                 clks <- new_mutex!(Clocks {
+                     core: core_clk,
+@@ -143,10 +145,10 @@ fn probe(
+                 gpu_info,
+         });
+ 
+-        let tdev: ARef<TyrDevice> = drm::Device::new(pdev.as_ref(), data)?;
+-        drm::driver::Registration::new_foreign_owned(&tdev, pdev.as_ref(), 0)?;
++        let ddev: ARef<TyrDrmDevice> = drm::Device::new(pdev.as_ref(), data)?;
++        drm::driver::Registration::new_foreign_owned(&ddev, pdev.as_ref(), 0)?;
+ 
+-        let driver = TyrDriver { _device: tdev };
++        let driver = TyrPlatformDriverData { _device: ddev };
+ 
+         // We need this to be dev_info!() because dev_dbg!() does not work at
+         // all in Rust for now, and we need to see whether probe succeeded.
+@@ -156,12 +158,12 @@ fn probe(
+ }
+ 
+ #[pinned_drop]
+-impl PinnedDrop for TyrDriver {
++impl PinnedDrop for TyrPlatformDriverData {
+     fn drop(self: Pin<&mut Self>) {}
+ }
+ 
+ #[pinned_drop]
+-impl PinnedDrop for TyrData {
++impl PinnedDrop for TyrDrmDeviceData {
+     fn drop(self: Pin<&mut Self>) {
+         // TODO: the type-state pattern for Clks will fix this.
+         let clks = self.clks.lock();
+@@ -182,15 +184,15 @@ fn drop(self: Pin<&mut Self>) {
+ };
+ 
+ #[vtable]
+-impl drm::Driver for TyrDriver {
+-    type Data = TyrData;
+-    type File = File;
++impl drm::Driver for TyrDrmDriver {
++    type Data = TyrDrmDeviceData;
++    type File = TyrDrmFileData;
+     type Object = drm::gem::Object<TyrObject>;
+ 
+     const INFO: drm::DriverInfo = INFO;
+ 
+     kernel::declare_drm_ioctls! {
+-        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, File::dev_query),
++        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, TyrDrmFileData::dev_query),
+     }
+ }
+ 
+diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+index 48bff4476d74..450be5ab9aaf 100644
+--- a/drivers/gpu/drm/tyr/file.rs
++++ b/drivers/gpu/drm/tyr/file.rs
+@@ -7,35 +7,32 @@
+     uapi, //
+ };
+ 
+-use crate::{
+-    driver::TyrDevice,
+-    TyrDriver, //
+-};
++use crate::driver::TyrDrmDriver;
+ 
+ #[pin_data]
+-pub(crate) struct File {}
++pub(crate) struct TyrDrmFileData {}
+ 
+ /// Convenience type alias for our DRM `File` type
+-pub(crate) type DrmFile = drm::file::File<File>;
++pub(crate) type TyrDrmFile = drm::file::File<TyrDrmFileData>;
+ 
+-impl drm::file::DriverFile for File {
+-    type Driver = TyrDriver;
++impl drm::file::DriverFile for TyrDrmFileData {
++    type Driver = TyrDrmDriver;
+ 
+     fn open(_dev: &drm::Device<Self::Driver>) -> Result<Pin<KBox<Self>>> {
+         KBox::try_pin_init(try_pin_init!(Self {}), GFP_KERNEL)
+     }
+ }
+ 
+-impl File {
++impl TyrDrmFileData {
+     pub(crate) fn dev_query(
+-        tdev: &TyrDevice,
++        ddev: &drm::Device<TyrDrmDriver>,
+         devquery: &mut uapi::drm_panthor_dev_query,
+-        _file: &DrmFile,
++        _file: &TyrDrmFile,
+     ) -> Result<u32> {
+         if devquery.pointer == 0 {
+             match devquery.type_ {
+                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
+-                    devquery.size = core::mem::size_of_val(&tdev.gpu_info) as u32;
++                    devquery.size = core::mem::size_of_val(&ddev.gpu_info) as u32;
+                     Ok(0)
+                 }
+                 _ => Err(EINVAL),
+@@ -49,7 +46,7 @@ pub(crate) fn dev_query(
+                     )
+                     .writer();
+ 
+-                    writer.write(&tdev.gpu_info)?;
++                    writer.write(&ddev.gpu_info)?;
+ 
+                     Ok(0)
+                 }
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 8f2d23e3c093..514524ae07ef 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -5,19 +5,16 @@
+     prelude::*, //
+ };
+ 
+-use crate::driver::{
+-    TyrDevice,
+-    TyrDriver, //
+-};
++use crate::driver::TyrDrmDriver;
+ 
+ /// GEM Object inner driver data
+ #[pin_data]
+ pub(crate) struct TyrObject {}
+ 
+ impl gem::DriverObject for TyrObject {
+-    type Driver = TyrDriver;
++    type Driver = TyrDrmDriver;
+ 
+-    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, Error> {
++    fn new(_dev: &kernel::drm::Device<TyrDrmDriver>, _size: usize) -> impl PinInit<Self, Error> {
+         try_pin_init!(TyrObject {})
+     }
+ }
+diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
+index 861d1db43072..9432ddd6b5b8 100644
+--- a/drivers/gpu/drm/tyr/tyr.rs
++++ b/drivers/gpu/drm/tyr/tyr.rs
+@@ -5,7 +5,7 @@
+ //! The name "Tyr" is inspired by Norse mythology, reflecting Arm's tradition of
+ //! naming their GPUs after Nordic mythological figures and places.
+ 
+-use crate::driver::TyrDriver;
++use crate::driver::TyrPlatformDriverData;
+ 
+ mod driver;
+ mod file;
+@@ -14,7 +14,7 @@
+ mod regs;
+ 
+ kernel::module_platform_driver! {
+-    type: TyrDriver,
++    type: TyrPlatformDriverData,
+     name: "tyr",
+     authors: ["The Tyr driver authors"],
+     description: "Arm Mali Tyr DRM driver",
+-- 
+2.52.0
+
