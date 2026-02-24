@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cN8eLRAsnmmkTwQAu9opvQ
+	id ACUxHQ8snmmkTwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:54:08 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:54:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F6D18DCB3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D7318DCA5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81EA210E698;
-	Tue, 24 Feb 2026 22:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87C810E665;
+	Tue, 24 Feb 2026 22:54:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="i1lSiRmN";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="YfDTY0C0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from BL0PR03CU003.outbound.protection.outlook.com
  (mail-eastusazon11012025.outbound.protection.outlook.com [52.101.53.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A2510E665;
- Tue, 24 Feb 2026 22:53:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5D710E693;
+ Tue, 24 Feb 2026 22:53:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PfP14TIh1XulSp7dcf7fyuvjptcrJDK47CoU45pzVeE6zhtQv8j09smZEuIkK9wmg+/4C/Op04rc4MN16iexQ7sn9wkxI5WYroBH4wAMcTzED2jLtsbBDbIz9/CtcvYo4HYDpgnZiU/D/M02WZJaFndU29E+4ryYqXb4P6B/WQwAmFJ9rv0A7c1LQecku+HvnzEvKdXEpIuxXpm0Y07uMBJEqLfzoxyqMUEYJ3jSD5m4eXb60NOAv4nf1JlTXn+vpkVjUpCzvcSmOvNeMENg4pfAJTFDv9K5YD7oRu7oqOnL9xlc/2m2HOS4tRGJtKIxXQSlBBnGmsTtqepAUY+Lbg==
+ b=op3MK24ozoShy5WzLOD4UUgLvCyRPAp8D9nJeAgDJFCAYhWekiAc73r0+8GNyOpMV+Aah50RvZE4flpTotAeo7FlQUsB4+eAoOgsLh/19hh899qoshLCk+ElswWHj6MvoZOEI4OdBbHxaNu0nmNbTfaSNRGaUQ1LJ5g0vUXiM8YWf8u4yVV4Od+oeGxSjr85eWz5dEiVUPDJ3AzU9Yux+w2E+JSfAjihXBS3OhEyipyTgDfCkvMJl+gMLrnJMkvZnxlwZz/GEH6sHrzjhsrWuMUBbLO4czQgvVcxRDhrcBNJ5sKJi9WoPrnuP1swXFXUUtQK3xP1+diq2dG7NO7i+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YI3om+J+g5Njey+T40Z5xsmfkXWDiRTHCKW15V8Xgb8=;
- b=Y5B4wrFXZLJfa54CQP5YjWCwMbI8mAc1iX2eJApBdYHy83HOJpUAMWygkT+ac0MlDtMCd0tWneGSGNBkl+rz/44NSRm7BOFUUiUowXNG+/QWCmz4oemKPQq4ZfJPSCMkdy3AVA//33wFwVLmaT2GtLF+TS0t0JCxxxD/OiD02grUgp+yUBkyq4ui2zW5LigQMTjoyoB476Cy+FHdWOng9ZoZ2r+aFaOkStQCDdduf5jPqoBB3WMVr8hdOMkhstxVTZ7ItZCvp+CkYM4f3YN7aSNzpSyUkp4reoCeVkwa+i8On0uECKQHYXilLIGn7EF642ZxrrmsQmq/sDU0r6cPSg==
+ bh=gaZGsToBemDutnVDRVR63UF4u2CUHT1Lwlg3rbjh36Y=;
+ b=RDPV89OMljGj7P+1CZJgfqoBqPLwNU+x+gLk5BgjC24Y/vIeMFv4WpUj1idKfvAbqPmNjdbNqXslX3tHRqgSjZ0LGrlpPHoR5gDoALunwmNPk2wRIWDUF3zdmA4N/gBZquHDMSt951gfvSjJSmhTmJfNmNhd+OYKMb5vzOd/F4anw9OOufJESj9sX0N4haVzFkfuff/OF9hyRnUTAH0iYP7E3rOFo5iDp9tDWsCt4Y7k0j2G7bs2QmShurv9ZkWVhlcWxtYmAUn0OTdGRGJ8UgowHDgU25jAe68g/wZnlvg8BP62/u9Eg3JAKtn5b0BAAEHOELEHhKbSLRLc2AnF0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YI3om+J+g5Njey+T40Z5xsmfkXWDiRTHCKW15V8Xgb8=;
- b=i1lSiRmNznCqL/RsuomKPggXnpudKZHS7JTtSfJMY7wajcF8WGgbeVlm2ZauGHhH8riyYHykZkAJXR47FJ2LLvbM5KfMkJqlqIj70Ac2tkR2/nzFKHgsipb6f5MYdiKDVj8bRMySl6rfk1lXVT5xdBmY8RWCi66bAbusESZH0EzqL6gmAQA4CoqV6HGpqhrcCsouipnOQJzEeAEnIjIy7uAIbwecLNXt09BW39bKxxlG1agrjLhdxCECRUMS1nBnMl8gFe9bAjsCNSzm9XJkb3l3juK5faf/uim1GxOV0BsWknAgboeNDW1oFX9aUJNzv8/eBUC0puK8Xg2KF4QdZw==
+ bh=gaZGsToBemDutnVDRVR63UF4u2CUHT1Lwlg3rbjh36Y=;
+ b=YfDTY0C02FgaPfnvYSLGQdG6b+cqlJElu31dE9pY2fpM0+yRyb8/yqZqxD9lG4koAbYGe7ssqClszQCwyaEFIVC2qllXG+R62LVRuRMMH8dPM/lmVewDfAU8dy9OLid4e12ArAGrpi5cKub2AC1HZJmqyym0i9KxtksAi9FclSboVrQkSmoH9Gy2Wf4enR9ngGWrHSbbB15bKMnIRieDUw5+FeimZZSFbMdYWzA7MdUBtEC/qnKZAf8590MoT2MeIQbXadpt/pPUdLESj+2EFsgPQL4c0nhv3Nw7vBIq6lVh7keharaO7nYcWOgyf3WD/pg29rKBsvyGRhknGbQygg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
  SN7PR12MB6885.namprd12.prod.outlook.com (2603:10b6:806:263::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.21; Tue, 24 Feb 2026 22:53:49 +0000
+ 15.20.9632.21; Tue, 24 Feb 2026 22:53:50 +0000
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 22:53:49 +0000
+ 22:53:50 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
@@ -85,95 +85,95 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
  linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH v8 10/25] gpu: nova-core: mm: Add GpuMm centralized memory
- manager
-Date: Tue, 24 Feb 2026 17:53:08 -0500
-Message-Id: <20260224225323.3312204-11-joelagnelf@nvidia.com>
+Subject: [PATCH v8 11/25] gpu: nova-core: mm: Use usable VRAM region for buddy
+ allocator
+Date: Tue, 24 Feb 2026 17:53:09 -0500
+Message-Id: <20260224225323.3312204-12-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260224225323.3312204-1-joelagnelf@nvidia.com>
 References: <20260224225323.3312204-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0346.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::21) To DS0PR12MB6486.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR15CA0039.namprd15.prod.outlook.com
+ (2603:10b6:208:237::8) To DS0PR12MB6486.namprd12.prod.outlook.com
  (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SN7PR12MB6885:EE_
-X-MS-Office365-Filtering-Correlation-Id: 100a094f-42c0-4288-2e1a-08de73f792b6
+X-MS-Office365-Filtering-Correlation-Id: 3bd9b7f4-b7ba-43e4-f9bf-08de73f79378
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sa4089Z1PTOcG04yHXiyHjzjdB1Wl9Th8EW1oOj3orMMpqnOapNE78npkk5Z?=
- =?us-ascii?Q?lQaP0lDBtziJGTD9FoY7XeqWPhl4qBfR6j+6/nEIOF2TOXodac1535vcwmRn?=
- =?us-ascii?Q?oQ7Uv3agsPGQeXQbzxvDArFyQbsrqr1BYXsinfaHHeVJ9cH5KNLPkv0yYoeh?=
- =?us-ascii?Q?kQnkZPmLxtCj6IuKXcfPoyBeh22lVXy8bwMv8tgJIcJixyuNHJ/agNs1OvPp?=
- =?us-ascii?Q?CK32ffAlCkJSnBklEb6QAJ/LBwWPPTEmgQo5S9I9MMwV2/XWd7+UUOdYlk8V?=
- =?us-ascii?Q?bZPXVXbNNHsnoZwxtkl53rUltUVx1wkj+rYMRYWq/M+FTljwSjHQUTljqlOh?=
- =?us-ascii?Q?KErEFnkOq6g4l/615GH+ugyxqknfHvJYwCvBgIOUf6FXAt4XFewo3T9j4EqN?=
- =?us-ascii?Q?rGuD554y2J50za4/CNtugvlzq+sehPKz4KKGXqfOLl5l2908SDDrGvTY+HpY?=
- =?us-ascii?Q?jj0vq54fDwMq0XjQ8HGGsMaNNuvih9DLhjKEaOqgD7d08kgz0rKrY7WEtJyF?=
- =?us-ascii?Q?bZMGsnvoqnqElNacXtIUbeZFaHZ++Zj0Wi5v0EEQYaPhDUmMctGgmogiAXBT?=
- =?us-ascii?Q?UaNSETdw45BmZdzfPLz940s1i+jzFlvw2ry4hTwVM6nw+44BXH3ZwHtKuWHu?=
- =?us-ascii?Q?qoquwo4r5MIzX2TbLEvNAzYPMMNZBl95zQwo0xU1Vz3SwhW9lGS9xNNDmzYf?=
- =?us-ascii?Q?Ec44nmR9K1BRDuCmvWTjS1KLCb39On4BjSJj4HFgzi+99LM8B32gpAJJMkLG?=
- =?us-ascii?Q?9iRDP3yiZPuPZ9JmtbP5YnUJCe6S3kkJVOH4nsvsuc5zNvD6+bpmyotUCaIZ?=
- =?us-ascii?Q?F5ckFv9judtHPTSAddbsg0GFOPpuzdTLOn8p/lV7z00QuOuwp8rjt7Ooda6M?=
- =?us-ascii?Q?GPSrKUXG3PXb4VbCnIoEQyD6WzYaGSFBnl/o+giF9j825CRtetm3oBFiVsq5?=
- =?us-ascii?Q?6YGeh+mvfr3NOCUto/WGf84PrK81lVnE7rAhUxYUDgdY7uA0VLYyWv7d/nbU?=
- =?us-ascii?Q?XmfvvjDcdc+sJU2/gSTKcm3xDNhUwlSDNmkkUtYSCU1n5W5QIc6Klvy/je05?=
- =?us-ascii?Q?dB3Zju6mZ83kPuehghL7cIYwUPB1IFdUmKLM+VUMOsf7L4XbtAIjlVJoc19F?=
- =?us-ascii?Q?xRaynkI/iH2SkmPwd4Mb+WpiCNQqgmi16Chd3i4BmjW+QdDolwZAH48C+RLx?=
- =?us-ascii?Q?Snreq4TG8wFwbJcsNt6dihK+2gp+N0+r6fk2A339cv4/htuPg/1h2V7ByP/M?=
- =?us-ascii?Q?CK0vhZUMx27Hl63N7LIW1AACgmhIvFE/XhTOVlG1hK12PEYheiL6xI4yOztg?=
- =?us-ascii?Q?EBzhKyBVjT9zxQwWiCOUYDrAJll8elwi751u584nqCXt0GUc/P6I4GjGqyzy?=
- =?us-ascii?Q?1hDaXt93wpUx5UbElgL8GaheCbCjtTr3tbr31rnOQXdRxbVlx4uBg7zyRsHz?=
- =?us-ascii?Q?NJ6Pg0AsTR+50B9yQN3M4H+tbKQyHySebHv42jgeRH41i04gKWyRXN0YZBQV?=
- =?us-ascii?Q?FfDQK04r0UD9ZGSYkdWFDVTlGPRG7s6xF4GdiVxXkm2xy8PsaJjLxCmyYw9q?=
- =?us-ascii?Q?sIwMCajCanM9/SGT694=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?p9C326EMI3q1sC2VDoDPBCQYiIZoyvIM5Hi9AVTUVDZTUXyPJxjGwlQjfKbN?=
+ =?us-ascii?Q?+NxuoLzY60PAKBBUAywBHW1v4gA3GlcmQkAXKf/wLlFs1OddM10cPT7ml0fa?=
+ =?us-ascii?Q?wrC6DwNVtVNLtC50YRdX0ospKLt7BGtxdDJ1YJPZwA8wmB9V9zjLi3FxQc39?=
+ =?us-ascii?Q?PImvUA8CLKFobBVeug3tCm1F+QSUFEfTdMj5KzbN7IqGhxgzG/vAq9NqGQo6?=
+ =?us-ascii?Q?en+C62ZliQuul8jKvdoUQBShB7zIfhbq2negUwAJ2yVhWLXeVdKIcJksnGYM?=
+ =?us-ascii?Q?nVv2/l0kPFJFZMGY3d7jmrKDX3isPBOX9sh+fuNwfWGMprd94ydwr88YAuTC?=
+ =?us-ascii?Q?UrYllTK72eRw1GD5UncqxDM39wz9jffLh19jhIc4qt1GHKVJ0uBOS8mFpfCJ?=
+ =?us-ascii?Q?YP+nBBKCUHEex2fG69CBG9M9ve2W/NHSTwna6cZT9tKVUCF9FUNPH6V2h/9y?=
+ =?us-ascii?Q?e1FbB6gd716qaJxFCZF1p2QrTtcrGnpZ0RB8EYvZ/48LlvHICcf3I7kkSI2u?=
+ =?us-ascii?Q?U0MoM9QX1SnLRwKx61KB93OES8gSp8a/VZuTO5PSP3BOcXWZzGx87sqK/ywD?=
+ =?us-ascii?Q?yNyJRp8KA+3XUuD3y/Jx1uoUtT89LhqU0DAzc22zxFlrVwHPAT1it/nwe9cX?=
+ =?us-ascii?Q?8++oYLP+NIVNfCUDA49sDv+QhyTq3Q/ut3kdj3TSxMUzptboRdl2nMeSm5dW?=
+ =?us-ascii?Q?m+xk6sABXFn2YK7CMMHMjCAlvHuKLY0bCi0SN+OHZ+KSMqGH74eC8eoQ6SH8?=
+ =?us-ascii?Q?+stbLEPnKskTdLnfUr/mnS6z5NSEhQESektoNF8B9veYbRYWI2DChdxBRA9e?=
+ =?us-ascii?Q?eV79sNMDiHIntnECvIwbPCTGya/KlZH4/A7/WBO7KllNWRKvYuFKINzzhgGp?=
+ =?us-ascii?Q?kTAW+q1FrYdmBtbF0C1v8Y/I/zn3AV7zIH8I7OwOTIXUZ4YCoOWQgOH/Kivc?=
+ =?us-ascii?Q?aEvhPjjK9ubl1zJdSP6Z0PSLrofb7MFrt+Idp/sV1mZumydTZvHHb3N2WZIv?=
+ =?us-ascii?Q?xuIQkbQnd2GzJX3P6rcz2ci6XBxbRjRoKch4H1+D6lNY90DUpEc2191pakNV?=
+ =?us-ascii?Q?yk0aevOnVYn2MCXW8BxgCGiSd0BGkqaNhmNTUqa5kksgjDASZKNatefow2r4?=
+ =?us-ascii?Q?P6tiXgfp955KGyrujhQ5nh9kOxjM0tM2kVGQBpPcvQE0nHXykp23O0i/5iHG?=
+ =?us-ascii?Q?bym6Tl0veciQ/mA/dPM5ti5oP14ncOTwEc2tbheacnqtYkpLVPCMrGfSaQ5n?=
+ =?us-ascii?Q?diCrsphb+4ztWjK7s19EWE2nlmMc27TBCw3+H8WH47cdOaipNA/A2bpcLeYS?=
+ =?us-ascii?Q?lIqwC0pphZIw9DM9C0GQntyxyr4fxbpxHsPNurGdAd79fBPAxkoVPCuTF3uo?=
+ =?us-ascii?Q?KHQ84XjKr1jo5G1nDeVDp99oTsa81UQLbn5HBxqlI5H1iq08pV2C4mCMdZFG?=
+ =?us-ascii?Q?BAbed2KOfeeU70SygTGWxHb4+u5WBqYOdOP56VvyzHq6j3YVHXu8v9f414Ci?=
+ =?us-ascii?Q?kaUgbiNbik0fuhY5Koyk2dxrxR5AOv5l/apWexBI0SfP+4S+ASApSq+m8NWt?=
+ =?us-ascii?Q?j5snvAIpP+tWuuQJs0Q=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1hnSoMaNpwVsvOW3nUJlse9/aEgS/wsqq0cPCJRRI2v376/lCt9oMQAWZasg?=
- =?us-ascii?Q?DtZFl/qCU+tga3A0bgcfl5jB5R/6CxJi5mWXNb2HQkc5gaarDHn5JnqS5Jli?=
- =?us-ascii?Q?nc1LTDaFbJgr3HArmz+9s6Gzw7ihR9WmdPYGZziEbfx1tPeVo2hm8VaBSDBc?=
- =?us-ascii?Q?fsdvzQq2qmS8eA2W2NR8JZ7bii3cqwfpVLZYagNDm8qMtlblTXNDlRF1BKdA?=
- =?us-ascii?Q?5K3yhSmXsYI9x8nCD+AA1uhxIldTY5G3l+OSuTr3LUxyp+SpONs4wyk/53Bh?=
- =?us-ascii?Q?TTr6aRcl5vH6Zz3myLC/e6mMN15UZbpas/vyEoT8f8pkw853JlT/7KUYsxwv?=
- =?us-ascii?Q?d5fUGSfxmqdDtGjDOdC1avLBUDD1I5wmWgE5QYyn7ky8i/bnThTrYhvsSQZj?=
- =?us-ascii?Q?ZrO0+Rc3l6k8rymVnYPiMCE3WHW5SUJ2vpFLE9yIxH1QfWu42C1Cj5JWyUMx?=
- =?us-ascii?Q?dL6WBdmMrp8SiK7x0WNcQ0atkyWjCEfbCKYwSDZgdY+1EqJ4F9nlC8cvGdlX?=
- =?us-ascii?Q?SzGiePd6oxN7S16E+ii8AzLWKSkFuXYDh5Rtxumy+doCvez2WHlk1dyt+dJz?=
- =?us-ascii?Q?vk22Xpt1yKL215imtDGY9kWEKOTxzaXrL+9BD7lINrhmrepMD9n/SmGJxDqv?=
- =?us-ascii?Q?VbRxYTKk4pHk8VBqyZSuAMrNEs+CHiL9ldOYgDPS9r5BnD6GNljajX+iv6Zr?=
- =?us-ascii?Q?6VHIL6ezc7o/5ND0xeUbhoHhytnQhHXF3yGdawU+fb8e3Wmi9pRJYF4Le3gI?=
- =?us-ascii?Q?xB67ffiIcRsZXnU6UzcVZUdV+EJ6tocMNxPGYLxV3D8+jtrv5qYeAtD1tPu6?=
- =?us-ascii?Q?x1riXnC844+P6SZ53O5GHqEXsOY6PcXIwnilPGqLduXbEp7MbfRZJlyHs2ho?=
- =?us-ascii?Q?io0XP0/EhtR7cBKRJs8Ym6KGEnVGcYPpDVCN+i7nEjiL/hzSY+I6nl0ZcDa+?=
- =?us-ascii?Q?dObqDB/iPF6uMi34sfPTWo4BbDu90b2AqDIppgxuFSbhBwW/zorFosQdQAWl?=
- =?us-ascii?Q?yM/zUQ9si1Xh1Dh3ZzKYrRTttTggzMJVXwaxBE21fwi+T/qmhVjIcWNutfwF?=
- =?us-ascii?Q?R1HP0U553fI4NPvdXK2BHY7bkz005PHYz+w5w9dOvIxgI+ragq4uqYb8drSn?=
- =?us-ascii?Q?GIQkaRMyiN3NMu/3cD5AXlGgbPpmjGCs4dynN7jkKfG1wFS5DICWGJ/3ZV+O?=
- =?us-ascii?Q?aiCBFnK5wVHJZghFcAmZrIRazfycjbNScX2NQpwwjwu0wu9ukMNZMSJ8SiHt?=
- =?us-ascii?Q?oOWMxgtqroDKVep+FjZQFwbNIEJwJosvAW1h8USMAFI57N0P3jJNu25bMf63?=
- =?us-ascii?Q?yjuqN/fCLTMSVdZTf0hOeockPXT+cV38Q/FFt8ssc0MfPn8k6p0sb8cON/Xo?=
- =?us-ascii?Q?kMvBMqeHJywudtb4gZ7n8r/lbPrHWMOp2UDK/Beu8fGp0FLftcWJINVU7w5c?=
- =?us-ascii?Q?42TR1xU3XalzNFdFvDuKNmsrYN/5Dr501hrHDMcTNutV5cpVJG3ukVF81IKv?=
- =?us-ascii?Q?pFlyg+hP4SAKbGSY+LmPzbWpiGODNcfpia6o4Ony8C42iobT3CRtUS4kQA7o?=
- =?us-ascii?Q?jQLtv9HGHbCFx2JoTWicxcHkfgjkPyLdo2Fmp+0V8qbNY13BLF+bgVzQXkUe?=
- =?us-ascii?Q?4Rqet9dJUuuDuHqgZXym2eE3flJBmnm0aWqovXFDsQsWMtctf17N1osn3yVz?=
- =?us-ascii?Q?CC1acwzm2MszhLQn/dz/mOZkyVfdz0Vvwrz4Tb4K0J0cyARZx6QJlNeVlun1?=
- =?us-ascii?Q?cn9CuTXlKw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6E0Xyz9XyBac8A8KQrPqaA8QIuWn6cOWcxEDDw1gfI7SHYoantZNbQlzU4lc?=
+ =?us-ascii?Q?SRsdbjhTDvzK+M63NG0DFlxNj6loO4szr+Fnx9R7DeJ9qUp+xtRdl5YF9j6g?=
+ =?us-ascii?Q?jeItXq1XcA2ZYdyeonIkGXN/rtonUFQJOcE+tEbRZQJg8fLbAkFtbTpPiarD?=
+ =?us-ascii?Q?qWX70ZwtET9EsQ4YVl3XZDxSwyUJOEeUsDsF9GpvBCLRHcoCI+M6S4pHTF/u?=
+ =?us-ascii?Q?m7jvUKxNVz3SJKuyvnGAfi7d6b5W6HylAVxMBgw//7cwCOr8G/g/6x4ipOUz?=
+ =?us-ascii?Q?rglKt/sypdx0SKqq7MIN8kV1rC/6NWNa757pD2RxwFC0WrfqiFre0tboxf6U?=
+ =?us-ascii?Q?iZYXMuhvBx7oj7F0OqfjU8Xa70c5WeaOVSmbv84c7muR/DHIeZjp1ToF+/bm?=
+ =?us-ascii?Q?RXrHO5kqjwLNmtJeVwAIQVK8qWRaOYu5q/o912eJqS4/lUnci5bCRlOUqQis?=
+ =?us-ascii?Q?OwSQ+lYKwGrCCFDe4yYfydQ8Agn94rklDmT20ARvP1T326mOKEBDHPZWfAtA?=
+ =?us-ascii?Q?Q8XmYiNNXnlz2adtkWakrtFjUPgG0xcz9jdOXeN3TSXFaTqi66Q4x0pa1JG3?=
+ =?us-ascii?Q?J30PbWzbu5tbm9uw8oSvl/scgnCCUhUsDfYivDgURV687Z66xAXSJtuOXmoZ?=
+ =?us-ascii?Q?csg9MRyZgIS+3L7OuIoWFuVFEoTU2aqmUrCkB/zmnT5ZstAWdQmUk16fm47h?=
+ =?us-ascii?Q?KIyI9A8U6V28fLLIPuGzjz2gV/04Sho8pEwpFlAPI8e9KHr+Vm8yuGB0X3nt?=
+ =?us-ascii?Q?dl0DG4uL6qkU7a0RV/rqC1NOtDvwHwcfygck8G3zddnLx7f04yxWKCC/xK0p?=
+ =?us-ascii?Q?aSqfFQMdcZgqfTKZ7N5/S+v3AQSuCeS2IVkulyquebBHSPN+Mf/qPtIR5wLN?=
+ =?us-ascii?Q?wJCyEtkZ0aBXevinCFtFYfimGx+jubnhnSj0o22w/6hprdcRtlxOYYS2szlt?=
+ =?us-ascii?Q?03iRhuTZpBxh3ybeozT+NJ9RPy3NUqd1kDcRj1HLK3hyErgbhW+Kb2ao2KFr?=
+ =?us-ascii?Q?rmFx0B0W8BUHAwAA+j0/apYB2Sf5KX0oX2uKHghbX0ws+gp/lHXpxQ1DYn/q?=
+ =?us-ascii?Q?8Vuo17iDi5WlOpvV01pQfAk+zJPHXhnwJGqtcd4kmvQrLFI7vs2g2o2q5IXM?=
+ =?us-ascii?Q?jzGhtiGTZbPATT5pa2dqDhXIJ0Yl8XFh6jOWP9UhNMqvYz4zEbWzVMeF9XPh?=
+ =?us-ascii?Q?xEvH7T5eXSiS8+JSt9nS4eWFjmjadIPuWxrFIVwkGap9tnxDQ+jnWNbvEbno?=
+ =?us-ascii?Q?gFD9hd3kIUh/Ac0ZLMD5/izFZRos5pdzOab3LkdlhlkO3BcXyvM3YrFN3QFq?=
+ =?us-ascii?Q?mbCV2fx/HON/D/4eaqOYPGMghjy457J7R94yYMWObO/+kxfSErkly8BPO3Wx?=
+ =?us-ascii?Q?ULOu1dTvE0CStYDNtFA6d4K9gHE8hh5xudVqZLfMLEZsFY1X0pjp5MKl2TBq?=
+ =?us-ascii?Q?VN0lWop14sTza/HkDp4zbkvtsUIBq8rqN4TFLU5cyLtpd5gDZHLPi1wPKFCk?=
+ =?us-ascii?Q?do7D4YbFsuQZ2dCIuhA962qPqHV1+v7TKWq8XmJHc2340Vb0KlTK2QiDRMtD?=
+ =?us-ascii?Q?YFakV9mNIyNySXiqMfaBoQXhxS8DPkcuulEw9TQG6uE0p1H+pMWuKWmo0AQ1?=
+ =?us-ascii?Q?UPpOrExVv0khiAnHliewl094AyGzJp20oV9DppZTdxU2PDfbp/Ci+sbAyff2?=
+ =?us-ascii?Q?WM0tTNpx+4LZbNVB9/Ey/Ui/bkjFxgAfwEwPUWAPchW3vMSQefpJLKW0P+dK?=
+ =?us-ascii?Q?9uKwrfKRGg=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 100a094f-42c0-4288-2e1a-08de73f792b6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bd9b7f4-b7ba-43e4-f9bf-08de73f79378
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:53:48.9926 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:53:50.3399 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W1CdcaMbMlR8JLPwLOWhVR525VrB6eFcbwSCEPXhKgaIy2fSiGf0jvBBIlr4+ehLaoKvAecBPQWNo312Ux10UQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: v4sNCeLzGYVV/d07LUHWiTvTLHIClsjKrf1llMEofAM7+MDBuwV5f70w6KKd65zQEgcakLanJDPKSUXQ1EpwqQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6885
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -214,158 +214,170 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	DKIM_TRACE(0.00)[Nvidia.com:+];
 	RCPT_COUNT_GT_50(0.00)[57];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.930];
+	NEURAL_HAM(-0.00)[-0.924];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: 63F6D18DCB3
+X-Rspamd-Queue-Id: 26D7318DCA5
 X-Rspamd-Action: no action
 
-Introduce GpuMm as the centralized GPU memory manager that owns:
-- Buddy allocator for VRAM allocation.
-- PRAMIN window for direct VRAM access.
-- TLB manager for translation buffer operations.
-
-This provides clean ownership model where GpuMm provides accessor
-methods for its components that can be used for memory management
-operations.
+The buddy allocator manages the actual usable VRAM. On my GA102 Ampere
+with 24GB video memory, that is ~23.7GB on a 24GB GPU enabling proper
+GPU memory allocation for driver use.
 
 Cc: Nikola Djukic <ndjukic@nvidia.com>
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- drivers/gpu/nova-core/gpu.rs | 18 ++++++++++
- drivers/gpu/nova-core/mm.rs  | 66 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 82 insertions(+), 2 deletions(-)
+ drivers/gpu/nova-core/gpu.rs          | 66 +++++++++++++++++++++------
+ drivers/gpu/nova-core/gsp/boot.rs     |  7 ++-
+ drivers/gpu/nova-core/gsp/commands.rs |  1 -
+ 3 files changed, 58 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 5e084ec7c926..ed6c5f63b249 100644
+index ed6c5f63b249..ba769de2f984 100644
 --- a/drivers/gpu/nova-core/gpu.rs
 +++ b/drivers/gpu/nova-core/gpu.rs
-@@ -4,8 +4,13 @@
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
++use core::cell::Cell;
++
+ use kernel::{
      device,
      devres::Devres,
-     fmt,
-+    gpu::buddy::GpuBuddyParams,
+@@ -7,10 +9,7 @@
+     gpu::buddy::GpuBuddyParams,
      pci,
      prelude::*,
-+    sizes::{
-+        SZ_1M,
-+        SZ_4K, //
-+    },
+-    sizes::{
+-        SZ_1M,
+-        SZ_4K, //
+-    },
++    sizes::SZ_4K,
      sync::Arc, //
  };
  
-@@ -22,6 +27,7 @@
-         commands::GetGspStaticInfoReply,
+@@ -28,9 +27,17 @@
          Gsp, //
      },
-+    mm::GpuMm,
+     mm::GpuMm,
++    num::IntoSafeCast,
      regs,
  };
  
-@@ -252,6 +258,9 @@ pub(crate) struct Gpu {
-     gsp_falcon: Falcon<GspFalcon>,
-     /// SEC2 falcon instance, used for GSP boot up and cleanup.
-     sec2_falcon: Falcon<Sec2Falcon>,
-+    /// GPU memory manager owning memory management resources.
-+    #[pin]
-+    mm: GpuMm,
-     /// GSP runtime data. Temporarily an empty placeholder.
-     #[pin]
-     gsp: Gsp,
-@@ -286,6 +295,15 @@ pub(crate) fn new<'a>(
++/// Parameters extracted from GSP boot for initializing memory subsystems.
++#[derive(Clone, Copy)]
++struct BootParams {
++    usable_vram_start: u64,
++    usable_vram_size: u64,
++}
++
+ macro_rules! define_chipset {
+     ({ $($variant:ident = $value:expr),* $(,)* }) =>
+     {
+@@ -274,6 +281,13 @@ pub(crate) fn new<'a>(
+         devres_bar: Arc<Devres<Bar0>>,
+         bar: &'a Bar0,
+     ) -> impl PinInit<Self, Error> + 'a {
++        // Cell to share boot parameters between GSP boot and subsequent initializations.
++        // Contains usable VRAM region from FbLayout for use by the buddy allocator.
++        let boot_params: Cell<BootParams> = Cell::new(BootParams {
++            usable_vram_start: 0,
++            usable_vram_size: 0,
++        });
++
+         try_pin_init!(Self {
+             spec: Spec::new(pdev.as_ref(), bar).inspect(|spec| {
+                 dev_info!(pdev.as_ref(),"NVIDIA ({})\n", spec);
+@@ -295,18 +309,42 @@ pub(crate) fn new<'a>(
  
              sec2_falcon: Falcon::new(pdev.as_ref(), spec.chipset)?,
  
-+            // Create GPU memory manager owning memory management resources.
-+            // This will be initialized with the usable VRAM region from GSP in a later
-+            // patch. For now, we use a placeholder of 1MB.
-+            mm <- GpuMm::new(devres_bar.clone(), GpuBuddyParams {
-+                base_offset_bytes: 0,
-+                physical_memory_size_bytes: SZ_1M as u64,
-+                chunk_size_bytes: SZ_4K as u64,
-+            })?,
-+
+-            // Create GPU memory manager owning memory management resources.
+-            // This will be initialized with the usable VRAM region from GSP in a later
+-            // patch. For now, we use a placeholder of 1MB.
+-            mm <- GpuMm::new(devres_bar.clone(), GpuBuddyParams {
+-                base_offset_bytes: 0,
+-                physical_memory_size_bytes: SZ_1M as u64,
+-                chunk_size_bytes: SZ_4K as u64,
+-            })?,
+-
              gsp <- Gsp::new(pdev),
  
-             gsp_static_info: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)?.0 },
-diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.rs
-index ca685b5a44f3..a3c84738bac0 100644
---- a/drivers/gpu/nova-core/mm.rs
-+++ b/drivers/gpu/nova-core/mm.rs
-@@ -7,9 +7,71 @@
- pub(crate) mod pramin;
- pub(crate) mod tlb;
+-            gsp_static_info: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)?.0 },
++            // Boot GSP and extract usable VRAM region for buddy allocator.
++            gsp_static_info: {
++                let (info, fb_layout) = gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)?;
++
++                let usable_vram = fb_layout.usable_vram.as_ref().ok_or_else(|| {
++                    dev_err!(pdev.as_ref(), "No usable FB regions found from GSP\n");
++                    ENODEV
++                })?;
++
++                dev_info!(
++                    pdev.as_ref(),
++                    "Using FB region: {:#x}..{:#x}\n",
++                    usable_vram.start,
++                    usable_vram.end
++                );
++
++                boot_params.set(BootParams {
++                    usable_vram_start: usable_vram.start,
++                    usable_vram_size: usable_vram.end - usable_vram.start,
++                });
++
++                info
++            },
++
++            // Create GPU memory manager owning memory management resources.
++            // Uses the usable VRAM region from GSP for buddy allocator.
++            mm <- {
++                let params = boot_params.get();
++                GpuMm::new(devres_bar.clone(), GpuBuddyParams {
++                    base_offset_bytes: params.usable_vram_start,
++                    physical_memory_size_bytes: params.usable_vram_size,
++                    chunk_size_bytes: SZ_4K.into_safe_cast(),
++                })?
++            },
  
--use kernel::sizes::SZ_4K;
-+use kernel::{
-+    devres::Devres,
-+    gpu::buddy::{
-+        GpuBuddy,
-+        GpuBuddyParams, //
-+    },
-+    prelude::*,
-+    sizes::SZ_4K,
-+    sync::Arc, //
-+};
+             bar: devres_bar,
+         })
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 7a4a0c759267..bc4446282613 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -150,7 +150,7 @@ pub(crate) fn boot(
  
--use crate::num::u64_as_usize;
-+use crate::{
-+    driver::Bar0,
-+    num::u64_as_usize, //
-+};
-+
-+pub(crate) use tlb::Tlb;
-+
-+/// GPU Memory Manager - owns all core MM components.
-+///
-+/// Provides centralized ownership of memory management resources:
-+/// - [`GpuBuddy`] allocator for VRAM page table allocation.
-+/// - [`pramin::Pramin`] for direct VRAM access.
-+/// - [`Tlb`] manager for translation buffer flush operations.
-+#[pin_data]
-+pub(crate) struct GpuMm {
-+    buddy: GpuBuddy,
-+    #[pin]
-+    pramin: pramin::Pramin,
-+    #[pin]
-+    tlb: Tlb,
-+}
-+
-+impl GpuMm {
-+    /// Create a pin-initializer for `GpuMm`.
-+    pub(crate) fn new(
-+        bar: Arc<Devres<Bar0>>,
-+        buddy_params: GpuBuddyParams,
-+    ) -> Result<impl PinInit<Self>> {
-+        let buddy = GpuBuddy::new(buddy_params)?;
-+        let tlb_init = Tlb::new(bar.clone());
-+        let pramin_init = pramin::Pramin::new(bar)?;
-+
-+        Ok(pin_init!(Self {
-+            buddy,
-+            pramin <- pramin_init,
-+            tlb <- tlb_init,
-+        }))
-+    }
-+
-+    /// Access the [`GpuBuddy`] allocator.
-+    pub(crate) fn buddy(&self) -> &GpuBuddy {
-+        &self.buddy
-+    }
-+
-+    /// Access the [`pramin::Pramin`].
-+    pub(crate) fn pramin(&self) -> &pramin::Pramin {
-+        &self.pramin
-+    }
-+
-+    /// Access the [`Tlb`] manager.
-+    pub(crate) fn tlb(&self) -> &Tlb {
-+        &self.tlb
-+    }
-+}
+         let gsp_fw = KBox::pin_init(GspFirmware::new(dev, chipset, FIRMWARE_VERSION), GFP_KERNEL)?;
  
- /// Page size in bytes (4 KiB).
- pub(crate) const PAGE_SIZE: usize = SZ_4K;
+-        let fb_layout = FbLayout::new(chipset, bar, &gsp_fw)?;
++        let mut fb_layout = FbLayout::new(chipset, bar, &gsp_fw)?;
+         dev_dbg!(dev, "{:#x?}\n", fb_layout);
+ 
+         Self::run_fwsec_frts(dev, gsp_falcon, bar, &bios, &fb_layout)?;
+@@ -252,6 +252,11 @@ pub(crate) fn boot(
+             Err(e) => dev_warn!(pdev.as_ref(), "GPU name unavailable: {:?}\n", e),
+         }
+ 
++        // Populate usable VRAM from GSP response.
++        if let Some((base, size)) = info.usable_fb_region() {
++            fb_layout.set_usable_vram(base, size);
++        }
++
+         Ok((info, fb_layout))
+     }
+ }
+diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
+index c31046df3acf..fc9ba08f9f8d 100644
+--- a/drivers/gpu/nova-core/gsp/commands.rs
++++ b/drivers/gpu/nova-core/gsp/commands.rs
+@@ -234,7 +234,6 @@ pub(crate) fn gpu_name(&self) -> core::result::Result<&str, GpuNameError> {
+ 
+     /// Returns the usable FB region `(base, size)` for driver allocation which is
+     /// already retrieved from the GSP.
+-    #[expect(dead_code)]
+     pub(crate) fn usable_fb_region(&self) -> Option<(u64, u64)> {
+         self.usable_fb_region
+     }
 -- 
 2.34.1
 
