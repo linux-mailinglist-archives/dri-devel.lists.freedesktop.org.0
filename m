@@ -2,78 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cG9yMIa4nWnERQQAu9opvQ
+	id OMrjI5C7nWklRgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:41:10 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:54:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7801A18882C
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBB9188B5F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC9A10E5AC;
-	Tue, 24 Feb 2026 14:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 759CF10E0D4;
+	Tue, 24 Feb 2026 14:54:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gA+g57Qa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ddfmtwxh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20A3A10E5A6;
- Tue, 24 Feb 2026 14:41:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B7CFB41791;
- Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 125EFC116D0;
- Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771944066;
- bh=dCGqyI+rHlM3XyQ2QUXSu5nZVqUPyjQmE2WK/m+d8es=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gA+g57QadLSgYtZf5xm7d+YH2vzWtEJsVtb2Yjxr294TnnPP+klHUGgRSnbPFMw4x
- vN4u/6wEExddpZypJjzNjT69Biz0S7GhYqq6J0L/D89mD25k39ddaOwSfiHZFcORpB
- MHAPLNeeqHAbnixkSvJidVV++YvN2rxpS7uIXzEFvqc3bY9BP8iOs2FUowmNn8CRfI
- s/uC/D5eHcKGqEVAipY4dqrtOP1JEAMVx/Cvtg+rY5lZdhIuEVymyUaO3aPbTphh/1
- 0Aa45VuNgSw1tFOaTKc4DSFTJ5elMVbaSEJ5PHaSLECpTUgsK5Gs42ik0H0ntIdmDW
- VG5P3hlMYHljA==
-Date: Tue, 24 Feb 2026 15:41:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel@collabora.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
- format DRM property
-Message-ID: <20260224-hot-adaptable-sawfish-dd0f7a@houat>
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2776D10E0D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 14:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=GgcHX1cOIqb58qRUaa6Q0LmLzgjQD+yRE6C4ZlpIOE0=; b=DdfmtwxhJwHi7k9snx5Tz8DEyl
+ vOAvmVlMfqQEZ3w5rI1o3LIPFHxkOb+u8w2IsQwHmF/u9PB/GEz/Sin6wO4u93tEclgZ0T++RvTDH
+ YQ3JuVrhQV2hZVMebIXZx1hPxCT4PuufDeRuP6wsZ0oCxJFm//6v/2jKS5g0gpfAn7ZzBZHH8ySQK
+ no35tMsikk9jBtru9mhaP5fLJG4ENLFfmJmYRihpF9ycMEaa7hK8PmVWqqZ/YwpSGfQGpYr/4zYKw
+ 6dxjOzNS+ozSRFXhz3FRNtzzzKmC2SlOXGEql+O9yVkYMgPZTZqKwByyMy/+7eiKnyNbWuUa9uZPJ
+ Jl+IWtDw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vutnS-004o3y-Dn; Tue, 24 Feb 2026 15:53:58 +0100
+Message-ID: <9c6710a6-e286-4480-8aa1-17b9a6fc8bd8@igalia.com>
+Date: Tue, 24 Feb 2026 14:53:57 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="5cwb2y5kukdqwgqq"
-Content-Disposition: inline
-In-Reply-To: <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: On kernel interfaces for a GPU top
+To: "Francis, David" <David.Francis@amd.com>,
+ list DRI developers Maling <dri-devel@lists.freedesktop.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Airlie Dave <airlied@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <SA1PR12MB8144E40D472D0255813AF4B8EF77A@SA1PR12MB8144.namprd12.prod.outlook.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <SA1PR12MB8144E40D472D0255813AF4B8EF77A@SA1PR12MB8144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,121 +67,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:David.Francis@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.957];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7801A18882C
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: EDBB9188B5F
 X-Rspamd-Action: no action
 
 
---5cwb2y5kukdqwgqq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
- format DRM property
-MIME-Version: 1.0
+On 23/02/2026 19:19, Francis, David wrote:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+> 
+> We would like to have a GPU equivalent of top; some program that can 
+> efficiently get a list of processes using the GPU (or other drm driver) 
+> and some basic usage statistics for those processes.
+> We would like this program to be usable by processes with no particular 
+> privileges, in particular processes without ptrace permissions on the 
+> other processes using the GPU (which are needed for fdinfo).
+> There are two main problems
+> 1: There's no way for an unprivileged process to get this kind of data. 
+> There's fdinfo and debugfs, which can contain process-specific data, but 
+> aren't accessible without privileges. There's drm sysfs, which can be 
+> accessed by anyone (at least parially) but can't contain process- 
+> specific data.
 
-On Mon, Feb 16, 2026 at 02:01:19PM +0100, Nicolas Frattaroli wrote:
-> With the introduction of the "color format" DRM property, which allows
-> userspace to request a specific color format, the HDMI state helper
-> should implement this.
->=20
-> Implement it by translating the requested drm_color_format_enum to an
-> hdmi_colorspace enum value. Auto is translated to RGB, and a fallback to
-> YUV420 is only performed if the original color format was auto.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 28 +++++++++++++++++++=
-++++--
->  1 file changed, 26 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index a1d16762ac7a..3ba752200984 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -649,10 +649,34 @@ hdmi_compute_config(const struct drm_connector *con=
-nector,
->  	unsigned int max_bpc =3D clamp_t(unsigned int,
->  				       conn_state->max_bpc,
->  				       8, connector->max_bpc);
-> +	enum hdmi_colorspace fmt;
->  	int ret;
-> =20
-> -	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> -				      HDMI_COLORSPACE_RGB);
-> +	switch (conn_state->color_format) {
-> +	case DRM_COLOR_FORMAT_ENUM_AUTO:
-> +	case DRM_COLOR_FORMAT_ENUM_RGB444:
-> +		fmt =3D HDMI_COLORSPACE_RGB;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR444:
-> +		fmt =3D HDMI_COLORSPACE_YUV444;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR422:
-> +		fmt =3D HDMI_COLORSPACE_YUV422;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR420:
-> +		fmt =3D HDMI_COLORSPACE_YUV420;
-> +		break;
-> +	default:
-> +		drm_dbg_kms(connector->dev, "HDMI does not support color format '%s'.\=
-n",
-> +			    drm_get_color_format_name(conn_state->color_format));
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, f=
-mt);
-> +
-> +	if (conn_state->color_format !=3D DRM_COLOR_FORMAT_ENUM_AUTO)
-> +		return ret;
-> +
+Just my 2c.
 
-This should also be greatly simplified since you don't need to deal with
-hdmi_colorspace anymore, and thus you'll just be able to use the
-construct I hinted at in the previous version.
+I think a fair number of interested parties wants this but so far no one 
+proposed exactly what and where to put it. It would be interesting to 
+hear what proposal you have in mind.
 
-Maxime
+> 2: There's no efficient way for any process to easily get a list of 
+> which processes are using the GPU. This information is available by 
+> looking through the fdinfo entries for every process, but that's slow. 
+> drm drivers can track which process created a fd on the device file, and 
 
---5cwb2y5kukdqwgqq
-Content-Type: application/pgp-signature; name="signature.asc"
+Lets call this 2a). Yep, this too is a long standing issue. It would be 
+nice to tie 1+2a) into a solution.
 
------BEGIN PGP SIGNATURE-----
+> which process last called an ioctl on an fd, but the process that 
+> actually holds the fd might be neither of those. (e.g. X server opens a 
+> drm driver, starts some queues, then forks, handing the fd to a child 
+> process that then submits to the queues but never does any more ioctls)
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ24fwAKCRAnX84Zoj2+
-dh+wAXwKmT5KayIifDoxyitEKWs6EiYUCC2SA4Bg4ruLTVA9Xs//EiWw+hYVo/kQ
-7bFTr10BgODaA1IvjwBbTyIPz0upLTeNeVbfqL/ghdTyMm5jaRR3hNM7V9lXYvtY
-SsWWbJGYdQ==
-=YUqC
------END PGP SIGNATURE-----
+This is 2b) right?
 
---5cwb2y5kukdqwgqq--
+What do you mean by "actually _holds_"? The actual most recent ioctl 
+user? This is already tracked in the DRM core. See drm_file_update_pid() 
+and it's caller. Used from debugfs, error logging, error capture from at 
+least some drivers. So those one will already have the "real" fd user 
+info displayed correctly.
+
+How to tie that with the new 1+2a) interface is the question.
+
+Regards,
+
+Tvrtko
+
+> As a solution for problem 1, we have as a possible idea making some 
+> fdinfo entries accessible without ptrace priviliges; I would like to 
+> know if there are any immediate objections to that.
+> 
+> As for problem 2, I really don't know what kind of interface would be 
+> accessible and am open to ideas.
+> 
+> Thanks,
+> David Francis
+
