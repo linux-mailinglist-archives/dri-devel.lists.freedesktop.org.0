@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qMSBB8zFnWnsRwQAu9opvQ
+	id kGddKMDFnWkRSAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B0D189243
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E0F189225
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA03110E5C4;
-	Tue, 24 Feb 2026 15:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24CC710E5BD;
+	Tue, 24 Feb 2026 15:37:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cdyGuxHM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ixd3cEHJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cdyGuxHM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ixd3cEHJ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Vvp7UTHp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KWTskC0s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vvp7UTHp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KWTskC0s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE09610E5AE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB9410E5BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:32 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 550D73F2C5;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B2B773F2C3;
  Tue, 24 Feb 2026 15:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1771947426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ogC9nJz/59YAkfvzcmnZu784zE1AQKPP4B7nmOsMQk=;
- b=cdyGuxHMRci9+jjl1vbNozOMDXVoAHI98+G/O4dJI/06G1cAHxJUrNj6g77hN1c8RA4zkj
- lZ+Vgq8LzOHMmNxIhOzcjRC5e0Tg6S0E1RIeSfRDxZImmzUKeir3aoOaXyiEeru5q3mTSM
- y7vzVz5JCfNZSrst7r8weMQCJ3BnyNA=
+ bh=UAIOhy0Nfd+aydBdoxmskQZ/27TrfkkeqaIOaRTn5RM=;
+ b=Vvp7UTHpDtkUQGGO2dJNMsjchCu1YFNRrmu2Kce2VCGqTDPuEqjbwIKhPXH8TBqlr8c4V4
+ myj5inhR4R4ht1WPbmAOwwQahkcQSZBBK4eTr4W64z/yoXzn35GKjnNLR4LkYiJ2xpkZgW
+ Bhu2g/hhYlpbOdBoZRXuJMZISvG+jGE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1771947426;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ogC9nJz/59YAkfvzcmnZu784zE1AQKPP4B7nmOsMQk=;
- b=Ixd3cEHJrJYBscy/rH73BglcGwyhF0JV5whfwcHUZQyATTbaPv0FDqy11nu70YmjSgmp4H
- ZLysLdHirH6dUAAw==
+ bh=UAIOhy0Nfd+aydBdoxmskQZ/27TrfkkeqaIOaRTn5RM=;
+ b=KWTskC0szntoEXkOBWk4aSVh+lVE9FkmyPHI+HvjZKEg31KiqTVoCqYvPjJ2MSzUouDiUG
+ trN6rCssmaNTMKCg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -54,28 +54,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ogC9nJz/59YAkfvzcmnZu784zE1AQKPP4B7nmOsMQk=;
- b=cdyGuxHMRci9+jjl1vbNozOMDXVoAHI98+G/O4dJI/06G1cAHxJUrNj6g77hN1c8RA4zkj
- lZ+Vgq8LzOHMmNxIhOzcjRC5e0Tg6S0E1RIeSfRDxZImmzUKeir3aoOaXyiEeru5q3mTSM
- y7vzVz5JCfNZSrst7r8weMQCJ3BnyNA=
+ bh=UAIOhy0Nfd+aydBdoxmskQZ/27TrfkkeqaIOaRTn5RM=;
+ b=Vvp7UTHpDtkUQGGO2dJNMsjchCu1YFNRrmu2Kce2VCGqTDPuEqjbwIKhPXH8TBqlr8c4V4
+ myj5inhR4R4ht1WPbmAOwwQahkcQSZBBK4eTr4W64z/yoXzn35GKjnNLR4LkYiJ2xpkZgW
+ Bhu2g/hhYlpbOdBoZRXuJMZISvG+jGE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1771947426;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ogC9nJz/59YAkfvzcmnZu784zE1AQKPP4B7nmOsMQk=;
- b=Ixd3cEHJrJYBscy/rH73BglcGwyhF0JV5whfwcHUZQyATTbaPv0FDqy11nu70YmjSgmp4H
- ZLysLdHirH6dUAAw==
+ bh=UAIOhy0Nfd+aydBdoxmskQZ/27TrfkkeqaIOaRTn5RM=;
+ b=KWTskC0szntoEXkOBWk4aSVh+lVE9FkmyPHI+HvjZKEg31KiqTVoCqYvPjJ2MSzUouDiUG
+ trN6rCssmaNTMKCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F07E43EA69;
- Tue, 24 Feb 2026 15:37:05 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 515493EA68;
+ Tue, 24 Feb 2026 15:37:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cDyDOaHFnWm0FgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Feb 2026 15:37:05 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id EA6nEqLFnWm0FgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Feb 2026 15:37:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
  david@lechnology.com, architanant5@gmail.com, wens@kernel.org,
@@ -83,17 +83,18 @@ To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
  airlied@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 13/16] drm/st7735r: Rename priv variable to st7735r
-Date: Tue, 24 Feb 2026 16:24:50 +0100
-Message-ID: <20260224153656.261351-14-tzimmermann@suse.de>
+Subject: [PATCH 14/16] drm/st7735r: Use regular atomic helpers;
+ drop simple-display helpers
+Date: Tue, 24 Feb 2026 16:24:51 +0100
+Message-ID: <20260224153656.261351-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260224153656.261351-1-tzimmermann@suse.de>
 References: <20260224153656.261351-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -1.30
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,69 +144,183 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A9B0D189243
+X-Rspamd-Queue-Id: 48E0F189225
 X-Rspamd-Action: no action
 
-Rename the driver's device variable according to DRM conventions. No
-functional changes.
+Replace simple-display helpers with regular atomic helpers. Store the
+pipeline elements in struct st7735r_device and initialize them as part
+of probing the device. Use mipi-dbi's existing helpers and initializer
+macros where possible.
+
+Effectively open-codes the modesetting code in the initializer helpers
+of mipi-dbi and simple-display. St7735r requires a custom helper for
+CRTC enablement, and non-freeing cleanup of the pipeline.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/sitronix/st7735r.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/sitronix/st7735r.c | 115 ++++++++++++++++++++++++++---
+ 1 file changed, 106 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/sitronix/st7735r.c b/drivers/gpu/drm/sitronix/st7735r.c
-index 9dd915765a6b..e70c46df0299 100644
+index e70c46df0299..9003ed82e5b4 100644
 --- a/drivers/gpu/drm/sitronix/st7735r.c
 +++ b/drivers/gpu/drm/sitronix/st7735r.c
-@@ -66,8 +66,8 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
- 				struct drm_crtc_state *crtc_state,
- 				struct drm_plane_state *plane_state)
+@@ -55,6 +55,11 @@ struct st7735r_cfg {
+ struct st7735r_device {
+ 	struct mipi_dbi_dev dbidev;	/* Must be first for .release() */
+ 	const struct st7735r_cfg *cfg;
++
++	struct drm_plane plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
+ };
+ 
+ static struct st7735r_device *to_st7735r_device(struct drm_device *drm)
+@@ -62,17 +67,34 @@ static struct st7735r_device *to_st7735r_device(struct drm_device *drm)
+ 	return container_of(drm_to_mipi_dbi_dev(drm), struct st7735r_device, dbidev);
+ }
+ 
+-static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+-				struct drm_crtc_state *crtc_state,
+-				struct drm_plane_state *plane_state)
++static const u32 st7735r_plane_formats[] = {
++	DRM_MIPI_DBI_PLANE_FORMATS,
++};
++
++static const u64 st7735r_plane_format_modifiers[] = {
++	DRM_MIPI_DBI_PLANE_FORMAT_MODIFIERS,
++};
++
++static const struct drm_plane_helper_funcs st7735r_plane_helper_funcs = {
++	DRM_MIPI_DBI_PLANE_HELPER_FUNCS,
++};
++
++static const struct drm_plane_funcs st7735r_plane_funcs = {
++	DRM_MIPI_DBI_PLANE_FUNCS,
++	.destroy = drm_plane_cleanup,
++};
++
++static void st7735r_crtc_helper_atomic_enable(struct drm_crtc *crtc,
++					      struct drm_atomic_state *state)
  {
--	struct st7735r_device *priv = to_st7735r_device(pipe->crtc.dev);
--	struct mipi_dbi_dev *dbidev = &priv->dbidev;
-+	struct st7735r_device *st7735r = to_st7735r_device(pipe->crtc.dev);
-+	struct mipi_dbi_dev *dbidev = &st7735r->dbidev;
+-	struct st7735r_device *st7735r = to_st7735r_device(pipe->crtc.dev);
++	struct drm_device *drm = crtc->dev;
++	struct st7735r_device *st7735r = to_st7735r_device(drm);
+ 	struct mipi_dbi_dev *dbidev = &st7735r->dbidev;
  	struct mipi_dbi *dbi = &dbidev->dbi;
  	int ret, idx;
  	u8 addr_mode;
-@@ -113,7 +113,7 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
- 		break;
- 	}
  
--	if (priv->cfg->rgb)
-+	if (st7735r->cfg->rgb)
- 		addr_mode |= ST7735R_RGB;
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(drm, &idx))
+ 		return;
  
- 	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-@@ -188,7 +188,7 @@ static int st7735r_probe(struct spi_device *spi)
- 	struct device *dev = &spi->dev;
- 	const struct st7735r_cfg *cfg;
- 	struct mipi_dbi_dev *dbidev;
--	struct st7735r_device *priv;
-+	struct st7735r_device *st7735r;
+ 	DRM_DEBUG_KMS("\n");
+@@ -138,8 +160,35 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	drm_dev_exit(idx);
+ }
+ 
+-static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
+-	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(st7735r_pipe_enable),
++static const struct drm_crtc_helper_funcs st7735r_crtc_helper_funcs = {
++	DRM_MIPI_DBI_CRTC_HELPER_FUNCS,
++	.atomic_enable = st7735r_crtc_helper_atomic_enable,
++};
++
++static const struct drm_crtc_funcs st7735r_crtc_funcs = {
++	DRM_MIPI_DBI_CRTC_FUNCS,
++	.destroy = drm_crtc_cleanup,
++};
++
++static const struct drm_encoder_funcs st7735r_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static const struct drm_connector_helper_funcs st7735r_connector_helper_funcs = {
++	DRM_MIPI_DBI_CONNECTOR_HELPER_FUNCS,
++};
++
++static const struct drm_connector_funcs st7735r_connector_funcs = {
++	DRM_MIPI_DBI_CONNECTOR_FUNCS,
++	.destroy = drm_connector_cleanup,
++};
++
++static const struct drm_mode_config_helper_funcs st7735r_mode_config_helper_funcs = {
++	DRM_MIPI_DBI_MODE_CONFIG_HELPER_FUNCS,
++};
++
++static const struct drm_mode_config_funcs st7735r_mode_config_funcs = {
++	DRM_MIPI_DBI_MODE_CONFIG_FUNCS,
+ };
+ 
+ static const struct st7735r_cfg jd_t18003_t01_cfg = {
+@@ -192,6 +241,10 @@ static int st7735r_probe(struct spi_device *spi)
  	struct drm_device *drm;
  	struct mipi_dbi *dbi;
  	struct gpio_desc *dc;
-@@ -199,13 +199,12 @@ static int st7735r_probe(struct spi_device *spi)
- 	if (!cfg)
- 		cfg = (void *)spi_get_device_id(spi)->driver_data;
++	struct drm_plane *plane;
++	struct drm_crtc *crtc;
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
+ 	u32 rotation = 0;
+ 	int ret;
  
--	priv = devm_drm_dev_alloc(dev, &st7735r_driver,
--				  struct st7735r_device, dbidev.drm);
--	if (IS_ERR(priv))
--		return PTR_ERR(priv);
-+	st7735r = devm_drm_dev_alloc(dev, &st7735r_driver, struct st7735r_device, dbidev.drm);
-+	if (IS_ERR(st7735r))
-+		return PTR_ERR(st7735r);
+@@ -233,8 +286,52 @@ static int st7735r_probe(struct spi_device *spi)
+ 	dbidev->left_offset = cfg->left_offset;
+ 	dbidev->top_offset = cfg->top_offset;
  
--	dbidev = &priv->dbidev;
--	priv->cfg = cfg;
-+	dbidev = &st7735r->dbidev;
-+	st7735r->cfg = cfg;
+-	ret = mipi_dbi_dev_init(dbidev, &st7735r_pipe_funcs, &cfg->mode,
+-				rotation);
++	ret = drm_mipi_dbi_dev_init(dbidev, &cfg->mode, st7735r_plane_formats[0], rotation, 0);
++	if (ret)
++		return ret;
++
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
++
++	drm->mode_config.min_width = dbidev->mode.hdisplay;
++	drm->mode_config.max_width = dbidev->mode.hdisplay;
++	drm->mode_config.min_height = dbidev->mode.vdisplay;
++	drm->mode_config.max_height = dbidev->mode.vdisplay;
++	drm->mode_config.funcs = &st7735r_mode_config_funcs;
++	drm->mode_config.preferred_depth = 16;
++	drm->mode_config.helper_private = &st7735r_mode_config_helper_funcs;
++
++	plane = &st7735r->plane;
++	ret = drm_universal_plane_init(drm, plane, 0, &st7735r_plane_funcs,
++				       st7735r_plane_formats, ARRAY_SIZE(st7735r_plane_formats),
++				       st7735r_plane_format_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret)
++		return ret;
++	drm_plane_helper_add(plane, &st7735r_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(plane);
++
++	crtc = &st7735r->crtc;
++	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL, &st7735r_crtc_funcs, NULL);
++	if (ret)
++		return ret;
++	drm_crtc_helper_add(crtc, &st7735r_crtc_helper_funcs);
++
++	encoder = &st7735r->encoder;
++	ret = drm_encoder_init(drm, encoder, &st7735r_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
++	if (ret)
++		return ret;
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++
++	connector = &st7735r->connector;
++	ret = drm_connector_init(drm, connector, &st7735r_connector_funcs,
++				 DRM_MODE_CONNECTOR_SPI);
++	if (ret)
++		return ret;
++	drm_connector_helper_add(&dbidev->connector, &st7735r_connector_helper_funcs);
++
++	ret = drm_connector_attach_encoder(connector, encoder);
+ 	if (ret)
+ 		return ret;
  
- 	dbi = &dbidev->dbi;
- 	drm = &dbidev->drm;
 -- 
 2.52.0
 
