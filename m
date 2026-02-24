@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOkiDtinnWmgQwQAu9opvQ
+	id aHhzFQ6qnWmgQwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 14:30:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 14:39:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969E2187AFF
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 14:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AD8187DB0
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 14:39:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3C1882B5;
-	Tue, 24 Feb 2026 13:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 097CC10E582;
+	Tue, 24 Feb 2026 13:39:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GVkcpego";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MTucrOmW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653E4882B5;
- Tue, 24 Feb 2026 13:29:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7841210E586;
+ Tue, 24 Feb 2026 13:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771939795; x=1803475795;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=dnXe+zMV4lY5Rqmk/6dLGLUhbkuoijeuhmF8kMqqK8c=;
- b=GVkcpegovcMjB6z125gzCFSgka21M7K4Pydn9AM+psLNFAa4MVR6SdTO
- /mhUniBPJLrECw2Ju4izqKZIXawOLgPNW/rXDpKGSQSSeRdm42J0BKLxW
- M+ICH9x0kTMurrmCZ4Evh2saeD3+TsXX4tNVMXT1hwxQuqDfz4x482vTQ
- LpmReUCwv2UTulh3OzVUYtFNMCBO3Cp1sTgLmj6eU5hPMjEHBfn11Fqn5
- fz7xYXoKHFluW0MGmAa8nLwond4VCz+ZS7LrcCqwVmvwaaNsuY5PWNz46
- xZ6E3yTUTsYRH1+H2Q2e3yQySMRD8UeJLn7jCZiG5fcJt2Iv32j/Dvapx Q==;
-X-CSE-ConnectionGUID: iYqS/ZxTS7yd/9IISfGPKg==
-X-CSE-MsgGUID: hDr5afEXQESPahXo8IGAOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="60529114"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="60529114"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 05:29:55 -0800
-X-CSE-ConnectionGUID: LgRxnY5cQRGgiS8ZA1Uifg==
-X-CSE-MsgGUID: BWLVqQ6sTgqr1c6ZaugyEQ==
+ t=1771940361; x=1803476361;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ZWzYDdio7eRM6Sh6n7kMUp4dLQK/Gpzk4/2i6t5ZJe8=;
+ b=MTucrOmWCrQzsDwdCGtJJDgApJUKh1pay1gkjAsnQdxj5ipN86GSgAh3
+ bDGCQP8TQYrMW4QW93g/dB4Jj9qb8B2nyq/L0Z+S1eA8+nsRBMm2rbjcK
+ jOTug+zrWip4S3+U6SCXvIBLRDqxxEy/EFE7lBOWRqAKggSsK9ewi9pX7
+ WzzoIFQviC8AA01+Dn4P3+7Imj7daPgo53YrUlHBf0MM7yGwFtDIW/UK2
+ O6oS94i50deFYzgsTolm4sTVEaC1H1jS9f3E3CJjwKIAfoER3LHJRCrME
+ NwRg8YibGYOIbYwnKnixqd2ZFzj47JrAFDdsN14YVJn7Si8R2+V8WIKnm g==;
+X-CSE-ConnectionGUID: wBVvU2M7SVOWEKPVE34A4w==
+X-CSE-MsgGUID: K+VrfV25SgW5lduga6TX1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="84410591"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="84410591"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 05:39:21 -0800
+X-CSE-ConnectionGUID: 42ePsFd9Ssiv7/CksgaDTQ==
+X-CSE-MsgGUID: dgv9PwfCSjmjpqq7hdzPOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="220419166"
-Received: from yadavs-z690i-a-ultra-plus.iind.intel.com ([10.190.216.90])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 05:29:53 -0800
-From: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
-Subject: [PATCH] gpu/buddy: Introduce gpu_buddy_assert() for kunit-aware
- assertions
-Date: Tue, 24 Feb 2026 18:55:05 +0530
-Message-ID: <20260224132506.2631528-2-sanjay.kumar.yadav@intel.com>
-X-Mailer: git-send-email 2.52.0
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="246478101"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.193])
+ ([10.245.244.193])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 05:39:21 -0800
+Message-ID: <8001c470-ca46-4390-be3c-f078b5fce498@linux.intel.com>
+Date: Tue, 24 Feb 2026 14:39:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/pagemap: Unlock cache->lock before freeing it
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Bart Van Assche <bvanassche@acm.org>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <20260223222937.2008492-1-matthew.brost@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20260223222937.2008492-1-matthew.brost@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,133 +78,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[sanjay.kumar.yadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:email,intel.com:dkim,suse.de:email];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 969E2187AFF
+X-Rspamd-Queue-Id: C1AD8187DB0
 X-Rspamd-Action: no action
 
-Introduce gpu_buddy_assert(), a small helper that wraps WARN_ON() and,
-when CONFIG_KUNIT is enabled, also calls kunit_fail_current_test() so
-that any active KUnit test is marked as failed. In non-KUnit builds
-the macro reduces to WARN_ON(), preserving existing behaviour.
+Hey,
 
-Stringify the asserted condition in the failure message to make it easy
-to identify which assertion fired. Leave the WARN_ON() in
-gpu_buddy_block_trim() unchanged, as it returns -EINVAL and the caller
-already observes the failure via the return code.
+Den 2026-02-23 kl. 23:29, skrev Matthew Brost:
+> From: Bart Van Assche <bvanassche@acm.org>
+> 
+> Although freeing a spinlock without unlocking it is fine, this confuses
+> static analyzers. Hence this patch.
+> 
+> Fixes: 77f14f2f2d73 ("drm/pagemap: Add a drm_pagemap cache and shrinker")
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/drm_pagemap_util.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_pagemap_util.c b/drivers/gpu/drm/drm_pagemap_util.c
+> index 14ddb948a32e..50cb5f9cdac5 100644
+> --- a/drivers/gpu/drm/drm_pagemap_util.c
+> +++ b/drivers/gpu/drm/drm_pagemap_util.c
+> @@ -74,6 +74,8 @@ static void drm_pagemap_cache_fini(void *arg)
+>  		cache->dpagemap = NULL;
+>  		spin_unlock(&cache->lock);
+>  		drm_pagemap_destroy(dpagemap, false);
+> +	} else {
+> +		spin_unlock(&cache->lock);
+>  	}
+>  
+>  out:
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
----
- drivers/gpu/buddy.c | 36 ++++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+What about this idea?
 
-diff --git a/drivers/gpu/buddy.c b/drivers/gpu/buddy.c
-index b27761246d4b..da5a1222f46b 100644
---- a/drivers/gpu/buddy.c
-+++ b/drivers/gpu/buddy.c
-@@ -3,8 +3,7 @@
-  * Copyright © 2021 Intel Corporation
-  */
- 
--#include <kunit/test-bug.h>
--
-+#include <linux/bug.h>
- #include <linux/export.h>
- #include <linux/kmemleak.h>
- #include <linux/module.h>
-@@ -12,6 +11,28 @@
- 
- #include <linux/gpu_buddy.h>
- 
-+/**
-+ * gpu_buddy_assert - assert a condition in the buddy allocator
-+ * @condition: condition expected to be true
-+ *
-+ * When CONFIG_KUNIT is enabled, evaluates @condition and, if false, triggers
-+ * a WARN_ON() and also calls kunit_fail_current_test() so that any running
-+ * kunit test is properly marked as failed. The stringified condition is
-+ * included in the failure message for easy identification.
-+ *
-+ * When CONFIG_KUNIT is not enabled, this reduces to WARN_ON() so production
-+ * builds retain the same warning semantics as before.
-+ */
-+#if IS_ENABLED(CONFIG_KUNIT)
-+#include <kunit/test-bug.h>
-+#define gpu_buddy_assert(condition) do {						\
-+	if (WARN_ON(!(condition)))						\
-+		kunit_fail_current_test("gpu_buddy_assert(" #condition ")");	\
-+} while (0)
-+#else
-+#define gpu_buddy_assert(condition) WARN_ON(!(condition))
-+#endif
-+
- static struct kmem_cache *slab_blocks;
- 
- static unsigned int
-@@ -268,8 +289,8 @@ static int __force_merge(struct gpu_buddy *mm,
- 				if (!gpu_buddy_block_is_free(buddy))
- 					continue;
- 
--				WARN_ON(gpu_buddy_block_is_clear(block) ==
--					gpu_buddy_block_is_clear(buddy));
-+				gpu_buddy_assert(gpu_buddy_block_is_clear(block) !=
-+						 gpu_buddy_block_is_clear(buddy));
- 
- 				/*
- 				 * Advance to the next node when the current node is the buddy,
-@@ -415,8 +436,7 @@ void gpu_buddy_fini(struct gpu_buddy *mm)
- 		start = gpu_buddy_block_offset(mm->roots[i]);
- 		__force_merge(mm, start, start + size, order);
- 
--		if (WARN_ON(!gpu_buddy_block_is_free(mm->roots[i])))
--			kunit_fail_current_test("buddy_fini() root");
-+		gpu_buddy_assert(gpu_buddy_block_is_free(mm->roots[i]));
- 
- 		gpu_block_free(mm, mm->roots[i]);
- 
-@@ -424,7 +444,7 @@ void gpu_buddy_fini(struct gpu_buddy *mm)
- 		size -= root_size;
- 	}
- 
--	WARN_ON(mm->avail != mm->size);
-+	gpu_buddy_assert(mm->avail == mm->size);
- 
- 	for_each_free_tree(i)
- 		kfree(mm->free_trees[i]);
-@@ -541,7 +561,7 @@ static void __gpu_buddy_free_list(struct gpu_buddy *mm,
- {
- 	struct gpu_buddy_block *block, *on;
- 
--	WARN_ON(mark_dirty && mark_clear);
-+	gpu_buddy_assert(!(mark_dirty && mark_clear));
- 
- 	list_for_each_entry_safe(block, on, objects, link) {
- 		if (mark_clear)
--- 
-2.52.0
-
+https://lore.kernel.org/all/791538fb-56e5-4ca5-9484-1180cc928a70@linux.intel.com/
