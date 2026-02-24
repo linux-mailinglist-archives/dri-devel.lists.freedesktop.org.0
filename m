@@ -2,178 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4SMyKz/LnWnfSAQAu9opvQ
+	id kGrWMyrNnWnfSAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:01:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:09:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD4718979B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A081898F6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:09:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFAD10E5C8;
-	Tue, 24 Feb 2026 16:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC01E10E5C9;
+	Tue, 24 Feb 2026 16:09:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UokBFR9j";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="TSEbJjzF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010055.outbound.protection.outlook.com [52.101.201.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C06C10E5C8;
- Tue, 24 Feb 2026 16:00:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VPMtOQVj5dPKAwOKx9i2khia12EJ6Ks5MdmCt6Ns0NN6H24rgk7bw3MgGOkdFMlWmNyGRTJELCDAFtgTZv/rCupfEaz3gyCPGYbfPZI3Q1u0J7jZ35+Q4xkOoeRYPjB72gUNFUBDFlVkQ+t2/oZUdMSD4bCF3vlPARvknqJBooXv2elllV4y1ugjqTsHQsIwhVr2fRlgsQFxQbgbuTVPBGOk6E2BBr5v4puGfv8fhHUv7L3xhEYjuJfn6tBQIlVTOyuPIYWU8PqjQBJk/lG16eUV4J8z/7jZ5x8uaAJh6Rt5nBaFuqlIhIG7vqwket+b1MK71sIy6ehzhWW6dAnjJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/PII/8Y3haWZpCeuiwRr6lzeNJRbc4m6y5wnIf1yBHM=;
- b=IKUzMmaj+WdAZd/YRtIMa1iOmKcNrOJmXPuUvrcxMDy+IgpzOv+xhSxzbj5u9n1lXSnmLhYslnbcVrirwur4wEGH6KgcNlXxEgyiEK3h65PA331ryjY9VyPA1+ofkqEw5rcWxJY+B90D0MqfTJay0Th6nMDIunmac2zJwrh8FE2ZwI/wCxt30EpkN6ANpfie6RwJx0wBIpj5y5RyMxJAEJYFDA/MBtSteIlF9XsPpfeMZJe9ORdggNFeiBI7WPz0sJeSdpfPb3s+eHLnXTHcHttw9ZB8oMJkOiQ8GKOnxCSmukUgMaIwbWhOap7VUBIKKr1vNT15ztCu4xpb3RVBYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/PII/8Y3haWZpCeuiwRr6lzeNJRbc4m6y5wnIf1yBHM=;
- b=UokBFR9jM+wzoWddfEMtrA92kOx+BUxVVUEEY6Ydt7dGffC5I5eT6/dwQFmGDTwpDud5gEboA5RItugg5mQfsBXlakkMBHEhIEKLqvQAUVL9BvllhOrXMJMabGJqjNXKXh7J4Re5uvhykZ9u2Els5j1wr6VeYKi+i10uuvErdmYSoUJrlg/gbrd3/vDRoc2HFvfMqdzJ45YDotJ1hJkwNewwa1TQ+mU/nrenZnSvF3wOZfQ+APMR4DGTDgOEcd0TzdcNDnQhDEMmKOGNFAOLnmdOZI3vEexpqaFcPSjYqpDJRQ4QiS5VWy5ebEQiXWbYWRbcYAyWnpANZuQ66cnyvw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- DM3PR12MB9436.namprd12.prod.outlook.com (2603:10b6:8:1af::20) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.22; Tue, 24 Feb 2026 16:00:38 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 16:00:38 +0000
-Message-ID: <7cfaea1a-52aa-43ee-910c-7fa09c7f0f4a@nvidia.com>
-Date: Tue, 24 Feb 2026 11:00:35 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Nikola Djukic <ndjukic@nvidia.com>,
- dri-devel <dri-devel-bounces@lists.freedesktop.org>
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGJN2M93S4ED.3272CCZWMRYOA@nvidia.com>
- <a7be758a-65ee-4572-b8ba-6d4a8d65af73@nvidia.com>
- <CAH5fLgicH9u18pWYYkQqxZBT8WEig3bDP8JFT9VfDtG6McijQw@mail.gmail.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <CAH5fLgicH9u18pWYYkQqxZBT8WEig3bDP8JFT9VfDtG6McijQw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR07CA0023.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::33) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6D810E5C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:09:10 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4806ce0f97bso46219555e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 08:09:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1771949349; x=1772554149; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xEMwUsFe80O7FQT2pky6cbdem5vVaUv5gBoDleT5nkE=;
+ b=TSEbJjzFeZkVAOcpLGx+FtJVQbN5yp3rR7sRisF8NothEOttHzh4LUtQYbDdnkfZcG
+ y+VXQ7wv9tEHXg5VeBAqXE8q7yJl5sugHF7R0njLMpq05VYGbPoo60m2tA9oKHGXQS9J
+ zDJXRGkHn6HprsHwTw4mBjKN9+8yW/ppVCpgfLPkx78INdpXijAlzJGlqfHodbAaFQ9O
+ rNNS0u3ZQIZtgypegkpHst3oyLGIB4IjNAp6ZLfgxqHf+gRge/a+TZslqohkGYLDDfwP
+ Ui5/GKmDuThFMuEfQWBe22y9cRusfdidOj+YKWmIR1jv1WH8wKJGydLBojqanrdVC/pS
+ YJHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771949349; x=1772554149;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xEMwUsFe80O7FQT2pky6cbdem5vVaUv5gBoDleT5nkE=;
+ b=ne1cKlDThD7Vr7KEaYr0j7xYytFd3wL80rY0D/J2+E1Z8Ll1pdjMgItG/1RJsd9PDv
+ ueKirbfVFCU7gCQFgxygiRX0eYnrtmXxVTchW+m6zMXRtbcpRDJI4Op/B74Nb+GlDVZJ
+ J20dZE3CjKt2DKHCPE1rU/e842B0QnPlb7D0nJFgI0lDV9lHXQip6g2tb2q/gVs9v6Qh
+ eAxjdxm6wvfGNCWBjWsYk0cfNLyBQ7yhRcOa+KhYJ0ahEo5yXkGGx5WY0fKsMPtcyCUW
+ qH2LfC4JwzXkYfhnhuOyxu9QH+53r0552uu6U4tgWGIswtYR58aJ3R0O8fKGpty5dmWh
+ kolg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX1UJIgdSKcSFB4/XFnMpxHYGgsaBaGFFHlMuLbLafP3v+NOCl5P0debVKJ/3gtAcMut1Ffz9G5gMQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTxYxsN5AepR9OXQ6rpJUt47YOrbulr/BZdtAqaiAALJiwLQfY
+ W6N0uQCudwCboB/MM3y7XSnFQFfQGgqlnldEGYCPvyf4FmijKbx+jB5oPmt4rB9iXrSHAwgyk/R
+ w4lAY9Q0=
+X-Gm-Gg: AZuq6aIvJfrPq7Z1b21t5knBTwR4pxne05KUlQM74UH+xEYQFdJCDtfjAKS2DSrXAzH
+ Tk42/ItZ/O9K1TG4v2Z2d4UjlX2kvNrKzZULGmnIcTriq8wyoFqBA+999xV7U+nKYpJvJrLJQ2+
+ OEs9Ae2fC19iuuUMLmZhF7FnKfGDncLh4RC9mn9YeLE1lNgIxAGokClqy9sVcKHDrjLs6jIAZmw
+ dIjonpJ10NSGz9V5RSdUKW0rq3wacbXxtGFHzfShqRrfa96zUcr8yEBKQPupqCFpInfAllA2jXs
+ GyadPe7cg6JuXD4ZpxgvKdLuI2a/8bPvTw5I+C0UyGpsF2dQsAN/RVXZf7wfUEVR/fPJ5Bpkvof
+ SrIDz3sZGLKozKGg/r8WGczkmqfmjzn6KVmsgO0EnD6eNrgnwLokn0b5Q1dhw1PLb2ykaSLcJss
+ tn9NViiEq5n/qvSd+H1iaHBWH2Og/0ayJQTWF+V3DQJc7r
+X-Received: by 2002:a05:600c:c4a5:b0:483:7783:5382 with SMTP id
+ 5b1f17b1804b1-483a95e6b64mr191933505e9.27.1771949348294; 
+ Tue, 24 Feb 2026 08:09:08 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-483bd75df90sm7650265e9.14.2026.02.24.08.09.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Feb 2026 08:09:07 -0800 (PST)
+Message-ID: <3e820754-681c-4def-8e70-e1b88ed092e5@ursulin.net>
+Date: Tue, 24 Feb 2026 16:09:07 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DM3PR12MB9436:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e2a6f94-d907-43a9-03a2-08de73bdd9e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UytLOXdFUnhtTVpBRGZhUkE2dHRkTmlmVzE1dDJSdDR0QTlPRGpPUnlReHFJ?=
- =?utf-8?B?TTY0aUxjcTNWR2FlZ1I4Y2xDR2N4ZEtGZlNTTUI3NU1ablJpUEg2SzhUVDdu?=
- =?utf-8?B?VUNITlMwTm9FSTJJZGJZT2lOc2l5SHhnTU4rRmo0eVNvTjNuMWVOcDVBMm5L?=
- =?utf-8?B?Y0xKb1ZBTjFubHFrYitsZUpDNGZpK1A0MXpXc1hhMU4wKzRvNThKNUFTQ0pO?=
- =?utf-8?B?blVZK2M1QXFYZTM1OUJuS3QxVHU1UmFsbGhzbDRMMy9xK20zQyttTG9RMGxQ?=
- =?utf-8?B?S2k0VEozUWpqK0hPZG5ROUg1ZHQvMm1ZRVh3c3NXT1NKaFRDcDhSNWlINzJU?=
- =?utf-8?B?UitpbnpzL3VZUnRmOVNuZ0ZRaEJOcEtjWTN5dVhGRVJIMFVhZEdLQi9QSDlX?=
- =?utf-8?B?VGt3UzF5NlpjMVBaYlRhbndQQ1VoTjBldVl3VFhPZUNxaDN2eEJwVW9HZVpM?=
- =?utf-8?B?aHhsbk9IMGkvRWxiOVhUcmkyRGV1ZHUzZTJDWStHY2tlbWYyNnQ4S3NlbUU5?=
- =?utf-8?B?Mjl1S1BpU3ZrWUFzRWJpY2hyZUUyMXUyZHZCVHhsT0xwTWFnYkhHSlhNb0Y1?=
- =?utf-8?B?T01rVVUwYzVCREZYb3c4UkRaWkJSWEx0Yy85aUdzZWVWZnJydDZBb0lRcGhs?=
- =?utf-8?B?TWRUQ09uc3l0V1BKWmdGK0pVVEtINTM4QVoxc09yaTBsMkt2WnNsOGJiWitB?=
- =?utf-8?B?Rm5QbE9TM3BSNDE3SnhkU0RDWnJKN2pHR2NNYmtGblpBc2NueERzZXdNTDhx?=
- =?utf-8?B?QkROS1YrbENFT0RQZW1tK2dYT1ZpZEpBNVg2UWM4OXN2UTA2UjdPWkhRcGFt?=
- =?utf-8?B?NUNGY2NrRFUvTFJBWTh6NXQvMlh0VkR0aEkxTmpqYklUM2ZHak9TL3RvUjRD?=
- =?utf-8?B?eTBlRE5vVzR3N21FbThmaWZsaHhnS1NUM3FQRFVEaExGNzdYR3lCcC9qejlx?=
- =?utf-8?B?U3VKL2xFVFM5K3Y2dlgvY2RyeWlEcWRFUXZvcDc4cVJDeThvclU5alNRMjdh?=
- =?utf-8?B?SnczR3dXV3kzckdMVkJMbm1BOUN1OTMvZXV1eHp4Zk92Q0tySXJMVTJYQUFS?=
- =?utf-8?B?OFpCYURxYjhOd2NXYlRTWVl2WjhmSlJ3NjM5U2lhWnhkcldWQW1kUVFJSW9Q?=
- =?utf-8?B?VE9mREJ4YUJMQnptdURNK0ZxakRqaERJV0w5MzN4NTRrL0ZWN2Fua0g3NTlx?=
- =?utf-8?B?WFcwb2FDYTFtY3J2R2tLdkdzY21tUkY0WkxLRkR6T2FYVDJGVWlHVmd3REJB?=
- =?utf-8?B?TWE1UlRueE1kWXdLemV6Q3lCYmZiWUlkNVU5MkVuMUhEaUpaUENzUHBUcXVi?=
- =?utf-8?B?a3lsNFVkYjVidUxMZ1loTk5PVUh5K21BN1hqdU9zejJweXV2NGU0dU93bFhO?=
- =?utf-8?B?Nk9FbG5vVnpkQ1J0RHRWOWljZ2lrbjJuSms0c3l2MVE0dC8rOGliMFl2R0hB?=
- =?utf-8?B?aTQwZXJqZTRBbkJWSHpkaGNWdUpCM2V5WDBGMkdOUDNVckR5TS9WZHdxYjR0?=
- =?utf-8?B?UG0rNWRKVXVESWpTSmVNMlNKNW51R01SQTFXNTRvdzhRc2tteWVSbkY1eFBO?=
- =?utf-8?B?aFdxUXJ1dVJyQXZ5MXM4WGxwSlZJRWRjb2Vkd00vYjlhV2NmTmVxc0EvSkJi?=
- =?utf-8?B?eWJ0U2tkVFJKekxaYk5HVXltVVVxOXFhSFVRR3lnRkNURGJaL0JtUWppQzZS?=
- =?utf-8?B?ZTlkVXJVL3FleUFVNDlOVzdKS3pIeWY5TmswcmE4UFZFc1h0Zm9XMW9tMlFn?=
- =?utf-8?B?RFR6YXY0WDhrOE5YSG1xL1luSWtjVjhiRlg5RXpEUDkyTFo2Zk9Dam9kTXE3?=
- =?utf-8?B?bG9Rb1B2dFlXbUxFOUVvOHlhaVFOemEvQzlOVkFKUzFXNnVuVVByTWRGaitB?=
- =?utf-8?B?V1kyajNMQUFGaDNkNkhJZVk4SmM1L2xuckord0cxbUJ6M0R1TEN0STJiYzBQ?=
- =?utf-8?B?aEsrZSt1cWIrMW1vMzI5NUxNNjhobTNxUWlVNUhqeHdnaFR4eG9rUlBNSWJ6?=
- =?utf-8?B?eWxBZDFxeVpPZTVHUWdmWXo5b3ZQdUREZnVHV0s3NE1rWHVsZTlKMTBVd1NS?=
- =?utf-8?B?Y3JkYjUzQkk4U2grOWE0eENIUis4SU5GVHRQZWhiTnk1L2VpUy9ucGI0TUdO?=
- =?utf-8?Q?YwDs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHhISzNKNldNT3VJNlYvOG5pRERXZFlBeGtuZVZRZzRoSG1zdStZTVppWitK?=
- =?utf-8?B?RXZ2NUtBMHZyaU8yd1M3QWd3UmozeThER2l5eDJhWlIvU3NkNWZJWUxxcFJL?=
- =?utf-8?B?SDNKVkhCTXFweTI1aUpPancvY3YrWmVUVk05YmUwaEdVS0U4elBrUklVOGM0?=
- =?utf-8?B?ZTRIVUtPQjQ3SjFyajJNQkhHb1ZQV0NQS2F6azArQlNhb25FTU1DWHJmbDFE?=
- =?utf-8?B?a21rb2U3S2xveXhpV3Y0VVgyUjAvZ0g3d1FqeXNZNzBqOEY2b1Z2dGVwckpZ?=
- =?utf-8?B?R01LUjVqWUpuUjJ5L01VRUE0ZDVKWjhrK3pBV0VjMUlSaGIwM0cyQVBhLzJH?=
- =?utf-8?B?ZlFBaEZQYzViTVFuTDVxNW5yU0wvZ09Xanp4a01hbU94ZXZjVy9ab2VwWUZP?=
- =?utf-8?B?NDdXQWIzOWhSYWl0aEZ4WUhOMS9aU1g2ZHNEVWVoSldTWE53UE5pRy9qb250?=
- =?utf-8?B?YmQ3VDNzNy9kQ0xWUkdiaHo2S2YzeGViNkU1TnR3WTg5VGhIK2x0NkI2N1ZK?=
- =?utf-8?B?eG5xZVNKUEpITWxtTld3MUx2a2VKRG5zRmtSVUswaVl2aVRzVFdUQUh2c2xo?=
- =?utf-8?B?YTV1eUlLc0JoR3pHL0tibEV5Q0hVMkpxdC91SWU3MUcvNkdvQjRwRjhEdWly?=
- =?utf-8?B?MEVab1VYTk9rdEpDRVoycWxrYXpGdThYbTNBT2J4b0JieUowT1daTlZwYktO?=
- =?utf-8?B?RkhRVUpwRzlsMXFsNC9xZDVlR2hzSGhQRDJmdTBpdzZHQUJNdWIwU2pXdjQx?=
- =?utf-8?B?L2ZiTCtqaSt5eDg3S3VpZXBSNU1RUVRyQ3RLWnNJeGgvNVZKbFFnOFN3aWVB?=
- =?utf-8?B?U2hMZG4wWlZnRTdmY0FGVUJubEZyZURrVk1raGZQR2Vwc1gzQThtTUl5S2R0?=
- =?utf-8?B?cWxzVzR0bVZTSjczTkx0VGsraXRIeG45dEhxQm5Rby83UDB4ZFg3ZG1lYk11?=
- =?utf-8?B?VXFEdnAvS0FIY2kzRFdITjlSenAwbmIzVXNDYXVGNFhHZWJCWGFpNVliY1hI?=
- =?utf-8?B?NWJyeFV6OW9FSEo1bytIQnBHSUEwYzgxZVpCWnBrSHA4NnZjN3ZOMk1NMlAx?=
- =?utf-8?B?cmZmREEzMmZjWFQ0YU52d0g0eTlTc1BLTWdvRTJ6VkFSUG9KVG5OdTdqT0t4?=
- =?utf-8?B?WlBkSHdVcGtuQVRDajlocWxER3ZiemtvNEhxclFlejNCWWtzenFSUGhoR0d5?=
- =?utf-8?B?KytZVXVJSkJETjhiTDRpSGlkZG4ydVRMbEx5c1dXQU95SEplYmVkWjJRL29L?=
- =?utf-8?B?MkFFNEZmT0grSm5HajdrUkdlUjRZQlFXSkJDSWhDTHJISWR3dHBOY3M0dEht?=
- =?utf-8?B?bEdkdnhCWFJwaXZwVjZINnVkcUdIYUVCbjBzVmlCam9zZVovMjNHSTFmUExJ?=
- =?utf-8?B?OUpBNlpDMi9zeEJIWjlPWnpSU1MrQmJoTC80SnZDM0pkVldKWmUxN3ZMNU13?=
- =?utf-8?B?N0xnL2xNcGpFT3V1SndnR29TTUcxdzJ1SEdZelFJeDJ0TThMbUhSTXpqZ1h5?=
- =?utf-8?B?cDRmZEEyeEZkd0c5cUlrOXVremRKSjRYNkJmblViZldKQXJQYUFNTitUZkVL?=
- =?utf-8?B?cXhhcXIwSTFjWE05cWNBWEpHUkVoM1BmdWI0c3NsMG9Ma0RUUEQrallZejNo?=
- =?utf-8?B?ckZRSmJkYk03ZGJSZmk1VHUrcHVFMjJmbDZBQ0d6b2xXS3NBZlFTeGdMNHc5?=
- =?utf-8?B?Sm81YUdrQnBLYjhTbEZVUWR6SDFYZzJLQVY2bUFkME1ZT3ZaQTFNVno2T1RB?=
- =?utf-8?B?MGIrcDNKWWRoT0VMbk1ieThiTVZkK3oyVzBiVDFRRm9IVTh4akpOQm5raDZ5?=
- =?utf-8?B?ZDI1WnlGVGxWZTJTRVhZLzRDWm0ra1lWaGpqQ3lkcklUU1FDYWFqaU9oQ1Nx?=
- =?utf-8?B?WHB3RkdUUHdOcy9VK0ZGYW1iV3pBb0h5NUxPbjNXdzB1NGNXUFdrVlRESW5y?=
- =?utf-8?B?WFhuVi9ieENXYVhUNTdXbERNZHo0R3IyR0lvRmo5Z0p4STRVa1BqOVlFekVD?=
- =?utf-8?B?ay9haGlSRit4eVlLN0RDWVpjT2E5N0NkS3N0TG1EdDhQdmlQZEtrNkJ0OEtQ?=
- =?utf-8?B?M253ZkhlK2NLTGxnT1pwT2lSdmM5dFRzL2tWb2xFcGxmL2lKWVVmdHNaNFpI?=
- =?utf-8?B?WHpHZlJuU0NlLzIxNzVHVURFWHYzc1hoQVEya2ZSVDNyMjZFV0VZNXFCZ3Zp?=
- =?utf-8?B?MjlKQ2gvWGNrYkNsMDdSWjI3RHcrV0l3SG1nOGh4RDhtQ3g0ek5ueWF6OFRt?=
- =?utf-8?B?YWJ3K3pQcU90NmNyVWlXbDJEd0ExOC9aMk1lV3MvMVBJQ1JJMlhUa2ZpamM2?=
- =?utf-8?B?VG4wWWhBbjZyVmx1Zkl1QVBuRDNqdzdoZVQ1dXN0c0dZRnBXRCs3dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e2a6f94-d907-43a9-03a2-08de73bdd9e8
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 16:00:37.8314 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vZJDgngswiC20wWRffObMZDyO+nFoL+bvI2F6ldqeFbxCmkwD9mxNPKnYykyT5SAmOpMx1NaZrT8ctdarHHMTQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9436
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] drm/ttm: Make a helper for attempting allocation
+ in a place
+To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
+ Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251110-dmemcg-aggressive-protect-v3-0-219ffcfc54e9@gmx.de>
+ <20251110-dmemcg-aggressive-protect-v3-3-219ffcfc54e9@gmx.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251110-dmemcg-aggressive-protect-v3-3-219ffcfc54e9@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,99 +107,282 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ursulin.net];
 	RCVD_COUNT_THREE(0.00)[4];
-	RSPAMD_URIBL_FAIL(0.00)[Nvidia.com:query timed out];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,kernel.org,garyguo.net,protonmail.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[joelagnelf.nvidia.com:server fail];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DCD4718979B
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email,ursulin.net:mid,ursulin.net:dkim]
+X-Rspamd-Queue-Id: 18A081898F6
 X-Rspamd-Action: no action
 
 
+On 10/11/2025 12:37, Natalie Vock wrote:
+> ttm_bo_alloc_place is a new helper function to make an attempt at
+> allocating a bo's resource in a specific place. It also makes decisions
+> on whether eviction should be attempted: If -ENOSPC is returned,
+> allocation should not be retried.
 
-On 2/24/2026 2:28 AM, Alice Ryhl wrote:
-> On Mon, Feb 23, 2026 at 2:13 AM Joel Fernandes <joelagnelf@nvidia.com> wrote:
->>
->> Hi Eliot,
->>
->> On 2/20/2026 3:16 AM, Eliot Courtney wrote:
->>> On Thu Feb 19, 2026 at 5:55 AM JST, Joel Fernandes wrote:
->>>> +/// Create a C doubly-circular linked list interface `CList` from a raw `list_head` pointer.
->>>> +///
->>>> +/// This macro creates a `CList<T, OFFSET>` that can iterate over items of type `$rust_type`
->>>> +/// linked via the `$field` field in the underlying C struct `$c_type`.
->>>> +///
->>>> +/// # Arguments
->>>> +///
->>>> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bindings::list_head`).
->>>> +/// - `$rust_type`: Each item's rust wrapper type.
->>>> +/// - `$c_type`: Each item's C struct type that contains the embedded `list_head`.
->>>> +/// - `$field`: The name of the `list_head` field within the C struct.
->>>> +///
->>>> +/// # Safety
->>>> +///
->>>> +/// This is an unsafe macro. The caller must ensure:
->>>> +///
->>>> +/// - `$head` is a valid, initialized sentinel `list_head` pointing to a list that remains
->>>> +///   unmodified for the lifetime of the rust `CList`.
->>>> +/// - The list contains items of type `$c_type` linked via an embedded `$field`.
->>>> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has compatible layout.
->>>> +///
->>>> +/// # Examples
->>>> +///
->>>> +/// Refer to the examples in this module's documentation.
->>>> +#[macro_export]
->>>> +macro_rules! clist_create {
->>>> +    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) => {{
->>>> +        // Compile-time check that field path is a list_head.
->>>> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_head =
->>>> +            |p| &raw const (*p).$($field).+;
->>>> +
->>>> +        // Calculate offset and create `CList`.
->>>> +        const OFFSET: usize = ::core::mem::offset_of!($c_type, $($field).+);
->>>> +        $crate::ffi::clist::CList::<$rust_type, OFFSET>::from_raw($head)
->>>> +    }};
->>>> +}
->>>
->>> This uses offset_of! in a way that requires the offset_of_nested
->>> feature, so it doesn't build in rust 1.78.0. The feature is already
->>> added to rust_allowed_features, so I think it's ok to add
->>> #![feature(offset_of_nested)].
->>
->> Maybe I am missing something, but why should the feature be gated behind
->> that if all compiler versions (>= 1.78) support it either in a stable way
->> or via an unstable feature flag?
+At first I thought the new helper will get used from more than one call 
+site but it seems that is not the case? No objections to extract some 
+code to be clear, just that when I see a patch title of "making a 
+helper" I expect something different.
+
+Is there any functional difference here or it is just prep to enable 
+easier extending in the following patch? If no functional difference it 
+is good to state that in the commit message. If functional difference 
+please explain what and why.
+
+Also please explain that the patch is only adding a new struct parameter 
+as a preparation for it being extended.
+
 > 
-> The rust_allowed_features list only applies to drivers and such. It
-> doesn't apply to the Rust crates in the rust/ directory, which need to
-> use #![feature] annotations manually.
+> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 98 +++++++++++++++++++++++++++++++++-----------
+>   1 file changed, 73 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index f4d9e68b21e70..829d994798835 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+>   	return ret;
+>   }
+>   
+> +struct ttm_bo_alloc_state {
+> +	/** @limit_pool: Which pool limit we should test against */
+> +	struct dmem_cgroup_pool_state *limit_pool;
+> +};
+> +
+>   /**
+>    * struct ttm_bo_evict_walk - Parameters for the evict walk.
+>    */
+> @@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
+>   	/** @evicted: Number of successful evictions. */
+>   	unsigned long evicted;
+>   
+> -	/** @limit_pool: Which pool limit we should test against */
+> -	struct dmem_cgroup_pool_state *limit_pool;
+>   	/** @try_low: Whether we should attempt to evict BO's with low watermark threshold */
+>   	bool try_low;
+>   	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass) */
+>   	bool hit_low;
+> +
+> +	/** @alloc_state: */
+> +	struct ttm_bo_alloc_state *alloc_state;
+>   };
+>   
+>   static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
+> @@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+>   		container_of(walk, typeof(*evict_walk), walk);
+>   	s64 lret;
+>   
+> -	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resource->css,
+> -					      evict_walk->try_low, &evict_walk->hit_low))
+> +	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_pool,
+> +					      bo->resource->css, evict_walk->try_low,
+> +					      &evict_walk->hit_low))
+>   		return 0;
+>   
+>   	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
+> @@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   			      struct ttm_operation_ctx *ctx,
+>   			      struct ww_acquire_ctx *ticket,
+>   			      struct ttm_resource **res,
+> -			      struct dmem_cgroup_pool_state *limit_pool)
+> +			      struct ttm_bo_alloc_state *state)
+>   {
+>   	struct ttm_bo_evict_walk evict_walk = {
+>   		.walk = {
+> @@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   		.place = place,
+>   		.evictor = evictor,
+>   		.res = res,
+> -		.limit_pool = limit_pool,
+> +		.alloc_state = state,
+>   	};
+>   	s64 lret;
+>   
+> @@ -688,6 +695,47 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+>   	return ret;
+>   }
+>   
+> +
+> +/**
+> + * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a place
+> + *
+> + * @bo: The buffer to allocate the backing store of
+> + * @place: The place to attempt allocation in
+> + * @ctx: ttm_operation_ctx associated with this allocation
+> + * @force_space: If we should evict buffers to force space
+> + * @res: On allocation success, the resulting struct ttm_resource.
+> + * @alloc_state: Object holding allocation state such as charged cgroups.
+> + *
+> + * Returns:
+> + * -EBUSY: No space available, but allocation should be retried with eviction.
 
-Ah fun! Ok, I will add it in in. :)
+With or after eviction?
 
-thanks,
+> + * -ENOSPC: No space available, allocation should not be retried.
+> + * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
 
---
-Joel Fernandes
+-EAGAIN cannot get out from ttm_resource_alloc()? In the current 
+codebase or only with this patch?
+
+> + *
+> + */
+> +static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+> +				 const struct ttm_place *place,
+> +				 struct ttm_operation_ctx *ctx,
+> +				 bool force_space,
+> +				 struct ttm_resource **res,
+> +				 struct ttm_bo_alloc_state *alloc_state)
+
+Maybe you did not write this but I am curious and thinking out loud 
+here. The documentation for struct ttm_operation_ctx among other things 
+says:
+
+"""
+  * Context for TTM operations like changing buffer placement or general 
+memory
+  * allocation.
+"""
+
+Hence I am wondering if the new alloc_state couldn't simply go in there? 
+Which would make the function prototype identical to the existing 
+ttm_bo_alloc_resource and is also already passed through the relevant 
+call chains. Which raises another question - why did 
+ttm_bo_evict_alloc() need to have struct dmem_cgroup_pool_state as a 
+separate argument and why it couldn't be passed in the context?
+
+> +{
+> +	bool may_evict;
+> +	int ret;
+> +
+> +	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> +
+> +	ret = ttm_resource_alloc(bo, place, res,
+> +				 force_space ? &alloc_state->limit_pool : NULL);
+> +
+> +	if (ret) {
+> +		if ((ret == -ENOSPC || ret == -EAGAIN) && may_evict)
+> +			ret = -EBUSY;
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   /**
+>    * ttm_bo_alloc_resource - Allocate backing store for a BO
+>    *
+> @@ -713,7 +761,9 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				 bool force_space,
+>   				 struct ttm_resource **res)
+>   {
+> +	struct ttm_bo_alloc_state alloc_state = {0};
+
+= {}; is usually enough.
+
+Any particular reason to move this and the manager outside of the loop?
+
+>   	struct ttm_device *bdev = bo->bdev;
+> +	struct ttm_resource_manager *man;
+>   	struct ww_acquire_ctx *ticket;
+>   	int i, ret;
+>   
+> @@ -724,9 +774,6 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   
+>   	for (i = 0; i < placement->num_placement; ++i) {
+>   		const struct ttm_place *place = &placement->placement[i];
+> -		struct dmem_cgroup_pool_state *limit_pool = NULL;
+> -		struct ttm_resource_manager *man;
+> -		bool may_evict;
+>   
+>   		man = ttm_manager_type(bdev, place->mem_type);
+>   		if (!man || !ttm_resource_manager_used(man))
+> @@ -736,25 +783,26 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				    TTM_PL_FLAG_FALLBACK))
+>   			continue;
+>   
+> -		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
+> -		if (ret) {
+> -			if (ret != -ENOSPC && ret != -EAGAIN) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				return ret;
+> -			}
+> -			if (!may_evict) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				continue;
+> -			}
+> +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
+> +				res, &alloc_state);
+>   
+> +		if (ret == -ENOSPC) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			continue;
+
+I always disliked the TTM eviction logic and now I remember why. It 
+requires a brain size of a small planet to figure out the flow.. :) I'd 
+say this change makes it more readable.
+
+> +		} else if (ret == -EBUSY) {
+>   			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
+> -						 ticket, res, limit_pool);
+> -			dmem_cgroup_pool_state_put(limit_pool);
+> -			if (ret == -EBUSY)
+> +						 ticket, res, &alloc_state);
+> +
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +
+> +			if (ret) {
+> +				if (ret != -ENOSPC && ret != -EBUSY)
+> +					return ret;
+>   				continue;
+
+Is this a functional change and why? Before only EBUSY went to the next 
+placement. Now ENOSPC does as well.
+
+Regards,
+
+Tvrtko
+
+> -			if (ret)
+> -				return ret;
+> +			}
+> +		} else if (ret) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			return ret;
+>   		}
+>   
+>   		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
+> 
 
