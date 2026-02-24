@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2EDPNZWEnWlsQQQAu9opvQ
+	id kBUZBZuEnWlsQQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787C8185CA9
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC19B185CC2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C33010E55A;
-	Tue, 24 Feb 2026 10:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C4A10E562;
+	Tue, 24 Feb 2026 10:59:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iPv0SrZG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q4D3LJBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BA510E557;
- Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8410810E55C;
+ Tue, 24 Feb 2026 10:59:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C5E94446C5;
- Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD9DC2BC86;
- Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DBBFC61335;
+ Tue, 24 Feb 2026 10:59:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06592C19422;
+ Tue, 24 Feb 2026 10:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771930768;
- bh=l8p4wTTQLQPtd/d4pC052EXGqibRJa3coOy/6vNsnLY=;
+ s=k20201202; t=1771930771;
+ bh=la4FpxSv0KFWeFdgmjOWIalqSK0c99WldBgX55snvvc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=iPv0SrZGdf2wk9NXqeDwWTxSWH2nKiSLOJ5nfLENxVj//CkNisvUmacGcFv4Nmssw
- MVrBZLGoCNoyydargw346T0MIva+yL+RAG0IGmZDwPSFfAc2+39IzDeu61RckToi2K
- DwqNspbTtbyP9gE+pP4ZVyxqs6iMqMZ2VNoNqVRFiqtvxTGocO02Th4ajjN5fO/Ig/
- j0bZiaHFe3eyR9d/Dx4Uo/9Paw2wW7DacKK7iGcEkuFIiSfQ7UlAs0pEpJHlk+T0Wz
- /CG3zHFS71lH66BLZY60bYBr7k/S2sg3ZJkJXlHWaM8s5nieo+v+WxvNg/WojNIFyl
- oqb/FaMzs98Yg==
+ b=Q4D3LJBAvHafk96/PNZtz/MiwnaNUjfo6qw8UoBnu/IK7+gXC/m3JZ/bZaKHgb3kq
+ VN0c03OzB+nrVEfKWxhsEnrX8Q+Uq8/8TGLvCoa3EMNVhFVROhAx5gNnIxaEAo5y01
+ 1i77TF36vM4ibvc8RZ26403EZcwOSl20avxvS97h8RHoair2I42oJfzU7AJtOuARtJ
+ qEOEilJfKxLtgGu54sTvEPN+XtoC4nSppia+/IXF5dh97OqqjpP+RTKs9O73HKuGIV
+ FY2ZSFhITGm3j4k3Lcwm9C3QvihOt191GMfPV+IxXRrVPchqzelF8izMQZ/vP8F/17
+ DQKtdFfU/8tUA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 24 Feb 2026 11:58:51 +0100
-Subject: [PATCH 12/14] drm/rockchip: analogix: Convert to
- drm_output_color_format
+Date: Tue, 24 Feb 2026 11:58:52 +0100
+Subject: [PATCH 13/14] drm/connector: Remove DRM_COLOR_FORMAT defines
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-drm-rework-color-formats-v1-12-bebc76604ada@kernel.org>
+Message-Id: <20260224-drm-rework-color-formats-v1-13-bebc76604ada@kernel.org>
 References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 In-Reply-To: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -75,12 +74,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1890; i=mripard@kernel.org;
- h=from:subject:message-id; bh=l8p4wTTQLQPtd/d4pC052EXGqibRJa3coOy/6vNsnLY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW9LTO4vWTbszYZLt129OK84c75JlNJkyrfPXy23KZ
- gtVFVisOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEjjgz1sc9EJbXvCf6382v
- f2qdzNe6D9HR7YxF5pIWO+d8V4xfeLjQr17uuoPoNLe/wRIvtdjlGOv0zdkXJx6888Pv1ebnHqp
- nX64Sr9ztb961/xqjkOn+Kub1t5wWiqXsCNhnKGyU8Ou1wgoA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1273; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=la4FpxSv0KFWeFdgmjOWIalqSK0c99WldBgX55snvvc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzWzJuzo9bf+1HZ8Pbd877rk7eNvv1w5yJ148Z8M+9a
+ PNk2QwZo46pLAzCnAyyYoosT2TCTi9vX1zlYL/yB8wcViaQIQxcnAIwkUtnGRvO39nIELNy/cLI
+ 564MEgwpz+Kdj6Slsb1N3mlepyFVP32PR+nh7YfvaNl1xlz0W/bn6TLGek/vpTa/PomINfamvOT
+ ulmq8Y3CAd6ZUVc3teUtcmcXvBP/aGf/p97+asPMC2q7azsx+AA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,7 +115,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -125,50 +124,37 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 787C8185CA9
+X-Rspamd-Queue-Id: BC19B185CC2
 X-Rspamd-Action: no action
 
-Now that we introduced a new drm_output_color_format enum to represent
-what DRM_COLOR_FORMAT_* bits were representing, we can switch to the new
-enum.
-
-The main different is that while DRM_COLOR_FORMAT_ was a bitmask,
-drm_output_color_format is a proper enum. However, the enum was done is
-such a way than DRM_COLOR_FORMAT_X = BIT(DRM_OUTPUT_COLOR_FORMAT_X) so
-the transitition is easier.
-
-The only thing we need to consider is if the original code meant to use
-that value as a bitmask, in which case we do need to keep the bit shift,
-or as a discriminant in which case we don't.
+Now that all users of DRM_COLOR_FORMAT_* defines have been converted to
+the new enum, we can get rid of those defines.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/drm/drm_connector.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index fdab71d51e2a71d644f128b1bf1c39429b4ad52a..96bd3dd239d251af3d5a7d0fbd4dd74942d44f2d 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -169,16 +169,16 @@ static int rockchip_dp_powerdown(struct analogix_dp_plat_data *plat_data)
- static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
- 				 struct drm_connector *connector)
- {
- 	struct drm_display_info *di = &connector->display_info;
- 	/* VOP couldn't output YUV video format for eDP rightly */
--	u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCBCR422;
-+	u32 mask = BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) | BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index c67539708f636ae3905bb8424c63799bd1811f28..e97c8a209ef5c96ecf4bcb5f0b1b5f1bc0f35b3c 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -722,15 +722,10 @@ struct drm_display_info {
+ 	/**
+ 	 * @subpixel_order: Subpixel order of LCD panels.
+ 	 */
+ 	enum subpixel_order subpixel_order;
  
- 	if ((di->color_formats & mask)) {
- 		DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
- 		di->color_formats &= ~mask;
--		di->color_formats |= DRM_COLOR_FORMAT_RGB444;
-+		di->color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
- 		di->bpc = 8;
- 	}
- 
- 	return 0;
- }
+-#define DRM_COLOR_FORMAT_RGB444		(1 << DRM_OUTPUT_COLOR_FORMAT_RGB444)
+-#define DRM_COLOR_FORMAT_YCBCR444	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR444)
+-#define DRM_COLOR_FORMAT_YCBCR422	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
+-#define DRM_COLOR_FORMAT_YCBCR420	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
+-
+ 	/**
+ 	 * @panel_orientation: Read only connector property for built-in panels,
+ 	 * indicating the orientation of the panel vs the device's casing.
+ 	 * drm_connector_init() sets this to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
+ 	 * When not UNKNOWN this gets used by the drm_fb_helpers to rotate the
 
 -- 
 2.52.0
