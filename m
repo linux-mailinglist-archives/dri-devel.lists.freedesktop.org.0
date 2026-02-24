@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPaiIXGEnWlsQQQAu9opvQ
+	id yM6FJHWEnWlsQQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:58:57 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E97185BD8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3422D185BEE
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A88010E17E;
-	Tue, 24 Feb 2026 10:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CED10E545;
+	Tue, 24 Feb 2026 10:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mq5Eemht";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l2pB8MCG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A825D10E17E;
- Tue, 24 Feb 2026 10:58:53 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 976E410E543;
+ Tue, 24 Feb 2026 10:58:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4EF376132D;
- Tue, 24 Feb 2026 10:58:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDBEC116D0;
- Tue, 24 Feb 2026 10:58:51 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0A1AA41B42;
+ Tue, 24 Feb 2026 10:58:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54CE4C19422;
+ Tue, 24 Feb 2026 10:58:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771930732;
- bh=4lUO/V6PMTwBVuKtBzHhWs/9Z6o8abbgH7ftoV2jBig=;
- h=From:Subject:Date:To:Cc:From;
- b=Mq5EemhtxP4fdcnHfwI6OPiBN1gV0ecp0xd5f2KaC09It8FK32pITZ1xHILSp51C6
- YSaWpuQYY6HhCHr1MPzfOb6w9UXIbx4/Z35HAq/g8gK/kPb1TfUj+eIw5kfWpIksn8
- T+ataYqh5wLl+NMyxJ45rRvqFJe0KXBGpoGPDbatkTon3oE5/9faLHnIG2/j9VaGct
- /GIasKVO33Y2yrnXXY1DM6fxhSl/7lLU9IkFD+vdGqLWsAP664+xa4qsoCAcEgih6h
- SATWacBLav7lvkNRDE99gvw4oXTI1TRFqiO6PKk3OW1BzMuQyKvHX8vRQWb47dGt36
- Krdz57DzbwK1g==
+ s=k20201202; t=1771930734;
+ bh=FPUNMLx084BWyeAi9kUTTFNjzOsxt1FifMSCo8HgdFo=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=l2pB8MCGZoXVmL8U42n+Y+YExZrFso0l705PIPU29GwoXCmKmFJs9juEb9r0LcgWr
+ D/JcHUxFoDE+5Uy01iKNMQDwo6ntRjH3xhreYXWZoJk2vExW8vs1p8abZ2vvLgpgrW
+ PDx9EO9U644E041xYCy86eiMVYhyTNphgPyv0PomqUZ12Efc4Sk/A2kjIzY4EgQhDc
+ fQLC9R5ukZahiPiYwge/LH64ehdCeeCacvFkr7BweVJOuLIsIFv4bfFJUnJAfs6qBx
+ B7uo7yXnH0TWJ2MOrnTVYribhfwh18OWHtRAflzpH9vV+oLFVvMes7iFyEsvGNl6hs
+ N5DWvPbHV0Wjw==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 00/14] drm: Create drm_output_color_format enum
-Date: Tue, 24 Feb 2026 11:58:39 +0100
-Message-Id: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+Date: Tue, 24 Feb 2026 11:58:40 +0100
+Subject: [PATCH 01/14] drm/connector: Introduce drm_output_color_format
+ enum
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqDMBAAvxL23IVkW0T6ldKDJKsummzZFBXEv
- zd0bnOYOaGyCVd4uhOMN6mipUm4OYjzUCZGSc2BPHWe6IHJMhrvagtGXdVwVMvDt2JPKTbCPYY
- ALf8Yj3L816/3df0AC+cZM2oAAAA=
-X-Change-ID: 20260224-drm-rework-color-formats-82dcccc13c11
+Message-Id: <20260224-drm-rework-color-formats-v1-1-bebc76604ada@kernel.org>
+References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+In-Reply-To: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
  Jani Nikula <jani.nikula@linux.intel.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,12 +75,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3233; i=mripard@kernel.org;
- h=from:subject:message-id; bh=4lUO/V6PMTwBVuKtBzHhWs/9Z6o8abbgH7ftoV2jBig=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW5JkRFb27W20sL9ZF2ngdULgz41fK/Yvd8qrkaw/8
- eaZh29Ax1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIqh9jQ2/6Z9UFAqost5nu
- N/4wnZ62KYzp5+s9bfm8Jmu94jlEP8TtY5P/ZWVVkj5r4i2j7G3ejA0vX/zKdV75/mUMT+LBOP0
- tHm9Lb70MZuetVWm3P+7OwqJtfHEhY0/xhXWiMW9bZGyiVgMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4157; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=FPUNMLx084BWyeAi9kUTTFNjzOsxt1FifMSCo8HgdFo=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW5J+qj3eEbfDUOaP4I2OBqnrU1c///myf3Ha8axZ8
+ xa68TS5dkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJOLgxNhzZoc3t+rbbXWyZ
+ 4j+RiGX7rsya/nq+6s6Qpl/plWGWTiffsfL+MF7xfOJn1uP7tL3nTmOsj+2bH3Q8/SjvlOvWE/2
+ yrU/FL0/QlTh98sjBb/MdnpXtStkdardoxpF6ac0FPxcp2H5fBgA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,73 +125,110 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E6E97185BD8
+X-Rspamd-Queue-Id: 3422D185BEE
 X-Rspamd-Action: no action
 
-Hi,
+The EDID parsing code initially introduced the DRM_COLOR_FORMAT_*
+defines to represent the sink capabilities. Since a given sink could
+support multiple formats, it was first defined as a bitmask.
 
-This series creates an enum to represent the output color format as an
-enum instead of a bitmask, and consolidate the HDMI helpers to use the
-new enum.
+However, the core and drivers have since leveraged those defines to
+represent both the supported formats but also the current format being
+used.
 
-This should make Nicolas' work easier.
+Considering the latter case, the more natural, and consistent, thing to
+do would be to create an enum of all the possible formats, and then list
+the supported formats using a bitmask of the individual enum values.
 
-It has been build tested, and passes kunit tests.
+Let's create a new enum following that pattern, drm_output_color_format,
+while maintaining the DRM_COLOR_FORMAT_* compatibility to make the
+transition easier.
 
-Let me know what you think,
-Maxime
-
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Maxime Ripard (14):
-      drm/connector: Introduce drm_output_color_format enum
-      drm/edid: Convert to drm_output_color_format enum
-      drm/display: hdmi: Convert to drm_output_color_format
-      drm/amdgpu: display: Convert to drm_output_color_format
-      drm/bridge: adv7511: Convert to drm_output_color_format
-      drm/bridge: analogix: Convert to drm_output_color_format
-      drm/bridge: cadence: Convert to drm_output_color_format
-      drm/bridge: synopsys: dw-dp: Convert to drm_output_color_format
-      drm/bridge: synopsys: dw-hdmi: Convert to drm_output_color_format
-      drm/arm: komeda: Convert to drm_output_color_format
-      drm/mediatek: dp: Convert to drm_output_color_format
-      drm/rockchip: analogix: Convert to drm_output_color_format
-      drm/connector: Remove DRM_COLOR_FORMAT defines
-      drm/display: hdmi: Use drm_output_color_format instead of hdmi_colorspace
+ include/drm/drm_connector.h | 42 ++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 34 insertions(+), 8 deletions(-)
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +-
- .../gpu/drm/arm/display/komeda/d71/d71_component.c |  14 +-
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |   2 +-
- .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   5 +-
- .../drm/arm/display/komeda/komeda_pipeline_state.c |   2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   4 +-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  24 +--
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |   2 +-
- drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
- drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
- drivers/gpu/drm/bridge/synopsys/dw-dp.c            |  71 ++++----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  16 +-
- drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
- drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  60 ++++---
- drivers/gpu/drm/drm_bridge.c                       |   2 +-
- drivers/gpu/drm/drm_connector.c                    |  14 +-
- drivers/gpu/drm/drm_edid.c                         |  18 +-
- drivers/gpu/drm/mediatek/mtk_dp.c                  |   4 +-
- drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   4 +-
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
- drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
- drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
- include/drm/display/drm_hdmi_helper.h              |   3 +-
- include/drm/drm_connector.h                        |  46 ++++--
- 28 files changed, 326 insertions(+), 278 deletions(-)
----
-base-commit: 3a2ffb469faa8240fe87e7d5f3533d14fdcc69f3
-change-id: 20260224-drm-rework-color-formats-82dcccc13c11
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 7eaec37ae1c735334afa7dad15a38cf0c8b761b8..c67539708f636ae3905bb8424c63799bd1811f28 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -554,10 +554,35 @@ enum drm_colorspace {
+ 	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT	= 14,
+ 	DRM_MODE_COLORIMETRY_BT601_YCC		= 15,
+ 	DRM_MODE_COLORIMETRY_COUNT
+ };
+ 
++/**
++ * enum drm_output_color_format - Output Color Format
++ *
++ * This enum is a consolidated color format list supported by
++ * connectors. It's only ever really been used for HDMI and DP so far,
++ * so it's not exhaustive and can be extended to represent other formats
++ * in the future.
++ *
++ *
++ * @DRM_OUTPUT_COLOR_FORMAT_RGB444:
++ *   RGB output format
++ * @DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
++ *   YCbCr 4:4:4 output format (ie. not subsampled)
++ * @DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
++ *   YCbCr 4:2:2 output format (ie. with horizontal subsampling)
++ * @DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
++ *   YCbCr 4:2:0 output format (ie. with horizontal and vertical subsampling)
++ */
++enum drm_output_color_format {
++	DRM_OUTPUT_COLOR_FORMAT_RGB444 = 0,
++	DRM_OUTPUT_COLOR_FORMAT_YCBCR444,
++	DRM_OUTPUT_COLOR_FORMAT_YCBCR422,
++	DRM_OUTPUT_COLOR_FORMAT_YCBCR420,
++};
++
+ /**
+  * enum drm_bus_flags - bus_flags info for &drm_display_info
+  *
+  * This enum defines signal polarities and clock edge information for signals on
+  * a bus as bitmask flags.
+@@ -697,14 +722,14 @@ struct drm_display_info {
+ 	/**
+ 	 * @subpixel_order: Subpixel order of LCD panels.
+ 	 */
+ 	enum subpixel_order subpixel_order;
+ 
+-#define DRM_COLOR_FORMAT_RGB444		(1<<0)
+-#define DRM_COLOR_FORMAT_YCBCR444	(1<<1)
+-#define DRM_COLOR_FORMAT_YCBCR422	(1<<2)
+-#define DRM_COLOR_FORMAT_YCBCR420	(1<<3)
++#define DRM_COLOR_FORMAT_RGB444		(1 << DRM_OUTPUT_COLOR_FORMAT_RGB444)
++#define DRM_COLOR_FORMAT_YCBCR444	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR444)
++#define DRM_COLOR_FORMAT_YCBCR422	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
++#define DRM_COLOR_FORMAT_YCBCR420	(1 << DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
+ 
+ 	/**
+ 	 * @panel_orientation: Read only connector property for built-in panels,
+ 	 * indicating the orientation of the panel vs the device's casing.
+ 	 * drm_connector_init() sets this to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
+@@ -712,14 +737,15 @@ struct drm_display_info {
+ 	 * fb to compensate and gets exported as prop to userspace.
+ 	 */
+ 	int panel_orientation;
+ 
+ 	/**
+-	 * @color_formats: HDMI Color formats, selects between RGB and YCrCb
+-	 * modes. Used DRM_COLOR_FORMAT\_ defines, which are _not_ the same ones
+-	 * as used to describe the pixel format in framebuffers, and also don't
+-	 * match the formats in @bus_formats which are shared with v4l.
++	 * @color_formats: HDMI Color formats, selects between RGB and
++	 * YCrCb modes. Uses a bitmask of DRM_OUTPUT_COLOR_FORMAT\_
++	 * defines, which are _not_ the same ones as used to describe
++	 * the pixel format in framebuffers, and also don't match the
++	 * formats in @bus_formats which are shared with v4l.
+ 	 */
+ 	u32 color_formats;
+ 
+ 	/**
+ 	 * @bus_formats: Pixel data format on the wire, somewhat redundant with
 
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.52.0
 
