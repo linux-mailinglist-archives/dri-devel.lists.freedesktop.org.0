@@ -2,58 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cHHvD4LvnGkaMQQAu9opvQ
+	id eMpjE5HxnGkaMQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:23:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:32:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9530E180317
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02291803E7
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 01:32:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3910E07A;
-	Tue, 24 Feb 2026 00:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D5C10E469;
+	Tue, 24 Feb 2026 00:32:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="bBet/m9j";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WPLPfvlR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E65310E07A
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 00:23:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1771892602; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZnGvM+OjEuJSu0rxNwTBIL5b6cQ3hlfzSkhA4a2E4gvhf23ZmjWY3OogwwbWvtkn54Z9Gei3fZ4N9AVsQX7q4u2ZNb4BppYMcji7YXe/PypQs8VaBK+hNbTz0BFPYNF6vx54yCdStfVeSAzklNBvNQiNd0rXJFouhhCjI9KA/Tc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1771892602;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=CI7aESVSHPcmOkxY+BwLF80O1NQq1ArBaTxw6r28HKc=; 
- b=BmFeYNwI0LHjJzd/M2jDZuM1mjDIGbEFKGv6yfj0VyF8lLDPgy02gwH11TYM355HADUKPv6Qgda3P32llEUO3QEOgAOt2BK89JNPrpKV2brhHEG6P6Z/l6SuWR8/osn51X4/G1RSSGkf1mSVvGGbR7Hnmoa6e4t6yMXq/+CAB8w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771892602; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=CI7aESVSHPcmOkxY+BwLF80O1NQq1ArBaTxw6r28HKc=;
- b=bBet/m9j/nI0SJzIlrBHVq4O71ynK/mElaq9WaQGRAyjTfxEyhzaKs8aoXYC1Zr6
- 2SVjQPznoN2yfrI0dvA9Uj1Z+aUsDd4YSsDK0MwjOnBNNjZYOszgcovjVGPGgAIrJl7
- Djh2eT2zFlTJulpKd9xJ3ZZPtyOQTuD2rTtKECnc=
-Received: by mx.zohomail.com with SMTPS id 1771892601649311.60930839879256;
- Mon, 23 Feb 2026 16:23:21 -0800 (PST)
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
- boris.brezillon@collabora.com, dakr@kernel.org,
- deborah.brouwer@collabora.com
-Subject: [PATCH v3] drm/tyr: Clarify driver/device type names
-Date: Mon, 23 Feb 2026 16:23:14 -0800
-Message-ID: <20260224002314.344675-1-deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.52.0
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010000.outbound.protection.outlook.com [52.101.61.0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F72710E468;
+ Tue, 24 Feb 2026 00:32:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TNcWV2EIY0kzNXAu/f+4G5bF7c3ILPTSKysCsARvrHtywT1kgvVMmBk1Qg+CrH8FjnNfbJrWQxLxf29bQBJoWOQq0TVPWTfslfIh2Ln5ZdXnuEac0c3N42Y2KSOwQX7jd5qt83/iM7cTnvPgdVXIoB/dzemw78cTBza7oqM+XbMc0z0R4QRFr/b4JEGdYQ65tsCCgKWdA+rWCJUxhLAmsNjAB2qdDhA5z6jHoKrD6LC6/mJ5xv33B8BfrSX6SQHf4gKSxT2mDaXm0j0IdgrBtJj8jBz+lTP3kih7FrVdzuRMrbZDz2CRnvZrhdOaupyWjj/eHTsrxrvxSmh3k3Ax/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vLy5BXBvJ8A4aJ3Ep1S0qKKMpGpgQkQM7vV00nyULGE=;
+ b=duIO+xxIfuzAQ+06SVJAbV6OKKCDFf8+zaLGMowyVOBw8se9tDRzWddszVu8GLRODBcFP0XDkBMjTxa5CBY183VhWUCCJPqxmSRBfXMLh/eIeY+Zd1wsYYupGPzKgNVhSn6M2Zr/sYEj4rgwETgpRsi+ODs/RjDuCHtENhFfdysDGqCv82rFt5fID0A4JV1L/I8g1bNL6A/pFdz/1fUFIdRCxo9zLFbhoQKZoIXVGeVbmz3m3vxfJH/xAJAoT6qsYoOeS6jAqJuGUqfBUm0PEwS+br9CXY2FbEXpbU9WUkB0Psn8cs1Z0N6SRmpuobUFxAdPWYgnPJU9A66s0BG8yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vLy5BXBvJ8A4aJ3Ep1S0qKKMpGpgQkQM7vV00nyULGE=;
+ b=WPLPfvlRcKpR29pWyDVRZBdxoFAxescK3lSA7cJKDGtAjI8/pm8Ib1lpdPBUlyvMgQX9W2cXwZHnjlrApAehSOcJt45UEjBTbo8FzPmfwyvEcHdxl/QNtxDmv4yeO4RK79EwFGxPSCWrljgqD8WCxkuyyDUSREVp4bRd/ROUHFhHMpjJSxJDdFomK0TXIHDzpPYk30c7SG4R931Hr89dZv+NCNvnrlMYuVkmzKq8boRxZqXqfuitgv0LO/rJVbSi7hpGmot1kYMcLUlSF4mB9ABCpPTxYK9g5xeCBz2Tkc/dMM1X3lOeUNFcCDtTlZxXv6gKH+lmCFH0olGyqfzajA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ PH7PR12MB7938.namprd12.prod.outlook.com (2603:10b6:510:276::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.21; Tue, 24 Feb 2026 00:32:05 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 00:32:05 +0000
+Message-ID: <90454ed3-5ac6-4169-b849-e7ce18fc68ae@nvidia.com>
+Date: Mon, 23 Feb 2026 19:32:02 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
+ linked lists
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Nikola Djukic <ndjukic@nvidia.com>
+References: <20260218205507.689429-1-joelagnelf@nvidia.com>
+ <20260218205507.689429-6-joelagnelf@nvidia.com> <aZlz49VtPA0JbEGx@google.com>
+ <5523ddd6-fda1-445a-9235-54e778df2694@nvidia.com>
+ <aZwgKcdEnSHyuSLG@google.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aZwgKcdEnSHyuSLG@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CY5PR19CA0068.namprd19.prod.outlook.com
+ (2603:10b6:930:69::8) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH7PR12MB7938:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6dbd121d-2c04-47a8-820e-08de733c22c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TFU2WmJnVklYbzdabCthWHhMcktFN2llRlAzZW11WFZJZ0ZhaDhGY3ljNEJy?=
+ =?utf-8?B?ZE9lUUVLTEdhak9JbEx2K3E2WVN1UHM2MWpSVm0xeW4zUVp3SWNvMVlZelVC?=
+ =?utf-8?B?dU1DQUlwd2dFTWVHZDM0a29rb2luakszVy9uK2FzZkpPRGFjL2xKYjVxdG91?=
+ =?utf-8?B?ak45SEozNzZvdXJWVElMY0c5QTAydFhTNU9aZUFEZnYyMDF0ZDhBQy9DVkg3?=
+ =?utf-8?B?WmRua2hBMHc2bUdGeTA4VXlXWGRCNEMwOTRKN1pCNExoRXZPMTBjSTA0WjRY?=
+ =?utf-8?B?UjFHN3VIRVVTdkZ4OWl0MXpMcTBoNHFRaE9MN3F5ZjB4ZlFRUkI5eTZYYjBY?=
+ =?utf-8?B?UC9DbjRhQS9RYTRzZTBXSnJabm01WGVJZWk2TkIvbHlqVDBQemtlMjBrOGU2?=
+ =?utf-8?B?NWZpNU12SWg3NFQvWVJyRHVyUHVVb2VINWJWVnY5bU5BYVkxOU94VUxVYU5D?=
+ =?utf-8?B?QmdPKy9aZWdvRWFXNTcyTW5XYllQckFiWlhSUGtSdTJxRHNtRnpHaml3dHBk?=
+ =?utf-8?B?eUVMeWNWNlpPakp6ckdmVG5obkp3REUzaXVwR3pBNTdhbTVoNTFpa2tET3hr?=
+ =?utf-8?B?VGN4akM2amxHZ0R2ZzlXbC9QWmo5cVlxT2ZQZ0RoSERYVWRmL211UUp1M1pa?=
+ =?utf-8?B?NHFnTXlOWDFBVkkvclRoOXcxRVB4ZlJ2bEtoQkVSdUdwcUs2aUJ2aER4b3Vm?=
+ =?utf-8?B?QTF2d011cHRFcnk0RFNNWVVhMElPN2lnYnZyaDRRT2t3YXdGb3JsMjFUTTkx?=
+ =?utf-8?B?ellGc3V3WnAwTjAzaDBlaDZxcGJkWlVNUWdJT3Y0Mm9nOUlxcDcwdy9ySUV6?=
+ =?utf-8?B?ZThXdG84a2NvaFpVZzlMclZNTWhQU1RyQnZ4bENjMUZhUWV3SlR1RC9QQWt2?=
+ =?utf-8?B?MWtvN1ArTHhPNFJ4NEN2SlhCd04rSXpyZ3ZpOW9ZSWtkeVhzZkMrTjltRDZ1?=
+ =?utf-8?B?WUkrU25raWR1TWNVVng2cFpIUWUrZ0k4WW9yZ0tlTDVjSjhiU09EblpLbjIw?=
+ =?utf-8?B?aHVaRkRWRWZ5dUpVYVU5NTJaNzQyR1MwNHZETHpZbjY5T254NGdDVENDb2dr?=
+ =?utf-8?B?ajVvK1BjL2N5VGlzMzhtYmp2ZEYreVZhSFNpQW4ya2RvY2F0c1cxTUV3N0Nh?=
+ =?utf-8?B?NWVmUWhTWkJpMDBFUHRwbmdDUFhTeHhIWExCdG93M1VKcTZOSjRPMHNyMXZX?=
+ =?utf-8?B?ZThISTJnQk1zRGdUTWpBTmc1dkpzMFFENU83WTRncGlaSDErRE9yZENUcG5m?=
+ =?utf-8?B?bERCQ1I5UVQyeVhKU3B4K3dJc29pUE5KelRyUFRZNCs5Rkg2U0R2QWNhOFI0?=
+ =?utf-8?B?QnBTTGF3dUpDblVNaWs0eW5NMkVsSnYvM2FJNXg4YTlER1RkY1R0RkhUb1RI?=
+ =?utf-8?B?NnlaU0JTTDBsTXVpZHk4YUt3UVlhbmk4dXZReGpMYTB6SnY3b3UwUXBkSHAv?=
+ =?utf-8?B?bFI5YU9CR29wZGZCNXVBRXRndzlJUTdJWm1QWEF0ci9uZlV5SGNFODBuRHZX?=
+ =?utf-8?B?KzVVYnZRdHVkeGFORWYvZlo5MVRYUHo3WHh5cVpucWZEZ3VTMWxSSW5oTm5q?=
+ =?utf-8?B?Ny83ZlZmc3RQK0xiYTgvQ2E5MURCYk5aOWhvUTJOeHlIV015YTlyckcyM2Q1?=
+ =?utf-8?B?NEVGV2hmbjI4bUtkbk4rOUUrZlhmem8zamJ1Wml4Y0NtTktpektZc2ZOM0Fr?=
+ =?utf-8?B?R2hiRjFPU0VITTEveFc1b0ZoRVNMeS8yMDZNQkVPS3NPV2p1SzFQS0htNytR?=
+ =?utf-8?B?R1BtUnF2MUtsanduUm5LOWNUV3NyY3FzckZ5OGtVNkNCQ1llaTREQ21RTGhN?=
+ =?utf-8?B?TXh4cklrcWlSRytQMC96b2VsbWVyOUwvUXZpY0E2L1FodjBKcDU4eENJUFZV?=
+ =?utf-8?B?azVjZWZNRTJFV2lmVDYwNjJtaWp3RDZEN29TMEtMUDBUSUFuTUFoOXRwbWdC?=
+ =?utf-8?B?bmxnMXJ0Y0NlOFJYRnZHbTVUVDNMWTlwNWoyb09zci9MT1NDVkJrQjlFdi81?=
+ =?utf-8?B?MGtTUWE3SHZnR0NqenhqUGtpZ0QwK3dBRnNLdnhYY3Fkems0SFNVVkJ2MWFx?=
+ =?utf-8?B?LzlRVEx4SWJnb2VHd0M1QlpMemxDeDR6K1FqeGZpQmNhT0x2ZS9XRG5qNjcr?=
+ =?utf-8?Q?lr1Y=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVpCSFhjV1JpRllqTHFJTCttS2VXUE05OGV1WnJXMElQZ0g5MU1pQUIzQWsx?=
+ =?utf-8?B?eWpGOUVqdjRRTlY3TUlZMGdvSUVJb0o0Qm9LdDExZ05pQ2IwYUxnZUJzZ3hG?=
+ =?utf-8?B?dWtuY1VpdlAwWlE4OWU5SXhUclgwcXZOOXJMMlZtcDl4ZDM2ZnZBOGVyWDlm?=
+ =?utf-8?B?L2NldTBOanlRdENGdTlZVldsWE1ZM3RNZkoxNHFBeU9iZ20zdjVOMVNHb3Jq?=
+ =?utf-8?B?Nlg0VXZoeVdGQUFKamJYRnNhWlo0am1CMDdSZHBqME9nRGpsU1ZlaXJmczRM?=
+ =?utf-8?B?aFZFckZ0ekhZQzNraUREMC9na2w1ZHRHb05odWxoamRBcnpjOUtPYm5JNWlZ?=
+ =?utf-8?B?U3NNa1pPQ1lFSDdWamFDZTNGMXlpUHcrRlF1S21qdHpaaGR6Q2FoK1l3SGdI?=
+ =?utf-8?B?aGt6aStvamI4RjRSTnIwOUJvVy9lcXF6Q3BaR2lsaUM0L2h4V3YydVJXZWI1?=
+ =?utf-8?B?Vm1SY3pXekZwYXZ2QjNqQlp1RkxmaWRiN0tocGVZa0RzQmlpMkRGRmlTWElP?=
+ =?utf-8?B?cTIyZVZxcXpzYU1yMUVFVXlBRWNKdnF2a04rcFc4TXhNWHk5UXhwVEpYVkRx?=
+ =?utf-8?B?VnprVzNSOFgwNnFiOG5GTmZsTS96UmdIdDJFSkxlbXhvNmQwa3MxckhjeTly?=
+ =?utf-8?B?L0pvdlIyRVY5cW5vZVduckwweEl0ZEtEQjZ3TUJDOGVOV05NTEZGYUpabDVq?=
+ =?utf-8?B?RDFsazJEQmU0bFNvajVjWnZueFVFNTVqUS9QeC81VFhqWWFWMDQvWHlyZUVO?=
+ =?utf-8?B?U01kanU4czJKeWx4cUJ6YzJET0cyYTFVNjYrdFpocUc1N0s5dG5Yd21CRE4r?=
+ =?utf-8?B?KzdhUkM0cGd6UXNOd0RNM1NDQnJGRFc4WnExZHBLcmJEaXc3ZkJ0VG96MTNm?=
+ =?utf-8?B?eXM2cENsNUVNRWpyY1lwVy90Rm1MSU8xRDFhS1hhSFIxUkZSQmI2U2ExTUt4?=
+ =?utf-8?B?NGZMYnhRaUFKaVpzblVuSUNrelBvSko1RkljdnpHSDhtQ0FjRFllTmswUGdX?=
+ =?utf-8?B?Qk5zLzQ5UXorWVh6aXorcGVpSndIbmNWTy9DK3BrOTZ0WkQ4YitZMWVWSXlr?=
+ =?utf-8?B?NmZBYWp5eEhnRmlwT0hWRGcrU2h4d3ZYNzhhWVE2N1dqdG5VaTYwcGxCdU9I?=
+ =?utf-8?B?QWZCRm9zT3dldDVoVDdFNXN0OWVjOGFQWmx4REVtd016bDRUMjBsZThDMkwv?=
+ =?utf-8?B?QXhuRFYyb2U2ZW9jUm56YnVpZ2czVU1tMjhic2krWnJSM3N1MHU0ejhEa2tH?=
+ =?utf-8?B?em13T3krQUgwallhK29sRUQyV0tUaXRsc09WdVpSbkhoL1FucXpqSUM5Zmts?=
+ =?utf-8?B?OFh3QnByc3dhU1VQNVhucmFkaUx0ZjhOMm5PZEtJK1l1dzJUQm5QQVVqM2g0?=
+ =?utf-8?B?c0Mzd0xHT1ZKNHdrUkxJUHV4Q0lsWWtaR08yakhRTkRiTXBQcU1rWG03NTc2?=
+ =?utf-8?B?YUs3aUdOeHZRQnc3YVJKVThrWVlPQ1I1VnoxRVA3UHI1OUVrUUEzWnU4MjBa?=
+ =?utf-8?B?YkFMN2o5Z2NZN2xFV0pQMitlV25NMnJ6VVVpR1UyRHFwSnRIQjRJVDRZSTVz?=
+ =?utf-8?B?OGJYN08rMFNkRWoyWk9FdHZRSVd2VnpmQVltcGhjWnZYRTA3YysvaWtsZVI1?=
+ =?utf-8?B?ZzBtSy8rZGJBSlcxYXRPT00xbkFKSFFaQURQMmtBS3hzSE9tVHQ0MUxycjBm?=
+ =?utf-8?B?YmFNc0djSkpJQk5ETnk5bFJxR0NqckMvQlhWVHlHVUtEd1hBcTR6bnpHRk1y?=
+ =?utf-8?B?ZERPV3pYamd1WUNnczQ0WkduWjlkbW5zTHNydjBVNUxWZnlQL0JYb0o2eEhx?=
+ =?utf-8?B?VmJZOEhONWlHS1V1NktudGFhaDdOWUt5SklxeGtnVHhaNmQxTURoNUhHQitj?=
+ =?utf-8?B?Q21YS3I3cXRrd0dHTjJ5THFnaU5VNC9MQlB0SUdpYU5TZWk5UWlLSllyZXVk?=
+ =?utf-8?B?QUlsNmIvMk9RR0ZXRG90UzVnWDBtWGdLVW9KYURQLzhMWmk2cSt0am83UG5v?=
+ =?utf-8?B?K3Bra202alRnYnVIWTkxaTZqSXNHaDVSMW94MUhtbS8xVE9rR1lCTGxDQnha?=
+ =?utf-8?B?Z2lPaWsvQmJzMDV5U24wUGhBUFAvTGV1d3pKbC9GdDZMbHZ1dUlwSFExUmk5?=
+ =?utf-8?B?QWVCYnlnZi8zaXUybUM5clJScWd2TjU0S2YzaVBqRGpaZXFidHRMaEhpWlFN?=
+ =?utf-8?B?aG1lbUp4Q0gyZUYwcERTaGlZUGZIc2haRmVhaW92S3RIcFBkdEh6N0lvZDRz?=
+ =?utf-8?B?RHF5U2grUU0vMUF0dERBd3RtYUFCSjZqandCTEN6c1NrVjQxUTEybDJGQW5o?=
+ =?utf-8?B?Qmt0ajdNeHpCNWNwc1UrMmFFa1Z2dTZ5dk1hYi9PSElkMjVBQk5GZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6dbd121d-2c04-47a8-820e-08de733c22c0
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 00:32:05.3218 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KjzCQeXEoRIwa3vDvrWO5t7pMVY9Bxz/VnfgOB32apr5578fCsg9EDWG9dbuSewuItxS96cKDE2URmNnU7Qn5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7938
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,302 +186,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.997];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,umich.edu,nvidia.com,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9530E180317
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: B02291803E7
 X-Rspamd-Action: no action
 
-Currently the `TyrDriver` struct implements both `platform::Driver` and
-`drm::Driver`. For clarity, split up these two roles:
- - Introduce `TyrPlatformDriverData` to implement `platform::Driver`, and
- - Introduce `TyrDrmDriver` to implement `drm::Driver`.
 
-Also rename other variables to reflect their roles in the DRM context:
-- Rename `TyrDevice` to `TyrDrmDevice`
-- Rename `TyrData` to `TyrDrmDeviceData`
-- Rename `File` to `TyrDrmFileData`
-- Rename `DrmFile` to `TyrDrmFile`
 
-No functional changes are intended.
+On 2/23/2026 4:38 AM, Alice Ryhl wrote:
+> On Sun, Feb 22, 2026 at 07:41:44PM -0500, Joel Fernandes wrote:
+>> Hi Alice,
+>>
+>> On 2/21/2026 3:59 AM, Alice Ryhl wrote:
+>>> On Wed, Feb 18, 2026 at 03:55:03PM -0500, Joel Fernandes wrote:
+>>>> +impl CListHead {
+>>>> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
+>>>> +    ///
+>>>> +    /// # Safety
+>>>> +    ///
+>>>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
+>>>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>>>> +    /// - The list and all linked `list_head` nodes must not be modified by non-Rust code
+>>>> +    ///   for the lifetime `'a`.
+>>>
+>>> I don't think C vs Rust is useful here. What you want is that the list
+>>> is not modified by random other code in ways you didn't expect. It
+>>> doesn't matter if it's C or Rust code that carries out the illegal
+>>> modification.
+>>
+>> Yeah, this is true. I will change it to the following then:
+>>
+>> "The list and all linked `list_head` nodes must not be modified from
+>> anywhere for the lifetime `'a`."
+> 
+> Ok. Perhaps you should say that it must not be modified except through
+> this CListHead? I guess it depends on whether you want to add methods
+> for changing the list via this API.
+> 
+At the moment, there isn't a usecase for it but I would predict we would want it
+for other such use cases, so yet I will change it to your suggestion to
+future-proof it:
 
-Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
-Changes in v3:
-- Rename `TyrPlatformDeviceData` to `TyrPlatformDriverData`
-Link to v2: https://lore.kernel.org/rust-for-linux/20260223204648.208886-1-deborah.brouwer@collabora.com/
+"The list and all linked `list_head` nodes must not be modified from
+anywhere for the lifetime `'a`, unless done so via any `ClistHead` APIs."
 
-Changes in v2:
-- Move the import TyrDrmDriver to a single line.
-- Rename the variable `tdev` -> `ddev` in file.rs to be
-consistent with the name used in driver.rs.
-Link to v1: https://lore.kernel.org/rust-for-linux/20260205185906.40940-1-deborah.brouwer@collabora.com/
+Let me know if it looks good?
 
-This patch depends on: 
-[PATCH v2] drm/tyr: Use vertical style for imports
-https://lore.kernel.org/rust-for-linux/20260223203833.207955-1-deborah.brouwer@collabora.com/
+thanks,
 
- drivers/gpu/drm/tyr/driver.rs | 40 ++++++++++++++++++-----------------
- drivers/gpu/drm/tyr/file.rs   | 23 +++++++++-----------
- drivers/gpu/drm/tyr/gem.rs    |  9 +++-----
- drivers/gpu/drm/tyr/tyr.rs    |  4 ++--
- 4 files changed, 36 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 259a5157eb47..611434641580 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -30,7 +30,7 @@
- };
- 
- use crate::{
--    file::File,
-+    file::TyrDrmFileData,
-     gem::TyrObject,
-     gpu,
-     gpu::GpuInfo,
-@@ -39,16 +39,18 @@
- 
- pub(crate) type IoMem = kernel::io::mem::IoMem<SZ_2M>;
- 
-+pub(crate) struct TyrDrmDriver;
-+
- /// Convenience type alias for the DRM device type for this driver.
--pub(crate) type TyrDevice = drm::Device<TyrDriver>;
-+pub(crate) type TyrDrmDevice = drm::Device<TyrDrmDriver>;
- 
- #[pin_data(PinnedDrop)]
--pub(crate) struct TyrDriver {
--    _device: ARef<TyrDevice>,
-+pub(crate) struct TyrPlatformDriverData {
-+    _device: ARef<TyrDrmDevice>,
- }
- 
- #[pin_data(PinnedDrop)]
--pub(crate) struct TyrData {
-+pub(crate) struct TyrDrmDeviceData {
-     pub(crate) pdev: ARef<platform::Device>,
- 
-     #[pin]
-@@ -71,9 +73,9 @@ pub(crate) struct TyrData {
- // that it will be removed in a future patch.
- //
- // SAFETY: This will be removed in a future patch.
--unsafe impl Send for TyrData {}
-+unsafe impl Send for TyrDrmDeviceData {}
- // SAFETY: This will be removed in a future patch.
--unsafe impl Sync for TyrData {}
-+unsafe impl Sync for TyrDrmDeviceData {}
- 
- fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
-     regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
-@@ -92,14 +94,14 @@ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
- kernel::of_device_table!(
-     OF_TABLE,
-     MODULE_OF_TABLE,
--    <TyrDriver as platform::Driver>::IdInfo,
-+    <TyrPlatformDriverData as platform::Driver>::IdInfo,
-     [
-         (of::DeviceId::new(c"rockchip,rk3588-mali"), ()),
-         (of::DeviceId::new(c"arm,mali-valhall-csf"), ())
-     ]
- );
- 
--impl platform::Driver for TyrDriver {
-+impl platform::Driver for TyrPlatformDriverData {
-     type IdInfo = ();
-     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
- 
-@@ -129,7 +131,7 @@ fn probe(
- 
-         let platform: ARef<platform::Device> = pdev.into();
- 
--        let data = try_pin_init!(TyrData {
-+        let data = try_pin_init!(TyrDrmDeviceData {
-                 pdev: platform.clone(),
-                 clks <- new_mutex!(Clocks {
-                     core: core_clk,
-@@ -143,10 +145,10 @@ fn probe(
-                 gpu_info,
-         });
- 
--        let tdev: ARef<TyrDevice> = drm::Device::new(pdev.as_ref(), data)?;
--        drm::driver::Registration::new_foreign_owned(&tdev, pdev.as_ref(), 0)?;
-+        let ddev: ARef<TyrDrmDevice> = drm::Device::new(pdev.as_ref(), data)?;
-+        drm::driver::Registration::new_foreign_owned(&ddev, pdev.as_ref(), 0)?;
- 
--        let driver = TyrDriver { _device: tdev };
-+        let driver = TyrPlatformDriverData { _device: ddev };
- 
-         // We need this to be dev_info!() because dev_dbg!() does not work at
-         // all in Rust for now, and we need to see whether probe succeeded.
-@@ -156,12 +158,12 @@ fn probe(
- }
- 
- #[pinned_drop]
--impl PinnedDrop for TyrDriver {
-+impl PinnedDrop for TyrPlatformDriverData {
-     fn drop(self: Pin<&mut Self>) {}
- }
- 
- #[pinned_drop]
--impl PinnedDrop for TyrData {
-+impl PinnedDrop for TyrDrmDeviceData {
-     fn drop(self: Pin<&mut Self>) {
-         // TODO: the type-state pattern for Clks will fix this.
-         let clks = self.clks.lock();
-@@ -182,15 +184,15 @@ fn drop(self: Pin<&mut Self>) {
- };
- 
- #[vtable]
--impl drm::Driver for TyrDriver {
--    type Data = TyrData;
--    type File = File;
-+impl drm::Driver for TyrDrmDriver {
-+    type Data = TyrDrmDeviceData;
-+    type File = TyrDrmFileData;
-     type Object = drm::gem::Object<TyrObject>;
- 
-     const INFO: drm::DriverInfo = INFO;
- 
-     kernel::declare_drm_ioctls! {
--        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, File::dev_query),
-+        (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, TyrDrmFileData::dev_query),
-     }
- }
- 
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 48bff4476d74..450be5ab9aaf 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -7,35 +7,32 @@
-     uapi, //
- };
- 
--use crate::{
--    driver::TyrDevice,
--    TyrDriver, //
--};
-+use crate::driver::TyrDrmDriver;
- 
- #[pin_data]
--pub(crate) struct File {}
-+pub(crate) struct TyrDrmFileData {}
- 
- /// Convenience type alias for our DRM `File` type
--pub(crate) type DrmFile = drm::file::File<File>;
-+pub(crate) type TyrDrmFile = drm::file::File<TyrDrmFileData>;
- 
--impl drm::file::DriverFile for File {
--    type Driver = TyrDriver;
-+impl drm::file::DriverFile for TyrDrmFileData {
-+    type Driver = TyrDrmDriver;
- 
-     fn open(_dev: &drm::Device<Self::Driver>) -> Result<Pin<KBox<Self>>> {
-         KBox::try_pin_init(try_pin_init!(Self {}), GFP_KERNEL)
-     }
- }
- 
--impl File {
-+impl TyrDrmFileData {
-     pub(crate) fn dev_query(
--        tdev: &TyrDevice,
-+        ddev: &drm::Device<TyrDrmDriver>,
-         devquery: &mut uapi::drm_panthor_dev_query,
--        _file: &DrmFile,
-+        _file: &TyrDrmFile,
-     ) -> Result<u32> {
-         if devquery.pointer == 0 {
-             match devquery.type_ {
-                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
--                    devquery.size = core::mem::size_of_val(&tdev.gpu_info) as u32;
-+                    devquery.size = core::mem::size_of_val(&ddev.gpu_info) as u32;
-                     Ok(0)
-                 }
-                 _ => Err(EINVAL),
-@@ -49,7 +46,7 @@ pub(crate) fn dev_query(
-                     )
-                     .writer();
- 
--                    writer.write(&tdev.gpu_info)?;
-+                    writer.write(&ddev.gpu_info)?;
- 
-                     Ok(0)
-                 }
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 8f2d23e3c093..514524ae07ef 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -5,19 +5,16 @@
-     prelude::*, //
- };
- 
--use crate::driver::{
--    TyrDevice,
--    TyrDriver, //
--};
-+use crate::driver::TyrDrmDriver;
- 
- /// GEM Object inner driver data
- #[pin_data]
- pub(crate) struct TyrObject {}
- 
- impl gem::DriverObject for TyrObject {
--    type Driver = TyrDriver;
-+    type Driver = TyrDrmDriver;
- 
--    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, Error> {
-+    fn new(_dev: &kernel::drm::Device<TyrDrmDriver>, _size: usize) -> impl PinInit<Self, Error> {
-         try_pin_init!(TyrObject {})
-     }
- }
-diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
-index 861d1db43072..9432ddd6b5b8 100644
---- a/drivers/gpu/drm/tyr/tyr.rs
-+++ b/drivers/gpu/drm/tyr/tyr.rs
-@@ -5,7 +5,7 @@
- //! The name "Tyr" is inspired by Norse mythology, reflecting Arm's tradition of
- //! naming their GPUs after Nordic mythological figures and places.
- 
--use crate::driver::TyrDriver;
-+use crate::driver::TyrPlatformDriverData;
- 
- mod driver;
- mod file;
-@@ -14,7 +14,7 @@
- mod regs;
- 
- kernel::module_platform_driver! {
--    type: TyrDriver,
-+    type: TyrPlatformDriverData,
-     name: "tyr",
-     authors: ["The Tyr driver authors"],
-     description: "Arm Mali Tyr DRM driver",
--- 
-2.52.0
+--
+Joel Fernandes
 
