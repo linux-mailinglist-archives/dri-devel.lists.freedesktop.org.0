@@ -2,96 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kGrWMyrNnWnfSAQAu9opvQ
+	id +Io8HYPNnWnfSAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:09:14 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A081898F6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C99E18992D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC01E10E5C9;
-	Tue, 24 Feb 2026 16:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B68B010E5CE;
+	Tue, 24 Feb 2026 16:10:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="TSEbJjzF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uTB1im2V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6D810E5C9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:09:10 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4806ce0f97bso46219555e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 08:09:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1771949349; x=1772554149; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xEMwUsFe80O7FQT2pky6cbdem5vVaUv5gBoDleT5nkE=;
- b=TSEbJjzFeZkVAOcpLGx+FtJVQbN5yp3rR7sRisF8NothEOttHzh4LUtQYbDdnkfZcG
- y+VXQ7wv9tEHXg5VeBAqXE8q7yJl5sugHF7R0njLMpq05VYGbPoo60m2tA9oKHGXQS9J
- zDJXRGkHn6HprsHwTw4mBjKN9+8yW/ppVCpgfLPkx78INdpXijAlzJGlqfHodbAaFQ9O
- rNNS0u3ZQIZtgypegkpHst3oyLGIB4IjNAp6ZLfgxqHf+gRge/a+TZslqohkGYLDDfwP
- Ui5/GKmDuThFMuEfQWBe22y9cRusfdidOj+YKWmIR1jv1WH8wKJGydLBojqanrdVC/pS
- YJHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771949349; x=1772554149;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xEMwUsFe80O7FQT2pky6cbdem5vVaUv5gBoDleT5nkE=;
- b=ne1cKlDThD7Vr7KEaYr0j7xYytFd3wL80rY0D/J2+E1Z8Ll1pdjMgItG/1RJsd9PDv
- ueKirbfVFCU7gCQFgxygiRX0eYnrtmXxVTchW+m6zMXRtbcpRDJI4Op/B74Nb+GlDVZJ
- J20dZE3CjKt2DKHCPE1rU/e842B0QnPlb7D0nJFgI0lDV9lHXQip6g2tb2q/gVs9v6Qh
- eAxjdxm6wvfGNCWBjWsYk0cfNLyBQ7yhRcOa+KhYJ0ahEo5yXkGGx5WY0fKsMPtcyCUW
- qH2LfC4JwzXkYfhnhuOyxu9QH+53r0552uu6U4tgWGIswtYR58aJ3R0O8fKGpty5dmWh
- kolg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX1UJIgdSKcSFB4/XFnMpxHYGgsaBaGFFHlMuLbLafP3v+NOCl5P0debVKJ/3gtAcMut1Ffz9G5gMQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTxYxsN5AepR9OXQ6rpJUt47YOrbulr/BZdtAqaiAALJiwLQfY
- W6N0uQCudwCboB/MM3y7XSnFQFfQGgqlnldEGYCPvyf4FmijKbx+jB5oPmt4rB9iXrSHAwgyk/R
- w4lAY9Q0=
-X-Gm-Gg: AZuq6aIvJfrPq7Z1b21t5knBTwR4pxne05KUlQM74UH+xEYQFdJCDtfjAKS2DSrXAzH
- Tk42/ItZ/O9K1TG4v2Z2d4UjlX2kvNrKzZULGmnIcTriq8wyoFqBA+999xV7U+nKYpJvJrLJQ2+
- OEs9Ae2fC19iuuUMLmZhF7FnKfGDncLh4RC9mn9YeLE1lNgIxAGokClqy9sVcKHDrjLs6jIAZmw
- dIjonpJ10NSGz9V5RSdUKW0rq3wacbXxtGFHzfShqRrfa96zUcr8yEBKQPupqCFpInfAllA2jXs
- GyadPe7cg6JuXD4ZpxgvKdLuI2a/8bPvTw5I+C0UyGpsF2dQsAN/RVXZf7wfUEVR/fPJ5Bpkvof
- SrIDz3sZGLKozKGg/r8WGczkmqfmjzn6KVmsgO0EnD6eNrgnwLokn0b5Q1dhw1PLb2ykaSLcJss
- tn9NViiEq5n/qvSd+H1iaHBWH2Og/0ayJQTWF+V3DQJc7r
-X-Received: by 2002:a05:600c:c4a5:b0:483:7783:5382 with SMTP id
- 5b1f17b1804b1-483a95e6b64mr191933505e9.27.1771949348294; 
- Tue, 24 Feb 2026 08:09:08 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bd75df90sm7650265e9.14.2026.02.24.08.09.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Feb 2026 08:09:07 -0800 (PST)
-Message-ID: <3e820754-681c-4def-8e70-e1b88ed092e5@ursulin.net>
-Date: Tue, 24 Feb 2026 16:09:07 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24CFC10E5D0;
+ Tue, 24 Feb 2026 16:10:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 65FDB61118;
+ Tue, 24 Feb 2026 16:10:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C47FC116D0;
+ Tue, 24 Feb 2026 16:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771949438;
+ bh=T0YWfymtQNrEs5hzUd88lUy+/hAsWJqHQKQFm7O92Hk=;
+ h=From:Subject:Date:To:Cc:From;
+ b=uTB1im2V9ydk0nAKQ2NkEDLDwJgN/sce2uY+KOIsYFlUnxBoUKJLKqIfL1Zpcvk3a
+ R/UcyVTIIwVNw/aKgIMXLAUI3M1gtk4rdCr5Ndd0xyj0AsOuZV+dnFZ1ClI3XM3Me6
+ L9TsxkgHnQ0yAzjicfdg4qMqL2lrtX5k+TTRg1E7WxeYTH8oT1j4phRUQuvYkZqcIl
+ YXLD+N8PNE8M013osfW38PsoY2BT8y52xvk5E8qoUJWYr5/N63BqemqivtcEH2zTDN
+ w6gPv44Zjnsd50tdhBaEFOX1M2n/krWWKaoXXDcSokMyYWusIuN4mAQLroevNF1/Ms
+ Q/a0jNuOIgjqg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v5 0/4] drm/atomic: Allocate drm_private_state through a
+ callback
+Date: Tue, 24 Feb 2026 17:10:25 +0100
+Message-Id: <20260224-drm-private-obj-reset-v5-0-5a72f8ec9934@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] drm/ttm: Make a helper for attempting allocation
- in a place
-To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
- Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251110-dmemcg-aggressive-protect-v3-0-219ffcfc54e9@gmx.de>
- <20251110-dmemcg-aggressive-protect-v3-3-219ffcfc54e9@gmx.de>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251110-dmemcg-aggressive-protect-v3-3-219ffcfc54e9@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XPzWoCMRDA8VeRnBuZfK0bT75H6WFiRjdt3chkC
+ YrsuzdaCpay9PgfmN8wN1GIExWxXd0EU00l5bGFe1mJ/YDjkWSKrYUG7RRALyOf5JlTxYlkDu+
+ SqdAkkRTpjVWgNyja7pnpkC4P9/Wt9ZDKlPn6OFPVffqfWJUE2YPDYA1S53D3QTzS5zrzUdzJq
+ p8YZZcY3Zguxg7I9458/MOYH6YDpfwSYxoTvFEYyKAjs2OKA07rfT59M/aJ0YtP2cZ46L06oIk
+ mwC9mnucvuvl8LJABAAA=
+X-Change-ID: 20251008-drm-private-obj-reset-ae1e2741027a
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ amd-gfx@lists.freedesktop.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Jessica Zhang <jesszhan0024@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3150; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=T0YWfymtQNrEs5hzUd88lUy+/hAsWJqHQKQFm7O92Hk=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzz1YKZUacTc/dqc6Ys/3mK/GX/umPzza7ntbhrOcTX
+ DmvzT6/YyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEwkK4Kx4eL/u7nd68/KLpZL
+ 0uszcA3/HaCUfV/GXI+Bv/zWnbyL2QGSPeejd8fHRrVunnhrQ5ILY8OpTjah2Ufq9e+v6ryhWrT
+ qq584p4DWylkHOqeVvej0tb4UoPT6gc7DBe8FJy9Xqa/RPwQA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,282 +100,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ursulin.net];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,amd.com,igalia.com,ideasonboard.com,gmail.com,nvidia.com,vger.kernel.org,oss.qualcomm.com,arm.com,intel.com,linaro.org,crapouillou.net,raspberrypi.com,kwiboo.se,linux.dev,poorly.run,somainline.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.996];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email,ursulin.net:mid,ursulin.net:dkim]
-X-Rspamd-Queue-Id: 18A081898F6
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0C99E18992D
 X-Rspamd-Action: no action
 
+Hi,
 
-On 10/11/2025 12:37, Natalie Vock wrote:
-> ttm_bo_alloc_place is a new helper function to make an attempt at
-> allocating a bo's resource in a specific place. It also makes decisions
-> on whether eviction should be attempted: If -ENOSPC is returned,
-> allocation should not be retried.
+This series started from my work on the hardware state readout[1], and
+was suggested by Dmitry[2].
 
-At first I thought the new helper will get used from more than one call 
-site but it seems that is not the case? No objections to extract some 
-code to be clear, just that when I see a patch title of "making a 
-helper" I expect something different.
+This series deal with the fact that drm_private_obj (and thus bridges)
+are not initialized using the same pattern than any other object. This
+series solves that inconsistency by aligning it to what we're doing for
+all the other objects.
 
-Is there any functional difference here or it is just prep to enable 
-easier extending in the following patch? If no functional difference it 
-is good to state that in the commit message. If functional difference 
-please explain what and why.
+This was tested on a TI SK-AM62, with three bridges.
 
-Also please explain that the patch is only adding a new struct parameter 
-as a preparation for it being extended.
+Let me know what you think,
+Maxime
 
-> 
-> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c | 98 +++++++++++++++++++++++++++++++++-----------
->   1 file changed, 73 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index f4d9e68b21e70..829d994798835 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
->   	return ret;
->   }
->   
-> +struct ttm_bo_alloc_state {
-> +	/** @limit_pool: Which pool limit we should test against */
-> +	struct dmem_cgroup_pool_state *limit_pool;
-> +};
-> +
->   /**
->    * struct ttm_bo_evict_walk - Parameters for the evict walk.
->    */
-> @@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
->   	/** @evicted: Number of successful evictions. */
->   	unsigned long evicted;
->   
-> -	/** @limit_pool: Which pool limit we should test against */
-> -	struct dmem_cgroup_pool_state *limit_pool;
->   	/** @try_low: Whether we should attempt to evict BO's with low watermark threshold */
->   	bool try_low;
->   	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass) */
->   	bool hit_low;
-> +
-> +	/** @alloc_state: */
-> +	struct ttm_bo_alloc_state *alloc_state;
->   };
->   
->   static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
-> @@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
->   		container_of(walk, typeof(*evict_walk), walk);
->   	s64 lret;
->   
-> -	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resource->css,
-> -					      evict_walk->try_low, &evict_walk->hit_low))
-> +	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_pool,
-> +					      bo->resource->css, evict_walk->try_low,
-> +					      &evict_walk->hit_low))
->   		return 0;
->   
->   	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
-> @@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   			      struct ttm_operation_ctx *ctx,
->   			      struct ww_acquire_ctx *ticket,
->   			      struct ttm_resource **res,
-> -			      struct dmem_cgroup_pool_state *limit_pool)
-> +			      struct ttm_bo_alloc_state *state)
->   {
->   	struct ttm_bo_evict_walk evict_walk = {
->   		.walk = {
-> @@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   		.place = place,
->   		.evictor = evictor,
->   		.res = res,
-> -		.limit_pool = limit_pool,
-> +		.alloc_state = state,
->   	};
->   	s64 lret;
->   
-> @@ -688,6 +695,47 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->   	return ret;
->   }
->   
-> +
-> +/**
-> + * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a place
-> + *
-> + * @bo: The buffer to allocate the backing store of
-> + * @place: The place to attempt allocation in
-> + * @ctx: ttm_operation_ctx associated with this allocation
-> + * @force_space: If we should evict buffers to force space
-> + * @res: On allocation success, the resulting struct ttm_resource.
-> + * @alloc_state: Object holding allocation state such as charged cgroups.
-> + *
-> + * Returns:
-> + * -EBUSY: No space available, but allocation should be retried with eviction.
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x/
 
-With or after eviction?
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v5:
+- Rebase to drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com
 
-> + * -ENOSPC: No space available, allocation should not be retried.
-> + * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
+Changes in v4:
+- Fix a circular dependencies between modules by calling
+  __drm_atomic_helper_private_obj_create_state from
+  __drm_atomic_helper_bridge_reset instead of
+  drm_bridge_atomic_create_priv_state()
+- Link to v3: https://lore.kernel.org/r/20260119-drm-private-obj-reset-v3-0-b931abe3a5e3@redhat.com
 
--EAGAIN cannot get out from ttm_resource_alloc()? In the current 
-codebase or only with this patch?
+Changes in v3:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v2: https://lore.kernel.org/r/20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org
 
-> + *
-> + */
-> +static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
-> +				 const struct ttm_place *place,
-> +				 struct ttm_operation_ctx *ctx,
-> +				 bool force_space,
-> +				 struct ttm_resource **res,
-> +				 struct ttm_bo_alloc_state *alloc_state)
+Changes in v2:
+- Switch to a new hook instead of reset since some drm_private_objs want
+  to persist across suspends
+- Drop the call to drm_private_obj_funcs.reset in
+  drm_mode_config_reset()
+- Link to v1: https://lore.kernel.org/r/20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org
 
-Maybe you did not write this but I am curious and thinking out loud 
-here. The documentation for struct ttm_operation_ctx among other things 
-says:
+---
+Maxime Ripard (4):
+      drm/amdgpu: Switch private_obj initialization to atomic_create_state
+      drm/omapdrm: Switch private_obj initialization to atomic_create_state
+      drm/tegra: Switch private_obj initialization to atomic_create_state
+      drm/atomic: Remove state argument to drm_atomic_private_obj_init
 
-"""
-  * Context for TTM operations like changing buffer placement or general 
-memory
-  * allocation.
-"""
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 51 ++++++++++++----------
+ .../drm/arm/display/komeda/komeda_private_obj.c    | 16 +++----
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |  1 -
+ drivers/gpu/drm/display/drm_dp_tunnel.c            |  2 +-
+ drivers/gpu/drm/drm_atomic.c                       | 22 +++-------
+ drivers/gpu/drm/drm_bridge.c                       |  1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  2 +-
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  1 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  1 -
+ drivers/gpu/drm/omapdrm/omap_drv.c                 | 22 +++++++---
+ drivers/gpu/drm/tegra/hub.c                        | 22 +++++++---
+ drivers/gpu/drm/vc4/vc4_kms.c                      |  4 +-
+ include/drm/drm_atomic.h                           |  1 -
+ 14 files changed, 76 insertions(+), 72 deletions(-)
+---
+base-commit: 196b2b95fec447c2c4460f753b277d840633fbef
+change-id: 20251008-drm-private-obj-reset-ae1e2741027a
 
-Hence I am wondering if the new alloc_state couldn't simply go in there? 
-Which would make the function prototype identical to the existing 
-ttm_bo_alloc_resource and is also already passed through the relevant 
-call chains. Which raises another question - why did 
-ttm_bo_evict_alloc() need to have struct dmem_cgroup_pool_state as a 
-separate argument and why it couldn't be passed in the context?
-
-> +{
-> +	bool may_evict;
-> +	int ret;
-> +
-> +	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> +
-> +	ret = ttm_resource_alloc(bo, place, res,
-> +				 force_space ? &alloc_state->limit_pool : NULL);
-> +
-> +	if (ret) {
-> +		if ((ret == -ENOSPC || ret == -EAGAIN) && may_evict)
-> +			ret = -EBUSY;
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   /**
->    * ttm_bo_alloc_resource - Allocate backing store for a BO
->    *
-> @@ -713,7 +761,9 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   				 bool force_space,
->   				 struct ttm_resource **res)
->   {
-> +	struct ttm_bo_alloc_state alloc_state = {0};
-
-= {}; is usually enough.
-
-Any particular reason to move this and the manager outside of the loop?
-
->   	struct ttm_device *bdev = bo->bdev;
-> +	struct ttm_resource_manager *man;
->   	struct ww_acquire_ctx *ticket;
->   	int i, ret;
->   
-> @@ -724,9 +774,6 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   
->   	for (i = 0; i < placement->num_placement; ++i) {
->   		const struct ttm_place *place = &placement->placement[i];
-> -		struct dmem_cgroup_pool_state *limit_pool = NULL;
-> -		struct ttm_resource_manager *man;
-> -		bool may_evict;
->   
->   		man = ttm_manager_type(bdev, place->mem_type);
->   		if (!man || !ttm_resource_manager_used(man))
-> @@ -736,25 +783,26 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   				    TTM_PL_FLAG_FALLBACK))
->   			continue;
->   
-> -		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
-> -		if (ret) {
-> -			if (ret != -ENOSPC && ret != -EAGAIN) {
-> -				dmem_cgroup_pool_state_put(limit_pool);
-> -				return ret;
-> -			}
-> -			if (!may_evict) {
-> -				dmem_cgroup_pool_state_put(limit_pool);
-> -				continue;
-> -			}
-> +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
-> +				res, &alloc_state);
->   
-> +		if (ret == -ENOSPC) {
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +			continue;
-
-I always disliked the TTM eviction logic and now I remember why. It 
-requires a brain size of a small planet to figure out the flow.. :) I'd 
-say this change makes it more readable.
-
-> +		} else if (ret == -EBUSY) {
->   			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
-> -						 ticket, res, limit_pool);
-> -			dmem_cgroup_pool_state_put(limit_pool);
-> -			if (ret == -EBUSY)
-> +						 ticket, res, &alloc_state);
-> +
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +
-> +			if (ret) {
-> +				if (ret != -ENOSPC && ret != -EBUSY)
-> +					return ret;
->   				continue;
-
-Is this a functional change and why? Before only EBUSY went to the next 
-placement. Now ENOSPC does as well.
-
-Regards,
-
-Tvrtko
-
-> -			if (ret)
-> -				return ret;
-> +			}
-> +		} else if (ret) {
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +			return ret;
->   		}
->   
->   		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
-> 
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
