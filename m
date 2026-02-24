@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sPh/HbPFnWnsRwQAu9opvQ
+	id eOeKJLbFnWnsRwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:23 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61DD1891DC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303CF1891EA
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A4710E5B5;
-	Tue, 24 Feb 2026 15:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7290510E5B9;
+	Tue, 24 Feb 2026 15:37:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UfusNNtD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPy0lz3J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UfusNNtD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPy0lz3J";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EubmIczt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F192DZy+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EubmIczt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F192DZy+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E924310E5B7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFB010E5B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:20 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 071CD3F2BF;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 62E4A3F2C2;
  Tue, 24 Feb 2026 15:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1771947423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
- b=UfusNNtDWvrxsCxItCVmTu72t7SKnoiIq9Ec7pYxd/ln+plOMusrybppJvkZnFdyXEvWl9
- KxoI53HYNA6S4Q9WIr+EV9t1z233lezk6f6mZAdiLwwkqacQng6cvCpSscrCMzKK9Ea0AN
- xgRsI1z9tbXp9Xz0G7K16Ee15f8VvZM=
+ bh=safOkRNKa2w3flIZ5ugDyc4T7hZtCbibbDm5nU2wtvY=;
+ b=EubmIcztcuEdgw12A9CG5Gba9AgXZw6MgjesaVNwaedt7Gcj6XdbAHRF0DilAe0Ku6qOA4
+ QjSTbmwR/7y/++t2ZAMUKlft6NZk38y2ABOY4+H9Xntge91e7+ySIn+XUetRPfmqO0SjMH
+ vQkHiD+90ShpG8V6yorE81hSRgcnp+M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1771947423;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
- b=BPy0lz3JqljploozignzewxLaPsIQSq9hEEdoAAeo0KowhN+ZE6xvmQRDQq5ch9mpO6erU
- cxKrGtm819WgO2Dw==
+ bh=safOkRNKa2w3flIZ5ugDyc4T7hZtCbibbDm5nU2wtvY=;
+ b=F192DZy+jOuGiPAvyWdqjDgiiqm3ST+iF/xxG5lkfHNHRd29jjO94opuINM5Hpq6yq7kIo
+ 7FhCRA6246UaNDDQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -54,27 +54,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
- b=UfusNNtDWvrxsCxItCVmTu72t7SKnoiIq9Ec7pYxd/ln+plOMusrybppJvkZnFdyXEvWl9
- KxoI53HYNA6S4Q9WIr+EV9t1z233lezk6f6mZAdiLwwkqacQng6cvCpSscrCMzKK9Ea0AN
- xgRsI1z9tbXp9Xz0G7K16Ee15f8VvZM=
+ bh=safOkRNKa2w3flIZ5ugDyc4T7hZtCbibbDm5nU2wtvY=;
+ b=EubmIcztcuEdgw12A9CG5Gba9AgXZw6MgjesaVNwaedt7Gcj6XdbAHRF0DilAe0Ku6qOA4
+ QjSTbmwR/7y/++t2ZAMUKlft6NZk38y2ABOY4+H9Xntge91e7+ySIn+XUetRPfmqO0SjMH
+ vQkHiD+90ShpG8V6yorE81hSRgcnp+M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1771947423;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
- b=BPy0lz3JqljploozignzewxLaPsIQSq9hEEdoAAeo0KowhN+ZE6xvmQRDQq5ch9mpO6erU
- cxKrGtm819WgO2Dw==
+ bh=safOkRNKa2w3flIZ5ugDyc4T7hZtCbibbDm5nU2wtvY=;
+ b=F192DZy+jOuGiPAvyWdqjDgiiqm3ST+iF/xxG5lkfHNHRd29jjO94opuINM5Hpq6yq7kIo
+ 7FhCRA6246UaNDDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B82D3EA68;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 042E43EA69;
  Tue, 24 Feb 2026 15:37:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id IDGPJJ7FnWm0FgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gA0yO57FnWm0FgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 24 Feb 2026 15:37:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
@@ -83,18 +83,18 @@ To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
  airlied@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/16] drm/hx8357d: Use regular atomic helpers;
+Subject: [PATCH 05/16] drm/ili9163: Use regular atomic helpers;
  drop simple-display helpers
-Date: Tue, 24 Feb 2026 16:24:41 +0100
-Message-ID: <20260224153656.261351-5-tzimmermann@suse.de>
+Date: Tue, 24 Feb 2026 16:24:42 +0100
+Message-ID: <20260224153656.261351-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260224153656.261351-1-tzimmermann@suse.de>
 References: <20260224153656.261351-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -1.30
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,35 +144,35 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D61DD1891DC
+X-Rspamd-Queue-Id: 303CF1891EA
 X-Rspamd-Action: no action
 
 Replace simple-display helpers with regular atomic helpers. Store the
-pipeline elements in struct hx8357d_device and initialize them as part
+pipeline elements in struct ili9163_device and initialize them as part
 of probing the device. Use mipi-dbi's existing helpers and initializer
 macros where possible.
 
 Effectively open-codes the modesetting code in the initializer helpers
-of mipi-dbi and simple-display. Hx8357d requires a custom helper for
+of mipi-dbi and simple-display. Ili9163 requires a custom helper for
 CRTC enablement, and non-freeing cleanup of the pipeline.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/hx8357d.c | 135 +++++++++++++++++++++++++++++----
- 1 file changed, 122 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/tiny/ili9163.c | 136 +++++++++++++++++++++++++++++----
+ 1 file changed, 122 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
-index 5115be8854bb..f5c50c9ebdfa 100644
---- a/drivers/gpu/drm/tiny/hx8357d.c
-+++ b/drivers/gpu/drm/tiny/hx8357d.c
-@@ -46,16 +46,48 @@
- #define HX8357D_MADCTL_BGR 0x08
- #define HX8357D_MADCTL_MH  0x04
+diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
+index c616f56af5b5..ce9d8a18e825 100644
+--- a/drivers/gpu/drm/tiny/ili9163.c
++++ b/drivers/gpu/drm/tiny/ili9163.c
+@@ -35,16 +35,48 @@
+ #define ILI9163_MADCTL_MX	BIT(6)
+ #define ILI9163_MADCTL_MY	BIT(7)
  
 -static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
 -			     struct drm_crtc_state *crtc_state,
 -			     struct drm_plane_state *plane_state)
-+struct hx8357d_device {
++struct ili9163_device {
 +	struct mipi_dbi_dev dbidev;
 +
 +	struct drm_plane plane;
@@ -181,35 +181,35 @@ index 5115be8854bb..f5c50c9ebdfa 100644
 +	struct drm_connector connector;
 +};
 +
-+static struct hx8357d_device *to_hx8357d_device(struct drm_device *dev)
++static struct ili9163_device *to_ili9163_device(struct drm_device *dev)
  {
 -	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	return container_of(drm_to_mipi_dbi_dev(dev), struct hx8357d_device, dbidev);
++	return container_of(drm_to_mipi_dbi_dev(dev), struct ili9163_device, dbidev);
 +}
 +
-+static const u32 hx8357d_plane_formats[] = {
++static const u32 ili9163_plane_formats[] = {
 +	DRM_MIPI_DBI_PLANE_FORMATS,
 +};
 +
-+static const u64 hx8357d_plane_format_modifiers[] = {
++static const u64 ili9163_plane_format_modifiers[] = {
 +	DRM_MIPI_DBI_PLANE_FORMAT_MODIFIERS,
 +};
 +
-+static const struct drm_plane_helper_funcs hx8357d_plane_helper_funcs = {
++static const struct drm_plane_helper_funcs ili9163_plane_helper_funcs = {
 +	DRM_MIPI_DBI_PLANE_HELPER_FUNCS,
 +};
 +
-+static const struct drm_plane_funcs hx8357d_plane_funcs = {
++static const struct drm_plane_funcs ili9163_plane_funcs = {
 +	DRM_MIPI_DBI_PLANE_FUNCS,
 +	.destroy = drm_plane_cleanup,
 +};
 +
-+static void hx8357d_crtc_helper_atomic_enable(struct drm_crtc *crtc,
++static void ili9163_crtc_helper_atomic_enable(struct drm_crtc *crtc,
 +					      struct drm_atomic_state *state)
 +{
 +	struct drm_device *drm = crtc->dev;
-+	struct hx8357d_device *hx8357d = to_hx8357d_device(drm);
-+	struct mipi_dbi_dev *dbidev = &hx8357d->dbidev;
++	struct ili9163_device *ili9163 = to_ili9163_device(drm);
++	struct mipi_dbi_dev *dbidev = &ili9163->dbidev;
  	struct mipi_dbi *dbi = &dbidev->dbi;
  	u8 addr_mode;
  	int ret, idx;
@@ -219,51 +219,52 @@ index 5115be8854bb..f5c50c9ebdfa 100644
  		return;
  
  	DRM_DEBUG_KMS("\n");
-@@ -183,8 +215,35 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+@@ -102,8 +134,35 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
  	drm_dev_exit(idx);
  }
  
--static const struct drm_simple_display_pipe_funcs hx8357d_pipe_funcs = {
+-static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
 -	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(yx240qv29_enable),
-+static const struct drm_crtc_helper_funcs hx8357d_crtc_helper_funcs = {
++static const struct drm_crtc_helper_funcs ili9163_crtc_helper_funcs = {
 +	DRM_MIPI_DBI_CRTC_HELPER_FUNCS,
-+	.atomic_enable = hx8357d_crtc_helper_atomic_enable,
++	.atomic_enable = ili9163_crtc_helper_atomic_enable,
 +};
 +
-+static const struct drm_crtc_funcs hx8357d_crtc_funcs = {
++static const struct drm_crtc_funcs ili9163_crtc_funcs = {
 +	DRM_MIPI_DBI_CRTC_FUNCS,
 +	.destroy = drm_crtc_cleanup,
 +};
 +
-+static const struct drm_encoder_funcs hx8357d_encoder_funcs = {
++static const struct drm_encoder_funcs ili9163_encoder_funcs = {
 +	.destroy = drm_encoder_cleanup,
 +};
 +
-+static const struct drm_connector_helper_funcs hx8357d_connector_helper_funcs = {
++static const struct drm_connector_helper_funcs ili9163_connector_helper_funcs = {
 +	DRM_MIPI_DBI_CONNECTOR_HELPER_FUNCS,
 +};
 +
-+static const struct drm_connector_funcs hx8357d_connector_funcs = {
++static const struct drm_connector_funcs ili9163_connector_funcs = {
 +	DRM_MIPI_DBI_CONNECTOR_FUNCS,
 +	.destroy = drm_connector_cleanup,
 +};
 +
-+static const struct drm_mode_config_helper_funcs hx8357d_mode_config_helper_funcs = {
++static const struct drm_mode_config_helper_funcs ili9163_mode_config_helper_funcs = {
 +	DRM_MIPI_DBI_MODE_CONFIG_HELPER_FUNCS,
 +};
 +
-+static const struct drm_mode_config_funcs hx8357d_mode_config_funcs = {
++static const struct drm_mode_config_funcs ili9163_mode_config_funcs = {
 +	DRM_MIPI_DBI_MODE_CONFIG_FUNCS,
  };
  
- static const struct drm_display_mode yx350hv15_mode = {
-@@ -220,17 +279,21 @@ MODULE_DEVICE_TABLE(spi, hx8357d_id);
- static int hx8357d_probe(struct spi_device *spi)
+ static const struct drm_display_mode yx240qv29_mode = {
+@@ -139,19 +198,22 @@ MODULE_DEVICE_TABLE(spi, ili9163_id);
+ static int ili9163_probe(struct spi_device *spi)
  {
  	struct device *dev = &spi->dev;
-+	struct hx8357d_device *hx8357d;
++	struct ili9163_device *ili9163;
  	struct mipi_dbi_dev *dbidev;
  	struct drm_device *drm;
+ 	struct mipi_dbi *dbi;
  	struct gpio_desc *dc;
 +	struct drm_plane *plane;
 +	struct drm_crtc *crtc;
@@ -272,24 +273,25 @@ index 5115be8854bb..f5c50c9ebdfa 100644
  	u32 rotation = 0;
  	int ret;
  
--	dbidev = devm_drm_dev_alloc(dev, &hx8357d_driver,
+-	dbidev = devm_drm_dev_alloc(dev, &ili9163_driver,
 -				    struct mipi_dbi_dev, drm);
 -	if (IS_ERR(dbidev))
 -		return PTR_ERR(dbidev);
 -
-+	hx8357d = devm_drm_dev_alloc(dev, &hx8357d_driver, struct hx8357d_device, dbidev.drm);
-+	if (IS_ERR(hx8357d))
-+		return PTR_ERR(hx8357d);
-+	dbidev = &hx8357d->dbidev;
+-	dbi = &dbidev->dbi;
++	ili9163 = devm_drm_dev_alloc(dev, &ili9163_driver, struct ili9163_device, dbidev.drm);
++	if (IS_ERR(ili9163))
++		return PTR_ERR(ili9163);
++	dbidev = &ili9163->dbidev;
  	drm = &dbidev->drm;
  
- 	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-@@ -247,7 +310,53 @@ static int hx8357d_probe(struct spi_device *spi)
+ 	spi_set_drvdata(spi, drm);
+@@ -178,7 +240,53 @@ static int ili9163_probe(struct spi_device *spi)
  	if (ret)
  		return ret;
  
--	ret = mipi_dbi_dev_init(dbidev, &hx8357d_pipe_funcs, &yx350hv15_mode, rotation);
-+	ret = drm_mipi_dbi_dev_init(dbidev, &yx350hv15_mode, hx8357d_plane_formats[0],
+-	ret = mipi_dbi_dev_init(dbidev, &ili9163_pipe_funcs, &yx240qv29_mode, rotation);
++	ret = drm_mipi_dbi_dev_init(dbidev, &yx240qv29_mode, ili9163_plane_formats[0],
 +				    rotation, 0);
 +	if (ret)
 +		return ret;
@@ -302,38 +304,38 @@ index 5115be8854bb..f5c50c9ebdfa 100644
 +	drm->mode_config.max_width = dbidev->mode.hdisplay;
 +	drm->mode_config.min_height = dbidev->mode.vdisplay;
 +	drm->mode_config.max_height = dbidev->mode.vdisplay;
-+	drm->mode_config.funcs = &hx8357d_mode_config_funcs;
++	drm->mode_config.funcs = &ili9163_mode_config_funcs;
 +	drm->mode_config.preferred_depth = 16;
-+	drm->mode_config.helper_private = &hx8357d_mode_config_helper_funcs;
++	drm->mode_config.helper_private = &ili9163_mode_config_helper_funcs;
 +
-+	plane = &hx8357d->plane;
-+	ret = drm_universal_plane_init(drm, plane, 0, &hx8357d_plane_funcs,
-+				       hx8357d_plane_formats, ARRAY_SIZE(hx8357d_plane_formats),
-+				       hx8357d_plane_format_modifiers,
++	plane = &ili9163->plane;
++	ret = drm_universal_plane_init(drm, plane, 0, &ili9163_plane_funcs,
++				       ili9163_plane_formats, ARRAY_SIZE(ili9163_plane_formats),
++				       ili9163_plane_format_modifiers,
 +				       DRM_PLANE_TYPE_PRIMARY, NULL);
 +	if (ret)
 +		return ret;
-+	drm_plane_helper_add(plane, &hx8357d_plane_helper_funcs);
++	drm_plane_helper_add(plane, &ili9163_plane_helper_funcs);
 +	drm_plane_enable_fb_damage_clips(plane);
 +
-+	crtc = &hx8357d->crtc;
-+	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL, &hx8357d_crtc_funcs, NULL);
++	crtc = &ili9163->crtc;
++	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL, &ili9163_crtc_funcs, NULL);
 +	if (ret)
 +		return ret;
-+	drm_crtc_helper_add(crtc, &hx8357d_crtc_helper_funcs);
++	drm_crtc_helper_add(crtc, &ili9163_crtc_helper_funcs);
 +
-+	encoder = &hx8357d->encoder;
-+	ret = drm_encoder_init(drm, encoder, &hx8357d_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
++	encoder = &ili9163->encoder;
++	ret = drm_encoder_init(drm, encoder, &ili9163_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
 +	if (ret)
 +		return ret;
 +	encoder->possible_crtcs = drm_crtc_mask(crtc);
 +
-+	connector = &hx8357d->connector;
-+	ret = drm_connector_init(drm, connector, &hx8357d_connector_funcs,
++	connector = &ili9163->connector;
++	ret = drm_connector_init(drm, connector, &ili9163_connector_funcs,
 +				 DRM_MODE_CONNECTOR_SPI);
 +	if (ret)
 +		return ret;
-+	drm_connector_helper_add(&dbidev->connector, &hx8357d_connector_helper_funcs);
++	drm_connector_helper_add(&dbidev->connector, &ili9163_connector_helper_funcs);
 +
 +	ret = drm_connector_attach_encoder(connector, encoder);
  	if (ret)
