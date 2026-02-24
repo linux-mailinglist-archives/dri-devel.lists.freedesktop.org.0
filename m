@@ -2,114 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +MYxMixTnWk2OgQAu9opvQ
+	id +NU4JkxUnWk2OgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:28:44 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE6D183073
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AFF183101
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2F010E4C7;
-	Tue, 24 Feb 2026 07:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0288810E4CA;
+	Tue, 24 Feb 2026 07:33:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="BiP9EZDD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dOBj5hr6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B51410E4C7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:28:41 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-48371bb515eso64323155e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 23:28:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771918119; cv=none;
- d=google.com; s=arc-20240605;
- b=H8BQDDAp6iDhjOizId+QWxk4Jz7wiwmdCyMITsNgIBcqcZF0EyaJf/AKMB6POymng/
- EzjDaTU55azrV0kwBHsgI+AeuPeFiWfOKqb264OmCJlhNitJj4+78OXET2Mgc0CrPZYi
- bUx85WVBo28tm3WBvcAlqCOyt5hjuRMBPjVM7/9Hh/r0MTaN/+xN/NYz8RGnZzNtWTlC
- rPK+WiY5LcPkolw3uUJodKLRaTKkZyqBTPm1ye9aLbWiCHTQmzfFWrbZtdHOdImuPCPc
- UqDj2g0a5Mz1VfZdoPWJ1uap1XQO845j9SFZP+8Yt5deLX2Ei/swHPfoiFkcTt3PLRG0
- nXCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=ADQ2LS0GC1QDa36+EuaOS8kzbv7z7Bp7Bm4Gt5ISiek=;
- fh=JvpniaEtiKYMel2QJD1VmamviJxmLWcuPGVN5pMCzS0=;
- b=hdyKex7nKwMCNEvlt+R7H5nZ9jPbvFbEjE31AKjXtcTDzadm3+ZsJhj+MUxZkx2rIR
- OJDtKNg/ZTfcKK9nGa603iCty/TJtkghYFg2UnwhftLCQ+4VYCWid3zzHGrSQDCGB03H
- Yc8JbVpQ4JbUqNlEc4cEqwwbA83L6FzmnPQj+/Yyt0H8NNcCnA7K8yDOj+gAH5Xh9iVW
- ddGXA/ZCAMektkMMslRLuwPpAEGYtRSnZnL+DhJdZyrRP3w+hVv0iqi64s2SOtJAZr7h
- pT30Pig6zfwrKy/HI5XDZXbtoE/nnkoBYDogh55WCTxjNYtOsxNZyZA/Q0mYtw4QPdeS
- b8Jw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1771918119; x=1772522919;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ADQ2LS0GC1QDa36+EuaOS8kzbv7z7Bp7Bm4Gt5ISiek=;
- b=BiP9EZDDtcLpdRooNygHPLepMmIBRIcsNwnQhP6p2Y1TzWhehGC1K0ri47ycFCdKLo
- 5bIyTNo4j8agl+YqC5Byg2ZtrdeqtOPozAjaEzpXRbMHvp6jjR51LRvfxJQLJDzbv5nD
- bslQgHOS2Yr+XyK+ZsXgSi7OzYpR62SeNOqzaqpdDWvtf7LaTLSZxT6JHoEYXZxx4OH5
- fV5414FkTmHr1Ba7mKYi1OgxWGGoK2lZTYfuoKHhLHYcTRdddLliIQc1lOjH3Waxxd4G
- DG5XmFJ1eIzC1Bct3Gr8sqcxNYFRBSGf/NTeGK+tc6pvnFqx1DDXPbTFPQ/pCm/vNKh7
- uf2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771918119; x=1772522919;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ADQ2LS0GC1QDa36+EuaOS8kzbv7z7Bp7Bm4Gt5ISiek=;
- b=SnHPRJZhIMkbvDoDMLAc0S3ayUdDsHgb/0B3LNiLsId5EK6aMtBfHL1Tb8B7zBvRBE
- qgum/U5+o2EuvnmlAQ1JTKbbu3hfvOSMslwhkd4tQnH5+qlij/vGyj2eMfuY9pZLTRQJ
- xnIMGF0b0T9mh5iLNoZLRueO/+Tmc9aN3jOcM6z2aF9KY+YlZr6rR85AWWBuiaNVV0yt
- I6eRnpoaPkaX7xirgUppXU1tGYzCWipPyVxFV7D5KXRMOzCB999yAxH645DNM1WtWljF
- Hbrdfm10XtOnUdf0FIZ0TdPL65j5SK8nCj8dAVASdDlVT+SXQAPHCKCYsVmgN0X9rh0r
- Iwow==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtQcCcmBWZVT4P90NOVOx+lPa4iB7Q5OPDhvvN7Wr+bo8fSuSKJRPUs2VfTlPdFoH77dmokPjBY0E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0lqwL8bezsLnUUM+bbXuzFJ2+X9lIc6UiNyd03AQRb/1ldOQ3
- VLsgRjCpcORjJ6OcJp9+maPyjnsUr1/Rs2XjwgzKRGqLM2poGsiXZ1691JfXbDzZqo+K44IYEBe
- OatZe7PmBNfqKLKiB99i7vYuvN8NyPFPA+CLB9yNK
-X-Gm-Gg: AZuq6aL8LyL1pLF8xvMPHtdniJ2JzGesr+LcP6HEUI9SkeWAktXx5jBNQ3a/w461EHQ
- w8EGK975/ailD7p26INP7zlkBlAZ79AiVkFzTt8EGFSvDE1w9krqYRySJWYBnkTuaSt1CWxKjt3
- x0b4Smg8kEa1DFKfpsWILiAxrYB+NuFWGmWDgS3QoYpZj6dEl7wGrP2q6CPIk00Fg8QjE4g1HL3
- LHz/xJuhSzZ6HsZ6WMdLAMXZ0k2TCG306Vgda+fY/Dyp1va0oaZrFG1RCPdTyNyk6JK3uSuXFWe
- 1NU3F+D0x7QPitxaiRk9zSLr2TH/+BSyqG02xA==
-X-Received: by 2002:a05:600c:8109:b0:483:8e43:6dce with SMTP id
- 5b1f17b1804b1-483a963a003mr172969955e9.29.1771918119178; Mon, 23 Feb 2026
- 23:28:39 -0800 (PST)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6418110E4CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:33:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 9A4CD60054;
+ Tue, 24 Feb 2026 07:33:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02DFC116D0;
+ Tue, 24 Feb 2026 07:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771918406;
+ bh=iSrxIteL09UwbTf0pHcuwTnurNV8ahNwtNfe1PxWgRw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dOBj5hr66QT20j6MHiHga5gYS+yI48mcDrW/1Jl2T+HDmrJugSG+G/0RjSWZDLBqf
+ 96+4YFsYuZkFtqQep2t7h/LBG59Av+HNH1VvDHq69DPCtWT9u6w44etw4G0Rrvtc4A
+ ov5NZZ/HQWe4JJmXf3PbiFPVAHHh8k40s9iaA7nVixyPTq29GdTyWR9jjohL4NJejJ
+ WaxFJbliI+bKEx+kFSpxkzDxL1OW/uXlsCu7ob4Fm29eXXJZ2fGbb9Roerj4mxk4Fj
+ LPymdkwGp/dLfp1+WtI0OToh53oT18tFYbuNZG/tIDy8Y38mdks5uk5SP3UccRTJz1
+ ZpHN/M1QYAgdw==
+Date: Tue, 24 Feb 2026 08:33:23 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hermes Wu <Hermes.wu@ite.com.tw>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Pet.Weng@ite.com.tw,
+ Kenneth.Hung@ite.com.tw, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: display: bridge: Add ITE IT6162 MIPI
+ DSI to HDMI bridge
+Message-ID: <20260224-sassy-perch-of-enrichment-aa7c41@quoll>
+References: <20260223-upstream-6162-v1-0-ebcc66ccb1fe@ite.com.tw>
+ <20260223-upstream-6162-v1-2-ebcc66ccb1fe@ite.com.tw>
 MIME-Version: 1.0
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGJN2M93S4ED.3272CCZWMRYOA@nvidia.com>
- <a7be758a-65ee-4572-b8ba-6d4a8d65af73@nvidia.com>
-In-Reply-To: <a7be758a-65ee-4572-b8ba-6d4a8d65af73@nvidia.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 24 Feb 2026 08:28:27 +0100
-X-Gm-Features: AaiRm50cmDpg-9YGkfyHUtxGyx8jesE30IQsaptAynPPK_BJKBTapWH8sOvIRP8
-Message-ID: <CAH5fLgicH9u18pWYYkQqxZBT8WEig3bDP8JFT9VfDtG6McijQw@mail.gmail.com>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, Dave Airlie <airlied@redhat.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>, 
- dri-devel <dri-devel-bounces@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260223-upstream-6162-v1-2-ebcc66ccb1fe@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,108 +75,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:joelagnelf@nvidia.com,m:ecourtney@nvidia.com,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:acourbot@nvidia.com,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:koen.koning@linux.intel.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,m:dri-devel-bounces@lists.freedesktop.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS(0.00)[m:Hermes.wu@ite.com.tw,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Pet.Weng@ite.com.tw,m:Kenneth.Hung@ite.com.tw,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,kernel.org,garyguo.net,protonmail.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,ite.com.tw,lists.freedesktop.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 3CE6D183073
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,bootlin.com:url,devicetree.org:url,ite.com.tw:email,60hz:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 26AFF183101
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 2:13=E2=80=AFAM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
->
-> Hi Eliot,
->
-> On 2/20/2026 3:16 AM, Eliot Courtney wrote:
-> > On Thu Feb 19, 2026 at 5:55 AM JST, Joel Fernandes wrote:
-> >> +/// Create a C doubly-circular linked list interface `CList` from a r=
-aw `list_head` pointer.
-> >> +///
-> >> +/// This macro creates a `CList<T, OFFSET>` that can iterate over ite=
-ms of type `$rust_type`
-> >> +/// linked via the `$field` field in the underlying C struct `$c_type=
-`.
-> >> +///
-> >> +/// # Arguments
-> >> +///
-> >> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut =
-bindings::list_head`).
-> >> +/// - `$rust_type`: Each item's rust wrapper type.
-> >> +/// - `$c_type`: Each item's C struct type that contains the embedded=
- `list_head`.
-> >> +/// - `$field`: The name of the `list_head` field within the C struct=
-.
-> >> +///
-> >> +/// # Safety
-> >> +///
-> >> +/// This is an unsafe macro. The caller must ensure:
-> >> +///
-> >> +/// - `$head` is a valid, initialized sentinel `list_head` pointing t=
-o a list that remains
-> >> +///   unmodified for the lifetime of the rust `CList`.
-> >> +/// - The list contains items of type `$c_type` linked via an embedde=
-d `$field`.
-> >> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has co=
-mpatible layout.
-> >> +///
-> >> +/// # Examples
-> >> +///
-> >> +/// Refer to the examples in this module's documentation.
-> >> +#[macro_export]
-> >> +macro_rules! clist_create {
-> >> +    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) =3D> {{
-> >> +        // Compile-time check that field path is a list_head.
-> >> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_he=
-ad =3D
-> >> +            |p| &raw const (*p).$($field).+;
-> >> +
-> >> +        // Calculate offset and create `CList`.
-> >> +        const OFFSET: usize =3D ::core::mem::offset_of!($c_type, $($f=
-ield).+);
-> >> +        $crate::ffi::clist::CList::<$rust_type, OFFSET>::from_raw($he=
-ad)
-> >> +    }};
-> >> +}
-> >
-> > This uses offset_of! in a way that requires the offset_of_nested
-> > feature, so it doesn't build in rust 1.78.0. The feature is already
-> > added to rust_allowed_features, so I think it's ok to add
-> > #![feature(offset_of_nested)].
->
-> Maybe I am missing something, but why should the feature be gated behind
-> that if all compiler versions (>=3D 1.78) support it either in a stable w=
-ay
-> or via an unstable feature flag?
+On Mon, Feb 23, 2026 at 05:20:46PM +0800, Hermes Wu wrote:
+> Add device tree binding documentation for the ITE IT6162 MIPI DSI to
+> HDMI 2.0 bridge chip. The IT6162 is an I2C-controlled bridge that
+> supports the following configurations:
+> 
+>   - Single MIPI DSI input: up to 4K @ 30Hz
+>   - Dual MIPI DSI input (combined): up to 4K @ 60Hz
+> 
+> The chip also supports up to 8-channel audio output via 4 I2S data
+> channels.
+> 
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> ---
+>  .../bindings/display/bridge/ite,it6162.yaml        | 156 +++++++++++++++++++++
+>  1 file changed, 156 insertions(+)
+> 
 
-The rust_allowed_features list only applies to drivers and such. It
-doesn't apply to the Rust crates in the rust/ directory, which need to
-use #![feature] annotations manually.
+Please organize the patch documenting the compatible (DT bindings)
+before the patch using that compatible.
+See also: https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
 
-Alice
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..31f809a83c305447a152e14b20cb39ef1f816911
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
+> @@ -0,0 +1,156 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/ite,it6162.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ITE IT6162 MIPI DSI to HDMI2.0 Bridge
+> +
+> +maintainers:
+> +  - Hermes Wu <Hermes.Wu@ite.com.tw>
+> +
+> +description: |
+> +  The ITE IT6162 is a high-performance, low-power HDMI bridge that converts
+> +  2 MIPI DSI signal to 1 HDMI2.0. It supports 2 MIPI D-PHY 2.0 up to 10Gbps
+> +  each DSI port (20Gbps total), compatible with DSI-2 v2.0.
+> +
+> +  The HDMI transmitter side supports up to 4Kx2K@60Hz resolutions, and is
+> +  compliant with HDMI2.0.
+> +
+> +  For audio, the IT61620 supports up to 8-channel LPCM via I2S (multi-line or
+
+typo - IT6162
+
+With these two changes:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
+
