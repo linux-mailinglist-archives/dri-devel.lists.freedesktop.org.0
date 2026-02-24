@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ML7kE2dUnWk2OgQAu9opvQ
+	id wD8oD95UnWk2OgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:59 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:35:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9307183127
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47FF18317D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:35:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2DA10E4CB;
-	Tue, 24 Feb 2026 07:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A218810E04F;
+	Tue, 24 Feb 2026 07:35:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JRhh8Gst";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XOak9il8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3D010E4CB
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:33:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7EBA960054;
- Tue, 24 Feb 2026 07:33:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2C1C116D0;
- Tue, 24 Feb 2026 07:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771918435;
- bh=r6Ww8xss4AtBpLp7z30m+lGwaO30IehmeY9E/VNpz+A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JRhh8Gst5E1UJbuAvUO0f2dlpB8IAkxLz/DXyEH7FOkPKzTnm6sWxBLN3cliyyrpn
- 5D4HlMJ4irQZQqDvlb18Xl0zbpQA2xLRu+AG+FniZgrXgaBhbcxLkqipgQHbGhf9Do
- +twYimDUZq3XTHuS7usunQMW2HrrU/ibGRWY3fNZLWlDq0TZ+HB/QW34Q4bEiufS+G
- kE6Fieuij6VHVDeG6mtROzVBecfE/xaUxJtwjMWtuSc2VL8CRplchx9KA/DEXI/EHS
- pj4WEXjJO2i+ShxHiaiWqfcrcOXDyzjz3QB6gvBEH9NXGPd92Q0cQtjmRzyrgwUDg/
- YszAh0lMoPxlw==
-Date: Tue, 24 Feb 2026 08:33:52 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hermes Wu <Hermes.wu@ite.com.tw>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Pet.Weng@ite.com.tw,
- Kenneth.Hung@ite.com.tw, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add entry for ITE IT6162 MIPI DSI to
- HDMI bridge driver
-Message-ID: <20260224-loyal-terrier-of-renovation-2b16bd@quoll>
-References: <20260223-upstream-6162-v1-0-ebcc66ccb1fe@ite.com.tw>
- <20260223-upstream-6162-v1-3-ebcc66ccb1fe@ite.com.tw>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB06810E04F
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:35:52 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4fKqJj3vndz9v89;
+ Tue, 24 Feb 2026 08:35:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1771918549; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IVfZkoXJxDi6b+zjGc37nGBvxy39t5lfDaYpg5IiQ18=;
+ b=XOak9il84GKUF25NbeqzG8ijyTJO46bPRWA/EVX9xwga8VKSej2e7A1FFduO6ZBWysxyBs
+ a7AKVjfco2hmV1EU3a4iqwneZq3z3ncf1V25NvqZbSxN5fyJxjUtrw6+8bmaHz31PvAQ4k
+ k6mXPOSsC6NOe1/HS2dj4GqQHaP4GVQhe1oiFpvq2cNOd2UaUhjYRXtmpQGLZfuNydAb/4
+ PEi4AMyaibbpf79ZbyW7Z8MSSJB/U78uhJycIhXZ4W8jpOKRdsfjlfog549l13djxeFIIq
+ p3HHqMeZuiii3zThwARvv3f59i2gtea/IQolmJIDMj9KxZzxmapTS5p6QopkEg==
+Message-ID: <0fdfb3adf756bc88f3b903c65eaf922d0ca3f9a8.camel@mailbox.org>
+Subject: Re: [PATCH 25/37] accel/qaic: Replace pci_alloc_irq_vectors() with
+ pcim_alloc_irq_vectors()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Shawn Lin
+ <shawn.lin@rock-chips.com>,  Oded Gabbay <ogabbay@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, Bjorn
+ Helgaas <bhelgaas@google.com>, Philipp Stanner <phasta@kernel.org>,
+ linux-pci@vger.kernel.org
+Date: Tue, 24 Feb 2026 08:35:45 +0100
+In-Reply-To: <d69a2cc9-15fe-453f-b647-41c5ead7a1c7@oss.qualcomm.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+ <1771862143-89507-1-git-send-email-shawn.lin@rock-chips.com>
+ <41d7d63f-bcda-4182-9340-54d480473586@oss.qualcomm.com>
+ <6f0932f0-1e08-62a8-eb92-2380bb9f6928@rock-chips.com>
+ <d69a2cc9-15fe-453f-b647-41c5ead7a1c7@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260223-upstream-6162-v1-3-ebcc66ccb1fe@ite.com.tw>
+X-MBO-RS-ID: 01de5d21ec9ccf1901d
+X-MBO-RS-META: 7a1ugrctpmr8a9s8zuwom5k1ec3jmfq4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +72,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:jeff.hugo@oss.qualcomm.com,m:shawn.lin@rock-chips.com,m:ogabbay@kernel.org,m:linux-arm-msm@vger.kernel.org,m:bhelgaas@google.com,m:phasta@kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_RECIPIENTS(0.00)[m:Hermes.wu@ite.com.tw,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Pet.Weng@ite.com.tw,m:Kenneth.Hung@ite.com.tw,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,ite.com.tw,lists.freedesktop.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ite.com.tw:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: D9307183127
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim]
+X-Rspamd-Queue-Id: C47FF18317D
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 05:20:47PM +0800, Hermes Wu wrote:
-> Add a MAINTAINERS entry for the newly introduced ITE IT6162 MIPI DSI
-> to HDMI bridge driver, covering the driver source file and the
-> device tree binding document.
-> 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6169bd4d7baccc6945363622b42e7286cbec7b88..8a6b5bf3f664247b45c66b37439d3debf6ee18b1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13485,6 +13485,14 @@ W:	https://linuxtv.org
->  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
->  F:	drivers/media/tuners/it913x*
->  
-> +ITE IT6162 MIPI DSI TO HDMI BRIDGE DRIVER
-> +M:	Hermes Wu <Hermes.wu@ite.com.tw>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
-> +F:	drivers/gpu/drm/bridge/ite-it6162.c
-> +
-> +
+On Mon, 2026-02-23 at 09:25 -0700, Jeff Hugo wrote:
+> On 2/23/2026 9:15 AM, Shawn Lin wrote:
+> > Hi Jeff
+> >=20
+> > =E5=9C=A8 2026/02/24 =E6=98=9F=E6=9C=9F=E4=BA=8C 0:01, Jeff Hugo =E5=86=
+=99=E9=81=93:
+> > > On 2/23/2026 8:55 AM, Shawn Lin wrote:
+> > > > pcim_enable_device() no longer automatically manages IRQ vectors vi=
+a=20
+> > > > devres.
+> > > > Drivers must now manually call pci_free_irq_vectors() for cleanup.=
+=20
+> > > > Alternatively,
+> > > > pcim_alloc_irq_vectors() should be used.
+> > >=20
+> > > This seems to break bisect.=C2=A0 Surely you should update drivers be=
+fore=20
+> > > you go changing behavior.
+> >=20
+> > Patch 1 introduces pcim_alloc_irq_vectors() and then convert all needed
+> > users to it. Then the final patch(37) remove the implict IRQ vector
+> > management in pci_alloc_irq_vectors(). So the individual patch for each
+> > driver should be safe IMO. And if these patches go via a single
+> > tree with acks, it seems unlikely to break bisect.
+>=20
+> There is a conflict here between the patch description and what you have=
+=20
+> just described. It seems like the patch description is wrong.
+>=20
+> The patch says that pcim_enable_device() has already changed behavior,=
+=20
+> and now drivers are broken and must update.
+>=20
+> It seems that the description should be updated.
 
-No need for multiple lines. Look first how this file is organized.
++1, the commit message should state that the driver patches are cleanup
+preparations.
 
-Best regards,
-Krzysztof
 
+P.
