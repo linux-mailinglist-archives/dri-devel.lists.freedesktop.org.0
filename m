@@ -2,149 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AOTNFiIRnWkGMwQAu9opvQ
+	id GFJyN2wYnWlTMwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 03:46:58 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 04:18:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1F7181189
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 03:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733E11815A3
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 04:18:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7388510E487;
-	Tue, 24 Feb 2026 02:46:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iOHg+c25";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OnEAX8ns";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A76010E492;
+	Tue, 24 Feb 2026 03:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4AC710E487
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 02:46:52 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61NI0G0q3732653
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 02:46:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KKvDDeqz+mNOB5u9/ZS3tcm3iKJq9M5SZJMjlZE1ub4=; b=iOHg+c25+5djRIqJ
- XGV9nWkpGpWGQPQbjDJW5LBWS3k3RYhB0iralmu44PhSuERAWVaN02ZJ6KJ0ErAU
- bLYr9wNktRf3vHUZnNPt+rkfEip2o/2LcEwzRc1TjQ9aerEayBJsIvE9pzgm787a
- EX0KLSyKUmJ+4MffxPUHvY4kBDFGOqyO1gA5BNCXpWORkrxGXbsghKsqDJPw4Tm5
- sVGkJB1zzGLqbgtkprwl50NUXJyn64mRXuXVZsu4imuPLLwr5m7gHGss+sk19q4V
- kfZp5xPugFHNfGZ13f+FW+fyVHbb0lrfOnmnTGNdUV7b/I9ivuDdi9vC4jTSes0B
- 0iZDVQ==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgn7takvk-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 02:46:51 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8cb3ff05c73so4595913185a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 18:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1771901211; x=1772506011;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=KKvDDeqz+mNOB5u9/ZS3tcm3iKJq9M5SZJMjlZE1ub4=;
- b=OnEAX8ns+nLJg73eIibp8iewMBO+04jFqBtvrh2PKSaD8VBBT5PJl9V++nA8xVqAcz
- rG65MAibxGVnwo78BGFi1jg65uzjKFok7PXPwEMxVDuIs33lJVVt4Vt6qQfGtCiYRpPl
- 3aNdh9zEnw0mMgepG67JNGGzEPWeKcZVbTI3mhqkicSgA7tvxGdIYxZ1JNNJtS3AkayN
- GQKq5WkmdW2qLDKijapRhr3f5J8s90+c/ZqjCnMpnDWsaPg8wz14R1be4h617xYMjK7y
- w91fJyK7V1V6HeiwCsbkh3wjG1MWlE+7waE423dz00J3m3zQjah8qjxncBJTTPZ5Xcyk
- YI0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771901211; x=1772506011;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KKvDDeqz+mNOB5u9/ZS3tcm3iKJq9M5SZJMjlZE1ub4=;
- b=N1+QzgDM3pi8ImVnnYNImQitRwPKGxLL7pTtyPQfhWCfmA1DCcQu0Lr8wKTl9hrNVO
- TTE8Ddlb9BZRPfn1zBm3AHdTByKPxCcCJ0t2Z4//bmfBb2m5zoODL6pFJywDDxMID3d3
- AoOL45tmQ9whmkaQtPmzhy7FLdhr/Aep/mK9QMYpxPsTmNkRUBrzciWuIb8koPlhaZLJ
- QMMczbeVQJTReBHD+cDq5IF1/vp0/VKRGzDZTJMABQJr/yU7R9ICI1holXx4nI21aaGT
- f1gbbQE8wedmcIZ2cmSAF3L3o876tTCCUaXCYY5FQ5JHzbb0MtfydkfBgAOtLrekPLAE
- O3rg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXT4k2EX7cMGaPEjua9Oql8axcLvAZjB9hYiebz8PLoGOC5kW6goNkbcyUiDLbh96WsmEueBvoHmmg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4IyGLcV3FMtL/rQpS09oZHQ7HdS1ZZOHYUR5eR2w0sECE9Lm0
- 2jfYCGH3QXMzisBFTeeyQyHWOLliXWuPhmd/0ZQz110DmljX/PoPptUkJmi10ihAUwskpqQ3O9o
- WVrqzCN0Gb+ZUZk/SQN9BZLYbMazlmfzoMrPbPTkILMhPY2A0VPd7qseg7DmNdEbQ5luKi0M=
-X-Gm-Gg: AZuq6aJgyg+BTYeN/1UffWvmvvi80VkmfryPj8JRHI6++eBPJoSSaOWmChQpqBkqlHa
- qKm0yp9aKtXScjolJENSBv0agFtyF/n3NHq2BX8OZKiEs+/gqTD7HzDDBUTqlXajDm/prZlBi3O
- +nHCYw9+0NdpXA+e8RfCGwQ3LZTMq4GaHfEC/lxG3czbg6inza5WgAdJzcX0zLkoAVM9X5Iqqy5
- LqbNlNYz+tLmFJCphXm27qwk0n5p+Vr739Ms91o17DyXSYwcHGem/bPysI5b2LGtn3S9zKyCDDQ
- RDW2MvOK5BEsjIPsNru4RlbpiA3fpq+3Al4CDEmKUVdqW+t6vBiRdmJHwYJJesWVWIgHqvFvuX/
- joQGVhaiKijFA6/fa7r1Ng2mPEvX5pYjAnKSLJHNmmkObsJ1OkBGCCTtOglIJOeT5bT7WALKokx
- ft2ayYBStlpkQze6NSDV0lXuM2u7ty+sZ5+uQ=
-X-Received: by 2002:a05:620a:4891:b0:8c9:fb65:7f0d with SMTP id
- af79cd13be357-8cb8ca033cdmr1325733185a.28.1771901211132; 
- Mon, 23 Feb 2026 18:46:51 -0800 (PST)
-X-Received: by 2002:a05:620a:4891:b0:8c9:fb65:7f0d with SMTP id
- af79cd13be357-8cb8ca033cdmr1325730185a.28.1771901210619; 
- Mon, 23 Feb 2026 18:46:50 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-389a7b02490sm18350771fa.45.2026.02.23.18.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Feb 2026 18:46:48 -0800 (PST)
-Date: Tue, 24 Feb 2026 04:46:45 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yedaya Katsman <yedaya.ka@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kamil =?utf-8?B?R2/FgmRh?= <kamil.golda@protonmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm6125-xiaomi-laurel-sprout:
- Enable MDSS and add panel
-Message-ID: <dko7l6iage7blup4zbpsm32d2elvxpengqwbzcsv4v4zedjmpb@rsdrb77acgme>
-References: <20260223-panel-patches-v1-0-7756209477f9@gmail.com>
- <20260223-panel-patches-v1-3-7756209477f9@gmail.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C660910E492
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 03:17:59 +0000 (UTC)
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-526-V0-39w9VNhmGEN-YvCqi2g-1; Mon,
+ 23 Feb 2026 22:17:57 -0500
+X-MC-Unique: V0-39w9VNhmGEN-YvCqi2g-1
+X-Mimecast-MFC-AGG-ID: V0-39w9VNhmGEN-YvCqi2g_1771903076
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C5D491800464; Tue, 24 Feb 2026 03:17:55 +0000 (UTC)
+Received: from dreadlord.taild9177d.ts.net (unknown [10.67.32.38])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 7CCFD30001BB; Tue, 24 Feb 2026 03:17:52 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+	dakr@kernel.org
+Subject: [PATCH] nouveau/dpcd: return EBUSY for aux xfer if the device is
+ asleep
+Date: Tue, 24 Feb 2026 13:17:50 +1000
+Message-ID: <20260224031750.791621-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260223-panel-patches-v1-3-7756209477f9@gmail.com>
-X-Authority-Analysis: v=2.4 cv=c5OmgB9l c=1 sm=1 tr=0 ts=699d111b cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=sfOm8-O8AAAA:8
- a=pGLkceISAAAA:8 a=FNN4Il8BKJnmybe0k9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=TvTJqdcANYtsRzA46cdi:22
-X-Proofpoint-GUID: -dB2uycWzPgR4aGXAuizNs15fKhnpixi
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAyMiBTYWx0ZWRfX1bSDRODEPP69
- MeHabyxoTJadkUofu3HpPVkfrPJDDRweVcuHP0OSnYXc68fiHgpHC264xfCx2i9dbziO4wXlt+1
- DXeCW2cREs/ArAkeRWz1Xg5kfHk2oFmAURDz+/ZwPsN3pPLtNfNreKYOmhzCqkInrYeEbShn4BC
- k+E8+MiaOesyxPAYi+KuhYl7zjYUBpoPjHWaEcJPoUskQtOIv4+rHq8Z1SmYgk053aOLc9e32/5
- PtRLp02+/67ujmyYMocHOY60ckwWU9VsjC34zXq8e5NORFL/0ctAD0kO22iir6vYj17zNyZzIdU
- 7wCMZ9ZAaASqfoeV0fKKleuJHOc4bHTwg6rOeYVmvPotorneEm97CrqnIPjpjRaBq6XMboCHthw
- NxcbfmAeogf+biE67sln0kSHDeJRkZZn8KZM54Csdqauq5rm7VGWkN/vXGG6GN7cnAhkTSyHmPx
- ni2ROgKcyD24MlnI2PA==
-X-Proofpoint-ORIG-GUID: -dB2uycWzPgR4aGXAuizNs15fKhnpixi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_06,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240022
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: G5919o2n-Zf2H3I1_xGkE4FVZA3GMdYStmeC2GUzWLc_1771903076
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,191 +65,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:yedaya.ka@gmail.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kamil.golda@protonmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:~postmarketos/upstreaming@lists.sr.ht,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:yedayaka@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,protonmail.com,lists.sr.ht,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,protonmail.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AF1F7181189
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.940];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 733E11815A3
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 04:24:04PM +0200, Yedaya Katsman wrote:
-> Enable the MDSS nodes and add supplies and bindings for the Samsung
-> S6E8FCO panel.
-> 
-> The ldo and iovcc pins boot up with a current of 16 mA, but they work
-> fine with 2mA, so I used that.
-> 
-> Co-developed-by: Kamil Gołda <kamil.golda@protonmail.com>
-> Signed-off-by: Kamil Gołda <kamil.golda@protonmail.com>
-> Signed-off-by: Yedaya Katsman <yedaya.ka@gmail.com>
-> ---
->  .../boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts  | 94 ++++++++++++++++++++++
->  1 file changed, 94 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-> index 994fb0412fcbdf5466f87a325c48b697a37b514b..10fd01143a644004b807fc455d2235f8e6a9737a 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-> +++ b/arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dts
-> @@ -82,6 +82,32 @@ key-volume-up {
->  		};
->  	};
->  
-> +	panel_ldo_supply: panel-ldo-supply {
+From: Dave Airlie <airlied@redhat.com>
 
-regulator-foo-bar-baz
+If we have runtime suspended, and userspace wants to use /dev/drm_dp_*
+then just tell it the device is busy instead of crashing in the GSP
+code.
 
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "panel_ldo_supply";
+WARNING: CPU: 2 PID: 565741 at drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r=
+535/rpc.c:164 r535_gsp_msgq_wait+0x9a/0xb0 [nouveau]
+Modules linked in: overlay uinput rfcomm snd_seq_dummy snd_hrtimer nf_connt=
+rack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ip=
+v6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct =
+nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables q=
+rtr bnep s>
+snd_soc_acpi intel_rapl_msr libarc4 kvm crc8 soundwire_bus irqbypass snd_so=
+c_sdca rapl iwlwifi snd_soc_avs uvcvideo intel_cstate think_lmi uvc firmwar=
+e_attributes_class intel_uncore intel_wmi_thunderbolt wmi_bmof snd_hda_code=
+c_conexant snd_hda_codec_nvhdmi videobuf2_vmalloc snd_soc_hda_codec cfg8021=
+1 videobu>
+processor_thermal_mbox sparse_keymap intel_soc_dts_iosf intel_pch_thermal p=
+latform_profile rfkill snd soundcore int3403_thermal int340x_thermal_zone i=
+nt3400_thermal acpi_thermal_rel acpi_pad joydev loop nfnetlink zram lz4hc_c=
+ompress lz4_compress xfs wacom hid_microsoft ff_memless nouveau ucsi_acpi t=
+ypec_ucsi>
+CPU: 2 UID: 0 PID: 565741 Comm: fwupd Not tainted 6.18.10-200.fc43.x86_64 #=
+1 PREEMPT(lazy)
+Hardware name: LENOVO 20QTS0PQ00/20QTS0PQ00, BIOS N2OET65W (1.52 ) 08/05/20=
+24
+RIP: 0010:r535_gsp_msgq_wait+0x9a/0xb0 [nouveau]
 
-Is it an actual name (e.g. from schematics)?
+This is a simple fix to get backported. We should probably engineer a prope=
+r power domain solution to wake up devices and keep them away while fw upda=
+tes are happening.
 
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-boot-on;
-> +
-> +		enable-active-high;
-> +		gpio = <&tlmm 26 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-0 = <&panel_ldo_en>;
-> +		pinctrl-names = "default";
-> +	};
-> +
-> +	panel_iovcc_supply: panel-iovcc-supply {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "panel_iovcc_supply";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-boot-on;
-> +
-> +		enable-active-high;
-> +		gpio = <&tlmm 124 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-0 = <&panel_iovcc_en>;
-> +		pinctrl-names = "default";
-> +	};
-> +
->  	thermal-zones {
->  		rf-pa0-thermal {
->  			thermal-sensors = <&pm6125_adc_tm 0>;
-> @@ -128,6 +154,46 @@ &hsusb_phy1 {
->  	status = "okay";
->  };
->  
-> +&mdss {
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dsi0 {
-> +	vdda-supply = <&vreg_l18a>;
-> +
-> +	pinctrl-0 = <&mdss_default>;
-> +	pinctrl-1 = <&mdss_sleep>;
-> +	pinctrl-names = "default", "sleep";
-> +
-> +	status = "okay";
-> +
-> +	panel@0 {
-> +		compatible = "samsung,s6e8fco";
-> +		reg = <0>;
-> +
-> +		vddio-supply = <&vreg_l9a>;
-> +		ldo-supply = <&panel_ldo_supply>;
-> +		iovcc-supply = <&panel_iovcc_supply>;
-> +		reset-gpios = <&tlmm 90 GPIO_ACTIVE_LOW>;
-> +
-> +		port {
-> +			panel_in: endpoint {
-> +				remote-endpoint = <&mdss_dsi0_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss_dsi0_out {
-> +	data-lanes = <0 1 2 3>;
-> +	remote-endpoint = <&panel_in>;
-> +};
-> +
-> +
-> +&mdss_dsi0_phy {
-> +	status = "okay";
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com<
+---
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Missing vdds-supply.
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/=
+nouveau/nouveau_connector.c
+index 00d4530aea717..cc239492c7f0b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1230,6 +1230,9 @@ nouveau_connector_aux_xfer(struct drm_dp_aux *obj, st=
+ruct drm_dp_aux_msg *msg)
+ =09u8 size =3D msg->size;
+ =09int ret;
+=20
++=09if (pm_runtime_suspended(nv_connector->base.dev->dev))
++=09=09return -EBUSY;
++
+ =09nv_encoder =3D find_encoder(&nv_connector->base, DCB_OUTPUT_DP);
+ =09if (!nv_encoder)
+ =09=09return -ENODEV;
+--=20
+2.53.0
 
-> +};
-> +
->  &pm6125_adc {
->  	pinctrl-names = "default";
->  	pinctrl-0 = <&camera_flash_therm &emmc_ufs_therm>;
-> @@ -387,6 +453,34 @@ &sdhc_2 {
->  
->  &tlmm {
->  	gpio-reserved-ranges = <22 2>, <28 6>;
-> +
-> +	panel_ldo_en: panel-ldo-default-state {
-> +		pins = "gpio26";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-up;
-> +	};
-> +
-> +	mdss_default: mdss-default-state {
-> +		pins = "gpio90";
-> +		function = "gpio";
-> +		drive-strength = <8>;
-> +		bias-disable;
-> +	};
-> +
-> +	mdss_sleep: mdss-sleep-state {
-> +		pins = "gpio90";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-down;
-> +	};
-> +
-> +	panel_iovcc_en: panel-iovcc-default-state {
-> +		pins = "gpio124";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-up;
-> +	};
->  };
->  
->  &ufs_mem_hc {
-> 
-> -- 
-> 2.53.0
-> 
-
--- 
-With best wishes
-Dmitry
