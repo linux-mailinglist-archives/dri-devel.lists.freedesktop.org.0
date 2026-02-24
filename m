@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2G+dAdgonmn5TgQAu9opvQ
+	id qCPkNtsonmn5TgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:40:24 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:40:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551BE18D7E8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBDE18D813
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 23:40:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C342410E338;
-	Tue, 24 Feb 2026 22:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D65C10E639;
+	Tue, 24 Feb 2026 22:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NS9A+8Q9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="tPuitM++";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013039.outbound.protection.outlook.com
- [40.107.201.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A47F810E338;
- Tue, 24 Feb 2026 22:40:18 +0000 (UTC)
+ (mail-northcentralusazon11013043.outbound.protection.outlook.com
+ [40.107.201.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B388A10E630;
+ Tue, 24 Feb 2026 22:40:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QpIggOXfMctSLpiL3raJseZNNhkyA9IKFpzfeipUbh3k/5ndRAwdXJaZbu2MDRor6OOBP5VdQRmj+0HEIT1Gqyft3zVnx8SI9aaqofP/q31ChRGxdBIZ6bWYgxtkN7wibH0FX+FrK3zk1/hQP5YcHZ2FuQLfYagOeLLNnBYQHLInoWbmt71XWeMwdVx2azErvZUXCpQ81apD2qBHdxDdMkH7iquiw7nBcpkwtzp/qQzXorHG7q0ctWge6Ctj/KyynzANLaVLJLg0wG3GqLIl49d/bjCXWknT78n+I9xiQ4TUwKQ+xU2BZ5wIOkqMVnYwzV+VI5eb08F15Vh/rwrh+Q==
+ b=yhpGCaaCiPosdTI+Hzgb7xgxXLHDacsFVeCmwQSGU5zvx1BLUW/eig7WNpCRP0mZ82CPAC6ZAe/e1UD9N932PMEeIjSC0LQhnc/CskHjSz6qsxmKRiNOsirQjYBoaVII9EpgAMCw6Z0lMSB8asFihkNrzJgW6XuU9SE8GmS2ojxyaSMaLr0GoQgsjcN8C2khc5gLFWPqNC84kzl0uw00G2ZLulucLoiPsaBeIQlC2N/XRG0WiTBvGN13FnAihPsKaQEPvwVWJdZSPf+vOEUMuKL0YQ2MdQz0qDzvblFKtrMiRhW3Zz1IT7SUPpxRuIb3QefqqC9S25LaNf1vd/fK+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m2KJEExGbHUKTHZLh9WzwS3DnurmBLVdVaZa+19E0ts=;
- b=qG8NvLZ97w9HwLAThY/LxZZBJHAzoU90XzrRufAZgQ1OpoheZDcftFCeZpNfdSgjFiEalO70ZfHF+JLP5DGZBRQ2bA2QZh1rvNuQlRZDcg5ScAcwi2eYCeEKgjlor3vZEmzk3h55tQjCCXsAFD+CBfRaOAm+LzqB2nlx/cBetUYBJvFHDzN+HqOin7LKmHjf0vQvEDJJ2No0L0VR/7M0ZLbytevxNd+c07WjfG9kCpqC/ss67BrV81PBONTI8MZF0fAb5gA+lx9XKnLBE5XVrc4HhTCuLsjLu1qTGOWoVZLx0sqFqCYbYwvc/3JVVXbC8EnsTChPXddHkL3MRW8bWQ==
+ bh=QTKgckHqENZNSWGfsHIpHTsn7t6tLd8/f+Yki4Kw6eE=;
+ b=FEp4CtbmzsYizzL0Iw4uwZdp92NitusFwsxZA2EqhGavv9GtyxIfayz1hA/0sNssk5wWiGWU2ONzloQCG1HpG9H2VpydTfnoP44g7MiX2VYa5Kwus6S3xNBriVUlbpSJH5i/ydShLKNl8ejTnzwuaq6/q6DQDoqC4DB57pE4gv/Mo24Q+4GHPyaLWc+MGZz+Asc0ZQLkpUkaLQ3geHTLq9cheAgQfLRTgB6s4PQu75fbfvPqWrFOIYV7cp4aOVLQNWO4APUjyXKe07Im6qCsjHGCBypwZkLgojsC3pTtZOK3qNrjuDYTuYVZrtDOBun7sOobQ/vtITALg4hrMeveFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m2KJEExGbHUKTHZLh9WzwS3DnurmBLVdVaZa+19E0ts=;
- b=NS9A+8Q9zwQ4JoEFancDv6ydkhEk+C6Pril8VLWOtyNhcAZzV4DApUS6s2QXC29nON2Ot9lrmdP7/9OLRYxnE/ucSk2whg/2V4+31CVZeQ37uuLx4oDZHTpWCLM0cbxW39PfukH4IrqN8hcMhAGJEJGjyVxVob4vtPMBj2mxWCdE1jdTkLlaQavthYHv5fQQtlRh1GOekyea1i4VoiFvR1WksdHTiDhEnWh3Tv+XLSOsiut9eaLlPuzDSw0xTN5YpapOdrIsXdggkA5VswPlcioxdwN+ZQRL8SLoEySOBVPKbhRuYXZR43Vxq8aWk3oCWBZo4OLvfuoCdJe2pmyNsw==
+ bh=QTKgckHqENZNSWGfsHIpHTsn7t6tLd8/f+Yki4Kw6eE=;
+ b=tPuitM++B+au/z3cfN3JVdjs6RftXtI9mGOUFEEeOu8juAFXfNpW5qkUbXoZv5ytO/K/ewlqfDE5mj08/eeNhrpTb/NwvNJdZ91xOL/UID8wdE8HZlyDJdkTsKXWM1MA5MksxqYBOM+S/ZO5kRYHae3jkqPi+KfvxyH7YrQqZvXLEYRzA0FmcgVRX8i+hn5d3YxxXz5zK88EYGH6biejXFkW8kGMH6vKuGnP10guRMNpw1ipnYz+fTYRVuON9ZPIeH3zs4jV/jOE4mkHzspo7oDXlW+51mRTsc9Zz2mO5FmZgJ2LzXgJf8OhAbV9HweOAkKwU/O/uJ4JZkJgPLP9Xw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
  PH0PR12MB7816.namprd12.prod.outlook.com (2603:10b6:510:28c::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
- 2026 22:40:12 +0000
+ 2026 22:40:13 +0000
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 22:40:12 +0000
+ 22:40:13 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
@@ -86,92 +86,95 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
  linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH v11 0/4] Rust GPU buddy allocator bindings
-Date: Tue, 24 Feb 2026 17:40:01 -0500
-Message-Id: <20260224224005.3232841-1-joelagnelf@nvidia.com>
+Subject: [reference PATCH v11 1/4] gpu: Move DRM buddy allocator one level up
+ (part one)
+Date: Tue, 24 Feb 2026 17:40:02 -0500
+Message-Id: <20260224224005.3232841-2-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260224224005.3232841-1-joelagnelf@nvidia.com>
+References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR18CA0014.namprd18.prod.outlook.com
- (2603:10b6:208:23c::19) To DS0PR12MB6486.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN0PR05CA0006.namprd05.prod.outlook.com
+ (2603:10b6:208:52c::31) To DS0PR12MB6486.namprd12.prod.outlook.com
  (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH0PR12MB7816:EE_
-X-MS-Office365-Filtering-Correlation-Id: a215a304-a2ff-4e18-b132-08de73f5abd2
+X-MS-Office365-Filtering-Correlation-Id: 5a36273c-9472-4f7c-00f8-08de73f5acbb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gCUYfLHwkP2XtNUanHWZQFYYMHlM67MWDv8Khm3RkPvljj7ypm2QFHV1MHdZ?=
- =?us-ascii?Q?AnlunVon759dbwU8B/CVU1oMDTp5dlESRvma8WkQPW55CNIJ0mH2hLOFVfJC?=
- =?us-ascii?Q?SBvAyCvZeTZ0aZG7C2yq/Q8Z95DsHZQD/tvRH+2Gw8bn83OK/sN649nmCuk2?=
- =?us-ascii?Q?U4BykYxN+Xj4DYyC8EZcJ7LN5LtAr8QwwczL/jY+swmKrEw7DgI8Tv5OskNq?=
- =?us-ascii?Q?rax7tqaKqp74n7OaURzTX3p4bAOxwVmezATWCl0d1Wjxp1SjthBJMIM5Phuy?=
- =?us-ascii?Q?dAP2spD1JbrTKk+8cbT/3KP4QK0Fg1RDFq2X5SidogDgkJ+AczpQCKl4rxbd?=
- =?us-ascii?Q?QwrOnLvG9NvzqPvcQcx9IGvKuwUnnTaj7R+H41CvXXRhZqLpPD5yDPT2bWjV?=
- =?us-ascii?Q?T/6r0mcBRaROhZKG125pvGWDIQ6rKuPQEDQGgm6QHKz6CGsxPSQD9uStqEk7?=
- =?us-ascii?Q?9yBSVUrWU8WM5f5rRczQHnm76LWN+IT8CqhtAXAxAt8ev5G2oy9Vczi3IGJd?=
- =?us-ascii?Q?jZBacxUEgzK0ajpZr77GpovmI+y0m/mxVeuXOwNd4ylFy2Kv60Iyoo5E7TCE?=
- =?us-ascii?Q?03N2U5D/ghTpGRupoVm0aIYD7q+eq21lh+NXf/0Mt7hCoEPvxrSpvChTOocf?=
- =?us-ascii?Q?HkaMoD8FxI/8ixjB2pzJM0n4qE0i+IN/yGtgHIPl56A9bve0Vm4EplfV7Evo?=
- =?us-ascii?Q?wFbkXxdTjWzPhn4NRrE5ayegpXsjtsDLUDWrfppZdGbBva/q7WFuSnb6o5dG?=
- =?us-ascii?Q?j5nIpCkSlPgqfF9yviBMGBLfr4qwstcvUIV4Qm0wl0bOTjFvDwpv9GiQOZ4A?=
- =?us-ascii?Q?cyqCbcJEkwq3xjXBo3VUzazPMErLF5yvZ1csw6QpL80K+VKfdFZWrWfxusXq?=
- =?us-ascii?Q?vV+JIjEmkr0RFIR2moVVkYIpAJ1ixiZ7mGgfqyEvfUBH8kg0guFc1EQhBOCV?=
- =?us-ascii?Q?//Ar6boXF7z+G3Sxaspb0kfBJLsvw0AHI13YC9UWJ40g8XvJmWZTu8PTZydV?=
- =?us-ascii?Q?qKMIL88QVMvYkHhXID1rxMerCoxYj82IKJaz8HDm7xYDsYWWUyKOLUPbNuk0?=
- =?us-ascii?Q?rV/B9grNIUU4RuHio2la2VW3+VVE9zPCZavTJUnGxZqlcI9ACxZ4uCE78qPx?=
- =?us-ascii?Q?oCcXPu1BDFhCDisGpfZmakCQNKjqZhdLGlotg6IOIdGKmzKrOXgBOFbfV6dP?=
- =?us-ascii?Q?pMOJ9EqL8J9NpCymKRf+xc384/tbNCPMxhcQEsjKknVt5XzPUTO5udJv0ECT?=
- =?us-ascii?Q?6jcsE9niC3dyPViLaS5gANE9lbgQGcuushISRdFz9ByfCTg0ZcMAXtBw/swP?=
- =?us-ascii?Q?y69LsC0FjUIRp7raDLoSWKx+J57vOzD/+ab8nebofsVM70JnB5kCdnMsG0F3?=
- =?us-ascii?Q?IgwRVfKdi32DkwLzIZeSGwpWl0aaMiguNoeNozEpSGIzXTdZV0V89xSgnejL?=
- =?us-ascii?Q?+hMtfuo44CnFAZtWAXyRRn/+VumQNq9nne7dJJCT9NqJ/aX39MqkFF7DCvYY?=
- =?us-ascii?Q?MapAdgOz8L24Trlo8m1nj5+AcOvgboEBHwJizLAmAfu2Gv/Ts+zD2hp8Gqc3?=
- =?us-ascii?Q?zNfzTvpU2yuveXv6lts=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XkHSaJiRxfVP0PpJo0ODVy38XXoOia4Jklh4VX5jajtt9y7EvfP219HtajQ7?=
+ =?us-ascii?Q?KxMlNtkSK3isco3zB7lEQxCDaZNCJrmAcFA04TU29JxKPt3Pt9z+Esj8EUft?=
+ =?us-ascii?Q?JfReq5vsavAZfeBFN7OkDZhnQWuxYd4XmXFjvn3XlMXUMpb+9j4+Bla1pPq6?=
+ =?us-ascii?Q?8yVq8Xl/WDy/YWaynkvwSErTIlNuZ/A1XL7PqllLGC4BTu4Hq+HOxCcg5oyV?=
+ =?us-ascii?Q?RMoUCMSOO2ONYY3c6BgTtXQ+CcZIlEDUHHm0FoX9UiVzQ2oEl6oH8GHmCyPM?=
+ =?us-ascii?Q?aN+19hT/jwIsZMoYVClMzANGoiiA7ozZltcxXBwCzo7CxBYst0TxP2yDG2X5?=
+ =?us-ascii?Q?F+R/5T155HUyFcZOwFOwNFts73zf3mHiDM20ImqcJtCQkPNyI1THESH9MIIE?=
+ =?us-ascii?Q?gMK7wVTlDK6Rz39IPvS3m1tlTOvvm1h0kIgKiwqkut5ywfZSVNf37tG4d1IW?=
+ =?us-ascii?Q?3ipz5YGqSD5XJx7LBKFVDOywiFheI/ZuLP2nx8kVz6P85aHaPGda4PJO3pZ4?=
+ =?us-ascii?Q?kR2v9YOvTPqMRr+0hds8/Vici5kO4Y6w2F/iehRgEgMasERtPckOwyO9Fphd?=
+ =?us-ascii?Q?7ecYpdMyn0RCZZiYBVxJ+7JXRg768W6w/uxeV4jMDPVSnYk18DITudgphhNo?=
+ =?us-ascii?Q?ruxE7ujtYAiCB/HwlC+HhAhhw1MbEdpMP1XYZ9d8MEP6xg0yDatiWvYwAZWJ?=
+ =?us-ascii?Q?xbP1Z2QKoR/gACnO3ZouqWYoXj0L24fjh7iSbUzFkUv+UopgnVUSQrC7XZTA?=
+ =?us-ascii?Q?SCWsfvowPaDtuz8xud9tszS7xJCVpUCMZZQrzh2wfR8NKd5IdLEixfE/YxmY?=
+ =?us-ascii?Q?eBKIIZGMxiVV2DzQ824Www56yWZZ4oKuLuvYHwnTVE6G36DQvcQT++3Wrdmf?=
+ =?us-ascii?Q?xkQekO2qBgjhiGuFyysjKzR+vdF2UizkPvYUt6kB6cn6ZwP5Sa+YxSQh+lKX?=
+ =?us-ascii?Q?/5qo9QDwHSEKwyIxKRBarimxX+3kdWyDa0D3kKHHWYp30HHbEEQASpAxnAoH?=
+ =?us-ascii?Q?u0AVxfbcLRRWnQ+0cBCRV15BplTTSsgKwYmATLuQrZtaBQ4LCmCVnnu4TIeu?=
+ =?us-ascii?Q?KbXxJzfZ7zqgdheqP0K49xC/8/NaCiYbNRu77s8YLyIZLr6cVZIlFoBDcvSC?=
+ =?us-ascii?Q?ccz4Kn35JDAnnv3Bm9ktPfW1vSgENXYzUPTvGWrCVIPraE64ElEr4wI/Tcy+?=
+ =?us-ascii?Q?hR2mQ6I9r28vpZ2nbg3tlag4wY6nnHSVgSUBR9h75K+IhZAQ4qA7+FTcdbwa?=
+ =?us-ascii?Q?OQTHUIY9OB5raVUXVg0lxg4y7Z+4U4XrJl3i3CVXm0iTc0tSTRhwjfN0v6Pu?=
+ =?us-ascii?Q?AVmwajgGrh2lUEuu0ac25RdwY9JtrXcPQgplAVYGHKUq1tYKl2GZFYXSc7sc?=
+ =?us-ascii?Q?uQbrzmEmtWiOMAVrxBcggBioV6tQNf9E9nlO1uALXAe9w/Xi1Ev1ti+V99fC?=
+ =?us-ascii?Q?AchGQZ6hzRtPIIPOPG2d+/QVRbi9I84EPipiN8LiczFu98jBANHMvFSQVFdY?=
+ =?us-ascii?Q?7WA93H4ZIpW/tfsABf6S+UMKwz4DYDx/a50+UmEzH6vMnfdWNYGw26bOUIEd?=
+ =?us-ascii?Q?85NYj3VwOECxcmvujvU=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JesUt2TBTJfwfE6D7ZimfqiFJgG4Q7XzdW/Q10KVVsKaPaLnHqmJI+t52vY2?=
- =?us-ascii?Q?U1p6FQCyWBl+6G3c8KcXEyFQDvHV5Jv0vJ1PgVo+lUrCoSqUHiOJj3QDB8hb?=
- =?us-ascii?Q?dYhGTV0yCteW4mIGb5qGxG8DfmckgmFwAG4sqcXLi/L6DKDzDbxesSBmG9Fh?=
- =?us-ascii?Q?sx+nrbtrddFR9w9B1R146b9lNvBkrH8wT9h2bXzmDqh8P5w+47Ez/wLEpnaH?=
- =?us-ascii?Q?gnxxLXcJlv9gA5pFCKBlw/KmP0xAoD4deV2y7N1E0KIYJu1cc8w80RWQi56H?=
- =?us-ascii?Q?Jpreb+LkD6p7vrWcFM8dxOAOzNQJDhTz+qRFQvTRQWqBfZV2LnZM4giP8gLW?=
- =?us-ascii?Q?cPpo6MypYhQdlFfRLgb5Xfi6KhTIVeRXAIwNPrEmsALURIRf+M65qFfIVP8E?=
- =?us-ascii?Q?WlcW8mcaaxyMCr0yrwHQetbJfasiISYjkVGwf+i4l9e5aSLAd3of+2IZpA57?=
- =?us-ascii?Q?CEfg4MEB3WtssXEFRqv5k1IFSA6D4NSQntHpsuJpJr+wPOuhpurAJbEmgKPi?=
- =?us-ascii?Q?JxhurMJZh3IjiPK9YO0ZtPc94ixUN4/Ot/lTQRJSTu8g+PDF6tP/3y+jfXhQ?=
- =?us-ascii?Q?TYEEsXupSkpzKdPkme1rLlIQMzl+PaHGUiIbBdR+hh3VLOYAbnhLQZOPgwor?=
- =?us-ascii?Q?yhQKvEUlN41K1RVxefTKXku7bibp0KF1bEvOwjZolPgSNDLwCzinGSuw0n03?=
- =?us-ascii?Q?8ARb94a82j6IWunBId2+JgFeVMQpltRCMneDG6fNA6N/AhAIuZbOXRKwOVxo?=
- =?us-ascii?Q?PpNKxVMTsU67IgyMDo3uRag4Xob6h29sd/rIHwJL12Zichqb+zAC6K9P+Xho?=
- =?us-ascii?Q?H0FeWZOJphCez/OYCTeQMMw+wwa415fSvwUgQi2QZZcP9FWbrKKUpcrXrVXG?=
- =?us-ascii?Q?sQGxwpXXNaOdFZ7zSmRnUdr+CRq77eJpNW7KZvPOWe93bRoAWAC3TupUquCs?=
- =?us-ascii?Q?Jur0IbTvnR1q/CFmeErrO7eaxK/XAnfMxgKgu7N8Fe/0RdYgFdDnT4nEp7gb?=
- =?us-ascii?Q?tRR4Bc1iSKADRqtM85KfsmmT7tGjIBgn1JcavKMChKxervxE3+TZZEDfgDm0?=
- =?us-ascii?Q?G1O4hTCiYUAklcQ/QNQDE383N2bRYug8vyJvlcHS51Bi71y51Cg50Mtg5YH5?=
- =?us-ascii?Q?C6jIOjecjPiIdgCyn3fMeW7G/GHSTnugg5PgI5AgsAsGCptH4CiJEFm+DS2e?=
- =?us-ascii?Q?mB2EdRQrAJno0Rm6cSJPflNU2iS7FVsMovdMtsTPJnUr3NUclfY5W7hLF2Sb?=
- =?us-ascii?Q?XP/WNns7uIteo3RXAc0IRc4uf9b5ukhS3TCM9Ufiw6S1mQFQ26eL3gfjqhj6?=
- =?us-ascii?Q?xMxRM4Iv2FG/zDpJNq+zwAxAERRbi5xx9RmA82tDbXBR4y6RbuSTvjwlJeDD?=
- =?us-ascii?Q?UoDeOgn3XF8l/lj7q3sM4qW4RlHerObPxCN9T3olTEwsaI2lK2kchBqtDiVp?=
- =?us-ascii?Q?aZMqMBdc/tz8cDi12fHu8yMcpZj49rtw/ts67yw9rLj/Fij96pBlDH1YCgn6?=
- =?us-ascii?Q?SG6DtnfvXWLPIQLUJaC3c1F81ClPGubxgD2yyusF1cCs6nn9QiNnOF6lxzwi?=
- =?us-ascii?Q?huxt3zN9c2nUE0NqlBuf52iGwfsuDk21Edk3wxKvjZAIVzee8xVnfzOjRh9A?=
- =?us-ascii?Q?GmvlW2uhmkgI0Ty+BlconKC9qiZvqQ5QvI6wZMDfbMc2MFGOn7bh3wM/iTVS?=
- =?us-ascii?Q?1lI5KZ5+JPZ6GEfKmmKk1ByvMKdxFckH9p8bfdW+eauasI/YKExY3fZ4A79i?=
- =?us-ascii?Q?PNfd/kiaag=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cMmORnjn7ixxF8m8b7NYYBsmhdq4hg7jGVcpylWptnzfVmEPP98jHU1TQu+S?=
+ =?us-ascii?Q?5vTW6aIZ2Fbl10ygZFJ2sYnvH92cU8qapzkC9h404PBrTKKKyo9ANWbImtsz?=
+ =?us-ascii?Q?Q57go+DfzZiNkn0+p9QSZvBbsOrMLex14YV6ftmLIHXQsO+u3XPCUhPeMqBq?=
+ =?us-ascii?Q?Hzy1YHm0U+uELrSEadTZw+izpDVcE4OszSs17JO30mCXgm+ITPA5kcpTeUp6?=
+ =?us-ascii?Q?AVEQ6U4DPoXQN06GxNwGJ7ZN+wZRvW7xUrNDgvd9WsqPENpk3IvlZDtjnTy7?=
+ =?us-ascii?Q?myL6+lsFgMVQfsVadBPQN5ROGDFg3vV5PAPOIaRml5uJzQ8s9osoIrC1lS/U?=
+ =?us-ascii?Q?9CHCcZGByX4xSWiQU9aGDcDYxLAHZ/iwMpTGF/S1do3epZ2yXGhQDd+6V/xv?=
+ =?us-ascii?Q?y4ROao2D32XksGgZ0M2ZMree2/GNlP7elV/UNemYmTUnMUteUKlljJlKGXC4?=
+ =?us-ascii?Q?D8jxpn735l7+4pJelmOP6LlBP3AZ5o7fYdDzkG1ECrd8I+TISxjVUWYOa4YX?=
+ =?us-ascii?Q?v7LmQHr7pn6MwYvRvlp/ZnHn+MwbP6Mw9I3rV+avj3B6IBjzIFitQKSJvmnd?=
+ =?us-ascii?Q?C6XtDLgeTeAYb6oTUajvTfLtiXOSGb7K/W0l7CS+maTcsV0QB2mB8vLjYvUj?=
+ =?us-ascii?Q?gTLcB/keCjLupW3QRo09t+t+y5t6CmHtMJK1VJlmN72J9ClzbhFkFD/qk9Fc?=
+ =?us-ascii?Q?60xoJ/G2bWFpi2YNMshmo6SaXLm3MOJglAfLu0uNgsfjRA6B53KlpIlABP6l?=
+ =?us-ascii?Q?5jbH/KuXXvHEwaMsF4Cahk0D1oo8RykPqONPSVccjEJsaYjmNUHrkInhW9pA?=
+ =?us-ascii?Q?zsxmMwmh9QYkbrt2q/caTagtXt89DmcT33F7Xhe7WK2n5pUcC4bUGV0Slhle?=
+ =?us-ascii?Q?vonf75sKf0n62EyJWBOlNcBMUlFm0wnWJxlJXH1yEr9O+nuUlavheluClUy1?=
+ =?us-ascii?Q?9N09vBdbAWfpUvIR88qjKM/N7GEOfKRELtHPxy1Yp7crKcvc/E+mo/7+ZC19?=
+ =?us-ascii?Q?wEAHUxkBLFOqOnn6cigTmL1zmkBu/JeOjrp3oHsM/npM17lrnCjb26Ep1gA3?=
+ =?us-ascii?Q?HuTVNWSW00ML3L3ioKFgBjMQOZEAa4u7+wegIwdjzAZStnC9DB/HA9jLJBoo?=
+ =?us-ascii?Q?0sFxD3I8WfKGSquoCZ/dYqhDGmEhbGYPcX3m5OxSDag93/Aev8Ggbk9wJ4wz?=
+ =?us-ascii?Q?gAsSssl/K2ZnBKLKRhF/W8CgR87McaDxqk1cuncCv0W5pRH+YhN+20JVVHvc?=
+ =?us-ascii?Q?pJy72dQIDErtR92qoUEVwKpw/9mhUOqHvyVxhTXYysxIPVKwESScUwH9i3Xn?=
+ =?us-ascii?Q?/ndBA+VkxarpWo5wteN4mSojLb+OcLlXc4U0kND2uz64GgBJm3TDPZmITZbc?=
+ =?us-ascii?Q?L50aGza1Dml2EOi7uCvB5ghD81ToYqawTkz5+kR++El1La4OIlDj1zkMHQ3h?=
+ =?us-ascii?Q?OJrIFI+UMxHl+gz1rX0H3PKkwhUFKmU1IemfuVGu8pSAXSD60pmbQgQm9QTf?=
+ =?us-ascii?Q?YSYBxa4twIOcinwPOoWhecjpP3IwjIfJMTNK1r3Vu/UnD5j7MMwxm5Ko8A+Q?=
+ =?us-ascii?Q?yjyui0ji2Bg5XFhdDKbftRXgqzHjVNhQ32rRu/Od5E8Nq/U9dgs5h88Hfxzs?=
+ =?us-ascii?Q?GlUGKfu3XV5BT26FHSgAALMhm4v9s7RmES1gBZGwm2pJpx2ljBAhKpG5zoS1?=
+ =?us-ascii?Q?jEJWp9F1IEc6jOnyBURO28ZzE/9ESxwMjQ9iknH+4XAa08sSXrhTWhEU5ABO?=
+ =?us-ascii?Q?sXoznjRP+Q=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a215a304-a2ff-4e18-b132-08de73f5abd2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a36273c-9472-4f7c-00f8-08de73f5acbb
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:40:12.2328 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:40:13.7043 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tJT+R6Fc2NnKjOQofoGBQu1ZYwbXOcUesiVfEOEW929gqz6mvAGH2Gfxlr+8iZCGmGZEfaBgSEJvz4NLLRBa/Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0LfdBTflOvp0GG6P6rzkfNODFKIrSrOrGi1ETEMRzPpYR0yKtm3EpG5ClamAFNshvF3MiCKpiAEt97/A2XrBjg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7816
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -212,163 +215,320 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	DKIM_TRACE(0.00)[Nvidia.com:+];
 	RCPT_COUNT_GT_50(0.00)[57];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.891];
+	NEURAL_HAM(-0.00)[-0.949];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid]
-X-Rspamd-Queue-Id: 551BE18D7E8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 8DBDE18D813
 X-Rspamd-Action: no action
 
-The series adds Rust GPU buddy allocator bindings for use by nova-core.
+Move the DRM buddy allocator one level up so that it can be used by GPU
+drivers (example, nova-core) that have usecases other than DRM (such as
+VFIO vGPU support). Modify the API, structures and Kconfigs to use
+"gpu_buddy" terminology. Adapt the drivers and tests to use the new API.
 
-Note: Patches 1-3 are included for reference only and should not be merged
-through this series. They are the DRM buddy allocator code movement patches
-(already being pulled into upstream via drm-misc-next by Dave Airlie) and the
-uninitialized buddy fix by Koen Koning (which is going in independently). They
-are included here as they are prerequisites for the Rust GPU buddy bindings
-(and could be further revised).
+The commit cannot be split due to bisectability, however no functional
+change is intended. Verified by running K-UNIT tests and build tested
+various configurations.
 
-The series along with all dependencies, including clist and nova-core mm
-patches, are available in:
-https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/log/?h=nova/mm
-
-Changes from v10 to v11:
-- Dropped "rust: ffi: Convert pub use to pub mod and create ffi module" patch;
-  the ffi module restructuring will go through a different path.
-- Dropped "rust: clist: Add support to interface with C linked lists" patch;
-  the clist module will be submitted separately.
-- Dropped "nova-core: Kconfig: Sort select statements alphabetically" cosmetic
-  patch.
-- Patches 1-3 (DRM buddy movement and fix) are included as reference only;
-  they are already being pulled into upstream via drm-misc-next.
-- Removed clist patches as those can go in independently (Alice).
-- Moved the Kconfig GPU_BUDDY selection patch to nova-core mm series to enable
-  it when it is actually used.
-- Various nits to comments, etc.
-
-Changes from v9 to v10:
-- Absorbed the DRM buddy code movement patches into this series as patches 1-2.
-  Dave Airlie reworked these into two parts for better git history.
-- Added "gpu: Fix uninitialized buddy for built-in drivers" fix by Koen Koning,
-  using subsys_initcall instead of module_init to fix NULL pointer dereference
-  when built-in drivers use the buddy allocator before initialization.
-- Added "rust: ffi: Convert pub use to pub mod and create ffi module" to prepare
-  the ffi module for hosting clist as a sub-module.
-- Moved clist from rust/kernel/clist.rs to rust/kernel/ffi/.
-- Added "nova-core: Kconfig: Sort select statements alphabetically" (Danilo).
-
-Changes from v8 to v9:
-- Updated nova-core Kconfig patch: addressed sorting of Kconfig options.
-- Added Daniel Almeida's Reviewed-by tag to clist patch.
-- Minor refinements to GPU buddy bindings.
-
-Changes from v7 to v8:
-- Added nova-core Kconfig patch to select GPU_BUDDY for VRAM allocation.
-- Various changes suggested by Danilo Krummrich, Gary Guo, and Daniel Almeida.
-- Added Acked-by: Gary Guo for clist patch.
-
-Changes from v6 to v7:
-- Major restructuring: split the large 26-patch v6 RFC series. v7 only contains
-  the Rust infrastructure patches (clist + GPU buddy bindings), extracted from
-  the full nova-core MM series. The nova-core MM patches follow separately.
-- Rebased on linux-next.
-
-Changes from v5 to v6:
-- Rebased on drm-rust-kernel/drm-rust-next.
-- Expanded from 6 to 26 patches with full nova-core MM infrastructure including
-  page table walker, VMM, BAR1 user interface, TLB flush, and GpuMm manager.
-
-Changes from v4 to v5:
-- Added PRAMIN aperture support with documentation and self-tests.
-- Improved buddy allocator bindings (fewer lines of code).
-- Based on drm-rust-next instead of linux-next.
-
-Changes from v3 to v4:
-- Combined the clist and DRM buddy series into a single coherent series.
-- Added DRM buddy allocator movement from drivers/gpu/drm/ up to drivers/gpu/,
-  renaming API from drm_buddy to gpu_buddy.
-- Added Rust bindings for the GPU buddy allocator.
-
-Changes from v2 to v3:
-- Squashed 3 clist patches into one due to inter-dependencies.
-- Changed Clist to Clist<'a, T> using const generic offset (Alex Courbot).
-- Simplified C helpers to only list_add_tail (Alex Courbot, John Hubbard).
-- Added init_list_head() Rust function (Alex Courbot).
-- Added FusedIterator, PartialEq/Eq impls.
-- Added MAINTAINERS entry (Miguel Ojeda).
-
-Changes from v1 (RFC) to v2:
-- Dropped DRM buddy allocator patches; series focuses solely on clist module.
-- Dropped sample modules, replaced with doctests.
-- Added proper lifetime management similar to scatterlist.
-- Split clist into 3 separate patches.
-
-Link to v10: https://lore.kernel.org/all/20260218205507.689429-1-joelagnelf@nvidia.com/
-
-Joel Fernandes (3):
-  gpu: Move DRM buddy allocator one level up (part one)
-  gpu: Move DRM buddy allocator one level up (part two)
-  rust: gpu: Add GPU buddy allocator bindings
-
-Koen Koning (1):
-  gpu: Fix uninitialized buddy for built-in drivers
-
- Documentation/gpu/drm-mm.rst                  |   10 +-
- MAINTAINERS                                   |   16 +-
- drivers/gpu/Kconfig                           |   13 +
- drivers/gpu/Makefile                          |    3 +-
- drivers/gpu/buddy.c                           | 1322 +++++++++++++++++
- drivers/gpu/drm/Kconfig                       |    5 +-
- drivers/gpu/drm/Kconfig.debug                 |    1 -
- drivers/gpu/drm/Makefile                      |    1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |    2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |   12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   79 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |   20 +-
- drivers/gpu/drm/drm_buddy.c                   | 1277 +---------------
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |    2 +-
- drivers/gpu/drm/i915/i915_scatterlist.c       |   10 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |   55 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |    4 +-
- .../drm/i915/selftests/intel_memory_region.c  |   20 +-
- drivers/gpu/drm/tests/Makefile                |    1 -
- drivers/gpu/drm/tests/drm_exec_test.c         |    2 -
- drivers/gpu/drm/tests/drm_mm_test.c           |    2 -
- .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |    4 +-
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |   18 +-
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |    4 +-
- drivers/gpu/drm/xe/xe_res_cursor.h            |   34 +-
- drivers/gpu/drm/xe/xe_svm.c                   |   12 +-
- drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   71 +-
- drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h    |    4 +-
- drivers/gpu/tests/Makefile                    |    4 +
- .../gpu_buddy_test.c}                         |  416 +++---
- .../lib/drm_random.c => tests/gpu_random.c}   |   18 +-
- .../lib/drm_random.h => tests/gpu_random.h}   |   18 +-
- drivers/video/Kconfig                         |    1 +
- include/drm/drm_buddy.h                       |  163 +-
- include/linux/gpu_buddy.h                     |  177 +++
- rust/bindings/bindings_helper.h               |   11 +
- rust/helpers/gpu.c                            |   23 +
- rust/helpers/helpers.c                        |    1 +
- rust/kernel/gpu/buddy.rs                      |  536 +++++++
- rust/kernel/gpu/mod.rs                        |    5 +
- rust/kernel/lib.rs                            |    2 +
- 41 files changed, 2536 insertions(+), 1843 deletions(-)
- create mode 100644 drivers/gpu/Kconfig
- create mode 100644 drivers/gpu/buddy.c
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+Reviewed-by: Dave Airlie <airlied@redhat.com>
+[airlied: I've split this into two so git can find copies easier.
+I've also just nuked drm_random library, that stuff needs to be done
+elsewhere and only the buddy tests seem to be using it].
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ Documentation/gpu/drm-mm.rst                                | 6 +++---
+ drivers/gpu/Makefile                                        | 2 +-
+ drivers/gpu/{drm/drm_buddy.c => buddy.c}                    | 2 +-
+ drivers/gpu/drm/Kconfig                                     | 4 ----
+ drivers/gpu/drm/Kconfig.debug                               | 1 -
+ drivers/gpu/drm/Makefile                                    | 3 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h                | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c                     | 2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c                     | 2 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c               | 2 +-
+ drivers/gpu/drm/tests/Makefile                              | 1 -
+ drivers/gpu/drm/tests/drm_exec_test.c                       | 2 --
+ drivers/gpu/drm/tests/drm_mm_test.c                         | 2 --
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.h                | 2 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h                  | 2 +-
+ drivers/gpu/tests/Makefile                                  | 4 ++++
+ .../{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c}  | 4 ++--
+ drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c}    | 2 +-
+ drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h}    | 0
+ include/{drm/drm_buddy.h => linux/gpu_buddy.h}              | 0
+ 20 files changed, 19 insertions(+), 26 deletions(-)
+ rename drivers/gpu/{drm/drm_buddy.c => buddy.c} (99%)
  create mode 100644 drivers/gpu/tests/Makefile
- rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (67%)
- rename drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c} (59%)
- rename drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h} (53%)
- create mode 100644 include/linux/gpu_buddy.h
- create mode 100644 rust/helpers/gpu.c
- create mode 100644 rust/kernel/gpu/buddy.rs
- create mode 100644 rust/kernel/gpu/mod.rs
+ rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (99%)
+ rename drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c} (97%)
+ rename drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h} (100%)
+ rename include/{drm/drm_buddy.h => linux/gpu_buddy.h} (100%)
 
-
-base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
-prerequisite-patch-id: f8778e0b72697243cfe40a8bfcc3ca1d66160b12
-prerequisite-patch-id: 763b30c69f9806de97eb58bc8e3406feb6bf61b4
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index f22433470c76..ceee0e663237 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -526,10 +526,10 @@ DRM GPUVM Function References
+ DRM Buddy Allocator
+ ===================
+ 
+-DRM Buddy Function References
+------------------------------
++Buddy Allocator Function References (GPU buddy)
++-----------------------------------------------
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_buddy.c
++.. kernel-doc:: drivers/gpu/buddy.c
+    :export:
+ 
+ DRM Cache Handling and Fast WC memcpy()
+diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+index 36a54d456630..c5292ee2c852 100644
+--- a/drivers/gpu/Makefile
++++ b/drivers/gpu/Makefile
+@@ -2,7 +2,7 @@
+ # drm/tegra depends on host1x, so if both drivers are built-in care must be
+ # taken to initialize them in the correct order. Link order is the only way
+ # to ensure this currently.
+-obj-y			+= host1x/ drm/ vga/
++obj-y			+= host1x/ drm/ vga/ tests/
+ obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
+ obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
+ obj-$(CONFIG_NOVA_CORE)		+= nova-core/
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/buddy.c
+similarity index 99%
+rename from drivers/gpu/drm/drm_buddy.c
+rename to drivers/gpu/buddy.c
+index fd34d3755f7c..4cc63d961d26 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/buddy.c
+@@ -10,7 +10,7 @@
+ #include <linux/module.h>
+ #include <linux/sizes.h>
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ #include <drm/drm_print.h>
+ 
+ enum drm_buddy_free_tree {
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index d3d52310c9cc..ca2a2801e77f 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -269,10 +269,6 @@ config DRM_SCHED
+ config DRM_PANEL_BACKLIGHT_QUIRKS
+ 	tristate
+ 
+-config DRM_LIB_RANDOM
+-	bool
+-	default n
+-
+ config DRM_PRIVACY_SCREEN
+ 	bool
+ 	default n
+diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
+index 05dc43c0b8c5..3b7886865335 100644
+--- a/drivers/gpu/drm/Kconfig.debug
++++ b/drivers/gpu/drm/Kconfig.debug
+@@ -69,7 +69,6 @@ config DRM_KUNIT_TEST
+ 	select DRM_EXPORT_FOR_TESTS if m
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select DRM_KUNIT_TEST_HELPERS
+-	select DRM_LIB_RANDOM
+ 	select DRM_SYSFB_HELPER
+ 	select PRIME_NUMBERS
+ 	default KUNIT_ALL_TESTS
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index ec2c5ff82382..5c86bc908955 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -78,7 +78,6 @@ drm-$(CONFIG_DRM_CLIENT) += \
+ 	drm_client_event.o \
+ 	drm_client_modeset.o \
+ 	drm_client_sysrq.o
+-drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+ drm-$(CONFIG_COMPAT) += drm_ioc32.o
+ drm-$(CONFIG_DRM_PANEL) += drm_panel.o
+ drm-$(CONFIG_OF) += drm_of.o
+@@ -114,7 +113,7 @@ drm_gpusvm_helper-$(CONFIG_ZONE_DEVICE) += \
+ 
+ obj-$(CONFIG_DRM_GPUSVM) += drm_gpusvm_helper.o
+ 
+-obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
++obj-$(CONFIG_DRM_BUDDY) += ../buddy.o
+ 
+ drm_dma_helper-y := drm_gem_dma_helper.o
+ drm_dma_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_dma.o
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+index 5f5fd9a911c2..874779618056 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+@@ -24,7 +24,7 @@
+ #ifndef __AMDGPU_VRAM_MGR_H__
+ #define __AMDGPU_VRAM_MGR_H__
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ 
+ struct amdgpu_vram_mgr {
+ 	struct ttm_resource_manager manager;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index f65fe86c02b5..eeda5daa544f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -5,7 +5,7 @@
+ 
+ #include <linux/shmem_fs.h>
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ #include <drm/drm_print.h>
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/ttm/ttm_tt.h>
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 4d830740946d..30246f02bcfe 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -7,7 +7,7 @@
+ #include "i915_scatterlist.h"
+ #include "i915_ttm_buddy_manager.h"
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ #include <drm/drm_mm.h>
+ 
+ #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index d5c6e6605086..6b256d95badd 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -5,7 +5,7 @@
+ 
+ #include <linux/slab.h>
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ #include <drm/drm_print.h>
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/ttm/ttm_bo.h>
+diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+index 87d5d5f9332a..d2e2e3d8349a 100644
+--- a/drivers/gpu/drm/tests/Makefile
++++ b/drivers/gpu/drm/tests/Makefile
+@@ -7,7 +7,6 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
+ 	drm_atomic_test.o \
+ 	drm_atomic_state_test.o \
+ 	drm_bridge_test.o \
+-	drm_buddy_test.o \
+ 	drm_cmdline_parser_test.o \
+ 	drm_connector_test.o \
+ 	drm_damage_helper_test.o \
+diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+index 3a20c788c51f..2fc47f3b463b 100644
+--- a/drivers/gpu/drm/tests/drm_exec_test.c
++++ b/drivers/gpu/drm/tests/drm_exec_test.c
+@@ -16,8 +16,6 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_kunit_helpers.h>
+ 
+-#include "../lib/drm_random.h"
+-
+ struct drm_exec_priv {
+ 	struct device *dev;
+ 	struct drm_device *drm;
+diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
+index aec9eccdeae9..e24a619059d8 100644
+--- a/drivers/gpu/drm/tests/drm_mm_test.c
++++ b/drivers/gpu/drm/tests/drm_mm_test.c
+@@ -16,8 +16,6 @@
+ #include <drm/drm_mm.h>
+ #include <drm/drm_print.h>
+ 
+-#include "../lib/drm_random.h"
+-
+ enum {
+ 	BEST,
+ 	BOTTOMUP,
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+index e4c95f86a467..96ea8c9aae34 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
++++ b/drivers/gpu/drm/ttm/tests/ttm_mock_manager.h
+@@ -5,7 +5,7 @@
+ #ifndef TTM_MOCK_MANAGER_H
+ #define TTM_MOCK_MANAGER_H
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ 
+ struct ttm_mock_manager {
+ 	struct ttm_resource_manager man;
+diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h b/drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h
+index a71e14818ec2..babeec5511d9 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h
++++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h
+@@ -6,7 +6,7 @@
+ #ifndef _XE_TTM_VRAM_MGR_TYPES_H_
+ #define _XE_TTM_VRAM_MGR_TYPES_H_
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ #include <drm/ttm/ttm_device.h>
+ 
+ /**
+diff --git a/drivers/gpu/tests/Makefile b/drivers/gpu/tests/Makefile
+new file mode 100644
+index 000000000000..8e7654e87d82
+--- /dev/null
++++ b/drivers/gpu/tests/Makefile
+@@ -0,0 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
++
++gpu_buddy_tests-y = gpu_buddy_test.o gpu_random.o
++obj-$(CONFIG_DRM_KUNIT_TEST) += gpu_buddy_tests.o
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/tests/gpu_buddy_test.c
+similarity index 99%
+rename from drivers/gpu/drm/tests/drm_buddy_test.c
+rename to drivers/gpu/tests/gpu_buddy_test.c
+index e6f8459c6c54..b905932da990 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/tests/gpu_buddy_test.c
+@@ -10,9 +10,9 @@
+ #include <linux/sched/signal.h>
+ #include <linux/sizes.h>
+ 
+-#include <drm/drm_buddy.h>
++#include <linux/gpu_buddy.h>
+ 
+-#include "../lib/drm_random.h"
++#include "gpu_random.h"
+ 
+ static unsigned int random_seed;
+ 
+diff --git a/drivers/gpu/drm/lib/drm_random.c b/drivers/gpu/tests/gpu_random.c
+similarity index 97%
+rename from drivers/gpu/drm/lib/drm_random.c
+rename to drivers/gpu/tests/gpu_random.c
+index 0e9dba1ef4af..ddd1f594b5d5 100644
+--- a/drivers/gpu/drm/lib/drm_random.c
++++ b/drivers/gpu/tests/gpu_random.c
+@@ -6,7 +6,7 @@
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ 
+-#include "drm_random.h"
++#include "gpu_random.h"
+ 
+ u32 drm_prandom_u32_max_state(u32 ep_ro, struct rnd_state *state)
+ {
+diff --git a/drivers/gpu/drm/lib/drm_random.h b/drivers/gpu/tests/gpu_random.h
+similarity index 100%
+rename from drivers/gpu/drm/lib/drm_random.h
+rename to drivers/gpu/tests/gpu_random.h
+diff --git a/include/drm/drm_buddy.h b/include/linux/gpu_buddy.h
+similarity index 100%
+rename from include/drm/drm_buddy.h
+rename to include/linux/gpu_buddy.h
 -- 
 2.34.1
 
