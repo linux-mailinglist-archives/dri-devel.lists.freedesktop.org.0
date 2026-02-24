@@ -2,90 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2L0jKMV/nWk/QQQAu9opvQ
+	id qLRBIAWAnWk/QQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:39:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:40:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36D61857DA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:39:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D4618581C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:40:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC9C10E26D;
-	Tue, 24 Feb 2026 10:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF8D10E53F;
+	Tue, 24 Feb 2026 10:40:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="PIRF/U5O";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XopqSYRt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de
- [46.38.247.119])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CBDF10E26D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 10:38:54 +0000 (UTC)
-Received: from mors-relay-8404.netcup.net (localhost [127.0.0.1])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4fKvMv4n4gz84Ln;
- Tue, 24 Feb 2026 11:38:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
- s=key2; t=1771929531;
- bh=LI1qhdSHC6P94gGeMsvMW9avooz+MTl1PYK6ymFbEh4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PIRF/U5OVmGGUEyLViesVk6tTqq1LBNvshBnzn82clNoJqXfrkPTz5mqkPSPlijz+
- EzkrRkJT9TEPsV3hkPH/LgHjJBQ5RxbFJ9M0d3Fy/LZFXVr+fHKGO6mvDktnMmuVtQ
- HISNvx1dmy8ZmP4rgXLdUsW3irOHM8wmm3V1sjkjoCAehuwh90WUkCsgG0TqEm7y/D
- tq2ThSXwwWdrkphCtr5zlUxvOTd6iuS2YClGVClxRnwV6VAjXWtHq20lMvCawTtloi
- jfQePZe9KQFaMmP9WOOMN1PdxI2M+m8NmVve+EZwLdXso/S0KUo+VoF6AtExnm8KKu
- uygTXvgPDpfeQ==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4fKvMv43wfz4xCl;
- Tue, 24 Feb 2026 11:38:51 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.898
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.898 required=6.31 tests=[ALL_TRUSTED=-1,
- BAYES_00=-1.9, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- URIBL_DBL_BLOCKED_OPENDNS=0.001, URIBL_ZEN_BLOCKED_OPENDNS=0.001]
- autolearn=ham autolearn_force=no
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by policy01-mors.netcup.net (Postfix) with ESMTPS id 4fKvMr0yGPz8sf7;
- Tue, 24 Feb 2026 11:38:48 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown
- [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
- by mxe9fb.netcup.net (Postfix) with ESMTPSA id C17C6652C2;
- Tue, 24 Feb 2026 11:38:46 +0100 (CET)
-Authentication-Results: mxe9fb;
- spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f)
- smtp.mailfrom=regressions@leemhuis.info
- smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <9a8d24e9-94cf-481b-aa8e-f149fea47e9e@leemhuis.info>
-Date: Tue, 24 Feb 2026 11:38:45 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5615A10E546
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 10:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771929602; x=1803465602;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=NKaZi+5e3r7u58UMALFBdqyb3F151mM8t+8ODkTnkmk=;
+ b=XopqSYRtkRY1kCpFjPfo9JlkKyvfOTeNjUvTQzcCvZ0Wco/duPPH9yTs
+ 2BYYe1ehVILAzceGH3kR9Ibdhf9OdaX0nn1X+vLN3lM1WFq9/902MOfSq
+ KT0akGC9Z4l09cVdSTLbXXcMpaWiKqBLrrciFeZCshMMukhcqiV22WdDG
+ /b5p/RX0xr+bMaYohToKBvv7n25aF+7rfchza6LMWuxfkVjUPNhRyRaZg
+ 6+zN1SqET5WB4RSFWsS4RccWLmqdGwrGo3zuyT4VJ9ien/7/RJBTVlnn9
+ zk21cIhc+ThlCIJv5ipNdkJCwoh73AczH8JmwDZjLoXyC+iRkkxjPc7ot A==;
+X-CSE-ConnectionGUID: RMYy66bqQGC9ppLaWEct7A==
+X-CSE-MsgGUID: qfOwQqRmT7WdY8aDN3kP9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="95556117"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="95556117"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 02:40:01 -0800
+X-CSE-ConnectionGUID: 2vh5u/4QSUOjYuKUxqshOA==
+X-CSE-MsgGUID: IM2dRI81S8i45s0yX8WRUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="214955497"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.146])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 02:39:43 -0800
+Date: Tue, 24 Feb 2026 12:39:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: phasta@kernel.org
+Cc: Simon Richter <Simon.Richter@hogyros.de>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
+ Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+ Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>,
+ Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
+ Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Will Deacon <will@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Srujana Challa <schalla@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>,
+ Antoine Tenart <atenart@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Raag Jadav <raag.jadav@intel.com>, Hans de Goede <hansg@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Robert Richter <rric@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Nirmal Patel <nirmal.patel@linux.intel.com>,
+ Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
+ dmaengine@vger.kernel.org, netdev@vger.kernel.org,
+ nic_swsd@realtek.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+ mhi@lists.linux.dev, Jan Dabros <jsd@semihalf.com>,
+ linux-i2c@vger.kernel.org, Daniel Mack <daniel@zonque.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, linux-spi@vger.kernel.org,
+ Jonathan Derrick <jonathan.derrick@linux.dev>,
+ linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
+Subject: Re: [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector management by
+ removing devres auto-free
+Message-ID: <aZ1_7IwDYfiLbfQE@smile.fi.intel.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+ <6223f3cb-693f-42e7-9147-30f659f08563@hogyros.de>
+ <7ca512d133f7a3bcfe00e9b0b2af5fe5f147ad77.camel@mailbox.org>
+ <aZ1rb8zoqmQmakDP@smile.fi.intel.com>
+ <48297cc524736e7452def05448ece84260a4fd83.camel@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Time from regression report to a merge of a fix (was Re: [git
- pull] drm fixes for 7.0-rc1)
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Imre Deak <imre.deak@intel.com>
-References: <CAPM=9txvCxvz_NH1zw9WpeCiYYGOxN36Lz1owmbbjfaB2tmjPA@mail.gmail.com>
- <b4f8ca7a-02b1-4e72-896b-87a00db6338b@leemhuis.info>
- <CAPM=9tw4xWxwGSr=SMQKjWL2R_LfA-b9joYNMqZXM0atis=10Q@mail.gmail.com>
- <CAPM=9ty9T5uC6YiU73G3Y7cEeTpxh4TafmJB=QB+fvcgTvK2BA@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <CAPM=9ty9T5uC6YiU73G3Y7cEeTpxh4TafmJB=QB+fvcgTvK2BA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177192952721.2596460.14085883104283779396@mxe9fb.netcup.net>
-X-NC-CID: EaVdUy8tk1T0DvQqeW/f2Fxuex19CPSGzsI/DUjDJn74XitvUYk=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48297cc524736e7452def05448ece84260a4fd83.camel@mailbox.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,99 +137,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[leemhuis.info];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:torvalds@linux-foundation.org,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:alexander.deucher@amd.com,m:regressions@lists.linux.dev,m:rodrigo.vivi@intel.com,m:ville.syrjala@linux.intel.com,m:jani.nikula@linux.intel.com,m:imre.deak@intel.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_ALL(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[leemhuis.info:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[hogyros.de,rock-chips.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:Simon.Richter@hogyros.de,m:shawn.lin@rock-chips.com,m:bhelgaas@google.com,m:vaibhaavram.tl@microchip.com,m:kumaravel.thiagarajan@microchip.com,m:even.xu@intel.com,m:xinpeng.sun@intel.com,m:srinivas.pandruvada@linux.intel.com,m:jikos@kernel.org,m:alexandre.belloni@bootlin.com,m:wangzhou1@hisilicon.com,m:liulongfang@huawei.com,m:vkoul@kernel.org,m:lee@kernel.org,m:shaojijie@huawei.com,m:shenjian15@huawei.com,m:sgoutham@marvell.com,m:andrew+netdev@lunn.ch,m:hkallweit1@gmail.com,m:davem@davemloft.net,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:karol.wachowski@linux.intel.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:andreas.noever@gmail.com,m:westeri@kernel.org,m:tjeznach@rivosinc.com,m:will@kernel.org,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:dave@stgolabs.net,m:jonathan.cameron@huawei.com,m:schalla@marvell.com,m:bbhushan2@marvell.com,m:atenart@kernel.org,m:herbert@gondor.apana.org.au,m
+ :raag.jadav@intel.com,m:hansg@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:andy@kernel.org,m:mani@kernel.org,m:mika.westerberg@linux.intel.com,m:andi.shyti@kernel.org,m:rric@kernel.org,m:broonie@kernel.org,m:nirmal.patel@linux.intel.com,m:kurt.schwemmer@microsemi.com,m:logang@deltatee.com,m:linusw@kernel.org,m:brgl@kernel.org,m:sakari.ailus@linux.intel.com,m:bingbu.cao@intel.com,m:ulf.hansson@linaro.org,m:arnd@arndb.de,m:bentiss@kernel.org,m:linux-input@vger.kernel.org,m:linux-i3c@lists.infradead.org,m:dmaengine@vger.kernel.org,m:netdev@vger.kernel.org,m:nic_swsd@realtek.com,m:linux-arm-msm@vger.kernel.org,m:linux-usb@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-cxl@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:linux-serial@vger.kernel.org,m:mhi@lists.linux.dev,m:jsd@semihalf.com,m:linux-i2c@vger.kernel.org,m:daniel@zonque.org,m:haojian.zhuang@gmail
+ .com,m:linux-spi@vger.kernel.org,m:jonathan.derrick@linux.dev,m:linux-pci@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_GT_50(0.00)[87];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[leemhuis.info:mid,leemhuis.info:dkim,leemhuis.info:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F36D61857DA
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,smile.fi.intel.com:mid]
+X-Rspamd-Queue-Id: D2D4618581C
 X-Rspamd-Action: no action
 
-On 2/24/26 08:05, Dave Airlie wrote:
-> On Tue, 24 Feb 2026 at 16:50, Dave Airlie <airlied@gmail.com> wrote:
->> On Mon, 23 Feb 2026 at 22:52, Thorsten Leemhuis
->> <regressions@leemhuis.info> wrote:
->>> On 2/20/26 21:53, Dave Airlie wrote:
->>>
->>> * One fix in here was for a amdgpu regression introduced in v6.19-rc6
->>> (and also affecting many stable series due to backports). The fix was
->>> ready within ~2 days and could even have made v6.19 -- but it only
->>> reached mainline through this PR on Friday. IOW: After two weeks. Which
->>> got me wondering, "Should we do something to merge fixes like that
->>> faster"? And yes, it's the merge window – but that's also when Arch
->>> Linux and openSUSE Tumbleweed usually jump to the latest mainline series
->>> and thus expose regressions like this to many users, so I guess it would
->>> be good to get them fixed at least as fast as outside of merge windows.
+On Tue, Feb 24, 2026 at 11:30:28AM +0100, Philipp Stanner wrote:
+> On Tue, 2026-02-24 at 11:12 +0200, Andy Shevchenko wrote:
+> > On Tue, Feb 24, 2026 at 08:39:43AM +0100, Philipp Stanner wrote:
+> > > On Tue, 2026-02-24 at 13:14 +0900, Simon Richter wrote:
+
+...
+
+> > > If I could design it from scratch I would probably try to tell users to
+> > > use the unmanaged versions instead of revoking the devres consequence.
+> > 
+> > +many.
+
+> hm?
+
+I'm supporting you with many hands up (more than I possess)!
+
+> > > Devres is actually about your consequence always happening whenever the
+> > > driver unloads, for whatever reason.
+> > 
+> > I believe you meant "unbinds". The device<-->driver link can be broken
+> > without unloading the driver.
 > 
-> I think due to the patch pipeline depth and volume that amdgpu and
-> i915/xe are dealing with we may need to consider some better
-> regression revert pipelines,
+> Yes, thx for pointing that out. Greg KH AFAIK always calls it "driver
+> detach".
 
-Thx for your reply. And also for considering adjustments.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> The amdgpu one definitely should have been fixed in 6.19, Alex any
-> idea how we can alleviate that sort of problem, 
 
-FWIW, I see situations like these in various subsystems, and I think
-there are two important factors at play here:
-
-* The more important one: Some maintainers refrain from quickly picking
-up and sending fixes upwards during merge windows, as they fear getting
-yelled at by higher-level maintainers or Linus if those cause problems.
-
-  And I can understand that, as Linus for good reasons has gotten quite
-unhappy in the past when a big merge window PR contained late changes,
-especially if those then caused things like build errors -- except when
-the PR had stated explicitly that those were last-minute regression fixes.
-
-  In fact, one lower-level maintainer in the arm64 dts space just told
-me in private that this was one reason why he only picked up a revert
-fixing a 6.18-rc1 regression yesterday after it sat on the list for
-nearly two weeks.
-
-* Some maintainers refrain from sending regression fixes upwards right
-before a new mainline release, as they fear breaking something
-important. Considering that outcome, of course, is something that must
-be done, but it feels to me like many are a way more careful there then
-Linus would like -- and forget that they could just send the last-minute
-fixes to him to make him decide, as he is in the best position to do so,
-as he when needed then could even delay the release.
-
-Not sure how to improve all of this. Maybe some announcement from Linus
-along the following lines would help:
-
-"An open merge window should not delay picking up and upstreaming
-regression fixes in any way; if needed, keep your fixes branch running
-as before the release and send separate PRs for them. And as usual,
-don't worry about conflicts unless they are complex. Ohh, and if you
-have regression fixes where you are unsure if it is worth merging them
-right before a new release, send them to me and let me decide".
-
-Ciao, Thorsten
