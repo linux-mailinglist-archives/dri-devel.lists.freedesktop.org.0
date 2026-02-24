@@ -2,116 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEzANbTOnWn4SAQAu9opvQ
+	id 2PWFJIfPnWn4SAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:15:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:19:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36616189A52
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01F7189B15
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A6710E023;
-	Tue, 24 Feb 2026 16:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE5A10E5D8;
+	Tue, 24 Feb 2026 16:19:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pu5R/sDK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D9c6AZP6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com
- [74.125.82.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBA2510E023
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:15:44 +0000 (UTC)
-Received: by mail-dy1-f174.google.com with SMTP id
- 5a478bee46e88-2bd801b4078so202011eec.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 08:15:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771949744; cv=none;
- d=google.com; s=arc-20240605;
- b=Rgh44SJ2mXK3veoPSC8Bmmfl4co9aCN2iO2XFtLI5fk0RR0D/eWD4wVbaA+C9hiQ/U
- zyO1A6pZ3cNJaJ9hTY0zrQwmgmE44cYoZUloy1/P5vfns8sHugVy1fne7pau82hknurB
- 1th3bbH/czGY19/2WOXF2wn9kt7uAu43L0OSnKAyKSZpebAV/Kozg//s45L9yx+X2ygo
- KzXsXFHLxNObTdMkHmJpad3Rrp8MeXAQcZpTXZ/1w2jv/iSbk/q6DsYPWHtcjLqnGzzR
- mLFHiXVtFe9phj39jlxf8V+uqXWU1kfFgSDQLlgYu1+SMbJrgDoxUqLxdGWGrmqTTdFr
- pSAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=vBMEUj7raBbmsyrS7Us99Qy913X47xoD5tUQ83r3xKA=;
- fh=86Rjb4JPLem/oV8nD+LdXocnC/3HMXW+Zb+XS9znDkE=;
- b=FCvIghsMChILX/rGYvcGLXCMyJrE/qes62/1LJ3dmu/snqDouBK6v0P+3b3tSehGZ7
- PFSTIdqsCY1NsbFCriJjzdn+v5QH4YJhsN8SGOl6/5v2c81s8+UwbggaO6sSyjcPL4lB
- hvKAG+vzvLYE2YkORhBY1nUyCJjr1obIwFxReGCn+3zVEhJyDTQhk0oeKgtSxtfohrBN
- 5bbpIHHC4vzfe+C8OUjPzjq7l584EiTyvmHrA/tMsxTIBzvF9jF19T4KyfNRy0dPd1bI
- 3Vx67rCRvGV0vATldPOt4snaADvRKemr4vr//DDPVIKMMOKaczSEwpfPliZoEEbzyzi0
- hpew==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771949744; x=1772554544; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vBMEUj7raBbmsyrS7Us99Qy913X47xoD5tUQ83r3xKA=;
- b=Pu5R/sDKq9GtVpRxfV3ybewpIxYJO3EFnU9apmNEEm6lL0PiXHwcOw5oIwKk7Kdwtm
- r2U5F4E1FMJQU6ZiBVYcPP1CIuvAHamct7+8Utyqux97NLmfaQd216HxByPW+2aUyvh0
- D2JD3WBuXBuqnBKjvipxB1ZgR0Mjj3+MbJ+fY7WLxFPjuAwkjlR8M6tIp/XOLYlzMTqv
- ooQNO9qisr5lGQ4zbXA9TDoni83cSdHjYToo298kj7mslcXRRJiXHJMjkO0FdoxaLsJB
- FU/HazNPzQzUqqOwzp3ap9BigM+bdlAODLmf9NHeRSMDiKWEAk1yLzDR/nWoPoioQJy1
- jgDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771949744; x=1772554544;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=vBMEUj7raBbmsyrS7Us99Qy913X47xoD5tUQ83r3xKA=;
- b=XvLfXcZOG9dbA1EmHp8kXRSkPxiW58brw9CpP38HhUKI0w1oF7IPMjAPLuq3G+Ocec
- wpBwiZ5WrJ+yLgrSxTnIY4RBd1NisKM1yReiOA4IzeyQQwLkcjCtdmEk/TiLNnpCCFSo
- /D/DfWvu56notLPW+zBxic1khGXhi9AibPz4lGD+6C1qYgMUPXbqrm7QGQNtEzoOxvkc
- 0AFAyWrq+Z0OkK3N7oAFYwwI4ZBJnkq+VXc9T6kSB7y/zxCVrCfM5ee8yaEwGcSGF2BK
- J5fQH9B9eP+pHXDhOJgdlwD20wYhtbpklNCM6RrfHprFg2gVEH+YXOeLpJiek4GaJ0Y0
- nDtQ==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0495A10E5D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:19:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id A8CCB440C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:19:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89643C4AF09
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1771949951;
+ bh=dLXqKRJ3EHq4YwfsK1mVBbooQOdoDKd3lRce0LWedZ8=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=D9c6AZP6YfPD8QiAvVoOwznk2QHoI2eYwu3Qc5yQ3ac+C/qJ5MYiR2HA3vZ7D4IwN
+ ib3CVlEIngi2y0DOTNp0JPFy2wbPn3voRnKQhqHztaDVA4hCbYBMe/Mk8Rs+RuPSHs
+ 9kg9s6Gdf7I0DA2QW4Zho1tcDhfHfxstP0T2fJqWEY1NsrXOka0VXqoXrWVtj2ue1l
+ vIfaRJQ4C0WeYfZKw7f+Z7ft9Ghft1mJjzlHAxUhfxLc+x3huFtWW1jOcSt7ERbEG7
+ jAeQx0cSenIG1OJA0Gsn7ON73jeMpjz8TZi1pHn/9vLWrqV1hKpi1i3/i0IX7R0+5h
+ Fs8EEA3K7HTdQ==
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-38706b10b3bso56879691fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 08:19:11 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5DpA0galUO+vqicvIGiXnAv0QbDLHpnxY/y5ohOAlIOjJ+oNSUGEL4lhmuv395AZ2vZHhxvc//+s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuTm6pKw6UL3SgAuOJcLMtOZ0iX1LHoBz6/WNQ2adxgRVqGKLA
- jMDWBT9I9YypZZsRyE5TPX2pNPags6F4WOqqpUw566j0HLzuiUsdw+DzBZ7vIuw/Mvw+8E/07EL
- TIwbKfiGLFPfcp2oR81x0UX9jQzEI0lM=
-X-Gm-Gg: ATEYQzzaf3RH2lBLkHEag32cSbGSKwrEZgIjsw8UCnc/cBTs5ycwidX1VUUFwgeVhJZ
- k88i12K/VT/jK6AaGIRAJbfDHg+84TtAnbEKXomb68n6A68XPvtUNPLOaSqnFyCl1etlLZPbwiz
- Xc4klHUU383naetsnRyNifEZsxXUmYMrH9+/teSmonvSQbypr5KTbuvC/XPK66dLCU7LbPKLFYF
- iOUXtaBcUGLepBdwDGb0n9t674+uzk2lF2w3UO2bIKfEaRWVGrQy9nNtDDg0WML8MKJckPCDryh
- iVYUmWEvHQ64QKf/PA4O0yM9F1grzaii9q5Ixkg2G8xGr8OxBYeWXpe+Wh4deIo3mNfZNynv0d2
- X1YyaBYTFJoGImJOHtjw3F0BGb+EC
-X-Received: by 2002:a05:7300:f108:b0:2ba:6978:2b0 with SMTP id
- 5a478bee46e88-2bd7bd5a67fmr2747179eec.4.1771949743876; Tue, 24 Feb 2026
- 08:15:43 -0800 (PST)
+ AJvYcCUKzauk0c9wqxZ0tKh8sy9IL+0zXVSIxPXwCyiv0w2QM6CrJg0ZWNQAlgPkM44yh0ZEXbRf9aCT250=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1H5RqNdCqPKPgCTJaBfhxL3SkUmklTOGfQGjTL2JlkkGxsaIa
+ ACC0fbX4famKHw7darMOKfPWyJt24UlcZQd97ytDHsW3GQ6LJ+TM86NfTwUnAsYp8eXH4HcK9/n
+ Ok76LfVczj2ttvUM4sZfuoLINu7HPQJU=
+X-Received: by 2002:a05:651c:3242:b0:387:eb1:9322 with SMTP id
+ 38308e7fff4ca-389a5cfe101mr35460811fa.17.1771949949905; Tue, 24 Feb 2026
+ 08:19:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGIWDQTR76Y5.34L9IHKU2SEKI@kernel.org>
- <eadfa4662f403fa01f19c1c17a435c1a@nvidia.com>
- <15a193fc-b2b9-476e-a9f6-57e3a210b74f@nvidia.com>
- <DGJ2TNVD8AS7.2P0HYYKKE8CBQ@kernel.org>
- <4ad9fd6598e2688c88f6ef22c088c683@garyguo.net>
- <DGJXYEXCYIII.Z6FOAA8YYMAZ@kernel.org>
- <859ee9c5-f37a-475d-81eb-6f9de6d34b4f@nvidia.com>
-In-Reply-To: <859ee9c5-f37a-475d-81eb-6f9de6d34b4f@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 24 Feb 2026 17:15:31 +0100
-X-Gm-Features: AaiRm53le2roUqYa4Jd9OPo9BPShlpMhNiyuPKhqHHVFn6yvlPnm_kCgXr8IATU
-Message-ID: <CANiq72=2rE-R0g=aKWjZwQVz-GqLUQ00M+bi+ANrNu3+zGL0Yg@mail.gmail.com>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
- linux-kernel@vger.kernel.org, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Alexandre Courbot <acourbot@nvidia.com>, Dave Airlie <airlied@redhat.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>
+References: <20260224153656.261351-1-tzimmermann@suse.de>
+In-Reply-To: <20260224153656.261351-1-tzimmermann@suse.de>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 25 Feb 2026 00:18:57 +0800
+X-Gmail-Original-Message-ID: <CAGb2v647KWOOTUxpLdgom53kDmF5z0m+retOqy2HOmLei2m=_w@mail.gmail.com>
+X-Gm-Features: AaiRm50hCew_I87lwkTN5CarWqRdkNHPwJ7DRrFz_eKd9Xk2Li42Y4dTolaKxVg
+Message-ID: <CAGb2v647KWOOTUxpLdgom53kDmF5z0m+retOqy2HOmLei2m=_w@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/16] drm/mipi-dbi: Replace simple-display helpers
+ with regular atomic heleprs
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com, 
+ david@lechnology.com, architanant5@gmail.com, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, simona@ffwll.ch, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,72 +75,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:joelagnelf@nvidia.com,m:dakr@kernel.org,m:gary@garyguo.net,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:acourbot@nvidia.com,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:koen.koning@linux.intel.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:javierm@redhat.com,m:lanzano.alex@gmail.com,m:kamlesh.gurudasani@gmail.com,m:david@lechnology.com,m:architanant5@gmail.com,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:lanzanoalex@gmail.com,m:kamleshgurudasani@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_CC(0.00)[redhat.com,gmail.com,lechnology.com,kernel.org,linux.intel.com,ffwll.ch,lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,vger.kernel.org,protonmail.com,google.com,umich.edu,nvidia.com,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_REPLYTO(0.00)[wens@kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.989];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 36616189A52
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email]
+X-Rspamd-Queue-Id: E01F7189B15
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 1:54=E2=80=AFAM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
+Hi,
+
+On Tue, Feb 24, 2026 at 11:37=E2=80=AFPM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
 >
-> I do tend to agree with Danilo on this. Unless someone yells, I will chan=
-ge
-> the maintainer entry to "RUST [FFI HELPER]" for the next spin.
+> We keep getting new drivers based on the obsolete simple-display pipeline=
+,
+> such as the recent driver for st7789v panels. [1] But submitters cannot
+> know, as the simple-display helpers are fully documented and still used
+> in several places.
 
-Not sure I am following the "what FFI means" discussion, but in case
-it clarifies:
+Could you include a reference to the discussion to obsolete the
+simple-display pipeline? That would be helpful. All I can find are some
+patch series that convert individual drivers, and many of them just say
+that it is obsolete, without pointing to actual discussion or documentation=
+.
 
-The Rust subsystem is meant to be about anything related in some way
-to Rust; typically meaning all the things that are not covered
-elsewhere (including what both Gary and Danilo mention), sometimes
-with overlap with other "global" infrastructure/subsystems (e.g.
-Kbuild), sometimes acting as a fallback for Rust code out there if
-really needed (i.e. similar to Andrew, but for Rust bits), and so on.
 
-From what I understand, Joel and Alexandre want to focus on
-maintaining the `clist` bits (at least for now), and if they are both
-going to have the "(CLIST)" suffix, then it may be simpler to make the
-entry just that for now since `MAINTAINERS` it is easy to change
-anyway.
+Thanks
+ChenYu
 
-Now, what kind of things would we want to have inside such a `ffi`
-module? (apart from `clist`). Does it mean the proposal is to
-eventually move existing things like `CStr`?
-
-Cheers,
-Miguel
+> Hence, convert all the mipi-dbi drivers over to regular atomic helpers
+> and remove simple-display support from mipi-dbi in this series. Then
+> undocument the helpers and add TODO items for final their removal.
+>
+> Patch 1 changes the mode-setting logic get CRTC and panel updates into
+> the correct order. This patch is probably the most fragile change in the
+> series.
+>
+> Patches 2 and 3 prepare mipi-dbi to allow for atomic helpers to be used.
+>
+> Patches 5 to 14 update mipi-dbi drivers one by one. The st7735r driver
+> requires some additional minor preparation. Overall, the refactoring is
+> always the same.
+>
+> Patches 15 abd 16 clean up mipi-dbi and the simple-display helpers.
+>
+> These patches need some testing, as I can only compile them. At least
+> one of the drivers should be tried on hardware. Regressions should be
+> easy to fix, as these changes are mostly refactoring jobs.
+>
+> [1] https://lore.kernel.org/dri-devel/20260221071351.22772-1-architanant5=
+@gmail.com/
+>
+> Thomas Zimmermann (16):
+>   drm/mipi-dbi: Only modify planes on enabled CRTCs
+>   drm/mipi-dbi: Support custom pipelines with drm_mipi_dbi_dev_init()
+>   drm/mipi-dbi: Provide callbacks for atomic interfaces
+>   drm/hx8357d: Use regular atomic helpers; drop simple-display helpers
+>   drm/ili9163: Use regular atomic helpers; drop simple-display helpers
+>   drm/ili9225: Use regular atomic helpers; drop simple-display helpers
+>   drm/ili9341: Use regular atomic helpers; drop simple-display helpers
+>   drm/ili9486: Use regular atomic helpers; drop simple-display helpers
+>   drm/mi0283qt: Use regular atomic helpers; drop simple-display helpers
+>   drm/panel-mipi-dbi: Use regular atomic helpers; drop simple-display
+>     helpers
+>   drm/st7586: Use regular atomic helpers; drop simple-display helpers
+>   drm/st7735r: Rename struct st7735r_priv to struct st7735r_device
+>   drm/st7735r: Rename priv variable to st7735r
+>   drm/st7735r: Use regular atomic helpers; drop simple-display helpers
+>   drm/mipi-dbi: Remove simple-display helpers from mipi-dbi
+>   drm/simple-kms: Deprecate simple-kms helpers
+>
+>  Documentation/gpu/drm-kms-helpers.rst   |  12 -
+>  Documentation/gpu/introduction.rst      |   5 -
+>  Documentation/gpu/todo.rst              |  32 +++
+>  drivers/gpu/drm/drm_crtc.c              |   6 +-
+>  drivers/gpu/drm/drm_gem_atomic_helper.c |  22 --
+>  drivers/gpu/drm/drm_mipi_dbi.c          | 352 ++++++------------------
+>  drivers/gpu/drm/drm_modeset_helper.c    |   3 -
+>  drivers/gpu/drm/drm_simple_kms_helper.c |  83 ------
+>  drivers/gpu/drm/sitronix/st7586.c       | 194 +++++++++----
+>  drivers/gpu/drm/sitronix/st7735r.c      | 142 ++++++++--
+>  drivers/gpu/drm/tiny/hx8357d.c          | 138 +++++++++-
+>  drivers/gpu/drm/tiny/ili9163.c          | 139 +++++++++-
+>  drivers/gpu/drm/tiny/ili9225.c          | 193 +++++++++----
+>  drivers/gpu/drm/tiny/ili9341.c          | 139 +++++++++-
+>  drivers/gpu/drm/tiny/ili9486.c          | 130 ++++++++-
+>  drivers/gpu/drm/tiny/mi0283qt.c         | 139 +++++++++-
+>  drivers/gpu/drm/tiny/panel-mipi-dbi.c   | 142 ++++++++--
+>  include/drm/drm_mipi_dbi.h              | 140 ++++++----
+>  include/drm/drm_simple_kms_helper.h     | 216 +--------------
+>  19 files changed, 1366 insertions(+), 861 deletions(-)
+>
+>
+> base-commit: 1c44015babd759b8e5234084dffcc08a0b784333
+> --
+> 2.52.0
+>
