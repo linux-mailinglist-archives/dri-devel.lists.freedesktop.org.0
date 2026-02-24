@@ -2,117 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AHqE+NynWmAQAQAu9opvQ
+	id UBgNDdlynWmAQAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:44:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:43:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC532184DA6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93EB184D96
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39DE710E53C;
-	Tue, 24 Feb 2026 09:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22EBB10E536;
+	Tue, 24 Feb 2026 09:43:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eIXx26vg";
-	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="rFJ7ibOR";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QrLQ5D5s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA51D10E53A
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 09:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1771926239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GW7PmuG1ndcDHaBwm6NFGZKZ71cFJAjRs457FXMTnxM=;
- b=eIXx26vgMGfdoK2p1k5u7HGoUYLyYhYBvU8Hv9VHbyia05WSF1cYkBCxY8QWaybG5fHdkI
- t24TAiO5hgELXLpPJJ0vgLmZJoMN0N37Bv4gd8qUJpTy368jyCei4FssFipU8X6xPdmtHL
- KcDJyIzQblQJKK4HgWWTdK8Lbhg+1vE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-679-vxKvIbKiPJykUFvzNbFTQA-1; Tue, 24 Feb 2026 04:43:39 -0500
-X-MC-Unique: vxKvIbKiPJykUFvzNbFTQA-1
-X-Mimecast-MFC-AGG-ID: vxKvIbKiPJykUFvzNbFTQA_1771926219
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-483786a09b1so54409075e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 01:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; s=google; t=1771926218; x=1772531018; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=GW7PmuG1ndcDHaBwm6NFGZKZ71cFJAjRs457FXMTnxM=;
- b=rFJ7ibOR+9jxWIgNcW/VQlEukEICqXU4EEwuQwhv3pPhrcnd9i2Vsl41PR61iGemjC
- ve74mWAmn657ElBg3uApJq/y/Wvuof/EDa9ntxS8XkDnSdEx8Ri1DDN1cZkWXLWYG3HK
- oIVClpuRjYXX0vImXVBvqYeHzMgiEXw42/6tN4K1o4rl/YSqZzv6u8gcX/3UfWVTiD46
- RfL8LrFB/mnrhQYuLhprvyibXHJA9VCnWq27ZK3RnzCHQ0wxtp+V8Xsj6d98+LBZG4DW
- QicFwD31VMDiGTzkKxKfWzULGssGI3ixDCU9LG3di8KIviSk1tIBIhG1n5bHm/A3tO6K
- kYsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771926218; x=1772531018;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GW7PmuG1ndcDHaBwm6NFGZKZ71cFJAjRs457FXMTnxM=;
- b=f4zPStBCxne+7zAIUMWHGp/HnWOkQWAJNkw5J7WOyzMh0aaI0i23kn2oola5vxfzs4
- N8lxapmwyjF1ftSrWXLEhueysXZM9ZKWZS314fVVSELD53LKvHvnTkptadcbnsxTMsVC
- HTXA4X4iOpdUt8AwD8NILmIOF2GqGkZMRnAf3TAlhCqGQGVUKWSGm5cFI+DTIIeAAzpT
- mT2Y2qQ/xRnruwLoDkBaJUzBwNl+kI/kjQ3GLAtSPEMOOu7dvludu0xGOShPe4mqibTp
- jaP9NKN1Av+2Ahxp7cEPXljdcbz8XzMUcCIfh98yi7crmeNKx6dvsvfbDIkTDslS/K9g
- HTNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhh/y63PM2Vl3EGeAT3vAgsjJ6jMNjynxi5H1ZTl+rI70HBV1nbiCaOY13f6FvemyiG31qfZLdgy8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUyv+biCNuOjZzt5yDlZwFyMEtSVfhep/3z7m4Wmboe5YcYjND
- zQEm2PFlOew3uuz5YEyTTaqH/eNqiHjs7AZ0KVH30+gbv8CgCnzm92syz6LlDjDb343LGZH+0vq
- 4l9upnWz5/28TlF9+eIgm/u8hUSJE3hZMAHu8JMmMGaRvYaOB13tRI0j7vz47T/f4hPEmxg==
-X-Gm-Gg: AZuq6aKAi8GDUH8bsrAmsZWjwQjM3IIUB6g4sR9JxpT4Sx1LOG3jprJsPofgxQO1Yls
- FnjsDJ394SJLNypiEy/5X4TT+ZiG1MF6MlLSB7uHyTwIQI5XXTrkc3FKE7Iz6dJU3etY+hs3NTT
- 0onntflg0HvKp9yMMVzIIfcnw/jRvqXU1j/jyxiZiQNQg9mzwjzlmugGW7Fppfk9nswGf4RWzIW
- DMjEviQyh4cCN/PdUe31OPEcqPB8CUs6K6Z7tZ98xtNIo3LMd5T/Y1Iv2NByNiP0xx6lKJ2yGXh
- HexwUHBPMEekc1FCW6/NzJmoeBIR+ltCyyFfmvwKYKhTpSass1dT2DKsW/UZI4kyMVsV00jitw=
- =
-X-Received: by 2002:a05:600d:8444:20b0:483:afbb:a086 with SMTP id
- 5b1f17b1804b1-483afbba1e8mr88663355e9.29.1771926218458; 
- Tue, 24 Feb 2026 01:43:38 -0800 (PST)
-X-Received: by 2002:a05:600d:8444:20b0:483:afbb:a086 with SMTP id
- 5b1f17b1804b1-483afbba1e8mr88662945e9.29.1771926217928; 
- Tue, 24 Feb 2026 01:43:37 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483b88f9584sm14864105e9.12.2026.02.24.01.43.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Feb 2026 01:43:37 -0800 (PST)
-Date: Tue, 24 Feb 2026 10:43:36 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, 
- Eric Chanudet <echanude@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Albert Esteve <aesteve@redhat.com>, 
- linux-mm@kvack.org, Yosry Ahmed <yosryahmed@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
-Message-ID: <20260224-solemn-spider-of-serendipity-0d8b94@houat>
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
- <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012014.outbound.protection.outlook.com [52.101.48.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7832010E539;
+ Tue, 24 Feb 2026 09:43:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lhMjbyLWmkhXgBVkH3JzijXLYYohu8kbSRpGl8OcvrId6O/AIfkL3oR8u3LkltVxlswkqQygHEGd+3NI2TNCt6ceOargWCFGl2gZUKsbTIuG4jgDtJ7RoHlHAHgK5B5Dtw6rgtblJn/W8cI7RTkWsl97NIrP7wZvQ0g/odor03mvqPVg4SaZjK247fvwym7QBK1TaInamFMteiktZkf90d2fe4UaPVhxZna2WQSgWrBQP9EJjv0HsPACt3brU6/5wfP3HpAfqnHGRJvu8L8ZTi1Qq4Dc+XB391ZRXP6erkS0rHbrXuw0yamOHmQOYkPvPLuFXgP5aHb7v8vtdCEU+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bvQkqs+ZQFwKQBBl+/sPze2dLL3E5dLIoA+qZOV4OLI=;
+ b=lPaPpAZytCGeeuz/PM2xORJEPYp55FK5jHLOA7BMzwbNwYdNhyXvjhZm8Q7jzt5+sbf6Kw7hfPNvBhggrPPCDHsJgT2YmIkdvdGm4BFv/Yk1v0Dhf/PReMiAanD4pWCa1l6VBlaJ8g7HiiNPEq+VTe01fCMu4qUOOXC7nKzqviLPuDWeZ8ReX7vpwLCK1zT0pOBoowuqmwegxDS4ZTq+dC4aarrNzP7PYh8GROqFhA+AGT4nOeI4jiM65y8P99+fOPA2BhSc9wc9+KvIRAVvuBndKG3hK9uvSBOpL7oO1L/t2dO7hWYrXydn0BMv3yZ3qKOhzJiCeaDfLG5SCY06Ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bvQkqs+ZQFwKQBBl+/sPze2dLL3E5dLIoA+qZOV4OLI=;
+ b=QrLQ5D5sGlnyXhG7vv7uEnD8dzt9HVLffdfVi5HVNiIQRoLkxc8aqfZclumeakSTVyW3Ay9t4MQGega1SaZOj40cKK5mIn34IkbyrqvRNfomDdYZ+Qc3ky0M3FzUctiUNE640lkO7xj9KYuBlg4J9qDqGHdNZFN6begoB6HXJYY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA0PPF80FB91A80.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bd5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
+ 2026 09:43:47 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 09:43:46 +0000
+Message-ID: <acacf729-17d5-42f4-94e0-695fd42b4bf2@amd.com>
+Date: Tue, 24 Feb 2026 10:43:40 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Leon Romanovsky <leonro@nvidia.com>, Mark Brown <broonie@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
+ Edward Srouji <edwards@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <aZyhDuaF5vi05KBY@sirena.org.uk> <20260223195715.GF10607@unreal>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260223195715.GF10607@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0028.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c9::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="yylhp6jgdgqsuz5g"
-Content-Disposition: inline
-In-Reply-To: <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PPF80FB91A80:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f8dadf5-b1a9-4227-7a07-08de738934cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cHdYRXMyM2NpNk5jYW5BdndsWDU0Y0N4ZUgzMVB2MVdzMWg1eHR3TVNpTFov?=
+ =?utf-8?B?bFZJeThqbkh1WHNxTVVsK1I5aHIvanl1NU83ejhTQUtLR0NvbmhyNjhOZUNF?=
+ =?utf-8?B?WHFFU29iSzZEMDdBUmNSTzFXOEhQRHZHaS9hc24vTDVaeXlJNVFnNHZXQ3p4?=
+ =?utf-8?B?OW9ERUZNU2JqSGxmSWcwdjVhTERNMWFGT05nSkg2Y1hUUFlubkpvY0dVZVNN?=
+ =?utf-8?B?SmZTcjZ2elp1OVRSdnlmYVVXVXJsNTI1Mno1Ui9MVUNkU0VtdzdYL1JBeDcv?=
+ =?utf-8?B?ZUpxZFZNYmJ3cGIzanJ1SHdjMkF5S293TUdJSjltNlFUQlUzVWJKc2FjTktB?=
+ =?utf-8?B?aC9NVHdaTEZpanB4enRCbDYvRDZoUnpHZndONnFhTEY1WnhFRDgwV1lEL3VW?=
+ =?utf-8?B?eThpamc0dXA2Z3RKNUJkVjRsaVZld1lBdUs1Wkw1TmRYdnBKQ3pyekVkeWVK?=
+ =?utf-8?B?MEJKNXRBYnhBaysrTWZMQnJSZVpvZ3N3SEVxN0p0WXZqOFZXUExpVVFibXY1?=
+ =?utf-8?B?UzlCenBtc2pESUtQWEFUMStNYnI1ODNXMC9teFVEQWV5UnR6b1F2cUwyUjNz?=
+ =?utf-8?B?V3paZHFJVW5NeXVWRWRoTUxXbjdwUEJ3QXBBWXZFVzVhWHpqeU5TRFFpU2pB?=
+ =?utf-8?B?emJsVE84b1hMZDBwYWVyT1VEUUlNYmN2NzRpY3ZwU0FOUUpLbUVXMDk3Nnhn?=
+ =?utf-8?B?VDRJZjlMdFhVSEFyY3J6UVl2QnJhSmpCNjI3RTFpcVczNUh3V0JGMmdxMUto?=
+ =?utf-8?B?N2d1K1JwZCsyUmpzZXczQXlBK0hmeXN6aC9BTTRkWkUvY0VXTGVNQkNlVlhK?=
+ =?utf-8?B?MVFUSXpxNHJOYnhyb01kRHJ3bDQ1d0pEeGh3V1VvODlrMjFTZWQ4YlZEUndK?=
+ =?utf-8?B?TXZ2bGx0aC9sQlZ1VGltR1NFWFlURFFLMFNJdEh6SHJ3YVFzbHZQQXNBZkZi?=
+ =?utf-8?B?SXBGYTBQUUJrMTEvSTV1TUMvMGc0VmRlZDhEWWhyZmMxdjdvOWc2MUlqZ05I?=
+ =?utf-8?B?U29zaXRrTTRHNUhKUUJkbys2ZjNiVmJmbHZHZ3hQMlZNakhieFRiYlA3WlE0?=
+ =?utf-8?B?N3llOHRCdUpyd3ZFWHhrclFpbFlobmFmaHJ6NlV2VExoQ3lkZ25PbEYzZ2pV?=
+ =?utf-8?B?a3pHTUYyWGVOQUhJZitoR1l0YVdib2puOStDdzlDcHg0R2pPVk9ia2VzcXY4?=
+ =?utf-8?B?VXVaWHdiRUlvM0I2WEgwQXpOZ0ZYZmlSMHVJV3l4N0lxS2ZGY0RRZXkxc0Ez?=
+ =?utf-8?B?UXF3b1UvdEZBT3RYUngyczIvZEttL0ZJWDNLeXZNcG53THQ3UDJMbjl1SzFR?=
+ =?utf-8?B?dmM2REZ1UkxJZUVHTE1FRUExWktudzEzNkR3b0x5c3ZiZG9Cd3lYczVuYVNC?=
+ =?utf-8?B?TEJEb3F1RGd0MGFORm8vb2tzdlFwS2N0NnBLQ2xTc1lhQmx4WkRVWkoxRVh1?=
+ =?utf-8?B?bXhBeDY5QVNBcXcrMTg1MnNNUXQyb2JCTlhLNEQrYkVBZWxsVm9QajZ1c0V6?=
+ =?utf-8?B?OGUrcDQ5bEp6Qy9lNCsyenp6TDFET1Q5dGZtR21IWGJaRU1obVVTL2ZWL0FX?=
+ =?utf-8?B?MDJZZWJMK0lWclJGYldCYnF4QzRhclloRi9MNG1za2xnVnY5bDhPUzA4VWVv?=
+ =?utf-8?B?SlNLSHRkaVdNT3d2MWJBWGkyOW5ueW0rYzJlMStVQVdSS3psaEtxNlNrU1Rz?=
+ =?utf-8?B?TGtOeklWUDdFQWRuOG9jOWxleE10eERIeUdrL1RGa1pCcC9lUm5Ld3M2OUJj?=
+ =?utf-8?B?cWZ4QVNlcWtZSEIybFhUeEFiLzd5OGE0dGlFMnZvWGlyTU1xNTdmeUVVTmR5?=
+ =?utf-8?B?ZVVka25VSG42eS9hbFNremx4N0FnNjdqMGI0ci9CWHptZUc4MHQ5U3Rkb29C?=
+ =?utf-8?B?c09IZ2dsYUdLUnY1S3dJakQzYjlRVFBFdFBCQXd6VlUvaTJQOTJScjhKem1B?=
+ =?utf-8?B?TzkzR2plRU1sZVBDR09pT3ZTRzF0Z005YzA1dlhTdFdaZ2JlRVRwZStiRVlT?=
+ =?utf-8?B?STE4cDg0bjRMSDNMRXpUakNjYlVSWXBTOWJWVEFNa3JOSWFOZW5sL3B4bmtK?=
+ =?utf-8?B?VVBoUUtZRTZQeEVrZ2s4cTdMd2N2VGdISUlIR0lLbFVGdWlsOWtZYmtpNXVH?=
+ =?utf-8?Q?PQis=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZE9SN3RLM0dyemVyMmgwTWZiOFhjc1NvQktmVmYxZGVyd3VHY3hnRHhHUnlU?=
+ =?utf-8?B?bzlvT0UrUW95YnV0VXVsUWVhdDg0U1RkSjlNSS9ISVlaVU5qZmhPSXN0Qncz?=
+ =?utf-8?B?dTAvakZoZ3BDU2J5Y3V1Q1lRbTJEa1R5L0htZzV2Q2o5K2FaWjdiem5xZ0FY?=
+ =?utf-8?B?YUFMRXkzS2ZycTFrMEhOeEYxbUFhdkZBMlRHVDRxM08reWFZQ3MraHBWaTdU?=
+ =?utf-8?B?S1RlejRZeUM3Wjl3eVZMNkdFNFpIeExZNzRndDB4cnJBYWZJYWo5cGxKVWJn?=
+ =?utf-8?B?dWF5ZVQ2emZPcHZQamlub2RCam9IUjQyOFB0U2J0QnpnS2R4RVJjWnA5UThN?=
+ =?utf-8?B?ekdiNi9uelJJcjQ2YThpQVR2N3VUckVlVU13S2dxTHRkWVlSalFuR1RYQWUr?=
+ =?utf-8?B?ZEFFNGFraVNzRittckFhaG5oQWdvbWZoN3c3aXI2bEpvSUhoNGNqVnhhSjFs?=
+ =?utf-8?B?d0dSVGhNbTVodWRBQ2N2YURBQlZhYmhxb1c0Rm9lWVdmTHJFWDZ4NHc2d2RH?=
+ =?utf-8?B?N2ZpaHlrK3hGSHBKSXp3ZkdPbWcrNm5RKy9BVWxxYmxUR2Zoa0RSNzh2d0JI?=
+ =?utf-8?B?TWxOOHcxTmY3dEtrMnEvWEY5dDZLbmZOZGlPVjB2b1ZDbXNSanF1MVZZSm56?=
+ =?utf-8?B?NUJGNUx1dXBQSVdEMkNhdkRCYmtRUTJRbWN0RUJ6M212dC9meWRPZk03Wk1o?=
+ =?utf-8?B?M3NJVk1LRnI3SXcwMFJXR1hJVS9lbVBIL2dXN3BnbW83dHl6b2ROODFqUlpY?=
+ =?utf-8?B?VTFhSFB6V01uL2FxNkl2M0NEU09USkN5dWp5OU5KMUZacFJac05lQ3lXVkR1?=
+ =?utf-8?B?YjdJOFQ1ektJVmM2OWZRUUhkQjhHc3owbUhDKzR0Q1V5aFMxY0c0T0V4Sk1L?=
+ =?utf-8?B?ak40bFpCeTdyRVhzRk9abFRuZ3ZjWC9XVjZ2ajVBc2UzZFk5S0l5cjl6Zml4?=
+ =?utf-8?B?Z0lrWXZLUWxNbkUrNFo5aExoVmdRTFE4RXFmdkJ3WHRIUjNTVmUwQ0w4ZTBk?=
+ =?utf-8?B?SHIvQXZpenk5MWZaNWQ3ZVVUZDdOcWFObnJ0K1BQNzlQTkhLRXUxQXlsVjVy?=
+ =?utf-8?B?WFNBMURBVWwzTDgwVWdYZFVlanhSQ1ZwV3pIWnJLb1YxR3k3YldZVG9lb3Zk?=
+ =?utf-8?B?OW9Ra1NycEU3SUkxWERjalNTWFZKcDZVUmpkdkVjaUVmVDdBbHNjQzJNWUZ6?=
+ =?utf-8?B?MHpqL1JMaFRwMjg2OG1xeno5dEdzcW5jT0RJMjVZN1VTVlBweUg3dmY0SXQ2?=
+ =?utf-8?B?cEdPZnhrL3ZvZ2tqU0tYZG9KczVmamRPQytZMGRSUm5CalFrNGYybklmUHpJ?=
+ =?utf-8?B?Sm5xNy9MWDBRWTRKeUtpMXBlMGYweEF6K1lQeDRzMWNreWJybUNQdGVoQ0RX?=
+ =?utf-8?B?RkUxUUZYd3lpNTNaZUlQeWlGU1h5QU9ITDlhZExJN2V3YzJscTduSVZJWlVm?=
+ =?utf-8?B?bzE5RHFxQU5ROWNITFJkUGZzM2RpSkYrM2ZRcFZ1N1I3QWxLd1FFbTFLNnA0?=
+ =?utf-8?B?emIyc2dYeUtmTjl3d3lBUytnMmdINHNEUytOZHpnallaV1ROUnBmVThlTWt3?=
+ =?utf-8?B?cGM5RDZ5MjBSWmIwRTE2THhEU3Riay95MDQ4T25KOEZZSldFTFVrMC96TndR?=
+ =?utf-8?B?amdHWE1ObGhXZExEaG0wYXFoc2hpZE9Id1BSakdZeUd1TmlpWFFDM3lKZnVI?=
+ =?utf-8?B?azNhOUJCVWpnTU1YRWNJVkdNM0Rva3FhUmRBWkhtNk5LV3U1dmxlbzRCV3JF?=
+ =?utf-8?B?RS9ORzQ2RnpvSStJQnlSWGtEK1dWSHlST2dGdDBzaHplaGVWMHFTMWZZR1do?=
+ =?utf-8?B?RmVuL1g4bWpCWkRIRkNYQklTTTNIeThjalRQWjViYmVrY1c2c2J1aHJFVU9h?=
+ =?utf-8?B?d0ZHYlVWTFo4V24zS3MzRllQOWpLMURIZklXa2VKWEhNYi85MXppZXRWNEJH?=
+ =?utf-8?B?WHNGaHpnTStIem4ySTRKZmlmK3A0Z1ZyNDJXQnRmWUsrSXNGaEFnOFlkcis5?=
+ =?utf-8?B?V2hLeVZMejZKaVIxS1NNZWV6Zi94SWRMY21MeWJIaVZNenRDc3M3bmpOTy80?=
+ =?utf-8?B?Z1cvdWpYdENwcXQrS2F6Um1rZ3A1NkhSSzVLLzZoVG10Smx2R1ZTNHBQQThm?=
+ =?utf-8?B?WHRvMDI1bDQ1V29UOGhGdVU3QUVjSXQ1R0NMV3hYTGJpQmhZUUxtaUNBV3d1?=
+ =?utf-8?B?QUNwMGpEb0ZKcUhOZlBFUkxiRVRNbHI5SW9lRUpGUmhGZVdJOFhwdGU3NXBa?=
+ =?utf-8?B?NlRjeUozOGFSeW0rUnphazl1Ly9VUzhwMzVLeE1uYmk0MHphZGtKS3hHaHB6?=
+ =?utf-8?Q?KsqhnCxQqDC22yW/5T?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f8dadf5-b1a9-4227-7a07-08de738934cf
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 09:43:46.8106 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4t17/wq0w0QF6LF8qd3VxnuvU1K0vzBKdkU48M0x+UqMLo5euN6mzo16KRtPCACK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF80FB91A80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,111 +177,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:tjmercier@google.com,m:echanude@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:aesteve@redhat.com,m:linux-mm@kvack.org,m:yosryahmed@google.com,m:shakeel.butt@linux.dev,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DC532184DA6
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: D93EB184D96
 X-Rspamd-Action: no action
 
+On 2/23/26 20:57, Leon Romanovsky wrote:
+> On Mon, Feb 23, 2026 at 06:48:46PM +0000, Mark Brown wrote:
+>> Hi all,
+>>
+>> After merging the drm-misc tree, today's linux-next build (x86_64
+>> allmodconfig) failed like this:
+>>
+>> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c: In function 'rdma_user_mmap_entry_remove':
+>> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c:249:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>>   249 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>>       |                 ^~~~~~~~~~~~~~~~~~~
+>> make[6]: *** [/tmp/next/build/scripts/Makefile.build:289: drivers/infiniband/core/ib_core_uverbs.o] Error 1
+>> make[6]: *** Waiting for unfinished jobs....
+>> /tmp/next/build/drivers/infiniband/core/uverbs_std_types_dmabuf.c: In function 'uverbs_dmabuf_fd_destroy_uobj':
+>> /tmp/next/build/drivers/infiniband/core/uverbs_std_types_dmabuf.c:170:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>>   170 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>>       |                 ^~~~~~~~~~~~~~~~~~~
+>> make[6]: *** [/tmp/next/build/scripts/Makefile.build:289: drivers/infiniband/core/uverbs_std_types_dmabuf.o] Error 1
+>>
+>> Caused by commit
+>>
+>>   95308225e5bae (dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_mappings())
+>>
+>> interacting with
+>>
+>>   0ac6f4056c4a2 (RDMA/uverbs: Add DMABUF object type and operations)
+>>
+>> from Linus' tree.  I have fixed this up as below and can carry as
+>> needed.
+>>
+>> From 89e7d4987e08a46f2db151cebba258a1bc01d628 Mon Sep 17 00:00:00 2001
+>> From: Mark Brown <broonie@kernel.org>
+>> Date: Mon, 23 Feb 2026 18:27:51 +0000
+>> Subject: [PATCH] RDMA/uverbs: Update for semantic conflict with drm-misc
+>>
+>> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c: In function 'rdma_user_mmap_entry_remove':
+>> /tmp/next/build/drivers/infiniband/core/ib_core_uverbs.c:249:17: error: implicit declaration of function 'dma_buf_move_notify' [-Wimplicit-function-declaration]
+>>   249 |                 dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>>       |                 ^~~~~~~~~~~~~~~~~~~
+>>
+>> Signed-off-by: Mark Brown <broonie@kernel.org>
+>> ---
+>>  drivers/infiniband/core/ib_core_uverbs.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> The change is correct. The
+> dma_buf_move_notify->dma_buf_invalidate_mappings rename was merged to
+> DRM tree before merge window and ib_core_uverbs change was brought
+> during merge window from RDMA tree.
+> 
+> Christian,
+> 
+> You should take this fix to your tree. RDMA tree doesn't have rename patches
+> yet.
 
---yylhp6jgdgqsuz5g
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
-MIME-Version: 1.0
+Done.
 
-Hi Christian,
+Regards,
+Christian.
 
-On Fri, Feb 20, 2026 at 10:45:08AM +0100, Christian K=C3=B6nig wrote:
-> On 2/20/26 02:14, T.J. Mercier wrote:
-> > On Wed, Feb 18, 2026 at 9:15=E2=80=AFAM Eric Chanudet <echanude@redhat.=
-com> wrote:
-> >=20
-> > Hi Eric,
-> >=20
-> >> An earlier series[1] from Maxime introduced dmem to the cma allocator =
-in
-> >> an attempt to use it generally for dma-buf. Restart from there and app=
-ly
-> >> the charge in the narrower context of the CMA dma-buf heap instead.
-> >>
-> >> In line with introducing cgroup to the system heap[2], this behavior is
-> >> enabled based on dma_heap.mem_accounting, disabled by default.
-> >>
-> >> dmem is chosen for CMA heaps as it allows limits to be set for each
-> >> region backing each heap. The charge is only put in the dma-buf heap f=
-or
-> >> now as it guaranties it can be accounted against a userspace process
-> >> that requested the allocation.
-> >=20
-> > But CMA memory is system memory, and regular (non-CMA) movable
-> > allocations can occur out of these CMA areas. So this splits system
-> > memory accounting between memcg (from [2]) and dmem. If I want to put
-> > a limit on system memory use I have to adjust multiple limits (memcg +
-> > dmems) and know how to divide the total between them all.
-> >=20
-> > How do you envision using this combination of different controllers?
->=20
-> Yeah we have this problem pretty much everywhere.
->=20
-> There are both use cases where you want to account device allocations
-> to memcg and when you don't want that.
->=20
-> From what I know at the moment it would be best if the administrator
-> could say for each dmem if it should account additionally to memcg or
-> not.
->=20
-> Using module parameters to enable/disable it globally is just a
-> workaround as far as I can see.
-
-That's a pretty good idea! It would indeed be a solution that could
-satisfy everyone (I assume?).
-
-Maxime
-
---yylhp6jgdgqsuz5g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ1yyAAKCRAnX84Zoj2+
-doacAX9OV+qF5kysBD7VpKcr5kj6qlD3tVyHVcMdeBEkYAtzN36MFGozyNSliCjA
-/lA6uL0BfiAOlFg02H8ElnCXHrx1z+Noa4YFNUJ9SeZZcTsz4JPvSJFejlvUlYrT
-iKqij7gXqQ==
-=qfni
------END PGP SIGNATURE-----
-
---yylhp6jgdgqsuz5g--
+> 
+> Thanks
+> 
+>>
+>> diff --git a/drivers/infiniband/core/ib_core_uverbs.c b/drivers/infiniband/core/ib_core_uverbs.c
+>> index d3836a62a0049..d6e99c79cf183 100644
+>> --- a/drivers/infiniband/core/ib_core_uverbs.c
+>> +++ b/drivers/infiniband/core/ib_core_uverbs.c
+>> @@ -246,7 +246,7 @@ void rdma_user_mmap_entry_remove(struct rdma_user_mmap_entry *entry)
+>>  		dma_resv_lock(uverbs_dmabuf->dmabuf->resv, NULL);
+>>  		list_del(&uverbs_dmabuf->dmabufs_elm);
+>>  		uverbs_dmabuf->revoked = true;
+>> -		dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>> +		dma_buf_invalidate_mappings(uverbs_dmabuf->dmabuf);
+>>  		dma_resv_wait_timeout(uverbs_dmabuf->dmabuf->resv,
+>>  				      DMA_RESV_USAGE_BOOKKEEP, false,
+>>  				      MAX_SCHEDULE_TIMEOUT);
+>> diff --git a/drivers/infiniband/core/uverbs_std_types_dmabuf.c b/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+>> index dfdfcd1d1a446..149220a1599cf 100644
+>> --- a/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+>> +++ b/drivers/infiniband/core/uverbs_std_types_dmabuf.c
+>> @@ -167,7 +167,7 @@ static void uverbs_dmabuf_fd_destroy_uobj(struct ib_uobject *uobj,
+>>         if (!uverbs_dmabuf->revoked) {
+>>                 uverbs_dmabuf->revoked = true;
+>>                 list_del(&uverbs_dmabuf->dmabufs_elm);
+>> -               dma_buf_move_notify(uverbs_dmabuf->dmabuf);
+>> +               dma_buf_invalidate_mappings(uverbs_dmabuf->dmabuf);
+>>                 dma_resv_wait_timeout(uverbs_dmabuf->dmabuf->resv,
+>>                                       DMA_RESV_USAGE_BOOKKEEP, false,
+>>                                       MAX_SCHEDULE_TIMEOUT);
+>>
+>> -- 
+>> 2.47.3
+>>
+> 
+> 
 
