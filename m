@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KB2nDofNnWnfSAQAu9opvQ
+	id +LpBBovNnWnfSAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:47 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0601189952
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA5518995A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 17:10:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A7A10E5D4;
-	Tue, 24 Feb 2026 16:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6CD910E5D2;
+	Tue, 24 Feb 2026 16:10:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T2p+CVBM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NF0SFbZj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB75010E5D0;
- Tue, 24 Feb 2026 16:10:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2DE10E5D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 16:10:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6A1F66132E;
- Tue, 24 Feb 2026 16:10:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B97C116D0;
- Tue, 24 Feb 2026 16:10:40 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4C46A6111B;
+ Tue, 24 Feb 2026 16:10:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CEC2C19422;
+ Tue, 24 Feb 2026 16:10:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771949441;
- bh=W/3XgT2jA0Ue6kiN4I9CsTWScgxl4Ipnw+a29pJVzzk=;
+ s=k20201202; t=1771949444;
+ bh=h8cVjJ4PhHPG05vRMcMBUdaJ853tii2+rF35JscCHXc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=T2p+CVBMNtwcA3zMPFwdbAjbhGBwhGzKOr0mi/b70jWfWNfJsWHRdC55wZDPYY2Ee
- IcvHnZRFVwqx3/DX0zY7wp9lgBwFQgFU3JzBmxxiOT16esiIXT42kaq92qjYHcDwXI
- no+g8x7ilrhhEt0mWwd8ESK/PltOKLjJm4sPGwdzxKEn98tXULbEGI1EApGziBu3Ua
- n/5W9saJN4sVXafkgBHFx4xXGsJfCj0R/e2HptjdTXepeSjokPnHo1SryC5AMdvCKj
- mftDhYy/2lFIedsFiKSjyue3cpgYTAZN33pwqZ+1u4BrfeAb137W+p27TJUfyBB4A0
- T5GvaB1va+76g==
+ b=NF0SFbZjnt6ZrEZrPMsQZ42B91LO7TFQi+qwEohgjWZCHEDnbHAT28WcPr8zbEhUf
+ rOL6eOodNvNs5uSbnN/DwpmUx2Wsijads1LJDueNfwhecb77Smi9uzQqv4Qe1aDrEl
+ lNY0LIvYc/nx1zok3TTySfB8o71kBrjPqXelU1dKLalO57CRxcwA+XPPbJ0m17zPOg
+ MtRkkri5Eivw7x8g8h3BD6CHzuXKQBfH5XZynZrlG50QBpz6+p3Ni2FDMomEXgO3pN
+ ru/FuMqKQ2/FZBbAaBsl5qdEr1DEFvI9YFQBxxQy6jbVTBOo1BT+gmj63Hw2jr/eJU
+ pHiRjE+cDHszg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 24 Feb 2026 17:10:26 +0100
-Subject: [PATCH v5 1/4] drm/amdgpu: Switch private_obj initialization to
+Date: Tue, 24 Feb 2026 17:10:27 +0100
+Subject: [PATCH v5 2/4] drm/omapdrm: Switch private_obj initialization to
  atomic_create_state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260224-drm-private-obj-reset-v5-1-5a72f8ec9934@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260224-drm-private-obj-reset-v5-2-5a72f8ec9934@kernel.org>
 References: <20260224-drm-private-obj-reset-v5-0-5a72f8ec9934@kernel.org>
 In-Reply-To: <20260224-drm-private-obj-reset-v5-0-5a72f8ec9934@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- amd-gfx@lists.freedesktop.org
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3546; i=mripard@kernel.org;
- h=from:subject:message-id; bh=W/3XgT2jA0Ue6kiN4I9CsTWScgxl4Ipnw+a29pJVzzk=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzz1a+F7p5csJnTakzyW7CrCwK09bq2G81tQpP3H5t2
- eO1YaVxHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiM70Z691WcF3fnv+kwl3i
- On+y923ZkF2arFxTnvwMv8K9j8tz6eK/+W/Wmfz/zuI6jb1icUhBLmO9Z1LxtY3hQUcOrtzIPf0
- BRxr7w9ePTd4sVfqyPHqT1jr/XX1713fXLJ3Wunhjv6ChxbYDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2099; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=h8cVjJ4PhHPG05vRMcMBUdaJ853tii2+rF35JscCHXc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzz1alz18jspDpt+R0X9MffVblrOZOc08Efj86uyozx
+ +Lm/ItmHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAihecZG74H7iureuY/L7Xe
+ d5XiyvzqHZsqp5tXHKz/5BYaY6K3ZYqJo4fVxmUXppyTXv94RmbJA8aG9nOzq5ltS68XXMvkL5v
+ 7+fIjvYxTs/3fTRbxkq/Y07DmpcwNLrM+/73pk+fvS58sJ5IGAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,34 +76,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D0601189952
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: BCA5518995A
 X-Rspamd-Action: no action
 
-The amdgpu driver relies on a drm_private_obj, that is initialized by
+The omapdrm driver relies on a drm_private_obj, that is initialized by
 allocating and initializing a state, and then passing it to
 drm_private_obj_init.
 
@@ -116,117 +118,59 @@ established one relying on a atomic_create_state implementation, let's
 migrate this instance to the new pattern.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
 ---
 
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <siqueira@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 52 ++++++++++++-----------
- 1 file changed, 28 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_drv.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a8e4e3ab5e40276b3c723297ca6520688079e0a7..98ed54afb02864342bb2c04782d05c5fb6e38672 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -4912,18 +4912,41 @@ static void dm_atomic_destroy_state(struct drm_private_obj *obj,
- 		dc_state_release(dm_state->context);
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index bf0bad8c8cf120baa124b439f3fcbfe36c976d12..90832b4b8c9dd540c8778cb39de7cf80e8796857 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -273,25 +273,35 @@ static void omap_global_destroy_state(struct drm_private_obj *obj,
+ 	struct omap_global_state *omap_state = to_omap_global_state(state);
  
- 	kfree(dm_state);
+ 	kfree(omap_state);
  }
  
 +static struct drm_private_state *
-+dm_atomic_create_state(struct drm_private_obj *obj)
++omap_global_atomic_create_state(struct drm_private_obj *obj)
 +{
-+	struct amdgpu_device *adev = drm_to_adev(obj->dev);
-+	struct dm_atomic_state *dm_state;
-+	struct dc_state *context;
++	struct omap_global_state *state;
 +
-+	dm_state = kzalloc_obj(*dm_state);
-+	if (!dm_state)
++	state = kzalloc_obj(*state);
++	if (!state)
 +		return ERR_PTR(-ENOMEM);
 +
-+	context = dc_state_create_current_copy(adev->dm.dc);
-+	if (!context) {
-+		kfree(dm_state);
-+		return ERR_PTR(-ENOMEM);
-+	}
++	__drm_atomic_helper_private_obj_create_state(obj, &state->base);
 +
-+	__drm_atomic_helper_private_obj_create_state(obj, &dm_state->base);
-+	dm_state->context = context;
-+
-+	return &dm_state->base;
++	return &state->base;
 +}
 +
- static struct drm_private_state_funcs dm_atomic_state_funcs = {
-+	.atomic_create_state = dm_atomic_create_state,
- 	.atomic_duplicate_state = dm_atomic_duplicate_state,
- 	.atomic_destroy_state = dm_atomic_destroy_state,
+ static const struct drm_private_state_funcs omap_global_state_funcs = {
++	.atomic_create_state = omap_global_atomic_create_state,
+ 	.atomic_duplicate_state = omap_global_duplicate_state,
+ 	.atomic_destroy_state = omap_global_destroy_state,
  };
  
- static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+ static int omap_global_obj_init(struct drm_device *dev)
  {
--	struct dm_atomic_state *state;
- 	int r;
- 
- 	adev->mode_info.mode_config_initialized = true;
- 
- 	adev_to_drm(adev)->mode_config.funcs = (void *)&amdgpu_dm_mode_funcs;
-@@ -4939,46 +4962,27 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
- 	else
- 		adev_to_drm(adev)->mode_config.prefer_shadow = 1;
- 	/* indicates support for immediate flip */
- 	adev_to_drm(adev)->mode_config.async_page_flip = true;
+ 	struct omap_drm_private *priv = dev->dev_private;
+-	struct omap_global_state *state;
  
 -	state = kzalloc_obj(*state);
 -	if (!state)
 -		return -ENOMEM;
 -
--	state->context = dc_state_create_current_copy(adev->dm.dc);
--	if (!state->context) {
--		kfree(state);
--		return -ENOMEM;
--	}
--
- 	drm_atomic_private_obj_init(adev_to_drm(adev),
- 				    &adev->dm.atomic_obj,
--				    &state->base,
-+				    NULL,
- 				    &dm_atomic_state_funcs);
- 
- 	r = amdgpu_display_modeset_create_props(adev);
--	if (r) {
--		dc_state_release(state->context);
--		kfree(state);
-+	if (r)
- 		return r;
--	}
- 
- #ifdef AMD_PRIVATE_COLOR
--	if (amdgpu_dm_create_color_properties(adev)) {
--		dc_state_release(state->context);
--		kfree(state);
-+	if (amdgpu_dm_create_color_properties(adev))
- 		return -ENOMEM;
--	}
- #endif
- 
- 	r = amdgpu_dm_audio_init(adev);
--	if (r) {
--		dc_state_release(state->context);
--		kfree(state);
-+	if (r)
- 		return r;
--	}
- 
+-	drm_atomic_private_obj_init(dev, &priv->glob_obj, &state->base,
++	drm_atomic_private_obj_init(dev, &priv->glob_obj, NULL,
+ 				    &omap_global_state_funcs);
  	return 0;
  }
  
- #define AMDGPU_DM_DEFAULT_MIN_BACKLIGHT 12
+ static void omap_global_obj_fini(struct omap_drm_private *priv)
 
 -- 
 2.52.0
