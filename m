@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +NU4JkxUnWk2OgQAu9opvQ
+	id ML7kE2dUnWk2OgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:32 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AFF183101
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9307183127
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:33:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0288810E4CA;
-	Tue, 24 Feb 2026 07:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2DA10E4CB;
+	Tue, 24 Feb 2026 07:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dOBj5hr6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JRhh8Gst";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6418110E4CA
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:33:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3D010E4CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:33:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9A4CD60054;
- Tue, 24 Feb 2026 07:33:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02DFC116D0;
- Tue, 24 Feb 2026 07:33:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 7EBA960054;
+ Tue, 24 Feb 2026 07:33:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2C1C116D0;
+ Tue, 24 Feb 2026 07:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771918406;
- bh=iSrxIteL09UwbTf0pHcuwTnurNV8ahNwtNfe1PxWgRw=;
+ s=k20201202; t=1771918435;
+ bh=r6Ww8xss4AtBpLp7z30m+lGwaO30IehmeY9E/VNpz+A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dOBj5hr66QT20j6MHiHga5gYS+yI48mcDrW/1Jl2T+HDmrJugSG+G/0RjSWZDLBqf
- 96+4YFsYuZkFtqQep2t7h/LBG59Av+HNH1VvDHq69DPCtWT9u6w44etw4G0Rrvtc4A
- ov5NZZ/HQWe4JJmXf3PbiFPVAHHh8k40s9iaA7nVixyPTq29GdTyWR9jjohL4NJejJ
- WaxFJbliI+bKEx+kFSpxkzDxL1OW/uXlsCu7ob4Fm29eXXJZ2fGbb9Roerj4mxk4Fj
- LPymdkwGp/dLfp1+WtI0OToh53oT18tFYbuNZG/tIDy8Y38mdks5uk5SP3UccRTJz1
- ZpHN/M1QYAgdw==
-Date: Tue, 24 Feb 2026 08:33:23 +0100
+ b=JRhh8Gst5E1UJbuAvUO0f2dlpB8IAkxLz/DXyEH7FOkPKzTnm6sWxBLN3cliyyrpn
+ 5D4HlMJ4irQZQqDvlb18Xl0zbpQA2xLRu+AG+FniZgrXgaBhbcxLkqipgQHbGhf9Do
+ +twYimDUZq3XTHuS7usunQMW2HrrU/ibGRWY3fNZLWlDq0TZ+HB/QW34Q4bEiufS+G
+ kE6Fieuij6VHVDeG6mtROzVBecfE/xaUxJtwjMWtuSc2VL8CRplchx9KA/DEXI/EHS
+ pj4WEXjJO2i+ShxHiaiWqfcrcOXDyzjz3QB6gvBEH9NXGPd92Q0cQtjmRzyrgwUDg/
+ YszAh0lMoPxlw==
+Date: Tue, 24 Feb 2026 08:33:52 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Hermes Wu <Hermes.wu@ite.com.tw>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -51,15 +51,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Kenneth.Hung@ite.com.tw, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: display: bridge: Add ITE IT6162 MIPI
- DSI to HDMI bridge
-Message-ID: <20260224-sassy-perch-of-enrichment-aa7c41@quoll>
+Subject: Re: [PATCH 3/3] MAINTAINERS: Add entry for ITE IT6162 MIPI DSI to
+ HDMI bridge driver
+Message-ID: <20260224-loyal-terrier-of-renovation-2b16bd@quoll>
 References: <20260223-upstream-6162-v1-0-ebcc66ccb1fe@ite.com.tw>
- <20260223-upstream-6162-v1-2-ebcc66ccb1fe@ite.com.tw>
+ <20260223-upstream-6162-v1-3-ebcc66ccb1fe@ite.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260223-upstream-6162-v1-2-ebcc66ccb1fe@ite.com.tw>
+In-Reply-To: <20260223-upstream-6162-v1-3-ebcc66ccb1fe@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,63 +108,38 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,bootlin.com:url,devicetree.org:url,ite.com.tw:email,60hz:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 26AFF183101
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ite.com.tw:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: D9307183127
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 05:20:46PM +0800, Hermes Wu wrote:
-> Add device tree binding documentation for the ITE IT6162 MIPI DSI to
-> HDMI 2.0 bridge chip. The IT6162 is an I2C-controlled bridge that
-> supports the following configurations:
-> 
->   - Single MIPI DSI input: up to 4K @ 30Hz
->   - Dual MIPI DSI input (combined): up to 4K @ 60Hz
-> 
-> The chip also supports up to 8-channel audio output via 4 I2S data
-> channels.
+On Mon, Feb 23, 2026 at 05:20:47PM +0800, Hermes Wu wrote:
+> Add a MAINTAINERS entry for the newly introduced ITE IT6162 MIPI DSI
+> to HDMI bridge driver, covering the driver source file and the
+> device tree binding document.
 > 
 > Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 > ---
->  .../bindings/display/bridge/ite,it6162.yaml        | 156 +++++++++++++++++++++
->  1 file changed, 156 insertions(+)
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-
-Please organize the patch documenting the compatible (DT bindings)
-before the patch using that compatible.
-See also: https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
-
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..31f809a83c305447a152e14b20cb39ef1f816911
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
-> @@ -0,0 +1,156 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ite,it6162.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6169bd4d7baccc6945363622b42e7286cbec7b88..8a6b5bf3f664247b45c66b37439d3debf6ee18b1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13485,6 +13485,14 @@ W:	https://linuxtv.org
+>  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+>  F:	drivers/media/tuners/it913x*
+>  
+> +ITE IT6162 MIPI DSI TO HDMI BRIDGE DRIVER
+> +M:	Hermes Wu <Hermes.wu@ite.com.tw>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/display/bridge/ite,it6162.yaml
+> +F:	drivers/gpu/drm/bridge/ite-it6162.c
 > +
-> +title: ITE IT6162 MIPI DSI to HDMI2.0 Bridge
 > +
-> +maintainers:
-> +  - Hermes Wu <Hermes.Wu@ite.com.tw>
-> +
-> +description: |
-> +  The ITE IT6162 is a high-performance, low-power HDMI bridge that converts
-> +  2 MIPI DSI signal to 1 HDMI2.0. It supports 2 MIPI D-PHY 2.0 up to 10Gbps
-> +  each DSI port (20Gbps total), compatible with DSI-2 v2.0.
-> +
-> +  The HDMI transmitter side supports up to 4Kx2K@60Hz resolutions, and is
-> +  compliant with HDMI2.0.
-> +
-> +  For audio, the IT61620 supports up to 8-channel LPCM via I2S (multi-line or
 
-typo - IT6162
-
-With these two changes:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+No need for multiple lines. Look first how this file is organized.
 
 Best regards,
 Krzysztof
