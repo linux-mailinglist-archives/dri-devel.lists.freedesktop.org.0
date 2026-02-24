@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kEj6Jya4nWmQRQQAu9opvQ
+	id cG9yMIa4nWnERQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:39:34 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:41:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5601887DA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7801A18882C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 15:41:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A7210E5A4;
-	Tue, 24 Feb 2026 14:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC9A10E5AC;
+	Tue, 24 Feb 2026 14:41:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EAJxolvt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gA+g57Qa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCAE10E58A;
- Tue, 24 Feb 2026 14:39:30 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A3A10E5A6;
+ Tue, 24 Feb 2026 14:41:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9401F61118;
- Tue, 24 Feb 2026 14:39:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77B4C116D0;
- Tue, 24 Feb 2026 14:39:28 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B7CFB41791;
+ Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 125EFC116D0;
+ Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771943969;
- bh=jbaKWZqPk0Xh/pen8bNFDJZDvsXaHthkW4x5LB2hfwE=;
+ s=k20201202; t=1771944066;
+ bh=dCGqyI+rHlM3XyQ2QUXSu5nZVqUPyjQmE2WK/m+d8es=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EAJxolvtBpYImqZOf15uz64XZtLaqOMRGlK4t3iCD25I9W4zuA6LFVMWvUp1jifyR
- c/RiqwoAwrUAYTyuSsClax2YUcKyJ5YlMjYMUE2F5TWAvzHgM4WKBcjuXtdfYPREUW
- URhUfQy7A4i3SSrexklknypB7O9/Ocy3tUUpXdooByCEyzNk+JMLyJQRg9gi1ijBsU
- rZA5pmkq/2kJVfer0lUZ2KbZfERYdACCLoKerKKJBMCvpsGnMiF228fEeqv2YCvRsu
- yNL4qGRv7guNl5HKis6nr1hLzQ+JK8QRVkoDFuXxDa6EyeNIm/Np/qz7rMxs38NyEe
- Et+fTvy4rJ5mA==
-Date: Tue, 24 Feb 2026 15:39:26 +0100
+ b=gA+g57QadLSgYtZf5xm7d+YH2vzWtEJsVtb2Yjxr294TnnPP+klHUGgRSnbPFMw4x
+ vN4u/6wEExddpZypJjzNjT69Biz0S7GhYqq6J0L/D89mD25k39ddaOwSfiHZFcORpB
+ MHAPLNeeqHAbnixkSvJidVV++YvN2rxpS7uIXzEFvqc3bY9BP8iOs2FUowmNn8CRfI
+ s/uC/D5eHcKGqEVAipY4dqrtOP1JEAMVx/Cvtg+rY5lZdhIuEVymyUaO3aPbTphh/1
+ 0Aa45VuNgSw1tFOaTKc4DSFTJ5elMVbaSEJ5PHaSLECpTUgsK5Gs42ik0H0ntIdmDW
+ VG5P3hlMYHljA==
+Date: Tue, 24 Feb 2026 15:41:04 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -63,17 +63,17 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v8 03/20] drm: Add enum conversions for
- drm_color_format_enum
-Message-ID: <20260224-wisteria-chimpanzee-of-chivalry-f7dea4@houat>
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
+ format DRM property
+Message-ID: <20260224-hot-adaptable-sawfish-dd0f7a@houat>
 References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-3-5722ce175dd5@collabora.com>
+ <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ndgst2h4bnyvzp5a"
+ protocol="application/pgp-signature"; boundary="5cwb2y5kukdqwgqq"
 Content-Disposition: inline
-In-Reply-To: <20260216-color-format-v8-3-5722ce175dd5@collabora.com>
+In-Reply-To: <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-1.41 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[37];
+	RCPT_COUNT_TWELVE(0.00)[36];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -118,128 +118,92 @@ X-Spamd-Result: default: False [-1.41 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4D5601887DA
+X-Rspamd-Queue-Id: 7801A18882C
 X-Rspamd-Action: no action
 
 
---ndgst2h4bnyvzp5a
+--5cwb2y5kukdqwgqq
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 03/20] drm: Add enum conversions for
- drm_color_format_enum
+Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
+ format DRM property
 MIME-Version: 1.0
 
-On Mon, Feb 16, 2026 at 02:01:17PM +0100, Nicolas Frattaroli wrote:
-> While the drm_color_format_enum enum and the hdmi_colorspace enum have
-> similar values, they're not identical, and HDMI's enum is defined as per
-> the HDMI standard.
+On Mon, Feb 16, 2026 at 02:01:19PM +0100, Nicolas Frattaroli wrote:
+> With the introduction of the "color format" DRM property, which allows
+> userspace to request a specific color format, the HDMI state helper
+> should implement this.
 >=20
-> Meanwhile, each DRM_COLOR_FORMAT_* define has a corresponding
-> drm_color_format_enum, which allows conversion from the bitshifted
-> defines to the enum values.
+> Implement it by translating the requested drm_color_format_enum to an
+> hdmi_colorspace enum value. Auto is translated to RGB, and a fallback to
+> YUV420 is only performed if the original color format was auto.
 >=20
-> Implement conversion functions from DRM_COLOR_FORMAT bitshifted defines
-> to drm_color_format_enum, and from hdmi_colorspace enum values to
-> drm_color_format_enum enum values.
->=20
-> In both conversions, an unexpected input results in a
-> DRM_COLOR_FORMAT_ENUM_INVALID result. The functions are kept inline
-> __pure to give the compiler maximum freedom to do as it pleases.
->=20
-> Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
-> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  include/drm/drm_connector.h | 53 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 53 insertions(+)
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 28 +++++++++++++++++++=
+++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 18bd875b6918..886defdd069b 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -2694,6 +2694,59 @@ int drm_connector_attach_color_format_property(str=
-uct drm_connector *connector);
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index a1d16762ac7a..3ba752200984 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -649,10 +649,34 @@ hdmi_compute_config(const struct drm_connector *con=
+nector,
+>  	unsigned int max_bpc =3D clamp_t(unsigned int,
+>  				       conn_state->max_bpc,
+>  				       8, connector->max_bpc);
+> +	enum hdmi_colorspace fmt;
+>  	int ret;
 > =20
->  const char *drm_get_color_format_name(enum drm_color_format_enum color_f=
-mt);
-> =20
-> +/**
-> + * drm_color_format_to_enum - convert a single DRM_COLOR_FORMAT\_ to enum
-> + * @fmt: One of the possible DRM_COLOR_FORMAT\_ values
-> + *
-> + * Converts a single DRM_COLOR_FORMAT\_ value to a corresponding
-> + * &enum drm_color_format_enum value. Bitmasks of multiple DRM_COLOR_FOR=
-MAT\_
-> + * values are not supported, as they would not map to a single enum valu=
-e.
-> + *
-> + * Returns converted enum value on success, or %DRM_COLOR_FORMAT_ENUM_IN=
-VALID on
-> + * failure.
-> + */
-> +static inline enum drm_color_format_enum __pure
-> +drm_color_format_to_enum(u32 fmt)
-> +{
-> +	switch (fmt) {
-> +	case DRM_COLOR_FORMAT_RGB444:
-> +		return DRM_COLOR_FORMAT_ENUM_RGB444;
-> +	case DRM_COLOR_FORMAT_YCBCR444:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR444;
-> +	case DRM_COLOR_FORMAT_YCBCR422:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR422;
-> +	case DRM_COLOR_FORMAT_YCBCR420:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR420;
+> -	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
+> -				      HDMI_COLORSPACE_RGB);
+> +	switch (conn_state->color_format) {
+> +	case DRM_COLOR_FORMAT_ENUM_AUTO:
+> +	case DRM_COLOR_FORMAT_ENUM_RGB444:
+> +		fmt =3D HDMI_COLORSPACE_RGB;
+> +		break;
+> +	case DRM_COLOR_FORMAT_ENUM_YCBCR444:
+> +		fmt =3D HDMI_COLORSPACE_YUV444;
+> +		break;
+> +	case DRM_COLOR_FORMAT_ENUM_YCBCR422:
+> +		fmt =3D HDMI_COLORSPACE_YUV422;
+> +		break;
+> +	case DRM_COLOR_FORMAT_ENUM_YCBCR420:
+> +		fmt =3D HDMI_COLORSPACE_YUV420;
+> +		break;
 > +	default:
-> +		return DRM_COLOR_FORMAT_ENUM_INVALID;
+> +		drm_dbg_kms(connector->dev, "HDMI does not support color format '%s'.\=
+n",
+> +			    drm_get_color_format_name(conn_state->color_format));
+> +		return -EINVAL;
 > +	}
-> +}
 > +
-> +/**
-> + * drm_color_format_enum_from_hdmi_colorspace - convert hdmi_colorspace =
-enum to
-> + *                                              drm_color_format_enum
-> + * @fmt: The &enum hdmi_colorspace to convert
-> + *
-> + * Returns the converted result on success, or %DRM_COLOR_FORMAT_ENUM_IN=
-VALID on
-> + * failure.
-> + */
-> +static inline enum drm_color_format_enum __pure
-> +drm_color_format_enum_from_hdmi_colorspace(enum hdmi_colorspace fmt)
-> +{
-> +	switch (fmt) {
-> +	case HDMI_COLORSPACE_RGB:
-> +		return DRM_COLOR_FORMAT_ENUM_RGB444;
-> +	case HDMI_COLORSPACE_YUV444:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR444;
-> +	case HDMI_COLORSPACE_YUV422:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR422;
-> +	case HDMI_COLORSPACE_YUV420:
-> +		return DRM_COLOR_FORMAT_ENUM_YCBCR420;
-> +	default:
-> +		return DRM_COLOR_FORMAT_ENUM_INVALID;
-> +	}
-> +}
+> +	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, f=
+mt);
+> +
+> +	if (conn_state->color_format !=3D DRM_COLOR_FORMAT_ENUM_AUTO)
+> +		return ret;
 > +
 
-With my series, you probably don't need this anymore and we just need
-the drm_output_color_format -> hdmi_colorspace conversion in the
-infoframe generation code.
+This should also be greatly simplified since you don't need to deal with
+hdmi_colorspace anymore, and thus you'll just be able to use the
+construct I hinted at in the previous version.
 
 Maxime
 
---ndgst2h4bnyvzp5a
+--5cwb2y5kukdqwgqq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ24HgAKCRAnX84Zoj2+
-dpMBAX0TTALfrVEdM8Ou+n3pA1974hxZid7FIeffpkDnDf3CXEwUedGcqqyaC+7V
-YSAtCMMBgKfQZvmR8VNY7x30NF/vawck4Ho0cD82fz1Sew/x03nVoFNDC9woN85k
-EBv6cnxPlQ==
-=Ozkv
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ24fwAKCRAnX84Zoj2+
+dh+wAXwKmT5KayIifDoxyitEKWs6EiYUCC2SA4Bg4ruLTVA9Xs//EiWw+hYVo/kQ
+7bFTr10BgODaA1IvjwBbTyIPz0upLTeNeVbfqL/ghdTyMm5jaRR3hNM7V9lXYvtY
+SsWWbJGYdQ==
+=YUqC
 -----END PGP SIGNATURE-----
 
---ndgst2h4bnyvzp5a--
+--5cwb2y5kukdqwgqq--
