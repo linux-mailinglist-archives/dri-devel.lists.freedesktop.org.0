@@ -2,56 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPl7BumOnWkXQgQAu9opvQ
+	id oMlFGZWUnWnKQgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:43:37 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:07:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F965186777
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B04186B8E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:07:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8656D10E29A;
-	Tue, 24 Feb 2026 11:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E39B10E28D;
+	Tue, 24 Feb 2026 12:07:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QU3QYEk1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DjKIgk58";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B80B410E29A
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 11:43:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B9B5261332;
- Tue, 24 Feb 2026 11:43:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3BAC116D0;
- Tue, 24 Feb 2026 11:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771933411;
- bh=WFO0FMP0ZkIjT7q1qvREiyHrV6yYl5FohSSycAyQHxk=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=QU3QYEk1C7eiNqnC8bSji+efrn76LSvARsliu3yJ6Dd2Jh1IOmaLNK+ebwWuNwq66
- M5hYq+t2VPSs0JtKqVoYB4WYqAensQAMoZW91MHJjc93enEmAjh1RGis4cIa5EDJaI
- BoFOUzKDooZzGFgIzBxBri+DxDuqTYhbDhGR3HYWwZDKIT4YjACGpP8mShqD4IRBJ0
- lTsT5zOENjq1SQjctASjb8EYxqH/YdJLBpb6Et50GDXT2FYNF8fUxI3bMR0y9QO+PD
- 5KdiGDtCrHAuag+e0UqB92oD0z6VtuX0Uk35yqaxOOW0kC4l6iQNMF0Ul/D4gTDIYH
- GjIrI/UbFh86g==
-Mime-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1979110E57B;
+ Tue, 24 Feb 2026 12:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771934862; x=1803470862;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=/OcOQk2oMDzkyMxm6+Tl3gJyTTnWkvUgbDbcQuCM94M=;
+ b=DjKIgk58posTioeTbgrPDsL+fneIKdyxydSjlIShoK+fP9OjckVmuOk5
+ 0ZP7zoResXJeMD4kpcKoao5RIPUcVd0z6ETpvai7ugZ7gVxVufWKOursK
+ uwD2Boi+xt00h/HxgfRFxOpC3wCT5pfgEeSjG3osRBU8TqOoMRKf9Gppj
+ zlUoJSahr7oC5i8bdtkVsbp3Y28l0BHLTGndHsJbtsxysbKPsU95WkQYX
+ SqunsXl/LBjFtMw5mKGc3I6VJhYfXTeGazJ9h9aa9jTDwlh9nPBRtQC7s
+ QmdnKcWygDvT3kz6l0zlV3YLa+FHMgx+je7bmo+bC3QME2+0q2LsMPRJ2 g==;
+X-CSE-ConnectionGUID: HMQpTogqRq2kAFd6lvtt0g==
+X-CSE-MsgGUID: d8MLemKtS9GcO15EdizbVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="60522553"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="60522553"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 04:07:42 -0800
+X-CSE-ConnectionGUID: YSx4KmV+QYyFfK7F7GsftA==
+X-CSE-MsgGUID: z1zvR7+XTzOZp4g0CqRNAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="246462074"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.20])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 04:07:35 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>, Ville =?utf-8?B?U3lyasOk?=
+ =?utf-8?B?bMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ xaver.hugl@kde.org, harry.wentland@amd.com, uma.shankar@intel.com,
+ louis.chauvet@bootlin.com, naveen1.kumar@intel.com,
+ ramya.krishna.yella@intel.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Suraj
+ Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH v10 0/7] User readable error codes on atomic_ioctl failure
+In-Reply-To: <1a39b9d5-ed57-4f6b-a4e2-9e26a2734c32@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260223-atomic-v10-0-f59c8def2e70@intel.com>
+ <1a4462b8-def9-4474-8382-6e99b7c8276d@intel.com>
+ <aZ1OIDsVfFvyHUK5@intel.com>
+ <5f04b5f1-744e-449e-9a45-00fd477256fc@intel.com>
+ <aZ1lbnop84k4du6N@intel.com>
+ <f155fae0285684108e92887e963358ea0ea158e9@intel.com>
+ <1a39b9d5-ed57-4f6b-a4e2-9e26a2734c32@intel.com>
+Date: Tue, 24 Feb 2026 14:07:32 +0200
+Message-ID: <21d7edcec1b6fd767b066de4ec6734cea8992904@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Feb 2026 12:43:27 +0100
-Message-Id: <DGN5YXMO9CBB.5T29K0XHUXMF@kernel.org>
-Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
-Cc: "Matthew Brost" <matthew.brost@intel.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Christian Koenig" <christian.koenig@amd.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>, "Matthew Auld" <matthew.auld@intel.com>,
- "Arun Pravin" <arunpravin.paneerselvam@amd.com>, "Simona Vetter"
- <simona.vetter@ffwll.ch>, "David Airlie" <airlied@gmail.com>,
- <dri-devel@lists.freedesktop.org>, "Tvrtko Ursulin" <tursulin@ursulin.net>
-To: "Maxime Ripard" <mripard@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260224110310.1854608-1-mripard@kernel.org>
-In-Reply-To: <20260224110310.1854608-1-mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,66 +91,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_RHS_MATCH_TO(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,amd.com,linux.intel.com,suse.de,ffwll.ch,gmail.com,lists.freedesktop.org,ursulin.net];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:phasta@kernel.org,m:christian.koenig@amd.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:matthew.auld@intel.com,m:arunpravin.paneerselvam@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,m:tursulin@ursulin.net,m:mripard@kernel.org,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,kde.org,amd.com,bootlin.com,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7F965186777
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 16B04186B8E
 X-Rspamd-Action: no action
 
-(Cc: Tvrtko)
+On Tue, 24 Feb 2026, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+> On 24-02-2026 14:58, Jani Nikula wrote:
+>> On Tue, 24 Feb 2026, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.=
+com> wrote:
+>>> Although I kinda doubt its actual usefulness to drive useful
+>>> fallback logic because often the restrictions might be a combination
+>>> of many things, and the kernel can only realistically report one of
+>>> those things.
+>> Yeah, this is my main concern as well. The drivers will have to bail out
+>> on the first issue they hit, whatever it is. The drivers may choose to
+>> do the checks in different orders, resulting in different failure modes
+>> for different drivers. And finally, accidentally making the order of the
+>> checks part of the ABI contract is a scary prospect. Imagine user space
+>> depending on certain checks happening first in order for the fallback
+>> logic to work properly. Is it a kernel regression to change the order of
+>> the checks then?
+> We are just reporting the 1st error that we see in the KMD and return=20
+> from there.
 
-On Tue Feb 24, 2026 at 12:03 PM CET, Maxime Ripard wrote:
-> Some DRM tests cross the 1s execution time threshold that defines a test
-> as slow. Let's flag them as such.
+Yes. But we can't guarantee all drivers will report the *same* first
+error in the same circumstances. We can't guarantee we will maintain the
+*same* first error over time, we can't make that promise without
+painting ourselves in the corner wrt driver maintenance.
 
-<snip>
+BR,
+Jani.
 
->  static struct kunit_case drm_sched_credits_tests[] =3D {
-> -	KUNIT_CASE(drm_sched_test_credits),
-> +	KUNIT_CASE_SLOW(drm_sched_test_credits),
-
-Hm..I don't think this test should be that slow.
-
-Looking at the code, I see intentional timeouts through:
-
-	done =3D drm_mock_sched_job_wait_scheduled(job[1], HZ);
-	KUNIT_ASSERT_FALSE(test, done);
-
-Since the timeout is in jiffies, this should be always 1s, which seems a bi=
-t
-overkill.
-
-Maybe we should just change this to msecs_to_jiffies(200), which should sti=
-ll be
-plenty and keep the test below 500ms.
+--=20
+Jani Nikula, Intel
