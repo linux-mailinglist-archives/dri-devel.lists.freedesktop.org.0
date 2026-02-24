@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cHHqFa7gnWnpSQQAu9opvQ
+	id eLScGFzhnWnpSQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 18:32:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 18:35:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED79E18A902
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 18:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E990F18A96A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 18:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C275B10E5FC;
-	Tue, 24 Feb 2026 17:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DAC10E5FE;
+	Tue, 24 Feb 2026 17:35:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h9pDmA1K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JCOdYrY4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0419610E05E;
- Tue, 24 Feb 2026 17:32:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C701910E5FD;
+ Tue, 24 Feb 2026 17:35:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771954343; x=1803490343;
+ t=1771954520; x=1803490520;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=uy9//N147ieOd/72rkd0ZKm1hPjw2dzP5gkxrOrFrCE=;
- b=h9pDmA1KD1xv9n2ErCxLgRReZtFeJt0D3GpQHGGTdTYS44H0R4kWjDm7
- /dCL520OI6EsGfPveXows2t0utw+FmVgr+OW2sbE/5uVBG+hIAfadSEvI
- L7jrtHx2FnznZH6GmN4dhpIbwt1pPXD58D1JZ3sKH9A92FMCsWwWGmCLh
- gCflyCplZ7iDYay0+ScB7lWtwxRUx7aVKZ9U/vSTiUHovAixrIZVBj66q
- +cK1k2ENJGXmYJi2YnBoxLFJZWI6i22iwBeBZ3rEmCHkNTfLqNqDRfXev
- xRDVENzPf2JhQcnOrtbIJ9fAOk9Ru+KRwxX5unrXmSXvIYjCmZo+nORFG g==;
-X-CSE-ConnectionGUID: 1iXvU/84SkWhF1G+KJ3HnQ==
-X-CSE-MsgGUID: TNRr2E9NRC6NB2zFCKCRYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="83690747"
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="83690747"
+ bh=fnV3r4YK1Ig0XxD2ADAkkc5HjoyaC8z3j4q1npYtEO4=;
+ b=JCOdYrY4WRZPVb1Co7GO07WOQK9wpvy1Uvq2Uo1pG+Ii5qEPaqU9eZsE
+ 7RvVeQk30pDrQZ+N+zo6gS7oBapEZkApjTVg2Za1qCv54/MsSMEmpx1Nh
+ fVE2GmCktXNSQMDgFIlNf7hIAJ7NiERzTkKfhgKlz0yNhnuHyIkobLkwp
+ MaKqfz0dWsZa3nsdd3V9kJXEQ2NXnTrvpSLT6ka6bgohevQhpdMNxU5PC
+ Z4prWI8Wymk7d7gdRYLb1L2ccluigfvothaS2PJjsNdzhHTWBfAHtuXlv
+ TfLDCSRhXe57qldWq584oA13CmrR9OuFoZlcS1jPb1ajHZvGIqv+y0Pgp g==;
+X-CSE-ConnectionGUID: 4qcb5MT4Tyed27sWiD8ljg==
+X-CSE-MsgGUID: CcR2/608Q3aIK98DIEN7OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="73020625"
+X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="73020625"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 09:32:22 -0800
-X-CSE-ConnectionGUID: ClDuoCgeQlKpulIe05bcPQ==
-X-CSE-MsgGUID: E8V9LKURRqyS2GKPsZ4djw==
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 09:35:19 -0800
+X-CSE-ConnectionGUID: 2YIkFaFySR+pvVypz8kiPA==
+X-CSE-MsgGUID: hUNFEdcjSDu9+L48VEgDpg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="214181580"
+X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="214182552"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.173])
  ([10.245.244.173])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 09:32:20 -0800
-Message-ID: <f529e955-2db2-4fab-ad46-5345febf270f@intel.com>
-Date: Tue, 24 Feb 2026 17:32:18 +0000
+ 24 Feb 2026 09:35:17 -0800
+Message-ID: <76588674-affb-478e-8a4a-35e7cf94f58f@intel.com>
+Date: Tue, 24 Feb 2026 17:35:15 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] drm/buddy: Add KUnit test for offset-aligned
- allocations
+Subject: Re: [PATCH v4 1/2] drm/buddy: Improve offset-aligned allocation
+ handling
 To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
  christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
 Cc: alexander.deucher@amd.com
 References: <20260217113900.10675-1-Arunpravin.PaneerSelvam@amd.com>
- <20260217113900.10675-2-Arunpravin.PaneerSelvam@amd.com>
 Content-Language: en-GB
 From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20260217113900.10675-2-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <20260217113900.10675-1-Arunpravin.PaneerSelvam@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,251 +98,113 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[matthew.auld@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,intel.com:mid,intel.com:dkim,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,intel.com:mid,intel.com:dkim];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: ED79E18A902
+X-Rspamd-Queue-Id: E990F18A96A
 X-Rspamd-Action: no action
 
-On 17/02/2026 11:39, Arunpravin Paneer Selvam wrote:
-> Add KUnit test to validate offset-aligned allocations in the DRM buddy
-> allocator.
+On 17/02/2026 11:38, Arunpravin Paneer Selvam wrote:
+> Large alignment requests previously forced the buddy allocator to search by
+> alignment order, which often caused higher-order free blocks to be split even
+> when a suitably aligned smaller region already existed within them. This led
+> to excessive fragmentation, especially for workloads requesting small sizes
+> with large alignment constraints.
 > 
-> Validate offset-aligned allocation:
-> The test covers allocations with sizes smaller than the alignment constraint
-> and verifies correct size preservation, offset alignment, and behavior across
-> multiple allocation sizes. It also exercises fragmentation by freeing
-> alternating blocks and confirms that allocation fails once all aligned offsets
-> are consumed.
+> This change prioritizes the requested allocation size during the search and
+> uses an augmented RB-tree field (subtree_max_alignment) to efficiently locate
+> free blocks that satisfy both size and offset-alignment requirements. As a
+> result, the allocator can directly select an aligned sub-region without
+> splitting larger blocks unnecessarily.
 > 
-> Stress subtree_max_alignment propagation:
-> Exercise subtree_max_alignment tracking by allocating blocks with descending
-> alignment constraints and freeing them in reverse order. This verifies that
-> free-tree augmentation correctly propagates the maximum offset alignment
-> present in each subtree at every stage.
+> A practical example is the VKCTS test
+> dEQP-VK.memory.allocation.basic.size_8KiB.reverse.count_4000, which repeatedly
+> allocates 8 KiB buffers with a 256 KiB alignment. Previously, such allocations
+> caused large blocks to be split aggressively, despite smaller aligned regions
+> being sufficient. With this change, those aligned regions are reused directly,
+> significantly reducing fragmentation.
 > 
-> v2:
->    - Move the patch to gpu/tests/gpu_buddy_test.c file.
+> This improvement is visible in the amdgpu VRAM buddy allocator state
+> (/sys/kernel/debug/dri/1/amdgpu_vram_mm). After the change, higher-order blocks
+> are preserved and the number of low-order fragments is substantially reduced.
+> 
+> Before:
+>    order- 5 free: 1936 MiB, blocks: 15490
+>    order- 4 free:  967 MiB, blocks: 15486
+>    order- 3 free:  483 MiB, blocks: 15485
+>    order- 2 free:  241 MiB, blocks: 15486
+>    order- 1 free:  241 MiB, blocks: 30948
+> 
+> After:
+>    order- 5 free:  493 MiB, blocks:  3941
+>    order- 4 free:  246 MiB, blocks:  3943
+>    order- 3 free:  123 MiB, blocks:  4101
+>    order- 2 free:   61 MiB, blocks:  4101
+>    order- 1 free:   61 MiB, blocks:  8018
+> 
+> By avoiding unnecessary splits, this change improves allocator efficiency and
+> helps maintain larger contiguous free regions under heavy offset-aligned
+> allocation workloads.
+> 
+> v2:(Matthew)
+>    - Update augmented information along the path to the inserted node.
 > 
 > v3:
->    - Fixed build warnings reported by kernel test robot <lkp@intel.com>
+>    - Move the patch to gpu/buddy.c file.
+> 
+> v4:(Matthew)
+>    - Use the helper instead of calling _ffs directly
+>    - Remove gpu_buddy_block_order(block) >= order check and drop order
+>    - Drop !node check as all callers handle this already
+>    - Return larger than any other possible alignment for __ffs64(0)
+>    - Replace __ffs with __ffs64
 > 
 > Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Christian König <christian.koenig@amd.com>
 > ---
->   drivers/gpu/tests/gpu_buddy_test.c | 167 +++++++++++++++++++++++++++++
->   1 file changed, 167 insertions(+)
+>   drivers/gpu/buddy.c       | 275 +++++++++++++++++++++++++++++++-------
+>   include/linux/gpu_buddy.h |   2 +
+>   2 files changed, 232 insertions(+), 45 deletions(-)
 > 
-> diff --git a/drivers/gpu/tests/gpu_buddy_test.c b/drivers/gpu/tests/gpu_buddy_test.c
-> index 450e71deed90..2901d43f4bae 100644
-> --- a/drivers/gpu/tests/gpu_buddy_test.c
-> +++ b/drivers/gpu/tests/gpu_buddy_test.c
-> @@ -21,6 +21,171 @@ static inline u64 get_size(int order, u64 chunk_size)
->   	return (1 << order) * chunk_size;
->   }
+> diff --git a/drivers/gpu/buddy.c b/drivers/gpu/buddy.c
+> index 603c59a2013a..542131992763 100644
+> --- a/drivers/gpu/buddy.c
+> +++ b/drivers/gpu/buddy.c
+> @@ -14,6 +14,25 @@
 >   
-> +static void gpu_test_buddy_subtree_offset_alignment_stress(struct kunit *test)
+>   static struct kmem_cache *slab_blocks;
+>   
+> +static unsigned int gpu_buddy_block_offset_alignment(struct gpu_buddy_block *block)
 > +{
-> +	struct gpu_buddy_block *block;
-> +	struct rb_node *node = NULL;
-> +	const u64 mm_size = SZ_2M;
-> +	const u64 alignments[] = {
-> +		SZ_1M,
-> +		SZ_512K,
-> +		SZ_256K,
-> +		SZ_128K,
-> +		SZ_64K,
-> +		SZ_32K,
-> +		SZ_16K,
-> +		SZ_8K,
-> +	};
+> +	u64 offset = gpu_buddy_block_offset(block);
 > +
-
-Nit: extra newline
-
-> +	struct list_head allocated[ARRAY_SIZE(alignments)];
-> +	unsigned int i, order, max_subtree_align = 0;
-> +	struct gpu_buddy mm;
-> +	int ret, tree;
+> +	if (!offset)
+> +		/*
+> +		 * __ffs64(0) is undefined; offset 0 is maximally aligned, so return
+> +		 * a value greater than any possible alignment.
+> +		 */
+> +		return 64 + 1;
 > +
-> +	KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-> +			       "buddy_init failed\n");
-> +
-> +	for (i = 0; i < ARRAY_SIZE(allocated); i++)
-> +		INIT_LIST_HEAD(&allocated[i]);
-> +
-> +	/*
-> +	 * Exercise subtree_max_alignment tracking by allocating blocks with descending
-> +	 * alignment constraints and freeing them in reverse order. This verifies that
-> +	 * free-tree augmentation correctly propagates the maximum offset alignment
-> +	 * present in each subtree at every stage.
-> +	 */
-> +
-> +	for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-> +		struct gpu_buddy_block *root = NULL;
-> +		unsigned int expected;
-> +		u64 align;
-> +
-> +		align = alignments[i];
-> +		expected = ilog2(align) - 1;
-> +
-> +		for (;;) {
-> +			ret = gpu_buddy_alloc_blocks(&mm,
-> +						     0, mm_size,
-> +						     SZ_4K, align,
-> +						     &allocated[i],
-> +						     0);
-> +			if (ret)
-> +				break;
-> +
-> +			block = list_last_entry(&allocated[i],
-> +						struct gpu_buddy_block,
-> +						link);
-> +			KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (align - 1), 0ULL);
-
-Perhaps simpler to use:
-
-IS_ALIGNED(offset, align)
-
-?
-
-> +		}
-> +
-> +		for (order = mm.max_order + 1; order-- > 0 && !root; ) {
-
-This is maybe a bit hard to read?
-
-for (order = mm.max_order; order >= 0 && !root; order--)
-
-And make order an int?
-
-> +			for (tree = 0; tree < 2; tree++) {
-> +				node = mm.free_trees[tree][order].rb_node;
-> +				if (node) {
-> +					root = container_of(node,
-> +							    struct gpu_buddy_block,
-> +							    rb);
-> +					break;
-> +				}
-> +			}
-> +		}
-> +
-> +		KUNIT_ASSERT_NOT_NULL(test, root);
-> +		KUNIT_EXPECT_EQ(test, root->subtree_max_alignment, expected);
-> +	}
-> +
-> +	for (i = ARRAY_SIZE(alignments); i-- > 0; ) {
-> +		gpu_buddy_free_list(&mm, &allocated[i], 0);
-> +
-> +		for (order = 0; order <= mm.max_order; order++) {
-> +			for (tree = 0; tree < 2; tree++) {
-> +				node = mm.free_trees[tree][order].rb_node;
-> +				if (!node)
-> +					continue;
-> +
-> +				block = container_of(node, struct gpu_buddy_block, rb);
-> +				max_subtree_align = max(max_subtree_align,
-> +							block->subtree_max_alignment);
-> +			}
-> +		}
-> +
-> +		KUNIT_EXPECT_GE(test, max_subtree_align, ilog2(alignments[i]));
-> +	}
-> +
-> +	gpu_buddy_fini(&mm);
+> +	return __ffs64(offset);
 > +}
 > +
-> +static void gpu_test_buddy_offset_aligned_allocation(struct kunit *test)
-> +{
-> +	struct gpu_buddy_block *block, *tmp;
-> +	int num_blocks, i, count = 0;
-> +	LIST_HEAD(allocated);
-> +	struct gpu_buddy mm;
-> +	u64 mm_size = SZ_4M;
-> +	LIST_HEAD(freed);
+> +RB_DECLARE_CALLBACKS_MAX(static, gpu_buddy_augment_cb,
+> +			 struct gpu_buddy_block, rb,
+> +			 unsigned int, subtree_max_alignment,
+> +			 gpu_buddy_block_offset_alignment);
 > +
-> +	KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-> +			       "buddy_init failed\n");
-> +
-> +	num_blocks = mm_size / SZ_256K;
-> +	/*
-> +	 * Allocate multiple sizes under a fixed offset alignment.
-> +	 * Ensures alignment handling is independent of allocation size and
-> +	 * exercises subtree max-alignment pruning for small requests.
-> +	 */
-> +	for (i = 0; i < num_blocks; i++)
-> +		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_256K,
-> +								    &allocated, 0),
-> +					"buddy_alloc hit an error size=%u\n", SZ_8K);
-> +
-> +	list_for_each_entry(block, &allocated, link) {
-> +		/* Ensure the allocated block uses the expected 8 KB size */
-> +		KUNIT_EXPECT_EQ(test, gpu_buddy_block_size(&mm, block), SZ_8K);
-> +		/* Ensure the block starts at a 256 KB-aligned offset for proper alignment */
-> +		KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (SZ_256K - 1), 0ULL);
-
-IS_ALIGNED() ?
-
-> +	}
-> +	gpu_buddy_free_list(&mm, &allocated, 0);
-> +
-> +	for (i = 0; i < num_blocks; i++)
-> +		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-> +								    &allocated, 0),
-> +					"buddy_alloc hit an error size=%u\n", SZ_16K);
-> +
-> +	list_for_each_entry(block, &allocated, link) {
-> +		/* Ensure the allocated block uses the expected 16 KB size */
-> +		KUNIT_EXPECT_EQ(test, gpu_buddy_block_size(&mm, block), SZ_16K);
-> +		/* Ensure the block starts at a 256 KB-aligned offset for proper alignment */
-> +		KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (SZ_256K - 1), 0ULL);
-
-IS_ALIGNED() ?
-
-Anyway:
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> +	}
-> +
-> +	/*
-> +	 * Free alternating aligned blocks to introduce fragmentation.
-> +	 * Ensures offset-aligned allocations remain valid after frees and
-> +	 * verifies subtree max-alignment metadata is correctly maintained.
-> +	 */
-> +	list_for_each_entry_safe(block, tmp, &allocated, link) {
-> +		if (count % 2 == 0)
-> +			list_move_tail(&block->link, &freed);
-> +		count++;
-> +	}
-> +	gpu_buddy_free_list(&mm, &freed, 0);
-> +
-> +	for (i = 0; i < num_blocks / 2; i++)
-> +		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-> +								    &allocated, 0),
-> +					"buddy_alloc hit an error size=%u\n", SZ_16K);
-> +
-> +	/*
-> +	 * Allocate with offset alignment after all slots are used; must fail.
-> +	 * Confirms that no aligned offsets remain.
-> +	 */
-> +	KUNIT_ASSERT_TRUE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-> +							   &allocated, 0),
-> +			       "buddy_alloc hit an error size=%u\n", SZ_16K);
-> +	gpu_buddy_free_list(&mm, &allocated, 0);
-> +	gpu_buddy_fini(&mm);
-> +}
-> +
->   static void gpu_test_buddy_fragmentation_performance(struct kunit *test)
->   {
->   	struct gpu_buddy_block *block, *tmp;
-> @@ -912,6 +1077,8 @@ static struct kunit_case gpu_buddy_tests[] = {
->   	KUNIT_CASE(gpu_test_buddy_alloc_range_bias),
->   	KUNIT_CASE(gpu_test_buddy_fragmentation_performance),
->   	KUNIT_CASE(gpu_test_buddy_alloc_exceeds_max_order),
-> +	KUNIT_CASE(gpu_test_buddy_offset_aligned_allocation),
-> +	KUNIT_CASE(gpu_test_buddy_subtree_offset_alignment_stress),
->   	{}
->   };
+>   static struct gpu_buddy_block *gpu_block_alloc(struct gpu_buddy *mm,
+>   					       struct gpu_buddy_block *parent,
+>   					       unsigned int order,
+> @@ -31,6 +50,9 @@ static struct gpu_buddy_block *gpu_block_alloc(struct gpu_buddy *mm,
+>   	block->header |= order;
+>   	block->parent = parent;
 >   
+> +	block->subtree_max_alignment =
+> +		gpu_buddy_block_offset_alignment(block);
+> +
+
+I think we can drop this now?
 
