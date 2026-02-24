@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IAP7NmRWnWk2OgQAu9opvQ
+	id SH0UJoJWnWk2OgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:42:28 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:42:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417571832AD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BD31832E8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:42:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E79310E4CE;
-	Tue, 24 Feb 2026 07:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910C910E4CF;
+	Tue, 24 Feb 2026 07:42:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ubglMiOT";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="kXjAE4nK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com
- [209.85.208.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2219110E4CE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:42:24 +0000 (UTC)
-Received: by mail-ed1-f73.google.com with SMTP id
- 4fb4d7f45d1cf-65a1b27b84cso6123513a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 23:42:24 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87BD10E4CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:42:55 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-4836ff58111so63101885e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Feb 2026 23:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1771918942; x=1772523742;
+ d=google.com; s=20230601; t=1771918974; x=1772523774;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=frFYhvxWM9eIw5h2wgGi0BhhHCnVyyp+eDzoN2U5eXo=;
- b=ubglMiOTl0s89clEPrFVV5pvqKY7ZH3LZaoIprjXz/TaU0Z+OQNwLAUn3jmyddsSXn
- 2zwWdZwT+9xQzTvtIGOfgdvBlg1RkWoQKvcRtjFYy5Vumto/1fDGWq/pgjBwEt23bFna
- xusx/BWPBKNTtpEpEinHa2QQPxyzug1q+RpJvh7/TdKmoxzPMIhTtM4YYKLUa68GAXcp
- b3chYyhb7OIfLnJMV26yufBgvoXPQeFlwc7rMlNsbVZrr5NalN1wwDVMkYBDFIEIjOfl
- AbzFCG2MA+/2l56FYQo4+WSBCUANcpIW2N5Y3NriEqiOx7ssgsmjv1Jtd12Jx9pELN+g
- Wi7w==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KLgeAhL36wm8UIjzvmBP2LJKULVjcpqcgzoTxIUEDHQ=;
+ b=kXjAE4nKVvePz8WiVOJaVrCWjFFuZ6Yr5MVwhMpmwfwkT7NSOjybHvG/dSv+C4Rijf
+ VetrbJ02rB3mxCC/R8liEtahWo0z1uVUbmJcNrEi4gKcbjZi64ozGBQr/dtnquCOTH/c
+ UHYBldFw1UbZ6sbJiP4s2ked8qpDNDKATdmZlLdri/nKN56mAY0+Ei8ahUNLkhAzwxUL
+ V15PXQcdskQGMOs1ZxSxeZkdLfJ5feYIZBsv303HcYPKerCONLySn8DC9t+SexzdAr9D
+ ieeTgAA9bv8m1vh1sdvIlhgUsGleJ7AogoyiE8VgaWZMFplFhRvFg/tuXkWDRPylTR8E
+ crhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771918942; x=1772523742;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=frFYhvxWM9eIw5h2wgGi0BhhHCnVyyp+eDzoN2U5eXo=;
- b=nGzUeWuMKFXGXVoMjd3uu0xTnbRmrDt31tVIJkDX74m1l5Ou1DutENrJmgO9QB0gBV
- LP+0B8cxr45AHFV2hxObhJsD9OJxkVIitjQER4Ak2PN2VnHmNKwOi/hJSP7vPaEAJ/wL
- HRapc+e0cedPNHLWFj+T7L0F8djBSTSW5etYupXRFMw3H0ZF6QVNrXVmhIwrGXepvkUa
- 2hagDzD0YhvJC5zaHzB50ArNC/FO1APIvDuAQQBjgbRuBxrwBuukJEjmrU0DfWFcta9P
- ipTsgk56V5phVduk+IwvZVH26qUqfnn1QIhjCaoky3m0/rh2zgoNFl1dntSPjrqaXE5S
- yOqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsGgYcHNZd2GMrQ3ZTu/j+vXFZca6iZsA3z655yDjzIThGVT4aSK1WmSz3l2mnv3BfiE7H+Q9Tqgg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywraqh7bdTGyttp+uXu1eXhiexrcAZk/nlMUnkMGbDrIBZ0uKmo
- nrgkiaAc+w9kB+GM4a3BD8zgw0DVsWOGxs/PliztxC6MC/R6XItWiZq8LzxvIZoNkucDWfUldwa
- n3IjqeDl750dibiAaOw==
-X-Received: from ejrv26.prod.google.com ([2002:a17:906:565a:b0:b8e:a7a6:78a1])
+ d=1e100.net; s=20230601; t=1771918974; x=1772523774;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KLgeAhL36wm8UIjzvmBP2LJKULVjcpqcgzoTxIUEDHQ=;
+ b=DO+BdymwqPc8FIxlxCyxYPRPYk+T6QPPjaBRPlz7mu/P4ZJpKgRoD7exLLncrYdWCV
+ fFI31BwF8u+oXfZnhrW8C1sGlAVUCfZ+BuldMZlZfN3A6gBIf/WjVLEz2upFSrOHQ9ws
+ HbVUamfaOoKYT6KxDMhaX2rQUVAhWIBAokWNJW4I04MFHnv3hu8olyjydO8qJN9pFewa
+ H9uZ+D9KEDcazUAeI+Gei0w+DxOANn3PwwxVG8S8iS3OU4uidA5+zn3B2uwfMpoOz1XB
+ ZLl1pzW/0XFGvbGmoHblYBYYy7BhYZvo243n6Dn0laeq+i9MDh9vDvpznXtXzOt4r5Ar
+ znCA==
+X-Gm-Message-State: AOJu0YxH/663mgCkmya6ritjW1nB03/25uD8/QXRkA50iJVXm3iZLdd6
+ HdpBrcuoxTas1CZ/o3pJ3mephw0IpbpZaKCKcf4wtwzffq8Du5AH2T7FeDL+poSktO5sDbWQIHS
+ rlipGJSQZmi9A7hn5Uw==
+X-Received: from wmby2.prod.google.com ([2002:a05:600c:c042:b0:480:4a03:7b7e])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:1c18:b0:b8f:6699:a036 with SMTP id
- a640c23a62f3a-b9081a2bfa6mr666119866b.19.1771918942287; 
- Mon, 23 Feb 2026 23:42:22 -0800 (PST)
-Date: Tue, 24 Feb 2026 07:42:21 +0000
-In-Reply-To: <20260210183812.261142-1-work@onurozkan.dev>
+ 2002:a05:600c:4e45:b0:477:76bf:e1fb with SMTP id
+ 5b1f17b1804b1-483a95e957bmr231163855e9.16.1771918974396; 
+ Mon, 23 Feb 2026 23:42:54 -0800 (PST)
+Date: Tue, 24 Feb 2026 07:42:53 +0000
+In-Reply-To: <20260223203833.207955-1-deborah.brouwer@collabora.com>
 Mime-Version: 1.0
-References: <20260210183812.261142-1-work@onurozkan.dev>
-Message-ID: <aZ1WXYhM8meuCZkM@google.com>
-Subject: Re: [PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
+References: <20260223203833.207955-1-deborah.brouwer@collabora.com>
+Message-ID: <aZ1WfUrNVPmf6vsz@google.com>
+Subject: Re: [PATCH v2] drm/tyr: Use vertical style for imports
 From: Alice Ryhl <aliceryhl@google.com>
-To: "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>
-Cc: daniel.almeida@collabora.com, dakr@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,81 +84,52 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:daniel.almeida@collabora.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[collabora.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,onurozkan.dev:email]
-X-Rspamd-Queue-Id: 417571832AD
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 31BD31832E8
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 09:38:12PM +0300, Onur =C3=96zkan wrote:
-> GpuInfo::log() was decoding GPU_ID like this:
->=20
->   major =3D (self.gpu_id >> 16) & 0xff;
->   minor =3D (self.gpu_id >> 8) & 0xff;
->   status =3D self.gpu_id & 0xff;
->=20
-> That does not match the Mali GPU_ID layout and mixes unrelated
-> fields. Due to that, model detection becomes `mali-unknown` on
-> rk3588s which is wrong.
->=20
-> We can already get all the version information with a single
-> GpuId::from call (less code and cleaner), so this patch uses it.
->=20
-> Also renamed `GpuModels` fields from `major/minor` to
-> `arch_major/prod_major` to reflect their real meaning.
->=20
-> This change was tested on Orange Pi 5 (rk3588s) board and the
-> results are as follows:
->=20
-> Before this change:
->=20
-> $ dmesg | grep 'tyr'
-> [   19.698338] tyr fb000000.gpu: mali-unknown id 0xa867 major 0x67 minor =
-0x0 status 0x5
-> [   19.699050] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0=
-x301 MMU:0x2830 AS:0xff
-> [   19.699817] tyr fb000000.gpu: shader_present=3D0x0000000000050005 l2_p=
-resent=3D0x0000000000000001 tiler_present=3D0x0000000000000001
-> [   19.702493] tyr fb000000.gpu: Tyr initialized correctly.
->=20
-> After this change:
->=20
-> $ dmesg | grep 'tyr'
-> [   19.591692] tyr fb000000.gpu: mali-g610 id 0xa867 major 0x0 minor 0x0 =
-status 0x5
-> [   19.592374] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0=
-x301 MMU:0x2830 AS:0xff
-> [   19.593141] tyr fb000000.gpu: shader_present=3D0x0000000000050005 l2_p=
-resent=3D0x0000000000000001 tiler_present=3D0x0000000000000001
-> [   19.595831] tyr fb000000.gpu: Tyr initialized correctly.
->=20
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
+On Mon, Feb 23, 2026 at 12:38:33PM -0800, Deborah Brouwer wrote:
+> Currently Tyr uses rustfmt style for imports, but the kernel uses a
+> vertical layout that makes it easier to resolve conflicts and rebase.
+> 
+> Import guidelines are documented here:
+> 	https://docs.kernel.org/rust/coding-guidelines.html#imports
+> 
+> Change all of Tyr's imports to use the vertical layout. This will
+> ease the introduction of additional Tyr patches upstream.
+> 
+> There should be no functional changes in this patch.
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
 Applied to drm-rust-next. Thanks!
+
