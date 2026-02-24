@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJjqB5WEnWmVQQQAu9opvQ
+	id 2EDPNZWEnWlsQQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A24185CA2
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787C8185CA9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 11:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB02810E557;
-	Tue, 24 Feb 2026 10:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C33010E55A;
+	Tue, 24 Feb 2026 10:59:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RhAqQ0Dy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iPv0SrZG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68C610E554;
- Tue, 24 Feb 2026 10:59:26 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0BA510E557;
+ Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 19DC16133A;
- Tue, 24 Feb 2026 10:59:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393FAC2BCB1;
- Tue, 24 Feb 2026 10:59:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id C5E94446C5;
+ Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD9DC2BC86;
+ Tue, 24 Feb 2026 10:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771930765;
- bh=KceesNBAfhTx1KQMcVuNTGiWT8NUDulfkXBoEqFevAA=;
+ s=k20201202; t=1771930768;
+ bh=l8p4wTTQLQPtd/d4pC052EXGqibRJa3coOy/6vNsnLY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=RhAqQ0DykuMab0KDdOBwoqd5MMn98l/KZLcVsdfnlmUy0PLhDLaqiBd6+azWlFo2h
- IYOwSV0Y4G7aDFNHO92T5ewOod0HUhA8uC4GtqF+5vfBNOOtk3VKOUrkSGFCBFMZtY
- 4Q9k5BzeZqS/eESBHQIlKRLDtrxkGRGeBxGcKC9bWD/jsqJiaJo81yG82KTPGKm4xt
- RJq81ygT48uj6U8fAAoBsBqvrR9YL96pZ/IBVSBNNsodxcEUzHyUY9LlmjTkSwKhnd
- iqntgNZmC2yiqSNCeu7y1g/VXogMNHuIMJG3kww5pS9gBh75zpcj8bbQLvLMmzCmu0
- v0xaUI0fFcXnw==
+ b=iPv0SrZGdf2wk9NXqeDwWTxSWH2nKiSLOJ5nfLENxVj//CkNisvUmacGcFv4Nmssw
+ MVrBZLGoCNoyydargw346T0MIva+yL+RAG0IGmZDwPSFfAc2+39IzDeu61RckToi2K
+ DwqNspbTtbyP9gE+pP4ZVyxqs6iMqMZ2VNoNqVRFiqtvxTGocO02Th4ajjN5fO/Ig/
+ j0bZiaHFe3eyR9d/Dx4Uo/9Paw2wW7DacKK7iGcEkuFIiSfQ7UlAs0pEpJHlk+T0Wz
+ /CG3zHFS71lH66BLZY60bYBr7k/S2sg3ZJkJXlHWaM8s5nieo+v+WxvNg/WojNIFyl
+ oqb/FaMzs98Yg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 24 Feb 2026 11:58:50 +0100
-Subject: [PATCH 11/14] drm/mediatek: dp: Convert to drm_output_color_format
+Date: Tue, 24 Feb 2026 11:58:51 +0100
+Subject: [PATCH 12/14] drm/rockchip: analogix: Convert to
+ drm_output_color_format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-drm-rework-color-formats-v1-11-bebc76604ada@kernel.org>
+Message-Id: <20260224-drm-rework-color-formats-v1-12-bebc76604ada@kernel.org>
 References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 In-Reply-To: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -74,12 +75,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2275; i=mripard@kernel.org;
- h=from:subject:message-id; bh=KceesNBAfhTx1KQMcVuNTGiWT8NUDulfkXBoEqFevAA=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW9K3//rzv+f63L1Hpotv8v72tE656t/MiemunlWT9
- l5bMf/oi46pLAzCnAyyYoosT2TCTi9vX1zlYL/yB8wcViaQIQxcnAIwkR5PxvqSu433iz0P3v4b
- OfvoDq3zT5Yc2P/kS9DczQts9VjuGHM1BX2+et0tsnvrq2MbpdzPcr1nrBXas8zy8FJBddOkRcs
- nFJkFFU18aOvj6cTbsLB7ccj+s4t27K+dGeZozJoY3+Am4S+qBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1890; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=l8p4wTTQLQPtd/d4pC052EXGqibRJa3coOy/6vNsnLY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlzW9LTO4vWTbszYZLt129OK84c75JlNJkyrfPXy23KZ
+ gtVFVisOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEjjgz1sc9EJbXvCf6382v
+ f2qdzNe6D9HR7YxF5pIWO+d8V4xfeLjQr17uuoPoNLe/wRIvtdjlGOv0zdkXJx6888Pv1ebnHqp
+ nX64Sr9ztb961/xqjkOn+Kub1t5wWiqXsCNhnKGyU8Ou1wgoA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,7 +125,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 94A24185CA2
+X-Rspamd-Queue-Id: 787C8185CA9
 X-Rspamd-Action: no action
 
 Now that we introduced a new drm_output_color_format enum to represent
@@ -142,39 +143,32 @@ or as a discriminant in which case we don't.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 4 ++--
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 5e67dab6e2e91de880282289479cf109087af3f2..24b1b62c286635e51f7f4ddc27d07f4dcef01723 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2452,11 +2452,11 @@ static enum drm_mode_status
- mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
- 			 const struct drm_display_info *info,
- 			 const struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+index fdab71d51e2a71d644f128b1bf1c39429b4ad52a..96bd3dd239d251af3d5a7d0fbd4dd74942d44f2d 100644
+--- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+@@ -169,16 +169,16 @@ static int rockchip_dp_powerdown(struct analogix_dp_plat_data *plat_data)
+ static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
+ 				 struct drm_connector *connector)
  {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
--	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 : 24;
-+	u32 bpp = info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) ? 16 : 24;
- 	u32 lane_count_min = mtk_dp->train_info.lane_count;
- 	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
- 		   lane_count_min;
+ 	struct drm_display_info *di = &connector->display_info;
+ 	/* VOP couldn't output YUV video format for eDP rightly */
+-	u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCBCR422;
++	u32 mask = BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) | BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
  
- 	/*
-@@ -2519,11 +2519,11 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	 * datarate of YUV422 and sink device supports YUV422, we output YUV422
- 	 * format. Use this condition, we can support more resolution.
- 	 */
- 	if (((rate * 97 / 100) < (mode->clock * 24 / 8)) &&
- 	    ((rate * 97 / 100) > (mode->clock * 16 / 8)) &&
--	    (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
-+	    (display_info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))) {
- 		input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
- 		if (!input_fmts)
- 			return NULL;
- 		*num_input_fmts = 1;
- 		input_fmts[0] = MEDIA_BUS_FMT_YUYV8_1X16;
+ 	if ((di->color_formats & mask)) {
+ 		DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
+ 		di->color_formats &= ~mask;
+-		di->color_formats |= DRM_COLOR_FORMAT_RGB444;
++		di->color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
+ 		di->bpc = 8;
+ 	}
+ 
+ 	return 0;
+ }
 
 -- 
 2.52.0
