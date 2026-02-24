@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLowOq7FnWnsRwQAu9opvQ
+	id sPh/HbPFnWnsRwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:18 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0281891D3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61DD1891DC
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4DCB10E5B6;
-	Tue, 24 Feb 2026 15:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9A4710E5B5;
+	Tue, 24 Feb 2026 15:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CHA9htZJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QlOAvP4M";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CHA9htZJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QlOAvP4M";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UfusNNtD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPy0lz3J";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UfusNNtD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPy0lz3J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9478B10E5AE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E924310E5B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:15 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9F51F3F2C1;
- Tue, 24 Feb 2026 15:37:02 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 071CD3F2BF;
+ Tue, 24 Feb 2026 15:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771947422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771947423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PY79QwSAPOpYCesftBXxKudEPNYN+N/VLZdkdwiuHck=;
- b=CHA9htZJLcG4WDk8c2BIO2wyGYLlP+gslFqrqc+E6HxaDCToJQCUshrqL3xqbnjQfyaGRf
- PU93aW2DI8FtzPp+zLigH/XVMq63lviRMp8qz8eSx5OSpeLDAStjBH8fnX1fFRzd+8jgqT
- +B2T6ekv5EoAPQCesyq7GfEfXaeSWyQ=
+ bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
+ b=UfusNNtDWvrxsCxItCVmTu72t7SKnoiIq9Ec7pYxd/ln+plOMusrybppJvkZnFdyXEvWl9
+ KxoI53HYNA6S4Q9WIr+EV9t1z233lezk6f6mZAdiLwwkqacQng6cvCpSscrCMzKK9Ea0AN
+ xgRsI1z9tbXp9Xz0G7K16Ee15f8VvZM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771947422;
+ s=susede2_ed25519; t=1771947423;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PY79QwSAPOpYCesftBXxKudEPNYN+N/VLZdkdwiuHck=;
- b=QlOAvP4MOu6xRt5GxjDc1gc6ddJwvY77nqzMlfJJqOETisjyBxFVmnXZR1T9RnaYRpwlW7
- CmvtXYUfqicpvXAA==
+ bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
+ b=BPy0lz3JqljploozignzewxLaPsIQSq9hEEdoAAeo0KowhN+ZE6xvmQRDQq5ch9mpO6erU
+ cxKrGtm819WgO2Dw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771947422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1771947423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PY79QwSAPOpYCesftBXxKudEPNYN+N/VLZdkdwiuHck=;
- b=CHA9htZJLcG4WDk8c2BIO2wyGYLlP+gslFqrqc+E6HxaDCToJQCUshrqL3xqbnjQfyaGRf
- PU93aW2DI8FtzPp+zLigH/XVMq63lviRMp8qz8eSx5OSpeLDAStjBH8fnX1fFRzd+8jgqT
- +B2T6ekv5EoAPQCesyq7GfEfXaeSWyQ=
+ bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
+ b=UfusNNtDWvrxsCxItCVmTu72t7SKnoiIq9Ec7pYxd/ln+plOMusrybppJvkZnFdyXEvWl9
+ KxoI53HYNA6S4Q9WIr+EV9t1z233lezk6f6mZAdiLwwkqacQng6cvCpSscrCMzKK9Ea0AN
+ xgRsI1z9tbXp9Xz0G7K16Ee15f8VvZM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771947422;
+ s=susede2_ed25519; t=1771947423;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PY79QwSAPOpYCesftBXxKudEPNYN+N/VLZdkdwiuHck=;
- b=QlOAvP4MOu6xRt5GxjDc1gc6ddJwvY77nqzMlfJJqOETisjyBxFVmnXZR1T9RnaYRpwlW7
- CmvtXYUfqicpvXAA==
+ bh=UF1isG3tFU4bgVYdd9dFb7krHbT4fZ9t98SpdKJihiA=;
+ b=BPy0lz3JqljploozignzewxLaPsIQSq9hEEdoAAeo0KowhN+ZE6xvmQRDQq5ch9mpO6erU
+ cxKrGtm819WgO2Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DB5F3EA69;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B82D3EA68;
  Tue, 24 Feb 2026 15:37:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cCZrDZ7FnWm0FgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id IDGPJJ7FnWm0FgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 24 Feb 2026 15:37:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
@@ -83,17 +83,18 @@ To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
  airlied@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 03/16] drm/mipi-dbi: Provide callbacks for atomic interfaces
-Date: Tue, 24 Feb 2026 16:24:40 +0100
-Message-ID: <20260224153656.261351-4-tzimmermann@suse.de>
+Subject: [PATCH 04/16] drm/hx8357d: Use regular atomic helpers;
+ drop simple-display helpers
+Date: Tue, 24 Feb 2026 16:24:41 +0100
+Message-ID: <20260224153656.261351-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260224153656.261351-1-tzimmermann@suse.de>
 References: <20260224153656.261351-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
 X-Spam-Score: -1.30
 X-Spam-Level: 
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,409 +137,208 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8A0281891D3
+X-Rspamd-Queue-Id: D61DD1891DC
 X-Rspamd-Action: no action
 
-Refactor the existing simple-display callbacks such that they invoke
-helpers compatible with regular atomic modesetting. Allows for adding
-mipi-dbi drives that do not require simple-display helpers. Provide
-initializer macro for elements of the regular modesetting pipeline.
+Replace simple-display helpers with regular atomic helpers. Store the
+pipeline elements in struct hx8357d_device and initialize them as part
+of probing the device. Use mipi-dbi's existing helpers and initializer
+macros where possible.
 
-As the new helpers are DRM functions, add the drm_ prefix. Mipi-dbi
-interfaces currently lack this.
+Effectively open-codes the modesetting code in the initializer helpers
+of mipi-dbi and simple-display. Hx8357d requires a custom helper for
+CRTC enablement, and non-freeing cleanup of the pipeline.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 167 +++++++++++++++++++++++----------
- include/drm/drm_mipi_dbi.h     |  86 +++++++++++++++++
- 2 files changed, 206 insertions(+), 47 deletions(-)
+ drivers/gpu/drm/tiny/hx8357d.c | 135 +++++++++++++++++++++++++++++----
+ 1 file changed, 122 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 86f38d59c6e9..6846cb73ea87 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/spi/spi.h>
+diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
+index 5115be8854bb..f5c50c9ebdfa 100644
+--- a/drivers/gpu/drm/tiny/hx8357d.c
++++ b/drivers/gpu/drm/tiny/hx8357d.c
+@@ -46,16 +46,48 @@
+ #define HX8357D_MADCTL_BGR 0x08
+ #define HX8357D_MADCTL_MH  0x04
  
-+#include <drm/drm_atomic.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
-@@ -22,12 +23,9 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_atomic_helper.h>
--#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mipi_dbi.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_print.h>
--#include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
- #include <video/mipi_display.h>
- 
-@@ -316,6 +314,24 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- 		drm_err_once(fb->dev, "Failed to update display %d\n", ret);
- }
- 
-+/**
-+ * drm_mipi_dbi_crtc_helper_mode_valid - MIPI DBI mode-valid helper
-+ * @crtc: The CRTC
-+ * @mode: The mode to test
-+ *
-+ * This function validates a given display mode against the MIPI DBI's hardware
-+ * display. Drivers can use this as their struct &drm_crtc_helper_funcs.mode_valid
-+ * callback.
-+ */
-+enum drm_mode_status drm_mipi_dbi_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+							 const struct drm_display_mode *mode)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(crtc->dev);
+-static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+-			     struct drm_crtc_state *crtc_state,
+-			     struct drm_plane_state *plane_state)
++struct hx8357d_device {
++	struct mipi_dbi_dev dbidev;
 +
-+	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &dbidev->mode);
-+}
-+EXPORT_SYMBOL(drm_mipi_dbi_crtc_helper_mode_valid);
++	struct drm_plane plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
++};
 +
- /**
-  * mipi_dbi_pipe_mode_valid - MIPI DBI mode-valid helper
-  * @pipe: Simple display pipe
-@@ -328,43 +344,75 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- enum drm_mode_status mipi_dbi_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
- 					      const struct drm_display_mode *mode)
++static struct hx8357d_device *to_hx8357d_device(struct drm_device *dev)
  {
 -	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
--
--	return drm_crtc_helper_mode_valid_fixed(&pipe->crtc, mode, &dbidev->mode);
-+	return drm_mipi_dbi_crtc_helper_mode_valid(&pipe->crtc, mode);
- }
- EXPORT_SYMBOL(mipi_dbi_pipe_mode_valid);
- 
-+int drm_mipi_dbi_plane_helper_atomic_check(struct drm_plane *plane,
-+					   struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc_state *new_crtc_state;
-+	int ret;
-+
-+	if (new_plane_state->crtc)
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
-+	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
-+
-+	return 0;
++	return container_of(drm_to_mipi_dbi_dev(dev), struct hx8357d_device, dbidev);
 +}
-+EXPORT_SYMBOL(drm_mipi_dbi_plane_helper_atomic_check);
 +
- /**
-- * mipi_dbi_pipe_update - Display pipe update helper
-- * @pipe: Simple display pipe
-- * @old_state: Old plane state
-+ * drm_mipi_dbi_plane_helper_atomic_update - Display update helper
-+ * @plane: Plane
-+ * @state: Atomic state
-  *
-  * This function handles framebuffer flushing and vblank events. Drivers can use
-- * this as their &drm_simple_display_pipe_funcs->update callback.
-+ * this as their struct &drm_plane_helper_funcs.atomic_update callback.
-  */
--void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
--			  struct drm_plane_state *old_state)
-+void drm_mipi_dbi_plane_helper_atomic_update(struct drm_plane *plane,
-+					     struct drm_atomic_state *state)
- {
--	struct drm_plane_state *state = pipe->plane.state;
--	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
--	struct drm_framebuffer *fb = state->fb;
-+	struct drm_plane_state *plane_state = plane->state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
- 	struct drm_rect rect;
- 	int idx;
++static const u32 hx8357d_plane_formats[] = {
++	DRM_MIPI_DBI_PLANE_FORMATS,
++};
++
++static const u64 hx8357d_plane_format_modifiers[] = {
++	DRM_MIPI_DBI_PLANE_FORMAT_MODIFIERS,
++};
++
++static const struct drm_plane_helper_funcs hx8357d_plane_helper_funcs = {
++	DRM_MIPI_DBI_PLANE_HELPER_FUNCS,
++};
++
++static const struct drm_plane_funcs hx8357d_plane_funcs = {
++	DRM_MIPI_DBI_PLANE_FUNCS,
++	.destroy = drm_plane_cleanup,
++};
++
++static void hx8357d_crtc_helper_atomic_enable(struct drm_crtc *crtc,
++					      struct drm_atomic_state *state)
++{
++	struct drm_device *drm = crtc->dev;
++	struct hx8357d_device *hx8357d = to_hx8357d_device(drm);
++	struct mipi_dbi_dev *dbidev = &hx8357d->dbidev;
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
  
--	if (!pipe->crtc.state->active)
--		return;
--
--	if (WARN_ON(!fb))
--		return;
--
--	if (!drm_dev_enter(fb->dev, &idx))
-+	if (!fb)
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(drm, &idx))
  		return;
  
--	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
--				  &shadow_plane_state->fmtcnv_state);
-+	if (drm_dev_enter(plane->dev, &idx)) {
-+		if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
-+			mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
-+					  &shadow_plane_state->fmtcnv_state);
-+		drm_dev_exit(idx);
-+	}
-+}
-+EXPORT_SYMBOL(drm_mipi_dbi_plane_helper_atomic_update);
- 
--	drm_dev_exit(idx);
-+/**
-+ * mipi_dbi_pipe_update - Display pipe update helper
-+ * @pipe: Simple display pipe
-+ * @old_state: Old plane state
-+ *
-+ * This function handles framebuffer flushing and vblank events. Drivers can use
-+ * this as their &drm_simple_display_pipe_funcs->update callback.
-+ */
-+void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
-+			  struct drm_plane_state *old_state)
-+{
-+	return drm_mipi_dbi_plane_helper_atomic_update(&pipe->plane, old_state->state);
- }
- EXPORT_SYMBOL(mipi_dbi_pipe_update);
- 
-@@ -393,19 +441,36 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
+ 	DRM_DEBUG_KMS("\n");
+@@ -183,8 +215,35 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
  	drm_dev_exit(idx);
  }
  
-+int drm_mipi_dbi_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	int ret;
+-static const struct drm_simple_display_pipe_funcs hx8357d_pipe_funcs = {
+-	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(yx240qv29_enable),
++static const struct drm_crtc_helper_funcs hx8357d_crtc_helper_funcs = {
++	DRM_MIPI_DBI_CRTC_HELPER_FUNCS,
++	.atomic_enable = hx8357d_crtc_helper_atomic_enable,
++};
 +
-+	if (!crtc_state->enable)
-+		goto out;
++static const struct drm_crtc_funcs hx8357d_crtc_funcs = {
++	DRM_MIPI_DBI_CRTC_FUNCS,
++	.destroy = drm_crtc_cleanup,
++};
 +
-+	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-+	if (ret)
-+		return ret;
++static const struct drm_encoder_funcs hx8357d_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
 +
-+out:
-+	return drm_atomic_add_affected_planes(state, crtc);
-+}
-+EXPORT_SYMBOL(drm_mipi_dbi_crtc_helper_atomic_check);
-+
- /**
-- * mipi_dbi_pipe_disable - MIPI DBI pipe disable helper
-- * @pipe: Display pipe
-+ * drm_mipi_dbi_crtc_helper_atomic_disable - MIPI DBI CRTC disable helper
-+ * @crtc: CRTC to disable
-+ * @state: Atomic state
-  *
-  * This function disables backlight if present, if not the display memory is
-  * blanked. The regulator is disabled if in use. Drivers can use this as their
-- * &drm_simple_display_pipe_funcs->disable callback.
-+ * struct &drm_crtc_helper_funcs.atomic_disable callback.
-  */
--void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
-+void drm_mipi_dbi_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					     struct drm_atomic_state *state)
- {
--	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
--
--	DRM_DEBUG_KMS("\n");
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(crtc->dev);
- 
- 	if (dbidev->backlight)
- 		backlight_disable(dbidev->backlight);
-@@ -417,6 +482,20 @@ void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
- 	if (dbidev->io_regulator)
- 		regulator_disable(dbidev->io_regulator);
- }
-+EXPORT_SYMBOL(drm_mipi_dbi_crtc_helper_atomic_disable);
-+
-+/**
-+ * mipi_dbi_pipe_disable - MIPI DBI pipe disable helper
-+ * @pipe: Display pipe
-+ *
-+ * This function disables backlight if present, if not the display memory is
-+ * blanked. The regulator is disabled if in use. Drivers can use this as their
-+ * &drm_simple_display_pipe_funcs->disable callback.
-+ */
-+void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	drm_mipi_dbi_crtc_helper_atomic_disable(&pipe->crtc, pipe->crtc.state->state);
-+}
- EXPORT_SYMBOL(mipi_dbi_pipe_disable);
- 
- /**
-@@ -503,23 +582,21 @@ void mipi_dbi_pipe_destroy_plane_state(struct drm_simple_display_pipe *pipe,
- }
- EXPORT_SYMBOL(mipi_dbi_pipe_destroy_plane_state);
- 
--static int mipi_dbi_connector_get_modes(struct drm_connector *connector)
-+int drm_mipi_dbi_connector_helper_get_modes(struct drm_connector *connector)
- {
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->dev);
- 
- 	return drm_connector_helper_get_modes_fixed(connector, &dbidev->mode);
- }
-+EXPORT_SYMBOL(drm_mipi_dbi_connector_helper_get_modes);
- 
- static const struct drm_connector_helper_funcs mipi_dbi_connector_hfuncs = {
--	.get_modes = mipi_dbi_connector_get_modes,
++static const struct drm_connector_helper_funcs hx8357d_connector_helper_funcs = {
 +	DRM_MIPI_DBI_CONNECTOR_HELPER_FUNCS,
- };
- 
- static const struct drm_connector_funcs mipi_dbi_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.fill_modes = drm_helper_probe_single_connector_modes,
++};
++
++static const struct drm_connector_funcs hx8357d_connector_funcs = {
 +	DRM_MIPI_DBI_CONNECTOR_FUNCS,
- 	.destroy = drm_connector_cleanup,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
- static int mipi_dbi_rotate_mode(struct drm_display_mode *mode,
-@@ -540,18 +617,15 @@ static int mipi_dbi_rotate_mode(struct drm_display_mode *mode,
- }
- 
- static const struct drm_mode_config_helper_funcs mipi_dbi_mode_config_helper_funcs = {
--	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
++	.destroy = drm_connector_cleanup,
++};
++
++static const struct drm_mode_config_helper_funcs hx8357d_mode_config_helper_funcs = {
 +	DRM_MIPI_DBI_MODE_CONFIG_HELPER_FUNCS,
- };
- 
- static const struct drm_mode_config_funcs mipi_dbi_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create_with_dirty,
--	.atomic_check = drm_atomic_helper_check,
--	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static const struct drm_mode_config_funcs hx8357d_mode_config_funcs = {
 +	DRM_MIPI_DBI_MODE_CONFIG_FUNCS,
  };
  
- static const uint32_t mipi_dbi_formats[] = {
--	DRM_FORMAT_RGB565,
--	DRM_FORMAT_XRGB8888,
-+	DRM_MIPI_DBI_PLANE_FORMATS,
- };
- 
- /**
-@@ -633,8 +707,7 @@ int mipi_dbi_dev_init_with_formats(struct mipi_dbi_dev *dbidev,
- 				   unsigned int rotation, size_t tx_buf_size)
+ static const struct drm_display_mode yx350hv15_mode = {
+@@ -220,17 +279,21 @@ MODULE_DEVICE_TABLE(spi, hx8357d_id);
+ static int hx8357d_probe(struct spi_device *spi)
  {
- 	static const uint64_t modifiers[] = {
--		DRM_FORMAT_MOD_LINEAR,
--		DRM_FORMAT_MOD_INVALID
-+		DRM_MIPI_DBI_PLANE_FORMAT_MODIFIERS,
- 	};
- 	struct drm_device *drm = &dbidev->drm;
+ 	struct device *dev = &spi->dev;
++	struct hx8357d_device *hx8357d;
+ 	struct mipi_dbi_dev *dbidev;
+ 	struct drm_device *drm;
+ 	struct gpio_desc *dc;
++	struct drm_plane *plane;
++	struct drm_crtc *crtc;
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
+ 	u32 rotation = 0;
  	int ret;
-diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-index 9c0e015dd929..ae92a5e8d13b 100644
---- a/include/drm/drm_mipi_dbi.h
-+++ b/include/drm/drm_mipi_dbi.h
-@@ -9,7 +9,12 @@
- #define __LINUX_MIPI_DBI_H
  
- #include <linux/mutex.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_device.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
+-	dbidev = devm_drm_dev_alloc(dev, &hx8357d_driver,
+-				    struct mipi_dbi_dev, drm);
+-	if (IS_ERR(dbidev))
+-		return PTR_ERR(dbidev);
+-
++	hx8357d = devm_drm_dev_alloc(dev, &hx8357d_driver, struct hx8357d_device, dbidev.drm);
++	if (IS_ERR(hx8357d))
++		return PTR_ERR(hx8357d);
++	dbidev = &hx8357d->dbidev;
+ 	drm = &dbidev->drm;
  
- struct drm_format_conv_state;
-@@ -230,6 +235,87 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
- 	ret; \
- })
+ 	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
+@@ -247,7 +310,53 @@ static int hx8357d_probe(struct spi_device *spi)
+ 	if (ret)
+ 		return ret;
  
-+/*
-+ * Plane
-+ */
+-	ret = mipi_dbi_dev_init(dbidev, &hx8357d_pipe_funcs, &yx350hv15_mode, rotation);
++	ret = drm_mipi_dbi_dev_init(dbidev, &yx350hv15_mode, hx8357d_plane_formats[0],
++				    rotation, 0);
++	if (ret)
++		return ret;
 +
-+#define DRM_MIPI_DBI_PLANE_FORMATS \
-+	DRM_FORMAT_RGB565, \
-+	DRM_FORMAT_XRGB8888
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
 +
-+#define DRM_MIPI_DBI_PLANE_FORMAT_MODIFIERS \
-+	DRM_FORMAT_MOD_LINEAR, \
-+	DRM_FORMAT_MOD_INVALID
++	drm->mode_config.min_width = dbidev->mode.hdisplay;
++	drm->mode_config.max_width = dbidev->mode.hdisplay;
++	drm->mode_config.min_height = dbidev->mode.vdisplay;
++	drm->mode_config.max_height = dbidev->mode.vdisplay;
++	drm->mode_config.funcs = &hx8357d_mode_config_funcs;
++	drm->mode_config.preferred_depth = 16;
++	drm->mode_config.helper_private = &hx8357d_mode_config_helper_funcs;
 +
-+#define DRM_MIPI_DBI_PLANE_FUNCS \
-+	DRM_GEM_SHADOW_PLANE_FUNCS, \
-+	.update_plane = drm_atomic_helper_update_plane, \
-+	.disable_plane = drm_atomic_helper_disable_plane
++	plane = &hx8357d->plane;
++	ret = drm_universal_plane_init(drm, plane, 0, &hx8357d_plane_funcs,
++				       hx8357d_plane_formats, ARRAY_SIZE(hx8357d_plane_formats),
++				       hx8357d_plane_format_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret)
++		return ret;
++	drm_plane_helper_add(plane, &hx8357d_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(plane);
 +
-+int drm_mipi_dbi_plane_helper_atomic_check(struct drm_plane *plane,
-+					   struct drm_atomic_state *state);
-+void drm_mipi_dbi_plane_helper_atomic_update(struct drm_plane *plane,
-+					     struct drm_atomic_state *state);
++	crtc = &hx8357d->crtc;
++	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL, &hx8357d_crtc_funcs, NULL);
++	if (ret)
++		return ret;
++	drm_crtc_helper_add(crtc, &hx8357d_crtc_helper_funcs);
 +
-+#define DRM_MIPI_DBI_PLANE_HELPER_FUNCS \
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS, \
-+	.atomic_check = drm_mipi_dbi_plane_helper_atomic_check, \
-+	.atomic_update = drm_mipi_dbi_plane_helper_atomic_update
++	encoder = &hx8357d->encoder;
++	ret = drm_encoder_init(drm, encoder, &hx8357d_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
++	if (ret)
++		return ret;
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
 +
-+/*
-+ * CRTC
-+ */
++	connector = &hx8357d->connector;
++	ret = drm_connector_init(drm, connector, &hx8357d_connector_funcs,
++				 DRM_MODE_CONNECTOR_SPI);
++	if (ret)
++		return ret;
++	drm_connector_helper_add(&dbidev->connector, &hx8357d_connector_helper_funcs);
 +
-+#define DRM_MIPI_DBI_CRTC_FUNCS \
-+	.reset = drm_atomic_helper_crtc_reset, \
-+	.set_config = drm_atomic_helper_set_config, \
-+	.page_flip = drm_atomic_helper_page_flip, \
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state, \
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state
-+
-+enum drm_mode_status drm_mipi_dbi_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+							 const struct drm_display_mode *mode);
-+int drm_mipi_dbi_crtc_helper_atomic_check(struct drm_crtc *crtc,
-+					  struct drm_atomic_state *state);
-+void drm_mipi_dbi_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					     struct drm_atomic_state *state);
-+
-+#define DRM_MIPI_DBI_CRTC_HELPER_FUNCS \
-+	.mode_valid = drm_mipi_dbi_crtc_helper_mode_valid, \
-+	.atomic_check = drm_mipi_dbi_crtc_helper_atomic_check, \
-+	.atomic_disable = drm_mipi_dbi_crtc_helper_atomic_disable
-+
-+/*
-+ * Connector
-+ */
-+
-+#define DRM_MIPI_DBI_CONNECTOR_FUNCS \
-+	.reset = drm_atomic_helper_connector_reset, \
-+	.fill_modes = drm_helper_probe_single_connector_modes, \
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state, \
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state
-+
-+int drm_mipi_dbi_connector_helper_get_modes(struct drm_connector *connector);
-+
-+#define DRM_MIPI_DBI_CONNECTOR_HELPER_FUNCS \
-+	.get_modes = drm_mipi_dbi_connector_helper_get_modes
-+
-+/*
-+ * Mode config
-+ */
-+
-+#define DRM_MIPI_DBI_MODE_CONFIG_FUNCS \
-+	.fb_create = drm_gem_fb_create_with_dirty, \
-+	.atomic_check = drm_atomic_helper_check, \
-+	.atomic_commit = drm_atomic_helper_commit
-+
-+#define DRM_MIPI_DBI_MODE_CONFIG_HELPER_FUNCS \
-+	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm
-+
-+/*
-+ * Debug FS
-+ */
-+
- #ifdef CONFIG_DEBUG_FS
- void mipi_dbi_debugfs_init(struct drm_minor *minor);
- #else
++	ret = drm_connector_attach_encoder(connector, encoder);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.52.0
 
