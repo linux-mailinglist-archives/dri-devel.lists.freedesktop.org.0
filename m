@@ -2,64 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOeuECKdnWnwQgQAu9opvQ
+	id EE6pAlydnWnwQgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:44:18 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:45:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D83218722E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE53187259
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 13:45:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA3E810E56E;
-	Tue, 24 Feb 2026 12:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F291810E570;
+	Tue, 24 Feb 2026 12:45:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="pBVmotrV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IeTDMNcA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A1C895CA
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 12:44:13 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fKy8V0Nkkz9vBl;
- Tue, 24 Feb 2026 13:44:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1771937050; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RxkSCX9jSePv4HDz10rAW//n/j/3CWDn153Nc3v7e4o=;
- b=pBVmotrVELLGAUGb28t67xg/5T/yqRFV19GJzIe/dIgIN8r7/2MklrNmcwQpq7jVIJIULD
- RQcMy7c1mbWjmmodSITWGF3J14OPA8JJhn1l+NMFGiIJxyDiXrm45fLK+GT4fTkepgiyJj
- X90piuNHTq8iTQTJuxtjo/4wgxOyUdRSvXxhaDr1zE+AYUXKPYd9YlF6WzsAlnZXWUkqGM
- gxTSqcG/3RRAMXteZ7ZhCztswIbvx/hiVod6L9leHx9nXHGJDmBmsv+Oqqb0MGFHuoEm5F
- WrXr3lgAuNZ7ebMNiNyQ6KbMXRdTqKQUueUYdP+CDXyhw7Uq8FBcrpw0XzkmQw==
-Message-ID: <020433384b88cd7bc88762373dd6e6b5a9d07c66.camel@mailbox.org>
-Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tursulin@ursulin.net>, Danilo Krummrich
- <dakr@kernel.org>,  Maxime Ripard <mripard@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>,  Christian Koenig <christian.koenig@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Matthew Auld <matthew.auld@intel.com>, Arun Pravin
- <arunpravin.paneerselvam@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 24 Feb 2026 13:44:04 +0100
-In-Reply-To: <bafed0bf-4cb0-4ad2-b027-8d826dc781d4@ursulin.net>
-References: <20260224110310.1854608-1-mripard@kernel.org>
- <DGN5YXMO9CBB.5T29K0XHUXMF@kernel.org>
- <bafed0bf-4cb0-4ad2-b027-8d826dc781d4@ursulin.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D78C10E56F;
+ Tue, 24 Feb 2026 12:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771937114; x=1803473114;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=W7iFt2fkt7YDpfXHd4Koz7uX1w/SnCnrgCNowt9OOFg=;
+ b=IeTDMNcAwD40mzY1+plh0CDE5hq1sc5k0Hknx5cfiGqgnxwWbhXZ7rOu
+ al3pRfq+DrAQpYa9bDjFKocYyHp7T2kIdGa6LW5unDX5n0WVQRxSlRgFf
+ iONXvKvTmZSn8zOdDgBYreI7ANCZQXypV5kCJZPok50OVkTjt9l7No8vg
+ +bZC2LgcImj1SQBLirT5W7gYRGFO+0eW2mIk02xZh7mxmh17A0oa3df4V
+ NOYQDhAnvhwq4PhefnlYKNqsCk+Dpg/xnLKDPvMeMJrSMk+ox7Zvliqzp
+ ZWxsiwuqo3sZc/GLa6DNSroskskNNVzR1L3qFKHy2LWSmzMVWDorDwStR w==;
+X-CSE-ConnectionGUID: xT9Z9phvTfehC8F5cwDHvg==
+X-CSE-MsgGUID: 5a3eZ0aLRoqTKs8cdtTDJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="73128796"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="73128796"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 04:45:13 -0800
+X-CSE-ConnectionGUID: hR5Tp+z0SeiMexLEVtwNdg==
+X-CSE-MsgGUID: RMgpOpjdSHuKzcfGeOggUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="215752727"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.20])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 04:45:00 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan
+ <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>, Chun-Kuang
+ Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Liu
+ Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, Samuel Holland
+ <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
+ Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 00/14] drm: Create drm_output_color_format enum
+In-Reply-To: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+Date: Tue, 24 Feb 2026 14:44:57 +0200
+Message-ID: <f8e02ae7d60814d3d0540ab81ebccbe46eaf5e29@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: a7834fe8ea3ba1e234c
-X-MBO-RS-META: ogaqg9sg758u9gi595xcrx9hjnm55uet
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,82 +93,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tursulin@ursulin.net,m:dakr@kernel.org,m:mripard@kernel.org,m:matthew.brost@intel.com,m:phasta@kernel.org,m:christian.koenig@amd.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:matthew.auld@intel.com,m:arunpravin.paneerselvam@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,amd.com,linux.intel.com,suse.de,ffwll.ch,gmail.com,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,collabora.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,arm.com,pengutronix.de,sntech.de,nxp.com,sholland.org,raspberrypi.com];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6D83218722E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email]
+X-Rspamd-Queue-Id: 9EE53187259
 X-Rspamd-Action: no action
 
-On Tue, 2026-02-24 at 12:29 +0000, Tvrtko Ursulin wrote:
->=20
-> On 24/02/2026 11:43, Danilo Krummrich wrote:
-> > (Cc: Tvrtko)
-> >=20
-> > On Tue Feb 24, 2026 at 12:03 PM CET, Maxime Ripard wrote:
-> > > Some DRM tests cross the 1s execution time threshold that defines a t=
-est
-> > > as slow. Let's flag them as such.
-> >=20
-> > <snip>
-> >=20
-> > > =C2=A0 static struct kunit_case drm_sched_credits_tests[] =3D {
-> > > -	KUNIT_CASE(drm_sched_test_credits),
-> > > +	KUNIT_CASE_SLOW(drm_sched_test_credits),
-> >=20
-> > Hm..I don't think this test should be that slow.
-> >=20
-> > Looking at the code, I see intentional timeouts through:
-> >=20
-> > 	done =3D drm_mock_sched_job_wait_scheduled(job[1], HZ);
-> > 	KUNIT_ASSERT_FALSE(test, done);
-> >=20
-> > Since the timeout is in jiffies, this should be always 1s, which seems =
-a bit
-> > overkill.
-> >=20
-> > Maybe we should just change this to msecs_to_jiffies(200), which should=
- still be
-> > plenty and keep the test below 500ms.
->=20
-> Right, 200ms should be more than plenty.
->=20
+On Tue, 24 Feb 2026, Maxime Ripard <mripard@kernel.org> wrote:
+> Hi,
+>
+> This series creates an enum to represent the output color format as an
+> enum instead of a bitmask, and consolidate the HDMI helpers to use the
+> new enum.
+>
+> This should make Nicolas' work easier.
+>
+> It has been build tested, and passes kunit tests.
+>
+> Let me know what you think,
 
-Who volunteers for implementing that change? :)
+I like this. I eyeballed through the series, but did not spend enough
+time to call it detailed review.
 
-P.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+
+-- 
+Jani Nikula, Intel
