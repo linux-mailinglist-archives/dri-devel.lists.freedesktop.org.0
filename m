@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2KexClmJnWnBQQQAu9opvQ
+	id oCzlG3yJnWnBQQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:19:53 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:20:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FD018611D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF05186152
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 12:20:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED9510E563;
-	Tue, 24 Feb 2026 11:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E7E10E564;
+	Tue, 24 Feb 2026 11:20:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dDpqaaZj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lEbr9SH4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FC610E563
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 11:19:49 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 249C410E564
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 11:20:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CCE6940ADE;
- Tue, 24 Feb 2026 11:19:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FE0C116D0;
- Tue, 24 Feb 2026 11:19:41 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 97C966132E;
+ Tue, 24 Feb 2026 11:20:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 953B3C116D0;
+ Tue, 24 Feb 2026 11:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1771931989;
- bh=ZXVxYHlu0zHczyQ9RV4gzKJTzAnDzspoUnWv3esNFwE=;
+ s=k20201202; t=1771932024;
+ bh=u+CxE4WAb4lLYs646rqUMrYESFoSfCpkJ/yBahV7oWU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dDpqaaZjsrKAAuBigQMTjSHyxPwyewaJ+Kh431pzCvN3W/5M0RWV/9LsDjrc8NJAn
- ji8U2nnjIczOlsmv9Cc8A8/xV2GqUP5ESuXy4HSP6AgQdIH6Q8oYe45W47lN8bPXWy
- dYy9O/c+OBIQAmB31y7RS0nduullT7ZOft6gWwXrfyBcNTM1LXOndDBQcMGZdltFCt
- kblbrFJuhKDqAQxsaH0YxOn7BGEr/kRvVDvQlDVo5VToqaNaIw5A9B4B2yN5sWcz62
- jzbZSa9w5/3bCsNch90KohlPX2hcU2oWOPDfWIc7OQeB8SrVG8zCEdClApUuvgU7+4
- MhoQkxKQ68UDg==
+ b=lEbr9SH4g+vkYJTX1S89jMNlf3p84ZRU/v6+jnkKrqULJxEJdYlaFLJCqESxXcBdB
+ 95iKFGtV5tH/t/0vNO+wxU1aDpsO11zqlfymtcsNTA4YvmO9YR5aYjFFMj7Ln8loPY
+ rEgIKnAaxeg9kAjJlVwUqwUS0bEBBgWhB6fED96nwJgySVJezf35zzy0HLBtD08lQt
+ 18In2j581km/tx1LLr/t4qqKAv5qEGQ1bpe2ctkMSNIPvMoiyy72CIAU4GrmCyvsRy
+ yWMO3Jz5aMRBD1stVUIxNLV6DUau4VBUlFtdK8KkiaW/QzOk4ZH4TKPq+YaDfDzI1w
+ ytRWw5P2ZZ/YQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Tue, 24 Feb 2026 12:18:04 +0100
-Subject: [PATCH v16 09/10] rust: implement `ForeignOwnable` for `Owned`
+Date: Tue, 24 Feb 2026 12:18:05 +0100
+Subject: [PATCH v16 10/10] rust: page: add `from_raw()`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-unique-ref-v16-9-c21afcb118d3@kernel.org>
+Message-Id: <20260224-unique-ref-v16-10-c21afcb118d3@kernel.org>
 References: <20260224-unique-ref-v16-0-c21afcb118d3@kernel.org>
 In-Reply-To: <20260224-unique-ref-v16-0-c21afcb118d3@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -68,23 +68,24 @@ Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Andreas Hindborg <a.hindborg@kernel.org>, 
  Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2791; i=a.hindborg@kernel.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1083; i=a.hindborg@kernel.org; 
  h=from:subject:message-id;
- bh=ZXVxYHlu0zHczyQ9RV4gzKJTzAnDzspoUnWv3esNFwE=; 
- b=owEBbQKS/ZANAwAKAeG4Gj55KGN3AcsmYgBpnYj7ybE9TfHosMN/v3D3om/fVXrbbm9j9l/ed
- /oqHH++SfWJAjMEAAEKAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaZ2I+wAKCRDhuBo+eShj
- dyh4D/4seiQJBYM348GadM5XGPLQ2AkZegX5kl5/dCXU3YauTHjS275rRpJntm2vV2eW/wX4Fz6
- I1vb5+83Hx2A47fK+9mEi/LG+DaNNVI0qsjDismLwy7V7Yf6z5qVr3Ds6gcMrdJ0hFGGOnMZXks
- j7xsnNXbvg1HgxnWNbz9QmWQyFXDdI/FPHe09R9WUkuszYtFJ6qlaZQdDQ+pvsCqN4xFC7UsKWu
- sQl1MmCT3Q+1hIHi3ZRrSJGt2CGuXKmrozMQmciIRuPtoMfLbKAz7lkc1alwqFtIaRuVnS68GS4
- dggi4hKlQl8QBTRR4CJQbohp5P/tZtnyBtAmFfLuCUJUBcZmoXKlflQTZiLJlrcdqOlWvIdx8y1
- gkz87chPU0yBGd4aT6TQJZDZzBWa0fGffmvzrdVSUyHT9YreCKsvCEke4GTJArXO7EuthJtMBbC
- Vs6Aysbti08nBgBd4lvF2FhwN5A8dMJprHs3joAecEV7pDVW2w4lEwJ+1prv8vz9B1E+2z8BGwC
- V+7yKZGJYnbUBKB47yqVr1MB1+6MqPRX/7WGPTuKF8MYcKTweCSf8OEgYbXPnA3yzm4VM9iQzGO
- PQXZTqVa3Oj1y5UELjmLwoh6RupeHLk7qDU84qKlFWCv66hFoQvwVTVJ1U8574/2NN/ArwwjTyv
- BK4RQHMK0lR4VdA==
+ bh=u+CxE4WAb4lLYs646rqUMrYESFoSfCpkJ/yBahV7oWU=; 
+ b=owEBbQKS/ZANAwAKAeG4Gj55KGN3AcsmYgBpnYj8LE4iboDu3XEQEDgUJPpBWv16iN6jxTcXc
+ nc4VDozC1yJAjMEAAEKAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaZ2I/AAKCRDhuBo+eShj
+ d3r2EAC9HrXGAN5UQmY4yPBtdIt+D/gH6jEj9h2dHBDQcF6dzQMjKgBxItt5MpEuDUUqRp1qYP8
+ If2k0oZc8AYRDlxYq2p6mzw5+29obQYMI48OgM8Bfv5ZCxLkp/LfqJO/xM/TppNhuO+krTmAShb
+ MCl0orP42ytvBWvpv+kpvZvNudBNTHqwxzk6KIC8d6Z0OqxgLrm2FYAfzdgre0WjeIRPhoj4yo5
+ Lc22cKyp/OyVtDzKciBOk7U3Dqo2qa5QbrgWdeR4srzD5HlhiRGErLc4geoJYKik0cT7Tuh+l9I
+ ByT2s8DzyaJBwaWEzC9klxmxn8O+D6hrUFWbBSV0Km6LY1IblkmwNJOI+yHbB1vpCLe2+Ducl0f
+ 3oav38GaY3BIWHZOz3/fU9i4RQoyFKsucZoj7GdL+0I29K5W+fIDEiVtPXb5VwLlS9uuOGZmLCf
+ TArqmlPzTFT4FzZY5BIgFAJJ55D0M0j7VpIUm/zpXbEyRF5BXnMPHjxGxEQcMZVtJBDrNt+mGkP
+ o6hstg9wsEObY5kFIUXlLbrqXnAEXEOA8z96T7KvE4sHClZAEUouSvzlF/evoKDuxwBvArbB0tN
+ c+9pkL/JWcpGsrJzdlXjerAmFT8ic9gqMnxpaPOlQ7WQTf6RGMqRo+mJ5SnYrtDuJPHdl3QqHwe
+ fXaCMyhvccgrgVg==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,7 +118,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[42];
+	RCPT_COUNT_TWELVE(0.00)[43];
 	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,gmail.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -136,90 +137,39 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D0FD018611D
+X-Rspamd-Queue-Id: 1EF05186152
 X-Rspamd-Action: no action
 
-Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` in
-places such as the `XArray`.
+Add a method to `Page` that allows construction of an instance from `struct
+page` pointer.
 
-Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` to
-implement `ForeignOwnable`.
-
-Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+Signed-off-by: Andreas Hindborg <a.hindborg@samsung.com>
 ---
- rust/kernel/owned.rs | 45 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 44 insertions(+), 1 deletion(-)
+ rust/kernel/page.rs | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
-index c81c2ea88124b..505ac2200d2d6 100644
---- a/rust/kernel/owned.rs
-+++ b/rust/kernel/owned.rs
-@@ -16,7 +16,10 @@
- };
- use kernel::{
-     sync::aref::ARef,
--    types::RefCounted, //
-+    types::{
-+        ForeignOwnable, //
-+        RefCounted,
-+    }, //
- };
- 
- /// Types that specify their own way of performing allocation and destruction. Typically, this trait
-@@ -114,6 +117,7 @@ pub trait Ownable {
- ///
- /// - Until `T::release` is called, this `Owned<T>` exclusively owns the underlying `T`.
- /// - The `T` value is pinned.
-+#[repr(transparent)]
- pub struct Owned<T: Ownable> {
-     ptr: NonNull<T>,
- }
-@@ -186,6 +190,45 @@ fn drop(&mut self) {
+diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
+index e21f02ae47b72..96f1ec125f043 100644
+--- a/rust/kernel/page.rs
++++ b/rust/kernel/page.rs
+@@ -192,6 +192,17 @@ pub fn nid(&self) -> i32 {
+         unsafe { bindings::page_to_nid(self.as_ptr()) }
      }
- }
  
-+// SAFETY: We derive the pointer to `T` from a valid `T`, so the returned
-+// pointer satisfy alignment requirements of `T`.
-+unsafe impl<T: Ownable + 'static> ForeignOwnable for Owned<T> {
-+    const FOREIGN_ALIGN: usize = core::mem::align_of::<Owned<T>>();
-+
-+    type Borrowed<'a> = &'a T;
-+    type BorrowedMut<'a> = Pin<&'a mut T>;
-+
-+    fn into_foreign(self) -> *mut kernel::ffi::c_void {
-+        let ptr = self.ptr.as_ptr().cast();
-+        core::mem::forget(self);
-+        ptr
-+    }
-+
-+    unsafe fn from_foreign(ptr: *mut kernel::ffi::c_void) -> Self {
-+        Self {
-+            // SAFETY: By function safety contract, `ptr` came from
-+            // `into_foreign` and cannot be null.
-+            ptr: unsafe { NonNull::new_unchecked(ptr.cast()) },
-+        }
-+    }
-+
-+    unsafe fn borrow<'a>(ptr: *mut kernel::ffi::c_void) -> Self::Borrowed<'a> {
-+        // SAFETY: By function safety requirements, `ptr` is valid for use as a
-+        // reference for `'a`.
++    /// Create a `&Page` from a raw `struct page` pointer.
++    ///
++    /// # Safety
++    ///
++    /// `ptr` must be convertible to a shared reference with a lifetime of `'a`.
++    pub unsafe fn from_raw<'a>(ptr: *const bindings::page) -> &'a Self {
++        // SAFETY: By function safety requirements, `ptr` is not null and is convertible to a shared
++        // reference.
 +        unsafe { &*ptr.cast() }
 +    }
 +
-+    unsafe fn borrow_mut<'a>(ptr: *mut kernel::ffi::c_void) -> Self::BorrowedMut<'a> {
-+        // SAFETY: By function safety requirements, `ptr` is valid for use as a
-+        // unique reference for `'a`.
-+        let inner = unsafe { &mut *ptr.cast() };
-+
-+        // SAFETY: We never move out of inner, and we do not hand out mutable
-+        // references when `T: !Unpin`.
-+        unsafe { Pin::new_unchecked(inner) }
-+    }
-+}
-+
- /// A trait for objects that can be wrapped in either one of the reference types [`Owned`] and
- /// [`ARef`].
- ///
+     /// Runs a piece of code with this page mapped to an address.
+     ///
+     /// The page is unmapped when this call returns.
 
 -- 
 2.51.2
