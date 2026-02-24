@@ -2,182 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yIeaH2wInWk7MgQAu9opvQ
+	id cIsPHWNinWk8PQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 03:09:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31167180DDF
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 03:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D39183C70
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:33:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB0110E474;
-	Tue, 24 Feb 2026 02:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D83310E4FF;
+	Tue, 24 Feb 2026 08:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NQYAnPBd";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="I2JxoTtV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010059.outbound.protection.outlook.com [52.101.61.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D16210E46F;
- Tue, 24 Feb 2026 02:09:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NAh20ynwc+7CB1Ypn2vYnaiYPno/7IVXU4SpUj3RfmZk4l/K1qOjm8LN7urqOfMaodKR8IC5llcvaOkliLFeASYhF5sMg2Ly/zisNUEj7l/M/a95c3CXf4K9vjF0rMx0ILBp9fGTDKwuV3cy50Lt+OqQe9giTv2y+7A/WOyKO5lhhGxCk2LNbOB62P4CPxuRO5Ea07Ch5Fg7uqBRIiw5RtdBlL3arsPnr7gINORz3/GlpMBDWgl59jVi+g2cCO1w82xggmTjxaEyYmuMvK0plDDaF3KIYOmcx6ypPuA1y59kgHbYDuQogDh5hC8H5HZMYL+V/Yis/PueYV634IfILQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8ZLyWxkaGdXAoIK2g3/lxDZJMmj1vg7cNvp1MAXK6Qo=;
- b=u73AODammKh9D4RptqJMfBtAAWH8Skb4/yu9MiwL1aXwI/gJG8foqAPq4mWnrhVPRFOs3jv2em0sUyfakUSbIT2ODiNGGpc+WMLEtdG2ja8aJNTReKIBECr2zhpuGwQGRtDPaXRXxZdG7H9yHIhKYgYSvYR/nplTUSchibveMdKZ1LgB8abBjT4QhYZWzZuGU5xZhIJjxn4/fm1Wfp6gkPuHX6iYb/qZfpNr2lzvE+JIVuPq0TQlcBKW5zYWyB4K39X3x+lFPyjGziba+37Subz+hMpybJmfnPko4doVO73NNxuSJM8lNPjRGES8Uxxi5d8cEaN58p4HMWQ0ya2s8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8ZLyWxkaGdXAoIK2g3/lxDZJMmj1vg7cNvp1MAXK6Qo=;
- b=NQYAnPBdx2iYBgW8SGQ12MSSoNZWXiVsfIjsERbRsbVn78pDjoE27/0SR/nGvtf3IK8+KsTugEBFJwHmR/Eex2vBC9wAfkRoq6CuNl+TFT/ofw5MfXlKzy/BCCromizQ87/9l+EZ5T7rXL4lAA2XhO3SJE+z088rMI+6CQV17TGAV0/udQ6Gp4Y3IjmxxN4Md7SL3r+0Zh+tAwojwR1IN5gz4NwZVyh86rKRPidc5QMBzgvkgDDA3M2JZMpfZxZu4CVolNP+eH5KbLxRszRR7VqwZdfHL7Kj4/s+EqQCJauH3NoVYNVLy8Pt/eCQxOzQ1ALhN5YAQNm83xv2H3RzpQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by MN6PR12MB8490.namprd12.prod.outlook.com (2603:10b6:208:470::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
- 2026 02:08:23 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 02:08:23 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Feb 2026 11:08:19 +0900
-Message-Id: <DGMTQKXL3U6C.3J5W7ZI3B0B6H@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <linux-kernel@vger.kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>
-Cc: "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
- Djukic" <ndjukic@nvidia.com>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v10 5/8] rust: clist: Add support to interface with C
- linked lists
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-6-joelagnelf@nvidia.com>
- <DGJN2M93S4ED.3272CCZWMRYOA@nvidia.com>
- <a7be758a-65ee-4572-b8ba-6d4a8d65af73@nvidia.com>
-In-Reply-To: <a7be758a-65ee-4572-b8ba-6d4a8d65af73@nvidia.com>
-X-ClientProxiedBy: TY4P286CA0046.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::13) To SN1PR12MB2368.namprd12.prod.outlook.com
- (2603:10b6:802:32::23)
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Tue, 24 Feb 2026 02:14:10 UTC
+Received: from mail-m49236.qiye.163.com (mail-m49236.qiye.163.com
+ [45.254.49.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF7BB10E47D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 02:14:10 +0000 (UTC)
+Received: from [172.16.12.14] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 34bd86f1b;
+ Tue, 24 Feb 2026 10:08:59 +0800 (GMT+08:00)
+Cc: shawn.lin@rock-chips.com, Bjorn Helgaas <bhelgaas@google.com>,
+ "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
+ Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+ Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>,
+ Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
+ Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Tomasz Jeznach
+ <tjeznach@rivosinc.com>, Will Deacon <will@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Srujana Challa <schalla@marvell.com>, Bharat Bhushan
+ <bbhushan2@marvell.com>, Antoine Tenart <atenart@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Raag Jadav <raag.jadav@intel.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Robert Richter <rric@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Nirmal Patel
+ <nirmal.patel@linux.intel.com>, Kurt Schwemmer
+ <kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
+ dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
+ netdev@vger.kernel.org, nic_swsd@realtek.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+ mhi@lists.linux.dev, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org,
+ Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
+ linux-spi@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>,
+ linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-mmc@vger.kernel.org
+Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
+To: Jakub Kicinski <kuba@kernel.org>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+ <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+ <20260223160402.3ad8f079@kernel.org>
+From: Shawn Lin <shawn.lin@rock-chips.com>
+Message-ID: <ec226aa1-5cc8-855f-8f90-1d7f89efe766@rock-chips.com>
+Date: Tue, 24 Feb 2026 10:08:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|MN6PR12MB8490:EE_
-X-MS-Office365-Filtering-Correlation-Id: 539544c7-7309-4fc5-fe1e-08de73499657
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|366016|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eHVLd1p3RXpwdmZkR2FxckZNakkwSDdxd213NmV4VnkzcDZFTUlvWW5sSklp?=
- =?utf-8?B?dHpoMDRjU2dDdmFYZ0owYkIyZDlYQ1hqVEQ2NVVWcGtFdTZtcW96TW5WcFZM?=
- =?utf-8?B?eWJxL1Y5Ykg1d0FIVXIwbVBZdmxEdXRjZkJsWHJCL2VuZVJkYk1ybElBeEFw?=
- =?utf-8?B?WVFxcnpnYVJSNlcvclBiKzNZZEQ1cDVvcUZRWXJ2T0hqOXlXUC9QM0JRY3or?=
- =?utf-8?B?MlBYRzhNeGpmek0wSkFmbzBYdGIvTEFtNU1vYTFhY3V3TEl0V0l1dW15VXQ0?=
- =?utf-8?B?ZXhqS0FEVGxjK3R1dkZQTnVYS0o3Z3VHekVwUnhZMCtIeEVJM3lSZFphelBS?=
- =?utf-8?B?TW9DM25NMU1ucWRKcEVyMUNpQ0V2aDZnUUQwM3QrWkp4SnptWW5GSUJOSVho?=
- =?utf-8?B?QzY1dXJjT1RSeE9kTkVnNVIyVkYyMzdLMVd5dHpERWh5VmFNcC9RRy8wUUEy?=
- =?utf-8?B?Y20vZFVrUVBCZUMrejZqdTcrdGdiSW5oMmNLeUYzWWwwc29VT3AzbmJkTlRZ?=
- =?utf-8?B?Qk9EbzIwVGtRODdNQ1VrVVM2TTVRTnpnUXl6U0FVNjFUUUdLWHU2UW9Ueld4?=
- =?utf-8?B?S3MrV0MwWURPbmVLRStRendpWFVkbHFqdlY0ZmZHcmZmL1YrMWtTdW1oV2RN?=
- =?utf-8?B?ZFFwZDFBL1hPamd1Z052NUpGSFZKN0g1dEdVZXRMcjBSOE0yY29sWm9COWhv?=
- =?utf-8?B?Tm9zMTBIZTlNaGhuc3o4ZE9MWDUzTktQOUtKajJ3M25tNGlRc1NnZ0FyQWRy?=
- =?utf-8?B?bmk0V0tJNVZrSUhOVGtSVHNqb3hlS1prMVlhcDJQMVR1eHlJL2F3MjdkZDNm?=
- =?utf-8?B?cnF2OFg3V0hBZFA3NzUxK0swR255Z0NTU1h0VVVxUVdHNWJ1di9CbXdZdnRP?=
- =?utf-8?B?UmxHMHY0OEtVd21hQzlmVjVPdnB5NXhDazVpUlpkUGw2MXU5NGN6VlhSOHl2?=
- =?utf-8?B?YlFta3lQbDl0K1VSai80OFQweU1IM3A2WklQWThYMCtReFNBSmZmUFNHa1ZW?=
- =?utf-8?B?Y1JHV3FRVkt5MmxST25JZGxEZDI3TzhoYWxuVTFRUE1IcE4wTHRUK0dRYVlj?=
- =?utf-8?B?ZUF0aVNOMWlNSjk4cmR3T3VNNC9JTTlvUzY5M2U4YTVYRnhKSWVnQ0ZtWWty?=
- =?utf-8?B?NFZCQmJVR21OUldNdnpNOUN1bGV5QlNzcE1GQ0l1Q3NDSjl3Rys4YWFFam5R?=
- =?utf-8?B?R1VrRG5IU3g4Wmp1dmxEblFxV2R2anluai96WlNucDVXU1JGL1JnRlFsWlhp?=
- =?utf-8?B?c2F0T1cvN2NGYWlwZVd6OEkxc2lYV29CT1l3ZSsyb3IwSFlIc2ZiS2M5UktF?=
- =?utf-8?B?OE1wN092QWR0SHdpYnY2aWVrRW5sRzN2enh0RlIzL3hyR2ZDNjZ5NGsrNnRr?=
- =?utf-8?B?Z3RrZlVSRlNTQ1JMRHExVkpmRnltMDIxa2paMWpFYTF1VUNIUGNhSHFEaWZJ?=
- =?utf-8?B?WXdUeGVhWDZ2WGMxWmxhS3ZGUWRsZXcxUmorMENmTkxqQ09RVHUyQnhVcDJn?=
- =?utf-8?B?aUdCQW5Nc0ErNkhEVlkxYVFJaVpwVERaYnRjWXF3VDNxTzlKVlZHUmJPK3dV?=
- =?utf-8?B?NzZlUHd4VVhGdDQrTi90M015cXlnMm5OREFCSUV2L0NYaUtsL2Z6ZGdKcWJX?=
- =?utf-8?B?dWQrRWpZYnJkR3JMT0RsMVVqR21WbVFkMUhWc0RUUUVuT2tEY3oxQS9nZDRK?=
- =?utf-8?B?NEo2OVVGR3RIVUlxZ3hWakFzL1lOZlRITHhXTDRkc3d1YjFuVDZMSDVRYS82?=
- =?utf-8?B?RVFoWWo0NFN0NVF3SVJ4cGp5bTdJL05RZlF0Q3B1ZGR2L1VHMS9jSXI1VnpQ?=
- =?utf-8?B?NnU1ZDgrSm16U3lkNXFsVnhUM2JnZTY1MXVTZWFzY1l4WXgxQWVLWEZFUUtn?=
- =?utf-8?B?dHAyQmE3S2lORXYxRjQxV1hxb2ZXM0lNdlBVN1pJanRlUGZkZmV6YU1SbGlR?=
- =?utf-8?B?S0xGTHhDd2Q0N2dIZnhLK3NCU2pGbUdtTXdEZmk5VDVzUUREUnM2U3FUazhw?=
- =?utf-8?B?OUZQb0NsMUh3YzR0NHhZY0x1RXNYRlZ6ZWdva2hYR0J0VTR6WlZ5dENOTWhU?=
- =?utf-8?B?dzVnMm92azMxcEo3K1FFWmFWRmJvajVrM3NkaEhFSkxDWCtPSGI5cmt0WFo4?=
- =?utf-8?B?LzhrOUhhYS9RdHkvUG1qd1dtSWtFSUhZaGJPOHFDaktkZTQxS25LRVVtTU41?=
- =?utf-8?B?Znc9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U29lMVJoV2t2MkhucCtlWVY1ZmRORFVDdVhBd0pwa1Y5Qm5YM1ZWNFlscGMy?=
- =?utf-8?B?L29qNVFaTG1BNHhVVTVlc3BGTWdDT1VITjRoTXBGWG8xRGE5eG1uN3paNlBU?=
- =?utf-8?B?eTV0cytoMlRCMVBDOElxRjFhY0cvZm5uYy90dGtNUXRRbys5M2xrYUZkOFBq?=
- =?utf-8?B?N3k0cWFqRkVTZXNCanFGa1ZKSzFOSU9CblJGdHNXWHZtdUc2MjJ0MzlkYWla?=
- =?utf-8?B?bHp0UHMyRDdzSEhoZW5oeFRxYW5iekRqN3gxWitOcWIySWJVRzE4ajdLamNj?=
- =?utf-8?B?d3FaeWdKeFdMN0RuWEx4U0F5VVU2SWY0SXVYQ2J4WWhqVkNDQithR2pMZlRU?=
- =?utf-8?B?TFh1YUI3eW1rMk51Z0hyRm9HbWczWUN0Q1ltSjBTM0I4Wm5lUjV5dWltQmti?=
- =?utf-8?B?dFpaYmdiZXVhN1pKajVqV0ZWRjV4QTRPK2xwS1doVllxZm1tNS9oOG1FazdH?=
- =?utf-8?B?S0kzdzVTcU85ZXM2S1MyOGN5NW5WZW5tcXNLTVhIR2FONS9tTGNLK09jdW01?=
- =?utf-8?B?Sm5Ya25wTHR1aTNUWE5xRms3NXBvUUpXOFlYdFhTRzBIc2d4MXQ3Qk4rMTRJ?=
- =?utf-8?B?dUpsaStkUWxUOWR0WFhQNHJ3VExzZHFOVG05UDBGeWNEQ21aeVVWd0NHWGJY?=
- =?utf-8?B?c250Mkk5YmJvWitkNzZRYXJZbmx5bjNUTGFnWjJrUXBoL3FTdHhSRm12WHoz?=
- =?utf-8?B?c0FMdDA0TW1MbHExUVRFR3haYVZXY1VKcnQ3QTBtUXFyS3BhVm9HMXkzUDV6?=
- =?utf-8?B?ZkZLUGFRbVhKUytId2VnMHV1OFJsWk1jb2dGaVFaVTdpZXBoYnVPYUYvME9p?=
- =?utf-8?B?akYxUTd0VnZGVHBtYm1GcFdvalZsbXQxZCtNaS9OaUxid0EyUit1R293NU56?=
- =?utf-8?B?NkpBd2xRd1ZqS00zWHlBbXdWR0ZMZ3JLVGlrRE14dk5ESkVmQm9KZTVDRjhn?=
- =?utf-8?B?SVdHK2JkUmhnMVJKaTEzV2JiUDRBbW1rTXZDb3IvQnIvcnl2QzkwT0cwU0hR?=
- =?utf-8?B?Z2ZDQTFEN1pvK0lpZDR2N0QrdGtoVkQxMUpnMkZDeVhjUzdiSHZsaVZ2RHNt?=
- =?utf-8?B?ZmhocXRhUWROUkNHOU9jdjUvWk5QbUl3M3lBVXpiMTQxaTN4R1p3aXBCTDZQ?=
- =?utf-8?B?bmg2T0dBWklEWk04RWdsUmRmYWFlOCtVc3ZYWkpDZmNuN1hnczdiQjhoZDRx?=
- =?utf-8?B?TUxHbWxCOUNNUUpldG94Y25CZVpZVWVFQ2xEbXNBem1lT2ZWYWZReWN5R2FY?=
- =?utf-8?B?UXZ3aWJncGdEcVViaUoxRUNSV3JCZzZoUnFjVWxIOFNVQ3lvNU14WmFnb3FH?=
- =?utf-8?B?RGplN0IxTlpxczJqdmt0a1JvSjRlMnZuS3plQzNENjh0UVhYdm5pWnNPZ3Y0?=
- =?utf-8?B?V1o5YjFXSThFbTVuZzlKTmhKTUo5V2RHR3RVelBpYjh2VzhoVkh4MnNwb0Rn?=
- =?utf-8?B?amZuZHJOZjFrRW1EQlFvNUJCRkZPajRRdWtqaThRdDBWWHJrbHFmeldUc2Na?=
- =?utf-8?B?RWk1Zzk0cnJoUTdsUEkrMXA5Yzl1UFdqdzVXcVVrRmhycjJSUTgwKzhIQlZl?=
- =?utf-8?B?S0RaQ2o2UzZhK1E2SkxqZ29ydUlaUHlRQWorVEQ1QkdYK2srK2JnMm5FOEFN?=
- =?utf-8?B?cXp3N1MrUW1ObFh4bzNSZ3FvOFhyQll4V3VJL2NrSmFic2lKNjU2b0VjTEJZ?=
- =?utf-8?B?UjI1bE8rNlhHOHhwK1RKRzB2YUVOZW9MMnNjUU1VN0dCNXR2VmtweG9FMmhP?=
- =?utf-8?B?N20yNFJzYzY3YmV1eFVnMElRTCs0V1ZwMjN6TUtjRHlUQXc4V2ZubU5YUStM?=
- =?utf-8?B?bEs0bElBMzc0Z2Z1UWJId3hVbHF3TTllb081MFMyT1o0ZUJNa2ZLMHMxU2pK?=
- =?utf-8?B?S01jRzl3M01qYlhvSnU1dytIMTZBMG9jNTB4a0ppWjN1T0xNbDJqVFA3aXcw?=
- =?utf-8?B?UVpKZ3h1VTVuYjB4OHM0MHRsNll3OHl0Vm5sckhTN2lPN3BnYVBES01waEZI?=
- =?utf-8?B?dlFzKzZIanRxSFpRV2ppaG1ZcmxkdnpSMklyeVUxY3ljdDQ4NTJpcWM1aDUw?=
- =?utf-8?B?N2FON3Fvdys4eWk2NDhjNlhKUU5lbnhtTTJ5aGV5eE1ManhTTUkvS1JyYW5n?=
- =?utf-8?B?NkFKSlNPRTN0ZHhKVUhmY2kydnI3em9iUkZneGNjMHdvNnl6OUpTYlVsajB0?=
- =?utf-8?B?dTc1SjZpVXRGa1c2QVFNTDRndFdaVWZiRzYzVThvYlRNTWl5Qlg5RHJVaFhV?=
- =?utf-8?B?QVo5bFZTWFpGa0daMThQYUVrejhnc0JZMVRqRFB6SmhuNThraVJTVFBjbjZS?=
- =?utf-8?B?dTRTcFNDOXVTdTRROXQ3K3Nlc1NKT0ZoVG9ENk5hR0xKa2ZmcWtUblZMZXZS?=
- =?utf-8?Q?Z/HrslygYxmH1y/6OAr/nBbKbuQO6JePBazJ9xTQitOUZ?=
-X-MS-Exchange-AntiSpam-MessageData-1: rABNtj2/E0S7fw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 539544c7-7309-4fc5-fe1e-08de73499657
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2368.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 02:08:23.4030 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 27un53uYtqLoVpYamhKyQFK4P/lErai5IhjnVVwDlGhnXM6HWVvitXMskOXVbsdYGX5uZY3JgBI2vVsSkMxGsw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8490
+In-Reply-To: <20260223160402.3ad8f079@kernel.org>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9c8d68279109cckunm6766673b9bec2a
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ09CQ1YYTU4fGk8fHk9CSE1WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEtKTE
+ tVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=I2JxoTtVS0Yy5g50bgv4Wil//q2f9q9dCHuXovK/5LdNvBScPX9QRZNqNln/2pGvmbHOVQSNiAizH26Ay9wuN1CW4yf959RsxwxZnY1zkzGm1f2heNBE5Aht1ygGExZDhYnxUaCH2lYQFIRzQh1Ji7cYGdQWjF/HKhpMW2zjyIY=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=VXxBr7dg17LQLBnY9v36F+7EuLqaMgXXNtGWjPOgYcA=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Tue, 24 Feb 2026 08:33:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,63 +121,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	FORGED_RECIPIENTS(0.00)[m:shawn.lin@rock-chips.com,m:bhelgaas@google.com,m:vaibhaavram.tl@microchip.com,m:kumaravel.thiagarajan@microchip.com,m:even.xu@intel.com,m:xinpeng.sun@intel.com,m:srinivas.pandruvada@linux.intel.com,m:jikos@kernel.org,m:alexandre.belloni@bootlin.com,m:wangzhou1@hisilicon.com,m:liulongfang@huawei.com,m:vkoul@kernel.org,m:lee@kernel.org,m:shaojijie@huawei.com,m:shenjian15@huawei.com,m:sgoutham@marvell.com,m:andrew+netdev@lunn.ch,m:hkallweit1@gmail.com,m:davem@davemloft.net,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:karol.wachowski@linux.intel.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:andreas.noever@gmail.com,m:westeri@kernel.org,m:tjeznach@rivosinc.com,m:will@kernel.org,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:dave@stgolabs.net,m:jonathan.cameron@huawei.com,m:schalla@marvell.com,m:bbhushan2@marvell.com,m:atenart@kernel.org,m:herbert@gondor.apana.org.au,m:raag.jadav@intel.com,m:hansg@kernel.org,m:greg
+ kh@linuxfoundation.org,m:jirislaby@kernel.org,m:andy@kernel.org,m:mani@kernel.org,m:mika.westerberg@linux.intel.com,m:andi.shyti@kernel.org,m:rric@kernel.org,m:broonie@kernel.org,m:nirmal.patel@linux.intel.com,m:kurt.schwemmer@microsemi.com,m:logang@deltatee.com,m:linusw@kernel.org,m:brgl@kernel.org,m:sakari.ailus@linux.intel.com,m:bingbu.cao@intel.com,m:ulf.hansson@linaro.org,m:arnd@arndb.de,m:bentiss@kernel.org,m:linux-input@vger.kernel.org,m:linux-i3c@lists.infradead.org,m:dmaengine@vger.kernel.org,m:phasta@kernel.org,m:netdev@vger.kernel.org,m:nic_swsd@realtek.com,m:linux-arm-msm@vger.kernel.org,m:linux-usb@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-cxl@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:linux-serial@vger.kernel.org,m:mhi@lists.linux.dev,m:andriy.shevchenko@linux.intel.com,m:jsd@semihalf.com,m:linux-i2c@vger.kernel.org,m:daniel@zonque.org,m:haojian.zhu
+ ang@gmail.com,m:linux-spi@vger.kernel.org,m:jonathan.derrick@linux.dev,m:linux-pci@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:kuba@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[rock-chips.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
+	DKIM_TRACE(0.00)[rock-chips.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_GT_50(0.00)[88];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shawn.lin@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid]
-X-Rspamd-Queue-Id: 31167180DDF
+	TAGGED_RCPT(0.00)[dri-devel,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:mid,rock-chips.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 27D39183C70
 X-Rspamd-Action: no action
 
-On Mon Feb 23, 2026 at 10:13 AM JST, Joel Fernandes wrote:
->>> +macro_rules! clist_create {
->>> +    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) =3D> {{
->>> +        // Compile-time check that field path is a list_head.
->>> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_hea=
-d =3D
->>> +            |p| &raw const (*p).$($field).+;
->>> +
->>> +        // Calculate offset and create `CList`.
->>> +        const OFFSET: usize =3D ::core::mem::offset_of!($c_type, $($fi=
-eld).+);
->>> +        $crate::ffi::clist::CList::<$rust_type, OFFSET>::from_raw($hea=
-d)
->>> +    }};
->>> +}
->>=20
->> This uses offset_of! in a way that requires the offset_of_nested
->> feature, so it doesn't build in rust 1.78.0. The feature is already
->> added to rust_allowed_features, so I think it's ok to add
->> #![feature(offset_of_nested)].
->
-> Maybe I am missing something, but why should the feature be gated behind
-> that if all compiler versions (>=3D 1.78) support it either in a stable w=
-ay
-> or via an unstable feature flag?
+在 2026/02/24 星期二 8:04, Jakub Kicinski 写道:
+> On Mon, 23 Feb 2026 23:29:40 +0800 Shawn Lin wrote:
+>> pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are created for
+>> pci device drivers which rely on the devres machinery to help cleanup the IRQ
+>> vectors.
+> 
+> If you can please add this API with just a few users, and then convert
+> remaining users via the subsystem trees in the next cycle.
+> There's no need to risk wasting maintainer time on conflicts with
+> conversions like this.
 
-I think that's why it's in rust_allowed_features. IIUC that's where we
-put unstable features that are stable enough in all supported compiler
-versions to be used.
+Thanks for the suggestion, Jakub. I have little experience with 
+cross-subsystem cleanups like this, so your suggestion is very helpful.
 
-But, rust_allowed_features doesn't apply to the code here, so you'd have
-to add an allow to rust/kernel/lib.rs.
+> 
