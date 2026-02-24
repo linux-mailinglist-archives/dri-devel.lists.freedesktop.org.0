@@ -2,68 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QOLaNFt0nWmAQAQAu9opvQ
+	id IEQ2Gq51nWmAQAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:50:19 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:55:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB12184EC5
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7603184FEE
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 10:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1C310E541;
-	Tue, 24 Feb 2026 09:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F27C10E1F9;
+	Tue, 24 Feb 2026 09:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gcXcUYVC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MKdnxV3y";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kCjS9gHw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A81610E539;
- Tue, 24 Feb 2026 09:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1771926614; x=1803462614;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=LE2pGK1fEdEnRioFiZQy8bGXtGZfvqUajV9L7/N1/C4=;
- b=gcXcUYVCI5Op08HOAw9CGoyS5ccmxp3U7FCHKLwjsofYPcm/gJrNzBZ+
- DnFpgKTXpZsnkGWqoSkpWQHRb9yfRHyQVQAyav5e0k4MzCuwOSmxbKqvD
- 5R9kEqdkPN5lEWNQQEz/hMsCy/jzQCu9KNhUkFxBh5qB3x31ys8tkmSMM
- 7GMPdbdLpBAqm8S1ufb99I/wmyBe/SEcUl/rAhqaW8KSjEPBI6dgvJqDE
- 7CTbR7yRiN2eMpSI+sHU9F6mqFgvjDiYa7XOld27hqYQv3+jtARo1MkAn
- C+BeyJ5yDzTfWJFPYt3lUqvqniq2E6OdaB34lBkRm1alcY43+cuyLG/0e Q==;
-X-CSE-ConnectionGUID: 0qsYefiDQY2jfE2qAaXibQ==
-X-CSE-MsgGUID: 1heexYsGRwGY4/7R6oRsVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72839671"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="72839671"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 01:50:13 -0800
-X-CSE-ConnectionGUID: ME+F9SM7QMC4B6rDFbfkWg==
-X-CSE-MsgGUID: Z51BegxZQY+Lunaq8VrnTw==
-X-ExtLoop1: 1
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.245.246.26])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 01:50:10 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: [PATCH] drm/i915: Fix potential overflow of shmem scatterlist length
-Date: Tue, 24 Feb 2026 10:49:06 +0100
-Message-ID: <20260224094944.2447913-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D2310E1F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 09:55:53 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61O9sJV62513127
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 09:55:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=NLB0qQPuzbACSQImKVEef+mg
+ RNvirxc5Ksz+GvAVFv8=; b=MKdnxV3yzibPL80QEsKWXtKNa48g2J7/F29iuHMc
+ 718U9q+WCWn6PWPyu6uf8pD54aLMAQs0F7rIlgU5c99EbayoA8HG1LUL+HQ7B1NR
+ GTgBYTv4kIV+jqYQ/hnk4Bh90PUw8D0HzuYEaQE+h1WsP0G1iFFHtKzexszyTZQO
+ ecKnu5p5bSFqO4zlO8vc2He6LJgDbIRP0TKN1SGcEyssGXNGJhOoAeLWgklYBKD0
+ 2xtL6CxuIoAEfD2jd5b8lGCu7Viw3bAiw8cSj906S/YdJR76UeuQtBqcZbhJwujK
+ Q26rErbHgnZRiD8BcrQJf6bNMjMoHeTsID9ZRMISGgqUNw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ch4e38ygk-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 09:55:52 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8cb3a2eb984so2601401585a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 01:55:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1771926952; x=1772531752;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NLB0qQPuzbACSQImKVEef+mgRNvirxc5Ksz+GvAVFv8=;
+ b=kCjS9gHwp4qe0csyqDPx6MJ1FI8w1cnMJYX8ymRUwKD8UBVr/rgGFbVE7bN0EknvTL
+ A5Bfcwr3wkBM7+rmIAPEpKdAbAneILPb3shpUDq0cOtVBnVPhkoD7Pg+dJC/CcUl1u1/
+ pyGGlalF6fIX0hdHkKEBB/myirYTU8qsJu5jZ6Wv4dFQ513eADb7wTriVUYqIkEjeZ31
+ 4BwlIADTFtkBE7/Hndc87Yk1JO5N68vYAdaIFqfjFftsoPXQ8zEAiCtLCuK/g3fWfvHP
+ p2/mYzmld066s64+uBn1vvUlLM03WL+IgSPr8vcAPpA2ucbQoW69q7GRWeKwOGsf0J4z
+ u3kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1771926952; x=1772531752;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NLB0qQPuzbACSQImKVEef+mgRNvirxc5Ksz+GvAVFv8=;
+ b=sHzGyR7avI2WgGN3Pumxe2OJGvintDzsNWtmVR9rit8VFDQIDNwgJ/yTOrtIEjxNk6
+ eQO4qjG0LYfKNYHbmbzAspyfTvcu9hS9ZvGmaxbjYHuLFGHJ2XHCceIeV8qOykP6vp3R
+ 1ABfNCV4YEn0b0yZdy4SNetSW9dTmKjyvnpAeVumAbbAVhvh/XXxQgW2gnk4kI53fZ2n
+ UM0gJJL4ENVkp1WupLiQOTE/nVSsxtXv1m0I6L0P+0SXl/U8GRvzDwrmZC9ZpCvd5a9Y
+ 74mEOQfebFZgGtYNozhmzFP26PNTdEPP+WyiLwSX4FTgwbpcOCSp79ovN5TswBoAFyBU
+ qGkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXw9Bm4GuzFIV23FFpuz7Ccs0wSf+q92hCQgNAKuzio0KVo4ltYq2w4DIDE5U23EM9y22LYp4WEEeM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyy2Zu4UzaG8gNn7bh6T41Yd6VZg1/28expO9TmgguCdiPSLFLE
+ nXR6u4+AcvZHd6aOnq4vfUdqnfwgWDTbicBQ2ZEKJ0UTGToAIm89jgk1ILbRAx0dZG1RA4opaO3
+ 9nPiL7CqABAAKC10XbZ58sskVKdUwU2SO4hF+dQxt5NFC2Dg0p2u/9xKqU5KsOmSdrG49JlU=
+X-Gm-Gg: AZuq6aKcyDS/2P0rbmfB5LzRwg9sfqBCgcC3lHYPgBXXalvU300uBsPjkAmIgyWsnW8
+ PKej28u+ENUTiBqP/ZwHUlMclry6BBY48VrJ9Dz3idv6u2cum3/jhKr/l8Omem5+AyKGhHzTvoM
+ lEedYIVMzlK5KqwYswJEvzpGWne+cS2dd5aCKa4K8RWuqeORRbkxSslNVtLfphV5OKEGoeIjLoi
+ Av9ZTsOD4CzINFfbWtarHEwFeqhACQaQMXuW8Fy5nCcGrENO5OeXgBxZSWALNcVZ86I09g3mnxo
+ xi8w1oOAsZyCNp0vNPG97axdp57vN/f/XEhGzOwt9/zOP6XvCmMeudtMKJez6irTQrCMT23YEBO
+ 3FECSebgSLxozaynO6o6qXNnqPCVqSsVi+5j78Jjdjc49FE301rsetUQ+4xNTHf9PzrSIjKlUhv
+ dGcwG+hQQImIeWnH091gK8EecpYzG/F+vRESk=
+X-Received: by 2002:a05:620a:1708:b0:8cb:3505:443c with SMTP id
+ af79cd13be357-8cb8ca63f71mr1522350885a.44.1771926951643; 
+ Tue, 24 Feb 2026 01:55:51 -0800 (PST)
+X-Received: by 2002:a05:620a:1708:b0:8cb:3505:443c with SMTP id
+ af79cd13be357-8cb8ca63f71mr1522348085a.44.1771926951077; 
+ Tue, 24 Feb 2026 01:55:51 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a0eeb0b95csm2073554e87.16.2026.02.24.01.55.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Feb 2026 01:55:50 -0800 (PST)
+Date: Tue, 24 Feb 2026 11:55:48 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yifei Zhan <yifei@zhan.science>
+Cc: Richard Acayan <mailingradian@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/6] drm/panel: Add Novatek/Tianma NT37700F panel
+Message-ID: <u72thihdv7ct6twwmqz6744w7ls6ulhqqo2awwq2mmhkva4xzb@cbkowz6rwnj4>
+References: <20260210023300.15785-1-mailingradian@gmail.com>
+ <20260210023300.15785-4-mailingradian@gmail.com>
+ <gpkuq7b6mae5ib2xvphmir66pb6ysexhhfqkorve5zewkj4ofc@ryccazsoxqm7>
+ <DGGAL7I1KRM8.1DSZIKWRHLEPM@zhan.science>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DGGAL7I1KRM8.1DSZIKWRHLEPM@zhan.science>
+X-Authority-Analysis: v=2.4 cv=UtFu9uwB c=1 sm=1 tr=0 ts=699d75a8 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=NEAV23lmAAAA:8
+ a=pGLkceISAAAA:8 a=X6Xd5_H3JNy0hcg6DaYA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: Hf9CUzP50-2Ez6aE4oP5Jcw93Y8f5WfH
+X-Proofpoint-ORIG-GUID: Hf9CUzP50-2Ez6aE4oP5Jcw93Y8f5WfH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA4MiBTYWx0ZWRfX+hdfJFGD5XFy
+ YJYoeFdike9ySw3xeR//Br1LZk3VJpoEMAYE+olmu1kf/v9eBB4HnwO/sXHWP3FrpU0LAAWuwN/
+ B1KTbd0sg3TEpxljQz08vjbB0kzSkR86ICUv3t2yMwtVi3nVkbaQ3fpbrSnMWC9m0Z30KkOB+SF
+ F9Odc0w0wIK0h9Jm7yj2xrP+l3DWdgGbpc6HK85aZsFy4zZwslvw861rGJjCF9Y++hSQTLr9iof
+ Ha+z6W41X+xtkYmvrgwF0Skkrsfww2vGbCVX2BdzDw1uMEoibOZDRDjr6GBDhaZOAE0iMlSkv82
+ XJWtTuvGVndlnTqQUrO5MsZas14gX/mnl5oVcYJC4VPqEHQmE+bEfou5JVYe2il1Bcys+n/v+x+
+ vz/e3ZkpRBKnGIx+0cHvnJsXCBRowYXswsCmXj7KDdA2A3IlCS9UFEmSnse1RCYrh333jr8xwYu
+ T1uoEmtfPmUcWpYsWcQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_01,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 spamscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,112 +158,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS(0.00)[m:yifei@zhan.science,m:mailingradian@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linaro.org,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.969];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,infradead.org:email]
-X-Rspamd-Queue-Id: 8AB12184EC5
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C7603184FEE
 X-Rspamd-Action: no action
 
-When a scatterlists table of a GEM shmem object of size 4 GB or more is
-populated with pages allocated from a folio, unsigned int .length
-attribute of a scatterlist may get overflowed if total byte length of
-pages allocated to that single scatterlist happens to reach or cross the
-4GB limit.  As a consequence, users of the object may suffer from hitting
-unexpected, premature end of the object's backing pages.
+On Mon, Feb 16, 2026 at 09:51:57AM +0000, Yifei Zhan wrote:
+> On Fri Feb 13, 2026 at 6:07 PM UTC, Dmitry Baryshkov wrote:
+> > On Mon, Feb 09, 2026 at 09:32:57PM -0500, Richard Acayan wrote:
+> >> Some Pixel 3a XL devices have a Tianma panel. Add support for it, with
+> >> the aid of linux-mdss-dsi-panel-driver-generator.
+> >> 
+> >> Link: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+> >> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> >> ---
+> >>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+> >>  drivers/gpu/drm/panel/Makefile                |   1 +
+> >>  .../gpu/drm/panel/panel-novatek-nt37700f.c    | 294 ++++++++++++++++++
+> >>  3 files changed, 304 insertions(+)
+> >>  create mode 100644 drivers/gpu/drm/panel/panel-novatek-nt37700f.c
+> 
+> <--cut-->
+> 
+> >> 
+> >> +// TODO: Check if /sys/class/backlight/.../actual_brightness actually returns
+> >> +// correct values. If not, remove this function.
+> >
+> > Any chance of checking it?
+> 
+> 
+> I tested this with my Pixel3A XL with tianma panel, it worked correctly.
+> /sys/class/backlight/.../actual_brightness returns same value
+> as /sys/class/backlight/.../brightness and I'm able to change brightness
+> level.
+>                                                                                                                                                                                                                      
 
-[278.780187] ------------[ cut here ]------------
-[278.780377] WARNING: CPU: 1 PID: 2326 at drivers/gpu/drm/i915/i915_mm.c:55 remap_sg+0x199/0x1d0 [i915]
-...
-[278.780654] CPU: 1 UID: 0 PID: 2326 Comm: gem_mmap_offset Tainted: G S   U              6.17.0-rc1-CI_DRM_16981-ged823aaa0607+ #1 PREEMPT(voluntary)
-[278.780656] Tainted: [S]=CPU_OUT_OF_SPEC, [U]=USER
-[278.780658] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-[278.780659] RIP: 0010:remap_sg+0x199/0x1d0 [i915]
-...
-[278.780786] Call Trace:
-[278.780787]  <TASK>
-[278.780788]  ? __apply_to_page_range+0x3e6/0x910
-[278.780795]  ? __pfx_remap_sg+0x10/0x10 [i915]
-[278.780906]  apply_to_page_range+0x14/0x30
-[278.780908]  remap_io_sg+0x14d/0x260 [i915]
-[278.781013]  vm_fault_cpu+0xd2/0x330 [i915]
-[278.781137]  __do_fault+0x3a/0x1b0
-[278.781140]  do_fault+0x322/0x640
-[278.781143]  __handle_mm_fault+0x938/0xfd0
-[278.781150]  handle_mm_fault+0x12c/0x300
-[278.781152]  ? lock_mm_and_find_vma+0x4b/0x760
-[278.781155]  do_user_addr_fault+0x2d6/0x8e0
-[278.781160]  exc_page_fault+0x96/0x2c0
-[278.781165]  asm_exc_page_fault+0x27/0x30
-...
+Then TODO needs to be dropped.
 
-That issue was apprehended by the author of a change that introduced it,
-and potential risk even annotated with a comment, but then never addressed.
+> Tested-by: Yifei Zhan <yifei@zhan.science>  
+> >
 
-When adding folio pages to a scatterlist table, take care of byte length
-of any single scatterlist not exceeding max_segment.
-
-Fixes: 0b62af28f249b ("i915: convert shmem_sg_free_table() to use a folio_batch")
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14809
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: stable@vger.kernel.org # v6.5+
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index c6c64ba29bc42..720a9ad39aa2a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -153,8 +153,12 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 			}
- 		} while (1);
- 
--		nr_pages = min_t(unsigned long,
--				folio_nr_pages(folio), page_count - i);
-+		nr_pages = min_array(((unsigned long[]) {
-+					folio_nr_pages(folio),
-+					page_count - i,
-+					max_segment / PAGE_SIZE,
-+				      }), 3);
-+
- 		if (!i ||
- 		    sg->length >= max_segment ||
- 		    folio_pfn(folio) != next_pfn) {
-@@ -164,7 +168,9 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 			st->nents++;
- 			sg_set_folio(sg, folio, nr_pages * PAGE_SIZE, 0);
- 		} else {
--			/* XXX: could overflow? */
-+			nr_pages = min_t(unsigned long, nr_pages,
-+					 (max_segment - sg->length) / PAGE_SIZE);
-+
- 			sg->length += nr_pages * PAGE_SIZE;
- 		}
- 		next_pfn = folio_pfn(folio) + nr_pages;
 -- 
-2.52.0
-
+With best wishes
+Dmitry
