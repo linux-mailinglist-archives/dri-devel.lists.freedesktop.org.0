@@ -2,101 +2,195 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHqcDsfFnWnsRwQAu9opvQ
+	id qC93M3DDnWmsRwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:43 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:27:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FC718922E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F84188FFB
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 16:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C316710E5C2;
-	Tue, 24 Feb 2026 15:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF69A10E5A7;
+	Tue, 24 Feb 2026 15:27:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BxZOool+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RruO6a/k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BxZOool+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RruO6a/k";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zen0uFkU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBF810E5C1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 15:37:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7C50A5BCF9;
- Tue, 24 Feb 2026 15:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771947427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BpiRqvx71b1w21o9LKK/18fPTo7j+7UxTsC1vB2ocKk=;
- b=BxZOool+Di4IPMKkE5tlO3E+HomT8Y3MSPegAOAoELBe/u7lRAiS/hg6Vu6IhNeHmLENS8
- FEk/BIlS+lgbTGjIFD1n1S8yDXZRDNMxovmECoMcva5R5TZWHl8gXr3Og+qxxOI07GXtP4
- 8hYwQNVfsPm0/QHZnaPHxoMrx5Qt8Nk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771947427;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BpiRqvx71b1w21o9LKK/18fPTo7j+7UxTsC1vB2ocKk=;
- b=RruO6a/kkaSRDbhPjsuYcP5AXattRtcoANo5Lsez7XizxE9hx5E/Qq5DW/tycc9MG5O+zX
- l1WNjNDLupo/KqCw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BxZOool+;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="RruO6a/k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1771947427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BpiRqvx71b1w21o9LKK/18fPTo7j+7UxTsC1vB2ocKk=;
- b=BxZOool+Di4IPMKkE5tlO3E+HomT8Y3MSPegAOAoELBe/u7lRAiS/hg6Vu6IhNeHmLENS8
- FEk/BIlS+lgbTGjIFD1n1S8yDXZRDNMxovmECoMcva5R5TZWHl8gXr3Og+qxxOI07GXtP4
- 8hYwQNVfsPm0/QHZnaPHxoMrx5Qt8Nk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1771947427;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BpiRqvx71b1w21o9LKK/18fPTo7j+7UxTsC1vB2ocKk=;
- b=RruO6a/kkaSRDbhPjsuYcP5AXattRtcoANo5Lsez7XizxE9hx5E/Qq5DW/tycc9MG5O+zX
- l1WNjNDLupo/KqCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B93F3EA68;
- Tue, 24 Feb 2026 15:37:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2D+NBaPFnWm0FgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Feb 2026 15:37:07 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
- david@lechnology.com, architanant5@gmail.com, wens@kernel.org,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
- airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 16/16] drm/simple-kms: Deprecate simple-kms helpers
-Date: Tue, 24 Feb 2026 16:24:53 +0100
-Message-ID: <20260224153656.261351-17-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260224153656.261351-1-tzimmermann@suse.de>
-References: <20260224153656.261351-1-tzimmermann@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C40310E32D;
+ Tue, 24 Feb 2026 15:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771946859; x=1803482859;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=zViJ7XcpDYuAa92Xy//eQsmKAdjGNnw7pydnvMOD2gw=;
+ b=Zen0uFkUR4GFCwDLg5WggzkS2mT4epQ+ie6FaaDsxbj9dyKY5ddjBlNZ
+ m1UbHR4CyVAHKf56poscfERF8pyKgaNsuKaK6iFSWErm/DbNqNoA61EK0
+ +kBVIEHbrwrrAtNbEBg2mhYEu7nxse3i44X2A3AF8NbT/P9zmrbIvLENi
+ cMUEZho8W8SRNgo4w/rjKmFnCWlkhTQQeFsXuOaerwuGPPtFYM1wsqOr3
+ +vOniLZ2SC4KEpnWQF50MKGVVZw3sLDvODTod81j74IimpdMN6Q2DQ72p
+ lWbQ7FnHKLXEb+NztNugIwWACVUeLxk//y9rPV29k7zvdNy22SQWfeSeP Q==;
+X-CSE-ConnectionGUID: HXSAVgTlSeusHDmFT7JX2g==
+X-CSE-MsgGUID: 3CGfuDTRSxCOetrA5zuNrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="72839797"
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="72839797"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 07:27:39 -0800
+X-CSE-ConnectionGUID: 8uuuu2KJSFCK4qiLON3QYA==
+X-CSE-MsgGUID: lZPuWaQ1S0meiwclzMYubw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; d="scan'208";a="220049084"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 07:27:39 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 24 Feb 2026 07:27:38 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Tue, 24 Feb 2026 07:27:38 -0800
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.15) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 24 Feb 2026 07:27:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xVKROE8jhZSjzVjGZmR7vuPa7EmdvLDwrSNIoqGIxB6JxmYj0z6F8fm0X5n24K2RKdT1xvuDqi0XaluSZ32TTgmS+599wvSD3Joao6hrHOd2ankQH9Fp2UST0UYdJAjWdMytAblTtH0OCNtgmN2Mpu4CiQtnbHp7w+2pT6tRxjIe8RdL9j+ED42H1QX/inU1skEetvuxJtDxvUSswDNlkQJHYa6wVPkC8w7eAvFBZqdri1Wwo+F/ElM1TrAT/eoKLf9JfpnOQZzn/N2XovJt/aQXpa3y3dDfxXQ/fxpjWiDxn5BuZ4AJz/BN6Dl3rgcuMsWpqRtpBUH3HbQq9QfuaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lSBIiuVKFuVxwHb2RgOUpAmD5kE7Jqq1raGRHwLsSOs=;
+ b=o8bS8ne4yOigXjGyYacfVujLfz1l+pUwf1RYv5mbCZ1eAP5zelCuolfU+k9nRLmbXp+4uNL9eOID1E8A1aL96W1DKKwPRUafVy/huzwzAOrcDCA6MGerAJO5sf5s/pT86lE8NKYoc1X6PDc1pvVM5K7kJk+N+17ypJ78eWL6cSSnv33UjwN49lGIGNrzcDoOTH7YLaTOjFal1EJB8tfLQW2wE6qjgUaTCAF+/bZlefkBUj8vFq9PVZoDUmEVjx+5/7LnWELSdsP/T5w4yoxhVH91JT1vVX8Azi49vrsRRRrW3EXwhmFugh+mDEBokkoX1eF8xYFCtUI/jls4eUNeFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by LV8PR11MB8680.namprd11.prod.outlook.com (2603:10b6:408:208::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 15:27:35 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 15:27:35 +0000
+Date: Tue, 24 Feb 2026 07:27:33 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] dma-buf: revert "use inline lock for the dma-fence-chain"
+Message-ID: <aZ3DZU2wFD0b4Ecf@lstrano-desk.jf.intel.com>
+References: <20260223195705.206226-1-christian.koenig@amd.com>
+ <aZy2Hhu3SGQQPQbN@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+In-Reply-To: <aZy2Hhu3SGQQPQbN@lstrano-desk.jf.intel.com>
+X-ClientProxiedBy: CY5PR18CA0053.namprd18.prod.outlook.com
+ (2603:10b6:930:13::29) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|LV8PR11MB8680:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4121e4a6-a52b-4f2e-f872-08de73b93c81
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?S1gxUjIxcU1PaWJqdXJSWFoxVFBzTWxYT3J0NEQ0ZjFuZWRXVCtGVUVDc1ZP?=
+ =?utf-8?B?S2dCMk5QTENtZkhscGlVaU9iU2o4eWtuSFI2anA5V2Zrc2RaUTNYMkV4eGNy?=
+ =?utf-8?B?YjFLVXJOVlJEVWVUUjNPYlE3azNNdW5maTUwOFRuUkREcTVSTFd1MExhYXZS?=
+ =?utf-8?B?cWlISHdteHppMHRLanpqOEJHR3NpcjhvdUl0L1RHWXpKemRySUZWNmlDVEdH?=
+ =?utf-8?B?a2RaWlhrWWN1cVRxRkhZd3djclRtYWNuZVZjN1hTOUFPeWd3aFhhTlNsR0Fs?=
+ =?utf-8?B?VzNGc2NtYTIrdTgzcHZET0lOZkpKOFZYdnJHNW14NU83SDQwMFgycWkrY3Nm?=
+ =?utf-8?B?YWd4TlRmSk1qRnJZMFFKYnhpbEI3UUQxRzZMVEJhbGpCKzZXYWJyY0ZkVG1W?=
+ =?utf-8?B?UjBBcStkN0lPcVB4R3BxQ3ArZE11clVGUFRJdEhJSUFmZFA2WWpHOEFwVE9T?=
+ =?utf-8?B?VjFNYlZ2aGduUjVudTZUN25YSTc3NFJtRGg3cC9yUU4yQ0R5Q3NkNHdobWFj?=
+ =?utf-8?B?K2tHVk9tdTJjRW5YbWxrL2hQTk9raFNhb3VXNVVyNWZNQmFLV3ViVkV6aTJ2?=
+ =?utf-8?B?RHpFcndvNkJVMVd6REQvS1R5MzBWWTlnQkprS3VVWEZGdXcyZ1lxdndMdlZW?=
+ =?utf-8?B?TkU5UE8rME4xVWlMYXhwdkVXbTd3MGIrT09nb0hXSUwvVUpwbUhUWVE0UzE2?=
+ =?utf-8?B?THlDNHhSUWl4Zmk4M3JsdmNlaEpHcC9NZ2Q1UnZNV2E3QjJTZWNMc043c1JW?=
+ =?utf-8?B?dTZZNVkvSVB0aVQ1RFhSY3FIWDlFZUJEVnFpc3BRNHFqOWpWYm5RVmlqL2R6?=
+ =?utf-8?B?YU96TEhPUGFKT0x0c3lLVGY0RXM5cWZpQmRxK1hJb1VJam15TkJsZC8vSks3?=
+ =?utf-8?B?djhFUW84RUhiRzVQS3dkWFRSSkZBUU9qQ2JtOG5UUmdIMjRSbG5mRE4yKzNU?=
+ =?utf-8?B?cTExMUIrbFdjVHlQNjQyTG54TXRjMGlGV0NOb2xrWVhTM2F4djlBdnpPaXR5?=
+ =?utf-8?B?bVFuSFBqN2RMYVB4aGpYdi90VnFFWDFwTFZoQUMwTzl3SUNQcVhLL1kxNHdT?=
+ =?utf-8?B?SUpGTkNESkozWEozWmxxRFZaRE1uT2psa1JMTzJkTXJsVjlrK21UelV0NGV3?=
+ =?utf-8?B?OXloOXFKU3FQTVBqUWFHd01zNlF5ZzIvc0FGYzk5bFVTenhHUWFOZVo3WW5u?=
+ =?utf-8?B?NUhPUXlVeEh3QVFHODFhOTJSeFI1cG84WXAyMitRUmNUSnJPVDVTVFp2OTdq?=
+ =?utf-8?B?cExZdndLMW80TEdUQW9GRlh5UVR4SzlBWmdHMXFNTXhmZjQwYnhPWE5rVFVk?=
+ =?utf-8?B?QUxBeTBGWmE0eVpURTIzVzEzck1wMFJGTFdEdzRreDRJTU5RYmxlYkFvVGNq?=
+ =?utf-8?B?UkIrMkFRQmowc3BvcFd0MlVKQWhNMklka01MSzMxZGhnUFRPcUhCUWlLcmUw?=
+ =?utf-8?B?NkV5T1BIbXREQS9vTjJ4TGFTYks1clRTU3o2QWt4NDZvQXk3RTFOL0d1UDNX?=
+ =?utf-8?B?NVNwUXZwN21oOVlqMC9WUStXUHlLK3N4RjM0L3NzTGV1ZTZJcTZjUVc2bE1O?=
+ =?utf-8?B?cUhIV0Y2b3ZYT1hqQVlaRzdiMnVRMzhQRFB6L0U5U3gvZUdMTEQ2VEc0bGNT?=
+ =?utf-8?B?ZTBlbEFocnplZTFTcnV3dXdOd29sV0lSQWl6aDNSenoxQklEeDdFK3gzVUZx?=
+ =?utf-8?B?UDBnTEMvMlZ3QWpRT3NrcG1DYjlZNENlYXVpOGV5MzJjZHVKL2RDUDRrSTZ2?=
+ =?utf-8?B?NU43Q3dBTUhWS1ZIRlg4TTFmNFMvUXJudDY3dThpZHJBZmVIOG1lWEdqUFV3?=
+ =?utf-8?B?UG5iNlliNkVhY2hGTVZPY1cxY1lOZXIwUnJyTlZlZmVWcnJIc3RLWlIyMmNl?=
+ =?utf-8?B?c3p6N2ZXYit6cko4WEVGNmFYSFFWcWEyYkhlK2hrSGJmdUZYNlEyUFhucTZN?=
+ =?utf-8?B?YnliL0lNQW50NTJaRDN6R1UxanVvRDRrdWJoY2pOeU8yZFNSOHM3OHVGSm9N?=
+ =?utf-8?B?alJkaTNZcDVISTVjZTVPNlFDN2dPZW1VZDNSZm9OeWVQQXFpN2IwbnJ5REdV?=
+ =?utf-8?B?a0p0dkU1aitFNjBITmVFWnA0dTBibVByM3Nrc2tFZWtNMWFIeXQ1cmRZWUNk?=
+ =?utf-8?Q?jvjY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2RJcDdaeTlvc2kyM0Fqck9GVk1uK0VBc0xQZS9YUFJDdVZVQVVKdThvQ29F?=
+ =?utf-8?B?aWlYZ3dmelgzaWFpeGxyUW5HVmRGOFZTOGp0Q21haEMyRjdHTEpRN28yazhk?=
+ =?utf-8?B?bzBySUQrOFkyMGYrUjZRZjhoRzNaZDF1b0hOdzBqU3FVZnRkdGFGMlp6amlX?=
+ =?utf-8?B?L2cxVC9FK01Va25zZnkzVDlkd1JVMEhrZXl0TGdzeVJBS2Y5L3A5V29PQ3Vr?=
+ =?utf-8?B?dU03cHF0aUhmQThkcktTay9UREdQYWdweURDT2g0cWNvT3ZCb1Vzb2ZETHJ4?=
+ =?utf-8?B?UEc3L29ZSFpHbTh6S1ZKbzFaWGhPSzV3dXVySUJDK2hZelN5cXVWdXVtN0FZ?=
+ =?utf-8?B?Yi9OSHlwb21PWkpRSmdqcHY4L2JWVHYyVEgrcm9FZG9vSE5adFYvSEdud0RJ?=
+ =?utf-8?B?K1lQY2JUQWlleld6Q1VUZ1VZOCswZm9FeDNoZk9YeDBMY0NrYmNFTTA5S3pt?=
+ =?utf-8?B?M25FeEFaYWN3ZmRFbUo1L2xjb2t3V0RLMFB2RE1YSDNjcGNLZ1pUSFFpV1pv?=
+ =?utf-8?B?YkpuRkd1elRMZlVJN0VVVU1ZU1dOZ2hrbXBtTVNRcmluSGJrN3JMOUdENFJu?=
+ =?utf-8?B?dnpKR01uYzhGYlpYaHdscVRqOThVbFlRT1Q1RWlJRGRXV3pZZzJiT1VybWZV?=
+ =?utf-8?B?bk1kc3R1WUdGVklwbHUzQTFBUUswT3hYT3V5Vkh4MjdLaTRIWThXNFh6ZjQy?=
+ =?utf-8?B?K2VKT3VPd3E5aHVtQTlod2E1QWFQdFhSL0t6ejk5cGpwemw1QWhwVzJEZlJv?=
+ =?utf-8?B?WDZJUFIveU1HblE2UkMrK2lha2xnMFQ1ZWMwWFVWRm5GWmJTb1ZrRDFZVGhz?=
+ =?utf-8?B?Y21sakhyZ0VxMGtxaXRPMXBOcWZIQUtNRFpVcE1BT25HMTBkcDVEMkxZS1Uz?=
+ =?utf-8?B?c1RCb01pNjZrTzlYZE43NmxYRzdRT1ZMRkR6Y2lDeHhKR3BXaC9MeGEvYUlP?=
+ =?utf-8?B?MDlIbTNRS0I2M3pOSUVOdm80azh2K2ZhcmJSMVNqS3hGL2JpVVFNb2xvNWhh?=
+ =?utf-8?B?R0YrT3VZdytjR2NCZWtqem5EenRqWEFscXlPbXA4SzNWQUw2ZUZLVXhmSzVh?=
+ =?utf-8?B?SituT1hIbFlNdSs5RHhaMVBOQndrN2FCVWtvY2E1bWNHbk10bTl6UTBFSGZs?=
+ =?utf-8?B?Yk1nYXdyU3BvcEpFcW0xNXdkSjdCRWp3anBUdW12YzA2ZXcvZXZQVUIwRStT?=
+ =?utf-8?B?U2wxT2tRZm9rRmJFNU43U1ZhUWVwR2h6dzAwZVhBMGIxaWJuKzl0V2I0Qklr?=
+ =?utf-8?B?S1hLS29iYzFldXVIN2tlQkl3akJqVlBIWFpPTDBsZkhOb2M5UjErcmw3bVdF?=
+ =?utf-8?B?UkpwUTdXcURvMlFsUnd6WmFSd2IzaHNIYWozRnRxUTRBL29uUy9ZZ0FPVEcz?=
+ =?utf-8?B?ejExRGwzQ0ZmYUNHTVhWTHNzY01XVjhlRnE1cHBUVTFjR2wrK1Zkbys0b2FY?=
+ =?utf-8?B?WStGZ2dXUUtYNXE2N1ZxMkhFMnoxemRETWlHUE9NYVZ1VFBzWUw4OHU3OXF0?=
+ =?utf-8?B?L0dOLzNLdEJPM0E0S3ZUc05qSVVrd0w2MTE4dXBmcGhYVnNCeGxGRU12OWpq?=
+ =?utf-8?B?enN0aGg4cXoyQ0FQcVNYOGM3Vjc3RnZ4TzY4R2pCQjlQTnhTZm94UEVtNnFL?=
+ =?utf-8?B?VGdRM0xibGo5Qnhlb2h3OEZRZC9YZ3YyQnBZaERlTlE5Q3Y2cGpQRFROUUFs?=
+ =?utf-8?B?NWlFV2M2OUJaMjlBZVptVHRXM284Q1Eza1phcWRnNDBldWhNYk5kYS9zbThv?=
+ =?utf-8?B?NTNUMzZEZU9mc040d2ZXbmhPK2M0VDBQWmt4T21UOFpwZC9GU3dISTBtMStZ?=
+ =?utf-8?B?M205cERKSnN4V3JNL2lobDc3ZVRISDc2S1hReEY4NkhYNVo4UzhZem1nd0dG?=
+ =?utf-8?B?SnlYalFGY3FRREVkSWVmWXlNOHVvbFo2dVdoSGpLUGkrQ3F4MUxIZE55aGl5?=
+ =?utf-8?B?MmcwS2RqcFdCczl3TGU1ZWtYREFPN3k5NFp5SFM5TWc2aStrNkJYVHlXMW9j?=
+ =?utf-8?B?ak1FTjAzb2lGVkRCcExiQ05zb3g1blIwSzFva0VVR2lMMHVTZVBONTdMNk0v?=
+ =?utf-8?B?alQ1Vi9HTFRWd1U1VGc5TGpNRkNYQm1WbUJRT2ZIL0lSaXllVy8xSTdlUVA5?=
+ =?utf-8?B?TDJOMjJxQTgyS0NMb2pxSmI5bnIvSHN2SUx3Tk1pVmVGY2krMUY5N2h4N1k3?=
+ =?utf-8?B?cTFhUHpDWmhZRGYvSEYzSVhVMzIvTjVnRVhvNnFhSU1tdDdOSU5LSXFFL3Fm?=
+ =?utf-8?B?TVl2bHlkREtReXRGR2pYOVNKbUoxNHNPb25oaWRCUDAvcFhzSG9PWkxnRFEy?=
+ =?utf-8?B?K0RDSGlLQnNLMTVMcUlWbXBMYWZmWHltTXU2UGtmSXlBbGIwd2Uzc2FaZ1hR?=
+ =?utf-8?Q?kOU1Zx9ClfdhlwOc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4121e4a6-a52b-4f2e-f872-08de73b93c81
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 15:27:35.5528 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1i7xJHRWG1L5WuRgC2d8anRymBW9+Gvit0aLqtivJ+0cVDjmSEFxqw/XwxvSLLf7RX6aEo2rWmoY9RBauzQi2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8680
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,603 +206,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:javierm@redhat.com,m:lanzano.alex@gmail.com,m:kamlesh.gurudasani@gmail.com,m:david@lechnology.com,m:architanant5@gmail.com,m:wens@kernel.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:tzimmermann@suse.de,m:lanzanoalex@gmail.com,m:kamleshgurudasani@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[redhat.com,gmail.com,lechnology.com,kernel.org,linux.intel.com,ffwll.ch];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lstrano-desk.jf.intel.com:mid,amd.com:email,intel.com:dkim];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C9FC718922E
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 75F84188FFB
 X-Rspamd-Action: no action
 
-Deprecate simple-encoder and simple-display-pipe helpers in favor of
-regular atomic helpers. Remove the related documentation. Add TODO
-item for converting the remaining drivers.
+On Mon, Feb 23, 2026 at 12:18:38PM -0800, Matthew Brost wrote:
+> On Mon, Feb 23, 2026 at 08:57:05PM +0100, Christian König wrote:
+> > This reverts commit a408c0ca0c411ca1ead995bdae3112a806c87556.
+> > 
+> > This causes a lockdep splat. Not really the right fix, but changing this
+> > is more work than expected.
+> > 
 
-These helpers have been deprecated for years and many drivers have
-been updated to not use them. Still there are a few left and we
-occasionally receive new drivers build upon them. Marking them as
-deprecated will hopefully resolve these problems. The TODO items
-should be easy enough for getting new voluteers started on DRM driver
-development.
+Ping - this is blocking our CI so if we can figure out the best way to
+move forward soon, it is would be helpful.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- Documentation/gpu/drm-kms-helpers.rst   |  12 --
- Documentation/gpu/introduction.rst      |   5 -
- Documentation/gpu/todo.rst              |  32 ++++
- drivers/gpu/drm/drm_crtc.c              |   6 +-
- drivers/gpu/drm/drm_gem_atomic_helper.c |  22 ---
- drivers/gpu/drm/drm_modeset_helper.c    |   3 -
- drivers/gpu/drm/drm_simple_kms_helper.c |  83 ---------
- include/drm/drm_simple_kms_helper.h     | 216 +-----------------------
- 8 files changed, 39 insertions(+), 340 deletions(-)
+Mstt 
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..b4a9e5ae81f6 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -104,18 +104,6 @@ VBLANK Helper Reference
- .. kernel-doc:: drivers/gpu/drm/drm_vblank_helper.c
-    :export:
- 
--Simple KMS Helper Reference
--===========================
--
--.. kernel-doc:: drivers/gpu/drm/drm_simple_kms_helper.c
--   :doc: overview
--
--.. kernel-doc:: include/drm/drm_simple_kms_helper.h
--   :internal:
--
--.. kernel-doc:: drivers/gpu/drm/drm_simple_kms_helper.c
--   :export:
--
- fbdev Helper Functions Reference
- ================================
- 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b94..911ebfec8609 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -120,11 +120,6 @@ The DRM subsystem contains a lot of helper functions to ease writing drivers for
- simple graphic devices. For example, the `drivers/gpu/drm/tiny/` directory has a
- set of drivers that are simple enough to be implemented in a single source file.
- 
--These drivers make use of the `struct drm_simple_display_pipe_funcs`, that hides
--any complexity of the DRM subsystem and just requires drivers to implement a few
--functions needed to operate the device. This could be used for devices that just
--need a display pipeline with one full-screen scanout buffer feeding one output.
--
- The tiny DRM drivers are good examples to understand how DRM drivers should look
- like. Since are just a few hundreds lines of code, they are quite easy to read.
- 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 520da44a04a6..bc9f14c8a2ec 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -29,6 +29,38 @@ refactorings already and are an expert in the specific area
- Subsystem-wide refactorings
- ===========================
- 
-+Open-code drm_simple_encoder_init()
-+-----------------------------------
-+
-+The helper drm_simple_encoder_init() was supposed to simplify encoder
-+initialization. Instead it only added an intermediate layer between atomic
-+modesetting and the DRM driver.
-+
-+The task here is to remove drm_simple_encoder_init(). Search for a driver
-+that calls drm_simple_encoder_init() and inline the helper. The driver will
-+also need its own instance of drm_encoder_funcs.
-+
-+Contact: Thomas Zimmermann, respective driver maintainer
-+
-+Level: Easy
-+
-+Replace struct drm_simple_display_pipe with regular atomic helpers
-+------------------------------------------------------------------
-+
-+The data type struct drm_simple_display_pipe and its helpers were supposed
-+to simplify driver development. Instead they only added an intermediate layer
-+between atomic modesetting and the DRM driver.
-+
-+There are still drivers that use drm_simple_display_pipe. The task here is to
-+convert them to use regular atomic helpers. Search for a driver that calls
-+drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_helper.c
-+into the driver, such that no simple-KMS interfaces are required. Please also
-+rename all inlined fucntions according to driver conventions.
-+
-+Contact: Thomas Zimmermann, respective driver maintainer
-+
-+Level: Easy
-+
- Remove custom dumb_map_offset implementations
- ---------------------------------------------
- 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index 8d6f721c2c9a..63ead8ba6756 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -340,8 +340,7 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
-  * Inits a new object created as base part of a driver crtc object. Drivers
-  * should use this function instead of drm_crtc_init(), which is only provided
-  * for backwards compatibility with drivers which do not yet support universal
-- * planes). For really simple hardware which has only 1 plane look at
-- * drm_simple_display_pipe_init() instead.
-+ * planes).
-  * The &drm_crtc_funcs.destroy hook should call drm_crtc_cleanup() and kfree()
-  * the crtc structure. The crtc structure should not be allocated with
-  * devm_kzalloc().
-@@ -424,8 +423,7 @@ static int __drmm_crtc_init_with_planes(struct drm_device *dev,
-  * Inits a new object created as base part of a driver crtc object. Drivers
-  * should use this function instead of drm_crtc_init(), which is only provided
-  * for backwards compatibility with drivers which do not yet support universal
-- * planes). For really simple hardware which has only 1 plane look at
-- * drm_simple_display_pipe_init() instead.
-+ * planes).
-  *
-  * Cleanup is automatically handled through registering
-  * drmm_crtc_cleanup() with drmm_add_action(). The crtc structure should
-diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-index 421c460ac972..abef865c5f2c 100644
---- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -87,28 +87,6 @@
-  * A mapping address for each of the framebuffer's buffer object is stored in
-  * struct &drm_shadow_plane_state.map. The mappings are valid while the state
-  * is being used.
-- *
-- * Drivers that use struct drm_simple_display_pipe can use
-- * %DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS to initialize the rsp
-- * callbacks. Access to shadow-buffer mappings is similar to regular
-- * atomic_update.
-- *
-- * .. code-block:: c
-- *
-- *	struct drm_simple_display_pipe_funcs driver_pipe_funcs = {
-- *		...,
-- *		DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-- *	};
-- *
-- *	void driver_pipe_enable(struct drm_simple_display_pipe *pipe,
-- *				struct drm_crtc_state *crtc_state,
-- *				struct drm_plane_state *plane_state)
-- *	{
-- *		struct drm_shadow_plane_state *shadow_plane_state =
-- *			to_drm_shadow_plane_state(plane_state);
-- *
-- *		// access shadow buffer via shadow_plane_state->map
-- *	}
-  */
- 
- /*
-diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
-index a57f6a10ada4..d7721df744e7 100644
---- a/drivers/gpu/drm/drm_modeset_helper.c
-+++ b/drivers/gpu/drm/drm_modeset_helper.c
-@@ -135,9 +135,6 @@ static const struct drm_plane_funcs primary_plane_funcs = {
-  *
-  * This is purely a backwards compatibility helper for old drivers. Drivers
-  * should instead implement their own primary plane. Atomic drivers must do so.
-- * Drivers with the above hardware restriction can look into using &struct
-- * drm_simple_display_pipe, which encapsulates the above limitations into a nice
-- * interface.
-  *
-  * Returns:
-  * Zero on success, error code on failure.
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index fcbcaaa36b5f..4d91513a1e34 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -16,55 +16,10 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
--/**
-- * DOC: overview
-- *
-- * This helper library provides helpers for drivers for simple display
-- * hardware.
-- *
-- * drm_simple_display_pipe_init() initializes a simple display pipeline
-- * which has only one full-screen scanout buffer feeding one output. The
-- * pipeline is represented by &struct drm_simple_display_pipe and binds
-- * together &drm_plane, &drm_crtc and &drm_encoder structures into one fixed
-- * entity. Some flexibility for code reuse is provided through a separately
-- * allocated &drm_connector object and supporting optional &drm_bridge
-- * encoder drivers.
-- *
-- * Many drivers require only a very simple encoder that fulfills the minimum
-- * requirements of the display pipeline and does not add additional
-- * functionality. The function drm_simple_encoder_init() provides an
-- * implementation of such an encoder.
-- */
--
- static const struct drm_encoder_funcs drm_simple_encoder_funcs_cleanup = {
- 	.destroy = drm_encoder_cleanup,
- };
- 
--/**
-- * drm_simple_encoder_init - Initialize a preallocated encoder with
-- *                           basic functionality.
-- * @dev: drm device
-- * @encoder: the encoder to initialize
-- * @encoder_type: user visible type of the encoder
-- *
-- * Initialises a preallocated encoder that has no further functionality.
-- * Settings for possible CRTC and clones are left to their initial values.
-- * The encoder will be cleaned up automatically as part of the mode-setting
-- * cleanup.
-- *
-- * The caller of drm_simple_encoder_init() is responsible for freeing
-- * the encoder's memory after the encoder has been cleaned up. At the
-- * moment this only works reliably if the encoder data structure is
-- * stored in the device structure. Free the encoder's memory as part of
-- * the device release function.
-- *
-- * Note: consider using drmm_simple_encoder_alloc() instead of
-- * drm_simple_encoder_init() to let the DRM managed resource infrastructure
-- * take care of cleanup and deallocation.
-- *
-- * Returns:
-- * Zero on success, error code on failure.
-- */
- int drm_simple_encoder_init(struct drm_device *dev,
- 			    struct drm_encoder *encoder,
- 			    int encoder_type)
-@@ -370,20 +325,6 @@ static const struct drm_plane_funcs drm_simple_kms_plane_funcs = {
- 	.format_mod_supported   = drm_simple_kms_format_mod_supported,
- };
- 
--/**
-- * drm_simple_display_pipe_attach_bridge - Attach a bridge to the display pipe
-- * @pipe: simple display pipe object
-- * @bridge: bridge to attach
-- *
-- * Makes it possible to still use the drm_simple_display_pipe helpers when
-- * a DRM bridge has to be used.
-- *
-- * Note that you probably want to initialize the pipe by passing a NULL
-- * connector to drm_simple_display_pipe_init().
-- *
-- * Returns:
-- * Zero on success, negative error code on failure.
-- */
- int drm_simple_display_pipe_attach_bridge(struct drm_simple_display_pipe *pipe,
- 					  struct drm_bridge *bridge)
- {
-@@ -391,30 +332,6 @@ int drm_simple_display_pipe_attach_bridge(struct drm_simple_display_pipe *pipe,
- }
- EXPORT_SYMBOL(drm_simple_display_pipe_attach_bridge);
- 
--/**
-- * drm_simple_display_pipe_init - Initialize a simple display pipeline
-- * @dev: DRM device
-- * @pipe: simple display pipe object to initialize
-- * @funcs: callbacks for the display pipe (optional)
-- * @formats: array of supported formats (DRM_FORMAT\_\*)
-- * @format_count: number of elements in @formats
-- * @format_modifiers: array of formats modifiers
-- * @connector: connector to attach and register (optional)
-- *
-- * Sets up a display pipeline which consist of a really simple
-- * plane-crtc-encoder pipe.
-- *
-- * If a connector is supplied, the pipe will be coupled with the provided
-- * connector. You may supply a NULL connector when using drm bridges, that
-- * handle connectors themselves (see drm_simple_display_pipe_attach_bridge()).
-- *
-- * Teardown of a simple display pipe is all handled automatically by the drm
-- * core through calling drm_mode_config_cleanup(). Drivers afterwards need to
-- * release the memory for the structure themselves.
-- *
-- * Returns:
-- * Zero on success, negative error code on failure.
-- */
- int drm_simple_display_pipe_init(struct drm_device *dev,
- 			struct drm_simple_display_pipe *pipe,
- 			const struct drm_simple_display_pipe_funcs *funcs,
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index b2486d073763..cb672ce0e856 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -3,6 +3,11 @@
-  * Copyright (C) 2016 Noralf Trønnes
-  */
- 
-+/*
-+ * Simple KMS helpers are deprected in favor of regular atomic helpers. Do not
-+ * use the min new code.
-+ */
-+
- #ifndef __LINUX_DRM_SIMPLE_KMS_HELPER_H
- #define __LINUX_DRM_SIMPLE_KMS_HELPER_H
- 
-@@ -12,233 +17,38 @@
- 
- struct drm_simple_display_pipe;
- 
--/**
-- * struct drm_simple_display_pipe_funcs - helper operations for a simple
-- *                                        display pipeline
-- */
- struct drm_simple_display_pipe_funcs {
--	/**
--	 * @mode_valid:
--	 *
--	 * This callback is used to check if a specific mode is valid in the
--	 * crtc used in this simple display pipe. This should be implemented
--	 * if the display pipe has some sort of restriction in the modes
--	 * it can display. For example, a given display pipe may be responsible
--	 * to set a clock value. If the clock can not produce all the values
--	 * for the available modes then this callback can be used to restrict
--	 * the number of modes to only the ones that can be displayed. Another
--	 * reason can be bandwidth mitigation: the memory port on the display
--	 * controller can have bandwidth limitations not allowing pixel data
--	 * to be fetched at any rate.
--	 *
--	 * This hook is used by the probe helpers to filter the mode list in
--	 * drm_helper_probe_single_connector_modes(), and it is used by the
--	 * atomic helpers to validate modes supplied by userspace in
--	 * drm_atomic_helper_check_modeset().
--	 *
--	 * This function is optional.
--	 *
--	 * NOTE:
--	 *
--	 * Since this function is both called from the check phase of an atomic
--	 * commit, and the mode validation in the probe paths it is not allowed
--	 * to look at anything else but the passed-in mode, and validate it
--	 * against configuration-invariant hardware constraints.
--	 *
--	 * RETURNS:
--	 *
--	 * drm_mode_status Enum
--	 */
- 	enum drm_mode_status (*mode_valid)(struct drm_simple_display_pipe *pipe,
- 					   const struct drm_display_mode *mode);
--
--	/**
--	 * @enable:
--	 *
--	 * This function should be used to enable the pipeline.
--	 * It is called when the underlying crtc is enabled.
--	 * This hook is optional.
--	 */
- 	void (*enable)(struct drm_simple_display_pipe *pipe,
- 		       struct drm_crtc_state *crtc_state,
- 		       struct drm_plane_state *plane_state);
--	/**
--	 * @disable:
--	 *
--	 * This function should be used to disable the pipeline.
--	 * It is called when the underlying crtc is disabled.
--	 * This hook is optional.
--	 */
- 	void (*disable)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @check:
--	 *
--	 * This function is called in the check phase of an atomic update,
--	 * specifically when the underlying plane is checked.
--	 * The simple display pipeline helpers already check that the plane is
--	 * not scaled, fills the entire visible area and is always enabled
--	 * when the crtc is also enabled.
--	 * This hook is optional.
--	 *
--	 * RETURNS:
--	 *
--	 * 0 on success, -EINVAL if the state or the transition can't be
--	 * supported, -ENOMEM on memory allocation failure and -EDEADLK if an
--	 * attempt to obtain another state object ran into a &drm_modeset_lock
--	 * deadlock.
--	 */
- 	int (*check)(struct drm_simple_display_pipe *pipe,
- 		     struct drm_plane_state *plane_state,
- 		     struct drm_crtc_state *crtc_state);
--	/**
--	 * @update:
--	 *
--	 * This function is called when the underlying plane state is updated.
--	 * This hook is optional.
--	 *
--	 * This is the function drivers should submit the
--	 * &drm_pending_vblank_event from. Using either
--	 * drm_crtc_arm_vblank_event(), when the driver supports vblank
--	 * interrupt handling, or drm_crtc_send_vblank_event() for more
--	 * complex case. In case the hardware lacks vblank support entirely,
--	 * drivers can set &struct drm_crtc_state.no_vblank in
--	 * &struct drm_simple_display_pipe_funcs.check and let DRM's
--	 * atomic helper fake a vblank event.
--	 */
- 	void (*update)(struct drm_simple_display_pipe *pipe,
- 		       struct drm_plane_state *old_plane_state);
--
--	/**
--	 * @prepare_fb:
--	 *
--	 * Optional, called by &drm_plane_helper_funcs.prepare_fb.  Please read
--	 * the documentation for the &drm_plane_helper_funcs.prepare_fb hook for
--	 * more details.
--	 *
--	 * For GEM drivers who neither have a @prepare_fb nor @cleanup_fb hook
--	 * set, drm_gem_plane_helper_prepare_fb() is called automatically
--	 * to implement this. Other drivers which need additional plane
--	 * processing can call drm_gem_plane_helper_prepare_fb() from
--	 * their @prepare_fb hook.
--	 */
- 	int (*prepare_fb)(struct drm_simple_display_pipe *pipe,
- 			  struct drm_plane_state *plane_state);
--
--	/**
--	 * @cleanup_fb:
--	 *
--	 * Optional, called by &drm_plane_helper_funcs.cleanup_fb.  Please read
--	 * the documentation for the &drm_plane_helper_funcs.cleanup_fb hook for
--	 * more details.
--	 */
- 	void (*cleanup_fb)(struct drm_simple_display_pipe *pipe,
- 			   struct drm_plane_state *plane_state);
--
--	/**
--	 * @begin_fb_access:
--	 *
--	 * Optional, called by &drm_plane_helper_funcs.begin_fb_access. Please read
--	 * the documentation for the &drm_plane_helper_funcs.begin_fb_access hook for
--	 * more details.
--	 */
- 	int (*begin_fb_access)(struct drm_simple_display_pipe *pipe,
- 			       struct drm_plane_state *new_plane_state);
--
--	/**
--	 * @end_fb_access:
--	 *
--	 * Optional, called by &drm_plane_helper_funcs.end_fb_access. Please read
--	 * the documentation for the &drm_plane_helper_funcs.end_fb_access hook for
--	 * more details.
--	 */
- 	void (*end_fb_access)(struct drm_simple_display_pipe *pipe,
- 			      struct drm_plane_state *plane_state);
--
--	/**
--	 * @enable_vblank:
--	 *
--	 * Optional, called by &drm_crtc_funcs.enable_vblank. Please read
--	 * the documentation for the &drm_crtc_funcs.enable_vblank hook for
--	 * more details.
--	 */
- 	int (*enable_vblank)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @disable_vblank:
--	 *
--	 * Optional, called by &drm_crtc_funcs.disable_vblank. Please read
--	 * the documentation for the &drm_crtc_funcs.disable_vblank hook for
--	 * more details.
--	 */
- 	void (*disable_vblank)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @reset_crtc:
--	 *
--	 * Optional, called by &drm_crtc_funcs.reset. Please read the
--	 * documentation for the &drm_crtc_funcs.reset hook for more details.
--	 */
- 	void (*reset_crtc)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @duplicate_crtc_state:
--	 *
--	 * Optional, called by &drm_crtc_funcs.atomic_duplicate_state. Please
--	 * read the documentation for the &drm_crtc_funcs.atomic_duplicate_state
--	 * hook for more details.
--	 */
- 	struct drm_crtc_state * (*duplicate_crtc_state)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @destroy_crtc_state:
--	 *
--	 * Optional, called by &drm_crtc_funcs.atomic_destroy_state. Please
--	 * read the documentation for the &drm_crtc_funcs.atomic_destroy_state
--	 * hook for more details.
--	 */
- 	void (*destroy_crtc_state)(struct drm_simple_display_pipe *pipe,
- 				   struct drm_crtc_state *crtc_state);
--
--	/**
--	 * @reset_plane:
--	 *
--	 * Optional, called by &drm_plane_funcs.reset. Please read the
--	 * documentation for the &drm_plane_funcs.reset hook for more details.
--	 */
- 	void (*reset_plane)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @duplicate_plane_state:
--	 *
--	 * Optional, called by &drm_plane_funcs.atomic_duplicate_state.  Please
--	 * read the documentation for the &drm_plane_funcs.atomic_duplicate_state
--	 * hook for more details.
--	 */
- 	struct drm_plane_state * (*duplicate_plane_state)(struct drm_simple_display_pipe *pipe);
--
--	/**
--	 * @destroy_plane_state:
--	 *
--	 * Optional, called by &drm_plane_funcs.atomic_destroy_state.  Please
--	 * read the documentation for the &drm_plane_funcs.atomic_destroy_state
--	 * hook for more details.
--	 */
- 	void (*destroy_plane_state)(struct drm_simple_display_pipe *pipe,
- 				    struct drm_plane_state *plane_state);
- };
- 
--/**
-- * struct drm_simple_display_pipe - simple display pipeline
-- * @crtc: CRTC control structure
-- * @plane: Plane control structure
-- * @encoder: Encoder control structure
-- * @connector: Connector control structure
-- * @funcs: Pipeline control functions (optional)
-- *
-- * Simple display pipeline with plane, crtc and encoder collapsed into one
-- * entity. It should be initialized by calling drm_simple_display_pipe_init().
-- */
- struct drm_simple_display_pipe {
- 	struct drm_crtc crtc;
- 	struct drm_plane plane;
-@@ -265,22 +75,6 @@ int drm_simple_encoder_init(struct drm_device *dev,
- void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
- 				  size_t offset, int encoder_type);
- 
--/**
-- * drmm_simple_encoder_alloc - Allocate and initialize an encoder with basic
-- *                             functionality.
-- * @dev: drm device
-- * @type: the type of the struct which contains struct &drm_encoder
-- * @member: the name of the &drm_encoder within @type.
-- * @encoder_type: user visible type of the encoder
-- *
-- * Allocates and initializes an encoder that has no further functionality.
-- * Settings for possible CRTC and clones are left to their initial values.
-- * Cleanup is automatically handled through registering drm_encoder_cleanup()
-- * with drmm_add_action().
-- *
-- * Returns:
-- * Pointer to new encoder, or ERR_PTR on failure.
-- */
- #define drmm_simple_encoder_alloc(dev, type, member, encoder_type) \
- 	((type *)__drmm_simple_encoder_alloc(dev, sizeof(type), \
- 					     offsetof(type, member), \
--- 
-2.52.0
-
+> 
+> I think dma-fence-arrays will have the same issue.
+> 
+> Can’t we just assign a lockdep key for chains and arrays?
+> 
+> Typing as fast as I could, I came up with this, and it seems to work:
+> 
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index cd970eceaefb..d5cce24dca5b 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -200,6 +200,10 @@ void dma_fence_array_init(struct dma_fence_array *array,
+>                           u64 context, unsigned seqno,
+>                           bool signal_on_any)
+>  {
+> +#if IS_ENABLED(CONFIG_PROVE_LOCKING)
+> +       static struct lock_class_key dma_fence_array_lock_key;
+> +#endif
+> +
+>         WARN_ON(!num_fences || !fences);
+> 
+>         array->num_fences = num_fences;
+> @@ -208,6 +212,10 @@ void dma_fence_array_init(struct dma_fence_array *array,
+>                        seqno);
+>         init_irq_work(&array->work, irq_dma_fence_array_work);
+> 
+> +#if IS_ENABLED(CONFIG_PROVE_LOCKING)
+> +       lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
+> +#endif
+> +
+>         atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+>         array->fences = fences;
+> 
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index a707792b6025..aa144b8c3534 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -242,6 +242,9 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>                           struct dma_fence *fence,
+>                           uint64_t seqno)
+>  {
+> +#if IS_ENABLED(CONFIG_PROVE_LOCKING)
+> +       static struct lock_class_key dma_fence_chain_lock_key;
+> +#endif
+>         struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+>         uint64_t context;
+> 
+> @@ -263,6 +266,10 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>         dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+>                          context, seqno);
+> 
+> +#if IS_ENABLED(CONFIG_PROVE_LOCKING)
+> +       lockdep_set_class(&chain->base.inline_lock, &dma_fence_chain_lock_key);
+> +#endif
+> +
+>         /*
+>          * Chaining dma_fence_chain container together is only allowed through
+>          * the prev fence and not through the contained fence.
+> 
+> Matt
+> 
+> > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > ---
+> >  drivers/dma-buf/dma-fence-chain.c | 3 ++-
+> >  include/linux/dma-fence-chain.h   | 1 +
+> >  2 files changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> > index a707792b6025..a8a90acf4f34 100644
+> > --- a/drivers/dma-buf/dma-fence-chain.c
+> > +++ b/drivers/dma-buf/dma-fence-chain.c
+> > @@ -245,6 +245,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+> >  	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+> >  	uint64_t context;
+> >  
+> > +	spin_lock_init(&chain->lock);
+> >  	rcu_assign_pointer(chain->prev, prev);
+> >  	chain->fence = fence;
+> >  	chain->prev_seqno = 0;
+> > @@ -260,7 +261,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+> >  			seqno = max(prev->seqno, seqno);
+> >  	}
+> >  
+> > -	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+> > +	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
+> >  			 context, seqno);
+> >  
+> >  	/*
+> > diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> > index df3beadf1515..5cd3ba53b4a1 100644
+> > --- a/include/linux/dma-fence-chain.h
+> > +++ b/include/linux/dma-fence-chain.h
+> > @@ -46,6 +46,7 @@ struct dma_fence_chain {
+> >  		 */
+> >  		struct irq_work work;
+> >  	};
+> > +	spinlock_t lock;
+> >  };
+> >  
+> >  
+> > -- 
+> > 2.43.0
+> > 
