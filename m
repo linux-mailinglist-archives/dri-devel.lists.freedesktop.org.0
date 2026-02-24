@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YLKRGgJanWmlOgQAu9opvQ
+	id uIuiGRddnWmxOgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:57:54 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:11:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FA3183582
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 08:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEF118371A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Feb 2026 09:11:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8057410E4D2;
-	Tue, 24 Feb 2026 07:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C6A10E0C6;
+	Tue, 24 Feb 2026 08:10:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="arou11wA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZT03TF9m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621C58921E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 07:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1771919868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ubz5WAMKhrtnkZnzIk4R7uLZr/Dhys3hck7R3zRbUlU=;
- b=arou11wANS5KECndVCZpFwvcS5E679b8OHHFatyyzKcnamcGnpfk2WcC6cbftm1hQz7hFY
- jmsGepdGpZGm5Qzt8cFOtaG/PGSXhWyhijXoK3/kueO2X9si89L1FtxA8av3Ftbx9+g1T9
- ns1ZEuHwuJIcL5JaQfxEgVoTcPPIL/M=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-128-qrsgtJnKPW6YkYR9y2AElw-1; Tue,
- 24 Feb 2026 02:57:44 -0500
-X-MC-Unique: qrsgtJnKPW6YkYR9y2AElw-1
-X-Mimecast-MFC-AGG-ID: qrsgtJnKPW6YkYR9y2AElw_1771919862
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6E010E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 08:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1771920655;
+ bh=VVH0mloOenOhsydY93gB9+iKRg684kYfWuDQJQe+fgY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZT03TF9myP7Jbc9GiwWGvZ8OtxtCQCkHQ6ZUv8pa+OQekD7iYRNzLPctk/8fGUqAt
+ TISPbVsc5MthHppcErbGCvyR88n0K7hQoSYfwBFIQNZmpmZNnkuHLZ8l9QdgeK4UE9
+ rrx+7ZC8XV/4sJa+523lcvMWO5AfHP89fMqVVFZaWvRb/eRlvcKNCxDi43+e7xDZVo
+ FE0NjjtfsPwPDTr/2qhEGcemga0gq1zMv/yvqnLpd8vX/VVVWYyu2xPZ02/fX8zEQ+
+ 1BIofA6KxAFJZEw2ZkQ98rtMx7v2/47E3AUI7Z7kLA4ecq4N8Xeq3W9rbMJxujfURi
+ 9Z/Enf7Eo6WuQ==
+Received: from vignesh-thinkpad.. (unknown [171.76.81.30])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1550A19560A7; Tue, 24 Feb 2026 07:57:42 +0000 (UTC)
-Received: from [192.168.1.153] (unknown [10.45.225.2])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8FDFF3000707; Tue, 24 Feb 2026 07:57:36 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 24 Feb 2026 08:57:33 +0100
-Subject: [PATCH] dma-buf: heaps: Add Coherent heap to dmabuf heaps
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0A37817E01E7;
+ Tue, 24 Feb 2026 09:10:50 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
+ lumag@kernel.org, robdclark@gmail.com, robin.clark@oss.qualcomm.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1] drm/ci: add sc7180-trogdor-wormdingler-rev1-boe
+Date: Tue, 24 Feb 2026 13:40:34 +0530
+Message-ID: <20260224081036.220820-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Message-Id: <20260224-b4-dmabuf-heap-coherent-rmem-v1-1-dffef43298ac@redhat.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqDMBAF0KvIrDugYxHiVaSLaH6aWSTKpC0F8
- e4NXb7NO6nCFJXm7iTDR6vupWG4dbQlX55gDc0kvUy9yMjrnUP26ztygj942xMM5cWWkdkNMYx
- OJh/hqBWHIer33y+P6/oBAbRGmG4AAAA=
-X-Change-ID: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- iommu@lists.linux.dev, echanude@redhat.com, mripard@redhat.com, 
- Albert Esteve <aesteve@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: 0n--2r31V1u8hhB4GVajOEXwMXr9d2zbQe-GsP03RKw_1771919862
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,666 +66,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[collabora.com,gmail.com,ffwll.ch,oss.qualcomm.com,kernel.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:echanude@redhat.com,m:mripard@redhat.com,m:aesteve@redhat.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vignesh.raman@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,exp_info.name:url]
-X-Rspamd-Queue-Id: C2FA3183582
+	NEURAL_HAM(-0.00)[-0.998];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9BEF118371A
 X-Rspamd-Action: no action
 
-Add a dma-buf heap for DT coherent reserved-memory
-(i.e., 'shared-dma-pool' without 'reusable' property),
-exposing one heap per region for userspace buffers.
+Add job that executes the IGT test suite for
+sc7180-trogdor-wormdingler-rev1-boe.
 
-The heap binds a synthetic platform device to each region
-so coherent allocations use the correct dev->dma_mem,
-and it defers registration until late_initcall when
-normal allocator are available.
-
-This patch includes charging of the coherent heap
-allocator to the dmem cgroup.
-
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
-This patch introduces a new driver to expose DT coherent reserved-memory
-regions as dma-buf heaps, allowing userspace buffers to be created.
 
-Since these regions are device-dependent, we bind a synthetic platform
-device to each region so coherent allocations use the correct dev->dma_mem.
+v1:
+  - https://gitlab.freedesktop.org/drm/msm/-/merge_requests/221
+  - Depends on https://lore.kernel.org/dri-devel/20260210071138.2256773-1-vignesh.raman@collabora.com/
 
-Following Eric’s [1] and Maxime’s [2] work on charging DMA buffers
-allocated from userspace to cgroups (dmem), this patch adds the same
-charging pattern used by CMA heaps patch. Charging is done only through
-the dma-buf heap interface so it can be attributed to a userspace allocator.
-
-This allows each device-specific reserved-memory region to enforce its
-own limits.
-
-[1] https://lore.kernel.org/all/20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com/
-[2] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
 ---
- drivers/dma-buf/heaps/Kconfig         |  17 ++
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/coherent_heap.c | 485 ++++++++++++++++++++++++++++++++++
- include/linux/dma-heap.h              |  11 +
- kernel/dma/coherent.c                 |   9 +
- 5 files changed, 523 insertions(+)
+ drivers/gpu/drm/ci/arm64.config               |  4 +++
+ drivers/gpu/drm/ci/build.sh                   |  1 +
+ drivers/gpu/drm/ci/test.yml                   | 10 +++++++
+ ...180-trogdor-wormdingler-rev1-boe-fails.txt | 23 ++++++++++++++
+ ...180-trogdor-wormdingler-rev1-boe-skips.txt | 30 +++++++++++++++++++
+ 5 files changed, 68 insertions(+)
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-fails.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-skips.txt
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c42264..93765dca164e3 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -12,3 +12,20 @@ config DMABUF_HEAPS_CMA
- 	  Choose this option to enable dma-buf CMA heap. This heap is backed
- 	  by the Contiguous Memory Allocator (CMA). If your system has these
- 	  regions, you should say Y here.
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index 5da3913ec8a4..a0ced4df7d79 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -214,3 +214,7 @@ CONFIG_PWM_TEGRA=y
+ CONFIG_DRM_PANTHOR=m
+ CONFIG_PHY_ROCKCHIP_NANENG_COMBO_PHY=y
+ CONFIG_PHY_ROCKCHIP_SAMSUNG_HDPTX=y
 +
-+config DMABUF_HEAPS_COHERENT
-+	bool "DMA-BUF Coherent Reserved-Memory Heap"
-+	depends on DMABUF_HEAPS && OF_RESERVED_MEM && DMA_DECLARE_COHERENT
-+	help
-+	  Choose this option to enable coherent reserved-memory dma-buf heaps.
-+	  This heap is backed by non-reusable DT "shared-dma-pool" regions.
-+	  If your system defines coherent reserved-memory regions, you should
-+	  say Y here.
++# For sc7180-trogdor-wormdingler-rev1-boe
++CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=y
++CONFIG_GPIO_SHARED_PROXY=y
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index d00d549cbd9c..5a3f3615f773 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -29,6 +29,7 @@ if [[ "$KERNEL_ARCH" = "arm64" ]]; then
+     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r5.dtb"
+     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-kingoftown.dtb"
+     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sm8350-hdk.dtb"
++    DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb"
+ elif [[ "$KERNEL_ARCH" = "arm" ]]; then
+     GCC_ARCH="arm-linux-gnueabihf"
+     DEBIAN_ARCH="armhf"
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index f6bee5b67931..9d24686df5bf 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -122,6 +122,16 @@ msm:sc7180-trogdor-kingoftown:
+     GPU_VERSION: ${DEVICE_TYPE}
+     RUNNER_TAG: mesa-ci-x86-64-lava-sc7180-trogdor-kingoftown
+ 
++msm:sc7180-trogdor-wormdingler:
++  extends:
++    - .msm-sc7180
++  parallel: 6
++  variables:
++    DEVICE_TYPE: sc7180-trogdor-wormdingler-rev1-boe
++    DTB: sc7180-trogdor-wormdingler-rev1-boe
++    GPU_VERSION: ${DEVICE_TYPE}
++    RUNNER_TAG: mesa-ci-x86-64-lava-sc7180-trogdor-wormdingler-rev1-boe
 +
-+config COHERENT_AREAS_DEFERRED
-+	int "Max deferred coherent reserved-memory regions"
-+	depends on DMABUF_HEAPS_COHERENT
-+	default 16
-+	help
-+	  Maximum number of coherent reserved-memory regions that can be
-+	  deferred for later registration during early boot.
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032f..96bda7a65f041 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_COHERENT)	+= coherent_heap.o
-diff --git a/drivers/dma-buf/heaps/coherent_heap.c b/drivers/dma-buf/heaps/coherent_heap.c
+ msm:apq8016:
+   extends:
+     - .lava-igt:arm64
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-fails.txt
 new file mode 100644
-index 0000000000000..870b2b89aefcb
+index 000000000000..4af93eeeaf99
 --- /dev/null
-+++ b/drivers/dma-buf/heaps/coherent_heap.c
-@@ -0,0 +1,485 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DMABUF heap for coherent reserved-memory regions
-+ *
-+ * Copyright (C) 2026 Red Hat, Inc.
-+ * Author: Albert Esteve <aesteve@redhat.com>
-+ *
-+ */
-+
-+#include <linux/cgroup_dmem.h>
-+#include <linux/dma-heap.h>
-+#include <linux/dma-buf.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/highmem.h>
-+#include <linux/iosys-map.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/platform_device.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+
-+#define DEFERRED_AREAS_MAX CONFIG_COHERENT_AREAS_DEFERRED
-+
-+/*
-+ * Early init can't use normal memory management yet (memblock is used
-+ * instead), so keep a small deferred list and retry at late_initcall.
-+ */
-+static struct reserved_mem *rmem_areas_deferred[DEFERRED_AREAS_MAX];
-+static unsigned int rmem_areas_deferred_num;
-+
-+static int coherent_heap_add_deferred(struct reserved_mem *rmem)
-+{
-+	if (rmem_areas_deferred_num >= DEFERRED_AREAS_MAX) {
-+		pr_warn("Deferred heap areas list full, dropping %s\n",
-+			rmem->name ? rmem->name : "unknown");
-+		return -EINVAL;
-+	}
-+	rmem_areas_deferred[rmem_areas_deferred_num++] = rmem;
-+	return 0;
-+}
-+
-+struct coherent_heap {
-+	struct dma_heap *heap;
-+	struct reserved_mem *rmem;
-+	char *name;
-+	struct device *dev;
-+	struct platform_device *pdev;
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	struct dmem_cgroup_region *cg;
-+#endif
-+};
-+
-+struct coherent_heap_buffer {
-+	struct coherent_heap *heap;
-+	struct list_head attachments;
-+	struct mutex lock;
-+	unsigned long len;
-+	dma_addr_t dma_addr;
-+	void *alloc_vaddr;
-+	struct page **pages;
-+	pgoff_t pagecount;
-+	int vmap_cnt;
-+	void *vaddr;
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	struct dmem_cgroup_pool_state *pool;
-+#endif
-+};
-+
-+struct dma_heap_attachment {
-+	struct device *dev;
-+	struct sg_table table;
-+	struct list_head list;
-+	bool mapped;
-+};
-+
-+static int coherent_heap_attach(struct dma_buf *dmabuf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a;
-+	int ret;
-+
-+	a = kzalloc_obj(*a);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
-+					buffer->pagecount, 0,
-+					buffer->pagecount << PAGE_SHIFT,
-+					GFP_KERNEL);
-+	if (ret) {
-+		kfree(a);
-+		return ret;
-+	}
-+
-+	a->dev = attachment->dev;
-+	INIT_LIST_HEAD(&a->list);
-+	a->mapped = false;
-+
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void coherent_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	mutex_unlock(&buffer->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *coherent_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+						  enum dma_data_direction direction)
-+{
-+	struct dma_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(-ENOMEM);
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void coherent_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-+}
-+
-+static int coherent_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+						  enum dma_data_direction direction)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a;
-+
-+	mutex_lock(&buffer->lock);
-+	if (buffer->vmap_cnt)
-+		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
-+
-+	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static int coherent_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+						enum dma_data_direction direction)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a;
-+
-+	mutex_lock(&buffer->lock);
-+	if (buffer->vmap_cnt)
-+		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
-+
-+	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static int coherent_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct coherent_heap *coh_heap = buffer->heap;
-+
-+	return dma_mmap_coherent(coh_heap->dev, vma, buffer->alloc_vaddr,
-+				 buffer->dma_addr, buffer->len);
-+}
-+
-+static void *coherent_heap_do_vmap(struct coherent_heap_buffer *buffer)
-+{
-+	void *vaddr;
-+
-+	vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, PAGE_KERNEL);
-+	if (!vaddr)
-+		return ERR_PTR(-ENOMEM);
-+
-+	return vaddr;
-+}
-+
-+static int coherent_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	void *vaddr;
-+	int ret = 0;
-+
-+	mutex_lock(&buffer->lock);
-+	if (buffer->vmap_cnt) {
-+		buffer->vmap_cnt++;
-+		iosys_map_set_vaddr(map, buffer->vaddr);
-+		goto out;
-+	}
-+
-+	vaddr = coherent_heap_do_vmap(buffer);
-+	if (IS_ERR(vaddr)) {
-+		ret = PTR_ERR(vaddr);
-+		goto out;
-+	}
-+
-+	buffer->vaddr = vaddr;
-+	buffer->vmap_cnt++;
-+	iosys_map_set_vaddr(map, buffer->vaddr);
-+out:
-+	mutex_unlock(&buffer->lock);
-+
-+	return ret;
-+}
-+
-+static void coherent_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	if (!--buffer->vmap_cnt) {
-+		vunmap(buffer->vaddr);
-+		buffer->vaddr = NULL;
-+	}
-+	mutex_unlock(&buffer->lock);
-+	iosys_map_clear(map);
-+}
-+
-+static void coherent_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct coherent_heap_buffer *buffer = dmabuf->priv;
-+	struct coherent_heap *coh_heap = buffer->heap;
-+
-+	if (buffer->vmap_cnt > 0) {
-+		WARN(1, "%s: buffer still mapped in the kernel\n", __func__);
-+		vunmap(buffer->vaddr);
-+		buffer->vaddr = NULL;
-+		buffer->vmap_cnt = 0;
-+	}
-+
-+	if (buffer->alloc_vaddr)
-+		dma_free_coherent(coh_heap->dev, buffer->len, buffer->alloc_vaddr,
-+			       buffer->dma_addr);
-+	kfree(buffer->pages);
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	dmem_cgroup_uncharge(buffer->pool, buffer->len);
-+#endif
-+	kfree(buffer);
-+}
-+
-+static const struct dma_buf_ops coherent_heap_buf_ops = {
-+	.attach = coherent_heap_attach,
-+	.detach = coherent_heap_detach,
-+	.map_dma_buf = coherent_heap_map_dma_buf,
-+	.unmap_dma_buf = coherent_heap_unmap_dma_buf,
-+	.begin_cpu_access = coherent_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access = coherent_heap_dma_buf_end_cpu_access,
-+	.mmap = coherent_heap_mmap,
-+	.vmap = coherent_heap_vmap,
-+	.vunmap = coherent_heap_vunmap,
-+	.release = coherent_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *coherent_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct coherent_heap *coh_heap;
-+	struct coherent_heap_buffer *buffer;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	size_t size = PAGE_ALIGN(len);
-+	pgoff_t pagecount = size >> PAGE_SHIFT;
-+	struct dma_buf *dmabuf;
-+	int ret = -ENOMEM;
-+	pgoff_t pg;
-+
-+	coh_heap = dma_heap_get_drvdata(heap);
-+	if (!coh_heap)
-+		return ERR_PTR(-EINVAL);
-+	if (!coh_heap->dev)
-+		return ERR_PTR(-ENODEV);
-+
-+	buffer = kzalloc_obj(*buffer);
-+	if (!buffer)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	mutex_init(&buffer->lock);
-+	buffer->len = size;
-+	buffer->heap = coh_heap;
-+	buffer->pagecount = pagecount;
-+
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	if (mem_accounting) {
-+		ret = dmem_cgroup_try_charge(coh_heap->cg, size,
-+					     &buffer->pool, NULL);
-+		if (ret)
-+			goto free_buffer;
-+	}
-+#endif
-+
-+	buffer->alloc_vaddr = dma_alloc_coherent(coh_heap->dev, buffer->len,
-+						 &buffer->dma_addr, GFP_KERNEL);
-+	if (!buffer->alloc_vaddr) {
-+		ret = -ENOMEM;
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+		goto uncharge_cgroup;
-+#else
-+		goto free_buffer;
-+#endif
-+	}
-+
-+	buffer->pages = kmalloc_array(pagecount, sizeof(*buffer->pages),
-+				      GFP_KERNEL);
-+	if (!buffer->pages) {
-+		ret = -ENOMEM;
-+		goto free_dma;
-+	}
-+
-+	for (pg = 0; pg < pagecount; pg++)
-+		buffer->pages[pg] = virt_to_page((char *)buffer->alloc_vaddr +
-+						 (pg * PAGE_SIZE));
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &coherent_heap_buf_ops;
-+	exp_info.size = buffer->len;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer;
-+	dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		goto free_pages;
-+	}
-+	return dmabuf;
-+
-+free_pages:
-+	kfree(buffer->pages);
-+free_dma:
-+	dma_free_coherent(coh_heap->dev, buffer->len, buffer->alloc_vaddr,
-+			  buffer->dma_addr);
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+uncharge_cgroup:
-+	dmem_cgroup_uncharge(buffer->pool, size);
-+#endif
-+free_buffer:
-+	kfree(buffer);
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops coherent_heap_ops = {
-+	.allocate = coherent_heap_allocate,
-+};
-+
-+static int __coherent_heap_register(struct reserved_mem *rmem)
-+{
-+	struct dma_heap_export_info exp_info;
-+	struct coherent_heap *coh_heap;
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	struct dmem_cgroup_region *region;
-+#endif
-+	const char *rmem_name;
-+	int ret;
-+
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	rmem_name = rmem->name ? rmem->name : "unknown";
-+
-+	coh_heap = kzalloc_obj(*coh_heap);
-+	if (!coh_heap)
-+		return -ENOMEM;
-+
-+	coh_heap->name = kasprintf(GFP_KERNEL, "coherent_%s", rmem_name);
-+	if (!coh_heap->name) {
-+		ret = -ENOMEM;
-+		goto free_coherent_heap;
-+	}
-+
-+	coh_heap->rmem = rmem;
-+
-+	/* create a platform device per rmem and bind it */
-+	coh_heap->pdev = platform_device_register_simple("coherent-heap",
-+							 PLATFORM_DEVID_AUTO,
-+							 NULL, 0);
-+	if (IS_ERR(coh_heap->pdev)) {
-+		ret = PTR_ERR(coh_heap->pdev);
-+		goto free_name;
-+	}
-+
-+	if (rmem->ops && rmem->ops->device_init) {
-+		ret = rmem->ops->device_init(rmem, &coh_heap->pdev->dev);
-+		if (ret)
-+			goto pdev_unregister;
-+	}
-+
-+	coh_heap->dev = &coh_heap->pdev->dev;
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	region = dmem_cgroup_register_region(rmem->size, "coh/%s", rmem_name);
-+	if (IS_ERR(region)) {
-+		ret = PTR_ERR(region);
-+		goto pdev_unregister;
-+	}
-+	coh_heap->cg = region;
-+#endif
-+
-+	exp_info.name = coh_heap->name;
-+	exp_info.ops = &coherent_heap_ops;
-+	exp_info.priv = coh_heap;
-+
-+	coh_heap->heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(coh_heap->heap)) {
-+		ret = PTR_ERR(coh_heap->heap);
-+		goto cg_unregister;
-+	}
-+
-+	return 0;
-+
-+cg_unregister:
-+#if IS_ENABLED(CONFIG_CGROUP_DMEM)
-+	dmem_cgroup_unregister_region(coh_heap->cg);
-+#endif
-+pdev_unregister:
-+	platform_device_unregister(coh_heap->pdev);
-+	coh_heap->pdev = NULL;
-+free_name:
-+	kfree(coh_heap->name);
-+free_coherent_heap:
-+	kfree(coh_heap);
-+
-+	return ret;
-+}
-+
-+int dma_heap_coherent_register(struct reserved_mem *rmem)
-+{
-+	int ret;
-+
-+	ret = __coherent_heap_register(rmem);
-+	if (ret == -ENOMEM)
-+		return coherent_heap_add_deferred(rmem);
-+	return ret;
-+}
-+
-+static int __init coherent_heap_register_deferred(void)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < rmem_areas_deferred_num; i++) {
-+		struct reserved_mem *rmem = rmem_areas_deferred[i];
-+
-+		ret = __coherent_heap_register(rmem);
-+		if (ret) {
-+			pr_warn("Failed to add coherent heap %s",
-+				rmem->name ? rmem->name : "unknown");
-+			continue;
-+		}
-+	}
-+
-+	return 0;
-+}
-+late_initcall(coherent_heap_register_deferred);
-+MODULE_DESCRIPTION("DMA-BUF heap for coherent reserved-memory regions");
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 648328a64b27e..e894cfa1ecf1a 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -9,9 +9,11 @@
- #ifndef _DMA_HEAPS_H
- #define _DMA_HEAPS_H
- 
-+#include <linux/errno.h>
- #include <linux/types.h>
- 
- struct dma_heap;
-+struct reserved_mem;
- 
- /**
-  * struct dma_heap_ops - ops to operate on a given heap
-@@ -48,4 +50,13 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
- 
- extern bool mem_accounting;
- 
-+#if IS_ENABLED(CONFIG_DMABUF_HEAPS_COHERENT)
-+int dma_heap_coherent_register(struct reserved_mem *rmem);
-+#else
-+static inline int dma_heap_coherent_register(struct reserved_mem *rmem)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif
-+
- #endif /* _DMA_HEAPS_H */
-diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-index 1147497bc512c..f49d13e460e4b 100644
---- a/kernel/dma/coherent.c
-+++ b/kernel/dma/coherent.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <linux/dma-direct.h>
- #include <linux/dma-map-ops.h>
-+#include <linux/dma-heap.h>
- 
- struct dma_coherent_mem {
- 	void		*virt_base;
-@@ -393,6 +394,14 @@ static int __init rmem_dma_setup(struct reserved_mem *rmem)
- 	rmem->ops = &rmem_dma_ops;
- 	pr_info("Reserved memory: created DMA memory pool at %pa, size %ld MiB\n",
- 		&rmem->base, (unsigned long)rmem->size / SZ_1M);
-+
-+	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_COHERENT)) {
-+		int ret = dma_heap_coherent_register(rmem);
-+
-+		if (ret)
-+			pr_warn("Reserved memory: failed to register coherent heap for %s (%d)\n",
-+				rmem->name ? rmem->name : "unknown", ret);
-+	}
- 	return 0;
- }
- 
-
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
-
-Best regards,
++++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-fails.txt
+@@ -0,0 +1,23 @@
++core_setmaster@master-drop-set-user,Fail
++kms_color@ctm-0-25,Fail
++kms_color@ctm-0-50,Fail
++kms_color@ctm-0-75,Fail
++kms_color@ctm-blue-to-red,Fail
++kms_color@ctm-green-to-red,Fail
++kms_color@ctm-negative,Fail
++kms_color@ctm-red-to-blue,Fail
++kms_color@ctm-signed,Fail
++kms_color@gamma,Fail
++kms_color@legacy-gamma,Fail
++kms_cursor_legacy@cursor-vs-flip-toggle,Fail
++kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
++kms_flip@flip-vs-modeset-vs-hang,Fail
++kms_flip@flip-vs-panning-vs-hang,Fail
++kms_invalid_mode@overflow-vrefresh,Fail
++kms_lease@lease-uevent,Fail
++kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
++kms_plane@pixel-format,Fail
++kms_plane@pixel-format-source-clamping,Fail
++kms_plane_alpha_blend@alpha-7efc,Fail
++kms_plane_alpha_blend@coverage-7efc,Fail
++kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-skips.txt
+new file mode 100644
+index 000000000000..5f2c09c4dc17
+--- /dev/null
++++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-wormdingler-rev1-boe-skips.txt
+@@ -0,0 +1,30 @@
++# Suspend to RAM seems to be broken on this machine
++#.*suspend.*
++
++# Skip driver specific tests
++^amdgpu.*
++nouveau_.*
++^panfrost.*
++^v3d.*
++^vc4.*
++^vmwgfx*
++
++# Skip intel specific tests
++gem_.*
++i915_.*
++tools_test.*
++kms_dp_link_training.*
++
++# Currently fails and causes coverage loss for other tests
++# since core_getversion also fails.
++core_hotunplug.*
++
++# IGT issue. is_joiner_mode() should return false for non-Intel hardware.
++# https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/162
++kms_display_modes@extended-mode-basic
++kms_display_modes@mst-extended-mode-negative
++
++# sc7180 does not have APRIV, so memptrs is not protected.
++# (Preemption is not supported on devices that do not have
++# APRIV, so this is ok)
++msm/msm_mapping@memptrs
 -- 
-Albert Esteve <aesteve@redhat.com>
+2.47.3
 
