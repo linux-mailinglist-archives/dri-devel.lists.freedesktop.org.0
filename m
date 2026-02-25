@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oIVoHG4mn2nOZAQAu9opvQ
+	id APIrAHMmn2nOZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:22 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1512819AD6D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD5A19AD7D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C2910E7FE;
-	Wed, 25 Feb 2026 16:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99CFD10E802;
+	Wed, 25 Feb 2026 16:42:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JJjXalcp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="foi508gH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D43E10E801
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1632710E7FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 173894453E;
- Wed, 25 Feb 2026 16:42:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BA1C4AF09;
- Wed, 25 Feb 2026 16:42:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id EC2F744560;
+ Wed, 25 Feb 2026 16:42:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BBB4C2BCB4;
+ Wed, 25 Feb 2026 16:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772037735;
- bh=3ZfbgvU0bLE1CVEwtquKpm5fJ/GAe/ZRFRUG6VZuG1I=;
+ s=k20201202; t=1772037737;
+ bh=OaBx+qmc/uRKfph2nG7FL8m6owN/oNoP0WGfZ/DlULU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=JJjXalcpzSXkoB8Ni6wXiA74nEozWfroeKtL3vmqR4UqYOo/GcDZDki+80Li66fYn
- eVW7TpKCNM4iPWL2SI1WaqFEI4SwYL3ysjpyCDfevFNH1iInAX9H0TLdwE2ndJTOD6
- +Jkt42XG9qMd9WbqYVRZBzGFroRI69Dg0lBUpXfNLu3WUa1rNdAeFwU54cjsIs6cSd
- mY4DQyX3STn0GSOGy8mzvoCTEN+0PdeVY/IFhh/amLXAnUhN71S5sAp6kYUEPbv5Se
- fRM9FhO8Vne2ZvCdJSwPq03WOtZLXoTicIHabtEZO6+3kdhxJnq/tZOd35mKRSQ+W1
- 8e59vjrE4dMBw==
+ b=foi508gHAWxe7or8Ff8K9LaNjitKTIq9tX/AEbBcki4x8JH/k7DW0GY4ULxRQFsBF
+ vp9Yd0tdFh7xjITX9qxUHrQ9pb+jnM7UGdeuqRd3/8Ddm5iQOOulSLnAlcTd83H+vU
+ Y5N81hlXeCY+3VrAA7PGaQ6e+CetuY9p1xqCCXPVtFmoCYZ410GP8Bi6mmv+4yn9yY
+ yZPM2Qvq53OrWGjpn51CLg4ed6i8mTP9pKek4PWtu6e2aRBSL2uvd7mfbwk+3bCAll
+ yiuHkmvIGrZKcPgAfesl/niZ/5zvznj3CpNDwc01y99RFh1poPConXRF83z1d6FuLM
+ Zn5kvI2yEyXAQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 25 Feb 2026 17:41:54 +0100
-Subject: [PATCH 6/7] dma-buf: heaps: cma: Turn the heap into a module
+Date: Wed, 25 Feb 2026 17:41:55 +0100
+Subject: [PATCH 7/7] dma-buf: heaps: system: Turn the heap into a module
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-dma-buf-heaps-as-modules-v1-6-2109225a090d@kernel.org>
+Message-Id: <20260225-dma-buf-heaps-as-modules-v1-7-2109225a090d@kernel.org>
 References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -62,12 +62,12 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1712; i=mripard@kernel.org;
- h=from:subject:message-id; bh=3ZfbgvU0bLE1CVEwtquKpm5fJ/GAe/ZRFRUG6VZuG1I=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1QIO/V0Qvq7+gY3Smi9WgS+77V5drTja5fcquX264
- 6WP/+4v6pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATsdnJ2PCBec+iTTaurZdr
- pxmZLRZ0bc2a2vjh6BruogWL59UqHHxRNL90xZrM6OUBz0U5n1tqZzDW8MdcrC8XZLjRI5E8Pe7
- bRnXnRdumapw5Xmj0P36JqsoGlYK2u9UFipMWTjHtM3+3Y3sRAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1488; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=OaBx+qmc/uRKfph2nG7FL8m6owN/oNoP0WGfZ/DlULU=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1QJVv+lv+M06e+6fB2e5xRaHXJjZ98Ejf5pdZncoe
+ 9vh3M3POqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEgnsZG+6Uvty3f9Nj4Xl7
+ Jl2zrXeaGqC8JKhd4Y//wtQDJ7+u/lqVW/+d45h+USoTr2/0DrntjIx1+kbeJhr6B+oZfF877c3
+ uETw2f7vx3YeBbkV1Qc+468x/XCgttJES7oh1WLNf/vzmxEQA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,47 +116,44 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1512819AD6D
+X-Rspamd-Queue-Id: 9BD5A19AD7D
 X-Rspamd-Action: no action
 
-Now that all the symbols used by the CMA heap are exported, turning the
-CMA heap into a module becomes pretty easy: we just need to add the
-usual MODULE_* macros, import the proper namespaces and change the
+The system heap can be easily turned into a module by adding the usual
+MODULE_* macros, importing the proper namespaces and changing the
 Kconfig symbol to a tristate.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/heaps/Kconfig    | 2 +-
- drivers/dma-buf/heaps/cma_heap.c | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/dma-buf/heaps/Kconfig       | 2 +-
+ drivers/dma-buf/heaps/system_heap.c | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..aed0b9b4febf388376cfc41be9843980d010c4e8 100644
+index aed0b9b4febf388376cfc41be9843980d010c4e8..e273fb18feca091ccd9b406e68f86c12efb339e9 100644
 --- a/drivers/dma-buf/heaps/Kconfig
 +++ b/drivers/dma-buf/heaps/Kconfig
-@@ -4,11 +4,11 @@ config DMABUF_HEAPS_SYSTEM
+@@ -1,7 +1,7 @@
+ config DMABUF_HEAPS_SYSTEM
+-	bool "DMA-BUF System Heap"
++	tristate "DMA-BUF System Heap"
+ 	depends on DMABUF_HEAPS
  	help
  	  Choose this option to enable the system dmabuf heap. The system heap
  	  is backed by pages from the buddy allocator. If in doubt, say Y.
  
- config DMABUF_HEAPS_CMA
--	bool "DMA-BUF CMA Heap"
-+	tristate "DMA-BUF CMA Heap"
- 	depends on DMABUF_HEAPS && DMA_CMA
- 	help
- 	  Choose this option to enable dma-buf CMA heap. This heap is backed
- 	  by the Contiguous Memory Allocator (CMA). If your system has these
- 	  regions, you should say Y here.
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index f8a3d87f3ccee9630383ba28502eb40b10671cc2..7216a14262b04bb6130ddf26b7d009f7d15b03fd 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -422,5 +422,8 @@ static int __init add_cma_heaps(void)
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index b3650d8fd6511a4a755612cfe3a9d9fee796f80e..1957403b0f2ae5e82ab39f5945dfe82808e93964 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -442,5 +442,10 @@ static int __init system_heap_create(void)
+ 		return PTR_ERR(sys_heap);
  
  	return 0;
  }
- module_init(add_cma_heaps);
- MODULE_DESCRIPTION("DMA-BUF CMA Heap");
+ module_init(system_heap_create);
++
++MODULE_DESCRIPTION("DMA-BUF System Heap");
 +MODULE_LICENSE("GPL");
 +MODULE_IMPORT_NS("DMA_BUF");
 +MODULE_IMPORT_NS("DMA_BUF_HEAP");
