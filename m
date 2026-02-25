@@ -2,71 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oO0WC3gRn2nMYwQAu9opvQ
+	id WD7RM+ISn2nWYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:12:56 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:18:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503FD1994BD
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BD11996E5
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:18:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B6210E7A4;
-	Wed, 25 Feb 2026 15:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F1410E22C;
+	Wed, 25 Feb 2026 15:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="olWIYesR";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="usGM0BoT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EB510E7A4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:12:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DEC5941E4D;
- Wed, 25 Feb 2026 15:12:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BEFC116D0;
- Wed, 25 Feb 2026 15:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772032370;
- bh=WBE2By5FzkP5SLbnPSG3o0NgugwGTYXwxmVW/sbRDIw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=olWIYesRWiw65xkODMWGjed+aMm2qj32u6gVvmfLAViXpgfQ1gV5euIFOYqvzyXKS
- 1oBjv1D1FTk1wR7rMSeAmVBJmSYp1VZMujILP/lxeKQLisP+WFoCBJSvHgrg3aUY3G
- o55VFauH6L5QLsO4DYrMf5yk93ODqho4R4lpocJaU2wzmq0zPxpd0cTDezXbJtbtdP
- /OJCdoFKX0X5bkE917xIuyjMETyXUBUHJ86z0zVUQQOfhQ0d3fwlrlGb+29Bjbz5N6
- c7uzqpRNp6BBV/ZOpgHGboQQIXulvsYguBBOqtlXiUDdZB9VHUdXaViALWDNYzYiOp
- VtX+a33PmtVOA==
-Date: Wed, 25 Feb 2026 09:12:46 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>, 
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
- driver docs
-Message-ID: <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
- <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
- <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4409D10E22C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:18:53 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-48336a6e932so41766765e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:18:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1772032732; x=1772637532; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0duHEWtI6kL/XWFNZl4sr8GMAyb2xz6UvQc7MNO8wek=;
+ b=usGM0BoTt5fYLXP/6EK88Cmw5AxN2IXP0GiB2UvxGVciYLNh6EdCvcXh3/o+XL85ID
+ UiVVMKfM6DbMbhiH+ahrvEG4LMr5l/6Z9EIzaamWxkF8n4tSAzfi/CjHlbHzfpaDnO4c
+ EQgEmvIxnlXUuTSM45Irl2JjHluOGzuVEbU+Ru0X14ikw+eOGuhjH9hpKf2UTOmD17Mt
+ 1qI/1BG9mA38bFyDjVv7+7GyBakZ8TRNGhDc26kD6TSk9+aa5/nFdozMwALUkM65gPWs
+ b35o0JsRSAx4c+Q5gbiqP1X5VdXyR3cdyUptibLRPk1Rp4TMkBuEJVB3baj1sb807o8/
+ sWIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772032732; x=1772637532;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0duHEWtI6kL/XWFNZl4sr8GMAyb2xz6UvQc7MNO8wek=;
+ b=rhUJaUFY0KAKhM3P0ma+Sx11/Bmr6jRFQ+1adxnV2E8EYq6jTeR4Gg/6nX4hgND1tD
+ f7u04uIX9xNWrpfo+3sE3zmCkqL7U357rDI8BT3+fAwgc+yOT+WaXXjLp/G2o18viL+r
+ 4qFGlY8lPRBX/W+S8KeT+ni4IJ7n/sucb4yDybdA+WM0/jPqAHUEpCGqMDfrrJHfXKrk
+ ofyGyXe/+Ww7UMmDp4PaPN2mzkppt1y2Cs6cFerYZr3UBaseRC8pnwBwWNiDPIwnqqWZ
+ f4dRA4hsAnmcaZUrFXeKL922zgQ1WdIN2eFMK+W1LG3POi1g1lD5DtQqVGshMEetbCIp
+ pN+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWp6UZPS1EeOvwmp54iiShG3oQc+XCZOFG5+CYo0k3RGLSemCOxG9fVllTnPbZq3B5ek83ApYi22pw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1xCJDRedBbqGRvMYk2RyHzkcBYXX4x+CYQgl6QIWud1/D6WRJ
+ k1OxG8f0/k8tgSUASUQMM8P6JMn0rPX2EmZRLVy0tky3TACz/o8/E3usQdU+T1CAUHM=
+X-Gm-Gg: ATEYQzyLimu/xqeLK/lxHrLxkC/TRkIOffw8JMjdQfHonJ2/RLj95gpP5sPxbyzeVm7
+ D8oFG69l9WYlOFqyk0C/ghA2wDXEscDk7LBGjBeCN4vVVZ/cp1Hhl//6CAV0p3wqHTJ/np0vpRw
+ 9ItcK3Usi74PWrMrETgJibmxkf+MsrxGMf2rKzQCNlmycvxsE6Can4MnluBRDE+6pb39YcDsExS
+ BkMpXkhJW4A/iurzseoS1mnkirFI5Q4KsNxq9Q1rswxRpnAc4EX1J6hAv54EiEZlyT29Wq4ufG9
+ YoiUJjOlwrnpxUOMRj9YY6rLe4H7gmu71gx7mib1iGXyN+bCK3dUw7wttUr+qj1i5E45trHvYMB
+ O0rHvJz3xa09SJcAZLVvhqCvlW4WEp+nSpcNwWgiJRnIGey07oqD/jq6vWQTsZBmKv303sUGDDv
+ 6wSxqu7WEmhJyJdc5c0FqdgQVZ9ibAu9epn5ZRWxiiYXYJ
+X-Received: by 2002:a05:600c:6815:b0:47e:e946:3a72 with SMTP id
+ 5b1f17b1804b1-483c21a10c5mr13759935e9.27.1772032731307; 
+ Wed, 25 Feb 2026 07:18:51 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-483bd739087sm74940165e9.14.2026.02.25.07.18.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Feb 2026 07:18:48 -0800 (PST)
+Message-ID: <8c3db886-72d1-49c1-ac6c-7640af735e51@ursulin.net>
+Date: Wed, 25 Feb 2026 15:18:47 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/6] drm/ttm: Extract code for attempting allocation in
+ a place
+To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
+ Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20260225-dmemcg-aggressive-protect-v4-0-de847ab35184@gmx.de>
+ <20260225-dmemcg-aggressive-protect-v4-3-de847ab35184@gmx.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20260225-dmemcg-aggressive-protect-v4-3-de847ab35184@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,112 +107,281 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ursulin.net];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ekansh.gupta@oss.qualcomm.com,m:trilokkumar.soni@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 503FD1994BD
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,igalia.com:email]
+X-Rspamd-Queue-Id: 11BD11996E5
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
-> 
-> 
-> On 2/24/2026 9:03 AM, Trilok Soni wrote:
-> > On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
-> >> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
-> >> integrated in the DRM accel subsystem.
-> >>
-> >> The new docs introduce QDA as a DRM/accel-based implementation of
-> >> Hexagon DSP offload that is intended as a modern alternative to the
-> >> legacy FastRPC driver in drivers/misc. The text describes the driver
-> >> motivation, high-level architecture and interaction with IOMMU context
-> >> banks, GEM-based buffer management and the RPMsg transport.
-> >>
-> >> The user-space facing section documents the main QDA IOCTLs used to
-> >> establish DSP sessions, manage GEM buffer objects and invoke remote
-> >> procedures using the FastRPC protocol, along with a typical lifecycle
-> >> example for applications.
-> >>
-> >> Finally, the driver is wired into the Compute Accelerators
-> >> documentation index under Documentation/accel, and a brief debugging
-> >> section shows how to enable dynamic debug for the QDA implementation.
-> > So existing applications written over character device UAPI needs to be
-> > rewritten over new UAPI and it will be broken once this driver gets
-> > merged? Are we going to keep both the drivers in the Linux kernel
-> > and not deprecate the /char device one? 
-> >
-> > Is Qualcomm going to provide the wrapper library in the userspace
-> > so that existing applications by our customers and developers
-> > keep working w/ the newer kernel if the char interface based
-> > driver gets deprecated? It is not clear from your text above. 
-> Thanks for raising this, Trilok.
-> 
-> This is one of the open items that I have. I'm not exactly sure what would be the
-> acceptable way for this. 
-> 
-> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
-> without modification.
-> 
-> I was thinking in the same lines as you have mentioned and  having some shim/compat
-> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
-> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
-> 
 
-This is a fundamental requirement, you need to address this in order for
-this to move forward.
-
-Which makes me wonder if it would be possible to reach an accel driver
-through incremental transition of the current driver, instead of just
-dropping in a few thousand lines of new code/design.
-
-> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
-> before, so I would want guidance from maintainers on whether this is an acceptable
-> model or not.
+On 25/02/2026 12:10, Natalie Vock wrote:
+> Move all code for attempting allocation for a specific place to
+> ttm_bo_alloc_place. With subsequent patches, this logic is going to get
+> more complicated, so it helps readability to have this separate.
 > 
-> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
-> unchanged in terms of definitions and expectation. The same project can be build for both
-> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
-> not face any problem if the libs is built with proper configure options.
+> ttm_bo_alloc_at_place takes a pointer to a struct ttm_bo_alloc_state.
+> This struct holds various state produced by the allocation (e.g. cgroup
+> resource associated with the allocation) that the caller needs to keep
+> track of (and potentially dispose of). This is just the limiting cgroup
+> pool for now, but future patches will add more state needing to be tracked.
 > 
+> ttm_bo_alloc_at_place also communicates via return codes if eviction
+> using ttm_bo_evict_alloc should be attempted. This is preparation for
+> attempting eviction in more cases than just force_space being set.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 109 +++++++++++++++++++++++++++++++++----------
+>   1 file changed, 84 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index acb9197db8798..48dbaaa46824c 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+>   	return ret;
+>   }
+>   
+> +struct ttm_bo_alloc_state {
+> +	/** @limit_pool: Which pool limit we should test against */
+> +	struct dmem_cgroup_pool_state *limit_pool;
+> +};
+> +
+>   /**
+>    * struct ttm_bo_evict_walk - Parameters for the evict walk.
+>    */
+> @@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
+>   	/** @evicted: Number of successful evictions. */
+>   	unsigned long evicted;
+>   
+> -	/** @limit_pool: Which pool limit we should test against */
+> -	struct dmem_cgroup_pool_state *limit_pool;
+>   	/** @try_low: Whether we should attempt to evict BO's with low watermark threshold */
+>   	bool try_low;
+>   	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass) */
+>   	bool hit_low;
+> +
+> +	/** @alloc_state: State associated with the allocation attempt. */
+> +	struct ttm_bo_alloc_state *alloc_state;
+>   };
+>   
+>   static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
+> @@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+>   		container_of(walk, typeof(*evict_walk), walk);
+>   	s64 lret;
+>   
+> -	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resource->css,
+> -					      evict_walk->try_low, &evict_walk->hit_low))
+> +	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_pool,
+> +					      bo->resource->css, evict_walk->try_low,
+> +					      &evict_walk->hit_low))
+>   		return 0;
+>   
+>   	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
+> @@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   			      struct ttm_operation_ctx *ctx,
+>   			      struct ww_acquire_ctx *ticket,
+>   			      struct ttm_resource **res,
+> -			      struct dmem_cgroup_pool_state *limit_pool)
+> +			      struct ttm_bo_alloc_state *state)
+>   {
+>   	struct ttm_bo_evict_walk evict_walk = {
+>   		.walk = {
+> @@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   		.place = place,
+>   		.evictor = evictor,
+>   		.res = res,
+> -		.limit_pool = limit_pool,
+> +		.alloc_state = state,
+>   	};
+>   	s64 lret;
+>   
+> @@ -689,6 +696,58 @@ static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
+>   	return dma_resv_reserve_fences(bo->base.resv, 1);
+>   }
+>   
+> +
+> +/**
+> + * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a place
+> + *
+> + * @bo: The buffer to allocate the backing store of
+> + * @place: The place to attempt allocation in
+> + * @ctx: ttm_operation_ctx associated with this allocation
+> + * @force_space: If we should evict buffers to force space
+> + * @res: On allocation success, the resulting struct ttm_resource.
+> + * @alloc_state: Object holding allocation state such as charged cgroups.
+> + *
+> + * Returns:
+> + * -EBUSY: No space available, but allocation should be retried with ttm_bo_evict_alloc.
+> + * -ENOSPC: No space available, allocation should not be retried.
+> + * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
+> + *
+> + */
+> +static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+> +				 const struct ttm_place *place,
+> +				 struct ttm_operation_ctx *ctx,
+> +				 bool force_space,
+> +				 struct ttm_resource **res,
+> +				 struct ttm_bo_alloc_state *alloc_state)
+> +{
+> +	bool may_evict;
+> +	int ret;
+> +
+> +	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> +
+> +	ret = ttm_resource_alloc(bo, place, res,
+> +				 force_space ? &alloc_state->limit_pool : NULL);
+> +
+> +	if (ret) {
+> +		/*
+> +		 * -EAGAIN means the charge failed, which we treat like an
+> +		 * allocation failure. Therefore, return an error code indicating
+> +		 * the allocation failed - either -EBUSY if the allocation should
+> +		 * be retried with eviction, or -ENOSPC if there should be no second
+> +		 * attempt.
+> +		 */
+> +		if (ret == -EAGAIN)
+> +			return may_evict ? -EBUSY : -ENOSPC;
+> +
+> +		if (ret == -ENOSPC && may_evict)
+> +			return -EBUSY;
+> +
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   /**
+>    * ttm_bo_alloc_resource - Allocate backing store for a BO
+>    *
+> @@ -714,7 +773,9 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				 bool force_space,
+>   				 struct ttm_resource **res)
+>   {
+> +	struct ttm_bo_alloc_state alloc_state = {0};
 
-You're assuming that the kernel and userspace are a unified piece of
-software, they are not. It must be possible for me to install a new
-kernel package without having to replace the userspace libraries.
+= {};
+
+>   	struct ttm_device *bdev = bo->bdev;
+> +	struct ttm_resource_manager *man;
+
+I don't mind if you pull the above two out of the loop too much, but I 
+have to re-point it out since I am sure you know the principle of not 
+making changes which are not strictly needed, especially if they are not 
+a clear win on readability or something.
+
+>   	struct ww_acquire_ctx *ticket;
+>   	int i, ret;
+>   
+> @@ -725,9 +786,6 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   
+>   	for (i = 0; i < placement->num_placement; ++i) {
+>   		const struct ttm_place *place = &placement->placement[i];
+> -		struct dmem_cgroup_pool_state *limit_pool = NULL;
+> -		struct ttm_resource_manager *man;
+> -		bool may_evict;
+>   
+>   		man = ttm_manager_type(bdev, place->mem_type);
+>   		if (!man || !ttm_resource_manager_used(man))
+> @@ -737,25 +795,26 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				    TTM_PL_FLAG_FALLBACK))
+>   			continue;
+>   
+> -		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
+> -		if (ret) {
+> -			if (ret != -ENOSPC && ret != -EAGAIN) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				return ret;
+> -			}
+> -			if (!may_evict) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				continue;
+> -			}
+> +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
+> +				res, &alloc_state);
+>   
+> +		if (ret == -ENOSPC) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			continue;
+> +		} else if (ret == -EBUSY) {
+>   			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
+> -						 ticket, res, limit_pool);
+> -			dmem_cgroup_pool_state_put(limit_pool);
+> -			if (ret == -EBUSY)
+> +						 ticket, res, &alloc_state);
+> +
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +
+> +			if (ret) {
+> +				if (ret != -EBUSY)
+> +					return ret;
+>   				continue;
+> -			if (ret)
+> -				return ret;
+> +			}
+
+Would keeping the ret checks at one level of indentation look better? Eg 
+like the current version:
+
+if (ret == -EBUSY)
+	continue;
+else if (ret)
+	return ret;
+
+Up to you.
+
+Btw, it is an interesting design that there are eviction errors which 
+prevent trying the next placement. A bit surprising to me but it is out 
+of scope here.
+
+Anyway, I went back and forth a few times over the logic and it indeed 
+looks to me that there are no functional changes. Thanks for improving 
+the commit message as well, now it is completely clear what the patch is 
+about. With or without the nitpicks:
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
 Regards,
-Bjorn
 
-> I have noted your point regarding the doc not providing clear details, I have added interface
-> compatibility information in cover letter and will try pulling the same to Doc.
-> >
-> > ---Trilok Soni
+Tvrtko
+
+> +		} else if (ret) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			return ret;
+>   		}
+>   
+>   		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
 > 
-> 
+
