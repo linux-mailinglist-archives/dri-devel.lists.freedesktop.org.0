@@ -2,150 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPS3OUEDn2mZYgQAu9opvQ
+	id ABZzCLIDn2mZYgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:12:17 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:14:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36863198894
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E2A1988F7
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:14:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 273B310E884;
-	Wed, 25 Feb 2026 14:12:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zvdmcl6Q";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BmloyK/f";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C44E10E88A;
+	Wed, 25 Feb 2026 14:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4721810E884
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:12:12 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61P9SsKA2691966
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:12:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- D/tdRG/a6yLtpVfy8PztF2ki7pTLjIQWmR0qzyE7NZw=; b=Zvdmcl6Q2vScmYbm
- O5pNlk7bx3nXRQ97tj7oSCoV4KF/4VHAsDDN/as2Y0gw8bndw/yP66rZKCQC//s3
- d5usxQ9wQdxP3Ks5UeXyzoXI/0CbiqUuWkoeBNOd76o7i0BmvEDNtoo6uAOz90Lm
- Mya7iOZBZZ6iA8856Ln2H/qk3+UuPURrzWru6P6QNXUEoA7GSsBUbZmCXNHhoRwR
- qB8jCOeLFxUP9u+irk5fxNC0qKPaLMkR5tM3NsY1Qblbu2gntzf+Zn8vsuHqRjp6
- uVgeWPj6Ywnau0ImCdA1Aw68ulWBdTkbBuKE49QqXWURuNhVn1yUxMdT9kMsMZzx
- cE25dQ==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chg2gueym-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:12:11 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id
- 41be03b00d2f7-c70ecaef21eso153222a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 06:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772028730; x=1772633530;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=D/tdRG/a6yLtpVfy8PztF2ki7pTLjIQWmR0qzyE7NZw=;
- b=BmloyK/fROd0atW3KsED9dQjLp8XMgO23Opy1qAyQ+3mIh07jKGjt+/xAm1LhX9tml
- JELGvcwfRnWM6t5WJGFTauajS2GwpR8+XZGFKI4yxa8+WWljm6L1z4o4SNwIpvJ1oE/E
- isB8IZcaG5G3U/O1Fh1AizpmW/bHSdt8mVjxMItq6meXAtyPxfLR9u1SGCV2hwXilRSd
- QmTFELvpWIe3+0CwR5dh1k//ir+J5dCS2GL/7whALCNR4+pPHax50b08QQ9/BinUhN0R
- NipCZiuWfqjqYcbGgl9PVwWpIYDJfZWhLZOPu7s9b9Ec+2vnyxjJpwgiKNzSdbDXNIJo
- Fy9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772028730; x=1772633530;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D/tdRG/a6yLtpVfy8PztF2ki7pTLjIQWmR0qzyE7NZw=;
- b=NijHqUUJXge0rugaHzo5ntt3MM0lIvBWANa2AsMy9yXkRtXzZgYbXbE0N8toPfHab1
- FTCzyW7NRrqK5X7O2tnV4PcgdPktl4GTby39XSqKBwKXnwBBIgU/dQ770xu6rijgh8PC
- QjF5DLdLZuG+inJQa9h5BHahePURcR37QGUBUisIXk0wXJm3kfkHIaT5mfgBWwcZeWNW
- EOt+6L/6tLISf2tNtLcHhdHXwWYge7TTi3sWOGojMtxDoTWxtQ9dMhlxV2Z64Q1DbzEi
- 7nLgEEcyQEGXD8QWiWyc4DZDt88yps8VV4ZZ81sTSG+XXPcg679pk5InesiBHIon3kRH
- cXXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVl7jgHp0zirkmj5nxSwfXAHS+1q+K9/QIwf+AIqs5yfFzmX7Yiv7Eqon7BRBvaAJRdZFMAywCL0jY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxh5mSfG4nOsYWqhBNTF1wzrmChqGNdKhUinVm304/P/rvOrxZE
- WdSSlA+GK8nvSxHP0td+LWrqjRjFkaNAH8P/AFMBCLHwsn/58Hskazna7mLTgk50KV6b76jgLMd
- 7rE7BoIfAaBpavvuydMGB1aNMvyt+PFCzW5qhppVXkWocqYqduHTyP9dgjgOVQnm/gA5hsms=
-X-Gm-Gg: ATEYQzw7tBkORXhPeUjZIp0Cq9MGtqdEoMtwPWXHPY3VhcuFoFis+rpXl3bKySwBJ8j
- 4EAqp3ooGo5k/iHWvXBF/tPXtcc3kONORBhIkHKs0Vc/zaTM1JSf2CaIMkWQ2xfjbht4ZxY0xH0
- o/S8t+3U6TCvvlQ7ywuJYqtUA0Mi2Yk6WHGYpRzdoFPKq7A5gKsSnb902KUalhJ9TioOW+IfALd
- vilFEyFaZ140oqTnZP7Dt4FjkBAlLPCcXQIpE/Lo0o3JSAMicNh6rzq3j2gSIOCJCGWEnVrDZr8
- HLHCJo1DvW9ixaaTIFfsaZB7Gu7B7jPKoGrIFFIPRrOZAjR+NAj7Gb8mUscXv3c4jul6etmwEWP
- sv3EEfPIZjS1kgQMvqEG5N6wB5ZduAxZJa8+UIcltmDaliQeXAXJHDj97KgbHv836r/56HTAjj1
- 4NkwLskpGN2FduhOarhGjnr1Uojjus1Pk0tvjGM0awhQ==
-X-Received: by 2002:a05:6a20:258d:b0:35e:11ff:45bd with SMTP id
- adf61e73a8af0-39545f7a3aemr10149915637.5.1772028730047; 
- Wed, 25 Feb 2026 06:12:10 -0800 (PST)
-X-Received: by 2002:a05:6a20:258d:b0:35e:11ff:45bd with SMTP id
- adf61e73a8af0-39545f7a3aemr10149892637.5.1772028729571; 
- Wed, 25 Feb 2026 06:12:09 -0800 (PST)
-Received: from hu-vishsain-blr.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-826dd63f1b3sm13722907b3a.3.2026.02.25.06.12.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Feb 2026 06:12:09 -0800 (PST)
-Date: Wed, 25 Feb 2026 19:42:00 +0530
-From: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Tony <syyang@lontium.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, prahlad.valluru@oss.qualcomm.com,
- Prahlad Valluru <vvalluru@qti.qualcomm.com>,
- =?utf-8?B?5pyx5pmT5piO?= <xmzhu@lontium.corp-partner.google.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: bridge: lt8713sx: Add bindings
-Message-ID: <aZ8DMPRqKWvxKIFC@hu-vishsain-blr.qualcomm.com>
-References: <20260224-lt8713sx-bridge-driver-v4-0-b5603f5458d8@oss.qualcomm.com>
- <20260224-lt8713sx-bridge-driver-v4-1-b5603f5458d8@oss.qualcomm.com>
- <20260225-agile-godlike-orangutan-07abad@quoll>
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3245610E88A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:14:05 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.101.233])
+ by APP-03 (Coremail) with SMTP id rQCowABnhNulA59ptU5PCQ--.33561S2;
+ Wed, 25 Feb 2026 22:13:58 +0800 (CST)
+Message-ID: <05a4de6326d68fc51f6e4dae9aa24ec56497adf6.camel@iscas.ac.cn>
+Subject: Re: [PATCH] drm/dumb-buffers: document that it's only for linear FB
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Wed, 25 Feb 2026 22:13:57 +0800
+In-Reply-To: <3316784a-d9e4-4199-a32a-44b4d0e7b4c2@suse.de>
+References: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+ <6515820a-3bb3-4868-9b30-9c1f80709ab2@suse.de>
+ <35fba9692636a2f6ba9fabc8e67f5684a54b17f1.camel@iscas.ac.cn>
+ <131b54f7-a611-4a02-aca8-5613643a6276@suse.de>
+ <80590bdf692add75da321a6fc595012d10192a14.camel@iscas.ac.cn>
+ <3316784a-d9e4-4199-a32a-44b4d0e7b4c2@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260225-agile-godlike-orangutan-07abad@quoll>
-X-Proofpoint-ORIG-GUID: zYendWXxW5rLqJrByVQfL0YdF0Lq4uoS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDEzNSBTYWx0ZWRfX3utMsShIKtKt
- cxmdiD7TY1no5tvmWcCpRifZ+MTGMwscRs3WZtMAYOyCOzUuDwUhPoIjt/I2wAkbJw5O6tGSbY9
- phr9aEhrH19pMmcC1GcAP2HptJypLsAwxxvMKTZb0Fsk+94HXKmaN1pkFRXrxPfTpXlmM+9WbLY
- svgxShLWM+sr7C4T3H5WtwXuxmfqsLQCbmBx2OhsrXJG1w7j/A7xCB057IBGWNLNbY/O37aPtOW
- DTWk6RHfgLI0/OLxnXXcj0IaRFQaqdmmxNWaVuJ2nIWOxpgkVFSgx/4wsHjtb2pOEZ/gy6ASK/d
- mCf24BtKmE4S0pvT+p8DpOAQyEIKblEb6lFYiZyqYbaG9J1nMiinC7jpwZ7RXcbh2ZvgjB4DZny
- lWZEz560YVSlSToC+CGgHofiY0XdaoAu7tV8UDJlSzKb7pNsjNOg3qYnK2ghm4OB3oB3qB6mOEj
- wcFM6SJs83+0gS7C9XA==
-X-Authority-Analysis: v=2.4 cv=ftHRpV4f c=1 sm=1 tr=0 ts=699f033b cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=gEfo2CItAAAA:8 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8 a=1XWaLZrsAAAA:8
- a=Kz8-B0t5AAAA:8 a=8oXlZb-C5KnNZdz608wA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22 a=sptkURWiP4Gy88Gu7hUp:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=RuZk68QooNbwfxovefhk:22
-X-Proofpoint-GUID: zYendWXxW5rLqJrByVQfL0YdF0Lq4uoS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_01,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 clxscore=1015 spamscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250135
+X-CM-TRANSID: rQCowABnhNulA59ptU5PCQ--.33561S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw1rJrW7uF4UWF13Cw1xZrb_yoWrCFyUpF
+ W3KFW2yrs5Jr1fJr1qqF15JFy3tay7XF4Uur98Jry7XryqyF1xWF48t398uF9rur18GF12
+ qr1jqryfur1UAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkFb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k2
+ 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07bYYLPUUUUU=
+X-Originating-IP: [112.94.101.233]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,112 +72,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,lontium.com,lists.freedesktop.org,vger.kernel.org,oss.qualcomm.com,qti.qualcomm.com,lontium.corp-partner.google.com];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:syyang@lontium.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:prahlad.valluru@oss.qualcomm.com,m:vvalluru@qti.qualcomm.com,m:xmzhu@lontium.corp-partner.google.com,m:jernejskrabec@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[suse.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORGED_SENDER(0.00)[vishnu.saini@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vishnu.saini@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.988];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	HAS_XOIP(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.991];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,devicetree.org:url,oss.qualcomm.com:dkim,bootlin.com:url,lontium.com:email]
-X-Rspamd-Queue-Id: 36863198894
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 61E2A1988F7
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 11:35:45AM +0100, Krzysztof Kozlowski wrote:
-> On Tue, Feb 24, 2026 at 11:25:35PM +0530, Vishnu Saini wrote:
-> > Add bindings for lt8713sx.
-> > 
-> > Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-> > Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-> > Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-> > Cc: 朱晓明 <xmzhu@lontium.corp-partner.google.com>
-> 
-> Please use latin transliteration/translation, if possible.
+=E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 09:34 +0100=EF=BC=8CThomas Zimmerman=
+n=E5=86=99=E9=81=93=EF=BC=9A
+> Hi
+>=20
+> Am 25.02.26 um 09:10 schrieb Icenowy Zheng:
+> > =E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 08:47 +0100=EF=BC=8CThomas Zimme=
+rmann=E5=86=99=E9=81=93=EF=BC=9A
+> > >=20
+> > > Am 25.02.26 um 08:38 schrieb Icenowy Zheng:
+> > > > =E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 08:26 +0100=EF=BC=8CThomas Z=
+immermann=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > Hi,
+> > > > >=20
+> > > > > Am 25.02.26 um 07:13 schrieb Icenowy Zheng:
+> > > > > > The ioctl interfaces for dumb buffers currently only
+> > > > > > properly
+> > > > > > support
+> > > > > > linear buffers.
+> > > > > >=20
+> > > > > > Mention this in the documentation snippet of dumb-buffers
+> > > > > > source
+> > > > > > code,
+> > > > > > which is referenced by drm-kms.rst and will end up in the
+> > > > > > built
+> > > > > > kernel
+> > > > > > documentation.
+> > > > > >=20
+> > > > > > Also mention the existence of current drivers abusing dumb
+> > > > > > buffers
+> > > > > > for
+> > > > > > AFBC to reduce confusion about this.
+> > > > > >=20
+> > > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > > > ---
+> > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/drm_dumb_buffers.c | 7 +++++=
++-
+> > > > > We documented the meaning of the color bits and the behavior
+> > > > > of
+> > > > > the
+> > > > > dumb-buffer interface at [1]. If anything is missing, it
+> > > > > should
+> > > > > be
+> > > > > added
+> > > > > there.
+> > > > Yes, I saw this piece of document; however it's part of the
+> > > > interface
+> > > > document instead of a concept document, and the whole existence
+> > > > of
+> > > > the
+> > > What is a concept document?
+> > Well I am patching this document snippet because it becomes part of
+> > the
+> > document at [1] (by being referenced in the .rst file).
+>=20
+> That question was a joke, but also not entirely untrue.
+>=20
+> These overview sections usually introduce the purpose of a module and
+> give readers a sense of how to use the code; like a tutorial. We
+> don't=20
+> have concept documents. As the concepts keep changing, they'd bitrot=20
+> quickly.
+>=20
+> For example, not too long ago we discussed the possibility of a=20
+> CREATE_DUMB2 ioctl that would allow for specifying the DRM format=20
+> directly. It would also allow formats with multiple planes and=20
+> non-linear layouts. My point is that whatever we write here today
+> could=20
+> be obsolete tomorrow. The only stable thing is the user-space
+> interfaces.
+>=20
+> IMHO if you think the overview should mention the supported formats,
+> you=20
+> should link to the UAPI documentation of the ioctl. If we ever get
+> that=20
+> CREATE2 ioctl, we can refer to this as well.
 
-I will fix this in next revision.
- 
-> > ---
-> >  .../bindings/display/bridge/lontium,lt8713sx.yaml  | 113 +++++++++++++++++++++
-> >  1 file changed, 113 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
-> > new file mode 100644
-> > index 000000000000..29a773154b39
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
-> > @@ -0,0 +1,113 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/lontium,lt8713sx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Lontium LT8713SX Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0/DP++ bridge-hub
-> > +
-> > +maintainers:
-> > +  - Tony <syyang@lontium.com>
-> 
-> Is Tony full legal name, transliterated to Latin alphabet?
+This sounds reasonable. I will reword this to a reference to the UAPI
+documentation to raise attraction (because otherwise it's not very
+natrual to consult the UAPI doc, at least for me).
 
-"Tony <syyang@lontium.com>" is Author in original reference driver shared by lontium so i added him.
-Will cross check with lontium on this and update in next revision.
+Thanks,
+Icenowy
 
-> Also Tony, please kindly ack this change.
->
-> You already received such question at v3 :/
-> 
-> Also not sure why I am spending my time SECOND time on it. Read very
-> carefully all the rules:
+>=20
+> Best regards
+> Thomas
+>=20
+> >=20
+> > [1] https://docs.kernel.org/gpu/drm-kms.html#dumb-buffer-objects
+> >=20
+> > > > document snippet I am changing can be considered a duplicate of
+> > > > the
+> > > > interface document.
+> > > >=20
+> > > > Thanks
+> > > > Icenowy
+> > > >=20
+> > > > > Best regards
+> > > > > Thomas
+> > > > >=20
+> > > > > [1]
+> > > > > https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/dr=
+m_mode.h#L1200
+> > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0 1 file changed, 6 insertions(+), 1 deletion(=
+-)
+> > > > > >=20
+> > > > > > diff --git a/drivers/gpu/drm/drm_dumb_buffers.c
+> > > > > > b/drivers/gpu/drm/drm_dumb_buffers.c
+> > > > > > index e2b62e5fb891b..06f74460adf62 100644
+> > > > > > --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> > > > > > +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> > > > > > @@ -57,7 +57,12 @@
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * Note that dumb objects may not be us=
+ed for gpu
+> > > > > > acceleration,
+> > > > > > as has been
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * attempted on some ARM embedded platf=
+orms. Such
+> > > > > > drivers
+> > > > > > really
+> > > > > > must have
+> > > > > > - * a hardware-specific ioctl to allocate suitable buffer
+> > > > > > objects.
+> > > > > > + * a hardware-specific ioctl to allocate suitable buffer
+> > > > > > objects.
+> > > > > > They are
+> > > > > > + * also currently meant for only linear buffers, and using
+> > > > > > them
+> > > > > > with any
+> > > > > > + * modifier other than DRM_FORMAT_MOD_LINEAR is undefined
+> > > > > > behavior. There
+> > > > > > + * exist some KMS drivers abusing dumb objects for AFBC
+> > > > > > framebuffers, but this
+> > > > > > + * behavior is discouraged, only exists as a hack now and
+> > > > > > shouldn't be
+> > > > > > + * replicated.
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > =C2=A0=C2=A0=C2=A0 static int drm_mode_align_dumb(struct
+> > > > > > drm_mode_create_dumb
+> > > > > > *args,
 
-Sorry, for missing the Reviewed-by tag, the v4 patch is not significently changed.
-i will add Reviewed-by tag in next revision.
-
-> <form letter>
-> This is a friendly reminder during the review process.
-> 
-> It looks like you received a tag and forgot to add it.
-> 
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions of patchset, under or above your Signed-off-by tag, unless
-> patch changed significantly (e.g. new properties added to the DT
-> bindings). Tag is "received", when provided in a message replied to you
-> on the mailing list. Tools like b4 can help here. However, there's no
-> need to repost patches *only* to add the tags. The upstream maintainer
-> will do that for tags received on the version they apply.
-> 
-> Please read:
-> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-> 
-> If a tag was not added on purpose, please state why and what changed.
-> </form letter>
-> 
-> Best regards,
-> Krzysztof
-> 
