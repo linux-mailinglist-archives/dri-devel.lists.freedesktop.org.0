@@ -2,130 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFXpJpDenmkTXgQAu9opvQ
+	id QMJAF9ngnmmCXgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:35:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:45:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09036196935
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94560196CFE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C17610E73C;
-	Wed, 25 Feb 2026 11:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6081A10E0EE;
+	Wed, 25 Feb 2026 11:45:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="d/1MOW6y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x9VqnedY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d/1MOW6y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x9VqnedY";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="H+yO7aUa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CDE10E73C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:35:40 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 84F1E3FFD0;
- Wed, 25 Feb 2026 11:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772019339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1aY6r9vtQDBmuQFoWtVNnGY9iK116zu55UD0rtR50Nw=;
- b=d/1MOW6yh3ZsLj3Oidq7wfi/4LOCYn2mf7Ta7kh8TZHUaFp9tJRHwFbFlUeFHWhi7+Zvj3
- SOgqRvPBcpF102VvAgEg9SA4yV/IFOvXLyqwAlMtwaLmvcGzDFYSPNS9cGGLJQLhklej9g
- 3dRb+n+jWweAgLGHQrk72n8deI1UIPE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772019339;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1aY6r9vtQDBmuQFoWtVNnGY9iK116zu55UD0rtR50Nw=;
- b=x9VqnedY7jUIO1liaWISDZKZyASKqWAgL+6ZagDMedOH6kCiWAK3EwHeopHPORkDV/WQGo
- hsA4yedE2XAnILCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="d/1MOW6y";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=x9VqnedY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772019339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1aY6r9vtQDBmuQFoWtVNnGY9iK116zu55UD0rtR50Nw=;
- b=d/1MOW6yh3ZsLj3Oidq7wfi/4LOCYn2mf7Ta7kh8TZHUaFp9tJRHwFbFlUeFHWhi7+Zvj3
- SOgqRvPBcpF102VvAgEg9SA4yV/IFOvXLyqwAlMtwaLmvcGzDFYSPNS9cGGLJQLhklej9g
- 3dRb+n+jWweAgLGHQrk72n8deI1UIPE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772019339;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1aY6r9vtQDBmuQFoWtVNnGY9iK116zu55UD0rtR50Nw=;
- b=x9VqnedY7jUIO1liaWISDZKZyASKqWAgL+6ZagDMedOH6kCiWAK3EwHeopHPORkDV/WQGo
- hsA4yedE2XAnILCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 301113EA65;
- Wed, 25 Feb 2026 11:35:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id TmNoCovenmlwIAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 11:35:39 +0000
-Message-ID: <788bd9a6-003a-4761-ab4c-1bc0cb716d9c@suse.de>
-Date: Wed, 25 Feb 2026 12:35:38 +0100
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F67D10E0EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:45:25 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-43638a33157so6130716f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 03:45:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1772019924; x=1772624724; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z2o8kIvcCPgtBizkCcHTsZPCsnJ3kiwKwkx0W/HNxFc=;
+ b=H+yO7aUaW+nX3NFJvUROzAe16qekwchcuQFv0eThcIdOCtkb1TGXYQTZbqETDFDsVe
+ j4KiXRX4N+Zkl1n6qBAvXTdBayhNWwDd+Wnj66OAG5gjjphlIVwbVAS+aQJ213YUZNVB
+ 3XpRbROAto8fN7zIjQJBS5kGM91xwzjQFpnMazQVso/qeGrWZjwHGKRH7hMbjL++dX62
+ q+kPjk6qc91CPYmDd2Hs+l4CrDpFuRGvqh6uG05WaXsdS1Eix4p2R63mceRqXsbX2EHJ
+ 6EI5GpPXQazAik56PNNFKPRroBrBAKeOcCNnNgdSs/lERBIAq5iQ8r33SrT5FTqjJKOz
+ v4Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772019924; x=1772624724;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z2o8kIvcCPgtBizkCcHTsZPCsnJ3kiwKwkx0W/HNxFc=;
+ b=o3AHr0YN6D7nUtHMH2YUAoxkNrH5hEmqQu+W7FBm7ae/DCbb0GxgfSr62A/2DwDZne
+ b+HpbO4PcHAmIzQZRJubW+3M+UTQgtxcraZBPoTKrxuqhNFqCjbwZ6JZ0W2+KT99jaIQ
+ ekMdaxXogp76p1AX8+AD78kbVw8YZPCof1VRf1ktY6reOTwmdws6D4mu+/xjaG3tusBQ
+ zYnBSJKl7zW9+3pSUsNeN7DKybiSoVw+XQdscHnCwGEZdxfslqhfecdCD1BcK8zG+VG/
+ S1eW8lg7uU9lveE3d1jwc2Rn5XLOuac24rIGzf9dtRFivzjrRZSgd1BxdfSR22amGAmD
+ E05Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4gAnphVfEe/vSgKzqVvoWbvz6+9QLhuh1GeSvjfN491bGUxmeuf4C0w3lUW3vnBO5qRE/2w9gEVI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcMVxBJGBqlkw6nsUrke4Fx5vDSn1AtnYodOp1aTK7nMkRZQK8
+ 48KGRok/q7gl+oFRJBSsta7muWDR8Ue1+p/EDmlhqMQdYbx//NsmQZCiRuiMJzzg6WM=
+X-Gm-Gg: ATEYQzzLjIVFyKkl7Fi2nAck6J5HDXOdfurYU4GNU7N3xXiUd5s7Qsl16s5osQigCHE
+ 4ZeVWM829pmXFgj2rrsj0pJTLVc5mYOa9aaxFrz+uXZSrKfxatD5GwAHK6xoEA3NrmDhfgTfOVS
+ bwm13wQs+fTmgcfDe8PkW1+BmqJ5Bo4goV0tprErikhKGbR0n9/K0QESprX0XWQk/LNZ/xeLJuY
+ 0Wc7XDkX93GS3CiYCVnWdJZ9E8IhFU714j1/yUfhKmsrlsOLUAch1g+W0FoToUC1FZXlWyYvXVE
+ u8nt4QU482BPl1wJIYLhug66pXgYT12rbubPVHtvbCgExoqkxJEiYl0Wp9UuplVNx5hq7wYZg1V
+ 72PpIdHwk7C30+1oWNRxWbat4JhyJIHQr1k9rc3gGwtV2rksvtMBnvXYYCjqMic/dVEmIN743Ie
+ 781HVa/KuKyYeyjWVc61amV+8ORPAJZE8VlMDzmOpacWOnYAC1Vy1+hcs=
+X-Received: by 2002:a05:6000:4014:b0:439:664d:e9b7 with SMTP id
+ ffacd0b85a97d-4396f14c9e4mr27774517f8f.7.1772019923588; 
+ Wed, 25 Feb 2026 03:45:23 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4398a09aad0sm9041947f8f.2.2026.02.25.03.45.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Feb 2026 03:45:22 -0800 (PST)
+Message-ID: <99d1bcbd-6df2-4b71-8c79-9e1c2ee31562@ursulin.net>
+Date: Wed, 25 Feb 2026 11:45:22 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] drm/gem-shmem: Track folio accessed/dirty status
- in mmap
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: loic.molinari@collabora.com, willy@infradead.org, frank.binns@imgtec.com, 
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-References: <20260209133241.238813-1-tzimmermann@suse.de>
- <20260209133241.238813-6-tzimmermann@suse.de>
- <20260209152340.16f9b30a@fedora>
- <0d00a0f6-d0e4-41db-b48b-77157cd2e968@suse.de>
- <20260209160109.79a020ae@fedora>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260209160109.79a020ae@fedora>
+Subject: Re: [PATCH v3 4/5] drm/ttm: Be more aggressive when allocating below
+ protection limit
+To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
+ Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251110-dmemcg-aggressive-protect-v3-0-219ffcfc54e9@gmx.de>
+ <20251110-dmemcg-aggressive-protect-v3-4-219ffcfc54e9@gmx.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251110-dmemcg-aggressive-protect-v3-4-219ffcfc54e9@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,143 +106,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,infradead.org,imgtec.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,kvack.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:loic.molinari@collabora.com,m:willy@infradead.org,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ursulin.net];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,suse.com:url]
-X-Rspamd-Queue-Id: 09036196935
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 94560196CFE
 X-Rspamd-Action: no action
 
-Hi
 
-Am 09.02.26 um 16:01 schrieb Boris Brezillon:
-> On Mon, 9 Feb 2026 15:46:21 +0100
-> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
->> Hi Boris,
->>
->> thanks for reviewing the series.
->>
->> Am 09.02.26 um 15:23 schrieb Boris Brezillon:
->>> On Mon,  9 Feb 2026 14:27:14 +0100
->>> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>   
->>>> Invoke folio_mark_accessed() in mmap page faults to add the folio to
->>>> the memory manager's LRU list. Userspace invokes mmap to get the memory
->>>> for software rendering. Compositors do the same when creating the final
->>>> on-screen image, so keeping the pages in LRU makes sense. Avoids paging
->>>> out graphics buffers when under memory pressure.
->>>>
->>>> In pfn_mkwrite, further invoke the folio_mark_dirty() to add the folio
->>>> for writeback should the underlying file be paged out from system memory.
->>>> This rarely happens in practice, yet it would corrupt the buffer content.
->>>>
->>>> This has little effect on a system's hardware-accelerated rendering, which
->>>> only mmaps for an initial setup of textures, meshes, shaders, etc.
->>>>
->>>> v3:
->>>> - rewrite for VM_PFNMAP
->>>> v2:
->>>> - adapt to changes in drm_gem_shmem_try_mmap_pmd()
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_gem_shmem_helper.c | 20 ++++++++++++++++++++
->>>>    1 file changed, 20 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>> index c3a054899ba3..0c86ad40a049 100644
->>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>> @@ -598,6 +598,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->>>>    	if (ret != VM_FAULT_NOPAGE)
->>>>    		ret = vmf_insert_pfn(vma, vmf->address, pfn);
->>>>    
->>>> +	if (likely(!(ret & VM_FAULT_ERROR)))
->>> Can't we just go
->>>
->>> 	if (ret == VM_FAULT_NOPAGE)
->>>
->>> here?
->> After reviewing the code in vmf_insert_pfn, I think so. All we'll see is
->> _OOM and _SIGBUS; or _NOPAGE on success.  I'll change it then.
->>
->>
->>>   
->>>> +		folio_mark_accessed(folio);
->>>> +
->>>>    out:
->>>>    	dma_resv_unlock(obj->resv);
->>>>    
->>>> @@ -638,10 +641,27 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
->>>>    	drm_gem_vm_close(vma);
->>>>    }
->>>>    
->>>> +static vm_fault_t drm_gem_shmem_pfn_mkwrite(struct vm_fault *vmf)
->>>> +{
->>>> +	struct vm_area_struct *vma = vmf->vma;
->>>> +	struct drm_gem_object *obj = vma->vm_private_data;
->>>> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
->>>> +	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
->>>> +	struct page *page = shmem->pages[page_offset];
->>> Should we have a
->>>
->>> 	if (WARN_ON(!shmem->pages ||
->>> 		    page_offset <= (obj->size >> PAGE_SHIFT)))
->>> 		return VM_FAULT_SIGBUS;
->>>
->>>
->>> ?
->> I left it out because it doesn't seem necessary.  In the fault handler
->> in drm_gem_shmem_fault(), I can see that we could get an OOB access. But
->> we only call pfn_mkwrite() after going through _fault() first. I don't
->> see a way of getting here unless we've already tested for the page in
->> _fault().
-> I agree it's not supposed to happen, but isn't it what WARN_ON()s are
-> for (catching unexpected situations)?
+On 10/11/2025 12:37, Natalie Vock wrote:
+> When the cgroup's memory usage is below the low/min limit and allocation
+> fails, try evicting some unprotected buffers to make space. Otherwise,
+> application buffers may be forced to go into GTT even though usage is
+> below the corresponding low/min limit, if other applications filled VRAM
+> with their allocations first.
+> 
+> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c       | 75 ++++++++++++++++++++++++++++++++++----
+>   drivers/gpu/drm/ttm/ttm_resource.c | 48 +++++++++++++++++-------
+>   include/drm/ttm/ttm_resource.h     |  6 ++-
+>   3 files changed, 108 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 829d994798835..bd467c965e1bc 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -490,8 +490,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+>   }
+>   
+>   struct ttm_bo_alloc_state {
+> +	/** @charge_pool: The memory pool the resource is charged to */
+> +	struct dmem_cgroup_pool_state *charge_pool;
+>   	/** @limit_pool: Which pool limit we should test against */
+>   	struct dmem_cgroup_pool_state *limit_pool;
+> +	/** @only_evict_unprotected: If eviction should be restricted to unprotected BOs */
+> +	bool only_evict_unprotected;
+>   };
+>   
+>   /**
+> @@ -546,7 +550,7 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+>   	evict_walk->evicted++;
+>   	if (evict_walk->res)
+>   		lret = ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
+> -					  evict_walk->res, NULL);
+> +					  evict_walk->res, evict_walk->alloc_state->charge_pool);
+>   	if (lret == 0)
+>   		return 1;
+>   out:
+> @@ -589,7 +593,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>   
+>   	/* One more attempt if we hit low limit? */
+> -	if (!lret && evict_walk.hit_low) {
+> +	if (!lret && evict_walk.hit_low && !state->only_evict_unprotected) {
+>   		evict_walk.try_low = true;
+>   		lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>   	}
+> @@ -610,7 +614,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   	} while (!lret && evict_walk.evicted);
+>   
+>   	/* We hit the low limit? Try once more */
+> -	if (!lret && evict_walk.hit_low && !evict_walk.try_low) {
+> +	if (!lret && evict_walk.hit_low && !evict_walk.try_low &&
+> +			!state->only_evict_unprotected) {
+>   		evict_walk.try_low = true;
+>   		goto retry;
+>   	}
+> @@ -719,20 +724,72 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+>   				 struct ttm_resource **res,
+>   				 struct ttm_bo_alloc_state *alloc_state)
+>   {
+> -	bool may_evict;
+> +	bool may_evict, below_low = false;
 
-OK, with Frank's ack on the imagination changes in, I'll send out an 
-update with additional warning.
+No need to init below_low.
 
-Best regards
-Thomas
+>   	int ret;
+>   
+>   	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> +	ret = ttm_resource_try_charge(bo, place, &alloc_state->charge_pool,
+> +				      force_space ? &alloc_state->limit_pool : NULL);
+> +	if (ret) {
+> +		/*
+> +		 * -EAGAIN means the charge failed, which we treat like an
+> +		 * allocation failure. Therefore, return an error code indicating
+> +		 * the allocation failed - either -EBUSY if the allocation should
+> +		 * be retried with eviction, or -ENOSPC if there should be no second
+> +		 * attempt.
+> +		 */
+> +		if (ret == -EAGAIN)
+> +			ret = may_evict ? -EBUSY : -ENOSPC;
+> +		return ret;
+> +	}
+>   
+> -	ret = ttm_resource_alloc(bo, place, res,
+> -				 force_space ? &alloc_state->limit_pool : NULL);
+> +	/*
+> +	 * cgroup protection plays a special role in eviction.
+> +	 * Conceptually, protection of memory via the dmem cgroup controller
+> +	 * entitles the protected cgroup to use a certain amount of memory.
+> +	 * There are two types of protection - the 'low' limit is a
+> +	 * "best-effort" protection, whereas the 'min' limit provides a hard
+> +	 * guarantee that memory within the cgroup's allowance will not be
+> +	 * evicted under any circumstance.
+> +	 *
+> +	 * To faithfully model this concept in TTM, we also need to take cgroup
+> +	 * protection into account when allocating. When allocation in one
+> +	 * place fails, TTM will default to trying other places first before
+> +	 * evicting.
+> +	 * If the allocation is covered by dmem cgroup protection, however,
+> +	 * this prevents the allocation from using the memory it is "entitled"
+> +	 * to. To make sure unprotected allocations cannot push new protected
+> +	 * allocations out of places they are "entitled" to use, we should
+> +	 * evict buffers not covered by any cgroup protection, if this
+> +	 * allocation is covered by cgroup protection.
+> +	 *
+> +	 * Buffers covered by 'min' protection are a special case - the 'min'
+> +	 * limit is a stronger guarantee than 'low', and thus buffers protected
+> +	 * by 'low' but not 'min' should also be considered for eviction.
+> +	 * Buffers protected by 'min' will never be considered for eviction
+> +	 * anyway, so the regular eviction path should be triggered here.
+> +	 * Buffers protected by 'low' but not 'min' will take a special
+> +	 * eviction path that only evicts buffers covered by neither 'low' or
+> +	 * 'min' protections.
+> +	 */
+> +	may_evict |= dmem_cgroup_below_min(NULL, alloc_state->charge_pool);
+> +	below_low = dmem_cgroup_below_low(NULL, alloc_state->charge_pool);
 
+Are these some magic macros? Couldn't grep for them.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+> +	alloc_state->only_evict_unprotected = !may_evict && below_low;
+ > +> +	ret = ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
+>   
+>   	if (ret) {
+> -		if ((ret == -ENOSPC || ret == -EAGAIN) && may_evict)
+> +		if ((ret == -ENOSPC || ret == -EAGAIN) &&
+> +				(may_evict || below_low))
+>   			ret = -EBUSY;
+>   		return ret;
 
+Where does the uncharge happen on the failure path?
+
+Regards,
+
+Tvrtko
+
+>   	}
+>   
+> +	/*
+> +	 * Ownership of charge_pool has been transferred to the TTM resource,
+> +	 * don't make the caller think we still hold a reference to it.
+> +	 */
+> +	alloc_state->charge_pool = NULL;
+>   	return 0;
+>   }
+>   
+> @@ -787,6 +844,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				res, &alloc_state);
+>   
+>   		if (ret == -ENOSPC) {
+> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
+>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>   			continue;
+>   		} else if (ret == -EBUSY) {
+> @@ -796,11 +854,14 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>   
+>   			if (ret) {
+> +				dmem_cgroup_pool_state_put(
+> +						alloc_state.charge_pool);
+>   				if (ret != -ENOSPC && ret != -EBUSY)
+>   					return ret;
+>   				continue;
+>   			}
+>   		} else if (ret) {
+> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
+>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>   			return ret;
+>   		}
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index e2c82ad07eb44..fcfa8b51b0337 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -372,30 +372,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
+>   }
+>   EXPORT_SYMBOL(ttm_resource_fini);
+>   
+> +/**
+> + * ttm_resource_try_charge - charge a resource manager's cgroup pool
+> + * @bo: buffer for which an allocation should be charged
+> + * @place: where the allocation is attempted to be placed
+> + * @ret_pool: on charge success, the pool that was charged
+> + * @ret_limit_pool: on charge failure, the pool responsible for the failure
+> + *
+> + * Should be used to charge cgroups before attempting resource allocation.
+> + * When charging succeeds, the value of ret_pool should be passed to
+> + * ttm_resource_alloc.
+> + *
+> + * Returns: 0 on charge success, negative errno on failure.
+> + */
+> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
+> +			    const struct ttm_place *place,
+> +			    struct dmem_cgroup_pool_state **ret_pool,
+> +			    struct dmem_cgroup_pool_state **ret_limit_pool)
+> +{
+> +	struct ttm_resource_manager *man =
+> +		ttm_manager_type(bo->bdev, place->mem_type);
+> +
+> +	if (!man->cg) {
+> +		*ret_pool = NULL;
+> +		if (ret_limit_pool)
+> +			*ret_limit_pool = NULL;
+> +		return 0;
+> +	}
+> +
+> +	return dmem_cgroup_try_charge(man->cg, bo->base.size, ret_pool,
+> +				      ret_limit_pool);
+> +}
+> +
+>   int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>   		       const struct ttm_place *place,
+>   		       struct ttm_resource **res_ptr,
+> -		       struct dmem_cgroup_pool_state **ret_limit_pool)
+> +		       struct dmem_cgroup_pool_state *charge_pool)
+>   {
+>   	struct ttm_resource_manager *man =
+>   		ttm_manager_type(bo->bdev, place->mem_type);
+> -	struct dmem_cgroup_pool_state *pool = NULL;
+>   	int ret;
+>   
+> -	if (man->cg) {
+> -		ret = dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_limit_pool);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+>   	ret = man->func->alloc(man, bo, place, res_ptr);
+> -	if (ret) {
+> -		if (pool)
+> -			dmem_cgroup_uncharge(pool, bo->base.size);
+> +	if (ret)
+>   		return ret;
+> -	}
+>   
+> -	(*res_ptr)->css = pool;
+> +	(*res_ptr)->css = charge_pool;
+>   
+>   	spin_lock(&bo->bdev->lru_lock);
+>   	ttm_resource_add_bulk_move(*res_ptr, bo);
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index e52bba15012f7..3aef7efdd7cfb 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -442,10 +442,14 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>   		       struct ttm_resource *res);
+>   
+> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
+> +			    const struct ttm_place *place,
+> +			    struct dmem_cgroup_pool_state **ret_pool,
+> +			    struct dmem_cgroup_pool_state **ret_limit_pool);
+>   int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>   		       const struct ttm_place *place,
+>   		       struct ttm_resource **res,
+> -		       struct dmem_cgroup_pool_state **ret_limit_pool);
+> +		       struct dmem_cgroup_pool_state *charge_pool);
+>   void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
+>   bool ttm_resource_intersects(struct ttm_device *bdev,
+>   			     struct ttm_resource *res,
+> 
 
