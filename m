@@ -2,91 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6K8LKkuknmlPWgQAu9opvQ
+	id KI11L1GmnmmrWgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:27:07 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:35:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BBE193632
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC2519386D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:35:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB0110E352;
-	Wed, 25 Feb 2026 07:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AD710E6C2;
+	Wed, 25 Feb 2026 07:35:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uDzlSHB7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HMfC1r90";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QQeur+hC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DUz5+sjY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dgKT51mp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KiRZhP8q";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dgKT51mp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KiRZhP8q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E374310E352
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:27:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52F8410E6C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:35:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 68A2F3F6A1;
- Wed, 25 Feb 2026 07:27:00 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BCD9E5BD50;
+ Wed, 25 Feb 2026 07:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772004421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772004938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
- b=uDzlSHB7IycSHgRlCESO2UiE78MH83SySWlh+cpSNQv0N7eF+fy+LSHKjHFzme7zyHqLU6
- 0yE3mjOQLOjv/JL+fNuGtOSVeNtAPFFvx18lAI/RnFkTcQE+5gJ4Lr70wl87tzdzvOHIq8
- BBchnPW7wzQaQYb5W5eGMd/4wJkyL0M=
+ bh=5vNlJj/YLajGW6oCVw2h6El97CzKMyP9cOeQanYsnL4=;
+ b=dgKT51mp9oPK2NEtbG3PmVXMtJ7NfhJfJK4FIOS4zCbWEFBOhchxf8fN/1/VKCMVDcswrb
+ diWnxyGjmJoBq0XBe3xag54LPzJVBqOzATTK8KOsGV+8x+MSeGiQ/0h2ukorGSPHqXuduI
+ Ro3j6CUE+QQatq58ht8JU0QQHKcwGQI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772004421;
+ s=susede2_ed25519; t=1772004938;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
- b=HMfC1r90DROvNXiWg0BQX3yNekK8Rnjs8oP/0XbsMQoFxXtThPr0xc0/TxvPe29Ql0ZHjG
- 9ww73B69UzRLK4AA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+ bh=5vNlJj/YLajGW6oCVw2h6El97CzKMyP9cOeQanYsnL4=;
+ b=KiRZhP8q/BBOl4Wo2IYrfu0RwwE3ARSIx5iJZf2tSh27aDP/Xj+lE2S+bnZ7DJvGqWH6Y1
+ tZbdX9OqozaBSJAQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dgKT51mp;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KiRZhP8q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772004420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772004938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
- b=QQeur+hCzB0U7vUFcdcvQQbuHWtUKcOn8hWsj3yojW14Rep6FLaypfY3PaB4pQL5ljEXmZ
- Z4zEgcvvckzziSYa95UDOg6whk2ur8uxX2UZ1EhdAbwKkt1VvLv/cxe8EqT5Ghnoqn45CT
- fWTmusNOBJYf3/jfAAS51tovBAUofC8=
+ bh=5vNlJj/YLajGW6oCVw2h6El97CzKMyP9cOeQanYsnL4=;
+ b=dgKT51mp9oPK2NEtbG3PmVXMtJ7NfhJfJK4FIOS4zCbWEFBOhchxf8fN/1/VKCMVDcswrb
+ diWnxyGjmJoBq0XBe3xag54LPzJVBqOzATTK8KOsGV+8x+MSeGiQ/0h2ukorGSPHqXuduI
+ Ro3j6CUE+QQatq58ht8JU0QQHKcwGQI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772004420;
+ s=susede2_ed25519; t=1772004938;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
- b=DUz5+sjYv3QEMV9a8DLLB2Ezwol0V5Mo64JLhfYDEGLsutKyvjV7dPtsVQs74447gIzh9K
- KfguNql0NRYwZHCg==
+ bh=5vNlJj/YLajGW6oCVw2h6El97CzKMyP9cOeQanYsnL4=;
+ b=KiRZhP8q/BBOl4Wo2IYrfu0RwwE3ARSIx5iJZf2tSh27aDP/Xj+lE2S+bnZ7DJvGqWH6Y1
+ tZbdX9OqozaBSJAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28D7E3EA65;
- Wed, 25 Feb 2026 07:27:00 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6595B3EA65;
+ Wed, 25 Feb 2026 07:35:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cGnBCESknmlyGAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 07:27:00 +0000
-Message-ID: <6515820a-3bb3-4868-9b30-9c1f80709ab2@suse.de>
-Date: Wed, 25 Feb 2026 08:26:59 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4I+NF0qmnmnYIAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 07:35:38 +0000
+Message-ID: <8a6cddae-6520-45ab-999f-087a5fd6b30b@suse.de>
+Date: Wed, 25 Feb 2026 08:35:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/dumb-buffers: document that it's only for linear FB
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+Subject: Re: [RFC PATCH 00/16] drm/mipi-dbi: Replace simple-display helpers
+ with regular atomic heleprs
+To: David Lechner <david@lechnology.com>, javierm@redhat.com,
+ lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
+ architanant5@gmail.com, wens@kernel.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20260224153656.261351-1-tzimmermann@suse.de>
+ <d0a5309c-a5a0-4629-a95f-5a0a39c16d77@lechnology.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -113,12 +117,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+In-Reply-To: <d0a5309c-a5a0-4629-a95f-5a0a39c16d77@lechnology.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,88 +138,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:david@lechnology.com,m:javierm@redhat.com,m:lanzano.alex@gmail.com,m:kamlesh.gurudasani@gmail.com,m:architanant5@gmail.com,m:wens@kernel.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:lanzanoalex@gmail.com,m:kamleshgurudasani@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[lechnology.com,redhat.com,gmail.com,kernel.org,linux.intel.com,ffwll.ch];
 	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,bootlin.com:url,suse.com:url,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: 13BBE193632
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 2CC2519386D
 X-Rspamd-Action: no action
 
-Hi,
+Hi
 
-Am 25.02.26 um 07:13 schrieb Icenowy Zheng:
-> The ioctl interfaces for dumb buffers currently only properly support
-> linear buffers.
->
-> Mention this in the documentation snippet of dumb-buffers source code,
-> which is referenced by drm-kms.rst and will end up in the built kernel
-> documentation.
->
-> Also mention the existence of current drivers abusing dumb buffers for
-> AFBC to reduce confusion about this.
->
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> ---
->   drivers/gpu/drm/drm_dumb_buffers.c | 7 ++++++-
+Am 24.02.26 um 23:59 schrieb David Lechner:
+> On 2/24/26 9:24 AM, Thomas Zimmermann wrote:
+>> We keep getting new drivers based on the obsolete simple-display pipeline,
+>> such as the recent driver for st7789v panels. [1] But submitters cannot
+>> know, as the simple-display helpers are fully documented and still used
+>> in several places.
+>>
+>> Hence, convert all the mipi-dbi drivers over to regular atomic helpers
+>> and remove simple-display support from mipi-dbi in this series. Then
+>> undocument the helpers and add TODO items for final their removal.
+>>
+>> Patch 1 changes the mode-setting logic get CRTC and panel updates into
+>> the correct order. This patch is probably the most fragile change in the
+>> series.
+>>
+>> Patches 2 and 3 prepare mipi-dbi to allow for atomic helpers to be used.
+>>
+>> Patches 5 to 14 update mipi-dbi drivers one by one. The st7735r driver
+>> requires some additional minor preparation. Overall, the refactoring is
+>> always the same.
+>>
+>> Patches 15 abd 16 clean up mipi-dbi and the simple-display helpers.
+>>
+>> These patches need some testing, as I can only compile them. At least
+>> one of the drivers should be tried on hardware. Regressions should be
+>> easy to fix, as these changes are mostly refactoring jobs.
+>>
+> I have a feeling I am the best candidate for testing. I will try to
+> see if I can have some time in the next week or two.
 
-We documented the meaning of the color bits and the behavior of the 
-dumb-buffer interface at [1]. If anything is missing, it should be added 
-there.
+Fantastic, thanks  a lot.
 
 Best regards
 Thomas
 
-[1] 
-https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/drm_mode.h#L1200
-
->   1 file changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
-> index e2b62e5fb891b..06f74460adf62 100644
-> --- a/drivers/gpu/drm/drm_dumb_buffers.c
-> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
-> @@ -57,7 +57,12 @@
->    *
->    * Note that dumb objects may not be used for gpu acceleration, as has been
->    * attempted on some ARM embedded platforms. Such drivers really must have
-> - * a hardware-specific ioctl to allocate suitable buffer objects.
-> + * a hardware-specific ioctl to allocate suitable buffer objects. They are
-> + * also currently meant for only linear buffers, and using them with any
-> + * modifier other than DRM_FORMAT_MOD_LINEAR is undefined behavior. There
-> + * exist some KMS drivers abusing dumb objects for AFBC framebuffers, but this
-> + * behavior is discouraged, only exists as a hack now and shouldn't be
-> + * replicated.
->    */
->   
->   static int drm_mode_align_dumb(struct drm_mode_create_dumb *args,
 
 -- 
 --
