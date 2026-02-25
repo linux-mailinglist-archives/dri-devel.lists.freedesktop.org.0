@@ -2,88 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKyFDNqynmlxWwQAu9opvQ
+	id MMveJWhVnmnyUgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:29:14 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 02:50:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95730194316
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4826918FFF4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 02:50:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4697C10E6E6;
-	Wed, 25 Feb 2026 08:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F82010E688;
+	Wed, 25 Feb 2026 01:50:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B7MEhGR9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RMMc4CRU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B0B10E66C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 01:44:48 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-797ab169454so60013967b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 17:44:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771983887; x=1772588687; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6Zk4C6UtJMJyPH9EQHsgjkzqaQp6RJoNMe6g8WK2O3A=;
- b=B7MEhGR9/h/uoqQ1RAQmcnJTfHVL3ONixdlcypP0TugZPkUlg3ZNl+yCYqygeLusEN
- S3MLgaj9lku800uxaO4nRP3KW9F+ArxfUFq2+LQiY6KHgeOk4vKjMPHI8pRGan8OjMcl
- RtFGk+Iyl18EMPAjMwHB1SNOcT0aTPfmpx06OzAnrawCHkXJB4xTaDRbEg2OWVWhvFTx
- sHmR9id0gA8yYeLsYRyWCGHaDQAWA1I3NJlRUll3pSk4CdwvD7aiC8m9aqSFsKCw3EsE
- +YxBfi6+dQ3iv2x39sXscNRWvDlHhqne7NSnOlu5ebG7UvynYtvvadAPRQ9lg71N7bQl
- KwUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771983887; x=1772588687;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Zk4C6UtJMJyPH9EQHsgjkzqaQp6RJoNMe6g8WK2O3A=;
- b=bXVEIqQ334isiJOvGOiLKvMVbqGOXeDb7SPb4gN7wUGdaWlZ9cJnVrCCqF21KoOZxU
- M5xn5JYUpC0j8IG9GoNCYXBXoLrUGP2ilgxFd3OdyZIoRZLQc5KkLql8HP/pD8Wgi5Un
- C4JWlA6NFt0DBzWnjdImFcH5lREeN2wl5mx264gUdQbrQSast/4/N1XWSyVwkRVVUGT4
- baAjXHf8SQ48VPEhOykAr9F7OG2JyDMAm3NhQbDB/cW/C9wejfi14RH3wqUNbmPPjVZr
- hLl/EadoIzAeCBv+4I36c0L9NZfrSZydjaRwTigEKLAV8Yfl5A94PpxqsQpeRw/CGMbz
- RK5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX70uUyqrFUVPDNDBwLS3otq87H8Gx3itr97HjS0pUq+jqiaaTJ9dPon8D4kJq34Tyvjyolr9QTHig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmA1CFjV8zLdPP6TcdGJrjUeMVKhXtdmvH4kQZ+4ltLWfoFGbQ
- q0wRebn5cEphE/qKpIYaItfxzb1OUfSFPP3rOdLRyzp0Cfakpd9adh5i
-X-Gm-Gg: ATEYQzy6JNG2uAngymjX/U1FY/t2enGS81HQbvs5fG77LlniqWpQsksOZ+NaSpVaLG+
- d7aJ0QSTzmuhvTlSOr/pmEEy4uBAOiwHqEKGgfj1POaETbDu/q6F8XqoAa2p8rxoOPLwk1eUqFl
- WgakDu6eB7L+ujDvCBZnEJgLbqdgA/7zpPNKwFtuDK8HkCVXr+0o5MhgA9oRM0kaptUZAT/+CSD
- impeCGasqSsqCVgY5EIuZ5AYlG4t0VLDSh2bomblZAASB0jYm3GZyLtPWbYb0jMSCiIq6m/zUqc
- CnPZ0htvP1o8C1s6Ttt9mI+uw6XhZjdUb5KYXnm2oGkDb9yNH3O4bY9fk4dLbXProuTIT1N3tPk
- 5JYOs4/OXC7uK/Qu8of7A6sfvtkLGI5CjbahDqEfVdEMaHZCqwoe9jSI7Wfo8CKGpBExBZgVazh
- gBGf5Hi1Vnnsd8QEz3AOSd94tDgZ/QtyJK2fhk42jtowcZiHKGSwlVf2/Bis2nx26Kl6mBjTahf
- y6hD76ZT6hRe+IT/krWMWqC8cr/0qwa5tk=
-X-Received: by 2002:a81:b80c:0:b0:795:294c:fd31 with SMTP id
- 00721157ae682-798681c628emr4982557b3.38.1771983887323; 
- Tue, 24 Feb 2026 17:44:47 -0800 (PST)
-Received: from tux ([2601:7c0:c37c:4c00::5c0b])
- by smtp.gmail.com with ESMTPSA id
- 00721157ae682-7985937e56dsm16231057b3.38.2026.02.24.17.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Feb 2026 17:44:47 -0800 (PST)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lijo Lazar <lijo.lazar@amd.com>, Mario Limonciello <superm1@kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>, Ce Sun <cesun102@amd.com>,
- Yo-Jung Leo Lin <Leo.Lin@amd.com>, Jammy Zhou <Jammy.Zhou@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH] drm/amdgpu: Fix resource leaks
-Date: Tue, 24 Feb 2026 19:44:25 -0600
-Message-ID: <20260225014425.2474802-1-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199E110E66B;
+ Wed, 25 Feb 2026 01:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1771984223; x=1803520223;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ToM1AWpnOkAnrFR4PhXPIyPZqBXaSP+ujBoibchazBk=;
+ b=RMMc4CRUhN4la9KdSystvh8exww3q59wCqB9NChSMATn4ffLsQw6jf08
+ xZMWEPTLKZ3ufOdNv6Tpdhtcog++nm0MwoBYkYq0LhejmjjVDORMYXwr/
+ kO1AcVFEjoezMCWA+7qfL6NVkNSLPxehpg9QRhxGb1ZeMpQWRuQ9dobwi
+ 5XHQ9wCgycNaPbyEFCKV7ljZ4Dzh04Zdv/mresMTlerTkqpoOh4JvQh8r
+ dfOVnbIpz0BchZJp9Wwm09yEZe5RWn7l2SG6jIqFgV3CvMIsMjGpM7ckp
+ hrhwEsDkiia7NKgcdnrc173Z7N6383uztgHvpWmSFazhQdo5R9j2SeldZ A==;
+X-CSE-ConnectionGUID: d5gtZapeRMOWKbaxHYU41g==
+X-CSE-MsgGUID: 593WDsx7QPi9GK3Z6S51bQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="76622900"
+X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="76622900"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 17:50:21 -0800
+X-CSE-ConnectionGUID: LkH3MAMCTYqyBVWbaT0u/g==
+X-CSE-MsgGUID: qDsATcnZQ4OvGznHE1A2nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; d="scan'208";a="216096171"
+Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2026 17:50:20 -0800
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
+ srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
+Cc: david.e.box@linux.intel.com, hansg@kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v5 0/6] platform/x86/intel/vsec: Prep for ACPI PMT discovery
+Date: Tue, 24 Feb 2026 17:50:06 -0800
+Message-ID: <20260224-upstream-pmt-acpi-v5-v5-0-8dd73bcf049c@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 25 Feb 2026 08:29:09 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,95 +76,88 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,amd.com,kernel.org,lists.freedesktop.org,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:amd-gfx@lists.freedesktop.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:lijo.lazar@amd.com,m:superm1@kernel.org,m:mario.limonciello@amd.com,m:cesun102@amd.com,m:Leo.Lin@amd.com,m:Jammy.Zhou@amd.com,m:linux-kernel@vger.kernel.org,m:ethantidmore06@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 95730194316
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: 4826918FFF4
 X-Rspamd-Action: no action
 
-There are multiple resource leaks due to ioremap() being used and
-iounmap never being called in multiple possible error paths.
+This series updates intel_vsec to improve const-correctness, decouple
+helper APIs from PCI, enhance error handling, and plumb ACPI-based Intel
+Platform Monitoring Technology (PMT) discovery through the vsec layer. It
+is preparatory infrastructure for follow-on PMT core/telemetry and
+PMC/SSRAM series that add ACPI discovery and support for new platforms.
 
-Change ioremap() to devm_ioremap() to fix all resource leaks at
-once.
+The series is organized as follows:
 
-Detected by Smatch:
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4834 amdgpu_device_init() warn:
-'adev->rmmio' from ioremap() not released on lines:
-4539,4549,4563,4574,4592,4834.
+Patches 1-2 refactor and improve const-correctness of base_addr handling.
+Patch 1 makes base_addr an explicit parameter throughout the call chain,
+clarifying ownership and removing conditional logic. Patch 2 then makes the
+platform info data structure read-only, preventing unintended modifications
+to shared driver data.
 
-Fixes: d38ceaf99ed01 ("drm/amdgpu: add core driver (v4)")
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Patches 3-4 decouple the vsec layer from PCI-specific types, updating
+helper APIs and data structures to use generic struct device instead of
+struct pci_dev.  This enables vsec to work with both PCI and ACPI parent
+devices.
+
+Patch 5 enhances error visibility by returning meaningful error codes from
+the registration path instead of collapsing to boolean success/failure.
+
+Patch 6 adds infrastructure for ACPI-based PMT discovery, allowing client
+drivers to consume discovery data from either PCI or ACPI sources.
+
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+
+David E. Box (6):
+      platform/x86/intel/vsec: Refactor base_addr handling
+      platform/x86/intel/vsec: Make driver_data info const
+      platform/x86/intel/vsec: Decouple add/link helpers from PCI
+      platform/x86/intel/vsec: Switch exported helpers from pci_dev to devi=
+ce
+      platform/x86/intel/vsec: Return real error codes from registration pa=
+th
+      platform/x86/intel/vsec: Plumb ACPI PMT discovery tables through vsec
+
+ drivers/gpu/drm/xe/xe_debugfs.c                  |   2 +-
+ drivers/gpu/drm/xe/xe_hwmon.c                    |   2 +-
+ drivers/gpu/drm/xe/xe_vsec.c                     |   7 +-
+ drivers/gpu/drm/xe/xe_vsec.h                     |   4 +-
+ drivers/platform/x86/intel/pmc/core.c            |   4 +-
+ drivers/platform/x86/intel/pmc/ssram_telemetry.c |   2 +-
+ drivers/platform/x86/intel/pmt/class.c           |   8 +-
+ drivers/platform/x86/intel/pmt/class.h           |   5 +-
+ drivers/platform/x86/intel/pmt/discovery.c       |   4 +-
+ drivers/platform/x86/intel/pmt/telemetry.c       |  13 +--
+ drivers/platform/x86/intel/pmt/telemetry.h       |  12 +--
+ drivers/platform/x86/intel/sdsi.c                |   5 +-
+ drivers/platform/x86/intel/vsec.c                | 121 ++++++++++++++-----=
+----
+ drivers/platform/x86/intel/vsec_tpmi.c           |  10 +-
+ include/linux/intel_vsec.h                       |  39 ++++++--
+ 15 files changed, 144 insertions(+), 94 deletions(-)
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 0acddcb04730..5cb58bed64ec 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4520,7 +4520,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	for (i = 0; i < AMD_IP_BLOCK_TYPE_NUM; i++)
- 		atomic_set(&adev->pm.pwr_state[i], POWER_STATE_UNKNOWN);
- 
--	adev->rmmio = ioremap(adev->rmmio_base, adev->rmmio_size);
-+	adev->rmmio = devm_ioremap(adev->dev, adev->rmmio_base, adev->rmmio_size);
- 	if (!adev->rmmio)
- 		return -ENOMEM;
- 
-@@ -4843,8 +4843,6 @@ static void amdgpu_device_unmap_mmio(struct amdgpu_device *adev)
- 	/* Unmap all mapped bars - Doorbell, registers and VRAM */
- 	amdgpu_doorbell_fini(adev);
- 
--	iounmap(adev->rmmio);
--	adev->rmmio = NULL;
- 	if (adev->mman.aper_base_kaddr)
- 		iounmap(adev->mman.aper_base_kaddr);
- 	adev->mman.aper_base_kaddr = NULL;
-@@ -4970,13 +4968,6 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
- 	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
- 		vga_client_unregister(adev->pdev);
- 
--	if (drm_dev_enter(adev_to_drm(adev), &idx)) {
--
--		iounmap(adev->rmmio);
--		adev->rmmio = NULL;
--		drm_dev_exit(idx);
--	}
--
- 	if (IS_ENABLED(CONFIG_PERF_EVENTS))
- 		amdgpu_pmu_fini(adev);
- 	if (adev->discovery.bin)
--- 
-2.53.0
-
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+--=20
