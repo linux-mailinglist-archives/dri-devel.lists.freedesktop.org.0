@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLUzCky5nmnwWwQAu9opvQ
+	id MO6+GGy5nmnwWwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:56:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:57:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED5D194782
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFA41947A8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244D610E722;
-	Wed, 25 Feb 2026 08:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668DA10E724;
+	Wed, 25 Feb 2026 08:57:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="01BAEqdO";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="jON1/RGG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4403210E722
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:56:41 +0000 (UTC)
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6922F10E724
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1772009801; x=1803545801;
+ t=1772009833; x=1803545833;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dk2ZkhYEX1Fg3v/tA2VSYBTXOoPlP1fJemvYNu8MfYM=;
- b=01BAEqdOyUUT3hbe9mhfcmoZQQ48FWkInE1TlpYtLOlu33xT9hueSHXa
- 0r7BqNgYald+rrum6Vtc4UXloZHohGZWk1tl6Ql09BZ424ETYSZIqs3AN
- 2mJHWHArePOZwUe4UaaH0lzzBX7gE9LAAawBgS0wVPwcbUrs//vgJzySk
- JkgREf/CcYoUJRNKA7QyARSaOixmB2gnY+zwpjyp0CvwSirfUfKQf6pf+
- 29ZiALp/M9dVkZlvHxddBpeCxcuUZPX9AlB84uxar/AIxIIpBxy9+59aj
- lK4jxCIGqMRzl9O9/igEX/PSjk3uuSwL17NyTYGQ27tliCEZiFH61OMIs g==;
-X-CSE-ConnectionGUID: 1awGeR7TRbSq+LFFCFDQFA==
-X-CSE-MsgGUID: Xhd2iTHpSjKRBsjHJB9dMw==
-X-IronPort-AV: E=Sophos;i="6.21,310,1763449200"; d="scan'208";a="221112256"
+ bh=hETeU/hyyDiwOujFRlHAVoyIbo34onNI4Jg8OLACaz8=;
+ b=jON1/RGGbfR80cYx0dM0C3GJMoEAwy5ftsSiRJxcNiRJ/tJZTkQeG9vF
+ /Gia0F2PN6qq1eZAw4F6VyEwckls+HkRbVKYP9wFaqvR6GL11hwl/fWQ0
+ +kL5E8f4PobMgrwBb6aDlDtB5zWktZVlfGbxv+xv2itY/MlToLwh3gSWP
+ Tyd10y93X0TTz036p3VCT+UKMuWBuH734znc8H/yAkeYRnlUCIHPTj6dO
+ 2R2ekmxhAgRO4StnEZuVpo0ZP9yCeb/IzsQZMXw/LaScEdx3i/b013IsH
+ 4z6gdx//5VkoT47Yxt2BGevfn/2GqLrvQeoDFTjVYDToz57/thyvOyhnG g==;
+X-CSE-ConnectionGUID: pcieN23YRomtc3AdpeaIbA==
+X-CSE-MsgGUID: es+Ij8gcTD+YURvdwCwnPQ==
+X-IronPort-AV: E=Sophos;i="6.21,310,1763449200"; d="scan'208";a="61258828"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 25 Feb 2026 01:56:40 -0700
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 25 Feb 2026 01:57:12 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 25 Feb 2026 01:56:31 -0700
+ 15.1.2507.58; Wed, 25 Feb 2026 01:56:42 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 25 Feb 2026 01:56:21 -0700
+ 15.1.2507.58 via Frontend Transport; Wed, 25 Feb 2026 01:56:31 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -59,12 +59,11 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <ardb@kernel.org>, <tytso@mit.edu>, <dri-devel@lists.freedesktop.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>
-CC: Romain Sioen <romain.sioen@microchip.com>, Manikandan Muralidharan
+CC: Aubin Constans <aubin.constans@microchip.com>, Manikandan Muralidharan
  <manikandan.m@microchip.com>
-Subject: [PATCH 5/6] ARM: configs: at91: sama7: enable config for atmel
- maxtouch
-Date: Wed, 25 Feb 2026 14:24:29 +0530
-Message-ID: <20260225085430.480052-6-manikandan.m@microchip.com>
+Subject: [PATCH 6/6] ARM: configs: at91: sama7: enable LVDS serializer support
+Date: Wed, 25 Feb 2026 14:24:30 +0530
+Message-ID: <20260225085430.480052-7-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260225085430.480052-1-manikandan.m@microchip.com>
 References: <20260225085430.480052-1-manikandan.m@microchip.com>
@@ -101,7 +100,7 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,microchip.com,bootlin.com,tuxon.dev,armlinux.org.uk,google.com,oracle.com,mit.edu,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:linux@armlinux.org.uk,m:ebiggers@google.com,m:martin.petersen@oracle.com,m:ardb@kernel.org,m:tytso@mit.edu,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:romain.sioen@microchip.com,m:manikandan.m@microchip.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,m:linux@armlinux.org.uk,m:ebiggers@google.com,m:martin.petersen@oracle.com,m:ardb@kernel.org,m:tytso@mit.edu,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:aubin.constans@microchip.com,m:manikandan.m@microchip.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[manikandan.m@microchip.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
@@ -119,32 +118,31 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,microchip.com:mid,microchip.com:dkim,microchip.com:email]
-X-Rspamd-Queue-Id: AED5D194782
+X-Rspamd-Queue-Id: 1CFA41947A8
 X-Rspamd-Action: no action
 
-From: Romain Sioen <romain.sioen@microchip.com>
+From: Aubin Constans <aubin.constans@microchip.com>
 
-Add config support to enable maxtouch capacitive touchscreen
+Add config support to enable LVDS serializer
 
-Signed-off-by: Romain Sioen <romain.sioen@microchip.com>
+Signed-off-by: Aubin Constans <aubin.constans@microchip.com>
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- arch/arm/configs/sama7_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm/configs/sama7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/configs/sama7_defconfig b/arch/arm/configs/sama7_defconfig
-index c0671318bac4..0f1a3abc4640 100644
+index 0f1a3abc4640..e52f671ccec4 100644
 --- a/arch/arm/configs/sama7_defconfig
 +++ b/arch/arm/configs/sama7_defconfig
-@@ -108,6 +108,8 @@ CONFIG_CAN_M_CAN_PLATFORM=y
- CONFIG_INPUT_EVDEV=y
- CONFIG_KEYBOARD_GPIO=y
- # CONFIG_INPUT_MOUSE is not set
-+CONFIG_INPUT_TOUCHSCREEN=y
-+CONFIG_TOUCHSCREEN_ATMEL_MXT=y
- CONFIG_LEGACY_PTY_COUNT=4
- CONFIG_SERIAL_ATMEL=y
- CONFIG_SERIAL_ATMEL_CONSOLE=y
+@@ -152,6 +152,7 @@ CONFIG_VIDEO_IMX274=m
+ CONFIG_VIDEO_OV5647=m
+ CONFIG_DRM=y
+ CONFIG_DRM_ATMEL_HLCDC=y
++CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
+ CONFIG_DRM_PANEL_SIMPLE=y
+ CONFIG_BACKLIGHT_CLASS_DEVICE=y
+ CONFIG_BACKLIGHT_PWM=y
 -- 
 2.25.1
 
