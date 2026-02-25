@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAR+HRAen2lcZAQAu9opvQ
+	id qBwlG14en2lcZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:06:40 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:07:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358CF19A3CD
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA07619A410
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50F5610E7B1;
-	Wed, 25 Feb 2026 16:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1667410E79C;
+	Wed, 25 Feb 2026 16:07:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="jvs7v5i/";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ciBmbI7n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA6010E7A8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:06:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772035595; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2E6610E79C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:07:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772035673; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=YOJ4N5H0Uu/CKoqKQQ7t+XhWAxG7WPPh2Ze1d832IEIEoxvXpjUQg934w1tnpbMz9WojKxMlCezx795SZDAQoGJDgRW/f038fY8opmKr3Xu5y57Nl30sZt5PavHrtdRxi3FOXxsroK7CQssNpbVm4RUedO1CzFCliKNspGBV1XE=
+ b=FTQXQhr7ehSn0BOF4fYxOl4uKIQsbuyOrb/z7ifNuyWBByBXQN251vwJGGmFoiYFcsD0g8upiae3d14cEQJzaq7QBCvxvn0yZIv3q3zQ0zJMkjOmUmtDopbOsjV863KdKwHfF/Gp59oRuj8m/GRswv4mpyPKpR6tmA4coqeY5b8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772035595;
+ s=zohoarc; t=1772035673;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=r75e6HS0kQfzvqvvNtA3g6zPTw+79YGKqa0Owm2FsAY=; 
- b=a933M2UZGBKOI7W9dKeu9ghhbckL14EtB28IRJU+/L2EK45+c44tf5IDcTm2TsmZQCUnPrfeMQC9lXf+WFPcBSnI/AUY/3E2erc/L2Lq1fFyEHNEy7CiddCT/kJofwGTyWvWlq7KRvaSWkQBBMj4faQmEArY5Z6WJsmwUpTP54I=
+ bh=MGlakZFs5VvCYWqJt6HzHfogAmIjP9TlO0lqNM0P8/k=; 
+ b=SGAxvGi64OtVU9YtxkrUIADERPu/mmH01kbo9ls1PK29Wg+X1WZVO1W8iPTVFxl15emoLBnp/TLHFzKUxrkpKwG0GwJhQtiuHR457mcErcapcI9HfFPJYjKw4MEkPJNWAOemZCsWaE/riml1aNst2MSqINjNrYxhAWgALqA/xaE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772035595; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772035673; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=r75e6HS0kQfzvqvvNtA3g6zPTw+79YGKqa0Owm2FsAY=;
- b=jvs7v5i/DLs+NmpRgtvHeFze3Oe/fZm4lrJ1PiVbMOdTiuPSUy3XVYONoud+xnLG
- kOIJwRFTYoXWIHU3Zom5Yb/fJLlaPXFqAktl5kqUNn2Ok3EWjjiUNH/O/0QrIknzJYt
- wL+jFdT4rvCkPXYtduG2KLL86aGTbUoSfQKKJ218=
-Received: by mx.zohomail.com with SMTPS id 1772035593323656.9925774409365;
- Wed, 25 Feb 2026 08:06:33 -0800 (PST)
-Message-ID: <54d6153f-9934-440e-ac00-c9e57ad7785c@collabora.com>
-Date: Wed, 25 Feb 2026 19:06:30 +0300
+ bh=MGlakZFs5VvCYWqJt6HzHfogAmIjP9TlO0lqNM0P8/k=;
+ b=ciBmbI7nPCy/m+JcXl57zR2+ihkos8/vRaSZKCLRXmxtXDOOLTDHgayBX0kmUE6t
+ xXOPaDAvbLE2VmmtBeBo/Q4Vkf4WMyueSPGIFgXaKF4ahRpCrPNuDAhvRBLEERzsagr
+ yk25uBMW8NfnnHoFfkV65vk+iPrcfW3De6G6NN3E=
+Received: by mx.zohomail.com with SMTPS id 1772035672324316.130730279727;
+ Wed, 25 Feb 2026 08:07:52 -0800 (PST)
+Message-ID: <482bac4b-9fd8-46ca-b44e-664b9b1870bd@collabora.com>
+Date: Wed, 25 Feb 2026 19:07:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/3] drm/virtio: Add PM notifier to restore objects
- after hibernation
+Subject: Re: [PATCH v7 2/3] drm/virtio: Add support for saving and restoring
+ virtio_gpu_objects
 To: dongwon.kim@intel.com, dri-devel@lists.freedesktop.org,
  airlied@redhat.com, kraxel@redhat.com
 Cc: nirmoyd@nvidia.com, vivek.kasireddy@intel.com
 References: <20260107182745.229481-1-dongwon.kim@intel.com>
- <20260107182745.229481-4-dongwon.kim@intel.com>
-Content-Language: en-US
+ <20260107182745.229481-3-dongwon.kim@intel.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20260107182745.229481-4-dongwon.kim@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260107182745.229481-3-dongwon.kim@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -103,19 +103,31 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,collabora.com:mid,collabora.com:dkim]
-X-Rspamd-Queue-Id: 358CF19A3CD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,intel.com:email]
+X-Rspamd-Queue-Id: DA07619A410
 X-Rspamd-Action: no action
 
 On 1/7/26 21:27, dongwon.kim@intel.com wrote:
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -261,6 +261,7 @@ struct virtio_gpu_device {
->  	bool has_resource_blob;
->  	bool has_host_visible;
->  	bool has_context_init;
-> +	bool hibernation;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index e6363c887500..8e8a8ec4a361 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -65,6 +65,12 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+>  {
+>  	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
+>  
+> +	if (!list_empty(&bo->restore_node)) {
+> +		mutex_lock(&vgdev->obj_restore_lock);
+> +		list_del(&bo->restore_node);
+> +		mutex_unlock(&vgdev->obj_restore_lock);
+> +	}
 
-Nit: bool hibernated;
+This looks fragile to me, I'd use list_del_init() unconditionally.
+
+Also, looks wrong to delete object's node from the list by the
+virtio_gpu_cleanup_object() that is invoked from cmd-completion
+callback. You calling virtio_gpu_object_unref_all() that walks up
+obj_restore_list while obj already may be in process of async unref'ing?
 
 -- 
 Best regards,
