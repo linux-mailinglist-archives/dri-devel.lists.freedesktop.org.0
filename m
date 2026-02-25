@@ -2,96 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2L/DMABTn2mraAQAu9opvQ
+	id oK3XOS5Tn2mraAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:52:32 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:53:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FB019CF16
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511CA19CF31
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 010FB10E215;
-	Wed, 25 Feb 2026 19:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C47F10E821;
+	Wed, 25 Feb 2026 19:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZEUzA/p/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="f5SCH33E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE9D10E215
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:52:28 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-48318d08ec2so11105e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:52:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772049147; cv=none;
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE3E10E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:53:15 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4806b0963a9so14205e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:53:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772049194; cv=none;
  d=google.com; s=arc-20240605;
- b=X0TCAmJoRwgFDgjht7vNibPuCDCLgBm3btLoTAU2VXyFeOJA3JoIKxYVrQKl/0OKGS
- zEwmWFgrPVHUOydWZlXEC0T6lVxK7+10a23xhZrzwsID2OBRmVIKAJ5R06fwYhkvDWR3
- yjWLt2V53pmQRyWKwYFmfC5oRYu7+/DSmSWxLALjSBpOb9Oh3vwViegvHoBcimUmilnD
- wMd+qB11JVCkp/0J+S94Y1TeVitQ+p74U80mudfXS1/SJ55EvhZp/eH1Uql8YR1cC6l8
- MG8IxKfSOoFUdroPnd5UcKgzPG+52eBJPpCjTBZ6r1zgpYvp7l5lm6tlgqwbZ86auhjg
- ddtg==
+ b=cDshp5p3VHkoaWWYFQu2B5fEzA5ovQZdGAbVa5Mp6V8xSTkB1KvUSIz0mlQd16s6UR
+ npRPsF3AwRKSae551pPFLmmz4lfzMsc+UDFvCJg2PGJOk4/kCsqbqSjaJziSSOYGrVQm
+ Gxow+wtl54Rqb3LBRnCTlErcGNobmRNGD9PxnJ9OVWtgjyZefe4CTHk8QSVvAn0+p8GY
+ 5VSJBJJ3LbpZ5sg3b9yPtRPx1rUXJPNl0F+cHYCLR1Db64STBE9m3osR48blYtPNXNP6
+ ZUGabaidlB4HqTIf6Xf84ennslcyU/F5NH1UwGMvcweILO3RjVi9B0C1MiobydmFJYSx
+ g6Ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=GOCqpqP4xulPNkLV+0mavDjGZp2jPKuE2l1wLsJLWlw=;
- fh=FqQtzGkPQ2okHMLB27NFC3LqX8n/oS8ezdwL/xy4Y6I=;
- b=Uc6OSWxzQbkhL0I+hmSuitRU87E+sKPojrk5S7Ytva9TlhyO/pjxlVaDzM3cylavj9
- b9nMMun3i8U7cN52ykrkPCMwOttLcjp8nwhTOA4e/Gf80EXJdGRwLEBQZkykBTCNXdBY
- GwoOT0Oeh4V5rPcxCGsZfjhSfDI2VDI0qa7yzDQCQ48evSF2VidJwexbr0vsyfESS4Ov
- akKubbaz+2Pl+HQb/LsgVYifXyflgI6jxSKXBN41a/ZGhVKPfxeh52TklCmahlnspoIz
- XbnJYZsr9OhO8qVe9knvU24v3uH15g5japffUlyRmkcqCymQKI7DxRN24tS0FeuieOE8
- TeHw==; darn=lists.freedesktop.org
+ bh=hACZJJD++mSXl52TK006Yejdc4mpWUq5FI/WaqBAg/g=;
+ fh=WphQZ8rGQjgQu3fWbotc1d+PaNy4kPr0iRG5TPCRaPg=;
+ b=XQf17NyD/5Rcp4sLSvWTI0LcAnfEDU+B6h3QIvtii7CelaAxvtIikgC/a3wD9g+J2/
+ cEvZ0oMmNYMg1Imfn8h0cuHIjn6WOpuT+gn1+sGbTL8iBaG3WW2/dvIQuMJASh7n/CaC
+ Ht5EYAbypehj00jNLnOMak2COqoCcIaPEuxVwyBwY4c8eU+JBgsrQuIYSemfHPEYjkHi
+ VFbepr7rbeuWpN6f0+YD78kwH0gKg/41YPRAiRXG+v23IpU/uOhfEkE3iIDFvARWk2+r
+ jBy1USCzFMziAoLAHEs4dJ2qjg0OwZctoi/glimz9diGm/C9EZI5UYVIf4thUsvOpJ93
+ dQ2g==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772049147; x=1772653947;
+ d=google.com; s=20230601; t=1772049194; x=1772653994;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GOCqpqP4xulPNkLV+0mavDjGZp2jPKuE2l1wLsJLWlw=;
- b=ZEUzA/p/5yyAtd5g26t3pODm9J3tMd9xCASdM4etkkezgKfUbUZc/eAnchc/nY5pof
- nDsqGgi4EW6KfzGVbroXvX3z/NPiXFpdSQazcgefPhX9pjFsQVOx9Fjstz36ojjytqwq
- zZszUFRAVpGOJeC2yEli3S+LAppTSiR8AKehkOujioVCIsOXdqj4ug7qHjB3XFzziaGS
- W2+Mza9kuNNbTh4Uy0nsL2bV0HLT1vDkbJs0UkxhfJlyGE9kdm6Usz345Uh0jO/vbcmU
- znB+ELFA9yeVCCJAmmNAGHhOmIGSiiIDH6rfqnY4TF3KF8sT2uGbwoeZx3jw4NDPKEMd
- LUAg==
+ bh=hACZJJD++mSXl52TK006Yejdc4mpWUq5FI/WaqBAg/g=;
+ b=f5SCH33EdXXO9eVE6AqPjg/zn7Zkq2hkL/Wp8oWHiTxhbWZDxUwWaIHxl3ZiSVxHVu
+ npEyvFXZBMWj41TTZYZpaLxMP/gfmZjSHt0MJ4ZSf+O2kmKHe2k7wEBW9QiNDnkLdqbn
+ K39hAclt980V6d4yZv7bUbHwwBVm2ZV9MgGWfAptta9F0r0i6tJCzbfVw/OUYGILkNao
+ YaaldGtgSBSU09HP5855dn16eqe8leb5sNO2T+W3RraHW4vGRB/M+Upm8WsQ0RqjODji
+ IyCYkXIUy5CH+TDk2tIdvA7NGkKkOM1pg5efx1LES7ZRIbXvbHDVssFJGk1MsSwwpyiS
+ +SmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772049147; x=1772653947;
+ d=1e100.net; s=20230601; t=1772049194; x=1772653994;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=GOCqpqP4xulPNkLV+0mavDjGZp2jPKuE2l1wLsJLWlw=;
- b=o5tWUbC3hO2AQ0X4uFtnMloVJZmsTN3UOt3T0aQNAXwjKi1CFfocE0r5wUA0buHlAS
- jj4zDpO608WWMERlLT43o7qgDY727SwIj9JzT22qvjnB8GaOaFRoDuKSVUi7c7yBx6o3
- EtOpQeVeziLa5Expjmvbhyuv9/TL6RZ3ThNRxiQBnN3yG1IWZqFl6g6LpSVpZ84D5Xv6
- m1TgAb02CMo8Ut4DetROLIGwB9TFm8fIWZA91Cli8eZtGMBAP5wbBKKNTYdzlWUbb3nT
- egjNchzGInJZ0lVZIJHkM6HfqE43HEZZRSCXm/X2krkPvEgNn8NrYUdERwwUdtK6rw4n
- oI5Q==
+ bh=hACZJJD++mSXl52TK006Yejdc4mpWUq5FI/WaqBAg/g=;
+ b=X87kolhDzINwMp4uqR8kgIQuD6NrkaIUc6IcxNLPAUE3Zq+650RF0fK6SXMFpWev+g
+ Xtyzl+TVYqgiyMTYXy3xXqh5bFf1AmvTlPeMOl+g0VJSECbIJnjPEp5+DB/FR2/tdmKP
+ Ry/ZDP7YmrTVSJSrciP7gZ+DMmteCpcSqtKmJ67OhBKMLzjnDQE6OkCvF3ZaWgG5fBcp
+ gfq0731/kRb9DOIEVh7tARHRxyD/+cgWhSbSDq8svRINTAOYybaOzCpP5FOWYZPtbsWD
+ ft67iVOsgSAXXWt32yMd4ffgMKvpBMt0ZNodQXYOr//aViKmHKesvlcRjekBoVsmDpPZ
+ OS9A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWawsKL6VkcifCdR+mrjd8be/e0AOmqd82pktkhSvSIYaxdQ897L5+TnOPit7dZOxJfviTcPcIFzqk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMEdt4v2qs682OmUJOe9nVjBCyFOaZAdJgFg5/yfBqBQ5ZSzo0
- yT8T3LeqfpLhQlvxIYMRx490CSrj96ZGHqBiCwba5QhhCyAVBY1DA5Yc6Auap1L9JjobPANm2p+
- 9N7VnpZI+vBZU5iO97c75c/CzafJ8BLkD2HEVfDdz
-X-Gm-Gg: ATEYQzzZdzvoNMUhQe77JCqbADEHhZRhZli6+WmhRFyP8kgTgyQTYxLnfYw+2FXKf1U
- 2OCeMezlAGrOeyl2sYNk8kqra6RPcE9r6E++Xq3XZz3iUJFz7u4IuZi6LwOLHJSAFszRrLxh1hO
- rPjk3EoJ+uqcOR6IOQe8gyv/9epm5hcp2DGlCvKyZn6pURbfBoQS3XFz7O02arLwCV9pEUQr6Kp
- 9CDd4iCoczLB0GOMt1xcQcbXKpn33a+4urauVOySEzgU317MQ3CX50S1V7ofvoVNC3jyM4LAfpc
- iYaL9DGmAUBvYsTJBnnix7HaY4n/JQnzfHm9MT7wY3VsS8yqEJYqDF0EcuJVcsKNAral/w==
-X-Received: by 2002:a05:600c:5702:b0:477:95a8:3805 with SMTP id
- 5b1f17b1804b1-483c31cfb56mr70235e9.15.1772049146264; Wed, 25 Feb 2026
- 11:52:26 -0800 (PST)
+ AJvYcCXqtMndKqj3/qseL/EP13F3eJmjljRlzkrxDrnTuehIhg/r9X99YT80qUEfWx10A7WMVAfCn0+PJiY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTb/udyqQZGvs9XtegrbZa7E8+t3e0NOJa1isAwsqp+qb6maCi
+ V0ec8lDe7YHSsih30buzJn/MBAfwS4YDQqsZJZW1CSw9vNU6uRqQ9wJknfZvgjdiCukuZNZdMBS
+ CFNxsAiMMBqulNuomNm7sJEBBHfx2MiOgZVaD1xI4
+X-Gm-Gg: ATEYQzzFP6x2ABuWPBwJ+0zBQ0OVcTNHVHDhk0b1HXNEMGttbGoCIKqFFtnDPurLTVW
+ wv6a8RuDC1Aoj1+Cz5tezRwY/ohFS5IGDgYT/9AUor1KGq6YkaaIjNVWZ9WiKw7jyaFrLa4BUME
+ 3qvook1cg5jLtr3zGLYaSITazM/O5mp60j7GVewd+9dV6lIxWbELoZMekT++xdrHM5HY0GluHSb
+ 6vmHjyapC2WR+DWn2HXWLv5Pnu08qVEIG8hoo6sEdN2MVvGfcrvx9fwAe9IaTBgk52YTO2MUw8Z
+ b8i10snTRwUOUR3moH0YdJgtuoiY37gF8bcKaGfnzERRlNc4kh7gUNRKX/1lHZiboDgE6w==
+X-Received: by 2002:a05:600c:214:b0:480:683f:743d with SMTP id
+ 5b1f17b1804b1-483c318c6b5mr64755e9.14.1772049193912; Wed, 25 Feb 2026
+ 11:53:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
- <20260225-dma-buf-heaps-as-modules-v1-4-2109225a090d@kernel.org>
-In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-4-2109225a090d@kernel.org>
+ <20260225-dma-buf-heaps-as-modules-v1-5-2109225a090d@kernel.org>
+In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-5-2109225a090d@kernel.org>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 25 Feb 2026 11:52:13 -0800
-X-Gm-Features: AaiRm517LrodfDPDmk8aF233zMemSo71i-_zn9eOj5ImN-lsr29tVaebY-ntsoQ
-Message-ID: <CABdmKX1piZByQvx0sYbO4R=f1rdZKmYS5R0EcChBv22cAUvCUQ@mail.gmail.com>
-Subject: Re: [PATCH 4/7] mm: cma: Export dma_contiguous_default_area
+Date: Wed, 25 Feb 2026 11:53:01 -0800
+X-Gm-Features: AaiRm53o2gSjT2_weYbg6Rd6sN6ASK7REyXNCnGoEQl1VXmkJdy1tVVm-ZBs7YY
+Message-ID: <CABdmKX2KfL6q2nNAkZJ3r-Pp5JPq-sj2VpQp5bU5Hct68bedwg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] dma-buf: heaps: Export mem_accounting parameter
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -154,22 +154,17 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 25FB019CF16
+X-Rspamd-Queue-Id: 511CA19CF31
 X-Rspamd-Action: no action
 
 On Wed, Feb 25, 2026 at 8:42=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
 wrote:
 >
-> The CMA dma-buf heap uses the dev_get_cma_area() inline function that
-> would either return the content of device.cma_area or the content of
-> dma_contiguous_default_area.
+> The mem_accounting kernel parameter is used by heaps to know if they
+> should account allocations in their respective cgroup controllers.
 >
-> The latter holds a pointer to the default CMA region, and is stored in a
-> public variable. However, that variable isn't exported which prevents to
-> use dev_get_cma_area() in modules.
->
-> Since we want to turn the CMA heap into a module, let's export
-> dma_contiguous_default_area to allow modules to use dev_get_cma_area().
+> Since we're going to allow heaps to compile as modules, we need to
+> export that variable.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
