@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QOIELmcmn2nOZAQAu9opvQ
+	id oIVoHG4mn2nOZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7096B19AD57
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1512819AD6D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F08710E800;
-	Wed, 25 Feb 2026 16:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C2910E7FE;
+	Wed, 25 Feb 2026 16:42:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gaWdSdqJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JJjXalcp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573ED10E800
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D43E10E801
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3951A44540;
- Wed, 25 Feb 2026 16:42:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909BEC2BC87;
- Wed, 25 Feb 2026 16:42:11 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 173894453E;
+ Wed, 25 Feb 2026 16:42:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BA1C4AF09;
+ Wed, 25 Feb 2026 16:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772037732;
- bh=5eRES9IJzrhq6zmZepgudykCny//SFXm37BLxrFr738=;
+ s=k20201202; t=1772037735;
+ bh=3ZfbgvU0bLE1CVEwtquKpm5fJ/GAe/ZRFRUG6VZuG1I=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=gaWdSdqJyk2rfO6R2i/Rq4sZfKC56WS1WM40M314C2+MoUqCykXKONzIZmhjmX93J
- A+uAsrfN1mLpl+PeVLbATaGnWena2lmfuRS9bevZN1n8GBXvtWxNX68KGx7XqJUXSj
- kVPdOYauJvjgcRHZvyJp7m4nobJIz1i7KmEo3BBCda4nKwi0Txy5KB5966/jVKVV3C
- pNGpsdPDFU/kbF+RG7FhZmFiu85dNOMRrGowNJU5+totaLK3gA1KjJo9Ikg/rA0eHx
- 451KMUgszIHvYsQoByint44EISSPFCrbWNXQs3e1Fu+2RUhYE9lYMvJcZ2XAaRrZ/Z
- MZqdN5+gmhVEg==
+ b=JJjXalcpzSXkoB8Ni6wXiA74nEozWfroeKtL3vmqR4UqYOo/GcDZDki+80Li66fYn
+ eVW7TpKCNM4iPWL2SI1WaqFEI4SwYL3ysjpyCDfevFNH1iInAX9H0TLdwE2ndJTOD6
+ +Jkt42XG9qMd9WbqYVRZBzGFroRI69Dg0lBUpXfNLu3WUa1rNdAeFwU54cjsIs6cSd
+ mY4DQyX3STn0GSOGy8mzvoCTEN+0PdeVY/IFhh/amLXAnUhN71S5sAp6kYUEPbv5Se
+ fRM9FhO8Vne2ZvCdJSwPq03WOtZLXoTicIHabtEZO6+3kdhxJnq/tZOd35mKRSQ+W1
+ 8e59vjrE4dMBw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 25 Feb 2026 17:41:53 +0100
-Subject: [PATCH 5/7] dma-buf: heaps: Export mem_accounting parameter
+Date: Wed, 25 Feb 2026 17:41:54 +0100
+Subject: [PATCH 6/7] dma-buf: heaps: cma: Turn the heap into a module
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-dma-buf-heaps-as-modules-v1-5-2109225a090d@kernel.org>
+Message-Id: <20260225-dma-buf-heaps-as-modules-v1-6-2109225a090d@kernel.org>
 References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -62,12 +62,12 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1064; i=mripard@kernel.org;
- h=from:subject:message-id; bh=5eRES9IJzrhq6zmZepgudykCny//SFXm37BLxrFr738=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1QJa+s1ijMu9+XLnvVgTuiJkztL1Ez9dZDkl5cDWk
- uK4bEZ2x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIsC9jw67djtzh+g/PW7+c
- 7bqE8dPDGKW25vm1uY+33phvn1UoHTSLfwWr0ad4br1M7cmxDRrOjHW2j3pqNeyurbWr/6Sy6zj
- r29och4ufjLuCl1QyX7+l6Tb7rCHTsYlpSt+sIisF3lQdygMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1712; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=3ZfbgvU0bLE1CVEwtquKpm5fJ/GAe/ZRFRUG6VZuG1I=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1QIO/V0Qvq7+gY3Smi9WgS+77V5drTja5fcquX264
+ 6WP/+4v6pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATsdnJ2PCBec+iTTaurZdr
+ pxmZLRZ0bc2a2vjh6BruogWL59UqHHxRNL90xZrM6OUBz0U5n1tqZzDW8MdcrC8XZLjRI5E8Pe7
+ bRnXnRdumapw5Xmj0P36JqsoGlYK2u9UFipMWTjHtM3+3Y3sRAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,36 +116,50 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7096B19AD57
+X-Rspamd-Queue-Id: 1512819AD6D
 X-Rspamd-Action: no action
 
-The mem_accounting kernel parameter is used by heaps to know if they
-should account allocations in their respective cgroup controllers.
-
-Since we're going to allow heaps to compile as modules, we need to
-export that variable.
+Now that all the symbols used by the CMA heap are exported, turning the
+CMA heap into a module becomes pretty easy: we just need to add the
+usual MODULE_* macros, import the proper namespaces and change the
+Kconfig symbol to a tristate.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/dma-heap.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/dma-buf/heaps/Kconfig    | 2 +-
+ drivers/dma-buf/heaps/cma_heap.c | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index ac5f8685a649496c0e1c6decbf263b63fa472d04..a76bf3f8b071a3d5bf39a8513f31e9e8aa16e02f 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -51,10 +51,11 @@ static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..aed0b9b4febf388376cfc41be9843980d010c4e8 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -4,11 +4,11 @@ config DMABUF_HEAPS_SYSTEM
+ 	help
+ 	  Choose this option to enable the system dmabuf heap. The system heap
+ 	  is backed by pages from the buddy allocator. If in doubt, say Y.
  
- bool __read_mostly mem_accounting;
- module_param(mem_accounting, bool, 0444);
- MODULE_PARM_DESC(mem_accounting,
- 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
-+EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+ config DMABUF_HEAPS_CMA
+-	bool "DMA-BUF CMA Heap"
++	tristate "DMA-BUF CMA Heap"
+ 	depends on DMABUF_HEAPS && DMA_CMA
+ 	help
+ 	  Choose this option to enable dma-buf CMA heap. This heap is backed
+ 	  by the Contiguous Memory Allocator (CMA). If your system has these
+ 	  regions, you should say Y here.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index f8a3d87f3ccee9630383ba28502eb40b10671cc2..7216a14262b04bb6130ddf26b7d009f7d15b03fd 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -422,5 +422,8 @@ static int __init add_cma_heaps(void)
  
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
- 				 u32 fd_flags,
- 				 u64 heap_flags)
- {
+ 	return 0;
+ }
+ module_init(add_cma_heaps);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("DMA_BUF");
++MODULE_IMPORT_NS("DMA_BUF_HEAP");
 
 -- 
 2.53.0
