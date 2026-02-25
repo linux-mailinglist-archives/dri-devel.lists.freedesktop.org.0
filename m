@@ -2,142 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YOTFCezdnmkTXgQAu9opvQ
+	id EHCFDk/enmkTXgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:33:00 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:34:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACF5196895
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FDF1968BC
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:34:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0E110E73F;
-	Wed, 25 Feb 2026 11:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E553610E259;
+	Wed, 25 Feb 2026 11:34:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="orQZRn+M";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kifr3as8";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KFqeXe5m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73bPQfUX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VPIRHKg7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XkD1UiKJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 780FD10E73C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:32:55 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61P9T9eU1579406
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:32:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3UwhFgmW+9RAf0H62dLr8IYTJ0+P3nnry065u5Hn37Q=; b=orQZRn+M47pKGt7H
- 9x7/xb77psfK+0qyoRrFHjWKTrNNc5uARyxnWkOC3tzAGQIrzGVwptTdZexmo/Hr
- regQRM0vFIO6/gi064Su2+7ku+mBwb1EwgcgBw16+7nZkt5Bl/bYjCnSXiUSEXm5
- 76nDNku++x176wF06VwV3iYuiPYTGfPBVnJ/YoC+1WFXVMp///eQKeZ3GthB5HzD
- g3T4ueSAT+n56RMzag0RWFINKTjb+wkenpVhvdDWrgp6tv6NJjjmlNrYnCsqdMAS
- ybuxOb4ItBvZN5lM7ogRs0Cibyr5AlFERlWAzo+4w7MXZ4l+8VzRxih4rCs4UZBq
- Iq35og==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chg1sb28q-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:32:55 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8cb3978cdb2so538038485a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 03:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772019174; x=1772623974;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3UwhFgmW+9RAf0H62dLr8IYTJ0+P3nnry065u5Hn37Q=;
- b=kifr3as8BmV3KvTTcg3sfCy6nTmLosEB6YeQ6yBQIXP+KYvuIY8tQicRZoMIwiomul
- 0KDpL/FSaWJR71KN0Fphk5TIJ2gKIiDC0PNeXhJ3/pcisIQ60A6vcrBKBSz9XpLlK44p
- Q6MH0ytTi5JolleNHybU/Zsk47xB2NDgoz9qcy2HWfC3nVPrqzn5vcgltbe07WSVJ5JY
- x1XWeYr9LpVuUsmT33qoSq/NKLde1jkzHqIX0Odq8ceV4NO+LXG2KMrMMjr7HPOngRzs
- EA3xHINGVwBEEHKA3vw6N2ePtB7qIV31BuZ+Zn2Ufe2loz/Lq4I/+ISFLHLmHZTBAmkB
- pb5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772019174; x=1772623974;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3UwhFgmW+9RAf0H62dLr8IYTJ0+P3nnry065u5Hn37Q=;
- b=RQIjcKtP9zWscmlB2HcMIEToHUumya+EP6v4V1P0xTrFG8uLPY4yL4n8/TCto+mW/r
- sWnAeE/LJeqWsz2B9HZ21SLpISTgO5l+/5QRWnL7peVnMw8aMabBV6yBK2HorxyxpvaQ
- cVsytWVBDOxsqtr2e00LOFeYD3RTFp9UK9W/4oefqMr1YiweiGYkFWUEyh/tdkioXSYN
- dUF1V4BVTNI7o56e2If+1wDwSVV6Ie17z52otpzllh3DixVSZuUzrD2wreIUufAsHl24
- UKLjy96tNhlURrMmq2yHY4HlqITlyxbB16ckoUQ/TcywoVswoQtqtrF65+3ed1XSNB2q
- 8QoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXK6u0JfbQeioLyGf6QnM+ySX1c9wbNoF/nLjwRRtYx3bSGXVBQoX2sKsFEHwo4HV7sO3vPfu0MT0I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yydd+QknTqi7JF228vZqGBcfeU/RkU4yUZcHN6yUkv6fBvVPgKI
- CimfFc/zhGNHJKsd45fCDuMkTzQ2TCejzAW/Adz7V8LRP06B3vM4whfsQrridJIFGKDEk6C8wdO
- Fu82KizJpdm5ydDBRMeugWK+y19X0JLtQ1+8qInP0+z8I82MokcaMnF0HVtRZqjygxJLJfG0=
-X-Gm-Gg: ATEYQzwICo9ihY50sBjO8FA1tIEik00PGNlWCj+3DF1SU5NgKAqa9aJbKOcWdUGLM3A
- FLlMJnSRMJfo7wylHlTrewuoNHHVh1x4jMqjVTo6PJKYvEkSL5ItEFT8WODoh1xuAbFc7UAIBQI
- EcYW/bZqh83QiqgWVsJe/zqZfxEHaUO6kDKmJEb2JGLt/Qh6gPxYmq1bu6xiBTAxBm9aqr5LKbQ
- qIWY2eUJCrZ8ulNF9wuURhfea82lcTDFRqkwwxDyw6OIzgOQHveFZ+x8vP3L9MCMN+TqNwUCqtF
- ntk2eZL2oIv9MolgEl+IooIR+g54tG3WJV5kUzn2IK4INVrwqcUBqagg0J/YcLWeSQP++OG5/0w
- eGC6g4fO1A2gcVdE4IA+jCR/fQEGtjxIQlbmU0ORhT2Wj3sdZ7lL0ARepAUigTFDJh4UGG1mzrE
- BrOKk=
-X-Received: by 2002:a05:620a:4011:b0:8ca:4545:aee4 with SMTP id
- af79cd13be357-8cb8c9f491fmr1434474285a.1.1772019173966; 
- Wed, 25 Feb 2026 03:32:53 -0800 (PST)
-X-Received: by 2002:a05:620a:4011:b0:8ca:4545:aee4 with SMTP id
- af79cd13be357-8cb8c9f491fmr1434471185a.1.1772019173484; 
- Wed, 25 Feb 2026 03:32:53 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b9084c60b91sm513928066b.14.2026.02.25.03.32.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 03:32:52 -0800 (PST)
-Message-ID: <aab51596-465e-4af2-9a12-48b64160f77b@oss.qualcomm.com>
-Date: Wed, 25 Feb 2026 12:32:50 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEC710E259
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:34:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A550D5C5B4;
+ Wed, 25 Feb 2026 11:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772019274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=06rR0BzSAqyocoz661s88dhkzq7l5Ry/ExxLEADtw6Y=;
+ b=KFqeXe5mX7IkzCXMPUSjqOZEMi4J+b1hIMPunZzDTp5Ab3zTdtXpLT90A2d44jNnxE1rc0
+ ZjCHhX60opUx0tEMO9JahvF8/NjsdOiZlNDIhFIto0MEBf1NkTvr9rZVze+Eoep7YkLVsT
+ 5MKCLLtAOaTHbWMYypvACUoecn1aHcg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772019274;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=06rR0BzSAqyocoz661s88dhkzq7l5Ry/ExxLEADtw6Y=;
+ b=73bPQfUXLwY0J8NOY6ANi6i80szQNjySSuQtnKxpr3TP/0Vj000ppmldpZR7b97YvaX49s
+ SvcqqB0SVWDhERCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772019273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=06rR0BzSAqyocoz661s88dhkzq7l5Ry/ExxLEADtw6Y=;
+ b=VPIRHKg7Hv3bQTLdgZwq1PScdkfg1VUblMH/DiAd+bIAqsQbYRBI0mO9nyY78I60U0YVEi
+ pt6S22B3xnK+IZBnh4mwzuQpzwfxkjC+G9xalGfYmp81QfNGpz5Ptg2x9X0ubowQzlieup
+ le+Y2XNwtlCkwgAn0Obynxoaa7QUxh4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772019273;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=06rR0BzSAqyocoz661s88dhkzq7l5Ry/ExxLEADtw6Y=;
+ b=XkD1UiKJlcjoeVUsLCNTuM9qeG9KzMTJJqf+I3wRltmAnnfVN8xiHLCOBVvQagZKX/geyL
+ HbCxGn8c71G6qqAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F9573EA65;
+ Wed, 25 Feb 2026 11:34:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 1kuxEUnenml+HwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 11:34:33 +0000
+Message-ID: <04bc032c-3b6c-424c-b928-302a602d08bf@suse.de>
+Date: Wed, 25 Feb 2026 12:34:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: Fix the bogus protect error on X2-85
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260225-glymur-protect-fix-v1-1-0deddedf9277@oss.qualcomm.com>
+Subject: Re: [PATCH v3 6/6] drm/gem-shmem: Track folio accessed/dirty status
+ in vmap
+To: Frank Binns <Frank.Binns@imgtec.com>, Matt Coster
+ <Matt.Coster@imgtec.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+ "loic.molinari@collabora.com" <loic.molinari@collabora.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20260209133241.238813-1-tzimmermann@suse.de>
+ <20260209133241.238813-7-tzimmermann@suse.de>
+ <d8d52d86fae1c3bb153cebb3ec154c84470804b8.camel@imgtec.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260225-glymur-protect-fix-v1-1-0deddedf9277@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=ZKvaWH7b c=1 sm=1 tr=0 ts=699edde7 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=mSm37ElbHMQ3LlSfNvEA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: _9dh8KZxItXpzRh38wx7oh-HuQz7Jjkn
-X-Proofpoint-ORIG-GUID: _9dh8KZxItXpzRh38wx7oh-HuQz7Jjkn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDExMiBTYWx0ZWRfX/4rxpczR6Gd7
- MLcsMdPwdBlsZPzry39ceVfOZQZ11E3rZeFMFTcRk6gpZCwz34Lk94DuY79zXevanXHenKkkdm1
- 5z3ZglhF/tB6Pa27ZIyhyEYwOOLXPCcVhTJ2hyzeRD3gKCX+gpMVxdAJZ6VUCAA5rQxIFLSiLYJ
- /mi9qNppNDCX0N+xkCnyVlKd9e/MghAxp6LXvILKYVDa00IncNMAAdbRhNRf6mgByK0qI328oGl
- U94ejRSCRWYq779tMsdetX90a/QYAJSVSafHQxgc1PHlVa5TalZJsJvMYLPZ5Dik7mTEXMAxLFB
- ksn/2HxOHYpLeDJlLiqC9g4ZUA1eN06ijEgJpaM3Cw5yLM427SxgzWKCsXxVbTebvBpWK0pMoHz
- gRD5yOTpy3NH47/S2iQ5IblS44DYHDIn8NwZ/CiwWklTCOGuhwjQJUlD/FTAOYpK15asorOcGxz
- ATgFOFgjQAWFyJVNCXg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-24_03,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250112
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <d8d52d86fae1c3bb153cebb3ec154c84470804b8.camel@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,55 +143,134 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:akhilpo@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:Frank.Binns@imgtec.com,m:Matt.Coster@imgtec.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:boris.brezillon@collabora.com,m:loic.molinari@collabora.com,m:willy@infradead.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,gmail.com,somainline.org,ffwll.ch];
+	FREEMAIL_TO(0.00)[imgtec.com,ffwll.ch,gmail.com,collabora.com,infradead.org,kernel.org,linux.intel.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: CACF5196895
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,imgtec.com:email]
+X-Rspamd-Queue-Id: 98FDF1968BC
 X-Rspamd-Action: no action
 
-On 2/25/26 8:41 AM, Akhil P Oommen wrote:
-> Update the X2-85 gpu's register protect count configuration with the
-> correct count_max value to avoid blocking the entire MMIO region from the
-> UMD.
-> 
-> Protect configurations are a bit complicated on A8xx. There are 2 set of
-> protect registers with different counts: Global and Pipe-specific. The
-> last-span-unbound feature is available only on the Pipe-specific protect
-> registers. Due to this, we cannot use the BUILD_BUG sanity check for A8x
-> protect configurations, so remove the A840 entry from there.
-> 
-> Fixes: 01ff3bf27215 ("drm/msm/a8xx: Add support for Adreno X2-85 GPU")
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Konrad
+Am 25.02.26 um 11:57 schrieb Frank Binns:
+> Hi Thomas,
+>
+> On Mon, 2026-02-09 at 14:27 +0100, Thomas Zimmermann wrote:
+>> On successful vmap, set the page_mark_accessed_on_put and _dirty_on_put
+>> flags in the gem-shmem object. Signals that the contained pages require
+>> LRU and dirty tracking when they are being released back to SHMEM. Clear
+>> these flags on put, so that the buffer remains quiet until the next call
+>> to vmap. There's no means of handling dirty status in vmap as there's no
+>> write-only mapping available.
+>>
+>> Both flags, _accessed_on_put and _dirty_on_put, have always been part of
+>> the gem-shmem object, but never used much. So most drivers did not track
+>> the page status correctly.
+>>
+>> Only the v3d and imagination drivers make limited use of _dirty_on_put. In
+>> the case of imagination, move the flag setting from init to cleanup. This
+>> ensures writeback of modified pages but does not interfere with the
+>> internal vmap/vunmap calls. V3d already implements this behaviour.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> # gem-shmem
+> The change to the imagination driver is:
+>
+> Acked-by: Frank Binns <frank.binns@imgtec.com>
+> Tested-by: Frank Binns <frank.binns@imgtec.com>
+
+Great, thanks a lot.
+
+>
+> Thanks
+> Frank
+>
+>> ---
+>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
+>>   drivers/gpu/drm/imagination/pvr_gem.c  | 6 ++++--
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index 0c86ad40a049..dda9af9bf5b3 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -265,6 +265,8 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>>   				  shmem->pages_mark_dirty_on_put,
+>>   				  shmem->pages_mark_accessed_on_put);
+>>   		shmem->pages = NULL;
+>> +		shmem->pages_mark_accessed_on_put = false;
+>> +		shmem->pages_mark_dirty_on_put = false;
+>>   	}
+>>   }
+>>   EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+>> @@ -397,6 +399,8 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+>>   		} else {
+>>   			iosys_map_set_vaddr(map, shmem->vaddr);
+>>   			refcount_set(&shmem->vmap_use_count, 1);
+>> +			shmem->pages_mark_accessed_on_put = true;
+>> +			shmem->pages_mark_dirty_on_put = true;
+>>   		}
+>>   	}
+>>   
+>> diff --git a/drivers/gpu/drm/imagination/pvr_gem.c b/drivers/gpu/drm/imagination/pvr_gem.c
+>> index c07c9a915190..307b02c916d4 100644
+>> --- a/drivers/gpu/drm/imagination/pvr_gem.c
+>> +++ b/drivers/gpu/drm/imagination/pvr_gem.c
+>> @@ -25,7 +25,10 @@
+>>   
+>>   static void pvr_gem_object_free(struct drm_gem_object *obj)
+>>   {
+>> -	drm_gem_shmem_object_free(obj);
+>> +	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(obj);
+>> +
+>> +	shmem_obj->pages_mark_dirty_on_put = true;
+>> +	drm_gem_shmem_free(shmem_obj);
+>>   }
+>>   
+>>   static struct dma_buf *pvr_gem_export(struct drm_gem_object *obj, int flags)
+>> @@ -363,7 +366,6 @@ pvr_gem_object_create(struct pvr_device *pvr_dev, size_t size, u64 flags)
+>>   	if (IS_ERR(shmem_obj))
+>>   		return ERR_CAST(shmem_obj);
+>>   
+>> -	shmem_obj->pages_mark_dirty_on_put = true;
+>>   	shmem_obj->map_wc = !(flags & PVR_BO_CPU_CACHED);
+>>   	pvr_obj = shmem_gem_to_pvr_gem(shmem_obj);
+>>   	pvr_obj->flags = flags;
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
