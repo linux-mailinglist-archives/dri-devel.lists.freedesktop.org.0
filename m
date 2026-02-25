@@ -2,95 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMJAF9ngnmmCXgQAu9opvQ
+	id iE+QEH3hnmmCXgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:45:29 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:48:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94560196CFE
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE11196D82
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 12:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6081A10E0EE;
-	Wed, 25 Feb 2026 11:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7528B10E742;
+	Wed, 25 Feb 2026 11:48:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="H+yO7aUa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eRKG9pyF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F67D10E0EE
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:45:25 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-43638a33157so6130716f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 03:45:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1772019924; x=1772624724; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=z2o8kIvcCPgtBizkCcHTsZPCsnJ3kiwKwkx0W/HNxFc=;
- b=H+yO7aUaW+nX3NFJvUROzAe16qekwchcuQFv0eThcIdOCtkb1TGXYQTZbqETDFDsVe
- j4KiXRX4N+Zkl1n6qBAvXTdBayhNWwDd+Wnj66OAG5gjjphlIVwbVAS+aQJ213YUZNVB
- 3XpRbROAto8fN7zIjQJBS5kGM91xwzjQFpnMazQVso/qeGrWZjwHGKRH7hMbjL++dX62
- q+kPjk6qc91CPYmDd2Hs+l4CrDpFuRGvqh6uG05WaXsdS1Eix4p2R63mceRqXsbX2EHJ
- 6EI5GpPXQazAik56PNNFKPRroBrBAKeOcCNnNgdSs/lERBIAq5iQ8r33SrT5FTqjJKOz
- v4Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772019924; x=1772624724;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z2o8kIvcCPgtBizkCcHTsZPCsnJ3kiwKwkx0W/HNxFc=;
- b=o3AHr0YN6D7nUtHMH2YUAoxkNrH5hEmqQu+W7FBm7ae/DCbb0GxgfSr62A/2DwDZne
- b+HpbO4PcHAmIzQZRJubW+3M+UTQgtxcraZBPoTKrxuqhNFqCjbwZ6JZ0W2+KT99jaIQ
- ekMdaxXogp76p1AX8+AD78kbVw8YZPCof1VRf1ktY6reOTwmdws6D4mu+/xjaG3tusBQ
- zYnBSJKl7zW9+3pSUsNeN7DKybiSoVw+XQdscHnCwGEZdxfslqhfecdCD1BcK8zG+VG/
- S1eW8lg7uU9lveE3d1jwc2Rn5XLOuac24rIGzf9dtRFivzjrRZSgd1BxdfSR22amGAmD
- E05Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4gAnphVfEe/vSgKzqVvoWbvz6+9QLhuh1GeSvjfN491bGUxmeuf4C0w3lUW3vnBO5qRE/2w9gEVI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcMVxBJGBqlkw6nsUrke4Fx5vDSn1AtnYodOp1aTK7nMkRZQK8
- 48KGRok/q7gl+oFRJBSsta7muWDR8Ue1+p/EDmlhqMQdYbx//NsmQZCiRuiMJzzg6WM=
-X-Gm-Gg: ATEYQzzLjIVFyKkl7Fi2nAck6J5HDXOdfurYU4GNU7N3xXiUd5s7Qsl16s5osQigCHE
- 4ZeVWM829pmXFgj2rrsj0pJTLVc5mYOa9aaxFrz+uXZSrKfxatD5GwAHK6xoEA3NrmDhfgTfOVS
- bwm13wQs+fTmgcfDe8PkW1+BmqJ5Bo4goV0tprErikhKGbR0n9/K0QESprX0XWQk/LNZ/xeLJuY
- 0Wc7XDkX93GS3CiYCVnWdJZ9E8IhFU714j1/yUfhKmsrlsOLUAch1g+W0FoToUC1FZXlWyYvXVE
- u8nt4QU482BPl1wJIYLhug66pXgYT12rbubPVHtvbCgExoqkxJEiYl0Wp9UuplVNx5hq7wYZg1V
- 72PpIdHwk7C30+1oWNRxWbat4JhyJIHQr1k9rc3gGwtV2rksvtMBnvXYYCjqMic/dVEmIN743Ie
- 781HVa/KuKyYeyjWVc61amV+8ORPAJZE8VlMDzmOpacWOnYAC1Vy1+hcs=
-X-Received: by 2002:a05:6000:4014:b0:439:664d:e9b7 with SMTP id
- ffacd0b85a97d-4396f14c9e4mr27774517f8f.7.1772019923588; 
- Wed, 25 Feb 2026 03:45:23 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4398a09aad0sm9041947f8f.2.2026.02.25.03.45.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 03:45:22 -0800 (PST)
-Message-ID: <99d1bcbd-6df2-4b71-8c79-9e1c2ee31562@ursulin.net>
-Date: Wed, 25 Feb 2026 11:45:22 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F5310E742
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772020089; x=1803556089;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=UpnA8wtNVColnP+f6tGOCuVaaBcr00UgkeO41u0tBoE=;
+ b=eRKG9pyFXqbK59fo01Qk6OVL1Vl19sgyf8kROOKCR2QWE3+ShQlDfzA7
+ zHZIlz/KdgB1SN7DKW4OqEwcN950IiM0UMBOFaRR20RyjiSf0LgZLFAXb
+ HT8HqtxVYravukrzyhxK5o61I16BUo9aH8XK3aXnwAO06r8FrvsE2nWrZ
+ +r6V9fhl2h+eiZkUMzrxv8e6No19hvLzRRC1V6InqQaIeVOGIe0Gf+ojP
+ j4VJco3kfAuJjnDSp/79jtSer8aD7X80oTXf7UUxaTH0RZ2sUkYI/U8BE
+ PtB1/yrCHh6Zv8mVWuRvTR8us79wrYdaBd1tfu06jMoDQYYIbxN3t+Mj2 g==;
+X-CSE-ConnectionGUID: twaDn90IRQ2FyCYTUIbTiA==
+X-CSE-MsgGUID: GuZCm4rcSFSIpz0Jp8lfsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="60628196"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="60628196"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 03:48:09 -0800
+X-CSE-ConnectionGUID: RKjEh+oaSsqDS9nrJz0DFg==
+X-CSE-MsgGUID: OqEJDItzQUeoERxXGHJmaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="220816248"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+ by fmviesa005.fm.intel.com with ESMTP; 25 Feb 2026 03:48:07 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vvDN7-000000005UZ-0wjf;
+ Wed, 25 Feb 2026 11:48:05 +0000
+Date: Wed, 25 Feb 2026 19:48:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <bbrezillon@kernel.org>
+Subject: [drm-misc:for-linux-next 4/13]
+ drivers/gpu/drm/i915/selftests/i915_active.c:326:28: error: 'struct
+ dma_fence' has no member named 'lock'
+Message-ID: <202602251941.3vqWv8ra-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] drm/ttm: Be more aggressive when allocating below
- protection limit
-To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
- Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251110-dmemcg-aggressive-protect-v3-0-219ffcfc54e9@gmx.de>
- <20251110-dmemcg-aggressive-protect-v3-4-219ffcfc54e9@gmx.de>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251110-dmemcg-aggressive-protect-v3-4-219ffcfc54e9@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,302 +74,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ursulin.net];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:oe-kbuild-all@lists.linux.dev,m:bbrezillon@kernel.org,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 94560196CFE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,01.org:url,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 9CE11196D82
 X-Rspamd-Action: no action
 
+Hi Christian,
 
-On 10/11/2025 12:37, Natalie Vock wrote:
-> When the cgroup's memory usage is below the low/min limit and allocation
-> fails, try evicting some unprotected buffers to make space. Otherwise,
-> application buffers may be forced to go into GTT even though usage is
-> below the corresponding low/min limit, if other applications filled VRAM
-> with their allocations first.
-> 
-> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c       | 75 ++++++++++++++++++++++++++++++++++----
->   drivers/gpu/drm/ttm/ttm_resource.c | 48 +++++++++++++++++-------
->   include/drm/ttm/ttm_resource.h     |  6 ++-
->   3 files changed, 108 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 829d994798835..bd467c965e1bc 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -490,8 +490,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
->   }
->   
->   struct ttm_bo_alloc_state {
-> +	/** @charge_pool: The memory pool the resource is charged to */
-> +	struct dmem_cgroup_pool_state *charge_pool;
->   	/** @limit_pool: Which pool limit we should test against */
->   	struct dmem_cgroup_pool_state *limit_pool;
-> +	/** @only_evict_unprotected: If eviction should be restricted to unprotected BOs */
-> +	bool only_evict_unprotected;
->   };
->   
->   /**
-> @@ -546,7 +550,7 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
->   	evict_walk->evicted++;
->   	if (evict_walk->res)
->   		lret = ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
-> -					  evict_walk->res, NULL);
-> +					  evict_walk->res, evict_walk->alloc_state->charge_pool);
->   	if (lret == 0)
->   		return 1;
->   out:
-> @@ -589,7 +593,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
->   
->   	/* One more attempt if we hit low limit? */
-> -	if (!lret && evict_walk.hit_low) {
-> +	if (!lret && evict_walk.hit_low && !state->only_evict_unprotected) {
->   		evict_walk.try_low = true;
->   		lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
->   	}
-> @@ -610,7 +614,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   	} while (!lret && evict_walk.evicted);
->   
->   	/* We hit the low limit? Try once more */
-> -	if (!lret && evict_walk.hit_low && !evict_walk.try_low) {
-> +	if (!lret && evict_walk.hit_low && !evict_walk.try_low &&
-> +			!state->only_evict_unprotected) {
->   		evict_walk.try_low = true;
->   		goto retry;
->   	}
-> @@ -719,20 +724,72 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
->   				 struct ttm_resource **res,
->   				 struct ttm_bo_alloc_state *alloc_state)
->   {
-> -	bool may_evict;
-> +	bool may_evict, below_low = false;
+First bad commit (maybe != root cause):
 
-No need to init below_low.
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git for-linux-next
+head:   2622649ad6cdbb3e77bfafc8c0fe686090b77f70
+commit: 1f32f310a13c9fb67a9993ab67f596b3f960206f [4/13] dma-buf: inline spinlock for fence protection v5
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260225/202602251941.3vqWv8ra-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260225/202602251941.3vqWv8ra-lkp@intel.com/reproduce)
 
->   	int ret;
->   
->   	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> +	ret = ttm_resource_try_charge(bo, place, &alloc_state->charge_pool,
-> +				      force_space ? &alloc_state->limit_pool : NULL);
-> +	if (ret) {
-> +		/*
-> +		 * -EAGAIN means the charge failed, which we treat like an
-> +		 * allocation failure. Therefore, return an error code indicating
-> +		 * the allocation failed - either -EBUSY if the allocation should
-> +		 * be retried with eviction, or -ENOSPC if there should be no second
-> +		 * attempt.
-> +		 */
-> +		if (ret == -EAGAIN)
-> +			ret = may_evict ? -EBUSY : -ENOSPC;
-> +		return ret;
-> +	}
->   
-> -	ret = ttm_resource_alloc(bo, place, res,
-> -				 force_space ? &alloc_state->limit_pool : NULL);
-> +	/*
-> +	 * cgroup protection plays a special role in eviction.
-> +	 * Conceptually, protection of memory via the dmem cgroup controller
-> +	 * entitles the protected cgroup to use a certain amount of memory.
-> +	 * There are two types of protection - the 'low' limit is a
-> +	 * "best-effort" protection, whereas the 'min' limit provides a hard
-> +	 * guarantee that memory within the cgroup's allowance will not be
-> +	 * evicted under any circumstance.
-> +	 *
-> +	 * To faithfully model this concept in TTM, we also need to take cgroup
-> +	 * protection into account when allocating. When allocation in one
-> +	 * place fails, TTM will default to trying other places first before
-> +	 * evicting.
-> +	 * If the allocation is covered by dmem cgroup protection, however,
-> +	 * this prevents the allocation from using the memory it is "entitled"
-> +	 * to. To make sure unprotected allocations cannot push new protected
-> +	 * allocations out of places they are "entitled" to use, we should
-> +	 * evict buffers not covered by any cgroup protection, if this
-> +	 * allocation is covered by cgroup protection.
-> +	 *
-> +	 * Buffers covered by 'min' protection are a special case - the 'min'
-> +	 * limit is a stronger guarantee than 'low', and thus buffers protected
-> +	 * by 'low' but not 'min' should also be considered for eviction.
-> +	 * Buffers protected by 'min' will never be considered for eviction
-> +	 * anyway, so the regular eviction path should be triggered here.
-> +	 * Buffers protected by 'low' but not 'min' will take a special
-> +	 * eviction path that only evicts buffers covered by neither 'low' or
-> +	 * 'min' protections.
-> +	 */
-> +	may_evict |= dmem_cgroup_below_min(NULL, alloc_state->charge_pool);
-> +	below_low = dmem_cgroup_below_low(NULL, alloc_state->charge_pool);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602251941.3vqWv8ra-lkp@intel.com/
 
-Are these some magic macros? Couldn't grep for them.
+Note: the drm-misc/for-linux-next HEAD 2622649ad6cdbb3e77bfafc8c0fe686090b77f70 builds fine.
+      It only hurts bisectability.
 
-> +	alloc_state->only_evict_unprotected = !may_evict && below_low;
- > +> +	ret = ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
->   
->   	if (ret) {
-> -		if ((ret == -ENOSPC || ret == -EAGAIN) && may_evict)
-> +		if ((ret == -ENOSPC || ret == -EAGAIN) &&
-> +				(may_evict || below_low))
->   			ret = -EBUSY;
->   		return ret;
+All errors (new ones prefixed by >>):
 
-Where does the uncharge happen on the failure path?
+   In file included from drivers/gpu/drm/i915/i915_active.c:1177:
+   drivers/gpu/drm/i915/selftests/i915_active.c: In function 'active_flush':
+>> drivers/gpu/drm/i915/selftests/i915_active.c:326:28: error: 'struct dma_fence' has no member named 'lock'
+     326 |         spin_lock_irq(fence->lock);
+         |                            ^~
+   drivers/gpu/drm/i915/selftests/i915_active.c:328:30: error: 'struct dma_fence' has no member named 'lock'
+     328 |         spin_unlock_irq(fence->lock); /* serialise with fence->cb_list */
+         |                              ^~
 
-Regards,
 
-Tvrtko
+vim +326 drivers/gpu/drm/i915/selftests/i915_active.c
 
->   	}
->   
-> +	/*
-> +	 * Ownership of charge_pool has been transferred to the TTM resource,
-> +	 * don't make the caller think we still hold a reference to it.
-> +	 */
-> +	alloc_state->charge_pool = NULL;
->   	return 0;
->   }
->   
-> @@ -787,6 +844,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   				res, &alloc_state);
->   
->   		if (ret == -ENOSPC) {
-> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
->   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
->   			continue;
->   		} else if (ret == -EBUSY) {
-> @@ -796,11 +854,14 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
->   
->   			if (ret) {
-> +				dmem_cgroup_pool_state_put(
-> +						alloc_state.charge_pool);
->   				if (ret != -ENOSPC && ret != -EBUSY)
->   					return ret;
->   				continue;
->   			}
->   		} else if (ret) {
-> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
->   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
->   			return ret;
->   		}
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index e2c82ad07eb44..fcfa8b51b0337 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -372,30 +372,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
->   }
->   EXPORT_SYMBOL(ttm_resource_fini);
->   
-> +/**
-> + * ttm_resource_try_charge - charge a resource manager's cgroup pool
-> + * @bo: buffer for which an allocation should be charged
-> + * @place: where the allocation is attempted to be placed
-> + * @ret_pool: on charge success, the pool that was charged
-> + * @ret_limit_pool: on charge failure, the pool responsible for the failure
-> + *
-> + * Should be used to charge cgroups before attempting resource allocation.
-> + * When charging succeeds, the value of ret_pool should be passed to
-> + * ttm_resource_alloc.
-> + *
-> + * Returns: 0 on charge success, negative errno on failure.
-> + */
-> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
-> +			    const struct ttm_place *place,
-> +			    struct dmem_cgroup_pool_state **ret_pool,
-> +			    struct dmem_cgroup_pool_state **ret_limit_pool)
-> +{
-> +	struct ttm_resource_manager *man =
-> +		ttm_manager_type(bo->bdev, place->mem_type);
-> +
-> +	if (!man->cg) {
-> +		*ret_pool = NULL;
-> +		if (ret_limit_pool)
-> +			*ret_limit_pool = NULL;
-> +		return 0;
-> +	}
-> +
-> +	return dmem_cgroup_try_charge(man->cg, bo->base.size, ret_pool,
-> +				      ret_limit_pool);
-> +}
-> +
->   int ttm_resource_alloc(struct ttm_buffer_object *bo,
->   		       const struct ttm_place *place,
->   		       struct ttm_resource **res_ptr,
-> -		       struct dmem_cgroup_pool_state **ret_limit_pool)
-> +		       struct dmem_cgroup_pool_state *charge_pool)
->   {
->   	struct ttm_resource_manager *man =
->   		ttm_manager_type(bo->bdev, place->mem_type);
-> -	struct dmem_cgroup_pool_state *pool = NULL;
->   	int ret;
->   
-> -	if (man->cg) {
-> -		ret = dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_limit_pool);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
->   	ret = man->func->alloc(man, bo, place, res_ptr);
-> -	if (ret) {
-> -		if (pool)
-> -			dmem_cgroup_uncharge(pool, bo->base.size);
-> +	if (ret)
->   		return ret;
-> -	}
->   
-> -	(*res_ptr)->css = pool;
-> +	(*res_ptr)->css = charge_pool;
->   
->   	spin_lock(&bo->bdev->lru_lock);
->   	ttm_resource_add_bulk_move(*res_ptr, bo);
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index e52bba15012f7..3aef7efdd7cfb 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -442,10 +442,14 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->   void ttm_resource_fini(struct ttm_resource_manager *man,
->   		       struct ttm_resource *res);
->   
-> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
-> +			    const struct ttm_place *place,
-> +			    struct dmem_cgroup_pool_state **ret_pool,
-> +			    struct dmem_cgroup_pool_state **ret_limit_pool);
->   int ttm_resource_alloc(struct ttm_buffer_object *bo,
->   		       const struct ttm_place *place,
->   		       struct ttm_resource **res,
-> -		       struct dmem_cgroup_pool_state **ret_limit_pool);
-> +		       struct dmem_cgroup_pool_state *charge_pool);
->   void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
->   bool ttm_resource_intersects(struct ttm_device *bdev,
->   			     struct ttm_resource *res,
-> 
+38813767c7c5d9 Chris Wilson 2019-11-01  316  
+e3e7aeec3281af Chris Wilson 2020-03-06  317  static void active_flush(struct i915_active *ref,
+e3e7aeec3281af Chris Wilson 2020-03-06  318  			 struct i915_active_fence *active)
+e3e7aeec3281af Chris Wilson 2020-03-06  319  {
+e3e7aeec3281af Chris Wilson 2020-03-06  320  	struct dma_fence *fence;
+e3e7aeec3281af Chris Wilson 2020-03-06  321  
+e3e7aeec3281af Chris Wilson 2020-03-06  322  	fence = xchg(__active_fence_slot(active), NULL);
+e3e7aeec3281af Chris Wilson 2020-03-06  323  	if (!fence)
+e3e7aeec3281af Chris Wilson 2020-03-06  324  		return;
+e3e7aeec3281af Chris Wilson 2020-03-06  325  
+e3e7aeec3281af Chris Wilson 2020-03-06 @326  	spin_lock_irq(fence->lock);
+e3e7aeec3281af Chris Wilson 2020-03-06  327  	__list_del_entry(&active->cb.node);
+e3e7aeec3281af Chris Wilson 2020-03-06  328  	spin_unlock_irq(fence->lock); /* serialise with fence->cb_list */
+e3e7aeec3281af Chris Wilson 2020-03-06  329  	atomic_dec(&ref->count);
+e3e7aeec3281af Chris Wilson 2020-03-06  330  
+e3e7aeec3281af Chris Wilson 2020-03-06  331  	GEM_BUG_ON(!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags));
+e3e7aeec3281af Chris Wilson 2020-03-06  332  }
+e3e7aeec3281af Chris Wilson 2020-03-06  333  
 
+:::::: The code at line 326 was first introduced by commit
+:::::: e3e7aeec3281af446d7410d6982020e1aa5795fc drm/i915/selftests: Apply a heavy handed flush to i915_active
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
