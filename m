@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WD7RM+ISn2nWYwQAu9opvQ
+	id 6JsWBggVn2nWYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:18:58 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:28:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BD11996E5
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694F619996B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F1410E22C;
-	Wed, 25 Feb 2026 15:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E1610E1CD;
+	Wed, 25 Feb 2026 15:28:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="usGM0BoT";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="iNnrtfHk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4409D10E22C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:18:53 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-48336a6e932so41766765e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:18:53 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD03D10E1CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:27:59 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-65f812e0d93so1733350a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:27:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1772032732; x=1772637532; darn=lists.freedesktop.org;
+ d=ursulin.net; s=google; t=1772033278; x=1772638078; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0duHEWtI6kL/XWFNZl4sr8GMAyb2xz6UvQc7MNO8wek=;
- b=usGM0BoTt5fYLXP/6EK88Cmw5AxN2IXP0GiB2UvxGVciYLNh6EdCvcXh3/o+XL85ID
- UiVVMKfM6DbMbhiH+ahrvEG4LMr5l/6Z9EIzaamWxkF8n4tSAzfi/CjHlbHzfpaDnO4c
- EQgEmvIxnlXUuTSM45Irl2JjHluOGzuVEbU+Ru0X14ikw+eOGuhjH9hpKf2UTOmD17Mt
- 1qI/1BG9mA38bFyDjVv7+7GyBakZ8TRNGhDc26kD6TSk9+aa5/nFdozMwALUkM65gPWs
- b35o0JsRSAx4c+Q5gbiqP1X5VdXyR3cdyUptibLRPk1Rp4TMkBuEJVB3baj1sb807o8/
- sWIg==
+ bh=RJUI2l1gvzX0foq78r8Y5gZ1lmPO7MQfX9H11F3qkF8=;
+ b=iNnrtfHk9444SVtVU+CLF+x+aYOo5u+HC9lvIx2g8YBfYu7rzbrvsUXDlt3Et9gom2
+ XbF+dPjwcgE8a8qY2Ku7371I6nb2nFjbmy6nniTqaM2Vy3R5VFGGmVe1gqXc73ayJbC9
+ 85V/VSk5+JHXlNe0hj/ej7i+yYobzXfkHsWYyR/We/2A1xxcoJYQ/JpkXdnwGTVvGfCK
+ CVQ/l8N+yAbJ2pk42hqPlUWX/ZvOAaVJkLpf1uZvbRmiDQ8IKwobuIeeyBn23l/Xp8K5
+ d+/lDHRkZR4VlNrOH5XuGwZi+dh//e7fzZN4A3ir1cqnrQkMDpXox4sddtkMp6R0bshT
+ X/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772032732; x=1772637532;
+ d=1e100.net; s=20230601; t=1772033278; x=1772638078;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0duHEWtI6kL/XWFNZl4sr8GMAyb2xz6UvQc7MNO8wek=;
- b=rhUJaUFY0KAKhM3P0ma+Sx11/Bmr6jRFQ+1adxnV2E8EYq6jTeR4Gg/6nX4hgND1tD
- f7u04uIX9xNWrpfo+3sE3zmCkqL7U357rDI8BT3+fAwgc+yOT+WaXXjLp/G2o18viL+r
- 4qFGlY8lPRBX/W+S8KeT+ni4IJ7n/sucb4yDybdA+WM0/jPqAHUEpCGqMDfrrJHfXKrk
- ofyGyXe/+Ww7UMmDp4PaPN2mzkppt1y2Cs6cFerYZr3UBaseRC8pnwBwWNiDPIwnqqWZ
- f4dRA4hsAnmcaZUrFXeKL922zgQ1WdIN2eFMK+W1LG3POi1g1lD5DtQqVGshMEetbCIp
- pN+A==
+ bh=RJUI2l1gvzX0foq78r8Y5gZ1lmPO7MQfX9H11F3qkF8=;
+ b=EKzV8A+wvl0564X2iUXwyDrACFuBAOg6vW3CfDxuV+pHz2avQ3p8eOna6DoVlmgR09
+ 9ZqU0I4BGK5iCK0243dts3r3UNwYikzxeqcRMD+qYZxL/0WwVo6LGIMuXNmre1fi6a5z
+ xKA+qT5lZJS9SQgLwhi5aZgaHKh3Lqy+NJzLdtjZiW+Ucb0Vfy0RcrbRu26THk7tF86O
+ zWawJbmFG1i+UAi/ntHk87DKtVSPRWZ9c0n6Vd4bT+E2GiDCtTxes6yskHTzUuuKeogi
+ DneeHsy8kHk4h+UNGqnLNvYfuNak1x109u4JXIVX9i4ko1rvZP2J9HkMXcQ5f9xxlg4a
+ khGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWp6UZPS1EeOvwmp54iiShG3oQc+XCZOFG5+CYo0k3RGLSemCOxG9fVllTnPbZq3B5ek83ApYi22pw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1xCJDRedBbqGRvMYk2RyHzkcBYXX4x+CYQgl6QIWud1/D6WRJ
- k1OxG8f0/k8tgSUASUQMM8P6JMn0rPX2EmZRLVy0tky3TACz/o8/E3usQdU+T1CAUHM=
-X-Gm-Gg: ATEYQzyLimu/xqeLK/lxHrLxkC/TRkIOffw8JMjdQfHonJ2/RLj95gpP5sPxbyzeVm7
- D8oFG69l9WYlOFqyk0C/ghA2wDXEscDk7LBGjBeCN4vVVZ/cp1Hhl//6CAV0p3wqHTJ/np0vpRw
- 9ItcK3Usi74PWrMrETgJibmxkf+MsrxGMf2rKzQCNlmycvxsE6Can4MnluBRDE+6pb39YcDsExS
- BkMpXkhJW4A/iurzseoS1mnkirFI5Q4KsNxq9Q1rswxRpnAc4EX1J6hAv54EiEZlyT29Wq4ufG9
- YoiUJjOlwrnpxUOMRj9YY6rLe4H7gmu71gx7mib1iGXyN+bCK3dUw7wttUr+qj1i5E45trHvYMB
- O0rHvJz3xa09SJcAZLVvhqCvlW4WEp+nSpcNwWgiJRnIGey07oqD/jq6vWQTsZBmKv303sUGDDv
- 6wSxqu7WEmhJyJdc5c0FqdgQVZ9ibAu9epn5ZRWxiiYXYJ
-X-Received: by 2002:a05:600c:6815:b0:47e:e946:3a72 with SMTP id
- 5b1f17b1804b1-483c21a10c5mr13759935e9.27.1772032731307; 
- Wed, 25 Feb 2026 07:18:51 -0800 (PST)
+ AJvYcCVIsMw3C6jUxQH/TBw1N1XzIZm0K4zqkghXH581XCXHpdUow/3M119nqr8P4GaCmr5C0OeWGJZywn8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoaG1YVq02gp1/SwXWXOfXbDeioIWTnsd6J/+gMjATUEaNp9CF
+ qetdk8Vzzs2m6Ej4y+Ql0WrUXZE9XmxThsq3DIeNytGOKP4X7bJ/URlqhH9isBW9D2A=
+X-Gm-Gg: ATEYQzzDx1+Twwn+ua+iMBsq0tmCRsDWor5vmDooO2s/PvYGxVUAHu1dRJEtztGLnLM
+ uf0d+7NSUFKmOZReMrlzO186ncMRF7FWJf27h+kcFvW/UtwQI7mNFmJ5h1oWfVghUzNnOYNhKyK
+ 66tKfyNbI6rCuL/3xkPD6WzcZoBGd/ByUOBbh+5fvevAUjU4zxmFADgvQdb5a8pmGbEdtesFpQu
+ 6Rk00s8pzXxvWLKtNM9aat7ES8RHqyir2OljJ+nB0qQ9ClKfRkSFUf/kwjcQrHsInc9bxNtSTIK
+ oD70PE6fRauxnZ5+qcfZV6WZvft/uCBsf6X7FXsqs7fxlq3VoA/rSVhRof37jPEA86ewA89piRF
+ Lo8+xQt/8ZNgM0wJL6VgeTifM7eSVSR3tCt3BTjchFgbPL8NikrJvUMLW6WJLMpqqMroudvQdZT
+ F8hhCrXkkoIgmqgBoo32rsaiHeam1ChgpyGCF/FLPPk/Hc
+X-Received: by 2002:a17:907:3f12:b0:b8f:99c2:1a93 with SMTP id
+ a640c23a62f3a-b9081984f2emr939025566b.3.1772033277969; 
+ Wed, 25 Feb 2026 07:27:57 -0800 (PST)
 Received: from [192.168.0.101] ([90.240.106.137])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bd739087sm74940165e9.14.2026.02.25.07.18.48
+ a640c23a62f3a-b9084c84c37sm525677566b.23.2026.02.25.07.27.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 07:18:48 -0800 (PST)
-Message-ID: <8c3db886-72d1-49c1-ac6c-7640af735e51@ursulin.net>
-Date: Wed, 25 Feb 2026 15:18:47 +0000
+ Wed, 25 Feb 2026 07:27:57 -0800 (PST)
+Message-ID: <235fd4f7-dbb7-44c8-9bbc-f1d8297fb8b9@ursulin.net>
+Date: Wed, 25 Feb 2026 15:27:56 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 3/6] drm/ttm: Extract code for attempting allocation in
@@ -107,23 +107,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
 	DMARC_NA(0.00)[ursulin.net];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	URIBL_MULTI_FAIL(0.00)[gmx.de:server fail,gabe.freedesktop.org:server fail,ursulin.net:server fail];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -137,8 +138,8 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,igalia.com:email]
-X-Rspamd-Queue-Id: 11BD11996E5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 694F619996B
 X-Rspamd-Action: no action
 
 
@@ -270,6 +271,14 @@ On 25/02/2026 12:10, Natalie Vock wrote:
 > +		 * be retried with eviction, or -ENOSPC if there should be no second
 > +		 * attempt.
 > +		 */
+
+Ah having started reading 4/6 I see this comment actually is one patch 
+premature. So please fix that and keep my r-b.
+
+Regards,
+
+Tvrtko
+
 > +		if (ret == -EAGAIN)
 > +			return may_evict ? -EBUSY : -ENOSPC;
 > +
@@ -290,17 +299,8 @@ On 25/02/2026 12:10, Natalie Vock wrote:
 >   				 struct ttm_resource **res)
 >   {
 > +	struct ttm_bo_alloc_state alloc_state = {0};
-
-= {};
-
 >   	struct ttm_device *bdev = bo->bdev;
 > +	struct ttm_resource_manager *man;
-
-I don't mind if you pull the above two out of the loop too much, but I 
-have to re-point it out since I am sure you know the principle of not 
-making changes which are not strictly needed, especially if they are not 
-a clear win on readability or something.
-
 >   	struct ww_acquire_ctx *ticket;
 >   	int i, ret;
 >   
@@ -351,32 +351,6 @@ a clear win on readability or something.
 > -			if (ret)
 > -				return ret;
 > +			}
-
-Would keeping the ret checks at one level of indentation look better? Eg 
-like the current version:
-
-if (ret == -EBUSY)
-	continue;
-else if (ret)
-	return ret;
-
-Up to you.
-
-Btw, it is an interesting design that there are eviction errors which 
-prevent trying the next placement. A bit surprising to me but it is out 
-of scope here.
-
-Anyway, I went back and forth a few times over the logic and it indeed 
-looks to me that there are no functional changes. Thanks for improving 
-the commit message as well, now it is completely clear what the patch is 
-about. With or without the nitpicks:
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
-
 > +		} else if (ret) {
 > +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
 > +			return ret;
