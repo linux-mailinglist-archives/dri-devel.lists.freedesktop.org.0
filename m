@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id dUblFV4mn2nOZAQAu9opvQ
+	id cCqxHWMmn2nOZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:06 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07CE19AD39
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5DC19AD50
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C115710E7FA;
-	Wed, 25 Feb 2026 16:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F18F10E7FD;
+	Wed, 25 Feb 2026 16:42:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kjYM/oRq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="csGKWkXe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44DAA10E7FA
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:00 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E154A10E7FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:42:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CF29D4443F;
- Wed, 25 Feb 2026 16:41:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A67EC116D0;
- Wed, 25 Feb 2026 16:41:59 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5B8FE60126;
+ Wed, 25 Feb 2026 16:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83989C116D0;
+ Wed, 25 Feb 2026 16:42:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772037719;
- bh=S+k5aZk2XIseAV9Wvl5Zz4Pjv6J8tbwAJicn9b11RGY=;
+ s=k20201202; t=1772037723;
+ bh=rfgqTaniyFcFynC/obpaUFFlyjqqthgGha52ltIUlUY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kjYM/oRqWTCFOpWYAaR7qB2CxDqbOc4d2NSkx7kJW1AyvJGaoXeHFv9NB5qYWJEyc
- guiFSN+aH7+JOjy8rFEvxtCjNejKpg4lJKeUoTCNFr0CkY21h4qSNSv7rRygTpbX0u
- fz16yPF1yTDMtpApE8UlyMLdMPZ5JIt9A0xsHdo51IURmSUWm/pWU+yuV8HLWJcPiF
- jLo7Kbm1fEPCCesx00gy9MJtnK+ecV147CxfZ35RGGRv0Eoi6U5YiVkSIJhMQcddht
- SstizuRyCCD20l2kl/PzOc+vk7wwi6nTCAte7mk7oKD/V5EfEtw6Gp+n4peGTJC6hM
- P8Q2CZpQuMrZw==
+ b=csGKWkXeguSQ37zJjf0IB2wvQOQl3/WLcW4dmFDzDbdcBjbHPT1zkBKm6J29MSeg6
+ xhGvtq3bNTlGh6/EGDE2aTQtaxs4VsiOO8ohZ2uB4qEil0ou0qeDg8Zr7kAe8TBQWh
+ /ZNRi1fKctGSLW4gpZYseuHiM9psy8MQJNSqh/2n2F066mlBVd0PXwhBTZTDlLzCCd
+ 6cO4rjPG9kIAF8nlnZMXKsmji5AT5/nOSZdCE576FJIIzyETNCdF3hir5mY3Hafts+
+ qB6j6M+QC+Pyc8JmQdhe60ULJfAb5mmiK2sCdYE4YEMtxEM9uE86j2SXH3mADgDoZA
+ frH/OyTpRyjqQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 25 Feb 2026 17:41:49 +0100
-Subject: [PATCH 1/7] dma: contiguous: Turn heap registration logic around
+Date: Wed, 25 Feb 2026 17:41:50 +0100
+Subject: [PATCH 2/7] mm: cma: Export cma_alloc and cma_release
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-dma-buf-heaps-as-modules-v1-1-2109225a090d@kernel.org>
+Message-Id: <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
 References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -62,12 +62,12 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5105; i=mripard@kernel.org;
- h=from:subject:message-id; bh=S+k5aZk2XIseAV9Wvl5Zz4Pjv6J8tbwAJicn9b11RGY=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGmfJk6ihLbhEMuJPzeXU9eg1VT8Jav/rVS+TpIKp59dXH+QK
- IiVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmmfJk4ACgkQJ1/OGaI9vnaslQF+NGgt
- IQ2A2YC9vsdwoCFKEi7e8jCPsJY/bonDjmPKLOJQ+a9bsxz6krD5FkASx/KKAYCK13uRwlEp5i1
- CXyAzGhjdQYJ5kvzoDH0Aa8XRWn1oAlWJdfJORYc+EIzBX7quE2Y=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1196; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=rfgqTaniyFcFynC/obpaUFFlyjqqthgGha52ltIUlUY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1fxfHNsUEn3B2H5a+v+PEQp7p6W9/xnC8syK+dSd1
+ jP7uFa1dUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJ+OQyNrwRDNz268/LgH9P
+ 9faUbHvhyCZb/z7vtFLTNmaVGbExClx7qz9r8xUdaLklcuJigejvLYwNfdXrtpw+nXW/t5v7yV3
+ 1jSov2r2+t+V/2ejWE/CpN/ax103GSc5iU9vnm62Im7lg1bpvAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,164 +116,48 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E07CE19AD39
+X-Rspamd-Queue-Id: 0B5DC19AD50
 X-Rspamd-Action: no action
 
-The CMA heap instantiation was initially developed by having the
-contiguous DMA code call into the CMA heap to create a new instance
-every time a reserved memory area is probed.
+The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
+free, respectively, its CMA buffers.
 
-Turning the CMA heap into a module would create a dependency of the
-kernel on a module, which doesn't work.
-
-Let's turn the logic around and do the opposite: store all the reserved
-memory CMA regions into the contiguous DMA code, and provide an iterator
-for the heap to use when it probes.
+However, these functions are not exported. Since we want to turn the CMA
+heap into a module, let's export them both.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/heaps/cma_heap.c | 18 ++----------------
- include/linux/dma-map-ops.h      |  5 +++++
- kernel/dma/contiguous.c          | 26 ++++++++++++++++++++++++--
- 3 files changed, 31 insertions(+), 18 deletions(-)
+ mm/cma.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index bd3370b9a3f6d4e18885a1d0e8ba3f659b85ef47..f8a3d87f3ccee9630383ba28502eb40b10671cc2 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -28,23 +28,10 @@
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
+diff --git a/mm/cma.c b/mm/cma.c
+index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8ba4397f018f6993d962 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
+ 	if (page)
+ 		set_pages_refcounted(page, count);
  
- #define DEFAULT_CMA_NAME "default_cma_region"
- 
--static struct cma *dma_areas[MAX_CMA_AREAS] __initdata;
--static unsigned int dma_areas_num __initdata;
--
--int __init dma_heap_cma_register_heap(struct cma *cma)
--{
--	if (dma_areas_num >= ARRAY_SIZE(dma_areas))
--		return -EINVAL;
--
--	dma_areas[dma_areas_num++] = cma;
--
--	return 0;
--}
--
- struct cma_heap {
- 	struct dma_heap *heap;
- 	struct cma *cma;
- };
- 
-@@ -412,22 +399,21 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
+ 	return page;
  }
++EXPORT_SYMBOL_GPL(cma_alloc);
  
- static int __init add_cma_heaps(void)
+ static struct cma_memrange *find_cma_memrange(struct cma *cma,
+ 		const struct page *pages, unsigned long count)
  {
- 	struct cma *default_cma = dev_get_cma_area(NULL);
-+	struct cma *cma;
- 	unsigned int i;
- 	int ret;
+ 	struct cma_memrange *cmr = NULL;
+@@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
  
- 	if (default_cma) {
- 		ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
- 		if (ret)
- 			return ret;
- 	}
+ 	__cma_release_frozen(cma, cmr, pages, count);
  
--	for (i = 0; i < dma_areas_num; i++) {
--		struct cma *cma = dma_areas[i];
--
-+	for (i = 0; (cma = dma_contiguous_get_reserved_region(i)) != NULL; i++) {
- 		ret = __add_cma_heap(cma, cma_get_name(cma));
- 		if (ret) {
- 			pr_warn("Failed to add CMA heap %s", cma_get_name(cma));
- 			continue;
- 		}
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 60b63756df821d839436618f1fca2bfa3eabe075..3007c68a8ec5b85990d1938d04a2f05c1a71acdb 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -110,10 +110,11 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
- 				 int count);
- struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp);
- void dma_free_contiguous(struct device *dev, struct page *page, size_t size);
+ 	return true;
+ }
++EXPORT_SYMBOL_GPL(cma_release);
  
- void dma_contiguous_early_fixup(phys_addr_t base, unsigned long size);
-+struct cma *dma_contiguous_get_reserved_region(unsigned int idx);
- #else /* CONFIG_DMA_CMA */
- static inline struct cma *dev_get_cma_area(struct device *dev)
+ bool cma_release_frozen(struct cma *cma, const struct page *pages,
+ 		unsigned long count)
  {
- 	return NULL;
- }
-@@ -148,10 +149,14 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
- 	__free_pages(page, get_order(size));
- }
- static inline void dma_contiguous_early_fixup(phys_addr_t base, unsigned long size)
- {
- }
-+static inline struct cma *dma_contiguous_get_reserved_region(unsigned int idx)
-+{
-+	return NULL;
-+}
- #endif /* CONFIG_DMA_CMA*/
- 
- #ifdef CONFIG_DMA_DECLARE_COHERENT
- int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
- 		dma_addr_t device_addr, size_t size);
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index c56004d314dc2e436cddf3b20a4ee6ce8178bee4..14bd54fb758537f01a6fe27318e7b683964e20b1 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -456,10 +456,32 @@ void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
- #include <linux/of_reserved_mem.h>
- 
- #undef pr_fmt
- #define pr_fmt(fmt) fmt
- 
-+static struct cma *rmem_cma_areas[MAX_CMA_AREAS];
-+static unsigned int rmem_cma_areas_num;
-+
-+static int rmem_cma_insert_area(struct cma *cma)
-+{
-+	if (rmem_cma_areas_num >= ARRAY_SIZE(rmem_cma_areas))
-+		return -EINVAL;
-+
-+	rmem_cma_areas[rmem_cma_areas_num++] = cma;
-+
-+	return 0;
-+}
-+
-+struct cma *dma_contiguous_get_reserved_region(unsigned int idx)
-+{
-+	if (idx >= rmem_cma_areas_num)
-+		return NULL;
-+
-+	return rmem_cma_areas[idx];
-+}
-+EXPORT_SYMBOL_GPL(dma_contiguous_get_reserved_region);
-+
- static int rmem_cma_device_init(struct reserved_mem *rmem, struct device *dev)
- {
- 	dev->cma_area = rmem->priv;
- 	return 0;
- }
-@@ -504,13 +526,13 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
- 	rmem->priv = cma;
- 
- 	pr_info("Reserved memory: created CMA memory pool at %pa, size %ld MiB\n",
- 		&rmem->base, (unsigned long)rmem->size / SZ_1M);
- 
--	err = dma_heap_cma_register_heap(cma);
-+	err = rmem_cma_insert_area(cma);
- 	if (err)
--		pr_warn("Couldn't register CMA heap.");
-+		pr_warn("Couldn't store CMA reserved area.");
- 
- 	return 0;
- }
- RESERVEDMEM_OF_DECLARE(cma, "shared-dma-pool", rmem_cma_setup);
- #endif
+ 	struct cma_memrange *cmr;
 
 -- 
 2.53.0
