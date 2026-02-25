@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4ANKIqKMnmltWAQAu9opvQ
+	id gNphKquMnmmPWAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 06:46:10 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 06:46:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9B8192228
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 06:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E53419223D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 06:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8313010E1C1;
-	Wed, 25 Feb 2026 05:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB6CB10E6A0;
+	Wed, 25 Feb 2026 05:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Sf0JPAxp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gRiXXyFy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9386F10E69E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 05:46:07 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-c636487ccaeso2363280a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 21:46:07 -0800 (PST)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD34E10E6A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 05:46:16 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id
+ 41be03b00d2f7-c6541e35fc0so3877269a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Feb 2026 21:46:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1771998367; x=1772603167; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1771998376; x=1772603176; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EKkr4eeTfN7wADREvjdWZpjwmy9o6+cZb2Ap/abwYj4=;
- b=Sf0JPAxpxhAuDVbmxtaFr1P1uwd6YqK9Xbdna/l10EuG7niCtPGv3/sKAIl3ZWmkru
- XTSdEEUtH0kfTjFzSr9RYfczcqEcHeuo2uBQy1QMKROQnhx6X/qT06ZwXXD96Z9+IYJP
- wg7pnvJeHwBqc8SbiA+skh+7+JQhvV7emJOeHLY4PZcuD27FWumm8zhY+Z0v8hVRyuNO
- dE1cp7+WVIQdk6ULZ5v5qKXFVm8uuqMIAOT6M5R3sJWSv+1+ej2TRpg/wxyBC1ijOZas
- 6b2i4/naWsLoV09OFyIf/dSd+kForVbcrFoRyXbOoHaWx7uXTYkbzOg5sfBnBe7hYvPb
- 0SpA==
+ bh=9ctCiaK7OMF92qM4nTlZLKq6zwDFa78jAQVMaISXu7Q=;
+ b=gRiXXyFySX9SlLC4V8kbNyEveDR3VW0NRWVcma1F2Kogze9v/MNAKs09qAv+Qhdk8i
+ wFwhJ6sPLMcifkgacyhOoPpLNFl0u/67zkFWnsRQCcd/+N/0nPGdb13Dyw3cQDIrJctl
+ K6DhEOVQupaw+ow/nnpl6AjICC1xMD+/AsXf9G6LH87nB2Fcy19ZjXjgnvkzsEnAUboF
+ 76aROKDsQ37yzXXkTI5ZNmmhYXA7u0tWzir4pqNmn3pF8MlKC9yV402BGxIaeDIaq6QL
+ fMzX85BRuuGQFEU49CD1RXXd0iyJOCw/4l85hRP3lCCkNE821PMfui5ioEK6/Fcxaip7
+ 0XWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1771998367; x=1772603167;
+ d=1e100.net; s=20230601; t=1771998376; x=1772603176;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=EKkr4eeTfN7wADREvjdWZpjwmy9o6+cZb2Ap/abwYj4=;
- b=DEo9csDell0EnN5adP0OfU01tcE6eF2+jrp7h3BwaQPU2S3uat8q/Lun78zX0RJAgp
- EQj/wzw6jC6DvQ4syAW84BaTXtIEtHLW8n7Fi1OyyHJYPaHUN+YtPcHcZwTgVZHP/zCS
- DzZWcW4zU77XNtospk2yffcJdtRcDC8jQ/Ikv9pDX8DPxMtmebbAXBjjDNnbQFU1hZHQ
- ZSS7/b3qi3vwmQnnH9EMDcxI/ElMeHNcYemsWNQjECXvdc5mGLF3SwT9kuSrwqLKRURB
- 7E+XNwJ2c9YU+A5cCJ7j/g5HToROTMeNf3gWWI9/Py0QJDkLAzFeXoLfPpgeHrLe2pdi
- guhA==
+ bh=9ctCiaK7OMF92qM4nTlZLKq6zwDFa78jAQVMaISXu7Q=;
+ b=eMUX22IREbIuexIrNfHY8tCUEoK2RkL5G1NtGNa8pKsDniv2HWMqa4znyOSYlri921
+ oyP4bFpyzcIW53bGq2deRxv6aaR9Gpzh+6kSfrinhGnmzJvbbUtaGtXWo8hDi5OtoIk8
+ ESw/FLV3w4QX/YpogI4iNzEKLRHboYmSXFtfQwltXb+FglhXOIASQnCerMynu2r/ydj7
+ dkXFD8EKhz5bR/EzkrJLeM3+rKsV18awrQek0rFdTN69AfoJYSbP8cJlygfCCPhRenb9
+ zqakfcD5AdEaJVTDwE9FZ6d3zgsbo68okXlbYUW/KHNy6IUftHOYVYyP6xRBco6I4zLB
+ cmiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOwhYAogNT0ohcSzX4xqf1W7u8xJjVggRE+P8QMAD7Pmd5aPsOIZTnhgGCZL3WSiAhn3j3DIGJGoU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyxtlm/cXs18BnrUw4DrcVNPF/NcyRTiR377Mv3rKp6CwWp9fou
- ACNeW+1++yr4L1rP0yBdODavzZAaN4QVm0LPa8dQ5+NLJEhdiN21rLR7
-X-Gm-Gg: ATEYQzxBjD6ApHVQdxLIJA0/nAi8W3I3owNOXK+SqoIJRexzhtFWTMJGiAyXVohCmJN
- oTg6EwlScshkK5a/CVPGo8vmWqY9GiYy90QThwKvB71FSg87AAxlpQkw6gOWBELlV4ddf4yhLJ7
- v4kxdXC2Bzr0wKoaYSKWlOVs4Z9JrsRmtbw/X0MbFLVSpLawLVpC5bHfVwq3swtsTYfe1MMjbxX
- 31DT7NmYTNf8W/c0GfxAhmjTGfEE4m5Wa2nQyrSNIbZAtUbKHapTsvuYkqk3/Mc9PlH2q0kHv5a
- ym1Ey94/DC6TjV384Bb/RLNnBaN5W41LUBZmBy4z/CNqaIfSQSCwBltuu4HFZMMWtGWejxcfbZ3
- Nsflffr6wr1re0lzBDM51UIwVqJBx9c5cICt6eFIaYE6cEIEeTu2DhrlVH1lC/5/Fqmq6LsUzwI
- f7F2bjOQ==
-X-Received: by 2002:a17:903:1210:b0:2aa:f9d7:68a8 with SMTP id
- d9443c01a7336-2ad74511d60mr126836005ad.28.1771998366891; 
- Tue, 24 Feb 2026 21:46:06 -0800 (PST)
+ AJvYcCUDqAzGOfzkvSkH/zwS5Rerreo3NWSYZ833VBsz2+kIhGlJDf5lMb53BGIra38d4r18sgZPwp0x6Xo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXWNoYejueE0NlOU+ux46ezSC2BR4uN/Z7L9kJ+BEdTAH8G93e
+ DQZZH/VNauq2M6AckmEx96IaZYOZL6MoABGG84GZhCBt2TleWnlbiYr6
+X-Gm-Gg: ATEYQzzH+DASWIobVX3yHAygxcQwh31iMWRcuZVeRR7sS8kpTQkYD725RkW+ifvT/JJ
+ YMo20lHCdDc3hReTsrpy6P/zGeEjQZpkq7gvRuzBy+CqDfII944ffGCSM1AkKZ5U7rKp/cEtNQ5
+ aS9K+kmRJPkjjhjWV+fjJF4C01rY8mUAxmaP+UDQBIHSlCKbFZ0ht3j90iqNu671EO6Zrsi21SH
+ DTMnZpFB0UyaNsLAJ7eLVCz0AyBGNXHo+ObsDMsaAYq1drAHLLGljAiw7/TfKGGj8RN2L4EYVsX
+ Wi05l9R+fu6C4mPB2AZFToT4gTQ+kCopyPNcGtuC7xo2E4ZoojOcumSAyS2vb52cFZ1np3DlauA
+ twndbLTUMRB8xr68TKx+T8fw+yY45a/xMSQ5Xdmq03fJgrBXX/uDmP2zzvc+/46Aj2kf7LcrVyh
+ wEcIhFcw==
+X-Received: by 2002:a17:903:8cb:b0:2aa:daf9:6980 with SMTP id
+ d9443c01a7336-2ad744ea5d8mr125882705ad.27.1771998376243; 
+ Tue, 24 Feb 2026 21:46:16 -0800 (PST)
 Received: from nuvole.lan ([2408:824c:a17:8230::c83])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ad7500e318sm119665295ad.43.2026.02.24.21.45.57
+ d9443c01a7336-2ad7500e318sm119665295ad.43.2026.02.24.21.46.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Feb 2026 21:46:06 -0800 (PST)
+ Tue, 24 Feb 2026 21:46:15 -0800 (PST)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -86,10 +86,10 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Tianyu Gao <gty0622@gmail.com>,
  White Lewis <liu224806@gmail.com>, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 2/5] dt-bindings: display/msm: dsi-controller-main: Add
- SC8280XP
-Date: Wed, 25 Feb 2026 13:45:22 +0800
-Message-ID: <20260225054525.6803-3-mitltlatltl@gmail.com>
+Subject: [PATCH 3/5] dt-bindings: display: msm: Document DSI controller and
+ DSI PHY on SC8280XP
+Date: Wed, 25 Feb 2026 13:45:23 +0800
+Message-ID: <20260225054525.6803-4-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260225054525.6803-1-mitltlatltl@gmail.com>
 References: <20260225054525.6803-1-mitltlatltl@gmail.com>
@@ -127,15 +127,15 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,marek.ca];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.997];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -145,36 +145,64 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 3C9B8192228
+X-Rspamd-Queue-Id: 5E53419223D
 X-Rspamd-Action: no action
 
-Document DSI controller on SC8280XP Platform.
+Document DSI controller and DSI phy on SC8280XP platform.
 
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/msm/qcom,sc8280xp-mdss.yaml       | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index eb6d38dab..e6aab0e6f 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -29,6 +29,7 @@ properties:
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-               - qcom,sc8180x-dsi-ctrl
-+              - qcom,sc8280xp-dsi-ctrl
-               - qcom,sdm660-dsi-ctrl
-               - qcom,sdm670-dsi-ctrl
-               - qcom,sdm845-dsi-ctrl
-@@ -340,6 +341,7 @@ allOf:
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-               - qcom,sc8180x-dsi-ctrl
-+              - qcom,sc8280xp-dsi-ctrl
-               - qcom,sdm845-dsi-ctrl
-               - qcom,sm6115-dsi-ctrl
-               - qcom,sm6125-dsi-ctrl
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml
+index af79406e1..a710cc84e 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml
+@@ -50,6 +50,22 @@ patternProperties:
+           - qcom,sc8280xp-dp
+           - qcom,sc8280xp-edp
+ 
++  "^dsi@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        contains:
++          const: qcom,sc8280xp-dsi-ctrl
++
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        contains:
++          const: qcom,sc8280xp-dsi-phy-5nm
++
+ unevaluatedProperties: false
+ 
+ examples:
+@@ -129,6 +145,20 @@ examples:
+                     };
+                 };
+ 
++                port@1 {
++                    reg = <1>;
++                    dpu_intf1_out: endpoint {
++                        remote-endpoint = <&mdss0_dsi0_in>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++                    dpu_intf2_out: endpoint {
++                        remote-endpoint = <&mdss0_dsi1_in>;
++                    };
++                };
++
+                 port@4 {
+                     reg = <4>;
+                     endpoint {
 -- 
 2.53.0
 
