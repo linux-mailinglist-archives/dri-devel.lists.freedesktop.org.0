@@ -2,118 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sApwNM+vnmlxWwQAu9opvQ
+	id IHD+L9SwnmlxWwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:16:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:20:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BF9194060
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:16:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6E01941CE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0653510E6DF;
-	Wed, 25 Feb 2026 08:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8034E10E6E4;
+	Wed, 25 Feb 2026 08:20:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ccubr1Vr";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RWiLOW6/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4996710E6DF
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:16:10 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-65c01595082so9548041a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 00:16:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772007369; cv=none;
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5814210E6E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:20:32 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-5a1046f62d0so114824e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 00:20:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772007631; cv=none;
  d=google.com; s=arc-20240605;
- b=PVkIFvDJQEH4iwifLhOhtm7GCtFCmp3182Am7RnfFrR++UcRd7iciRbnCTmg1hF3Ix
- SqgISmQ1+IdxCFNr6Xx30Vc5rXpTrmQZKUnPoQlY3D55OKpebFHBQyNlUhKHeEuKgaWn
- ON+rxVKGf+z9TU8faDo7kQu5ZsOmuG28pCdlwo3jlQudSOZkZp6rNKJHAQRS7OP/4m/f
- yR4dUL+dumcyDWj1+pfhasld4sgChOUgfSTFYtZqRf2+y99Rng+ScaeEsVQJ6ZXE8WCr
- i6eCfgnoDy7m3OV+7TdBbFmQJo2OLlJcf6W+R4sv2vMR+rnLbouQB/GAl50Ktxvy+cS2
- /qNQ==
+ b=DzK/+3kHlxawRJONFmZO2yEpF7W4Fh2tAYLZ0/D2RLlPvj6FAiapnpetH1Pb+4Uqet
+ unp+5pEe4td5sSgjnmWIhQVJ17fTE26p/v18czo20y+ezeJIT5XlcLVBveClze5cX8ty
+ fHckbl3IivhIm8Mds4Z+jlJf4sz5rj0TiCXg/R8gXjhBfIwhZt4P7h6f8J4WoRUQAdUs
+ rQnqry17dGagMkCWvXiAlCjqXRs97BHD5lFIrHkEkP3Rp7X7zhRdRn7ctrwGkdDq5P2t
+ icia3Wt8teb02lzHKi8CUzeg1A9fMWUSYDTsAo50vlgkDVchrdN29EEBRkusKiGwHAJN
+ QNKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=x2LJlLYDb1+QOSf2a+RA+BcJzRTj83OmLJeFRnjwCps=;
- fh=MJ4TRFAjljGnnqOx1ZCjdtF6d9OF5EMddWErXljaVBA=;
- b=D5MBQTxqAf9AaxcfKuCWVCKcJQs7Tel9/WQUVw7GHl7AHQoIdvmeE6qgdNpDB0T/8E
- d2nBe1r6/z4Kn4jBTKozUQ6mI4DlFEY5Tisda+Kx4bbxcgFicBksAz6hu/27BeJzdMR1
- N3bLwCDpTeCWbDfguBO+rDPa6qSKT69O8C4fArVAMDzE77rf0w7wwQrkt/djZ9zyTNbq
- a7qKCLS8jVt3P+6oetW3G7ztOgdLelXTlbbdjtBZZfvRT/xqDP2rtVAxn9wgNFziBCBF
- SB3g2D8vVoneyF6KSt07eIs8aS81gNnKd2F72OH9yU2Q2Qkrw/iqY1anb6feoucPxkJo
- TZ0g==; darn=lists.freedesktop.org
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=1z9BWz3z5pxfzq2/6/DM6j0C4sXxYJlJrqOJoumJEJ0=;
+ fh=xUMOlQy/T9x0h3KC5YJ+sa55eAARrlN8FR21A0odfrE=;
+ b=BJct3BDNVasfrpEX53n+ono9/1KLrIql8oVaOM6FDfAWw3byYqELliYryEVKGeVRIj
+ W6kozSR1alD0Rbaj+jm8vMPF+/zwN20Zrp4oLRBssp19zX9oXgJbF8d4vpx3UXRd/pwv
+ XfVuFxETm/zPwqXqA5YLBECcd3x+kfEAYmh/C9eDZ0xwkE4N+HdtgCM7iLBM4kkFcWbO
+ eflquI/h65bVUTTFaZjznoia1cxdPxdtk+94V9dAuxGowkJqoA8t/m2Cp3ChkHi20xh8
+ 7luOMr7BLPF/QBNyglgX1SJ/Th5+FTPKsizeNF7LB68xiF35w9tSeq1EMMG0hH8KKuPN
+ f7Sw==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772007369; x=1772612169; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=x2LJlLYDb1+QOSf2a+RA+BcJzRTj83OmLJeFRnjwCps=;
- b=ccubr1Vrura3zA2icbf/fYz6q+n8qUj+pKZsh/YDmClY96r0RMuvLIbI0ouyv6s10T
- +VjE+kMBj78R6olXiorZfAj3rm+1OvZZGovfd716iWFMXLZZCj9wD6lYL3svYItpS77b
- QP/82QpcMIWH2a0ifT8g3NPEPSii+skSUjf8QNBXKz14SV1TvdLANEHxyGvRCps9/uJb
- 2AFZzCNSP73N1DYNxy2Cise9h1dPJ+w7DzOdgyWTk2pdhvh14onIYdsOKYaTeiiBPh7y
- T9P60zq3J/L1lOilFolwANfZtpjcAJRacLhjMRtdVYbGS2DD9VINSCc8BpGRKHNqh7C6
- Jz5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772007369; x=1772612169;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1772007631; x=1772612431;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x2LJlLYDb1+QOSf2a+RA+BcJzRTj83OmLJeFRnjwCps=;
- b=eGB49Wmzz+QDm76eWv7+HPLzfFbH/XkeK+nTgHDyqEWb1vqYreWAiGqwRGADKpu/3B
- g6UVJH+74h05tLCRmu8gSBebf+9KaGVmmcO8ektkPDitpkKXIIi/dVQCLhN2c5ZUq85S
- a8fAbOEaCLL0Pmxazecr4jty7pwHBp/t9vXi66B/iz31nrX8j7CzcDUk593rhw0THc7g
- 6XR805Tl3De2vD7Z+ekUyeYOQTRcWikS7C/7dDR6kWay4fj31PYaBYQUa3M3akKVc0lp
- CsbE5ZVgsiaHQcunrvFMF9FJshrE5HOjChtIHv3UEho/nM+wpxI5/rN1pJ6akbu1i3Bg
- k10g==
+ bh=1z9BWz3z5pxfzq2/6/DM6j0C4sXxYJlJrqOJoumJEJ0=;
+ b=RWiLOW6/fvtBljL3hrQGyeGkfuNHEVYxn7PPazYzkFrLU/Z2eq13bF0Wl4hJds0RLG
+ fZWpNuDtgcQp/w3rUP4y/inbAMAvZf7vABZf/Ouu9Q8VQHpjJP7Xlb2qWOn95qHvrUZI
+ f+Xm+iyYJ7kwRxOBhPOGS0Ai8Gv2lKS1tYN2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772007631; x=1772612431;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=1z9BWz3z5pxfzq2/6/DM6j0C4sXxYJlJrqOJoumJEJ0=;
+ b=eeSBRpPF/en1Gev8TOXP7hG0t0Qz3RqCkELCrneBDWlcANK+VwSP59fgzlyM6q7B6H
+ PHXjAXOmZW8OjsgcfUWKBYV2GP2L6rfZZPZdiqETTFxVMSMl03DZq8dApDdR5sVywXPx
+ 0bmPDTHzVEkv6ItXrYOLxgpUilerbVGuEhyu4W63Sde4jd3NBzYlTcDq5Mqr0N6UKRfI
+ Oa2rSKAcW25Rpe9k28Mqi+wQcalEF4yqtCNW3ZnKqBvKLvdl/FTCx2YYWVAoAHQhahhc
+ IvbT+8rS35MNNW7JeM6uP/a90d/nRrk/BjwXgxWqn1GBrJ72kebI8jI6NhPXSRazPVu7
+ KwAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiOqk9HUSv3C37qt+/aU9SNxbFWdxgriUnAcZgDo0oy3cWBk//XDO+rzmcQY7Qksht7eNDEUNLRiY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZrrOsnpBFZS83TD9yEntLybZQpDKwOmZFi60eYwOoOyM01PXb
- vIpLa8sprmnFXGEbF1cC1XK/D7Z6WQQCgwPA6GzB5RLlK/imQwsQ1Wp60hDl75e+fPGLH5oA2Sr
- gbz1e85MQZgCHaiKp7eb0JRVY+Rx50uQ=
-X-Gm-Gg: ATEYQzzTbOfuaq9PL6W4YbWEXV+cHbEyzJ0hcA3lFcxFAsuD1sKU//FmGOHhRWM141o
- 4AkgEQS2/Beg3CNWfqSnh+31sID/A7eJPFbfJN3RUrsXoLnyZUXcw0tNdR/pnUOmpGSvQNqPNh7
- lQDxO/STKSLK6+y2NJ2BrD4QjyGc6l7WJfZ+pc5QunaZEQLtCYwbBB+hJt6FqGB0p2+IjETpT5J
- Awn7zC5tNgzG1aLfFZuIwGXv3n9kRU81DglyQ2D7HI8NNshL3EAhtAyUgxwRecSxkKu3soy65Om
- KqeFNg==
-X-Received: by 2002:a05:6402:23d0:b0:65f:8b6e:e1e0 with SMTP id
- 4fb4d7f45d1cf-65f8b6ee3eamr689444a12.14.1772007368034; Wed, 25 Feb 2026
- 00:16:08 -0800 (PST)
+ AJvYcCWx+8rUzJufmXvkchpbAmVNk/F+UBBeqGQSJe1lUxqAiz/UmfaJxL44NR9SznvPOQ+rsDl0a3HqNJ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDM3/iIAwRmQ6/O9e15jj3Y8LXvKHUIXd2I2xuEIq8kIkpt8R1
+ 4sokOcTuUCQ/UUWgNp1vxNBjME16vc1kCNcftrTOYZvUAKe3vubYBIzEYfMp+PfIA5v6SJ1c9qV
+ LwSax0lKvzU8YL64lMYpJUvUXIkzjOnlJ1Px+SFwd
+X-Gm-Gg: ATEYQzymdOY7Q//xh4Js1Huh0aHqr4TJT9DHSnyeStTER9TSPwuBloc23RXPxO9+pZt
+ 2TZcdZ97N/wvJ/hIvjfHdbucoURuxjH+HWURc7ldSKGJLePfYgdvXmt5lfmRUjHFsovHjs9g2lg
+ d0FqA2Frx4QwoJbhglSKeSDkSdf8fVp5NBdAJRzPgc3Yo1zP4MEzpv0OrbdejMYEfuDBhOwWAOx
+ +JpsaeWKTjY/mpzzuAVcoTLT8KOu2Qy8m/wHOeETXcNzc1GINKi3lGlxyQ+xNT5JpCg1VbZBOWE
+ Y5EkDKKbZCX3d5EiigcLglPywi6yHo8oz3s=
+X-Received: by 2002:a05:6512:b9b:b0:5a1:430:6222 with SMTP id
+ 2adb3069b0e04-5a10430638emr227734e87.7.1772007630593; Wed, 25 Feb 2026
+ 00:20:30 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1771863641.git.l.scorcia@gmail.com>
- <2fbf179c03c61f527e2583f9df4f97f6aaf3297a.1771863641.git.l.scorcia@gmail.com>
- <bc064717108de5ea1a8c98937bb03fd00794682c.camel@mediatek.com>
-In-Reply-To: <bc064717108de5ea1a8c98937bb03fd00794682c.camel@mediatek.com>
-From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-Date: Wed, 25 Feb 2026 09:15:54 +0100
-X-Gm-Features: AaiRm52dJLE1LivX43DCdk6HfEogq21vfzP2R-PH1LBTeVTcW8EPNiYL5Cy5zOU
-Message-ID: <CAORyz2Ki5aPNbcY5-_mRwFgwT46VN_pRV2iP7z7x3snzrbKz=g@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] drm/mediatek: dsi: Add compatible for mt8167-dsi
+References: <20260120-mtkdsi-v1-1-b0f4094f3ac3@gmail.com>
+ <80cecc13015aca7fe68dd40845e60af4bad42223.camel@mediatek.com>
+In-Reply-To: <80cecc13015aca7fe68dd40845e60af4bad42223.camel@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 25 Feb 2026 16:20:19 +0800
+X-Gm-Features: AaiRm53aktJkvWRSs_OtrFpEUnAjkj1Xocp5KjXoLsN4g3Olmuw0jfNPNr4TOdc
+Message-ID: <CAGXv+5H1=7O36txmf+m08w1fg3kZKjpqnSOuOAOfiPPcCjtMvA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: mtk_dsi: enable hs clock during pre-enable
 To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-Cc: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "robh@kernel.org" <robh@kernel.org>, 
- =?UTF-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= <Chunfeng.Yun@mediatek.com>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, 
- "mripard@kernel.org" <mripard@kernel.org>, 
+Cc: "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "vkoul@kernel.org" <vkoul@kernel.org>, 
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "bisson.gary@gmail.com" <bisson.gary@gmail.com>, 
+ "simona@ffwll.ch" <simona@ffwll.ch>,
  "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,89 +121,180 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:ck.hu@mediatek.com,m:linux-mediatek@lists.infradead.org,m:robh@kernel.org,m:Chunfeng.Yun@mediatek.com,m:tzimmermann@suse.de,m:simona@ffwll.ch,m:mripard@kernel.org,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:chunkuang.hu@kernel.org,m:vkoul@kernel.org,m:krzk+dt@kernel.org,m:linux-phy@lists.infradead.org,m:p.zabel@pengutronix.de,m:conor+dt@kernel.org,m:airlied@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:matthias.bgg@gmail.com,m:neil.armstrong@linaro.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.995];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,mediatek.com,suse.de,ffwll.ch,collabora.com,vger.kernel.org,linux.intel.com,lists.freedesktop.org,pengutronix.de,gmail.com,linaro.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_SENDER(0.00)[wenst@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:ck.hu@mediatek.com,m:p.zabel@pengutronix.de,m:chunkuang.hu@kernel.org,m:angelogioacchino.delregno@collabora.com,m:airlied@gmail.com,m:bisson.gary@gmail.com,m:simona@ffwll.ch,m:matthias.bgg@gmail.com,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:bissongary@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,collabora.com,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[wenst@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	NEURAL_HAM(-0.00)[-0.993];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 43BF9194060
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,chromium.org:email,chromium.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0D6E01941CE
 X-Rspamd-Action: no action
 
-> > The mt8167 DSI controller is fully compatible with the one found in
-> > mt2701. Device tree documentation is already present upstream.
+On Wed, Feb 25, 2026 at 2:20=E2=80=AFPM CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89)=
+ <ck.hu@mediatek.com> wrote:
 >
-> If mt8167 DSI is fully compatible with mt2701 DSI, I think the binding document and device tree should be modified.
-> In device tree,
->
->     compatible = "mediatek,mt8167-dsi", "mediatek,mt2701-dsi";
->
-> And this patch is not necessary.
-
-Hi, if I understand your review correctly that's what v2 [1] of this
-patch did, but the change was rejected during review.
-
-As far as I can see there is no win-win solution here. This tricky
-situation derives from the fact that in last year's submissions the
-change was only partially merged - the bindings went upstream while
-the driver did not, and now we have to work around this. In v3 I tried
-to address the issue by actually implementing what the binding
-document says.
-I'll be happy to resubmit v4 but I need to know what's the consensus here.
-
-Thanks!
-
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/ff920a7cc94f2b0c03d4bb55142030fded30d07c.1771258407.git.l.scorcia@gmail.com/
-
+> On Tue, 2026-01-20 at 12:36 +0100, Gary Bisson wrote:
+> > External email : Please do not click links or open attachments until yo=
+u have verified the sender or the content.
 > >
-> > Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+> >
+> > Some bridges, such as the TI SN65DSI83, require the HS clock to be
+> > running in order to lock its PLL during its own pre-enable function.
+> >
+> > Without this change, the bridge gives the following error:
+> > sn65dsi83 14-002c: failed to lock PLL, ret=3D-110
+> > sn65dsi83 14-002c: Unexpected link status 0x01
+> > sn65dsi83 14-002c: reset the pipe
+> >
+> > Move the necessary functions from enable to pre-enable.
+>
+> Looks good to me, but this change the flow for all SoC and panel,
+> so I would wait for more SoC and more panel test.
+>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+Tested-by: Chen-Yu Tsai <wenst@chromium.org> # Chromebooks
+
+Tested on:
+- MT8173 Hana (Telesu) w/ PS8640 bridge
+- MT8183 Krane w/ DSI panel
+- MT8183 Juniper w/ ANX7625 bridge
+- MT8186 Tentacruel w/ PS8640 bridge
+- MT8186 Steelix w/ PS8640 bridge
+
+No regressions observed.
+
+> > Signed-off-by: Gary Bisson <bisson.gary@gmail.com>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 1 +
-> >  1 file changed, 1 insertion(+)
+> > Tested on Tungsten510 module with sn65dsi83 + tm070jdhg30 panel.
 > >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index af4871de9e4c..ad10e86b161d 100644
+> > Left mtk_dsi_set_mode() as part of the enable function to mimic what is
+> > done in the Samsung DSIM driver which is known to be working the TI
+> > bridge.
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 35 +++++++++++++++++-------------=
+-----
+> >  1 file changed, 17 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/media=
+tek/mtk_dsi.c
+> > index 0e2bcd5f67b7..b560245d1be9 100644
 > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -1301,6 +1301,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
+> > @@ -672,6 +672,21 @@ static s32 mtk_dsi_switch_to_cmd_mode(struct mtk_d=
+si *dsi, u8 irq_flag, u32 t)
+> >         }
+> >  }
 > >
-> >  static const struct of_device_id mtk_dsi_of_match[] = {
-> >         { .compatible = "mediatek,mt2701-dsi", .data = &mt2701_dsi_driver_data },
-> > +       { .compatible = "mediatek,mt8167-dsi", .data = &mt2701_dsi_driver_data },
-> >         { .compatible = "mediatek,mt8173-dsi", .data = &mt8173_dsi_driver_data },
-> >         { .compatible = "mediatek,mt8183-dsi", .data = &mt8183_dsi_driver_data },
-> >         { .compatible = "mediatek,mt8186-dsi", .data = &mt8186_dsi_driver_data },
+> > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > +{
+> > +       if (!dsi->lanes_ready) {
+> > +               dsi->lanes_ready =3D true;
+> > +               mtk_dsi_rxtx_control(dsi);
+> > +               usleep_range(30, 100);
+> > +               mtk_dsi_reset_dphy(dsi);
+> > +               mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +               mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +               mtk_dsi_clk_hs_mode(dsi, 0);
+> > +               usleep_range(1000, 3000);
+> > +               /* The reaction time after pulling up the mipi signal f=
+or dsi_rx */
+> > +       }
+> > +}
+> > +
+> >  static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+> >  {
+> >         struct device *dev =3D dsi->host.dev;
+> > @@ -724,6 +739,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+> >         mtk_dsi_set_vm_cmd(dsi);
+> >         mtk_dsi_config_vdo_timing(dsi);
+> >         mtk_dsi_set_interrupt_enable(dsi);
+> > +       mtk_dsi_lane_ready(dsi);
+> > +       mtk_dsi_clk_hs_mode(dsi, 1);
+> >
+> >         return 0;
+> >  err_disable_engine_clk:
+> > @@ -769,30 +786,12 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
+> >         dsi->lanes_ready =3D false;
+> >  }
+> >
+> > -static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > -{
+> > -       if (!dsi->lanes_ready) {
+> > -               dsi->lanes_ready =3D true;
+> > -               mtk_dsi_rxtx_control(dsi);
+> > -               usleep_range(30, 100);
+> > -               mtk_dsi_reset_dphy(dsi);
+> > -               mtk_dsi_clk_ulp_mode_leave(dsi);
+> > -               mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > -               mtk_dsi_clk_hs_mode(dsi, 0);
+> > -               usleep_range(1000, 3000);
+> > -               /* The reaction time after pulling up the mipi signal f=
+or dsi_rx */
+> > -       }
+> > -}
+> > -
+> >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+> >  {
+> >         if (dsi->enabled)
+> >                 return;
+> >
+> > -       mtk_dsi_lane_ready(dsi);
+> >         mtk_dsi_set_mode(dsi);
+> > -       mtk_dsi_clk_hs_mode(dsi, 1);
+> > -
+> >         mtk_dsi_start(dsi);
+> >
+> >         dsi->enabled =3D true;
+> >
+> > ---
+> > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > change-id: 20260120-mtkdsi-29e4c84e7b38
+> >
+> > Best regards,
 > > --
-> > 2.43.0
+> > Gary Bisson <bisson.gary@gmail.com>
 > >
 > >
--- 
-Luca Leonardo Scorcia
-l.scorcia@gmail.com
+>
+>
+> ************* MEDIATEK Confidentiality Notice
+>  ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including it=
+s
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or beli=
+eve
+>
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
