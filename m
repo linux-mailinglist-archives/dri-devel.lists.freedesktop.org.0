@@ -2,87 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cMsPN1cln2mPZAQAu9opvQ
+	id kHHwK1kmn2mPZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:37:43 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3497819AC56
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C86419AD22
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 17:42:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13EF310E7F0;
-	Wed, 25 Feb 2026 16:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C173510E7F9;
+	Wed, 25 Feb 2026 16:41:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="iFjK6UEP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n+xg12JP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F89A10E7F0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:37:38 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-436317c80f7so801015f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:37:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1772037457; x=1772642257; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IIjuh7xicSafG0ljqjs2yM/yZzuJ98QSAxsCQUIs+5A=;
- b=iFjK6UEPZ1dzWXQmLp5EP80eWtIqB4AXR1ItfBf+M3hZWatBt3Yiv9joH3fcrc3A8V
- j8GGUTJAdSMdpwmAhNQAokXaCvOCgCtz8J14fGpCiYz9oFHq8y577Iwu/VcknjPAA8UM
- NNcHJA0VzsNVY33vVMq8a24gfWLbQvJeTUOWpJxmcz0KT/Rk2ryvqQ4RY6na5yz6bDM5
- 4yL9eTqF82KpoDTIYXG8UPgAGFYWQNY9FVkjNqxOB7grA6vsFjYEq436k6LHKCEnUg2Z
- OmXliRQDJZqEFSyr+4XAzubSyMq0dj/O6VTOPVe/erqhEBOiZ/xGTgWz9iOuOMOwrgMZ
- Wa+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772037457; x=1772642257;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IIjuh7xicSafG0ljqjs2yM/yZzuJ98QSAxsCQUIs+5A=;
- b=slEQqk6CHd7rwaYRVbCnzj/x1L0HjigdHI6vndBfgCz1F+C8wuEbdqbSbBiF2bQmlB
- G0Bynd32Ok9BkcW4k0hqXoivtqCZNQd/3ytOjA+mT/b/RDDiG8VLyn0Pi4Mmp24zKn+r
- JBwzkSkKRMQtqdgOSnWevYeHEh6mBSmYkDgqPjYGqiNpCMmTh0YVloH37yXyUvI23UwI
- EU/+kndTqR55OgOcWlLkCbka60cGylM47+d+gLnieoCFkJqiJkSUy3b6u9+H47l+3DGy
- GQK2iTsNhz8oRzses6gQmBGEuzHGJ38Ne6LSnlfZ678KSuOuauiQKytlCha52hn1c2Nd
- h0FQ==
-X-Gm-Message-State: AOJu0Yy8otlP/7Ds6lnYVsqNNMLYSBQm6YRs9rJBB878K0U5XfP8dR9T
- XRlk+Q6d1XuH6kkMQXl4cMA7PROqLTJu5cjmMe8Me1pP3RqoEDig6mckwQHPLlXQ5Zs=
-X-Gm-Gg: ATEYQzwG7MYnpBU0niLnReiRyGLhKaqi+2wDKsLWb4t8mhKz0C5Qh5B2OTUZt7fRHdl
- j5shDw4f67enBgqMqKga4u8m4h+vYMlh6B6YKPS7VMdHohYyliEnrfkLyUsDmn/7yxtYyXuuhlH
- ZL+R7OhXirpSzNdmMviS+p6nQPJeaizApjntppt19SsYMCR30xoWBf2hdi9FJcaz1Qtc7qd7g3g
- eobiXvVBJFSNwS8DyVPevIJrYc6U4V6NKA3gfxSBmpolKkuIX1LOH9pzKms5NHghPpRJAj/fPm6
- FAcqzKJxhvvWzSMFDxqAVQgcmH8My6NWvmFGxQbzAq5V2twYaT9/ZrMlPn488wiL66I7Z5YkZus
- bEdKTzj8Y8/DMOoI014fbi/BOcU6ZJizseypO/YttG/KXQVRxitsCFt1YvaAh6R5Uq5A1yJeN6O
- OhbhBfEiBEF5T8utgdp3QJuSJgGltmeC1Oad0IYHkZeKQZsb+26PHeRqo=
-X-Received: by 2002:a05:6000:1867:b0:437:71b2:6f1a with SMTP id
- ffacd0b85a97d-4398d79a703mr7957440f8f.0.1772037456952; 
- Wed, 25 Feb 2026 08:37:36 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970bfa015sm35229805f8f.8.2026.02.25.08.37.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 08:37:36 -0800 (PST)
-Message-ID: <7ff6638b-53fc-4898-8219-fa498712d401@ursulin.net>
-Date: Wed, 25 Feb 2026 16:37:35 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C610410E7F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 16:41:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 08FC860126;
+ Wed, 25 Feb 2026 16:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3297DC116D0;
+ Wed, 25 Feb 2026 16:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772037716;
+ bh=RsGWTxEf7XecP10VMIRwvUSVG8Qsr83RzrgZ5IzF8FI=;
+ h=From:Subject:Date:To:Cc:From;
+ b=n+xg12JPezepMjFSTJolxFs8rNtU/+FapKmNzxdb/yaHfCvOEPJ6mOianSuwJ3HB4
+ jE3Ot5ZU6GHmh11K/S+fwE9WMB6m+Vwp8SokCYu1VmKfKN8aR3eIuhv8R3ybaKjmv0
+ efD4dDCcFNqnMcb/eORXibFrZdR7YGUy+z9AKrSPdZpzcx+qh+1SLmvXULdYsGx3BT
+ lIFy6l+hpnInUBMIomFEw0v7FdyjjUcLg7GjjG3HE2J2UAvtjb9xdMjipwGGgLNiGh
+ XaNqsaakVso0/STbFhI6IO0+eqrYd7vRP3dHDYicVFqkj7cQOyLOoxk5pNOvFOOtw3
+ +vMLUKA5T16mg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 0/7] dma-buf: heaps: Turn heaps into modules
+Date: Wed, 25 Feb 2026 17:41:48 +0100
+Message-Id: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 2/3] drm/syncobj: Add
- DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR ioctl flag
-To: Yicong Hui <yiconghui@gmail.com>, christian.koenig@amd.com,
- michel.daenzer@mailbox.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20260225124609.968505-1-yiconghui@gmail.com>
- <20260225124609.968505-3-yiconghui@gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260225124609.968505-3-yiconghui@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MywqEMAxA0V+RrA3U+ADnVwYX0aYa8EVDhwHx3
+ y0uz+LeC0yiisGnuCDKT02PPaMqC5gW3mdB9dlAjjpH1KLfGMcUcBE+DdlwO3xaxbBydTPWMvW
+ BGHJ+Rgn6f9ff4b4fj1bsG2oAAAA=
+X-Change-ID: 20260225-dma-buf-heaps-as-modules-1034b3ec9f2a
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-mm@kvack.org, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1658; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=RsGWTxEf7XecP10VMIRwvUSVG8Qsr83RzrgZ5IzF8FI=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnz1fxsJSoPiF0/6nFZ8aiH50IR++QHe2acfuV99o3Ur
+ b8ySw/bd0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJmGxgrK+6GlaicfGcTlM7
+ j1HSN+2aLWFpC6+58f3Ksl4fWK82++OBaXObyvu/3GDf+lfy4bsblxjrlDyEk+dOmTt1f4tlj+L
+ D544WizcUfH6/eWZLdt9O3qyk3guqU24edFvzLdMucMm8krc+AA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,183 +87,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[ursulin.net];
-	FORGED_RECIPIENTS(0.00)[m:yiconghui@gmail.com,m:christian.koenig@amd.com,m:michel.daenzer@mailbox.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,amd.com,mailbox.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.986];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-mm@kvack.org,m:mripard@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,ursulin.net:mid,ursulin.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 3497819AC56
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0C86419AD22
 X-Rspamd-Action: no action
 
+Hi,
 
-On 25/02/2026 12:46, Yicong Hui wrote:
-> Add DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR ioctl flag for the
-> ioctls DRM_IOCTL_SYNCOBJ_WAIT and DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT, which
-> will make them abort their wait and return the error code and its
-> associated syncobj.
-> 
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Suggested-by: Michel Dänzer <michel.daenzer@mailbox.org>
-> Signed-off-by: Yicong Hui <yiconghui@gmail.com>
-> ---
-> Changes in v3:
-> * Fixed inline comments by converting to multi-line comments in
-> accordance to kernel style guidelines.
-> * Used dma_fence_get_status to query error instead of getting it
-> directly.
-> 
->   drivers/gpu/drm/drm_syncobj.c | 27 +++++++++++++++++++++++----
->   include/uapi/drm/drm.h        |  6 ++++++
->   2 files changed, 29 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index b74e491f9d8b..2b23f638c1cc 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1042,6 +1042,7 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->   	struct dma_fence *fence;
->   	uint64_t *points;
->   	uint32_t signaled_count, i;
-> +	int status;
->   
->   	if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
->   		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-> @@ -1139,6 +1140,14 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->   			if (!fence)
->   				continue;
->   
-> +			status = dma_fence_get_status(fence);
-> +			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR) && status < 0) {
-> +				if (idx)
-> +					*idx = i;
-> +				timeout = status;
-> +				goto done_waiting;
-> +			}
-> +
->   			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
->   			    dma_fence_is_signaled(fence) ||
->   			    (!entries[i].fence_cb.func &&
-> @@ -1242,8 +1251,12 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
->   							 wait->flags,
->   							 timeout, &first,
->   							 deadline);
+The recent introduction of heaps in the optee driver [1] made possible
+the creation of heaps as modules.
 
-I am calling this helper an unhelpful helper and was suggesting to get 
-rid of it:
+It's generally a good idea if possible, including for the already
+existing system and CMA heaps.
 
-https://lore.kernel.org/dri-devel/20250611140057.27259-2-tvrtko.ursulin@igalia.com/
+The system one is pretty trivial, the CMA one is a bit more involved,
+especially since we have a call from kernel/dma/contiguous.c to the CMA
+heap code. This was solved by turning the logic around and making the
+CMA heap call into the contiguous DMA code.
 
-"""
-Helper which fails to consolidate the code and instead just forks into two
-copies of the code based on a boolean parameter is not very helpful or
-readable. Lets just remove it and proof in the pudding is the net smaller
-code.
-"""
+Let me know what you think,
+Maxime
 
-Can we please nuke it?
+1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wiklander@linaro.org/
 
-> -		if (timeout < 0)
-> +		if (timeout < 0) {
-> +			if (wait->flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR)
-> +				wait->first_signaled = first;
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (7):
+      dma: contiguous: Turn heap registration logic around
+      mm: cma: Export cma_alloc and cma_release
+      mm: cma: Export cma_get_name
+      mm: cma: Export dma_contiguous_default_area
+      dma-buf: heaps: Export mem_accounting parameter
+      dma-buf: heaps: cma: Turn the heap into a module
+      dma-buf: heaps: system: Turn the heap into a module
 
-There can be timeout < 0 for reasons other than 
-DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR. Will 'first' contain a valid 
-value to return to userspace in that case? Will userspace even be able 
-to meaningfully distinguish between ioctl returning negative due some 
-random error, versus a fence error where otherwise nothing else failed?
+ drivers/dma-buf/dma-heap.c          |  1 +
+ drivers/dma-buf/heaps/Kconfig       |  4 ++--
+ drivers/dma-buf/heaps/cma_heap.c    | 21 +++++----------------
+ drivers/dma-buf/heaps/system_heap.c |  5 +++++
+ include/linux/dma-map-ops.h         |  5 +++++
+ kernel/dma/contiguous.c             | 27 +++++++++++++++++++++++++--
+ mm/cma.c                            |  3 +++
+ 7 files changed, 46 insertions(+), 20 deletions(-)
+---
+base-commit: 499a718536dc0e1c1d1b6211847207d58acd9916
+change-id: 20260225-dma-buf-heaps-as-modules-1034b3ec9f2a
 
-> +
->   			return timeout;
-> +		}
->   		wait->first_signaled = first;
->   	} else {
->   		timeout = drm_timeout_abs_to_jiffies(timeline_wait->timeout_nsec);
-> @@ -1253,8 +1266,12 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
->   							 timeline_wait->flags,
->   							 timeout, &first,
->   							 deadline);
-> -		if (timeout < 0)
-> +		if (timeout < 0) {
-> +			if (timeline_wait->flags & DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR)
-> +				timeline_wait->first_signaled = first;
-> +
->   			return timeout;
-> +		}
->   		timeline_wait->first_signaled = first;
->   	}
->   	return 0;
-> @@ -1332,7 +1349,8 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
->   
->   	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
->   			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> -			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR;
->   
->   	if (args->flags & ~possible_flags)
->   		return -EINVAL;
-> @@ -1376,7 +1394,8 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
->   	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
->   			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
->   			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
-> -			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR;
->   
->   	if (args->flags & ~possible_flags)
->   		return -EINVAL;
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 213b4dc9b612..e998d9351525 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -977,6 +977,12 @@ struct drm_syncobj_transfer {
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline to deadline_nsec */
-> +/*
-> + * As soon as any of the fences in the set have an error,
-> + * abort waiting and return its error code. Index of this
-> + * first failed fence is returned in first_signaled.
-
-What else can be returned in first_signaled?
-
-Regards,
-
-Tvrtko
-
-> + */
-> +#define DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR (1 << 4)
->   struct drm_syncobj_wait {
->   	__u64 handles;
->   	/* absolute timeout */
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
