@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cLvjIjgTn2nWYwQAu9opvQ
+	id oO0WC3gRn2nMYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:20:24 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:12:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F90E199774
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503FD1994BD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 16:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D36A10E77F;
-	Wed, 25 Feb 2026 15:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B6210E7A4;
+	Wed, 25 Feb 2026 15:12:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X1K0a6sJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="olWIYesR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B84210E17F;
- Wed, 25 Feb 2026 15:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772032821; x=1803568821;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=C04skGnwp4ewKNiFr0TWzFbvtmCEOXTudVcZnez9cuU=;
- b=X1K0a6sJCjCFQhivC/wOHv63xKl55vOSCCsYhHnUOOIfL/eey1wv85d8
- v9BsFVcIiHUzigmms1fBeBcoQZQiI8O36puM7ebzTwhkp05+1HyxX4yPv
- 168wVvZsE566q/qawT4t9dQsbMbj06+ycivR6qT78IUYjQ4AeQuNxK53X
- 3LdWzNJiUJOMF+QvgyI+MowdjVSQlYAiIUG/yj92/RWDrJuJOtCu+K0JO
- trUQ7vk7LgAgI6EjecOm6xh/rtO/O57bdrGL6E1RCMxmSnCUG+Be5aKF9
- KYGgKoUQsFQjY3hNHh2VCc0IEubly4FHFx96lCvtTpZqfJryVnaNMsh8i w==;
-X-CSE-ConnectionGUID: 1J1VHst7R4uCpfh4hDIytg==
-X-CSE-MsgGUID: UVv36JKhS8Sxmpv41SnFcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="84436228"
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="84436228"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 07:20:21 -0800
-X-CSE-ConnectionGUID: C+RxnuYKSD6HbZbNZWi5Rg==
-X-CSE-MsgGUID: 4KPaL44XS0mD9DmMLSoViw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="213936341"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.81])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 07:20:17 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Andi Shyti <andi.shyti@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: Re: [PATCH] drm/i915: Fix potential overflow of shmem scatterlist
- length
-Date: Wed, 25 Feb 2026 16:11:31 +0100
-Message-ID: <5887622.44csPzL39Z@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <aZ7h4pJlB70wf7In@zenone.zhora.eu>
-References: <20260224094944.2447913-2-janusz.krzysztofik@linux.intel.com>
- <aZ7h4pJlB70wf7In@zenone.zhora.eu>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48EB510E7A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:12:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DEC5941E4D;
+ Wed, 25 Feb 2026 15:12:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BEFC116D0;
+ Wed, 25 Feb 2026 15:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772032370;
+ bh=WBE2By5FzkP5SLbnPSG3o0NgugwGTYXwxmVW/sbRDIw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=olWIYesRWiw65xkODMWGjed+aMm2qj32u6gVvmfLAViXpgfQ1gV5euIFOYqvzyXKS
+ 1oBjv1D1FTk1wR7rMSeAmVBJmSYp1VZMujILP/lxeKQLisP+WFoCBJSvHgrg3aUY3G
+ o55VFauH6L5QLsO4DYrMf5yk93ODqho4R4lpocJaU2wzmq0zPxpd0cTDezXbJtbtdP
+ /OJCdoFKX0X5bkE917xIuyjMETyXUBUHJ86z0zVUQQOfhQ0d3fwlrlGb+29Bjbz5N6
+ c7uzqpRNp6BBV/ZOpgHGboQQIXulvsYguBBOqtlXiUDdZB9VHUdXaViALWDNYzYiOp
+ VtX+a33PmtVOA==
+Date: Wed, 25 Feb 2026 09:12:46 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>, 
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+Message-ID: <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+ <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+ <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,101 +83,112 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	CTE_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
-	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:ekansh.gupta@oss.qualcomm.com,m:trilokkumar.soni@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[jkrzyszt-mobl2.ger.corp.intel.com:mid]
-X-Rspamd-Queue-Id: 4F90E199774
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 503FD1994BD
 X-Rspamd-Action: no action
 
-Hi Andi,
-
-Thanks for review.
-
-On Wednesday, 25 February 2026 15:41:13 CET Andi Shyti wrote:
-> Hi Janusz,
-> 
-> ...
-> 
-> > @@ -153,8 +153,12 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
-> >  			}
-> >  		} while (1);
-> >  
-> 
-> Perhaps we could add here:
-> 
-> 	max_pages = max_segment >> PAGE_SHIFT;
-> 	/* Just to be paranoic, but not necessary */
-> 	if (!max_pages)
-
-GEM_BUG_ON(!max_pages), I would rather say.  The max_segment comes from 
-drivers/gpu/drm/i915/i915_scatterlist.h:i915_sg_segment_size(struct device *dev),
-let's assume that can't be that much broken.
-
-> 		max_pages = 1;
+On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
 > 
 > 
-> > -		nr_pages = min_t(unsigned long,
-> > -				folio_nr_pages(folio), page_count - i);
-> > +		nr_pages = min_array(((unsigned long[]) {
-> > +					folio_nr_pages(folio),
-> > +					page_count - i,
-> > +					max_segment / PAGE_SIZE,
+> On 2/24/2026 9:03 AM, Trilok Soni wrote:
+> > On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+> >> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+> >> integrated in the DRM accel subsystem.
+> >>
+> >> The new docs introduce QDA as a DRM/accel-based implementation of
+> >> Hexagon DSP offload that is intended as a modern alternative to the
+> >> legacy FastRPC driver in drivers/misc. The text describes the driver
+> >> motivation, high-level architecture and interaction with IOMMU context
+> >> banks, GEM-based buffer management and the RPMsg transport.
+> >>
+> >> The user-space facing section documents the main QDA IOCTLs used to
+> >> establish DSP sessions, manage GEM buffer objects and invoke remote
+> >> procedures using the FastRPC protocol, along with a typical lifecycle
+> >> example for applications.
+> >>
+> >> Finally, the driver is wired into the Compute Accelerators
+> >> documentation index under Documentation/accel, and a brief debugging
+> >> section shows how to enable dynamic debug for the QDA implementation.
+> > So existing applications written over character device UAPI needs to be
+> > rewritten over new UAPI and it will be broken once this driver gets
+> > merged? Are we going to keep both the drivers in the Linux kernel
+> > and not deprecate the /char device one? 
+> >
+> > Is Qualcomm going to provide the wrapper library in the userspace
+> > so that existing applications by our customers and developers
+> > keep working w/ the newer kernel if the char interface based
+> > driver gets deprecated? It is not clear from your text above. 
+> Thanks for raising this, Trilok.
 > 
-> max_segment >> PAGE_SHIFT ?
-
-Yeah, shift seems more optimal than division here, however, I've just followed 
-the patter used a few lines below. where we can see a multiplication, not a 
-right shift, and since PAGE_SIZE is a constant, I hope the compiler will 
-optimize that.
-
+> This is one of the open items that I have. I'm not exactly sure what would be the
+> acceptable way for this. 
 > 
-> For clarity this can be written as
+> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
+> without modification.
 > 
-> 		nr_pages = min_t(unsigned long,
-> 				folio_nr_pages(folio), page_count - i);
-> 		nr_pages = min_t(unsigned long, nr_pages, max_pages);
-
-Do you think the min_array() is less clear?  Let's see what others say.
-
-> 
-> But these are nitpicks, it's then up to you to choose the style.
-> 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Thank you,
-Janusz
-
-> 
-> Thanks,
-> Andi
-> 
-> > +				      }), 3);
-> > +
+> I was thinking in the same lines as you have mentioned and  having some shim/compat
+> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
+> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
 > 
 
+This is a fundamental requirement, you need to address this in order for
+this to move forward.
 
+Which makes me wonder if it would be possible to reach an accel driver
+through incremental transition of the current driver, instead of just
+dropping in a few thousand lines of new code/design.
 
+> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
+> before, so I would want guidance from maintainers on whether this is an acceptable
+> model or not.
+> 
+> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
+> unchanged in terms of definitions and expectation. The same project can be build for both
+> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
+> not face any problem if the libs is built with proper configure options.
+> 
 
+You're assuming that the kernel and userspace are a unified piece of
+software, they are not. It must be possible for me to install a new
+kernel package without having to replace the userspace libraries.
+
+Regards,
+Bjorn
+
+> I have noted your point regarding the doc not providing clear details, I have added interface
+> compatibility information in cover letter and will try pulling the same to Doc.
+> >
+> > ---Trilok Soni
+> 
+> 
