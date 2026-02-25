@@ -2,156 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aHWfLZRKn2lEZwQAu9opvQ
+	id QG41MBlLn2lEZwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:16:36 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:18:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AD219CA50
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2074A19CAAD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111B610E305;
-	Wed, 25 Feb 2026 19:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578B410E7D6;
+	Wed, 25 Feb 2026 19:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NBIuGH+q";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Iw77PMrW";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Uppp+0Hb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B38710E305
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:16:32 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61PB3Q4X1512005
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:16:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kdS/QntJSaGj5m5uHLTyiULnHKwPg/+0nR+soa0YEdU=; b=NBIuGH+qsITYkPXs
- Lof0N/6lSzDAv7Bpsm1A94Chi6YXXVYgoHooLmZ82JXaMITNohWCFCF5VA++xnoN
- yFJorSI5utmoSnY1IhQPWMnBVJp91XxB28WwAFzWVEGN3qSiQZCVtHkO5nZsRo2c
- JpJvOGSulZmLVv3Ty54oc1DNU2nIwPiaHIsLPqsoM1WW3qQCi34G+Bvjexxh6JlM
- uafSnrGYntn6CiqjATlu+MZVNOrBjrL6486X76+gARLA1z3DqX0pMoQtPXmQWMhN
- YH7S0MKzRKnXfjyz3xCY97lqnaDBIvi8uc5BjAJfkuSc/hfMmthY1ejzMJHJ1Gi+
- Zxh29A==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com
- [74.125.82.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chyvf1hs8-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:16:30 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id
- 5a478bee46e88-2ba8013a9e3so26885eec.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772046989; x=1772651789;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kdS/QntJSaGj5m5uHLTyiULnHKwPg/+0nR+soa0YEdU=;
- b=Iw77PMrWm6OvkUg92qYmPTjdCzOOykcKQBOONFwWSjCer6XhX0eRsBFbACEUq4Oslq
- kzs3aSnymcxqHewTMoa6DHxnML5a0/SGgImOpqcuPGNa8kXj2Kn6AHB421NKGidK/gmz
- 1kUcOGiZMqh2xMhEjk6BKfU72eAOKx3FZ0wO8JAQpOSP0E5aRVpVBnGl7LmiDf8Fb3QG
- ggnA7ou9rUN4wh4dYAVrkGwO14Ae/+X9pn9gKF/bmGEqpGBqkeY+0XYub7Z4gxp4UiCm
- CWqNVAe+DajrMsbO4dsUK3/kJ1Tfj9Wk4l5CC6n04LReVNKGy8Gsef40GsGWKK27XvAx
- vLhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772046989; x=1772651789;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kdS/QntJSaGj5m5uHLTyiULnHKwPg/+0nR+soa0YEdU=;
- b=Rgmhf2TYMBgQ261Vc781SvEa8qmo6tUueiHourAG1NCXVnZ9Er1nKzuMIJrv34eQkE
- 9pqVA2+h2m0PfwH9l3u+++DZV/ww5jLobg0OmF9NQrJ8B1qZgFmOaC9E4E7+ziJ4+Wgn
- xwMLpAC10Emwes93Uj3PpLjt9q7cjxHbhJ9d9XGU8BOZ9XjSW2SqSigBT0oxXpVKqffc
- J0IRs8pjf5GIczmBGdb7ZS2/XGF3GqsgjAOAAkgsp9kCBFCmoWZ+gX9tn8b93DfcJbnj
- xGBV2BXXTEpO3A9aD/cvwknPlgD/3DEmsa038MXDI7S2OFZAKzd6fPlJYlF6EhOwc69c
- f5Sg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKzwZmSBFs8ST9d67iQQisazO8HbklEYxze3HgJTyDjLqta6TOwbFOwLWQmdI4xoPYNd/a23bxxE0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtA9w6Grub7KI+R2MKaCxQu1IWN+gYl+j4uZj8eQFOv989S3fH
- cZKdq/UKllcsijRoRck896b25rG8UUnlHxT9kyI4smX7JQy+0+JKtUxUuzpwErZOCEtS8uiMPVK
- 7WlzNQ3tZ+9WnTF76i1iCXTs5vqWaciwgg/yaJXWQbeNZEoqDHTL5J11M+vQSWKphbj7R0j0=
-X-Gm-Gg: ATEYQzwNG4MLB4disBrBxiJOD1dpKrjMXTsNhsz1lz/p8/3F0o5Vwx2uYAPRsFYRn+h
- Dn9RVmIAsKMGAhhgzcJSIGu57BuZhlk8KwNbW4IDO/GO8kLUWW/tvbUgoQv2/tp4Cqi31KbHKVK
- 3o6ymUbx7SksJmApZG4xjSUNzbme7W5gSi9QUCligsSfIo0uw+9uTG72EIVkGTmIBWP1L+i768O
- icx7flUtvyBrv+9Hnyg7nxu7qWofgiKICEwhaUQNzjZp2X1gUylvewYETxWRc9Db0mdZRKCbD6U
- URUgOsdmyMKUUgsqsXcZZ/zyS9htEcU8KsVHY1ncXXS2xtndekKNI/+Vq6rtaT5tVLEIST0ww4R
- IcITuqefCzV1LE3e8gn481C0ceQUAlCVOaL522v5Tj1b101wxSc5UK54=
-X-Received: by 2002:a05:7301:434b:b0:2ba:990a:4829 with SMTP id
- 5a478bee46e88-2bd7bd112fcmr7841930eec.30.1772046989285; 
- Wed, 25 Feb 2026 11:16:29 -0800 (PST)
-X-Received: by 2002:a05:7301:434b:b0:2ba:990a:4829 with SMTP id
- 5a478bee46e88-2bd7bd112fcmr7841890eec.30.1772046988649; 
- Wed, 25 Feb 2026 11:16:28 -0800 (PST)
-Received: from [192.168.86.165] ([76.176.48.107])
- by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2bd7dbe8304sm9699189eec.17.2026.02.25.11.16.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 11:16:28 -0800 (PST)
-Message-ID: <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
-Date: Wed, 25 Feb 2026 11:16:26 -0800
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010060.outbound.protection.outlook.com [52.101.56.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E80C310E7D6;
+ Wed, 25 Feb 2026 19:18:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s9hGAKhl3pkW2ubl3jjYrfU9JCiAFmQBSyMvzGZ/OVpkXLNSG+nnDTJMEC5PHGBNz66UBxxxSyyEddZwwZWd2AiAzQRcMz7rFrOWo6fumyfG5Sr7ru8eMmyzn6LaYjIlj7eEKKNy9ph8g/DykVLdPglLNVJ5KAGBReegrcJECYfsUPmYy/r93v7apJYQOq+LzW6liuWErAmnsxxkiSTlXbuKrCHKBNjN92V5yBl83sRVuZiWhRvH10xfWZ8osfHqP0AXiDxWpmP1HXb30qnqgtq7z4s4patuzFA3SDn87zVWlk1b0IxglSZlRANVb9nFC7mIsmGrKm3ZsG0ZmyYzxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NyzL/fsHbv2ZMpapjypAwpDqKVt9wI2RRIACGYLc7rs=;
+ b=KojfHfmNVWQqKncuRV9O74EPWfr/hWNlSXUq+e37WjE70f6GkeKieeroCCN2xVLAEy1CPQIPN8aB8bQXealckpmopW5N9h0ZuL8U+pGL1cE5D3qDmNLpXn6iWEdAijxNKj6M6QBmR8nX3oFoxWLgjP2lZPZh52Z02/oPnR4GZDzMENWHEbcWCYuS6aPSeOmAgxIJxS3QzhwQdiUG0tNPTvZh38KETqc0gF5+C+VoeaVJBqvSsgKvguYMdVpflcEuCPDXULbdnXefTsyUSGsybj9iyiubXIezPB8K5KIIvEDt5lMnPRI7h5V1fNkIC+LRjhL6fkQI1S1oce9pncLJCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NyzL/fsHbv2ZMpapjypAwpDqKVt9wI2RRIACGYLc7rs=;
+ b=Uppp+0HbVL/EVasMADGjJ9y41hK2UXxP7/zCQD1u92NAozDuqjMDVcI/PP2P99lx6FdRoJfhN262tkZNDQYDzQx1G2r48shNzl7rNKWGOVj7Ty34DpJRLdjBnuJTxAZ+5gNtepp5g4Qxy5iStrZYQtN5lGLV+sKoXO+IrEYnnEQdzSiXrxGcMctq5Hsddg982cZnyl/fHNpoe9pKZFkaIdJ0GSXzhGC/cO9EAgQAFGasizguWoiNvrV5GvFu5Kjs7hg/dHwO6HI5lZbR4E+adM0bFK3X5ySMye6L8vq/Uy9P+uRgwVwKYMo+uR85RQrvka210guUwtRDAk8fbmJNcw==
+Received: from SJ0PR13CA0028.namprd13.prod.outlook.com (2603:10b6:a03:2c0::33)
+ by IA1PR12MB9524.namprd12.prod.outlook.com (2603:10b6:208:596::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
+ 2026 19:18:39 +0000
+Received: from SJ1PEPF000023D2.namprd02.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::da) by SJ0PR13CA0028.outlook.office365.com
+ (2603:10b6:a03:2c0::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.22 via Frontend Transport; Wed,
+ 25 Feb 2026 19:18:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF000023D2.mail.protection.outlook.com (10.167.244.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Wed, 25 Feb 2026 19:18:39 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
+ 2026 11:18:24 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
+ 2026 11:18:23 -0800
+Received: from inno-dell (10.127.8.10) by mail.nvidia.com (10.129.68.8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 25 Feb 2026 11:18:16 -0800
+Date: Wed, 25 Feb 2026 21:18:10 +0200
+From: Zhi Wang <zhiw@nvidia.com>
+To: Eliot Courtney <ecourtney@nvidia.com>
+CC: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, "=?UTF-8?B?QmrDtnJu?=
+ Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v2 0/9] gpu: nova-core: gsp: add continuation record
+ support
+Message-ID: <20260225211810.3142ccd7@inno-dell>
+In-Reply-To: <20260219-cmdq-continuation-v2-0-2e8b7615536f@nvidia.com>
+References: <20260219-cmdq-continuation-v2-0-2e8b7615536f@nvidia.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
- driver docs
-To: Bjorn Andersson <andersson@kernel.org>,
- Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
- <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
- <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
- <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
-Content-Language: en-US
-From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-In-Reply-To: <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: ykh9RAmKHTUR4JQkc4bkyvZb1xTQ28qk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE4MCBTYWx0ZWRfX0GQw+REttg5q
- TOX61Owj7lmORcVdz6XU9JChJQpw4BU1A4hTYPK/JDQOUZ5O/DUwIRPvHN7+U81jG9A2KiQs9x/
- dZFcHuJA+UXDOB0d8Hfz5EKxIAMkto6g0WaqNe6hkjx+cgvAcStNM97+lfPBoA9PHd57ymqnjWv
- rrDCIsvY88NyEsZNxuNQPKEy8687XP798bmgFDd1Bz0HQVdC1zFv3TUwJ+TU1UBvFt7XmLe2/8A
- uf68h+ePR3rmPXn9pd8i6XkjF81AiJO2//j3nK+JH/3iZ11KFJPkdsVf1DIQtDhHwfW5DPh7Dwz
- PH3hJ+foeYasWkNsztpP+mKRRiiUA88rENisYOOZlG1Ks3SAKDAkzrbFfYsZ9ywzfJcKvTpX1Gm
- j+Lq8b+uInE/oUXfitXFALfajOT9yAl4+yRDAFNNYqeD9P7HNaPpKwHtWJPskutP+DWYi/s1a0u
- 9Et3iWmc/d0fdUc+XjA==
-X-Proofpoint-GUID: ykh9RAmKHTUR4JQkc4bkyvZb1xTQ28qk
-X-Authority-Analysis: v=2.4 cv=dZWNHHXe c=1 sm=1 tr=0 ts=699f4a8e cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=lsoD3MMNObdLvy1227ExmA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=Vs6AG_5Z_IHWLNxo5LUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602250180
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D2:EE_|IA1PR12MB9524:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ff17ca3-e42b-4ef9-706d-08de74a2ae84
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|7416014|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: 24UuwQwqhXw4ROK9AsVM6ySYBHm5U1oTcB1nBHWjWRTAwbPq91u3jgwEaqe4+gyT5FfR3JgfZFgCALlYg9pzz9y+ctJqE+ZuXG7l1/Y24qjEJxFFDj2CjvxQe6MAXl+C4gQpE4lDlH0agHodMkoMaI32LUj4HiG5R1muDYvfjI9mWDyomfjrp0c1mTZMU4FKmcBmdc5QZhPN6bcRCWYfBTzXeWDDE0/ILSFrg69dItPRPEZfcmuXqF+5m1BUd0260mGZvNlCyo3BLtXDOdndspLGKscudSttvkfki/t5q5LCFWet7/W7icX7F7egJDqTYJNEfNdHSgHNjLgLD7+NWPyZox15xV1nTYNMfHCkbmVz9+EhDPhBflDNm/Ana4k3Au835YzQq0FMTyurdQy+Go8ZUrZFLYPTIJY68PWUDlhF1p1ovkRbfPjvlxiPBl8hYSXeOB7c3d1oS7xfF/wKke618dP7LksureoZky8E1ZOzKTdLzcaAXt9GY3PnvLN9r/y5AWNf+pvoxv/NbXgtrJhC32VthUnWaZLGp7g4QPbIcucugav4mLOKL9xdQDL/3s+4yfZsU9JUWwJLt3Lj4zzWWasSOptgOZngou7AWzLVSEmKG3yq8XUM1PJJFjtwDg6CMu3zou+RXUK0RZbYYEJoIZ1NNlmeCJMuXgNlyCzKOLQXT5n/0Y1E0388HHIy2zU9uoU22I5tj2Q57AqevJAYI8HiliKu/FC5wQkoyW73XTmjYgYCDgQkFAVrQ52/JOymGkYumtsSKQ/Y196rmKfKcvLQNoKA4AdhW+dMfHuWENDAfvSXNgU31heXBF1E20sNKcO75C7pNa2EA2xyMA==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 5pLvKu5nj4LYK9eDzx1Y94qhduApQO0wz/t2H9soIElXjrxFupzOyX4pcgumqSRn7OY6VK+3EZsTFsj4x6pS/zASRtLo6GUYF6JhEUBcyIGlb4h5updKj6GG3CWTQBZUiJGvqb4ksvcGmskSS4oMfY3BfUJthEsUWCZNDmR0omRMZW6OuWnUlyp3Ki1Y1ZJ1l/7E3bvRXFT/XO4qol/dp8jDLCrbCk22ijwNE6Z53NyjhfRNY20Zgjwcw7gLkT0l6mCPB2Dwze0EGOh/mx3CDhF0AIZ1N7K4ncTyZvBSTZnQb4PWPzo59TtVOygsfslDwFJe15k8pE82l6/bC9j74J0VqIvXL9VqeWByGoD2O7RBsJmMEG7K5jJnj4MmpQXdvWFFNavG1441P2a1MbNFgPscN2pSmI/mIK2S05pS7OBe573+a8qp1LTWNJH//T56
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 19:18:39.4360 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ff17ca3-e42b-4ef9-706d-08de74a2ae84
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9524
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,116 +131,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-1.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:ekansh.gupta@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,oss.qualcomm.com,quicinc.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,Nvidia.com:dkim];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,nvidia.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhiw@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	NEURAL_HAM(-0.00)[-0.996];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 20AD219CA50
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 2074A19CAAD
 X-Rspamd-Action: no action
 
-On 2/25/2026 7:12 AM, Bjorn Andersson wrote:
-> On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
->>
->>
->> On 2/24/2026 9:03 AM, Trilok Soni wrote:
->>> On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
->>>> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
->>>> integrated in the DRM accel subsystem.
->>>>
->>>> The new docs introduce QDA as a DRM/accel-based implementation of
->>>> Hexagon DSP offload that is intended as a modern alternative to the
->>>> legacy FastRPC driver in drivers/misc. The text describes the driver
->>>> motivation, high-level architecture and interaction with IOMMU context
->>>> banks, GEM-based buffer management and the RPMsg transport.
->>>>
->>>> The user-space facing section documents the main QDA IOCTLs used to
->>>> establish DSP sessions, manage GEM buffer objects and invoke remote
->>>> procedures using the FastRPC protocol, along with a typical lifecycle
->>>> example for applications.
->>>>
->>>> Finally, the driver is wired into the Compute Accelerators
->>>> documentation index under Documentation/accel, and a brief debugging
->>>> section shows how to enable dynamic debug for the QDA implementation.
->>> So existing applications written over character device UAPI needs to be
->>> rewritten over new UAPI and it will be broken once this driver gets
->>> merged? Are we going to keep both the drivers in the Linux kernel
->>> and not deprecate the /char device one? 
->>>
->>> Is Qualcomm going to provide the wrapper library in the userspace
->>> so that existing applications by our customers and developers
->>> keep working w/ the newer kernel if the char interface based
->>> driver gets deprecated? It is not clear from your text above. 
->> Thanks for raising this, Trilok.
->>
->> This is one of the open items that I have. I'm not exactly sure what would be the
->> acceptable way for this. 
->>
->> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
->> without modification.
->>
->> I was thinking in the same lines as you have mentioned and  having some shim/compat
->> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
->> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
->>
-> 
-> This is a fundamental requirement, you need to address this in order for
-> this to move forward.
-> 
-> Which makes me wonder if it would be possible to reach an accel driver
-> through incremental transition of the current driver, instead of just
-> dropping in a few thousand lines of new code/design.
-> 
->> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
->> before, so I would want guidance from maintainers on whether this is an acceptable
->> model or not.
->>
->> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
->> unchanged in terms of definitions and expectation. The same project can be build for both
->> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
->> not face any problem if the libs is built with proper configure options.
->>
-> 
-> You're assuming that the kernel and userspace are a unified piece of
-> software, they are not. It must be possible for me to install a new
-> kernel package without having to replace the userspace libraries.
+On Thu, 19 Feb 2026 16:30:49 +0900
+Eliot Courtney <ecourtney@nvidia.com> wrote:
 
-Thank you Bjorn for providing the inputs. 
+Tested-by: Zhi Wang <zhiw@nvidia.com>
 
-I also foresee that we will be stop adding (or already happened) new features
-into the existing fastrpc driver, so calling the new driver as an alternative
-is in oversold category.
-
-You are pretty much began the deprecating the existing fastrpc driver, so let's
-just mention it if that is the case and provide migration/shim path so that
-existing binaries doesn't break.
-
----Trilok Soni
+> GSP commands over 16 pages need to be sent using "continuation
+> records" which essentially means splitting the payload over multiple
+> commands.
+> 
+> This series adds a command type `ContinuationRecord` which just writes
+> its header and whatever payload it is given. It also adds types
+> `SplitState` and `SplitCommand` which support splitting a large RPC
+> into smaller ones while transparently letting regular sized RPCs be
+> sent without extra copies.
+> 
+> The send pathway uses `SplitState` to send all commands, but if
+> the command fits into 16 pages, it still writes directly into the
+> command queue. If it is larger than 16 pages and needs continuation
+> records, it writes into a staging buffer, so there is one copy.
+> 
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+> ---
+> Changes in v2:
+> - Added doccoments
+> - Renamed driver_bytes_available_to_write to driver_write_area_size
+> - allocate_command_with_timeout merged allocate_command with timeout
+> parameter
+> - Replaced hardcoded GSP_PAGE_SIZE * 16 with bindings
+> - Changed oversized command error from EIO to EMSGSIZE
+> - Added EMSGSIZE to kernel/error.rs
+> - Split WrappingCommand functionality into SplitState + SplitCommand
+> enum
+> - Made max_size a const (MAX_CMD_SIZE)
+> - Removed send_continuation_record + added comment for type inference
+> - send_single_command now consumes the command
+> - Extracted command_size + used in SplitState 
+> - Link to v1:
+> https://lore.kernel.org/r/20260212-cmdq-continuation-v1-0-73079ded55e6@nvidia.com
+> 
+> ---
+> Eliot Courtney (9):
+>       gpu: nova-core: gsp: sort MsgFunction variants alphabetically
+>       gpu: nova-core: gsp: add mechanism to wait for space on command
+> queue rust: add EMSGSIZE error code
+>       gpu: nova-core: gsp: add checking oversized commands
+>       gpu: nova-core: gsp: clarify invariant on command queue
+>       gpu: nova-core: gsp: unconditionally call variable payload
+> handling gpu: nova-core: gsp: add command_size helper
+>       gpu: nova-core: gsp: support large RPCs via continuation record
+>       gpu: nova-core: gsp: add tests for SplitState
+> 
+>  drivers/gpu/nova-core/gsp/cmdq.rs                 | 118 +++++++---
+>  drivers/gpu/nova-core/gsp/commands.rs             | 256
+> +++++++++++++++++++++- drivers/gpu/nova-core/gsp/fw.rs
+>    | 106 +++++---- drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
+> |   1 + rust/kernel/error.rs                              |   1 +
+>  5 files changed, 408 insertions(+), 74 deletions(-)
+> ---
+> base-commit: 956b9cbd7f156c8672dac94a00de3c6a0939c692
+> change-id: 20260203-cmdq-continuation-b99f3d5966c3
+> 
+> Best regards,
 
