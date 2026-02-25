@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMFoCDUxn2lXZQQAu9opvQ
+	id cNgWMnIxn2lXZQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:28:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:29:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C8719B8C2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C3519B8F9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D352B10E806;
-	Wed, 25 Feb 2026 17:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC85710E817;
+	Wed, 25 Feb 2026 17:29:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KAEBcLqx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VMarFZur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A2210E7F4;
- Wed, 25 Feb 2026 17:28:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 85CBF600AE;
- Wed, 25 Feb 2026 17:28:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39552C19421;
- Wed, 25 Feb 2026 17:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772040494;
- bh=EfgKCiH4LT3KqQiGbcQFoTpH2C7Iohqow3BAjy2YggI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KAEBcLqxCBxcuCKDvmYjsmnLQEKLDsGKgxKdqE7Kp348V6nAEWwJgqGJtaI6iymT7
- RZgQB2SBCXYVFfxc/TZ3kUz9IyITdxWQaKHoqalUWKNefe52kmegj1o5j/usqD2UWW
- pwkG+fH+z7OtPAHHcngQ30IQ/zVmp/h6G7mtvyBWcJhDDhUhmdx2d3RlBpN4Dd54lE
- kg0k5/VLT5YuoC7Y/tfRNBqD60CfOTohNcE+NOS8gaHLQeIA5QqM37tHKK6Dd98iwW
- l5xbdiz671yprQhAgqbNjXTpJRbqIs/3WogRrsx/X00BQObWdXzHizPJ45SIxGCVEl
- 8crNUb/t7ITUQ==
-Date: Wed, 25 Feb 2026 09:28:13 -0800
-From: Kees Cook <kees@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- YiPeng Chai <YiPeng.Chai@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] drm/amd/ras: Fix type size of remainder argument
-Message-ID: <202602250926.E587F86@keescook>
-References: <20260225014317.work.103-kees@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE5C10E816;
+ Wed, 25 Feb 2026 17:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772040559; x=1803576559;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=rRhiG+Az1wT1j6b/Jn1XoF/E4c/Tlz9HWN0jGTXIgFg=;
+ b=VMarFZurJQrSK+5DLlLxG54JVoQ+oZqW12NXOF7n2guEx2twGc+J89o8
+ epRANH9Fuz3C6p0Z4mxiQYRc+dmZNB0qHRiyoSdKtwTE4uvKwnf6ZKPHk
+ MqZZoZjDtB+IzZ9PfhOtlvn1t6JhyhfPb20RjbkpQ9+Yiy0wnJ7S7a9X6
+ ZOokw6gfw1j11i3N21VQaD9QBsGuS8iSvQtA0YjEneJ6T55I8MqZYaXLp
+ eTbrmQa1UDVPz3aWq7ryVQ/znb9TMX/ZIAEU9KqoMc+C9h7lTp/xwTL4r
+ grlZ2tI5h3QVfnOzFCHYodpncd5wgg6sUsUfhuv+Ambxaa0MKMnSjQ3MG g==;
+X-CSE-ConnectionGUID: 0Ltt2gDRRSS7hToCtu9QcQ==
+X-CSE-MsgGUID: YuNkxBA4QiubaTkb26kfNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="73193681"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="73193681"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 09:29:18 -0800
+X-CSE-ConnectionGUID: s8bHyPrwTomLIyadqLigYg==
+X-CSE-MsgGUID: qdPgP+CBQ6OxJBE9vEr9qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="216444884"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.81])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 09:29:15 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Subject: Re: [PATCH] drm/i915: Fix potential overflow of shmem scatterlist
+ length
+Date: Wed, 25 Feb 2026 18:29:12 +0100
+Message-ID: <10397304.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <aZ8XaheEIW8Opb3Q@ashyti-mobl2.lan>
+References: <20260224094944.2447913-2-janusz.krzysztofik@linux.intel.com>
+ <5887622.44csPzL39Z@jkrzyszt-mobl2.ger.corp.intel.com>
+ <aZ8XaheEIW8Opb3Q@ashyti-mobl2.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260225014317.work.103-kees@kernel.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,106 +87,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	CTE_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email]
-X-Rspamd-Queue-Id: A7C8719B8C2
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:dkim,jkrzyszt-mobl2.ger.corp.intel.com:mid]
+X-Rspamd-Queue-Id: 83C3519B8F9
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 05:43:18PM -0800, Kees Cook wrote:
-> Forcing an int to be dereferenced at uint64_t for div64_u64_rem() runs
-> the risk of endian confusion and stack overflowing writes. Seen while
-> preparing to enable -Warray-bounds globally:
+On Wednesday, 25 February 2026 16:38:18 CET Andi Shyti wrote:
+> > > For clarity this can be written as
+> > > 
+> > > 		nr_pages = min_t(unsigned long,
+> > > 				folio_nr_pages(folio), page_count - i);
+> > > 		nr_pages = min_t(unsigned long, nr_pages, max_pages);
+> > 
+> > Do you think the min_array() is less clear?  Let's see what others say.
 > 
-> In file included from ../arch/x86/include/asm/processor.h:35,
->                  from ../include/linux/sched.h:13,
->                  from ../include/linux/ratelimit.h:6,
->                  from ../include/linux/dev_printk.h:16,
->                  from ../drivers/gpu/drm/amd/amdgpu/../ras/ras_mgr/ras_sys.h:29,
->                  from ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras.h:27,
->                  from ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:24:
-> In function 'div64_u64_rem',
->     inlined from 'ras_core_convert_timestamp_to_time' at ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:72:9:
-> ../include/linux/math64.h:56:20: error: array subscript 'u64 {aka long long unsigned int}[0]' is partly outside array bounds of 'int[1]' [-Werror=array-bounds=]
->    56 |         *remainder = dividend % divisor;
->       |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-> ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c: In function 'ras_core_convert_timestamp_to_time':
-> ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:70:19: note: object 'remaining_seconds' of size 4
->    70 |         int days, remaining_seconds;
->       |                   ^~~~~~~~~~~~~~~~~
+> min_array() is clear, it's the ((unsigned long[]) { ... }) that
+> iis nice and fancy but of difficult first read. But, as I said,
+> it can stay, I don't have a strong opinion, maybe I'd have done
+> the same.
+
+Would you be more happy with a locally declared unsigned long table, 
+initalized with those 3 values, nr_pages - i and max_segment << PAGE_SHIFT 
+statically, folio_nr_pages(folio) once folio is ready, then passed to 
+min_array()?
+
+Thanks,
+Janusz
+
 > 
-> Switch remaining_seconds to uint64_t to avoid the problems.
+> Andi
 > 
-> Fixes: ace232eff50e ("drm/amdgpu: Add ras module files into amdgpu")
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: YiPeng Chai <YiPeng.Chai@amd.com>
-> Cc: Tao Zhou <tao.zhou1@amd.com>
-> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> Cc: <amd-gfx@lists.freedesktop.org>
-> Cc: <dri-devel@lists.freedesktop.org>
-> ---
->  drivers/gpu/drm/amd/ras/rascore/ras_core.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/ras/rascore/ras_core.c b/drivers/gpu/drm/amd/ras/rascore/ras_core.c
-> index 01122b55c98a..91e16b0b98f9 100644
-> --- a/drivers/gpu/drm/amd/ras/rascore/ras_core.c
-> +++ b/drivers/gpu/drm/amd/ras/rascore/ras_core.c
-> @@ -63,13 +63,14 @@ int ras_core_convert_timestamp_to_time(struct ras_core_context *ras_core,
->  {
->  	int days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
->  	uint64_t month = 0, day = 0, hour = 0, minute = 0, second = 0;
-> +	uint64_t remaining_seconds;
->  	uint32_t year = 0;
->  	int seconds_per_day = 24 * 60 * 60;
->  	int seconds_per_hour = 60 * 60;
->  	int seconds_per_minute = 60;
-> -	int days, remaining_seconds;
-> +	int days;
->  
-> -	days = div64_u64_rem(timestamp, seconds_per_day, (uint64_t *)&remaining_seconds);
-> +	days = div64_u64_rem(timestamp, seconds_per_day, &remaining_seconds);
->  
->  	/* utc_timestamp follows the Unix epoch */
->  	year = 1970;
 
-Hm, 0day noticed this creates a problem on 32-bit systems:
-https://lore.kernel.org/all/202602251312.pq8yvrww-lkp@intel.com
 
->  ld: drivers/gpu/drm/amd/ras/rascore/ras_core.o: in function `ras_core_convert_timestamp_to_time':
->  drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:99:(.text+0x23e): undefined reference to `__udivmoddi4'
->  ld: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:100:(.text+0x253): undefined reference to `__udivdi3'
->  ld: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:101:(.text+0x265): undefined reference to `__umoddi3'
 
-I will investigate and send a v2...
 
--- 
-Kees Cook
