@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wD7oMVI4n2m5ZQQAu9opvQ
+	id sKa8I/k6n2m5ZQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:58:42 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:10:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A7A19BE3E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 18:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46C019C0B6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5853C10E7E7;
-	Wed, 25 Feb 2026 17:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4AD10E367;
+	Wed, 25 Feb 2026 18:09:58 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hiMna549";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MTA-14-3.privateemail.com (mta-14-3.privateemail.com
- [198.54.127.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBAF310E7E7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 17:58:39 +0000 (UTC)
-Received: from mta-14.privateemail.com (localhost [127.0.0.1])
- by mta-14.privateemail.com (Postfix) with ESMTP id 4fLj4t4ZlBz3hhVS;
- Wed, 25 Feb 2026 12:58:38 -0500 (EST)
-Received: from localhost.localdomain
- (bras-base-toroon4332w-grc-26-174-91-51-28.dsl.bell.ca [174.91.51.28])
- by mta-14.privateemail.com (Postfix) with ESMTPA;
- Wed, 25 Feb 2026 12:58:14 -0500 (EST)
-From: Hamza Mahfooz <someguy@effective-light.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F05F10E367
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 18:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772042997; x=1803578997;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wLt7cfJZJWt5tyGhgXaCsIWh8fiCKocJNMDP/bpCs2M=;
+ b=hiMna54978nHf7B0P+ujIR1hIvz4O5ZOeyyyo+6sXBXbYzGnCyo+xv6N
+ EGuWnOeRpVFhtw5tHDr8IqkVy78dkt7RF30cZpMzoY0YCDT9Rg20/odvv
+ hzhoriguKzTC4exorjZEvHCFlPXCNE+cuO89gt/ttazQ2Pb4UYl9PPE2z
+ HrEj8Hwwh2lbR889QBMgGjs2z4FBVTok/KCVQyCa5E0gpFqxCg0v4PiHn
+ JyA/5FEQMtvzeran94YHp2wNZDarj3YCh4kYt2aO8nai62r+SYyECLNWk
+ JFOmYHke7gxavSGrLiyW5rUq4+6+ydBZLVTXUbLqURogBXnpYUPyMVRPC g==;
+X-CSE-ConnectionGUID: 3hOyVxkrQUSIw0wXoRyJ/A==
+X-CSE-MsgGUID: rd17z6GtQOiERygZHbORBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72301058"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72301058"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 10:09:56 -0800
+X-CSE-ConnectionGUID: 1AO4uWBrRQSKcAA8KlAwjw==
+X-CSE-MsgGUID: 0n1JMhIYRjGn0Br8EXLFmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="215416933"
+Received: from try2-8594.igk.intel.com ([10.91.220.58])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 10:09:54 -0800
+From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Hamza Mahfooz <someguy@effective-light.com>,
- Ian Forbes <ian.forbes@broadcom.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Karol Herbst <kherbst@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v6] drm/edid: add CTA Video Format Data Block support
-Date: Wed, 25 Feb 2026 12:57:08 -0500
-Message-ID: <20260225175709.408010-1-someguy@effective-light.com>
-X-Mailer: git-send-email 2.53.0
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ karol.wachowski@linux.intel.com, lizhi.hou@amd.com,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Subject: [PATCH v2] accel/ivpu: Limit number of maximum contexts and doorbells
+ per user
+Date: Wed, 25 Feb 2026 19:06:38 +0100
+Message-ID: <20260225180638.316126-1-maciej.falkowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,588 +73,416 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[effective-light.com,broadcom.com,linux.intel.com,redhat.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[effective-light.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[someguy@effective-light.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com];
+	FROM_NEQ_ENVFROM(0.00)[maciej.falkowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.977];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.987];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[broadcom.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 35A7A19BE3E
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,linux.intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E46C019C0B6
 X-Rspamd-Action: no action
 
-Video Format Data Blocks (VFDBs) contain the necessary information that
-needs to be fed to the Optimized Video Timings (OVT) Algorithm.
-Also, we require OVT support to cover modes that aren't supported by
-earlier standards (e.g. CVT). So, parse all of the relevant VFDB data
-and feed it to the OVT Algorithm, to extract all of the missing OVT
-modes.
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Cc: Ian Forbes <ian.forbes@broadcom.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Suggested-by: Karol Herbst <kherbst@redhat.com>
-Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
+Implement per-user resource limits to prevent resource exhaustion.
+
+Root users can allocate all available contexts (128) and doorbells
+(255), while non-root users are limited to half of the available
+resources (64 contexts and 127 doorbells respectively).
+
+This prevents scenarios where a single user could monopolize NPU
+resources and starve other users on multi-user systems.
+
+Change doorbell ID and command queue ID allocation errors to debug
+messages as those are user triggered.
+
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 ---
-v3: move ovt stuff above add_cea_modes() and break up
-    calculate_ovt_mode() to make it easier to read.
-
-v4: fix 32 bit build and constify read-only vars.
-
-v5: implement suggestions from:
-    https://lore.kernel.org/dri-devel/87plpbk92h.fsf@intel.com/
-    and export drm_ovt_mode().
-
-v6: rebased onto drm-misc-next and tested on an AYA AYANEO-OLED.
+v1 -> v2:
+  - Fixed off-by-one error (Lizhi)
 ---
- drivers/gpu/drm/drm_edid.c | 465 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     |   3 +
- 2 files changed, 468 insertions(+)
+ drivers/accel/ivpu/ivpu_drv.c | 94 ++++++++++++++++++++++++++++++++---
+ drivers/accel/ivpu/ivpu_drv.h | 26 ++++++++--
+ drivers/accel/ivpu/ivpu_job.c | 36 ++++++++++----
+ 3 files changed, 136 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 26bb7710a462..0e3141866f21 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -31,6 +31,7 @@
- #include <linux/bitfield.h>
- #include <linux/byteorder/generic.h>
- #include <linux/cec.h>
-+#include <linux/gcd.h>
- #include <linux/export.h>
- #include <linux/hdmi.h>
- #include <linux/i2c.h>
-@@ -755,6 +756,87 @@ static const struct minimode extra_modes[] = {
- 	{ 2048, 1536, 60, 0 },
- };
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 3b6ec8eecf2f..1d9f7d2f71a2 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -68,6 +68,73 @@ bool ivpu_force_snoop;
+ module_param_named(force_snoop, ivpu_force_snoop, bool, 0444);
+ MODULE_PARM_DESC(force_snoop, "Force snooping for NPU host memory access");
  
-+struct cta_rid {
-+	u16 hactive;
-+	u16 vactive;
-+	u8 hratio;
-+	u8 vratio;
-+};
++static struct ivpu_user_limits *ivpu_user_limits_alloc(struct ivpu_device *vdev, uid_t uid)
++{
++	struct ivpu_user_limits *limits;
 +
-+/* CTA-861-I Table 11 - Resolution Identification (RID) */
-+static const struct cta_rid rids[] = {
-+	[0]  = { 0, 0, 0, 0 },
-+	[1]  = { 1280, 720, 16, 9 },
-+	[2]  = { 1280, 720, 64, 27 },
-+	[3]  = { 1680, 720, 64, 27 },
-+	[4]  = { 1920, 1080, 16, 9 },
-+	[5]  = { 1920, 1080, 64, 27 },
-+	[6]  = { 2560, 1080, 64, 27 },
-+	[7]  = { 3840, 1080, 32, 9 },
-+	[8]  = { 2560, 1440, 16, 9 },
-+	[9]  = { 3440, 1440, 64, 27 },
-+	[10] = { 5120, 1440, 32, 9 },
-+	[11] = { 3840, 2160, 16, 9 },
-+	[12] = { 3840, 2160, 64, 27 },
-+	[13] = { 5120, 2160, 64, 27 },
-+	[14] = { 7680, 2160, 32, 9 },
-+	[15] = { 5120, 2880, 16, 9 },
-+	[16] = { 5120, 2880, 64, 27 },
-+	[17] = { 6880, 2880, 64, 27 },
-+	[18] = { 10240, 2880, 32, 9 },
-+	[19] = { 7680, 4320, 16, 9 },
-+	[20] = { 7680, 4320, 64, 27 },
-+	[21] = { 10240, 4320, 64, 27 },
-+	[22] = { 15360, 4320, 32, 9 },
-+	[23] = { 11520, 6480, 16, 9 },
-+	[24] = { 11520, 6480, 64, 27 },
-+	[25] = { 15360, 6480, 64, 27 },
-+	[26] = { 15360, 8640, 16, 9 },
-+	[27] = { 15360, 8640, 64, 27 },
-+	[28] = { 20480, 8640, 64, 27 },
-+};
++	limits = kzalloc(sizeof(*limits), GFP_KERNEL);
++	if (!limits)
++		return ERR_PTR(-ENOMEM);
 +
-+/* CTA-861-I Table 12 - AVI InfoFrame Video Format Frame Rate */
-+static const u16 video_format_frame_rates[] = {
-+	/* Frame Rate 0-7 */
-+	0, 24, 25, 30, 48, 50, 60, 100,
-+	/* Frame Rate 8-15 */
-+	120, 144, 200, 240, 300, 360, 400, 480,
-+};
++	kref_init(&limits->ref);
++	atomic_set(&limits->db_count, 0);
++	limits->vdev = vdev;
++	limits->uid = uid;
 +
-+/* CTA-861-I Table 13 - RID To VIC Mapping */
-+static const u8 rid_to_vic[][8] = {
-+	[0]  = {},
-+	[1]  = { 60, 61, 62, 108, 19, 4, 41, 47 },
-+	[2]  = { 65, 66, 67, 109, 68, 69, 70, 71 },
-+	[3]  = { 79, 80, 81, 110, 82, 83, 84, 85 },
-+	[4]  = { 32, 33, 34, 111, 31, 16, 64, 63 },
-+	[5]  = { 72, 73, 74, 112, 75, 76, 77, 78 },
-+	[6]  = { 86, 87, 88, 113, 89, 90, 91, 92 },
-+	[7]  = {},
-+	[8]  = {},
-+	[9]  = {},
-+	[10] = {},
-+	[11] = { 93, 94, 95, 114, 96, 97, 117, 118 },
-+	[12] = { 103, 104, 105, 116, 106, 107, 119, 120 },
-+	[13] = { 121, 122, 123, 124, 125, 126, 127, 193 },
-+	[14] = {},
-+	[15] = {},
-+	[16] = {},
-+	[17] = {},
-+	[18] = {},
-+	[19] = { 194, 195, 196, 197, 198, 199, 200, 201 },
-+	[20] = { 202, 203, 204, 205, 206, 207, 208, 209 },
-+	[21] = { 210, 211, 212, 213, 214, 215, 216, 217 },
-+	[22] = {},
-+	[23] = {},
-+	[24] = {},
-+	[25] = {},
-+	[26] = {},
-+	[27] = {},
-+	[28] = {},
-+};
++	/* Allow root user to allocate all contexts */
++	if (uid == 0) {
++		limits->max_ctx_count = ivpu_get_context_count(vdev);
++		limits->max_db_count = ivpu_get_doorbell_count(vdev);
++	} else {
++		limits->max_ctx_count = ivpu_get_context_count(vdev) / 2;
++		limits->max_db_count = ivpu_get_doorbell_count(vdev) / 2;
++	}
 +
- /*
-  * From CEA/CTA-861 spec.
-  *
-@@ -4155,6 +4237,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- #define CTA_DB_VIDEO			2
- #define CTA_DB_VENDOR			3
- #define CTA_DB_SPEAKER			4
-+#define CTA_DB_VIDEO_FORMAT		6
- #define CTA_DB_EXTENDED_TAG		7
- 
- /* CTA-861-H Table 62 - CTA Extended Tag Codes */
-@@ -4996,6 +5079,16 @@ struct cea_db {
- 	u8 data[];
- } __packed;
- 
-+struct cta_vfd {
-+	u8 rid;
-+	u8 fr_fact;
-+	bool bfr50;
-+	bool fr24;
-+	bool bfr60;
-+	bool fr144;
-+	bool fr48;
-+};
++	hash_add(vdev->user_limits, &limits->hash_node, uid);
 +
- static int cea_db_tag(const struct cea_db *db)
++	return limits;
++}
++
++static struct ivpu_user_limits *ivpu_user_limits_get(struct ivpu_device *vdev)
++{
++	struct ivpu_user_limits *limits;
++	uid_t uid = current_uid().val;
++
++	guard(mutex)(&vdev->user_limits_lock);
++
++	hash_for_each_possible(vdev->user_limits, limits, hash_node, uid) {
++		if (limits->uid == uid) {
++			if (kref_read(&limits->ref) >= limits->max_ctx_count) {
++				ivpu_dbg(vdev, IOCTL, "User %u exceeded max ctx count %u\n", uid,
++					 limits->max_ctx_count);
++				return ERR_PTR(-EMFILE);
++			}
++
++			kref_get(&limits->ref);
++			return limits;
++		}
++	}
++
++	return ivpu_user_limits_alloc(vdev, uid);
++}
++
++static void ivpu_user_limits_release(struct kref *ref)
++{
++	struct ivpu_user_limits *limits = container_of(ref, struct ivpu_user_limits, ref);
++	struct ivpu_device *vdev = limits->vdev;
++
++	lockdep_assert_held(&vdev->user_limits_lock);
++	drm_WARN_ON(&vdev->drm, atomic_read(&limits->db_count));
++	hash_del(&limits->hash_node);
++	kfree(limits);
++}
++
++static void ivpu_user_limits_put(struct ivpu_device *vdev, struct ivpu_user_limits *limits)
++{
++	guard(mutex)(&vdev->user_limits_lock);
++	kref_put(&limits->ref, ivpu_user_limits_release);
++}
++
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
  {
- 	return db->tag_length >> 5;
-@@ -5274,6 +5367,376 @@ static int edid_hfeeodb_extension_block_count(const struct edid *edid)
- 	return cta[4 + 2];
+ 	struct ivpu_device *vdev = file_priv->vdev;
+@@ -111,6 +178,7 @@ static void file_priv_release(struct kref *ref)
+ 	mutex_unlock(&vdev->context_list_lock);
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
+ 
++	ivpu_user_limits_put(vdev, file_priv->user_limits);
+ 	mutex_destroy(&file_priv->ms_lock);
+ 	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
+@@ -170,7 +238,7 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+ 		args->value = ivpu_hw_dpu_max_freq_get(vdev);
+ 		break;
+ 	case DRM_IVPU_PARAM_NUM_CONTEXTS:
+-		args->value = ivpu_get_context_count(vdev);
++		args->value = file_priv->user_limits->max_ctx_count;
+ 		break;
+ 	case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
+ 		args->value = vdev->hw->ranges.user.start;
+@@ -232,22 +300,30 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct ivpu_device *vdev = to_ivpu_device(dev);
+ 	struct ivpu_file_priv *file_priv;
++	struct ivpu_user_limits *limits;
+ 	u32 ctx_id;
+ 	int idx, ret;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+ 		return -ENODEV;
+ 
++	limits = ivpu_user_limits_get(vdev);
++	if (IS_ERR(limits)) {
++		ret = PTR_ERR(limits);
++		goto err_dev_exit;
++	}
++
+ 	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+ 	if (!file_priv) {
+ 		ret = -ENOMEM;
+-		goto err_dev_exit;
++		goto err_user_limits_put;
+ 	}
+ 
+ 	INIT_LIST_HEAD(&file_priv->ms_instance_list);
+ 
+ 	file_priv->vdev = vdev;
+ 	file_priv->bound = true;
++	file_priv->user_limits = limits;
+ 	kref_init(&file_priv->ref);
+ 	mutex_init(&file_priv->lock);
+ 	mutex_init(&file_priv->ms_lock);
+@@ -285,6 +361,8 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ 	mutex_destroy(&file_priv->ms_lock);
+ 	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
++err_user_limits_put:
++	ivpu_user_limits_put(vdev, limits);
+ err_dev_exit:
+ 	drm_dev_exit(idx);
+ 	return ret;
+@@ -344,8 +422,7 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+ 	ivpu_ipc_consumer_del(vdev, &cons);
+ 
+ 	if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
+-		ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n",
+-			 ipc_hdr.data_addr);
++		ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n", ipc_hdr.data_addr);
+ 		return -EIO;
+ 	}
+ 
+@@ -454,7 +531,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
  }
  
-+/* CTA-861 Video Format Descriptor (CTA VFD) */
-+static void parse_cta_vfd(struct cta_vfd *vfd, const u8 *data, int vfd_len)
-+{
-+	vfd->rid = data[0] & 0x3f;
-+	vfd->bfr50 = data[0] & 0x80;
-+	vfd->fr24 = data[0] & 0x40;
-+	vfd->bfr60 = vfd_len > 1 ? (data[1] & 0x80) : true;
-+	vfd->fr144 = vfd_len > 1 ? (data[1] & 0x40) : false;
-+	vfd->fr_fact = vfd_len > 1 ? (data[1] & 0x3f) : 0x3;
-+	vfd->fr48 = vfd_len > 2 ? (data[2] & 0x1) : false;
-+}
-+
-+static bool vfd_has_fr(const struct cta_vfd *vfd, int rate)
-+{
-+	static const u8 factors[] = {
-+		1, 2, 4, 8, 12, 16
-+	};
-+	int factor = 0;
-+	int i;
-+
-+	switch (rate) {
-+	case 24:
-+		return vfd->fr24;
-+	case 48:
-+		return vfd->fr48;
-+	case 144:
-+		return vfd->fr144;
-+	}
-+
-+	if (!(rate % 25)) {
-+		if (!vfd->bfr50)
-+			return false;
-+
-+		factor = rate / 25;
-+	} else if (!(rate % 30)) {
-+		if (!vfd->bfr60)
-+			return false;
-+
-+		factor = rate / 30;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(factors); i++)
-+		if (factor == factors[i] && (vfd->fr_fact & (1 << i)))
-+			return true;
-+
-+	return false;
-+}
-+
-+#define OVT_PIXEL_CLOCK_GRANULARITY	1000		/* Hz */
-+#define OVT_MIN_HTOTAL_GRANULARITY	8		/* pixels */
-+#define OVT_MIN_VBLANK_DURATION	460000000	/* ps */
-+#define OVT_MIN_VBLANK_LINES		20
-+#define OVT_MIN_VSYNC_LEADING_EDGE	400		/* us */
-+#define OVT_MIN_VSYNC_LE_LINES		14
-+#define OVT_MIN_CLOCK_RATE_420		590000000	/* Hz */
-+#define OVT_PIXEL_FACTOR_420		2
-+#define OVT_MIN_HBLANK_444		80		/* pixels */
-+#define OVT_MIN_HBLANK_420		128		/* pixels */
-+#define OVT_MAX_CHUNK_RATE		650000000	/* Hz */
-+#define OVT_AUDIO_PACKET_RATE		195000		/* Hz */
-+#define OVT_AUDIO_PACKET_SIZE		32
-+#define OVT_LINE_OVERHEAD		32
-+#define OVT_HSYNC_WIDTH		32
-+#define OVT_VSYNC_WIDTH		8
-+
-+static u32 calculate_ovt_min_vtotal(const struct cta_rid *rid, u64 max_vrate,
-+				    u32 vtotal_granularity)
-+{
-+	u64 max_active_time;
-+	u32 min_line_time;
-+	u32 min_vblank;
-+	u32 min_vtotal;
-+
-+	/* step 2 */
-+	max_active_time = div64_u64(1000000000000, max_vrate) -
-+		(u64)OVT_MIN_VBLANK_DURATION;
-+
-+	min_line_time = div_u64(max_active_time, rid->vactive);
-+
-+	min_vblank = max_t(u64, (u64)OVT_MIN_VBLANK_LINES,
-+			   DIV64_U64_ROUND_UP(OVT_MIN_VBLANK_DURATION,
-+					      min_line_time));
-+
-+	min_vtotal = rid->vactive + min_vblank;
-+
-+	if (min_vtotal % vtotal_granularity)
-+		min_vtotal += vtotal_granularity - (min_vtotal %
-+						    vtotal_granularity);
-+
-+	return min_vtotal;
-+}
-+
-+static u32 calculate_ovt_min_htotal(const struct cta_rid *rid,
-+				    const u32 max_vrate,
-+				    const u32 min_vtotal,
-+				    u32 *min_hblank,
-+				    u32 *htotal_granularity)
-+{
-+	u32 max_audio_packets_per_line;
-+	u32 htotal_granularity_chunk;
-+	u64 min_pixel_clock_rate;
-+	u32 min_line_rate;
-+	u32 min_htotal;
-+
-+	/* step 3 */
-+	min_line_rate = max_vrate * min_vtotal;
-+
-+	max_audio_packets_per_line = DIV_ROUND_UP(OVT_AUDIO_PACKET_RATE,
-+						  min_line_rate);
-+
-+	/* step 4 */
-+	*min_hblank = OVT_LINE_OVERHEAD + OVT_AUDIO_PACKET_SIZE *
-+		max_audio_packets_per_line;
-+
-+	min_htotal = rid->hactive + max(OVT_MIN_HBLANK_444, *min_hblank);
-+
-+	min_pixel_clock_rate = max_vrate * min_htotal * min_vtotal;
-+
-+	htotal_granularity_chunk =
-+		roundup_pow_of_two(DIV64_U64_ROUND_UP(min_pixel_clock_rate,
-+						      OVT_MAX_CHUNK_RATE));
-+
-+	*htotal_granularity = max(OVT_MIN_HTOTAL_GRANULARITY,
-+				  htotal_granularity_chunk);
-+
-+	if (min_htotal % *htotal_granularity)
-+		min_htotal += *htotal_granularity - (min_htotal %
-+						     *htotal_granularity);
-+
-+	return min_htotal;
-+}
-+
-+static u64 calculate_ovt_pixel_clock_rate(const struct cta_rid *rid,
-+					  const u32 max_vrate,
-+					  const u32 min_hblank,
-+					  u32 min_htotal,
-+					  u32 min_vtotal,
-+					  const u32 htotal_granularity,
-+					  const u32 vtotal_granularity,
-+					  u32 *htotal, u32 *vtotal)
-+{
-+	u32 resolution_granularity;
-+	u64 pixel_clock_rate;
-+	u64 min_resolution;
-+	u64 rem;
-+	u32 h;
-+	u64 r;
-+	u32 v;
-+
-+	resolution_granularity = OVT_PIXEL_CLOCK_GRANULARITY /
-+		gcd(OVT_PIXEL_CLOCK_GRANULARITY, max_vrate);
-+
-+	do {
-+		/* step 5 */
-+		min_resolution = 0;
-+		v = min_vtotal;
-+
-+		goto loop_end;
-+
-+		while (!min_resolution || r <= min_resolution) {
-+			goto inner_loop_end;
-+
-+			while (rem || div64_u64(max_vrate * r, (h & ~(h - 1))) >
-+			       OVT_MAX_CHUNK_RATE) {
-+				h += htotal_granularity;
-+				r = (u64)h * (u64)v;
-+inner_loop_end:
-+				div64_u64_rem(r, resolution_granularity, &rem);
-+			}
-+
-+			if (!min_resolution || r < min_resolution) {
-+				*htotal = h;
-+				*vtotal = v;
-+				min_resolution = r;
-+			}
-+
-+			v += vtotal_granularity;
-+
-+loop_end:
-+			h = min_htotal;
-+			r = (u64)h * (u64)v;
-+		}
-+
-+		pixel_clock_rate = max_vrate * min_resolution;
-+
-+		/* step 6 */
-+		min_htotal = rid->hactive + max(OVT_MIN_HBLANK_420,
-+						OVT_PIXEL_FACTOR_420 *
-+						min_hblank);
-+
-+	} while (pixel_clock_rate >= OVT_MIN_CLOCK_RATE_420 &&
-+		 *htotal < min_htotal);
-+
-+	return pixel_clock_rate;
-+}
-+
-+static const struct cta_rid *find_rid(u8 rid)
-+{
-+	if (!rid || rid >= ARRAY_SIZE(rids))
-+		return NULL;
-+
-+	return &rids[rid];
-+}
-+
-+/* OVT Algorthim as specified in CTA-861-I */
-+struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int r_id,
-+				      int vrefresh)
-+{
-+	const struct cta_rid *rid = find_rid(r_id);
-+	struct drm_display_mode *mode;
-+	u32 vtotal_granularity = 1;
-+	u32 htotal_granularity;
-+	u32 max_vrate = vrefresh;
-+	u64 pixel_clock_rate;
-+	u32 vsync_position;
-+	u32 min_hblank;
-+	u32 min_htotal;
-+	u32 min_vtotal;
-+	u32 htotal;
-+	u32 vtotal;
-+
-+	if (!rid)
-+		return NULL;
-+
-+	/* step 1 */
-+	switch (vrefresh) {
-+	case 24:
-+	case 25:
-+		max_vrate = 30;
-+		fallthrough;
-+	case 30:
-+		vtotal_granularity = 20;
-+		break;
-+	case 48:
-+	case 50:
-+		max_vrate = 60;
-+		fallthrough;
-+	case 60:
-+		vtotal_granularity = 20;
-+		break;
-+	case 100:
-+		max_vrate = 120;
-+		fallthrough;
-+	case 120:
-+		vtotal_granularity = 5;
-+		break;
-+	case 200:
-+		max_vrate = 240;
-+		fallthrough;
-+	case 240:
-+		vtotal_granularity = 5;
-+		break;
-+	case 300:
-+		max_vrate = 360;
-+		fallthrough;
-+	case 360:
-+		vtotal_granularity = 5;
-+		break;
-+	case 400:
-+		max_vrate = 480;
-+		fallthrough;
-+	case 480:
-+		vtotal_granularity = 5;
-+		break;
-+	}
-+
-+	min_vtotal = calculate_ovt_min_vtotal(rid, max_vrate,
-+					      vtotal_granularity);
-+
-+	min_htotal = calculate_ovt_min_htotal(rid, max_vrate, min_vtotal,
-+					      &min_hblank, &htotal_granularity);
-+
-+	pixel_clock_rate = calculate_ovt_pixel_clock_rate(rid, max_vrate,
-+							  min_hblank,
-+							  min_htotal,
-+							  min_vtotal,
-+							  htotal_granularity,
-+							  vtotal_granularity,
-+							  &htotal, &vtotal);
-+
-+	/* step 7 */
-+	vtotal = vtotal * max_vrate / (u32)vrefresh;
-+
-+	/* step 8 */
-+	vsync_position = max(OVT_MIN_VSYNC_LE_LINES,
-+			     DIV64_U64_ROUND_UP((u64)OVT_MIN_VSYNC_LE_LINES *
-+						pixel_clock_rate,
-+						(u64)htotal * (u64)1000000));
-+
-+	mode = drm_mode_create(dev);
-+
-+	if (!mode)
-+		return NULL;
-+
-+	/* step 10 */
-+	mode->clock = div_u64(pixel_clock_rate, 1000);
-+	mode->hdisplay = rid->hactive;
-+	mode->hsync_start = htotal - OVT_HSYNC_WIDTH * 2;
-+	mode->hsync_end = mode->hsync_start + OVT_HSYNC_WIDTH;
-+	mode->htotal = htotal;
-+
-+	mode->vdisplay = rid->vactive;
-+	mode->vsync_start = vtotal - vsync_position;
-+	mode->vsync_end = mode->vsync_start + OVT_VSYNC_WIDTH;
-+	mode->vtotal = vtotal;
-+
-+	return mode;
-+}
-+
-+static u8 find_vic(u8 rid, int rate_idx)
-+{
-+	if (video_format_frame_rates[rate_idx] > 120 || !find_rid(rid))
-+		return 0;
-+
-+	return rid_to_vic[rid][rate_idx - 1];
-+}
-+
-+/* CTA-861 Video Format Data Block (CTA VFDB) */
-+static int add_modes_from_vfdb(struct drm_connector *connector,
-+			       const struct cea_db *db)
-+{
-+	const struct drm_display_info *info = &connector->display_info;
-+	int vfdb_len = cea_db_payload_len(db);
-+	struct drm_display_mode *mode;
-+	struct cta_vfd vfd;
-+	int num_modes = 0;
-+	int rate_idx;
-+	int vfd_len;
-+	int rate;
-+	int i;
-+
-+	if (!vfdb_len)
-+		return 0;
-+
-+	vfd_len = (db->data[0] & 0x3);
-+
-+	if (!vfd_len)
-+		return 0;
-+
-+	vfd_len++;
-+	vfdb_len--;
-+	vfdb_len -= (vfdb_len % vfd_len);
-+
-+	for (i = 0; i < vfdb_len; i += vfd_len) {
-+		parse_cta_vfd(&vfd, &db->data[i + 1], vfd_len);
-+
-+		for (rate_idx = 1; rate_idx <
-+		     ARRAY_SIZE(video_format_frame_rates); rate_idx++) {
-+			rate = video_format_frame_rates[rate_idx];
-+
-+			if (!vfd_has_fr(&vfd, rate) || find_vic(vfd.rid,
-+								rate_idx))
-+				continue;
-+
-+			mode = drm_ovt_mode(connector->dev, vfd.rid, rate);
-+
-+			if (!mode)
-+				continue;
-+
-+			mode->height_mm = info->height_mm;
-+			mode->width_mm = info->width_mm;
-+
-+			drm_mode_probed_add(connector, mode);
-+			num_modes++;
-+		}
-+	}
-+
-+	return num_modes;
-+}
-+
- /*
-  * CTA-861 YCbCr 4:2:0 Capability Map Data Block (CTA Y420CMDB)
-  *
-@@ -5342,6 +5805,8 @@ static int add_cea_modes(struct drm_connector *connector,
- 			/* Add 4:2:0(only) modes present in EDID */
- 			modes += do_y420vdb_modes(connector, vdb420,
- 						  cea_db_payload_len(db) - 1);
-+		} else if (cea_db_tag(db) == CTA_DB_VIDEO_FORMAT) {
-+			modes += add_modes_from_vfdb(connector, db);
- 		}
- 	}
- 	cea_db_iter_end(&iter);
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 04f7a7f1f108..272506331634 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -463,6 +463,9 @@ struct drm_display_mode *
- drm_display_mode_from_cea_vic(struct drm_device *dev,
- 			      u8 video_code);
+ static const struct file_operations ivpu_fops = {
+-	.owner		= THIS_MODULE,
++	.owner = THIS_MODULE,
+ 	DRM_ACCEL_FOPS,
+ #ifdef CONFIG_PROC_FS
+ 	.show_fdinfo = drm_show_fdinfo,
+@@ -593,6 +670,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&vdev->db_xa, XA_FLAGS_ALLOC1);
+ 	INIT_LIST_HEAD(&vdev->bo_list);
++	hash_init(vdev->user_limits);
  
-+struct drm_display_mode *drm_ovt_mode(struct drm_device *dev, int rid,
-+				      int vrefresh);
+ 	vdev->db_limit.min = IVPU_MIN_DB;
+ 	vdev->db_limit.max = IVPU_MAX_DB;
+@@ -601,6 +679,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (ret)
+ 		goto err_xa_destroy;
+ 
++	ret = drmm_mutex_init(&vdev->drm, &vdev->user_limits_lock);
++	if (ret)
++		goto err_xa_destroy;
 +
- /* Interface based on struct drm_edid */
- const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
- const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+ 	ret = drmm_mutex_init(&vdev->drm, &vdev->submitted_jobs_lock);
+ 	if (ret)
+ 		goto err_xa_destroy;
+@@ -718,7 +800,7 @@ static struct pci_device_id ivpu_pci_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_PTL_P) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_WCL) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_NVL) },
+-	{ }
++	{}
+ };
+ MODULE_DEVICE_TABLE(pci, ivpu_pci_ids);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 78ecddf2831d..0b5aa41151c6 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -12,6 +12,7 @@
+ #include <drm/drm_mm.h>
+ #include <drm/drm_print.h>
+ 
++#include <linux/hashtable.h>
+ #include <linux/pci.h>
+ #include <linux/xarray.h>
+ #include <uapi/drm/ivpu_accel.h>
+@@ -43,7 +44,7 @@
+ /* SSID 1 is used by the VPU to represent reserved context */
+ #define IVPU_RESERVED_CONTEXT_MMU_SSID 1
+ #define IVPU_USER_CONTEXT_MIN_SSID     2
+-#define IVPU_USER_CONTEXT_MAX_SSID     (IVPU_USER_CONTEXT_MIN_SSID + 63)
++#define IVPU_USER_CONTEXT_MAX_SSID     (IVPU_USER_CONTEXT_MIN_SSID + 128)
+ 
+ #define IVPU_MIN_DB 1
+ #define IVPU_MAX_DB 255
+@@ -51,9 +52,6 @@
+ #define IVPU_JOB_ID_JOB_MASK		GENMASK(7, 0)
+ #define IVPU_JOB_ID_CONTEXT_MASK	GENMASK(31, 8)
+ 
+-#define IVPU_NUM_PRIORITIES    4
+-#define IVPU_NUM_CMDQS_PER_CTX (IVPU_NUM_PRIORITIES)
+-
+ #define IVPU_CMDQ_MIN_ID 1
+ #define IVPU_CMDQ_MAX_ID 255
+ 
+@@ -124,6 +122,16 @@ struct ivpu_fw_info;
+ struct ivpu_ipc_info;
+ struct ivpu_pm_info;
+ 
++struct ivpu_user_limits {
++	struct hlist_node hash_node;
++	struct ivpu_device *vdev;
++	struct kref ref;
++	u32 max_ctx_count;
++	u32 max_db_count;
++	u32 uid;
++	atomic_t db_count;
++};
++
+ struct ivpu_device {
+ 	struct drm_device drm;
+ 	void __iomem *regb;
+@@ -143,6 +151,8 @@ struct ivpu_device {
+ 	struct mutex context_list_lock; /* Protects user context addition/removal */
+ 	struct xarray context_xa;
+ 	struct xa_limit context_xa_limit;
++	DECLARE_HASHTABLE(user_limits, 8);
++	struct mutex user_limits_lock; /* Protects user_limits */
+ 
+ 	struct xarray db_xa;
+ 	struct xa_limit db_limit;
+@@ -190,6 +200,7 @@ struct ivpu_file_priv {
+ 	struct list_head ms_instance_list;
+ 	struct ivpu_bo *ms_info_bo;
+ 	struct xa_limit job_limit;
++	struct ivpu_user_limits *user_limits;
+ 	u32 job_id_next;
+ 	struct xa_limit cmdq_limit;
+ 	u32 cmdq_id_next;
+@@ -287,6 +298,13 @@ static inline u32 ivpu_get_context_count(struct ivpu_device *vdev)
+ 	return (ctx_limit.max - ctx_limit.min + 1);
+ }
+ 
++static inline u32 ivpu_get_doorbell_count(struct ivpu_device *vdev)
++{
++	struct xa_limit db_limit = vdev->db_limit;
++
++	return (db_limit.max - db_limit.min + 1);
++}
++
+ static inline u32 ivpu_get_platform(struct ivpu_device *vdev)
+ {
+ 	WARN_ON_ONCE(vdev->platform == IVPU_PLATFORM_INVALID);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 4f8564e2878a..337ed269fd3e 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -173,7 +173,7 @@ static struct ivpu_cmdq *ivpu_cmdq_create(struct ivpu_file_priv *file_priv, u8 p
+ 	ret = xa_alloc_cyclic(&file_priv->cmdq_xa, &cmdq->id, cmdq, file_priv->cmdq_limit,
+ 			      &file_priv->cmdq_id_next, GFP_KERNEL);
+ 	if (ret < 0) {
+-		ivpu_err(vdev, "Failed to allocate command queue ID: %d\n", ret);
++		ivpu_dbg(vdev, IOCTL, "Failed to allocate command queue ID: %d\n", ret);
+ 		goto err_free_cmdq;
+ 	}
+ 
+@@ -215,14 +215,22 @@ static int ivpu_hws_cmdq_init(struct ivpu_file_priv *file_priv, struct ivpu_cmdq
+ 
+ static int ivpu_register_db(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
+ {
++	struct ivpu_user_limits *limits = file_priv->user_limits;
+ 	struct ivpu_device *vdev = file_priv->vdev;
+ 	int ret;
+ 
++	if (atomic_inc_return(&limits->db_count) > limits->max_db_count) {
++		ivpu_dbg(vdev, IOCTL, "Maximum number of %u doorbells for uid %u reached\n",
++			 limits->max_db_count, limits->uid);
++		ret = -EBUSY;
++		goto err_dec_db_count;
++	}
++
+ 	ret = xa_alloc_cyclic(&vdev->db_xa, &cmdq->db_id, NULL, vdev->db_limit, &vdev->db_next,
+ 			      GFP_KERNEL);
+ 	if (ret < 0) {
+-		ivpu_err(vdev, "Failed to allocate doorbell ID: %d\n", ret);
+-		return ret;
++		ivpu_dbg(vdev, IOCTL, "Failed to allocate doorbell ID: %d\n", ret);
++		goto err_dec_db_count;
+ 	}
+ 
+ 	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW)
+@@ -231,15 +239,18 @@ static int ivpu_register_db(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *
+ 	else
+ 		ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
+ 					   cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
+-
+-	if (!ret) {
+-		ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d priority %d\n",
+-			 cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
+-	} else {
++	if (ret) {
+ 		xa_erase(&vdev->db_xa, cmdq->db_id);
+ 		cmdq->db_id = 0;
++		goto err_dec_db_count;
+ 	}
+ 
++	ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d priority %d\n",
++		 cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
++	return 0;
++
++err_dec_db_count:
++	atomic_dec(&limits->db_count);
+ 	return ret;
+ }
+ 
+@@ -298,6 +309,7 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
+ 	}
+ 
+ 	xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
++	atomic_dec(&file_priv->user_limits->db_count);
+ 	cmdq->db_id = 0;
+ 
+ 	return 0;
+@@ -313,6 +325,7 @@ static inline u8 ivpu_job_to_jsm_priority(u8 priority)
+ 
+ static void ivpu_cmdq_destroy(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
+ {
++	lockdep_assert_held(&file_priv->lock);
+ 	ivpu_cmdq_unregister(file_priv, cmdq);
+ 	xa_erase(&file_priv->cmdq_xa, cmdq->id);
+ 	ivpu_cmdq_free(file_priv, cmdq);
+@@ -380,8 +393,11 @@ static void ivpu_cmdq_reset(struct ivpu_file_priv *file_priv)
+ 	mutex_lock(&file_priv->lock);
+ 
+ 	xa_for_each(&file_priv->cmdq_xa, cmdq_id, cmdq) {
+-		xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+-		cmdq->db_id = 0;
++		if (cmdq->db_id) {
++			xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
++			atomic_dec(&file_priv->user_limits->db_count);
++			cmdq->db_id = 0;
++		}
+ 	}
+ 
+ 	mutex_unlock(&file_priv->lock);
 -- 
-2.53.0
+2.43.0
 
