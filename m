@@ -2,135 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Hw9OcX/nmlAYgQAu9opvQ
+	id oGVaO9f/nmlAYgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:57:25 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:57:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE9F1986F2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AF319870B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52CF410E02C;
-	Wed, 25 Feb 2026 13:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E3B10E105;
+	Wed, 25 Feb 2026 13:57:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YGKzM6Vz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sE7ro5j5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013022.outbound.protection.outlook.com
- [40.107.201.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6347810E02C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 13:57:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mAEFWH+2lbRN4xk/GHAYEedA0UNoNiw91XUSisRCM7TiztZocgDIZfILLSyvEoFJ6mVCa0RAf8rIPAr2dQuRz0kbdGm3HqF4185EQFyucsP6hV35WUBiSZ9rGhSJGCoSQ7Y3aasqS06rhY2hOMYlwVpxhCNx27qdPBjoKl2P7ox1oCmhEWryXuh876uRG1c8G5uj5Q4/ClUYdYRJoOg96EZmZeuUgyZjh3AZaNPxyOxdOQ1k4PtibVYNiWw4r/ZcmystWIx/M+xS5hrEaMXzVoGi0PSk7rMrIlPUme6jmVLf82fJOtWOT4TZJKUtGMyBW4asnwTmyF0um0WsC8lubQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w+AtBGH2aomS0L7l9v6WqAFrrGT3ZjGjqcK4WZaa0OE=;
- b=YXqvOnLBjuTnFx/j+zScgbaOqyI7q4XhrzcU2Brhqd/tEOMrV1tj45BZ8eeyHm/f0Xw/QNCR/nuBaa0y9nZ+u/7HZ78/MsxXHeRS9K9aZ0MIr5J9d1iewikdfXR6Z7iStwG2V4407x2GxfHJ3Q9iyPDUNaIDhM5TZ2mRXrAzOW6r7cS7nijTkLrJhDhpUxHvFWQaqwmXGi1TUWl89fikLwChJAhItExgJTCfIb29mZwDM34tpbSFLTDv6ojgj/lyR5hLRX+B2n5eXSVlCXKe50Zms82FWxt35aQC3KuK858WyU1g4iQt/gGGpmEL7AJgvlVFQJOw3eKyyWpuOUquEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w+AtBGH2aomS0L7l9v6WqAFrrGT3ZjGjqcK4WZaa0OE=;
- b=YGKzM6Vz7BEemVaXwX8iCM6mUZje5A2APr7XMNJkq67odiJJyMWQzpb23Rgq8IYiKdUTwuqanLhvsfha5wqCzH0u6Nrz65c9mnpchkhoJZyGUXzXxA3aktQq5SN5UoQMjKk9PnfuYOJbTE/DIrgMKmfgjyjUbcFMkH/o+Eg5eqo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB9346.namprd12.prod.outlook.com (2603:10b6:8:1be::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Wed, 25 Feb
- 2026 13:57:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
- 13:57:15 +0000
-Message-ID: <d215b326-6f17-405e-b9e2-9627c17db00d@amd.com>
-Date: Wed, 25 Feb 2026 14:57:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 0/3] Querying errors from drm_syncobj
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Yicong Hui <yiconghui@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Philipp Stanner <phasta@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20260225124609.968505-1-yiconghui@gmail.com>
- <3491d5f9-d08e-4193-a983-45340af73745@amd.com>
- <7300ad7c-39a5-4424-b4fd-9d3f97083f06@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <7300ad7c-39a5-4424-b4fd-9d3f97083f06@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0065.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD70810E105
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 13:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=rG3bFXrppjeuA+iWryZ7vgudlEyemROZ7fVq2Z8BIXg=; b=sE7ro5j5T1LKj13VybTetBxXZT
+ VRbucUIenZh6gy/4TouqpsqjKJcgsP8yNOxWIk8MzTwu8+4ShFqiYkD9dkIU7NIKmjKvFMGyoD1zC
+ dI0LkSU3Q332Wcs/BfHk98kabRpqLwi/j820Ryd/x5ppOJBoI/00Qou4NktlGhAx/gJ78jZXxILsa
+ m837YfYMtkCCWuSh7WPjwoFOvvFk2zzuMGZzFzfzg0jcgqhkurnKTYAO7B+seO9bYPeKGrEHyX4aM
+ DfLHnMX4GMQbhoLpe5CCCs/kNZtZPRSK1OJnVQjq1MhZ4+7IxBzwypfV5jjZBpauyQs0s3h29xttG
+ IYc7JnHw==;
+Received: from [189.7.87.203] (helo=[192.168.0.2])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vvFOB-005FoP-D2; Wed, 25 Feb 2026 14:57:19 +0100
+Message-ID: <481489f1-850f-44ae-8586-b69c1d2faf8e@igalia.com>
+Date: Wed, 25 Feb 2026 10:57:11 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB9346:EE_
-X-MS-Office365-Filtering-Correlation-Id: 914d1e58-ff3d-422e-90ad-08de7475c858
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: NvfPIuQDrDO/7kWsiGr9S4MQ1n4yutwkP+W39YpBmBLK3Li3Ta7wYFJEqfbdbKUtHJFCD0I02UtiyD2xdcg33vsjkU2EJviTcuiAyow87A3pgBoqCMNSRcNcve4AgtxYBQ9XY2bzAsNvSb3yQDXHhJucab319O3G0tffoPBjNXNLgxmSpmHIHeyq20k30G2smwo5pQ0REBOoYEnyJ0cZFHR83W0lurr8u9Coyr2ta2i+ULqmOvpVS4EA5R3dSSv1ppbiqiePOTJZNo7JzKj2Xz4/rgYaHI67cuIJX630fH7eiJ8EXEQ5GFT/UVXA0Si+stRWve/UI66Zt9waU9esRkNjk3BfpeOa6Ah0hNRuAgp4xplOaAjah3jaoOTiw3y/yUOdorCwmg+jQK9SsfC/L801HqMbaVxLJgavOioj1UdRThozWRXJJOijmRu+JhjE6fftF5pT849xzmE2ElFy48WqG8SnYo9TwZ2CNIFfz8iWgrz7p6x1yeTFbUB/p/0F2fdUB8p0xDZRw+hbQnNgPcz/kdgq83Q84rqMz+RrXcakSWweK3BjZpHoUY9nYom35ZFd3Aj+ecjwTLRViiVx23KbWX4eWcYKz0gHehDtUE8sBPB7/v/JqCf7GNNd9B9qfoyWnWeH/QSKC2yonHmuxLrHI3ejHOZOgUHGpIi73/C1twSzE+Gy0jEOC+qNC4A1wgNchzkXZjdLGKzIePDwbtisq7iOSbP5Rac0lLrouVU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjZNR2gyTWxWcS84eG5aRkE4MzZTRFZkREQzZ0kwVmpFYlAxdjVYQmd6RDZ4?=
- =?utf-8?B?eC9vQjZuZEhYOG5tTkkxbmpWcDZBL3JYU1U0L1Y1dFAxVkhvUzl1bTVMSEVa?=
- =?utf-8?B?cFJrZDNya2x2TWNOd3ovVHhLNEY2eU9Lby9KV09rUFFrQXVjOHB6WjdwNU1O?=
- =?utf-8?B?a1VhcC93VGI2bWJueE44aWVBVm9wYXRxVFBtd2Y1L3JvUi9ZTVVVdnU0RVZn?=
- =?utf-8?B?VWhXQlRLQmN3eEl5WXlZSmpqWnZyTzhSQ2tlbWtpT3NJSkE2Sm5ZZkNORURU?=
- =?utf-8?B?UGRzVnpqaFpUY0c3c1Y0YzNTSWZOOTBQcVFlSEg3MEFsZTB0alFvc0tpTFF2?=
- =?utf-8?B?Nk9aSWJSb2E2ZGlZWk5UZjNTUXNtaUZpanU2UXczZms0bWdibVhMRDFtRTUx?=
- =?utf-8?B?OHl0TVUvSkYybDY5anEwbmdJaGg5OWVROEpLcEs0UTl3c3FucGF2dzlzc0d1?=
- =?utf-8?B?SG1WeFVSTHZOc0NaMjJWVkVwOFcvQjU2WW9SV3Ftb2RwbWlrNVVyN2pMRmNj?=
- =?utf-8?B?d2RINmtjWEcxRm5uRWxKQjVpSXR4YUsxNmdwczZRNTlkZS9xanl4ajVjbllO?=
- =?utf-8?B?OFBJNDVjOWVjSDY0SndNaUxieDVZNmpWTE5mUUliRFp0dk8vUncrR1ROOEp6?=
- =?utf-8?B?eVd6ZzdBV0ZDcnh2ZFJkU3BVaFJXZk8za2RSRDIxVWFNUVJIZ3IvYkdtVzBQ?=
- =?utf-8?B?eEpKNnJ2SXRsSGN4TVI5c3FQanVlKzg2TnNVNW9QeWtoeDFwN3NacVdpYmRn?=
- =?utf-8?B?RGx2a2NUcFhFNTArVHNTMksxMUJ0dk9mMWJVZy9paGVycFZNaWtqWFpYWmNB?=
- =?utf-8?B?WkdENE4vam1vTGkxS2wxVjhNVkNoOHNCUkd1bjlJWEN0VldsVzZLcEhlQWVz?=
- =?utf-8?B?OTRvbXg1UEViU0g5VWNGWGNRKy9OTFA4V1dMdG9kMEUyRXpITnpvK3ZsR3NI?=
- =?utf-8?B?VG1VVncwbkdvUWJlU2hlZ0tUbjJaWjZxdDl4dXJQWkVxZkg1WkgyYmNZVCs3?=
- =?utf-8?B?NUZ0UndSU0s2enRLbGE0VUdaRFE3a08vbDNwYk1lNEwyQ203d3d5VExkeXR4?=
- =?utf-8?B?SHFJZSs5L3VRTGhZRHYzQzQzSHExc2crdS8zZXRaWlYvbm9kS0s1Y1ZMdGc3?=
- =?utf-8?B?eEpHb2hFcjdXOHphTzlWYlJ1aGlTWlNZK0piZ093dmV5TXl5OHhpTG9nb2c3?=
- =?utf-8?B?dnpLL2tiUUxlQll3NEllTXNWUVAwRnpuZW5MMUdiOXdaL2JzVzh5VXMrY1Bt?=
- =?utf-8?B?d3pMa0ZrT3JJa1FhNU5sMVZLUm52U3h5VFc2N1pHSjVXNmZZNkV2SlNTdnh6?=
- =?utf-8?B?VHFNanN6SXorTjVKeDhpckN4Sko3eDN2bTd2WFA2bkM3UDNpZEFjcVlNZmNE?=
- =?utf-8?B?TVFua0VmSWJ2Z0NCUDhRbFcrQXR3aitZcUdYR09TWk1CMUx3V0dDYWh0NjFC?=
- =?utf-8?B?NlVKRDJ2MWF5WmsxS3lDa1lBem5QSXVDclRoRHlYU2Q4Y2FGUytsN25lUklj?=
- =?utf-8?B?bkVTN3M2TG5INHYveUNYMlJERWQ4dzJIbTI3bW8zdTc1UzJsVmdNdDBra1p0?=
- =?utf-8?B?aVlSMFBCRWg2UGFjTEJtV3loWVhpLzZ0ZFlJU0tXTzZyazFieG9OalhBdUFr?=
- =?utf-8?B?QVRicVM5VmJwM2J1YzNIZVpRQ3ZzQkQrRTRuQVkra2FxVEVBZDA4OUxINHRX?=
- =?utf-8?B?MTlMQXJlQWRnOStHWnJWVEtTalJoWU0rTVNrWHhkVzRIN2FtRmQwUVFBNWhW?=
- =?utf-8?B?VU9EZFVtTXJUSmhmeFpBYVdCZE11dTYyOTFSdGxPbUhGZnB5TjJoajAwNyt0?=
- =?utf-8?B?RlJzWnFyaFRXeXJqV0dpUDRtbktnNElCRU1XNG5BYXBpU3FZa1JCR2RzRVRr?=
- =?utf-8?B?TDlUREFuUUpNODJsK1h2U3pQaENSZFRoMktuOHgyNElNaVBpZ0NXYUozT0RJ?=
- =?utf-8?B?V3N5QXNwUEZuaGY1dkdYZ2QwU3JxVlE3SzZTM2FrVkJsOFhLYU5xN1c5NXhK?=
- =?utf-8?B?Z1lLVFpRUVVXcitiaUFralJONGorUUUxVFI4U05aVmlHZEJWZ0hqbG9XRHR4?=
- =?utf-8?B?TTN4RURVWkRmSVNLNlV6TjY2YmlZL0hWOVE0clZHVWFFTnNQbVpxSFJpZGdv?=
- =?utf-8?B?T0dFTWhDaXF4ejhVL2JxQS9zbjhzOGdGNlN4VStIV0VSaHRpUGY0Nk1KdEF3?=
- =?utf-8?B?Wm1zanR1ZmhLWXI3NmR2c21CcFVnMXlhTkMxOXN5NGh5M2FUekMyVHppSS9p?=
- =?utf-8?B?cStkUDV2bGFRSWY0ZDZpb2psNElKY0tIMU9SQyt6aWRGTVB4NjUxL1VqaGhS?=
- =?utf-8?Q?6Sz7bv/GnlWQFdxekB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 914d1e58-ff3d-422e-90ad-08de7475c858
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 13:57:15.7101 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jkQKz+v+OPUZk2Xh2roOjoYJuTHZ2n2V7iGbNPcroBzPp+uFyKo1XqZ3teH0Qwu8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9346
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/6] clk: bcm: rpi: Manage clock rate in
+ prepare/unprepare callbacks
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
+References: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
+ <20260218-v3d-power-management-v6-1-40683fd39865@igalia.com>
+ <20260224-curvy-shiny-dodo-e50cef@houat>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Content-Language: en-US
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20260224-curvy-shiny-dodo-e50cef@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,89 +102,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[mailbox.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:yiconghui@gmail.com,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:tvrtko.ursulin@igalia.com,m:phasta@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,igalia.com,kernel.org,linux.intel.com,suse.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.968];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.955];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,gnome.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2BE9F1986F2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid]
+X-Rspamd-Queue-Id: 01AF319870B
 X-Rspamd-Action: no action
 
-On 2/25/26 14:37, Michel Dänzer wrote:
-> On 2/25/26 14:25, Christian König wrote:
->> On 2/25/26 13:46, Yicong Hui wrote:
->>> This patch series adds 2 new flags, DRM_SYNCOBJ_QUERY_FLAGS_ERROR and
->>> DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR for 3 ioctl operations
->>> DRM_IOCTL_SYNCOBJ_QUERY, DRM_IOCTL_SYNCOBJ_WAIT and
->>> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT to allow them to batch-request error
->>> codes from multiple syncobjs and abort early upon error of any of them.
->>
->> Patch #1 looks good enough to add my rb.
->>
->> Patch #2 looks good as well, but I'm not familiar enough with the code and have no time to wrap my head around it to give a review.
->>
->> Adding a few people on CC, maybe somebody has time to take another look.
->>
->>>
->>> Based on discussions from Michel Dänzer and Christian König, and a
->>> starter task from the DRM todo documentation.
->>>
->>> See https://gitlab.gnome.org/GNOME/mutter/-/issues/4624 for discussions
->>> on userspace implementation.
->>>
->>> I have looked into adding sub test cases into syncobj_wait.c and
->>> syncobj_timeline.c, igt-tests for this and I think I understand the 
->>> process for writing tests and submitting them, however, these ioctls 
->>> only trigger in the case that there is an error, but I am not sure what
->>> is the best way to artifically trigger an error from userspace in order
->>> to test that these ioctl flags work. What's the recommended way to 
->>> approach this?
->>
->> When Michel agrees that this is the way to go then we either need an in-kernel selftest (see directory drivers/gpu/drm/tests/) or an userspace IGT test.
->>
->> Not sure what is more appropriate, maybe somebody on CC has more experience with that.
+Hi Maxime,
+
+On 24/02/26 11:11, Maxime Ripard wrote:
+> Hi Maira,
 > 
-> I'd advise against landing this in the kernel before there's a corresponding display server implementation making use of it, in a mergeable state.
 
-Yeah we clearly have the rule that this can't be pushed into the kernel without userspace code as well. 
+[...]
 
-> Otherwise you might end up with the kernel having to support UAPI which no real-world user space actually uses. Been there, done that myself.
+>> @@ -289,16 +290,22 @@ static int raspberrypi_fw_dumb_determine_rate(struct clk_hw *hw,
+>>   static int raspberrypi_fw_prepare(struct clk_hw *hw)
+>>   {
+>>   	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
+>> +	struct raspberrypi_clk_variant *variant = data->variant;
+>>   	struct raspberrypi_clk *rpi = data->rpi;
+>>   	u32 state = RPI_FIRMWARE_STATE_ENABLE_BIT;
+>>   	int ret;
+>>   
+>>   	ret = raspberrypi_clock_property(rpi->firmware, data,
+>>   					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
+>> -	if (ret)
+>> +	if (ret) {
+>>   		dev_err_ratelimited(rpi->dev,
+>>   				    "Failed to set clock %s state to on: %d\n",
+>>   				    clk_hw_get_name(hw), ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (variant->maximize)
+>> +		ret = raspberrypi_fw_set_rate(hw, variant->max_rate, 0);
 > 
 > 
-> I don't have the capacity to contribute anything more than advice at this point.
+> It's not clear to me why you would want to force it to the max there,
+> and especially the max of the clock. It would make more sense to me to
+> set it to whatever maximum rate clk_hw_get_rate_range would return
+> (which should be the minimum of variant->max_rate + all clk->max_rate),
+> but even then it would erase every call to clk_set_rate before calling
+> clk_prepare().
+> 
+> I'd understand lowering the clock rate in unprepare to avoid wasting too
+> much power, but why do we need to raise it here?
 
-Oh that is sad. Do you know anybody who could work on that?
+This only applies to clocks with variant->maximize == true, which is
+exclusively the V3D clock. The V3D driver doesn't do fine-grained rate
+control, it always wants maximum performance. In the case of V3D, there
+are no intermediate clk_set_rate() calls to preserve.
 
-It is a clear improvement to error handling and I don't like to keep Yicong's work only on the mailing list.
+> 
+>>   	return ret;
+>>   }
+>> @@ -306,10 +313,19 @@ static int raspberrypi_fw_prepare(struct clk_hw *hw)
+>>   static void raspberrypi_fw_unprepare(struct clk_hw *hw)
+>>   {
+>>   	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
+>> +	struct raspberrypi_clk_variant *variant = data->variant;
+>>   	struct raspberrypi_clk *rpi = data->rpi;
+>>   	u32 state = 0;
+>>   	int ret;
+>>   
+>> +	/*
+>> +	 * On current firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
+>> +	 * actually power off the clock. To achieve meaningful power consumption
+>> +	 * reduction, the driver needs to set the clock rate to minimum before
+>> +	 * disabling it.
+>> +	 */
+>> +	raspberrypi_fw_set_rate(hw, variant->min_rate, 0);
+> 
+> I'm not sure setting it to variant->min_rate would work directly either,
+> since it would break consumers expectations. Also, can we guard it with
 
-Thanks,
-Christian.
+The clock is being unprepared, which means that any consumer that wants
+to use it again must call clk_prepare() first, at which point the rate
+gets restored (for maximize clocks) or re-established by the consumer
+via clk_set_rate(). Considering that no consumer should be relying on
+the rate of an unprepared clock, I understand that there are no
+expectations to break here.
+
+> a version check if we know that there's some good and bad firmwares?
+
+So far, all firmware versions have this issue. For future firmware
+releases, it might change, but so far, all firmware versions have this
+issue.
+
+> 
+>>   	ret = raspberrypi_clock_property(rpi->firmware, data,
+>>   					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
+>>   	if (ret)
+>> @@ -334,7 +350,7 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+>>   {
+>>   	struct raspberrypi_clk_data *data;
+>>   	struct clk_init_data init = {};
+>> -	u32 min_rate, max_rate;
+>> +	unsigned long rate;
+>>   	int ret;
+>>   
+>>   	data = devm_kzalloc(rpi->dev, sizeof(*data), GFP_KERNEL);
+>> @@ -354,18 +370,20 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+>>   
+>>   	data->hw.init = &init;
+>>   
+>> -	ret = raspberrypi_clock_property(rpi->firmware, data,
+>> -					 RPI_FIRMWARE_GET_MIN_CLOCK_RATE,
+>> -					 &min_rate);
+>> -	if (ret) {
+>> -		dev_err(rpi->dev, "Failed to get clock %d min freq: %d\n",
+>> -			id, ret);
+>> -		return ERR_PTR(ret);
+>> +	if (!variant->min_rate) {
+>> +		ret = raspberrypi_clock_property(rpi->firmware, data,
+>> +						 RPI_FIRMWARE_GET_MIN_CLOCK_RATE,
+>> +						 &variant->min_rate);
+>> +		if (ret) {
+>> +			dev_err(rpi->dev, "Failed to get clock %d min freq: %d\n",
+>> +				id, ret);
+>> +			return ERR_PTR(ret);
+>> +		}
+>>   	}
+> 
+> It feels to me like it would need to be a separate patch. Why do you
+> need to override the minimum clock rate reported by the firmware?
+
+This change is needed because the prepare/unprepare callbacks need
+access to the min/max rates. In the current code, these are local
+variables in raspberrypi_clk_register(). Storing them in the variant
+struct makes them available to the callbacks. The `if (!variant-
+ >min_rate)` guard only preserves the existing behavior for clocks like
+M2MC that have a hard-coded minimum rate.
+
+Having said that, I can split this into a separate preparatory patch if
+you prefer.
+
+Thanks for your review!
+
+Best regards,
+- Maíra
+
+> 
+> Maxime
 
