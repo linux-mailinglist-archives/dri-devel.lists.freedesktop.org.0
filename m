@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oFysOPbonmk/XwQAu9opvQ
+	id WCQFM/7onmk/XwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 13:20:06 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 13:20:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE131972F0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 13:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50894197310
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 13:20:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3A9710E765;
-	Wed, 25 Feb 2026 12:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6020010E766;
+	Wed, 25 Feb 2026 12:20:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ptzxSyeq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eZLTLM0p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86AB210E764;
- Wed, 25 Feb 2026 12:20:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 348B210E767;
+ Wed, 25 Feb 2026 12:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -27,16 +27,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=eI99LkVZJU3+Y2gLntv5rpjWSfBOwdbb2kYFnzbN2N4=; b=ptzxSyeq6FU8Kuv4qWFdblyFrx
- Q4iZ2rW0lcC92XxONITOJAr0y40kXPCsApCn6qZcPoolloJDbmZmXU0BfF7KyOtxdbPO5JnjHuzkx
- cOhJgsS04LGdkEhjRXF2DvYXBgrk8m8XHPSH46jvUpuxnrwDKVfGZk9JTG2BH7TFHsK9KDscy+00Q
- ilKnJN4YR/odQYErau0OdYBjmaucXuJDJEheKXqAj9mCDmsOMsKdaSTUwZtjxOcPOz74xySe4SHHh
- W5v4mh30cgl/d6yfmynYLb2JsAwAfteFh4HVY/bc/ac9WMnhFKmYb6XOgK2gyQkpSVD3Oz2UhiW/0
- R0XGLGig==;
+ bh=CkDaCqCvFcb8/v5XBFM7wb0WjYn53MLeOZSbNpvbNoQ=; b=eZLTLM0p9naQnE8ZHjt9uPDWJj
+ 1ki5J4URi30ImiO6IQGh4lvw/JGFuyX6hx0ZmHfWOBBPx+JWiq8y4IzszdqKxC6Hj7LumUpoTVEMM
+ +53fOeDvrJNqZIqJtOh/jG38ewslS3mqknmXuR079L9VyE5nvWg85kHYh/BXGbJwqHeta78oQwJbv
+ PlLd9u/fvmkS0B6KaqCc5M3dWZ3/JFlqrv7Y77fsS5DMHWojQ97/lg7Da/4w0w6rL3RiAZ4pwR04w
+ 7FTOER/e+ZcTlNMHCRTR2dM6lGy2yGlUilCuDRkHuSUQNhHqTBsKdlsrtGcw7E1eTgF4SK7fBa2O2
+ sy+jQs1g==;
 Received: from [186.208.68.119] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vvDrp-005DpP-Tw; Wed, 25 Feb 2026 13:19:50 +0100
+ id 1vvDrv-005DpP-Bv; Wed, 25 Feb 2026 13:19:55 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: airlied@gmail.com, alexander.deucher@amd.com, alex.hung@amd.com,
  andrzej.hajda@intel.com, christian.koenig@amd.com, harry.wentland@amd.com,
@@ -50,9 +50,10 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  kernel-dev@igalia.com
-Subject: [PATCH v8 6/8] drm/amd/display: get panel id with drm_edid helper
-Date: Wed, 25 Feb 2026 09:04:35 -0300
-Message-ID: <20260225121903.236115-7-mwen@igalia.com>
+Subject: [PATCH v8 7/8] drm/amd/display: get SAD from drm_eld when parsing
+ EDID caps
+Date: Wed, 25 Feb 2026 09:04:36 -0300
+Message-ID: <20260225121903.236115-8-mwen@igalia.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260225121903.236115-1-mwen@igalia.com>
 References: <20260225121903.236115-1-mwen@igalia.com>
@@ -96,57 +97,94 @@ X-Spamd-Result: default: False [2.99 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[25];
-	NEURAL_HAM(-0.00)[-0.885];
+	NEURAL_HAM(-0.00)[-0.879];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: BBE131972F0
+X-Rspamd-Queue-Id: 50894197310
 X-Rspamd-Action: no action
 
-Instead of using driver-specific code, use DRM helpers.
+drm_edid_connector_update() updates display info, filling ELD with audio
+info from Short-Audio Descriptors in the last step of
+update_dislay_info(). Our goal is stopping using raw edid, so we can
+extract SAD from drm_eld instead of access raw edid to get audio caps.
 
 Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Reviewed-by: Timur Kristóf <timur.kristof@gmail.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 22 ++++++++++---------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 6a017e9a7bd9..7cef16ed2eb9 100644
+index 7cef16ed2eb9..519b80f43b90 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -49,16 +49,11 @@
- #include "ddc_service_types.h"
- #include "clk_mgr.h"
+@@ -34,6 +34,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/amdgpu_drm.h>
+ #include <drm/drm_edid.h>
++#include <drm/drm_eld.h>
+ #include <drm/drm_fixed.h>
  
--static u32 edid_extract_panel_id(struct edid *edid)
-+static void apply_edid_quirks(struct drm_device *dev,
-+			      const struct drm_edid *drm_edid,
-+			      struct dc_edid_caps *edid_caps)
- {
--	return (u32)edid->mfg_id[0] << 24   |
--	       (u32)edid->mfg_id[1] << 16   |
--	       (u32)EDID_PRODUCT_ID(edid);
--}
--
--static void apply_edid_quirks(struct drm_device *dev, struct edid *edid, struct dc_edid_caps *edid_caps)
--{
--	uint32_t panel_id = edid_extract_panel_id(edid);
-+	uint32_t panel_id = drm_edid_get_panel_id(drm_edid);
+ #include "dm_services.h"
+@@ -107,9 +108,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+ 	const struct drm_edid *drm_edid;
+ 	struct drm_edid_product_id product_id;
+-	struct cea_sad *sads;
+-	int sad_count = -1;
+-	int sadb_count = -1;
++	int sad_count, sadb_count;
+ 	int i = 0;
+ 	uint8_t *sadb = NULL;
+ 	enum dc_edid_status result = EDID_OK;
+@@ -123,6 +122,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	if (!drm_edid_valid(drm_edid))
+ 		result = EDID_BAD_CHECKSUM;
  
- 	switch (panel_id) {
- 	/* Workaround for monitors that need a delay after detecting the link */
-@@ -146,7 +141,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 	if (edid_caps->edid_hdmi)
- 		populate_hdmi_info_from_connector(&connector->display_info.hdmi, edid_caps);
++	drm_edid_connector_update(connector, drm_edid);
+ 	drm_edid_get_product_id(drm_edid, &product_id);
  
--	apply_edid_quirks(dev, edid_buf, edid_caps);
-+	apply_edid_quirks(dev, drm_edid, edid_caps);
+ 	edid_caps->manufacturer_id = product_id.manufacturer_name;
+@@ -143,19 +143,22 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  
- 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
+ 	apply_edid_quirks(dev, drm_edid, edid_caps);
+ 
+-	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
++	sad_count = drm_eld_sad_count(connector->eld);
  	if (sad_count <= 0) {
+ 		goto cleanup;
+ 	}
+ 
+ 	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
+ 	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
+-		struct cea_sad *sad = &sads[i];
++		struct cea_sad sad;
+ 
+-		edid_caps->audio_modes[i].format_code = sad->format;
+-		edid_caps->audio_modes[i].channel_count = sad->channels + 1;
+-		edid_caps->audio_modes[i].sample_rate = sad->freq;
+-		edid_caps->audio_modes[i].sample_size = sad->byte2;
++		if (drm_eld_sad_get(connector->eld, i, &sad) < 0)
++			continue;
++
++		edid_caps->audio_modes[i].format_code = sad.format;
++		edid_caps->audio_modes[i].channel_count = sad.channels + 1;
++		edid_caps->audio_modes[i].sample_rate = sad.freq;
++		edid_caps->audio_modes[i].sample_size = sad.byte2;
+ 	}
+ 
+ 	sadb_count = drm_edid_to_speaker_allocation((struct edid *) edid->raw_edid, &sadb);
+@@ -170,7 +173,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+ 	else
+ 		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
+ 
+-	kfree(sads);
+ 	kfree(sadb);
+ 
+ cleanup:
 -- 
 2.51.0
 
