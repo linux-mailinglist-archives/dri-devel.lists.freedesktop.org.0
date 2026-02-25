@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0KqOCqL8nmm+YAQAu9opvQ
+	id gAKjJaX8nmm+YAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:44:02 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:44:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51971984EA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B561984F9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 14:44:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD9C10E8E6;
-	Wed, 25 Feb 2026 13:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4282E10E8F0;
+	Wed, 25 Feb 2026 13:44:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VmYPI8dJ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="sUJ4DHTc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013015.outbound.protection.outlook.com
- [40.93.196.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BA710E8D4;
- Wed, 25 Feb 2026 13:43:56 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010025.outbound.protection.outlook.com
+ [40.93.198.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F2A10E8E8;
+ Wed, 25 Feb 2026 13:44:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZbSBP3W852EG/v4kCpbWvdp82JvHwQn8WRDbKcv/PyWRH7EEMlcAa0dvGxbThoRgWkCmN8nHypGfomuGFzCdXv66VHIDVZjqvdFgGHtNxDpXaanEd/F3FuZ9SINqrfJ2QWB3Vo5vy8Zb3dHMZXPho/SLIOoX4ajPCHOhyvw8KG4hgnJrmPZLBKARs+RpxEkzlnLNjYhZHWG3UPwvXTVk4mv92XXkX0H+ZU7Y5R6LG5aHRDE1crPUZrs60wNtizJXKU8rYpy2wn3ds2zG/c+RBUtFTqmWdJXZkSVF4pJSqxy1q++voy7aYxM/eQ37mk8Gpg7kHMibEIViN2CLXVfMFA==
+ b=lxH8CI1hiNOqoRKpbQfQS26ImpjFnYGKKIBzniGSZbw2OO6W2vpMsium5a9nFTkDG268oTSuM7M2Ww3dEdddAvk4Sw5pdmk2Ug0ae6Rs7MtAoUhrQEdJGLpVMU1K9Z7wYD9FOf+hRD/m0vE76AZZHCi5DePts+XEO4Y3iV9XpdX7KkeHmHPii1s5RAqAuC5YLCVxOpbSspgYnJyJ+fGmTTUvzZqObe3en0D3mFZJNP+O1FUw+ex/oiLNqPALr50ulypBguuNIixo1h3FgCQ/pu74CAMWwhx6g7gGYHTYsSI4ggs5vl5UYJxoVXtK2MHGQF4XSW7wQcJmCSU00AMWAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x4RMTh2npgSwSFKt722uNsoeEHMhYnCWEJT0GxdcrEA=;
- b=AUTpB73cA40kBVYlwY823qpvMrfgxTz9WvPxBLIRf0ZsX9gjcgrRZpkJkoNmCTnP42RAevL926fUtkt92bOgTmLunEH6tvTW5Ix8SJfT9DZc1KablroDsoNnFGyb563qD0phhKCXe/chUMiR+1TwyqtMMyU6pp/1r3i9CJOw+FD+QrfDdnUD5qEHjnn/k3Lrj/iopRYjpnslRXBnyUq9+BjdD7lPml4sp1NA/qASCW8qHaE2rwbKUoPuGEMp0UQz0DwPTp2ydkxxCMzVSrsR3Knd54Sk5Ts0EWY1iO2QHekNC9EwIxVG7bxsjzdwLt0+75zwFdzYzOwJdEGbNLDlFQ==
+ bh=uLs2cafLoTB4emoHAYE6jb6dqH4Sg669159GmpZI/rA=;
+ b=M+hjaVJHts9lel61mxB4BuMITAu6e7rwb+QZiNHwmBcDxaI4k6X5xR3wf1IRWQUW7ZlW3xXvwHiAY7pgRZluGwHLdS4h5uRed3CTU/o1H/kdD2PewnNg1xxxpXkqXhPv2ICIgDjHK/1/73kZJP3uAMYSJ9rjr1404YGAvdngEBnlMggTV+MFqOgFHRs78n2O2cwg5FYjygYRBMvwC6CYSs47bkU9r5FyhYk4N8iHRU6YQEqWVsvgIVDbv6X4sqJrERhEIe7W99s1yP6WOkyJ8sHsdXfrA946ex/LHAXjOoP0XajQI2p4ezpS2SzIAaI8qEM9HFPEgLJM4Bsb15Kxkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x4RMTh2npgSwSFKt722uNsoeEHMhYnCWEJT0GxdcrEA=;
- b=VmYPI8dJcmPKmVDo/oRHxzkKn2wwRrZn7z+2a5JHOzoRdPpKQ3r7RurMJUfQNWcUhxz8V58qa9ClrsmKKMhoWxa5MZZmGZdXrGw0QBY375+FBxKnUUIPCSDuWNfejEW0KKFPLAEUi7+XQGZ+0K9vkr9K8hCErXALslDZe+OsuQQOyAiddQTQv0TLP0vEw6ktKWJpESTs6q3mX4EKMstkC2gM22bIisQJR4UcI8ltEV6PjQQEj14tc5SiLmd3iAYUYDRbHn2BLyNTS2mCWqwDzrFa2AbyR6UjVo2GWTw2iMkPXuIjipxpI5jvsT3WkXNg/r/ngLG8wlyD1e3flcFoyQ==
+ bh=uLs2cafLoTB4emoHAYE6jb6dqH4Sg669159GmpZI/rA=;
+ b=sUJ4DHTcQs5DR5ttQVlFU6iBK2a7FE5fhtT7sF2k8irRbULTk4FxVBblPLzk5KmH2beGptZcna7T5Ky2oR1iHNCY6YcDLtoyUl1YmDRD8l7zRHFLuMT+PmoVfsXpkuvKlPxLAN/2dA/5SeyAfmQ4JdZHUK4SLCa12EMPV8pJrdXgG/8zOmf5UalRQLzYHLxOnr7U3FRGzp0glnuJqCvdcPTHDBfd/IDPHn6DrVHueM+9EFImwZ+64AeR3riUi9Em0DeOYPL6N6GPuq7y99QjUjRHB8+2IklXLRwgCd/shNkSwD8iHQMTyPDyU3wV8Eb3tDaYagGzdYnqFuA10GRgDA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
  by PH0PR12MB5679.namprd12.prod.outlook.com (2603:10b6:510:14f::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Wed, 25 Feb
- 2026 13:43:52 +0000
+ 2026 13:43:55 +0000
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.007; Wed, 25 Feb 2026
- 13:43:52 +0000
+ 13:43:55 +0000
 From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Wed, 25 Feb 2026 22:41:48 +0900
-Subject: [PATCH 1/4] gpu: nova-core: gsp: fix stale doc comments on command
- queue methods
+Date: Wed, 25 Feb 2026 22:41:49 +0900
+Subject: [PATCH 2/4] gpu: nova-core: gsp: add sync and async command queue
+ API to `Cmdq`
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-cmdq-locking-v1-1-bbf6b4156706@nvidia.com>
+Message-Id: <20260225-cmdq-locking-v1-2-bbf6b4156706@nvidia.com>
 References: <20260225-cmdq-locking-v1-0-bbf6b4156706@nvidia.com>
 In-Reply-To: <20260225-cmdq-locking-v1-0-bbf6b4156706@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -65,73 +65,73 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  Eliot Courtney <ecourtney@nvidia.com>
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TY4P286CA0122.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37c::7) To BL0PR12MB2353.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCPR01CA0031.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::19) To BL0PR12MB2353.namprd12.prod.outlook.com
  (2603:10b6:207:4c::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|PH0PR12MB5679:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccd9a8d8-66da-4152-986e-08de7473e98d
+X-MS-Office365-Filtering-Correlation-Id: 86116302-cd52-49bf-f586-08de7473eb96
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|10070799003|376014|7416014|366016|1800799024; 
-X-Microsoft-Antispam-Message-Info: SJfyT6CX9Wr/DW6g7i5sKrv8HVIvkaVLeqbXAUOJCZZl8M6LEKeI7RPZ1gZH2JictHtaXgVI6lNTdWK33TV/8vsW2wjkPO7jnzupkPifZmyKsCiC3LzsNBG5KnwWF/lNvD2EqdJwlUgOU53bk6ZHzN8wNmbN28i+bzMCCgkFe3R8WUrOTUG4RQ6lUrbejQR+IO55dtffcpCLiNlfu1YlQDOHNNadCrGUgg8Dw23W0DtQs+tkwzpWpIboPHB5k9tOj82t6VXuVDbN8Dnlh78uf9RfefHBPDRmGZEGZygcvWuDGPPPXWUVH4a7VEfo31MmAj8gQKO2IIeIZMY8KXIQMTdbpWG9/4GtvkMqumLeZaE7K5I05/mh6pdK9HfTi4xbXOfvANdkIY50MDFnucR3i/FWpMZgb93nS6tlax6VvnotP6EPpPgOqQ7cUfsBJhAIOqhsDQs+nf0k7tnY+g3jRuoJpbNcXUbMRQ8yUfv5WPJ4DsYVrgwLXYYsYbgLOpwQLs9tsE7TYGa4WMkkstBa20XfYGqcd6YE4U/mq/Bfz8VlT1Tkkdz+CxlXPbsxqfHPmYaKrcf7ukEu3nmz6AVXxN0H5knum6wPm32buhz0eEMjlGLACLoywxuEWtE8hEh7Cilg0E2EUsLeEom730I0MllAXzpNjVNHXiVHDWiFtP8TiSZ1AlaQbS8XYbYfDOzmCA29NupLwrsEFjPqKjDy+ukwKLRVi9RdRA0Kmt0Suss=
+X-Microsoft-Antispam-Message-Info: JoxplmucSjHGogflFVfAOBv/Fqx/LF+Wy2MQNapiy28mS9rRNpcaQ4NGN9Mrju1rzaWaRDjn1rg075SnGKqY9+yEAh9AMmXZRtnEqnt3XpYZABZnOUWaI/Ug/suCHPmGftbhEjAjfk6WKNCJ/3E0ybTvfXeIQ9+IM/Oa3Ybte6GkCpp76RGxFLhiCdQ8tMXEhwP0/z1p4se6q3fhaRtUpkQiJ4vOQc+L330JVbp8JMyg/SIRqYwP4DH/9F9xBhg7BFttBKlq6pCFerrI/Q9sVSZ/Rz28CJ4hDr+Ts7XROPsdzN56H9ESHSvUHZ/Ub6I9r0kceOGQ9vm/C1RhvBh3CTZom8eYSEZMsaIxUC8Jyna4mKiQyrP565LVe1Tit2MeHs/Matv0nr13DjTK8J8EZxVbbYTcpc/ZncvLnX4Q3uMkkcGhERX38RK55Yg1dz4GHRDfawE2c137B9yzLQPNt0adFly35ZRsyNW0YdtubCOudQh7gT1HoXLQZ1kEs09KREtBlz/fh0QGEOthJ9293ujXda9UyA+jLoCWOAS6YzWuPZ8VT1B3rXoXJVv3h9cH230vbLMN5FMCqoCxcFX1zfRQU/I/6nkq4QumnzpQEJNho5iUwSsuws/27nQiVfaqH42KexymuXUp0nE7s0CQJJVoR8gd7ccwHsr36zMQ63OxcR7KodeD6pNyPKlo6CkTkVovB8JUC4pLAQSRPrs6Mh2s44INYaPt4NF/OhYbVc8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(10070799003)(376014)(7416014)(366016)(1800799024); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZytCbzA4MDJ3Qkxjczd4bTFuTFg2NGE4MlZHZnNJb29malRSc0pEaXVkdU94?=
- =?utf-8?B?RUM4b3NBTnA0eXJ4YmdpZEtJZzhUQW1VNDFBNlJONnljZnRhbTREUkJZSHpv?=
- =?utf-8?B?eWQ3YSttcStnYkwxRGlDanlib0RvYWNSQmlSVTl3cVBuYjNoZlJrckRtcHNt?=
- =?utf-8?B?bGZjZ1h3cWZ6cVVxZlJseWRmb1ZMM3FDSzRMNXNYWmN6Z05BTTN3MWc5Wllk?=
- =?utf-8?B?TGFmeWpsMXVUb0xkWm9oVzFGalM0Y3pjc2JYbmRmRVpxMDRBN1E0TEV2TDdn?=
- =?utf-8?B?TjNXM3Z5Y1krbkRLZ3ExWTc4SkhVdGdvL0hNbWt1YnBpWlZoS0RGZzZLbzlM?=
- =?utf-8?B?S3pGMjFaZmVwaTVweE1YQ0xEYWRLWDVmd0hxRE0yc1l3aGRtYS9PejMzaDZv?=
- =?utf-8?B?T1lYUGFuUEMrUHFoSE05NVZ1YmdpWERBamZ3Y3dxVkNRS0MvUkNndmxIREtq?=
- =?utf-8?B?TnFFSFp2aXU3Z0tNZTJFN1Z3ZDFFTktKNVA3TllRWForUlZiMHcrUXNFQWR1?=
- =?utf-8?B?UFZVbXhVeGx0M1NDbGoyQktYYk1WNFNMSUhsSitTK0dvZmwrWDJ6NEY5WjhS?=
- =?utf-8?B?NEU0WDNPUnNLc1A0Wlk2ZlprclJrLzl2Zm5waFg0NDFBVkZqMDZ2cUZNSW83?=
- =?utf-8?B?aUthVHUrWUNkWkhibHpBZUZzVDN2aWxwTm1xU2FuTzBWOS9PNFJ2UTRMNU04?=
- =?utf-8?B?bG5Mek5tM1RqYXV3SDJ0d2diMnQ1YnZBaXpleVd3UXFaZ3MwZTJldXMzbnRl?=
- =?utf-8?B?bFFTQTFwR25lb1FmY2pUZ3dET1l6MkFWbUMzTm42VGU5L3RQeFA3cUhIaFBa?=
- =?utf-8?B?c0VlT0Q5eG5MaFNFZS9Fb2JLczNscGRVdDZjZDVVYjFqZ3g5Q21PS0dXTmQ5?=
- =?utf-8?B?NmlVektBVmRxMjkzUEp2T3NSZWliVitPUmhUWDdnenBVMi9nRUN4WlgyOXho?=
- =?utf-8?B?b3dmeXljUXRwSWYzKzl3bEUrNk8yNk9PSGUydU5rbmY3dmF6dWMvdFV5cHNt?=
- =?utf-8?B?VkFpTXVaVk9GRm1rQTBzUzVSUHNrNXAwZERPRTJRZGJ0NkJMZHNJdXpNN1Rv?=
- =?utf-8?B?QmxmUXZndVNTMGpMTEZaN0tBMWxRajdzZ256VTUzR1R1NnNnK2hLVjJULzJv?=
- =?utf-8?B?TDlnYmlDa1k3cktYMitPQ20vU3R3K0R4Q1E4bVFqZmRTRGtjTnpUZ1JjS2VV?=
- =?utf-8?B?SW1aVlhaaWhpSXp6aG1ySFlmZlBKZmlqWmJPME1Gb3N5OUxYZ2VaeEJDZ1h5?=
- =?utf-8?B?U2Y3WEx1TlJkUnpGQ0ZTMDBseWRrbFIvQVJ4ZTdMaU14NDJrcXFrbGd0MXRF?=
- =?utf-8?B?d2pBeDNlRXVMMG9lTnEvbDBMc1UrS2wvY0NIeUxGWG1mMHVsZHc2STlUUVc0?=
- =?utf-8?B?WnFoaDAzUW5WcDZ2ME9rWURMcTViay9pSnNGWWNqYWtDQUFWSTFkNnp6UDlW?=
- =?utf-8?B?UTRndHFYbEluakVqcDhSYnpSb2tBa2U5bXd0TGFrcmlXbVZjeXpQeXFPYzhK?=
- =?utf-8?B?NUpDcitVbjdnTzhKTzlPTXNWOTNuY1lVM3lTZThzbktsWjJFL01xdEtOQUdW?=
- =?utf-8?B?akk5S1FBd2VSZWZJN29SR1RpVlk4ald0QUdFZzFBZ1JLcnl6MkhmdW00OWQ1?=
- =?utf-8?B?eGVmT1FvLzJKS05WU3lTRDRVSkNUVjI0OUpGR1BZU29NMkR4MFJzUzJZdVZW?=
- =?utf-8?B?SkY4RyttNE9MamdVanE0Ylc0K0lFMlYwUDErTUlpYU9FSGpyNzJoaWl1Tk1x?=
- =?utf-8?B?R1NXd3hiVTZVaVJQL0xGS2VJbEJYN3hwYkJYN242TUFzVkozd1dPQnlKZjJh?=
- =?utf-8?B?NE0vS0V3Rnc3NFFmQlo3SGhLai9pcENDendNZHlsM1VKTVl2bU81bW1UZElP?=
- =?utf-8?B?N0s5Slh6SjVNUXBLUDZjRy8wRTlnVUtQY09BQTR3TFd4RzBpTGxiTnZiMVFa?=
- =?utf-8?B?SU84aWxoSTRjS3RLcDliVnF1dk9Qb29obE84Si95SlI5eXowUGVhWmxnV2pq?=
- =?utf-8?B?NmR5eFppbXRpczdQanVoeStMU1FtUVVldHRxamVubXkwTlVUR0RxSlBiWDJs?=
- =?utf-8?B?dnNDa0RPZ29oUVd1OW9RalIvQk5WWGIzbEdrQUtudnp0MEFGSUJERitUdThP?=
- =?utf-8?B?VUlsYlVFeGdkbUVrN0pTbURIb1Yyd1A5WFJNeUNhVnczZDhFVGF2RFBlbURY?=
- =?utf-8?B?Vm9NTzlEbzFCSXhEeVJHdGpVVVZJaDgzVi83TlFmVnNOeEJUcVdBSHFhbDZ5?=
- =?utf-8?B?QS9tMWxxL0srSUFUb0NIOGVabkdROHRFdmZUTzl5TDFwM1dGaGtQWERCM05l?=
- =?utf-8?B?TitSL2E0UDg4VmVDeVVRQVkwNVYrQzk4NDRVcDhIL2F2QzRBcHg3eEJXMHhO?=
- =?utf-8?Q?zBl3TcQP6ymiiKg83qexh74beloYYxHbcvwv5gRjwV1NI?=
-X-MS-Exchange-AntiSpam-MessageData-1: SzQe2hGrksoQYA==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVR6T1Bta1BndHV5djM5dEFTY3Jlcm9MY1RxVFFYb2FyZ2VDU05xN01BN21N?=
+ =?utf-8?B?YXdubXlQdGl3YlV6cHZ2YVZTMWVWT3RjNG8xZGVEbEFnTVJidEczWnpnZzA2?=
+ =?utf-8?B?ejRrcHNiUU9uR21jaURnN2h6dEpHTnU2YWZDaEZxNVVrbE11ZnMzcFpocSt2?=
+ =?utf-8?B?WjREYklNUDQ1OHpXWlFib1ZRYUxpYTZqQ2pFMjNtVkQyODVkWmpVbWlwenZX?=
+ =?utf-8?B?M1ZtUm9DTkUzSDNZbnBxTzlnN3h5cUowcWwxRHMrTXlWaDR1QWcxQ2ZGdC9o?=
+ =?utf-8?B?cUxRdmVLRzR3VlBiSWx0b2UvQ0c3QzYrYk5qYjBpN3RreWYwcFk5RzdjamFt?=
+ =?utf-8?B?ckpTU3Ezak9kaitZMVNrNkx3T2VqaHBFLzdoZVBHbWJXQWN5NXNiZkowQ0hC?=
+ =?utf-8?B?cXFSUUpVUnV5VllzYmNCMnhkc1BONGxOOTFQUzNqUisvVDF0SDJwaVBMcHls?=
+ =?utf-8?B?RjErQWhUQjJUa2pGTXVjbE5sUjA2K3RhZm41R1p5Q00vdER6U2phZjZrL1ov?=
+ =?utf-8?B?V1FMWFA0cExFZWxBTnQ3TzhnUFgzNzh3eklKa0E4M3ZsRmwzSGFSSW01YVZk?=
+ =?utf-8?B?NkZkVjhXZWNuOWs5NktTSExOc1dpMVI2Z01TZkQ0MzcvbkQ1dFAzS3F6QlVX?=
+ =?utf-8?B?NFJkdldKVkNXRXFCMzNqbGZOc0l4R2Znc05Vb1VJbVR3dGdlaER0QldsMU1y?=
+ =?utf-8?B?UTN0SkovVHdjSFBCZW1Rcm85alpjeGpYVHZCVWxqQ3MrV1dhMVFiRDFtWUpB?=
+ =?utf-8?B?dFhCZWNZRG5iQkx4SXF2b0JCSzJuV09LY1M0bE05RWkyOTZTVFJ5VUtEbGlq?=
+ =?utf-8?B?QTB1NGhxa2YwdnQrSzlZN05OU3loT0xjUXdxQnRwcG8rL3dSMVhVTGdYbG0z?=
+ =?utf-8?B?c3U3NFpheUFVS0V2VkFzY3o2VnhSekFaeHY1SkZPWVVQTkVFM0xyNGlBck1t?=
+ =?utf-8?B?bHY3Z0lZTjltbUtxKzVJK0FkaHEzWkU4a2xnN3ZYWWNkNnlaQ3c1ZU4yQ29I?=
+ =?utf-8?B?czRlSHBONXVIVTE3bXhON3BVREU2N2lDK3dqM203MFByUHk5dFh5VXFYRHZI?=
+ =?utf-8?B?VUlCbzZPWXVXMzNSTFVUYnVTdDhWaTlJZVdqbmZ4a1VGWFFNaDlvUnVQWitP?=
+ =?utf-8?B?VkRiZEY0MGhSUWZhaGs4Q0xZQlVkYVVpQ2FIRWI5ck53dlcxSEFKK1N6VVBH?=
+ =?utf-8?B?V0pKV1dwZ01VbStGT1liOG03d2p0ZFkwcUFIVXkwMVZUUDQyQXAyRWdiVEgr?=
+ =?utf-8?B?T2JZamxrQS9xd0hsR25nUDRUd0JSc21Ba0lVR2ZnZVRjUWNuOUhyUHF1VFlo?=
+ =?utf-8?B?VUU3MVJVV1czWWFGY0hvbE01SkhBREQ0aGxKZk5ZVTF0U1JGVDJ3ZDc3bDdG?=
+ =?utf-8?B?R1JyT01nY3B1bVFtR2dNRGdYOFZGclBoZS9ZaldadHhMUm0xTzRPZmVKSlhu?=
+ =?utf-8?B?enlZTlVjUTlsMEN2QTQ5YndSYStnb3pXWlBJUUVQV0YzaHR0eDNIM0pGdzJ6?=
+ =?utf-8?B?aTk2OFU3dkNzSzNPdmtURWxIWUVBMnhnWU5ialZxOEZwa1BHOXlYSTFwNEpq?=
+ =?utf-8?B?TndZcU50T21YZjdEblZEek83d3RqOG82NE41YUc1L2k1MitVQVkvL1hvdzRO?=
+ =?utf-8?B?RUJzVXVmY2RhNUIyQm8vZFBCb3V2TmV5OHY3SWk2SWlzQnNmZVlPTGlrcmtl?=
+ =?utf-8?B?TEVjdXBMaHlCbFVyd0pVeFkvTHdOYyt1S3R5Qnh5NUtrSWhpTkVUN1hBOVFi?=
+ =?utf-8?B?VzlPUFhoblQ0WmRIWWRPb2wxbC9RZGMxa2MwZHozMCtETVk1LzZvVUN6TGFL?=
+ =?utf-8?B?L2NIQjdtSE1XWTdkU0NyaFJUTWM3RzkzczRIWkVpYi9NS2VIdWVicWFlbzVi?=
+ =?utf-8?B?R0I1YVlNYS9SR1Ezd05kVzZ6bmw5S3BIMjE2bDhMVytKRHVxOS9lWXAwYTJH?=
+ =?utf-8?B?TzlUWGVUbldseFlpMVpldFV1Q1Z1c2ZXOTljRWJsaFRTL0FqTUlLSFpyVXJj?=
+ =?utf-8?B?SEFIWjdrTDZSdW4yeHZpaHBKck1JRjNHZHZNaWJXdE9KcXBHZHFuYzhHNHJS?=
+ =?utf-8?B?MGQ0ZVl4eDFrOTBDM1Z2NlE4djhBam9ReHEyNkRMSGYrV3lSQzBvNjlUVmRZ?=
+ =?utf-8?B?bFZCbW1ZMUVsT0tZQng0aXpoSGIxUUN2NUkzclFNWkMwVTcyTDhwcHM2ZTdL?=
+ =?utf-8?B?VXByVEdObTVxNlIvWXJVWk9Xb1BJd1U3Q3pUSTNGWVRGdGM0YWUwVmNycEhs?=
+ =?utf-8?B?cnhMb2tyditMM2RvU3I0WXN6OFp5ZkM5YXhoT2oraXdIZ3pPWXh3dkd1TzFo?=
+ =?utf-8?B?SHEwMFdndEZqZGRCMmhmK3AxeldMT1pPbmJLbFoyWW5EQ1VPRTltWk9BbHhu?=
+ =?utf-8?Q?U70hjtOpIdymkwIJmfZPrei2ooZC5NjXa8DrdovNLNcHI?=
+X-MS-Exchange-AntiSpam-MessageData-1: i+cbOWnjqreB9Q==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccd9a8d8-66da-4152-986e-08de7473e98d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86116302-cd52-49bf-f586-08de7473eb96
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 13:43:52.2585 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 13:43:55.8101 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ijsn5RfNsBTxopCkMLCfhVDkp/tFxZu78iSNPg1hPQ1SLJOQQbu+RacgwM9n92r3TYgwbu/ONPgBh8RjH3p+IQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: cBIaMg+O8HY2p65gIglSbveNgz6Vu2l05qgwjJpO01fl5eO0o7s98733lRVVXnTwNS7h5tYLZCelB4f6sZbBhg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5679
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -173,58 +173,205 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: C51971984EA
+X-Rspamd-Queue-Id: 33B561984F9
 X-Rspamd-Action: no action
 
-Fix some inaccuracies / old doc comments.
+Add sync and async command queue API and the type infrastructure to know
+what reply is expected from each `CommandToGsp`.
+
+Use a marker type `NoReply` which does not implement `MessageFromGsp` to
+mark async commands which don't expect a response.
+
+This prepares for adding locking to the queue.
 
 Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 ---
- drivers/gpu/nova-core/gsp/cmdq.rs | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/gpu/nova-core/gsp/boot.rs     |  5 ++--
+ drivers/gpu/nova-core/gsp/cmdq.rs     | 54 ++++++++++++++++++++++++++++++++++-
+ drivers/gpu/nova-core/gsp/commands.rs | 19 ++++++------
+ 3 files changed, 65 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index be427fe26a58..1cb21da855b9 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -160,8 +160,9 @@ pub(crate) fn boot(
+         dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
+ 
+         self.cmdq
+-            .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+-        self.cmdq.send_command(bar, commands::SetRegistry::new())?;
++            .send_async_command(bar, commands::SetSystemInfo::new(pdev))?;
++        self.cmdq
++            .send_async_command(bar, commands::SetRegistry::new())?;
+ 
+         gsp_falcon.reset(bar)?;
+         let libos_handle = self.libos.dma_handle();
 diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 436d1ff20705..cfae5b35adec 100644
+index cfae5b35adec..e1ca1bb9e07d 100644
 --- a/drivers/gpu/nova-core/gsp/cmdq.rs
 +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -528,6 +528,7 @@ fn notify_gsp(bar: &Bar0) {
-     ///
-     /// # Errors
-     ///
-+    /// - `EMSGSIZE` if the command exceeds the maximum queue element size.
-     /// - `ETIMEDOUT` if space does not become available within the timeout.
-     /// - `EIO` if the variable payload requested by the command has not been entirely
-     ///   written to by its [`CommandToGsp::init_variable_payload`] method.
-@@ -710,22 +711,20 @@ fn wait_for_msg(&self, timeout: Delta) -> Result<GspMessage<'_>> {
+@@ -48,6 +48,10 @@
+     sbuffer::SBufferIter, //
+ };
  
-     /// Receive a message from the GSP.
++/// Marker type representing the absence of a reply for a command. This does not implement
++/// `MessageFromGsp`.
++pub(crate) struct NoReply;
++
+ /// Trait implemented by types representing a command to send to the GSP.
+ ///
+ /// The main purpose of this trait is to provide [`Cmdq::send_command`] with the information it
+@@ -66,6 +70,9 @@ pub(crate) trait CommandToGsp {
+     /// Type generated by [`CommandToGsp::init`], to be written into the command queue buffer.
+     type Command: FromBytes + AsBytes;
+ 
++    /// Type of the reply expected from the GSP, or [`NoReply`] for async commands.
++    type Reply;
++
+     /// Error type returned by [`CommandToGsp::init`].
+     type InitError;
+ 
+@@ -604,7 +611,7 @@ fn send_single_command<M>(&mut self, bar: &Bar0, command: M) -> Result
+     ///   written to by its [`CommandToGsp::init_variable_payload`] method.
      ///
--    /// `init` is a closure tasked with processing the message. It receives a reference to the
--    /// message in the message queue, and a [`SBufferIter`] pointing to its variable-length
--    /// payload, if any.
-+    /// The expected message type is specified using the `M` generic parameter. If the pending
-+    /// message has a different function code, `ERANGE` is returned and the message is consumed.
-     ///
--    /// The expected message is specified using the `M` generic parameter. If the pending message
--    /// is different, `EAGAIN` is returned and the unexpected message is dropped.
--    ///
--    /// This design is by no means final, but it is simple and will let us go through GSP
--    /// initialization.
-+    /// The read pointer is always advanced past the message, regardless of whether it matched.
-     ///
-     /// # Errors
-     ///
-     /// - `ETIMEDOUT` if `timeout` has elapsed before any message becomes available.
-     /// - `EIO` if there was some inconsistency (e.g. message shorter than advertised) on the
-     ///   message queue.
--    /// - `EINVAL` if the function of the message was unrecognized.
-+    /// - `EINVAL` if the function code of the message was not recognized.
-+    /// - `ERANGE` if the message had a recognized but non-matching function code.
-+    ///
-+    /// Error codes returned by [`MessageFromGsp::read`] are propagated as-is.
-     pub(crate) fn receive_msg<M: MessageFromGsp>(&mut self, timeout: Delta) -> Result<M>
+     /// Error codes returned by the command initializers are propagated as-is.
+-    pub(crate) fn send_command<M>(&mut self, bar: &Bar0, command: M) -> Result
++    fn send_command<M>(&mut self, bar: &Bar0, command: M) -> Result
      where
-         // This allows all error types, including `Infallible`, to be used for `M::InitError`.
+         M: CommandToGsp,
+         Error: From<M::InitError>,
+@@ -626,6 +633,51 @@ pub(crate) fn send_command<M>(&mut self, bar: &Bar0, command: M) -> Result
+         Ok(())
+     }
+ 
++    /// Sends `command` to the GSP and waits for the reply.
++    ///
++    /// # Errors
++    ///
++    /// - `ETIMEDOUT` if space does not become available to send the command, or if the reply is
++    ///   not received within the timeout.
++    /// - `EIO` if the variable payload requested by the command has not been entirely
++    ///   written to by its [`CommandToGsp::init_variable_payload`] method.
++    ///
++    /// Error codes returned by the command and reply initializers are propagated as-is.
++    pub(crate) fn send_sync_command<M>(&mut self, bar: &Bar0, command: M) -> Result<M::Reply>
++    where
++        M: CommandToGsp,
++        M::Reply: MessageFromGsp,
++        Error: From<M::InitError>,
++        Error: From<<M::Reply as MessageFromGsp>::InitError>,
++    {
++        self.send_command(bar, command)?;
++
++        loop {
++            match self.receive_msg::<M::Reply>(Delta::from_secs(10)) {
++                Ok(reply) => break Ok(reply),
++                Err(ERANGE) => continue,
++                Err(e) => break Err(e),
++            }
++        }
++    }
++
++    /// Sends `command` to the GSP without waiting for a reply.
++    ///
++    /// # Errors
++    ///
++    /// - `ETIMEDOUT` if space does not become available within the timeout.
++    /// - `EIO` if the variable payload requested by the command has not been entirely
++    ///   written to by its [`CommandToGsp::init_variable_payload`] method.
++    ///
++    /// Error codes returned by the command initializers are propagated as-is.
++    pub(crate) fn send_async_command<M>(&mut self, bar: &Bar0, command: M) -> Result
++    where
++        M: CommandToGsp<Reply = NoReply>,
++        Error: From<M::InitError>,
++    {
++        self.send_command(bar, command)
++    }
++
+     /// Wait for a message to become available on the message queue.
+     ///
+     /// This works purely at the transport layer and does not interpret or validate the message
+diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
+index 1683ebb4c685..b42e32dcc55c 100644
+--- a/drivers/gpu/nova-core/gsp/commands.rs
++++ b/drivers/gpu/nova-core/gsp/commands.rs
+@@ -26,7 +26,8 @@
+             command_size,
+             Cmdq,
+             CommandToGsp,
+-            MessageFromGsp, //
++            MessageFromGsp,
++            NoReply, //
+         },
+         fw::{
+             commands::*,
+@@ -53,6 +54,7 @@ pub(crate) fn new(pdev: &'a pci::Device<device::Bound>) -> Self {
+ impl<'a> CommandToGsp for SetSystemInfo<'a> {
+     const FUNCTION: MsgFunction = MsgFunction::GspSetSystemInfo;
+     type Command = GspSetSystemInfo;
++    type Reply = NoReply;
+     type InitError = Error;
+ 
+     fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+@@ -104,6 +106,7 @@ pub(crate) fn new() -> Self {
+ impl CommandToGsp for SetRegistry {
+     const FUNCTION: MsgFunction = MsgFunction::SetRegistry;
+     type Command = PackedRegistryTable;
++    type Reply = NoReply;
+     type InitError = Infallible;
+ 
+     fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+@@ -183,6 +186,7 @@ pub(crate) fn wait_gsp_init_done(cmdq: &mut Cmdq) -> Result {
+ impl CommandToGsp for GetGspStaticInfo {
+     const FUNCTION: MsgFunction = MsgFunction::GetGspStaticInfo;
+     type Command = GspStaticConfigInfo;
++    type Reply = GetGspStaticInfoReply;
+     type InitError = Infallible;
+ 
+     fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+@@ -236,15 +240,7 @@ pub(crate) fn gpu_name(&self) -> core::result::Result<&str, GpuNameError> {
+ 
+ /// Send the [`GetGspInfo`] command and awaits for its reply.
+ pub(crate) fn get_gsp_info(cmdq: &mut Cmdq, bar: &Bar0) -> Result<GetGspStaticInfoReply> {
+-    cmdq.send_command(bar, GetGspStaticInfo)?;
+-
+-    loop {
+-        match cmdq.receive_msg::<GetGspStaticInfoReply>(Delta::from_secs(5)) {
+-            Ok(info) => return Ok(info),
+-            Err(ERANGE) => continue,
+-            Err(e) => return Err(e),
+-        }
+-    }
++    cmdq.send_sync_command(bar, GetGspStaticInfo)
+ }
+ 
+ /// The `ContinuationRecord` command.
+@@ -262,6 +258,7 @@ pub(crate) fn new(data: &'a [u8]) -> Self {
+ impl<'a> CommandToGsp for ContinuationRecord<'a> {
+     const FUNCTION: MsgFunction = MsgFunction::ContinuationRecord;
+     type Command = ();
++    type Reply = NoReply;
+     type InitError = Infallible;
+ 
+     fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+@@ -354,6 +351,7 @@ pub(crate) enum SplitCommand<'a, C: CommandToGsp> {
+ impl<'a, C: CommandToGsp> CommandToGsp for SplitCommand<'a, C> {
+     const FUNCTION: MsgFunction = C::FUNCTION;
+     type Command = C::Command;
++    type Reply = C::Reply;
+     type InitError = C::InitError;
+ 
+     fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+@@ -410,6 +408,7 @@ fn new(len: usize) -> Result<Self> {
+     impl CommandToGsp for TestPayload {
+         const FUNCTION: MsgFunction = MsgFunction::Nop;
+         type Command = ();
++        type Reply = NoReply;
+         type InitError = Infallible;
+ 
+         fn init(&self) -> impl Init<Self::Command, Self::InitError> {
 
 -- 
 2.53.0
