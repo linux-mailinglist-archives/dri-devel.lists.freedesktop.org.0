@@ -2,78 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDRQNlSinmlPWgQAu9opvQ
+	id 6K8LKkuknmlPWgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:18:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:27:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6C4193309
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BBE193632
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 08:27:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19B8510E6BD;
-	Wed, 25 Feb 2026 07:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB0110E352;
+	Wed, 25 Feb 2026 07:27:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h7AiMrLg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uDzlSHB7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HMfC1r90";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QQeur+hC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DUz5+sjY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 348C210E6BD;
- Wed, 25 Feb 2026 07:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772003922; x=1803539922;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=arrqZCYvlgIP/D4B7meKcZNVxVO+BnZ5mpUTi+D9W5M=;
- b=h7AiMrLgDKYmWBtb7RYgcjW79QXV/Iwi0+hg8dGTB9CvB/92OTPEEwtH
- ltgQf0w6+Grz7+DVRfYLV2U45Inqp0u5vi8Ow7CN+hHER2hI5IuBcv5jQ
- o6szs/yFo3cxcXkrInIdvg0MtuRQNxnNXcj9iJXbsfbxzoCbhBVcIQpYQ
- xpFGs6QAPGOH1LGr4qgcjvVtPDhb2OJ5UwBvmA9nIbztbFxZqVsg6mG2z
- JTBFmhj+bpAAaE/+fuQ3r+YqX5xP+PZOKzeCGDaLL50V9YY2LwxRNmBXw
- Di1E0BZ83QdzMAhhTmthtxDPuIQ8GV5UVeVo+07gke6UnysoM/dwNLPRL Q==;
-X-CSE-ConnectionGUID: J2Y/TuWrTM6QmkDjAJdmrw==
-X-CSE-MsgGUID: GrbOZgFiQC6cy6rjzfKTYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="72938196"
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="72938196"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 23:18:41 -0800
-X-CSE-ConnectionGUID: NPQLPfJKTCOYVSj8UTlJFg==
-X-CSE-MsgGUID: swaiZ223QNSNRJwYEvljsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; d="scan'208";a="220745726"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.244.16])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2026 23:18:36 -0800
-Date: Wed, 25 Feb 2026 09:18:33 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Melissa Wen <mwen@igalia.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- siqueira@igalia.com, mario.limonciello@amd.com,
- alexander.deucher@amd.com, alex.hung@amd.com,
- Ivan Sergeev <ivan8215145640@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, Jani Nikula <jani.nikula@intel.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Mario Limonciello <superm1@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH] drm/drm_edid: ignore continuous frequency support
- for VRR
-Message-ID: <aZ6iSdsTfzQX4_op@intel.com>
-References: <20260223203528.213275-1-mwen@igalia.com>
- <aZ1YE6dcEfTMwly1@intel.com>
- <b6f267f4-812f-441b-939d-1ff24fd3406e@igalia.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E374310E352
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 07:27:02 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 68A2F3F6A1;
+ Wed, 25 Feb 2026 07:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772004421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
+ b=uDzlSHB7IycSHgRlCESO2UiE78MH83SySWlh+cpSNQv0N7eF+fy+LSHKjHFzme7zyHqLU6
+ 0yE3mjOQLOjv/JL+fNuGtOSVeNtAPFFvx18lAI/RnFkTcQE+5gJ4Lr70wl87tzdzvOHIq8
+ BBchnPW7wzQaQYb5W5eGMd/4wJkyL0M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772004421;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
+ b=HMfC1r90DROvNXiWg0BQX3yNekK8Rnjs8oP/0XbsMQoFxXtThPr0xc0/TxvPe29Ql0ZHjG
+ 9ww73B69UzRLK4AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772004420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
+ b=QQeur+hCzB0U7vUFcdcvQQbuHWtUKcOn8hWsj3yojW14Rep6FLaypfY3PaB4pQL5ljEXmZ
+ Z4zEgcvvckzziSYa95UDOg6whk2ur8uxX2UZ1EhdAbwKkt1VvLv/cxe8EqT5Ghnoqn45CT
+ fWTmusNOBJYf3/jfAAS51tovBAUofC8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772004420;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nP8KFky3gU/KnWYFlPj0gjmm9qeKrZokHWxewdEa7yo=;
+ b=DUz5+sjYv3QEMV9a8DLLB2Ezwol0V5Mo64JLhfYDEGLsutKyvjV7dPtsVQs74447gIzh9K
+ KfguNql0NRYwZHCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28D7E3EA65;
+ Wed, 25 Feb 2026 07:27:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cGnBCESknmlyGAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 07:27:00 +0000
+Message-ID: <6515820a-3bb3-4868-9b30-9c1f80709ab2@suse.de>
+Date: Wed, 25 Feb 2026 08:26:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/dumb-buffers: document that it's only for linear FB
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b6f267f4-812f-441b-939d-1ff24fd3406e@igalia.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,170 +134,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.90 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_MIXED_CHARSET(0.71)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	URIBL_MULTI_FAIL(0.00)[gabe.freedesktop.org:server fail,cgit.freedesktop.org:server fail,amd.com:server fail,igalia.com:server fail,intel.com:server fail];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,amd.com,mailbox.org,lists.freedesktop.org,intel.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,igalia.com:email,amd.com:email,cgit.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2C6C4193309
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,bootlin.com:url,suse.com:url,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: 13BBE193632
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 09:49:17AM -0300, Melissa Wen wrote:
-> 
-> 
-> On 24/02/2026 04:49, Ville Syrjälä wrote:
-> > On Mon, Feb 23, 2026 at 05:29:46PM -0300, Melissa Wen wrote:
-> >> Display can be VRR capable even if its EDID doesn't contain the
-> >> Continuous Frequency flag. On the other hand, continuous frequency
-> >> support is expected for smooth VRR and ensures better compatibility with
-> >> VRR tehcnologies. As the lack of this flag can result in unexpected
-> >> issues like tearing, get monitor range even without the guarantee of
-> >> continuous frequency but add a debug message for unexpected results.
-> >>
-> >> CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> CC: Jani Nikula <jani.nikula@intel.com>
-> >> CC: Harry Wentland <harry.wentland@amd.com>
-> >> CC: Mario Limonciello <superm1@kernel.org>
-> >> CC: Alex Hung <alex.hung@amd.com>
-> >> Reported-by: Ivan Sergeev <ivan8215145640@gmail.com>
-> >> Fixes: 0159f88a ("drm/amd/display: remove redundant freesync parser for DP")
-> >> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> >> ---
-> >>
-> >> Hello,
-> >>
-> >> After replacing the AMD driver-specific parser for VRR with the drm_edid
-> >> implementation, monitors without the continuous frequency flag in their
-> >> EDID stopped obtaining the monitor range because the DRM common code
-> >> considers them incompatible with VRR if they don't advertise support to
-> >> continuous frequencies. This differs from the original driver-specific
-> >> parser of AMD, that only checked EDID version, EDID_DETAIL_MONITOR_RANGE
-> >> and DRM_EDID_RANGE_LIMITS_ONLY_FLAG to determine the VRR range, so
-> >> switching to DRM common code caused a regression (reported by Ivan).
-> >>
-> >> The commit ca2582c66b930 `drm/edid: Parse only the VRR range for
-> >> continuous frequency displays` [1] introduced the Continuous Frequency
-> >> flag condition. While it was created to avoid issues related to
-> >> non-continuous refresh rates, it looks very restrictive to drivers that
-> >> want to deal with VRR capable monitor even without the guarantee of
-> >> continuous frequencies. I propose relaxing this restriction and adding a
-> >> debug message if anyone experiences problems related to the lack of
-> >> continuous frequency support.
-> > AFAIK without the continuous frequency bit the monitor isn't guaranteed
-> > to support all the refresh rates between min/max. So is this monitor
-> > trying to tell us that you are allowed to change the vtotal dynamically
-> > between the various explicit timings declared in the EDID but not between
-> > any other other timings?
-> >
-> > Or is it just a buggy EDID that needs quirking?
-> 
-> Looks like a buggy EDID. From decoded EDID I understand it supports all
-> refresh rates between 48Hz/75Hz (very small range anyway), without the
-> continuous freq flag in Features:
-> 
-> ```
->    EDID Structure Version & Revision: 1.4
->    Vendor & Product Identification:
->      Manufacturer: SKG
->      Model: 10003
->      Made in: week 25 of 2023
->    Basic Display Parameters & Features:
->      Digital display
->      Bits per primary color channel: 10
->      DisplayPort interface
->      Maximum image size: 60 cm x 33 cm
->      Gamma: 2.20
->      DPMS levels: Off
->      Supported color formats: RGB 4:4:4, YCrCb 4:4:4, YCrCb 4:2:2
->      First detailed timing includes the native pixel format and 
-> preferred refresh rate
->    Color Characteristics:
-> 
-> [...]
-> 
-> Detailed Timing Descriptors:
-> [...]
->     Display Range Limits: Monitor ranges (Bare Limits): 48-75 Hz V, 
-> 223-223 kHz H, max dotclock 400 MHz
-> [...]
-> 
-> Vendor-Specific Data Block (AMD), OUI 00-00-1A:
-> Version: 2.1
-> Minimum Refresh Rate: 48 Hz
-> Maximum Refresh Rate: 75 Hz
-> [...]
-> ```
-> 
-> The reporter shared the EDID here:
-> - 
-> https://lore.kernel.org/amd-gfx/CAKx_Wg7_HBxuq5W4T_AmoFYJGQpa6TAS_Fx9SUzyy1itPmj5Bw@mail.gmail.com/
+Hi,
 
-I see no mention of the model of the display. What is it, and is it
-really supposed to support VRR?
+Am 25.02.26 um 07:13 schrieb Icenowy Zheng:
+> The ioctl interfaces for dumb buffers currently only properly support
+> linear buffers.
+>
+> Mention this in the documentation snippet of dumb-buffers source code,
+> which is referenced by drm-kms.rst and will end up in the built kernel
+> documentation.
+>
+> Also mention the existence of current drivers abusing dumb buffers for
+> AFBC to reduce confusion about this.
+>
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/drm_dumb_buffers.c | 7 ++++++-
 
-> 
-> Melissa
-> 
-> >
-> >> Maybe I'm missing something, so I would like to hear your opinions.
-> >>
-> >> Obs.: In addition to the display kernel developers who have already
-> >> worked with this code, I am sending copies to some compositor developers
-> >> who may have an opinion on it.
-> >>
-> >> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ca2582c66b930
-> >>
-> >> Thanks in advance,
-> >>
-> >> Melissa
-> >>
-> >>
-> >>   drivers/gpu/drm/drm_edid.c | 4 +++-
-> >>   1 file changed, 3 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> >> index ff432ac6b569..8ebd1c17d78a 100644
-> >> --- a/drivers/gpu/drm/drm_edid.c
-> >> +++ b/drivers/gpu/drm/drm_edid.c
-> >> @@ -6517,7 +6517,9 @@ static void drm_get_monitor_range(struct drm_connector *connector,
-> >>   		return;
-> >>   
-> >>   	if (!(drm_edid->edid->features & DRM_EDID_FEATURE_CONTINUOUS_FREQ))
-> >> -		return;
-> >> +		drm_dbg_kms(connector->dev,
-> >> +			    "[CONNECTOR:%d:%s] Display doesn't support continuous frequencies\n",
-> >> +			    connector->base.id, connector->name);
-> >>   
-> >>   	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
-> >>   
-> >> -- 
-> >> 2.51.0
+We documented the meaning of the color bits and the behavior of the 
+dumb-buffer interface at [1]. If anything is missing, it should be added 
+there.
+
+Best regards
+Thomas
+
+[1] 
+https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/drm_mode.h#L1200
+
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+> index e2b62e5fb891b..06f74460adf62 100644
+> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> @@ -57,7 +57,12 @@
+>    *
+>    * Note that dumb objects may not be used for gpu acceleration, as has been
+>    * attempted on some ARM embedded platforms. Such drivers really must have
+> - * a hardware-specific ioctl to allocate suitable buffer objects.
+> + * a hardware-specific ioctl to allocate suitable buffer objects. They are
+> + * also currently meant for only linear buffers, and using them with any
+> + * modifier other than DRM_FORMAT_MOD_LINEAR is undefined behavior. There
+> + * exist some KMS drivers abusing dumb objects for AFBC framebuffers, but this
+> + * behavior is discouraged, only exists as a hack now and shouldn't be
+> + * replicated.
+>    */
+>   
+>   static int drm_mode_align_dumb(struct drm_mode_create_dumb *args,
 
 -- 
-Ville Syrjälä
-Intel
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 NÃ¼rnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG NÃ¼rnberg)
+
+
