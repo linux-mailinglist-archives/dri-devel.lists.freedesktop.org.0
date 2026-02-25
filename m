@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cC1CJTu5nmnwWwQAu9opvQ
+	id QOGuKmG5nmnwWwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:56:27 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:57:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D42194778
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD5F194792
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B55610E720;
-	Wed, 25 Feb 2026 08:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD1B10E723;
+	Wed, 25 Feb 2026 08:57:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="YPO9wBVD";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="ANHAvviQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F4210E722
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:56:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 308DF10E723
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:57:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1772009781; x=1803545781;
+ t=1772009822; x=1803545822;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6v34uZLFPaLXSyOKm1xWqZsBnN+gU3NkxSz33eF+XEI=;
- b=YPO9wBVDXOQlvPUso4c8BaCn01lplWb9tgBxKmiw838zMZz341Z2z1Wi
- 6mewWvhG3CmN84yoSNMwPhastvvy3mekeyPTgGX2ie0Sgtw49U3+G9DcF
- gfVj3bd7ae/t3XTq3fa566Xp6qfFuj57mRJFefNs2lC/FIjiqzCiXRkBj
- F27p4d22MCts+0/Rj5pve1TzUQ2QgvYHzAp3RaEVnuZWNptidsQ9SH4M4
- mRbeqiQBWRieAMTCDrLTRoFxKLhiNp0Hx/O5c6ZbGHAqvJ71biObtDaYI
- fHrhLXupEkqyJr5yDyTt8LgOHLiQNDeFbjw4ZQR1fYdaDGUpnA0W4qx0G g==;
-X-CSE-ConnectionGUID: CuTHRctdSuOo+CeX/pVyrg==
-X-CSE-MsgGUID: /tnDRAcCQmC9hLXsVoUJvg==
-X-IronPort-AV: E=Sophos;i="6.21,310,1763449200"; d="scan'208";a="61258797"
+ bh=Nr1GVPhNzWyCMqdmEJR4rllZGATf5oJ49z3JgWx6CNg=;
+ b=ANHAvviQmnkGzOlUcxuOac9Qubzqu6Waxu6bNLq8Dr0w4lzQf5LhMNjk
+ 97eNNdLtme6vNED0oqZL+FsfAZLRD6pzXU1NgY41hdcG0f1TPqbcxSTIe
+ YK3ocPmYFmVbvzWUin4plJprll+O2r0k7KPV+ugg5gaKGl2RQpy1F6rrk
+ i4BleUuWwgZl36OikwmnE1ndmEwsLgpZAaLXhPw/uNuJwaoEp/A8CYvof
+ g92ryWdmh5/PbcbmAuirktycPbi0zN4EYFVIGJjdm0ljXi3wUTBjXjWL+
+ Q+fkWKgBJh8RGmqKnVw69e6S5vE+dPWY+V3CnP7m/l/5XkFjNksJXMZ6X A==;
+X-CSE-ConnectionGUID: oTFg5017SyWNf5KTd3fI5A==
+X-CSE-MsgGUID: UQtxzmePRqWAEgeer5mqtg==
+X-IronPort-AV: E=Sophos;i="6.21,310,1763449200"; d="scan'208";a="53830079"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 01:56:21 -0700
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2026 01:57:01 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.87.152) by
- chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Wed, 25 Feb 2026 01:56:11 -0700
+ 15.2.2562.35; Wed, 25 Feb 2026 01:56:20 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 25 Feb 2026 01:56:00 -0700
+ 15.1.2507.58 via Frontend Transport; Wed, 25 Feb 2026 01:56:11 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -61,9 +61,9 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <linux-arm-kernel@lists.infradead.org>
 CC: Ryan Wanner <Ryan.Wanner@microchip.com>, Manikandan Muralidharan
  <manikandan.m@microchip.com>
-Subject: [PATCH 3/6] ARM: dts: microchip: sama7d65: add LVDS controller
-Date: Wed, 25 Feb 2026 14:24:27 +0530
-Message-ID: <20260225085430.480052-4-manikandan.m@microchip.com>
+Subject: [PATCH 4/6] ARM: configs: at91: sama7: enable DRM hlcdc support
+Date: Wed, 25 Feb 2026 14:24:28 +0530
+Message-ID: <20260225085430.480052-5-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260225085430.480052-1-manikandan.m@microchip.com>
 References: <20260225085430.480052-1-manikandan.m@microchip.com>
@@ -114,43 +114,55 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,e1600000:email,microchip.com:mid,microchip.com:dkim,microchip.com:email]
-X-Rspamd-Queue-Id: 46D42194778
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,microchip.com:mid,microchip.com:dkim,microchip.com:email]
+X-Rspamd-Queue-Id: 3BD5F194792
 X-Rspamd-Action: no action
 
 From: Ryan Wanner <Ryan.Wanner@microchip.com>
 
-Add support for LVDS controller node
+Add configs for DRM Atmel LCD Controller, Backlight and Simple Panel
 
 Signed-off-by: Ryan Wanner <Ryan.Wanner@microchip.com>
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- arch/arm/boot/dts/microchip/sama7d65.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm/configs/sama7_defconfig | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/microchip/sama7d65.dtsi b/arch/arm/boot/dts/microchip/sama7d65.dtsi
-index b2fe76115aec..8aa38f29082b 100644
---- a/arch/arm/boot/dts/microchip/sama7d65.dtsi
-+++ b/arch/arm/boot/dts/microchip/sama7d65.dtsi
-@@ -304,6 +304,15 @@ pwm {
- 			};
- 		};
- 
-+		lvdsc: lvds-controller@e1408000 {
-+			compatible = "microchip,sama7d65-lvds", "microchip,sam9x75-lvds";
-+			reg = <0xe1408000 0x100>;
-+			interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&pmc PMC_TYPE_PERIPHERAL 104>;
-+			clock-names = "pclk";
-+			status = "disabled";
-+		};
-+
- 		aes: crypto@e1600000 {
- 			compatible = "microchip,sama7d65-aes", "atmel,at91sam9g46-aes";
- 			reg = <0xe1600000 0x100>;
+diff --git a/arch/arm/configs/sama7_defconfig b/arch/arm/configs/sama7_defconfig
+index e2ad9a05566f..c0671318bac4 100644
+--- a/arch/arm/configs/sama7_defconfig
++++ b/arch/arm/configs/sama7_defconfig
+@@ -133,6 +133,7 @@ CONFIG_GENERIC_ADC_THERMAL=y
+ CONFIG_WATCHDOG=y
+ CONFIG_SAMA5D4_WATCHDOG=y
+ CONFIG_MFD_ATMEL_FLEXCOM=y
++CONFIG_MFD_ATMEL_HLCDC=y
+ CONFIG_REGULATOR=y
+ CONFIG_REGULATOR_FIXED_VOLTAGE=y
+ CONFIG_REGULATOR_MCP16502=y
+@@ -147,6 +148,11 @@ CONFIG_VIDEO_MICROCHIP_CSI2DC=y
+ CONFIG_VIDEO_IMX219=m
+ CONFIG_VIDEO_IMX274=m
+ CONFIG_VIDEO_OV5647=m
++CONFIG_DRM=y
++CONFIG_DRM_ATMEL_HLCDC=y
++CONFIG_DRM_PANEL_SIMPLE=y
++CONFIG_BACKLIGHT_CLASS_DEVICE=y
++CONFIG_BACKLIGHT_PWM=y
+ CONFIG_SOUND=y
+ CONFIG_SND=y
+ CONFIG_SND_SOC=y
+@@ -197,6 +203,7 @@ CONFIG_AT91_SAMA5D2_ADC=y
+ CONFIG_PAC1934=m
+ CONFIG_PWM=y
+ CONFIG_PWM_ATMEL=y
++CONFIG_PWM_ATMEL_HLCDC_PWM=y
+ CONFIG_MCHP_EIC=y
+ CONFIG_RESET_CONTROLLER=y
+ CONFIG_NVMEM_MICROCHIP_OTPC=y
 -- 
 2.25.1
 
