@@ -2,158 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WCcaJU+Dn2lrcgQAu9opvQ
+	id aABiMAyNoGkNkwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 00:18:39 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23A419EB22
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 00:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D661AD5C4
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFEC710E037;
-	Wed, 25 Feb 2026 23:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3645F10E9ED;
+	Thu, 26 Feb 2026 18:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JpmL+CkW";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QQEdwGtt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QGDnWFz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0756710E070
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 23:18:33 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61PN3bhJ3095062
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 23:18:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- k1ncu6ArYzJhC1oWtoKaTbf490HS3AonBnLenM3Jd0c=; b=JpmL+CkWYUP0rhkq
- yvcnpyP/EsHfwQoW0K88N1JAwbxTi+LLkZjH9DnYvIiobtYH5J/g8+9NO85fBMy2
- kviXPZxgDBjU9X/GvP4DBmN+EQ3kZmoyKjP7w6eVnJVJzNDhRfpq2IsfE81WQkuh
- SqGKaB0hOvmonmXYz8t/bTRs9L/qyP0J6vhfIpk7hwpr4X/Oa++bWNC8h1FEQnM0
- aRUSD8losKzsY6bDy0GwTFFfO5k1NBw/RQLoC5/2zk+aY+Gn89MIwAMaa4NJeH2v
- SO1uWYK0vdnDIr369SYLjwZ1kJxo32PT1fieroRk0aGGqmVEoRy2LpCjqL1JCwzX
- OLvqSw==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com
- [74.125.82.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjae0r0xr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 23:18:32 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id
- 5a478bee46e88-2bd3bf5dde4so208228eec.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:18:32 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EC810E842
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 23:41:17 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-439857ec679so210457f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 15:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772061512; x=1772666312;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k1ncu6ArYzJhC1oWtoKaTbf490HS3AonBnLenM3Jd0c=;
- b=QQEdwGttGIqMG2KwQ37WVjtL6RCOWCW5nnrmN8ymUyRzrLeRw1RrTgLbaVaCEMLcY9
- ZThm5wmqKZoS+mz+h2qzPKQnOyyT/spBKnwBZcqCD955poJHTRKBQq3WEacGzuojhp/Q
- sQkCeaZsaObE1f5jGTY9iqf7LYwvux7jMneP6Mf4l7ev0lZM6zelq85CYC1LkUSSyaxm
- dAuIGIZWpEHj5YplnTC2RX9/L1tsmfLMqmsJ3+QsEuyh3pMwBzOrt1hiOgf+1zGi/4i5
- e0g49tdWRvySfe02tcdAMaVslK3r8pHqESRtn18XjeDoM4GwMUWUsEiNO3dqgtfSPqpv
- aHyg==
+ d=gmail.com; s=20230601; t=1772062876; x=1772667676; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=896H1+Wxt76OuddQ568kaIniMJJA3risn5GSiPmJdUU=;
+ b=QGDnWFz2U8fJKVO2DShrE+EPFQhg6IoXnNTzx3liTZWJpg9C8HHrYcKH7EVZtb5+Wp
+ EpeS7STT6uCNezkSlT9Vguvv8WU39UQgUwbcVd4/M3cD2+7reWMgqTBEUzAvuQ+8x9My
+ wufUKk4/w9iSrCES0ELC6Uucu9LApft4VCdKOeLpVTIMnCM8/Hp1b4r2M/3MX4ZNRNCU
+ PatepFR0ntzk50wM1CvKK1UXmMhhgyxG2maRudTUvxvbZPoJ6ehum3dk3M8TvYPR9r/O
+ cQ0I8pizGIVx9hO9XqmwjwKJtXjkWeaLXIQak2m8ogM338WxK3TqBbLBMco9SnGV0Bl5
+ vTqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772061512; x=1772666312;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=k1ncu6ArYzJhC1oWtoKaTbf490HS3AonBnLenM3Jd0c=;
- b=O/0H/8H7iyz8FeV/xVbsUkOD7+bghB+nRL+nB8UKf3gAzXagktCA0ESFAfaDG1lPjo
- bBd5TN6/gpVcgFVlJQQ3chc29JAW8YVgOVIdOGdHwr1BcYCTp6upaRrE/BPztdl8Q+ko
- UMCwklvRZT394EMc7Xp0VmFWOk9kI6NJZqUX9Z7/aVzw9DcpiaL7hihCxKKKitm/giT2
- 0HfHi90V+Uyxsq7bgAOTpFc2OqKY94Mmz7NRIK1XSea1X+LVRCoPmY+37Fza/rIulYs7
- CGyNXE1+VpD08456N9UOK1qypaouh1up5fupD7L6jN7MqLJ6uhM0QPtFU5nfu7mroYoR
- sC3w==
+ d=1e100.net; s=20230601; t=1772062876; x=1772667676;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=896H1+Wxt76OuddQ568kaIniMJJA3risn5GSiPmJdUU=;
+ b=v5HV3HfbUeXrO038iP1LDSrdnfRBNzVlSAa1dNxqoUdrNR49vuErnq832o8DW4mMaE
+ X9cP9f3C8iHKqgFuCZIt+MB74Tjd0CaVwyACBSWvq8/km7YotRQ+OZhBE68p0KrQXpUs
+ k1Gt5/HbvP+371EbnAgC8uUKaivLw+/rmxRcGbPPZE4Q+qcO44qe/t2Z9bS/bIF5+/PM
+ d8vfmoaGEt1oXbe99n2VIp1rDdofr57YBT2e7jrWMgoqA6V4sVV7xTq3S6rM6n5QgPIa
+ QREp6gg229nl1t0yNEHud2p3sL9a8NzwPWMXAX14/fX7LT9iP+2fJnf8dWAm410LXNZ/
+ P4Qw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMvOAnuvBQdT1I2Ta53OLMfFa1oOJk9Lw1lubGZzKwlP1TVBJMTjYKbG/DIZvJVQmqnfNNpGWBIP8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAy9Ro6x8wu5LyUzaLKN5aqUNnAj/RS/12XL7FMKUsHRwrU6mx
- /61v+PG1ks+MlIxkIWKEi/VdeZi/6mmo2+V/YkllVWTqf14IoQFe5jF+sOE9zXTb+Eg3YTsUTIP
- w0hSzMBNIkt3FUov8JkPEZqtAJafLin1AWrbWk6SYIebU05+qQ0jMov1WIPRAXg6WQk48uDY=
-X-Gm-Gg: ATEYQzyx/ZK/QGnx9pRU4kLGzyS9nVBrgmo0SV9wAdFUkt1QZfzlcM9Vt3nwjKxWiRH
- oSLwT+dPyXvVbzocFviDM4jk/KqdjfuA0O4LV+/LL8CRqsad8HTdIUxolUaP2xKtiwkqn08sOs3
- hSNhrq9WVb6sU5Odd9ZbLRo5HyXvVnwRcNqhIJO3xfxwiBZTcggWmS7C0uifpQicccxAa28j+C/
- 2ZqD7va2Ac4Zp35UaoGomjSmZYF0toYmsFNAwjnXFFcYoUf0qVZyXVaR/p4Uw2IN7l1uTf+j5+m
- vEzSpmSYRVDRAI/KwgO0et5JpXi7/iRLmf51FWKVRq7oPO7V/FW4JLpQ/bkv1Y+jEtk5lg+JXEB
- aGFWI0ZmzXl+AVhClGFZ2jm8UuHYvo5ZvfpJOHxHhj2B4ur8Jb4ftTouV9HIBmvl8rIo9Xj6cWi
- jhClkf
-X-Received: by 2002:a05:7300:538e:b0:2b7:1abc:a6eb with SMTP id
- 5a478bee46e88-2bdcbf4440dmr892764eec.7.1772061511632; 
- Wed, 25 Feb 2026 15:18:31 -0800 (PST)
-X-Received: by 2002:a05:7300:538e:b0:2b7:1abc:a6eb with SMTP id
- 5a478bee46e88-2bdcbf4440dmr892750eec.7.1772061510969; 
- Wed, 25 Feb 2026 15:18:30 -0800 (PST)
-Received: from [10.134.65.116] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCXoYFF1K8yxwDiK1M8b6C7llGS84YMm2+Plz7eSkpQ2QRSFaww1M5rZZFSmoLPCqxKeol9GDQPa3kM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz41wZI9Vb8SmHZsvu8xK7mR0likhiEk9i4WXrbJ9xbJZAsqTVo
+ SFfTT9ZSO1H7PQKcE8N7fywi64+3F4LfYwa8l0liX8QnWS+3IZq+8vVk
+X-Gm-Gg: ATEYQzxfIQykLhlwnQHRAd3ITHdan0jTL6yEaSPcqSI2l20xLWeHqfaWRYfDu0+595t
+ /sizqvHNogqtDi5twkO7iRzmvKWzT0ir5KpvXaGTqABMHobYqQEIZo6t0WR6p7CqD3I/9Qm0kJr
+ UAdy0Cx4Vsr6H2piQqcV0HpWVljCcr2oue6zq5AKaoUbJ0Lov4t476GiNJHd1wSdBnS4QpYs06p
+ yBr51kL1+Ob+zge+7P0on8i/Q/0J08f9MYv0qiQxcV8hGNzo+90x5kdx8cdmnFBGFerRzRcf4Ss
+ tdNAJILVAv6b/+UXmKEejtFMfU03AbtoR3fcC+S6ZGo0vSMfNq3bhcb7KLcQqp0ifDx/7Vf/Aht
+ yATPKLNDL/55Tl8aGM5lRewfeFNVV8yMNHu61QYCJQja1jClzYH+QgKO4j9PIJEe0anxhHp0l2D
+ 1XXmr3uvDDb8hmZmVHPpWftlQsJ/toUDEfhyg8hGQ=
+X-Received: by 2002:a05:6000:2890:b0:439:938a:3de1 with SMTP id
+ ffacd0b85a97d-439942aa1e4mr4235351f8f.16.1772062875848; 
+ Wed, 25 Feb 2026 15:41:15 -0800 (PST)
+Received: from localhost.localdomain ([83.231.69.9])
  by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2bdd1cf0115sm357385eec.8.2026.02.25.15.18.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Feb 2026 15:18:30 -0800 (PST)
-Message-ID: <3f06453a-ac7e-46e0-8d37-e0f9980b438d@oss.qualcomm.com>
-Date: Wed, 25 Feb 2026 15:18:29 -0800
+ ffacd0b85a97d-43970d3fc12sm35307352f8f.24.2026.02.25.15.41.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Feb 2026 15:41:15 -0800 (PST)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andy@kernel.org>
+Cc: "Jose A . Perez de Azpillaga" <azpijr@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v2] staging: fbtft: fb_ra8875: replace udelays with fsleep
+Date: Thu, 26 Feb 2026 00:40:36 +0100
+Message-ID: <20260225234100.152320-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260225204602.134218-1-azpijr@gmail.com>
+References: <20260225204602.134218-1-azpijr@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
- driver docs
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
- <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
- <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
- <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
- <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
- <jmv4jkwku5x5acxno3vyar4cozl3makdz6vzdyjsitf2vtyhp6@cxtl7zmaayvq>
-Content-Language: en-US
-From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-In-Reply-To: <jmv4jkwku5x5acxno3vyar4cozl3makdz6vzdyjsitf2vtyhp6@cxtl7zmaayvq>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDIyMiBTYWx0ZWRfX1IOuCUQHkS/L
- dPDH27Eb7tn5/INXwzfnrZcso84cDVb7g2xs/W/RNajFzY1xQuaDJvMDVD3xrgISmduUhs78+F5
- nBukK53+4qWWAUElxYKIZcngpWUbY2YkSzlWiLii0rjLjKChSrmkclnmWUDxCUtHKyx8Ig2HStZ
- N/HwT+UtiZR2yoYxGaE3mQnU5wSttzVFAIrkRi77mUMEGRYKX04M1P9LAknafWdobNCRwusw0gA
- Ia6c2Krk/YJZIh/FHoZy7H86JSdanCjxJyZfCTGsE/p/cKglrf/NCjMxDgfQLOUbNW3z+KXgbAS
- 1Fniha9xVpH5ETqOarWBZV7FCo6gSzzHeL5jyCtU7OFfeAlM3PxH0SybCnPlYBHtznEuueHNN8j
- CUsZNMK0ztNuSqqeh3Ng4rnNXlYRz9UgwjQJn82TqwQmZ0a3AbPOtECqiI8eoH3Cf012IzVR5+R
- kVGtaP5K0hwpwUSMvHw==
-X-Authority-Analysis: v=2.4 cv=O7Q0fR9W c=1 sm=1 tr=0 ts=699f8348 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=AmUwcyaVtIZmdcZSVHAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-ORIG-GUID: tlK6idIrSKZqc37iEa4y29hTU1U-UW8N
-X-Proofpoint-GUID: tlK6idIrSKZqc37iEa4y29hTU1U-UW8N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_04,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0 impostorscore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 clxscore=1015 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250222
+X-Mailman-Approved-At: Thu, 26 Feb 2026 18:11:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,128 +97,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:andersson@kernel.org,m:ekansh.gupta@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:azpijr@gmail.com,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[azpijr@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[azpijr@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E23A419EB22
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 59D661AD5C4
 X-Rspamd-Action: no action
 
-On 2/25/2026 11:40 AM, Dmitry Baryshkov wrote:
-> On Wed, Feb 25, 2026 at 11:16:26AM -0800, Trilok Soni wrote:
->> On 2/25/2026 7:12 AM, Bjorn Andersson wrote:
->>> On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
->>>>
->>>>
->>>> On 2/24/2026 9:03 AM, Trilok Soni wrote:
->>>>> On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
->>>>>> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
->>>>>> integrated in the DRM accel subsystem.
->>>>>>
->>>>>> The new docs introduce QDA as a DRM/accel-based implementation of
->>>>>> Hexagon DSP offload that is intended as a modern alternative to the
->>>>>> legacy FastRPC driver in drivers/misc. The text describes the driver
->>>>>> motivation, high-level architecture and interaction with IOMMU context
->>>>>> banks, GEM-based buffer management and the RPMsg transport.
->>>>>>
->>>>>> The user-space facing section documents the main QDA IOCTLs used to
->>>>>> establish DSP sessions, manage GEM buffer objects and invoke remote
->>>>>> procedures using the FastRPC protocol, along with a typical lifecycle
->>>>>> example for applications.
->>>>>>
->>>>>> Finally, the driver is wired into the Compute Accelerators
->>>>>> documentation index under Documentation/accel, and a brief debugging
->>>>>> section shows how to enable dynamic debug for the QDA implementation.
->>>>> So existing applications written over character device UAPI needs to be
->>>>> rewritten over new UAPI and it will be broken once this driver gets
->>>>> merged? Are we going to keep both the drivers in the Linux kernel
->>>>> and not deprecate the /char device one? 
->>>>>
->>>>> Is Qualcomm going to provide the wrapper library in the userspace
->>>>> so that existing applications by our customers and developers
->>>>> keep working w/ the newer kernel if the char interface based
->>>>> driver gets deprecated? It is not clear from your text above. 
->>>> Thanks for raising this, Trilok.
->>>>
->>>> This is one of the open items that I have. I'm not exactly sure what would be the
->>>> acceptable way for this. 
->>>>
->>>> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
->>>> without modification.
->>>>
->>>> I was thinking in the same lines as you have mentioned and  having some shim/compat
->>>> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
->>>> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
->>>>
->>>
->>> This is a fundamental requirement, you need to address this in order for
->>> this to move forward.
->>>
->>> Which makes me wonder if it would be possible to reach an accel driver
->>> through incremental transition of the current driver, instead of just
->>> dropping in a few thousand lines of new code/design.
->>>
->>>> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
->>>> before, so I would want guidance from maintainers on whether this is an acceptable
->>>> model or not.
->>>>
->>>> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
->>>> unchanged in terms of definitions and expectation. The same project can be build for both
->>>> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
->>>> not face any problem if the libs is built with proper configure options.
->>>>
->>>
->>> You're assuming that the kernel and userspace are a unified piece of
->>> software, they are not. It must be possible for me to install a new
->>> kernel package without having to replace the userspace libraries.
->>
->> Thank you Bjorn for providing the inputs. 
->>
->> I also foresee that we will be stop adding (or already happened) new features
->> into the existing fastrpc driver, so calling the new driver as an alternative
->> is in oversold category.
->>
->> You are pretty much began the deprecating the existing fastrpc driver, so let's
->> just mention it if that is the case and provide migration/shim path so that
->> existing binaries doesn't break.
-> 
-> I agree that we need a migration path, but I'd really focus on it after
-> getting at least basic parts of the QDA reviewed and agreed upon.
-> Otherwise the shim layer will be reworked again and again with no
-> immediate added benefit.
-> 
+The write_reg8_bus8 function uses udelay(100) twice to wait for the
+display controller. In non-atomic contexts, fsleep() is the preferred
+API as it automatically selects the most efficient sleeping mechanism
+and avoids busy-waiting.
 
-I am fine with the review to be continued, this is RFC series anyway. We should also decide
-the design of the shim layer here as well. I prefer to not have multiple
-RFC revisions here if we don't agree on the basic requirements which
-leads to acceptance of this new driver. 
+Update both instances to use fsleep(100).
 
----Trilok Soni
+Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+---
+v2: Switch from usleep_range() to fsleep() for modernizing delay calls.
+---
+ drivers/staging/fbtft/fb_ra8875.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 0ab1de6647d0..fe95ec6da064 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	}
+ 	len--;
+
+-	udelay(100);
++	fsleep(100);
+
+ 	if (len) {
+ 		buf = (u8 *)par->buf;
+@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+
+ 	/* restore user spi-speed */
+ 	par->fbtftops.write = fbtft_write_spi;
+-	udelay(100);
++	fsleep(100);
+ }
+
+ static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+--
+2.53.0
+
