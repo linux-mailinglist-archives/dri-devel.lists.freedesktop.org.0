@@ -2,95 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFbVEURCn2laZgQAu9opvQ
+	id qDn6D8VEn2m5ZgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:41:08 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:51:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F9F19C602
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC9D19C73A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 19:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6720210E199;
-	Wed, 25 Feb 2026 18:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C56F10E1CA;
+	Wed, 25 Feb 2026 18:51:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jjyg87s6";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="eRYr7PZX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFD610E199
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 18:41:02 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-436317c80f7so882365f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 10:41:02 -0800 (PST)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DCB010E1CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 18:51:44 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-b90bc00578cso4133766b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 10:51:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772045503; cv=none;
+ d=google.com; s=arc-20240605;
+ b=IRDiwxrGXreS4uQAD9QxZRIPR6uxQ52MyMiWZ6A+XyIiiAO/J3PjaK0HAtwiAGnU94
+ aq6k10/dcCUalRDYUhgQQTJ0PkaepTdyE1Fbi83krnFqYvoZijyRL79xKG+ogrYO9Dc1
+ KEXl40OXpKDUYeWPeo0yokH/gBak6HbMQLiHHdKOV5sJGjJhfm0QvvpmNnPSc16/gRiL
+ x+KTqriCRFINFtr6rE3hzzW86dVZRskcfBNmiFqvBRx+18qMxBQcCg3GIaZSbZJownvV
+ B8OtjjPglYqgiUswW2y+gexc9tvPQVnEoIFTFoZy82YrKpReGw11xhgXYgf0rYYFiiiz
+ VOTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=4oh/ifwivL8l9J8VT3JA58Q6ouuCYd8eO2HrHQHPvGw=;
+ fh=2aZVlCl05pAZgvHJZrHePoS/u/RwQaWG8Am2MfKxVWc=;
+ b=K10FYadOkZPEOcA/5TL6Qeo81ZTU3qSpVQq8viIWcIoAc7pI1F0/ezfNaWOPCpEEpG
+ 4KkiXoWdgiTF9Cn1xJCOi69ViUrVmLkYbPi+z2T77qVoixO/wBpdJOWMiuj8E7Eacxap
+ 7V7N0UipixSPsVTwbouYTPpCYcRLiUjXsURTi6FkFRC12ZMeXnCdRzcBoAYwbLYSjYnv
+ z07JPI/P/I646OshYuBbzdI+BuOrQi1jIxQCctiUk2K3S9rUC6GcGSUVvaoa146MtVev
+ GquCv/eOv8rnrYdDpl+KoACfyNLdWnoCeH6Y9MVbiC63MyeBZyE2o6qw/WhIszRIfgnE
+ tSqA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772044861; x=1772649661; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=h0CMShhitdpQ//FqeZ9cEIzrxTRnPPpN5zlMplF2C/0=;
- b=Jjyg87s6oNlYYm3/chYVG2K5YEZB/WCocaHAwkDqWR9nSOrTOFEykIkxXDlZvDVA05
- VQtE4cCAWR87UfKinHCYuNqyq6QoQAWjcavjIEcs5CsN2OneyJJSiYJIxitCgSFks/Jl
- L5GSAQYAvS53riRwFZmPdR4BQxNJT/wqzDwrSOEUjQmWtvGJA/oZ2xHAZmiq+wQckixR
- h3Ov5rRvEAq5p3X79UCNuCI+WeHzbO4L3Gi7TxHFewN+l4S8F1Kq3GumAHezKIwjpveu
- 1dqcivxyZV5I7GTz5EmcMux+XE9KXXQqw88j5/cFkfNDuGGDLkGW5K4DyuQ/GgDT/UjF
- dOKg==
+ d=google.com; s=20230601; t=1772045503; x=1772650303;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4oh/ifwivL8l9J8VT3JA58Q6ouuCYd8eO2HrHQHPvGw=;
+ b=eRYr7PZXPqx3N2W08UKNumjo7CnX2poFRyJsOrfJVBx6I5XSA/SbnKYVtKe3I/4Wvr
+ kT/fQRXjfsTjSWDWSq3O5JV1BH2GgVd0VOKrkuYkx0Ls+hAEAUsK0UANYtHQqED2JcLP
+ lnOAWYyNqGIRTpqSqi5Jq3Cs5D/dL+tDx6h8IHw1Hk/TPPzFnWk5OeMLnF+ny/2wlNbJ
+ H6h29O5CJeNMzrTdQNSgyHsO+U+ND6HnrAVRuFb8g4d/f2ACV6J3ofJ+KJiybi+AJUtC
+ XsLGwnj830F4EhgS8Pesw08YBxY7kNare+ldaKdZb/cdU1SMLFy08iaK57EcXJAGdJZi
+ l2wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772044861; x=1772649661;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=h0CMShhitdpQ//FqeZ9cEIzrxTRnPPpN5zlMplF2C/0=;
- b=lm/hfeZx9BXcQYnQzudOoB4qiMRCVcrV2GRDU6Kp2W3E+Igr25WyCPj8b5rOI7+/36
- NGvCr8DoqQrQabr/Y1kqWkPVbzRqx6urfjg/XddkZu2Ild/p5iAKEVB6mjjcdWcvGssN
- agRo4zh9py+01xvSITQdczriZVFGNU5o9F1UiqihGT/X+gdsZ1daCNsOKR5wZbz9v5lh
- H+kinA0kYygre15avvPVlBqoZgqFdbVoxZ/iuvR20rzGMqfj1ue4EZKTJBJqOP5bLvd4
- L+vLDtSfJX32lSzs+PYzRYfA+KU1VX+Xe9ZdAtg/V77slL3In6+HKGDqQPbDo3tJcvpX
- ksHQ==
+ d=1e100.net; s=20230601; t=1772045503; x=1772650303;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=4oh/ifwivL8l9J8VT3JA58Q6ouuCYd8eO2HrHQHPvGw=;
+ b=W6hKAhIUa9KuGENJcxN8XOD+W5vd+h7BnnIn8QnInk8e77bdOMmb++U66E+N0k19q0
+ WUNI6atHC4lsjVqQFV1iu19KHtViG/+mEBVtwS6PMh0iEjsPR8waXjPDLkx8Ukt06gjk
+ m3RQRsQYFTPt47JieW64Cw+XeAlwbTzCu1gXpJ0a74CRTh8IwA9njVSatMAXvil5ttmm
+ Im0bOp6GdCqQ0ZOdQAoBQxE3yBaO8f33B8KaFk0G14cKco5qaEaSehJErNWZfWXumSlm
+ 7VQiuY+0bbmVXECa7o4cD+Ax2RVpSeXSFbMw2VPY6GRlCHM5rjS+bM0sJ990qG940qqN
+ BINg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUl2mwYOd01r1QST5hMvuhu8XMYeNHA9HyURHGdrw0w/6BzvxCPV56KDSQY5hT0Ltp61PrZssknVhI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5DhsrA4Lx94hromHiBMRBlji+vWKTyF/ZBkuPkEC387v08uND
- kgjW1p71y2WtXiYb9jOFSqgygKxTqhkI5uv4xys0XcSKUAj58zqUYM2l
-X-Gm-Gg: ATEYQzwTRuITwRPJIAtH4zBF2IpBcZ6lFEJw801s9KnzotPXARWL6CjIX7LlwJdzCPG
- AGlR/onTD45hO7E+igPLj4EZFwIOccNEg7+KdbS3JEb26cs/83e7SlVBI+qOQo1g7pV9eRBl5nC
- gReI7GJI2b1xlt2kSAQDIa4kfCxYPzikPBiHMrK7xS9yQjjUjCxL+3yf/RX1K1HkC20BV8DNq6V
- Mfj+NcaL2q3rnpP0FjlzUmbgE0bJt1l/3UVqCCkCilRFgxplSNfO/KDsacQ6Lp8uurekO2/VQOP
- oqOYnMiZyk5ZL00i/WgsSut8Sq+tUG8Vl87vGqXMrdjHvdb2ROo1Bi3UbWnrVNb0m25IFFYrw3x
- jjL/AIGJgLNMKLA5mzoPiXJ3U+77biVkBP/pn/9sHA/3rEL8JMVNJ6020ik/dVvavWO8k5T7vrI
- ZPkcYoLtg/K2i5R2PVTiwuSce0VXdtS7WC1R35
-X-Received: by 2002:a05:6000:290d:b0:439:96fc:e593 with SMTP id
- ffacd0b85a97d-4399716a3d9mr204358f8f.0.1772044860354; 
- Wed, 25 Feb 2026 10:41:00 -0800 (PST)
-Received: from [192.168.100.3] ([105.163.157.182])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43970d4c977sm38378745f8f.32.2026.02.25.10.40.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Feb 2026 10:40:59 -0800 (PST)
-Message-ID: <91997f8f105ca2ef150c605e1045e010524d1135.camel@gmail.com>
-Subject: Re: [PATCH RFT] drm/bridge: dw-hdmi: Replace calls to deprecated
- HDMI/audio detection functions
-From: Erick Karanja <karanja99erick@gmail.com>
+ AJvYcCXJOHyCWXc8UwEFtvQeIpYSOVrwXHN4gZ6GvD7dziACEqTgykjkvRsg8FmTqZ9q0Jirt01clQL5Z4k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpI3KS9UTW9U/RaAvj0rweTI7UXPIGavRViDxQpY4xQtu82NcL
+ f7pRnLiuGGIAdN1OtgfhwiHJNOU1atbj9wXKDm20FygN1dacV6kahyttTi5kMODMvmabtm0Jk4W
+ UmUwqkr+dEdYfFO2WeMpMSKCusK3LWCP2naEcP/Q=
+X-Gm-Gg: ATEYQzwVOMP+XNVt76z+hx0eBcQagF+FRbxZFUTcFiJELBDeRYLGQ8Y3C+GPm27MqhR
+ g+lqhPRxYCcjfTIKn5LGSYOwchXZaB4qYrdHePJTrAUhos1la6Y0scJJrwOjQAf+n22dlulrNJs
+ IIW+vumdrxrzEo1ddP2ic2jydRp8Jb2bIb4diL9spB/Nc2wImLqD2E0G8VYit2QD6d9cnCP3qDd
+ oCV8MH1Tu60xrVotfnAzI2sBdUOE29GMSiIoJGCqjXwsRbXobo/vfOfmexocubhxDlz8IS+qwhl
+ kX11fUe+bS+05MywH5VP8GiBYeE8MBOjSCDM
+X-Received: by 2002:a17:907:6094:b0:b93:3792:4b03 with SMTP id
+ a640c23a62f3a-b933792588fmr385769366b.32.1772045502705; Wed, 25 Feb 2026
+ 10:51:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 25 Feb 2026 10:51:30 -0800
+X-Gm-Features: AaiRm510JicR5yB6-6HzIZrjZoL6Jbi8o9bjBsqrkrZBCAWaavoCU9peMfkjjyM
+Message-ID: <CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3D7tA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] dma-buf: heaps: Turn heaps into modules
 To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong	
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Maarten
- Lankhorst	 <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Laurent Pinchart	 <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Liu Ying <victor.liu@nxp.com>, Dmitry Baryshkov	
- <dmitry.baryshkov@oss.qualcomm.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>,  Shengjiu Wang <shengjiu.wang@nxp.com>, Andy
- Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Wed, 25 Feb 2026 21:40:44 +0300
-In-Reply-To: <20260225-lush-dexterous-chimpanzee-ebdb6a@houat>
-References: <20260225093051.12031-1-karanja99erick@gmail.com>
- <20260225-lush-dexterous-chimpanzee-ebdb6a@houat>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-4 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,102 +124,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-mm@kvack.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jstultz@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:victor.liu@nxp.com,m:dmitry.baryshkov@oss.qualcomm.com,m:luca.ceresoli@bootlin.com,m:shengjiu.wang@nxp.com,m:andy.yan@rock-chips.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[karanja99erick@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,ideasonboard.com,kwiboo.se,nxp.com,oss.qualcomm.com,bootlin.com,rock-chips.com,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[karanja99erick@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.996];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jstultz@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 96F9F19C602
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8DC9D19C73A
 X-Rspamd-Action: no action
 
-On Wed, 2026-02-25 at 11:11 +0100, Maxime Ripard wrote:
-> Hi,
->=20
-> On Wed, Feb 25, 2026 at 12:30:50PM +0300, Erick Karanja wrote:
-> > Replace calls to the deprecated drm_detect_hdmi_monitor() and
-> > drm_detect_monitor_audio() functions. Calling
-> > drm_edid_connector_update()
-> > updates connector->display_info.is_hdmi and connector-
-> > >display_info.has_audio.
-> > The driver should read these fields from connector->display_info
-> > instead of
-> > calling the deprecated functions directly.
-> >=20
-> > Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++--------------
-> > =C2=A01 file changed, 3 insertions(+), 14 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > index 3b77e73ac0ea..ddc4ae40d94e 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -2472,7 +2472,6 @@ static const struct drm_edid
-> > *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
-> > =C2=A0						struct
-> > drm_connector *connector)
-> > =C2=A0{
-> > =C2=A0	const struct drm_edid *drm_edid;
-> > -	const struct edid *edid;
-> > =C2=A0
-> > =C2=A0	if (!hdmi->ddc)
-> > =C2=A0		return NULL;
-> > @@ -2482,19 +2481,9 @@ static const struct drm_edid
-> > *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
-> > =C2=A0		dev_dbg(hdmi->dev, "failed to get edid\n");
-> > =C2=A0		return NULL;
-> > =C2=A0	}
-> > -
-> > -	/*
-> > -	 * FIXME: This should use connector->display_info.is_hdmi
-> > and
-> > -	 * connector->display_info.has_audio from a path that has
-> > read the EDID
-> > -	 * and called drm_edid_connector_update().
-> > -	 */
-> > -	edid =3D drm_edid_raw(drm_edid);
-> > -
-> > -	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
-> > -		edid->width_cm, edid->height_cm);
-> > -
-> > -	hdmi->sink_is_hdmi =3D drm_detect_hdmi_monitor(edid);
-> > -	hdmi->sink_has_audio =3D drm_detect_monitor_audio(edid);
-> > +	drm_edid_connector_update(connector, drm_edid);
-> > +	hdmi->sink_is_hdmi =3D connector->display_info.is_hdmi;
-> > +	hdmi->sink_has_audio =3D connector->display_info.has_audio;
->=20
-> You should get rid of sink_is_hdmi and sink_has_audio, and you'll
-> don't
-> need to call any function anymore, deprecated or otherwise.
-Thank you, sending v2
->=20
-> Maxime
+On Wed, Feb 25, 2026 at 8:42=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> The recent introduction of heaps in the optee driver [1] made possible
+> the creation of heaps as modules.
+>
+> It's generally a good idea if possible, including for the already
+> existing system and CMA heaps.
+>
+> The system one is pretty trivial, the CMA one is a bit more involved,
+> especially since we have a call from kernel/dma/contiguous.c to the CMA
+> heap code. This was solved by turning the logic around and making the
+> CMA heap call into the contiguous DMA code.
+>
+
+So heaps-as-modules is common in the Android kernels, and was
+attempted to be upstreamed long ago:
+  https://lore.kernel.org/lkml/20191025234834.28214-1-john.stultz@linaro.or=
+g/
+
+And it got a fairly chilly reception, but maybe having the additional
+optee heap (as well as other proposed heaps) might sway folks on this
+now.
+
+There is also the kref bits you might need (which Android still carries):
+  https://lore.kernel.org/lkml/20200725032633.125006-1-john.stultz@linaro.o=
+rg/
+
+thanks
+-john
