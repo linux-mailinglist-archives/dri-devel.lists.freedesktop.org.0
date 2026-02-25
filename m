@@ -2,96 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OFyFE4hTn2nXaAQAu9opvQ
+	id GOCFItpTn2nXaAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:54:48 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:56:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF619CF5B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFFD19CFA6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 20:56:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3F1B10E822;
-	Wed, 25 Feb 2026 19:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2B710E823;
+	Wed, 25 Feb 2026 19:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ovSrb8kn";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="IgvVMmZo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C5D10E375
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:54:45 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-48371d2f661so12575e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:54:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772049284; cv=none;
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E892F10E823
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 19:56:06 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-48371d2f661so12745e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 11:56:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772049365; cv=none;
  d=google.com; s=arc-20240605;
- b=EEpRg8T/uzULxNdThQuhwHWcgWs4giDCBM6XZRyD3jDt0w/XfP1iHiQLW/brxXBr3Y
- zIp8qrQBfY+joyHRgVGZoBueqihhXdtqySjB8BSX7TWQVrS0jnTKznB7ijOh3BdRX+4M
- ur/Hu1NlFVp+QpZsPfANYOsJDmTLZ8OlLgNnmisK5jPTeQTtRHAwgjgcR/S3C4spFnIW
- j5e27h4zMQQFBv4Fv/E1yUZh3yyOIL6FgDmgXHZ+p2GG2ChUT6J2th9afDAWwjg8mKE/
- Kp2JTe9C8uSk4mU5ZCACp9tZD5ALuTGAn5VcNkyqf95uLgye2Fszt8FWSmv0Kzf4w1An
- M9Wg==
+ b=PeSUv9n/zDzkZxWs6u+RpzrFiUBaKmrVm0yijhgVMfXpj1nI4h3B/ll1iK51Df9nfB
+ fgeXmUTl1XF7UKB4hYseyiLrzeq8ZqIX7WHtkc801GvIcSyw6TutIlq1V/uC5Mgynon4
+ NF8wYkt4cYsfOcrzVl6e40GtapvE/W8CC1idDI8CA6RQV/dS/5iirYiJZ2nzLYbMbi+K
+ 8di98eVS4jAf19OCIQqNgu6lg+ECQ/qOohDF2T9TZKiK6kuBVtx/MmeUGSCNXomU5rjm
+ EuEjj4ytCNHJAeFr/Pw5R1gRoPwVDgjAhhaeVlnsF76E2dg2JYG2PUf9eQ6r0DSTGCxU
+ UArw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=5kHOrLDbHDmcLU0mU/NKuQBxgp05tP5/RxjExBXg+n4=;
- fh=czgF/T6W4Moc+MSgzD5mbnffO8sV8OM+7BTVK8L2o5s=;
- b=YFCIPlBNyzrUpg/PEyhFwEegCiptpZyIK2huXo68008fo8+0iHwxof3AyVdLV9gFCV
- PFhHmqLZpdS+E6Q8FRGt72W9cugIoDjNpR7rIZeabfMeJ85P8tt04Tn8y0J2ihjyBz4f
- EqpqpfD7FLp+xnVHA64mnGakgvGRxtUCnO7yQ6AGIcE9XEAcn9GIty+GF2RQQijE7VNc
- rm6O6o0ovf50r0eQroiEblB+f4R0pNCXeltLNp93QP7d0+wuKGWSkhGp2K26YIrbF2jF
- pl+hpWiGoEFGMWtufsDRqVI70vif+O7KMLuX5Rsa74vzX+3oUh2DMZO6vpi684zjgdYA
- UI/g==; darn=lists.freedesktop.org
+ bh=HRL6lEk8UXTpub6PekQgYs2cjNTKn63oRhQdj5ExDbk=;
+ fh=W04LkXVRHPb1YSR0ZBuumqO0nL+HisrUFY56LYlzsn4=;
+ b=jjnTxQnXOYOY2RBnZJ7GOKv8QSI75CABSIdyQ4ExsqaPB+RTYTMckgplsYEFGg5wvy
+ 8IIVN4dWKiLAUG3kNX+aDQ0beZm0SlPAwyTTCVGIYYXnj8bqw2n4eexuAs7e/wnFDrZf
+ eE5ykvmICy8+DRkLT+hZCpCOvvJPIwbIMzb06hx2PHPSOL3BGEuHshhSb6n3j5EItgYF
+ cM6fu2EUZ5XBnjsOwyL01cGAquAnFo7fschG8c6jGh13EHuQYh77N6bJFWMiGFT1vTQ2
+ mo81qSVckZtUj2V60V6NVGBFQlvW8FLm3qhx9hQDfLmpMzF6dBvn1dLxeCuUacTLFwxh
+ w+dQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772049284; x=1772654084;
+ d=google.com; s=20230601; t=1772049365; x=1772654165;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5kHOrLDbHDmcLU0mU/NKuQBxgp05tP5/RxjExBXg+n4=;
- b=ovSrb8knHejSvRoTrg87FFuCyDplNsxr2ZqJNRn/pKn7qLlgCakUWeNPEnKuwp2e8J
- v3uHIKx03VaWNCLkAYl/ZduxYTQxBIssZk8SMZvHgnyjXQF1cYsFW8NcYgvN72wVEzq3
- PsPNiKLlJw6F8Tyle6+7uRJU2JNm58ea1VUqaS2MarxHWn539h8jVksiYzcKmHvjOC/Z
- NDHH4cz4kixYVxIhF/+OFnyh6pHQtlp+GqeVWC3YXGmiac7sC1hI1vBESCB3iyFEC4qe
- XsYsveSzDaeSB5W2vYOXEKGnHvRY0knttAcSBVPX8ndKS4Ica4IW0bum7ziT7KuraHRR
- SYuQ==
+ bh=HRL6lEk8UXTpub6PekQgYs2cjNTKn63oRhQdj5ExDbk=;
+ b=IgvVMmZoK9Hq2NF3Y1wRxtI9aghNM3n9LIiZg1Io4DUXpLfBjqvcT+oua3mLyzmqyR
+ rURvGcVqhUgL+Lsbg6og95vZeb9wgtFH9YO3LdOsxQ3Pv8IoA0/WqR5jeLbzBDPedhuv
+ CQxjHbzbSd/j+04/NrTKX8n4EGlF3IwLLIccACiWGr6vXdKAcO957yL6AGbMsg2dYeWI
+ IAsGtJ4/QVWKqkWS+4oLYFMTSkIbGfE6azdOJBzR940qqRrCa20vWmMtzDJVbjo+Fn32
+ WHpgEfUkwJEQi9IAM3xxZec/35+fwNvKu72UjDuf8XA/OGHqdrEdqcBwwLlUxtXa72D0
+ YqEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772049284; x=1772654084;
+ d=1e100.net; s=20230601; t=1772049365; x=1772654165;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=5kHOrLDbHDmcLU0mU/NKuQBxgp05tP5/RxjExBXg+n4=;
- b=a806ndVdmHomLeHn87BgxFk+yqa3U9/DcyAntSpQ/x7t7Vj31WsLdKq7SaTEy3ysLD
- WWDe96L8Bbxc6TN1Tv3/DIHYIXRKagHOkXdBQgz9f+LECpLCQiZ3hppfeuGq/qNCGwpC
- Cwb9j1+e4MVcSmf5GOX0yacK5Qn35duNfXxJEu8OsXDHgWY1nh+h8vHIcUrteUj8uNaO
- FLqwzKciOv/fQOXTEAnZPqAq6+qdBUElXZNWf1CJZ9C6ho+JJyXhlA23JTithaeIMAuz
- TwnAUNzwt4wLfwlk8CRMeHjMukXKvRxnMrAtDqq0+hPQy5Pl3oCcLcwb0ibkhvZcmPSX
- NEEw==
+ bh=HRL6lEk8UXTpub6PekQgYs2cjNTKn63oRhQdj5ExDbk=;
+ b=Tm3Ud0hWlEfw4ZnCRqkN/5LQJm9WCv6tr/igzW5ZI5XuNkX6z2k7ZgruLAVF3FTskw
+ P+DHhKk3vJksHbwCvLjknNCbpxk9RVuMAAoHnRwdpuLEpcl1QJnPAs7fCkvEmJlY8/O/
+ hq9cpuT5prN+wCK10UcLZfisquE/80lxGVenE/gklc88v7dHMobyvPx0CPc689oA6pWP
+ Er/CH+SFLi+TY0a06ONSv3TNqSJGrgm6d+XE7yVr0P+S3UbCQvSuhW8WusjJ5FF+n82m
+ 4FOHzojAyNUrErbqaFoHeo5zpllR64zbzy3a+4wXyNEx0MeDmixXAU2SlB3l0Forh5VK
+ s22w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYnvTsvvWdSKunJ3uM/UdK8H8orEJwYHuDz/gepnkI3HKk1KpNsPu7fPUdkdrB3rb2mxnH8dMfy6w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmiCfWMKeHWYeTiezLFmm17PaIot5Xjmv2ROKT9X0rmgv+10A0
- hHCSeOf8YyicSnDtIOt3szoUg/826Qy+hrAgKMklU5Rxw2nObnBlBh31zsw7QrA29FGwZai2UMj
- IOM7Qwx8ngYXO4CTxPkHFy9woAYvTEp35K9WefIzJ
-X-Gm-Gg: ATEYQzzBdG11YK5twn24GLeyEE6vszFbIDEIM86T/4Ri0EkkumoUwWqwlsrFngGLhA2
- HiTGerLkdW4If63e16DChlWkQPNy5PHTpGx5Va17i1CRA+15CQc/NcbL1OxnFPYyeyYlBo38ytC
- j3LLVZYtNRks8QfPpAylu4/K5iAKhl8by6+1TjntG+vODrWs5y1QKKmfgLsV+3Y31sH1rIasJIj
- XfjtbIGoOPVRCrQ+C0mNTc6WqllbneKwVDOfDyefA5lFg65ASL3EOJOyd2jvkqvVCwz5UEasLeN
- 0V+AXWRytaKJjrDArSKePcfMVMoP4jLjgQTYSIqK7RIdiOBynSTuL8UBLNl15ySQFRuShQ==
-X-Received: by 2002:a05:600c:a011:b0:47d:7304:d759 with SMTP id
- 5b1f17b1804b1-483c31a1fbfmr90505e9.15.1772049283315; Wed, 25 Feb 2026
- 11:54:43 -0800 (PST)
+ AJvYcCWw+7pETOWNish92/cjeto0Sm5kV5tBvVkE893LimKLHNXkuR7O5Ie2aRXp/md//6HHNTk9NsDfhxI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCForHPo1ojPCLaSSiqtUbnJW8vqLM5eB0J0jfvZ1kOlSxfwQ+
+ IqiB/Q9mx3BeXCNaz01dJQqOfOsyDlOBmh6zZKFnEfsfRvpuul5u3X4IuKiLmADsMk+FNDf5LBZ
+ toN7rGaZjF1FHetAnk21quWzfQue650Nsd0XCDPKu
+X-Gm-Gg: ATEYQzz1u747uzF9loRo2ToGloCdSMfYRrlHNvF+GKzhgQPq8RDoRKn98FAZfseGbx1
+ MxrO+Jk0uBSvT52bV0IHrSEHPvc8l5Fz3Gf0Kewr5/Bse6GswBS8iLr42WongIkffiHHe49MQV3
+ nD90NUg9KIHg7JOWPFhbGDKm4ZDymSY+9XF9gXX5TUJ6MLxkPaf09u2fOohRdiqlF54s821WwF/
+ 1/LljlXi7Bp/vm4ph4bOepwkYuzNH6guV7Vmmw+LPTAkCUOn2DTU+27kIJelkk+8RNRKP4WKV02
+ Y5UlVhhIKX51bt963Lcm85qhENeUH/HyRM6mNBweLZCIbnQNOAldEklLZXP7gamjES9yAw==
+X-Received: by 2002:a05:600c:6a8f:b0:477:c5b3:7a9b with SMTP id
+ 5b1f17b1804b1-483c3188d68mr92305e9.10.1772049365087; Wed, 25 Feb 2026
+ 11:56:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
- <20260225-dma-buf-heaps-as-modules-v1-6-2109225a090d@kernel.org>
-In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-6-2109225a090d@kernel.org>
+ <20260225-dma-buf-heaps-as-modules-v1-7-2109225a090d@kernel.org>
+In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-7-2109225a090d@kernel.org>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 25 Feb 2026 11:54:31 -0800
-X-Gm-Features: AaiRm51QwXByHIj_4EAMjL0iJavUr_3DqvTRveBK0_qkEAD8H59M0Ces2LdyWWw
-Message-ID: <CABdmKX26Q-DXsLEMbvsYbw_JotHpGk3zFDccAJaqir4aSBdt0w@mail.gmail.com>
-Subject: Re: [PATCH 6/7] dma-buf: heaps: cma: Turn the heap into a module
+Date: Wed, 25 Feb 2026 11:55:53 -0800
+X-Gm-Features: AaiRm50aJvmG-U5wbOHTqLRYSqzdYRLj0K9YYWnCflGgDx3T0BxE0_R2bnIQaGw
+Message-ID: <CABdmKX12GL7gd_TMArPbjGwSOOhu+udFHZ61dDfMwWf3q6cB+w@mail.gmail.com>
+Subject: Re: [PATCH 7/7] dma-buf: heaps: system: Turn the heap into a module
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -154,21 +154,18 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9EBF619CF5B
+X-Rspamd-Queue-Id: DDFFD19CFA6
 X-Rspamd-Action: no action
 
 On Wed, Feb 25, 2026 at 8:42=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
 wrote:
 >
-> Now that all the symbols used by the CMA heap are exported, turning the
-> CMA heap into a module becomes pretty easy: we just need to add the
-> usual MODULE_* macros, import the proper namespaces and change the
+> The system heap can be easily turned into a module by adding the usual
+> MODULE_* macros, importing the proper namespaces and changing the
 > Kconfig symbol to a tristate.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-It'd be good to add a note that heap modules can't be unloaded (unless
-we add more code to verify there are no live heap allocations). With
-that:
+Same comment about a note about the module being permanent.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
