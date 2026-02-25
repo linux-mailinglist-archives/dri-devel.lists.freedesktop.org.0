@@ -2,61 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ABZzCLIDn2mZYgQAu9opvQ
+	id mL86BHUEn2mZYgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:14:10 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:17:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E2A1988F7
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EC9198961
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 15:17:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C44E10E88A;
-	Wed, 25 Feb 2026 14:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5628C10E774;
+	Wed, 25 Feb 2026 14:17:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ujpyutbf";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QE6NKmeJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3245610E88A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:14:05 +0000 (UTC)
-Received: from edelgard.fodlan.icenowy.me (unknown [112.94.101.233])
- by APP-03 (Coremail) with SMTP id rQCowABnhNulA59ptU5PCQ--.33561S2;
- Wed, 25 Feb 2026 22:13:58 +0800 (CST)
-Message-ID: <05a4de6326d68fc51f6e4dae9aa24ec56497adf6.camel@iscas.ac.cn>
-Subject: Re: [PATCH] drm/dumb-buffers: document that it's only for linear FB
-From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Wed, 25 Feb 2026 22:13:57 +0800
-In-Reply-To: <3316784a-d9e4-4199-a32a-44b4d0e7b4c2@suse.de>
-References: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
- <6515820a-3bb3-4868-9b30-9c1f80709ab2@suse.de>
- <35fba9692636a2f6ba9fabc8e67f5684a54b17f1.camel@iscas.ac.cn>
- <131b54f7-a611-4a02-aca8-5613643a6276@suse.de>
- <80590bdf692add75da321a6fc595012d10192a14.camel@iscas.ac.cn>
- <3316784a-d9e4-4199-a32a-44b4d0e7b4c2@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF5F10E774
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:17:20 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61P9SCvO806718
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:17:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ghT7JDNMf0qUDVWiQwz9lqduowwivTxtJyYYgUsqveE=; b=UjpyutbfEqKkZYGW
+ i6kNlF9sQC7810SDSSgkU8qIP2h1NJNWIAo4UfV0mRnzviKkCvRAo52AoTF2bTS7
+ CneBdh+Sr0XyU2zVaDbqwh9u495udpm8r++TK3HGvLUHiaNWDugOI9DATLA063uv
+ LkpzZasUEP9ivAozPL1zzagcggPjxVkicPDNpziwIwuiSzI4MiJlfe8j/Yx4KKki
+ srhd9JRj5Fk/2/hPWEM4x2Ph1Tpr51ftHEpOcKM1aGxVGV6vLlTZ1fmsClhU6v+1
+ A1ko3K8cDD38EZJo9JpgkcsSbRaS1N3EK0YrR22Fb0ZLNHCusRdMWdoMT2zRyXdO
+ SOT0hg==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chr5p9v8e-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 14:17:19 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id
+ d2e1a72fcca58-8272825e843so465856b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 06:17:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772029038; x=1772633838;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ghT7JDNMf0qUDVWiQwz9lqduowwivTxtJyYYgUsqveE=;
+ b=QE6NKmeJCdKrYTQVd4R6Dq24+No6dYoPE+/dk2wBjea03yYWyYbrPK7n4gJmY9CNUl
+ FPAf4W5NhWUX+THPS2EJV4YivjsyTyNlPwx7LvKZYE9d01ogEb3J8vsT6RRNr8zphRzS
+ jTH8F8MikzGILblLJTTATOG/qPg+O4MSdgsNKPH8WErutSqiJzQ4FscPd9x0UplPfUl6
+ Wef7OpbZB+55/3+LxAxay0eqOUqkn8XzV3lBP82bhOgyXt/VdBCW8HnS65J9AwTSTBFW
+ uG2mKgwSxXbLOtwfDsTduozidhfTQfD63haBlTlPMZC8E7CPAFRVeog9bBpeBvF5Y4+t
+ 0GTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772029038; x=1772633838;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ghT7JDNMf0qUDVWiQwz9lqduowwivTxtJyYYgUsqveE=;
+ b=IN8GXgVImAKK3NN49LLYx0phTwQQlp+oJeKmDieWSMzpqZT+ZLgkQy3WmmkclFM4HW
+ 7EkYbHImd0k8Dg8peXS52oOhn595EdGuiz6/muWmwiyKm/xl2QaKPoXGCP1xck6M7muK
+ JQ579u2CbknnIfIgWTNVfzr8GUxfnnb3SXKu6432GVAai2z0shj400M76CdIvK1312CQ
+ vYhUCDKrsmVh3nQIZkv4rYFldToim4+mrv6xqEOilztaHkyPte1V8zRc3s9V5H26L34e
+ X3W67q65fI5r9dFrGWmZpsI5L8JhGEgJT5KJ1SLxfq9mJ1Z9DGsGSYpEG76oKNLKj9vL
+ x/1A==
+X-Gm-Message-State: AOJu0Yy3urbRTxK07baHjFNovxpBGAc7oRvdxjRsCngZg4JuBCA/tynI
+ aEvwWZSj1RbiXM0DjA9/7MSCpZDlSD2VUGhN9kdCGGvlOU4Q/nu0D5+G6wrYxPx0rMICv97W8xv
+ KGQ1IKxPs4mJ+mRfe3DW+wYTuSVa0VahGzmqcyMjljCKrm1cEjtUgVL8M1Q0gJvy+ckLr36o=
+X-Gm-Gg: ATEYQzxxc3KPfZSMkKiw6nkc1/qP7qXe/T1OiMOSndP7ySwNFR5vrAFR50QYt/pZrmW
+ to664/K9dWTxnE83QS6lNlt+ebEOUzfXZ8B3seab6V+uY24bxaX6OMXuwqhlvZ/a2143wZHX3Sh
+ dYVW8wSMNlanLF2kYaEmtyzSgS76Jv+Odmg5bzm26ziRbYcqC62OUZ4qtu6gWcYIVF6Hv+/HLzo
+ o7sVsyOIBFM3IGGQf9WWXaNFTa40SavbKRrWn8R/V7iKCnEDvf0nR59pgt2k7VEIPX2HdEY7Eio
+ iaE5ISShqsbJ8qaWenubUnm+RBoRWucQbvdDmlU/urjzqARK/MvcfBDBzGhtfUViv+W5PTPAMPp
+ 69yNznhwU+BN1H03mJ2d6N2PvbvjeOtmyfsOoRUe3JK95HfFXxEo=
+X-Received: by 2002:a05:6a00:2407:b0:81f:33a6:e9cd with SMTP id
+ d2e1a72fcca58-826daa82b31mr16934491b3a.57.1772029038311; 
+ Wed, 25 Feb 2026 06:17:18 -0800 (PST)
+X-Received: by 2002:a05:6a00:2407:b0:81f:33a6:e9cd with SMTP id
+ d2e1a72fcca58-826daa82b31mr16934446b3a.57.1772029037741; 
+ Wed, 25 Feb 2026 06:17:17 -0800 (PST)
+Received: from [192.168.1.5] ([171.61.227.247])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-826dd641040sm13758026b3a.10.2026.02.25.06.17.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Feb 2026 06:17:16 -0800 (PST)
+Message-ID: <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
+Date: Wed, 25 Feb 2026 19:47:08 +0530
 MIME-Version: 1.0
-X-CM-TRANSID: rQCowABnhNulA59ptU5PCQ--.33561S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw1rJrW7uF4UWF13Cw1xZrb_yoWrCFyUpF
- W3KFW2yrs5Jr1fJr1qqF15JFy3tay7XF4Uur98Jry7XryqyF1xWF48t398uF9rur18GF12
- qr1jqryfur1UAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkFb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k2
- 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
- 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
- IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
- AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
- jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07bYYLPUUUUU=
-X-Originating-IP: [112.94.101.233]
-X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+To: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+ <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDEzNiBTYWx0ZWRfX6FnhTwQzTps2
+ wYQihA6wPLsISXkEIsox6FQYYmO7ZeG4E+CoxBeP2i31KWkXXRUbw1sVTy66BTysiEPbj7YjfMd
+ 8ub8rUWwoUM+0MHEy24yW7lwClvadyU5duaorzeF5eQ09tC1jAKlf9rS4bbflQ71lbgTpcqSPJG
+ nSQ/1Sg9oJMeANP2DrWJ77u5uDrqY24+2BI2WtjQEiAkVqcYp9QEyt19W5ah6CIWzbleVNTuYFz
+ zLsf2Wkfz0/oYPLCe7kw653UfCkGxCeFeZCYurzsuhLHVM2h8o32qBtXt/q/7v1Wdq0ZoPY9aUl
+ 5XqKSd9d0OTGVJnXKf4QefWhC9b7yJvt28sT5x7TfXpXynj/u0nA24TiEAz1jxV8miQFZZrVy/p
+ b4KphgRtqTj4N7yu+VyF8ag5qLDkVeKJ7+ZOsgCoaBRWJIssceRv99ALaYsYaLdfwLfssOW6wYS
+ sQQkZ02crs3STcv9Bdg==
+X-Authority-Analysis: v=2.4 cv=GstPO01C c=1 sm=1 tr=0 ts=699f046f cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=CLJ8B99oKJtQbdnoKiLypA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=p29BN9gyRe82g0miaHUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-GUID: MMZIO_BwuVkT377Ti93L7doqFnJFW99Z
+X-Proofpoint-ORIG-GUID: MMZIO_BwuVkT377Ti93L7doqFnJFW99Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_01,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,182 +161,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.61 / 15.00];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[suse.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:trilokkumar.soni@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_XOIP(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 61E2A1988F7
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 49EC9198961
 X-Rspamd-Action: no action
 
-=E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 09:34 +0100=EF=BC=8CThomas Zimmerman=
-n=E5=86=99=E9=81=93=EF=BC=9A
-> Hi
->=20
-> Am 25.02.26 um 09:10 schrieb Icenowy Zheng:
-> > =E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 08:47 +0100=EF=BC=8CThomas Zimme=
-rmann=E5=86=99=E9=81=93=EF=BC=9A
-> > >=20
-> > > Am 25.02.26 um 08:38 schrieb Icenowy Zheng:
-> > > > =E5=9C=A8 2026-02-25=E4=B8=89=E7=9A=84 08:26 +0100=EF=BC=8CThomas Z=
-immermann=E5=86=99=E9=81=93=EF=BC=9A
-> > > > > Hi,
-> > > > >=20
-> > > > > Am 25.02.26 um 07:13 schrieb Icenowy Zheng:
-> > > > > > The ioctl interfaces for dumb buffers currently only
-> > > > > > properly
-> > > > > > support
-> > > > > > linear buffers.
-> > > > > >=20
-> > > > > > Mention this in the documentation snippet of dumb-buffers
-> > > > > > source
-> > > > > > code,
-> > > > > > which is referenced by drm-kms.rst and will end up in the
-> > > > > > built
-> > > > > > kernel
-> > > > > > documentation.
-> > > > > >=20
-> > > > > > Also mention the existence of current drivers abusing dumb
-> > > > > > buffers
-> > > > > > for
-> > > > > > AFBC to reduce confusion about this.
-> > > > > >=20
-> > > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> > > > > > ---
-> > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/drm_dumb_buffers.c | 7 +++++=
-+-
-> > > > > We documented the meaning of the color bits and the behavior
-> > > > > of
-> > > > > the
-> > > > > dumb-buffer interface at [1]. If anything is missing, it
-> > > > > should
-> > > > > be
-> > > > > added
-> > > > > there.
-> > > > Yes, I saw this piece of document; however it's part of the
-> > > > interface
-> > > > document instead of a concept document, and the whole existence
-> > > > of
-> > > > the
-> > > What is a concept document?
-> > Well I am patching this document snippet because it becomes part of
-> > the
-> > document at [1] (by being referenced in the .rst file).
->=20
-> That question was a joke, but also not entirely untrue.
->=20
-> These overview sections usually introduce the purpose of a module and
-> give readers a sense of how to use the code; like a tutorial. We
-> don't=20
-> have concept documents. As the concepts keep changing, they'd bitrot=20
-> quickly.
->=20
-> For example, not too long ago we discussed the possibility of a=20
-> CREATE_DUMB2 ioctl that would allow for specifying the DRM format=20
-> directly. It would also allow formats with multiple planes and=20
-> non-linear layouts. My point is that whatever we write here today
-> could=20
-> be obsolete tomorrow. The only stable thing is the user-space
-> interfaces.
->=20
-> IMHO if you think the overview should mention the supported formats,
-> you=20
-> should link to the UAPI documentation of the ioctl. If we ever get
-> that=20
-> CREATE2 ioctl, we can refer to this as well.
 
-This sounds reasonable. I will reword this to a reference to the UAPI
-documentation to raise attraction (because otherwise it's not very
-natrual to consult the UAPI doc, at least for me).
 
-Thanks,
-Icenowy
+On 2/24/2026 9:03 AM, Trilok Soni wrote:
+> On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+>> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+>> integrated in the DRM accel subsystem.
+>>
+>> The new docs introduce QDA as a DRM/accel-based implementation of
+>> Hexagon DSP offload that is intended as a modern alternative to the
+>> legacy FastRPC driver in drivers/misc. The text describes the driver
+>> motivation, high-level architecture and interaction with IOMMU context
+>> banks, GEM-based buffer management and the RPMsg transport.
+>>
+>> The user-space facing section documents the main QDA IOCTLs used to
+>> establish DSP sessions, manage GEM buffer objects and invoke remote
+>> procedures using the FastRPC protocol, along with a typical lifecycle
+>> example for applications.
+>>
+>> Finally, the driver is wired into the Compute Accelerators
+>> documentation index under Documentation/accel, and a brief debugging
+>> section shows how to enable dynamic debug for the QDA implementation.
+> So existing applications written over character device UAPI needs to be
+> rewritten over new UAPI and it will be broken once this driver gets
+> merged? Are we going to keep both the drivers in the Linux kernel
+> and not deprecate the /char device one? 
+>
+> Is Qualcomm going to provide the wrapper library in the userspace
+> so that existing applications by our customers and developers
+> keep working w/ the newer kernel if the char interface based
+> driver gets deprecated? It is not clear from your text above. 
+Thanks for raising this, Trilok.
 
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> > [1] https://docs.kernel.org/gpu/drm-kms.html#dumb-buffer-objects
-> >=20
-> > > > document snippet I am changing can be considered a duplicate of
-> > > > the
-> > > > interface document.
-> > > >=20
-> > > > Thanks
-> > > > Icenowy
-> > > >=20
-> > > > > Best regards
-> > > > > Thomas
-> > > > >=20
-> > > > > [1]
-> > > > > https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/dr=
-m_mode.h#L1200
-> > > > >=20
-> > > > > > =C2=A0=C2=A0=C2=A0 1 file changed, 6 insertions(+), 1 deletion(=
--)
-> > > > > >=20
-> > > > > > diff --git a/drivers/gpu/drm/drm_dumb_buffers.c
-> > > > > > b/drivers/gpu/drm/drm_dumb_buffers.c
-> > > > > > index e2b62e5fb891b..06f74460adf62 100644
-> > > > > > --- a/drivers/gpu/drm/drm_dumb_buffers.c
-> > > > > > +++ b/drivers/gpu/drm/drm_dumb_buffers.c
-> > > > > > @@ -57,7 +57,12 @@
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * Note that dumb objects may not be us=
-ed for gpu
-> > > > > > acceleration,
-> > > > > > as has been
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * attempted on some ARM embedded platf=
-orms. Such
-> > > > > > drivers
-> > > > > > really
-> > > > > > must have
-> > > > > > - * a hardware-specific ioctl to allocate suitable buffer
-> > > > > > objects.
-> > > > > > + * a hardware-specific ioctl to allocate suitable buffer
-> > > > > > objects.
-> > > > > > They are
-> > > > > > + * also currently meant for only linear buffers, and using
-> > > > > > them
-> > > > > > with any
-> > > > > > + * modifier other than DRM_FORMAT_MOD_LINEAR is undefined
-> > > > > > behavior. There
-> > > > > > + * exist some KMS drivers abusing dumb objects for AFBC
-> > > > > > framebuffers, but this
-> > > > > > + * behavior is discouraged, only exists as a hack now and
-> > > > > > shouldn't be
-> > > > > > + * replicated.
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0=C2=A0 static int drm_mode_align_dumb(struct
-> > > > > > drm_mode_create_dumb
-> > > > > > *args,
+This is one of the open items that I have. I'm not exactly sure what would be the
+acceptable way for this. 
+
+As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
+without modification.
+
+I was thinking in the same lines as you have mentioned and  having some shim/compat
+driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
+character devices and route the calls to QDA. The compat driver could be built via Kconfig.
+
+However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
+before, so I would want guidance from maintainers on whether this is an acceptable
+model or not.
+
+Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
+unchanged in terms of definitions and expectation. The same project can be build for both
+FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
+not face any problem if the libs is built with proper configure options.
+
+I have noted your point regarding the doc not providing clear details, I have added interface
+compatibility information in cover letter and will try pulling the same to Doc.
+>
+> ---Trilok Soni
 
