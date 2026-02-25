@@ -2,164 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMJ4JUmynmlxWwQAu9opvQ
+	id EH1oDwS0nmnZWwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:26:49 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:34:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1146F1942DF
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989A4194498
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Feb 2026 09:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6015810E1D7;
-	Wed, 25 Feb 2026 08:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC4810E710;
+	Wed, 25 Feb 2026 08:34:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YYFe+q9f";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qAe0uNl4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tWX6GY+G";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f5obbsT4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r6VZIOL/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012042.outbound.protection.outlook.com [52.101.43.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4A710E1D7;
- Wed, 25 Feb 2026 08:26:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ah56fw2THIeKkDQBYuSkET8s6jN8pMTpPjZT8JX44YTBB8SDjjBWaEe5B2k8erTsJkDle6rWgFSbcjQLNse4rch9/tiPyjKLOTRBT5Ps1KGYOVuaOc2Smy3r13rc39xAKhbgHNVwOo7oI6EaVwg2gMiwTcoQ8iiw6iJJaohRQFS7yv88lLluvXtPAejlyM313104rn1NAVW3DByn6mOg2b+TWzdn1BIOe19mxaE3w5eoSJ5vtRZEeG+9W7EYdneq1pja2laNzOhukCsrfVhoKvRfz7gimifD7iuuh8ncUG6GIog5Lr7B1CWHBEpB50tyiBKvpfXO+52Kn6Sw0rLBJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oquWuVf/gWLzgrFvELZ87JxTN/L/4Q1Ae65RDGgNe3Q=;
- b=t2++ehiahPnzwF0k/yvEW99tAyfw1LA+rz6F94sDE9sL0h8tH2KxVQFv1mWHgkk0NuBf0An2N394ilqk5PSmKbRlWAHqEqYY1SjwEsQyam3eeE/EHvtKJ8Y3NsoNeKlFRDXfqLF3zamOHyow4uPSs5w7z3QZpo8ph9fJ8Uy/RWAegWAD9iE2uZBmX73ZbACJmVzJy4LU6UV+q8+rBMxIkdGXNF/sFxKfNSzBI9lvybSQnEITDX5hVr4xAyEHnGxJVJZVUIVv5TKDgNAWlzTYGf7acjX1L1wAjfUpe65A+zbFJfYLMnv2xup6SP2kMrTudAcaTXfTL12+ukNTBh79Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oquWuVf/gWLzgrFvELZ87JxTN/L/4Q1Ae65RDGgNe3Q=;
- b=YYFe+q9fqHLfzAw10XgH5IMWYxXyQGiLjck9fisMX5cYH27tsmJvUwddvJtgnIvSNnMXFjSiPQ/+JbtMjjD7jewLagdIUjkr1EvUudiqyQecb7EZsAszRNgfWVaPooq2lP+befju4gGTXvKMyf/Z6ox2oSfFC6tfDdQ0CAhUxSY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB6817.namprd12.prod.outlook.com (2603:10b6:510:1c8::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
- 2026 08:26:44 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
- 08:26:44 +0000
-Message-ID: <6c2ddbd0-c96f-4728-bd85-8b0ac10bb529@amd.com>
-Date: Wed, 25 Feb 2026 09:26:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: Assign separate lockdep class to chain lock
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Philipp Stanner <phasta@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20260224175544.2167712-1-matthew.brost@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260224175544.2167712-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0080.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C14610E710
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 08:34:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E99225BD50;
+ Wed, 25 Feb 2026 08:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772008447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=oeJldWxRNuPHpqZ/hxtT7DtJjLtK7CgYtdenhhdc87E=;
+ b=qAe0uNl4AYJJBLgqu2gBArwx3fJmKwoiKRVpDCl0gOgnHmHWfrCQ53XboL8JOdHi09WokX
+ LNwgBUQ/rxmZViZqWmPmpLS+3ly+b/UJvRk8TVYy9reGT0GHKasRXL/3WO85qDJDtcuaZC
+ NlkI1kVyzpahSTDdryT+3Ib5ZgAf2jM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772008447;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=oeJldWxRNuPHpqZ/hxtT7DtJjLtK7CgYtdenhhdc87E=;
+ b=tWX6GY+GLUC212Iw/1bJ0ACMglOnwQAEXphtEfoWtO7OCMYyaMgD00Z50OF1YOyHsCNMH1
+ U5hTFjlQFvh/WUAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f5obbsT4;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="r6VZIOL/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772008446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=oeJldWxRNuPHpqZ/hxtT7DtJjLtK7CgYtdenhhdc87E=;
+ b=f5obbsT44Gi7HA9J3xYEh0ALtPriTT5zWetDTqkQCnPlToGH6KekFy+aHr50T4tLCMZgqG
+ SjtpzhfnwADfuaAfow9Dti/RoDkf6JCQB4eTQJAEaTxq70KTaMnpMN99W2GL4fyyE5HaRi
+ AAILMfn/50bWDGsDSwKSQR8KH4yvrxE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772008446;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=oeJldWxRNuPHpqZ/hxtT7DtJjLtK7CgYtdenhhdc87E=;
+ b=r6VZIOL/UqiKy+JDhdxFFeO/2eqGiezcGeMZpfEqO1yFOvkYCUGhDWMGC9UDiYtPQ0D8+z
+ O9DGbI/wNjIoAXBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABB273EA65;
+ Wed, 25 Feb 2026 08:34:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ZDS9KP6znmksXwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Feb 2026 08:34:06 +0000
+Message-ID: <3316784a-d9e4-4199-a32a-44b4d0e7b4c2@suse.de>
+Date: Wed, 25 Feb 2026 09:34:06 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB6817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64fe8f31-005b-4a35-2b52-08de74479be2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZzZRUXJKckVuZEhjYWN3cGpKVEk5aGZ3cDFTLzRQQVRDL2pMZFFKbEFpemNt?=
- =?utf-8?B?UTR2QWNIV0JRNVhkYmN2alRGaW9Nc1hRTG11bFloQ2lSVG1YT0s3bDVuM0tY?=
- =?utf-8?B?WlpTN3pVZGd4S3VQZlVIWjhQelRIcnpteVM1aXA5TlM2czM4cUZIMm5YYkZK?=
- =?utf-8?B?ekgwTE4wbWZvUzI3NXN3aEZvaVNKQU56SEk1anZvOGUzenZMSjdmTUFBeng4?=
- =?utf-8?B?bmVRakowbnRZOEQvZ25jYzNmLzRjVGtRbjYxR0ZWWE15Z0Z5NlEzbjJ5OUxa?=
- =?utf-8?B?NzBEdUhuTEhpKzloSGxQWm9BL1RUWi84ZjFrd2g0Sjcvb3R4N1JJeW9BMlJG?=
- =?utf-8?B?MnVNNGhERmRPK09Jb0trVU5RZkc2WDV5Tmd2YS9IdHo2cXd6SFpSbjlsZjJy?=
- =?utf-8?B?SkU3alpxcUFxcEs2ME8ybitUeEdCT0dDOTR6Rk93dUhNS0ZRczF5N2VQbXRT?=
- =?utf-8?B?dVpBOVF0aDVLMGxtOE84REN5MEx5RnMvUm1VMHUwaVFISXU3WGVZQVdJdm5C?=
- =?utf-8?B?U2VMb016YzdUc3IvZ2pvaTJsZDNBdWVhLy9rZjVDcGl4VEtFRFQ3RHlmS25h?=
- =?utf-8?B?V05ZRFp1WWZySWwyTGI1TjNGcWhTajBkeGFtZVlFOUU5Y1hrbHVuYUxjamFl?=
- =?utf-8?B?Nm5QdFJlODJVMGROcXBoUjJEVjJCbFAySXd4c2RkR0E1VVZ2Z0pDZHdEWitl?=
- =?utf-8?B?NG1taEdJeVU3SS82U2taNFNKRUY5NmwwTlpPMDNveFcwNGJmamtWNVZoblZI?=
- =?utf-8?B?NG81eGRhY2p4YXgwT0RxZ1Jid201K25XdHU1VEY2K1craWk2VHh0NWJzKzlG?=
- =?utf-8?B?WGl4N1daSzVUSGNTL3ozSTFDaUVld2tVVzdkMjZhWEVNT3N2STUycGh4bW5D?=
- =?utf-8?B?ZU82dTNxRG9ocE16NmhBYWQ4cFdsOHBxS0RVNTRvaTY5YlJTbS8ycEM0QWx6?=
- =?utf-8?B?Z2wxYUs5WkRhamRUZWd6QWJhUTk3d1VEOE00RWhoZGtJR3FkVk11dEhxWGNH?=
- =?utf-8?B?ejY2b0ZHUjZ3Rng1QmtDQzN4RTlGZkVNNTNxR1MwNEg5ZmlObWZCT1M1UTJW?=
- =?utf-8?B?V3FLaVBtb0RPNXYrYTdTcUo3eFdJVW9JdXhMU0JCcVAxZlFPRDBhTXdST3d2?=
- =?utf-8?B?VU5JNDQwRkpVc2g2TjRKaXJTQWR1aTFsUWozT3JrMTNEVXBNSWVaRWJaWkZL?=
- =?utf-8?B?MVJuNUQ5OWxIdmFGS3d1K1VncExEaGxPR21hbUVTRDFSaStPODFtSkhLbXE4?=
- =?utf-8?B?ZTZXQUxhcmpiUnBQWG81d2FwOXhha2JxVU83Z3htaC9QSXZSNDhHKzh0cExP?=
- =?utf-8?B?bzRENUhzTTdaUFdRdHN2VEhNdnlUQzBDRlhCS2xUTEF5aDVjQTV0anF3VURn?=
- =?utf-8?B?YklFT3pvckFtdldFdm55WUlaRzhRbWZlVStqMFJGOXlyd25BSGlKRHFOTHU3?=
- =?utf-8?B?bzdhbUEyQVdsZmFuYUpqd1ppMEpDYXN0L09LSWpvZ3dFSldzcVFOejk3UGFs?=
- =?utf-8?B?c1B4QkVOWi91K1hKMXpLbHA3U2dqUHZ4eVJ1Q1BWeS9QMGlHWnVIQSsvN25h?=
- =?utf-8?B?SVcvUFgzWUZ1WXh3anhRKzl0QUh0ZVV3YUNIRVNUdEhBc1JmUnBGTHc3Mjc5?=
- =?utf-8?B?N2VHRndKa1d0TlRiRU5WbzEzOENtd1JJdTZ3cmR5QXZOaUR5VW8vNEt5MVJv?=
- =?utf-8?B?eVhlVEc3TXFUWkV6a2VrSEQ5S2VBbnk5bkI0UUNSRVpUV2NTQlEwK2czY1pu?=
- =?utf-8?B?WnJzTko5Y0NiZ2ZPeVVxSDBLTFRrNFlyY2FQMkhSNTRIdC91dzd0MkxVb2Js?=
- =?utf-8?B?Y2VrcENYUmNUdGI5Nk9EVFhFblo1eWxPTXp4SjJQSnhVVWhxblRvcVZRL0Va?=
- =?utf-8?B?dDRMdXI1L3ZVRHdLTzdNUHkrT1BaWjNCK3lIMTh3QXFnejRQSlN6Rmc4eHFZ?=
- =?utf-8?B?MlMwM0ZzaHdBYzRLektIeDlraHN1UzJDcVppUmlCU3pqL1VTdGhTKzBvRnRP?=
- =?utf-8?B?VlJQS05QelVNdkxEMUk4M0I5QVJXVXE5a1E0ekhFSjVhTFl3ZEZUUWFEVmt5?=
- =?utf-8?B?TENtdDM1K2ZVU3ZOSTNYS0loNEprRkhNbDIwMGNqUGlrakRpWlBYenQ3NnBD?=
- =?utf-8?Q?sCho=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlpPQ2hFSU9FQnorUXZOWHFYSkMrUHV1MjR6ZVdJc3pscy82ZUFxOUJ0RWFU?=
- =?utf-8?B?aFVzSmFWcWtWbmlGOXBTejJFTi92TFEwS2JMSXE2MmQrZm1LV0czaVVQUks3?=
- =?utf-8?B?T0R2akRBSUZSeGM4Tlo1ZzRUYndzSUM0ZTVrNVBnbSszaU4zSUFLRHdhQ3RB?=
- =?utf-8?B?OURZc2U1Yk5Bak1Kd0Y5Qm9JcnN5RkxOcVNYZ0lXZm5McTRDWHl3S3lIblpQ?=
- =?utf-8?B?SjhvbGtSQ3ltclNzVmJpNmVROE4zZGhiMCtpWXNJd3FsRFlTeUs5ZlBsM0xF?=
- =?utf-8?B?Y3JqRFpTNkd4MUFWMDJ6MHQramw5bHlycC9nVDJUajBQM0xCVTcyc1RpV1NV?=
- =?utf-8?B?ODlKbmtTYXZMQnpmczhxcE9ZWEhycDIvNjMrancvczVQaW9ETlR3aUlWOWcv?=
- =?utf-8?B?eUxxbXNURDd1MWhMYXZpbHdNMFVySkxNSXVGY20zQUpkSXk3cDQ0akY1VGFJ?=
- =?utf-8?B?UUVNd2E3ektPbkRFQ1p4aUN6SzBlQy80SnkrQnAwNFljTEF4U2Fkc2FxY0tZ?=
- =?utf-8?B?Ky85cVE3Y2Flb0NCV2ppUGRKaURvUjFGeHlTYzJIOUVXOVloTEpvb25vTjMw?=
- =?utf-8?B?bFVEc1RNbFBiejRzTExneE16VWpTYUlqTnpMSktUU0pUN2o5QUhqRURKc3Yw?=
- =?utf-8?B?aGQvNmZPTEJhNm5YdW91MEZHZ1pWYTNFT3p3TXkzLzh6VXQ2dUlZMGhCejhL?=
- =?utf-8?B?RkdSQnI4a0d6TWhxWDlLZ1hDRW44Z0FVYS9EOWJIRWpIa3p5MWNjY3Fkai81?=
- =?utf-8?B?YW16Smd6S1NiWjVRYU00ZDhpU3FwUzBkSzRyQ0JyWC9PSWxjSGtVVTQ4a0Nl?=
- =?utf-8?B?djNHWno5SkNhM3drVFZxdW5laEpGSUlTekJ0K0xoRVBKYTc0SE9pWGpPM3Ar?=
- =?utf-8?B?OGVBR0RwS0VkYVFTMnpnNEhrSDA3bHhsNXRIUTByS09GVzQrSHJ2NHdwRGN5?=
- =?utf-8?B?QjBNcVdmcGRaZE5vVlRFNFRyNlpzc0tHSGQrb0RqU05TVDBiTGlZODlPVjZ1?=
- =?utf-8?B?SzJUK1NkS28zV0ZaUDBjWFFXY2pzcWFSZlhKWjQ2V2ZWTXdLL05vZno3UlJh?=
- =?utf-8?B?alh4QlN4dk1Gc2RBMENQTEd6VU5JMjUzWjRkazRHcXNuVlUvaS9Fem1DbTQ0?=
- =?utf-8?B?NENiVHVxbytFZVJ6NGsyVnVndWZ5VHA0M0hkSG14WjB1WGdUVWtTNENNeHJW?=
- =?utf-8?B?R1VwQy94cUJWdjJwRktVcXkxZ0Vxank2N011SGYxWW03S29ZVUlvV0pZeDhQ?=
- =?utf-8?B?U1llN1h6Zi93QitKMVozUUpLUW9MdlBIVUhwcFdIR2pneWQ4R0wyelR6enVG?=
- =?utf-8?B?TnU3bHltWUVzemVOalVOTFcrL3F3aUE4aFNTTHNjV0RBNXMzWHM3S1JXV0NZ?=
- =?utf-8?B?UElYQy82S1IwRTVod24xZmpzanlEWk1Wczlvc1ZjbWdjZHlsaDJhM3BicWRX?=
- =?utf-8?B?Zk9CYnd5cTlXT1lsQStEQnhYUW9ZWC9JME4rVkIwUEdpR2V1WE1QMzNtZjYv?=
- =?utf-8?B?Y253c0NxNjdTQ3ZyZU1IUG9tUk5IeGtTTm1OZFlWMUZ4bjZ5UlBING9qRmpT?=
- =?utf-8?B?ZFhoWHIvSWNEZlJBNkFwVEpXUkxzMmZtNVBtdEhObEo5RkcvNGtObCt2b0NG?=
- =?utf-8?B?VzFEa3ZOSmcwYk1QK1Nnd1hIdzZiczFvR3cybHhsb0lnaXM2SXZCK2VqbXov?=
- =?utf-8?B?RnQ3MDhuYTlNRjFzUnd6Y1hlWmN5YmZjejFQeHdKczd2Um0vY3JHYWVXRlI0?=
- =?utf-8?B?Yjd1dU1tQzBkWWkvSDRFU1g1OHdrWjd0cEVycFZybnVGcXo3M1poZjVTek1s?=
- =?utf-8?B?aTc1Y25pK2J3TUgwZGF2N3QvU1llR0hGWDZaQ2J2R1NnVXg5RzlOZEg3R0RF?=
- =?utf-8?B?MDVKUDAyYXpmMnR4RG1uT2NDRGkrNEtPT2NtUTYwR01Iem5tbEw0eHBLOTNJ?=
- =?utf-8?B?QmxHVGExcHJTTEtzdE5IN1hnUk1YWml5aTRlMTlqNFhJdC9qK21uVkFaU3Vh?=
- =?utf-8?B?eXptbDhsN2x3YnIwdmQ2OW1KVUNibEJYSHlxOWZZTnMyMEVnRkpVazNFSWRF?=
- =?utf-8?B?d2NkNDdOMUZ0S0FLcFNKMzFETDlJVDlHYUdVdDNDWVNRY21wSXBJR1cwRXFp?=
- =?utf-8?B?ZmppNHYrcTRvc3lsc0NrejRQaFd4UU53NTZ1bUhTVWd2ckVjUDZweWs4M1Jr?=
- =?utf-8?B?SEZwREJNWDRSSkNFTSs3alJ1UG5YeTZ3cGpyQ21XRlNDd01aYzhVaGFUa2Vy?=
- =?utf-8?B?TG1ja1daMDJOSld3RjlkRFN4c2VXRU9kTUx0eHFKaHBjbTNTTlJXOU5PUHdG?=
- =?utf-8?Q?6yARluGtmn0/24Z8Oq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64fe8f31-005b-4a35-2b52-08de74479be2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 08:26:44.2642 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: unAe8+TYX4E2noVFFM28nelkZGar6Y2qlWyXVv3SwNYrvy49xJR3zmzkYXDBzjaj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6817
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/dumb-buffers: document that it's only for linear FB
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260225061315.1003811-1-zhengxingda@iscas.ac.cn>
+ <6515820a-3bb3-4868-9b30-9c1f80709ab2@suse.de>
+ <35fba9692636a2f6ba9fabc8e67f5684a54b17f1.camel@iscas.ac.cn>
+ <131b54f7-a611-4a02-aca8-5613643a6276@suse.de>
+ <80590bdf692add75da321a6fc595012d10192a14.camel@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <80590bdf692add75da321a6fc595012d10192a14.camel@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,99 +140,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,amd.com:mid,amd.com:dkim,amd.com:email,intel.com:email];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[amd.com:+]
-X-Rspamd-Queue-Id: 1146F1942DF
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.com:url,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: 989A4194498
 X-Rspamd-Action: no action
 
-On 2/24/26 18:55, Matthew Brost wrote:
-> dma_fence_chain_enable_signaling() runs while holding the chain
-> inline_lock and may add callbacks to underlying fences, which takes
-> their inline_lock.
+Hi
 
-Just for the record, we have the same problem for dma_fence_chain_is_signaled().
+Am 25.02.26 um 09:10 schrieb Icenowy Zheng:
+> 在 2026-02-25三的 08:47 +0100，Thomas Zimmermann写道：
+>>
+>> Am 25.02.26 um 08:38 schrieb Icenowy Zheng:
+>>> 在 2026-02-25三的 08:26 +0100，Thomas Zimmermann写道：
+>>>> Hi,
+>>>>
+>>>> Am 25.02.26 um 07:13 schrieb Icenowy Zheng:
+>>>>> The ioctl interfaces for dumb buffers currently only properly
+>>>>> support
+>>>>> linear buffers.
+>>>>>
+>>>>> Mention this in the documentation snippet of dumb-buffers
+>>>>> source
+>>>>> code,
+>>>>> which is referenced by drm-kms.rst and will end up in the built
+>>>>> kernel
+>>>>> documentation.
+>>>>>
+>>>>> Also mention the existence of current drivers abusing dumb
+>>>>> buffers
+>>>>> for
+>>>>> AFBC to reduce confusion about this.
+>>>>>
+>>>>> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+>>>>> ---
+>>>>>     drivers/gpu/drm/drm_dumb_buffers.c | 7 ++++++-
+>>>> We documented the meaning of the color bits and the behavior of
+>>>> the
+>>>> dumb-buffer interface at [1]. If anything is missing, it should
+>>>> be
+>>>> added
+>>>> there.
+>>> Yes, I saw this piece of document; however it's part of the
+>>> interface
+>>> document instead of a concept document, and the whole existence of
+>>> the
+>> What is a concept document?
+> Well I am patching this document snippet because it becomes part of the
+> document at [1] (by being referenced in the .rst file).
 
-Maybe mention that in the commit message as well for completeness.
+That question was a joke, but also not entirely untrue.
 
-> 
-> Since both locks share the same lockdep class, this valid nesting
-> triggers a recursive locking warning. Assign a distinct lockdep class
-> to the chain inline_lock so lockdep can correctly model the hierarchy.
+These overview sections usually introduce the purpose of a module and 
+give readers a sense of how to use the code; like a tutorial. We don't 
+have concept documents. As the concepts keep changing, they'd bitrot 
+quickly.
 
-Thanks a lot! I was just about to figure out how to do this.
+For example, not too long ago we discussed the possibility of a 
+CREATE_DUMB2 ioctl that would allow for specifying the DRM format 
+directly. It would also allow formats with multiple planes and 
+non-linear layouts. My point is that whatever we write here today could 
+be obsolete tomorrow. The only stable thing is the user-space interfaces.
 
-> 
-> Fixes: a408c0ca0c41 ("dma-buf: use inline lock for the dma-fence-chain")
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+IMHO if you think the overview should mention the supported formats, you 
+should link to the UAPI documentation of the ioctl. If we ever get that 
+CREATE2 ioctl, we can refer to this as well.
 
-Reviewed-by: Christian König <christian.koenig@amd.com> for both patches.
+Best regards
+Thomas
 
-Regards,
-Christian.
+>
+> [1] https://docs.kernel.org/gpu/drm-kms.html#dumb-buffer-objects
+>
+>>> document snippet I am changing can be considered a duplicate of the
+>>> interface document.
+>>>
+>>> Thanks
+>>> Icenowy
+>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>> [1]
+>>>> https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/drm_mode.h#L1200
+>>>>
+>>>>>     1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c
+>>>>> b/drivers/gpu/drm/drm_dumb_buffers.c
+>>>>> index e2b62e5fb891b..06f74460adf62 100644
+>>>>> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+>>>>> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+>>>>> @@ -57,7 +57,12 @@
+>>>>>      *
+>>>>>      * Note that dumb objects may not be used for gpu
+>>>>> acceleration,
+>>>>> as has been
+>>>>>      * attempted on some ARM embedded platforms. Such drivers
+>>>>> really
+>>>>> must have
+>>>>> - * a hardware-specific ioctl to allocate suitable buffer
+>>>>> objects.
+>>>>> + * a hardware-specific ioctl to allocate suitable buffer
+>>>>> objects.
+>>>>> They are
+>>>>> + * also currently meant for only linear buffers, and using
+>>>>> them
+>>>>> with any
+>>>>> + * modifier other than DRM_FORMAT_MOD_LINEAR is undefined
+>>>>> behavior. There
+>>>>> + * exist some KMS drivers abusing dumb objects for AFBC
+>>>>> framebuffers, but this
+>>>>> + * behavior is discouraged, only exists as a hack now and
+>>>>> shouldn't be
+>>>>> + * replicated.
+>>>>>      */
+>>>>>     
+>>>>>     static int drm_mode_align_dumb(struct drm_mode_create_dumb
+>>>>> *args,
 
-> ---
->  drivers/dma-buf/dma-fence-chain.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-> index a707792b6025..4c2a9f2ce126 100644
-> --- a/drivers/dma-buf/dma-fence-chain.c
-> +++ b/drivers/dma-buf/dma-fence-chain.c
-> @@ -242,6 +242,9 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->  			  struct dma_fence *fence,
->  			  uint64_t seqno)
->  {
-> +#if IS_ENABLED(CONFIG_LOCKDEP)
-> +	static struct lock_class_key dma_fence_chain_lock_key;
-> +#endif
->  	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
->  	uint64_t context;
->  
-> @@ -263,6 +266,20 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->  	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
->  			 context, seqno);
->  
-> +#if IS_ENABLED(CONFIG_LOCKDEP)
-> +	/*
-> +	 * dma_fence_chain_enable_signaling() is invoked while holding
-> +	 * chain->base.inline_lock and may call dma_fence_add_callback()
-> +	 * on the underlying fences, which takes their inline_lock.
-> +	 *
-> +	 * Since both locks share the same lockdep class, this legitimate
-> +	 * nesting confuses lockdep and triggers a recursive locking
-> +	 * warning. Assign a separate lockdep class to the chain lock
-> +	 * to model this hierarchy correctly.
-> +	 */
-> +	lockdep_set_class(&chain->base.inline_lock, &dma_fence_chain_lock_key);
-> +#endif
-> +
->  	/*
->  	 * Chaining dma_fence_chain container together is only allowed through
->  	 * the prev fence and not through the contained fence.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
