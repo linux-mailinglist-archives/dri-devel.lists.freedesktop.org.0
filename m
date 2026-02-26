@@ -2,123 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJOsDtR6oGmMkAQAu9opvQ
+	id 6EwSNt17oGmMkAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:54:44 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:59:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922601AB52D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D05A1AB7DF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:59:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1293110E9D4;
-	Thu, 26 Feb 2026 16:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A8D10E9D7;
+	Thu, 26 Feb 2026 16:59:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bsecA1zQ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="exl8CXHC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com
- [74.125.82.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3182D10E9D4
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:54:39 +0000 (UTC)
-Received: by mail-dy1-f170.google.com with SMTP id
- 5a478bee46e88-2bd801b40dbso84822eec.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:54:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772124878; cv=none;
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8F910E9D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:59:05 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-48373ad38d2so106405e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:59:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772125144; cv=none;
  d=google.com; s=arc-20240605;
- b=LKlisZhIVqjC3rf5MTE+Ns8YmlluWOWj6ii6r3A1bgQ2GfcggnbQPe6qao52Uv3PUm
- EXvbksMhth/tU9hhjizefi6lC/eVGF+sGPJuPxN6DmAxLGJtemtWSliWEg86djtbv4yS
- Ce15+/DIfsYERReAzQ1yymKicV7Erw3nDSct2KlwzT4lOiR04sRneHdB5k/0VxdDuFgv
- 2e5y7SPGup9PdYUKiFQmKnNKkdXVQDit/n1GEihqFbzsscfhtjk1R35XrdL6yaHlLIS6
- WwpYmfyKOAC72LbGs8sTn5lAXvj4A6vSRnoqmEgQNqHq0DA7gzF1wRd0tXf0org+j2l2
- X/tA==
+ b=BdwiGdzB32J6wiTfPUlUQM/g8KEWziH5MF6Kzs8wFXXnf2tTEycJmbdeGo4veeTodP
+ n4h73qpsySTpOu6BIXmdHRp+pbHVzHeivQcYK83AZTAh/e3+ggJ1kvOs6J08PZ4nodvC
+ 99Hl3I+piLzWoFyXEPCYFrLvhA7Ta60RZ1hjwSXpGNfhGo4sjEjeKLvLDztDsJzsBN71
+ 6gyzH9mEJ9EcjtOG4cn12/OgawUfrPlO8nG5+MjOPL+eXe+xErOXS5D+0/nO/Rd4rTjx
+ jHeZ+7Z2S5XYmkwdn5lBkGbCFFTdM92vNcULPy/4NOMZn3PO/aipX4204iSWspFJdq8n
+ Ro4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
- fh=Au8kAT8cPhqrjplqZDDVqAy4U35S9xiFYxDOSuj0vdU=;
- b=HNRGLLI0vZIYdm1qoKgk+d0PJoWo6gzHYfka9sOHu3GpcefST6ix7EFkDIxAHvphiq
- XwA//UDpfhrEzpQb5f+S7EYoOfrTIbYM3vm6Bbgsb7EKjl4yLs7+JjR7kiWeeYEujv22
- 79U2iXpmjlY/Bqvdr16PJgGgMqmSCWAlG8jxYyxvYtZyEGjVm78ZvJMWfiU/7SBRvkkn
- jSj/YxVY5tw8ISoEZfILNiBC3iVJFsWggZb+uufAVyUDMrUKM2bHI3s+gNkHEehDp7iB
- 5V2OXKG+kql41fD16w0quRFQ3In42YDmJxXX8nmEr7jnQ3I1yFwzLB2CmgaGad4d9z9w
- 5ZiQ==; darn=lists.freedesktop.org
+ bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+ fh=7QN8bBxkLCmTUGt7bLOZX39W9FKnhB2ywO0RLjic3zw=;
+ b=OGxpEe2pn38v8OH7coYTNUH1zFi1ToCu1sE1PBmm7BS0Q+Iad2s4GlKJyzEQKS5nyc
+ YE9N1kbwoPdwpnLxtF41VNUfg3oP/Tnff8jMxoFNnxwZcPWU5Zi6+ccGZR2S5JS99tHh
+ CiDFSq03/9fLz7YNH2RKj0pEO8Huwj+JbD7X9lckLbOVzclExTOb+5Kvqq2Bl+Qc5UyX
+ sRnP+GK5MDhwQ98jjapHiHgGfOhGzSOHi578gFb4Cjt/PK+t9cazL7i3f6UnTna0m5jB
+ eEfQAKH8r2dYCD9tk61fkdyrXjfFkVmrxiyA8PnPhzGSQUcRwlXPlFVNC8+p/4TlgieE
+ Vc0g==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772124878; x=1772729678; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1772125144; x=1772729944;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
- b=bsecA1zQKJaORF7opFUhwDHK8/F5CmhDrs4cMTf8kCB/Qd9A7IO3ubFjBuRBOk+0IE
- ETXIJ7lumShjWf0huZt4fzbO2tHzY47qsoiOXMcSWqV8LBikPRGIsqsnoRAS5koi1QcH
- onPd7O5VOlch3YfSjmt6/BZjlH7Sq711fOgeXsvueGaiYsXDOB+FTQucZGY/ITlzeihK
- M0/xlWEjJ6idR4Ecx0HDt4RQ2CDm9/QC1R4KFDVjBdJu3/dLNfNhtC3/feu+LwXwE3us
- AB/A3VIayIWQmSAYxE/SsiDLJ01DQeFcW8+3YgPOcjhWpXbhIHRIOPKer0dLB3kzITPz
- FhRw==
+ bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+ b=exl8CXHCG5WLnpwfFUxt363hjvf+UV1cW5TgYmVWdhETjuqWgY8lwkSCT/fIz6MVsP
+ cZ9uflUKTVUNXnFkWvF5YgExLQNVlIz1tKGaXNTGg6EE7PGLBuAD/fg41UITnM3+HjFh
+ 9zWgsalAAKrkVV8+FKfoAjJ1CGI/dUs8COv4H/C+NnKJ3xKKvA/LYp7PE2Cd5btu+yC9
+ 8Muy+VFQ8xN67Rmm0XHhFtcFampkj9zpvr9juySauRhzD+YzlAdY8PTGk5bRsCpNXMv/
+ AHYCDzIBvAUXX0dU0jskaagH1iOOAXyfo6ivbnSjnyb155cpdlweoaHlHJVznNCM6JYg
+ woSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772124878; x=1772729678;
+ d=1e100.net; s=20230601; t=1772125144; x=1772729944;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
- b=Y/IK+mEtH+VJBIB+sKywSDH2Gjsa0iOe079AfiGrSmNi8MSEIRKIV5QKdRysdlbVfX
- oWpbEYjGtoacTjyxpYs4aB1R/lEHJo8p9PBZ9144M3842xD98fvMM0nxcyTTTG7stxia
- 5Y8yLpVt29e/KgqrVsmHLYx+VEAVpgPw+Y/L5ECazxUK5OT5i9atzncCBPcEIQEKSaa1
- tlSrlvpjQ5CxXo2tFc76ipusYwtpnVUwH6O/iIOclZ43z/avB1dCTE3Mmx9s80rtULpI
- tT0SXOPA6meAjIyU42wBzaioMi+a4nMgkQxma8mCRwUBWZP5ZfUCTDEbcTP/psvK5JgE
- CBXg==
+ bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+ b=ULwmn7NpgIpcq7bAWbRrSgEJa74dLmSS3FYAfg8R5PI8NZhW/zECex+t/6S+fOLAa1
+ gK0YPuCRh3ryFoKtwvxE2VfRVjajyq+1sO7M1Od5wMPattRC7f0kyN7vbYQOEPGlHARo
+ HNNZ2qr7Nn7KKqArJIwSeSzuPAXsXcFst5+5S5crniP8+BhjnUxEfe/KHerG90x8au0i
+ xS/ZR0Dm+T5gVWn3SlP3lSNZuJEt7seW+WERjC5EExQQ3ut2xD1iQTrjxllWK9277KwD
+ dJhAvpVDRpvU0RN0/5mxELMVydVzbJJwXWm34rnqhqTITmqGqoOOg2KhyXb5Csl0qF23
+ 3Zmw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgngxodrwf2ix3oV5f5aleKnHcUryKPCIYPMmETI0fmvnpyn4UApgON8zbDvS/oPVPx5E09vIBpN4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqipuXyckEKzS25bT+wWIi8f7q+OOAdorb60EY1ayOXUYTZ0ra
- BgJ5hmcYeF7NsNlgu1gXHVcXXgg6oGCM20+ZqzbsUmU2hB5bQDLoqbTsZTsxZ3G47RM3tbHOJ57
- RrCAsJ33VfGJmQW1HyYZnqn1nwbZSUE4=
-X-Gm-Gg: ATEYQzzwvBcDfSuNV0JjhTTwRuyfiGMEgm1ybKUCoRmygGLOHSBMjg/6tJabAOB4hnj
- jEF0ddhC8+kSbrhX9TyoUO/U4Gsgx8Lr8oJ4QapKqYXmjcBxxUABqiNVnhNfNepSKLaYXLZvdCX
- qgsIn6f+jq4xEX3x9t+S8QWVMCcUvezaLSfxW1Bw8C1St+q8Zsq/FLnNoB5QVRN+H+2a6XoB2Bk
- pZSDsKxizH08cCEyp/DC1MxCu/ODahqDFMR5c9xxKV7Qg4g5JIOZ0ieAmY8TC9cX8lJJvc3GQfs
- yYHDfboK8z+VICBBT6jZJHjzhAIBre9KYNp4ifaGGTPasPRABA8i6LmNLziCSPk2f3hE8g==
-X-Received: by 2002:a05:7022:f005:b0:11a:43fb:58dd with SMTP id
- a92af1059eb24-1276ad3bcd8mr3975440c88.5.1772124878272; Thu, 26 Feb 2026
- 08:54:38 -0800 (PST)
+ AJvYcCX1Sd0xwcc/wo/kP0PAaYABE5d85mdW5Sr+h60ujK5aa6/5eVPjoUdNH+bPogT9leL6IDJ7ij/RRb0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgfBBf4vbCYigzYc+DT3jqU91Qp8P3w3etoGHqTPQ8XL9v5kFG
+ tq+up7zM6gzc0KVO7byrpvwqpgMZ//JnoQxfv4aC+2sas5BnT0KdCB5RMPIRA7JgE4HDjCPbukI
+ QRzZCzASpCefVPbV1zLWkFrFkNJaGT+uSaVREIoYD
+X-Gm-Gg: ATEYQzzfUeUKa+QiwC9MbWbywRZ5gRzVa/nJh46qq1/wcW3Rn/hqOs6Ah38CuAyXW9r
+ I6gg3WTjvboYzmSLMWL/HcQ015Zi1GbdQCsmH/HuziKlIENmPVxP59kFnwCikEJqie11IFMw7Rp
+ O6RQysQn1q4ccet7gBts31dpQKvgoHfFJZVe+Cms0kmC/wlcItUFKT9PVWGC6x0AafHcicipqEg
+ apa/+yRXIMjsMsQwdy4CVt3+u1b2Z6hJeERRCx7aBD8kCYWH7j8rRuiLDqDxOmrtYOOpvaSeh/V
+ Ro6RyOs+bGdgyv+FSvFMLg+oSKj4WmHsCY0vOoDIUBHdpSQUTzv7qcpzxIztAS5aLleayg==
+X-Received: by 2002:a05:600c:4f16:b0:47e:de1d:ce99 with SMTP id
+ 5b1f17b1804b1-483c31a76e5mr1276055e9.12.1772125143309; Thu, 26 Feb 2026
+ 08:59:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20260226030038.1182961-1-yujie.liu@intel.com>
- <20260226030038.1182961-7-yujie.liu@intel.com>
-In-Reply-To: <20260226030038.1182961-7-yujie.liu@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 26 Feb 2026 11:54:26 -0500
-X-Gm-Features: AaiRm50FIm7gW9ftKbXM9mUDFZF-JB2g7m56NgkO01zsGUV36mqPkWnCPIpQdvQ
-Message-ID: <CADnq5_N819Zv-dQU_rswGDBdt7wKB+fCgFDLswbLgbwhz6J2Sg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] drm/amd/pm: fix kernel-doc warning for
- smu_msg_v1_send_msg()
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
+References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+ <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
+ <60ecebf2-a708-4797-bedd-588c3e9931ff@kernel.org>
+ <20260226-impetuous-analytic-jellyfish-d4a86d@penduick>
+In-Reply-To: <20260226-impetuous-analytic-jellyfish-d4a86d@penduick>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 26 Feb 2026 08:58:51 -0800
+X-Gm-Features: AaiRm51ICxvhnfb6IRxyaVo1JANC2yUPYPY4UyYDMkMh1Zp0Qc24kArQnpKFuW4
+Message-ID: <CABdmKX0KZLGaJWBoo3tkCxLvby3f4Fn0nMCLyz4a-H-9J_CtPQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] mm: cma: Export cma_alloc and cma_release
+To: Maxime Ripard <mripard@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kenneth Feng <kenneth.feng@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>, 
- Asad Kamal <asad.kamal@amd.com>, Yang Wang <kevinyang.wang@amd.com>, 
- Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>, 
- Gangliang Xie <ganglxie@amd.com>, Candice Li <candice.li@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, 
- Matthew Auld <matthew.auld@intel.com>, Luben Tuikov <luben.tuikov@amd.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
- Michal Wajdeczko <michal.wajdeczko@intel.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- intel-xe@lists.freedesktop.org
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,73 +127,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:yujie.liu@intel.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kenneth.feng@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:patrik.r.jakobsson@gmail.com,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:pierre-eric.pelloux-prayer@amd.com,m:srinivasan.shanmugam@amd.com,m:tvrtko.ursulin@igalia.com,m:sunil.khatri@amd.com,m:lijo.lazar@amd.com,m:asad.kamal@amd.com,m:kevinyang.wang@amd.com,m:Hawking.Zhang@amd.com,m:tao.zhou1@amd.com,m:ganglxie@amd.com,m:candice.li@amd.com,m:YiPeng.Chai@amd.com,m:matthew.auld@intel.com,m:luben.tuikov@amd.com,m:ville.syrjala@linux.intel.com,m:michal.winiarski@intel.com,m:michal.wajdeczko@intel.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:intel-xe@lists.freedesktop.org,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:david@kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-mm@kvack.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,igalia.com,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 922601AB52D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 2D05A1AB7DF
 X-Rspamd-Action: no action
 
-Applied.  Thanks!
+On Thu, Feb 26, 2026 at 2:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Hi David,
+>
+> On Thu, Feb 26, 2026 at 11:25:24AM +0100, David Hildenbrand (Arm) wrote:
+> > On 2/25/26 17:41, Maxime Ripard wrote:
+> > > The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate a=
+nd
+> > > free, respectively, its CMA buffers.
+> > >
+> > > However, these functions are not exported. Since we want to turn the =
+CMA
+> > > heap into a module, let's export them both.
+> > >
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  mm/cma.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/mm/cma.c b/mm/cma.c
+> > > index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8=
+ba4397f018f6993d962 100644
+> > > --- a/mm/cma.c
+> > > +++ b/mm/cma.c
+> > > @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigne=
+d long count,
+> > >     if (page)
+> > >             set_pages_refcounted(page, count);
+> > >
+> > >     return page;
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(cma_alloc);
+> > >
+> > >  static struct cma_memrange *find_cma_memrange(struct cma *cma,
+> > >             const struct page *pages, unsigned long count)
+> > >  {
+> > >     struct cma_memrange *cmr =3D NULL;
+> > > @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struc=
+t page *pages,
+> > >
+> > >     __cma_release_frozen(cma, cmr, pages, count);
+> > >
+> > >     return true;
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(cma_release);
+> > >
+> > >  bool cma_release_frozen(struct cma *cma, const struct page *pages,
+> > >             unsigned long count)
+> > >  {
+> > >     struct cma_memrange *cmr;
+> > >
+> >
+> > I'm wondering whether we want to restrict all these exports to the
+> > dma-buf module only using EXPORT_SYMBOL_FOR_MODULES().
+>
+> TIL about EXPORT_SYMBOL_FOR_MODULES, thanks.
 
-On Wed, Feb 25, 2026 at 10:19=E2=80=AFPM Yujie Liu <yujie.liu@intel.com> wr=
-ote:
+Ohh, ditto.
+
+> > Especially dma_contiguous_default_area() (patch #4), I am not sure
+> > whether we want arbitrary modules to mess with that.
 >
-> Warning: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting p=
-rototype for smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send=
-_msg() instead
+> Yeah, I wasn't too fond about that one either. Alternatively, I guess we
+> could turn dev_get_cma_area into a non-inlined function and export that
+> instead?
+
+I checked the history to see if dev_get_cma_area was converted to
+inline at some point for performance, but it has always been that way
+since 3.5. That'd be my only worry with un-inlining and exporting it.
+EXPORT_SYMBOL_FOR_MODULES sounds like a better way to me.
+
+> Or we could do both.
 >
-> Fixes: 4f379370a49c ("drm/amd/pm: Add smu message control block")
-> Signed-off-by: Yujie Liu <yujie.liu@intel.com>
-> ---
->  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd=
-/pm/swsmu/smu_cmn.c
-> index 6fd50c2fd20e..c471c0e2cbd1 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-> @@ -405,7 +405,7 @@ static int __smu_msg_v1_ras_filter(struct smu_msg_ctl=
- *ctl,
->  }
->
->  /**
-> - * smu_msg_proto_v1_send_msg - Complete V1 protocol with all filtering
-> + * smu_msg_v1_send_msg - Complete V1 protocol with all filtering
->   * @ctl: Message control block
->   * @args: Message arguments
->   *
-> --
-> 2.43.0
->
+> Maxime
