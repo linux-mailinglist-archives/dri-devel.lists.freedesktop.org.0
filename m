@@ -2,61 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDQtJ1LFoGnImQQAu9opvQ
+	id 2D+wFGTFoGnImQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:12:34 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:12:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA2D1B0390
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C770F1B0398
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF26F10E9EB;
-	Thu, 26 Feb 2026 22:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BAE010E9F0;
+	Thu, 26 Feb 2026 22:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pZWHtEfa";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="hz35ucwK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C7D10E9EB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 22:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hUa2sSZz2tICblhIGulVCMGQZ4lft8Gb68s9NBSW0/w=; b=pZWHtEfaBfDzZKzqvs6+cKmcLt
- Ry7HkpC5dHDKBPJkzzU7TOE9cjt6y1XGtUn0DICCbOvSWV+P0RJxwFcbXETlumxvxt0IuRzKBi1bs
- 43vGMxcDzfJJ8ccUq3Ls9YCajt+JrJ9w60xGl3dZOkYDDf8JbZIyCgLdy0q48QwbqeheR4qOWFxP9
- ngfNX6iHaE5o+5oyx6bu1EJjdxsY2I4C0UBam+EBvbaNC0VxMAd4nceJSV38Uw66j7vdeX5/WruSZ
- 7rJCfs0t3LuiiWbkExBS+FzhXRT7ZrA/BFT1KXuNjG6mH70u8dyQJxb+6K2caHryWQDYlh3OeDXww
- w/BnWU9Q==;
-Received: from [186.208.68.119] (helo=[192.168.18.14])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vvjah-005srt-HK; Thu, 26 Feb 2026 23:12:16 +0100
-Message-ID: <cfdfd8f2-784e-4ce8-af19-01034d30f196@igalia.com>
-Date: Thu, 26 Feb 2026 19:12:10 -0300
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277CE10E9F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 22:12:48 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2aaf43014d0so10945015ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 14:12:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772143967; cv=none;
+ d=google.com; s=arc-20240605;
+ b=MUi63hgfLs5GT+zh20SFgT+/21DmrGR5c0Qh2wAlnqQqy8uBR+72XPm8plr0I2Zywy
+ /OExfK35ao0YXhtDNdpjbPSr94AlqZVt1fCm9nYEy/fI2kjFePoVL4YlYJ3PNOUyhzfk
+ sek+OwpLkJ4rDU5H22nSJMK84RMmdqEunlxgFqfWNWr2Wf0DXMBzUOLELJEsee+feaB5
+ gDmCNlqO1K/KTaSeBWnNSQ+C+w0f7rW6Q/yrzM5EuZgZA+mdMYQ20cxId6qmc5s666Lu
+ qIMWP7KLOoh1zXsdd6rz+D13h6trTWNhx1f78EvMuC8uruC4Qr0nFcVvFLnwzFi8mXJs
+ vUww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=5vj4oi7FzrupQugqc1/eniZpEwrbi4HSzFek+AnHkbg=;
+ fh=DxRgY72X1HhALliLKVqSJpLOpBcCgbQidnXausQS4Qc=;
+ b=VBlocLmrOh5Wtm4DVByfMeL3/+LLj3dY0BXKJUo5/IDXRYJJGqdzpqxcG3Q/5cWU5q
+ a4N8fdq54JouQFrUJOGn/ya9y6rDQqOGVjwt4Euq2J9ae4xwbdHgJrMjVoC+2nFBk8H4
+ 4B28LEoYr1S78o8Sm52mu36aPUL7QmQFPevwpG85sognTSdDOuJxb1qE+lKe3HhE78HE
+ 7nXIP647YvKak8dVbbOZc//8bxo3onICBKW5fIGjKK9HGwLDFU8QcA+bi0dHnYsWhYVi
+ h6vwW8m9KPGF3/u3F7cA1xvsesaezcYy8B82ReFk8jPmvRaCt8lDyUOLJFKBispoe7cx
+ RO5w==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1772143967; x=1772748767;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5vj4oi7FzrupQugqc1/eniZpEwrbi4HSzFek+AnHkbg=;
+ b=hz35ucwKJBYDQMN/73VDEkWBKLU1plwfyVgPoJnkddxzzymT9VUUfEQWrVDrfXe3rC
+ 7URC5eBtc4CMFX2PG5zPpCbza+hg/5Vg8QTgmNhyk/mjrwZrWqsWC0PXzZgYX/UILYX6
+ BaUu6X6y6Lelq+YBrm7xsas4t4cKh6YrMxWm1dmSXer318gurLnLEoIa9OKLbVgEjFmi
+ k/zjHiThspfgj4t27lEtfMpaQUWKNrKWbeKMC57o8XTuTpfoDxZ/uQdz0TMxXvS4hfsC
+ D3ZJzLr/2GRhVlwWMgTxUFUSVPQ0vFFLrMn1Un4F0m0EmYb+/q+5qSsQ746T3jldz3gY
+ +XCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772143967; x=1772748767;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=5vj4oi7FzrupQugqc1/eniZpEwrbi4HSzFek+AnHkbg=;
+ b=MBm99lLHpAySBp/quCMLr7TZq0PkrUDGfpA532iu7GRX1PTI9lUKc+vxXprpiQMLng
+ FiUSKv3wgD2nuWG/OtRkHqmkG8l6AiCrXJG4TCBc7hDXzJGd0YZeoQTbCk1jJiRLpQwo
+ 197HfJwKhWsFU4JfOWDw4hFje1wWYt2tWPNQoHasQoIaFg65o1vW4L5YL83QiocJ8S/z
+ RDCkfU7i5xyNHA5BdPA/emrd8ml5zk6DOD7EuCELqY9cX9OK0LTujxkLJukw1M4kQhuB
+ oKePybil028LHg03o1aMi1wXmDn5ZbApxdnN0CxgbbMT0WIoAQ/agNr8iIFOP4eWL3R+
+ 5+Xw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWw6mquOxeDFpDPSCU1SOZdVBuwtJpDxRqgPgc3VCZ/HRixYmhPUN9+59J7X4z/jycN3TRDkpetscg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKJ8P+1a3Gn506bQikAS8GOhoLqQ8F/OqAWOWUvDIpgtl8wZ2G
+ iR19ZLzzrvUeU7Vs8h+r+ZXtXSgHQwoCDQPvZbw9DGnL4V+LIbi2nBNLiklzkKlFI5llTyydVPg
+ zcw5holEmohcQoMA0FtS/B3/qc4tqdZg=
+X-Gm-Gg: ATEYQzyV3Lo9vDFiIsGgYk/Kw8bg1wGDuxSIKrFLyKbchpmnzZvS60esi9rLqV24c+X
+ n0RanUI9eGVZEnmUQXAP1GbcaeukD+N1sMdB7JF87iZs+XL/BABfZ+034zw5CCAXO2T4Nlj0rCJ
+ Ry71tMLsaxtNImuilnBTcByXH/AofR1T3omPcK+Hx1wCCTMFRSEEwY302Dz/g8Pu5ufTl+SscI8
+ 5QSrtya3G4KBlhSph5+Y+PQQQa6wxuQ837wQjh6y8UITQfLxcXv8Jt6lupRBycouoTsU7WV3PB8
+ hNJud7F10ODuzOGnByY9Yn7Mm0SBpfQ9w+9P5X78
+X-Received: by 2002:a17:903:320b:b0:2ad:e02b:4611 with SMTP id
+ d9443c01a7336-2ae2e3e72d5mr3996095ad.1.1772143967525; Thu, 26 Feb 2026
+ 14:12:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/11] drm/vc4: Add new job submission implementation
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
+ <2967a475-9fbe-4d20-a27c-04676c74d03c@linaro.org>
+ <c94987c4-dd46-4eb5-a56b-8132c0c9a118@amlogic.com>
+ <CAFBinCA374KQiKn=_M5JNfY+Re_uw_40A169G=pU2-MghmUV2g@mail.gmail.com>
+ <1a93d6ad-7f09-467c-9b2d-9e706f66adaf@amlogic.com>
+In-Reply-To: <1a93d6ad-7f09-467c-9b2d-9e706f66adaf@amlogic.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Thu, 26 Feb 2026 23:12:36 +0100
+X-Gm-Features: AaiRm514KD-jvhe4Mc00x3-Pl2br1wbWE2jRwOOzJuKIUOLmGlOAejSAJtw8638
+Message-ID: <CAFBinCCcHXtXmgd221tpseUtOiPPgD07BbNvgT=9=739y=xzXQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] Subject: [PATCH 00/11] Add DRM support for Amlogic
+ S4
+To: Ao Xu <ao.xu@amlogic.com>
+Cc: neil.armstrong@linaro.org, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
- <20260205-vc4-drm-scheduler-v1-6-c6174fd7bbc1@igalia.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20260205-vc4-drm-scheduler-v1-6-c6174fd7bbc1@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,572 +123,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.21 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[googlemail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:ao.xu@amlogic.com,m:neil.armstrong@linaro.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:linux-amlogic@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[martinblumenstingl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[googlemail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
+	DKIM_TRACE(0.00)[googlemail.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-0.997];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[martinblumenstingl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,baylibre.com,lists.freedesktop.org,lists.infradead.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: DCA2D1B0390
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlemail.com:dkim,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: C770F1B0398
 X-Rspamd-Action: no action
 
+Hi Ao Xu,
+
+On Tue, Feb 10, 2026 at 7:06=E2=80=AFAM Ao Xu <ao.xu@amlogic.com> wrote:
+[...]
+> > I have two questions here:
+> > - How is per-SoC register access managed?
+> > - How are "common" (shared across multiple - or even all SoCs)
+> > registers managed?
+> >
+> > It seems that the komeda driver uses komeda_dev_funcs for the
+> > per-variant access.
+> > However, it's not clear how this scales as only two mostly identical
+> > display controllers (D32 and D71) ever made it into the driver.
+>
+> I would like to first describe the current state.
+>
+>     In atomic_update and atomic_disable, register values are derived
+>     from the property information and stored into the priv->viu and
+>     priv->afbc structures.
+>     In meson_crtc_irq, the previously saved values are then written into
+>     the hardware registers.
+>
+> In future SoCs, we may encounter the following scenarios:
+>
+>   * The register addresses of a given block may change. For example, on
+>     S905X2, the OSD1 scaler registers are located at 0x1dc0=E2=80=930x1dc=
+d,
+>     while on A311D2, the same OSD1 scaler registers move to 0x5a00=E2=80=
+=930x5a0d.
+>   * A block's functionality may be reduced or extended, which can
+>     include changes to existing register bits or the introduction of new
+>     control registers. For instance, the OSD MIF block previously
+>     required canvas configuration, while on T7C the canvas mechanism is
+>     completely removed.
+>   * An entire block may be removed or newly added. For example, GFCD,
+>     which internally integrates AFBC and AFRC hardware modules, is
+>     present on A9.
+>
+> Register programming is performed through RDMA hardware.When RDMA is
+> available, the flow is different.
+>
+>     In atomic_update and atomic_disable, register values are written
+>     directly into the RDMA register table, and there is no need to cache
+>     the register values in software.
+>     Once all register writes are prepared, rdma_config is used to let
+>     the hardware flush the RDMA register table into the real registers
+>     on the next VSync.
+>
+> On a given SoC, each internal block contains fields that determine which
+> register set it should use.
+> This information is SoC-specific and must be provided by the SoC descript=
+ion
+Thank you for providing more detailed insight into your idea.
+Overall the approach makes sense to me. In my own words that is:
+separate code that's different per-SoC.
+
+What's important to me is to still reuse/share code where possible.
+I'm using meson_overlay.c (even if this is not high on your priority
+list) as an example:
+- G12A requires special handling in meson_overlay_atomic_disable()
+- the rest of the code in this file works for all SoCs
+Copying the whole file (800+ lines of code) and then changing 5 lines
+in _atomic_disable() (in each copy of the file) will be hard to
+understand and maintain.
+
+Or in other words: I like your approach of allowing more flexibility
+to handle per-SoC specifics. Please make sure to not duplicate
+common/shared code.
+
+> >
+> >> This is achieved by introducing four core objects, as shown in the
+> >> attached class-diagram document.
+> >>
+> >> - meson_vpu_block
+> >> - meson_vpu_block_state
+> >> - meson_pipeline
+> >> - meson_pipeline_state
+> >>
+> >>
+> >> The atomic flow is structured as shown in the attached commit-flow doc=
+ument.
+> > The public A311D datasheet page 304 [0] shows that CVBS, HDMITX and
+> > MIPI_DSI are part of the VPU block.
+> > Those aren't mentioned in your flows. Is that because they are "after"
+> > POSTBLEND and would therefore be part of a future refactoring
+> > approach?
+> This proposal focuses only on VPU OSD and video-related blocks.
+> Encoder and connector handling is a separate and much larger topic.
+> I am currently investigating how to reuse existing PHY and clock tree
+> interfaces for that part, but it is intentionally kept out of this
+> proposal.
+Understood. I started looking into managing the PHY clocks a while ago
+for Meson8/8b/8m2 (those are 32-bit ARM SoCs) and it's not straight
+forward. So let's indeed save them for a later date.
+
+> >
+> > Also RMDA is shown in the same diagram as part of VPU. Neil had to
+> > work hard to implement it back then for AFBC.
+> > You haven't listed it in your diagrams but I assume it is going to be
+> > part of the implementation as it is/was mandatory for AFBC.
+> > Can you confirm my understanding here (or clear up my confusion)?
+> Yes, we will add RDMA function support firstly.
+That's great to hear - thank you!
 
 
-On 05/02/2026 18:31, Maíra Canal wrote:
-> Introduce vc4_submit.c with the job submission path rewritten to
-> integrate with the DRM GPU scheduler. Most of this code is adapted from
-> vc4_gem.c, with key changes concentrated in the job creation and
-> lifecycle management. This implementation follows the same design as the
-> v3d driver.
->
-> This code coexists with the legacy path until the switchover commit.
->
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/vc4/vc4_submit.c | 509 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 509 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_submit.c b/drivers/gpu/drm/vc4/vc4_submit.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d6c684a14e6f9d9f7f456ad7fc985dbf631a7fb4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vc4/vc4_submit.c
-> @@ -0,0 +1,509 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright © 2014 Broadcom
-> + * Copyright © 2026 Raspberry Pi
-> + */
-> +
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_syncobj.h>
-> +
-> +#include "vc4_drv.h"
-> +#include "vc4_regs.h"
-> +#include "vc4_trace.h"
-> +
-> +/* Takes the reservation lock on all the BOs being referenced, so that
-> + * at queue submit time we can update the reservations.
-> + *
-> + * We don't lock the RCL the tile alloc/state BOs, or overflow memory
-> + * (all of which are on render->unref_list). They're entirely private
-> + * to vc4, so we don't attach dma-buf fences to them.
-> + */
-> +static int
-> +vc4_lock_bo_reservations(struct vc4_render_job *job, struct drm_exec *exec)
-> +{
-> +	int ret;
-> +
-> +	/* Reserve space for our shared (read-only) fence references,
-> +	 * before we commit the CL to the hardware.
-> +	 */
-> +	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT, job->bo_count);
-> +	drm_exec_until_all_locked(exec) {
-> +		ret = drm_exec_prepare_array(exec, job->bo, job->bo_count, 1);
-> +	}
-> +
-> +	if (ret)
-> +		goto fail;
-> +
-> +	for (int i = 0; i < job->bo_count; i++) {
-> +		ret = drm_sched_job_add_implicit_dependencies(&job->base.base,
-> +							      job->bo[i], true);
-> +		if (ret)
-> +			goto fail;
-> +	}
-> +
-> +	return 0;
-> +fail:
-> +	drm_exec_fini(exec);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * vc4_lookup_bos() - Sets up job->bo[] with the GEM objects
-> + * referenced by the job.
-> + * @dev: DRM device
-> + * @file_priv: DRM file for this fd
-> + * @job: VC4 render job being set up
-> + * @bo_handles: GEM handles
-> + * @bo_count: Number of GEM handles passed in
-> + *
-> + * The command validator needs to reference BOs by their index within
-> + * the submitted job's BO list. This does the validation of the job's
-> + * BO list and reference counting for the lifetime of the job.
-> + */
-> +static int
-> +vc4_lookup_bos(struct drm_device *dev, struct drm_file *file_priv,
-> +	       struct vc4_render_job *job, u64 bo_handles, u32 bo_count)
-> +{
-> +	int ret = 0;
-> +	int i;
-> +
-> +	job->bo_count = bo_count;
-> +
-> +	if (!job->bo_count) {
-> +		drm_warn(dev, "Rendering requires BOs to validate\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(bo_handles),
-> +				     job->bo_count, &job->bo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		ret = vc4_bo_inc_usecnt(to_vc4_bo(job->bo[i]));
-> +		if (ret)
-> +			goto fail_dec_usecnt;
-> +	}
-> +
-> +	return 0;
-> +
-> +fail_dec_usecnt:
-> +	/* Decrease usecnt on acquired objects */
-> +	for (i-- ; i >= 0; i--)
-> +		vc4_bo_dec_usecnt(to_vc4_bo(job->bo[i]));
-shouldn't we release BOs from drm_gem_objects_lookup()?
-> +	return ret;
-> +}
-> +
-> +static int
-> +vc4_get_bcl(struct drm_device *dev, struct vc4_exec_info *exec)
-> +{
-> +	struct drm_vc4_submit_cl *args = exec->args;
-> +	struct vc4_render_job *render_job = exec->render;
-> +	struct vc4_bin_job *bin_job = exec->bin;
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> +	struct drm_gem_dma_object *exec_bo;
-> +	void *temp = NULL;
-> +	void *bin;
-> +	int ret = 0;
-> +	uint32_t bin_offset = 0;
-> +	uint32_t shader_rec_offset = roundup(bin_offset + args->bin_cl_size, 16);
-> +	uint32_t uniforms_offset = shader_rec_offset + args->shader_rec_size;
-> +	uint32_t exec_size = uniforms_offset + args->uniforms_size;
-> +	uint32_t temp_size = exec_size + (sizeof(struct vc4_shader_state) *
-> +					  args->shader_rec_count);
-> +	struct vc4_bo *bo;
-> +
-> +	if (shader_rec_offset < args->bin_cl_size ||
-> +	    uniforms_offset < shader_rec_offset ||
-> +	    exec_size < uniforms_offset ||
-> +	    args->shader_rec_count >= (UINT_MAX /
-> +					  sizeof(struct vc4_shader_state)) ||
-> +	    temp_size < exec_size) {
-> +		drm_dbg(dev, "overflow in exec arguments\n");
-> +		ret = -EINVAL;
-> +		goto fail;
-> +	}
-> +
-> +	/* Allocate space where we'll store the copied in user command lists
-> +	 * and shader records.
-> +	 *
-> +	 * We don't just copy directly into the BOs because we need to
-> +	 * read the contents back for validation, and I think the
-> +	 * bo->vaddr is uncached access.
-> +	 */
-> +	temp = kvmalloc_array(temp_size, 1, GFP_KERNEL);
-> +	if (!temp) {
-> +		drm_err(dev, "Failed to allocate storage for copying in bin/render CLs.");
-> +		ret = -ENOMEM;
-> +		goto fail;
-> +	}
-> +	bin = temp + bin_offset;
-> +	exec->shader_rec_u = temp + shader_rec_offset;
-> +	exec->uniforms_u = temp + uniforms_offset;
-> +	exec->shader_state = temp + exec_size;
-> +	exec->shader_state_size = args->shader_rec_count;
-> +
-> +	if (copy_from_user(bin, u64_to_user_ptr(args->bin_cl),
-> +			   args->bin_cl_size)) {
-> +		ret = -EFAULT;
-> +		goto fail;
-> +	}
-> +
-> +	if (copy_from_user(exec->shader_rec_u, u64_to_user_ptr(args->shader_rec),
-> +			   args->shader_rec_size)) {
-> +		ret = -EFAULT;
-> +		goto fail;
-> +	}
-> +
-> +	if (copy_from_user(exec->uniforms_u, u64_to_user_ptr(args->uniforms),
-> +			   args->uniforms_size)) {
-> +		ret = -EFAULT;
-> +		goto fail;
-> +	}
-> +
-> +	bo = vc4_bo_create(dev, exec_size, true, VC4_BO_TYPE_BCL);
-> +	if (IS_ERR(bo)) {
-> +		drm_err(dev, "Couldn't allocate BO for binning\n");
-> +		ret = PTR_ERR(bo);
-> +		goto fail;
-> +	}
-> +	exec_bo = &bo->base;
-> +
-> +	list_add_tail(&bo->unref_head, &render_job->unref_list);
-> +
-> +	bin_job->ct0ca = exec_bo->dma_addr + bin_offset;
-> +
-> +	exec->bin_u = bin;
-> +
-> +	exec->shader_rec_v = exec_bo->vaddr + shader_rec_offset;
-> +	exec->shader_rec_p = exec_bo->dma_addr + shader_rec_offset;
-> +	exec->shader_rec_size = args->shader_rec_size;
-> +
-> +	exec->uniforms_v = exec_bo->vaddr + uniforms_offset;
-> +	exec->uniforms_p = exec_bo->dma_addr + uniforms_offset;
-> +	exec->uniforms_size = args->uniforms_size;
-> +
-> +	ret = vc4_validate_bin_cl(dev, exec_bo->vaddr + bin_offset, bin, exec);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	ret = vc4_validate_shader_recs(dev, exec);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	if (exec->found_tile_binning_mode_config_packet) {
-> +		ret = vc4_v3d_bin_bo_get(vc4, &bin_job->bin_bo_used);
-> +		if (ret)
-> +			goto fail;
-> +	}
-> +
-> +fail:
-> +	kvfree(temp);
-> +	return ret;
-> +}
-> +
-> +static void
-> +vc4_job_free(struct kref *ref)
-> +{
-> +	struct vc4_job *job = container_of(ref, struct vc4_job, refcount);
-> +
-> +	dma_fence_put(job->irq_fence);
-> +	dma_fence_put(job->done_fence);
-> +
-> +	if (job->perfmon)
-> +		vc4_perfmon_put(job->perfmon);
-> +
-> +	vc4_v3d_pm_put(job->vc4);
-> +	kfree(job);
-> +}
-> +
-> +static void
-> +vc4_bin_job_free(struct kref *ref)
-> +{
-> +	struct vc4_bin_job *job = container_of(ref, struct vc4_bin_job,
-> +					       base.refcount);
-> +	struct vc4_dev *vc4 = job->base.vc4;
-> +
-> +	/* Release the reference on the binner BO if needed. */
-> +	if (job->bin_bo_used)
-> +		vc4_v3d_bin_bo_put(vc4);
-> +
-> +	vc4_job_free(ref);
-> +}
-> +
-> +static void
-> +vc4_render_job_free(struct kref *ref)
-> +{
-> +	struct vc4_render_job *job = container_of(ref, struct vc4_render_job,
-> +						  base.refcount);
-> +	struct vc4_dev *vc4 = job->base.vc4;
-> +	struct vc4_bo *bo, *tmp;
-> +	unsigned long irqflags;
-> +	int i;
-> +
-> +	if (job->bo) {
-> +		for (i = 0; i < job->bo_count; i++) {
-> +			struct vc4_bo *bo = to_vc4_bo(job->bo[i]);
-> +
-> +			vc4_bo_dec_usecnt(bo);
-> +			drm_gem_object_put(job->bo[i]);
-> +		}
-> +		kvfree(job->bo);
-> +	}
-> +
-> +	list_for_each_entry_safe(bo, tmp, &job->unref_list, unref_head) {
-> +		list_del(&bo->unref_head);
-> +		drm_gem_object_put(&bo->base.base);
-> +	}
-> +
-> +	/* Free up the allocation of any bin slots we used. */
-> +	spin_lock_irqsave(&vc4->job_lock, irqflags);
-> +	vc4->bin_alloc_used &= ~job->bin_slots;
-> +	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
-> +
-> +	vc4_job_free(ref);
-> +}
-> +
-> +static void
-> +vc4_job_put(struct vc4_job *job)
-> +{
-> +	if (!job)
-> +		return;
-> +
-> +	kref_put(&job->refcount, job->free);
-> +}
-> +
-> +void vc4_job_cleanup(struct vc4_job *job)
-> +{
-> +	if (!job)
-> +		return;
-> +
-> +	drm_sched_job_cleanup(&job->base);
-> +	vc4_job_put(job);
-> +}
-> +
-> +static int
-> +vc4_job_init(struct vc4_dev *vc4, struct drm_file *file_priv,
-> +	     void **container, size_t size, void (*free)(struct kref *ref),
-> +	     u32 in_sync, enum vc4_queue queue)
-> +{
-> +	struct vc4_file *vc4_priv = file_priv->driver_priv;
-> +	struct vc4_job *job;
-> +	int ret;
-> +
-> +	*container = kcalloc(1, size, GFP_KERNEL);
-> +	if (!*container) {
-> +		drm_err(&vc4->base, "Cannot allocate memory for VC4 job.");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	job = *container;
-> +	job->vc4 = vc4;
-> +	job->free = free;
-> +
-> +	ret = drm_sched_job_init(&job->base, &vc4_priv->sched_entity[queue],
-> +				 1, vc4_priv, file_priv->client_id);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv,
-> +						   in_sync, 0);
-> +	if (ret && ret != -ENOENT)
-> +		goto fail_deps;
-> +
-> +	ret = vc4_v3d_pm_get(vc4);
-> +	if (ret)
-> +		goto fail_deps;
-> +
-> +	kref_init(&job->refcount);
-> +
-> +	return 0;
-> +
-> +fail_deps:
-> +	drm_sched_job_cleanup(&job->base);
-> +fail:
-> +	kfree(*container);
-> +	*container = NULL;
-> +
-> +	return ret;
-> +}
-> +
-> +static void
-> +vc4_push_job(struct vc4_job *job)
-> +{
-> +	drm_sched_job_arm(&job->base);
-> +
-> +	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-> +
-> +	/* put by scheduler job completion */
-> +	kref_get(&job->refcount);
-> +
-> +	drm_sched_entity_push_job(&job->base);
-> +}
-> +
-> +static void
-> +vc4_attach_fences_and_unlock_reservation(struct drm_file *file_priv,
-> +					 struct vc4_render_job *job,
-> +					 struct drm_exec *exec,
-> +					 u32 out_sync,
-> +					 struct dma_fence *done_fence)
-> +{
-> +	struct drm_syncobj *sync_out;
-> +	struct vc4_bo *bo;
-> +	int i;
-> +
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		bo = to_vc4_bo(job->bo[i]);
-> +		dma_resv_add_fence(bo->base.base.resv, job->base.done_fence,
-> +				   DMA_RESV_USAGE_READ);
-> +	}
-> +
-> +	for (i = 0; i < job->rcl_write_bo_count; i++) {
-> +		bo = to_vc4_bo(&job->rcl_write_bo[i]->base);
-> +		dma_resv_add_fence(bo->base.base.resv, job->base.done_fence,
-> +				   DMA_RESV_USAGE_WRITE);
-> +	}
-> +
-> +	drm_exec_fini(exec);
-> +
-> +	/* Update the return sync object for the job */
-> +	sync_out = drm_syncobj_find(file_priv, out_sync);
-> +	if (sync_out) {
-> +		drm_syncobj_replace_fence(sync_out, done_fence);
-> +		drm_syncobj_put(sync_out);
-> +	}
-> +}
-> +
-> +/**
-> + * vc4_submit_cl_ioctl() - Submits a job (frame) to VC4.
-> + * @dev: DRM device
-> + * @data: ioctl argument
-> + * @file_priv: DRM file for this fd
-> + *
-> + * This is the main entrypoint for userspace to submit a 3D frame to
-> + * the GPU. Userspace provides the binner command list (if
-> + * applicable), and the kernel sets up the render command list to draw
-> + * to the framebuffer described in the ioctl, using the command lists
-> + * that the 3D engine's binner will produce.
-> + */
-> +int
-> +vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
-> +		    struct drm_file *file_priv)
-> +{
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> +	struct vc4_file *vc4_priv = file_priv->driver_priv;
-> +	struct drm_vc4_submit_cl *args = data;
-> +	struct vc4_exec_info exec = {
-> +		.dev = vc4,
-> +		.args = args,
-> +	};
-> +	struct vc4_bin_job *bin = NULL;
-> +	struct vc4_render_job *render = NULL;
-> +	struct drm_exec exec_ctx;
-> +	int ret = 0;
-> +
-> +	trace_vc4_submit_cl_ioctl(dev, args->bin_cl_size, args->shader_rec_size,
-> +				  args->bo_handle_count);
-> +
-> +	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
-> +		return -ENODEV;
-> +
-> +	if (!vc4->v3d) {
-> +		drm_dbg(dev, "VC4_SUBMIT_CL with no VC4 V3D probed\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if ((args->flags & ~(VC4_SUBMIT_CL_USE_CLEAR_COLOR |
-> +			     VC4_SUBMIT_CL_FIXED_RCL_ORDER |
-> +			     VC4_SUBMIT_CL_RCL_ORDER_INCREASING_X |
-> +			     VC4_SUBMIT_CL_RCL_ORDER_INCREASING_Y)) != 0) {
-> +		drm_dbg(dev, "Unknown flags: 0x%02x\n", args->flags);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (args->pad2 != 0) {
-> +		drm_dbg(dev, "Invalid pad: 0x%08x\n", args->pad2);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = vc4_job_init(vc4, file_priv, (void *)&render, sizeof(*render),
-> +			   vc4_render_job_free, args->in_sync, VC4_RENDER);
-> +	if (ret)
-> +		return ret;
-> +
-> +	exec.render = render;
-> +	INIT_LIST_HEAD(&render->unref_list);
-> +
-> +	ret = vc4_lookup_bos(dev, file_priv, render, args->bo_handles,
-> +			     args->bo_handle_count);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	if (args->bin_cl_size != 0) {
-> +		ret = vc4_job_init(vc4, file_priv, (void *)&bin, sizeof(*bin),
-> +				   vc4_bin_job_free, args->in_sync, VC4_BIN);
-> +		if (ret)
-> +			goto fail;
-> +
-> +		exec.bin = bin;
-> +		bin->render = render;
-> +
-> +		ret = vc4_get_bcl(dev, &exec);
-> +		if (ret)
-> +			goto fail;
-> +	}
-> +
-> +	ret = vc4_get_rcl(dev, &exec);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	ret = vc4_lock_bo_reservations(render, &exec_ctx);
-> +	if (ret)
-> +		goto fail;
-> +
-> +	if (args->perfmonid) {
-> +		render->base.perfmon = vc4_perfmon_find(vc4_priv, args->perfmonid);
-> +		if (!render->base.perfmon) {
-> +			ret = -ENOENT;
-> +			goto fail_perfmon;
-> +		}
-> +
-> +		if (bin) {
-> +			bin->base.perfmon = render->base.perfmon;
-> +			vc4_perfmon_get(bin->base.perfmon);
-> +		}
-> +	}
-> +
-> +	mutex_lock(&vc4->sched_lock);
-> +	if (bin) {
-> +		vc4_push_job(&bin->base);
-> +
-> +		ret = drm_sched_job_add_dependency(&render->base.base,
-> +						   dma_fence_get(bin->base.done_fence));
-> +		if (ret)
-> +			goto fail_unreserve;
-> +	}
-> +
-> +	vc4_push_job(&render->base);
-> +	mutex_unlock(&vc4->sched_lock);
-> +
-> +	vc4_attach_fences_and_unlock_reservation(file_priv, render,
-> +						 &exec_ctx, args->out_sync,
-> +						 render->base.done_fence);
-> +
-> +	vc4_job_put((void *)bin);
-> +	vc4_job_put((void *)render);
-> +
-> +	return 0;
-> +
-> +fail_unreserve:
-> +	mutex_unlock(&vc4->sched_lock);
-> +fail_perfmon:
-> +	drm_exec_fini(&exec_ctx);
-> +fail:
-> +	vc4_job_cleanup((void *)bin);
-> +	vc4_job_cleanup((void *)render);
-> +
-> +	return ret;
-> +}
->
-
+Best regards,
+Martin
