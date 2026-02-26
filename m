@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNwSEjk1oGkqgwQAu9opvQ
+	id aA8oGkI1oGkqgwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:45 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626A41A571D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3041A5748
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCBE110E90D;
-	Thu, 26 Feb 2026 11:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D779110E8F3;
+	Thu, 26 Feb 2026 11:57:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rx/XTseo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GCj1X1kA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB3010E8EB
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B481C10E8EC
  for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 11:57:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CDB0943396;
- Thu, 26 Feb 2026 11:57:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A02E1C19423;
+ by tor.source.kernel.org (Postfix) with ESMTP id 0DFEA600CB;
+ Thu, 26 Feb 2026 11:57:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AFDBAC19422;
  Thu, 26 Feb 2026 11:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1772107058;
- bh=MqSJmu1uXT6iOqp2k37q1PgdWKfSaMyjLJfRuK9RPqw=;
+ bh=CjqHcKW4Zc60TOEH0FSOOPRjRVQ7cQn2MFyhUhnn/NQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=rx/XTseons2fHbfB9DcdbMfx02OEkrvjkSiDPtHMZSTPrEmuG9Qz9CvYlnBcMf9zJ
- HynLUBKWlqBfY5BkYlKY5D5Iy9HiMYb8NyGVe/EUMQmdy+mHgOw0PDUTW7Y573vcZ8
- v2BWiu6nYmaBfweiJGZHQEjJHjghY/SI71zRucSF6duxdnP58EcofQzUt0JjwdhmKQ
- F/PWYR1+Q+2lJXV1Ul+86F+MML33WqnHDAOfoisiYMbStxGEnecF7sNP01Q04gq/1d
- prK2hLqajdnWoTnX2KgDCXFtJyfc6pJm6v2A65H+LuwuJBlZfBxwpJ+IUR1O171lag
- /XJ0oYXM5EsZA==
+ b=GCj1X1kA3YfP1LUuxGKSi3VXXo92KPFZOT7UhoKeg6hET6D1/sTvCczA3TrV6052k
+ ZpZ/65PDJz514M29TVTALxMz+LYtL/r8VJAl4d2/XsVewNHW+aY5U1qDR22ZOkUkJ7
+ Su4bN4TToTERHr4rGbTUmNb6Fx9Nf+NW4spyhQfwbPtt2jIZJoZCGZEkUBig+yA1E5
+ 24yMX/3TtDStGlHeILxsdGrUYq0uew1oNTta4fSobYb4PxZQPKc8dEUnyvF1UgB5jx
+ g2nOwGLu5i+bnnzu8b87SV/NhmvKbid7v6fsgs9ftJXpBD8fEZ0CuDWk1rKamBetld
+ 2w7m7O3H0ErGQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 95777FC593A;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A548EFC592F;
  Thu, 26 Feb 2026 11:57:38 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 26 Feb 2026 12:57:36 +0100
-Subject: [PATCH 1/4] drm/panel: Clean up SOFEF00 config dependencies
+Date: Thu, 26 Feb 2026 12:57:37 +0100
+Subject: [PATCH 2/4] drm/panel: Clean up S6E3FC2X01 config dependencies
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-panel-clean-up-kconfig-dep-v1-1-bb28a2355b4c@ixit.cz>
+Message-Id: <20260226-panel-clean-up-kconfig-dep-v1-2-bb28a2355b4c@ixit.cz>
 References: <20260226-panel-clean-up-kconfig-dep-v1-0-bb28a2355b4c@ixit.cz>
 In-Reply-To: <20260226-panel-clean-up-kconfig-dep-v1-0-bb28a2355b4c@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -60,21 +60,21 @@ Cc: Casey Connolly <casey.connolly@linaro.org>,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
  David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=S2VmpYOqwuL+0OJ8gYr+mbqdWnTXUGRv7C3ek1BRY3c=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpoDUwi1CjtxFs5Sj/rXK7pY5bi2RLpIoCFPyEq
- woAahnB0l6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaaA1MAAKCRBgAj/E00kg
- csbJEACtWhRwtEV68IEUPumQ+0W9UDjFpTKqA8vLw/EGhDWAix7givziihyRR1aHGeHf/dKVy3O
- 9pBRNgts4TpFp+BWpTRDvsbrbyMbPN/6/S3Ov0hZngQ6YEFxUtoFfk/N2iveGvjm69OZnvm+2Ef
- JcK6Q3y0EhevQUzu8iIuX+KL1TNO7TCphyA/fx7ij1+NW+u5Eh04hGK1a85wrpfEiPDtcgqJoU+
- X9uEt5lxwmtKtB8tHvNEwGe9sFJpm9RQSGrAz165iQrFLkuISl6SwUBy6Vq9boP04jCsCR1KQ34
- nMZ9u7Dg9BJRLiNhN1A44OItCJxNMS+ub9ewBb4ByTSQWVwiZS5ACHL9FqK561saFj0FGqSyJAH
- e/eZg/WcKOsBqj7r9X+V6TfpPKZR40Dlp7zDscBGkKleTPsusuC5susIwQpVcXSosn9XvSSPLFq
- zv4uxSljWYPJ8ZsJdOj0jUucRydhC/YHX2uGaAqEw6OKDPeT0fh7xoQWgMUIK41nMyB3Yie2jhW
- sxxhnhq9JaURXRZif4pcIgxHk/eh3yI6tt+mVxE7+9s26varnrOg73ZusLYpcryditqWCJx8PFf
- ilSm7nGXfu/5zOlE7QutiTJIi2N/MFVr9OEX4gMfu61fiRhjFDg4qJb5PJS7/eTHaoOHVFuBNow
- US66dQ3OiFT+CyQ==
+ bh=1E7aVpRA10O6F1jEpxvHIj22BqTrWHJFHanlhtXUI1g=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpoDUwrjHompueBqEMEG/sPuQckQy/doRmtGAiM
+ 41Q6oUHSEWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaaA1MAAKCRBgAj/E00kg
+ coXXD/9c6tXLegZ5OTv375490elWzhRTjE0pplWcDDbaQgRxZVMvThHWQ8PEdK4Rje1OrCu8Yqw
+ iZtf9lqajpg9ZOnqyslWLHMdQvyycbZVZJbkuV4dmg9M61csS3zvxzsSJKWPRtLdU/uctArl+VS
+ +9viiYAYcjQPIKOVmMKJIr0K7LPHBdh/WxzPYpmbKxu9Ikzid4vUvVP4XE50GKWlQq+kHuvDgoQ
+ OQFSdvDT9nUgc0/b2geRpHxeowDdG5sVV9EK/lahBumcVb/U+59W4Z8WsQooUgR34Q/6/2bED4n
+ xONrDYoRPDpUAX1qWX141HnY1Rwtr2EsglFLDT14rXJRA9fKYd1iBimRiq4lVAJoxuK0g4PNr2u
+ HCVv06mf8ivmbErJB8JnmWQIsYezZpiqUr/FgE8OBt9SVPBdf3f9MQkITYiATK6ofbPDHapShTo
+ V42hIHKt3MMRSvhlK4prqVeeO6xasfjBRqPLJzy0cjz73awv+EAhYagcPr450xlNFvyfpl139Rf
+ zzhNVwb1MQDxlpi0ebDy+e7EgOtO9/qTogcCN5Jzouszhx8b5+qvNiXGt+7L60BQFMO7oI+Ww2r
+ xXoN7TOS90MlkCfqIObn5MzMwXpvVhy/D4ZPRViCUikgbnkioEglzJCFcs7pw8hw0lcdKabxQ7r
+ HG0HJwtzPAcdyPg==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -128,11 +128,11 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ixit.cz:mid,ixit.cz:email,ixit.cz:replyto,somainline.org:email]
-X-Rspamd-Queue-Id: 626A41A571D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:mid,ixit.cz:email,ixit.cz:replyto,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: CD3041A5748
 X-Rspamd-Action: no action
 
-From: Marijn Suijten <marijn.suijten@somainline.org>
+From: David Heidelberg <david@ixit.cz>
 
 As per the config name this Display IC features a DSI command-mode
 interface (or the command to switch to video mode is not
@@ -140,31 +140,28 @@ known/documented) and does not use any of the video-mode helper
 utilities, hence should not select VIDEOMODE_HELPERS.  In addition it
 uses devm_gpiod_get() and related functions from GPIOLIB.
 
-Fixes: 5933baa36e26 ("drm/panel/samsung-sofef00: Add panel for OnePlus 6/T devices")
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Casey Connolly <casey.connolly@linaro.org>
-Reviewed-by: David Heidelberg <david@ixit.cz>
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Fixes: 88148c30ef26 ("drm/panel: Add Samsung S6E3FC2X01 DDIC with AMS641RW panel")
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 79264f7bbd0e2..2fd3222ba2e3b 100644
+index 2fd3222ba2e3b..a81ea7755c03f 100644
 --- a/drivers/gpu/drm/panel/Kconfig
 +++ b/drivers/gpu/drm/panel/Kconfig
-@@ -909,10 +909,10 @@ config DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01
+@@ -830,10 +830,9 @@ config DRM_PANEL_SAMSUNG_S6D7AA0
  
- config DRM_PANEL_SAMSUNG_SOFEF00
- 	tristate "Samsung SOFEF00 DSI panel controller"
-+	depends on GPIOLIB
- 	depends on OF
+ config DRM_PANEL_SAMSUNG_S6E3FC2X01
+ 	tristate "Samsung S6E3FC2X01 DSI panel controller"
+-	depends on OF
++	depends on OF && GPIOLIB
  	depends on DRM_MIPI_DSI
  	depends on BACKLIGHT_CLASS_DEVICE
 -	select VIDEOMODE_HELPERS
  	help
- 	  Say Y or M here if you want to enable support for the Samsung AMOLED
- 	  panel SOFEF00 DDIC and connected panel.
+ 	  Say Y or M here if you want to enable support for the
+ 	  Samsung S6E3FC2 DDIC and connected MIPI DSI panel.
 
 -- 
 2.51.0
