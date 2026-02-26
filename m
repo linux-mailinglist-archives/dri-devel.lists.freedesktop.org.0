@@ -2,95 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id /O2zIpJ6oGkakQQAu9opvQ
+	id mJOsDtR6oGmMkAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:53:38 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:54:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A1B1AB45B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922601AB52D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E8010E9D5;
-	Thu, 26 Feb 2026 16:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1293110E9D4;
+	Thu, 26 Feb 2026 16:54:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AwRMxKjA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bsecA1zQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9503710E9D3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:53:34 +0000 (UTC)
-Received: by mail-dl1-f53.google.com with SMTP id
- a92af1059eb24-1277863a912so84606c88.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:53:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772124814; cv=none;
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com
+ [74.125.82.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3182D10E9D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:54:39 +0000 (UTC)
+Received: by mail-dy1-f170.google.com with SMTP id
+ 5a478bee46e88-2bd801b40dbso84822eec.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:54:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772124878; cv=none;
  d=google.com; s=arc-20240605;
- b=JCOdaIMd7gWwbXT7SKjsxpnZvDpVFt6eKloasP/lXcOUI4Va3pIPFtq04e8PVSC0Tl
- A8r5Uo6YLM4eIphI4LUuuZz+PoODnYaLsnKmELRPwsjvjVG+kfaqwHkm7kRdDG7R7JNM
- Juoifi+1EPRg/StCGDbw2vF490iZXE9i+EgApVl0trgaBLvwE98S/hnnTxQ2jMfZSua9
- MrYyOk09qolKJkDL/xA7vZPDIIyole91iQ6HKlhxXHlh3bV8df8cL7JUhvjGQuEupSv+
- LyvfBbM0O++h7jwOariOWM4bfJ1Vt8cjFUF8h58Dq1DlJPSWt0K4UBFv3nQVDcm8e6oz
- w0Uw==
+ b=LKlisZhIVqjC3rf5MTE+Ns8YmlluWOWj6ii6r3A1bgQ2GfcggnbQPe6qao52Uv3PUm
+ EXvbksMhth/tU9hhjizefi6lC/eVGF+sGPJuPxN6DmAxLGJtemtWSliWEg86djtbv4yS
+ Ce15+/DIfsYERReAzQ1yymKicV7Erw3nDSct2KlwzT4lOiR04sRneHdB5k/0VxdDuFgv
+ 2e5y7SPGup9PdYUKiFQmKnNKkdXVQDit/n1GEihqFbzsscfhtjk1R35XrdL6yaHlLIS6
+ WwpYmfyKOAC72LbGs8sTn5lAXvj4A6vSRnoqmEgQNqHq0DA7gzF1wRd0tXf0org+j2l2
+ X/tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=nSMaYfcAaczcS5xedZ+A5sc4SxyyrrIlz7xrQ4/9ZI0=;
- fh=e3kDYMd9bzJsoJX/a4eKibA2KOknF5zf3BxUgDul6Gs=;
- b=Ls+cevWpOhdFvBZKDqjlBo/xxZzEPOSNI4eL13zouUZVhhUy6oOBOdYue+4hHVMxKR
- uDCULsziPjr1aF4Io6hyPsDUGhDcI9VVISsD0aoIJoTdEpenMNyqPJhD1TFV3m842AO3
- /rC04dS8SZ69ZxL37jVA6tPj6o0UYUlgwg31dbD5WNQlMrjaTUrfO0wO53k4ApvE46w0
- FUkORGOtFdq5mZd/A5fKc7Ao6sd0Y/UbILgYwSaxWz05J2OoGPJ/sYdaC18QCNlGgWVb
- IwxETY/bkLxx6B3p7r87S91PdfVYgwnNlhLcAbRjjbFh92/uazAleZ4KIRZKy9fAOLmN
- cBqg==; darn=lists.freedesktop.org
+ bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
+ fh=Au8kAT8cPhqrjplqZDDVqAy4U35S9xiFYxDOSuj0vdU=;
+ b=HNRGLLI0vZIYdm1qoKgk+d0PJoWo6gzHYfka9sOHu3GpcefST6ix7EFkDIxAHvphiq
+ XwA//UDpfhrEzpQb5f+S7EYoOfrTIbYM3vm6Bbgsb7EKjl4yLs7+JjR7kiWeeYEujv22
+ 79U2iXpmjlY/Bqvdr16PJgGgMqmSCWAlG8jxYyxvYtZyEGjVm78ZvJMWfiU/7SBRvkkn
+ jSj/YxVY5tw8ISoEZfILNiBC3iVJFsWggZb+uufAVyUDMrUKM2bHI3s+gNkHEehDp7iB
+ 5V2OXKG+kql41fD16w0quRFQ3In42YDmJxXX8nmEr7jnQ3I1yFwzLB2CmgaGad4d9z9w
+ 5ZiQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772124814; x=1772729614; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772124878; x=1772729678; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nSMaYfcAaczcS5xedZ+A5sc4SxyyrrIlz7xrQ4/9ZI0=;
- b=AwRMxKjAsUHiqfy4c/NJU4iuytLg90dnQ1QgihGt1xQRJdeAyQMrZyu0G8NEyQhUkt
- 7FaRwbg6t0fpIbM1ZCMyvvkP4dlYZG4EuzcB1osHkObpDPujyvU6vnt2zsQPXMzeV8vG
- ZTwRGTAPN2s+V+C2uIjrbIFXHAPrigJe/dhxNZy5RE8R0ZgyW+no0zfIjEt1EnY3dWVp
- bUSaedoY+sA3+L9vWmyitg+Ni+zuJW5fjSqRufqmfaXKVVxl8MJXal9BVJ+RotOSYk9p
- JSqzoGZ+DmUSWEyVBEw7Su9jgp4DOEsxiErdgvrabRauHF5b79K3Uo2qbzEApETKiPUo
- qHCA==
+ bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
+ b=bsecA1zQKJaORF7opFUhwDHK8/F5CmhDrs4cMTf8kCB/Qd9A7IO3ubFjBuRBOk+0IE
+ ETXIJ7lumShjWf0huZt4fzbO2tHzY47qsoiOXMcSWqV8LBikPRGIsqsnoRAS5koi1QcH
+ onPd7O5VOlch3YfSjmt6/BZjlH7Sq711fOgeXsvueGaiYsXDOB+FTQucZGY/ITlzeihK
+ M0/xlWEjJ6idR4Ecx0HDt4RQ2CDm9/QC1R4KFDVjBdJu3/dLNfNhtC3/feu+LwXwE3us
+ AB/A3VIayIWQmSAYxE/SsiDLJ01DQeFcW8+3YgPOcjhWpXbhIHRIOPKer0dLB3kzITPz
+ FhRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772124814; x=1772729614;
+ d=1e100.net; s=20230601; t=1772124878; x=1772729678;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=nSMaYfcAaczcS5xedZ+A5sc4SxyyrrIlz7xrQ4/9ZI0=;
- b=dq6hAKiLDwrWPNL6eI33EvQnt5NG+mYVLEGwh+Bu+o/+iOtKMj65UCisrL/c1MH1JV
- haWn8rtZdUL+wYVSFhzyL4xhqNnySSzf+Z0y6urOp9vcoGOUaBqByhfi2tp57+4KC2Vu
- BW3+VAcH2MkbLEiq3eBsxns02ujAGD4SfkypT2AuvrPlR59RnLyurqNdYwKnmEdwQ7ee
- W50OUMAgSnzYZHR8wn2gJebsyeDMwBNXvz+PxOcjupjDXCqSbwAS7aOk3H6Ft+wn0tLe
- n9Ia3uhEboYTlwyp5l5XBy7vBnFQaoTH77dl7ykSPLN959anqFs0RN3LcRBugEbwjkKL
- o8iA==
+ bh=Up3sT8qjuR5kM0SPkhMO2u8EAJVJK4TECaFQv8JLTOM=;
+ b=Y/IK+mEtH+VJBIB+sKywSDH2Gjsa0iOe079AfiGrSmNi8MSEIRKIV5QKdRysdlbVfX
+ oWpbEYjGtoacTjyxpYs4aB1R/lEHJo8p9PBZ9144M3842xD98fvMM0nxcyTTTG7stxia
+ 5Y8yLpVt29e/KgqrVsmHLYx+VEAVpgPw+Y/L5ECazxUK5OT5i9atzncCBPcEIQEKSaa1
+ tlSrlvpjQ5CxXo2tFc76ipusYwtpnVUwH6O/iIOclZ43z/avB1dCTE3Mmx9s80rtULpI
+ tT0SXOPA6meAjIyU42wBzaioMi+a4nMgkQxma8mCRwUBWZP5ZfUCTDEbcTP/psvK5JgE
+ CBXg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCH5JGWfo9syMCnEFS+WzVcPFGXmVLJej/nV6npWYp+M7iAvC6RLA5H9813wpJqAKCP+Z+hL8ihds=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4fPzkEigOLzx6Kt8oAxaQTUbMSDU2efIO3INYJwSa1/K1IwTM
- 9GWTNRGSgVEH/WVlVwraG/HM0hqXAEpUTDktmLNnS9fSusYLFs8L10vNVGeTbrjXRI9eYQNP6LC
- Gs2IjbA92ZOhg+f6euUf+aGGkk3uq/lw=
-X-Gm-Gg: ATEYQzxairtkss3kZiJ2esBSXnbH3WUZoVhxNbKOI5vhsfGd1Bx4T/mKEIfqSSIBWJ6
- S+wmP9u3g3rBNJEFwA2aBhH6SSk/Z4zHdZalB4ly6CL3wT9lwwfuORtE6kk9f56sKavozmmIAk4
- yQJ1J8n/Ice5+T+12PxewjcfS0UEhSpyBo7CX4Ct+/hR8LK6nCjMUxbh85dWO68zUkq9LOz1LlL
- tFd7jhLCLbrmj1PcwEj+LeA0PUG58DDB6bTjeeZI87LnbmbnnmUQUT/6ElKIW65tDpyH+B6gJk+
- bXz9jevWJLc/9xzVp7zC0tF2UkGE3h0IKykJa+hbg/l8kEtDL5KRquJyAmo+7S4je/01/g==
-X-Received: by 2002:a05:7022:2383:b0:119:e56b:46b7 with SMTP id
- a92af1059eb24-1276acad3efmr4459654c88.1.1772124813724; Thu, 26 Feb 2026
- 08:53:33 -0800 (PST)
+ AJvYcCXgngxodrwf2ix3oV5f5aleKnHcUryKPCIYPMmETI0fmvnpyn4UApgON8zbDvS/oPVPx5E09vIBpN4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqipuXyckEKzS25bT+wWIi8f7q+OOAdorb60EY1ayOXUYTZ0ra
+ BgJ5hmcYeF7NsNlgu1gXHVcXXgg6oGCM20+ZqzbsUmU2hB5bQDLoqbTsZTsxZ3G47RM3tbHOJ57
+ RrCAsJ33VfGJmQW1HyYZnqn1nwbZSUE4=
+X-Gm-Gg: ATEYQzzwvBcDfSuNV0JjhTTwRuyfiGMEgm1ybKUCoRmygGLOHSBMjg/6tJabAOB4hnj
+ jEF0ddhC8+kSbrhX9TyoUO/U4Gsgx8Lr8oJ4QapKqYXmjcBxxUABqiNVnhNfNepSKLaYXLZvdCX
+ qgsIn6f+jq4xEX3x9t+S8QWVMCcUvezaLSfxW1Bw8C1St+q8Zsq/FLnNoB5QVRN+H+2a6XoB2Bk
+ pZSDsKxizH08cCEyp/DC1MxCu/ODahqDFMR5c9xxKV7Qg4g5JIOZ0ieAmY8TC9cX8lJJvc3GQfs
+ yYHDfboK8z+VICBBT6jZJHjzhAIBre9KYNp4ifaGGTPasPRABA8i6LmNLziCSPk2f3hE8g==
+X-Received: by 2002:a05:7022:f005:b0:11a:43fb:58dd with SMTP id
+ a92af1059eb24-1276ad3bcd8mr3975440c88.5.1772124878272; Thu, 26 Feb 2026
+ 08:54:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20260226030038.1182961-1-yujie.liu@intel.com>
- <20260226030038.1182961-8-yujie.liu@intel.com>
-In-Reply-To: <20260226030038.1182961-8-yujie.liu@intel.com>
+ <20260226030038.1182961-7-yujie.liu@intel.com>
+In-Reply-To: <20260226030038.1182961-7-yujie.liu@intel.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 26 Feb 2026 11:53:21 -0500
-X-Gm-Features: AaiRm53PhKEH-H8S2VgmZZ1MUIfEIaZDuRwRMb5_ZanlUifF-Xs_VnxnKyGbvPw
-Message-ID: <CADnq5_PD3DMPA5WY-wGS+NHmEQRXSx=WQNOygNXt8so-n2L2mA@mail.gmail.com>
-Subject: Re: [PATCH 7/7] drm/amd/ras: fix kernel-doc warning for
- ras_eeprom_append()
+Date: Thu, 26 Feb 2026 11:54:26 -0500
+X-Gm-Features: AaiRm50FIm7gW9ftKbXM9mUDFZF-JB2g7m56NgkO01zsGUV36mqPkWnCPIpQdvQ
+Message-ID: <CADnq5_N819Zv-dQU_rswGDBdt7wKB+fCgFDLswbLgbwhz6J2Sg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] drm/amd/pm: fix kernel-doc warning for
+ smu_msg_v1_send_msg()
 To: Yujie Liu <yujie.liu@intel.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -168,45 +169,39 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A6A1B1AB45B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 922601AB52D
 X-Rspamd-Action: no action
 
 Applied.  Thanks!
 
-Alex
-
-On Wed, Feb 25, 2026 at 10:02=E2=80=AFPM Yujie Liu <yujie.liu@intel.com> wr=
+On Wed, Feb 25, 2026 at 10:19=E2=80=AFPM Yujie Liu <yujie.liu@intel.com> wr=
 ote:
 >
-> Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 funct=
-ion parameter 'ras_core' not described in 'ras_eeprom_append'
-> Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 expec=
-ting prototype for ras_core_eeprom_append(). Prototype was for ras_eeprom_a=
-ppend() instead
+> Warning: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting p=
+rototype for smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send=
+_msg() instead
 >
-> Fixes: 5c3be5defc92 ("drm/amd/ras: Add eeprom ras functions")
+> Fixes: 4f379370a49c ("drm/amd/pm: Add smu message control block")
 > Signed-off-by: Yujie Liu <yujie.liu@intel.com>
 > ---
->  drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c b/drivers/gpu/d=
-rm/amd/ras/rascore/ras_eeprom.c
-> index cd6b057bdaf3..65c1812a10fb 100644
-> --- a/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c
-> +++ b/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c
-> @@ -829,8 +829,8 @@ static int ras_eeprom_update_header(struct ras_eeprom=
-_control *control)
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd=
+/pm/swsmu/smu_cmn.c
+> index 6fd50c2fd20e..c471c0e2cbd1 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+> @@ -405,7 +405,7 @@ static int __smu_msg_v1_ras_filter(struct smu_msg_ctl=
+ *ctl,
 >  }
 >
 >  /**
-> - * ras_core_eeprom_append -- append records to the EEPROM RAS table
-> - * @control: pointer to control structure
-> + * ras_eeprom_append -- append records to the EEPROM RAS table
-> + * @ras_core: pointer to ras core context
->   * @record: array of records to append
->   * @num: number of records in @record array
+> - * smu_msg_proto_v1_send_msg - Complete V1 protocol with all filtering
+> + * smu_msg_v1_send_msg - Complete V1 protocol with all filtering
+>   * @ctl: Message control block
+>   * @args: Message arguments
 >   *
 > --
 > 2.43.0
