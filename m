@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KGALjNyoGlZjwQAu9opvQ
+	id YIxFBTdyoGlZjwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:17:55 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:17:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EAC1A9F1C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A861A9F23
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9599110E9A2;
-	Thu, 26 Feb 2026 16:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F7A10E9AB;
+	Thu, 26 Feb 2026 16:17:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LcVNHYIH";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Th4jixQk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8B910E9A2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:17:51 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB28410E9AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:17:52 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 593741A147E;
- Thu, 26 Feb 2026 16:17:49 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 5B1D94E4122E;
+ Thu, 26 Feb 2026 16:17:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 130E85FDE9;
- Thu, 26 Feb 2026 16:17:49 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 2F0D45FDE9;
+ Thu, 26 Feb 2026 16:17:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D11BB103693AF; Thu, 26 Feb 2026 17:17:42 +0100 (CET)
+ with ESMTPSA id 3694F103693C1; Thu, 26 Feb 2026 17:17:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772122667; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=2lxLb7hEAgiLLYrfqBAXfJR0rppZEYHpa8Yprgn7TsU=;
- b=LcVNHYIHAgLnVrWlXzK8Fp4CEOpIlaqaJFVANV07dGm8rtPkGMUNktktIeG65ECFz3QTdl
- fJv132Et4htLiLYz7ZGREOw3Jt3plGe51JF8x/GC0CqorPNrgsyPksAXlo/yWzNiYDvakW
- f89U/BXfzOTtbKyg5Szpj6ySotZQOpsZRKMx73+8bFXzqnhmw9ipdihVz6wDrQjhyDjkJR
- NPqusQbtp1O3IjwKdxlE5tu4djRkObGZH4PsUG0A1nio5tlrAUMxH0yDb1dEsKknRgicgZ
- mP8mNL4lyY4trOlDwD95ZjiOD8PYNFRhFUgsnAMtQx3I6v7fYuU79TbNyFmhXw==
+ t=1772122670; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=8XkrbW1hnirnZLGMwEegjlBI4fLIXypAXffpHsh+X60=;
+ b=Th4jixQkyCmPeaFtAecWi2A1PmjmPfSM0/peoVmRNauB/hxMWa35AID7i4yYTPH0KYkW5r
+ Wd8p3MN0TZEPQvnXHN59vEeMDXm+UI3cYTmT92WA4TNLw9oRdeepM1VeHKAnv1PJr0Gd6N
+ T9GlU8wkQY+sBYZcrAGO3geU06L11B7dDTZ+iBILinZ4uV5syAGPvjS9U4vEA9h4M00DWX
+ dsonptG6TrQu2O5QuVcCtn5gLVV7HcrAdPaqdhuRl8k6gjTQJG67CctyrmxcE/QTkHyo11
+ mslwaDbfPHVY7Wu+G1Pzpl9M/klUA5MrjNj/+co8lWM2xagL1ak19s+zWdRQqQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH 0/3] drm/bridge: ti-sn65dsi83: two fixes + add test pattern
-Date: Thu, 26 Feb 2026 17:16:43 +0100
-Message-Id: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
+Date: Thu, 26 Feb 2026 17:16:44 +0100
+Subject: [PATCH 1/3] drm/bridge: ti-sn65dsi83: fix CHA_DSI_CLK_RANGE rounding
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOtxoGkC/x3M3QqDMAxA4VeRXC9QK3Y/rzJ2UUy6BSSTJspAf
- HfLLj84nB2Mq7DBo9uh8iYmX23oLx1Mn6xvRqFmiCGmEGNCFzRNI5ncBqQ1zzhvZFjkx4ZZCZ3
- NccnuXBXLWEq6cn8PYYL2XCr/y7Z8vo7jBLSZpJB/AAAA
-X-Change-ID: 20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-f5ff67e1900c
+Message-Id: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-1-2e15f5a9a6a0@bootlin.com>
+References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
+In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -110,26 +109,50 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:mid,bootlin.com:dkim,bootlin.com:email]
-X-Rspamd-Queue-Id: 36EAC1A9F1C
+X-Rspamd-Queue-Id: 96A861A9F23
 X-Rspamd-Action: no action
 
-This series fixes two bugs in the driver code and adds support for enabling
-the test pattern output from userspace.
+The DSI frequency must be in the range:
 
+  (CHA_DSI_CLK_RANGE * 5 MHz) <= DSI freq < ((CHA_DSI_CLK_RANGE + 1) * 5 MHz)
+
+So the register value shouldpoint to the lower range value, but
+DIV_ROUND_UP() rounds the division to the higher range value, resulting in
+an excess of 1 (unless the frequency is an exact multiple of 5 MHz).
+
+For example for a 437100000 MHz clock CHA_DSI_CLK_RANGE should be 87 (0x57):
+
+  (87 * 5 = 435) <= 437.1 < (88 * 5 = 440)
+
+but current code returns 88 (0x58).
+
+Fix the computation by removing the DIV_ROUND_UP().
+
+Fixes: ceb515ba29ba ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
+Cc: stable@vger.kernel.org
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-Luca Ceresoli (3):
-      drm/bridge: ti-sn65dsi83: fix CHA_DSI_CLK_RANGE rounding
-      drm/bridge: ti-sn65dsi83: halve horizontal syncs for dual LVDS output
-      drm/bridge: ti-sn65dsi83: add test pattern generation support
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
----
-base-commit: 36d9579fed6c9429aa172f77bd28c58696ce8e2b
-change-id: 20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-f5ff67e1900c
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index f6736b4457bb..d2a81175d279 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -351,9 +351,9 @@ static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
+ 	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
+ 	 * the 2 is there because the bus is DDR.
+ 	 */
+-	return DIV_ROUND_UP(clamp((unsigned int)mode->clock *
+-			    mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
+-			    ctx->dsi->lanes / 2, 40000U, 500000U), 5000U);
++	return clamp((unsigned int)mode->clock *
++		     mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
++		     ctx->dsi->lanes / 2, 40000U, 500000U) / 5000U;
+ }
+ 
+ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
 
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.53.0
 
