@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKKvLUpToWkfsAQAu9opvQ
+	id aD2SDlVToWkfsAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:18 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1761B4610
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1991B4633
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91B110EA55;
-	Fri, 27 Feb 2026 08:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028EF10EA5B;
+	Fri, 27 Feb 2026 08:18:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EWJc2Uz6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ln4pWb9Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D442010E09B;
- Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B2210E09B;
+ Thu, 26 Feb 2026 22:56:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AC9B3600AA;
- Thu, 26 Feb 2026 22:52:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F89BC116C6;
- Thu, 26 Feb 2026 22:51:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6E457600AD;
+ Thu, 26 Feb 2026 22:56:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E473EC116C6;
+ Thu, 26 Feb 2026 22:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772146325;
- bh=pajDmz5yp010hi/+QMkuQbHFrnu7ZcaVGRjn0wxtp+k=;
+ s=k20201202; t=1772146602;
+ bh=ElkHN/R2fcBT5rLZGFbsSk4BZBEcI1Z5rkz7cnL9q58=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EWJc2Uz6oM/U5lpFUSm3GfVgR4cldZrHPbo/JbNPiCo7a9Qet3NPwP5d/g2F9Z/eY
- PULzCCLSyJn39yRAPsdhfy+RdiF52vi9KQubOdZlNMxkN2YEKcSZEHQQHEwBCv8UDq
- aUBFV4GAaYKK9ceshTeB/l1Olc+NGJM3RsiAcavnfuqg+7yXrgam32eowwkzRFvJiO
- netZZv71AIv/PMFlHfmi9NAn7OA57Ds8pdoFOxBLCi6KvwtN5EM8l5UroXTz7+zS0y
- Jdi0ImLclB5JNz4xYwfY9d0QUSMNEpHwhSScYgT0H9rCBdMCBOXzjYqnr0oZ0b2JRV
- uc6mB11PL9OGw==
-Message-ID: <104bcaf3-42ba-4eec-98c1-fe3afa7fcc41@kernel.org>
-Date: Fri, 27 Feb 2026 07:51:43 +0900
+ b=Ln4pWb9ZIa3iii1vd5gskrCoKmm1t9tEjYVEd5fbke5FD8fPQDsw2mkbqPb5Bnw+S
+ z3+EiWtdlhrUEY/TzIpfb4TaDwuEYYePiDKvB2OL6xLfeGklpk4bZ6oZPa7zFemslG
+ rGqmK29WoeRiHAvoCn9ydRfTOnwb3b8GUvcCmKy2jWa2lV07OB5alxRd6yvLlYu4sb
+ GaIsxiVCRS8rqhZm6xuDYkrjN+izm2sJOCaV0gENsM1vxdjD6EFWvjkPYxW+Mk0ppk
+ CgdPwGLujPkowNzYZB2g8SKWMopeLJvORgQ3TQwNfrH9FkU9y/THXIshdB3DErq5Vf
+ e80DkaSCt9oCA==
+Message-ID: <044291bc-9841-44fe-813e-c50772962f09@kernel.org>
+Date: Fri, 27 Feb 2026 07:56:18 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/61] trace: update VFS-layer trace events for u64 i_ino
+Subject: Re: [PATCH 01/61] vfs: widen inode hash/lookup functions to u64
 To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
  <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
  Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
@@ -129,11 +129,11 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
  linux-x25@vger.kernel.org
 References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
- <20260226-iino-u64-v1-3-ccceff366db9@kernel.org>
+ <20260226-iino-u64-v1-1-ccceff366db9@kernel.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20260226-iino-u64-v1-3-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-1-ccceff366db9@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 27 Feb 2026 08:18:15 +0000
@@ -179,38 +179,47 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 2A1761B4610
+X-Rspamd-Queue-Id: AA1991B4633
 X-Rspamd-Action: no action
 
 On 2/27/26 00:55, Jeff Layton wrote:
-> Update trace event definitions in VFS-layer trace headers to use u64
-> instead of ino_t/unsigned long for inode number fields, and change
-> format strings from %lu/%lx to %llu/%llx to match.
+> Change the inode hash/lookup VFS API functions to accept u64 parameters
+> instead of unsigned long for inode numbers and hash values. This is
+> preparation for widening i_ino itself to u64, which will allow
+> filesystems to store full 64-bit inode numbers on 32-bit architectures.
 > 
-> This is needed because i_ino is now u64. Changing trace event field
-> types changes the binary trace format, but the self-describing format
-> metadata handles this transparently for modern trace-cmd and perf.
+> Since unsigned long implicitly widens to u64 on all architectures, this
+> change is backward-compatible with all existing callers.
 > 
-> Files updated:
->   - cachefiles.h, filelock.h, filemap.h, fs_dax.h, fsverity.h,
->     hugetlbfs.h, netfs.h, readahead.h, timestamp.h, writeback.h
+> Functions updated:
+>   - hash(), find_inode_fast(), find_inode_by_ino_rcu(), test_inode_iunique()
+>   - __insert_inode_hash(), iget_locked(), iget5_locked(), iget5_locked_rcu()
+>   - ilookup(), ilookup5(), ilookup5_nowait()
+>   - find_inode_nowait(), find_inode_rcu()
+>   - inode_insert5(), insert_inode_locked4()
+>   - insert_inode_locked() (local variable)
+>   - dump_mapping() (local variable and format string)
 > 
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
 [...]
 
-> @@ -726,7 +726,7 @@ TRACE_EVENT(balance_dirty_pages,
->  		  __entry->pause,	/* ms */
->  		  __entry->period,	/* ms */
->  		  __entry->think,	/* ms */
-> -		  (unsigned long)__entry->cgroup_ino
-> +		  (unsigned long long)__entry->cgroup_ino
+> -int insert_inode_locked4(struct inode *inode, unsigned long hashval,
+> +int insert_inode_locked4(struct inode *inode, u64 hashval,
+>  		int (*test)(struct inode *, void *), void *data)
+>  {
+>  	struct inode *old;
+> @@ -2642,7 +2642,7 @@ void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
+>  		break;
+>  	default:
+>  		printk(KERN_DEBUG "init_special_inode: bogus i_mode (%o) for"
+> -				  " inode %s:%lu\n", mode, inode->i_sb->s_id,
+> +				  " inode %s:%llu\n", mode, inode->i_sb->s_id,
 
-Do we really need this cast here ? (same comment for the following events).
+Hmmm. the type of ino in struct inode is changed in patch 2, not this patch. So
+this feels incorrect. Why not just squash patch 2 in here ?
 
-Other than this, this looks OK to me.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+While at it, maybe you could change this to use pr_debug() too ?
 
 -- 
 Damien Le Moal
