@@ -2,85 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMPDFf2MoGkNkwQAu9opvQ
+	id GHPiGRR5oGmzkAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:13 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:47:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B061AD5AD
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EC81AB067
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:47:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C64810E9F7;
-	Thu, 26 Feb 2026 18:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E52110E9C9;
+	Thu, 26 Feb 2026 16:47:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jIezqBqw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gkCClim/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F7810E9BB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:38:56 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-798374d0f44so31554657b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:38:56 -0800 (PST)
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECC610E9C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:47:12 +0000 (UTC)
+Received: by mail-dl1-f51.google.com with SMTP id
+ a92af1059eb24-124a7216c9cso70643c88.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:47:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772124432; cv=none;
+ d=google.com; s=arc-20240605;
+ b=Km/bmmOM9aMG3m2WEbYD2UAu71abLgLfkNqHPLBw97rNrdoAh/pWB7O8E1p6N9qG0G
+ TVvVHEIlVhnGwSj2gdGhUt/+OV/0+D4GQGF0UNht7AM/zYfy16Ugq8p8DMmgOnSuhgXU
+ 0KNhp12rMqto9KM43joCOGiiOdUq9buPQ5jcIP93gU3IY6Vf8SVtguJedAeBq4BKpEGu
+ 8GWMA+oZC4/M2NI1q0acgtbT/n1sFedX7NPebC2H5hifbZNlj7hXaxIdglU1WuCymPwt
+ pAF7/o4f36JKSXXoieiE+kWPBLiivPFscEsXGmvrYtRP0sIgsENyZZLZGY7FjnTNFcTZ
+ Savw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=14b7Avo43YlZe+hxgSc9nKn/f7gq8EMXA4C+O7gB90A=;
+ fh=vqi1Di7dAD1VUekvzV5aRSXwjAonKSTcjgO+Ec49dLs=;
+ b=kgq8ZQT+rpbeHjgcff3gT9kdlOx6toy8d1Wiv5ALNZGl/3mZb5Z65b3jOr1fSBAz6D
+ /8HqVQuN8M96sJbMV55Mr9YD9XzfTeAUAhBtQ613SqviwqxKutI9NC1H6seviHD9gfPj
+ du46ZQehFfODSV0l4rzJGfA9Fz0mFSRsy08pVBmK1FJkxKwK/2xMmbB5XiahHuy/yUwv
+ j41AXU/I+vuYeg8T8y8J624MrXJR7PYgROm9+v299kLJYOyh+BA/3ckOKwwxHQMNJQ81
+ v5Wc8s3sMLVk4d6ZNkLdt9e9NtUvepfsKZ+h2UjghWkwjV9OoZCfTvmZGh71FdZIhz5b
+ gkLw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772123935; x=1772728735; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VQsc8cJztTF76PG4R+gL+xvTB4Nt8EQAhsB9W1n8IoE=;
- b=jIezqBqwf8xoT4trrHhzR2HZmVb6IrsXcwKOicVPpYCyT9bMtD3pdtlZnqLkk/SJD+
- 3wlIl4MQEoZhTQyP50cO4gIWK4WjRn9qFmiRwgdF/YRixO/6mXbWx9hUGltmXUUooaWQ
- t1h2SuUS/uCOG83uCQF5i+A3h4ZStx2HyPSq4as43sj6HqInZPns6jn0pcG6XTgjr9wr
- WpfQcJnGcWon0N8trtpBqi988VC/obfPp6JsnsrQfp4G4YnSPIDrmhDPDmrQ5H4xNPuy
- Sx0bWrTxNeLa+AydhtuwlbQ7dNu1wvQEUe6SpwScbI9qRKgFlMLsBZyBbsLHJ/YqtUVq
- 6kKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772123935; x=1772728735;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772124432; x=1772729232; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VQsc8cJztTF76PG4R+gL+xvTB4Nt8EQAhsB9W1n8IoE=;
- b=IzH8CsKg9+mMsiEFKedorWwEQiS2FQhGxos1zOZUf3LTsYb/GPL98HZnvfUywLU0lu
- VKKNsPy0eZNcBq73fz4Fl/zv22xfUBUvrEhz/lQsxA45x3607ycwiHJipiJaL8kDh0Lj
- zBtzpWgEwB93ZlAe/HDP/yelyfx707JWOWItjJuyG9fBCZXcXv/EKELAm/wP8Yo4jHgD
- zQ2qF8ViQpLZBaZKjsHbLPOybiZhHKrA53qEmUtUnEBs4yDGDq0RPEvIhDQvU0V/MJ0b
- NOWBGTjZHbUOtrrXIQ0R2HznkgDU2raZWg/GfSvcKuoAiDbFiMFn1Ru9bN3qwXnKc867
- n2xg==
+ bh=14b7Avo43YlZe+hxgSc9nKn/f7gq8EMXA4C+O7gB90A=;
+ b=gkCClim/7wCUe97rcZQZutuIimQ0sX43oYAKmJShh+npmCszMMfdvD65Ph3b9NBzZg
+ C+yhSz2V3qlcXCz29ZrEKUbqkzCTn/knblA+Si/ThJ5hmb8FZddT7M7UtLSINRqZ2/VG
+ zQNRDlqKX6lSCzI1QSgRdJN2FDVvPW0dAwIa79HQGo+NpQSpii15oQLlb3/1FoWDUu/2
+ O9KO9hCR741xB33MZ2ofL6vpaUvswI+fytnRwhxxUuanAzZQrNKxzoU5zXho1M7nouxl
+ LteNQ4El53bDEZZm4JIdcBXnYT4VBLuvED0gcna1bkvpBPedCE9dNJEyL70U1qFQUS9r
+ onfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772124432; x=1772729232;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=14b7Avo43YlZe+hxgSc9nKn/f7gq8EMXA4C+O7gB90A=;
+ b=RCDinlthfuiCM/Y4DEO+kD6mvx84EbWcUXrplaJtuTiSRQw1JGFUg16lvGWEpKEhh9
+ /8Cw1UpjE8upVE7xEnaBtqibLI8CPGPJvjObW2yOhBytQGv0vnZdrywb1pGxdxCQKDB2
+ XdPqO8H3ALyPw2LUSJWg/Z/QKFi9oX6iQEdxnfmNKL7iP3xR5hncTWhZ68aI570fLCx2
+ /qKCAf8SsdB3uv+53cEa1ytYA6X3umqzXwMGuhWciCTs9lllDUHkDP6r1dKNZUEptnKS
+ SGHWDmnY9CQBeeUiG8JcXFLlcjWPyV4Fv9/Kj6hxzilLUKlnupuCsKY3nlnZ8DGdiHiB
+ Eo6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfVtBs1Fb7oog+uU8/2V9JlJQ7dDkZqgTTfhJe0iSNjUo8qyXhzHFDcTZd+roHZebyu5WA/M1LPrA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkvAlyc889TyOYjsaNkVT1vf6u4+9bq/cUtb2lytQHGmXXubKB
- H4TtHitCZvnaUIUWk4jwF5jHEX7kQjNAOemNdqgD/nmStUKzmbrX0Yvx
-X-Gm-Gg: ATEYQzyd4BNG2Fi+psVC/ZfzGG3msh+TTae+m8kUbX+Lx3+ccQeYFXXQ8GBxHsizy+J
- KCAdbg4H6rA/M8deoCl5mQNqDTnvou4mF72OtYgy7GsbR9oN+kzyZN0ZQcRrYizPHtx5l8zTXOL
- dRkPkpO23DH9v2lvSlejELu9LjJvk5K30I5gf/6DmdgUm0IxiC16Hr26zjZZZJHeJsMtOOiNFvU
- Zg3gnGTFLE6qdL7uxkLuqClvBzX/i4He+gggWH4fvGaqd3ihanO03Js7juvBA4xPbTIt2fPyTz9
- l0wpn812rG2nT847oxDZFrkeGCfSynBHt3cF9OQt9UNIsCEDfJqor+phvDfBwePd3IhdcpCuAlR
- Gana4flV1rwOY67m6sWikV92mugcqpa5j7OYTaWPe/l7IE5vQGDjbiT1sRWNnyGv1BmcGfmwhn3
- LlP/0MadzNiyQExSFjUP8pyVqElzBpkgO4+mkTWukhnaiK4XYfuhrghao8tKLIWBJK0jRKArvCW
- DYZxHEprQLMX5SfA50r9Rt0
-X-Received: by 2002:a05:690e:4492:b0:63f:96d7:a369 with SMTP id
- 956f58d0204a3-64cb6f19ad3mr2308595d50.28.1772123935319; 
- Thu, 26 Feb 2026 08:38:55 -0800 (PST)
-Received: from tux ([2601:7c0:c37c:4c00::5c0b])
- by smtp.gmail.com with ESMTPSA id
- 956f58d0204a3-64cb74b985asm1150803d50.0.2026.02.26.08.38.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Feb 2026 08:38:55 -0800 (PST)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: wens@kernel.org, mripard@kernel.org, jernej.skrabec@gmail.com,
- samuel@sholland.org
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH] drm/sun4i: Fix resource leaks
-Date: Thu, 26 Feb 2026 10:38:36 -0600
-Message-ID: <20260226163836.10335-1-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
+ AJvYcCVs6BXg4msGx9pPbot1ji0V2MarNFZNBGGi86vV9K49hnqIavo+wkGCerWtcLChxXUHTqHLHA1BVyY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMjKlem9IwUuE622eZzHZBzRATYOhPmHbkk9b4GBGZUjg4zJN/
+ s/fecXU4qys6C9CEC4BttxY+mlBE6HpxaroQem59kGOyOhDAXdXt/erQQlDehpcEojk91/QFora
+ L7jlPXZv16GCuWq1N05c0Xls9i643ZPs=
+X-Gm-Gg: ATEYQzx89r/+xcbkMYPUXJsj9bks1g8CpQyA1JjTWl9Jfc1sSZkbF3vEu1eT5HbTTm/
+ m5CkT62/Hnk+EQua7EKtru6F5axt6vNAB0gNUWwvFthj7+mCRWXYBIgBKqRnSdUlVHB5dpLi8oL
+ PvdSj2KQ2X6qGOUw6mSgcZKK7wNsg99+CPjPehyDVuzFlob9KiaT9Sn+y4L7EOHOYY/r3G5GZFr
+ rbHbBcs8H/HKGbnXoKxvFZc6Pb/Wgr8YavqAGp1kP6UBghCn6Ng/WrlK13Vo3mB4JfnYeZJLi40
+ sjnADcCaVAoVuPSb5/ITk8prhGRRIA2UTovtzBbw0+8+xyAnts4vdZO/eDVjBhxQFFKEIQ==
+X-Received: by 2002:a05:7022:521:b0:11e:3e9:3e88 with SMTP id
+ a92af1059eb24-1276ad1a953mr3945750c88.6.1772124431737; Thu, 26 Feb 2026
+ 08:47:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 26 Feb 2026 18:11:59 +0000
+References: <20260225174702.it.918-kees@kernel.org>
+In-Reply-To: <20260225174702.it.918-kees@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 26 Feb 2026 11:46:58 -0500
+X-Gm-Features: AaiRm51xyAWxRasXbIsk-hsIItXJk-3QDBUo6dz1ndGIfSkhqxcHNt_CuM4bM8E
+Message-ID: <CADnq5_MWNLM+KUb09LgPUq6QsY68paojSAWXEZ3n+YLHq0ULxA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/ras: Fix type size of remainder argument
+To: Kees Cook <kees@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ YiPeng Chai <YiPeng.Chai@amd.com>, 
+ Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,70 +115,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:mripard@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:ethantidmore06@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,sholland.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:kees@kernel.org,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:YiPeng.Chai@amd.com,m:tao.zhou1@amd.com,m:Hawking.Zhang@amd.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,lists.linux.dev,vger.kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.997];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D2B061AD5AD
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: B0EC81AB067
 X-Rspamd-Action: no action
 
-Three clocks are not being released in devm_regmap_init_mmio() error
-path.
+Applied.  Thanks!
 
-Add proper goto and set ret to the error code.
+Alex
 
-Fixes: 8270249fbeaf0 ("drm/sun4i: backend: Create regmap after access is possible")
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 6391bdc94a5c..e989f75c09b7 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -881,7 +881,8 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 						     &sun4i_backend_regmap_config);
- 	if (IS_ERR(backend->engine.regs)) {
- 		dev_err(dev, "Couldn't create the backend regmap\n");
--		return PTR_ERR(backend->engine.regs);
-+		ret = PTR_ERR(backend->engine.regs);
-+		goto err_disable_ram_clk;
- 	}
- 
- 	list_add_tail(&backend->engine.list, &drv->engine_list);
--- 
-2.53.0
-
+On Wed, Feb 25, 2026 at 1:04=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> Forcing an int to be dereferenced at uint64_t for div64_u64_rem() runs
+> the risk of endian confusion and stack overflowing writes. Seen while
+> preparing to enable -Warray-bounds globally:
+>
+> In file included from ../arch/x86/include/asm/processor.h:35,
+>                  from ../include/linux/sched.h:13,
+>                  from ../include/linux/ratelimit.h:6,
+>                  from ../include/linux/dev_printk.h:16,
+>                  from ../drivers/gpu/drm/amd/amdgpu/../ras/ras_mgr/ras_sy=
+s.h:29,
+>                  from ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras.h:=
+27,
+>                  from ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_co=
+re.c:24:
+> In function 'div64_u64_rem',
+>     inlined from 'ras_core_convert_timestamp_to_time' at ../drivers/gpu/d=
+rm/amd/amdgpu/../ras/rascore/ras_core.c:72:9:
+> ../include/linux/math64.h:56:20: error: array subscript 'u64 {aka long lo=
+ng unsigned int}[0]' is partly outside array bounds of 'int[1]' [-Werror=3D=
+array-bounds=3D]
+>    56 |         *remainder =3D dividend % divisor;
+>       |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+> ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c: In function 'ras=
+_core_convert_timestamp_to_time':
+> ../drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:70:19: note: obje=
+ct 'remaining_seconds' of size 4
+>    70 |         int days, remaining_seconds;
+>       |                   ^~~~~~~~~~~~~~~~~
+>
+> Use a 64-bit type for the remainder calculation, but leave
+> remaining_seconds as 32-bit to avoid 64-bit division later. The value of
+> remainder will always be less than seconds_per_day, so there's no
+> truncation risk.
+>
+> Fixes: ace232eff50e ("drm/amdgpu: Add ras module files into amdgpu")
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+>  v2: use temp u64 to avoid 64-bit division later
+>  v1: https://lore.kernel.org/lkml/20260225024716.work.043-kees@kernel.org=
+/
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: YiPeng Chai <YiPeng.Chai@amd.com>
+> Cc: Tao Zhou <tao.zhou1@amd.com>
+> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> Cc: <amd-gfx@lists.freedesktop.org>
+> Cc: <dri-devel@lists.freedesktop.org>
+> ---
+>  drivers/gpu/drm/amd/ras/rascore/ras_core.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/ras/rascore/ras_core.c b/drivers/gpu/drm=
+/amd/ras/rascore/ras_core.c
+> index 01122b55c98a..02bbee64a5bd 100644
+> --- a/drivers/gpu/drm/amd/ras/rascore/ras_core.c
+> +++ b/drivers/gpu/drm/amd/ras/rascore/ras_core.c
+> @@ -62,14 +62,16 @@ int ras_core_convert_timestamp_to_time(struct ras_cor=
+e_context *ras_core,
+>                         uint64_t timestamp, struct ras_time *tm)
+>  {
+>         int days_in_month[] =3D {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, =
+30, 31};
+> -       uint64_t month =3D 0, day =3D 0, hour =3D 0, minute =3D 0, second=
+ =3D 0;
+> +       uint64_t month =3D 0, day =3D 0, hour =3D 0, minute =3D 0, second=
+ =3D 0, remainder;
+>         uint32_t year =3D 0;
+>         int seconds_per_day =3D 24 * 60 * 60;
+>         int seconds_per_hour =3D 60 * 60;
+>         int seconds_per_minute =3D 60;
+>         int days, remaining_seconds;
+>
+> -       days =3D div64_u64_rem(timestamp, seconds_per_day, (uint64_t *)&r=
+emaining_seconds);
+> +       days =3D div64_u64_rem(timestamp, seconds_per_day, &remainder);
+> +       /* remainder will always be less than seconds_per_day. */
+> +       remaining_seconds =3D remainder;
+>
+>         /* utc_timestamp follows the Unix epoch */
+>         year =3D 1970;
+> --
+> 2.34.1
+>
