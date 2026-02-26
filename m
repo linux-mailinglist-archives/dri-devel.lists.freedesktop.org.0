@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mN7wC7i3n2mKdQQAu9opvQ
+	id kA9OJsC3n2mKdQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32FC1A04A6
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5131A04B4
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0375910E0FE;
-	Thu, 26 Feb 2026 03:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA2910E85F;
+	Thu, 26 Feb 2026 03:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NE+M5LRr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BmLn0eIo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694BC10E0FE;
- Thu, 26 Feb 2026 03:02:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E9110E0F9;
+ Thu, 26 Feb 2026 03:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772074932; x=1803610932;
+ t=1772074940; x=1803610940;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rLKrqWvXZmiRlPwNwT0KN1pdGmTSu7/QIs0m2zyAKGc=;
- b=NE+M5LRrHIe2iCP53+y1gD+BMtI239gUORorniTK+UPhEi49pXA+4Z/N
- NNYlpA2Wj8peK2ZHEEh2SnhzLJwex0SK6h/3cDqIklFCLaRg3kpISyP1U
- 8SUOdXPPYUvpFIotxOuChsbcQ783MAll/hWHSKvQhdPV6n/ddPmdd9dzR
- iBBaEcCi0pSi9XzZkiuqZQn79rakCqcfbQGKFwTUNU7DwQtzB2CtfHvWn
- FiTEonABd/LRpbfI4a5BKJGsCq4N0wF+qmegjLfBLbtgvMv9kWw9f1TUG
- rWDdzXEL0BzymWo+6AamVCisKQj/Yc9Dy3p+aXlCrIFHgpPFQ+gsYsa4j A==;
-X-CSE-ConnectionGUID: XYgxQZfsQEyPKLkWnlAkwA==
-X-CSE-MsgGUID: geFe5OpZQuGv8RSsQ3K8rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160439"
-X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160439"
+ bh=D70balo6aRPFsBTQ0g+EvqMgxApzXA07juyavYmY/YQ=;
+ b=BmLn0eIohzoTQyV7lGXta3kT+BJAOr//dmC3JuvIeyOIMCsgWhLpCezY
+ Cl7x1ULN7hwVZuoeJPyPtUrUYXxTqKRuVyRsi3QbAfh9fs+iY7QAQwKU0
+ OV9IZXVBfVYd1s3xfynbmteYNqBPPozYil0kM7PHZC7WTTRc2xrXJai6w
+ kPASV4dKjsmUAIYrx05JRjbfn+kMfS0rDHoIMe5MJj53qcTm3AN1/rMiI
+ 2i+FMVYNHO5E4uceD49NIAQRrMT7xJSATWxCu9xZEFVJTywzmMLtXHt6W
+ 1jqvgaCEqFqqA60Q+du9aNSHWS/klQUee58zUge1ofl8bp5r5S4xFNk2d A==;
+X-CSE-ConnectionGUID: Ik/3vYaqToCZhev/hgtVzw==
+X-CSE-MsgGUID: Ejlf/Th2RmOFuQOsOV0MVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160452"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160452"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:02:12 -0800
-X-CSE-ConnectionGUID: 5Xwx6m21Qd+0XNc7XVEdHw==
-X-CSE-MsgGUID: 9kUD08HDSyGiViiLlgh+sg==
+ 25 Feb 2026 19:02:19 -0800
+X-CSE-ConnectionGUID: 9n+SB39vS+irn28DqpbL1g==
+X-CSE-MsgGUID: fcSbKxSvTPKqmLfpsw7kqg==
 X-ExtLoop1: 1
 Received: from x299.sh.intel.com ([10.239.159.77])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:02:05 -0800
+ 25 Feb 2026 19:02:12 -0800
 From: Yujie Liu <yujie.liu@intel.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -72,10 +72,10 @@ Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Michal Wajdeczko <michal.wajdeczko@intel.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 5/7] drm/xe/pf: fix kernel-doc warning for SR-IOV VF restore
- function
-Date: Thu, 26 Feb 2026 11:00:36 +0800
-Message-ID: <20260226030038.1182961-6-yujie.liu@intel.com>
+Subject: [PATCH 6/7] drm/amd/pm: fix kernel-doc warning for
+ smu_msg_v1_send_msg()
+Date: Thu, 26 Feb 2026 11:00:37 +0800
+Message-ID: <20260226030038.1182961-7-yujie.liu@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260226030038.1182961-1-yujie.liu@intel.com>
 References: <20260226030038.1182961-1-yujie.liu@intel.com>
@@ -123,30 +123,29 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	NEURAL_HAM(-0.00)[-0.997];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: B32FC1A04A6
+X-Rspamd-Queue-Id: 5D5131A04B4
 X-Rspamd-Action: no action
 
-Warning: drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c:1261 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
- * xe_gt_sriov_pf_control_trigger restore_vf() - Start an SR-IOV VF migration data restore sequence.
+Warning: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting prototype for smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send_msg() instead
 
-Fixes: ed46ff0d51e4 ("drm/xe/pf: Add save/restore control state stubs and connect to debugfs")
+Fixes: 4f379370a49c ("drm/amd/pm: Add smu message control block")
 Signed-off-by: Yujie Liu <yujie.liu@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-index bf48b05797de..5cb705c7ee7a 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-@@ -1259,7 +1259,7 @@ int xe_gt_sriov_pf_control_process_restore_data(struct xe_gt *gt, unsigned int v
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+index 6fd50c2fd20e..c471c0e2cbd1 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+@@ -405,7 +405,7 @@ static int __smu_msg_v1_ras_filter(struct smu_msg_ctl *ctl,
  }
  
  /**
-- * xe_gt_sriov_pf_control_trigger restore_vf() - Start an SR-IOV VF migration data restore sequence.
-+ * xe_gt_sriov_pf_control_trigger_restore_vf() - Start an SR-IOV VF migration data restore sequence.
-  * @gt: the &xe_gt
-  * @vfid: the VF identifier
+- * smu_msg_proto_v1_send_msg - Complete V1 protocol with all filtering
++ * smu_msg_v1_send_msg - Complete V1 protocol with all filtering
+  * @ctl: Message control block
+  * @args: Message arguments
   *
 -- 
 2.43.0
