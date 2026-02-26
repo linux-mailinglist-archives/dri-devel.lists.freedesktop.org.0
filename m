@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kIIDF1U7oGmagwQAu9opvQ
+	id +GamNts8oGmrhAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:23:49 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279291A5A7F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1EA1A5B18
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1848010E912;
-	Thu, 26 Feb 2026 12:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 514A510E917;
+	Thu, 26 Feb 2026 12:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g9Kl0Ddd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KESKtbb1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42AB110E040;
- Thu, 26 Feb 2026 12:23:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 06E884173E;
- Thu, 26 Feb 2026 12:23:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533E9C19422;
- Thu, 26 Feb 2026 12:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772108623;
- bh=tmoQ8NMtoL4FR91LkCRDafLZ639jNUiDpE0JDfaia4Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g9Kl0DdduTYqLNE0GczAwmNvQQuQvmx13FtpSNP8HCGWTi2yXbEOWKg3wXEnitl4H
- EFsDDECpkDcu/QEV1pVuGet/13kpDJzIMGrcaDgsXueU7Azkl7b2MGETmUsJHNV9il
- Tf9n8OWDEvxoiN7Kzd9GqfvxLJmT9SsuyGRkgFeRCpakXNmbESqDuzOF7LxmPKpmD5
- fAZyvDEyctsMQuYKTdP7GePcjQCgs3gR91Z4vr7D+64X38qXCQYtlJ/otFmDzfumvs
- KFH8NUR08drQMKY26uO4pk+T6pIOTvkKSCq+eD+dCvfrcdv8M+CeymX6wk66MjgUIl
- +YXdWaLu4jezQ==
-Date: Thu, 26 Feb 2026 13:23:38 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>, 
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: Re: [PATCH] drm/i915: Fix potential overflow of shmem scatterlist
- length
-Message-ID: <aaA677ZYYWJptOqz@zenone.zhora.eu>
-References: <20260224094944.2447913-2-janusz.krzysztofik@linux.intel.com>
- <5887622.44csPzL39Z@jkrzyszt-mobl2.ger.corp.intel.com>
- <aZ8XaheEIW8Opb3Q@ashyti-mobl2.lan>
- <10397304.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C49110E917
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 12:30:16 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-c6e1f417918so224895a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 04:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772109016; x=1772713816; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NqcwDzw5HN4ZLQrwd1zkwQ8pFoXvNQgRaA7hrn50J+c=;
+ b=KESKtbb1iNloUxAiP3YW8eJqVxYgf2CjN8J5muQny6viLVSmvsODaEqE5qMKfBRP27
+ 9edsutQCNOstKY0YPrFBKXJ8dZWOQAcInAV3Me3cyJB6pmwwMqWMezkzfONKiKQvVp+M
+ Dv6FEUavM6EiPNJ3X0fUkmhC3ZUe2lxRQMQ1F44f0RqL5MY8q2Hg2OLYc57t26nG0bAp
+ jJzZ1hkKT7QTub+1RnzL76weJm7xoa6m0l4bzbNsJ1JTJo2SKLOZ/BWq2NUaK6iVVcIZ
+ aVLbMjf/rb9b6CU3rxeaH1gvgs/vXeK1N7/inj/sNLsJOwDWxB6JmUjDuWnA4nRghp3m
+ Dk1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772109016; x=1772713816;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NqcwDzw5HN4ZLQrwd1zkwQ8pFoXvNQgRaA7hrn50J+c=;
+ b=DCzNPIxSbnJikiRIPSo3OAyXdwY6xfDab7E0TsGRoIzVE4fkJ+MVoJfRjjqLk15Li9
+ m54Fd1dtzevzrZGrAEtbYnl+0fwXlDrMTlWt95GTfyQnV3WRxdMROCmZzA2U6DDR4zRS
+ V15syzp9/Y6WswfyXwIwHxRpAVGIASiArlxg+o6FA5qqXrlN8rMEaAONUADAOyIP6gQk
+ KxpHrIzuCvactMvVU2DaCZNMFTVzhn0qoPtsTClslKOu1a04B8aahoPjYfjcqCT8Nzmw
+ pGYcN5yqLzm0zXyvS7PzllPCxgCee3fNVgKlTczIbVuu+QGMrrDKmGRvrh19MGdTliKi
+ kyTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJGnRUK+AVQgqbslYmWg2b9BuQZN8dgCR2BMG9EhOoRKSkz+p8f2iPNbREbR2Gb95SygRsOqX6i6g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOUIzsc6nB1Ekthheo8emOOZ1bErUFJ5Jyn55kdQ32POqnqcOY
+ pXXRosRPvLT4XA9/6XiSOMK3lmlTcOac4uTTbf0tVy/UVSryRP8pgV3D
+X-Gm-Gg: ATEYQzzqLimHoJ2Z5+Bl8SwLF4OZiBQqqtQtpCFlRMzSdXUpb44e6465xlh1SEpP+n7
+ rxflQTT62sk5j1Rs4wxkL4u+afvTZz3RgTHXZ65q/LeWqgLS8ZTFCX/Ery7FzKJuphJT2UWQZWZ
+ 7y2Qm5iT0yPz1Ezw2j7GJIY/8LU0kv6aEllAZ8tLlrVM0dMwAGJyAlldUNG37xstrkyNRtZRRM2
+ f5QMpYpPEj/SnmrjvwqRe3FULac1l/Jw5BVodzjWOP5HClp9qxzKwn4qb1LZeAc+/qkNYCqVYRm
+ JTWYVu4WHQBxf6Key4Gw3FmtYWENPhaSivp0ZdS3R4s9eQsKdyyGmeRGBqzSXtPnyX8bYI6mJ7B
+ y4qSsg/VfhBNUwtd/k0dDV3IXlIN/TQbHxpuiRbImloHMWANqH98web3XqcCeSyoDEuznSIp14f
+ bGZ7BeTg==
+X-Received: by 2002:a17:903:904:b0:2ad:b98e:35e9 with SMTP id
+ d9443c01a7336-2ade9a8ebffmr39412815ad.45.1772109015647; 
+ Thu, 26 Feb 2026 04:30:15 -0800 (PST)
+Received: from nuvole.lan ([2408:824c:a17:8230::c83])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2adfb5b22e7sm25504125ad.3.2026.02.26.04.30.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Feb 2026 04:30:14 -0800 (PST)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Pengyu Luo <mitltlatltl@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/msm/dsi/phy: fix hardware revision
+Date: Thu, 26 Feb 2026 20:29:56 +0800
+Message-ID: <20260226122958.22555-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10397304.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +98,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:mitltlatltl@gmail.com,m:broonie@kernel.org,m:krzk@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[andi.shyti@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zenone.zhora.eu:mid]
-X-Rspamd-Queue-Id: 279291A5A7F
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AD1EA1A5B18
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 06:29:12PM +0100, Janusz Krzysztofik wrote:
-> On Wednesday, 25 February 2026 16:38:18 CET Andi Shyti wrote:
-> > > > For clarity this can be written as
-> > > > 
-> > > > 		nr_pages = min_t(unsigned long,
-> > > > 				folio_nr_pages(folio), page_count - i);
-> > > > 		nr_pages = min_t(unsigned long, nr_pages, max_pages);
-> > > 
-> > > Do you think the min_array() is less clear?  Let's see what others say.
-> > 
-> > min_array() is clear, it's the ((unsigned long[]) { ... }) that
-> > iis nice and fancy but of difficult first read. But, as I said,
-> > it can stay, I don't have a strong opinion, maybe I'd have done
-> > the same.
-> 
-> Would you be more happy with a locally declared unsigned long table, 
-> initalized with those 3 values, nr_pages - i and max_segment << PAGE_SHIFT 
-> statically, folio_nr_pages(folio) once folio is ready, then passed to 
-> min_array()?
+This series fixes hardware revision for DSI PHY. No functional change.
 
-mine was only an idea, I'm fine with what it is now if no one has
-anything against it. Perhaps, just a little comment could help
-understand why we are evaluating out of three elements (but we
-are talking trivial details here :) ).
+Pengyu Luo (2):
+  drm/msm/dsi/phy: fix hardware version
+  drm/msm/dsi/phy: rename DSI_PHY_7NM_QUIRK_PRE_V4_1 to
+    DSI_PHY_7NM_QUIRK_V4_0
 
-Thanks,
-Andi
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 38 +++++++++++------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+
+-- 
+2.53.0
+
