@@ -2,86 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CMqSDsRzoGlZjwQAu9opvQ
+	id +JhqDit0oGlZjwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:24:36 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:26:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7728A1AA367
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E781AA43C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:26:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED1AB10E9AE;
-	Thu, 26 Feb 2026 16:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C7A10E99F;
+	Thu, 26 Feb 2026 16:26:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="WIldgH/0";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="amRdQr2c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FFC10E9AE;
- Thu, 26 Feb 2026 16:24:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772123057; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=N3OLfKBmkYO933URbrFu8+uXKn2ij+6WUXq71kEBTO4Nu4LcTpRcQZjphpUAwyqNRHGQAP2cDjEaDUq70au60Jh8aFdxv+OKp5d6P4QL+GJp6jNsd7xL1veJ3YFZQO7pHANe9yQFb6fIoYHki3Vv16IWve2sbM8I/MyTbBaWS0A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772123057;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=txv6vQDrf8TvuXaw8FFr2/au2yNyfaaMtDMt+HBRQ0U=; 
- b=j8gKxdMDGurJreehgySCvuU/3qEdLoYmbBq2Ahq8cRm2sLFBW7OAExJNJb34Oycb2zYaxG0/8idwbu5Qe85W6l8PzVVm6lYKE+Jgba1uyWKm58OoY77QAZvdSEsox2hv5yEfJgByhZ0f6R20rl1Rrv8ORwBaeVUnb0L5sRbHkzw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772123057; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=txv6vQDrf8TvuXaw8FFr2/au2yNyfaaMtDMt+HBRQ0U=;
- b=WIldgH/0a6NjbWUpy/KVeZjrvqxYggRojCnNIaaDT6piQoyNjIDfQdgQS9G78G3v
- 1m7YlCA/zRt0Oc22zrGr3RJZVs8P6yRXB04+Zoya4VZhWuPao2Y4SJeAx0PQXsaZiIa
- 6JMWI/E18LL044fdeDRbnMfcUoXpZ0MeeyiIDx98=
-Received: by mx.zohomail.com with SMTPS id 1772123055193953.572434392059;
- Thu, 26 Feb 2026 08:24:15 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
- instead of hdmi_colorspace
-Date: Thu, 26 Feb 2026 17:24:05 +0100
-Message-ID: <5558942.31r3eYUQgx@workhorse>
-In-Reply-To: <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
-References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
- <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A079910E99F
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:26:14 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b886fc047d5so176006566b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:26:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1772123171; x=1772727971;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+P/NABn7QNyqGIEp9LriyRqGQ1C5eThY04lovxqjyqA=;
+ b=amRdQr2cc8QFHooMzvcSR1iBmIFVaTE+bT6HWYMIQuytR3xTWF62WZPowkMAKnbSHb
+ dBadwtbQYwPoFsuSin5RRjKUaMiXpw3CXsguwumM24AxJZ5UMonrxtXtbMQPfZxu7yCW
+ Tv+hc0NCCzf92wEFFW62NsyO8PNl2xldUtyt0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772123171; x=1772727971;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=+P/NABn7QNyqGIEp9LriyRqGQ1C5eThY04lovxqjyqA=;
+ b=g7CSacpRsPsjrTiva+fLjbrsfjkoPSFG2FWsXsoFdqI+d3AFzJqnPvc+AF1q6ZXNoz
+ YBhtaIyfbIKDYnzCHlL98VACYsyNn55uU9/v/Yc1GLc4Arok/NzlvpdOVBxejEwGoNUU
+ Cw3e7MC3Mb1VxxsWLPhXONZ9ro70LFOmgECqam17g82Mpiwaac4/Hm+ddkp8I5xkHpJk
+ 33idwFyhctk6AIBW+ymuMMXqH37dbFipiSPEBX65QRDnm059/oz1xJvKTrjnba0/hpI8
+ FEuHQavAVF3joyv1Dm5FXbl2BCF56XaP1LaSeiixtAVdveoXWtl6nlWDdRRFUw9YfjXg
+ ZN2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfU9rYtRsFGnhz2eewXN2obcdxZNrZDadIB/tjfGH/9f1gJEnsrzCkIXOiwO+QkvZKKw5cFFmfGDY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwA8lZtaq1qFaX4QEevZ7GM4NxJ1dhSToPQsl7lbCCV8+zSU3lk
+ YHAnlWoPu4XYMK8A9p+coqu1HNKgKzBTnty+9Yy5W39egZmyvdUyIq7exLpnENMgm7KEJtT9IAk
+ jefQZyg==
+X-Gm-Gg: ATEYQzy9wqJAdWNcy2lIfW1mjWf9vo6Jc9mBvZjyvW+rdfxpMHTLdJjX2JM7CyyrccE
+ LfX1oJYCfUP7KyRv2aidiAhm9SjVDoj8IfYYibZ4dQzFIvVKpyGYCGOypy1/0oI2ZVt3U9h8NNu
+ K9on+e5z/snsBdYzLuNL+BFJ7VGYfZNluVY08fex/JOWpV9U2rC7pw+AQ9kNsnsBQcE7SJwBUQg
+ OIGLbW9FaWfYZ24PebWnRBIhUfqBlYHoJ+5My2AsAW5SwP+fIW40Q5f67c4/ExlE+Fuvw4bsWM4
+ SkhlE0ziBWmpjz2gauHGH6sBoUptlfDQALaFqdvXgpNhUNtTbLIgmtQeLi09cndQCmL0USz7cSC
+ 5bpTFu0vuybCVtJYSy4RMz7Zg8DjaIPnrr71uT6rJ6HBX6xpoKwVCmoDYdwoF0PsHnEsF3uiGth
+ AEzsEQ7j8XwdL/oVJ6FJR3sf2AooHKbWQCXZdTj1o/HU9jsRraxUIk33g7Y+i7ZA==
+X-Received: by 2002:a17:907:2d10:b0:b93:6ae4:aa83 with SMTP id
+ a640c23a62f3a-b936ae4add6mr83240966b.18.1772123171070; 
+ Thu, 26 Feb 2026 08:26:11 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b935aee56c2sm77666966b.65.2026.02.26.08.26.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Feb 2026 08:26:10 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-4398d9a12c6so845887f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:26:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWH9saIazQOKTiQToWt77r1Sr/W4c+5wmZhoC2RtIT7UrrdDwSxLNVCcEhuFIfJhYhYlwjZKLgcxvA=@lists.freedesktop.org
+X-Received: by 2002:a5d:5f53:0:b0:435:e3bd:5838 with SMTP id
+ ffacd0b85a97d-4396f16e2cemr38225919f8f.25.1772123168649; Thu, 26 Feb 2026
+ 08:26:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20260226083235.2176689-1-zhouhaikun5@huaqin.corp-partner.google.com>
+In-Reply-To: <20260226083235.2176689-1-zhouhaikun5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 26 Feb 2026 08:25:57 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=V5=H14Uw4-p2fKQ2U7q9w6jGdm7ckY3JSoOrWY8h35Yg@mail.gmail.com>
+X-Gm-Features: AaiRm52XV1DmkXVaDzS0m8I7VWdmm8se4MRdf6H6n5gw815EmJindpm0Gmi0Zr0
+Message-ID: <CAD=FV=V5=H14Uw4-p2fKQ2U7q9w6jGdm7ckY3JSoOrWY8h35Yg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Change BOE NV140WUM-N64 timings
+To: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jesszhan0024@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,106 +105,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	CTE_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,arm.com,pengutronix.de,collabora.com,sntech.de,nxp.com,sholland.org,raspberrypi.com];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS(0.00)[m:zhouhaikun5@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:dkim]
-X-Rspamd-Queue-Id: 7728A1AA367
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,chromium.org:email,chromium.org:dkim]
+X-Rspamd-Queue-Id: 61E781AA43C
 X-Rspamd-Action: no action
 
-On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxime Ripard wrote:
-> The hdmi_colorspace enum was defined to represent the colorspace value
-> of the HDMI infoframes. It was later used by some HDMI drivers to
-> express the output format they should be setting up.
-> 
-> During the introduction of the HDMI helpers, it then was used to
-> represent it in the drm_connector_hdmi_state structure.
-> 
-> However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
-> defines, and now with the drm_output_color_format enum. Let's
-> consolidate around drm_output_color_format in drm_connector_hdmi_state
-> to facilitate the current effort to provide a global output format
-> selection mechanism.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi,
+
+On Thu, Feb 26, 2026 at 12:33=E2=80=AFAM Haikun Zhou
+<zhouhaikun5@huaqin.corp-partner.google.com> wrote:
+>
+> This screen timing requires a backlight off time of more than 100ms
+> from the end of the data stream to avoid screen flickering and red
+> light caused by screen material limitations.
+>
+> Signed-off-by: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
 > ---
->  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
->  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
->  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
->  drivers/gpu/drm/drm_bridge.c                       |   2 +-
->  drivers/gpu/drm/drm_connector.c                    |  14 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
->  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
->  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
->  include/drm/display/drm_hdmi_helper.h              |   3 +-
->  include/drm/drm_connector.h                        |   7 +-
->  14 files changed, 205 insertions(+), 180 deletions(-)
-> 
-> [... snip ...]
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd339d3d42a09dc3b63f 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -589,14 +589,14 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  
->  	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->  	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
->  		return -EINVAL;
->  
-> -	if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_RGB)))
-> +	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444)))
->  		return -EINVAL;
->  
-> -	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(HDMI_COLORSPACE_YUV420)))
-> +	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420)))
->  		return -EINVAL;
+>  drivers/gpu/drm/panel/panel-edp.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
-I don't think this will work as-is. drm_bridge_connector_init calls this
-function assuming hdmi_colorspace bitmasks in supported_formats.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-This may have slipped through the conversion; the synopsys dw-hdmi-qp core
-(separate from synopsys dw-hdmi) also assumes hdmi_colorspace, see e.g.
-dw_hdmi_qp_plat_data::supported_formats in include/drm/bridge/dw_hdmi_qp.h
+...and pushed to drm-misc-next:
 
-So should be a simple fix I hope.
-
->  
->  	if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
->  		return -EINVAL;
->  
-> [... snip ...]
-
-Kind regards,
-Nicolas Frattaroli
-
-
-
-
+[1/1] drm/panel-edp: Change BOE NV140WUM-N64 timings
+      commit: bbe814bcb961ed2f30706ffdc806f18150709d2d
