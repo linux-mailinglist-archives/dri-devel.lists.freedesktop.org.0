@@ -2,110 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFi2DYW9oGkDmQQAu9opvQ
+	id QArPJ0i+oGkDmQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:39:17 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:42:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D071AFEBE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B43D1AFF41
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:42:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7957210E9DB;
-	Thu, 26 Feb 2026 21:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC47010E9DC;
+	Thu, 26 Feb 2026 21:42:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="U/xkYu4H";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="GY+BN0JB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010019.outbound.protection.outlook.com [52.101.46.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F62210E9DB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 21:39:12 +0000 (UTC)
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010052.outbound.protection.outlook.com [52.101.85.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6A310E9DC;
+ Thu, 26 Feb 2026 21:42:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=galN+h7YyvKcfR4GFrxKM2vtHLCikggLJ3j7HNxdoqFqHVFB24BY0Qtiw8Rkg58E5GiuKcbCC3OQEYifxhUusfag/0rIJL0CCt6Dm4JwbdUJ6wMjBEg0LKj2wwECtoMhJFfK/YYEjI6bZf8jWMNap/VpWFcRVqCnkmS2+pvduPj9YQ/MmiPQJKjqcgIpjezY/9OcCm2TX6d8GGO8oDNRL+yjtOhZm1aWMR4qdguFZfhtQyiyaw3uglGvl8uqj5RhTTJw8ho16fdrTy5zhAfCTpvVBwShjb5vjDXQa/9UprrSv/ULWUzh54Ci24HaRxQVFu7RyO3RiaBa8Pv1WJbj1A==
+ b=v6qzhaVYSgk29phNT1luIfMTQgzi6zVaRbn1egf6HLWbH9/tOEv0dlZzNZnWJ6whvUc0ckIrCh9GbB/mhrFXuTGEzJR61YqxTU7ZUmrz/Kh/1jz3mq0WNv5WFmutwkO0jITaczNQtNt/+X1Dy9iBd9LERMZEEyV27HJFKvLwt5DOlCSn+r0b8aiorSaF+AN/70cdMzfdbbQvtaPGsM4ISzt6+dnMrnYG869sJ4bPZsWrOdsBrQE4mAG1Y7NAD3mDOw0urf+TX3M1gsfVlpVK1wnaw/+a/7LGpfFPs3SGLHbw1lyAtlMBTpCb513GP0lci7FjB86+yZYtYJLA6fXPfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UEvsGKRKTIxq6N/kw5zsSkVMEsVF6u1ADG8tjS1uRkU=;
- b=NYlaHLh07UPHC2VPuaq7MppXJWtAz5Ma91edagf34tol3xuOm5Hb9N/CEMZohm7NyN4eeJ3nkns1WHt6yJtWBw6wkwbxN9ntP9hZgRH/WfGuqgJNMPxuFt+YjjDr3D+Du4gnSV2Gk1K5A2sii5nQSsGgn6JNvKgyj6c4R2daxdfen5/Hv5JR+TFBBII//GmVXexfuQar0gGqr/WwCNbi5RLfy34mLUqbogBtdxXUiBu/cB58JlKwlcqFAJCURoOKTVfDlrWmxMG0tPwx5HRl9AYD1047DpCHGbQq4R8c9G7qfaE54nIy+3jkVZ7CX+eCk2qpZXJD/K0hXd+pqhtcGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=9KYm4ebBoksMpM4lfq6kefecUbVPORV6wcmKADp3RqE=;
+ b=RfLEwJXPbOxN3eDR4pLWa8AwfXjm/axcSAVCoSNdqnap9monprDeju8BWSqof6AXNNbkXoCvlFP9LBZTf6b2mdeBTLhBv0c6NDnckp+4uKlNGNfu2E8oDpyhZrXSU6LIAVkPXTc2WuJl8PtDjKjMgrgrmV+sfCjfQBt3RJsUr+cwXKplsMtHYYpAMvWG23iULEmZ+2eXMNNQxLsPEeNe7fTVVLRIDeTpFNiuRIEPTYOUDMU3ZEfRtyeCXhV1b+UGVkW2+OM8uQv1aslqHuKWDISOU8Az2hCz6t+4+w6IzSvHEBuajVR56ZuVFL06mYkCo+QvlXwN83h8RNK4jh8LyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UEvsGKRKTIxq6N/kw5zsSkVMEsVF6u1ADG8tjS1uRkU=;
- b=U/xkYu4HLoBtITrFWXMaYYikEyqT848XoZaQBRPs6y2PYYLDKWFN2LW2pScfZhOhN3EVatWANEn3jbwCLyuxzMPaIfRmo1mmZlpvXL8MpwUikXAQMfu6uZ/wcnrjcRzWF8A1X/6zeuT1Fp79f1VmwYKHMp3PhJ/UuasG4PSuEVc=
-Received: from SJ2PR07CA0013.namprd07.prod.outlook.com (2603:10b6:a03:505::15)
- by IA0PR12MB7752.namprd12.prod.outlook.com (2603:10b6:208:442::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
- 2026 21:39:05 +0000
-Received: from MWH0EPF000C6188.namprd02.prod.outlook.com
- (2603:10b6:a03:505:cafe::ef) by SJ2PR07CA0013.outlook.office365.com
- (2603:10b6:a03:505::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.26 via Frontend Transport; Thu,
- 26 Feb 2026 21:39:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000C6188.mail.protection.outlook.com (10.167.249.120) with Microsoft
+ bh=9KYm4ebBoksMpM4lfq6kefecUbVPORV6wcmKADp3RqE=;
+ b=GY+BN0JBxX0y/OVaCAuqg3vwZ2bKxM4hPCAszWooQ5J8331jWXj9/pk750RTSJJ97k4GN0idLLvL6i3FgOZ2jQRzCx/+8oZCtU3tayDEICyv+LXucHVKmNVI3RVV5av3OL3RyexST/Bf5d0BErsFyXBvLFkQlle73J7QyK/fUj1HQHZ95TlowUXms/DDjTxRVnot2pTNi+Xeci+pNvsv4BX6pUnNKsVXO4my2AVCCjNq18yfBdWl5i98SKGRUyScZROUh8NgULYV8PTYcJ13pL7yeFDULxM+hP1T509SOsLDYb0wkn6UaCTjDqk9p52amN4QMIC9NvxqvP4JHgSVLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ DS7PR12MB9504.namprd12.prod.outlook.com (2603:10b6:8:252::8) with
+ Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Thu, 26 Feb 2026 21:39:03 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 26 Feb
- 2026 15:39:00 -0600
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Feb
- 2026 15:39:00 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Thu, 26 Feb 2026 15:38:59 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1] accel/amdxdna: Fix NULL pointer dereference of mgmt_chann
-Date: Thu, 26 Feb 2026 13:38:57 -0800
-Message-ID: <20260226213857.3068474-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+ 15.20.9654.14; Thu, 26 Feb 2026 21:42:15 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
+ 21:42:15 +0000
+Message-ID: <3161a017-a9f8-465c-b4dd-fef085d75b98@nvidia.com>
+Date: Thu, 26 Feb 2026 16:42:11 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 4/4] rust: gpu: Add GPU buddy allocator bindings
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
+ <20260224224005.3232841-5-joelagnelf@nvidia.com>
+ <DGO4BIQ6MQ9Y.KB3JJQI71ETU@nvidia.com>
+ <eff888d1-2caa-45bd-a611-e5772ee94e1b@nvidia.com>
+ <DGOJDXWDOJD0.2J6NENL44SQJJ@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DGOJDXWDOJD0.2J6NENL44SQJJ@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR13CA0006.namprd13.prod.outlook.com
+ (2603:10b6:208:160::19) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000C6188:EE_|IA0PR12MB7752:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2dddf99-ae34-49ca-37d3-08de757f75d9
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DS7PR12MB9504:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91f910d6-5a09-470a-cea3-08de757fe867
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: f3S0c7nqmsoscUKScOJlm8W3UYLU+0xqcS5REL0es/KpBxkR+s9t27dZykmmikVJPMQp3yt7sl/JuGVq2g4biSrAhu5d5VNuMAGSTw92DDwhJ+iaaRBq0x8hUuZfR1T4KPuWbDfPUCmCnOnPBOHjOJv7bjMzmNZHr0prpwGHlbe6r3H3V+mea8KPtaojv4wOJIe71l3ejSzxx4PBZFZV1Ee4ihcZL6/5jZPajgAmh0FaND3EbY1BNwPtl7oNtUZllHkbQZc5bZLy8sot+SfMMS1Z+hai01A8Q9nTxe1A1DrYv0bTIYYy8htgsIPEDZdqmAdCM0UMmN3bS2dEtj+MFk+03afB28a1q2k72iDcuh/BvsMtb5avPM86npa0KIVFkKnhQNAaGNpYAD+jUIE8+TjmdbqUS9mMToWkcowyt3uDmcuFxjjfdHiTRe3n60d0s90tBpL6xpDkQVxVrbJtvzeA9jidmwogWkjkd/ZRPJyAbxhwQ1b66jfX6j7lXBnDYNm+n78YHnOlBji+UTx79aMGo6uFR/VlIYP0mN/Vyr/dJhgP3pfaHxIbJMvacdq94BSEIE7YQs2vqpeT2LR1hPx0TYMJ/7ckmFN04nK7VaW4R5CuilNN0fK7G7POSFhq+cXhxbsBJunbRA4SRO5YXRRGuAYSSFdm+UjZd9gyqZBXx6pv4LiNBaLv+FMoT0wmCePzC74UztLdJ8rXUV3nhFBXgRjnMBAPFvbsz9ymiyLj0fOqnmsuZVJWEtxjo8OY3TG77+/RvedjmGSn6JGMHZD2mJgeD7jQ4UM5JYC6GJ8B59CKPzmHjCCyFRZJgqsZjVEnpxM6L0GHsOeM5sB3NQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
- SFP:1101; 
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: NSTo+07b5mMuu7NPp5XLuJCbMQ+IHTsBJH6eebjyWFFkM2u7+jq8hocUCghOFZkgQ51hS7qrWxNyEUOyBgqfiSCAlbTJkLaT2+QtSc5ViV8hKEHdZytVQTo/3oL26wFPK64KWFtqo8BaiQguiGVqSrkzsHS1S6tzp6M/NN8XlfHGEywTzYZC8LMN1knO8+1ntNesQs8A9flkc92UpK3WQRlu1wpwLVUceH2UfiYORPK/dgQ2CpOUC+NnvOpRaP0Z7izEtp2Mkg37/XAv8q5UzVyNGM//QygZaRcAk3/mfDZQTpTCYCqaTTFvwH/35v+iRablSuAm+dZRtS51tn13pOtlmBr+vtjw8mMk/qhJ3NqMgVjhdg4xjuwmwBb+YDott8r0t7c4wr+ENLUG5FCEQ915yVkjcGhNJApRJGtBCUw0Pz3q08QWwAaQeXj0b2WzyQW3FtGOkow05pZc0XaowLK9N31cVjYJB5clkT8iM0w/dJ24f8cXcXnF++hw1W94x+NYsV4/DhBtpqoI3YLigedJ0Sd0iDYiYEcQSxlXXD2DNV534wAvfa7OtoEtTwOhRFiULJLorBx6EmbSY/0dYz4Oiq1rpK0XsEPW9MsRAynk9O9jRpv1YrMjDL9avk+m0fD86AU8Tr7qZifDG3NGyhGbHXtATUwZhhR0v+CO7Wq5RrDd+XhXh+0nT67hcWkBjplzhH3r4DssYeSKdwmES8PKBYGYjiN4coANYCagokw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: VuU86zABaf5FPvNBiv0MGWVqfkmfJ2iPKpwju8hKEA9LY4SxqA7ay4RmYyiAvdE1W7mBFKMVevFoN9IrLKm2eVUP8rfLCUn5VE5ZP8mSVwQ2UpnkSGsn4cQt8iHOGU1jt1xji57ubtBhCtZeSVodjOBw43kGiFmU6FdzGuFdFmAqxrun1/xectNvpfW857h8jP0epUhrm0UzzyKA5jRQEQxnBPfRttOw/jdVJMsinyYJ+I7umfyxvLzH/1sEstoZmT1b+P/EBkmjh1OIIlEC0qDkgvQwRwqk603AWEASLInywEtASgwT+AYlrKR5dX3nevan1k46DkKQukKuC44xwa53ukozRkzNYF9aT/xbXpo/RhGpLKllN7Y7xESLpBDDY1aNJCApnWS6xDEEECCIZmj4dTWXU76zmiozopLPVP9UBxdwJ+jGulNbI60LO3qk
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 21:39:03.0265 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2dddf99-ae34-49ca-37d3-08de757f75d9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000C6188.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7752
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0lGR1Rkc01TYXpQVjhHbkJHaGR5ZE5tN29PT1BEUDBFTWFYZnNmeVlEN1NW?=
+ =?utf-8?B?SWdQVjBuQVkxMWNCVTFkbVRnc0xtMGp4WWRYRGNrblZSenF4eVFaYjlYc1ln?=
+ =?utf-8?B?TUQvQXhQK1cyTC85YnU1VXBIMzFKVGNmckZJRVo2bTNQY0hmY3NIeWU3Ui9p?=
+ =?utf-8?B?d2kwU3FnQnVaRTNjSzB1NmREemVuOVEvdXBHTFg3UGowTDBubUtueklnWWFs?=
+ =?utf-8?B?azdhbE5VZ1JnU0ZyNVFSWW96UHpMSjhCbWF2dnVHdllFbXE0OGk1cUlFNXE3?=
+ =?utf-8?B?NlBrdGJoYndLbCtZcTZ6Qi9DdnlqRzJrUnE0MFovbDlaZVFRLzBuK1BaTVJl?=
+ =?utf-8?B?Z1VwejBabmlPa1JVS1lnb0ZSR21aNWNWYUVtc043b05jclhqSmtWZnpLeEtw?=
+ =?utf-8?B?emZoOHBhQmFtT2lGQXNZUlpjQWZDb0pyd3lVNmVhcEhPcy9keFFVM1BpNWhk?=
+ =?utf-8?B?dnB3SUY4ck8wZjgwNTNKRVJmLzVCakVlWFZLekJrQzMvNVBLbWZIL1NUREwx?=
+ =?utf-8?B?OHc3dTNEUHFWblBzdUNJbmJMbUY1b3ZydGtVOERac3k3RlB3VE55Q2JEOHlE?=
+ =?utf-8?B?NTdmQnlLQ3V2SXo4cXhoeVdURnVaOFBHVm5tOEkrYm9pTkdDQ2JFbDRMV2x1?=
+ =?utf-8?B?MXIrYjh5OXBlc21UR25VSEVyUjlSeURQQXQ4alVYUHp2aVE1MmZkUkdXV1R5?=
+ =?utf-8?B?Snhod1FkUGxMYjcwSTIxMFF3a1BUci83NnZON2JmNVpRS201TlhlUWFtVVVY?=
+ =?utf-8?B?L2ZTd211elJhNVdRRnorL2MzNmptcHhjSjdIZnZXSWFCZGc4WTR4MGYrcmN0?=
+ =?utf-8?B?N0kxdk1pQ2xjL2J6dTJzZnA1eElPbzN4RTJxOFVWSXg5OEhGZ3B0MWxVSml1?=
+ =?utf-8?B?QWVGVGw5L0p6SFlvaUcwZkRXK2NKcklCY1Z2Rk4zVW5mYk5YMHZ3Tk9JM0F1?=
+ =?utf-8?B?NzcxVVR4c2tUbzYydUo0R1NiOENmZG94ajdmTjBPaFhNODdDVGl6dFZqK1VW?=
+ =?utf-8?B?T29HaUhoblFQTER5YWh1cGtOYTRDR3NsMnl0b1hUTE1PMUYxbkFJQ0lkUTlJ?=
+ =?utf-8?B?cnFrQ1JUVE5wd0xDN3Fkd2pNeEJFRGVmeGlvaDUyTjBKbGU3R3J3NW5oMGJa?=
+ =?utf-8?B?aDZuMHlyOUt2NkQrQjltR3UzZERselNFbmJFZHAwMnJGdDI5T3E2VUh5Nlpi?=
+ =?utf-8?B?SmpGaGtNV1M3SWZNNStTZmhOc0pTSGdwdm10OHcrbnVKcjg1dWt6RFRiVVZ6?=
+ =?utf-8?B?Mmx3N3JoeWhSOFArU1cvSFlqc3FwUHJER0NPeGt6aXdWcGNGanJ6dWlDQW1t?=
+ =?utf-8?B?aDZWQWx0VklaNGtUbW9JY3krQzh0VzRqSkZoNks5c2dpRmpXNWtkVk1jR3hM?=
+ =?utf-8?B?ZUUwN1FQcG5qMG8yd3pETzR5Uk5hc0VJNFZlbWZ4NXBjbUtZc0ZaaUNaSFox?=
+ =?utf-8?B?a25QTDM4UGdya0JKMmoyZllzSFBnRzhlTEVqOWNjSzNRUE1QSkhObDJ5Qk5i?=
+ =?utf-8?B?bmRoU0dkUFJjYWZUVFhtM0U0Qlo1cGNmcWRVR0pMbnNYOWthTXlrTEtMakF5?=
+ =?utf-8?B?Q2Q2TmE3V1pPaG9TdlVSUjBvTWFnWlF1QUNaUTF4S28xODVTM0hGSEp4K2ZH?=
+ =?utf-8?B?dk5uQWtVb1YrNmM2U1BGZzM1bkU4eGZOczJ5MUYxbkNnVXNLOFc0b3k5QjRr?=
+ =?utf-8?B?M0x0NjYvN3E4QllHUVRHVWZpdldlSTA1THhEdnlocnVLd2tNNWtXVXVVdVd6?=
+ =?utf-8?B?RFhCaDY1dDhPZ1NrbDdJaFIxNXFFTm5hYjFjK1NEMDBkMTVKT2tzSFh0eWU5?=
+ =?utf-8?B?N3kwSDkzTFJjSXo5WVNENUZjQVpiOGRzSmhjSEJDVGpTRHRQSEMzYzBrc2J1?=
+ =?utf-8?B?dFd6OHNoRDZ1NFFwS3Z4dWJSckRJa2pRRThwb0k1ZElacTBDajhwZjdGdmRj?=
+ =?utf-8?B?YWhmdUlDQ2xIYXZoTXBENXhUNnMvK1NLcHRkalAyRWtWVk1yV1lzZDVhMmgy?=
+ =?utf-8?B?Z0NGVFhQVkhXRnpzRGtHeXlZMGNFc1dmS2ZrdTlUM2JpcTVSUzcrZ05qZVVl?=
+ =?utf-8?B?Z0IrQmloRmlYb0piaENURXZqckRBUFFTdlZJSFh6dkRiVitRYk4rOGN0eExm?=
+ =?utf-8?B?a1Azb0twMnhKQVB2TTRYZ1pzYndCTmRDekFvNDFrRzRXRk5PVm9CdUx0MXp5?=
+ =?utf-8?B?bGdGSWw5ZUg3aXI5ZVN1a2l2b0pROXAwQXNiL2djTTVkS3JxQ09QaFFXREdX?=
+ =?utf-8?B?MDVPQXArODNPQWZwMUcyMGt1VlhxZnZINzlxUXcybXJyQXN3QlpZQTVRQith?=
+ =?utf-8?B?TmVnNmxhOHZrYW1xbFEzSjFQT0hNWXdyc2NQVE4vY3JGNVJOaFlLQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91f910d6-5a09-470a-cea3-08de757fe867
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 21:42:15.5287 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d//WIIiwhtd+ymjh+HfGbpZkB4Nhu+gRYxzOu5N1XErzcm20snRMkAEx65u9NGV6+Gh2/srpjLHqsMnpINIcxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,130 +172,279 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[48];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.965];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,gmail.com,weathered-steel.dev];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 98D071AFEBE
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0B43D1AFF41
 X-Rspamd-Action: no action
 
-mgmt_chann may be set to NULL if the firmware returns an unexpected
-error in aie2_send_mgmt_msg_wait(). This can later lead to a NULL
-pointer dereference in aie2_hw_stop().
 
-Fix this by introducing a dedicated helper to destroy mgmt_chann
-and by adding proper NULL checks before accessing it.
 
-Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_message.c | 21 ++++++++++++++++-----
- drivers/accel/amdxdna/aie2_pci.c     |  7 ++-----
- drivers/accel/amdxdna/aie2_pci.h     |  1 +
- 3 files changed, 19 insertions(+), 10 deletions(-)
+On 2/25/2026 9:26 PM, Alexandre Courbot wrote:
+> On Thu Feb 26, 2026 at 5:41 AM JST, Joel Fernandes wrote:
+>>> This structure doesn't seem to be useful. I would understand using one
+>>> if `GpuBuddyParams` had lots of members, some of which have a sensible
+>>> default value - then we could implement `Default` and let users fill in
+>>> the parameters they need.
+>>>
+>>> But this structure has no constructor of any sort, requiring users to
+>>> fill its 3 members manually - which is actually heavier than having 3
+>>> parameters to `GpuBuddy::new`. It is even deconstructed in
+>>> `GpuBuddyInner` to store its members as 3 different fields! So let's
+>>> skip it.
+>>
+>> I'd prefer to keep the struct -- all three parameters are `u64`, so
+>> positional arguments would be easy to silently misorder. The struct
+>> also makes call sites more readable since Rust has no named function call
+>> parameters.
+> 
+> Fair point about the 3 parameters being easily confused. If you keep it,
+> can you also store it in `GpuBuddyInner` instead of deconstructing it
+> into 3 members?
 
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index 277a27bce850..22e1a85a7ae0 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -40,11 +40,8 @@ static int aie2_send_mgmt_msg_wait(struct amdxdna_dev_hdl *ndev,
- 		return -ENODEV;
- 
- 	ret = xdna_send_msg_wait(xdna, ndev->mgmt_chann, msg);
--	if (ret == -ETIME) {
--		xdna_mailbox_stop_channel(ndev->mgmt_chann);
--		xdna_mailbox_destroy_channel(ndev->mgmt_chann);
--		ndev->mgmt_chann = NULL;
--	}
-+	if (ret == -ETIME)
-+		aie2_destroy_mgmt_chann(ndev);
- 
- 	if (!ret && *hdl->status != AIE2_STATUS_SUCCESS) {
- 		XDNA_ERR(xdna, "command opcode 0x%x failed, status 0x%x",
-@@ -914,6 +911,20 @@ void aie2_msg_init(struct amdxdna_dev_hdl *ndev)
- 		ndev->exec_msg_ops = &legacy_exec_message_ops;
- }
- 
-+void aie2_destroy_mgmt_chann(struct amdxdna_dev_hdl *ndev)
-+{
-+	struct amdxdna_dev *xdna = ndev->xdna;
-+
-+	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
-+
-+	if (!ndev->mgmt_chann)
-+		return;
-+
-+	xdna_mailbox_stop_channel(ndev->mgmt_chann);
-+	xdna_mailbox_destroy_channel(ndev->mgmt_chann);
-+	ndev->mgmt_chann = NULL;
-+}
-+
- static inline struct amdxdna_gem_obj *
- aie2_cmdlist_get_cmd_buf(struct amdxdna_sched_job *job)
- {
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index 85079b6fc5d9..977ce21eaf9f 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -330,9 +330,7 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
- 
- 	aie2_runtime_cfg(ndev, AIE2_RT_CFG_CLK_GATING, NULL);
- 	aie2_mgmt_fw_fini(ndev);
--	xdna_mailbox_stop_channel(ndev->mgmt_chann);
--	xdna_mailbox_destroy_channel(ndev->mgmt_chann);
--	ndev->mgmt_chann = NULL;
-+	aie2_destroy_mgmt_chann(ndev);
- 	drmm_kfree(&xdna->ddev, ndev->mbox);
- 	ndev->mbox = NULL;
- 	aie2_psp_stop(ndev->psp_hdl);
-@@ -441,8 +439,7 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
- 	return 0;
- 
- destroy_mgmt_chann:
--	xdna_mailbox_stop_channel(ndev->mgmt_chann);
--	xdna_mailbox_destroy_channel(ndev->mgmt_chann);
-+	aie2_destroy_mgmt_chann(ndev);
- stop_psp:
- 	aie2_psp_stop(ndev->psp_hdl);
- fini_smu:
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index b20a3661078c..e72311c77996 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -303,6 +303,7 @@ int aie2_get_array_async_error(struct amdxdna_dev_hdl *ndev,
- 
- /* aie2_message.c */
- void aie2_msg_init(struct amdxdna_dev_hdl *ndev);
-+void aie2_destroy_mgmt_chann(struct amdxdna_dev_hdl *ndev);
- int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev);
- int aie2_resume_fw(struct amdxdna_dev_hdl *ndev);
- int aie2_set_runtime_cfg(struct amdxdna_dev_hdl *ndev, u32 type, u64 value);
+Done, good idea.
+
+> 
+>>
+>>>> +pub struct GpuBuddyAllocParams {
+>>>
+>>> This one also feels like it could be rustified some more.
+>>>
+>>> By this I mean that it e.g. allows the user to specify a range even if
+>>> `RANGE_ALLOCATION` is not set. A C API rejects invalid combinations at
+>>> runtime. A Rust API should make it impossible to even express them.
+>>>
+>>> [...]
+>>>
+>>> That would turn `alloc_blocks` into something like:
+>>>
+>>>   `fn alloc_blocks(&self, alloc: AllocType, size: u64, min_block_size: Alignment, flags: AllocBlocksFlags)`
+>>
+>> The C API supports combining allocation modes with modifiers (e.g.
+>> RANGE+CLEAR, TOPDOWN+CLEAR), so modeling the mode as a
+>> mutually-exclusive enum would lose valid combinations. More importantly,
+> 
+> What I suggested does allow you to combine allocation modes with
+> modifiers. I should have pasted a bit of code for clarity, so here goes:
+> 
+>     #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+>     pub enum GpuBuddyAllocMode {
+>         Simple,
+>         Range { start: u64, end: u64 },
+>         TopDown,
+>     }
+> 
+>     impl GpuBuddyAllocMode {
+>         // Returns the flag corresponding to the allocation mode.
+>         //
+>         // Intentionally private - for internal use.
+>         fn into_flags(self) -> usize {
+>             match self {
+>                 Self::Simple => 0,
+>                 Self::Range { .. } => bindings::GPU_BUDDY_RANGE_ALLOCATION,
+>                 Self::TopDown => bindings::GPU_BUDDY_TOPDOWN_ALLOCATION,
+>             }
+>         }
+>     }
+
+I took this bit from  yours(more comments below).
+> 
+>     impl_flags!(
+>         #[derive(Copy, Clone, PartialEq, Eq, Default)]
+>         pub struct GpuBuddyAllocFlags(u32);
+> 
+>         #[derive(Copy, Clone, PartialEq, Eq)]
+>         pub enum GpuBuddyAllocFlag {
+>             Contiguous = bindings::GPU_BUDDY_CONTIGUOUS_ALLOCATION as u32,
+>             Clear = bindings::GPU_BUDDY_CLEAR_ALLOCATION as u32,
+>             TrimDisable = bindings::GPU_BUDDY_TRIM_DISABLE as u32,
+>         }
+>     );
+> 
+>     pub struct GpuBuddyAllocParams {
+>         mode: GpuBuddyAllocMode,
+>         size: u64,
+>         min_block_size: u64,
+>         flags: GpuBuddyAllocFlags,
+>     }
+> 
+I took this bit from  yours(more comments below).
+
+> Now instead of doing something like:
+> 
+>     let params = GpuBuddyAllocParams {
+>         start_range_address: 0,
+>         end_range_address: 0,
+>         size: SZ_16M as u64,
+>         min_block_size: SZ_16M as u64,
+>         buddy_flags: BuddyFlag::TopdownAllocation.into(),
+>     };
+> 
+> You would have:
+> 
+>     let params = GpuBuddyAllocParams {
+>         // No unneeded `start_range` and `end_range`!
+>         mode: GpuBuddyAllocMode::TopDown,
+>         size: SZ_16M as u64,
+>         min_block_size: SZ_16M as u64,
+>         flags: Default::default(),
+>     };
+> 
+I took this bit from  yours(more comments below).
+
+> And for a cleared range allocation:
+> 
+>     let params = GpuBuddyAllocParams {
+>         mode: GpuBuddyAllocMode::Range {
+>             start: 0,
+>             end: SZ_16M as u64,
+>         },
+>         size: SZ_16M as u64,
+>         min_block_size: SZ_16M as u64,
+>         flags: GpuBuddyAllocFlag::Clear,
+>     };
+> 
+> Actually the parameters are now distinct enough that you don't need a
+> type to prevent confusion. A block allocation now just reads like a nice
+> sentence:
+> 
+>     buddy.alloc_blocks(
+>         GpuBuddyAllocMode::Range {
+>             start: 0,
+>             end: SZ_16M,
+>         },
+>         SZ_16M,
+>         // `min_block_size` should be an `Alignment`, the C API even
+>         // returns an error if it is not a power of 2.
+>         Alignment::new::<SZ_16M>(),
+>         GpuBuddyAllocFlag::Clear,
+>     )?;
+
+Makes sense, this is indeed better, I'll do it this way.
+
+> 
+> And the job of `alloc_blocks` is also simplified:
+> 
+>     let (start, end) = match mode {
+>         GpuBuddyAllocMode::Range { start, end } => (start, end),
+>         _ => (0, 0),
+>     };
+>     let flags = mode.into_flags() | u32::from(flags) as usize;
+>     // ... and just invoke the C API with these parameters.
+> 
+>> if the C allocator evolves its flag semantics (new combinations become
+>> valid, or existing constraints change), an enum on the Rust side would
+>> break. It's simpler and more maintainable to pass combinable flags and
+>> let the C allocator validate -- which it already does. The switch to
+>> `impl_flags!` will work for us without over-constraining.
+> 
+> The evolution you describe is speculative and unlikely to happen as it
+> would break all C users just the same. And if the C API adds new flags
+> or allocation modes, we will have to update the Rust abstraction either
+> way.
+
+How/why would it break C users? Currently top down + range is silently ignored,
+implementing it is unlikely to break them.
+
+I also wouldn't call it speculative: top-down within a range is a natural
+feature the C allocator could add right? By modeling modes as a mutually
+exclusive enum, we're disallowing a flag combination that could become
+valid in the future. That's fine for now, but something to keep in mind as we
+choose this design. We could add a new RangeTopDown mode variant in the future,
+though. That said, I've made the switch to the enum as
+you suggested since it is cleaner code! And is more Rust-like as you pointed.
+
+> 
+> Rust abstractions should model the C API correctly. By hardening the way
+> the C API can be used and stripping out invalid uses, we save headaches
+> to users of the API who don't need to worry about whether the flag they
+> pass will result in an error or simply be ignored, and we also save
+> maintainer time who don't have to explain the intricacies of their APIs
+> to confused users. :)
+> 
+
+Sure, no argument on that one. ;-)
+
+[...]
+>>>> +    base_offset: u64,
+>>>
+>>> This does not appear to be used in the C API - does it belong here? It
+>>> looks like an additional convenience, but I'm not convinced that's the
+>>> role of this type to provide this. But if it really is needed by all
+>>> users (guess I'll find out after looking the Nova code :)), then keeping
+>>> it is fair I guess.
+>>
+>> Yes, `base_offset` is needed by nova-core. The GPU's usable VRAM
+>> starts at `usable_vram_start` from the GSP firmware parameters:
+>>
+>>     GpuBuddyParams {
+>>         base_offset: params.usable_vram_start,
+>>         physical_memory_size: params.usable_vram_size,
+>>         chunk_size: SZ_4K.into_safe_cast(),
+>>     }
+>>
+>> `AllocatedBlock::offset()` then adds `base_offset` to return absolute
+>> VRAM addresses, so callers don't need to track the offset themselves.
+> 
+> Sounds fair, I'll check how this is used in Nova.
+> 
+> Ah, another thing I've noticed while writing the example above:
+> 
+>> +#[pinned_drop]
+>> +impl PinnedDrop for AllocatedBlocks {
+>> +    fn drop(self: Pin<&mut Self>) {
+>> +        let guard = self.buddy.lock();
+>> +
+>> +        // SAFETY:
+>> +        // - list is valid per the type's invariants.
+>> +        // - guard provides exclusive access to the allocator.
+>> +        // CAST: BuddyFlags were validated to fit in u32 at construction.
+>> +        unsafe {
+>> +            bindings::gpu_buddy_free_list(
+>> +                guard.as_raw(),
+>> +                self.list.as_raw(),
+>> +                self.flags.as_raw() as u32,
+> 
+> `gpu_buddy_free_list` only expects the `CLEARED` flag - actually it
+> silently masks other flags. So you probably want to just pass `0` here -
+> adding a `Cleared` field to `GpuBuddyAllocFlag` would also do the trick,
+> but it looks risky to me as it relies on the promise that the user has
+> cleared the buffer, which is not something we can guarantee. So I don't
+> think we can support this safely.
+> 
+> If you just pass `0`, then the `flags` member of `AllocatedBlocks`
+> becomes unused and you can just drop it.
+
+Good catch, done!
+
+> 
+> And another small one - some methods of `Block` are `pub(crate)` - I
+> believe they should either be `pub` or kept private.
+
+Changed to pub. thanks,
+
 -- 
-2.34.1
+Joel Fernandes
 
