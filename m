@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOJwLqe3n2mKdQQAu9opvQ
+	id SKhqE6m3n2mKdQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:01:59 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF4B1A0481
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2009C1A048F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C4110E858;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD11510E859;
 	Thu, 26 Feb 2026 03:01:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WGU8l/2M";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NlJC8SS4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A656D10E0D9;
- Thu, 26 Feb 2026 03:01:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02ACF10E0F9;
+ Thu, 26 Feb 2026 03:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772074914; x=1803610914;
+ t=1772074915; x=1803610915;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XYQxwu60rhB8Hn/iRRGgZDNAYdM9oPSPZPJIn2uG1V0=;
- b=WGU8l/2Meezl8u2OWhswHRrMC4hIgVv+B8rVUkoVdeoREbcYf90TN+OC
- 5uhfZAvgQ/qMBk4nKzbGr8itjU/uYXPMxGiD2fSYr3nb0udfPpr02xKWb
- +ZugaMFSxQZLN90E0wHfTvAYB/UVxWoaHqGqzNSqFHn+0XpAvRqibAL/l
- Ycgypy0zEUwHbPDQDWVdxAxP6j555l2v6eLbGym5+w0NrVCQg4TBziNSi
- Z/Nw1xozmHo18EPwbs2/FO9ImWaitkO7g3yOLQ2q6EcWH12fzCvhk2FpW
- gT8W+BJDjAmdbDW/Jz8mRvinssiO1RDvtrt+Lo2nukbdAQhKYXf6kfNKl g==;
-X-CSE-ConnectionGUID: 8bV95KV+ReqbN7cJW4/7ew==
-X-CSE-MsgGUID: YVcN47yAQA2mZ+yGIDdToQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160343"
-X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160343"
+ bh=mXzmsPGRB+4z16krNY0r2QNcwnkslNqgei1WpqL2E7Q=;
+ b=NlJC8SS4tyOm5YqoezwZeQnLFFV4e8F6MW9YDzqg5LCClGTKu91mlklk
+ dKjmdiWp+I8zn4QC8ii02m++5+aWd929m+befjRa16d3HEE00MmVFtFqn
+ 8ZDu9GKqm/bpwiaPCN1PmT3BrTsPaHUbb0D00A8K2dhR9bkQ3BJ8/9Tvs
+ WzHKkJYgR2Hg5ZockeJHaA+E8Ux78P95CB/T/OWY4jmveBcemBuGmcs2r
+ sWws2G1oyR76lhxX2VHDGZqFFLjcaEMQaWQp3a0PdqDXQ9/hheCHZivnS
+ quGLJlGJjbrj2VM9TNL+AsbJkIomSNn/GQN62bIVQSccvboI/dfypZC9e A==;
+X-CSE-ConnectionGUID: l0N3DFtoRLmwd5QqBDz65w==
+X-CSE-MsgGUID: /ZxZ+lmqTfG6wvEqxUVA2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160368"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160368"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:01:43 -0800
-X-CSE-ConnectionGUID: +s2xQ5PWR0WUo+WV6zd77Q==
-X-CSE-MsgGUID: /jwBnB/1SXWZIxzVVIO5SA==
+ 25 Feb 2026 19:01:50 -0800
+X-CSE-ConnectionGUID: s+oV0KhDQrGZ7pZTmH96WQ==
+X-CSE-MsgGUID: DlYdLRq0RBq/1p8ScYnh4g==
 X-ExtLoop1: 1
 Received: from x299.sh.intel.com ([10.239.159.77])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:01:35 -0800
+ 25 Feb 2026 19:01:43 -0800
 From: Yujie Liu <yujie.liu@intel.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -72,10 +72,10 @@ Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Michal Wajdeczko <michal.wajdeczko@intel.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 1/7] drm/gpusvm: fix kernel-doc warning for
- drm_gpusvm_pages_valid_unlocked()
-Date: Thu, 26 Feb 2026 11:00:32 +0800
-Message-ID: <20260226030038.1182961-2-yujie.liu@intel.com>
+Subject: [PATCH 2/7] drm/scheduler: fix kernel-doc warning for
+ drm_sched_job_done()
+Date: Thu, 26 Feb 2026 11:00:33 +0800
+Message-ID: <20260226030038.1182961-3-yujie.liu@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260226030038.1182961-1-yujie.liu@intel.com>
 References: <20260226030038.1182961-1-yujie.liu@intel.com>
@@ -120,37 +120,32 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.997];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6AF4B1A0481
+X-Rspamd-Queue-Id: 2009C1A048F
 X-Rspamd-Action: no action
 
-Warning: drivers/gpu/drm/drm_gpusvm.c:1351 function parameter 'svm_pages' not described in 'drm_gpusvm_pages_valid_unlocked'
-Warning: drivers/gpu/drm/drm_gpusvm.c:1351 expecting prototype for drm_gpusvm_range_pages_valid_unlocked(). Prototype was for drm_gpusvm_pages_valid_unlocked() instead
+Warning: drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
 
-Fixes: 6364afd532bc ("drm/gpusvm: refactor core API to use pages struct")
+Fixes: 539f9ee4b52a ("drm/scheduler: properly forward fence errors")
 Signed-off-by: Yujie Liu <yujie.liu@intel.com>
 ---
- drivers/gpu/drm/drm_gpusvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index 24180bfdf5a2..93f7e594256d 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -1338,9 +1338,9 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
- EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
- 
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index e6ee35406165..fe4c1017734b 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -361,6 +361,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
  /**
-- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
-+ * drm_gpusvm_pages_valid_unlocked() - GPU SVM range pages valid unlocked
-  * @gpusvm: Pointer to the GPU SVM structure
-- * @range: Pointer to the GPU SVM range structure
-+ * @svm_pages: Pointer to the GPU SVM pages structure
+  * drm_sched_job_done - complete a job
+  * @s_job: pointer to the job which is done
++ * @result: 0 on success; -errno on failure
   *
-  * This function determines if a GPU SVM range pages are valid. Expected be
-  * called without holding gpusvm->notifier_lock.
+  * Finish the job's fence and resubmit the work items.
+  */
 -- 
 2.43.0
 
