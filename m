@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDiDJ+NOoGmIiAQAu9opvQ
+	id UKm7J95OoGmIiAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:15 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326EA1A6E8B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3902C1A6E6B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9E010E938;
-	Thu, 26 Feb 2026 13:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 289FE10E934;
+	Thu, 26 Feb 2026 13:47:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD3A10E935
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 13:47:03 +0000 (UTC)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 05E7A1A14A6;
- Thu, 26 Feb 2026 14:40:58 +0100 (CET)
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2041810E934
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 13:47:04 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 32821201553;
+ Thu, 26 Feb 2026 14:40:59 +0100 (CET)
 Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com
  [134.27.226.22])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id EBD211A2549;
- Thu, 26 Feb 2026 14:40:57 +0100 (CET)
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 101AA201509;
+ Thu, 26 Feb 2026 14:40:59 +0100 (CET)
 Received: from lsv15149.swis.ro-buh01.nxp.com (lsv15149.swis.ro-buh01.nxp.com
  [10.162.246.145])
- by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 3F2952035B;
- Thu, 26 Feb 2026 14:40:56 +0100 (CET)
+ by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 56D7A2035B;
+ Thu, 26 Feb 2026 14:40:57 +0100 (CET)
 From: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
-Subject: [PATCH 0/9] accel: New driver for NXP's Neutron NPU
-Date: Thu, 26 Feb 2026 15:40:39 +0200
-Message-Id: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+Date: Thu, 26 Feb 2026 15:40:40 +0200
+Subject: [PATCH 1/9] drm/gem-dma: Add flag for bidirectional mapping of
+ non-coherent GEM DMA buffers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFhNoGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDIyMz3bzU0pKi/DzdZBNj01RjyxRDM/M0JaDqgqLUtMwKsEnRsbW1AOD
- Yn/tZAAAA
-X-Change-ID: 20260226-neutron-c435e39d167f
+Message-Id: <20260226-neutron-v1-1-46eccb3bb50a@nxp.com>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+In-Reply-To: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
 To: Oded Gabbay <ogabbay@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -54,11 +53,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>, 
  Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772113256; l=3577;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772113256; l=2892;
  i=ruxandra.radulescu@nxp.com; s=20260204; h=from:subject:message-id;
- bh=/7MY8hy5jQlEhxj9eGiR1iRl0W6znJ9KfDclM2QxDN8=;
- b=XoBoTREGvNXkcj74Qdwpy1rPE9Srk5uacOSO9MTQQEa59XXxIe2u/tWgmnYx+T7BKj7G+iZtI
- ZjQy748HLl7D6BMVVeD4pa/vQ8RKwzMN3ApPcTl7A9vLaek1BrNL4df
+ bh=t5jOCwYs4a0qJx+g0j9jr/ql5g59uodTYfBmURX7TLI=;
+ b=FuK2EVogBLiKqAWSpQj/VvRmlxkqGBRQdPtOI6DDSNPrrj8FO4pZ0CErQ51iQLLpeRvWIydJH
+ 0NCLiSNBTUhBnS9S4+7LuX+o93vLCiofdPsrriBRdgeEv0BJykkTJWe
 X-Developer-Key: i=ruxandra.radulescu@nxp.com; a=ed25519;
  pk=zoq4b4OYR0c4faAH97xoTxdr6vfR8OvPbS+Cx0XhIBY=
 X-Virus-Scanned: ClamAV using ClamSMTP
@@ -104,84 +103,81 @@ X-Spamd-Result: default: False [0.99 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-0.971];
+	NEURAL_HAM(-0.00)[-0.987];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nxp.com:mid,nxp.com:email]
-X-Rspamd-Queue-Id: 326EA1A6E8B
+X-Rspamd-Queue-Id: 3902C1A6E6B
 X-Rspamd-Action: no action
 
-Introduce a new accel driver for the Neutron Neural Processing Unit
-(NPU), along with associated dt-bindings and DTS node.
+Introduce a flag that allows a user to request non-coherent buffers
+allocated via the GEM DMA helper for bidirectional use.
 
-The first patch extends the GEM DMA helper APIs to allow bidirectional
-mapping of non-coherent DMA buffers. While not part of the Neutron
-driver, it's a prerequisite allowing us to use the GEM DMA helper.
+Keep current behaviour (DMA_TO_DEVICE mapping) as default, with no change
+required for existing GEM DMA users.
 
-Neutron is a Neural Processing Unit from NXP, providing machine
-learning (ML) acceleration for edge AI applications. Neutron is
-integrated on NXP SoCs such as the i.MX95.
+While it hasn't been the case until now, some devices like NXP's Neutron
+Neural Processing Unit (NPU) require contiguous, non-coherent DMA buffers
+they can both read from and write to. Unlike traditional DRM devices,
+Neutron uses the same DMA buffer both for reading model data and for
+writing inference output.
 
-The NPU consists of the following:
-- RISC-V core running a proprietary firmware
-- One or more Neutron cores, representing the main computation
-  engine performing ML operations
-- Dedicated fast memory (TCM)
-- DMA engine that handles data transfers between DDR and TCM
-
-The firmware is closed source and distributed as a binary here [1].
-
-The Neutron software stack also contains a userspace library [1] and
-a LiteRT custom delegate [2] that allow integration with standard
-LiteRT tools.
-
-[1] https://github.com/nxp-upstream/neutron/tree/upstream
-[2] https://github.com/nxp-imx/tflite-neutron-delegate
+Neutron's usage scenario is a good match for the GEM DMA helpers, except
+for the fact that current implementation only considers the DMA_TO_DEVICE
+direction.
 
 Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
 ---
-Ioana Ciocoi-Radulescu (9):
-      drm/gem-dma: Add flag for bidirectional mapping of non-coherent GEM DMA buffers
-      accel/neutron: Add documentation for NXP Neutron accelerator driver
-      dt-bindings: npu: Add bindings for NXP Neutron
-      accel/neutron: Add driver for NXP Neutron NPU
-      accel/neutron: Add GEM buffer object support
-      accel/neutron: Add mailbox support
-      accel/neutron: Add job submission IOCTL
-      accel/neutron: Add logging support
-      arm64: dts: imx95: Add Neutron node
+ drivers/gpu/drm/drm_gem_dma_helper.c | 6 ++++--
+ include/drm/drm_gem_dma_helper.h     | 3 +++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
- Documentation/accel/index.rst                      |   1 +
- Documentation/accel/neutron/index.rst              |  12 +
- Documentation/accel/neutron/neutron.rst            | 131 ++++++++
- .../devicetree/bindings/npu/nxp,imx95-neutron.yaml |  95 ++++++
- MAINTAINERS                                        |  10 +
- arch/arm64/boot/dts/freescale/imx95.dtsi           |  28 ++
- drivers/accel/Kconfig                              |   1 +
- drivers/accel/Makefile                             |   3 +-
- drivers/accel/neutron/Kconfig                      |  16 +
- drivers/accel/neutron/Makefile                     |  12 +
- drivers/accel/neutron/neutron_debugfs.c            |  34 ++
- drivers/accel/neutron/neutron_debugfs.h            |  15 +
- drivers/accel/neutron/neutron_device.c             | 239 ++++++++++++++
- drivers/accel/neutron/neutron_device.h             | 158 +++++++++
- drivers/accel/neutron/neutron_driver.c             | 262 +++++++++++++++
- drivers/accel/neutron/neutron_driver.h             |  16 +
- drivers/accel/neutron/neutron_gem.c                | 115 +++++++
- drivers/accel/neutron/neutron_gem.h                |  14 +
- drivers/accel/neutron/neutron_job.c                | 367 +++++++++++++++++++++
- drivers/accel/neutron/neutron_job.h                |  45 +++
- drivers/accel/neutron/neutron_mailbox.c            |  47 +++
- drivers/accel/neutron/neutron_mailbox.h            |  42 +++
- drivers/gpu/drm/drm_gem_dma_helper.c               |   6 +-
- include/drm/drm_gem_dma_helper.h                   |   3 +
- include/uapi/drm/neutron_accel.h                   | 130 ++++++++
- 25 files changed, 1799 insertions(+), 3 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260226-neutron-c435e39d167f
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+index ecb9746f4da8..dbf5ad4426d3 100644
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+@@ -148,7 +148,8 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+ 	if (dma_obj->map_noncoherent) {
+ 		dma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
+ 						       &dma_obj->dma_addr,
+-						       DMA_TO_DEVICE,
++						       dma_obj->map_bidirectional ?
++						       DMA_BIDIRECTIONAL : DMA_TO_DEVICE,
+ 						       GFP_KERNEL | __GFP_NOWARN);
+ 	} else {
+ 		dma_obj->vaddr = dma_alloc_wc(drm->dev, size,
+@@ -238,7 +239,8 @@ void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj)
+ 		if (dma_obj->map_noncoherent)
+ 			dma_free_noncoherent(gem_obj->dev->dev, dma_obj->base.size,
+ 					     dma_obj->vaddr, dma_obj->dma_addr,
+-					     DMA_TO_DEVICE);
++					     dma_obj->map_bidirectional ?
++					     DMA_BIDIRECTIONAL : DMA_TO_DEVICE);
+ 		else
+ 			dma_free_wc(gem_obj->dev->dev, dma_obj->base.size,
+ 				    dma_obj->vaddr, dma_obj->dma_addr);
+diff --git a/include/drm/drm_gem_dma_helper.h b/include/drm/drm_gem_dma_helper.h
+index f2678e7ecb98..e0022f2fdfef 100644
+--- a/include/drm/drm_gem_dma_helper.h
++++ b/include/drm/drm_gem_dma_helper.h
+@@ -17,6 +17,8 @@ struct drm_mode_create_dumb;
+  *       DMA addresses.
+  * @vaddr: kernel virtual address of the backing memory
+  * @map_noncoherent: if true, the GEM object is backed by non-coherent memory
++ * @map_bidirectional: valid only if map_noncoherent flag is set. If true, allow
++ *                     bidirectional use of the non-coherent memory buffer
+  */
+ struct drm_gem_dma_object {
+ 	struct drm_gem_object base;
+@@ -27,6 +29,7 @@ struct drm_gem_dma_object {
+ 	void *vaddr;
+ 
+ 	bool map_noncoherent;
++	bool map_bidirectional;
+ };
+ 
+ #define to_drm_gem_dma_obj(gem_obj) \
 
-Best regards,
 -- 
-Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+2.34.1
 
