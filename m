@@ -2,46 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wF92DwxqoGk3jgQAu9opvQ
+	id EPkLIppooGm+jQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 16:43:08 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 16:36:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9C71A8FC8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 16:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA751A8D4B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 16:36:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A1A10E98C;
-	Thu, 26 Feb 2026 15:43:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="O31xLEWm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5264A10E052;
+	Thu, 26 Feb 2026 15:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
- Thu, 26 Feb 2026 15:43:03 UTC
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDFA10E98C
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 15:43:03 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1772120196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=51ZMPK39d+NqCAdM+A9eB7m2u+Sa269r3UqA289rv3k=;
- b=O31xLEWmBexQsCGYnLe9WSf32tptm7eW7oZKcx3KH7bYyHz+PQaSHJRyJAPR6gnLnaAoYh
- DjM7JCIGc8Zj9sJ85QM4XJz1d/4dnyokf7wauSlV63MVhfMYa4/WGIwc6p1EXiffAxYGIr
- Mnqjyqmp4UYKNlrnp7DCGEWjz5B9O5k=
-From: Artem Lytkin <artem.lytkin@linux.dev>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/tyr: read all four texture_features registers
-Date: Thu, 26 Feb 2026 18:36:09 +0300
-Message-ID: <20260226153609.8745-1-artem.lytkin@linux.dev>
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF3410E052
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 15:36:52 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.101.233])
+ by APP-03 (Coremail) with SMTP id rQCowADHq+KDaKBpWcNdCQ--.3901S2;
+ Thu, 26 Feb 2026 23:36:35 +0800 (CST)
+Message-ID: <893289430f07a1e89be4932bde0dd3d700366e02.camel@iscas.ac.cn>
+Subject: Re: [PATCH] drm: verisilicon: DRM_VERISILICON_DC should depend on
+ ARCH_THEAD
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Michal
+ Wilczynski <m.wilczynski@samsung.com>
+Date: Thu, 26 Feb 2026 23:36:34 +0800
+In-Reply-To: <fd65d4c53463e9579f59d7532ac6cce795d57aca.1772103393.git.geert+renesas@glider.be>
+References: <fd65d4c53463e9579f59d7532ac6cce795d57aca.1772103393.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID: rQCowADHq+KDaKBpWcNdCQ--.3901S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJryUtw4kKF13JFyDAw1fZwb_yoW8Cryxpa
+ 98KF42kFs8Jan8t39rZa4I9FWUCas3JayrGan7Jw13Zrs0yryUX39rCFy5GFyDAwsrJr42
+ va10g3y7K3W7AFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkFb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k2
+ 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j8KsUUUUUU=
+X-Originating-IP: [112.94.101.233]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,89 +70,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:geert+renesas@glider.be,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:m.wilczynski@samsung.com,m:geert@glider.be,s:lists@lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_TO(0.00)[glider.be,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	ARC_NA(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[artem.lytkin@linux.dev,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AB9C71A8FC8
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	HAS_XOIP(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.838];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0DA751A8D4B
 X-Rspamd-Action: no action
 
+=E5=9C=A8 2026-02-26=E5=9B=9B=E7=9A=84 12:00 +0100=EF=BC=8CGeert Uytterhoev=
+en=E5=86=99=E9=81=93=EF=BC=9A
+> Currently, the Verisilicon DC-series display controller driver
+> supports
+> only the DC8200 variant in the T-HEAD TH1520 SoC.=C2=A0 Hence restrict th=
+e
+> dependency on RISCV to ARCH_THEAD, to prevent asking the user about
+> this
+> driver when configuring a kernel without T-HEAD platform support.
+>=20
+> The dependency can be relaxed later, when adding support for
+> appropriate
+> SoCs from other vendors.
 
-Read GPU_TEXTURE_FEATURES registers 1 through 3 in addition to
-register 0, matching the C Panthor driver's behavior. Previously only
-texture_features[0] was read from hardware while [1], [2], and [3]
-were hardcoded to zero.
+Michal Wilczynski has verified that this driver will work on StarFive
+JH7110 with some extra glue drivers (but without modification to this
+driver itself). [1]
 
-Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
----
- drivers/gpu/drm/tyr/gpu.rs  | 10 +++++++---
- drivers/gpu/drm/tyr/regs.rs |  3 +++
- 2 files changed, 10 insertions(+), 3 deletions(-)
+Although this can be considered as future work and changing to
+ARCH_THEAD seems okay now.
 
-diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
-index 6c582910dd5d..480cad86a602 100644
---- a/drivers/gpu/drm/tyr/gpu.rs
-+++ b/drivers/gpu/drm/tyr/gpu.rs
-@@ -58,7 +58,12 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-         let thread_max_barrier_size = regs::GPU_THREAD_MAX_BARRIER_SIZE.read(dev, iomem)?;
-         let coherency_features = regs::GPU_COHERENCY_FEATURES.read(dev, iomem)?;
- 
--        let texture_features = regs::GPU_TEXTURE_FEATURES0.read(dev, iomem)?;
-+        let texture_features = [
-+            regs::GPU_TEXTURE_FEATURES0.read(dev, iomem)?,
-+            regs::GPU_TEXTURE_FEATURES1.read(dev, iomem)?,
-+            regs::GPU_TEXTURE_FEATURES2.read(dev, iomem)?,
-+            regs::GPU_TEXTURE_FEATURES3.read(dev, iomem)?,
-+        ];
- 
-         let as_present = regs::GPU_AS_PRESENT.read(dev, iomem)?;
- 
-@@ -86,8 +91,7 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-             thread_max_workgroup_size,
-             thread_max_barrier_size,
-             coherency_features,
--            // TODO: Add texture_features_{1,2,3}.
--            texture_features: [texture_features, 0, 0, 0],
-+            texture_features,
-             as_present,
-             pad0: 0,
-             shader_present,
-diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
-index f46933aaa221..b51e09fe2fc4 100644
---- a/drivers/gpu/drm/tyr/regs.rs
-+++ b/drivers/gpu/drm/tyr/regs.rs
-@@ -67,6 +67,9 @@ pub(crate) fn write(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>, value: u3
- pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: Register<0xa4> = Register;
- pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: Register<0xa8> = Register;
- pub(crate) const GPU_TEXTURE_FEATURES0: Register<0xb0> = Register;
-+pub(crate) const GPU_TEXTURE_FEATURES1: Register<0xb4> = Register;
-+pub(crate) const GPU_TEXTURE_FEATURES2: Register<0xb8> = Register;
-+pub(crate) const GPU_TEXTURE_FEATURES3: Register<0xbc> = Register;
- pub(crate) const GPU_SHADER_PRESENT_LO: Register<0x100> = Register;
- pub(crate) const GPU_SHADER_PRESENT_HI: Register<0x104> = Register;
- pub(crate) const GPU_TILER_PRESENT_LO: Register<0x110> = Register;
--- 
-2.43.0
+(BTW the hardware identification values is taken from the vendor driver
+and it should support different variants of DC8200)
+
+Thanks
+Icenowy
+
+[1]
+https://lists.freedesktop.org/archives/dri-devel/2025-November/535442.html
+
+>=20
+> Fixes: dbf21777caa8b8c8 ("drm: verisilicon: add a driver for
+> Verisilicon display controllers")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> =C2=A0drivers/gpu/drm/verisilicon/Kconfig | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/verisilicon/Kconfig
+> b/drivers/gpu/drm/verisilicon/Kconfig
+> index 7cce86ec8603c596..f2edde9e0037ebcd 100644
+> --- a/drivers/gpu/drm/verisilicon/Kconfig
+> +++ b/drivers/gpu/drm/verisilicon/Kconfig
+> @@ -2,7 +2,7 @@
+> =C2=A0config DRM_VERISILICON_DC
+> =C2=A0	tristate "DRM Support for Verisilicon DC-series display
+> controllers"
+> =C2=A0	depends on DRM && COMMON_CLK
+> -	depends on RISCV || COMPILE_TEST
+> +	depends on ARCH_THEAD || COMPILE_TEST
+> =C2=A0	select DRM_BRIDGE_CONNECTOR
+> =C2=A0	select DRM_CLIENT_SELECTION
+> =C2=A0	select DRM_DISPLAY_HELPER
 
