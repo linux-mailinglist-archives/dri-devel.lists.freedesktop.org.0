@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uN49K3w3oGkqgwQAu9opvQ
+	id 1cQDLdY4oGmbgwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:07:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:13:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8281A591D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3D61A5986
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194C110E8FF;
-	Thu, 26 Feb 2026 12:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4021410E909;
+	Thu, 26 Feb 2026 12:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="yfG9173G";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QQwOsbfB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tDJTsIUb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53C8810E8FC;
- Thu, 26 Feb 2026 12:07:20 +0000 (UTC)
-Date: Thu, 26 Feb 2026 13:07:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1772107637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A7DHd4YrW2ZSEM1imCWenSnVLlRamUHUYJ6oBJozRB4=;
- b=yfG9173GGEUfw94vLam1jS2uNf6x4mqxZyIJzFMno2axFDcEafHVSqFuCFEoE67p12eyCm
- G5FWYQjIvfZccyDGdE7Newbz2pYtJRkfdc+C/ph/SKATotfLznryX/0zdU8ARVuEkT1QZW
- Ln0CVC0V0GSsDJcqIBhqPL0UZ8I0sgcqUU2V86Ry8/9o3tF4sBVje6vUUZSUz+V32z0YZc
- 6lQXYionZXLD8oxwmzZc0T4TDYZz4iLMYoynyoniYKZcxXRuGEhOQiXnkF/AmWkz8Gq+o+
- 9bpgndQarbeo4xHCftYHcUMPsalfHspokrOVY3ISWDfSHxGKw2yuea3eYm77Vg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1772107637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A7DHd4YrW2ZSEM1imCWenSnVLlRamUHUYJ6oBJozRB4=;
- b=QQwOsbfBnSmS2mAUhg8PIH6BLHs3Uk0NofpFunSU6vCKYBIHMCECExzbTQd5TyajMbNi26
- dcSomuW3q/TfAkAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
- PREEMPT_RT work on i915 + xe.
-Message-ID: <20260226120715.6Ug1Qkse@linutronix.de>
-References: <20260220083657.28815-26-dev@lankhorst.se>
- <20260224162703.Q_taYjEC@linutronix.de>
- <20260224165903.2mn24oQy@linutronix.de>
- <20260225075806.XNtXjZ5E@linutronix.de>
- <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37EA10E908;
+ Thu, 26 Feb 2026 12:13:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 365F2600AA;
+ Thu, 26 Feb 2026 12:13:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353AAC116C6;
+ Thu, 26 Feb 2026 12:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772107985;
+ bh=eFmfOcHWXMuTl8TELzzkPhzDzmtdBPEzClbGjc32AXY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tDJTsIUbeF1J20yAJn2ZY5wmx65JtUZ4gLEg4lTfZEDzj9epn2SIXNKinSftZFUeM
+ WuMM1zRyxTDjcV/C1u2lhaHDRf3YldgjeRePcL2iXB/GqxU5EklRb0hgXLI05rTzE0
+ /Zx65MlqHuHZ3dSI9fzz730PNhNDJ/4udTDQYdx3C0TQSler9rU6nsnsfxc2jHBg3F
+ UhQg7nBJBNUgylKnaoWEpJdSFgwTG/Lhkhy3D6IwutzKe1Z4Q3zAnCwNrIH9FkOr6p
+ IxjNquKym9NQLXBCJVgI9PPec955Fs00fm7XV77P7/S9ckaTWAKEnqQd7cq7DZ8ibu
+ w4nWVBu1ppsXg==
+Date: Thu, 26 Feb 2026 13:13:01 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>, 
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Subject: Re: [RFC v3] drm/i915/selftests: Prevent userspace mapping
+ invalidation
+Message-ID: <aaA2tG7bU-gQ_96A@zenone.zhora.eu>
+References: <dnqbdeooikcsklr2xk2uzh6shqddneuah27oobtyohahhfzp4q@23vsrz5343ny>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
+In-Reply-To: <dnqbdeooikcsklr2xk2uzh6shqddneuah27oobtyohahhfzp4q@23vsrz5343ny>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,125 +70,120 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[linutronix.de:+];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_NEQ_ENVFROM(0.00)[bigeasy@linutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[andi.shyti@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url,linutronix.de:mid,linutronix.de:dkim,01.org:url]
-X-Rspamd-Queue-Id: 0A8281A591D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zenone.zhora.eu:mid]
+X-Rspamd-Queue-Id: 2D3D61A5986
 X-Rspamd-Action: no action
 
-On 2026-02-25 21:06:05 [+0100], Maarten Lankhorst wrote:
-> Hey,
-Hi,
+Hi Krzysztof,
 
-> After realizing the uncore lock only needed to be converted to a raw spinlock
-> because the testcase was broken, I tested the alternative fix of using
-> sleeping context only in the selftests:
-> https://patchwork.freedesktop.org/patch/707063/?series=162145&rev=1
+...
 
-I have some memory that makeing uncore raw "solved" the tracing problem
-but the latencies jumped at the same.
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> index 9d454d0b46f2..ccb00cd5e750 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> @@ -38,6 +38,8 @@ struct tile {
+>  	unsigned int swizzle;
+>  };
+>  
+> +bool skip_vma = true;
+> +
 
-Since you did test XE only, xe does not show the lockup. I spills this
-however:
+I don't see any need for a global variable here, please refactor
+to avoid it.
 
-|[    T632] ============================================
-|[    T632] WARNING: possible recursive locking detected
-|[    T632] 7.0.0-rc1-plain+ #5 Tainted: G     U      E
-|[    T632] --------------------------------------------
-|[    T632] kworker/u32:13/632 is trying to acquire lock:
-|[    T632] ffff8efb858e7c58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
-|[    T632]
-|           but task is already holding lock:
-|[    T632] ffff8efb524a1b58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
-|[    T632]
-|           other info that might help us debug this:
-|[    T632]  Possible unsafe locking scenario:
-|[    T632]        CPU0
-|[    T632]        ----
-|[    T632]   lock(&fence->inline_lock);
-|[    T632]   lock(&fence->inline_lock);
-|[    T632]
-|            *** DEADLOCK ***
-|[    T632]  May be due to missing lock nesting notation
-|[    T632] 5 locks held by kworker/u32:13/632:
-|[    T632]  #0: ffffffffc0ba3540 (drm_sched_lockdep_map){+.+.}-{0:0}, at: process_one_work+0x57a/0x600
-|[    T632]  #1: ffffcf7f020f7e48 ((work_completion)(&sched->work_run_job)){+.+.}-{0:0}, at: process_one_work+0x1dc/0x600
-|[    T632]  #2: ffff8efb524a1b58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
-|[    T632]  #3: ffffffffb60fecc0 (rcu_read_lock){....}-{1:2}, at: rt_spin_lock+0xe6/0x1d0
-|[    T632]  #4: ffffffffb60fecc0 (rcu_read_lock){....}-{1:2}, at: __dma_fence_enable_signaling+0x59/0x320
-|[    T632]
-|           stack backtrace:
-|[    T632] CPU: 6 UID: 0 PID: 632 Comm: kworker/u32:13 Tainted: G     U      E       7.0.0-rc1-plain+ #5 PREEMPT_{RT,(lazy)}
-|[    T632] Tainted: [U]=USER, [E]=UNSIGNED_MODULE
-|[    T632] Hardware name: LENOVO 20TD00GLGE/20TD00GLGE, BIOS R1EET64W(1.64 ) 03/18/2025
-|[    T632] Workqueue:  drm_sched_run_job_work [gpu_sched]
-|[    T632] Call Trace:
-|[    T632]  <TASK>
-|[    T632]  dump_stack_lvl+0x6e/0xa0
-|[    T632]  print_deadlock_bug.cold+0xc0/0xcd
-|[    T632]  __lock_acquire+0x1232/0x2180
-|[    T632]  lock_acquire+0xca/0x2f0
-|[    T632]  rt_spin_lock+0x3f/0x1d0
-|[    T632]  dma_fence_add_callback+0x4b/0x100
-|[    T632]  dma_fence_chain_enable_signaling+0x11e/0x280
-|[    T632]  __dma_fence_enable_signaling+0xc8/0x320
-|[    T632]  dma_fence_add_callback+0x53/0x100
-|[    T632]  drm_sched_entity_pop_job+0xf5/0x550 [gpu_sched]
-|[    T632]  drm_sched_run_job_work+0x136/0x470 [gpu_sched]
-|[    T632]  process_one_work+0x21d/0x600
-|[    T632]  worker_thread+0x1d9/0x3b0
-|[    T632]  kthread+0xf4/0x130
-|[    T632]  ret_from_fork+0x3a5/0x430
-|[    T632]  ret_from_fork_asm+0x1a/0x30
-|[    T632]  </TASK>
+>  static u64 swizzle_bit(unsigned int bit, u64 offset)
+>  {
+>  	return (offset & BIT_ULL(bit)) >> (bit - 6);
 
-Nothing else so far.
+...
 
-> With that the reset selftest works as expected.
-> 
-> But I do see some weird lockdep splats and aborts after that fixed the uncore lock testcases:
-> https://patchwork.freedesktop.org/series/162145/
-> 
-> I believe it could be a different instance of:
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_162145v1/bat-dg2-9/igt@gem_lmem_swapping@parallel-random-engines.html#dmesg-warnings904
-> 
-> Which is tracked under:
-> 
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15759
-> 
-> Perhaps those are related to what you are seeing?
+>  int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
+>  {
+>  	int ret;
+> -	bool unuse_mm = false;
+>  	static const struct i915_subtest tests[] = {
+>  		SUBTEST(igt_partial_tiling),
+>  		SUBTEST(igt_smoke_tiling),
+> @@ -1860,14 +1867,41 @@ int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
+>  	};
+>  
+>  	if (!current->mm) {
 
-Not sure if it was the uncore in both cases. If you have an update
-series somewhere I could pull and check. In meantime I would look what
-causes the lockup on i915.
+so that if current->mm is true we skip valid tests?
 
-> Also don't use that series for anything but CI results, I rather want to submit
-> a new version of this series.
+> -		kthread_use_mm(current->active_mm);
+> -		unuse_mm = true;
+> +		int timeout = 10;
 
-So I am brave for using it on my actual HW then ;)
+10?
 
-> Kind regards,
-> ~Maarten Lankhorst
+> +		/**
+> +		 * We want to use current->active_mm, which corresponds to the
+> +		 * address space of a userspace process that was last handled by
+> +		 * scheduler. It is possible that this memory is in the middle
+> +		 * of cleanup indicated by mm_users == 0, in which case kernel
+> +		 * waits until the process is finished to release its mm_struct.
+> +		 * Borrowing that memory at that point is unsafe, because it may
+> +		 * be freed at any point and taking additional references to it
+> +		 * will not change the cleanup behavior.
+> +		 * Wait for a bit in hopes that another process is taken by
+> +		 * scheduler and has reliable memory for us to map into.
+> +		 */
+> +		while (timeout--) {
+> +			if (mmget_not_zero(current->active_mm)) {
+> +				kthread_use_mm(current->active_mm);
+> +				skip_vma = false;
+> +				break;
+> +			}
+> +
+> +			msleep(1000);
 
-Sebastian
+1000?
+
+> +		}
+>  	}
+>  
+>  	ret = i915_live_subtests(tests, i915);
+>  
+> -	if (unuse_mm)
+> -		kthread_unuse_mm(current->active_mm);
+> +	if (!skip_vma) {
+> +		/**
+> +		 * The scheduler was working while the test executed,
+> +		 * so current->active_mm might have changed. Use the old
+> +		 * reference to the address space stored in current->mm.
+> +		 */
+> +		mmput_async(current->mm);
+> +		kthread_unuse_mm(current->mm);
+> +	}
+>  
+>  	return ret;
+
+Overall I preferred the previous version. What's wrong to just
+politically get the mm and move forward with the test?
+
+Andi
