@@ -2,94 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +JhqDit0oGlZjwQAu9opvQ
+	id yMcqIph0oGmtjwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:26:19 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:28:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E781AA43C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04891AA505
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C7A10E99F;
-	Thu, 26 Feb 2026 16:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC0A10E9C0;
+	Thu, 26 Feb 2026 16:28:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="amRdQr2c";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jj7WrCHN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f3ui27VK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XhgK+y0/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KU//Abyp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A079910E99F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:26:14 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-b886fc047d5so176006566b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:26:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1772123171; x=1772727971;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+P/NABn7QNyqGIEp9LriyRqGQ1C5eThY04lovxqjyqA=;
- b=amRdQr2cc8QFHooMzvcSR1iBmIFVaTE+bT6HWYMIQuytR3xTWF62WZPowkMAKnbSHb
- dBadwtbQYwPoFsuSin5RRjKUaMiXpw3CXsguwumM24AxJZ5UMonrxtXtbMQPfZxu7yCW
- Tv+hc0NCCzf92wEFFW62NsyO8PNl2xldUtyt0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772123171; x=1772727971;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+P/NABn7QNyqGIEp9LriyRqGQ1C5eThY04lovxqjyqA=;
- b=g7CSacpRsPsjrTiva+fLjbrsfjkoPSFG2FWsXsoFdqI+d3AFzJqnPvc+AF1q6ZXNoz
- YBhtaIyfbIKDYnzCHlL98VACYsyNn55uU9/v/Yc1GLc4Arok/NzlvpdOVBxejEwGoNUU
- Cw3e7MC3Mb1VxxsWLPhXONZ9ro70LFOmgECqam17g82Mpiwaac4/Hm+ddkp8I5xkHpJk
- 33idwFyhctk6AIBW+ymuMMXqH37dbFipiSPEBX65QRDnm059/oz1xJvKTrjnba0/hpI8
- FEuHQavAVF3joyv1Dm5FXbl2BCF56XaP1LaSeiixtAVdveoXWtl6nlWDdRRFUw9YfjXg
- ZN2Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfU9rYtRsFGnhz2eewXN2obcdxZNrZDadIB/tjfGH/9f1gJEnsrzCkIXOiwO+QkvZKKw5cFFmfGDY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwA8lZtaq1qFaX4QEevZ7GM4NxJ1dhSToPQsl7lbCCV8+zSU3lk
- YHAnlWoPu4XYMK8A9p+coqu1HNKgKzBTnty+9Yy5W39egZmyvdUyIq7exLpnENMgm7KEJtT9IAk
- jefQZyg==
-X-Gm-Gg: ATEYQzy9wqJAdWNcy2lIfW1mjWf9vo6Jc9mBvZjyvW+rdfxpMHTLdJjX2JM7CyyrccE
- LfX1oJYCfUP7KyRv2aidiAhm9SjVDoj8IfYYibZ4dQzFIvVKpyGYCGOypy1/0oI2ZVt3U9h8NNu
- K9on+e5z/snsBdYzLuNL+BFJ7VGYfZNluVY08fex/JOWpV9U2rC7pw+AQ9kNsnsBQcE7SJwBUQg
- OIGLbW9FaWfYZ24PebWnRBIhUfqBlYHoJ+5My2AsAW5SwP+fIW40Q5f67c4/ExlE+Fuvw4bsWM4
- SkhlE0ziBWmpjz2gauHGH6sBoUptlfDQALaFqdvXgpNhUNtTbLIgmtQeLi09cndQCmL0USz7cSC
- 5bpTFu0vuybCVtJYSy4RMz7Zg8DjaIPnrr71uT6rJ6HBX6xpoKwVCmoDYdwoF0PsHnEsF3uiGth
- AEzsEQ7j8XwdL/oVJ6FJR3sf2AooHKbWQCXZdTj1o/HU9jsRraxUIk33g7Y+i7ZA==
-X-Received: by 2002:a17:907:2d10:b0:b93:6ae4:aa83 with SMTP id
- a640c23a62f3a-b936ae4add6mr83240966b.18.1772123171070; 
- Thu, 26 Feb 2026 08:26:11 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b935aee56c2sm77666966b.65.2026.02.26.08.26.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Feb 2026 08:26:10 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-4398d9a12c6so845887f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:26:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWH9saIazQOKTiQToWt77r1Sr/W4c+5wmZhoC2RtIT7UrrdDwSxLNVCcEhuFIfJhYhYlwjZKLgcxvA=@lists.freedesktop.org
-X-Received: by 2002:a5d:5f53:0:b0:435:e3bd:5838 with SMTP id
- ffacd0b85a97d-4396f16e2cemr38225919f8f.25.1772123168649; Thu, 26 Feb 2026
- 08:26:08 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92E010E9C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:28:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 42E474D221;
+ Thu, 26 Feb 2026 16:28:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772123283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7OzRAhMeZQL8q2h2b++YGnNVZBcTS3noQFvdVVpUYiI=;
+ b=jj7WrCHNjgLSgeqf1ocTKPa417KkjsAAnjavnkAD8GNCFgkFnah88+9u4vJyfW1uKANYYU
+ 5QGRp1JWNqomUAQm89r8KjaPk8q45Js2AlIX8TwtyPPXFST8U0BTXZW4vyrf6faS9oWABp
+ jzVdgUxvtPFmAZKzlH9hyqixkXwWCkA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772123283;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7OzRAhMeZQL8q2h2b++YGnNVZBcTS3noQFvdVVpUYiI=;
+ b=f3ui27VKtEjcxWOhqpDtI3urA5KSdCUP80U5l2EwontfFWygByBUbjIV68LURZplR3bpw+
+ A8ZKACMlzHZo3lBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772123282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7OzRAhMeZQL8q2h2b++YGnNVZBcTS3noQFvdVVpUYiI=;
+ b=XhgK+y0/Vs1pFiv+W0wrlTEIajBYkcl0gGZvEUhNup3XSbuCBAVYbEoh1CQd2g4InrrZor
+ SeD9uKteJbvgBlc4I4PZgA3wAgubvNyVgchabYyX/VYiNy0G0J7qwDaCSIh2v/Q1UfN8E/
+ CC08AAK//q5jjVJw2nspNY9l6TwWGm8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772123282;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7OzRAhMeZQL8q2h2b++YGnNVZBcTS3noQFvdVVpUYiI=;
+ b=KU//AbypvhvIgXwFQBDJhp+rCkqk6gO3BdrWvYelINypKhJY2+FutpWFFVS8ROLYeAddV/
+ XytgGzjZ1pdvDiBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D07E3EA62;
+ Thu, 26 Feb 2026 16:28:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2Aa+AZJ0oGlKGwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 26 Feb 2026 16:28:02 +0000
+Message-ID: <72fc0fd8-f604-4f88-8664-8079b779ed4f@suse.de>
+Date: Thu, 26 Feb 2026 17:28:01 +0100
 MIME-Version: 1.0
-References: <20260226083235.2176689-1-zhouhaikun5@huaqin.corp-partner.google.com>
-In-Reply-To: <20260226083235.2176689-1-zhouhaikun5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 26 Feb 2026 08:25:57 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V5=H14Uw4-p2fKQ2U7q9w6jGdm7ckY3JSoOrWY8h35Yg@mail.gmail.com>
-X-Gm-Features: AaiRm52XV1DmkXVaDzS0m8I7VWdmm8se4MRdf6H6n5gw815EmJindpm0Gmi0Zr0
-Message-ID: <CAD=FV=V5=H14Uw4-p2fKQ2U7q9w6jGdm7ckY3JSoOrWY8h35Yg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Change BOE NV140WUM-N64 timings
-To: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, jesszhan0024@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/dumb-buffers: document abuses in the UAPI document
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260226063740.2872016-1-zhengxingda@iscas.ac.cn>
+ <20260226063740.2872016-2-zhengxingda@iscas.ac.cn>
+ <4380ab4e-6b40-4f72-91f3-2dc0362ce2a5@suse.de>
+ <6bfa80c659d0f1336bcddd844874693766791b6e.camel@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <6bfa80c659d0f1336bcddd844874693766791b6e.camel@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,57 +138,128 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zhouhaikun5@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,chromium.org:email,chromium.org:dkim]
-X-Rspamd-Queue-Id: 61E781AA43C
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,bootlin.com:url,iscas.ac.cn:email,suse.com:url]
+X-Rspamd-Queue-Id: D04891AA505
 X-Rspamd-Action: no action
 
-Hi,
+Hi
 
-On Thu, Feb 26, 2026 at 12:33=E2=80=AFAM Haikun Zhou
-<zhouhaikun5@huaqin.corp-partner.google.com> wrote:
+Am 26.02.26 um 17:06 schrieb Icenowy Zheng:
+> 在 2026-02-26四的 17:01 +0100，Thomas Zimmermann写道：
+>> Hi
+>>
+>> Am 26.02.26 um 07:37 schrieb Icenowy Zheng:
+>>> Although the current DRM_IOCTL_MODE_CREATE_DUMB interface design
+>>> only
+>>> suits linear buffers, some KMS drivers abuse it for AFBC
+>>> framebuffers.
+>>>
+>>> Mention it in the interface document, and clarifying that it's not
+>>> recommended.
+>>>
+>>> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+>>> ---
+>>>    include/uapi/drm/drm_mode.h | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/include/uapi/drm/drm_mode.h
+>>> b/include/uapi/drm/drm_mode.h
+>>> index cbbbfc1dfe2b8..02b6fa7ade355 100644
+>>> --- a/include/uapi/drm/drm_mode.h
+>>> +++ b/include/uapi/drm/drm_mode.h
+>>> @@ -1256,6 +1256,10 @@ struct drm_mode_crtc_page_flip_target {
+>> Since you're at it, you should move the line at [1] right here as the
+>> first sentence of this paragraph. Then continue with 'Do not
+>> attempt'.
+>>
+>> With that change, the previous paragraphs refer to pixel formats and
+>> the
+>> final one refers to framebuffer layout.
+>>
+>>
+>>>     * Do not attempt to allocate anything but linear framebuffer
+>>> memory
+>>>     * with single-plane RGB data. Allocation of other framebuffer
+>>>     * layouts requires dedicated ioctls in the respective DRM
+>>> driver.
+>>> + * There exists drivers exploiting this interface for framebuffers
+>> 'exists user-space software'
+> Ah the drivers seem to be also criminal to accept this kind of usage,
+> it's why I thought about writing "drivers" here.
+
+Each driver implements dumb buffers on top of its own memory manager. 
+They are complicit in the sense that they often never tested against the 
+limitations of the dumb-buffer ioctl. But OTOH the limitations where 
+never written down clearly. Only very recently did we add the code and 
+documentation to clarify dumb-buffer semantics. [1] And not all drivers 
+have been updated yet.
+
+Therefore several user-space programs used dumb-buffers in an 
+"out-of-scope fashion" and got away with it. The comments in 
+drm_mode_size_dumb() list the known exceptions.
+
+Best regards
+Thomas
+
+[1] https://lore.kernel.org/all/20250821081918.79786-3-tzimmermann@suse.de/
+
 >
-> This screen timing requires a backlight off time of more than 100ms
-> from the end of the data stream to avoid screen flickering and red
-> light caused by screen material limitations.
+> Thanks
+> Icenowy
 >
-> Signed-off-by: Haikun Zhou <zhouhaikun5@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>>> + * with modifiers other than DRM_FORMAT_MOD_LINEAR, but this is
+>> Rather 'with non-linear layout'.  The reference to MOD_LINEAR seems
+>> out
+>> of place here.
+>>
+>>> + * incorrect usage with undefined behavior, and should not be
+>>> + * replicated.
+>> Best regards
+>> Thomas
+>>
+>> [1]
+>> https://elixir.bootlin.com/linux/v6.19/source/include/uapi/drm/drm_mode.h#L1216
+>>
+>>>     */
+>>>    struct drm_mode_create_dumb {
+>>>    	__u32 height;
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-...and pushed to drm-misc-next:
 
-[1/1] drm/panel-edp: Change BOE NV140WUM-N64 timings
-      commit: bbe814bcb961ed2f30706ffdc806f18150709d2d
