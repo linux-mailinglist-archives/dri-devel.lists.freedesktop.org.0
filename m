@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGhPLl9IoGkuhwQAu9opvQ
+	id IBjeG7RIoGkuhwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:19:27 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:20:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB391A647E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53EA1A6501
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:20:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C79A10E00B;
-	Thu, 26 Feb 2026 13:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B2510E928;
+	Thu, 26 Feb 2026 13:20:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jMmZos5d";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N4DCZVGH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E63710E00B;
- Thu, 26 Feb 2026 13:19:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61FAA10E928;
+ Thu, 26 Feb 2026 13:20:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E4CE74439F;
- Thu, 26 Feb 2026 13:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC336C116C6;
- Thu, 26 Feb 2026 13:19:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2F3D040DA4;
+ Thu, 26 Feb 2026 13:20:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEDABC19422;
+ Thu, 26 Feb 2026 13:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772111961;
- bh=Pf04Z7iE3GM1u8EKRphHFGn52yUYGcn6vqYD0z/gPbY=;
+ s=k20201202; t=1772112048;
+ bh=kX30qZnPYCqfXb/76euKMO+o8GK+nW5VkIoRhP2qqC8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jMmZos5dus2Vdwkn4H474ZgHVP2copjj/B3Awars5H3ImcL7EgOM+GnMA5CvpMRm3
- uZjje4pqYf4U/nYL+xRxiEDH//aWM0rBwtjD95CAOoRC2yuXMGbL5XtrrMmgfnS2rW
- SKRnp4xNZwZG4CbEKAWHfIsR255vlBA65beKvnqEE9eQWoG97Ra/KUkEcxKju0Wfvo
- sjYcPaRs41hJ/9ffBGb+rQMm97rSXg5Yl5sDLfCmjj7fxTZulWhSZ1k9V9zsma5KQh
- vO/EnlqBQWN2nRtvXne5k66C0o9AUqoILyum0ho9cOZ5L+B4QwkKlPj3fsUzF/4C8F
- ObzEmPlSut8+g==
-Message-ID: <e2b9ef35-48af-4580-86b4-8640d353028c@kernel.org>
-Date: Thu, 26 Feb 2026 14:18:58 +0100
+ b=N4DCZVGHLhr0eBVQJieC3pRRNOvI49z81D2VdJU7sBWh4T/dHMdDAX5hzZ4PpRBNW
+ BRAq078+anBNSSCiijh5OkpiqIYJfpx4294YGpYpgaRQbbP8SGLtoBU6rh9a1FWmwg
+ SMHRRRvB40cIlPOpE5aMdYx0zO6bkUuB7JQPjuU0GcV+U39Xp9CP5szIB0aKctpq2g
+ d+u7N0JiuNZ5PHI+yjzmsfgj+ZfpuRK4a85OFXXDp51NNqss2+suPBeMMB8LBAYrbd
+ ueLNudkPWiaIkRW48GLkCxgdEUdzQySHZm0VcoWcIPqzcKgaOeXkBDt5p+PnSlggiO
+ a+Pn9fTs5JkzA==
+Message-ID: <d8d35cd9-464d-46e5-8da6-cb0e45b1e582@kernel.org>
+Date: Thu, 26 Feb 2026 14:20:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] folio_batch: Rename pagevec.h to folio_batch.h
+Subject: Re: [PATCH v2 4/4] folio_batch: Rename PAGEVEC_SIZE to
+ FOLIO_BATCH_SIZE
 To: Tal Zussman <tz2294@columbia.edu>, David Howells <dhowells@redhat.com>,
  Marc Dionne <marc.dionne@auristor.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
  Chao Yu <chao@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
@@ -96,7 +97,7 @@ Cc: Andreas Dilger <adilger.kernel@dilger.ca>,
  gfs2@lists.linux.dev, linux-nilfs@vger.kernel.org,
  linux-xfs@vger.kernel.org, cgroups@vger.kernel.org
 References: <20260225-pagevec_cleanup-v2-0-716868cc2d11@columbia.edu>
- <20260225-pagevec_cleanup-v2-3-716868cc2d11@columbia.edu>
+ <20260225-pagevec_cleanup-v2-4-716868cc2d11@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -143,7 +144,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260225-pagevec_cleanup-v2-3-716868cc2d11@columbia.edu>
+In-Reply-To: <20260225-pagevec_cleanup-v2-4-716868cc2d11@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -188,16 +189,12 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[columbia.edu:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0FB391A647E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,columbia.edu:email]
+X-Rspamd-Queue-Id: C53EA1A6501
 X-Rspamd-Action: no action
 
 On 2/26/26 00:44, Tal Zussman wrote:
-> struct pagevec was removed in commit 1e0877d58b1e ("mm: remove struct
-> pagevec"). Rename include/linux/pagevec.h to reflect reality and update
-> includes tree-wide. Add the new filename to MAINTAINERS explicitly, as
-> it no longer matches the "include/linux/page[-_]*" pattern in MEMORY
-> MANAGEMENT - CORE.
+> struct pagevec no longer exists. Rename the macro appropriately.
 > 
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 > ---
