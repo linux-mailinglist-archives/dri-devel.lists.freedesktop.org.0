@@ -2,88 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QK3uBfSMoGkNkwQAu9opvQ
+	id ACNINanen2kxegQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:04 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 06:48:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6738B1AD56D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B921A1192
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 06:48:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B1610E9EC;
-	Thu, 26 Feb 2026 18:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0621F10E021;
+	Thu, 26 Feb 2026 05:48:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Uwz+s1nr";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JizTHz3O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0EF10E059
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 05:40:57 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2aaf9191da3so2591455ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 21:40:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772084457; x=1772689257; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VaZyUwACUA0Qe6gGb/aYaVkPcTkTUmYev0wediivZlU=;
- b=Uwz+s1nrJduZH/83LSOXX2NDMEruh4fpehY0FlPRDpEdyEZOy5h2Hu+daHVD5OljVr
- +28FUIHmgtzcsxDTjmrvR+50GEAMzYPkZCSba+P7ej4CsYkj7vJsLDvaran+x1IoNZ74
- FwCehKth9dKxRtqxJRVUVHsWoTHwlwP8MgCl3Cjw/DQcO4005epA7ibwioocei4wlSIU
- 4iJVINkgTBDzwk8l5na8RpxHotj6WFOmbdv25ulELg84em6kA9A3VXHDipN1IfJC3tig
- kt0AjmKVSxkglMW6WCinDB1W6Au5ShqFvcb5uvtT6jNPxYtAfaECx9tBd8ePsNyeQeC2
- ES9w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B40710E021
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 05:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1772084898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XmBuIUiRXRrQAVnTvz1pwFbrKKXF4H4jHwutt43vaS0=;
+ b=JizTHz3O+Yayen/7v7D61ILCr5B79U6fHYz/V3YaALrMX7MVoFhc3icsCLoXW07tfM2lCK
+ VPNPIgteT6lQnIbZ23DUG4XQIfwibDwsGBbAgWur/FcrLlbTYzo8oQdpE7/DFcfusmHCLA
+ AXPl8kDRH+y6DAcJPFKwNICszOuUaSU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-455-0M07zIAVNiCjDQ8TNkET-w-1; Thu, 26 Feb 2026 00:48:16 -0500
+X-MC-Unique: 0M07zIAVNiCjDQ8TNkET-w-1
+X-Mimecast-MFC-AGG-ID: 0M07zIAVNiCjDQ8TNkET-w_1772084895
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4836b7fbf4fso3158175e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Feb 2026 21:48:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772084457; x=1772689257;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=VaZyUwACUA0Qe6gGb/aYaVkPcTkTUmYev0wediivZlU=;
- b=Vvay2wYeKDdeqJl9BwI24TBRlfe5JoKHQyDxKZxW4cBpwqly0ZBwTFp/Cs5AheRFrW
- nEP+yVg05Mnu8LTuWbcEH7nD19GqSRY4mr2gHi8rUg2XUTCQfFXpSa7yN4fAK+5TsODO
- 9fyZ0gp1LrNkOOaWhojhVG8MsiaZdJsVuNekWxpeIoR/S3sE3NHmrhcbAtuQmMFJ2tTm
- z8Zf/kQPciJIGGVoECJqFwFCZL2FBpvD8WvinpSP2dfoMebr1hrfoxSCKycLjrlWcsSM
- rzhugsDYAYKC2Gyt2SgkQ2hOgcgZCDiZDi4lXHj0UEuKnx3fhMK0Uh0bGdb1M6ZguLQT
- fBfg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBZrefcPW/hYaPvOOLXV4GqT+XBs0Ik+kt2N1zO6jHVQ3IsiLQtLczK/oHWvHxyIF9Hf63Yo7O7Y0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmndgpmlavWh61ydCVxM6e3BAEviAxardKprQRCATShx0S7mAB
- 0HKp4RTaEqUq8KrrTPJHGOs5T7qhdhLqtOa7LCXxlukiF+fINwuAM4VI
-X-Gm-Gg: ATEYQzzxDSa6pBfX3eqPZl/9qZ/yVrjGkBOWP6XJfJaC6UY0L108sA/plhvlm+Mcze2
- jy0lLqPZT3baQQ5HAsGJ+br31zWONS24m23y10/8GaLpq6g6+i4gGI5OVD9ppAZMYjubAfEf/Tf
- 17hGc0ed2fvN727mb0RHxmtxJn4ApB5muGCJa0BL6NQIe5c2WXMFowQvvAgD0aT9NBqjtsF5wtm
- Ba4s+tU14rgiMAdPgiro36rB/91Z8FpVMQoJlCVRjexMVewf45Fy9AlP3B02s6DCLFIb4o0/aU0
- NtsyiS5tKDHKSAkR/SQTbHlYGCJEpH3D0OZz+kTtrgxh9tM9leAIr2boyhCUisBYpqfNVs+H1pF
- sSx7sHQFfNGbaiDgW3Fq/I+FzcC+kltcTAkM2QHkYGmpuipFTmSR8ydcx2nckpKoC21AOBeeK4X
- 76/i2ALuxYmOO3TK97X8uzWCAU44aRqGXLBhjt748CfcGjvKY0yU/MHJmQcA==
-X-Received: by 2002:a17:903:98d:b0:2a7:3dbe:353d with SMTP id
- d9443c01a7336-2ae03705fb6mr11325425ad.53.1772084457349; 
- Wed, 25 Feb 2026 21:40:57 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
+ d=1e100.net; s=20230601; t=1772084894; x=1772689694;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XmBuIUiRXRrQAVnTvz1pwFbrKKXF4H4jHwutt43vaS0=;
+ b=IDeEeBJtkVbvJu0plX6Qs3OAFgfDNyOMGRMGIQjOYk6cgR9OcaC/jXLiTWO8CNdd7H
+ T4s0Bw9U6NPMc6qcRiUQ0zaPkO8vlpdHdgnViNq8EOD8LHp03UcJe2tvugBx9s7oyvhT
+ 2CHRiaR9Cu8hnvEDqiOYQL+I6Q5PRRFUmUozRGyyuYH7bRbd3N87Rjd7E5lqHP70jJ4Y
+ 0s8B4iLlWBPTMZ4BL+zabiiUL55F7XWwPKVEzQZnoi6y2nmq6ug2sPxO+GyHrgp7hb1P
+ rvSAad9uECWxDCoYgaAefAQgrGd/lAsSOq2MveQBSghV5uwutXS+e6NbX3j/Xuq7Izew
+ 54XQ==
+X-Gm-Message-State: AOJu0YyWgxD0tSZDPUuhmjvbldSdTlon9sMVIHHyfRrg8fMIq7JnKKxR
+ 3U6ZxBqLDDelDbQWjHgSXk2ZL0bhFdzxa+wi2CD5ufJ7wFRTao0jrWamTQhnzSjS5+RJkWt+cMV
+ +u5f5xcThczki9b1Ap8rKkXASY0HW627wRF9DdWzbhzjMAV0/EkGgew95lu0KBuE19EjyGoVWmP
+ D5xx2a6Yzo1nCVjUDyo6uF3djzK6UgJfu772xv5aBIAEdWdQPTyi7Y
+X-Gm-Gg: ATEYQzyxwqCpHekeptCj9qOTkEgf7OpwrmLJKHAqs9R/DiEx9lT1qn3wWeur9D0QvSp
+ /aakCFCQUxwYj/29euSaHXxd9DU9WCW+D3arTE6xa92RpOkgOZVrObKrmEENKkiiSp6qnW/6+MH
+ e10vTEBqW2HvjtFdzQwCHZqMf3KOEf33oXYihIt6jMU0kl9ocuczmOJAWjbSzPXbBbaqX7J9V1T
+ cOWWXg3oEe4Tqulb8vT5z3nzvrUyzSDSfG7Qg3LqrYmKsTPmYje2gRICZBNJISJYx93RPlQF/Ns
+ cJ8wopzZ47AQNJSsyttOG7HWGF6fv280P8lXg9eG29pr52LoIwW45nKPldceiiQMytCdDSk/nhV
+ DxtKrVVYCjFFDN98gfVNnaXAfEh3CQF2+6VNHdrzh8W7aAAg=
+X-Received: by 2002:a05:600c:3e10:b0:480:5951:fc1e with SMTP id
+ 5b1f17b1804b1-483a95bd836mr306241225e9.11.1772084894191; 
+ Wed, 25 Feb 2026 21:48:14 -0800 (PST)
+X-Received: by 2002:a05:600c:3e10:b0:480:5951:fc1e with SMTP id
+ 5b1f17b1804b1-483a95bd836mr306240935e9.11.1772084893700; 
+ Wed, 25 Feb 2026 21:48:13 -0800 (PST)
+Received: from [192.168.1.86] (85-23-51-1.bb.dnainternet.fi. [85.23.51.1])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2adfb6f3436sm17026575ad.88.2026.02.25.21.40.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Feb 2026 21:40:56 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: phucduc.bui@gmail.com
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
- geert+renesas@glider.be, laurent.pinchart@ideasonboard.com,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de
-Subject: [PATCH v2] drm: shmobile: Fix blank screen after resume when LCDC is
- stopped
-Date: Thu, 26 Feb 2026 12:40:35 +0700
-Message-ID: <20260226054035.30330-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226051338.27460-1-phucduc.bui@gmail.com>
-References: <20260226051338.27460-1-phucduc.bui@gmail.com>
+ ffacd0b85a97d-43970d4c95dsm43151442f8f.33.2026.02.25.21.48.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Feb 2026 21:48:13 -0800 (PST)
+Message-ID: <8c53f3c6-c6de-46fe-a8ca-d98dd52b3abe@redhat.com>
+Date: Thu, 26 Feb 2026 07:48:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 26 Feb 2026 18:11:59 +0000
+User-Agent: Mozilla Thunderbird
+To: dri-devel@lists.freedesktop.org
+Cc: zack.rusin@broadcom.com
+From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
+Subject: [regression] vmwgfx: kmemleak reports
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mWDKqtZ6OQLnENyfyK-lN5XkGVmCcamLZ7df3CnvPq4_1772084895
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,124 +101,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.60 / 15.00];
+	R_MIXED_CHARSET(0.71)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:phucduc.bui@gmail.com,m:airlied@gmail.com,m:geert+renesas@glider.be,m:laurent.pinchart@ideasonboard.com,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:phucducbui@gmail.com,m:geert@glider.be,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[phucducbui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,glider.be,ideasonboard.com,vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,suse.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.996];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FROM_NO_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	ARC_NA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[mpenttil@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6738B1AD56D
+X-Rspamd-Queue-Id: F3B921A1192
 X-Rspamd-Action: no action
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi,
 
-The LCDC controller on R8A7740 loses its register state during
-deep sleep. Upon resume, the driver's Mirror Register mechanism
-(MRS) fails to update active registers because the controller is
-stopped (DO=0).
+After 6.16, there has been lots of kmemleak splash like for instance:
 
-According to the datasheet (Section 38.7.1, Figure 38.13), the
-Two-Set Register Switching logic only triggers a change between
-Set A and Set B when a Frame End Interrupt occurs at the
-completion of a display frame. During resume, as the LCDC is
-stopped, no frame is processed and no Frame End pulse is
-generated. This leaves the Display Data Start Address (SA)
-pending in the standby set, while the active register (Side A)
-remains at 0x00000000, preventing the display engine from
-starting.Debug logs collected during resume confirm this
-behavior, showing the start address written to the standby set
-while the active register remains unchanged.
+cat /sys/kernel/debug/kmemleak
+unreferenced object 0xffff888107f05800 (size 1024):
+comm "(udev-worker)", pid 1495, jiffies 4294719200
+hex dump (first 32 bytes):
+d8 48 88 c1 ff ff ff ff 00 80 3e 00 00 00 00 00 .H........>.....
+00 80 3e 00 00 00 00 00 00 14 00 00 00 00 00 00 ..>.............
+backtrace (crc adb46b12):
+__kmalloc_node_noprof+0x45c/0x600
+vmw_surface_dirty_alloc+0xfb/0x270 [vmwgfx]
+vmw_gb_surface_define_internal.constprop.0+0xd0e/0x16c0 [vmwgfx]
+vmw_dumb_create+0x2e5/0xae0 [vmwgfx]
+drm_client_framebuffer_create+0x168/0x3a0
+drm_fbdev_ttm_driver_fbdev_probe+0x1ef/0x660 [drm_ttm_helper]
+drm_fb_helper_single_fb_probe+0x1de/0x570
+__drm_fb_helper_initial_config_and_unlock+0xb8/0x240
+drm_fbdev_client_hotplug+0x164/0x1e0
+drm_client_register+0x16a/0x240
+drm_fbdev_client_setup+0x114/0x370
+drm_client_setup+0x10c/0x160
+vmw_probe+0x117/0x370 [vmwgfx]
+local_pci_probe+0xee/0x1a0
+pci_call_probe+0x17d/0x4c0
+pci_device_probe+0x177/0x2c0
 
-Prime both register sets when the LCDC is stopped:
+It happens just booting up a graphical environment in a VM under vmware player or ESXi.
 
-    If DO=0: Use lcdc_write() to force the Start Address (SA)
-    into both Set A and Set B registers. This bypasses the
-    switching logic and ensures the engine has a valid base
-    address immediately upon being enabled.
+I have bisected it to:
 
-    If DO=1: Maintain the standard Mirror mechanism and MRS
-    toggle for normal, tear-free operation.
+965544150d1cadf0e8f5bb6c13c19697e46e1429 is the first bad commit
+commit 965544150d1cadf0e8f5bb6c13c19697e46e1429
+Author: Zack Rusin <zack.rusin@broadcom.com>
+Date:   Fri Mar 7 07:57:38 2025 -0500
 
-Verified on R8A7740.
+    drm/vmwgfx: Refactor cursor handling
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
 
-Changes in v2:
- - Fix incorrect use of lcdc_write_mirror() for LDSA2R in
-   the DO=0 path; use lcdc_write() to update both register
-   sets as intended.
+And this seems to be present with 7.0-rc1 also. 
 
- .../gpu/drm/renesas/shmobile/shmob_drm_plane.c  | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-index 9d166ab2af8b..6371bdc2371a 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-@@ -70,6 +70,7 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	struct shmob_drm_plane_state *sstate = to_shmob_plane_state(state);
- 	struct shmob_drm_device *sdev = to_shmob_device(splane->base.dev);
- 	struct drm_framebuffer *fb = state->fb;
-+	u32 ldcnt2r;
- 
- 	/* TODO: Handle YUV colorspaces. Hardcode REC709 for now. */
- 	lcdc_write(sdev, LDDFR, sstate->format->lddfr | LDDFR_CF1);
-@@ -78,11 +79,19 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	/* Word and long word swap. */
- 	lcdc_write(sdev, LDDDSR, sstate->format->ldddsr);
- 
--	lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
--	if (shmob_drm_format_is_yuv(sstate->format))
--		lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
-+	ldcnt2r = lcdc_read(sdev, LDCNT2R);
-+
-+	if (ldcnt2r & LDCNT2R_DO) {
-+		lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
- 
--	lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+		lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+	} else {
-+		lcdc_write(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write(sdev, LDSA2R, sstate->dma[1]);
-+	}
- }
- 
- static void shmob_drm_overlay_plane_setup(struct shmob_drm_plane *splane,
--- 
-2.43.0
+--Mika
 
