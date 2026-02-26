@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GamNts8oGmrhAQAu9opvQ
+	id YKnkAuI8oGmrhAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:19 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1EA1A5B18
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABBA1A5B29
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 514A510E917;
-	Thu, 26 Feb 2026 12:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A5210E918;
+	Thu, 26 Feb 2026 12:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KESKtbb1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B18egGAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C49110E917
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 12:30:16 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-c6e1f417918so224895a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 04:30:16 -0800 (PST)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 531BA10E919
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 12:30:22 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-c6e3e4e7388so293121a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 04:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772109016; x=1772713816; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NqcwDzw5HN4ZLQrwd1zkwQ8pFoXvNQgRaA7hrn50J+c=;
- b=KESKtbb1iNloUxAiP3YW8eJqVxYgf2CjN8J5muQny6viLVSmvsODaEqE5qMKfBRP27
- 9edsutQCNOstKY0YPrFBKXJ8dZWOQAcInAV3Me3cyJB6pmwwMqWMezkzfONKiKQvVp+M
- Dv6FEUavM6EiPNJ3X0fUkmhC3ZUe2lxRQMQ1F44f0RqL5MY8q2Hg2OLYc57t26nG0bAp
- jJzZ1hkKT7QTub+1RnzL76weJm7xoa6m0l4bzbNsJ1JTJo2SKLOZ/BWq2NUaK6iVVcIZ
- aVLbMjf/rb9b6CU3rxeaH1gvgs/vXeK1N7/inj/sNLsJOwDWxB6JmUjDuWnA4nRghp3m
- Dk1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772109016; x=1772713816;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772109022; x=1772713822; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NqcwDzw5HN4ZLQrwd1zkwQ8pFoXvNQgRaA7hrn50J+c=;
- b=DCzNPIxSbnJikiRIPSo3OAyXdwY6xfDab7E0TsGRoIzVE4fkJ+MVoJfRjjqLk15Li9
- m54Fd1dtzevzrZGrAEtbYnl+0fwXlDrMTlWt95GTfyQnV3WRxdMROCmZzA2U6DDR4zRS
- V15syzp9/Y6WswfyXwIwHxRpAVGIASiArlxg+o6FA5qqXrlN8rMEaAONUADAOyIP6gQk
- KxpHrIzuCvactMvVU2DaCZNMFTVzhn0qoPtsTClslKOu1a04B8aahoPjYfjcqCT8Nzmw
- pGYcN5yqLzm0zXyvS7PzllPCxgCee3fNVgKlTczIbVuu+QGMrrDKmGRvrh19MGdTliKi
- kyTA==
+ bh=vX2tPF6zBIVyTh8hqIJIyXQIEwmjYpU6LNcfWWsSq80=;
+ b=B18egGABCEG+E005TfQ6ypwtUycPn1vJrAfMpn7L4PmIbUKcHquT7TDo2G6D8+PjBK
+ wi1ctao4lcoKZL4VQIOVAek7dIYeCcKPV97ZCYfpzSIwxP9yccbBdDoflT07iSh9Ld5J
+ 4Q+b35UJSg6bV0TsiF5k22lkUQ0h3zE0/pdSH0UdrEMU+GFycV01ljyWEUGehHTOmpin
+ uNBtHggu7xJLJ+C/iObdp3kGfd68b2rmVdXpy/QD2nXPsknoPvlcGlv+JHuSMk4jp798
+ vfDk1rKIE1EixyW49fKz2Hj/wPGVOqGtTD9C0HHMUnFekzEr++vPJ3TqQ2u/Ht7eZPLB
+ ImMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772109022; x=1772713822;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=vX2tPF6zBIVyTh8hqIJIyXQIEwmjYpU6LNcfWWsSq80=;
+ b=GwihJeloJ0dMqEAkPO/0Z6qVIr126lihsGGq9idK4HHgblcMGwDr6rg9PyG4eoRfW8
+ x2aZxx7htARSfYX1vCMnDH91oUZmAY1pSYhjlxQMwayorREyiLJXH6UroYkbZqpS/JDf
+ oAeeW5q8pkpSUxk9FS9QOZ747YzS6L5I4IRU8jAN+/yEFndka0vuxwV8m7BPasy/PmOQ
+ bRW2onWXCnNLuqaon5o/jwJp2BNolTxR/dZ1bZDPUxwNkYriqeKPV77fiN4O7LsafpXS
+ onZhbiipUmZjRD5T1uW/WNSRezpPjmMFfKCpwKATL06YIgn0XwRGJ4TTk7AJKeavk4Un
+ r9RA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJGnRUK+AVQgqbslYmWg2b9BuQZN8dgCR2BMG9EhOoRKSkz+p8f2iPNbREbR2Gb95SygRsOqX6i6g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOUIzsc6nB1Ekthheo8emOOZ1bErUFJ5Jyn55kdQ32POqnqcOY
- pXXRosRPvLT4XA9/6XiSOMK3lmlTcOac4uTTbf0tVy/UVSryRP8pgV3D
-X-Gm-Gg: ATEYQzzqLimHoJ2Z5+Bl8SwLF4OZiBQqqtQtpCFlRMzSdXUpb44e6465xlh1SEpP+n7
- rxflQTT62sk5j1Rs4wxkL4u+afvTZz3RgTHXZ65q/LeWqgLS8ZTFCX/Ery7FzKJuphJT2UWQZWZ
- 7y2Qm5iT0yPz1Ezw2j7GJIY/8LU0kv6aEllAZ8tLlrVM0dMwAGJyAlldUNG37xstrkyNRtZRRM2
- f5QMpYpPEj/SnmrjvwqRe3FULac1l/Jw5BVodzjWOP5HClp9qxzKwn4qb1LZeAc+/qkNYCqVYRm
- JTWYVu4WHQBxf6Key4Gw3FmtYWENPhaSivp0ZdS3R4s9eQsKdyyGmeRGBqzSXtPnyX8bYI6mJ7B
- y4qSsg/VfhBNUwtd/k0dDV3IXlIN/TQbHxpuiRbImloHMWANqH98web3XqcCeSyoDEuznSIp14f
- bGZ7BeTg==
-X-Received: by 2002:a17:903:904:b0:2ad:b98e:35e9 with SMTP id
- d9443c01a7336-2ade9a8ebffmr39412815ad.45.1772109015647; 
- Thu, 26 Feb 2026 04:30:15 -0800 (PST)
+ AJvYcCWOBR3I1BFPLE+ZXlOyOyHEUYKw2N18YZnF6vD9O8xMezq3XaxiHkDM1SLqQ75BjqTGKjUiNHSJjlo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7l3x5fiDydp0x96HRxDT2yoXg/l5+n1FEBVkpV3jBa/JYSI4B
+ t6ovsewyyMRT/ci0aL5AtIwcpzM1qMgb+Z94rA82rlw9EuHWe7ceii1H
+X-Gm-Gg: ATEYQzxyaq+OY3XrvPSvUGaOt6HuEtCkyGZq596b99bwgnGpyf8sHyOjDwoRwEdJ/X7
+ ev8CUO2XNIq0RuDMqulHpRUOco73DUC4hFKLhzqJHCDwhQdsGPfIxSNAXbMxH+CR5TsxEvhpmMg
+ 9Jkg7jXt69H/XGjFl18s4IVCQJ0gukVu2+Xem9EQ3sAmQWJVdUqo2KKev00I/fppCLAB+uX68w0
+ XKI3grv3yuQivTPwzhl7xfFqF5VynPw6FdcN2XLcZL3yIZM0UG3TIogGYN3Vr7MWyg9G88kulKV
+ PkrJKR+lHr2xb+7W8vhG06UKjuzT2IKXhPdd7dzqtNdLWnJIDSa4cc/GnTD/T/83Vj7EDWOP49R
+ oC3e7dnjOQqc5uyZ9ZjHtRTwfdog43MFbL8QIDt3+WrTWlIluKwKdtHLttStkp0FfRnSeTRyqyZ
+ MaGQrQ5A==
+X-Received: by 2002:a17:903:94b:b0:2a2:f0cb:dfa2 with SMTP id
+ d9443c01a7336-2ae02e49483mr17925415ad.13.1772109021776; 
+ Thu, 26 Feb 2026 04:30:21 -0800 (PST)
 Received: from nuvole.lan ([2408:824c:a17:8230::c83])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2adfb5b22e7sm25504125ad.3.2026.02.26.04.30.08
+ d9443c01a7336-2adfb5b22e7sm25504125ad.3.2026.02.26.04.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Feb 2026 04:30:14 -0800 (PST)
+ Thu, 26 Feb 2026 04:30:21 -0800 (PST)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -76,11 +77,14 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Pengyu Luo <mitltlatltl@gmail.com>, Mark Brown <broonie@kernel.org>,
  Krzysztof Kozlowski <krzk@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] drm/msm/dsi/phy: fix hardware revision
-Date: Thu, 26 Feb 2026 20:29:56 +0800
-Message-ID: <20260226122958.22555-1-mitltlatltl@gmail.com>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 1/2] drm/msm/dsi/phy: fix hardware revision
+Date: Thu, 26 Feb 2026 20:29:57 +0800
+Message-ID: <20260226122958.22555-2-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260226122958.22555-1-mitltlatltl@gmail.com>
+References: <20260226122958.22555-1-mitltlatltl@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,12 +113,12 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:mitltlatltl@gmail.com,m:broonie@kernel.org,m:krzk@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:mitltlatltl@gmail.com,m:broonie@kernel.org,m:krzk@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
@@ -131,20 +135,117 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AD1EA1A5B18
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9ABBA1A5B29
 X-Rspamd-Action: no action
 
-This series fixes hardware revision for DSI PHY. No functional change.
+The hardware revision for TSMC 3nm-based Qualcomm SOCs should be 7.2,
+this can be confirmed from REG_DSI_7nm_PHY_CMN_REVISION_ID0, the value
+is 0x27, which means hardware revision is 7.2
 
-Pengyu Luo (2):
-  drm/msm/dsi/phy: fix hardware version
-  drm/msm/dsi/phy: rename DSI_PHY_7NM_QUIRK_PRE_V4_1 to
-    DSI_PHY_7NM_QUIRK_V4_0
+No functional change.
 
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 38 +++++++++++------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+Fixes: 1337d7ebfb6d ("drm/msm/dsi/phy: Add support for SM8750")
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 8cb0db3a9..01182442d 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -51,8 +51,8 @@
+ #define DSI_PHY_7NM_QUIRK_V4_3		BIT(3)
+ /* Hardware is V5.2 */
+ #define DSI_PHY_7NM_QUIRK_V5_2		BIT(4)
+-/* Hardware is V7.0 */
+-#define DSI_PHY_7NM_QUIRK_V7_0		BIT(5)
++/* Hardware is V7.2 */
++#define DSI_PHY_7NM_QUIRK_V7_2		BIT(5)
+ 
+ struct dsi_pll_config {
+ 	bool enable_ssc;
+@@ -143,7 +143,7 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_7nm *pll, struct dsi_pll_config
+ 
+ 	if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1) {
+ 		config->pll_clock_inverters = 0x28;
+-	} else if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
++	} else if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)) {
+ 		if (pll_freq < 163000000ULL)
+ 			config->pll_clock_inverters = 0xa0;
+ 		else if (pll_freq < 175000000ULL)
+@@ -284,7 +284,7 @@ static void dsi_pll_config_hzindep_reg(struct dsi_pll_7nm *pll)
+ 	}
+ 
+ 	if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
+-	    (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
++	    (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)) {
+ 		if (pll->vco_current_rate < 1557000000ULL)
+ 			vco_config_1 = 0x08;
+ 		else
+@@ -699,7 +699,7 @@ static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
+ 	case MSM_DSI_PHY_MASTER:
+ 		pll_7nm->slave = pll_7nm_list[(pll_7nm->phy->id + 1) % DSI_MAX];
+ 		/* v7.0: Enable ATB_EN0 and alternate clock output to external phy */
+-		if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)
++		if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)
+ 			writel(0x07, base + REG_DSI_7nm_PHY_CMN_CTRL_5);
+ 		break;
+ 	case MSM_DSI_PHY_SLAVE:
+@@ -987,7 +987,7 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 	/* Request for REFGEN READY */
+ 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) ||
+ 	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
+-	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
++	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)) {
+ 		writel(0x1, phy->base + REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10);
+ 		udelay(500);
+ 	}
+@@ -1021,7 +1021,7 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 		lane_ctrl0 = 0x1f;
+ 	}
+ 
+-	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
++	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)) {
+ 		if (phy->cphy_mode) {
+ 			/* TODO: different for second phy */
+ 			vreg_ctrl_0 = 0x57;
+@@ -1097,7 +1097,7 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 
+ 	/* program CMN_CTRL_4 for minor_ver 2 chipsets*/
+ 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
+-	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0) ||
++	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2) ||
+ 	    (readl(base + REG_DSI_7nm_PHY_CMN_REVISION_ID0) & (0xf0)) == 0x20)
+ 		writel(0x04, base + REG_DSI_7nm_PHY_CMN_CTRL_4);
+ 
+@@ -1213,7 +1213,7 @@ static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+ 	/* Turn off REFGEN Vote */
+ 	if ((phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) ||
+ 	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V5_2) ||
+-	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_0)) {
++	    (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V7_2)) {
+ 		writel(0x0, base + REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10);
+ 		wmb();
+ 		/* Delay to ensure HW removes vote before PHY shut down */
+@@ -1502,7 +1502,7 @@ const struct msm_dsi_phy_cfg dsi_phy_3nm_8750_cfgs = {
+ #endif
+ 	.io_start = { 0xae95000, 0xae97000 },
+ 	.num_dsi_phy = 2,
+-	.quirks = DSI_PHY_7NM_QUIRK_V7_0,
++	.quirks = DSI_PHY_7NM_QUIRK_V7_2,
+ };
+ 
+ const struct msm_dsi_phy_cfg dsi_phy_3nm_kaanapali_cfgs = {
+@@ -1525,5 +1525,5 @@ const struct msm_dsi_phy_cfg dsi_phy_3nm_kaanapali_cfgs = {
+ #endif
+ 	.io_start = { 0x9ac1000, 0x9ac4000 },
+ 	.num_dsi_phy = 2,
+-	.quirks = DSI_PHY_7NM_QUIRK_V7_0,
++	.quirks = DSI_PHY_7NM_QUIRK_V7_2,
+ };
 -- 
 2.53.0
 
