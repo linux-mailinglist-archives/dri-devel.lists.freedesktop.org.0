@@ -2,59 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IFhDOtQmoGk6fwQAu9opvQ
+	id sKYtJuQmoGk6fwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 11:56:20 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 11:56:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514E01A4B02
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 11:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F4F1A4B17
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 11:56:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC5610E8DB;
-	Thu, 26 Feb 2026 10:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E89D10E8E3;
+	Thu, 26 Feb 2026 10:56:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mb4yrmq2";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fwomh1lb";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QgkteOA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC28510E8DB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 10:56:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8E982418A1;
- Thu, 26 Feb 2026 10:56:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12FA2C2BCB1;
- Thu, 26 Feb 2026 10:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772103376;
- bh=rPO6cUOdVrWcPFhjPqfdLAHg2ysunhQpbYi7ff9keqc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mb4yrmq2Lz4VvMoyPpDC+bKBnJT1c62lixgdOfWRs63hYf45InkjhFFctNeTIEMs1
- lEeTDpRSmfu+zNW5OFup6zEZ7ht4wuUri6SsAtLrYWNPfnLOUn6MeTYvui9T9cyazi
- VMhwjv2uR/NM+Q8QHMAxDexa17jHh0tfNgfr8lB+sZwT6v5ovsbsbPEG1FAIROl7Js
- z+F1+HGAdRd86FfoeINUjDydHzMrG3fzqNuep+UB4q0GwNxSEaJj/aRmvGWtzrg/dP
- 88Cx2WiXETgvhPQCP5asgP5tizh01JMIg7sXx3eOUc8Po15pxfM8KeRotfz5G3nHar
- UFb1pvihDXWZQ==
-Date: Thu, 26 Feb 2026 11:56:13 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Matthew Brost <matthew.brost@intel.com>, 
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
- Christian Koenig <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Matthew Auld <matthew.auld@intel.com>,
- Arun Pravin <arunpravin.paneerselvam@amd.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
-Message-ID: <20260226-certain-tuscan-caribou-ba4c5e@penduick>
-References: <20260224110310.1854608-1-mripard@kernel.org>
- <1c76b8d6-9394-4017-a18f-95ecc2c08175@ursulin.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD5110E8E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 10:56:32 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61QALDBI1681284
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 10:56:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 8kE4qU+GVTOAZ+Ag1Onil2K/s8LSRBaWIjephAuyxDU=; b=fwomh1lbiPjQm1dr
+ s6puFpJxIhNly1kr8wUAjBDDI17guul77yDV9LkucR71wK4nZkeT0iDsAjh1qjwT
+ jzGlYt2LF5AJFA1t4X/Wo8lVgpokhBBh/0FuQtSgwHxbednhCH9XPR/DWyzJ8RfY
+ Tr/QGwXwrQOxpNWLSEDw4rzpxBvR7/Yu6yppObVhwKf2va9F0xzGV/JlXnXc189W
+ 5uhDx/+4IBXfBCjnfKMdV2XvrkMN0kWHMTi0wyRNZvZkvxEJi5M9hpu2HClIw9Kr
+ 7FVhXquT/AD4+U9WM95oajexD198Ga20z1or5beGleM33LQO8YL/bWZnGoQpY/+y
+ G+GeyQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj4w4u03h-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 10:56:31 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8c882774f0dso479404385a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 02:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772103391; x=1772708191;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=8kE4qU+GVTOAZ+Ag1Onil2K/s8LSRBaWIjephAuyxDU=;
+ b=QgkteOA7/CsCkQpa6OBSPUKgnzXAaNHLzt0/zglIDf6msaC9wi8kLN9o51kjCUC8WD
+ oHDaZP8acyRFwuUVbMuMrBl6vDJsaHO1sqLMqf/Q2exVsGUgydTThefkR32w+y9VOik2
+ yROOqfZh1guBrklV0wE5oIeYvorZDvb1fvfznEsHa4l6q/yyM72glWGPqptxlMx15mRQ
+ jbywO7qV7bmJAMmNpSSaIsMYYUKloNMDSZWYAooAepT4E9URLVD7GYlhZ+3VpAoUMVyT
+ hIRFzD1pTA6HBad7NHV3B7bjib6IekuITmmgEnW9BRxVeeGfdGxllgn8k4HNCAf0adSh
+ 5+fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772103391; x=1772708191;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8kE4qU+GVTOAZ+Ag1Onil2K/s8LSRBaWIjephAuyxDU=;
+ b=pBOJdK/fgQ2MNb0ZiwoMem0uZcZwwHO4/cFQRpfbMsei+Usk3jq0syJsPFHYQRepiZ
+ 9Dd+iEPvX2IxH1+5xLm9bTeX5wUMbFR1BqksZnhbzXN3ujpRpOvMATUkPebm8VCoHOc1
+ WU8PO31brU06iqSFDNPJIc2Z8j7ZamWsz+jyr3UhGTp7PxRtU+W2d1VzL3Zc8p/K6SU6
+ PkBfBEdVXXi/SGmuu77APi6p8HdxhQXYQwnsFXeJfhST1f9Yv/ruu7odaB/VYcKrlU8m
+ rz+jkQP7R4tRXWSLofHNFrE07VUxYiaULlZr0T814TosIMTF1Xp9fh5tkE5WuCT7guq9
+ KpMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNvBZnWA+DRlF+cVNdtgNmhtsYyzNEokkNuiaRWPrZyw+CU6jny0lbvbS8Bm4pNso6nb8we+isZy0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkPPY1aJKT9vmYBXBdl5jc+ngqcD7ywb6Xy5pA30JF0kX1F3pA
+ jMXbSPa0hLRBMvd62iQlkYIvX/T2qV9JwdSDfZzSMUAYyPxEUvvvhcmb9KDyluiVRfmbTRoAeea
+ as3h44NgYq5UE6/L5Pw6SE8WY/4b5nDlihl8MVJ2c5lhMDLBZ0h+aH/p8Xq9gXpW6NQwogBs=
+X-Gm-Gg: ATEYQzx5g9etvS8lUQDI5EYB+uwaVZCRZd+vsqYbS3fP6ddk4a1wE1ABm+o3l/6gKxP
+ pxptBjLfUsSwXbYeckx+JdE4Fwx7VAwUSbJ2+rTrcldH2s3Y33doJtcx1EtKKA14FIFSgipD0Ip
+ DsG24BLVlJ5efY8V4wRlOf2zwGRW7dTD+Ey/8qb+rwsfKhWcvfCUA/rrlvS8jR1SrWfD9yuc50W
+ ys4XMXP7PW9BywbZ0hRqXMm3yuURtdSaldfR6bWncLtUWjOMv4YFzdpT7hl7zX88guSVhyPEGha
+ ssJuLJEYz7Ciw9E/OVSBP9LgKXTJ81A8XYA8KOiZ4UxMhXLNMDXVIsEHOPpbjRBzmQL9OyqQi8H
+ 0k1VD0Mm/vCyvGadZ7QZUlixf98o/eHm3LP5tuJTjgN83LgvCjEbwWMh5bzpRj4Y9Qt6Qy5RcGJ
+ 3EmwsW1CTCQUVd4W35HxvMVoot455RLVuAk9A=
+X-Received: by 2002:a05:620a:2956:b0:8c6:e224:926d with SMTP id
+ af79cd13be357-8cbbcf2da6bmr478125885a.16.1772103390867; 
+ Thu, 26 Feb 2026 02:56:30 -0800 (PST)
+X-Received: by 2002:a05:620a:2956:b0:8c6:e224:926d with SMTP id
+ af79cd13be357-8cbbcf2da6bmr478122985a.16.1772103390355; 
+ Thu, 26 Feb 2026 02:56:30 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a10a0350bdsm698159e87.2.2026.02.26.02.56.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Feb 2026 02:56:29 -0800 (PST)
+Date: Thu, 26 Feb 2026 12:56:27 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Tianyu Gao <gty0622@gmail.com>, White Lewis <liu224806@gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: display: msm-dsi-phy-7nm: Add SC8280XP
+Message-ID: <rwsaypiovv3xtw5pfxw5rksmqetv4mogu4yy7yrm7gfknezmuw@bh6v5q2zeuiy>
+References: <20260225054525.6803-1-mitltlatltl@gmail.com>
+ <20260225054525.6803-2-mitltlatltl@gmail.com>
+ <20260225-analytic-economic-parrot-4c3a45@quoll>
+ <5617b6ec-b1f7-4f3d-abda-d7142c323759@oss.qualcomm.com>
+ <CAH2e8h7T3Qy1f=-34SK+q=n9TRYOtzyxY8R6yKZJZGr_f+UMZg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ewen6bozgbrdj5du"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1c76b8d6-9394-4017-a18f-95ecc2c08175@ursulin.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH2e8h7T3Qy1f=-34SK+q=n9TRYOtzyxY8R6yKZJZGr_f+UMZg@mail.gmail.com>
+X-Proofpoint-ORIG-GUID: t7qYo1pzYE1J_nNfISe8Pibon0sjEwUn
+X-Authority-Analysis: v=2.4 cv=IqMTsb/g c=1 sm=1 tr=0 ts=69a026df cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=pGLkceISAAAA:8 a=H-TpH9_BN8MYRBI9SD8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA5OSBTYWx0ZWRfX9nxtD8XelQpG
+ 1haGFMmJX/qrvelz1KpK1+VlMSh5AYGv7LfuzVQGVdJQdQha/G7jDCRLe9WDfj9DyDrWqcgjcFs
+ JbccAgXHhi2IxLZ1BVA4TtJZXc4e1LLf0Kj+/jKAKccEwXrPkd/VehCiZReUrPsjg145ghySbqg
+ Vom/Tn9pim3ZTZ4PPMtGQuZlwco7WXPrWafBx365uNJ3MdB2HoeKmXRDMBOVhW1V/fjR33TCZri
+ nvqeUoddachIJOD3WmnwlWbO383BL9M3tXpammyk02RuBNCC1SP0E29Wu7uxX5Z9+bJg4LFM/SV
+ hr6fBxZhHmTHbwlKtr7ucaLyNUJl+n5gVJUM51Z0Sv4Z3uv/391khovgR2if6wKDqiNm4ZPR2ot
+ 4DXdTzfj7mcwkqEHNYh3wNUwtuJqYg+ZVPnItAZVSvPseW1Kqv7Fc7lu9TCgm1X3cnB6sQAhMPn
+ B2qYM71/eW+gceeAu5w==
+X-Proofpoint-GUID: t7qYo1pzYE1J_nNfISe8Pibon0sjEwUn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,126 +167,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:konrad.dybcio@oss.qualcomm.com,m:krzk@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:quic_mkrishn@quicinc.com,m:jonathan@marek.ca,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gty0622@gmail.com,m:liu224806@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tursulin@ursulin.net,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:christian.koenig@amd.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:matthew.auld@intel.com,m:arunpravin.paneerselvam@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,marek.ca,vger.kernel.org,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,amd.com,linux.intel.com,suse.de,ffwll.ch,gmail.com,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 514E01A4B02
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 49F4F1A4B17
 X-Rspamd-Action: no action
 
+On Thu, Feb 26, 2026 at 06:44:02PM +0800, Pengyu Luo wrote:
+> On Wed, Feb 25, 2026 at 7:02 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+> >
+> > On 2/25/26 11:24 AM, Krzysztof Kozlowski wrote:
+> > > On Wed, Feb 25, 2026 at 01:45:21PM +0800, Pengyu Luo wrote:
+> > >> Document DSI PHY on SC8280XP Platform.
+> > >>
+> > >> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> > >> ---
+> > >>  Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+> > >>  1 file changed, 1 insertion(+)
+> > >>
+> > >> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+> > >> index 9a9a6c4ab..9223af1f4 100644
+> > >> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+> > >> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+> > >> @@ -23,6 +23,7 @@ properties:
+> > >>                - qcom,sa8775p-dsi-phy-5nm
+> > >>                - qcom,sar2130p-dsi-phy-5nm
+> > >>                - qcom,sc7280-dsi-phy-7nm
+> > >> +              - qcom,sc8280xp-dsi-phy-5nm
+> > >
+> > > Your other commit claims it is compatible with sa8775p, just like some
+> > > other devices here.
+> >
+> > If that helps, they do have the same values for the REVISION_ID registers
+> >
+> 
+> Thanks for confirming this,I will add this to the commit message and
+> fallback to sa8775 then.
+> 
+> I am curious, do the PHY QUIRKs in dsi_phy_7nm.c reflect PHY revision?
 
---ewen6bozgbrdj5du
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
-MIME-Version: 1.0
+Yes
 
-Hi Tvrtko,
+> I notice
+>             REG_DSI_7nm_PHY_CMN_REVISION_ID0       QUIRK
+> SM8250:     0x00000014                               4.1
+> SM8650:     0x00000025                               5.2
+> SC8280XP:   0x00000024                               4.2
+> SM8750:     0x00000027                               7.0(*)
+> 
+> (*) SM8750 is 7.2 in the downstream.
 
-On Tue, Feb 24, 2026 at 12:49:01PM +0000, Tvrtko Ursulin wrote:
->=20
-> On 24/02/2026 11:03, Maxime Ripard wrote:
-> > Some DRM tests cross the 1s execution time threshold that defines a test
-> > as slow. Let's flag them as such.
->=20
-> Curious that both did not trigger for me and I even run them under nested
-> qemu most of the time.
->=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >   drivers/gpu/drm/scheduler/tests/tests_basic.c | 4 ++--
-> >   drivers/gpu/drm/tests/drm_buddy_test.c        | 2 +-
-> >   2 files changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gp=
-u/drm/scheduler/tests/tests_basic.c
-> > index 82a41a456b0a..a5a5a35a87b0 100644
-> > --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> > +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> > @@ -419,11 +419,11 @@ static void drm_sched_change_priority(struct kuni=
-t *test)
-> >   		drm_mock_sched_entity_free(entity[i]);
-> >   }
-> >   static struct kunit_case drm_sched_priority_tests[] =3D {
-> >   	KUNIT_CASE(drm_sched_priorities),
-> > -	KUNIT_CASE(drm_sched_change_priority),
-> > +	KUNIT_CASE_SLOW(drm_sched_change_priority),
->=20
-> This one deliberately aims to run for ~1s and I don't have an immediate i=
-dea
-> how it would go over 2s.
+Please change SM8750 to 7.2 (and SM8150 to 4.0 FWIW).
 
-1s is the threshold for a slow test:
-https://elixir.bootlin.com/linux/v6.19.3/source/lib/kunit/test.c#L365
+> 
+> Best wishes,
+> Pengyu
 
-It only warns about it if it crosses 2s, but if it's expected to take
-1s, it should be flagged as such still.
-
-> >   	{}
-> >   };
-> >   static struct kunit_suite drm_sched_priority =3D {
-> >   	.name =3D "drm_sched_basic_priority_tests",
-> > @@ -544,11 +544,11 @@ static void drm_sched_test_credits(struct kunit *=
-test)
-> >   	drm_mock_sched_entity_free(entity);
-> >   	drm_mock_sched_fini(sched);
-> >   }
-> >   static struct kunit_case drm_sched_credits_tests[] =3D {
-> > -	KUNIT_CASE(drm_sched_test_credits),
-> > +	KUNIT_CASE_SLOW(drm_sched_test_credits),
->=20
-> Same really.
->=20
-> Anyway, the scheduler parts LGTM and I can follow up trying to optimise
-> these two later.
->=20
-> For the scheduler:
->=20
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Thanks!
-
---ewen6bozgbrdj5du
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaaAmzAAKCRAnX84Zoj2+
-duK+AYCZ2w2OrrKnkMGunBvb9P6RexxZVqO3A8ryGfkoD7XWNnE71nmzXL++bmDn
-7er07hABf0JjZyJXwagKudwPS7csXeUZnq4+wjDfk8tzRGr21RfzbaAVbQ9+fJPU
-nTPqP0VW9w==
-=O9cF
------END PGP SIGNATURE-----
-
---ewen6bozgbrdj5du--
+-- 
+With best wishes
+Dmitry
