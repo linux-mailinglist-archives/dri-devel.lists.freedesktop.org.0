@@ -2,160 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QArPJ0i+oGkDmQQAu9opvQ
+	id KGFwOGm+oGk1mQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:42:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:43:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B43D1AFF41
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F3D1AFF70
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 22:43:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC47010E9DC;
-	Thu, 26 Feb 2026 21:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A6210E9E0;
+	Thu, 26 Feb 2026 21:43:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="GY+BN0JB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VpQUyZJQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010052.outbound.protection.outlook.com [52.101.85.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6A310E9DC;
- Thu, 26 Feb 2026 21:42:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v6qzhaVYSgk29phNT1luIfMTQgzi6zVaRbn1egf6HLWbH9/tOEv0dlZzNZnWJ6whvUc0ckIrCh9GbB/mhrFXuTGEzJR61YqxTU7ZUmrz/Kh/1jz3mq0WNv5WFmutwkO0jITaczNQtNt/+X1Dy9iBd9LERMZEEyV27HJFKvLwt5DOlCSn+r0b8aiorSaF+AN/70cdMzfdbbQvtaPGsM4ISzt6+dnMrnYG869sJ4bPZsWrOdsBrQE4mAG1Y7NAD3mDOw0urf+TX3M1gsfVlpVK1wnaw/+a/7LGpfFPs3SGLHbw1lyAtlMBTpCb513GP0lci7FjB86+yZYtYJLA6fXPfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9KYm4ebBoksMpM4lfq6kefecUbVPORV6wcmKADp3RqE=;
- b=RfLEwJXPbOxN3eDR4pLWa8AwfXjm/axcSAVCoSNdqnap9monprDeju8BWSqof6AXNNbkXoCvlFP9LBZTf6b2mdeBTLhBv0c6NDnckp+4uKlNGNfu2E8oDpyhZrXSU6LIAVkPXTc2WuJl8PtDjKjMgrgrmV+sfCjfQBt3RJsUr+cwXKplsMtHYYpAMvWG23iULEmZ+2eXMNNQxLsPEeNe7fTVVLRIDeTpFNiuRIEPTYOUDMU3ZEfRtyeCXhV1b+UGVkW2+OM8uQv1aslqHuKWDISOU8Az2hCz6t+4+w6IzSvHEBuajVR56ZuVFL06mYkCo+QvlXwN83h8RNK4jh8LyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9KYm4ebBoksMpM4lfq6kefecUbVPORV6wcmKADp3RqE=;
- b=GY+BN0JBxX0y/OVaCAuqg3vwZ2bKxM4hPCAszWooQ5J8331jWXj9/pk750RTSJJ97k4GN0idLLvL6i3FgOZ2jQRzCx/+8oZCtU3tayDEICyv+LXucHVKmNVI3RVV5av3OL3RyexST/Bf5d0BErsFyXBvLFkQlle73J7QyK/fUj1HQHZ95TlowUXms/DDjTxRVnot2pTNi+Xeci+pNvsv4BX6pUnNKsVXO4my2AVCCjNq18yfBdWl5i98SKGRUyScZROUh8NgULYV8PTYcJ13pL7yeFDULxM+hP1T509SOsLDYb0wkn6UaCTjDqk9p52amN4QMIC9NvxqvP4JHgSVLw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- DS7PR12MB9504.namprd12.prod.outlook.com (2603:10b6:8:252::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.14; Thu, 26 Feb 2026 21:42:15 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
- 21:42:15 +0000
-Message-ID: <3161a017-a9f8-465c-b4dd-fef085d75b98@nvidia.com>
-Date: Thu, 26 Feb 2026 16:42:11 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 4/4] rust: gpu: Add GPU buddy allocator bindings
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com,
- Eliot Courtney <ecourtney@nvidia.com>, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
- <20260224224005.3232841-5-joelagnelf@nvidia.com>
- <DGO4BIQ6MQ9Y.KB3JJQI71ETU@nvidia.com>
- <eff888d1-2caa-45bd-a611-e5772ee94e1b@nvidia.com>
- <DGOJDXWDOJD0.2J6NENL44SQJJ@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DGOJDXWDOJD0.2J6NENL44SQJJ@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR13CA0006.namprd13.prod.outlook.com
- (2603:10b6:208:160::19) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA4810E9E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 21:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=KMO7ftdmN6wlFvq+2iDgYae0+l7HSj5oUnrV5siPdi4=; b=VpQUyZJQQw3HNJwJxkRqafKqls
+ bZeYIU7HqK1BN/0MD/7F9F1TxXM09aawRkq5QG0Xrv6S2XLWV/ZCoZKdHTi8Ct7gMpxkGxy3UzQDy
+ BAp5KbM6fYvTXhMvrpPQ+y8so2j5kNiPBl1Vc5MdxSvJZ065toSYo84pf/lLsB89rOgL/L/mAzmWi
+ UBsIrTyGmxacMyNO3Gcb36hJHMHtIkVc+rvRcsTBR5Q/UgcKjO3uvKDvj613FnTy4GO+5odCj+s+g
+ J3Hd7gNC+V8KSA39Axq/p3Y3+xPIVbqHc9N9zXfgBhdvG8/0CqtOu4cxONBTjRgpK40gxZfGY5TAN
+ b1FdgANg==;
+Received: from [186.208.68.119] (helo=[192.168.18.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vvj8A-005sDM-EO; Thu, 26 Feb 2026 22:42:46 +0100
+Message-ID: <0e1dd1f1-c01b-434a-be9e-240ee8cd264d@igalia.com>
+Date: Thu, 26 Feb 2026 18:42:40 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DS7PR12MB9504:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91f910d6-5a09-470a-cea3-08de757fe867
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: NSTo+07b5mMuu7NPp5XLuJCbMQ+IHTsBJH6eebjyWFFkM2u7+jq8hocUCghOFZkgQ51hS7qrWxNyEUOyBgqfiSCAlbTJkLaT2+QtSc5ViV8hKEHdZytVQTo/3oL26wFPK64KWFtqo8BaiQguiGVqSrkzsHS1S6tzp6M/NN8XlfHGEywTzYZC8LMN1knO8+1ntNesQs8A9flkc92UpK3WQRlu1wpwLVUceH2UfiYORPK/dgQ2CpOUC+NnvOpRaP0Z7izEtp2Mkg37/XAv8q5UzVyNGM//QygZaRcAk3/mfDZQTpTCYCqaTTFvwH/35v+iRablSuAm+dZRtS51tn13pOtlmBr+vtjw8mMk/qhJ3NqMgVjhdg4xjuwmwBb+YDott8r0t7c4wr+ENLUG5FCEQ915yVkjcGhNJApRJGtBCUw0Pz3q08QWwAaQeXj0b2WzyQW3FtGOkow05pZc0XaowLK9N31cVjYJB5clkT8iM0w/dJ24f8cXcXnF++hw1W94x+NYsV4/DhBtpqoI3YLigedJ0Sd0iDYiYEcQSxlXXD2DNV534wAvfa7OtoEtTwOhRFiULJLorBx6EmbSY/0dYz4Oiq1rpK0XsEPW9MsRAynk9O9jRpv1YrMjDL9avk+m0fD86AU8Tr7qZifDG3NGyhGbHXtATUwZhhR0v+CO7Wq5RrDd+XhXh+0nT67hcWkBjplzhH3r4DssYeSKdwmES8PKBYGYjiN4coANYCagokw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0lGR1Rkc01TYXpQVjhHbkJHaGR5ZE5tN29PT1BEUDBFTWFYZnNmeVlEN1NW?=
- =?utf-8?B?SWdQVjBuQVkxMWNCVTFkbVRnc0xtMGp4WWRYRGNrblZSenF4eVFaYjlYc1ln?=
- =?utf-8?B?TUQvQXhQK1cyTC85YnU1VXBIMzFKVGNmckZJRVo2bTNQY0hmY3NIeWU3Ui9p?=
- =?utf-8?B?d2kwU3FnQnVaRTNjSzB1NmREemVuOVEvdXBHTFg3UGowTDBubUtueklnWWFs?=
- =?utf-8?B?azdhbE5VZ1JnU0ZyNVFSWW96UHpMSjhCbWF2dnVHdllFbXE0OGk1cUlFNXE3?=
- =?utf-8?B?NlBrdGJoYndLbCtZcTZ6Qi9DdnlqRzJrUnE0MFovbDlaZVFRLzBuK1BaTVJl?=
- =?utf-8?B?Z1VwejBabmlPa1JVS1lnb0ZSR21aNWNWYUVtc043b05jclhqSmtWZnpLeEtw?=
- =?utf-8?B?emZoOHBhQmFtT2lGQXNZUlpjQWZDb0pyd3lVNmVhcEhPcy9keFFVM1BpNWhk?=
- =?utf-8?B?dnB3SUY4ck8wZjgwNTNKRVJmLzVCakVlWFZLekJrQzMvNVBLbWZIL1NUREwx?=
- =?utf-8?B?OHc3dTNEUHFWblBzdUNJbmJMbUY1b3ZydGtVOERac3k3RlB3VE55Q2JEOHlE?=
- =?utf-8?B?NTdmQnlLQ3V2SXo4cXhoeVdURnVaOFBHVm5tOEkrYm9pTkdDQ2JFbDRMV2x1?=
- =?utf-8?B?MXIrYjh5OXBlc21UR25VSEVyUjlSeURQQXQ4alVYUHp2aVE1MmZkUkdXV1R5?=
- =?utf-8?B?Snhod1FkUGxMYjcwSTIxMFF3a1BUci83NnZON2JmNVpRS201TlhlUWFtVVVY?=
- =?utf-8?B?L2ZTd211elJhNVdRRnorL2MzNmptcHhjSjdIZnZXSWFCZGc4WTR4MGYrcmN0?=
- =?utf-8?B?N0kxdk1pQ2xjL2J6dTJzZnA1eElPbzN4RTJxOFVWSXg5OEhGZ3B0MWxVSml1?=
- =?utf-8?B?QWVGVGw5L0p6SFlvaUcwZkRXK2NKcklCY1Z2Rk4zVW5mYk5YMHZ3Tk9JM0F1?=
- =?utf-8?B?NzcxVVR4c2tUbzYydUo0R1NiOENmZG94ajdmTjBPaFhNODdDVGl6dFZqK1VW?=
- =?utf-8?B?T29HaUhoblFQTER5YWh1cGtOYTRDR3NsMnl0b1hUTE1PMUYxbkFJQ0lkUTlJ?=
- =?utf-8?B?cnFrQ1JUVE5wd0xDN3Fkd2pNeEJFRGVmeGlvaDUyTjBKbGU3R3J3NW5oMGJa?=
- =?utf-8?B?aDZuMHlyOUt2NkQrQjltR3UzZERselNFbmJFZHAwMnJGdDI5T3E2VUh5Nlpi?=
- =?utf-8?B?SmpGaGtNV1M3SWZNNStTZmhOc0pTSGdwdm10OHcrbnVKcjg1dWt6RFRiVVZ6?=
- =?utf-8?B?Mmx3N3JoeWhSOFArU1cvSFlqc3FwUHJER0NPeGt6aXdWcGNGanJ6dWlDQW1t?=
- =?utf-8?B?aDZWQWx0VklaNGtUbW9JY3krQzh0VzRqSkZoNks5c2dpRmpXNWtkVk1jR3hM?=
- =?utf-8?B?ZUUwN1FQcG5qMG8yd3pETzR5Uk5hc0VJNFZlbWZ4NXBjbUtZc0ZaaUNaSFox?=
- =?utf-8?B?a25QTDM4UGdya0JKMmoyZllzSFBnRzhlTEVqOWNjSzNRUE1QSkhObDJ5Qk5i?=
- =?utf-8?B?bmRoU0dkUFJjYWZUVFhtM0U0Qlo1cGNmcWRVR0pMbnNYOWthTXlrTEtMakF5?=
- =?utf-8?B?Q2Q2TmE3V1pPaG9TdlVSUjBvTWFnWlF1QUNaUTF4S28xODVTM0hGSEp4K2ZH?=
- =?utf-8?B?dk5uQWtVb1YrNmM2U1BGZzM1bkU4eGZOczJ5MUYxbkNnVXNLOFc0b3k5QjRr?=
- =?utf-8?B?M0x0NjYvN3E4QllHUVRHVWZpdldlSTA1THhEdnlocnVLd2tNNWtXVXVVdVd6?=
- =?utf-8?B?RFhCaDY1dDhPZ1NrbDdJaFIxNXFFTm5hYjFjK1NEMDBkMTVKT2tzSFh0eWU5?=
- =?utf-8?B?N3kwSDkzTFJjSXo5WVNENUZjQVpiOGRzSmhjSEJDVGpTRHRQSEMzYzBrc2J1?=
- =?utf-8?B?dFd6OHNoRDZ1NFFwS3Z4dWJSckRJa2pRRThwb0k1ZElacTBDajhwZjdGdmRj?=
- =?utf-8?B?YWhmdUlDQ2xIYXZoTXBENXhUNnMvK1NLcHRkalAyRWtWVk1yV1lzZDVhMmgy?=
- =?utf-8?B?Z0NGVFhQVkhXRnpzRGtHeXlZMGNFc1dmS2ZrdTlUM2JpcTVSUzcrZ05qZVVl?=
- =?utf-8?B?Z0IrQmloRmlYb0piaENURXZqckRBUFFTdlZJSFh6dkRiVitRYk4rOGN0eExm?=
- =?utf-8?B?a1Azb0twMnhKQVB2TTRYZ1pzYndCTmRDekFvNDFrRzRXRk5PVm9CdUx0MXp5?=
- =?utf-8?B?bGdGSWw5ZUg3aXI5ZVN1a2l2b0pROXAwQXNiL2djTTVkS3JxQ09QaFFXREdX?=
- =?utf-8?B?MDVPQXArODNPQWZwMUcyMGt1VlhxZnZINzlxUXcybXJyQXN3QlpZQTVRQith?=
- =?utf-8?B?TmVnNmxhOHZrYW1xbFEzSjFQT0hNWXdyc2NQVE4vY3JGNVJOaFlLQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91f910d6-5a09-470a-cea3-08de757fe867
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 21:42:15.5287 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d//WIIiwhtd+ymjh+HfGbpZkB4Nhu+gRYxzOu5N1XErzcm20snRMkAEx65u9NGV6+Gh2/srpjLHqsMnpINIcxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9504
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/11] drm/vc4: Add DRM GPU scheduler infrastructure
+From: Melissa Wen <mwen@igalia.com>
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
+ <20260205-vc4-drm-scheduler-v1-5-c6174fd7bbc1@igalia.com>
+ <a3db6086-dcec-4d47-8d35-051d65851100@igalia.com>
+Content-Language: en-US
+In-Reply-To: <a3db6086-dcec-4d47-8d35-051d65851100@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,280 +73,699 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[48];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.965];
-	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,gmail.com,weathered-steel.dev];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0B43D1AFF41
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.995];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,base.base:url,args.name:url,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 29F3D1AFF70
 X-Rspamd-Action: no action
 
 
 
-On 2/25/2026 9:26 PM, Alexandre Courbot wrote:
-> On Thu Feb 26, 2026 at 5:41 AM JST, Joel Fernandes wrote:
->>> This structure doesn't seem to be useful. I would understand using one
->>> if `GpuBuddyParams` had lots of members, some of which have a sensible
->>> default value - then we could implement `Default` and let users fill in
->>> the parameters they need.
->>>
->>> But this structure has no constructor of any sort, requiring users to
->>> fill its 3 members manually - which is actually heavier than having 3
->>> parameters to `GpuBuddy::new`. It is even deconstructed in
->>> `GpuBuddyInner` to store its members as 3 different fields! So let's
->>> skip it.
+On 18/02/2026 19:08, Melissa Wen wrote:
+>
+>
+> On 05/02/2026 18:31, Maíra Canal wrote:
+>> Add the core infrastructure to integrate the DRM GPU scheduler. This
+>> commit introduces the file "vc4_sched.c", which implements scheduler
+>> operations for BIN and RENDER queues, timeout handling, and job cleanup.
+>> Each queue has its own scheduler instance.
 >>
->> I'd prefer to keep the struct -- all three parameters are `u64`, so
->> positional arguments would be easy to silently misorder. The struct
->> also makes call sites more readable since Rust has no named function call
->> parameters.
-> 
-> Fair point about the 3 parameters being easily confused. If you keep it,
-> can you also store it in `GpuBuddyInner` instead of deconstructing it
-> into 3 members?
-
-Done, good idea.
-
-> 
+>> This implementation follows the same design as the v3d driver.
 >>
->>>> +pub struct GpuBuddyAllocParams {
->>>
->>> This one also feels like it could be rustified some more.
->>>
->>> By this I mean that it e.g. allows the user to specify a range even if
->>> `RANGE_ALLOCATION` is not set. A C API rejects invalid combinations at
->>> runtime. A Rust API should make it impossible to even express them.
->>>
->>> [...]
->>>
->>> That would turn `alloc_blocks` into something like:
->>>
->>>   `fn alloc_blocks(&self, alloc: AllocType, size: u64, min_block_size: Alignment, flags: AllocBlocksFlags)`
+>> The scheduler is initialized at driver load but not yet wired to the
+>> submission path. As of this commit, the jobs still flow through the
+>> legacy code. The actual switchover happens in a subsequent commit.
+> Hey, I need to pause the review now, but I left some comments below so 
+> I don't forget them :)
+>
+> I plan to continue tomorrow, sorry.
+>
+> Melissa
 >>
->> The C API supports combining allocation modes with modifiers (e.g.
->> RANGE+CLEAR, TOPDOWN+CLEAR), so modeling the mode as a
->> mutually-exclusive enum would lose valid combinations. More importantly,
-> 
-> What I suggested does allow you to combine allocation modes with
-> modifiers. I should have pasted a bit of code for clarity, so here goes:
-> 
->     #[derive(Copy, Clone, Debug, PartialEq, Eq)]
->     pub enum GpuBuddyAllocMode {
->         Simple,
->         Range { start: u64, end: u64 },
->         TopDown,
->     }
-> 
->     impl GpuBuddyAllocMode {
->         // Returns the flag corresponding to the allocation mode.
->         //
->         // Intentionally private - for internal use.
->         fn into_flags(self) -> usize {
->             match self {
->                 Self::Simple => 0,
->                 Self::Range { .. } => bindings::GPU_BUDDY_RANGE_ALLOCATION,
->                 Self::TopDown => bindings::GPU_BUDDY_TOPDOWN_ALLOCATION,
->             }
->         }
->     }
-
-I took this bit from  yours(more comments below).
-> 
->     impl_flags!(
->         #[derive(Copy, Clone, PartialEq, Eq, Default)]
->         pub struct GpuBuddyAllocFlags(u32);
-> 
->         #[derive(Copy, Clone, PartialEq, Eq)]
->         pub enum GpuBuddyAllocFlag {
->             Contiguous = bindings::GPU_BUDDY_CONTIGUOUS_ALLOCATION as u32,
->             Clear = bindings::GPU_BUDDY_CLEAR_ALLOCATION as u32,
->             TrimDisable = bindings::GPU_BUDDY_TRIM_DISABLE as u32,
->         }
->     );
-> 
->     pub struct GpuBuddyAllocParams {
->         mode: GpuBuddyAllocMode,
->         size: u64,
->         min_block_size: u64,
->         flags: GpuBuddyAllocFlags,
->     }
-> 
-I took this bit from  yours(more comments below).
-
-> Now instead of doing something like:
-> 
->     let params = GpuBuddyAllocParams {
->         start_range_address: 0,
->         end_range_address: 0,
->         size: SZ_16M as u64,
->         min_block_size: SZ_16M as u64,
->         buddy_flags: BuddyFlag::TopdownAllocation.into(),
->     };
-> 
-> You would have:
-> 
->     let params = GpuBuddyAllocParams {
->         // No unneeded `start_range` and `end_range`!
->         mode: GpuBuddyAllocMode::TopDown,
->         size: SZ_16M as u64,
->         min_block_size: SZ_16M as u64,
->         flags: Default::default(),
->     };
-> 
-I took this bit from  yours(more comments below).
-
-> And for a cleared range allocation:
-> 
->     let params = GpuBuddyAllocParams {
->         mode: GpuBuddyAllocMode::Range {
->             start: 0,
->             end: SZ_16M as u64,
->         },
->         size: SZ_16M as u64,
->         min_block_size: SZ_16M as u64,
->         flags: GpuBuddyAllocFlag::Clear,
->     };
-> 
-> Actually the parameters are now distinct enough that you don't need a
-> type to prevent confusion. A block allocation now just reads like a nice
-> sentence:
-> 
->     buddy.alloc_blocks(
->         GpuBuddyAllocMode::Range {
->             start: 0,
->             end: SZ_16M,
->         },
->         SZ_16M,
->         // `min_block_size` should be an `Alignment`, the C API even
->         // returns an error if it is not a power of 2.
->         Alignment::new::<SZ_16M>(),
->         GpuBuddyAllocFlag::Clear,
->     )?;
-
-Makes sense, this is indeed better, I'll do it this way.
-
-> 
-> And the job of `alloc_blocks` is also simplified:
-> 
->     let (start, end) = match mode {
->         GpuBuddyAllocMode::Range { start, end } => (start, end),
->         _ => (0, 0),
->     };
->     let flags = mode.into_flags() | u32::from(flags) as usize;
->     // ... and just invoke the C API with these parameters.
-> 
->> if the C allocator evolves its flag semantics (new combinations become
->> valid, or existing constraints change), an enum on the Rust side would
->> break. It's simpler and more maintainable to pass combinable flags and
->> let the C allocator validate -- which it already does. The switch to
->> `impl_flags!` will work for us without over-constraining.
-> 
-> The evolution you describe is speculative and unlikely to happen as it
-> would break all C users just the same. And if the C API adds new flags
-> or allocation modes, we will have to update the Rust abstraction either
-> way.
-
-How/why would it break C users? Currently top down + range is silently ignored,
-implementing it is unlikely to break them.
-
-I also wouldn't call it speculative: top-down within a range is a natural
-feature the C allocator could add right? By modeling modes as a mutually
-exclusive enum, we're disallowing a flag combination that could become
-valid in the future. That's fine for now, but something to keep in mind as we
-choose this design. We could add a new RangeTopDown mode variant in the future,
-though. That said, I've made the switch to the enum as
-you suggested since it is cleaner code! And is more Rust-like as you pointed.
-
-> 
-> Rust abstractions should model the C API correctly. By hardening the way
-> the C API can be used and stripping out invalid uses, we save headaches
-> to users of the API who don't need to worry about whether the flag they
-> pass will result in an error or simply be ignored, and we also save
-> maintainer time who don't have to explain the intricacies of their APIs
-> to confused users. :)
-> 
-
-Sure, no argument on that one. ;-)
-
-[...]
->>>> +    base_offset: u64,
->>>
->>> This does not appear to be used in the C API - does it belong here? It
->>> looks like an additional convenience, but I'm not convinced that's the
->>> role of this type to provide this. But if it really is needed by all
->>> users (guess I'll find out after looking the Nova code :)), then keeping
->>> it is fair I guess.
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/vc4/Kconfig     |   1 +
+>>   drivers/gpu/drm/vc4/Makefile    |   1 +
+>>   drivers/gpu/drm/vc4/vc4_drv.c   |  13 ++
+>>   drivers/gpu/drm/vc4/vc4_drv.h   |  40 ++++-
+>>   drivers/gpu/drm/vc4/vc4_fence.c |  17 +++
+>>   drivers/gpu/drm/vc4/vc4_gem.c   |  23 ++-
+>>   drivers/gpu/drm/vc4/vc4_sched.c | 322 
+>> ++++++++++++++++++++++++++++++++++++++++
+>>   7 files changed, 414 insertions(+), 3 deletions(-)
 >>
->> Yes, `base_offset` is needed by nova-core. The GPU's usable VRAM
->> starts at `usable_vram_start` from the GSP firmware parameters:
->>
->>     GpuBuddyParams {
->>         base_offset: params.usable_vram_start,
->>         physical_memory_size: params.usable_vram_size,
->>         chunk_size: SZ_4K.into_safe_cast(),
->>     }
->>
->> `AllocatedBlock::offset()` then adds `base_offset` to return absolute
->> VRAM addresses, so callers don't need to track the offset themselves.
-> 
-> Sounds fair, I'll check how this is used in Nova.
-> 
-> Ah, another thing I've noticed while writing the example above:
-> 
->> +#[pinned_drop]
->> +impl PinnedDrop for AllocatedBlocks {
->> +    fn drop(self: Pin<&mut Self>) {
->> +        let guard = self.buddy.lock();
+>> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+>> index 
+>> bb8c40be325033632d3e94db87a16b03554ad3af..c9839e0dd408f1e3d6b0994b7482a20244334449 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/Kconfig
+>> +++ b/drivers/gpu/drm/vc4/Kconfig
+>> @@ -23,6 +23,7 @@ config DRM_VC4
+>>       select SND_SOC_GENERIC_DMAENGINE_PCM
+>>       select SND_SOC_HDMI_CODEC
+>>       select DRM_MIPI_DSI
+>> +    select DRM_SCHED
+>>       help
+>>         Choose this option if you have a system that has a Broadcom
+>>         VC4 GPU, such as the Raspberry Pi or other BCM2708/BCM2835.
+>> diff --git a/drivers/gpu/drm/vc4/Makefile b/drivers/gpu/drm/vc4/Makefile
+>> index 
+>> c41f89a15a5504f8f777e217ed01024463768044..8b8562000cf03413898dbeac6ebf3ec6a4f47e52 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/Makefile
+>> +++ b/drivers/gpu/drm/vc4/Makefile
+>> @@ -19,6 +19,7 @@ vc4-y := \
+>>       vc4_perfmon.o \
+>>       vc4_plane.o \
+>>       vc4_render_cl.o \
+>> +    vc4_sched.o \
+>>       vc4_trace_points.o \
+>>       vc4_txp.o \
+>>       vc4_v3d.o \
+>> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c 
+>> b/drivers/gpu/drm/vc4/vc4_drv.c
+>> index 
+>> 3846996f9028c865f7e489dd10290a5621a03bab..c18178f6c8cea0a182dc67c2b8a992d127c87fec 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+>> @@ -147,7 +147,9 @@ static int vc4_get_param_ioctl(struct drm_device 
+>> *dev, void *data,
+>>   static int vc4_open(struct drm_device *dev, struct drm_file *file)
+>>   {
+>>       struct vc4_dev *vc4 = to_vc4_dev(dev);
+>> +    struct drm_gpu_scheduler *sched;
+>>       struct vc4_file *vc4file;
+>> +    enum vc4_queue q;
+>>         if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+>>           return -ENODEV;
+>> @@ -157,6 +159,13 @@ static int vc4_open(struct drm_device *dev, 
+>> struct drm_file *file)
+>>           return -ENOMEM;
+>>       vc4file->dev = vc4;
+>>   +    for (q = 0; q < VC4_MAX_QUEUES; q++) {
+>> +        sched = &vc4->queue[q].sched;
+>> +        drm_sched_entity_init(&vc4file->sched_entity[q],
+>> +                      DRM_SCHED_PRIORITY_NORMAL, &sched,
+>> +                      1, NULL);
+>> +    }
 >> +
->> +        // SAFETY:
->> +        // - list is valid per the type's invariants.
->> +        // - guard provides exclusive access to the allocator.
->> +        // CAST: BuddyFlags were validated to fit in u32 at construction.
->> +        unsafe {
->> +            bindings::gpu_buddy_free_list(
->> +                guard.as_raw(),
->> +                self.list.as_raw(),
->> +                self.flags.as_raw() as u32,
-> 
-> `gpu_buddy_free_list` only expects the `CLEARED` flag - actually it
-> silently masks other flags. So you probably want to just pass `0` here -
-> adding a `Cleared` field to `GpuBuddyAllocFlag` would also do the trick,
-> but it looks risky to me as it relies on the promise that the user has
-> cleared the buffer, which is not something we can guarantee. So I don't
-> think we can support this safely.
-> 
-> If you just pass `0`, then the `flags` member of `AllocatedBlocks`
-> becomes unused and you can just drop it.
+>>       vc4_perfmon_open_file(vc4file);
+>>       file->driver_priv = vc4file;
+>>       return 0;
+>> @@ -166,6 +175,7 @@ static void vc4_close(struct drm_device *dev, 
+>> struct drm_file *file)
+>>   {
+>>       struct vc4_dev *vc4 = to_vc4_dev(dev);
+>>       struct vc4_file *vc4file = file->driver_priv;
+>> +    enum vc4_queue q;
+>>         if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+>>           return;
+>> @@ -173,6 +183,9 @@ static void vc4_close(struct drm_device *dev, 
+>> struct drm_file *file)
+>>       if (vc4file->bin_bo_used)
+>>           vc4_v3d_bin_bo_put(vc4);
+>>   +    for (q = 0; q < VC4_MAX_QUEUES; q++)
+>> + drm_sched_entity_destroy(&vc4file->sched_entity[q]);
+>> +
+>>       vc4_perfmon_close_file(vc4file);
+>>       kfree(vc4file);
+>>   }
+>> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h 
+>> b/drivers/gpu/drm/vc4/vc4_drv.h
+>> index 
+>> 0f6b7cda1193f0e5ee6b7a504ff447460dedab20..dc04803efad9fdf9179a98701b31b9e360e9ab15 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+>> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+>> @@ -20,6 +20,7 @@
+>>   #include <drm/drm_managed.h>
+>>   #include <drm/drm_mm.h>
+>>   #include <drm/drm_modeset_lock.h>
+>> +#include <drm/gpu_scheduler.h>
+>>     #include <kunit/test-bug.h>
+>>   @@ -31,6 +32,21 @@ struct drm_gem_object;
+>>   extern const struct drm_driver vc4_drm_driver;
+>>   extern const struct drm_driver vc5_drm_driver;
+>>   +enum vc4_queue {
+>> +    VC4_BIN,
+>> +    VC4_RENDER,
+>> +    VC4_MAX_QUEUES,
+>> +};
+>> +
+>> +struct vc4_queue_state {
+>> +    struct drm_gpu_scheduler sched;
+>> +
+>> +    u64 fence_context;
+>> +    u64 emit_seqno;
+>> +
+>> +    spinlock_t fence_lock;
+>> +};
+>> +
+>>   /* Don't forget to update vc4_bo.c: bo_type_names[] when adding to
+>>    * this.
+>>    */
+>> @@ -152,6 +168,8 @@ struct vc4_dev {
+>>        */
+>>       uint64_t emit_seqno;
+>>   +    struct vc4_queue_state queue[VC4_MAX_QUEUES];
+>> +
+>>       struct vc4_bin_job *bin_job;
+>>         struct vc4_render_job *render_job;
+>> @@ -178,6 +196,18 @@ struct vc4_dev {
+>>        * job_done_work.
+>>        */
+>>       struct list_head job_done_list;
+>> +
+>> +    /* Lock taken when resetting the GPU, to keep multiple
+>> +     * processes from trying to park the scheduler threads and
+>> +     * reset at once.
+>> +     */
+>> +    struct mutex reset_lock;
+>> +
+>> +    /* Lock taken when creating and pushing the GPU scheduler
+>> +     * jobs, to keep the sched-fence seqnos in order.
+>> +     */
+>> +    struct mutex sched_lock;
+>> +
+>>       /* Spinlock used to synchronize the job_list and seqno
+>>        * accesses between the IRQ handler and GEM ioctls.
+>>        */
+>> @@ -286,8 +316,8 @@ struct vc4_bo {
+>>   struct vc4_fence {
+>>       struct dma_fence base;
+>>       struct drm_device *dev;
+>> -    /* vc4 seqno for signaled() test */
+>>       uint64_t seqno;
+>> +    enum vc4_queue queue;
+>>   };
+>>     #define to_vc4_fence(_fence)                    \
+>> @@ -872,6 +902,8 @@ struct vc4_file {
+>>         struct xarray perfmons;
+>>   +    struct drm_sched_entity sched_entity[VC4_MAX_QUEUES];
+>> +
+>>       bool bin_bo_used;
+>>   };
+>>   @@ -1064,6 +1096,7 @@ extern struct platform_driver vc4_dsi_driver;
+>>     /* vc4_fence.c */
+>>   extern const struct dma_fence_ops vc4_fence_ops;
+>> +struct dma_fence *vc4_fence_create(struct vc4_dev *vc4, enum 
+>> vc4_queue queue);
+>>     /* vc4_gem.c */
+>>   int vc4_gem_init(struct drm_device *dev);
+>> @@ -1079,6 +1112,7 @@ int vc4_wait_for_seqno(struct drm_device *dev, 
+>> uint64_t seqno,
+>>   void vc4_job_handle_completed(struct vc4_dev *vc4);
+>>   int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
+>>                 struct drm_file *file_priv);
+>> +void vc4_save_hang_state(struct drm_device *dev);
+>>     /* vc4_hdmi.c */
+>>   extern struct platform_driver vc4_hdmi_driver;
+>> @@ -1177,4 +1211,8 @@ int vc4_perfmon_destroy_ioctl(struct drm_device 
+>> *dev, void *data,
+>>   int vc4_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
+>>                    struct drm_file *file_priv);
+>>   +/* vc4_sched.c */
+>> +int vc4_sched_init(struct vc4_dev *vc4);
+>> +void vc4_sched_fini(struct vc4_dev *vc4);
+>> +
+>>   #endif /* _VC4_DRV_H_ */
+>> diff --git a/drivers/gpu/drm/vc4/vc4_fence.c 
+>> b/drivers/gpu/drm/vc4/vc4_fence.c
+>> index 
+>> 580214e2158c7dcf39253f2148dea478ffe20e68..a6c24eaf2594ade3dcd635452288c9dc20af14d5 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_fence.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_fence.c
+>> @@ -23,6 +23,23 @@
+>>     #include "vc4_drv.h"
+>>   +struct dma_fence *vc4_fence_create(struct vc4_dev *vc4, enum 
+>> vc4_queue queue)
+>> +{
+>> +    struct vc4_fence *fence;
+>> +
+>> +    fence = kzalloc(sizeof(*fence), GFP_KERNEL);
+>> +    if (!fence)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    fence->dev = &vc4->base;
+>> +    fence->queue = queue;
+>> +    fence->seqno = ++vc4->queue[queue].emit_seqno;
+>> +    dma_fence_init(&fence->base, &vc4_fence_ops, 
+>> &vc4->queue[queue].fence_lock,
+>> +               vc4->queue[queue].fence_context, fence->seqno);
+>> +
+>> +    return &fence->base;
+>> +}
+>> +
+>>   static const char *vc4_fence_get_driver_name(struct dma_fence *fence)
+>>   {
+>>       return "vc4";
+>> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c 
+>> b/drivers/gpu/drm/vc4/vc4_gem.c
+>> index 
+>> 9df2634e48566ba12858c135a3c313efa7bd120c..030fa23a53e8c48dac7208453b00af3f59c16657 
+>> 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+>> @@ -30,10 +30,10 @@
+>>   #include <linux/dma-fence-array.h>
+>>     #include <drm/drm_exec.h>
+>> +#include <drm/drm_managed.h>
+>>   #include <drm/drm_print.h>
+>>   #include <drm/drm_syncobj.h>
+>>   -#include "uapi/drm/vc4_drm.h"
+> Looks like this cleanup is needed in more files.
+>>   #include "vc4_drv.h"
+>>   #include "vc4_regs.h"
+>>   #include "vc4_trace.h"
+>> @@ -150,7 +150,7 @@ vc4_get_hang_state_ioctl(struct drm_device *dev, 
+>> void *data,
+>>       return ret;
+>>   }
+>>   -static void
+>> +void
+>>   vc4_save_hang_state(struct drm_device *dev)
+>>   {
+>>       struct vc4_dev *vc4 = to_vc4_dev(dev);
+>> @@ -1132,12 +1132,25 @@ int vc4_gem_init(struct drm_device *dev)
+>>       if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+>>           return -ENODEV;
+>>   +    for (int i = 0; i < VC4_MAX_QUEUES; i++) {
+>> +        struct vc4_queue_state *queue = &vc4->queue[i];
+>> +
+>> +        queue->fence_context = dma_fence_context_alloc(1);
+>> +        spin_lock_init(&queue->fence_lock);
+>> +    }
+>> +
+> Why not centralize this initialization of queues and locks in the 
+> vc4_sched_init()?
+Just to be clearer, I mean centralizing queue, mutexes and sched 
+initialization.
+>
+>>       vc4->dma_fence_context = dma_fence_context_alloc(1);
+>>         INIT_LIST_HEAD(&vc4->bin_job_list);
+>>       INIT_LIST_HEAD(&vc4->render_job_list);
+>>       INIT_LIST_HEAD(&vc4->job_done_list);
+>>       spin_lock_init(&vc4->job_lock);
+>> +    ret = drmm_mutex_init(dev, &vc4->reset_lock);
+>> +    if (ret)
+>> +        return ret;
+>> +    ret = drmm_mutex_init(dev, &vc4->sched_lock);
+>> +    if (ret)
+>> +        return ret;
+>>         INIT_WORK(&vc4->hangcheck.reset_work, vc4_reset_work);
+>>       timer_setup(&vc4->hangcheck.timer, vc4_hangcheck_elapsed, 0);
+>> @@ -1154,6 +1167,10 @@ int vc4_gem_init(struct drm_device *dev)
+>>       if (ret)
+>>           return ret;
+>>   +    ret = vc4_sched_init(vc4);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>>       return drmm_add_action_or_reset(dev, vc4_gem_destroy, NULL);
+>>   }
+>>   @@ -1176,6 +1193,8 @@ static void vc4_gem_destroy(struct drm_device 
+>> *dev, void *unused)
+>>         if (vc4->hang_state)
+>>           vc4_free_hang_state(dev, vc4->hang_state);
+>> +
+>> +    vc4_sched_fini(vc4);
+>>   }
+>>     int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
+>> diff --git a/drivers/gpu/drm/vc4/vc4_sched.c 
+>> b/drivers/gpu/drm/vc4/vc4_sched.c
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..6d2d8704fdbaad3d82606dc8ba4249a43862b499
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/vc4/vc4_sched.c
+>> @@ -0,0 +1,322 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/* Copyright (C) 2026 Raspberry Pi */
+>> +
+>> +#include <linux/platform_device.h>
+>> +#include <linux/pm_runtime.h>
+>> +
+>> +#include <drm/drm_print.h>
+>> +
+>> +#include "vc4_drv.h"
+>> +#include "vc4_regs.h"
+>> +#include "vc4_trace.h"
+>> +
+>> +static struct vc4_job *
+>> +to_vc4_job(struct drm_sched_job *sched_job)
+>> +{
+>> +    return container_of(sched_job, struct vc4_job, base);
+>> +}
+>> +
+>> +static struct vc4_bin_job *
+>> +to_bin_job(struct drm_sched_job *sched_job)
+>> +{
+>> +    return container_of(sched_job, struct vc4_bin_job, base.base);
+>> +}
+>> +
+>> +static struct vc4_render_job *
+>> +to_render_job(struct drm_sched_job *sched_job)
+>> +{
+>> +    return container_of(sched_job, struct vc4_render_job, base.base);
+>> +}
+>> +
+>> +static void
+>> +vc4_flush_caches(struct drm_device *dev)
+>> +{
+>> +    struct vc4_dev *vc4 = to_vc4_dev(dev);
+>> +
+>> +    /* Flush the GPU L2 caches.  These caches sit on top of system
+>> +     * L3 (the 128kb or so shared with the CPU), and are
+>> +     * non-allocating in the L3.
+>> +     */
+>> +    V3D_WRITE(V3D_L2CACTL, V3D_L2CACTL_L2CCLR);
+>> +
+>> +    V3D_WRITE(V3D_SLCACTL,
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_T1CC) |
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_T0CC) |
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_UCC) |
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_ICC));
+>> +}
+>> +
+>> +static void
+>> +vc4_flush_texture_caches(struct drm_device *dev)
+>> +{
+>> +    struct vc4_dev *vc4 = to_vc4_dev(dev);
+>> +
+>> +    V3D_WRITE(V3D_L2CACTL, V3D_L2CACTL_L2CCLR);
+>> +
+>> +    V3D_WRITE(V3D_SLCACTL,
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_T1CC) |
+>> +          VC4_SET_FIELD(0xf, V3D_SLCACTL_T0CC));
+>> +}
+>> +
+>> +static void
+>> +vc4_sched_job_free(struct drm_sched_job *sched_job)
+>> +{
+>> +    struct vc4_job *job = to_vc4_job(sched_job);
+>> +
+>> +    vc4_job_cleanup(job);
+>> +}
+>> +
+>> +static void
+>> +vc4_switch_perfmon(struct vc4_dev *vc4, struct vc4_job *job)
+>> +{
+>> +    if (vc4->active_perfmon && vc4->active_perfmon != job->perfmon)
+>> +        vc4_perfmon_stop(vc4, vc4->active_perfmon, true);
+>> +
+>> +    if (job->perfmon && vc4->active_perfmon != job->perfmon)
+>> +        vc4_perfmon_start(vc4, job->perfmon);
+>> +}
+>> +
+>> +static struct dma_fence *vc4_bin_job_run(struct drm_sched_job 
+>> *sched_job)
+>> +{
+>> +    struct vc4_bin_job *job = to_bin_job(sched_job);
+>> +    struct vc4_dev *vc4 = job->base.vc4;
+>> +    struct drm_device *dev = &vc4->base;
+>> +    struct dma_fence *fence;
+>> +    unsigned long irqflags;
+>> +
+>> +    if (unlikely(job->base.base.s_fence->finished.error)) {
+>> +        spin_lock_irqsave(&vc4->job_lock, irqflags);
+>> +        vc4->bin_job = NULL;
+>> +        spin_unlock_irqrestore(&vc4->job_lock, irqflags);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    /* Lock required around bin_job update vs 
+>> vc4_overflow_mem_work(). */
+>> +    spin_lock_irqsave(&vc4->job_lock, irqflags);
+>> +    vc4->bin_job = job;
+>> +
+>> +    /* Clear out the overflow allocation, so we don't
+>> +     * reuse the overflow attached to a previous job.
+>> +     */
+>> +    V3D_WRITE(V3D_BPOA, 0);
+>> +    V3D_WRITE(V3D_BPOS, 0);
+>> +    spin_unlock_irqrestore(&vc4->job_lock, irqflags);
+>> +
+>> +    vc4_flush_caches(dev);
+>> +
+>> +    fence = vc4_fence_create(vc4, VC4_BIN);
+>> +    if (IS_ERR(fence))
+>> +        return NULL;
+^ should point bin_job to NULL too.
+>> +
+>> +    if (job->base.irq_fence)
+>> +        dma_fence_put(job->base.irq_fence);
+>> +    job->base.irq_fence = dma_fence_get(fence);
+>> +
+>> +    trace_vc4_submit_cl(dev, false, to_vc4_fence(fence)->seqno,
+>> +                job->ct0ca, job->ct0ea);
+>> +
+>> +    vc4_switch_perfmon(vc4, &job->base);
+>> +
+>> +    V3D_WRITE(V3D_CTNCA(0), job->ct0ca);
+>> +    V3D_WRITE(V3D_CTNEA(0), job->ct0ea);
+>> +
+>> +    return fence;
+>> +}
+>> +
+>> +static struct dma_fence *vc4_render_job_run(struct drm_sched_job 
+>> *sched_job)
+>> +{
+>> +    struct vc4_render_job *job = to_render_job(sched_job);
+>> +    struct vc4_dev *vc4 = job->base.vc4;
+>> +    struct drm_device *dev = &vc4->base;
+>> +    struct dma_fence *fence;
+>> +
+>> +    if (unlikely(job->base.base.s_fence->finished.error)) {
+>> +        vc4->render_job = NULL;
+>> +        return NULL;
+>> +    }
+>> +
+>> +    vc4->render_job = job;
+Should render_job also be locked for concurrency with done interrupt?
+>> +
+>> +    /* A previous RCL may have written to one of our textures, and
+>> +     * our full cache flush at bin time may have occurred before
+>> +     * that RCL completed. Flush the texture cache now, but not
+>> +     * the instructions or uniforms (since we don't write those
+>> +     * from an RCL).
+>> +     */
+>> +    vc4_flush_texture_caches(dev);
+>> +
+>> +    fence = vc4_fence_create(vc4, VC4_RENDER);
+>> +    if (IS_ERR(fence))
+>> +        return NULL;
+^ same render_job to here.
 
-Good catch, done!
-
-> 
-> And another small one - some methods of `Block` are `pub(crate)` - I
-> believe they should either be `pub` or kept private.
-
-Changed to pub. thanks,
-
--- 
-Joel Fernandes
+As you mentioned this code is based on v3d, I noticed the same problem 
+there.
+>> +
+>> +    if (job->base.irq_fence)
+>> +        dma_fence_put(job->base.irq_fence);
+>> +    job->base.irq_fence = dma_fence_get(fence);
+>> +
+>> +    trace_vc4_submit_cl(dev, true, to_vc4_fence(fence)->seqno,
+>> +                job->ct1ca, job->ct1ea);
+>> +
+>> +    vc4_switch_perfmon(vc4, &job->base);
+>> +
+>> +    V3D_WRITE(V3D_CTNCA(1), job->ct1ca);
+>> +    V3D_WRITE(V3D_CTNEA(1), job->ct1ea);
+>> +
+>> +    return fence;
+>> +}
+>> +
+>> +static void
+>> +vc4_reset(struct drm_device *dev)
+>> +{
+>> +    struct vc4_dev *vc4 = to_vc4_dev(dev);
+>> +
+>> +    drm_err(dev, "Resetting GPU.\n");
+>> +
+>> +    mutex_lock(&vc4->power_lock);
+>> +    if (vc4->power_refcount) {
+>> +        /* Power the device off and back on the by dropping the
+>> +         * reference on runtime PM.
+>> +         */
+>> + pm_runtime_put_sync_suspend(&vc4->v3d->pdev->dev);
+>> +        pm_runtime_get_sync(&vc4->v3d->pdev->dev);
+>> +    }
+>> +    mutex_unlock(&vc4->power_lock);
+>> +
+>> +    vc4_irq_reset(dev);
+>> +}
+>> +
+>> +static enum drm_gpu_sched_stat
+>> +vc4_gpu_reset_for_timeout(struct vc4_dev *vc4, struct drm_sched_job 
+>> *sched_job)
+>> +{
+>> +    enum vc4_queue q;
+>> +
+>> +    mutex_lock(&vc4->reset_lock);
+>> +
+>> +    /* block scheduler */
+>> +    for (q = 0; q < VC4_MAX_QUEUES; q++)
+>> +        drm_sched_stop(&vc4->queue[q].sched, sched_job);
+>> +
+>> +    if (sched_job) {
+>> +        drm_sched_increase_karma(sched_job);
+>> +
+>> +        /* If the guilty job is a BIN job, also increase the karma
+>> +         * of its paired render job. Otherwise, the RENDER job would
+>> +         * be submitted to the GPU without binner output.
+>> +         */
+>> +        if (sched_job->sched == &vc4->queue[VC4_BIN].sched) {
+>> +            struct vc4_bin_job *bin = to_bin_job(sched_job);
+>> +
+>> + drm_sched_increase_karma(&bin->render->base.base);
+>> +        }
+>> +    }
+>> +
+>> +    vc4_save_hang_state(&vc4->base);
+>> +
+>> +    /* get the GPU back into the init state */
+>> +    vc4_reset(&vc4->base);
+>> +
+>> +    for (q = 0; q < VC4_MAX_QUEUES; q++)
+>> +        drm_sched_resubmit_jobs(&vc4->queue[q].sched);
+>> +
+>> +    /* Unblock schedulers and restart their jobs. */
+>> +    for (q = 0; q < VC4_MAX_QUEUES; q++)
+>> +        drm_sched_start(&vc4->queue[q].sched, 0);
+>> +
+>> +    mutex_unlock(&vc4->reset_lock);
+>> +
+>> +    return DRM_GPU_SCHED_STAT_RESET;
+>> +}
+>> +
+>> +static enum drm_gpu_sched_stat
+>> +vc4_cl_job_timedout(struct drm_sched_job *sched_job, enum vc4_queue q)
+>> +{
+>> +    struct vc4_job *job = to_vc4_job(sched_job);
+>> +    struct vc4_dev *vc4 = job->vc4;
+>> +    u32 ctca = V3D_READ(V3D_CTNCA(q));
+>> +    u32 ctra = V3D_READ(V3D_CTNRA0(q));
+>> +
+>> +    /* If the current address or return address have changed, then 
+>> the GPU
+>> +     * has probably made progress and we should delay the reset. 
+>> This could
+>> +     * fail if the GPU got in an infinite loop in the CL, but that 
+>> is pretty
+>> +     * unlikely outside of an i-g-t testcase.
+>> +     */
+>> +    if (job->timedout_ctca != ctca || job->timedout_ctra != ctra) {
+>> +        job->timedout_ctca = ctca;
+>> +        job->timedout_ctra = ctra;
+>> +
+>> +        return DRM_GPU_SCHED_STAT_NO_HANG;
+>> +    }
+>> +
+>> +    return vc4_gpu_reset_for_timeout(vc4, sched_job);
+>> +}
+>> +
+>> +static enum drm_gpu_sched_stat
+>> +vc4_bin_job_timedout(struct drm_sched_job *sched_job)
+>> +{
+>> +    return vc4_cl_job_timedout(sched_job, VC4_BIN);
+>> +}
+>> +
+>> +static enum drm_gpu_sched_stat
+>> +vc4_render_job_timedout(struct drm_sched_job *sched_job)
+>> +{
+>> +    return vc4_cl_job_timedout(sched_job, VC4_RENDER);
+>> +}
+>> +
+>> +static const struct drm_sched_backend_ops vc4_bin_sched_ops = {
+>> +    .run_job = vc4_bin_job_run,
+>> +    .timedout_job = vc4_bin_job_timedout,
+>> +    .free_job = vc4_sched_job_free,
+>> +};
+>> +
+>> +static const struct drm_sched_backend_ops vc4_render_sched_ops = {
+>> +    .run_job = vc4_render_job_run,
+>> +    .timedout_job = vc4_render_job_timedout,
+>> +    .free_job = vc4_sched_job_free,
+>> +};
+>> +
+>> +static int
+>> +vc4_queue_sched_init(struct vc4_dev *vc4, const struct 
+>> drm_sched_backend_ops *ops,
+>> +             enum vc4_queue queue, const char *name)
+>> +{
+>> +    struct drm_sched_init_args args = {
+>> +        .num_rqs = DRM_SCHED_PRIORITY_COUNT,
+>> +        .credit_limit = 1,
+>> +        .timeout = msecs_to_jiffies(500),
+>> +        .dev = vc4->base.dev,
+>> +    };
+>> +
+>> +    args.ops = ops;
+>> +    args.name = name;
+>> +
+>> +    return drm_sched_init(&vc4->queue[queue].sched, &args);
+>> +}
+>> +
+>> +int
+>> +vc4_sched_init(struct vc4_dev *vc4)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = vc4_queue_sched_init(vc4, &vc4_bin_sched_ops,
+>> +                   VC4_BIN, "vc4_bin");
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    ret = vc4_queue_sched_init(vc4, &vc4_render_sched_ops,
+>> +                   VC4_RENDER, "vc4_render");
+>> +    if (ret) {
+>> +        vc4_sched_fini(vc4);
+>> +        return ret;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +void
+>> +vc4_sched_fini(struct vc4_dev *vc4)
+>> +{
+>> +    enum vc4_queue q;
+>> +
+>> +    for (q = 0; q < VC4_MAX_QUEUES; q++) {
+>> +        if (vc4->queue[q].sched.ready)
+>> +            drm_sched_fini(&vc4->queue[q].sched);
+>> +    }
+>> +}
+>>
+>
 
