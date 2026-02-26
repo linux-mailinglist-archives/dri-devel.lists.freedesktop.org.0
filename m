@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2CqkIQTGoGnImQQAu9opvQ
+	id sIhtMQTGoGnImQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:15:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B4A1B03FE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF0C1B03FF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 23:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4877210EA0B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A73C110EA0C;
 	Thu, 26 Feb 2026 22:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=meta.com header.i=@meta.com header.b="OZuPGg0X";
+	dkim=pass (2048-bit key; unprotected) header.d=meta.com header.i=@meta.com header.b="t17APBLU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
  [67.231.153.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6B310E046
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 20:36:11 +0000 (UTC)
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFE310E046
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 20:34:33 +0000 (UTC)
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
  by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61QG8R8c396710; Thu, 26 Feb 2026 12:22:54 -0800
+ 61QHCNlC1891453; Thu, 26 Feb 2026 12:22:57 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=s2048-2025-q2;
- bh=NKJHnGt6sTOYI+IgqMNni7UAaJMAwyCJvuNAQUwxgmw=; b=OZuPGg0XPM2q
- /Oz2pcVO0V63tGXrKqWNtXhlSoscr5+L01hQPBMYBARvYE9xFWCj3x8ii+JlSvB0
- IFaPoQhLdo0VXx1YEkBF7kmIEWqSNi1c4wktdnhxygVD35e9Ecbt6tY5ZDZdHfC2
- PktUxG2L5nFgnH7z2zRiBLs+UaV4xGfcFw7IRbpEc4bnjh5IqKpAJEPqfPgtCm5P
- +epsiKhqNIXv0IJv0M5QBN/bBccy4TVAFOfArsC2NBKnTQO2X7kyxfPsd9r6yCDH
- MzEMEqTedX5a4GCbyvrugMSRWCidDlenTeuIZ5HC/oYCZtKMkxtRGUsE+M3F0VQ3
- U8t/d7Tlyw==
-Received: from maileast.thefacebook.com ([163.114.135.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cjseeay19-1
+ bh=p4qhrvMfn67SpV2MVw3xZIKd+Em4yb7TrPNhhwEdCuo=; b=t17APBLUkTAk
+ TDuePMsscDzk42nuhHQNYT0Ki9+g8Oujt9ATD+FfxXKRDT60ed/9WX3gaUBplyy2
+ fSjJujdpp4NS1Lx8xS2FqUn+HB5s9kXIi7sGmhq+lqyXvA+bTvLxf/tpoKK9J6tT
+ 7I/Tt7Yqh9nq/XeWw+0A9rLu03x5hNDqL2r6dHEZVaAL83A4ZKS4z3enT0B1UzOZ
+ MbHJ4iymy1uc6P+q2CZVwKVjzqtDg9lkgekr22GzajmPdRvb6b3knhJ+ieSPp2IK
+ EEWopxC53+arEgXjQw1rq0Fp97can/60jIqgOjoyTHAEug+LzUEVZaLiegznYTcl
+ L846ch1Vbw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cjmp9dnm2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 26 Feb 2026 12:22:53 -0800 (PST)
-Received: from localhost (2620:10d:c0a8:1c::11) by mail.thefacebook.com
- (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 26 Feb 2026 12:22:57 -0800 (PST)
+Received: from localhost (2620:10d:c085:208::f) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.35; Thu, 26 Feb
- 2026 20:22:53 +0000
+ 2026 20:22:56 +0000
 From: Matt Evans <mattev@meta.com>
 To: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
  Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
@@ -55,31 +55,31 @@ CC: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>, Sumit Semwal
  <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
  <kvm@vger.kernel.org>
-Subject: [RFC PATCH 5/7] vfio/pci: Permanently revoke a DMABUF on request
-Date: Thu, 26 Feb 2026 12:22:01 -0800
-Message-ID: <20260226202211.929005-6-mattev@meta.com>
+Subject: [RFC PATCH 6/7] vfio/pci: Add mmap() attributes to DMABUF feature
+Date: Thu, 26 Feb 2026 12:22:02 -0800
+Message-ID: <20260226202211.929005-7-mattev@meta.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260226202211.929005-1-mattev@meta.com>
 References: <20260226202211.929005-1-mattev@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [2620:10d:c0a8:1c::11]
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDE4NiBTYWx0ZWRfX+qHDWMDAKJRM
- DqWV5o8u8Bw6FcD1AkBzm1ls8II2cYUZ1X4NBM5+UA5hZr5zEp4dL0MWuCRaymlIJYDBV+bRePD
- stgDjHV+uVfdLCaO0UX3VulOcNcXbJDOKHI8bP1EZXg22rDzhjwWn6g3Vy80XM7ZikM1KnaA7Zz
- LqFPA6bechejyKgRymib618ZzEOzWr/qG7pPrwRj3qp0zR7ye56JiMvIHtKn7LgzdnIQfCgWdCS
- KJ940CqbfYk/9lncC0Mg4eubvlbk1Y1a5AfMhu9zkl3LJFzA8S90fPruc8NzaJh/ovIC1sdD1od
- Ak//Y5awoRANnsHYnkl47wcdEFem1vDRlKzhc1vnNdEwKsMFGCXBYm0H0aYhWVwEoQfy6JTriTh
- Mlsf0I6+LKKehNMmYAeYSw+tMscEEO24iMmfh00zAIVdfkg8Ao905jB8Kcau8krfAVdCNrNMejl
- pLr6J637v/bqttvq8Ew==
-X-Authority-Analysis: v=2.4 cv=df6NHHXe c=1 sm=1 tr=0 ts=69a0ab9d cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+X-Originating-IP: [2620:10d:c085:208::f]
+X-Proofpoint-GUID: tLZAnEt99yhMVR7DzzedwG1Q3dqkNAqK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDE4NiBTYWx0ZWRfX15eKNzaG/OmP
+ JFo3cdA2DKdUsgi8aH90lXhs5OMcRD7XzA97n5hdziEdEWmdyrYdnxdK0PJZdQVyzJ/XLBHIMwj
+ qJL6SlcuMCuHgiQ0/TuqPlBY4fFt2hp183lpHN591XieNyxFQfOrTQZ8+6ZoZ/rOddth5U7N/TD
+ FjTA+V8Rp7vXPfToGi40TmaPianF5D9K9vBtl5zVS1KnchMnIX1ghgZwNogwYfFovthbdct58yx
+ BWqCfP0qLO2p+iGbx/xGiHLh3AE/dK5SUka6uin+x+GffqNXNtcWXL+K8U/vrBfwunu3Busiu3Z
+ an0F0I+9k5EPQRFdpk2IubbFH1IP68nTkHva23hF49VRObMu0ZBG2ZvY5bQUFQWxHsdM8MOjE/b
+ zLUgmyACMGwhWlnkCEcgti7VcRXe3sGQGi8Zdnm4esYA0feklcvHPLeDWYfatBi8a4/Nerd0HHb
+ xZeiBGylNYCFg65TbWA==
+X-Proofpoint-ORIG-GUID: tLZAnEt99yhMVR7DzzedwG1Q3dqkNAqK
+X-Authority-Analysis: v=2.4 cv=abZsXBot c=1 sm=1 tr=0 ts=69a0aba1 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=VabnemYjAAAA:8 a=gwrgxIBh24ckDezLgM0A:9
+ a=GgsMoib0sEa3-_RKJdDe:22 a=VabnemYjAAAA:8 a=dDaxl782XL0KO6pWJDcA:9
  a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-GUID: EHCRFiXG_--2Hgqi2T8-qZJviE0D8Yxk
-X-Proofpoint-ORIG-GUID: EHCRFiXG_--2Hgqi2T8-qZJviE0D8Yxk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-26_02,2026-02-26_01,2025-10-01_01
@@ -129,191 +129,115 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.991];
+	NEURAL_HAM(-0.00)[-0.993];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F3B4A1B03FE
+X-Rspamd-Queue-Id: 7AF0C1B03FF
 X-Rspamd-Action: no action
 
-Expand the VFIO DMABUF revocation state to three states:
-Not revoked, temporarily revoked, and permanently revoked.
-
-The first two are for existing transient revocation, e.g. across a
-function reset, and the DMABUF is put into the last in response to an
-ioctl(DMA_BUF_IOCTL_REVOKE) request.
-
-When triggered, dynamic imports are removed, PTEs zapped, and the
-state changed such that no future mappings/imports are allowed.
-
-This is useful to reclaim VFIO PCI BAR ranges previously delegated to
-a subordinate process: The driver process can ensure that the loans
-are closed down before repurposing exported ranges.
+A new field is reserved in vfio_device_feature_dma_buf.flags to
+request CPU-facing memory type attributes for mmap()s of the buffer.
+Add a flag VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC, which results in WC
+PTEs for the DMABUF's BAR region.
 
 Signed-off-by: Matt Evans <mattev@meta.com>
 ---
- drivers/vfio/pci/vfio_pci_dmabuf.c | 64 +++++++++++++++++++++++++-----
- 1 file changed, 53 insertions(+), 11 deletions(-)
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 18 ++++++++++++++----
+ include/uapi/linux/vfio.h          | 12 +++++++++---
+ 2 files changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-index bebb496bd0f2..af30ca205f31 100644
+index af30ca205f31..d66a918e9934 100644
 --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
 +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-@@ -9,6 +9,17 @@
- 
- MODULE_IMPORT_NS("DMA_BUF");
- 
-+enum vfio_pci_dma_buf_status {
-+	/*
-+	 * A buffer can move freely between OK/accessible and revoked
-+	 * states (for example, a device reset will temporarily revoke
-+	 * it).  It can also be permanently revoked.
-+	 */
-+	VFIO_PCI_DMABUF_OK = 0,
-+	VFIO_PCI_DMABUF_TEMP_REVOKED = 1,
-+	VFIO_PCI_DMABUF_PERM_REVOKED = 2,
-+};
-+
- struct vfio_pci_dma_buf {
- 	struct dma_buf *dmabuf;
- 	struct vfio_pci_core_device *vdev;
-@@ -17,9 +28,11 @@ struct vfio_pci_dma_buf {
+@@ -28,6 +28,7 @@ struct vfio_pci_dma_buf {
  	struct dma_buf_phys_vec *phys_vec;
  	struct p2pdma_provider *provider;
  	u32 nr_ranges;
--	u8 revoked : 1;
-+	enum vfio_pci_dma_buf_status status;
++	u32 attrs;
+ 	enum vfio_pci_dma_buf_status status;
  };
  
-+static int vfio_pci_dma_buf_revoke(struct dma_buf *dmabuf);
+@@ -286,13 +287,15 @@ static int vfio_pci_dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *
+ 		return -EINVAL;
+ 
+ 	vma->vm_private_data = priv;
+-	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
 +
- static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
- {
- 	return -EOPNOTSUPP;
-@@ -38,7 +51,7 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
- 	if (!attachment->peer2peer)
- 		return -EOPNOTSUPP;
++	if (priv->attrs == VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC)
++		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
++	else
++		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+ 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
  
--	if (priv->revoked)
-+	if (priv->status != VFIO_PCI_DMABUF_OK)
- 		return -ENODEV;
- 
- 	return 0;
-@@ -52,7 +65,7 @@ vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
- 
- 	dma_resv_assert_held(priv->dmabuf->resv);
- 
--	if (priv->revoked)
-+	if (priv->status != VFIO_PCI_DMABUF_OK)
- 		return ERR_PTR(-ENODEV);
- 
- 	return dma_buf_phys_vec_to_sgt(attachment, priv->provider,
-@@ -205,7 +218,7 @@ static vm_fault_t vfio_pci_dma_buf_mmap_huge_fault(struct vm_fault *vmf,
- 			 * revocation/unmap and status change occurs
- 			 * whilst holding memory_lock.
- 			 */
--			if (priv->revoked)
-+			if (priv->status != VFIO_PCI_DMABUF_OK)
- 				ret = VM_FAULT_SIGBUS;
- 			else
- 				ret = vfio_pci_vmf_insert_pfn(vdev, vmf, pfn, order);
-@@ -246,7 +259,7 @@ static bool vfio_pci_dma_buf_is_mappable(struct dma_buf *dmabuf)
- 	 * on: for example, users should not be mmap()ing a buffer
- 	 * that's being moved [by a user-triggered activity].
- 	 */
--	if (priv->revoked)
-+	if (priv->status != VFIO_PCI_DMABUF_OK)
- 		return false;
- 
- 	return true;
-@@ -296,6 +309,7 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
- 	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
- 	.release = vfio_pci_dma_buf_release,
- 	.mmap = vfio_pci_dma_buf_mmap,
-+	.revoke = vfio_pci_dma_buf_revoke,
- };
- 
- /*
-@@ -320,7 +334,7 @@ int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
- 		return -EOPNOTSUPP;
- 
- 	priv = attachment->dmabuf->priv;
--	if (priv->revoked)
-+	if (priv->status != VFIO_PCI_DMABUF_OK)
- 		return -ENODEV;
- 
- 	/* More than one range to iommufd will require proper DMABUF support */
-@@ -506,7 +520,8 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
- 	INIT_LIST_HEAD(&priv->dmabufs_elm);
- 	down_write(&vdev->memory_lock);
- 	dma_resv_lock(priv->dmabuf->resv, NULL);
--	priv->revoked = !__vfio_pci_memory_enabled(vdev);
-+	priv->status = __vfio_pci_memory_enabled(vdev) ? VFIO_PCI_DMABUF_OK :
-+		VFIO_PCI_DMABUF_TEMP_REVOKED;
- 	list_add_tail(&priv->dmabufs_elm, &vdev->dmabufs);
- 	dma_resv_unlock(priv->dmabuf->resv);
- 	up_write(&vdev->memory_lock);
-@@ -541,7 +556,7 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
- 	lockdep_assert_held_write(&vdev->memory_lock);
  	/*
- 	 * Holding memory_lock ensures a racing
--	 * vfio_pci_dma_buf_mmap_*_fault() observes priv->revoked
-+	 * vfio_pci_dma_buf_mmap_*_fault() observes priv->status
- 	 * properly.
+ 	 * See comments in vfio_pci_core_mmap() re VM_ALLOW_ANY_UNCACHED.
+-	 *
+-	 * FIXME: get mapping attributes from dmabuf?
  	 */
+ 	vm_flags_set(vma, VM_ALLOW_ANY_UNCACHED | VM_IO | VM_PFNMAP |
+ 		     VM_DONTEXPAND | VM_DONTDUMP);
+@@ -402,6 +405,12 @@ static int validate_dmabuf_input(struct vfio_device_feature_dma_buf *dma_buf,
+ 	size_t length = 0;
+ 	u32 i;
  
-@@ -549,9 +564,11 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
- 		if (!get_file_active(&priv->dmabuf->file))
- 			continue;
++	if ((dma_buf->flags != 0) &&
++	    ((dma_buf->flags & ~VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_MASK) ||
++	     ((dma_buf->flags & VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_MASK) !=
++	      VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC)))
++		return -EINVAL;
++
+ 	for (i = 0; i < dma_buf->nr_ranges; i++) {
+ 		u64 offset = dma_ranges[i].offset;
+ 		u64 len = dma_ranges[i].length;
+@@ -446,7 +455,7 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+ 	if (copy_from_user(&get_dma_buf, arg, sizeof(get_dma_buf)))
+ 		return -EFAULT;
  
--		if (priv->revoked != revoked) {
-+		if ((priv->status == VFIO_PCI_DMABUF_OK && revoked) ||
-+		    (priv->status == VFIO_PCI_DMABUF_TEMP_REVOKED && !revoked)) {
- 			dma_resv_lock(priv->dmabuf->resv, NULL);
--			priv->revoked = revoked;
-+			priv->status = revoked ? VFIO_PCI_DMABUF_TEMP_REVOKED :
-+				VFIO_PCI_DMABUF_OK;
- 			dma_buf_move_notify(priv->dmabuf);
- 			dma_resv_unlock(priv->dmabuf->resv);
+-	if (!get_dma_buf.nr_ranges || get_dma_buf.flags)
++	if (!get_dma_buf.nr_ranges)
+ 		return -EINVAL;
  
-@@ -580,7 +597,7 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
- 		dma_resv_lock(priv->dmabuf->resv, NULL);
- 		list_del_init(&priv->dmabufs_elm);
- 		priv->vdev = NULL;
--		priv->revoked = true;
-+		priv->status = VFIO_PCI_DMABUF_PERM_REVOKED;
- 		dma_buf_move_notify(priv->dmabuf);
- 		dma_resv_unlock(priv->dmabuf->resv);
- 		unmap_mapping_range(priv->dmabuf->file->f_mapping,
-@@ -590,3 +607,28 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
- 	}
- 	up_write(&vdev->memory_lock);
- }
-+
-+static int vfio_pci_dma_buf_revoke(struct dma_buf *dmabuf)
-+{
-+	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-+	struct vfio_pci_core_device *vdev;
-+
-+	vdev = READ_ONCE(priv->vdev);
-+
-+	if (!vdev)
-+		return -ENODEV;
-+
-+	scoped_guard(rwsem_read, &vdev->memory_lock) {
-+		if (priv->status == VFIO_PCI_DMABUF_PERM_REVOKED)
-+			return -EBADFD;
-+
-+		dma_resv_lock(priv->dmabuf->resv, NULL);
-+		priv->status = VFIO_PCI_DMABUF_PERM_REVOKED;
-+		dma_buf_move_notify(priv->dmabuf);
-+		dma_resv_unlock(priv->dmabuf->resv);
-+
-+		unmap_mapping_range(priv->dmabuf->file->f_mapping,
-+				    0, priv->size, 1);
-+	}
-+	return 0;
-+}
+ 	/*
+@@ -490,6 +499,7 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+ 	priv->vdev = vdev;
+ 	priv->nr_ranges = get_dma_buf.nr_ranges;
+ 	priv->size = length;
++	priv->attrs = get_dma_buf.flags & VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_MASK;
+ 	ret = vdev->pci_ops->get_dmabuf_phys(vdev, &priv->provider,
+ 					     get_dma_buf.region_index,
+ 					     priv->phys_vec, dma_ranges,
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index ac2329f24141..9e0fbf333452 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -1487,7 +1487,9 @@ struct vfio_device_feature_bus_master {
+  * etc. offset/length specify a slice of the region to create the dmabuf from.
+  * nr_ranges is the total number of (P2P DMA) ranges that comprise the dmabuf.
+  *
+- * flags should be 0.
++ * flags contains:
++ * - A field for userspace mapping attribute: by default, suitable for regular
++ *   MMIO. Alternate attributes (such as WC) can be selected.
+  *
+  * Return: The fd number on success, -1 and errno is set on failure.
+  */
+@@ -1501,8 +1503,12 @@ struct vfio_region_dma_range {
+ struct vfio_device_feature_dma_buf {
+ 	__u32	region_index;
+ 	__u32	open_flags;
+-	__u32   flags;
+-	__u32   nr_ranges;
++	__u32	flags;
++	/* Flags sub-field reserved for attribute enum */
++#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_MASK		(0xf << 28)
++#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_UC		(0 << 28)
++#define VFIO_DEVICE_FEATURE_DMA_BUF_ATTR_WC		(1 << 28)
++	__u32	nr_ranges;
+ 	struct vfio_region_dma_range dma_ranges[] __counted_by(nr_ranges);
+ };
+ 
 -- 
 2.47.3
 
