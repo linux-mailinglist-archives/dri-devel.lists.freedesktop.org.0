@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SHT7H2MLoGnbfQQAu9opvQ
+	id gImbLaALoGnbfQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:59:15 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 10:00:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A77B1A304E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B501A30A1
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 10:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F040010E889;
-	Thu, 26 Feb 2026 08:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D7F10E88C;
+	Thu, 26 Feb 2026 09:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93F410E889
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:59:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5057D10E88C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 09:00:13 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1vvXCY-0006mh-AZ; Thu, 26 Feb 2026 09:58:30 +0100
+ id 1vvXDg-00073c-Bg; Thu, 26 Feb 2026 09:59:40 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
  helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1vvXCR-002hWl-1x;
- Thu, 26 Feb 2026 09:58:24 +0100
+ (envelope-from <p.zabel@pengutronix.de>) id 1vvXDd-002hWz-1F;
+ Thu, 26 Feb 2026 09:59:38 +0100
 Received: from pza by lupine with local (Exim 4.98.2)
- (envelope-from <p.zabel@pengutronix.de>) id 1vvXCS-000000004Cy-3TL6;
- Thu, 26 Feb 2026 09:58:24 +0100
-Message-ID: <f6807ac0f40dbcb87278f6339c4f2b5f715eb359.camel@pengutronix.de>
-Subject: Re: [PATCH 11/14] drm/mediatek: dp: Convert to drm_output_color_format
+ (envelope-from <p.zabel@pengutronix.de>) id 1vvXDe-000000004FT-2WQa;
+ Thu, 26 Feb 2026 09:59:38 +0100
+Message-ID: <62beeba182aa7e84c6cd02805a0e75094ad10a6e.camel@pengutronix.de>
+Subject: Re: [PATCH 09/14] drm/bridge: synopsys: dw-hdmi: Convert to
+ drm_output_color_format
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Maxime Ripard <mripard@kernel.org>, Nicolas Frattaroli	
  <nicolas.frattaroli@collabora.com>, Jani Nikula
@@ -60,10 +61,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev
-Date: Thu, 26 Feb 2026 09:58:24 +0100
-In-Reply-To: <20260224-drm-rework-color-formats-v1-11-bebc76604ada@kernel.org>
+Date: Thu, 26 Feb 2026 09:59:38 +0100
+In-Reply-To: <20260224-drm-rework-color-formats-v1-9-bebc76604ada@kernel.org>
 References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
- <20260224-drm-rework-color-formats-v1-11-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-9-bebc76604ada@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -91,7 +92,7 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -99,11 +100,11 @@ X-Spamd-Result: default: False [0.89 / 15.00];
  lists.linux.dev,m:jernejskrabec@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
 	DMARC_NA(0.00)[pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[p.zabel@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[38];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[kernel.org,collabora.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,arm.com,sntech.de,nxp.com,sholland.org,raspberrypi.com];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[p.zabel@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -120,7 +121,7 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0A77B1A304E
+X-Rspamd-Queue-Id: 46B501A30A1
 X-Rspamd-Action: no action
 
 On Di, 2026-02-24 at 11:58 +0100, Maxime Ripard wrote:
@@ -129,9 +130,6 @@ On Di, 2026-02-24 at 11:58 +0100, Maxime Ripard wrote:
 > enum.
 >=20
 > The main different is that while DRM_COLOR_FORMAT_ was a bitmask,
-
-s/different/difference/
-
 > drm_output_color_format is a proper enum. However, the enum was done is
 > such a way than DRM_COLOR_FORMAT_X =3D BIT(DRM_OUTPUT_COLOR_FORMAT_X) so
 > the transitition is easier.
