@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +G65Ak5ToWkfsAQAu9opvQ
+	id CKKvLUpToWkfsAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2531B461E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1761B4610
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9227510EA59;
-	Fri, 27 Feb 2026 08:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D91B110EA55;
+	Fri, 27 Feb 2026 08:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BwPRsluw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EWJc2Uz6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7FD10E09B;
- Thu, 26 Feb 2026 22:45:54 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D442010E09B;
+ Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4F73E438A6;
- Thu, 26 Feb 2026 22:45:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE84C116C6;
- Thu, 26 Feb 2026 22:45:33 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id AC9B3600AA;
+ Thu, 26 Feb 2026 22:52:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F89BC116C6;
+ Thu, 26 Feb 2026 22:51:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772145954;
- bh=6uKDFBvN4DDY9XeohP+RP+WtJXai/wgD+w8aBy8ELuI=;
+ s=k20201202; t=1772146325;
+ bh=pajDmz5yp010hi/+QMkuQbHFrnu7ZcaVGRjn0wxtp+k=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BwPRsluwO3QANQshXwh32wR+hN95/ZQaqzcFJ2RER/i7epF+sSCYFo1KMXHOGf2R3
- tsLZpVKPhp6IYFncinO3pBIsCgu+rwpVvIo+0zjgm2iq8YIleJaPf8qGesVW5FdwrW
- Y5g7WUES2Mh6BiqhQR5w2ll+Cp6d1rgxOG/dhhV4E6xF4vMFhgwVRQ/1Ucgz8zHYT7
- 7zI5Snsyyyon3Xpvj3HPGliG9ZUJpLobrX1MAnnbxvWUr9WMlrzKtKu7XY0mI84whC
- FEYZ5B/15gnGjYg5Ru8NFUa29UtrV2uULQrsiaYP8uXtKD59C94w045b6ZIGP74ugy
- vi3my4tvrpUOA==
-Message-ID: <6a5fb35d-b0d1-4d47-bb92-c176f5e12a40@kernel.org>
-Date: Fri, 27 Feb 2026 07:45:32 +0900
+ b=EWJc2Uz6oM/U5lpFUSm3GfVgR4cldZrHPbo/JbNPiCo7a9Qet3NPwP5d/g2F9Z/eY
+ PULzCCLSyJn39yRAPsdhfy+RdiF52vi9KQubOdZlNMxkN2YEKcSZEHQQHEwBCv8UDq
+ aUBFV4GAaYKK9ceshTeB/l1Olc+NGJM3RsiAcavnfuqg+7yXrgam32eowwkzRFvJiO
+ netZZv71AIv/PMFlHfmi9NAn7OA57Ds8pdoFOxBLCi6KvwtN5EM8l5UroXTz7+zS0y
+ Jdi0ImLclB5JNz4xYwfY9d0QUSMNEpHwhSScYgT0H9rCBdMCBOXzjYqnr0oZ0b2JRV
+ uc6mB11PL9OGw==
+Message-ID: <104bcaf3-42ba-4eec-98c1-fe3afa7fcc41@kernel.org>
+Date: Fri, 27 Feb 2026 07:51:43 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 50/61] zonefs: update format strings for u64 i_ino
+Subject: Re: [PATCH 03/61] trace: update VFS-layer trace events for u64 i_ino
 To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
  <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
  Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
@@ -129,11 +129,11 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
  linux-x25@vger.kernel.org
 References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
- <20260226-iino-u64-v1-50-ccceff366db9@kernel.org>
+ <20260226-iino-u64-v1-3-ccceff366db9@kernel.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20260226-iino-u64-v1-50-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-3-ccceff366db9@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 27 Feb 2026 08:18:15 +0000
@@ -179,16 +179,38 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: AA2531B461E
+X-Rspamd-Queue-Id: 2A1761B4610
 X-Rspamd-Action: no action
 
 On 2/27/26 00:55, Jeff Layton wrote:
-> Update format strings and local variable types in zonefs for the
-> i_ino type change from unsigned long to u64.
+> Update trace event definitions in VFS-layer trace headers to use u64
+> instead of ino_t/unsigned long for inode number fields, and change
+> format strings from %lu/%lx to %llu/%llx to match.
+> 
+> This is needed because i_ino is now u64. Changing trace event field
+> types changes the binary trace format, but the self-describing format
+> metadata handles this transparently for modern trace-cmd and perf.
+> 
+> Files updated:
+>   - cachefiles.h, filelock.h, filemap.h, fs_dax.h, fsverity.h,
+>     hugetlbfs.h, netfs.h, readahead.h, timestamp.h, writeback.h
 > 
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Acked-by: Damien Le Moal <dlemoal@kernel.org>
+[...]
+
+> @@ -726,7 +726,7 @@ TRACE_EVENT(balance_dirty_pages,
+>  		  __entry->pause,	/* ms */
+>  		  __entry->period,	/* ms */
+>  		  __entry->think,	/* ms */
+> -		  (unsigned long)__entry->cgroup_ino
+> +		  (unsigned long long)__entry->cgroup_ino
+
+Do we really need this cast here ? (same comment for the following events).
+
+Other than this, this looks OK to me.
+
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
 -- 
 Damien Le Moal
