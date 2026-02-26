@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qAySLN1OoGmIiAQAu9opvQ
+	id iLQ6H+tOoGmIiAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:09 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151271A6E64
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C881A6EA3
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 14:47:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2DC10E936;
-	Thu, 26 Feb 2026 13:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A0010E93F;
+	Thu, 26 Feb 2026 13:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFFF10E934
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 13:47:03 +0000 (UTC)
-Received: from inva021.nxp.com (localhost [127.0.0.1])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 6231F202549;
- Thu, 26 Feb 2026 14:41:00 +0100 (CET)
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337E610E937
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 13:47:05 +0000 (UTC)
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 55E461A14A2;
+ Thu, 26 Feb 2026 14:41:01 +0100 (CET)
 Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com
  [134.27.226.22])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 28BDC202C27;
- Thu, 26 Feb 2026 14:41:00 +0100 (CET)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 405991A14A9;
+ Thu, 26 Feb 2026 14:41:01 +0100 (CET)
 Received: from lsv15149.swis.ro-buh01.nxp.com (lsv15149.swis.ro-buh01.nxp.com
  [10.162.246.145])
- by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 6EDD020376;
- Thu, 26 Feb 2026 14:40:58 +0100 (CET)
+ by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 8A45A2035B;
+ Thu, 26 Feb 2026 14:40:59 +0100 (CET)
 From: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
-Date: Thu, 26 Feb 2026 15:40:41 +0200
-Subject: [PATCH 2/9] accel/neutron: Add documentation for NXP Neutron
- accelerator driver
+Date: Thu, 26 Feb 2026 15:40:42 +0200
+Subject: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-neutron-v1-2-46eccb3bb50a@nxp.com>
+Message-Id: <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
 References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
 In-Reply-To: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
 To: Oded Gabbay <ogabbay@kernel.org>, 
@@ -53,11 +52,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>, 
  Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772113256; l=7020;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772113256; l=3009;
  i=ruxandra.radulescu@nxp.com; s=20260204; h=from:subject:message-id;
- bh=70OP0Dj1Z9Nhg2uTfcWxmjST7VKQFl9/cXvxpjdBVks=;
- b=8snYNlqD0ArdowhVMHi4fky8m1s3uu2Sgmh8z+MCPxBpHYyxaM/jPPavdv2oTxe3/SS+vrOs2
- KGH+5xMQ5zNDdOXXUoc9yvcYl3RvMBDTlrafP7LIw3aSly+FkLo3DO5
+ bh=EX2bIZOSowP7el+n7llkL5Myq7aMQsIPLE13DNgNaf0=;
+ b=tPxIFYSc7cbZSar8MAZ2vi5SJTPMRU/MOwR6ASpB1hIm7foVZJIzow1x+B7uPluDrCqVmZjC0
+ UbPbT0uDRp6D2R7LlgfcgzTj+tB0JQdwp92nBdYyDP1Jra2XEl0bXlE
 X-Developer-Key: i=ruxandra.radulescu@nxp.com; a=ed25519;
  pk=zoq4b4OYR0c4faAH97xoTxdr6vfR8OvPbS+Cx0XhIBY=
 X-Virus-Scanned: ClamAV using ClamSMTP
@@ -103,190 +102,122 @@ X-Spamd-Result: default: False [0.99 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-0.981];
+	NEURAL_HAM(-0.00)[-0.975];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:mid,nxp.com:url,nxp.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,i.mx:url]
-X-Rspamd-Queue-Id: 151271A6E64
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nxp.com:mid,nxp.com:email,devicetree.org:url,4ab00000:email]
+X-Rspamd-Queue-Id: F2C881A6EA3
 X-Rspamd-Action: no action
 
-Neutron is NXP's Neural Processing Unit (NPU) and it's integrated on
-the i.MX95 SoC. It is capable of running inferences on a large range
-of ML models and targets edge AI applications.
+Add the bindings for Neutron, a Neural Processing Unit from NXP.
 
+Signed-off-by: Jiwei Fu <jiwei.fu@nxp.com>
 Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
 ---
- Documentation/accel/index.rst           |   1 +
- Documentation/accel/neutron/index.rst   |  12 +++
- Documentation/accel/neutron/neutron.rst | 131 ++++++++++++++++++++++++++++++++
- 3 files changed, 144 insertions(+)
+ .../devicetree/bindings/npu/nxp,imx95-neutron.yaml | 95 ++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
-diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-index cbc7d4c3876a..dbe177074739 100644
---- a/Documentation/accel/index.rst
-+++ b/Documentation/accel/index.rst
-@@ -9,5 +9,6 @@ Compute Accelerators
- 
-    introduction
-    amdxdna/index
-+   neutron/index
-    qaic/index
-    rocket/index
-diff --git a/Documentation/accel/neutron/index.rst b/Documentation/accel/neutron/index.rst
+diff --git a/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml b/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml
 new file mode 100644
-index 000000000000..8f15346d16c7
+index 000000000000..ba1f6851866b
 --- /dev/null
-+++ b/Documentation/accel/neutron/index.rst
-@@ -0,0 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
++++ b/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/npu/nxp,imx95-neutron.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+==========================
-+ accel/neutron NPU driver
-+==========================
++title: NXP Neutron NPU
 +
-+The accel/neutron driver supports the Neutron NPU (Neural Processing Unit)
-+from NXP.
++maintainers:
++  - Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
++  - Jiwei Fu <jiwei.fu@nxp.com>
 +
-+.. toctree::
++description:
++  Neutron is an NPU from NXP targeting edge AI inference applications.
++  Initially supported on i.MX95 SoCs.
 +
-+   neutron
-diff --git a/Documentation/accel/neutron/neutron.rst b/Documentation/accel/neutron/neutron.rst
-new file mode 100644
-index 000000000000..c5066d53ce69
---- /dev/null
-+++ b/Documentation/accel/neutron/neutron.rst
-@@ -0,0 +1,131 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
++properties:
++  compatible:
++    enum:
++      - nxp,imx95-neutron
 +
-+.. include:: <isonum.txt>
++  reg:
++    items:
++      - description: Register space
++      - description: Instruction area of the TCM space
++      - description: Data area of the TCM space
 +
-+====================
-+ Neutron NPU Driver
-+====================
++  reg-names:
++    items:
++      - const: regs
++      - const: itcm
++      - const: dtcm
 +
-+:Copyright: |copy| 2026 NXP
++  memory-region:
++    description:
++      Phandle referencing a "shared-dma-pool" to be used for Neutron
++      inference buffers, which need to be 1MB aligned.
 +
-+Overview
-+========
++      The memory region must be defined with alignment of 1MB and size
++      should be large enough to accommodate the targeted ML models. It
++      should be marked as reusable.
++    maxItems: 1
 +
-+Neutron is NXP's eIQ Neutron Neural Processing Unit (NPU). It is a highly
-+scalable, power-efficient machine learning accelerator targeting quantized
-+ML models for edge AI applications. Neutron is integrated into i.MX95 and
-+other NXP platforms.
++  interrupts:
++    maxItems: 1
 +
-+A more detailed description of Neutron NPU and usage scenarios can be
-+found at [1]_.
++  clocks:
++    minItems: 2
++    maxItems: 3
 +
-+Hardware Description
-+====================
++  clock-names:
++    minItems: 2
++    items:
++      - const: npu
++      - const: npu_apb
++      - const: npu_cgc
 +
-+Neutron has the following hardware components:
++  iommus:
++    maxItems: 1
 +
-+- RISC-V core: this is the "brain" of the Neutron NPU. It runs a proprietary
-+  firmware responsible for programming registers, processing commands and
-+  managing the other hardware components
-+- one or more Neutron cores: the main computation engine performing Machine
-+  Learning (ML) operations
-+- TCM: a dedicated fast memory
-+- Data Mover: a DMA engine that handles data transfers between system memory
-+  and Neutron's internal memory
++  power-domains:
++    maxItems: 1
 +
-+Software Stack
-+==============
++required:
++  - compatible
++  - reg
++  - reg-names
++  - memory-region
++  - interrupts
 +
-+The following software components are required for running an inference
-+on the Neutron accelerator:
++additionalProperties: false
 +
-+- Neutron converter [2]_, [3]_: this is an offline tool that converts models
-+  from standard TFLite (LiteRT) format to a custom format for execution on the
-+  Neutron NPU;
-+- An inference engine, e.g. LiteRT's XNNPack, which in turn uses
-+- A LiteRT custom delegate [4]_ to dispatch custom operators to Neutron NPU;
-+- A userspace library [5]_ that the delegate links to, which wraps IOCTLs
-+  to the kernel driver in a higher-level API. It handles microcode, weights
-+  and kernels preparation and base address computations needed by the NPU for
-+  job execution. It also triggers cache syncs when required;
-+- The Neutron kernel driver, which handles device initialization and
-+  communicates directly with the Neutron firmware;
-+- Neutron firmware [5]_, a proprietary firmware that executes on the RISC-V
-+  core and directly drives the execution of the NPU hardware.
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
 +
-+Usage Flow
-+==========
++    bus {
++      #address-cells = <2>;
++      #size-cells = <2>;
 +
-+This section describes the steps required to run an inference job on the
-+Neutron NPU.
-+
-+Offline Conversion
-+------------------
-+
-+The first step is to convert a standard TFLite model using the Neutron
-+converter. Supported standard operators are extracted together and mapped
-+to one or multiple **NeutronGraph** custom operators in the converted model.
-+Standard operators that are not supported by the NPU are left unchanged and
-+will be executed on the CPU.
-+
-+Runtime Flow
-+------------
-+
-+On the platform's Cortex-A cores running Linux, the LiteRT inference engine
-+is responsible for loading the ML model, pre-processing the input data and
-+handing over the tensor computation to the NPU via the custom delegate.
-+
-+The inference engine can be exercised via one of the standard TFLite tools
-+(e.g. benchmark_model, label_image, etc) or via any custom application that
-+uses the LiteRT runtime API.
-+
-+When preparing to run an inference job, userspace requests a memory buffer
-+from the kernel driver. It loads both the model and the input data in the
-+buffer, while also reserving a section for the inference output. It then
-+issues a job submission command with the prepared buffer and waits for
-+completion.
-+
-+The kernel driver sends the inference job details to the Neutron firmware
-+via mailbox registers. The NPU executes the inference and issues an interrupt
-+to the Linux core once it is finished. The driver in return marks the job
-+as complete so userspace can access and post-process the output.
-+
-+Boot Sequence
-+=============
-+
-+The Neutron driver is responsible for loading the firmware image and
-+initiating the NPU boot sequence. The device is powered down during suspend
-+and each resume operation implies running the firmware load and boot sequence
-+again.
-+
-+Hardware Constraints
-+====================
-+
-+Cache Coherency
-+---------------
-+
-+Some of the NXP platforms that Neutron is integrated on, including i.MX95,
-+do not ensure Neutron memory coherency at hardware level, generating the
-+need for explicit DMA sync operations. Given that only parts of the memory
-+buffer may require syncing at any given time (e.g. multiple inferences using
-+the same model but different input data) and that the kernel driver is unaware
-+of the buffer partitioning, the sync operations are driven from userspace.
-+
-+Buffer alignment
-+----------------
-+
-+The Neutron DMA engine requires the inference buffers to be aligned to 1MB
-+boundary. We allocate buffers for Neutron NPU from a reserved CMA pool that
-+satisfies this alignment requirement.
-+
-+References
-+==========
-+
-+.. [1] i.MX Machine Learning User's Guide: https://www.nxp.com/docs/en/user-guide/UG10166.pdf
-+.. [2] Neutron Converter binary and User Guide available for download here:
-+       https://www.nxp.com/design/design-center/software/eiq-ai-development-environment/eiq-toolkit-for-end-to-end-model-development-and-deployment:EIQ-TOOLKIT
-+.. [3] NXP's eIQ PyPi repository: https://eiq.nxp.com/repository/eiq-neutron-sdk/
-+.. [4] TFLite delegate source code: https://github.com/nxp-imx/tflite-neutron-delegate
-+.. [5] Neutron firmware, library and TFLite delegate available here as binaries:
-+       https://github.com/nxp-upstream/neutron/tree/upstream
-+
++      neutron@4ab00000 {
++              compatible = "nxp,imx95-neutron";
++              reg = <0x0 0x4ab00000 0x0 0x00000400>,
++                    <0x0 0x4AB10000 0x0 0x00010000>,
++                    <0x0 0x4AB08000 0x0 0x00008000>;
++              reg-names = "regs", "itcm", "dtcm";
++              memory-region = <&neutron_pool>;
++              interrupts = <GIC_SPI 318 IRQ_TYPE_LEVEL_HIGH>;
++              clocks = <&scmi_clk 68>, <&scmi_clk 67>;
++              clock-names = "npu", "npu_apb";
++              power-domains = <&scmi_devpd 20>;
++      };
++    };
++...
 
 -- 
 2.34.1
