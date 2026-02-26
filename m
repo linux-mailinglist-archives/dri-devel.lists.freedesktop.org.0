@@ -2,114 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPHNKyONoGkokwQAu9opvQ
+	id ANFQGi81oGkqgwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:51 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF111AD5FE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B991A56FC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 12:57:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E14210E9FA;
-	Thu, 26 Feb 2026 18:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F7A10E8E5;
+	Thu, 26 Feb 2026 11:57:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d5ky7yk8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kHVZ6FtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com
- [74.125.82.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6629310E06F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 11:49:54 +0000 (UTC)
-Received: by mail-dy1-f169.google.com with SMTP id
- 5a478bee46e88-2bdcada445fso362272eec.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 03:49:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772106594; cv=none;
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1225A10E8E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 11:57:30 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id
+ ada2fe7eead31-5fe086fb0bcso149807137.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 03:57:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772107049; cv=none;
  d=google.com; s=arc-20240605;
- b=XJpKfbmWo+RXkW2qJtjH1aub5u9L4dZMExGgh/GNYcBwXpbfRk0YUGlBWDgahfllUd
- t/O4jcgbILEipLkIKCYFJJTxrMpJ37X1lVH3c8QIVwQEeqKWn8kFEjdV9pEzBnLktmaP
- YgJtSBoKZX8fAYsq9LwfqnSInG6xL6b9vHT97RxoL73u3qQ1cXdOfIHEuiy0Y2Owfw0n
- ymwmdfb6YrqWg2YjtwigQQEW2bhh1imEGE3qlXBpfq/AHJChCEtd/0sv87yW2FTQfCH0
- 9n/YgkrPb/oHdPJZQP5+/QKFE9usVQfQT8icm0MtAOP52nJOJH01LLuc7f70QmJfhGmT
- D/Yw==
+ b=iBCT8AFHL/6KutQkUKEsQw8khbAzSU9/8MDtnKb2dLF2ztIAExDRpjjTotHnI83YNI
+ JhHLu4ksAWS1Ob1n+8azMGcG3FHlV/0K46t0qCXgO+mqHPZR62L7l2Zor2kSc/47T4+e
+ 1nuiAEsUDt1Ko2vWlSiAH7bBP6M0XDt1amfTqpJ5ltL4sS/LYRTMGCqnAsPBln0dhLgF
+ ZmKuThJB5XOa6ZjRXG1FvzMBImJuaLbiElIMQtBa8qnZ2GXUmEZKvXatYRZY+mR6Y+no
+ MwME2NXzzreCURcpTFu50cFmcGonOrACkPwi2e5igqV3dVZQBWzfM0cRL2gnlpf3NG5p
+ 6QGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=rgmPn19c/p+qMI402YeYidJ3CVeGin48tR6uiGvvny0=;
- fh=fugrFfXPAYRVDaKdkMcV97H9Qj4eM6xDrbBOT4hKJnI=;
- b=PugZIoK7b9hgqXtoM1wmInso+jDE480Cvtq90ChkryJ7F2U34zyETU1i2xmGaRq430
- I9xlBXt78j55yBQ42zmO4xC1Zx30FjkeN5dRr033E+0FdPCeqPAtn1wwbjy9E0CH/Jup
- ezOC4VhTIexDI+C592Lz3aVkXTXsNI2AVO7EvhBd+sEtwD8DPl0rYI3qlIrlBmI57Iyc
- gzmdrn+m6puCIRXD710Vhj9HCJvQHoNjk8g06dXyAfpVwuZHSO88vzWja/ovzQAAFyjS
- ql0mXQNAxtTGmPDr+VgBty5qMp+tzBSILgs0HtHX2wL+osJL75gOd1LQZ1NJ1Yl6Fnm8
- wOaQ==; darn=lists.freedesktop.org
+ bh=qNtK32BGt9MxWXtwDTu0yUUapwxqATE2188PlWft/QU=;
+ fh=sUgEtNfQiMNV/M5jOjs5MnoX6UT2tjjXguE3ov3sSI4=;
+ b=FFZZbADtc9iMiXGQz8iuVmyo3mLtDQRymf3/N4Rv+Dao4cx57dZY//AHPGwVGyWiwn
+ 2eI9HGBPAj0biOi5kImBB5riU4+jshDt40LdOB+IldG6C+JJKWwrvR8y/JGqCRimOKoz
+ O7cuePvt6jCClxFnLN0V2Gv1JZn89WpUcuk8+nD5MLjOYKQKpHW9ab4ndwbXUJ3oSWpz
+ k7QLIWExClX9M95vS0DZ4kPg92iTvMUgCaeQyjbHLKbvJENvSiO+OQZlvzIhUPS7wuFg
+ CdpIm5kU1MhV713RF0X+ktuYl1J2ADlXT/nqPLj8td+Lcy3bIH0ehiTH0qbS8XVLxqfD
+ ByEQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772106594; x=1772711394; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772107049; x=1772711849; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rgmPn19c/p+qMI402YeYidJ3CVeGin48tR6uiGvvny0=;
- b=d5ky7yk8O/YY3ZJGPWCeBHKe3wQ9GKgyzQOgM80BmFy3qywbnCNxIn+lzCqhceoQFs
- yJrezyck3WFpKWxNPC8R2ooTZYnEG7DIXQzgDGcx5UBb08rDxJ5gtv33Ge/j6oqBFbjw
- 7c65Y5VTtXr81yrK5r3LbXmIm+k7i84vYw/oLK/2es9MafeGG7OFGWCetRCHXIuFFpXp
- 5L1JccOyfv7kObtvbUf25oSEV0R1YHSAd/Kf1DFdNSB56dkpdCIFT7E1/BbENak1CT6G
- 28O8ulUBRcosp0lgwFwbwJv2porQ38YwAXZB+TOGauKndQLLWlgDO17jVyYqhxeF3ENq
- bcBQ==
+ bh=qNtK32BGt9MxWXtwDTu0yUUapwxqATE2188PlWft/QU=;
+ b=kHVZ6FtYjrWgQGG8gThgqCXrB3WGPlMcf4Bo5AGP485gcMAdEHSQWec3kp9klRH9+G
+ eYBZ0gr8Px8NiyXaUGvQk0k/4YfQAbPD8hQcBye9HYNdJ+1X6Afbqmmp8Ct8dwLw1CZ9
+ RoAu8tfFrzvmOijuW9mMkrdzUYFv3h5R4EB95zZtHaLGtrfKe7C+Wwj8Zgy540ZOyJil
+ MUoQReVQZj2ifEDHJKfhYP7n1JyrY9tGQ7UYwVBwZ3CzuCeXNY+MRD6mNpD4CxjX1iIG
+ nR2C5IfhomBsA1OEbN1iIid96brmJNKw2xvQmjqnEgQlByf/wY11kNR02JMzLcD9i53I
+ ysaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772106594; x=1772711394;
+ d=1e100.net; s=20230601; t=1772107049; x=1772711849;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=rgmPn19c/p+qMI402YeYidJ3CVeGin48tR6uiGvvny0=;
- b=w+qqfttYA2O/cu+JWl+pF/1b/S842l+kFsq/3uvfYjUmw8Gro1MTS9SgHwpK3sLhoe
- AMW+9FvdekXnnuv3NQ71nhWc0tUWFjzolPQtZdLC92zJaSwqCVaZse+I2wmlbijWhyBo
- yby1uAZrEpgOHl5sSoLWOkMlRbvWgBzpyQRkj225IZCHv8hEHOmxeVX2EQBWF9MBxQSn
- XeDYxntqMGdB6BvinxTKbWy3HAFG6xpMsRvajJzNwmzvY2chdufrovWgdJcX2sovk50P
- PlD/XV3HWtbJw/Ju80/yNCUUJYoGG94gCq0hKt9uWKSM8dCX4ZVaWMwGs/AzEEl8ZY/p
- Ae9A==
+ bh=qNtK32BGt9MxWXtwDTu0yUUapwxqATE2188PlWft/QU=;
+ b=BEWTAkJz2ot85H6wnn0Ngiz8YytWeCu4bps7oXOKMhRktxTuOnhQaSPsludsL2iuAc
+ 3HsVPI13XfO2ogDluYJgNHIh043baA2cxrgGmuvvX46vkUG2ZR2sgYbnAo1XHKYXUSWe
+ 3wha5uFSind1eKbq1GCArUJ8Mju9niiHsoN7aJiJDuyx2KlYKDftOZBmUlwIEOmEuXPK
+ pSP6k8+Mqm8I8mYxP8O9hN5udi18CnhGado9wrJlSQ2quGypz7rD7wP+J4JgZxIVTm54
+ 2uca5dvNRtchVxPZxbiSMcdGiGvsZq4NUvXBYttAo/BhgiDicYb3HfMib21BXiJotYRZ
+ ZcsA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWctdXEaYB2jwYUUkVdKCs/Qi8ti1uHgo6LO8A2U07kl1rZwDkSwwa7/XGnGQw9tKnkHfXbNk7ZVa0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6XeGi90ko/FoEw5cOY+4hMGeN9ziyBX1vCGa74roxlKsiVvui
- BVftT0USJJ7lM/a2EwU1eprzkXDsIyG12NH/pLKLFE7L3auF5sqQYsUyxGpTozzJJYjuUrZfSYP
- oO0Q3tmq7Ovb6pimLue3xUN/CR5bpLvI=
-X-Gm-Gg: ATEYQzxhsmS+sJd+irdzBWcVwazx4ossjUD0/3Jq/79iZyAKXE9KHC1CMzmaPQIOMiO
- cxjfiMJbr7TMBdOC/Q/8twGjBomfk04XLm72+SmTD5PXiuXI6+2ICLOynIOm8bBSK0iKhsTj1fw
- NiHsxKRHmzQ24tiNoc7LMAVl9JkSvQlrXPfxH9R/2JcFUFIdSMv3fOtbB7muC8CHj6avqIKsoiU
- gdeioEVJ/QYO0pEMubULuuHvN8ON6Mhfx+CH1Usji80VNw+Nx8bxdBStvPuIhxeL3q1khGx9tdx
- PLQabwc=
-X-Received: by 2002:a05:7301:580a:b0:2ba:749f:81a7 with SMTP id
- 5a478bee46e88-2bdd1072184mr1276503eec.21.1772106593534; Thu, 26 Feb 2026
- 03:49:53 -0800 (PST)
+ AJvYcCXQRs6tT/wbwVt5VuTbHSj3QLTnTyvluIq67nOtIyDmYI2qUoirOI6w7kqOT89suWx+pFk+DCsl+1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoKXKG8+E1l9q2UenNwz2fhxz96F6LrnTe7306aS8NRf1/3UBe
+ oh5kUL9abCQuOWAodX3DEUf0lh2dGduiUUmKA2e+pq4iAxuB8Z2/zF1HzITCfqRu7e7UadaPcVJ
+ krQ9mWSJklJyFA30ZpCseMeQ2joDNgFg=
+X-Gm-Gg: ATEYQzwguw4yk65YyPmmTks5XFb3/m2vSWcvC7h6TPuG0X7rHDgLluh1Ui7qoS87gQe
+ LlhTnV6tP7pc/S7u7SOdE/XB9ZaOLTGljyjIH+H8X6FmGaJX7REQMWJ6PJlYIit8xZgOq8587ru
+ Y1n//oFrmXXMkT5rGEE3Xq7FSSU5s6vAiadtch2ckEWg5q98JccZWng4QSxzpJAZr6jgpgL0O6+
+ +pDV3dgc4QaI6A749K5xZvgMMAv01sOpcK8hOWHeIc4FdGtwfX8dKEi7ohmwTp94t0Lrl9BqzVT
+ MJfqvs8=
+X-Received: by 2002:a05:6102:c8f:b0:5f5:3c38:c4bc with SMTP id
+ ada2fe7eead31-5ff140aac98mr1601764137.23.1772107048800; Thu, 26 Feb 2026
+ 03:57:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20260223-panel-patches-v2-0-1b6ad471d540@gmail.com>
- <20260223-panel-patches-v2-2-1b6ad471d540@gmail.com>
- <44283903-f11d-4b13-a6c7-6f0d40a3d00b@ixit.cz>
- <CAHuF_ZoZDJ9bGKv9FqAoJsBMjVeyHAJWqoc5NA3sshep3cdDwQ@mail.gmail.com>
- <c80683ec-9c34-430e-8007-7d5f9677263c@ixit.cz>
-In-Reply-To: <c80683ec-9c34-430e-8007-7d5f9677263c@ixit.cz>
-From: Yedaya Katsman <yedaya.ka@gmail.com>
-Date: Thu, 26 Feb 2026 13:49:41 +0200
-X-Gm-Features: AaiRm53RyeCUYF1TdO7He7BUB6Q3FObLNVXo7a9OvUo3vwH6_hGF0E-ikadLDVc
-Message-ID: <CAHuF_Zp6Rhe0e2FCGgDYXhqRJTf6w5Ly0UGy5u2ORAQofiRCtA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] drm: panel: Add Samsung S6E8FCO
-To: David Heidelberg <david@ixit.cz>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+References: <20260225054525.6803-1-mitltlatltl@gmail.com>
+ <20260225054525.6803-2-mitltlatltl@gmail.com>
+ <20260225-analytic-economic-parrot-4c3a45@quoll>
+ <5617b6ec-b1f7-4f3d-abda-d7142c323759@oss.qualcomm.com>
+ <CAH2e8h7T3Qy1f=-34SK+q=n9TRYOtzyxY8R6yKZJZGr_f+UMZg@mail.gmail.com>
+ <rwsaypiovv3xtw5pfxw5rksmqetv4mogu4yy7yrm7gfknezmuw@bh6v5q2zeuiy>
+In-Reply-To: <rwsaypiovv3xtw5pfxw5rksmqetv4mogu4yy7yrm7gfknezmuw@bh6v5q2zeuiy>
+From: Pengyu Luo <mitltlatltl@gmail.com>
+Date: Thu, 26 Feb 2026 19:57:12 +0800
+X-Gm-Features: AaiRm50VYYJa11U6YREQitoe6H7Afdc4A9v2yu5-PwbhgzvuP2StWI1hICwfKV4
+Message-ID: <CAH2e8h6HCBpMfuzE-e2sOvE0SF9w2bgci68mxENP9J7cExp1yA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: display: msm-dsi-phy-7nm: Add SC8280XP
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- =?UTF-8?B?S2FtaWwgR2/FgmRh?= <kamil.golda@protonmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
  Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Tianyu Gao <gty0622@gmail.com>, 
+ White Lewis <liu224806@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Thu, 26 Feb 2026 18:11:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,79 +136,100 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kamil.golda@protonmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:krzk@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:quic_mkrishn@quicinc.com,m:jonathan@marek.ca,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gty0622@gmail.com,m:liu224806@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.997];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yedayaka@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,protonmail.com,lists.freedesktop.org,vger.kernel.org,oss.qualcomm.com];
+	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,marek.ca,vger.kernel.org,lists.freedesktop.org];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 4BF111AD5FE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,qualcomm.com:email]
+X-Rspamd-Queue-Id: C5B991A56FC
 X-Rspamd-Action: no action
 
-On Wed, 25 Feb 2026 at 23:24, David Heidelberg <david@ixit.cz> wrote:
+On Thu, Feb 26, 2026 at 6:56=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> On 25/02/2026 22:13, Yedaya Katsman wrote:
+> On Thu, Feb 26, 2026 at 06:44:02PM +0800, Pengyu Luo wrote:
+> > On Wed, Feb 25, 2026 at 7:02=E2=80=AFPM Konrad Dybcio
+> > <konrad.dybcio@oss.qualcomm.com> wrote:
+> > >
+> > > On 2/25/26 11:24 AM, Krzysztof Kozlowski wrote:
+> > > > On Wed, Feb 25, 2026 at 01:45:21PM +0800, Pengyu Luo wrote:
+> > > >> Document DSI PHY on SC8280XP Platform.
+> > > >>
+> > > >> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> > > >> ---
+> > > >>  Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | =
+1 +
+> > > >>  1 file changed, 1 insertion(+)
+> > > >>
+> > > >> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy=
+-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+> > > >> index 9a9a6c4ab..9223af1f4 100644
+> > > >> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.ya=
+ml
+> > > >> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.ya=
+ml
+> > > >> @@ -23,6 +23,7 @@ properties:
+> > > >>                - qcom,sa8775p-dsi-phy-5nm
+> > > >>                - qcom,sar2130p-dsi-phy-5nm
+> > > >>                - qcom,sc7280-dsi-phy-7nm
+> > > >> +              - qcom,sc8280xp-dsi-phy-5nm
+> > > >
+> > > > Your other commit claims it is compatible with sa8775p, just like s=
+ome
+> > > > other devices here.
+> > >
+> > > If that helps, they do have the same values for the REVISION_ID regis=
+ters
+> > >
+> >
+> > Thanks for confirming this,I will add this to the commit message and
+> > fallback to sa8775 then.
+> >
+> > I am curious, do the PHY QUIRKs in dsi_phy_7nm.c reflect PHY revision?
 >
+> Yes
 >
-> [...]
-> >>> +static struct backlight_device *
-> >>> +s6e8fco_samsungp_create_backlight(struct mipi_dsi_device *dsi)
-> >>> +{
-> >>> +     struct device *dev =3D &dsi->dev;
-> >>> +     const struct backlight_properties props =3D {
-> >>> +             .type =3D BACKLIGHT_RAW,
-> >>> +             .brightness =3D 268,
-> >>
-> >> ~ 10% of brightness at boot? What is the scale? Shouldn't make sense t=
-o
-> >> set it around 50%? (just asking)
-> > This is just what was configured downstream, it looks bright enough for=
- me
-> > fwiw, I can change it if you want.
+> > I notice
+> >             REG_DSI_7nm_PHY_CMN_REVISION_ID0       QUIRK
+> > SM8250:     0x00000014                               4.1
+> > SM8650:     0x00000025                               5.2
+> > SC8280XP:   0x00000024                               4.2
+> > SM8750:     0x00000027                               7.0(*)
+> >
+> > (*) SM8750 is 7.2 in the downstream.
 >
-> No need to change it if it=E2=80=99s bright enough. If it=E2=80=99s usabl=
-e when you
-> power on the device outdoors with some daylight exposure, then it=E2=80=
-=99s fine.
-While testing this I found out that the max brightness is actually
-1023, anything
-above 1024 just wraps around, i.e 1224 is the same as 200. Will update the
-max to be 1023.
-I tested outside and it is a bit hard to see, will update the default to 51=
-2.
+> Please change SM8750 to 7.2 (and SM8150 to 4.0 FWIW).
+>
 
-> Also, since the user can adjust the brightness later, it won=E2=80=99t ma=
-tter
-> much either way.
->
-> Thanks,
-> David
->
-> [...]
+ACK.
 
-Thank,
-Yedaya
+It is exactly 4.0.
+https://github.com/OnePlusOSS/android_kernel_oneplus_sm8150/blob/oneplus/SM=
+8150_P_9.0/arch/arm64/boot/dts/qcom/sm8150-sde.dtsi#L518
+
+Best wishes,
+Pengyu
