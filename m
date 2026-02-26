@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iE03ETpyoGlZjwQAu9opvQ
+	id AB0/DT1yoGlZjwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:18:02 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:18:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85EE1A9F2A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4A91A9F31
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 17:18:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B5510E99D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A1110E9AD;
 	Thu, 26 Feb 2026 16:17:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="vWjKSWbG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SHZw10H+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA30B10E9AB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:17:55 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9500310E99D
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 16:17:58 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id B19584E41230;
- Thu, 26 Feb 2026 16:17:54 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 168D9C4069A;
+ Thu, 26 Feb 2026 16:18:12 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 870F25FDE9;
- Thu, 26 Feb 2026 16:17:54 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 94A3A5FDE9;
+ Thu, 26 Feb 2026 16:17:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9B12F103693EF; Thu, 26 Feb 2026 17:17:50 +0100 (CET)
+ with ESMTPSA id D0A25103693F9; Thu, 26 Feb 2026 17:17:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772122673; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1772122675; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=J7rzqyCwEJE4QXCmYRXeLF0zeRFmIwZ7a/ILMFOO6lk=;
- b=vWjKSWbGaHRLu3pK8EgSpxFFj8Twa/amgqR7pjMNa/N4VH+zHuLyp0fNwGyGZuuQMFJE/M
- AU165sADWJr6Q2JYK4bkmYXs++Q3vyPe0zx2SS6LgDsqvzVNnJjGODa705WpLPN5HeIfgR
- 3FHdedKuzs0tL4PpbiJ/WMBaaVSbDvZEno9caipVzsmTWLpp/F4NmOMI8OqNDq5e3+hPBQ
- Kiydg2dcv0cz8aiEZoYkBZDmNxSsjkF0C8Ng+E0llsheA6zXiAgTl9XTF4635QOFWtwSPf
- +741P1lxczB9Wr8cVbZ3W3f/TDG3y4sUSA0ls0qtwGmypQ2MTZBhTFsg2Va6qA==
+ bh=w5vPufaau/3I2QpJ9e2+Z9v2JqhTHbqrTx3oXaG/ZO4=;
+ b=SHZw10H+CRxh0DMlHtFEARQLTPyEM0rce1xFoOvnREX4YLoCytnQZn7K8oGDwMTn0RWNLX
+ tRLdcrIZzQ49RjSThw8Z3cIBWZ7+LffiQHIpdK578hl5UCFpCyd1eGXhyaeY3aClwuGi90
+ X4w3RZh1u3fOK4Et881Ya/FA2ZlwXAtYT5gt/gPS9pqzVEzoKGXB/6puAtUM6pc8BtJEzu
+ WroSs6fqNMgHWL5VkqqvU0CBRVWs6pv90Z7dy1D1cVUXs/F+YFOOXPhh/L6L7WaotxZKMm
+ OP94AVuy4REkMxP+fcj5vPEafML0Uw5buzRAc4GikxobSkqYVLQvA484TdCkhA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 26 Feb 2026 17:16:45 +0100
-Subject: [PATCH 2/3] drm/bridge: ti-sn65dsi83: halve horizontal syncs for
- dual LVDS output
+Date: Thu, 26 Feb 2026 17:16:46 +0100
+Subject: [PATCH 3/3] drm/bridge: ti-sn65dsi83: add test pattern generation
+ support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-2-2e15f5a9a6a0@bootlin.com>
+Message-Id: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-3-2e15f5a9a6a0@bootlin.com>
 References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
 In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -58,7 +58,7 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Linus Walleij <linusw@kernel.org>
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, stable@vger.kernel.org
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,10 +86,10 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:marex@denx.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:marex@denx.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,kontron.de,denx.de];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
@@ -110,67 +110,70 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:mid,bootlin.com:dkim,bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ti.com:url]
-X-Rspamd-Queue-Id: A85EE1A9F2A
+X-Rspamd-Queue-Id: BA4A91A9F31
 X-Rspamd-Action: no action
 
-Dual LVDS output (available on the SN65DSI84) requires HSYNC_PULSE_WIDTH
-and HORIZONTAL_BACK_PORCH to be divided by two with respect to the values
-used for single LVDS output.
+Generation of a test pattern output is a useful tool for panel bringup and
+debugging, and very simple to support with this chip.
 
-While not clearly stated in the datasheet, this is needed according to the
-DSI Tuner [0] output. It also makes sense intuitively because in dual LVDS
-output two pixels at a time are output and so the output clock is half of
-the pixel clock.
-
-Some dual-LVDS panels refuse to show any picture without this fix.
-
-Divide by two HORIZONTAL_FRONT_PORCH too, even though this register is used
-only for test pattern generation which is not currently implemented by this
-driver.
+The value of REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW needs to be divided by two
+for the test pattern to work in dual LVDS mode. While not clearly stated in
+the datasheet, this is needed according to the DSI Tuner [0] output. And
+some dual-LVDS panels refuse to show any picture without this division by
+two.
 
 [0] https://www.ti.com/tool/DSI-TUNER
 
-Fixes: ceb515ba29ba ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
-Cc: stable@vger.kernel.org
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index d2a81175d279..17a885244e1e 100644
+index 17a885244e1e..ddc8b5e1dd15 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -517,6 +517,7 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 					struct drm_atomic_state *state)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	const unsigned int dual_factor = ctx->lvds_dual_link ? 2 : 1;
- 	const struct drm_bridge_state *bridge_state;
- 	const struct drm_crtc_state *crtc_state;
- 	const struct drm_display_mode *mode;
-@@ -653,18 +654,18 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 	/* 32 + 1 pixel clock to ensure proper operation */
- 	le16val = cpu_to_le16(32 + 1);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_SYNC_DELAY_LOW, &le16val, 2);
--	le16val = cpu_to_le16(mode->hsync_end - mode->hsync_start);
-+	le16val = cpu_to_le16((mode->hsync_end - mode->hsync_start) / dual_factor);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_HSYNC_PULSE_WIDTH_LOW,
+@@ -114,6 +114,7 @@
+ #define REG_VID_CHA_HORIZONTAL_FRONT_PORCH	0x38
+ #define REG_VID_CHA_VERTICAL_FRONT_PORCH	0x3a
+ #define REG_VID_CHA_TEST_PATTERN		0x3c
++#define  REG_VID_CHA_TEST_PATTERN_EN		BIT(4)
+ /* IRQ registers */
+ #define REG_IRQ_GLOBAL				0xe0
+ #define  REG_IRQ_GLOBAL_IRQ_EN			BIT(0)
+@@ -134,6 +135,9 @@
+ #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
+ #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
+ 
++static bool sn65dsi83_test_pattern;
++module_param_named(test_pattern, sn65dsi83_test_pattern, bool, 0644);
++
+ enum sn65dsi83_channel {
+ 	CHANNEL_A,
+ 	CHANNEL_B
+@@ -645,7 +649,11 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
+ 	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+ 
+-	le16val = cpu_to_le16(mode->hdisplay);
++	/*
++	 * Active line length needs to be halved for test pattern
++	 * generation in dual LVDS output.
++	 */
++	le16val = cpu_to_le16(mode->hdisplay / (sn65dsi83_test_pattern ? 2 : 1));
+ 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW,
  			  &le16val, 2);
- 	le16val = cpu_to_le16(mode->vsync_end - mode->vsync_start);
- 	regmap_bulk_write(ctx->regmap, REG_VID_CHA_VSYNC_PULSE_WIDTH_LOW,
- 			  &le16val, 2);
- 	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_BACK_PORCH,
--		     mode->htotal - mode->hsync_end);
-+		     (mode->htotal - mode->hsync_end) / dual_factor);
- 	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_BACK_PORCH,
- 		     mode->vtotal - mode->vsync_end);
- 	regmap_write(ctx->regmap, REG_VID_CHA_HORIZONTAL_FRONT_PORCH,
--		     mode->hsync_start - mode->hdisplay);
-+		     (mode->hsync_start - mode->hdisplay) / dual_factor);
+ 	le16val = cpu_to_le16(mode->vdisplay);
+@@ -668,7 +676,8 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 		     (mode->hsync_start - mode->hdisplay) / dual_factor);
  	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
  		     mode->vsync_start - mode->vdisplay);
- 	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
+-	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
++	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN,
++		     sn65dsi83_test_pattern ? REG_VID_CHA_TEST_PATTERN_EN : 0);
+ 
+ 	/* Enable PLL */
+ 	regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
 
 -- 
 2.53.0
