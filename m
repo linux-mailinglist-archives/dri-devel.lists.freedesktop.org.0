@@ -2,147 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AIjPNCFcoGm3igQAu9opvQ
+	id cEY7Ip1eoGlViwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 15:43:45 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 15:54:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DF81A7CA1
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 15:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13371A804C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 15:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732DF10E96D;
-	Thu, 26 Feb 2026 14:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F1110E95E;
+	Thu, 26 Feb 2026 14:54:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hv+w9+1v";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ekQxYXlf";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BIlGKomE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72C010E973
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 14:43:40 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61QALCdY350073
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 14:43:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- urofc3orCSX3lD3Xa99/h+MZ/sVw1Y2QisAYKWEofpo=; b=Hv+w9+1v/5KMtX5q
- eEV02TftjDlfno9pQubVjXu9lj8qO2PcVwInP+nxDXtijEUe2ojVu10BzzFdBsrL
- ievKXUjJm1s+Vz2dYGfIMR26Be4upZWBOZZzDNlIwrfOIc+FgzFrFUQqUXubIQNa
- RNWD+LxOl4AhBOQh4Ed7yf/7vOifPsItMTRcPV/8DkY43UrQbqoxtQ7gapB9nggM
- yLI8tobvXUjCzLI3KZLAlv7qOQYf11A6RZSY2YlbvF/P9g4xfoeUzcGQJnTkEQNN
- G0A1a5RI7nAqj8lbcKgrAy8PngVxXOrzhYlVX0iPPA9b79jsm1oFpfMNMp5m55Oz
- MbKq3w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjc0gaaeu-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 14:43:40 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8cb38a5dc3cso79260685a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 06:43:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772117019; x=1772721819;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=urofc3orCSX3lD3Xa99/h+MZ/sVw1Y2QisAYKWEofpo=;
- b=ekQxYXlf50XYTpNMbdOCmg2uBiQyxFzkUadj4ER+mBHyi+2mxAmm9lCh9NM8k5nj2Q
- zSrW3ykqrFB1indv+/2s70aoKChwbig1Y/ZoDIL1d+b+D7c/4ZE6rHg5VyMBz2U7ZqAn
- Iu9MsTOu2P76UcuHjtNMbXC8tkm3mPFWLg2MQuR0KjR0ARZEFpeW5Ys3OAm8ks+k0e76
- J0cI2deslWJ1AaSqtUFKqx7BQO1SXDhVNLTWuJqrQTgzVeYfOf2Ahkqpqul/M2hl8h3p
- jfnx6Ke6HaD4iKB5BQEoy2h2RTrh9Ebmi4wmz8U15O6MmRLjf7hIyY1el0YwDjGXIsUp
- Vf9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772117019; x=1772721819;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=urofc3orCSX3lD3Xa99/h+MZ/sVw1Y2QisAYKWEofpo=;
- b=gRh9t9CAZ992MxEM9+4abpYZqvrkRnRo4KkQTPZb2h5RYS0gHDeSBTuPiwIjlx4S/R
- ZSUTBDvAskK0hApjgFuVBCHjb18iPPZnGSLOkRTRiE/eplLIT4yuElzRvmJLDwEh4XWg
- Vqzj+9GO69iIn1jZzJ0Txse9Vem6w7L48QKp8fzPVXl+KwC2ZIzMRlqCF8+hDF/9lDo+
- YnzpyMN2VZsqBE6nv5bU6ro9ttqYklw9vkDjYsizTWhxzUjDND6HZwhBVzdlnyt3otOR
- ZKog1NPnGFF9m8N4gUtW5qj5+SoY9E3DxmmtVlkfgpbX5i+msUjZBfhtMBaW/e56irT1
- 3ViA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpW7Z9iH1jx6P0B4sYmY+k1+x590vbEjQ+GwKb49Ob6ksVfZ8IyjUFvePPdGC+3t2h1ATq+VKzJw4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFGu4vOmUgiEbey8N4SAeHgiTxOnBTFUgOVK9k8TP2t/nM3ulR
- 3bVQPSGWJ/+cg82ZSx0OsCUCbLsRXetfjH1Otw1AJQt80bpDdBxdE8lIJ0V4IA7XqE9IE2YkXvm
- DLZEey0Wbdb5YuEfVJOXbflKOk0nOI3weqI7JZS4d21VGMSQeSEtg7q7XCS9PHm75BuZBkIE=
-X-Gm-Gg: ATEYQzzkONaMBxNYPA7UykpD61wK04zTh9778UhLP4HGZOaOweO67ZMkjXwNsPxuCnD
- QKsPLDUtu7f2LRiwPAMQ0chqK1h0mXMNYLIPM5VnIn/3qQoQ+ATBzYogc8kQWcHEXDDo6sS+xvX
- chudaYRSeWvNQxytEIPVfiGkcgxU10AU/tB4770lrDBovYCmtmNDfBayrTQs4k4Xsk7QHJokkU1
- UVoOvK8AAlA68XEid8wpCMwx3V9zY2lOhuh0FmqS1vTXAoYmKq1XEyyh5lJkI9qv8U9+e6e1Nme
- ZCs2SMrdU4OSUIq2x4b5MhrGeojsWK/oVhl6ORp+BFXuxnQYTzieADyY6d+/Y6M+TgbRGytl8d+
- kw7c1J5YYiGbi7l9n7q1cPxeFwN0P20dKi4i5i+6X0JCuDh89p6MDItiBDwk4wp6HOTrU/k8cGl
- ey9GI=
-X-Received: by 2002:a05:620a:c53:b0:8c7:9e6:3a4e with SMTP id
- af79cd13be357-8cb8c935646mr1876742185a.0.1772117019198; 
- Thu, 26 Feb 2026 06:43:39 -0800 (PST)
-X-Received: by 2002:a05:620a:c53:b0:8c7:9e6:3a4e with SMTP id
- af79cd13be357-8cb8c935646mr1876738585a.0.1772117018718; 
- Thu, 26 Feb 2026 06:43:38 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65fabd36219sm519402a12.3.2026.02.26.06.43.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Feb 2026 06:43:38 -0800 (PST)
-Message-ID: <b2ace86a-85cf-4498-8c96-21c9a2fed2d2@oss.qualcomm.com>
-Date: Thu, 26 Feb 2026 15:43:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] arm64: dts: qcom: lemans: add mdss1 display device
- nodes
-To: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
- dmitry.baryshkov@oss.qualcomm.com, marijn.suijten@somainline.org,
- swboyd@chromium.org, mripard@kernel.org, abel.vesa@linaro.org,
- andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
- sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
- alex.vinarskis@gmail.com
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- freedreno@lists.freedesktop.org, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_riteshk@quicinc.com, Mahadevan P <mahadevan.p@oss.qualcomm.com>
-References: <20260226111322.250176-1-quic_mkuntuma@quicinc.com>
- <20260226111322.250176-2-quic_mkuntuma@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260226111322.250176-2-quic_mkuntuma@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010070.outbound.protection.outlook.com [52.101.46.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D4B510E95E;
+ Thu, 26 Feb 2026 14:54:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aiFMDnMyg5X91rVUozstiSpyddxC7ZXMafmTOr2S4MSGs7Mz2/9E2Ft93V/lAM8q637wlgMWtNU5JD6rlzWSzzeb+lFsX5CVNcrcdyd/qW9RJLl8zkpoC0LCtYu+ULOOCciLS6+jRjAz4HXYl59ZRY6cGqguMxg/b+YxvXoqms9GWJ0iq/E4AMO3+BsD3aPIh6r1WO32VB0R6jpLtHQtQIrfMZ7ox5QyyIpdLQXXBaLIUjZLtVNp1DWBaT5Hyl+Q7w1UufCW02fK/YmPQYLt+S+pm7wL25BSB60Tmyo8UxISPX0k8vEY4nhQQ26TtymCX5e5ej6i7/gWpx8BUppeGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SLAdSV9LkjiXmyDWqWtto4uQh0H20pE0IyxWZKo2euw=;
+ b=KW0HroeTJp7r6GX7IelRezEXDprinbRFwPvz4DtlatCHPFrj0LJqDYpWUmSqf2of0BhacCfYhCbs9r8jmdW+Ibi4tQ9aIpqdSAl1QdsBC70UNNbH5x/iUCnNVAVG9Epm23m9NSvKwnYREPnxnwOGO7RnFXqh8xkPrC0WmkkopazkqLszafxixZ2dIGbWvJDXS+4ykZOiKcYiBwDdMiz78PjHVQsYPG2M+Y1fjuTxxdEhBm32PqbD+Yjbuk4iFKMEZKiuCnSujwSJwur2hGZjJevU2tx1jr++QNA69dLHbIeOFYXbLXhdYH/krDasbVzFJgznbysPzRVsh4+vdRBq3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SLAdSV9LkjiXmyDWqWtto4uQh0H20pE0IyxWZKo2euw=;
+ b=BIlGKomEGQFg0xvG2Szc+zal4/rDXZ2laHE8Ljyebj9uikUDx8L10ZxfZWTmePyZSnaeQmH9+cJ83xqhDRUuQgLBs3bo5mkXa6Xhoyca7CdQWTWVp0ATKzqho9m6frwq1XV1JUIn6aSQsf3ueM7ijwa/RddItMWPeugyyBcIQQHIsa13tVSdRk/1GuDr0bEv+BYm0FbOUWQxWuYnO7PYYV/aOUVHOj9z6zkJB4J/3qRalZsxG0SHpmDxcLJOXo9WwDi4vjuQO9ncsidVHta3xvvTtaX/4NeLyMQCYh1jqUC8BgK4obGSnmLGpSusSepy/pAJ/AhTdzOZxq0IgOEj0A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by BY5PR12MB4066.namprd12.prod.outlook.com (2603:10b6:a03:207::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Thu, 26 Feb
+ 2026 14:54:11 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.007; Thu, 26 Feb 2026
+ 14:54:11 +0000
+From: Eliot Courtney <ecourtney@nvidia.com>
+Subject: [PATCH v2 0/4] gpu: nova-core: gsp: add locking to Cmdq
+Date: Thu, 26 Feb 2026 23:50:22 +0900
+Message-Id: <20260226-cmdq-locking-v2-0-c7e16a6d5885@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=XI49iAhE c=1 sm=1 tr=0 ts=69a05c1c cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=YQTEiYD7NngJoS-z9XcA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDEzMiBTYWx0ZWRfX1k1wElNQB144
- RVtVq2QWCCuU+eejrvx6CJzE/+eAsTP/2Bm1w6wsJbquXg7+XXHRFeu963kPPjxl/jExEfw2rLS
- lSxI1juznB9VlrIvXL8BgUnyyXgwc9VsxnJbRpJFfQcnMsl3mfmxNNIRtZGXIEZ/uPz5wrDRad2
- XzXTI6e50IlE//fZXnodTQPEeb4c2vunUHWotEUeW8hXFmsMUsDl4Pd1T3XhDbEKurcJVuRk+Bx
- iCHFp4XciaeUB/GzZYNavhFgIduVsLnduO/vgjoCzTT0IR9w8Db4dLT6pHn2pMPb07F7xIRSXfZ
- inO2LcTjzHohc70LYgGYZDG+uHInu1DQ1DasC485aRSpPo17vFRQ55YlgzZW6T3MmDYMVhJPKqz
- MPWBaXgEHznc3bNh+s95vyQppwNJNWd+Bn0HmIp+L5izVhr+S7NItevGV+n0J5y7CVjkPQzWkvY
- rnacQ+ex74eO3jNvzkw==
-X-Proofpoint-ORIG-GUID: eBW44rV_58NshU6xd4wuNwntha-zLIvr
-X-Proofpoint-GUID: eBW44rV_58NshU6xd4wuNwntha-zLIvr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-26_01,2026-02-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1015 spamscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260132
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22PQW7DIBBFr2KxLhWMAYNVRblHlQXgcTJqjBvjW
+ K0i373E7qKLLv9I8/77D5ZxIsysrR5swoUyjakEeKlYvPh0Rk5dyQwEGAGgeRy6G7+O8YPSmXc
+ 1OLAeIsSelZfPCXv62nDvpz1PeLsX6rwfWfAZeRyHgea2Ul65HqHGWjdBWas01rJHFwvTCohCK
+ 22ls0/0gDn7Taet3n5tzG4TxzRTuvu5uPOl5oLrBnxwTprGmGNaqCP/WkoP7Cl1oTyP0/c2eZG
+ b1f/rFllQIfQmKKlNI/6i2Gld1x+YVUAOPgEAAA==
+X-Change-ID: 20260225-cmdq-locking-d32928a2c2cf
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Benno Lossin <lossin@kernel.org>, 
+ Gary Guo <gary@garyguo.net>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ Eliot Courtney <ecourtney@nvidia.com>, Zhi Wang <zhiw@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: TYCP286CA0123.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b6::11) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|BY5PR12MB4066:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fb08d57-9ad2-47a7-20f4-08de7546e69a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|10070799003|366016|7416014|1800799024; 
+X-Microsoft-Antispam-Message-Info: GSFG7rhrzAF+AxJl9jbyo7LQpnLRSU7cvD2Yh5aT8NlUoqQlDGIH4euT+usmDGMUU3rg8+LL8lPNLjXNdlEUzdmvIeju/1V8aBHP3iVL7gHubMZA/Y+0l1/d4ojkWPpIoKO7dcjTmqFqMWIqUe507jbqwB0/l+8OevMSqK9JxEgVv3JtyWZu6Y9sOdEYOOyDWl90O2K0NciCMEKbhLVnwLKxZpep+WFfC3UmM/d06H+TnLt9rNzMifGzPSY5d4nbZLQtvW05FxVtOky11nxDHKfOwfsuuNVxuW5fB1GjgTyxcdzoK8wwyEQWQJpSzKcg3OiR+KW9EkTEOP48adbvTIeP6AdzesLo7ItVlLbTn+cBiY7liJNXrlV21gzuj9Xd9tLCaq2tN+BE4YF3fcic6bes2yfhrkMi/4DTzssMyWb5m8KCAjq+6V5ZfAETvSO+G2JKdzRfc36n5Or6oZy9/w6ifh6osG1SjStF34Z0ME9lpu0t8i6BXgkSaWgzozkcIygRkTJ8hHlpBaxmquYjDCifHlydfi8VJtj2eQxrH9D6kf8kEZyI2k+VP7N0bEPw/Kfl1rXKMyjmA1WWE7I1DRTWR+RWtSiaZ5sd+uwFHzt1xr+Oz2mr/ziuU4tY5/XQ1CXXWo5AErSyEXze3gyed0m8KmVuJTNDNP/sxi2OdvqG8rG99ngd/JcQheC+MPz+UEPOXilmZnC3KGKVU50qm6e8Cw/TJf2uRlRVMlTwOc4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(10070799003)(366016)(7416014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmhucStRVGFIUVV5UnRGKzJMQ0pPbE9URkhBSzVHbG54VTVVU2pGUTBmT0wr?=
+ =?utf-8?B?VUExVnpXcnFGYnJrbHJha1R0K2c0RmFXYUh2SGZhMnFTUEw3Ri9MWDh0R2ZL?=
+ =?utf-8?B?NUcwcjNGQVNIUkVoa0d2cUZvdG1DQUlDbVBRS2VRQlNBM2JwbzJ5RDNmYmlh?=
+ =?utf-8?B?My9STkw4U01rcFFWOXBheG0yb1dWUG1xZllpUlh3S0REWVY5MzdDblBEQXFh?=
+ =?utf-8?B?WENVZ29GbVdUMDVzQnJVcG9LTHRJdmUyQitqcHMvNTF6YVEzbmdkblFVSEx6?=
+ =?utf-8?B?UVlxdDlMZGpGWlpTcnlRdmx6MHFKeXhxYmtYSGt3K2R4eGFIM09uZUlIZFpX?=
+ =?utf-8?B?MkZiTmwydU0zZEs2UW9POE5QZlozRFo3Zk4zZlRwL0dnbXFpa0puU1F6WWpu?=
+ =?utf-8?B?aWJHNDQ4Y0hkVGNjaXFJenh1WGEvRjFSbWZuZ3JZYTltb1NXUUkrbGtLZU8v?=
+ =?utf-8?B?TkplMTlEMFBEMXdscTBkZkl6WEd1WTRGYUI0QWVzeEhRN1ZMcjI2OE50VGtz?=
+ =?utf-8?B?QnY3UGtDWGRDaHErUW1kOFA1Y3phc2VhQnlXRWJ6cEIydWVjalcvZ0dDeENi?=
+ =?utf-8?B?U0dXL1g2MGRZNEF2RnNjMVltd2dxcGV6cVJudG9qQ2lxU0VCVFdOYlNTeTVh?=
+ =?utf-8?B?VnJpTHhvTTlvS1RheS8yZVZpMFpyTFZ5alkya295UWMvOTVIY3E0S3ZRcW00?=
+ =?utf-8?B?SlFqS29ibXF4My9mbnlmSWZUcWdWQUhjZUFQbVBIcStzb0pJZjZnVVZiMksx?=
+ =?utf-8?B?WEY3U3NzSHNzRC93Wm9nMkhKcVY3MUIyaWpFcU1CNTFxdkRoV1hhUm9lSW9m?=
+ =?utf-8?B?dHNKdlM0TjFsSWdjd1E0N0ZZekJ1S2xMbk1QbnIyN25TS21kbWQySkpFQU1y?=
+ =?utf-8?B?QWFqalNKbXNQQ2loN3p3akI0Z0g5cjJ2cXhKNjRhWHZzUDlCYnhFcTRZek0z?=
+ =?utf-8?B?Q2dibExNK3YzWUFUam9nWVp0MS84OXlab3c4N3gzZ1k3aVFydmVTcnY4ZkVF?=
+ =?utf-8?B?cUpOVW9KRVRtQUNlL1Y0NFhSL2N3SlUweVg3TTFvVFFXNlFTT2NzQUpzUTFD?=
+ =?utf-8?B?ZFNZeWVIeFFTbjJ3MGJzdEFzVmpPdHVka1ZMbmUvMnE1RnhpSi85UXJwUHV0?=
+ =?utf-8?B?QlVrN3NDYXVQMUpzbUEzR2U1TVJoUEFPTTIzOWpsaEp3Y0Yxdk9lZjk5a2gx?=
+ =?utf-8?B?NjFqRC9LeHJsNmR4WEYyUTBYbmxCeXFaWEk1eHZXcWExQ2krVUN5d1plWG9m?=
+ =?utf-8?B?Yk5jOUxDbE94TGpNaFZKcmpRdi9BWm90NU1qdXdBUVpCK0VmZXBndkh1R2pJ?=
+ =?utf-8?B?NGVPaXpJUGFERnlWbldnb1RtK1czVU5NRXBFTlVTcGMyWkJqL1l0RUVra2VO?=
+ =?utf-8?B?TVZhS1luaUxSZ3BWaE85VmhJUUtCM2NNdUdNYmR1YUc1b2hJZG1vVktoSzNC?=
+ =?utf-8?B?dys1RFBsdkIvYmhueHl6Y1R2RCtRRnkxZXVpUE9WYlA5Ukt4aWU2RGNOSGdZ?=
+ =?utf-8?B?bmgvR1Y5WnB2R0pKSHlnRVlvb0FKeE04eEtTNjhrZitBNVR1Tkg1eVJGdk9Y?=
+ =?utf-8?B?c3Zub0g2UDNmeHlrZ2xDNys1b3h1a3QzQXZsb0dsSWxmbTZHaFFVSTJCdk4r?=
+ =?utf-8?B?N010ayt2VGVHd0VyNVBwL2FDNDZjWUxFRENXaU9zUTFIUVpCK0MvUDFHdVFK?=
+ =?utf-8?B?T1g0NVlhdTcraUVsaEpZZjZpcjgxaFhBcy85M1pkdXRNRTdLZUFnNjdTYUkx?=
+ =?utf-8?B?WlJyUitLUU5aZDA4MTVwWFhVeFI1RUNjM3RmaDRBK3grc3dMTzRQUGpDWXdw?=
+ =?utf-8?B?TGgyNWpJY3YxQmFPY3ZMd0V5bnJLZVZ6S3dYQTBnTGxxVCtiTTJqS0QxamJi?=
+ =?utf-8?B?QU9XbmU5RC84Wmk5cFlCYTZ0bjRUOTM0M2d2UWVGekZPL25YSWdnWG1hNENi?=
+ =?utf-8?B?dlNuak03eGloMzl2REVvNXJmdG1ZNnlKN2s2SVpLeVJhS1hVY1MrN1luR1RH?=
+ =?utf-8?B?YlMzekFNNDBZTGJGR0lkQlFTZ29MMmZINmYrNWxBR2JtTXhnRmNhT0tCdTdq?=
+ =?utf-8?B?SUp2WmlkRnhwUEhGYkRxNGYrd0RpcHVJOWlWUXZ4cWhFWEJ3QUJwWmdvVVZx?=
+ =?utf-8?B?RlFldTBHbWY0L0VRN1V5MnF1eFpacnB3MDF1Q0lWdERYbmJBMHRwMDBqR2Jz?=
+ =?utf-8?B?b0NHS1EyWUdJV2lmdXM5cWs5bnBtZ3QwMEw3SXB6ZEhPTnZzbzJMRmovZ0Ft?=
+ =?utf-8?B?QVVsdU5JaE5va0dXbnpqWmpzWG9QN1YrSG5NbU1uWG9VVmI4RGVabG1pM0Jh?=
+ =?utf-8?B?R1ZxcEFZcXBOdGFIZUNQVmZTVkNuOHpEajlkTVJMbmFFZGpiVjFnNkZwNWxD?=
+ =?utf-8?Q?4OzG2By6QdArGTi+8IHU84fwT3X6rO49lPL7gSS0l7HoY?=
+X-MS-Exchange-AntiSpam-MessageData-1: ZHClSw6BPe4eiw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb08d57-9ad2-47a7-20f4-08de7546e69a
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 14:54:11.2100 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fTSO8wSIFZopR01pWIxoJRywcxsPU0QGSyNkAF0f5Gg31CttEDenQTH8kaki64hou3j5mQYc9rnznPBPOS0LTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,74 +150,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:quic_mkuntuma@quicinc.com,m:dmitry.baryshkov@oss.qualcomm.com,m:marijn.suijten@somainline.org,m:swboyd@chromium.org,m:mripard@kernel.org,m:abel.vesa@linaro.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:jessica.zhang@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:sean@poorly.run,m:airlied@gmail.com,m:simona@ffwll.ch,m:alex.vinarskis@gmail.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:freedreno@lists.freedesktop.org,m:quic_rajeevny@quicinc.com,m:quic_vproddut@quicinc.com,m:quic_riteshk@quicinc.com,m:mahadevan.p@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:alexvinarskis@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_TO(0.00)[quicinc.com,oss.qualcomm.com,somainline.org,chromium.org,kernel.org,linaro.org,linux.dev,poorly.run,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,nvidia.com,gmail.com,ffwll.ch,garyguo.net];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,quicinc.com:email,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 70DF81A7CA1
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: D13371A804C
 X-Rspamd-Action: no action
 
-On 2/26/26 12:13 PM, Mani Chandana Ballary Kuntumalla wrote:
-> Add devicetree changes to enable second Mobile Display Subsystem (mdss1),
-> Display Processing Unit(DPU), Display Port(DP), Display clock controller
-> (dispcc1) and eDP PHYs on the Qualcomm Lemans platform.
-> 
-> Signed-off-by: Mahadevan P <mahadevan.p@oss.qualcomm.com>
-> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/lemans.dtsi | 381 +++++++++++++++++++++------
->  1 file changed, 305 insertions(+), 76 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/lemans.dtsi b/arch/arm64/boot/dts/qcom/lemans.dtsi
-> index 1da8e7fb6775..fd4d524d0890 100644
-> --- a/arch/arm64/boot/dts/qcom/lemans.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/lemans.dtsi
-> @@ -507,6 +507,30 @@ opp-2553600000 {
->  		};
->  	};
->  
-> +	dp_opp_table: opp-table-dp {
+Add locking to Cmdq. This is required e.g. for unloading the driver,
+which needs to send the UnloadingGuestDriver via the command queue
+on unbind which may be on a different thread.
 
-You don't have to move this table to the root of the DT, it can
-stay where it was (now the nodes are not sorted:
-'o'pp-table-dp > 'd'ummy-sink)
+We have commands that need a reply ("sync") and commands that don't
+("async"). For sync commands we want to make sure that they don't get
+the reply of a different command back. The approach this patch series
+takes is by making sync commands block until they get a response. For
+now this should be ok, and we expect GSP to be fast anyway.
 
-[...]
+To do this, we need to know which commands expect a reply and which
+don't. John's existing series[1] adds IS_ASYNC which solves part of the
+problem, but we need to know a bit more. So instead, add an
+associated type called Reply which tells us what the reply is.
 
-> +					port@0 {
-> +						reg = <0>;
-> +						mdss1_dp0_in: endpoint {
+An alternative would be to define traits inheriting CommandToGsp, e.g.
+SyncCommand and AsyncCommand, instead of using the associated type. I
+implemented the associated type version because it feels more
+compositional rather than inherity so seemed a bit better to me. But
+both of these approaches work and are fine, IMO.
 
-I'm sorry I didn't notice that before, but please keep a newline
-between the last property and the following subnode (patch-wide)
+In summary, this patch series has three steps:
+1. Add the type infrastructure to know what replies are expected for a
+   command and update each caller to explicitly send a sync or async
+   command.
+2. Make Cmdq pinned so we can use Mutex
+3. Add a Mutex to protect Cmdq by moving the relevant state to an
+   inner struct.
 
-Konrad
+[1]: https://lore.kernel.org/all/20260211000451.192109-1-jhubbard@nvidia.com/
+
+Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+---
+Changes in v2:
+- Rebase on drm-rust-next
+- Link to v1: https://lore.kernel.org/r/20260225-cmdq-locking-v1-0-bbf6b4156706@nvidia.com
+
+---
+Eliot Courtney (4):
+      gpu: nova-core: gsp: fix stale doc comments on command queue methods
+      gpu: nova-core: gsp: add sync and async command queue API to `Cmdq`
+      gpu: nova-core: gsp: make `Cmdq` a pinned type
+      gpu: nova-core: gsp: add mutex locking to Cmdq
+
+ drivers/gpu/nova-core/gsp.rs           |   5 +-
+ drivers/gpu/nova-core/gsp/boot.rs      |  13 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs      | 246 +++++++++++++++++++++------------
+ drivers/gpu/nova-core/gsp/commands.rs  |  23 ++-
+ drivers/gpu/nova-core/gsp/sequencer.rs |   2 +-
+ 5 files changed, 183 insertions(+), 106 deletions(-)
+---
+base-commit: 4a49fe23e357b48845e31fe9c28a802c05458198
+change-id: 20260225-cmdq-locking-d32928a2c2cf
+prerequisite-message-id: <20260226-cmdq-continuation-v3-0-572ab9916766@nvidia.com>
+prerequisite-patch-id: fd45bc5b8eda5e2b54a052dddb1a1c363107f0a7
+prerequisite-patch-id: d0f59ef489346e978a222755f9fb42dfe7af19e5
+prerequisite-patch-id: 8844970d0e387488c70979a73732579ba174b46c
+prerequisite-patch-id: e138a94ed48fa8d50d5ed1eb36524f98923ed478
+prerequisite-patch-id: 4599a5e90d6665fa3acb7d4045de5d378ac28b4d
+prerequisite-patch-id: 30ed64c398e541d6efbcb2e46ed9a9e6cf953f4f
+prerequisite-patch-id: 9a965e9f29c8680c0b554e656ff8e9a1bfc67280
+prerequisite-patch-id: d8cccc3dfb070f304805fc7e0f24121809b4b300
+prerequisite-patch-id: c0a73dfd1fb630ab02486f0180b90f8fe850b4dc
+
+Best regards,
+-- 
+Eliot Courtney <ecourtney@nvidia.com>
+
