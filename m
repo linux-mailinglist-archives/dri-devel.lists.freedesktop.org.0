@@ -2,72 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gMXBJWk+oGmrhAQAu9opvQ
+	id oPuPLsg/oGmrhAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:36:57 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:42:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05BA1A5C58
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB461A5D4F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 13:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E448610E915;
-	Thu, 26 Feb 2026 12:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0754E10E91C;
+	Thu, 26 Feb 2026 12:42:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VaY01Kfj";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="fpuN7TDX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0052310E915;
- Thu, 26 Feb 2026 12:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772109415; x=1803645415;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=WP8VCsqArkYGDsNuzpr/+FPOUUhNlmFOAI0kMtwHVLw=;
- b=VaY01KfjBbu3+nyvKJHgMWgDLyhvni/IfvaAqlxi+zKCIxq5hyzGEGWV
- 1i9jPNvarZlceQsubPgCoF95ctE+tOaq5jJi0fHjy2jXw1Wgw2VsjTRqf
- 6wQ+oXaS+/QiVt7PfNP3krT5a38ShYUmhGgbV9ZDp3RHASdP+/rOlpRXq
- J//KbRNWD3YskZagZi3rHWH6qs5+Ky9GYRVTqpJhm82wKHnKx+15IKw6c
- gcho9DmH4ns6BW/H2iSw6kMENjvU5PZiOWg6N0ysHhyxzAle9cW1uHeWK
- KHX2GKuUG0c6ubaelY1z66P28T/FfLJlBDYQl4GcqfuYYROAYV3S/Rocb A==;
-X-CSE-ConnectionGUID: nHcs1BB1SISWndvCuQIaAg==
-X-CSE-MsgGUID: XruaG1jSRA6WMReXm0TMAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="73142148"
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; d="scan'208";a="73142148"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2026 04:36:54 -0800
-X-CSE-ConnectionGUID: /YwBkTyxQI+vCWK6997RDQ==
-X-CSE-MsgGUID: zOx4elIAQtqe/PvVQDGGoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; d="scan'208";a="214106975"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.148])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2026 04:36:47 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
- alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- siqueira@igalia.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tomasz.pakula.oficjalny@gmail.com, bernhard.berger@gmail.com,
- michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: Re: [PATCH v4 07/27] drm/amd/display: Use bigger VRR range if found
- in AMD vsdb
-In-Reply-To: <20260216164516.36803-8-tomasz.pakula.oficjalny@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com>
- <20260216164516.36803-8-tomasz.pakula.oficjalny@gmail.com>
-Date: Thu, 26 Feb 2026 14:36:44 +0200
-Message-ID: <7da80c4be3e20c126017646f783b80136bb0700e@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D43910E91C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 12:42:43 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id
+ ffacd0b85a97d-43767807da6so562357f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 04:42:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1772109762; x=1772714562; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WQHxFVgkVIjYGs/6VmXelQKxhGU90iorAtclYRjIzes=;
+ b=fpuN7TDXTg8jJnMZKHXkkgDorYBK7uufb7ZIL/TO8WUTFz1FTnsGbBpVw8nqQSPx/q
+ 3TGoDrBx8FTpDWE5+eelmDUMPozswcH8+WGBhtR8YzUwDzrPaMOgEsBq7EXOf/HDYCtl
+ lhVPVhUjofz809bfx6Gy33MHiPWXZ2qG7DSk5glnzhdylnUqEcSSIP93Wr66wpK/VUfN
+ XpDEYU9M8VMBE37StwNFwi65wYgykeCD3DdOgzfLgbUbc0TX4a3gT95Owuz231Nex5Ey
+ JOZ2GS9/oz0+VJwnUbINmH8TmsQua7V5gG4js6zkwbpDJcm56V56Vk23cWhCofSsZU6i
+ Agug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772109762; x=1772714562;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WQHxFVgkVIjYGs/6VmXelQKxhGU90iorAtclYRjIzes=;
+ b=rA9b0RKQ4b0wPZjEUtElpU2801NftUkX/wMKKqpWU/Y1BJ+9LyANWdDS2xRx4VJKEI
+ ud0oHwmJ4e/MrnJXE7m3bktYgRlv+e+eimAZR3WinjN02wIXv24XHtaDnUdVoWsfHuUl
+ an1FlIOzBP4i1nV3LTbpP+AGAPNu5NaLSwivt+CYCoU6KxhCaZQmQNVVxaQPBrqM1D/h
+ gCE2CGzDEct16PYNPJYOk5KHE2HmHvhvhI/JVQIxJ87nTvg1Ip/glePsNcCYds4hRyFv
+ ZTkycYFKBc8lTuTHSq7kFhYiYWCCj3EgS4XB2sdg1nlDngJKJfFfvLyy5TTSrfuJkrlY
+ O4IA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU+cbdWO7ZVQcc67NrHmEBQrUrE9m2B/vatM/HDB3enHQMW3ah4L1pz0SDsf91vxAdnDlAdXaP/YX0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqBhwGlKzxYZsnc8IsAxu200Q0cUV++o1vgufzVPPEV83GGjdp
+ H/MAYcCoMnXe4jCgMuo1T3VqYjT4tmYTI5XqYfk2tVz4gkjC82aDiJWXjhOzRturfBc=
+X-Gm-Gg: ATEYQzwDJhDHBq6DWYaMgv0/oEsmfecNBkALPTp/cy++Jp7nFu0nBuxfH5LIQ64r+z4
+ +3qu1htuCa0bdfb3+ook6pItsjY9L4Brt1tGWY46QN7BjHpbWw0CTC7dX60AJ82Mmltbji9EfmL
+ HHlFtCakMGwJ9iJkZyTZJXN3SkOnGycHko9FrhguDok0ZPvNOlmHvJiOzxGyBZixKBBGOfOQfg/
+ dCO7YjjW2SEvjI5kZxbEfDS4nKFGv3zGyUvl8htosrMoKBJJA/h7KX/UTpYGP8LrMDX6D31MwKS
+ JfzK8pWK3UHcoSNjE3SUUfYfDv2cCsy97od1UVk8vMCnyhpY0ZLTg4UwUzfVBY4PO0RRcr7Ygup
+ wgMDJ7uFgOLqfmC6Fa9SnE8R6xHKCtyqlskA4fFOfFiTcACkYfQFZiD7krD477OMV4U21M9tjnG
+ 3/B0IXK2oENJRp95NcG2jZEBMqaxpnULBUwHrvUsxuhkxBdv66m81hVUI=
+X-Received: by 2002:a05:6000:4d:b0:439:98b8:649a with SMTP id
+ ffacd0b85a97d-43998b868d6mr2582426f8f.47.1772109761783; 
+ Thu, 26 Feb 2026 04:42:41 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-43970d3ff6dsm42326785f8f.25.2026.02.26.04.42.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Feb 2026 04:42:40 -0800 (PST)
+Message-ID: <e343e45b-6328-4a38-ad31-1487e273f12a@ursulin.net>
+Date: Thu, 26 Feb 2026 12:42:39 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Arun Pravin <arunpravin.paneerselvam@amd.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20260224110310.1854608-1-mripard@kernel.org>
+ <1c76b8d6-9394-4017-a18f-95ecc2c08175@ursulin.net>
+ <20260226-certain-tuscan-caribou-ba4c5e@penduick>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20260226-certain-tuscan-caribou-ba4c5e@penduick>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,119 +106,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:christian.koenig@amd.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:matthew.auld@intel.com,m:arunpravin.paneerselvam@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,amd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[ursulin.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,lists.freedesktop.org,vger.kernel.org,mailbox.org,fooishbar.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,amd.com,linux.intel.com,suse.de,ffwll.ch,gmail.com,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B05BA1A5C58
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-0.997];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url,igalia.com:email]
+X-Rspamd-Queue-Id: 1EB461A5D4F
 X-Rspamd-Action: no action
 
-On Mon, 16 Feb 2026, Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>=
- wrote:
-> [Why]
-> Some monitors only expose their full VRR range in AMD vsdb for some
-> reason.
->
-> [How]
-> Compare exposed ranges and use the bigger one.
-> Only adjust lower limit if it doesn't support LFC
->
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4177
-> Signed-off-by: Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index b3bf5e0c19a5..f36059bb0324 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -13269,6 +13269,34 @@ static bool copy_range_to_amdgpu_connector(struc=
-t drm_connector *conn)
->  	return is_freesync_capable(range);
->  }
->=20=20
-> +static void extend_range_from_vsdb(struct drm_display_info *display,
-> +				   const struct amdgpu_hdmi_vsdb_info *vsdb)
-> +{
-> +	u16 vrr_min =3D display->monitor_range.min_vfreq;
-> +	u16 vrr_max =3D display->monitor_range.max_vfreq;
-> +
-> +	/* Always extend upper limit */
-> +	if (vsdb->max_refresh_rate_hz > vrr_max)
-> +		vrr_max =3D vsdb->max_refresh_rate_hz;
-> +
-> +	/*
-> +	 * Only extend lower limit if current one disables LFC.
-> +
-> +	 * During widespread testing, we found that some manufacturers probably
-> +	 * had issues with their monitors' lower VRR boundaries and adjusted
-> +	 * them up (Gigabyte X34GS with official range 48 - 180, AMD vsdb 48 -
-> +	 * 180 yet Monitor Ranges 55 - 180). After setting the lower boundary
-> +	 * from AMD vsdb, such monitors start having blanking issues.
-> +	 *
-> +	 * Work around that by not touching VRR min if it still supports LFC.
-> +	 */
-> +	if (vsdb->min_refresh_rate_hz < vrr_min && (vrr_min * 2 >=3D vrr_max))
-> +		vrr_min =3D vsdb->min_refresh_rate_hz;
-> +
-> +	display->monitor_range.min_vfreq =3D vrr_min;
-> +	display->monitor_range.max_vfreq =3D vrr_max;
 
-Random driver code should *not* modify struct drm_display_info,
-especially the fields that drm_edid.c parses. Drivers should cease to
-parse EDID and DisplayID altogether.
+On 26/02/2026 10:56, Maxime Ripard wrote:
+> Hi Tvrtko,
+> 
+> On Tue, Feb 24, 2026 at 12:49:01PM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 24/02/2026 11:03, Maxime Ripard wrote:
+>>> Some DRM tests cross the 1s execution time threshold that defines a test
+>>> as slow. Let's flag them as such.
+>>
+>> Curious that both did not trigger for me and I even run them under nested
+>> qemu most of the time.
+>>
+>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/tests/tests_basic.c | 4 ++--
+>>>    drivers/gpu/drm/tests/drm_buddy_test.c        | 2 +-
+>>>    2 files changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> index 82a41a456b0a..a5a5a35a87b0 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> @@ -419,11 +419,11 @@ static void drm_sched_change_priority(struct kunit *test)
+>>>    		drm_mock_sched_entity_free(entity[i]);
+>>>    }
+>>>    static struct kunit_case drm_sched_priority_tests[] = {
+>>>    	KUNIT_CASE(drm_sched_priorities),
+>>> -	KUNIT_CASE(drm_sched_change_priority),
+>>> +	KUNIT_CASE_SLOW(drm_sched_change_priority),
+>>
+>> This one deliberately aims to run for ~1s and I don't have an immediate idea
+>> how it would go over 2s.
+> 
+> 1s is the threshold for a slow test:
+> https://elixir.bootlin.com/linux/v6.19.3/source/lib/kunit/test.c#L365
+> 
+> It only warns about it if it crosses 2s, but if it's expected to take
+> 1s, it should be flagged as such still.
 
-I'm on the verge of NAKing, to the extent that I have control over this,
-any further improvements on driver EDID/DisplayID parsing, with the
-expectation that everything's moved to shared EDID parser in drm_edid.c
-first, and improved there.
+I know, just curious which environment managed to trigger the warning. 
+Because I thought my test setup was the slowest one (nested 
+virtualization - qemu-system inside vmware).
 
-BR,
-Jani.
+>>>    	{}
+>>>    };
+>>>    static struct kunit_suite drm_sched_priority = {
+>>>    	.name = "drm_sched_basic_priority_tests",
+>>> @@ -544,11 +544,11 @@ static void drm_sched_test_credits(struct kunit *test)
+>>>    	drm_mock_sched_entity_free(entity);
+>>>    	drm_mock_sched_fini(sched);
+>>>    }
+>>>    static struct kunit_case drm_sched_credits_tests[] = {
+>>> -	KUNIT_CASE(drm_sched_test_credits),
+>>> +	KUNIT_CASE_SLOW(drm_sched_test_credits),
+>>
+>> Same really.
+>>
+>> Anyway, the scheduler parts LGTM and I can follow up trying to optimise
+>> these two later.
+>>
+>> For the scheduler:
+>>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Thanks!
 
+I have a patch already which makes those (and one more) test cases 
+faster, but I will wait sending it until you merge this one.
 
-> +}
-> +
->  /**
->   * amdgpu_dm_update_freesync_caps - Update Freesync capabilities
->   *
-> @@ -13339,6 +13367,9 @@ void amdgpu_dm_update_freesync_caps(struct drm_co=
-nnector *connector,
->  		if (is_monitor_range_invalid(connector))
->  			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
->=20=20
-> +		/* Try extending range if found in AMD vsdb */
-> +		extend_range_from_vsdb(&connector->display_info, &vsdb_info);
-> +
->  		if (dpcd_caps.allow_invalid_MSA_timing_param)
->  			freesync_capable =3D copy_range_to_amdgpu_connector(connector);
+Regards,
 
---=20
-Jani Nikula, Intel
+Tvrtko
+
