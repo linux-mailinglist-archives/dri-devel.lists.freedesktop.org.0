@@ -2,147 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GEuVIC+QoGkokwQAu9opvQ
+	id QBoaImyVoGllkwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:25:51 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:48:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE821AD915
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41E61ADFA9
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 19:48:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046F310E9CB;
-	Thu, 26 Feb 2026 18:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4D410E9BE;
+	Thu, 26 Feb 2026 18:48:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="T5Rd1Ref";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nAcPWQ8D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010038.outbound.protection.outlook.com [52.101.201.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA1B10E97C;
- Thu, 26 Feb 2026 18:25:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CC5710E9B9;
+ Thu, 26 Feb 2026 18:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772131687; x=1803667687;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=K2RDCg6HLL5NQRjdo7Vv8y9q0U5N+EqrC4rW0J8aIYA=;
+ b=nAcPWQ8D77cH0+I4fH+tbcKJmfrVVRLCBqbTY2KPDZTZY2sY6DOqZC3v
+ f85AvOoarXz8GhYFmvHUEurlo20oRSwvsH2tDGSK5F/ttgOtFrjd0wPHn
+ QYDpvygMehKyIVzlziASazEYKHyKl629W48olP/Sl2+WbnN8MTtdbN5dY
+ 8ITG814bimjXz1dmbpE6V/U2lbZNTcQxRTMEl7Nd1N38bf5GyK0KlT4oi
+ j9ecqlMhR+dcMWwkfWaPl3MwS/9s4bUsF7CPx+NIxLo4Q7G448Nw3En6Y
+ u6oX0dv/qZNgCkgE+0z7Uf+1RVqtTiZpgdV+9l2lt+bgjI9Aq7g3LrNc8 g==;
+X-CSE-ConnectionGUID: 6/uAylzBQYuRPYxT+Vhx5w==
+X-CSE-MsgGUID: B5Jtp99rSJuKL6kaIQCfow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72906262"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; d="scan'208";a="72906262"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 10:48:06 -0800
+X-CSE-ConnectionGUID: EV26Z4S1SrO99incZjLnkQ==
+X-CSE-MsgGUID: 4aKjag5zTN6igk8y0F6RTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; d="scan'208";a="214884701"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 10:48:05 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 26 Feb 2026 10:48:05 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 26 Feb 2026 10:48:05 -0800
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.35) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 26 Feb 2026 10:48:04 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DUduklsZrHkQishuUPheRHmgVXZDZtxmGW/ZDp/KN1jcJEU5FAn+/plxULygOltk5HUm6z/1OENO8oeodgTQMMQZ/xuFzuJnocuX46lG34Bg0pyTrImLEJrhO1moAvlp5pfaK+ntLOB/lXy/jQBFb3jsGnjgl23UQ7IxwqZmESPzrTKC7V7P2ZDGA9rk/JhhsA2PGATemEJYdyA7KrofffH1Fz2yBk4KW9yLcHd/k46BNz9jLB4VVe9eExI7J0a2+9OweDp/qE7fo3Uzii30HJOqlA4SlZOgHIuowTTrxawVVAixzKpiaiE9CzXjVkiG1fMuUtR7rdtGxphbooZwUQ==
+ b=MB5j0DF91nwVFTqMq4G5s+gdM7z/WXYoZLz/dZFWxgSVtfiWZnLuzJSh2FVa/ssqCEmu8nmt1AioxmSkeqpXpG+2QiSlMbsi2cGhxiPJUzM31DiCjgm/EtRC7wtmuIds9+RKD1qJf/dvuvRC8RGqKZ3sOO1JUpEU0jmLDMu4fwVAqbt82nhf49GlTvP2kpOZBSXAWV8xkvDNngsgkdiE1Y02mXh02rEn2hcwiBL4bQPcsm6dTjr0YQsUYSSg2Fo5LT5pmd6m5MzR/H4wj+wGqkwmYUHnPWQyDSYKKBCS22lrl3BfEp0f3PlJj1+cxqXuNeW27zByAVwB4umptqEo+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vPJp5w19Fx+MlYCGTQ73OECtl6RWRLR8f56KXzk5WL0=;
- b=jWU5DksezKpEO2lrEqIpywS5iCGg0U/kdTkSE5fSRGQd0VPW1QkZzI4vuFwpZYJGVN72eqQWulR5w3W1+lNoEyoFlWFboQj7XMorTTIFSsKljek/Eq6NeW+LIvd3T4hFLDHI2qeU90kXu0x4jbeFuo9rupuUblhShPpk3+9UGenNrGfSIUdqziliBEzGfjDynkEwnT7wPkAhHLY6njeKpqzecKmrh/Erx1fvMWLQ1HVXhOI2JRUa54J8+6Bawg1B9FUfodWkx/4dDhi2PqUaK8tZp4SsGuZQL3kDQWF98CG7nYb+4rLU2drYgz7n9WlNs2Cu8QaVO91j/oHcT4EIMA==
+ bh=kFbZDMDFoEKNlNtXuJmxNpYq3H6ExpSqAJHvHlZyUcY=;
+ b=qoybF+q83bpf+10YRkVoZnzDtTo/hA5gdE8LHCri14lV2AhGpcOwqafo0DlL202PA4N3ZbH5ar0g/QHxoZ9NGPwLT3vGdJ6pITUqmZRxnKVqh8kDQZEMs3RSG5nYa2bILJ+w4AJuorT71KWkXS8sqIfz3/HLiWgEmZ07DdH4dllt0CRAjHDGR/HwSOSAwpI0cHL4ta2hA8fvHdkRVwiRy8QiS2rbP+HpIricHaTO4GhI1myB1hn2Lqro08xlcYgEXigVn3ZnIxn0ZTsWx87twHL5baPtNJgUcE8NnVYgrIrbfGeTozjwpsMrfB332BXun+psn53FC1dv5S57KgM3JQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vPJp5w19Fx+MlYCGTQ73OECtl6RWRLR8f56KXzk5WL0=;
- b=T5Rd1RefJz7HEyjGB5AdSupkSAwnPBJ3/dAGQmGJzq+YHWfDIBx0ldTGkENN6GS1JKVxfmV4L9xSUSuqbkHlrZZFQUtrF6f7nE1GpUNjsYx3EPVrJC7LZ5gqJ1HK6qihTn8/ew27NdN5hw5miJABNDDzPDmJzd/k2zaEoXvoPofG7G6NoBQwDsP5W8VeeLcPrTNDOItEOYV+ywmqbD30DcxbMDCG5KiAAVH/lT6+dbWuey230mosgTA6dIUijSC9CEm7i1Jn6/DmNKqaVOEtVcDzxo0V/dKFYy7vYSJ2I/Iah9sW/u426AwhatO/GTY/W/G45l9MCId+4xqVQHU8GA==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- by MN2PR12MB4173.namprd12.prod.outlook.com (2603:10b6:208:1d8::10)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
+ by SJ0PR11MB4958.namprd11.prod.outlook.com (2603:10b6:a03:2ae::24)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.15; Thu, 26 Feb
- 2026 18:25:41 +0000
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de%5]) with mapi id 15.20.9654.007; Thu, 26 Feb 2026
- 18:25:41 +0000
-Message-ID: <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
-Date: Thu, 26 Feb 2026 20:25:35 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
- into msi_addr_mask
-To: Vivian Wang <wangruikang@iscas.ac.cn>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Brett Creeley <brett.creeley@amd.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>,
- Maor Gottlieb <maorg@nvidia.com>
-References: <20260129-pci-msi-addr-mask-v4-0-70da998f2750@iscas.ac.cn>
- <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
-Content-Language: en-US
-From: Mark Bloch <mbloch@nvidia.com>
-In-Reply-To: <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0184.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::16) To CH3PR12MB7548.namprd12.prod.outlook.com
- (2603:10b6:610:144::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
+ 2026 18:48:02 +0000
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5]) by BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5%7]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
+ 18:48:02 +0000
+Date: Thu, 26 Feb 2026 10:47:58 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Michal Wajdeczko
+ <michal.wajdeczko@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Piotr
+ =?iso-8859-1?Q?Pi=F3rkowski?= <piotr.piorkowski@intel.com>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, "Dunajski
+ Bartosz" <bartosz.dunajski@intel.com>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [RFC v4 1/1] drm/xe/pf: Restrict device query responses in
+ admin-only PF mode
+Message-ID: <aaCVXnUYdsQwlSx1@lstrano-desk.jf.intel.com>
+References: <20260226163104.3192618-3-satyanarayana.k.v.p@intel.com>
+ <20260226163104.3192618-4-satyanarayana.k.v.p@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260226163104.3192618-4-satyanarayana.k.v.p@intel.com>
+X-ClientProxiedBy: MW4PR03CA0081.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::26) To BL3PR11MB6508.namprd11.prod.outlook.com
+ (2603:10b6:208:38f::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|MN2PR12MB4173:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a7bee03-677f-4c20-7d11-08de75647295
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|SJ0PR11MB4958:EE_
+X-MS-Office365-Filtering-Correlation-Id: 985aa244-cdb2-4803-063f-08de756791d4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: 9PsqS6ngW9OR79WvmoGbuLJT/Njq9tmn1Y4kvWKFRcHaqMXldP8HOWVYX46z8WeonfN8WfJUoVu82cTYacwuOgeqjFg2iX8mrd2TTwQTkl4KQKDMNN4CVErLry1dFopRS4rv4TntRLONZni2EQ8hVZ4uM64SHN0/hmx30g75xcs3CBS3ycUBWburJCmxM2xX4bonbAE1cfG3c6Xp6Shtx6/EwR+O4K21WVLphuRuQlcaw20fRpFe43mOG4g6P6tpqnRrr5QmiTKK9Tcm6A45A+nI1WRchacp4w0zkZPeN7ZcOpw8SWCeO1Qw7jmgU5kTDwmw1KTo9wsUAWjWeaGwrZYlg4Le6w++ekYYYVVd74QD/J1IvIQBOHMLhJrbr911iHYuLbXHvv56hT1bmaSaiYMfAEABEImTpp3TIYVEL3yB7sqAzOoSm1vvR9S5ozVhI8vMXqQO5Zeq02Bq1ORu/gPHjlDYHgNW9zTFUaQgFti4b+raO4CO8CL8gijpCzwVb6/qpuOJ98kh9Ty6vyh+DS4ygtC7grkJlORQsOceyiMrQQ8L6k791Uf2wTai+HMW+V432jJqkZdMs60jpUTIYmU1spudUBf1G/J2KY76FG6fw2RBsN0kJ9FwJoHBPuH/nvHpPOsdXVV2nUMig1EKk50lzeyrJfAkU+S2Y6wISuPx0Sw/8xXMNnZBlSecidU7H6Px9Kg/6CZt6DXIW+ZC9bGwtwWiYZa05uQAHUktPdmVHbP4p51UEIXYyTdmy+CjfzNomScronvuYkoyA3FWhd0PDkj4ATclX/WqjqoNUMM=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: AGJakdP+u6DAWOzhYyvVb9swT/1zoGkJuXWkGANXaVBn7u7+S33KOJmW6s83/QCWsz8tp/wop2b1YTvpAD/fwW3Hx2aiWzYDmanIlnWg9Cy8XmSnP4Xk8ct5rizVugiDkeiRO03FvcytqHCOyr6+i1kaJuMb79bPhoyGR4XSfVYAp/zXfK7DfFO54DWBasHWdYhcUXyGBjFRqnsJz/agT3HGaQ0S6RVvcjjzhGtloW9OwuYGuAqi256s1Fqo6w9UcKgHD3WzKUCoOy4wXYspwxooEt+aLcDaM4e9+8lkJdvjcBT5sLW11QiaM1D7sEpECBh2p8M075SPR+yF8QTT7UzKQs7CW06tdjx/TmtThve4NHJ8G1OVaJ469l5daJPSDO44/vOqJ9xB6SiFDq3XxlqCd/f9n6eE3iFCY5dziYBWGtg25tYKD4OihD2KgOA35iyonHd4CwBgY/+UZXBQ+wz794bbR0+noVmLKBaKfWmfkImoZrvheIGg1r5ETTVclPXna1J/AiBw8MxLiI8uMvaohvj7y6i5BLcVHvfHHdyEaNn5xSlTW5E40FiGiyDSz3arD86Nty7ELA556/kHRXFV6hV7G5WSPFuqlUsxnynRE2wZIKj5qxTgJKTTk6LbLdoUh3AZF11FpEr/rqc7SjbHWOHAAcugt6vIajjfcApoyQLB0dlmIfB2l29MgGUheWPSVcrh03rWWuFhrYxdDdog/M9hyisqH2ouNexE5Ds=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB7548.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6508.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bFdERFpreHJzMy8xL3kxTG5rcXp2S3JKa2FCRzRDOVp6bDBaa1dPZUtyYVMw?=
- =?utf-8?B?SWpJUXhxbTRsNGUzTW0xV09uamF6UzRIN2wvSklpTEFOWW1CK0E3cUJ6c1V3?=
- =?utf-8?B?cGpoU21vMDRaRDdnUG1nSy9ocXpaNS9zV293NkdsZ1ZWakE0bEFrRVZNdS96?=
- =?utf-8?B?SEEzYWdDc3Y0emh2cDRhWVJ6bHFhdmVaR1BSMGZVc2dPRUNmMGozdWx0TVpV?=
- =?utf-8?B?b3NWTkkzNTE3d2REdXZjL1dnOXE4eDFTbUZMSHBWalFrSUE2aFNXWituYVFQ?=
- =?utf-8?B?cXFwVGhxc1JvRDR2NUhHb0NJQ3pEdHlqUmliU0xOMm80dk56eVh0TzJEOXNM?=
- =?utf-8?B?SkpXZ205QXhvbTRjN2I0TWxYcTJIbER1bFVoVlZnN2cra2x0U1JZL3ZGcFRs?=
- =?utf-8?B?cG1QWE9JMGF5bXJsZkhWeEEwVng4RmJHZC9kZGRON2tiUmhkOXJ5eGk2ZzJ0?=
- =?utf-8?B?dGE2SlhJc25VMTgzRkJUZisxVGNiL0tiOW5oV2JwMXZGMHo4dDN6TXdPT2Zh?=
- =?utf-8?B?WEZQaWl5UndNYXkyQ3FwR3U5djNQUjVCeC8zdmtBOHcrVzgzaHJiL0VSQnND?=
- =?utf-8?B?TWNsT1ZGcE9MT3NCNXhvbkRyUUt5dWZzWThOQm5sc3IydWdGUDlZbXljcnVo?=
- =?utf-8?B?QWxhbC90ZG1CK25nM1p0QVZKTUp1OFZPU2ZSSGVON0d3bFVYZmlkQU9QYk1U?=
- =?utf-8?B?cVZJc2pDR1RlcnFmSDBoUjZBemF6ZnFDTFNoSGNGd3VIWFFrdGUxUzhHcnBx?=
- =?utf-8?B?Rmk0dEJNRy9qdStZdUNZQUVrRDVKODZQN3luS0tpKzVCZ0hVenpJS0IzOHFZ?=
- =?utf-8?B?dGpuazBBYnBlM2h2aWhNS2RqZGU5MzF1TktoYzFoN1ArcjFGYkVzVThTZXlp?=
- =?utf-8?B?U2pnNGJQL1IrZkkrSEFtNURkTktNVGJYcjVUUU15YmN1OWY5N1NjdWExOVN0?=
- =?utf-8?B?UnZtWUF2MjB6MnJSTzVjOWVaVkJreUtkaHgycGJRNTVmUiswMGpTS1BYSXNM?=
- =?utf-8?B?aTJOUnh4VTlrUmpHQmdrVGU0SnlXUktJQlVjaUFtdzhZSXQxcFdHZEZCMTU2?=
- =?utf-8?B?V2tBbnJJdjNFNFRJb3NkSEM1K1k0VEhWRlErRDFXdkIwYThPOW9zamRFQW9G?=
- =?utf-8?B?RlY5RnV4cFpKVmkxWWgxSHN1UTRzbjJXVURMMmJHMXYvUmNHN0o5THBzQ0tB?=
- =?utf-8?B?aVUreWhHY2xjbk84NFJmSlpQYUthZmhGd2xIbUUwSHgxRkN3b2IzMDlTNERN?=
- =?utf-8?B?Qk85YXF1dkYyRGE5TmQ4c3F1T0wxdW5aaDg1Y0FETjYvZlVPUWhLSm92R0Ft?=
- =?utf-8?B?TVdqY2crRno5Ym43VHl1NHl3djZVYjR3amE3ZElsT2d3ekdZQ0xDaE1tNDhs?=
- =?utf-8?B?bHdFOEpSMFNMRm0yRFpPTG9iS2ZqdWd3MjNuTzNDeXdjMDNMamZySXVCakdk?=
- =?utf-8?B?K0VDK0xKMVJucjlsTlhhWFJtN3N4ZSthVnNEZE5maElxOC9XVGFJNnNENzZP?=
- =?utf-8?B?dUF3djh2WDNmNXkyT3VsYkdHZTcrTjB5UU81ekpyWHl0WXROVTNpd08zU09L?=
- =?utf-8?B?ZHZLS0RQVmU5SjJXU3RwUDBiMjQrZDZPM2pNdkR4WC85MWNqNzlPQ1pYM0Fv?=
- =?utf-8?B?TlNlVDhwM2dZeHpKSStpSTJ0TFA5YU80UUNkSWtuVHpNQzMxMnp6QjMvZHNj?=
- =?utf-8?B?eVp2cnh4clY2MEtCRk0xRXhUZ2FtVTBvUGRseEdkcVJ0cG51R2NESjNRUkZt?=
- =?utf-8?B?bU9GazZZTFYxRFl3dlkxaEtjTzNwazdGWFRqWWRpUWdacFhGVm43cHFnUFRj?=
- =?utf-8?B?NWFRTklybTY1YU53aWNXWTBvdUdkdy9SdldQOTgxQTVCcW9GKy9vZlB0cnJX?=
- =?utf-8?B?eGlMZTl2TWg2SlZqOEhNRzFwUEx3QjErb2paY1VOeC9HZGZEY0VJNC9nQ0sw?=
- =?utf-8?B?Rm9NRDBrTyttRVlyT1NCbzFKdUxuMVlWOTR3RW81MXlUeEpzNkRucU54T3pR?=
- =?utf-8?B?ZWNjNkx6SFJPb3oxTWdLTFJ3emp6S2pnK1Jkbko5Wk54OEYxbXFMd0xwRTJQ?=
- =?utf-8?B?VlBtMERxbVRPKzhicjl1enM2b3M0T2FGZU9KWXNFWHQ1SnNuS2NzbXdta21G?=
- =?utf-8?B?dmVZYU1rQi9nZnduYzhjRm5IaSsvcEZMY1lDQVovY3BweUdNazBsa0xsR0dt?=
- =?utf-8?B?Y2Y5cnhSTG90YXZPMElQTVdadnRNUGgvUkFyTVNiYWNYUFF0REJPZHdMWklS?=
- =?utf-8?B?NkJYS2wweWgwT2VEc1BEVkREY3ZCRll5SmZ3WkZydnp3d1FFbEpnVnI2RElk?=
- =?utf-8?B?RXV2TVd0ZG5YV24xbTF2QVEycFpwV2h1dDMvQnRtenVSV1RkQUhNQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7bee03-677f-4c20-7d11-08de75647295
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bU9Ma3pycVdVckx5My9lZWY2YldZVi9nMkxUcGUzd2xyTDI3UEIwQjl4VTJw?=
+ =?utf-8?B?UkkwNDRxSVp1aE93K0tqMU5rY2orby9BY1JMaDdlSnhlZ2NuWU9tWUpPc0ZT?=
+ =?utf-8?B?M1piQkVzcmZOajBLb3Z3dW00d3BSaHd3ckdyelhLN2pWU2JhejUrZWxVVEtP?=
+ =?utf-8?B?UkR4Y2NzOGZvVmJkNVNCZXJhSjhPa2YrWVcrM0NvVUZUVHc1cUlKUWJHd3I0?=
+ =?utf-8?B?WTkyVlRqOHAyMG02NDlqSG93ckk0Umo1ZlpCbDVLNzJ5OXFTNE5FOGNaOGxX?=
+ =?utf-8?B?alEyTW1pd252UzV1QnFlNmlOVGkxSTkyd093bC8xbTViM2I0RzN2MWU1OUNO?=
+ =?utf-8?B?clRvQnZDRGJ4aVRqZ3pUZlhPU2g4RWZyQmNlQ09LSE51b084SUdjNllQaUNl?=
+ =?utf-8?B?MjkycU9CSHVkT3hZcVJXQjFEZ1VMcWIvMGhqVy81OGJUL0U5SzJTaHo0czRF?=
+ =?utf-8?B?cFp2ckZpVWtkbUZ6QllQQyswQmFwK1BDMENSaWZISzF1RDdRZjc3aktFQnFC?=
+ =?utf-8?B?cmFQcWNtc0JxQ1BHMjhibGE1dWZIZHhXZ2VsNko5aVJXeUtVQzkxK05qK1g4?=
+ =?utf-8?B?MURVbm9CR2ZHVmxxRG5uREhKeHBCTGRhMEpXdmpTQ0tGVjQrcE5tMGdpQXBW?=
+ =?utf-8?B?aWd3Z1czamg0YUplbnluZVMvYVRMWjZqWWNEc3JXR2llbERmZGZZWm5tYTVY?=
+ =?utf-8?B?NFgzMnlrOUdKSGNxajBhcTk1QzZUODNiNCt5eER6RkpkWXNzQVhPWG1WVGtE?=
+ =?utf-8?B?N0dnSGJQRm50aHRaQXN4MERzNHFsVDhMZUV2eVFYQmc5TExtNmt3UlhlYlMv?=
+ =?utf-8?B?cDdlUmJVZ0p3aUZ4VkFBQVYwS2ROT29QcjNpRkV5NksrUld5R1Y5eUVMMmhi?=
+ =?utf-8?B?elZPcW0wWENwMzBMa0srbUg5bnVPa2JKN0RnRlRZbXBaVyt3cWZibWRHUTd1?=
+ =?utf-8?B?VE5Ncjdic20xRUVNRkRud1VOT0NhVFd5SzI3YlZQMXpNV1RWdU5FanVRQzNZ?=
+ =?utf-8?B?OGlPaDlJcC9ERlF4OEFzZ2VIMkJyWGNidjVOVS80MjJzYkNIWG1ldklSUWpm?=
+ =?utf-8?B?Qk03S3I5c0Y1OVFzVkFjOHh5K1kzRjl6N3V3aHlnbzcxT01sMnpIZE10dFMr?=
+ =?utf-8?B?R0tXaGtCc0xITElvNjlYNGNGT0d0WnkrZnJXMElCZVFreFFUdVEvN3ZQV3Q5?=
+ =?utf-8?B?ZXJibGh5V3FMbFpsWFMvOW9QTCtlcXRSZjRVT2x1TW43cFhJSWRaTGFYYWFC?=
+ =?utf-8?B?UEVuRFU4Ty9ubDJYeW9iZTc2dVI1WG1zTzVVNmdOOTY2VzFIdTlQVkNwOVpr?=
+ =?utf-8?B?bEx4N2VSSkFtdnJaUXJ6R3FJNld6VDRZOUo0MWc5dGhMR0dRYUtBM0dSRTBZ?=
+ =?utf-8?B?OWdKTERKRTNqd09yWmhWOE5vNnNjcE41VmRpY0J3MGxqSFN5WVZGZ2R3MUV5?=
+ =?utf-8?B?b2EzZC9TSGR1THhMN05FQVhFTFNXZGZNMVc3TXA5YzhDRHZJMUtkbVB4b21B?=
+ =?utf-8?B?NG1rYkJiZTQ0Sko4ci8xdFNiQVNRcktId1pGc2xpMFE5WStpQUwxWmUxSHVP?=
+ =?utf-8?B?QzVPYmR0NFVpQnJMZHRGQmxHMlpPemJmckJsYWNwbGJOQ2JXNEthaXpvV1Qw?=
+ =?utf-8?B?blN3cm5PY2pXeWc1b2ZCM09DSk5EQkx4TUFyaFdBZXFjeTZvdmtXMkZHQ0dK?=
+ =?utf-8?B?WjB6M2pnNXNtY1BUNHFkOFhRUU5QdDhJRVkvaElEQVE4K3lCY2RreXhqcEdh?=
+ =?utf-8?B?RCtJWDZoQlVFQXpCTmh1Nnh1SVpHQmFLekcrbTlrK0J3SitJVko0MzJ4MFJG?=
+ =?utf-8?B?MmNqeXpNeHJjS2pjbFFrNTZtbW1BcFNkV0R5T0tuN05XSkgrdkhmdzVnaU1K?=
+ =?utf-8?B?RTBic0FMUE5aNGZKYVk0RWNYUG5jWkozVmtLcVZRNDVNZ3NsSVFnaW5kQ2Q4?=
+ =?utf-8?B?SldKUFRnd1RzT1NBQ1AyL1RlbkhSd2dnQS8yOUFCbmNSUUFuOVkyVUpYY1BE?=
+ =?utf-8?B?Y0hOQlpvaGlWQnoyMjV5WUlETjFtLzhQdU5LOUIvdmVxOHQvNjhEcDZmMTc2?=
+ =?utf-8?B?Nlo5ZUNacDVWbmhvZXpyelF3ZnVaWGhyd1lpdXVkay9QWkN1VGw4eWJTWmcw?=
+ =?utf-8?B?QWMzQ1ZWNCtadG8yNGE3MXJXbnN5d01FYXBmcUovcFpDa08zdEVBdW14c3pt?=
+ =?utf-8?B?c25ZMlpiUmx1RXlSeG1qeWFvY2dYc3RGK1d2WjF6Vlp4L3VtVkwzUWExbVlP?=
+ =?utf-8?B?UzR3MFByQW9UN2oxQnBIZUZDVDZVTndCVnFjY0hISXV0dW9mZlZWVHVtT0NN?=
+ =?utf-8?B?MTlVMnpSZWVReCswV2FXYnBSUFhpdVdHUW5hVXBUL0p5WURMbmlNZzNQQnRJ?=
+ =?utf-8?Q?9YGznSUZCdVYiy6E=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 985aa244-cdb2-4803-063f-08de756791d4
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 18:25:41.4895 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 18:48:02.5562 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OlFLm3GZ1y9vpyXQeLQV0YKwzzLKC23HIr14pChwyB7Gy2h2Z79whxlIAx9Hcgzrm4pA4z5E1CcLKN7aJgyqPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4173
+X-MS-Exchange-CrossTenant-UserPrincipalName: qYTUQnaJyDAmDO5IDSqTeXv/knsyUaHTFRt9sOVpLjGgKZ8iEkMV6VuOBby3xPaRba1u/Wq2f6gqmZWEHLe5EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4958
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,277 +177,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,amd.com,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,perex.cz,suse.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,intel.com:email,intel.com:dkim,lstrano-desk.jf.intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	FROM_NEQ_ENVFROM(0.00)[mbloch@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,amd.com:email,Nvidia.com:dkim,nvidia.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: CEE821AD915
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: C41E61ADFA9
 X-Rspamd-Action: no action
 
-
-
-On 29/01/2026 3:56, Vivian Wang wrote:
-> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
-> implement less than 64 address bits. This breaks on platforms where such
-> a device is assigned an MSI address higher than what's reachable.
-> 
-> Currently, the no_64bit_msi bit is set for these devices, meaning that
-> only 32-bit MSI addresses are allowed for them. However, on some
-> platforms the MSI doorbell address is above the 32-bit limit but within
-> the addressable range of the device.
-> 
-> As a first step to enabling MSI on those combinations of devices and
-> platforms, conservatively generalize the single-bit flag no_64bit_msi
-> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
-> with msi_mask.)
-> 
-> The translation is essentially:
-> 
-> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
-> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
-> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
+On Thu, Feb 26, 2026 at 04:31:06PM +0000, Satyanarayana K V P wrote:
+> When the PF is configured for admin‑only mode, it is restricted to
+> management functions and should not allow users to run workloads.
+> Suppress device capabilities to userspace in admin-only PF mode.
 > 
 
-Hey Vivian,
+I'd mention which IOCTLs we expose in PF admin only and why we expose
+each one of these IOCTLs.
 
-We are seeing issues while reloading mlx5 on a PPC64 platform.
-We see the following messages in dmesg:
-
-mlx5_core 0000:00:08.0: mlx5_load:1266:(pid 1283): Failed to alloc IRQs
-mlx5_core 0000:00:08.0: E-Switch: cleanup
-mlx5_core 0000:00:08.0: probe_one:1959:(pid 1283): mlx5_init_one failed with error code -19
-mlx5_core 0000:00:08.1: lsa_required: 0, lsa_enabled: 0, direct mapping: 0
-mlx5_core 0000:00:08.1: lsa_required: 0, lsa_enabled: 0, direct mapping: 0
-mlx5_core 0000:00:08.1: firmware version: 16.35.4506
-mlx5_core 0000:00:08.1: 0.000 Gb/s available PCIe bandwidth (Unknown x16 link)
-mlx5_core 0000:00:08.1: Rate limit: 127 rates are supported, range: 0Mbps to 97656Mbps
-mlx5_core 0000:00:08.1: E-Switch: Total vports 2, per vport: max uc(128) max mc(2048)
-mlx5_core 0000:00:08.1: Flow counters bulk query buffer size increased, bulk_query_len(8)
-mlx5_core 0000:00:08.1: mlx5_load:1266:(pid 1283): Failed to alloc IRQs
-mlx5_core 0000:00:08.1: E-Switch: cleanup
-mlx5_core 0000:00:08.1: probe_one:1959:(pid 1283): mlx5_init_one failed with error code -19
-
-We've bisectedthe issue to this patch.
-We've pointed some AI tool to look at the reproducation script and this patch and it came
-up with the following idea:
-
-"
-The bug is a missing initialization of msi_addr_mask on PPC64LE, caused by a PPC-specific PCI device creation path.
-On most architectures, PCI devices are enumerated via the standard path:
-> pci_scan_device() -> pci_alloc_dev() (kzalloc) -> pci_setup_device() -> pci_device_add()
-But PPC has its own device-tree-based PCI enumeration in arch/powerpc/kernel/pci_of_scan.c.
-The function of_create_pci_dev() does this:
- 
-pci_of_scan.cLines 215-235
- 
-    dev = pci_alloc_dev(bus);       // kzalloc -> all fields zeroed, msi_addr_mask = 0
-    // ... manually sets vendor, device, class, dma_mask, etc.
-    // ... does NOT call pci_setup_device() !!!
-    pci_device_add(dev, bus);       // calls pci_init_capabilities -> pci_msi_init
-
-Inside pci_msi_init(), the code only sets msi_addr_mask = DMA_BIT_MASK(32) when 64-bit MSI is not supported.
-If the device does support 64-bit MSI (like mlx5), it leaves msi_addr_mask untouched -- meaning it stays at 0 from the kzalloc.
-"
-
-We tried a patch that moved dev->msi_addr_mask = DMA_BIT_MASK(64) from pci_setup_device()
-to pci_alloc_dev() and it solved the issue we were seeing (don't know if this is the proper fix).
-
-Can you please have a look?
-
-Mark
-
-> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) are
-> used, no functional change is intended. Future patches that make use of
-> intermediate values of msi_addr_mask will follow, allowing devices that
-> cannot use full 64-bit addresses for MSI to work on platforms with MSI
-> doorbell above the 32-bit limit.
+> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Michał Winiarski <michal.winiarski@intel.com>
+> Cc: Dunajski Bartosz <bartosz.dunajski@intel.com>
+> Cc: dri-devel@lists.freedesktop.org
 > 
-> Acked-by: Takashi Iwai <tiwai@suse.de> # sound
-> Reviewed-by: Brett Creeley <brett.creeley@amd.com> # ionic
-> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
-> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
 > ---
-> v4: Patch message rewording (Thomas)
+> V3 -> V4:
+> - Suppressed device capabilities in admin-only PF mode. (Wajdeczko)
 > 
-> checkpatch complains about the comment include/linux/pci.h, which I have
-> formatted similarly with other comments in the vicinity.
+> V2 -> V3:
+> - Introduced new helper function xe_debugfs_create_files() to create
+> debugfs entries based on admin_only_pf mode or normal mode.
+> 
+> V1 -> V2:
+> - Rebased to latest drm-tip.
+> - Update update_minor_dev() to debugfs_minor_dev().
 > ---
->  arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
->  arch/powerpc/platforms/pseries/msi.c                | 4 ++--
->  drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
->  drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
->  drivers/pci/msi/msi.c                               | 2 +-
->  drivers/pci/msi/pcidev_msi.c                        | 2 +-
->  drivers/pci/probe.c                                 | 7 +++++++
->  include/linux/pci.h                                 | 8 +++++++-
->  sound/hda/controllers/intel.c                       | 2 +-
->  9 files changed, 22 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/xe/xe_device.c | 14 ++++++++++++++
+>  drivers/gpu/drm/xe/xe_query.c  | 11 ++++++++++-
+>  drivers/gpu/drm/xe/xe_sriov.h  |  8 ++++++++
+>  3 files changed, 32 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
-> index b0c1d9d16fb5..1c78fdfb7b03 100644
-> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
-> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
-> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
->  		return -ENXIO;
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 3462645ca13c..7bf462eed917 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -25,6 +25,7 @@
+>  #include "regs/xe_regs.h"
+>  #include "xe_bo.h"
+>  #include "xe_bo_evict.h"
+> +#include "xe_configfs.h"
+>  #include "xe_debugfs.h"
+>  #include "xe_defaults.h"
+>  #include "xe_devcoredump.h"
+> @@ -213,6 +214,11 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+>  			  DRM_RENDER_ALLOW),
+>  };
 >  
->  	/* Force 32-bit MSI on some broken devices */
-> -	if (dev->no_64bit_msi)
-> +	if (dev->msi_addr_mask < DMA_BIT_MASK(64))
->  		is_64 = 0;
->  
->  	/* Assign XIVE to PE */
-> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platforms/pseries/msi.c
-> index a82aaa786e9e..7473c7ca1db0 100644
-> --- a/arch/powerpc/platforms/pseries/msi.c
-> +++ b/arch/powerpc/platforms/pseries/msi.c
-> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
->  	 */
->  again:
->  	if (type == PCI_CAP_ID_MSI) {
-> -		if (pdev->no_64bit_msi) {
-> +		if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
->  			rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSI_FN, nvec);
->  			if (rc < 0) {
->  				/*
-> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
->  		if (use_32bit_msi_hack && rc > 0)
->  			rtas_hack_32bit_msi_gen2(pdev);
->  	} else {
-> -		if (pdev->no_64bit_msi)
-> +		if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
->  			rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSIX_FN, nvec);
->  		else
->  			rc = rtas_change_msi(pdn, RTAS_CHANGE_MSIX_FN, nvec);
-> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> index 9961251b44ba..d550554a6f3f 100644
-> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
->  	 */
->  	if (rdev->family < CHIP_BONAIRE) {
->  		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
-> -		rdev->pdev->no_64bit_msi = 1;
-> +		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
->  	}
->  
->  	/* force MSI on */
-> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> index 70d86c5f52fb..0671deae9a28 100644
-> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  #ifdef CONFIG_PPC64
->  	/* Ensure MSI/MSI-X interrupts lie within addressable physical memory */
-> -	pdev->no_64bit_msi = 1;
-> +	pdev->msi_addr_mask = DMA_BIT_MASK(32);
->  #endif
->  
->  	err = ionic_setup_one(ionic);
-> diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
-> index 34d664139f48..48f5f03d1479 100644
-> --- a/drivers/pci/msi/msi.c
-> +++ b/drivers/pci/msi/msi.c
-> @@ -322,7 +322,7 @@ static int msi_verify_entries(struct pci_dev *dev)
+> +static const struct drm_ioctl_desc xe_pf_admin_only_ioctls[] = {
+> +	DRM_IOCTL_DEF_DRV(XE_DEVICE_QUERY, xe_query_ioctl, DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
+
+XE_OBSERVATION can create buffer objects and exec queues? Is desired to
+expose things like this?
+
+I like this approach of only exposing a subset of IOCTLs though, pretty slick.
+
+> +};
+> +
+>  static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 >  {
->  	struct msi_desc *entry;
+>  	struct drm_file *file_priv = file->private_data;
+> @@ -442,6 +448,14 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
+>  	struct xe_device *xe;
+>  	int err;
 >  
-> -	if (!dev->no_64bit_msi)
-> +	if (dev->msi_addr_mask == DMA_BIT_MASK(64))
->  		return 0;
+> +	if (xe_configfs_admin_only_pf(pdev)) {
+> +		driver.ioctls = xe_pf_admin_only_ioctls;
+> +		driver.num_ioctls = ARRAY_SIZE(xe_pf_admin_only_ioctls);
+> +	} else {
+> +		driver.ioctls = xe_ioctls;
+> +		driver.num_ioctls = ARRAY_SIZE(xe_ioctls);
+> +	}
+> +
+>  	xe_display_driver_set_hooks(&driver);
 >  
->  	msi_for_each_desc(entry, &dev->dev, MSI_DESC_ALL) {
-> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi.c
-> index 5520aff53b56..0b0346813092 100644
-> --- a/drivers/pci/msi/pcidev_msi.c
-> +++ b/drivers/pci/msi/pcidev_msi.c
-> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
+>  	err = aperture_remove_conflicting_pci_devices(pdev, driver.name);
+> diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
+> index 34db266b723f..1416ab7be809 100644
+> --- a/drivers/gpu/drm/xe/xe_query.c
+> +++ b/drivers/gpu/drm/xe/xe_query.c
+> @@ -215,7 +215,10 @@ static int query_engines(struct xe_device *xe,
+>  			i++;
+>  		}
+>  
+> -	engines->num_engines = i;
+> +	if (xe_device_is_admin_only(xe))
+> +		engines->num_engines = 0;
+> +	else
+> +		engines->num_engines = i;
+>  
+>  	if (copy_to_user(query_ptr, engines, size)) {
+>  		kfree(engines);
+> @@ -297,6 +300,9 @@ static int query_mem_regions(struct xe_device *xe,
+>  		}
 >  	}
 >  
->  	if (!(ctrl & PCI_MSI_FLAGS_64BIT))
-> -		dev->no_64bit_msi = 1;
-> +		dev->msi_addr_mask = DMA_BIT_MASK(32);
+> +	if (xe_device_is_admin_only(xe))
+> +		mem_regions->num_mem_regions = 0;
+> +
+>  	if (!copy_to_user(query_ptr, mem_regions, size))
+>  		ret = 0;
+>  	else
+> @@ -419,6 +425,9 @@ static int query_gt_list(struct xe_device *xe, struct drm_xe_device_query *query
+>  		iter++;
+>  	}
+>  
+> +	if (xe_device_is_admin_only(xe))
+> +		gt_list->num_gt = 0;
+> +
+>  	if (copy_to_user(query_ptr, gt_list, size)) {
+>  		kfree(gt_list);
+>  		return -EFAULT;
+> diff --git a/drivers/gpu/drm/xe/xe_sriov.h b/drivers/gpu/drm/xe/xe_sriov.h
+> index 72e55543c30e..be426afa90b1 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov.h
+> +++ b/drivers/gpu/drm/xe/xe_sriov.h
+> @@ -37,6 +37,14 @@ static inline bool xe_device_is_sriov_vf(const struct xe_device *xe)
+>  	return xe_device_sriov_mode(xe) == XE_SRIOV_MODE_VF;
 >  }
 >  
->  void pci_msix_init(struct pci_dev *dev)
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 41183aed8f5d..a2bff57176a3 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -2047,6 +2047,13 @@ int pci_setup_device(struct pci_dev *dev)
->  	 */
->  	dev->dma_mask = 0xffffffff;
->  
-> +	/*
-> +	 * Assume 64-bit addresses for MSI initially. Will be changed to 32-bit
-> +	 * if MSI (rather than MSI-X) capability does not have
-> +	 * PCI_MSI_FLAGS_64BIT. Can also be overridden by driver.
-> +	 */
-> +	dev->msi_addr_mask = DMA_BIT_MASK(64);
-> +
->  	dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
->  		     dev->bus->number, PCI_SLOT(dev->devfn),
->  		     PCI_FUNC(dev->devfn));
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 864775651c6f..0fe32fef0331 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -377,6 +377,13 @@ struct pci_dev {
->  					   0xffffffff.  You only need to change
->  					   this if your device has broken DMA
->  					   or supports 64-bit transfers.  */
-> +	u64		msi_addr_mask;	/* Mask of the bits of bus address for
-> +					   MSI that this device implements.
-> +					   Normally set based on device
-> +					   capabilities. You only need to
-> +					   change this if your device claims
-> +					   to support 64-bit MSI but implements
-> +					   fewer than 64 address bits. */
->  
->  	struct device_dma_parameters dma_parms;
->  
-> @@ -441,7 +448,6 @@ struct pci_dev {
->  
->  	unsigned int	is_busmaster:1;		/* Is busmaster */
->  	unsigned int	no_msi:1;		/* May not use MSI */
-> -	unsigned int	no_64bit_msi:1;		/* May only use 32-bit MSIs */
->  	unsigned int	block_cfg_access:1;	/* Config space access blocked */
->  	unsigned int	broken_parity_status:1;	/* Generates false positive parity */
->  	unsigned int	irq_reroute_variant:2;	/* Needs IRQ rerouting variant */
-> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-> index 1e8e3d61291a..c9542ebdf7e2 100644
-> --- a/sound/hda/controllers/intel.c
-> +++ b/sound/hda/controllers/intel.c
-> @@ -1905,7 +1905,7 @@ static int azx_first_init(struct azx *chip)
->  
->  	if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
->  		dev_dbg(card->dev, "Disabling 64bit MSI\n");
-> -		pci->no_64bit_msi = true;
-> +		pci->msi_addr_mask = DMA_BIT_MASK(32);
->  	}
->  
->  	pci_set_master(pci);
-> 
+> +static inline bool xe_device_is_admin_only(const struct xe_device *xe)
 
+Kernel doc.
+
+Matt
+
+> +{
+> +	if (xe_device_is_sriov_pf(xe) && xe->sriov.pf.admin_only)
+> +		return true;
+> +	else
+> +		return false;
+> +}
+> +
+>  #define IS_SRIOV_PF(xe) xe_device_is_sriov_pf(xe)
+>  #define IS_SRIOV_VF(xe) xe_device_is_sriov_vf(xe)
+>  
+> -- 
+> 2.43.0
+> 
