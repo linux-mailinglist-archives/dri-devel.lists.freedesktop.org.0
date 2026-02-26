@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kA9OJsC3n2mKdQQAu9opvQ
+	id GPwhJMW3n2mKdQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5131A04B4
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D02A1A04BB
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 04:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA2910E85F;
-	Thu, 26 Feb 2026 03:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87AEB10E85A;
+	Thu, 26 Feb 2026 03:02:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BmLn0eIo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Abei6PWT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E9110E0F9;
- Thu, 26 Feb 2026 03:02:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E328A10E85A;
+ Thu, 26 Feb 2026 03:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772074940; x=1803610940;
+ t=1772074947; x=1803610947;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=D70balo6aRPFsBTQ0g+EvqMgxApzXA07juyavYmY/YQ=;
- b=BmLn0eIohzoTQyV7lGXta3kT+BJAOr//dmC3JuvIeyOIMCsgWhLpCezY
- Cl7x1ULN7hwVZuoeJPyPtUrUYXxTqKRuVyRsi3QbAfh9fs+iY7QAQwKU0
- OV9IZXVBfVYd1s3xfynbmteYNqBPPozYil0kM7PHZC7WTTRc2xrXJai6w
- kPASV4dKjsmUAIYrx05JRjbfn+kMfS0rDHoIMe5MJj53qcTm3AN1/rMiI
- 2i+FMVYNHO5E4uceD49NIAQRrMT7xJSATWxCu9xZEFVJTywzmMLtXHt6W
- 1jqvgaCEqFqqA60Q+du9aNSHWS/klQUee58zUge1ofl8bp5r5S4xFNk2d A==;
-X-CSE-ConnectionGUID: Ik/3vYaqToCZhev/hgtVzw==
-X-CSE-MsgGUID: Ejlf/Th2RmOFuQOsOV0MVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160452"
-X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160452"
+ bh=JXXup06q1D1WAb8wh1UAYbSkqo6wlGiQ89Qwt0SWXBM=;
+ b=Abei6PWT6KEhvn+5ZMDDjMqdC0GQybDxVTcTLIwDciHYfH96K9ffSH04
+ UQeIEAcAuAIl7zatNOi2Fc/rJ6yXk1O49fQczJzg/kmqBG4izcj6HCVuc
+ DQvVhRlMRoYBqoFKD9Nanjv8bbZKh/2jqAvIkHr8MOca4LnzhCAoyajp0
+ NwLE/bd0Chjb5ouIBrgoDz6v05Z0cmj44BGdjij0LES5WyeGb/qdV0ZbL
+ t47ApIgh4cu2dDLOmwy1JM2SRnuOOiVlFDxEh1FQJmnfISxOIBeRHcl21
+ Y1AbRkclck48uwADRyHw34qAMQG1aE4VUi8FdlzqYbwgfMrvZMByJi2rA g==;
+X-CSE-ConnectionGUID: /TVm6iNxT0q7WhrdLdkaVA==
+X-CSE-MsgGUID: Xq65V/RWQ3S3nNZju/s2PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72160464"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; d="scan'208";a="72160464"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:02:19 -0800
-X-CSE-ConnectionGUID: 9n+SB39vS+irn28DqpbL1g==
-X-CSE-MsgGUID: fcSbKxSvTPKqmLfpsw7kqg==
+ 25 Feb 2026 19:02:26 -0800
+X-CSE-ConnectionGUID: dxrRX5ULQNS+Q8zJ+sk6LA==
+X-CSE-MsgGUID: 3HUY1c5yQWSwoR9xLzLd9g==
 X-ExtLoop1: 1
 Received: from x299.sh.intel.com ([10.239.159.77])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2026 19:02:12 -0800
+ 25 Feb 2026 19:02:19 -0800
 From: Yujie Liu <yujie.liu@intel.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -72,10 +72,10 @@ Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Michal Wajdeczko <michal.wajdeczko@intel.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/amd/pm: fix kernel-doc warning for
- smu_msg_v1_send_msg()
-Date: Thu, 26 Feb 2026 11:00:37 +0800
-Message-ID: <20260226030038.1182961-7-yujie.liu@intel.com>
+Subject: [PATCH 7/7] drm/amd/ras: fix kernel-doc warning for
+ ras_eeprom_append()
+Date: Thu, 26 Feb 2026 11:00:38 +0800
+Message-ID: <20260226030038.1182961-8-yujie.liu@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260226030038.1182961-1-yujie.liu@intel.com>
 References: <20260226030038.1182961-1-yujie.liu@intel.com>
@@ -120,32 +120,35 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.996];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 5D5131A04B4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3D02A1A04BB
 X-Rspamd-Action: no action
 
-Warning: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting prototype for smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send_msg() instead
+Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 function parameter 'ras_core' not described in 'ras_eeprom_append'
+Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 expecting prototype for ras_core_eeprom_append(). Prototype was for ras_eeprom_append() instead
 
-Fixes: 4f379370a49c ("drm/amd/pm: Add smu message control block")
+Fixes: 5c3be5defc92 ("drm/amd/ras: Add eeprom ras functions")
 Signed-off-by: Yujie Liu <yujie.liu@intel.com>
 ---
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-index 6fd50c2fd20e..c471c0e2cbd1 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
-@@ -405,7 +405,7 @@ static int __smu_msg_v1_ras_filter(struct smu_msg_ctl *ctl,
+diff --git a/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c b/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c
+index cd6b057bdaf3..65c1812a10fb 100644
+--- a/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c
++++ b/drivers/gpu/drm/amd/ras/rascore/ras_eeprom.c
+@@ -829,8 +829,8 @@ static int ras_eeprom_update_header(struct ras_eeprom_control *control)
  }
  
  /**
-- * smu_msg_proto_v1_send_msg - Complete V1 protocol with all filtering
-+ * smu_msg_v1_send_msg - Complete V1 protocol with all filtering
-  * @ctl: Message control block
-  * @args: Message arguments
+- * ras_core_eeprom_append -- append records to the EEPROM RAS table
+- * @control: pointer to control structure
++ * ras_eeprom_append -- append records to the EEPROM RAS table
++ * @ras_core: pointer to ras core context
+  * @record: array of records to append
+  * @num: number of records in @record array
   *
 -- 
 2.43.0
