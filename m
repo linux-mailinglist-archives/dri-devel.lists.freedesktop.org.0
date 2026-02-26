@@ -2,88 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WA1hDJsIoGm4fQQAu9opvQ
+	id WDRcK54IoGm4fQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:47:23 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:47:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956221A2DB8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0E91A2DCD
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Feb 2026 09:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8FF10E0AA;
-	Thu, 26 Feb 2026 08:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1CF10E882;
+	Thu, 26 Feb 2026 08:47:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="NRGPDp/H";
+	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="oPWjAS3p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7188810E0AA
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:47:18 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-480706554beso8000485e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 00:47:18 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018F810E863
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 08:47:19 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-483bd7354efso7969565e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 00:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1772095637; x=1772700437;
+ d=amarulasolutions.com; s=google; t=1772095638; x=1772700438;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IqyxMMQJkd6v/hw1eeRmvg0jLRcEn2RGuHnSHQb0Rig=;
- b=NRGPDp/HYuqjsY+jt0cSVAqBlp+tkh2WZ+bRJmCkc9xLuuEeJu7nK9ioCz5DxSutYc
- d9ukgw7lF3J9hRv2Zk9bf53iPsdnDNc6pLXubJ+f10LzaZ55EVo3ptJzrTTiEarqnKf0
- mhEYgdRTw1ACvAJhQGZmwnoGSlMPPmxpZ+EQ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772095637; x=1772700437;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IqyxMMQJkd6v/hw1eeRmvg0jLRcEn2RGuHnSHQb0Rig=;
- b=ui0gSpaHOata11Tl4ngRJpEaeC9AnCqJ2kaYrUL+62GIT8dWYlrcRvIprLLSXWTud+
- /OMG6zXMBLd3O1HUgKnZSCzTevzAmmsKBROozHtniRvUtrhm2mHTYlKc4NxLaMY0lgIw
- 1B2DwkhLTWkLYkQrQM6p1DLAfGyVt2qDjHzhNkuXSvjx0bs+wEDsXkzsOgVCfGzoo63q
- caZdSnFx/q3p7fVISDmDwDJ1BRAkPnySgmtRZqj5Y90GmJ2KxsFw/o2pHGnU1DPI+ImA
- Pufak2/axSM4sphZcjDl2tkB4FKgrJMFbDXvEwvuqreNKdCsh7u9nkHQpqhtli+g3qZd
- IUxQ==
+ bh=BDSMHE9cAnIvbdRGvADYhDcBowthvH8D43yGDbIOjfE=;
+ b=oPWjAS3p+sdhA4G4bCDNvQm5ZtrtVn/3U5EoABjWIAVDKSMY1VVhp2o3YInT9yDJSI
+ Lxt7S8L4ne7OHMZm23G6cjEQVBYskxAhRGJjbDrp2kReBYR8vcEZPED1Jb+KcWR4TPfY
+ U0575pRNAzSe7C4/N9IWCt8zYvMW+wT99Bu1Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772095638; x=1772700438;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=BDSMHE9cAnIvbdRGvADYhDcBowthvH8D43yGDbIOjfE=;
+ b=Y+jX9uHa6xwWhUIvzW/5XgEq7O/axyWZX/37azcZojmeUoHXqgdn9HfkIXypkQic9w
+ cWpFQGEICIzo9VHir+ORzVamBPOm26u3L8mCdLkMxSTxf/amOv7zNABmzdM8GuMg5ceY
+ 0svtyUgqd1ovc789CbzvynK+ANJTIUGDrPrP/AONdFlBe3qEJLLT+uOrMUGoggit/Tb7
+ dc4zfQUoQD8E8TR3M2QBXyYJUKSxjldYgE9kPEL8dvqOUicujfS3BaLjJ5YvikxqtmDA
+ UA6kG3ftj55W6xhgqxuxOlMlZucazn3vZ0FWV4ELPW6umXYOfBDiwPmQOfl6cWwQvWEx
+ Wp4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUzrL8Y/YfwiEeOyOqWM7ratHwI4DvoGBOAXaP+ulBmQ/ZB25MWv22+EZvu/++WvtjcyvMcHRRpU/Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCkm1OcmnRF18fZ89wTsN6JQjjDqpyEXt+rivDAN3O4mDBpKmL
- HpCaJna0wCgFdFCqRcd49vg7RRLBB15wydW8kkSScafWt76VU/c1WKQXqP3R8UeDjeM=
-X-Gm-Gg: ATEYQzwGeh6N8xfVG/zttjaZaWljGNKjUqsnD7fsLNuLyfB/Ba5YJTsVFPf6XDiBxn1
- GXxkF+CnG9uLLlE6sX7lbOE3sC4HjLCSRJh5l5FmUXycNX2ZBCHixOt+tzRMaKLVW2AiESl4l1N
- c4T8ygTiGd0xtPP4ZkXYUxPthICZQvBx2fnFi7iHnEsIeZUxeSGrBEJX9mltWCCRnO+tiFLlpYv
- 0RiYV6eQnmZceyeVmWg1rW5zjxHm5eRnt1iMBhSNt32V5K6fw1mU393H1W3YzgUM+EMjuBzZiO1
- thdXi+u6d4H7T/dxVMb1AwSv7e1QqHvo/uZJHMa/L8OqZNvIiPV39VUZPFNgFUUQs7umpsgWgr1
- VrT4VBvPL5hVDzOiU2KMYY7fMuf2k0Uto87GMNWgTc6tu70H2gO+/E6ublm6A/XDsBAMfCMKWTa
- Xr82jqBSJwSE73RE9Gt1we6SjxQt+05R8cVb2OVQ4csE7iuUs7HObkVcgK+oms8+G8BP2g6kXOf
- SuaoeDNvnob3vB79VVIeRl09g6qDDBSLCUP8w2VHN16QTgiYuqtJCgJNKwhmdSMNnc6Qqk7AOed
- oGhKRdURtC41FQzuNRkrsPz9
-X-Received: by 2002:a05:600c:3b8c:b0:483:43da:6c87 with SMTP id
- 5b1f17b1804b1-483c21aa451mr57326815e9.33.1772095636914; 
- Thu, 26 Feb 2026 00:47:16 -0800 (PST)
+ AJvYcCX53AaWe6tgr3QKvNMYXfrFeDyYNO12RMs3yTPUadwMyNC3uYf5oLgUXn+x9u/NvoKJ/96kx8nPOtE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1e67erVyu3EBTFPm8dDfuiCu3CP7XImZBzAKGn3Uye61F8Fwe
+ uBdIk9UF/0crrXMKFGLXsdTNYBlso+7+MrYsT453GEZTJ8pfMWRTqYy862/vxf2AOEs=
+X-Gm-Gg: ATEYQzwZAFDx/mxZMx+mbuMm/0v4ag0bNn+QWICRDKDWaIQRcA4Vp14XNvfIPQLL3DG
+ ZQZE71W1AKXhFesXTHGo3RepSyXEcZfGfer24N8Lm8AhDJVbYV2B9KxY6GhyQ3Oa14apoX+E5Jd
+ HrVrQv/ZhjSOnf3kXvtzhfk/QV153Q6unQ80qq1l+lKjfL1MKnL8hH4J2OmWbCoZ9vQxC8XuOoe
+ 5l4ZTcoa8mEv2xzye6EbwdG8n2jGrnSaU1atJ17AnaBFQh3x6cMOeUuRTPLnahBMXGZj7qaDI6A
+ DZWF0xvd7GNPlS1Z1qDTtZSmjLqedwTR8M650E6jQsMuDCSJMcO9LprHNo+X4lilLFIGiETDvNl
+ KbC1ac91QmVoAplAepYRRZ7jl1h/HaNL811ChTKK3uWhwfycWmNnDDLSTSnl0GmOj+uxfKUAn4D
+ l9JJGow5oMLkjDaWyZHhwyDFSdIEGI9riKcThim8GgJESiHqOlz0hGMa7onN3zzOtppDsJm7cMi
+ IDGix2nFfvKp2XxFFNPP5gHJZo2wIjSkSUVLq6OSJ/cdexBRgn8dMl+h783FkJJHrEhEJpsIxI9
+ dyN2+4hYel9PZxH0EFWG8OTW
+X-Received: by 2002:a05:600c:8708:b0:483:a922:2e8d with SMTP id
+ 5b1f17b1804b1-483c216ab55mr48871945e9.4.1772095638419; 
+ Thu, 26 Feb 2026 00:47:18 -0800 (PST)
 Received: from dario-ThinkPad-P14s-Gen-5.homenet.telecomitalia.it
  (host-95-248-31-95.retail.telecomitalia.it. [95.248.31.95])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bfb85c58sm31581075e9.9.2026.02.26.00.47.15
+ 5b1f17b1804b1-483bfb85c58sm31581075e9.9.2026.02.26.00.47.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Feb 2026 00:47:16 -0800 (PST)
+ Thu, 26 Feb 2026 00:47:18 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-amarula@amarulasolutions.com,
  Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [RESEND PATCH v4 0/4] drm/panel: ilitek-ili9806e: add Rocktech
- RK050HR345-CT106A support
-Date: Thu, 26 Feb 2026 09:46:59 +0100
-Message-ID: <20260226084713.2566672-1-dario.binacchi@amarulasolutions.com>
+ dri-devel@lists.freedesktop.org
+Subject: [RESEND PATCH v4 1/4] drm/panel: ilitek-ili9806e: rename to specific
+ DSI driver
+Date: Thu, 26 Feb 2026 09:47:00 +0100
+Message-ID: <20260226084713.2566672-2-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260226084713.2566672-1-dario.binacchi@amarulasolutions.com>
+References: <20260226084713.2566672-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,92 +102,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[amarulasolutions.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amarulasolutions.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[amarulasolutions.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[amarulasolutions.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[amarulasolutions.com,kernel.org,gmail.com,linux.intel.com,linaro.org,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_CC(0.00)[amarulasolutions.com,gmail.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-amarula@amarulasolutions.com,m:dario.binacchi@amarulasolutions.com,m:conor+dt@kernel.org,m:airlied@gmail.com,m:jesszhan0024@gmail.com,m:krzk+dt@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:mwalle@kernel.org,m:neil.armstrong@linaro.org,m:robh@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-amarula@amarulasolutions.com,m:dario.binacchi@amarulasolutions.com,m:airlied@gmail.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:mwalle@kernel.org,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[dario.binacchi@amarulasolutions.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amarulasolutions.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dario.binacchi@amarulasolutions.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[amarulasolutions.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.971];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 956221A2DB8
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,edgeble.ai:email,dlh.de:email]
+X-Rspamd-Queue-Id: 5F0E91A2DCD
 X-Rspamd-Action: no action
 
-This series extends the Ilitek ILI9806E panel driver to support the
-Rocktech RK050HR345-CT106A model via SPI.
+The Ilitek ILI9806E controller can support different transport buses,
+such as MIPI-DSI and SPI. The current implementation is specific to
+the MIPI-DSI interface.
 
-To achieve this, the current driver (previously restricted to DSI) is
-refactored to support both DSI and SPI variants independently.
+In preparation for adding SPI support, rename the current Kconfig
+symbol and files to be DSI-specific, clarifying the current scope
+of the code.
 
-The series includes:
- - A refactoring of the existing driver and Kconfig to support
-   multiple buses.
- - DT binding documentation for the Rocktech RK050HR345-CT106A.
- - The implementation of the SPI-based driver for the Rocktech panel.
+Since DRM_PANEL_ILITEK_ILI9806E is not used in any in-tree defconfig,
+the symbol is renamed directly to DRM_PANEL_ILITEK_ILI9806E_DSI without
+providing a legacy compatibility alias.
 
-Changes in v4:
-- Fix "WARNING: unmet direct dependencies detected for
-  DRM_PANEL_ILITEK_ILI9806E_CORE" reported by kernel test robot
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+---
 
-Changes in v3:
-- Add Reviewed-by tag of Rob Herring
+(no changes since v1)
 
-Changes in v2:
-- Introduce DRM_PANEL_ILITEK_ILI9806E_CORE hidden kconfig option.
-- Split core and DSI logic.
-- Restore vdd-supply as required for both DSI and SPI types in the
-  dt-bindings.
-- Dop useless settings in case of rocktech,rk050hr345-ct106a in the
-  dt-bindings.
+ MAINTAINERS                                                 | 2 +-
+ drivers/gpu/drm/panel/Kconfig                               | 6 +++---
+ drivers/gpu/drm/panel/Makefile                              | 2 +-
+ ...{panel-ilitek-ili9806e.c => panel-ilitek-ili9806e-dsi.c} | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+ rename drivers/gpu/drm/panel/{panel-ilitek-ili9806e.c => panel-ilitek-ili9806e-dsi.c} (99%)
 
-Dario Binacchi (4):
-  drm/panel: ilitek-ili9806e: rename to specific DSI driver
-  drm/panel: ilitek-ili9806e: split core and DSI logic
-  dt-bindings: ili9806e: add Rocktech RK050HR345-CT106A display
-  drm/panel: ilitek-ili9806e: add Rocktech RK050HR345-CT106A SPI panel
-
- .../display/panel/ilitek,ili9806e.yaml        |  38 ++-
- MAINTAINERS                                   |   3 +-
- drivers/gpu/drm/panel/Kconfig                 |  22 +-
- drivers/gpu/drm/panel/Makefile                |   4 +-
- .../drm/panel/panel-ilitek-ili9806e-core.c    | 134 ++++++++
- .../drm/panel/panel-ilitek-ili9806e-core.h    |  15 +
- ...ili9806e.c => panel-ilitek-ili9806e-dsi.c} | 153 +++------
- .../gpu/drm/panel/panel-ilitek-ili9806e-spi.c | 323 ++++++++++++++++++
- 8 files changed, 576 insertions(+), 116 deletions(-)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.h
- rename drivers/gpu/drm/panel/{panel-ilitek-ili9806e.c => panel-ilitek-ili9806e-dsi.c} (82%)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55af015174a5..8bd673456cda 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8032,7 +8032,7 @@ F:	drivers/gpu/drm/panel/panel-ilitek-ili9805.c
+ DRM DRIVER FOR ILITEK ILI9806E PANELS
+ M:	Michael Walle <mwalle@kernel.org>
+ S:	Maintained
+-F:	drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
++F:	drivers/gpu/drm/panel/panel-ilitek-ili9806e-dsi.c
+ 
+ DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
+ M:	Jagan Teki <jagan@edgeble.ai>
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 307152ad7759..142f32a1d256 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -257,14 +257,14 @@ config DRM_PANEL_ILITEK_ILI9805
+ 	  Say Y if you want to enable support for panels based on the
+ 	  Ilitek ILI9805 controller.
+ 
+-config DRM_PANEL_ILITEK_ILI9806E
+-	tristate "Ilitek ILI9806E-based panels"
++config DRM_PANEL_ILITEK_ILI9806E_DSI
++	tristate "Ilitek ILI9806E-based DSI panels"
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Say Y if you want to enable support for panels based on the
+-	  Ilitek ILI9806E controller.
++	  Ilitek ILI9806E controller using DSI.
+ 
+ config DRM_PANEL_ILITEK_ILI9881C
+ 	tristate "Ilitek ILI9881C-based panels"
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index aeffaa95666d..2ceeec7e2110 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -26,7 +26,7 @@ obj-$(CONFIG_DRM_PANEL_HYDIS_HV101HD1) += panel-hydis-hv101hd1.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9805) += panel-ilitek-ili9805.o
+-obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E) += panel-ilitek-ili9806e.o
++obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E_DSI) += panel-ilitek-ili9806e-dsi.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9882T) += panel-ilitek-ili9882t.o
+ obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-dsi.c
+similarity index 99%
+rename from drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
+rename to drivers/gpu/drm/panel/panel-ilitek-ili9806e-dsi.c
+index 18aa6222b0c5..c337c4f1a1c7 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9806e.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9806e-dsi.c
+@@ -561,5 +561,5 @@ module_mipi_dsi_driver(ili9806e_dsi_driver);
+ 
+ MODULE_AUTHOR("Gunnar Dibbern <gunnar.dibbern@lht.dlh.de>");
+ MODULE_AUTHOR("Michael Walle <mwalle@kernel.org>");
+-MODULE_DESCRIPTION("Ilitek ILI9806E Controller Driver");
++MODULE_DESCRIPTION("Ilitek ILI9806E Controller DSI Driver");
+ MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
-base-commit: f4d0ec0aa20d49f09dc01d82894ce80d72de0560
-branch: rk050hr345-ct106a
