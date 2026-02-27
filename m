@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aFhPDtKaoWl8ugQAu9opvQ
+	id UGvNA9iaoWl8ugQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:23:30 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:23:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCB91B7929
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60901B793F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:23:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97D2C10EB3E;
-	Fri, 27 Feb 2026 13:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC03B10EB46;
+	Fri, 27 Feb 2026 13:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aUnyOF+u";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YZvAq134";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 138BE10EB44
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:23:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77CB10EB44
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:23:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E2C0B4167F;
- Fri, 27 Feb 2026 13:23:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C688C116C6;
- Fri, 27 Feb 2026 13:23:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A0F034454C;
+ Fri, 27 Feb 2026 13:23:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE84C19425;
+ Fri, 27 Feb 2026 13:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772198605;
- bh=lElZts2cuQOlY9aUjaqr5WZYPDwOSZ2Mb3btADVyBc4=;
+ s=k20201202; t=1772198608;
+ bh=0cHZ5LTDrjAloaUBF1Lu8YxebKzlQ2YWzvzsPNmbff4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=aUnyOF+udYtL1ykv8pOFaVslgKP2zD/zeGmvscsz18MoxVEJTPyU/Eg0ACVRF9QE6
- 7medwVI9oZtGLizGJJid62cpzlYeWZeeHsB/EILoAfnKaXFpI2OdgymgIKmfcilJ2g
- pPXs8E/8oU6A5oGe55yuN/LXPwGNvUdlnwCRmwKj7vnBivnaZAZfPGR/WAFiE8dDRV
- k3DZiAdx18nlw4LXkryQ7TZ9jGEQFDl6jEva1KamPfBdn6FFEvcaJxr1LnnAwcS6S4
- GCFmQZkAfrM9uS0ViCvC5AWBiIHkqFTQWHQUBE65WO7gi0HEV+QoQUXjkK/g9LShWx
- E/Ov6rLv/RRuQ==
+ b=YZvAq134uJwnMaAY6woQZgYApymFWQ52HpICh4sboDu6HTYiXk6ONB6DcURha6QTu
+ tHRqUj+pSkdB/EgKJzNmKeH8eGw9tfMgCy5zbce6qkm889RULkI9zj60dPhRTVyurq
+ KDhAaqPCciJz/eIuMQH7v9gZ3hLgLubwkBh2G4cn3nvulHZnuF4HqEQ83lTwMztHPC
+ hyec+jRMIfTP8rRMV7PbFlOTZAfJ+ccnk6I1BgjXxHP2rwqgaaiEjUmkid+yNtATm4
+ xkXzkcrEXLBjdSQqjEC7fJ46UcZ8kukWqINDNY0u5kBMPNe8HuGkvVr70nVP9CLHNN
+ Sd7mFgwRMBE3w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 27 Feb 2026 14:15:42 +0100
-Subject: [PATCH v2 3/9] dma: contiguous: Make dma_contiguous_default_area
- static
+Date: Fri, 27 Feb 2026 14:15:43 +0100
+Subject: [PATCH v2 4/9] mm: cma: Export dev_get_cma_area()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-dma-buf-heaps-as-modules-v2-3-454aee7e06cc@kernel.org>
+Message-Id: <20260227-dma-buf-heaps-as-modules-v2-4-454aee7e06cc@kernel.org>
 References: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
 In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -63,12 +62,12 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1675; i=mripard@kernel.org;
- h=from:subject:message-id; bh=lElZts2cuQOlY9aUjaqr5WZYPDwOSZ2Mb3btADVyBc4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLZ+28vP2r4bSIbPFKU9eDK6yerHZ0etl9+oq6YnHe1
- ezif3kKHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiRicZ64P0mI/dVJ/oWqo/
- xejKnMefFux9VLtt8r0gz7ibTL5iLx8t+aNeI8ufstXB7k9C676JKYz1nocPnT6zULJSSWsax5c
- ilebF9fOD1omJbdd0PvfN50jErN+7Zt8ITNx7xMP66mL21JKnAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=953; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=0cHZ5LTDrjAloaUBF1Lu8YxebKzlQ2YWzvzsPNmbff4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLZ+2UeJR1/tVVr7c6zYLWiXOe59V95i2a7fr55Up5h
+ eqahwL+HVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAinAcZ60wfzHi/fs7P92uO
+ 1x+9FGnI5C6VeoXZVOr/n4Mn+JZ07VxnY1Thsvyd76tHzBoXJkbu/MBYzdK+a8XcnZ5rpzGf0V0
+ zd+asNCvGnPz7c0Ol1x3wS10+36q/vvKro9iiZzeEUq8HqDw+AQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,53 +116,36 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DDCB91B7929
+X-Rspamd-Queue-Id: D60901B793F
 X-Rspamd-Action: no action
 
-Now that dev_get_cma_area() is no longer inline, we don't have any user
-of dma_contiguous_default_area() outside of contiguous.c so we can make
-it static.
+The CMA dma-buf heap uses the dev_get_cma_area() function to retrieve
+the default contiguous area.
+
+Now that this function is no longer inlined, and since we want to turn
+the CMA heap into a module, let's export it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/linux/dma-map-ops.h | 2 --
- kernel/dma/contiguous.c     | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ kernel/dma/contiguous.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index dc7d54ac5dd66bd22ef868d7894cc1cb2ee4c156..526c6978a306ffacd5e30387a2fd21af3333cf6c 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -89,12 +89,10 @@ static inline void set_dma_ops(struct device *dev,
- {
- }
- #endif /* CONFIG_ARCH_HAS_DMA_OPS */
- 
- #ifdef CONFIG_DMA_CMA
--extern struct cma *dma_contiguous_default_area;
--
- struct cma *dev_get_cma_area(struct device *dev);
- 
- void dma_contiguous_reserve(phys_addr_t addr_limit);
- int __init dma_contiguous_reserve_area(phys_addr_t size, phys_addr_t base,
- 		phys_addr_t limit, struct cma **res_cma, bool fixed);
 diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 9a9ed7248fb823105609c5db5a51113e54a40192..a4279d800d4658bf1c33b9b1da100eee1367d42f 100644
+index a4279d800d4658bf1c33b9b1da100eee1367d42f..ad50512d71d3088a73e4b1ac02d6e6122374888e 100644
 --- a/kernel/dma/contiguous.c
 +++ b/kernel/dma/contiguous.c
-@@ -51,11 +51,11 @@
- #define CMA_SIZE_MBYTES CONFIG_CMA_SIZE_MBYTES
- #else
- #define CMA_SIZE_MBYTES 0
- #endif
+@@ -106,10 +106,11 @@ struct cma *dev_get_cma_area(struct device *dev)
+ 	if (dev && dev->cma_area)
+ 		return dev->cma_area;
  
--struct cma *dma_contiguous_default_area;
-+static struct cma *dma_contiguous_default_area;
+ 	return dma_contiguous_default_area;
+ }
++EXPORT_SYMBOL_GPL(dev_get_cma_area);
  
- /*
-  * Default global CMA area size can be defined in kernel's .config.
-  * This is useful mainly for distro maintainers to create a kernel
-  * that works correctly for most supported systems.
+ #ifdef CONFIG_DMA_NUMA_CMA
+ 
+ static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
+ static phys_addr_t numa_cma_size[MAX_NUMNODES] __initdata;
 
 -- 
 2.53.0
