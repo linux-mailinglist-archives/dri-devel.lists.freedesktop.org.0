@@ -2,94 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yM5DL32moWmivQQAu9opvQ
+	id OC8YHJeooWm1vQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:13:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0911B889F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF901B8C97
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 855AB10EB99;
-	Fri, 27 Feb 2026 14:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E335810E18A;
+	Fri, 27 Feb 2026 14:22:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="eJqcTAae";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NTokqWTm";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SkcC71EA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FA910EBA8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:13:09 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61R5SXmT3478147; Fri, 27 Feb 2026 14:12:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=A
- 0JjkVhfrOJXIb6+ST0rwukaf25muO07fqksCDvaZyg=; b=eJqcTAaetOOgYU5dj
- xxxiPeRF/nj8Mujh+1MdxsTGlvlatsjF4a9kzV5y56cEQcGPToqyrWirb/KjmZkm
- 93MEVhDeu3T9mgTavZCkgZu5lb3m7fINc694MPYGTxnp8BL07ZWWzy4Bs5nml02A
- hGga+BQ3Hkbz/9al5vDjazHHYuA3nbRHwqKZ+acV5RJGjWF65LyY2wYcLtpubQ8E
- RaA+6HusQZ3iLue0cCs3HaEz9XV++VO5q6C4BWzD9Jw/0CY0JY5k64hEwtFP/ftJ
- PuLJTS8k59nHqoTEOLLC971PWl9b1ZmiufDSjuMLf9G1usJvJSZAeMPWos8DK62q
- 6Dakg==
-Received: from hhmail01.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4cjdvv9c6p-4
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Feb 2026 14:12:57 +0000 (GMT)
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- (172.25.6.240) by HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 27 Feb 2026 14:12:56 +0000
-From: Matt Coster <matt.coster@imgtec.com>
-Date: Fri, 27 Feb 2026 14:12:49 +0000
-Subject: [PATCH 3/3] drm/imagination: Ensure struct pvr_device->power is
- initialized
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56BA210E18A
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:22:09 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61REM8N71010572
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:22:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ +ubhpkZa0hLqmSxZSdbrhlgK9Ltmq9zfNYUEta6sJsA=; b=NTokqWTmeMu1jIvQ
+ kvsoQDduSEYU2Q+QtFPLGjde7uoNHUzOce7J6qOAXkH/PSEipfAfvxfrGWr4wYeM
+ MLAPHj4MnbdgYillxNUoqHHNySplYIOSHHO2c0oq7BlaefePMKbwqSEOJCrmQvJ2
+ 7/guS7m5bvv6njMl32GIc0U9+lL0/cxf9DNp3ULbbdxns6qnlJGsq5RoEXmK3ljn
+ BS6ugXfK2GQ7MRna5wbEwyczEr1My1NjLZAStNUSUhXK1G13E0rrCckHiugPREFh
+ NPvFdm/Xtj8S0LtHrQTosnKywBHRfyWserOUz+zGxlCYUhokHBjVC0aQfvbiI3/5
+ xToqpg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ck9f00p2n-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:22:08 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-354c7febaefso7147775a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 06:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772202127; x=1772806927;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+ubhpkZa0hLqmSxZSdbrhlgK9Ltmq9zfNYUEta6sJsA=;
+ b=SkcC71EAFyHc3ZwdxV50CTxzFrdYwRYTCsSDwws4TbL2XYI3ayziRiwswn3AkUvHuR
+ K/YoTWPw6z/3/n5pYyEnNalNbIXgbnu6/pXpPtNdPFfT3159lSupqYBlCXughaOExKOE
+ A8PPdD9pJpLDqqjNmfKIVYgNQQbiGkxxDIumTOE3kOo91I5kS9XKPuBr64X8m4Jcy3Qb
+ YQbAiipsJ7/3oxIqIm2oRRua8ojUMbE8FIvoZcffnUNdbV+l1tcjFvzWUrH+was25Wuc
+ tWx8rHPILJR/j1nZiPGEzOUSvavZlYKSdmdiXxGOV3hDKQlHdXP4gncXKHUQXssIAVxW
+ Qq6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772202127; x=1772806927;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+ubhpkZa0hLqmSxZSdbrhlgK9Ltmq9zfNYUEta6sJsA=;
+ b=NqJ+jygPimcVBiv2QihCZoMVvmKw2QzxoJ5VFC8k+nNBpGxTpTGqAlfWYNCFeGRk08
+ jSF75e9JrTqd0F45eaAxTXEnUny4V0S9Cmh5qx0/rI+xaXc/be9FbHsUWdX8icKDr5K6
+ ypqnn8lU1LYt6Gm0nuYfy+hZDkc41uXhFveEc0jnBitb8S5kHGhkoq8Y5//4ePItEwZo
+ zj6zAuPJxqAK0dEClZr8L3SapvTw7wlWmbOyudh/zzBzljL0vJJ0yBHmdmQnkI0epbuj
+ Dv+4zvxQj/GKRG+TXi1YZMyL0IsOi4SX6olJV+cwqzVWIoQh3cCBGuKjJOjpArCgXNBS
+ kQFQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVdCQbqFVJvu5hcdBx9exKmpfP/glBJijGyMXcJwkg61fBwXJpzgH8jCbrkJWDvCPm+ZJWF1gQYIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQ7YZX5pRbxyKwb3hNx09fEmqr6E7hJcDryuF/o26OHvgna3qz
+ EqhcPpayugI8aoo7DB6iVHIqhSD2LHvfJ7FJLfwhsyvoD06gWbAN6X61LDzUsOdm7Ekp8dlBbam
+ x/BwXjl10si4r/TYKkIEcfs1fMaecHivvQ5Q/EWI5GcWdDYjhKBcTcC1MRvCbMOX/5NXL8oU=
+X-Gm-Gg: ATEYQzyyQP6BrMRWNArRGh22vq9sHdmzaWqwrZAJcGVGwQwOeP8tMUpfVEGKTMSRdjb
+ DwDIED/yQNiHnB5dajiujztI478Gjzh/dngw/MNJVqHuO5fivFPZ2cIeWMzFYsHRgTSuQPm/jKW
+ qq9Ttrz3XbBptJqdeJ+jSPRvnQ+7lJ/5fHqcac2DjkmWmYH9D0L1R/ELU3N1A7LyBWLFo3ZevAu
+ 2QGQIvlxLDeCqQwCF8U3ufZkBaQdt5LYpA0af4VDzpdoRuFb9lxJjolG/YBWH6gGfeofRAb3cec
+ +Ef+STL6dHlZr3a3CdVQHBWJElZ+VOV76MobN92lfvC6ECy2fM8wYPeWBTNJbW6+sgquG2wxVE1
+ Lb1VElLU9eVhJiJYXcN3+9D1vC0GsU+1ueVfGAs0le/wSX38=
+X-Received: by 2002:a05:6a20:56a3:b0:387:5daf:b302 with SMTP id
+ adf61e73a8af0-395c3b3e08emr3018165637.65.1772202127213; 
+ Fri, 27 Feb 2026 06:22:07 -0800 (PST)
+X-Received: by 2002:a05:6a20:56a3:b0:387:5daf:b302 with SMTP id
+ adf61e73a8af0-395c3b3e08emr3018128637.65.1772202126574; 
+ Fri, 27 Feb 2026 06:22:06 -0800 (PST)
+Received: from [10.206.105.210] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c70fa848471sm4642084a12.30.2026.02.27.06.22.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Feb 2026 06:22:06 -0800 (PST)
+Message-ID: <07d585fe-dfd1-41c9-9c58-b2f9893e572e@oss.qualcomm.com>
+Date: Fri, 27 Feb 2026 19:52:00 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260227-single-domain-power-fixes-v1-3-d37ba0825f7c@imgtec.com>
-References: <20260227-single-domain-power-fixes-v1-0-d37ba0825f7c@imgtec.com>
-In-Reply-To: <20260227-single-domain-power-fixes-v1-0-d37ba0825f7c@imgtec.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Frank Binns <frank.binns@imgtec.com>, Alessio Belle
- <alessio.belle@imgtec.com>, Brajesh Gupta <brajesh.gupta@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Matt
- Coster" <matt.coster@imgtec.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2862;
- i=matt.coster@imgtec.com; h=from:subject:message-id;
- bh=CTZ8p65aNyqfbC60o557B+s2G3xiBfZ/LVJaYgYYgJY=;
- b=owGbwMvMwCFWuUfy8817WRsYT6slMWQuXJYmtfDRFr9DC7Q/fdyz8dHHhOyF+xJUH1n8/qKhe
- 6Ihp6C6p6OUhUGMg0FWTJFlxwrLFWp/1LQkbvwqhpnDygQyhIGLUwAmEraH4b9TUIb5vZa5mZvq
- DlezPljkIWwSxdQQ0lRl+u/qRPek+7sY/tk9i3ThPOcSH/zx/Vyvpww//rsLf75/cZ5x+6ofesz
- lImwA
-X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
- fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
-X-Originating-IP: [172.25.6.240]
-X-Authority-Analysis: v=2.4 cv=CL0nnBrD c=1 sm=1 tr=0 ts=69a1a669 cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=N16aOacbDtMA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=kQ-hrUj2-E3RCbRHssb7:22 a=7RYWX5rxfSByPNLylY2M:22
- a=r_1tXGB3AAAA:8 a=rcCXANk18YU-WH22cxUA:9 a=QEXdDO2ut3YA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: sqTZOR1PcrG47CWOXpSqwpRgHV4GCLtA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDEyNSBTYWx0ZWRfX/4FHADWe9Dvv
- fy4KVOcxwUFxwuqZeoElDClzO5YDUSO08Ep+ccBKNnH75E3humujRpwbjsboHjGqmsJl1eHaVBT
- kt03wAz3T6wlQ1aFnIAPnHPYOnmKI42QAuxaE0jUMeAGRN8haOuKp/TfrdljRBFPJBIAC8YSI5G
- 40aZJwjzPPUTy5tfnXggxbPIKjkPkgvcDIqYT84k45SIbfINdIfQV6g94mDk+8bf2WLg1K5dzQf
- wjUE9GYcBKLCBSKR/AMDvdQLzIwVN0HbDp4kQthzWDg1J78FZwYtw0VgPbfLAuyA4r3jYZ0CcEO
- CDIDYwy0YTnBo8E/gh+J81FtOQB+kebVvGG57L7ADH5AlSBpOOpRwtvJs11onu06y8YHFAS1R5X
- Ko4z3qMwsIEJfqLUmR8pL96MjJNvQi4l+Dpb8gJCSzKxpyOVNk9ImQykYRhpWcVziYKcWYdFJVg
- QMFeL+YiJ191vr+HYMA==
-X-Proofpoint-ORIG-GUID: sqTZOR1PcrG47CWOXpSqwpRgHV4GCLtA
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] misc: fastrpc: Add reference counting for fastrpc_user
+ structure
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de,
+ ekansh.gupta@oss.qualcomm.com, stable@kernel.org
+References: <20260226151121.818852-1-anandu.e@oss.qualcomm.com>
+ <r4b67y3zbhclkdskbyobtypkrz5pszykvt2hitntvdimanuwe5@34uqxkc34ub7>
+Content-Language: en-US
+From: Anandu Krishnan E <anandu.e@oss.qualcomm.com>
+In-Reply-To: <r4b67y3zbhclkdskbyobtypkrz5pszykvt2hitntvdimanuwe5@34uqxkc34ub7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDEyNyBTYWx0ZWRfX85ChwrEi39wJ
+ 2Ppp9DSx7ghcg28WmF8JKAHktmwlvBD61xdvp8Zj9rAksfW+Rtv6lJ/SUMgkFwMS3QZy6LS/IjI
+ dh084BGILYLrIgSn6bovxBFwMR1SZl3kR7YLXcF3kLsQINAaDGP73DITLESsZg5P4t033MisoEA
+ tsgJneBmC3FHGep/mj/cG9gM0i8qxnKCyOoJgdnDiWpHUjyY800WPAa2Q96gOKt41nG/Gyw9SYQ
+ pzhXOPp+/Fvhu1E8ZlA9LWJcoRRgvoO4SsAUk7bj8zrRWbprae8Hc//I80pxyjTR1v/8MHRyXT+
+ HY3nXnoeOVWUDVKzFgyMLV5rNWE2ru5VLOvnHAD6MVc6D8V41XlrLTILCI8pnQKAgJRDzO+zLsp
+ Cyew4PPN7I/+tWLRcXFTEAEEPgm9HhpEBFNOZkDjq6D0IlkHUrVg+xa7YYzyZsztC9piqqAQA4g
+ viUUD8fyEcyf2+3lQ+w==
+X-Proofpoint-GUID: mVrY_iwvHw2HIAjzdq4aV28tdanI87Ax
+X-Authority-Analysis: v=2.4 cv=bIsb4f+Z c=1 sm=1 tr=0 ts=69a1a890 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=qfcypaD7E2ZuPNguhDoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-ORIG-GUID: mVrY_iwvHw2HIAjzdq4aV28tdanI87Ax
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_02,2026-02-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602270127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,144 +152,229 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[imgtec.com,none];
-	R_DKIM_ALLOW(-0.20)[imgtec.com:s=dk201812];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:broonie@kernel.org,m:geert@linux-m68k.org,m:frank.binns@imgtec.com,m:alessio.belle@imgtec.com,m:brajesh.gupta@imgtec.com,m:alexandru.dadu@imgtec.com,m:linux-kernel@vger.kernel.org,m:matt.coster@imgtec.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[matt.coster@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[imgtec.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[matt.coster@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:ekansh.gupta@oss.qualcomm.com,m:stable@kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[anandu.e@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[anandu.e@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	HAS_XOIP(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5E0911B889F
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 8FF901B8C97
 X-Rspamd-Action: no action
 
-When pvr_power_domains_init() handles <=1 power domains, the content of
-struct pvr_device->power was previously left uninitialized.
 
-Fixes: e19cc5ab347e3 ("drm/imagination: Use dev_pm_domain_attach_list()")
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
----
- drivers/gpu/drm/imagination/pvr_power.c | 44 ++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index 5a1fda685f2c..7a8765c0c1ed 100644
---- a/drivers/gpu/drm/imagination/pvr_power.c
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -598,8 +598,8 @@ int pvr_power_domains_init(struct pvr_device *pvr_dev)
- 	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
- 	struct device *dev = drm_dev->dev;
- 
--	struct device_link **domain_links __free(kfree) = NULL;
- 	struct dev_pm_domain_list *domains = NULL;
-+	struct device_link **domain_links = NULL;
- 	int domain_count;
- 	int link_count;
- 
-@@ -608,23 +608,30 @@ int pvr_power_domains_init(struct pvr_device *pvr_dev)
- 
- 	domain_count = of_count_phandle_with_args(dev->of_node, "power-domains",
- 						  "#power-domain-cells");
--	if (domain_count < 0)
--		return domain_count;
-+	if (domain_count < 0) {
-+		err = domain_count;
-+		goto out;
-+	}
- 
--	if (domain_count <= 1)
--		return 0;
-+	if (domain_count <= 1) {
-+		err = 0;
-+		goto out;
-+	}
- 
- 	if (domain_count > ARRAY_SIZE(ROGUE_PD_NAMES)) {
- 		drm_err(drm_dev, "%s() only supports %zu domains on Rogue",
- 			__func__, ARRAY_SIZE(ROGUE_PD_NAMES));
--		return -EOPNOTSUPP;
-+		err = -EOPNOTSUPP;
-+		goto out;
- 	}
- 
- 	link_count = domain_count - 1;
- 
- 	domain_links = kzalloc_objs(*domain_links, link_count);
--	if (!domain_links)
--		return -ENOMEM;
-+	if (!domain_links) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
- 
- 	const struct dev_pm_domain_attach_data pd_attach_data = {
- 		.pd_names = ROGUE_PD_NAMES,
-@@ -634,7 +641,7 @@ int pvr_power_domains_init(struct pvr_device *pvr_dev)
- 
- 	err = dev_pm_domain_attach_list(dev, &pd_attach_data, &domains);
- 	if (err < 0)
--		return err;
-+		goto err_free_links;
- 
- 	for (i = 0; i < link_count; i++) {
- 		struct device_link *link;
-@@ -650,18 +657,25 @@ int pvr_power_domains_init(struct pvr_device *pvr_dev)
- 		domain_links[i] = link;
- 	}
- 
--	pvr_dev->power = (struct pvr_device_power){
--		.domains = domains,
--		.domain_links = no_free_ptr(domain_links),
--	};
--
--	return 0;
-+	err = 0;
-+	goto out;
- 
- err_unlink:
- 	while (--i >= 0)
- 		device_link_del(domain_links[i]);
- 
- 	dev_pm_domain_detach_list(domains);
-+	domains = NULL;
-+
-+err_free_links:
-+	kfree(domain_links);
-+	domain_links = NULL;
-+
-+out:
-+	pvr_dev->power = (struct pvr_device_power){
-+		.domains = domains,
-+		.domain_links = domain_links,
-+	};
- 
- 	return err;
- }
+On 2/26/2026 11:20 PM, Bjorn Andersson wrote:
+> On Thu, Feb 26, 2026 at 08:41:21PM +0530, Anandu Krishnan E wrote:
+>> Add reference counting using kref to the fastrpc_user structure to
+>> prevent use-after-free issues when contexts are freed from workqueue
+>> after device release.
+> Please follow
+> https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+> and start your commit message by clearly establishing the problem, once
+> that's done you can describe the technical solution.
+sure,  will update the commit message and send as patch v2.
+>
+>> The issue occurs when fastrpc_device_release() frees the user structure
+>> while invoke contexts are still pending in the workqueue. When the
+>> workqueue later calls fastrpc_context_free(), it attempts to access
+>> buf->fl->cctx in fastrpc_buf_free(), leading to a use-after-free:
+> But why does it do that?
+>
+> The reason why we need buf->fl->cctx in this context is because we need
+> to mask out the DMA address from the buf->dma_addr (remove the SID bits).
+>
+> If we instead split "dma_addr" into two separate members of struct
+> fastrpc_buf, one dma_addr_t dma_addr and one u64 iova_with_sid (?), then
+> it would be clear throughout the driver which address space we're
+> talking about (is it the SID-adjusted iova space or the dma_addr_t in
+> the particular DMA context).
+>
+> In addition to making this aspect of the driver easier to follow, you no
+> longer need to call fastrpc_ipa_to_dma_addr() in fastrpc_buf_free() (or
+> anywhere else for that matter).
+>
+> You can just pass buf->dma_addr directly to dma_free_coherent().
+>
+> You're isolating the fact that the firmware needs to see "SID |
+> dma_addr" to just two places in the driver.
+I agree with the refactoring direction you’re suggesting, and
+separating the address spaces does make the driver easier
+to reason about.
 
--- 
-2.53.0
+That said, the UAF isn’t limited to the buffer
+free path. fastrpc_context_free() also calls fastrpc_map_put(),
+which reaches fastrpc_free_map() and still dereferences fl, so
+addressing only the buffer side doesn’t fully resolve the lifetime issue.
+So the reference counting is still needed. I will update the scenario in
+commit message as well.
+
+If you think it makes sense, I can take the address‑space refactoring
+as a separate follow‑up patch and keep this change focused on fixing
+the lifetime issue.
+>
+>>    pc : fastrpc_buf_free+0x38/0x80 [fastrpc]
+>>    lr : fastrpc_context_free+0xa8/0x1b0 [fastrpc]
+>>    ...
+>>    fastrpc_context_free+0xa8/0x1b0 [fastrpc]
+>>    fastrpc_context_put_wq+0x78/0xa0 [fastrpc]
+>>    process_one_work+0x180/0x450
+>>    worker_thread+0x26c/0x388
+>>
+>> Implement proper reference counting to fix this:
+>> - Initialize kref in fastrpc_device_open()
+>> - Take a reference in fastrpc_context_alloc() for each context
+>> - Release the reference in fastrpc_context_free() when context is freed
+>> - Release the initial reference in fastrpc_device_release()
+> There's no reason to include a checklist of pseudo-code in the commit
+> message, describe why and the overall design if this isn't obvious.
+sure, will remove.
+>
+>> This ensures the user structure remains valid as long as there are
+>> contexts holding references to it, preventing the race condition.
+>>
+> The life cycles at play in this driver is already very hard to reason
+> about.
+>
+>> Fixes: 6cffd79504ce ("misc: fastrpc: Add support for dmabuf exporter")
+>> Cc: stable@kernel.org
+>> Signed-off-by: Anandu Krishnan E <anandu.e@oss.qualcomm.com>
+>> ---
+>>   drivers/misc/fastrpc.c | 35 +++++++++++++++++++++++++++++++----
+>>   1 file changed, 31 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>> index 47356a5d5804..3ababcf327d7 100644
+>> --- a/drivers/misc/fastrpc.c
+>> +++ b/drivers/misc/fastrpc.c
+>> @@ -310,6 +310,8 @@ struct fastrpc_user {
+>>   	spinlock_t lock;
+>>   	/* lock for allocations */
+>>   	struct mutex mutex;
+>> +	/* Reference count */
+>> +	struct kref refcount;
+>>   };
+>>   
+>>   /* Extract SMMU PA from consolidated IOVA */
+>> @@ -497,15 +499,36 @@ static void fastrpc_channel_ctx_put(struct fastrpc_channel_ctx *cctx)
+>>   	kref_put(&cctx->refcount, fastrpc_channel_ctx_free);
+>>   }
+>>   
+>> +static void fastrpc_user_free(struct kref *ref)
+>> +{
+>> +	struct fastrpc_user *fl = container_of(ref, struct fastrpc_user, refcount);
+> Unrelated question, what does the "fl" abbreviation actually mean? I
+> presume 'f' is for "fastrpc", but what is 'l'?
+fl is short for fastrpc file.
+
+Regards,
+Anandu
+>
+> Regards,
+> Bjorn
+>> +
+>> +	fastrpc_channel_ctx_put(fl->cctx);
+>> +	mutex_destroy(&fl->mutex);
+>> +	kfree(fl);
+>> +}
+>> +
+>> +static void fastrpc_user_get(struct fastrpc_user *fl)
+>> +{
+>> +	kref_get(&fl->refcount);
+>> +}
+>> +
+>> +static void fastrpc_user_put(struct fastrpc_user *fl)
+>> +{
+>> +	kref_put(&fl->refcount, fastrpc_user_free);
+>> +}
+>> +
+>>   static void fastrpc_context_free(struct kref *ref)
+>>   {
+>>   	struct fastrpc_invoke_ctx *ctx;
+>>   	struct fastrpc_channel_ctx *cctx;
+>> +	struct fastrpc_user *fl;
+>>   	unsigned long flags;
+>>   	int i;
+>>   
+>>   	ctx = container_of(ref, struct fastrpc_invoke_ctx, refcount);
+>>   	cctx = ctx->cctx;
+>> +	fl = ctx->fl;
+>>   
+>>   	for (i = 0; i < ctx->nbufs; i++)
+>>   		fastrpc_map_put(ctx->maps[i]);
+>> @@ -521,6 +544,8 @@ static void fastrpc_context_free(struct kref *ref)
+>>   	kfree(ctx->olaps);
+>>   	kfree(ctx);
+>>   
+>> +	/* Release the reference taken in fastrpc_context_alloc() */
+>> +	fastrpc_user_put(fl);
+>>   	fastrpc_channel_ctx_put(cctx);
+>>   }
+>>   
+>> @@ -628,6 +653,8 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+>>   
+>>   	/* Released in fastrpc_context_put() */
+>>   	fastrpc_channel_ctx_get(cctx);
+>> +	/* Take a reference to user, released in fastrpc_context_free() */
+>> +	fastrpc_user_get(user);
+>>   
+>>   	ctx->sc = sc;
+>>   	ctx->retval = -1;
+>> @@ -658,6 +685,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+>>   	spin_lock(&user->lock);
+>>   	list_del(&ctx->node);
+>>   	spin_unlock(&user->lock);
+>> +	fastrpc_user_put(user);
+>>   	fastrpc_channel_ctx_put(cctx);
+>>   	kfree(ctx->maps);
+>>   	kfree(ctx->olaps);
+>> @@ -1606,11 +1634,9 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
+>>   	}
+>>   
+>>   	fastrpc_session_free(cctx, fl->sctx);
+>> -	fastrpc_channel_ctx_put(cctx);
+>> -
+>> -	mutex_destroy(&fl->mutex);
+>> -	kfree(fl);
+>>   	file->private_data = NULL;
+>> +	/* Release the reference taken in fastrpc_device_open */
+>> +	fastrpc_user_put(fl);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -1654,6 +1680,7 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
+>>   	spin_lock_irqsave(&cctx->lock, flags);
+>>   	list_add_tail(&fl->user, &cctx->users);
+>>   	spin_unlock_irqrestore(&cctx->lock, flags);
+>> +	kref_init(&fl->refcount);
+>>   
+>>   	return 0;
+>>   }
+>> -- 
+>> 2.34.1
+>>
+>>
 
