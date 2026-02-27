@@ -2,80 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WCi+GyM+oWnsrQQAu9opvQ
+	id +IKuJnhCoWndrgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 07:48:03 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 08:06:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED511B377E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 07:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEFA1B3A22
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 08:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C93B10E615;
-	Fri, 27 Feb 2026 06:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA7CF10E5E5;
+	Fri, 27 Feb 2026 07:06:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gohzbNVp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V5qRZFOn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2142610E615;
- Fri, 27 Feb 2026 06:47:57 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4fMf6166hsz9tSP;
- Fri, 27 Feb 2026 07:47:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1772174873; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ba3c1gXGQy+o5rD2JlqzieKSqhaLlsBOFfFLgEvtwYw=;
- b=gohzbNVpnfS7gMzYQ8WBzmO5pJ+i4s1RNC0StxgUNEqhVz9DYQCyQ7vzCrMH0nP9mq3mxm
- 0napB2rLwwX/chsnmYDjpLw70M7RM3VDFrzlG4MW+UtQsoqnWaE/y3LDXSH+o85aIrdtJ0
- OL3eTS6zqE3ObLdRIeqFPNh9W9kNGTnZVjydUHHVN1JPGzbm0LqKOQy5Fd1ePJFSni/XsG
- oue1vGiPBecEClCgWdG2G6XBZyaLoQMpocY1tqTBH6CL+n6/VOyTSsyYvywnS6T5PFpuXk
- MI6iqkYoxzAergs5rbT71pDBYZXgCEuTi3+BWrtjC9kj7liI+zGlxec0ADno+g==
-Message-ID: <baa2d0b7c15687e153cac6d00c546a547feb2340.camel@mailbox.org>
-Subject: Re: [PATCH 2/7] drm/scheduler: fix kernel-doc warning for
- drm_sched_job_done()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Yujie Liu <yujie.liu@intel.com>, Alex Deucher
- <alexander.deucher@amd.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Patrik Jakobsson
- <patrik.r.jakobsson@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Sunil Khatri <sunil.khatri@amd.com>, Lijo
- Lazar <lijo.lazar@amd.com>, Asad Kamal <asad.kamal@amd.com>, Yang Wang
- <kevinyang.wang@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou
- <tao.zhou1@amd.com>, Gangliang Xie <ganglxie@amd.com>, Candice Li
- <candice.li@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>, Matthew Auld
- <matthew.auld@intel.com>, Luben Tuikov <luben.tuikov@amd.com>, Ville
- =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- =?UTF-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Michal
- Wajdeczko <michal.wajdeczko@intel.com>,  amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-Date: Fri, 27 Feb 2026 07:47:42 +0100
-In-Reply-To: <20260226030038.1182961-3-yujie.liu@intel.com>
-References: <20260226030038.1182961-1-yujie.liu@intel.com>
- <20260226030038.1182961-3-yujie.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FC010E5E5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 07:06:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 06E354447E;
+ Fri, 27 Feb 2026 07:06:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85001C116C6;
+ Fri, 27 Feb 2026 07:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772175987;
+ bh=X8vtJkSyc7mKsCpLbrfh/YJAHY+sBdNmmDe83pbDGfk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=V5qRZFOnCBFNgJH2F3MySablqUS0kgHUbs8dfLZO0EVJq+VpFHNezh4h+N0BDtQRJ
+ oYON+hh8ftyipK1Gu07+US3wr9hUoUCBkXyXQ1Gp0NCcY2iKH9nbFryFFLwRRZApco
+ p2JSo9FOOVZNz5wJ+2DBBmi+CL5hpBux7jC6vK1uUS+OLvnVoE/e5+9maKJRz9K0/D
+ fqdP7keTn/B1NlmDR8q8Ot2U68ExvWzF/7ItfvOQ2uR9GOCyEa2QU+FniKIKNUIrAc
+ 0wp0tNkcRkGtDWY0cx4ilcFhEO4m4iceuA5BmanZ643ocNCIdoDVeNdnKyXJJpq6BD
+ SAZDJWQxBHkSw==
+Message-ID: <9970272b-b406-4a25-a7d9-8197934f8c3a@kernel.org>
+Date: Fri, 27 Feb 2026 08:06:20 +0100
 MIME-Version: 1.0
-X-MBO-RS-ID: 7f64d465d2b58537bfb
-X-MBO-RS-META: yswx9ra8z6mx41t598aw6gzhe1ftcf6h
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>,
+ Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,73 +116,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:ruxandra.radulescu@nxp.com,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:linux-doc@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:jiwei.fu@nxp.com,m:xuelin.shi@nxp.com,m:alexandru.taran@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[intel.com,amd.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: CED511B377E
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.994];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,4ab00000:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0EEFA1B3A22
 X-Rspamd-Action: no action
 
-On Thu, 2026-02-26 at 11:00 +0800, Yujie Liu wrote:
-> Warning: drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'r=
-esult' not described in 'drm_sched_job_done'
->=20
-> Fixes: 539f9ee4b52a ("drm/scheduler: properly forward fence errors")
-> Signed-off-by: Yujie Liu <yujie.liu@intel.com>
+On 26/02/2026 14:40, Ioana Ciocoi-Radulescu wrote:
 
-Thanks for fixing this!
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Acked-by: Philipp Stanner <phasta@kernel.org>
+> +
+> +  memory-region:
+> +    description:
+> +      Phandle referencing a "shared-dma-pool" to be used for Neutron
+> +      inference buffers, which need to be 1MB aligned.
+> +
+> +      The memory region must be defined with alignment of 1MB and size
+> +      should be large enough to accommodate the targeted ML models. It
+> +      should be marked as reusable.
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 3
 
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index e6ee35406165..fe4c1017734b 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -361,6 +361,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_s=
-cheduler *sched)
-> =C2=A0/**
-> =C2=A0 * drm_sched_job_done - complete a job
-> =C2=A0 * @s_job: pointer to the job which is done
-> + * @result: 0 on success; -errno on failure
+Why is this flexible?
 
-nit: shouldn't it be -ERRNO? But idk.
+> +
+> +  clock-names:
+> +    minItems: 2
+> +    items:
+> +      - const: npu
 
-> =C2=A0 *
-> =C2=A0 * Finish the job's fence and resubmit the work items.
-> =C2=A0 */
+Name "npu" is pretty pointless.
 
+> +      - const: npu_apb
+> +      - const: npu_cgc
+
+Drop npu perfix everywhere.
+
+
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - memory-region
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      neutron@4ab00000 {
+> +              compatible = "nxp,imx95-neutron";
+
+Messed indentation. Read writing bindings / writing schema.
+
+
+
+Best regards,
+Krzysztof
