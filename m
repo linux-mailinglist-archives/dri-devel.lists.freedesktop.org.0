@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OFNlI0lroWkOswQAu9opvQ
+	id 6CUKLnVroWkOswQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:00:41 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:01:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45C01B5B00
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9191B5B10
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:01:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F8B10EAD6;
-	Fri, 27 Feb 2026 10:00:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QtzjDs3j";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66ACC10EAE0;
+	Fri, 27 Feb 2026 10:01:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E123810EAD6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=sJb67b9+5nC+/M+8C5y1TkVR40xkSP7H6AK83VZF7Rg=; b=QtzjDs3jbmab8K2HssWRS8iMeq
- r/yXTsuFiL7a15SWH3B7+8+2iPdCdHXiVxdOCppeHPGaDSN2/d518FXka69vnkehBp1Q0L8bLA5n+
- 8NKm6q0keojeh33ic0XyVx24YXBbd1Wu9RkUwZuDzr5J8VDbOPWNyyOW+mF6r+omgD4vSCR0vCE6W
- B6/kj7fg7LgHzxoz28LcWN5LAmHJ4b2YsxdEFRLE+1RQLlM2q2M8UkT1iBLLuSAAlSr9ZMo1zgtIJ
- oRVt9v9WQcocSlMWGpluA70W+ardBiVr0WRO3Q3Ze+JJgP7vEq8T7w3quobLyncEY41JCcNQHGSyo
- adl+DjOw==;
-Received: from [90.240.106.137] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vvue5-006SQx-N2; Fri, 27 Feb 2026 11:00:29 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Maxime Ripard <mripard@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH] drm/sched: Speed up some unit tests
-Date: Fri, 27 Feb 2026 10:00:25 +0000
-Message-ID: <20260227100025.173-1-tvrtko.ursulin@igalia.com>
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE92510EADD
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:01:15 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.101.233])
+ by APP-05 (Coremail) with SMTP id zQCowABX6Qxja6Fp2EA6CQ--.1125S2;
+ Fri, 27 Feb 2026 18:01:08 +0800 (CST)
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Subject: [PATCH v2 1/2] drm/dumb-buffers: reference the ioctl interface for
+ its constraints
+Date: Fri, 27 Feb 2026 18:01:05 +0800
+Message-ID: <20260227100106.797831-1-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABX6Qxja6Fp2EA6CQ--.1125S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWUZryfWF1DZr13Xw1kKrg_yoW8Gw47pF
+ 4fKrW7trZ5AasxKryDA3Z5uFy5CasxXF1S9Fyjkw13ZF1qyFyjvFn5tws8XryDJrn7XFyj
+ qrnFkryrGFyYkFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+ 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbSfO7UUUU
+ U==
+X-Originating-IP: [112.94.101.233]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,140 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.99 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RSPAMD_URIBL_FAIL(0.00)[igalia.com:query timed out];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:zhengxingda@iscas.ac.cn,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	RSPAMD_URIBL_FAIL(0.00)[suse.de:query timed out];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RSPAMD_EMAILBL_FAIL(0.00)[tzimmermann.suse.de:query timed out];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	HAS_XOIP(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-0.994];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RSPAMD_EMAILBL_FAIL(0.00)[dakr.kernel.org:query timed out,mripard.kernel.org:query timed out,phasta.kernel.org:query timed out];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.990];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: B45C01B5B00
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8F9191B5B10
 X-Rspamd-Action: no action
 
-Some tests are on right on the limit of targetting a one second runtime,
-and some of those have recently been correctly marked as slow. Lets
-instead make them a bit quicker, by either reducing the amount of
-submitted jobs or waiting a bit less. For the latter a comment is added to
-explain why that should be fine, and for the former, they are tests which
-aim to hit races via stress testing, so reducing the runtime is also fine
-since the main thing is the number of test runs over time and machines.
+The current design of the DRM_IOCTL_MODE_CREATE_DUMB interface can only
+promise linear RGB buffers to be properly working.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reported-by: Maxime Ripard <mripard@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>
+Add a reference to the interface from the document snippet for dumb
+objects (which is included by drm-kms.rst document and will end up in
+the built kernel documentation).
+
+Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 28 +++++++++++++------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+Changes in v2:
+- Reword modifier to framebuffer layout.
+- Added Thomas's R-b.
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index a5a5a35a87b0..5181454479a5 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -382,7 +382,7 @@ static void drm_sched_change_priority(struct kunit *test)
- 	struct drm_mock_sched_entity *entity[DRM_SCHED_PRIORITY_COUNT];
- 	struct drm_mock_scheduler *sched = test->priv;
- 	struct drm_mock_sched_job *job;
--	const unsigned int qd = 1000;
-+	const unsigned int qd = 500;
- 	unsigned int i, cur_ent = 0;
- 	enum drm_sched_priority p;
+ drivers/gpu/drm/drm_dumb_buffers.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+index e2b62e5fb891b..4538517a8cdcc 100644
+--- a/drivers/gpu/drm/drm_dumb_buffers.c
++++ b/drivers/gpu/drm/drm_dumb_buffers.c
+@@ -57,7 +57,10 @@
+  *
+  * Note that dumb objects may not be used for gpu acceleration, as has been
+  * attempted on some ARM embedded platforms. Such drivers really must have
+- * a hardware-specific ioctl to allocate suitable buffer objects.
++ * a hardware-specific ioctl to allocate suitable buffer objects. The current
++ * userspace API also includes some constraints on the pixel format and
++ * framebuffer layout to be used with buffers backed by dumb objects, see
++ * &struct drm_mode_create_dumb for more details.
+  */
  
-@@ -421,7 +421,7 @@ static void drm_sched_change_priority(struct kunit *test)
- 
- static struct kunit_case drm_sched_priority_tests[] = {
- 	KUNIT_CASE(drm_sched_priorities),
--	KUNIT_CASE_SLOW(drm_sched_change_priority),
-+	KUNIT_CASE(drm_sched_change_priority),
- 	{}
- };
- 
-@@ -438,7 +438,7 @@ static void drm_sched_test_modify_sched(struct kunit *test)
- 	struct drm_mock_sched_entity *entity[13];
- 	struct drm_mock_scheduler *sched[3];
- 	struct drm_mock_sched_job *job;
--	const unsigned int qd = 1000;
-+	const unsigned int qd = 500;
- 
- 	/*
- 	 * Submit a bunch of jobs against entities configured with different
-@@ -500,6 +500,7 @@ static struct kunit_suite drm_sched_modify_sched = {
- 
- static void drm_sched_test_credits(struct kunit *test)
- {
-+	const long timeout = msecs_to_jiffies(200);
- 	struct drm_mock_sched_entity *entity;
- 	struct drm_mock_scheduler *sched;
- 	struct drm_mock_sched_job *job[2];
-@@ -523,22 +524,33 @@ static void drm_sched_test_credits(struct kunit *test)
- 	drm_mock_sched_job_submit(job[0]);
- 	drm_mock_sched_job_submit(job[1]);
- 
--	done = drm_mock_sched_job_wait_scheduled(job[0], HZ);
-+	done = drm_mock_sched_job_wait_scheduled(job[0], timeout);
- 	KUNIT_ASSERT_TRUE(test, done);
- 
--	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	/*
-+	 * Verify that the scheduler has not consumed more than the configured
-+	 * single credit. This can false negative if the system fails to
-+	 * execute the scheduler's workqueue two times between submitting two
-+	 * jobs and this wait expires, but this is so unlikely that we opt for a
-+	 * timeout which does not make the test excessively slow.
-+	 */
-+	done = drm_mock_sched_job_wait_scheduled(job[1], timeout);
- 	KUNIT_ASSERT_FALSE(test, done);
- 
-+	/*
-+	 * Advance the timeline and make sure the second job gets scheduled and
-+	 * completed.
-+	 */
- 	i = drm_mock_sched_advance(sched, 1);
- 	KUNIT_ASSERT_EQ(test, i, 1);
- 
--	done = drm_mock_sched_job_wait_scheduled(job[1], HZ);
-+	done = drm_mock_sched_job_wait_scheduled(job[1], timeout);
- 	KUNIT_ASSERT_TRUE(test, done);
- 
- 	i = drm_mock_sched_advance(sched, 1);
- 	KUNIT_ASSERT_EQ(test, i, 1);
- 
--	done = drm_mock_sched_job_wait_finished(job[1], HZ);
-+	done = drm_mock_sched_job_wait_finished(job[1], timeout);
- 	KUNIT_ASSERT_TRUE(test, done);
- 
- 	drm_mock_sched_entity_free(entity);
-@@ -546,7 +558,7 @@ static void drm_sched_test_credits(struct kunit *test)
- }
- 
- static struct kunit_case drm_sched_credits_tests[] = {
--	KUNIT_CASE_SLOW(drm_sched_test_credits),
-+	KUNIT_CASE(drm_sched_test_credits),
- 	{}
- };
- 
+ static int drm_mode_align_dumb(struct drm_mode_create_dumb *args,
 -- 
 2.52.0
 
