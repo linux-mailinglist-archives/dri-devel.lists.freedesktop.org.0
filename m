@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UO6/Giv6oWlkyAQAu9opvQ
+	id gPRKOzr6oWlkyAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:10:19 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:10:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34A61BD468
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9511BD480
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1259210EC2C;
-	Fri, 27 Feb 2026 20:10:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B618410EC2A;
+	Fri, 27 Feb 2026 20:10:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VgnVpkaH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DBRHRg84";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B3810EC2A;
- Fri, 27 Feb 2026 20:10:16 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D00E10EC2A;
+ Fri, 27 Feb 2026 20:10:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4085E60130;
+ by sea.source.kernel.org (Postfix) with ESMTP id 4A4DA432F8;
+ Fri, 27 Feb 2026 20:10:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5E5C2BCB0;
  Fri, 27 Feb 2026 20:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E261C116C6;
- Fri, 27 Feb 2026 20:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772223014;
- bh=hLgJdGT31V5wnxVFe1vHLMNm/KVuWNy5vLAGWsJg21c=;
+ s=k20201202; t=1772223031;
+ bh=GDIsuZYm2zKYxLFzdJGIwkOaoBFqEdMRlEhHeQ3/4/c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VgnVpkaHaAkciLTAeL0+EHoy6ULSwuu9fj3VyFkgJooaJcw9CuTij8hQME2UbVNWD
- Yvc/lVRhwFa8DPT/JmgPCmNWacY7labSQ2afT1BQfoxShbwEJk2Jn8z7NxsGfCsqtz
- PFpbCDhsNtcpqdguKU2gvD4AUwof1y66dauCjiXbAiMN6CyWf4CltYotNxCjssrHCp
- /q9YFMkt4jNd7FScndseUUa/D3NnepYZOmjVGGfCd+L3Hgug9STuzNp9OaPEgAhBvJ
- WiDRQIsjsWJIIKTyzXG8Pn+MIUoCY9cTsDjzXp52+rtBZSOfNAH+NerJi1RRj2Hxlh
- G0ODowk2+zwXQ==
+ b=DBRHRg84mUFFa5j1Ap08A/NiDuF3TUvfcRS7C3+9hv775NpD/8NroucXGTumCDp/q
+ yrfW9Y3j7L6NHLbxDVoLPnwidDlbqQx43JL5ql1ycR4JGKaqhcycHzZzwNzJlcvc02
+ dllhdtIOUZfDuMDJj+LoTseNq6O5uagn4G64tCcqE5fAIbrOu0ko0XkUr7ircdpbQh
+ bXRyXmVj6xEUhwSFjMMxmlipUHZ264tacuMAwtSvAd5grFuLAF6s73NejFFuX4hEaz
+ JPFck19AXo77usRat6V50+er5SScDpOmDuKTSvIT6gz+N5E8JF7nu9dERR/ctItvMT
+ m5GfMgiKzWHMQ==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
@@ -86,10 +86,10 @@ Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
  linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
  linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v1 04/16] mm/memory: simplify calculation in
- unmap_mapping_range_tree()
-Date: Fri, 27 Feb 2026 21:08:35 +0100
-Message-ID: <20260227200848.114019-5-david@kernel.org>
+Subject: [PATCH v1 05/16] mm/oom_kill: use MMU_NOTIFY_CLEAR in
+ __oom_reap_task_mm()
+Date: Fri, 27 Feb 2026 21:08:36 +0100
+Message-ID: <20260227200848.114019-6-david@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260227200848.114019-1-david@kernel.org>
 References: <20260227200848.114019-1-david@kernel.org>
@@ -137,78 +137,37 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F34A61BD468
+X-Rspamd-Queue-Id: 5D9511BD480
 X-Rspamd-Action: no action
 
-Let's simplify the calculation a bit further to make it easier to get,
-reusing vma_last_pgoff() which we move from interval_tree.c to mm.h.
+In commit 7269f999934b ("mm/mmu_notifier: use correct mmu_notifier events
+for each invalidation") we converted all MMU_NOTIFY_UNMAP to
+MMU_NOTIFY_CLEAR, except the ones that actually perform munmap() or
+mremap() as documented.
+
+__oom_reap_task_mm() behaves much more like MADV_DONTNEED. So use
+MMU_NOTIFY_CLEAR as well.
+
+This is a preparation for further changes.
 
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- include/linux/mm.h |  5 +++++
- mm/interval_tree.c |  5 -----
- mm/memory.c        | 12 +++++-------
- 3 files changed, 10 insertions(+), 12 deletions(-)
+ mm/oom_kill.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a8138ff7d1fa..d3ef586ee1c0 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -4000,6 +4000,11 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
- 	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
- }
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 5c6c95c169ee..0ba56fcd10d5 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -551,7 +551,7 @@ static bool __oom_reap_task_mm(struct mm_struct *mm)
+ 			struct mmu_notifier_range range;
+ 			struct mmu_gather tlb;
  
-+static inline unsigned long vma_last_pgoff(struct vm_area_struct *vma)
-+{
-+	return vma->vm_pgoff + vma_pages(vma) - 1;
-+}
-+
- static inline unsigned long vma_desc_size(const struct vm_area_desc *desc)
- {
- 	return desc->end - desc->start;
-diff --git a/mm/interval_tree.c b/mm/interval_tree.c
-index 32e390c42c53..32bcfbfcf15f 100644
---- a/mm/interval_tree.c
-+++ b/mm/interval_tree.c
-@@ -15,11 +15,6 @@ static inline unsigned long vma_start_pgoff(struct vm_area_struct *v)
- 	return v->vm_pgoff;
- }
- 
--static inline unsigned long vma_last_pgoff(struct vm_area_struct *v)
--{
--	return v->vm_pgoff + vma_pages(v) - 1;
--}
--
- INTERVAL_TREE_DEFINE(struct vm_area_struct, shared.rb,
- 		     unsigned long, shared.rb_subtree_last,
- 		     vma_start_pgoff, vma_last_pgoff, /* empty */, vma_interval_tree)
-diff --git a/mm/memory.c b/mm/memory.c
-index 5c47309331f5..e4154f03feac 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4227,17 +4227,15 @@ static inline void unmap_mapping_range_tree(struct rb_root_cached *root,
- 					    struct zap_details *details)
- {
- 	struct vm_area_struct *vma;
--	pgoff_t vba, vea, zba, zea;
- 	unsigned long start, size;
- 	struct mmu_gather tlb;
- 
- 	vma_interval_tree_foreach(vma, root, first_index, last_index) {
--		vba = vma->vm_pgoff;
--		vea = vba + vma_pages(vma) - 1;
--		zba = max(first_index, vba);
--		zea = min(last_index, vea);
--		start = ((zba - vba) << PAGE_SHIFT) + vma->vm_start;
--		size = (zea - zba + 1) << PAGE_SHIFT;
-+		const pgoff_t start_idx = max(first_index, vma->vm_pgoff);
-+		const pgoff_t end_idx = min(last_index, vma_last_pgoff(vma)) + 1;
-+
-+		start = vma->vm_start + ((start_idx - vma->vm_pgoff) << PAGE_SHIFT);
-+		size = (end_idx - start_idx) << PAGE_SHIFT;
- 
- 		tlb_gather_mmu(&tlb, vma->vm_mm);
- 		zap_page_range_single_batched(&tlb, vma, start, size, details);
+-			mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0,
++			mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0,
+ 						mm, vma->vm_start,
+ 						vma->vm_end);
+ 			tlb_gather_mmu(&tlb, mm);
 -- 
 2.43.0
 
