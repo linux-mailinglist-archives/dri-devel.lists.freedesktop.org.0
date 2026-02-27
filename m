@@ -2,86 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WFJFLvLboWlcwgQAu9opvQ
+	id SGx5J6nioWmUwwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 19:01:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 19:30:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CFA1BBBA3
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 19:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43F91BBFB1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 19:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E64910EBDC;
-	Fri, 27 Feb 2026 18:01:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bvsf4Bsc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F22110E0A4;
+	Fri, 27 Feb 2026 18:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF21710EBDC
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 18:01:16 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-43984d7e49bso2089916f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:01:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772215275; x=1772820075; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Ul0Dd4P/vtKDgVC2VSwGduPgnL+oOjNMm7CLdGIWwA=;
- b=bvsf4BsciyALV7ctnRJ1PCbI6/8kjXF1+dfGMsolZbdOQAkqEywjICuUtTzTA3haBM
- vtWVD53OuA6W1P02QF1Gx/4YkFabB6xn/FXemxoIbj59/WYoWDWaIOepRRkSa5WUK0jb
- KSFF9cOVHrwiqukUq+JjpXvrDYYNmepmyO1oTUkXc7NO3m7cjeYsaLCGt5h+JPZiNt3+
- v6Pnbrh0W4WmbIzt+Xkcq50sWb50yiP4QVoPsmLmECpBHJxGsVFSVy4dAmB25CkG51my
- TJT73v1GAimP2LFSruvipcEJxbcpF1OfGsuCNlKASMNTVjGpsr+CgJ78PRz7ryAEz0PQ
- 1yCw==
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com
+ [209.85.221.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E5810E0A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 18:29:56 +0000 (UTC)
+Received: by mail-vk1-f174.google.com with SMTP id
+ 71dfb90a1353d-56739adfa1aso1941052e0c.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:29:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772215275; x=1772820075;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=1Ul0Dd4P/vtKDgVC2VSwGduPgnL+oOjNMm7CLdGIWwA=;
- b=CuIvHY8SaSzFHT6zvEk/Kb8XIQPP7dM8vH2npfENIg2jFZrM/lCHsHJpv4EpmJgZuT
- ZoJ6EH4UYL4FGtIa4LAs9fEdm+/ogknFqWADrMLdnlrFjp3CE8Phi5Pc4zkXRQTFP1x4
- uiV3kL5ln8Q+MrvRbA2U8cDP1vMx4pLUYV8rURZIHXZxWnx3drxn1Nf/6J836BX9E1rU
- QKiCHgE4HWr4QK0KBWDzhn9/MxXZO4FiApO0S+2EgX4cmmUsuDDLBtL+o0gPf5Rrlzk8
- 5Vv2pBnAC2BAHS3B1K6PoGtrg8wiZNTJRHWr822fzmBTpXYOTE7I9lJxlPMp/6D3mNiK
- JVGw==
+ d=1e100.net; s=20230601; t=1772216996; x=1772821796;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Qcd8Oic1Sc8ZJu2YAJkZaSOQYT6Z1q9h1yoGvFgoj60=;
+ b=W4F6fR7Uz2sPlClTigBv07A4b0bGdlfD2LG8rkzhWmpwxgsZYUsQBJho9MxI3Kpyrp
+ T1j0A4fIEdf/Io2+UWCj7/6xe9K43KH4uKxepN0rxjxZmRaGUQxAZ7GzpqM5HpamxGvp
+ yrrazViHD5YtMetXIR1XpF+8jgdXkAM5ilTBkVUA3J/VKjb34mhJ+MDa+YqTin29p7Ix
+ U971Omdx6KfUzYyl5EMPwzZIO3a3Msvgia6gu94Yl77oYUi3tmSgt0Y7Arb4CV7TwtXv
+ q/4F23ESNswDWcCjCp1n0j9ji9bdq4dkllPy8ENVnAOoJFj3d/AmO1p/faY9YYsTTCQz
+ qK/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoQMQORVLLMig6ONS/7bCH3pfezq9qZl4w8Ca89rjgCKyBpzPZsbeQu3uUeJS5rCxvmVvjQovMwoY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVGc3xjVaPrJ/LUbXS3lvGBAmsovppM+8t2f9aS27E64tB9XYB
- C1VAYuLpkxR3/cGoDl7DDeQvVz+FN1b+odO5P67lPaJMvd42uYyBcShC
-X-Gm-Gg: ATEYQzxgqwXuRCtf8YAp10DWi4V6oJWH38Kcwjf+P+U4D/Nhg//OtTVtO3tDL8l5e+4
- hOZH5vBUCNT8Z9CFRJUJkA87w9jqE2ebrCNha54XEBlAu7jYvTT3gepd3nhWCEsE32/+8m2k2eh
- oDtCiARxv3m3lDdSptcPfsXXIg2yduZONWa4lZJVdN3OB68OVqURVMK2BU/TBhCXbjLlK1Hx+Cu
- lZJJAk+phcfgOay4vMu5aMtKa8pzyqnoCUY51S/WyLBOVzStEKGzqeHBYzGQUqu9xJn/Ey5N+Aq
- uEoXdTzfljiOfZYj7hIsau2NFV1zIxCT0bEYmy1FlCpVUsBgelATMIbrMw2c4q4kruqUvHHf5cN
- 8Q6Lcuk/H0Xn5Mv+StdaTk9LyT3oxEfLMCawOqv30iZhrczzMFzrJUzsNFutbMeZqZ21tfgWnIM
- bBlIO39ux2ePZoszsXH60kpRnbPoAMPt+DrYxjGevN9x70
-X-Received: by 2002:a05:6000:40c9:b0:439:8c1c:6b4 with SMTP id
- ffacd0b85a97d-4399de2cbafmr6732890f8f.53.1772215275081; 
- Fri, 27 Feb 2026 10:01:15 -0800 (PST)
-Received: from jernej-laptop.localnet ([188.159.248.16])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4399c70ff6esm13018886f8f.12.2026.02.27.10.01.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Feb 2026 10:01:14 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org, mripard@kernel.org, samuel@sholland.org,
- Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: Re: [PATCH] drm/sun4i: Fix resource leaks
-Date: Fri, 27 Feb 2026 19:01:12 +0100
-Message-ID: <2819144.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20260226163836.10335-1-ethantidmore06@gmail.com>
-References: <20260226163836.10335-1-ethantidmore06@gmail.com>
+ AJvYcCUBALSeEN+iyNlHJgO1nYo7U/T6Na7wMsLNEh/Z0bjZyBNAkDL5s0o4McbucUMNsgYQs/WoT4EUcxU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzj2CiwCrLsrAToFyoLO/4dd2c1p+cgyv4FliZGM+nk3ZaskJwx
+ w2pRn4aUgujkL/TH98uFxbHi2cLw1S0haXoW/E+gku9Gi6U3cZ7B7XsJLRnMxPjeuag=
+X-Gm-Gg: ATEYQzygWQ7uzGDVD/ylZwfnh58VvuAyq/ovCwLsLPYz44H1bb4lw0+13ggOjX3cxkP
+ 49DZ+CFo9LmGt0XaREecj0fYvM4G7IZby+6GiqM8jocDEtHi0rKZTti8FfKDNxcTgqgjVJGGD4M
+ 0tSv6Hksrf3hb7vF7znYQAiwkK/0FHe4KZLz8E9suy2dGnToeFITrxcP6pWIMIDb/sD78UsLFLg
+ W1aUdLxF6kDyQEfIrYYCjjanGmyzaeIWSpxocCdH56E4JCe/sI65xEri/4Q9TQxgzOU8QnGAmrh
+ FUTpgfTluToNsxUrWqTRlJKJRx8mG9rDbgeDY/EQ6iUEmSaHFZQxyemYUm6u78bKkRbTLcR23qc
+ nBCJKABdW3gscVbctagv8g/2wLBAjNYbZxl12auzkwjRcDfL/Fz9rurAuczak5MZciZpEPy8YlB
+ /eXpYqApoIYierITnrN7/kvdi0DSClOyCqcBEkAe9+eV33YaXPkSiE0CmjjKhH
+X-Received: by 2002:a05:6122:8f89:b0:567:5ccc:1367 with SMTP id
+ 71dfb90a1353d-56aa0a8fa10mr2167130e0c.11.1772216995706; 
+ Fri, 27 Feb 2026 10:29:55 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com.
+ [209.85.217.53]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-56a91b8c96fsm7436164e0c.2.2026.02.27.10.29.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Feb 2026 10:29:55 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id
+ ada2fe7eead31-5ff1699312bso1390457137.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:29:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUzogUlyLPxTT+RNELSevtqaFlOKZaRxaGYOwvZvrETUNGkr937D82yyzAgEMsvihH0JEKDv6p8v5g=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3ed6:b0:5f8:e2eb:43d with SMTP id
+ ada2fe7eead31-5ff32331547mr2540585137.10.1772216995065; Fri, 27 Feb 2026
+ 10:29:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <53c8d9e7fde7b176e05503a72af81e74c7a8a1c1.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com>
+ <aaHTMGQHZwutlBIv@tom-desktop>
+In-Reply-To: <aaHTMGQHZwutlBIv@tom-desktop>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Feb 2026 19:29:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVs1L-eRLDkGWx58WbwzjD-+yFxxNLLbrQ=kzQ7_P9y0w@mail.gmail.com>
+X-Gm-Features: AaiRm50fiYKFClgCr0aKEdOOuTixihvNu690WG65tXaKE8BtTScAymOURaJQ5yg
+Message-ID: <CAMuHMdVs1L-eRLDkGWx58WbwzjD-+yFxxNLLbrQ=kzQ7_P9y0w@mail.gmail.com>
+Subject: Re: [PATCH v5 01/20] clk: renesas: rzv2h: Add PLLDSI clk mux support
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com, 
+ linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,59 +104,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:mripard@kernel.org,m:samuel@sholland.org,m:ethantidmore06@gmail.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[jernejskrabec@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[kernel.org,sholland.org,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:laurent.pinchart@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:magnus.damm@gmail.com,m:laurent.pinchart+renesas@ideasonboard.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:tommmerciai@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jernejskrabec@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,lists.linux.dev,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,glider.be,baylibre.com,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 22CFA1BBBA3
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.950];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,init.name:url]
+X-Rspamd-Queue-Id: E43F91BBFB1
 X-Rspamd-Action: no action
 
-Dne =C4=8Detrtek, 26. februar 2026 ob 17:38:36 Srednjeevropski standardni =
-=C4=8Das je Ethan Tidmore napisal(a):
-> Three clocks are not being released in devm_regmap_init_mmio() error
-> path.
->=20
-> Add proper goto and set ret to the error code.
->=20
-> Fixes: 8270249fbeaf0 ("drm/sun4i: backend: Create regmap after access is =
-possible")
-> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Hi Tommaso,
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Fri, 27 Feb 2026 at 18:24, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> On Fri, Feb 27, 2026 at 11:47:58AM +0100, Geert Uytterhoeven wrote:
+> > On Fri, 13 Feb 2026 at 17:28, Tommaso Merciai
+> > <tommaso.merciai.xr@bp.renesas.com> wrote:
+> > > Add PLLDSI clk mux support to select PLLDSI clock from different clock
+> > > sources.
+> > >
+> > > Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
+> > > them in the clock driver.
+> > >
+> > > Extend the determine_rate callback to calculate and propagate PLL
+> > > parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
+> > > using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
+> > >
+> > > The CLK_SMUX2_DSI{0,1}_CLK clock multiplexers select between two paths
+> > > with different duty cycles:
+> > >
+> > > - CDIV7_DSIx_CLK (LVDS path, parent index 0): asymmetric H/L=4/3 duty (4/7)
+> > > - CSDIV_DSIx (DSI/RGB path, parent index 1): symmetric 50% duty (1/2)
+> > >
+> > > Implement rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock operations to
+> > > allow the DRM driver to query and configure the appropriate clock path
+> > > based on the required output duty cycle.
+> > >
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > > +++ b/drivers/clk/renesas/rzv2h-cpg.c
 
-Best regards,
-Jernej
+> > > +       clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
+> > > +       if (!clk_hw_data)
+> > > +               return ERR_PTR(-ENOMEM);
+> > > +
+> > > +       clk_hw_data->priv = priv;
+> > > +
+> > > +       init.name = core->name;
+> > > +       init.ops = &rzv2h_cpg_plldsi_smux_ops;
+> > > +       init.flags = core->flag;
+> > > +       init.parent_names = core->parent_names;
+> > > +       init.num_parents = core->num_parents;
+> > > +
+> > > +       clk_hw_data->mux.reg = priv->base + smux.offset;
+> > > +
+> > > +       clk_hw_data->mux.shift = smux.shift;
+> > > +       clk_hw_data->mux.mask = smux.width;
+> >
+> > Again, smux.width is not a mask.
+> > Perhaps GENMASK_U16(smux.shift - 1, 0)?
+>
+> Or maybe we can use:
+>
+>         clk_hw_data->mux.mask = clk_div_mask(smux.width);
+> ?
 
+Thanks, I forgot about clk_div_mask(), which is definitely a better
+choice here.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
