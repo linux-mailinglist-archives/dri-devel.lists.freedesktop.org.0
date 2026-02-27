@@ -2,97 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEzmCmpsoWmxswQAu9opvQ
+	id 0FLuNHRsoWm6swQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:05:30 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:05:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB41B5BE0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BBA1B5BF6
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:05:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65D7010EAE6;
-	Fri, 27 Feb 2026 10:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2A5A10EAE7;
+	Fri, 27 Feb 2026 10:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="p68IFHyC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bA/BA7HU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687E410EAE6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:05:26 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-436317c80f7so1924793f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:05:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1772186725; x=1772791525; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8MqOduCOGo3qjojY6SOtSEjOLTtsc9XUK4HOUENpsIM=;
- b=p68IFHyCq8K0cUqr4PXc2WE5B5TyvvSVMeMszxzFcpO88xKdaiBI8eNYSfmOpw8JQh
- zVsZy0084Z6AZ+ZwZK852q2cSkSh4Ah34WLGa42hT/X2ucwwrpSnzs3oyZTLSEf9CMR2
- KeRu5+WYOWJ4AJpQK24jKW2/YmwtkllRYkclleAzH/l9URhNTkE6K3vXQGESDmkFF3XV
- 2ZLqNlgUKjbb8Mg4LJVVICN4NHTuzlOpAIf7Tt7n1D9ckWNpyWu5YybF8vhCKjPzdthO
- dhziCIS+DyvGE9RfeMWiHHiEq1PL7/PqxTkO0ziJb76cNkrr3WCxuOAKxB+5WScJL7u+
- dkXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772186725; x=1772791525;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8MqOduCOGo3qjojY6SOtSEjOLTtsc9XUK4HOUENpsIM=;
- b=MYTMH3NO0UGqgz+NrkC7f9hrhCGELCRODZ/oGnFpXNIT4CovB9rVQtkxtqBH74UP/l
- 0RG4lxPMcoBPCxWoV2MvRtvW1V7eq94MNCkKtOQ1rb8EpZAQlyM93FHDROm1u68XNAeR
- +w5ZMyz4oCo1exka+pKKMq3cshUhabArQ//UomQoS6WBmhjUzhNu+bLocpdFPA60MTHS
- rzFGV8Irn+NZUlObpzR1HLze55wIMzYihS5/SYc7AARscces/Ha4CH7bMiOT7AGSIJD9
- n3/vFuOW6ZIPrGc2D4tTwB4LwkrU0SAm7/C2pUd00WqxNEVxtlZWwwNb2BHMl+01WVLW
- 6kNg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVux3kOCz3nmIBnxbucRj4RUALdue0oJMm30tpGERpXFuqA4ftY64VotpQqX+ZWjz+KqJcojyueoDA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyv+zMZnCf2ky5T0GJtO60XKm25CQOt8pC/XKa2hmfPAJlp8EW4
- EkP5X/gWiSEebLKEQ19OgxxmWozwapwbpbe9pbQtBmstJhkZittbjL+zLhrk/lY2mA8=
-X-Gm-Gg: ATEYQzwdOtYqARvFeIgyEt9uThJzVR61hiv1vsaXkxeGECm+HOGFYpNVgje9jzghI0k
- vtVQ4crfrsovrUPiD9Sg6wtytdVLbAKWArWh5Jvs9V4nsYgdC+PqzaKkMbWLzdsa4jOsci3191i
- hZi+mFgMulIKhqKIhcrSl6RnyilaEEkeyd7bvvv+Ej3NOcBEZmpLFsomW2zfgti8UKETaLh9zvh
- xoqp57XPs/EOOTZJhPN1HVk96pMtqYod+EhwTtL2vRITSoYNmNhar/nZ4cippxrxNsvkGX7yzuD
- vO4y5+EzIgWdJwXK1p5/MUMhoWcGSmJ76UWKwyW3fXTXoYZwsmiL3UeAWr6597qk/d5okk3cenL
- uwlLvP0+OXspR2ch91eOR9IXPqvIGfERmfISKLRnfpdwTiWyKfmYAxhl032Qn6fWsqI15ZJjJL8
- 4GNVfhQlY62h9C+WZzfKTdWArTEqbJthJgPreMyJ20v8bT
-X-Received: by 2002:a05:6000:144c:b0:439:909f:c594 with SMTP id
- ffacd0b85a97d-439971ae7f0mr12712817f8f.10.1772186723690; 
- Fri, 27 Feb 2026 02:05:23 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4399c764a35sm5931375f8f.30.2026.02.27.02.05.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Feb 2026 02:05:23 -0800 (PST)
-Message-ID: <3731bc32-43a1-41a5-8134-06b97bd03ce6@ursulin.net>
-Date: Fri, 27 Feb 2026 10:05:22 +0000
-MIME-Version: 1.0
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012018.outbound.protection.outlook.com [40.107.209.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5582110EAE7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:05:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wqcMN/ivMj1km2uuThlSyfuoDmP84juJqbOrcaZUzQ8+YK4iHYYQnJva1Lhe4QDv0BEg95ffGtwViNB+sBzRLqmhidKCxvQFT5x1+KonOnc9BXD2fT+IsIs5GxsaMxpJyV6C3ejUY+8fkp5jV4eNuREnaP3SP9ihex42miudKm9UaFGkwaOzLXgeShsIT/D7TDRxmVhZmXlTfvp8EUIYqjtZyvlM9rRy8ddOSwzqjECgJYlmMbe6yVX2YhXo/nq7lSCsmIdqO39ndVQwpCOrYKgEhGKZfa0SKw3kWJyFjjPn7XiK492aUWxVc/4sxqL3LrObpvMlxGNdxvnZkPwy5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YlxmKmuDeIDjHL9kwblbR4uINzVEeovOWU4h1/4ROaA=;
+ b=SfNr3zSSHb2HamFcSSZ/HDp42OliTeSpE/o4cAJKHMBK3uT7yW0IPiaCW9XvHTWdBQzUGTx540j5XeZklIyFLMeQVWgBQze8pxLMIz1Jal0wyCEbccWdUmkc6YnGMjfPsQ/30gkZABw2haaWJ11MGkf8O4gmTtE+mh5C8cnEVqZXI671q94XBtlwhDR+/9FwlwZ3bbam/RT7AAQke63bJKdStNUjeXKwUckRLoVOv6n4EGQf2qpOo0pahbQV7q2SDLxDaN2UqMkkqZN4zFf0a3ZRbMTJgXn/HeqnD70q89CU+5i43T6XjY/lexB+nz7Z5UATV71trlapyShw+STiyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YlxmKmuDeIDjHL9kwblbR4uINzVEeovOWU4h1/4ROaA=;
+ b=bA/BA7HUQoR23zTx1Oj0e4S1UeLgsJSd86zKB4tnJsJygD+cI1rv+ASIsAYFfFYxyksBp7nCr8L29wkka7h2I8z70Sjc+LdblaTNSoBIB8fwnTwpz5ZmS/pmtn3VI9C+Qecry/so4IngMUPhKzoxo+g04Dt1Qy/I5Hw2JGpvwB0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB5628.namprd12.prod.outlook.com (2603:10b6:303:185::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 27 Feb
+ 2026 10:05:34 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Fri, 27 Feb 2026
+ 10:05:33 +0000
+Message-ID: <f75088c6-5795-49cc-8932-ea46c2223d74@amd.com>
+Date: Fri, 27 Feb 2026 11:05:24 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tests: Mark slow tests as slow
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthew Auld <matthew.auld@intel.com>,
- Arun Pravin <arunpravin.paneerselvam@amd.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20260224110310.1854608-1-mripard@kernel.org>
- <1c76b8d6-9394-4017-a18f-95ecc2c08175@ursulin.net>
- <20260226-certain-tuscan-caribou-ba4c5e@penduick>
- <e343e45b-6328-4a38-ad31-1487e273f12a@ursulin.net>
- <20260227-silent-eagle-from-uranus-f196a5@houat>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260227-silent-eagle-from-uranus-f196a5@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [RFC PATCH 4/7] dma-buf: uapi: Mechanism to revoke DMABUFs via
+ ioctl()
+To: Matt Evans <mattev@meta.com>, Alex Williamson <alex@shazbot.org>,
+ Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Mastro <amastro@fb.com>, Mahmoud Adam <mngyadam@amazon.de>,
+ David Matlack <dmatlack@google.com>
+Cc: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org
+References: <20260226202211.929005-1-mattev@meta.com>
+ <20260226202211.929005-5-mattev@meta.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260226202211.929005-5-mattev@meta.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0291.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10e::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5628:EE_
+X-MS-Office365-Filtering-Correlation-Id: f874b616-714c-46c9-7f12-08de75e7be79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: buk4rNddqrtQSpIqSVI4x0wPIR/a1qezMGO5SQayFZZLt4CCRvbRdEKIxRvHube9leP9esMMLApYEpclXfNtq9Ths2JAjdahcxS++A6lcIShK5sdhOHSU4CTWMjh2y8Y32X4/1NlIO6LPxKCyeQZuGGHBgyJfnazT2jh2AwWET1nqU3Avf81KYwH5vYr3d5fkJdgfe/rnDYH5C3iGG7L20lFCrBnCEEf/q3SMhuux1KzjmTJ0GaXNNuhKY5I0/RAxqLXS0u1UI2ZuIOlV1qKBgsPb62USbG/FCiPLLTLGtfZARSo5bSsgEqcGxmhyvAPCZ8oOWrg96f3T3tu0HXKeHXijGbjw/rPIE0Mcc7rMvYraQcZ+YbPbXkNpPy+dyGGEeZeV4r8j1mO3ROI7M/CiTKjM/+6VOsiA2cabAZClCOi/X4flckdvlJBYvySNYHO6FVCTSMsWRflMWWOzFSGj2Q2X23a6TRaZQgT4H3FBymU6+ZWK67XcHijynTpAN527da44YTIHb2ON1J7kPYajNadDhCcl2bCO/SU4cLoV+qwiRrOVEOF6DSH7GDf0y1dM1aTTPCnkrdt9rGOw6BwmxuzfsB1aDQLgUZ36bRmYtoj3+uG5Os/0cRHT1z6XLCa+zHF4pwGQpOBD5S8tvFGdb0IIVq+k1y0CEoXaOWhRbAlP9QgN508D5EKC5p+t9+yyuiArGZzfl3O8NPc1nWHeDEMqUWfV/UKDm2oZUguhOE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkI3YmVqaUYxdks2eUtFMWppSFNuUlhSZ2h0cXBYczhzWHhERWZJNHVUb1Jj?=
+ =?utf-8?B?ZTRtcG5oemQ3djJJdlg4N2toNTN6bkZTTTJrbFYzOVNXYlRPSXVQRitURTRR?=
+ =?utf-8?B?WXNjTHJwQk1KcjhOZkZ1RnZOcHpOckQ2QnhXajAreGZrdHQ1eWwwaGpmdGZo?=
+ =?utf-8?B?ODl4aURGMldxcHUzeTl5aUVkZ2hsVENLcmJqOFhMSDJ5U1EzczBqazg1bXNZ?=
+ =?utf-8?B?NGlSYkUxM0RaSXE0ejgzaUNXVkVCWkszQ3FSUWdmQ1B2cFdRdGd3QUdmSWsv?=
+ =?utf-8?B?S25mSUJIUDNnYUpodVdpYXNyeEoxOW95TElFQnJsNGVtRU1VaDZGVXZncFY4?=
+ =?utf-8?B?bWpYa1diMnkzcXBmOEhjdmQxTzNkQWVrRmtVaTl6dC9OTmNuOU84UTNOYU1u?=
+ =?utf-8?B?d0NZR2VLZDJ1R0xtaDFmcklabDY0a1BVaU5FbWorOEVtdDRSNDB5UVd1S21m?=
+ =?utf-8?B?UG5rL0ZRQ0Rpa3BsTVhZRGw4aWwrejBMOG5LdUZoSmhOQWduUHB2Zks4YXlQ?=
+ =?utf-8?B?WElCSUp6RVYyWTRwU211RWdTa0g0cHJUUHV4dy9vT092ZFNBNGdjdU9TUEly?=
+ =?utf-8?B?YUtrZjllbGdJQmIyeU5MMVNtUkRZR2JBQ3BnTDArbXRldEsyei92d2N6d2p0?=
+ =?utf-8?B?K3kyY21BQlhvVWFEQ0djZ0VOcHlEREpvWm0zeXZVMXNqOG9uUE1MTmtBY3Ex?=
+ =?utf-8?B?TEd4Q2U3V21YU3ZORXh2UWxBc2FnS2NFb1AzVDlwekZzeWJmd0xrTElrVVBl?=
+ =?utf-8?B?c0U1SStvUlZiRlhISlpsYVZvTFUxdGVabEtVWks5UkxSdTFpYzQyNEprczRm?=
+ =?utf-8?B?WnhrTVE0UHVML0xaRDlpdFRXY1FKa2VRUFJIM0pVNGpyNTFpNEVBYUtWY1Y3?=
+ =?utf-8?B?bVZCUUExVFlqQnRhSm00SjJYMEZVZXhSUmdXUWROQ1hselFkdlM2aHpHL2Vz?=
+ =?utf-8?B?bGNJWUxyaXJGalZFdG5VdndzRHR0bVVrQm9QUHFvM0JSYVE3U0NRMUFqN2V3?=
+ =?utf-8?B?WW1DLzM3VW51dmU2cGQ5eFlsVEp2WGFaYW4xN2RXRDFucHd0Q3RuYUVRNFlR?=
+ =?utf-8?B?L3NsWG42Y0ZEUHFWc1R3UGxsWmg4OEZHdlFaVUtnYzZoMzJwQytUT2JIMXZJ?=
+ =?utf-8?B?WVBLSW91MFUySlFBTk9HeHpwdHY4WTRXN2dJMHRyTU4vY3Vwa0hSMHQzZ2JU?=
+ =?utf-8?B?aUVDcmJjNTVrZUgyVnRBNUZKYktuNGprUndLbW5QckRYUUVJNFdsN2o2ZXRU?=
+ =?utf-8?B?N0dRZWlaWUVCcE5lWC84eHdVblVGMFVmaEREMTJXL29MaGcyd1NaVXNsVkhK?=
+ =?utf-8?B?OS9nb00ySDBzdjhiVm9zRGtRTXcvZnBaSHNKamhGUHBCY3lFRnFWQy80dmFD?=
+ =?utf-8?B?dzRxdS92eGhqeWpMY1dSUHBhblBRYXhmK1VJKzVFdkdiMGFQamNncW15MHha?=
+ =?utf-8?B?VUUrUmVSd3hzQlhRS1hhOHY1dEhmZDZJNzVVQ0c1QkNtbXlDTjVMTmZrR2FK?=
+ =?utf-8?B?VWU1MFFrOFNOd1Q2d3FXOStndm9vY0swN2M1dFJURUlFVW5nMlZTbGtrTHEz?=
+ =?utf-8?B?STRESElhbkU3S2pOdVhsMmRIaXZ6QnplTkxzbk5mM29FMjAyTDdVOS9YSjhP?=
+ =?utf-8?B?MXU2VXF2MXhTMWhENXY2cDNFQWZ0VHVmdDFiTkJrSE5UOXFXekJtNVJwT3lz?=
+ =?utf-8?B?TllGVDNTL3hSQWR2a2NOZ0FRNW1oMXlCZVF6LzJIaUpGT3NpQlFIZjFYQ3Rq?=
+ =?utf-8?B?a0dMTmtOR2hLN1NUTWRpWWhqQzg1MDhoUVhkam1jUDhqM004VVhKVE41djNv?=
+ =?utf-8?B?VXF3TGNwZU5xVXNjNTdnOUsyZllpVExpMlY4RDNrRDduVHhyTDJSaUI0VjhL?=
+ =?utf-8?B?UWR4QXpLdHl5dHhUSkY2em5qaHdVSEtMYjVTMUlXelBtT2Q0V0J1cGxyZUV6?=
+ =?utf-8?B?UmhCTHFHOEVKektHTE1aVDh6QVRpTGpnSGpYQlZ4RHVEV0QrU0Z1U0QwNTNX?=
+ =?utf-8?B?TDJlOGR1SXA4K2xtWHF2aGxncHBJV1BDVDJPVGR3WkVvSURlWHFwNWZZbGxn?=
+ =?utf-8?B?NDRHaGVCQ2owTDRGSjZCbElKTDA5MTBueDQzTGI0UlhCb3lRMFh6Um5ONUdL?=
+ =?utf-8?B?LzZhc2JNK3lxQm9iOHdMaFJwK01vQk11OFIvTkh0dW5CYXBibGljQzNtbzhC?=
+ =?utf-8?B?MDBFTXI5UDNaOE1lRVZaeVA0ZzRPQjM2SjZpWE5QSUk4TmZoeFhHN3IwWmI0?=
+ =?utf-8?B?RU02NDFaUW56UUtLMGMrc29UVFdldWpSYTRvRGtQdDNrOWxKU2V1QXJ6S0hB?=
+ =?utf-8?Q?cmUXtQZGRD600YRkEr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f874b616-714c-46c9-7f12-08de75e7be79
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 10:05:33.0887 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /5pIozMZIUIGUR2ZxLVc9Gdc6arNylA+fwGXwVAJ86ZVsE2Hr44w1+bRp3xhrOKb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5628
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,134 +150,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:christian.koenig@amd.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:matthew.auld@intel.com,m:arunpravin.paneerselvam@amd.com,m:simona.vetter@ffwll.ch,m:airlied@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mattev@meta.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[ursulin.net];
+	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,amd.com,linux.intel.com,suse.de,ffwll.ch,gmail.com,lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	NEURAL_HAM(-0.00)[-0.997];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url,igalia.com:email,ursulin.net:mid,ursulin.net:dkim]
-X-Rspamd-Queue-Id: 8ECB41B5BE0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 63BBA1B5BF6
 X-Rspamd-Action: no action
 
-
-On 27/02/2026 08:41, Maxime Ripard wrote:
-> On Thu, Feb 26, 2026 at 12:42:39PM +0000, Tvrtko Ursulin wrote:
->>
->> On 26/02/2026 10:56, Maxime Ripard wrote:
->>> Hi Tvrtko,
->>>
->>> On Tue, Feb 24, 2026 at 12:49:01PM +0000, Tvrtko Ursulin wrote:
->>>>
->>>> On 24/02/2026 11:03, Maxime Ripard wrote:
->>>>> Some DRM tests cross the 1s execution time threshold that defines a test
->>>>> as slow. Let's flag them as such.
->>>>
->>>> Curious that both did not trigger for me and I even run them under nested
->>>> qemu most of the time.
->>>>
->>>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->>>>> ---
->>>>>     drivers/gpu/drm/scheduler/tests/tests_basic.c | 4 ++--
->>>>>     drivers/gpu/drm/tests/drm_buddy_test.c        | 2 +-
->>>>>     2 files changed, 3 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->>>>> index 82a41a456b0a..a5a5a35a87b0 100644
->>>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->>>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->>>>> @@ -419,11 +419,11 @@ static void drm_sched_change_priority(struct kunit *test)
->>>>>     		drm_mock_sched_entity_free(entity[i]);
->>>>>     }
->>>>>     static struct kunit_case drm_sched_priority_tests[] = {
->>>>>     	KUNIT_CASE(drm_sched_priorities),
->>>>> -	KUNIT_CASE(drm_sched_change_priority),
->>>>> +	KUNIT_CASE_SLOW(drm_sched_change_priority),
->>>>
->>>> This one deliberately aims to run for ~1s and I don't have an immediate idea
->>>> how it would go over 2s.
->>>
->>> 1s is the threshold for a slow test:
->>> https://elixir.bootlin.com/linux/v6.19.3/source/lib/kunit/test.c#L365
->>>
->>> It only warns about it if it crosses 2s, but if it's expected to take
->>> 1s, it should be flagged as such still.
->>
->> I know, just curious which environment managed to trigger the warning.
->> Because I thought my test setup was the slowest one (nested virtualization -
->> qemu-system inside vmware).
+On 2/26/26 21:22, Matt Evans wrote:
+> Add a new dma-buf ioctl() op, DMA_BUF_IOCTL_REVOKE, connected to a new
+> (optional) dma_buf_ops callback, revoke().  An exporter receiving this
+> will _permanently_ revoke the DMABUF, meaning it can no longer be
+> mapped/attached/mmap()ed.  It also guarantees that existing
+> importers have been detached (e.g. via move_notify) and all mappings
+> made inaccessible.
 > 
-> I was running a cross-compiled arm64 system on my x86 machine, so
-> emulated. That being said, that one didn't cross the 2s threshold
-> either.
+> This is useful for lifecycle management in scenarios where a process
+> has created a DMABUF representing a resource, then delegated it to
+> a client process; access to the resource is revoked when the client is
+> deemed "done", and the resource can be safely re-used elsewhere.
 
-Good to know I wasn't missing something obvious in the test logic.
+Well that means revoking from the importer side. That absolutely doesn't make sense to me.
 
-The tweaks I just sent change some tests from emitting 1000 1ms jobs to 
-only emitting 500 of them. Effectively targetting their runtime to 
-500ms, plus the hrtimer and worker item scheduling delays. Hopefully 
-even under emulation that is enough of a margin to never get over 1s, 
-let alone 2s of wall clock time.
+Why would you do that?
 
 Regards,
+Christian.
 
-Tvrtko
-
 > 
-> Other tests did, and I used the occasion to flag every test that was
-> taking more than 1s.
+> Signed-off-by: Matt Evans <mattev@meta.com>
+> ---
+>  drivers/dma-buf/dma-buf.c    |  5 +++++
+>  include/linux/dma-buf.h      | 22 ++++++++++++++++++++++
+>  include/uapi/linux/dma-buf.h |  1 +
+>  3 files changed, 28 insertions(+)
 > 
->>>>>     	{}
->>>>>     };
->>>>>     static struct kunit_suite drm_sched_priority = {
->>>>>     	.name = "drm_sched_basic_priority_tests",
->>>>> @@ -544,11 +544,11 @@ static void drm_sched_test_credits(struct kunit *test)
->>>>>     	drm_mock_sched_entity_free(entity);
->>>>>     	drm_mock_sched_fini(sched);
->>>>>     }
->>>>>     static struct kunit_case drm_sched_credits_tests[] = {
->>>>> -	KUNIT_CASE(drm_sched_test_credits),
->>>>> +	KUNIT_CASE_SLOW(drm_sched_test_credits),
->>>>
->>>> Same really.
->>>>
->>>> Anyway, the scheduler parts LGTM and I can follow up trying to optimise
->>>> these two later.
->>>>
->>>> For the scheduler:
->>>>
->>>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>
->>> Thanks!
->>
->> I have a patch already which makes those (and one more) test cases faster,
->> but I will wait sending it until you merge this one.
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index edaa9e4ee4ae..b9b315317f2d 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -561,6 +561,11 @@ static long dma_buf_ioctl(struct file *file,
+>         case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
+>                 return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
+>  #endif
+> +       case DMA_BUF_IOCTL_REVOKE:
+> +               if (dmabuf->ops->revoke)
+> +                       return dmabuf->ops->revoke(dmabuf);
+> +               else
+> +                       return -EINVAL;
 > 
-> Ack, thanks!
-> Maxime
+>         default:
+>                 return -ENOTTY;
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 0bc492090237..a68c9ad7aebd 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -277,6 +277,28 @@ struct dma_buf_ops {
+> 
+>         int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+>         void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> +
+> +       /**
+> +        * @revoke:
+> +        *
+> +        * This callback is invoked from a userspace
+> +        * DMA_BUF_IOCTL_REVOKE operation, and requests that access to
+> +        * the buffer is immediately and permanently revoked.  On
+> +        * successful return, the buffer is not accessible through any
+> +        * mmap() or dma-buf import.  The request fails if the buffer
+> +        * is pinned; otherwise, the exporter marks the buffer as
+> +        * inaccessible and uses the move_notify callback to inform
+> +        * importers of the change.  The buffer is permanently
+> +        * disabled, and the exporter must refuse all map, mmap,
+> +        * attach, etc. requests.
+> +        *
+> +        * Returns:
+> +        *
+> +        * 0 on success, or a negative error code on failure:
+> +        * -ENODEV if the associated device no longer exists/is closed.
+> +        * -EBADFD if the buffer has already been revoked.
+> +        */
+> +       int (*revoke)(struct dma_buf *dmabuf);
+>  };
+> 
+>  /**
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index 5a6fda66d9ad..84bf2dd2d0f3 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -178,5 +178,6 @@ struct dma_buf_import_sync_file {
+>  #define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, __u64)
+>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE _IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
+>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE _IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
+> +#define DMA_BUF_IOCTL_REVOKE   _IO(DMA_BUF_BASE, 4)
+> 
+>  #endif
+> --
+> 2.47.3
+> 
 
