@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EF8iNdIkoWlOqgQAu9opvQ
+	id wLx7FtUkoWlOqgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:00:02 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:00:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED941B2C55
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28611B2C72
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4529A10E0F3;
-	Fri, 27 Feb 2026 04:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6353110E1E2;
+	Fri, 27 Feb 2026 05:00:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BDoZWs/8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V4TCSJMl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26E6B10E0F3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 04:59:58 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-824ac5d28f9so1676495b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 20:59:58 -0800 (PST)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A4A10E1E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 05:00:01 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-824b32875e7so881130b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 21:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772168397; x=1772773197; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9M9yKCPLn+iVOORDFLmMfOISzVgCjsTOG3aAkzJLHbw=;
- b=BDoZWs/8iGifswYOU9AdeiZfpPCZ7B0zmEgBCOjAJA2Dqa6S01j84slFwW6H/k/swg
- hD230WsRBA+n7st5yvcabrCK/EnuOB9fXIC3CdVSczaNx9jkuWQ0vXQhbc/W9cw7DEu0
- 1mt0CEkgDSvTa0HIIE5zlY8o7gvmAzr+cf/FjwxKrGNeLg9bPmxH+2jVSiKo++3uZgtC
- 7KKgCZMmHmUoD8isqFd8GLpHNNPI66q8MaVNh4Oz+mi+vBiJh+mEiuTrNzNEYfu8WfEM
- lsm557zPB5xifdR8vv3bNS5JDLqik/7mD16I5U7ywjcQNp5IZV2upYmLh2RXCdKRJjRd
- UmpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772168397; x=1772773197;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772168401; x=1772773201; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9M9yKCPLn+iVOORDFLmMfOISzVgCjsTOG3aAkzJLHbw=;
- b=JoSytdSN02TMSnLwMwUFeJh9PtYvIGq/pwcgjWUGIZKA5OJCgay8ko22SlAQ5X9xoV
- b8jyTy6JSbhQlHuCkz8X1nZ8IuwXaJF7e8LyU6E+4L77NkWjGsG+5b/HSZA5KXovwFw4
- gilnZgDMW6rOKBZWS1okh3c0n6V9hXlzTpHYSk5o5MOhnS4eBzHHrwBd+ndPG5ONJWup
- rEzb4FtBpP1KlLHiqS4KDOOV9K+LJRD43FWv16Isgdix6Mhv0lIFu+FyE5+XHoLH+q/g
- mL9HVsbEnbu/mx7WihGhw4lZxxKtRzgENmindtEbMEs8KIJYXN4JxiKuUz7KVAXPFjDH
- n5jA==
+ bh=kWzBer8K/lUNOlKz33ehPBmEnMKwxXodb/hUWZrwOGc=;
+ b=V4TCSJMlggknHrKDtiVlD5Waqo94c2VE5VqJ3A2b5EF6m3UT09+rGxLYuj79kTc5li
+ Z8I1luORB/S6k1+RPT4GuoG5Q/MN4EHCKM9JvJF4tOYonEbz+wDkX27QtzpM9X1wSh6R
+ 6ulMN5RQa9QeePj1h+bYtFmr+dJW5GaXsFwRSmqCuKOW/V+vRwecGRjCLWLY76jat/qC
+ 61pThvfRWCzG7rSa/2KcYO8YqLu9Dn4aSEfEOdCA6V4vXZVPJc0ppjR86TC64Anowzaz
+ 1xQr+N/wMMQCzqbSRW70iM+X6eSuKhsyml9KUuziuEsZmiHQw3Rdd1uxMv634fy+U/Ww
+ GxUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772168401; x=1772773201;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=kWzBer8K/lUNOlKz33ehPBmEnMKwxXodb/hUWZrwOGc=;
+ b=bdTol7WdHKNh/DI+SRBthRkaUzuvc/356FXNzDQmjAuqGaneulb5G4qEBBKVB0E2Zq
+ KRujHlZ5bCXXBqf7tuLFiaQabIiRqH/yb1J/QRMt8vTbIDlfzUXfUl9suTCOHrANC2pG
+ r2Zp1Kp1M3n0W7Kssf+7AW8WwG0VPSOezUgEQhM8WUIIaxGklXQuWOhWXKrAOJB9flJq
+ vSjSnale+FhuQCa1KhvI982KFCKLWUZ+mKn02dHIiCYdNzrUhs3zY+mg+6eL63s5Cz6O
+ /HcANn8SjS6dJ40mCfVUYOjfAZrFniDu+78JTC4oXbFOqnUEZtPhwlIkq28mK2uY82c4
+ 4fkA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrmFeC7E6loMNtLGiSmzOmT72gPVva7b+Ej/hUo5Ch9Q33fOhlpXltuhXY7pk9NgJTZL8F2jfrf3U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBpMnDFUj8vJoTWWKxOn96KfewX3PdkN/dNI3mNweQ07ST58us
- Um54NQl/K0ymajQGIzSdw8x9nKKKdQ2qnGq6dfNWZsl7esfzdHA8HVtM
-X-Gm-Gg: ATEYQzx6fQ6IWw1CDqVC5TqYGotRWrQ9JurjFhqPKN79LaNN2wbePUydGxNfLCh3yvu
- 8wPhT65Ir7nXcwYv/WQlC0YE6fGGUlRKbOgWBK0WShQvMFmo1kqJuVzSe9ZY5AYz6gVnrZpFpnr
- zg66VcrcwsdcDolzF/mevtRly486DluhzMjv7MroQVYgYZ+VSa+rdZONCWgquULXNaIf4PK/9c4
- ctothEze2uLbKml6haDfnnm8K6gIUlGat+mh27sZEDfbUyOKlbXa3ho8T6cMcPft/e7N4pty7dO
- FYXHy/NsfM/eoRrZSQcQi5oadGmt7DZtgSMMRx6UtiPOoUakI5/29yP8W9ZVIH1Qr5e03CjUToJ
- wy1xzytGT0PYybZhnq+iQtHTphG9RMlm9iimju1ptq5akxjp5ptQrWYa6NYxtZ2gA2IHgFo2Ti4
- ZlyBGEZpk/PlZUolWIulWg8ycrjcKKhik2LZktdFNx/Ee53gzg0Q==
-X-Received: by 2002:a05:6a00:4390:b0:81f:4566:cce6 with SMTP id
- d2e1a72fcca58-8274d969893mr1442557b3a.28.1772168397546; 
- Thu, 26 Feb 2026 20:59:57 -0800 (PST)
+ AJvYcCXALxInOmtszWqh7JIkpSe0REN+jgz53BGtn3fc2PR+D4NmAD/h1yOGGPu64QIWOaiP4YtpA8mfJ7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBfeDglkJVM2lesBfyCa66UDpQ3vJBwFHEVxbpVx/51mHJIzEv
+ DFcOqxzBa8dJadzfOxSqz7/nqzaM3BILpIVRT4f71K/ENhb7+tyNABSH
+X-Gm-Gg: ATEYQzyf84tQVoUodq7WvyfiW1DIrB2pbhKmsu3E3bf/kf+JLvoG3OqLjEkMl/GNzPG
+ LNfvWEm60hGKhcpCbQbrvu+/eKrG+lyG0drKtddGK48nfuJvk/xv8swXajR2D2zvAgNUvugl4PV
+ ue+m1n9IUJYLw3AMei8nUlNrgebvITY70RLkImC852I3jzWqHZAl8Jzgmebj4j5Z5MXpKc+IFc7
+ PrWHEkz+XdbmHgYkm3FjmYB6mbp9JWx/GtK4+lZHvCP4JzN4WOlwMjvKnUGnR5/YbTm16JMZYO7
+ CZvjJhWPy9ghJ077kbv1xQdg66f77cwjXhYURhKJ7p0c+lS1lTaR4u59lN8S/24vMQnTmP463X8
+ ZMjvd2GjwG2q2Ao7W2Cr2K6j2hc65oOdIJMnpVZ5lj1QMjWlWARYbQVvMoelnrpcTEgIJOZfZx7
+ qCECrRaKowEPwvnqtobddRi3NycD9+Oyc2FvmTDjGxrfb8LORaMw==
+X-Received: by 2002:a05:6a00:9518:b0:823:30a1:d5ba with SMTP id
+ d2e1a72fcca58-8274da04bfbmr1455329b3a.51.1772168401020; 
+ Thu, 26 Feb 2026 21:00:01 -0800 (PST)
 Received: from name2965-Precision-7820-Tower.. ([175.201.112.127])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-82739d94de6sm3966543b3a.24.2026.02.26.20.59.54
+ d2e1a72fcca58-82739d94de6sm3966543b3a.24.2026.02.26.20.59.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Feb 2026 20:59:57 -0800 (PST)
+ Thu, 26 Feb 2026 21:00:00 -0800 (PST)
 From: Jeongjun Park <aha310510@gmail.com>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -76,10 +77,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH 6.6.y 0/3] drm/exynos: vidi: fix various memory corruption bugs
-Date: Fri, 27 Feb 2026 13:59:50 +0900
-Message-Id: <20260227045953.165751-1-aha310510@gmail.com>
+Subject: [PATCH 6.6.y 1/3] drm/exynos: vidi: use priv->vidi_dev for ctx lookup
+ in vidi_connection_ioctl()
+Date: Fri, 27 Feb 2026 13:59:51 +0900
+Message-Id: <20260227045953.165751-2-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260227045953.165751-1-aha310510@gmail.com>
+References: <20260227045953.165751-1-aha310510@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,23 +131,97 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4ED941B2C55
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email]
+X-Rspamd-Queue-Id: E28611B2C72
 X-Rspamd-Action: no action
 
-This backport patch is for 6.6.y only and fixes a bug in the
-Exynos VIDI driver.
+[ Upstream commit d3968a0d85b211e197f2f4f06268a7031079e0d0 ]
 
-https://lore.kernel.org/all/20260119082553.195181-1-aha310510@gmail.com/
+vidi_connection_ioctl() retrieves the driver_data from drm_dev->dev to
+obtain a struct vidi_context pointer. However, drm_dev->dev is the
+exynos-drm master device, and the driver_data contained therein is not
+the vidi component device, but a completely different device.
 
-Jeongjun Park (3):
-  drm/exynos: vidi: use priv->vidi_dev for ctx lookup in vidi_connection_ioctl()
-  drm/exynos: vidi: fix to avoid directly dereferencing user pointer
-  drm/exynos: vidi: use ctx->lock to protect struct vidi_context member variables related to memory alloc/free
+This can lead to various bugs, ranging from null pointer dereferences and
+garbage value accesses to, in unlucky cases, out-of-bounds errors,
+use-after-free errors, and more.
 
+To resolve this issue, we need to store/delete the vidi device pointer in
+exynos_drm_private->vidi_dev during bind/unbind, and then read this
+exynos_drm_private->vidi_dev within ioctl() to obtain the correct
+struct vidi_context pointer.
+
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
+---
  drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------
- 2 files changed, 60 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 14 +++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+index 23646e55f142..06c29ff2aac0 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+@@ -199,6 +199,7 @@ struct drm_exynos_file_private {
+ struct exynos_drm_private {
+ 	struct device *g2d_dev;
+ 	struct device *dma_dev;
++	struct device *vidi_dev;
+ 	void *mapping;
+ 
+ 	/* for atomic commit */
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index 6de0cced6c9d..b31eefb3a8b1 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -223,9 +223,14 @@ ATTRIBUTE_GROUPS(vidi);
+ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
+ 				struct drm_file *file_priv)
+ {
+-	struct vidi_context *ctx = dev_get_drvdata(drm_dev->dev);
++	struct exynos_drm_private *priv = drm_dev->dev_private;
++	struct device *dev = priv ? priv->vidi_dev : NULL;
++	struct vidi_context *ctx = dev ? dev_get_drvdata(dev) : NULL;
+ 	struct drm_exynos_vidi_connection *vidi = data;
+ 
++	if (!ctx)
++		return -ENODEV;
++
+ 	if (!vidi) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev,
+ 				  "user data for vidi is null.\n");
+@@ -374,6 +379,7 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct vidi_context *ctx = dev_get_drvdata(dev);
+ 	struct drm_device *drm_dev = data;
++	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 	struct drm_encoder *encoder = &ctx->encoder;
+ 	struct exynos_drm_plane *exynos_plane;
+ 	struct exynos_drm_plane_config plane_config = { 0 };
+@@ -381,6 +387,8 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ 	int ret;
+ 
+ 	ctx->drm_dev = drm_dev;
++	if (priv)
++		priv->vidi_dev = dev;
+ 
+ 	plane_config.pixel_formats = formats;
+ 	plane_config.num_pixel_formats = ARRAY_SIZE(formats);
+@@ -426,8 +434,12 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ static void vidi_unbind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct vidi_context *ctx = dev_get_drvdata(dev);
++	struct drm_device *drm_dev = data;
++	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 
+ 	del_timer_sync(&ctx->timer);
++	if (priv)
++		priv->vidi_dev = NULL;
+ }
+ 
+ static const struct component_ops vidi_component_ops = {
+--
