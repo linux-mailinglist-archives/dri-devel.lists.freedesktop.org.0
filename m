@@ -2,160 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id y8pWF4WHoWmTuAQAu9opvQ
+	id UAHoOfeIoWmVuAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:01:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:07:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45521B6DEE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:01:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C941B6EBC
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880CF10EB11;
-	Fri, 27 Feb 2026 12:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56DB410EB1E;
+	Fri, 27 Feb 2026 12:07:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cU0aobxn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D6Vd4kgm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010011.outbound.protection.outlook.com [52.101.85.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 495F410E182;
- Fri, 27 Feb 2026 12:01:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UszfX0r+5zcHbE7X5AfdsSP3D8AHBBfVYhlshm981i6ydYNETu470RLj3cP66K1tMUY5Xn2H/fHoPEOBFouJYSzXcaWwIIn5Q9q9NQXy/cifQiOzafhsPuyzYz5LClxx/SctHs9/f+bIlM9/U/n+5TLRa09bjLxoE0GBje9JNoOko8xhbP1EBPdLdcjdYEEYXH25whJWlgf92D4ycnduSEtpUzd1Lni+clD5HDrOd6mBrrP3hAyydKP3ar5uoE7OXm38tVSKoQ0M8YqVUysjh1huivzMtQnvJPrs/3YqpUIAjgv/R9l6SWD9DXvX6j9lf95+bxGogyiwowpbcXHPyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gmSgibAXmXRkqELuPcyy1Z5lEk543pdckWPhOv9lALw=;
- b=CAxqQ11Qc2gafuXvKuALrF2hrO5I1z9Xpo9czJGF9jKdIMS/5mTf3aSMxitRL7n/WOIJRYv9eyH9suJ0uU8kW++df6abVlLnfjqxT0G8qkdT5qN3/35WDplGLV1y71L70TX5aXTu0Kog3wi2OW89Utt/SAoAhuY24JaHnmAuVpbPIcCQRex+WiMGqHoW7PvnNbI9+fszzVLE9AYwirhU9P5MdBvQSjR/aHQY8yFaNxcj9TnWaT9Pjfw400SKtIEzU+u+n6eSz+eCZjjAEWNQNmFqOHDfdQlJXdOjuS6fU3eZrC0rsu8CxlIIrp1h6YjU9M7rA+qENhtzrtxkWC8ZVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmSgibAXmXRkqELuPcyy1Z5lEk543pdckWPhOv9lALw=;
- b=cU0aobxnik7Myy2kozbk8JvRiumcXyu3EYF+zpp0PuGOVWpQYhU79px0NViIWsL/dS3+g4H2+fqAOGaVh+r1PhxC2DNjMb08caNzgJ/Pqd1xAx9PTZQKgy+X1cpIXwWQCcH6LXWi73VGm3CQ8PeHsthtzLiQSFfM91o87hae+jId9Nn+7usotoZNReF0zr/RpC2+n3M/8LLibud0craBDHHN3FO9mmZyXDBPU/nvGDWqq/TXtSOa1pgkk1654FYwf6s09/XERSgeF0X0s1Ow6Vs9lDeqYliPqg+kVYObkULrbIs3NM+dVAhrTfTfHFWx40U+Uq9t/psfMKXEYCNPjg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH8PR12MB7028.namprd12.prod.outlook.com (2603:10b6:510:1bf::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Fri, 27 Feb
- 2026 12:00:57 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 12:00:57 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Feb 2026 21:00:53 +0900
-Message-Id: <DGPQ7XDZ95N6.176S6MGHWWUCW@nvidia.com>
-Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Bjorn Roy
- Baron" <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Dave Airlie" <airlied@redhat.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
- Djukic" <ndjukic@nvidia.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>,
- "Alex Deucher" <alexander.deucher@amd.com>, "Christian Koenig"
- <christian.koenig@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang
- Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>, "Matthew
- Brost" <matthew.brost@intel.com>, "Lucas De Marchi"
- <lucas.demarchi@intel.com>, "Thomas Hellstrom"
- <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>, "Alex
- Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Andrea Righi" <arighi@nvidia.com>,
- "Zhi Wang" <zhiw@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>, "Elle
- Rhumsaa" <elle@weathered-steel.dev>, <alexeyi@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v11 4/4] rust: gpu: Add GPU buddy allocator bindings
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
- <20260224224005.3232841-5-joelagnelf@nvidia.com>
- <DGO4BIQ6MQ9Y.KB3JJQI71ETU@nvidia.com>
- <eff888d1-2caa-45bd-a611-e5772ee94e1b@nvidia.com>
- <DGOJDXWDOJD0.2J6NENL44SQJJ@nvidia.com>
- <3161a017-a9f8-465c-b4dd-fef085d75b98@nvidia.com>
-In-Reply-To: <3161a017-a9f8-465c-b4dd-fef085d75b98@nvidia.com>
-X-ClientProxiedBy: TY4P286CA0136.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37f::13) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA08C10EB1B;
+ Fri, 27 Feb 2026 12:07:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772194035; x=1803730035;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GKwpxupsEqZ+JmpRQfZpzPQwx5Te/JTxsWUhB85ZjO8=;
+ b=D6Vd4kgmPkAy+97rjiYqLFY7QASCaw8N5DvdQixyWTY6AAf21exTp2ml
+ 8O89KoDR21x3E0ItwuNYRV0PlGft1EkuSteddvt54LTAIyR4jmzUd/1DN
+ EvbI5AU7lXGfCWztqRJjNCLBf8WGmgdklXMy5cxslKGQMc0KG7tFtLkTX
+ g4W/ckj+SQh9kNrolje1xsjFJPCopYVp9rcMJOMgZe9Hv4F3P3xnL/1lu
+ MY+jYQKXMQ6w7WpviwCzcuKlLa/AE38MIxkk6E36eW1wG/RuVfRLlbWGj
+ pv5LfE7Vjxg6bIHbX67D29nkzr5jeZfn529OJyn60qgS/1NCGHExpcV5S g==;
+X-CSE-ConnectionGUID: ucnbrETpSXyEfELcmdnYwg==
+X-CSE-MsgGUID: r42jQhy4R6+0gn0DwnLaDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83909656"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="83909656"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2026 04:07:14 -0800
+X-CSE-ConnectionGUID: jODbLRutR+Gh0wxJ/HIREQ==
+X-CSE-MsgGUID: sA8HvevjT+CpmLHqrpVOfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="254661486"
+Received: from gsd-build.iind.intel.com ([10.190.229.167])
+ by orviesa001.jf.intel.com with ESMTP; 27 Feb 2026 04:07:11 -0800
+From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ Dunajski Bartosz <bartosz.dunajski@intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [RFC v5 1/1] drm/xe/pf: Restrict device query responses in admin-only
+ PF mode
+Date: Fri, 27 Feb 2026 12:07:04 +0000
+Message-ID: <20260227120702.3651913-4-satyanarayana.k.v.p@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260227120702.3651913-3-satyanarayana.k.v.p@intel.com>
+References: <20260227120702.3651913-3-satyanarayana.k.v.p@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH8PR12MB7028:EE_
-X-MS-Office365-Filtering-Correlation-Id: 544f301f-e9fe-4ead-a23f-08de75f7ddcc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|376014|7416014|366016|1800799024; 
-X-Microsoft-Antispam-Message-Info: JbKSEXqkditTYlKNcbIwDpv02JWrNGLgLGLx2PRfcL3bm2Ak9rkX+HO6JC4tsxw3okoc4J9PNryafXQLe5eVJoHyVJkLxyw3DTB5P48G4nfPE1yArkXdyjPq/ZUnD7pdYAHJc2PmJCw3vkOvM+1ibR3bLg40Y9rfySE7eAkbgguTtbzm4KfywFIfVds8FDGxYAqRViez7rqvsUvqE7YZdLczbgRn5v9+oueBpkicOve57OmTY4wZs1AXOtLEwMm4OJLgdlasOP0taCNHDhUZl3/5qeou3vMJHnkH7HT+TOTr/4A20gvkuKvjS4B1qJij+1paYczlnbIjl/bJGn6y6t18TxWXzWtOXD0k7XXnJ88lpOlXBnoHF6OipFfB3zwGt4kFwLOwtgPEJCK+xDtXfCpKrAEt18Rtr9x9Apeija4DjmUc2WazESOS2x6XQnqL37wrq+fDEHe6KzI+idGB2f90FHBufpG8p6ZDBoRnxdkAesbSYHeZPRA7b/oSY2rf14lK9nYM3afb6ey1gfcssfcnjPsKtGqy2K/fQBjkOgFUgyfF6hxp6EO5RYC60ZrCnWm+ojaEq3OKuOG9cTpkdbyqaSJRvLIcI6Mvwo1xphvZbUSV0739XZ/QhyWnSFZmsFpwM3MLK70IiaMznAapr6pycI32+PRpX/yi9f+pIFKT0iL232mIQhx+IIdk2REUO+DmX4OvIMBoD2asuN4I7ngV7TBC091Bdmz0wFGv6BU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(376014)(7416014)(366016)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MmtPM2ZCNjlOSG9keHZZT09JeGgrcmplbWM2OUw1UGRPcDVxbWczQkFXcTlx?=
- =?utf-8?B?a2tmOFUvVVUwY21nM3pTSzczWlk4SmtHM3R0SkJIeHFobjhiZDF2SlB1ZS9B?=
- =?utf-8?B?R2tGQ25MejlYU0puTEtDbnNRcnowc1JPbFdFUVBsMjFMMlo1Q1had09naFo4?=
- =?utf-8?B?Z0FPVkU1cEdxUmtCTE9QMkxJUE5jRkxmakhIY01jYU51Sk9ZZndvdGQzN3do?=
- =?utf-8?B?LzBSOEZBQUYwSVJ4T3VhVm1CS3BURVZpd1plRm0vZFlaejRJZXJlam5JWWpT?=
- =?utf-8?B?cG9Zbzk5UVlIMHZaazFmd0tTM05XRnZNd08wbjhGZUVrT1RKbytJRjdCajVh?=
- =?utf-8?B?RWhKaXFkbUpKR3pjWFRheEVSOUZvUXJqMjgzWFIzdGRORUE5TTQ2ZTBsbGVp?=
- =?utf-8?B?VnV4QkkxMFJrYUFRb3RDM3U5emV2U2N3YTlLVTJsTkg1eGV0RVl0bW92ak04?=
- =?utf-8?B?ZmFxa1BndkxvVDZNajcxSUZGWGVib2VLb0p2anE2NW5qRk8yZFlQTzJNTU0y?=
- =?utf-8?B?Skw5RUF0akU5NE9aTXN5OGF6MUNaREl4M2wrWHN5VmZVejZEMHlLcHB6WFEy?=
- =?utf-8?B?SzlWdkVsbGFoV3FrMUdxYVN0N1RmNkNUMGI2eHQzTm1YL2N5R3VyZnB4NUpV?=
- =?utf-8?B?ZFpIYjhoVEJZVTg1RVdqUVQxbWJ0akRmV1daUmtkQ2IyandhMklXbzM2Tzhk?=
- =?utf-8?B?WWExRzFPcUpjMzlaQytmVVpsUERBcmlGaEI3Tm51cDRxV3dQMlliRXh5UkR4?=
- =?utf-8?B?NTB1d2RITnpBcjhmOVVZcWNLeEx1RTE3VnpNa2E5eXhERXB5YkRscythOWNX?=
- =?utf-8?B?dml4WU9zcWYrMjlCWlUvNzVMM0tEalc1cFBsaTBTanFERGsyZUlaR000Q0Vx?=
- =?utf-8?B?OUlsekNsb3FJak1sK1ZENDNDM2FUMjZ6Ylp2YXVydWdwbjAzalE3WWlCRjFo?=
- =?utf-8?B?a0xsTjhLRkx5MTNqU3AwUnh5TFdqL0NndUNwUDJuWkQwZHVnbzNSQUhEaVdt?=
- =?utf-8?B?dDB1eFRtb1FrTHVhSXhEMEVhNVdyVFdwY21GNTJxV29tVVBwd1VzQjRMRkg1?=
- =?utf-8?B?UmU2TEM4WXpYcklBRTN1YVErejV3UFlqRzdlNENaem9sWFpuN1BJUFRNSXc5?=
- =?utf-8?B?bjZLSHVEbmFVSncwR2RLZHUxRkZpdlUyUHhHZ0E3T2xwU2lqVU1BWmNDSVh5?=
- =?utf-8?B?NGlyRjc5Q3R6U1NHQmlTRXE0K0FkWmRxSmZUaUd6WUFzbkorckpYMWFHWkJC?=
- =?utf-8?B?QlNzYU11WXlhTE9XL1JVTDBOd0xMazNqRHUxV2pMK3F4dUVjazRrd0VDVHZZ?=
- =?utf-8?B?ZmREUjY1U0ZPUkYybTNRVnFvM08vV2F4bEszQXhoRE9STG5rUVMyaHVTRmYy?=
- =?utf-8?B?TW1pWkROaVBURTB5NHdiUmk0N1dHMklONTYyNDU1cGtETWhCamhUbGF2Q01R?=
- =?utf-8?B?WUpXMXFWUkJ5Sm1BdnRjazJXWCs1QTQxTHZZMHRRWjArRStuOGtsYWdGRUE4?=
- =?utf-8?B?T1NsRXVuM3krbVBsUEFGRmpqZ1lQeDlnUGdZd1FBUXFZZEdjUEhkSGVuM0Na?=
- =?utf-8?B?TTk4c2NYR0lzUWl6VGo2R2RzNlo2UjJDZlFrYTh2L0NwR241VUJMMk84UWxY?=
- =?utf-8?B?TkhEbnZNN0lra3hZWE9vRUtGTE9VNXBOaWIvRk92bmg5Y1cxdlk1dDdzdWhk?=
- =?utf-8?B?QUhsTUk1NjdncWw4TzhNVzhUNGRPMHRpNFM5TWdYa3BjVG1BcFFVVGRwdVA2?=
- =?utf-8?B?U2hzZytaZWo1dXNvWWZOeVZJUklUSUZkZXBzeDVudmk2QWdUUW41WDJycXlz?=
- =?utf-8?B?TjlRcTRLS0JZbW03L0FsSTBnRDB3K3lyaTdaRHZoZDJBSFd5ZzBsdVJVYXVN?=
- =?utf-8?B?QjYvV2w1VmhrS0FCMk1kM3RiSVlqRll3cU5WTC9SdlQ4TDN2SHRxNEdaVWJ3?=
- =?utf-8?B?blFTdkl6VU8xNk14OGZXaVJPYXFJdWxVV1lSTWlYYXJwMGt2Tm96NWVad1VN?=
- =?utf-8?B?U21nWFBLVWlkc2dJODBORWlVUHp5aWM5cXk0aEhwd3Y4NklOR0hBYWJ4OGZp?=
- =?utf-8?B?NHpRaG5mL3ZxYjlPSmczYTlnU2VudDd5angrMzY0a25BNnRPYjNIUWh0VTJU?=
- =?utf-8?B?dlNZd0pSTjVIazM4THFxa1k5ZjlKTmJ2bVMwOFRmYi9abDIwRHBnUDJPUGt2?=
- =?utf-8?B?aHp2NTV4OHRTNGNROEc0Z1Y4RnNSZmZaQU9SY2JEc1YrM1FHbXk5Wm1ZdXZY?=
- =?utf-8?B?b3pyRXdRN2FBR1hMN0xNWlc2TjVpUDRTejJUQkRWMmNabEZnTWFkRjg5eXpl?=
- =?utf-8?B?YjB0MHNqSW9VZXVzL1Z4OHlRZ09JRm5VRm9aTDJMUmI2dG9TcytIc2kwWGor?=
- =?utf-8?Q?cs/HoqauCbduCUjQ9SB2Gfb7qf2ViTZbzeLIFUEF0DDni?=
-X-MS-Exchange-AntiSpam-MessageData-1: tHQ+soE4LzCBpA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 544f301f-e9fe-4ead-a23f-08de75f7ddcc
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 12:00:57.3726 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PVEb8itbIthP8k07ALULCUsyyb5z2E8WzwJHilF4oc9FoSdRV1cs23AELAI5/fhn6IXKWD8xUwtGHq+B7w4uMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7028
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,84 +81,370 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[48];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,nvidia.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,gmail.com,weathered-steel.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.986];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,driver.name:url];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E45521B6DEE
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[satyanarayana.k.v.p@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 50C941B6EBC
 X-Rspamd-Action: no action
 
-On Fri Feb 27, 2026 at 6:42 AM JST, Joel Fernandes wrote:
-<snip>
->>=20
->> And the job of `alloc_blocks` is also simplified:
->>=20
->>     let (start, end) =3D match mode {
->>         GpuBuddyAllocMode::Range { start, end } =3D> (start, end),
->>         _ =3D> (0, 0),
->>     };
->>     let flags =3D mode.into_flags() | u32::from(flags) as usize;
->>     // ... and just invoke the C API with these parameters.
->>=20
->>> if the C allocator evolves its flag semantics (new combinations become
->>> valid, or existing constraints change), an enum on the Rust side would
->>> break. It's simpler and more maintainable to pass combinable flags and
->>> let the C allocator validate -- which it already does. The switch to
->>> `impl_flags!` will work for us without over-constraining.
->>=20
->> The evolution you describe is speculative and unlikely to happen as it
->> would break all C users just the same. And if the C API adds new flags
->> or allocation modes, we will have to update the Rust abstraction either
->> way.
->
-> How/why would it break C users? Currently top down + range is silently ig=
-nored,
-> implementing it is unlikely to break them.
->
-> I also wouldn't call it speculative: top-down within a range is a natural
-> feature the C allocator could add right? By modeling modes as a mutually
-> exclusive enum, we're disallowing a flag combination that could become
-> valid in the future. That's fine for now, but something to keep in mind a=
-s we
-> choose this design. We could add a new RangeTopDown mode variant in the f=
-uture,
-> though. That said, I've made the switch to the enum as
-> you suggested since it is cleaner code! And is more Rust-like as you poin=
-ted.
+When a PF is configured in admin-only mode, it is intended for management
+only and must not expose workload-facing capabilities to userspace.
 
-Ah, I thought you were talking about new flags - the case you are
-quoting is different, and indeed more concerning. I guess if things were
-to change in that direction we would have to move top-down into its own
-flag and update our users. But for now we should try to support the
-existing actual semantics as closely as possible, and without any
-surprise if possible - what you get is exactly what you get, without
-anything swept under the rug (the silent masking done on the C side
-freaks me out a little bit tbh ^_^;).
+Limit the exposed ioctl set in admin-only PF mode to XE_DEVICE_QUERY, and
+suppress capability-bearing query payloads so userspace cannot discover
+execution-related device details in this mode.
 
-Should top-down become a flag, our current API also wouldn't become
-incorrect - it would just be incomplete in that it doesn't support the
-new use-case until we update it, so thankfully that wouldn't be a
-critical issue.
+Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
+Cc: Dunajski Bartosz <bartosz.dunajski@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+
+---
+V4 -> V5:
+- Updated commit message (Matt B).
+- Introduced new driver_admin_only_pf structure (Michal Wajdeczko).
+- Updated all query configs (Michal Wajdeczko).
+- Renamed xe_device_is_admin_only() to xe_device_is_admin_only_pf()
+- Fixed other review comments (Michal Wajdeczko).
+
+V3 -> V4:
+- Suppressed device capabilities in admin-only PF mode. (Wajdeczko)
+
+V2 -> V3:
+- Introduced new helper function xe_debugfs_create_files() to create
+debugfs entries based on admin_only_pf mode or normal mode.
+
+V1 -> V2:
+- Rebased to latest drm-tip.
+- Update update_minor_dev() to debugfs_minor_dev().
+---
+ drivers/gpu/drm/xe/xe_device.c | 47 +++++++++++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_query.c  | 55 ++++++++++++++++++++++++----------
+ drivers/gpu/drm/xe/xe_sriov.h  | 11 +++++++
+ 3 files changed, 94 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 3462645ca13c..76d534491e01 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -25,6 +25,7 @@
+ #include "regs/xe_regs.h"
+ #include "xe_bo.h"
+ #include "xe_bo_evict.h"
++#include "xe_configfs.h"
+ #include "xe_debugfs.h"
+ #include "xe_defaults.h"
+ #include "xe_devcoredump.h"
+@@ -213,6 +214,10 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+ 			  DRM_RENDER_ALLOW),
+ };
+ 
++static const struct drm_ioctl_desc xe_ioctls_admin_only_pf[] = {
++	DRM_IOCTL_DEF_DRV(XE_DEVICE_QUERY, xe_query_ioctl, DRM_RENDER_ALLOW),
++};
++
+ static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+ 	struct drm_file *file_priv = file->private_data;
+@@ -415,6 +420,29 @@ static struct drm_driver driver = {
+ 	.patchlevel = DRIVER_PATCHLEVEL,
+ };
+ 
++static struct drm_driver driver_admin_only_pf  = {
++	.driver_features =
++	    DRIVER_GEM | DRIVER_GEM_GPUVA,
++	.open = xe_file_open,
++	.postclose = xe_file_close,
++
++	.gem_prime_import = xe_gem_prime_import,
++
++	.dumb_create = xe_bo_dumb_create,
++	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
++#ifdef CONFIG_PROC_FS
++	.show_fdinfo = xe_drm_client_fdinfo,
++#endif
++	.ioctls = xe_ioctls_admin_only_pf,
++	.num_ioctls = ARRAY_SIZE(xe_ioctls_admin_only_pf),
++	.fops = &xe_driver_fops,
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
++};
++
+ static void xe_device_destroy(struct drm_device *dev, void *dummy)
+ {
+ 	struct xe_device *xe = to_xe_device(dev);
+@@ -439,16 +467,24 @@ static void xe_device_destroy(struct drm_device *dev, void *dummy)
+ struct xe_device *xe_device_create(struct pci_dev *pdev,
+ 				   const struct pci_device_id *ent)
+ {
++	struct drm_driver *active_drm_driver = &driver;
+ 	struct xe_device *xe;
+ 	int err;
+ 
+-	xe_display_driver_set_hooks(&driver);
++	/*
++	 * Since XE device is not initialized yet, read from configfs
++	 * directly to decide whether we are in admin-only PF mode or not.
++	 */
++	if (xe_configfs_admin_only_pf(pdev))
++		active_drm_driver = &driver_admin_only_pf;
++
++	xe_display_driver_set_hooks(active_drm_driver);
+ 
+-	err = aperture_remove_conflicting_pci_devices(pdev, driver.name);
++	err = aperture_remove_conflicting_pci_devices(pdev, active_drm_driver->name);
+ 	if (err)
+ 		return ERR_PTR(err);
+ 
+-	xe = devm_drm_dev_alloc(&pdev->dev, &driver, struct xe_device, drm);
++	xe = devm_drm_dev_alloc(&pdev->dev, active_drm_driver, struct xe_device, drm);
+ 	if (IS_ERR(xe))
+ 		return xe;
+ 
+@@ -708,6 +744,11 @@ int xe_device_probe_early(struct xe_device *xe)
+ 
+ 	xe_sriov_probe_early(xe);
+ 
++	if (xe_configfs_admin_only_pf(to_pci_dev(xe->drm.dev)) && !IS_SRIOV_PF(xe)) {
++		drm_err(&xe->drm, "Admin-only PF mode is enabled in non PF mode\n");
++		return -ENODEV;
++	}
++
+ 	if (IS_SRIOV_VF(xe))
+ 		vf_update_device_info(xe);
+ 
+diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
+index 34db266b723f..f46e62797dd6 100644
+--- a/drivers/gpu/drm/xe/xe_query.c
++++ b/drivers/gpu/drm/xe/xe_query.c
+@@ -55,6 +55,9 @@ static size_t calc_hw_engine_info_size(struct xe_device *xe)
+ 	u8 gt_id;
+ 	int i = 0;
+ 
++	if (xe_device_is_admin_only_pf(xe))
++		return 0;
++
+ 	for_each_gt(gt, xe, gt_id)
+ 		for_each_hw_engine(hwe, gt, id) {
+ 			if (xe_hw_engine_is_reserved(hwe))
+@@ -126,7 +129,10 @@ query_engine_cycles(struct xe_device *xe,
+ 	if (IS_SRIOV_VF(xe))
+ 		return -EOPNOTSUPP;
+ 
+-	if (query->size == 0) {
++	if (xe_device_is_admin_only_pf(xe))
++		size = 0;
++
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -190,7 +196,7 @@ static int query_engines(struct xe_device *xe,
+ 	u8 gt_id;
+ 	int i = 0;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -231,6 +237,9 @@ static size_t calc_mem_regions_size(struct xe_device *xe)
+ 	u32 num_managers = 1;
+ 	int i;
+ 
++	if (xe_device_is_admin_only_pf(xe))
++		return 0;
++
+ 	for (i = XE_PL_VRAM0; i <= XE_PL_VRAM1; ++i)
+ 		if (ttm_manager_type(&xe->ttm, i))
+ 			num_managers++;
+@@ -248,7 +257,7 @@ static int query_mem_regions(struct xe_device *xe,
+ 	struct ttm_resource_manager *man;
+ 	int ret, i;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -309,13 +318,13 @@ static int query_mem_regions(struct xe_device *xe,
+ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
+ {
+ 	const u32 num_params = DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY + 1;
+-	size_t size =
++	size_t size = xe_device_is_admin_only_pf(xe) ? 0 :
+ 		sizeof(struct drm_xe_query_config) + num_params * sizeof(u64);
+ 	struct drm_xe_query_config __user *query_ptr =
+ 		u64_to_user_ptr(query->data);
+ 	struct drm_xe_query_config *config;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -358,15 +367,15 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
+ static int query_gt_list(struct xe_device *xe, struct drm_xe_device_query *query)
+ {
+ 	struct xe_gt *gt;
+-	size_t size = sizeof(struct drm_xe_query_gt_list) +
+-		xe->info.gt_count * sizeof(struct drm_xe_gt);
++	size_t size = xe_device_is_admin_only_pf(xe) ? 0 :
++		sizeof(struct drm_xe_query_gt_list) + xe->info.gt_count * sizeof(struct drm_xe_gt);
+ 	struct drm_xe_query_gt_list __user *query_ptr =
+ 		u64_to_user_ptr(query->data);
+ 	struct drm_xe_query_gt_list *gt_list;
+ 	int iter = 0;
+ 	u8 id;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -436,7 +445,10 @@ static int query_hwconfig(struct xe_device *xe,
+ 	void __user *query_ptr = u64_to_user_ptr(query->data);
+ 	void *hwconfig;
+ 
+-	if (query->size == 0) {
++	if (xe_device_is_admin_only_pf(xe))
++		size = 0;
++
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -464,6 +476,9 @@ static size_t calc_topo_query_size(struct xe_device *xe)
+ 	size_t query_size = 0;
+ 	int id;
+ 
++	if (xe_device_is_admin_only_pf(xe))
++		return 0;
++
+ 	for_each_gt(gt, xe, id) {
+ 		query_size += 3 * sizeof(struct drm_xe_query_topology_mask) +
+ 			sizeof_field(struct xe_gt, fuse_topo.g_dss_mask) +
+@@ -505,7 +520,7 @@ static int query_gt_topology(struct xe_device *xe,
+ 	struct xe_gt *gt;
+ 	int id;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -559,11 +574,12 @@ static int
+ query_uc_fw_version(struct xe_device *xe, struct drm_xe_device_query *query)
+ {
+ 	struct drm_xe_query_uc_fw_version __user *query_ptr = u64_to_user_ptr(query->data);
+-	size_t size = sizeof(struct drm_xe_query_uc_fw_version);
++	size_t size = xe_device_is_admin_only_pf(xe) ? 0 :
++		sizeof(struct drm_xe_query_uc_fw_version);
+ 	struct drm_xe_query_uc_fw_version resp;
+ 	struct xe_uc_fw_version *version = NULL;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -634,6 +650,9 @@ static size_t calc_oa_unit_query_size(struct xe_device *xe)
+ 	struct xe_gt *gt;
+ 	int i, id;
+ 
++	if (xe_device_is_admin_only_pf(xe))
++		return 0;
++
+ 	for_each_gt(gt, xe, id) {
+ 		for (i = 0; i < gt->oa.num_oa_units; i++) {
+ 			size += sizeof(struct drm_xe_oa_unit);
+@@ -659,7 +678,7 @@ static int query_oa_units(struct xe_device *xe,
+ 	struct xe_gt *gt;
+ 	u8 *pdu;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -711,11 +730,12 @@ static int query_oa_units(struct xe_device *xe,
+ static int query_pxp_status(struct xe_device *xe, struct drm_xe_device_query *query)
+ {
+ 	struct drm_xe_query_pxp_status __user *query_ptr = u64_to_user_ptr(query->data);
+-	size_t size = sizeof(struct drm_xe_query_pxp_status);
++	size_t size = xe_device_is_admin_only_pf(xe) ? 0 :
++		sizeof(struct drm_xe_query_pxp_status);
+ 	struct drm_xe_query_pxp_status resp = { 0 };
+ 	int ret;
+ 
+-	if (query->size == 0) {
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+@@ -751,7 +771,10 @@ static int query_eu_stall(struct xe_device *xe,
+ 	array_size = xe_eu_stall_get_sampling_rates(&num_rates, &rates);
+ 	size = sizeof(struct drm_xe_query_eu_stall) + array_size;
+ 
+-	if (query->size == 0) {
++	if (xe_device_is_admin_only_pf(xe))
++		size = 0;
++
++	if (query->size == 0 || !size) {
+ 		query->size = size;
+ 		return 0;
+ 	} else if (XE_IOCTL_DBG(xe, query->size != size)) {
+diff --git a/drivers/gpu/drm/xe/xe_sriov.h b/drivers/gpu/drm/xe/xe_sriov.h
+index 72e55543c30e..ee84978350aa 100644
+--- a/drivers/gpu/drm/xe/xe_sriov.h
++++ b/drivers/gpu/drm/xe/xe_sriov.h
+@@ -37,6 +37,17 @@ static inline bool xe_device_is_sriov_vf(const struct xe_device *xe)
+ 	return xe_device_sriov_mode(xe) == XE_SRIOV_MODE_VF;
+ }
+ 
++/**
++ * xe_device_is_admin_only_pf() - Check whether device is admin only PF or not.
++ * @xe: the &xe_device to check
++ *
++ * Return: true if the device is admin only PF, false otherwise.
++ */
++static inline bool xe_device_is_admin_only_pf(const struct xe_device *xe)
++{
++	return xe_device_is_sriov_pf(xe) && xe->sriov.pf.admin_only;
++}
++
+ #define IS_SRIOV_PF(xe) xe_device_is_sriov_pf(xe)
+ #define IS_SRIOV_VF(xe) xe_device_is_sriov_vf(xe)
+ 
+-- 
+2.43.0
+
