@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAfHMNn9oGmqowQAu9opvQ
+	id mM82IBEBoWlVpQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 03:13:45 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 03:27:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504D81B1E79
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 03:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352611B2050
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 03:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A79710EA1A;
-	Fri, 27 Feb 2026 02:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB3F10EA1F;
+	Fri, 27 Feb 2026 02:27:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LmVFyneK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VufP9lCU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75D110EA1A
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:13:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C9BEA60054
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:13:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B7E1C116C6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772158419;
- bh=/PjgGjvbJ7eeYTLnq27GN6RMDJXtgk6+5AHNmJDjCJ0=;
- h=From:To:Subject:Date:From;
- b=LmVFyneK6u8EmzGpbTS6HTTDO1b0Lwh0/vAA2oeyDBLZcfqr2b2ODgo+OYhWPh9ku
- AF1URF1mBnqFAm59zZa7lSpgJecPgXo0L/WC/8xJJj7NcVXakoL6Dnv9gQ3Frjekhs
- IqnOe81DkNwa1fcj2FAZjbeYCUuBueITMxkTAbqjtht4NWqgkRwflWiIPnZNvhyHKt
- FHLABPwMC8q/4IlTeVmJRoV6Eq1j4jUtAgFBJgwv+sSN60kt/mcyQm65iBgW4wTQjW
- PSVjUSv7xTcbNXdb7rsneF5Fl9D1NObG9vA8L5oXm89Mo07YVy2/Me7IBy22A58o84
- 9R9plBwBMEfhg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6AF30C41612; Fri, 27 Feb 2026 02:13:39 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 221148] New: Regression: Screen tearing on AMD RX 6800 with
- amdgpu on Linux 6.19.x (works fine on 6.18.9)
-Date: Fri, 27 Feb 2026 02:13:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: f@6610199.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221148-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3333110E0DB;
+ Fri, 27 Feb 2026 02:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772159239; x=1803695239;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Ksgdc+NUmkZkuiUvB6+41BW7LFIPmkTAFcSJACtuSdg=;
+ b=VufP9lCU9OzqGneDB1R4ifTg6bzH8aKiKyv9OJYsr5mLGspKFw40BzvK
+ OaPC75etyze2QPLMsLup4y8p7ITVuH4UrOZLEynPjG0cRH9VQ84VRBi+1
+ cv5dnBxKV0Vde58rgA4O512P451xlhdErjAWL/MMk4bBMGYHCydI75ZEz
+ JlqNzJDKkH3rTne5oz5Zb5i57oC4NZM0vGR5z9xN9nnXIUWXxKiITvSh3
+ 2tSw6sttNvkfKteHZkw5FG/6jrZ1AjxWHRSaJ0vDOU9aSUAi+aYG3o5sS
+ KluzWAcM/eZCbt8ZQeUuC6XTGfja9kzVO8cpuZVnG9ildTyViKduJbivE A==;
+X-CSE-ConnectionGUID: rib0xS8SS4GGwVRT9DJSLQ==
+X-CSE-MsgGUID: pvUyxjlTQHuzNmC/4UrmXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73283307"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="73283307"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 18:27:17 -0800
+X-CSE-ConnectionGUID: aPYbL5+ZREGrxP6D6rH1jw==
+X-CSE-MsgGUID: c278hO2cTJCjVMPFRX0mOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="214662249"
+Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 18:27:16 -0800
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
+ srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
+Cc: david.e.box@linux.intel.com, hansg@kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v6 0/6] platform/x86/intel/vsec: Prep for ACPI PMT discovery
+Date: Thu, 26 Feb 2026 18:27:04 -0800
+Message-ID: <20260227022711.3513663-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,105 +75,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NO_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,6610199.xyz:email,osdl.org:email];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 504D81B1E79
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 352611B2050
 X-Rspamd-Action: no action
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221148
+This series updates intel_vsec to improve const-correctness, decouple
+helper APIs from PCI, enhance error handling, and plumb ACPI-based Intel
+Platform Monitoring Technology (PMT) discovery through the vsec layer. It
+is preparatory infrastructure for follow-on PMT core/telemetry and
+PMC/SSRAM series that add ACPI discovery and support for new platforms.
 
-            Bug ID: 221148
-           Summary: Regression: Screen tearing on AMD RX 6800 with amdgpu
-                    on Linux 6.19.x (works fine on 6.18.9)
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: f@6610199.xyz
-        Regression: No
+The series is organized as follows:
 
-**Kernel Versions Tested**
+Patches 1-2 refactor and improve const-correctness of base_addr handling.
+Patch 1 makes base_addr an explicit parameter throughout the call chain,
+clarifying ownership and removing conditional logic. Patch 2 then makes the
+platform info data structure read-only, preventing unintended modifications
+to shared driver data.
 
-Good: linux-6.18.9 (no tearing)
-Bad: linux-6.19.1 ~ linux-6.19.4 (visible tearing in 3D games)
+Patches 3-4 decouple the vsec layer from PCI-specific types, updating
+helper APIs and data structures to use generic struct device instead of
+struct pci_dev.  This enables vsec to work with both PCI and ACPI parent
+devices.
 
+Patch 5 enhances error visibility by returning meaningful error codes from
+the registration path instead of collapsing to boolean success/failure.
 
-**Hardware**
+Patch 6 adds infrastructure for ACPI-based PMT discovery, allowing client
+drivers to consume discovery data from either PCI or ACPI sources.
 
-GPU: AMD Radeon RX 6800
-Driver: amdgpu
-Display: 1920x1080@75Hz
-Connection: DisplayPort
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
 
+David E. Box (6):
+  platform/x86/intel/vsec: Refactor base_addr handling
+  platform/x86/intel/vsec: Make driver_data info const
+  platform/x86/intel/vsec: Decouple add/link helpers from PCI
+  platform/x86/intel/vsec: Switch exported helpers from pci_dev to
+    device
+  platform/x86/intel/vsec: Return real error codes from registration
+    path
+  platform/x86/intel/vsec: Plumb ACPI PMT discovery tables through vsec
 
-**Software Environment**
-
-- Session: X11 only
-- Desktop: XFCE 4 (started via startx, no display manager)
-- Game example: Nioh 3 (via Steam Proton)
-
-
-**Symptom**
-
-After upgrading from 6.18.9 to any 6.19.x release, obvious screen tearing
-appears in 3D games (classic vsync-off appearance).=20=20
-The tearing is most noticeable when the viewport moves vertically (e.g. loo=
-king
-up/down in-game).
-
-
-**Reproduction Steps**
-1. Boot with Linux 6.19.4 (or any 6.19.x)
-2. Start X11 session (XFCE via startx)
-3. Launch Nioh 3 via Steam Proton (default settings with VSync OFF or ON)
-4. Move the camera/viewport vertically =E2=86=92 observe horizontal tearing=
- lines
-
-
-**Workaround that eliminates the tearing**
-
-Create or edit:
-/etc/X11/xorg.conf.d/20-amdgpu.conf
-
-```
-Section "Device"
-    Identifier "AMD Graphics"
-    Driver "amdgpu"
-    Option "TearFree" "true"
-EndSection
-```
-However, it introduces a small performance overhead or input latency.
-On 6.18.9, no such configuration was needed.
+ drivers/gpu/drm/xe/xe_debugfs.c               |   2 +-
+ drivers/gpu/drm/xe/xe_hwmon.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_vsec.c                  |   7 +-
+ drivers/gpu/drm/xe/xe_vsec.h                  |   4 +-
+ drivers/platform/x86/intel/pmc/core.c         |   4 +-
+ .../platform/x86/intel/pmc/ssram_telemetry.c  |   2 +-
+ drivers/platform/x86/intel/pmt/class.c        |   8 +-
+ drivers/platform/x86/intel/pmt/class.h        |   5 +-
+ drivers/platform/x86/intel/pmt/discovery.c    |   4 +-
+ drivers/platform/x86/intel/pmt/telemetry.c    |  13 +-
+ drivers/platform/x86/intel/pmt/telemetry.h    |  12 +-
+ drivers/platform/x86/intel/sdsi.c             |   5 +-
+ drivers/platform/x86/intel/vsec.c             | 121 +++++++++++-------
+ drivers/platform/x86/intel/vsec_tpmi.c        |  10 +-
+ include/linux/intel_vsec.h                    |  39 ++++--
+ 15 files changed, 144 insertions(+), 94 deletions(-)
 
 --=20
-You may reply to this email to add a comment.
+2.43.0
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
