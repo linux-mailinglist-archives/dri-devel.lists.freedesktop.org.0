@@ -2,102 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMtbLyakoWlxvQQAu9opvQ
+	id sI0WLjykoWlxvQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:03:18 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:03:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D051B845A
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3851B84A2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA4C10EB8A;
-	Fri, 27 Feb 2026 14:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0992310EB8F;
+	Fri, 27 Feb 2026 14:03:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Sr7DMt0Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xg+S5ZZe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5544B10EB8A
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772200992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oV2BIg3dhsX9PonNzGGB5cY2QemaB9h/4eyj8OI7C6o=;
- b=Sr7DMt0Qf7a4MHqdkKNmmGBCUsZYBIUB7kPwn3EeWNYIb2+TgpcqtCw7uxP8DPKVw/Kmed
- RlmmTiMbns5BkT29HHV8I8MefoqSzTVIMoxSxDyOtqVHeO/8zzU4/PZLUz9Boimj6g72i6
- fM/FEr22Hiz8LzoqmynD0YCUea/JRYQ=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-s0ovyp7JP7OctmKRuV28sw-1; Fri, 27 Feb 2026 09:03:11 -0500
-X-MC-Unique: s0ovyp7JP7OctmKRuV28sw-1
-X-Mimecast-MFC-AGG-ID: s0ovyp7JP7OctmKRuV28sw_1772200990
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-3591c9cb81eso7565933a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 06:03:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772200990; x=1772805790;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oV2BIg3dhsX9PonNzGGB5cY2QemaB9h/4eyj8OI7C6o=;
- b=QLd11k63d1Ui6CTprDw0MmC+iUtZeEypgvbBRbckoVlCboHLPimc4aaXhANbi6by3q
- UyNtgx7Zc3sJI265g+Uu+n9f9ONmcm++4imQNcUiMNH11nX51KYuzh8U+QSbndpgcDKu
- +NmVs4thk8FHg6lBG/ZxRUGs7rT8WMfplQHgikYd4qz9FQHFfrEIN5GyA6aTnMrAwlj9
- qlugjJNGOst7BuC3WNLV1q8Ig+7LTLT4uNzz4BaG0sllh1BV/F3D2LC+MP0BDcy7cFtg
- 9w/kvilq9U6rCkH2Rx/9EkC6mIszNWUfvCgcY5C18PIdfQAO4d+nFiBlkjoumA0MkRaZ
- 991w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtsKzd5MngR0q+haFe7ATPPZ0YtaS0H+1E6BhpEI4esTIgd5dqyeL1TsOyc+CMeFIsxyptBr+vGWo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz49A7H9G+o4MiKr8VNG7fEpz7CiHFF1ZFu9nSnxawhOdAmDf1T
- ltbEhivHpSBW2JL1dXeZhBKIPUqRZGsfnjp/iYNkYbbAmqF+hm/g6py2Tus7RMmJClol+uUIp1W
- qD6z8tNXE2+J8NbtejFpBC5EPCaG+cdg7H/8FtjoBuwWlE5TlljvQkghoamPf1q5SUHawYai7C/
- q9uhDx
-X-Gm-Gg: ATEYQzyjqUfHGxYrAu+2NaA1wF91rLXvlDAC6DF482TwnzgssrFextNTxJs2Ey7mckx
- vJBWmzM7fZIhgLLsps9PsLY1OrJSbnX2CfATAbEw5FBiurVoZDS1/jTf+sgzAldB+k/beO5+6ZE
- wSKkRz3mgZ7bnnLtMsnA6gOmp4zvkovPjyOgNiJSBewaUclRudBuNeggI3FQpZtcT5ghMOT59oq
- YMnVp0c4bNvI7t1XGHBNp/B1jpIkhSm0NoG4luA1zYZd/RYnFmQc0wpyxfK1ZMic/eZe7K9LT1v
- hV3IIHskDkAgtADjbKBpdRsNthd/t0+fz90ZJvzU/Rqss8ZPDrR/I5q6QhU26/OcHEzR5o8VCI8
- EVVEZFcLM/c82tIbbC7lyaMHt6m4mo4wgiqBLVjBwDd1z4EaGNtEXYw==
-X-Received: by 2002:a17:90b:5710:b0:341:88c9:6eb2 with SMTP id
- 98e67ed59e1d1-35965c3385fmr2137019a91.1.1772200989852; 
- Fri, 27 Feb 2026 06:03:09 -0800 (PST)
-X-Received: by 2002:a17:90b:5710:b0:341:88c9:6eb2 with SMTP id
- 98e67ed59e1d1-35965c3385fmr2136984a91.1.1772200989423; 
- Fri, 27 Feb 2026 06:03:09 -0800 (PST)
-Received: from jkangas-thinkpadp1gen3.rmtuswa.csb
- ([2601:1c2:4400:eb20:99f3:ffd5:11da:6745])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-35913269232sm5305497a91.5.2026.02.27.06.03.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Feb 2026 06:03:09 -0800 (PST)
-Date: Fri, 27 Feb 2026 06:03:07 -0800
-From: Jared Kangas <jkangas@redhat.com>
-To: Larisa Grigore <larisa.grigore@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, chester62515@gmail.com,
- cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
- stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com,
- aruizrui@redhat.com, eballetb@redhat.com, echanude@redhat.com
-Subject: Re: [PATCH 00/13] Add DMA support for LINFlexD UART driver
-Message-ID: <aaGkGwbk-sh0YJqj@jkangas-thinkpadp1gen3.rmtuswa.csb>
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D8910EB8E;
+ Fri, 27 Feb 2026 14:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772201016; x=1803737016;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=nIMhu/VNqg5YnjFud4di6f7V0g1AHgZFnIUyX7IGsc0=;
+ b=Xg+S5ZZei1yNLuHVs6kt66gkSWPsgJTZlYxv8xM/UGKmd0tAHXt3ZPMk
+ CyAOMm1Rk/2e419v187wyL5OpFqJ8C/r6fnVf7URVg+RVaPYS7oG4ijQn
+ odrGv6qy1t75buaz4cDT5RhpuRYcNpKnK0MJnFBv1yAFkS3wNfJ+Xj4/u
+ noZlnTTkU+/P7dALYe5QYdOXEPEvuEdX3cX7xRWw2IX1hK718u3x5I3un
+ mVnneP2Jem5dAbVsMwDg7WrXkOnCZ+0vAaJPeYtLFCs5ky67WbBjeECZs
+ wW1J4w0IFFJ1KXbV7Ax9Uu102+QssX/59IeCiZypWyfCV1XfAZXidipk2 Q==;
+X-CSE-ConnectionGUID: as0Ls/ioR+6HMLr369goQg==
+X-CSE-MsgGUID: AN4x+pMZQoGmDWhLcqBt8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="60856400"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="60856400"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2026 06:03:36 -0800
+X-CSE-ConnectionGUID: jhDp1+t/R06q6BZWGnnVjg==
+X-CSE-MsgGUID: MxUXJa0aRAioEPJblBzktg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="214325355"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2026 06:03:35 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 27 Feb 2026 06:03:35 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 27 Feb 2026 06:03:35 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.35) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 27 Feb 2026 06:03:34 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l3IFiiOg8kXoIxwcABuL9Bx/f5iUEBYnfPHeGyO73Yy+o85fbxukuGpYG6X08VvFvkS/765dHQP3ZUGV51BKA/FEC2e/uckVSjOYXxaEuWm46cuzFWthEQZPRMHySFX+6ZZv1FPw1hYSMzlm2+pnhX96Na6q/UVvWHwPfPqwWfIihmlvk+zQ5alanoKCiqVUnwPSfAgTdCzvVOPVKhEkMtxAYtB8FQWFUiWAi2YipkRGK0npH1RsfPdpaTlFqqmaGEKYxcvGHIrQnjAyYU0WQvaQTd8uYE+bn6yvgjrWKB3EStQJNFBwjlwa/YmUIaVQ+MmZY7BHw1jhhoSzz2XJUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ce7vZpNAsMbfnxppM/ek6kJYcArD+o7RO24DfeW3snQ=;
+ b=gFMBTdVyr1IvURUJeS8Taplvpnn/nbR6P0GuDPzfxHKsUH5ePUa4+6KJFbKY2GW9LxWO5KDlZmzT2vPKToL7n0YMRMasjaBOMp+4qCEzlWizmsdJEalmGA5QYhvog/ejbEbMmc44OK91nTZOPArxyY6pO5aT8nxvVQwYnpbtQQWJGblQry3V2+f+R20j2yJfxBGYn/GRU/bRWTCxbrbiCq1EI6Qn4JTmP0dNpwtHrCug6thX0wHfotPoEWb5FuYB1D6q3kj60/UA1vCeWmJ7ZemFxik3eYxLCudPZssiVm2lv3q0s7GzRAiljQ9W3BC3AppZcZqGgRQOsIyrCvYUUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by IA1PR11MB6323.namprd11.prod.outlook.com (2603:10b6:208:389::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Fri, 27 Feb
+ 2026 14:03:32 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::68b9:ea3c:8166:3cc4]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::68b9:ea3c:8166:3cc4%4]) with mapi id 15.20.9632.017; Fri, 27 Feb 2026
+ 14:03:32 +0000
+Message-ID: <b3fd7596-7d0c-4e03-b8d7-4303616a6374@intel.com>
+Date: Fri, 27 Feb 2026 19:33:24 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND] drm/i915/hdmi: Poll for 200 msec for
+ TMDS_Scrambler_Status
+To: Jerome Tollet <jerome.tollet@gmail.com>, <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <ville.syrjala@linux.intel.com>
+References: <20260113143107.1446909-1-ankit.k.nautiyal@intel.com>
+ <Z1MfXyv5_ORAVj3z@intel.com> <73e0de50-b7e3-4315-ab81-0a3ecebc2363@intel.com>
+ <20260227131638.33167-1-jerome.tollet@gmail.com>
+Content-Language: en-US
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20260227131638.33167-1-jerome.tollet@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0052.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::13) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
 MIME-Version: 1.0
-In-Reply-To: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vDoBBy0Go0eI-A5xKF-Ihhc6tNjCFP6mRdUewtpJvvc_1772200990
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|IA1PR11MB6323:EE_
+X-MS-Office365-Filtering-Correlation-Id: 634f2a73-c786-4d72-c330-08de7608fd7d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: TtzsXoalkz54uyfxtz4ZQWcBYxzfAyq66KW1ahejbfIYRp9XgJN8wBI6Xtt6zJphl5kQeCouf/Bd+YoWE+l1MoIJLCWrJ4aeznsusjodLHbPZ8sufTAb00KX80lkHmv8gk4HaCnN94ePPmsmducETJWSb8tgX91Ez50sFBt7eJSyjXQUp/YeD6laPCfCzF3pv2xb8C8FlH+xEUua+eV+kXAKS2gqGFp5SQAPzUPS4bFZ+phz5gqL1XG36+NaR6Mawg+wBNgcdXEq3wjB1g6oz3Y1jfDPbqyJJ3Mc8iZBZYeSAGe0WU1q6MbzgHCa3WVa2t6pcrq9qkqVnrjGiCff6Qr+FSttk2zhB+2NJ2QBLjArkQHp4YUaLnPG19n7jJ3TdQqJrgfzejMADnGlpsYPph41OU0RKMLBvA38sC7IAN63B3nwcmCu0AtpkicQJ1WCsza3jd31RcnFWfA3BRc1V38YKXZL8YhI0pHVABzAhC8/yovsu2odZKsqmp2rXAs8nkZNoo6/9a4fmLS4LEwHdZuLr2rBxe6l4Y8R7YBvWzizcwaofQnwH9+Mygpm+l/261aziDbjHB3Z75TxSITgde1H6DkCdcBn4zvTAPyexB8m4ABrtkbThovNWsIvqImppSlC8Vpy6m4+3Gln7Q2P3Hju++UqBn+4SX1ahxDa/Ob2LJfOB0VECoKbZYuCocgm
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzZodkUwQldJTFY4aERkak1oVTYrZTlQMVMraFF1R0FTNHZmMGJFQWp0RHlk?=
+ =?utf-8?B?RFovZi9WUmQyVGJja0RFTnJMOHJsNytGcGp1V1RnclBTUXFUcUpjcWpDQWt4?=
+ =?utf-8?B?WHhRNjBPYVRDOGttNjc4VnZRWmhCVFRGZ0xLYmdOVkJZTnpQQWVkZjE0R0E3?=
+ =?utf-8?B?c29wU3diV0Y1bGJVOVEzRTJ6MVU5akFyRUNQYmNsL1R4dzAwNEU1eFE3Titu?=
+ =?utf-8?B?d0I0a3JsQXVCb3gvSFZ4UFU2Q3JiSHF0RzdpNXBQTTdjL083cjNrbkRJSTVW?=
+ =?utf-8?B?R3hwa0ppeTdlelNxOFFLOXE2TDl5VnlFNW9RMmVHcHRNbnhjN0NFUElLNTBK?=
+ =?utf-8?B?VDg2a2FvdWhiQjAxWHdtb2RhckJRS1VRc21oOU9idFNlUjZyalZkSDBIZzJw?=
+ =?utf-8?B?VzFtTkh4UDdpNmMrSTNQbFJTYlBQK29JblBIMVZWRHVsbG1sWmZ5L3laNzlm?=
+ =?utf-8?B?aWJma0YyRGRzR1VWaCtWSldTOHpYVWhPNjd6Y05Tekd4dDIyb2o1QjFMOTBp?=
+ =?utf-8?B?c3pjbUVYVVVRakplT3Zpemg1NVVtTVJlUUQycUI3RFJLZS9rUTNBRXlMdEwy?=
+ =?utf-8?B?U0tTRmtXVUxub1lkdWY0aEtwaUZWbnNyU2RtQXFSMWJ6OFVaelRCVFBYcEkx?=
+ =?utf-8?B?dmNrU3R2anZ4RGRZSXhJcVFGZlRza3NkMDkycVFSclZNL3JteEkzem9UTWox?=
+ =?utf-8?B?aUM2QzNMMjZoS1JvQjkxNHcxeThDZUNxdUlUOWFxRW1NWUVVVjkvV0pveHpJ?=
+ =?utf-8?B?ZncrSnRaS2I0cHlUTGs5dE1yMHVWUlJmVWUvUE93QTJSTkw5UXhJUGEwVWFM?=
+ =?utf-8?B?RWFMdDBwS01BbHNkV3FOcGRndGgyQnNOVzQrSDJDWURuU01PcTdMVEYvRjND?=
+ =?utf-8?B?QjlKNTlmRUl5UXM0VUpVSzJrT3p4MlhNbVBTeXl3S1QvNTdSb0NBejJPYzRR?=
+ =?utf-8?B?b1NTQytZQlFBbit0U2RoNndSTUFQMHlYYk9LQ3VpWjR6dnZOdDZ2UHgxMHM1?=
+ =?utf-8?B?UWFZanovclYyUEJJdVVKNzlNWkhub3lhTmdSVS9idFZiSXhwcysrZkRtWCts?=
+ =?utf-8?B?ZW9XSGJ3S0V6Ykx0NE51T245UWljQnNUMlRDZGw0RVR3QmtIM3RSc0VkckVK?=
+ =?utf-8?B?bWZXdldFejJOaERDd3FlWXk0eHRKSjUyV2l1dTJlWDMyVG0xZTNlODlyT0ZO?=
+ =?utf-8?B?eG5oZENFM1pSdjA3NzQ2YlkwVUZUdTFjTG5zVkFTMm0valU4ckJna2N1OWpn?=
+ =?utf-8?B?YWlkdk5JdXM0WUlGMUVlditJTXBrODZ3K2lZOTZ0aGFQSEZGZWQzTUpYaWV0?=
+ =?utf-8?B?VWFUOFVZZlJuZ2htREw2R09VWWNGdFd6OGlLZ1pob2RSYStSdUJCTTN6Y2Fn?=
+ =?utf-8?B?SnBFbStra3RKZ0tOWW9QeFdyS3FESCsrbDIzb2lPTlk2bjYyS0w4R3ZhV2k1?=
+ =?utf-8?B?Z1M2WFQyQzJOa0FHUnBCU1RqUkdDK2hsWk1nbFR2ZWNkRFY3L2Z0b1NFUzBJ?=
+ =?utf-8?B?S0gyd1NnQjdLb3N1dU9uQW10azFnWWVxcXJoQUlJZk90U1Y2V2pOL2pKVVA3?=
+ =?utf-8?B?TGdveU5pRjViRDUvNFZMRGlsVDNDaWZCZlZwT0Y1dzVGRXVXZ3BRbFdVcFVh?=
+ =?utf-8?B?VFBRS25aeHowN28zZFk0M3VVMjJXQUsvTkx1d25sdXVLZ0V3aTFSSlpjOVlR?=
+ =?utf-8?B?UXBPMVB3QmZqekx5SFpkSWRHZ1ZDYUlQdlR1SDREVVdrRS9nZGowUkxuSU1q?=
+ =?utf-8?B?QkxQclp1Y1hpRGdOYzFZbCtKQ05IcjdaOWk2Rnd1SGpUTlN4U0kwMGFZTkxa?=
+ =?utf-8?B?TzN1UkVOMzF5ZUQ1TkFORXowUXIyMG0wYjVWQU03dVhQL3Z5eUZnVnN3SjU2?=
+ =?utf-8?B?MmkzR2k3VC9JYXA4N1JpMml6OEF1U0FpNlNmb0FVNk9nNldqaXpZbHRmSXJl?=
+ =?utf-8?B?RExZdFNpcFg1TDhQYVFaeGQ5Vm5oZWd1M0x1TDFUTEE0eXNlK0JWTk5vbU53?=
+ =?utf-8?B?anBqd2gzcDZCUDNXSk5xNFF1YkRYb3p0UEhQQ0hlM1Q3QlhZNjdqbWVRMzg3?=
+ =?utf-8?B?enJlcm5DdGpzVkdzMHFSSWNRemcxS2RSWDZhVE1zSVA0SU1KT2hSOWRtdEpD?=
+ =?utf-8?B?aCtqTUxKbDRsZXUwcHBvZTBFaTlDcXlDZGpUN012ejRqT1JKS2NHQS9GK3FG?=
+ =?utf-8?B?ZHJZa3FlQ2ZoUThmaEVRVFdlR0c5VmFPNGswM1N2cTNDWGx6ZnlzNWZMclNM?=
+ =?utf-8?B?Zy9iRGRMcFpCdDZ1NHFrOGs4T1JIMVRXenJXdlFwRjlLcnlIOExSMEdKVjRv?=
+ =?utf-8?B?NUNRNVVNNTdSNWgwNHVWdjBxRXBEWGtnb3Y4V3BsMGdLM05ZdHNXZlNDeHdG?=
+ =?utf-8?Q?lPO4U0aQyHiaw6Yk=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 634f2a73-c786-4d72-c330-08de7608fd7d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 14:03:32.1330 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6v63XJ9QSIUigm1Q+LYNPACGLUcU4VZAc9/4gdKdYWqS3naTeglvkBpIyWDOwIZquYfzhM9Tf1VhooLHYTpOiMELT+ZEnHtt+Y+WV0jDTnw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6323
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,93 +174,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:larisa.grigore@oss.nxp.com,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:chester62515@gmail.com,m:cosmin.stoica@nxp.com,m:adrian.nitu@freescale.com,m:stefan-gabriel.mirea@nxp.com,m:Mihaela.Martinas@freescale.com,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:s32@nxp.com,m:imx@lists.linux.dev,m:clizzi@redhat.com,m:aruizrui@redhat.com,m:eballetb@redhat.com,m:echanude@redhat.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FORGED_SENDER(0.00)[jkangas@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[jkangas@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,60hz:email,intel.com:mid,intel.com:dkim];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ankit.k.nautiyal@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F1D051B845A
+	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 1C3851B84A2
 X-Rspamd-Action: no action
 
-Hi Larisa,
 
-On Mon, Feb 16, 2026 at 04:01:52PM +0100, Larisa Grigore wrote:
-> This patchset enhances the LINFlexD UART driver and its device tree bindings to
-> support DMA transfers, configurable clock inputs, dynamic baudrate changes, and
-> termios features. It also includes a series of fixes and improvements to ensure
-> reliable operation across various modes and configurations.
-> 
-> The changes added can be summarized as follows:
-> 1. Fixes with respect to FIFO handling, locking, interrupt related registers and
-> INITM mode transition.
+On 2/27/2026 6:46 PM, Jerome Tollet wrote:
+> Hi Ankit, Ville,
+>
+> Gentle ping on this patch series. As confirmed in my previous testing
+> (Feb 21), the SCDC polling patch works perfectly on kernel 6.19.2 with
+> my Alder Lake-N (N100) + Cisco Desk Pro (CS-DESKPRO-2) setup.
 
-Tested this series with the default devicetree configuration by booting
-the board to a login prompt about 200 times. Without the series applied,
-I was seeing a bug roughly every 30-50 boots where the kernel would
-would hang in linflex_console_putchar() waiting for DTFTFF. In my tests
-with the series applied, I didn't see any regressions and the bug no
-longer appeared. Thanks for the fix!
+As mentioned in [1], to me polling for TMDS scramble status makes sense.
 
-Tested-by: Jared Kangas <jkangas@redhat.com> # S32G3, interrupt-driven
+Perhaps the best way would have been to work with `SCDC Read Request` 
+implemented, where in the sink notifies the source to check the SCDC 
+status flags, where we have bit for Scrambling_Status.
 
-> 2. Removal of the earlycon workaround, as proper FIFO handling and INITM
-> transitions now ensure stable behavior.
-> 3. Support for configurable stop bits and dynamic baudrate changes based on
-> clock inputs and termios settings.
-> 4. Optional DMA support for RX and TX paths, preventing character loss during
-> high-throughput operations like copy-paste. Cyclic DMA is used for RX to avoid
-> gaps between transactions.
-> 
-> Larisa Grigore (8):
->   serial: linflexuart: Clean SLEEP bit in LINCR1 after suspend
->   serial: linflexuart: Check FIFO full before writing
->   serial: linflexuart: Correctly clear UARTSR in buffer mode
->   serial: linflexuart: Update RXEN/TXEN outside INITM mode
->   serial: linflexuart: Ensure FIFO is empty when entering INITM
->   serial: linflexuart: Revert earlycon workaround
->   serial: linflexuart: Add support for configurable stop bits
->   serial: linflexuart: Add DMA support
-> 
-> Radu Pirea (5):
->   serial: linflexuart: Fix locking in set_termios
->   dt-bindings: serial: fsl-linflexuart: add clock input properties
->   dt-bindings: serial: fsl-linflexuart: add dma properties
->   serial: linflexuart: Add support for changing baudrate
->   serial: linflexuart: Avoid stopping DMA during receive operations
-> 
->  .../bindings/serial/fsl,s32-linflexuart.yaml  |  31 +
->  drivers/tty/serial/fsl_linflexuart.c          | 972 +++++++++++++++---
->  2 files changed, 846 insertions(+), 157 deletions(-)
-> 
-> -- 
-> 2.47.0
-> 
+However we do not have that support. Also not all panels support this.
 
+
+Since I have also contributed to the patch, I cannot review the change here.
+
+
+Ville, do you think this change makes sense?
+
+
+PS: I was trying my hands on SCDC RR sometime back but didnt go through. [2]
+
+
+[1] 
+https://lore.kernel.org/intel-xe/73e0de50-b7e3-4315-ab81-0a3ecebc2363@intel.com/
+
+[2] https://patchwork.freedesktop.org/series/101191/
+
+
+Regards,
+
+Ankit
+
+
+
+
+>
+> The isolated testing showed that the SCDC polling approach alone
+> resolves the 4K@60Hz HDMI issue, which aligns with both the HDMI 2.0
+> spec requirements and Windows driver behavior.
+>
+> Is there anything else needed from my side to help move this forward?
+>
+> Thanks,
+> Jerome
