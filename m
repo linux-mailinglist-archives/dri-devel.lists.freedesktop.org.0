@@ -2,141 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMIXCQD1oWkwxgQAu9opvQ
+	id oFYUE+n5oWlkyAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:48:16 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:09:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8838D1BD0FE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03EA1BD3AE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:09:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88F110EC23;
-	Fri, 27 Feb 2026 19:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0222F10EC26;
+	Fri, 27 Feb 2026 20:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="reyJsLbU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P+U9FbqK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011022.outbound.protection.outlook.com [52.101.62.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C85710EC23
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 19:48:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=utaE0lMJ7uENihgrEkcViHIdBRrb3DyjqxJA7t04HoMubv2jbW4QvRpOy1nxjtIawJS820s4UInJ8Sf0wLusdtsIv2csj2his/qT4I5f6Vj7jSMjTpNQVbftbu7gYfgm+6Hyt6gGcB9mecmuh7FOzFLWE6HLj7puWDuiZ786Z9KGTzeLHJPIJSK7FOiPp3mV6PVb0huuxVE4yzCMYsiaaHBdegq0HLWfkdeYZTulTNVUGHw1uVAd9sZSkQ5RjFylPAWfAm+NgeXNb+6kfIR+At30Bxu2uvfo3Yd7ihgMsQeQfK5bX7ae8neFuSI5GTvPvgCoqLdnkWdeMqCGqpKTow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yTnfbstCzX8EZQI9Cab7UKHsIREPVz8UcvE6A4G1pVU=;
- b=D/n4V/TUzHR0dKsmkKLUCAuOLwGfLfEOYgATlVhkpTD4uxnY4znEK+8wsHi27L1OJszFT3PQkkbQC7eS151oJxZpuiq+E7J1g7L6uOqm1tux5RCL3FVSY9Z0+Pi1j4H0sR2aKzqfJcEb8HwoOsIbY/QmeO24Ah/Ey3LnqoyUB/EvgSdJ95WxpQQrB0fzIeb1Z5ccMv5VQ3RjSEP5B25undgpOnL+9tzSkrLAFM5pXfjFmSO6DmOodfuGSI8OefqUYWAVPiVGC/t+gUDl+AkK2C1YGwS3jk5uoHJrPL12/wKfW5Lz75cY2qKybElvhpmXNwEP4wfK39rLUN4H3w0meg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yTnfbstCzX8EZQI9Cab7UKHsIREPVz8UcvE6A4G1pVU=;
- b=reyJsLbUVwaOgPKmU3FthhYcAP3MxJ54+cwE3U7LE/EIhnBA35mgIS8pEstkvLPUAQ871ZonZHcLh5yrPSyARO/4fGmDL3nioCA7dQhRVZ/rsIhDEEuVmfgiock/aUjOFBU2HqlvT3xCvQiRW4A3yOXIt1RC8IJjssoJHxv7F0YdGfnOi93idvozyqnD1FZ79u0Q9DoreNrKILGvf62FGdbtWbFqr021g4bC98Mnsi9kLl55zdnCxTQ0L5Esx0kyiP5QRed8JNfQfbyrdza5CBwdirYjXgJwBtUwxSC5Jas7zZEBnTxX+RAmqyzdL0hDzTrIpM0yp/xRjWMpLN2BHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by PH0PR12MB7791.namprd12.prod.outlook.com (2603:10b6:510:280::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Fri, 27 Feb
- 2026 19:48:08 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 19:48:08 +0000
-Date: Fri, 27 Feb 2026 15:48:07 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Matt Evans <mattev@meta.com>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Williamson <alex@shazbot.org>,
- Leon Romanovsky <leon@kernel.org>, Alex Mastro <amastro@fb.com>,
- Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
- =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org
-Subject: Re: [RFC PATCH 3/7] vfio/pci: Support mmap() of a DMABUF
-Message-ID: <20260227194807.GL5933@nvidia.com>
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-4-mattev@meta.com>
- <90bd4185-1e87-4393-b9e1-1318a656a7d9@amd.com>
- <20260227125109.GH5933@nvidia.com>
- <c5a8f318-20af-4d80-a279-2393192108c3@meta.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c5a8f318-20af-4d80-a279-2393192108c3@meta.com>
-X-ClientProxiedBy: BL1P222CA0002.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:208:2c7::7) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 104DD10EC26;
+ Fri, 27 Feb 2026 20:09:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C2E336013C;
+ Fri, 27 Feb 2026 20:09:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E88C116C6;
+ Fri, 27 Feb 2026 20:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772222948;
+ bh=uHYxem2rcFuwlV7scbCWwSyUtQMuMwhNJjysCrEHJOo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=P+U9FbqKF3CgiBsEPqPexZzZ93XmAcCqzSbUwaOX1Y8siePI12ijG2mxzI5YIf0mL
+ /ms5mDjzZ41zbR+y1lyjSjd5si16Ajj3yoCRxi8QeNf7VJlp5WbLWxR/Cm1nnjaTYO
+ IOJj8irdOEN+aJhdaLJh+fKK7+dKb7KlCCDxdNslqcoGrctiSrHy1YeE9LnRXJRhDK
+ ivNZRpe0JCZ8M0dux5O/xFyufs7KMwSQdWCOqjqmQAjFgGIXu0NS+l21cUs4WBsHt5
+ gFLiipJYdZxphu1iU6VvsVMrLyOefgdnpc25102oxNzG5Kz3JMlEpdrlW7fczulnx6
+ d9eorSp6XyA4Q==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+ "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ David Rientjes <rientjes@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>,
+ "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v1 00/16] mm: cleanups around unmapping / zapping
+Date: Fri, 27 Feb 2026 21:08:31 +0100
+Message-ID: <20260227200848.114019-1-david@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|PH0PR12MB7791:EE_
-X-MS-Office365-Filtering-Correlation-Id: af37b064-b963-4a50-8bb1-08de76392180
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: UvSwDkaWIQ0G2Alais2L9bG+OtWx3BoHtlwnO0wZTh2IQ9Lm+OEJOXWAcSwmr2utlqx4JSfQdgMUQiyhepquti1huwvokVA5EVPN0iL8YRS/Da7Zn2VJR/uuFO9LU6VfIi4tP2+sEbKkTAo2EMBLEZV1ygGo2ksEPYn6nPtPqvft3dwCppOTOWZYhhEj5HBf4Ug+2it3ZaRreNa4Pki8igrTflKWRCnu0my1iUxZ107V/6bEOSyYnU98HfCkVF6NJrFMr6r6IRgOREBTqeM/Byckixk+4DQcM7lP6RWCycY1TwVEdyCXA1AtZhmrE5nOvuJEjBsQxVn7yXK3vutbcgu6FnWl6vlDAnLLNpWGjqSCBRVNl0+DfO09Vf49GOLmuTPr4+Cc1pz/C6gy0OnQJWt11IzWqmPe19mfI/t8S875lz5fbDweuJ/SJO4XuWdBiyGw9Nc8gVjqeGPtT0TQSAAvEgUqtTih3G+9YAhak2o9jIWJ76QgvdtwHIFFz17XDMkzdCaVm8thluLubvkh8cV5kPTksQeisw+Y4AJtVBSrqFsZ6CSTp530gEI5J1r1aNj+73oPH9U7afIfIVJg1JGe7LY4Dt9qGHVSTaZUNyXBLJm2zZcjnvRSTfw+0CR1Zci59QleQbCF76BW3eq1kb/F7BCG6Kq93945dOEO5NEdgrukAqcSacr4QudnLN1NKGGDEhxyXiD11sA3NFwr7xZjZ+TdhyLJi2T2cqT5fnI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV8PR12MB9620.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVNUa2N1ajRqaC8wZXRYRTRkdUpuSkJoUXFYSWcwT1dMUThaOXhiOFNtSHBJ?=
- =?utf-8?B?cmhVNUJzaFh6MEhVWGRiTWIvWWhCdjBzVXFySjYyYUpWSzRZL0Q1RU1tU0hT?=
- =?utf-8?B?Mkw2RHNmWDlMYnU4RXovRDBLZm1ReHJHSlUzZzkxdWUvUzNGZDgvd2hJVThk?=
- =?utf-8?B?TDVzb295ajVub0RkSEZmWjhZbXF2TFI4WkFlVHNYOEJmU1o5ZlNmSDd5V1Mr?=
- =?utf-8?B?bmk4MGRyUHcrR1hSdW9iU3pZMDBkVzkrYlFhcWxpcXZwVnB0UUtyRlZpUi95?=
- =?utf-8?B?YmwzZXBSZ2srU3p3eUwyOUM1RVNtR1cyV2o2bXNNMDg4aE03TDc2bFUxUU1j?=
- =?utf-8?B?VWZiVEtUZHdUdjVuTnRqeU5Kdi95UWJlMTVGdVpBdVFLdW9QbGQvMTRGQUpi?=
- =?utf-8?B?S0hCbU1Mc2xTOVpaV3VMaytBV21vR0JUa0VOTXJjTUhGdGljVUdnRFlVaUtl?=
- =?utf-8?B?QmlETHRjaHBwNno0ZUpOZzZ3N3c2dUlxWEJyekpJQWs2WElCaXF6Vmk2cGpl?=
- =?utf-8?B?Mi9CclBwN3JCQlVDaEF0OENNbWpOU0ZnYUhzeWZJQ3ZQTm9MRXRJcTZWYUQ1?=
- =?utf-8?B?R3BqTVlHZEhwWUppZjg4Vk1QN3BkUWZmcXVCTUIzbi9TbXVRRnJJOU5aZjBE?=
- =?utf-8?B?NlVlbTFsT1J5d0NFQ29KOUE5cEYzbGJCb0RldmZ3ZnhER0lrYStkTzgxY1Y3?=
- =?utf-8?B?aWJyd2krOEhOMDVCQnVPSjRWRWRrL0txWWVtekNnUTFmNUVzUHVweTNLOGQ2?=
- =?utf-8?B?Sno5R2NJNEZYVGhuYzQ2L2oxS2U1YloxZktiYkVmb1hRRVpjblpjaGdtVmFK?=
- =?utf-8?B?cnRiUlFnRzNyMHR5RVhnYy9oV3pPSjVKYTlVNmxjdHFiU3IyVHlaU1dRcVR0?=
- =?utf-8?B?R3ZKdlI3K3BuZDc0ODZDWkkxWWJTekZJay9lTGpSQ1dzODI5WHJnNjR3UG1D?=
- =?utf-8?B?aVVhV1Y0WE12SHdTa2lSYjl1YnE1bHZXS09DOVZLREdnTmN4dm9peUVPd2NG?=
- =?utf-8?B?Ni9EV3M2dHZ4N2xFdjV2L0RJc3h3TlhUeDJaanFhNUtEeWhPZ0p3N05TRnI2?=
- =?utf-8?B?UTBrNkZKTXl3bGlVQ3JtdFkycTJyM1FNWlJoY2Z5T2drV3BxVTNobkcyZjBR?=
- =?utf-8?B?RkRGblVEVHFIanErRTY4Sm5rTno5L2hSNTQ2NXV5eWR1UThIZEQ4OVZmZ2lP?=
- =?utf-8?B?UStLb1plUit1RzVqRTVlS3hqM0U0aVNYZHgrNnpSdVg3LzFia3psaElLV09x?=
- =?utf-8?B?QVlxdGxMb1gvLzNMUnNIcVNsUEJSZ0hvRDR2eWR0Ty9qVUhWUkFRbUdZbnpn?=
- =?utf-8?B?ZW55am1sT2FBQnRqQnZZNTVCZkJsY3pYNWhvVGd2VkdqU0xqVGNrTTZBSG5k?=
- =?utf-8?B?cU5QaHVDSHMwWks3WEJyRER4MlpaeEZSN2lXc3BzWW1jam9oZUhQRE12SWlm?=
- =?utf-8?B?OEEwWTV0YW9TNXlCTEhkTlo4elgzNStVMHNtS1kvQ2ZvOHh0M1FpODluV1Bh?=
- =?utf-8?B?YkZ3M0kyQklHQkVrbEtuUEI4WTErb2VTYitSaFE5UUdZQU5GYkZBTWQ0YWtF?=
- =?utf-8?B?Snk0U0htUTlTWVdRMUdyL2pTMnRFZ1R4QmtzSlQ5RFkzZSsyNWlFSXkvRVFX?=
- =?utf-8?B?bDVsU2tqNEM3bFgrQWJxNlZBTjlvSmM0dk00ODlLWWFCaDZra0pPMlhIMnIr?=
- =?utf-8?B?dC84V0JzNjNSUWtHNWE4UE1Kd1hQelFwREQ3KzJQRE5Dd2xidEt4VXBwOUd5?=
- =?utf-8?B?eGkzZFp6Q3M5eUQ3Vk4za0tsZ3ZlMmdPMlgxR2dVYk1KeWxXMUppS2ZZRFY5?=
- =?utf-8?B?bkNTcFhZelgzSW5LWEJ5MFlvT2VEczdaclgvUC8yRW5YMC9OWE9HRUd3SlJr?=
- =?utf-8?B?Y0ZRUnhDUFhzeFV0NWtTcXR6NG5oM2NGc09XYVROM2ZQeGk3T2twb0p4TGtZ?=
- =?utf-8?B?NjErRDVqQ0w2ZUZoK01zdVNHaytGVjAvUHE0WmJqQXMwMGVzRC9Ib01KL2Fw?=
- =?utf-8?B?TTZOVW9SallwdzZOUHozb082bHkxWlZ4ODNsZnVDL2Z4U2JldHlOS2FYOWxr?=
- =?utf-8?B?T1dXamNlQmdxS1BxZmRtTG5iblg1OHRzMmlxSXg3SFdTNGkybVp4WWYrb05U?=
- =?utf-8?B?eXNKeEpvRkx2MGlxMzQyc3ZJYXZ5WDI1MURCUWJhZGdKU2p1dXJaOVZXcU1P?=
- =?utf-8?B?d2l3cTQwMHhuYjZ3d2dQekRMbzE2VTl6aWJ6djFnTzB5dmtoTXlqRlQzWS92?=
- =?utf-8?B?RmhPblZRSHBLYnlvWE9ZRzVJN2o0ZzhKMXRhVCthSVRKYnNRbTNuWXZ2MzU0?=
- =?utf-8?B?NzJYak9GWjBKeFBUanJCczlDanJSbkQ4QU9wcElkRUJjVXRzOVUxdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af37b064-b963-4a50-8bb1-08de76392180
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 19:48:08.2867 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aEqhnJqwJ0JXd/dQdR6+tPA9Yp/hEjDb/rxkwTO3BkbfxrNiskH8G9KQfAvr4uZC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7791
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,112 +108,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mattev@meta.com,m:christian.koenig@amd.com,m:alex@shazbot.org,m:leon@kernel.org,m:amastro@fb.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,kernel.org,linux-foundation.org,oracle.com,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,vger.kernel.org,lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[74];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid]
-X-Rspamd-Queue-Id: 8838D1BD0FE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B03EA1BD3AE
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 07:42:08PM +0000, Matt Evans wrote:
-> Hi Jason + Christian,
-> 
-> On 27/02/2026 12:51, Jason Gunthorpe wrote:
-> > On Fri, Feb 27, 2026 at 11:09:31AM +0100, Christian König wrote:
-> > 
-> >> When a DMA-buf just represents a linear piece of BAR which is
-> >> map-able through the VFIO FD anyway then the right approach is to
-> >> just re-direct the mapping to this VFIO FD.
-> 
-> We think limiting this to one range per DMABUF isn't enough,
-> i.e. supporting multiple ranges will be a benefit.
-> 
-> Bumping vm_pgoff to then reuse vfio_pci_mmap_ops is a really nice
-> suggestion for the simplest case, but can't support multiple ranges;
-> the .fault() needs to be aware of the non-linear DMABUF layout.
+A bunch of cleanups around unmapping and zapping. Mostly simplifications,
+code movements, documentation and renaming of zapping functions.
 
-Sigh, yes that's right we have the non-linear thing, and if you need
-that to work it can't use the existing code.
+With this series, we'll have the following high-level zap/unmap functions
+(excluding high-level folio zapping):
+* unmap_vmas() for actual unmapping (vmas will go away)
+* zap_vma(): zap all page table entries in a vma
+* zap_vma_for_reaping(): zap_vma() that must not block
+* zap_vma_range(): zap a range of page table entries
+* zap_vma_range_batched(): zap_vma_range() with more options and batching
+* zap_special_vma_range(): limited zap_vma_range() for modules
+* __zap_vma_range(): internal helper
 
-> > I actually would like to go the other way and have VFIO always have a
-> > DMABUF under the VMA's it mmaps because that will make it easy to
-> > finish the type1 emulation which requires finding dmabufs for the
-> > VMAs.
+Patch #1 is not about unmapping/zapping, but I stumbled over it while
+verifying MADV_DONTNEED range handling.
 
-This is a still better idea since it avoid duplicating the VMA flow
-into two parts..
+Patch #16 is related to [1], but makes sense even independent of that.
 
-> Putting aside the above point of needing a new .fault() able to find a
-> PFN for >1 range for a mo, how would the test of the revoked flag work
-> w.r.t. synchronisation and protecting against a racing revoke?  It's not
-> safe to take memory_lock, test revoked, unlock, then hand over to the
-> existing vfio_pci_mmap_*fault() -- which re-takes the lock.  I'm not
-> quite seeing how we could reuse the existing vfio_pci_mmap_*fault(),
-> TBH.  I did briefly consider refactoring that existing .fault() code,
-> but that makes both paths uglier.
+[1] https://lore.kernel.org/r/aYSKyr7StGpGKNqW@google.com
 
-More reasons to do the above..
+The CC list is already long enough. As these are simple changes to
+drivers/arch code, I'm only CCing maintainers of all changes but only
+reviewers of the MM bits.
 
-> > Possibly for this use case you can keep that and do a global unmap and
-> > rely on fault to restore the mmaps that were not revoked.
-> 
-> Hm, that'd be functional, but we should consider huge BARs with a lot of
-> PTEs (even huge ones); zapping all BARs might noticeably disturb other
-> clients.  But see my query below please, if we could zap just the
-> resource being reclaimed that would be preferable.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Pedro Falcato <pfalcato@suse.de>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Arve Hjønnevåg" <arve@android.com>
+Cc: Todd Kjos <tkjos@android.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Carlos Llamas <cmllamas@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Ian Abbott <abbotti@mev.co.uk>
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Neal Cardwell <ncardwell@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>
 
-Hurm. Otherwise you have to create a bunch of address spaces and
-juggle them.
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: kvm@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sgx@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org
+Cc: bpf@vger.kernel.org
+Cc: linux-perf-users@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: rust-for-linux@vger.kernel.org
+Cc: x86@kernel.org
 
-> >> Otherwise functions like vfio_pci_zap_bars() doesn't work correctly 
-> >> any more and that usually creates a huge bunch of problems.
-> 
-> I'd reasoned it was OK for the DMABUF to have its own unique address
-> space -- even though IIUC that means an unmap_mapping_range() by
-> vfio_pci_core_device won't affect a DMABUF's mappings -- because
-> anything that needs to zap a BAR _also_ must already plan to notify
-> DMABUF importers via vfio_pci_dma_buf_move().  And then,
-> vfio_pci_dma_buf_move() will zap the mappings.
 
-That might be correct, but if then it is yet another reason to do the
-first point and remove the shared address_space fully.
+David Hildenbrand (Arm) (16):
+  mm/madvise: drop range checks in madvise_free_single_vma()
+  mm/memory: remove "zap_details" parameter from zap_page_range_single()
+  mm/memory: inline unmap_mapping_range_vma() into
+    unmap_mapping_range_tree()
+  mm/memory: simplify calculation in unmap_mapping_range_tree()
+  mm/oom_kill: use MMU_NOTIFY_CLEAR in __oom_reap_task_mm()
+  mm/oom_kill: factor out zapping of VMA into zap_vma_for_reaping()
+  mm/memory: rename unmap_single_vma() to __zap_vma_range()
+  mm/memory: move adjusting of address range to unmap_vmas()
+  mm/memory: convert details->even_cows into details->skip_cows
+  mm/memory: use __zap_vma_range() in zap_vma_for_reaping()
+  mm/memory: inline unmap_page_range() into __zap_vma_range()
+  mm: rename zap_vma_pages() to zap_vma()
+  mm: rename zap_page_range_single_batched() to zap_vma_range_batched()
+  mm: rename zap_page_range_single() to zap_vma_range()
+  mm: rename zap_vma_ptes() to zap_special_vma_range()
+  mm/memory: support VM_MIXEDMAP in zap_special_vma_range()
 
-Basically one mmap flow that always uses dma-buf and always uses a
-per-dma-buf address space with a per-FD revoke and so on and so forth.
+ arch/powerpc/platforms/book3s/vas-api.c |   2 +-
+ arch/powerpc/platforms/pseries/vas.c    |   2 +-
+ arch/s390/mm/gmap_helpers.c             |   2 +-
+ arch/x86/kernel/cpu/sgx/encl.c          |   2 +-
+ drivers/android/binder/page_range.rs    |   4 +-
+ drivers/android/binder_alloc.c          |   2 +-
+ drivers/comedi/comedi_fops.c            |   2 +-
+ drivers/gpu/drm/i915/i915_mm.c          |   4 +-
+ drivers/infiniband/core/uverbs_main.c   |   6 +-
+ drivers/misc/sgi-gru/grumain.c          |   2 +-
+ include/linux/mm.h                      |  23 ++-
+ kernel/bpf/arena.c                      |   3 +-
+ kernel/events/core.c                    |   2 +-
+ lib/vdso/datastore.c                    |   2 +-
+ mm/internal.h                           |   7 +-
+ mm/interval_tree.c                      |   5 -
+ mm/madvise.c                            |  24 +--
+ mm/memory.c                             | 217 ++++++++++++------------
+ mm/oom_kill.c                           |  15 +-
+ mm/page-writeback.c                     |   2 +-
+ net/ipv4/tcp.c                          |   7 +-
+ rust/kernel/mm/virt.rs                  |   4 +-
+ 22 files changed, 162 insertions(+), 177 deletions(-)
 
-This way there is still one of everything, we just pay a bit of cost
-to automatically create a dmabuf file * in the existing path.
 
-> Are there paths that _don't_ always pair vfio_pci_zap_bars() with a
-> vfio_pci_dma_buf_move()?
+base-commit: df9c51269a5e2a6fbca2884a756a4011a5e78748
+-- 
+2.43.0
 
-There should not be.
-
-Jason
