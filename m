@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gMiPDrGcoWl8ugQAu9opvQ
+	id WEPOIrWcoWl8ugQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:31:29 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:31:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23D01B7AF0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226061B7B1E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:31:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B7B10EB41;
-	Fri, 27 Feb 2026 13:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCDC10EB5D;
+	Fri, 27 Feb 2026 13:31:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WJJoXliv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Owl2hEt1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WJJoXliv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Owl2hEt1";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xLTApQgM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K1vA8pyy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xLTApQgM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K1vA8pyy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C1310EB4E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:31:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2EE810EB52
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:31:29 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6CE5E5C21E;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B17C25C008;
  Fri, 27 Feb 2026 13:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772199083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=otknfhCF1v7R1BWQGAumT/EA2kEVtSBjvMBgqO7CCPg=;
- b=WJJoXliv2qeGKhAM14eeeYR9z8w+F3xxMpveUCrRj8+rlEXtyoBbuJ1L02GJc3amVw+fH0
- EnmjfUqXVChbe/1IyiLtzLznqLRnTFEDPaWyKhlU0lbbm6PN/33CojS0eGofqFp2HIlI3C
- q++jS9S2ZnKPJlOwHwvNKEFzVmqzEsA=
+ bh=vOA8l9G3DZxu4uwdcoQv8/aFr41wvum/rzrE4I0pFq4=;
+ b=xLTApQgMybStiA2RUYYdVHnBQgaQCb/Fib2zIU6oSWSNu8I4WPta+OhdVgBM43pqbIspi2
+ INqYS5h6alW1Ho5429yyXAQN3gFITR57YZSAIXD2y60lE36O+iiy5/B8dEmrXGIWB3i+5W
+ lrKuknZCKCACU+fF/OqC0qLc9hKkDw0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772199083;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=otknfhCF1v7R1BWQGAumT/EA2kEVtSBjvMBgqO7CCPg=;
- b=Owl2hEt1aFEQPrT63QeTTK8JXxoUXvf3sOzEG6I1IkSzUsflkCp4GPIw3cSjaI7toHcX9D
- MzaxAyVzNgCHS/AQ==
+ bh=vOA8l9G3DZxu4uwdcoQv8/aFr41wvum/rzrE4I0pFq4=;
+ b=K1vA8pyyKXkdSDHrlIKUDt9smVq4knNqYaj2m/6mcDm5eIjLWMPnciRGVZv7lZ71o4jEts
+ ArMmQbmLjJ1xVrBQ==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WJJoXliv;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Owl2hEt1
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xLTApQgM;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K1vA8pyy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772199083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=otknfhCF1v7R1BWQGAumT/EA2kEVtSBjvMBgqO7CCPg=;
- b=WJJoXliv2qeGKhAM14eeeYR9z8w+F3xxMpveUCrRj8+rlEXtyoBbuJ1L02GJc3amVw+fH0
- EnmjfUqXVChbe/1IyiLtzLznqLRnTFEDPaWyKhlU0lbbm6PN/33CojS0eGofqFp2HIlI3C
- q++jS9S2ZnKPJlOwHwvNKEFzVmqzEsA=
+ bh=vOA8l9G3DZxu4uwdcoQv8/aFr41wvum/rzrE4I0pFq4=;
+ b=xLTApQgMybStiA2RUYYdVHnBQgaQCb/Fib2zIU6oSWSNu8I4WPta+OhdVgBM43pqbIspi2
+ INqYS5h6alW1Ho5429yyXAQN3gFITR57YZSAIXD2y60lE36O+iiy5/B8dEmrXGIWB3i+5W
+ lrKuknZCKCACU+fF/OqC0qLc9hKkDw0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772199083;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=otknfhCF1v7R1BWQGAumT/EA2kEVtSBjvMBgqO7CCPg=;
- b=Owl2hEt1aFEQPrT63QeTTK8JXxoUXvf3sOzEG6I1IkSzUsflkCp4GPIw3cSjaI7toHcX9D
- MzaxAyVzNgCHS/AQ==
+ bh=vOA8l9G3DZxu4uwdcoQv8/aFr41wvum/rzrE4I0pFq4=;
+ b=K1vA8pyyKXkdSDHrlIKUDt9smVq4knNqYaj2m/6mcDm5eIjLWMPnciRGVZv7lZ71o4jEts
+ ArMmQbmLjJ1xVrBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 386193EA69;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 740563EA6A;
  Fri, 27 Feb 2026 13:31:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eN5gDKucoWkrLQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cHzfGqucoWkrLQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 27 Feb 2026 13:31:23 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Russell King <linux@armlinux.org.uk>
-Subject: [PATCH] drm/armada: Test for imported buffers with
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>
+Subject: [PATCH] drm/exynos: Test for imported buffers with
  drm_gem_is_imported()
-Date: Fri, 27 Feb 2026 14:31:01 +0100
-Message-ID: <20260227133113.235940-2-tzimmermann@suse.de>
+Date: Fri, 27 Feb 2026 14:31:02 +0100
+Message-ID: <20260227133113.235940-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -114,7 +115,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:linux@armlinux.org.uk,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
@@ -131,47 +132,44 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email,armlinux.org.uk:email]
-X-Rspamd-Queue-Id: A23D01B7AF0
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email]
+X-Rspamd-Queue-Id: 226061B7B1E
 X-Rspamd-Action: no action
 
 Instead of testing import_attach for imported GEM buffers, invoke
 drm_gem_is_imported() to do the test. The test itself does not change.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
 ---
- drivers/gpu/drm/armada/armada_fb.c  | 2 +-
- drivers/gpu/drm/armada/armada_gem.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_gem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_fb.c b/drivers/gpu/drm/armada/armada_fb.c
-index b828bba419bf..d80877821cfe 100644
---- a/drivers/gpu/drm/armada/armada_fb.c
-+++ b/drivers/gpu/drm/armada/armada_fb.c
-@@ -113,7 +113,7 @@ struct drm_framebuffer *armada_fb_create(struct drm_device *dev,
- 		goto err;
- 	}
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+index 69ef6cda1ce9..ea7e26d2c84a 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+@@ -122,7 +122,7 @@ void exynos_drm_gem_destroy(struct exynos_drm_gem *exynos_gem)
+ 	 * the region will be released by exporter
+ 	 * once dmabuf's refcount becomes 0.
+ 	 */
+-	if (obj->import_attach)
++	if (drm_gem_is_imported(obj))
+ 		drm_prime_gem_destroy(obj, exynos_gem->sgt);
+ 	else
+ 		exynos_drm_free_buf(exynos_gem);
+@@ -367,7 +367,7 @@ static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct
+ 	struct exynos_drm_gem *exynos_gem = to_exynos_gem(obj);
+ 	int ret;
  
--	if (obj->obj.import_attach && !obj->sgt) {
-+	if (drm_gem_is_imported(&obj->obj) && !obj->sgt) {
- 		ret = armada_gem_map_import(obj);
- 		if (ret)
- 			goto err_unref;
-diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
-index da7335cbe82d..31bf1d37fe89 100644
---- a/drivers/gpu/drm/armada/armada_gem.c
-+++ b/drivers/gpu/drm/armada/armada_gem.c
-@@ -64,7 +64,7 @@ void armada_gem_free_object(struct drm_gem_object *obj)
- 			iounmap(dobj->addr);
- 	}
+-	if (obj->import_attach)
++	if (drm_gem_is_imported(obj))
+ 		return dma_buf_mmap(obj->dma_buf, vma, 0);
  
--	if (dobj->obj.import_attach) {
-+	if (drm_gem_is_imported(&dobj->obj)) {
- 		/* We only ever display imported data */
- 		if (dobj->sgt)
- 			dma_buf_unmap_attachment_unlocked(dobj->obj.import_attach,
+ 	vm_flags_set(vma, VM_IO | VM_DONTEXPAND | VM_DONTDUMP);
 -- 
 2.52.0
 
