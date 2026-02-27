@@ -2,133 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLaEAxEVomk0zAQAu9opvQ
+	id MH52NROzomlc5AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 23:05:05 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2960E1BE6FC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 23:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731B71C1A2A
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADA910EC46;
-	Fri, 27 Feb 2026 22:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C62E10E24C;
+	Sat, 28 Feb 2026 09:19:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="oKb3IEgt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=rcpassos.me header.i=@rcpassos.me header.b="Q78BslMQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=purelymail.com header.i=@purelymail.com header.b="bgXVljlA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012023.outbound.protection.outlook.com [52.101.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3B810EC46
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 22:04:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PzK1P+xFG8Bw6NBn5F3Pl5UUnfF5yPTqeKi6gJxru9uArnvvks+rHhclP9IrDU13FOdiXqIzrQFSOOla2/02E0fDXsM69BgnFrHXgeA2dB14gBD/L1XgYO5x3FPKbWqqw6WZgiboeGHneX43MNusHGpetPheALeBoajz5nE5Yk0DjQHSwKzmARRC6lqqBfyBtKKbajxXomt4xZag+cTeWOx1Njz9+ul6G3tCH7KQULbFKtiiWW7DfSEt31bXa5vd1oEKT+Fin6BZvB5fKmd6fv3CBBBWhDJg56R2rggYLCihFVbAFNABlIdBDvrvtfqt7GrDniD9X2mF0+IrZHGZEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tn+R7lYy6ZjU0H6eZiFtx5LQYH79IO/7HTDEdlPRtl4=;
- b=QvuuyQdPi3FDywmq5IhKJRwJbwo5puMrMbVRcjdTM6UKs+6OlCibJOIU8v0Xcz5U7eyjblyQGy2G8pXgxlnkwql/6xRoNJNDPs0FjtOeVtks7VZbgVS1LJffG6hwFqzKfCxr+D0LPcQSA5bF3v9ktS1ZTCB2ePahDu282ofallz3O/1s1fGoHxT/idVh90buwIW7S2d/w1M1q7TvvST6xcPFdWyrz54dnkJsLdWwj5uCUp/Lm6krbMKYHME6zmKFJKOxZffmR7zoPYphcyrmKyUC3J07zg/7XOD6XMV7obKKySCQTeOT/UmN3MDiUWKgQnt7m8lGGpt+K2sRrDnNRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tn+R7lYy6ZjU0H6eZiFtx5LQYH79IO/7HTDEdlPRtl4=;
- b=oKb3IEgt4gv2eavITl5rHa1QzkA7l31D8PuBklWNH9kx/qC8R7CGv21v0vDkxw7Tngpuktd75lXoQtTo6+s8GZuMNdWTPLUIFjWVdEz0+9BImP5mWeKa6r5/zVLAEMKe33mK9vvM0kaIgrblNc4h5/vUOhg5zvY67w1vSVns35a94zk30inbxBInrAMYdWqgzcofVVL+4jZRbASuK5P5R+2txIDXuNghRvey4iyQ44heaiYgrQvJ03H6xlgxkZGtDo9lHbhdJTwFOu1JyvgwQsE6nfD5T8OgVAgBatk+ofyn8YOdpTPacxmoyiGMdc0QAGMRRRx5ZK5GMfuPf+9m6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DS0PR12MB6654.namprd12.prod.outlook.com (2603:10b6:8:d1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Fri, 27 Feb
- 2026 22:04:28 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 22:04:28 +0000
-Date: Fri, 27 Feb 2026 18:04:27 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Mastro <amastro@fb.com>
-Cc: Matt Evans <mattev@meta.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
- Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
- =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org
-Subject: Re: [RFC PATCH 3/7] vfio/pci: Support mmap() of a DMABUF
-Message-ID: <20260227220427.GM5933@nvidia.com>
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-4-mattev@meta.com>
- <90bd4185-1e87-4393-b9e1-1318a656a7d9@amd.com>
- <20260227125109.GH5933@nvidia.com>
- <c5a8f318-20af-4d80-a279-2393192108c3@meta.com>
- <20260227194807.GL5933@nvidia.com>
- <aaISD4mw1XzQl1S8@devgpu015.cco6.facebook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaISD4mw1XzQl1S8@devgpu015.cco6.facebook.com>
-X-ClientProxiedBy: BL1PR13CA0287.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::22) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS0PR12MB6654:EE_
-X-MS-Office365-Filtering-Correlation-Id: c40c9cae-b326-43a8-64f8-08de764c2d4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: xDXQbgpoLbH8oWyN9bbildDSV/HnaSJa6TRipngZBHmk2B+EdynokXJ2FcG6MSqyy8TYdVaqI0ntKw7jWTb2rLWG0ZZHMC9s4+hVokQXo4IFSo5b03jkFTx/mfNB/jA6HTfqwbNiuTyRm/pSeLRT7mxXOSGiIwk5sP/0NVS6Qya+eRIgpPB2Fo9pJJ4FQzveywNbUZ9AVMMK8iHrrDMQKFTCGCYqe7M1ybU0vmKAjXHWx+j6lJgvlJXzcr/PLeaN8gjL2r+jMZtpDNkTVh6HidbdmDuQbypCyoHMMBeiXqDHPg/aF/YcmdNCQbeX/lUH6S4RqpipOnVNGmo2Gdn4sRz6Bnlu/X4EzgUEcg90Vgyn5sebqp9QywRqt7unxyiQdetkuX5LKw7NwQoqIvGhXatDuY9o0KN+CXqeVq/UIMZ0nxK6RX70uRbsJn5PGxS7y/zcXWOszUFSlSDUMLYDExtj7/AUljSfkd2KuqDdct37fYzti9RcFJ8BmRz8kNW/VU3zJ3SkyoHofJp699bRBn/gKQhH+L+QcwzTZH64f+unSP2m9zlEae5bWk37o0k25xmgAraTTE3oRTQTYCWj8nJ8mc+1tDmJh5dSdZy7QNb9L50Y4Jzeaq/u9iWONz/UaC0q3VaaAtVzraj09xpJ8v/Z+suNjpfb0okwtMu0WS5eXg6RDAFBOqjq+8qaJAazQNIx11/653AwfBwHavg0dwXVK0Vlz/aJVymskckCB00=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV8PR12MB9620.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/U2ACUaOMh/nsuFmNKVaYdkscFJ3H2uZEEnmtjkFdzuuLRN+nD9Osf+DTzJO?=
- =?us-ascii?Q?gf4pu3Ki6bTi8kC1Bzrde2pepwW/nuIrmuhO4IcKqAW9WHfDC2xLBgUCegTS?=
- =?us-ascii?Q?KFWV8OrOqaixAH3qNlhvJx4vEeYCk2WSkcD1k++YC1klHkfyiLypsZ16b7kP?=
- =?us-ascii?Q?W5xxxdwPbLAazQ/r7WrFrrUJTXyBGRfUBQQxcNcRvi3nGQUKsN6S+MqeKGi8?=
- =?us-ascii?Q?yATRhHR10VoqW1dsIfiUxSx4eNg7BZUYyKo7vac5wr3bCEDecawPg24Am0bX?=
- =?us-ascii?Q?pD6rGfmjvkFw0MnosSgZOFMGtzeQAavaZw4xAg7fEsDzXAGaagkGDgYv2kRZ?=
- =?us-ascii?Q?DiNzC8FFGfA5PWtuc8bgh0nvNkV1q3Lnxx3XjT6WqpQo9l5dFTRbSmE6/baq?=
- =?us-ascii?Q?1a8MPipNqyjyH2SuOPd5FoC0hSRl5Sm1GRw0TuTkJ01Go6nDHSR8SnVfC7zo?=
- =?us-ascii?Q?yn3SXsCKCabU7TgehCvxOgMe2tspwGuPrz0crCZZPzjJvmYp59+zI2I0zZ2A?=
- =?us-ascii?Q?UniSut3MN1PJubJXtyaCL9hhVHzAWvPSRXwmmpn2/EaNfMvUh6mMRHEX64qC?=
- =?us-ascii?Q?NcEzFMhzuRhz3XsG+bjbzzG2FcJUtEGynkkjkS5GwwE1qBuWpQPSBjV2bNUW?=
- =?us-ascii?Q?A0zCKc6z3loNHZXsRaJQZvf77/ns8RtDz16M3chcpl+7CO8WbnPjhzxQE/td?=
- =?us-ascii?Q?7O1U8Ut+V4uhAN3pefaugo2PplKHvDPrC1TFIUlIhH2mzwtzlB4gp9IBNDx5?=
- =?us-ascii?Q?6YOM+uQtOGshz2zipR6ejhW0HSniWw6SMjU+M1Kyn95YPROjlOfZgeUwZeso?=
- =?us-ascii?Q?1ZC/n3Bo9PMjSjPqoiyb0lirDQ1LVyu2MRYCi2I8cSjT/ISs3Rj9ckpIWEmz?=
- =?us-ascii?Q?Ot/3rKie0iEkmSS0XZYM4mwhH/DuUfmCRFFXqpaQiYhoNjDSvoaNHrmIZHJc?=
- =?us-ascii?Q?toDo+ZRMHs+hqsqG2ps12EexJ4oORqbZ3iFbz+42ABQrmvrv0sYxWegth9Vq?=
- =?us-ascii?Q?JhJ/p7slF68wnR6ejbhYHug5MZ0Y64RhCs1Wbi3/XX3zwuHezNdXVtEzfurN?=
- =?us-ascii?Q?feHngX+f0Y1ruMuwQcKgcjK1KDq6ancvF/OMp90ybxaH19gU0rtpuhMNAPf8?=
- =?us-ascii?Q?KUJsW7DbmN3zKpWd59BV6+9V00el25BGhvMYtWbC4IWIFh8nwnFe+O2BgwVp?=
- =?us-ascii?Q?T7oA4pMlVvRsyavSoS78/9Unb91Yx4mEJ6Y+6/sqpQ5Iv0Po9RKw4TwgKXcH?=
- =?us-ascii?Q?axM9ajnZRWQnamlwyPtauEcSsaJG645aTSJAOTfqjBZ9RwKakwEapMB96rnh?=
- =?us-ascii?Q?HkMY0SitCDXVCq/JdPsWsVwlsJxfXLE/FPdP5iTn/gsmEzyyDg84ULAXW9e6?=
- =?us-ascii?Q?bfoTFX4tb+KFGbyUJal+lZBx4dASVyuKAdjvfm6f9FPGxRUYjGlYIGxEEPf2?=
- =?us-ascii?Q?uZX2zT9w2lxVelbIGUvlPJbqp/9x3eCnr/rwBnN5WNm+0E47DLlK5uYyska2?=
- =?us-ascii?Q?BnEYuK4m5B0/ZEBoxCE7BeM1bg+K4nsskbg8l5WxTOCDO7bAl0Dy21nMlfZQ?=
- =?us-ascii?Q?pYMKiBDrXydlfm5qL9ahIh9NyDKnj21MIe1UwBNhe66wCr7g2y+lMplvHcMv?=
- =?us-ascii?Q?9Jvw1bDQH3RCSaqjFJTtC34hT7PJiYHllLwsAYvOgUrboTWNjj/a25hZ5kqQ?=
- =?us-ascii?Q?2g6JhaLORKVn7cSnxFTqOU+3btyMnJKnHd1FPSVOEa5WfeLggW6eZv/HTH5u?=
- =?us-ascii?Q?KCWzUgCsfw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c40c9cae-b326-43a8-64f8-08de764c2d4a
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 22:04:28.5718 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jzZLenXnMcipM0rt06bUc98paZj/OJii8lKDxy6XTg+EWQ2xlY41tY1ZR7F7e4Hq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6654
+Received: from sendmail.purelymail.com (sendmail.purelymail.com
+ [34.202.193.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE9110E1C4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 23:01:37 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=Q78BslMQ/p7F+ujBEh9dwI0HaQF8BeZiD1W+aJNAMqReDVnXsXBb9PttxaI5/NvadgZcGl2Oxnn4TAFMR0gWS7ku+kp7gdvRlUILoXcpm9DXXmC6Lx8b61xmq/karXnWOXNPuaOOKFyxY6W88ZlkWVmlc2J+D4OzcN/Yt42GM9afjLHHetgFJLN2/Q7adYHArgsBqanFxYdqB/jsL3TabxfPXFitDzHI8Hyn1wKCRV7+OauwGOFsudUFltYNy1cOrI5o/1BZMSeKvv1D4qAcyzNDBrCKB2AN3VF5o7ypX+mwpsiNKEIuyuzrddOLCWZdv8/BcDGyODUtzlXbXPQuLA==;
+ s=purelymail3; d=rcpassos.me; v=1;
+ bh=rX7wenqbXadkw/eCFpE8kSAWOgl+KlNXGlxRzG1En+I=;
+ h=Received:Date:Subject:From:To; 
+DKIM-Signature: a=rsa-sha256;
+ b=bgXVljlACXtabSk1i9/htsefZh83i1/Axdh/ioS5X8zFmelqDlUthnb/VLstQojiY1BhxbPZBe77QNNpkiIj6Wjhp3YdBv+NbIigQmFZDcmMY6Nu1io6xb1QzmFFfRLB8Qw+TVCHt+kgLQEbnOplmNn7DmyZtVQmRx9kpMuv3+g7p1a2t6cGmZfCTXODReFQ2pf5G1SJ7YfR00IwgdzXwyEzvKQSw0AJsOo/rc6nyJEVX8PQt/+98c++nNLD97Qh3N/fd5Vh6fMyzqkCp8U6OTTAsaj8O9rB4bPpQBAcimA+wPilyB0g50J0Nqd60/HMnLVghUYzXmwf3Qkuwc6nlg==;
+ s=purelymail3; d=purelymail.com; v=1;
+ bh=rX7wenqbXadkw/eCFpE8kSAWOgl+KlNXGlxRzG1En+I=;
+ h=Feedback-ID:Received:Date:Subject:From:To; 
+Feedback-ID: 45355:7809:null:purelymail
+X-Pm-Original-To: dri-devel@lists.freedesktop.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -262709579; 
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Fri, 27 Feb 2026 23:01:32 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 20:01:29 -0300
+Message-Id: <DGQ49PK0QE7U.3O1AQPSD6NI7I@rcpassos.me>
+Cc: <rcpassos@ime.usp.br>, <davidtadokoro@ime.usp.br>
+Subject: [bug report] 7.0-rc1 flip_done timed out: amd igpu off when
+ resuming in laptop (regression)
+From: "Rafael Passos" <rafael@rcpassos.me>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <siqueira@igalia.com>, <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: aerc 0.21.0
+X-Mailman-Approved-At: Sat, 28 Feb 2026 09:18:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,68 +65,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [2.89 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[rcpassos.me : SPF not aligned (relaxed),reject];
+	R_DKIM_REJECT(1.00)[rcpassos.me:s=purelymail3,purelymail.com:s=purelymail3];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:amastro@fb.com,m:mattev@meta.com,m:christian.koenig@amd.com,m:alex@shazbot.org,m:leon@kernel.org,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:rcpassos@ime.usp.br,m:davidtadokoro@ime.usp.br,m:amd-gfx@lists.freedesktop.org,m:siqueira@igalia.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[rcpassos.me:-,purelymail.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2960E1BE6FC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 731B71C1A2A
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 01:52:15PM -0800, Alex Mastro wrote:
-> On Fri, Feb 27, 2026 at 03:48:07PM -0400, Jason Gunthorpe wrote:
-> > > > I actually would like to go the other way and have VFIO always have a
-> > > > DMABUF under the VMA's it mmaps because that will make it easy to
-> > > > finish the type1 emulation which requires finding dmabufs for the
-> > > > VMAs.
-> > 
-> > This is a still better idea since it avoid duplicating the VMA flow
-> > into two parts..
-> 
-> I suppose this would also compose with your idea to use dma-buf for
-> iommufd_compat support of VFIO_IOMMU_MAP_DMA of vfio device fd-backed mmap()s
-> [1]? Instead of needing to materialize a new dma-buf, you could use the existing
-> backing one?
+Hi,
 
-Yeah, that too
+I found this bug while running v7.0-rc1 on my HP laptop.
+The laptop returns from suspension when flipping the scren up,
+but the iGPU does not. Tested in Fedora and Arch.
+Same compilation has no issues in my Desktop (with a 6800XT).
 
-I think it is a fairly easy progression:
+HP ProBook x360 435 G7
+CPU is a AMD Ryzen 7 4700U (8) @ 2.00 GHz with Vega iGPU
 
-1) mmap_prepare() allocates a new dmabuf file * and sticks it in
-   desc->vm_file. Rework so all the vma_ops are using vm_file that is
-   a dmabuf. The allocated dmabuf has a singleton range
-2) Teach the fault handlers to support full range semantics
-3) Use dmabuf revoke variables/etc in the mmap fault handlers
-4) Move the address space from the vfio to the dmabuf
-5) Allow mmaping the dmabuf fd directly which is now only a couple lines
+This started in a compilation (mainline) between Feb 10 and Feb 23.
+I plan to do a lot of bisecting this weekend to find the exact cause.
+I know ga9aabb3b839a is a good commit, and 6de23f8 is a bad one (the tag).
+Hopefully I can submit a patch fixing this bug,
+but helping to find it is ok as well.
 
-I forget how all the different mmap implementations in vfio interact
-though - but I think the above is good for vfio-pci
+Here is one sample of the Kernel logs I collected over SSH.
 
-Jason
+[   98.539672] smpboot: Booting Node 0 Processor 7 APIC 0x7
+[   98.543543] CPU7 is up
+[   98.544343] ACPI: PM: Waking up from system sleep state S3
+[   99.061284] ACPI: EC: interrupt unblocked
+[   99.066648] ACPI: EC: event unblocked
+[   99.067043] amdgpu 0000:04:00.0: [drm] PCIE GART of 1024M enabled.
+[   99.067049] amdgpu 0000:04:00.0: [drm] PTB located at 0x000000F41FC00000
+[   99.067070] amdgpu 0000:04:00.0: PSP is resuming...
+[   99.067167] amdgpu 0000:04:00.0: reserve 0x400000 from 0xf41f800000 for =
+PSP TMR
+[   99.157012] amdgpu 0000:04:00.0: RAS: optional ras ta ucode is not avail=
+able
+[   99.168905] amdgpu 0000:04:00.0: RAP: optional rap ta ucode is not avail=
+able
+[   99.168909] amdgpu 0000:04:00.0: SECUREDISPLAY: optional securedisplay t=
+a ucode is not available
+[   99.168913] amdgpu 0000:04:00.0: SMU is resuming...
+[   99.169354] amdgpu 0000:04:00.0: dpm has been disabled
+[   99.170469] amdgpu 0000:04:00.0: SMU is resumed successfully!
+[   99.171833] amdgpu 0000:04:00.0: kiq ring mec 2 pipe 1 q 0
+[   99.176522] amdgpu 0000:04:00.0: [drm] DMUB hardware initialized: versio=
+n=3D0x0101002B
+[   99.176650] ------------[ cut here ]------------
+[   99.176652] WARNING: drivers/gpu/drm/amd/amdgpu/../display/dc/hubbub/dcn=
+20/dcn20_hubbub.c:587 at hubbub2_get_dchub_ref_freq+0xa1/0xb0 [amdgpu], CPU=
+#3: kworker/u33:7/782
+[   99.177462] Modules linked in: uinput rfcomm snd_seq_dummy snd_hrtimer c=
+cm nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4=
+ nft_fib_ipv6 nft_fib sunrpc nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 =
+nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defra=
+g_ipv4 nf_tables qrtr cmac algif_hash algif_skcipher af_alg bnep vfat fat s=
+nd_sof_amd_acp70 snd_sof_amd_acp63 snd_sof_amd_vangogh snd_sof_amd_rembrand=
+t snd_sof_amd_renoir snd_sof_amd_acp snd_sof_pci snd_sof_xtensa_dsp snd_sof=
+ snd_sof_utils snd_pci_ps snd_soc_acpi_amd_match snd_soc_acpi_amd_sdca_quir=
+ks snd_amd_sdw_acpi soundwire_amd soundwire_generic_allocation snd_ctl_led =
+soundwire_bus snd_soc_sdca snd_hda_codec_alc269 snd_hda_codec_realtek_lib a=
+md_atl intel_rapl_msr snd_hda_codec_atihdmi snd_hda_scodec_component snd_so=
+c_core snd_hda_codec_generic intel_rapl_common snd_hda_codec_hdmi iwlmvm sn=
+d_compress ac97_bus snd_pcm_dmaengine snd_hda_intel snd_hda_codec mac80211 =
+snd_rpl_pci_acp6x btusb snd_acp_pci hp_bioscfg snd_hda_core
+[   99.177516]  snd_amd_acpi_mach btmtk snd_intel_dspcfg snd_acp_legacy_com=
+mon btrtl ptp snd_intel_sdw_acpi firmware_attributes_class snd_pci_acp6x kv=
+m_amd pps_core snd_hwdep libarc4 uvcvideo btbcm hp_wmi snd_pci_acp5x videob=
+uf2_vmalloc btintel kvm snd_seq uvc platform_profile videobuf2_memops snd_r=
+n_pci_acp3x sparse_keymap snd_seq_device videobuf2_v4l2 irqbypass snd_acp_c=
+onfig videobuf2_common bluetooth rapl videodev wmi_bmof iwlwifi mc snd_pcm =
+snd_soc_acpi pcspkr acpi_cpufreq i2c_piix4 i2c_smbus k10temp snd_pci_acp3x =
+snd_timer cfg80211 hid_sensor_gyro_3d hid_sensor_magn_3d snd hid_sensor_acc=
+el_3d hid_sensor_trigger soundcore rfkill industrialio_triggered_buffer kfi=
+fo_buf wireless_hotkey hid_sensor_iio_common industrialio joydev mousedev m=
+ac_hid loop nfnetlink zram 842_decompress 842_compress lz4hc_compress lz4_c=
+ompress dm_crypt encrypted_keys trusted asn1_encoder tee amdgpu hid_sensor_=
+hub amdxcp i2c_algo_bit drm_ttm_helper ttm drm_exec drm_panel_backlight_qui=
+rks gpu_sched drm_suballoc_helper nvme rtsx_pci_sdmmc
+[   99.177578]  drm_buddy nvme_core ucsi_acpi mmc_core drm_display_helper n=
+vme_keyring typec_ucsi ghash_clmulni_intel nvme_auth roles hid_multitouch a=
+esni_intel typec cec ccp hkdf amd_sfh video rtsx_pci i2c_hid_acpi wmi thund=
+erbolt sp5100_tco i2c_hid serio_raw dm_mod i2c_dev
+[   99.177603] CPU: 3 UID: 0 PID: 782 Comm: kworker/u33:7 Tainted: G       =
+ W           7.0.0-rc1-auyer+ #3 PREEMPT(full)  89085bfd3471dc2ddc421b17d99=
+0c1c500db5584
+[   99.177608] Tainted: [W]=3DWARN
+[   99.177609] Hardware name: HP HP ProBook x360 435 G7/8735, BIOS S80 Ver.=
+ 01.17.02 06/07/2024
+[   99.177612] Workqueue: async async_run_entry_fn
+[   99.177619] RIP: 0010:hubbub2_get_dchub_ref_freq+0xa1/0xb0 [amdgpu]
+[   99.178421] Code: 8d 83 c0 63 ff ff 3d 20 4e 00 00 77 21 89 5d 00 48 8b =
+44 24 08 65 48 2b 05 84 05 36 d0 75 13 48 83 c4 10 5b 5d e9 af ae 7f ce <0f=
+> 0b eb df 0f 0b eb db e8 e2 7a 7e ce 66 90 90 90 90 90 90 90 90
+[   99.178423] RSP: 0018:ffffcd310072fc50 EFLAGS: 00010246
+[   99.178426] RAX: 0000000000001000 RBX: 000000000000bb80 RCX: 00000000000=
+00000
+[   99.178428] RDX: ffffcd310072fc54 RSI: 00000000000039df RDI: ffff8ce0148=
+00000
+[   99.178430] RBP: ffff8ce00f882bf8 R08: ffffcd310072fc50 R09: 00000000000=
+0000c
+[   99.178431] R10: ffffcd313fecaf00 R11: ffffcd310072f898 R12: ffff8ce00f8=
+82800
+[   99.178433] R13: ffff8ce00f848400 R14: ffff8ce00dc83e00 R15: ffff8ce0f63=
+17ec0
+[   99.178435] FS:  0000000000000000(0000) GS:ffff8ce75e767000(0000) knlGS:=
+0000000000000000
+[   99.178437] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   99.178439] CR2: 0000000000000000 CR3: 0000000211d28000 CR4: 00000000003=
+50ef0
+[   99.178441] Call Trace:
+[   99.178446]  <TASK>
+[   99.178450]  dcn10_init_hw+0x186/0x4e0 [amdgpu c06be2407ae9725ac90c67be7=
+9bb3ef89e7cefec]
+[   99.179286]  dc_set_power_state+0xd1/0x150 [amdgpu c06be2407ae9725ac90c6=
+7be79bb3ef89e7cefec]
+[   99.180031]  dm_resume+0x12e/0x8b0 [amdgpu c06be2407ae9725ac90c67be79bb3=
+ef89e7cefec]
+[   99.180833]  amdgpu_ip_block_resume+0x27/0x50 [amdgpu c06be2407ae9725ac9=
+0c67be79bb3ef89e7cefec]
+[   99.181466]  amdgpu_device_ip_resume_phase3+0x6d/0x90 [amdgpu c06be2407a=
+e9725ac90c67be79bb3ef89e7cefec]
+[   99.182040]  amdgpu_device_resume+0xbb/0x380 [amdgpu c06be2407ae9725ac90=
+c67be79bb3ef89e7cefec]
+[   99.182620]  amdgpu_pmops_resume+0x46/0x80 [amdgpu c06be2407ae9725ac90c6=
+7be79bb3ef89e7cefec]
+[   99.183194]  ? __pfx_pci_pm_resume+0x10/0x10
+[   99.183200]  dpm_run_callback+0x51/0x180
+[   99.183204]  ? dpm_wait_for_superior+0xf7/0x150
+[   99.183207]  device_resume+0x15c/0x260
+[   99.183210]  async_resume+0x21/0x30
+[   99.183213]  async_run_entry_fn+0x36/0x160
+[   99.183218]  process_one_work+0x193/0x390
+[   99.183222]  worker_thread+0x1a1/0x310
+[   99.183226]  ? __pfx_worker_thread+0x10/0x10
+[   99.183229]  kthread+0xe3/0x120
+[   99.183234]  ? __pfx_kthread+0x10/0x10
+[   99.183238]  ret_from_fork+0x2bf/0x350
+[   99.183243]  ? __pfx_kthread+0x10/0x10
+[   99.183246]  ret_from_fork_asm+0x1a/0x30
+[   99.183253]  </TASK>
+[   99.183255] ---[ end trace 0000000000000000 ]---
+[   99.299257] usb 1-4: reset full-speed USB device number 3 using xhci_hcd
+[   99.307188] usb 3-3: reset high-speed USB device number 2 using xhci_hcd
+[   99.404342] nvme nvme0: 8/0/0 default/read/poll queues
+[   99.538424] usb 1-3: reset full-speed USB device number 2 using xhci_hcd
+[  100.833055] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+22: core_link_write_dpcd (DP_DOWNSPREAD_CTRL) failed
+[  100.919764] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+27: core_link_write_dpcd (DP_LANE_COUNT_SET) failed
+[  101.006487] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+55: core_link_write_dpcd (DP_LINK_BW_SET) failed
+[  102.589793] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+22: core_link_write_dpcd (DP_DOWNSPREAD_CTRL) failed
+[  102.676500] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+27: core_link_write_dpcd (DP_LANE_COUNT_SET) failed
+[  102.763207] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+55: core_link_write_dpcd (DP_LINK_BW_SET) failed
+[  104.398168] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+22: core_link_write_dpcd (DP_DOWNSPREAD_CTRL) failed
+[  104.484883] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+27: core_link_write_dpcd (DP_LANE_COUNT_SET) failed
+[  104.571597] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+55: core_link_write_dpcd (DP_LINK_BW_SET) failed
+[  106.253776] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+22: core_link_write_dpcd (DP_DOWNSPREAD_CTRL) failed
+[  106.340510] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+27: core_link_write_dpcd (DP_LANE_COUNT_SET) failed
+[  106.427251] amdgpu 0000:04:00.0: [drm] *ERROR* dpcd_set_link_settings:11=
+55: core_link_write_dpcd (DP_LINK_BW_SET) failed
+[  107.382304] amdgpu 0000:04:00.0: [drm] enabling link 0 failed: 15
+[  107.568497] amdgpu 0000:04:00.0: ring gfx uses VM inv eng 0 on hub 0
+[  107.568501] amdgpu 0000:04:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
+b 0
+[  107.568503] amdgpu 0000:04:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
+b 0
+[  107.568504] amdgpu 0000:04:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
+b 0
+[  107.568506] amdgpu 0000:04:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
+b 0
+[  107.568508] amdgpu 0000:04:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
+b 0
+[  107.568509] amdgpu 0000:04:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
+b 0
+[  107.568511] amdgpu 0000:04:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
+b 0
+[  107.568512] amdgpu 0000:04:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
+ub 0
+[  107.568514] amdgpu 0000:04:00.0: ring kiq_0.2.1.0 uses VM inv eng 11 on =
+hub 0
+[  107.568516] amdgpu 0000:04:00.0: ring sdma0 uses VM inv eng 0 on hub 8
+[  107.568518] amdgpu 0000:04:00.0: ring vcn_dec uses VM inv eng 1 on hub 8
+[  107.568520] amdgpu 0000:04:00.0: ring vcn_enc0 uses VM inv eng 4 on hub =
+8
+[  107.568521] amdgpu 0000:04:00.0: ring vcn_enc1 uses VM inv eng 5 on hub =
+8
+[  107.568523] amdgpu 0000:04:00.0: ring jpeg_dec uses VM inv eng 6 on hub =
+8
+[  107.584564] OOM killer enabled.
+[  107.584569] Restarting tasks: Starting
+[  107.585190] Restarting tasks: Done
+
+
+regards,
+Rafael Passos
