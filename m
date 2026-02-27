@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHVQLz6PoWkruQQAu9opvQ
+	id kHNRAFOPoWkruQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:34:06 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:34:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291241B71CE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D40B1B7259
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 13:34:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9151E10E189;
-	Fri, 27 Feb 2026 12:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB58910EB31;
+	Fri, 27 Feb 2026 12:34:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="N/+2+Gc0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="J/tMN/ou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010033.outbound.protection.outlook.com
- [52.101.193.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907CC10E5F1;
- Fri, 27 Feb 2026 12:34:00 +0000 (UTC)
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012013.outbound.protection.outlook.com
+ [40.107.200.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB12310E5F1;
+ Fri, 27 Feb 2026 12:34:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p4di6MUecVPQRFey1InMpykh/Q+D0qR/a1PEcLSbjH2/7VOuyOuo0ufGs0teK1ED6GUyNGFPT9XbfsRPnjWC2erPFKlNYA+qAZKVircHoLTaY0QVH2tpHW91cTP2+uIYp6nckNh5g5ZyD0StKdkmVJs9E0jfthID9gjhzxnRViVZSmzUc+FEPHLiJ3htCt1ddO8aB7lJw38HNGw61SOBh8WaqLdcE/FVIZxotzqpNLWtSSeQA9kQtaIqbNCaTdTxvqIy10xx9t/BsXpaG/fusHvxOEH6ym/rIuC1G4y+PuOalk1D2XcuFuKNQj7tYuHXyZfj8sKMKFAXUsDnDxOVEg==
+ b=pgb6kV5x21vuTKbnwIg4JxhfodD0gG5Wl6N+NLyV/0SyJGEe1hNy/bScSegwfHVUV6X7dXZETwtChNKKs803FO0uLdJemQxswCEryRBuOpnYD2nI5PctkWn8ov+tUfs6JikjODDSbdCHzqJ6EnvyLahk1lpzkt0EJI16mv6/0LxohJOwgAmzwU5qABTHFT0lOkc8mJcoug6E4N+4XASx/5mMcz1zc793VMiQx4J0HEpfLXB7H/in1u9hACrdVgS4sYaC50jqnEpw31HevDYtBTCOWdlVPOxywLyF6XFczH9ytkd6y9+8Gwo8jUJG6D1IscYx+DoHXL/gZChntXSCsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5wHaLeiWym0mnWXOKFYtk17jkvO4aDmTzYsMQvU1U1I=;
- b=DJ8l4HEVwEmfkPQjrRfh5Vj9UGq6ZSzv37DrhJVwL6AIjzJyoSzrwHVSNR4rQqxBsKg7PsUYxAGQjvPfzb3o1p9oKTZ6RbGkbAt4Htnrn+NnTe8sQqXRqKVz/Dv4t8YtSmHhHPhjPc1L3/49IpsJKdI+M0lepf4KnQBeD20SBfIs6MRpwsCw/21aXZFfV/om9XMLTTnMa6H8ceEnpUoX+DKPpaVxtACfqcXkTTag4CBuK2C33wuutju9GkYT5v8lsgofjqsjvXWXYayXUR+w8voud8pUiqteuKODucD28yPECEY/XXiDiQIu7NK0SlT0JNRJ130w4sePBf2oJyhx4A==
+ bh=+cx/rHVrbSGINlDs63mZF1XN06AvbQrrravh97m13lQ=;
+ b=u50dF/w8bJ7jqbHXZi0/R20MLnxNH3Dqk5+AasSnAGIkCZbJgYr70ar/8yZOX5Rb2NWccdHXDKmJ/XKMJFPzHOChmElLKuj2WLTnMgbzORZxYDg6euJc8OPKerrS8xWvR4rOGZppMJouSA/NyXtkKy6rPFko+Ef9dSzciFdDCcIJFqDYVa0i3go0IYq3G/rV/XIag5odlRKDetAB0jr6ScgrcKiPOXlqZj8/oSiHXsqcBVUinUP58JXK248fCVZHhdDjdN61AKMKB3FZNz5QfSXE4eNt0i+dul/Zzw8PKWNGOYiZna7mUT35POb/u/OfdliJ4i5W1CeMVv0jKm3yzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5wHaLeiWym0mnWXOKFYtk17jkvO4aDmTzYsMQvU1U1I=;
- b=N/+2+Gc0TUBePjra8Z6cC67X6/Xqm/Dl8Y97kP5zm20r/NmtKZgdc2gKrbXkUHa4DiPbuzuIJgqNayZ/s6ed75OiF1NUunPoQ6G7BtiEFxl7I9OvU+P5wXeoU1ssb9wi5veaMrhk/gyB9FjVsDv0Q0foiLnea0rwUfxRLkPPob2C+ITReikq95aJ7Xo+8pFeKE8ncjdNrbYVUvTpUcv7wMA0p7r9zsDv1MWMgyj4GDoOTvb3wtVt9cLUZc6GCgMyOhl8bHGowHdluhmhYTca3TvS5Efe+LW3MQCMOZ7i7hap8Sfgqip7irRMyTUAezlCpQAqserIMIGnpWwT81Recg==
+ bh=+cx/rHVrbSGINlDs63mZF1XN06AvbQrrravh97m13lQ=;
+ b=J/tMN/ouzTLjhr8MgkF2NYVF0ln1PXsezUeI7U97pMq9QuvVOGp923Qh/dNX60M/Pl4hynqhH/vETAhK4traCHeuHV29BhV5z5OKZ8JYEF4yXLJ7n4RfH/ZZwL6yph+w+oQwQ8L11iIjuKFmxl4Wmfjfi+mi5Dmf6Ih7XBvpMzzeXWU79QLecJF/3+jljpeBy8zTXGmYWnGZaXTVSHomUGpMj5WxgKXsa7Ek89TJEdS3G0eCvTAz9VGHRWX5/Cc/EaRflh8JYek1t2x4637mKoiX8cDQ9iV2gZDHnHW8q3uhY7cIxmSVefljtsC05dsHWSDYH9DmoKwl94U6RhiWDQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
  by MN2PR12MB4287.namprd12.prod.outlook.com (2603:10b6:208:1dd::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Fri, 27 Feb
- 2026 12:32:47 +0000
+ 2026 12:32:51 +0000
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.007; Fri, 27 Feb 2026
- 12:32:47 +0000
+ 12:32:51 +0000
 From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Fri, 27 Feb 2026 21:32:06 +0900
-Subject: [PATCH 1/9] gpu: nova-core: gsp: add NV_STATUS error code bindings
+Date: Fri, 27 Feb 2026 21:32:07 +0900
+Subject: [PATCH 2/9] gpu: nova-core: gsp: add NvStatus enum for RM control
+ errors
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-rmcontrol-v1-1-86648e4869f9@nvidia.com>
+Message-Id: <20260227-rmcontrol-v1-2-86648e4869f9@nvidia.com>
 References: <20260227-rmcontrol-v1-0-86648e4869f9@nvidia.com>
 In-Reply-To: <20260227-rmcontrol-v1-0-86648e4869f9@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -63,71 +64,71 @@ Cc: rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Eliot Courtney <ecourtney@nvidia.com>
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TY4P286CA0047.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::16) To BL0PR12MB2353.namprd12.prod.outlook.com
+X-ClientProxiedBy: TY4P301CA0003.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:26f::14) To BL0PR12MB2353.namprd12.prod.outlook.com
  (2603:10b6:207:4c::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|MN2PR12MB4287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 063f9af7-6f50-4d80-e7f6-08de75fc5048
+X-MS-Office365-Filtering-Correlation-Id: 601831b8-93c6-409b-8f5e-08de75fc52c1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|1800799024|376014|10070799003;
-X-Microsoft-Antispam-Message-Info: T4sYECvPdA1SmszcdPIJSeVV3h8OCRsOt+fB2uJeO3VEYK739D2WDAateULjiw8yVGBWvMUzngzjgpZJBOSumvIrKX8GF88fxuhwl/TjitLDwyFtu5g1W7op4FFRLUKqXNENGZxJFYT7XRmbPjZI+tkflPF0l+CEaZkQCeOW23RgIxltYSreJ87nHyzqftkOQglGCMa2aGzXgtmolKTeXMO4Uv0Ki5q23OVXnZmCdFacRCPdseDmcCGXnDvkIqBDoNfvPjVZEsA6QjgxYjNnvUOADCaZmU7clIogYSWB34VlzT+zjPUqRLuTbUN3ePTfNB3wwklnKLOGdo8xF1qlIaFIjkOHEmzCHRR5p1Vlsj3a4smoyzIID0PLj4SRxrPMWWpYTs+b1tg0LLWEweJEAp9Maf0SLMwQ1OrPsrEewBenhsX9Qwx7wtwWVZiibRx6h+UjAYfbW2cok4FGBAq809BpCWEGjMfk2QL0S95rM3jgsWDOxmDyiPO1iSlEgXDGkluCMJR98n1fXnFrRItJIqmXyD71HXzqk0+jo3W6LWNAo3TAWhWYu8Nm2ZfR9lkJ+d14hURrq3mVfT+3cvwUTrWzd6XT177VZifFdyS6QL0x8x0B354vA1j5SGwiiceSrKEtlafvjGMFZ7USyWQIXVk04ALqHEAg5tnVh54vtPkH4rzy/QoEPbh/zblHq3MJX9MHQrAiJhb5k5AYr7WtSdiiUJq5yQC44/4tGurO+jg=
+X-Microsoft-Antispam-Message-Info: yuX68+F2yi8BJ49qzXChTM0Oe8kYNujTr6uqXTsrIFar6jhTs4BFW9MfFJmlc1C8PDQa5s7xBL1d2tRrnRljSpYDUJcldFC8jOCaO0zsGxvIbNN3vAbXOnwQiig+LQiKOHM3aVDBb3IFIoZ+0z4dTT4GP7nT5Wtbyfh75C59oN067pVScihh/z9I+hOVpFRp/XWUPHti721Q2MdB2Rx79yqUiohjBxTzPmMyIZvYrXtgwVYLmWj9z5oMXmAA89qR5oaT5FTmxyf8GvuUwoybqc42uJQYLCWP1MOLB7xKNuZE3YyTAB0BLoN4bf1LspZgvm1R/rnITIgmkLldUc4IXjn3TLhiMJDwrMiuEMjTKEtMkKxcZaLACODF/oRwJRh05uTS65AJg+p3sWVc7A+lI7RP4YDwO5Hs1DsdfGP3GLIPM7UoKrb1oCkRuckpwQsX5mGeL8+BewEDBY+/uRgtgl8DDs84mDt9xwimPElbieBS5cnwREeV/rcgoVgvtWddDgOb6pzdp+seu5gEh9PXLwE4t8cO5aCx3rxGpf1jN3S52jBO4oydooKP/G+Lv6kpakb+b/6t5PhVYa2V471Gj/s7/6CzrFmMB0ouCS32kXUghm5qCANNa4V33ya7mFfBGP7sxA3iy1f7kX2qwrk3494tIcAB05yzlq+AylTrTOl6IORS36IWSAAnjVshXMHBaNxoTeLxfuhMedcGsJQtyU3E0rj23u2hnrQZGc8PDH0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(10070799003); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blFBQWRhbTVlVGlpbXZsVmJmNFBGWEkwSUpXRit5MXVzVGhiSk83cU9mcnl1?=
- =?utf-8?B?dFkrZGRyU0VhOVVWRmlla3F6Y3hyemVSUU9wZDZqblpxYTZJaUpXWWU1MWt3?=
- =?utf-8?B?V0w1YWgrY2J5OEVyWldQWnpCU3BVaFBVcVRmTzVCSEVnVUFIZTc2UWtFMStp?=
- =?utf-8?B?MHozVGFoQUlPTkh5UVpFcGdibzhxZjhwa2NidS9vbUcvRStaRzRLUXN6dUt0?=
- =?utf-8?B?V0Iyc2ZuM1dIVXhQZmpGQ0E1UFo5b1FSc0dMVE5NL2NFRUxSdkFsYUppQXor?=
- =?utf-8?B?dUJtc2YxNC9rQzRaa0E5QUU3dE1XMThnTGNuTm5LRFlhVGRkRlN1R24veVpX?=
- =?utf-8?B?ejVhSVg3cVZRR3VyZGpwTGp0dFVzSnl0eFlYSUx3M2E3bVVvRlpwV29kNmk5?=
- =?utf-8?B?c0JUbUg1Z0o4bVp3R3ZYN2ZjdW1rckc3UW9IL25uM0dYbXFWNnlaVXVSaFk4?=
- =?utf-8?B?K2FpS3hOL2kvZWgzUXlGUTlGWGJsTFkySytjMk9TK2JPSGJtSitmakNvV3Q0?=
- =?utf-8?B?cGFZR0VwU241d3JBUUdoUTZhbXNqT1E4WWNIcWV1d0xyTVk4UEtDWmRQZEVJ?=
- =?utf-8?B?TWMzd3I2Y0JmNlVldWFZM25JTm9oTGNEaDhlVzlScGwvZTZQS0VVbVpXZDht?=
- =?utf-8?B?NHJMVEdiRFVERjJEazNPaVhyV2N5RmNlUWQ0MlVhS2FkWFJqcHU5V2JiYnhr?=
- =?utf-8?B?eWhoOHFtbU5NdTRlZitKRzJkRXZxMlFRdm9BaDl2ZjRoUXg2bzNzVE5FMDFQ?=
- =?utf-8?B?WW5SSWlZOVYyc2dRR1JLR1dSWHRERjdPTzZFQ0IxVGpmVHAzVWdnR0tuTGZv?=
- =?utf-8?B?MkFTNFNhbTgwcXZsSWRBU1NBMFdMRUFWZXg2Y2hxMjBHR3dqV0I2Zm4zNnMv?=
- =?utf-8?B?L2FJMGl1YnpudWkwaWJJSGY2MUVJUFptWCtONXFHbTdpRGxnY0FWK01YUHFP?=
- =?utf-8?B?bDlhTXRnUFMxVTBYRTlSRzJMbW5GS2NoMmtIZTEyZ256MUtoNi9jQmd2NjZJ?=
- =?utf-8?B?MW15YXd2dW94MG5FaTcxd3VhbzNjV1BDS3h4WGtYQ1IyQ1YrUEF2VlFLcDZP?=
- =?utf-8?B?RHNUVU9zZElIS3A3aXpOL2dOVis5aDh6dUxmYUdrcmJDczVpUWpEckMvZWVs?=
- =?utf-8?B?bzhaVHRDbitPT2NWWGZFRkcrSWs5OUFMTUlxVllkalRrY0NDUkRsNXpFQzE0?=
- =?utf-8?B?Ujh2Q0V6WHhpUUJiRDhCUWdFSkN4Ulg3ajBmMVJEcmZhTGhlRFlEM3VadzJa?=
- =?utf-8?B?UkJsQm9wcHRWbjMvSHYzLyt3d1cvOGsxMEI3NHZwYjJrZ2R5TnA3S0I5QXF3?=
- =?utf-8?B?YmUwYWRkK2JrcjRNTWREeW9vUTU2YTRWVVVzMWtRQlBFL1lINmZSSHVQaWps?=
- =?utf-8?B?UlJhbXV0Qll6R3orck1ZNHY0SEZqdmcyTTNOUnloeDFwd1c3d3NFZHRwbERZ?=
- =?utf-8?B?M0RmNlZHRGNYMVhwNFE2RFlWb3pIeFd2SjNCbEJxOW5sbk14R245SXNud3J0?=
- =?utf-8?B?bUQ2ZWs3N0o1OFZLSkdBWFBxSlpOdnlRb0U4VnRCQ1BJRUVnbmRMTXFwOVdX?=
- =?utf-8?B?N0puWFZTY3RoUnZieHBuMmdCOXVrRTRxL0JPdEhldVQzTGpXR01sK2FRMEY0?=
- =?utf-8?B?ckpIaU5xNGRHc3lIdDhaa05RYUEySkJpU3N5QzBiWG92dTJYZW02Yzh3eEhK?=
- =?utf-8?B?QzFuUGJzaXp1clppaVZZblFCQ2dLNTROZW43b01tZjV6TTRmbVh6U01OVHNr?=
- =?utf-8?B?ZzNZMFZEa245ZE9PcnRuT3BLd1BZdTUzZnN0SmpweXUrTktZeHRicVBZbWQv?=
- =?utf-8?B?RktHTEJ3a0hkOFpKWTF3bmlRbk1GdUkvV08veU9rNG9lZHlCTDJ1QWdpbjRu?=
- =?utf-8?B?T1pHV0JNUGZSQ1FrTkFkTzdVMVRKcER2U2p0UmlxMEpIZUI1emtvWVg2b0tk?=
- =?utf-8?B?cnRxdFlSZS8vM3VwVlpPODBFcDRpMWF4WUEzSXBaVzU2SEpIdlFNa00yZThY?=
- =?utf-8?B?QkhhT0I2SmpySWJZS2I4bVFHRjlNMTErTzd2bkNRUE5UY3lVKzZ1WU9CY1p3?=
- =?utf-8?B?N3FXYnpYemdaaUY2cFFmamRXZVU3Zk94NERmeEplbmJjVHI5bzI4a1duMk9C?=
- =?utf-8?B?aVdhSTFaalFvZEJMSk9pckI2N2QwZGQ0OUZKWnBJb2lKR3MwL2ExWFp5UFgy?=
- =?utf-8?B?UmJSOTFpUm9CL3dwMlhPaFU2MDRRMjc1M3lOYjhtRURUTSt5NW9yZ0xEZUdO?=
- =?utf-8?B?NFM0WkVvQW4rcGx2MnRQSjNZSGRCWXhEZFFsbUR6Q3BmVEV3MGJaVlcvcllM?=
- =?utf-8?B?VVRQNU1VTXoxdGx2UVMrRlRZQkNDSFplNnZHVWlnRlRBVFhhc3UvTnhJY2hS?=
- =?utf-8?Q?ejcAPVs+S2uJYnmGbBbi6JW5W87KYKvQrjgPc4Vk5Y1g2?=
-X-MS-Exchange-AntiSpam-MessageData-1: +ZyywTj7qmtuRA==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEpSVVAwWFVob0toMGo3RkdoTTVwZjNGdGpFWWEyaWxSeUNKQ0VURld1a1NP?=
+ =?utf-8?B?bG83d3VVS3IyZUdzeTJRN2dsWm9rOExqNW9aNlNqaDJCc3ZkS3R5SWwzRDhV?=
+ =?utf-8?B?cFlLMi9BMGxHekR1WjFtSVBrYTNLV0RBTTVodFd4alVhSGFEVkVFRldhMjJx?=
+ =?utf-8?B?YVp2bytCZ1hhSlEzb3Z0ejdaM2ZpMXFjUVhNNEx5eXpwTEV3T3dZOHgwdzRw?=
+ =?utf-8?B?VUdFZGtBUHpkSkhRWFRRc0hlYUdlaXh5L29VNDVMSGtOTGpFSWRONS9LY0ht?=
+ =?utf-8?B?UnBXNTZpMUFuNFdMdVpvM2RWRXRybnNmY3crTndmTEQ2eDFSWEEwL253TC8y?=
+ =?utf-8?B?NjQ1eG1ydE40UjNpaTVWRzM3UXN5TWVjc2hRYWxCeVlFMmMralJJMXVuYTBC?=
+ =?utf-8?B?RC81Qm4yWHVuM0orcFFkSGE5Q3d2bUxmSGNmeklyRzdSTmhQSExiamRrbjhZ?=
+ =?utf-8?B?WTQ4dGp6N3ZCdE9FZjlLTjhBSWtEa2lQb0w4WU12bzVNV3NOTEtGV0Npd29T?=
+ =?utf-8?B?UlF3QmtCakdsTnRQVGhPUDNFWU4rR3pMQlBlT1FFeXpWMjVzTWF4NWhGb0pj?=
+ =?utf-8?B?dlNzZFJqY1d6UlhPQk4rSmJ0R3BWYlVnNmlyQkFxcUhOWmtyNEYxaXVLa09s?=
+ =?utf-8?B?UktXMmpyQ3lMNWd1bXQwbWhpdTVsYUhQeWtubmZJSUFXVUI0OTBjYzE5dzhq?=
+ =?utf-8?B?b2p3eTArZmx6UThDUS9scWh5c25YRE9YL0p2Zk9ITllOQUprRDV5QWJmZ3Rw?=
+ =?utf-8?B?S1FCK2ljaUl3cExOQ1JpVndVbVppQWlBTkwwbVZVUWNCbGw5aGtzdmxXQnNQ?=
+ =?utf-8?B?TjBncU5JeC9GSCt3VnQ2U21Ebld6bFlPeEJTRTlickxEQmQ1bEkzNkE1OW9r?=
+ =?utf-8?B?YUV3ek5rUXpxZTB3SVBXZkUvdmJsNTNIZnFzVVRsVTg0VWtWMFA2MVBIWkxq?=
+ =?utf-8?B?VHB4MWtkZkpVemY2S1haNkI3TmhlcmpWdXdJdDdabVE1cmZ3bWJabm5ZUFox?=
+ =?utf-8?B?akUyMkN5ZG0rVEtUUUQvWUJZckhTWk13OFhGT0NCYzJRa2lzU2ZaMm9ERWho?=
+ =?utf-8?B?VkxBY1IvQ3VqWG5uVm1XWW1WT1JRTW1Vem4zZGhFa2p6K1N1c2xpSWtUSmlj?=
+ =?utf-8?B?cUdVZFpxakxpMElOTUV1M2RnczZnQWNYYW5nZEptTXkvMWZISWJyd0VKNEZD?=
+ =?utf-8?B?eDdXTmZrMkN3aFExQVlqYnVEVjA0TEJlU0VqOXZLNXJZZXBhczVpQWQ5ZW4r?=
+ =?utf-8?B?RGtORWozU2RERlBheGVLV3FveWF3YSs0VDlEZHRHRWNUZG1mWHZydEFVZ0s1?=
+ =?utf-8?B?TForZlZIcDJ4c0I0ZkpuU01qODdwSldKTm9zVmR2M09YdmZXeDlFTzhLSFFD?=
+ =?utf-8?B?MStHK1dEZURVdjhmYVRhNWwvUUpiMEpNRXp0UFk4SnVTc0IrZkF3TXljcUtl?=
+ =?utf-8?B?b0g4YkJGbktYVWIxRjh5S1ZTUUNBTXdtcFgrT0Z2NWRqM28wdWU2ZkNXU2l5?=
+ =?utf-8?B?T1ZZbkhvdVNLVzV1eDRkQjFpNlVhSE9mcEhJMDVYSHBjV2hWcndQanRiMExF?=
+ =?utf-8?B?TVZUMUZaRTVDSTlEdkxRbkRSdW9BdGFRaDMwbWQ3SWdDYjlOc3Q3d1Y2RTZr?=
+ =?utf-8?B?cytBKy8xb3ExQko4azhZR0NHYVRSL3dJRHZOcGVnK0NpRm9oODhuSHA4QXMw?=
+ =?utf-8?B?RFExQXYzeWNrU2VPaGw1eGdxOG93T2RDK1I3ak5ScEhocGRSNXJNV3I5b3Rj?=
+ =?utf-8?B?bHFBOFZ6dzM3dE51bnpsQUxlWlpCYWhQWlVjZjZQQzJjRkhsN1VPTU4yYmpp?=
+ =?utf-8?B?d0V6Qnp0OVdpSHBVN0tZdEdvNnJHZlE5NjliQy9NTHVvWlhEblRDMStHTHFj?=
+ =?utf-8?B?U2pJZVYrWW5ycWUycGF4am50Z1VzVE9uT3NLMk5XRksvSTcxSVVSTHlyOWpY?=
+ =?utf-8?B?VTJSMjdMbC9ROTVNZVVKVVJTU0NnVVlMeC90VTNJZXRmTzBkeVRSWGJCMjVP?=
+ =?utf-8?B?UmpCNUtjazFtTmhsWlc5UFRqYm9TNm1rZno1Smhtc1o4aWdvOGZCRm1wa2c3?=
+ =?utf-8?B?Ly9iQzBkRmJ4YkJuRDI5Sjk5aVRaK2JFeU9sR3hNbnYrOXROeWtSdEtweWtx?=
+ =?utf-8?B?UlZTL2grREYyUS9FWFF3VzROcnlDcWwrbGhXQm80cHlXTGdBRzBwa0pDSW5u?=
+ =?utf-8?B?eEVNRjhadWVQN2s5eFZTU2Q2QzAxQkR1dWF6eWpFVFp6cnRuRmpZMDluek1q?=
+ =?utf-8?B?ZGEwTmhucGQwRzBJQUxnT1lYQ08wYzFxNmU1ZVE3STZ6a3huN3FJWWFNOEJD?=
+ =?utf-8?B?M1NLYlF2djJSdjU0alpyZUFtRXJuTTh0OTNaSW1VZUdjSEwxMjlLK1VQQm5F?=
+ =?utf-8?Q?j/CULSyN12Zz+wVos9Fk5mdJBp3W57Yh8p3f64NaPDl6g?=
+X-MS-Exchange-AntiSpam-MessageData-1: c8yZ1/2GIsU1BQ==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 063f9af7-6f50-4d80-e7f6-08de75fc5048
+X-MS-Exchange-CrossTenant-Network-Message-Id: 601831b8-93c6-409b-8f5e-08de75fc52c1
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 12:32:47.3218 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 12:32:51.4814 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FUSE5SEqT4p7whcI2Hvw65OM+HKQ7XMWHHZU9E4ZVXygG8dDGEvAlBO8rdEwnRYJ8dXtMeCK/O+RvxYT0g8A5g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: UzpAMpp71iumPDoZ8PdT2P6m76IzcxnuRP4eD9oiYm0eULvYJoZzF0CBGMEGHStjI5iBXQN/gyzvecBB3tHmPg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4287
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -169,172 +170,429 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email]
-X-Rspamd-Queue-Id: 291241B71CE
+X-Rspamd-Queue-Id: 9D40B1B7259
 X-Rspamd-Action: no action
 
-Add bindgen generated constants for NV_STATUS. This is used for RM
-control messages.
+Add NvStatus enum that wraps the raw NV_STATUS u32 codes returned by RM
+control RPCs.
 
 Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 ---
- drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs | 144 ++++++++++++++++++++++
- 1 file changed, 144 insertions(+)
+ drivers/gpu/nova-core/gsp/fw.rs | 401 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 401 insertions(+)
 
-diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-index 334e8be5fde8..dd37a7fd58c6 100644
---- a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-+++ b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-@@ -379,6 +379,150 @@ pub struct NV2080_CTRL_CMD_FB_GET_FB_REGION_INFO_PARAMS {
-     pub __bindgen_padding_0: [u8; 4usize],
-     pub fbRegion: [NV2080_CTRL_CMD_FB_GET_FB_REGION_FB_REGION_INFO; 16usize],
- }
-+pub const NV_OK: _bindgen_ty_4 = 0;
-+pub const NV_ERR_GENERIC: _bindgen_ty_4 = 65535;
-+pub const NV_ERR_BROKEN_FB: _bindgen_ty_4 = 1;
-+pub const NV_ERR_BUFFER_TOO_SMALL: _bindgen_ty_4 = 2;
-+pub const NV_ERR_BUSY_RETRY: _bindgen_ty_4 = 3;
-+pub const NV_ERR_CALLBACK_NOT_SCHEDULED: _bindgen_ty_4 = 4;
-+pub const NV_ERR_CARD_NOT_PRESENT: _bindgen_ty_4 = 5;
-+pub const NV_ERR_CYCLE_DETECTED: _bindgen_ty_4 = 6;
-+pub const NV_ERR_DMA_IN_USE: _bindgen_ty_4 = 7;
-+pub const NV_ERR_DMA_MEM_NOT_LOCKED: _bindgen_ty_4 = 8;
-+pub const NV_ERR_DMA_MEM_NOT_UNLOCKED: _bindgen_ty_4 = 9;
-+pub const NV_ERR_DUAL_LINK_INUSE: _bindgen_ty_4 = 10;
-+pub const NV_ERR_ECC_ERROR: _bindgen_ty_4 = 11;
-+pub const NV_ERR_FIFO_BAD_ACCESS: _bindgen_ty_4 = 12;
-+pub const NV_ERR_FREQ_NOT_SUPPORTED: _bindgen_ty_4 = 13;
-+pub const NV_ERR_GPU_DMA_NOT_INITIALIZED: _bindgen_ty_4 = 14;
-+pub const NV_ERR_GPU_IS_LOST: _bindgen_ty_4 = 15;
-+pub const NV_ERR_GPU_IN_FULLCHIP_RESET: _bindgen_ty_4 = 16;
-+pub const NV_ERR_GPU_NOT_FULL_POWER: _bindgen_ty_4 = 17;
-+pub const NV_ERR_GPU_UUID_NOT_FOUND: _bindgen_ty_4 = 18;
-+pub const NV_ERR_HOT_SWITCH: _bindgen_ty_4 = 19;
-+pub const NV_ERR_I2C_ERROR: _bindgen_ty_4 = 20;
-+pub const NV_ERR_I2C_SPEED_TOO_HIGH: _bindgen_ty_4 = 21;
-+pub const NV_ERR_ILLEGAL_ACTION: _bindgen_ty_4 = 22;
-+pub const NV_ERR_IN_USE: _bindgen_ty_4 = 23;
-+pub const NV_ERR_INFLATE_COMPRESSED_DATA_FAILED: _bindgen_ty_4 = 24;
-+pub const NV_ERR_INSERT_DUPLICATE_NAME: _bindgen_ty_4 = 25;
-+pub const NV_ERR_INSUFFICIENT_RESOURCES: _bindgen_ty_4 = 26;
-+pub const NV_ERR_INSUFFICIENT_PERMISSIONS: _bindgen_ty_4 = 27;
-+pub const NV_ERR_INSUFFICIENT_POWER: _bindgen_ty_4 = 28;
-+pub const NV_ERR_INVALID_ACCESS_TYPE: _bindgen_ty_4 = 29;
-+pub const NV_ERR_INVALID_ADDRESS: _bindgen_ty_4 = 30;
-+pub const NV_ERR_INVALID_ARGUMENT: _bindgen_ty_4 = 31;
-+pub const NV_ERR_INVALID_BASE: _bindgen_ty_4 = 32;
-+pub const NV_ERR_INVALID_CHANNEL: _bindgen_ty_4 = 33;
-+pub const NV_ERR_INVALID_CLASS: _bindgen_ty_4 = 34;
-+pub const NV_ERR_INVALID_CLIENT: _bindgen_ty_4 = 35;
-+pub const NV_ERR_INVALID_COMMAND: _bindgen_ty_4 = 36;
-+pub const NV_ERR_INVALID_DATA: _bindgen_ty_4 = 37;
-+pub const NV_ERR_INVALID_DEVICE: _bindgen_ty_4 = 38;
-+pub const NV_ERR_INVALID_DMA_SPECIFIER: _bindgen_ty_4 = 39;
-+pub const NV_ERR_INVALID_EVENT: _bindgen_ty_4 = 40;
-+pub const NV_ERR_INVALID_FLAGS: _bindgen_ty_4 = 41;
-+pub const NV_ERR_INVALID_FUNCTION: _bindgen_ty_4 = 42;
-+pub const NV_ERR_INVALID_HEAP: _bindgen_ty_4 = 43;
-+pub const NV_ERR_INVALID_INDEX: _bindgen_ty_4 = 44;
-+pub const NV_ERR_INVALID_IRQ_LEVEL: _bindgen_ty_4 = 45;
-+pub const NV_ERR_INVALID_LIMIT: _bindgen_ty_4 = 46;
-+pub const NV_ERR_INVALID_LOCK_STATE: _bindgen_ty_4 = 47;
-+pub const NV_ERR_INVALID_METHOD: _bindgen_ty_4 = 48;
-+pub const NV_ERR_INVALID_OBJECT: _bindgen_ty_4 = 49;
-+pub const NV_ERR_INVALID_OBJECT_BUFFER: _bindgen_ty_4 = 50;
-+pub const NV_ERR_INVALID_OBJECT_HANDLE: _bindgen_ty_4 = 51;
-+pub const NV_ERR_INVALID_OBJECT_NEW: _bindgen_ty_4 = 52;
-+pub const NV_ERR_INVALID_OBJECT_OLD: _bindgen_ty_4 = 53;
-+pub const NV_ERR_INVALID_OBJECT_PARENT: _bindgen_ty_4 = 54;
-+pub const NV_ERR_INVALID_OFFSET: _bindgen_ty_4 = 55;
-+pub const NV_ERR_INVALID_OPERATION: _bindgen_ty_4 = 56;
-+pub const NV_ERR_INVALID_OWNER: _bindgen_ty_4 = 57;
-+pub const NV_ERR_INVALID_PARAM_STRUCT: _bindgen_ty_4 = 58;
-+pub const NV_ERR_INVALID_PARAMETER: _bindgen_ty_4 = 59;
-+pub const NV_ERR_INVALID_PATH: _bindgen_ty_4 = 60;
-+pub const NV_ERR_INVALID_POINTER: _bindgen_ty_4 = 61;
-+pub const NV_ERR_INVALID_REGISTRY_KEY: _bindgen_ty_4 = 62;
-+pub const NV_ERR_INVALID_REQUEST: _bindgen_ty_4 = 63;
-+pub const NV_ERR_INVALID_STATE: _bindgen_ty_4 = 64;
-+pub const NV_ERR_INVALID_STRING_LENGTH: _bindgen_ty_4 = 65;
-+pub const NV_ERR_INVALID_READ: _bindgen_ty_4 = 66;
-+pub const NV_ERR_INVALID_WRITE: _bindgen_ty_4 = 67;
-+pub const NV_ERR_INVALID_XLATE: _bindgen_ty_4 = 68;
-+pub const NV_ERR_IRQ_NOT_FIRING: _bindgen_ty_4 = 69;
-+pub const NV_ERR_IRQ_EDGE_TRIGGERED: _bindgen_ty_4 = 70;
-+pub const NV_ERR_MEMORY_TRAINING_FAILED: _bindgen_ty_4 = 71;
-+pub const NV_ERR_MISMATCHED_SLAVE: _bindgen_ty_4 = 72;
-+pub const NV_ERR_MISMATCHED_TARGET: _bindgen_ty_4 = 73;
-+pub const NV_ERR_MISSING_TABLE_ENTRY: _bindgen_ty_4 = 74;
-+pub const NV_ERR_MODULE_LOAD_FAILED: _bindgen_ty_4 = 75;
-+pub const NV_ERR_MORE_DATA_AVAILABLE: _bindgen_ty_4 = 76;
-+pub const NV_ERR_MORE_PROCESSING_REQUIRED: _bindgen_ty_4 = 77;
-+pub const NV_ERR_MULTIPLE_MEMORY_TYPES: _bindgen_ty_4 = 78;
-+pub const NV_ERR_NO_FREE_FIFOS: _bindgen_ty_4 = 79;
-+pub const NV_ERR_NO_INTR_PENDING: _bindgen_ty_4 = 80;
-+pub const NV_ERR_NO_MEMORY: _bindgen_ty_4 = 81;
-+pub const NV_ERR_NO_SUCH_DOMAIN: _bindgen_ty_4 = 82;
-+pub const NV_ERR_NO_VALID_PATH: _bindgen_ty_4 = 83;
-+pub const NV_ERR_NOT_COMPATIBLE: _bindgen_ty_4 = 84;
-+pub const NV_ERR_NOT_READY: _bindgen_ty_4 = 85;
-+pub const NV_ERR_NOT_SUPPORTED: _bindgen_ty_4 = 86;
-+pub const NV_ERR_OBJECT_NOT_FOUND: _bindgen_ty_4 = 87;
-+pub const NV_ERR_OBJECT_TYPE_MISMATCH: _bindgen_ty_4 = 88;
-+pub const NV_ERR_OPERATING_SYSTEM: _bindgen_ty_4 = 89;
-+pub const NV_ERR_OTHER_DEVICE_FOUND: _bindgen_ty_4 = 90;
-+pub const NV_ERR_OUT_OF_RANGE: _bindgen_ty_4 = 91;
-+pub const NV_ERR_OVERLAPPING_UVM_COMMIT: _bindgen_ty_4 = 92;
-+pub const NV_ERR_PAGE_TABLE_NOT_AVAIL: _bindgen_ty_4 = 93;
-+pub const NV_ERR_PID_NOT_FOUND: _bindgen_ty_4 = 94;
-+pub const NV_ERR_PROTECTION_FAULT: _bindgen_ty_4 = 95;
-+pub const NV_ERR_RC_ERROR: _bindgen_ty_4 = 96;
-+pub const NV_ERR_REJECTED_VBIOS: _bindgen_ty_4 = 97;
-+pub const NV_ERR_RESET_REQUIRED: _bindgen_ty_4 = 98;
-+pub const NV_ERR_STATE_IN_USE: _bindgen_ty_4 = 99;
-+pub const NV_ERR_SIGNAL_PENDING: _bindgen_ty_4 = 100;
-+pub const NV_ERR_TIMEOUT: _bindgen_ty_4 = 101;
-+pub const NV_ERR_TIMEOUT_RETRY: _bindgen_ty_4 = 102;
-+pub const NV_ERR_TOO_MANY_PRIMARIES: _bindgen_ty_4 = 103;
-+pub const NV_ERR_UVM_ADDRESS_IN_USE: _bindgen_ty_4 = 104;
-+pub const NV_ERR_MAX_SESSION_LIMIT_REACHED: _bindgen_ty_4 = 105;
-+pub const NV_ERR_LIB_RM_VERSION_MISMATCH: _bindgen_ty_4 = 106;
-+pub const NV_ERR_PRIV_SEC_VIOLATION: _bindgen_ty_4 = 107;
-+pub const NV_ERR_GPU_IN_DEBUG_MODE: _bindgen_ty_4 = 108;
-+pub const NV_ERR_FEATURE_NOT_ENABLED: _bindgen_ty_4 = 109;
-+pub const NV_ERR_RESOURCE_LOST: _bindgen_ty_4 = 110;
-+pub const NV_ERR_PMU_NOT_READY: _bindgen_ty_4 = 111;
-+pub const NV_ERR_FLCN_ERROR: _bindgen_ty_4 = 112;
-+pub const NV_ERR_FATAL_ERROR: _bindgen_ty_4 = 113;
-+pub const NV_ERR_MEMORY_ERROR: _bindgen_ty_4 = 114;
-+pub const NV_ERR_INVALID_LICENSE: _bindgen_ty_4 = 115;
-+pub const NV_ERR_NVLINK_INIT_ERROR: _bindgen_ty_4 = 116;
-+pub const NV_ERR_NVLINK_MINION_ERROR: _bindgen_ty_4 = 117;
-+pub const NV_ERR_NVLINK_CLOCK_ERROR: _bindgen_ty_4 = 118;
-+pub const NV_ERR_NVLINK_TRAINING_ERROR: _bindgen_ty_4 = 119;
-+pub const NV_ERR_NVLINK_CONFIGURATION_ERROR: _bindgen_ty_4 = 120;
-+pub const NV_ERR_RISCV_ERROR: _bindgen_ty_4 = 121;
-+pub const NV_ERR_FABRIC_MANAGER_NOT_PRESENT: _bindgen_ty_4 = 122;
-+pub const NV_ERR_ALREADY_SIGNALLED: _bindgen_ty_4 = 123;
-+pub const NV_ERR_QUEUE_TASK_SLOT_NOT_AVAILABLE: _bindgen_ty_4 = 124;
-+pub const NV_ERR_KEY_ROTATION_IN_PROGRESS: _bindgen_ty_4 = 125;
-+pub const NV_ERR_TEST_ONLY_CODE_NOT_ENABLED: _bindgen_ty_4 = 126;
-+pub const NV_ERR_SECURE_BOOT_FAILED: _bindgen_ty_4 = 127;
-+pub const NV_ERR_INSUFFICIENT_ZBC_ENTRY: _bindgen_ty_4 = 128;
-+pub const NV_ERR_NVLINK_FABRIC_NOT_READY: _bindgen_ty_4 = 129;
-+pub const NV_ERR_NVLINK_FABRIC_FAILURE: _bindgen_ty_4 = 130;
-+pub const NV_ERR_GPU_MEMORY_ONLINING_FAILURE: _bindgen_ty_4 = 131;
-+pub const NV_ERR_REDUCTION_MANAGER_NOT_AVAILABLE: _bindgen_ty_4 = 132;
-+pub const NV_ERR_RESOURCE_RETIREMENT_ERROR: _bindgen_ty_4 = 134;
-+pub const NV_WARN_HOT_SWITCH: _bindgen_ty_4 = 65537;
-+pub const NV_WARN_INCORRECT_PERFMON_DATA: _bindgen_ty_4 = 65538;
-+pub const NV_WARN_MISMATCHED_SLAVE: _bindgen_ty_4 = 65539;
-+pub const NV_WARN_MISMATCHED_TARGET: _bindgen_ty_4 = 65540;
-+pub const NV_WARN_MORE_PROCESSING_REQUIRED: _bindgen_ty_4 = 65541;
-+pub const NV_WARN_NOTHING_TO_DO: _bindgen_ty_4 = 65542;
-+pub const NV_WARN_NULL_OBJECT: _bindgen_ty_4 = 65543;
-+pub const NV_WARN_OUT_OF_RANGE: _bindgen_ty_4 = 65544;
-+pub type _bindgen_ty_4 = ffi::c_uint;
- #[repr(C)]
- #[derive(Debug, Copy, Clone, MaybeZeroable)]
- pub struct NV2080_CTRL_GPU_GET_GID_INFO_PARAMS {
+diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/fw.rs
+index 25fca1f6db2c..c71c45462efd 100644
+--- a/drivers/gpu/nova-core/gsp/fw.rs
++++ b/drivers/gpu/nova-core/gsp/fw.rs
+@@ -43,6 +43,407 @@
+ pub(crate) const GSP_MSG_QUEUE_ELEMENT_SIZE_MAX: usize =
+     num::u32_as_usize(bindings::GSP_MSG_QUEUE_ELEMENT_SIZE_MAX);
+ 
++/// Status code returned by GSP-RM RPCs.
++#[derive(Copy, Clone, Debug, PartialEq, Eq)]
++pub(crate) enum NvStatus {
++    Ok,
++    AlreadySignalled,
++    BrokenFb,
++    BufferTooSmall,
++    BusyRetry,
++    CallbackNotScheduled,
++    CardNotPresent,
++    CycleDetected,
++    DmaInUse,
++    DmaMemNotLocked,
++    DmaMemNotUnlocked,
++    DualLinkInuse,
++    EccError,
++    FabricManagerNotPresent,
++    FatalError,
++    FeatureNotEnabled,
++    FifoBadAccess,
++    FlcnError,
++    FreqNotSupported,
++    Generic,
++    GpuDmaNotInitialized,
++    GpuInDebugMode,
++    GpuInFullchipReset,
++    GpuIsLost,
++    GpuMemoryOnliningFailure,
++    GpuNotFullPower,
++    GpuUuidNotFound,
++    HotSwitch,
++    I2cError,
++    I2cSpeedTooHigh,
++    IllegalAction,
++    InUse,
++    InflateCompressedDataFailed,
++    InsertDuplicateName,
++    InsufficientPermissions,
++    InsufficientPower,
++    InsufficientResources,
++    InsufficientZbcEntry,
++    InvalidAccessType,
++    InvalidAddress,
++    InvalidArgument,
++    InvalidBase,
++    InvalidChannel,
++    InvalidClass,
++    InvalidClient,
++    InvalidCommand,
++    InvalidData,
++    InvalidDevice,
++    InvalidDmaSpecifier,
++    InvalidEvent,
++    InvalidFlags,
++    InvalidFunction,
++    InvalidHeap,
++    InvalidIndex,
++    InvalidIrqLevel,
++    InvalidLicense,
++    InvalidLimit,
++    InvalidLockState,
++    InvalidMethod,
++    InvalidObject,
++    InvalidObjectBuffer,
++    InvalidObjectHandle,
++    InvalidObjectNew,
++    InvalidObjectOld,
++    InvalidObjectParent,
++    InvalidOffset,
++    InvalidOperation,
++    InvalidOwner,
++    InvalidParamStruct,
++    InvalidParameter,
++    InvalidPath,
++    InvalidPointer,
++    InvalidRead,
++    InvalidRegistryKey,
++    InvalidRequest,
++    InvalidState,
++    InvalidStringLength,
++    InvalidWrite,
++    InvalidXlate,
++    IrqEdgeTriggered,
++    IrqNotFiring,
++    KeyRotationInProgress,
++    LibRmVersionMismatch,
++    MaxSessionLimitReached,
++    MemoryError,
++    MemoryTrainingFailed,
++    MismatchedSlave,
++    MismatchedTarget,
++    MissingTableEntry,
++    ModuleLoadFailed,
++    MoreDataAvailable,
++    MoreProcessingRequired,
++    MultipleMemoryTypes,
++    NoFreeFifos,
++    NoIntrPending,
++    NoMemory,
++    NoSuchDomain,
++    NoValidPath,
++    NotCompatible,
++    NotReady,
++    NotSupported,
++    NvlinkClockError,
++    NvlinkConfigurationError,
++    NvlinkFabricFailure,
++    NvlinkFabricNotReady,
++    NvlinkInitError,
++    NvlinkMinionError,
++    NvlinkTrainingError,
++    ObjectNotFound,
++    ObjectTypeMismatch,
++    OperatingSystem,
++    OtherDeviceFound,
++    OutOfRange,
++    OverlappingUvmCommit,
++    PageTableNotAvail,
++    PidNotFound,
++    PmuNotReady,
++    PrivSecViolation,
++    ProtectionFault,
++    QueueTaskSlotNotAvailable,
++    RcError,
++    ReductionManagerNotAvailable,
++    RejectedVbios,
++    ResetRequired,
++    ResourceLost,
++    ResourceRetirementError,
++    RiscvError,
++    SecureBootFailed,
++    SignalPending,
++    StateInUse,
++    TestOnlyCodeNotEnabled,
++    Timeout,
++    TimeoutRetry,
++    TooManyPrimaries,
++    UvmAddressInUse,
++    Unknown(u32),
++}
++
++impl From<NvStatus> for Result {
++    fn from(status: NvStatus) -> Self {
++        match status {
++            NvStatus::Ok => Ok(()),
++
++            NvStatus::BufferTooSmall | NvStatus::MoreDataAvailable => Err(EMSGSIZE),
++
++            NvStatus::BusyRetry
++            | NvStatus::DmaInUse
++            | NvStatus::DualLinkInuse
++            | NvStatus::GpuInFullchipReset
++            | NvStatus::InUse
++            | NvStatus::KeyRotationInProgress
++            | NvStatus::NotReady
++            | NvStatus::NvlinkFabricNotReady
++            | NvStatus::PmuNotReady
++            | NvStatus::StateInUse
++            | NvStatus::UvmAddressInUse => Err(EBUSY),
++
++            NvStatus::CardNotPresent
++            | NvStatus::FabricManagerNotPresent
++            | NvStatus::InvalidDevice
++            | NvStatus::ReductionManagerNotAvailable => Err(ENODEV),
++
++            NvStatus::FeatureNotEnabled
++            | NvStatus::FreqNotSupported
++            | NvStatus::NotSupported
++            | NvStatus::TestOnlyCodeNotEnabled => Err(ENOTSUPP),
++
++            NvStatus::GpuUuidNotFound
++            | NvStatus::MissingTableEntry
++            | NvStatus::NoSuchDomain
++            | NvStatus::NoValidPath
++            | NvStatus::ObjectNotFound => Err(ENOENT),
++
++            NvStatus::I2cSpeedTooHigh
++            | NvStatus::InvalidAccessType
++            | NvStatus::InvalidArgument
++            | NvStatus::InvalidBase
++            | NvStatus::InvalidChannel
++            | NvStatus::InvalidClass
++            | NvStatus::InvalidClient
++            | NvStatus::InvalidCommand
++            | NvStatus::InvalidData
++            | NvStatus::InvalidDmaSpecifier
++            | NvStatus::InvalidEvent
++            | NvStatus::InvalidFlags
++            | NvStatus::InvalidFunction
++            | NvStatus::InvalidHeap
++            | NvStatus::InvalidIndex
++            | NvStatus::InvalidIrqLevel
++            | NvStatus::InvalidLimit
++            | NvStatus::InvalidLockState
++            | NvStatus::InvalidMethod
++            | NvStatus::InvalidObject
++            | NvStatus::InvalidObjectBuffer
++            | NvStatus::InvalidObjectHandle
++            | NvStatus::InvalidObjectNew
++            | NvStatus::InvalidObjectOld
++            | NvStatus::InvalidObjectParent
++            | NvStatus::InvalidOffset
++            | NvStatus::InvalidOperation
++            | NvStatus::InvalidOwner
++            | NvStatus::InvalidParamStruct
++            | NvStatus::InvalidParameter
++            | NvStatus::InvalidPath
++            | NvStatus::InvalidRegistryKey
++            | NvStatus::InvalidRequest
++            | NvStatus::InvalidState
++            | NvStatus::InvalidStringLength
++            | NvStatus::InvalidXlate
++            | NvStatus::LibRmVersionMismatch
++            | NvStatus::MismatchedSlave
++            | NvStatus::MismatchedTarget
++            | NvStatus::MultipleMemoryTypes
++            | NvStatus::NotCompatible
++            | NvStatus::ObjectTypeMismatch
++            | NvStatus::OverlappingUvmCommit
++            | NvStatus::RejectedVbios => Err(EINVAL),
++
++            NvStatus::IllegalAction => Err(EPERM),
++
++            NvStatus::InsertDuplicateName => Err(EEXIST),
++
++            NvStatus::InsufficientPermissions
++            | NvStatus::InvalidLicense
++            | NvStatus::PrivSecViolation => Err(EACCES),
++
++            NvStatus::InsufficientResources | NvStatus::NoMemory | NvStatus::PageTableNotAvail => {
++                Err(ENOMEM)
++            }
++
++            NvStatus::InsufficientZbcEntry
++            | NvStatus::MaxSessionLimitReached
++            | NvStatus::NoFreeFifos
++            | NvStatus::QueueTaskSlotNotAvailable
++            | NvStatus::TooManyPrimaries => Err(ENOSPC),
++
++            NvStatus::InvalidAddress | NvStatus::InvalidPointer | NvStatus::ProtectionFault => {
++                Err(EFAULT)
++            }
++
++            NvStatus::MoreProcessingRequired | NvStatus::TimeoutRetry => Err(EAGAIN),
++
++            NvStatus::OutOfRange => Err(ERANGE),
++
++            NvStatus::PidNotFound => Err(ESRCH),
++
++            NvStatus::SignalPending => Err(EINTR),
++
++            NvStatus::Timeout => Err(ETIMEDOUT),
++
++            _ => Err(EIO),
++        }
++    }
++}
++
++impl From<u32> for NvStatus {
++    fn from(value: u32) -> Self {
++        match value {
++            bindings::NV_OK => Self::Ok,
++            bindings::NV_ERR_ALREADY_SIGNALLED => Self::AlreadySignalled,
++            bindings::NV_ERR_BROKEN_FB => Self::BrokenFb,
++            bindings::NV_ERR_BUFFER_TOO_SMALL => Self::BufferTooSmall,
++            bindings::NV_ERR_BUSY_RETRY => Self::BusyRetry,
++            bindings::NV_ERR_CALLBACK_NOT_SCHEDULED => Self::CallbackNotScheduled,
++            bindings::NV_ERR_CARD_NOT_PRESENT => Self::CardNotPresent,
++            bindings::NV_ERR_CYCLE_DETECTED => Self::CycleDetected,
++            bindings::NV_ERR_DMA_IN_USE => Self::DmaInUse,
++            bindings::NV_ERR_DMA_MEM_NOT_LOCKED => Self::DmaMemNotLocked,
++            bindings::NV_ERR_DMA_MEM_NOT_UNLOCKED => Self::DmaMemNotUnlocked,
++            bindings::NV_ERR_DUAL_LINK_INUSE => Self::DualLinkInuse,
++            bindings::NV_ERR_ECC_ERROR => Self::EccError,
++            bindings::NV_ERR_FABRIC_MANAGER_NOT_PRESENT => Self::FabricManagerNotPresent,
++            bindings::NV_ERR_FATAL_ERROR => Self::FatalError,
++            bindings::NV_ERR_FEATURE_NOT_ENABLED => Self::FeatureNotEnabled,
++            bindings::NV_ERR_FIFO_BAD_ACCESS => Self::FifoBadAccess,
++            bindings::NV_ERR_FLCN_ERROR => Self::FlcnError,
++            bindings::NV_ERR_FREQ_NOT_SUPPORTED => Self::FreqNotSupported,
++            bindings::NV_ERR_GENERIC => Self::Generic,
++            bindings::NV_ERR_GPU_DMA_NOT_INITIALIZED => Self::GpuDmaNotInitialized,
++            bindings::NV_ERR_GPU_IN_DEBUG_MODE => Self::GpuInDebugMode,
++            bindings::NV_ERR_GPU_IN_FULLCHIP_RESET => Self::GpuInFullchipReset,
++            bindings::NV_ERR_GPU_IS_LOST => Self::GpuIsLost,
++            bindings::NV_ERR_GPU_MEMORY_ONLINING_FAILURE => Self::GpuMemoryOnliningFailure,
++            bindings::NV_ERR_GPU_NOT_FULL_POWER => Self::GpuNotFullPower,
++            bindings::NV_ERR_GPU_UUID_NOT_FOUND => Self::GpuUuidNotFound,
++            bindings::NV_ERR_HOT_SWITCH => Self::HotSwitch,
++            bindings::NV_ERR_I2C_ERROR => Self::I2cError,
++            bindings::NV_ERR_I2C_SPEED_TOO_HIGH => Self::I2cSpeedTooHigh,
++            bindings::NV_ERR_ILLEGAL_ACTION => Self::IllegalAction,
++            bindings::NV_ERR_IN_USE => Self::InUse,
++            bindings::NV_ERR_INFLATE_COMPRESSED_DATA_FAILED => Self::InflateCompressedDataFailed,
++            bindings::NV_ERR_INSERT_DUPLICATE_NAME => Self::InsertDuplicateName,
++            bindings::NV_ERR_INSUFFICIENT_PERMISSIONS => Self::InsufficientPermissions,
++            bindings::NV_ERR_INSUFFICIENT_POWER => Self::InsufficientPower,
++            bindings::NV_ERR_INSUFFICIENT_RESOURCES => Self::InsufficientResources,
++            bindings::NV_ERR_INSUFFICIENT_ZBC_ENTRY => Self::InsufficientZbcEntry,
++            bindings::NV_ERR_INVALID_ACCESS_TYPE => Self::InvalidAccessType,
++            bindings::NV_ERR_INVALID_ADDRESS => Self::InvalidAddress,
++            bindings::NV_ERR_INVALID_ARGUMENT => Self::InvalidArgument,
++            bindings::NV_ERR_INVALID_BASE => Self::InvalidBase,
++            bindings::NV_ERR_INVALID_CHANNEL => Self::InvalidChannel,
++            bindings::NV_ERR_INVALID_CLASS => Self::InvalidClass,
++            bindings::NV_ERR_INVALID_CLIENT => Self::InvalidClient,
++            bindings::NV_ERR_INVALID_COMMAND => Self::InvalidCommand,
++            bindings::NV_ERR_INVALID_DATA => Self::InvalidData,
++            bindings::NV_ERR_INVALID_DEVICE => Self::InvalidDevice,
++            bindings::NV_ERR_INVALID_DMA_SPECIFIER => Self::InvalidDmaSpecifier,
++            bindings::NV_ERR_INVALID_EVENT => Self::InvalidEvent,
++            bindings::NV_ERR_INVALID_FLAGS => Self::InvalidFlags,
++            bindings::NV_ERR_INVALID_FUNCTION => Self::InvalidFunction,
++            bindings::NV_ERR_INVALID_HEAP => Self::InvalidHeap,
++            bindings::NV_ERR_INVALID_INDEX => Self::InvalidIndex,
++            bindings::NV_ERR_INVALID_IRQ_LEVEL => Self::InvalidIrqLevel,
++            bindings::NV_ERR_INVALID_LICENSE => Self::InvalidLicense,
++            bindings::NV_ERR_INVALID_LIMIT => Self::InvalidLimit,
++            bindings::NV_ERR_INVALID_LOCK_STATE => Self::InvalidLockState,
++            bindings::NV_ERR_INVALID_METHOD => Self::InvalidMethod,
++            bindings::NV_ERR_INVALID_OBJECT => Self::InvalidObject,
++            bindings::NV_ERR_INVALID_OBJECT_BUFFER => Self::InvalidObjectBuffer,
++            bindings::NV_ERR_INVALID_OBJECT_HANDLE => Self::InvalidObjectHandle,
++            bindings::NV_ERR_INVALID_OBJECT_NEW => Self::InvalidObjectNew,
++            bindings::NV_ERR_INVALID_OBJECT_OLD => Self::InvalidObjectOld,
++            bindings::NV_ERR_INVALID_OBJECT_PARENT => Self::InvalidObjectParent,
++            bindings::NV_ERR_INVALID_OFFSET => Self::InvalidOffset,
++            bindings::NV_ERR_INVALID_OPERATION => Self::InvalidOperation,
++            bindings::NV_ERR_INVALID_OWNER => Self::InvalidOwner,
++            bindings::NV_ERR_INVALID_PARAM_STRUCT => Self::InvalidParamStruct,
++            bindings::NV_ERR_INVALID_PARAMETER => Self::InvalidParameter,
++            bindings::NV_ERR_INVALID_PATH => Self::InvalidPath,
++            bindings::NV_ERR_INVALID_POINTER => Self::InvalidPointer,
++            bindings::NV_ERR_INVALID_READ => Self::InvalidRead,
++            bindings::NV_ERR_INVALID_REGISTRY_KEY => Self::InvalidRegistryKey,
++            bindings::NV_ERR_INVALID_REQUEST => Self::InvalidRequest,
++            bindings::NV_ERR_INVALID_STATE => Self::InvalidState,
++            bindings::NV_ERR_INVALID_STRING_LENGTH => Self::InvalidStringLength,
++            bindings::NV_ERR_INVALID_WRITE => Self::InvalidWrite,
++            bindings::NV_ERR_INVALID_XLATE => Self::InvalidXlate,
++            bindings::NV_ERR_IRQ_EDGE_TRIGGERED => Self::IrqEdgeTriggered,
++            bindings::NV_ERR_IRQ_NOT_FIRING => Self::IrqNotFiring,
++            bindings::NV_ERR_KEY_ROTATION_IN_PROGRESS => Self::KeyRotationInProgress,
++            bindings::NV_ERR_LIB_RM_VERSION_MISMATCH => Self::LibRmVersionMismatch,
++            bindings::NV_ERR_MAX_SESSION_LIMIT_REACHED => Self::MaxSessionLimitReached,
++            bindings::NV_ERR_MEMORY_ERROR => Self::MemoryError,
++            bindings::NV_ERR_MEMORY_TRAINING_FAILED => Self::MemoryTrainingFailed,
++            bindings::NV_ERR_MISMATCHED_SLAVE => Self::MismatchedSlave,
++            bindings::NV_ERR_MISMATCHED_TARGET => Self::MismatchedTarget,
++            bindings::NV_ERR_MISSING_TABLE_ENTRY => Self::MissingTableEntry,
++            bindings::NV_ERR_MODULE_LOAD_FAILED => Self::ModuleLoadFailed,
++            bindings::NV_ERR_MORE_DATA_AVAILABLE => Self::MoreDataAvailable,
++            bindings::NV_ERR_MORE_PROCESSING_REQUIRED => Self::MoreProcessingRequired,
++            bindings::NV_ERR_MULTIPLE_MEMORY_TYPES => Self::MultipleMemoryTypes,
++            bindings::NV_ERR_NO_FREE_FIFOS => Self::NoFreeFifos,
++            bindings::NV_ERR_NO_INTR_PENDING => Self::NoIntrPending,
++            bindings::NV_ERR_NO_MEMORY => Self::NoMemory,
++            bindings::NV_ERR_NO_SUCH_DOMAIN => Self::NoSuchDomain,
++            bindings::NV_ERR_NO_VALID_PATH => Self::NoValidPath,
++            bindings::NV_ERR_NOT_COMPATIBLE => Self::NotCompatible,
++            bindings::NV_ERR_NOT_READY => Self::NotReady,
++            bindings::NV_ERR_NOT_SUPPORTED => Self::NotSupported,
++            bindings::NV_ERR_NVLINK_CLOCK_ERROR => Self::NvlinkClockError,
++            bindings::NV_ERR_NVLINK_CONFIGURATION_ERROR => Self::NvlinkConfigurationError,
++            bindings::NV_ERR_NVLINK_FABRIC_FAILURE => Self::NvlinkFabricFailure,
++            bindings::NV_ERR_NVLINK_FABRIC_NOT_READY => Self::NvlinkFabricNotReady,
++            bindings::NV_ERR_NVLINK_INIT_ERROR => Self::NvlinkInitError,
++            bindings::NV_ERR_NVLINK_MINION_ERROR => Self::NvlinkMinionError,
++            bindings::NV_ERR_NVLINK_TRAINING_ERROR => Self::NvlinkTrainingError,
++            bindings::NV_ERR_OBJECT_NOT_FOUND => Self::ObjectNotFound,
++            bindings::NV_ERR_OBJECT_TYPE_MISMATCH => Self::ObjectTypeMismatch,
++            bindings::NV_ERR_OPERATING_SYSTEM => Self::OperatingSystem,
++            bindings::NV_ERR_OTHER_DEVICE_FOUND => Self::OtherDeviceFound,
++            bindings::NV_ERR_OUT_OF_RANGE => Self::OutOfRange,
++            bindings::NV_ERR_OVERLAPPING_UVM_COMMIT => Self::OverlappingUvmCommit,
++            bindings::NV_ERR_PAGE_TABLE_NOT_AVAIL => Self::PageTableNotAvail,
++            bindings::NV_ERR_PID_NOT_FOUND => Self::PidNotFound,
++            bindings::NV_ERR_PMU_NOT_READY => Self::PmuNotReady,
++            bindings::NV_ERR_PRIV_SEC_VIOLATION => Self::PrivSecViolation,
++            bindings::NV_ERR_PROTECTION_FAULT => Self::ProtectionFault,
++            bindings::NV_ERR_QUEUE_TASK_SLOT_NOT_AVAILABLE => Self::QueueTaskSlotNotAvailable,
++            bindings::NV_ERR_RC_ERROR => Self::RcError,
++            bindings::NV_ERR_REDUCTION_MANAGER_NOT_AVAILABLE => Self::ReductionManagerNotAvailable,
++            bindings::NV_ERR_REJECTED_VBIOS => Self::RejectedVbios,
++            bindings::NV_ERR_RESET_REQUIRED => Self::ResetRequired,
++            bindings::NV_ERR_RESOURCE_LOST => Self::ResourceLost,
++            bindings::NV_ERR_RESOURCE_RETIREMENT_ERROR => Self::ResourceRetirementError,
++            bindings::NV_ERR_RISCV_ERROR => Self::RiscvError,
++            bindings::NV_ERR_SECURE_BOOT_FAILED => Self::SecureBootFailed,
++            bindings::NV_ERR_SIGNAL_PENDING => Self::SignalPending,
++            bindings::NV_ERR_STATE_IN_USE => Self::StateInUse,
++            bindings::NV_ERR_TEST_ONLY_CODE_NOT_ENABLED => Self::TestOnlyCodeNotEnabled,
++            bindings::NV_ERR_TIMEOUT => Self::Timeout,
++            bindings::NV_ERR_TIMEOUT_RETRY => Self::TimeoutRetry,
++            bindings::NV_ERR_TOO_MANY_PRIMARIES => Self::TooManyPrimaries,
++            bindings::NV_ERR_UVM_ADDRESS_IN_USE => Self::UvmAddressInUse,
++            other => Self::Unknown(other),
++        }
++    }
++}
++
+ /// Empty type to group methods related to heap parameters for running the GSP firmware.
+ enum GspFwHeapParams {}
+ 
 
 -- 
 2.53.0
