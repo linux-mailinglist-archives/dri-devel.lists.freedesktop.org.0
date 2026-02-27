@@ -2,160 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oM1vBNHdoGklnwQAu9opvQ
+	id jne4Bx3koGmunwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 00:57:05 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 01:23:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612951B112F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 00:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6641A1B134E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 01:23:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFD010E0CF;
-	Thu, 26 Feb 2026 23:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B99710E09A;
+	Fri, 27 Feb 2026 00:23:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BU3Kh7x/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QGQEzRWs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BCE010E0CF
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 23:56:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A456F10E09A
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 00:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772150220; x=1803686220;
+ t=1772151831; x=1803687831;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=hrqkZaVDj0TY4zpJJGQRLKOda5JLBFvk1TY0Arw/fQw=;
- b=BU3Kh7x/I1KfniWGJTg8zes7ScDZZwAo/R8GL+2u/uWvSSo9JTeroyIF
- /+qICktMyKx6qvNQrnNO9ad25t9CngaFf/sV6aJKZajMyQ3y/qyQAuXgH
- N6FTc/6Qh0IcyslD6xxj9MSbBJGmNBoB/3FnxoDj9g9OfFQPvpK93AbVd
- pH8o1tGzNolPf8OEs+ldKL8x9hhL6VLIEeQwX24UgrsVqgvFrJZnOHo3u
- 6zbDjiFvFXVoeKxcvgsetzLgsKx15tY1JBKfl100MIWwpTJtrntYChNwB
- V0O48LGX0Wc6OtxZ4L7aRk3Rxj+kkFDOfgmiglOTeT2FpLsun+qbFLHdU Q==;
-X-CSE-ConnectionGUID: uP0W4PcGST2e1/yrsfU7ZA==
-X-CSE-MsgGUID: pIJdMrUoTTGjSKzfBF07Vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73101466"
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="73101466"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2026 15:56:59 -0800
-X-CSE-ConnectionGUID: +Q1pGZ7QRJu1r0HS+iJ3QQ==
-X-CSE-MsgGUID: Oc0RY/PMQIip4e+1wFDmcA==
+ bh=ffuBXfD6r1utASZzzWe8fpQAK+atPnaoESx4GBEZKCA=;
+ b=QGQEzRWs8/96dsWWNCBBDL4a7WuKK3zRSihgEJUka4Gpnpc9i9y09LtF
+ VU8HzP/UeUzPNLuZFuxewc2/R+M3Fz1SHE6dxbJ2xut/utNsYh6wr21es
+ kFjNg7HFzUHNqMbGjf83awK7gEkqPCAhmsVs8RauDETWN1szAgOSO/OTG
+ ABUcR24Px5Ewqs4AbLTv5MOET4NeoN71kxkPU9gLZvV8NOcGbhPORp7WA
+ VwDlDGLYz2cW+JLJijQb7AVEN88PLUW3Owu2eXW7Ko9cWv4cbFNukgCTD
+ BtRSsAmGE3MqmfYm+u4jKWp3j9WEshKF/qMmbKXVYT67TJC4y83S/jAsi Q==;
+X-CSE-ConnectionGUID: fmvpbtAvRAS3yBwaabsqPw==
+X-CSE-MsgGUID: s/0PcWY5TD+U7Kto09mE1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83939410"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="83939410"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 16:23:51 -0800
+X-CSE-ConnectionGUID: FD+FcQGxT2aBO2tIPpWGhg==
+X-CSE-MsgGUID: ts37GOYjSj2AF4YS2Yq+8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="214937207"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2026 15:56:58 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="216636160"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2026 16:23:51 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 15:56:58 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.2562.37; Thu, 26 Feb 2026 16:23:50 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 26 Feb 2026 15:56:58 -0800
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.51)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.37 via Frontend Transport; Thu, 26 Feb 2026 16:23:50 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.25) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 15:56:57 -0800
+ 15.2.2562.37; Thu, 26 Feb 2026 16:23:50 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U83u9ipuikUz4BuHajvcwHzOGwUYoiuQ+ijsA4hhTaEBZsJeo+m2nIkQC0bCnmZd8VRfOchkjJ2gwuHdVYDPonc1cQB59TirQrZc18a5enf2bm4704ykGpg8jNaXpe5XAiQ64SEvINCQhH88DoW12gc0CIIBKz2ayl+948KNVoZHWQLdROZ3cvzrv42HfkRCyYchUc+auv2Bnq8fHF0UJmrFTZ5zM66SeKwBzvGFFBTii1sx85l+F27VD3cpbg8GHOJg8riJl/YN1ShEbCunUhCTOKwyALmqMzJNyJPaXICMsPeMLPV0DvzbH3mIxzjHT1Sqf3LXa6JQcB0KBv6oOA==
+ b=IdoaG5ce6SZeMDSgKcVcB773jAZD5D6WWpmlMRDy1m5M9NG82+oqODiq4ESKxGCEfBdtGc9C1kFdzfKl88no1lbEiQf0qmqi/c6q9h9CHmZ0NR1yqARVXR4gbBNI+MCL3AE/ODPxEPnA655zRI1FjBZDe0SjhqoyZGgKCyp1pFRdNltSoqk8ktozcvwmZXLXMU2E4WSfbLdEu748UYdncn7BKJGYE0bvymA29d8X9GKY+H11feeH5rn5dVLiKm9ntrpW47igQXzWStzxoT6BgiI0O5RfG1jntf5GxNpvb1FfcFu4V179+QIx73sKqjBjMVAJ5jMqyI2K9qqa+bWdCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+zT2sz5V7BLIFU/kdG9sPYwMR2vAUeYaNkCndhcc/Oo=;
- b=EQRtmmYbLgiye0AiSlhM27K/eOYSI8QGq8TAlW2+Oa4VJyTyzmxb0VAmh+dZHDHRHbbnOc/xN9jp8l+bU/MIYcIv48mty45vgOSbCvhaxuzVDyeo7auo5CXYE7B4xeLxASeHoD7rKPgr5M+fuNJRkprRiQB4BF+LUksW25xp6t2w6ScuIXA0eg4rIG5jJ+G6X9k+/x2WZrcn/bQSckhO9Ve1qWkXOYw7M06CWwUSuRro4cYdkitI8kQvZ0SajMErqgayoSQfOF4JeyZPxH0nyap1KUcyYXjyUoekh2ScrEnLyOFW7FA7KjchR7kkrSSBsay9B1kXCvF8yAe19mC/5Q==
+ bh=NDPG4iVw32b1YuE4RMADwHTIVhyIBLXsQC/qo4vO1ao=;
+ b=aNTotHGnTSd5tkUtIy4kE6iNA4sB4k5xOVXmDsjkfLN9KPGUw3OTqgAImB4z4f2Q5VahXUoPvVcIdJMx/etjG7kAtbQ/k0MFTt39HeFkCo1oAkcs2KhI/mM/3lnKE2t5bRJknFdIjJNfNB+yl1CSAVwi2XUi6SQpHg8LKVJ2EKAwfBv3QwB+7vqpdNGhKUW69DHNuycrBFnpIgITImKNT8GLJGCNcS5MZg1mrzsLRQIET3XtZYHinAs06FVBVuOR5g/PuWQJlur7VnonPhYMUFr7Xys2QUJQMDV/vQhuH5NCgCFxxrIjvtbX7sn/2VgSZSaMwpD05KQSrX+X8V/Zsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA1PR11MB8224.namprd11.prod.outlook.com (2603:10b6:208:44f::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.19; Thu, 26 Feb
- 2026 23:56:53 +0000
+ by CO1PR11MB4771.namprd11.prod.outlook.com (2603:10b6:303:9f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.20; Fri, 27 Feb
+ 2026 00:23:48 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9654.013; Thu, 26 Feb 2026
- 23:56:53 +0000
-Date: Thu, 26 Feb 2026 15:56:51 -0800
+ ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9654.013; Fri, 27 Feb 2026
+ 00:23:48 +0000
+Date: Thu, 26 Feb 2026 16:23:45 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: Yicong Hui <yiconghui@gmail.com>
 CC: <christian.koenig@amd.com>, <michel.daenzer@mailbox.org>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <skhan@linuxfoundation.org>, <david.hunter.linux@gmail.com>
-Subject: Re: [RFC PATCH v3 0/3] Querying errors from drm_syncobj
-Message-ID: <aaDdw7Squ1z/kCuU@lstrano-desk.jf.intel.com>
+Subject: Re: [RFC PATCH v3 1/3] drm/syncobj: Add flag
+ DRM_SYNCOBJ_QUERY_FLAGS_ERROR to query errors
+Message-ID: <aaDkEQcycghQBmD2@lstrano-desk.jf.intel.com>
 References: <20260225124609.968505-1-yiconghui@gmail.com>
+ <20260225124609.968505-2-yiconghui@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260225124609.968505-1-yiconghui@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0013.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <20260225124609.968505-2-yiconghui@gmail.com>
+X-ClientProxiedBy: SJ0PR05CA0120.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::35) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA1PR11MB8224:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47f87516-6ad5-4b1b-86cb-08de7592b73c
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CO1PR11MB4771:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52ecf4f0-3496-4abd-6ae9-08de759679ef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: nGlVNuaTRrDogRrA8pZYqzVnwSIt45SldAchriWc8tfOLS7JNv3YqrJA6Ps0xOicAn43qNYBNok0KY4I7Q8znHznOsyigytK/BMQRNBa4PL9xWJUARuYnFP4jjRiJAe2D2X7DlA+EtMVi+Bc/mOYdZzoBrKUuFsy5fjfqYtTsBBppt8n0uKBCVba7nhKZS5RiOvMELD4VcrmvKOLGO7j9VzKGFUWzM69q0cdSYLwU8r/44MU81Q2EpZvFss30KG2vH2jXwv4lUi7deOzqh2Du8LfFExc+s8G9pDPzp6FAKaU5pMidrS0m1eC/9JTiC9MCUdRY0wwy0TvSryMKbS6bhcqD3hB6yCULqXbH7XrA+fO0EvJjgF8FwShq+huriFsWoyPrIN6Fb6eG/Gwl+wf3/RI/tlekk8nU7MLRADtoQc1oInqsNfk52MvDc4W43K9OgQyTwssVuTnIn+gxqNB2UThEzyDS4FbHxq6QUTeHWUPCR5BYqgVS1FIEAZQ/WKTCwVdAhs7M/JBZ3FrdRAja9eE0/o1Ve6ktnUCch/fH/cgjM/rK78WhR8T7ZfEEhg04/mfLz07HnEU2c4qyc10B1YqSLpHP+06tE/znWu1AmbQF3ekpEQpWHfUUVOJbIht6+wTE6F61XQUNVQs4my5paif771gQPQmnnQvtsZATmUupqI0d4cly7YBabWWtpLM
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: E7bQ80ANyNK2mqLKNMg6bWnJij0YZm9kdpJiTtCeeQWsA9A/lQgPXIUMZ0X+zNhQjiYjqT62jstlQLG5+lqqnM34OZB93KB+SFOcqne0HpeOCxs6onc5rMDe1EKnzPcUWPM05DEBHki2xzCMVjLw6i0ewEIsBUsBviXfofIEsdAdg0AI0gZRi1gLD3Tu5HSrF05aiJVHtFZNj3Bw9e53ODFL9EegCpCueNt1dsIPaHVx5CyjT2unsYomL6yqa6yD4pXIWL/NvF+oqxbUhwIsh5zeGt67z+80+tabKWID55NiX+Xyv+Uev4Cu0CW4kDi0fF9dHbN/YzU3DKsJ39YZdssKycq5/84mGzwTC3Ox5FDTNei6GWH4/9v+HtBJkUvJ8GQpwqIZKkXV0Sfu13wOyWVIavGv4pE/5hZ5rUGtp9FoxjfDBpuAfwlCODIYwiPfrkho83FBz+Q5Hd1IvgdWF2DoQgGmuY/n5zzDitr8JoA30zKMyn3MEC6uFXEQIc70SxPCqOoNTzPdEbSobQdkEbhLlIusOINOWhtLNrAlqvjJh/Xb/AiVOE+M+ZmoeKScS8pcnmIBlRmYxRfjjcQAnOAL+N3TMrifDnnI1dhzR26LP5smWicF+Nq7zRrZ/BT6Qr5Gu2+P8eQnY2VLpzrcQEIrXPiO9s+OF9XR8b+XCrFfILFsDFfkGat6crP/rYsVGHo5d49xuEK34Ffc5Z7kgquVBO/l8eAEV4A7SJUxGf4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d01udlVHSHU3VEV5K2dQNWhsMzBYdnJZYlBJVUgvUnhEOW9Sb1puZjEra0Mx?=
- =?utf-8?B?bmszajlNdFFFL1hkeWtESCtWWDJqT0tzb2hmZ2VvNzlHSHV3YXFMY0NZd2U2?=
- =?utf-8?B?Tkg0c1JuWUwrVEsrd2plcFQrZE0rOEcvZ1FyWE4xNit0US9nMCtUTVN3dEhT?=
- =?utf-8?B?Ni83Wnl1TEh0MjdJbEZxVUE0MWcwUGZGM3IySkNvRkF5VXlQN01DOXJjeUJa?=
- =?utf-8?B?VjhlQkYwTGx5NGFKcmcxeWVkSXlTLy9OVVdNckNMRUw4WkJKVk9UQXNuRzMr?=
- =?utf-8?B?dVVGZkpHNDNYYlNLcyswY3lPQnh1Nnl2a1VXS3ZucHJYNTY2ZlpzUjFlY1pE?=
- =?utf-8?B?OU1WbE42QmxMY1hMQjNqZEp0enBmZkRrK0xTZmdUSTFUQ2M0U0pwS3UzMUxU?=
- =?utf-8?B?Vy9vOUlZTGtCdGJ5WDRKTTJkdXJKQlRuTXZ5NEVESXhDeEhDZXNFMmM4V3Rx?=
- =?utf-8?B?U3M4TlF6ejkwMFZiZkRQek1STE1WeHR1S1BIam1iT2hTN3UybldXd3ZuWU9i?=
- =?utf-8?B?SEIxQ05TczFaUGo2SGFGdlhuUVNiWlpMc2t3aDE1ZzhPbktDclY3VS84OVE2?=
- =?utf-8?B?UGhaR1V1elYzUTk5d0NNemVaN1JodmhzZ2JwOXJkQ0NOWGEzTkFhYnhNRTho?=
- =?utf-8?B?VDlCaVB6NlNNalhaNTRZTjhvREt5ZVVML0NRMm1wbUMrTmRYc2hHRmhsdnkz?=
- =?utf-8?B?ZHZJWmgrSnh6ZmF1dlBFNnFKcksxYXVTam9HSnRadjdwM2FtNHQzVnlKckpI?=
- =?utf-8?B?RURSdWpiOWdVYk9nQTFNRThsNnVFMEpHV0hZVXJiUTZEc0NzSlVSai91ZGN3?=
- =?utf-8?B?UW12UXNlQkhoOEJMclFHcE82dDV1WU1uYUNVKzR1TkdIY2dFWGYraXRVblRs?=
- =?utf-8?B?VVZhOU12SHowcGQrV1NjdDJVSndnWnNKZHl5VkdFZDVkeThoS212eWFmYWdZ?=
- =?utf-8?B?QkhYNUY5bmN4Wk9sYkFLcjgreEpOYmpWNktERFJGVUltMzc0bHd3U3pNWHkx?=
- =?utf-8?B?c1F0RnRNL3k4cWlIc01tb1dub0t4N1EwdGZlYmJFVXJibW9qaVVOU2hoQndP?=
- =?utf-8?B?dzdBYTk4VVdqRGUxc1lLa1NlTEdsVC8zZ1JlcFIxZjhkbkY4MVJ3U2JJNEFG?=
- =?utf-8?B?a1dtRzRiZDBWYUMwV2JKQzY3QlMrcDl4NmticEVvZGozdTNSeU5NZy96RTJR?=
- =?utf-8?B?ZVI1eURSbUFrQkhpQlRkTHdSU05NVUNBWlFjQzZ6L2xBNGplOXYwckhiUWxn?=
- =?utf-8?B?emhiaDd1NUs5d1lCYi9JNFZqZ1ZjanRidThRdnNpZGJCQ2oxNFA3ZHVlKytv?=
- =?utf-8?B?SzdxbkI0R2N5Qk9jaXI1Ymh4a1dXbDB0ZGE1ZzVkaXdvWE9DRHdFR1U2OXB1?=
- =?utf-8?B?S2Z5QnJsQ1ZqdVZoRW16eGxQV3VtNlV0dStPNUZMUjM3Z3NPWHM3bGFZM2pE?=
- =?utf-8?B?OGRMSkM4VWlwK0hwdHdTYkhCQVJDanJjRHlOVE9kTHhMTnc3dTJtS2lleDhH?=
- =?utf-8?B?VU5tVUs4ejVVckN6dVdLUWUyTVp0RGNlZkVXK1VhRUdaZTdvOTF6eDVzdlpu?=
- =?utf-8?B?YXdqK0NkOEhUSFpxZkMvOWp4aktLdDdKSkF2ZkJXY2xUT0ZOZGYvZ3F1SWhQ?=
- =?utf-8?B?YjhZNWZkNkNBSUl0eEN3WEI4Vm94NW9MNFJyT3FYNThpRmdEMWp6Vlk2YjFZ?=
- =?utf-8?B?RFJVazRkc1pYTXZVU2lEZ1ZXNC91SStHZFF0RzlDMHFIR3dNL2VaTmdmTmp1?=
- =?utf-8?B?MTBqRGtqUHFUV0VNQVl5SkZSTitDTVM4THE4NWRtQmFadXhaT293VXdWcEF2?=
- =?utf-8?B?YVd0RmZWWDNpYnVwdms2c2lFYjZtTkRNVjRvOHJ3c2tjSkgwQjF2ZFcxVWli?=
- =?utf-8?B?VFdQeFlTQUxnWE9LV0UxTVM4VmlkZlZxL0w0K1NlOHhGMnVwd1VhK3BRTTlq?=
- =?utf-8?B?QmhQWG5DWmZKeExseHA3b0xSZmlmU29vdi8zRnBKOFJyMGpkWmdVblZnTmY3?=
- =?utf-8?B?VDMzWFAzVXZQVFhlbjgrQVd6T3dBeG9aT3o3djBlaHZQNzZQeld2T2pqUUlO?=
- =?utf-8?B?ckcvdnQ4SmF6YzAva1FnWGdjYVVyOHJkRWVlNnBWTjVpWEtDdVdMaHJpUHZo?=
- =?utf-8?B?eVVIUGRRd3FUd0FHQUs1QmJ5V1djM21rVXN4R3YwOFpPbGRWdkV6Rm5Iakdx?=
- =?utf-8?B?YTJVbHptenZGcVRZKzVGWmdqQ1RlNGZIdGZuK1RCczNDS1VnRlRYeDNVdlZu?=
- =?utf-8?B?SkhnL1ZDeGJCQVBLQnpRdGkvekFxa2R5dTlCNnRNbnZuMTI0cXZNTFJOZHBB?=
- =?utf-8?B?UFVUT3BKZWFVS0hIeHhmMDRHcjVUYi9TckZIbWhTWUtYbkkrM056YnpYeUV4?=
- =?utf-8?Q?1Qmiqrb3n6ZuSA6o=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47f87516-6ad5-4b1b-86cb-08de7592b73c
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGZnQXI5bzZxazU2WEpYUHAzaHlHVTBpRVhUNldHV2ZoRzdZTEdQQlZtN2dS?=
+ =?utf-8?B?SDhOYzJpWDNuTHI0R0tmSDFudEs1MVkzcWo4SVJRcmZpS3hIdUdDOWp3dEpD?=
+ =?utf-8?B?UDlqcGV1aFdHTThESEpBVG1sRkJRaHAreFJiOUxIYmxyNlZTTHFCTTdUMlc5?=
+ =?utf-8?B?dGNQQ2thYnpEVXZ3K0JDQUVOSlorOEZiS2dsTkNiWC9mMUJkdG5YbjdqNHFW?=
+ =?utf-8?B?R2d4QTB1NU9BNm1JZEJIVy9PbzgrUkI3ZVVkc0Y2MStpY3JPWkMyZmZ6QkNP?=
+ =?utf-8?B?Rm5teVV5NHErZGpDc2FMNDNZY0NDREJqVjQvUWxaeUJxbHdtSVNFSVZHV29T?=
+ =?utf-8?B?aEtvUHJQS2tXTTNGVkdTL2cwei9UWkRCZUZhcjFONVU4YTduK2NjRCt1YUV5?=
+ =?utf-8?B?aEZkU2xibUMreThkbi96cnBNaVc5OVg1WHZvNk1RUEl4ZDBSV1JwRTBiZ2I1?=
+ =?utf-8?B?cXlVc21oM3pwSHVWUmpPOGx3clp5RnBNZ0xub09HZXJ1NjNoNW02UmdzRHF4?=
+ =?utf-8?B?d3BnUzJxMVkvZjRaTWVQQVRwcmQ2cDV3VnVlYnBOSUtHTm1BSlg5eFpKbnNj?=
+ =?utf-8?B?SzdKMGx0bmFvcEV5RGcrR1QwNmdBaEFIKzdNN1M5MmtFWEkvOTd0eUc5dEZt?=
+ =?utf-8?B?WFFVMzg1bmJlM0JnQ2tVM1VrakJTTjNsNTlRK3EvQXpRYS9VdVVTTmlZRnJL?=
+ =?utf-8?B?UlJQaVl2LzJxOXE2ZW1kcHFBT09wOGt2ZGErQ2NJS2liL3c2SkExOUEvdUwz?=
+ =?utf-8?B?YUpSWWpXTVRheC9OYXJmU0RNTk52QThWLzQ3V3ZEeTV6TUZ2ZXFZcE9PblEz?=
+ =?utf-8?B?VXU2NldPSFY5K1g0ZmFmbVR3bmhtS01QNjg3TU1ZVFBHU3dBbDAwcnpGL2NV?=
+ =?utf-8?B?TTNnMC83NmVyL1c3QnRpRUR0SDZ4azBqWFMwanY5eFNrYVZjZXluWmU4L09I?=
+ =?utf-8?B?R2Y5VG1IaW1qNGlBaTNTNjh3OThJK3AyYUE2cE9FZnZhVW44bTJEMmlZWWxG?=
+ =?utf-8?B?YUkwMWg0YkIycUVpUmJxQ0pTRFdDbjR1QW83cTZHbTRKTnhEbURncllxZ2Mx?=
+ =?utf-8?B?enR5NHlOaTJ3QzROdkpNeG9ZYW14V1IyNnVldmxIbzFFbFRNakk5MUZJN0lZ?=
+ =?utf-8?B?U1lqeVpmSW9NUGdiSVdHMlQ0L1gxWGxkRU80K0tpenYwcVhQVE52N29jbVZ6?=
+ =?utf-8?B?V3dURHFOVzIzeDFmeFZVbHdVNUJzR01EZ1VUMjdIa3NTcmI2VmxVNEZidmp1?=
+ =?utf-8?B?R2lqZ1c4R1NmRGxtNkNHMDlxdE5tYUZqYjJHNGpHc2hhamNzcWVOMGZWWWps?=
+ =?utf-8?B?ZC83aWFYUEk1MnpEenQvS21rRWRnRTBTZGpzVmp0SStOUU8yZGtZQnBJUWk4?=
+ =?utf-8?B?aVZuRGtPejFTZUpZU0JQYVNRMjk3RDFkZTZybUhwZFFPdk4zUWpCM2hiaVda?=
+ =?utf-8?B?TmRIM3loekVHdHRBSFlqU053bmRMQ0N5dGJOUTc5OGloVXBzbFBTMG11WEto?=
+ =?utf-8?B?bUx2dU5qMHlwcE1wcDJ6TC93aUJKM0NMd21PeEVyNmI5aUcxbkNKbER4K3R5?=
+ =?utf-8?B?V21kamNOMTBTYkZyZnRPS2tWYnJDSzNZSkdYVFN5OUY4cnpJL0ErVkxseXVP?=
+ =?utf-8?B?NnRCOS9rM1BWOUpSZkxiYVpyeU1NeUVPck4wQVRmZjdwK0tDWkgwQlZhSGlt?=
+ =?utf-8?B?OVFPbUVxcTJkY2crR3NBZGY5dGQyZ3c3SHMrZFlHek1ST0o1WXpoaDBuNnlm?=
+ =?utf-8?B?VlBwOTA4OC92Ynh3akh1ZUhadnl6T0FOMUVVNHlxeUFubmc1VWhMZXBreC9H?=
+ =?utf-8?B?c0xJdXczUmVYdERRbTBMOXNJRWcrOEpRSnFsK1ZMN3RjT3RYVEpjS3BWK2VM?=
+ =?utf-8?B?MHIzZVJONXBoMFNid3ZmWWR6dVBOYjhLN05kRXUvcUVQMGx4eE80MVZTd0lv?=
+ =?utf-8?B?K09RZGd0ZTd4OWJqTlhwRExzNXU4Tkd0ZkN6aDlyUG9tbEFVc0lwTGE1bWtj?=
+ =?utf-8?B?MStmQTRnY2ZabmxodVZlaDhSQWFnNWMvNkpuT0ZqdGFlWjYrS3lNUGZnby8y?=
+ =?utf-8?B?SkEwbkppSGRRMUNScVQvUkxiQUhGVkVoV2h1N1p3VGxXKzQvNDQ1NEM5bTM1?=
+ =?utf-8?B?ZUtBY0dYcXQvazlTaTNtOHIyczY3SUJpRVdFWGlpVzk2R3cxUzZJUklXOC9v?=
+ =?utf-8?B?LzBoV3NrZjUwUW5KekJXa2VDMVR4ZU9HM1A2eU1Ienpva2tuS2FHdFNTUG5q?=
+ =?utf-8?B?NWliMjNiK0NnMWl0RVkydzllQ0hEOG12dUxGTnVUVVFHMmw4T2dLY0J4MVRG?=
+ =?utf-8?B?R0N6UVhLZnJGZXJNaERjTXJhRTFmOG11YTNHU3M0SDlXWjhvOG1sZnplM0Z2?=
+ =?utf-8?Q?P1k4TUMU1nK3Nrq8=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52ecf4f0-3496-4abd-6ae9-08de759679ef
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 23:56:53.4624 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 00:23:48.6331 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YiGqHGefFQP4eVLV2+RhsWuUOpG7362OwtUWAYD+Rvg9xA4V+5/MToAjaYfAY1wnNQJ3b2vgcaLESUYd/s7KCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8224
+X-MS-Exchange-CrossTenant-UserPrincipalName: HT2VQB2Vk+0odeadJTfDfANEMK/Zm00f1KanjxOQQof9DbgY4ojnnhh8F3fBiYWxuAy/6JJssaQ8mrptNJuFqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4771
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -178,7 +180,7 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -190,11 +192,11 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	FREEMAIL_CC(0.00)[amd.com,mailbox.org,lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lstrano-desk.jf.intel.com:mid,gnome.org:url,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lstrano-desk.jf.intel.com:mid];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.995];
+	NEURAL_HAM(-0.00)[-0.996];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
@@ -206,86 +208,143 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 612951B112F
+X-Rspamd-Queue-Id: 6641A1B134E
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 12:46:06PM +0000, Yicong Hui wrote:
-
-I thought it was a very intentional choice that fences are a completion
-mechanism only—they are not a mechanism to report or propagate errors.
-
-This series seems to change that way of thinking—why?
-
-Also consider these cases:
-
-- An input dependency to a job has an error in its fence, and the output
-of the job is installed in a syncobj. The job successfully runs but
-produces garbage because of the bad input. The job’s fence will not
-indicate an error because we don’t propagate input dependency errors to
-the job. This makes DRM_SYNCOBJ_QUERY_FLAGS_ERROR seem a bit pointless
-now.
-
-- A driver, for whatever reason, sets fence->error, and this fence is
-installed in a syncobj. Now user space starts using this new uAPI on
-syncobjs and everything breaks. This is odd behavior from the driver,
-but it was completely valid because fence->error never propagated to
-user space.
-
-I could probably come up with more examples of potential issues, but
-let’s start with the above.
-
-Matt
-
-> This patch series adds 2 new flags, DRM_SYNCOBJ_QUERY_FLAGS_ERROR and
-> DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR for 3 ioctl operations
-> DRM_IOCTL_SYNCOBJ_QUERY, DRM_IOCTL_SYNCOBJ_WAIT and
-> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT to allow them to batch-request error
-> codes from multiple syncobjs and abort early upon error of any of them.
+On Wed, Feb 25, 2026 at 12:46:07PM +0000, Yicong Hui wrote:
+> Add flag DRM_SYNCOBJ_QUERY_FLAGS_ERROR to make the
+> DRM_IOCTL_SYNCOBJ_QUERY ioctl fill out the handles array with the
+> error code of the first fence found per syncobj and 0 if one is not
+> found and maintain the normal return value in points.
 > 
-> Based on discussions from Michel Dänzer and Christian König, and a
-> starter task from the DRM todo documentation.
-> 
-> See https://gitlab.gnome.org/GNOME/mutter/-/issues/4624 for discussions
-> on userspace implementation.
-> 
-> I have looked into adding sub test cases into syncobj_wait.c and
-> syncobj_timeline.c, igt-tests for this and I think I understand the 
-> process for writing tests and submitting them, however, these ioctls 
-> only trigger in the case that there is an error, but I am not sure what
-> is the best way to artifically trigger an error from userspace in order
-> to test that these ioctl flags work. What's the recommended way to 
-> approach this?
-> 
+> Suggested-by: Christian König <christian.koenig@amd.com>
+> Suggested-by: Michel Dänzer <michel.daenzer@mailbox.org>
+> Signed-off-by: Yicong Hui <yiconghui@gmail.com>
 > ---
-> Changes:
-> v3:
+> Changes in v3:
 > * Fixed inline comments by converting to multi-line comments in
 > accordance to kernel style guidelines.
 > * No longer using a separate superfluous function to walk the fence
 > chain, and instead queries the last signaled fence in in the chain for
 > its error code
 > * Fixed types for error and handles array.
-> * Used dma_fence_get_status to query error instead of getting it
-> directly.
 > 
-> v2:
-> https://lore.kernel.org/dri-devel/20260220022631.2205037-1-yiconghui@gmail.com/T/#m6ab4f94a19c769193895d7728383f84e452cbbfa
-> * Went from adding a new ioctl to implementing flags for existing
-> ones.
 > 
-> v1:
-> * https://lore.kernel.org/all/20260213120836.81283-1-yiconghui@gmail.com/T/#mfdbc7f97e91ca5731b51b69c8cf8173cb0b2fb3e
+>  drivers/gpu/drm/drm_syncobj.c | 22 ++++++++++++++++++++--
+>  include/uapi/drm/drm.h        |  5 +++++
+>  2 files changed, 25 insertions(+), 2 deletions(-)
 > 
-> Yicong Hui (3):
->   drm/syncobj: Add flag DRM_SYNCOBJ_QUERY_FLAGS_ERROR to query errors
->   drm/syncobj: Add DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR ioctl flag
->   drm/syncobj/doc: Remove starter task from todo list
-> 
->  Documentation/gpu/todo.rst    | 16 ------------
->  drivers/gpu/drm/drm_syncobj.c | 49 ++++++++++++++++++++++++++++++-----
->  include/uapi/drm/drm.h        | 11 ++++++++
->  3 files changed, 54 insertions(+), 22 deletions(-)
-> 
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index 2d4ab745fdad..b74e491f9d8b 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -1654,14 +1654,17 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  {
+>  	struct drm_syncobj_timeline_array *args = data;
+>  	struct drm_syncobj **syncobjs;
+> +	unsigned int valid_flags = DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED |
+> +				   DRM_SYNCOBJ_QUERY_FLAGS_ERROR;
+>  	uint64_t __user *points = u64_to_user_ptr(args->points);
+> +	uint32_t __user *handles = u64_to_user_ptr(args->handles);
+>  	uint32_t i;
+> -	int ret;
+> +	int ret, error;
+>  
+>  	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+>  		return -EOPNOTSUPP;
+>  
+> -	if (args->flags & ~DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED)
+> +	if (args->flags & ~valid_flags)
+>  		return -EINVAL;
+>  
+>  	if (args->count_handles == 0)
+> @@ -1681,6 +1684,7 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  
+>  		fence = drm_syncobj_fence_get(syncobjs[i]);
+>  		chain = to_dma_fence_chain(fence);
+> +
+>  		if (chain) {
+>  			struct dma_fence *iter, *last_signaled =
+>  				dma_fence_get(fence);
+> @@ -1688,6 +1692,8 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  			if (args->flags &
+>  			    DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED) {
+>  				point = fence->seqno;
+> +				error = dma_fence_get_status(fence);
+> +
+>  			} else {
+>  				dma_fence_chain_for_each(iter, fence) {
+>  					if (iter->context != fence->context) {
+> @@ -1702,16 +1708,28 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  				point = dma_fence_is_signaled(last_signaled) ?
+>  					last_signaled->seqno :
+>  					to_dma_fence_chain(last_signaled)->prev_seqno;
+> +
+> +				error = dma_fence_get_status(last_signaled);
+>  			}
+>  			dma_fence_put(last_signaled);
+>  		} else {
+>  			point = 0;
+> +			error = fence ? dma_fence_get_status(fence) : 0;
+
+dma_fence_get_status returns 0 (unsignaled), 1 (signaled with no error),
+or fence->error (signaled with error != 0).
+
+Is it intentional to return 1 to user space for a signaled fence? What
+if a driver sets fence->error to 1?
+
+Side note: the fence error kernel doc says fence->error is only valid if
+< 0, but dma_fence_get_status doesn’t enforce that.
+
+Also, returning fence->error directly to user space seems like a massive
+problem. Right now, drivers can set fence->error to whatever they want,
+but now this gets reported to user space and suddenly has meaning. Does
+user space take certain actions based on the specific error code (e.g.,
+-ECANCELED, -ETIME, etc.)? It certainly can’t, because we have no
+internal kernel standards for what fence->error actually means. Two
+different drivers could assign the same error code but mean entirely
+different things—or the opposite could be true.
+
+Thus, without some standardization plus fixing every single driver, I
+really think the best we can report in a generic mechanism like a
+syncobj is simply “error” or “no error."
+
+Matt
+
+>  		}
+>  		dma_fence_put(fence);
+> +
+>  		ret = copy_to_user(&points[i], &point, sizeof(uint64_t));
+>  		ret = ret ? -EFAULT : 0;
+>  		if (ret)
+>  			break;
+> +
+> +		if (args->flags & DRM_SYNCOBJ_QUERY_FLAGS_ERROR) {
+> +			ret = copy_to_user(&handles[i], &error, sizeof(*handles));
+> +
+> +			ret = ret ? -EFAULT : 0;
+> +			if (ret)
+> +				break;
+> +		}
+>  	}
+>  	drm_syncobj_array_free(syncobjs, args->count_handles);
+>  
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 27cc159c1d27..213b4dc9b612 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1044,6 +1044,11 @@ struct drm_syncobj_array {
+>  };
+>  
+>  #define DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED (1 << 0) /* last available point on timeline syncobj */
+> +/*
+> + * Copy the status of the fence as output into the handles array.
+> + * The handles array is overwritten by that.
+> + */
+> +#define DRM_SYNCOBJ_QUERY_FLAGS_ERROR (1 << 1)
+>  struct drm_syncobj_timeline_array {
+>  	__u64 handles;
+>  	__u64 points;
 > -- 
 > 2.53.0
 > 
