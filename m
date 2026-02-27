@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOx6HF36oWlkyAQAu9opvQ
+	id zO3iJG36oWl4yAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:11:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:11:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA74B1BD4D3
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117781BD4FA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:11:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B3F10EC2D;
-	Fri, 27 Feb 2026 20:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF9510EC2F;
+	Fri, 27 Feb 2026 20:11:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RtZuxKn3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PYP8hi5N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C76C10EC2D;
- Fri, 27 Feb 2026 20:11:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4448110EC2F;
+ Fri, 27 Feb 2026 20:11:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B518460126;
+ by tor.source.kernel.org (Postfix) with ESMTP id 9BCB560126;
+ Fri, 27 Feb 2026 20:11:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11DAAC116C6;
  Fri, 27 Feb 2026 20:11:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1D7C4AF0D;
- Fri, 27 Feb 2026 20:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772223064;
- bh=1+QuoW/elQeLApVDz9csX68UOgFLcRXKeXzvwiiZ4og=;
+ s=k20201202; t=1772223081;
+ bh=Ms86RD0Otoj1d6fzyHR5o28Ex/YjZExC3FyxUcdS+A8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RtZuxKn3Ziqokc8GpxUXMnZvP6x2/VNh0HcDRcORj7Jjg1pwi+muUt68y2oAPSSn7
- oXm3RcX/NB5+rlaz1Axv1CYblxhdridhg0R2TC1bV4DMOIkHe0e+ljXOAu11x8YisK
- 3cKrd3jepyMfsg/8UQ9qaT5UFz7UcP0BvlO+Vb0tqIcwpCcAoN5ovlLJWFsERdCVR6
- c+KzkQnQ8g6/c5BNYsVswZIxJhuTUYh3A1VIWKouIbNnLMzCE98PRU6kla3Ls2hHHn
- Xnpogri0UwXahapxbF6VQB/VcdHdOn11slPbn6O6jernACtIFzDi0c0Un4gk9KL7uH
- doaGGvuSkLX+w==
+ b=PYP8hi5N5sGdSXGeQeQx0PGG2qoBngPOdHIav4EUqj7du6tyiIkdIqI1w8m/NqulN
+ yXTxgx+g53/5ilvSpYisK6g/8IOBFrnfp7OT3nq69Vw+lSxB4peBlnL7oBBrBFteR+
+ M2xZ9SjZBvkW0pqpQ/Xabhkha8T9/aSY5mi7v8CLxJ+sb4/YPmxDWucCxYnzccFDiZ
+ EBFkzzUicUwOCfYz7Mnqy0dyy3jiaAtOm+CqJElfZ27AJo9RZVjXuSUjS95x5xGJ2w
+ JLFZQYbU59MSVTJrtE+3FkB7Em2PBv3oHfoONvXgNLI0cd8vWkaGCUZ4/ZP0s9duB7
+ TSoGd5pRM7nbA==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
@@ -86,10 +86,10 @@ Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
  linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
  linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v1 07/16] mm/memory: rename unmap_single_vma() to
- __zap_vma_range()
-Date: Fri, 27 Feb 2026 21:08:38 +0100
-Message-ID: <20260227200848.114019-8-david@kernel.org>
+Subject: [PATCH v1 08/16] mm/memory: move adjusting of address range to
+ unmap_vmas()
+Date: Fri, 27 Feb 2026 21:08:39 +0100
+Message-ID: <20260227200848.114019-9-david@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260227200848.114019-1-david@kernel.org>
 References: <20260227200848.114019-1-david@kernel.org>
@@ -137,47 +137,121 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EA74B1BD4D3
+X-Rspamd-Queue-Id: 117781BD4FA
 X-Rspamd-Action: no action
 
-Let's rename it to better fit our new naming scheme.
+__zap_vma_range() has two callers, whereby
+zap_page_range_single_batched() documents that the range must fit into
+the VMA range.
+
+So move adjusting the range to unmap_vmas() where it is actually
+required and add a safety check in __zap_vma_range() instead. In
+unmap_vmas(), we'd never expect to have empty ranges (otherwise, why
+have the vma in there in the first place).
+
+__zap_vma_range() will no longer be called with start == end, so
+cleanup the function a bit. While at it, simplify the overly long
+comment to its core message.
+
+We will no longer call uprobe_munmap() for start == end, which actually
+seems to be the right thing to do.
+
+Note that hugetlb_zap_begin()->...->adjust_range_if_pmd_sharing_possible()
+cannot result in the range exceeding the vma range.
 
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/memory.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ mm/memory.c | 58 +++++++++++++++++++++--------------------------------
+ 1 file changed, 23 insertions(+), 35 deletions(-)
 
 diff --git a/mm/memory.c b/mm/memory.c
-index 621f38ae1425..f0aaec57a66b 100644
+index f0aaec57a66b..fdcd2abf29c2 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -2074,7 +2074,7 @@ static void unmap_page_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
+@@ -2073,44 +2073,28 @@ static void unmap_page_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
+ 	tlb_end_vma(tlb, vma);
  }
  
- 
--static void unmap_single_vma(struct mmu_gather *tlb,
-+static void __zap_vma_range(struct mmu_gather *tlb,
- 		struct vm_area_struct *vma, unsigned long start_addr,
- 		unsigned long end_addr, struct zap_details *details)
+-
+-static void __zap_vma_range(struct mmu_gather *tlb,
+-		struct vm_area_struct *vma, unsigned long start_addr,
+-		unsigned long end_addr, struct zap_details *details)
++static void __zap_vma_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
++		unsigned long start, unsigned long end,
++		struct zap_details *details)
  {
-@@ -2177,7 +2177,7 @@ void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap)
- 		unsigned long start = unmap->vma_start;
- 		unsigned long end = unmap->vma_end;
+-	unsigned long start = max(vma->vm_start, start_addr);
+-	unsigned long end;
+-
+-	if (start >= vma->vm_end)
+-		return;
+-	end = min(vma->vm_end, end_addr);
+-	if (end <= vma->vm_start)
+-		return;
++	VM_WARN_ON_ONCE(start >= end || !range_in_vma(vma, start, end));
+ 
+ 	if (vma->vm_file)
+ 		uprobe_munmap(vma, start, end);
+ 
+-	if (start != end) {
+-		if (unlikely(is_vm_hugetlb_page(vma))) {
+-			/*
+-			 * It is undesirable to test vma->vm_file as it
+-			 * should be non-null for valid hugetlb area.
+-			 * However, vm_file will be NULL in the error
+-			 * cleanup path of mmap_region. When
+-			 * hugetlbfs ->mmap method fails,
+-			 * mmap_region() nullifies vma->vm_file
+-			 * before calling this function to clean up.
+-			 * Since no pte has actually been setup, it is
+-			 * safe to do nothing in this case.
+-			 */
+-			if (vma->vm_file) {
+-				zap_flags_t zap_flags = details ?
+-				    details->zap_flags : 0;
+-				__unmap_hugepage_range(tlb, vma, start, end,
+-							     NULL, zap_flags);
+-			}
+-		} else
+-			unmap_page_range(tlb, vma, start, end, details);
++	if (unlikely(is_vm_hugetlb_page(vma))) {
++		zap_flags_t zap_flags = details ? details->zap_flags : 0;
++
++		/*
++		 * vm_file will be NULL when we fail early while instantiating
++		 * a new mapping. In this case, no pages were mapped yet and
++		 * there is nothing to do.
++		 */
++		if (!vma->vm_file)
++			return;
++		__unmap_hugepage_range(tlb, vma, start, end, NULL, zap_flags);
++	} else {
++		unmap_page_range(tlb, vma, start, end, details);
+ 	}
+ }
+ 
+@@ -2174,8 +2158,9 @@ void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap)
+ 				unmap->vma_start, unmap->vma_end);
+ 	mmu_notifier_invalidate_range_start(&range);
+ 	do {
+-		unsigned long start = unmap->vma_start;
+-		unsigned long end = unmap->vma_end;
++		unsigned long start = max(vma->vm_start, unmap->vma_start);
++		unsigned long end = min(vma->vm_end, unmap->vma_end);
++
  		hugetlb_zap_begin(vma, &start, &end);
--		unmap_single_vma(tlb, vma, start, end, &details);
-+		__zap_vma_range(tlb, vma, start, end, &details);
+ 		__zap_vma_range(tlb, vma, start, end, &details);
  		hugetlb_zap_end(vma, &details);
- 		vma = mas_find(unmap->mas, unmap->tree_end - 1);
- 	} while (vma);
-@@ -2213,7 +2213,7 @@ void zap_page_range_single_batched(struct mmu_gather *tlb,
- 	 * unmap 'address-end' not 'range.start-range.end' as range
- 	 * could have been expanded for hugetlb pmd sharing.
- 	 */
--	unmap_single_vma(tlb, vma, address, end, details);
-+	__zap_vma_range(tlb, vma, address, end, details);
- 	mmu_notifier_invalidate_range_end(&range);
- 	if (is_vm_hugetlb_page(vma)) {
- 		/*
+@@ -2204,6 +2189,9 @@ void zap_page_range_single_batched(struct mmu_gather *tlb,
+ 
+ 	VM_WARN_ON_ONCE(!tlb || tlb->mm != vma->vm_mm);
+ 
++	if (unlikely(!size))
++		return;
++
+ 	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
+ 				address, end);
+ 	hugetlb_zap_begin(vma, &range.start, &range.end);
 -- 
 2.43.0
 
