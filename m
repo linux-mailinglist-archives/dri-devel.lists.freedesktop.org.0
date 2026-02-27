@@ -2,76 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4/kQEMgqoWkcqwQAu9opvQ
+	id OCv6LqUsoWk/qwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:25:28 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:33:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3302A1B2D6A
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F811B2E1D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 06:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD1910E104;
-	Fri, 27 Feb 2026 05:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5882B10E239;
+	Fri, 27 Feb 2026 05:33:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HdMRzpdu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 544E910E104;
- Fri, 27 Feb 2026 05:25:23 +0000 (UTC)
-Received: from [192.168.0.103] (unknown [123.118.222.47])
- by APP-01 (Coremail) with SMTP id qwCowABH72qvKqFp4fXQCA--.7323S2;
- Fri, 27 Feb 2026 13:25:04 +0800 (CST)
-Message-ID: <c9329ae2-721d-4127-9380-b1ea454bd8f2@iscas.ac.cn>
-Date: Fri, 27 Feb 2026 13:25:03 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
- into msi_addr_mask
-To: Mark Bloch <mbloch@nvidia.com>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDED10E239
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 05:33:21 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-826c49b7628so1114286b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Feb 2026 21:33:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772170401; x=1772775201; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uWxM/NY1WZY/R2hcKtz9Vxhb3ZZqeiMM9SHyVrFFUDk=;
+ b=HdMRzpduRkeiIRS7ARi9SjDhAXI9iFBcZIbG+ylf6EQQThZD2l0puHZnPaz2ILbCev
+ b6K+lzdeJxakfoGPPmsNNz+VeYwW6y0T1MGZRD7C5PAmph1JBW+P+/07U6fDrgm+zjWh
+ pSar88/KV3b41S4YHpHEbmav9KNxAyv9mNf3vfqNslt3+LXTGVKUBt4C4I7pfKiWFiQz
+ OrnjP9eg9YT4YOGencVtcdrp6HgSR9P/36A+wHrwzjdCPywLI//8pGbGOVjrYdod5mSt
+ rtuCr82gSv9+Ulqd5RVgbrMhwjwCxvMzw1N4lslKcDXDfiW1Y6ble0lcDtRIeaN2FLRg
+ eyrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772170401; x=1772775201;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uWxM/NY1WZY/R2hcKtz9Vxhb3ZZqeiMM9SHyVrFFUDk=;
+ b=mPP5u9c82ELTVvJP/dndQhfJxnkyu+2eRwOru8DlnrdSsuyXSxHxjxHVAiIAdWKPcq
+ RYS001XpewsYqhgl08iAcvSi9LyreGxIvcFFQs0nue3Kw28rpyIR/HzukjfhHgeBw+ys
+ S7W1su2SVV+KEz09sbo45lQvog8VaSJGIWF+IJ90vT3Pa7/8igcmhNjrLOk8A/rCpHci
+ dFH0aaMekhNBOSqvcLndgs450C/YHTZSIKolcUb0RdLNvPqJobu1H2j+7JUCBwbd+glm
+ n2vpjxadtgmVZHPgxprxjumMT/TgEMsBNLyYGv0Ngx/M9DzJFoq/oD56wBzcVMFQjVwI
+ nwWw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVg4V+tqltrdSaZ54+kMmvveDdQ+PqRFHSpKYsuDxoB/VT+hc5rQVwBiKZEh+eBVvHZ3ADvfQ9v//Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyF/OktZgWQf2/U6VlNqypiBokJI46uxmHLoTeOlQXBRX82srhR
+ j+l0/oSBjefK2AGenFgELCJFCqC45P/8OCXAYa9H0rSLXD+NQ4L1ghz4
+X-Gm-Gg: ATEYQzzYwda24BYQe2cgqF41z1PonR8L9e6SzL/4v35joTgWy50XejIuDYMz/R2F0QU
+ B48Iz51KtPZ2AK6PyAaDELZEBKii1sbBIIq7ytrP5kt1Nd2MWkzcrOWX7whIDOyvm/LZwl5txI6
+ MDfrCxsR248YqvZVBa3SS33kMpm3fac5WZ4hqObx+x/gigksI0JTl5ajU1EKRCyyZ1WQiMBSa1J
+ qOB1BXgX5caSllNsgtRlcekqQm1s3fZuP0bCUbLZb5UWFqRiWxZ3qvkod+4CKP9TWZbcDvOxdGi
+ 49hdkaxMPLlGantKQNeUWb+9vblAG9fGaL1G0xN8qcYnqeXuUMfd9tSTWXAMW8xWRgJ96O8oLol
+ f1iwG0oxUvkFWuTxHpwNNOlJqM4qD3F3w+r030oW7X+7+VCzddM59DtjMAOiozPsA6vo2ulP4/W
+ /3gd5KOFbcEQzj9JH0ziaikGpLzojjg/cCt7IiPRiLis70CEYiMg==
+X-Received: by 2002:a05:6a00:4143:b0:81c:c98c:aeb7 with SMTP id
+ d2e1a72fcca58-8274d972743mr1365727b3a.7.1772170401133; 
+ Thu, 26 Feb 2026 21:33:21 -0800 (PST)
+Received: from name2965-Precision-7820-Tower.. ([175.201.112.127])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-8273a048615sm3815828b3a.52.2026.02.26.21.33.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Feb 2026 21:33:20 -0800 (PST)
+From: Jeongjun Park <aha310510@gmail.com>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Brett Creeley <brett.creeley@amd.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>,
- Maor Gottlieb <maorg@nvidia.com>
-References: <20260129-pci-msi-addr-mask-v4-0-70da998f2750@iscas.ac.cn>
- <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
- <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowABH72qvKqFp4fXQCA--.7323S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WrykArWkCrW7tr1xAr48tFb_yoW8Gr4fpF
- WDWF4rtF4UKry7t39Fvw1DZF45Zws5Z3s3Wry5twnakan0v3W2qr1qyr4aga42gr48Jw4Y
- kryjgw1vqrs8Z37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
- evJa73UjIFyTuYvjTRM6wCDUUUU
-X-Originating-IP: [123.118.222.47]
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH 6.1.y 5.15.y 5.10.y 0/3] drm/exynos: vidi: fix various memory
+ corruption bugs
+Date: Fri, 27 Feb 2026 14:33:14 +0900
+Message-Id: <20260227053317.426000-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,67 +98,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	FREEMAIL_TO(0.00)[nvidia.com,linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,amd.com,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,perex.cz,suse.com];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,samsung.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	HAS_XOIP(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wangruikang@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:gregkh@linuxfoundation.org,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:aha310510@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.866];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:mid]
-X-Rspamd-Queue-Id: 3302A1B2D6A
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 51F811B2E1D
 X-Rspamd-Action: no action
 
-On 2/27/26 02:25, Mark Bloch wrote:
+This backport patch applies to the rest of the longterm kernel and fixes
+a bug in the Exynos VIDI driver.
 
-> On 29/01/2026 3:56, Vivian Wang wrote:
->> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
->> implement less than 64 address bits. This breaks on platforms where such
->> a device is assigned an MSI address higher than what's reachable.
->>
->> Currently, the no_64bit_msi bit is set for these devices, meaning that
->> only 32-bit MSI addresses are allowed for them. However, on some
->> platforms the MSI doorbell address is above the 32-bit limit but within
->> the addressable range of the device.
->>
->> As a first step to enabling MSI on those combinations of devices and
->> platforms, conservatively generalize the single-bit flag no_64bit_msi
->> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
->> with msi_mask.)
->>
->> The translation is essentially:
->>
->> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
->> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
->> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
->>
-> Hey Vivian,
->
-> We are seeing issues while reloading mlx5 on a PPC64 platform.
+https://lore.kernel.org/all/20260119082553.195181-1-aha310510@gmail.com/
 
-Mea culpa. There's a fix on the list [1] since last Friday. I'm not sure
-why it hasn't moved yet, but please take a look.
+Jeongjun Park (3):
+  drm/exynos: vidi: use priv->vidi_dev for ctx lookup in vidi_connection_ioctl()
+  drm/exynos: vidi: fix to avoid directly dereferencing user pointer
+  drm/exynos: vidi: use ctx->lock to protect struct vidi_context member variables related to memory alloc/free
 
-Vivian "dramforever" Wang
-
-[1]: https://lore.kernel.org/all/20260220070239.1693303-1-nilay@linux.ibm.com/
-
+ drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 60 insertions(+), 13 deletions(-)
