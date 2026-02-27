@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLE9CVV0oWkPtQQAu9opvQ
+	id kIoeNdJ0oWkPtQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:39:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:41:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28001B6149
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671641B619E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACC010EAF6;
-	Fri, 27 Feb 2026 10:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFAC10EAF7;
+	Fri, 27 Feb 2026 10:41:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="BjKIjHQa";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hiX3S0gD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFC8E10EAF6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:39:11 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F73F10EAF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:41:19 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fMlDr4McRz9v0X;
- Fri, 27 Feb 2026 11:39:08 +0100 (CET)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fMlHH73q0z9sZZ;
+ Fri, 27 Feb 2026 11:41:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1772188748;
+ s=mail20150812; t=1772188876;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c8w5EwMRK0R3wBg7LKfkhPQ3VrWqO75sMw6kOXuck4Q=;
- b=BjKIjHQag7RYnvy6B/2Gxbw1I639uus0ziNvLa9skUOEBGmBHIbsWl284BnuLECGOe3S//
- jgDj5RoHg+ok07IFrPzm06W4AzuX1a/6aQByDIlRGye8cb/3cOHlu3pWIKpeCk/eP6q/4W
- BbKhVR4BGXjVbtXhpvxguvux7YBOc/thQHgKJvkG3+7bU7VEjQ9gVcNIE2UC/xpIM4pngH
- Y0lAiaX75bYIYpAK21cKEIq8HmLlHSwkNJ/vS5zbmgrxb+IkaY8ojxrpFsrYi1NArivcjZ
- UOyhpkc+8+1TjPgjPmpUSgdt1xZb5w4xlwu2rJ40QcMzuBkHKf2CIpgtdAIvWw==
-Message-ID: <044a03ee-3c78-4915-ae0b-3cf5045df374@mailbox.org>
-Date: Fri, 27 Feb 2026 11:39:02 +0100
+ bh=a8yNHrrv8hSbIol16MyTEr4gp82KA1j7w7oSm0UgB4U=;
+ b=hiX3S0gD7vIoc4g2amN34KUBr/5pehQhklGW8kRGIc/fmgEwPBDYzNOFwjY1iXF5ultF2K
+ eOnxr4WSwbotJ5DQI+g+VUeH+5TgK/J+t7nO0erjf7VAeMGPvcpr9vKQxI3lZJxnLiE7ri
+ PLjjZe9+yXiFHUeyvB7fs68OaOaqkt51G4zBDoxLmO3WxzGPeMqSVra4N2eMLF2jWrz60i
+ dGq/WMv7TUKtcEdgodDdG3XkkVZrifQngq6k43rzwVG5JVa250UQDB7IDmb2frjg4f4xXU
+ bdRW2LTA6aujo3dmf82hpg3vp38iFh0xrZN/jqgmgHrsXDwcaEtzvu9CyvdwwQ==
+Message-ID: <4b796cc7-bf3d-4eb1-8e29-33e90851c34d@mailbox.org>
+Date: Fri, 27 Feb 2026 11:41:10 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi83: fix CHA_DSI_CLK_RANGE
- rounding
+Subject: Re: [PATCH 2/3] drm/bridge: ti-sn65dsi83: halve horizontal syncs for
+ dual LVDS output
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -57,14 +57,14 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
 References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
- <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-1-2e15f5a9a6a0@bootlin.com>
+ <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-2-2e15f5a9a6a0@bootlin.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-1-2e15f5a9a6a0@bootlin.com>
+In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-2-2e15f5a9a6a0@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ozhti5di6ph93sjyyaxf1hw7dg48qofu
-X-MBO-RS-ID: c7d1db9bcc0e34afc1a
+X-MBO-RS-ID: cba5140bc5ed835239e
+X-MBO-RS-META: rinne88hpm9po5saewn6i3bhefqz3wx7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,8 +92,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,kontron.de];
 	MIME_TRACE(0.00)[0:+];
@@ -106,39 +106,31 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[mailbox.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: A28001B6149
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,mailbox.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 671641B619E
 X-Rspamd-Action: no action
 
 On 2/26/26 5:16 PM, Luca Ceresoli wrote:
-> The DSI frequency must be in the range:
+> Dual LVDS output (available on the SN65DSI84) requires HSYNC_PULSE_WIDTH
+> and HORIZONTAL_BACK_PORCH to be divided by two with respect to the values
+> used for single LVDS output.
 > 
->    (CHA_DSI_CLK_RANGE * 5 MHz) <= DSI freq < ((CHA_DSI_CLK_RANGE + 1) * 5 MHz)
+> While not clearly stated in the datasheet, this is needed according to the
+> DSI Tuner [0] output. It also makes sense intuitively because in dual LVDS
+> output two pixels at a time are output and so the output clock is half of
+> the pixel clock.
 > 
-> So the register value shouldpoint to the lower range value, but
-
-should point (missing space)
-
-> DIV_ROUND_UP() rounds the division to the higher range value, resulting in
-> an excess of 1 (unless the frequency is an exact multiple of 5 MHz).
+> Some dual-LVDS panels refuse to show any picture without this fix.
 > 
-> For example for a 437100000 MHz clock CHA_DSI_CLK_RANGE should be 87 (0x57):
-> 
->    (87 * 5 = 435) <= 437.1 < (88 * 5 = 440)
-> 
-> but current code returns 88 (0x58).
-> 
-> Fix the computation by removing the DIV_ROUND_UP().
-> 
-> Fixes: ceb515ba29ba ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Divide by two HORIZONTAL_FRONT_PORCH too, even though this register is used
+> only for test pattern generation which is not currently implemented by this
+> driver.
 
 Reviewed-by: Marek Vasut <marek.vasut@mailbox.org>
 
