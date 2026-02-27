@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uL80HJ76oWlkyAQAu9opvQ
+	id KDBxE676oWlkyAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:12:14 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:12:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4C61BD56D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC7A1BD58C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:12:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8CD10EC32;
-	Fri, 27 Feb 2026 20:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC5410EC33;
+	Fri, 27 Feb 2026 20:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ngaOty6e";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XV3R41u2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD8510EC33;
- Fri, 27 Feb 2026 20:12:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E72C10EC33;
+ Fri, 27 Feb 2026 20:12:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 952F141843;
+ by sea.source.kernel.org (Postfix) with ESMTP id EAAFE41843;
+ Fri, 27 Feb 2026 20:12:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047EBC116C6;
  Fri, 27 Feb 2026 20:12:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39E4C116C6;
- Fri, 27 Feb 2026 20:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772223130;
- bh=clYyWttfcaFGSXdSI+NFUKwc/GgjopvB2fmwPUXTrio=;
+ s=k20201202; t=1772223146;
+ bh=aB5tiNSbiWIs8J38wzKTGn9gBoLw1Ed2QFc8m6G1lhE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ngaOty6eXM5j7is+WGyPTLemdZsPBcNe61ojNKAJgZwE71n14yO064jdNtdsbX/Ee
- RlnqA3sETb9Sy0WtFg1UK1UEcaoO+Lw/1O2wov2lG6O/6NijoRCZZU6GJofxg0KeVi
- odWoGYGuMoHkVNOTEmUkygOdILEoNupmNcfh6X2yUbKxw8hqRUN3XAIuwmUTHbl0uv
- Wl5I/FU4hI2dyfaSjJKbwQzwLAdwBQdMN+UbkJt1AStL/fzXkytyB/+eDsgIyfI8n/
- b9L2nmNB1P0iCf65mL/2gwS2RTtD6WGlw6k+T+OihQnVUd6MdiJbH5WiiAYE79FL+a
- YRQ32YLZxixOw==
+ b=XV3R41u27yOs3AucAXItd/ZxAZjAbvL9zkvtgql+u+4ijDgzXZEbk77WEppDG6XbQ
+ RaRDFQEIdi93XVV3MnYwhO+PQuYzL6HPudiNqhTkElOIxON9zpQ28ddXnRauD5K7xI
+ pPAPZLRWc+u8ZveolZp8sk3xfxpltOLQDdxGrANzjZcI65k2mZV2C7NoEkTTWxEEvR
+ CAFqu7YxseHBUNNfvGMccb+W5iBgk9khfRU0vAq0qlcZ/q5lDlnaLNcSa+FLgrhULj
+ YjzvWS5u0pea0U3pcj1C2Qe1JsARvSTKUCz1+bSDPl3+jOtxbrGUap4h/9n2umCd7p
+ tlC/aFeo6fWmw==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
@@ -86,10 +86,9 @@ Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
  linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
  linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v1 11/16] mm/memory: inline unmap_page_range() into
- __zap_vma_range()
-Date: Fri, 27 Feb 2026 21:08:42 +0100
-Message-ID: <20260227200848.114019-12-david@kernel.org>
+Subject: [PATCH v1 12/16] mm: rename zap_vma_pages() to zap_vma()
+Date: Fri, 27 Feb 2026 21:08:43 +0100
+Message-ID: <20260227200848.114019-13-david@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260227200848.114019-1-david@kernel.org>
 References: <20260227200848.114019-1-david@kernel.org>
@@ -137,69 +136,90 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EB4C61BD56D
+X-Rspamd-Queue-Id: CDC7A1BD58C
 X-Rspamd-Action: no action
 
-Let's inline it into the single caller to reduce the number of confusing
-unmap/zap helpers.
-
-Get rid of the unnecessary BUG_ON().
+Let's rename it to an even simpler name. While at it, add some
+simplistic kernel doc.
 
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/memory.c | 32 ++++++++++++--------------------
- 1 file changed, 12 insertions(+), 20 deletions(-)
+ arch/powerpc/platforms/book3s/vas-api.c | 2 +-
+ arch/powerpc/platforms/pseries/vas.c    | 2 +-
+ include/linux/mm.h                      | 6 +++++-
+ lib/vdso/datastore.c                    | 2 +-
+ mm/page-writeback.c                     | 2 +-
+ 5 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 394b2e931974..1c0bcdfc73b7 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2056,25 +2056,6 @@ static inline unsigned long zap_p4d_range(struct mmu_gather *tlb,
- 	return addr;
- }
+diff --git a/arch/powerpc/platforms/book3s/vas-api.c b/arch/powerpc/platforms/book3s/vas-api.c
+index ea4ffa63f043..e96d79db69fe 100644
+--- a/arch/powerpc/platforms/book3s/vas-api.c
++++ b/arch/powerpc/platforms/book3s/vas-api.c
+@@ -414,7 +414,7 @@ static vm_fault_t vas_mmap_fault(struct vm_fault *vmf)
+ 	/*
+ 	 * When the LPAR lost credits due to core removal or during
+ 	 * migration, invalidate the existing mapping for the current
+-	 * paste addresses and set windows in-active (zap_vma_pages in
++	 * paste addresses and set windows in-active (zap_vma() in
+ 	 * reconfig_close_windows()).
+ 	 * New mapping will be done later after migration or new credits
+ 	 * available. So continue to receive faults if the user space
+diff --git a/arch/powerpc/platforms/pseries/vas.c b/arch/powerpc/platforms/pseries/vas.c
+index ceb0a8788c0a..fa05f04364fe 100644
+--- a/arch/powerpc/platforms/pseries/vas.c
++++ b/arch/powerpc/platforms/pseries/vas.c
+@@ -807,7 +807,7 @@ static int reconfig_close_windows(struct vas_caps *vcap, int excess_creds,
+ 		 * is done before the original mmap() and after the ioctl.
+ 		 */
+ 		if (vma)
+-			zap_vma_pages(vma);
++			zap_vma(vma);
  
--static void unmap_page_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
--		unsigned long addr, unsigned long end,
--		struct zap_details *details)
--{
--	pgd_t *pgd;
--	unsigned long next;
--
--	BUG_ON(addr >= end);
--	tlb_start_vma(tlb, vma);
--	pgd = pgd_offset(vma->vm_mm, addr);
--	do {
--		next = pgd_addr_end(addr, end);
--		if (pgd_none_or_clear_bad(pgd))
--			continue;
--		next = zap_p4d_range(tlb, vma, pgd, addr, next, details);
--	} while (pgd++, addr = next, addr != end);
--	tlb_end_vma(tlb, vma);
--}
--
- static void __zap_vma_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 		unsigned long start, unsigned long end,
- 		struct zap_details *details)
-@@ -2100,7 +2081,18 @@ static void __zap_vma_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 			return;
- 		__unmap_hugepage_range(tlb, vma, start, end, NULL, zap_flags);
- 	} else {
--		unmap_page_range(tlb, vma, start, end, details);
-+		unsigned long next, cur = start;
-+		pgd_t *pgd;
-+
-+		tlb_start_vma(tlb, vma);
-+		pgd = pgd_offset(vma->vm_mm, cur);
-+		do {
-+			next = pgd_addr_end(cur, end);
-+			if (pgd_none_or_clear_bad(pgd))
-+				continue;
-+			next = zap_p4d_range(tlb, vma, pgd, cur, next, details);
-+		} while (pgd++, cur = next, cur != end);
-+		tlb_end_vma(tlb, vma);
+ 		mutex_unlock(&task_ref->mmap_mutex);
+ 		mmap_write_unlock(task_ref->mm);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 4710f7c7495a..4bd1500b9630 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2837,7 +2837,11 @@ void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
+ 		  unsigned long size);
+ void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
+ 			   unsigned long size);
+-static inline void zap_vma_pages(struct vm_area_struct *vma)
++/**
++ * zap_vma - zap all page table entries in a vma
++ * @vma: The vma to zap.
++ */
++static inline void zap_vma(struct vm_area_struct *vma)
+ {
+ 	zap_page_range_single(vma, vma->vm_start, vma->vm_end - vma->vm_start);
+ }
+diff --git a/lib/vdso/datastore.c b/lib/vdso/datastore.c
+index a565c30c71a0..222c143aebf7 100644
+--- a/lib/vdso/datastore.c
++++ b/lib/vdso/datastore.c
+@@ -121,7 +121,7 @@ int vdso_join_timens(struct task_struct *task, struct time_namespace *ns)
+ 	mmap_read_lock(mm);
+ 	for_each_vma(vmi, vma) {
+ 		if (vma_is_special_mapping(vma, &vdso_vvar_mapping))
+-			zap_vma_pages(vma);
++			zap_vma(vma);
  	}
- }
+ 	mmap_read_unlock(mm);
  
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 601a5e048d12..29f7567e5a71 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2645,7 +2645,7 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
+  * while this function is in progress, although it may have been truncated
+  * before this function is called.  Most callers have the folio locked.
+  * A few have the folio blocked from truncation through other means (e.g.
+- * zap_vma_pages() has it mapped and is holding the page table lock).
++ * zap_vma() has it mapped and is holding the page table lock).
+  * When called from mark_buffer_dirty(), the filesystem should hold a
+  * reference to the buffer_head that is being marked dirty, which causes
+  * try_to_free_buffers() to fail.
 -- 
 2.43.0
 
