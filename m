@@ -2,89 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPenKtCcoWl8ugQAu9opvQ
+	id oJQONQ6ioWnEvAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:32:00 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:54:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EC51B7B5E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCDD1B7F5C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 14:54:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6E810EB59;
-	Fri, 27 Feb 2026 13:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F5010EB83;
+	Fri, 27 Feb 2026 13:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="id1cmgUt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b6xTxwaY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="id1cmgUt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b6xTxwaY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tak59c1M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43BBE10EB59
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:31:50 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C7E923FFF7;
- Fri, 27 Feb 2026 13:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772199086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=MjLceajnFqhra3Jb3mX4oFtSi4Rj0D7JYvmHOrBhBS8=;
- b=id1cmgUt3Yv1H5NiPzA9q5bUsqsH0ZUnY9pkeqV5eXfwICs9MgzOPWVgeD+V2jdO0P0mU3
- 41TpRGU5TvnfF7SmFV8sFbibol8Tkj2hL5JxiMMESdbTvIdDIvvTUI/2Xmf3fdANZaSR5c
- XEtL/428Gp5pqQVSHEffcFiXH7+ANy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772199086;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=MjLceajnFqhra3Jb3mX4oFtSi4Rj0D7JYvmHOrBhBS8=;
- b=b6xTxwaYJSHEkoBSysrRdgRfYdywpG0gL8qU9jImTnDmbzNu9tG6E/lllu7zzz9vD+Gnhx
- JFbxmkMJGwKQweAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=id1cmgUt;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=b6xTxwaY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772199086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=MjLceajnFqhra3Jb3mX4oFtSi4Rj0D7JYvmHOrBhBS8=;
- b=id1cmgUt3Yv1H5NiPzA9q5bUsqsH0ZUnY9pkeqV5eXfwICs9MgzOPWVgeD+V2jdO0P0mU3
- 41TpRGU5TvnfF7SmFV8sFbibol8Tkj2hL5JxiMMESdbTvIdDIvvTUI/2Xmf3fdANZaSR5c
- XEtL/428Gp5pqQVSHEffcFiXH7+ANy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772199086;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=MjLceajnFqhra3Jb3mX4oFtSi4Rj0D7JYvmHOrBhBS8=;
- b=b6xTxwaYJSHEkoBSysrRdgRfYdywpG0gL8qU9jImTnDmbzNu9tG6E/lllu7zzz9vD+Gnhx
- JFbxmkMJGwKQweAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E4773EA69;
- Fri, 27 Feb 2026 13:31:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MPqGIa6coWkrLQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Feb 2026 13:31:26 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- xen-devel@lists.xenproject.org
-Subject: [PATCH] drm/xen: Test for imported buffers with drm_gem_is_imported()
-Date: Fri, 27 Feb 2026 14:31:13 +0100
-Message-ID: <20260227133113.235940-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 371E110EB72
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 13:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772200457; x=1803736457;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DLTS0lyvWWSvmDK5rBXH2tSDdtVgdl/YTv9aMvsSb0s=;
+ b=Tak59c1MEVwUS1g4AqpcREUuswkXQl139RZlyWYyMSj86dgIe+APQkvW
+ 2Njc2Rr9FzGcAg4ierMUO3xQF6/aYHIG2ypl/OwdXnGXs6vfVVztivYDj
+ tYSvvaF7h4SmSPjANF6K1R43n2srqLmLKnnFqaBSVQGnCt+undf00isCE
+ wjlDzeMqwTuI+hnaH8fkDt0wwxRHhA3NV3ao7TFeHsUF4yEfJgs24Tpk7
+ pNLGE57LvdQqfKozIBZSmD9A90QkiFkOUsNX55bbfDU8UPrXWNYgZvnhH
+ QhyUdLcm/7Br3N4LcOcD/w+c8F7a9T/mL9qpqKwM/ForXDPLAKw74Ff4N w==;
+X-CSE-ConnectionGUID: r658fRh6TKa6XyAiAsLHUg==
+X-CSE-MsgGUID: 0I63wDVURqi+hserL+a4Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77146855"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="77146855"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2026 05:54:16 -0800
+X-CSE-ConnectionGUID: j6DcV/RlS9ey5XesHqpKdQ==
+X-CSE-MsgGUID: yK8fTTApSl+LMnnfTvhNdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; d="scan'208";a="221403317"
+Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.246.19.164])
+ ([10.246.19.164])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2026 05:54:14 -0800
+Message-ID: <acb789e6-d7ca-42db-ae2d-8618a8c3feb2@linux.intel.com>
+Date: Fri, 27 Feb 2026 14:54:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Test for imported buffers with
+ drm_gem_is_imported()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+References: <20260227133113.235940-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20260227133113.235940-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,65 +82,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maciej.falkowski@linux.intel.com,m:ogabbay@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[suse.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FORGED_SENDER(0.00)[karol.wachowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:oleksandr_andrushchenko@epam.com,m:xen-devel@lists.xenproject.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[karol.wachowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email,epam.com:email]
-X-Rspamd-Queue-Id: 35EC51B7B5E
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,suse.de:email,linux.intel.com:mid]
+X-Rspamd-Queue-Id: 7CCDD1B7F5C
 X-Rspamd-Action: no action
 
-Instead of testing import_attach for imported GEM buffers, invoke
-drm_gem_is_imported() to do the test. The test itself does not change.
+On 2/27/2026 2:31 PM, Thomas Zimmermann wrote:
+> Instead of testing import_attach for imported GEM buffers, invoke
+> drm_gem_is_imported() to do the test. The test itself does not change.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: xen-devel@lists.xenproject.org
----
- drivers/gpu/drm/xen/xen_drm_front_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for spotting this.
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-index eec4c1da3f9e..280982b85ce7 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-@@ -203,7 +203,7 @@ void xen_drm_front_gem_free_object_unlocked(struct drm_gem_object *gem_obj)
- {
- 	struct xen_gem_object *xen_obj = to_xen_gem_obj(gem_obj);
- 
--	if (xen_obj->base.import_attach) {
-+	if (drm_gem_is_imported(&xen_obj->base)) {
- 		drm_prime_gem_destroy(&xen_obj->base, xen_obj->sgt_imported);
- 		gem_free_pages_array(xen_obj);
- 	} else {
--- 
-2.52.0
+There's also another place in drivers/accel/ivpu/ivpu_gem.c:51
+drm_WARN_ON(&vdev->drm, !bo->base.base.import_attach);
 
+We will push a patch for that.
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+> Cc: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> ---
+>  drivers/accel/ivpu/ivpu_gem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+> index 98b9ce26962b..9e2f1b60f632 100644
+> --- a/drivers/accel/ivpu/ivpu_gem.c
+> +++ b/drivers/accel/ivpu/ivpu_gem.c
+> @@ -157,7 +157,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>  	}
+>  
+>  	if (bo->base.sgt) {
+> -		if (bo->base.base.import_attach) {
+> +		if (drm_gem_is_imported(&bo->base.base)) {
+>  			dma_buf_unmap_attachment(bo->base.base.import_attach,
+>  						 bo->base.sgt, DMA_BIDIRECTIONAL);
+>  		} else {
+Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
