@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kAJJAf5doWmksQQAu9opvQ
+	id MDDdJgteoWmksQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 10:03:58 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 10:04:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DFF1B4E22
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 10:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F037E1B4E3A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 10:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DAA10EA77;
-	Fri, 27 Feb 2026 09:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FB410EA6A;
+	Fri, 27 Feb 2026 09:04:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="PxrugUa8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bV3DNDdY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 693C710EA6C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 09:03:53 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fMj6t0sqyz9vL3;
- Fri, 27 Feb 2026 10:03:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1772183030; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/NXjcTkuD3aRbR7gfflMrcpfLEtYsWBoih2zwblvwN8=;
- b=PxrugUa8rAdV5Nx4yO8oy9Fhh7oKpMVEX8d9kesky03rbf4WbhqrLzqnkX8Ui7uNgIBCJC
- YAJWvK4iCDxUV5F0flGVKKyYSpAhm3eRWLMOdGoMC2GakqGFnRRhDPx6KlFVC+y/w2pb++
- Xd7x6X6z6//B+GTClPA3GSsPongzkkSAEcP6nG4HiRmaNIDwiv9v49/v+MEs7b5PC81EZI
- oMc6YLzPLXHMJCCh9KgXqsQHm7iH6Ta/Ekj5H0L8OM1IsRxD9BEtwtZkCeCF4I/stWX3si
- /vv+GKtrKnBqDMT0ZnPPT/3Ny/Az6IL0gl8fSUtrNAd2dxwwCAL0BWWQ1g91Wg==
-Message-ID: <322d889e904b8f8f1cf348ef847cd30c0ff8bbe6.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Remove racy hack from drm_sched_fini()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Fri, 27 Feb 2026 10:03:46 +0100
-In-Reply-To: <DGHAX6G7ZROR.2244FXWGESPNH@kernel.org>
-References: <20260108083019.63532-2-phasta@kernel.org>
- <DGHAX6G7ZROR.2244FXWGESPNH@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B561710EA6C
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 09:04:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 5CDE74451F;
+ Fri, 27 Feb 2026 09:04:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6E0C116C6;
+ Fri, 27 Feb 2026 09:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772183048;
+ bh=ULqmscrmRYbb7GaDQ1iw2PdzZRP98XQa3VtXm4mRQjU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bV3DNDdY9xhWKrvNO/Wuy+ina1DeOPshRfqwbuTvmPjwRx4yGWjfQVOgUGjL9uVMz
+ jn9nl5F9K8IhoNQLMCgFUH+GwmMQjIB5QuGp7Bt2NGg+KO+KkooOYyQUKMC14i5Hbn
+ U+rwxMtwtNNVF6xJ8KqiYPYB8xqqE5zPgytc64riiVotu95z9lGEZbQtVqXrVuOewd
+ XNCpS2TWddFXJVBwHUJe+rl3evQjIJlQSeutsmpSHggaEe8uGS62b8/FNSMNSKTmTH
+ lmoxE/xzS2yUe7U3f8TvMsax/mz/zTfFJ6W0NylHRtRMeUr05tjwISn8pY1SmERF+f
+ D83rEBW+zmhKA==
+Date: Fri, 27 Feb 2026 09:04:01 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Baluta <daniel.baluta@oss.nxp.com>
+Cc: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi <xuelin.shi@nxp.com>,
+ Alexandru Taran <alexandru.taran@nxp.com>
+Subject: Re: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+Message-ID: <20260227-shakable-mummified-ba7bb54e0e05@spud>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+ <20260226-unthread-reformat-92b855c4acf9@spud>
+ <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
 MIME-Version: 1.0
-X-MBO-RS-META: gi6y8c4ccn9zuma9b5gbwy9o66ycdm77
-X-MBO-RS-ID: 1735c179929255b0358
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="HGUIQTmEq3BO0PCt"
+Content-Disposition: inline
+In-Reply-To: <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +77,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:phasta@kernel.org,m:matthew.brost@intel.com,m:ckoenig.leichtzumerken@gmail.com,m:linux-kernel@vger.kernel.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	REPLYTO_DOM_EQ_TO_DOM(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_RECIPIENTS(0.00)[m:daniel.baluta@oss.nxp.com,m:ruxandra.radulescu@nxp.com,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:linux-doc@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:jiwei.fu@nxp.com,m:xuelin.shi@nxp.com,m:alexandru.taran@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.linaro.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	NEURAL_HAM(-0.00)[-0.992];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,gmail.com,lists.freedesktop.org,vger.kernel.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.994];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 14DFF1B4E22
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: F037E1B4E3A
 X-Rspamd-Action: no action
 
-On Tue, 2026-02-17 at 15:20 +0100, Danilo Krummrich wrote:
-> On Thu Jan 8, 2026 at 9:30 AM CET, Philipp Stanner wrote:
-> > drm_sched_fini() contained a hack to work around a race in amdgpu.
-> > According to AMD, the hack should not be necessary anymore. In case
-> > there should have been undetected users,
-> >=20
-> > commit 975ca62a014c ("drm/sched: Add warning for removing hack in drm_s=
-ched_fini()")
-> >=20
-> > had added a warning one release cycle ago.
-> >=20
-> > Thus, it can be derived that the hack can be savely removed by now.
-> >=20
-> > Remove the hack.
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+
+--HGUIQTmEq3BO0PCt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 27, 2026 at 08:45:29AM +0200, Daniel Baluta wrote:
+> On 2/26/26 20:20, Conor Dooley wrote:
+> [..]
+> >> +  - |
+> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >> +
+> >> +    bus {
+> >> +      #address-cells =3D <2>;
+> >> +      #size-cells =3D <2>;
+> >> +
+> >> +      neutron@4ab00000 {
+> > "neutron" is not a generic node name. This should be something like
+> > "accelerator" or similar.
+> >
+> The only dts nodes I could find using accel subsystem are from rockhip. A=
+nd they use npu@
 >=20
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> e.g:
+>=20
+> =BB=A0 =A0 =A0 =A0rknn_core_0: npu@fdab0000 {
+> =BB=A0 =A0 =A0 =A0=BB=A0 =A0 =A0 =A0compatible =3D "rockchip,rk3588-rknn-=
+core";
+>=20
+> Also, Ethos-U64 introduced by Rob with [1] is using npu@.
+>=20
+> So, I think we should go wit that. I haven't seen any document to standar=
+dize the naming.
 
-Pushed to drm-misc-next, thx.
+accelerator, npu, makes no difference to me, so sure.
 
-P.
+--HGUIQTmEq3BO0PCt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaaFeAQAKCRB4tDGHoIJi
+0jXWAQDkJ0uqFe0zBBD97N8Nc9W1uspEgrsZpTqEwgxIVIlnKwD/SKBKuEJxP5os
+9i6n1nocp64AivMzqCek95MinbTDIgQ=
+=lAaA
+-----END PGP SIGNATURE-----
+
+--HGUIQTmEq3BO0PCt--
