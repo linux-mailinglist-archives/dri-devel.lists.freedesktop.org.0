@@ -2,101 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHZYMbJsoWm6swQAu9opvQ
+	id +EP4ERCzomlc5AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:06:42 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253271B5C46
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B731C1A0B
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6D610EAE8;
-	Fri, 27 Feb 2026 10:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0686410E258;
+	Sat, 28 Feb 2026 09:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C33eHuDs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LELv1nLz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5508410EAE8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:06:38 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-463a0e14abfso1502359b6e.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:06:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772186797; cv=none;
- d=google.com; s=arc-20240605;
- b=AJP/TAesaUluvqA58sfS87RRjgO5fd6fYo7QPQhkRhqSbRB3nCIb7nGHMVvEKzi+AY
- VH9BHm5of6niRhuyE3zqNP9VyHULf6lRZOOWVwfYC1brFls5qX9JtxVnrapVXLJN8alN
- dz2N/IHIenjTb5IQCH+XzJElA7w057OxyeEyN8UNEMZsYuAQj/xFcy09+mnYiAjb4wF9
- YkzC/Y5JJow13RchSa+NYzjtxO5gp0epotKZACu1ZRcU+Qt7FPPFXdBzO+K7BZIpksXq
- ObFwiN2f0DtVOlz42/fS6BBW8VbMI6LwpCXIxctYPSHRseqbfZ/zhgAaEEQGWOMyw4vp
- bVBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=27VilPVWJqXI8XQyPgT/E1Zp9frs2mvVSAkLJv2NCF8=;
- fh=M0AemfvXK8h54XGgrf5aoDm4KVwhESI6VWrzB6Qzk0Y=;
- b=iY5MP2PwqxK5fjPbyBejSFltlCbtM3FN/dJT4YfKXEIkeYLkju1yc6jjnqvwg2I4UI
- kVsldtVDWnFyH7cAWcp/JLfnaHfPlmLf1GyNH50HKnYFBjPmhpQ8wUJzNhfq1pmPQPXm
- qBQPYyRH41zf6tVfKkoUcUHCcz2iIioQu6pw8tcvizhTKU4X6lKzmxli8sVl8slIr11D
- mensr5+XbBlfLe2UVS67tWZ+FL+vhNaNr3gT3P5j0NNMEbcEtSveK3frXIWNVgMUGPiI
- K94HuQTf6UZ9OrhhN16hooupvDajivWQR4v8e6NpPPJfqmLRou2FRRbm5I706q/5aqp+
- yH9A==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772186797; x=1772791597; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=27VilPVWJqXI8XQyPgT/E1Zp9frs2mvVSAkLJv2NCF8=;
- b=C33eHuDsyl+LnWQJ5lOme8csXbdHsMXg72oCj0M6GeaZO5oaGsS+STo750F5nBSkBN
- elWR7yWvSvzwR9tlMHlTsjUOnlMdNMRwUtwtteWBZIg8j4cHbt6T0ZmUlfcIzczwXaoV
- AhAn+IfNoklEoxJTrfA3/krnaBQr64x6tL73ZHSP0GANK+HH2p2iq2b3yddkQiiKhY3C
- Er3UriTtuPzV3WZCTt8Cn3P6M9fsUKcYrF/euDFP6Yhcn7NsInO3fK4NCJOmyG/r0g5+
- zIPyYnkGaCnKlwOb9IvDb/hvq3nObjEBYYJs86l/nCTJL8R2ABRx8KjS0ev6+TfQJ3an
- dSzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772186797; x=1772791597;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=27VilPVWJqXI8XQyPgT/E1Zp9frs2mvVSAkLJv2NCF8=;
- b=WFTM+HipYLdFwyxX5nClJYEiPLHTPt/Q+MEoNCAhVG2wx8ha+KYwqMGx1AMQKE1Shc
- 0DCsww4mdWN3XkZ+f6iKDtMFOEbwXNU+JTI/gmgXDYKbNaB8ITf54vQRMU7ijugTd2cd
- rCi23ZxujrvaulO2/Y1Rlb+R4APjG8F5oxZC07rbcsGg6/czBvKyhUHeowzzsjJ/SrFA
- nR6pfJn/yS2RjBtjW5reYAOW3xEcmeqroUTyc5GBb4q3AKHnOOD6Olth086Tk87c5XAZ
- Y/a04g4C3f5C182+Lsvd0ULjOGUt85Os0NEyci37d2hegucwAOAZS/xp4phr+1jgF9oQ
- qTcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjuOipxZqK6S9gOO2QHPkdDYPBDQLKX5bN8TXbVx6k5B6U/F9uTBjZqfwVZrytfKVyZ2TYr/AxOk4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz431jyKiFUiPDdbB6I/HEJm3qITbEsr4+0KArpbM8PK72RXG6f
- z/Bq06NDytT09kFYwdSGJPL8mOo2blzKarvhprDKHbbNDRvMAfr4hupM8GQn1URdI/weE1Rd9cX
- odn8blb1fYZ3zZMTyDKlieIHzNo4DIwg=
-X-Gm-Gg: ATEYQzyUhOkpZ9hwljDv1QKwc+XI/a8QFif4SNLKRpKTWgV2TeKU1tQoehZzE+vG5R3
- GGnLQwg1sOW8tMipBvqj4AplR7VeW+eIzecRgD1AhyyKfXD7XOARVBiKuSZqdxDCCPnIr9g17lu
- qRGFIDmfb0pXYIfdNbLIzvJIoE8mjYLlSK4kkyZf1VxtHQZZIw73P2khI0hUH2Q3glLlZAGfILo
- RF3lxz4JHL9m0Y+rjhPqPfFMdDUnMOw/wt0ShIDjNr0dv9RDDwR60xqnoz2i7JP9S5M/h7ggTRC
- t27P3JefTJlseX1zgQ==
-X-Received: by 2002:a05:6808:c236:b0:45c:8c9a:44dd with SMTP id
- 5614622812f47-464beb41a9emr1183173b6e.39.1772186797299; Fri, 27 Feb 2026
- 02:06:37 -0800 (PST)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 898BF10EAE9;
+ Fri, 27 Feb 2026 10:07:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id CDFAB61335;
+ Fri, 27 Feb 2026 10:07:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9A2C116C6;
+ Fri, 27 Feb 2026 10:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772186830;
+ bh=Mp1JXSTiLvThOX9+iafDoJIcaXcdqjP2+vG+mtpInGY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LELv1nLziJIInpPEfBGwhAV2gMFZg12s7lFE0KxfTQldEo18NluQr9e3C+Zct+lyZ
+ drhXLzadFmCAbIbeq3bsgUtgfAnwVSB9B/lX0VpyOvlAJ9ihOIftg2vbjxkn/BO8qX
+ uVjQZAzhR6+W+W0J8fzC9LGfhszCyPHqWUyfeWWQk54n5K8J2+Lq3RSoWH238qvmja
+ zUj111yecfmSqu9Gzo21TEY0Dy7GefpBTvyuB7b0hFZ8/UWmvbKQ/1AsQMoZt7sN+P
+ SMQhFN/3rME7rBp2YRNdOAUhubk/iwSO58hKw1S3dlOGtmn8p+ue+G/QetiQW6CaQr
+ Vs7VZ81sfYPdg==
+Date: Fri, 27 Feb 2026 11:06:39 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Dan Williams <dan.j.williams@intel.com>, 
+ Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, 
+ Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Steve French <sfrench@samba.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, 
+ Bharath SM <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>, 
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
+ Salah Triki <salah.triki@gmail.com>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+ Nicolas Pitre <nico@fluxnic.net>, 
+ Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
+ Christoph Hellwig <hch@infradead.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Yangtao Li <frank.li@vivo.com>,
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
+ Dave Kleikamp <shaggy@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Anders Larsen <al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
+ Johannes Thumshirn <jth@kernel.org>,
+ John Johansen <john.johansen@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>,
+ linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ nvdimm@lists.linux.dev, 
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, 
+ linux-nilfs@vger.kernel.org, v9fs@lists.linux.dev,
+ linux-afs@lists.infradead.org, 
+ autofs@vger.kernel.org, ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ ocfs2-devel@lists.linux.dev, 
+ devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+ apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ selinux@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, 
+ linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-hams@vger.kernel.org, linux-x25@vger.kernel.org
+Subject: Re: [PATCH 00/61] vfs: change inode->i_ino from unsigned long to u64
+Message-ID: <20260227-herab-wolken-c52d560f40d5@brauner>
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
 MIME-Version: 1.0
-References: <20260206133458.226467-1-tzimmermann@suse.de>
- <0d9ce3db-76e0-4468-9b0a-6c488f8eaa70@suse.de>
- <CAMeQTsYD6jWmuRgMddyQEX4YaGEa=fjrbsMc7hHYPxjAiC9Hjw@mail.gmail.com>
-In-Reply-To: <CAMeQTsYD6jWmuRgMddyQEX4YaGEa=fjrbsMc7hHYPxjAiC9Hjw@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 27 Feb 2026 11:06:26 +0100
-X-Gm-Features: AaiRm53xlUQ4TZ5rCguwKyK79IKzj_hdVrAreOVMxQchmleZc7dJTbQyA4HIk3Q
-Message-ID: <CAMeQTsa-RTrTYTPiAHvO15QqQhsihGEtq+S_fUSiQUqQg2v2LQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] drm/gma500: fbdev: Use client buffers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+X-Mailman-Approved-At: Sat, 28 Feb 2026 09:18:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,115 +152,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [4.69 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[patrikrjakobsson@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	GREYLIST(0.00)[pass,body];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[patrikrjakobsson@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[145];
+	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,suse.cz,goodmis.org,kernel.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 253271B5C46
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D6B731C1A0B
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 3:05=E2=80=AFPM Patrik Jakobsson
-<patrik.r.jakobsson@gmail.com> wrote:
->
-> On Mon, Feb 23, 2026 at 1:49=E2=80=AFPM Thomas Zimmermann <tzimmermann@su=
-se.de> wrote:
-> >
-> > ping for a review
->
-> Hi Thomas,
-> Sorry, I'm very busy at the moment. I hope to get to this some time
-> during this week.
+On Thu, Feb 26, 2026 at 10:55:02AM -0500, Jeff Layton wrote:
+> Christian said [1] to "just do it" when I proposed this, so here we are!
+> 
+> For historical reasons, the inode->i_ino field is an unsigned long,
+> which means that it's 32 bits on 32 bit architectures. This has caused a
+> number of filesystems to implement hacks to hash a 64-bit identifier
+> into a 32-bit field, and deprives us of a universal identifier field for
+> an inode.
+> 
+> This patchset changes the inode->i_ino field from an unsigned long to a
+> u64. This shouldn't make any material difference on 64-bit hosts, but
+> 32-bit hosts will see struct inode grow by at least 4 bytes. This could
+> have effects on slabcache sizes and field alignment.
+> 
+> The bulk of the changes are to format strings and tracepoints, since the
+> kernel itself doesn't care that much about the i_ino field. The first
+> patch changes some vfs function arguments, so check that one out
+> carefully.
+> 
+> With this change, we may be able to shrink some inode structures. For
+> instance, struct nfs_inode has a fileid field that holds the 64-bit
+> inode number. With this set of changes, that field could be eliminated.
+> I'd rather leave that sort of cleanups for later just to keep this
+> simple.
+> 
+> Much of this set was generated by LLM, but I attributed it to myself
+> since I consider this to be in the "menial tasks" category of LLM usage.
+> 
+> [1]: https://lore.kernel.org/linux-fsdevel/20260219-portrait-winkt-959070cee42f@brauner/
 
-Looks good. For the entire series:
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+I'm working under the assumption that we have crossed the threshold and
+people send patches they did completely themselves and also patches that
+were done with the help of or almost completely by a tool. You have to
+defend it one way or the other.
 
-Please push this to drm-misc-next
+Frankly, as long as you understand what you're doing in general well and
+I know that you are a trusted and thorough developer/maintainer I could
+not care less if you tell me whether or not you did this all on your
+own or with the help of some tool. In my experience, laziness grows with
+experience but so does the amount of ideas. 
 
-Thanks!
-
->
-> -Patrik
->
-> >
-> > Am 06.02.26 um 14:21 schrieb Thomas Zimmermann:
-> > > A client buffer holds the DRM framebuffer for an in-kernel DRM
-> > > client. So far, gma500 has created an internal ad-hoc framebuffer
-> > > for its fbdev emulation, while by-passing the regular interfaces
-> > > used by user-space compositors.
-> > >
-> > > Replacing the existing code with a client buffer allows for stream-
-> > > lining gma500 code and later also the fbdev helpers. The new framebuf=
-fer
-> > > will be registered against the client's file and will support handles
-> > > for GEM objects. This is then just another framebuffer within the DRM
-> > > ecosystem.
-> > >
-> > > As there's still a custom GEM buffer object involved, patch 1 exports
-> > > an interface to create a client buffer around it.
-> > >
-> > > Patches 2 and 3 update size calculation in gma500's fbdev emulation a=
-nd
-> > > makes it use the helpers provided by DRM.
-> > >
-> > > Patch 4 converts the code to client buffers and patch 5 removes the
-> > > now-unused framebuffer code.
-> > >
-> > > Tested on an Atom N2800 Cedarview system.
-> > >
-> > > Thomas Zimmermann (5):
-> > >    drm/client: Export drm_client_buffer_create()
-> > >    drm/gma500: fbdev: Set framebuffer size to GEM object size
-> > >    drm/gma500: fbdev: Calculate buffer geometry with format helpers
-> > >    drm/gma500: fbdev: Use a DRM client buffer
-> > >    drm/gma500: Create framebuffers with drm_gem_fb_create()
-> > >
-> > >   drivers/gpu/drm/drm_client.c         |   3 +-
-> > >   drivers/gpu/drm/gma500/fbdev.c       | 101 +++++++++++++-----------=
---
-> > >   drivers/gpu/drm/gma500/framebuffer.c | 104 +++---------------------=
----
-> > >   drivers/gpu/drm/gma500/psb_drv.h     |   6 --
-> > >   include/drm/drm_client.h             |   3 +
-> > >   5 files changed, 64 insertions(+), 153 deletions(-)
-> > >
-> >
-> > --
-> > --
-> > Thomas Zimmermann
-> > Graphics Driver Developer
-> > SUSE Software Solutions Germany GmbH
-> > Frankenstr. 146, 90461 N=C3=BCrnberg, Germany, www.suse.com
-> > GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG N=C3=
-=BCrnberg)
-> >
-> >
+So attribute it to yourself or attribute it partially to the tool. I
+personally don't care.
