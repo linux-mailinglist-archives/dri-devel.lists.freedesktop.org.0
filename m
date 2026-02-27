@@ -2,162 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJVgJtaooWm1vQQAu9opvQ
+	id cB9AA96poWm1vQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:23:18 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:27:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B6E1B8CE9
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CC01B8E9C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE48E10EB94;
-	Fri, 27 Feb 2026 14:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDBA110E190;
+	Fri, 27 Feb 2026 14:27:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TmS912TP";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QEtUy8gh";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ajUsfK8R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3524110EB9C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:23:14 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61RENDrm1798215
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:23:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=LbWv1DraxFhV/1oko2gTlG
- J9gvfW5tsF984h+FYSIgg=; b=TmS912TPM8oZ0T1JYYWp2+GYljZJJQu1/xudc9
- HFvah1a9ToJEJwXgBOeIdUCULeHTsAPS3VHsbv3TaRltqzZjwrTvWVaO0vpEfZEo
- aUwzFCKXGLknRMCSGZZu5Fsmzas52i7UDLvTI08fqCAFHhqvBoCZbCNET2sHokQI
- uAClhIFEDZhK0rkZKhGerzE1kEYrOcU4+Am9c9GGduudzkrqUEiKBlt0CYK0m4Ye
- AUpxQMZFEPLkSLw/uFVKWtTgkFzgIScKYv9xBjcpJG0N32R/g2ty5cUDPpOGt6jT
- PczM88Ii7Zmo+/Cv8ZuzjmS9Y6Lec3627tgY7htdKiyLrX/g==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjx1xtv98-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:23:13 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-8ca3ef536ddso1959504485a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 06:23:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772202192; x=1772806992;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LbWv1DraxFhV/1oko2gTlGJ9gvfW5tsF984h+FYSIgg=;
- b=QEtUy8ghYAipcRaQp+fzkzJjIPw3qkRjX/0y7Mi1M6DVQ5ue1Q+e1ZfkQovF2dRF5u
- wERKML/25hBWPmXWu7s+GpPdpmzKti6EpGHKUGkkP6NIogvkvoYCArR2qGinjddkb2ts
- AKQPJ+Ws75c4x9sblFUSfls3An0XGPZFFKRx1nHVB/fjw0Yod5Y1S0IjgEUXlK8p11sz
- WbGHS5E4RuB9ORM6PpKeQa1kD13curUdz96I6NiiF9DZIAkqWcat0Rvr8ZlvM9zwysgi
- 6XlS7IA2OxytxI1dnnGD7Gyeo6opvrkxd+aeJyiVk6iZhk+1DtTUlW28QRTlzR/FLpqH
- xhCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772202192; x=1772806992;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LbWv1DraxFhV/1oko2gTlGJ9gvfW5tsF984h+FYSIgg=;
- b=mALb3tEN+pUJQf0E8lKdUAu5v82+GtaQH9PTZ/a/WASWyrOe3sp+ayKDQJVHro2vhv
- brLT5r9sT1Ix3PKJqqHyqWajzdecMZxm+Diakz9fqpSq3D1mSCzTg0X2mLtA7hOTW84Y
- QIEsYb/B3Dzt8czhlDzxoab8kqwikt4YrmM3tpkbzgP/ClBN4Nkh6NR0YRt50QXv9XLY
- GE2/TW6C/G5qn43RusaVa1G/l9pR2/AJFC+O2532bEM28Toyoric1p8mED46TG3r924d
- n5k/QnT0j/6CUtBmPpO8o0iVtYgKSn3Z0TksNTsCcbqdRwzkgDBCFHo+HvwAI8DWdFpT
- ZnZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL1eEs5aU3mRg32eTZrVr6mu0ZDfPzIG5X1vY9tTsEjRm1bjvfag0IBKTx0utqHD2VrclxHTb4SRA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy438ayWMtRrX88PE1tdpXNquy2aUfD5aiCrP11gQfAuOkbAtzG
- 2/YiTXTkSP/hjhsg3dwZXvqEF91x/fMZ3WFiiT84YbDbHo4EzSlCVwE+5KMAQJv0XrXiQqIRcqS
- 9QSTNUMtQq0NwDh0iJ6mhYUg5de66csBGoUOCqJxMUjWv9EgeMCQ4fHAQ2S2Y+nG5nIBMNyw=
-X-Gm-Gg: ATEYQzwG35k6AFVOSP995MlJyLb3MUbZa4DnPxDH41F3i6/56ddeB/yPG1WscId1K4M
- cv3iyvQDRFYGoUPlFIUEjoX2oXTCGq4HKIoc4NPPaw+3t7lR3CRBU7C8obQ2Orm5du/7qUOMUIq
- PHlKrSKAE0t39azkVKzqQsE+m4dekMGwmmjv0wFZudBTFLW43jByl8nkgKlrw9l1Joi/QT//gKn
- EPSVzjLBPDqltfeLH3deUQgmB2jm4vyF2CcpiSKBQw90xIUXLQsdLhgutdpsiLaDixndbusDJid
- akjkrtUI7do8L20DZfKHXMDtK1rcYLfpjzDfqj1MMCLZNyuh07HJgm4GMZW503cp5z/KiWNopXu
- WiN4fD1VislBxR++7OJr+xHe31d9KEg==
-X-Received: by 2002:a05:620a:4505:b0:8c7:d2b:b5c9 with SMTP id
- af79cd13be357-8cbc8d834d9mr328562385a.9.1772202192438; 
- Fri, 27 Feb 2026 06:23:12 -0800 (PST)
-X-Received: by 2002:a05:620a:4505:b0:8c7:d2b:b5c9 with SMTP id
- af79cd13be357-8cbc8d834d9mr328558485a.9.1772202191836; 
- Fri, 27 Feb 2026 06:23:11 -0800 (PST)
-Received: from hackbox.lan ([86.121.162.109]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bfcbd781sm120204765e9.8.2026.02.27.06.23.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Feb 2026 06:23:10 -0800 (PST)
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Date: Fri, 27 Feb 2026 16:23:00 +0200
-Subject: [PATCH] dt-bindings: display: msm: Fix reg ranges and clocks on Glymur
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C91C510E190
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1772202443; x=1772807243; i=deller@gmx.de;
+ bh=ppYpUW9x245p6pLgUAkdStSDektLMN1P3lO882Cym6Q=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=ajUsfK8RgwzLS2TvZygI9bEbwBvsv73CzOo5naAeXzMDWbIXDLnujZb+WomKFzMt
+ dFakRCnP/kdY85Al/mhNxvy6NU/bvvNlIBgwQyuAlIt2iNcQ5Q0lUSRDHjMFI6QDf
+ /WZsmW7eN1q51sXv8pU4z08EZ2CY/mmZpkz9JgCXkdXl3HGzDSKMVm6LL/ZHC1SK9
+ 7/dKE4oCtaEAXJKsus7uz+OdQp9JbkSPR7KGLSEBGXXqQpjLgAIvnzniwN8TRpYsw
+ aYL+F73QZSbb/hcruolskKIgzzv37WBLT9dpIUsooDzOEhxABr9Uj1/IZa2g5Hc48
+ 1Nl3Td04zpW74WKWRw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M2wGi-1vzH8B2bhU-00FQNT; Fri, 27
+ Feb 2026 15:27:23 +0100
+Message-ID: <252a732a-67b8-44ed-a198-08f95c2d3be4@gmx.de>
+Date: Fri, 27 Feb 2026 15:27:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-glymur-fix-dp-bindings-reg-clocks-v1-1-99f7b42b43aa@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAMOooWkC/yXN0QrCMAyF4VcZuTZQizjmq4gXNs26zNmNZBNl7
- N2t7vKDw39WMFZhg0u1gvJLTMZccDxUQN09J0aJxeCdPzvva0zD57kotvLGOGGQHCUnQ+WENIz
- 0MKzdKTqiwNw2UDqTcln/P6633baEnmn+hWHbvje5QwiFAAAA
-X-Change-ID: 20260227-glymur-fix-dp-bindings-reg-clocks-704d0ccbeef9
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abelvesa@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Abel Vesa <abel.vesa@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2234;
- i=abel.vesa@oss.qualcomm.com; h=from:subject:message-id;
- bh=qiHSzVHBwmKCmpWxCLWKkvn6EVGayWKBpsn+FNXo6ls=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBpoajGiWV89MPuotO9j0TY9byhHx2MtflA2zy47
- idxX7lWc1CJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaaGoxgAKCRAbX0TJAJUV
- Vr9rEACSpY2faiOnGoMe8kzSd6PPC1vk5Lhem2qn7I5lzQiTwIU5M4S1kbzLpT5wYDWRjvjhBcI
- toEwyTpL8I/XsVi6s99yODDmyHebSPdTzrtpGvPpJzLgtBkKThB7pJ5hq9Kx7M15GfO9LllzYUv
- bLihWNPYWrQkaqonzlMhz+fm5SiH5ELbPpDrz71CTZD3ImLg7eN5XP9YS3K+OV0dJSz/LnddKe/
- +1PSUZM8/HLrjeHPKzdaO3rhp3IYRkYlO5+Q1nCL2unqNtFJNpg7ZKMYM6jKX3r3Ru8jJJj7PxE
- Kb1Ak3mCCD0BHFqcDdZRcwlTV7i9WUaCeHGu+01TImDY6IdQs68d4ysn49PANwloB3siaOkw6fs
- YsqHcuhI1N7Ujxbgbu7zB513FrJ1/21SUsVI22c9F0lKAR4HrHbBsUOplAmEEvlzn8XHU5FCEbx
- HaLIrLbB1Ftpw0cRgt2vNxMmNgl1CwrAgxvJNV++e9gC93a6xxdLD6gIEiTfMSGOsC7gBzTvp6r
- sXsLPuUfzG96aRpmKG6YvmZcSkWmWFgHle+dxO69kXw96UcpMM5UN9tm0zlsmc+QwH9z1WAeKXj
- cCtM5cNzwq5I73QXh3azZXJq2yW1o5ekJLewh3V6mBGACNw3dK4ciVgoXLoEvP3r48Ag4A/sPZ6
- EyT0FRCQFE7x5ug==
-X-Developer-Key: i=abel.vesa@oss.qualcomm.com; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
-X-Proofpoint-ORIG-GUID: KngBOFYcCEU5NlOwVRwMOgR4uy-lQpfC
-X-Authority-Analysis: v=2.4 cv=Vtouwu2n c=1 sm=1 tr=0 ts=69a1a8d1 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=oauzzCmhM186DRC0Y2yWPg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=feC5BgBSBr5ATEYaNTcA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDEyNyBTYWx0ZWRfX7KzE9032B/bt
- k35BK24DTtWCFDEQznX8raKf3TuiPiYa56ElNSNjuTM2ePB6a6iLnWSUuOYC/M4DAJdP6IFf6tp
- ZR8+xDDk3r4J2kbRzicgYvl6/RCTD1ZdTDyUtW/Bs50N744m6zB9TKO4G4QmCUYdp9/f2+g4iTU
- ckqAZxeKZQUGJIoyERpH8/q/183ZuVw5zEtBzRVYSHZDrUPaJ70ob9zS2OSGVumxTkOw7Ikms5f
- JjXli8d8AtmHcbRDWzYnkyUaLykhwtmrM4f8V2TXQASZmAsOk520XG4EArOvy7VK6HELWlYzmzU
- CRcUDY8hGobcRq42Bsiuk8lErZ33EChMEGXjCeFZDrH3l0zWNQEl7SplqXfnGOmHg66MzeGZQ6J
- JnqFTwru+nn5lbVsr443budsq8IWiBQlvYlKEOMeUK2VQI9AkV9+26BDEdklTEuYlDU+s4uwO66
- nXLe7ZHCjf94syYWThA==
-X-Proofpoint-GUID: KngBOFYcCEU5NlOwVRwMOgR4uy-lQpfC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_02,2026-02-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 bulkscore=0 spamscore=0
- impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602270127
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/tdfxfb: Make the VGA register initialisation a bit
+ more obvious
+To: Daniel Palmer <daniel@thingy.jp>, linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260227122500.3885069-1-daniel@thingy.jp>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20260227122500.3885069-1-daniel@thingy.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LusU8ZqXNS0flt7sEvqywI8bIORI1IqscgBo1lAQAhmb5h7qTev
+ zzd10EwuA9OsI6cdxToHv9EWi/3xrDCG/OhsdGKJZj9HYAiWTnKEwyMhBk1Rt1DvNocxDWL
+ TPnNp8pjY/vn9H0xAhiTslOzKAwzvCInLtMJ/6CYN0R2mpO6LoMD3whD//jU6Xo/JhfXtGA
+ teAYOm/+5vuLco0expOZQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ZeJtpWMh/3U=;jUOHiOuCb/3ILhuR3vwguMqxOrg
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,103 +188,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:quic_khsieh@quicinc.com,m:abelvesa@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:abel.vesa@oss.qualcomm.com,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:daniel@thingy.jp,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmx.de];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmx.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: E4B6E1B8CE9
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim]
+X-Rspamd-Queue-Id: 75CC01B8E9C
 X-Rspamd-Action: no action
 
-The Glymur platform has four DisplayPort controllers. All the
-controllers support four streams (MST). However, the first three only
-have two streams wired up physically to the display subsystem, while the
-fourth controller has only one stream (SST).
+On 2/27/26 13:25, Daniel Palmer wrote:
+> For a while I was trying to get this working on m68k, for some reason
+> the card doesn't display anything if it's own video BIOS didn't run..
+>=20
+> Anyhow, I spent a long time looking up what each of these offsets
+> were to work out what the code is configuring and eventually
+> replaced them with the human readable defines in video/vga.h.
+>=20
+> Functionally there is no change but maybe it makes it a bit easier to
+> look at for the next person that finds themselves in here.
+>=20
+> Tested on a real voodoo 3 on x86_64.
+>=20
+> Signed-off-by: Daniel Palmer <daniel@thingy.jp>
+> ---
+>   drivers/video/fbdev/tdfxfb.c | 109 ++++++++++++++++++-----------------
+>   1 file changed, 55 insertions(+), 54 deletions(-)
 
-So add a dedicated clause for Glymur compatible to enforce reg ranges to
-describing all four streams while allowing either one pixel clock, for the
-third DP controller, or two pixel clocks, for the rest of them.
+applied to fbdev git tree.
 
-Cc: stable@vger.kernel.org # v6.19
-Fixes: 8f63bf908213 ("dt-bindings: display: msm: Document the Glymur DiplayPort controller")
-Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
----
- .../bindings/display/msm/dp-controller.yaml         | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index ebda78db87a6..02ddfaab5f56 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -253,7 +253,6 @@ allOf:
-             enum:
-               # these platforms support 2 streams MST on some interfaces,
-               # others are SST only
--              - qcom,glymur-dp
-               - qcom,sc8280xp-dp
-               - qcom,x1e80100-dp
-     then:
-@@ -310,6 +309,26 @@ allOf:
-           minItems: 6
-           maxItems: 8
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              # these platforms support 2 streams MST on some interfaces,
-+              # others are SST only, but all controllers have 4 ports
-+              - qcom,glymur-dp
-+    then:
-+      properties:
-+        reg:
-+          minItems: 9
-+          maxItems: 9
-+        clocks:
-+          minItems: 5
-+          maxItems: 6
-+        clocks-names:
-+          minItems: 5
-+          maxItems: 6
-+
- unevaluatedProperties: false
- 
- examples:
-
----
-base-commit: 7c21b660e919698b10efa8bdb120f0f9bc3d3832
-change-id: 20260227-glymur-fix-dp-bindings-reg-clocks-704d0ccbeef9
-
-Best regards,
---  
-Abel Vesa <abel.vesa@oss.qualcomm.com>
-
+Thanks for the cleanup!
+Helge
