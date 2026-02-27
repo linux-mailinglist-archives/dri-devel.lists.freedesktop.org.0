@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOc/DrCooWm1vQQAu9opvQ
+	id cJ6pKbSooWm1vQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:40 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB53B1B8CBE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F631B8CCD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:22:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2590E10EBA6;
-	Fri, 27 Feb 2026 14:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F8B10EBA4;
+	Fri, 27 Feb 2026 14:22:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2D6BF10EB9C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:22:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2AE7610EBA5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 14:22:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48E8B14BF;
- Fri, 27 Feb 2026 06:22:29 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74A3C1516;
+ Fri, 27 Feb 2026 06:22:31 -0800 (PST)
 Received: from [10.1.39.16] (unknown [10.1.39.16])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFA6C3F62B;
- Fri, 27 Feb 2026 06:22:33 -0800 (PST)
-Message-ID: <da763112-7b3d-475e-973e-45c68d4b177c@arm.com>
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15B963F62B;
+ Fri, 27 Feb 2026 06:22:35 -0800 (PST)
+Message-ID: <4eacdcda-c493-48a0-8eef-50faedaa3f46@arm.com>
 Date: Fri, 27 Feb 2026 14:22:31 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Test for imported buffers with
+Subject: Re: [PATCH] drm/panthor: Test for imported buffers with
  drm_gem_is_imported()
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, =?UTF-8?Q?Adri=C3=A1n_Larumbe?=
- <adrian.larumbe@collabora.com>
-References: <20260227133113.235940-7-tzimmermann@suse.de>
+ Liviu Dudau <liviu.dudau@arm.com>
+References: <20260227133113.235940-8-tzimmermann@suse.de>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20260227133113.235940-7-tzimmermann@suse.de>
+In-Reply-To: <20260227133113.235940-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,7 +63,7 @@ X-Spamd-Result: default: False [-0.51 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:boris.brezillon@collabora.com,m:robh@kernel.org,m:adrian.larumbe@collabora.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:boris.brezillon@collabora.com,m:liviu.dudau@arm.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[suse.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
@@ -84,11 +83,11 @@ X-Spamd-Result: default: False [-0.51 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	R_DKIM_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,arm.com:mid,arm.com:email]
-X-Rspamd-Queue-Id: EB53B1B8CBE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:mid,arm.com:email]
+X-Rspamd-Queue-Id: 55F631B8CCD
 X-Rspamd-Action: no action
 
 On 27/02/2026 13:31, Thomas Zimmermann wrote:
@@ -97,27 +96,26 @@ On 27/02/2026 13:31, Thomas Zimmermann wrote:
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Rob Herring <robh@kernel.org>
 > Cc: Steven Price <steven.price@arm.com>
-> Cc: "Adrián Larumbe" <adrian.larumbe@collabora.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+>  drivers/gpu/drm/panthor/panthor_gem.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 822633da741e..3a7fce428898 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -702,7 +702,7 @@ static void panfrost_gem_debugfs_bo_print(struct panfrost_gem_object *bo,
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 4b4575dd6e90..6d14b0269574 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -666,7 +666,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
 >  		   resident_size,
 >  		   drm_vma_node_start(&bo->base.base.vma_node));
 >  
 > -	if (bo->base.base.import_attach)
 > +	if (drm_gem_is_imported(&bo->base.base))
->  		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
 >  	if (bo->base.base.dma_buf)
->  		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
 
