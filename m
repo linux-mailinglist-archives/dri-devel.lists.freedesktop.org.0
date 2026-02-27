@@ -2,83 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kIPJMSDvoWlDxQQAu9opvQ
+	id OPeqDP3uoWm5xQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:23:12 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:22:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4170E1BCB56
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587D41BCAEE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 20:22:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E08510EC17;
-	Fri, 27 Feb 2026 19:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E60110EC15;
+	Fri, 27 Feb 2026 19:22:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="CH4N7j+X";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PHG8u85W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21DB10EC19;
- Fri, 27 Feb 2026 19:23:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772220180; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=P2pzPoFvy0wU/x1Gyo/7UXFShSqFzHf1Ufiy/IiOeWMVi7abFUPvnPtM0iUX54ktqMVkuAPQadaBgoBPlj2GGJxdXdaZOijunRp9YwnRkQKd7oU1apCtIa2/NR1DG0CRKznvGXpFPsL0/ZoHMMqDUhcNcMJhL1RbfIJAwVlkD0I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772220180;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2cUtFea6Xahy8xUmQNtz3A7vjD+5c56XmJo8KM/uRi4=; 
- b=BXUOrITizjsYDzIshH/s7p8CFp+5WomRz8L6td11kdrpw4WX7gQrPafonGJ5tmEwh/oenDe/rOXzKj9/qq8MuB4rundIfgRlX8eaJojn9RqAH2yHzk/MFkgcECqHyr5Bgqv7ntC805HL52MHPlxHMFpKhI5vIAcjRU8+WX+z6Hg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772220180; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=2cUtFea6Xahy8xUmQNtz3A7vjD+5c56XmJo8KM/uRi4=;
- b=CH4N7j+X6O/PSdWKZjDZoUc7rSQfogTTA1B0ModHEUrCekEKaDgfNt/Uk9jDWIuN
- 4YXwiHa1BC68w2/zeY7Prb2f2hw0YNVSpRv3Y4oxZ0ezVmgozZfTwdPFXkyzm7VfqFQ
- P9Ap1VdGLZajvX9DuwjQGo6Kaa2GexM73Th5E4i0=
-Received: by mx.zohomail.com with SMTPS id 1772220177756116.00125529261277;
- Fri, 27 Feb 2026 11:22:57 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 27 Feb 2026 20:20:24 +0100
-Subject: [PATCH v9 19/19] drm/bridge: Document bridge chain format
- selection
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011060.outbound.protection.outlook.com
+ [40.93.194.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA34E10EC13
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 19:22:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ddLkzfLXfXQ6J9l/wSwswcCuQiHpgg0ZodZmO0PS+eL48w77gPYdHvhAj+Hd5JgmopFWv2SiKxLV0sjMsbUV5aOa00aLcTOeRehT3zmiSo1/EpHr8io4iXBbPuGy2S7IBYXPaZEf/9uPwSC3mXA0zqDsIzvQsX1z6NBbj96ulejMt0oncm034cyLGxdXx77WP/xex94dlMOTQc0QGhlorWscSeuep0acNOVcelbqVW+G4sRlayy6VWwq9sFyvbrUdkRXRdLQToM1Id2aJL0GmJbL9R+WQaaAYP2GcTC5J1CBqC1yP277c4LogCQoCezTRmSO5LYe0HabIrQHi7uemQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yfcaLRJxONM9j7Rp+aKLqPzPlKdSX6GrDaOec0yRvwU=;
+ b=XkjqUO5fXKz8E54GAcFjuMl/iCA/a20yHOlGDEG6UcWFZxPWeLxfSTfekyOQ+hu9Pd1QqfoWJVwXz1BqxsmmsXzj8WXmDgaasOFNXrhtfNhwAM0jXgbUeQUZd6OLkTH2rEeDrTxSrSDfSLUf0mzx0zewwRtEhFmy7eI7NphKvazNpRY2DbznKKmcXFd7fpWWJy2MnSO8EVMPh7PKdj20leB4xsbNOGVd6xB2S8cJTKw+UIuiN4zaOTxLBPQ2XWosROQSFaEgSnhdMqJJLGAxtWRvFNENvXLuVXWbVk+wsIvBGLwBLJYxEf6y3IDHTMpveUk1o3yR7hMOJHLc2YaRsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yfcaLRJxONM9j7Rp+aKLqPzPlKdSX6GrDaOec0yRvwU=;
+ b=PHG8u85WHux/gL4XTWxPqXzE83ZQKsy81cwQmm+zOoEz/XckRIwQkkVryhW0nYokCaH2GQRpN3NZrWlUd/2PEPSOAdX1UN3C7xEf/ZXE1zn5U7HwDpFEP/a/2b3NX9YNaeEYFsAnsZh2jHt4kXuor1oDfBBCe53ikxlMFVpexoE=
+Received: from SA1P222CA0008.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:22c::35)
+ by DS5PPFDF2DDE6CD.namprd12.prod.outlook.com (2603:10b6:f:fc00::665)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Fri, 27 Feb
+ 2026 19:22:22 +0000
+Received: from SA2PEPF00001509.namprd04.prod.outlook.com
+ (2603:10b6:806:22c:cafe::85) by SA1P222CA0008.outlook.office365.com
+ (2603:10b6:806:22c::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.27 via Frontend Transport; Fri,
+ 27 Feb 2026 19:22:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00001509.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.16 via Frontend Transport; Fri, 27 Feb 2026 19:22:22 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 27 Feb
+ 2026 13:22:21 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Fri, 27 Feb 2026 13:22:21 -0600
+Message-ID: <509ddd07-7277-2861-d602-d318d1ec1f71@amd.com>
+Date: Fri, 27 Feb 2026 11:22:20 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-color-format-v9-19-658c3b9db7ef@collabora.com>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
-In-Reply-To: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V2 9/9] accel/amdxdna: Fill invalid payload for failed
+ command
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20260227004841.3080241-1-lizhi.hou@amd.com>
+ <1af07b22-65c8-46cd-b055-fa6f61b33b16@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <1af07b22-65c8-46cd-b055-fa6f61b33b16@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001509:EE_|DS5PPFDF2DDE6CD:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82f29188-efd3-4f8f-d1c3-08de76358812
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|82310400026|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: k5WWuetJ2RWsiTgba3y9ke1+TgtXcWLswwUbZmuZQsxQjYJioYVo7BEJjumYIK1pLlUP5/47bQfejntUffd/rWLKS1Q6dD8VhBzwR7/z+CaVmLWdgHyUUdtVAWfsC74OqZEIbZw+DvPfKvm6YadwQT3ehD6kp1uSAOS+h2GDIQpipd2cXENX+vams44BvWEtoYONajpB4RRQaTw8kpTcAJq4ri8ANlmBhkvBHaPe+gvnC+pCnig6OdGwh5lLcpHh6P7UDIyeXpiocIvAI+DVYvap5kCar5M2awMOg4SefrcvkGM/TULwEdoT2aJnyHylQMgLNvGOPE/xrLb+XctH1Jl82e/ulv4AwAvnxtj4PZmZRGBlo6/3Is2J9t7h2aYwVlChk58MDymGm98Nwm8NbxyWvREfc2L/0+8U6qbZubAQKy5xX19SjRMjZ0mjOsQ6ixsGasZoVXbadgrZ/68cGn5gocFtWhRUfhErsJ+oiIIBjNF32IaVm5xJWfOMD9xDPVXe4g3VyP85g4m0JgqETDL6vUZugUeqoru8ML3/Qm9HGYTKLYKhBzPNRiafuHCXqhkUPzJckgBZwiv/PRZmFp+3nbd1jiIyZLJhkqtyeWF5OIxV/9rMZFeheWcGk5KQ2HB8+K6j9JwEK5vnwAzsrvxL9XQCQnWUFgq9EkLI3K/SR9zBn540kwFsVtVKrYXgmbCsrz8YXVluUHMV+Qyc/ZGisjKYruScvgU8UtKry6uiDOee+TJFvSazmWWcmWSkRaFB9NHYmw7O2TgKD9t0fAVwY3v53ZsJluBySilSw/zicipNiYcZCy18JUsuYzEQ5OjrAtyk9Q0Hg02I21QHtA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 0ShueEhUc2y9vl7+CrgTXu1nNkNFxylth7roRM/ZiDt5Q51UfYn6t1c2QdEwWZc+PFIQXhiVrFtc3ifqN5ZdJHH3W20T0FL0jrmRzjawZFKp5a2Pg1ns4dMABjZViILwUULHtBu1zO7svFY+YRDu8t91ccA7JKIWjxrPyPhiSeU7Qwn6zY6PzsSCgvbxqxbnXke2Hp7oNUx1jWR7qJ4fOY2yeehqxZVSxZ+mxDqVPNw9b0RxxD47w/s2czEkjlBj5BUSfYD2OCeqVLbrBv16q0CwSnEBHZijo4zbnsgq3JhUJsAKD4chlhddFAYjelm3EwJEkH5ZcGOSDpRuFx/RyW50aFFDih8LryNP8ctC6PxlljqrGyWkPyvcVU7YNhk2i4d2aWJJ4UMrwolWtIFeLFhad6lO0nbEveUMC9wnorNwNuzrlxWUyQPbqQJEljyT
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 19:22:22.0799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82f29188-efd3-4f8f-d1c3-08de76358812
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00001509.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFDF2DDE6CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,120 +122,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS(0.00)[m:superm1@kernel.org,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4170E1BCB56
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 587D41BCAEE
 X-Rspamd-Action: no action
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
+On 2/27/26 10:47, Mario Limonciello wrote:
+> The title is 9/9, but I didn't get copied on 0 through 8.  Was that 
+> just a mistake when you made the patch you sent out one patch instead 
+> of 9?
+Sorry for the confusion. Yes, this is just a mistake. There is not 0-8.
+>
+> On 2/26/26 6:48 PM, Lizhi Hou wrote:
+>> Newer userspace applications may read the payload of a failed command
+>> to obtain detailed error information. However, the driver and old 
+>> firmware
+>> versions may not support returning advanced error information.
+>> In this case, initialize the command payload with an invalid value so
+>> userspace can detect that no detailed error information is available.
+>>
+>> Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Would it also make sense to also detect the firmware version and 
+> indicate in the logs, IOCTL or a sysfs the feature is available for 
+> user space to detect?
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 40 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+Thanks for the suggestion. I will discuss with the team and see if there 
+is good way to describe the features firmware provides.
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 5938fba0a983..74f9af3f301e 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,46 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond 1:1 to what the display
-+ * driver should set at its output. The bridge chain it feeds into may only be
-+ * able to reach the desired output format, if a conversion from a different
-+ * starting format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_CONNECTOR_COLOR_FORMAT_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_CONNECTOR_COLOR_FORMAT_AUTO will be satisfied with the first output
-+ * format on the last bridge for which it can find a path back to the first
-+ * bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
+Lizhi
 
--- 
-2.53.0
-
+>
+> Nonetheless, this approach is scalable.
+>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>
+>> ---
+>>   drivers/accel/amdxdna/aie2_ctx.c    | 23 ++++++++---------------
+>>   drivers/accel/amdxdna/amdxdna_ctx.c | 27 +++++++++++++++++++++++++++
+>>   drivers/accel/amdxdna/amdxdna_ctx.h |  3 +++
+>>   3 files changed, 38 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
+>> b/drivers/accel/amdxdna/aie2_ctx.c
+>> index 622ddbf7fb6f..eb4c9d919885 100644
+>> --- a/drivers/accel/amdxdna/aie2_ctx.c
+>> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+>> @@ -186,13 +186,13 @@ aie2_sched_resp_handler(void *handle, void 
+>> __iomem *data, size_t size)
+>>       cmd_abo = job->cmd_bo;
+>>         if (unlikely(job->job_timeout)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_TIMEOUT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>>         if (unlikely(!data) || unlikely(size != sizeof(u32))) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>> @@ -202,7 +202,7 @@ aie2_sched_resp_handler(void *handle, void 
+>> __iomem *data, size_t size)
+>>       if (status == AIE2_STATUS_SUCCESS)
+>>           amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_COMPLETED);
+>>       else
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ERROR);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ERROR);
+>>     out:
+>>       aie2_sched_notify(job);
+>> @@ -244,13 +244,13 @@ aie2_sched_cmdlist_resp_handler(void *handle, 
+>> void __iomem *data, size_t size)
+>>       cmd_abo = job->cmd_bo;
+>>         if (unlikely(job->job_timeout)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_TIMEOUT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>>         if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>> @@ -270,19 +270,12 @@ aie2_sched_cmdlist_resp_handler(void *handle, 
+>> void __iomem *data, size_t size)
+>>            fail_cmd_idx, fail_cmd_status);
+>>         if (fail_cmd_status == AIE2_STATUS_SUCCESS) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, fail_cmd_idx, 
+>> ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>> -        goto out;
+>> +    } else {
+>> +        amdxdna_cmd_set_error(cmd_abo, job, fail_cmd_idx, 
+>> ERT_CMD_STATE_ERROR);
+>>       }
+>> -    amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ERROR);
+>>   -    if (amdxdna_cmd_get_op(cmd_abo) == ERT_CMD_CHAIN) {
+>> -        struct amdxdna_cmd_chain *cc = 
+>> amdxdna_cmd_get_payload(cmd_abo, NULL);
+>> -
+>> -        cc->error_index = fail_cmd_idx;
+>> -        if (cc->error_index >= cc->command_count)
+>> -            cc->error_index = 0;
+>> -    }
+>>   out:
+>>       aie2_sched_notify(job);
+>>       return ret;
+>> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c 
+>> b/drivers/accel/amdxdna/amdxdna_ctx.c
+>> index db3aa26fb55f..405d2c62789d 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_ctx.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+>> @@ -132,6 +132,33 @@ u32 amdxdna_cmd_get_cu_idx(struct 
+>> amdxdna_gem_obj *abo)
+>>       return INVALID_CU_IDX;
+>>   }
+>>   +int amdxdna_cmd_set_error(struct amdxdna_gem_obj *abo,
+>> +              struct amdxdna_sched_job *job, u32 cmd_idx,
+>> +              enum ert_cmd_state error_state)
+>> +{
+>> +    struct amdxdna_client *client = job->hwctx->client;
+>> +    struct amdxdna_cmd *cmd = abo->mem.kva;
+>> +    struct amdxdna_cmd_chain *cc = NULL;
+>> +
+>> +    cmd->header &= ~AMDXDNA_CMD_STATE;
+>> +    cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, error_state);
+>> +
+>> +    if (amdxdna_cmd_get_op(abo) == ERT_CMD_CHAIN) {
+>> +        cc = amdxdna_cmd_get_payload(abo, NULL);
+>> +        cc->error_index = (cmd_idx < cc->command_count) ? cmd_idx : 0;
+>> +        abo = amdxdna_gem_get_obj(client, cc->data[0], AMDXDNA_BO_CMD);
+>> +        if (!abo)
+>> +            return -EINVAL;
+>> +        cmd = abo->mem.kva;
+>> +    }
+>> +
+>> +    memset(cmd->data, 0xff, abo->mem.size - sizeof(*cmd));
+>> +    if (cc)
+>> +        amdxdna_gem_put_obj(abo);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /*
+>>    * This should be called in close() and remove(). DO NOT call in 
+>> other syscalls.
+>>    * This guarantee that when hwctx and resources will be released, 
+>> if user
+>> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h 
+>> b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> index 16c85f08f03c..fbdf9d000871 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
+>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> @@ -167,6 +167,9 @@ amdxdna_cmd_get_state(struct amdxdna_gem_obj *abo)
+>>     void *amdxdna_cmd_get_payload(struct amdxdna_gem_obj *abo, u32 
+>> *size);
+>>   u32 amdxdna_cmd_get_cu_idx(struct amdxdna_gem_obj *abo);
+>> +int amdxdna_cmd_set_error(struct amdxdna_gem_obj *abo,
+>> +              struct amdxdna_sched_job *job, u32 cmd_idx,
+>> +              enum ert_cmd_state error_state);
+>>     void amdxdna_sched_job_cleanup(struct amdxdna_sched_job *job);
+>>   void amdxdna_hwctx_remove_all(struct amdxdna_client *client);
+>
