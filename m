@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGGwFglVoWk+sQQAu9opvQ
+	id MBbVL9pVoWk+sQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:25:45 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:29:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A461B4830
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739BC1B48E1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 09:29:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAFB10E150;
-	Fri, 27 Feb 2026 08:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE0B10E1BE;
+	Fri, 27 Feb 2026 08:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mPHNCI+N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ofDzrsEv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F1A10E150;
- Fri, 27 Feb 2026 08:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772180741; x=1803716741;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=pcansuz8FNSKTE6JS2AWXhRwCuOm3DsoE4PhS6ombG0=;
- b=mPHNCI+NLZwRh5XnQImC1fuHf2LTkXv6HSLwzXyKiFYWRwpnfU7efrKj
- ct7IHj2bWGA27t1rM2L/Hp5c8wdxzMUu059mcl7679InkD4zSizHDCaET
- 8c++h0YjShu6wYGkYR79SpCx+LItTAtblTlrQMJK/Fuu9ROtdlKP4x1Yt
- +TNYrXXzil5vLeygI9Sm+Qgf6+X72p/GlZ0DlkKd9EJFqO5LSKQnzEeMy
- pzPbRCj24GyYeR4tB8XLhJhndUwhogqTTOKDrL4F7+nG3aqgAq07sad7q
- 0AYclNlDYIELRvKZrawtDxSiw8gc1gjYsbec66BxKoyK7lUF3QbEL+Htg Q==;
-X-CSE-ConnectionGUID: o9ugULp+RFCZpM8qSynjDA==
-X-CSE-MsgGUID: 5PQgyJ74Rr6DW3pj14Q5JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73305004"
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="73305004"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2026 00:25:39 -0800
-X-CSE-ConnectionGUID: AwmlggsSQ9mHPlDg1xps3w==
-X-CSE-MsgGUID: IKEyTlFASL+qykd9gMuOZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; d="scan'208";a="216940278"
-Received: from x299.sh.intel.com ([10.239.159.77])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2026 00:25:32 -0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <Alexander.Deucher@amd.com>,
- Philipp Stanner <phasta@kernel.org>, amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/scheduler: fix kernel-doc warning for
- drm_sched_job_done()
-Date: Fri, 27 Feb 2026 16:24:52 +0800
-Message-ID: <20260227082452.1802922-1-yujie.liu@intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C60010E1BE;
+ Fri, 27 Feb 2026 08:29:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DFA3944097;
+ Fri, 27 Feb 2026 08:29:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A915C116C6;
+ Fri, 27 Feb 2026 08:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772180948;
+ bh=c8kyPUTfjiKvPIqR7TvbHjiIxKrmJz6TvW1tdw40CNo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ofDzrsEvFziU5bJCQJenBgUdKWnvapcui45AO8WukPJ3C9nQEaqTbw1jSWXTaUZ46
+ HG/tGLR9AcxzdFzsTNVv3ajsQdEXgN5kMvPtSDE9fcCxQtEf10Z008H+x/yBqdTCw2
+ sgPxqSuOA8RtD4gziJbnHpaldmrJ4JrqN7xLYEMiBvmWuWQwX4KgG1bsPHOtkfmhjt
+ jxPVdBGCheLMsHu/ZUUPH95AEu1xJZltS3OzdsWkbRURN9sL3TqfJT2Rqu/yIT6+Cp
+ c1Oppfx9pWVq1P4PXrEi9mbiZqrFicJCaTFtBKbKOdz7d9eFl6D49xnZcJAJrWfEHq
+ 8/JLcJhgDMYIQ==
+Date: Fri, 27 Feb 2026 09:29:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Liu Ying <victor.liu@nxp.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
+ instead of hdmi_colorspace
+Message-ID: <20260227-dramatic-agouti-of-brotherhood-416e19@houat>
+References: <20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org>
+ <20260224-drm-rework-color-formats-v1-14-bebc76604ada@kernel.org>
+ <5558942.31r3eYUQgx@workhorse>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="loc25nvmfl5t2czh"
+Content-Disposition: inline
+In-Reply-To: <5558942.31r3eYUQgx@workhorse>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,63 +91,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,arm.com,pengutronix.de,collabora.com,sntech.de,nxp.com,sholland.org,raspberrypi.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,amd.com,kernel.org,lists.freedesktop.org];
-	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.990];
-	FROM_NEQ_ENVFROM(0.00)[yujie.liu@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[intel.com:+];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: C2A461B4830
+	RCPT_COUNT_TWELVE(0.00)[38];
+	NEURAL_HAM(-0.00)[-0.998];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 739BC1B48E1
 X-Rspamd-Action: no action
 
-Warning: drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
 
-Fixes: 539f9ee4b52a ("drm/scheduler: properly forward fence errors")
-Signed-off-by: Yujie Liu <yujie.liu@intel.com>
----
-Changes in v2:
-- Split from the original patch set
-  https://lore.kernel.org/all/20260226030038.1182961-1-yujie.liu@intel.com/
-- Rebase onto latest drm-tip
+--loc25nvmfl5t2czh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 14/14] drm/display: hdmi: Use drm_output_color_format
+ instead of hdmi_colorspace
+MIME-Version: 1.0
 
-Changes in v3:
-- Change "errno" to uppercase "ERRNO" (suggested by Philipp)
+Hi
 
- drivers/gpu/drm/scheduler/sched_main.c | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, Feb 26, 2026 at 05:24:05PM +0100, Nicolas Frattaroli wrote:
+> On Tuesday, 24 February 2026 11:58:53 Central European Standard Time Maxi=
+me Ripard wrote:
+> > The hdmi_colorspace enum was defined to represent the colorspace value
+> > of the HDMI infoframes. It was later used by some HDMI drivers to
+> > express the output format they should be setting up.
+> >=20
+> > During the introduction of the HDMI helpers, it then was used to
+> > represent it in the drm_connector_hdmi_state structure.
+> >=20
+> > However, it's always been somewhat redundant with the DRM_COLOR_FORMAT_*
+> > defines, and now with the drm_output_color_format enum. Let's
+> > consolidate around drm_output_color_format in drm_connector_hdmi_state
+> > to facilitate the current effort to provide a global output format
+> > selection mechanism.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+> >  drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  52 ++++--
+> >  drivers/gpu/drm/drm_bridge.c                       |   2 +-
+> >  drivers/gpu/drm/drm_connector.c                    |  14 +-
+> >  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+> >  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+> >  drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++---=
+--------
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+> >  include/drm/display/drm_hdmi_helper.h              |   3 +-
+> >  include/drm/drm_connector.h                        |   7 +-
+> >  14 files changed, 205 insertions(+), 180 deletions(-)
+> >=20
+> > [... snip ...]
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 4f5b27fab475c7c733622eb8727927571f3fb8fe..171cd495976a3e16f201fd3=
+39d3d42a09dc3b63f 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -589,14 +589,14 @@ int drmm_connector_hdmi_init(struct drm_device *d=
+ev,
+> > =20
+> >  	if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> >  	      connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
+> >  		return -EINVAL;
+> > =20
+> > -	if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_R=
+GB)))
+> > +	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_=
+FORMAT_RGB444)))
+> >  		return -EINVAL;
+> > =20
+> > -	if (connector->ycbcr_420_allowed !=3D !!(supported_formats & BIT(HDMI=
+_COLORSPACE_YUV420)))
+> > +	if (connector->ycbcr_420_allowed !=3D !!(supported_formats & BIT(DRM_=
+OUTPUT_COLOR_FORMAT_YCBCR420)))
+> >  		return -EINVAL;
+>=20
+> I don't think this will work as-is. drm_bridge_connector_init calls this
+> function assuming hdmi_colorspace bitmasks in supported_formats.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e6ee35406165..2d5cb21a05b6 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -361,6 +361,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
- /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-+ * @result: 0 on success, -ERRNO on error
-  *
-  * Finish the job's fence and resubmit the work items.
-  */
--- 
-2.43.0
+Yeah, you're right I missed the conversion in drm_bridge_connector_init.
+It should be fixed now.
 
+> This may have slipped through the conversion; the synopsys dw-hdmi-qp core
+> (separate from synopsys dw-hdmi) also assumes hdmi_colorspace, see e.g.
+> dw_hdmi_qp_plat_data::supported_formats in include/drm/bridge/dw_hdmi_qp.h
+>=20
+> So should be a simple fix I hope.
+
+For this one, did you identify anything more than the comment in
+dw_hdmi_qp_plat_data? I couldn't find any user of HDMI_COLORSPACE_* left
+for the dw_hdmi_qp_plat_data.supported_formats users.
+
+Maxime
+
+--loc25nvmfl5t2czh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaaFV0QAKCRAnX84Zoj2+
+dvCEAYDaGC/59F9atETzuzgChsYLcJVNJgdGWjU1NRJZAQyUqV3NtgL5f6q6GBTD
+pJd6kloBfiNvk4tOHoJdLuYHcXKOHPexZHHDkJhCCZcQq5xaZ4nI/2u9TG4/zvD0
+jRPv06q3tQ==
+=uKAU
+-----END PGP SIGNATURE-----
+
+--loc25nvmfl5t2czh--
