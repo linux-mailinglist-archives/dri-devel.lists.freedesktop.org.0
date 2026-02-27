@@ -2,178 +2,203 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SBkHJCGzomlc5AQAu9opvQ
+	id eL+ENPyyomlc5AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:29 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:18:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F871C1B35
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624961C19F5
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:18:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C23F210E28B;
-	Sat, 28 Feb 2026 09:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE5EB10E240;
+	Sat, 28 Feb 2026 09:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=meta.com header.i=@meta.com header.b="q0Ka4lwq";
+	dkim=pass (4096-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="g62khbgR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7125010E125
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 16:20:33 +0000 (UTC)
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61REVPH72148436; Fri, 27 Feb 2026 08:20:25 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=s2048-2025-q2;
- bh=OoF17XLnMhcWSKMEXfdgDPrGddCHnsbQibocusT/hic=; b=q0Ka4lwqEyWi
- nks8+9qlrVtnyT+bAs6jIGjC8DjovdwFeFoLOIMM5Mqtkd5iwWLzt1e/l+BKamoD
- 8f9assnjRrE/1ZNB+fTDOCNRWKVtGcJM4VQ1rZvCR9FnSc5UcxVqZOwFMCAALhCD
- 2sl/tyZYQXNMQwPBBbTxW7XkKJhiBD7+aajfIyDIbRgqi3I8VH72oUYFR7HuReTz
- FunpM2BPxxJ726ECwpNtOHvCZV7tZW2+wuAo3rrRzyjXrb9lHinBla6DWe1Tsn5Y
- x/5miN42gb/yJrN9vYSIzz9brqycEWamQPkGj8BYiygWgfi8OfL1WnrqRkur+bhN
- Dc2CT5Bt4w==
-Received: from ph7pr06cu001.outbound.protection.outlook.com
- (mail-westus3azon11010023.outbound.protection.outlook.com [52.101.201.23])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ck423wdwc-1
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Fri, 27 Feb 2026 08:20:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l6TloS3jtQbn+bSFHQ0YdWL22I4FkbEyrNPQgGL8WQraqIEIiLSkNkJJvnSMBs0PgIJnF1rsrhrrqtiYKsnK+PLluVNv2726muqqZ+UMkEAyctW3aFZHIBVE9gdFBlJyUJDPsIkxpe7MKnrW9/f8PlUsgcP4A7kaRtbMZ8aPdfYQdQI2ECFiYpbKizdj/eg9RUZMWsPujDh1kQ/CiqaH3j6R8Whs8zoK4m6ymj6vQ2kXKEq1AU1zRccMGzIR7Cmts9+sViX3VJ1TN9Npv+U19YOWvg+EVLUBT+pivZmzEKCuX88rApnUuue85+lTyYjA+7myMlp5yxvNiN20ivOyzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OoF17XLnMhcWSKMEXfdgDPrGddCHnsbQibocusT/hic=;
- b=c9ofdWOAMxqwRHc4wjGs2NGo1VQ1hYC8TDCeJUkzuLiFgXTu3JjNYQAVZp3lx9VxyLLcFkSkSvL8YMRD5d5Z29SFyr0rs6XY6kEmWkOHJzjUHoYdCfufhi48SE78RtQc4KBVh/OmMtzSaSBGUK77mZ+EOwBlsyugWD3eEejo28OoWi7xzo//VLHhi8CDWV+19YOVMnGG1wFvl1csm/Ec3iCBNu6HFj1clvM8z9SVTv54COQ8OZJ4v4YAbWvqqjUHLADZkLILLjGdyCrIhgF+m8i5hqhXT6FwR+2q+gwzpjmvaYL/Hfwsc6JSQcxPK+DX2AV3kxPhMefA+IR8U2ddoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=meta.com; dmarc=pass action=none header.from=meta.com;
- dkim=pass header.d=meta.com; arc=none
-Received: from PH0PR15MB7038.namprd15.prod.outlook.com (2603:10b6:510:38d::10)
- by BL1PPF118F27D8B.namprd15.prod.outlook.com
- (2603:10b6:20f:fc04::e07) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 27 Feb
- 2026 16:20:22 +0000
-Received: from PH0PR15MB7038.namprd15.prod.outlook.com
- ([fe80::617b:b77c:494d:de19]) by PH0PR15MB7038.namprd15.prod.outlook.com
- ([fe80::617b:b77c:494d:de19%3]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 16:20:22 +0000
-Message-ID: <b736501b-a2c4-4b1f-a6cc-6e788441f851@meta.com>
-Date: Fri, 27 Feb 2026 16:19:55 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 4/7] dma-buf: uapi: Mechanism to revoke DMABUFs via
- ioctl()
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
- Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>
-Cc: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
- Pranjal Shrivastava <praan@google.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-5-mattev@meta.com>
- <f75088c6-5795-49cc-8932-ea46c2223d74@amd.com>
- <ad614dc4-0fd3-4897-b879-5d78a22b534f@meta.com>
- <a006b938-cd53-4c56-8131-30f557919ec6@amd.com>
-From: Matt Evans <mattev@meta.com>
-In-Reply-To: <a006b938-cd53-4c56-8131-30f557919ec6@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM8P189CA0016.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::21) To PH0PR15MB7038.namprd15.prod.outlook.com
- (2603:10b6:510:38d::10)
+X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
+ Fri, 27 Feb 2026 16:53:31 UTC
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D02010EBD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 16:53:31 +0000 (UTC)
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 131F040189
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 16:47:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20251003; t=1772210833;
+ bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=g62khbgRpWzZ6oapqpH54HEvITHPseCVkUma3rQ9B8T2WgRybEyTq+6sfXuBx3Ltj
+ 7KBVjSc+0H8t+Au4qhaMxtxvbPxHdGF+u/G760BXANgWJDx8nqazhwF0leAiC5Q1h+
+ NUhi+Er/YqGXNnpW+MxhihbYkB5OyUqmBrZvF44ortsnVtuJKYsm7SmPuhy+A8pymf
+ 963JuClel6Q/7RfqFkXRfp/vSyiUoRwzpAVvYzyEJ7TgykGt1o359enXfLtKWI4BYX
+ spKGjenOKVJWai1UVtLsVBHkfX/lnmrJ998cvCSPPHcovG6XL00dPEg6/yKDP329YL
+ ooKWQnSJXZxUkmeU+yNgAOhwBP1X93GJFfE/zo1egLVW8uPX6CnIhqtGg5FjPffA+Y
+ A5+ohUCJD7mLb/shq1FzzFxx8U268W3mLMOwAr7sNqPPnSjmBLl1bsYYPBfKAySwyc
+ NHJlCelbqG+N5vGNefy9ezDpb2Zjj09zGvt5pM3mq44wFJ8X+lXUiF3112VK+1aGIJ
+ k3SYMDYAXxjf+7InJ3/InclUbDtDIyVdI88bzRswPzUw7Nny6mV5xk3PjBBwMP55jT
+ 3gqeJjhwZjl/NF71XbRQRUhQ2RZt6S2fX/E74VmqLLunIsSocV3b49YQwajn/zs8Aq
+ ja63de/wXDR9n54Rtl93jpkU=
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-79868381229so23013157b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 08:47:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772210831; cv=none;
+ d=google.com; s=arc-20240605;
+ b=hOgk1h16W9XYAFu+iJS6waX8Vb+jz4F/RezptbTCidSP5c/KR57IRQg0aqZPkuuHz7
+ HPboRSnmkiBZpu1cOG2THbbXJQ/v3p6OCWxRox1rU4KqKE7C95YbQlslSAJPH4+mqY9n
+ NQoBH3RwL3SoaUmFElsL2oZP3XXdqos0iLLqMIyvRVRWlPwdU9RSl9hODTzKouEVkOs+
+ VxVrLUHJhCjyZNApJSqAEowA5dTO2Sd3gXYF9Wf1waVH+AtK3X8UKGyPFywsHX1RpDZH
+ acZugsQSEJuaC5Rvx3gslloDhtnCHntfv4iqBKtjnMhztXCzXSMmRYGCLpwi2FfdJeVV
+ +bNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version;
+ bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+ fh=rnD1SVxFygW7H7rTFCAK3RVioggMYeqHhvsGyn6/6cw=;
+ b=UkGP8W/fwrTxtUVICtc0q6VQxk+M8L3M2kONi2fz5SF91L1aNi3RghWzL5Uy38g21U
+ hSj74WnEN8coUDrmSFky2cJSDxqEouDrt3dkeV+hpB1M3ygKa42pNCA3mcTc8NfeIiiR
+ rIinpccQM2xs4yLQp5bXHsg37LUYuWoyERhkhsmmm40il+vY6DaJFxdTzEARqb3Dy9gB
+ /YobsKG5e+s5Z3Rx+O2DbVOd0UNAwG/wp1jihr3pzFd6LQAWLTukQkommEWSUsAMvdNA
+ V3Y2xBOKHz+JH1Jj6EVKmcus32EPghP9cd+s9Dmy5qCuWzhJClG3VpzjqdEtb7N2a6Fn
+ 2P3g==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772210831; x=1772815631;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+ b=g4ZzXlemILjr5vHJQpFB83/C3vO0ravw7U6FIoBvoiUDv7K0rzvJOI1J+gjri1R9pH
+ +YYvBHHD3QoFNkHO5N8UPdcrJYizKEWjD7SfH2hXHBU7JfZ+l3ZxU0WLows8lbK+vkjs
+ lAgfSemLq8BYsoogZBhHSghm91vS1iqn3hZ1Mn/uDXuFVBLIPALtctSA5zh/a2Ful3rN
+ IV9WgxH2CDN+Gs+kTSQKjSYbZR8zmObDE0JGBfexRl+M+oKbX+6g8HaiaNjcFaZHTMsm
+ DYW7PmU2Wf/9v15CHdnE/UF6nUSpIAhv3kRMNpuEc10AswODFzqTcGvLpWKD9aaH2ovM
+ 3Cjg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJNZET0NLCuxt1xhuCyYT1Bfs2uzmKz/RvLDA92IVVrHDpWQbPhRnXTmHMfr4UOZoVnMUJZBUulgQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzp9bQdhTwAVvT5L83AKJqbH/7IcLug1E+5NKlWFELx8afxMLWP
+ i4HQUohL3/FSp7+M2BugrJZYa/Iiw//faPLbjbDmym2phoccuo9rrSCqRHjgEmr93QnTnlri0RV
+ FCu4ENkjN67UDfDHLgIu7b0hrRfudGQNl0bT3vqxVI0ihWNKXnKGVbFgn3SF51zfHbawNPx9I8O
+ cRXX9N3n7WgoA3aHaOtJyBWgGyeOMzFRpaemNUXS3t68rp2TqAvRCrtmE55LIj
+X-Gm-Gg: ATEYQzyYQV7QtFMjx6mzEvschatecQuRsNhpwWvW/XvaTmCIY5DLX7GtjCJQvvWAtA0
+ OPlg9a0pzCUI/VgH2M2A5+C1TXGLSBaIi4wTb3f9KPmDF893T5eoe4RthS3ZhFOueRmZgfq4sXR
+ 4bAGHnsKJRfn8qRYGroXALCpJ9IdtaftNPTurm/5XgAWzGtJPf+fiBFL3w6iY6khsOK2Y8b9Uqt
+ pDawOee6jlrG1wp8YWb0TsDBamoEKP7IOdOcXTcLHLsJXbikxOLZ9bnfbRxpAU6/ks=
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id
+ 956f58d0204a3-64cb6f438a9mr3821293d50.31.1772210830826; 
+ Fri, 27 Feb 2026 08:47:10 -0800 (PST)
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id
+ 956f58d0204a3-64cb6f438a9mr3821130d50.31.1772210830102; Fri, 27 Feb 2026
+ 08:47:10 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR15MB7038:EE_|BL1PPF118F27D8B:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86214e43-7a35-4c84-dfbf-08de761c1b4a
-X-FB-Source: Internal
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|10070799003|366016|1800799024; 
-X-Microsoft-Antispam-Message-Info: jqlPYxYgHws+R7Ljpl8aVh1pvq7GmRjlkMIqcf1iX+80F+ouKh8HFqgduTwyybkASKu9FsbwjqtYtkFVGHjeOEME1+OOWa4CLxWX3ve3H8WXfgfcWScflwXL4TqewwzoOJPvEH4kMqw+/id5cqWurGwqcb8gZcrlhzISieU+JhBlyp7JGk1slAJUdMe+SUo/xqwgOclpMCh3LS4v8EYquzErLy2yU33a/8zohkbgwncyaGEX36VsSd7eBx5UMdu+Kjycj1z75PPKhOlg/dDtxV8daLTV+upSzat/krcP6bbCISn3yyNB+T32Wt49Kpj93WJbED483yPLW8UmNUkawQI4SINJSDLN6N8UNhqtWrKhGpEp1yV9hlY7PkDK1WY+0ujU1XOCwowCr9HdIOuTU61rJXMc+BA00iU9yT57vL3AaehCYYtKuNzcJvj95/NGn6GR4vKMhJdwgxMUZ58XBsYoFva71Mwegids4k+PwsfzO4ObijIO5emMEdB9557hyII1DUI3yFPD5g+XcAfODaSzFqXV/x5EMF7faqZLzChz3Cyw/KxL+ISAdVPRYv319s63Hc1Xpw2P4+XVC6bM6dDVLBGdOUFTpxZBoy0TxEZ3VVcp7+6LOBVTnlcaD0cNixhkLnlLeUUrMhplWVjtWZv1nRPYEYVuxClVHNxYbJ/oNvSsja9/1IMLtvqbPajm
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR15MB7038.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dy83UVRpekpXckdQUitrU1hhR2RlcWlrVVZYSWtoZGMyMmZRRU51N3FObEpP?=
- =?utf-8?B?MHl6bENva2xoMlVTUmcxZkJxUnJ6eTJDRXIrZnJOaksrOWJIeGl4WnJXZG1v?=
- =?utf-8?B?M3ROUlVjejA3dWNwaXMzRlZBekJKcW1PT0c1REJnUlpNVndjRXZqR244blI0?=
- =?utf-8?B?ZDE5dkZoZU9JQ1V6c2hhK3lOL1p5a2paR1RoOFRua3VMZy94RSszc0VZYjFH?=
- =?utf-8?B?STJnZzR4K0tneE5vaC8vdlA1QVo1WFRtVnJ5UjlaVjk3WUxXN3dFZVVIWTh4?=
- =?utf-8?B?VHB2YlFKZnNxYkNxdW1RRldDMktRV2lHakEzNHh3Q1NkdzZJMmkxeGRMK05x?=
- =?utf-8?B?WU80MU4wTUowcnl1dmhsTjM2Q0NaVm9TcjBFL3NjTkRYSGc0WnhhWXZWNGlH?=
- =?utf-8?B?SkJIZ2JpdkxRNm5CcU91ejY1UkhkWjE1eURpcTBBUmhaNGd1WHNDajRscWE3?=
- =?utf-8?B?NlFRTEZtVWlOVWozRkw4SGFDRFNNM1EvMUlwVjgwZUFROFlCbVMxRFZSRHpv?=
- =?utf-8?B?bjkyWW1aSDVsME5hVlhUWGZmcmxZdWJQVm4rWEtyRkZEMHhJa2YxUC9iOVUz?=
- =?utf-8?B?aVJYcEg3cTMwQUJxdGF1WWpOQzE4Rmk3U2pKcUZrZk8rdnBGUTRLby9wUG9o?=
- =?utf-8?B?U0xJTnNndVdJalNrRFlsTlFHQXVBTkZSMzFISTUvWkgyVkhVc3Q1WFE3d01w?=
- =?utf-8?B?TGxsODF5N3FTR2gwSk5aUytUNTZNTU9ubWJTS1dKWXdNUjVxa08vbzlTeEZQ?=
- =?utf-8?B?czdGT1lIUThxN0FxV2sxQ014N1M2WHMvY0hPNTFaMVkraEdpdXllKzJBSmIv?=
- =?utf-8?B?WjN4dlg2MXFhK1NNb05wdysvZVMvcVFtMVR0U3cybTJjSnNyRkZHMEYrbnRr?=
- =?utf-8?B?d1huZzlEQjVqUjdoNFRScUowTkN3ZGhyTnNrR2FlR1JZSklqM01wZFBXd1Qx?=
- =?utf-8?B?dXVDbUU2OHI4blpodUJTbDNBNVZ1bVU4QXBQM0J3REFMQ3JCbExsNU9rWUdV?=
- =?utf-8?B?clp2NWdpakxBWExiaWdEdGRDbCs4T1FLV2ZmYTZySWl5cEFPVlh2b3ptblJS?=
- =?utf-8?B?VFdhbyt3MGFkbTNCQTFNL05qOWt3OCtuN0x2WEJ6QWY4cCtYU1dXWmNhdkpQ?=
- =?utf-8?B?Q0N2MGZ5VUNaanVrVHpqSTliZ2kvREVodTNoTVROREhhc3dKSWJPeHVTSXZx?=
- =?utf-8?B?U0F1L0l6a3lrZ2FlMktaaUJEZyswdTQvTlFXYit3MEtoem82dFE1U0VrL3dI?=
- =?utf-8?B?RjNkMmowclZWMEZEbEpXMHFJaVV6ZGd5U3JCc2g1R1lUZlAvSEJIbHFFZ2Rm?=
- =?utf-8?B?MVVaSUpNTzdiN0s4R2MvcWNVcGJvcDlLdlpuMCt3Mkw2bGFJWnJrZTZTRDZK?=
- =?utf-8?B?Vm5TeVh1NHZoZjhLZUt4UXBkVmRXT3hDRUhQeUdDelVHUDhtR3l5cW1TanZw?=
- =?utf-8?B?WjM3WXhDa0ZpdlFCb0RFOUFuR3VhTXJrdW9SOXA1UEtZSExPSjI1QTQ0RGpy?=
- =?utf-8?B?YzRIRHFGd21ZOW1OaU0rQnAyZ2ozVUR3NnN3amwxY0dzMXBTczUwRm8zWFpu?=
- =?utf-8?B?MW1Td25KOVNUR1dwbzVCZUxXeEpEdzg3eWFjalRHMEh1aEV2bnU5N0NQVTFS?=
- =?utf-8?B?VDNEWk9yWVJNaG5EY21ENGJLNmhWa0plY2JSM3hxZ0lPUjBXSjhmOXBkVmtH?=
- =?utf-8?B?Mm1qcytZZGZjcEhNcENudzZOOXlSR0l0RnVuejZPc21tZDZRTXAwUVFKTU5N?=
- =?utf-8?B?ZURLL21oTjlaQTBaTHN1QWRlZmh5TG5hL3g3aktVR0E1L1Z5cFUwSE1EbDNm?=
- =?utf-8?B?UFg4RjVSMlloZ2dnenNyYTRUMHhZamVEREVUUS9XczBQanZxSW4vM1ZjcWIv?=
- =?utf-8?B?T1dBdmtRcytOZzU0TDlwOU9JK3FHTERBclByU1MrVU1zUS9CQS8zTG51RktY?=
- =?utf-8?B?b1pQcHM2ZERUSDJJakVFNlA0VnlEcVk2UUVrUisycGwrbkZ6NTMzeUk1Y01t?=
- =?utf-8?B?VXF1Wm9SdGdBdkc3UWZlQ3AvQ3Bwb2N2T0NZcXkyb21DUXN0anhjY3MzSktI?=
- =?utf-8?B?WjdhTGsrVTdJRnpIQ04rMldyUWNOZDk0ajNCQ1ZKenFQQ0dONWpGV3k2WWli?=
- =?utf-8?B?UjNFSVhYU1cwaW9JNzdyUDdkQ3lqcDRQZjYxMDh0MDNzcE5lTjd4WlNzVXZS?=
- =?utf-8?B?ZXFESmNLOVZ5WHlzWVlVVXhvaXVXeStjVjNWQ0piRURielIxVkUvRmJacUll?=
- =?utf-8?B?VUJac0V6T1ZvZFRkMjBjdG1OSkFLWU9tS2QwQ3FPTEFMaHhZbXZydm5qYzNl?=
- =?utf-8?B?M0Z6dmx1cjFnMTV2TVBWVDdOcXd5TUd2QkdJR3BrK3lsbDNSOFJQUEc3RTZq?=
- =?utf-8?Q?B8ifSSibUwi35SD8=3D?=
-X-OriginatorOrg: meta.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86214e43-7a35-4c84-dfbf-08de761c1b4a
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR15MB7038.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 16:20:22.4508 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K0N8CepE2wa1DRisc1m9HEiIbnBLa9O97RW38FotWRK9NVo8mzJ8r6ZJqI2eZ5dg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PPF118F27D8B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDE0NSBTYWx0ZWRfX+1KnjWiioZOD
- 1kIQ4jbxt0NdQRugdpvJj9Z7MUHZlTR1kXp6AnjSCQ7L1E27DnpcY6eMJI/Lik4bZV/Uxbggo/H
- r4lttooDSDii5/jOzwDNbSleBa1ACB9KtIb+P+mKfAyxURW98GNZU92+Xz4Z9/tzpqjMnIdsLC1
- ox/rqmeoJjPwSK6X/SJiZ4FSlFNiEbD8re5fcCoOaH/9p4KwYA49Spgo8JGnyecUZLXDbKjviCR
- UaDjqXbmq8d643s+8lL8MRZnYpzEpzJRyPyUvHGqmm+s8+pPMMu6an9e1oBt7fAOHdD8eAprBz/
- whIVx+H8L63c+bbEAfPOMkw63jw8PxCfR40V9tMSbSlKwcaRR1mUwEWdc0PEdN0DZn+2+MCNmX3
- aJtbsKO/aGNth9MkxM7SvLEYLNU0ItqsOFQ6xo8ckREzcaLokLFiuWX3Ud+bwfGtyp0CmwMF4Ot
- +qYx+sb5acptYEyyBXQ==
-X-Authority-Analysis: v=2.4 cv=T6GBjvKQ c=1 sm=1 tr=0 ts=69a1c449 cx=c_pps
- a=xBU3AFOX62plvdJ7VrUh9g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8 a=0R6VDxklJT5RH_P7GksA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-GUID: 4ZxNdmAK4Zyfm_20hIsteM9he52W4q1I
-X-Proofpoint-ORIG-GUID: 4ZxNdmAK4Zyfm_20hIsteM9he52W4q1I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_03,2026-02-27_01,2025-10-01_01
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+ <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+From: Ryan Lee <ryan.lee@canonical.com>
+Date: Fri, 27 Feb 2026 08:46:58 -0800
+X-Gm-Features: AaiRm50sr0j0-BwzNnmwGRvH8jyB1wNkHgZo3vdp3K_4YIT1mBOH-BzuS2c5S3A
+Message-ID: <CAKCV-6ujQK3yj8sB2eHafaw4pvrJUeK18Hu4vzvNSjH48RVgYg@mail.gmail.com>
+Subject: Re: [PATCH 51/61] security: update audit format strings for u64 i_ino
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Dan Williams <dan.j.williams@intel.com>, 
+ Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, 
+ Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+ Alexander Aring <alex.aring@gmail.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+ Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ David Sterba <dsterba@suse.com>, 
+ Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
+ Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ Ilya Dryomov <idryomov@gmail.com>, 
+ Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, 
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
+ Amir Goldstein <amir73il@gmail.com>, 
+ Christoph Hellwig <hch@infradead.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+ David Woodhouse <dwmw2@infradead.org>, 
+ Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mark Fasheh <mark@fasheh.com>, 
+ Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+ Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, 
+ Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+ Martin Schiller <ms@dev.tdt.de>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+ linux-x25@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Sat, 28 Feb 2026 09:18:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -190,233 +215,290 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
-	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[canonical.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[canonical.com:s=20251003];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mattev@meta.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[meta.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[ryan.lee@canonical.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jlayton@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:rostedt@goodmis.org,m:mhiramat@kernel.org,m:mathieu.desnoyers@efficios.com,m:dan.j.williams@intel.com,m:willy@infradead.org,m:ebiggers@kernel.org,m:tytso@mit.edu,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:dhowells@redhat.com,m:pc@manguebit.org,m:adilger.kernel@dilger.ca,m:jack@suse.com,m:jaegeuk@kernel.org,m:chao@kernel.org,m:trondmy@kernel.org,m:anna@kernel.org,m:chuck.lever@oracle.com,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,m:tom@talpey.com,m:sfrench@samba.org,m:ronniesahlberg@gmail.com,m:sprasad@microsoft.com,m:bharathsm@microsoft.com,m:alex.aring@gmail.com,m:konishi.ryusuke@gmail.com,m:slava@dubeyko.com,m:ericvh@kernel.org,m:lucho@ionkov.net,m:asmadeus@codewreck.org,m:linux_oss@crudebyte.com,m:dsterba@suse.com,m:marc.dionne@auristor.com,m:raven@themaw.net,m:luisbg@kernel.org,m:salah.triki@gmail.com,m:aivazian.tigran@gmail.com,m:i
+ dryomov@gmail.com,m:amarkuze@redhat.com,m:jaharkes@cs.cmu.edu,m:coda@cs.cmu.edu,m:nico@fluxnic.net,m:code@tyhicks.com,m:amir73il@gmail.com,m:hch@infradead.org,m:glaubitz@physik.fu-berlin.de,m:frank.li@vivo.com,m:mikulas@artax.karlin.mff.cuni.cz,m:dwmw2@infradead.org,m:richard@nod.at,m:shaggy@kernel.org,m:almaz.alexandrovich@paragon-software.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:joseph.qi@linux.alibaba.com,m:hubcap@omnibond.com,m:martin@omnibond.com,m:miklos@szeredi.hu,m:al@alarsen.net,m:chengzhihao1@huawei.com,m:dlemoal@kernel.org,m:naohiro.aota@wdc.com,m:jth@kernel.org,m:john.johansen@canonical.com,m:paul@paul-moore.com,m:jmorris@namei.org,m:serge@hallyn.com,m:zohar@linux.ibm.com,m:roberto.sassu@huawei.com,m:dmitry.kasatkin@gmail.com,m:eric.snowberg@oracle.com,m:wufan@kernel.org,m:stephen.smalley.work@gmail.com,m:omosnace@redhat.com,m:casey@schaufler-ca.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,
+ m:edumazet@google.com,m:kuniyu@google.com,m:pabeni@redhat.com,m:willemb@google.com,m:davem@davemloft.net,m:kuba@kernel.org,m:horms@kernel.org,m:oleg@redhat.com,m:peterz@infradead.org,m:mingo@redhat.com,m:acme@kernel.org,m:namhyung@kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[146];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ryan.lee@canonical.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[canonical.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,meta.com:mid,meta.com:dkim,meta.com:email]
-X-Rspamd-Queue-Id: E7F871C1B35
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,canonical.com:email,canonical.com:dkim,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 624961C19F5
 X-Rspamd-Action: no action
 
-Hi Christian,
+On Thu, Feb 26, 2026 at 9:13=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> Update %lu/%ld to %llu/%lld in security audit logging functions that
+> print inode->i_ino, since i_ino is now u64.
+>
+> Files updated: apparmor/apparmorfs.c, integrity/integrity_audit.c,
+> ipe/audit.c, lsm_audit.c.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  security/apparmor/apparmorfs.c       |  4 ++--
+>  security/integrity/integrity_audit.c |  2 +-
+>  security/ipe/audit.c                 |  2 +-
+>  security/lsm_audit.c                 | 10 +++++-----
+>  security/selinux/hooks.c             |  4 ++--
+>  security/smack/smack_lsm.c           | 12 ++++++------
+>  6 files changed, 17 insertions(+), 17 deletions(-)
+>
+> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorf=
+s.c
+> index 2f84bd23edb69e7e69cb097e554091df0132816d..7b645f40e71c956f216fa6a7d=
+69c3ecd4e2a5ff4 100644
+> --- a/security/apparmor/apparmorfs.c
+> +++ b/security/apparmor/apparmorfs.c
+> @@ -149,7 +149,7 @@ static int aafs_count;
+>
+>  static int aafs_show_path(struct seq_file *seq, struct dentry *dentry)
+>  {
+> -       seq_printf(seq, "%s:[%lu]", AAFS_NAME, d_inode(dentry)->i_ino);
+> +       seq_printf(seq, "%s:[%llu]", AAFS_NAME, d_inode(dentry)->i_ino);
+>         return 0;
+>  }
+>
+> @@ -2644,7 +2644,7 @@ static int policy_readlink(struct dentry *dentry, c=
+har __user *buffer,
+>         char name[32];
 
-On 27/02/2026 15:20, Christian König wrote:
-> Hi Matt,
-> 
-> On 2/27/26 14:02, Matt Evans wrote:
->> Hi Christian,
->>
->> On 27/02/2026 10:05, Christian König wrote:
->>> On 2/26/26 21:22, Matt Evans wrote:
->>>> Add a new dma-buf ioctl() op, DMA_BUF_IOCTL_REVOKE, connected to a new
->>>> (optional) dma_buf_ops callback, revoke().  An exporter receiving this
->>>> will _permanently_ revoke the DMABUF, meaning it can no longer be
->>>> mapped/attached/mmap()ed.  It also guarantees that existing
->>>> importers have been detached (e.g. via move_notify) and all mappings
->>>> made inaccessible.
->>>>
->>>> This is useful for lifecycle management in scenarios where a process
->>>> has created a DMABUF representing a resource, then delegated it to
->>>> a client process; access to the resource is revoked when the client is
->>>> deemed "done", and the resource can be safely re-used elsewhere.
->>>
->>> Well that means revoking from the importer side. That absolutely doesn't make sense to me.
->>>
->>> Why would you do that?
->>
->> Well, it's for cleanup, but directed to a specific buffer.
->>
->> Elaborating on the original example, a userspace driver creates a DMABUF
->> for parts of a BAR and then sends its fd to some other client process
->> via SCM_RIGHTS.  The client might then do all of:
->>
->> - Process mappings of the buffer
->> - iommufd IO-mappings of it
->> - other unrelated drivers import it
->> - share the fd with more processes!
->>
->> i.e. poking a programming interface and orchestrating P2P DMA to it.
->> Eventually the client completes and messages the driver to say goodbye,
->> except the client is buggy: it hangs before it munmaps or request other
->> drivers to shut down/detach their imports.
->>
->> Now the original driver can't reuse any BAR ranges it shared out, as
->> there might still be active mappings or even ongoing P2P DMA to them.
->>
->> The goal is to guarantee a point in time where resources corresponding
->> to a previously-shared DMABUF fd _cannot_ be accessed anymore:  CPUs,
->> or other drivers/importers, or any other kind of P2P DMA.  So yes, a
->> revoke must detach importers, using the synchronous revocation flow
->> Leon added in [0] ("dma-buf: Use revoke mechanism to invalidate shared
->> buffers").
->>
->> (Apologies, I should really have just built this on top of a tree
->> containing that series to make this need clearer.)
->>
->> But, it ultimately seems to have the same downstream effects as if one
->> were to, say, shut down VFIO device fds and therefore trigger
->> vfio_pci_dma_buf_cleanup().  It's just the reason to trigger revocation
->> is different:  a selective userspace-triggered revocation of a given
->> buffer, instead of an exporter cleanup-triggered revocation of all
->> buffers.  In both cases the goals are identical too, of a synchronised
->> point after which no more DMA/CPU access can happen.
->>
->> (If I've misunderstood your question please clarify, but I hope that
->> answers it!)
-> 
-> Yeah that makes it clear, Jasons answer also helped quite a bit to understand what you want to do here.
-> 
-> First of all your requirements sound reasonable, but absolutely clear NAK to the way those patches approach of implementing them. You completely mixed up the different DMA-buf roles and which is used for what.
+I have confirmed that the buffer is still big enough for a 64-bit inode num=
+ber.
 
-Yep, no worries -- this is just an RFC in order to get such feedback.
+>         int res;
+>
+> -       res =3D snprintf(name, sizeof(name), "%s:[%lu]", AAFS_NAME,
+> +       res =3D snprintf(name, sizeof(name), "%s:[%llu]", AAFS_NAME,
+>                        d_inode(dentry)->i_ino);
+>         if (res > 0 && res < sizeof(name))
+>                 res =3D readlink_copy(buffer, buflen, name, strlen(name))=
+;
 
-> See the IOCTLs on the DMA-buf file descriptor are for the importer side to communicate with the exporter side. E.g. thinks like "I'm done writing with the CPU, please make that visible to yourself and other importers".....
-> 
-> But what you want to do here is just the other way around, the exporter side wants to signal to all importers that it can't use the buffer any more, correct?
+For the AppArmor portion:
 
-Yes, that's right, it would be the role of the exporter (VFIO in the
-first instance) being triggered by userspace to do this revoke.
+Reviewed-By: Ryan Lee <ryan.lee@canonical.com>
 
-I see this doesn't really fit with the other ioctls being
-importer-centric; thanks, I do agree that an exporter revocation op
-would stick out here.
-
-(I tried in the cover letter to flag that better ways probably exist,
-and the PoC intended to set context for how it'd be triggered in end-to-
-end usage.  At any rate, I'm glad we're aligning on the overall concept/
-goals (modulo implementation :) ).)
-
-> If I understood that correctly then my suggestion is that you have a new IOCTL on the VFIO fd you originally used to export the DMA-buf fd. This IOCTL takes the DMA-buf fd and after double checking that it indeed is the exporter of that fd revokes all importer access to it.
-
-This was Jason's suggestion in the other mail too, and it seems like a
-much nicer way to do it.  Thank you for the suggestions, I'll redo it
-like that.
-
-> I'm certainly open on suggestions on how to improve the DMA-buf documentation to make that more clearer in the future.
-
-I'll re-read it and see if any ideas for clarification occur, as I did
-indeed miss that the fd implies the importer role, apologies.
-
-
-Thanks,
-
-
-Matt
-
-
-> 
-> Regards,
-> Christian.
-> 
->>
->> Cheers,
->>
->>
->> Matt
->>
->> [0] https://lore.kernel.org/linux-iommu/20260205-nocturnal-poetic-chamois-f566ad@houat/T/#m310cd07011e3a1461b6fda45e3f9b886ba76571a 
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Signed-off-by: Matt Evans <mattev@meta.com>
->>>> ---
->>>>  drivers/dma-buf/dma-buf.c    |  5 +++++
->>>>  include/linux/dma-buf.h      | 22 ++++++++++++++++++++++
->>>>  include/uapi/linux/dma-buf.h |  1 +
->>>>  3 files changed, 28 insertions(+)
->>>>
->>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>>> index edaa9e4ee4ae..b9b315317f2d 100644
->>>> --- a/drivers/dma-buf/dma-buf.c
->>>> +++ b/drivers/dma-buf/dma-buf.c
->>>> @@ -561,6 +561,11 @@ static long dma_buf_ioctl(struct file *file,
->>>>         case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
->>>>                 return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
->>>>  #endif
->>>> +       case DMA_BUF_IOCTL_REVOKE:
->>>> +               if (dmabuf->ops->revoke)
->>>> +                       return dmabuf->ops->revoke(dmabuf);
->>>> +               else
->>>> +                       return -EINVAL;
->>>>
->>>>         default:
->>>>                 return -ENOTTY;
->>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>>> index 0bc492090237..a68c9ad7aebd 100644
->>>> --- a/include/linux/dma-buf.h
->>>> +++ b/include/linux/dma-buf.h
->>>> @@ -277,6 +277,28 @@ struct dma_buf_ops {
->>>>
->>>>         int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->>>>         void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->>>> +
->>>> +       /**
->>>> +        * @revoke:
->>>> +        *
->>>> +        * This callback is invoked from a userspace
->>>> +        * DMA_BUF_IOCTL_REVOKE operation, and requests that access to
->>>> +        * the buffer is immediately and permanently revoked.  On
->>>> +        * successful return, the buffer is not accessible through any
->>>> +        * mmap() or dma-buf import.  The request fails if the buffer
->>>> +        * is pinned; otherwise, the exporter marks the buffer as
->>>> +        * inaccessible and uses the move_notify callback to inform
->>>> +        * importers of the change.  The buffer is permanently
->>>> +        * disabled, and the exporter must refuse all map, mmap,
->>>> +        * attach, etc. requests.
->>>> +        *
->>>> +        * Returns:
->>>> +        *
->>>> +        * 0 on success, or a negative error code on failure:
->>>> +        * -ENODEV if the associated device no longer exists/is closed.
->>>> +        * -EBADFD if the buffer has already been revoked.
->>>> +        */
->>>> +       int (*revoke)(struct dma_buf *dmabuf);
->>>>  };
->>>>
->>>>  /**
->>>> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
->>>> index 5a6fda66d9ad..84bf2dd2d0f3 100644
->>>> --- a/include/uapi/linux/dma-buf.h
->>>> +++ b/include/uapi/linux/dma-buf.h
->>>> @@ -178,5 +178,6 @@ struct dma_buf_import_sync_file {
->>>>  #define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, __u64)
->>>>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE _IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
->>>>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE _IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
->>>> +#define DMA_BUF_IOCTL_REVOKE   _IO(DMA_BUF_BASE, 4)
->>>>
->>>>  #endif
->>>> --
->>>> 2.47.3
->>>>
->>>
->>
-> 
-
+> diff --git a/security/integrity/integrity_audit.c b/security/integrity/in=
+tegrity_audit.c
+> index 0ec5e4c22cb2a1066c2b897776ead6d3db72635c..d8d9e5ff1cd22b091f462d1e8=
+3d28d2d6bd983e9 100644
+> --- a/security/integrity/integrity_audit.c
+> +++ b/security/integrity/integrity_audit.c
+> @@ -62,7 +62,7 @@ void integrity_audit_message(int audit_msgno, struct in=
+ode *inode,
+>         if (inode) {
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>         }
+>         audit_log_format(ab, " res=3D%d errno=3D%d", !result, errno);
+>         audit_log_end(ab);
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index 3f0deeb54912730d9acf5e021a4a0cb29a34e982..93fb59fbddd60b56c0b22be2a=
+38b809ef9e18b76 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -153,7 +153,7 @@ void ipe_audit_match(const struct ipe_eval_ctx *const=
+ ctx,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 } else {
+>                         audit_log_format(ab, " dev=3D? ino=3D?");
+>                 }
+> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
+> index 7d623b00495c14b079e10e963c21a9f949c11f07..737f5a263a8f79416133315ed=
+f363ece3d79c722 100644
+> --- a/security/lsm_audit.c
+> +++ b/security/lsm_audit.c
+> @@ -202,7 +202,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -215,7 +215,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -228,7 +228,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>
+>                 audit_log_format(ab, " ioctlcmd=3D0x%hx", a->u.op->cmd);
+> @@ -246,7 +246,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -265,7 +265,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 }
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>                 rcu_read_unlock();
+>                 break;
+>         }
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index d8224ea113d1ac273aac1fb52324f00b3301ae75..150ea86ebc1f7c7f8391af410=
+9a3da82b12d00d2 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -1400,7 +1400,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
+de, struct dentry *dentry,
+>         if (rc < 0) {
+>                 kfree(context);
+>                 if (rc !=3D -ENODATA) {
+> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%ld\n",
+> +                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%lld\n",
+>                                 __func__, -rc, inode->i_sb->s_id, inode->=
+i_ino);
+>                         return rc;
+>                 }
+> @@ -3477,7 +3477,7 @@ static void selinux_inode_post_setxattr(struct dent=
+ry *dentry, const char *name,
+>                                            &newsid);
+>         if (rc) {
+>                 pr_err("SELinux:  unable to map context to SID"
+> -                      "for (%s, %lu), rc=3D%d\n",
+> +                      "for (%s, %llu), rc=3D%d\n",
+>                        inode->i_sb->s_id, inode->i_ino, -rc);
+>                 return;
+>         }
+> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+> index 98af9d7b943469d0ddd344fc78c0b87ca40c16c4..7e2f54c17a5d5c70740bbfa92=
+ba4d4f1aca2cf22 100644
+> --- a/security/smack/smack_lsm.c
+> +++ b/security/smack/smack_lsm.c
+> @@ -182,7 +182,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -195,7 +195,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>
+>         smk_bu_mode(mode, acc);
+>
+> -       pr_info("Smack %s: (%s %s %s) inode=3D(%s %ld) %s\n", smk_bu_mess=
+[rc],
+> +       pr_info("Smack %s: (%s %s %s) inode=3D(%s %lld) %s\n", smk_bu_mes=
+s[rc],
+>                 tsp->smk_task->smk_known, isp->smk_inode->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, current->comm);
+>         return 0;
+> @@ -214,7 +214,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -223,7 +223,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+> @@ -244,7 +244,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -253,7 +253,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+>
+> --
+> 2.53.0
+>
+>
