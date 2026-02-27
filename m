@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CPQTIrEBomnPyAQAu9opvQ
+	id uJszMrgBomnPyAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:42:25 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:42:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDAA1BDDD9
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:42:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2FD1BDDF6
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 21:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3C810E103;
-	Fri, 27 Feb 2026 20:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91BB10EC39;
+	Fri, 27 Feb 2026 20:42:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EqFMTeCp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UhCktEIb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4797110E103
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 20:42:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E4210EC39
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 20:42:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0444542B7F;
- Fri, 27 Feb 2026 20:42:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85DDFC116C6;
- Fri, 27 Feb 2026 20:42:15 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5A47742B7F;
+ Fri, 27 Feb 2026 20:42:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C769C19423;
+ Fri, 27 Feb 2026 20:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772224940;
- bh=tF4I9uEanrrL49/IrO6k2ajtwrnArvy+ifACjY+WOKQ=;
+ s=k20201202; t=1772224949;
+ bh=HoDEtvg3GBOF96zWJnOOBK0G0fY86adGkY74DzxijNk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EqFMTeCpdccKnHFagxHFbfSZQ7k83CljVOzyZNeUfdyD5/mWD7u8MvVh7fCUgkah6
- H5XXuZNBOtuHNKlEiJIXFCilFFUA00P+ElZDSCxcO4Jp176slvu996zA0Y+0qpgWP4
- HID/JnTAICa2VPlzJykgPb/KYcRWluRLNPQxRJqB6x5hfiqaQ3DrSRF7nBuIRXkX+u
- FkRUS2xrbs9z3+dTD1Armjnrkb5xWJX/bqRAl9/naIpHU1EOr7WOCI/BmmMoSMDMus
- q9/iMX+dbLeLlP7ucuiOXbvdtsm1SWAlgb66xTsm1Ty/tVUzd5QQr73g6DGTTIu6/8
- QfpgILk9fYYUA==
-Message-ID: <cea5eb0a-6f8d-44e8-b60b-ecd1f7ee059a@kernel.org>
-Date: Fri, 27 Feb 2026 21:42:13 +0100
+ b=UhCktEIbAUDL9Zi2WQd3Bw9EURAPYLxkgEpK+CsepI+fOXULQE8JgHg1vl8KSTp23
+ BLuUmlh415T01I4XECWLf4lkEYQfVTIHjBO1HWl+Gf1rcinKdsgi9q7UwyEy2uBgBc
+ hdRSm4apydFPE08ex7f+FZgXbuXgU9FwuiYun8IavC+GtzddnGybOqXkl5ls345ewn
+ 1ojFHG8uNnNykR7DiXj331XVtk2Yj3w9NkeK9R7V6ZwqzrjhjI6ABcik8pxPGllw2/
+ E+sRfHHAd4s2IFqMfo3SutLJVK9Zai0c+7IyApDHYdVKmZtnH7qYlA0rvLp2XdKx+m
+ JSQkELTwQxkyQ==
+Message-ID: <8393137b-7eb8-4cfe-8963-ddd5ff75ef4b@kernel.org>
+Date: Fri, 27 Feb 2026 21:42:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] mm: cma: Export dev_get_cma_area()
+Subject: Re: [PATCH v2 5/9] mm: cma: Export cma_alloc and cma_release
 To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
@@ -56,7 +56,7 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, linux-mm@kvack.org
 References: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
- <20260227-dma-buf-heaps-as-modules-v2-4-454aee7e06cc@kernel.org>
+ <20260227-dma-buf-heaps-as-modules-v2-5-454aee7e06cc@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -103,7 +103,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-4-454aee7e06cc@kernel.org>
+In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-5-454aee7e06cc@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -133,9 +133,9 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -152,21 +152,53 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DEDAA1BDDD9
+X-Rspamd-Queue-Id: 7B2FD1BDDF6
 X-Rspamd-Action: no action
 
 On 2/27/26 14:15, Maxime Ripard wrote:
-> The CMA dma-buf heap uses the dev_get_cma_area() function to retrieve
-> the default contiguous area.
+> The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
+> free, respectively, its CMA buffers.
 > 
-> Now that this function is no longer inlined, and since we want to turn
-> the CMA heap into a module, let's export it.
+> However, these functions are not exported. Since we want to turn the CMA
+> heap into a module, let's export them both.
 > 
+> Reviewed-by: T.J. Mercier <tjmercier@google.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  kernel/dma/contiguous.c | 1 +
+>  mm/cma.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8ba4397f018f6993d962 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
+>  	if (page)
+>  		set_pages_refcounted(page, count);
+>  
+>  	return page;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_alloc);
+>  
+>  static struct cma_memrange *find_cma_memrange(struct cma *cma,
+>  		const struct page *pages, unsigned long count)
+>  {
+>  	struct cma_memrange *cmr = NULL;
+> @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
+>  
+>  	__cma_release_frozen(cma, cmr, pages, count);
+>  
+>  	return true;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_release);
+>  
+>  bool cma_release_frozen(struct cma *cma, const struct page *pages,
+>  		unsigned long count)
+>  {
+>  	struct cma_memrange *cmr;
+> 
 
-The prefix of the patch should likely not be "mm: cma: " :)
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
