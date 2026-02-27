@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EJERFuZ0oWkPtQQAu9opvQ
+	id QC76CnB2oWmntQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:41:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:48:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B5B1B61B5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C891B62AE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20CD010EAF8;
-	Fri, 27 Feb 2026 10:41:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="lRgj3bQk";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE3A10EAFA;
+	Fri, 27 Feb 2026 10:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCBCB10EAF8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:41:38 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fMlHg3YJvz9scQ;
- Fri, 27 Feb 2026 11:41:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1772188895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vx85JChNWo+JtUQhDDnJNFqSm7CFk9xMUNm2UDb9UcE=;
- b=lRgj3bQkF0YKnEl+03B6syorqyklvdpC2A0HJNOzb5joZzG2+v0u4gUMcseQUJI2nBKU3K
- kNyyRfP4Yr2rjOaL54kQIDIXd9HZoTNIVsx0QatAUeKFEFPTpP9StO4HXwE86oECeCRDg5
- +ugSRex4vWNToPVBJYcxm8x7tdPbES0gZxJHHCnwgApeABlwbudFR3WPArt9nTUbV6xIUr
- vT2KBSWaXo0afZ9QLo72gcftP8hHGVVw95Mt87zjKrWDnqlAXRB0dXAv5AZLMq/+MFHKeM
- BWLjwVPWzIPxeOir1s8tjf7VrS/yRhs4cxveLdKE+aqJW86PqSCIm8NyvR+kbg==
-Message-ID: <71224e5f-d982-45f9-be91-b61b78f38853@mailbox.org>
-Date: Fri, 27 Feb 2026 11:41:29 +0100
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEDE010EAFA
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:48:11 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id
+ 71dfb90a1353d-56a87098868so665783e0c.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:48:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772189290; x=1772794090;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3FlwDAQHs4Ab188Hz8URDAmWORYubm2PaVsA0iFMwu0=;
+ b=b0vwoATcIm7atQwLN7hvCwuom8JErC+yFK5pDAQ8YCp3HlmzJCsbnHaYXwEVLp2nSW
+ 0+GyqE6Y8wn2Kshqb/bDMeX/XsJnVZqgzIgVE0aM2GlppbQ/yRmohP576/LpSER8x2Pp
+ cNua04bXQH53ZIPWTWWZlQTDkde6uh1U9v/a6g2UEMuscHEoFiIfBQVQSiTniT+TxirQ
+ 8u+oA66avNJmShT9K8aoWOq0sXNvz0/yuczylme6gi8rcBUDuVhnkJwlk5PCLlDc3Ew3
+ R8J+KrTLHUg0GWBm5TUYkKjMgMieHttn1As3PfSuyW9FmAqoN4lmNWwKg0fg/qJllhKX
+ GRFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVG8Zau1uzRBbTFAtcxyXyQ+MajI4xQ1Si+I2XIhX2E5RsdmotmHj/rToLinlSNdV7otgg9xp8ndrA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwOCu4XxapgPQMOfJ9txvPEWA3YlUuhKWfpocrwQnYGxUF3kWSJ
+ MY6ZrLH76kWnYBQPHLw1qy2kaUTRbYyKH+bl6VtvUCcE/3w1N9BCMeR5v3C2yJe/pNg=
+X-Gm-Gg: ATEYQzzpFz/2z4kelCK2/wkv9PHZQhnX3DbNLoJbH2UemR1iZkhe6ydelTWQtjTCsBW
+ 5AokaWO7S8TPZVdPyDSqOJCmdJ/CC+jsLEPAp7DVT7pfSx/Uj3ZcqI4aKAuC6xLkVSanW247Pei
+ JN3wE2oWYi0qaIb9MNFHNgp17V1WmWJ51L9Tg8qfEX9y5XGQogePlLS8VTzGeeXrSjlXA+jakra
+ q0kYBHB/7tMBYhZb8jxAH5nREMf8K3hGTDHZHcR9XQKWcAolN005FwjBDOHvj+jwhDtAnv2brGk
+ +tkGXehubgtc1OJc4k7WdDE1atOCUl+HMqeNRZIoEtEWUj84EN8RNL/03ifg19GUZfTz6NDf8uq
+ XhqRkGslF54kiDqCA/3fAoJCoVOFRr0RWO3aO7w0CRL244xsbf3O4HNXCsUnN96LijXR9U6i35m
+ J82Vd/xtPbBY17S8u8feFLTFbk9ksLq6dsLLSxpIc+b5jzqir9xA3JssS19Hsw
+X-Received: by 2002:a05:6122:4b18:b0:566:eb31:4713 with SMTP id
+ 71dfb90a1353d-56aa0aafa95mr1182273e0c.9.1772189290564; 
+ Fri, 27 Feb 2026 02:48:10 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-56a91bb4fbesm5733055e0c.5.2026.02.27.02.48.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Feb 2026 02:48:09 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-94dd2d71231so521073241.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 02:48:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWySBOYysuJd65lIq4WCY6qapLZVAV13vmWugGhmf9CnyiXroDJrmi+48VqZ5hxdxC0K1k9OAEMk9E=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3583:b0:5f9:3a74:e17b with SMTP id
+ ada2fe7eead31-5ff3232afd6mr1008069137.13.1772189289126; Fri, 27 Feb 2026
+ 02:48:09 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi83: add test pattern generation
- support
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <53c8d9e7fde7b176e05503a72af81e74c7a8a1c1.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <53c8d9e7fde7b176e05503a72af81e74c7a8a1c1.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Feb 2026 11:47:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com>
+X-Gm-Features: AaiRm51h4Q-XTgbNeUvH0Ox5Heqc-6O0OJ_Dv-XNFtKtSDZR5vc0E3M-GeWzDIs
+Message-ID: <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/20] clk: renesas: rzv2h: Add PLLDSI clk mux support
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com, 
+ linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frieder Schrempf <frieder.schrempf@kontron.de>, Marek Vasut <marex@denx.de>,
- Linus Walleij <linusw@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
- <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-3-2e15f5a9a6a0@bootlin.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-3-2e15f5a9a6a0@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: e288f7890a15b977c7e
-X-MBO-RS-META: 1t3xkckrmdiizbrogzmcuifpfw38xchc
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,75 +102,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:marex@denx.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,kontron.de,denx.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:laurent.pinchart@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:magnus.damm@gmail.com,m:laurent.pinchart+renesas@ideasonboard.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:tommmerciai@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,glider.be,baylibre.com,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,mailbox.org:mid,mailbox.org:dkim,bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E8B5B1B61B5
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.851];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux-m68k.org:email,mail.gmail.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 85C891B62AE
 X-Rspamd-Action: no action
 
-On 2/26/26 5:16 PM, Luca Ceresoli wrote:
-> Generation of a test pattern output is a useful tool for panel bringup and
-> debugging, and very simple to support with this chip.
-> 
-> The value of REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW needs to be divided by two
-> for the test pattern to work in dual LVDS mode. While not clearly stated in
-> the datasheet, this is needed according to the DSI Tuner [0] output. And
-> some dual-LVDS panels refuse to show any picture without this division by
-> two.
-> 
-> [0] https://www.ti.com/tool/DSI-TUNER
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 17a885244e1e..ddc8b5e1dd15 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -114,6 +114,7 @@
->   #define REG_VID_CHA_HORIZONTAL_FRONT_PORCH	0x38
->   #define REG_VID_CHA_VERTICAL_FRONT_PORCH	0x3a
->   #define REG_VID_CHA_TEST_PATTERN		0x3c
-> +#define  REG_VID_CHA_TEST_PATTERN_EN		BIT(4)
->   /* IRQ registers */
->   #define REG_IRQ_GLOBAL				0xe0
->   #define  REG_IRQ_GLOBAL_IRQ_EN			BIT(0)
-> @@ -134,6 +135,9 @@
->   #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
->   #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
->   
-> +static bool sn65dsi83_test_pattern;
-> +module_param_named(test_pattern, sn65dsi83_test_pattern, bool, 0644);
-Can this be enabled/disabled at runtime via sysfs attribute instead ?
+Hi Tommaso,
+
+On Fri, 13 Feb 2026 at 17:28, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add PLLDSI clk mux support to select PLLDSI clock from different clock
+> sources.
+>
+> Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
+> them in the clock driver.
+>
+> Extend the determine_rate callback to calculate and propagate PLL
+> parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
+> using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
+>
+> The CLK_SMUX2_DSI{0,1}_CLK clock multiplexers select between two paths
+> with different duty cycles:
+>
+> - CDIV7_DSIx_CLK (LVDS path, parent index 0): asymmetric H/L=4/3 duty (4/7)
+> - CSDIV_DSIx (DSI/RGB path, parent index 1): symmetric 50% duty (1/2)
+>
+> Implement rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock operations to
+> allow the DRM driver to query and configure the appropriate clock path
+> based on the required output duty cycle.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+
+> +static struct clk * __init
+> +rzv2h_cpg_plldsi_smux_clk_register(const struct cpg_core_clk *core,
+> +                                  struct rzv2h_cpg_priv *priv)
+> +{
+> +       struct rzv2h_plldsi_mux_clk *clk_hw_data;
+> +       struct clk_init_data init;
+> +       struct clk_hw *clk_hw;
+> +       struct smuxed smux;
+> +       u8 width, mask;
+> +       int ret;
+> +
+> +       smux = core->cfg.smux;
+> +       mask = smux.width;
+> +       width = fls(mask) - ffs(mask) + 1;
+> +
+> +       if (width + smux.width > 16) {
+> +               dev_err(priv->dev, "mux value exceeds LOWORD field\n");
+> +               return ERR_PTR(-EINVAL);
+> +       }
+
+I am totally confused by this: smux.width is not a mask, but the size
+of a register bitifield.
+Perhaps:
+
+    if (smux.shift + smux.width > 16) { ... }
+
+?
+
+> +
+> +       clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
+> +       if (!clk_hw_data)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       clk_hw_data->priv = priv;
+> +
+> +       init.name = core->name;
+> +       init.ops = &rzv2h_cpg_plldsi_smux_ops;
+> +       init.flags = core->flag;
+> +       init.parent_names = core->parent_names;
+> +       init.num_parents = core->num_parents;
+> +
+> +       clk_hw_data->mux.reg = priv->base + smux.offset;
+> +
+> +       clk_hw_data->mux.shift = smux.shift;
+> +       clk_hw_data->mux.mask = smux.width;
+
+Again, smux.width is not a mask.
+Perhaps GENMASK_U16(smux.shift - 1, 0)?
+
+> +       clk_hw_data->mux.flags = core->mux_flags;
+> +       clk_hw_data->mux.lock = &priv->rmw_lock;
+> +
+> +       clk_hw = &clk_hw_data->mux.hw;
+> +       clk_hw->init = &init;
+> +
+> +       ret = devm_clk_hw_register(priv->dev, clk_hw);
+> +       if (ret)
+> +               return ERR_PTR(ret);
+> +
+> +       return clk_hw->clk;
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
