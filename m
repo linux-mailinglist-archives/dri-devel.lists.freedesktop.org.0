@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GENWCH6joWnEvAQAu9opvQ
+	id mM9lLX+joWkfvQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:00:30 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:00:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3CF1B82D4
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402D71B82DD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 15:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1137010EB89;
-	Fri, 27 Feb 2026 14:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B9110EB84;
+	Fri, 27 Feb 2026 14:00:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QU0F0kJ5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FYibSH2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1449A10EB77;
- Fri, 27 Feb 2026 14:00:22 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 788EC10EB7D;
+ Fri, 27 Feb 2026 14:00:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E15C540B1F;
- Fri, 27 Feb 2026 14:00:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 429D1C19423;
- Fri, 27 Feb 2026 14:00:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CAB3F600CB;
+ Fri, 27 Feb 2026 14:00:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B10C19423;
+ Fri, 27 Feb 2026 14:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772200821;
- bh=pmuV9XT5xz4TIGCX33nAahI5S0bV94XYGEmoM0J00kE=;
+ s=k20201202; t=1772200824;
+ bh=UOPw4lyjLgO8th4KVe5p6838LUE8j5nBPpQHE2tj2aA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QU0F0kJ5NBlgWFhg738XGBv5DVWfKxPpFdsmRUjAYRflkwtxpQ5Gei814H2aTjtQP
- cm4zFGisMDOTjsgdrhSkJvgzhLlUYpd9VWazCXFEZ/UHHPFxJHSV82S7swMwxUwvVO
- fgu6HxZceVtp7b+sk9Vqs1CeB5XSmy3dkqF8XMlWPC1X7KBgBbvL6QDvfrZxfatjwH
- zfyljkcwr4VFZwYLK0N92JL8/LAqbxYJWJWyOj53vCJ1UTJPwfVmx5N1F5sZ3QD5ra
- o6iAtf8pWpmZ2d/wh45BBc0IA49nFp3nJrQkofK+ypA/5FLvKkZV8+ZHGQJHYvVGOd
- zcVQ0Rw3l5cTQ==
+ b=FYibSH2LyS171XMctAmHbauqhNEnJWnVmbLIwRb7crCY/nxtcFOnquS9YyGGpnamL
+ SnRg/U+X8Uq4BQJg9ntSQ4Uu6aV5H5RNnd3lMoeVytm/3BJOWzHEJDT+hBYvP2ssCp
+ qVBokUBFNp+gT11I35srTtvTb7hEoK0ErPu6o3Rpt3JaIblNVPYcaWw1TYhDqGIuZ/
+ uxc/qNb/N2p82PA9TvyKJ+bswXkTJl79hqgb0K+rHtamAURzuVDoUEtAbI18yKTmAG
+ cIyQ2kvSy43iLxkkPRyNhYWhvI/uVNcPK7cLm8n9Nc/EfjRh+/5tGEIcrdcMg4Q2kt
+ ktMo9reM/U7dg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 27 Feb 2026 14:59:53 +0100
-Subject: [PATCH v2 09/14] drm/bridge: synopsys: dw-hdmi: Convert to
- drm_output_color_format
+Date: Fri, 27 Feb 2026 14:59:54 +0100
+Subject: [PATCH v2 10/14] drm/arm: komeda: Convert to drm_output_color_format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-drm-rework-color-formats-v2-9-8bd278e2af9d@kernel.org>
+Message-Id: <20260227-drm-rework-color-formats-v2-10-8bd278e2af9d@kernel.org>
 References: <20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org>
 In-Reply-To: <20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -75,12 +74,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3565; i=mripard@kernel.org;
- h=from:subject:message-id; bh=pmuV9XT5xz4TIGCX33nAahI5S0bV94XYGEmoM0J00kE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLF4d12J2ec9SgUd/+lbB1K6Oz7krdD6zXeANUI1O+S
- t09u3tjx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI+QvGOrX6Y1dleQX5VHl+
- XJk0SSKOO/Fw+ETn5DVKWlbZc90etBd8dJSdtHXisXv6K5Mfml61YqzTeC2kaeNweFLACqZS8W9
- p6llsDiZst4TsT704sfyswKU9dWtVbzz+aZWhuD1ZqSLQSAEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5568; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=UOPw4lyjLgO8th4KVe5p6838LUE8j5nBPpQHE2tj2aA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLF4fLz/he/vj+C7dvtmxNemZh55aXNM85s4tt5fyU7
+ JlsNX8UO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBE0psYG3qN3M9srerasmLz
+ j2kHX0he4Yt/9qxMW2N3VNxmc+MLxcY1M92z/q9j7bc1Wr/MZPt+d8ZaGbdY/bsvvOQzw0NvWBb
+ zB3uZlc6yU8l/PVU2+GVp+d2Vz75LH3G7vSFkwtOtTZYmnWkA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,8 +123,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9C3CF1B82D4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 402D71B82DD
 X-Rspamd-Action: no action
 
 Now that we introduced a new drm_output_color_format enum to represent
@@ -141,78 +140,122 @@ The only thing we need to consider is if the original code meant to use
 that value as a bitmask, in which case we do need to keep the bit shift,
 or as a discriminant in which case we don't.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/d71/d71_component.c     | 14 +++++++-------
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c           |  2 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h       |  5 +++--
+ drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c |  2 +-
+ 4 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index ee88c0e793b0416d20105a43448cb4037402e64b..0296e110ce65ffc284e120f4e3f92052474e83e5 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2662,11 +2662,11 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	struct drm_connector *conn = conn_state->connector;
- 	struct drm_display_info *info = &conn->display_info;
- 	struct drm_display_mode *mode = &crtc_state->mode;
- 	u8 max_bpc = conn_state->max_requested_bpc;
- 	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
--			     (info->color_formats & DRM_COLOR_FORMAT_YCBCR420);
-+			     (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420));
- 	u32 *output_fmts;
- 	unsigned int i = 0;
- 
- 	*num_output_fmts = 0;
- 
-@@ -2721,40 +2721,40 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 
- 	/* Default 8bit RGB fallback */
- 	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
- 
- 	if (max_bpc >= 16 && info->bpc == 16) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+index 67e5d3b4190f62549bc8da700deb4b15e138b515..27ca2930cdac6e76a058102ea2c1d8306d85e751 100644
+--- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
++++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+@@ -1078,15 +1078,15 @@ static void d71_improc_update(struct komeda_component *c,
  	}
  
- 	if (max_bpc >= 12 && info->bpc >= 12) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+ 	mask |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
  
--		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+ 	/* config color format */
+-	if (st->color_format == DRM_COLOR_FORMAT_YCBCR420)
++	if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
+ 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
+-	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR422)
++	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
+ 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422;
+-	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR444)
++	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR444)
+ 		ctrl |= IPS_CTRL_YUV;
  
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+ 	malidp_write32_mask(reg, BLK_CONTROL, mask, ctrl);
+ }
+ 
+@@ -1143,16 +1143,16 @@ static int d71_improc_init(struct d71_dev *d71,
+ 		return PTR_ERR(c);
  	}
  
- 	if (max_bpc >= 10 && info->bpc >= 10) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+ 	improc = to_improc(c);
+ 	improc->supported_color_depths = BIT(8) | BIT(10);
+-	improc->supported_color_formats = DRM_COLOR_FORMAT_RGB444 |
+-					  DRM_COLOR_FORMAT_YCBCR444 |
+-					  DRM_COLOR_FORMAT_YCBCR422;
++	improc->supported_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
++					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
++					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
+ 	value = malidp_read32(reg, BLK_INFO);
+ 	if (value & IPS_INFO_CHD420)
+-		improc->supported_color_formats |= DRM_COLOR_FORMAT_YCBCR420;
++		improc->supported_color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
  
--		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+ 	improc->supports_csc = true;
+ 	improc->supports_gamma = true;
  
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+ 	return 0;
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 9c8b8da531a7f169cb55f0daba3a898d29cdfdf9..714af5c889d742144113f6d86c79b009d6a19384 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -38,11 +38,11 @@ void komeda_crtc_get_color_config(struct drm_crtc_state *crtc_st,
+ 			min_bpc = conn_bpc;
  	}
  
--	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+	if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
- 		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+ 	/* connector doesn't config any color_format, use RGB444 as default */
+ 	if (!conn_color_formats)
+-		conn_color_formats = DRM_COLOR_FORMAT_RGB444;
++		conn_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
  
--	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+	if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
- 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+ 	*color_depths = GENMASK(min_bpc, 0);
+ 	*color_formats = conn_color_formats;
+ }
  
- 	*num_output_fmts = i;
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
+index 37b9e92202443cc72adc0666ed047d4f77d79782..bbee6da43164f7cc32340ff4479d99609c18db7e 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
+@@ -317,20 +317,21 @@ struct komeda_splitter_state {
+ 	u16 overlap;
+ };
  
- 	return output_fmts;
+ struct komeda_improc {
+ 	struct komeda_component base;
+-	u32 supported_color_formats;  /* DRM_RGB/YUV444/YUV420*/
++	u32 supported_color_formats;  /* BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444/YUV444/YUV420) */
+ 	u32 supported_color_depths; /* BIT(8) | BIT(10)*/
+ 	u8 supports_degamma : 1;
+ 	u8 supports_csc : 1;
+ 	u8 supports_gamma : 1;
+ };
+ 
+ struct komeda_improc_state {
+ 	struct komeda_component_state base;
+-	u8 color_format, color_depth;
++	enum drm_output_color_format color_format;
++	u8 color_depth;
+ 	u16 hsize, vsize;
+ 	u32 fgamma_coeffs[KOMEDA_N_GAMMA_COEFFS];
+ 	u32 ctm_coeffs[KOMEDA_N_CTM_COEFFS];
+ };
+ 
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+index f4e76b46ca327a1c5db9bdbdd9550b45190b30d8..6f9b10cc831ff748296b9ed30b6de398c90c4786 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+@@ -797,11 +797,11 @@ komeda_improc_validate(struct komeda_improc *improc,
+ 					 improc->supported_color_formats);
+ 			return -EINVAL;
+ 		}
+ 
+ 		st->color_depth = __fls(avail_depths);
+-		st->color_format = BIT(__ffs(avail_formats));
++		st->color_format = __ffs(avail_formats);
+ 	}
+ 
+ 	if (kcrtc_st->base.color_mgmt_changed) {
+ 		drm_lut_to_fgamma_coeffs(kcrtc_st->base.gamma_lut,
+ 					 st->fgamma_coeffs);
 
 -- 
 2.53.0
