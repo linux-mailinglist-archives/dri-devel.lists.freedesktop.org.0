@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4UfFEq14oWkJtgQAu9opvQ
+	id CCimJLB7oWkUtgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:57:49 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 12:10:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729451B644E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED84F1B6613
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 12:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC3A10EAF9;
-	Fri, 27 Feb 2026 10:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539C610EB05;
+	Fri, 27 Feb 2026 11:10:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uKoU2ttm";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="M/5pNHKq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7A310EAF9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:57:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D617B41913;
- Fri, 27 Feb 2026 10:57:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C45C116C6;
- Fri, 27 Feb 2026 10:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772189863;
- bh=EV++6fc7wgpSpcgWlcOMt/xe137qRBgNctkEkpXLWgg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uKoU2ttmFrLP8NXYua797uuFYuyvTHBm7A3f1waYp51zq550diTXVRbTPT0ytknvR
- Z1z8jXzG22BA9F5LoHq3fzwR+/LcNbTGjnD0dfTmVkvA/r6YEfbzjxPI3PYzmhiWsC
- REk8cRAu+CuYzk9fkocrzJfBt+u8RUxQ+/tK9yTxWKJz4q3xoOBA2FwdK4Qkhmjw8w
- oBMMtdNLDIw9r/h1bNZbknWbDdJeJyrd8J7/mW14Rhjj6UBrL5ZJ4LASAJMDHeffCr
- 1D5D9g99OyxsqbwithM1CPBnz1N5fHrLBh5VyK2cDFwv90Ay7sqM2orzSiyFsWDnb6
- +bhf5t0KKA4lg==
-Date: Fri, 27 Feb 2026 11:57:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Frieder Schrempf <frieder.schrempf@kontron.de>, Marek Vasut <marex@denx.de>,
- Linus Walleij <linusw@kernel.org>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi83: add test pattern
- generation support
-Message-ID: <20260227-loud-silky-macaw-8d4d3b@houat>
-References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
- <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-3-2e15f5a9a6a0@bootlin.com>
- <71224e5f-d982-45f9-be91-b61b78f38853@mailbox.org>
+X-Greylist: delayed 512 seconds by postgrey-1.36 at gabe;
+ Fri, 27 Feb 2026 11:10:36 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8DA10EB18
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 11:10:35 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20260227110202euoutp01e351d55f106686fc51916182f4a89d40~YFYb7rmOt0224002240euoutp01X
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 11:02:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20260227110202euoutp01e351d55f106686fc51916182f4a89d40~YFYb7rmOt0224002240euoutp01X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1772190122;
+ bh=qmB4sCKpzc9WGUBY+s4LrtK7Wne1fnOCrPQGkz1WNpQ=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=M/5pNHKqIkVkGoDP1PzezE763s5faG4KqECluWlRICgzKB/6EWpRNfG4Gva3RM6sc
+ X31ZVHemcHaZgEE7HUXhx+FOA3bI7x7+FKk3c+HFwf/ro8mF8kfCawgIw403zpkaKx
+ nSyUxRSlAemgAjrLS4bmgaab5vdHeSN/STQI87/U=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260227110202eucas1p2d215d27dfd75dd66804d745e315931aa~YFYbpWV6o1379713797eucas1p2A;
+ Fri, 27 Feb 2026 11:02:02 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260227110202eusmtip23d0ed369975394f190c72bcb53ca092a~YFYbL1JMe0830708307eusmtip2h;
+ Fri, 27 Feb 2026 11:02:02 +0000 (GMT)
+Message-ID: <873c2755-1903-4760-b09d-498060b7dfc3@samsung.com>
+Date: Fri, 27 Feb 2026 12:02:01 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="biqdddwbes3n3dob"
-Content-Disposition: inline
-In-Reply-To: <71224e5f-d982-45f9-be91-b61b78f38853@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: verisilicon: DRM_VERISILICON_DC should depend on
+ ARCH_THEAD
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, graham@big-grey.co.uk
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <893289430f07a1e89be4932bde0dd3d700366e02.camel@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260227110202eucas1p2d215d27dfd75dd66804d745e315931aa
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260226153654eucas1p17a1a671532fe3d6d6d7a0fce19843060
+X-EPHeader: CA
+X-CMS-RootMailID: 20260226153654eucas1p17a1a671532fe3d6d6d7a0fce19843060
+References: <fd65d4c53463e9579f59d7532ac6cce795d57aca.1772103393.git.geert+renesas@glider.be>
+ <CGME20260226153654eucas1p17a1a671532fe3d6d6d7a0fce19843060@eucas1p1.samsung.com>
+ <893289430f07a1e89be4932bde0dd3d700366e02.camel@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,114 +84,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:geert+renesas@glider.be,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:graham@big-grey.co.uk,m:linux-kernel@vger.kernel.org,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_RECIPIENTS(0.00)[m:marek.vasut@mailbox.org,m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:marex@denx.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,kontron.de,denx.de,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.993];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[m.wilczynski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,glider.be,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,big-grey.co.uk];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[samsung.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.wilczynski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ti.com:url]
-X-Rspamd-Queue-Id: 729451B644E
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:mid,samsung.com:dkim,samsung.com:email,lists.freedesktop.org:url,fireeye.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,glider.be:email,big-grey.co.uk:url]
+X-Rspamd-Queue-Id: ED84F1B6613
 X-Rspamd-Action: no action
 
 
---biqdddwbes3n3dob
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi83: add test pattern
- generation support
-MIME-Version: 1.0
 
-On Fri, Feb 27, 2026 at 11:41:29AM +0100, Marek Vasut wrote:
-> On 2/26/26 5:16 PM, Luca Ceresoli wrote:
-> > Generation of a test pattern output is a useful tool for panel bringup =
-and
-> > debugging, and very simple to support with this chip.
-> >=20
-> > The value of REG_VID_CHA_ACTIVE_LINE_LENGTH_LOW needs to be divided by =
-two
-> > for the test pattern to work in dual LVDS mode. While not clearly state=
-d in
-> > the datasheet, this is needed according to the DSI Tuner [0] output. And
-> > some dual-LVDS panels refuse to show any picture without this division =
-by
-> > two.
-> >=20
-> > [0] https://www.ti.com/tool/DSI-TUNER
-> >=20
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > ---
-> >   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 13 +++++++++++--
-> >   1 file changed, 11 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi83.c
-> > index 17a885244e1e..ddc8b5e1dd15 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > @@ -114,6 +114,7 @@
-> >   #define REG_VID_CHA_HORIZONTAL_FRONT_PORCH	0x38
-> >   #define REG_VID_CHA_VERTICAL_FRONT_PORCH	0x3a
-> >   #define REG_VID_CHA_TEST_PATTERN		0x3c
-> > +#define  REG_VID_CHA_TEST_PATTERN_EN		BIT(4)
-> >   /* IRQ registers */
-> >   #define REG_IRQ_GLOBAL				0xe0
-> >   #define  REG_IRQ_GLOBAL_IRQ_EN			BIT(0)
-> > @@ -134,6 +135,9 @@
-> >   #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
-> >   #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
-> > +static bool sn65dsi83_test_pattern;
-> > +module_param_named(test_pattern, sn65dsi83_test_pattern, bool, 0644);
->
-> Can this be enabled/disabled at runtime via sysfs attribute instead ?
+On 2/26/26 16:36, Icenowy Zheng wrote:
+> 在 2026-02-26四的 12:00 +0100，Geert Uytterhoeven写道：
+>> Currently, the Verisilicon DC-series display controller driver
+>> supports
+>> only the DC8200 variant in the T-HEAD TH1520 SoC.  Hence restrict the
+>> dependency on RISCV to ARCH_THEAD, to prevent asking the user about
+>> this
+>> driver when configuring a kernel without T-HEAD platform support.
+>>
+>> The dependency can be relaxed later, when adding support for
+>> appropriate
+>> SoCs from other vendors.
+> 
+> Michal Wilczynski has verified that this driver will work on StarFive
+> JH7110 with some extra glue drivers (but without modification to this
+> driver itself). [1]
 
-Then you would have to deal with concurrency with the atomic state
-updates, and it would really be better implemented as a connector
-property.
+Yeah I managed to test successfully (not all resolutions worked for me
+but this does seem like HDMI driver issue). Additionally Graham Markall
+managed to check on his VF2 independently [1]. Hopefully will find some
+time to send an updated v2.
 
-In other words, it's probably enough for now :)
+[1] - https://big-grey.co.uk/2026/01/26/testing-starfive-jh7110-display-controller-patches/
 
-Maxime
+Best regards,
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
 
---biqdddwbes3n3dob
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Although this can be considered as future work and changing to
+> ARCH_THEAD seems okay now.
+> 
+> (BTW the hardware identification values is taken from the vendor driver
+> and it should support different variants of DC8200)
+> 
+> Thanks
+> Icenowy
+> 
+> [1]
+> https://protect2.fireeye.com/v1/url?k=9deb3bf5-c27002f9-9deab0ba-000babff3563-0751fbe2749df7e2&q=1&e=1bdc71ee-fc93-4f72-a715-c25dc3497820&u=https%3A%2F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2025-November%2F535442.html
+> 
+>>
+>> Fixes: dbf21777caa8b8c8 ("drm: verisilicon: add a driver for
+>> Verisilicon display controllers")
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> ---
+>>  drivers/gpu/drm/verisilicon/Kconfig | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/verisilicon/Kconfig
+>> b/drivers/gpu/drm/verisilicon/Kconfig
+>> index 7cce86ec8603c596..f2edde9e0037ebcd 100644
+>> --- a/drivers/gpu/drm/verisilicon/Kconfig
+>> +++ b/drivers/gpu/drm/verisilicon/Kconfig
+>> @@ -2,7 +2,7 @@
+>>  config DRM_VERISILICON_DC
+>>  	tristate "DRM Support for Verisilicon DC-series display
+>> controllers"
+>>  	depends on DRM && COMMON_CLK
+>> -	depends on RISCV || COMPILE_TEST
+>> +	depends on ARCH_THEAD || COMPILE_TEST
+>>  	select DRM_BRIDGE_CONNECTOR
+>>  	select DRM_CLIENT_SELECTION
+>>  	select DRM_DISPLAY_HELPER
+> 
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaaF4pAAKCRAnX84Zoj2+
-dmfGAYCXrIMmmlOgJt3MTEOT4TgCw+0VLkqRfKu/QjAEEEHfpUQtW8l3Qwj/APbO
-b4lUOGMBgMZstfRKFeohlKrLQdrYO0mNeA3W79oQEPgEJgK3dTYlFxD3JT3llzax
-SoEiSaFyOw==
-=5fXu
------END PGP SIGNATURE-----
-
---biqdddwbes3n3dob--
