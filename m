@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oMOwMbDroGkpoAQAu9opvQ
+	id cD4wK5/xoGm0oAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 01:56:16 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 02:21:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5BD1B1592
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 01:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B351B178F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 02:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9292110EA16;
-	Fri, 27 Feb 2026 00:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEDAA10E0CB;
+	Fri, 27 Feb 2026 01:21:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RNtYZnfq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ExaP9WvM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA72E10EA16
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 00:56:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 019E910E0CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 01:21:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C8F3E600AD;
- Fri, 27 Feb 2026 00:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE24C116C6;
- Fri, 27 Feb 2026 00:56:09 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6368060008;
+ Fri, 27 Feb 2026 01:21:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57571C116C6;
+ Fri, 27 Feb 2026 01:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772153770;
- bh=+S7zYZsdu0WacFrE45kUE7EgJJuP3ii1APz8o9WAnTk=;
+ s=k20201202; t=1772155291;
+ bh=hVNt9LgAqng5Pf1EozdibGgGKwY/NRGv3Gr32gqyiws=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RNtYZnfqrWSMog4trw9W/VxWf/ECyF52xUHLxU2TJwqo1lw9Zm96BLKiVQp1C1kq8
- ozuaki1jAUzVb7kVzzx/em+XSBUDr3Zdqvi8MuCKSSV2/6pu3x3TiIZ5TlCq7PuzSa
- 8akY65SXNQAndUEv9WJfW+dSTZH7tUDpL04zvcZGy5L4cxpStl79FlasJmxmVYJAmf
- QVcGewsKQWQJftrTxW32tiJpAaEHGtDRufXmHoLBdnGgeQ1cGBuuT9r2Mw1iw+OQWB
- KBOGz10+O80fHMGrlRiXlypJ03cXyfbhohL2RiPGCBW2zP+2PhPwyy169rPuKxsCBQ
- UM5aO1wLf7tWA==
-Date: Thu, 26 Feb 2026 17:56:07 -0700
+ b=ExaP9WvMoXOaE9Nv6OiKD8n5y7OzSH3X3l1B+lUo3+7AKuY6ZGfZDjwEvbTZfubZO
+ elyespivyRSUPr+CHjpa7jE3KU/norHKuZjEmBbb9lvHjyGv8IyQE9q7DkunUtn1DR
+ KOpRJdQYNlmUB3k1GmvAHuSmpTPYRVqlSS+wQwjTwRaN5sXrt09wNvuPFIX0oD04mf
+ oFOrZDk3qSGe7Bclj5rfewXzijbKCQjD2y9LnTt/99VUhknMi7D3YkjKuKzA3cRf/7
+ hLXJU/BFhlh/ZCKo/mFZFZjhdkePLI7dMxQJ73dkMhxCyCEJlxp8097oUftpqZTl2t
+ dziwOnwoSkWWw==
+Date: Thu, 26 Feb 2026 18:21:28 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Zhiping Zhang <zhipingz@meta.com>
 Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
@@ -43,14 +43,15 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
  linux-pci@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yochai Cohen <yochai@nvidia.com>,
  Yishai Hadas <yishaih@nvidia.com>, Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [RFC 1/2] Vfio: add callback to get tph info for dmabuf
-Message-ID: <aaDrp7teQoutU79s@kbusch-mbp>
+Subject: Re: [RFC 2/2] RMDA MLX5: get tph for p2p access when registering
+ dmabuf mr
+Message-ID: <aaDxmGoqpjnvmVs9@kbusch-mbp>
 References: <20260210194014.2147481-1-zhipingz@meta.com>
- <20260210194014.2147481-2-zhipingz@meta.com>
+ <20260210194014.2147481-3-zhipingz@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210194014.2147481-2-zhipingz@meta.com>
+In-Reply-To: <20260210194014.2147481-3-zhipingz@meta.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,28 +99,29 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5F5BD1B1592
+X-Rspamd-Queue-Id: 31B351B178F
 X-Rspamd-Action: no action
 
-The subject prefix should be lower case "vfio" to match the subsystem
-commit style.
+On Tue, Feb 10, 2026 at 11:39:55AM -0800, Zhiping Zhang wrote:
+> +static void get_tph_mr_dmabuf(struct mlx5_ib_dev *dev, int fd, u16 *st_index,
+> +							  u8 *ph)
+> +{
+> +	int ret;
+> +	struct dma_buf *dmabuf;
+> +
+> +	dmabuf = dma_buf_get(fd);
+> +	if (IS_ERR(dmabuf))
+> +		return;
+> +
+> +	if (!dif there's any implication mabuf->ops->get_tph)
+> +		goto end_dbuf_put;
+> +
+> +	ret = dmabuf->ops->get_tph(dmabuf, st_index, ph);
 
-On Tue, Feb 10, 2026 at 11:39:54AM -0800, Zhiping Zhang wrote:
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index ac2329f24141..bff2f5f7e38d 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -1501,6 +1501,8 @@ struct vfio_region_dma_range {
->  struct vfio_device_feature_dma_buf {
->  	__u32	region_index;
->  	__u32	open_flags;
-> +	__u16   steering_tag;
-> +	__u8    ph;
->  	__u32   flags;
->  	__u32   nr_ranges;
->  	struct vfio_region_dma_range dma_ranges[] __counted_by(nr_ranges);
+You defined the "get_tph" function to take a pointer to a raw steering
+tag value, but you're passing in the steering index to it's table.
 
-I don't think you can add fields to a uapi struct like this since it
-breaks comptibility. Instead, I think you may be able to carve it out of
-the "flags" field since it's currently reserved to be 0, so I guess it's
-potentially available to define a new feature.
+But in general, since you're letting the user put whatever they want in
+the vfio private area, should there be some validation that it's in the
+valid range? I'm also not quite sure how user space comes to know what
+steering tag to use, or what harm might happen if the wrong one is used.
