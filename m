@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LLDNhGzomlc5AQAu9opvQ
+	id MLE9CVV0oWkPtQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:13 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:39:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918B21C1A20
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 10:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28001B6149
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Feb 2026 11:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD4B10E25C;
-	Sat, 28 Feb 2026 09:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BACC010EAF6;
+	Fri, 27 Feb 2026 10:39:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=pm.me header.i=@pm.me header.b="OVqSr9gi";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="BjKIjHQa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E36A10EAF5
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
- s=protonmail3; t=1772188539; x=1772447739;
- bh=P7jRVG2awdtnvkNGRL41RAX3AeTjovXVV6WiqUibkXM=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=OVqSr9giXOZRihXEvaHWLKLVUo7MrFxZvQwupf+D8/vgEjx32PDF3HaIH4tulTVwd
- jhbPsShyp2xT3Pc/ULjAg2L9D6/wr76klRF1QuKr44BT2ZC6Qwfz6mVPGabysF7w3a
- xlau8Tt58NLYKvlA2VTZVcynDMNdOG+ueFQBNZEBBYignvDAmp7S6/aof4kauoh2uE
- ymnNJ7sTO56eSbdchAH7Afi69BLSVaq1eu9/plifZMiP0r1Mx8bmUSTjCZE1DOgeMS
- JaFo3LM5KeAIepLozX2EoQEPouFwuiuKsd9fpXb3bmiotsiBsfuzl5rDFU3wbNgvpk
- fpCB7hYTRIukQ==
-Date: Fri, 27 Feb 2026 10:35:32 +0000
-To: Thomas Zimmermann <tzimmermann@suse.de>
-From: Hardik Phalet <hardik.phalet@pm.me>
-Cc: Hardik Phalet <hardik.phalet@gmail.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, Hardik Phalet <hardik.phalet@pm.me>
-Subject: [PATCH] drm/virtio: Open-code drm_simple_encoder_init()
-Message-ID: <20260227103515.413685-1-hardik.phalet@pm.me>
-Feedback-ID: 166659585:user:proton
-X-Pm-Message-ID: 5e66828b35d0172477757075c415afd9d65f4af3
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC8E10EAF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Feb 2026 10:39:11 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fMlDr4McRz9v0X;
+ Fri, 27 Feb 2026 11:39:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772188748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c8w5EwMRK0R3wBg7LKfkhPQ3VrWqO75sMw6kOXuck4Q=;
+ b=BjKIjHQag7RYnvy6B/2Gxbw1I639uus0ziNvLa9skUOEBGmBHIbsWl284BnuLECGOe3S//
+ jgDj5RoHg+ok07IFrPzm06W4AzuX1a/6aQByDIlRGye8cb/3cOHlu3pWIKpeCk/eP6q/4W
+ BbKhVR4BGXjVbtXhpvxguvux7YBOc/thQHgKJvkG3+7bU7VEjQ9gVcNIE2UC/xpIM4pngH
+ Y0lAiaX75bYIYpAK21cKEIq8HmLlHSwkNJ/vS5zbmgrxb+IkaY8ojxrpFsrYi1NArivcjZ
+ UOyhpkc+8+1TjPgjPmpUSgdt1xZb5w4xlwu2rJ40QcMzuBkHKf2CIpgtdAIvWw==
+Message-ID: <044a03ee-3c78-4915-ae0b-3cf5045df374@mailbox.org>
+Date: Fri, 27 Feb 2026 11:39:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 28 Feb 2026 09:18:41 +0000
+Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi83: fix CHA_DSI_CLK_RANGE
+ rounding
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Linus Walleij <linusw@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-0-2e15f5a9a6a0@bootlin.com>
+ <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-1-2e15f5a9a6a0@bootlin.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20260226-ti-sn65dsi83-dual-lvds-fixes-and-test-pattern-v1-1-2e15f5a9a6a0@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: ozhti5di6ph93sjyyaxf1hw7dg48qofu
+X-MBO-RS-ID: c7d1db9bcc0e34afc1a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +80,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frieder.schrempf@kontron.de,m:linusw@kernel.org,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[hardik.phalet@pm.me,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:hardik.phalet@gmail.com,m:airlied@redhat.com,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:virtualization@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:hardik.phalet@pm.me,m:hardikphalet@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,kontron.de];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,pm.me];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hardik.phalet@pm.me,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[pm.me:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pm.me:mid,pm.me:dkim,pm.me:email]
-X-Rspamd-Queue-Id: 918B21C1A20
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
+X-Rspamd-Queue-Id: A28001B6149
 X-Rspamd-Action: no action
 
-drm_simple_encoder_init() is a thin wrapper around drm_encoder_init()
-that only provides a minimal drm_encoder_funcs instance with
-.destroy =3D drm_encoder_cleanup.
+On 2/26/26 5:16 PM, Luca Ceresoli wrote:
+> The DSI frequency must be in the range:
+> 
+>    (CHA_DSI_CLK_RANGE * 5 MHz) <= DSI freq < ((CHA_DSI_CLK_RANGE + 1) * 5 MHz)
+> 
+> So the register value shouldpoint to the lower range value, but
 
-Inline the helper in virtgpu_display.c and provide a local
-drm_encoder_funcs instance instead. This removes the unnecessary
-indirection and prepares for the eventual removal of
-drm_simple_encoder_init().
+should point (missing space)
 
-No functional changes intended.
+> DIV_ROUND_UP() rounds the division to the higher range value, resulting in
+> an excess of 1 (unless the frequency is an exact multiple of 5 MHz).
+> 
+> For example for a 437100000 MHz clock CHA_DSI_CLK_RANGE should be 87 (0x57):
+> 
+>    (87 * 5 = 435) <= 437.1 < (88 * 5 = 440)
+> 
+> but current code returns 88 (0x58).
+> 
+> Fix the computation by removing the DIV_ROUND_UP().
+> 
+> Fixes: ceb515ba29ba ("drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 and SN65DSI84 driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Reviewed-by: Marek Vasut <marek.vasut@mailbox.org>
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/vir=
-tio/virtgpu_display.c
-index f1dae9569805..8bd6cdc6c16e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -232,6 +232,10 @@ static enum drm_mode_status virtio_gpu_conn_mode_valid=
-(struct drm_connector *con
- =09return MODE_BAD;
- }
-=20
-+static const struct drm_encoder_funcs virtio_gpu_enc_cleanup_funcs =3D {
-+=09.destroy =3D drm_encoder_cleanup
-+};
-+
- static const struct drm_encoder_helper_funcs virtio_gpu_enc_helper_funcs =
-=3D {
- =09.mode_set   =3D virtio_gpu_enc_mode_set,
- =09.enable     =3D virtio_gpu_enc_enable,
-@@ -306,7 +310,8 @@ static int vgdev_output_init(struct virtio_gpu_device *=
-vgdev, int index)
- =09if (vgdev->has_edid)
- =09=09drm_connector_attach_edid_property(connector);
-=20
--=09drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
-+=09drm_encoder_init(dev, encoder, &virtio_gpu_enc_cleanup_funcs,
-+=09=09=09 DRM_MODE_ENCODER_VIRTUAL, NULL);
- =09drm_encoder_helper_add(encoder, &virtio_gpu_enc_helper_funcs);
- =09encoder->possible_crtcs =3D 1 << index;
-=20
---=20
-2.53.0
-
-
+Thanks !
