@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OIYROs4oo2kr+AQAu9opvQ
+	id 2NF0E+8qo2kr+AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:34 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:50:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832DB1C5085
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D701C5233
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8099810E2D7;
-	Sat, 28 Feb 2026 17:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D129F10E2D9;
+	Sat, 28 Feb 2026 17:50:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ob1Dmt9l";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aG9IgV0n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE21710E2D5
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:41:24 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92D910E2D9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:50:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A6F3440B3C;
+ by tor.source.kernel.org (Postfix) with ESMTP id 10F1C60126;
+ Sat, 28 Feb 2026 17:41:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD7AC116D0;
  Sat, 28 Feb 2026 17:41:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAD8C19424;
- Sat, 28 Feb 2026 17:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772300484;
- bh=PaP8xmVX6DAgu/ZJhy0ky3LLPoRAImQyNvWyoInYIuo=;
+ s=k20201202; t=1772300485;
+ bh=oJ+fRIDJzuhUNlGePCiimaDZMppSI5Nw9MhP5u2/hUM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ob1Dmt9lzTs+pbuQ6WZZkbgrKQou6kvYtcc/Wys3HWB+c2/PHSLc2jhHt7WSUlEPU
- CRkdfX094goLOuCZ5hzeILbO4llx7mO9L7sgzw5MtH2bFgar3bjjIhREjhfcp9SVGD
- 3Vxjoq3/LAmHGjDpdXC2zJkdaYF1+b+U3i87g+VHXoGk/lCc2HguqG1yzE3zO2cmU9
- +89k0pdhNrD4K5SN5/lytGMblPyRP7CawMgBwnCzH5SjF1s8YwPtRdW7gqp8dOVsE0
- EYeVI/S6/oMlczxVD6ICT017b6AunL5W96abozb/XWQ0D3i/gI3i2t+OpiGzfMwm4L
- HGady3S1/RTVg==
+ b=aG9IgV0nIxZd1rBB/gUbbRM23Rs5hvY0OPqFpqupsHkwPAJL5NMvqUGK6rTd8jTre
+ CQW0BJmd8KVyb79a2+zAFR4G2Q/LANoTsNdbZ6StXg9ECOoQyKJPrDjnu8PzXp5qLK
+ ckJlQwunjZvLCod2y/Kwpos3a9SzVxgZOfhyxGH5GmdNS03V2XcyLYVP2hCuyPyIqu
+ OZbnYZDKNQIO0fpvtr1tbBSYiH8VCEzjg6ILleBRVUJwsNpblO5uk4CFLcubxRD3FZ
+ MKDoUTWGQ2CB6KNt6MA2NMHtiyB94pYb7ffWF1Yp+C3uwEB9bnXC8W8Bvp2ZRIzTlG
+ RLTGrLh0HA8Ng==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.19 522/844] drm/tests: shmem: Hold reservation lock around
- madvise
-Date: Sat, 28 Feb 2026 12:27:15 -0500
-Message-ID: <20260228173244.1509663-523-sashal@kernel.org>
+Subject: [PATCH 6.19 523/844] drm/tests: shmem: Hold reservation lock around
+ purge
+Date: Sat, 28 Feb 2026 12:27:16 -0500
+Message-ID: <20260228173244.1509663-524-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260228173244.1509663-1-sashal@kernel.org>
 References: <20260228173244.1509663-1-sashal@kernel.org>
@@ -98,21 +98,21 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,collabora.com:email]
-X-Rspamd-Queue-Id: 832DB1C5085
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 98D701C5233
 X-Rspamd-Action: no action
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 607d07d8cc0b835a8701259f08a03dc149b79b4f ]
+[ Upstream commit 3f41307d589c2f25d556d47b165df808124cd0c4 ]
 
 Acquire and release the GEM object's reservation lock around calls
-to the object's madvide operation. The tests use
-drm_gem_shmem_madvise_locked(), which led to errors such as show below.
+to the object's purge operation. The tests use
+drm_gem_shmem_purge_locked(), which led to errors such as show below.
 
-[   58.339389] WARNING: CPU: 1 PID: 1352 at drivers/gpu/drm/drm_gem_shmem_helper.c:499 drm_gem_shmem_madvise_locked+0xde/0x140
+[   58.709128] WARNING: CPU: 1 PID: 1354 at drivers/gpu/drm/drm_gem_shmem_helper.c:515 drm_gem_shmem_purge_locked+0x51c/0x740
 
-Only export the new helper drm_gem_shmem_madvise() for Kunit tests.
+Only export the new helper drm_gem_shmem_purge() for Kunit tests.
 This is not an interface for regular drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -120,24 +120,24 @@ Fixes: 954907f7147d ("drm/shmem-helper: Refactor locked/unlocked functions")
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v6.16+
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Link: https://patch.msgid.link/20251212160317.287409-5-tzimmermann@suse.de
+Link: https://patch.msgid.link/20251212160317.287409-6-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
  drivers/gpu/drm/drm_gem_shmem_helper.c     | 15 +++++++++++++++
- drivers/gpu/drm/tests/drm_gem_shmem_test.c |  8 ++++----
+ drivers/gpu/drm/tests/drm_gem_shmem_test.c |  4 +++-
  include/drm/drm_gem_shmem_helper.h         |  1 +
- 3 files changed, 20 insertions(+), 4 deletions(-)
+ 3 files changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index b7064b8333e89..1dfc9c4089587 100644
+index 1dfc9c4089587..0db3fe08a57b7 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -925,6 +925,21 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct iosys_map *
- 	dma_resv_unlock(obj->resv);
+@@ -940,6 +940,21 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+ 	return ret;
  }
- EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_vunmap);
+ EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_madvise);
 +
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
++int drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
 +{
 +	struct drm_gem_object *obj = &shmem->base;
 +	int ret;
@@ -145,58 +145,39 @@ index b7064b8333e89..1dfc9c4089587 100644
 +	ret = dma_resv_lock_interruptible(obj->resv, NULL);
 +	if (ret)
 +		return ret;
-+	ret = drm_gem_shmem_madvise_locked(shmem, madv);
++	drm_gem_shmem_purge_locked(shmem);
 +	dma_resv_unlock(obj->resv);
 +
-+	return ret;
++	return 0;
 +}
-+EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_madvise);
++EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_purge);
  #endif
  
  MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
 diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index 3e7c6f20fbcca..d639848e3c8ea 100644
+index d639848e3c8ea..4b459f21acfd9 100644
 --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
 +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -292,17 +292,17 @@ static void drm_gem_shmem_test_madvise(struct kunit *test)
- 	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	ret = drm_gem_shmem_madvise_locked(shmem, 1);
-+	ret = drm_gem_shmem_madvise(shmem, 1);
- 	KUNIT_EXPECT_TRUE(test, ret);
- 	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
- 
- 	/* Set madv to a negative value */
--	ret = drm_gem_shmem_madvise_locked(shmem, -1);
-+	ret = drm_gem_shmem_madvise(shmem, -1);
- 	KUNIT_EXPECT_FALSE(test, ret);
- 	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
- 
- 	/* Check that madv cannot be set back to a positive value */
--	ret = drm_gem_shmem_madvise_locked(shmem, 0);
-+	ret = drm_gem_shmem_madvise(shmem, 0);
- 	KUNIT_EXPECT_FALSE(test, ret);
- 	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
- }
-@@ -330,7 +330,7 @@ static void drm_gem_shmem_test_purge(struct kunit *test)
+@@ -340,7 +340,9 @@ static void drm_gem_shmem_test_purge(struct kunit *test)
  	ret = drm_gem_shmem_is_purgeable(shmem);
- 	KUNIT_EXPECT_FALSE(test, ret);
- 
--	ret = drm_gem_shmem_madvise_locked(shmem, 1);
-+	ret = drm_gem_shmem_madvise(shmem, 1);
  	KUNIT_EXPECT_TRUE(test, ret);
  
- 	/* The scatter/gather table will be freed by drm_gem_shmem_free */
+-	drm_gem_shmem_purge_locked(shmem);
++	ret = drm_gem_shmem_purge(shmem);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
+ 	KUNIT_EXPECT_NULL(test, shmem->pages);
+ 	KUNIT_EXPECT_NULL(test, shmem->sgt);
+ 	KUNIT_EXPECT_EQ(test, shmem->madv, -1);
 diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 6924ee226655a..3dd93e2df7092 100644
+index 3dd93e2df7092..8d56970d7eed1 100644
 --- a/include/drm/drm_gem_shmem_helper.h
 +++ b/include/drm/drm_gem_shmem_helper.h
-@@ -310,6 +310,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
- #if IS_ENABLED(CONFIG_KUNIT)
+@@ -311,6 +311,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
  int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
  void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
+ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
++int drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
  #endif
  
  #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
