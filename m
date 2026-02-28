@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8NL6AOLhomkQ7wQAu9opvQ
+	id zdNQKTPjoml57wQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 13:38:58 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 13:44:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9F81C2FEC
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 13:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB401C304E
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 13:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6B210E158;
-	Sat, 28 Feb 2026 12:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D3310E2A0;
+	Sat, 28 Feb 2026 12:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="lrbsrG0b";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HTHQmG3c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
  [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E562910E29D
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 12:38:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3233D10E29F
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 12:44:30 +0000 (UTC)
 Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-48372facfedso26100535e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 04:38:51 -0800 (PST)
+ 5b1f17b1804b1-4837c597cd5so16662395e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 04:44:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772282330; x=1772887130;
+ d=google.com; s=20230601; t=1772282669; x=1772887469;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=mOaqhQImVlbU+bIaPkzVliN+MSpqLdHsMK4C5p4HbTE=;
- b=lrbsrG0b8Q37SOHbOkCbIgTMy1CAzw5/Fgo5KDAzfp9foE1DPpsiKSt5OPCPbdE+iI
- 1jx7Wgqa/6tjZoU90cPv6KP/YNSY9PM369At83ePyIr9N3JfJZ2A5mG4JsA3oZydwe7Q
- R7TsarVpR3TKVvtKFZWy90VFugu7oizdRTDaDGYPwrNxwCXu5l3q2i4/MX6ps6RpSpCN
- Yujl/1kckfAzd+dKY9xF5jc661IqGNpnLmXNZlgZgEU3ga1OicmHOH0tk8lrzEpHz4Sq
- CspSqpP/y3qQmy3qt+bKhWIP+WGWZT3y4ABdCi2EIiVYEbZw6YxyLxfCdLAkiiw+cFQi
- H8ZA==
+ bh=RH0L9WD4/u9mQiuU+Jc2bLYt2zoxsRLi5sNyM2YzgMo=;
+ b=HTHQmG3cXVKjawylAL3iHZ34M6CV82KhZ+kRqFDp0F7mYng7JszVSybtsOrkG1jq5V
+ L23JYjiLD/qtzSZObeXBbUN8p25ki5vZRNHKSXLCdpAwZkeCVy6lJYQv3dQFXgd+VXaE
+ VoBboTIDkLURbNBMoVJrSLVlp5oGkCZxXX7uscXgjNCmkERtNoPq6rOXv+Pj1yy8iYu+
+ DjtgpuXij3sniillPmga8iaQVdfXvYUGqPEZiIQqgIRtne9DsR/+wauPzBsa5B2nkM35
+ NYxXxXDhZNFOSJjkpUDt38pRIMCVkC/kz9b5DGdHpXLWl3uOofI28dFe4ZzjdyE5ci/H
+ +NFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772282330; x=1772887130;
+ d=1e100.net; s=20230601; t=1772282669; x=1772887469;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mOaqhQImVlbU+bIaPkzVliN+MSpqLdHsMK4C5p4HbTE=;
- b=PfvqwjvzM+WkD3/Iv+aLYF9VWnLzRrnnnFFhcTU5xKNvyXPXnx+PaiYEN6MIEexu9t
- 8wCU/pgJCQd9N10XD9fz68yz8B1ierjngMWiZCpCx4mkrE88KWwopT6z6T2ZLJgebKim
- R2z60TtFnjuWSr5+DrsZ6FrfvdqWmM0efVGd3eP0IhC/ZazBlhWb136/mSflxu8lFuC3
- ZGJdi8z7TW2QV3HcnmMo57XjUrB6gZ+Odq5kCzDglYeMeB/FDL2Nk2a85PZYEMfICr+B
- VDq0gzKQVhQcQJkCtlgqNiJ17BmIXHrPGb4wnwQgITYikLtM1I2WpT6uAG39HXyQ2pZU
- vcJQ==
+ bh=RH0L9WD4/u9mQiuU+Jc2bLYt2zoxsRLi5sNyM2YzgMo=;
+ b=YyFhuHWX3OUxMb3kuDuYAZ8FjpcdcfJinESftMTkgF5kh5bXedRp+AFQns79Yiw2w5
+ r0aulAUjo0b54GcoQY/CgCPukn5xs8mSooCbrVr7ktYDYijnsO+0ZFMIexD2Z6WSITLZ
+ 12D8nkoa28/StKm2CiWcg2MTMmPKDiJmK0109xhiQFmOVzxXeGI9rJypbmgjZNVQO/tm
+ uZtXGEkyMwL5d1f8YdDB6ujpsWQPDG41fhqP8WkuPdAsNZjW2CDX59pvkVj5WIIoVEnU
+ a2agX5i5t03lCuFbpIdVBBa28ogjASa309ezHQOuedc716QXt46VwU5ChmgA2mnu0ag7
+ xbpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXsKSmofPaakFT566EKEAGIvqLOJaDRE1mRr+Y4kE/41llUZ9N8bVmSh16HXWz0Um0sL/rWJq/ryUc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywx8pfdw/PmMkW964fVbUwlY42XZkeWQ5tHQDXGOWUVHdxPj29C
- k2rA6PqPkGyvCCNNDbFJ/6EXnM4itLROABHgQX/0ni5//6m4pLGC7OL2UXx7rxRHdWyx2gfKsK0
- +tXAhGW7HNZqhgdSf/A==
-X-Received: from wmby19.prod.google.com ([2002:a05:600c:c053:b0:480:690c:88de])
+ AJvYcCXtlfFRe4rcPUXgsYm036t3ZgtAfb23HEiLHrQXvBud5mk2Xg4atrYb2cgot+NNrZogId0fQArBMs4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7zRrpUNuBF+l0oJCV1crN+zUwiJ9y5779m2q5Ws2SJhSqwCHG
+ B4CRrcNP6/Ond9EQaMzMlYJNmVJYDR/fAiYhlBJDKA+gy6Nu5dai/6Vae50qbLqZUjZw1HvWBET
+ gDThAJ80DrSWZ+6gB/Q==
+X-Received: from wmqi19.prod.google.com ([2002:a05:600c:3553:b0:483:6fe1:c054])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b5b:b0:481:a662:b3f3 with SMTP id
- 5b1f17b1804b1-483c990c263mr116931775e9.7.1772282329804; 
- Sat, 28 Feb 2026 04:38:49 -0800 (PST)
-Date: Sat, 28 Feb 2026 12:38:48 +0000
-In-Reply-To: <20260227200848.114019-3-david@kernel.org>
+ 2002:a05:600c:4fc8:b0:47b:e2a9:2bd7 with SMTP id
+ 5b1f17b1804b1-483c9beaca0mr120569145e9.19.1772282668287; 
+ Sat, 28 Feb 2026 04:44:28 -0800 (PST)
+Date: Sat, 28 Feb 2026 12:44:27 +0000
+In-Reply-To: <20260227200848.114019-15-david@kernel.org>
 Mime-Version: 1.0
 References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-3-david@kernel.org>
-Message-ID: <aaLh2BxSgC9Jl5iS@google.com>
-Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
- zap_page_range_single()
+ <20260227200848.114019-15-david@kernel.org>
+Message-ID: <aaLjK2Q2q5ghE-uE@google.com>
+Subject: Re: [PATCH v1 14/16] mm: rename zap_page_range_single() to
+ zap_vma_range()
 From: Alice Ryhl <aliceryhl@google.com>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: linux-kernel@vger.kernel.org, 
@@ -167,34 +167,77 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 9D9F81C2FEC
+X-Rspamd-Queue-Id: CEB401C304E
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 09:08:33PM +0100, David Hildenbrand (Arm) wrote:
-> Nobody except memory.c should really set that parameter to non-NULL. So
-> let's just drop it and make unmap_mapping_range_vma() use
-> zap_page_range_single_batched() instead.
-> 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Fri, Feb 27, 2026 at 09:08:45PM +0100, David Hildenbrand (Arm) wrote:
+> diff --git a/drivers/android/binder/page_range.rs b/drivers/android/binder/page_range.rs
+> index fdd97112ef5c..2fddd4ed8d4c 100644
+> --- a/drivers/android/binder/page_range.rs
+> +++ b/drivers/android/binder/page_range.rs
+> @@ -130,7 +130,7 @@ pub(crate) struct ShrinkablePageRange {
+>      pid: Pid,
+>      /// The mm for the relevant process.
+>      mm: ARef<Mm>,
+> -    /// Used to synchronize calls to `vm_insert_page` and `zap_page_range_single`.
+> +    /// Used to synchronize calls to `vm_insert_page` and `zap_vma_range`.
+>      #[pin]
+>      mm_lock: Mutex<()>,
+>      /// Spinlock protecting changes to pages.
+> @@ -719,7 +719,7 @@ fn drop(self: Pin<&mut Self>) {
+>  
+>      if let Some(vma) = mmap_read.vma_lookup(vma_addr) {
+>          let user_page_addr = vma_addr + (page_index << PAGE_SHIFT);
+> -        vma.zap_page_range_single(user_page_addr, PAGE_SIZE);
+> +        vma.zap_vma_range(user_page_addr, PAGE_SIZE);
+>      }
+
+LGTM. Be aware that this will have a merge conflict with patches
+currently in char-misc-linus that are scheduled to land in an -rc.
+
+> diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
+> index dd2046bd5cde..e4488ad86a65 100644
+> --- a/drivers/android/binder_alloc.c
+> +++ b/drivers/android/binder_alloc.c
+> @@ -1185,7 +1185,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
+>  	if (vma) {
+>  		trace_binder_unmap_user_start(alloc, index);
+>  
+> -		zap_page_range_single(vma, page_addr, PAGE_SIZE);
+> +		zap_vma_range(vma, page_addr, PAGE_SIZE);
+>  
+>  		trace_binder_unmap_user_end(alloc, index);
+
+LGTM.
 
 > diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
-> index da21d65ccd20..b8e59e4420f3 100644
+> index b8e59e4420f3..04b3cc925d67 100644
 > --- a/rust/kernel/mm/virt.rs
 > +++ b/rust/kernel/mm/virt.rs
+> @@ -113,7 +113,7 @@ pub fn end(&self) -> usize {
+>      /// kernel goes further in freeing unused page tables, but for the purposes of this operation
+>      /// we must only assume that the leaf level is cleared.
+>      #[inline]
+> -    pub fn zap_page_range_single(&self, address: usize, size: usize) {
+> +    pub fn zap_vma_range(&self, address: usize, size: usize) {
+>          let (end, did_overflow) = address.overflowing_add(size);
+>          if did_overflow || address < self.start() || self.end() < end {
+>              // TODO: call WARN_ONCE once Rust version of it is added
 > @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
 >          // sufficient for this method call. This method has no requirements on the vma flags. The
 >          // address range is checked to be within the vma.
 >          unsafe {
-> -            bindings::zap_page_range_single(self.as_ptr(), address, size, core::ptr::null_mut())
-> +            bindings::zap_page_range_single(self.as_ptr(), address, size)
+> -            bindings::zap_page_range_single(self.as_ptr(), address, size)
+> +            bindings::zap_vma_range(self.as_ptr(), address, size)
 >          };
+>      }
 
-Please run rustfmt on Rust changes. Here, rustfmt leads to this being
-formatted on a single line:
+Same as previous patch: please run rustfmt. It will format on a single
+line, like this:
 
-unsafe { bindings::zap_page_range_single(self.as_ptr(), address, size) };
+        unsafe { bindings::zap_vma_range(self.as_ptr(), address, size) };
 
-with the above changed:
+with the above change applied:
 
 Acked-by: Alice Ryhl <aliceryhl@google.com> # Rust and Binder
 
