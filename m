@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PFHAEf1ommG8QQAu9opvQ
+	id OKjSC2H1ommG8QQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:43 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:02:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA81C36A3
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920EC1C36C2
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7209F10E2AE;
-	Sat, 28 Feb 2026 14:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A118410E2B1;
+	Sat, 28 Feb 2026 14:02:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.b="hkRhXkbD";
+	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.b="TkKKLTlO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A68710E2AE
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 14:01:39 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4838c15e3cbso25946265e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 06:01:39 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B8810E2B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 14:02:04 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-483a233819aso29091255e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 06:02:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tuxon.dev; s=google; t=1772287298; x=1772892098; darn=lists.freedesktop.org; 
+ d=tuxon.dev; s=google; t=1772287323; x=1772892123; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4DsAsZ47Hy1YLfVUDttBLQyIVj8duDK0V23RicKiO8s=;
- b=hkRhXkbDD4fwCR8YIkEtR3MGSvDi1WIvxar7EwWMs5LEQMi7ZNMRlT5ZOJR7csbFoT
- 7jWiUkIlDvh4hOULPp3LjmdGt0t4MfmjXzrtnFa4bnq+sEKjb3auuYbNH1lh3fuaShQL
- cbEIF2lrVG4He21Ktv9nBtwubw2R+B+dV4DkX6NYXdb5GEkgCfanreXDd7mrp0CXjgJl
- 2PNKL50MOxFXHnQmLNCToyY/owtfAFp3RvWHO8j12TBvlQSgRqFVycYE7iqANrNPSTh1
- vXxvzD7L4vjBJNgocP7TVKx5zj9tH9ebv+YB7vUYXTQjtkxjUkNeIqeIPCuNm2X0kDIo
- /70A==
+ bh=WlFw9E7/7safVoQdTcstXfBKsD2ksjVuQBYYKWaTUKU=;
+ b=TkKKLTlOQRJx/mctBnjU+AfnyjdvCujQUN82rEwW59l1EXlXt/nOBuIvXD4KTmrc1d
+ QKZAaq+tmZLj4ijPy1Fq9x/ILtAiEOZ1dfoidhuSvr0p+stOsvKMXjrme0/TQPAZBUb7
+ f3YKVBsvGFmudrbzS4GIprdIHeCTlucHTODOyo1DhcnZccXabRyXsWZ9GwV6RzA+b9G3
+ cicdtzcuSDwRVjuSauqOsVpoCParm/AVrhcZkTDa8bSfr9ZW5SoDoVOvhrfcaGuJjEvJ
+ Sb9bf0JF7t7uDRoC/wZjJoPFj3njn3Tb5n8IR9xluONw9IfMHWPJgObpeMvIxNLQEdhX
+ zm0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772287298; x=1772892098;
+ d=1e100.net; s=20230601; t=1772287323; x=1772892123;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4DsAsZ47Hy1YLfVUDttBLQyIVj8duDK0V23RicKiO8s=;
- b=uSkeo1+y8sAtXycX9DGKnkC7m2cm+LttJrlv/AnfJqwDZP/bXAyxvAJy2B0K+9SNUZ
- qZ4zoSPAuM3wGH70YOIWxyjK5Tr/Q2YW0IFz8/D4IbpfYSsAQrebZW12qvImintwe8Ar
- wabagd3O76lC27hkVSEDJkEJ+jAMqcKLI4NESYzG04eJoRnIF9tCJO++px/h/AQLwZm1
- sWxQdv1Y3OwYSbkwrDWnbVh1rClUi8V2K5hGb9FgFP3SsEjess3wz5N8PifwlMUh5x43
- 7zhqL/KNu+Jn2wn+5N2K3QhMikOjZrPt5nxvv6frU6P2qPF4mbwcR4I/ugigYHl4ZYwp
- CE5A==
+ bh=WlFw9E7/7safVoQdTcstXfBKsD2ksjVuQBYYKWaTUKU=;
+ b=seaeuMsXXDsTlc9EfonSrpUWLH7Bdkgma2Lrv0Wt/GBOSkeKnM8dTQrWQwj3vd3Nwo
+ zPMyy0RxrfNPitFHCAf4yGo83BxiZa8ZY4yPv62j8zzGcZ2wqFVzPS1E4WMALUync8hv
+ IMJgnFKCtF8YpsLol39/ib2phL6BK50eQaY7PUxJeoT/URaNofJWIuUpqCc5WQaTcOFg
+ 2jrEsXuYF4RAKloN8305F9ZRp7gAp15qGnvowXOm9zTMioNjpMSSD03XPAqe10Sp8oeh
+ VeN9bMUzIB9jUdgYEKuXw8N146keDd3KsyawEh4z1bQYezop816vcTFwq8iMGG+GfDze
+ wu+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOtWLZQ/g6u8GZS0tjGAR+BJAicOuJBnMNzC4USVRVFe6waaRCd0ZIKCf/Jr3G0ODINPEepJbGUYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqWn59ke3BZksv5lwi+KFGDUomRaAbwsIt0u+O/n++aUCwI3Hf
- Q9Qnhot6YY3yny/GUH44y2Vup2445+XEYbAPBtnZfWvXUSHUHZG2UanlHHbvJFvMbMM=
-X-Gm-Gg: ATEYQzw701ZWeazylZUdQ4Yvittset87SyGIxLbfVZKnzZXhlCtbuWZuRdJMFvvbMzT
- L6kDa2NtCKPIVdvduTS44Sm4cNABP9d6MEU1KYbDt3IthamGBmukzteRK7gooW2ucUU+qEyygUe
- +W6MqNvmEq2WavMofOurY1vvFnTgzxTNYncBoXqq9MgVCS2Ts7yqhiok5apYUOZc1zfDaOntdLq
- HqQIoQYpJsUcEyfeOYNYtjp68Wi+ywO7DA1bpjzLp2sxMf9TaPGWBp8/389EtG/aktwD35avQwU
- McYfgTOSv9JI4xyzLSgFdAbL8EZouXP9PrdMciFcB1z0xl5Ye2Pequ+d8sMuc9OyA2GHzeprPkf
- boMj6dSFcVeNHvgju9rAcREqTDPfLeHmGKxv8skWE/acLNRgz8GJlSftm3MSm0A2N8mGMm00PoJ
- 3Kth26id0gYeBsO3l6WqWFNERD6Dygfkv4OJsuKDo1
-X-Received: by 2002:a05:600c:3110:b0:480:2521:4d92 with SMTP id
- 5b1f17b1804b1-483c9c23ffbmr100960715e9.24.1772287297776; 
- Sat, 28 Feb 2026 06:01:37 -0800 (PST)
+ AJvYcCWJQw0yh4ZI3zqYwHzDsCiHn8pbuxWhyhZMViuSm/V+Fg4ErggVqymUCl425UW/SLnYiWBMY6UF0CY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVUWFEAk/crP8tdaNN45y1u/CQfLySZqIkZI+3ZWhRycUO164U
+ nwWEmFSG8yo7iKq8lC6HjB4Tuk6cVHzc/yMSYXNrGtDaxo7LrTdO4wR9yV9gFXxWd6Y=
+X-Gm-Gg: ATEYQzykHwOa+GUZsA79blu3QDXInJIwSknwsoKo1acbUjl22VMpOR9yQOH2DFsvzN2
+ ip8L+a/SS4Dm4rgkNtjBpQ4LUU43Y7T8vRKJyBV7yYpA2JxvQ2D9MaVwZL/JaPVsoPhyDHTTGLl
+ XSOUkv7aiWL7OW9A6f3IqLdNLJCUvQu2FhHPJe8cRhqo8Sm5WmBCFaLamcFiMlUHmTTV3trtY6K
+ HV6rPs7UtgZk/hhMUyH7thm3YnGvLBWdcLyxYDiQGhekzPUgOBnNtpfD6YhGkfe5t/kSm3UeyOH
+ iFhMCIp1Sifp/NVpX7OC3vuVoX1QTEjFU7jN01J6Glf9qGS59DqsY2gZlagMPCRRTlV70SMd1/x
+ lKRGkRY+zO0nUXGBEbBM2PpJrVWgls9hQmHKFZ1hiA0+uRI74x+ChPAvj+wUIgIZyn4Nv0rXu8g
+ KwsTglk/mVbcYelNUgowNZHc5POgMctg==
+X-Received: by 2002:a05:600c:4748:b0:483:c35d:367f with SMTP id
+ 5b1f17b1804b1-483c9c0ba58mr107075855e9.21.1772287323090; 
+ Sat, 28 Feb 2026 06:02:03 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.73])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bfb84e4fsm81020975e9.8.2026.02.28.06.01.35
+ 5b1f17b1804b1-483bfcb318fsm133468375e9.6.2026.02.28.06.02.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Feb 2026 06:01:36 -0800 (PST)
-Message-ID: <49e7865b-f1e4-4e7f-88a3-31f2b05c9072@tuxon.dev>
-Date: Sat, 28 Feb 2026 16:01:34 +0200
+ Sat, 28 Feb 2026 06:02:02 -0800 (PST)
+Message-ID: <26f0d6e3-f62c-4a4e-8e35-37f2e5317087@tuxon.dev>
+Date: Sat, 28 Feb 2026 16:02:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] ARM: configs: at91: sama7: enable DRM hlcdc support
+Subject: Re: [PATCH 5/6] ARM: configs: at91: sama7: enable config for atmel
+ maxtouch
 To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -84,12 +85,12 @@ To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  ardb@kernel.org, tytso@mit.edu, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Cc: Ryan Wanner <Ryan.Wanner@microchip.com>
+Cc: Romain Sioen <romain.sioen@microchip.com>
 References: <20260225085430.480052-1-manikandan.m@microchip.com>
- <20260225085430.480052-5-manikandan.m@microchip.com>
+ <20260225085430.480052-6-manikandan.m@microchip.com>
 Content-Language: en-US
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260225085430.480052-5-manikandan.m@microchip.com>
+In-Reply-To: <20260225085430.480052-6-manikandan.m@microchip.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,7 +116,7 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:manikandan.m@microchip.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:linux@armlinux.org.uk,m:ebiggers@google.com,m:martin.petersen@oracle.com,m:ardb@kernel.org,m:tytso@mit.edu,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:Ryan.Wanner@microchip.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:manikandan.m@microchip.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:nicolas.ferre@microchip.com,m:alexandre.belloni@bootlin.com,m:linux@armlinux.org.uk,m:ebiggers@google.com,m:martin.petersen@oracle.com,m:ardb@kernel.org,m:tytso@mit.edu,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:romain.sioen@microchip.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	DMARC_NA(0.00)[tuxon.dev];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[claudiu.beznea@tuxon.dev,dri-devel-bounces@lists.freedesktop.org];
@@ -140,17 +141,18 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,microchip.com:email,tuxon.dev:mid,tuxon.dev:dkim,tuxon.dev:email]
-X-Rspamd-Queue-Id: 5AEA81C36A3
+X-Rspamd-Queue-Id: 920EC1C36C2
 X-Rspamd-Action: no action
 
 
 
 On 2/25/26 10:54, Manikandan Muralidharan wrote:
-> From: Ryan Wanner<Ryan.Wanner@microchip.com>
+> From: Romain Sioen <romain.sioen@microchip.com>
 > 
-> Add configs for DRM Atmel LCD Controller, Backlight and Simple Panel
+> Add config support to enable maxtouch capacitive touchscreen
 > 
-> Signed-off-by: Ryan Wanner<Ryan.Wanner@microchip.com>
-> Signed-off-by: Manikandan Muralidharan<manikandan.m@microchip.com>
+> Signed-off-by: Romain Sioen <romain.sioen@microchip.com>
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 
 Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+
