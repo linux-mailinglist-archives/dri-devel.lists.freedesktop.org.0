@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YOGMHcsoo2k++AQAu9opvQ
+	id mIPHA8ooo2kr+AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:31 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F7E1C5075
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830011C506D
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 864FD10E2D6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70CB910E2D5;
 	Sat, 28 Feb 2026 17:41:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ekzoLZrs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qSIAMWeK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE29C10E167
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:41:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDBC10E2D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:41:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C6DCE434DA;
+ by sea.source.kernel.org (Postfix) with ESMTP id B6A8743CAE;
+ Sat, 28 Feb 2026 17:41:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCECC19423;
  Sat, 28 Feb 2026 17:41:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0522BC19424;
- Sat, 28 Feb 2026 17:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772300482;
- bh=felfZVWaTMWH2Djom74FA5Dp7sfnSOwZg8jUAQkEqq4=;
+ s=k20201202; t=1772300483;
+ bh=woVw7RupdfUN26E495+pHA7Ft8zUjT4p/GDj8wqKJGY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ekzoLZrskDG0s+Q5Y05jlY86xokE4O+E7hGQa2JtjWGz0JtshxGQueTxkQiAxD9xh
- 49RU1jKFlfgTJX3dwh76jePTu5W+cUAMyc5DzanWc2+0iZLWLrKPWcz8acItWtfm2V
- lb6ECNGgRh/IpN2fxO3K75pwCjN69Z1MfsCr3HFj19107BUQParaWuf9G3a7j/lZiX
- WEZMbbCdnDR6aEg8UdlvcSn70ck7ZHfaVaeLmWQFvun2S9hZ3RFepn/LGHVyMLLNu5
- GyBRA0cwznEbv6/VIApntSCFDQ1cpeTcTjyuf0l9rxlt9y9tEZ7CtSztZfD1lNt2r+
- LZyiBy2NgBqdQ==
+ b=qSIAMWeKWNwLIqPbS9a4/AbpnzfYp7+aTrbvovTaKLVxn49QaQb2gbYR11izTyFpv
+ z4Rc2RNzDU4CPQMH5hhzWYmUw5zadeTckYIRJRke8T16QfzqAeEAd9ri+rvjEmZlM1
+ im4q10bDO4nsZoIvk7n8ckQmF3WB5khDh/w9cVv3fabjIHJI7A27dmizuUVa8Sjm2v
+ bfwZ3wmNI7QRvEoPxyn6vjeYPjr/inkTsGkGIvLsZIzaLMYH5q9pORZrbsKHb1mJLW
+ s7Mf6wXqh+Xrx2Y9+vMV3pGAsH7Ldyc9h1yKGBTAJq5CpfnJAW8izLB22h43rGVBv3
+ QoUEIyP9AFiyA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.19 520/844] drm/tests: shmem: Add clean-up action to unpin
- pages
-Date: Sat, 28 Feb 2026 12:27:13 -0500
-Message-ID: <20260228173244.1509663-521-sashal@kernel.org>
+Subject: [PATCH 6.19 521/844] drm/tests: shmem: Hold reservation lock around
+ vmap/vunmap
+Date: Sat, 28 Feb 2026 12:27:14 -0500
+Message-ID: <20260228173244.1509663-522-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260228173244.1509663-1-sashal@kernel.org>
 References: <20260228173244.1509663-1-sashal@kernel.org>
@@ -99,56 +99,141 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,suse.de:email]
-X-Rspamd-Queue-Id: 38F7E1C5075
+X-Rspamd-Queue-Id: 830011C506D
 X-Rspamd-Action: no action
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit b47b9ecef309459278eb52f02b50eefdeaac4f6d ]
+[ Upstream commit cda83b099f117f2a28a77bf467af934cb39e49cf ]
 
-Automatically unpin pages on cleanup. The test currently fails with
-the error
+Acquire and release the GEM object's reservation lock around vmap and
+vunmap operations. The tests use vmap_locked, which led to errors such
+as show below.
 
-[   58.246263] drm-kunit-mock-device drm_gem_shmem_test_get_sg_table.drm-kunit-mock-device: [drm] drm_WARN_ON(refcount_read(&shmem->pages_pin_count))
+[  122.292030] WARNING: CPU: 3 PID: 1413 at drivers/gpu/drm/drm_gem_shmem_helper.c:390 drm_gem_shmem_vmap_locked+0x3a3/0x6f0
 
-while cleaning up the GEM object. The pin count has to be zero at this
-point.
+[  122.468066] WARNING: CPU: 3 PID: 1413 at drivers/gpu/drm/drm_gem_shmem_helper.c:293 drm_gem_shmem_pin_locked+0x1fe/0x350
+
+[  122.563504] WARNING: CPU: 3 PID: 1413 at drivers/gpu/drm/drm_gem_shmem_helper.c:234 drm_gem_shmem_get_pages_locked+0x23c/0x370
+
+[  122.662248] WARNING: CPU: 2 PID: 1413 at drivers/gpu/drm/drm_gem_shmem_helper.c:452 drm_gem_shmem_vunmap_locked+0x101/0x330
+
+Only export the new vmap/vunmap helpers for Kunit tests. These are
+not interfaces for regular drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d586b535f144 ("drm/shmem-helper: Add and use pages_pin_count")
+Fixes: 954907f7147d ("drm/shmem-helper: Refactor locked/unlocked functions")
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v6.16+
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Link: https://patch.msgid.link/20251212160317.287409-3-tzimmermann@suse.de
+Link: https://patch.msgid.link/20251212160317.287409-4-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c     | 33 ++++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_gem_shmem_test.c |  6 ++--
+ include/drm/drm_gem_shmem_helper.h         |  9 ++++++
+ 3 files changed, 46 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index f13eb5f36e8a9..b7064b8333e89 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -15,6 +15,8 @@
+ #include <asm/set_memory.h>
+ #endif
+ 
++#include <kunit/visibility.h>
++
+ #include <drm/drm.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+@@ -894,6 +896,37 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_no_map);
+ 
++/*
++ * Kunit helpers
++ */
++
++#if IS_ENABLED(CONFIG_KUNIT)
++int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map)
++{
++	struct drm_gem_object *obj = &shmem->base;
++	int ret;
++
++	ret = dma_resv_lock_interruptible(obj->resv, NULL);
++	if (ret)
++		return ret;
++	ret = drm_gem_shmem_vmap_locked(shmem, map);
++	dma_resv_unlock(obj->resv);
++
++	return ret;
++}
++EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_vmap);
++
++void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map)
++{
++	struct drm_gem_object *obj = &shmem->base;
++
++	dma_resv_lock_interruptible(obj->resv, NULL);
++	drm_gem_shmem_vunmap_locked(shmem, map);
++	dma_resv_unlock(obj->resv);
++}
++EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_vunmap);
++#endif
++
+ MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+ MODULE_IMPORT_NS("DMA_BUF");
+ MODULE_LICENSE("GPL");
 diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index 872881ec9c30d..1d50bab51ef3f 100644
+index 1d50bab51ef3f..3e7c6f20fbcca 100644
 --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
 +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -34,6 +34,9 @@ KUNIT_DEFINE_ACTION_WRAPPER(sg_free_table_wrapper, sg_free_table,
- KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_free_wrapper, drm_gem_shmem_free,
- 			    struct drm_gem_shmem_object *);
+@@ -19,6 +19,8 @@
+ #include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_kunit_helpers.h>
  
-+KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_unpin_wrapper, drm_gem_shmem_unpin,
-+			    struct drm_gem_shmem_object *);
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
 +
- /*
-  * Test creating a shmem GEM object backed by shmem buffer. The test
-  * case succeeds if the GEM object is successfully allocated with the
-@@ -212,6 +215,9 @@ static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
- 	ret = drm_gem_shmem_pin(shmem);
+ #define TEST_SIZE		SZ_1M
+ #define TEST_BYTE		0xae
+ 
+@@ -176,7 +178,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
+ 	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
  	KUNIT_ASSERT_EQ(test, ret, 0);
  
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_unpin_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
+-	ret = drm_gem_shmem_vmap_locked(shmem, &map);
++	ret = drm_gem_shmem_vmap(shmem, &map);
+ 	KUNIT_ASSERT_EQ(test, ret, 0);
+ 	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
+ 	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
+@@ -186,7 +188,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
+ 	for (i = 0; i < TEST_SIZE; i++)
+ 		KUNIT_EXPECT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
+ 
+-	drm_gem_shmem_vunmap_locked(shmem, &map);
++	drm_gem_shmem_vunmap(shmem, &map);
+ 	KUNIT_EXPECT_NULL(test, shmem->vaddr);
+ 	KUNIT_EXPECT_EQ(test, refcount_read(&shmem->vmap_use_count), 0);
+ }
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 589f7bfe7506e..6924ee226655a 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -303,4 +303,13 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+ 	.gem_prime_import       = drm_gem_shmem_prime_import_no_map, \
+ 	.dumb_create            = drm_gem_shmem_dumb_create
+ 
++/*
++ * Kunit helpers
++ */
 +
- 	sgt = drm_gem_shmem_get_sg_table(shmem);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
- 	KUNIT_EXPECT_NULL(test, shmem->sgt);
++#if IS_ENABLED(CONFIG_KUNIT)
++int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
++void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
++#endif
++
+ #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
 -- 
 2.51.0
 
