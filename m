@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iLzkOjH1ommG8QQAu9opvQ
+	id +PFHAEf1ommG8QQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:21 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED431C3695
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA81C36A3
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 15:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3137310E2AF;
-	Sat, 28 Feb 2026 14:01:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7209F10E2AE;
+	Sat, 28 Feb 2026 14:01:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.b="hW/AeDzw";
+	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.b="hkRhXkbD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D38510E2AE
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 14:01:17 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4836f363ad2so34466805e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 06:01:17 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A68710E2AE
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 14:01:39 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4838c15e3cbso25946265e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 06:01:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tuxon.dev; s=google; t=1772287276; x=1772892076; darn=lists.freedesktop.org; 
+ d=tuxon.dev; s=google; t=1772287298; x=1772892098; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RS6B8HKz3lfStaChpHPRyrCXmTOfflogCUXEfzC9Seg=;
- b=hW/AeDzwr8VVVIXdXEXp1+DgXX2+p4QdyIm79cmanGUrWa36CdjD4qG9n7jsja+/8i
- x16gP5zbkSS7gGdrOyueGw3YYdnudsIqPCWabZ5w9fzZhHYW9uoY/zsH/+HyGyrxOlvC
- /i6b4KEOexCxcwZ4lnhBexbQorhG5T5Vz55hHXBYX8WAeL9bbKhxNq3buJvUq8u4RB5A
- 6FhkyXCITRR1gY75eQCvyB72x1pK5vXNTmZDMECXbQY9a9ugWun1AUPUsW+5Kt9KeGu1
- RTnQBzwieztHjTNn7KKX4XB8RPeKFkwWcjqIwaiPkdENG5mHzaYbDfFTN37pOmNe8VSZ
- cq2Q==
+ bh=4DsAsZ47Hy1YLfVUDttBLQyIVj8duDK0V23RicKiO8s=;
+ b=hkRhXkbDD4fwCR8YIkEtR3MGSvDi1WIvxar7EwWMs5LEQMi7ZNMRlT5ZOJR7csbFoT
+ 7jWiUkIlDvh4hOULPp3LjmdGt0t4MfmjXzrtnFa4bnq+sEKjb3auuYbNH1lh3fuaShQL
+ cbEIF2lrVG4He21Ktv9nBtwubw2R+B+dV4DkX6NYXdb5GEkgCfanreXDd7mrp0CXjgJl
+ 2PNKL50MOxFXHnQmLNCToyY/owtfAFp3RvWHO8j12TBvlQSgRqFVycYE7iqANrNPSTh1
+ vXxvzD7L4vjBJNgocP7TVKx5zj9tH9ebv+YB7vUYXTQjtkxjUkNeIqeIPCuNm2X0kDIo
+ /70A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772287276; x=1772892076;
+ d=1e100.net; s=20230601; t=1772287298; x=1772892098;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RS6B8HKz3lfStaChpHPRyrCXmTOfflogCUXEfzC9Seg=;
- b=kMNA9iR2zg6bQRTXKxLBOwaOCBPb5bPkEcTEjvU7jCl5CIk3uyfMRGfPFFGWaE5Xhm
- EbXNprTB4ysrPqBi9Zo57ogLEPsopg18l25DfNcV18IkgdCE9mv9LGHhBajprtIOGvPL
- LvSSQzxzg8CAi9cmGYfCGdPgXlDTvu3JovEHGfLYRkECizY+PSrKYxgKb7TU1hhfMymk
- scEjbECMGrpbmYqNKu7Zasu0ym+d9QW/6T2DRExd9Bxyx2nZJj+z9HFlfl8UF/dredh8
- M709Es1u1HgDN1cSG365Vr+I9tURtMJeMc5++PqtXNWcALufy0T0M7HgKihymY9j3nW0
- +HVA==
+ bh=4DsAsZ47Hy1YLfVUDttBLQyIVj8duDK0V23RicKiO8s=;
+ b=uSkeo1+y8sAtXycX9DGKnkC7m2cm+LttJrlv/AnfJqwDZP/bXAyxvAJy2B0K+9SNUZ
+ qZ4zoSPAuM3wGH70YOIWxyjK5Tr/Q2YW0IFz8/D4IbpfYSsAQrebZW12qvImintwe8Ar
+ wabagd3O76lC27hkVSEDJkEJ+jAMqcKLI4NESYzG04eJoRnIF9tCJO++px/h/AQLwZm1
+ sWxQdv1Y3OwYSbkwrDWnbVh1rClUi8V2K5hGb9FgFP3SsEjess3wz5N8PifwlMUh5x43
+ 7zhqL/KNu+Jn2wn+5N2K3QhMikOjZrPt5nxvv6frU6P2qPF4mbwcR4I/ugigYHl4ZYwp
+ CE5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsKcrZGy8mhy46I2x5ZZ/tSkhTVJtL26Ovg3OqEKqp1WvodypnJ7E1vdcm3AiMlG43ilsSV4z52gs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0yjmvaCC0fL69fY+ERNKheDBCgq8UpWNS5ApFdJTj1D/9NStr
- W1JLcOXbCzGQC8O1xB5uqXqoyuubDZO/+6hVZL/LeDxkAB0KrteU6WNNs3deT9kSYx1J4+9zXkB
- EXe34
-X-Gm-Gg: ATEYQzwJhStp29PB1GI6debEnPiM7iS4c/qjb4IH82HzuzPLQL0BWTX9FuPqRwdkjVP
- yH0thniUGwIC3vPwVHc8bGPSa66kH/1wekevN7+v/9wHsnvRPyWX4OOXS9uRSQ6lZuy/n/ojiA4
- Actu2dVRf7okWdpkqCbzXsQpJQ1QYcngNLBJf3XN4qQP6v0GomvHz2+uNO+uwHeniLK9qGmWtqk
- lOv6hbriElzHCps5T6w5F2QQ2GtPHyiqQWKj5wQEmFhKr2aArigEI+XTzoTYaxCCBMrJKuYZbBD
- gKqpYRYI8taDFcva65sO39zNysMcf5tTv5c6H3sk4eloAXx6wy4arJKc5ou0ifXBppHRW9cI2Xh
- r3Myn59rkQdItiqgmrg9F83UfM8grtz527S5LEnWU2hfofANVQusW6CC7dLuV4qiPzMxNs2v84g
- wzx7Sj05rN3b/blYHaAYbCi4BKJxo9pHt41HGCyn6k
-X-Received: by 2002:a05:600c:3108:b0:483:709e:f238 with SMTP id
- 5b1f17b1804b1-483c9c1d177mr99483705e9.29.1772287275961; 
- Sat, 28 Feb 2026 06:01:15 -0800 (PST)
+ AJvYcCUOtWLZQ/g6u8GZS0tjGAR+BJAicOuJBnMNzC4USVRVFe6waaRCd0ZIKCf/Jr3G0ODINPEepJbGUYo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqWn59ke3BZksv5lwi+KFGDUomRaAbwsIt0u+O/n++aUCwI3Hf
+ Q9Qnhot6YY3yny/GUH44y2Vup2445+XEYbAPBtnZfWvXUSHUHZG2UanlHHbvJFvMbMM=
+X-Gm-Gg: ATEYQzw701ZWeazylZUdQ4Yvittset87SyGIxLbfVZKnzZXhlCtbuWZuRdJMFvvbMzT
+ L6kDa2NtCKPIVdvduTS44Sm4cNABP9d6MEU1KYbDt3IthamGBmukzteRK7gooW2ucUU+qEyygUe
+ +W6MqNvmEq2WavMofOurY1vvFnTgzxTNYncBoXqq9MgVCS2Ts7yqhiok5apYUOZc1zfDaOntdLq
+ HqQIoQYpJsUcEyfeOYNYtjp68Wi+ywO7DA1bpjzLp2sxMf9TaPGWBp8/389EtG/aktwD35avQwU
+ McYfgTOSv9JI4xyzLSgFdAbL8EZouXP9PrdMciFcB1z0xl5Ye2Pequ+d8sMuc9OyA2GHzeprPkf
+ boMj6dSFcVeNHvgju9rAcREqTDPfLeHmGKxv8skWE/acLNRgz8GJlSftm3MSm0A2N8mGMm00PoJ
+ 3Kth26id0gYeBsO3l6WqWFNERD6Dygfkv4OJsuKDo1
+X-Received: by 2002:a05:600c:3110:b0:480:2521:4d92 with SMTP id
+ 5b1f17b1804b1-483c9c23ffbmr100960715e9.24.1772287297776; 
+ Sat, 28 Feb 2026 06:01:37 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.73])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-483bd765604sm246812765e9.15.2026.02.28.06.01.14
+ 5b1f17b1804b1-483bfb84e4fsm81020975e9.8.2026.02.28.06.01.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Feb 2026 06:01:15 -0800 (PST)
-Message-ID: <0e2b745b-c76d-4b53-b5fc-9991c943e603@tuxon.dev>
-Date: Sat, 28 Feb 2026 16:01:13 +0200
+ Sat, 28 Feb 2026 06:01:36 -0800 (PST)
+Message-ID: <49e7865b-f1e4-4e7f-88a3-31f2b05c9072@tuxon.dev>
+Date: Sat, 28 Feb 2026 16:01:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] ARM: dts: microchip: sama7d65: add LCD controller
+Subject: Re: [PATCH 4/6] ARM: configs: at91: sama7: enable DRM hlcdc support
 To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -87,10 +86,10 @@ To: Manikandan Muralidharan <manikandan.m@microchip.com>,
  linux-arm-kernel@lists.infradead.org
 Cc: Ryan Wanner <Ryan.Wanner@microchip.com>
 References: <20260225085430.480052-1-manikandan.m@microchip.com>
- <20260225085430.480052-2-manikandan.m@microchip.com>
+ <20260225085430.480052-5-manikandan.m@microchip.com>
 Content-Language: en-US
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260225085430.480052-2-manikandan.m@microchip.com>
+In-Reply-To: <20260225085430.480052-5-manikandan.m@microchip.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,67 +139,18 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,tuxon.dev:mid,tuxon.dev:dkim,tuxon.dev:email,e1400000:email,microchip.com:email]
-X-Rspamd-Queue-Id: 4ED431C3695
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,microchip.com:email,tuxon.dev:mid,tuxon.dev:dkim,tuxon.dev:email]
+X-Rspamd-Queue-Id: 5AEA81C36A3
 X-Rspamd-Action: no action
 
 
 
 On 2/25/26 10:54, Manikandan Muralidharan wrote:
-> From: Ryan Wanner <Ryan.Wanner@microchip.com>
+> From: Ryan Wanner<Ryan.Wanner@microchip.com>
 > 
-> Add support for LCD controller node
+> Add configs for DRM Atmel LCD Controller, Backlight and Simple Panel
 > 
-> Signed-off-by: Ryan Wanner <Ryan.Wanner@microchip.com>
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-> ---
->   arch/arm/boot/dts/microchip/sama7d65.dtsi | 26 +++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/microchip/sama7d65.dtsi b/arch/arm/boot/dts/microchip/sama7d65.dtsi
-> index e21556f46384..b2fe76115aec 100644
-> --- a/arch/arm/boot/dts/microchip/sama7d65.dtsi
-> +++ b/arch/arm/boot/dts/microchip/sama7d65.dtsi
-> @@ -278,6 +278,32 @@ sdmmc1: mmc@e1208000 {
->   			status = "disabled";
->   		};
->   
-> +		xlcdc: lcd-controller@e1400000{
-
-Missing a space here -------------------------^
-
-I can adjust it while applying.
-
-Other than that:
+> Signed-off-by: Ryan Wanner<Ryan.Wanner@microchip.com>
+> Signed-off-by: Manikandan Muralidharan<manikandan.m@microchip.com>
 
 Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-
-> +			compatible = "microchip,sama7d65-xlcdc";
-> +			reg = <0xe1400000 0x2000>;
-> +			interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&pmc PMC_TYPE_PERIPHERAL 56>, <&pmc PMC_TYPE_GCK 56>, <&clk32k 1>;
-> +			clock-names = "periph_clk", "sys_clk", "slow_clk";
-> +			status = "disabled";
-> +
-> +			display-controller {
-> +				compatible = "atmel,hlcdc-display-controller";
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +				};
-> +			};
-> +
-> +			pwm {
-> +				compatible = "atmel,hlcdc-pwm";
-> +				#pwm-cells = <3>;
-> +			};
-> +		};
-> +
->   		aes: crypto@e1600000 {
->   			compatible = "microchip,sama7d65-aes", "atmel,at91sam9g46-aes";
->   			reg = <0xe1600000 0x100>;
-
