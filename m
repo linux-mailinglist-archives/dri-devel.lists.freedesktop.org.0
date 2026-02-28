@@ -2,176 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0F9UNd6Oomk04AQAu9opvQ
+	id kJ7rNQKUommt4AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 07:44:46 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 08:06:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457361C09D6
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 07:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1651C0D0D
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 08:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6BB10E219;
-	Sat, 28 Feb 2026 06:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E4610E13C;
+	Sat, 28 Feb 2026 07:06:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jJ2Y1rBY";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jDcssO5X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453AF10E20C;
- Sat, 28 Feb 2026 06:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772261081; x=1803797081;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=m9fRWaI1UemAaV0Xa9COFGDnnmiMzemnzkg+RWoQsIM=;
- b=jJ2Y1rBYU7W8Qnb7Zvilc6TC/xVpTiIaJ1vIhvJJVZitNFlEHAhGdkDP
- +Pwafw00rzuYhmX+LfkVy12Ck//x+crQDDnZNwugkbL6c6oA9JAfY9yPc
- uCi0SCLmAr4OfMkO3spgsLLUwZrOXAiG6CmpC+il8/7ZYkh7X7lHZeUez
- Zm/nyoBbagNFiv3oIeKpFZUQ63Dsxd4zGLh8F6NsFonzZlW6dldNjED6j
- gQXlXUTROmn9Rij2V86UUyokK1+qR8Ax8DkGEVjDwXQfonmX6LYR2jdOZ
- dnk7bu8PtLrzl5UWKc3Ly+HOeDncV33eiXfNe/8z24M9zVwO4+1b1S0nL A==;
-X-CSE-ConnectionGUID: /eKhwsYBR06FC7sK8h2shA==
-X-CSE-MsgGUID: dQYt5r3GTxypPBBw6bQEyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73450322"
-X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; d="scan'208";a="73450322"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2026 22:44:40 -0800
-X-CSE-ConnectionGUID: ay8JhoGIQNy2FNKq3EUQHA==
-X-CSE-MsgGUID: QIJoRQQATMi/9rbPmfiHIQ==
-X-ExtLoop1: 1
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2026 22:44:39 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 27 Feb 2026 22:44:39 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 27 Feb 2026 22:44:39 -0800
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.40) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 27 Feb 2026 22:44:39 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010023.outbound.protection.outlook.com [52.101.46.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB1810E13C
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 07:06:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gSXU5F+CyWOLZqKpaLLpJ22WnhH4dkSEUJHcUkDz2OE/CvdOp58+Xw7zoHiNIw9BoS3kPGZh4F2xhVH++/9tfcp3f2rNP13MlQUygiCyg1rRTwlvzg+48Z5nYMBmZIb5HBu6pu6EtCgKD+Hlw6h/ieAmDlfA9P32HAvHTixdyLubFye0Gg7uiSOvuORzEb0X0zSK8w6AnA6NoQYW0MwmT2//uqvxMKuRm2pVj/E9qSXcK5Wi2uQNthG/UsgCUHHxkN0DCPSyTnbamIBemfpSMcWyU/9/5+BTN0POiS7kbGqXIFSglx2E2M6V5jcyf6k3aX5ULsWpdZJlNaZYgwG9dQ==
+ b=CyE6dZTUkuk0CjSrVPI5Y2srlle9w/QOVnsXfWVeVDXCn4Hac254i+qZUXpLAjSuIw06LfXx2O4gwpxrpFzNnDrq6zzCMSrvpGcc5NTeCclBm8aXsG7eAT9kbALeRfW9wq2TBqG4Q+iiwsrkQHxt9u3gIt6JQL0b5cz9lSxDGbPc+l2P53wMhm122a+PvwLmQREEh3IxL7CkNyHGE2sTuhLd7UO9nuEqhjh2fTRNg0wVwqVpe7LA+7vxjbQSJm4Oj/T4UC8xo3PtbngEraT8lTPg1RYONrizyJJzoKiR4Y8Lrh40LWLuGzyccAzPPs1/erwqu6LWy4L9uCANAyBgKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B5HzBui0sVLsdbiboiaZCL0jcEXaehm9C7aiMZ1oEyg=;
- b=GsAolB/aohE2If9Umxbduf6JtRLf3upZNCa4yxN94AYbehzm6/oPvS/NaEOi1Uepik0wNEggmjlgdXDtvXO38o3ut65XI3aVVh5NFbQ425nlG2sRRiIXFSHPf57Vx8IpGcMikYGgvFjc1HhbERqDyQOu+qdHNoIOCXuv0ISsVZt4UtCdaZcYlmY9E/fzumD5zU8b87UCkTAvd0mr1D6mLbISFwpPGOPMeVpmILuWq0ueRvIA4pp92yAfixgWl4sJnYirq0/WKk371ln2GUVvumo1v7sNOzsq4kUN4nRClJ8t/5950Gu9IP6AAgGnxLshaPQbhGTx0peZxSbaOCOLbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
- IA1PR11MB6321.namprd11.prod.outlook.com (2603:10b6:208:38b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Sat, 28 Feb
- 2026 06:44:36 +0000
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::8cb2:cffc:b684:9a99]) by DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::8cb2:cffc:b684:9a99%6]) with mapi id 15.20.9654.015; Sat, 28 Feb 2026
- 06:44:36 +0000
-Message-ID: <43a08974-fb35-47a5-b77d-f14e284aea98@intel.com>
-Date: Sat, 28 Feb 2026 12:14:24 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/5] drm/ras: Introduce the DRM RAS infrastructure over
- generic netlink
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>,
- <joonas.lahtinen@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <airlied@gmail.com>, <pratik.bari@intel.com>,
- <joshua.santosh.ranjan@intel.com>, <ashwin.kumar.kulkarni@intel.com>,
- <shubham.kumar@intel.com>, <ravi.kishore.koppuravuri@intel.com>,
- <raag.jadav@intel.com>, <anvesh.bakwad@intel.com>, Zack McKevitt
- <zachary.mckevitt@oss.qualcomm.com>, Lijo Lazar <lijo.lazar@amd.com>,
- "Hawking Zhang" <Hawking.Zhang@amd.com>, "David S. Miller"
- <davem@davemloft.net>, "Paolo Abeni" <pabeni@redhat.com>, Eric Dumazet
- <edumazet@google.com>, <netdev@vger.kernel.org>
-References: <20260223060541.526397-7-riana.tauro@intel.com>
- <20260223060541.526397-8-riana.tauro@intel.com>
- <20260224162203.279f7b74@kernel.org>
- <686b63cc-2dfb-467b-a472-b6766b2c8dd2@intel.com>
- <20260225161857.55fd4ba4@kernel.org>
- <53fc3f6f-b5b6-4ec6-9468-3cd668efb070@intel.com>
- <20260226070509.2c7346b3@kernel.org>
-Content-Language: en-US
-From: Riana Tauro <riana.tauro@intel.com>
-In-Reply-To: <20260226070509.2c7346b3@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0163.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1cf::18) To DS0PR11MB7958.namprd11.prod.outlook.com
- (2603:10b6:8:f9::19)
+ bh=UnkezrXyxQq/SuEU6B540J+5opdBa9pKAeRNDP3aOkQ=;
+ b=LjBjdQC8b5R7fCkQrQquFTtV8+tpLEc0P/XrTnXU609GHvQGnywyh6/a4CZPQCy61Me+PEhtxXYR45kk4wzxYFBtVXdSC/kb2Wp+8usUtgf+NErzYPPitsZLaoEd7qyj25z6ZEr2FZBE8c15Ur98jgLGf/aHaC9pgEwLDOxPs2mYIHNL8IfuimKLc/MahUPMVe21eYfp1khW2dbR7kODHt5thig+6voyACYER4ZcIHq+2qYKYrnMMvlkEm8USxLzxeXoc6skTj7znjEjf0CMTECZDGpRCc2m6j/0iJ6ULzjL564PgsTXSpcT/iebiCdHC9xpRluWWmm/aJ5krCp62A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UnkezrXyxQq/SuEU6B540J+5opdBa9pKAeRNDP3aOkQ=;
+ b=jDcssO5Xj1OjTyVvDIX51UAIoNOaRIrq4EpkpQUq/wqupJs2awACwqQy78PMvSXZMDZMAee8YNjv1cT2X8Jj61uHc7SNisdjSsJ9Z5Wn2KvIOZ8G4An+d3xvEo8duRdwLqLdBkDwxYiZWysqTyWUW3ATgr6jXsVFR47DxH+HPzA=
+Received: from IA4P221CA0010.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:559::13)
+ by MN2PR12MB4486.namprd12.prod.outlook.com (2603:10b6:208:263::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.11; Sat, 28 Feb
+ 2026 07:06:34 +0000
+Received: from BL02EPF0001A0FF.namprd03.prod.outlook.com
+ (2603:10b6:208:559:cafe::95) by IA4P221CA0010.outlook.office365.com
+ (2603:10b6:208:559::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16 via Frontend Transport; Sat,
+ 28 Feb 2026 07:06:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BL02EPF0001A0FF.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.16 via Frontend Transport; Sat, 28 Feb 2026 07:06:34 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sat, 28 Feb
+ 2026 01:06:34 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 27 Feb
+ 2026 23:06:33 -0800
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Sat, 28 Feb 2026 01:06:33 -0600
+Message-ID: <2d7017cb-ed15-3e4b-d474-63d0a1b12dc3@amd.com>
+Date: Fri, 27 Feb 2026 23:06:33 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V2 9/9] accel/amdxdna: Fill invalid payload for failed
+ command
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20260227004841.3080241-1-lizhi.hou@amd.com>
+ <1af07b22-65c8-46cd-b055-fa6f61b33b16@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <1af07b22-65c8-46cd-b055-fa6f61b33b16@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|IA1PR11MB6321:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4401f7d5-fbd4-4ec3-d29a-08de7694d6cc
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FF:EE_|MN2PR12MB4486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 947eb9de-1094-4bb2-f831-08de7697e847
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: 3U2vSQx+sdqB5JWwdVTKUfvf7sFlziYE9S71lpC3AhwHdGw31EidcZYjh/NkSFci0LuN2xx+VPAl3N5j5kaCihd+Z7TybrAMI8vf4UeWJZusJgz2rKqMI7iRRHmymCkk7xZZCtTW0Xz/W+m2VtAyHDtHE4SIeuK50Syoj3GzcAf0hthfSZJyLbjaagNmu0Cqlp38POT0TOH4GRE1v/sA7wLkO+njEZJsnuqCzpjrvyW2ZLnt5P6O8PsbeMFTMy6Q0H9S1FhBAgcV3fP8J26m+2tugouHZQlUH/4mQ4SSN88/MyKRfPAfQ6NS1D+/9MBGtewYZwqLx06ThVItwSYAyylOxpz+g6m4Jkt7uNfaFpb4fobwJGZ9PtyjDNE4kSAoHzZzacbEj/nUoUihizMHkChgazE/AK/CmTWCc6yXpCZpCKL32QB4sFea3uLVq7pcJqJiTGK0mJyXLcU17VeWZYo5sZVR1Z3N3XgFZbvrHe9xgnp+FmYetiQQppLDwhgo6+l349bF1kcHDwIzOx4a5gmrD2xk6Mim+CSv1eD5lEZsBSNCqCkpGvV3xaxoxYyjWBdZH51qiS+RAKFi3rhKZ2bfar1Come1hxqF7lvKzyTNDwzHQIGqRBGxReGMz2xvy06g8dzLvwpBGDeJjWyZQzP6uts8tot5JRs/5Om3/su1B5ou/lPt13ewS+ss7rw5pGQmxgMhLJF4Z4Zuq/1QiQK3kwVVCrvEc9O1wivsJBc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|1800799024|36860700013|7053199007; 
+X-Microsoft-Antispam-Message-Info: aBZR0wI2Cm2W5lHfLJmAAAldSwybUYdLWcnJgft4tBtvzUKm0PAIZBKQ856kSbIPAtEeq+gtMAN1iNLnpmPRa5AluX/dXmFejDoenyK0GigEslXc1P4IYF0O1fHFeV8kR6Qtt5NNxUlrKwePXGL2+4rQBCxM+UblZ1Cnnf/V/tC6RtByacFZ0XHBx8O53rWKw9ly8Rj5WVk5jn5aXmGw8/srul1pMnlJiFZQknfJhAxA7oweAwkqGdMNglKs7E9PSvugXmwkt6TfKElyAETubaJ9YCec3vt3CO39AKW0xkUB2YcNzCbZ4YF/eWSr33njWSL4eqKb9C87AvhRw3VcMXr/SSt7NJWOIDA76KG9tXtB+nPLSlixYj8paGuIfpUwmJmA/lrwGI+flvM/D2UWTUcHnh8PBsRH6SouOKVqZwO8X0maYo+l18pFDTYhDGw51kyVVjESq/AvQlTkN73WJKpFL2kcNfwTDQHmqhnUnsHkHqR2ZPLJG8BpfWytiMUR5C9FBj4oKPZPm7bJCOvEYSHxuh1yzMwExLHHYha0jVU1x3M4/X3ZbAxm7ZWNW49Okm6nXLjQ5gGW9H/rYZisBzjGJGWfY7K0GsCa+/ovklgtbq8RuvmUuhgD0/hCQTX47LnXOgyDfJvxWm1Kc1fwy/gQOFYsSUyLGG1xDQU/ODATIUlSqdBuJNfJXzeE9WHNNiptPTzE6OJK6/vz7w/EwcyLWFf28QRPTe5ZBhpFGiu9Kwt6Rxz2OC6AhUTs2VZ6mytSeYfwsTmaTE/ZSYxfmCgHhH34SVq9+vmjycwQONoyoeiAt8MkJ5g/7KQE4KLjBjGuA8+iStUYjNXKgIOkhg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013)(7053199007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzBaZFVqeHBzY3JNQ0xmL21VSUtTeUwrb0dGTHVySytHNzlWeXhubm5Pakhs?=
- =?utf-8?B?R2hsMmxtNTgwYVNUaENMdFdxUkJOOThaWlVrRnp1RDlocDFQZUQ4SjkwVmUz?=
- =?utf-8?B?L1NNc0k2TlZRdWN2cE1uZzh2Nm5RZjFBSVpaeUIvMk43RjZ2b29GdzNmWW1r?=
- =?utf-8?B?bHpmb3k4bUxhOHhIV0ZEc2o2S3VmbTQxSkVqY282ZG9pS2tGcHdnK2wzL091?=
- =?utf-8?B?dndYdVc0YkN5dW52OEx0dTR5TmV2Y2lXUlpvNGVUV1lVaEdJWEN0WWQ0SC9m?=
- =?utf-8?B?VVZOYkhtSURUTjUzdmY2NlNvbmZ1V2xiKzBPZUtHdXJCWmpiVXNwSHJ6Y2d0?=
- =?utf-8?B?UFhIWkFGVnBzS0JIRzVxYXhIQjBuY1d0aFZ6YWFIeXhEMXhhZytCamcvTTFz?=
- =?utf-8?B?MXhqZGpJUnRCMW9FMk5rSERHdHNMbnczVFhLei9ubDFmSVFMcVpXUFJNSFRL?=
- =?utf-8?B?NGxsWHJSaDI4c1NUMEk2RVBKSXBPV3VwN21WR3BuQzhmVklSSURMWk1vcEJG?=
- =?utf-8?B?UGVIVE02VUhDWVpxVzltVGdoQzVsU2tEeW5lOHY1NXltOTZlZTNLQUJ3Vk9z?=
- =?utf-8?B?dzhPcDI0dGw1T3NlZUV1L3R5WXh3bVJsR3pwUy80MmxKRm9ZL3ovcmQxN0pq?=
- =?utf-8?B?MXBLaWg3SmJYRG5sTmhINzhBSG5IYWJEb2t4aWxuWkgybjNvYzBxYjI0Vi9C?=
- =?utf-8?B?aFVxQ0s4MWJHbmJtWmduLzNyRDk0alBNVmZyelpPZ2hxNitGREtnNCtCSDNO?=
- =?utf-8?B?MnBCcUlDeUc0cklCa0p0RlVYQTJvZ2JGZDVpTmdwYVd5TXIxaFB3dGp4MExt?=
- =?utf-8?B?UHNDcEkzNVFCVE5QUDliSVV5OXgrMGdaYXU4eFBRMzhuZklST0I1cDVzajZt?=
- =?utf-8?B?N0I0RHcwMUlpR0dvTU1TWXVrR1RNc2ZSR2NIa3NJUlhwYlRqZE1OVnRYT2o4?=
- =?utf-8?B?T0Q5WWp4dzJQNE5yYTdESmlMQ0c5SlFGZzM4d09NUjdFdlhWNWNDZ29RZmZl?=
- =?utf-8?B?RjZ2Sk41SzFWaFh1SUlJZ1FsUGRINmcwVUFlWUp3WHViUXFLcHA2L3R2N3pa?=
- =?utf-8?B?dE1VcVRQdG1LdkZqZ01TbDh1TDE3UnhYUERzRkxKZnNuYjF6TWFHLzNaZkR3?=
- =?utf-8?B?b3c2V2ZTNTFHcnRWWTRNQ0NDYyt5Rk41S3c5eDZuWUJ6c1dBUmRGM0IreTZ4?=
- =?utf-8?B?QXdBY1dFTHQ3NTBDMy8vb2tGckc2cUtRTWh4amlJbTRvaW03bzk4RG5xSG02?=
- =?utf-8?B?ZHRQY08zdTJtYm9XdUNKK04ya1NMRnJZQjN5UWQ2ZzZLWlhMbUE3K3NBQ1py?=
- =?utf-8?B?R2o1bEdrRXA1WUx1NTU5bHR6OVdhZFZ1VHlBeWlrakxKWEZkSEZkOENPcWZl?=
- =?utf-8?B?L3Jxb3JiSGszZXJ5MTF5NVZxSW5NK1RnMmVYQXVSS1cwaTkydEtkdklhRDZN?=
- =?utf-8?B?bkdvRlN0clkwYTFaRC9vcndlQ0pBalJmOHpOdVNnY1U5S2xkOGVrcjE3Rmk0?=
- =?utf-8?B?blUvRis4aGNHdHJYc29PY0owcnM0bEVzM2xGZ3pvZDVuYWk5M3g5eWMrYWNa?=
- =?utf-8?B?ck5WZnBhN1lCbUgxcWUrNkZ1V3lYdEh1c284NE9LK1UveVhNV2FXN01idkQ0?=
- =?utf-8?B?QXVsR0M4NHZrOWVUcXNsdEFrc20renlTYXhrKzhBQlg5UVNGTXNtdVdOZk1p?=
- =?utf-8?B?K1FxK2ZPK2lhTmdaL2ExT2M4SHh5RWtvaTVJcko4UlVrNUkyY3lPZ001NVhh?=
- =?utf-8?B?YkpkMU9DUmxYczNsWlFuV2NkVFp2NjVtSnQrNmRXNlFtK1ZIbEJncFM5YVdU?=
- =?utf-8?B?dmhXTmdMZ1k5TVV5QkZWUGRjL09PL3BOZ2pDaGZVWmwwOWlNbGRBWWlFTFA0?=
- =?utf-8?B?YkFIMjhQdmxwM3ZtMXM2bWN0MkRNUzNXRG9JU3UyeVd4d2V4RlZXRDRYRHhW?=
- =?utf-8?B?cUFTSEorRTh3OThZSTIvZXkzeHViQ0pJbFRmMlJXbHNvdCsvZWM5dHhpaTcz?=
- =?utf-8?B?UDF0eGZHYkNyTks5Y09oVjJtdDhxNHh1Y3ZiQTFWOWZJSlRNWi93dVpUTThN?=
- =?utf-8?B?ZUMzb05VVFpFWHN2SmVha3BOdFgzOVR6ZG5wSkxLbTAvVkpScUViVmZtb1Rw?=
- =?utf-8?B?RStRdG5IWlhCTGJjSzVWM29lL21ZY3lFSHRzQmhhL3E5OXdUaHFwMDJqSnN0?=
- =?utf-8?B?S2ROQlR1ajdYeFpKbm5xeHVsVS9mS0pGTmxuMXp0aEp0cFA4MkpxRkRxd05r?=
- =?utf-8?B?MXIrTkREL2x5VnlwRGYzZG02RkxpaXUzZFN6bEhKWGpCQmV3VkhIOTQyT29w?=
- =?utf-8?B?elRIYmhSRUphdVV0TGU5cjJrUTZLWkZPSkxJcnI1YVRVZ2Q4TitkZz09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4401f7d5-fbd4-4ec3-d29a-08de7694d6cc
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 06:44:36.5918 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g3AbcI7SOlPgM/tIahdm8KqEMyJyJcyZJ3SzKKC5gnUbglOVIJ+LQidNnr5TmZJeCLcPE66AWChBYEdHgdMwcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6321
-X-OriginatorOrg: intel.com
+X-MS-Exchange-AntiSpam-MessageData-0: unyBE/ocGHQYk5gEq8aunVq0M/BvCfNmbbbc6Fw2oLXmv7ocWgKCx9BrEzYX5VxgtDCMMWtb7r65N2eEJtQYFd5WgIExpuhSvflp7f/S8flGNer64WkOlqOgS9KIcELnblIbM5CWny/G7j+dVmL2JgJQxqnRRRavh9K7/BlXvtRbH29KB1cKRKtLVmzOse9cta4H70xhpwI5t4Rd5p1NDgU1sYnosNfsSWB9qcGMeItzcQg/X6M7j8l/RXG+SwLQWFOjIN20LcB2I4Ktos2FQrs3uWx2WTqsTNuPOz5H5nt38nbLTnMvraWSX/UBlE4yVns9JdJ+PQbZK8dHEKc6Arnk7wSMW9nHgUzL63UzVuamT373GAF4kROBlW28zwcPsOZX85YjfA2cs52qFSQroedeg+CeKm/RYZaI7DJcECmzW4Z8uvgdIWB8Tk6cV2vn
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 07:06:34.1996 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 947eb9de-1094-4bb2-f831-08de7697e847
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4486
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,89 +125,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[intel.com,lists.freedesktop.org,linux.intel.com,ffwll.ch,gmail.com,oss.qualcomm.com,amd.com,davemloft.net,redhat.com,google.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,ynl-regen.sh:url,ynl_gen_c.py:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS(0.00)[m:superm1@kernel.org,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 457361C09D6
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 3C1651C0D0D
 X-Rspamd-Action: no action
 
+Applied to drm-misc-fixes
 
-
-On 2/26/2026 8:35 PM, Jakub Kicinski wrote:
-> On Thu, 26 Feb 2026 15:17:55 +0530 Riana Tauro wrote:
->>> Oh interesting.. that's technically supported but the regen script
->>> uses "-o $file --cmp-out" instead of "> $file". If we were to use
->>> a shell redirect we override the file each time which makes incremental
->>> kernel builds much larger.
+On 2/27/26 10:47, Mario Limonciello wrote:
+> The title is 9/9, but I didn't get copied on 0 through 8.  Was that 
+> just a mistake when you made the patch you sent out one patch instead 
+> of 9?
+>
+> On 2/26/26 6:48 PM, Lizhi Hou wrote:
+>> Newer userspace applications may read the payload of a failed command
+>> to obtain detailed error information. However, the driver and old 
+>> firmware
+>> versions may not support returning advanced error information.
+>> In this case, initialize the command payload with an invalid value so
+>> userspace can detect that no detailed error information is available.
 >>
->> If i am using this for the first time (not every time). Shouldn't it
->> include the header file (#include "drm_ras_nl.h) too?
+>> Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Would it also make sense to also detect the firmware version and 
+> indicate in the logs, IOCTL or a sysfs the feature is available for 
+> user space to detect?
+>
+> Nonetheless, this approach is scalable.
+>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>
+>> ---
+>>   drivers/accel/amdxdna/aie2_ctx.c    | 23 ++++++++---------------
+>>   drivers/accel/amdxdna/amdxdna_ctx.c | 27 +++++++++++++++++++++++++++
+>>   drivers/accel/amdxdna/amdxdna_ctx.h |  3 +++
+>>   3 files changed, 38 insertions(+), 15 deletions(-)
 >>
->> tools/net/ynl/pyynl/ynl_gen_c.py --spec
->> Documentation/netlink/specs/drm_ras.yaml --mode kernel --source
->>
->> But i am seeing this include only when i regenerate using ynl-regen.sh.
->> Is it mandatory to regenerate after the initial use of the above command.
->>
->>>    
->>>> I used above commands to generate the initial files moving the
->>>> drm_ras_nl.h from include/ to drm layer.
->>>>
->>>> Even after that if i regen using tools/net/ynl/ynl-regen.sh -f
->>>> I see the above diff.
->>>>
->>>> Am i using the commands wrong or missing something?
->>>
->>> If you use the redirect the script doesn't know what the file name is
->>> so it gives up on adding the local header. If you really want to have
->>> the header under include we can just add an option for "--no-auto-hdr"
->>
->> No its not necessary to be in the include directory as it is used
->> internally by drm code.  @Rodrigo I will move this since this is used
->> only by drm_ras.c
->>
->> But even after i move it to drivers/gpu/drm/. The initial generation
->> using ynl_gen_c.py doesn't include this header even if the header was
->> generated first.
->>
->> The header is included only when i use ynl-regen. Is that expected?
-> 
-> As I explained above you should use the -o $file argument rather than
-> a redirect of stdout.
-
-This worked. Thanks a lot for the suggestion
-
-I had tried this approach but i must have made some other mistake.
-Maybe i tried with the existing file.
-
-
-Thank you
-Riana
-
-
-
-
-
-
+>> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
+>> b/drivers/accel/amdxdna/aie2_ctx.c
+>> index 622ddbf7fb6f..eb4c9d919885 100644
+>> --- a/drivers/accel/amdxdna/aie2_ctx.c
+>> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+>> @@ -186,13 +186,13 @@ aie2_sched_resp_handler(void *handle, void 
+>> __iomem *data, size_t size)
+>>       cmd_abo = job->cmd_bo;
+>>         if (unlikely(job->job_timeout)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_TIMEOUT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>>         if (unlikely(!data) || unlikely(size != sizeof(u32))) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>> @@ -202,7 +202,7 @@ aie2_sched_resp_handler(void *handle, void 
+>> __iomem *data, size_t size)
+>>       if (status == AIE2_STATUS_SUCCESS)
+>>           amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_COMPLETED);
+>>       else
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ERROR);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ERROR);
+>>     out:
+>>       aie2_sched_notify(job);
+>> @@ -244,13 +244,13 @@ aie2_sched_cmdlist_resp_handler(void *handle, 
+>> void __iomem *data, size_t size)
+>>       cmd_abo = job->cmd_bo;
+>>         if (unlikely(job->job_timeout)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_TIMEOUT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>>         if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, 0, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>>           goto out;
+>>       }
+>> @@ -270,19 +270,12 @@ aie2_sched_cmdlist_resp_handler(void *handle, 
+>> void __iomem *data, size_t size)
+>>            fail_cmd_idx, fail_cmd_status);
+>>         if (fail_cmd_status == AIE2_STATUS_SUCCESS) {
+>> -        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>> +        amdxdna_cmd_set_error(cmd_abo, job, fail_cmd_idx, 
+>> ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>> -        goto out;
+>> +    } else {
+>> +        amdxdna_cmd_set_error(cmd_abo, job, fail_cmd_idx, 
+>> ERT_CMD_STATE_ERROR);
+>>       }
+>> -    amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ERROR);
+>>   -    if (amdxdna_cmd_get_op(cmd_abo) == ERT_CMD_CHAIN) {
+>> -        struct amdxdna_cmd_chain *cc = 
+>> amdxdna_cmd_get_payload(cmd_abo, NULL);
+>> -
+>> -        cc->error_index = fail_cmd_idx;
+>> -        if (cc->error_index >= cc->command_count)
+>> -            cc->error_index = 0;
+>> -    }
+>>   out:
+>>       aie2_sched_notify(job);
+>>       return ret;
+>> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c 
+>> b/drivers/accel/amdxdna/amdxdna_ctx.c
+>> index db3aa26fb55f..405d2c62789d 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_ctx.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+>> @@ -132,6 +132,33 @@ u32 amdxdna_cmd_get_cu_idx(struct 
+>> amdxdna_gem_obj *abo)
+>>       return INVALID_CU_IDX;
+>>   }
+>>   +int amdxdna_cmd_set_error(struct amdxdna_gem_obj *abo,
+>> +              struct amdxdna_sched_job *job, u32 cmd_idx,
+>> +              enum ert_cmd_state error_state)
+>> +{
+>> +    struct amdxdna_client *client = job->hwctx->client;
+>> +    struct amdxdna_cmd *cmd = abo->mem.kva;
+>> +    struct amdxdna_cmd_chain *cc = NULL;
+>> +
+>> +    cmd->header &= ~AMDXDNA_CMD_STATE;
+>> +    cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, error_state);
+>> +
+>> +    if (amdxdna_cmd_get_op(abo) == ERT_CMD_CHAIN) {
+>> +        cc = amdxdna_cmd_get_payload(abo, NULL);
+>> +        cc->error_index = (cmd_idx < cc->command_count) ? cmd_idx : 0;
+>> +        abo = amdxdna_gem_get_obj(client, cc->data[0], AMDXDNA_BO_CMD);
+>> +        if (!abo)
+>> +            return -EINVAL;
+>> +        cmd = abo->mem.kva;
+>> +    }
+>> +
+>> +    memset(cmd->data, 0xff, abo->mem.size - sizeof(*cmd));
+>> +    if (cc)
+>> +        amdxdna_gem_put_obj(abo);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /*
+>>    * This should be called in close() and remove(). DO NOT call in 
+>> other syscalls.
+>>    * This guarantee that when hwctx and resources will be released, 
+>> if user
+>> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h 
+>> b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> index 16c85f08f03c..fbdf9d000871 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
+>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> @@ -167,6 +167,9 @@ amdxdna_cmd_get_state(struct amdxdna_gem_obj *abo)
+>>     void *amdxdna_cmd_get_payload(struct amdxdna_gem_obj *abo, u32 
+>> *size);
+>>   u32 amdxdna_cmd_get_cu_idx(struct amdxdna_gem_obj *abo);
+>> +int amdxdna_cmd_set_error(struct amdxdna_gem_obj *abo,
+>> +              struct amdxdna_sched_job *job, u32 cmd_idx,
+>> +              enum ert_cmd_state error_state);
+>>     void amdxdna_sched_job_cleanup(struct amdxdna_sched_job *job);
+>>   void amdxdna_hwctx_remove_all(struct amdxdna_client *client);
+>
