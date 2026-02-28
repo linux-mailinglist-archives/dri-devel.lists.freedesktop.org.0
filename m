@@ -2,95 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YJGaD03uomny8AQAu9opvQ
+	id aMJ4IFbuomny8AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 14:31:57 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 14:32:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2B1C33D7
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 14:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A6A1C33FA
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 14:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20FCB10E147;
-	Sat, 28 Feb 2026 13:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51BC510E269;
+	Sat, 28 Feb 2026 13:32:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="inhGoeUZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DKPCazFO";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LNS5V3E4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E1310E2B3
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 13:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772285510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1aKltuGD73YjisWVS6CLmrdjTwiXA9NrG9kYPekxkOw=;
- b=inhGoeUZL+NhNgJETTTshDi7/DDCAYG2wgMDoIA+erg1dWO3QQMDVK8y4k81YxgYmxr/mr
- 2ZyIlPTCAdY0KLawi28ky+lgTRcIofbv94NfomhF7pT5rhzU1Wx9s3lXZNzMnOKnt4qkPw
- MAbd5SH+XH3STOC44QHAPp+IwNsMiPw=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-231-k5xNQxTyNk6ExbBYiiP4bA-1; Sat, 28 Feb 2026 08:31:49 -0500
-X-MC-Unique: k5xNQxTyNk6ExbBYiiP4bA-1
-X-Mimecast-MFC-AGG-ID: k5xNQxTyNk6ExbBYiiP4bA_1772285508
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-358df8fbd1cso2705677a91.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 05:31:48 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1AC10E269
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 13:32:03 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61S90ApB1252900
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 13:32:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=tPKkssMOw7u1G3FtJ+5DZxGV
+ 8FHzK+dCLc4VoiSMY/o=; b=DKPCazFO47XyaJheoev84VdU5DZ468U0I1N0z3K1
+ 5qiHDGt1jt2hOhFISX00wmCR0zPXX8Hbid+bkBTNP074wCRL8hPTz4tq4UldQgE3
+ dAm3bgP7bFcWmHDz381g2cTUwUyNZg7NV2Lh53ZtUI7+wYjf7dFd1SJKqvVX6IJI
+ umqjaYbxGb4qqSZ7jBPGJTf8mo2VS+c/bw6RKc4as4BAExGnfgncovU4zVM0ViHC
+ gs8yk5jiH80fcepBeIKiTVOO+OtXf4Stsk/dMrAcP/6/Wa/gyMf7lvPyX+If5oOG
+ 9TUD6HuFG1fsFndZa+n4CapRkwIfe8xjwze30zFId7qGEA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksn40yag-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 13:32:02 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8cb6291d95aso3339378085a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 05:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772285522; x=1772890322;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tPKkssMOw7u1G3FtJ+5DZxGV8FHzK+dCLc4VoiSMY/o=;
+ b=LNS5V3E47rI88sK7xNutNBMaVa9S3AVwowQk03AmZgv7IE9qHI5uZn3vzABZfYWi8q
+ a/nOtzQ2prDg93BagaCtodRINFe9daZO9Dp05nwghu7WH7UygbqnLgzjl8aVdNuguNjR
+ Oa9pjyZTJQXlRazxFmtXvumUNbx6Xg2MIeMjHx4v8vob1l2Oqjnvo9VOurrAQla6xzs+
+ 6jnUJEZK6ZL0D4zfXlbkN59YVAb8zTv9q7w+D8Q80r6X8JO1dOmeR7LTsBuW4fohfHzL
+ sH9E2cD2fpgeFUpJxSlNqFhQ6FB+qzcpk1i9P7LO+tVWorhNepqjmmmqEDfXY5PlIdhs
+ Jm1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772285508; x=1772890308;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1aKltuGD73YjisWVS6CLmrdjTwiXA9NrG9kYPekxkOw=;
- b=AGMw5iOXjZgQTIwqY739oWZCW0KoO9zOvCsGCaVirgTsEvj71WqErtXJU7o/62Tp7k
- 0ipcFZAEyJe8A6qSYs/24yIIQcUFjEtMSrBcuQXUwzXvXN0zI/pqRZ7Zfaf+IT7mALdl
- WP4GZh1n9fkr0/TyGfzlZoKSgEVJtiJ6ek3Ad06C+wkj93tsw4Rf/GcHx4A2AlVFe8FI
- 4ndM9TvvAe9yPJzeMBxnrb2ZCfMr9dM0bdUIyGrcQlFoF55S5R+ZXPXSSQs8MPk2/fdM
- wufOSIydSJFU72xqigJqpROITiZlV2FLsLDU0FT5ntJdotyX/mswuYQZg0fj1Gr4t5cr
- BQDQ==
+ d=1e100.net; s=20230601; t=1772285522; x=1772890322;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tPKkssMOw7u1G3FtJ+5DZxGV8FHzK+dCLc4VoiSMY/o=;
+ b=mYp3DFWoZGDkg+8bwPky3QUkjjEvhJEEkntqq0TVfw0dkNBnihZ/kW4OKHZmftijEf
+ EHSNcv4/VRmzCKXcLNcHINxYk7nLX/DNk2DnxbDyMYbgPjhdRtzy9d1A9JaTiXiSqucU
+ HMsX2/00n+ClwiVs7YH1gdZ2ZtHCdSHY2/XaAfKxh3CYlMZSvC181LNNM1iF9Zv/MKmu
+ IoTvUJtQuIWCdHYrgjnr3h7JIqes0Iqfm6/Ht7pmjil3t4CtywTnYR2h56BAO8wa2knc
+ 7UmDUx3ciVybqIrF2pIU9A/0ugSiSauGVyUK+WZj7c/h1nJ0cFUjLOuaWJs0Y25/YjIw
+ DUbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUBKJMt00o9gENpPBwZwx8cB2ss7D0YmqNihkTVxndft1xQmLgpqYF9vB3xY9l/gPNcbJiRuLF69ok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7r1HHYHxekCJTDhXUpnyuGx9x+5XplZm/GudyuObdYzYSqKKh
- 1ZiDNR5BWeKhPtjhvobsLgnjq7gpvLNpMx+251VchVF1a7fcldbVzzUVH//6IY+5NRGjjTpQRNO
- iXBkvtcajjyelPgpiY1AA5dwQvnLF2aDevZZEjjjOhdpuSrIlqASHc9F4Y8WkQSGlfBWLng==
-X-Gm-Gg: ATEYQzwHLJVoVyhdMzQXGaqdFYj1CZcZcjoXRkEwWn83KyA4DlxKwQtNBvKvHJKo7SA
- 0WT7hqbCxYCRHn+pYl5xyDnJUtwxq56UZjGy0VvtIxjb0HHmfOf5dOVn/Br2lFvzLulRJr1USAH
- BrOf1Xe1sc236YqPiwNHUWsKX8fj8hvjn7WIfdGStPFzWQoj5Ts916uYYZowL3Yln2GsaZNa9/9
- +iDzD48/5OObrTAk4hRc4vSKWGGuApkuM+SN4la+rE9sq1zyfFV474D8keheJsCxT1q+wIXyOJ8
- CYcE88IVjiVndLgjC9HxT1Je5JEuyCJ8a8HVJzue1Lgmdw/bJXIlGTWvZZua1FSjkBZdHcymUTC
- k2j2vaA1eKhFnCKZxPweKxDe9m2hteT/NHeE=
-X-Received: by 2002:a17:90b:544b:b0:354:bd08:480c with SMTP id
- 98e67ed59e1d1-35965d029fcmr5533357a91.30.1772285507837; 
- Sat, 28 Feb 2026 05:31:47 -0800 (PST)
-X-Received: by 2002:a17:90b:544b:b0:354:bd08:480c with SMTP id
- 98e67ed59e1d1-35965d029fcmr5533334a91.30.1772285507391; 
- Sat, 28 Feb 2026 05:31:47 -0800 (PST)
-Received: from localhost.localdomain.com ([209.132.188.88])
+ AJvYcCUaMDbFpb09+PQ/OfLEMx7B27aNfyZ1iwrrl3L3Jx4QVIqRj16aBN6BecIHcFIPQMqTiKRw/igNVYM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLlWUQw05HQTgXaZUvnETvx6uV99l1NvfNcLQFPlW3iy/OA9ws
+ 29ENFmtP+ImALZihtCG5K5yO+Ap6VOeHdI1a2Znv0AFIh4F68FyDyvm0qx81iHJQq60duDBmU8t
+ /LjCQ4OHNwjYRzXW8bgPrySKtPLTZS30LadUMhcWNyIOOXsd1GUEjvtksEMFl03RvZnJdTFE=
+X-Gm-Gg: ATEYQzzEKEn+Cgji/Fj8mUXBa2HPOp23LsPE/w5Lq5GDmVyHtA5Hntkl62TN1/uQrGm
+ o6T4eICD9qemXYGb2aV01c1ttQhmqLHyB4titjHFOj5P7MiesLu+PxJOiKI1hi3pgY2h56nhqtH
+ pEHg0+3qmDFt8wl/cGkj1gBtyy16rPlKp2oA9qtm11Hnfnke2a2MuY8/+1p0dHHXfKz7qNVubtT
+ a+mf/kwQtKwA2CdJBAoa9gMv/hupukZgsefeIYFGM1tDZEkHaGvdseD1z/bk691/C6EzqpcKOwM
+ PC7tkhe5o0grbk6HYloRDkcIZ47U6eUnTmjCjmtTU8ThgELAuZR6undYKZ3Wz4trsPglenXm3bO
+ v4YXAxTFuZd6KiSxhJroyRge2oRWexe1FaUwd7R6bsqmbgiPwHpCuvh0il0HncKqO30JDm1l5hn
+ kJdxrp9vYE87BvH0RAfMcb5vKj5BEzmEYXu1M=
+X-Received: by 2002:a05:620a:4004:b0:8cb:7ad9:65a9 with SMTP id
+ af79cd13be357-8cbc8e79948mr809016685a.59.1772285521808; 
+ Sat, 28 Feb 2026 05:32:01 -0800 (PST)
+X-Received: by 2002:a05:620a:4004:b0:8cb:7ad9:65a9 with SMTP id
+ af79cd13be357-8cbc8e79948mr809009885a.59.1772285521246; 
+ Sat, 28 Feb 2026 05:32:01 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c70fa82dab1sm6844448a12.27.2026.02.28.05.31.42
+ 2adb3069b0e04-5a11a12923dsm2815e87.64.2026.02.28.05.31.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Feb 2026 05:31:46 -0800 (PST)
-From: Tao Liu <ltao@redhat.com>
-To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, Tao Liu <ltao@redhat.com>
-Subject: [PATCH] i915: Fix NULL pointer dereference in
- intel_dmc_update_dc6_allowed_count()
-Date: Sun,  1 Mar 2026 02:09:47 +1300
-Message-ID: <20260228130946.50919-2-ltao@redhat.com>
-X-Mailer: git-send-email 2.47.0
+ Sat, 28 Feb 2026 05:32:00 -0800 (PST)
+Date: Sat, 28 Feb 2026 15:31:58 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Tianyu Gao <gty0622@gmail.com>, White Lewis <liu224806@gmail.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: sc8280xp: Add dsi nodes on
+ SC8280XP
+Message-ID: <hfohv2evihmqbaehmnjsj2cgmqbjytsa2j2z6l3cph2jlszv3t@d4c32rfdvt6d>
+References: <20260228101907.18043-1-mitltlatltl@gmail.com>
+ <20260228101907.18043-5-mitltlatltl@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: a7fa-6rqzI11DQczaXq_j4N5L5S2ouw5_g6xql2J-aM_1772285508
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260228101907.18043-5-mitltlatltl@gmail.com>
+X-Authority-Analysis: v=2.4 cv=Tq3rRTXh c=1 sm=1 tr=0 ts=69a2ee52 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=pGLkceISAAAA:8
+ a=oZPMeiHd2FbyKtjdOA4A:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: 46yK4RdX4NHtvNHElzDAuHh70kX0CdFm
+X-Proofpoint-GUID: 46yK4RdX4NHtvNHElzDAuHh70kX0CdFm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI4MDEyNSBTYWx0ZWRfX1PwjermZm8Jf
+ jwyO/QzttBwS40fdE7808X69qR3ur4f1bq1nHyrZsyVkkLTYb2E5WF5bK0drKQb2KhOk9NlsVgE
+ D3JaZz3+i1FIa72bu6UZPuQ8k5rllEskccBm1RLb8go8CJ3IdXOc5OPpQlic7k19UPRgLmMcPp5
+ XoN/f9e21asfPh0JTi0fhbsOp9pAher5ESWywnHfP5iuoy2tAuMPfohWtPa6yIPVW80HCir1nzf
+ HWBzRMinoYc8vMgMu5muv+j1R0Yk31B/BtqSCBWwRVHxmrTkzfzHwj5NGOA30MNELFkgsbO/XqE
+ 0kqghRNgjVznYsweX+40VvsU1jCWzmKk0cWo0UP+ug77fOuzNPTuMNApT0MGSH3pPGqpa1WOEGV
+ 3eg9ohDbYy8mU3w/Lshxv0IEVu4/txOSEkaKZFzqKnn4OtfY/PwjiN+LPz3wodprbs7/nplQUIU
+ t2O7xO0yqs/aqK6r4Lg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-28_04,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602280125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,129 +159,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:quic_mkrishn@quicinc.com,m:jonathan@marek.ca,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gty0622@gmail.com,m:liu224806@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[ltao@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,marek.ca,vger.kernel.org,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:kexec@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ltao@redhat.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[ltao@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4CE2B1C33D7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 25A6A1C33FA
 X-Rspamd-Action: no action
 
-There is a NULL pointer dereference issue noticed in i915 when 2nd kernel
-bootup during kdump. This will panic 2nd kernel and lead to no vmcore
-generation. The issue is observed in Meteorlake CPU(cpuid: 0xA06A2):
+On Sat, Feb 28, 2026 at 06:19:07PM +0800, Pengyu Luo wrote:
+> The DT configuration follows other Samsung 5nm-based Qualcomm SOCs,
+> utilizing the same register layouts and clock structures.
+> 
+> However, DSI won't work properly for now until we submit dispcc fixes.
+> And some DSC enabled panels require DPU timing calculation fixes too.
+> (hdisplay / width timing round errors cause the fifo error)
 
-    BUG: kernel NULL pointer dereference, address: 0000000000000000
-    #PF: supervisor read access in kernel mode
-    #PF: error_code(0x0000) - not-present page
-    PGD 0 P4D 0
-    Oops: Oops: 0000 [#1] SMP NOPTI
-    ...
-    RIP: 0010:intel_dmc_update_dc6_allowed_count+0x16/0xa0 [i915]
-    ...
+- Please squash refgen patch into this one.
+- Please post at least the dispcc fixes.
 
-It is easy to locate the NULL pointer dereference by disassembly:
+> 
+> Co-developed-by: Tianyu Gao <gty0622@gmail.com>
+> Signed-off-by: Tianyu Gao <gty0622@gmail.com>
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> Tested-by: White Lewis <liu224806@gmail.com> # HUAWEI Gaokun3
+> ---
+>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 396 ++++++++++++++++++++++++-
+>  1 file changed, 388 insertions(+), 8 deletions(-)
+> 
 
-    00000000001171e0 <intel_dmc_update_dc6_allowed_count>:
-      1171e0:       f3 0f 1e fa             endbr64
-      1171e4:       e8 00 00 00 00          call   1171e9
-      1171e9:       41 55                   push   %r13
-      1171eb:       41 54                   push   %r12
-      1171ed:       55                      push   %rbp
-      1171ee:       53                      push   %rbx
-      1171ef:       4c 8b a7 18 03 00 00    mov    0x318(%rdi),%r12
-      1171f6:       49 8b 2c 24             mov    (%r12),%rbp
-
-To fix this, add a NULL pointer check before dereferencing.
-
-Signed-off-by: Tao Liu <ltao@redhat.com>
----
-
-The issue doesn't happen in 1st kernel, but in 2nd kernel of kdump. I'm not
-an expert to i915 and unsure what lead to the NULL pointer. To help further
-analysis, here is the full stack:
-
-[    8.608520]  <TASK> 
-[    8.610652]  gen9_set_dc_state.part.0+0x25d/0x2f0 [i915] 
-[    8.616096]  icl_display_core_init+0x2d/0x620 [i915] 
-[    8.621266]  intel_power_domains_init_hw+0x1b2/0x500 [i915] 
-[    8.627047]  intel_display_driver_probe_noirq+0x87/0x300 [i915] 
-[    8.633188]  i915_driver_probe+0x207/0x5d0 [i915] 
-[    8.637977]  ? drm_privacy_screen_get+0x198/0x1c0 
-[    8.642832]  local_pci_probe+0x41/0x90 
-[    8.646646]  pci_call_probe+0x58/0x160 
-[    8.650458]  ? pci_assign_irq+0x2f/0x160 
-[    8.654447]  ? pci_match_device+0xf8/0x120 
-[    8.658522]  pci_device_probe+0x95/0x140 
-[    8.662582]  call_driver_probe+0x27/0x110 
-[    8.666570]  really_probe+0xcc/0x2c0 
-[    8.670190]  __driver_probe_device+0x78/0x120 
-[    8.674692]  driver_probe_device+0x1f/0xa0 
-[    8.678857]  __driver_attach+0xfa/0x230 
-[    8.682757]  ? __pfx___driver_attach+0x10/0x10 
-[    8.687185]  bus_for_each_dev+0x8e/0xe0 
-[    8.691159]  bus_add_driver+0x11f/0x200 
-[    8.694970]  driver_register+0x72/0xd0 
-[    8.698853]  i915_init+0x26/0x90 [i915] 
-[    8.702837]  ? __pfx_i915_init+0x10/0x10 [i915] 
-[    8.707433]  do_one_initcall+0x5c/0x320 
-[    8.711409]  do_init_module+0x60/0x240 
-[    8.715132]  init_module_from_file+0xd6/0x130 
-[    8.719634]  idempotent_init_module+0x114/0x310 
-[    8.724241]  __x64_sys_finit_module+0x71/0xe0 
-[    8.728671]  do_syscall_64+0x11b/0x6d0 
-[    8.732483]  ? ksys_read+0x6b/0xe0 
-[    8.735854]  ? arch_exit_to_user_mode_prepare.isra.0+0xa2/0xd0 
-[    8.741768]  ? do_syscall_64+0x153/0x6d0 
-[    8.745828]  ? do_syscall_64+0x153/0x6d0 
-[    8.749814]  ? do_syscall_64+0x153/0x6d0 
-[    8.753800]  ? clear_bhb_loop+0x30/0x80 
-[    8.757700]  entry_SYSCALL_64_after_hwframe+0x76/0x7e 
-
----
- drivers/gpu/drm/i915/display/intel_dmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i915/display/intel_dmc.c
-index 1006b060c3f3..fd2756badc0c 100644
---- a/drivers/gpu/drm/i915/display/intel_dmc.c
-+++ b/drivers/gpu/drm/i915/display/intel_dmc.c
-@@ -1578,7 +1578,7 @@ void intel_dmc_update_dc6_allowed_count(struct intel_display *display,
- 	struct intel_dmc *dmc = display_to_dmc(display);
- 	u32 dc5_cur_count;
- 
--	if (DISPLAY_VER(dmc->display) < 14)
-+	if (!dmc || DISPLAY_VER(dmc->display) < 14)
- 		return;
- 
- 	dc5_cur_count = intel_de_read(dmc->display, DG1_DMC_DEBUG_DC5_COUNT);
 -- 
-2.47.0
-
+With best wishes
+Dmitry
