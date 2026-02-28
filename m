@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFQVE8coo2kr+AQAu9opvQ
+	id YOGMHcsoo2k++AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:27 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F611C5066
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F7E1C5075
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718EA10E167;
-	Sat, 28 Feb 2026 17:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 864FD10E2D6;
+	Sat, 28 Feb 2026 17:41:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fZX0vlMQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ekzoLZrs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5664B10E167
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE29C10E167
  for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:41:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CD23B4399C;
+ by sea.source.kernel.org (Postfix) with ESMTP id C6DCE434DA;
+ Sat, 28 Feb 2026 17:41:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0522BC19424;
  Sat, 28 Feb 2026 17:41:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1321FC116D0;
- Sat, 28 Feb 2026 17:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772300481;
- bh=zyf+gpSoNDKeLFptf7hUU0gxUFJbg75B1a0fm/er4Mc=;
+ s=k20201202; t=1772300482;
+ bh=felfZVWaTMWH2Djom74FA5Dp7sfnSOwZg8jUAQkEqq4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fZX0vlMQ2yt/2BC6R/t6rDgHPcI27zP4BiUt8oTlQ4H5giBWdLafokz/ZBCp4Rg6S
- qKfppMUfkbStQdnLqIICuar16jqabYyouafVwas7qWfheoEXh2qu3SWS/mxmPohivP
- JwhsEX14v3wMnSjG9mukR8z7vE7juXUdqhx2UcmDcEwekuxefj51nyKJJRGAc70vPz
- gzAwROOJnGq5y+B0kQtonvELFGfY8JQIyHKWp82X/t+LAgRTS/gAublX6aEvmjIxJY
- ukZ0iaVeMKOV2lsi33uRhLveQtATta1dM/bQeDbDoikXaFEIGgjnGoymAa6cz8rMnU
- IRXJ/yv2+U+TA==
+ b=ekzoLZrskDG0s+Q5Y05jlY86xokE4O+E7hGQa2JtjWGz0JtshxGQueTxkQiAxD9xh
+ 49RU1jKFlfgTJX3dwh76jePTu5W+cUAMyc5DzanWc2+0iZLWLrKPWcz8acItWtfm2V
+ lb6ECNGgRh/IpN2fxO3K75pwCjN69Z1MfsCr3HFj19107BUQParaWuf9G3a7j/lZiX
+ WEZMbbCdnDR6aEg8UdlvcSn70ck7ZHfaVaeLmWQFvun2S9hZ3RFepn/LGHVyMLLNu5
+ GyBRA0cwznEbv6/VIApntSCFDQ1cpeTcTjyuf0l9rxlt9y9tEZ7CtSztZfD1lNt2r+
+ LZyiBy2NgBqdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.19 519/844] drm/tests: shmem: Swap names of export tests
-Date: Sat, 28 Feb 2026 12:27:12 -0500
-Message-ID: <20260228173244.1509663-520-sashal@kernel.org>
+Subject: [PATCH 6.19 520/844] drm/tests: shmem: Add clean-up action to unpin
+ pages
+Date: Sat, 28 Feb 2026 12:27:13 -0500
+Message-ID: <20260228173244.1509663-521-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260228173244.1509663-1-sashal@kernel.org>
 References: <20260228173244.1509663-1-sashal@kernel.org>
@@ -98,59 +99,56 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,suse.de:email]
-X-Rspamd-Queue-Id: C1F611C5066
+X-Rspamd-Queue-Id: 38F7E1C5075
 X-Rspamd-Action: no action
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 89f23d42006630dd94c01a8c916f8c648141ad8e ]
+[ Upstream commit b47b9ecef309459278eb52f02b50eefdeaac4f6d ]
 
-GEM SHMEM has 2 helpers for exporting S/G tables. Swap the names of
-the rsp. tests, so that each matches the helper it tests.
+Automatically unpin pages on cleanup. The test currently fails with
+the error
+
+[   58.246263] drm-kunit-mock-device drm_gem_shmem_test_get_sg_table.drm-kunit-mock-device: [drm] drm_WARN_ON(refcount_read(&shmem->pages_pin_count))
+
+while cleaning up the GEM object. The pin count has to be zero at this
+point.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 93032ae634d4 ("drm/test: add a test suite for GEM objects backed by shmem")
+Fixes: d586b535f144 ("drm/shmem-helper: Add and use pages_pin_count")
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.8+
+Cc: <stable@vger.kernel.org> # v6.16+
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Link: https://patch.msgid.link/20251212160317.287409-2-tzimmermann@suse.de
+Link: https://patch.msgid.link/20251212160317.287409-3-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tests/drm_gem_shmem_test.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index 68f2c31623547..872881ec9c30d 100644
+index 872881ec9c30d..1d50bab51ef3f 100644
 --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
 +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -194,7 +194,7 @@ static void drm_gem_shmem_test_vmap(struct kunit *test)
-  * scatter/gather table large enough to accommodate the backing memory
-  * is successfully exported.
-  */
--static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-+static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
- {
- 	struct drm_device *drm_dev = test->priv;
- 	struct drm_gem_shmem_object *shmem;
-@@ -236,7 +236,7 @@ static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-  * backing pages are pinned and a scatter/gather table large enough to
-  * accommodate the backing memory is successfully exported.
-  */
--static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-+static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
- {
- 	struct drm_device *drm_dev = test->priv;
- 	struct drm_gem_shmem_object *shmem;
-@@ -366,8 +366,8 @@ static struct kunit_case drm_gem_shmem_test_cases[] = {
- 	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
- 	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
- 	KUNIT_CASE(drm_gem_shmem_test_vmap),
--	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
- 	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-+	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
- 	KUNIT_CASE(drm_gem_shmem_test_madvise),
- 	KUNIT_CASE(drm_gem_shmem_test_purge),
- 	{}
+@@ -34,6 +34,9 @@ KUNIT_DEFINE_ACTION_WRAPPER(sg_free_table_wrapper, sg_free_table,
+ KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_free_wrapper, drm_gem_shmem_free,
+ 			    struct drm_gem_shmem_object *);
+ 
++KUNIT_DEFINE_ACTION_WRAPPER(drm_gem_shmem_unpin_wrapper, drm_gem_shmem_unpin,
++			    struct drm_gem_shmem_object *);
++
+ /*
+  * Test creating a shmem GEM object backed by shmem buffer. The test
+  * case succeeds if the GEM object is successfully allocated with the
+@@ -212,6 +215,9 @@ static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
+ 	ret = drm_gem_shmem_pin(shmem);
+ 	KUNIT_ASSERT_EQ(test, ret, 0);
+ 
++	ret = kunit_add_action_or_reset(test, drm_gem_shmem_unpin_wrapper, shmem);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
+ 	sgt = drm_gem_shmem_get_sg_table(shmem);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
+ 	KUNIT_EXPECT_NULL(test, shmem->sgt);
 -- 
 2.51.0
 
