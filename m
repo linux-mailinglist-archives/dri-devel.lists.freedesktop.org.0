@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGPaJEXBomls5QQAu9opvQ
+	id CGabMlLBomls5QQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 11:19:49 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 11:20:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4441E1C1F22
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 11:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805151C1F49
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 11:20:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9AB10E27C;
-	Sat, 28 Feb 2026 10:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE1510E27E;
+	Sat, 28 Feb 2026 10:20:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZszLo17b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Md57hKA9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0528210E27C
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 10:19:45 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2adff872068so14504045ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 02:19:45 -0800 (PST)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5874C10E27E
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 10:19:59 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-c6f306faaffso1080438a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 02:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772273984; x=1772878784; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZRVqqul3/pfy5o1UTViOLOTR76RCMcD2+rnW+WmI/mM=;
- b=ZszLo17bTWKrf8G5Ev6mFHPPBwmet2D9xCVXgNJBj4xy/e/y29NlldjCtJz0ogh+F9
- zSKAFkf0bFA2J0ocvJlYLZKQP0/e4wyOWgIzlcM5CaacL86GAy5xR1GCAbb2i1QmnSlY
- 2CbMVHp17EqcAfv7t/Teo246RLw5xNt0QcWvVdCwpocyfU4Pb+1ezwRyrnVJZ9ZSYiSX
- NGkrGW5wjJV37QPnm1GulxA81hS1iiplIeuQCGASBrekggN0Lc3uwK6xWOelizSFY5R7
- 6lD9LE3ndQJdUgFBFifyG7RYDjKL5qmiQ7tTs7zzcT2+lcFw+dg65nqdY+lBHbaLaWWa
- Y2qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772273984; x=1772878784;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772273999; x=1772878799; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZRVqqul3/pfy5o1UTViOLOTR76RCMcD2+rnW+WmI/mM=;
- b=LstrDQJuvrtOoNoI2rmgShVx+7qEi7s/U6dGJMWV6tSENGfVR6p0FMSIcQ8ItKHn4Y
- gS5BezjXxEyrV6ZCZFrkH9bqanQ1zQxoYuX+sDF2QE8u5lDUEGZKqJ0fFdsfL4Y22Npe
- VUlqMQgDMUjQE4uXJwULRGcKdNavgFw25ygfD4EeFoXjzkwxFlCdWhK4GSgSGlE9vBVM
- dPxzlT8sMczsIqC5gmCGi1FpjAYaSCi2WajiXizWbYXhc3+B4nGBw/1LnGPs2UlBmyDK
- CIw1wzKcAQPD3uVeXmSn0BveaI//fpNoNZG0YOgJluhnzw5CBkSRtW2wsSKJTzpz2kw6
- Y7yg==
+ bh=W65pIjxoHigfzhiWxc71VWPJjXP9A8eJwpMfks2udRU=;
+ b=Md57hKA99en35FJ8KpOwarcG6pQI9ay8tk8TxGk1BdYvQ3ol0Xq2oPytBiErpLIAtc
+ klEpTUVvqrfT6aN4XEIyCQtgPUWRcEtgCi2J0nN1RsIh9F/ePz3Xa+km55ZuNnwk45Dc
+ /EXPDSEgnPaDvu6oF6+YdjueVRTU/nVIeCBqFuRM4Se68jGYUOKk1cVsVZAFI+QNnG7i
+ TGUU70aFRKHhqgSVbO2ze8/KM0Gy2VwWXU6icHGxs/Etqq0i4VA55+Ew7GN35i0sHayt
+ 3FdPIeeLwO0Mp1DCRrcv8QOv2WVS5rR6iiRssoc6BMcKcQ1ahrco+fEvIr9+Aycq6KaF
+ 2G0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772273999; x=1772878799;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=W65pIjxoHigfzhiWxc71VWPJjXP9A8eJwpMfks2udRU=;
+ b=p+ISbImuFYlR2clU0iCMhDBEIH9uWcKrAUqHC+7WUaS5PtmQdSIgGCwMrK9h3a6g/3
+ IDYHYidxJLsvzVoHwVVzIWYzC//5+CZ+cx8tSzwsBuksVnyz9bwUWweYPzEqGrmbXZE2
+ eZfBTWmKKQNUdb+TffqImPMb757QWYOE6dYGd7bnZF9uePT9TCZyBuHBWws1MGE6IuQx
+ t1+vNddQRBfOexdz2FU3Ozr6SBTeugPjG56k14dIIxWjhjBq4vRryRi3y8F4u0fpN2M4
+ Iy8KkDaPtxiEiLJI1gG5G0Rn0V2DUH914I7W5WUN01D23EZZPzfZz3OnjnQ9OdSXMKSt
+ K55A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXqcjq3LVs/Dbam2rDVt7A+YicLaKCnPtK6hx3evXF33/ir9CAsylumPEZXCJBjeMrFQnstxI6RBDU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVPTFeFrVB7KJ3d1iXS28JU2skQxa370Rg4/J/P++AzwxQDlhf
- dgpgR3BW7COKsWcQ8aesqPTugXPhcw52h1AI1zYPV46+jQHYZlzdokK+
-X-Gm-Gg: ATEYQzy4NFo5hrldWEUfsZqpmqNs+92EHCsYLOmwDnUWJQ9TbzGueRHM89XwSxU5KuF
- GIEnicwSC7SYylMdbojbqIPQNHL75JuxHXmgBOB2jQ5pDLXWPo/HoIZ4TSfeojbopZLvFKwmGNj
- BR4zE0hglVCLH+14A39D4kIuZ/lrrYXR4orWoWm4G3Y1Q73qhvsETDOydjy3u5jz1F/Xi9mYHpY
- 2DA4yCz0faGT8FYrFuWJO0ZB5nBp2gwHrLE7zi6SR6sNLny19vl2oCDppr/V4HPJdS1+tlsKtbr
- rT9hpA/zGlJxO/JW+7xKylGdu8hbIerB4gPVvrGWP+WTpgcZHg3R/lkoZssR0tx186qLleHZsA0
- BxsapvS3Pk62WU8kJE+ihf/Cvmx9tIkgg2ly8JlCa3a6aB1l6UIJ43Rbt9D6CX/6JBybiZrHwev
- k5rfdGJ7DeCzBGwKnN/ae0JA==
-X-Received: by 2002:a17:902:d483:b0:2ae:3e4a:3cb8 with SMTP id
- d9443c01a7336-2ae3e4a3f61mr13106665ad.53.1772273984400; 
- Sat, 28 Feb 2026 02:19:44 -0800 (PST)
+ AJvYcCVD520xpICBFQxlQKjeLSNjn3GMhBB3wB0ucBLQDdPuW6J7rIgH/qN4kQUFrQnA1hSdZqqM3TezCFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSYaUvhLpy1KJy7Xs9irsmdHK+yuK45WAdK953Ypa1bXXUTzI6
+ 63FaTYm0hjV2iCHd8s6iwbmoJaq63EmZ5K+rJSuPnYMcouU88amRuX3C
+X-Gm-Gg: ATEYQzw73HOzlj4TnqXwKm1MFtlhaFN71Ia8TRQYCutrtEvllsHPuQSjWZ3IpvBWcYA
+ 4gGWSoMtmPTlcWOrDNPcjqrcdkdYYsXAPPOclLsV6SS0Je+kMBhJ9nY4fm9M43XtjiHcO4Hkj++
+ sqbKBzOTuV46iIHIVw8Psai2NO9IiY/emhoz0KrhzX8LWmYd17az6v8NZEjySULZMzEnbPvWMRb
+ 5K7drKzWnQhaSk1Bv0ySfMNHbcyUZrFbs0Vxq8QRIcu3uk4YvwV3sDA6bU38Yuuhj0bxI6h5D/j
+ +7+pNOMMvwTwPheH3JgthZOqmoBByB4knFlE4lkf37rR41kAxXRkIwVqm5kPhyXJvb/4fvQrT8r
+ 0U+WbQBxixe1mSq3poOeIpmMigW7DKOSUUWALFjRB/JWqWRHQXQXRoSgUeCJo6OMP2neDYU0IIV
+ iHhi/CnPiTUtlmTOLSlMwYAw==
+X-Received: by 2002:a17:903:2444:b0:2a2:f465:1271 with SMTP id
+ d9443c01a7336-2ae2e4bd049mr57192275ad.44.1772273998754; 
+ Sat, 28 Feb 2026 02:19:58 -0800 (PST)
 Received: from nuvole ([2408:844d:a00:16f4:279d:1459:9faf:9d87])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2adfb5c111asm82361855ad.21.2026.02.28.02.19.30
+ d9443c01a7336-2adfb5c111asm82361855ad.21.2026.02.28.02.19.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Feb 2026 02:19:43 -0800 (PST)
+ Sat, 28 Feb 2026 02:19:58 -0800 (PST)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -85,10 +86,12 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Tianyu Gao <gty0622@gmail.com>,
  White Lewis <liu224806@gmail.com>, Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH v2 0/4] Add DSI display support for SC8280XP
-Date: Sat, 28 Feb 2026 18:19:03 +0800
-Message-ID: <20260228101907.18043-1-mitltlatltl@gmail.com>
+Subject: [PATCH v2 1/4] dt-bindings: display: msm-dsi-phy-7nm: Add SC8280XP
+Date: Sat, 28 Feb 2026 18:19:04 +0800
+Message-ID: <20260228101907.18043-2-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260228101907.18043-1-mitltlatltl@gmail.com>
+References: <20260228101907.18043-1-mitltlatltl@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,32 +145,29 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4441E1C1F22
+X-Rspamd-Queue-Id: 805151C1F49
 X-Rspamd-Action: no action
 
-Add DSI display support for SC8280XP.
+Since SC8280XP and SA8775P have the same values for the DSI PHY
+REVISION_ID registers, then we fallback to SA8775P compatible.
+
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
-Changes in v2:
-- fallback to SA8775P compatible (Krzysztof, Konrad, Dmitry)
-- fix DT styles[a newline between property and subnode, property order] (Konrad)
-- use one dsi_opp_table and all dsi controllers reference it (Konrad)
-- resize dsi_pll region to 0x280 (Konrad)
-- update commit message
-- Link to v1: https://lore.kernel.org/linux-arm-msm/20260225054525.6803-1-mitltlatltl@gmail.com
+ Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Pengyu Luo (4):
-  dt-bindings: display: msm-dsi-phy-7nm: Add SC8280XP
-  dt-bindings: display/msm: dsi-controller-main: Add SC8280XP
-  dt-bindings: display: msm: Document DSI controller and DSI PHY on
-    SC8280XP
-  arm64: dts: qcom: sc8280xp: Add dsi nodes on SC8280XP
-
- .../display/msm/dsi-controller-main.yaml      |   1 +
- .../bindings/display/msm/dsi-phy-7nm.yaml     |   1 +
- .../display/msm/qcom,sc8280xp-mdss.yaml       |  30 ++
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi        | 396 +++++++++++++++++-
- 4 files changed, 420 insertions(+), 8 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index 9a9a6c4ab..532f37182 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -32,6 +32,7 @@ properties:
+       - items:
+           - enum:
+               - qcom,qcs8300-dsi-phy-5nm
++              - qcom,sc8280xp-dsi-phy-5nm
+           - const: qcom,sa8775p-dsi-phy-5nm
+ 
+   reg:
 -- 
 2.53.0
 
