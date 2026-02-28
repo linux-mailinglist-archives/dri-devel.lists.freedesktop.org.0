@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFXNOYU3omnR0wQAu9opvQ
+	id ePaXF/w6omk71AQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 01:32:05 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 01:46:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534B51BF70D
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 01:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23CD1BF7AB
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 01:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECB810EC4C;
-	Sat, 28 Feb 2026 00:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D63A010E193;
+	Sat, 28 Feb 2026 00:46:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="Dj6xmKcu";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="k6FpPzxN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 301B410EC4C
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 00:32:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772238717; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E06210E193
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 00:46:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772239604; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=fwOgd8ByCLrknjw+j36cKkLr60I5L9/C8oMwkbHuDVc9I5oggsoWnKRQb4yl5+pJonLSBG21jeB+jIKWH/SSd3y+FrZuooFiWXy3ugbrZjtt0kNDCX6TnPhRPLHX6TLAyNTqgF8neEtNwqE2RUmzpNof0a/KivXl0Y6tVia88Dg=
+ b=ioymYFlXDbz8bOxsyW21+FD8YcqEbsHPzNIjc+MtQxb5V1EHDER5rBEbIcGGmv2I3hj7BtzqqgD4IO+T8RgRXkrGPdu0vm4aN5CV1iuRXc9FgsyFHwrCXaYpMVyzzCOsOPz4BNyxEMKf1rq5YPcZLdHK3eSJ/VoDNmymoALgUg8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772238717;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=oCIHlpQgBkmjDuN9ncF6UHRqsxo3OYDm6kfja9KZP+s=; 
- b=Raj7tcTCG0yXw0a337HNlyEM70m8Hyc/V5at34npihWFKZaYE9sE2elYg3T/tov+UWhqZhJ2IHzdQnkWlKhRQjij08tOAphzaYJmSDceghtICh/X/3LWPisEKcYts70ihPIm8fhrgsNPR/e7fAMXrb5Kmj9zWZ7PM0CswnuMNDg=
+ s=zohoarc; t=1772239604;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=4N3JzKgyc4SoM0acv3GmznEmCCci39Im/fWH/Xkbp20=; 
+ b=BLxBlUEP27zJMa23ttcMAm7PRsqeT3hw7GKN+l5rtt05uVciLoLlyMOZ7BV1gxeKTY99NHKksgJc4GTrdChwULtj9DcSDRLVLo1rA5qTWZTv96pqglwUQZC9nVvV1iOc9LGLkoPNPurm1+x9OyY/0l5RALoHr+adBsVOndZ9SBs=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
  dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772238717; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772239604; 
  s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=oCIHlpQgBkmjDuN9ncF6UHRqsxo3OYDm6kfja9KZP+s=;
- b=Dj6xmKcuECr373zFV2ERvQtVHQaZieWoh0lnU7bmQZPcI9sKjeiXQN+HrRZKcY9n
- 8ClaqpfnGPCzXneG3c7mYHFDTbEBVCwS6yd89DlJiFKotn3MK/Hg76c+nhM2tliJPXy
- 84YsleSVgPuqDY2KIFnJ9NkxOjcT6jgY/fp2k05o=
-Received: by mx.zohomail.com with SMTPS id 1772238715560812.3808240970304;
- Fri, 27 Feb 2026 16:31:55 -0800 (PST)
-Date: Fri, 27 Feb 2026 16:31:54 -0800
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=4N3JzKgyc4SoM0acv3GmznEmCCci39Im/fWH/Xkbp20=;
+ b=k6FpPzxNO7jq39tBsA95wa9hRHrGjbENBV6Fjs+gW7KX0qAhfWKpDs+Cv1DpQZ5d
+ GFjOSKM8y2QpMPjNa/TLCpwLJNB97kklDcdTmKWKWoMC3/c1PxyRuLgoLRNniznjDsw
+ 01jCIvfq49rk51Bk3sneTYScfnfM/gVmeG6Gy5Z4=
+Received: by mx.zohomail.com with SMTPS id 1772239603299876.1397008368152;
+ Fri, 27 Feb 2026 16:46:43 -0800 (PST)
+Date: Fri, 27 Feb 2026 16:46:42 -0800
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
+To: Daniel Almeida <daniel.almeida@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- daniel.almeida@collabora.com, aliceryhl@google.com,
+ aliceryhl@google.com, boris.brezillon@collabora.com,
  beata.michalska@arm.com, lyude@redhat.com
 Subject: Re: [PATCH 08/12] drm/tyr: add MMU module
-Message-ID: <aaI3erbu6Gr5StrX@um790>
+Message-ID: <aaI68o9aetr52u7q@um790>
 References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
  <20260212013713.304343-9-deborah.brouwer@collabora.com>
- <20260212114418.3d7d7ca8@fedora>
+ <6A26D4EC-413C-44BC-9058-C6CC06514E41@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260212114418.3d7d7ca8@fedora>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6A26D4EC-413C-44BC-9058-C6CC06514E41@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +75,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.81 / 15.00];
 	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:boris.brezillon@collabora.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 534B51BF70D
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: C23CD1BF7AB
 X-Rspamd-Action: no action
 
-On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
-> On Wed, 11 Feb 2026 17:37:09 -0800
-> Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+On Fri, Feb 20, 2026 at 02:11:21PM -0300, Daniel Almeida wrote:
 > 
+> 
+> > On 11 Feb 2026, at 22:37, Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+> > 
 > > From: Boris Brezillon <boris.brezillon@collabora.com>
 > > 
 > > Add a Memory Management Unit (MMU) driver for Tyr. The MMU wraps a
@@ -122,35 +123,42 @@ On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
 > > Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > > ---
-> >  drivers/gpu/drm/tyr/driver.rs            |   3 +
-> >  drivers/gpu/drm/tyr/mmu.rs               |  91 +++++++
-> >  drivers/gpu/drm/tyr/mmu/address_space.rs | 322 +++++++++++++++++++++++
-> >  drivers/gpu/drm/tyr/tyr.rs               |   1 +
-> >  4 files changed, 417 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/tyr/mmu.rs
-> >  create mode 100644 drivers/gpu/drm/tyr/mmu/address_space.rs
+> > drivers/gpu/drm/tyr/driver.rs            |   3 +
+> > drivers/gpu/drm/tyr/mmu.rs               |  91 +++++++
+> > drivers/gpu/drm/tyr/mmu/address_space.rs | 322 +++++++++++++++++++++++
+> > drivers/gpu/drm/tyr/tyr.rs               |   1 +
+> > 4 files changed, 417 insertions(+)
+> > create mode 100644 drivers/gpu/drm/tyr/mmu.rs
+> > create mode 100644 drivers/gpu/drm/tyr/mmu/address_space.rs
 > > 
 > > diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
 > > index 2973a8b3cc09..ad5a765a6c2a 100644
 > > --- a/drivers/gpu/drm/tyr/driver.rs
 > > +++ b/drivers/gpu/drm/tyr/driver.rs
 > > @@ -43,6 +43,7 @@
-> >      gem::BoData,
-> >      gpu,
-> >      gpu::GpuInfo,
+> >     gem::BoData,
+> >     gpu,
+> >     gpu::GpuInfo,
 > > +    mmu::Mmu,
-> >      regs, //
-> >  };
-> >  
+> >     regs, //
+> > };
+> > 
 > > @@ -148,6 +149,8 @@ fn probe(
-> >          let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
-> >          let platform: ARef<platform::Device> = pdev.into();
-> >  
+> >         let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
+> >         let platform: ARef<platform::Device> = pdev.into();
+> > 
 > > +        let _mmu = Mmu::new(pdev, iomem.as_arc_borrow(), &gpu_info)?;
 > > +
-> >          let data = try_pin_init!(TyrDrmDeviceData {
-> >                  pdev: platform.clone(),
-> >                  clks <- new_mutex!(Clocks {
+> 
+> We need to store this or it will drop.
+
+We store the mmu properly in struct firmware later in this series.
+
+> 
+> 
+> >         let data = try_pin_init!(TyrDrmDeviceData {
+> >                 pdev: platform.clone(),
+> >                 clks <- new_mutex!(Clocks {
 > > diff --git a/drivers/gpu/drm/tyr/mmu.rs b/drivers/gpu/drm/tyr/mmu.rs
 > > new file mode 100644
 > > index 000000000000..8e076c35f342
@@ -198,22 +206,12 @@ On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
 > > +    slot::{
 > > +        SlotManager, //
 > > +    }, //
-> 
-> formatting nit:
-> 	slot::SlotManager, //
-> 
 > > +};
 > > +
 > > +pub(crate) mod address_space;
 > > +
 > > +pub(crate) type AsSlotManager = SlotManager<AddressSpaceManager, MAX_AS_REGISTERS>;
 > > +
-> 
-> /// MMU component of the GPU.
-> ///
-> /// This is used to bind VM objects to an AS (Address Space) slot
-> /// and make the VM active on the GPU.
-> 
 > > +#[pin_data]
 > > +pub(crate) struct Mmu {
 > > +    /// Manages the allocation of hardware MMU slots to GPU address spaces.
@@ -225,9 +223,6 @@ On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
 > > +}
 > > +
 > > +impl Mmu {
-> 
->     /// Create an MMU component for this device.
-> 
 > > +    pub(crate) fn new(
 > > +        pdev: &platform::Device,
 > > +        iomem: ArcBorrow<'_, Devres<IoMem>>,
@@ -241,53 +236,49 @@ On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
 > > +        Arc::pin_init(mmu_init, GFP_KERNEL)
 > > +    }
 > > +
-> 
->     /// Make a VM active.
->     ///
->     /// This implies assigning the VM to an AS slot through the slot
->     /// manager.
 > > +    pub(crate) fn activate_vm(&self, vm: ArcBorrow<'_, VmAsData>) -> Result {
 > > +        self.as_manager.lock().activate_vm(vm)
 > > +    }
 > > +
-> 
->     /// Make the VM inactive.
->     ///
->     /// Evicts the VM from its AS slot through the slot manager.
-> 
 > > +    pub(crate) fn deactivate_vm(&self, vm: &VmAsData) -> Result {
 > > +        self.as_manager.lock().deactivate_vm(vm)
 > > +    }
 > > +
-> 
->     /// Flush caches after a VM update.
->     ///
->     /// If the VM is no longer resident, this is a NOP, otherwise, the
->     /// AS manager will flush the GPU and MMU (TLB) caches.
 > > +    pub(crate) fn flush_vm(&self, vm: &VmAsData) -> Result {
 > > +        self.as_manager.lock().flush_vm(vm)
 > > +    }
 > > +
-> 
->     /// Flags the start of a VM update.
->     ///
->     /// If the VM is resident, any GPU access on the memory range being
->     /// updated will be blocked until `Mmu::end_vm_update()` is called.
->     /// This guarantees the atomicity of a VM update.
->     /// If the VM is not resident, this is a NOP.
 > > +    pub(crate) fn start_vm_update(&self, vm: &VmAsData, region: &Range<u64>) -> Result {
 > > +        self.as_manager.lock().start_vm_update(vm, region)
 > > +    }
-> > +
 > 
->     /// Flags the end of a VM update.
->     ///
->     /// If the VM is resident, this will let GPU accesse on the updated
->     /// range go through, in case any of them were blocked.
->     /// If the VM is not resident, this is a NOP.
+> Please return a token type from this.
+>
+
+We implemented the RAII guard in PtUpdateContext which is in the vm patch.
+
+> // if you want the whole vm to be locked while this update takes place
+> struct VmUpdate<‘a> (Guard<‘a, AsSlotManager>); 
+> 
+> // if you don’t 
+> struct VmUpdate<‘a> (&’a AsSlotManager);
+> 
+> The lifetime will be correctly elided as the lifetime of &self, i.e.:
+> 
+>  start_vm_update<‘a>(&’a self, vm: &VmAsData, region: &Range<u64>) -> Result<VmUpdate<‘a>>
+>  
+> Which is just:
+> 
+>  start_vm_update(&self, vm: &VmAsData, region: &Range<u64>) -> Result<VmUpdate<‘_>>
+> 
+> 
+> > +
 > > +    pub(crate) fn end_vm_update(&self, vm: &VmAsData) -> Result {
 > > +        self.as_manager.lock().end_vm_update(vm)
 > > +    }
+> 
+> Move this to the token type’s Drop implementation.
+> 
 > > +}
 > > diff --git a/drivers/gpu/drm/tyr/mmu/address_space.rs b/drivers/gpu/drm/tyr/mmu/address_space.rs
 > > new file mode 100644
@@ -357,13 +348,14 @@ On Thu, Feb 12, 2026 at 11:44:18AM +0100, Boris Brezillon wrote:
 > > +    pub(crate) transcfg: u64,
 > > +    pub(crate) transtab: u64,
 > > +    pub(crate) memattr: u64,
-> 
-> Don't know if we need to document those fields.
-
-v2 will add docs.
-
-> 
 > > +}
+> 
+> Do we need pub(crate) here?
+
+We used to when Vm was creating the AddressSpaceConfig, but it won't
+need this visibility in v2 so I will make it private.
+
+> 
 > > +
 > > +/// Any resource/information that will be used by the AddressSpaceManager
 > > +/// to make a VM active is present in VmAsData.
@@ -379,12 +371,12 @@ v2 will add docs.
 > > +    as_config: AddressSpaceConfig,
 > > +    /// Page table (managed by devres).
 > > +    pub(crate) page_table: Pin<KBox<Devres<IoPageTable<ARM64LPAES1>>>>,
+> 
+> Do we need pub(crate) here?
+> 
 > > +}
 > > +
 > > +impl VmAsData {
-> 
-> Missing doc.
-> 
 > > +    pub(crate) fn new(
 > > +        mmu: &Mmu,
 > > +        as_config: AddressSpaceConfig,
@@ -400,9 +392,6 @@ v2 will add docs.
 > > +
 > > +/// Manages GPU hardware address spaces via MMIO register operations.
 > > +pub(crate) struct AddressSpaceManager {
-> 
-> Missing docs on the first two fields.
-> 
 > > +    pdev: ARef<platform::Device>,
 > > +    iomem: Arc<Devres<IoMem>>,
 > > +    /// Bitmask of available address space slots from GPU_AS_PRESENT register
@@ -420,33 +409,12 @@ v2 will add docs.
 > > +        if self.iomem.try_access().is_some() {
 > > +            let _ = self.as_flush(slot_idx);
 > > +            let _ = self.as_disable(slot_idx);
-> 
-> I don't think we should ignore the errors returned by
-> as_flush/disable(). Ultimately, what we should do is trigger a GPU
-> reset and leave the slot 'busy' until we're sure no one will try
-> to use it (the "stop everything" happening in the reset path). Once this
-> is done, we can forcibly evict the VM (basically remove the VM from the
-> slot without doing any HW transaction) and let the reset do its job.
-> 
-> Since we're not yet at a point where we have a functional reset flow,
-> I'd recommend failing the eviction if as_flush/disable() returns an
-> error (shouldn't happen with just the FW-boot logic anyway). This means
-> we might leave active slots behind and possibly leak resources when that
-> happens, but that's better than the UAF we'd create if the AS still
-> points to a page table that's been freed.
-
-Ack v2 will propagate these errors.
-
-> 
 > > +        }
 > > +        Ok(())
 > > +    }
 > > +}
 > > +
 > > +impl AddressSpaceManager {
-> 
-> Missing docs.
-> 
 > > +    pub(super) fn new(
 > > +        pdev: &platform::Device,
 > > +        iomem: ArcBorrow<'_, Devres<IoMem>>,
@@ -461,6 +429,13 @@ Ack v2 will propagate these errors.
 > > +
 > > +    fn dev(&self) -> &Device<Bound> {
 > > +        // SAFETY: pdev is a bound device.
+> 
+> I don’t think we can say this for sure? I don’t think there is anything
+> special about this scope that ensures Device<Bound>.
+>
+Could you suggest an alternative safety statement?
+
+
 > > +        unsafe { self.pdev.as_ref().as_bound() }
 > > +    }
 > > +
@@ -573,6 +548,21 @@ Ack v2 will propagate these errors.
 > > +            64 - (region.start ^ (region.end - 1)).leading_zeros() as u8,
 > > +            AS_LOCK_REGION_MIN_SIZE.trailing_zeros() as u8,
 > > +        ) - 1;
+> 
+> Is it me, or did this change from the prototype branch?
+>
+
+Yes, I fixed an error in the calculation of the locking region width.
+If you look at the panthor_mmu.c calculation it is:
+
+	region_width = max(fls64(region_start ^ (region_end - 1)),
+			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
+
+The prototype code misinterpreted C's fls64() function. It was treating leading_zeros() directly
+as a bit position, when it should be "64 - leading_zeros()".
+
+Before this fix we had giant lock sizes 51 bits long, but now we have reasonable 32KB lock sizes.
+
 > > +
 > > +        // Mask off the low bits of region.start, which would be ignored by the
 > > +        // hardware anyways.
@@ -655,11 +645,14 @@ Ack v2 will propagate these errors.
 > > --- a/drivers/gpu/drm/tyr/tyr.rs
 > > +++ b/drivers/gpu/drm/tyr/tyr.rs
 > > @@ -11,6 +11,7 @@
-> >  mod file;
-> >  mod gem;
-> >  mod gpu;
+> > mod file;
+> > mod gem;
+> > mod gpu;
 > > +mod mmu;
-> >  mod regs;
-> >  mod slot;
-> >  
+> > mod regs;
+> > mod slot;
+> > 
+> > -- 
+> > 2.52.0
+> > 
 > 
