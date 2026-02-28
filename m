@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oDBoDewro2kr+AQAu9opvQ
+	id UCInOaM2o2nP+QQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:54:52 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 19:40:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F661C533B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 18:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607E11C61A5
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 19:40:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F30810E2DD;
-	Sat, 28 Feb 2026 17:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F3C10E05A;
+	Sat, 28 Feb 2026 18:40:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zkurb310";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j/InzrVo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E747710E2DB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 17:54:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856F110E05A
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 18:40:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 683EC60134;
- Sat, 28 Feb 2026 17:54:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B99C19423;
- Sat, 28 Feb 2026 17:54:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A332F60008;
+ Sat, 28 Feb 2026 18:40:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F95C19423;
+ Sat, 28 Feb 2026 18:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772301286;
- bh=bm2Bw3ITA+aM3c12dBiFS/kfhp0kY/Qnb1B8VU+afxU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zkurb3103rSZcEOPI5VYSSk2iOVADCCTXNhU4cxYWZRHGZiBQHmBav453d/BsAU+A
- 1PRINZAHLcS9CsNwTLBySBgXiefXxqvJ8GUcPTODA10DYgvmVcLFw9AwNvgD0DTff1
- Oew3u7U0zHpUdGojIACA3yT0BNhNtywBf1S6n8x5r13nS3sELegSInQaQKWgJozPSX
- GOUVRt7p1lJUQtBT7/LNi2DJ7F/jdTv/Z/MD0gY1WHbEjaNeqbqJeW3a//5JYs/Ep0
- lltz4Yvf7UL3JlqDtITbMM6Xd+gv4pVZ69TfhXWpj7MGm55hPAaYflLuEo+KRLea8R
- IYJJlixCb34JA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Boris Brezillon <boris.brezillon@collabora.com>,
- Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 470/752] drm/tests: shmem: Hold reservation lock around
- purge
-Date: Sat, 28 Feb 2026 12:43:01 -0500
-Message-ID: <20260228174750.1542406-470-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260228174750.1542406-1-sashal@kernel.org>
-References: <20260228174750.1542406-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1772304030;
+ bh=1MGoOeWO4a7jzpvdquCXe6JL9LK4o55NoxWsra1wzgs=;
+ h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+ b=j/InzrVodnQsLneccidK60stBfW++8hhtyv7LFiOjfZZ9tCIY56BLd/YAo1sX6ZFg
+ zqrgiEZjHvKNc+JsvHiDprdj44UmhpbHicQ0n0/xe2tbwDuHca1uMyL/hKq7eXaj52
+ HV/H4PyPgAMege1M57xWBvGHUtGjzYn+IHv5uir1LCtwNsVxtOpOTUgXJHBUyLohpf
+ b7kGQCYIVLnQgEegoI9Kbm4rK55hQ53PUoPSmWau+v6va61MAcYtjNxiUpECBT96m3
+ WY8VzpQdCmbY1JIieTkbsnyjfKVGMMr0QB+3xfNXlO6VvDiAvwIbKf/qNL8NjYW1LO
+ 3GmoYwJLkxnHw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 28 Feb 2026 19:40:26 +0100
+Message-Id: <DGQTCDOIVTHW.3OGUVXRS496FP@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Tejun Heo" <tj@kernel.org>, "Lai
+ Jiangshan" <jiangshanlai@gmail.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 2/4] rust: drm: dispatch work items to the private data
+References: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
+ <20260204-aref-workitem-v2-2-bec25b012d2a@collabora.com>
+In-Reply-To: <20260204-aref-workitem-v2-2-bec25b012d2a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,120 +69,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:patches@lists.linux.dev,m:tzimmermann@suse.de,m:stable@vger.kernel.org,m:boris.brezillon@collabora.com,m:sashal@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:airlied@gmail.com,m:simona@ffwll.ch,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:daniel.almeida@collabora.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,collabora.com:email,msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: C2F661C533B
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 607E11C61A5
 X-Rspamd-Action: no action
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+On Wed Feb 4, 2026 at 9:40 PM CET, Daniel Almeida wrote:
+> This implementation dispatches any work enqueued on ARef<drm::Device<T>> =
+to
+> its driver-provided handler. It does so by building upon the newly-added
+> ARef<T> support in workqueue.rs in order to call into the driver
+> implementations for work_container_of and raw_get_work.
+>
+> This is notably important for work items that need access to the drm
+> device, as it was not possible to enqueue work on a ARef<drm::Device<T>>
+> previously without failing the orphan rule.
+>
+> The current implementation needs T::Data to live inline with drm::Device =
+in
+> order for work_container_of to function. This restriction is already
+> captured by the trait bounds. Drivers that need to share their ownership =
+of
+> T::Data may trivially get around this:
+>
+> // Lives inline in drm::Device
+> struct DataWrapper {
+>   work: ...,
+>   // Heap-allocated, shared ownership.
+>   data: Arc<DriverData>,
+> }
 
-[ Upstream commit 3f41307d589c2f25d556d47b165df808124cd0c4 ]
+IIUC, this is how it's supposed to be used:
 
-Acquire and release the GEM object's reservation lock around calls
-to the object's purge operation. The tests use
-drm_gem_shmem_purge_locked(), which led to errors such as show below.
+	#[pin_data]
+	struct MyData {
+	    #[pin]
+	    work: Work<drm::Device<MyDriver>>,
+	    value: u32,
+	}
+=09
+	impl_has_work! {
+	    impl HasWork<drm::Device<MyDriver>> for MyData { self.work }
+	}
+=09
+	impl WorkItem for MyData {
+	    type Pointer =3D ARef<drm::Device<MyDriver>>;
+=09
+	    fn run(dev: ARef<drm::Device<MyDriver>>) {
+	        dev_info!(dev, "value =3D {}\n", dev.value);
+	    }
+	}
 
-[   58.709128] WARNING: CPU: 1 PID: 1354 at drivers/gpu/drm/drm_gem_shmem_helper.c:515 drm_gem_shmem_purge_locked+0x51c/0x740
+The reason the WorkItem is implemented for MyData, rather than
+drm::Device<MyDriver> (which would be a bit more straight forward) is the o=
+rphan
+rule, I assume.
 
-Only export the new helper drm_gem_shmem_purge() for Kunit tests.
-This is not an interface for regular drivers.
+Now, the whole purpose of this is that a driver can implement WorkItem for
+MyData without needing an additional struct (and allocation), such as:
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 954907f7147d ("drm/shmem-helper: Refactor locked/unlocked functions")
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.16+
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Link: https://patch.msgid.link/20251212160317.287409-6-tzimmermann@suse.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c     | 15 +++++++++++++++
- drivers/gpu/drm/tests/drm_gem_shmem_test.c |  4 +++-
- include/drm/drm_gem_shmem_helper.h         |  1 +
- 3 files changed, 19 insertions(+), 1 deletion(-)
+	#[pin_data]
+	struct MyWork {
+	    #[pin]
+	    work: Work<Self>,
+	    dev: drm::Device<MyDriver>,
+	}
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 57df74c3a627b..5c6da91bbba17 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -907,6 +907,21 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- 	return ret;
- }
- EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_madvise);
-+
-+int drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+	int ret;
-+
-+	ret = dma_resv_lock_interruptible(obj->resv, NULL);
-+	if (ret)
-+		return ret;
-+	drm_gem_shmem_purge_locked(shmem);
-+	dma_resv_unlock(obj->resv);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_IF_KUNIT(drm_gem_shmem_purge);
- #endif
- 
- MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-index d639848e3c8ea..4b459f21acfd9 100644
---- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -340,7 +340,9 @@ static void drm_gem_shmem_test_purge(struct kunit *test)
- 	ret = drm_gem_shmem_is_purgeable(shmem);
- 	KUNIT_EXPECT_TRUE(test, ret);
- 
--	drm_gem_shmem_purge_locked(shmem);
-+	ret = drm_gem_shmem_purge(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
- 	KUNIT_EXPECT_NULL(test, shmem->pages);
- 	KUNIT_EXPECT_NULL(test, shmem->sgt);
- 	KUNIT_EXPECT_EQ(test, shmem->madv, -1);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 1b937166457fb..6802896e30c7c 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -309,6 +309,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
- int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
- void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct iosys_map *map);
- int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
-+int drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- #endif
- 
- #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
--- 
-2.51.0
+How is this supposed to be done when you want multiple different implementa=
+tions
+of WorkItem that have a drm::Device<MyDriver> as payload?
 
+Fall back to various struct MyWork? Add in an "artificial" type state for M=
+yData
+with some phantom data, so you can implement HasWork for MyData<Work0>,
+MyData<Work1>, etc.?
