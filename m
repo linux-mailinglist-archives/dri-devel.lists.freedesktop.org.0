@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLHgGqOVo2lPHgUAu9opvQ
+	id cF12G6qVo2l7HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:55 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:26:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379841CA90F
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF961CA940
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC3910E2F8;
-	Sun,  1 Mar 2026 01:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58D3E10E2FA;
+	Sun,  1 Mar 2026 01:26:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p8LYrocT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PODTfkjK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E7810E2F7;
- Sun,  1 Mar 2026 01:25:52 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAD510E2F9;
+ Sun,  1 Mar 2026 01:25:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C0E9360008;
- Sun,  1 Mar 2026 01:25:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFB6C19421;
- Sun,  1 Mar 2026 01:25:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0493540118;
+ Sun,  1 Mar 2026 01:25:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D6DBC19421;
+ Sun,  1 Mar 2026 01:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328351;
- bh=2Wq6uxL0qh7pold2geNP4xvN+lABLHVFs0qTQTj8ZoQ=;
+ s=k20201202; t=1772328358;
+ bh=MAY2Y6F5m9+mJiOoiE+RzdsjpFQkLme7ZUvPkVDBvKM=;
  h=From:To:Cc:Subject:Date:From;
- b=p8LYrocTFgKE9XXszs8LCm8Rz2bvEBKXtPprFapV/RyWLPGGGzNeyHv+wrbofkeCz
- /mZUojnjbI4h/h72okBrWoL3vSMy4wCDkt2jAOyVEwILgJePWwxy/j6McplvfV9Uz1
- 1m2fqkJzBEvfFcf8+81p9OexVvmRzynj00qteIvqMuKDthvHklAhJE4ClGjmFyEeQi
- gbzkMh6jdYyTPjIDxLf4NnsMWzhe3zGWVZb2JEXt4cgkdtU4PBZWlibmhEJK5WYthu
- YAtP0nWCxwhbPNUyOjSjNMe2nTCNf9PcbwHZJA3kRUSbNgZOKsSbPTjPAx/v+3GpyV
- mBqq+rqxXgrvA==
+ b=PODTfkjKhJOXsNb2rvkfSqE/0qSzUXqp2LCX5Zwpm7CnFXRlw+IdEGNCqqIMUAmyY
+ wJm8e02AkHXtGO6Xa3LuvtbmYQklPApYTOpyeA03IlN1Yk2hIwvvqZHVa/PMR3gQ9D
+ X/kgY3oCGUO0/xPnaljYVY8JVGoaTr5ABpcgWTmMb/WSmZOKlOCdozbP+qaNeGpDw2
+ /YibNBa0r5iOImaIjnv+3fAIBbQ58ThqbwSMlK8vxX1XOK+2ke72PxkaadN69bssAR
+ OLpAgSxjk9M6ZyxD6yONhG+SMS8wBW1StDHG00pyIyusWpmjw0PD/WeyYSW5+oe8+8
+ eyIP1mHq02v8A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	Philip.Yang@amd.com
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	mario.limonciello@amd.com
+Cc: Cal Peake <cp@absolutedigital.net>,
  Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amdgpu: Use 5-level paging if gmc support 57-bit
- VA" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:25:49 -0500
-Message-ID: <20260301012549.1683069-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amd: Fix hang on amdgpu unload by using
+ pci_dev_is_disconnected()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:25:56 -0500
+Message-ID: <20260301012557.1683222-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,32 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 379841CA90F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1FF961CA940
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -104,65 +104,66 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3b948dd0366a0b64c02e4ed1aefdf7825942e803 Mon Sep 17 00:00:00 2001
-From: Philip Yang <Philip.Yang@amd.com>
-Date: Tue, 27 Jan 2026 13:52:33 -0500
-Subject: [PATCH] drm/amdgpu: Use 5-level paging if gmc support 57-bit VA
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From f7afda7fcd169a9168695247d07ad94cf7b9798f Mon Sep 17 00:00:00 2001
+From: Mario Limonciello <mario.limonciello@amd.com>
+Date: Thu, 5 Feb 2026 10:42:54 -0600
+Subject: [PATCH] drm/amd: Fix hang on amdgpu unload by using
+ pci_dev_is_disconnected()
 
-Regardless if CPU enable 5-level paging, GPU vm use 5-level paging if
-gmc init with 57-bit address space support, because
+The commit 6a23e7b4332c ("drm/amd: Clean up kfd node on surprise
+disconnect") introduced early KFD cleanup when drm_dev_is_unplugged()
+returns true. However, this causes hangs during normal module unload
+(rmmod amdgpu).
 
-ARM64 4-level paging support 48-bit VA, x86 and GPU 4-level paging
-support 47-bit VA, require 5-level paging on GPU to support ARM64.
+The issue occurs because drm_dev_unplug() is called in amdgpu_pci_remove()
+for all removal scenarios, not just surprise disconnects. This was done
+intentionally in commit 39934d3ed572 ("Revert "drm/amdgpu: TA unload
+messages are not actually sent to psp when amdgpu is uninstalled"") to
+fix IGT PCI software unplug test failures. As a result,
+drm_dev_is_unplugged() returns true even during normal module unload,
+triggering the early KFD cleanup inappropriately.
 
-NPA address space 52-bit mapping on NPA GPU VM require 5-level paging.
+The correct check should distinguish between:
+- Actual surprise disconnect (eGPU unplugged): pci_dev_is_disconnected()
+  returns true
+- Normal module unload (rmmod): pci_dev_is_disconnected() returns false
 
-Debugger trap get device snapshot expect LDS and Scratch base, limit
-above 57-bit, which is set only for 5-level paging.
+Replace drm_dev_is_unplugged() with pci_dev_is_disconnected() to ensure
+the early cleanup only happens during true hardware disconnect events.
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Cc: stable@vger.kernel.org
+Reported-by: Cal Peake <cp@absolutedigital.net>
+Closes: https://lore.kernel.org/all/b0c22deb-c0fa-3343-33cf-fd9a77d7db99@absolutedigital.net/
+Fixes: 6a23e7b4332c ("drm/amd: Clean up kfd node on surprise disconnect")
 Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org # 6.19.x
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 6a2ea200d90c8..31383583fc682 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2360,26 +2360,9 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
- 			   unsigned max_bits)
- {
- 	unsigned int max_size = 1 << (max_bits - 30);
--	bool sys_5level_pgtable = false;
- 	unsigned int vm_size;
- 	uint64_t tmp;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 528990a595ec9..9758221413814 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4924,7 +4924,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 	 * before ip_fini_early to prevent kfd locking refcount issues by calling
+ 	 * amdgpu_amdkfd_suspend()
+ 	 */
+-	if (drm_dev_is_unplugged(adev_to_drm(adev)))
++	if (pci_dev_is_disconnected(adev->pdev))
+ 		amdgpu_amdkfd_device_fini_sw(adev);
  
--#ifdef CONFIG_X86_64
--	/*
--	 * Refer to function configure_5level_paging() for details.
--	 */
--	sys_5level_pgtable = (native_read_cr4() & X86_CR4_LA57);
--#endif
--
--	/*
--	 * If GPU supports 5-level page table, but system uses 4-level page table,
--	 * then use 4-level page table on GPU
--	 */
--	if (max_level == 4 && !sys_5level_pgtable) {
--		min_vm_size = 256 * 1024;
--		max_level = 3;
--	}
--
- 	/* adjust vm size first */
- 	if (amdgpu_vm_size != -1) {
- 		vm_size = amdgpu_vm_size;
+ 	amdgpu_device_ip_fini_early(adev);
+@@ -4936,7 +4936,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 
+ 	amdgpu_gart_dummy_page_fini(adev);
+ 
+-	if (drm_dev_is_unplugged(adev_to_drm(adev)))
++	if (pci_dev_is_disconnected(adev->pdev))
+ 		amdgpu_device_unmap_mmio(adev);
+ 
+ }
 -- 
 2.51.0
 
