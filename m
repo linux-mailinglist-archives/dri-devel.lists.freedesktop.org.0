@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFeKKL6do2l2IQUAu9opvQ
+	id +KtKOf6do2l2IQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:00:30 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:01:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289821CC917
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790A81CCA35
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:01:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AEC10E3A3;
-	Sun,  1 Mar 2026 02:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C432D10E3A5;
+	Sun,  1 Mar 2026 02:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lL+Tt3yN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hltPHOY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB0D10E3A3
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:00:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC7810E3A5
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:01:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 97E4860141;
- Sun,  1 Mar 2026 02:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72A2C19425;
- Sun,  1 Mar 2026 02:00:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 09CFC4422C;
+ Sun,  1 Mar 2026 02:01:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66965C19421;
+ Sun,  1 Mar 2026 02:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772330426;
- bh=GcgTHop9G9KwyjGuB/s8MgsRCz1VEd0hqSXvEJ3d2z0=;
+ s=k20201202; t=1772330490;
+ bh=o12VwAnW/TdaYpTsiYs8XiuPjSO1ncLmOpbn2ka9B+k=;
  h=From:To:Cc:Subject:Date:From;
- b=lL+Tt3yN6tDLjMD5S4uWf8vbwpuihD/N56908usPxp4XdPn780ENaJdYiQkUOy2L/
- MNJsFNgdtqi1odhVgn4VIoiJ5PjCkSNdUI/ytSCX4goL4MaMQwE1+YyBKPYPAdhqRB
- drwybAfzR2yu8DN1zHvFu8GlC4HfnuQjFEh4j1mXdJ/oss0ft5XAtvUNUcARymAMWU
- 2s2OBoBJg9tZ1t97KMX8QQotjYT9DR1Vc0Ls+dLdFllHMoTk6JYPRjd8ilbEOLs9NQ
- 1CkxLUTAFrcu8GkaxkCdSUTee7Ewvs1rMA68jJznd6VpYZO3ZEz+GSW7zDTPkYjejf
- kbLeCX3cjqDHw==
+ b=hltPHOY2fv2awZPWP/1CmXE5DigffehLMsxKqPbz0T9xjwB2aQNMnANeXZBPqK5LT
+ E3FnZodW5wiy+Eyl36MpvH7J7qQYPaRVUFYioYvYYgtvGvcflh8HTE+ezswZrIsb5v
+ pt2J06uefIC+75pM8GIXyzuArXWuUzEBRj8IAiONZCHvd05fExk6aldpjXQzsnv1cA
+ ga7B7RSKQqX3Kxj9wyiftLZeYStd3WHO0rLUHtaVgZ2UxmUKwqJlvzhiyPvweIBIvo
+ fpaKKMLp+AhaA6PXXokf0k44pwyEbbxG0J56BqtcwuWFNXrW2HqhKv7rlWg/Z9uhEf
+ E1ceq7Dc19qOw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	johan@kernel.org
-Cc: Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-Subject: FAILED: Patch "drm/tegra: dsi: fix device leak on probe" failed to
- apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:00:24 -0500
-Message-ID: <20260301020024.1726481-1-sashal@kernel.org>
+	luca.ceresoli@bootlin.com
+Cc: Maxime Ripard <mripard@kernel.org>,
+	dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm: of: drm_of_panel_bridge_remove(): fix device_node
+ leak" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:01:28 -0500
+Message-ID: <20260301020129.1728791-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -68,35 +68,35 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:johan@kernel.org,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:mripard@kernel.org,s:lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 289821CC917
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,bootlin.com:email]
+X-Rspamd-Queue-Id: 790A81CCA35
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -109,46 +109,44 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From bfef062695570842cf96358f2f46f4c6642c6689 Mon Sep 17 00:00:00 2001
-From: Johan Hovold <johan@kernel.org>
-Date: Fri, 21 Nov 2025 17:42:01 +0100
-Subject: [PATCH] drm/tegra: dsi: fix device leak on probe
+From a4b4385d0523e39a7c058cb5a6c8269e513126ca Mon Sep 17 00:00:00 2001
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Fri, 9 Jan 2026 08:31:32 +0100
+Subject: [PATCH] drm: of: drm_of_panel_bridge_remove(): fix device_node leak
 
-Make sure to drop the reference taken when looking up the companion
-(ganged) device and its driver data during probe().
+drm_of_panel_bridge_remove() uses of_graph_get_remote_node() to get a
+device_node but does not put the node reference.
 
-Note that holding a reference to a device does not prevent its driver
-data from going away so there is no point in keeping the reference.
-
-Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
-Fixes: 221e3638feb8 ("drm/tegra: Fix reference leak in tegra_dsi_ganged_probe")
-Cc: stable@vger.kernel.org	# 3.19: 221e3638feb8
-Cc: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://patch.msgid.link/20251121164201.13188-1-johan@kernel.org
+Fixes: c70087e8f16f ("drm/drm_of: add drm_of_panel_bridge_remove function")
+Cc: stable@vger.kernel.org # v4.15
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patch.msgid.link/20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-1-8bad3ef90b9f@bootlin.com
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/tegra/dsi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ include/drm/drm_of.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 175f5f9937b01..8ee96b59fdbc8 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1542,11 +1542,9 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
- 			return -EPROBE_DEFER;
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 7f0256dae3f13..f3e55ea2174c0 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -5,6 +5,7 @@
+ #include <linux/err.h>
+ #include <linux/of_graph.h>
+ #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
++#include <linux/of.h>
+ #include <drm/drm_bridge.h>
+ #endif
  
- 		dsi->slave = platform_get_drvdata(gangster);
--
--		if (!dsi->slave) {
--			put_device(&gangster->dev);
-+		put_device(&gangster->dev);
-+		if (!dsi->slave)
- 			return -EPROBE_DEFER;
--		}
+@@ -173,6 +174,8 @@ static inline int drm_of_panel_bridge_remove(const struct device_node *np,
+ 	bridge = of_drm_find_bridge(remote);
+ 	drm_panel_bridge_remove(bridge);
  
- 		dsi->slave->master = dsi;
- 	}
++	of_node_put(remote);
++
+ 	return 0;
+ #else
+ 	return -EINVAL;
 -- 
 2.51.0
 
