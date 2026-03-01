@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFzKL2aVo2l7HQUAu9opvQ
+	id 0M9rNW2Vo2l7HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:24:54 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263771CA787
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE741CA7A7
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB9410E2F0;
-	Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D2110E2F1;
+	Sun,  1 Mar 2026 01:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VRg7eBkw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HdGK41hs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C17D10E2F0
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088BA10E2F1
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:24:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 356AF4395E;
- Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DAB0C19421;
- Sun,  1 Mar 2026 01:24:50 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 698FA600AE;
+ Sun,  1 Mar 2026 01:24:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 720CEC2BC86;
+ Sun,  1 Mar 2026 01:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328291;
- bh=rtX7DyN3bJ2S8o3NgMrm5A8EMI5UyE/WOHCeZzeZPec=;
+ s=k20201202; t=1772328298;
+ bh=0Surn+6AK3yk3KWXtwc2Qa3xSwjSCqTcIj9Zt61HVSc=;
  h=From:To:Cc:Subject:Date:From;
- b=VRg7eBkw3nVv074WKiIvepaHpwYkpBF1NDb+d6dE1BrRnlVaQE+T2sS7TwovfiURr
- hqJ8eogqGMUZuwLsHOBYyxREOyNXezWBqwEfUVQ279D4TeaiZsUXarUE/+1Oa6qJu4
- WQIfVTFxuMBwPpkcPxNLwZQ30zqfC5kumct9vjriDqJYOdnBQvPtxkIPfCGAHeD6fp
- 2g0D3+ya9T95bHp/ZxOLF0hW6uHPsRCdQddL6nLH34r1ho08erziM4pVlZy1VBCi7l
- Aa600Vs6Jo4BFdY2Qud4FkoBoTa9kX+a7a8Hm0IwfGFvZqVE+hRlCzUWACqCXWKr7Q
- r70/Oz5TKEMtA==
+ b=HdGK41hs8RV1BErIRzPGcv9EwaCTmaPudr+vcz1vkHkftpN++qbeRhzjt2TlX3umd
+ tOx+LNbKCykguS8RPRI7mNsdlRJJwUWEq25LZTnaTpDlK5DOcoL95zq0wvFFNh04n5
+ 7nTBsN2tokry9b5kSeVZk0uJnRFFZoSdBgse7VJ/gGA8Yr0Diz39efY85gPUHgOitY
+ TemRC8xvELu8Dzglj2g8Q5ZITZq84UnnHG71mpiQ/IOetbu/GvKsrhyax2Rz3l+JcQ
+ O1rg3t0OpfOpWIjEn5auD79G2a8uM8dW4+ZwPDAFjES+z27oPOt5TzmSFZbuQNhwEe
+ 2uhUjOsA1W8cw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	aha310510@gmail.com
 Cc: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: FAILED: Patch "drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
- vidi_connection_ioctl()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:24:48 -0500
-Message-ID: <20260301012449.1681760-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/exynos: vidi: fix to avoid directly dereferencing
+ user pointer" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:24:56 -0500
+Message-ID: <20260301012456.1681912-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -97,7 +97,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 263771CA787
+X-Rspamd-Queue-Id: ACE741CA7A7
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -110,96 +110,62 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From d3968a0d85b211e197f2f4f06268a7031079e0d0 Mon Sep 17 00:00:00 2001
+From d4c98c077c7fb2dfdece7d605e694b5ea2665085 Mon Sep 17 00:00:00 2001
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Mon, 19 Jan 2026 17:25:51 +0900
-Subject: [PATCH] drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
- vidi_connection_ioctl()
+Date: Mon, 19 Jan 2026 17:25:52 +0900
+Subject: [PATCH] drm/exynos: vidi: fix to avoid directly dereferencing user
+ pointer
 
-vidi_connection_ioctl() retrieves the driver_data from drm_dev->dev to
-obtain a struct vidi_context pointer. However, drm_dev->dev is the
-exynos-drm master device, and the driver_data contained therein is not
-the vidi component device, but a completely different device.
+In vidi_connection_ioctl(), vidi->edid(user pointer) is directly
+dereferenced in the kernel.
 
-This can lead to various bugs, ranging from null pointer dereferences and
-garbage value accesses to, in unlucky cases, out-of-bounds errors,
-use-after-free errors, and more.
-
-To resolve this issue, we need to store/delete the vidi device pointer in
-exynos_drm_private->vidi_dev during bind/unbind, and then read this
-exynos_drm_private->vidi_dev within ioctl() to obtain the correct
-struct vidi_context pointer.
+This allows arbitrary kernel memory access from the user space, so instead
+of directly accessing the user pointer in the kernel, we should modify it
+to copy edid to kernel memory using copy_from_user() and use it.
 
 Cc: <stable@vger.kernel.org>
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Inki Dae <inki.dae@samsung.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 14 +++++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-index 23646e55f142c..06c29ff2aac0e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-@@ -199,6 +199,7 @@ struct drm_exynos_file_private {
- struct exynos_drm_private {
- 	struct device *g2d_dev;
- 	struct device *dma_dev;
-+	struct device *vidi_dev;
- 	void *mapping;
- 
- 	/* for atomic commit */
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 64c69dd2966ec..480c99a8f9f75 100644
+index 480c99a8f9f75..9709c07e5d8f4 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -224,9 +224,14 @@ ATTRIBUTE_GROUPS(vidi);
- int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
- 				struct drm_file *file_priv)
- {
--	struct vidi_context *ctx = dev_get_drvdata(drm_dev->dev);
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
-+	struct device *dev = priv ? priv->vidi_dev : NULL;
-+	struct vidi_context *ctx = dev ? dev_get_drvdata(dev) : NULL;
- 	struct drm_exynos_vidi_connection *vidi = data;
+@@ -252,13 +252,27 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
  
-+	if (!ctx)
-+		return -ENODEV;
+ 	if (vidi->connection) {
+ 		const struct drm_edid *drm_edid;
+-		const struct edid *raw_edid;
++		const void __user *edid_userptr = u64_to_user_ptr(vidi->edid);
++		void *edid_buf;
++		struct edid hdr;
+ 		size_t size;
+ 
+-		raw_edid = (const struct edid *)(unsigned long)vidi->edid;
+-		size = (raw_edid->extensions + 1) * EDID_LENGTH;
++		if (copy_from_user(&hdr, edid_userptr, sizeof(hdr)))
++			return -EFAULT;
+ 
+-		drm_edid = drm_edid_alloc(raw_edid, size);
++		size = (hdr.extensions + 1) * EDID_LENGTH;
 +
- 	if (!vidi) {
- 		DRM_DEV_DEBUG_KMS(ctx->dev,
- 				  "user data for vidi is null.\n");
-@@ -372,6 +377,7 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct vidi_context *ctx = dev_get_drvdata(dev);
- 	struct drm_device *drm_dev = data;
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
- 	struct drm_encoder *encoder = &ctx->encoder;
- 	struct exynos_drm_plane *exynos_plane;
- 	struct exynos_drm_plane_config plane_config = { 0 };
-@@ -379,6 +385,8 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- 	int ret;
++		edid_buf = kmalloc(size, GFP_KERNEL);
++		if (!edid_buf)
++			return -ENOMEM;
++
++		if (copy_from_user(edid_buf, edid_userptr, size)) {
++			kfree(edid_buf);
++			return -EFAULT;
++		}
++
++		drm_edid = drm_edid_alloc(edid_buf, size);
++		kfree(edid_buf);
+ 		if (!drm_edid)
+ 			return -ENOMEM;
  
- 	ctx->drm_dev = drm_dev;
-+	if (priv)
-+		priv->vidi_dev = dev;
- 
- 	plane_config.pixel_formats = formats;
- 	plane_config.num_pixel_formats = ARRAY_SIZE(formats);
-@@ -424,8 +432,12 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- static void vidi_unbind(struct device *dev, struct device *master, void *data)
- {
- 	struct vidi_context *ctx = dev_get_drvdata(dev);
-+	struct drm_device *drm_dev = data;
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
- 
- 	timer_delete_sync(&ctx->timer);
-+	if (priv)
-+		priv->vidi_dev = NULL;
- }
- 
- static const struct component_ops vidi_component_ops = {
 -- 
 2.51.0
 
