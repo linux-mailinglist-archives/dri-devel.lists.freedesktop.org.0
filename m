@@ -2,159 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uP7wJQxupGnwggUAu9opvQ
+	id r8RrIg5vpGl1gwUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 17:49:16 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 17:53:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36CD1D0B80
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 17:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B213C1D0BCB
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 17:53:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0AA10E32B;
-	Sun,  1 Mar 2026 16:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99E910E3DB;
+	Sun,  1 Mar 2026 16:53:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="S4WFzvr7";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N/kiVMmr";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TH2xx9x2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38AB410E32B
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 16:49:12 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 621EhkrG3203406
- for <dri-devel@lists.freedesktop.org>; Sun, 1 Mar 2026 16:49:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=dSllOkKEfDtkPszOpUxSs26w
- 5scwH7eQoWJUjkkZk+0=; b=S4WFzvr74n+UOsusIQV8vroIg+2n/ZWGqD6P5I8I
- 2QnM8/qHBqWY7ILgw/yiAvzWx2qubCHOnQ0vsX5ZwC28cc3zn5dc/5KewkUHerbV
- QZZW+NBsVHblGZuFL0vr0vV4FBjPUbU65Zeg+xCL7ugVV5oZZpgnU0KHM+4rP4T7
- RzUxQUk59lKRg+E0hMuAkjfRNqBYMlWRSO1Es3UCGXt0OChZJrGKGFssr4tyDNqg
- OzXVptZm/MnRSTytiWYP9Xpe4HPms2u9CWCNhehNOtxetcz8Ixh1CZGH/mcLael2
- 5065GNEayH87h4/uFtcHDWZcrDtLuJdAzC8C101bS6eCaQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksf6jxan-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 16:49:11 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8c70ed6c849so3055200685a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 08:49:11 -0800 (PST)
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8617410E3DB
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 16:53:29 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-439b50320a0so283722f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 08:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772383751; x=1772988551;
+ d=google.com; s=20230601; t=1772384008; x=1772988808;
  darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=dSllOkKEfDtkPszOpUxSs26w5scwH7eQoWJUjkkZk+0=;
- b=N/kiVMmrXuU6Yj38mqMcQlw5/JjJyucmTi9NzXsRsCbrWQ38kuJatEJUjIPQiUtM+B
- YY1wEUTBTr3dFzlzF281SLZKIcqNBJaE55sinN2m3z1rQih3RvclCOKcmx7i0uVBqkc2
- Ff31hDtYm0qHt3hfhCnxkXN2cLdxlzIsidESrMT16yAmeq2j6anCO2N0fZgQROq1WK6s
- 6nrbyZ3Dlo0492ziku876kogagP38GerOJirp7RhNVbQszaEOeTvRlxdfGgTwIC+2EZn
- 8lWd2fEw42UD70W35/fAlU4oxRztGqeo7Zq+2btAJMEjNxSoJpRU2yKMFJDz/r9wGj/i
- Q3ng==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=PfdUfCNI/OQhhLtw/VeFZbribXWs9YmY3yISi0+RLUA=;
+ b=TH2xx9x2r0cr9qoEhWQULjqQ48ykqAke4gxxdKkE+E2dRJsR+Y8mh+Q/uIDUO6WoEy
+ Kyw+QcVGgIhozZTgPmMJoWanHy9rUEw/Rxcw8/ucvm6JoJVSN9lQTr6o5CCS8hWMo0hA
+ 0l+iySlU+RwiLfdNgHCpxzSWrsqceD4EQ7QfNOlJqVv1MdaYhMTVjixuKBjh06/MS0aA
+ tebl5wTLGgRUQA+UrVUcSAoz9MitSyZFdK7evXqWo1BVqgWQnCVEug1rRMTOtgqko9xG
+ XMALNv/iOR4kuuG+epF1ouK5z4fvyso1BL3Y/m5P9jhfddFlmNN7Uvh2hzJIiKtF8rEa
+ 5r8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772383751; x=1772988551;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dSllOkKEfDtkPszOpUxSs26w5scwH7eQoWJUjkkZk+0=;
- b=Nc0zJPVqUy4c48Awvyvu/j7/30lh6ZtHN/0nKCZ/5KRTfiizK+afEpVgnxmXdaymSI
- Fl1NlOOrKYVlHPMghpbo75VYwi7jJURTdDJcroSjO5qhO2tDqjFVALG4fNZJJH0p8Cbu
- /OmKDIf2RnRa+KuckciXN6zeIVONgIgn9l+FCrS6uTh2ffjQiNGJ6AWpaEhyxVxnHEWE
- 2ZoHCspYTgskzT1Ycpkt6K1FvLnYziU3EmCmtuxrGQ78S62Ia/YwvCvV4De/JT2kL0qt
- wvyiCtPXaEItCQW2BZzrhG9BlrwrZo8ghDcrPdK25IK6q/vBCYlHcdr9Kh1z4NFVYmmN
- 43JA==
+ d=1e100.net; s=20230601; t=1772384008; x=1772988808;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PfdUfCNI/OQhhLtw/VeFZbribXWs9YmY3yISi0+RLUA=;
+ b=HoiC8TjyBsE/FAn1LSnbhzH6CitKs55rx+2gvZ34HE8ycsWLvtEsLUkqoqJhRDgCkz
+ zKXX+2fI3+f69FrY18IWnrFQOVfNsVJaanVTE3bdrT5fTj+h6UjWGdO7JQyIvsOKY0zt
+ I50FjKMaTNZLvx1PP3Sn4aMVbDEdSEaJbudFGBeMRRj5zIXksuNmd8um/zWj16aL+l3s
+ thGWJXcil9+WAJ1wTr+jV4BGd5+V7ldJZyybh5PhV8XU1JrpmoH8bKq885qI1tZe1y8p
+ iGoEBQpJDaXoKqB+u80fzAuGvxiw3Lh4PIt2TlEV1ubpEnFiYZ+XC/u2nenOfsmTfE3s
+ W5+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVAwFNyNhPM0K4un4MvstWRgjaYLvETlTjQs+dYaKQ9Yt8kfL5pf3PkKW2QXWzG54zFQEXIgfBut/M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeC5YoBfhrAmPu1I1mH+5FwDT7q0IFN3Ihz3NgN6cWuWehJscO
- 8iJCQM/FbsOJAPcl60nJdF0by1oRA4aD2R/xoB4Cy9v1IvtegBsqrKWppPpxWVhHhqo6wn7VA27
- v18v1pXj+hdXBjoHE/8idM/85K6Gh6KKpK1wWY5Tum35Myg9DQfYPU2dEjrqyhvssyhFs/yg=
-X-Gm-Gg: ATEYQzxQ5/Xkf75oj5i+q7+3tAXfABp9MIvODYHR7fYkIQ6EE/Hx/g5LC+94DrcqAD8
- 0RKlTXTTI7U4UL5LIFg4FJiQwiM1aIhSEIgu1V234UIrkdKgS99urL5/PmVfSj6ZXZEZcQcWExx
- ivZjaQAsJCplteHhwMenPue3e1eCqMj2q3a5FZboZLY4UmXBaEMMwSRHPzF8C9LurmFA8vK7gfM
- vEBMhMxFYYLCBJTjZqJXogDmX1+ExO9x3R5Lz/kAouOMiAzTCEKp9oitnGt0/FjUIDFj58QCrEV
- GO8w6MZI/v7JOOX1EM23A8DvWKNKhRlFwP4g2ByILX8W6jU1GJJ3f+FzvN0NpksxzPNhiZ1iigw
- 5Ai/VbKZ0B3rMsl6pVLXeHBgbwiITeQZzvGLiAtK/O//y840K71nCM3hJsU3y59TfYMyUtfjNcM
- Khnf324QWEwVQvm6DL5RQN2eqJHTuKhyduKLw=
-X-Received: by 2002:a05:620a:2901:b0:8b2:598d:6e66 with SMTP id
- af79cd13be357-8cbc8da8ecemr1218258585a.22.1772383750665; 
- Sun, 01 Mar 2026 08:49:10 -0800 (PST)
-X-Received: by 2002:a05:620a:2901:b0:8b2:598d:6e66 with SMTP id
- af79cd13be357-8cbc8da8ecemr1218255985a.22.1772383750077; 
- Sun, 01 Mar 2026 08:49:10 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-389f301788dsm21899311fa.35.2026.03.01.08.49.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Mar 2026 08:49:08 -0800 (PST)
-Date: Sun, 1 Mar 2026 18:49:06 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ AJvYcCU+JdgCYO7mW7ULddrgMa96p+jaUQSWCzA8gxv17mXW9vFydvHV+Fwr1iAGZBdMBMmLPwW9xapIktQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6a0/QASWU6Qye4gnHlOybEsR2IyWLiUsyu4eOhdPLYcKCD7CF
+ S+Paf+/CfsNWqSJhfs+8HxG85IzigxZJ9vLgYLQo1f68GFdO452gjFNZkw/7eR13XthVkna+isS
+ W2twOYXhZD0qp082GHA==
+X-Received: from wrbbs10.prod.google.com ([2002:a05:6000:70a:b0:439:901b:97cb])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:2013:b0:439:afe3:6185 with SMTP id
+ ffacd0b85a97d-439afe364e1mr6850853f8f.15.1772384007596; 
+ Sun, 01 Mar 2026 08:53:27 -0800 (PST)
+Date: Sun, 1 Mar 2026 16:53:26 +0000
+In-Reply-To: <DGRJO4NKZ4R5.2BZ2D9BSPXDMT@kernel.org>
+Mime-Version: 1.0
+References: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
+ <20260204-aref-workitem-v2-2-bec25b012d2a@collabora.com>
+ <DGQTCDOIVTHW.3OGUVXRS496FP@kernel.org>
+ <aaQr0ntSw9Q5Qzws@google.com> <DGRJO4NKZ4R5.2BZ2D9BSPXDMT@kernel.org>
+Message-ID: <aaRvBmfx-YTp5zEa@google.com>
+Subject: Re: [PATCH v2 2/4] rust: drm: dispatch work items to the private data
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 05/19] drm/display: hdmi-state-helper: Try subsampling
- in mode_valid
-Message-ID: <lw2tdcwu7yathstby4a5tx3ys6rruzeg3odvnsjsgc75sqycun@geoqspu2sfpv>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-5-658c3b9db7ef@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227-color-format-v9-5-658c3b9db7ef@collabora.com>
-X-Proofpoint-ORIG-GUID: oV0I7uZNrm5LU-N_FvyBXblK1S319qkn
-X-Authority-Analysis: v=2.4 cv=JoL8bc4C c=1 sm=1 tr=0 ts=69a46e07 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=VwQbUJbxAAAA:8
- a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8 a=CpXNCzN6O6rfykjMCtIA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDE1MyBTYWx0ZWRfXxTh0tyqeJ62u
- Bgt7i+WI4birEQLi6rzs5clMnx6h4zhPrSMcUtBTNNPH1JlgZVkeRRaGOlWbQZRE3r5kfKwPi7d
- XBRwo9otCFJ133FUUkR0fPK8A4O/Q33vE256rLBAUso5EkGR1v06NyT3Nkcd5zrqScp7oWEdsaX
- lmCChs3A2ynHNurugnAuASHx+LcB8gVpjyhPTHdSxYrScwBpWvDdHqaMECLQxSYwBk6Y9KrXH2C
- bvAl0l9iYPgNzvtZEYI+SD4Zq3f1HiogbO9h/v8Hgid2CdkL6Ufy8hST7ZLiONrsloh+98zCQhw
- EpqTBDOzmK5rDeTspjJOeNVndvA8ImBupUWLgzABzjvMJZpPdHKG38kKLCdbb/+vSAuE2ewyfBU
- uej+n9nQiJILIPzJ7Dc4kZsNsqDQzR47/dNtLQCpGHPjeeP63knS0xmv3Dk0+TSsdrn4CmSxw3y
- /IitAMmOiTW84YpwPhw==
-X-Proofpoint-GUID: oV0I7uZNrm5LU-N_FvyBXblK1S319qkn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-01_03,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0 spamscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603010153
+ Tejun Heo <tj@kernel.org>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,65 +96,169 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:nicolas.frattaroli@collabora.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:lumag@kernel.org,m:s.hauer@pengutronix.de,m:robh@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:kernel@collabora.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:linux-doc@vger.kernel.org,m:j
- ernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:airlied@gmail.com,m:simona@ffwll.ch,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D36CD1D0B80
+X-Rspamd-Queue-Id: B213C1D0BCB
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 08:20:10PM +0100, Nicolas Frattaroli wrote:
-> drm_hdmi_connector_mode_valid assumes modes are only valid if they work
-> with RGB. The reality is more complex however: YCbCr 4:2:0
-> chroma-subsampled modes only require half the pixel clock that the same
-> mode would require in RGB.
+On Sun, Mar 01, 2026 at 04:18:15PM +0100, Danilo Krummrich wrote:
+> On Sun Mar 1, 2026 at 1:06 PM CET, Alice Ryhl wrote:
+> > On Sat, Feb 28, 2026 at 07:40:26PM +0100, Danilo Krummrich wrote:
+> >> On Wed Feb 4, 2026 at 9:40 PM CET, Daniel Almeida wrote:
+> >> > This implementation dispatches any work enqueued on ARef<drm::Device<T>> to
+> >> > its driver-provided handler. It does so by building upon the newly-added
+> >> > ARef<T> support in workqueue.rs in order to call into the driver
+> >> > implementations for work_container_of and raw_get_work.
+> >> >
+> >> > This is notably important for work items that need access to the drm
+> >> > device, as it was not possible to enqueue work on a ARef<drm::Device<T>>
+> >> > previously without failing the orphan rule.
+> >> >
+> >> > The current implementation needs T::Data to live inline with drm::Device in
+> >> > order for work_container_of to function. This restriction is already
+> >> > captured by the trait bounds. Drivers that need to share their ownership of
+> >> > T::Data may trivially get around this:
+> >> >
+> >> > // Lives inline in drm::Device
+> >> > struct DataWrapper {
+> >> >   work: ...,
+> >> >   // Heap-allocated, shared ownership.
+> >> >   data: Arc<DriverData>,
+> >> > }
+> >> 
+> >> IIUC, this is how it's supposed to be used:
+> >> 
+> >> 	#[pin_data]
+> >> 	struct MyData {
+> >> 	    #[pin]
+> >> 	    work: Work<drm::Device<MyDriver>>,
+> >> 	    value: u32,
+> >> 	}
+> >> 	
+> >> 	impl_has_work! {
+> >> 	    impl HasWork<drm::Device<MyDriver>> for MyData { self.work }
+> >> 	}
+> >> 	
+> >> 	impl WorkItem for MyData {
+> >> 	    type Pointer = ARef<drm::Device<MyDriver>>;
+> >> 	
+> >> 	    fn run(dev: ARef<drm::Device<MyDriver>>) {
+> >> 	        dev_info!(dev, "value = {}\n", dev.value);
+> >> 	    }
+> >> 	}
+> >> 
+> >> The reason the WorkItem is implemented for MyData, rather than
+> >> drm::Device<MyDriver> (which would be a bit more straight forward) is the orphan
+> >> rule, I assume.
+> >
+> > This characterizes it as a workaround for the orphan rule. I don't think
+> > that's fair. Implementing WorkItem for MyDriver directly is the
+> > idiomatic way to do it, in my opinion.
 > 
-> This leads to drm_hdmi_connector_mode_valid rejecting perfectly valid
-> 420-only or 420-also modes.
+> The trait bound is T::Data: WorkItem, not T: drm::Driver + WorkItem.
+> Implementing WorkItem for MyDriver seems more straight forward to me.
+
+I missed the part about `for MyData` vs `for MyDriver`. Since you
+talked about the orphan rule I assumed you wanted the driver to
+implement it for `drm::Device<MyDriver>` directly, which is what the
+orphan rule would prohibit, rather than for `MyDriver`.
+
+In any case, I do think it makes sense that you would implement it on
+the struct that actually contains the `struct work_struct`.
+
+> >> Now, the whole purpose of this is that a driver can implement WorkItem for
+> >> MyData without needing an additional struct (and allocation), such as:
+> >> 
+> >> 	#[pin_data]
+> >> 	struct MyWork {
+> >> 	    #[pin]
+> >> 	    work: Work<Self>,
+> >> 	    dev: drm::Device<MyDriver>,
+> >> 	}
+> >> 
+> >> How is this supposed to be done when you want multiple different implementations
+> >> of WorkItem that have a drm::Device<MyDriver> as payload?
+> >> 
+> >> Fall back to various struct MyWork? Add in an "artificial" type state for MyData
+> >> with some phantom data, so you can implement HasWork for MyData<Work0>,
+> >> MyData<Work1>, etc.?
+> >
+> > You cannot configure the code that is executed on a per-call basis
+> > because the code called by a work item is a function pointer stored
+> > inside the `struct work_struct`. And it can't be changed after
+> > initialization of the field.
+> >
+> > So either you must store that info in a separate field. This is what
+> > Binder does, see drivers/android/binder/process.rs for an example.
+> >
+> >     impl workqueue::WorkItem for Process {
+> >         type Pointer = Arc<Process>;
+> >     
+> >         fn run(me: Arc<Self>) {
+> >             let defer;
+> >             {
+> >                 let mut inner = me.inner.lock();
+> >                 defer = inner.defer_work;
+> >                 inner.defer_work = 0;
+> >             }
+> >     
+> >             if defer & PROC_DEFER_FLUSH != 0 {
+> >                 me.deferred_flush();
+> >             }
+> >             if defer & PROC_DEFER_RELEASE != 0 {
+> >                 me.deferred_release();
+> >             }
+> >         }
+> >     }
 > 
-> Fix this by checking whether the mode is 420-capable first. If so, then
-> proceed by checking it with DRM_OUTPUT_COLOR_FORMAT_YCBCR420 so long as
-> the connector has legalized 420, otherwise error out. If the mode is not
-> 420-capable, check with RGB as was previously always the case.
+> Ok, so this would be a switch to decide what to do when a single work is run,
+> i.e. it is not for running multiple work.
+
+Yeah.
+
+But in any case, a single `struct work_struct` can't be used to schedule
+multiple work items. It only has one prev/next pointer pair.
+
+> > Or you must have multiple different fields of type Work, each with a
+> > different function pointer stored inside it.
 > 
-> Fixes: 47368ab437fd ("drm/display: hdmi: add generic mode_valid helper")
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+> This sounds it works for running multiple work, but I wonder how enqueue() knows
+> which work should be run in this case? I.e. what do we do with:
+> 
+> 	impl_has_work! {
+> 	    impl HasWork<drm::Device<MyDriver>> for MyData { self.work }
+> 	}
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Both WorkItem and HasWork are generic over an ID integer. You can
+specify it to disambiguiate.
 
-
--- 
-With best wishes
-Dmitry
+Alice
