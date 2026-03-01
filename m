@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ID5VFV6do2l2IQUAu9opvQ
+	id eFeKKL6do2l2IQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:58:54 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:00:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E8B1CC788
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289821CC917
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 444EB10E3A4;
-	Sun,  1 Mar 2026 01:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80AEC10E3A3;
+	Sun,  1 Mar 2026 02:00:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nRBNnSmz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lL+Tt3yN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED32110E3A2;
- Sun,  1 Mar 2026 01:58:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB0D10E3A3
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:00:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6A34C6014C;
- Sun,  1 Mar 2026 01:58:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7683FC19421;
- Sun,  1 Mar 2026 01:58:49 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 97E4860141;
+ Sun,  1 Mar 2026 02:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72A2C19425;
+ Sun,  1 Mar 2026 02:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772330330;
- bh=i4ERKcSL5Sm0Cbn9IG1dhHcZP8oFF75DpijB2Z0vpUA=;
+ s=k20201202; t=1772330426;
+ bh=GcgTHop9G9KwyjGuB/s8MgsRCz1VEd0hqSXvEJ3d2z0=;
  h=From:To:Cc:Subject:Date:From;
- b=nRBNnSmzIQPYZBv26tiF7BFeQTxOfV156na6hkcImUpENuN6tzz9QkmzNLCPt7tAb
- GdYa+BO9SoEA/98cp6A67bSHDExMm00Bdr6sarUoQLwmGGs2GU+hV/7OpRk6itSuld
- J8J7GU1vCPPBR2KTiTdPHvlQK0Z12iwU9KNF3RYPdpnRTFZsyg9juGJLFv0DN9IOoE
- IdZG9Qm34iVmFk1pD+UXH7mmh2Nyv4mdBbcrf2RcijMpSVneMfrSgNux94vxgc5TKL
- niUadhVK/OyqUs7HCM9BH4LZ6z8lX+AMk4fIlCHlQsEekqn/wXaMHheJGeloVowtcG
- fKxMjiefv8qcQ==
+ b=lL+Tt3yN6tDLjMD5S4uWf8vbwpuihD/N56908usPxp4XdPn780ENaJdYiQkUOy2L/
+ MNJsFNgdtqi1odhVgn4VIoiJ5PjCkSNdUI/ytSCX4goL4MaMQwE1+YyBKPYPAdhqRB
+ drwybAfzR2yu8DN1zHvFu8GlC4HfnuQjFEh4j1mXdJ/oss0ft5XAtvUNUcARymAMWU
+ 2s2OBoBJg9tZ1t97KMX8QQotjYT9DR1Vc0Ls+dLdFllHMoTk6JYPRjd8ilbEOLs9NQ
+ 1CkxLUTAFrcu8GkaxkCdSUTee7Ewvs1rMA68jJznd6VpYZO3ZEz+GSW7zDTPkYjejf
+ kbLeCX3cjqDHw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ville.syrjala@linux.intel.com
-Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/i915/psr: Reject async flips when selective fetch
- is enabled" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 20:58:48 -0500
-Message-ID: <20260301015848.1724392-1-sashal@kernel.org>
+	johan@kernel.org
+Cc: Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: FAILED: Patch "drm/tegra: dsi: fix device leak on probe" failed to
+ apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:00:24 -0500
+Message-ID: <20260301020024.1726481-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,32 +64,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:johan@kernel.org,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 06E8B1CC788
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 289821CC917
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -104,73 +109,46 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From a5f0cc8e0cd4007370af6985cb152001310cf20c Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Date: Wed, 5 Nov 2025 19:10:15 +0200
-Subject: [PATCH] drm/i915/psr: Reject async flips when selective fetch is
- enabled
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From bfef062695570842cf96358f2f46f4c6642c6689 Mon Sep 17 00:00:00 2001
+From: Johan Hovold <johan@kernel.org>
+Date: Fri, 21 Nov 2025 17:42:01 +0100
+Subject: [PATCH] drm/tegra: dsi: fix device leak on probe
 
-The selective fetch code doesn't handle asycn flips correctly.
-There is a nonsense check for async flips in
-intel_psr2_sel_fetch_config_valid() but that only gets called
-for modesets/fastsets and thus does nothing for async flips.
+Make sure to drop the reference taken when looking up the companion
+(ganged) device and its driver data during probe().
 
-Currently intel_async_flip_check_hw() is very unhappy as the
-selective fetch code pulls in planes that are not even async
-flips capable.
+Note that holding a reference to a device does not prevent its driver
+data from going away so there is no point in keeping the reference.
 
-Reject async flips when selective fetch is enabled, until
-someone fixes this properly (ie. disable selective fetch while
-async flips are being issued).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patch.msgid.link/20251105171015.22234-1-ville.syrjala@linux.intel.com
-Reviewed-by: Jouni Högander <jouni.hogander@intel.com>
+Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
+Fixes: 221e3638feb8 ("drm/tegra: Fix reference leak in tegra_dsi_ganged_probe")
+Cc: stable@vger.kernel.org	# 3.19: 221e3638feb8
+Cc: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Link: https://patch.msgid.link/20251121164201.13188-1-johan@kernel.org
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 8 ++++++++
- drivers/gpu/drm/i915/display/intel_psr.c     | 6 ------
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tegra/dsi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 6c8a7f63111ec..7aff2785521b7 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -6002,6 +6002,14 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
- 		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 175f5f9937b01..8ee96b59fdbc8 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -1542,11 +1542,9 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
+ 			return -EPROBE_DEFER;
  
-+	/* FIXME: selective fetch should be disabled for async flips */
-+	if (new_crtc_state->enable_psr2_sel_fetch) {
-+		drm_dbg_kms(display->drm,
-+			    "[CRTC:%d:%s] async flip disallowed with PSR2 selective fetch\n",
-+			    crtc->base.base.id, crtc->base.name);
-+		return -EINVAL;
-+	}
-+
- 	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
- 					     new_plane_state, i) {
- 		if (plane->pipe != crtc->pipe)
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 00ac652809cca..08bca45739749 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -1301,12 +1301,6 @@ static bool intel_psr2_sel_fetch_config_valid(struct intel_dp *intel_dp,
- 		return false;
- 	}
- 
--	if (crtc_state->uapi.async_flip) {
--		drm_dbg_kms(display->drm,
--			    "PSR2 sel fetch not enabled, async flip enabled\n");
--		return false;
--	}
+ 		dsi->slave = platform_get_drvdata(gangster);
 -
- 	return crtc_state->enable_psr2_sel_fetch = true;
- }
+-		if (!dsi->slave) {
+-			put_device(&gangster->dev);
++		put_device(&gangster->dev);
++		if (!dsi->slave)
+ 			return -EPROBE_DEFER;
+-		}
  
+ 		dsi->slave->master = dsi;
+ 	}
 -- 
 2.51.0
 
