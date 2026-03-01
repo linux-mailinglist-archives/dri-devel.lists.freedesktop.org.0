@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKK0AF1po2mACgUAu9opvQ
+	id 2GwJOV6No2ndGgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 23:17:01 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 01:50:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC6E1C96D7
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Feb 2026 23:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1981C9DDB
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 01:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B07F710E10D;
-	Sat, 28 Feb 2026 22:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F385410E03D;
+	Sun,  1 Mar 2026 00:50:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="VrQEcZTl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oF/FjcxG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
- [91.218.175.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D0110E10D
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 22:16:55 +0000 (UTC)
-Message-ID: <c4e93e78-427a-45a6-9560-399b578e9260@packett.cool>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
- s=key1; t=1772317013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mo8hhAD0T4w5u4cZDhtfyEdn8aaXHkZHMK1H62Gbpmw=;
- b=VrQEcZTlYvv3IkuNXllFn7cX8Ffj/S6Whqymcl4G5uECvZvknPoJnTjyWRxRoANd5EMbTG
- NfNaaASUoO2EhE5q9lq5zh9Uui+6r0H1IswxdEFvJWolIbxjk23zZUQVxvN37XsvRaECfh
- BcMfr39l9XpcXZll4VNUYcZGAURwkcSOyAgEckX9s3ImA+WDgV1miMo/kyvqAiM7SIMU6X
- BogSeBCDPcrGTpeiuU2jPr8omPStiFtiCTtZ11nNWCCgQwJr5Ltfklm3wrTQHQCW9FWdJy
- mjAgwaU8n/qoaMIGIlSxL7mqo74jwsE3R2o0gqwymjTunXurXtCzK0irezHRHg==
-Date: Sat, 28 Feb 2026 19:16:44 -0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458DF10E03D
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 00:50:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6739260008;
+ Sun,  1 Mar 2026 00:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB22C19421;
+ Sun,  1 Mar 2026 00:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772326233;
+ bh=+pD3On1wtg4mr93oLiTdbuYmyvucPeSV2klXKFApJxA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=oF/FjcxGmFhytPBPx4lJEuq4InJkgjpAVs9IaIxCREqE77XKkFczzkOWhqywfNv8o
+ UavnGSvWVonPdvp7nQ8uzPTpfYgKqJBF3etIIgLVj/aKHWCWtd0OCjIFZ65PHt+lX8
+ TcEOJxCjAtR09xS4x951qCbxCFlU1Os/CHmWwfoYV5tqov6Xe5ScfiKkcixd3vVEJc
+ t7Y0ERX2SEZL9IydcxmmsTVRzLHtqt/OoKaCdjyLv4rP0sjJsR96Sh5uvYr6/qRfiu
+ CgGevzRCcGIvlkhxJVuWfXpRRuDUrqx2hQtmqFfq5li+34v2h8/IqS7/TqN0iLqyJg
+ B2CSa3b7sYxbQ==
+From: "Mario Limonciello (AMD)" <superm1@kernel.org>
+To: mario.limonciello@amd.com, mamin506@gmail.com, lizhi.hou@amd.com,
+ ogabbay@kernel.org
+Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/amdxdna: Import AMD_PMF namespace
+Date: Sat, 28 Feb 2026 18:50:08 -0600
+Message-ID: <20260301005028.367618-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 3/3] drm/msm/adreno: Trust the SSoT UBWC config
-To: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20260108-topic-smem_dramc-v3-0-6b64df58a017@oss.qualcomm.com>
- <20260108-topic-smem_dramc-v3-3-6b64df58a017@oss.qualcomm.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Val Packett <val@packett.cool>
-In-Reply-To: <20260108-topic-smem_dramc-v3-3-6b64df58a017@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,71 +61,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[packett.cool,quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[packett.cool:s=key1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:konradybcio@kernel.org,m:andersson@kernel.org,m:kees@kernel.org,m:gustavoars@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-hardening@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:konrad.dybcio@oss.qualcomm.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[val@packett.cool,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_RECIPIENTS(0.00)[m:mario.limonciello@amd.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:ogabbay@kernel.org,m:superm1@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[packett.cool:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[val@packett.cool,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[packett.cool:mid,packett.cool:dkim]
-X-Rspamd-Queue-Id: DEC6E1C96D7
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 6C1981C9DDB
 X-Rspamd-Action: no action
 
-On 1/8/26 11:21 AM, Konrad Dybcio wrote:
+The amdxdna driver uses amd_pmf_get_npu_data() which is exported in the
+AMD_PMF namespace. Import the AMD_PMF namespace.
 
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->
-> Now that the highest_bank_bit value is retrieved from the running
-> system and the global config has been part of the tree for a couple
-> of releases, there is no reason to keep any hardcoded values inside
-> the GPU driver.
-[…]
-> -	if (adreno_is_a610(gpu)) {
-> -		cfg->highest_bank_bit = 13;
-> -		cfg->ubwc_swizzle = 0x7;
-> -	}
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+---
+ drivers/accel/amdxdna/amdxdna_pci_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-Just noticed that the SoCs with A610 (SM6115/SM6125) have 
-.highest_bank_bit = 14 in drivers/soc/qcom/ubwc_config.c unlike this 13 
-value here.
-
-Could this have been the cause of the corruption I saw on SM6115 
-initially? [1]
-
-What's really strange though is that I wanted to test this now, but I 
-removed the FD_MESA_DEBUG=noubwc workaround that solved it initially…
-
-and the corruption *did not* come back so I can't even repro it to 
-confirm that this would fix it o.0
-
-
-[1]: 
-https://cache.treehouse.systems/media_attachments/files/116/083/578/070/293/038/original/9b8e73e15bed644f.jpg 
-
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index 98720ddc9818e..d6d12355bd2b7 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -359,5 +359,6 @@ static struct pci_driver amdxdna_pci_driver = {
+ module_pci_driver(amdxdna_pci_driver);
+ 
+ MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("AMD_PMF");
+ MODULE_AUTHOR("XRT Team <runtimeca39d@amd.com>");
+ MODULE_DESCRIPTION("amdxdna driver");
+-- 
+2.43.0
 
