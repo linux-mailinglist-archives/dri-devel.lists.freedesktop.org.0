@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCmwOOyeo2k3IQUAu9opvQ
+	id yJn1Oe6eo2lzIgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:32 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DD11CCE99
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42971CCEA0
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2A210E3B6;
-	Sun,  1 Mar 2026 02:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E069910E3B7;
+	Sun,  1 Mar 2026 02:05:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K3KiFoWl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Od9vaste";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E0710E3B6
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:05:29 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D620310E3B8
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:05:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id EE33A42B61;
- Sun,  1 Mar 2026 02:05:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4238BC19421;
- Sun,  1 Mar 2026 02:05:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 565816012B;
+ Sun,  1 Mar 2026 02:05:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E49BC19421;
+ Sun,  1 Mar 2026 02:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772330728;
- bh=fnHsLVuchcOMbnrulvKsOuB/BktiAQA1K8lkYvpdA1A=;
+ s=k20201202; t=1772330731;
+ bh=3h2Y/WF0B1bBLayOM2/HyFHlGW3jsHk4DevImsLfqFg=;
  h=From:To:Cc:Subject:Date:From;
- b=K3KiFoWlidUSuzI7rAD5npsz08qQ9txIhvpDiLIq4K68FV/c/MecZqZaNwi9MQ2fk
- +RMaT3hvARSHabGL9/HIbBfVP93tVPTysuZtxuOGZlzRV0fV/GhfyC3dKRc8MG/Fsm
- Ysv6ssUcWH0qZxgh67qzl30P1E29L8IYVTlWjWx3q5F1SJWFmqe2GbO/eDfhNBsx4e
- KW0W1RPe+LlihCNs/Z1jU+jmXxpJYoTlFPjVOmkpjXAo3+f3AJ/mjmSfbocd2rxfRl
- FPTDFziZeGHJ0kiGMYjeg+aE6j2546tFy7QTmqIK+vNMDWposU1Wk6DmL7gn2aqFAW
- 7iD44CRFJcuyw==
+ b=Od9vasteKcJDJPLJj03yFbb8gBmId5dw3IZc9XHcK6SWUlYfu0QLBpDO7cQsBfyab
+ FnqPt35MGQ9tc2uhuobnZXYRGU5WI07pxF9u53SE3LCI1AJh1rrzc4TvKZUt77niJE
+ by72PnqBh53BGfg9kkCdowoFqTdWvWgOA1nb3Qho2c9rw+FzRHL92KKPKOLxKPmIDo
+ /WZcyEZ7g/dqgbpweTcSZM23z028YAcSH4nrNi7yo7/bYlTHonDUO2uUi1fGji7QLc
+ 2o51xt4t3wXnnsE2f257V0sLM8uNEDex+UNQFNG3Hhd8qg1qoLcITH7RKlW7B1Y2o1
+ 0P6IufwyYnO8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	geoffreyhe2@gmail.com
+	a.vatoropin@crpt.ru
 Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbdev: of: display_timing: fix refcount leak in
- of_get_display_timings()" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:05:26 -0500
-Message-ID: <20260301020527.1734128-1-sashal@kernel.org>
+Subject: FAILED: Patch "fbcon: check return value of con2fb_acquire_newinfo()"
+ failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:05:29 -0500
+Message-ID: <20260301020529.1734177-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -68,37 +68,36 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:geoffreyhe2@gmail.com,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:a.vatoropin@crpt.ru,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.freedesktop.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email]
-X-Rspamd-Queue-Id: A1DD11CCE99
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email,crpt.ru:email,linuxtesting.org:url]
+X-Rspamd-Queue-Id: A42971CCEA0
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -111,50 +110,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From eacf9840ae1285a1ef47eb0ce16d786e542bd4d7 Mon Sep 17 00:00:00 2001
-From: Weigang He <geoffreyhe2@gmail.com>
-Date: Fri, 16 Jan 2026 09:57:51 +0000
-Subject: [PATCH] fbdev: of: display_timing: fix refcount leak in
- of_get_display_timings()
+From 011a0502801c8536f64141a2b61362c14f456544 Mon Sep 17 00:00:00 2001
+From: Andrey Vatoropin <a.vatoropin@crpt.ru>
+Date: Wed, 17 Dec 2025 09:11:05 +0000
+Subject: [PATCH] fbcon: check return value of con2fb_acquire_newinfo()
 
-of_parse_phandle() returns a device_node with refcount incremented,
-which is stored in 'entry' and then copied to 'native_mode'. When the
-error paths at lines 184 or 192 jump to 'entryfail', native_mode's
-refcount is not decremented, causing a refcount leak.
+If fbcon_open() fails when called from con2fb_acquire_newinfo() then
+info->fbcon_par pointer remains NULL which is later dereferenced.
 
-Fix this by changing the goto target from 'entryfail' to 'timingfail',
-which properly calls of_node_put(native_mode) before cleanup.
+Add check for return value of the function con2fb_acquire_newinfo() to
+avoid it.
 
-Fixes: cc3f414cf2e4 ("video: add of helper for display timings/videomode")
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: d1baa4ffa677 ("fbcon: set_con2fb_map fixes")
 Cc: stable@vger.kernel.org
-Signed-off-by: Weigang He <geoffreyhe2@gmail.com>
+Signed-off-by: Andrey Vatoropin <a.vatoropin@crpt.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/of_display_timing.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_display_timing.c
-index bebd371c6b93e..1940c9505dd3b 100644
---- a/drivers/video/of_display_timing.c
-+++ b/drivers/video/of_display_timing.c
-@@ -181,7 +181,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
- 	if (disp->num_timings == 0) {
- 		/* should never happen, as entry was already found above */
- 		pr_err("%pOF: no timings specified\n", np);
--		goto entryfail;
-+		goto timingfail;
- 	}
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 34ea14412ace1..36e380797a9e4 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -1068,7 +1068,8 @@ static void fbcon_init(struct vc_data *vc, bool init)
+ 		return;
  
- 	disp->timings = kcalloc(disp->num_timings,
-@@ -189,7 +189,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
- 				GFP_KERNEL);
- 	if (!disp->timings) {
- 		pr_err("%pOF: could not allocate timings array\n", np);
--		goto entryfail;
-+		goto timingfail;
- 	}
+ 	if (!info->fbcon_par)
+-		con2fb_acquire_newinfo(vc, info, vc->vc_num);
++		if (con2fb_acquire_newinfo(vc, info, vc->vc_num))
++			return;
  
- 	disp->num_timings = 0;
+ 	/* If we are not the first console on this
+ 	   fb, copy the font from that console */
 -- 
 2.51.0
 
