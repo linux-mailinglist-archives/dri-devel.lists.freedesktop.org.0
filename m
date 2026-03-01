@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +E6yC72Uo2l7HQUAu9opvQ
+	id wJlxKuyUo2l7HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:05 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3911CA482
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A831CA54D
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5B810E07A;
-	Sun,  1 Mar 2026 01:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814B010E2EC;
+	Sun,  1 Mar 2026 01:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aJc7sjHX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cDcIihbr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD9E10E07A
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:21:59 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F3610E2EC
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:22:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4A81941A99;
- Sun,  1 Mar 2026 01:21:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95499C19421;
- Sun,  1 Mar 2026 01:21:58 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EA10A600AD;
+ Sun,  1 Mar 2026 01:22:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122D7C19424;
+ Sun,  1 Mar 2026 01:22:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328119;
- bh=c12qH1e5X3AIU/mGpLowYLIqMvIkOrEb6vdRAvnixBo=;
+ s=k20201202; t=1772328168;
+ bh=SEnKEqpbJJgzhXkZ15c0atJTE45+ANLkzK1gHcuG0F8=;
  h=From:To:Cc:Subject:Date:From;
- b=aJc7sjHXSPBEjcqXnNN9AScAiNaEEuDoo27YJLmVy/PeE7Yy6LPwVL9fCgls7fWP0
- doqJgcyoh7scDeD3LvBOKZuja+AeZS/7sDOSKEJBH4CmB7JPaPmKib0RPkOU8NHvBn
- kO2XjdieJ1eTwf/kiAP8LzZG3a2qkaJEW8gHzhhUw9qJ2DumUAzB4y7LA8M4duRc6i
- IifxKs5IkKpMrfzttnVn5t9ycny6FJFoQ8yatbTUWs1xPXRHzkEN18UPhBA4+1RbYx
- JrxHtSWiqo4ugRzMAViRqAdxPR5HE78Co7ZcgVSfhF9SZm5GKtTOLctVnLb0LfoKGV
- ii4JZT36aOv7Q==
+ b=cDcIihbr7qPFJ8izihFJhmVwcIb2RUXulRG1qt336uYOH2hb86BA6gZgfqTXg48vZ
+ yFJ4NPFn9VKxITtTvl/RGiDYHZApUrk2sMJOxNYNz4VWboAlnPga11kIZG2bPeugie
+ qKJD3SRtCmqt3jT8/sUnf3gwVUOJgEPZNh3HUnq/vm/9DjExIHnaxrcg5zaSJOlEZ/
+ c4m5/KAK78h7gY+arH4NO+kwmjaxg94f0rhiI44BmDGB6bhp1WQQclLqep8GXdgBCN
+ IDXjgoFBkiI3dUXYpfr7Oh+Uh+FNqGKsL3SwkMPQNtHX3wy9gCwYkXH5Vplkz4/Jhc
+ dRgPHcKjcKHjQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	johan@kernel.org
-Cc: Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-Subject: FAILED: Patch "drm/tegra: dsi: fix device leak on probe" failed to
+	loic.poulain@oss.qualcomm.com
+Cc: stable@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/bridge: anx7625: Fix invalid EDID size" failed to
  apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:21:57 -0500
-Message-ID: <20260301012157.1678062-1-sashal@kernel.org>
+Date: Sat, 28 Feb 2026 20:22:46 -0500
+Message-ID: <20260301012246.1679262-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -74,7 +74,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:johan@kernel.org,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:stable@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -95,8 +95,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7C3911CA482
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 30A831CA54D
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -109,46 +109,38 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From bfef062695570842cf96358f2f46f4c6642c6689 Mon Sep 17 00:00:00 2001
-From: Johan Hovold <johan@kernel.org>
-Date: Fri, 21 Nov 2025 17:42:01 +0100
-Subject: [PATCH] drm/tegra: dsi: fix device leak on probe
+From 1d5362145de96b5d00d590605cc94cdfa572b405 Mon Sep 17 00:00:00 2001
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Thu, 18 Dec 2025 16:13:07 +0100
+Subject: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
 
-Make sure to drop the reference taken when looking up the companion
-(ganged) device and its driver data during probe().
+DRM checks EDID block count against allocated size in drm_edid_valid
+function. We have to allocate the right EDID size instead of the max
+size to prevent the EDID to be reported as invalid.
 
-Note that holding a reference to a device does not prevent its driver
-data from going away so there is no point in keeping the reference.
-
-Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
-Fixes: 221e3638feb8 ("drm/tegra: Fix reference leak in tegra_dsi_ganged_probe")
-Cc: stable@vger.kernel.org	# 3.19: 221e3638feb8
-Cc: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://patch.msgid.link/20251121164201.13188-1-johan@kernel.org
+Cc: stable@kernel.org
+Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Link: https://patch.msgid.link/20251218151307.95491-1-loic.poulain@oss.qualcomm.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/tegra/dsi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 175f5f9937b01..8ee96b59fdbc8 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1542,11 +1542,9 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
- 			return -EPROBE_DEFER;
- 
- 		dsi->slave = platform_get_drvdata(gangster);
--
--		if (!dsi->slave) {
--			put_device(&gangster->dev);
-+		put_device(&gangster->dev);
-+		if (!dsi->slave)
- 			return -EPROBE_DEFER;
--		}
- 
- 		dsi->slave->master = dsi;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 6f3fdcb6afdb9..4e49e4f28d552 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read(struct anx7625_data *ctx)
+ 		return NULL;
  	}
+ 
+-	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE);
++	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, edid_num * ONE_BLOCK_SIZE);
+ 	kfree(edid_buf);
+ 
+ out:
 -- 
 2.51.0
 
