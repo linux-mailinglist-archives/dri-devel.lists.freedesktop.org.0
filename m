@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2J4mF7CTo2lpHQUAu9opvQ
+	id sNiFD7uTo2lpHQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:36 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14D91CA126
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F5C1CA170
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C4610E2E0;
-	Sun,  1 Mar 2026 01:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD56210E2E4;
+	Sun,  1 Mar 2026 01:17:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Dachz+Xt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h0Z2SKvh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F06F10E2E0;
- Sun,  1 Mar 2026 01:17:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2AE10E2E3;
+ Sun,  1 Mar 2026 01:17:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1DA9443942;
- Sun,  1 Mar 2026 01:17:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513BCC19421;
- Sun,  1 Mar 2026 01:17:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E87604443C;
+ Sun,  1 Mar 2026 01:17:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002C8C19424;
+ Sun,  1 Mar 2026 01:17:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772327852;
- bh=Zs+lV6WzByO5DOJKciAmQwlU/O+C9Rh/JqGQ0kowbLM=;
+ s=k20201202; t=1772327863;
+ bh=Gpp3g3wntO4Qc0y0xYsd/8EEdtn7INOVjn/nknEVZ/k=;
  h=From:To:Cc:Subject:Date:From;
- b=Dachz+XtA43wnzWAEs4jaSoxnIyNEUGxStL48gZi14KteLwJ5C20n987kVQDSpUK/
- IB3ij7Y3PYOmLkO5egId0PGyLR6DbPHKPEBqjqSbQYh9pXtL5jXECn9WBxn4sLX+Sf
- VSYs302S3ayfnsAI8l3XrJ8rRPi6B7Iu+y0xdQHTnS/eh30Kiryu/WWM7k8n2rHFMo
- xnYYb7BZNWMUw3zkliwChUnHSHEBLIMFZHayl9i5uZ1Qy0z6S2+CjkFS+H3OkyaXMl
- PVmGNjxW3v5k9TeEFAgVVE4ixmHyKYlb798jHBpxq8mEX2/B+tHwv+QgejFCu/Tkl4
- ZJjY9/7XhyU1g==
+ b=h0Z2SKvhaNxkRT9+hd1eb332niUyBcV4DXCK40ZEzP/dlldwW1yMcJjl1cHkOAqXc
+ ftLNHgIXItjsV9KUuITFQApQarM3ri0G+Fn4Kl9999OtXpW5lyvloFKt8NhUwShn+r
+ MdmOLw6/iPZNvkYFOxZi8FOr68zHEJrl+Ei4iOiqKjYTMvjrHFkCvtaDIyCsl6g3M+
+ wZbUXRPHoBmpMZomA7IL8FZoeTXMYfFeQPclyAEMEC7SH0XlMRxDTvItywtfxxCLvV
+ HNObVfEV08PsPy2azIwQZYCp4gzOGRw8AIgqR6L/Oti5dPlf0aENWv+T5cZFh8W2LG
+ oE+N4huj9yFDg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	mario.limonciello@amd.com
-Cc: Cal Peake <cp@absolutedigital.net>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+	imre.deak@intel.com
+Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amd: Fix hang on amdgpu unload by using
- pci_dev_is_disconnected()" failed to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:17:29 -0500
-Message-ID: <20260301011730.1671451-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/i915/dp: Fix pipe BPP clamping due to HDR" failed
+ to apply to 6.18-stable tree
+Date: Sat, 28 Feb 2026 20:17:41 -0500
+Message-ID: <20260301011741.1671698-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -67,31 +69,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,absolutedigital.net:email]
-X-Rspamd-Queue-Id: E14D91CA126
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,msgid.link:url]
+X-Rspamd-Queue-Id: A1F5C1CA170
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.18-stable tree.
@@ -104,66 +106,101 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From f7afda7fcd169a9168695247d07ad94cf7b9798f Mon Sep 17 00:00:00 2001
-From: Mario Limonciello <mario.limonciello@amd.com>
-Date: Thu, 5 Feb 2026 10:42:54 -0600
-Subject: [PATCH] drm/amd: Fix hang on amdgpu unload by using
- pci_dev_is_disconnected()
+From fe26ae6ac8b88fcdac5036b557c129a17fe520d2 Mon Sep 17 00:00:00 2001
+From: Imre Deak <imre.deak@intel.com>
+Date: Mon, 9 Feb 2026 15:38:16 +0200
+Subject: [PATCH] drm/i915/dp: Fix pipe BPP clamping due to HDR
 
-The commit 6a23e7b4332c ("drm/amd: Clean up kfd node on surprise
-disconnect") introduced early KFD cleanup when drm_dev_is_unplugged()
-returns true. However, this causes hangs during normal module unload
-(rmmod amdgpu).
+The pipe BPP value shouldn't be set outside of the source's / sink's
+valid pipe BPP range, ensure this when increasing the minimum pipe BPP
+value to 30 due to HDR.
 
-The issue occurs because drm_dev_unplug() is called in amdgpu_pci_remove()
-for all removal scenarios, not just surprise disconnects. This was done
-intentionally in commit 39934d3ed572 ("Revert "drm/amdgpu: TA unload
-messages are not actually sent to psp when amdgpu is uninstalled"") to
-fix IGT PCI software unplug test failures. As a result,
-drm_dev_is_unplugged() returns true even during normal module unload,
-triggering the early KFD cleanup inappropriately.
+While at it debug print if the HDR mode was requested for a connector by
+setting the corresponding HDR connector property. This indicates
+if the requested HDR mode could not be enabled, since the selected
+pipe BPP is below 30, due to a sink capability or link BW limit.
 
-The correct check should distinguish between:
-- Actual surprise disconnect (eGPU unplugged): pci_dev_is_disconnected()
-  returns true
-- Normal module unload (rmmod): pci_dev_is_disconnected() returns false
+v2:
+- Also handle the case where the sink could support the target 30 BPP
+  only in DSC mode due to a BW limit, but the sink doesn't support DSC
+  or 30 BPP as a DSC input BPP. (Chaitanya)
+- Debug print the connector's HDR mode in the link config dump, to
+  indicate if a BPP >= 30 required by HDR couldn't be reached. (Ankit)
+- Add Closes: trailer. (Ankit)
+- Don't print the 30 BPP-outside of valid BPP range debug message if
+  the min BPP is already > 30 (and so a target BPP >= 30 required
+  for HDR is ensured).
 
-Replace drm_dev_is_unplugged() with pci_dev_is_disconnected() to ensure
-the early cleanup only happens during true hardware disconnect events.
-
-Cc: stable@vger.kernel.org
-Reported-by: Cal Peake <cp@absolutedigital.net>
-Closes: https://lore.kernel.org/all/b0c22deb-c0fa-3343-33cf-fd9a77d7db99@absolutedigital.net/
-Fixes: 6a23e7b4332c ("drm/amd: Clean up kfd node on surprise disconnect")
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7052
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15503
+Fixes: ba49a4643cf53 ("drm/i915/dp: Set min_bpp limit to 30 in HDR mode")
+Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Cc: <stable@vger.kernel.org> # v6.18+
+Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com> # v1
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Link: https://patch.msgid.link/20260209133817.395823-1-imre.deak@intel.com
+(cherry picked from commit 08b7ef16b6a03e8c966e286ee1ac608a6ffb3d4a)
+Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 528990a595ec9..9758221413814 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4924,7 +4924,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
- 	 * before ip_fini_early to prevent kfd locking refcount issues by calling
- 	 * amdgpu_amdkfd_suspend()
- 	 */
--	if (drm_dev_is_unplugged(adev_to_drm(adev)))
-+	if (pci_dev_is_disconnected(adev->pdev))
- 		amdgpu_amdkfd_device_fini_sw(adev);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 7e022c47e8ac2..e9f1ee1eafae7 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -2665,6 +2665,7 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
+ 			       bool dsc,
+ 			       struct link_config_limits *limits)
+ {
++	struct intel_display *display = to_intel_display(intel_dp);
+ 	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
+ 	struct intel_connector *connector =
+ 		to_intel_connector(conn_state->connector);
+@@ -2677,8 +2678,7 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
+ 	limits->min_lane_count = intel_dp_min_lane_count(intel_dp);
+ 	limits->max_lane_count = intel_dp_max_lane_count(intel_dp);
  
- 	amdgpu_device_ip_fini_early(adev);
-@@ -4936,7 +4936,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+-	limits->pipe.min_bpp = intel_dp_in_hdr_mode(conn_state) ? 30 :
+-				intel_dp_min_bpp(crtc_state->output_format);
++	limits->pipe.min_bpp = intel_dp_min_bpp(crtc_state->output_format);
+ 	if (is_mst) {
+ 		/*
+ 		 * FIXME: If all the streams can't fit into the link with their
+@@ -2694,6 +2694,19 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
+ 							respect_downstream_limits);
+ 	}
  
- 	amdgpu_gart_dummy_page_fini(adev);
++	if (!dsc && intel_dp_in_hdr_mode(conn_state)) {
++		if (intel_dp_supports_dsc(intel_dp, connector, crtc_state) &&
++		    limits->pipe.max_bpp >= 30)
++			limits->pipe.min_bpp = max(limits->pipe.min_bpp, 30);
++		else
++			drm_dbg_kms(display->drm,
++				    "[CONNECTOR:%d:%s] Can't force 30 bpp for HDR (pipe bpp: %d-%d DSC-support: %s)\n",
++				    connector->base.base.id, connector->base.name,
++				    limits->pipe.min_bpp, limits->pipe.max_bpp,
++				    str_yes_no(intel_dp_supports_dsc(intel_dp, connector,
++								     crtc_state)));
++	}
++
+ 	if (dsc && !intel_dp_dsc_compute_pipe_bpp_limits(connector, limits))
+ 		return false;
  
--	if (drm_dev_is_unplugged(adev_to_drm(adev)))
-+	if (pci_dev_is_disconnected(adev->pdev))
- 		amdgpu_device_unmap_mmio(adev);
+@@ -2825,10 +2838,11 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
+ 	}
  
- }
+ 	drm_dbg_kms(display->drm,
+-		    "DP lane count %d clock %d bpp input %d compressed " FXP_Q4_FMT " link rate required %d available %d\n",
++		    "DP lane count %d clock %d bpp input %d compressed " FXP_Q4_FMT " HDR %s link rate required %d available %d\n",
+ 		    pipe_config->lane_count, pipe_config->port_clock,
+ 		    pipe_config->pipe_bpp,
+ 		    FXP_Q4_ARGS(pipe_config->dsc.compressed_bpp_x16),
++		    str_yes_no(intel_dp_in_hdr_mode(conn_state)),
+ 		    intel_dp_config_required_rate(pipe_config),
+ 		    intel_dp_max_link_data_rate(intel_dp,
+ 						pipe_config->port_clock,
 -- 
 2.51.0
 
