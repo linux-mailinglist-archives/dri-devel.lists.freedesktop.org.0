@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOJ/HJmVo2l7HQUAu9opvQ
+	id QLNXHqGVo2lPHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:45 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4947F1CA8D7
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2661CA8FF
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7678410E2F4;
-	Sun,  1 Mar 2026 01:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9467F10E2F6;
+	Sun,  1 Mar 2026 01:25:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dtz2YYIv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bnYbxyoH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4221F10E2F3;
- Sun,  1 Mar 2026 01:25:42 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9E810E2F5;
+ Sun,  1 Mar 2026 01:25:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 28A6740283;
- Sun,  1 Mar 2026 01:25:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552F2C2BC86;
- Sun,  1 Mar 2026 01:25:41 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 67455600AD;
+ Sun,  1 Mar 2026 01:25:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 739FCC19421;
+ Sun,  1 Mar 2026 01:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328342;
- bh=iYfT2cToUYqsGSZq9JRF4W4eu/WYwHdaJ+xiafr+s90=;
+ s=k20201202; t=1772328349;
+ bh=HPpjGWucnDddhJ0OXqI2c/a3wxC3VfGazekaTwKVfXM=;
  h=From:To:Cc:Subject:Date:From;
- b=dtz2YYIvaHVcvY1YgWtdcKUKeBRNnlZ615V2AVRCegJb9ycSnWz1bnLZMAE8eypZo
- 2G6+bCNUD4iFnYdeJACu/BCMDqukiylgNllK8YzpRmVY2WL+R50j+ntXc9asvlLFxl
- VpaKVSsMArGSnT7x0uS+pWOm0NNO7zB2ur/V83ZiMiT70ByZlx+UHkQHPyfi5qIrYV
- Nt1ur1wEruw3JRo+0j6DKFxhEwDN0+jlUZAVbIgkZZ7Dkzw8UW/42zzIL22vso0QpF
- mBt8+BTzMnNWzMjjA/cX6v8sHt5OXVVa7UU/V4LqJyatLrY9885LHmYU3i4SeVQ8qy
- 8/zkpW/X6CQLg==
+ b=bnYbxyoHvHNaXStXJlu8CsiMMUaTJ+fR7HZwmAzirm2h6vEQutct+II7Hqn1OoMS/
+ 0TczjtR00D7O5qwu3xBd3Qb0vy5qw1KniuA3vdpydQrMPmLhVbJCxB/lmIap4rlR8m
+ REyqVWmo2dFTBSghANm/LrE+VG+jMRnfl5kStUgV4K27DB4SDAlztaIdAi1iu+Iy9D
+ nhdOQM3UiSbNaVUZPwULK0HyD2NkFMNo2AisBaO7JHhYTMCbR+xgSneRrIFG5EcY+X
+ 5N2ZUsUWhCl+D2r8USaqcV/lvV2iLmgtte4w0nU13BRT8PoKKTwmbu0gygN4bDbAiI
+ FMhGO5nbzQp/g==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	yifan1.zhang@amd.com
-Cc: Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amdgpu: Protect GPU register accesses in
- powergated state in some paths" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:25:39 -0500
-Message-ID: <20260301012540.1682831-1-sashal@kernel.org>
+	Sunday.Clement@amd.com
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/amdkfd: Fix out-of-bounds write in
+ kfd_event_page_set()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:25:47 -0500
+Message-ID: <20260301012547.1683022-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -90,7 +91,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 4947F1CA8D7
+X-Rspamd-Queue-Id: 4F2661CA8FF
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -103,59 +104,42 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 39fc2bc4da0082c226cbee331f0a5d44db3997da Mon Sep 17 00:00:00 2001
-From: Yifan Zhang <yifan1.zhang@amd.com>
-Date: Mon, 2 Feb 2026 13:17:39 +0800
-Subject: [PATCH] drm/amdgpu: Protect GPU register accesses in powergated state
- in some paths
+From 8a70a26c9f34baea6c3199a9862ddaff4554a96d Mon Sep 17 00:00:00 2001
+From: Sunday Clement <Sunday.Clement@amd.com>
+Date: Mon, 2 Feb 2026 12:41:39 -0500
+Subject: [PATCH] drm/amdkfd: Fix out-of-bounds write in kfd_event_page_set()
 
-Ungate GPU CG/PG in device_fini_hw and device_halt to protect GPU
-register accesses, e.g. GC registers are accessed in amdgpu_irq_disable_all()
-and amdgpu_fence_driver_hw_fini().
+The kfd_event_page_set() function writes KFD_SIGNAL_EVENT_LIMIT * 8
+bytes via memset without checking the buffer size parameter. This allows
+unprivileged userspace to trigger an out-of bounds kernel memory write
+by passing a small buffer, leading to  potential privilege
+escalation.
 
-Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Sunday Clement <Sunday.Clement@amd.com>
+Reviewed-by: Alexander Deucher <Alexander.Deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index c1ffc63e23ab5..528990a595ec9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3504,9 +3504,6 @@ static int amdgpu_device_ip_fini_early(struct amdgpu_device *adev)
- 		}
- 	}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+index 1ad312af8ff0c..13416bff77636 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+@@ -331,6 +331,12 @@ static int kfd_event_page_set(struct kfd_process *p, void *kernel_address,
+ 	if (p->signal_page)
+ 		return -EBUSY;
  
--	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
--	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
--
- 	amdgpu_amdkfd_suspend(adev, true);
- 	amdgpu_amdkfd_teardown_processes(adev);
- 	amdgpu_userq_suspend(adev);
-@@ -4902,6 +4899,9 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
- 		amdgpu_virt_fini_data_exchange(adev);
- 	}
- 
-+	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
-+	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
++	if (size < KFD_SIGNAL_EVENT_LIMIT * 8) {
++		pr_err("Event page size %llu is too small, need at least %lu bytes\n",
++				size, (unsigned long)(KFD_SIGNAL_EVENT_LIMIT * 8));
++		return -EINVAL;
++	}
 +
- 	/* disable all interrupts */
- 	amdgpu_irq_disable_all(adev);
- 	if (adev->mode_info.mode_config_initialized) {
-@@ -7360,6 +7360,9 @@ void amdgpu_device_halt(struct amdgpu_device *adev)
- 	amdgpu_xcp_dev_unplug(adev);
- 	drm_dev_unplug(ddev);
- 
-+	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
-+	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
-+
- 	amdgpu_irq_disable_all(adev);
- 
- 	amdgpu_fence_driver_hw_fini(adev);
+ 	page = kzalloc(sizeof(*page), GFP_KERNEL);
+ 	if (!page)
+ 		return -ENOMEM;
 -- 
 2.51.0
 
