@@ -2,111 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IacG0V9pGl5iQUAu9opvQ
+	id YEKFLa59pGl5iQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 18:54:13 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 18:55:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D9A1D0FCB
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 18:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C671D0FEA
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 18:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4A510E1BA;
-	Sun,  1 Mar 2026 17:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB65010E3E9;
+	Sun,  1 Mar 2026 17:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dv3u4jUS";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="ZjBsZGWI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com
- [74.125.82.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2196910E1BA
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 17:54:08 +0000 (UTC)
-Received: by mail-dy1-f180.google.com with SMTP id
- 5a478bee46e88-2be0629f76eso19125eec.3
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 09:54:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772387647; cv=none;
- d=google.com; s=arc-20240605;
- b=FxUqr0epCwTDTyM7KPGiXw/uKTLou95HkrliSiaLGIDZ09URCuw1x2dYghSCI3RyxM
- shbWRsdQwuUNmqDRglEpEZ0XE7j6ETWhf1zbML8NNp9zUc4ePVg83SBULWg1biaO3DRD
- MaY+aMm542dZoWm3SdHrArHzXgYXjyzTu9UvCeHPgNA3GLnavMuemfNl7I68z8rEZVns
- PUy9i9trM10UcRJGknjm12bJzbnijPmrBgS2dhZxya1pi6kBG76cPhmQTRh031e/Wowl
- 23zeppMrPhPfp8CD/psXfQKafwuSC1zHkHhGKuEctT9zMiMPDkG/LO83UbfgsWuBAVM6
- 6dIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=bPAn9Rh+LY66WaxVvbGmncrz/qFe2i1Yah6LbNjrXU0=;
- fh=WKdJ3Hi7gJ+nd4MJyVyQ9F0lWJNSMr38GJVbQfizk4I=;
- b=bDWTRRMxc5N7lwXTMMCMkeByJ7+yO31kIeSyoEmI07m5LOigZrYzErAYayBLWl/HLl
- 0VAj63tJvsUojth6zGPkaGNVQ3+Ug5ma5Y4PsVszk61WNE4FdezGKH8YPXPNZLFVzn+p
- 7GQgrqkpPeiONRimxFUg32XAUkujKSdLNUnpBGQOAUHJO1sH1a2jX0zmxm5bwZye9Hbi
- mtCvvuMA7RqFTx9ccgNY7aAsXIcIqdge4d8gidOnLZJn618VHmNU87z2jhf7U3w7Qw4/
- RgeZPzokHzMONn+ihX6ENnjWH9O79gRiGkIbydNXCPsgLQPJZJwGhCx6qn6S7jOM/hpF
- vI4Q==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5132B10E3E9
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 17:55:54 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-8c9f6b78ca4so507120985a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 09:55:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772387647; x=1772992447; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bPAn9Rh+LY66WaxVvbGmncrz/qFe2i1Yah6LbNjrXU0=;
- b=dv3u4jUSvXRfdOkXiOLwzbghX6EFm+WoiuimG7wwcS9W2S+t3HKrtId9v2cqCVnKMZ
- pBb45Gm7sOPXvhTT3iWWdjBjyyvZWBSAnoVbLhHlAUdooI+3diOzVZ42M1ZZqS8uETsY
- jrjyi0GcncMOJnEv0sRQEPVAbLlRF1jsy40P7y3j80DEn4l1DUMmNV/ck6jb8a++qDnN
- xwE4f6TXAe3UhIgWXSwEN6uakSVvx6QyDcqgc1ZWwQhqRDWqUFD3hiu//Qb1XGkWtB1P
- vnTM+lRD9OA4cMtgauN1CgspTTesLvh3OIz4PLQMFZfEwfP21NKPx5o7c8+LRy5I4I6d
- pkXw==
+ d=ziepe.ca; s=google; t=1772387753; x=1772992553; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YCd8bTN0yDfsSyi6ZA8FG9Faz13YGXHzhnf02MTH1b8=;
+ b=ZjBsZGWIfko9NOApUpFzpRZhanIuMMBr1+BdgVKer9FVSXHk3X4QdQq/PHkw5mOmlB
+ 3NxEl4CZe/5iY+0M7Y9QMi/CtL05aZxwozTItNIN65oQNvTVGyB3ITy34aqSyrIVNgYo
+ x9EYmDkRqZ00N+ILR0UPvwxILZhR02GVB4VUYQkCqG7KPEtLXa2kOhqyyoftOt4b70BJ
+ 9beh0bJ37E3cZOh1E9bGWvHlExbnYjG0ueVP7ArWK5sEW8iYle5sPT+F/C7aD3kGEVV6
+ 5taBBbthPCH3Jctva7SoixyialvEYhum3naeqW5IEsXWoq4CI5wAADzR50uTyyXZ1G+5
+ GrZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772387647; x=1772992447;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=bPAn9Rh+LY66WaxVvbGmncrz/qFe2i1Yah6LbNjrXU0=;
- b=vk8tX6IpRwPfI+viw/1ajiiffsfFlWexATWS/+yp7lWPXQZfQPsKJJ5cWAI/EVfgqu
- JHQzY4kNrvNk15isT8Lr+TjbOLPgsa452LKRQqtNH/OAoh2EQxbVcQscnUXQB9L9d6X7
- 3xze4WB6bUBBLDvOTDTWFP93LPgY67snTQToceuWGnTYMNHVK9ccKU8gtLksEV6erIc8
- oJhxRNnI6P66m9tKNS3lOXF8DB3ivYAZcP5OORq9xKnbsoYtVf9MfjvlTTZ8ooL1gFhT
- ZT3lb0PeOyW5CeyHghM7MgmXVF1mxkSi5hCgighoirF4Gv4IfBQyMj8fv/WzGXvWh82j
- QJYQ==
+ d=1e100.net; s=20230601; t=1772387753; x=1772992553;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YCd8bTN0yDfsSyi6ZA8FG9Faz13YGXHzhnf02MTH1b8=;
+ b=sVzzXyclWpJe4JS6dIx03O7lltO9+VblxoIaT/XqMvaDoTs5mPo2qCxJxsqKGsfdWN
+ 3sulthIf9jEtjcCNLLy+frYYuhmy5SQHuZ4zPndqMd+aaSQ0A2gWvfwPdj+tBL0hmd4n
+ l1K8YcXrlZkvQVnnbqV+ldprH7YblsmL8ZdP/YERpMkY2lps2STSAje32AwyMdBMnkcg
+ wOwtwaWKGqIUZRoJUBCaMM7dUdhS12uRw/ngELcaa51m8MvC8SvcwEa+j58Mq5rdlAp/
+ eRv3smgh6lUjeKTqAycQgoIPmDQxUTWt4JOS7IChICtPVRpZ6YncF0CmFIUq37/WmJV3
+ NCGQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXsqIYsZMQY+3h/x51z7+CUdGY/1gq3xmN+/Z57HhaVtmfccOCLltYZ5bDaLdiizAcyL4/VXUT44fw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkDzcWwlS5fDsabvH1LPMpty4jTJkUlXh31sVk3qztJbnN/7l/
- mBkoRVTup07wg5MlbcCPHFGyVy3v40+GtWKNnOSYkDAIxC2gQGxbvF0abDhLwDcsAzrm98OxBcK
- gRwvXdeNfGBJr7noUA9gyWnfXtDgx0f4=
-X-Gm-Gg: ATEYQzx+RzNdTX+SQ+T7FagzF46Sn7CsXx2AQu4LJsyCR+NJtAh9Q9Du25RomQG/qDb
- ZCjwrntiiOO/SI21Bxud2LzGmn/yTy2ffWf7S/hEr+GUeJTlhwLshNoA827tITMfGAhC2DbEh7m
- tkUB0pEpamrRzzmMNXaD04xyWC/MTcXKI0heO5GAZeZk42dLlSJ02Rtl0c3hstdxrN06DS0p1xL
- dDoXHF3eBhabw5gyj8d1CENQ9Cc6anmw5MoP5STa7FmovdC/DnCDCJthTmTFYWvuS0tqOwt4eMX
- ks+OjawkqM5oeiI0Mnoq0M2+LyxKGRzqXBAha/XymyMIl+W4hB6J+h5E3OPPmcv88+5MEwGHVk/
- s+ITvtY9ckVR3sDvHpohEC9EfiOyGkDJUNIFkfVU=
-X-Received: by 2002:a05:7301:678f:b0:2be:6e6:e47a with SMTP id
- 5a478bee46e88-2be06e6e93bmr364703eec.0.1772387647261; Sun, 01 Mar 2026
- 09:54:07 -0800 (PST)
+ AJvYcCWwTaXGsMdMBatDmV+jwEdx8JKMECImaNlI6CVAitVpjN516N2tQcZPsl7COndB1f5gH4s0j3HpJEI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxloRKGK6m7xjJYt2OGXtiOOhfCgIN0w1KVT4pdkd9iASq0/dD2
+ oMdHzV1FrT9rFQprfeNTBBULCXxQoZd3wBNcadlCJV8pDtkbDRexWxlu3CJCmW24zeY=
+X-Gm-Gg: ATEYQzwD8uxGQl7kGCnRMWpJXsHkD/JzXaDF3NeWKJR6TfbMA0SnekKgU9fDWj6lnqm
+ ufeXAAI7rFHUcGrTvnhAaFRGC7v8NMECxwtxmtW+tE6YJBolKHWrzWtDf1xkymjG5n0b5EU8x3X
+ dg1gD+Wpqc4MiZMQ+jNNq0GnanDKac9wREWLmP6L7mahloTsmZ3x4EGGQuAae9khPE6zjvbwC70
+ 9V6NosU5lldUvq+KRbsy8QjbD3j4KrziEyPJQopTyweVcP2daU+t8TGlilkj8mtPUEOGABn97pb
+ 6890pOnwf/q+ej/mmMIbbAxsYLF+Naw0QyoNNYIrMklsnhAZcSZJ1yejXtuRGQ4Zr8v1opq72Kb
+ yZB/j7US3JoJeZmYafkefXtRsQVSfo/VIuA1p7wp0bQ1OsBhD/dNYih1asvz9iKyRMq0O4259ts
+ vBjvuR3eaEnJluuANohGcZCyfKt2Y7MRLYkWTm4YgfhsczRha/t485UDM8R79eYOp4D9HQlLTcs
+ osG+pq/V0U4dYflSbA=
+X-Received: by 2002:a05:620a:2802:b0:8c7:155a:6d04 with SMTP id
+ af79cd13be357-8cbc8e6817cmr1277844485a.54.1772387752963; 
+ Sun, 01 Mar 2026 09:55:52 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8cbbf6f873dsm1033539385a.25.2026.03.01.09.55.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Mar 2026 09:55:52 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vwl1D-00000002dJu-0Hxd;
+ Sun, 01 Mar 2026 13:55:51 -0400
+Date: Sun, 1 Mar 2026 13:55:51 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Zhiping Zhang <zhipingz@meta.com>, Leon Romanovsky <leon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yochai Cohen <yochai@nvidia.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [RFC 2/2] RMDA MLX5: get tph for p2p access when registering
+ dmabuf mr
+Message-ID: <20260301175551.GT44359@ziepe.ca>
+References: <20260210194014.2147481-1-zhipingz@meta.com>
+ <20260210194014.2147481-3-zhipingz@meta.com>
+ <aaDxmGoqpjnvmVs9@kbusch-mbp>
 MIME-Version: 1.0
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
- <20260218205507.689429-7-joelagnelf@nvidia.com>
- <DGIOJQC5HEAT.262OM2KS7C2HE@nvidia.com>
- <CANiq72mH=sCfO8+HnVp=m219b3drWZbqUWE=NJn=M3y4ng3qXA@mail.gmail.com>
- <edb5bd481d43fecdc626256579caee41@nvidia.com>
- <DGRH7Z2G22XR.LDEVDDGWC5B4@garyguo.net>
-In-Reply-To: <DGRH7Z2G22XR.LDEVDDGWC5B4@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 1 Mar 2026 18:53:55 +0100
-X-Gm-Features: AaiRm51jQvROWAW3ojMm8D87Nrc7b0R1mimDYc3M6UKj3t0H_flEAYjqI64qoF4
-Message-ID: <CANiq72mVUHV7j7WNHpqPcbQR_LvXmea2iOoY6A0wsuUr8FabiQ@mail.gmail.com>
-Subject: Re: [PATCH v10 6/8] rust: gpu: Add GPU buddy allocator bindings
-To: Gary Guo <gary@garyguo.net>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
- Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
- Boqun Feng <boqun@kernel.org>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Dave Airlie <airlied@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aaDxmGoqpjnvmVs9@kbusch-mbp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,83 +104,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:acourbot@nvidia.com,m:dakr@kernel.org,m:boqun@kernel.org,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:airlied@redhat.com,m:daniel.almeida@collabora.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:ndjukic@nvidia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:kbusch@kernel.org,m:zhipingz@meta.com,m:leon@kernel.org,m:bhelgaas@google.com,m:linux-rdma@vger.kernel.org,m:linux-pci@vger.kernel.org,m:netdev@vger.kernel.org,m:yochai@nvidia.com,m:yishaih@nvidia.com,m:helgaas@kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ziepe.ca];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 95D9A1D0FCB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ziepe.ca:mid,ziepe.ca:dkim]
+X-Rspamd-Queue-Id: E4C671D0FEA
 X-Rspamd-Action: no action
 
-On Sun, Mar 1, 2026 at 2:23=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> I started to think that the way we document invariants is problematic. Fo=
-r most
-> of the types, the invariants mentioned does not make sense to end up in p=
-ublic
-> facing docs.
+On Thu, Feb 26, 2026 at 06:21:28PM -0700, Keith Busch wrote:
+> On Tue, Feb 10, 2026 at 11:39:55AM -0800, Zhiping Zhang wrote:
+> > +static void get_tph_mr_dmabuf(struct mlx5_ib_dev *dev, int fd, u16 *st_index,
+> > +							  u8 *ph)
+> > +{
+> > +	int ret;
+> > +	struct dma_buf *dmabuf;
+> > +
+> > +	dmabuf = dma_buf_get(fd);
+> > +	if (IS_ERR(dmabuf))
+> > +		return;
+> > +
+> > +	if (!dif there's any implication mabuf->ops->get_tph)
+> > +		goto end_dbuf_put;
+> > +
+> > +	ret = dmabuf->ops->get_tph(dmabuf, st_index, ph);
+> 
+> You defined the "get_tph" function to take a pointer to a raw steering
+> tag value, but you're passing in the steering index to it's table.
 
-Yeah, it isn't ideal.
+Yeah that's weird, there should be one TPH for a DMABUF, not many.
 
-To give some context in case it helps, so far we said that the `#
-Invariants` section is a special case where mentioning private fields
-is OK-ish if needed/helpful for a reader, even if technically it may
-not be "proper", i.e. leak details.
+> But in general, since you're letting the user put whatever they want in
+> the vfio private area, should there be some validation that it's in the
+> valid range? I'm also not quite sure how user space comes to know what
+> steering tag to use, or what harm might happen if the wrong one is used.
 
-One reason was that sometimes private invariants may make the type
-easier to understand, even if technically it is a private one. We also
-discussed at some point splitting invariants into public and private
-ones, and perhaps have `rustdoc` know about that and only render the
-private ones when one toggles the private items rendering (runtime
-toggle, which is another feature I requested -- if it is compile-time
-as it is the normal flag, then reading the private docs becomes too
-hard).
+If the device is VFIO compatible then it needs to ensure that whatever
+it does with its steering tags fit the security model of VFIO. You
+can't harm the device - you can't reach outside the VFIO sandbox (eg
+into another VF or something) and so on.
 
-Another reason was to be able to have them use doc comments and get a
-nice rendering output, and your suggestion of using a dummy field
-would work for that. I like the fact that it makes one remember to
-write the invariant "natively". On the other hand, it seems like
-something we could somehow do with changes in tooling, i.e. in
-`rustdoc` or Clippy (and perhaps it could be enforced rather than just
-be a reminder).
+Under these conditions the kernel doesn't care what TPH is used, just
+let userspace specify the raw bits on the wire.
 
-Another bit was that sometimes the invariant, even if it applies to a
-private field, the type may be exposing e.g. a copy of the field
-through a method, and thus it is useful to know about the invariant
-anyway. Those cases could/should "properly" be a guarantee on the
-return value of that method, keeping the invariant private, though.
-
-In short, the current approach makes it easy to write for everyone,
-but it does have downsides and ideally we would have something better
-now that everyone is accustomed to writing them.
-
-Cheers,
-Miguel
+Jason
