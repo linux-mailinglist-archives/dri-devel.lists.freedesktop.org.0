@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wG3fC1yeo2k3IQUAu9opvQ
+	id yPSLG2yeo2k3IQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:03:08 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:03:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10661CCB98
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A851CCBE5
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 025BF10E3A9;
-	Sun,  1 Mar 2026 02:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8531B10E3AB;
+	Sun,  1 Mar 2026 02:03:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q7D2T8yP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V0X5K7TP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 317E210E3A9
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 02:03:04 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C849010E3AA;
+ Sun,  1 Mar 2026 02:03:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 07E3A41879;
- Sun,  1 Mar 2026 02:03:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C0EC19421;
- Sun,  1 Mar 2026 02:03:03 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4837F60123;
+ Sun,  1 Mar 2026 02:03:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 523AFC19421;
+ Sun,  1 Mar 2026 02:03:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772330583;
- bh=ZeufoZvanyMB3x+IzpiMTgfyZuWRNuphRNP74F/S/k4=;
+ s=k20201202; t=1772330601;
+ bh=ByuKD1zBC2X2sB4HN2F5S5xh0K/2kBITlYVlFhlpUFo=;
  h=From:To:Cc:Subject:Date:From;
- b=Q7D2T8yPSgT3tyxoYov9a1pg1ewv6p4AZFSMcwiLZRM06BmDXLYcdPY/hQrLyHKOO
- ZjdNr0j8oJrf64fuknzWUBhpgQIp2e70A6uI7oItxrXOMhIEftjOy/GtpudKaGIswY
- 6sBT73DOyw0McDurUetvhCZo30F5Fv9Wq3s8QX+6aiPXUYbSS+nZ8ix3FcLhMTZMkr
- iZRQUN2wXPrpPrEw2lOLnaF/vROjOm5TX4dLVaEaLXwpMpqqgqTIEsHLhiQbAXeRMe
- K1a2nV8jousS26teaT9iBdqwQNl6Ned3vXKYeRnHL8TZuQ/T/vvoLzkDrvBRQyxo9y
- CmHqyOCS9cRIg==
+ b=V0X5K7TPmMJX97omEvzK5g95WI1GoBDF+cKrnQhWHX0pcc35vYLZq9PN2tALiqAjm
+ lLYSLhSI83YBNECA5UBU7i7ygGQEaDt3TDvCZCX/oS9TN9EDC/1Z/YtDenSpPx55ND
+ GempWsVuqYAwlSyy+wtryc6vxgRjewLrN1g4QVH6n1tQSAnOiDfH2qkHP4Fe+iVdSP
+ QxWj/c5WRoG4Nvo3X9tOGMz90PH1Jh++e5px6Lds0LSg/P/lMrfsHrXmcTGEj3VXaq
+ GXyRgJvi4fYJgmFUlJ4DmiiDOr7hCuxAi26yKN8kZQj5HZsoFGWEeUaTHbkzMshfjI
+ qLUEW+ksLJVVA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	aha310510@gmail.com
-Cc: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: FAILED: Patch "drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
- vidi_connection_ioctl()" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:03:01 -0500
-Message-ID: <20260301020302.1730998-1-sashal@kernel.org>
+	yifan1.zhang@amd.com
+Cc: Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/amdgpu: Protect GPU register accesses in
+ powergated state in some paths" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:03:18 -0500
+Message-ID: <20260301020319.1731357-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -68,36 +68,29 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:aha310510@gmail.com,m:inki.dae@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email]
-X-Rspamd-Queue-Id: A10661CCB98
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
+X-Rspamd-Queue-Id: 42A851CCBE5
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -110,96 +103,59 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From d3968a0d85b211e197f2f4f06268a7031079e0d0 Mon Sep 17 00:00:00 2001
-From: Jeongjun Park <aha310510@gmail.com>
-Date: Mon, 19 Jan 2026 17:25:51 +0900
-Subject: [PATCH] drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
- vidi_connection_ioctl()
+From 39fc2bc4da0082c226cbee331f0a5d44db3997da Mon Sep 17 00:00:00 2001
+From: Yifan Zhang <yifan1.zhang@amd.com>
+Date: Mon, 2 Feb 2026 13:17:39 +0800
+Subject: [PATCH] drm/amdgpu: Protect GPU register accesses in powergated state
+ in some paths
 
-vidi_connection_ioctl() retrieves the driver_data from drm_dev->dev to
-obtain a struct vidi_context pointer. However, drm_dev->dev is the
-exynos-drm master device, and the driver_data contained therein is not
-the vidi component device, but a completely different device.
+Ungate GPU CG/PG in device_fini_hw and device_halt to protect GPU
+register accesses, e.g. GC registers are accessed in amdgpu_irq_disable_all()
+and amdgpu_fence_driver_hw_fini().
 
-This can lead to various bugs, ranging from null pointer dereferences and
-garbage value accesses to, in unlucky cases, out-of-bounds errors,
-use-after-free errors, and more.
-
-To resolve this issue, we need to store/delete the vidi device pointer in
-exynos_drm_private->vidi_dev during bind/unbind, and then read this
-exynos_drm_private->vidi_dev within ioctl() to obtain the correct
-struct vidi_context pointer.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 14 +++++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-index 23646e55f142c..06c29ff2aac0e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-@@ -199,6 +199,7 @@ struct drm_exynos_file_private {
- struct exynos_drm_private {
- 	struct device *g2d_dev;
- 	struct device *dma_dev;
-+	struct device *vidi_dev;
- 	void *mapping;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index c1ffc63e23ab5..528990a595ec9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3504,9 +3504,6 @@ static int amdgpu_device_ip_fini_early(struct amdgpu_device *adev)
+ 		}
+ 	}
  
- 	/* for atomic commit */
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 64c69dd2966ec..480c99a8f9f75 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -224,9 +224,14 @@ ATTRIBUTE_GROUPS(vidi);
- int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
- 				struct drm_file *file_priv)
- {
--	struct vidi_context *ctx = dev_get_drvdata(drm_dev->dev);
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
-+	struct device *dev = priv ? priv->vidi_dev : NULL;
-+	struct vidi_context *ctx = dev ? dev_get_drvdata(dev) : NULL;
- 	struct drm_exynos_vidi_connection *vidi = data;
+-	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
+-	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
+-
+ 	amdgpu_amdkfd_suspend(adev, true);
+ 	amdgpu_amdkfd_teardown_processes(adev);
+ 	amdgpu_userq_suspend(adev);
+@@ -4902,6 +4899,9 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 		amdgpu_virt_fini_data_exchange(adev);
+ 	}
  
-+	if (!ctx)
-+		return -ENODEV;
++	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
++	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
 +
- 	if (!vidi) {
- 		DRM_DEV_DEBUG_KMS(ctx->dev,
- 				  "user data for vidi is null.\n");
-@@ -372,6 +377,7 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct vidi_context *ctx = dev_get_drvdata(dev);
- 	struct drm_device *drm_dev = data;
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
- 	struct drm_encoder *encoder = &ctx->encoder;
- 	struct exynos_drm_plane *exynos_plane;
- 	struct exynos_drm_plane_config plane_config = { 0 };
-@@ -379,6 +385,8 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- 	int ret;
+ 	/* disable all interrupts */
+ 	amdgpu_irq_disable_all(adev);
+ 	if (adev->mode_info.mode_config_initialized) {
+@@ -7360,6 +7360,9 @@ void amdgpu_device_halt(struct amdgpu_device *adev)
+ 	amdgpu_xcp_dev_unplug(adev);
+ 	drm_dev_unplug(ddev);
  
- 	ctx->drm_dev = drm_dev;
-+	if (priv)
-+		priv->vidi_dev = dev;
++	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
++	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
++
+ 	amdgpu_irq_disable_all(adev);
  
- 	plane_config.pixel_formats = formats;
- 	plane_config.num_pixel_formats = ARRAY_SIZE(formats);
-@@ -424,8 +432,12 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
- static void vidi_unbind(struct device *dev, struct device *master, void *data)
- {
- 	struct vidi_context *ctx = dev_get_drvdata(dev);
-+	struct drm_device *drm_dev = data;
-+	struct exynos_drm_private *priv = drm_dev->dev_private;
- 
- 	timer_delete_sync(&ctx->timer);
-+	if (priv)
-+		priv->vidi_dev = NULL;
- }
- 
- static const struct component_ops vidi_component_ops = {
+ 	amdgpu_fence_driver_hw_fini(adev);
 -- 
 2.51.0
 
