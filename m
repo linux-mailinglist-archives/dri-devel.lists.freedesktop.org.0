@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GN5PMm2bo2kwIAUAu9opvQ
+	id kIT9EDOao2l4IAUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:50:37 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:45:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8941CBF69
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C1B1CB919
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA4110E388;
-	Sun,  1 Mar 2026 01:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3258A10E374;
+	Sun,  1 Mar 2026 01:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V2CgJoCx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r/E0xwlN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836D710E388
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:50:34 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9023310E372;
+ Sun,  1 Mar 2026 01:45:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6DD716013A;
- Sun,  1 Mar 2026 01:44:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769F0C19421;
- Sun,  1 Mar 2026 01:44:47 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 726CC407CA;
+ Sun,  1 Mar 2026 01:45:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7F6C19421;
+ Sun,  1 Mar 2026 01:45:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772329488;
- bh=6Qr32JUggNVDbkyRobRS6It2MxBWU98aEjzFhAbP4wE=;
+ s=k20201202; t=1772329519;
+ bh=lCxpL+urHOTREi6/gPVC4Y9b8CjTIH+jPjr29gff8Zg=;
  h=From:To:Cc:Subject:Date:From;
- b=V2CgJoCxldeY/DUAiV61i6AsD9JUgj7eeH2YgDElt8Ttocw6Vskv7UBWEggcdbclY
- 1Idp8U3VjzgFXWQS0cxoTdzuD1qtrfDwyxRjlROUk1cHYf1sf6LbCPjNaGfbjB8nLy
- qD0COy9KgU5MY4jDrBpBAXQHcKTg3M5B7XQ1ckWM1VfR71dRFYva9u1Q/yflCXGJGt
- Cd87lT9QfVrUmFEftvje3TQRY1M1ZVT4p7xOt7hZkA6RkhOAx8pQb8+ig9dSauH7Cs
- Bv6cr2PbG7vxc2rdf+AiLjHYcFKwdWzihkUjfk01rGY8jOaBruQ4ST5NiwaUM0h1i+
- 1/wLZeBGQrpuQ==
+ b=r/E0xwlNhyoRoCvZ+5REM9BW3543xZg4+OOJN6S5z4/1PV9tqNyKv6QbTLnP6FUHm
+ HRxEMuyluv1oe5qBhpIQxyFQIw7bCJpDOXs4sNpl7QW2s1hnPKqJn6J8xicL1DZxKU
+ Vk/2fcL3disXY5pPN1cSAhFs2f23OLybxiAA3t2gdxioBvmFwGjm7Vpx2IZQOzoD/s
+ bWNeQsC/17UkMEagf2/3ga3gSlP8suZlNqxvVx5x6MwGrtEl698ZKfoxwCKT738hmd
+ 5YHdShatV7gTuXaeV9Gv5ol+xQ2zRvUl8/1yFXLBX8YV85fbfoLSPaBq+ecbV3MJPh
+ QvKH29fTwn20A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	aha310510@gmail.com
-Cc: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: FAILED: Patch "drm/exynos: vidi: fix to avoid directly dereferencing
- user pointer" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:44:46 -0500
-Message-ID: <20260301014446.1707199-1-sashal@kernel.org>
+	yifan1.zhang@amd.com
+Cc: Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/amdgpu: Protect GPU register accesses in
+ powergated state in some paths" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:45:17 -0500
+Message-ID: <20260301014517.1707859-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -68,36 +68,29 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:aha310510@gmail.com,m:inki.dae@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6C8941CBF69
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 18C1B1CB919
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.1-stable tree.
@@ -110,62 +103,59 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From d4c98c077c7fb2dfdece7d605e694b5ea2665085 Mon Sep 17 00:00:00 2001
-From: Jeongjun Park <aha310510@gmail.com>
-Date: Mon, 19 Jan 2026 17:25:52 +0900
-Subject: [PATCH] drm/exynos: vidi: fix to avoid directly dereferencing user
- pointer
+From 39fc2bc4da0082c226cbee331f0a5d44db3997da Mon Sep 17 00:00:00 2001
+From: Yifan Zhang <yifan1.zhang@amd.com>
+Date: Mon, 2 Feb 2026 13:17:39 +0800
+Subject: [PATCH] drm/amdgpu: Protect GPU register accesses in powergated state
+ in some paths
 
-In vidi_connection_ioctl(), vidi->edid(user pointer) is directly
-dereferenced in the kernel.
+Ungate GPU CG/PG in device_fini_hw and device_halt to protect GPU
+register accesses, e.g. GC registers are accessed in amdgpu_irq_disable_all()
+and amdgpu_fence_driver_hw_fini().
 
-This allows arbitrary kernel memory access from the user space, so instead
-of directly accessing the user pointer in the kernel, we should modify it
-to copy edid to kernel memory using copy_from_user() and use it.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 480c99a8f9f75..9709c07e5d8f4 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -252,13 +252,27 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index c1ffc63e23ab5..528990a595ec9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3504,9 +3504,6 @@ static int amdgpu_device_ip_fini_early(struct amdgpu_device *adev)
+ 		}
+ 	}
  
- 	if (vidi->connection) {
- 		const struct drm_edid *drm_edid;
--		const struct edid *raw_edid;
-+		const void __user *edid_userptr = u64_to_user_ptr(vidi->edid);
-+		void *edid_buf;
-+		struct edid hdr;
- 		size_t size;
+-	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
+-	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
+-
+ 	amdgpu_amdkfd_suspend(adev, true);
+ 	amdgpu_amdkfd_teardown_processes(adev);
+ 	amdgpu_userq_suspend(adev);
+@@ -4902,6 +4899,9 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ 		amdgpu_virt_fini_data_exchange(adev);
+ 	}
  
--		raw_edid = (const struct edid *)(unsigned long)vidi->edid;
--		size = (raw_edid->extensions + 1) * EDID_LENGTH;
-+		if (copy_from_user(&hdr, edid_userptr, sizeof(hdr)))
-+			return -EFAULT;
- 
--		drm_edid = drm_edid_alloc(raw_edid, size);
-+		size = (hdr.extensions + 1) * EDID_LENGTH;
++	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
++	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
 +
-+		edid_buf = kmalloc(size, GFP_KERNEL);
-+		if (!edid_buf)
-+			return -ENOMEM;
-+
-+		if (copy_from_user(edid_buf, edid_userptr, size)) {
-+			kfree(edid_buf);
-+			return -EFAULT;
-+		}
-+
-+		drm_edid = drm_edid_alloc(edid_buf, size);
-+		kfree(edid_buf);
- 		if (!drm_edid)
- 			return -ENOMEM;
+ 	/* disable all interrupts */
+ 	amdgpu_irq_disable_all(adev);
+ 	if (adev->mode_info.mode_config_initialized) {
+@@ -7360,6 +7360,9 @@ void amdgpu_device_halt(struct amdgpu_device *adev)
+ 	amdgpu_xcp_dev_unplug(adev);
+ 	drm_dev_unplug(ddev);
  
++	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
++	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
++
+ 	amdgpu_irq_disable_all(adev);
+ 
+ 	amdgpu_fence_driver_hw_fini(adev);
 -- 
 2.51.0
 
