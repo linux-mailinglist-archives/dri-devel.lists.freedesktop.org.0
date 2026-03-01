@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QLNXHqGVo2lPHgUAu9opvQ
+	id CLHgGqOVo2lPHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:53 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2661CA8FF
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379841CA90F
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9467F10E2F6;
-	Sun,  1 Mar 2026 01:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC3910E2F8;
+	Sun,  1 Mar 2026 01:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bnYbxyoH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p8LYrocT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9E810E2F5;
- Sun,  1 Mar 2026 01:25:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E7810E2F7;
+ Sun,  1 Mar 2026 01:25:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 67455600AD;
- Sun,  1 Mar 2026 01:25:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 739FCC19421;
- Sun,  1 Mar 2026 01:25:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C0E9360008;
+ Sun,  1 Mar 2026 01:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFB6C19421;
+ Sun,  1 Mar 2026 01:25:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328349;
- bh=HPpjGWucnDddhJ0OXqI2c/a3wxC3VfGazekaTwKVfXM=;
+ s=k20201202; t=1772328351;
+ bh=2Wq6uxL0qh7pold2geNP4xvN+lABLHVFs0qTQTj8ZoQ=;
  h=From:To:Cc:Subject:Date:From;
- b=bnYbxyoHvHNaXStXJlu8CsiMMUaTJ+fR7HZwmAzirm2h6vEQutct+II7Hqn1OoMS/
- 0TczjtR00D7O5qwu3xBd3Qb0vy5qw1KniuA3vdpydQrMPmLhVbJCxB/lmIap4rlR8m
- REyqVWmo2dFTBSghANm/LrE+VG+jMRnfl5kStUgV4K27DB4SDAlztaIdAi1iu+Iy9D
- nhdOQM3UiSbNaVUZPwULK0HyD2NkFMNo2AisBaO7JHhYTMCbR+xgSneRrIFG5EcY+X
- 5N2ZUsUWhCl+D2r8USaqcV/lvV2iLmgtte4w0nU13BRT8PoKKTwmbu0gygN4bDbAiI
- FMhGO5nbzQp/g==
+ b=p8LYrocTFgKE9XXszs8LCm8Rz2bvEBKXtPprFapV/RyWLPGGGzNeyHv+wrbofkeCz
+ /mZUojnjbI4h/h72okBrWoL3vSMy4wCDkt2jAOyVEwILgJePWwxy/j6McplvfV9Uz1
+ 1m2fqkJzBEvfFcf8+81p9OexVvmRzynj00qteIvqMuKDthvHklAhJE4ClGjmFyEeQi
+ gbzkMh6jdYyTPjIDxLf4NnsMWzhe3zGWVZb2JEXt4cgkdtU4PBZWlibmhEJK5WYthu
+ YAtP0nWCxwhbPNUyOjSjNMe2nTCNf9PcbwHZJA3kRUSbNgZOKsSbPTjPAx/v+3GpyV
+ mBqq+rqxXgrvA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	Sunday.Clement@amd.com
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+	Philip.Yang@amd.com
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amdkfd: Fix out-of-bounds write in
- kfd_event_page_set()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:25:47 -0500
-Message-ID: <20260301012547.1683022-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amdgpu: Use 5-level paging if gmc support 57-bit
+ VA" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:25:49 -0500
+Message-ID: <20260301012549.1683069-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,33 +66,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 4F2661CA8FF
+X-Rspamd-Queue-Id: 379841CA90F
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -104,42 +104,65 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8a70a26c9f34baea6c3199a9862ddaff4554a96d Mon Sep 17 00:00:00 2001
-From: Sunday Clement <Sunday.Clement@amd.com>
-Date: Mon, 2 Feb 2026 12:41:39 -0500
-Subject: [PATCH] drm/amdkfd: Fix out-of-bounds write in kfd_event_page_set()
+From 3b948dd0366a0b64c02e4ed1aefdf7825942e803 Mon Sep 17 00:00:00 2001
+From: Philip Yang <Philip.Yang@amd.com>
+Date: Tue, 27 Jan 2026 13:52:33 -0500
+Subject: [PATCH] drm/amdgpu: Use 5-level paging if gmc support 57-bit VA
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The kfd_event_page_set() function writes KFD_SIGNAL_EVENT_LIMIT * 8
-bytes via memset without checking the buffer size parameter. This allows
-unprivileged userspace to trigger an out-of bounds kernel memory write
-by passing a small buffer, leading to  potential privilege
-escalation.
+Regardless if CPU enable 5-level paging, GPU vm use 5-level paging if
+gmc init with 57-bit address space support, because
 
-Signed-off-by: Sunday Clement <Sunday.Clement@amd.com>
-Reviewed-by: Alexander Deucher <Alexander.Deucher@amd.com>
+ARM64 4-level paging support 48-bit VA, x86 and GPU 4-level paging
+support 47-bit VA, require 5-level paging on GPU to support ARM64.
+
+NPA address space 52-bit mapping on NPA GPU VM require 5-level paging.
+
+Debugger trap get device snapshot expect LDS and Scratch base, limit
+above 57-bit, which is set only for 5-level paging.
+
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
+Cc: stable@vger.kernel.org # 6.19.x
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_events.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index 1ad312af8ff0c..13416bff77636 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-@@ -331,6 +331,12 @@ static int kfd_event_page_set(struct kfd_process *p, void *kernel_address,
- 	if (p->signal_page)
- 		return -EBUSY;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 6a2ea200d90c8..31383583fc682 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2360,26 +2360,9 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
+ 			   unsigned max_bits)
+ {
+ 	unsigned int max_size = 1 << (max_bits - 30);
+-	bool sys_5level_pgtable = false;
+ 	unsigned int vm_size;
+ 	uint64_t tmp;
  
-+	if (size < KFD_SIGNAL_EVENT_LIMIT * 8) {
-+		pr_err("Event page size %llu is too small, need at least %lu bytes\n",
-+				size, (unsigned long)(KFD_SIGNAL_EVENT_LIMIT * 8));
-+		return -EINVAL;
-+	}
-+
- 	page = kzalloc(sizeof(*page), GFP_KERNEL);
- 	if (!page)
- 		return -ENOMEM;
+-#ifdef CONFIG_X86_64
+-	/*
+-	 * Refer to function configure_5level_paging() for details.
+-	 */
+-	sys_5level_pgtable = (native_read_cr4() & X86_CR4_LA57);
+-#endif
+-
+-	/*
+-	 * If GPU supports 5-level page table, but system uses 4-level page table,
+-	 * then use 4-level page table on GPU
+-	 */
+-	if (max_level == 4 && !sys_5level_pgtable) {
+-		min_vm_size = 256 * 1024;
+-		max_level = 3;
+-	}
+-
+ 	/* adjust vm size first */
+ 	if (amdgpu_vm_size != -1) {
+ 		vm_size = amdgpu_vm_size;
 -- 
 2.51.0
 
