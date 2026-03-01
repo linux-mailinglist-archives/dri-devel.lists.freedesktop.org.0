@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Pz4OfuXo2lIHwUAu9opvQ
+	id IA3EMR2Yo2neHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:35:55 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:36:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BD31CB13C
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC4A1CB19C
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:36:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B6410E316;
-	Sun,  1 Mar 2026 01:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC47810E317;
+	Sun,  1 Mar 2026 01:36:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EapDrr7V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h3XpTSvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0171810E316
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:35:53 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFB410E317;
+ Sun,  1 Mar 2026 01:36:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7301860126;
- Sun,  1 Mar 2026 01:35:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77EF2C19424;
- Sun,  1 Mar 2026 01:35:51 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1C656401CC;
+ Sun,  1 Mar 2026 01:36:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5059EC19421;
+ Sun,  1 Mar 2026 01:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328952;
- bh=d6hSXjZ6oSdlFyBVHtboQvnWqS7fr7QvkPdadaMqHm4=;
+ s=k20201202; t=1772328986;
+ bh=XJWm1TCcWM+q7wVaJvpye+qYjdxiVkkMpJPzBcc7Vko=;
  h=From:To:Cc:Subject:Date:From;
- b=EapDrr7Vm+3+BqZTSsSWWadFF87neitQBZOHsmsj7jq49wjatBjh/XjVTWpar3OYl
- 6f5i1d7/HJYA5QkHzzqzr+FqCmWak7JfXMZ6mL1rffOP5W1C8dKuAMmbcw3KNL/1De
- 2lLaOKXiM5ZBnNRtEpH33PpDvx4SRdjBodSiTjBQT4Rh0AJs3AUQIG1aJy3Pi2ngV8
- XPt9xXWrKYJAGfGH+kFzDkegJxVZh4wBntiw8Yo7XHQRDixrCIUtEZ8sQJHVlMbKua
- 7T5zZdFbXnaES2lnE7H/ucHSYGVBt2G218i0J2GzAQjDsnUyxHUyIK7L/fTGMEQSiU
- DZjh5bfIuBsMg==
+ b=h3XpTSvJlgt0Ves4cPYE7hCFryw3F1ncvEG9ZM/NP6V+/s2yW2e042TXCq01v4uX7
+ cwsNcOV1ByiDVKawI/EN5qIqoufAp3BWzyayTb0g2Y95Rkbghn5FEyj1rSR47v6Nti
+ bJhVXaz17nu6gK9FV0RgDJX68HVPS1LNhEQNlZyOXU/WjrLeu4qdWQOWU3IJfZcWSk
+ /Fehn4wFA2Puf1ouK/xk5et9zU5n9ebTYlqXw0KZZruvwSwVHIgVOxDyfsZM5KMjXL
+ H4XE/nHPrec39Q1kewLYNqBC75SwPFVEF7d3rulcRw/vXJE+3CTEb3DW/CilqRWu7R
+ Wgu5vDeIoP4YQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	aha310510@gmail.com
-Cc: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: FAILED: Patch "drm/exynos: vidi: fix to avoid directly dereferencing
- user pointer" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:35:50 -0500
-Message-ID: <20260301013550.1695639-1-sashal@kernel.org>
+	Sunday.Clement@amd.com
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/amdkfd: Fix out-of-bounds write in
+ kfd_event_page_set()" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:36:23 -0500
+Message-ID: <20260301013624.1696351-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -66,37 +67,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:aha310510@gmail.com,m:inki.dae@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[6];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: C0BD31CB13C
+X-Rspamd-Queue-Id: 6DC4A1CB19C
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -109,62 +103,42 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From d4c98c077c7fb2dfdece7d605e694b5ea2665085 Mon Sep 17 00:00:00 2001
-From: Jeongjun Park <aha310510@gmail.com>
-Date: Mon, 19 Jan 2026 17:25:52 +0900
-Subject: [PATCH] drm/exynos: vidi: fix to avoid directly dereferencing user
- pointer
+From 8a70a26c9f34baea6c3199a9862ddaff4554a96d Mon Sep 17 00:00:00 2001
+From: Sunday Clement <Sunday.Clement@amd.com>
+Date: Mon, 2 Feb 2026 12:41:39 -0500
+Subject: [PATCH] drm/amdkfd: Fix out-of-bounds write in kfd_event_page_set()
 
-In vidi_connection_ioctl(), vidi->edid(user pointer) is directly
-dereferenced in the kernel.
+The kfd_event_page_set() function writes KFD_SIGNAL_EVENT_LIMIT * 8
+bytes via memset without checking the buffer size parameter. This allows
+unprivileged userspace to trigger an out-of bounds kernel memory write
+by passing a small buffer, leading to  potential privilege
+escalation.
 
-This allows arbitrary kernel memory access from the user space, so instead
-of directly accessing the user pointer in the kernel, we should modify it
-to copy edid to kernel memory using copy_from_user() and use it.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Sunday Clement <Sunday.Clement@amd.com>
+Reviewed-by: Alexander Deucher <Alexander.Deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 480c99a8f9f75..9709c07e5d8f4 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -252,13 +252,27 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+index 1ad312af8ff0c..13416bff77636 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+@@ -331,6 +331,12 @@ static int kfd_event_page_set(struct kfd_process *p, void *kernel_address,
+ 	if (p->signal_page)
+ 		return -EBUSY;
  
- 	if (vidi->connection) {
- 		const struct drm_edid *drm_edid;
--		const struct edid *raw_edid;
-+		const void __user *edid_userptr = u64_to_user_ptr(vidi->edid);
-+		void *edid_buf;
-+		struct edid hdr;
- 		size_t size;
- 
--		raw_edid = (const struct edid *)(unsigned long)vidi->edid;
--		size = (raw_edid->extensions + 1) * EDID_LENGTH;
-+		if (copy_from_user(&hdr, edid_userptr, sizeof(hdr)))
-+			return -EFAULT;
- 
--		drm_edid = drm_edid_alloc(raw_edid, size);
-+		size = (hdr.extensions + 1) * EDID_LENGTH;
++	if (size < KFD_SIGNAL_EVENT_LIMIT * 8) {
++		pr_err("Event page size %llu is too small, need at least %lu bytes\n",
++				size, (unsigned long)(KFD_SIGNAL_EVENT_LIMIT * 8));
++		return -EINVAL;
++	}
 +
-+		edid_buf = kmalloc(size, GFP_KERNEL);
-+		if (!edid_buf)
-+			return -ENOMEM;
-+
-+		if (copy_from_user(edid_buf, edid_userptr, size)) {
-+			kfree(edid_buf);
-+			return -EFAULT;
-+		}
-+
-+		drm_edid = drm_edid_alloc(edid_buf, size);
-+		kfree(edid_buf);
- 		if (!drm_edid)
- 			return -ENOMEM;
- 
+ 	page = kzalloc(sizeof(*page), GFP_KERNEL);
+ 	if (!page)
+ 		return -ENOMEM;
 -- 
 2.51.0
 
