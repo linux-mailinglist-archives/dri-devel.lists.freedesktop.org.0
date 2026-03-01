@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EQpMFGWo2lPHgUAu9opvQ
+	id sK7TGFaWo2lPHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:49 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8601CABF2
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F420A1CAC01
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FCA10E306;
-	Sun,  1 Mar 2026 01:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2D610E308;
+	Sun,  1 Mar 2026 01:28:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QJtuMVLL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q0USjE6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA9610E306
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:28:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61AA510E308
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:28:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 09025600B0;
- Sun,  1 Mar 2026 01:28:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BAFC19421;
- Sun,  1 Mar 2026 01:28:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D30FB600AE;
+ Sun,  1 Mar 2026 01:28:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0625C19421;
+ Sun,  1 Mar 2026 01:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328525;
- bh=Bu+y6rQ0KEfWfz7XhQEe8qBHaPcnrAAW6u9MQf/BIkI=;
+ s=k20201202; t=1772328530;
+ bh=/g6RjrAebEf90HjBSRoFN3k9pHG6/2W5hM5S4qH+qNQ=;
  h=From:To:Cc:Subject:Date:From;
- b=QJtuMVLLNmyckierbKyILyask3nzc4OYGBqq7+qmBnu7dMTMtmmNCGNXWaW/+0T9f
- DRpeXS0lJqoKA83anirUDDQWBH8D9POvkmZmELP17NlAeBtHN/vviByj10zzbgqz8J
- AaeBF28v/eCb9mebeqxF/zWoABgl8Sizp5zb9V8kOCj3LrKjZSO7edshihjsOl74KF
- MeCrbyHd9K5SFLQwMpqRMGqWROf2d2jUhpvriJMx8h6CjWM1ndUNlJf+n7X10gbe/n
- rIh+LEObh95vhXW2Ww5inlD+ogUkwcAUMHmxhWFKvQcsHRgqfSyv/oCMk0Fot9UGFM
- hHCxnF40ZyKBw==
+ b=Q0USjE6Q/eD5OrlpvwRg3uhl/Xyjbnu/arEc0JqZrD4jDxBgX00AdFnF5zLLXSkqv
+ DNZmZZ61tjLud8seteyTwz7rPWqdge3sgpAYtuROEeMOOyz4208nu9CLT+ZnYp2Dpq
+ uv9evO/FjZLDfAoU8GptDsQqB/P1eTtGjB3UP29EnfpBTEsef5YRFUwUULyO6t7DUa
+ VEfDZknFTfg484vZyq2pQp3LSsZhphgAYpJpsVocluAt9hIxwsbqHHcj8RpsiPFQgy
+ tUKmExqLVoC0oHOifgbOLIaqFDBYUgQJHv2vF8jphKQL0q2gq1mYTNabMsObp2dHhk
+ nRwAdkDQh7qUA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	tzimmermann@suse.de
+	a.vatoropin@crpt.ru
 Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbcon: Remove struct fbcon_display.inverse" failed to
- apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:28:43 -0500
-Message-ID: <20260301012844.1686512-1-sashal@kernel.org>
+Subject: FAILED: Patch "fbcon: check return value of con2fb_acquire_newinfo()"
+ failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:28:48 -0500
+Message-ID: <20260301012848.1686605-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -75,7 +75,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:tzimmermann@suse.de,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:a.vatoropin@crpt.ru,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -96,8 +96,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email]
-X-Rspamd-Queue-Id: 7B8601CABF2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtesting.org:url,gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: F420A1CAC01
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -110,32 +110,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 30baedeeeab524172abc0b58cb101e8df86b5be8 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 9 Feb 2026 17:15:43 +0100
-Subject: [PATCH] fbcon: Remove struct fbcon_display.inverse
+From 011a0502801c8536f64141a2b61362c14f456544 Mon Sep 17 00:00:00 2001
+From: Andrey Vatoropin <a.vatoropin@crpt.ru>
+Date: Wed, 17 Dec 2025 09:11:05 +0000
+Subject: [PATCH] fbcon: check return value of con2fb_acquire_newinfo()
 
-The field inverse in struct fbcon_display is unused. Remove it.
+If fbcon_open() fails when called from con2fb_acquire_newinfo() then
+info->fbcon_par pointer remains NULL which is later dereferenced.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: <stable@vger.kernel.org> # v6.0+
+Add check for return value of the function con2fb_acquire_newinfo() to
+avoid it.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: d1baa4ffa677 ("fbcon: set_con2fb_map fixes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrey Vatoropin <a.vatoropin@crpt.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/core/fbcon.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/core/fbcon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index 1cd10a7faab0f..fca14e9b729b9 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -30,7 +30,6 @@ struct fbcon_display {
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
-     u_short scrollmode;             /* Scroll Method, use fb_scrollmode() */
- #endif
--    u_short inverse;                /* != 0 text black on white as default */
-     short yscroll;                  /* Hardware scrolling */
-     int vrows;                      /* number of virtual rows */
-     int cursor_shape;
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 34ea14412ace1..36e380797a9e4 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -1068,7 +1068,8 @@ static void fbcon_init(struct vc_data *vc, bool init)
+ 		return;
+ 
+ 	if (!info->fbcon_par)
+-		con2fb_acquire_newinfo(vc, info, vc->vc_num);
++		if (con2fb_acquire_newinfo(vc, info, vc->vc_num))
++			return;
+ 
+ 	/* If we are not the first console on this
+ 	   fb, copy the font from that console */
 -- 
 2.51.0
 
