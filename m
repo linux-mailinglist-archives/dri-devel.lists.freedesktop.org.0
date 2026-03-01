@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAwkOr2Yo2neHgUAu9opvQ
+	id eHXTG8KYo2neHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:39:09 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:39:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF2E1CB3CC
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411B91CB3DB
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD9B10E34E;
-	Sun,  1 Mar 2026 01:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7110410E35C;
+	Sun,  1 Mar 2026 01:39:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ju3lO7OF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o3LjX8bj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E4E10E34E
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:39:06 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A868110E35C
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:39:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CED0D60133;
- Sun,  1 Mar 2026 01:39:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5E8C19421;
- Sun,  1 Mar 2026 01:39:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 910A34431B;
+ Sun,  1 Mar 2026 01:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7280C19421;
+ Sun,  1 Mar 2026 01:39:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772329145;
- bh=JonG/qMH9Q57J8+kvxbjBX/A0ocJ9k9CFxmIeKIKX5s=;
+ s=k20201202; t=1772329150;
+ bh=1imFyVGkQa2hZAKARNwtFq6SMWvnEdxqyvH+wpyBPdc=;
  h=From:To:Cc:Subject:Date:From;
- b=Ju3lO7OFIquGpd4XGNsMu2oYaUS/uu2hflEPUA49S1Z2Guuks5k9fpaAZPoJlMB5u
- VyKM2qA8FqYOwmy1EMU9xUoVk4Yv+qWxA6GXAZdSI35KkLlOjKwKW240YlUWII5ege
- JY7YlzblF1pSq+YPU0YAoPtPXBk94TM3weQ1gMS+MJZG04hCSKJgWt5dODx8RvT79Z
- OKXkLtHw5wR7ngT+J8t1+DDxi+/jPFJGFKskYgveEHJdlcR+hCY/IcMr0greALNb7m
- KF7FWhSZVhMsGkNJwtJmauEfOWDmtC0jcgXRSeT9+/bYhwPTSv9WPMGWrChAeohItm
- bfXidXZhHjLcA==
+ b=o3LjX8bj1sdswDp5cLUZmQjM5a+VLFAkzNsJQ7JkwgI+7yx/9J9vVGHXekqUCwB7g
+ y7flp4ielxBGt0Sm/QlBagcett0dpFqtK1AyLT1Awg3DAdarLkCy3Nrht//vvsRo3Q
+ bCQcEqm8GOt+NYZxWhxXD7G+tvLM/JAJb4beGte0qjSNK/ghi5pIz+hmIQnp8bqRhI
+ 2+y4ipkRSBBK9J75dARu8nzktn9G9SPeEbBqIWiH+NttSc/+J7usmn5xpwCsY07tuL
+ 0MRrpVik21Y2COZAlp68TGl8wjm993OugNeEfDqm4FIl03w5mBTyO55X/NCHIQ6WCf
+ QVmSHHEMFsWyw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	fourier.thomas@gmail.com
-Cc: Helge Deller <deller@gmx.de>, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbdev: vt8500lcdfb: fix missing dma_free_coherent()"
- failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:39:03 -0500
-Message-ID: <20260301013903.1699892-1-sashal@kernel.org>
+	geoffreyhe2@gmail.com
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "fbdev: of: display_timing: fix refcount leak in
+ of_get_display_timings()" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:39:08 -0500
+Message-ID: <20260301013908.1699995-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -64,41 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:fourier.thomas@gmail.com,m:deller@gmx.de,m:linux-arm-kernel@lists.infradead.org,m:linux-fbdev@vger.kernel.org,m:fourierthomas@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:geoffreyhe2@gmail.com,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmx.de,lists.infradead.org,vger.kernel.org,lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 8DF2E1CB3CC
+X-Rspamd-Queue-Id: 411B91CB3DB
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -111,45 +110,50 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 88b3b9924337336a31cefbe99a22ed09401be74a Mon Sep 17 00:00:00 2001
-From: Thomas Fourier <fourier.thomas@gmail.com>
-Date: Mon, 12 Jan 2026 15:00:27 +0100
-Subject: [PATCH] fbdev: vt8500lcdfb: fix missing dma_free_coherent()
+From eacf9840ae1285a1ef47eb0ce16d786e542bd4d7 Mon Sep 17 00:00:00 2001
+From: Weigang He <geoffreyhe2@gmail.com>
+Date: Fri, 16 Jan 2026 09:57:51 +0000
+Subject: [PATCH] fbdev: of: display_timing: fix refcount leak in
+ of_get_display_timings()
 
-fbi->fb.screen_buffer is allocated with dma_alloc_coherent() but is not
-freed if the error path is reached.
+of_parse_phandle() returns a device_node with refcount incremented,
+which is stored in 'entry' and then copied to 'native_mode'. When the
+error paths at lines 184 or 192 jump to 'entryfail', native_mode's
+refcount is not decremented, causing a refcount leak.
 
-Fixes: e7b995371fe1 ("video: vt8500: Add devicetree support for vt8500-fb and wm8505-fb")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
+Fix this by changing the goto target from 'entryfail' to 'timingfail',
+which properly calls of_node_put(native_mode) before cleanup.
+
+Fixes: cc3f414cf2e4 ("video: add of helper for display timings/videomode")
+Cc: stable@vger.kernel.org
+Signed-off-by: Weigang He <geoffreyhe2@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/vt8500lcdfb.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/video/of_display_timing.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/vt8500lcdfb.c b/drivers/video/fbdev/vt8500lcdfb.c
-index b08a6fdc53fd2..85c7a99a7d648 100644
---- a/drivers/video/fbdev/vt8500lcdfb.c
-+++ b/drivers/video/fbdev/vt8500lcdfb.c
-@@ -369,7 +369,7 @@ static int vt8500lcd_probe(struct platform_device *pdev)
- 	if (fbi->palette_cpu == NULL) {
- 		dev_err(&pdev->dev, "Failed to allocate palette buffer\n");
- 		ret = -ENOMEM;
--		goto failed_free_io;
-+		goto failed_free_mem_virt;
+diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_display_timing.c
+index bebd371c6b93e..1940c9505dd3b 100644
+--- a/drivers/video/of_display_timing.c
++++ b/drivers/video/of_display_timing.c
+@@ -181,7 +181,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
+ 	if (disp->num_timings == 0) {
+ 		/* should never happen, as entry was already found above */
+ 		pr_err("%pOF: no timings specified\n", np);
+-		goto entryfail;
++		goto timingfail;
  	}
  
- 	irq = platform_get_irq(pdev, 0);
-@@ -432,6 +432,9 @@ static int vt8500lcd_probe(struct platform_device *pdev)
- failed_free_palette:
- 	dma_free_coherent(&pdev->dev, fbi->palette_size,
- 			  fbi->palette_cpu, fbi->palette_phys);
-+failed_free_mem_virt:
-+	dma_free_coherent(&pdev->dev, fbi->fb.fix.smem_len,
-+			  fbi->fb.screen_buffer, fbi->fb.fix.smem_start);
- failed_free_io:
- 	iounmap(fbi->regbase);
- failed_free_res:
+ 	disp->timings = kcalloc(disp->num_timings,
+@@ -189,7 +189,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
+ 				GFP_KERNEL);
+ 	if (!disp->timings) {
+ 		pr_err("%pOF: could not allocate timings array\n", np);
+-		goto entryfail;
++		goto timingfail;
+ 	}
+ 
+ 	disp->num_timings = 0;
 -- 
 2.51.0
 
