@@ -2,93 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id VRGLNhgBpGmPUgUAu9opvQ
+	id 6gwFGP0CpGnAUwUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 10:04:24 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 10:12:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2164C1CEF06
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 10:04:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1991CEF3A
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 10:12:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CACD610E0BA;
-	Sun,  1 Mar 2026 09:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5FB810E04F;
+	Sun,  1 Mar 2026 09:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="gpOINlyb";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="XYEaWKUQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F86110E0BA
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 09:04:19 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB8EC10E04F
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 09:12:24 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6217mTGp3132848; Sun, 1 Mar 2026 09:04:16 GMT
+ 6215aH5L3307158; Sun, 1 Mar 2026 09:12:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
  :content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=corp-2025-04-25; bh=992X/iYbXxruA7l5ZNf5i2+8tAYBy
- H13h9X3jVOg4Z0=; b=gpOINlybAPefiZOpjsI+Nlea4pixrlqlZjGpqPSKEzwYo
- AiN3FIKwqvaCAMgRYmapJs1/Ywa8FDzRR+vrEqyu4rXs7Qt6PLjol0sacO4cpT/W
- lXU+/kBidcvIHyUd9L5xyzUkCLtDkkF6qlnae+GWvUnN5/z0lJS7w42CZ/s23eQ3
- YeWIdpkwm1CcPr6GxCmAzg+CFtyZk9rPsdMN5TS3BphaPNyasu17FcA2BpDxb2kg
- p5dvi6J1rE9jUD4sQW8x69/oniRjncix2Uc888S+6qtL6cPuNAQIesfdZb/c2zqH
- HPuarmAKXCo3mF8mSK5s+NQfmNscZyrgK20+AqVuQ==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cksmdgxy3-1
+ :subject:to; s=corp-2025-04-25; bh=w2TMubsK5Uv5omFc/zf8YZlltsRBW
+ fHnFcyubL2bOTY=; b=XYEaWKUQzOLHm0zlXTZivDiIXzjOCrtA/LoNKQBSPuyfG
+ NBSeNTt7Ni12TDVIRj1QLxrPRV/dRdmqwwuf1JbZ+vDrtCYveRomhlUrhS9N5ySK
+ C342WrJWGMOLD1uU6kqdDBMc/2cpblqSA7aFCr7vE99krJ8uceldSY06Z1ZG08of
+ 48kgoIuax172xCiYUXVinNZAXrxDkE/gJjC+T9+fqcrXCsTeuzKabN7l/aBiag35
+ XRDG6HKoMB00yyjPDydHyqIuiCN4qmlJ7XqgleeLM6ZEZ+o8mjwH0jH2Q7t1t+Bw
+ a7xPNa8RE0HbwCZcIlwUg4WbkFzxyhy6ZDbUwXixw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cksh8rwdw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 01 Mar 2026 09:04:15 +0000 (GMT)
+ Sun, 01 Mar 2026 09:12:18 +0000 (GMT)
 Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 6217phhd037770; Sun, 1 Mar 2026 09:04:14 GMT
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 6216gGh6026760; Sun, 1 Mar 2026 09:12:18 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 4ckptc535n-1
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4ckpt7my81-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 01 Mar 2026 09:04:14 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 62194Et8025207;
- Sun, 1 Mar 2026 09:04:14 GMT
+ Sun, 01 Mar 2026 09:12:17 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 6219CHnx030447;
+ Sun, 1 Mar 2026 09:12:17 GMT
 Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
  [10.129.136.47])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 4ckptc5356-1; Sun, 01 Mar 2026 09:04:14 +0000
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 4ckpt7my7k-1; Sun, 01 Mar 2026 09:12:17 +0000
 From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: robh@kernel.org, tomeu@tomeuvizoso.net, ogabbay@kernel.org,
- tzimmermann@suse.de, Frank.Li@nxp.com, dri-devel@lists.freedesktop.org
+To: jacek.lawrynowicz@linux.intel.com, andersson@kernel.org,
+ quic_pkanojiy@quicinc.com, ogabbay@kernel.org,
+ jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Cc: alok.a.tiwarilinux@gmail.com, alok.a.tiwari@oracle.com
-Subject: [PATCH] accel/ethosu propagate devm_drm_dev_alloc() error code
-Date: Sun,  1 Mar 2026 01:03:59 -0800
-Message-ID: <20260301090411.171060-1-alok.a.tiwari@oracle.com>
+Subject: [PATCH] accel/qaic Fix HELLO_RESP mode sourced from wrong rx field
+Date: Sun,  1 Mar 2026 01:12:11 -0800
+Message-ID: <20260301091214.171263-1-alok.a.tiwari@oracle.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-01_01,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0 phishscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 adultscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2603010080
-X-Authority-Analysis: v=2.4 cv=a7k9NESF c=1 sm=1 tr=0 ts=69a4010f b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117
- a=e1sVV491RgrpLwSTMOnk8w==:17
+ definitions=main-2603010081
+X-Proofpoint-ORIG-GUID: 57I6IiXNfMvD60XlgQ_PqftijMm_OM_1
+X-Authority-Analysis: v=2.4 cv=D8VK6/Rj c=1 sm=1 tr=0 ts=69a402f2 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=EIcjfB9IiI4px24ztqRk:22 a=yPCof4ZbAAAA:8 a=Miv_XHlUCVH6uCUJQ4IA:9 cc=ntf
- awl=host:13810
-X-Proofpoint-GUID: BbsLrJtVV-hGGe0XVAbRRV2d4WkRCAWX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDA4MCBTYWx0ZWRfX24mDRFT/rteg
- Zl9kADN7O1r21GdyYGqT2KC+Fb6aUqcHGG22qP1V8pHlSJJfjtMQnc3/grbfoL9og1dmIfWO9Vn
- 0CRassGMxrEb1+5pLYwcfjavlVDsPDCAQ3hu5jYHRQ4419zCxjLyekB1R1uuHLjjkJXsL1np+kS
- BtQM5cf8AYKFtLnlIjsdWiZORJUNSMeIs8BkrIZuObUii27+Uv2TuWDruOMmzhpNBmZwQwwPkou
- p/pU5MxnZlapeKcJlXCzy7Ow+Nr51hfatMVk1pbIzpLAWu2z4W+VaOPp/Ftdo59soZiABkYGcDq
- G7hkGQbwyiRDFC3hSXzfC0QnLsM6s3BBgl24hNXx9yZjPysEj2i6wgY8izpbJGFisq0OKv84bxd
- 9d8p8E48JJF1Zt/30xYmCzf6xExqu45oiBWeet+vTVECKKPCg/eogeWV2zQaWpF50pu+DVJE7LV
- gUVHI8ivg+ROc0Qf2Xu5eBt1BqCzZbVV5pPviyok=
-X-Proofpoint-ORIG-GUID: BbsLrJtVV-hGGe0XVAbRRV2d4WkRCAWX
+ a=x4eqshVgHu-cdnggieHk:22 a=yPCof4ZbAAAA:8 a=hrsLsOafKCSbcmJkmpsA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDA4MSBTYWx0ZWRfX6Ua2ds3IVs6r
+ GZYuJ+Hf5UdTIhf5rhO4dCjU7+YS91xCrGZYiuTVTdETZoZwkMNmvb+P+kde4vQKZhcau1Cl6Mq
+ +0DTn6y0S2WrYd13nChkpV2JinZHeQC3E5HJuGUHT941AC0h0ewrqvp0oFXGI2nJ7yrexIJVQ+w
+ pS9NJyNVMXE96/9wYQJMCbuS81rItBd9vFwj6/SqzANQkUSPqR8fdYXwvuYij1aPexp2FdCi1cv
+ aR2GM6W/hng1RZLHgFosuCYReoSsbgpAy5Q1xmezvxn/urPQzdE6CU749XiwANesJ4hjBkPI0Dy
+ 0iTkL43zQbR33HC5oy6t5XbLj/+nzo+4IWUaGzN2sAPLcv5iZAbWnuMj22x0A71DWEjr5iU6MMo
+ GnMMVqwP5XDqcSStl6p+sul1AxsTfNU75IK022BSFwVGI/QqZ6XgGP/dyoafdK8DMl33sNWuMZY
+ XJv0KyO63fhjVFjB7wQ==
+X-Proofpoint-GUID: 57I6IiXNfMvD60XlgQ_PqftijMm_OM_1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
@@ -118,10 +118,10 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[gmail.com,oracle.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:tzimmermann@suse.de,m:Frank.Li@nxp.com,m:alok.a.tiwarilinux@gmail.com,m:alok.a.tiwari@oracle.com,m:alokatiwarilinux@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[alok.a.tiwari@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jacek.lawrynowicz@linux.intel.com,m:andersson@kernel.org,m:quic_pkanojiy@quicinc.com,m:ogabbay@kernel.org,m:jeff.hugo@oss.qualcomm.com,m:carl.vanderlip@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:alok.a.tiwarilinux@gmail.com,m:alok.a.tiwari@oracle.com,m:alokatiwarilinux@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[oracle.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -133,37 +133,36 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oracle.com:mid,oracle.com:dkim,oracle.com:email];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 2164C1CEF06
+X-Rspamd-Queue-Id: AD1991CEF3A
 X-Rspamd-Action: no action
 
-devm_drm_dev_alloc() returns an ERR_PTR() on failure. Use PTR_ERR() rather
-than always returning -ENOMEM so the probe path propagates the real error
-code such as -ENOMEM, -EINVAL, and -ENODEV.
+sahara_hello() handles SAHARA_HELLO_CMD and validates fields from
+context->rx->hello. When building the HELLO_RESP, copy the mode from the
+received HELLO request (rx->hello.mode) rather than rx->hello_resp.mode.
 
-Fixes: 5a5e9c0228e6 ("accel: Add Arm Ethos-U NPU driver")
+Fixes: 76b801aa2198 ("accel/qaic: Add Sahara implementation for firmware loading")
 Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
 ---
- drivers/accel/ethosu/ethosu_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/accel/qaic/sahara.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/ethosu/ethosu_drv.c b/drivers/accel/ethosu/ethosu_drv.c
-index 9992193d7338..196871ec2a06 100644
---- a/drivers/accel/ethosu/ethosu_drv.c
-+++ b/drivers/accel/ethosu/ethosu_drv.c
-@@ -337,7 +337,8 @@ static int ethosu_probe(struct platform_device *pdev)
- 	ethosudev = devm_drm_dev_alloc(&pdev->dev, &ethosu_drm_driver,
- 				       struct ethosu_device, base);
- 	if (IS_ERR(ethosudev))
--		return -ENOMEM;
-+		return PTR_ERR(ethosudev);
-+
- 	platform_set_drvdata(pdev, ethosudev);
+diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
+index fd3c3b2d1fd3..99bf832e2825 100644
+--- a/drivers/accel/qaic/sahara.c
++++ b/drivers/accel/qaic/sahara.c
+@@ -325,7 +325,7 @@ static void sahara_hello(struct sahara_context *context)
+ 	context->tx[0]->hello_resp.version = cpu_to_le32(SAHARA_VERSION);
+ 	context->tx[0]->hello_resp.version_compat = cpu_to_le32(SAHARA_VERSION);
+ 	context->tx[0]->hello_resp.status = cpu_to_le32(SAHARA_SUCCESS);
+-	context->tx[0]->hello_resp.mode = context->rx->hello_resp.mode;
++	context->tx[0]->hello_resp.mode = context->rx->hello.mode;
  
- 	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
+ 	ret = mhi_queue_buf(context->mhi_dev, DMA_TO_DEVICE, context->tx[0],
+ 			    SAHARA_HELLO_LENGTH, MHI_EOT);
 -- 
 2.50.1
 
