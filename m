@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oClyD4KWo2l7HQUAu9opvQ
+	id 0inrE6OWo2neHgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:29:38 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:30:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DBA1CAC94
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81C11CAD2E
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CF610E30D;
-	Sun,  1 Mar 2026 01:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFFE310E30E;
+	Sun,  1 Mar 2026 01:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hApJrmHa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DjYFQDZ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E63210E30A;
- Sun,  1 Mar 2026 01:29:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC0EA10E30C;
+ Sun,  1 Mar 2026 01:30:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0745A4199C;
- Sun,  1 Mar 2026 01:29:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5446CC19421;
- Sun,  1 Mar 2026 01:29:34 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CE3D04091C;
+ Sun,  1 Mar 2026 01:30:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD31C19421;
+ Sun,  1 Mar 2026 01:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328574;
- bh=u4czxrtZgCB48G981RTqgVFuCUPkaBSXsTWdc63DVY4=;
+ s=k20201202; t=1772328607;
+ bh=jtPjgZotmkGjkEoVrFy4o7JD5HiRCQMyZAzh2CSCv5A=;
  h=From:To:Cc:Subject:Date:From;
- b=hApJrmHafg/SRyWTKiKVh4ZGWQd8sdQSlidOqK+2BW07SOD8xds3EdC2l2m0zHf8n
- wnshGIYhZQnqoVOt6SRWJtmfJYjg7lBNirHo6BNI2cv7ZNz4KXm6+uLeBx87O0Tu6U
- 38b7Fh1B1ofogUDeLM6Q54ry1qBOIEPRwgbTRJGLn/Nl4wsq6cmWuY6GcI0xkHplBR
- ZyaHW0Lhd6jMZYDGxeD3z+j9a1Xbjusk4ZKcMU/ISthfB8wx5f5QolO3i5cC1OxV5U
- sgIRXgihEArtAB8KbwVKbA2S3POnJale/DBNNZ9vCsbXV7+EwTWmUdnydSW6ReQAfP
- ezUX4ljanPBdg==
+ b=DjYFQDZ8oeVJ8ffM8riltlLa5dgib0Zo/+aLlA3YzOsW0oFriiLrwXIrwB+vtuKvv
+ TlPogMURh3xUP+yYkaLagoU/iqhdUrYGReDpWpxDNdarYoontSDsfE7Bs8uL4dNjY5
+ poB48xq5n3IF+h+L6cDKyjleC5E+w0dESRg11nuD+Vs/6kH0d2Y8VN+BbD08RmBxJW
+ 0vwm8x5ATi4JtnEYccu4YygttwqEnxrjhwUYOKiy1TlVCBF6nvT5gHqjeHyPKmRpYZ
+ urltV36X8fsI4mIZrLG7/5D8+x6rL5FYYcIN1rccAi1rehcpzxbqKfk89mqxKlfkQv
+ d0dv9/0fOJTvg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	alexander.deucher@amd.com
-Cc: Mario Kleiner <mario.kleiner.de@gmail.com>, amd-gfx@lists.freedesktop.org,
+	ville.syrjala@linux.intel.com
+Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amdgpu: keep vga memory on MacBooks with
- switchable graphics" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:29:32 -0500
-Message-ID: <20260301012933.1687345-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/i915/psr: Reject async flips when selective fetch
+ is enabled" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:30:05 -0500
+Message-ID: <20260301013005.1688048-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,38 +66,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 10DBA1CAC94
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,intel.com:email]
+X-Rspamd-Queue-Id: B81C11CAD2E
 X-Rspamd-Action: no action
 
-The patch below does not apply to the 6.12-stable tree.
+The patch below does not apply to the 6.6-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
@@ -105,49 +104,73 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 096bb75e13cc508d3915b7604e356bcb12b17766 Mon Sep 17 00:00:00 2001
-From: Alex Deucher <alexander.deucher@amd.com>
-Date: Mon, 16 Feb 2026 10:02:32 -0500
-Subject: [PATCH] drm/amdgpu: keep vga memory on MacBooks with switchable
- graphics
+From a5f0cc8e0cd4007370af6985cb152001310cf20c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Date: Wed, 5 Nov 2025 19:10:15 +0200
+Subject: [PATCH] drm/i915/psr: Reject async flips when selective fetch is
+ enabled
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Intel MacBookPros with switchable graphics, when the iGPU
-is enabled, the address of VRAM gets put at 0 in the dGPU's
-virtual address space.  This is non-standard and seems to cause
-issues with the cursor if it ends up at 0.  We have the framework
-to reserve memory at 0 in the address space, so enable it here if
-the vram start address is 0.
+The selective fetch code doesn't handle asycn flips correctly.
+There is a nonsense check for async flips in
+intel_psr2_sel_fetch_config_valid() but that only gets called
+for modesets/fastsets and thus does nothing for async flips.
 
-Reviewed-and-tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4302
+Currently intel_async_flip_check_hw() is very unhappy as the
+selective fetch code pulls in planes that are not even async
+flips capable.
+
+Reject async flips when selective fetch is enabled, until
+someone fixes this properly (ie. disable selective fetch while
+async flips are being issued).
+
 Cc: stable@vger.kernel.org
-Cc: Mario Kleiner <mario.kleiner.de@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patch.msgid.link/20251105171015.22234-1-ville.syrjala@linux.intel.com
+Reviewed-by: Jouni Högander <jouni.hogander@intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 8 ++++++++
+ drivers/gpu/drm/i915/display/intel_psr.c     | 6 ------
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-index d35d9719d5668..6a6b334428f6d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-@@ -1068,6 +1068,16 @@ void amdgpu_gmc_get_vbios_allocations(struct amdgpu_device *adev)
- 	case CHIP_RENOIR:
- 		adev->mman.keep_stolen_vga_memory = true;
- 		break;
-+	case CHIP_POLARIS10:
-+	case CHIP_POLARIS11:
-+	case CHIP_POLARIS12:
-+		/* MacBookPros with switchable graphics put VRAM at 0 when
-+		 * the iGPU is enabled which results in cursor issues if
-+		 * the cursor ends up at 0.  Reserve vram at 0 in that case.
-+		 */
-+		if (adev->gmc.vram_start == 0)
-+			adev->mman.keep_stolen_vga_memory = true;
-+		break;
- 	default:
- 		adev->mman.keep_stolen_vga_memory = false;
- 		break;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 6c8a7f63111ec..7aff2785521b7 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -6002,6 +6002,14 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
+ 		return -EINVAL;
+ 	}
+ 
++	/* FIXME: selective fetch should be disabled for async flips */
++	if (new_crtc_state->enable_psr2_sel_fetch) {
++		drm_dbg_kms(display->drm,
++			    "[CRTC:%d:%s] async flip disallowed with PSR2 selective fetch\n",
++			    crtc->base.base.id, crtc->base.name);
++		return -EINVAL;
++	}
++
+ 	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
+ 					     new_plane_state, i) {
+ 		if (plane->pipe != crtc->pipe)
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index 00ac652809cca..08bca45739749 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -1301,12 +1301,6 @@ static bool intel_psr2_sel_fetch_config_valid(struct intel_dp *intel_dp,
+ 		return false;
+ 	}
+ 
+-	if (crtc_state->uapi.async_flip) {
+-		drm_dbg_kms(display->drm,
+-			    "PSR2 sel fetch not enabled, async flip enabled\n");
+-		return false;
+-	}
+-
+ 	return crtc_state->enable_psr2_sel_fetch = true;
+ }
+ 
 -- 
 2.51.0
 
