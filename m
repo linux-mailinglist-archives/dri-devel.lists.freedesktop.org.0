@@ -2,101 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id vy7gJPrAo2neLgUAu9opvQ
+	id ASwUOI3Eo2kdMQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 05:30:50 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 05:46:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCB81CE836
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 05:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60C81CE86A
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 05:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0F510E0B1;
-	Sun,  1 Mar 2026 04:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E894310E0F6;
+	Sun,  1 Mar 2026 04:46:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LJLU2K0E";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lechnology.com header.i=@lechnology.com header.b="xmGyNqrj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E7510E0B1
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 04:30:45 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 46e09a7af769-7d4c1d2123dso4169461a34.2
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Feb 2026 20:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772339444; x=1772944244;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sQFxGVZmWaMHo9qlrrNZNN2FVcLqgzxrf70qWHbleFg=;
- b=LJLU2K0EeUwpWrSYTH3n5hrj/znkf14GaYV/hj8OQCHBdZMvmt34WW7IipJSqv40jf
- vKz3HXnfGBbWuyzEzFoHKUsYLJRhgtI1qybVAVtEZvGyMRCd5kNUTzMfodqje2/ODBMS
- X6/JwETm4gP8q5nNMiR0JmPv7iPqqKfUunYBwVTIgEz1VZOLE9OPGz4G9UV2EJG5fJgB
- XOiZeqEodKAoV5kqbyiDsvAhgJqdZzTPYy0c+7QoZBDEQQXVp/+b16Yqywn8SMqpkWtl
- TFunBVCLKmMtWdEbYfooIk0GbMZkTr4SuB+9PR7z3lTbsA3YgvdfRQqN9UMlsNNOMCkH
- TvJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772339444; x=1772944244;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sQFxGVZmWaMHo9qlrrNZNN2FVcLqgzxrf70qWHbleFg=;
- b=Ph0aeQ9GKZcHvgLwkL1/OddP6emu/AF81s62G0+ukz0NKsPILnlGareADHXCBtz3hy
- /ZJzHwADx8pxzMBUMU2+ToflS5yguiTwpTF8VbkDj7rE4S/GnRnSWWSA306cHjS7Pay8
- v0LKdXRtYaoeXo6crmPglnJkigMoZEjbqTmNrhbcTZh6QqNgC27aKahGhHkr6hVhD10w
- U7NoAzH07reVBcGtXufA1ZEm4bqRQWKPT3sDqqQ84Kj+fnCw7EN2+K9e/9zyWWyoCtt5
- 2JBicXlbrcoXRBKVkVRqj9fQjwOukw/Abxnn2gYeo8sEAwku0Y0cVVUctOA6X20+4HSR
- aYZg==
-X-Gm-Message-State: AOJu0YwCpVeI6YST3APLDRm6qWNjZYS7COVBGiYDjovCM7kC14CuOhal
- /ZYgW3nlrIm6pPJHqONm4uQHOcAQqcM6i8b/lyQ+rh3pcNlsI3PLKcC0DM/GmOO3VzU=
-X-Gm-Gg: ATEYQzzFga1eMJucNUWed0zkkoAYePV7XkG6mbghJmEMLcoNAIHunvAYltE737tk2qT
- 2Jnultce8ZKr0PowCnmhOwwfMYYNaT7eUeqb6XuPX+EjOFeCavI6GPnky1qYOJgPs7zqzddgQG4
- Qyqen5HIiP7GcCG+mP9X019c/ylBqoGBEfJbmkmBDbuwaUqYYhSNCgn5YE93k1srC7di1S66Azs
- NBGhC5Y9pReeoevHJ1s0+GzZcjea9/KVxbvIdV3m+dG4tR1A/H3EPKiJYXtkZy9U5YhXWQzfC5t
- 36E2BbglHBKk+Mx9rigCNy8Tqxvqg94i9QquqiVQYBfGEiwcRTbK6znKbEeGaWUBl+YZ7ijZANo
- 1s1S+RnQVedSH7KdmD9AHXJ3BYCUQuQHYJ4nISf1V3eioyemKJcgXG1NL2xoyBUxT4FrIV4TXqz
- 79g7FxYGbm9CTedCC3e28ialPkt1j/
-X-Received: by 2002:a05:6870:b022:b0:409:40bb:6b75 with SMTP id
- 586e51a60fabf-41626d6a0f0mr5262208fac.4.1772339443803; 
- Sat, 28 Feb 2026 20:30:43 -0800 (PST)
-Received: from [127.0.1.1] ([2600:8803:e7e4:500:8b9c:d657:204d:5a5f])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-4160cf9b240sm8691324fac.8.2026.02.28.20.30.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Feb 2026 20:30:42 -0800 (PST)
-From: David Lechner <dlechner@baylibre.com>
-Date: Sat, 28 Feb 2026 22:30:30 -0600
-Subject: [PATCH] drm/sitronix/st7586: fix bad pixel data due to byte swap
+Received: from galaxy.gendns.com (galaxy.gendns.com [66.235.175.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B4C10E0F6
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 04:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+EPLyS20hh3AI+6kAGwMnElHW3LSAFGFZ3NGKpIHe7s=; b=xmGyNqrjW1rklovUPxMpPWWDP1
+ ++OinCbbEwX8JyjIdGn/ERRY+3928Bf7ttOAeaPezvA762NC5UD1kU8ykflBnFdkmeCFOrRBSUWox
+ Y1v+BsVu4/Em4gAsa75kapU3cNXXr+qm5DKgZzEnmmUq5L/jdPIfo+cIZD3+WauR9FCSEnqWlnsud
+ FvXFBMjp4uCHBDb1sHzX4m8R6DP/XHgD4ixnZeWaEuamXUmbRrKcQ0ItuNbTjeCM7F4ZQ5GeythEd
+ pODxr8VeJ6DpoIGj53dzjttT1jEKjMY8uGiH9eNMKRdw1cZ9O8vREbEId5XLiyfVTC3OpaofghWC7
+ hT2ZmcPA==;
+Received: from ip98-183-112-25.ok.ok.cox.net ([98.183.112.25]:58224
+ helo=[192.168.1.142])
+ by galaxy.gendns.com with essmtpa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+ (Exim 4.99.1) (envelope-from <david@lechnology.com>)
+ id 1vwYgo-0000000Ai6m-00u3; Sat, 28 Feb 2026 23:45:57 -0500
+Message-ID: <d3eec0ed-d88f-489e-8e12-843098856e1f@lechnology.com>
+Date: Sat, 28 Feb 2026 22:45:56 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260228-drm-mipi-dbi-fix-st7586-byte-swap-v1-1-e78f6c24cd28@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NzQqDMBAGX0X23A+2EW3wVUoPmmzaPaghK/1Bf
- HdDjwPDzE4mRcVoaHYq8lbTdalwvTQUXuPyFGisTI5dz855xDJj1qyIkyLpF7bdOt9j+m0C+4w
- ZiSO3oUueOVDt5CLV+z/uj+M4AVKtzG1zAAAA
-X-Change-ID: 20260228-drm-mipi-dbi-fix-st7586-byte-swap-f0d03c5f800c
-To: David Lechner <david@lechnology.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2151; i=dlechner@baylibre.com; 
- h=from:subject:message-id;
- bh=168Vbra7DayOovNDOmdxdPeHFzYPFepW7t9oT9+Tlyk=; 
- b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBpo8DoLCMP+QuNycAxAYQKo6oRR6R77oo3Rf3Ga
- QSVEDP3nWCJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCaaPA6AAKCRDCzCAB/wGP
- wBN/B/98DGdrBhwC+QmpKsBqYgt/LNqH685vMOsQz3A58BKyu+SO/TFvMctBHp+ytM/d5RoajvY
- QZqzhwbWf+UaQTcVxtZob4IOdGroboqPMB2vB01r/ZIz132qXB64gTrbUKzkOQiL1dBOoxAxqb9
- K71MD4BcSiEfL8uZseTRf7dOhiShG400AUEoGxfOJ8j2EaYryeH6UvAzQdqdSnHyQtG/engqbrx
- wgtckl3ijlbjU88A3mzTWNXLwYCvTI4NZIP2RISQ2TPbuSFlPRY1NJzcRPKMKxmmsiy6HtTcVTf
- ZC3sjoYTUD0tHWHApwxuGa4AgiShErSm35sGDce2oto1TJjR
-X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
- fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/16] drm/st7586: Use regular atomic helpers; drop
+ simple-display helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
+ architanant5@gmail.com, wens@kernel.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20260224153656.261351-1-tzimmermann@suse.de>
+ <20260224153656.261351-12-tzimmermann@suse.de>
+Content-Language: en-US
+From: David Lechner <david@lechnology.com>
+Autocrypt: addr=david@lechnology.com; keydata=
+ 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
+In-Reply-To: <20260224153656.261351-12-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - galaxy.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: galaxy.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: galaxy.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,99 +126,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+X-Spamd-Result: default: False [1.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[lechnology.com:s=default];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[lechnology.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,tronnes.org];
-	FORGED_SENDER(0.00)[dlechner@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DMARC_NA(0.00)[lechnology.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:javierm@redhat.com,m:lanzano.alex@gmail.com,m:kamlesh.gurudasani@gmail.com,m:architanant5@gmail.com,m:wens@kernel.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:lanzanoalex@gmail.com,m:kamleshgurudasani@gmail.com,s:lists@lfdr.de];
+	HAS_X_AS(0.00)[davidmain@lechnology.com];
+	HAS_X_GMSV(0.00)[davidmain+lechnology.com/only user confirmed/virtual account not confirmed];
+	FORGED_SENDER(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:david@lechnology.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:noralf@tronnes.org,m:lumag@kernel.org,m:linux-kernel@vger.kernel.org,m:dlechner@baylibre.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[suse.de,redhat.com,gmail.com,kernel.org,linux.intel.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dlechner@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
+	FROM_HAS_DN(0.00)[];
+	HAS_X_SOURCE(0.00)[];
+	NEURAL_HAM(-0.00)[-0.951];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[david@lechnology.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: BBCB81CE836
+	DKIM_TRACE(0.00)[lechnology.com:-];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_X_ANTIABUSE(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lechnology.com:mid,lechnology.com:email,suse.de:email]
+X-Rspamd-Queue-Id: D60C81CE86A
 X-Rspamd-Action: no action
 
-Correctly set dbi->write_memory_bpw for the ST7586 driver. This driver
-is for a monochrome display that has an unusual data format, so the
-default value set in mipi_dbi_spi_init() is not correct simply because
-this controller is non-standard.
+On 2/24/26 9:24 AM, Thomas Zimmermann wrote:
+> Replace simple-display helpers with regular atomic helpers. Store the
+> pipeline elements in struct st7586_device and initialize them as part
+> of probing the device. Use mipi-dbi's existing helpers and initializer
+> macros where possible.
+> 
+> Effectively open-codes the modesetting code in the initializer helpers
+> of mipi-dbi and simple-display. St7586 requires custom helpers for
+> various pipeline elements, and non-freeing cleanup of the pipeline.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Previously, we were using dbi->swap_bytes to make the same sort of
-workaround, but it was removed in the same commit that added
-dbi->write_memory_bpw, so we need to use the latter now to have the
-correct behavior.
+This results in a couple of unused variable warnings, but otherwise seems
+to still work.
 
-This fixes every 3 columns of pixels being swapped on the display. There
-are 3 pixels per byte, so the byte swap caused this effect.
+Tested-by: David Lechner <david@lechnology.com>
 
-Fixes: df3fb27a74a4 ("drm/mipi-dbi: Make bits per word configurable for pixel transfers")
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
- drivers/gpu/drm/sitronix/st7586.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/sitronix/st7586.c b/drivers/gpu/drm/sitronix/st7586.c
-index b57ebf37a664..16b6b4e368af 100644
---- a/drivers/gpu/drm/sitronix/st7586.c
-+++ b/drivers/gpu/drm/sitronix/st7586.c
-@@ -347,6 +347,12 @@ static int st7586_probe(struct spi_device *spi)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Override value set by mipi_dbi_spi_init(). This driver is a bit
-+	 * non-standard, so best to set it explicitly here.
-+	 */
-+	dbi->write_memory_bpw = 8;
-+
- 	/* Cannot read from this controller via SPI */
- 	dbi->read_commands = NULL;
- 
-@@ -356,15 +362,6 @@ static int st7586_probe(struct spi_device *spi)
- 	if (ret)
- 		return ret;
- 
--	/*
--	 * we are using 8-bit data, so we are not actually swapping anything,
--	 * but setting mipi->swap_bytes makes mipi_dbi_typec3_command() do the
--	 * right thing and not use 16-bit transfers (which results in swapped
--	 * bytes on little-endian systems and causes out of order data to be
--	 * sent to the display).
--	 */
--	dbi->swap_bytes = true;
--
- 	drm_mode_config_reset(drm);
- 
- 	ret = drm_dev_register(drm, 0);
-
----
-base-commit: 3fa5e5702a82d259897bd7e209469bc06368bf31
-change-id: 20260228-drm-mipi-dbi-fix-st7586-byte-swap-f0d03c5f800c
-
-Best regards,
--- 
-David Lechner <dlechner@baylibre.com>
+/home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c: In function ‘st7586_pipe_enable’:
+/home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c:180:25: warning: unused variable ‘rect’ [-Wunused-variable]
+  180 |         struct drm_rect rect = {
+      |                         ^~~~
+/home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c:177:40: warning: unused variable ‘shadow_plane_state’ [-Wunused-variable]
+  177 |         struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+      |                                        ^~~~~~~~~~~~~~~~~~
 
