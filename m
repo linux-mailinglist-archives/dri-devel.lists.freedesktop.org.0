@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oNEsFsSao2kwIAUAu9opvQ
+	id qHMBKcWao2l4IAUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:48 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E551CBC35
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4279A1CBC3E
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0249410E380;
-	Sun,  1 Mar 2026 01:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840B210E381;
+	Sun,  1 Mar 2026 01:47:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="siFzWCZy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pnMGn8eT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7B3710E380
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:47:44 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78E7210E381
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:47:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 54AB460145;
- Sun,  1 Mar 2026 01:47:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F70C19421;
- Sun,  1 Mar 2026 01:47:43 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 614A54195D;
+ Sun,  1 Mar 2026 01:47:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB3DAC19425;
+ Sun,  1 Mar 2026 01:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772329664;
- bh=BmHILf84EJxe3dgHVSJZQPz/Ihpk/bUIcJq42uG3fS8=;
+ s=k20201202; t=1772329666;
+ bh=gu8+Qxm8tb3qoxOf8pBUFsp5jI64pyZL1MssQ1dG6SM=;
  h=From:To:Cc:Subject:Date:From;
- b=siFzWCZyl36CT+mt25kyhE5bNvQElaZH/NBZZApgBNFe3qoU2flInK0YtQAZn2LSr
- rnDx9Me2kG1ARA/YK3k1sXnAZfnm9uDUIYiHKyFVRjgF09B7tLcjPu50HlDv/GaB/P
- XUNziZljNJaMfnX3McrnZICNIwyvcwpOUzhlpflTeIR3NWp5nHEZS59Lf2JiJggQTY
- QkH5tz9r4tOYkLpx0j3Q7oD501YgIpU0Tr4Ds437IjzKhNxW+gshotx9jlJVwnkrap
- tolwfQ6ilFTr6Os26G0XkR73t5SURPDRXRHNupGnjPJ7Nfs9RHVKibHosHdxGFsPch
- neECmjchQDc7A==
+ b=pnMGn8eTGuZ+wmln+kDnlf4cZ/EkWxg7XrGRY8fsvWqE3bLs8S9O9vQgDZXVkRGO3
+ dzVNeQGaQFtlEMzIJ7J7dIPJ1/4QJi1EplUGQgEtkXEtGL8Unb35QEbVItlfSUnriB
+ +2RU+jzOgsEaXdusBa0y54Dj0iRM7xP8lRFbFI29yyYEKJL/YFarrPT3tdpONOT7Bv
+ tMvFPXrfGh7M+oAGa+Xjy0wBtuU+XdIjpD4ktptDs/F84a74WI2SKdDjHMVmXx6KlE
+ YhbMC+lufRzdxX0ACs1BU30a0rVK84Xo/YaDMmkY5jj0fz2Ik1yHf4eUScKVP4wuxB
+ 5L7TNvEP2q2pA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	rene@exactco.de
-Cc: stable@kernel.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbdev: ffb: fix corrupted video output on Sun FFB1"
+	a.vatoropin@crpt.ru
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "fbcon: check return value of con2fb_acquire_newinfo()"
  failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:47:41 -0500
-Message-ID: <20260301014742.1711654-1-sashal@kernel.org>
+Date: Sat, 28 Feb 2026 20:47:44 -0500
+Message-ID: <20260301014744.1711703-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,39 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:rene@exactco.de,m:stable@kernel.org,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:a.vatoropin@crpt.ru,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmx.de,vger.kernel.org,lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,chaos.social:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,exactco.de:email,instagram.com:url,1e:email]
-X-Rspamd-Queue-Id: C3E551CBC35
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,crpt.ru:email,linuxtesting.org:url]
+X-Rspamd-Queue-Id: 4279A1CBC3E
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.1-stable tree.
@@ -110,73 +110,41 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From b28da0d092461ac239ff034a8ac3129320177ba3 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ren=C3=A9=20Rebe?= <rene@exactco.de>
-Date: Thu, 5 Feb 2026 16:49:58 +0100
-Subject: [PATCH] fbdev: ffb: fix corrupted video output on Sun FFB1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From 011a0502801c8536f64141a2b61362c14f456544 Mon Sep 17 00:00:00 2001
+From: Andrey Vatoropin <a.vatoropin@crpt.ru>
+Date: Wed, 17 Dec 2025 09:11:05 +0000
+Subject: [PATCH] fbcon: check return value of con2fb_acquire_newinfo()
 
-Fix Sun FFB1 corrupted video out ([1] and [2]) by disabling overlay and
-initializing window mode to a known state. The issue never appeared on
-my FFB2+/vertical nor Elite3D/M6. It could also depend on the PROM
-version.
+If fbcon_open() fails when called from con2fb_acquire_newinfo() then
+info->fbcon_par pointer remains NULL which is later dereferenced.
 
-/SUNW,ffb@1e,0: FFB at 000001fc00000000, type 11, DAC pnum[236c] rev[10] manuf_rev[4]
-X (II) /dev/fb0: Detected FFB1, Z-buffer, Single-buffered.
-X (II) /dev/fb0: BT9068 (PAC1) ramdac detected (with normal cursor control)
-X (II) /dev/fb0: Detected Creator/Creator3D
+Add check for return value of the function con2fb_acquire_newinfo() to
+avoid it.
 
-[1] https://www.instagram.com/p/DUTcSmSjSem/
-[2] https://chaos.social/@ReneRebe/116023241660154102
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Signed-off-by: René Rebe <rene@exactco.de>
-Cc: stable@kernel.org
+Fixes: d1baa4ffa677 ("fbcon: set_con2fb_map fixes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrey Vatoropin <a.vatoropin@crpt.ru>
 Signed-off-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/ffb.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbcon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/ffb.c b/drivers/video/fbdev/ffb.c
-index 34b6abff9493e..da531b4cb4513 100644
---- a/drivers/video/fbdev/ffb.c
-+++ b/drivers/video/fbdev/ffb.c
-@@ -335,6 +335,9 @@ struct ffb_dac {
- };
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 34ea14412ace1..36e380797a9e4 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -1068,7 +1068,8 @@ static void fbcon_init(struct vc_data *vc, bool init)
+ 		return;
  
- #define FFB_DAC_UCTRL		0x1001 /* User Control */
-+#define FFB_DAC_UCTRL_OVENAB	0x00000008 /* Overlay Enable */
-+#define FFB_DAC_UCTRL_WMODE	0x00000030 /* Window Mode */
-+#define FFB_DAC_UCTRL_WM_COMB	0x00000000 /* Window Mode = Combined */
- #define FFB_DAC_UCTRL_MANREV	0x00000f00 /* 4-bit Manufacturing Revision */
- #define FFB_DAC_UCTRL_MANREV_SHIFT 8
- #define FFB_DAC_TGEN		0x6000 /* Timing Generator */
-@@ -425,7 +428,7 @@ static void ffb_switch_from_graph(struct ffb_par *par)
- {
- 	struct ffb_fbc __iomem *fbc = par->fbc;
- 	struct ffb_dac __iomem *dac = par->dac;
--	unsigned long flags;
-+	unsigned long flags, uctrl;
+ 	if (!info->fbcon_par)
+-		con2fb_acquire_newinfo(vc, info, vc->vc_num);
++		if (con2fb_acquire_newinfo(vc, info, vc->vc_num))
++			return;
  
- 	spin_lock_irqsave(&par->lock, flags);
- 	FFBWait(par);
-@@ -450,6 +453,15 @@ static void ffb_switch_from_graph(struct ffb_par *par)
- 		upa_writel((FFB_DAC_CUR_CTRL_P0 |
- 			    FFB_DAC_CUR_CTRL_P1), &dac->value2);
- 
-+	/* Disable overlay and window modes. */
-+	upa_writel(FFB_DAC_UCTRL, &dac->type);
-+	uctrl = upa_readl(&dac->value);
-+	uctrl &= ~FFB_DAC_UCTRL_WMODE;
-+	uctrl |= FFB_DAC_UCTRL_WM_COMB;
-+	uctrl &= ~FFB_DAC_UCTRL_OVENAB;
-+	upa_writel(FFB_DAC_UCTRL, &dac->type);
-+	upa_writel(uctrl, &dac->value);
-+
- 	spin_unlock_irqrestore(&par->lock, flags);
- }
- 
+ 	/* If we are not the first console on this
+ 	   fb, copy the font from that console */
 -- 
 2.51.0
 
