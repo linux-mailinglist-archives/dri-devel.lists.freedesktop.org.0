@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sN9zOMeao2l4IAUAu9opvQ
+	id oHBcKcyao2l4IAUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:51 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56C81CBC4D
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791F11CBC63
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0957810E382;
-	Sun,  1 Mar 2026 01:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C46F710E383;
+	Sun,  1 Mar 2026 01:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ofn1veZ4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z/babn51";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF03310E382
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:47:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9195F10E384
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:47:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B82BC44450;
- Sun,  1 Mar 2026 01:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08436C19421;
- Sun,  1 Mar 2026 01:47:47 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 78D4F4082E;
+ Sun,  1 Mar 2026 01:47:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE1EFC19421;
+ Sun,  1 Mar 2026 01:47:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772329668;
- bh=HuTMJOqkUBOoADNGhYDPWB1z63YlljsSpPnCYdRr7DI=;
+ s=k20201202; t=1772329673;
+ bh=M7AjvNGQ6ivPiRbc206heB/jGonoRNCbN3E/EnL2zjM=;
  h=From:To:Cc:Subject:Date:From;
- b=ofn1veZ4olGyHIVwO++TU1k5WbJR71SLFLgIH8eZ7CfVIsmN8bYoVphh8iD/SOzLB
- VXNpRVmJhf571hnU+zwPTe/5Abn9vuzTa1KZ6Slh2WLKzQYUI1FRwgZFhVVVkSVDnD
- PaxAAE3tTvmq8KgXYUuAIKcBw8RbGD9iigobUEfpDXMLHqpp9nHgEei85QtXtoW99f
- rvLGWfUA/3AiwbvLl6f2pPR3iKGvyBz5jha+EaMbq9lU7mmfGDXrGnHozlEZRayYVl
- 2OvKUek65Flh1W6Z6Fxq2wULwrokfpB0vDCSdwWky2IRt7SuyTV+796SXjBt1X00ug
- PZDmFLVdDPASg==
+ b=Z/babn51pwctts/dQwb1PAK2xWkNgMYhuCVIIRfJgFA3k68Xkf5QZSmad/y2cVMOt
+ X/kr3c3T/0oPdxemzobB+MvHgb8PuIATOdjkqU5aTve7KLraIoZ8ksyHkgsbXGmPQk
+ S+486F3Snzb/oFw9TkP1otOJrwm1aRIqadoxHxCOugO5PHp1NXJpKk2tW1op/sJpll
+ WnCTr8jM5gQK5lfIjk+U4qsCGsUZJCwrOlKl1jn+xj4YNNnfKPzqCzOLOesXkS+Xd5
+ PTK+649d+L6xF3shBUwYMboJpCU5AUSMvj7FjpJgXtJyXDh2JJ5CfZ1ZttunyVl2Wl
+ zyqsQVhPaXdMQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	tzimmermann@suse.de
-Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbcon: Remove struct fbcon_display.inverse" failed to
- apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:47:46 -0500
-Message-ID: <20260301014746.1711753-1-sashal@kernel.org>
+	fourier.thomas@gmail.com
+Cc: Helge Deller <deller@gmx.de>, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "fbdev: vt8500lcdfb: fix missing dma_free_coherent()"
+ failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:47:51 -0500
+Message-ID: <20260301014751.1711844-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -64,40 +64,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:tzimmermann@suse.de,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:fourier.thomas@gmail.com,m:deller@gmx.de,m:linux-arm-kernel@lists.infradead.org,m:linux-fbdev@vger.kernel.org,m:fourierthomas@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmx.de,lists.infradead.org,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,gmx.de:email]
-X-Rspamd-Queue-Id: B56C81CBC4D
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email]
+X-Rspamd-Queue-Id: 791F11CBC63
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.1-stable tree.
@@ -110,32 +112,45 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 30baedeeeab524172abc0b58cb101e8df86b5be8 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 9 Feb 2026 17:15:43 +0100
-Subject: [PATCH] fbcon: Remove struct fbcon_display.inverse
+From 88b3b9924337336a31cefbe99a22ed09401be74a Mon Sep 17 00:00:00 2001
+From: Thomas Fourier <fourier.thomas@gmail.com>
+Date: Mon, 12 Jan 2026 15:00:27 +0100
+Subject: [PATCH] fbdev: vt8500lcdfb: fix missing dma_free_coherent()
 
-The field inverse in struct fbcon_display is unused. Remove it.
+fbi->fb.screen_buffer is allocated with dma_alloc_coherent() but is not
+freed if the error path is reached.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: <stable@vger.kernel.org> # v6.0+
+Fixes: e7b995371fe1 ("video: vt8500: Add devicetree support for vt8500-fb and wm8505-fb")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/core/fbcon.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/vt8500lcdfb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index 1cd10a7faab0f..fca14e9b729b9 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -30,7 +30,6 @@ struct fbcon_display {
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
-     u_short scrollmode;             /* Scroll Method, use fb_scrollmode() */
- #endif
--    u_short inverse;                /* != 0 text black on white as default */
-     short yscroll;                  /* Hardware scrolling */
-     int vrows;                      /* number of virtual rows */
-     int cursor_shape;
+diff --git a/drivers/video/fbdev/vt8500lcdfb.c b/drivers/video/fbdev/vt8500lcdfb.c
+index b08a6fdc53fd2..85c7a99a7d648 100644
+--- a/drivers/video/fbdev/vt8500lcdfb.c
++++ b/drivers/video/fbdev/vt8500lcdfb.c
+@@ -369,7 +369,7 @@ static int vt8500lcd_probe(struct platform_device *pdev)
+ 	if (fbi->palette_cpu == NULL) {
+ 		dev_err(&pdev->dev, "Failed to allocate palette buffer\n");
+ 		ret = -ENOMEM;
+-		goto failed_free_io;
++		goto failed_free_mem_virt;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -432,6 +432,9 @@ static int vt8500lcd_probe(struct platform_device *pdev)
+ failed_free_palette:
+ 	dma_free_coherent(&pdev->dev, fbi->palette_size,
+ 			  fbi->palette_cpu, fbi->palette_phys);
++failed_free_mem_virt:
++	dma_free_coherent(&pdev->dev, fbi->fb.fix.smem_len,
++			  fbi->fb.screen_buffer, fbi->fb.fix.smem_start);
+ failed_free_io:
+ 	iounmap(fbi->regbase);
+ failed_free_res:
 -- 
 2.51.0
 
