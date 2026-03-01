@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLguKgOfo2lzIgUAu9opvQ
+	id SDFpE4eso2myJgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:55 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 04:03:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4513B1CCF1C
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 03:05:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A1C1CE28D
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 04:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856D110E3BC;
-	Sun,  1 Mar 2026 02:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E08110E0A9;
+	Sun,  1 Mar 2026 03:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TYkY3Pld";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="EVspzjq7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC1810E3CB;
- Sun,  1 Mar 2026 02:05:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8C1F46057A;
- Sun,  1 Mar 2026 02:05:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F1FC19424;
- Sun,  1 Mar 2026 02:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772330751;
- bh=LhC31J63weafSEWLHMSLjjU5mUsBX48F+x+PvRoXwYQ=;
- h=From:To:Cc:Subject:Date:From;
- b=TYkY3PldH9YMIUsQV20ItCvVBZiFTiQRMbOoSbhTbp/ZQdQH0IZ6fynce9PP1kXpF
- L9ve048IJ6WWGJXdNgXewMir2ts+sfSRQntycB86mVjniShD7tVaTFt31fCqu/YRpM
- Q0XHwwah8YeBcB2LKYZdURLYTcJUSr+WHLZdD9chb07NI8+MzGMzN/03mxfhrYa/tT
- opJqD47rkvvRu/O1MwxQLYpOslL/JEBitxOnQGKiB6aFti5lO9msQqILxVyFlQGcAs
- xek9v0qO33ANgXR8Ig9jIIXj7YA/2e2X81X6Sx22uDNsQgP2n9/6OTkiDzIa43/hbG
- YYoBDQFq/WPVA==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org,
-	alexander.deucher@amd.com
-Cc: Mario Kleiner <mario.kleiner.de@gmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/amdgpu: keep vga memory on MacBooks with
- switchable graphics" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:05:49 -0500
-Message-ID: <20260301020549.1734666-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE56810E0A9;
+ Sun,  1 Mar 2026 03:03:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=O8AQRwkuen2J2VbPw4OAhdRbe8PeJJKYGBh2E6Vfdaw=; b=EVspzjq79oLNNa56WDjYtDF+JC
+ Bx3WkOv204TCjyORd7t9CZ1ARwuH/0CbDO4cvHqrgZgLUguInBGr3Tvcqhg1wwGyeNCOYoy2j+anu
+ sfLXNl2LfXr2/mfPKfQMxNdpKw+c6bRKcBm3jadrxHdRZWtkwrfQ11/L3THgbCeQPsGD2pvPZWEgJ
+ Kz/m8G0g58CTreOxRBLno5q8+U9p5R3WjMxNkHAMstRpQWzkZ+V5hfmF/PakQUlYA8oLfZ4++Bpn7
+ 0a4ycPB2091dyXEsAtPSeDPUOU0ejKVVEaQE9qm0h496EmzyfMtnVbrbI6aa73zfYYs2dTtrZHnBX
+ 3GxXwK0w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vwX5M-0000000AmD7-3feh; Sun, 01 Mar 2026 03:03:12 +0000
+Message-ID: <2512c6a2-df8d-41d8-8d94-4c004cc60f86@infradead.org>
+Date: Sat, 28 Feb 2026 19:03:11 -0800
 MIME-Version: 1.0
-X-Patchwork-Hint: ignore
-X-stable: review
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] gpu: nova-core: add initial driver stub
+To: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch,
+ corbet@lwn.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+ pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com,
+ bskeggs@nvidia.com, acurrid@nvidia.com
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
+References: <20250306222336.23482-1-dakr@kernel.org>
+ <20250306222336.23482-5-dakr@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250306222336.23482-5-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,93 +73,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
+X-Spamd-Result: default: False [1.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,ffwll.ch,lwn.net,linux.intel.com,suse.de,redhat.com,nvidia.com];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[infradead.org:-];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.993];
+	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,proton.me,google.com,umich.edu,linuxfoundation.org,linux.dev,lists.freedesktop.org,vger.kernel.org,nvidia.com];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 4513B1CCF1C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,patchwork.freedesktop.org:url,gitlab.freedesktop.org:url,lists.freedesktop.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 25A1C1CE28D
 X-Rspamd-Action: no action
 
-The patch below does not apply to the 5.10-stable tree.
-If someone wants it applied there, or to any other stable or longterm
-tree, then please email the backport, including the original git commit
-id to <stable@vger.kernel.org>.
+Hi,
+Sorry for the delay. I just noticed this.
 
-Thanks,
-Sasha
+On 3/6/25 2:23 PM, Danilo Krummrich wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ca11a553d412..ede8abee210a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7450,6 +7450,16 @@ T:	git https://gitlab.freedesktop.org/drm/nouveau.git
+>  F:	drivers/gpu/drm/nouveau/
+>  F:	include/uapi/drm/nouveau_drm.h
+>  
+> +CORE DRIVER FOR NVIDIA GPUS [RUST]
+> +M:	Danilo Krummrich <dakr@kernel.org>
+> +L:	nouveau@lists.freedesktop.org
+> +S:	Supported
+> +Q:	https://patchwork.freedesktop.org/project/nouveau/
+> +B:	https://gitlab.freedesktop.org/drm/nova/-/issues
+> +C:	irc://irc.oftc.net/nouveau
+> +T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
+> +F:	drivers/gpu/nova-core/
 
------------------- original commit in Linus's tree ------------------
+This is merged as commit 54e6baf123fd.
 
-From 096bb75e13cc508d3915b7604e356bcb12b17766 Mon Sep 17 00:00:00 2001
-From: Alex Deucher <alexander.deucher@amd.com>
-Date: Mon, 16 Feb 2026 10:02:32 -0500
-Subject: [PATCH] drm/amdgpu: keep vga memory on MacBooks with switchable
- graphics
+Entries in the MAINTAINERS file are meant to be kept in alphabetical order.
+"CORE DRIVER" is mislocated. Please correct it.
 
-On Intel MacBookPros with switchable graphics, when the iGPU
-is enabled, the address of VRAM gets put at 0 in the dGPU's
-virtual address space.  This is non-standard and seems to cause
-issues with the cursor if it ends up at 0.  We have the framework
-to reserve memory at 0 in the address space, so enable it here if
-the vram start address is 0.
+thanks.
 
-Reviewed-and-tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4302
-Cc: stable@vger.kernel.org
-Cc: Mario Kleiner <mario.kleiner.de@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-index d35d9719d5668..6a6b334428f6d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-@@ -1068,6 +1068,16 @@ void amdgpu_gmc_get_vbios_allocations(struct amdgpu_device *adev)
- 	case CHIP_RENOIR:
- 		adev->mman.keep_stolen_vga_memory = true;
- 		break;
-+	case CHIP_POLARIS10:
-+	case CHIP_POLARIS11:
-+	case CHIP_POLARIS12:
-+		/* MacBookPros with switchable graphics put VRAM at 0 when
-+		 * the iGPU is enabled which results in cursor issues if
-+		 * the cursor ends up at 0.  Reserve vram at 0 in that case.
-+		 */
-+		if (adev->gmc.vram_start == 0)
-+			adev->mman.keep_stolen_vga_memory = true;
-+		break;
- 	default:
- 		adev->mman.keep_stolen_vga_memory = false;
- 		break;
 -- 
-2.51.0
-
-
-
+~Randy
 
