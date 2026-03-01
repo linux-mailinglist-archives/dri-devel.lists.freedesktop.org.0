@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gPsBBfOUo2l7HQUAu9opvQ
+	id gHm8IfaUo2n3HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:59 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:23:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654081CA57B
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF97F1CA59D
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9756610E2ED;
-	Sun,  1 Mar 2026 01:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A09410E2EE;
+	Sun,  1 Mar 2026 01:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fdXQsWN8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XYNEqeiE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2582C10E2ED
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:22:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815DA10E2EE
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:22:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9934B600B0;
- Sun,  1 Mar 2026 01:22:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD4F2C19421;
- Sun,  1 Mar 2026 01:22:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id F3E9360126;
+ Sun,  1 Mar 2026 01:22:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CC20C19421;
+ Sun,  1 Mar 2026 01:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328175;
- bh=w6M4AzFziMqscW0jmKdidVYtI2GLL5Gui6Vf8tBkPY4=;
+ s=k20201202; t=1772328177;
+ bh=CD22GsfcD8LTC/ZqADJ6I6CL4lJ5jv2EThLz1A8XVO8=;
  h=From:To:Cc:Subject:Date:From;
- b=fdXQsWN8kmVuI6IQvJv/EnCei0c9w96+je5nFAj2CYfmbE3VzeneJ0t7sDda1k8Uz
- qUBP+trUCIdep72Zo4GupQecjKmOWUOYjOjBUjrTkmcL+vd0qboG1qCW4t3KuhCmvG
- NC3pDafPTPu5kjF7bEfIlvG0+utd32wSyQDvnylV/1fX0ow9voRZC1iVmpF/2farvj
- 7ZkMIZkGIRrmVh8q6kalu5w6VEA8DX1cPD77nvwiwmkC6v1p4DrsIpgxx3u3NemW9m
- ULMraz8u8Q/dqeGStEVCJIRHPR0HjvIl1bKSGboIbdjePceeWzVn81fPUPYkBmNN+A
- rttNElJuK0FLA==
+ b=XYNEqeiE5QaEJrxH8psddDAI1+OhQVaYx0rPuNRU5F7ZXsmNJaNTzAsuFa66VsHPx
+ lCpXOv6D3v1k36pgPOhWbx1+NZmq9F60JNuvGvR4hY32YYStVUPDa2z88fJhilLaxL
+ HtF+aZqYvb4PkVKS51tSP5QspGFJPpXJIp0utbJwyqQzbos+FAUzclXjXkDD69nyKx
+ XXM8tox2eOYmSp5Cl2BJXIE+GWs/x9ajMVFLkCxNIdElJi6KQDDp4JTPyy9yfLh5x6
+ fMzunvdPzMCq6yhWo0XZFYr6q1WXZvzFrwH7O+h6I1l2VLnkTm2O0fAK5966pCLgty
+ IVxrPtP9jLYCQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	luca.ceresoli@bootlin.com
-Cc: Maxime Ripard <mripard@kernel.org>,
-	dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm: of: drm_of_panel_bridge_remove(): fix device_node
- leak" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:22:53 -0500
-Message-ID: <20260301012253.1679471-1-sashal@kernel.org>
+	sanjay.kumar.yadav@intel.com
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
+Subject: FAILED: Patch "drm/buddy: Prevent BUG_ON by validating rounded
+ allocation" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:22:55 -0500
+Message-ID: <20260301012255.1679520-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,39 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:mripard@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:sanjay.kumar.yadav@intel.com,m:christian.koenig@amd.com,m:Arunpravin.PaneerSelvam@amd.com,m:matthew.auld@intel.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url]
-X-Rspamd-Queue-Id: 654081CA57B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gitlab.freedesktop.org:url,intel.com:email,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: DF97F1CA59D
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -109,44 +110,74 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From a4b4385d0523e39a7c058cb5a6c8269e513126ca Mon Sep 17 00:00:00 2001
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 9 Jan 2026 08:31:32 +0100
-Subject: [PATCH] drm: of: drm_of_panel_bridge_remove(): fix device_node leak
+From 5488a29596cdba93a60a79398dc9b69d5bdadf92 Mon Sep 17 00:00:00 2001
+From: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
+Date: Thu, 8 Jan 2026 17:02:29 +0530
+Subject: [PATCH] drm/buddy: Prevent BUG_ON by validating rounded allocation
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-drm_of_panel_bridge_remove() uses of_graph_get_remote_node() to get a
-device_node but does not put the node reference.
+When DRM_BUDDY_CONTIGUOUS_ALLOCATION is set, the requested size is
+rounded up to the next power-of-two via roundup_pow_of_two().
+Similarly, for non-contiguous allocations with large min_block_size,
+the size is aligned up via round_up(). Both operations can produce a
+rounded size that exceeds mm->size, which later triggers
+BUG_ON(order > mm->max_order).
 
-Fixes: c70087e8f16f ("drm/drm_of: add drm_of_panel_bridge_remove function")
-Cc: stable@vger.kernel.org # v4.15
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patch.msgid.link/20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-1-8bad3ef90b9f@bootlin.com
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Example scenarios:
+- 9G CONTIGUOUS allocation on 10G VRAM memory:
+  roundup_pow_of_two(9G) = 16G > 10G
+- 9G allocation with 8G min_block_size on 10G VRAM memory:
+  round_up(9G, 8G) = 16G > 10G
+
+Fix this by checking the rounded size against mm->size. For
+non-contiguous or range allocations where size > mm->size is invalid,
+return -EINVAL immediately. For contiguous allocations without range
+restrictions, allow the request to fall through to the existing
+__alloc_contig_try_harder() fallback.
+
+This ensures invalid user input returns an error or uses the fallback
+path instead of hitting BUG_ON.
+
+v2: (Matt A)
+- Add Fixes, Cc stable, and Closes tags for context
+
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/6712
+Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
+Cc: <stable@vger.kernel.org> # v6.7+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Link: https://patch.msgid.link/20260108113227.2101872-5-sanjay.kumar.yadav@intel.com
 ---
- include/drm/drm_of.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_buddy.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-index 7f0256dae3f13..f3e55ea2174c0 100644
---- a/include/drm/drm_of.h
-+++ b/include/drm/drm_of.h
-@@ -5,6 +5,7 @@
- #include <linux/err.h>
- #include <linux/of_graph.h>
- #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
-+#include <linux/of.h>
- #include <drm/drm_bridge.h>
- #endif
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 8308116058cc1..fd34d3755f7c5 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -1156,6 +1156,15 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 	order = fls(pages) - 1;
+ 	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
  
-@@ -173,6 +174,8 @@ static inline int drm_of_panel_bridge_remove(const struct device_node *np,
- 	bridge = of_drm_find_bridge(remote);
- 	drm_panel_bridge_remove(bridge);
- 
-+	of_node_put(remote);
++	if (order > mm->max_order || size > mm->size) {
++		if ((flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) &&
++		    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
++			return __alloc_contig_try_harder(mm, original_size,
++							 original_min_size, blocks);
 +
- 	return 0;
- #else
- 	return -EINVAL;
++		return -EINVAL;
++	}
++
+ 	do {
+ 		order = min(order, (unsigned int)fls(pages) - 1);
+ 		BUG_ON(order > mm->max_order);
 -- 
 2.51.0
 
