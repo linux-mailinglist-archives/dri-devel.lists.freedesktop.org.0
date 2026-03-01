@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mIwUK1qWo2l7HQUAu9opvQ
+	id oClyD4KWo2l7HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:58 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:29:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6732E1CAC1F
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DBA1CAC94
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:29:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA4810E30B;
-	Sun,  1 Mar 2026 01:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60CF610E30D;
+	Sun,  1 Mar 2026 01:29:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fe1k2blc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hApJrmHa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9526610E30A
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:28:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E63210E30A;
+ Sun,  1 Mar 2026 01:29:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7DF6541743;
- Sun,  1 Mar 2026 01:28:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C96B1C19421;
- Sun,  1 Mar 2026 01:28:54 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0745A4199C;
+ Sun,  1 Mar 2026 01:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5446CC19421;
+ Sun,  1 Mar 2026 01:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328535;
- bh=0MKzHUz8phvLjDlqAvfjEz7XB2syf8ArvnBxtAnqS7c=;
+ s=k20201202; t=1772328574;
+ bh=u4czxrtZgCB48G981RTqgVFuCUPkaBSXsTWdc63DVY4=;
  h=From:To:Cc:Subject:Date:From;
- b=fe1k2blcXgXKrLsSlwuzhmAxyxr5O/JaUTl1nwb0N4aUY/nGyEyESqnlIq396hDV+
- 7Em+jcJM4kpSjgvRmPo/LXXy1+OMhx4Nx5PC2XQobdsFoImFoBgn3XEdRYxrtPJWdJ
- 0rZEsED9WDyOrwq4cJ8SUE5XKVMmXgUw+vbvgosrTCFRx/ZLwA0+Z0RxR5CpT958y7
- zhBQIJlz8LRkPGPBj1WAF7oipYOJ3kmYTb6dYJ3rb8aFUOd1pG3dqCZUkwI/WHgQAJ
- ggd5oRx0fRR6x50We53r8iTzw4ThFslrx2BRVSx12IEuyvDIsJnDEO18sd9QikNYAL
- Vb39zPsYIpTtA==
+ b=hApJrmHafg/SRyWTKiKVh4ZGWQd8sdQSlidOqK+2BW07SOD8xds3EdC2l2m0zHf8n
+ wnshGIYhZQnqoVOt6SRWJtmfJYjg7lBNirHo6BNI2cv7ZNz4KXm6+uLeBx87O0Tu6U
+ 38b7Fh1B1ofogUDeLM6Q54ry1qBOIEPRwgbTRJGLn/Nl4wsq6cmWuY6GcI0xkHplBR
+ ZyaHW0Lhd6jMZYDGxeD3z+j9a1Xbjusk4ZKcMU/ISthfB8wx5f5QolO3i5cC1OxV5U
+ sgIRXgihEArtAB8KbwVKbA2S3POnJale/DBNNZ9vCsbXV7+EwTWmUdnydSW6ReQAfP
+ ezUX4ljanPBdg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	geoffreyhe2@gmail.com
-Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+	alexander.deucher@amd.com
+Cc: Mario Kleiner <mario.kleiner.de@gmail.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "fbdev: of: display_timing: fix refcount leak in
- of_get_display_timings()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:28:53 -0500
-Message-ID: <20260301012853.1686707-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/amdgpu: keep vga memory on MacBooks with
+ switchable graphics" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:29:32 -0500
+Message-ID: <20260301012933.1687345-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -64,41 +64,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:geoffreyhe2@gmail.com,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org];
+	RCPT_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[dri-devel];
 	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmx.de,vger.kernel.org,lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6732E1CAC1F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 10DBA1CAC94
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -111,50 +105,49 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From eacf9840ae1285a1ef47eb0ce16d786e542bd4d7 Mon Sep 17 00:00:00 2001
-From: Weigang He <geoffreyhe2@gmail.com>
-Date: Fri, 16 Jan 2026 09:57:51 +0000
-Subject: [PATCH] fbdev: of: display_timing: fix refcount leak in
- of_get_display_timings()
+From 096bb75e13cc508d3915b7604e356bcb12b17766 Mon Sep 17 00:00:00 2001
+From: Alex Deucher <alexander.deucher@amd.com>
+Date: Mon, 16 Feb 2026 10:02:32 -0500
+Subject: [PATCH] drm/amdgpu: keep vga memory on MacBooks with switchable
+ graphics
 
-of_parse_phandle() returns a device_node with refcount incremented,
-which is stored in 'entry' and then copied to 'native_mode'. When the
-error paths at lines 184 or 192 jump to 'entryfail', native_mode's
-refcount is not decremented, causing a refcount leak.
+On Intel MacBookPros with switchable graphics, when the iGPU
+is enabled, the address of VRAM gets put at 0 in the dGPU's
+virtual address space.  This is non-standard and seems to cause
+issues with the cursor if it ends up at 0.  We have the framework
+to reserve memory at 0 in the address space, so enable it here if
+the vram start address is 0.
 
-Fix this by changing the goto target from 'entryfail' to 'timingfail',
-which properly calls of_node_put(native_mode) before cleanup.
-
-Fixes: cc3f414cf2e4 ("video: add of helper for display timings/videomode")
+Reviewed-and-tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4302
 Cc: stable@vger.kernel.org
-Signed-off-by: Weigang He <geoffreyhe2@gmail.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Cc: Mario Kleiner <mario.kleiner.de@gmail.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/video/of_display_timing.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_display_timing.c
-index bebd371c6b93e..1940c9505dd3b 100644
---- a/drivers/video/of_display_timing.c
-+++ b/drivers/video/of_display_timing.c
-@@ -181,7 +181,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
- 	if (disp->num_timings == 0) {
- 		/* should never happen, as entry was already found above */
- 		pr_err("%pOF: no timings specified\n", np);
--		goto entryfail;
-+		goto timingfail;
- 	}
- 
- 	disp->timings = kcalloc(disp->num_timings,
-@@ -189,7 +189,7 @@ struct display_timings *of_get_display_timings(const struct device_node *np)
- 				GFP_KERNEL);
- 	if (!disp->timings) {
- 		pr_err("%pOF: could not allocate timings array\n", np);
--		goto entryfail;
-+		goto timingfail;
- 	}
- 
- 	disp->num_timings = 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+index d35d9719d5668..6a6b334428f6d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+@@ -1068,6 +1068,16 @@ void amdgpu_gmc_get_vbios_allocations(struct amdgpu_device *adev)
+ 	case CHIP_RENOIR:
+ 		adev->mman.keep_stolen_vga_memory = true;
+ 		break;
++	case CHIP_POLARIS10:
++	case CHIP_POLARIS11:
++	case CHIP_POLARIS12:
++		/* MacBookPros with switchable graphics put VRAM at 0 when
++		 * the iGPU is enabled which results in cursor issues if
++		 * the cursor ends up at 0.  Reserve vram at 0 in that case.
++		 */
++		if (adev->gmc.vram_start == 0)
++			adev->mman.keep_stolen_vga_memory = true;
++		break;
+ 	default:
+ 		adev->mman.keep_stolen_vga_memory = false;
+ 		break;
 -- 
 2.51.0
 
