@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHm8IfaUo2n3HQUAu9opvQ
+	id GFzKL2aVo2l7HQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:23:02 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:24:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF97F1CA59D
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263771CA787
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:24:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A09410E2EE;
-	Sun,  1 Mar 2026 01:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAB9410E2F0;
+	Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XYNEqeiE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VRg7eBkw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 815DA10E2EE
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:22:58 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C17D10E2F0
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F3E9360126;
- Sun,  1 Mar 2026 01:22:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CC20C19421;
- Sun,  1 Mar 2026 01:22:56 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 356AF4395E;
+ Sun,  1 Mar 2026 01:24:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DAB0C19421;
+ Sun,  1 Mar 2026 01:24:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772328177;
- bh=CD22GsfcD8LTC/ZqADJ6I6CL4lJ5jv2EThLz1A8XVO8=;
+ s=k20201202; t=1772328291;
+ bh=rtX7DyN3bJ2S8o3NgMrm5A8EMI5UyE/WOHCeZzeZPec=;
  h=From:To:Cc:Subject:Date:From;
- b=XYNEqeiE5QaEJrxH8psddDAI1+OhQVaYx0rPuNRU5F7ZXsmNJaNTzAsuFa66VsHPx
- lCpXOv6D3v1k36pgPOhWbx1+NZmq9F60JNuvGvR4hY32YYStVUPDa2z88fJhilLaxL
- HtF+aZqYvb4PkVKS51tSP5QspGFJPpXJIp0utbJwyqQzbos+FAUzclXjXkDD69nyKx
- XXM8tox2eOYmSp5Cl2BJXIE+GWs/x9ajMVFLkCxNIdElJi6KQDDp4JTPyy9yfLh5x6
- fMzunvdPzMCq6yhWo0XZFYr6q1WXZvzFrwH7O+h6I1l2VLnkTm2O0fAK5966pCLgty
- IVxrPtP9jLYCQ==
+ b=VRg7eBkw3nVv074WKiIvepaHpwYkpBF1NDb+d6dE1BrRnlVaQE+T2sS7TwovfiURr
+ hqJ8eogqGMUZuwLsHOBYyxREOyNXezWBqwEfUVQ279D4TeaiZsUXarUE/+1Oa6qJu4
+ WQIfVTFxuMBwPpkcPxNLwZQ30zqfC5kumct9vjriDqJYOdnBQvPtxkIPfCGAHeD6fp
+ 2g0D3+ya9T95bHp/ZxOLF0hW6uHPsRCdQddL6nLH34r1ho08erziM4pVlZy1VBCi7l
+ Aa600Vs6Jo4BFdY2Qud4FkoBoTa9kX+a7a8Hm0IwfGFvZqVE+hRlCzUWACqCXWKr7Q
+ r70/Oz5TKEMtA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	sanjay.kumar.yadav@intel.com
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/buddy: Prevent BUG_ON by validating rounded
- allocation" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:22:55 -0500
-Message-ID: <20260301012255.1679520-1-sashal@kernel.org>
+	aha310510@gmail.com
+Cc: Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: FAILED: Patch "drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
+ vidi_connection_ioctl()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:24:48 -0500
+Message-ID: <20260301012449.1681760-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,38 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:sanjay.kumar.yadav@intel.com,m:christian.koenig@amd.com,m:Arunpravin.PaneerSelvam@amd.com,m:matthew.auld@intel.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:aha310510@gmail.com,m:inki.dae@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gitlab.freedesktop.org:url,intel.com:email,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DF97F1CA59D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 263771CA787
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -110,74 +110,96 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 5488a29596cdba93a60a79398dc9b69d5bdadf92 Mon Sep 17 00:00:00 2001
-From: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
-Date: Thu, 8 Jan 2026 17:02:29 +0530
-Subject: [PATCH] drm/buddy: Prevent BUG_ON by validating rounded allocation
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From d3968a0d85b211e197f2f4f06268a7031079e0d0 Mon Sep 17 00:00:00 2001
+From: Jeongjun Park <aha310510@gmail.com>
+Date: Mon, 19 Jan 2026 17:25:51 +0900
+Subject: [PATCH] drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
+ vidi_connection_ioctl()
 
-When DRM_BUDDY_CONTIGUOUS_ALLOCATION is set, the requested size is
-rounded up to the next power-of-two via roundup_pow_of_two().
-Similarly, for non-contiguous allocations with large min_block_size,
-the size is aligned up via round_up(). Both operations can produce a
-rounded size that exceeds mm->size, which later triggers
-BUG_ON(order > mm->max_order).
+vidi_connection_ioctl() retrieves the driver_data from drm_dev->dev to
+obtain a struct vidi_context pointer. However, drm_dev->dev is the
+exynos-drm master device, and the driver_data contained therein is not
+the vidi component device, but a completely different device.
 
-Example scenarios:
-- 9G CONTIGUOUS allocation on 10G VRAM memory:
-  roundup_pow_of_two(9G) = 16G > 10G
-- 9G allocation with 8G min_block_size on 10G VRAM memory:
-  round_up(9G, 8G) = 16G > 10G
+This can lead to various bugs, ranging from null pointer dereferences and
+garbage value accesses to, in unlucky cases, out-of-bounds errors,
+use-after-free errors, and more.
 
-Fix this by checking the rounded size against mm->size. For
-non-contiguous or range allocations where size > mm->size is invalid,
-return -EINVAL immediately. For contiguous allocations without range
-restrictions, allow the request to fall through to the existing
-__alloc_contig_try_harder() fallback.
+To resolve this issue, we need to store/delete the vidi device pointer in
+exynos_drm_private->vidi_dev during bind/unbind, and then read this
+exynos_drm_private->vidi_dev within ioctl() to obtain the correct
+struct vidi_context pointer.
 
-This ensures invalid user input returns an error or uses the fallback
-path instead of hitting BUG_ON.
-
-v2: (Matt A)
-- Add Fixes, Cc stable, and Closes tags for context
-
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/6712
-Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
-Cc: <stable@vger.kernel.org> # v6.7+
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Link: https://patch.msgid.link/20260108113227.2101872-5-sanjay.kumar.yadav@intel.com
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 ---
- drivers/gpu/drm/drm_buddy.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 14 +++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 8308116058cc1..fd34d3755f7c5 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -1156,6 +1156,15 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 	order = fls(pages) - 1;
- 	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+index 23646e55f142c..06c29ff2aac0e 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
+@@ -199,6 +199,7 @@ struct drm_exynos_file_private {
+ struct exynos_drm_private {
+ 	struct device *g2d_dev;
+ 	struct device *dma_dev;
++	struct device *vidi_dev;
+ 	void *mapping;
  
-+	if (order > mm->max_order || size > mm->size) {
-+		if ((flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) &&
-+		    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
-+			return __alloc_contig_try_harder(mm, original_size,
-+							 original_min_size, blocks);
+ 	/* for atomic commit */
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index 64c69dd2966ec..480c99a8f9f75 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -224,9 +224,14 @@ ATTRIBUTE_GROUPS(vidi);
+ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
+ 				struct drm_file *file_priv)
+ {
+-	struct vidi_context *ctx = dev_get_drvdata(drm_dev->dev);
++	struct exynos_drm_private *priv = drm_dev->dev_private;
++	struct device *dev = priv ? priv->vidi_dev : NULL;
++	struct vidi_context *ctx = dev ? dev_get_drvdata(dev) : NULL;
+ 	struct drm_exynos_vidi_connection *vidi = data;
+ 
++	if (!ctx)
++		return -ENODEV;
 +
-+		return -EINVAL;
-+	}
-+
- 	do {
- 		order = min(order, (unsigned int)fls(pages) - 1);
- 		BUG_ON(order > mm->max_order);
+ 	if (!vidi) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev,
+ 				  "user data for vidi is null.\n");
+@@ -372,6 +377,7 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct vidi_context *ctx = dev_get_drvdata(dev);
+ 	struct drm_device *drm_dev = data;
++	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 	struct drm_encoder *encoder = &ctx->encoder;
+ 	struct exynos_drm_plane *exynos_plane;
+ 	struct exynos_drm_plane_config plane_config = { 0 };
+@@ -379,6 +385,8 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ 	int ret;
+ 
+ 	ctx->drm_dev = drm_dev;
++	if (priv)
++		priv->vidi_dev = dev;
+ 
+ 	plane_config.pixel_formats = formats;
+ 	plane_config.num_pixel_formats = ARRAY_SIZE(formats);
+@@ -424,8 +432,12 @@ static int vidi_bind(struct device *dev, struct device *master, void *data)
+ static void vidi_unbind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct vidi_context *ctx = dev_get_drvdata(dev);
++	struct drm_device *drm_dev = data;
++	struct exynos_drm_private *priv = drm_dev->dev_private;
+ 
+ 	timer_delete_sync(&ctx->timer);
++	if (priv)
++		priv->vidi_dev = NULL;
+ }
+ 
+ static const struct component_ops vidi_component_ops = {
 -- 
 2.51.0
 
