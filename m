@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SPJYDe+ao2kwIAUAu9opvQ
+	id 4CvkI2ibo2kwIAUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:48:31 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:50:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11021CBD2F
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0A71CBF4B
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:50:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A14310E389;
-	Sun,  1 Mar 2026 01:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC5910E384;
+	Sun,  1 Mar 2026 01:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hYIzFfgL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bKJlo4oV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9967A10E389
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:48:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125E410E384
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:50:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 81BBF432D0;
- Sun,  1 Mar 2026 01:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31C4C19421;
- Sun,  1 Mar 2026 01:48:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4E1626013F;
+ Sun,  1 Mar 2026 01:50:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7033BC19424;
+ Sun,  1 Mar 2026 01:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772329707;
- bh=saogXpU7tj3LcXLj/K0WlLH7eYSXNHx3KEPyEex1TVc=;
+ s=k20201202; t=1772329828;
+ bh=xCxtQLLA1mPUfuA9Mc5ftSzTutGWtQJ8H5SnlE4p7hg=;
  h=From:To:Cc:Subject:Date:From;
- b=hYIzFfgLBnmyzDQGlGXLHZMC3H0v2kyVGYXkZNdPRXfgvnSF/JCE523NKiDAItr5j
- z707mRiGcGhCkrH75PiobIp7Ees4KRZQkQp5TCnqgp3avomD3f5WWElnIbLftHXI9T
- TgOGbLZndYHorzBSKuwFd+GaHQel3Gw91xYPyC6aDyd8+2TGVX57O+6xJCNuoU1qGt
- Ct2ZoA1ZUEvzAYwTvitqCyaBRHV9MsAIxLQnNFSK4fPaodV0oSnX0yqHc7KEGKPevc
- 8heiNWLe0J5+CIXebrTKLuxMB/y9o+fBEUMwrEoyA78+oo3fCn/kCcRU8b9TvJ+7m9
- 1JOwYrIS0D0CA==
+ b=bKJlo4oVo440uar+AteKqw5aSwxCs9mjYmE6zbYJqxtSHoIOC/sqWqM7GQOmSj3RX
+ lmbUKuU4db5ONhQZV49xB/ehsbU72W3KYhI4DVqa9qYtokduV93FTcXeSW1fpD4Rbe
+ jtq6FIPFNM3voMxVriIjQfzLOGNR7IeV4Qaa1m73SF5g31u14DzB0qkL/PrzW5CAIE
+ YuEmaldCmtvTKmQS0W/4KoenXbGgu7O3u5BCWgRnhNhO13CUyU1II/0uy4vfebraL3
+ 8sQQNrfgA5nkEC105VM/ezrb/pLyErZOZwE/Vw/qQLp9V+aN36J9qm9bHkTcfNWbGW
+ 1dgb00cOKBZmA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	olvaffe@gmail.com
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
- dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/panthor: fix for dma-fence safe access rules"
- failed to apply to 5.15-stable tree
-Date: Sat, 28 Feb 2026 20:48:25 -0500
-Message-ID: <20260301014825.1712609-1-sashal@kernel.org>
+	johan@kernel.org
+Cc: Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: FAILED: Patch "drm/tegra: dsi: fix device leak on probe" failed to
+ apply to 5.15-stable tree
+Date: Sat, 28 Feb 2026 20:50:25 -0500
+Message-ID: <20260301015026.1716438-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -69,36 +68,35 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:johan@kernel.org,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:olvaffe@gmail.com,m:boris.brezillon@collabora.com,m:liviu.dudau@arm.com,m:steven.price@arm.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,arm.com:email,msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E11021CBD2F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,nvidia.com:email]
+X-Rspamd-Queue-Id: 1E0A71CBF4B
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.15-stable tree.
@@ -111,49 +109,46 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From efe24898485c5c831e629d9c6fb9350c35cb576f Mon Sep 17 00:00:00 2001
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 4 Dec 2025 09:45:45 -0800
-Subject: [PATCH] drm/panthor: fix for dma-fence safe access rules
+From bfef062695570842cf96358f2f46f4c6642c6689 Mon Sep 17 00:00:00 2001
+From: Johan Hovold <johan@kernel.org>
+Date: Fri, 21 Nov 2025 17:42:01 +0100
+Subject: [PATCH] drm/tegra: dsi: fix device leak on probe
 
-Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
-the rules") details the dma-fence safe access rules. The most common
-culprit is that drm_sched_fence_get_timeline_name may race with
-group_free_queue.
+Make sure to drop the reference taken when looking up the companion
+(ganged) device and its driver data during probe().
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Cc: stable@vger.kernel.org # v6.17+
-Signed-off-by: Steven Price <steven.price@arm.com>
-Link: https://patch.msgid.link/20251204174545.399059-1-olvaffe@gmail.com
+Note that holding a reference to a device does not prevent its driver
+data from going away so there is no point in keeping the reference.
+
+Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
+Fixes: 221e3638feb8 ("drm/tegra: Fix reference leak in tegra_dsi_ganged_probe")
+Cc: stable@vger.kernel.org	# 3.19: 221e3638feb8
+Cc: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Link: https://patch.msgid.link/20251121164201.13188-1-johan@kernel.org
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/tegra/dsi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index a17b067a04392..0f83e778d89aa 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/rcupdate.h>
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 175f5f9937b01..8ee96b59fdbc8 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -1542,11 +1542,9 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
+ 			return -EPROBE_DEFER;
  
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
-@@ -943,6 +944,9 @@ static void group_release_work(struct work_struct *work)
- 						   release_work);
- 	u32 i;
+ 		dsi->slave = platform_get_drvdata(gangster);
+-
+-		if (!dsi->slave) {
+-			put_device(&gangster->dev);
++		put_device(&gangster->dev);
++		if (!dsi->slave)
+ 			return -EPROBE_DEFER;
+-		}
  
-+	/* dma-fences may still be accessing group->queues under rcu lock. */
-+	synchronize_rcu();
-+
- 	for (i = 0; i < group->queue_count; i++)
- 		group_free_queue(group, group->queues[i]);
- 
+ 		dsi->slave->master = dsi;
+ 	}
 -- 
 2.51.0
 
