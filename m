@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sNiFD7uTo2lpHQUAu9opvQ
+	id uGM2OsyTo2khHQUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:47 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:18:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F5C1CA170
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFD01CA1AD
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Mar 2026 02:18:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD56210E2E4;
-	Sun,  1 Mar 2026 01:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF1C610E2E3;
+	Sun,  1 Mar 2026 01:18:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h0Z2SKvh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JPOR7K5r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2AE10E2E3;
- Sun,  1 Mar 2026 01:17:44 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45CAF10E2E3
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Mar 2026 01:18:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E87604443C;
- Sun,  1 Mar 2026 01:17:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002C8C19424;
- Sun,  1 Mar 2026 01:17:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B993460008;
+ Sun,  1 Mar 2026 01:18:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F86C19421;
+ Sun,  1 Mar 2026 01:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772327863;
- bh=Gpp3g3wntO4Qc0y0xYsd/8EEdtn7INOVjn/nknEVZ/k=;
+ s=k20201202; t=1772327881;
+ bh=oX7yNXLTbGvb/uLyVqm7AKZQ66U23OfAjbAu/LYXgog=;
  h=From:To:Cc:Subject:Date:From;
- b=h0Z2SKvhaNxkRT9+hd1eb332niUyBcV4DXCK40ZEzP/dlldwW1yMcJjl1cHkOAqXc
- ftLNHgIXItjsV9KUuITFQApQarM3ri0G+Fn4Kl9999OtXpW5lyvloFKt8NhUwShn+r
- MdmOLw6/iPZNvkYFOxZi8FOr68zHEJrl+Ei4iOiqKjYTMvjrHFkCvtaDIyCsl6g3M+
- wZbUXRPHoBmpMZomA7IL8FZoeTXMYfFeQPclyAEMEC7SH0XlMRxDTvItywtfxxCLvV
- HNObVfEV08PsPy2azIwQZYCp4gzOGRw8AIgqR6L/Oti5dPlf0aENWv+T5cZFh8W2LG
- oE+N4huj9yFDg==
+ b=JPOR7K5rSRB4KX1UOKfu5o5njdXeiL8IrZXDRzZ7EIQBShZk7KIB7BzEJJXPROsrw
+ S+mrLewpyxD9WIrUezg8WoIYOa4nTaikGYDOPFKdXMfk/whtBB+Mwl3jjmSdX6Mf0P
+ UnjSik284g+23HavyqtOEB3TU4KXcK5s0rH3W0FkYvKYXvW0pDOa/yiiI4M+FKpiCz
+ ygJ1d/VWOzMtjASZYtH6DegUkw/LBr8+dmp1ZG9wIZpEf8lI1ycCfId4umOFcn+AuS
+ Tj/ShhnREMN9Xp+klvUqMyo+aq8c3veFdg8TXXD6VwMgcqyA6the4jpBLYiNMFo/WY
+ Fwhizh0rtiG+A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	imre.deak@intel.com
-Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	olvaffe@gmail.com
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
  dri-devel@lists.freedesktop.org
-Subject: FAILED: Patch "drm/i915/dp: Fix pipe BPP clamping due to HDR" failed
- to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:17:41 -0500
-Message-ID: <20260301011741.1671698-1-sashal@kernel.org>
+Subject: FAILED: Patch "drm/panthor: fix for dma-fence safe access rules"
+ failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:17:59 -0500
+Message-ID: <20260301011759.1672072-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
@@ -69,34 +67,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:olvaffe@gmail.com,m:boris.brezillon@collabora.com,m:liviu.dudau@arm.com,m:steven.price@arm.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,msgid.link:url]
-X-Rspamd-Queue-Id: A1F5C1CA170
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 8DFD01CA1AD
 X-Rspamd-Action: no action
 
-The patch below does not apply to the 6.18-stable tree.
+The patch below does not apply to the 6.12-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
@@ -106,101 +111,49 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From fe26ae6ac8b88fcdac5036b557c129a17fe520d2 Mon Sep 17 00:00:00 2001
-From: Imre Deak <imre.deak@intel.com>
-Date: Mon, 9 Feb 2026 15:38:16 +0200
-Subject: [PATCH] drm/i915/dp: Fix pipe BPP clamping due to HDR
+From efe24898485c5c831e629d9c6fb9350c35cb576f Mon Sep 17 00:00:00 2001
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 4 Dec 2025 09:45:45 -0800
+Subject: [PATCH] drm/panthor: fix for dma-fence safe access rules
 
-The pipe BPP value shouldn't be set outside of the source's / sink's
-valid pipe BPP range, ensure this when increasing the minimum pipe BPP
-value to 30 due to HDR.
+Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
+the rules") details the dma-fence safe access rules. The most common
+culprit is that drm_sched_fence_get_timeline_name may race with
+group_free_queue.
 
-While at it debug print if the HDR mode was requested for a connector by
-setting the corresponding HDR connector property. This indicates
-if the requested HDR mode could not be enabled, since the selected
-pipe BPP is below 30, due to a sink capability or link BW limit.
-
-v2:
-- Also handle the case where the sink could support the target 30 BPP
-  only in DSC mode due to a BW limit, but the sink doesn't support DSC
-  or 30 BPP as a DSC input BPP. (Chaitanya)
-- Debug print the connector's HDR mode in the link config dump, to
-  indicate if a BPP >= 30 required by HDR couldn't be reached. (Ankit)
-- Add Closes: trailer. (Ankit)
-- Don't print the 30 BPP-outside of valid BPP range debug message if
-  the min BPP is already > 30 (and so a target BPP >= 30 required
-  for HDR is ensured).
-
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7052
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15503
-Fixes: ba49a4643cf53 ("drm/i915/dp: Set min_bpp limit to 30 in HDR mode")
-Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Cc: <stable@vger.kernel.org> # v6.18+
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com> # v1
-Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Link: https://patch.msgid.link/20260209133817.395823-1-imre.deak@intel.com
-(cherry picked from commit 08b7ef16b6a03e8c966e286ee1ac608a6ffb3d4a)
-Signed-off-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Cc: stable@vger.kernel.org # v6.17+
+Signed-off-by: Steven Price <steven.price@arm.com>
+Link: https://patch.msgid.link/20251204174545.399059-1-olvaffe@gmail.com
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7e022c47e8ac2..e9f1ee1eafae7 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2665,6 +2665,7 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
- 			       bool dsc,
- 			       struct link_config_limits *limits)
- {
-+	struct intel_display *display = to_intel_display(intel_dp);
- 	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
- 	struct intel_connector *connector =
- 		to_intel_connector(conn_state->connector);
-@@ -2677,8 +2678,7 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
- 	limits->min_lane_count = intel_dp_min_lane_count(intel_dp);
- 	limits->max_lane_count = intel_dp_max_lane_count(intel_dp);
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index a17b067a04392..0f83e778d89aa 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -23,6 +23,7 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/rcupdate.h>
  
--	limits->pipe.min_bpp = intel_dp_in_hdr_mode(conn_state) ? 30 :
--				intel_dp_min_bpp(crtc_state->output_format);
-+	limits->pipe.min_bpp = intel_dp_min_bpp(crtc_state->output_format);
- 	if (is_mst) {
- 		/*
- 		 * FIXME: If all the streams can't fit into the link with their
-@@ -2694,6 +2694,19 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
- 							respect_downstream_limits);
- 	}
+ #include "panthor_devfreq.h"
+ #include "panthor_device.h"
+@@ -943,6 +944,9 @@ static void group_release_work(struct work_struct *work)
+ 						   release_work);
+ 	u32 i;
  
-+	if (!dsc && intel_dp_in_hdr_mode(conn_state)) {
-+		if (intel_dp_supports_dsc(intel_dp, connector, crtc_state) &&
-+		    limits->pipe.max_bpp >= 30)
-+			limits->pipe.min_bpp = max(limits->pipe.min_bpp, 30);
-+		else
-+			drm_dbg_kms(display->drm,
-+				    "[CONNECTOR:%d:%s] Can't force 30 bpp for HDR (pipe bpp: %d-%d DSC-support: %s)\n",
-+				    connector->base.base.id, connector->base.name,
-+				    limits->pipe.min_bpp, limits->pipe.max_bpp,
-+				    str_yes_no(intel_dp_supports_dsc(intel_dp, connector,
-+								     crtc_state)));
-+	}
++	/* dma-fences may still be accessing group->queues under rcu lock. */
++	synchronize_rcu();
 +
- 	if (dsc && !intel_dp_dsc_compute_pipe_bpp_limits(connector, limits))
- 		return false;
+ 	for (i = 0; i < group->queue_count; i++)
+ 		group_free_queue(group, group->queues[i]);
  
-@@ -2825,10 +2838,11 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 	}
- 
- 	drm_dbg_kms(display->drm,
--		    "DP lane count %d clock %d bpp input %d compressed " FXP_Q4_FMT " link rate required %d available %d\n",
-+		    "DP lane count %d clock %d bpp input %d compressed " FXP_Q4_FMT " HDR %s link rate required %d available %d\n",
- 		    pipe_config->lane_count, pipe_config->port_clock,
- 		    pipe_config->pipe_bpp,
- 		    FXP_Q4_ARGS(pipe_config->dsc.compressed_bpp_x16),
-+		    str_yes_no(intel_dp_in_hdr_mode(conn_state)),
- 		    intel_dp_config_required_rate(pipe_config),
- 		    intel_dp_max_link_data_rate(intel_dp,
- 						pipe_config->port_clock,
 -- 
 2.51.0
 
