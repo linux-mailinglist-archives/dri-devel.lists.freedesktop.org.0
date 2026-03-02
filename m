@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aI4uElmtpWmpDgAAu9opvQ
+	id wNB2OWqvpWleEQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:31:37 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:40:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9442F1DBE24
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2D71DC025
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4077A10E524;
-	Mon,  2 Mar 2026 15:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B3A10E17F;
+	Mon,  2 Mar 2026 15:40:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Pxe2V95B";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="IGpB7jLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8BE10E524
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:31:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772465474; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WR6scvr9p/S5ObbSRZawvUKaqAQWdOPo0sfAJB1I0pQ2eMCQQ6ybGsFTHeCQZw8ci8PeZ+lMjtauukuSamLzk/pXsGwwZcYLUzrV4hpD2rMf1MTn8lBft3PbINp5yD1t070mPuRKlW//sXJYg2XDSu6OAkWuU6SDHMVI+F+wfBI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772465474;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=QPQ7UF8YWdWeJxx5Wa+6PvK2WVcZGfs+L5dNcsKqJ4s=; 
- b=NVzz3+2t5esyrrCTuZKveU9/hXZ9+U2+4JNOB/vedtmd/Par1cYLLPdGH+z+xl0MxpYPhBi9oDGwLx31qgQ1NgJzHbzyx7tWvHSPHPeBQPR2/RSI18+MD+zzWtkl05QMNyaIj/XnlFuZfNX7ideFFwP/EYnIKmwYNxR2SOe/bug=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772465474; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=QPQ7UF8YWdWeJxx5Wa+6PvK2WVcZGfs+L5dNcsKqJ4s=;
- b=Pxe2V95BeHlqSpVCTrhebOQTra522Kvo+Mo0WB9/qorbJ8AVpM6YYvzANccGWy0w
- EaC1vnSIelrUiJ5YK0Rb+jgvbGPJwR/tieTBGdE5pruQ1RDTMv/kAbMwsy5OGf3KnSf
- th8mLhJuGrOzdJEv5BbdaoJ/XQyapIdYHmUtH9cc=
-Received: by mx.zohomail.com with SMTPS id 1772465472560905.9229040614745;
- Mon, 2 Mar 2026 07:31:12 -0800 (PST)
-Message-ID: <e008ca24-83ee-427e-b2a2-8f93e390b199@collabora.com>
-Date: Mon, 2 Mar 2026 18:31:08 +0300
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF87910E534
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:40:21 +0000 (UTC)
+Date: Mon, 2 Mar 2026 07:40:07 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1772466020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z+AJRX8efrGGqYR/4urVcux2F8ciXh1nOUXudgmSp9s=;
+ b=IGpB7jLtE/3Q9k+N+C1ZheugGFrIV4qNOz6pO+/IWF68+qEGqioYGc/tBjcFajcmf/Z8zg
+ P2PqyggEzfwXfT5HmEJtRauIilx4f0RpZd1Hiri6m4zCF3ExFfyK/M/EPvzxRxC7zR9fs/
+ viVPwhjSlLIyjp9qtYDrxvQYaZJG9mg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+ tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
+ Dave Chinner <david@fromorbit.com>, 
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch, tjmercier@google.com
+Subject: Re: [PATCH 07/16] memcg: add support for GPU page counters. (v4)
+Message-ID: <aaWuoe_CQwbtcxEY@linux.dev>
+References: <20260224020854.791201-1-airlied@gmail.com>
+ <20260224020854.791201-8-airlied@gmail.com>
+ <ee914ffb-5c3d-4d41-abdb-5ed02db326c6@amd.com>
+ <CAPM=9txUuS-qzA+gX2DvTuYR2OZ79RG86FuDA6czkpuJ_SR6KQ@mail.gmail.com>
+ <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com>
+ <aaWZrTZGsxxjbBYv@linux.dev>
+ <8efef755-e429-4cec-bef4-b15b3f9f4632@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtio: Open-code drm_simple_encoder_init()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Hardik Phalet <hardik.phalet@pm.me>
-Cc: Hardik Phalet <hardik.phalet@gmail.com>, David Airlie
- <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260227103515.413685-1-hardik.phalet@pm.me>
- <5cdb4e34-7964-4456-9311-eac8b3d37371@suse.de>
- <4fa6bc36-3507-4171-8955-29c90db9254b@collabora.com>
- <cf8cb929-2339-46a9-8b76-e76778787b9d@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <cf8cb929-2339-46a9-8b76-e76778787b9d@suse.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+In-Reply-To: <8efef755-e429-4cec-bef4-b15b3f9f4632@amd.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,107 +71,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9442F1DBE24
+X-Rspamd-Queue-Id: 7C2D71DC025
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:airlied@gmail.com,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mhocko@kernel.org,m:roman.gushchin@linux.dev,m:muchun.song@linux.dev,m:cgroups@vger.kernel.org,m:david@fromorbit.com,m:longman@redhat.com,m:simona@ffwll.ch,m:tjmercier@google.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[dmitry.osipenko@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,kernel.org,cmpxchg.org,linux.dev,vger.kernel.org,fromorbit.com,redhat.com,ffwll.ch,google.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:hardik.phalet@pm.me,m:hardik.phalet@gmail.com,m:airlied@redhat.com,m:kraxel@redhat.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:virtualization@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:hardikphalet@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[shakeel.butt@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,redhat.com,chromium.org,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org,lists.linux.dev,vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[shakeel.butt@linux.dev,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.988];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:mid,bootlin.com:url,pm.me:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,android.com:url]
 X-Rspamd-Action: no action
 
-On 3/2/26 17:15, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 02.03.26 um 14:57 schrieb Dmitry Osipenko:
->> On 3/2/26 16:48, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 27.02.26 um 11:35 schrieb Hardik Phalet:
->>>> drm_simple_encoder_init() is a thin wrapper around drm_encoder_init()
->>>> that only provides a minimal drm_encoder_funcs instance with
->>>> .destroy = drm_encoder_cleanup.
->>>>
->>>> Inline the helper in virtgpu_display.c and provide a local
->>>> drm_encoder_funcs instance instead. This removes the unnecessary
->>>> indirection and prepares for the eventual removal of
->>>> drm_simple_encoder_init().
->>>>
->>>> No functional changes intended.
->>>>
->>>> Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
->>>> ---
->>>>    drivers/gpu/drm/virtio/virtgpu_display.c | 7 ++++++-
->>>>    1 file changed, 6 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/
->>>> drm/virtio/virtgpu_display.c
->>>> index f1dae9569805..8bd6cdc6c16e 100644
->>>> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
->>>> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
->>>> @@ -232,6 +232,10 @@ static enum drm_mode_status
->>>> virtio_gpu_conn_mode_valid(struct drm_connector *con
->>>>        return MODE_BAD;
->>>>    }
->>>>    +static const struct drm_encoder_funcs
->>>> virtio_gpu_enc_cleanup_funcs = {
->>>> +    .destroy = drm_encoder_cleanup
->>>> +};
->>>> +
->>>>    static const struct drm_encoder_helper_funcs
->>>> virtio_gpu_enc_helper_funcs = {
->>>>        .mode_set   = virtio_gpu_enc_mode_set,
->>>>        .enable     = virtio_gpu_enc_enable,
->>>> @@ -306,7 +310,8 @@ static int vgdev_output_init(struct
->>>> virtio_gpu_device *vgdev, int index)
->>>>        if (vgdev->has_edid)
->>>>            drm_connector_attach_edid_property(connector);
->>>>    -    drm_simple_encoder_init(dev, encoder,
->>>> DRM_MODE_ENCODER_VIRTUAL);
->>>> +    drm_encoder_init(dev, encoder, &virtio_gpu_enc_cleanup_funcs,
->>>> +             DRM_MODE_ENCODER_VIRTUAL, NULL);
->>> This looks correct, but you should also remove the include statement
->>> at [1]
->>>
->>> [1] https://elixir.bootlin.com/linux/v6.19/source/drivers/gpu/drm/
->>> virtio/virtgpu_display.c#L35
->> The patch adds more lines than removes. What's wrong with
->> drm_simple_encoder_init() and why it needs to be removed eventually?
-> 
-> I added it myself a few years ago in an attempt to save some lines of
-> code. That was a mistake. It's a helper without any purpose. Helpers
-> should do something.
++TJ
 
-It saves few lines and makes code easier to read. Don't see value in
-removal of the helper.
+On Mon, Mar 02, 2026 at 03:37:37PM +0100, Christian König wrote:
+> On 3/2/26 15:15, Shakeel Butt wrote:
+> > On Wed, Feb 25, 2026 at 10:09:55AM +0100, Christian König wrote:
+> >> On 2/24/26 20:28, Dave Airlie wrote:
+> > [...]
+> >>
+> >>> This has been a pain in the ass for desktop for years, and I'd like to
+> >>> fix it, the HPC use case if purely a driver for me doing the work.
+> >>
+> >> Wait a second. How does accounting to cgroups help with that in any way?
+> >>
+> >> The last time I looked into this problem the OOM killer worked based on the per task_struct stats which couldn't be influenced this way.
+> >>
+> > 
+> > It depends on the context of the oom-killer. If the oom-killer is triggered due
+> > to memcg limits then only the processes in the scope of the memcg will be
+> > targetted by the oom-killer. With the specific setting, the oom-killer can kill
+> > all the processes in the target memcg.
+> > 
+> > However nowadays the userspace oom-killer is preferred over the kernel
+> > oom-killer due to flexibility and configurability. Userspace oom-killers like
+> > systmd-oomd, Android's LMKD or fb-oomd are being used in containerized
+> > environments. Such oom-killers looks at memcg stats and hiding something
+> > something from memcg i.e. not charging to memcg will hide such usage from these
+> > oom-killers.
+> 
+> Well exactly that's the problem. Android's oom killer is *not* using memcg exactly because of this inflexibility.
 
--- 
-Best regards,
-Dmitry
+Are you sure Android's oom killer is not using memcg? From what I see in the
+documentation [1], it requires memcg.
+
+[1] https://source.android.com/docs/core/perf/lmkd
+
+> 
+> See the multiple iterations we already had on that topic. Even including reverting already upstream uAPI.
+> 
+> The latest incarnation is that BPF is used for this task on Android.
+> 
+> Regards,
+> Christian.
