@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKkzIomhpmlqRwAAu9opvQ
+	id DJfdGryhpmmvSAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:29 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329D01EB1DA
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1572E1EB35F
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74D3C10E685;
-	Tue,  3 Mar 2026 08:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2624E10E6C4;
+	Tue,  3 Mar 2026 08:53:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pLx8cGjt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m6XxlkSn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44CEB10E5BD;
- Mon,  2 Mar 2026 20:35:19 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAAAA10E5BD;
+ Mon,  2 Mar 2026 20:35:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1DAD0400CD;
+ by tor.source.kernel.org (Postfix) with ESMTP id CF3B261340;
+ Mon,  2 Mar 2026 20:35:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370FCC19423;
  Mon,  2 Mar 2026 20:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBABBC2BCB2;
- Mon,  2 Mar 2026 20:35:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772483719;
- bh=U3KpNq06HVb6xR2bnjz6Ns7LWxuPeJzECvQHHCOjgKk=;
+ s=k20201202; t=1772483733;
+ bh=lWf448UGMXudQ8B1VgEJeBVXqLyKfodUZAp30JCf+B0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pLx8cGjty4Av7EvuFhZGm06zvE+fJEx/T6LdYbGuWr1Kpn7VXQ8VwYafXrDnbdGA8
- OTOcSvmMteKhRNPpONLMHZ9/j7peBuet7bN0a8VyXX0fAXV0iclQHv6kh9HVu6MIAm
- DlrESCS7LYO7JztMixwR443j4hsExnSBrlTNcOxXedAyisLMpuFOTIuFnz/YpGcexf
- EqeOXJEst0+5/M01sL0p2V5J6uYtPzLZFYEn5MkFmPwm9+8PjR8FoiXMPOQNNV1CUx
- stv6xhWEG1bjNnN73vUPFdKCdrpxy4w6DkjhvId8+HpV7G1x2tNA7/wd1c47mEsp/8
- 59qfVJ1WsOLMw==
+ b=m6XxlkSnJTMRJCps7ybYdo+e7wluY471f5jMMgETDx7npcxrPLAAS5IAXfL0Q1Bh0
+ AFbTzA8T5oZoGUBvADEJ+0TtIFwqCTsMPnCXDZfNb9CP6RyWsP7+iak2VmcSeeQtJd
+ 7Qy3+CKs1MtMEbsMPr1F0beOUXYdPwVeqUf1wYmmKsJNSfwRHCgggZL5ZI/by97IEn
+ 8bDM32GpFRddFSyIOTmaVcdatrCXwLkkTQw+2r73pQ29Zz71+kkNTyDKK19sWpwaJK
+ psE77cE0SOjhDV0KoqDd/l6+Mxm0ag25Asi6akNMiP+seLYsk1tmLs/oEKuVBmYMIk
+ nIwUF6wTPvylQ==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Mar 2026 15:24:27 -0500
-Subject: [PATCH v2 043/110] qnx4: use PRIino format for i_ino
+Date: Mon, 02 Mar 2026 15:24:28 -0500
+Subject: [PATCH v2 044/110] qnx6: use PRIino format for i_ino
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-iino-u64-v2-43-e5388800dae0@kernel.org>
+Message-Id: <20260302-iino-u64-v2-44-e5388800dae0@kernel.org>
 References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -156,20 +156,20 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1304; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=U3KpNq06HVb6xR2bnjz6Ns7LWxuPeJzECvQHHCOjgKk=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfH6tGlXo9qnz4TnjlgdQUVua3GSVfoKz23su
- VdlF9QDcUSJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXx+gAKCRAADmhBGVaC
- FeRJEACqBomLSQl899X2tkLcb+Mqxa+0zQydlhBs5zMB3tLj1dC4mhQ3qXhr9GZdy2QuDdEXvR6
- vXwurD8v/1nTDZLG9XQLSP8sRIixE4Em8uwyHAWIP2OVXlWoxwX6pPlfuUdwwq926PANjPdM5vO
- 4ddU2YnYdZLplqR56VOCioDxob7oxZQLRlwnGiWF6d2kQsZsQMwKl5NeUX1T8S9Co60DP6zd/3f
- ZLGej4CuVQEvn9zjEuTmnISBcYIBpPI5S2scJ+scU4e2YO4IxDD6DsBxQgZCnmgkJGGlLIPe4E8
- cL2iVaAoC/C2m54CnBY4Ukj5o7qSQ0Txck0LuTfS26luzsaQlJ0KthqjxLtbeMfDV9aPjfCrzO9
- 9R/LMA+z4YvyDAmsihoaRFWArYKK9ZvFw431NvDIrMiJan87FIiFVHzc2qYHsTgT89T5bIradyh
- UdKj4iemeH8I9WXXW2+a1CMagwjFrhg/LxDFYV2MNhqgFHOVn8xYIbUOfzoG00EiSoV+f6HAEJp
- C7lLp+ZQuJW3Ok5eXfNGbu+wP5FJT37ql+u7/pRYeNl5ecwnFVXSch6rB78FSwpHdCHjPuPirlg
- Zfrmgto7pAcwfM9ZJxlgrSDPdpReleRhXjit8C2IkQigtXJ7UHT9AOLH+wCEUM4TgnWXHnVoXPE
- /cNmeh0F91M/fAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=871; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=lWf448UGMXudQ8B1VgEJeBVXqLyKfodUZAp30JCf+B0=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfH6kEu6DiAEc02xSfhZdMCb8Qj46n6ykbtXd
+ mVp2VirwwyJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXx+gAKCRAADmhBGVaC
+ FSnYD/wP6n93JAu8E2arFdXKlOQCAJY9cUuf5kcncBbnxHhRensERQpBumPgpB04J+1nSx7rBAm
+ /2vV3AQnI/ynCCWL8pIw4l+4TA+RAb1ztfS5Ly7z/zvMK+CoRCNSW7Rxz4dn5cWUa4OJZfwUFyf
+ KcMOZMSD7qugW8mpKWGM4SaZXKqkn6V28hJozNSEaMlWYAGKeYyWJFK0Jkk7494Mxg1hdPOngdc
+ lPIBjjiVRJyc2dxiFRU5rizVE0AKeh5k+hsFpEMqI4u7DBu8r6hlPl37be+qaEE9pfEFeIN9ZJL
+ jqLgtwAlraAWkTe8D24n+gSsToh7T1OXHsQMlpyjsfLr2kFpevlFER1w5x4VPssHRW9M+kpjbHl
+ IAIL4/TtRITSw+6wP59km9nZbH2FlzTHUjGjIfuaCR39IEd4psQfZrPWfWv5YlWtCCbKEw11SVS
+ 3WgZ7hc904ScIv+9gl/gDE6rR/2wDStlnosPb0UtX9DvLxsegVCbtiefzKqMOlV0jzhO6vQnRMl
+ 31MGnUmRKqP0duwCsima+30F+GiEaV7M77rtX6zJB9cp+vIZRNbg5mo1bjc3JJYTO2w4jjCSj2o
+ I+SZVhs2qMPVG7CMYSQsXaT4hdS5hw4vOCRGHlYoQ9T+0PWs7Nm231bg78BdK5i+rDpMhRwJGNj
+ OnzqkKjiDqUG84w==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:07 +0000
@@ -187,7 +187,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 329D01EB1DA
+X-Rspamd-Queue-Id: 1572E1EB35F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -218,7 +218,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Convert qnx4 i_ino format strings to use the PRIino format
+Convert qnx6 i_ino format strings to use the PRIino format
 macro in preparation for the widening of i_ino via kino_t.
 
 Also correct signed format specifiers to unsigned, since inode
@@ -226,31 +226,22 @@ numbers are unsigned values.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- fs/qnx4/inode.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/qnx6/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/qnx4/inode.c b/fs/qnx4/inode.c
-index 8aeb63d397cfd6c87b7862f0dc7a34cdfdf02f9b..1226de01f2d3c1d79fc054f2b882fdca2d9d78ff 100644
---- a/fs/qnx4/inode.c
-+++ b/fs/qnx4/inode.c
-@@ -62,7 +62,7 @@ static int qnx4_get_block( struct inode *inode, sector_t iblock, struct buffer_h
+diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
+index c4049bb8bd60d47f9edd3d724a5d5be6b5deb5ee..630ebaa8a1c554b4d83ae75e5940a512e847bf51 100644
+--- a/fs/qnx6/inode.c
++++ b/fs/qnx6/inode.c
+@@ -75,7 +75,7 @@ static int qnx6_get_block(struct inode *inode, sector_t iblock,
  {
- 	unsigned long phys;
+ 	unsigned phys;
  
--	QNX4DEBUG((KERN_INFO "qnx4: qnx4_get_block inode=[%ld] iblock=[%ld]\n",inode->i_ino,iblock));
-+	QNX4DEBUG((KERN_INFO "qnx4: qnx4_get_block inode=[%" PRIino "u] iblock=[%ld]\n", inode->i_ino, iblock));
+-	pr_debug("qnx6_get_block inode=[%ld] iblock=[%ld]\n",
++	pr_debug("qnx6_get_block inode=[%" PRIino "u] iblock=[%ld]\n",
+ 		 inode->i_ino, (unsigned long)iblock);
  
- 	phys = qnx4_block_map( inode, iblock );
- 	if ( phys ) {
-@@ -128,7 +128,7 @@ unsigned long qnx4_block_map( struct inode *inode, long iblock )
- 			brelse( bh );
- 	}
- 
--	QNX4DEBUG((KERN_INFO "qnx4: mapping block %ld of inode %ld = %ld\n",iblock,inode->i_ino,block));
-+	QNX4DEBUG((KERN_INFO "qnx4: mapping block %ld of inode %" PRIino "u = %ld\n", iblock, inode->i_ino, block));
- 	return block;
- }
- 
+ 	phys = qnx6_block_map(inode, iblock);
 
 -- 
 2.53.0
