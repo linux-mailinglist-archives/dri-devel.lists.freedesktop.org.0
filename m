@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDeqFiWopWngCwAAu9opvQ
+	id AJr+An2opWmpDgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:09:25 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:10:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23B91DB7C1
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D531DB82E
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687FD89153;
-	Mon,  2 Mar 2026 15:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8163710E068;
+	Mon,  2 Mar 2026 15:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XjIrwnx5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dsUbhPlG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269A789153
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=diqmFZJoieYJw79Zu0FyzOxk6KbsVjc/pkMqJvLgG2I=; b=XjIrwnx55exUbIhDFQLw6OJxA5
- 3cwkhAvTER77dbY1nwKoNHYz4CBO1Hcx68rirfvUpGwt8mgzJR5tnBazdrc2gbIRYf2tYnaq6+zKP
- +VYMeg7h/nzhQa2fK6UGnUJRF5mprDLIZgDVfLMJGF4SsuZn8WZ0ANaWgsyZeIuwvepzP6bKHTd7n
- CO84afoMG8yv4w47qj/Z5CS+Li+4AM+pM3Gu5Zx5EF9swjzZ3CvWbyXv+gIMfV+or6T1YewocmgwM
- bSHTTBJMQtDCLHkeXCLIKEibrP0uxUHI4RGlboz6u3qY9+TMCe0wDxO2MPDPHORmA6Aii4ONfDoG3
- RN0q+Oqw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vx4tA-007wTQ-1O; Mon, 02 Mar 2026 16:08:52 +0100
-Message-ID: <777db230-9fd8-4c2f-87bf-75d9733eaf88@igalia.com>
-Date: Mon, 2 Mar 2026 15:08:50 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9A410E045;
+ Mon,  2 Mar 2026 15:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772464249; x=1804000249;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EoqTsk/E62r3ys5VvD40GGl5AX1bEyjIl0bpZmmEgAc=;
+ b=dsUbhPlGEpLdQF6XxMSUmOmQvMmM/y+V5QvWSHF6uAEg5ZWntQhe85BR
+ XKJ12Sp9Sm3kiPXQO5G3PqDfI/zCvXKTUVBVpOSvVozT/GEXKgqcxwkGJ
+ jjNLWfgMxMT0czeA8QRjKgb3Cv1s+/tDiQRfWQ8d9W6TjumPJ/VpqnVjS
+ T4Y9WRWZAbpFYeT02ZnFRhvPZn3dc9iiJPzjT9IoqDl6je4+8QO/wyi4D
+ gG7GLiZALKY+OKTo0PxCc/z4R/5Rc+GsKONRtMfuMK7z2XGGE/e8nNnKQ
+ i17bPRVTPI4ZB/dcIV2yBsyn64/dnwwX3xZFGiW9+R+4wozY7eslItcVa w==;
+X-CSE-ConnectionGUID: QH5Rfdy0TJumQ5HVq5KTVA==
+X-CSE-MsgGUID: bhSmnaOVQv25+EN6gBP5wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="72672457"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="72672457"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 07:10:49 -0800
+X-CSE-ConnectionGUID: ljUTpfIITSe8oDvbtGqkow==
+X-CSE-MsgGUID: 9hVHehVhQBOP89Gv2jP9og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="215307293"
+Received: from yadavs-z690i-a-ultra-plus.iind.intel.com ([10.190.216.90])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 07:10:47 -0800
+From: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>
+Subject: [PATCH] gpu/tests/gpu_buddy: Add gpu_test_buddy_alloc_range for
+ exact-range allocation
+Date: Mon,  2 Mar 2026 20:39:46 +0530
+Message-ID: <20260302150947.47535-2-sanjay.kumar.yadav@intel.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] drm/ttm: Extract code for attempting allocation in
- a place
-To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
- Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
- <20260302-dmemcg-aggressive-protect-v5-3-ffd3a2602309@gmx.de>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20260302-dmemcg-aggressive-protect-v5-3-ffd3a2602309@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,245 +74,407 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A23B91DB7C1
+X-Rspamd-Queue-Id: 57D531DB82E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:tursulin@ursulin.net,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-0.844];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,igalia.com:email,gmx.de:email]
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[sanjay.kumar.yadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,intel.com:email,intel.com:mid,amd.com:email];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
 X-Rspamd-Action: no action
 
+Add a new kunit test gpu_test_buddy_alloc_range() that exercises the
+__gpu_buddy_alloc_range() exact-range allocation path, triggered when
+start + size == end with flags=0.
 
-On 02/03/2026 12:37, Natalie Vock wrote:
-> Move all code for attempting allocation for a specific place to
-> ttm_bo_alloc_place. With subsequent patches, this logic is going to get
-> more complicated, so it helps readability to have this separate.
-> 
-> ttm_bo_alloc_at_place takes a pointer to a struct ttm_bo_alloc_state.
-> This struct holds various state produced by the allocation (e.g. cgroup
-> resource associated with the allocation) that the caller needs to keep
-> track of (and potentially dispose of). This is just the limiting cgroup
-> pool for now, but future patches will add more state needing to be tracked.
-> 
-> ttm_bo_alloc_at_place also communicates via return codes if eviction
-> using ttm_bo_evict_alloc should be attempted. This is preparation for
-> attempting eviction in more cases than just force_space being set.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c | 104 +++++++++++++++++++++++++++++++++----------
->   1 file changed, 81 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index acb9197db8798..3e62cab51f870 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
->   	return ret;
->   }
->   
-> +struct ttm_bo_alloc_state {
-> +	/** @limit_pool: Which pool limit we should test against */
-> +	struct dmem_cgroup_pool_state *limit_pool;
-> +};
-> +
->   /**
->    * struct ttm_bo_evict_walk - Parameters for the evict walk.
->    */
-> @@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
->   	/** @evicted: Number of successful evictions. */
->   	unsigned long evicted;
->   
-> -	/** @limit_pool: Which pool limit we should test against */
-> -	struct dmem_cgroup_pool_state *limit_pool;
->   	/** @try_low: Whether we should attempt to evict BO's with low watermark threshold */
->   	bool try_low;
->   	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass) */
->   	bool hit_low;
-> +
-> +	/** @alloc_state: State associated with the allocation attempt. */
-> +	struct ttm_bo_alloc_state *alloc_state;
->   };
->   
->   static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
-> @@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
->   		container_of(walk, typeof(*evict_walk), walk);
->   	s64 lret;
->   
-> -	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resource->css,
-> -					      evict_walk->try_low, &evict_walk->hit_low))
-> +	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_pool,
-> +					      bo->resource->css, evict_walk->try_low,
-> +					      &evict_walk->hit_low))
->   		return 0;
->   
->   	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
-> @@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   			      struct ttm_operation_ctx *ctx,
->   			      struct ww_acquire_ctx *ticket,
->   			      struct ttm_resource **res,
-> -			      struct dmem_cgroup_pool_state *limit_pool)
-> +			      struct ttm_bo_alloc_state *state)
->   {
->   	struct ttm_bo_evict_walk evict_walk = {
->   		.walk = {
-> @@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
->   		.place = place,
->   		.evictor = evictor,
->   		.res = res,
-> -		.limit_pool = limit_pool,
-> +		.alloc_state = state,
->   	};
->   	s64 lret;
->   
-> @@ -689,6 +696,58 @@ static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
->   	return dma_resv_reserve_fences(bo->base.resv, 1);
->   }
->   
-> +
-> +/**
-> + * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a place
-> + *
-> + * @bo: The buffer to allocate the backing store of
-> + * @place: The place to attempt allocation in
-> + * @ctx: ttm_operation_ctx associated with this allocation
-> + * @force_space: If we should evict buffers to force space
-> + * @res: On allocation success, the resulting struct ttm_resource.
-> + * @alloc_state: Object holding allocation state such as charged cgroups.
-> + *
-> + * Returns:
-> + * -EBUSY: No space available, but allocation should be retried with ttm_bo_evict_alloc.
-> + * -ENOSPC: No space available, allocation should not be retried.
-> + * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
-> + *
-> + */
-> +static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
-> +				 const struct ttm_place *place,
-> +				 struct ttm_operation_ctx *ctx,
-> +				 bool force_space,
-> +				 struct ttm_resource **res,
-> +				 struct ttm_bo_alloc_state *alloc_state)
-> +{
-> +	bool may_evict;
-> +	int ret;
-> +
-> +	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> +
-> +	ret = ttm_resource_alloc(bo, place, res,
-> +				 force_space ? &alloc_state->limit_pool : NULL);
-> +
-> +	if (ret) {
-> +		/*
-> +		 * -EAGAIN means the charge failed, which we treat like an
-> +		 * allocation failure. Therefore, return an error code indicating
-> +		 * the allocation failed - either -EBUSY if the allocation should
-> +		 * be retried with eviction, or -ENOSPC if there should be no second
-> +		 * attempt.
-> +		 */
-> +		if (ret == -EAGAIN)
-> +			return may_evict ? -EBUSY : -ENOSPC;
-> +
-> +		if (ret == -ENOSPC && may_evict)
-> +			return -EBUSY;
-> +
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   /**
->    * ttm_bo_alloc_resource - Allocate backing store for a BO
->    *
-> @@ -725,9 +784,8 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   
->   	for (i = 0; i < placement->num_placement; ++i) {
->   		const struct ttm_place *place = &placement->placement[i];
-> -		struct dmem_cgroup_pool_state *limit_pool = NULL;
-> +		struct ttm_bo_alloc_state alloc_state = {};
->   		struct ttm_resource_manager *man;
-> -		bool may_evict;
->   
->   		man = ttm_manager_type(bdev, place->mem_type);
->   		if (!man || !ttm_resource_manager_used(man))
-> @@ -737,25 +795,25 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->   				    TTM_PL_FLAG_FALLBACK))
->   			continue;
->   
-> -		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
-> -		if (ret) {
-> -			if (ret != -ENOSPC && ret != -EAGAIN) {
-> -				dmem_cgroup_pool_state_put(limit_pool);
-> -				return ret;
-> -			}
-> -			if (!may_evict) {
-> -				dmem_cgroup_pool_state_put(limit_pool);
-> -				continue;
-> -			}
-> +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
-> +				res, &alloc_state);
->   
-> +		if (ret == -ENOSPC) {
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +			continue;
-> +		} else if (ret == -EBUSY) {
->   			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
-> -						 ticket, res, limit_pool);
-> -			dmem_cgroup_pool_state_put(limit_pool);
-> +						 ticket, res, &alloc_state);
-> +
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +
->   			if (ret == -EBUSY)
->   				continue;
-> -			if (ret)
-> -				return ret;
-> +			else if (ret)
-> +				return;
+The test covers:
+- Basic exact-range allocation of the full mm
+- Exact-range allocation of equal sub-ranges (quarters)
+- Minimum chunk-size exact ranges at start, middle, and end offsets
+- Non power-of-two mm size with multiple roots, including cross-root
+  exact-range allocation
+- Randomized exact-range allocations of N contiguous page-aligned
+  slices in random order
+- Negative: partially allocated range must reject overlapping exact
+  alloc
+- Negative: checkerboard allocation pattern rejects exact range over
+  partially occupied pairs
+- Negative: misaligned start, unaligned size, and out-of-bounds end
+- Free and re-allocate the same exact range across multiple iterations
+- Various power-of-two exact ranges at natural alignment
 
-return ret;
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
+---
+ drivers/gpu/tests/gpu_buddy_test.c | 327 +++++++++++++++++++++++++++++
+ 1 file changed, 327 insertions(+)
 
-Regards,
-
-Tvrtko
-
-> +		} else if (ret) {
-> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-> +			return ret;
->   		}
->   
->   		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
-> 
+diff --git a/drivers/gpu/tests/gpu_buddy_test.c b/drivers/gpu/tests/gpu_buddy_test.c
+index 5429010f34d3..9738fd09518f 100644
+--- a/drivers/gpu/tests/gpu_buddy_test.c
++++ b/drivers/gpu/tests/gpu_buddy_test.c
+@@ -362,6 +362,332 @@ static void gpu_test_buddy_alloc_range_bias(struct kunit *test)
+ 	gpu_buddy_fini(&mm);
+ }
+ 
++static void gpu_test_buddy_alloc_range(struct kunit *test)
++{
++	GPU_RND_STATE(prng, random_seed);
++	struct gpu_buddy_block *block;
++	struct gpu_buddy mm;
++	u32 mm_size, total;
++	LIST_HEAD(blocks);
++	LIST_HEAD(tmp);
++	u32 ps = SZ_4K;
++	int ret;
++
++	mm_size = SZ_16M;
++
++	KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_init(&mm, mm_size, ps),
++			       "buddy_init failed\n");
++
++	/*
++	 * Basic exact-range allocation.
++	 * Allocate the entire mm as one exact range (start + size == end).
++	 * This is the simplest case exercising __gpu_buddy_alloc_range.
++	 */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, mm_size, mm_size, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ_MSG(test, ret, 0,
++			    "exact-range alloc of full mm failed\n");
++
++	total = 0;
++	list_for_each_entry(block, &blocks, link) {
++		u64 offset = gpu_buddy_block_offset(block);
++		u64 bsize = gpu_buddy_block_size(&mm, block);
++
++		KUNIT_EXPECT_TRUE_MSG(test, offset + bsize <= (u64)mm_size,
++				      "block [%llx, %llx) outside mm\n", offset, offset + bsize);
++		total += (u32)bsize;
++	}
++	KUNIT_EXPECT_EQ(test, total, mm_size);
++	KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++
++	/* Full mm should be exhausted */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, ps, ps, ps, &tmp, 0);
++	KUNIT_EXPECT_NE_MSG(test, ret, 0, "alloc should fail when mm is full\n");
++
++	gpu_buddy_free_list(&mm, &blocks, 0);
++	KUNIT_EXPECT_EQ(test, mm.avail, (u64)mm_size);
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Exact-range allocation of sub-ranges.
++	 * Split the mm into four equal quarters and allocate each as an exact
++	 * range. Validates splitting and non-overlapping exact allocations.
++	 */
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	{
++		u32 quarter = mm_size / 4;
++		int i;
++
++		for (i = 0; i < 4; i++) {
++			u32 start = i * quarter;
++			u32 end = start + quarter;
++
++			ret = gpu_buddy_alloc_blocks(&mm, start, end, quarter, ps, &blocks, 0);
++			KUNIT_ASSERT_EQ_MSG(test, ret, 0,
++					    "exact-range alloc quarter %d [%x, %x) failed\n",
++					    i, start, end);
++		}
++		KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++		gpu_buddy_free_list(&mm, &blocks, 0);
++	}
++
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Minimum chunk-size exact range at various offsets.
++	 * Allocate single-page exact ranges at the start, middle and end.
++	 */
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	ret = gpu_buddy_alloc_blocks(&mm, 0, ps, ps, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = gpu_buddy_alloc_blocks(&mm, mm_size / 2, mm_size / 2 + ps, ps, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = gpu_buddy_alloc_blocks(&mm, mm_size - ps, mm_size, ps, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	total = 0;
++	list_for_each_entry(block, &blocks, link)
++		total += (u32)gpu_buddy_block_size(&mm, block);
++	KUNIT_EXPECT_EQ(test, total, 3 * ps);
++
++	gpu_buddy_free_list(&mm, &blocks, 0);
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Non power-of-two mm size (multiple roots).
++	 * Exact-range allocations that span root boundaries must still work.
++	 */
++	mm_size = SZ_4M + SZ_2M + SZ_1M; /* 7 MiB, three roots */
++
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++	KUNIT_EXPECT_GT(test, mm.n_roots, 1U);
++
++	/* Allocate first 4M root exactly */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, SZ_4M, SZ_4M, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	/* Allocate second root (4M-6M) exactly */
++	ret = gpu_buddy_alloc_blocks(&mm, SZ_4M, SZ_4M + SZ_2M, SZ_2M, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	/* Allocate third root (6M-7M) exactly */
++	ret = gpu_buddy_alloc_blocks(&mm, SZ_4M + SZ_2M, mm_size, SZ_1M, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++	gpu_buddy_free_list(&mm, &blocks, 0);
++
++	/* Cross-root exact-range: the entire non-pot mm */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, mm_size, mm_size, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++
++	gpu_buddy_free_list(&mm, &blocks, 0);
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Randomized exact-range allocations.
++	 * Divide the mm into N random-sized, contiguous, page-aligned slices
++	 * and allocate each as an exact range in random order.
++	 */
++	mm_size = SZ_16M;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	{
++#define N_RAND_RANGES 16
++		u32 ranges[N_RAND_RANGES + 1]; /* boundaries */
++		u32 order_arr[N_RAND_RANGES];
++		u32 remaining = mm_size;
++		int i;
++
++		ranges[0] = 0;
++		for (i = 0; i < N_RAND_RANGES - 1; i++) {
++			u32 max_chunk = remaining - (N_RAND_RANGES - 1 - i) * ps;
++			u32 sz = max(round_up(prandom_u32_state(&prng) % max_chunk, ps), ps);
++
++			ranges[i + 1] = ranges[i] + sz;
++			remaining -= sz;
++		}
++		ranges[N_RAND_RANGES] = mm_size;
++
++		/* Create a random order */
++		for (i = 0; i < N_RAND_RANGES; i++)
++			order_arr[i] = i;
++		for (i = N_RAND_RANGES - 1; i > 0; i--) {
++			u32 j = prandom_u32_state(&prng) % (i + 1);
++			u32 tmp_val = order_arr[i];
++
++			order_arr[i] = order_arr[j];
++			order_arr[j] = tmp_val;
++		}
++
++		for (i = 0; i < N_RAND_RANGES; i++) {
++			u32 idx = order_arr[i];
++			u32 start = ranges[idx];
++			u32 end = ranges[idx + 1];
++			u32 sz = end - start;
++
++			ret = gpu_buddy_alloc_blocks(&mm, start, end, sz, ps, &blocks, 0);
++			KUNIT_ASSERT_EQ_MSG(test, ret, 0,
++					    "random exact-range [%x, %x) sz=%x failed\n",
++					    start, end, sz);
++		}
++
++		KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++		gpu_buddy_free_list(&mm, &blocks, 0);
++#undef N_RAND_RANGES
++	}
++
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Negative case - partially allocated range.
++	 * Allocate the first half, then try to exact-range allocate the full
++	 * mm. This must fail because the first half is already occupied.
++	 */
++	mm_size = SZ_16M;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	ret = gpu_buddy_alloc_blocks(&mm, 0, mm_size / 2, mm_size / 2, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = gpu_buddy_alloc_blocks(&mm, 0, mm_size, mm_size, ps, &tmp, 0);
++	KUNIT_EXPECT_NE_MSG(test, ret, 0,
++			    "exact-range alloc should fail when range is partially used\n");
++
++	/* Also try the already-occupied sub-range directly */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, mm_size / 2, mm_size / 2, ps, &tmp, 0);
++	KUNIT_EXPECT_NE_MSG(test, ret, 0,
++			    "double alloc of same exact range should fail\n");
++
++	/* The free second half should still be allocatable */
++	ret = gpu_buddy_alloc_blocks(&mm, mm_size / 2, mm_size, mm_size / 2, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	KUNIT_EXPECT_EQ(test, mm.avail, 0ULL);
++	gpu_buddy_free_list(&mm, &blocks, 0);
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Negative case - checkerboard partial allocation.
++	 * Allocate every other page-sized chunk in a small mm, then try to
++	 * exact-range allocate a range covering two pages (one allocated, one
++	 * free). This must fail.
++	 */
++	mm_size = SZ_64K;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	{
++		u32 off;
++
++		for (off = 0; off < mm_size; off += 2 * ps) {
++			ret = gpu_buddy_alloc_blocks(&mm, off, off + ps, ps, ps, &blocks, 0);
++			KUNIT_ASSERT_EQ(test, ret, 0);
++		}
++
++		/* Try exact range over a pair [allocated, free] */
++		ret = gpu_buddy_alloc_blocks(&mm, 0, 2 * ps, 2 * ps, ps, &tmp, 0);
++		KUNIT_EXPECT_NE_MSG(test, ret, 0,
++				    "exact-range over partially allocated pair should fail\n");
++
++		/* The free pages individually should still work */
++		ret = gpu_buddy_alloc_blocks(&mm, ps, 2 * ps, ps, ps, &blocks, 0);
++		KUNIT_ASSERT_EQ(test, ret, 0);
++
++		gpu_buddy_free_list(&mm, &blocks, 0);
++	}
++
++	gpu_buddy_fini(&mm);
++
++	/* Negative case - misaligned start/end/size */
++	mm_size = SZ_16M;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	/* start not aligned to chunk_size */
++	ret = gpu_buddy_alloc_blocks(&mm, ps / 2, ps / 2 + ps, ps, ps, &tmp, 0);
++	KUNIT_EXPECT_NE(test, ret, 0);
++
++	/* size not aligned */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, ps + 1, ps + 1, ps, &tmp, 0);
++	KUNIT_EXPECT_NE(test, ret, 0);
++
++	/* end exceeds mm size */
++	ret = gpu_buddy_alloc_blocks(&mm, mm_size, mm_size + ps, ps, ps, &tmp, 0);
++	KUNIT_EXPECT_NE(test, ret, 0);
++
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Free and re-allocate the same exact range.
++	 * This exercises merge-on-free followed by exact-range re-split.
++	 */
++	mm_size = SZ_16M;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	{
++		int i;
++
++		for (i = 0; i < 5; i++) {
++			ret = gpu_buddy_alloc_blocks(&mm, SZ_4M, SZ_4M + SZ_2M,
++						     SZ_2M, ps, &blocks, 0);
++			KUNIT_ASSERT_EQ_MSG(test, ret, 0,
++					    "re-alloc iteration %d failed\n", i);
++
++			total = 0;
++			list_for_each_entry(block, &blocks, link) {
++				u64 offset = gpu_buddy_block_offset(block);
++				u64 bsize = gpu_buddy_block_size(&mm, block);
++
++				KUNIT_EXPECT_GE(test, offset, (u64)SZ_4M);
++				KUNIT_EXPECT_LE(test, offset + bsize, (u64)(SZ_4M + SZ_2M));
++				total += (u32)bsize;
++			}
++			KUNIT_EXPECT_EQ(test, total, SZ_2M);
++
++			gpu_buddy_free_list(&mm, &blocks, 0);
++		}
++
++		KUNIT_EXPECT_EQ(test, mm.avail, (u64)mm_size);
++	}
++
++	gpu_buddy_fini(&mm);
++
++	/*
++	 * Various power-of-two exact ranges within a large mm.
++	 * Allocate non-overlapping power-of-two exact ranges at their natural
++	 * alignment, validating that the allocator handles different orders.
++	 */
++	mm_size = SZ_16M;
++	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, ps));
++
++	/* Allocate 4K at offset 0 */
++	ret = gpu_buddy_alloc_blocks(&mm, 0, SZ_4K, SZ_4K, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	/* Allocate 64K at offset 64K */
++	ret = gpu_buddy_alloc_blocks(&mm, SZ_64K, SZ_64K + SZ_64K, SZ_64K, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	/* Allocate 1M at offset 1M */
++	ret = gpu_buddy_alloc_blocks(&mm, SZ_1M, SZ_1M + SZ_1M, SZ_1M, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	/* Allocate 4M at offset 4M */
++	ret = gpu_buddy_alloc_blocks(&mm, SZ_4M, SZ_4M + SZ_4M, SZ_4M, ps, &blocks, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	total = 0;
++	list_for_each_entry(block, &blocks, link)
++		total += (u32)gpu_buddy_block_size(&mm, block);
++	KUNIT_EXPECT_EQ(test, total, SZ_4K + SZ_64K + SZ_1M + SZ_4M);
++
++	gpu_buddy_free_list(&mm, &blocks, 0);
++	gpu_buddy_fini(&mm);
++}
++
+ static void gpu_test_buddy_alloc_clear(struct kunit *test)
+ {
+ 	unsigned long n_pages, total, i = 0;
+@@ -909,6 +1235,7 @@ static struct kunit_case gpu_buddy_tests[] = {
+ 	KUNIT_CASE(gpu_test_buddy_alloc_pathological),
+ 	KUNIT_CASE(gpu_test_buddy_alloc_contiguous),
+ 	KUNIT_CASE(gpu_test_buddy_alloc_clear),
++	KUNIT_CASE(gpu_test_buddy_alloc_range),
+ 	KUNIT_CASE(gpu_test_buddy_alloc_range_bias),
+ 	KUNIT_CASE_SLOW(gpu_test_buddy_fragmentation_performance),
+ 	KUNIT_CASE(gpu_test_buddy_alloc_exceeds_max_order),
+-- 
+2.52.0
 
