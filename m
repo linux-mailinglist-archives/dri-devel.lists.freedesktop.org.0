@@ -2,163 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6EJjDWRfpWmx+wUAu9opvQ
+	id MKC4MO1fpWmx+wUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:59:00 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:01:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBCA1D5DAB
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740631D5EE7
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:01:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5619F10E481;
-	Mon,  2 Mar 2026 09:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A3010E479;
+	Mon,  2 Mar 2026 10:01:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SeegeD1h";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CLWDB0/q";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1TaJVSq4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB6C710E47F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 09:58:53 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 62294aZ23753080
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 09:58:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bE7cXBgl82noKkmwqoVuvgJNtZGtDdAz98XZIDAB39Y=; b=SeegeD1hz4lXuoZS
- V/AOdYDFg5QWXJxLOEBiqL+531OuD+euR9kOk6mSE2B2tO+zazW0aV5O1WsSN5F3
- /unorODttgAh9ABeowCDTORmAJDqU6UMYfmxaWYeLpJzt82EaS5YLdMsAZCo1M5z
- bMhIu593m6aHF0Srk6qPpu2zM2Z8NsFYTcBQfCUOjvm16NbvbgkOK5Eq75gZEkSU
- BdilVqEkD/TMRMKWSWstvU2kAtveLkfxyKCYRnu6MhpdljziHnGjO3JLhBF/1jiD
- sz3/GfdmL7v+a8P6RnY4TpOYyCZ4v7g2PDv62Uw9ZwGf6ebcyan6z/bTZTXtwlrH
- LrwveA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7kq86q0-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 09:58:53 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-8cb403842b6so3935802685a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 01:58:53 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F006810E476
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:01:13 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-4836b7c302fso43405945e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 02:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772445532; x=1773050332;
+ d=google.com; s=20230601; t=1772445672; x=1773050472;
  darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bE7cXBgl82noKkmwqoVuvgJNtZGtDdAz98XZIDAB39Y=;
- b=CLWDB0/qpBRCJnW8q8+sGNLb7874SDTIxMsKTUIVXNlx4bfuyFlrbhFNtK4vYzHRXW
- GyPW31S4Fu959aYDO7fGDVpY+/fs2TpVAMrMhwgCXMgVs+vVrbO8rhVfAVBg06A/HHN4
- NVJ8eOriDQYnekJLJVUvASGgnqI2MWop/YLC+18I4C1mqJD4sUVeFlOeEMJpGqzNp09S
- eCnDlmWwChqgg8WCybklThPnBQZ88Q/hgQmMyhSHf4FvsZtTFjeQw2nQfSKlD2tIWiKy
- ayEdAADhvc6mYuinrnGURVvypB3ZMcZLUh7CaeDyPFyk1CDpsHeAlyxmhfLPi/npNR8k
- dveg==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tjS8FX592qmj/rFkafjn+lojx6cnlsSGWxK3ppaLTGU=;
+ b=1TaJVSq4GSD+UaS+PLtRDZGyf89EwQ1pSThHvhwHsfDDGk/mM1b+xq9KTo/kcuSXgh
+ 5nnSGoW3KYnvjOqabQ5Mm0CInVpn45kLYfc07nAM2unJDfQ7H7dyFNxl5YnW9knwlCfu
+ +ZSs4+vTlNKr1AXf0US5PDoswNQScDqxQ04eAMKutWe61iz/UlRutrwltv4enwm3QH8Q
+ QAfB1ijXjJNlfgKCHax95wMF6rLxuHovuB5o+mz8mCZ3LgT+J9lQBdOWye/Ro3MbVZNG
+ yl8LEKSDR6El4cBHkeiVSh9w+oe20a2qJ4DbfvfiVYSe49KIEkF1RpM1Jm5KZmeEWhhD
+ HeMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772445532; x=1773050332;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=bE7cXBgl82noKkmwqoVuvgJNtZGtDdAz98XZIDAB39Y=;
- b=f5DEFQSbXxHoNLSMumCDdnzGplC0dQufGm/3AuFjq/K/CaP2PEXVlQl6Gxp5pkw/sa
- 5Cg2Ketv8zqQSARYUO/O3LydySM+qRJEvBtadBEcmJwfXSAP+9sFQfnGF0k8unOXn2rq
- CjQUMTiAXNSbHbzN4SZ8R3Vqc6DzYJ0TVuNabbJ5awSZOvMqOcEvG08xPM2ZexR9lQ8J
- gxdwu0pw1SAy7i4SoFeh8UPj7x7Wjw+4LlKIx1L92VVtIbG+i2PQfaapYhib2mDM3XFC
- P4D9+T73lG8EZVdeWdelNcPcfiNKY6jmHvS6D89bC/5eBUuJIZi0M/PzuBJ2qEgytvJ+
- Jc0w==
+ d=1e100.net; s=20230601; t=1772445672; x=1773050472;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tjS8FX592qmj/rFkafjn+lojx6cnlsSGWxK3ppaLTGU=;
+ b=BKKB9pede4sehmaTJv5JEalWrD7USZ060ZYsh6GmfrrmAGv0dlJ329JKjsvqEmx+L8
+ 2/gEYVV3uEoZnZQlis9iXVHX5Mq2yo9fHZWsk+85picVN60Ua3v/Rd1eltcT4jEdf93l
+ clKYuJ67L6tyLMLojqmwM/2wcJ9GAgTIvzPiALcemDa2Ek7Y28pam1u4Q21SDfK5kDeB
+ Fw1vhD3dhKM7KUpBJ2B3go0+VkvgRgfeCRuYYgWImnCX7EtQYAvvhY9h+zB5ZVzOAaQ/
+ nuAAxKkhU6xxr/K30aoHSgQkkyEF1e98In3jV8Jj2LmAy3VxaJwfCI45j5eudf2BGhRg
+ S0QQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrga7UrrPqJE40Jd4z1NqaM955j7VdVJR+kjAHTyAoEG+4wjyKeJUM1Rwp9UOgQ1itiIrFXQbuT1Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeWGrBtHBWEUDfrB3fVPzUwt2LN0UOMwWUTSx+TN1hint8GUoZ
- kBeAtABAaVZK/s+lG3J7+1sNp84XmSIZTWr5kTqkN5KT/FvoqA1fejYB54B1exAak3ctRUmpCuC
- 1C8U9PrNcISAEaJfcxueaJ4tB4Sf/lShrdFe6g2AXToD18+UGIFCSm5P4rvN7vebXV/Q61bxxKZ
- V3qXM=
-X-Gm-Gg: ATEYQzz7bO3fgo1D/qFWcHfEzeyGMqF8EJZQ0WXs++y1GKefeCfMxgDuTA//15pOzSj
- w2mXrpzkuQM7Hgg8F/WmJoULHB/SH+Igh32F0la4UcBao7xhAzlfdERKXcC+K4YGGUGXBuKHCA0
- HkhJVJHmuzXYSzLlnMv+8CLW0+StOVxLUUePGVHuqo4jBX19uC3ml3aqT11g+y5VixASMzdHVoS
- 97GzlUq7Z219vdgNbA9890ULILVhauekvA4+7udegHUlmVX3m0zDZ2X7lFMDNPoqSk85fM1HBmS
- zsyBQ58DDP4giEPIvacApuMNrQVwNyflqkAiTIFiavhaKK4yV80qoLOeMjfjWsCYm/YPbT2T8d5
- jQSJRMTMy6DEi5QJYb+L1CJYKjGdwYQ==
-X-Received: by 2002:a05:620a:1aa1:b0:8c9:f9c1:5ed with SMTP id
- af79cd13be357-8cbc8f35ca7mr1466373485a.63.1772445532009; 
- Mon, 02 Mar 2026 01:58:52 -0800 (PST)
-X-Received: by 2002:a05:620a:1aa1:b0:8c9:f9c1:5ed with SMTP id
- af79cd13be357-8cbc8f35ca7mr1466370285a.63.1772445531458; 
- Mon, 02 Mar 2026 01:58:51 -0800 (PST)
-Received: from hackbox.lan ([86.121.162.109]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439b55d15besm9523027f8f.30.2026.03.02.01.58.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2026 01:58:50 -0800 (PST)
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Date: Mon, 02 Mar 2026 11:58:36 +0200
-Subject: [PATCH v3 2/2] dt-bindings: display: msm: Fix reg ranges for DP
- example node
-MIME-Version: 1.0
+ AJvYcCXJ2oKGNEFs1JMVbA9x1DdO1IZVtkNFXMm3J4Hbv4ucRp4V9oljEVq1+RlOPvkRF/LvR889Ywb4kxw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYn0QLtakcwnnGVi93t4MB4NQPa6QmNmysYxC2y13Lcs7jl+l4
+ bpZNR5I/IW2VEhzXJ2Y+qYjm6JQSp0TKaLKItlz05o1hUnre7T0OoKLXdoRUlolBfwrW0n6BGap
+ Nak+uaPuJiY+tzSd1og==
+X-Received: from wmbg9.prod.google.com ([2002:a05:600c:a409:b0:483:7827:ade4])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3110:b0:480:2521:4d92 with SMTP id
+ 5b1f17b1804b1-483c9c23ffbmr196674855e9.24.1772445671732; 
+ Mon, 02 Mar 2026 02:01:11 -0800 (PST)
+Date: Mon, 2 Mar 2026 10:01:10 +0000
+In-Reply-To: <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
+Mime-Version: 1.0
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-3-david@kernel.org>
+ <aaLh2BxSgC9Jl5iS@google.com>
+ <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
+Message-ID: <aaVf5gv4XjV6Ddt-@google.com>
+Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
+ zap_page_range_single()
+From: Alice Ryhl <aliceryhl@google.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+ "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, 
+ Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>,
+ Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, 
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Andy Lutomirski <luto@kernel.org>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, 
+ Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
+ David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-glymur-fix-dp-bindings-reg-clocks-v3-2-8fe49ac1f556@oss.qualcomm.com>
-References: <20260302-glymur-fix-dp-bindings-reg-clocks-v3-0-8fe49ac1f556@oss.qualcomm.com>
-In-Reply-To: <20260302-glymur-fix-dp-bindings-reg-clocks-v3-0-8fe49ac1f556@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abelvesa@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abel Vesa <abel.vesa@oss.qualcomm.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1890;
- i=abel.vesa@oss.qualcomm.com; h=from:subject:message-id;
- bh=bgrDQddMpC0T0+XPN1eI3F9hMvfYD8c9iadBebpyucI=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBppV9U2PxF2Wt53jeowr46vUdHXLlHmcMIp0kxp
- HhP1C3xc4OJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaaVfVAAKCRAbX0TJAJUV
- VpYjD/4v3IpLGU6agRGm9J84EidLO6aT0bomX6Cbei5ENeKZf96Qyko0cFIN3N31RNzqUNH5xpN
- aNZij/c5vwXkbW1R9kwBLH693dEr+CRwqSPLimYTZyS39H2PiAoFoZxIttUaHfHC7RXiqB/4d8/
- G+a5WqMb2i2DkwRzaywptUAcvvY614ZTrfp32ZWeUnuhaj4L9Zg5fad9VbKuSasz2+gFatceh6v
- uvuZdpllWZYwXEPdVenYVQs6MXLUyo6ovB4WV/Tdhaq8ZeS+Jy33LIgIX6GANECmdFH2233M127
- QsCXd/Dc/3xKTrjjgIPO8FXRHpBjHizN/OMe94PSv4kwBJT6j6MZydL9hX+pvGsQMol2QShHBdv
- 8XgVi8wNvjRagcDAobEBrGelxOeXSYAypi0sFanWXEXcWvAkxG3+X3IIFQ/ZTYYFtDp7XXcHOW1
- wWwqJsVOrdNB866wl3kebMY00mvOyXyeO3Mo6V14yYzSZUELxpX2NNDLB3rPEmeT0Ade8rwzix6
- R0AhPdqWSl+F7LWXYrwui54Xi/zc0ksv/wDg5vzGDRJE/YaiOVItCHXMX31pQbxDeCAzHS6GG7E
- D4Pkf5Em11AP7V9Pb3PvdjXbPjH8oqVTYvjxOPoyjub1ErKcDgF+Fmfgei/cZK7QEWbf8D+Aec5
- kGilhb1jZiqv3WQ==
-X-Developer-Key: i=abel.vesa@oss.qualcomm.com; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
-X-Proofpoint-ORIG-GUID: 5Cuyt2soabwV1fyIIohxMSdkJpg9Edje
-X-Proofpoint-GUID: 5Cuyt2soabwV1fyIIohxMSdkJpg9Edje
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA4MiBTYWx0ZWRfXz+rA54FkFnnE
- MdoNkSvFkSr+PdVBVgx5nRVz0xStYqfeP/fsgHtor1hpbfkxufPWTcdpOXnm4n1C9JKIm+/203Z
- oJzzBu/z89DV+IFxIBhkBIUhfc77OWteoNGjSmTCoVyT/ac8k91W9eUjdmeMmwNsPB/H8xlG2gT
- gsRSlLWXgpI0iBvn4tAxUqC+tp8hlJ26LShNE1CSnUWRuDR1D5F3982N2wt0UOvGBxjAyigHjW6
- 2rURvVg18NhcNLuB95qYOHGCcNk9NeI1qb5l+PUxh5f48j4CuFd2G/6cukhF0dxYz/mtgYCXAnI
- X1RrS1XVnHAxk34g8FbbW6BqFMT/I9q6b8d1Oe+NjekEr5f6eUpO89alSJu9DhnM/3mjjUA1cI7
- xLsH0kL1xEZRu5pdypElIOQ4OXkiHQ3haWYkbAeWgcLmV8ExzeiycfGbaAS1AduPTrQZAP668aN
- PU0mr92wX47ubG9ZEGw==
-X-Authority-Analysis: v=2.4 cv=GLkF0+NK c=1 sm=1 tr=0 ts=69a55f5d cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=oauzzCmhM186DRC0Y2yWPg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=rXBtGdtt1y0TR_eNwBUA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0 adultscore=0
- phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,84 +136,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:quic_khsieh@quicinc.com,m:abelvesa@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:abel.vesa@oss.qualcomm.com,m:stable@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:david@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:jannh@google.com,m:pfalcato@suse.de,m:rientjes@google.com,m:shakeel.butt@linux.dev,m:willy@infradead.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:borntraeger@linux.ibm.com,m:frankja@linux.ibm.com,m:imbrenda@linux.ibm.com,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:gregkh@linuxfoundation.org,m:arve@android.com,m:tkjos@android.com,m:brauner@kernel.org,m:cmllamas@google.com,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:jgg@ziepe.ca,m:leon@kernel.org,m:
+ dimitri.sivanich@hpe.com,m:arnd@arndb.de,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:luto@kernel.org,m:vincenzo.frascino@arm.com,m:edumazet@google.com,m:ncardwell@google.com,m:davem@davemloft.net,m:dsahern@kernel.org,m:kuba@kernel.org,m:pabeni@redhat.com,m:ojeda@kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:kvm@vger.kernel.org,m:linux-s390@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:bpf@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:x86@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[abel.vesa@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_GT_50(0.00)[73];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 2DBCA1D5DAB
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 740631D5EE7
 X-Rspamd-Action: no action
 
-Add the missing p2, p3, mst2link and mst3link register blocks to the DP
-example node. This is now necessary since the DP schema has been fixed.
+On Mon, Mar 02, 2026 at 09:18:45AM +0100, David Hildenbrand (Arm) wrote:
+> On 2/28/26 13:38, Alice Ryhl wrote:
+> > On Fri, Feb 27, 2026 at 09:08:33PM +0100, David Hildenbrand (Arm) wrote:
+> >> Nobody except memory.c should really set that parameter to non-NULL. So
+> >> let's just drop it and make unmap_mapping_range_vma() use
+> >> zap_page_range_single_batched() instead.
+> >>
+> >> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> > 
+> >> diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
+> >> index da21d65ccd20..b8e59e4420f3 100644
+> >> --- a/rust/kernel/mm/virt.rs
+> >> +++ b/rust/kernel/mm/virt.rs
+> >> @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
+> >>          // sufficient for this method call. This method has no requirements on the vma flags. The
+> >>          // address range is checked to be within the vma.
+> >>          unsafe {
+> >> -            bindings::zap_page_range_single(self.as_ptr(), address, size, core::ptr::null_mut())
+> >> +            bindings::zap_page_range_single(self.as_ptr(), address, size)
+> >>          };
+> > 
+> > Please run rustfmt on Rust changes. Here, rustfmt leads to this being
+> > formatted on a single line:
+> 
+> Having to run tooling I don't even have installed when removing a single
+> function parameter; did not expect that :)
 
-While at it, use actual addresses from the first controller instead of
-made-up ones. This will align it with the description from SoC devicetree.
+Well, rustfmt comes with the compiler, and it would be ideal to build
+test changes before sending them :)
 
-Cc: <stable@vger.kernel.org> # v6.19
-Fixes: 1aee577bbc60 ("dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem")
-Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
----
- .../bindings/display/msm/qcom,glymur-mdss.yaml           | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+But no worries, I took care of testing it. Thanks for taking the time to
+update the Rust code as well.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
-index 2329ed96e6cb..64dde43373ac 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
-@@ -176,13 +176,17 @@ examples:
-                 };
-             };
- 
--            displayport-controller@ae90000 {
-+            displayport-controller@af54000 {
-                 compatible = "qcom,glymur-dp";
--                reg = <0xae90000 0x200>,
--                      <0xae90200 0x200>,
--                      <0xae90400 0x600>,
--                      <0xae91000 0x400>,
--                      <0xae91400 0x400>;
-+                reg = <0xaf54000 0x200>,
-+                      <0xaf54200 0x200>,
-+                      <0xaf55000 0xc00>,
-+                      <0xaf56000 0x400>,
-+                      <0xaf57000 0x400>,
-+                      <0xaf58000 0x400>,
-+                      <0xaf59000 0x400>,
-+                      <0xaf5a000 0x600>,
-+                      <0xaf5b000 0x600>;
- 
-                 interrupt-parent = <&mdss>;
-                 interrupts = <12>;
+Documentation/rust/quick-start.rst has details for most distros.
 
--- 
-2.48.1
-
+Alice
