@@ -2,135 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wEN1CTHwpWlLHwAAu9opvQ
+	id YJriIj7ypWn6IAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:16:49 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:25:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBCB1DF388
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2151DF4E1
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:25:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC3910E375;
-	Mon,  2 Mar 2026 20:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6925510E5B8;
+	Mon,  2 Mar 2026 20:25:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="p6w1Pmwd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XmxtkQW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010003.outbound.protection.outlook.com [52.101.85.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCD7210E375;
- Mon,  2 Mar 2026 20:16:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uhd0XHluzPHXtxMwsifBc2GGQoSpdaGloI/0DaBRHkg1cQQLnQWQoEgEzoPoYmFeeRc4sjL0RaEJEGMyqpX6tvPtsoSEam24nkis8dCAr2RXKYZPp9UPs11E/Qnt+vo95C+jXd9MSmoDUcqBOeyo1YNRva8LE9Ij4Juv+n3iiSrrNZvdEKnG9IMhgvN2FKGaKt+8D2qQTpehmV9k0CHitreMw27ftw1CN1Vk8n5TdKEKhqvq50FdHPAdjlNmuj7adzv94i/+M7e9MXdwl5MTnvOjBSLxmgm4LDKRaGnVehDo6QamtKTAvZPYyUHcPzMrQdc3WgEn+HPQnTfNQ9vU/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GgwzQgAj/81wVN9uci1oycp95Eaf3p2HRuZirMegals=;
- b=J7gY3kYBk9rHnu2kcrC1ILomfBPG40CoQA0WpLIrHx4Z1fRl/bHS+L61gqbksobTjyoyaRoodQK97xXi5jyxDvxl3C8EJgNHGaYdaXoWBQRkoj9XZY2Vo8R4KSictOfJJeEO2uCweIAMehLZ66Sp3WLKWXu4AZ+XPYmucAK1+Jx5J5+Kxp/l5AV/qS1vDjDnfBxKP7Q7cx4BIONKbA+iNNd7BamoN0CzIHs6lgUVMzDOEkgbrcE1g+Ey0PHKajFPw3tZ+LFxw7bIsSwwI83hjNgSEdwXdoOx01ATdpN0RTn/xYUxardCCAg8YPuw7OVclsOwV0IptJDt1/8G0+niHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgwzQgAj/81wVN9uci1oycp95Eaf3p2HRuZirMegals=;
- b=p6w1PmwdX9+G7R++z0/9amJXNgO+nvU1J0+J3CgicrBkvoeVDKZ/eWje8eVbPnq6H6/ruruD7t4F/eSeozGycZAd5QCm7cZ8qYFmaIE/Q2b2ORkKgzXXXG317a0yYFoWYy4NdVPLqKAteIkxNRr88/CxH1Tu+eyY+Mnsw2jLQPpF4qnzqY7m3j2H6Cv0eNVgQqbm0l1l+OivIsCGt9Ylu98B6uwSTUf7perNzqHS/k8unBtdBoZfJxXVekjhiZ//1mGLlulbJQMfGf7GVPeIBQIMWZtZdtB37X1zGY/inLp5Q2Vx4IpKsFIrlM5kY92VMtgaZHBXBaYX8tj//QQeIg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH3PR12MB9454.namprd12.prod.outlook.com (2603:10b6:610:1c7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 20:16:36 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9654.015; Mon, 2 Mar 2026
- 20:16:36 +0000
-Message-ID: <26f0ae85-6284-4175-9f6b-812db91237bb@nvidia.com>
-Date: Mon, 2 Mar 2026 15:16:34 -0500
-User-Agent: Mozilla Thunderbird
-From: Joel Fernandes <joelagnelf@nvidia.com>
-Subject: Re: [PATCH v11 4/4] rust: gpu: Add GPU buddy allocator bindings
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Alexandre Courbot <acourbot@nvidia.com>, joel@joelfernandes.org
-References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
- <20260224224005.3232841-5-joelagnelf@nvidia.com>
- <DGPQDMR88BBG.2RO77IS0XQ0HF@kernel.org>
-Content-Language: en-US
-In-Reply-To: <DGPQDMR88BBG.2RO77IS0XQ0HF@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR06CA0029.namprd06.prod.outlook.com
- (2603:10b6:208:23d::34) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2748510E5B8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 20:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772483130; x=1804019130;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=S4vQ2BKMhVbl098t4nnJtXljO+80glw9o60UOnvJNZE=;
+ b=XmxtkQW/VRubRqATaV/zrtzuObqCdSNRwIdAVk2tVg21T0OrwzzT8UdI
+ Y6rU4Js9DlvscFTkGxACJNAKJUgwiBY6WP/J3eayrD8MFYjRo36GIY+C0
+ 7jWxENrNag4eT3TU1cqmGGrhIJNxBM+1RXzGUvg50FbRJm2D0oZgK5j4u
+ Ke+pwCWLilWp+h/kxx+GSi9g5GIB7slN1PF175ReU5YAIanMYaGxF6H61
+ tAYCy8U8F+6xRJpBa11rDhA+GqDV9X8HSUmUxS33ix/sZnOdqzMUVkcom
+ ztONlJaQX3F2wHPwhrH1S85GMKq0nQF/lIHxlPtgbGhBHBRqEyRGXkHpI A==;
+X-CSE-ConnectionGUID: xfF6NrCSSu6USrQD+FoaqA==
+X-CSE-MsgGUID: HTsYnvZeQImxMXnZnF6YDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="72703003"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="72703003"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 12:25:29 -0800
+X-CSE-ConnectionGUID: aVE3hJ1CQrGeOqsOtDhN+A==
+X-CSE-MsgGUID: riaPjhy9QGyyutfjUl8ZCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="217873795"
+Received: from try2-8594.igk.intel.com ([10.91.220.58])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 12:25:28 -0800
+From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ karol.wachowski@linux.intel.com, lizhi.hou@amd.com,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Subject: [PATCH v3] accel/ivpu: Limit number of maximum contexts and doorbells
+ per user
+Date: Mon,  2 Mar 2026 21:22:07 +0100
+Message-ID: <20260302202207.469442-1-maciej.falkowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH3PR12MB9454:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9b35156-3211-4cb4-2950-08de78989b00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: 2VN07RUWEhbRVLsY6OGJnJV0lkeEs39eZhuPSbJQCRJiUAE0QJZgHAny3d0CglajZFZfz0lh0FH4/pLlqEFGF87NpcI1fC9DdDixULip4fDlScw/1b4ej+OgNx2kA5JIyBK/3dHHCPyUkcPj4yT0bSsI9czlWIlfBb2oewbqLDRAtIwHYt1ibmMOHjsZa5SskYTjYUClp8GQkV31hUrS4jDB8NIDrC6JKPhMCc54fnm5smZvOFAKJPNbzrcEvDyVHusrK2st1FS6WcgLbWX+zFPEXyfslceMV1Mq+GP6kDGC+26H/F5Sum0aKBY9WVlBntWACKDwS2TNtl+p1QYAvdRrobIhBDusnjiB32MFLeBjXLVy0ReeNmvPpVpM42AU0Xn8JZx5Hz1wcoCPcBmzsssLi9iQgO2Jsj883CYNUno8J/Cb0atnhynrtCcOenNT2xoHN+hOqMGIwSYYXXWyA0yIIRlGsY0KnX6dnYInrpI7jV51fOyb+RLRdZQNVDjzlqzF6H5jHgNwQ0BaO6Pl3FalSGzbuFmi8CvHvIA8c64n5A/dILIKVAXBUuGa2wqO1Sb5hsy98WnNNwQwaXL4BY45nruO3tplL88P6MCDyFcO908MFHcSnNIM5lWXhNpGR66RRSI/6g10nDk/fgIzxq3gzPwZXF0QC4PQoMzD2fSMMLTkfnpR+GeXR0pnpCZFrerBRq4h1wjAcqaqd2b++A54ujWT4kJV4YibKvSKZ/I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2pwczFENzB5dnRoZytDNGVuUnFMZUtNSE9qbUVmVFZJNkNpRkdCVmV4RHVx?=
- =?utf-8?B?cGtGR1F6RWZjWENvV2UzdXZkWEFpQWR2MlVQbWlrdDJ6d21XcGMrNXVCNDVH?=
- =?utf-8?B?bkN6eWdYaFN4RzI2bWxkNzBBWUluNDRmQ29RT25KK1NTQnVYaVQvU0Q4RWpT?=
- =?utf-8?B?MDBwMlN2Vy9NcWxORnFJcGhVc2UxZk1iSEpvNTRKTFp6Z2dRNUdIM0laZUtO?=
- =?utf-8?B?dGl6ak4wQ2E2cGR0eFhrNnIyZEsyMUFxRGhlUEJrN2UyY0JPOUpsdWFISnRD?=
- =?utf-8?B?bk1JclRkZXV3dFhBZnJ5Ry94c2FxWXNXT3NpSmcwYi9SMW1UU0ZoUUc5SWhW?=
- =?utf-8?B?NTU3WVMvZGVWamVseWtOWnVVRWYydzZJZitDNnhEdGUwbi93d2N1YjF1Wm4r?=
- =?utf-8?B?YzMwNzBabFhsRDB4b3c2b0ZqYUYzNGp0TThkM0FWczFDcE5EMEFwbWttYlBs?=
- =?utf-8?B?MXpTLzVrZEpXR211Nmx1b3ZpRC9OQmJrUW9OTzhRY0R5UHBtZ1JJQ1FYbVZs?=
- =?utf-8?B?SXBvUnlpbnl2R1AxdzQ1L1N0VzJoR3hWTDVIRlNrRzZNSVd2YkhKWEswR1pi?=
- =?utf-8?B?bjBKM0kzQ3B1MWVNcDYrOTlLbG52RUV4TFhJVnhWcjlNZGRDVXpJY2dtTW50?=
- =?utf-8?B?QmxuU2FvOUJjVDg3aVZkQTJ6K0loT3ZoTjliRVcwOTZVb2JvaUozdG42NWRy?=
- =?utf-8?B?eUcrb204RFhaZzhnVkpXVjh4U0F3OXhiSk10WWxLbTVIQmY4S1BtZUcyTmxz?=
- =?utf-8?B?VTIvbXhCQnVSelpVWDAyVUV5eFBoWEpDSTc0QkplRWhkZUFhSEJYQkFqWVdr?=
- =?utf-8?B?dHl6OVdDaysxR3A4SVljc0tHWXRSMkdSbHhsVW4wbDBEUjJGNkt3MUVidUUw?=
- =?utf-8?B?RWx3SGV3dWw3OHFkNjNtL0JNWitEVzdMSFdFdTJiU0ZISUZobnZpYmNBY1Bn?=
- =?utf-8?B?ZXprVUJCQXY5Z1N2OUlqSXFVcjYzNEVISU1hd0ZnV050UEFJakRTWjA0TUR5?=
- =?utf-8?B?aHc1Vkc5cXFsbVhmcXFWY0tsVzRLTXhYN3RXNTBaQVVBWWpDbU1JVmk0cnJz?=
- =?utf-8?B?amhQY0w2VXZ4NHVlc0pjSlU1VHBXZ2RMaWZPSFd1VWhUYWI1NE85VW90RDhR?=
- =?utf-8?B?NFpvZU1DUCtjMC8wclRZTUJPczN5UWl5RGw1eFJZcENIQnFlQTFRN05JVUg4?=
- =?utf-8?B?a0h3cTdhUWdGeTg4eTFPK3NTVzBvcTVtOEdReVd2bXNsRW83WjV6MHlnR2ZH?=
- =?utf-8?B?ekx5YkZJNWRXWnJheFZndDNvRVlGdXlHT2M1L3YwT3Q2bFh4Mi9iWHBNektN?=
- =?utf-8?B?SXNxelhrZ0NtWFozYUxJYWNaY1h4enRzZ01UaEMrSkk4cWFTVUM2Q0w2QVly?=
- =?utf-8?B?WDF6cWNMdHdqbXRaOTFONGZhZUxoSitxdE5xS3FGYlNZUkFxeWlta2ttN2Zx?=
- =?utf-8?B?eitlZVVEbUNWdmRLY21NUmRObmVFK1VWeU43SyszR2FwQmxlUUMrNzc3MGN5?=
- =?utf-8?B?WlcvZzVyd3BPWi9SQ2pyQ1VyNG1XSDhqbDNEWktXK0xudWRWOFZKL1NzbG5S?=
- =?utf-8?B?ZmhaaVNMUWk2bW5rSFZCTEMyZVdHaGZqSTd1d3oxdGw1dmVtaldpU2xpNEQ5?=
- =?utf-8?B?YVZTYVhYb3JKa2lyVEVBWnNTRzdNSUFwZjdIQ1BDWnVVaEF4QXM5UEtRYUF6?=
- =?utf-8?B?K3M4T25xY2I2WEN2MkFMZU9uRTNjRTdQMnhndWZqU0lyZHpsSzc0Q213YUM2?=
- =?utf-8?B?dEV6cFJzVDA2Y3NrV0hWd244azBjM2o2Yll4U1RaYTRNUi9XOHZPWi9vOFha?=
- =?utf-8?B?bkg1UlVEckNaTlJnc0RGM0dwODgycUVmZFlTL0lyeHFlZnliRS9oWWJHS2Rt?=
- =?utf-8?B?M1NtOE5sckVxSmNXdGUvSDBNcm5FWlhsY2I2QjFsbFdXd3h2QU1MRWVWenph?=
- =?utf-8?B?RU1DQkxUblM1bW9CVDdkVlEzYmV6MkIyOTJ6WHduQ2VlTU8yLzRXNXZSYjdL?=
- =?utf-8?B?d2pEeWFWb3o3TVV1dXNJWW50S1JoSGUycHpGL1lKSDRsaVhpamZTbWtWZ2FQ?=
- =?utf-8?B?K09HbWtGRmR3c1FGRWcrODFzc0ExOXRuY1V4YnRyaVVpWG1Da0xJVHNwZFZU?=
- =?utf-8?B?dnlhSzIyaFdPRk9UZzJrbjNlNytRbisrREFGSlZPM2xXa3E4by9ndlllRmph?=
- =?utf-8?B?WkpVR0FtUUpXOVRBVFZHTzNJbFRLNTJxQjhwQTdRNE1Vd3FqTDNpNzdhZC9h?=
- =?utf-8?B?VUdjMk5vNVd5bEtUSDBiNk1SbzRSY0t4b0M0V3E4UitTWjh3MmxwaHhQUkZ2?=
- =?utf-8?B?Y0pnQ0h1eDdQMnpDajVKc252clQ5L25BQUZSek9BTnRkc2Mvd0JLQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9b35156-3211-4cb4-2950-08de78989b00
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 20:16:36.6658 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wQcvCShf+CWmqjsmZ8VBwaV00P0tS90rho8heHFzZ6fZ9MrZ9d6J7diuZYe5rjaep2xJoV99vcv4M1nauQri4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9454
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,41 +72,419 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6DBCB1DF388
+X-Rspamd-Queue-Id: 5C2151DF4E1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_RCPT(0.00)[dri-devel];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,Nvidia.com:dkim];
-	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com];
+	FROM_NEQ_ENVFROM(0.00)[maciej.falkowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,linux.intel.com:mid]
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 01:08:21PM +0100, Danilo Krummrich wrote:
-> > +#[cfg(CONFIG_GPU_BUDDY)]
->
-> Has to be #[cfg(CONFIG_GPU_BUDDY = "y")] for now.
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Fixed, thanks.
+Implement per-user resource limits to prevent resource exhaustion.
 
---
-Joel Fernandes
+Root users can allocate all available contexts (128) and doorbells
+(255), while non-root users are limited to half of the available
+resources (64 contexts and 127 doorbells respectively).
+
+This prevents scenarios where a single user could monopolize NPU
+resources and starve other users on multi-user systems.
+
+Change doorbell ID and command queue ID allocation errors to debug
+messages as those are user triggered.
+
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+---
+v2 -> v3:
+  - Refactor to use kzalloc_obj*() due to treewide rework.
+v1 -> v2:
+  - Fixed off-by-one error (Lizhi)
+---
+ drivers/accel/ivpu/ivpu_drv.c | 94 ++++++++++++++++++++++++++++++++---
+ drivers/accel/ivpu/ivpu_drv.h | 26 ++++++++--
+ drivers/accel/ivpu/ivpu_job.c | 36 ++++++++++----
+ 3 files changed, 136 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 5900a40c7a78..dd3a486df5f1 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -67,6 +67,73 @@ bool ivpu_force_snoop;
+ module_param_named(force_snoop, ivpu_force_snoop, bool, 0444);
+ MODULE_PARM_DESC(force_snoop, "Force snooping for NPU host memory access");
+ 
++static struct ivpu_user_limits *ivpu_user_limits_alloc(struct ivpu_device *vdev, uid_t uid)
++{
++	struct ivpu_user_limits *limits;
++
++	limits = kzalloc_obj(*limits);
++	if (!limits)
++		return ERR_PTR(-ENOMEM);
++
++	kref_init(&limits->ref);
++	atomic_set(&limits->db_count, 0);
++	limits->vdev = vdev;
++	limits->uid = uid;
++
++	/* Allow root user to allocate all contexts */
++	if (uid == 0) {
++		limits->max_ctx_count = ivpu_get_context_count(vdev);
++		limits->max_db_count = ivpu_get_doorbell_count(vdev);
++	} else {
++		limits->max_ctx_count = ivpu_get_context_count(vdev) / 2;
++		limits->max_db_count = ivpu_get_doorbell_count(vdev) / 2;
++	}
++
++	hash_add(vdev->user_limits, &limits->hash_node, uid);
++
++	return limits;
++}
++
++static struct ivpu_user_limits *ivpu_user_limits_get(struct ivpu_device *vdev)
++{
++	struct ivpu_user_limits *limits;
++	uid_t uid = current_uid().val;
++
++	guard(mutex)(&vdev->user_limits_lock);
++
++	hash_for_each_possible(vdev->user_limits, limits, hash_node, uid) {
++		if (limits->uid == uid) {
++			if (kref_read(&limits->ref) >= limits->max_ctx_count) {
++				ivpu_dbg(vdev, IOCTL, "User %u exceeded max ctx count %u\n", uid,
++					 limits->max_ctx_count);
++				return ERR_PTR(-EMFILE);
++			}
++
++			kref_get(&limits->ref);
++			return limits;
++		}
++	}
++
++	return ivpu_user_limits_alloc(vdev, uid);
++}
++
++static void ivpu_user_limits_release(struct kref *ref)
++{
++	struct ivpu_user_limits *limits = container_of(ref, struct ivpu_user_limits, ref);
++	struct ivpu_device *vdev = limits->vdev;
++
++	lockdep_assert_held(&vdev->user_limits_lock);
++	drm_WARN_ON(&vdev->drm, atomic_read(&limits->db_count));
++	hash_del(&limits->hash_node);
++	kfree(limits);
++}
++
++static void ivpu_user_limits_put(struct ivpu_device *vdev, struct ivpu_user_limits *limits)
++{
++	guard(mutex)(&vdev->user_limits_lock);
++	kref_put(&limits->ref, ivpu_user_limits_release);
++}
++
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
+ {
+ 	struct ivpu_device *vdev = file_priv->vdev;
+@@ -110,6 +177,7 @@ static void file_priv_release(struct kref *ref)
+ 	mutex_unlock(&vdev->context_list_lock);
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
+ 
++	ivpu_user_limits_put(vdev, file_priv->user_limits);
+ 	mutex_destroy(&file_priv->ms_lock);
+ 	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
+@@ -169,7 +237,7 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+ 		args->value = ivpu_hw_dpu_max_freq_get(vdev);
+ 		break;
+ 	case DRM_IVPU_PARAM_NUM_CONTEXTS:
+-		args->value = ivpu_get_context_count(vdev);
++		args->value = file_priv->user_limits->max_ctx_count;
+ 		break;
+ 	case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
+ 		args->value = vdev->hw->ranges.user.start;
+@@ -231,22 +299,30 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct ivpu_device *vdev = to_ivpu_device(dev);
+ 	struct ivpu_file_priv *file_priv;
++	struct ivpu_user_limits *limits;
+ 	u32 ctx_id;
+ 	int idx, ret;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+ 		return -ENODEV;
+ 
++	limits = ivpu_user_limits_get(vdev);
++	if (IS_ERR(limits)) {
++		ret = PTR_ERR(limits);
++		goto err_dev_exit;
++	}
++
+ 	file_priv = kzalloc_obj(*file_priv);
+ 	if (!file_priv) {
+ 		ret = -ENOMEM;
+-		goto err_dev_exit;
++		goto err_user_limits_put;
+ 	}
+ 
+ 	INIT_LIST_HEAD(&file_priv->ms_instance_list);
+ 
+ 	file_priv->vdev = vdev;
+ 	file_priv->bound = true;
++	file_priv->user_limits = limits;
+ 	kref_init(&file_priv->ref);
+ 	mutex_init(&file_priv->lock);
+ 	mutex_init(&file_priv->ms_lock);
+@@ -284,6 +360,8 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ 	mutex_destroy(&file_priv->ms_lock);
+ 	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
++err_user_limits_put:
++	ivpu_user_limits_put(vdev, limits);
+ err_dev_exit:
+ 	drm_dev_exit(idx);
+ 	return ret;
+@@ -343,8 +421,7 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+ 	ivpu_ipc_consumer_del(vdev, &cons);
+ 
+ 	if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
+-		ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n",
+-			 ipc_hdr.data_addr);
++		ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n", ipc_hdr.data_addr);
+ 		return -EIO;
+ 	}
+ 
+@@ -453,7 +530,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+ }
+ 
+ static const struct file_operations ivpu_fops = {
+-	.owner		= THIS_MODULE,
++	.owner = THIS_MODULE,
+ 	DRM_ACCEL_FOPS,
+ #ifdef CONFIG_PROC_FS
+ 	.show_fdinfo = drm_show_fdinfo,
+@@ -592,6 +669,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&vdev->db_xa, XA_FLAGS_ALLOC1);
+ 	INIT_LIST_HEAD(&vdev->bo_list);
++	hash_init(vdev->user_limits);
+ 
+ 	vdev->db_limit.min = IVPU_MIN_DB;
+ 	vdev->db_limit.max = IVPU_MAX_DB;
+@@ -600,6 +678,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (ret)
+ 		goto err_xa_destroy;
+ 
++	ret = drmm_mutex_init(&vdev->drm, &vdev->user_limits_lock);
++	if (ret)
++		goto err_xa_destroy;
++
+ 	ret = drmm_mutex_init(&vdev->drm, &vdev->submitted_jobs_lock);
+ 	if (ret)
+ 		goto err_xa_destroy;
+@@ -717,7 +799,7 @@ static struct pci_device_id ivpu_pci_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_PTL_P) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_WCL) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_NVL) },
+-	{ }
++	{}
+ };
+ MODULE_DEVICE_TABLE(pci, ivpu_pci_ids);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 5b34b6f50e69..6378e23e0c97 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -12,6 +12,7 @@
+ #include <drm/drm_mm.h>
+ #include <drm/drm_print.h>
+ 
++#include <linux/hashtable.h>
+ #include <linux/pci.h>
+ #include <linux/xarray.h>
+ #include <uapi/drm/ivpu_accel.h>
+@@ -43,7 +44,7 @@
+ /* SSID 1 is used by the VPU to represent reserved context */
+ #define IVPU_RESERVED_CONTEXT_MMU_SSID 1
+ #define IVPU_USER_CONTEXT_MIN_SSID     2
+-#define IVPU_USER_CONTEXT_MAX_SSID     (IVPU_USER_CONTEXT_MIN_SSID + 63)
++#define IVPU_USER_CONTEXT_MAX_SSID     (IVPU_USER_CONTEXT_MIN_SSID + 128)
+ 
+ #define IVPU_MIN_DB 1
+ #define IVPU_MAX_DB 255
+@@ -51,9 +52,6 @@
+ #define IVPU_JOB_ID_JOB_MASK		GENMASK(7, 0)
+ #define IVPU_JOB_ID_CONTEXT_MASK	GENMASK(31, 8)
+ 
+-#define IVPU_NUM_PRIORITIES    4
+-#define IVPU_NUM_CMDQS_PER_CTX (IVPU_NUM_PRIORITIES)
+-
+ #define IVPU_CMDQ_MIN_ID 1
+ #define IVPU_CMDQ_MAX_ID 255
+ 
+@@ -123,6 +121,16 @@ struct ivpu_fw_info;
+ struct ivpu_ipc_info;
+ struct ivpu_pm_info;
+ 
++struct ivpu_user_limits {
++	struct hlist_node hash_node;
++	struct ivpu_device *vdev;
++	struct kref ref;
++	u32 max_ctx_count;
++	u32 max_db_count;
++	u32 uid;
++	atomic_t db_count;
++};
++
+ struct ivpu_device {
+ 	struct drm_device drm;
+ 	void __iomem *regb;
+@@ -142,6 +150,8 @@ struct ivpu_device {
+ 	struct mutex context_list_lock; /* Protects user context addition/removal */
+ 	struct xarray context_xa;
+ 	struct xa_limit context_xa_limit;
++	DECLARE_HASHTABLE(user_limits, 8);
++	struct mutex user_limits_lock; /* Protects user_limits */
+ 
+ 	struct xarray db_xa;
+ 	struct xa_limit db_limit;
+@@ -189,6 +199,7 @@ struct ivpu_file_priv {
+ 	struct list_head ms_instance_list;
+ 	struct ivpu_bo *ms_info_bo;
+ 	struct xa_limit job_limit;
++	struct ivpu_user_limits *user_limits;
+ 	u32 job_id_next;
+ 	struct xa_limit cmdq_limit;
+ 	u32 cmdq_id_next;
+@@ -286,6 +297,13 @@ static inline u32 ivpu_get_context_count(struct ivpu_device *vdev)
+ 	return (ctx_limit.max - ctx_limit.min + 1);
+ }
+ 
++static inline u32 ivpu_get_doorbell_count(struct ivpu_device *vdev)
++{
++	struct xa_limit db_limit = vdev->db_limit;
++
++	return (db_limit.max - db_limit.min + 1);
++}
++
+ static inline u32 ivpu_get_platform(struct ivpu_device *vdev)
+ {
+ 	WARN_ON_ONCE(vdev->platform == IVPU_PLATFORM_INVALID);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index fe02b7bd465b..f0154dfa6ddc 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -173,7 +173,7 @@ static struct ivpu_cmdq *ivpu_cmdq_create(struct ivpu_file_priv *file_priv, u8 p
+ 	ret = xa_alloc_cyclic(&file_priv->cmdq_xa, &cmdq->id, cmdq, file_priv->cmdq_limit,
+ 			      &file_priv->cmdq_id_next, GFP_KERNEL);
+ 	if (ret < 0) {
+-		ivpu_err(vdev, "Failed to allocate command queue ID: %d\n", ret);
++		ivpu_dbg(vdev, IOCTL, "Failed to allocate command queue ID: %d\n", ret);
+ 		goto err_free_cmdq;
+ 	}
+ 
+@@ -215,14 +215,22 @@ static int ivpu_hws_cmdq_init(struct ivpu_file_priv *file_priv, struct ivpu_cmdq
+ 
+ static int ivpu_register_db(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
+ {
++	struct ivpu_user_limits *limits = file_priv->user_limits;
+ 	struct ivpu_device *vdev = file_priv->vdev;
+ 	int ret;
+ 
++	if (atomic_inc_return(&limits->db_count) > limits->max_db_count) {
++		ivpu_dbg(vdev, IOCTL, "Maximum number of %u doorbells for uid %u reached\n",
++			 limits->max_db_count, limits->uid);
++		ret = -EBUSY;
++		goto err_dec_db_count;
++	}
++
+ 	ret = xa_alloc_cyclic(&vdev->db_xa, &cmdq->db_id, NULL, vdev->db_limit, &vdev->db_next,
+ 			      GFP_KERNEL);
+ 	if (ret < 0) {
+-		ivpu_err(vdev, "Failed to allocate doorbell ID: %d\n", ret);
+-		return ret;
++		ivpu_dbg(vdev, IOCTL, "Failed to allocate doorbell ID: %d\n", ret);
++		goto err_dec_db_count;
+ 	}
+ 
+ 	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW)
+@@ -231,15 +239,18 @@ static int ivpu_register_db(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *
+ 	else
+ 		ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
+ 					   cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
+-
+-	if (!ret) {
+-		ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d priority %d\n",
+-			 cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
+-	} else {
++	if (ret) {
+ 		xa_erase(&vdev->db_xa, cmdq->db_id);
+ 		cmdq->db_id = 0;
++		goto err_dec_db_count;
+ 	}
+ 
++	ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d priority %d\n",
++		 cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
++	return 0;
++
++err_dec_db_count:
++	atomic_dec(&limits->db_count);
+ 	return ret;
+ }
+ 
+@@ -298,6 +309,7 @@ static int ivpu_cmdq_unregister(struct ivpu_file_priv *file_priv, struct ivpu_cm
+ 	}
+ 
+ 	xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
++	atomic_dec(&file_priv->user_limits->db_count);
+ 	cmdq->db_id = 0;
+ 
+ 	return 0;
+@@ -313,6 +325,7 @@ static inline u8 ivpu_job_to_jsm_priority(u8 priority)
+ 
+ static void ivpu_cmdq_destroy(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
+ {
++	lockdep_assert_held(&file_priv->lock);
+ 	ivpu_cmdq_unregister(file_priv, cmdq);
+ 	xa_erase(&file_priv->cmdq_xa, cmdq->id);
+ 	ivpu_cmdq_free(file_priv, cmdq);
+@@ -380,8 +393,11 @@ static void ivpu_cmdq_reset(struct ivpu_file_priv *file_priv)
+ 	mutex_lock(&file_priv->lock);
+ 
+ 	xa_for_each(&file_priv->cmdq_xa, cmdq_id, cmdq) {
+-		xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+-		cmdq->db_id = 0;
++		if (cmdq->db_id) {
++			xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
++			atomic_dec(&file_priv->user_limits->db_count);
++			cmdq->db_id = 0;
++		}
+ 	}
+ 
+ 	mutex_unlock(&file_priv->lock);
+-- 
+2.43.0
 
