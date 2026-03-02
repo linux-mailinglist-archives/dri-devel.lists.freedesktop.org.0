@@ -2,177 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kAFvE/+hpmmvSAAAu9opvQ
+	id +KEpI4LzpWkxIQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:27 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:30:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCA41EB4EB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7DB1DF8D8
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 21:30:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FCD10E70B;
-	Tue,  3 Mar 2026 08:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511EA10E5BB;
+	Mon,  2 Mar 2026 20:30:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T7M2jA0E";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PbWEnB2n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0278910E5C3;
- Mon,  2 Mar 2026 20:51:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2836160180;
- Mon,  2 Mar 2026 20:51:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC98CC2BCAF;
- Mon,  2 Mar 2026 20:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772484682;
- bh=/sz7TWb/8/hX0LciA1x/Z08Sx95qZ79eor/fKNv831c=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=T7M2jA0E+nOiFu6g0V2eB4Fpg250FkkborXQ68QoO89fQRYaKtke1mCmqo5Vuf7+r
- wiGdNgQVLprPk5IB7mkheRRMyC+FRKyQz6ka9nPwO+kJgHBHZ43Md2Dkd9VD0/Of83
- ZUNAObaZI0EzCRK+rvOI+NopDu28S8zgq5QgcDyiMewHIqmRZf306wVK3dRX1tBBlm
- VErLvddEWB8MSYgMw/Tz8REN4YQ1FxmYNeki4O77thoNIvmMcSZ/Thb9ssZkIaaIfz
- KZV2FrOeEqwnH4Do1nBzSwg2vKuYdXhsUVCS3pZV7L6ke8IgQelYklF9NzLOeqoxtq
- 8b/TRYKwQNuoQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Mar 2026 15:25:34 -0500
-Subject: [PATCH v2 110/110] vfs: remove kino_t typedef and PRIino format macro
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9CCF10E5BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 20:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772483454; x=1804019454;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xCHsFfvk3wkxua5VMLmMlhpKl8Z/IGzNpHuhXE6Ggis=;
+ b=PbWEnB2nb7i1bHYo9lYeICDGDB89FB2DPqViz71QVRmJmPcFDMFgoIRH
+ 1bOQEd0wul4Hd9QD6WG5Gi3RhLmxuifKZpzkTgxWRKx48qfusrq3BuGFK
+ nUtf1mrm5KDQtViaCiN5tqxCRCR09dIyqAs3PQm3IDpHPlGb8GMUNlRVd
+ Afuo/G3MWVog+mLUxGRbPtCOtunpcF6/MmoPvh/67MAnA7q08j3LgCmBJ
+ rXyMFskpS/Y7FrDRH06krSGquV+Ip230IRgxSlLozhoo3EhxJL7ZfRP31
+ XsLTdlUlwpV7BDHzEA+olHA5YGZ3C2XG2NVEb4iHtFcKzCQCQK0PEo09W A==;
+X-CSE-ConnectionGUID: 5xDg7feGSCyS66O4YYJ2hQ==
+X-CSE-MsgGUID: gJ5dclsCRMagl+i3hkv8fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73692430"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="73692430"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 12:30:53 -0800
+X-CSE-ConnectionGUID: qBt65wXxSnWnY4xaHiqzuQ==
+X-CSE-MsgGUID: qNjqg2/cQz+klMZ+zoLp3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="240778920"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.94.253.247])
+ ([10.94.253.247])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 12:30:51 -0800
+Message-ID: <68617c15-c13a-488b-8c2b-54a342fcdfae@linux.intel.com>
+Date: Mon, 2 Mar 2026 21:30:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-iino-u64-v2-110-e5388800dae0@kernel.org>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
-In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, 
- Bharath SM <bharathsm@microsoft.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
- Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
- Salah Triki <salah.triki@gmail.com>, 
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
- Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
- Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
- Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Yangtao Li <frank.li@vivo.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
- Dave Kleikamp <shaggy@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
- Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
- Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
- Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>, 
- Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
- Johan Hedberg <johan.hedberg@gmail.com>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Oliver Hartkopp <socketcan@hartkopp.net>, 
- Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>, 
- Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Remi Denis-Courmont <courmisch@gmail.com>, 
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
- Xin Long <lucien.xin@gmail.com>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
- linux-x25@vger.kernel.org, audit@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org, 
- linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7864; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=/sz7TWb/8/hX0LciA1x/Z08Sx95qZ79eor/fKNv831c=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfIOWw4VpZ1f0esD0l2eblcdOGEvFuzW5qecf
- cTPMYYfwB+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXyDgAKCRAADmhBGVaC
- FSiGEADKoZsC6JwFSXz5Q8tPMZ6t8//Y5SGA/vaBUiD5D0C+kZUFc/J5USU5TJAKaXk0BTDmAT/
- 2kbSCQNocpoPv3+wT1fnN67/FnoxtqnhKqtCXlvPPR9RqXVCoIxxjy81hmMGvj5OueJeojBhBrE
- EPeNMIFty+gCEGi2dWknNkaFTtNxVknqICbKKlus5egvNmB/P/wcCwA75eyzT9Cqf8HgCQ2UWH6
- E+1UZg/P3Utcs5RWUN4LdyqwfM+nEl51pMv3R4lNJeMv6VLFYo0VBxIBSMwMwLYGA8ONx6GabD8
- h7hmuJLNcF4apD7rmibApIK+IR8kjVt7xg3Z1R/kF7WyEW+ipWCA+d5pPv4ATJrviTJ5swUDr+e
- 0fR52ir06HftVbBViJXC+/+JeBB5ygEQwwixuJf+EHIPh8Nw+eAOeSMTJT6/5J9boBSM4t53R2U
- 1uE4EroXow0SM75te/gScXwcjFowrQz/+gRU3pxfj31chpErmp6yk2ql36oF4XCRuFtyNVG3v2y
- fwmpsbHx68WQUTJbKUJrw9HuC4vvVoFx2K26sNk8Mvnxfxb/Menyn7MMrfXHs4wZ/DdlCIHP9J6
- K4FPkJfGrBW5QSCsdyluxgAY1+ed66E9Oz4M67wxOod8vTaTchUlxDXS5wJQNAd38COtoq/jHe9
- EYgFPWN/4XZNcUQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
-X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:16 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] accel/ivpu: Limit number of maximum contexts and
+ doorbells per user
+To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ karol.wachowski@linux.intel.com
+References: <20260225180638.316126-1-maciej.falkowski@linux.intel.com>
+ <88c1af96-5593-2554-2e17-269bed38d000@amd.com>
+Content-Language: en-US
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <88c1af96-5593-2554-2e17-269bed38d000@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,238 +77,434 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: BDCA41EB4EB
+X-Rspamd-Queue-Id: CD7DB1DF8D8
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:lizhi.hou@amd.com,m:oded.gabbay@gmail.com,m:jeff.hugo@oss.qualcomm.com,m:karol.wachowski@linux.intel.com,m:odedgabbay@gmail.com,s:lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_GT_50(0.00)[172];
-	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[maciej.falkowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[maciej.falkowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,amd.com:email,intel.com:dkim,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Now that i_ino has been widened to u64, replace the kino_t typedef with
-u64 and the PRIino format macro with the concrete format strings.
+On 2/25/2026 9:50 PM, Lizhi Hou wrote:
 
-Replace the remaining PRIino uses throughout the tree, and remove the
-typedef and #define from include/linux/fs.h. Change the i_ino field in
-struct inode from kino_t to u64.
+> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+I sent v3 with a rebase & refactor to use kzalloc_obj* functions after 
+treewide change.
+Would you mind to see it and Rev-by again?
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/dcache.c        |  4 ++--
- fs/eventpoll.c     |  2 +-
- fs/fserror.c       |  2 +-
- fs/inode.c         | 10 +++++-----
- fs/locks.c         |  6 +++---
- fs/nsfs.c          |  4 ++--
- fs/pipe.c          |  2 +-
- include/linux/fs.h |  5 +----
- 8 files changed, 16 insertions(+), 19 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 13fb3e89cba7442c9bed74c41ca18be5e43e28c9..9ceab142896f6631017067890fd1079240448e13 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1637,11 +1637,11 @@ static enum d_walk_ret umount_check(void *_data, struct dentry *dentry)
- 	if (dentry == _data && dentry->d_lockref.count == 1)
- 		return D_WALK_CONTINUE;
- 
--	WARN(1, "BUG: Dentry %p{i=%" PRIino "x,n=%pd} "
-+	WARN(1, "BUG: Dentry %p{i=%llx,n=%pd} "
- 			" still in use (%d) [unmount of %s %s]\n",
- 		       dentry,
- 		       dentry->d_inode ?
--		       dentry->d_inode->i_ino : (kino_t)0,
-+		       dentry->d_inode->i_ino : (u64)0,
- 		       dentry,
- 		       dentry->d_lockref.count,
- 		       dentry->d_sb->s_type->name,
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 90fd92425492221d13bd0cf067d47579bb407a01..4ccd4d2e31adf571f939d2e777123e40302e565f 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -1080,7 +1080,7 @@ static void ep_show_fdinfo(struct seq_file *m, struct file *f)
- 		struct inode *inode = file_inode(epi->ffd.file);
- 
- 		seq_printf(m, "tfd: %8d events: %8x data: %16llx "
--			   " pos:%lli ino:%" PRIino "x sdev:%x\n",
-+			   " pos:%lli ino:%llx sdev:%x\n",
- 			   epi->ffd.fd, epi->event.events,
- 			   (long long)epi->event.data,
- 			   (long long)epi->ffd.file->f_pos,
-diff --git a/fs/fserror.c b/fs/fserror.c
-index b685b329b5956a639c41b25c42cfff16e6e5ab6e..1e4d11fd9562fd158a23b64ca60e9b7e01719cb8 100644
---- a/fs/fserror.c
-+++ b/fs/fserror.c
-@@ -176,7 +176,7 @@ void fserror_report(struct super_block *sb, struct inode *inode,
- lost:
- 	if (inode)
- 		pr_err_ratelimited(
-- "%s: lost file I/O error report for ino %" PRIino "u type %u pos 0x%llx len 0x%llx error %d",
-+ "%s: lost file I/O error report for ino %llu type %u pos 0x%llx len 0x%llx error %d",
- 		       sb->s_id, inode->i_ino, type, pos, len, error);
- 	else
- 		pr_err_ratelimited(
-diff --git a/fs/inode.c b/fs/inode.c
-index 24ab9fa10baf7c885244f23bfccd731efe4a14cc..5ad169d51728c260aeaabb810e59eb3ec1d1ce52 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -726,7 +726,7 @@ void dump_mapping(const struct address_space *mapping)
- 	struct dentry *dentry_ptr;
- 	struct dentry dentry;
- 	char fname[64] = {};
--	kino_t ino;
-+	u64 ino;
- 
- 	/*
- 	 * If mapping is an invalid pointer, we don't want to crash
-@@ -750,14 +750,14 @@ void dump_mapping(const struct address_space *mapping)
- 	}
- 
- 	if (!dentry_first) {
--		pr_warn("aops:%ps ino:%" PRIino "x\n", a_ops, ino);
-+		pr_warn("aops:%ps ino:%llx\n", a_ops, ino);
- 		return;
- 	}
- 
- 	dentry_ptr = container_of(dentry_first, struct dentry, d_u.d_alias);
- 	if (get_kernel_nofault(dentry, dentry_ptr) ||
- 	    !dentry.d_parent || !dentry.d_name.name) {
--		pr_warn("aops:%ps ino:%" PRIino "x invalid dentry:%px\n",
-+		pr_warn("aops:%ps ino:%llx invalid dentry:%px\n",
- 				a_ops, ino, dentry_ptr);
- 		return;
- 	}
-@@ -768,7 +768,7 @@ void dump_mapping(const struct address_space *mapping)
- 	 * Even if strncpy_from_kernel_nofault() succeeded,
- 	 * the fname could be unreliable
- 	 */
--	pr_warn("aops:%ps ino:%" PRIino "x dentry name(?):\"%s\"\n",
-+	pr_warn("aops:%ps ino:%llx dentry name(?):\"%s\"\n",
- 		a_ops, ino, fname);
- }
- 
-@@ -2641,7 +2641,7 @@ void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
- 		/* leave it no_open_fops */
- 		break;
- 	default:
--		pr_debug("init_special_inode: bogus i_mode (%o) for inode %s:%" PRIino "u\n",
-+		pr_debug("init_special_inode: bogus i_mode (%o) for inode %s:%llu\n",
- 			 mode, inode->i_sb->s_id, inode->i_ino);
- 		break;
- 	}
-diff --git a/fs/locks.c b/fs/locks.c
-index 9c5aa23f09b6e061dc94c81cd802bb65dd0053c1..d8b066fb42108971f6b3c7449dbc9b5f8df16b13 100644
---- a/fs/locks.c
-+++ b/fs/locks.c
-@@ -234,7 +234,7 @@ locks_check_ctx_lists(struct inode *inode)
- 	if (unlikely(!list_empty(&ctx->flc_flock) ||
- 		     !list_empty(&ctx->flc_posix) ||
- 		     !list_empty(&ctx->flc_lease))) {
--		pr_warn("Leaked locks on dev=0x%x:0x%x ino=0x%" PRIino "x:\n",
-+		pr_warn("Leaked locks on dev=0x%x:0x%x ino=0x%llx:\n",
- 			MAJOR(inode->i_sb->s_dev), MINOR(inode->i_sb->s_dev),
- 			inode->i_ino);
- 		locks_dump_ctx_list(&ctx->flc_flock, "FLOCK");
-@@ -251,7 +251,7 @@ locks_check_ctx_file_list(struct file *filp, struct list_head *list, char *list_
- 
- 	list_for_each_entry(flc, list, flc_list)
- 		if (flc->flc_file == filp)
--			pr_warn("Leaked %s lock on dev=0x%x:0x%x ino=0x%" PRIino "x "
-+			pr_warn("Leaked %s lock on dev=0x%x:0x%x ino=0x%llx "
- 				" fl_owner=%p fl_flags=0x%x fl_type=0x%x fl_pid=%u\n",
- 				list_type, MAJOR(inode->i_sb->s_dev),
- 				MINOR(inode->i_sb->s_dev), inode->i_ino,
-@@ -2896,7 +2896,7 @@ static void lock_get_status(struct seq_file *f, struct file_lock_core *flc,
- 			     (type == F_RDLCK) ? "READ" : "UNLCK");
- 	if (inode) {
- 		/* userspace relies on this representation of dev_t */
--		seq_printf(f, "%d %02x:%02x:%" PRIino "u ", pid,
-+		seq_printf(f, "%d %02x:%02x:%llu ", pid,
- 				MAJOR(inode->i_sb->s_dev),
- 				MINOR(inode->i_sb->s_dev), inode->i_ino);
- 	} else {
-diff --git a/fs/nsfs.c b/fs/nsfs.c
-index 0e099ee2121f8831645c3a25d759793ef2ff9ce6..eac326b85314ac8080248347154d599c953969c7 100644
---- a/fs/nsfs.c
-+++ b/fs/nsfs.c
-@@ -46,7 +46,7 @@ static char *ns_dname(struct dentry *dentry, char *buffer, int buflen)
- 	struct ns_common *ns = inode->i_private;
- 	const struct proc_ns_operations *ns_ops = ns->ops;
- 
--	return dynamic_dname(buffer, buflen, "%s:[%" PRIino "u]",
-+	return dynamic_dname(buffer, buflen, "%s:[%llu]",
- 		ns_ops->name, inode->i_ino);
- }
- 
-@@ -394,7 +394,7 @@ static int nsfs_show_path(struct seq_file *seq, struct dentry *dentry)
- 	const struct ns_common *ns = inode->i_private;
- 	const struct proc_ns_operations *ns_ops = ns->ops;
- 
--	seq_printf(seq, "%s:[%" PRIino "u]", ns_ops->name, inode->i_ino);
-+	seq_printf(seq, "%s:[%llu]", ns_ops->name, inode->i_ino);
- 	return 0;
- }
- 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 311928e8713989747605fd79f653e36d27ce8c0e..9841648c9cf3e8e569cf6ba5c792624fe92396f5 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -873,7 +873,7 @@ static struct vfsmount *pipe_mnt __ro_after_init;
-  */
- static char *pipefs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
--	return dynamic_dname(buffer, buflen, "pipe:[%" PRIino "u]",
-+	return dynamic_dname(buffer, buflen, "pipe:[%llu]",
- 				d_inode(dentry)->i_ino);
- }
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 4193817e02e8bf94f29514ca43379af21f37ac61..097443bf12e289c347651e5f3da5b67eb6b53121 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -758,9 +758,6 @@ struct inode_state_flags {
- 	enum inode_state_flags_enum __state;
- };
- 
--typedef u64		kino_t;
--#define PRIino		"ll"
--
- /*
-  * Keep mostly read-only and often accessed (especially for
-  * the RCU path lookup and 'stat' data) fields at the beginning
-@@ -786,7 +783,7 @@ struct inode {
- #endif
- 
- 	/* Stat data, not accessed from path walking */
--	kino_t			i_ino;
-+	u64			i_ino;
- 	/*
- 	 * Filesystems may only read i_nlink directly.  They shall use the
- 	 * following functions for modification:
-
--- 
-2.53.0
-
+Best regards,
+Maciej
+>
+> On 2/25/26 10:06, Maciej Falkowski wrote:
+>> From: Karol Wachowski <karol.wachowski@linux.intel.com>
+>>
+>> Implement per-user resource limits to prevent resource exhaustion.
+>>
+>> Root users can allocate all available contexts (128) and doorbells
+>> (255), while non-root users are limited to half of the available
+>> resources (64 contexts and 127 doorbells respectively).
+>>
+>> This prevents scenarios where a single user could monopolize NPU
+>> resources and starve other users on multi-user systems.
+>>
+>> Change doorbell ID and command queue ID allocation errors to debug
+>> messages as those are user triggered.
+>>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>> ---
+>> v1 -> v2:
+>>    - Fixed off-by-one error (Lizhi)
+>> ---
+>>   drivers/accel/ivpu/ivpu_drv.c | 94 ++++++++++++++++++++++++++++++++---
+>>   drivers/accel/ivpu/ivpu_drv.h | 26 ++++++++--
+>>   drivers/accel/ivpu/ivpu_job.c | 36 ++++++++++----
+>>   3 files changed, 136 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/accel/ivpu/ivpu_drv.c 
+>> b/drivers/accel/ivpu/ivpu_drv.c
+>> index 3b6ec8eecf2f..1d9f7d2f71a2 100644
+>> --- a/drivers/accel/ivpu/ivpu_drv.c
+>> +++ b/drivers/accel/ivpu/ivpu_drv.c
+>> @@ -68,6 +68,73 @@ bool ivpu_force_snoop;
+>>   module_param_named(force_snoop, ivpu_force_snoop, bool, 0444);
+>>   MODULE_PARM_DESC(force_snoop, "Force snooping for NPU host memory 
+>> access");
+>>   +static struct ivpu_user_limits *ivpu_user_limits_alloc(struct 
+>> ivpu_device *vdev, uid_t uid)
+>> +{
+>> +    struct ivpu_user_limits *limits;
+>> +
+>> +    limits = kzalloc(sizeof(*limits), GFP_KERNEL);
+>> +    if (!limits)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    kref_init(&limits->ref);
+>> +    atomic_set(&limits->db_count, 0);
+>> +    limits->vdev = vdev;
+>> +    limits->uid = uid;
+>> +
+>> +    /* Allow root user to allocate all contexts */
+>> +    if (uid == 0) {
+>> +        limits->max_ctx_count = ivpu_get_context_count(vdev);
+>> +        limits->max_db_count = ivpu_get_doorbell_count(vdev);
+>> +    } else {
+>> +        limits->max_ctx_count = ivpu_get_context_count(vdev) / 2;
+>> +        limits->max_db_count = ivpu_get_doorbell_count(vdev) / 2;
+>> +    }
+>> +
+>> +    hash_add(vdev->user_limits, &limits->hash_node, uid);
+>> +
+>> +    return limits;
+>> +}
+>> +
+>> +static struct ivpu_user_limits *ivpu_user_limits_get(struct 
+>> ivpu_device *vdev)
+>> +{
+>> +    struct ivpu_user_limits *limits;
+>> +    uid_t uid = current_uid().val;
+>> +
+>> +    guard(mutex)(&vdev->user_limits_lock);
+>> +
+>> +    hash_for_each_possible(vdev->user_limits, limits, hash_node, uid) {
+>> +        if (limits->uid == uid) {
+>> +            if (kref_read(&limits->ref) >= limits->max_ctx_count) {
+>> +                ivpu_dbg(vdev, IOCTL, "User %u exceeded max ctx 
+>> count %u\n", uid,
+>> +                     limits->max_ctx_count);
+>> +                return ERR_PTR(-EMFILE);
+>> +            }
+>> +
+>> +            kref_get(&limits->ref);
+>> +            return limits;
+>> +        }
+>> +    }
+>> +
+>> +    return ivpu_user_limits_alloc(vdev, uid);
+>> +}
+>> +
+>> +static void ivpu_user_limits_release(struct kref *ref)
+>> +{
+>> +    struct ivpu_user_limits *limits = container_of(ref, struct 
+>> ivpu_user_limits, ref);
+>> +    struct ivpu_device *vdev = limits->vdev;
+>> +
+>> +    lockdep_assert_held(&vdev->user_limits_lock);
+>> +    drm_WARN_ON(&vdev->drm, atomic_read(&limits->db_count));
+>> +    hash_del(&limits->hash_node);
+>> +    kfree(limits);
+>> +}
+>> +
+>> +static void ivpu_user_limits_put(struct ivpu_device *vdev, struct 
+>> ivpu_user_limits *limits)
+>> +{
+>> +    guard(mutex)(&vdev->user_limits_lock);
+>> +    kref_put(&limits->ref, ivpu_user_limits_release);
+>> +}
+>> +
+>>   struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv 
+>> *file_priv)
+>>   {
+>>       struct ivpu_device *vdev = file_priv->vdev;
+>> @@ -111,6 +178,7 @@ static void file_priv_release(struct kref *ref)
+>>       mutex_unlock(&vdev->context_list_lock);
+>>       pm_runtime_put_autosuspend(vdev->drm.dev);
+>>   +    ivpu_user_limits_put(vdev, file_priv->user_limits);
+>>       mutex_destroy(&file_priv->ms_lock);
+>>       mutex_destroy(&file_priv->lock);
+>>       kfree(file_priv);
+>> @@ -170,7 +238,7 @@ static int ivpu_get_param_ioctl(struct drm_device 
+>> *dev, void *data, struct drm_f
+>>           args->value = ivpu_hw_dpu_max_freq_get(vdev);
+>>           break;
+>>       case DRM_IVPU_PARAM_NUM_CONTEXTS:
+>> -        args->value = ivpu_get_context_count(vdev);
+>> +        args->value = file_priv->user_limits->max_ctx_count;
+>>           break;
+>>       case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
+>>           args->value = vdev->hw->ranges.user.start;
+>> @@ -232,22 +300,30 @@ static int ivpu_open(struct drm_device *dev, 
+>> struct drm_file *file)
+>>   {
+>>       struct ivpu_device *vdev = to_ivpu_device(dev);
+>>       struct ivpu_file_priv *file_priv;
+>> +    struct ivpu_user_limits *limits;
+>>       u32 ctx_id;
+>>       int idx, ret;
+>>         if (!drm_dev_enter(dev, &idx))
+>>           return -ENODEV;
+>>   +    limits = ivpu_user_limits_get(vdev);
+>> +    if (IS_ERR(limits)) {
+>> +        ret = PTR_ERR(limits);
+>> +        goto err_dev_exit;
+>> +    }
+>> +
+>>       file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+>>       if (!file_priv) {
+>>           ret = -ENOMEM;
+>> -        goto err_dev_exit;
+>> +        goto err_user_limits_put;
+>>       }
+>>         INIT_LIST_HEAD(&file_priv->ms_instance_list);
+>>         file_priv->vdev = vdev;
+>>       file_priv->bound = true;
+>> +    file_priv->user_limits = limits;
+>>       kref_init(&file_priv->ref);
+>>       mutex_init(&file_priv->lock);
+>>       mutex_init(&file_priv->ms_lock);
+>> @@ -285,6 +361,8 @@ static int ivpu_open(struct drm_device *dev, 
+>> struct drm_file *file)
+>>       mutex_destroy(&file_priv->ms_lock);
+>>       mutex_destroy(&file_priv->lock);
+>>       kfree(file_priv);
+>> +err_user_limits_put:
+>> +    ivpu_user_limits_put(vdev, limits);
+>>   err_dev_exit:
+>>       drm_dev_exit(idx);
+>>       return ret;
+>> @@ -344,8 +422,7 @@ static int ivpu_wait_for_ready(struct ivpu_device 
+>> *vdev)
+>>       ivpu_ipc_consumer_del(vdev, &cons);
+>>         if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
+>> -        ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n",
+>> -             ipc_hdr.data_addr);
+>> +        ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n", 
+>> ipc_hdr.data_addr);
+>>           return -EIO;
+>>       }
+>>   @@ -454,7 +531,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+>>   }
+>>     static const struct file_operations ivpu_fops = {
+>> -    .owner        = THIS_MODULE,
+>> +    .owner = THIS_MODULE,
+>>       DRM_ACCEL_FOPS,
+>>   #ifdef CONFIG_PROC_FS
+>>       .show_fdinfo = drm_show_fdinfo,
+>> @@ -593,6 +670,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>       xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
+>>       xa_init_flags(&vdev->db_xa, XA_FLAGS_ALLOC1);
+>>       INIT_LIST_HEAD(&vdev->bo_list);
+>> +    hash_init(vdev->user_limits);
+>>         vdev->db_limit.min = IVPU_MIN_DB;
+>>       vdev->db_limit.max = IVPU_MAX_DB;
+>> @@ -601,6 +679,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>       if (ret)
+>>           goto err_xa_destroy;
+>>   +    ret = drmm_mutex_init(&vdev->drm, &vdev->user_limits_lock);
+>> +    if (ret)
+>> +        goto err_xa_destroy;
+>> +
+>>       ret = drmm_mutex_init(&vdev->drm, &vdev->submitted_jobs_lock);
+>>       if (ret)
+>>           goto err_xa_destroy;
+>> @@ -718,7 +800,7 @@ static struct pci_device_id ivpu_pci_ids[] = {
+>>       { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_PTL_P) },
+>>       { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_WCL) },
+>>       { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_NVL) },
+>> -    { }
+>> +    {}
+>>   };
+>>   MODULE_DEVICE_TABLE(pci, ivpu_pci_ids);
+>>   diff --git a/drivers/accel/ivpu/ivpu_drv.h 
+>> b/drivers/accel/ivpu/ivpu_drv.h
+>> index 78ecddf2831d..0b5aa41151c6 100644
+>> --- a/drivers/accel/ivpu/ivpu_drv.h
+>> +++ b/drivers/accel/ivpu/ivpu_drv.h
+>> @@ -12,6 +12,7 @@
+>>   #include <drm/drm_mm.h>
+>>   #include <drm/drm_print.h>
+>>   +#include <linux/hashtable.h>
+>>   #include <linux/pci.h>
+>>   #include <linux/xarray.h>
+>>   #include <uapi/drm/ivpu_accel.h>
+>> @@ -43,7 +44,7 @@
+>>   /* SSID 1 is used by the VPU to represent reserved context */
+>>   #define IVPU_RESERVED_CONTEXT_MMU_SSID 1
+>>   #define IVPU_USER_CONTEXT_MIN_SSID     2
+>> -#define IVPU_USER_CONTEXT_MAX_SSID (IVPU_USER_CONTEXT_MIN_SSID + 63)
+>> +#define IVPU_USER_CONTEXT_MAX_SSID (IVPU_USER_CONTEXT_MIN_SSID + 128)
+>>     #define IVPU_MIN_DB 1
+>>   #define IVPU_MAX_DB 255
+>> @@ -51,9 +52,6 @@
+>>   #define IVPU_JOB_ID_JOB_MASK        GENMASK(7, 0)
+>>   #define IVPU_JOB_ID_CONTEXT_MASK    GENMASK(31, 8)
+>>   -#define IVPU_NUM_PRIORITIES    4
+>> -#define IVPU_NUM_CMDQS_PER_CTX (IVPU_NUM_PRIORITIES)
+>> -
+>>   #define IVPU_CMDQ_MIN_ID 1
+>>   #define IVPU_CMDQ_MAX_ID 255
+>>   @@ -124,6 +122,16 @@ struct ivpu_fw_info;
+>>   struct ivpu_ipc_info;
+>>   struct ivpu_pm_info;
+>>   +struct ivpu_user_limits {
+>> +    struct hlist_node hash_node;
+>> +    struct ivpu_device *vdev;
+>> +    struct kref ref;
+>> +    u32 max_ctx_count;
+>> +    u32 max_db_count;
+>> +    u32 uid;
+>> +    atomic_t db_count;
+>> +};
+>> +
+>>   struct ivpu_device {
+>>       struct drm_device drm;
+>>       void __iomem *regb;
+>> @@ -143,6 +151,8 @@ struct ivpu_device {
+>>       struct mutex context_list_lock; /* Protects user context 
+>> addition/removal */
+>>       struct xarray context_xa;
+>>       struct xa_limit context_xa_limit;
+>> +    DECLARE_HASHTABLE(user_limits, 8);
+>> +    struct mutex user_limits_lock; /* Protects user_limits */
+>>         struct xarray db_xa;
+>>       struct xa_limit db_limit;
+>> @@ -190,6 +200,7 @@ struct ivpu_file_priv {
+>>       struct list_head ms_instance_list;
+>>       struct ivpu_bo *ms_info_bo;
+>>       struct xa_limit job_limit;
+>> +    struct ivpu_user_limits *user_limits;
+>>       u32 job_id_next;
+>>       struct xa_limit cmdq_limit;
+>>       u32 cmdq_id_next;
+>> @@ -287,6 +298,13 @@ static inline u32 ivpu_get_context_count(struct 
+>> ivpu_device *vdev)
+>>       return (ctx_limit.max - ctx_limit.min + 1);
+>>   }
+>>   +static inline u32 ivpu_get_doorbell_count(struct ivpu_device *vdev)
+>> +{
+>> +    struct xa_limit db_limit = vdev->db_limit;
+>> +
+>> +    return (db_limit.max - db_limit.min + 1);
+>> +}
+>> +
+>>   static inline u32 ivpu_get_platform(struct ivpu_device *vdev)
+>>   {
+>>       WARN_ON_ONCE(vdev->platform == IVPU_PLATFORM_INVALID);
+>> diff --git a/drivers/accel/ivpu/ivpu_job.c 
+>> b/drivers/accel/ivpu/ivpu_job.c
+>> index 4f8564e2878a..337ed269fd3e 100644
+>> --- a/drivers/accel/ivpu/ivpu_job.c
+>> +++ b/drivers/accel/ivpu/ivpu_job.c
+>> @@ -173,7 +173,7 @@ static struct ivpu_cmdq *ivpu_cmdq_create(struct 
+>> ivpu_file_priv *file_priv, u8 p
+>>       ret = xa_alloc_cyclic(&file_priv->cmdq_xa, &cmdq->id, cmdq, 
+>> file_priv->cmdq_limit,
+>>                     &file_priv->cmdq_id_next, GFP_KERNEL);
+>>       if (ret < 0) {
+>> -        ivpu_err(vdev, "Failed to allocate command queue ID: %d\n", 
+>> ret);
+>> +        ivpu_dbg(vdev, IOCTL, "Failed to allocate command queue ID: 
+>> %d\n", ret);
+>>           goto err_free_cmdq;
+>>       }
+>>   @@ -215,14 +215,22 @@ static int ivpu_hws_cmdq_init(struct 
+>> ivpu_file_priv *file_priv, struct ivpu_cmdq
+>>     static int ivpu_register_db(struct ivpu_file_priv *file_priv, 
+>> struct ivpu_cmdq *cmdq)
+>>   {
+>> +    struct ivpu_user_limits *limits = file_priv->user_limits;
+>>       struct ivpu_device *vdev = file_priv->vdev;
+>>       int ret;
+>>   +    if (atomic_inc_return(&limits->db_count) > 
+>> limits->max_db_count) {
+>> +        ivpu_dbg(vdev, IOCTL, "Maximum number of %u doorbells for 
+>> uid %u reached\n",
+>> +             limits->max_db_count, limits->uid);
+>> +        ret = -EBUSY;
+>> +        goto err_dec_db_count;
+>> +    }
+>> +
+>>       ret = xa_alloc_cyclic(&vdev->db_xa, &cmdq->db_id, NULL, 
+>> vdev->db_limit, &vdev->db_next,
+>>                     GFP_KERNEL);
+>>       if (ret < 0) {
+>> -        ivpu_err(vdev, "Failed to allocate doorbell ID: %d\n", ret);
+>> -        return ret;
+>> +        ivpu_dbg(vdev, IOCTL, "Failed to allocate doorbell ID: 
+>> %d\n", ret);
+>> +        goto err_dec_db_count;
+>>       }
+>>         if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW)
+>> @@ -231,15 +239,18 @@ static int ivpu_register_db(struct 
+>> ivpu_file_priv *file_priv, struct ivpu_cmdq *
+>>       else
+>>           ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, 
+>> cmdq->db_id,
+>>                          cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
+>> -
+>> -    if (!ret) {
+>> -        ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d 
+>> priority %d\n",
+>> -             cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
+>> -    } else {
+>> +    if (ret) {
+>>           xa_erase(&vdev->db_xa, cmdq->db_id);
+>>           cmdq->db_id = 0;
+>> +        goto err_dec_db_count;
+>>       }
+>>   +    ivpu_dbg(vdev, JOB, "DB %d registered to cmdq %d ctx %d 
+>> priority %d\n",
+>> +         cmdq->db_id, cmdq->id, file_priv->ctx.id, cmdq->priority);
+>> +    return 0;
+>> +
+>> +err_dec_db_count:
+>> +    atomic_dec(&limits->db_count);
+>>       return ret;
+>>   }
+>>   @@ -298,6 +309,7 @@ static int ivpu_cmdq_unregister(struct 
+>> ivpu_file_priv *file_priv, struct ivpu_cm
+>>       }
+>>         xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+>> +    atomic_dec(&file_priv->user_limits->db_count);
+>>       cmdq->db_id = 0;
+>>         return 0;
+>> @@ -313,6 +325,7 @@ static inline u8 ivpu_job_to_jsm_priority(u8 
+>> priority)
+>>     static void ivpu_cmdq_destroy(struct ivpu_file_priv *file_priv, 
+>> struct ivpu_cmdq *cmdq)
+>>   {
+>> +    lockdep_assert_held(&file_priv->lock);
+>>       ivpu_cmdq_unregister(file_priv, cmdq);
+>>       xa_erase(&file_priv->cmdq_xa, cmdq->id);
+>>       ivpu_cmdq_free(file_priv, cmdq);
+>> @@ -380,8 +393,11 @@ static void ivpu_cmdq_reset(struct 
+>> ivpu_file_priv *file_priv)
+>>       mutex_lock(&file_priv->lock);
+>>         xa_for_each(&file_priv->cmdq_xa, cmdq_id, cmdq) {
+>> -        xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+>> -        cmdq->db_id = 0;
+>> +        if (cmdq->db_id) {
+>> +            xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+>> + atomic_dec(&file_priv->user_limits->db_count);
+>> +            cmdq->db_id = 0;
+>> +        }
+>>       }
+>>         mutex_unlock(&file_priv->lock);
