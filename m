@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mCdRNQiipmlqRwAAu9opvQ
+	id GCp6G8uhpmlqRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:36 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882C61EB526
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6EA1EB3BF
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3755810E6CF;
-	Tue,  3 Mar 2026 08:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E41810E6D4;
+	Tue,  3 Mar 2026 08:53:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p0GsC9wo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="efMzfnop";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCCE710E030;
- Mon,  2 Mar 2026 22:58:20 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3AA810E030;
+ Mon,  2 Mar 2026 22:58:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4098643FCE;
- Mon,  2 Mar 2026 22:58:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65343C19423;
- Mon,  2 Mar 2026 22:57:55 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D4E2F60123;
+ Mon,  2 Mar 2026 22:58:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 998A6C19425;
+ Mon,  2 Mar 2026 22:58:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772492300;
- bh=dSvaafq7s+HEj/Y72jLuoeKNRy1B3Rikjpm6NcM7diE=;
+ s=k20201202; t=1772492325;
+ bh=Aim55mS4QOPHiq3lGIrwAq6clR3sCfuIHZBW63a7sLU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=p0GsC9woFCUKtxDwipZDfc1GU9rUyiVi0vJPYP2u+0lYlFaKaiE4wvtujTtUsUSSG
- y9tJP1pMFCSZdbVlZJsp/30PmZ1S1faPO832d6Ub6IMUIFkIp8SCUMEnJc2IJ8q+Ka
- ZpyDlt5SN2HnUNutEs6KYH5Vx0HXoq7KvmUrZbG2IxG5LEgsEnTMz87mdm/+x6Ju03
- 1GI4Matlc31LEhXo5LtVUEq5GJUiz63iWVRgT2s1o3D5+9nJtUMseF11lElVDkS1f/
- DQZuLjZC0NNLwbtBL3D60LeHl8deT4SR0u9RtbK2+hz+nll+4jjYRTC9U8dXhLefK3
- ACgo7vVXPcUag==
-Message-ID: <8f2d476f-5c2a-48d5-8e20-998c06d7ea88@kernel.org>
-Date: Tue, 3 Mar 2026 07:57:53 +0900
+ b=efMzfnopH2WSmNEYj3Hb820DIXfhzmcNJQ+sj/RP5P5QhetapCfR9yKeXE3Q32qWL
+ YVb9vOAaaOxUE3OlnOU5qf5pp6AHKS/GqlvGT2NTaXOtfg8ico+u9+NLobylZ9jGe5
+ LIRJTz6mbzZrhcM3c/rF6WYhaGgyQIy0R+sbukSxUfdpvrrZqMaAAPwWkFe+MDR+Vo
+ V/3L9nVrysUo3+FPRD9XrnVjqJAs9NpsT26I97mvOAs/um3Zb5oulM1EyoABscyNmC
+ z6PR0/q/hUZXduKPkmtA4rzmBEcDgyq0zy09oPANN6tF4vzCXJvY2VgdQ9jrOAeA8T
+ /AhcQbZn+87sw==
+Message-ID: <d13b3907-3bdf-4a13-bebd-dc6081d40600@kernel.org>
+Date: Tue, 3 Mar 2026 07:58:10 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 048/110] zonefs: use PRIino format for i_ino
+Subject: Re: [PATCH v2 100/110] zonefs: replace PRIino with %llu/%llx format
+ strings
 To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
  <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
  Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
@@ -148,11 +149,11 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org,
  linux-sctp@vger.kernel.org, bpf@vger.kernel.org
 References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-48-e5388800dae0@kernel.org>
+ <20260302-iino-u64-v2-100-e5388800dae0@kernel.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20260302-iino-u64-v2-48-e5388800dae0@kernel.org>
+In-Reply-To: <20260302-iino-u64-v2-100-e5388800dae0@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:16 +0000
@@ -170,7 +171,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 882C61EB526
+X-Rspamd-Queue-Id: 1B6EA1EB3BF
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -202,14 +203,13 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 3/3/26 05:24, Jeff Layton wrote:
-> Convert zonefs i_ino format strings to use the PRIino format
-> macro in preparation for the widening of i_ino via kino_t.
+On 3/3/26 05:25, Jeff Layton wrote:
+> Now that i_ino is u64 and the PRIino format macro has been removed,
+> replace all uses in zonefs with the concrete format strings.
 > 
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
 Acked-by: Damien Le Moal <dlemoal@kernel.org>
-
 
 -- 
 Damien Le Moal
