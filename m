@@ -2,142 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCo7LOBIpWlj7wUAu9opvQ
+	id IAyCAZ1KpWk28AUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:22:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:30:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178BF1D4952
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605411D4A6C
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E02810E44B;
-	Mon,  2 Mar 2026 08:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF39610E455;
+	Mon,  2 Mar 2026 08:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fi9qbBnC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PfQOMN0q";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="g5LUVQbL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0533510E44B;
- Mon,  2 Mar 2026 08:22:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E055060018;
- Mon,  2 Mar 2026 08:22:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6CDC19423;
- Mon,  2 Mar 2026 08:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772439770;
- bh=XDKJkaVhQfYzVUj3ho/S80emIEXa893QeTlONkL4P1o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Fi9qbBnCFSKTVd+ug21vuDlAi7DzRlnYMKJGAuXRQMzE43DC/DTPknV2/delTOlUN
- QA6XFh+xbVpMSMVu51hR58tTjm2Oi+IHTYmtFOwTUz5kDyM25Bv/CD47bqGImWTsGA
- Xx72UDJWQsYLHva66lVFR8w9EI6Q89wXI+87ro6UBqUVlO+W+Ve83utQ2uC8cfvToG
- +aD3dO+R2rZlEoqF7GuvEI+/NyO4JvLmd7EEDzu5pE/jvuvgfFLXABqTen2akk4FTT
- DHeWQN6tlgkQkbPQc02rL0mxOhVrxxRN8s7xO8qmNmz7FGmJaFy7IU4+i7AcWW0zxM
- u8BBuqn/3yaqA==
-Message-ID: <15fcc4f9-a2e8-4979-8e67-6a9c9cc86740@kernel.org>
-Date: Mon, 2 Mar 2026 09:22:31 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0515010E1A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 08:30:15 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 62288QET3223966
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 08:30:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 71RzyWdtt/jelNOKAvhWdj2tQ76mqCEosuyjd3bbpTQ=; b=PfQOMN0qGwtPnLCu
+ Ko8FZIg0jPFnRTEmHFsFlHJe1NQzldDEbz3hQ+P+aaEqD6QmxBW35+ppM3DMk2aV
+ v6CfOljFLknIggmQl6xVwQxgRIgYcumBhigeovnMHWjbXntnzdJEVp+6MBGLFuHa
+ GuCc0xvHH56IwLkrX5+iULTG/+a2wApBd/qnkA08kpWcqtcL3zXHGhZzymaZjPRG
+ smV0oIAL+Jr8CijaAA2gF48vbRf3QgFw3/75S8tJ4RzdzVpXcLDusl4Q+BvcV5ia
+ SzWS5tlJuICPSI9d+f01t/MEsn2ltUUwmZdl+buxdyaZRpJ/vmghAH91R2o9sjXA
+ IMTSqw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn0b1h9qm-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 08:30:15 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-2ae47b3adacso10597945ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 00:30:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772440214; x=1773045014;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=71RzyWdtt/jelNOKAvhWdj2tQ76mqCEosuyjd3bbpTQ=;
+ b=g5LUVQbLcCkCzZE0la0xLNpnA2D7hMbvilJSMlH2LxKQJeFmqROHETnBspUnEE1k1W
+ cRzti6SRE7Fw6s6HLCTVrib1hYTfeYNNNkp3rueaUoTmX9CQKPLKxWr2SKPHhAZengdS
+ FM09wpSQDnvh2VWOkIcrhlqZe8GnpRZ3Sgr8mRE3jYJOiP2nEqEnSD8YSwWP0GrY78gY
+ E+UdiedWiHbdtSnQ1DJPw4WdmivIYmDCo6CI4CKtpLUJPuvkeq4BwlCKcrcE7ECGzANq
+ COcpToTv13dx3Lqsxo1SH7hoeFBB2MYbg+GRJyirQgnWN+PmtSPSjIpisrbp9pLYMJmm
+ tpFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772440214; x=1773045014;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=71RzyWdtt/jelNOKAvhWdj2tQ76mqCEosuyjd3bbpTQ=;
+ b=lOF72ta8byxkpnVNp7weWhMo9jZfeqoE6eCmJk7+SK5EUYi9doIrU1zKWwD8QO60Kc
+ 5JIbbNjxt/nk+Dk/5TRMHzEpwFua25cdbPWCeSMsM/tBHPmfhIpH29TZCo7FM7Q2zatz
+ b7OWlwgOt9WcTZM/xGshItegPe2bgUwP1tvyCZzlH1aacGFa9XbNJUgRYhbTwgQOzCnY
+ /9VCrSL32/x7UWMhvp0qirrsUjtp7Jd8xo0W9EJCV755r/ccqmdMZJdxfaTDwICxOkE+
+ GQto6+fxJz3LgN4jsprM2EiDz5xyf2FHPukxEB5nQJgOzJRP2IDKR+ffzCkdbH4VDCrO
+ 2Apw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqi1g5eru3U4Ixw3CjeduXPSoyDgyHfcT1mjdvdj29LkDsLpyMXMANld/GzEq3xbr0b6m1X0bfsTE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3qoOJJo3RFAbhC1D6Qx9m12iZ+zbeTtd6zqYpu6wE57v/cPza
+ jp+4zk3OIZRBz6eW/hur6P212mKt0q7sMtDYagC/PQAeUAWFDV2DfnDJeg2Ks4rnKBggqdHe7Vm
+ E225YikXzsf5ehO92387DqNyqieMvDyawEj4rMy/Wl+WGtIF0d/G7aT4uuQamGhu3LwwdIic=
+X-Gm-Gg: ATEYQzwfQBdp9IrQH+10OaYAkpxeAYI+J7qSJW5IYf6WoEZgcntY2yo8Mc0idMreC8P
+ u7VDkribGAb1jAnXf6rkweM9cMzHHkeyWgg/Yd+gL5TaMHL3mw6HPHN5Q95avk6BqkiVP8mBqAO
+ lzlEXlmt7ZSR5G9pI6Upb6EWZAZdBxir60yrH7dzlysBoygHvBdRB1JAI66qYkCW5jxqPNw1Y5R
+ eAngtgy3DJ7JPlKHgvsdLQnH4BjSqWFuHwdWKBAHash/h3gt+2fmBMLWA0ihfvtpem593gQwmrI
+ tc5QgtLqtDWGXXgBzm3jJqpoYOUNmjZEIFC0YqdG3NlhsiKtQFVP+8vqxW71AKBlX5mTE2HHcd2
+ Y0xIEUjWOEhCqviYiKgiUJgb8DtJFMIPOSAybjRJp25K9HSmkBw==
+X-Received: by 2002:a17:903:1b03:b0:2aa:d60c:d48a with SMTP id
+ d9443c01a7336-2ae2e251b3dmr111196415ad.7.1772440214166; 
+ Mon, 02 Mar 2026 00:30:14 -0800 (PST)
+X-Received: by 2002:a17:903:1b03:b0:2aa:d60c:d48a with SMTP id
+ d9443c01a7336-2ae2e251b3dmr111195675ad.7.1772440213484; 
+ Mon, 02 Mar 2026 00:30:13 -0800 (PST)
+Received: from [10.206.99.28] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2ae4cd40e4dsm33020545ad.92.2026.03.02.00.30.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2026 00:30:12 -0800 (PST)
+Message-ID: <22d81284-ff95-401d-b9ae-05f3b776036f@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 14:00:04 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 14/16] mm: rename zap_page_range_single() to
- zap_vma_range()
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: linux-kernel@vger.kernel.org, "linux-mm @ kvack . org"
- <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>,
- Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>,
- "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-15-david@kernel.org> <aaLjK2Q2q5ghE-uE@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH RFC 06/18] accel/qda: Add memory manager for CB devices
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-6-fe46a9c1a046@oss.qualcomm.com>
+ <rvi6cqi343yoc3qyabtb72zsedtruktfba6dxstvgw4k7bzyt5@4ofj5pdmkhw6>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aaLjK2Q2q5ghE-uE@google.com>
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <rvi6cqi343yoc3qyabtb72zsedtruktfba6dxstvgw4k7bzyt5@4ofj5pdmkhw6>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: LphX_XtXFfs91GovOBoNsjtkx5L2dJok
+X-Authority-Analysis: v=2.4 cv=Hol72kTS c=1 sm=1 tr=0 ts=69a54a97 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=57SDT3_LIDrlxEhfML8A:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-ORIG-GUID: LphX_XtXFfs91GovOBoNsjtkx5L2dJok
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NCBTYWx0ZWRfX1HWoEm4Rrvl5
+ UjOy2DGH0nrKAoy6zxNKjPd2bIZzporolV2/Jh5NHPi+MME8oT5+RvnoZd3m3bnEtCsIu9Y3zLu
+ MDOE1MXui/ojXT46flFRT3bYQEeAgkQd5Kvh8pTHsDJFPIBWGBHOfnu1x54Plh3+guuTZ9WO7n4
+ RNp0K3KMxTDHlnr/hlLbidwegHvA9O+tTPWgT/IDWi7eLNeWS7EhLQwNTmT8pa36hgYXFxbzVN9
+ 2/W7kz1T/lX5alWPQd1pOmjjLYjP5Z180A+JbiqNBEtE5kGp/FIdKsoBNkQdvhukDiX5nc/53li
+ IwxyOh0J01npTo4LyCBGHUn+Ht4Dl7UJ1sozjJae2HLxwBaJKbeV4DPIFtuiGNjtui9LoCBb6HE
+ muZ9nLU1ZnPLzkYwlDHp+phHAueUPi/GdVLekdFrMvNe7IFoO3+x++YaJdxwAN2WUxjtjUollFH
+ Y/6GHUT7GzBVknoxLNg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,139 +163,335 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,oss.qualcomm.com,quicinc.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_GT_50(0.00)[73];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 178BF1D4952
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 605411D4A6C
 X-Rspamd-Action: no action
 
-On 2/28/26 13:44, Alice Ryhl wrote:
-> On Fri, Feb 27, 2026 at 09:08:45PM +0100, David Hildenbrand (Arm) wrote:
->> diff --git a/drivers/android/binder/page_range.rs b/drivers/android/binder/page_range.rs
->> index fdd97112ef5c..2fddd4ed8d4c 100644
->> --- a/drivers/android/binder/page_range.rs
->> +++ b/drivers/android/binder/page_range.rs
->> @@ -130,7 +130,7 @@ pub(crate) struct ShrinkablePageRange {
->>      pid: Pid,
->>      /// The mm for the relevant process.
->>      mm: ARef<Mm>,
->> -    /// Used to synchronize calls to `vm_insert_page` and `zap_page_range_single`.
->> +    /// Used to synchronize calls to `vm_insert_page` and `zap_vma_range`.
->>      #[pin]
->>      mm_lock: Mutex<()>,
->>      /// Spinlock protecting changes to pages.
->> @@ -719,7 +719,7 @@ fn drop(self: Pin<&mut Self>) {
+
+
+On 2/24/2026 4:41 AM, Bjorn Andersson wrote:
+> On Tue, Feb 24, 2026 at 12:39:00AM +0530, Ekansh Gupta wrote:
+>> Introduce a per-device memory manager for the QDA driver that tracks
+>> IOMMU-capable compute context-bank (CB) devices. Each CB device is
+>> represented by a qda_iommu_device and registered with a central
+>> qda_memory_manager instance owned by qda_dev.
+>>
+> The name makes me expect that this manages memory, but it seems to
+> manage devices and context banks...
+>
+>> The memory manager maintains an xarray of devices and assigns a
+>> unique ID to each CB. It also provides basic lifetime management
+>> and a workqueue for deferred device removal. qda_cb_setup_device()
+>> now allocates a qda_iommu_device for each CB and registers it with
+>> the memory manager after DMA configuration succeeds.
+>>
+>> qda_init_device() is extended to allocate and initialize the memory
+>> manager, while qda_deinit_device() will tear it down in later
+>> patches.
+> "in later patches" makes this extremely hard to review. I had to apply
+> the series to try to navigate the code...
+Thanks for highlighting. I'll update this.
+>
+>> This prepares the QDA driver for fine-grained memory and
+>> IOMMU domain management tied to individual CB devices.
+>>
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> [..]
+>>  obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+>> diff --git a/drivers/accel/qda/qda_cb.c b/drivers/accel/qda/qda_cb.c
+> [..]
+>> @@ -46,6 +52,18 @@ static int qda_cb_setup_device(struct qda_dev *qdev, struct device *cb_dev)
+>>  	rc = dma_set_mask(cb_dev, DMA_BIT_MASK(pa_bits));
+>>  	if (rc) {
+>>  		qda_err(qdev, "%d bit DMA enable failed: %d\n", pa_bits, rc);
+>> +		kfree(iommu_dev);
+>> +		return rc;
+>> +	}
+>> +
+>> +	iommu_dev->dev = cb_dev;
+>> +	iommu_dev->sid = sid;
+>> +	snprintf(iommu_dev->name, sizeof(iommu_dev->name), "qda_iommu_dev_%u", sid);
+> It's not easy to follow, when you have scattered the code across so many
+> patches and so many files. But I don't think iommu_dev->name is ever
+> used.
+I'll remove this.
+>
+>> +
+>> +	rc = qda_memory_manager_register_device(qdev->iommu_mgr, iommu_dev);
+>> +	if (rc) {
+>> +		qda_err(qdev, "Failed to register IOMMU device: %d\n", rc);
+>> +		kfree(iommu_dev);
+>>  		return rc;
+>>  	}
 >>  
->>      if let Some(vma) = mmap_read.vma_lookup(vma_addr) {
->>          let user_page_addr = vma_addr + (page_index << PAGE_SHIFT);
->> -        vma.zap_page_range_single(user_page_addr, PAGE_SIZE);
->> +        vma.zap_vma_range(user_page_addr, PAGE_SIZE);
->>      }
-> 
-> LGTM. Be aware that this will have a merge conflict with patches
-> currently in char-misc-linus that are scheduled to land in an -rc.
-
-Thanks. @Andrew will likely run into that when rebasing, where we can fix it up.
-
-> 
->> diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
->> index dd2046bd5cde..e4488ad86a65 100644
->> --- a/drivers/android/binder_alloc.c
->> +++ b/drivers/android/binder_alloc.c
->> @@ -1185,7 +1185,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
->>  	if (vma) {
->>  		trace_binder_unmap_user_start(alloc, index);
+>> @@ -127,6 +145,8 @@ int qda_create_cb_device(struct qda_dev *qdev, struct device_node *cb_node)
+>>  void qda_destroy_cb_device(struct device *cb_dev)
+>>  {
+>>  	struct iommu_group *group;
+>> +	struct qda_iommu_device *iommu_dev;
+>> +	struct qda_dev *qdev;
 >>  
->> -		zap_page_range_single(vma, page_addr, PAGE_SIZE);
->> +		zap_vma_range(vma, page_addr, PAGE_SIZE);
+>>  	if (!cb_dev) {
+>>  		qda_dbg(NULL, "NULL CB device passed to destroy\n");
+>> @@ -135,6 +155,18 @@ void qda_destroy_cb_device(struct device *cb_dev)
 >>  
->>  		trace_binder_unmap_user_end(alloc, index);
-> 
-> LGTM.
-> 
->> diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
->> index b8e59e4420f3..04b3cc925d67 100644
->> --- a/rust/kernel/mm/virt.rs
->> +++ b/rust/kernel/mm/virt.rs
->> @@ -113,7 +113,7 @@ pub fn end(&self) -> usize {
->>      /// kernel goes further in freeing unused page tables, but for the purposes of this operation
->>      /// we must only assume that the leaf level is cleared.
->>      #[inline]
->> -    pub fn zap_page_range_single(&self, address: usize, size: usize) {
->> +    pub fn zap_vma_range(&self, address: usize, size: usize) {
->>          let (end, did_overflow) = address.overflowing_add(size);
->>          if did_overflow || address < self.start() || self.end() < end {
->>              // TODO: call WARN_ONCE once Rust version of it is added
->> @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
->>          // sufficient for this method call. This method has no requirements on the vma flags. The
->>          // address range is checked to be within the vma.
->>          unsafe {
->> -            bindings::zap_page_range_single(self.as_ptr(), address, size)
->> +            bindings::zap_vma_range(self.as_ptr(), address, size)
->>          };
->>      }
-> 
-> Same as previous patch: please run rustfmt. It will format on a single
-> line, like this:
-> 
->         unsafe { bindings::zap_vma_range(self.as_ptr(), address, size) };
-> 
+>>  	qda_dbg(NULL, "Destroying CB device %s\n", dev_name(cb_dev));
+>>  
+>> +	iommu_dev = dev_get_drvdata(cb_dev);
+> I'm not sure, but I think cb_dev is the struct device allocated in
+> qda_create_cb_device(), but I can not find a place where you set drvdata
+> for this device.
+It should be updated with iommu_dev in qda_cb_setup_device. I believe I missed
+adding this and it didn't give me any functional failure. Thanks for highlighting this,
+I'll fix this in the next spin.
+>
+>> +	if (iommu_dev) {
+>> +		if (cb_dev->parent) {
+>> +			qdev = dev_get_drvdata(cb_dev->parent);
+>> +			if (qdev && qdev->iommu_mgr) {
+>> +				qda_dbg(NULL, "Unregistering IOMMU device for %s\n",
+>> +					dev_name(cb_dev));
+>> +				qda_memory_manager_unregister_device(qdev->iommu_mgr, iommu_dev);
+>> +			}
+>> +		}
+>> +	}
+>> +
+>>  	group = iommu_group_get(cb_dev);
+>>  	if (group) {
+>>  		qda_dbg(NULL, "Removing %s from IOMMU group\n", dev_name(cb_dev));
+>> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> [..]
+>> @@ -25,12 +37,46 @@ static void init_device_resources(struct qda_dev *qdev)
+>>  	atomic_set(&qdev->removing, 0);
+>>  }
+>>  
+>> +static int init_memory_manager(struct qda_dev *qdev)
+>> +{
+>> +	int ret;
+>> +
+>> +	qda_dbg(qdev, "Initializing IOMMU manager\n");
+>> +
+>> +	qdev->iommu_mgr = kzalloc_obj(*qdev->iommu_mgr, GFP_KERNEL);
+>> +	if (!qdev->iommu_mgr)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = qda_memory_manager_init(qdev->iommu_mgr);
+>> +	if (ret) {
+>> +		qda_err(qdev, "Failed to initialize memory manager: %d\n", ret);
+> qda_memory_manager_init() already logged 1 error and 1 debug prints if
+> you get here.
+ack.
+>
+>> +		kfree(qdev->iommu_mgr);
+>> +		qdev->iommu_mgr = NULL;
+> We're going to fail probe, you shouldn't have to clear this.
+>
+>> +		return ret;
+>> +	}
+>> +
+>> +	qda_dbg(qdev, "IOMMU manager initialized successfully\n");
+>> +	return 0;
+>> +}
+>> +
+>>  int qda_init_device(struct qda_dev *qdev)
+>>  {
+>> +	int ret;
+>> +
+>>  	init_device_resources(qdev);
+>>  
+>> +	ret = init_memory_manager(qdev);
+>> +	if (ret) {
+>> +		qda_err(qdev, "IOMMU manager initialization failed: %d\n", ret);
+> And now we have 2 debug prints and two error prints in the log.
+I'll clean the duplicate/unnecessary logs at at places
+>
+>> +		goto err_cleanup_resources;
+>> +	}
+>> +
+>>  	qda_dbg(qdev, "QDA device initialized successfully\n");
+> Or, if we get here, you have 8 debug prints.
+>
+> Please learn how to use kprobe/kretprobe instead of reimplementing it
+> using printk().
+ack.
+>
+>>  	return 0;
+>> +
+>> +err_cleanup_resources:
+>> +	cleanup_device_resources(qdev);
+>> +	return ret;
+>>  }
+>>  
+>>  static int __init qda_core_init(void)
+>> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
+>> index eb732b7d8091..2cb97e4eafbf 100644
+>> --- a/drivers/accel/qda/qda_drv.h
+>> +++ b/drivers/accel/qda/qda_drv.h
+>> @@ -11,6 +11,7 @@
+>>  #include <linux/mutex.h>
+>>  #include <linux/rpmsg.h>
+>>  #include <linux/xarray.h>
+>> +#include "qda_memory_manager.h"
+>>  
+>>  /* Driver identification */
+>>  #define DRIVER_NAME "qda"
+>> @@ -23,6 +24,8 @@ struct qda_dev {
+>>  	struct device *dev;
+>>  	/* Mutex protecting device state */
+>>  	struct mutex lock;
+>> +	/* IOMMU/memory manager */
+>> +	struct qda_memory_manager *iommu_mgr;
+>>  	/* Flag indicating device removal in progress */
+>>  	atomic_t removing;
+>>  	/* Name of the DSP (e.g., "cdsp", "adsp") */
+>> diff --git a/drivers/accel/qda/qda_memory_manager.c b/drivers/accel/qda/qda_memory_manager.c
+> [..]
+>> +int qda_memory_manager_register_device(struct qda_memory_manager *mem_mgr,
+>> +				       struct qda_iommu_device *iommu_dev)
+>> +{
+>> +	int ret;
+>> +	u32 id;
+>> +
+>> +	if (!mem_mgr || !iommu_dev || !iommu_dev->dev) {
+> How could this happen? You call this function from one place, that looks
+> like this:
+>
+> iommu_dev->dev = cb_dev;
+> iommu_dev->sid = sid;
+> rc = qda_memory_manager_register_device(qdev->iommu_mgr, iommu_dev);
+>
+> You just allocated in filled out iommu_dev.
+>
+> Looking up the callstack, we're coming from qda_rpmsg_probe() which just
+> did qda_init_device() which created the qsdev->iommu_mgr.
+>
+> In other words, these can't possibly be NULL.
+I'll recheck this and remove redundant checks.
+>
+>> +		qda_err(NULL, "Invalid parameters for device registration\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	init_iommu_device_fields(iommu_dev, mem_mgr);
+>> +
+>> +	ret = allocate_device_id(mem_mgr, iommu_dev, &id);
+>> +	if (ret) {
+>> +		qda_err(NULL, "Failed to allocate device ID: %d (sid=%u)\n", ret, iommu_dev->sid);
+>> +		return ret;
+>> +	}
+>> +
+>> +	iommu_dev->id = id;
+>> +
+>> +	qda_dbg(NULL, "Registered device id=%u (sid=%u)\n", id, iommu_dev->sid);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +void qda_memory_manager_unregister_device(struct qda_memory_manager *mem_mgr,
+>> +					  struct qda_iommu_device *iommu_dev)
+>> +{
+>> +	if (!mem_mgr || !iommu_dev) {
+> The one call to this function is wrapped in:
+>
+> if (iommu_dev) {
+> 	if (qdev->iommu_mgr) {
+> 		qda_dbg(NULL, ...);
+> 		qda_memory_manager_unregister_device(qdev->iommu_mgr, iommu_dev);
+> 	}
+> }
+>
+>> +		qda_err(NULL, "Attempted to unregister invalid device/manager\n");
+>> +		return;
+>> +	}
+>> +
+>> +	qda_dbg(NULL, "Unregistering device id=%u (refcount=%u)\n", iommu_dev->id,
+>> +		refcount_read(&iommu_dev->refcount));
+> And just before the call to qda_memory_manager_unregister_device() you
+> print a debug log, saying you will call this function.
+>
+>> +
+>> +	if (refcount_read(&iommu_dev->refcount) == 0) {
+>> +		xa_erase(&mem_mgr->device_xa, iommu_dev->id);
+>> +		kfree(iommu_dev);
+>> +		return;
+>> +	}
+>> +
+>> +	if (refcount_dec_and_test(&iommu_dev->refcount)) {
+>> +		qda_info(NULL, "Device id=%u refcount reached zero, queuing removal\n",
+>> +			 iommu_dev->id);
+>> +		queue_work(mem_mgr->wq, &iommu_dev->remove_work);
+>> +	}
+>> +}
+>> +
+> [..]
+>> diff --git a/drivers/accel/qda/qda_memory_manager.h b/drivers/accel/qda/qda_memory_manager.h
+> [..]
+>> +
+>> +/**
+> This says "kernel-doc"
+>
+>> + * struct qda_iommu_device - IOMMU device instance for memory management
+>> + *
+>> + * This structure represents a single IOMMU-enabled device managed by the
+>> + * memory manager. Each device can be assigned to a specific process.
+>> + */
+>> +struct qda_iommu_device {
+>> +	/* Unique identifier for this IOMMU device */
+> But this doesn't follow kernel-doc style.
+>
+> At the end of the series, 
+>
+> ./scripts/kernel-doc -none -vv -Wall drivers/accel/qda/
+>
+> reports 270 warnings.
+I'll resolve the warnings in next version.
+>
+>> +	u32 id;
+>> +	/* Pointer to the underlying device */
+>> +	struct device *dev;
+>> +	/* Name for the device */
+>> +	char name[32];
+>> +	/* Spinlock protecting concurrent access to device */
+>> +	spinlock_t lock;
+>> +	/* Reference counter for device */
+>> +	refcount_t refcount;
+>> +	/* Work structure for deferred device removal */
+>> +	struct work_struct remove_work;
+>> +	/* Stream ID for IOMMU transactions */
+>> +	u32 sid;
+>> +	/* Pointer to parent memory manager */
+>> +	struct qda_memory_manager *manager;
+>> +};
+> Regards,
+> Bjorn
 
-@Andrew, after squashing the fixup into patch #2, this hunk should look like this:
-
-diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
-index 6bfd91cfa1f4..63eb730b0b05 100644
---- a/rust/kernel/mm/virt.rs
-+++ b/rust/kernel/mm/virt.rs
-@@ -113,7 +113,7 @@ pub fn end(&self) -> usize {
-     /// kernel goes further in freeing unused page tables, but for the purposes of this operation
-     /// we must only assume that the leaf level is cleared.
-     #[inline]
--    pub fn zap_page_range_single(&self, address: usize, size: usize) {
-+    pub fn zap_vma_range(&self, address: usize, size: usize) {
-         let (end, did_overflow) = address.overflowing_add(size);
-         if did_overflow || address < self.start() || self.end() < end {
-             // TODO: call WARN_ONCE once Rust version of it is added
-@@ -123,7 +123,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
-         // SAFETY: By the type invariants, the caller has read access to this VMA, which is
-         // sufficient for this method call. This method has no requirements on the vma flags. The
-         // address range is checked to be within the vma.
--        unsafe { bindings::zap_page_range_single(self.as_ptr(), address, size) };
-+        unsafe { bindings::zap_vma_range(self.as_ptr(), address, size) };
-     }
- 
-     /// If the [`VM_MIXEDMAP`] flag is set, returns a [`VmaMixedMap`] to this VMA, otherwise
-
-
-> with the above change applied:
-> 
-> Acked-by: Alice Ryhl <aliceryhl@google.com> # Rust and Binder
-
-Thanks!
-
--- 
-Cheers,
-
-David
