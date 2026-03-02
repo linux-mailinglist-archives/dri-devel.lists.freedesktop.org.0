@@ -2,309 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNsRLcyhpmmvSAAAu9opvQ
+	id 0ASkBPoRpmnmJwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 23:40:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0341EB3CC
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770C81E5CDF
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 23:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C600910E6D9;
-	Tue,  3 Mar 2026 08:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7F210E5E2;
+	Mon,  2 Mar 2026 22:40:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="P2KmIsRc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WS7eh0WS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4924410E076;
- Mon,  2 Mar 2026 22:40:22 +0000 (UTC)
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 622Dn8AH2231878; Mon, 2 Mar 2026 22:40:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
- :content-id:content-transfer-encoding:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to; s=
- pp1; bh=wvyiFVxybg47Mcu1UPTRmCPhKXcTjGJmrLjQRBCXRDM=; b=P2KmIsRc
- mQbjYia/l74V9B1j1fVnsCzvJnlfapgz+ehnGsRjbTQg84JFGSorNmfZhkf9Yaqr
- fOLb0FUYPYXgNt7eWeITt5RJkB8pebVR4S+1FfLs6YjMWSOZAavC/2nx/FlU+vxR
- oFgUkiq6GylhtsGNY9QCkKpBV4HvdvMGb4V/8zj6dx6oS67gqNDj7lXs81gelpIB
- +Fjqziu6wxS3B5r99iNTsYSVMDgvTlkqruAGk+NF4v06v3r2l1dbgjN7pdbHC2H1
- cPBuMI5h+Pm21TZxP//YvC7mkl2dLyKJMWXOqXGLvEQQ2FlyNQfVIumJTpO42ULB
- pL4hviPHzkh4eA==
-Received: from dm5pr21cu001.outbound.protection.outlook.com
- (mail-centralusazon11011049.outbound.protection.outlook.com [52.101.62.49])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cksrj0qha-1
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Mon, 02 Mar 2026 22:40:13 +0000 (GMT)
+Received: from mgamail.intel.com (unknown [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F65710E5E1;
+ Mon,  2 Mar 2026 22:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772491252; x=1804027252;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=q95RLC18ShYl9ACcGGYlSAa22sBurHH337PES3m+9Us=;
+ b=WS7eh0WScdypbHgha6TH8tQ/C+nAjZxszggRMiAfcem1b2E365l5FJ73
+ tW8kTMZAI/A0u+Jt90VTPpXJ34vURNtsck3ENpgL1q0HbgkADFndHDrSH
+ 9Sy9EA7b5i2l/SHQCUWcf42DFBN4werscnUz93ephWT6rSntVGOQpHnj6
+ NtP5g82e4pNQh8e+o2ev23HMbmVtzZM36PkNHGXEsU8kukaSYC3F4lY8X
+ wm6zrbhH88SkEX+hkrHlGbmiQFt8AQ07rGKfPzOwePsuSplweYgVoL6hG
+ IkFGoE5K/tkLHul3Ohx/TfSWtlH4XumgLC5c1o14J+O+UqKm1sMsh5N7X A==;
+X-CSE-ConnectionGUID: DzNRYwvQS2O9Mvze7OxYow==
+X-CSE-MsgGUID: 0yOqQFP0RsynzkGCKPRQOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73555506"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="73555506"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 14:40:42 -0800
+X-CSE-ConnectionGUID: pCHSjfdNTeOEnrmR23Xnpw==
+X-CSE-MsgGUID: 6nNgkyfnRwyAgJvgESi3uQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="240807964"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 14:40:41 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 2 Mar 2026 14:40:41 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 2 Mar 2026 14:40:41 -0800
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.45) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 2 Mar 2026 14:40:40 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HIqpK9VS6BeUKongMAFnox/Jsg8c8I/wbJ8XqZoV6kUPMlYwX09B2ZYl8x3g8rBY/F1GZmlhplEnlerv3Bglo2Wi+O3Db06ujGQg11iDtJwkdw8C4BJx7NxcmXIyMR2Ow00u3esxQ9umKckFDgjVgNeD/uZ/qhMmGRAwYZLxIqiiOWcwJkRbF8YVokB2GaX/3CM1EgS4AkCXuAcj8nR4JGdhJqF6j+yoGC59ZlnrMzsWc+ulgoB4YojnSLqa8GBL6gwcUcZzoEN2Cfyc6WpS/NioZMbsAOZmvA/SLtjYBA9Tv+Gt2G2fzfb6XRwaD14gTNrNnEBo9NPsJaiNvtPC/Q==
+ b=FCNggzqNYv28Z0B7iUb5GQ/PIz+iUvka0CCfmEVwC7UJlDQoxPH2ZgsN2xznhCihwYukraU4lZnh9fbry9jbO4QbwPXcTHkorbxQUoTNIqzQ1NEiSBme3iTnNVTFw7TYVdutw8dXJ56ulGrfA6Be08zxL0ULykqtmLS0CW8JIKwY8BYk8C5XYUecBRvjvbr0y+pJKt7cNySlLmGwFMJ/xlqQ8fCd370vj4hPkaYTGFPqpbvUWVpFILqs/yx5pMAQQMQHFidYng0wrpyfkoEIjXRoLSw4TgBAAtMkmGuozp+3yEbCQG1jFkJTxp0olLMdyqudFJR9g3RRgZhERmCKZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wvyiFVxybg47Mcu1UPTRmCPhKXcTjGJmrLjQRBCXRDM=;
- b=k2AeJHwUPXDF8O48KT/Yu0JIyxG56lswnNNRBPY9/UOsVNopaDmDGnm9/KEZzLjIVSBXi45BK0AvA0kG/qq9jIDrhDMjKyOXGgNl+wsFxmXh54GRZef3VrHo3jlRVXqqwD9KoZkI9x0fT8CqaMiLNTk4ypswKWqzF6DptxAhnD+qiEYEdf6ta4/tsQOgAGRhCirT+cXS5jZDhmD2lAL6CMSCzpYUtazQoq9i2n96vnUcl0N5xTp2pyw/EVFDgxVBbs0MzBcKGaF5pgEd6PnvbfoYR48AAO+uj+5BkKujyIVx5NmlPvJ7OOz4ZKXSsHVu38iuG3CSB6u1/kubO8rcPQ==
+ bh=3F91yc12FK9QNJjgFrTa+mSWUJw5rH4lvc7RTtiPGlg=;
+ b=ppG9AEWmAaSlp+bsAWQtRXsFov9OQ0Vv1p+iSxJzpRcDBn672qy3uxTDfmcPw3Y1LkEZlGjY5R5NPI3zevMDtYfcP72Ye4IYSLjVskdjJHpk9FHC7yVxJtL66kuiFMiLPPathh613/hMK/xa3PMsOX+ar2FlPcwqXavsbiVWpW5b7erXs6Fb1B+35W2wJwBE+99aHdnZJuHOF5Jdm9FhAg07/5PSKyQMprbIX7LVi9pztGZm7QhPmoxESMYJ+RRTlJYoFN/cWUO2+cBrsHr/kg6zQ2mEWOdkfDMoenpu3apZ379I/HFjGPQvUyDWBtMf5/+GVigB0O+Q/cBg7U/v3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ibm.com; dmarc=pass action=none header.from=ibm.com; dkim=pass
- header.d=ibm.com; arc=none
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com (2603:10b6:806:338::8)
- by PH3PPFE061D9768.namprd15.prod.outlook.com (2603:10b6:518:1::4cd)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.18; Mon, 2 Mar
- 2026 22:40:05 +0000
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539]) by SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539%7]) with mapi id 15.20.9632.017; Mon, 2 Mar 2026
- 22:40:05 +0000
-From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-To: "socketcan@hartkopp.net" <socketcan@hartkopp.net>,
- "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
- "jolsa@kernel.org" <jolsa@kernel.org>,
- "jreuter@yaina.de" <jreuter@yaina.de>,
- "Dai.Ngo@oracle.com" <Dai.Ngo@oracle.com>, Ondrej Mosnacek
- <omosnace@redhat.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "dlemoal@kernel.org" <dlemoal@kernel.org>, "trondmy@kernel.org"
- <trondmy@kernel.org>, "namhyung@kernel.org" <namhyung@kernel.org>,
- "almaz.alexandrovich@paragon-software.com"
- <almaz.alexandrovich@paragon-software.com>, "miklos@szeredi.hu"
- <miklos@szeredi.hu>, "john.johansen@canonical.com"
- <john.johansen@canonical.com>, "stephen.smalley.work@gmail.com"
- <stephen.smalley.work@gmail.com>, "nico@fluxnic.net" <nico@fluxnic.net>,
- "maciej.fijalkowski@intel.com" <maciej.fijalkowski@intel.com>, Olga
- Kornievskaia <okorniev@redhat.com>, "amir73il@gmail.com"
- <amir73il@gmail.com>, "tom@talpey.com" <tom@talpey.com>,
- "joseph.qi@linux.alibaba.com" <joseph.qi@linux.alibaba.com>,
- "paul@paul-moore.com" <paul@paul-moore.com>, "asmadeus@codewreck.org"
- <asmadeus@codewreck.org>, "alexander.shishkin@linux.intel.com"
- <alexander.shishkin@linux.intel.com>, "mark@fasheh.com" <mark@fasheh.com>,
- "linux_oss@crudebyte.com" <linux_oss@crudebyte.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "willy@infradead.org"
- <willy@infradead.org>, "ebiggers@kernel.org" <ebiggers@kernel.org>,
- "lucien.xin@gmail.com" <lucien.xin@gmail.com>, "bharathsm@microsoft.com"
- <bharathsm@microsoft.com>, "marcel@holtmann.org" <marcel@holtmann.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, Eric Paris
- <eparis@redhat.com>, "djwong@kernel.org" <djwong@kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "hawk@kernel.org" <hawk@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>, "james.clark@linaro.org"
- <james.clark@linaro.org>, "john.fastabend@gmail.com"
- <john.fastabend@gmail.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "kuniyu@google.com" <kuniyu@google.com>, "hch@infradead.org"
- <hch@infradead.org>, "luiz.dentz@gmail.com" <luiz.dentz@gmail.com>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>, "dwmw2@infradead.org"
- <dwmw2@infradead.org>, "ncardwell@google.com" <ncardwell@google.com>,
- "sprasad@microsoft.com" <sprasad@microsoft.com>,
- "marcelo.leitner@gmail.com" <marcelo.leitner@gmail.com>,
- "edumazet@google.com" <edumazet@google.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "jack@suse.com" <jack@suse.com>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>, "frank.li@vivo.com"
- <frank.li@vivo.com>, "alex.aring@gmail.com" <alex.aring@gmail.com>,
- "luisbg@kernel.org" <luisbg@kernel.org>,
- "ms@dev.tdt.de" <ms@dev.tdt.de>, "jth@kernel.org" <jth@kernel.org>,
- "jlbec@evilplan.org" <jlbec@evilplan.org>,
- "aivazian.tigran@gmail.com" <aivazian.tigran@gmail.com>, "anna@kernel.org"
- <anna@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>,
- "tytso@mit.edu" <tytso@mit.edu>, "willemb@google.com" <willemb@google.com>,
- "eric.snowberg@oracle.com" <eric.snowberg@oracle.com>,
- "johan.hedberg@gmail.com" <johan.hedberg@gmail.com>, "acme@kernel.org"
- <acme@kernel.org>, "ronniesahlberg@gmail.com" <ronniesahlberg@gmail.com>,
- "jaharkes@cs.cmu.edu" <jaharkes@cs.cmu.edu>, David Howells
- <dhowells@redhat.com>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
- "courmisch@gmail.com" <courmisch@gmail.com>, "martin@omnibond.com"
- <martin@omnibond.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "jmorris@namei.org" <jmorris@namei.org>, "adilger.kernel@dilger.ca"
- <adilger.kernel@dilger.ca>, "idryomov@gmail.com" <idryomov@gmail.com>,
- "brauner@kernel.org" <brauner@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
- "magnus.karlsson@intel.com" <magnus.karlsson@intel.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "coda@cs.cmu.edu" <coda@cs.cmu.edu>,
- "casey@schaufler-ca.com" <casey@schaufler-ca.com>, "raven@themaw.net"
- <raven@themaw.net>, "horms@kernel.org" <horms@kernel.org>,
- "adrian.hunter@intel.com" <adrian.hunter@intel.com>, "kuba@kernel.org"
- <kuba@kernel.org>, "muchun.song@linux.dev" <muchun.song@linux.dev>,
- "chao@kernel.org" <chao@kernel.org>, "mathieu.desnoyers@efficios.com"
- <mathieu.desnoyers@efficios.com>, "hubcap@omnibond.com"
- <hubcap@omnibond.com>, "jlayton@kernel.org" <jlayton@kernel.org>,
- "sdf@fomichev.me" <sdf@fomichev.me>, "roberto.sassu@huawei.com"
- <roberto.sassu@huawei.com>, Alex Markuze <amarkuze@redhat.com>,
- "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
- "mikulas@artax.karlin.mff.cuni.cz" <mikulas@artax.karlin.mff.cuni.cz>,
- "ericvh@kernel.org" <ericvh@kernel.org>, "salah.triki@gmail.com"
- <salah.triki@gmail.com>, "osalvador@suse.de" <osalvador@suse.de>,
- "dmitry.kasatkin@gmail.com" <dmitry.kasatkin@gmail.com>,
- "sfrench@samba.org" <sfrench@samba.org>,
- "serge@hallyn.com" <serge@hallyn.com>,
- "wufan@kernel.org" <wufan@kernel.org>, "al@alarsen.net" <al@alarsen.net>,
- "pc@manguebit.org" <pc@manguebit.org>,
- "ast@kernel.org" <ast@kernel.org>, "oleg@redhat.com" <oleg@redhat.com>,
- "slava@dubeyko.com" <slava@dubeyko.com>,
- "konishi.ryusuke@gmail.com" <konishi.ryusuke@gmail.com>, "lucho@ionkov.net"
- <lucho@ionkov.net>, "dsahern@kernel.org" <dsahern@kernel.org>,
- "shaggy@kernel.org" <shaggy@kernel.org>, "richard@nod.at" <richard@nod.at>,
- "marc.dionne@auristor.com" <marc.dionne@auristor.com>, "neil@brown.name"
- <neil@brown.name>, "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
- "mkl@pengutronix.de" <mkl@pengutronix.de>, "david@kernel.org"
- <david@kernel.org>, Ingo Molnar <mingo@redhat.com>, "jack@suse.cz"
- <jack@suse.cz>, "code@tyhicks.com" <code@tyhicks.com>,
- "steffen.klassert@secunet.com" <steffen.klassert@secunet.com>,
- "naohiro.aota@wdc.com" <naohiro.aota@wdc.com>, "zohar@linux.ibm.com"
- <zohar@linux.ibm.com>, "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
- "irogers@google.com" <irogers@google.com>
-CC: "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
- "ecryptfs@vger.kernel.org" <ecryptfs@vger.kernel.org>,
- "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
- "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "autofs@vger.kernel.org" <autofs@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "fsverity@lists.linux.dev" <fsverity@lists.linux.dev>,
- "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
- "ocfs2-devel@lists.linux.dev" <ocfs2-devel@lists.linux.dev>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
- "audit@vger.kernel.org" <audit@vger.kernel.org>, "selinux@vger.kernel.org"
- <selinux@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, "linux-trace-kernel@vger.kernel.org"
- <linux-trace-kernel@vger.kernel.org>, "v9fs@lists.linux.dev"
- <v9fs@lists.linux.dev>, "linux-xfs@vger.kernel.org"
- <linux-xfs@vger.kernel.org>, "linux-x25@vger.kernel.org"
- <linux-x25@vger.kernel.org>, "linux-f2fs-devel@lists.sourceforge.net"
- <linux-f2fs-devel@lists.sourceforge.net>, "linux-bluetooth@vger.kernel.org"
- <linux-bluetooth@vger.kernel.org>, "nvdimm@lists.linux.dev"
- <nvdimm@lists.linux.dev>, "ceph-devel@vger.kernel.org"
- <ceph-devel@vger.kernel.org>, "jfs-discussion@lists.sourceforge.net"
- <jfs-discussion@lists.sourceforge.net>, "linux-mtd@lists.infradead.org"
- <linux-mtd@lists.infradead.org>, "devel@lists.orangefs.org"
- <devel@lists.orangefs.org>, "linux-afs@lists.infradead.org"
- <linux-afs@lists.infradead.org>, "linux-fscrypt@vger.kernel.org"
- <linux-fscrypt@vger.kernel.org>, "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>, "linux-cifs@vger.kernel.org"
- <linux-cifs@vger.kernel.org>, "linux-hams@vger.kernel.org"
- <linux-hams@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
- "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- "codalist@coda.cs.cmu.edu" <codalist@coda.cs.cmu.edu>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "netfs@lists.linux.dev" <netfs@lists.linux.dev>,
- "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Thread-Topic: [EXTERNAL] [PATCH v2 084/110] hfs: replace PRIino with %llu/%llx
- format strings
-Thread-Index: AQHcqpMx+NxLh9ejn0CNwAL8fSccTrWb1d8A
-Date: Mon, 2 Mar 2026 22:40:05 +0000
-Message-ID: <03db867ab541fd2304b9a5d88a2ecadbd2d6e5c1.camel@ibm.com>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-84-e5388800dae0@kernel.org>
-In-Reply-To: <20260302-iino-u64-v2-84-e5388800dae0@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR15MB5819:EE_|PH3PPFE061D9768:EE_
-x-ms-office365-filtering-correlation-id: 8d30e6d6-0fd5-4af1-8dfb-08de78aca656
-x-ld-processed: fcf67057-50c9-4ad4-98f3-ffca64add9e9,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|10070799003|366016|1800799024|38070700021|921020; 
-x-microsoft-antispam-message-info: ooZGz2Yu/dGE66ycztvj0hhDMBRTo+7aRjJbOMG1f6XYqSktKVCnOf3BDDs9ZcPqdXUKAPWevKDS86ofxJLkauAKHTAOeBJ3IW+DWMJg2WtAv0fQRtgTOie7Xs1SZKKvUEBBapHoZd6Ee7r53KwLxneCaA4xuIKMREtITESshhf/EMixAkwcDGLThWER81xYsR0z/81hjVFXeZciuvjnMBg0eomnPVyw/vWSCh+WYZPviIsoUbmdCryBlFibc8bylg61ye67aeAK9OkT1qrqqJOQ6WsbTzT/lnFCMfMQi8tcl8lNnLZcbuaJ2nOINM9cPoTsQEZz/70D6W45m6rGqB3ufdebxm7bsK601F5dewKGRuH2llUthfDABlDs7WcJ4Mejfjg4gcEYpstFnn8GfcXJxy6qzWHk+R8jkNJyr2o7A+elVmn07lLAPsrOLoOoA9mHjxgwOqm+AvkXHBawF9vQ0k624jI1zOGRApSHNfwtIz4PzCt9DJLUIxkTklheksPIdURz0L3V5b2+HD89qtyl74dnArC+i6GtFcM5Nc0hb7FV0/Pl7uJtaUDk4P5ulwcJhk3+WEK6ILtGPT5hfis23lmbx4F3spyiQZOiGv64uofosDle5EhqyOcXAYQARQywpff1s/6dZ2f/PQgnrDFBkh4uObVLxbzsCsnCRSl+zh/q2DzBD+5lvO/3W/ZOtbNvx12CytJnAtpBDYgJ3eNefkV2HRhY0K1M6HzFJihPCi0+2tbVWpawfs5vScVxBXZL0XaVRervdWw0T99dDO4wsCf0tK4f/bqjxDf8QKQIJ9mOSJILJzV8xsH2xY4I
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR15MB5819.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(38070700021)(921020);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L3BVeUQ2TkRyQmlFYXkwb1BsdVQwV3NaTFArMUNTUjhvRW40bXp4aVNTVkh5?=
- =?utf-8?B?ZiswbXRzOGk2VWJEOWdobzhKdTgzbXVtWld6TWhxVWlUTGJadkdWejMvbmRH?=
- =?utf-8?B?UFZPOFlCOGE0c25jTlg3N2RNYStJM1BBTFlWSHF0UXhTTjdJL3lHMzh0R2VG?=
- =?utf-8?B?S3NlTVVmTGVVWkVYTUllazI0SFZKS0M2akQrclY5bHhkelJJVUQ3elpvSy9L?=
- =?utf-8?B?Z2tzTlNiVW91VXZ5MHVTalJYMTNuT3ZESVBHYzNOblkvWjVpZkpkTys5a3Z2?=
- =?utf-8?B?c3BuWWpzQ3NtakVMVTBQRFJCYno2amJKSjJSWTFLVndOQ2kvRmxZU2V2aXRB?=
- =?utf-8?B?Wi9neXF1N25FNEdmNjVlTGpZNTlpbDV2WDhHZVIreDl1aGxaM0Y5ZWZoMkpi?=
- =?utf-8?B?QURIK1BDZ01tbzkrMDg2YTR1aTE1RmduQ0g5WXdQcm0wcllpdFh1TnIxclBB?=
- =?utf-8?B?MFZDZGpjTThwRURnMjJuTkttYmEwQWFERzZtVllCTEYvVExReGJhRmxQZWhp?=
- =?utf-8?B?N2JodUlDWWRrdzVPWnJGdWk5UlhDWmQyRngvNnNzdXZBTUVIaEJTMGlleXFk?=
- =?utf-8?B?TlFJaDZIOGFScGtobnNDZW5XMERaalBNNDVQT3lSZFA0ODllUTIrOGcxcFVX?=
- =?utf-8?B?SWR4a2dKWFMzY3hxMkNlNk1NL0MzMXJ6NGlSMldaMmxWY3ZMZnd1TUV3QzV4?=
- =?utf-8?B?Nms3akswUm1XZE9mVmplTXVlc3hqZmxLT25xSHFVTzE0V3Zmc2c5ODFCNFpL?=
- =?utf-8?B?Ym84Mjl4ZmZ5Z3ppVXh6bVRId2ZYdnFNOG9KQlp1RmdKbGFBU1NmK0lkWUpk?=
- =?utf-8?B?R3RCY1J4T1o3V1B0a2lJSWEyd3VBZmVtZXZUdGNqN0dwcUlyandpUm0vREtz?=
- =?utf-8?B?bmRoa0pBL2llM3JHT3dlYm92ZWNzWGxHYlJBc1hNb21WT3B4Z3N4L0Z6UlAw?=
- =?utf-8?B?WEZ0eVdBUjV4amg4OFIzQldtK0hjZGhRempzMXpzVWdWNVAxRC9nYk1pVXFP?=
- =?utf-8?B?MXRTMHJkRGhZTExqa1Bmd2RCb0RYMHRUU1BQbkIzOHFDM3FtZ1NCbTNhMWc2?=
- =?utf-8?B?K2VMaCtpN0FGL1RmTlppTXRwVFZzSEh3WlJWTFpYZVdYRGhrN202Z2J4cjNv?=
- =?utf-8?B?SUZZejVCZEgyUzlORUhkZVRBZ0h0cWZNV3Bzbmc2UFpKS1pzamFKSktiSndF?=
- =?utf-8?B?T3E5dkNETGRjOVVsa0JpUWc1U1RwRWYxdFY2RjRzS09VNk94aWhEOGZ1WnlW?=
- =?utf-8?B?MzRGdTA1aEZzb01GR0RlSEN0UytjdlJyRDV5K28xTVdBdXJCRGtYcXNmQVVp?=
- =?utf-8?B?ZnFWbDVodXZKR2laMlBLZkgzMHBRYkwyQmtTZHE4Q05RMGtkRXRrMUlGSVl4?=
- =?utf-8?B?UWJjMXQzL2tPNXdZdC90U2owRFpWMjFzbS9nV3JyeXV5MG5ycTBSL1BHZ1ZD?=
- =?utf-8?B?cFlIRVhBOXN4QzRoSVhJSUZXbzgwUytQSlhlVjhuWWQ4U2FNUDRkamJWK3Ri?=
- =?utf-8?B?NWFteXkyOG05S04rbENDOXl2ank3RlRsYjJQK09YWWlKY2ZPMmhvTDFkSmh6?=
- =?utf-8?B?ZmxqSWN2MmVVSWxXY05reE02MFU0UmgrcHpCczRBaGcwZDU2ekxqLzdPL3RT?=
- =?utf-8?B?QU4veTF5QlVHaUxxNzh2TjVBSjJvMmhXRXRnb1libXVUSDZIemFwcDluM3kw?=
- =?utf-8?B?MVkzTTFuQmdUcnZ6WGNwZStmNHJOY3NqQWxKQWI2OERUMUN4NHlDb2orUVZW?=
- =?utf-8?B?T0VqV0pvam9iWmVCMFdGS3hzODlNU0MwTnhmMnR1NnJpcnZUQlN6QWtoa3M4?=
- =?utf-8?B?YXZVVGlJc0owZ2dMSFlLS1dubXlhUUsrdm1rbE85VVg2OFNTLzJVZkJpRmg4?=
- =?utf-8?B?Zi9hTnFxbitBKzZVOWdlcUZOc0pnVjMvcFNkZG5CU295QThWcWVWRFRIL2Q3?=
- =?utf-8?B?cUFXZGQwNlgreU9pK1F2UGFGK0kvS3Vmc0pmc01vbjFqc2pRYis1RG9KalBM?=
- =?utf-8?B?V0NvcVcxYm4wMzd2QytnSVZRbnlCbGhPU25HMkxXV3J4SVpDNjZHRDIyd1BI?=
- =?utf-8?B?V0xnWFB2cVlid21Jd2kxNUpEQUtyMzU1Q3crMkRsaGdpUkd6cUJpeEQrUVd1?=
- =?utf-8?B?QzBsdHBlbTVBVDM3aTR5eDM1QWxTdEhjTGhQWHpUN0grZkpETFdmZi9SU1l3?=
- =?utf-8?B?KzFEVW9Pa1N2YzdmeFN6aEFpeVJNMXVPalREYVVLbWFTNXFmNkQ0WXZ3MFhO?=
- =?utf-8?B?UDFWODJWekp6NjZvTU9GRVkvTmRKeHhHNGwrUFZKVThjNjZJTzl0RUp2SWZJ?=
- =?utf-8?B?OXNmSGE0TEExaFNZNW1Qc01oVFFRVitIS0RSUWNoWW5YOXJHN0N0NDFZTGpO?=
- =?utf-8?Q?UXM+spwWtnbbC8TBgsCzcXLLYJ/qnAWLcVQPA?=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SJ5PPF9FBA0498D.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::848) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 22:40:39 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%4]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 22:40:39 +0000
+Date: Mon, 2 Mar 2026 14:40:36 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, "Oded
+ Gabbay" <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-next
+Message-ID: <aaYR5G2MHjOEMXPW@lstrano-desk.jf.intel.com>
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <8CE70ABD87053446B519F6717D20B910@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0334.namprd04.prod.outlook.com
+ (2603:10b6:303:8a::9) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-X-OriginatorOrg: ibm.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ5PPF9FBA0498D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3681283b-6061-4a70-697c-08de78acba5c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|7142099003|18082099003; 
+X-Microsoft-Antispam-Message-Info: KgZL63QjXtVzQyBNJSAPegWRy9jeIWiVwMvo1fesLMeVHqktTepTYk4fYgXGeC82q/DDY7z3Iwh1gpBnYmuNC3Ao5qjkcfiolK3wHJaOnCYMPQrr7wDUn75oR64LjGFJ2wdRU5YUE3JL+ON4iydbz/4f0755wC8YMa0iYn3w/rK8ctxzVFetA2Ycwn4v4u/PSQCz3Th5hOiI4PRitm6VB5xLS9CDnm3JIv+05rqfEibHud+qoJOVHfRYveidVuSbqBB6cp3LLGB/YrYSmWc/RradiegcVyKWonclG/fuclWJpchJral/YkOPV0lDE7+Fd8ObLjBefl9yi4JZqS64guWq8iBq/DxYIm17RIOZ75+IhNM0E0gFm+2zO1FPSYD+ngkUxoCFgC3kjQYVEm1n3RY9tx9h07VxOb+Uq8ezLR0EBhqfU8OAE8CzDSNfQwn5SQhjywuXnXV1z6XyUCD0Oy+sfMrO3HcWJzatS1hJUgwLEOE5H1CAUcnXYvDVlp+ifGQPxz19PHepaQzugYtDN7PFeMhfqet5Xe0za4OV6oXGrBs5nNoJf9yJcCS5/rfPgyUO9vVj6MK92FhizxIeffwRYXswA6ez+RIwfohL2Cv1jExIZq7cnVoNgyWctleUZU5wDeRdJ5MtBjdY3ycwJo4LZIWMotBSg4L55Q6u3H5paIVGUwv31ilXwFHW3RVt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7142099003)(18082099003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDk3MDB4T2lmajhSZDk2a25ub2NvUVMybEpjb3dSTUdwbjh4dENxR0lGOFN5?=
+ =?utf-8?B?L2I5TkpoaGVqSG5sTERNNkgvMlpWS3MyMHBmdk9mK2o1YkR2cjRPRmI0Q095?=
+ =?utf-8?B?SW1aemREaXZidjQwMW1wcENmbmsvNkpLT3ZZYXVGdEc3K0YvR1BqaklwMy8v?=
+ =?utf-8?B?SENPNUszL1Z6TkExVGErZU9qdHh5ZnZIemp3aDQrVXloY1J1SVVGNHU2MGsx?=
+ =?utf-8?B?S3dYRjhiU1JCanlockViMk9SSkdYWm1VSTZBTkV0anRnZklKSzdxRmExRXVl?=
+ =?utf-8?B?OGtEZVRTdTM4amllWDRIT2todTZNd0Q1N3RmSGtTWlFvQlE3ZUUyc1hPeGxr?=
+ =?utf-8?B?WGUwWHJnQ2pjd1hjNzdYZmRDUmRQQkljYkNQazJ5Q1RpSDR1dUU0eXprS0Rr?=
+ =?utf-8?B?cVVBdXBCeG5QRENlVUQ1dXdjb0hQZzFQQ1ZKbzhzazBHaThwUW4rSk9FTkMv?=
+ =?utf-8?B?YUpnSElnQ3RSQTBDLzZJemhBZzRkNWhQc3l0Zm1admNZN0NXWFA1TlF0T2wz?=
+ =?utf-8?B?WEhJN3ZpRmNHTjExTzNqSmxNWTJYTXNjaE1KdnBjMTVPRXpaVG5BRDA0T1Ex?=
+ =?utf-8?B?N3kyZjgxcVU0MlBiUStobjlMb2RzNlk4N3c0WHBYcllYbndWbnJjaVhzYVpw?=
+ =?utf-8?B?eDJVV2lvY3FMMzNqeEhIRi9VTjFvelkwdktIaDh2Y3NCOGFvTXgzUXV3OFFx?=
+ =?utf-8?B?S21JSG04U3NHcVdYUDBjSFNXbzFzWUl4VEJvTHVxeHhXNDl0Y0YwU1RNRW56?=
+ =?utf-8?B?SHVTNk1TY1c3TFBiNjhIeXhjL2FudWtVQ1FWQThZUXZablhmT0xma2ZYUGc4?=
+ =?utf-8?B?NGtqSnlVbHBtNFlDVUlUN01Ca3Boa1hURkpTdjZha0ZNQUtNeERBSU9zeTk3?=
+ =?utf-8?B?OW1zN2ZMcDdsek5WRE1kNkttM1ZVQ2xtRnNGRWNMWnp0bnFrMVVKSVl5TzJz?=
+ =?utf-8?B?NlBQdWwwaHVUV2FNQlg1bjB3RlRySmZJMzIydXc0bnJ6V0dVbE1QbHdFcGJZ?=
+ =?utf-8?B?bGkra1BqMUlyZFJxZW1MMG5qSVNIRHl3ZTNPY01uTTlJTHZqRnQ0MTF5TjFi?=
+ =?utf-8?B?bllwSEo1QUo4dkpJSnpZUWFSNGMwcUhvQnEwK1cxMWdFODFxaWN0Wjd2Z1N4?=
+ =?utf-8?B?RkZtREdsdUlLMmtjR3llZ1dtWDh4M0dpcmxpZTBReG1BQ2NDVGNLdGZabHZC?=
+ =?utf-8?B?TzBxNXZpeXd5dWZFaUhUeVpDcXR3MElJWXUrRFA1Qmk3OEc4elV3VzlGV2xa?=
+ =?utf-8?B?SDdZOFdoSUZzWFJ2dlJwSEtHUjc3OU5EQ0Nyd2dlVm15L1k4M2xYNXhaYnJ0?=
+ =?utf-8?B?VWRGMmJIUGJSWmRvcXQzVmdWQ2Z2dXRGenBLZFJ4bEVRK2FackNMS2UxamV1?=
+ =?utf-8?B?R3V4Z2k5ZGxIV2lrWVRUOC9PMXdlQnFPQUVMTnVraHpIL3BnTGMzSTZuUExX?=
+ =?utf-8?B?V1ZkSklKbVhOQ1B6eDdNa2FsdkExUFpVVENOMTN4TThIeDc4UjIrU1FoWmRt?=
+ =?utf-8?B?aEkzbGFjc1ZtK2Y4NXZKYjE0OHhBSE1MRDVoRGhpdTB1WGgxYVlDKzFSdlJE?=
+ =?utf-8?B?TWp5SGxobElrTWdFTWpYbzh4SHJVRk1PQmdVcSt4cnNyQ3hQa2U0RWJoNWRU?=
+ =?utf-8?B?bmdBZkFScW1wa0M0dGxhcHNmOEEzVmphUjcxWWNVMmhKZHc0cldzOWpwemFX?=
+ =?utf-8?B?NWpLMkxwZjhidmhIMXowRmhDYUhjVXMyaVI5ZndiTnVxUWtRdmRiNW5VOGlY?=
+ =?utf-8?B?UGVkSDJ1M0dyU2tnQUJ3eVBrbVVORmlnaVVEVzA5NGIvS1RqbkkvSDRkbTZ0?=
+ =?utf-8?B?bVduQkVBbWRFeXo5SnFGWFVFRFRwWlVvdnd3MEx0WHNEaUppbzN4OFAwUjRL?=
+ =?utf-8?B?OUs5eTIvSkNxYTI1Q1ZnRjlJSDAvcUpTRm9KaDBJOU0rS0l1WmFmZ1hybWNP?=
+ =?utf-8?B?WHY4VGNKdnF0aE1ZWm5oTWVWeFRGMlY0dGhSRXV3S1k3d3NERWlXVDR2YkhH?=
+ =?utf-8?B?c1lXMTkxQ2JDN1BMZTI2YWp1VnM0MHdLWDVkcGtaeXFyQ3oxRmt5S2ZqUlc4?=
+ =?utf-8?B?b0dCTldxc1B6WUJOZ0ptUk52VXBuQWJMeUdQaWtQQnEzMmd4cmNFU2h6N1JM?=
+ =?utf-8?B?UWxYUC85ckJVM2diNnVVb0ZRSmQwL2ZodmZXWGlkd3kyNFZqaW5jRHFsWG0w?=
+ =?utf-8?B?bW1EYnp6TXhDU1poQ0hVeDZQUzdLY1llYWhRclBwS29DeWhDY1pIL1g2NUxi?=
+ =?utf-8?B?UE9wSGtndW4rS2hMUTdhWFFvTUVEa0F4a0dxMHRhdmNhSUxQeXFOM0JRVlRS?=
+ =?utf-8?B?SVVpcGNmMTI1WktMMVBCT3FQdUdsNmx6bDBkZjAvQkxwR2hUZjhwOGVEMEVT?=
+ =?utf-8?Q?ht+Om6V42BhwDEuY=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3681283b-6061-4a70-697c-08de78acba5c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5819.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d30e6d6-0fd5-4af1-8dfb-08de78aca656
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 22:40:05.3119 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: fcf67057-50c9-4ad4-98f3-ffca64add9e9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IlzlxQegRMRT0GzdIH1F7vVPhQpkKeKm/W5FxOmpZiLcSAoPKgB3aeA+4uTd+TWJ+VLWTEGQKabqr26HMv0Quw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFE061D9768
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Rp/I7SmK c=1 sm=1 tr=0 ts=69a611ce cx=c_pps
- a=M+4CHf8fKMkYOwSYEMZyZQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8 a=wCmvBT1CAAAA:8
- a=yg8HEki30JHSbY7BnakA:9 a=QEXdDO2ut3YA:10 a=6z96SAwNL0f8klobD5od:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDE2NyBTYWx0ZWRfX0IodLcGkW/B+
- YTCOob3gqMCs58OeqFMr/e+a6PzSmuunuBqfVvIik8CkW6v976N5y5v7UwU37sQ1ZI4rBCqfb/q
- esANCJC+cnHtPHkNVWa2MUFavkYQQSe4km5bZQw+Eo9vbP9GwCmNx3z1t84t+GOkHYUWI555rLX
- 7yNHC4K+557PyUqeNkv3iurOk06L5Tsbm9x8A8jbV6I7qHX03cC79/oaWCmgLv2YvTe7D4yYqD5
- E1WEGHarzJgiJ69zc72r9lPTs9jEseTi6UV25nw9AiiTnh1KCGB1xFnSLNwUH6U4V7OlHcEd9ua
- y/zGYWcl4F4OF4tAeWwpkW0hbunI8QJBfNDlAoMCHrbmDvuzrsn4mMnAlXjn04x3Yikoj7VcdIz
- mc/xrEO8x9rFd34gf+M0jJnSQJHhlgf5/hiG6+q2FdUDe0mZdqysFGzDrsKMqYN5CYeTtECYx6q
- +fD6J2zf1ucgrupKsMA==
-X-Proofpoint-GUID: ccL02fxDQi3_v42g1W7RMUI5KNjfU2As
-X-Proofpoint-ORIG-GUID: h292VF2q0kmRUjKtfU-LM7iyE38jGXvw
-Subject: Re:  [PATCH v2 084/110] hfs: replace PRIino with %llu/%llx format
- strings
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_05,2026-03-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 spamscore=0 phishscore=0 adultscore=0
- bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020167
-X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:16 +0000
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 22:40:39.1077 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xdJi4mX5kV2EfnfqcRi6DQAn9+cYDgPjf6/qhcYO2EhFKrfTzisKAGkFUsoGaCd3h6WYO2yRXbKszIiChfBKhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF9FBA0498D
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -319,88 +177,693 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4D0341EB3CC
+X-Rspamd-Queue-Id: 770C81E5CDF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.29 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[ibm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
-	MIME_BASE64_TEXT(0.10)[];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[hartkopp.net,gondor.apana.org.au,kernel.org,yaina.de,oracle.com,redhat.com,davemloft.net,paragon-software.com,szeredi.hu,canonical.com,gmail.com,fluxnic.net,intel.com,talpey.com,linux.alibaba.com,paul-moore.com,codewreck.org,linux.intel.com,fasheh.com,crudebyte.com,amd.com,zeniv.linux.org.uk,infradead.org,microsoft.com,holtmann.org,linaro.org,ffwll.ch,arm.com,suse.com,google.com,iogearbox.net,goodmis.org,vivo.com,dev.tdt.de,evilplan.org,mit.edu,cs.cmu.edu,omnibond.com,namei.org,dilger.ca,physik.fu-berlin.de,schaufler-ca.com,themaw.net,linux.dev,efficios.com,fomichev.me,huawei.com,artax.karlin.mff.cuni.cz,suse.de,samba.org,hallyn.com,alarsen.net,manguebit.org,dubeyko.com,ionkov.net,nod.at,auristor.com,brown.name,pengutronix.de,suse.cz,tyhicks.com,secunet.com,wdc.com,linux.ibm.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ibm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[172];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[Slava.Dubeyko@ibm.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,lstrano-desk.jf.intel.com:mid];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dubeyko.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-T24gTW9uLCAyMDI2LTAzLTAyIGF0IDE1OjI1IC0wNTAwLCBKZWZmIExheXRvbiB3cm90ZToNCj4g
-Tm93IHRoYXQgaV9pbm8gaXMgdTY0IGFuZCB0aGUgUFJJaW5vIGZvcm1hdCBtYWNybyBoYXMgYmVl
-biByZW1vdmVkLA0KPiByZXBsYWNlIGFsbCB1c2VzIGluIGhmcyB3aXRoIHRoZSBjb25jcmV0ZSBm
-b3JtYXQgc3RyaW5ncy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEplZmYgTGF5dG9uIDxqbGF5dG9u
-QGtlcm5lbC5vcmc+DQo+IC0tLQ0KPiAgZnMvaGZzL2NhdGFsb2cuYyB8IDIgKy0NCj4gIGZzL2hm
-cy9leHRlbnQuYyAgfCA0ICsrLS0NCj4gIGZzL2hmcy9pbm9kZS5jICAgfCA0ICsrLS0NCj4gIDMg
-ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2ZzL2hmcy9jYXRhbG9nLmMgYi9mcy9oZnMvY2F0YWxvZy5jDQo+IGluZGV4IGIw
-N2MwYTNmZmM2MTU4NDE2NWU4Y2M5ZjY0NmRlNjA2NmE2YWQyYzkuLjdmNTMzOWVlNTdjMTVhYWUy
-ZDVkMDA0NzQxMzNhOTg1YmUzYWY2Y2EgMTAwNjQ0DQo+IC0tLSBhL2ZzL2hmcy9jYXRhbG9nLmMN
-Cj4gKysrIGIvZnMvaGZzL2NhdGFsb2cuYw0KPiBAQCAtNDE3LDcgKzQxNyw3IEBAIGludCBoZnNf
-Y2F0X21vdmUodTMyIGNuaWQsIHN0cnVjdCBpbm9kZSAqc3JjX2RpciwgY29uc3Qgc3RydWN0IHFz
-dHIgKnNyY19uYW1lLA0KPiAgCWludCBlbnRyeV9zaXplLCB0eXBlOw0KPiAgCWludCBlcnI7DQo+
-ICANCj4gLQloZnNfZGJnKCJjbmlkICV1IC0gKGlubyAlIiBQUklpbm8gInUsIG5hbWUgJXMpIC0g
-KGlubyAlIiBQUklpbm8gInUsIG5hbWUgJXMpXG4iLA0KPiArCWhmc19kYmcoImNuaWQgJXUgLSAo
-aW5vICVsbHUsIG5hbWUgJXMpIC0gKGlubyAlbGx1LCBuYW1lICVzKVxuIiwNCj4gIAkJY25pZCwg
-c3JjX2Rpci0+aV9pbm8sIHNyY19uYW1lLT5uYW1lLA0KPiAgCQlkc3RfZGlyLT5pX2lubywgZHN0
-X25hbWUtPm5hbWUpOw0KPiAgCXNiID0gc3JjX2Rpci0+aV9zYjsNCj4gZGlmZiAtLWdpdCBhL2Zz
-L2hmcy9leHRlbnQuYyBiL2ZzL2hmcy9leHRlbnQuYw0KPiBpbmRleCA2MDg3NWNjMjM4ODBiNzU4
-YmJiYjVlNGI4MjgxZDllZTFmMmRiY2JiLi5mMDY2YTk5YTg2M2JjNzM5OTQ4YWFjOTIxYmM5MDY4
-NzRjNjAwOWIyIDEwMDY0NA0KPiAtLS0gYS9mcy9oZnMvZXh0ZW50LmMNCj4gKysrIGIvZnMvaGZz
-L2V4dGVudC5jDQo+IEBAIC00MTEsNyArNDExLDcgQEAgaW50IGhmc19leHRlbmRfZmlsZShzdHJ1
-Y3QgaW5vZGUgKmlub2RlKQ0KPiAgCQlnb3RvIG91dDsNCj4gIAl9DQo+ICANCj4gLQloZnNfZGJn
-KCJpbm8gJSIgUFJJaW5vICJ1LCBzdGFydCAldSwgbGVuICV1XG4iLCBpbm9kZS0+aV9pbm8sIHN0
-YXJ0LCBsZW4pOw0KPiArCWhmc19kYmcoImlubyAlbGx1LCBzdGFydCAldSwgbGVuICV1XG4iLCBp
-bm9kZS0+aV9pbm8sIHN0YXJ0LCBsZW4pOw0KPiAgCWlmIChIRlNfSShpbm9kZSktPmFsbG9jX2Js
-b2NrcyA9PSBIRlNfSShpbm9kZSktPmZpcnN0X2Jsb2Nrcykgew0KPiAgCQlpZiAoIUhGU19JKGlu
-b2RlKS0+Zmlyc3RfYmxvY2tzKSB7DQo+ICAJCQloZnNfZGJnKCJmaXJzdF9leHRlbnQ6IHN0YXJ0
-ICV1LCBsZW4gJXVcbiIsDQo+IEBAIC00ODIsNyArNDgyLDcgQEAgdm9pZCBoZnNfZmlsZV90cnVu
-Y2F0ZShzdHJ1Y3QgaW5vZGUgKmlub2RlKQ0KPiAgCXUzMiBzaXplOw0KPiAgCWludCByZXM7DQo+
-ICANCj4gLQloZnNfZGJnKCJpbm8gJSIgUFJJaW5vICJ1LCBwaHlzX3NpemUgJWxsdSAtPiBpX3Np
-emUgJWxsdVxuIiwNCj4gKwloZnNfZGJnKCJpbm8gJWxsdSwgcGh5c19zaXplICVsbHUgLT4gaV9z
-aXplICVsbHVcbiIsDQo+ICAJCWlub2RlLT5pX2lubywgKGxvbmcgbG9uZylIRlNfSShpbm9kZSkt
-PnBoeXNfc2l6ZSwNCj4gIAkJaW5vZGUtPmlfc2l6ZSk7DQo+ICAJaWYgKGlub2RlLT5pX3NpemUg
-PiBIRlNfSShpbm9kZSktPnBoeXNfc2l6ZSkgew0KPiBkaWZmIC0tZ2l0IGEvZnMvaGZzL2lub2Rl
-LmMgYi9mcy9oZnMvaW5vZGUuYw0KPiBpbmRleCBiMTk4NjY1MjVjMWU5YzQzZGVjZjNhOTQzYzcw
-OTkyMmVlODYzMGY2Li45NWYwMzMzYTYwOGIwZmI1NzIzOWNmNWVlYzdkOTQ4OWEyNWVmYjNhIDEw
-MDY0NA0KPiAtLS0gYS9mcy9oZnMvaW5vZGUuYw0KPiArKysgYi9mcy9oZnMvaW5vZGUuYw0KPiBA
-QCAtMjcwLDcgKzI3MCw3IEBAIHZvaWQgaGZzX2RlbGV0ZV9pbm9kZShzdHJ1Y3QgaW5vZGUgKmlu
-b2RlKQ0KPiAgew0KPiAgCXN0cnVjdCBzdXBlcl9ibG9jayAqc2IgPSBpbm9kZS0+aV9zYjsNCj4g
-IA0KPiAtCWhmc19kYmcoImlubyAlIiBQUklpbm8gInVcbiIsIGlub2RlLT5pX2lubyk7DQo+ICsJ
-aGZzX2RiZygiaW5vICVsbHVcbiIsIGlub2RlLT5pX2lubyk7DQo+ICAJaWYgKFNfSVNESVIoaW5v
-ZGUtPmlfbW9kZSkpIHsNCj4gIAkJYXRvbWljNjRfZGVjKCZIRlNfU0Ioc2IpLT5mb2xkZXJfY291
-bnQpOw0KPiAgCQlpZiAoSEZTX0koaW5vZGUpLT5jYXRfa2V5LlBhcklEID09IGNwdV90b19iZTMy
-KEhGU19ST09UX0NOSUQpKQ0KPiBAQCAtNDU1LDcgKzQ1NSw3IEBAIGludCBoZnNfd3JpdGVfaW5v
-ZGUoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IHdyaXRlYmFja19jb250cm9sICp3YmMpDQo+
-ICAJaGZzX2NhdF9yZWMgcmVjOw0KPiAgCWludCByZXM7DQo+ICANCj4gLQloZnNfZGJnKCJpbm8g
-JSIgUFJJaW5vICJ1XG4iLCBpbm9kZS0+aV9pbm8pOw0KPiArCWhmc19kYmcoImlubyAlbGx1XG4i
-LCBpbm9kZS0+aV9pbm8pOw0KPiAgCXJlcyA9IGhmc19leHRfd3JpdGVfZXh0ZW50KGlub2RlKTsN
-Cj4gIAlpZiAocmVzKQ0KPiAgCQlyZXR1cm4gcmVzOw0KDQpSZXZpZXdlZC1ieTogVmlhY2hlc2xh
-diBEdWJleWtvIDxzbGF2YUBkdWJleWtvLmNvbT4NCg0KVGhhbmtzLA0KU2xhdmEuDQo=
+Hi Dave and Sima,
+
+Here goes our first drm-xe-next PR towards 7.1.
+
+In the big things we have:
+- Lots of work around workarounds
+- SRIOV changes / fixes, in particular PF admin mode
+- Lots of work Xe3 support
+- Context based TLB invalidations
+- and many more changes, fixes and improvements...
+
+Thanks,
+Matt
+
+drm-xe-next-2026-03-02:
+UAPI Changes:
+- restrict multi-lrc to VCS/VECS engines (Xin Wang)
+- Introduce a flag to disallow vm overcommit in fault mode (Thomas)
+- update used tracking kernel-doc (Auld, Fixes)
+- Some bind queue fixes (Auld, Fixes)
+
+Cross-subsystem Changes:
+- Split drm_suballoc_new() into SA alloc and init helpers (Satya, Fixes)
+- pass pagemap_addr by reference (Arnd, Fixes)
+- Revert "drm/pagemap: Disable device-to-device migration" (Thomas)
+- Fix unbalanced unlock in drm_gpusvm_scan_mm (Maciej, Fixes)
+- Small GPUSVM fixes (Brost, Fixes)
+- Fix xe SVM configs (Thomas, Fixes)
+
+Core Changes:
+- Fix a hmm_range_fault() livelock / starvation problem (Thomas, Fixes)
+
+Driver Changes:
+- Fix leak on xa_store failure (Shuicheng, Fixes)
+- Correct implementation of Wa_16025250150 (Roper, Fixes)
+- Refactor context init into xe_lrc_ctx_init (Raag)
+- Fix GSC proxy cleanup on early initialization failure (Zhanjun)
+- Fix exec queue creation during post-migration recovery (Tomasz, Fixes)
+- Apply windower hardware filtering setting on Xe3 and Xe3p (Roper)
+- Free ctx_restore_mid_bb in release (Shuicheng, Fixes)
+- Drop stale MCR steering TODO comment (Roper)
+- dGPU memory optimizations (Brost)
+- Do not preempt fence signaling CS instructions (Brost, Fixes)
+- Revert "drm/xe/compat: Remove unused i915_reg.h from compat header" (Uma)
+- Don't expose display modparam if no display support (Wajdeczko)
+- Some VRAM flag improvements (Wajdeczko)
+- Misc fix for xe_guc_ct.c (Shuicheng, Fixes)
+- Remove unused i915_reg.h from compat header (Uma)
+- Workaround cleanup & simplification (Roper)
+- Add prefetch pagefault support for Xe3p (Varun)
+- Fix fs_reclaim deadlock caused by CCS save/restore (Satya, Fixes)
+- Cleanup partially initialized sync on parse failure (Shuicheng, Fixes)
+- Allow to change VFs VRAM quota using sysfs (Michal)
+- Increase GuC log sizes in debug builds (Tomasz)
+- Wa_18041344222 changes (Harish)
+- Add Wa_14026781792 (Niton)
+- Add debugfs facility to catch RTP mistakes (Roper)
+- Convert GT stats to per-cpu counters (Brost)
+- Prevent unintended VRAM channel creation (Karthik)
+- Privatize struct xe_ggtt (Maarten)
+- remove unnecessary struct dram_info forward declaration (Jani)
+- pagefault refactors (Brost)
+- Apply Wa_14024997852 (Arvind)
+- Redirect faults to dummy page for wedged device (Raag, Fixes)
+- Force EXEC_QUEUE_FLAG_KERNEL for kernel internal VMs (Piotr)
+- Stop applying Wa_16018737384 from Xe3 onward (Roper)
+- Add new XeCore fuse registers to VF runtime regs (Roper)
+- Update xe_device_declare_wedged() error log (Raag)
+- Make xe_modparam.force_vram_bar_size signed (Shuicheng, Fixes)
+- Avoid reading media version when media GT is disabled (Piotr, Fixes)
+- Fix handling of Wa_14019988906 & Wa_14019877138 (Roper, Fixes)
+- Basic enabling patches for Xe3p_LPG and NVL-P (Gustavo, Roper, Shekhar)
+- Avoid double-adjust in 64-bit reads (Shuicheng, Fixes)
+- Allow VF to initialize MCR tables (Wajdeczko)
+- Add Wa_14025883347 for GuC DMA failure on reset (Anirban)
+- Add bounds check on pat_index to prevent OOB kernel read in madvise (Jia, Fixes)
+- Fix the address range assert in ggtt_get_pte helper (Winiarski)
+- XeCore fuse register changes (Roper)
+- Add more info to powergate_info debugfs (Vinay)
+- Separate out GuC RC code (Vinay)
+- Fix g2g_test_array indexing (Pallavi)
+- Mutual exclusivity between CCS-mode and PF (Nareshkumar, Fixes)
+- Some more _types.h cleanups (Wajdeczko)
+- Fix sysfs initialization (Wajdeczko, Fixes)
+- Drop unnecessary goto in xe_device_create (Roper)
+- Disable D3Cold for BMG only on specific platforms (Karthik, Fixes)
+- Add sriov.admin_only_pf attribute (Wajdeczko)
+- replace old wq(s), add WQ_PERCPU to alloc_workqueue (Marco)
+- Make MMIO communication more robust (Wajdeczko)
+- Fix warning of kerneldoc (Shuicheng, Fixes)
+- Fix topology query pointer advance (Shuicheng, Fixes)
+- use entry_dump callbacks for xe2+ PAT dumps (Xin Wang)
+- Fix kernel-doc warning in GuC scheduler ABI header (Chaitanya, Fixes)
+- Fix CFI violation in debugfs access (Daniele, Fixes)
+- Apply WA_16028005424 to Media (Balasubramani)
+- Fix typo in function kernel-doc (Wajdeczko)
+- Protect priority against concurrent access (Niranjana)
+- Fix nvm aux resource cleanup (Shuicheng, Fixes)
+- Fix is_bound() pci_dev lifetime (Shuicheng, Fixes)
+- Use CLASS() for forcewake in xe_gt_enable_comp_1wcoh (Shuicheng)
+- Reset VF GuC state on fini (Wajdeczko)
+- Move _THIS_IP_ usage from xe_vm_create() to dedicated function (Nathan Chancellor, Fixes)
+- Unregister drm device on probe error (Shuicheng, Fixes)
+- Disable DCC on PTL (Vinay, Fixes)
+- Fix Wa_18022495364 (Tvrtko, Fixes)
+- Skip address copy for sync-only execs (Shuicheng, Fixes)
+- derive mem copy capability from graphics version (Nitin, Fixes)
+- Use DRM_BUDDY_CONTIGUOUS_ALLOCATION for contiguous allocations (Sanjay)
+- Context based TLB invalidations (Brost)
+- Enable multi_queue on xe3p_xpc (Brost, Niranjana)
+- Remove check for gt in xe_query (Nakshtra)
+- Reduce LRC timestamp stuck message on VFs to notice (Brost, Fixes)
+The following changes since commit 83675851547e835c15252c601f41acf269c351d9:
+
+  drm/xe: Cleanup unused header includes (2026-01-15 07:05:04 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2026-03-02
+
+for you to fetch changes up to 6bc6fec71ac45f52db609af4e62bdb96b9f5fadb:
+
+  drm/xe/reg_sr: Fix leak on xa_store failure (2026-03-02 14:29:29 -0800)
+
+----------------------------------------------------------------
+UAPI Changes:
+- restrict multi-lrc to VCS/VECS engines (Xin Wang)
+- Introduce a flag to disallow vm overcommit in fault mode (Thomas)
+- update used tracking kernel-doc (Auld, Fixes)
+- Some bind queue fixes (Auld, Fixes)
+
+Cross-subsystem Changes:
+- Split drm_suballoc_new() into SA alloc and init helpers (Satya, Fixes)
+- pass pagemap_addr by reference (Arnd, Fixes)
+- Revert "drm/pagemap: Disable device-to-device migration" (Thomas)
+- Fix unbalanced unlock in drm_gpusvm_scan_mm (Maciej, Fixes)
+- Small GPUSVM fixes (Brost, Fixes)
+- Fix xe SVM configs (Thomas, Fixes)
+
+Core Changes:
+- Fix a hmm_range_fault() livelock / starvation problem (Thomas, Fixes)
+
+Driver Changes:
+- Fix leak on xa_store failure (Shuicheng, Fixes)
+- Correct implementation of Wa_16025250150 (Roper, Fixes)
+- Refactor context init into xe_lrc_ctx_init (Raag)
+- Fix GSC proxy cleanup on early initialization failure (Zhanjun)
+- Fix exec queue creation during post-migration recovery (Tomasz, Fixes)
+- Apply windower hardware filtering setting on Xe3 and Xe3p (Roper)
+- Free ctx_restore_mid_bb in release (Shuicheng, Fixes)
+- Drop stale MCR steering TODO comment (Roper)
+- dGPU memory optimizations (Brost)
+- Do not preempt fence signaling CS instructions (Brost, Fixes)
+- Revert "drm/xe/compat: Remove unused i915_reg.h from compat header" (Uma)
+- Don't expose display modparam if no display support (Wajdeczko)
+- Some VRAM flag improvements (Wajdeczko)
+- Misc fix for xe_guc_ct.c (Shuicheng, Fixes)
+- Remove unused i915_reg.h from compat header (Uma)
+- Workaround cleanup & simplification (Roper)
+- Add prefetch pagefault support for Xe3p (Varun)
+- Fix fs_reclaim deadlock caused by CCS save/restore (Satya, Fixes)
+- Cleanup partially initialized sync on parse failure (Shuicheng, Fixes)
+- Allow to change VFs VRAM quota using sysfs (Michal)
+- Increase GuC log sizes in debug builds (Tomasz)
+- Wa_18041344222 changes (Harish)
+- Add Wa_14026781792 (Niton)
+- Add debugfs facility to catch RTP mistakes (Roper)
+- Convert GT stats to per-cpu counters (Brost)
+- Prevent unintended VRAM channel creation (Karthik)
+- Privatize struct xe_ggtt (Maarten)
+- remove unnecessary struct dram_info forward declaration (Jani)
+- pagefault refactors (Brost)
+- Apply Wa_14024997852 (Arvind)
+- Redirect faults to dummy page for wedged device (Raag, Fixes)
+- Force EXEC_QUEUE_FLAG_KERNEL for kernel internal VMs (Piotr)
+- Stop applying Wa_16018737384 from Xe3 onward (Roper)
+- Add new XeCore fuse registers to VF runtime regs (Roper)
+- Update xe_device_declare_wedged() error log (Raag)
+- Make xe_modparam.force_vram_bar_size signed (Shuicheng, Fixes)
+- Avoid reading media version when media GT is disabled (Piotr, Fixes)
+- Fix handling of Wa_14019988906 & Wa_14019877138 (Roper, Fixes)
+- Basic enabling patches for Xe3p_LPG and NVL-P (Gustavo, Roper, Shekhar)
+- Avoid double-adjust in 64-bit reads (Shuicheng, Fixes)
+- Allow VF to initialize MCR tables (Wajdeczko)
+- Add Wa_14025883347 for GuC DMA failure on reset (Anirban)
+- Add bounds check on pat_index to prevent OOB kernel read in madvise (Jia, Fixes)
+- Fix the address range assert in ggtt_get_pte helper (Winiarski)
+- XeCore fuse register changes (Roper)
+- Add more info to powergate_info debugfs (Vinay)
+- Separate out GuC RC code (Vinay)
+- Fix g2g_test_array indexing (Pallavi)
+- Mutual exclusivity between CCS-mode and PF (Nareshkumar, Fixes)
+- Some more _types.h cleanups (Wajdeczko)
+- Fix sysfs initialization (Wajdeczko, Fixes)
+- Drop unnecessary goto in xe_device_create (Roper)
+- Disable D3Cold for BMG only on specific platforms (Karthik, Fixes)
+- Add sriov.admin_only_pf attribute (Wajdeczko)
+- replace old wq(s), add WQ_PERCPU to alloc_workqueue (Marco)
+- Make MMIO communication more robust (Wajdeczko)
+- Fix warning of kerneldoc (Shuicheng, Fixes)
+- Fix topology query pointer advance (Shuicheng, Fixes)
+- use entry_dump callbacks for xe2+ PAT dumps (Xin Wang)
+- Fix kernel-doc warning in GuC scheduler ABI header (Chaitanya, Fixes)
+- Fix CFI violation in debugfs access (Daniele, Fixes)
+- Apply WA_16028005424 to Media (Balasubramani)
+- Fix typo in function kernel-doc (Wajdeczko)
+- Protect priority against concurrent access (Niranjana)
+- Fix nvm aux resource cleanup (Shuicheng, Fixes)
+- Fix is_bound() pci_dev lifetime (Shuicheng, Fixes)
+- Use CLASS() for forcewake in xe_gt_enable_comp_1wcoh (Shuicheng)
+- Reset VF GuC state on fini (Wajdeczko)
+- Move _THIS_IP_ usage from xe_vm_create() to dedicated function (Nathan Chancellor, Fixes)
+- Unregister drm device on probe error (Shuicheng, Fixes)
+- Disable DCC on PTL (Vinay, Fixes)
+- Fix Wa_18022495364 (Tvrtko, Fixes)
+- Skip address copy for sync-only execs (Shuicheng, Fixes)
+- derive mem copy capability from graphics version (Nitin, Fixes)
+- Use DRM_BUDDY_CONTIGUOUS_ALLOCATION for contiguous allocations (Sanjay)
+- Context based TLB invalidations (Brost)
+- Enable multi_queue on xe3p_xpc (Brost, Niranjana)
+- Remove check for gt in xe_query (Nakshtra)
+- Reduce LRC timestamp stuck message on VFs to notice (Brost, Fixes)
+
+----------------------------------------------------------------
+Aradhya Bhatia (1):
+      drm/xe/xe3p_lpg: Set STLB bank hash mode to 4KB
+
+Arnd Bergmann (1):
+      drm/pagemap: pass pagemap_addr by reference
+
+Arvind Yadav (1):
+      drm/xe/xe2: Apply Wa_14024997852
+
+Balasubramani Vivekanandan (1):
+      drm/xe: Apply WA_16028005424 to Media
+
+Chaitanya Kumar Borah (1):
+      drm/xe/guc: Fix kernel-doc warning in GuC scheduler ABI header
+
+Daniele Ceraolo Spurio (1):
+      drm/xe/guc: Fix CFI violation in debugfs access.
+
+Dnyaneshwar Bhadane (1):
+      drm/xe/nvlp: Attach MOCS table for nvlp
+
+Gustavo Sousa (3):
+      drm/xe/pat: Differentiate between primary and media for PTA
+      drm/xe/xe3p_lpg: Update LRC sizes
+      drm/xe/nvlp: Bump maximum WOPCM size
+
+Harish Chegondi (3):
+      drm/xe/xe2hpg: Remove SRIOV VF check for Wa_18041344222
+      drm/xe/xe3: Remove SRIOV VF check for Wa_18041344222
+      drm/xe/xe2lpg: Extend Wa_18041344222 to graphics IP 20.04
+
+Jani Nikula (1):
+      drm/xe: remove unnecessary struct dram_info forward declaration
+
+Jia Yao (1):
+      drm/xe: Add bounds check on pat_index to prevent OOB kernel read in madvise
+
+Karthik Poosa (2):
+      drm/xe/pm: Disable D3Cold for BMG only on specific platforms
+      drm/xe/hwmon: Prevent unintended VRAM channel creation
+
+Maarten Lankhorst (5):
+      drm/xe: Make xe_ggtt_node offset relative to starting offset
+      drm/xe: Rewrite GGTT VF initialization
+      drm/xe: Move struct xe_ggtt to xe_ggtt.c
+      drm/xe: Make xe_ggtt_node_insert return a node
+      drm/xe: Remove xe_ggtt_node_allocated
+
+Maciej Patelczyk (1):
+      drm/gpusvm: Fix unbalanced unlock in drm_gpusvm_scan_mm()
+
+Marco Crivellari (2):
+      drm/xe: replace use of system_unbound_wq with system_dfl_wq
+      drm/xe: add WQ_PERCPU to alloc_workqueue users
+
+Matt Roper (44):
+      drm/xe: Drop unnecessary goto in xe_device_create
+      drm/xe: Move number of XeCore fuse registers to graphics descriptor
+      drm/xe/xe3p_xpc: XeCore mask spans four registers
+      drm/xe/xe3p_lpg: Add new PAT table
+      drm/xe/xe3p_lpg: Add MCR steering
+      drm/xe/xe3p_lpg: Add LRC parsing for additional RCS engine state
+      drm/xe/xe3p_lpg: Disable reporting of context switch status to GHWSP
+      drm/xe/xe3p_lpg: Drop unnecessary tuning settings
+      drm/xe/xe3p_lpg: Extend 'group ID' mask size
+      drm/i915/nvlp: Hook up display support
+      drm/xe/xe2_hpg: Fix handling of Wa_14019988906 & Wa_14019877138
+      drm/xe/xe3p_xpc: Add new XeCore fuse registers to VF runtime regs
+      drm/xe: Stop applying Wa_16018737384 from Xe3 onward
+      drm/xe/wa: Steer RMW of MCR registers while building default LRC
+      drm/xe/reg_sr: Don't process gt/hwe lists in VF
+      drm/xe/reg_sr: Add debugfs to verify status of reg_sr programming
+      drm/xe: Add facility to lookup the value of a register in a default LRC
+      drm/xe/reg_sr: Allow register_save_restore_check debugfs to verify LRC values
+      drm/xe/mtl: Drop pre-prod workarounds Wa_14015795083 & Wa_14014475959
+      drm/xe/pvc: Drop pre-prod workarounds
+      drm/xe/wa: Document new policy regarding workaround IP ranges
+      drm/xe: Consolidate workaround entries for Wa_16021867713
+      drm/xe: Consolidate workaround entries for Wa_14019449301
+      drm/xe: Consolidate workaround entries for Wa_16028005424
+      drm/xe: Consolidate workaround entries for Wa_16021865536
+      drm/xe: Consolidate workaround entries for Wa_18032247524
+      drm/xe: Consolidate workaround entries for Wa_16018712365
+      drm/xe: Consolidate workaround entries for Wa_14020338487
+      drm/xe: Consolidate workaround entries for Wa_14018471104
+      drm/xe: Consolidate workaround entries for Wa_16021639441
+      drm/xe: Consolidate workaround entries for Wa_14021402888
+      drm/xe: Consolidate workaround entries for Wa_13012615864
+      drm/xe: Consolidate workaround entries for Wa_14019877138
+      drm/xe: Consolidate workaround entries for Wa_14019386621
+      drm/xe: Consolidate workaround entries for Wa_14019988906
+      drm/xe: Consolidate workaround entries for Wa_18033852989
+      drm/xe: Consolidate workaround entries for Wa_15016589081
+      drm/xe/wa_oob: Consolidate some OOB rules
+      drm/xe: Consolidate workaround entries for Wa_14023061436
+      drm/xe: Consolidate workaround entries for Wa_18041344222
+      drm/xe/xe2_hpg: Drop invalid workaround Wa_15010599737
+      drm/xe/xe3p_xpc: Drop stale MCR steering TODO comment
+      drm/xe/tuning: Apply windower hardware filtering setting on Xe3 and Xe3p
+      drm/xe/xe2_hpg: Correct implementation of Wa_16025250150
+
+Matthew Auld (3):
+      drm/xe/uapi: disallow bind queue sharing
+      drm/xe/migrate: fix job lock assert
+      drm/xe/uapi: update used tracking kernel-doc
+
+Matthew Brost (22):
+      drm/xe: Reduce LRC timestamp stuck message on VFs to notice
+      drm/xe: Ban entire multi-queue group on any job timeout
+      drm/xe: Add normalize_invalidation_range
+      drm/xe: Make usm.asid_to_vm allocation use GFP_NOWAIT
+      drm/xe: Add has_ctx_tlb_inval to device info
+      drm/xe: Add xe_device_asid_to_vm helper
+      drm/xe: Add vm to exec queues association
+      drm/xe: Taint TLB invalidation seqno lock with GFP_KERNEL
+      drm/xe: Rename send_tlb_inval_ppgtt to send_tlb_inval_asid_ppgtt
+      drm/xe: Add send_tlb_inval_ppgtt helper
+      drm/xe: Add xe_tlb_inval_idle helper
+      drm/xe: Add exec queue active vfunc
+      drm/xe: Add context-based invalidation to GuC TLB invalidation backend
+      drm/gpusvm: Force unmapping on error in drm_gpusvm_get_pages
+      drm/gpusvm: Allow device pages to be mapped in mixed mappings after system pages
+      drm/xe: Pack fault type and level into a u8
+      drm/xe: Avoid touching consumer fields in GuC pagefault ack
+      drm/xe: Convert GT stats to per-cpu counters
+      drm/xe: Do not preempt fence signaling CS instructions
+      drm/xe: Split H2G and G2H into separate buffer objects
+      drm/xe: Avoid unconditional VRAM reads in H2G path
+      drm/xe: Move LRC seqno to system memory to avoid slow dGPU reads
+
+Michal Wajdeczko (35):
+      drm/xe/vf: Reset VF GuC state on fini
+      drm/xe/pf: Fix typo in function kernel-doc
+      drm/xe/pf: Simplify IS_SRIOV_PF macro
+      drm/xe: Promote relaxed_ms_sleep
+      drm/xe: Move exponential sleep logic to helper
+      drm/xe/guc: Limit sleep while waiting for H2G credits
+      drm/xe/guc: Drop redundant register read
+      drm/xe/guc: Wait before retrying sending H2G
+      drm/xe/guc: Allow second H2G retry on FLR
+      drm/xe: Keep all defaults in single header
+      drm/xe/configfs: Use proper notation for local include
+      drm/xe/configfs: Always return consistent max_vfs value
+      drm/xe/pf: Define admin_only as real flag
+      drm/xe/configfs: Add sriov.admin_only_pf attribute
+      drm/xe/pf: Fix sysfs initialization
+      drm/xe: Move xe_root_tile_mmio() to xe_device.h
+      drm/xe: Promote struct xe_mmio definition to own file
+      drm/xe: Promote struct xe_tile definition to own file
+      drm/xe: Drop unnecessary include from xe_tile.h
+      drm/xe/configfs: Fix 'parameter name omitted' errors
+      drm/xe/vf: Allow VF to initialize MCR tables
+      drm/xe/pf: Expose LMTT page size
+      drm/xe/pf: Add locked variants of VRAM configuration functions
+      drm/xe/pf: Add functions for VRAM provisioning
+      drm/xe/pf: Allow to change VFs VRAM quota using sysfs
+      drm/xe/pf: Use migration-friendly VRAM auto-provisioning
+      drm/xe/tests: Add KUnit tests for new VRAM fair provisioning
+      drm/xe/pf: Don't check for empty config
+      drm/xe/pf: Prefer guard(mutex) when doing fair LMEM provisioning
+      drm/xe/pf: Skip VRAM auto-provisioning if already provisioned
+      drm/xe/pf: Add documentation for vram_quota
+      drm/xe/pf: Use explicit VRAM BO flag for VRAM provisioning
+      drm/xe/pf: Don't force 2MB VRAM alignment
+      drm/xe/pf: Don't use LMTT page size if no LMTT
+      drm/xe: Don't expose display modparam if no display support
+
+Michał Winiarski (1):
+      drm/xe/pf: Fix the address range assert in ggtt_get_pte helper
+
+Nakshtra Goyal (1):
+      drm/xe/xe_query: Remove check for gt
+
+Nareshkumar Gollakoti (2):
+      drm/xe: Prevent VFs from exposing the CCS mode sysfs file
+      drm/xe: Mutual exclusivity between CCS-mode and PF
+
+Nathan Chancellor (1):
+      drm/xe: Move _THIS_IP_ usage from xe_vm_create() to dedicated function
+
+Niranjana Vishwanathapura (2):
+      drm/xe/multi_queue: Enable multi_queue on xe3p_xpc
+      drm/xe/multi_queue: Protect priority against concurrent access
+
+Nitin Gote (2):
+      drm/xe: derive mem copy capability from graphics version
+      drm/xe/xe3p_lpg: Add Wa_14026781792
+
+Pallavi Mishra (1):
+      drm/xe/tests: Fix g2g_test_array indexing
+
+Piotr Piórkowski (2):
+      drm/xe/vf: Avoid reading media version when media GT is disabled
+      drm/xe: Force EXEC_QUEUE_FLAG_KERNEL for kernel internal VMs
+
+Raag Jadav (3):
+      drm/xe: Update xe_device_declare_wedged() error log
+      drm/xe/bo: Redirect faults to dummy page for wedged device
+      drm/xe/lrc: Refactor context init into xe_lrc_ctx_init()
+
+Sanjay Yadav (1):
+      drm/xe: Use DRM_BUDDY_CONTIGUOUS_ALLOCATION for contiguous allocations
+
+Satyanarayana K V P (3):
+      drm/sa: Split drm_suballoc_new() into SA alloc and init helpers
+      drm/xe/vf: Fix fs_reclaim warning with CCS save/restore BB allocation
+      drm/xe/sa: Add lockdep annotations for SA manager swap_guard
+
+Shekhar Chauhan (3):
+      drm/xe/xe3p_lpg: Add support for graphics IP 35.10
+      drm/xe/xe3p_lpg: Add initial workarounds for graphics version 35.10
+      drm/xe/nvlp: Add NVL-P platform definition
+
+Shuicheng Lin (19):
+      drm/xe: Skip address copy for sync-only execs
+      drm/xe: Unregister drm device on probe error
+      drm/xe/gt: Use CLASS() for forcewake in xe_gt_enable_comp_1wcoh
+      drm/xe/configfs: Fix is_bound() pci_dev lifetime
+      drm/xe/nvm: Manage nvm aux cleanup with devres
+      drm/xe/nvm: Fix double-free on aux add failure
+      drm/xe/nvm: Defer xe->nvm assignment until init succeeds
+      drm/xe/query: Fix topology query pointer advance
+      drm/xe: Fix kerneldoc for xe_migrate_exec_queue
+      drm/xe: Fix kerneldoc for xe_gt_tlb_inval_init_early
+      drm/xe: Fix kerneldoc for xe_tlb_inval_job_alloc_dep
+      drm/xe/mmio: Avoid double-adjust in 64-bit reads
+      drm/xe: Make xe_modparam.force_vram_bar_size signed
+      drm/xe/sync: Cleanup partially initialized sync on parse failure
+      drm/xe/sync: Fix user fence leak on alloc failure
+      drm/xe/guc: Accumulate CT H2G retry sleep budget
+      drm/xe/guc: Refine CT queue checks and log formatting
+      drm/xe/configfs: Free ctx_restore_mid_bb in release
+      drm/xe/reg_sr: Fix leak on xa_store failure
+
+Sk Anirban (1):
+      drm/xe/guc: Add Wa_14025883347 for GuC DMA failure on reset
+
+Thomas Hellström (5):
+      drm, drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
+      drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected
+      mm: Fix a hmm_range_fault() livelock / starvation problem
+      Revert "drm/pagemap: Disable device-to-device migration"
+      drm/xe/uapi: Introduce a flag to disallow vm overcommit in fault mode
+
+Tomasz Lis (5):
+      drm/xe/guc: Increase GuC log sizes in debug builds
+      drm/xe/queue: Call fini on exec queue creation fail
+      drm/xe: Wrappers for setting and getting LRC references
+      drm/xe/vf: Wait for all fixups before using default LRCs
+      drm/xe/vf: Redo LRC creation while in VF fixups
+
+Tvrtko Ursulin (1):
+      drm/xe/xelp: Fix Wa_18022495364
+
+Uma Shankar (2):
+      drm/xe/compat: Remove unused i915_reg.h from compat header
+      Revert "drm/xe/compat: Remove unused i915_reg.h from compat header"
+
+Varun Gupta (2):
+      drm/xe: Add counter for invalid prefetch pagefaults
+      drm/xe: Add prefetch fault support for Xe3p
+
+Vinay Belgaumkar (6):
+      drm/xe/ptl: Disable DCC on PTL
+      drm/xe: Decouple GuC RC code from xe_guc_pc
+      drm/xe: Use FORCEWAKE_GT in xe_guc_pc_fini_hw()
+      drm/xe: Add a wrapper for SLPC set/unset params
+      drm/xe: Add GSC to powergate_info
+      drm/xe: Add forcewake status to powergate_info
+
+Xin Wang (2):
+      drm/xe: use entry_dump callbacks for xe2+ PAT dumps
+      drm/xe: restrict multi-lrc to VCS/VECS engines
+
+Zhanjun Dong (1):
+      drm/xe/gsc: Fix GSC proxy cleanup on early initialization failure
+
+ .../ABI/testing/sysfs-driver-intel-xe-sriov        |  31 ++
+ Documentation/gpu/xe/xe_firmware.rst               |   3 +
+ drivers/gpu/drm/Kconfig                            |   2 +-
+ drivers/gpu/drm/Makefile                           |   4 +-
+ drivers/gpu/drm/drm_gpusvm.c                       |   9 +-
+ drivers/gpu/drm/drm_pagemap.c                      |  16 +-
+ drivers/gpu/drm/drm_suballoc.c                     | 106 +++++-
+ .../gpu/drm/i915/display/intel_display_device.c    |   1 +
+ drivers/gpu/drm/xe/Kconfig                         |   5 +-
+ drivers/gpu/drm/xe/Makefile                        |   1 +
+ drivers/gpu/drm/xe/abi/guc_scheduler_abi.h         |   2 +-
+ drivers/gpu/drm/xe/display/xe_fb_pin.c             |   5 +-
+ .../gpu/drm/xe/instructions/xe_gfxpipe_commands.h  |  10 +
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h           |   6 +
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h               |  25 +-
+ drivers/gpu/drm/xe/regs/xe_guc_regs.h              |   8 +
+ .../gpu/drm/xe/tests/xe_gt_sriov_pf_config_kunit.c |  98 ++++-
+ drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c        |   6 +-
+ drivers/gpu/drm/xe/tests/xe_guc_g2g_test.c         |  61 ++-
+ drivers/gpu/drm/xe/tests/xe_pci_test.c             |   8 +
+ drivers/gpu/drm/xe/tests/xe_rtp_test.c             |   3 +-
+ drivers/gpu/drm/xe/xe_bb.c                         |  59 ++-
+ drivers/gpu/drm/xe/xe_bb.h                         |   6 +-
+ drivers/gpu/drm/xe/xe_bo.c                         |   6 +-
+ drivers/gpu/drm/xe/xe_configfs.c                   |  68 +++-
+ drivers/gpu/drm/xe/xe_configfs.h                   |  28 +-
+ drivers/gpu/drm/xe/xe_defaults.h                   |  26 ++
+ drivers/gpu/drm/xe/xe_devcoredump.c                |   2 +-
+ drivers/gpu/drm/xe/xe_device.c                     |  58 ++-
+ drivers/gpu/drm/xe/xe_device.h                     |  16 +-
+ drivers/gpu/drm/xe/xe_device_types.h               | 190 +---------
+ drivers/gpu/drm/xe/xe_exec.c                       |   6 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 | 168 +++++++--
+ drivers/gpu/drm/xe/xe_exec_queue.h                 |   2 +
+ drivers/gpu/drm/xe/xe_exec_queue_types.h           |  25 +-
+ drivers/gpu/drm/xe/xe_execlist.c                   |   9 +-
+ drivers/gpu/drm/xe/xe_force_wake.c                 |  46 ++-
+ drivers/gpu/drm/xe/xe_force_wake.h                 |  11 +
+ drivers/gpu/drm/xe/xe_ggtt.c                       | 375 ++++++++-----------
+ drivers/gpu/drm/xe/xe_ggtt.h                       |  14 +-
+ drivers/gpu/drm/xe/xe_ggtt_types.h                 |  60 +--
+ drivers/gpu/drm/xe/xe_gsc_proxy.c                  |  43 ++-
+ drivers/gpu/drm/xe/xe_gsc_types.h                  |   2 +
+ drivers/gpu/drm/xe/xe_gt.c                         |  79 +++-
+ drivers/gpu/drm/xe/xe_gt_ccs_mode.c                |  44 ++-
+ drivers/gpu/drm/xe/xe_gt_debugfs.c                 |  26 ++
+ drivers/gpu/drm/xe/xe_gt_idle.c                    |  25 ++
+ drivers/gpu/drm/xe/xe_gt_mcr.c                     |  30 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         | 237 +++++++++---
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h         |   4 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c        |   2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_service.c        |   2 +
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |  89 +++--
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.h                |   3 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h          |   4 +-
+ drivers/gpu/drm/xe/xe_gt_stats.c                   |  64 +++-
+ drivers/gpu/drm/xe/xe_gt_stats.h                   |   6 +
+ drivers/gpu/drm/xe/xe_gt_stats_types.h             |  20 +
+ drivers/gpu/drm/xe/xe_gt_topology.c                |  39 +-
+ drivers/gpu/drm/xe/xe_gt_types.h                   |  22 +-
+ drivers/gpu/drm/xe/xe_guc.c                        |  89 ++++-
+ drivers/gpu/drm/xe/xe_guc.h                        |   2 +-
+ drivers/gpu/drm/xe/xe_guc_ct.c                     | 119 +++---
+ drivers/gpu/drm/xe/xe_guc_ct_types.h               |   4 +-
+ drivers/gpu/drm/xe/xe_guc_fwif.h                   |   5 +-
+ drivers/gpu/drm/xe/xe_guc_log.h                    |   6 +-
+ drivers/gpu/drm/xe/xe_guc_pagefault.c              |  18 +-
+ drivers/gpu/drm/xe/xe_guc_pc.c                     | 152 ++++----
+ drivers/gpu/drm/xe/xe_guc_pc.h                     |   6 +-
+ drivers/gpu/drm/xe/xe_guc_rc.c                     | 131 +++++++
+ drivers/gpu/drm/xe/xe_guc_rc.h                     |  16 +
+ drivers/gpu/drm/xe/xe_guc_submit.c                 | 187 +++++++---
+ drivers/gpu/drm/xe/xe_guc_tlb_inval.c              | 242 +++++++++---
+ drivers/gpu/drm/xe/xe_hw_engine.c                  |   6 +-
+ drivers/gpu/drm/xe/xe_hw_engine_group.c            |   3 +-
+ drivers/gpu/drm/xe/xe_hwmon.c                      |   6 +-
+ drivers/gpu/drm/xe/xe_i2c.c                        |   2 +-
+ drivers/gpu/drm/xe/xe_lmtt.c                       |  17 +
+ drivers/gpu/drm/xe/xe_lmtt.h                       |   1 +
+ drivers/gpu/drm/xe/xe_lrc.c                        | 291 +++++++++++----
+ drivers/gpu/drm/xe/xe_lrc.h                        |   7 +-
+ drivers/gpu/drm/xe/xe_lrc_types.h                  |   6 +
+ drivers/gpu/drm/xe/xe_migrate.c                    | 125 ++++---
+ drivers/gpu/drm/xe/xe_mmio.c                       |  10 +-
+ drivers/gpu/drm/xe/xe_mmio.h                       |   7 +-
+ drivers/gpu/drm/xe/xe_mmio_types.h                 |  64 ++++
+ drivers/gpu/drm/xe/xe_mocs.c                       |   1 +
+ drivers/gpu/drm/xe/xe_module.c                     |  44 +--
+ drivers/gpu/drm/xe/xe_module.h                     |   2 +-
+ drivers/gpu/drm/xe/xe_nvm.c                        |  61 ++-
+ drivers/gpu/drm/xe/xe_nvm.h                        |   2 -
+ drivers/gpu/drm/xe/xe_oa.c                         |  24 +-
+ drivers/gpu/drm/xe/xe_oa_types.h                   |   3 -
+ drivers/gpu/drm/xe/xe_pagefault.c                  |  31 +-
+ drivers/gpu/drm/xe/xe_pagefault_types.h            |  20 +-
+ drivers/gpu/drm/xe/xe_pat.c                        | 149 +++++---
+ drivers/gpu/drm/xe/xe_pci.c                        |  71 +++-
+ drivers/gpu/drm/xe/xe_pci_types.h                  |   5 +-
+ drivers/gpu/drm/xe/xe_platform_types.h             |   1 +
+ drivers/gpu/drm/xe/xe_pm.c                         |  13 +-
+ drivers/gpu/drm/xe/xe_query.c                      |   5 +-
+ drivers/gpu/drm/xe/xe_reg_sr.c                     |  76 +++-
+ drivers/gpu/drm/xe/xe_reg_sr.h                     |   7 +
+ drivers/gpu/drm/xe/xe_reg_whitelist.c              |  12 +-
+ drivers/gpu/drm/xe/xe_ring_ops.c                   |   9 +
+ drivers/gpu/drm/xe/xe_rtp.c                        |   8 +-
+ drivers/gpu/drm/xe/xe_rtp.h                        |   3 +-
+ drivers/gpu/drm/xe/xe_sa.c                         |  36 ++
+ drivers/gpu/drm/xe/xe_sa.h                         |   2 +
+ drivers/gpu/drm/xe/xe_sleep.h                      |  57 +++
+ drivers/gpu/drm/xe/xe_soc_remapper.c               |   1 +
+ drivers/gpu/drm/xe/xe_sriov.c                      |   2 +-
+ drivers/gpu/drm/xe/xe_sriov.h                      |   7 +-
+ drivers/gpu/drm/xe/xe_sriov_pf.c                   |  10 +-
+ drivers/gpu/drm/xe/xe_sriov_pf_helpers.h           |   3 +-
+ drivers/gpu/drm/xe/xe_sriov_pf_provision.c         | 119 +++++-
+ drivers/gpu/drm/xe/xe_sriov_pf_provision.h         |   4 +
+ drivers/gpu/drm/xe/xe_sriov_pf_sysfs.c             |  85 +++--
+ drivers/gpu/drm/xe/xe_sriov_pf_types.h             |   3 +
+ drivers/gpu/drm/xe/xe_sriov_vf_ccs.c               |   2 +-
+ drivers/gpu/drm/xe/xe_survivability_mode.c         |   4 -
+ drivers/gpu/drm/xe/xe_svm.c                        |   8 +-
+ drivers/gpu/drm/xe/xe_sync.c                       |  30 +-
+ drivers/gpu/drm/xe/xe_tile.h                       |   4 +-
+ drivers/gpu/drm/xe/xe_tile_sriov_vf.c              | 198 +---------
+ drivers/gpu/drm/xe/xe_tile_sriov_vf.h              |   3 -
+ drivers/gpu/drm/xe/xe_tile_sysfs.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_tile_types.h                 | 141 +++++++
+ drivers/gpu/drm/xe/xe_tlb_inval.c                  |  35 +-
+ drivers/gpu/drm/xe/xe_tlb_inval.h                  |   2 +
+ drivers/gpu/drm/xe/xe_tlb_inval_job.c              |   2 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c               |  16 +-
+ drivers/gpu/drm/xe/xe_tuning.c                     |  36 +-
+ drivers/gpu/drm/xe/xe_uc.c                         |  10 +-
+ drivers/gpu/drm/xe/xe_uc.h                         |   1 -
+ drivers/gpu/drm/xe/xe_vm.c                         |  95 ++++-
+ drivers/gpu/drm/xe/xe_vm.h                         |  10 +
+ drivers/gpu/drm/xe/xe_vm_madvise.c                 |   7 +-
+ drivers/gpu/drm/xe/xe_vm_types.h                   |  17 +
+ drivers/gpu/drm/xe/xe_vram_freq.c                  |   2 +-
+ drivers/gpu/drm/xe/xe_wa.c                         | 413 ++++++++-------------
+ drivers/gpu/drm/xe/xe_wa_oob.rules                 |  39 +-
+ drivers/gpu/drm/xe/xe_wopcm.c                      |  15 +-
+ include/drm/drm_pagemap.h                          |  20 +-
+ include/drm/drm_suballoc.h                         |   6 +
+ include/drm/intel/pciids.h                         |  12 +
+ include/linux/migrate.h                            |  10 +-
+ include/uapi/drm/xe_drm.h                          |  14 +-
+ mm/filemap.c                                       |  15 +-
+ mm/memory.c                                        |   3 +-
+ mm/migrate.c                                       |   8 +-
+ mm/migrate_device.c                                |   2 +-
+ 152 files changed, 3890 insertions(+), 2016 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_defaults.h
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_rc.c
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_rc.h
+ create mode 100644 drivers/gpu/drm/xe/xe_mmio_types.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sleep.h
+ create mode 100644 drivers/gpu/drm/xe/xe_tile_types.h
