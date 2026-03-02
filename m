@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YB0pLIihpmlqRwAAu9opvQ
+	id MMPtAH6hpmlqRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:28 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6FA1EB1D3
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62171EB18A
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA5B10E686;
-	Tue,  3 Mar 2026 08:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED4B10E677;
+	Tue,  3 Mar 2026 08:53:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WUgJCdF5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h1YsGwEm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCCF310E5B8;
- Mon,  2 Mar 2026 20:25:15 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDAF10E5B8;
+ Mon,  2 Mar 2026 20:25:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4B49F436EC;
+ by tor.source.kernel.org (Postfix) with ESMTP id C862260133;
+ Mon,  2 Mar 2026 20:25:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F56C2BCB7;
  Mon,  2 Mar 2026 20:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043D8C2BC87;
- Mon,  2 Mar 2026 20:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772483115;
- bh=a/GWSK0b9QXvtWMAeqXB3u+MddZFQoYzg2G9mjzwaQE=;
+ s=k20201202; t=1772483129;
+ bh=Wct+3cAXr2AVkFzE/jVOQWTeoTa9TE6CBNx5sw4yG2k=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=WUgJCdF5t+Q1hK98cJHCI3yR4RRoaShPYoOuDVqA7bN0VVkGDmdd+xm+7ktLcUk01
- EGdiF3IXRPe/50XIN/hcE50LLQL5RkjKg0n2DlG1WQL9loLiI5A5a/gZ9UIV4bsZTc
- CmW8JtCoNZPuZPMgbWlhxWemup/Rm8sUzlLv5FQ+LBGmQz5a0Vrt4SK71foF1X9nWM
- tEYcSb9RsFzTsrGm8Jcfaic19f8MaHL69up0/JoRawoxpouAHK7TmPnhvW74EAmIcJ
- 8MXLzhZlvizURsAInXf0jL+7Fn0tgIPFDwmr8aFk/Ljlg1e++4RbexATuMW3x9CnKj
- 2PBS37WBUhsTQ==
+ b=h1YsGwEmIJFLW3CzZ5bdaHSN7FOic3MM859XdONpETiRcUDTpTpCOxvJ9o7kNEnO7
+ /xK5XcGPfUtYFW/ENmFaQRwFKN2R+eXt+h3OPJC/vekUeqpWsoucdwJaurhoY6wzVO
+ PEsBWMWbFFZOMyTLbyN/JqhQP+3fK785gISoZJuIcXKsX0mFgvJJ27zdsZJ0BlJK5k
+ teaWIuCLkXCwdJGli0atBQkG+LG36qpMQrgpykwU1OdGCjYLHgXyy1Ifemkpz96T8a
+ sZGRtWy1O9whUwEJ9/1jSPRCYKDth5+KE/y5ZPAL/oBdCyC0sVwaWk2uzOgJ52necM
+ 9ZJCgMYuXe9cg==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Mar 2026 15:23:45 -0500
-Subject: [PATCH v2 001/110] vfs: introduce kino_t typedef and PRIino format
- macro
+Date: Mon, 02 Mar 2026 15:23:46 -0500
+Subject: [PATCH v2 002/110] vfs: widen inode hash/lookup functions to u64
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-iino-u64-v2-1-e5388800dae0@kernel.org>
+Message-Id: <20260302-iino-u64-v2-2-e5388800dae0@kernel.org>
 References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -157,20 +156,20 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1721; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=a/GWSK0b9QXvtWMAeqXB3u+MddZFQoYzg2G9mjzwaQE=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfHvSSPODOGv+IDeLjtFG7YpO1D5z3aKetMMJ
- fVghWz/+YeJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXx7wAKCRAADmhBGVaC
- FbwmD/9p2V49BAW6bIXPo2PewhpDsNQPKpX1wZUIsvxqGpZ6OoPwCdTPl5JCdJpBZmDUV7xAAet
- GlbT9i4wB/NFkKQ4KrOGznjzpC7tpffCcO2sYntinXsiW8KC/5wjT+XwLP9beoYik1TS7LEA2D+
- vfj6urKts/Z2WhB8n+dPuEeFdMe26J7GcxDgZXJJaxtbQFIK2Kx9kxNE6YqgzGsCiCR6SUqooDa
- Z5h8Xj6w9sbvUV4NVm3Geb9YZn1s1u0TuJmIReIOZakp9qXk5bjhxeKsvbm9LcG1LZtvYnwny0I
- 9HCRSTm5S904N17xb4gq9ptERLW/oJODRgpI84H15dAXxJQ0OMXmVMcldx6KF2V3cfXmEyJADQX
- HivLqyZD1/kytrFqvn32XWRqpdxCzgUFEEcKv2bUPnerzqbTT4N+3jZhRHyPowqPc14BLN5BZ8A
- 0nvAFTFwK51nt5JY4VwpS253elwJVd8n8K5ZGEXB+K6KeLl08JL7UK59u7/W46KRFbFJfP7ggtE
- xR+Z1fmcG2iKvEAeQ+FN4loRB8iPdg6XUfBeTjfL/XUa3xEexjDxV7bZzoYVCZCSFttt0n84DwN
- dTfnY8nwZyuQDq6o+DlqztqDyUiCLpF4wd74VvQk92opgYHwEbXw0SmGlbxwF3ccsa/VT4qmkiD
- 0g11lTFvRYNLbBQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11795; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=Wct+3cAXr2AVkFzE/jVOQWTeoTa9TE6CBNx5sw4yG2k=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfHvU6cVWqbaDIbMAybD3leM/4REmF8fNAzks
+ 1D5ugRb5kGJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXx7wAKCRAADmhBGVaC
+ FSJqEACGVXYgP7S/0O88rguKCt5UBBebX78Yd/Ny0Giz/8gkn6H4ZasyHdat7uciwGrE+vzpfec
+ hDcmtAeU8KV1g0NTzRwMdbt+fUtDf8Axb+dP87wiZi7B9VebDGYSbxtV3919EVAsZLhhPbdZ1wD
+ k6xomTm3YhxIfjzMJoiS8wloIyxavvrGoUlhTsrZHwJGzCMqZut4XIUr6Ea4Mh/f6RQcHb3C60B
+ Z9qcpfp1Kx3z5f4axj+htIopvZQgZOYGZw9xjndBhKxZ7bglSMV/JUKPMwzeZQFDYQc9RyusBfS
+ c43y9CSbqz4uYufv5ONojU30DcquejtK0pqINYNPT4v6pa5l7YFkVKfiiZebzx+dbvGLSvKkcSo
+ C7F1eTT7ra5VIy7WyNwhLJ0hzmj63Th4M1f3NuLFTrC1TWZM5fFO7Clb+D6ISIKUmXTtjkJlrhG
+ 8S4BdTZDc5G/AyI4RkbED0Z2e+E6lkiR11wXAguJqmpvxGH0AfoRpJc/mLdO/LWfdKz4C6EX8pH
+ KQDFX/DtIfpfS1h6opy5lMB75/2+EZB8v5lKtFs5YQubrMeN8V4oasdRh4H1gIn+mS73srj5x/P
+ EmrhJmpvXn5miNTq52vSkkliQA3X3Q+giw7hPUILgdV6WOeYTDX5/jns+ZU/QAAOP5kjKT7SXkB
+ IBB676fZPDoGQRw==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:07 +0000
@@ -188,7 +187,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2C6FA1EB1D3
+X-Rspamd-Queue-Id: A62171EB18A
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -219,50 +218,285 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Introduce a kino_t typedef and PRIino format macro to enable a
-bisect-clean transition of i_ino from unsigned long to u64.
+Change the inode hash/lookup VFS API functions to accept u64 parameters
+instead of unsigned long for inode numbers and hash values. This is
+preparation for widening i_ino itself to u64, which will allow
+filesystems to store full 64-bit inode numbers on 32-bit architectures.
 
-kino_t is initially defined as unsigned long (matching the original
-i_ino type), and PRIino is "l" (the format length modifier for
-unsigned long). A later patch will change these to u64 and "ll"
-respectively once all format strings have been updated to use PRIino.
+Since unsigned long implicitly widens to u64 on all architectures, this
+change is backward-compatible with all existing callers.
 
-The PRIino macro is a length modifier, not a complete format specifier.
-It is used as: "%" PRIino "u" for decimal, "%" PRIino "x" for hex, etc.
-This follows the pattern used by userspace PRIu64/PRIx64 macros.
-
-Format strings using i_ino should be updated to use PRIino instead of
-a hard-coded length modifier to ensure warning-free compilation on
-both 32-bit and 64-bit architectures throughout the transition.
+In dump_mapping(), change the local ino variable to kino_t and use the
+PRIino format macro, since this variable holds an i_ino value. In
+init_special_inode(), also switch to PRIino.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- include/linux/fs.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/inode.c         | 49 ++++++++++++++++++++++++-------------------------
+ include/linux/fs.h | 26 +++++++++++++-------------
+ 2 files changed, 37 insertions(+), 38 deletions(-)
 
+diff --git a/fs/inode.c b/fs/inode.c
+index cc12b68e021b2c97cc88a46ddc736334ecb8edfa..24ab9fa10baf7c885244f23bfccd731efe4a14cc 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -672,7 +672,7 @@ static inline void inode_sb_list_del(struct inode *inode)
+ 	}
+ }
+ 
+-static unsigned long hash(struct super_block *sb, unsigned long hashval)
++static unsigned long hash(struct super_block *sb, u64 hashval)
+ {
+ 	unsigned long tmp;
+ 
+@@ -685,12 +685,12 @@ static unsigned long hash(struct super_block *sb, unsigned long hashval)
+ /**
+  *	__insert_inode_hash - hash an inode
+  *	@inode: unhashed inode
+- *	@hashval: unsigned long value used to locate this object in the
++ *	@hashval: u64 value used to locate this object in the
+  *		inode_hashtable.
+  *
+  *	Add an inode to the inode hash for this superblock.
+  */
+-void __insert_inode_hash(struct inode *inode, unsigned long hashval)
++void __insert_inode_hash(struct inode *inode, u64 hashval)
+ {
+ 	struct hlist_head *b = inode_hashtable + hash(inode->i_sb, hashval);
+ 
+@@ -726,7 +726,7 @@ void dump_mapping(const struct address_space *mapping)
+ 	struct dentry *dentry_ptr;
+ 	struct dentry dentry;
+ 	char fname[64] = {};
+-	unsigned long ino;
++	kino_t ino;
+ 
+ 	/*
+ 	 * If mapping is an invalid pointer, we don't want to crash
+@@ -750,14 +750,14 @@ void dump_mapping(const struct address_space *mapping)
+ 	}
+ 
+ 	if (!dentry_first) {
+-		pr_warn("aops:%ps ino:%lx\n", a_ops, ino);
++		pr_warn("aops:%ps ino:%" PRIino "x\n", a_ops, ino);
+ 		return;
+ 	}
+ 
+ 	dentry_ptr = container_of(dentry_first, struct dentry, d_u.d_alias);
+ 	if (get_kernel_nofault(dentry, dentry_ptr) ||
+ 	    !dentry.d_parent || !dentry.d_name.name) {
+-		pr_warn("aops:%ps ino:%lx invalid dentry:%px\n",
++		pr_warn("aops:%ps ino:%" PRIino "x invalid dentry:%px\n",
+ 				a_ops, ino, dentry_ptr);
+ 		return;
+ 	}
+@@ -768,7 +768,7 @@ void dump_mapping(const struct address_space *mapping)
+ 	 * Even if strncpy_from_kernel_nofault() succeeded,
+ 	 * the fname could be unreliable
+ 	 */
+-	pr_warn("aops:%ps ino:%lx dentry name(?):\"%s\"\n",
++	pr_warn("aops:%ps ino:%" PRIino "x dentry name(?):\"%s\"\n",
+ 		a_ops, ino, fname);
+ }
+ 
+@@ -1087,7 +1087,7 @@ static struct inode *find_inode(struct super_block *sb,
+  * iget_locked for details.
+  */
+ static struct inode *find_inode_fast(struct super_block *sb,
+-				struct hlist_head *head, unsigned long ino,
++				struct hlist_head *head, u64 ino,
+ 				bool hash_locked, bool *isnew)
+ {
+ 	struct inode *inode = NULL;
+@@ -1301,7 +1301,7 @@ EXPORT_SYMBOL(unlock_two_nondirectories);
+  * Note that both @test and @set are called with the inode_hash_lock held, so
+  * they can't sleep.
+  */
+-struct inode *inode_insert5(struct inode *inode, unsigned long hashval,
++struct inode *inode_insert5(struct inode *inode, u64 hashval,
+ 			    int (*test)(struct inode *, void *),
+ 			    int (*set)(struct inode *, void *), void *data)
+ {
+@@ -1378,7 +1378,7 @@ EXPORT_SYMBOL(inode_insert5);
+  * Note that both @test and @set are called with the inode_hash_lock held, so
+  * they can't sleep.
+  */
+-struct inode *iget5_locked(struct super_block *sb, unsigned long hashval,
++struct inode *iget5_locked(struct super_block *sb, u64 hashval,
+ 		int (*test)(struct inode *, void *),
+ 		int (*set)(struct inode *, void *), void *data)
+ {
+@@ -1408,7 +1408,7 @@ EXPORT_SYMBOL(iget5_locked);
+  * This is equivalent to iget5_locked, except the @test callback must
+  * tolerate the inode not being stable, including being mid-teardown.
+  */
+-struct inode *iget5_locked_rcu(struct super_block *sb, unsigned long hashval,
++struct inode *iget5_locked_rcu(struct super_block *sb, u64 hashval,
+ 		int (*test)(struct inode *, void *),
+ 		int (*set)(struct inode *, void *), void *data)
+ {
+@@ -1455,7 +1455,7 @@ EXPORT_SYMBOL_GPL(iget5_locked_rcu);
+  * hashed, and with the I_NEW flag set.  The file system gets to fill it in
+  * before unlocking it via unlock_new_inode().
+  */
+-struct inode *iget_locked(struct super_block *sb, unsigned long ino)
++struct inode *iget_locked(struct super_block *sb, u64 ino)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, ino);
+ 	struct inode *inode;
+@@ -1527,7 +1527,7 @@ EXPORT_SYMBOL(iget_locked);
+  *
+  * Returns 1 if the inode number is unique, 0 if it is not.
+  */
+-static int test_inode_iunique(struct super_block *sb, unsigned long ino)
++static int test_inode_iunique(struct super_block *sb, u64 ino)
+ {
+ 	struct hlist_head *b = inode_hashtable + hash(sb, ino);
+ 	struct inode *inode;
+@@ -1616,7 +1616,7 @@ EXPORT_SYMBOL(igrab);
+  *
+  * Note2: @test is called with the inode_hash_lock held, so can't sleep.
+  */
+-struct inode *ilookup5_nowait(struct super_block *sb, unsigned long hashval,
++struct inode *ilookup5_nowait(struct super_block *sb, u64 hashval,
+ 		int (*test)(struct inode *, void *), void *data, bool *isnew)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, hashval);
+@@ -1647,7 +1647,7 @@ EXPORT_SYMBOL(ilookup5_nowait);
+  *
+  * Note: @test is called with the inode_hash_lock held, so can't sleep.
+  */
+-struct inode *ilookup5(struct super_block *sb, unsigned long hashval,
++struct inode *ilookup5(struct super_block *sb, u64 hashval,
+ 		int (*test)(struct inode *, void *), void *data)
+ {
+ 	struct inode *inode;
+@@ -1677,7 +1677,7 @@ EXPORT_SYMBOL(ilookup5);
+  * Search for the inode @ino in the inode cache, and if the inode is in the
+  * cache, the inode is returned with an incremented reference count.
+  */
+-struct inode *ilookup(struct super_block *sb, unsigned long ino)
++struct inode *ilookup(struct super_block *sb, u64 ino)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, ino);
+ 	struct inode *inode;
+@@ -1726,8 +1726,8 @@ EXPORT_SYMBOL(ilookup);
+  * very carefully implemented.
+  */
+ struct inode *find_inode_nowait(struct super_block *sb,
+-				unsigned long hashval,
+-				int (*match)(struct inode *, unsigned long,
++				u64 hashval,
++				int (*match)(struct inode *, u64,
+ 					     void *),
+ 				void *data)
+ {
+@@ -1773,7 +1773,7 @@ EXPORT_SYMBOL(find_inode_nowait);
+  *
+  * The caller must hold the RCU read lock.
+  */
+-struct inode *find_inode_rcu(struct super_block *sb, unsigned long hashval,
++struct inode *find_inode_rcu(struct super_block *sb, u64 hashval,
+ 			     int (*test)(struct inode *, void *), void *data)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, hashval);
+@@ -1812,7 +1812,7 @@ EXPORT_SYMBOL(find_inode_rcu);
+  * The caller must hold the RCU read lock.
+  */
+ struct inode *find_inode_by_ino_rcu(struct super_block *sb,
+-				    unsigned long ino)
++				    u64 ino)
+ {
+ 	struct hlist_head *head = inode_hashtable + hash(sb, ino);
+ 	struct inode *inode;
+@@ -1833,7 +1833,7 @@ EXPORT_SYMBOL(find_inode_by_ino_rcu);
+ int insert_inode_locked(struct inode *inode)
+ {
+ 	struct super_block *sb = inode->i_sb;
+-	ino_t ino = inode->i_ino;
++	u64 ino = inode->i_ino;
+ 	struct hlist_head *head = inode_hashtable + hash(sb, ino);
+ 	bool isnew;
+ 
+@@ -1884,7 +1884,7 @@ int insert_inode_locked(struct inode *inode)
+ }
+ EXPORT_SYMBOL(insert_inode_locked);
+ 
+-int insert_inode_locked4(struct inode *inode, unsigned long hashval,
++int insert_inode_locked4(struct inode *inode, u64 hashval,
+ 		int (*test)(struct inode *, void *), void *data)
+ {
+ 	struct inode *old;
+@@ -2641,9 +2641,8 @@ void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
+ 		/* leave it no_open_fops */
+ 		break;
+ 	default:
+-		printk(KERN_DEBUG "init_special_inode: bogus i_mode (%o) for"
+-				  " inode %s:%lu\n", mode, inode->i_sb->s_id,
+-				  inode->i_ino);
++		pr_debug("init_special_inode: bogus i_mode (%o) for inode %s:%" PRIino "u\n",
++			 mode, inode->i_sb->s_id, inode->i_ino);
+ 		break;
+ 	}
+ }
 diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 8b3dd145b25ec12b00ac1df17a952d9116b88047..e38bc5ece1f360d679a8f30b8171292f7a65c218 100644
+index e38bc5ece1f360d679a8f30b8171292f7a65c218..d0c4789838b5852111583a3e4cced88999496e68 100644
 --- a/include/linux/fs.h
 +++ b/include/linux/fs.h
-@@ -758,6 +758,9 @@ struct inode_state_flags {
- 	enum inode_state_flags_enum __state;
- };
+@@ -2938,32 +2938,32 @@ static inline int inode_generic_drop(struct inode *inode)
+ extern void d_mark_dontcache(struct inode *inode);
  
-+typedef unsigned long	kino_t;
-+#define PRIino		"l"
-+
- /*
-  * Keep mostly read-only and often accessed (especially for
-  * the RCU path lookup and 'stat' data) fields at the beginning
-@@ -783,7 +786,7 @@ struct inode {
- #endif
+ extern struct inode *ilookup5_nowait(struct super_block *sb,
+-		unsigned long hashval, int (*test)(struct inode *, void *),
++		u64 hashval, int (*test)(struct inode *, void *),
+ 		void *data, bool *isnew);
+-extern struct inode *ilookup5(struct super_block *sb, unsigned long hashval,
++extern struct inode *ilookup5(struct super_block *sb, u64 hashval,
+ 		int (*test)(struct inode *, void *), void *data);
+-extern struct inode *ilookup(struct super_block *sb, unsigned long ino);
++extern struct inode *ilookup(struct super_block *sb, u64 ino);
  
- 	/* Stat data, not accessed from path walking */
--	unsigned long		i_ino;
-+	kino_t			i_ino;
- 	/*
- 	 * Filesystems may only read i_nlink directly.  They shall use the
- 	 * following functions for modification:
+-extern struct inode *inode_insert5(struct inode *inode, unsigned long hashval,
++extern struct inode *inode_insert5(struct inode *inode, u64 hashval,
+ 		int (*test)(struct inode *, void *),
+ 		int (*set)(struct inode *, void *),
+ 		void *data);
+-struct inode *iget5_locked(struct super_block *, unsigned long,
++struct inode *iget5_locked(struct super_block *, u64,
+ 			   int (*test)(struct inode *, void *),
+ 			   int (*set)(struct inode *, void *), void *);
+-struct inode *iget5_locked_rcu(struct super_block *, unsigned long,
++struct inode *iget5_locked_rcu(struct super_block *, u64,
+ 			       int (*test)(struct inode *, void *),
+ 			       int (*set)(struct inode *, void *), void *);
+-extern struct inode * iget_locked(struct super_block *, unsigned long);
++extern struct inode *iget_locked(struct super_block *, u64);
+ extern struct inode *find_inode_nowait(struct super_block *,
+-				       unsigned long,
++				       u64,
+ 				       int (*match)(struct inode *,
+-						    unsigned long, void *),
++						    u64, void *),
+ 				       void *data);
+-extern struct inode *find_inode_rcu(struct super_block *, unsigned long,
++extern struct inode *find_inode_rcu(struct super_block *, u64,
+ 				    int (*)(struct inode *, void *), void *);
+-extern struct inode *find_inode_by_ino_rcu(struct super_block *, unsigned long);
+-extern int insert_inode_locked4(struct inode *, unsigned long, int (*test)(struct inode *, void *), void *);
++extern struct inode *find_inode_by_ino_rcu(struct super_block *, u64);
++extern int insert_inode_locked4(struct inode *, u64, int (*test)(struct inode *, void *), void *);
+ extern int insert_inode_locked(struct inode *);
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ extern void lockdep_annotate_inode_mutex_key(struct inode *inode);
+@@ -3018,7 +3018,7 @@ int setattr_should_drop_sgid(struct mnt_idmap *idmap,
+  */
+ #define alloc_inode_sb(_sb, _cache, _gfp) kmem_cache_alloc_lru(_cache, &_sb->s_inode_lru, _gfp)
+ 
+-extern void __insert_inode_hash(struct inode *, unsigned long hashval);
++extern void __insert_inode_hash(struct inode *, u64 hashval);
+ static inline void insert_inode_hash(struct inode *inode)
+ {
+ 	__insert_inode_hash(inode, inode->i_ino);
 
 -- 
 2.53.0
