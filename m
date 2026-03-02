@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJT0GMOhpmmvSAAAu9opvQ
+	id +BllAY+hpmlqRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:27 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1484F1EB38B
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AC91EB204
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89AC310E6C6;
-	Tue,  3 Mar 2026 08:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00B6E10E693;
+	Tue,  3 Mar 2026 08:53:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jQmcfG0R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E9+ubBiy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402DA10E36C;
- Mon,  2 Mar 2026 20:44:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 979A010E5BD;
+ Mon,  2 Mar 2026 20:44:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1A74E41AF3;
+ by sea.source.kernel.org (Postfix) with ESMTP id 67615407F9;
+ Mon,  2 Mar 2026 20:44:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3517CC2BCB3;
  Mon,  2 Mar 2026 20:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B38FAC2BCB1;
- Mon,  2 Mar 2026 20:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772484250;
- bh=4w4fA6dhQCNf/APQlOMjiisq4usxy5N0JbGQrOBIfHY=;
+ s=k20201202; t=1772484264;
+ bh=4E1gzRUBmunwgkb0zMzfDEZ/3XSvh+vlngA03NseX/8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=jQmcfG0R/etcu4AtMgMzx+6210wFhdpzx4VBtstHwijAJj1WcqKYoqHi3c823/EVj
- Ol3vXOlW+2Qb8OOE9xV95XfwG1RNKVkg3U5GT/GCa+j07aCaZQqkao3eJvzjW0kiMy
- Wa/BWUsqX3j2iqdLgs5Sfl+ck23zI0IPSbXYuvRfNAp/ktx0Xbs772zxKVXp1HG0yV
- I/95mI2VKXBLL7b5P1JjuZuqoj49S0kTem6ElXk8GHhSY2rhrAqxUa41c3p+snu513
- sFY6f11xyykIkDW5gFwyNCfFpdJABbA4RO0j6qHKfjnfhsi+ggsS1Ea7ZGD7KWzjbS
- wBNsB+g4/56fQ==
+ b=E9+ubBiybQM4l8J+x0uaWTrJ76FPaFlfXpfLW274DMsNkP+ZxsdUliXZoKKVP6djg
+ 83tb0KTHY0ioVcHMcYF6YTXIDwmqUIiMzvE4ba7OPOV2u4HgV3LB3sVX8MXanItq+3
+ iHqFjtWyG4FeIpoVAydn4THnBQBPOHkNggIOt+pOQ9PCK3D6wZ1lVvDMzkzQvAxX0/
+ dhK7SILY1PhxfyDhxG0b0xRZnLFC+sZUYeyNvrbE3hrd3rDb6iypP7aQRRKkh3AkMy
+ AGf0z8UjGi9SiRcN+d3yNP5QWj6m1ZrplF3x15L3Fk+R2kjMIfG/y8oDo4WLJvTe9+
+ Nh7DfktB6muXg==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Mar 2026 15:25:04 -0500
-Subject: [PATCH v2 080/110] efs: replace PRIino with %llu/%llx format strings
+Date: Mon, 02 Mar 2026 15:25:05 -0500
+Subject: [PATCH v2 081/110] exportfs: replace PRIino with %llu/%llx format
+ strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-iino-u64-v2-80-e5388800dae0@kernel.org>
+Message-Id: <20260302-iino-u64-v2-81-e5388800dae0@kernel.org>
 References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -156,20 +157,20 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1604; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=4w4fA6dhQCNf/APQlOMjiisq4usxy5N0JbGQrOBIfHY=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfIFUSBYm47jl/gQ5ZybZZz5mjBR7fn61c9UJ
- rlM0RlJ2i+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXyBQAKCRAADmhBGVaC
- FbY2D/9aXK0BLLKkuyBGYm022HPboICg++WR7xeq0N25AFYA/jmyqK/9ldEChVQT/4P8hjRV6Ey
- o3mU/en6afvPYKoDsolzdVN5UjcEHlqWfyzrTr7m81pFC8474syuuwKbLbp6e4jfF/aLNJQqpmO
- ty2qbxqkBeqhZQAvg/i56PfIbeUCTFkn4lSm+74r75wu2w0aI9nNO1sAsHGSBLs1vlX6Ct64Hs0
- Pkdrg3FDTaxzTA19bPk5YFZzi59YzBraWmHaH+GD0elt/94yfsdbzCmLpvtAvH4tJ0JvrzbxmsV
- 8PpViqm7enuNr5fzS5sUvG2/SrQqK0kTjDsoCsRUQe1pdkVYBjCSiz8UIP/M3yJnxd3eFKFWnFl
- P3r5/SCwkcD8S/ssmV0sdbxg2tskt1jG0nvAdaiotALMlyMxsgj9fqj7y4E5w5B0ZQ2w/Lrvxbx
- HkL7JPjcfvw75xyFUfvqjUe2nG5lDorbOTHl8QhvNmpbvf+U/kxYcydrnnoZoTumiP3MIEQG1nr
- w7uc+AqtP3O4GjJPN4liIyi6x2huu+tBp1YyphFEf7AIldVbKWJdLM55AX7D4FJTdbZ59HU+Srb
- F3X+X96KD3v97gUsh5nT9ALqIEAJJKR/uKUK0hRPaqRDElMeDtSqB9KCyeBdNh1UGG8ofnHxI14
- 4JbqwB06oLNknyw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=4E1gzRUBmunwgkb0zMzfDEZ/3XSvh+vlngA03NseX/8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfIFr/xLC8FHqElos9Jx0FlcCMm2vSh3OUBzE
+ MyfOvUWL8mJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXyBQAKCRAADmhBGVaC
+ FXrgEAC2fOFg/WTLNoXvWGsPImb/26xOHXaPVYy//FG+b/NEfpy0INOU75ohoYtWFAlQQQAVy6K
+ WwFypniJMx7qup2zKyPqMOBDdXILeEaHzrFxwTkebRBowv1lHwDN1MNIMVH/eI46ZuIGPflMQ2/
+ nl/BGjeBU+RC8B7uJiHCnG1SKIFFTe1ehGOstt1p6PkK7BkMB9GijlEPo8UTDJP5ISpt1BWylby
+ DGfEZ7FrRe53WIFFKCloOE0ziSwiJEPJggN8UtT0zzc2oDnbPKJLZIuqo7P4BHY6pABLlMRYB9k
+ 1dfj1ytzYywLzl9F1pb5q/mZ6zX6zUhhqlYX6ihQoZBvRrJcnQdkdYsCKEBjyleHreTywcEhg/I
+ xiBAh7k//PoJAoEp92y/4+fN+s1IbU5yCFu1LRgTywGkFugeE5qazuuj3KlHzwitAD5/keMeR2n
+ MpTGRLUa7s2PYj8NE4d0hV8MutPuy3MLiyvS4+zQSsR9Q4/J8vXGEGCZ4WCMOa3SstDomdJHIbr
+ s1gEWIie828N3apNapK7BtKyPYbBYKl8FCqOVGyTGQvR90q7TvyFrZ+cix1VvyCfpUP2PT5Yn/H
+ 8w82mrmMztw72nvuHUy9j3RS3KEEBs+FdelNIuKaFQ3MwiY0P+GU4DcQrlqBNfMCPZCMZnVxx3o
+ 34OcsOZ2JYQjryg==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:07 +0000
@@ -187,7 +188,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1484F1EB38B
+X-Rspamd-Queue-Id: A3AC91EB204
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -219,44 +220,32 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 X-Rspamd-Action: no action
 
 Now that i_ino is u64 and the PRIino format macro has been removed,
-replace all uses in efs with the concrete format strings.
+replace all uses in exportfs with the concrete format strings.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- fs/efs/inode.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/exportfs/expfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/efs/inode.c b/fs/efs/inode.c
-index a21a03f7e5790aed95738b1a0c0f1edcc84848e8..4b132729e6385de196e156400d17a86ed04dc2f4 100644
---- a/fs/efs/inode.c
-+++ b/fs/efs/inode.c
-@@ -132,7 +132,7 @@ struct inode *efs_iget(struct super_block *super, unsigned long ino)
- 	for(i = 0; i < EFS_DIRECTEXTENTS; i++) {
- 		extent_copy(&(efs_inode->di_u.di_extents[i]), &(in->extents[i]));
- 		if (i < in->numextents && in->extents[i].cooked.ex_magic != 0) {
--			pr_warn("extent %d has bad magic number in inode %" PRIino "u\n",
-+			pr_warn("extent %d has bad magic number in inode %llu\n",
- 				i, inode->i_ino);
- 			brelse(bh);
- 			goto read_inode_error;
-@@ -140,7 +140,7 @@ struct inode *efs_iget(struct super_block *super, unsigned long ino)
+diff --git a/fs/exportfs/expfs.c b/fs/exportfs/expfs.c
+index b9ec3be466a06c9ea90cac62979887c3fe1af5a1..5c3183ce350ebc89ba4a5c10ffd644b6666395c3 100644
+--- a/fs/exportfs/expfs.c
++++ b/fs/exportfs/expfs.c
+@@ -130,12 +130,12 @@ static struct dentry *reconnect_one(struct vfsmount *mnt,
+ 		parent = mnt->mnt_sb->s_export_op->get_parent(dentry);
+ 
+ 	if (IS_ERR(parent)) {
+-		dprintk("get_parent of %" PRIino "u failed, err %ld\n",
++		dprintk("get_parent of %llu failed, err %ld\n",
+ 			dentry->d_inode->i_ino, PTR_ERR(parent));
+ 		return parent;
  	}
  
- 	brelse(bh);
--	pr_debug("efs_iget(): inode %" PRIino "u, extents %d, mode %o\n",
-+	pr_debug("efs_iget(): inode %llu, extents %d, mode %o\n",
- 		 inode->i_ino, in->numextents, inode->i_mode);
- 	switch (inode->i_mode & S_IFMT) {
- 		case S_IFDIR: 
-@@ -171,7 +171,7 @@ struct inode *efs_iget(struct super_block *super, unsigned long ino)
- 	return inode;
-         
- read_inode_error:
--	pr_warn("failed to read inode %" PRIino "u\n", inode->i_ino);
-+	pr_warn("failed to read inode %llu\n", inode->i_ino);
- 	iget_failed(inode);
- 	return ERR_PTR(-EIO);
- }
+-	dprintk("%s: find name of %" PRIino "u in %" PRIino "u\n", __func__,
++	dprintk("%s: find name of %llu in %llu\n", __func__,
+ 		dentry->d_inode->i_ino, parent->d_inode->i_ino);
+ 	err = exportfs_get_name(mnt, parent, nbuf, dentry);
+ 	if (err == -ENOENT)
 
 -- 
 2.53.0
