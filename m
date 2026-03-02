@@ -2,57 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CC6aEYvBpWmBFgAAu9opvQ
+	id kF+mI5PCpWnEFgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:57:47 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 18:02:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9952A1DD5B1
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6BF1DD6F1
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 18:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAEB310E1B9;
-	Mon,  2 Mar 2026 16:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60ADC10E57F;
+	Mon,  2 Mar 2026 17:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T+R08nkh";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="f7TYh9/G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D73010E1B9
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 16:57:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BFC4943F1D;
- Mon,  2 Mar 2026 16:57:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05436C19423;
- Mon,  2 Mar 2026 16:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772470662;
- bh=dFpRP7qa71QBzXcZjL3mTyogLAhxixOzu35HlZrr+YQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=T+R08nkhFGWxSDeYLOighO8vF8JEt/HTwF9QpK5VrSEElYSAeKpK86u1gEQnUJlGB
- GMc+4B8x2xs8iB2DBTJ+P1o5CNcE6oCQ9gKDgKFRoeFeWvpglP1ROWSiOfj5PLZCvx
- NvEoK2dCSgqlRYR+RwDfvYO3rthrq8l3MbKn967/hN6dr7tms7Ak4E5Nx6P31NzlA/
- Kaubls0InB1vTgeXAjAyLgqNAueyzR4aScy/yVMZGytsskFB4E+SAYzN39EY7s7lG1
- mhjz65dZR8SKrtzpGd1qp2rkNQm7wqaCoesxClJw3RLvpcUDE2WiEpbAY8KZkgKmmq
- bnZw6ByCvS5sQ==
-Message-ID: <6a429976-dd1d-4c87-a49f-163f876895fd@kernel.org>
-Date: Mon, 2 Mar 2026 10:57:41 -0600
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5D1410E576
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 17:02:03 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-65f980cea07so6665724a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 09:02:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1772470922; x=1773075722; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bKMuMJCSdxxmw3RSD5uAPmfVmq1uYJz0WuSv/dBgVQs=;
+ b=f7TYh9/GjDCezFVckFQrx/40sFzJ4RVSKJAiUHibYBPzw5HpP81aMqnisgeechQ6cV
+ L1c/2ZyNrOdHFg3zID/xuIAhDK9q+w8ykUoWanwlu/r9g7i5TSJZ1o4USo/mbTaQB6p5
+ AFwfZrXxUK6/LzOovPlH4Sd5IozmvxOF0QipdtzAddLRNX7uYUG3Sv/wHjUQRWI/M2nM
+ oMllLZlWz/17pv2QTfHKnbA17p1fk5G9J0TmpjRW9dxN8ehWwOJymE21h+h9Dj88F9+V
+ Atwub+bc9lfOuXvF4AdaG8RlkHJcYB2Jt0zJFz9WbcWm2Qv0YyMhJDMzGxZEjyRL24I3
+ Zf7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772470922; x=1773075722;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bKMuMJCSdxxmw3RSD5uAPmfVmq1uYJz0WuSv/dBgVQs=;
+ b=Ly2ZWrK6s1J8dweuPdVJqDG4vIF35f7XbYbsk51bSMN23vSOiN0hlZQDlmtpP87WvX
+ 1oS7F+ztjFUMRY8j+9Pj7hHrzrqU3uaofQBfej3u17tPmFWRGWc4GHI9RwdHMBEMwmKh
+ T/hN3BgAbbhWRV4v0L/a2A9bjJ9Jcn9eyzI9nRPIvJpO3aR5hYSQhkOe8Qcpo5PJBqXo
+ p2NLS3F4FNw3tXki0oB84B72+Ue5jNOAzA53bXCKZQWowAfdMZuhQp2aWHSBv/m0cY5a
+ Quwf9dEgSU+Mpid06Y8fMrBh5NsWglLWZraIn6myWR1fvQu8B+zDCepOrk/Aw0YgBOzY
+ 8Bkg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWISJcDBN10vI4XJbCpLp1z870SZ3VyBv3EYJiyovb4nuNngv+qN768JiOVk3E+I8Dk3oZRUVcMi9s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNW2FjPYVvXnCYcR0iHozdRxOkPFsaOfmmFnx+QqYxfbcAKYlW
+ axeBvx4jG8NYD1tgKfxpNcuDs033RZg7ZYlYUFbvv1gsoxrzgTaBtz9OjQ4a8KdLTIM=
+X-Gm-Gg: ATEYQzxXAuoDEL4Kvq0Y+w3BddOBygB+sqf2H2/nH5tsboK2qSehodWzDXisapzDhrC
+ eo9nHNsFPdpqRiSWwKt4IPaAmhnab8utMzVVlvQEKEvr/fFam+v77qjnJEX2nC3pn3jq4EwWsZ8
+ Nri/FrSiiu6rwGY3u7tmfnMscdMOv4HWaEbl+CzpkpP9ga52ZiFEDY4Ogn+EEE5vzrkLHtFh0ZS
+ kjkCbwJ8sZJjF8lKeIKCyOqXGZvHTzU6LEDmGhZT73Sxl5HBkg3bT6kCmAUxtSi5FgYQZ/RU+M3
+ jfAcu3c1FaoTo6d736GHZc5R/7XcckNKy3MvEXeoqVtWlx4Wof/GQI3LFp8G75VthC2rdOT4yZX
+ wICpELEEd0qhJdl8yzhdD/eqPTx5+rppBHO1waZj7ucNi2bWbJdThK9U4I6O0S32009H/KR6CmL
+ 9re/AuOkm0hKceUPlyLbwfRcRsJmyrsNCxSw0my2+CjAHS
+X-Received: by 2002:a17:907:7fac:b0:b93:cae3:5832 with SMTP id
+ a640c23a62f3a-b93cae3ae31mr47113266b.22.1772470922107; 
+ Mon, 02 Mar 2026 09:02:02 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b935ac84863sm499538966b.29.2026.03.02.09.02.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2026 09:02:01 -0800 (PST)
+Message-ID: <86ef0e02-ac40-4bd4-bfcb-173d4312acb2@ursulin.net>
+Date: Mon, 2 Mar 2026 17:02:00 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Fix NULL pointer dereference of
- mgmt_chann
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- maciej.falkowski@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20260226213857.3068474-1-lizhi.hou@amd.com>
- <e666947b-30b7-444c-9400-966009373e8c@amd.com>
- <7806bdea-7ec4-23c2-aef9-6da395cc181d@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <7806bdea-7ec4-23c2-aef9-6da395cc181d@amd.com>
+Subject: Re: [PATCH v5 5/6] drm/ttm: Be more aggressive when allocating below
+ protection limit
+To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
+ Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
+ <20260302-dmemcg-aggressive-protect-v5-5-ffd3a2602309@gmx.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20260302-dmemcg-aggressive-protect-v5-5-ffd3a2602309@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,158 +105,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9952A1DD5B1
+X-Rspamd-Queue-Id: 3E6BF1DD6F1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lizhi.hou@amd.com,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ursulin.net];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-0.997];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ursulin.net:dkim,ursulin.net:mid]
 X-Rspamd-Action: no action
 
-On 2/27/26 9:16 PM, Lizhi Hou wrote:
-> 
-> On 2/27/26 12:11, Mario Limonciello wrote:
->> On 2/26/26 3:38 PM, Lizhi Hou wrote:
->>> mgmt_chann may be set to NULL if the firmware returns an unexpected
->>> error in aie2_send_mgmt_msg_wait(). This can later lead to a NULL
->>> pointer dereference in aie2_hw_stop().
->>>
->>> Fix this by introducing a dedicated helper to destroy mgmt_chann
->>> and by adding proper NULL checks before accessing it.
->>>
->>
->> Is this actually going to fix it?  It sounds like a concurrency 
->> problem, no?
-> 
-> It is not concurrency issue. The code is protected by dev_lock. That is 
-> why I added
-> 
->        drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
-> 
-> in my fix.
-> 
-> This is actually error code path issue. Normally, xdna_send_msg_wait() 
-> will not time out. This only happens with broken firmware. That is why 
-> it was not found before.
-> 
-> Lizhi
 
-Got it thanks.
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+On 02/03/2026 12:37, Natalie Vock wrote:
+> When the cgroup's memory usage is below the low/min limit and allocation
+> fails, try evicting some unprotected buffers to make space. Otherwise,
+> application buffers may be forced to go into GTT even though usage is
+> below the corresponding low/min limit, if other applications filled VRAM
+> with their allocations first.
 > 
->>
->> Do you want a mutex in the helper perhaps?
->>
->>> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
->>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->>> ---
->>>   drivers/accel/amdxdna/aie2_message.c | 21 ++++++++++++++++-----
->>>   drivers/accel/amdxdna/aie2_pci.c     |  7 ++-----
->>>   drivers/accel/amdxdna/aie2_pci.h     |  1 +
->>>   3 files changed, 19 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/ 
->>> amdxdna/aie2_message.c
->>> index 277a27bce850..22e1a85a7ae0 100644
->>> --- a/drivers/accel/amdxdna/aie2_message.c
->>> +++ b/drivers/accel/amdxdna/aie2_message.c
->>> @@ -40,11 +40,8 @@ static int aie2_send_mgmt_msg_wait(struct 
->>> amdxdna_dev_hdl *ndev,
->>>           return -ENODEV;
->>>         ret = xdna_send_msg_wait(xdna, ndev->mgmt_chann, msg);
->>> -    if (ret == -ETIME) {
->>> -        xdna_mailbox_stop_channel(ndev->mgmt_chann);
->>> -        xdna_mailbox_destroy_channel(ndev->mgmt_chann);
->>> -        ndev->mgmt_chann = NULL;
->>> -    }
->>> +    if (ret == -ETIME)
->>> +        aie2_destroy_mgmt_chann(ndev);
->>>         if (!ret && *hdl->status != AIE2_STATUS_SUCCESS) {
->>>           XDNA_ERR(xdna, "command opcode 0x%x failed, status 0x%x",
->>> @@ -914,6 +911,20 @@ void aie2_msg_init(struct amdxdna_dev_hdl *ndev)
->>>           ndev->exec_msg_ops = &legacy_exec_message_ops;
->>>   }
->>>   +void aie2_destroy_mgmt_chann(struct amdxdna_dev_hdl *ndev)
->>> +{
->>> +    struct amdxdna_dev *xdna = ndev->xdna;
->>> +
->>> +    drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->>> +
->>> +    if (!ndev->mgmt_chann)
->>> +        return;
->>> +
->>> +    xdna_mailbox_stop_channel(ndev->mgmt_chann);
->>> +    xdna_mailbox_destroy_channel(ndev->mgmt_chann);
->>> +    ndev->mgmt_chann = NULL;
->>> +}
->>> +
->>>   static inline struct amdxdna_gem_obj *
->>>   aie2_cmdlist_get_cmd_buf(struct amdxdna_sched_job *job)
->>>   {
->>> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/ 
->>> amdxdna/aie2_pci.c
->>> index 85079b6fc5d9..977ce21eaf9f 100644
->>> --- a/drivers/accel/amdxdna/aie2_pci.c
->>> +++ b/drivers/accel/amdxdna/aie2_pci.c
->>> @@ -330,9 +330,7 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
->>>         aie2_runtime_cfg(ndev, AIE2_RT_CFG_CLK_GATING, NULL);
->>>       aie2_mgmt_fw_fini(ndev);
->>> -    xdna_mailbox_stop_channel(ndev->mgmt_chann);
->>> -    xdna_mailbox_destroy_channel(ndev->mgmt_chann);
->>> -    ndev->mgmt_chann = NULL;
->>> +    aie2_destroy_mgmt_chann(ndev);
->>>       drmm_kfree(&xdna->ddev, ndev->mbox);
->>>       ndev->mbox = NULL;
->>>       aie2_psp_stop(ndev->psp_hdl);
->>> @@ -441,8 +439,7 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
->>>       return 0;
->>>     destroy_mgmt_chann:
->>> -    xdna_mailbox_stop_channel(ndev->mgmt_chann);
->>> -    xdna_mailbox_destroy_channel(ndev->mgmt_chann);
->>> +    aie2_destroy_mgmt_chann(ndev);
->>>   stop_psp:
->>>       aie2_psp_stop(ndev->psp_hdl);
->>>   fini_smu:
->>> diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/ 
->>> amdxdna/aie2_pci.h
->>> index b20a3661078c..e72311c77996 100644
->>> --- a/drivers/accel/amdxdna/aie2_pci.h
->>> +++ b/drivers/accel/amdxdna/aie2_pci.h
->>> @@ -303,6 +303,7 @@ int aie2_get_array_async_error(struct 
->>> amdxdna_dev_hdl *ndev,
->>>     /* aie2_message.c */
->>>   void aie2_msg_init(struct amdxdna_dev_hdl *ndev);
->>> +void aie2_destroy_mgmt_chann(struct amdxdna_dev_hdl *ndev);
->>>   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev);
->>>   int aie2_resume_fw(struct amdxdna_dev_hdl *ndev);
->>>   int aie2_set_runtime_cfg(struct amdxdna_dev_hdl *ndev, u32 type, 
->>> u64 value);
->>
+> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 52 +++++++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 47 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 53c4de4bcc1e3..86f99237f6490 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -494,6 +494,10 @@ struct ttm_bo_alloc_state {
+>   	struct dmem_cgroup_pool_state *charge_pool;
+>   	/** @limit_pool: Which pool limit we should test against */
+>   	struct dmem_cgroup_pool_state *limit_pool;
+> +	/** @only_evict_unprotected: If only unprotected BOs, i.e. BOs whose cgroup
+> +	 *  is exceeding its dmem low/min protection, should be considered for eviction
+> +	 */
+> +	bool only_evict_unprotected;
+>   };
+>   
+>   /**
+> @@ -598,8 +602,12 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   	evict_walk.walk.arg.trylock_only = true;
+>   	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>   
+> -	/* One more attempt if we hit low limit? */
+> -	if (!lret && evict_walk.hit_low) {
+> +	/* If we failed to find enough BOs to evict, but we skipped over
+> +	 * some BOs because they were covered by dmem low protection, retry
+> +	 * evicting these protected BOs too, except if we're told not to
+> +	 * consider protected BOs at all.
+> +	 */
+> +	if (!lret && evict_walk.hit_low && !state->only_evict_unprotected) {
+>   		evict_walk.try_low = true;
+>   		lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>   	}
+> @@ -620,7 +628,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   	} while (!lret && evict_walk.evicted);
+>   
+>   	/* We hit the low limit? Try once more */
+> -	if (!lret && evict_walk.hit_low && !evict_walk.try_low) {
+> +	if (!lret && evict_walk.hit_low && !evict_walk.try_low &&
+> +			!state->only_evict_unprotected) {
+>   		evict_walk.try_low = true;
+>   		goto retry;
+>   	}
+> @@ -730,7 +739,7 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+>   				 struct ttm_resource **res,
+>   				 struct ttm_bo_alloc_state *alloc_state)
+>   {
+> -	bool may_evict;
+> +	bool may_evict, below_low;
+>   	int ret;
+>   
+>   	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> @@ -749,9 +758,42 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+>   		return ret;
+>   	}
+>   
+> +	/*
+> +	 * cgroup protection plays a special role in eviction.
+> +	 * Conceptually, protection of memory via the dmem cgroup controller
+> +	 * entitles the protected cgroup to use a certain amount of memory.
+> +	 * There are two types of protection - the 'low' limit is a
+> +	 * "best-effort" protection, whereas the 'min' limit provides a hard
+> +	 * guarantee that memory within the cgroup's allowance will not be
+> +	 * evicted under any circumstance.
+> +	 *
+> +	 * To faithfully model this concept in TTM, we also need to take cgroup
+> +	 * protection into account when allocating. When allocation in one
+> +	 * place fails, TTM will default to trying other places first before
+> +	 * evicting.
+> +	 * If the allocation is covered by dmem cgroup protection, however,
+> +	 * this prevents the allocation from using the memory it is "entitled"
+> +	 * to. To make sure unprotected allocations cannot push new protected
+> +	 * allocations out of places they are "entitled" to use, we should
+> +	 * evict buffers not covered by any cgroup protection, if this
+> +	 * allocation is covered by cgroup protection.
+> +	 *
+> +	 * Buffers covered by 'min' protection are a special case - the 'min'
+> +	 * limit is a stronger guarantee than 'low', and thus buffers protected
+> +	 * by 'low' but not 'min' should also be considered for eviction.
+> +	 * Buffers protected by 'min' will never be considered for eviction
+> +	 * anyway, so the regular eviction path should be triggered here.
+> +	 * Buffers protected by 'low' but not 'min' will take a special
+> +	 * eviction path that only evicts buffers covered by neither 'low' or
+> +	 * 'min' protections.
+> +	 */
+> +	may_evict |= dmem_cgroup_below_min(NULL, alloc_state->charge_pool);
+
+It may make sense to group the two lines which "calculate" may_evict 
+together. which would probably mean also pulling two lines below to 
+before try charge, so that the whole logical block is not split.
+
+> +	below_low = dmem_cgroup_below_low(NULL, alloc_state->charge_pool);
+> +	alloc_state->only_evict_unprotected = !may_evict && below_low;
+
+Would it work to enable may_evict also if below_low is true, and assign 
+below_low directly to only_evict_unprotected? I mean along the lines of:
+
+may_evict = force_space && place->mem_type != TTM_PL_SYSTEM;
+may_evict |= dmem_cgroup_below_min(NULL, alloc_state->charge_pool);
+alloc_state->only_evict_unprotected = dmem_cgroup_below_low(NULL, 
+alloc_state->charge_pool);
+
+It would allow the if condition below to be simpler. Evict callback 
+would remain the same I guess.
+
+And maybe only_evict_unprotected could be renamed to "try_low" to align 
+with the naming in there? Then in the callback the condition would be like:
+
+  	/* We hit the low limit? Try once more */
+	if (!lret && evict_walk.hit_low &&
+	    !(evict_walk.try_low | state->try_low))
+  		evict_walk.try_low = true;
+  		goto retry;
+
+Give or take.. Would that be more readable eg. obvious? Although I am 
+endlessly confused how !try_low ends up being try_low = true in this 
+condition so maybe I am mixing something up. You get my gist though? 
+Unifying the naming and logic for easier understanding in essence if you 
+can find some workable way in this spirit I think it is worth thinking 
+about it.
+
+Regards,
+
+Tvrtko
+
+> +
+>   	ret = ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
+>   	if (ret) {
+> -		if (ret == -ENOSPC && may_evict)
+> +		if (ret == -ENOSPC && (may_evict || below_low))
+>   			ret = -EBUSY;
+>   		return ret;
+>   	}
+> 
 
