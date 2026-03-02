@@ -2,59 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QL/SHqCbpWmfEwYAu9opvQ
+	id EP4MOqObpWmfEwYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:16:00 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:16:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DA71DA826
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5742A1DA834
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:16:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06C7A10E02C;
-	Mon,  2 Mar 2026 14:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 533F010E509;
+	Mon,  2 Mar 2026 14:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="XB1pfTP5";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="J0IIxqhj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GEbcmjhy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P3HQwOAY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q6juDwGy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
- [95.215.58.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB5110E02C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:15:54 +0000 (UTC)
-Date: Mon, 2 Mar 2026 06:15:45 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1772460952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3B010E105
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:15:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 68CC75BD2D;
+ Mon,  2 Mar 2026 14:15:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772460958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z/EVA7c5dM/CMIsC5H/wd0QWQksrsEBgYswy6gN4Re4=;
- b=XB1pfTP5+/ixFozi8gJbJackW08qw1bJDmRZcbeMcPTwK+lYX/rPcssduU7Prdja5dbtRP
- 9NWUyq14HBut2Cm59kPT4u1eEB4Wy0xZ5XB2qE7wEdgY917rXr7vFOMS2qqiCSEnTV/djD
- Yb7eQhEYVbKmZmf74r1qrW969/xBeKQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Dave Chinner <david@fromorbit.com>, 
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [PATCH 07/16] memcg: add support for GPU page counters. (v4)
-Message-ID: <aaWZrTZGsxxjbBYv@linux.dev>
-References: <20260224020854.791201-1-airlied@gmail.com>
- <20260224020854.791201-8-airlied@gmail.com>
- <ee914ffb-5c3d-4d41-abdb-5ed02db326c6@amd.com>
- <CAPM=9txUuS-qzA+gX2DvTuYR2OZ79RG86FuDA6czkpuJ_SR6KQ@mail.gmail.com>
- <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=H00ppj7E7EkcKb+pbe6zT+acgeD4F5dNGj0YwelGl60=;
+ b=J0IIxqhjWprhTDORvIC6Ji6zS9YBEDX8CE20hSz+hPbeMRqWoIXhcZGOLKy41+p2Dkh/5W
+ yfekC6HvM9mlWX+Yjf33wmIaTvPnWr2u5OH5NhH56BUFNUkhl795VmyZqR4v1Ben+B7yfv
+ ZnahEj1DP9X9K60AcW4m7LArXVXmr8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772460958;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=H00ppj7E7EkcKb+pbe6zT+acgeD4F5dNGj0YwelGl60=;
+ b=GEbcmjhyZjFaUrymyyZJBO+B+Qoi9Hwyo/uK0qXC0rIf8wNRTzXdVB9U7ZmRylRQUJbbu1
+ tfrU1ShaoiQdeUCQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P3HQwOAY;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q6juDwGy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772460957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=H00ppj7E7EkcKb+pbe6zT+acgeD4F5dNGj0YwelGl60=;
+ b=P3HQwOAY8CPpZt+6iAycfLdiq0cjkqqEh60xTV2OuZekZTH30M+2k54mXspC/KmkXKiXKO
+ c0ew5f67lMgYDWQT08oeFDLd5M0tVXNc6sBGRBZqVxJiEtvgYOLAiyQClyfeqmF9Hao/JP
+ 5KOUOMrdnH6uaSMm5DAwg3scmyZ6qGw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772460957;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=H00ppj7E7EkcKb+pbe6zT+acgeD4F5dNGj0YwelGl60=;
+ b=q6juDwGyMPKUwNgViD9Y3myGTppOJSgZuirr6PiFLrckZ/U9VTOmrQJY4fdmyNFUu+gaiC
+ if8SG7y/llQXboDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12DCC3EA69;
+ Mon,  2 Mar 2026 14:15:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sf4tA52bpWmVLAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 14:15:57 +0000
+Message-ID: <cf8cb929-2339-46a9-8b76-e76778787b9d@suse.de>
+Date: Mon, 2 Mar 2026 15:15:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtio: Open-code drm_simple_encoder_init()
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Hardik Phalet <hardik.phalet@pm.me>
+Cc: Hardik Phalet <hardik.phalet@gmail.com>, David Airlie
+ <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260227103515.413685-1-hardik.phalet@pm.me>
+ <5cdb4e34-7964-4456-9311-eac8b3d37371@suse.de>
+ <4fa6bc36-3507-4171-8955-29c90db9254b@collabora.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <4fa6bc36-3507-4171-8955-29c90db9254b@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com>
-X-Migadu-Flow: FLOW_OUT
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +142,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:airlied@gmail.com,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mhocko@kernel.org,m:roman.gushchin@linux.dev,m:muchun.song@linux.dev,m:cgroups@vger.kernel.org,m:david@fromorbit.com,m:longman@redhat.com,m:simona@ffwll.ch,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,redhat.com,chromium.org,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org,lists.linux.dev,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,kernel.org,cmpxchg.org,linux.dev,vger.kernel.org,fromorbit.com,redhat.com,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.osipenko@collabora.com,m:hardik.phalet@pm.me,m:hardik.phalet@gmail.com,m:airlied@redhat.com,m:kraxel@redhat.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:virtualization@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:hardikphalet@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[shakeel.butt@linux.dev,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shakeel.butt@linux.dev,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.990];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.dev:mid,linux.dev:dkim]
-X-Rspamd-Queue-Id: 03DA71DA826
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,bootlin.com:url,pm.me:email,suse.com:url]
+X-Rspamd-Queue-Id: 5742A1DA834
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 10:09:55AM +0100, Christian König wrote:
-> On 2/24/26 20:28, Dave Airlie wrote:
-[...]
-> 
-> > This has been a pain in the ass for desktop for years, and I'd like to
-> > fix it, the HPC use case if purely a driver for me doing the work.
-> 
-> Wait a second. How does accounting to cgroups help with that in any way?
-> 
-> The last time I looked into this problem the OOM killer worked based on the per task_struct stats which couldn't be influenced this way.
-> 
+Hi
 
-It depends on the context of the oom-killer. If the oom-killer is triggered due
-to memcg limits then only the processes in the scope of the memcg will be
-targetted by the oom-killer. With the specific setting, the oom-killer can kill
-all the processes in the target memcg.
+Am 02.03.26 um 14:57 schrieb Dmitry Osipenko:
+> On 3/2/26 16:48, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 27.02.26 um 11:35 schrieb Hardik Phalet:
+>>> drm_simple_encoder_init() is a thin wrapper around drm_encoder_init()
+>>> that only provides a minimal drm_encoder_funcs instance with
+>>> .destroy = drm_encoder_cleanup.
+>>>
+>>> Inline the helper in virtgpu_display.c and provide a local
+>>> drm_encoder_funcs instance instead. This removes the unnecessary
+>>> indirection and prepares for the eventual removal of
+>>> drm_simple_encoder_init().
+>>>
+>>> No functional changes intended.
+>>>
+>>> Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
+>>> ---
+>>>    drivers/gpu/drm/virtio/virtgpu_display.c | 7 ++++++-
+>>>    1 file changed, 6 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/
+>>> drm/virtio/virtgpu_display.c
+>>> index f1dae9569805..8bd6cdc6c16e 100644
+>>> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+>>> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+>>> @@ -232,6 +232,10 @@ static enum drm_mode_status
+>>> virtio_gpu_conn_mode_valid(struct drm_connector *con
+>>>        return MODE_BAD;
+>>>    }
+>>>    +static const struct drm_encoder_funcs virtio_gpu_enc_cleanup_funcs = {
+>>> +    .destroy = drm_encoder_cleanup
+>>> +};
+>>> +
+>>>    static const struct drm_encoder_helper_funcs
+>>> virtio_gpu_enc_helper_funcs = {
+>>>        .mode_set   = virtio_gpu_enc_mode_set,
+>>>        .enable     = virtio_gpu_enc_enable,
+>>> @@ -306,7 +310,8 @@ static int vgdev_output_init(struct
+>>> virtio_gpu_device *vgdev, int index)
+>>>        if (vgdev->has_edid)
+>>>            drm_connector_attach_edid_property(connector);
+>>>    -    drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
+>>> +    drm_encoder_init(dev, encoder, &virtio_gpu_enc_cleanup_funcs,
+>>> +             DRM_MODE_ENCODER_VIRTUAL, NULL);
+>> This looks correct, but you should also remove the include statement at [1]
+>>
+>> [1] https://elixir.bootlin.com/linux/v6.19/source/drivers/gpu/drm/
+>> virtio/virtgpu_display.c#L35
+> The patch adds more lines than removes. What's wrong with
+> drm_simple_encoder_init() and why it needs to be removed eventually?
 
-However nowadays the userspace oom-killer is preferred over the kernel
-oom-killer due to flexibility and configurability. Userspace oom-killers like
-systmd-oomd, Android's LMKD or fb-oomd are being used in containerized
-environments. Such oom-killers looks at memcg stats and hiding something
-something from memcg i.e. not charging to memcg will hide such usage from these
-oom-killers.
+I added it myself a few years ago in an attempt to save some lines of 
+code. That was a mistake. It's a helper without any purpose. Helpers 
+should do something.
+
+Best regards
+Thomas
+
+
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
