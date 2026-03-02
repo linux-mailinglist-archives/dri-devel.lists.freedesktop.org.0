@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uAxVGGMcpmmeKQAAu9opvQ
+	id QB7lB2IcpmmeKQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:23 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D22E1E698C
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27101E6985
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6564710E5E6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E43910E09D;
 	Mon,  2 Mar 2026 23:25:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="HxFvgbOR";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="IxGNiuBa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0C9910E076
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 23:25:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A78310E076
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 23:25:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; t=1772493913; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=XHuP/ecpMVBWNRcFchhNtqW/nBJXdY6JFa+lEgVWekQUCQJQWT7XIHghA4yOb4DtIjszCJFunkmRIhlctmptcrhHT5ysj9I4uYTtaH0nxuPngAbpnzYsvdvsHyFWy3Tdf4pCd3+kgwEWPhL5f9ZLifBGmml/VQCMhjkmNFBoQ9g=
+ b=BogQtQr0xGVABOZ2DNkdB4YYDGCZZJwbjj17S5pd1YBBJAm3hK/qS2AmQSuO5z6BIl3FxNdSn8J2y20ojGUb3+AHcbLiqt+AeNRNFDR/YaWj8ad1fsa4RahQ/F5uyZKdV8xccqho5I3dXcMB8iC2oGiY0D/YSVdtLXGMQ430Q6A=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
  s=zohoarc; t=1772493913;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=JeVKrmBGAZbOfL0zQIy44YasmHlurQx5d/IhOY6/xAA=; 
- b=NKzLIa1PuLgAqJ+V3onBbuQ5w9FeW8ZSc31EsTvWwdT1JJAtWbe+loN84RSeb4zdLV4ipriYdi1p2BxWSjpRSYqaXFhXzDD2pTKjwt9yE9vjwebSPnWUL0m0YGRL0k5w808f2NxyOWkucaLH7pwWT7Wil8w1aK1MPATM1nEJyL0=
+ bh=fEQDlRMrasKgPU5QpP7ZXP1eBZYjVkPBkfRG1OFa5Cg=; 
+ b=UWbkkwr+n+p/u9UI9kMme53bJ1dwlWQ9dVjYDGXkKMye4vDVsQeVJpZsBnrrNjbvqn4nePuGwsHu3ynw2cgsBefR3rbWRTnRLHndlI4P+CnIvHjWIZFmQfHCKmBilKjyU3+PHuuoXqlhIk88BWhauzZ4u22ftwF1XecVo1+fbw8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
@@ -36,11 +36,11 @@ ARC-Authentication-Results: i=1; mx.zohomail.com;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772493913; 
  s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=JeVKrmBGAZbOfL0zQIy44YasmHlurQx5d/IhOY6/xAA=;
- b=HxFvgbOR4fEuqQmZyFoUAEG/DFus7cJTuuJYjsfCHLAG+ZP2EdukCYdjE1mzTVtq
- u7EhZa4r5c8lg0GK//4wr4JLUQGNaKZ1yep02C6lNeQNLMlJyP95nc31t72s1M9YDKg
- nmi0o/5u/J+dpY5vMlKpF94xuZbxTyi4Inu7RuuE=
-Received: by mx.zohomail.com with SMTPS id 1772493911012417.9461385509999;
+ bh=fEQDlRMrasKgPU5QpP7ZXP1eBZYjVkPBkfRG1OFa5Cg=;
+ b=IxGNiuBaqwxJUhmzYJfp6uVI0G8oc41XsjVvv9Fbh1tDFhQ8f+BGDKHuRi6kFEvS
+ pHrG7lVD0XYV0c+6UjieT5nxKf9icRlhWp6p+oVPG8hpS9GZvx9J/TsCSh7MKxVSBQM
+ bOuu2IvuX1msM9kndBADr3NQFPh+Pvswc+KgcYdw=
+Received: by mx.zohomail.com with SMTPS id 1772493911612728.389852300208;
  Mon, 2 Mar 2026 15:25:11 -0800 (PST)
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
 To: dri-devel@lists.freedesktop.org,
@@ -48,9 +48,9 @@ To: dri-devel@lists.freedesktop.org,
 Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
  boris.brezillon@collabora.com, beata.michalska@arm.com, lyude@redhat.com,
  work@onurozkan.dev, Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH v2 02/12] drm/tyr: move clock cleanup into Clocks Drop impl
-Date: Mon,  2 Mar 2026 15:24:50 -0800
-Message-ID: <20260302232500.244489-3-deborah.brouwer@collabora.com>
+Subject: [PATCH v2 03/12] drm/tyr: rename TyrObject to BoData
+Date: Mon,  2 Mar 2026 15:24:51 -0800
+Message-ID: <20260302232500.244489-4-deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260302232500.244489-1-deborah.brouwer@collabora.com>
 References: <20260302232500.244489-1-deborah.brouwer@collabora.com>
@@ -70,7 +70,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0D22E1E698C
+X-Rspamd-Queue-Id: A27101E6985
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
@@ -100,87 +100,74 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Currently Tyr disables its clocks from TyrDrmDeviceData::drop(), which
-causes them to be shut down before any other fields in TyrDrmDeviceData
-are dropped. This prevents us from using the clocks when dropping the
-other fields in TyrDrmDeviceData.
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-In order to better control when the clocks are dropped, move this cleanup
-logic into a Drop implementation on the Clocks struct itself.
+Currently the GEM inner driver data object is called `TyrObject` which
+is a fairly generic name. To make the code easier to understand,
+rename `TyrObject` to `BoData` so that the name better reflects its
+role.
 
-Since it serves no further purpose, remove the PinnedDrop implementation
-for TyrDrmDeviceData.
+No functional change is intended.
 
-Also, while here, remove the #[pin_data] annotation from both the struct
-Clocks and struct Regulators since neither of these structs need this
-macro to create structurally pinned fields.
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
 Changes in v2:
-- Mention pinning changes in commit message.
 - Pick up Reviewed-by tags.
 
- drivers/gpu/drm/tyr/driver.rs | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs | 4 ++--
+ drivers/gpu/drm/tyr/gem.rs    | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 38e5268e881a..4fff01478391 100644
+index 4fff01478391..eccf36d601ac 100644
 --- a/drivers/gpu/drm/tyr/driver.rs
 +++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -54,7 +54,7 @@ pub(crate) struct TyrPlatformDriverData {
-     _device: ARef<TyrDrmDevice>,
- }
+@@ -36,7 +36,7 @@
  
--#[pin_data(PinnedDrop)]
-+#[pin_data]
- pub(crate) struct TyrDrmDeviceData {
-     pub(crate) pdev: ARef<platform::Device>,
+ use crate::{
+     file::TyrDrmFileData,
+-    gem::TyrObject,
++    gem::BoData,
+     gpu,
+     gpu::GpuInfo,
+     regs, //
+@@ -182,7 +182,7 @@ fn drop(self: Pin<&mut Self>) {}
+ impl drm::Driver for TyrDrmDriver {
+     type Data = TyrDrmDeviceData;
+     type File = TyrDrmFileData;
+-    type Object<R: drm::DeviceContext> = drm::gem::Object<TyrObject, R>;
++    type Object<R: drm::DeviceContext> = drm::gem::Object<BoData, R>;
  
-@@ -168,17 +168,6 @@ impl PinnedDrop for TyrPlatformDriverData {
-     fn drop(self: Pin<&mut Self>) {}
- }
+     const INFO: drm::DriverInfo = INFO;
  
--#[pinned_drop]
--impl PinnedDrop for TyrDrmDeviceData {
--    fn drop(self: Pin<&mut Self>) {
--        // TODO: the type-state pattern for Clks will fix this.
--        let clks = self.clks.lock();
--        clks.core.disable_unprepare();
--        clks.stacks.disable_unprepare();
--        clks.coregroup.disable_unprepare();
--    }
--}
--
- // We need to retain the name "panthor" to achieve drop-in compatibility with
- // the C driver in the userspace stack.
- const INFO: drm::DriverInfo = drm::DriverInfo {
-@@ -202,14 +191,20 @@ impl drm::Driver for TyrDrmDriver {
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 0c488984d2ec..87f3890e4be6 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -15,9 +15,9 @@
+ 
+ /// GEM Object inner driver data
+ #[pin_data]
+-pub(crate) struct TyrObject {}
++pub(crate) struct BoData {}
+ 
+-impl gem::DriverObject for TyrObject {
++impl gem::DriverObject for BoData {
+     type Driver = TyrDrmDriver;
+     type Args = ();
+ 
+@@ -26,6 +26,6 @@ fn new<Ctx: DeviceContext>(
+         _size: usize,
+         _args: (),
+     ) -> impl PinInit<Self, Error> {
+-        try_pin_init!(TyrObject {})
++        try_pin_init!(BoData {})
      }
  }
- 
--#[pin_data]
- struct Clocks {
-     core: Clk,
-     stacks: OptionalClk,
-     coregroup: OptionalClk,
- }
- 
--#[pin_data]
-+impl Drop for Clocks {
-+    fn drop(&mut self) {
-+        self.core.disable_unprepare();
-+        self.stacks.disable_unprepare();
-+        self.coregroup.disable_unprepare();
-+    }
-+}
-+
- struct Regulators {
-     _mali: Regulator<regulator::Enabled>,
-     _sram: Regulator<regulator::Enabled>,
 -- 
 2.52.0
 
