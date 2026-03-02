@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gF3SLKqEpWkCDAYAu9opvQ
+	id UBaoD62EpWkeDAYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 13:38:02 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 13:38:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3A51D8BF8
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 13:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27161D8C0D
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 13:38:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A83A10E4C7;
-	Mon,  2 Mar 2026 12:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7745410E4CA;
+	Mon,  2 Mar 2026 12:38:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="B3w2XDWx";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="mP4gn2vP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2653310E4C2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 12:37:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA4710E4C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 12:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1772455056; x=1773059856; i=natalie.vock@gmx.de;
- bh=8TCv6lo9qjoBor47WxSM0xiRMOiQQhswBmpaSIZiQcc=;
+ s=s31663417; t=1772455057; x=1773059857; i=natalie.vock@gmx.de;
+ bh=GaLeTiPWwkQ6DfTAkLsmf1cuoBpcbNlyI6s7S0zjS9M=;
  h=X-UI-Sender-Class:From:Date:Subject:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
  cc:content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=B3w2XDWxF2rYfFX3uyk7f9zv5rm9wrFudBxFs18f2R6wdPuaf/P4NrNrCkdPt0Cn
- 8ZsjacdUf69SZR3QMV82Y2pQDBCKK2Llh/cyark62PVmwnF4MbjNkZJIcq0jPtE+g
- tAhqP8gwt3ZJZec1NOp75CVw+L0YZdcJckbAPnDY4TaKY3yp6zH8tvXbaNNrV7ooX
- Aog8IhW3ucbhnqRvwxc4RGUXh38esDMCiUITpUIpHaz6esGObI6eDWavscwZzKi0Z
- Cy23BfGHeqRwOlo+SMQcWULwdbCPlnvVOcwYiBAFJipF90GFxggkeve3XN+M6HVwU
- 7D4EIbwt+2WuyV33sA==
+ b=mP4gn2vPpkIXGslOr3rv4n3PHz3NIYCus3FFM7PLc2Tkj2Ele2zTtIrhMR85+fdE
+ RLshNAyx7FroS2nIalVwjLHCQNFe6MGDu68o4ryIXtA6ceu9+gISL9Vzf2MAhS9zz
+ F7WSI55ELyfw4+Q/32m/4zPdFpTpeHjy3RZrvpzuobsARnNQ5gu5/XzteXjZQOJG1
+ ldwTWnfXTWecTOkxAnP6498dyOX8e41p0J1Et0qwbuWaPJhij4/T75wq05+V2VZ/W
+ O242lJJ8XBiI1/6mIZCOGHeeN/o/0i+RrjFZMqGdyQSgv814HsfMd9QJ7EIJIPA0U
+ 1uwlUhB9dkys69WV1Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJE6L-1wHC6e3wlP-00SBfd; Mon, 02
- Mar 2026 13:37:36 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MK3Rs-1wGMdK3yta-00RMrE; Mon, 02
+ Mar 2026 13:37:37 +0100
 From: Natalie Vock <natalie.vock@gmx.de>
-Date: Mon, 02 Mar 2026 13:37:05 +0100
-Subject: [PATCH v5 3/6] drm/ttm: Extract code for attempting allocation in
- a place
+Date: Mon, 02 Mar 2026 13:37:06 +0100
+Subject: [PATCH v5 4/6] drm/ttm: Split cgroup charge and resource
+ allocation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <20260302-dmemcg-aggressive-protect-v5-3-ffd3a2602309@gmx.de>
+Message-Id: <20260302-dmemcg-aggressive-protect-v5-4-ffd3a2602309@gmx.de>
 References: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
 In-Reply-To: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
 To: Maarten Lankhorst <dev@lankhorst.se>, 
@@ -58,88 +58,87 @@ To: Maarten Lankhorst <dev@lankhorst.se>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>
 Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Natalie Vock <natalie.vock@gmx.de>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+ Natalie Vock <natalie.vock@gmx.de>
 X-Mailer: b4 0.14.3
-X-Provags-ID: V03:K1:5/2SNmBX8IL2B0PZlAAFlLXfAzI0NVptdZW0svB1l755lbsmuoH
- velD8ujtr0sQjxhzWLskICEOj7AJ+QP6bVQccLT8IwSXXp/goDMZlklUKlOZHmUz5dxU5qf
- JHB5JGy4D6Nl86ZbxC8MNRe2UD7CXf4YRhpc/weF8SHVYLH4hZ/AoxPV3uEyEbs/apyIB6p
- ZTFVK5nau5n9qaZ9iW1zg==
+X-Provags-ID: V03:K1:EShs2RheNUh5wNS456MR7dEbYyXFJADwkKjOpfVbxM0oX+Yrgv4
+ ekLPunRTY/4JE4qb63nrdxDIXWJPI3pRuhxfiw8wFgzW1r7Y+yc/MsOEJU7vX/o9tfWcpTf
+ yQbhIZ/L1CyP1LgzXGaAVacPw6bcBBDjfam6JV5AoHoYf6tDxIb2prGQ/l8JBDcC7X2XLxL
+ Y4xOOn6+O61bpJEDFNQvQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8000rrIMdvM=;55mEJGPn4p48N52XM9N4A6k9+rN
- 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
+UI-OutboundReport: notjunk:1;M01:P0:WMB+6an+xjw=;/Ud1bvy7Rfdl4s3oA0M0714m3n8
+ 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
+ B6QSFvEsr1PJ6DvwtRHXm6xC9tuct
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,7 +162,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:tursulin@ursulin.net,m:cgroups@vger.kernel.org,m:natalie.vock@gmx.de,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:tursulin@ursulin.net,m:cgroups@vger.kernel.org,m:natalie.vock@gmx.de,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -171,10 +170,10 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ARC_NA(0.00)[];
 	FREEMAIL_FROM(0.00)[gmx.de];
 	FREEMAIL_TO(0.00)[lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmx.de,igalia.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmx.de];
 	DKIM_TRACE(0.00)[gmx.de:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -188,222 +187,241 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim,gmx.de:email,igalia.com:email]
-X-Rspamd-Queue-Id: 1D3A51D8BF8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim,gmx.de:email]
+X-Rspamd-Queue-Id: E27161D8C0D
 X-Rspamd-Action: no action
 
-Move all code for attempting allocation for a specific place to
-ttm_bo_alloc_place. With subsequent patches, this logic is going to get
-more complicated, so it helps readability to have this separate.
+Coupling resource allocation and cgroup charging is racy when charging
+succeeds, but subsequent resource allocation fails. Certain eviction
+decisions are made on the basis of whether the allocating cgroup is
+protected, i.e. within its min/low limits, but with the charge being
+tied to resource allocation (and uncharged when the resource allocation
+fails), this check is done at a point where the allocation is not actually
+charged to the cgroup.
 
-ttm_bo_alloc_at_place takes a pointer to a struct ttm_bo_alloc_state.
-This struct holds various state produced by the allocation (e.g. cgroup
-resource associated with the allocation) that the caller needs to keep
-track of (and potentially dispose of). This is just the limiting cgroup
-pool for now, but future patches will add more state needing to be tracked=
-.
+This is subtly wrong if the allocation were to cause the cgroup to exceed
+the min/low protection, but it's even more wrong if the same cgroup tries
+allocating multiple buffers concurrently: In this case, the min/low
+protection may pass for all allocation attempts when the real min/low
+protection covers only some, or potentially none of the allocated
+buffers.
 
-ttm_bo_alloc_at_place also communicates via return codes if eviction
-using ttm_bo_evict_alloc should be attempted. This is preparation for
-attempting eviction in more cases than just force_space being set.
-
-No functional change intended.
+Instead, charge the allocation to the cgroup once and keep the charge
+for as long as we try to allocate a ttm_resource, and only undo the charge
+if allocating the resource is ultimately unsuccessful and we move on to
+a different ttm_place.
 
 Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 =2D--
- drivers/gpu/drm/ttm/ttm_bo.c | 104 +++++++++++++++++++++++++++++++++-----=
+ drivers/gpu/drm/ttm/ttm_bo.c       | 45 +++++++++++++++++++++++++--------=
+=2D-
+ drivers/gpu/drm/ttm/ttm_resource.c | 48 +++++++++++++++++++++++++++------=
 =2D----
- 1 file changed, 81 insertions(+), 23 deletions(-)
+ include/drm/ttm/ttm_resource.h     |  6 ++++-
+ 3 files changed, 73 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index acb9197db8798..3e62cab51f870 100644
+index 3e62cab51f870..53c4de4bcc1e3 100644
 =2D-- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struc=
-t ttm_resource_manager *man
- 	return ret;
+@@ -490,6 +490,8 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct=
+ ttm_resource_manager *man
  }
 =20
-+struct ttm_bo_alloc_state {
-+	/** @limit_pool: Which pool limit we should test against */
-+	struct dmem_cgroup_pool_state *limit_pool;
-+};
-+
- /**
-  * struct ttm_bo_evict_walk - Parameters for the evict walk.
-  */
-@@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
- 	/** @evicted: Number of successful evictions. */
- 	unsigned long evicted;
-=20
--	/** @limit_pool: Which pool limit we should test against */
--	struct dmem_cgroup_pool_state *limit_pool;
- 	/** @try_low: Whether we should attempt to evict BO's with low watermark=
- threshold */
- 	bool try_low;
- 	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass=
-) */
- 	bool hit_low;
-+
-+	/** @alloc_state: State associated with the allocation attempt. */
-+	struct ttm_bo_alloc_state *alloc_state;
+ struct ttm_bo_alloc_state {
++	/** @charge_pool: The memory pool the resource is charged to */
++	struct dmem_cgroup_pool_state *charge_pool;
+ 	/** @limit_pool: Which pool limit we should test against */
+ 	struct dmem_cgroup_pool_state *limit_pool;
  };
+@@ -544,9 +546,17 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk,=
+ struct ttm_buffer_object *
+ 		goto out;
 =20
- static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_o=
-bject *bo)
-@@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, =
-struct ttm_buffer_object *
- 		container_of(walk, typeof(*evict_walk), walk);
- 	s64 lret;
-=20
--	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resour=
-ce->css,
--					      evict_walk->try_low, &evict_walk->hit_low))
-+	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_poo=
-l,
-+					      bo->resource->css, evict_walk->try_low,
-+					      &evict_walk->hit_low))
- 		return 0;
-=20
- 	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk-=
->place))
-@@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
- 			      struct ttm_operation_ctx *ctx,
- 			      struct ww_acquire_ctx *ticket,
- 			      struct ttm_resource **res,
--			      struct dmem_cgroup_pool_state *limit_pool)
-+			      struct ttm_bo_alloc_state *state)
- {
- 	struct ttm_bo_evict_walk evict_walk =3D {
- 		.walk =3D {
-@@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
- 		.place =3D place,
- 		.evictor =3D evictor,
- 		.res =3D res,
--		.limit_pool =3D limit_pool,
-+		.alloc_state =3D state,
- 	};
- 	s64 lret;
-=20
-@@ -689,6 +696,58 @@ static int ttm_bo_add_pipelined_eviction_fences(struc=
-t ttm_buffer_object *bo,
- 	return dma_resv_reserve_fences(bo->base.resv, 1);
- }
-=20
-+
-+/**
-+ * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a p=
-lace
-+ *
-+ * @bo: The buffer to allocate the backing store of
-+ * @place: The place to attempt allocation in
-+ * @ctx: ttm_operation_ctx associated with this allocation
-+ * @force_space: If we should evict buffers to force space
-+ * @res: On allocation success, the resulting struct ttm_resource.
-+ * @alloc_state: Object holding allocation state such as charged cgroups.
-+ *
-+ * Returns:
-+ * -EBUSY: No space available, but allocation should be retried with ttm_=
-bo_evict_alloc.
-+ * -ENOSPC: No space available, allocation should not be retried.
-+ * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
-+ *
-+ */
-+static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
-+				 const struct ttm_place *place,
-+				 struct ttm_operation_ctx *ctx,
-+				 bool force_space,
-+				 struct ttm_resource **res,
-+				 struct ttm_bo_alloc_state *alloc_state)
-+{
-+	bool may_evict;
-+	int ret;
-+
-+	may_evict =3D (force_space && place->mem_type !=3D TTM_PL_SYSTEM);
-+
-+	ret =3D ttm_resource_alloc(bo, place, res,
-+				 force_space ? &alloc_state->limit_pool : NULL);
-+
-+	if (ret) {
-+		/*
-+		 * -EAGAIN means the charge failed, which we treat like an
-+		 * allocation failure. Therefore, return an error code indicating
-+		 * the allocation failed - either -EBUSY if the allocation should
-+		 * be retried with eviction, or -ENOSPC if there should be no second
-+		 * attempt.
-+		 */
-+		if (ret =3D=3D -EAGAIN)
-+			return may_evict ? -EBUSY : -ENOSPC;
-+
-+		if (ret =3D=3D -ENOSPC && may_evict)
+ 	evict_walk->evicted++;
++	if (!evict_walk->alloc_state->charge_pool) {
++		lret =3D ttm_resource_try_charge(bo, evict_walk->place,
++					       &evict_walk->alloc_state->charge_pool, NULL);
++		if (lret =3D=3D -EAGAIN)
 +			return -EBUSY;
-+
++		else if (lret)
++			return lret;
++	}
+ 	if (evict_walk->res)
+ 		lret =3D ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
+-					  evict_walk->res, NULL);
++					  evict_walk->res, evict_walk->alloc_state->charge_pool);
+ 	if (lret =3D=3D 0)
+ 		return 1;
+ out:
+@@ -724,10 +734,8 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_ob=
+ject *bo,
+ 	int ret;
+=20
+ 	may_evict =3D (force_space && place->mem_type !=3D TTM_PL_SYSTEM);
+-
+-	ret =3D ttm_resource_alloc(bo, place, res,
+-				 force_space ? &alloc_state->limit_pool : NULL);
+-
++	ret =3D ttm_resource_try_charge(bo, place, &alloc_state->charge_pool,
++				      force_space ? &alloc_state->limit_pool : NULL);
+ 	if (ret) {
+ 		/*
+ 		 * -EAGAIN means the charge failed, which we treat like an
+@@ -737,14 +745,22 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_o=
+bject *bo,
+ 		 * attempt.
+ 		 */
+ 		if (ret =3D=3D -EAGAIN)
+-			return may_evict ? -EBUSY : -ENOSPC;
++			ret =3D may_evict ? -EBUSY : -ENOSPC;
 +		return ret;
 +	}
+=20
++	ret =3D ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
++	if (ret) {
+ 		if (ret =3D=3D -ENOSPC && may_evict)
+-			return -EBUSY;
+-
++			ret =3D -EBUSY;
+ 		return ret;
+ 	}
+=20
++	/*
++	 * Ownership of charge_pool has been transferred to the TTM resource,
++	 * don't make the caller think we still hold a reference to it.
++	 */
++	alloc_state->charge_pool =3D NULL;
+ 	return 0;
+ }
+=20
+@@ -799,6 +815,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_obj=
+ect *bo,
+ 				res, &alloc_state);
+=20
+ 		if (ret =3D=3D -ENOSPC) {
++			dmem_cgroup_uncharge(alloc_state.charge_pool, bo->base.size);
+ 			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+ 			continue;
+ 		} else if (ret =3D=3D -EBUSY) {
+@@ -807,11 +824,15 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_o=
+bject *bo,
+=20
+ 			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+=20
+-			if (ret =3D=3D -EBUSY)
+-				continue;
+-			else if (ret)
+-				return;
++			if (ret) {
++				dmem_cgroup_uncharge(alloc_state.charge_pool,
++						bo->base.size);
++				if (ret =3D=3D -EBUSY)
++					continue;
++				return ret;
++			}
+ 		} else if (ret) {
++			dmem_cgroup_uncharge(alloc_state.charge_pool, bo->base.size);
+ 			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+ 			return ret;
+ 		}
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_=
+resource.c
+index 192fca24f37e4..a8a836f6e376a 100644
+=2D-- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -373,30 +373,52 @@ void ttm_resource_fini(struct ttm_resource_manager *=
+man,
+ }
+ EXPORT_SYMBOL(ttm_resource_fini);
+=20
++/**
++ * ttm_resource_try_charge - charge a resource manager's cgroup pool
++ * @bo: buffer for which an allocation should be charged
++ * @place: where the allocation is attempted to be placed
++ * @ret_pool: on charge success, the pool that was charged
++ * @ret_limit_pool: on charge failure, the pool responsible for the failu=
+re
++ *
++ * Should be used to charge cgroups before attempting resource allocation=
+.
++ * When charging succeeds, the value of ret_pool should be passed to
++ * ttm_resource_alloc.
++ *
++ * Returns: 0 on charge success, negative errno on failure.
++ */
++int ttm_resource_try_charge(struct ttm_buffer_object *bo,
++			    const struct ttm_place *place,
++			    struct dmem_cgroup_pool_state **ret_pool,
++			    struct dmem_cgroup_pool_state **ret_limit_pool)
++{
++	struct ttm_resource_manager *man =3D
++		ttm_manager_type(bo->bdev, place->mem_type);
 +
-+	return 0;
++	if (!man->cg) {
++		*ret_pool =3D NULL;
++		if (ret_limit_pool)
++			*ret_limit_pool =3D NULL;
++		return 0;
++	}
++
++	return dmem_cgroup_try_charge(man->cg, bo->base.size, ret_pool,
++				      ret_limit_pool);
 +}
 +
- /**
-  * ttm_bo_alloc_resource - Allocate backing store for a BO
-  *
-@@ -725,9 +784,8 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_obj=
-ect *bo,
+ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+ 		       struct ttm_resource **res_ptr,
+-		       struct dmem_cgroup_pool_state **ret_limit_pool)
++		       struct dmem_cgroup_pool_state *charge_pool)
+ {
+ 	struct ttm_resource_manager *man =3D
+ 		ttm_manager_type(bo->bdev, place->mem_type);
+-	struct dmem_cgroup_pool_state *pool =3D NULL;
+ 	int ret;
 =20
- 	for (i =3D 0; i < placement->num_placement; ++i) {
- 		const struct ttm_place *place =3D &placement->placement[i];
--		struct dmem_cgroup_pool_state *limit_pool =3D NULL;
-+		struct ttm_bo_alloc_state alloc_state =3D {};
- 		struct ttm_resource_manager *man;
--		bool may_evict;
+-	if (man->cg) {
+-		ret =3D dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_limit=
+_pool);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	ret =3D man->func->alloc(man, bo, place, res_ptr);
+-	if (ret) {
+-		if (pool)
+-			dmem_cgroup_uncharge(pool, bo->base.size);
++	if (ret)
+ 		return ret;
+-	}
 =20
- 		man =3D ttm_manager_type(bdev, place->mem_type);
- 		if (!man || !ttm_resource_manager_used(man))
-@@ -737,25 +795,25 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_o=
-bject *bo,
- 				    TTM_PL_FLAG_FALLBACK))
- 			continue;
+-	(*res_ptr)->css =3D pool;
++	(*res_ptr)->css =3D charge_pool;
 =20
--		may_evict =3D (force_space && place->mem_type !=3D TTM_PL_SYSTEM);
--		ret =3D ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : =
-NULL);
--		if (ret) {
--			if (ret !=3D -ENOSPC && ret !=3D -EAGAIN) {
--				dmem_cgroup_pool_state_put(limit_pool);
--				return ret;
--			}
--			if (!may_evict) {
--				dmem_cgroup_pool_state_put(limit_pool);
--				continue;
--			}
-+		ret =3D ttm_bo_alloc_at_place(bo, place, ctx, force_space,
-+				res, &alloc_state);
+ 	spin_lock(&bo->bdev->lru_lock);
+ 	ttm_resource_add_bulk_move(*res_ptr, bo);
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource=
+.h
+index 33e80f30b8b82..549b5b796884d 100644
+=2D-- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -456,10 +456,14 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+ void ttm_resource_fini(struct ttm_resource_manager *man,
+ 		       struct ttm_resource *res);
 =20
-+		if (ret =3D=3D -ENOSPC) {
-+			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-+			continue;
-+		} else if (ret =3D=3D -EBUSY) {
- 			ret =3D ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
--						 ticket, res, limit_pool);
--			dmem_cgroup_pool_state_put(limit_pool);
-+						 ticket, res, &alloc_state);
-+
-+			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-+
- 			if (ret =3D=3D -EBUSY)
- 				continue;
--			if (ret)
--				return ret;
-+			else if (ret)
-+				return;
-+		} else if (ret) {
-+			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
-+			return ret;
- 		}
-=20
- 		ret =3D ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu)=
-;
++int ttm_resource_try_charge(struct ttm_buffer_object *bo,
++			    const struct ttm_place *place,
++			    struct dmem_cgroup_pool_state **ret_pool,
++			    struct dmem_cgroup_pool_state **ret_limit_pool);
+ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+ 		       struct ttm_resource **res,
+-		       struct dmem_cgroup_pool_state **ret_limit_pool);
++		       struct dmem_cgroup_pool_state *charge_pool);
+ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource =
+**res);
+ bool ttm_resource_intersects(struct ttm_device *bdev,
+ 			     struct ttm_resource *res,
 
 =2D-=20
 2.53.0
