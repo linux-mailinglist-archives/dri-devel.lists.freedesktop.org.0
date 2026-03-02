@@ -2,72 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YHxHE5H/pWl5IwAAu9opvQ
+	id 6PlOAQcBpml5IwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:22:25 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:28:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216EC1E2957
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7E91E2F00
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:28:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B925B10E5D3;
-	Mon,  2 Mar 2026 21:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 487DF10E5D4;
+	Mon,  2 Mar 2026 21:28:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jd88YyJz";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="lTKm/VFX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C1810E5D2;
- Mon,  2 Mar 2026 21:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772486539; x=1804022539;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=f/e5Tehw6eA5fElB8GaO/rxQQYRpEl9y+pGXhsCpQ1g=;
- b=jd88YyJzWcooP4Zb/hoMr20QstTbT1zFERbdXOYdyqimWlOsW7hwjBWO
- DCs11ZMx4X85i4s6erRI4wkyjPGip6LCOF9LjXEJrxWS1kEM1r2CRJ86q
- DxwnXdPeqxpOZLfz6mbPBC3b0J7oxJ0hep8D028r4gf0cfi3rBQFHd8Ln
- UNYgeGFQROliM29jY3fPok+VrKU0rq7yQ8xyrCH9SXir4khSuOP3lfGHI
- YRtxSMu4fi4QraSl+a79LfkQd5vSimEjpsqsL0XW3mF2T1y5/ZrN5pfEB
- +s8YINciJ4+QRd33RwUh9W3+j88lHCCIUO09E2KU03cYDX7uvjmqyt92D Q==;
-X-CSE-ConnectionGUID: SPIxMT9VRUO1q8ERp7h54g==
-X-CSE-MsgGUID: NwAB04IHQ52K1ChhMDszkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="98979974"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="98979974"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2026 13:22:18 -0800
-X-CSE-ConnectionGUID: 3vqktu9iSuaSf1gkT18xTA==
-X-CSE-MsgGUID: uBWSnj6mTPadCZlUFrcNlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="214188708"
-Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.183])
- ([10.245.244.183])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2026 13:22:16 -0800
-Message-ID: <1722945c1b8a99bd9386b82a109e3308197fe914.camel@linux.intel.com>
-Subject: Re: [PATCH v2 2/4] drm/xe/userptr: Convert invalidation to two-pass
- MMU notifier
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, Jason
- Gunthorpe	 <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Simona Vetter	 <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Alistair Popple	 <apopple@nvidia.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-Date: Mon, 02 Mar 2026 22:22:13 +0100
-In-Reply-To: <aaXdsiRlux/cZ6WC@lstrano-desk.jf.intel.com>
-References: <20260302163248.105454-1-thomas.hellstrom@linux.intel.com>
- <20260302163248.105454-3-thomas.hellstrom@linux.intel.com>
- <aaXdsiRlux/cZ6WC@lstrano-desk.jf.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+Received: from PA4PR04CU001.outbound.protection.outlook.com
+ (mail-francecentralazon11013001.outbound.protection.outlook.com
+ [40.107.162.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE80F10E5D2
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 21:28:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i9nbMNNGwA9Qai5f09pXPD/H5P9j5p4HS19Esw08gt644pRv2lnd9MTDh6zukwfPATApYRI68Btr9cVzTVSqT1O5JJza5q1TSoqo/G73M264aIwPhwgUJvGysLbKuBDykD4Hd89Uqg835MzE7srl1KqGi9zM8K1006r5rKOPLjzNH20t/NtMretS/CkwA1ci6CG1JILJEU+o2bfPMmEtGUplwPDSy5UNb+MIUlIumWoBfwZFfEMMmeAA5UVs4W9IvKRZbaA9q7XTlXK9vBqgvclpJyvcbiUlhb6rcEShO07bNrDgF3UeLul0VHWPZg+pIpRZoxtQjubzCXKRkyeY0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8uEM8fRInI8UhhsiflJOa7KC9zuI2tjL84hGCh9/0Os=;
+ b=LBiBuu1hRjQhOqdBm7cBlygHms6+Zp6PR3ySHrEWRFirRvjSmR/3CQieeloprGa/tCzoOIGOUbg6oVKIl0qzzw98ZIvQGHNJdOAbt5MfOMpXNHXHxqHJakGA/ahXOaEA0OnqfQ4YE2RXZCkARDjanmN7clfDo62INpIWSVKHFkjXty2pZyUKANEOU/2Wqk55MEyo7EK4kQwbEK8jiJeQM0YwXgWq3Zw/I0j5ozlb7HmPvHXnxrimOSIwEJSFYfsFnpxjPG7KGlzWeG3dMp9/Qlcy6H+ZKWBb5zAtZEUaM8Su9a+vbIzIb0hlqFHaPlGl42DTnUf18PZgxXMJzaBDGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8uEM8fRInI8UhhsiflJOa7KC9zuI2tjL84hGCh9/0Os=;
+ b=lTKm/VFXKbIHOhTfiSIVRdKEoy+D1NJLjKTCZj1BrFruFy3FE5Mq85soYVer/HVISFPm2NCsBQceJKRFvp17973Qk6T8cHJyMsUxMi4d9tD4e0hpospL+TwP9qbMVhLaZ/5umqYqCiZcQytmtYDtbbs2vlWVnfRq3Kd9O+P5yuG+oW9eEJFihfdkgi3tDRBJgDiRimKVFay46E71F8tltPDKrjmR1UZIUM9yhs+/GePJplRY5e7FGZRslRZG9JW6fuNZasa+L4Y+vjxCzoWn9NBoP2Us+xorSh6TC2LuJBQPiaipYrQFbNsJ0SlhfTx/+IECzXI4fIyTSlqahe79ag==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB9PR04MB9353.eurprd04.prod.outlook.com (2603:10a6:10:36d::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 21:28:29 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 21:28:29 +0000
+Date: Mon, 2 Mar 2026 16:28:17 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
+ laurent.pinchart+renesas@ideasonboard.com,
+ antonin.godard@bootlin.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Subject: Re: [PATCH 07/14] ARM: dts: imx6ul-var-som-concerto: Factor out
+ common parts for all CPU variants
+Message-ID: <aaYA8YjxugSHW6TF@lizhi-Precision-Tower-5810>
+References: <20260302190953.669325-1-hugo@hugovil.com>
+ <20260302190953.669325-8-hugo@hugovil.com>
+ <aaX4DYzfR2HifTtf@lizhi-Precision-Tower-5810>
+ <20260302160731.0b6dd8fc1709a91236289fea@hugovil.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302160731.0b6dd8fc1709a91236289fea@hugovil.com>
+X-ClientProxiedBy: SJ0PR03CA0061.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::6) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB9353:EE_
+X-MS-Office365-Filtering-Correlation-Id: a707f13e-2aea-4104-eb89-08de78a2a569
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|52116014|7416014|19092799006|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: ud6/hK1UzyCBlvpOGG4QlsZPfBDYFuLk5S7946KA2xSHsCDS/+3+Jt8Xcz2IvspLcUjRP32kcUurVPBKclmr/Pa1NF1ScHsSK0eNVHhKb7p/bdZ0E54gDkBHXdDlPxHO19LhwoMQituon0hhn9zeNw5v2+NqAtM6D6QBuh32J9L18qNYbmqNBbIEK5lvihmGxWKUsAtI8qKCEBrmx67SbSNK7V8Ar5npzC5ZvbiHfOjrRuo0EL3zCYoTa37UcI8zBFIJpbKUzeAhm0Cn7+p3al1LLiimssVyLux4HizSomHz9Gz9D+WzWN/p2ndPfc9vbP4t3zvPaalTCKqehqXmV8E2B0LZcUJ+ufcXrpFm0SLc9MwNWWaqSrtVZwFGb6HZTS5tlQFx9h95u5fI2/W0Y6wAW931/X1Kefjti6KJSW++ncGmeqmnWupAEhF/ZiyaxVbcWhWX2MjnODPxGgIg8Kx6cL0F8U6/USmpnySdUjxf3VqpxnlyuRtXjZIFMhmSm5RnyL+YGewPF4NVDWj4YSmtLfBJeh153c786sqBlVdzBdZBaOe1eysxjbbHOxTa1j3XwmmF3KpKk3ZrYgLnHl+2feVlfsUFKrihL2i5ypbYKElcfT7l8R9LDHb+XZMK277NAzWaLHxk0TAZaxfdBxx8pLEDXGNfo3+xm0BZlY/Svr8Pacf5MibCsEn2hf+INyalWywrbDNYi6Pf0WPBkHa47peoY19dHANRpEL2DRUuYmRcssQyki5AUlbK7cnW437Aqbxl2as26VAb7wE7mDTLXL8ruJ3wF1Qpbp0SFdY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR04MB9366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(19092799006)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yWtN6o0rJOEAlDZS9DMs26U8Xnkft1QR6dhtNKHbwDD9dIa2n/8xWt8UMfwO?=
+ =?us-ascii?Q?n/M/MmbjgWiLSP3ba2cE4S4xEXxxc/mLqQzR5gMVmWVCbKpPpdW02X+vJxoc?=
+ =?us-ascii?Q?AWxtlbfeODvPCIOxNhWzvPhnEhvy8qVdZheY3q06fKfhhyu05WZPsdYd6Ymk?=
+ =?us-ascii?Q?/QZpCFpBngWz2C+RyiDXKv/1X3QeH1X6T55qoTkchNLQ/zrLyYUWWxa40aI9?=
+ =?us-ascii?Q?f2PSVfxMjg+Mc0JKgE76qGY0hRaqaVV9oEtCyHXa32Ma9lzG9HQ4LaHYfagC?=
+ =?us-ascii?Q?BmcX2WVFf3toU1O0YQ5X+JIxbt2OkwBPc3E/CVuC4cRSI57dAuPl/4q44Wnj?=
+ =?us-ascii?Q?pAIL47DzRiAdGnEKWRhgXeAwebMHKMh1wSMm+QbEbxYAdz/0nsAj42+dm6NN?=
+ =?us-ascii?Q?GmOGCvAAi9wbJ0f8C8/BvVzDtFBz03A1GHwiiiV2qt+QzA683SuabpYfGEWH?=
+ =?us-ascii?Q?/Ks7TryvD7uTc0xl5AMXpDdNsmVPENA0X8S8vlXSgLnFNEw5JvK/gwgOHIcG?=
+ =?us-ascii?Q?vNBJZPxzZW4ibhlJwxSBXdqrwdd7mD/TwMeJhg4w2mpwglRvwfNbC4qO/KKt?=
+ =?us-ascii?Q?JdPcAOugxf7ApACDxV7DrK0h/l2SjRnCwf8dF3sB6GzWyO1V7CkanIdvZol5?=
+ =?us-ascii?Q?xWVXBnphcmC6lhCOZBvimKk580IQR+AlLm4NDXayP3fnBTlvmRUoE7C4WaSC?=
+ =?us-ascii?Q?cnrquYCR04GMAcstal4ftR2+vx/ivVaun/AroLSyJL9Wge3pyBIosuDYnBjc?=
+ =?us-ascii?Q?7Ngw0i91jyEZPnEDNL2TPAOP/oP2uzxXsdQmsA+QTtTYLGWihdPNubIxUGYd?=
+ =?us-ascii?Q?gF4shV95i4W6d0iGCrzJKhI1wVkj31Rxv+z2jz0pZuE4nDaT6/sxdlQvjQ8z?=
+ =?us-ascii?Q?e++A+z/7URiOHqT72hm8cqGOgyermDabKI0Stdk7X00cFdSP2xAT9oB4Lw9C?=
+ =?us-ascii?Q?mMt//2qPKAa1+H7VYu+fwvowzzC+tXyxuO2g7wXLvA5Z7qZsp62PVEAlE8DW?=
+ =?us-ascii?Q?svV19oePPAtVDiEPZoEZT/T/V0fj+2N4ZljOCAM6E7iNcfd8m+D8hQGhuK9/?=
+ =?us-ascii?Q?OTH5cUOPcPEpXsqa6zH43g26U7WwmKquqPez/SSHPWQ5RM2z5gfc7maHo3Bh?=
+ =?us-ascii?Q?tLoZk3UChuktVpppDQAkWBFpMeftMJOXAoLX49yYiNtwUbbEF0QSGiveatF+?=
+ =?us-ascii?Q?omuf0yrLj21wVF7Sb8CgU0LkG6Cr/B8SJC9c2JI7A+blRHdTq9UPhkINomG2?=
+ =?us-ascii?Q?lvl4Pj6D9Id0xq+S/3bmn06JwaoDuUH+mH9s4J+xTwWwZO8FeHi7rG2B2fQd?=
+ =?us-ascii?Q?toCgfobWgWatD+EJsXIYZ+WIVNXi+8ydU2b99bW1ruT7YOZLawbvyrlzbGqr?=
+ =?us-ascii?Q?44QkazvBWjBH10gqCwGaPswQk/S0Oo5ZwYtEysM2NLdUJSR8vMj4T/cS3H9m?=
+ =?us-ascii?Q?KwWniS+oEye1WupyIuFwPVlXqQK6Xo7OrCvKoD9nfeoRnhx0hAqoVYdNiUXb?=
+ =?us-ascii?Q?2NM1Zuu+nEQHEtkXoYi9txqQZXsgpiGQY/AL3qfWfJ7vyVSblfDheou3Mdy1?=
+ =?us-ascii?Q?Ys80E6mNLHlrMASBEmdBegsrPzgH81gioH/YkmqfnwAuvIvvFqIFOgjCT5vr?=
+ =?us-ascii?Q?CZ8hHKsga06Pu4Kh4anuOvaEWWlsObmjZEigYmB8heqQFFCKfXgMl5ql2QLw?=
+ =?us-ascii?Q?RIwcRsNwwEOGf70AMnvIaZTu4c6ljHNhBFH/+DjZYvTuvOnO?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a707f13e-2aea-4104-eb89-08de78a2a569
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 21:28:29.0248 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N7+uYu3o5hLpI0RgBHd2H2qO2/fGZMdQBTjXMU2tpntJFJh+jRXGdSBhsMRSXoM0Tj5JbasZBfwlyg+VRo4jTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,363 +143,538 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 216EC1E2957
+X-Rspamd-Queue-Id: 5A7E91E2F00
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,kvack.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_SENDER(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:hugo@hugovil.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_PROHIBIT(0.00)[0.0.0.68:email,0.0.0.3:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	ARC_NA(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:dkim,nxp.com:email,dimonoff.com:email]
 X-Rspamd-Action: no action
 
-Hi,
+On Mon, Mar 02, 2026 at 04:07:31PM -0500, Hugo Villeneuve wrote:
+> Hi Frank,
+>
+> On Mon, 2 Mar 2026 15:50:21 -0500
+> Frank Li <Frank.li@nxp.com> wrote:
+>
+> > On Mon, Mar 02, 2026 at 02:03:43PM -0500, Hugo Villeneuve wrote:
+> > > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > >
+> > > Export common parts to the Variscite VAR-SOM-6UL dtsi so that they can be
+> > > reused on other boards.
+> > >
+> > > This will simplify adding future dedicated device tree files for each CPU
+> > > variant.
+> >
+> > Simplify adding ...
+> >
+> > >
+> > > Add i2c1 pinctrl to var-som dtsi pinmux, so that it can be reused by other
+> > > boards.
+> > >
+> > > Reorder pinctrl_gpio_leds to respect alphabetical order.
+> >
+> > this one use new patch.
+>
+> I'm not sure what you mean by that? Do you mean to move this change to a
+> separate patch?
 
-On Mon, 2026-03-02 at 10:57 -0800, Matthew Brost wrote:
+yes
 
-Thanks for reviewing,
-
-> On Mon, Mar 02, 2026 at 05:32:46PM +0100, Thomas Hellstr=C3=B6m wrote:
-> > In multi-GPU scenarios, asynchronous GPU job latency is a
-> > bottleneck if
-> > each notifier waits for its own GPU before returning. The two-pass
-> > mmu_interval_notifier infrastructure allows deferring the wait to a
-> > second pass, so all GPUs can be signalled in the first pass before
-> > any of them are waited on.
-> >=20
-> > Convert the userptr invalidation to use the two-pass model:
-> >=20
-> > Use invalidate_start as the first pass to mark the VMA for repin
-> > and
-> > enable software signalling on the VM reservation fences to start
-> > any
-> > gpu work needed for signaling. Fall back to completing the work
-> > synchronously if all fences are already signalled, or if a
-> > concurrent
-> > invalidation is already using the embedded finish structure.
-> >=20
-> > Use invalidate_finish as the second pass to wait for the
-> > reservation
-> > fences to complete, invalidate the GPU TLB in fault mode, and unmap
-> > the gpusvm pages.
-> >=20
-> > Embed a struct mmu_interval_notifier_finish in struct xe_userptr to
-> > avoid dynamic allocation in the notifier callback. Use a
-> > finish_inuse
-> > flag to prevent two concurrent invalidations from using it
-> > simultaneously; fall back to the synchronous path for the second
-> > caller.
-> >=20
->=20
-> A couple nits below. Also for clarity, I'd probably rework this
-> series...
->=20
-> =C2=A0- Move patch #3 to 2nd to patch
-> =C2=A0- Squash patch #2, #4 into a single patch, make thia the last patch
->=20
-> Let me know what you think on the reordering. I'm looking with the
-> series applied and aside from nits below everything in xe_userptr.c
-> looks good to me.
-
-We could do that, but unless you insist, I'd like to keep the current
-ordering since patch #2 is a very simple example on how to convert and
-also since #4 makes the notifier rather complex so it'd be good to
-be able to bisect in between those two.
-
-> =C2=A0
-> > Assisted-by: GitHub Copilot:claude-sonnet-4.6
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/xe/xe_userptr.c | 96 +++++++++++++++++++++++++---=
--
-> > ----
-> > =C2=A0drivers/gpu/drm/xe/xe_userptr.h | 14 +++++
-> > =C2=A02 files changed, 88 insertions(+), 22 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_userptr.c
-> > b/drivers/gpu/drm/xe/xe_userptr.c
-> > index e120323c43bc..440b0a79d16f 100644
-> > --- a/drivers/gpu/drm/xe/xe_userptr.c
-> > +++ b/drivers/gpu/drm/xe/xe_userptr.c
-> > @@ -73,18 +73,42 @@ int xe_vma_userptr_pin_pages(struct
-> > xe_userptr_vma *uvma)
-> > =C2=A0				=C2=A0=C2=A0=C2=A0 &ctx);
-> > =C2=A0}
-> > =C2=A0
-> > -static void __vma_userptr_invalidate(struct xe_vm *vm, struct
-> > xe_userptr_vma *uvma)
-> > +static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct
-> > xe_userptr_vma *uvma,
-> > +				=C2=A0=C2=A0=C2=A0 bool is_deferred)
-> > =C2=A0{
-> > =C2=A0	struct xe_userptr *userptr =3D &uvma->userptr;
-> > =C2=A0	struct xe_vma *vma =3D &uvma->vma;
-> > -	struct dma_resv_iter cursor;
-> > -	struct dma_fence *fence;
-> > =C2=A0	struct drm_gpusvm_ctx ctx =3D {
-> > =C2=A0		.in_notifier =3D true,
-> > =C2=A0		.read_only =3D xe_vma_read_only(vma),
-> > =C2=A0	};
-> > =C2=A0	long err;
-> > =C2=A0
->=20
-> xe_svm_assert_in_notifier(vm);
-
-This actually reveals a pre-existing bug. Since this code
-is called with the notifier lock held in read mode, and
-the vm resv held in the userptr invalidation injection.
-That assert would hit.
-
-
-Also drm_gpusvm_unmap_pages() below will assert the same thing, (also
-affected by the bug)
-but for clarity I agree we might want to have an assert here, but then
-it would need to include the other mode as well, and I'd need to update
-the locking docs for the two-pass state.
-
->=20
-> > +	err =3D dma_resv_wait_timeout(xe_vm_resv(vm),
-> > +				=C2=A0=C2=A0=C2=A0 DMA_RESV_USAGE_BOOKKEEP,
-> > +				=C2=A0=C2=A0=C2=A0 false, MAX_SCHEDULE_TIMEOUT);
-> > +	XE_WARN_ON(err <=3D 0);
-> > +
-> > +	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
-> > +		err =3D xe_vm_invalidate_vma(vma);
-> > +		XE_WARN_ON(err);
-> > +	}
-> > +
-> > +	if (is_deferred)
-> > +		userptr->finish_inuse =3D false;
-> > +	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma-
-> > >userptr.pages,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xe_vma_size(vma) >> PAGE_SHIFT=
-,
-> > &ctx);
-> > +}
-> > +
-> > +static struct mmu_interval_notifier_finish *
-> > +xe_vma_userptr_invalidate_pass1(struct xe_vm *vm, struct
-> > xe_userptr_vma *uvma)
-> > +{
-> > +	struct xe_userptr *userptr =3D &uvma->userptr;
-> > +	struct xe_vma *vma =3D &uvma->vma;
-> > +	struct dma_resv_iter cursor;
-> > +	struct dma_fence *fence;
-> > +	bool signaled =3D true;
-> > +
->=20
-> xe_svm_assert_in_notifier(vm);
-
-Same here.
-
->=20
-> > =C2=A0	/*
-> > =C2=A0	 * Tell exec and rebind worker they need to repin and
-> > rebind this
-> > =C2=A0	 * userptr.
-> > @@ -105,27 +129,32 @@ static void __vma_userptr_invalidate(struct
-> > xe_vm *vm, struct xe_userptr_vma *uv
-> > =C2=A0	 */
-> > =C2=A0	dma_resv_iter_begin(&cursor, xe_vm_resv(vm),
-> > =C2=A0			=C2=A0=C2=A0=C2=A0 DMA_RESV_USAGE_BOOKKEEP);
-> > -	dma_resv_for_each_fence_unlocked(&cursor, fence)
-> > +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> > =C2=A0		dma_fence_enable_sw_signaling(fence);
-> > +		if (signaled && !dma_fence_is_signaled(fence))
-> > +			signaled =3D false;
-> > +	}
-> > =C2=A0	dma_resv_iter_end(&cursor);
-> > =C2=A0
-> > -	err =3D dma_resv_wait_timeout(xe_vm_resv(vm),
-> > -				=C2=A0=C2=A0=C2=A0 DMA_RESV_USAGE_BOOKKEEP,
-> > -				=C2=A0=C2=A0=C2=A0 false, MAX_SCHEDULE_TIMEOUT);
-> > -	XE_WARN_ON(err <=3D 0);
-> > -
-> > -	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
-> > -		err =3D xe_vm_invalidate_vma(vma);
-> > -		XE_WARN_ON(err);
-> > +	/*
-> > +	 * Only one caller at a time can use the multi-pass state.
-> > +	 * If it's already in use, or all fences are already
-> > signaled,
-> > +	 * proceed directly to invalidation without deferring.
-> > +	 */
-> > +	if (signaled || userptr->finish_inuse) {
-> > +		xe_vma_userptr_do_inval(vm, uvma, false);
-> > +		return NULL;
-> > =C2=A0	}
-> > =C2=A0
-> > -	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma-
-> > >userptr.pages,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xe_vma_size(vma) >> PAGE_SHIFT=
-,
-> > &ctx);
-> > +	userptr->finish_inuse =3D true;
-> > +
-> > +	return &userptr->finish;
-> > =C2=A0}
-> > =C2=A0
-> > -static bool vma_userptr_invalidate(struct mmu_interval_notifier
-> > *mni,
-> > -				=C2=A0=C2=A0 const struct mmu_notifier_range
-> > *range,
-> > -				=C2=A0=C2=A0 unsigned long cur_seq)
-> > +static bool xe_vma_userptr_invalidate_start(struct
-> > mmu_interval_notifier *mni,
-> > +					=C2=A0=C2=A0=C2=A0 const struct
-> > mmu_notifier_range *range,
-> > +					=C2=A0=C2=A0=C2=A0 unsigned long cur_seq,
-> > +					=C2=A0=C2=A0=C2=A0 struct
-> > mmu_interval_notifier_finish **p_finish)
-> > =C2=A0{
-> > =C2=A0	struct xe_userptr_vma *uvma =3D container_of(mni,
-> > typeof(*uvma), userptr.notifier);
-> > =C2=A0	struct xe_vma *vma =3D &uvma->vma;
-> > @@ -138,21 +167,40 @@ static bool vma_userptr_invalidate(struct
-> > mmu_interval_notifier *mni,
-> > =C2=A0		return false;
-> > =C2=A0
-> > =C2=A0	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-> > -	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "NOTIFIER: addr=3D0x%016llx, ran=
-ge=3D0x%016llx",
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "NOTIFIER PASS1: addr=3D0x%016ll=
-x, range=3D0x%016llx",
-> > =C2=A0		xe_vma_start(vma), xe_vma_size(vma));
-> > =C2=A0
-> > =C2=A0	down_write(&vm->svm.gpusvm.notifier_lock);
-> > =C2=A0	mmu_interval_set_seq(mni, cur_seq);
-> > =C2=A0
-> > -	__vma_userptr_invalidate(vm, uvma);
-> > +	*p_finish =3D xe_vma_userptr_invalidate_pass1(vm, uvma);
-> > +
-> > =C2=A0	up_write(&vm->svm.gpusvm.notifier_lock);
-> > -	trace_xe_vma_userptr_invalidate_complete(vma);
-> > +	if (!*p_finish)
-> > +		trace_xe_vma_userptr_invalidate_complete(vma);
-> > =C2=A0
-> > =C2=A0	return true;
-> > =C2=A0}
-> > =C2=A0
-> > +static void xe_vma_userptr_invalidate_finish(struct
-> > mmu_interval_notifier_finish *finish)
-> > +{
-> > +	struct xe_userptr_vma *uvma =3D container_of(finish,
-> > typeof(*uvma), userptr.finish);
-> > +	struct xe_vma *vma =3D &uvma->vma;
-> > +	struct xe_vm *vm =3D xe_vma_vm(vma);
-> > +
-> > +	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "NOTIFIER PASS2: addr=3D0x%016ll=
-x, range=3D0x%016llx",
-> > +		xe_vma_start(vma), xe_vma_size(vma));
-> > +
-> > +	down_write(&vm->svm.gpusvm.notifier_lock);
-> > +	xe_vma_userptr_do_inval(vm, uvma, true);
-> > +	up_write(&vm->svm.gpusvm.notifier_lock);
-> > +	trace_xe_vma_userptr_invalidate_complete(vma);
-> > +}
-> > +
-> > =C2=A0static const struct mmu_interval_notifier_ops
-> > vma_userptr_notifier_ops =3D {
-> > -	.invalidate =3D vma_userptr_invalidate,
-> > +	.invalidate_start =3D xe_vma_userptr_invalidate_start,
-> > +	.invalidate_finish =3D xe_vma_userptr_invalidate_finish,
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
-> > @@ -164,6 +212,7 @@ static const struct mmu_interval_notifier_ops
-> > vma_userptr_notifier_ops =3D {
-> > =C2=A0 */
-> > =C2=A0void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
-> > =C2=A0{
-> > +	static struct mmu_interval_notifier_finish *finish;
-> > =C2=A0	struct xe_vm *vm =3D xe_vma_vm(&uvma->vma);
-> > =C2=A0
-> > =C2=A0	/* Protect against concurrent userptr pinning */
-> > @@ -179,7 +228,10 @@ void xe_vma_userptr_force_invalidate(struct
-> > xe_userptr_vma *uvma)
-> > =C2=A0	if (!mmu_interval_read_retry(&uvma->userptr.notifier,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 uvma-
-> > >userptr.pages.notifier_seq))
-> > =C2=A0		uvma->userptr.pages.notifier_seq -=3D 2;
-> > -	__vma_userptr_invalidate(vm, uvma);
-> > +
-> > +	finish =3D xe_vma_userptr_invalidate_pass1(vm, uvma);
-> > +	if (finish)
-> > +		xe_vma_userptr_do_inval(vm, uvma, true);
-> > =C2=A0}
-> > =C2=A0#endif
-> > =C2=A0
-> > diff --git a/drivers/gpu/drm/xe/xe_userptr.h
-> > b/drivers/gpu/drm/xe/xe_userptr.h
-> > index ef801234991e..4f42db61fd62 100644
-> > --- a/drivers/gpu/drm/xe/xe_userptr.h
-> > +++ b/drivers/gpu/drm/xe/xe_userptr.h
-> > @@ -57,12 +57,26 @@ struct xe_userptr {
-> > =C2=A0	 */
-> > =C2=A0	struct mmu_interval_notifier notifier;
-> > =C2=A0
-> > +	/**
-> > +	 * @finish: MMU notifier finish structure for two-pass
-> > invalidation.
-> > +	 * Embedded here to avoid allocation in the notifier
-> > callback.
-> > +	 * Protected by @vm::svm.gpusvm.notifier_lock.
-> > +	 */
-> > +	struct mmu_interval_notifier_finish finish;
-> > +	/**
-> > +	 * @finish_inuse: Whether @finish is currently in use by
-> > an in-progress
-> > +	 * two-pass invalidation.
-> > +	 * Protected by @vm::svm.gpusvm.notifier_lock.
-> > +	 */
-> > +	bool finish_inuse;
-> > +
-> > =C2=A0	/**
-> > =C2=A0	 * @initial_bind: user pointer has been bound at least
-> > once.
-> > =C2=A0	 * write: vm->svm.gpusvm.notifier_lock in read mode and
-> > vm->resv held.
-> > =C2=A0	 * read: vm->svm.gpusvm.notifier_lock in write mode or vm-
-> > >resv held.
-> > =C2=A0	 */
-> > =C2=A0	bool initial_bind;
-> > +
->=20
-> Unrelated.
-
-Sure. Will fix.
-
-Thanks,
-Thomas
-
-
-
->=20
-> Matt
->=20
-> > =C2=A0#if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
-> > =C2=A0	u32 divisor;
-> > =C2=A0#endif
-> > --=20
-> > 2.53.0
-> >=20
+Frank
+>
+>
+> >
+> > >
+> > > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > > ---
+> > >  arch/arm/boot/dts/nxp/imx/Makefile            |   1 +
+> > >  .../dts/nxp/imx/imx6ul-var-som-common.dtsi    |   7 +
+> > >  ...ts => imx6ul-var-som-concerto-common.dtsi} |  17 +-
+> > >  .../dts/nxp/imx/imx6ul-var-som-concerto.dts   | 312 +-----------------
+> > >  .../dts/nxp/imx/imx6ull-var-som-concerto.dts  |  17 +
+> > >  5 files changed, 33 insertions(+), 321 deletions(-)
+> > >  copy arch/arm/boot/dts/nxp/imx/{imx6ul-var-som-concerto.dts => imx6ul-var-som-concerto-common.dtsi} (95%)
+> > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
+> > >
+> > > diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
+> > > index de4142e8f3ce8..bc534d0fb1412 100644
+> > > --- a/arch/arm/boot/dts/nxp/imx/Makefile
+> > > +++ b/arch/arm/boot/dts/nxp/imx/Makefile
+> > > @@ -376,6 +376,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+> > >  	imx6ull-tarragon-slavext.dtb \
+> > >  	imx6ull-tqma6ull2-mba6ulx.dtb \
+> > >  	imx6ull-tqma6ull2l-mba6ulx.dtb \
+> > > +	imx6ull-var-som-concerto.dtb \
+> >
+> > keep alphabet order
+>
+> Ok
+>
+> >
+> > Frank
+> > >  	imx6ull-uti260b.dtb \
+> > >  	imx6ulz-14x14-evk.dtb \
+> > >  	imx6ulz-bsh-smm-m2.dtb
+> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > index 2072e8ba4d469..22b0c4e0725a5 100644
+> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > @@ -104,6 +104,13 @@ MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x03029	/* WLAN Enable */
+> > >  		>;
+> > >  	};
+> > >
+> > > +	pinctrl_i2c1: i2c1grp {
+> > > +		fsl,pins = <
+> > > +			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
+> > > +			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
+> > > +		>;
+> > > +	};
+> > > +
+> > >  	pinctrl_sai2: sai2grp {
+> > >  		fsl,pins = <
+> > >  			MX6UL_PAD_JTAG_TDI__SAI2_TX_BCLK	0x17088
+> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
+> > > similarity index 95%
+> > > copy from arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+> > > copy to arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
+> > > index d16e75164fd18..10a23ae104359 100644
+> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
+> > > @@ -1,19 +1,15 @@
+> > >  // SPDX-License-Identifier: GPL-2.0+
+> > >  /*
+> > >   * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
+> > > - * Variscite SoM mounted on it
+> > > + * Variscite SoM mounted on it, for all CPU variants.
+> > >   *
+> > >   * Copyright 2019 Variscite Ltd.
+> > >   * Copyright 2025 Bootlin
+> > >   */
+> > >
+> > > -#include "imx6ul-var-som.dtsi"
+> > >  #include <dt-bindings/leds/common.h>
+> > >
+> > >  / {
+> > > -	model = "Variscite VAR-SOM-6UL Concerto Board";
+> > > -	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
+> > > -
+> > >  	chosen {
+> > >  		stdout-path = &uart1;
+> > >  	};
+> > > @@ -144,22 +140,15 @@ MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0x17059
+> > >  		>;
+> > >  	};
+> > >
+> > > -	pinctrl_gpio_leds: gpio-ledsgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
+> > > -		>;
+> > > -	};
+> > > -
+> > >  	pinctrl_gpio_key_wakeup: gpio-keys-wakeupgrp {
+> > >  		fsl,pins = <
+> > >  			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x17059
+> > >  		>;
+> > >  	};
+> > >
+> > > -	pinctrl_i2c1: i2c1grp {
+> > > +	pinctrl_gpio_leds: gpio-ledsgrp {
+> > >  		fsl,pins = <
+> > > -			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
+> > > -			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
+> > > +			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
+> > >  		>;
+> > >  	};
+> > >
+> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+> > > index d16e75164fd18..11b45f105b7ad 100644
+> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+> > > @@ -1,320 +1,18 @@
+> > >  // SPDX-License-Identifier: GPL-2.0+
+> > >  /*
+> > >   * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
+> > > - * Variscite SoM mounted on it
+> > > + * Variscite SoM mounted on it (6UL CPU variant).
+> > >   *
+> > >   * Copyright 2019 Variscite Ltd.
+> > >   * Copyright 2025 Bootlin
+> > >   */
+> > >
+> > > +/dts-v1/;
+> > > +
+> > >  #include "imx6ul-var-som.dtsi"
+> > > -#include <dt-bindings/leds/common.h>
+> > > +#include "imx6ul-var-som-concerto-common.dtsi"
+> > >
+> > >  / {
+> > > -	model = "Variscite VAR-SOM-6UL Concerto Board";
+> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
+> > >  	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
+> > > -
+> > > -	chosen {
+> > > -		stdout-path = &uart1;
+> > > -	};
+> > > -
+> > > -	gpio-keys {
+> > > -		compatible = "gpio-keys";
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_gpio_key_back>, <&pinctrl_gpio_key_wakeup>;
+> > > -
+> > > -		key-back {
+> > > -			gpios = <&gpio4 14 GPIO_ACTIVE_LOW>;
+> > > -			linux,code = <KEY_BACK>;
+> > > -		};
+> > > -
+> > > -		key-wakeup {
+> > > -			gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
+> > > -			linux,code = <KEY_WAKEUP>;
+> > > -			wakeup-source;
+> > > -		};
+> > > -	};
+> > > -
+> > > -	leds {
+> > > -		compatible = "gpio-leds";
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_gpio_leds>;
+> > > -
+> > > -		led-0 {
+> > > -			function = LED_FUNCTION_STATUS;
+> > > -			color = <LED_COLOR_ID_GREEN>;
+> > > -			label = "gpled2";
+> > > -			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
+> > > -			linux,default-trigger = "heartbeat";
+> > > -		};
+> > > -	};
+> > > -};
+> > > -
+> > > -&can1 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_flexcan1>;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&fec1 {
+> > > -	status = "disabled";
+> > > -};
+> > > -
+> > > -&fec2 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_enet2>, <&pinctrl_enet2_gpio>, <&pinctrl_enet2_mdio>;
+> > > -	phy-mode = "rmii";
+> > > -	phy-handle = <&ethphy1>;
+> > > -	status = "okay";
+> > > -
+> > > -	mdio {
+> > > -		#address-cells = <1>;
+> > > -		#size-cells = <0>;
+> > > -
+> > > -		ethphy1: ethernet-phy@3 {
+> > > -			compatible = "ethernet-phy-ieee802.3-c22";
+> > > -			reg = <3>;
+> > > -			clocks = <&rmii_ref_clk>;
+> > > -			clock-names = "rmii-ref";
+> > > -			reset-gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
+> > > -			reset-assert-us = <100000>;
+> > > -			micrel,led-mode = <0>;
+> > > -			micrel,rmii-reference-clock-select-25-mhz;
+> > > -		};
+> > > -	};
+> > > -};
+> > > -
+> > > -&i2c1 {
+> > > -	clock-frequency = <100000>;
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_i2c1>;
+> > > -	status = "okay";
+> > > -
+> > > -	rtc@68 {
+> > > -		/*
+> > > -		 * To actually use this interrupt
+> > > -		 * connect pins J14.8 & J14.10 on the Concerto-Board.
+> > > -		 */
+> > > -		compatible = "dallas,ds1337";
+> > > -		reg = <0x68>;
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_rtc>;
+> > > -		interrupt-parent = <&gpio1>;
+> > > -		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+> > > -	};
+> > > -};
+> > > -
+> > > -&iomuxc {
+> > > -	pinctrl_enet2: enet2grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_ENET2_RX_EN__ENET2_RX_EN	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_RX_ER__ENET2_RX_ER	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_RX_DATA0__ENET2_RDATA00	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_RX_DATA1__ENET2_RDATA01	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_TX_EN__ENET2_TX_EN	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_TX_DATA0__ENET2_TDATA00	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_TX_DATA1__ENET2_TDATA01	0x1b0b0
+> > > -			MX6UL_PAD_ENET2_TX_CLK__ENET2_REF_CLK2	0x4001b031
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_enet2_gpio: enet2-gpiogrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05	0x1b0b0 /* fec2 reset */
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_enet2_mdio: enet2-mdiogrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_GPIO1_IO06__ENET2_MDIO	0x1b0b0
+> > > -			MX6UL_PAD_GPIO1_IO07__ENET2_MDC		0x1b0b0
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_flexcan1: flexcan1grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_UART3_RTS_B__FLEXCAN1_RX	0x1b020
+> > > -			MX6UL_PAD_UART3_CTS_B__FLEXCAN1_TX	0x1b020
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_gpio_key_back: gpio-key-backgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0x17059
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_gpio_leds: gpio-ledsgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_gpio_key_wakeup: gpio-keys-wakeupgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x17059
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_i2c1: i2c1grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
+> > > -			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_pwm4: pwm4grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_GPIO1_IO05__PWM4_OUT		0x110b0
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_rtc: rtcgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_JTAG_MOD__GPIO1_IO10		0x1b0b0 /* RTC alarm IRQ */
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_uart1: uart1grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_UART1_TX_DATA__UART1_DCE_TX	0x1b0b1
+> > > -			MX6UL_PAD_UART1_RX_DATA__UART1_DCE_RX	0x1b0b1
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_uart5: uart5grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_CSI_DATA00__UART5_DCE_TX	0x1b0b1
+> > > -			MX6UL_PAD_CSI_DATA01__UART5_DCE_RX	0x1b0b1
+> > > -			MX6UL_PAD_GPIO1_IO09__UART5_DCE_CTS	0x1b0b1
+> > > -			MX6UL_PAD_GPIO1_IO08__UART5_DCE_RTS	0x1b0b1
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_usb_otg1_id: usbotg1idgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_UART3_TX_DATA__ANATOP_OTG1_ID	0x17059
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_usdhc1: usdhc1grp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
+> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
+> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
+> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
+> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
+> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
+> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
+> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
+> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
+> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
+> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
+> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
+> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
+> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
+> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
+> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
+> > > -		>;
+> > > -	};
+> > > -
+> > > -	pinctrl_wdog: wdoggrp {
+> > > -		fsl,pins = <
+> > > -			MX6UL_PAD_GPIO1_IO01__WDOG1_WDOG_B	0x78b0
+> > > -		>;
+> > > -	};
+> > > -};
+> > > -
+> > > -&pwm4 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_pwm4>;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&snvs_pwrkey {
+> > > -	status = "disabled";
+> > > -};
+> > > -
+> > > -&snvs_rtc {
+> > > -	status = "disabled";
+> > > -};
+> > > -
+> > > -&tsc {
+> > > -	/*
+> > > -	 * Conflics with wdog1 ext-reset-output & SD CD pins,
+> > > -	 * so we keep it disabled by default.
+> > > -	 */
+> > > -	status = "disabled";
+> > > -};
+> > > -
+> > > -/* Console UART */
+> > > -&uart1 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_uart1>;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -/* ttymxc4 UART */
+> > > -&uart5 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_uart5>;
+> > > -	uart-has-rtscts;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&usbotg1 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_usb_otg1_id>;
+> > > -	dr_mode = "otg";
+> > > -	disable-over-current;
+> > > -	srp-disable;
+> > > -	hnp-disable;
+> > > -	adp-disable;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&usbotg2 {
+> > > -	dr_mode = "host";
+> > > -	disable-over-current;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&usdhc1 {
+> > > -	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+> > > -	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
+> > > -	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
+> > > -	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
+> > > -	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+> > > -	no-1-8-v;
+> > > -	keep-power-in-suspend;
+> > > -	wakeup-source;
+> > > -	status = "okay";
+> > > -};
+> > > -
+> > > -&wdog1 {
+> > > -	pinctrl-names = "default";
+> > > -	pinctrl-0 = <&pinctrl_wdog>;
+> > > -	/*
+> > > -	 * To actually use ext-reset-output
+> > > -	 * connect pins J17.3 & J17.8 on the Concerto-Board
+> > > -	 */
+> > > -	fsl,ext-reset-output;
+> > >  };
+> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
+> > > new file mode 100644
+> > > index 0000000000000..7c601af2657d7
+> > > --- /dev/null
+> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
+> > > @@ -0,0 +1,17 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +/*
+> > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
+> > > + * Variscite SoM mounted on it (6ULL CPU variant).
+> > > + *
+> > > + * Copyright 2026 Dimonoff
+> > > + */
+> > > +
+> > > +/dts-v1/;
+> > > +
+> > > +#include "imx6ull-var-som.dtsi"
+> > > +#include "imx6ul-var-som-concerto-common.dtsi"
+> > > +
+> > > +/ {
+> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
+> > > +	compatible = "variscite,mx6ullconcerto", "variscite,var-som-imx6ull", "fsl,imx6ull";
+> > > +};
+> > > --
+> > > 2.47.3
+> > >
+> >
+>
+>
+> --
+> Hugo Villeneuve
