@@ -2,124 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8EhFIoCUpWnXEAYAu9opvQ
+	id qAcZKMSUpWnXEAYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:45:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:46:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99641DA06F
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6571DA09D
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730C910E10F;
-	Mon,  2 Mar 2026 13:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3763810E355;
+	Mon,  2 Mar 2026 13:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="i/R9yZ6K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZWaC3KlO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MNVteQfP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EEoWOfIt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Je1CKi7B";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BFjnQfrJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B73F10E355
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 13:45:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 26B4D3F887;
- Mon,  2 Mar 2026 13:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772459131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
- b=i/R9yZ6KfbcpWMucW3SE/ogYvrv5Wtp+FqSXPggweB9idGIpKCwGaoIDZCOHK8cIQbBRIe
- /a8BmVB93z/t9Pz9RVqT7uTeIAfAsPcyH+u3nALDQ0scDniIHrz+kInR5TMowcRWK2p8CX
- 1Q2XeDksPa2n+5OwT95uf2UKeFPv3/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772459131;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
- b=ZWaC3KlO7tytB8fzvGNYtrvt9mOnuDWbyQqzKMhNBsesGZSMhiBMqIY2b2ZoRbxoHoyJAE
- 7K84oHHHKNHb+iAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772459130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
- b=MNVteQfPofnKqBG7U6LYjres8YzIicr+Kl+vAXjhFE+dN+VVyUC11LCsi3rnu+qW9gXzUV
- c/XaNQM6M1XyUdPxmGfds8SA7fz5BgG+2In7iYUNoCMv0++qVL7Ivyfu3hcJTyr7rx1SzB
- hnXmDm6Kqmsu8uIVztxJAIjIrY2YVzo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772459130;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
- b=EEoWOfIt/vpjP85FofwZ5kjK76TTwWLILLeFGUFauorAkp4QUunFbW1fBE7IsCa8V7kCXP
- VIbWLUhPFR2Td+Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0CAB3EA69;
- Mon,  2 Mar 2026 13:45:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZHJaOXmUpWmECwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 13:45:29 +0000
-Message-ID: <d251b638-2323-4d14-af14-2f15ee826a9a@suse.de>
-Date: Mon, 2 Mar 2026 14:45:29 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63C1710E355
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 13:46:40 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 622B3dsH3862797
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 13:46:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=; b=Je1CKi7BU1g688PH
+ y8YnJD8jhlgcf/vJinCIcNZBZp7jN4JeeqrslCoo1Say3NV858reSa47jjrnzn5F
+ OhbTFLL/z9F6NnPyM+K+4wzFMpsmlvj/0MOiZtjeD7CFtLoFPXYA6uv7YQddzmQ0
+ 6MZsh9rJu3gsCBizu3N/uFM7VscB1H10B+aiiTFVEtt6avA2VhHlKhkXc9g8nHmQ
+ h3fRN186VuL9iTgLXoJGEsJ9L9JChWHJUfkucQxqvUS0Cp8k63v5BL85bOJHIpyC
+ lCj2aN2UGrkrqAMC3TnER157y82X8qImmG7PRuwsifCr1hxbwUW9hJhHZ0b/uNS+
+ 3EAEhw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn9bjget0-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 13:46:39 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8cb45a6b860so325286185a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 05:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772459199; x=1773063999;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=;
+ b=BFjnQfrJw3giQwlCH6X7P0kYVfln3RduxkofPyF5+FAnnslp1x3haAuG0xVenM2IjK
+ uhlq0QkgIInet4Rf/7M2aPVue/Rw0neflZRoo65pBYjAQxpXPSZqGMwIjQx06TAJtI6I
+ PYUBCsopzlyIj9Orv36h9jcjDPapU4Md03860ZWtrhkWwcILrXYbjny1PNJO4OIsh7s/
+ T0hMQZJUIjHIEt2Ioxe/QcjwLEziDmoaSef7++3Qzl6C1IFG6G8deVLwoGY7doT6ReYz
+ 4jSKTtVuPvcxVGOZ4yqFC3r/bmIukcQgpE+rY3Bz1PFg4QDjh1zfy5lv6tQoIlEjUod2
+ +w1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772459199; x=1773063999;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=;
+ b=qGxTI9Jo4DojB/8N+19nBHU0S2BXg5EJMJ4yD+SFTfgWP5upO/eRj0GqfHapZYS3BN
+ 4uzw1EXw9RudvO41+XLBj8hM0EKbKiwPNomdC7VFeSmAyImlVx+3ivgQy+LUU3Rxs/F7
+ lxjMT6Bj+7YDoypMXxOY2xtWPg8eHKm6x2Eo6011oYhXda+YODnaxCHyAlyH3LmIZ11D
+ xth8lzjMG/fajyKTfuJdyeEquOInu2uGfQXIYq8Gb4SmLUOJrjjaNxCac6YsqViqO1h/
+ 5BqZvtn826TF68D/MF28iFCf0jezyDdogIzmkn3lExKAP/uf95EjZKLYJ35fWt3gRdZ7
+ bEpw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX05ckJ4jjCnSjoVMn4RM3dL4poyoxFyw7BTNVbqNa0RAHeRbWin3Kq1XI0s4f7A9AOgM6mqVJstuk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdREcvpZd5exLoaspwSzWl5ycVAV1GtFvIjeUH33tPb27gYAAe
+ wGwjzCHp57pY6me9G25EBlKAzYOy3O8nPdqSy5op1LRXbuegQWndwfJh8SQIpzHSUudPM4YTqII
+ gxZVqsQtqcQlsa/pj0pFf8k26HMs+o5UsE7Q/wL5b0ghyS+tHOqwT+Qm6+mAMZBuKVVWYulc=
+X-Gm-Gg: ATEYQzwtTi/iZpzq03xWtE0jghAAW3k42lg9/rfAACZAtZ+1mASZon3s87bbSYxqHVv
+ +KZe8E/lNsao8Jh6aI2hS/Jzn5Rlf8geAZgsj6QEDNJyk6OlO8RkBYzS1oX14L71hvYiVN7AFW6
+ eiEhlp1O1g4e4GvIeUQFlwdewC8pYmAPhGw6zk9OpLjT0mPcEK04NbhlirOaa0fppt0fzLO6iYM
+ YPb5ZiTGtKcVXYR4J9ZcDbIpkT9LwEbxoeRq4l7MNAb31c9X4EleCr589NipUW9cMGaq5/4mzpg
+ SZJcfYupj3Sc7iE/9e4a0Bs/migKRDC+sZIOKXVRAP67T36cg+FWj0YrzUu/1wgNWBOobi8hhSL
+ Qekv4X/JixuEk5Z19n3NaivS6e0u2Vl8aJCTjdOLSDCZnzCpNQFLE2L/1jjhFOMAMPAaC9A6BBv
+ o5+Kg=
+X-Received: by 2002:a05:620a:2806:b0:8c9:eae0:d1df with SMTP id
+ af79cd13be357-8cbc8ef417fmr1208187285a.6.1772459198574; 
+ Mon, 02 Mar 2026 05:46:38 -0800 (PST)
+X-Received: by 2002:a05:620a:2806:b0:8c9:eae0:d1df with SMTP id
+ af79cd13be357-8cbc8ef417fmr1208182885a.6.1772459197877; 
+ Mon, 02 Mar 2026 05:46:37 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b93987b9f73sm259566666b.47.2026.03.02.05.46.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2026 05:46:36 -0800 (PST)
+Message-ID: <b230815b-e169-4a3c-8c36-154deaf66afa@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 14:46:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from
- public header file
-To: Helge Deller <deller@gmx.de>, gregkh@linuxfoundation.org, sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260218083855.10743-1-tzimmermann@suse.de>
- <20260218083855.10743-14-tzimmermann@suse.de>
- <d8633caa-c01c-433c-8dd3-f300dac53a0b@gmx.de>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: fix mismatch between power and frequency
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: yuanjiey <yuanjie.yang@oss.qualcomm.com>, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, krzysztof.kozlowski@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com
+References: <20260109083808.1047-2-yuanjie.yang@oss.qualcomm.com>
+ <kusxzlezvsuwcwwdtm7yqwnqea6gdeolkepxpx3estabaiqymo@edj7pgccli3y>
+ <aWSTcI6H6+7AXkEN@yuanjiey.ap.qualcomm.com>
+ <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
+ <aWSv+kVV3G18I/NJ@yuanjiey.ap.qualcomm.com>
+ <e5ebc660-e30e-4fcd-ace6-5a6c889e9a8a@oss.qualcomm.com>
+ <4g6fyehdc3fejx3pzeysmghigazfei3jz2vmnvxrnqkkbtbxdb@bdlcddxlvbhl>
+ <cb22367a-678c-431f-9f52-33663f4af9d7@oss.qualcomm.com>
+ <jr4h4sx42dbxpknm5nkgj7ydpkivm4nglfz7ui4bjpom7wf6ub@spqb27d3ov2z>
+ <d5c4eed5-bd87-4156-b178-2d78140ec8a9@oss.qualcomm.com>
+ <w4ldxcxvcp3fz7u2zxyyjiii7lsrnoa2l6amzwpsn5a63yzotm@iawh6btqtf45>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <d8633caa-c01c-433c-8dd3-f300dac53a0b@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <w4ldxcxvcp3fz7u2zxyyjiii7lsrnoa2l6amzwpsn5a63yzotm@iawh6btqtf45>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Pe7yRyhd c=1 sm=1 tr=0 ts=69a594bf cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=v90i8EJGIdyDnMh8qEMA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: G48krH26qyGO6YTPciL_Xjq_nelEB5lr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDExNCBTYWx0ZWRfX1Jh0Tw2AfYEH
+ 53sL4EBcY5iwa4paRJGrA0cw2/H3cLce/b7hvFOo4EqS7THL15sW1L2ht+d4/B09L0IPBMf/5mI
+ h+Tv1WOBYdadoNxY2+yv8K1k6s6uhPQBT7VnfgehC2JC9RTLm17iR0hHQYPSZxbEvGFxCDCAjLh
+ lNkE7FcttCpABk9MaPwVWmY4S8NlmnyiDJGZXeuiifiFOI3ymP7iU1rcm/hdN4lD7NG48LPdds7
+ FqyS9sPDprxFpW7rfgSrO6+JfpLlflsyLZEp7WBjG4mtWCIb63/bVDEbD4gwklyTqSDI/SCZbpd
+ 13a2ZHKfTSw8ONm2ibUwoYpucFo/hNYmC2x3Kt5YGQebZTJE2udcElHAhAnAUV9hhkzBQ5w+Vjw
+ AsH0OrVh5XbWS00te2VB+CqLF0eOtC9pqm9EAvElTMbohhqRNZrjRJNZ7o7bRKzlGn1gzFoZN9H
+ IzU0a9djlv+5SG1B5Yw==
+X-Proofpoint-GUID: G48krH26qyGO6YTPciL_Xjq_nelEB5lr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_03,2026-03-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020114
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,113 +163,128 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmx.de,linuxfoundation.org,ravnborg.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:yuanjie.yang@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzysztof.kozlowski@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:tingwei.zhang@oss.qualcomm.com,m:aiqun.yu@oss.qualcomm.com,m:yongxing.mou@oss.qualcomm.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linaro.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Queue-Id: D99641DA06F
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 2C6571DA09D
 X-Rspamd-Action: no action
 
+On 3/2/26 2:28 PM, Dmitry Baryshkov wrote:
+> On Mon, Mar 02, 2026 at 11:41:59AM +0100, Konrad Dybcio wrote:
+>> On 2/27/26 8:05 PM, Dmitry Baryshkov wrote:
+>>> On Fri, Feb 27, 2026 at 12:34:04PM +0100, Konrad Dybcio wrote:
+>>>> On 2/27/26 4:48 AM, Dmitry Baryshkov wrote:
+>>>>> On Thu, Feb 26, 2026 at 02:35:52PM +0100, Konrad Dybcio wrote:
+>>>>>> On 1/12/26 9:25 AM, yuanjiey wrote:
+>>>>>>> On Mon, Jan 12, 2026 at 09:38:41AM +0200, Dmitry Baryshkov wrote:
+>>>>>>>> On Mon, 12 Jan 2026 at 08:23, yuanjiey <yuanjie.yang@oss.qualcomm.com> wrote:
+>>>>>>>>>
+>>>>>>>>> On Fri, Jan 09, 2026 at 05:22:37PM +0200, Dmitry Baryshkov wrote:
+>>>>>>>>>> On Fri, Jan 09, 2026 at 04:38:07PM +0800, yuanjie yang wrote:
+>>>>>>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
+[...]
 
-Am 23.02.26 um 16:05 schrieb Helge Deller:
-> On 2/18/26 09:16, Thomas Zimmermann wrote:
->> diff --git a/include/linux/font.h b/include/linux/font.h
->> index 4ff956a1cd0a..6e9a4c93b47b 100644
->> --- a/include/linux/font.h
->> +++ b/include/linux/font.h
->> @@ -92,20 +92,12 @@ struct font_desc {
->>   #define FONT6x8_IDX    12
->>   #define TER10x18_IDX    13
->>   -extern const struct font_desc    font_vga_8x8,
->> -            font_vga_8x16,
->> -            font_pearl_8x8,
->> -            font_vga_6x11,
->> -            font_7x14,
->> -            font_10x18,
->> -            font_sun_8x16,
->> -            font_sun_12x22,
->> -            font_acorn_8x8,
->> -            font_mini_4x6,
->> -            font_6x10,
->> -            font_ter_16x32,
->> -            font_6x8,
->> -            font_ter_10x18;
->> +#if defined(CONFIG_FONT_8x8)
->> +extern const struct font_desc font_vga_8x8;
->> +#endif
->> +#if defined(CONFIG_FONT_8x16)
->> +extern const struct font_desc font_vga_8x16;
->> +#endif
->
-> I suggest not to use all those #ifdef(CONFIG_XXX) in the header files.
-> They are not necessary, and trigger a rebuild of a whole lot C-files
-> in case one single CONFIG option is changed.
-> Instead use it in the C-files only.
-> That way (re-)compilation is faster and you still get a link/build error
-> when a symbol is used although the config option is not set.
+>>> 1.0  - old MSM8974
+>>>        I'd rather not touch it, it had bugs and I don't have HW
+>>
+>> I have reasons to believe msm8974 v1.0 never reached store shelves.
+>> Let's remove this.
+> 
+> Please send a patch ;-)
 
-Ok. I'll send out an update in a bit.
+done!
 
->
->> diff --git a/lib/fonts/font.h b/lib/fonts/font.h
->> new file mode 100644
->> index 000000000000..00f65a3da5c2
->> --- /dev/null
->> +++ b/lib/fonts/font.h
->> @@ -0,0 +1,52 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +
->> +#ifndef _LIB_FONTS_FONT_H
->> +#define _LIB_FONTS_FONT_H
->> +
->> +#include <linux/font.h>
->> +
->> +#if defined(CONFIG_FONT_PEARL_8x8)
->> +extern const struct font_desc font_pearl_8x8;
->> +#endif
->> +#if defined(CONFIG_FONT_6x11)
->> +extern const struct font_desc font_vga_6x11;
->> +#endif
-> ...
-> same here...
->
-> Helge
->
+> 
+>>
+>>> 1.1  - MSM8x26
+>>>        Probably Luca can better comment on it. Should be doable, but I
+>>>        don't see upstream devices using display on it.
+>>
+>> Because there's no iommu support for these
+> 
+> I promised to put it on my todo list, but the list is very long.
+> 
+>>
+>>> 1.2  - MSM8974
+>>>        I think it also had issues, no IOMMU support in upstream, etc.
+>>> 1.3  - APQ8084
+>>>        Had hw issues, no testing base, no MDSS in upstream DT
+>>> 1.6  - MSM8916 / MSM8939
+>>>        Can be done, low-hanging fruit for testing
+>>> 1.7  - MSM8996
+>>>        Supported in DPU
+>>> 1.8  - MSM8936
+>>>        No upsteram testing base
+>>
+>> 8936 is 39 with some CPUs fused off (unless you have info suggesting
+>> otherwise)
+> 
+> Hmm, you added 8x36 to mdp5_cfg.c, stating it is 1.8. See commit
+> 81c4389e4835 ("drm/msm/mdp5: Add MDP5 configuration for MSM8x36.")
+> Author: Konrad Dybcio <konradybcio@gmail.com>
+> 
+> Please remove it from the mdp5_cfg to avoid confusion.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+v1.6 is strictly for 8916. 8936/39 both use v1.8.
 
+>>> 1.9  - MSM8994
+>>>        No upstream testing base, no MDSS in upstream DT, normal CURSOR planes
+>>> 1.10 - MSM8992
+>>>        Even less testing base, no MDSS in upstream DT, normal CURSOR planes
+>>> 1.11 - MSM8956 / 76
+>>>        No complete display configurations upstream
+>>
+>> +Marijn, is your computer museum still running?
+> 
+> Should we open a Qualcomm Virtual Museum?
 
+Maybe someone has a drawer full of QSD8250s!
+
+> 
+>>
+>>> 1.14 - MSM8937
+>>>        Supported in DPU
+>>> 1.15 - MSM8917
+>>>        Supported in DPU
+>>> 1.16 - MSM8953
+>>>        Supported in DPU
+>>> 1.17 - QCS405
+>>>        Zero testing base, no MDSS in upstream DT
+>>
+>> No upstream MDP5 support either. And it doesn't seem like that SoC had
+>> much uses that didn't end up with the thing glued shut..
+> 
+> I saw and touched devices, but that was display-less version.
+
+Only further confirming it's not worth pursuing
+
+Konrad
