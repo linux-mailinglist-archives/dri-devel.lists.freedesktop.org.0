@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QB7lB2IcpmmeKQAAu9opvQ
+	id iNoKH2QcpmmeKQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:22 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27101E6985
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3BF1E6993
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 00:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E43910E09D;
-	Mon,  2 Mar 2026 23:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC27910E5EA;
+	Mon,  2 Mar 2026 23:25:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="IxGNiuBa";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="VSY0B1P8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A78310E076
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 23:25:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772493913; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C94010E5EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 23:25:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772493915; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=BogQtQr0xGVABOZ2DNkdB4YYDGCZZJwbjj17S5pd1YBBJAm3hK/qS2AmQSuO5z6BIl3FxNdSn8J2y20ojGUb3+AHcbLiqt+AeNRNFDR/YaWj8ad1fsa4RahQ/F5uyZKdV8xccqho5I3dXcMB8iC2oGiY0D/YSVdtLXGMQ430Q6A=
+ b=FSIBqt3cWMjAsK8XqsCqd9Ocujf84ivUN0Ic1h1mq18UaHlhTsKQy22DiqpMpwMw4KeVNl1RP88pSj3xXAnztQRYrVVNLejP292K6e85DmQm1lTur1+Eo6lumDHgZ8A9d+fng93TrjP06Y0dhHkT0dPt8z1IRCJNC30LOvrYV/k=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772493913;
+ s=zohoarc; t=1772493915;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=fEQDlRMrasKgPU5QpP7ZXP1eBZYjVkPBkfRG1OFa5Cg=; 
- b=UWbkkwr+n+p/u9UI9kMme53bJ1dwlWQ9dVjYDGXkKMye4vDVsQeVJpZsBnrrNjbvqn4nePuGwsHu3ynw2cgsBefR3rbWRTnRLHndlI4P+CnIvHjWIZFmQfHCKmBilKjyU3+PHuuoXqlhIk88BWhauzZ4u22ftwF1XecVo1+fbw8=
+ bh=HY43KfGaI/ZgxHpQugvLpiakTEg355Vk9snU7BhusEM=; 
+ b=EMMV5Dr7ypdOXko6PzWaNMQRezjhjdxJYw7gS/FCAhUYTBBhBYfd05qW70wcuQJj7NuzlLcLquo/ovQL6Jl7FKvJZlleeTanyCSU+8CgHFCgArtFVLurIe2qGRKM0373cuc+5XDvwi6SP9z5mqYtVhuggIQAvhiNC4NvJ1Jor5s=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
  dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772493913; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772493915; 
  s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=fEQDlRMrasKgPU5QpP7ZXP1eBZYjVkPBkfRG1OFa5Cg=;
- b=IxGNiuBaqwxJUhmzYJfp6uVI0G8oc41XsjVvv9Fbh1tDFhQ8f+BGDKHuRi6kFEvS
- pHrG7lVD0XYV0c+6UjieT5nxKf9icRlhWp6p+oVPG8hpS9GZvx9J/TsCSh7MKxVSBQM
- bOuu2IvuX1msM9kndBADr3NQFPh+Pvswc+KgcYdw=
-Received: by mx.zohomail.com with SMTPS id 1772493911612728.389852300208;
- Mon, 2 Mar 2026 15:25:11 -0800 (PST)
+ bh=HY43KfGaI/ZgxHpQugvLpiakTEg355Vk9snU7BhusEM=;
+ b=VSY0B1P82KVLG3Lx206+/4D8VwYzQnKUI9SLzP+eYPa1PPdo9h77jhWEMfq0y2r2
+ +jJEGfzvYMOHry2AWpjw4ko/gGPRFU/J8fFP892t2sWVdq2W0wtwVWN09WQ4eUDXnnk
+ Z+BQGZHaXGjt//gGeGOqePnv7KDItnnD6erLxC3I=
+Received: by mx.zohomail.com with SMTPS id 1772493913174510.58349943679843;
+ Mon, 2 Mar 2026 15:25:13 -0800 (PST)
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
 Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
  boris.brezillon@collabora.com, beata.michalska@arm.com, lyude@redhat.com,
  work@onurozkan.dev, Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH v2 03/12] drm/tyr: rename TyrObject to BoData
-Date: Mon,  2 Mar 2026 15:24:51 -0800
-Message-ID: <20260302232500.244489-4-deborah.brouwer@collabora.com>
+Subject: [PATCH v2 04/12] drm/tyr: set DMA mask using GPU physical address
+Date: Mon,  2 Mar 2026 15:24:52 -0800
+Message-ID: <20260302232500.244489-5-deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260302232500.244489-1-deborah.brouwer@collabora.com>
 References: <20260302232500.244489-1-deborah.brouwer@collabora.com>
@@ -70,7 +70,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A27101E6985
+X-Rspamd-Queue-Id: 0B3BF1E6993
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
@@ -97,77 +97,69 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid]
 X-Rspamd-Action: no action
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
+From: Beata Michalska <beata.michalska@arm.com>
 
-Currently the GEM inner driver data object is called `TyrObject` which
-is a fairly generic name. To make the code easier to understand,
-rename `TyrObject` to `BoData` so that the name better reflects its
-role.
+Configure the device DMA mask during probe using the GPU's physical
+address capability reported in GpuInfo. This ensures DMA allocations
+use an appropriate address mask.
 
-No functional change is intended.
-
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
 Changes in v2:
+- Move the semi-colon outside of unsafe block and reformat.
 - Pick up Reviewed-by tags.
 
- drivers/gpu/drm/tyr/driver.rs | 4 ++--
- drivers/gpu/drm/tyr/gem.rs    | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs | 9 +++++++++
+ drivers/gpu/drm/tyr/gpu.rs    | 1 -
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 4fff01478391..eccf36d601ac 100644
+index eccf36d601ac..781502c6db36 100644
 --- a/drivers/gpu/drm/tyr/driver.rs
 +++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -36,7 +36,7 @@
+@@ -11,6 +11,10 @@
+         Device, //
+     },
+     devres::Devres,
++    dma::{
++        Device as DmaDevice,
++        DmaMask, //
++    },
+     drm,
+     drm::{
+         driver::Registration,
+@@ -134,6 +138,11 @@ fn probe(
+         let gpu_info = GpuInfo::new(pdev.as_ref(), &iomem)?;
+         gpu_info.log(pdev);
  
- use crate::{
-     file::TyrDrmFileData,
--    gem::TyrObject,
-+    gem::BoData,
-     gpu,
-     gpu::GpuInfo,
-     regs, //
-@@ -182,7 +182,7 @@ fn drop(self: Pin<&mut Self>) {}
- impl drm::Driver for TyrDrmDriver {
-     type Data = TyrDrmDeviceData;
-     type File = TyrDrmFileData;
--    type Object<R: drm::DeviceContext> = drm::gem::Object<TyrObject, R>;
-+    type Object<R: drm::DeviceContext> = drm::gem::Object<BoData, R>;
++        // SAFETY: No concurrent DMA allocations or mappings can be made because
++        // the device is still being probed and therefore isn't being used by
++        // other threads of execution.
++        unsafe { pdev.dma_set_mask_and_coherent(DmaMask::try_new(gpu_info.pa_bits())?)? };
++
+         let uninit_ddev = UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref())?;
+         let platform: ARef<platform::Device> = pdev.into();
  
-     const INFO: drm::DriverInfo = INFO;
- 
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 0c488984d2ec..87f3890e4be6 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -15,9 +15,9 @@
- 
- /// GEM Object inner driver data
- #[pin_data]
--pub(crate) struct TyrObject {}
-+pub(crate) struct BoData {}
- 
--impl gem::DriverObject for TyrObject {
-+impl gem::DriverObject for BoData {
-     type Driver = TyrDrmDriver;
-     type Args = ();
- 
-@@ -26,6 +26,6 @@ fn new<Ctx: DeviceContext>(
-         _size: usize,
-         _args: (),
-     ) -> impl PinInit<Self, Error> {
--        try_pin_init!(TyrObject {})
-+        try_pin_init!(BoData {})
+diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+index a88775160f98..5d9637899c7d 100644
+--- a/drivers/gpu/drm/tyr/gpu.rs
++++ b/drivers/gpu/drm/tyr/gpu.rs
+@@ -139,7 +139,6 @@ pub(crate) fn va_bits(&self) -> u32 {
      }
- }
+ 
+     /// Returns the number of physical address bits supported by the GPU.
+-    #[expect(dead_code)]
+     pub(crate) fn pa_bits(&self) -> u32 {
+         (self.mmu_features >> 8) & genmask_u32(0..=7)
+     }
 -- 
 2.52.0
 
