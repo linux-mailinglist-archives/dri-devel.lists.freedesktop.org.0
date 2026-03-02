@@ -2,125 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OMZhHcynpWngCwAAu9opvQ
+	id MDeqFiWopWngCwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:07:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:09:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F2E1DB740
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23B91DB7C1
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E12310E520;
-	Mon,  2 Mar 2026 15:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 687FD89153;
+	Mon,  2 Mar 2026 15:09:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=yngvason.is header.i=@yngvason.is header.b="XTK0VG55";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XjIrwnx5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E44E410E520
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:07:50 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-64c9ebd1369so3886479d50.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 07:07:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772464070; cv=none;
- d=google.com; s=arc-20240605;
- b=LgOj4GV4LH27ksgN6vGBn9N3rARgUuXZ/TsLFzDhXSnACC5VHEvu48WuDv41r0HRIJ
- GPAwIsaVc7LuH16FMq0rwaZeBA4ZuJzuRAX61h4kQZjkxVwvLyL4Gh0EMIACSGzmBCE6
- C3BlqteX61jpqxJvIJ7nmf8K9Dzi5EMjWGKetWWMMXeD8gAByLu0/37yrYg8gh+RBjsX
- l+LO6ujTODZnEjlAJmozGACQxreM5Q6jpIATFQ0mZEkkfIZQP+LInsjWZ6ZAGd7zturk
- mZvqtek544K41T2g+9/kbZi0zrpYmHNEZVT1Xe9FhdWIedb+z6jGwW9oK1PMFnndnLXx
- +SOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
- fh=KXsCS4b+k9k2OcNDrUTOxTQpZ7IqsIW3HIWZQebmHkE=;
- b=j5gLh4tSWujbY/emRY6weFf1MeFjzWS5AMfM0uwyOsYq2DKrs+cS1tx5aGUR5196o+
- Q7zxTxzrgOv+/z4VxLFW6pOqZDPw+W+3K89qulfFClT3mRazNx3U7v4ns+6VnNkTdOww
- HYWsLqrn2Tlx+QNJTdbKeHKI7+FjatDm9QrB4AHR01vrLxBNgWWy9AzUfm+9Zg0JW+UY
- 6LL/qLKMeBLwOh8K7YSUgHqoL05jLf40EwN8bQQKDBSFJihTHiFBLzCcWUFOVJUfFU3o
- 0i/bI0TtF+8GHha/GtRP1xcH//qauAuvo1RlkWIi5malH2Y8qas9yfxTUn31VNXK1Ohr
- n3yg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yngvason.is; s=google; t=1772464070; x=1773068870; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
- b=XTK0VG55hePAbMb19t8yRWiq0ocGIb6Q0hk42Co9/9oi++86Oelhu532rQObN6hH+a
- deT+Bgi2MDiDubVofKCtSe9Tbbm5cHrzXGqPke44mMqiFFD40kp7hiNFE7dg9c3VHrgF
- 2SYctykfde//3kG9NAYjUK1c8X5qikuArzis8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772464070; x=1773068870;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
- b=Gwer2G9kr5q9Aa9FuvE9s7ZC46UK2hIN3Jhi1H05E03xRvMswFzUVi2pbySZwj5WRx
- awJ2cFOJH5FoT+bfWqSF0qetradhY6b/60qVAP2jSkjVeUCVhwXHBbayq2JvAVj79o2o
- nNk7t9fJdrkYJ9y24PuhwZnxYffvQdLNadQKq3HNZPeF36WjcpNzaAK0cJTuRkt6bYyX
- U1D/j0aBrjhaEY/ArMzdDDR3ITRqTo39UaKLXu1TxU00o48TaCA8cYYRNcfVjq75qid7
- hNxyZGbFuTSpiDdYi9gvfGeB8MDM7T3iX1LbQ3rBA5zXsmHTE4er9n2Ar1m/flaZhCni
- WleA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiLMsQsU1WckZoUp0O/wp5Th2WFwjigKlrR7a0nXRmeHgj0+8QpseBO2QJbYlP9j03QgzSpBmAOpE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+j1ooINevHK2XlEMEsA/QLGFCwQ2iZFAL/+S3IZ0L1nrNcUFv
- E47tQbycRGgg6ZNKXlxE9283+X+rtjPawbG4Otex5pRPH7Ajm0fii5JO5FZX6kgZYgVRv9E0Qjn
- QFPgkyWXzz9mO5gXV7TK4rjuX2UdGJYYGDy00/Kcqzw==
-X-Gm-Gg: ATEYQzxUrGquj86+kbYV4FII/rEP+vacnzrS7cHac/hwjRZ2NYkp1G14NlVA4ynYt3z
- TprH6ecnuBPhLW657WSDEP3f25PH6AUqWRnojhxQutRsBrJOTpvc+dbqb0PJdnhao6KsuFYUpTR
- STKT355wF6Cz42upGZuNlbCEXtWcTDFZIJRg41RKTWPdizBbnEElu+QZrU1QOkdBMN49uFfD0b9
- MEbljmTz6HL1nTErB9O/r8Kr0XYGu0m0onoTFiOjJ8mIzdF8uDQIW7OmRk0iYOzUpPy3WI/xbXe
- NeLZEtVzkjAATxySSV2Ig+y8hf9fb2j8iTqBrn8=
-X-Received: by 2002:a53:ab0a:0:b0:64c:c1b6:714c with SMTP id
- 956f58d0204a3-64cc2379297mr8671268d50.70.1772464069335; Mon, 02 Mar 2026
- 07:07:49 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269A789153
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=diqmFZJoieYJw79Zu0FyzOxk6KbsVjc/pkMqJvLgG2I=; b=XjIrwnx55exUbIhDFQLw6OJxA5
+ 3cwkhAvTER77dbY1nwKoNHYz4CBO1Hcx68rirfvUpGwt8mgzJR5tnBazdrc2gbIRYf2tYnaq6+zKP
+ +VYMeg7h/nzhQa2fK6UGnUJRF5mprDLIZgDVfLMJGF4SsuZn8WZ0ANaWgsyZeIuwvepzP6bKHTd7n
+ CO84afoMG8yv4w47qj/Z5CS+Li+4AM+pM3Gu5Zx5EF9swjzZ3CvWbyXv+gIMfV+or6T1YewocmgwM
+ bSHTTBJMQtDCLHkeXCLIKEibrP0uxUHI4RGlboz6u3qY9+TMCe0wDxO2MPDPHORmA6Aii4ONfDoG3
+ RN0q+Oqw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vx4tA-007wTQ-1O; Mon, 02 Mar 2026 16:08:52 +0100
+Message-ID: <777db230-9fd8-4c2f-87bf-75d9733eaf88@igalia.com>
+Date: Mon, 2 Mar 2026 15:08:50 +0000
 MIME-Version: 1.0
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
- <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
- <5081457.31r3eYUQgx@workhorse>
-In-Reply-To: <5081457.31r3eYUQgx@workhorse>
-From: Andri Yngvason <andri@yngvason.is>
-Date: Mon, 2 Mar 2026 15:07:12 +0000
-X-Gm-Features: AaiRm531VbuvPlDMvL8ehAEpeh4QP_0yXJbIL2OEHZWnP0es8QNn2W0TYwz5fEU
-Message-ID: <CAFNQBQymuv0roy_xupcgU1bHygfBeE3S1FepQYxpobLq8O0yEA@mail.gmail.com>
-Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/6] drm/ttm: Extract code for attempting allocation in
+ a place
+To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
+ Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Werner Sembach <wse@tuxedocomputers.com>,
- Marius Vlad <marius.vlad@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
+ <20260302-dmemcg-aggressive-protect-v5-3-ffd3a2602309@gmx.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260302-dmemcg-aggressive-protect-v5-3-ffd3a2602309@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,58 +74,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 14F2E1DB740
+X-Rspamd-Queue-Id: A23B91DB7C1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[yngvason.is,quarantine];
-	R_DKIM_ALLOW(-0.20)[yngvason.is:s=google];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:nicolas.frattaroli@collabora.com,m:dmitry.baryshkov@oss.qualcomm.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:lumag@kernel.org,m:s.hauer@pengutronix.de,m:robh@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:kernel@collabora.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop
- .org,m:linux-doc@vger.kernel.org,m:wse@tuxedocomputers.com,m:marius.vlad@collabora.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:tursulin@ursulin.net,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[andri@yngvason.is,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[41];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[yngvason.is:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andri@yngvason.is,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,tuxedocomputers.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.844];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,yngvason.is:dkim,yngvason.is:email,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,igalia.com:email,gmx.de:email]
 X-Rspamd-Action: no action
 
-Hi Nicolas,
 
-Thanks for carrying this forward.
+On 02/03/2026 12:37, Natalie Vock wrote:
+> Move all code for attempting allocation for a specific place to
+> ttm_bo_alloc_place. With subsequent patches, this logic is going to get
+> more complicated, so it helps readability to have this separate.
+> 
+> ttm_bo_alloc_at_place takes a pointer to a struct ttm_bo_alloc_state.
+> This struct holds various state produced by the allocation (e.g. cgroup
+> resource associated with the allocation) that the caller needs to keep
+> track of (and potentially dispose of). This is just the limiting cgroup
+> pool for now, but future patches will add more state needing to be tracked.
+> 
+> ttm_bo_alloc_at_place also communicates via return codes if eviction
+> using ttm_bo_evict_alloc should be attempted. This is preparation for
+> attempting eviction in more cases than just force_space being set.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 104 +++++++++++++++++++++++++++++++++----------
+>   1 file changed, 81 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index acb9197db8798..3e62cab51f870 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -489,6 +489,11 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+>   	return ret;
+>   }
+>   
+> +struct ttm_bo_alloc_state {
+> +	/** @limit_pool: Which pool limit we should test against */
+> +	struct dmem_cgroup_pool_state *limit_pool;
+> +};
+> +
+>   /**
+>    * struct ttm_bo_evict_walk - Parameters for the evict walk.
+>    */
+> @@ -504,12 +509,13 @@ struct ttm_bo_evict_walk {
+>   	/** @evicted: Number of successful evictions. */
+>   	unsigned long evicted;
+>   
+> -	/** @limit_pool: Which pool limit we should test against */
+> -	struct dmem_cgroup_pool_state *limit_pool;
+>   	/** @try_low: Whether we should attempt to evict BO's with low watermark threshold */
+>   	bool try_low;
+>   	/** @hit_low: If we cannot evict a bo when @try_low is false (first pass) */
+>   	bool hit_low;
+> +
+> +	/** @alloc_state: State associated with the allocation attempt. */
+> +	struct ttm_bo_alloc_state *alloc_state;
+>   };
+>   
+>   static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
+> @@ -518,8 +524,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+>   		container_of(walk, typeof(*evict_walk), walk);
+>   	s64 lret;
+>   
+> -	if (!dmem_cgroup_state_evict_valuable(evict_walk->limit_pool, bo->resource->css,
+> -					      evict_walk->try_low, &evict_walk->hit_low))
+> +	if (!dmem_cgroup_state_evict_valuable(evict_walk->alloc_state->limit_pool,
+> +					      bo->resource->css, evict_walk->try_low,
+> +					      &evict_walk->hit_low))
+>   		return 0;
+>   
+>   	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
+> @@ -561,7 +568,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   			      struct ttm_operation_ctx *ctx,
+>   			      struct ww_acquire_ctx *ticket,
+>   			      struct ttm_resource **res,
+> -			      struct dmem_cgroup_pool_state *limit_pool)
+> +			      struct ttm_bo_alloc_state *state)
+>   {
+>   	struct ttm_bo_evict_walk evict_walk = {
+>   		.walk = {
+> @@ -574,7 +581,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+>   		.place = place,
+>   		.evictor = evictor,
+>   		.res = res,
+> -		.limit_pool = limit_pool,
+> +		.alloc_state = state,
+>   	};
+>   	s64 lret;
+>   
+> @@ -689,6 +696,58 @@ static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
+>   	return dma_resv_reserve_fences(bo->base.resv, 1);
+>   }
+>   
+> +
+> +/**
+> + * ttm_bo_alloc_at_place - Attempt allocating a BO's backing store in a place
+> + *
+> + * @bo: The buffer to allocate the backing store of
+> + * @place: The place to attempt allocation in
+> + * @ctx: ttm_operation_ctx associated with this allocation
+> + * @force_space: If we should evict buffers to force space
+> + * @res: On allocation success, the resulting struct ttm_resource.
+> + * @alloc_state: Object holding allocation state such as charged cgroups.
+> + *
+> + * Returns:
+> + * -EBUSY: No space available, but allocation should be retried with ttm_bo_evict_alloc.
+> + * -ENOSPC: No space available, allocation should not be retried.
+> + * -ERESTARTSYS: An interruptible sleep was interrupted by a signal.
+> + *
+> + */
+> +static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+> +				 const struct ttm_place *place,
+> +				 struct ttm_operation_ctx *ctx,
+> +				 bool force_space,
+> +				 struct ttm_resource **res,
+> +				 struct ttm_bo_alloc_state *alloc_state)
+> +{
+> +	bool may_evict;
+> +	int ret;
+> +
+> +	may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> +
+> +	ret = ttm_resource_alloc(bo, place, res,
+> +				 force_space ? &alloc_state->limit_pool : NULL);
+> +
+> +	if (ret) {
+> +		/*
+> +		 * -EAGAIN means the charge failed, which we treat like an
+> +		 * allocation failure. Therefore, return an error code indicating
+> +		 * the allocation failed - either -EBUSY if the allocation should
+> +		 * be retried with eviction, or -ENOSPC if there should be no second
+> +		 * attempt.
+> +		 */
+> +		if (ret == -EAGAIN)
+> +			return may_evict ? -EBUSY : -ENOSPC;
+> +
+> +		if (ret == -ENOSPC && may_evict)
+> +			return -EBUSY;
+> +
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   /**
+>    * ttm_bo_alloc_resource - Allocate backing store for a BO
+>    *
+> @@ -725,9 +784,8 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   
+>   	for (i = 0; i < placement->num_placement; ++i) {
+>   		const struct ttm_place *place = &placement->placement[i];
+> -		struct dmem_cgroup_pool_state *limit_pool = NULL;
+> +		struct ttm_bo_alloc_state alloc_state = {};
+>   		struct ttm_resource_manager *man;
+> -		bool may_evict;
+>   
+>   		man = ttm_manager_type(bdev, place->mem_type);
+>   		if (!man || !ttm_resource_manager_used(man))
+> @@ -737,25 +795,25 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>   				    TTM_PL_FLAG_FALLBACK))
+>   			continue;
+>   
+> -		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
+> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
+> -		if (ret) {
+> -			if (ret != -ENOSPC && ret != -EAGAIN) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				return ret;
+> -			}
+> -			if (!may_evict) {
+> -				dmem_cgroup_pool_state_put(limit_pool);
+> -				continue;
+> -			}
+> +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
+> +				res, &alloc_state);
+>   
+> +		if (ret == -ENOSPC) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			continue;
+> +		} else if (ret == -EBUSY) {
+>   			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
+> -						 ticket, res, limit_pool);
+> -			dmem_cgroup_pool_state_put(limit_pool);
+> +						 ticket, res, &alloc_state);
+> +
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +
+>   			if (ret == -EBUSY)
+>   				continue;
+> -			if (ret)
+> -				return ret;
+> +			else if (ret)
+> +				return;
 
-m=C3=A1n., 2. mar. 2026 kl. 12:36 skrifa=C3=B0i Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com>:
->
-> On Sunday, 1 March 2026 17:47:48 Central European Standard Time Dmitry Ba=
-ryshkov wrote:
-> > On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
-> > > From: Andri Yngvason <andri@yngvason.is>
+return ret;
 
-N.b. this patch was originally from Werner Sembach, but it has grown
-considerably since either of us touched it, so I think that
-Co-developed-by tags would be more appropriate here.
+Regards,
 
-Best regards,
-Andri
+Tvrtko
+
+> +		} else if (ret) {
+> +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+> +			return ret;
+>   		}
+>   
+>   		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
+> 
+
