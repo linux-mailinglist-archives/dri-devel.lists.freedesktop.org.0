@@ -2,109 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILaBNKZTpWnR9AUAu9opvQ
+	id 0OsHN59UpWnR9AUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:08:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:13:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBE71D5468
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422A11D559E
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 10:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7313A10E466;
-	Mon,  2 Mar 2026 09:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CE810E467;
+	Mon,  2 Mar 2026 09:13:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ls3MwxnS";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OeRxCPms";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fzf41Olr";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HAFzpTBt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC31210E466
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 09:08:50 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2901210E233
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 09:12:58 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6226h9P32504591
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 09:08:50 GMT
+ 6227Y75K3458026
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 09:12:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Gwaj2fAAVlaePOzG7WDXhDqR0zvBqc8L7FKmuItcwFw=; b=Ls3MwxnSvG7BIlnK
- IyfnLH5p9oe0dLepe1a+nqOGmpRu/4qG+sSO2gKmIHFKo06/ya1XPUOlwIW8eJLo
- 2pI6ZrmU7TWboPLUzkOpLJrZS0MdecFq3rnqNKndUzd3HTHAzh2h05tEBXCHKNWw
- UUnXHYIFMOHVnoduZQXFCNyXoMdMckQOumOzGjKlJMap5hlsoeJjDo95nd5KKVrk
- MLS5arA2twyVRrIQrypnewUMTD/4e7RD6eerC/2c4QVVBBTiAfeeZg5qDvJoZUCv
- 4ZHwYUF9OM8jLqjubqvJqSVdZEqjaym+yMXm0R4xenGrRwgqPN/2Bum3YHPUdqNR
- Hf4F2A==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn5herh9p-1
+ RUKup/XfO3qrGbQJzWHbBXV03Pa7ritqjhXq2ej50ho=; b=fzf41OlrSKkpQ6wi
+ cPQXO5M+H1/gKBOaYXUE9BMMfcSeGx6uEDuGZwsV6Lq/my7EBWG7XVuLcNdZVZOB
+ tSNDpjP9FtPPM6iRJHZNHDS+OOflGy+z5cH3tFGhNqlwtxYdGJW5wbNWdZTgWQOk
+ V1kdZnXxUtPv83ZpKQnB8FeCY9+wu6Mxz4I2dyAN6IX6diuuKNaFkAlazxJdsoaw
+ gYzC3Kk1n4VHbhHDUmxRT4knmV/BOZd0Lbb80uMjPOqswfxyFGS+h51ftHuBN74E
+ QHtVo1SnCm+zRdOYV2YUkcg2ExftgfTOXynvwoGd2evfkuzDo09ACqGAovNTqVLA
+ fk8GnA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksfyvuvq-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 09:08:50 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-8274bf81f2eso1118161b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 01:08:50 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 09:12:57 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-35979a03106so1895208a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 01:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772442530; x=1773047330;
+ d=oss.qualcomm.com; s=google; t=1772442776; x=1773047576;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Gwaj2fAAVlaePOzG7WDXhDqR0zvBqc8L7FKmuItcwFw=;
- b=OeRxCPmsTKHvNdskKUQtvc1CG8wSioCghuKvO/g/hwmaOknxG3x9EAQhRxfpyvMEoD
- NUc55r6NtOj8j7AiztAQq+UsyfTP3qMwaCE9Cc0kOJAbu6suveKPLvSI26zELaYWVbGk
- Db1Y9W/jHzNH30upHtAFc/NBCtXnKZerxOLdfgsnyemRJ9VmYrQPaSDOiWqX9qqY01cf
- CNp7OiBF0rnrZwmwNK5ee6CWueoNuKq5o3SHUKivzMGWAfXF0GidbDknIa/uIh/cp2bo
- 24en9lhIVURMx9gpec03O9Ud+GPN31pwqs+mexmPcycbQaOICTUZbEafPOFezA+I6Scl
- InbA==
+ bh=RUKup/XfO3qrGbQJzWHbBXV03Pa7ritqjhXq2ej50ho=;
+ b=HAFzpTBtfrZkR5eNJtGiv6U0sn8UrooBMnyCmzN7VzPZ35KJ4HE3EjPPoJtAc0YS0T
+ Vf1PF1NkOaeDzxw9AtcirjJ97TUiDpVYfnn4GcDOPqc0wjCa2gkYUNqoqPi7aXVbpTKh
+ VtsnEfPRn70so2W54IWR46a59JV4BRON/yhqgK/nT/PrEbFIbWcc9l3Nb3MbxSUMguaG
+ YM2cPhPUOkpLn/Xb7DhgvsGmypYFBFoSJFnGl+PizKWhJdFeeSqa+q4gVzZUCaZ2cQKd
+ JFPO3uTWYiTW2P4P/Nnnja1AsJPuLQFBVpuPLnLaicnwmriN8KYmivB7EMH70UKm4yh0
+ dp7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772442530; x=1773047330;
+ d=1e100.net; s=20230601; t=1772442776; x=1773047576;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Gwaj2fAAVlaePOzG7WDXhDqR0zvBqc8L7FKmuItcwFw=;
- b=qAbE/iWk5xOlSupl28fc36ZLPM6OhQmSByaF1kLBL+JAJbJYienLIweRUyvMchroNP
- C4++Tyv++5P6L+xCeNDfEWqxj+M4qw0mvct50Nk/twrdM5HXhFvDnRPwbSHpsGdbIemY
- Kh255j9WFEgBlfBW9mlOz2bsWcwO7RLiOyT0+x9S/OkIyX7Y9vClojjO8I/pwofCdaSl
- QUnHKAMAu+JmFNUfQQgayBwuWBD/AzEzCHu1gOZZ2zSZM4WARWOX4M9cT/uJnZPlBFqQ
- qYyWq1M3cPsiNVpJnL3IXa/szFJbbdaeTVkXKT6aeIfhqWOXD8IajOZDvkUeuIPeyJdL
- ju6A==
-X-Gm-Message-State: AOJu0Yw2YjAhVbJIwaR1PLdaHgloLkhXwZ0JXU8ITB0WCQgnYDZjoWGN
- LBtl8GpBOgBhLOuXhGhvDd1gBWsY4k9JLHavDdn+2wQvJPr9LYqkCezrRv0hom37yegjD6H7QBb
- cuPGnHLxZ0cOW6AyNLx2G44VbC7o0spXMPq1fSAiwWEprX1M+yctab4MIzDk4d+1xgs5LwuA=
-X-Gm-Gg: ATEYQzw6+oss58/TeFrNKPiH7C0Mo7ZxPssmUjnfnGcN8VIrSKEGBCkIPfh2wbv+D7/
- h0rvXlmZpZUTl9XpD+A3zoT8b588Ia/7AW9O/H9pqyMZUNYVyK3ZfjQb1qBTY5ha5Xl2XSlVZZY
- 2oIbEEPaVkhiTugerAr8CYSDbmFofv3DnwS3FBpwMD0umqrFLLbKk+EqixrB179h9OsQyt1cudl
- y61hW+njHXG+ycKTkBiITMehgmTzOMQ5QDL1imBe8mZvM1oHhE29uX2SntSX7XnCi9Lj1YG9y8r
- 8RDO+xtuEyBD2mEOoQ6S/6XBCRe+VW2rd0Ycn15NrloW5AsaqWJySnzS2bKxS14M7xzXeY/n5BP
- r7XQSgV6I8L8WjPxdF1U69cnoZSbqib/lrEBcVrZioQcr99FMJQ==
-X-Received: by 2002:a05:6a00:22d2:b0:81f:5238:5560 with SMTP id
- d2e1a72fcca58-8274d93af23mr10970996b3a.13.1772442529573; 
- Mon, 02 Mar 2026 01:08:49 -0800 (PST)
-X-Received: by 2002:a05:6a00:22d2:b0:81f:5238:5560 with SMTP id
- d2e1a72fcca58-8274d93af23mr10970955b3a.13.1772442529070; 
- Mon, 02 Mar 2026 01:08:49 -0800 (PST)
+ bh=RUKup/XfO3qrGbQJzWHbBXV03Pa7ritqjhXq2ej50ho=;
+ b=BcHyvjaqX5H8l0fYVZnuXyrZsrxG/oBfJkdDfbOpR3Gf5JGnHzBOTxCjWeZn7xIJhp
+ nM3l6wji/XxAW0u4spDZ8AdM7VePN1N0lnwhSK/GFkTkNN9GzlOTp6PLX0ZjmzUh9TFs
+ XZQ+cFysRfyXplZF2YsgvxE30xNCTS/ezM7ZvfhgBGAZe8r4fW6jSesXarpHuYq1PzxA
+ oz5cLSfJrPwZQJnWcXd2iSMDV9OitSZMXtqoPUva3I9tCjR+pEqM5+4QejFT+mtyYyqv
+ RD8P1H9viM4mVIok/HWD475Y2U0nfUkcLUfULudqNinWTPZh7DI1IwrlyWO18TaTxUzb
+ sM3A==
+X-Gm-Message-State: AOJu0YwyBHUv+KuouqcCL2Brt9bhW6JxYJFvbTzDz6WwXA222RuAS07c
+ HSYBdV3qsD9mtLeLsyC5CxLjgyyhhEouOUijXa00DsSLH2tYtuTp8H58igES2I9WauMTMFVfZBP
+ mKpUEShCOpdwFbIuHVV9xD9jEgU2Bei6XdcLs0vtkcy6DiH+/EuQwJtnjlOJsNBQz+U0/yTM=
+X-Gm-Gg: ATEYQzytq9n79UBYBvTWq0tDW6qIbNWlVp09RI+fQg4UaKWh7b6+DshPI3bwPpeGY0P
+ 75dzqWkXIt4ILCkrryXPfZlPA2AbodkQB7LI/xQqrNQn4lCHviMSgjOV1GOvyJmOmdY6Ls9ixJ6
+ 17sady3TZhAJMwqXn8cQDgkZhYKFUTNFxmv5Ih3R9jiItNhBXn7wqtZKSSY/+FbI/DtfoXfcX3U
+ NlRQMNDDe/3k6v1c72+KLWL9T8Az+QzCoMYOho+LNSZstn2bR59wgIveNBiA9uc7V8F8GsepX+u
+ bOwOjo/aXfU3VAs5/5Eo/v+cbxIXui6AKOSYR5PVLiJPL2lfGw3/miIcU5Kn2kMyj9USoSo9hXq
+ 2Rvj1pfyTI537NYiCN228/qnXm3Mpa335Onek2NX20AZYwuL6Xw==
+X-Received: by 2002:a17:902:d58b:b0:2ae:5655:b16 with SMTP id
+ d9443c01a7336-2ae56551006mr12820435ad.21.1772442776081; 
+ Mon, 02 Mar 2026 01:12:56 -0800 (PST)
+X-Received: by 2002:a17:902:d58b:b0:2ae:5655:b16 with SMTP id
+ d9443c01a7336-2ae56551006mr12820065ad.21.1772442775550; 
+ Mon, 02 Mar 2026 01:12:55 -0800 (PST)
 Received: from [10.206.99.28] ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-82739ff1c9esm13696576b3a.32.2026.03.02.01.08.42
+ d9443c01a7336-2adfb5b0691sm178825005ad.11.2026.03.02.01.12.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2026 01:08:48 -0800 (PST)
-Message-ID: <a46bd6ea-ec33-431a-bcc2-1ade0b40c5ce@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:38:41 +0530
+ Mon, 02 Mar 2026 01:12:54 -0800 (PST)
+Message-ID: <4abcb402-8d57-4bd3-ab8f-3a96c11b3410@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 14:42:47 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 11/18] accel/qda: Add GEM_CREATE and GEM_MMAP_OFFSET
- IOCTLs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH RFC 16/18] accel/qda: Add FastRPC-based DSP memory mapping
+ support
+To: Krzysztof Kozlowski <krzk@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  iommu@lists.linux.dev, linux-media@vger.kernel.org,
@@ -114,35 +115,35 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Bharath Kumar <quic_bkumar@quicinc.com>,
  Chenna Kesava Raju <quic_chennak@quicinc.com>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-11-fe46a9c1a046@oss.qualcomm.com>
- <d620fb9b-3e52-412c-b687-4b464615430e@amd.com>
+ <20260224-qda-firstpost-v1-16-fe46a9c1a046@oss.qualcomm.com>
+ <fd7a2ac7-796a-4cdb-a55f-91e42f08109c@kernel.org>
 Content-Language: en-US
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <d620fb9b-3e52-412c-b687-4b464615430e@amd.com>
+In-Reply-To: <fd7a2ac7-796a-4cdb-a55f-91e42f08109c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=BI++bVQG c=1 sm=1 tr=0 ts=69a553a2 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3OCBTYWx0ZWRfX2o9elF+Lgogr
+ eb5gYicF+CwdJv0k52Kvln+XCiNMIdpUjm96/NK3dywB8cysyDrXcUarkQmxlAXKvRazC1UWKKY
+ dY6evadWrIoJAofQlxz9VXonwQsroYgOXe80kEqvAnWcKXVSV4Ir8RjgEIRtvTchIZhq4LPzlXg
+ Dbn8ZVfM/sW1nTWwnYZY8XmKMRG8o7XqOajubo8xs4O6C1JteJpiVgVgR/Bgkw9xXhMbMrEJTnD
+ 2DAHWYIGTjz1U2RAB91Ra/C5Ugr7Ry3yRXqQJqcvppKfCh5SEu0IMa9siG7h76dvPgFMd3WD1rx
+ OtWRx43o4GztJ3TrufTB3pyL7vJF5sqEoIMZ8ZFCDq7bD0k67TKBzw846iKbPK53r1Lzr1lJozc
+ UNTNBAlq93oWWUxcx16G7uRRE79hWgAiQIYmmpikPwmihaCYIgvewolCjm15nX5ffYvkvdzhV9G
+ Yw9EI8qJpKyliPzoABQ==
+X-Authority-Analysis: v=2.4 cv=avS/yCZV c=1 sm=1 tr=0 ts=69a55499 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=ukUgU1k7PXLouMuqi7QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: Ou-DvxP3NuxRjwUnEb-PWBD0Mp3me90c
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3OCBTYWx0ZWRfXyx1c5eNj8QcQ
- oILqxQTwGSfMP50VtNQUaGiMxtHiEJv2nBhQu4Lo7K3HV9/YIhM3rFoJivFwVMLVgzDRxH6KnWP
- e/rDxr1qlcZizBjVaYzyDw9BBK8W1sR8cqDKXhPVw/XC4Ve98NbGkWyzPpANO4B80mI0aZKuw0K
- 3Cs3Q+46P/t4Cmi6T0e34otlW9ZGvY5WMGVDgwy3BKqkibnBbjFuktQngJNrpECrl5f31pvgsk/
- XlRwQNIVgdm2p/GCCUn2XixYRP46q6VkNpMEA5ZD+0ZecaR9oJn447emJorMxMY/d55OmRm/uFJ
- PhZ/ieOd5v1hg3ZIP7dmdGrMIKu73tu3fmZwYAIcwPHHpSjmMjaHdIjixUgHiu4ndXFO5YxsWri
- 6OsHAsrjXItI4EQWFoqmvk9YyC+2Ox0gXfon0JpZu/1jrhfY4uqbFfARYFnTeS2XXEnN1rv5eTz
- 7AFZX9SfTkSKgVIMfJw==
-X-Proofpoint-ORIG-GUID: Ou-DvxP3NuxRjwUnEb-PWBD0Mp3me90c
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=A3mkvOHymaTnmgbQ1zAA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: ElRf-ykgCDjyk_Je5GtrVeYPJev9tD86
+X-Proofpoint-ORIG-GUID: ElRf-ykgCDjyk_Je5GtrVeYPJev9tD86
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 phishscore=0
- spamscore=0 adultscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 clxscore=1015 suspectscore=0
+ phishscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020078
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -168,12 +169,12 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:srinivas.kandagatla@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org];
+	FREEMAIL_TO(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -191,36 +192,57 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3EBE71D5468
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 422A11D559E
 X-Rspamd-Action: no action
 
 
 
-On 2/24/2026 2:35 PM, Christian König wrote:
-> On 2/23/26 20:09, Ekansh Gupta wrote:
-> ...
->> +int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv)
->> +{
->> +       struct drm_qda_gem_mmap_offset *args = data;
->> +       struct drm_gem_object *gem_obj;
->> +       int ret;
->> +
->> +       gem_obj = qda_gem_lookup_object(file_priv, args->handle);
->> +       if (IS_ERR(gem_obj))
->> +               return PTR_ERR(gem_obj);
->> +
->> +       ret = drm_gem_create_mmap_offset(gem_obj);
->> +       if (ret == 0)
->> +               args->offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
->> +
->> +       drm_gem_object_put(gem_obj);
->> +       return ret;
-> You should probably use drm_gem_dumb_map_offset() instead of open coding this.
+On 2/26/2026 4:18 PM, Krzysztof Kozlowski wrote:
+> On 23/02/2026 20:09, Ekansh Gupta wrote:
+>> Add a DRM_QDA_MAP ioctl and supporting FastRPC plumbing to map GEM
+>> backed buffers into the DSP virtual address space. The new
+>> qda_mem_map UAPI structure allows userspace to request legacy MMAP
+>> style mappings or handle-based MEM_MAP mappings with attributes, and
+>> encodes flags, offsets and optional virtual address hints that are
+>> forwarded to the DSP.
+>>
+>> On the FastRPC side new method identifiers FASTRPC_RMID_INIT_MMAP
+>> and FASTRPC_RMID_INIT_MEM_MAP are introduced together with message
+>> structures for map requests and responses. The fastrpc_prepare_args
+>> path is extended to build the appropriate request headers, serialize
+>> the physical page information derived from a GEM object into a
+>> fastrpc_phy_page array and pack the arguments into the shared message
+>> buffer used by the existing invoke infrastructure.
+>>
+>> The qda_ioctl_mmap() handler dispatches mapping requests based on the
+>> qda_mem_map request type, reusing the generic fastrpc_invoke()
+>> machinery and the RPMsg transport to communicate with the DSP. This
+>> provides the foundation for explicit buffer mapping into the DSP
+>> address space for subsequent FastRPC calls, aligned with the
+>> traditional FastRPC user space model.
+>>
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ---
+>>  arch/arm64/configs/defconfig    |   2 +
+> Not relevan there. Don't stuff other subsystem code into your patches.
+> Especially without any reasons (your commit msg must explain WHY you are
+> doing things).
+Please ignore this, it's a mistake pulled from my local test branch. I'm not going to add any
+defconfig changes as part of this patch series.
+
+Thanks for pointing this out.
 >
-> Otherwise you allow mmap() of imported objects which is not allowed at all.
-Thanks for pointing this, Christian. I'll read more about this and fix as per your suggestion.
+>>  drivers/accel/qda/qda_drv.c     |   1 +
+>>  drivers/accel/qda/qda_fastrpc.c | 217 ++++++++++++++++++++++++++++++++++++++++
+>>  drivers/accel/qda/qda_fastrpc.h |  64 ++++++++++++
+>>  drivers/accel/qda/qda_ioctl.c   |  24 +++++
+>>  drivers/accel/qda/qda_ioctl.h   |  13 +++
+>>  include/uapi/drm/qda_accel.h    |  44 +++++++-
+>>  7 files changed, 364 insertions(+), 1 deletion(-)
+>>
 >
-> Regards,
-> Christian.
+>
+> Best regards,
+> Krzysztof
 
