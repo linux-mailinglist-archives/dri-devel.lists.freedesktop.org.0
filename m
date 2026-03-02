@@ -2,136 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wM5eAhMfpWnd3wUAu9opvQ
+	id OHcqF38fpWnd3wUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 06:24:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 06:26:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486DC1D3101
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 06:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2071D3133
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 06:26:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C4110E42F;
-	Mon,  2 Mar 2026 05:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2143710E431;
+	Mon,  2 Mar 2026 05:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CatvXnbA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TCjQuxfK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011011.outbound.protection.outlook.com [52.101.62.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA25710E42F;
- Mon,  2 Mar 2026 05:24:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fYufZfDZnve4Z0gUgxH0av4gO8e1zd6n1mHm5Qhzf8F8kaH+G2LTi0YMS5/mJuuPyp9PuwIt9TA0wlXjMIHreKVEzcYNwABiLbCG2qdVU7iF5FYcUn8SXa/K+FCxlkyto74rrsY0iGHi4MdpYNOrnev6b/crWFaMA3Vq4XGR6Gf/9TcAZpX3CipV94TTWQLUnOjNSde6ld1T6a1NtGFNcjPeSzpmmpuz2KTSk2vTvKjvo9iLkqrC5hmkSyw/RfL/Ld/vD324Vg8mn5GJ7VCNzN3vPf0UN9NHD4xtjgjqtJpKgETqk1lndI3/Avbh9VQRNQ8zRTWiYgZxXZkSvrp9IQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4doh4TrOHgsD35lRWlEEKxK3e3yO7lPkTxGGzLd4nTQ=;
- b=OaFBm2+epz7fyiXaixXA198CkqicdVqXbqWJESSeBVbONC/pPCa0YUeh56hptBjOLjAL0tSRhzhpAEwVxlpgwu+/nKBVnvjzBDW9EGi5OPjxnWJUnNr1NMETTEcgOI6o0Z1WjD7h/69kH9T39AfxEvIIDaRaYWvi8EKV19nIvcFRM7kygZ+i9jmyr9OAUP220DbIFKh5x9Yk/kLsvxbhrwj1JF1YMLNnQwXtlZQDNW2ty1eEJagtebVfFcS4ahf2DxkSb8iy6SBTJ80mUjArIpqIwjmAHXhmwIAFq+7Vdc0veZ/CnPvUsPdXDs9gCAgJUvUxlR9c1nxVUJgOn+YGgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4doh4TrOHgsD35lRWlEEKxK3e3yO7lPkTxGGzLd4nTQ=;
- b=CatvXnbAXhlEE0lsTKNzy2lNdUfnCS/vUsI+ZeCKbYI/MnG8fo/SQU8PRJVF6YEDWfAOuR1Yz/exhSsz+89WarGFSkDKN4pMzfKXz7SkVRoT5K23m9gK4ZtlHFqmFNRqIjUlY7Rho8NBwSgHh6bw9JDtquhyoSpYouaxKpq2lPgVoJG9fphPgGQd2VcCjDhkn9IGjN52m/MQCE/jiYR3el5SdtUic0g8K0Knej8J1iuYgwfVQAuMG0ty7RkPzoln9VL0Smcl/Ow8wVGqsY4nNdqD4H4l1Q+Cy7sYqt49Vqg1xToPMAXCh3RYtbjGyndpI/pcuBGWUn+50eAlQPwTqQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH3PR12MB8482.namprd12.prod.outlook.com (2603:10b6:610:15b::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 05:24:25 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 05:24:25 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Mar 2026 14:24:21 +0900
-Message-Id: <DGS1NYABTZC1.1ALYUOU60NIWN@nvidia.com>
-To: "Eliot Courtney" <ecourtney@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v10 03/10] gpu: nova-core: falcon: rename load
- parameters to reflect DMA dependency
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20260301-turing_prep-v10-0-dde5ee437c60@nvidia.com>
- <20260301-turing_prep-v10-3-dde5ee437c60@nvidia.com>
- <DGS10W70UDA6.V6T2GNR20Q2X@nvidia.com>
-In-Reply-To: <DGS10W70UDA6.V6T2GNR20Q2X@nvidia.com>
-X-ClientProxiedBy: TY4PR01CA0111.jpnprd01.prod.outlook.com
- (2603:1096:405:378::12) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8F410E431
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 05:26:18 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-506cb1b63d0so52013441cf.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 21:26:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772429177; cv=none;
+ d=google.com; s=arc-20240605;
+ b=YXBmctNncSOV9WwvWIUUuKA1Via63Nr4Z4Jug1LQ8/cE2FK9fw6rBoEgcPIh0ym8qm
+ ZfbqUgS755QcbZEtUPYrEVIHbvolJ3ThypZXs3cP9/VlsBd6Advl0Gb1h4DwoH86D8I2
+ erpPdPWH4zGOkwPx1ybhd2eX2M45pGp4lAF7lb4fEkPs2Oarj6hCaTPC91aU8/tcmIj1
+ PCJ+BwF0i7mXlwwzaJSIj4PrqI6YBXbrAyWPObZ1Iv7LRcxbfO1oXKFF879gcVVrtZgS
+ /gjBWRprtn2RfU5yWSvgnOimnPTadDZH0W3Wt1l808xuiQlkuHbINmke2yRE1zubYYNA
+ L8nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
+ fh=Ba8Y57OWxy4O86o/alxyzmlaOt+CJHc40BfIECrEnSM=;
+ b=GBGbdeiBUharEMe+l2OBFjNsCW3VK05L7hEpYD5CFvHbXLy9nSK1lLOlGY6SomHDle
+ ZMgV1b5zcTCr1MpDdHJmIRe5oKUj53iGwnrPm7cD/ROmzerjpFAF7q4pReVJQlHcVcxz
+ EzWpPqQmPk3gaTDHm986uquxj0q3D5EvH4JGwYv7Ug1V1toinvDqyWml6GKuqKvG/SvB
+ M1V0esRBMx4jXtwWw+9PFpai3mZHv/eIrYHdNtBGvbcKpxl/015bYR1GpcuW6hala0k6
+ R6pIiwRKPTKIilWEqmAcxTujyZXLfMZZXP/YQ9ODXJa2i9vpA1i1Jvf/LpJ1Y75KY07W
+ 6Nig==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772429177; x=1773033977; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
+ b=TCjQuxfKxk60dJu+4qSzkJfXi5cpQsViNro4P225721XHV4h0z8AftxJwncxKj/HzU
+ GB7T+hIAxirxQ8IXs91zF44zrQtD7BlYt7CLos3+sg9AWnO/4blktgZT0qW2oMvdnX21
+ i/k5aSEmX1CvuBf6e08hUgSXUGDriJXIYcJgBv6TyDgNDjsB0YIfg6mSJx0RLFg3EbB/
+ hFLK1UT7+5I0dT2iVJBWtV2QsI274NE3AYiALhHDcP2CwNcf9zIfNu4WsohT645Q69dU
+ DaGs1AWd3rA4w2PRcuonknsGqm2oBcGA+EDmWYXpLtcZBs6VFQNrM6u3WlWNV+IATQZE
+ 8f3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772429177; x=1773033977;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
+ b=nquQjwZt7AGunfq0B8Lf85Sl5dZ+nL5hm+fqWj0iCQS+/JeZyJEsQt0rJRs+2yafKX
+ rpBTicIc9J9wmZ4aepO8hxBkTdgU+LiCMbsojV1ZrF47lqZyAo5Jyk56fDVDzMcD8K+w
+ vtqI6LL90EgkwGFJv07tDWH7zRyh2Yi3fVv6+QDo2ft9PXV/cSoyKgo1JJvvuL0W3zze
+ SZysgEnpDsbvd27w/NlMovlPbWKM4AwwvoEb0L7vVriLKOObkOyaMbr4Dk5qSF8pbnT/
+ TACa2Sym54BbPjrU1RH6/yL4QdSOdu7ZV4cij56cobOO5uTWHjflBk163WlsrMxgxgDE
+ U/DA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUs5126cnNJXo1MPDmn1/s0hO0EGkcHxDzJmZeDSinpkA4I4x6QFdokmJwk+xouIVWd4Hz2BTtZ6uY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxOG4TlC6B6nqlMBqGJc2NBUfihVzEkW0aTBnIFqZZFFGsYvmX
+ lj/uOjpMjp3aPYbA7S9IadOCpXyAVxgbRRi/XLpa4MDFgrKb9e38O391cJC3qXWCZs3bB26B0p8
+ NYP+ZtNlYWr4B5GWfs0FhR0PTwfCuYB0=
+X-Gm-Gg: ATEYQzz+I8wuOYKIry4thEcRWP7CqNWsh1u6sqwrCGqnmka+yEpLv4ZkM+ky+vt+mME
+ b0dAO7CicgqH4u/OSY2EyilLoehbM2ijdkxyWCXVZ9P/BdqUC3Hb+n2S97gcFdoFGFBEuugkXtS
+ mgR4V6ksVDkzlNEPd2df1LRGsUCaiPh4gsnFVElRA6zPuGRZSOu0aubtzROga96jdORDc40W6VY
+ GTMHzggkF25J/06CyzycCC8WI9O4px+lVsCsdy7OzIxhoV4QXF6Mm8PiL4f+vQSNutfR6oLY72D
+ RAbpjagDSqBC2HZ1wrcogrshnFp+Cpf7sIEsMwwpvuq6s4LLB4kJGZIoKB5exqk3swM=
+X-Received: by 2002:ac8:7fd5:0:b0:506:9fd8:f65e with SMTP id
+ d75a77b69052e-507528a59bdmr151673531cf.60.1772429177369; Sun, 01 Mar 2026
+ 21:26:17 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8482:EE_
-X-MS-Office365-Filtering-Correlation-Id: 131c6847-3696-4e56-0bb4-08de781bf7cb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: al5YKJlzEecaYTWQ+hhyflmSn4CZZVcMGNJfQWfyIP3qKatAMUYCP249Jdaxx5SeUmeeDNG71Gz53+Yvr955w+G2UYICY12gw0B0O5O1NFhIn7uaGgAXYT9RGg/sheyNh4zkNnU+yQyqHbQQHFN7NvzdJTTXUy3un6Gu0aCUZRGPEtaRYGqx+YaD7sC1C8T56HXJs6h7T0rnnPwwi0ApOoW2apvhIHWXH7BVjEfw1e2cf6ACdwj4VgU2LerEq3UKEuVxKekthzLqRqo1TVDfLHw6PyvOxQmM/O5d5OKXb0jtyJZlweKztfHVUi9N0VwFKsQqwVdDktz/GfdChijUWmwXbfxT2uY3uAH5MISNJLQBEXDHr4DXKw06bodGMJBOYK4lQRyvi4SO96e9VXARVI14DrWLYNg0AosAUPGvR4+Z3TjlTk5JIzFeibJmVnB7ZvIwJVPScP1oxr5XTliLRtcpg4tRKcdCvLYfLIyyqfdBBDQsXb1NZK+kGeIy9tDmjmgR4T/moflLLNVj0jTyCU3n1c/VRY21CpY3SuGFVBJ8Uo2YVUpkc/wAzWjlY5o2c7xUFJ4h+1PsBv9o/XyRoJH3yON5fIQ8ZFhBAhlv+TsE15C146XM07WFeIp62WQFMXj23g4FBDzlVIiU/BDC3Aav3eW6cHcWukCKunSspDiv9E9WCkHr6+spx5sEFZgU6FH+jb3wE1DhvCowCBPL5/1t3v0p8XcZyMGZOLsIvtU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDduU3B5SGdOS1dnMGhEVFcxTmF3eGVqMkJWMjh0ZjdxcE0zK20xU3JsUktT?=
- =?utf-8?B?cGV2clZRK3lxZGhFeXhUUkZmNWtCUENZMldnSUVvbVJrQ1dleEowanQvMXox?=
- =?utf-8?B?bFZhdkVBL3d3VWpObGp4TUgva21Fd2JZNythcVo3VHR6RTZ0TG5NbzNTQjBh?=
- =?utf-8?B?RXU2bHlDY1R0TE9NMEU5Zm43UURBYnFacHVJNnpGMTVpNzlrWnZSME1LNktZ?=
- =?utf-8?B?cFZ2bDVtanhGNGt2ZTlxdXdoTWxvdGFsLy91cDlXYmtVWFVOSFJ5Rllzbnpz?=
- =?utf-8?B?TDIyZzJ2a3RvVTdacVhLQk1GMmNWelh0UkhCNmVwVzc3UGsyb2M3TWdna3h4?=
- =?utf-8?B?a2JRTTBtUmdzN0NHMWJIQ0V2SE9nZ3JtNUd3ZjVPRGRhdUs5azd5ckVrY09V?=
- =?utf-8?B?ZGw5eVlLalNWNE55d01EWnVXWTdIUUkvUjNyVWNiazlVdkxWTnVmUS9IWjB0?=
- =?utf-8?B?bmtsRlB5Y1IzUU9EUFFITFhqck1YSnE4cVFiUnNjc1NhZlg5T2JJN2pZTks2?=
- =?utf-8?B?VnhTWXlwVkI4Z1F0QmhacGludCtmQlNxcExtWDNoSmdkbmZZT3FWQXdxWnNu?=
- =?utf-8?B?cHBSeHQ2WmVTQ0RYZ3NUVktyc0o5K1RjWU1XSlhBaUo3Vm82ZENjU1p5VlpX?=
- =?utf-8?B?UWZmc2thdW42TXdEaXZtaUF0VS83TS94YW1ueC9va2x0M1hKU2dxSndEMDlM?=
- =?utf-8?B?eHhhaWhzekFkSEo1Qjh0R0tmWUJGcWV0ZU9GMldJRG14Ym1CTjl4WVllWXdJ?=
- =?utf-8?B?Y01mN0phbml2YzNZNXNidFBMOWV5S2tVbTMrQS9BNUZjdE44ck9MRTNvbkRk?=
- =?utf-8?B?NnVlQnY4S1kwaEVUY0NudFgyOU1vejhYdG8vNmt2TkZqdThuY1pEeU5iSURa?=
- =?utf-8?B?QzhXQkpOWlVEYW9FdmhORStFUUlObWltZVJBTmwwL29vRXR5OFNQTkhxL1VN?=
- =?utf-8?B?VlAwdE92Q2NUZjdmYUdIQy9pUThiRFkyQVV0RExaK0U0L0FvNVcxVjRJL1R5?=
- =?utf-8?B?VDRBY2RwVkxxby9RenRjcEVnTWRnWGNXclhheXJRWk1tdzY4NE56VEpsZzZM?=
- =?utf-8?B?VXA0ZWkybEFpaUlHMjJOM2MwbXEzTVI2VFZpR290REsra0Irb0ZLdHIzN2wy?=
- =?utf-8?B?OERXdVpONG5PQmZOa1k5YTVRR2RrblErVG5qVkx1bEV2aGloMzVvZlhjMTBN?=
- =?utf-8?B?K05KUlUraTVFdEIwVEczMkNUZ0ZTVFlwNlZzRllZZHNJY3lqOXhNaUxKazFO?=
- =?utf-8?B?VmthdjBpbUpKSVlWbWk3Q3djVHd1LzVYczFQM04wRW5LeXdrWmxPWExBMmkv?=
- =?utf-8?B?SlM3K0ZScmdkRzhhSEI3OE8rR2RzcjNWdHo4cEhjNE11WUlwM3VBRy9LanA1?=
- =?utf-8?B?TFJCb2hoNzk5S0VNM2lYRmUwU2JLdFpvNmE1b3pVTkVUeUJnbHFsWVp5bWRM?=
- =?utf-8?B?MkhGcFBWK3M5RzZjbGhLWmtPYnBpZlBXZDJ2RW4wYk14T0JCblI1S1JObHB0?=
- =?utf-8?B?US9uWEgxWjFYMzRqS1dFR3F1RDVaSUFvd2lCY1NoQVljMmhpSGtKOW9jY2Rw?=
- =?utf-8?B?a3B6T1l6VUdmMDFjbmhlRjc5V1gvOHJNaHlJdEUva3F6SXpiS0FRY1d3YkRo?=
- =?utf-8?B?SEJYeWJsSEdrMDNnaEJGY1Nsa1VXdS9RK3ptWUhSdVd1RE5IVXF0bFpzc2NI?=
- =?utf-8?B?bDJpKzFVNEtWenB5MjI4Q3FqMzJsSG0zaWJtZFBqQjA2QkE0TWlOVGlUVjcw?=
- =?utf-8?B?SWVBcHpzVFhGMlFWcWx3R04yanhCcUx4bVBlVnFScGZLVWdxL3gwNmFDMEJy?=
- =?utf-8?B?NFJWajhkb0M3ZGtKZjhHdXpmaXhhanJONE00eTc1TEVJc05zcGV3Nm1BZ2ZN?=
- =?utf-8?B?dFBQbmdYTjJqWVFtN2RkMVFOa1o1cXcyaHFMaUI4UnEwa2t3dnRuMjFmSzBG?=
- =?utf-8?B?Nk1qNkh5S1VzSk1XQ1Z1c2dUYXdMSUhFWis5MTROSHhiQXVzamFSc1M0SnNw?=
- =?utf-8?B?MWxXM3QvOHdBOEhPL2ZYeW9UaXovdG1pOTVoMFdWZUZpRzBXdVpJS3RmSG9G?=
- =?utf-8?B?WS9iTUhQRC9HK1VJQnZZVFFlVUdwME15Z1NLSWR2UWRLNkFwZE5YOTd6ajlB?=
- =?utf-8?B?eExlQnYydXU3eTJmeDZBRGhWeUJ6WlErZXYrR1ppQzV3SkdLRjIrQXJUZzFx?=
- =?utf-8?B?RTlOdHRWMHlMaHl4MThyNk9LRXhvZjFlMXJTMmMzTFQyWFp0MWtuaW1KeVBT?=
- =?utf-8?B?NklGeHRxRGJzRVJ2M0JLVGw0aUFBQmlhalV5Ny92aWE1akc4S0pyQzkyMlVj?=
- =?utf-8?B?MFZ5bi9CcTBsMWR1SDNpZ2ZxYUQyWFcyQjVrd1VGTzNJb2VERzBmRXNxdG9M?=
- =?utf-8?Q?TNYCuz30ZteZ7aWnHXVeq2W8iSzIi8EuYESZ4F/kgUViI?=
-X-MS-Exchange-AntiSpam-MessageData-1: Q/1m6H5nmTy7vg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 131c6847-3696-4e56-0bb4-08de781bf7cb
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 05:24:25.1735 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aQ+0fWJOX9C1yr0hvPGL7lyU+IwkuAe7GQsOGwun5rMLrRLKXqiyKRg0Z+Gd36S9ciyFUm0Go5PkVj7XGZmOtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8482
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+ <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
+ <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
+ <20260224-solemn-spider-of-serendipity-0d8b94@houat>
+ <56400505-8a13-4cb2-864c-cb785e4b38d4@amd.com>
+ <CAPM=9ty5mbMAVHPO4mRy1jKGnpChr7gK6uMtco2=j7MMJGpZdg@mail.gmail.com>
+ <d1b287c9-46ff-4345-a410-7e1cfefb5c66@amd.com>
+In-Reply-To: <d1b287c9-46ff-4345-a410-7e1cfefb5c66@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 2 Mar 2026 15:26:05 +1000
+X-Gm-Features: AaiRm50W0fvfAVhf0ruGga4uliXFXx9vNuU5MHSLrll0LdDEQpXsLFepA1L85R8
+Message-ID: <CAPM=9twnKZYOGchQ0cziSt5yUQxCXNWoKyBiQib2XWvkMiN=GA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Maxime Ripard <mripard@redhat.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Eric Chanudet <echanude@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org, 
+ Yosry Ahmed <yosryahmed@google.com>, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,63 +129,187 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:mripard@redhat.com,m:tjmercier@google.com,m:echanude@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:aesteve@redhat.com,m:linux-mm@kvack.org,m:yosryahmed@google.com,m:shakeel.butt@linux.dev,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: 486DC1D3101
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,wikipedia.org:url]
+X-Rspamd-Queue-Id: BB2071D3133
 X-Rspamd-Action: no action
 
-On Mon Mar 2, 2026 at 1:54 PM JST, Eliot Courtney wrote:
-> On Sun Mar 1, 2026 at 11:03 PM JST, Alexandre Courbot wrote:
->> The current `FalconLoadParams` and `FalconLoadTarget` types are fit for
->> DMA loading, but not so much for PIO loading which will require its own
->> types. Start by renaming them to something that indicates that they are
->> indeed DMA-related.
->>
->> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
->> ---
->> diff --git a/drivers/gpu/nova-core/firmware/booter.rs b/drivers/gpu/nova=
--core/firmware/booter.rs
->> index 2b7166eaf283..d569151982d1 100644
->> --- a/drivers/gpu/nova-core/firmware/booter.rs
->> +++ b/drivers/gpu/nova-core/firmware/booter.rs
->> @@ -19,8 +19,8 @@
->>          Falcon,
->>          FalconBromParams,
->>          FalconFirmware,
->> -        FalconLoadParams,
->> -        FalconLoadTarget, //
->> +        FalconDmaLoadable,
->> +        FalconDmaLoadTarget, //
->>      },
+On Thu, 26 Feb 2026 at 21:32, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
 >
-> I think here but also other files in this patch are not rustfmt'd (e.g.
-> import ordering here).
+> On 2/26/26 00:43, Dave Airlie wrote:
+> >>>>
+> >>>> Using module parameters to enable/disable it globally is just a
+> >>>> workaround as far as I can see.
+> >>>
+> >>> That's a pretty good idea! It would indeed be a solution that could
+> >>> satisfy everyone (I assume?).
+> >>
+> >> I think so yeah.
+> >>
+> >> From what I have seen we have three different use cases:
+> >>
+> >> 1. local device memory (VRAM), GTT/CMA and memcg are completely separa=
+te domains and you want to have completely separate values as limit for the=
+m.
+> >>
+> >> 2. local device memory (VRAM) is separate. GTT/CMA are accounted to me=
+mcg, you can still have separate values as limit so that nobody over alloca=
+tes CMA (for example).
+> >>
+> >> 3. All three are accounted to memcg because system memory is actually =
+used as fallback if applications over allocate device local memory.
+> >>
+> >> It's debatable what should be the default, but we clearly need to hand=
+le all three use cases. Potentially even on the same system.
+> >
+> >
+> > Give me cases where 1 or 3 actually make sense in the real world.
+> >
+> > I can maybe take 1 if CMA is just old school CMA carved out preboot so
+> > it's not in the main memory pool, but in that case it's just equiv to
+> > device memory really
+>
+> Well I think #1 is pretty much the default for dGPUs on a desktop. That's=
+ why I mentioned it first.
 
-Oopsie, you're right. Sorry about that, that's what happens when I don't
-run my checklist script.
+But I don't think it's what we would want, if someone allocate a
+system memory object then we should memcg account it. But in this
+scenario it's where we really have to face eviction, and maybe in this
+scenarios it makes sense to state that we need to reserve memcg space
+for swapping objects, both out of VRAM and into swap itself.
 
-And it's even worse, the build breaks in the middle of the series. I'll
-respin and think of some penance to atone for my carelessness.
+I'm starting to think there isn't another good way to deal with
+dynamic power and suspend/resume if we don't have some accounting for
+moving objects out of VRAM into system memory, it's just whether we
+can do something special to account for it, but not destroy the
+process on behalf of another process doing the wrong thing.
+
+>
+> > If something is in the main memory pool, it should be accounted for
+> > using memcg. You cannot remove memory from the main memory pool
+> > without accounting for it.
+>
+> That's what I'm strongly disagreeing on. See the page cache is not accoun=
+ted to memcg either, so when you open a file and the kernel caches the back=
+ing pages that doesn't reduce the amount you can allocate through malloc, d=
+oesn't it?
+
+So the page cache is accounted according to Shakeel, so can we find
+some other example. I really think this is a bad idea, partitioning a
+single resource into two competing pools isn't going to work that
+well.
+
+>
+> In other words system memory becomes the swap of device local memory. Jus=
+t think about why memcg doesn't limits swap but only how much is swapped ou=
+t.
+
+But we still need swap for system memory as well, but there are
+systems with no swap configured, and on those I think we need to be
+integrated with memcg anyways to make it work.
+
+> For those use cases you want to have a hard static limit on how much syst=
+em memory can be used as swap. That's why we originally used to have the pe=
+r driver gttsize, the global TTM page limit etc...
+>
+> The problem is that we weakened those limitations because of the APU use =
+case and that in turn resulted in all those problems with browsers over all=
+ocating system memory etc....
+>
+> Now cgroups should provide an alternative and I still think that this is =
+the right approach to solve this, but in this alternative I think we want t=
+o preserve the original idea of separate domains for dGPUs.
+>
+> > Now we can add gpu limits to memcg, that
+> > was going to me a next step in my series.
+> >
+> > Whether we have that as a percentage or a hard limit, we would just
+> > say GPU can consume 95% of the configured max for this cgroup.
+>
+> That is only useful on APUs which don't have local memory because those m=
+ake all of their allocations through system memory.
+>
+> dGPUs should be much more limited in that regard.
+
+So you think we should limit the system memory allocations on dGPU.
+I'm worried about GTT|VRAM allocations which once evicted, there might
+be no reason to push back into VRAM and that ending up as a backdoor
+to allocating a lot of system memory and bypassing memcg. I don't
+really like the idea of bypassing memcg at all.
+
+>
+> > 3 to me just sounds like we haven't figured out fallback or
+> > suspend/resume accounting yet, which is true, but I'm not sure there
+> > is a reason for 3 to exist outside of the we don't know how to account
+> > for temporary storage of swapped out VRAM objects.
+>
+> Mario has fixed or is at least working on the suspend/resume problems. So=
+ I don't consider that an issue any more.
+>
+> The use case 3 happens on HPC systems where device local memory is basica=
+lly just a cache. For example this one here: https://en.wikipedia.org/wiki/=
+Frontier_(supercomputer)
+>
+> In this use case you don't care if a buffer is in device local memory or =
+system memory, what you care about is that things are reliable and for that=
+ your task at hand shouldn't exceeds a certain limit.
+>
+> E.g. you run computation A which can use 100GB of resources and when comp=
+utation B starts concurrently you don't want A to suddenly fail because it =
+now fights with B for resources.
+>
+> > Like it might be we need to have it so we have a limited transfer pool
+> > of system memory for VRAM objects to "live in" but we move them to
+> > swap as soon as possible once we get to the limit on that. Now what we
+> > do on systems where no swap is available, that gets into I've no idea
+> > space.
+> >
+> > Static partitioning memcg up into a dmem and memcg isn't going to
+> > solve this, we should solve it inside memcg.
+>
+> Well it's certainly possible to solve all of this in memcg, but I don't t=
+hink it's very elegant.
+>
+> Static partitioning between memcg and dmeme for the dGPU case and merged =
+accounting for the APU case by default and then giving the system administr=
+ator to eventually switch to use case 3 sounds much more flexible to me.
+>
+> At least the obvious advantage is that you don't start to add module para=
+meters to TTM, DMA-buf heaps and drivers if they should or should not accou=
+nt to memcg, but rather keep all the logic inside cgroups.
+
+I don't think we should have to static partition at all here, it's
+just asking for problems later, and it without proper accounting will
+cause a bunch of reclaim unnecessarily.
+
+Dave.
