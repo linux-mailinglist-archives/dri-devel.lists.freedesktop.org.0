@@ -2,151 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qAcZKMSUpWnXEAYAu9opvQ
+	id gI6SHeKUpWmPEQYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:46:44 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:47:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6571DA09D
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2A71DA0C1
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:47:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3763810E355;
-	Mon,  2 Mar 2026 13:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7220210E35B;
+	Mon,  2 Mar 2026 13:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Je1CKi7B";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BFjnQfrJ";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="XPY5izZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C1710E355
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 13:46:40 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 622B3dsH3862797
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 13:46:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=; b=Je1CKi7BU1g688PH
- y8YnJD8jhlgcf/vJinCIcNZBZp7jN4JeeqrslCoo1Say3NV858reSa47jjrnzn5F
- OhbTFLL/z9F6NnPyM+K+4wzFMpsmlvj/0MOiZtjeD7CFtLoFPXYA6uv7YQddzmQ0
- 6MZsh9rJu3gsCBizu3N/uFM7VscB1H10B+aiiTFVEtt6avA2VhHlKhkXc9g8nHmQ
- h3fRN186VuL9iTgLXoJGEsJ9L9JChWHJUfkucQxqvUS0Cp8k63v5BL85bOJHIpyC
- lCj2aN2UGrkrqAMC3TnER157y82X8qImmG7PRuwsifCr1hxbwUW9hJhHZ0b/uNS+
- 3EAEhw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn9bjget0-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 13:46:39 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8cb45a6b860so325286185a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 05:46:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772459199; x=1773063999;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=;
- b=BFjnQfrJw3giQwlCH6X7P0kYVfln3RduxkofPyF5+FAnnslp1x3haAuG0xVenM2IjK
- uhlq0QkgIInet4Rf/7M2aPVue/Rw0neflZRoo65pBYjAQxpXPSZqGMwIjQx06TAJtI6I
- PYUBCsopzlyIj9Orv36h9jcjDPapU4Md03860ZWtrhkWwcILrXYbjny1PNJO4OIsh7s/
- T0hMQZJUIjHIEt2Ioxe/QcjwLEziDmoaSef7++3Qzl6C1IFG6G8deVLwoGY7doT6ReYz
- 4jSKTtVuPvcxVGOZ4yqFC3r/bmIukcQgpE+rY3Bz1PFg4QDjh1zfy5lv6tQoIlEjUod2
- +w1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772459199; x=1773063999;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1VKdJzwWet07SkkHF5W6d2bdvsrjsh3dEIsPyBtnJEY=;
- b=qGxTI9Jo4DojB/8N+19nBHU0S2BXg5EJMJ4yD+SFTfgWP5upO/eRj0GqfHapZYS3BN
- 4uzw1EXw9RudvO41+XLBj8hM0EKbKiwPNomdC7VFeSmAyImlVx+3ivgQy+LUU3Rxs/F7
- lxjMT6Bj+7YDoypMXxOY2xtWPg8eHKm6x2Eo6011oYhXda+YODnaxCHyAlyH3LmIZ11D
- xth8lzjMG/fajyKTfuJdyeEquOInu2uGfQXIYq8Gb4SmLUOJrjjaNxCac6YsqViqO1h/
- 5BqZvtn826TF68D/MF28iFCf0jezyDdogIzmkn3lExKAP/uf95EjZKLYJ35fWt3gRdZ7
- bEpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX05ckJ4jjCnSjoVMn4RM3dL4poyoxFyw7BTNVbqNa0RAHeRbWin3Kq1XI0s4f7A9AOgM6mqVJstuk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdREcvpZd5exLoaspwSzWl5ycVAV1GtFvIjeUH33tPb27gYAAe
- wGwjzCHp57pY6me9G25EBlKAzYOy3O8nPdqSy5op1LRXbuegQWndwfJh8SQIpzHSUudPM4YTqII
- gxZVqsQtqcQlsa/pj0pFf8k26HMs+o5UsE7Q/wL5b0ghyS+tHOqwT+Qm6+mAMZBuKVVWYulc=
-X-Gm-Gg: ATEYQzwtTi/iZpzq03xWtE0jghAAW3k42lg9/rfAACZAtZ+1mASZon3s87bbSYxqHVv
- +KZe8E/lNsao8Jh6aI2hS/Jzn5Rlf8geAZgsj6QEDNJyk6OlO8RkBYzS1oX14L71hvYiVN7AFW6
- eiEhlp1O1g4e4GvIeUQFlwdewC8pYmAPhGw6zk9OpLjT0mPcEK04NbhlirOaa0fppt0fzLO6iYM
- YPb5ZiTGtKcVXYR4J9ZcDbIpkT9LwEbxoeRq4l7MNAb31c9X4EleCr589NipUW9cMGaq5/4mzpg
- SZJcfYupj3Sc7iE/9e4a0Bs/migKRDC+sZIOKXVRAP67T36cg+FWj0YrzUu/1wgNWBOobi8hhSL
- Qekv4X/JixuEk5Z19n3NaivS6e0u2Vl8aJCTjdOLSDCZnzCpNQFLE2L/1jjhFOMAMPAaC9A6BBv
- o5+Kg=
-X-Received: by 2002:a05:620a:2806:b0:8c9:eae0:d1df with SMTP id
- af79cd13be357-8cbc8ef417fmr1208187285a.6.1772459198574; 
- Mon, 02 Mar 2026 05:46:38 -0800 (PST)
-X-Received: by 2002:a05:620a:2806:b0:8c9:eae0:d1df with SMTP id
- af79cd13be357-8cbc8ef417fmr1208182885a.6.1772459197877; 
- Mon, 02 Mar 2026 05:46:37 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b93987b9f73sm259566666b.47.2026.03.02.05.46.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2026 05:46:36 -0800 (PST)
-Message-ID: <b230815b-e169-4a3c-8c36-154deaf66afa@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:46:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix mismatch between power and frequency
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: yuanjiey <yuanjie.yang@oss.qualcomm.com>, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, krzysztof.kozlowski@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com
-References: <20260109083808.1047-2-yuanjie.yang@oss.qualcomm.com>
- <kusxzlezvsuwcwwdtm7yqwnqea6gdeolkepxpx3estabaiqymo@edj7pgccli3y>
- <aWSTcI6H6+7AXkEN@yuanjiey.ap.qualcomm.com>
- <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
- <aWSv+kVV3G18I/NJ@yuanjiey.ap.qualcomm.com>
- <e5ebc660-e30e-4fcd-ace6-5a6c889e9a8a@oss.qualcomm.com>
- <4g6fyehdc3fejx3pzeysmghigazfei3jz2vmnvxrnqkkbtbxdb@bdlcddxlvbhl>
- <cb22367a-678c-431f-9f52-33663f4af9d7@oss.qualcomm.com>
- <jr4h4sx42dbxpknm5nkgj7ydpkivm4nglfz7ui4bjpom7wf6ub@spqb27d3ov2z>
- <d5c4eed5-bd87-4156-b178-2d78140ec8a9@oss.qualcomm.com>
- <w4ldxcxvcp3fz7u2zxyyjiii7lsrnoa2l6amzwpsn5a63yzotm@iawh6btqtf45>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <w4ldxcxvcp3fz7u2zxyyjiii7lsrnoa2l6amzwpsn5a63yzotm@iawh6btqtf45>
+Received: from CWXP265CU010.outbound.protection.outlook.com
+ (mail-ukwestazon11022106.outbound.protection.outlook.com [52.101.101.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEA910E35B;
+ Mon,  2 Mar 2026 13:47:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WetZ9qO5Utor+0E9CSKRSBiB4WJOXrZj/DUmy/RUv5J4QWUmFrL014TvniFfp1wufigddbIe+d8klOufYB9ZXnigVRpa0byxaS1B1JDGwhREumvNyIRCzrntI4pJFq+rJq5bDYvmEOtrG/CGExKs3/G3MCLfy25XRhNRPxQFnwpLUjvYza8CVnO8PN4F1x5ClfUlJ/B8ZAnfnlN4xCq8DLXFYL6GYn+oP4o1fC38aqruyH4NQKh0Q2PAE7KVXbFsEVgXtbHXqyaF2yF7eopcyhIWCQCPL2IGgEZuFsdP1ZPBwohOmO6cBXR2yWLVtN4525yXRK+2WImq/1cMq0g2+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bANeFdfLxsO5KW2XqUIIelkyxLYFOgBJLn+bjnHTG9E=;
+ b=X15rZwLIDNA0F8XL/FdmFeJudp+CT/qc3XY2n+O9/pMfZhdyG/tHLGMMqpfsblDaW4CDBXS26sMPxA6pp6m0N0oX1pyGLbPfUFlz+BPikg8S70X4gubipi1LS8QeQJDfZ4OfH662ipjb9Nk7W0FL5cZv6pEF3ypwhbhxAwb4X0LeiQLYnGPYiUfeOUkvIM70e+CpH+fYt1g5xDkdbrFLYFNpRGgpy0NipdrETubmk/KCCSHvFAZyJ7n7Cde+WUbXYcw1LrKbETnEi2Pxhx4RE5ZWBqltk9Sud6Qn/KrwNaWn7hQXZqqCjTumByTHCzrJg1j221M8+BLI8JIQheMnqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bANeFdfLxsO5KW2XqUIIelkyxLYFOgBJLn+bjnHTG9E=;
+ b=XPY5izZmLizoPFzjI8mPPQB38arxUHlCxX3TA/fgPImLX4hYQWCm4IurwYFwXJym39K0F6n2jW0LtYPdP+LviKskHz/50FVCGfEfqcn3kH94yvdCT+36eX+EIsBJeb3W7xs9vvx6HZzqfAJ0D+U3hDZtWFsuufGwac/ZAWCoXJ0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB5568.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:158::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 13:47:04 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 13:47:04 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Pe7yRyhd c=1 sm=1 tr=0 ts=69a594bf cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=v90i8EJGIdyDnMh8qEMA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: G48krH26qyGO6YTPciL_Xjq_nelEB5lr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDExNCBTYWx0ZWRfX1Jh0Tw2AfYEH
- 53sL4EBcY5iwa4paRJGrA0cw2/H3cLce/b7hvFOo4EqS7THL15sW1L2ht+d4/B09L0IPBMf/5mI
- h+Tv1WOBYdadoNxY2+yv8K1k6s6uhPQBT7VnfgehC2JC9RTLm17iR0hHQYPSZxbEvGFxCDCAjLh
- lNkE7FcttCpABk9MaPwVWmY4S8NlmnyiDJGZXeuiifiFOI3ymP7iU1rcm/hdN4lD7NG48LPdds7
- FqyS9sPDprxFpW7rfgSrO6+JfpLlflsyLZEp7WBjG4mtWCIb63/bVDEbD4gwklyTqSDI/SCZbpd
- 13a2ZHKfTSw8ONm2ibUwoYpucFo/hNYmC2x3Kt5YGQebZTJE2udcElHAhAnAUV9hhkzBQ5w+Vjw
- AsH0OrVh5XbWS00te2VB+CqLF0eOtC9pqm9EAvElTMbohhqRNZrjRJNZ7o7bRKzlGn1gzFoZN9H
- IzU0a9djlv+5SG1B5Yw==
-X-Proofpoint-GUID: G48krH26qyGO6YTPciL_Xjq_nelEB5lr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_03,2026-03-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020114
+Date: Mon, 02 Mar 2026 13:47:03 +0000
+Message-Id: <DGSCCUH798RC.3JBL3K24ZYGNK@garyguo.net>
+Cc: "Zhi Wang" <zhiw@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v4 1/9] gpu: nova-core: gsp: sort MsgFunction variants
+ alphabetically
+From: "Gary Guo" <gary@garyguo.net>
+To: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>
+X-Mailer: aerc 0.21.0
+References: <20260302-cmdq-continuation-v4-0-c011f15aad58@nvidia.com>
+ <20260302-cmdq-continuation-v4-1-c011f15aad58@nvidia.com>
+In-Reply-To: <20260302-cmdq-continuation-v4-1-c011f15aad58@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0522.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:272::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB5568:EE_
+X-MS-Office365-Filtering-Correlation-Id: 706588fa-6294-401c-e00f-08de78623025
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|10070799003|366016|376014|7416014|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: ZKPc0FM53CCPh2cC4IuH7a8aYcex8M9Z6qVlUr5tyOIMZflvefmujZ016uOWIw7j5Aq+agF2ZPKBHBnoGByNRWKqh2OATsjEKSoRbTCB+ScDEGSQOTABWBQOASITYTX8IMWuuItQumuqOmrq2g/x7wTPrhfe/dbreh2lplU4bAkqHSouSZAMOgI8XEtmQJt3OIylixtUfKiG2PGFMRwFPmpqJ3hpLHr6s5XgUwLMuhbbae3uVo/uOk5U3xdASMaEOmkVPcEs92jsemM1WFIHv5Q5lYfVaS1BiTNtZ39tE0HzY4XT6ZI/eE+uw/cP+44Pl/eDZTqaOPsC6372iWbcrQCGfXSL/pKVbnm6BNnOPQAbbxipf8uIuw/64qCoblWhEk8wPNcG3LYQh3lDWCvWgIhoJ+s9CEQDOARKJ061immibnmIBfoJEx/8Hq+qk0PW18ebCveDZwc68AFEfsRGxzgKRzqi74vTZQ0OlgUwtalLrbxXpLDqOiK11Dz/Ja01E243tq+aakNcxLOMcXdS6TqGqV7TumxmIa5Vo8LokwxS4iZxvAIYfyB8z80Zc9NYEfcR/apA5ZPPTLmXFXXVCkdmlxOs5nRRbwmAoVO1K5Ldzja/OeD93EG3jkLbw09jvu9BSaBsHfoRNYDkYo3SREiUBrA5jBrxplhanKCCjU3aF1vD54UbxIhZzUaV5YLYgdQE3xkPqSroiFrbeisXH5fwq4oLrABy+zN1VSKIqepsQFAZdhT+MHqt5xkn0idawbWKMTp/sb8GJx12m6OlBQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(7053199007)(921020);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmlVRzAwQStFaTlNL3g0OVQ0WFg0UjBjdWcveGNCRGtZNHVtd3NuaHdiUXBO?=
+ =?utf-8?B?bnhUUGlaU0VIU2Vmb3pzVjlUclNjbmt3ZmJWT2g5SnhSdVRNS3E4b3gwK0Q2?=
+ =?utf-8?B?dGk0ZzYzdjRrRWd0WDNqWU9iendranlOcDd4dlB2dkZsaVFsR09lWlZROVBS?=
+ =?utf-8?B?QnFIR0tmRlhzdm53ZmYrK0I1SkxwMXJqa3ZHVGNZRWxZbmFzbVgvTGhMOVZY?=
+ =?utf-8?B?RXlwTHZzRjhScVhZK3pGSlJ1ODR3ajJ2WnJSRkNTbEhZTitoalQ2UER4R3BE?=
+ =?utf-8?B?OTBjOGxMVUdqeGNtZ3pGRWFKV3ZxK2krWFVJb1Z4UEx2MXdNODh6a29mcEhL?=
+ =?utf-8?B?SkVsT0tZUDZpWkdFNXJTU0tMVFlqRStwL2lwRzhwUzFjTG1KWmphWGVNOHlR?=
+ =?utf-8?B?ZXdXRGpFelp2czRnaDRaYUdkdmRnQ3drQ2VlT3VrVlhwZWdDYysxdy9aUkE2?=
+ =?utf-8?B?Uzk3b3p2K25PV1FZS1l0M0hpcDN0ZXhoWTBVZlU4UkZjM0Q3L3Z4dnlOcEpS?=
+ =?utf-8?B?ai92NGxMY2VOS0NVSTVpZ08wR1g4VmQ4bEc3a3pCSldocTQ3eXAzcU44dzU1?=
+ =?utf-8?B?UENFMUwyNlFoczZaTUlGS2QxSlJzUDV5bnBoRWM2VGwzODREWmlnYWNhWWNq?=
+ =?utf-8?B?MFViR1BONzRadmRHaWtseTNwNnJucmZTK2pHTFBxQTh0UmhlRC9aRVJIeU1T?=
+ =?utf-8?B?dHJ0N1F2L3l0dGlQR3pGYy9uMDlDVEZTYmxRQVVZVlFESENlT3crVU1nUmwx?=
+ =?utf-8?B?SVNSajRiU1JlbjNVekJiMm5KaVkxa0h6NE91ZjRzclZJZkdwZXRBbjRFQmJx?=
+ =?utf-8?B?T3IwZ2dKdWpZcGZ3Y1BHbDhzMmJNcis1VUVPTDR4Q3JWRk5UaWYrV0U5MjNz?=
+ =?utf-8?B?R1Bkd2h0dVRUMmE3OXBYN3l2ZnloODJTd1VseG4vMnZlNFBNMjUrM1dzMGMr?=
+ =?utf-8?B?NTEzdWRhU0I3UmpaNm5rNFVoNlA1WTdpWVdEODVISWxiQVMwN3NBUEFFSEFt?=
+ =?utf-8?B?a3RxT1d0dld2dnY0aVRVSEQ4Kzl4T2hCeWw0Zk5ndlZDNXhXYVVGYW8xMHRo?=
+ =?utf-8?B?VENRcmErWGlzQ3JhRFdGOE5VS2lVZmFSOHRZOEQ4Ni9mQ1J5V3NQNDI4ZTFM?=
+ =?utf-8?B?QnFhaXpSN1BnTkwyV3p4bGRuaUo4TWJ1NGhka1RSTDl5dFNCenU2SEl6NWhD?=
+ =?utf-8?B?TVJmaUhybDhXRHVwMEU5RWpaZndrbng5WEFZSUw1WHBGbUlmTHFRTzl3dEpQ?=
+ =?utf-8?B?Nkw2b01lbE5GaFJydldkNkd5K29yRFl6aUF3VTVaT08yNXRHVTZOOUNnaUN3?=
+ =?utf-8?B?VzNBa2FoemQzT0xNSCtZOGlLa0JoMlU1M2pBMjVVUktUNG1xcnE1Q3FrUko1?=
+ =?utf-8?B?MzRaejJGTnRxSnRjZ0ZLc0JkU2Npd1Nkek5WWGdYSnRKbmRZS2dBa0lxU0Fx?=
+ =?utf-8?B?Z05SMzdPQXdkUTFLZEViaGF5RU1HbExENm5HSWxzMmpMVHVzTHVjK2xJMFlK?=
+ =?utf-8?B?a09JSk5lMytZZlYyNnc1dGVZN1ZkbUwxRm1RRHR3M0daaGFndHFiOGFVZ3h5?=
+ =?utf-8?B?UExSdVdsSGhnd2x1dUlFaFBCdW1QNS8zUGlJSHYwcllEKzYzQUhQK1FITGhY?=
+ =?utf-8?B?Wk8rVEpKZlhVV2wyTGFvNEtaQ1JlVTJRcXJrSnhreTVkSWE4aGxzYjZqNFBr?=
+ =?utf-8?B?UCtUemIvTUVZUVFoUkhDUXJRMWVMTGMyeklCbm5XTnA3ZDBOcFo1dGZoSFl1?=
+ =?utf-8?B?Y0tLR3Y1YjRNZ0xXdTlMbmZUWEMzOXZ3MHFxQkJTVjgzQTZTb0tyYyt5c3dl?=
+ =?utf-8?B?NWJxSXFpdnMrcnZFNG9xYkJhTGNkTEhlSnJ0UXR5S3ZUNVpQNCsydkoreXFa?=
+ =?utf-8?B?SGFob0luRnpoS3NrK29uaVZCTVRVaVdJUXRKTlBZZ2RCMTV0R2txenpUOVRO?=
+ =?utf-8?B?alJUYWM1KzhEaXRLUlNJTEpUbHNEQitpc0ZjSWVwL056dGNqU25FWlphc0lt?=
+ =?utf-8?B?RGVCU1g2ZVhlc0JoM3JaSmtvc3RpdVVvb0NBNHdIcFdNcVhzb2hrQmVtUk9h?=
+ =?utf-8?B?K0NRdlZjVmlkU2ZkUjNIQ2xYMVlCZlZQdUJiZEZ3M1RpSWlCRHM5QWhBaFRM?=
+ =?utf-8?B?bWQzcldMZm5kYk11ZHEwbUUxa0t5WDdoTkhidFBldE0xb0JaVkwrNENadmNw?=
+ =?utf-8?B?cm82NDNFSVN4R2JjQklzSEowSU9IUVljSXVVV29McldEZDcxV1J2U20rT3Jr?=
+ =?utf-8?B?V0JFRVd1cVlrU1JJRTM3OGhIcHdQS3hwbkNQa2VoVWRjMzIxbmM0K28xNUcy?=
+ =?utf-8?B?NHVCVlVaYjBxNzJPZjRKZy9lN3krL2VuSE5vMm8rOWNzSzlST0Y4dz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 706588fa-6294-401c-e00f-08de78623025
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 13:47:04.4105 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UsQFOMSexeDnG9VWVb0UOMXmFanNWRqROO9wvE1FMXKFnxp7mVvXSsKwvhv5YlsnmA6q0RY339V9ZCTP2cxICw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5568
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,129 +152,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:yuanjie.yang@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzysztof.kozlowski@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:tingwei.zhang@oss.qualcomm.com,m:aiqun.yu@oss.qualcomm.com,m:yongxing.mou@oss.qualcomm.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linaro.org,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[garyguo.net:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 2C6571DA09D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,garyguo.net:mid,garyguo.net:dkim]
+X-Rspamd-Queue-Id: 4F2A71DA0C1
 X-Rspamd-Action: no action
 
-On 3/2/26 2:28 PM, Dmitry Baryshkov wrote:
-> On Mon, Mar 02, 2026 at 11:41:59AM +0100, Konrad Dybcio wrote:
->> On 2/27/26 8:05 PM, Dmitry Baryshkov wrote:
->>> On Fri, Feb 27, 2026 at 12:34:04PM +0100, Konrad Dybcio wrote:
->>>> On 2/27/26 4:48 AM, Dmitry Baryshkov wrote:
->>>>> On Thu, Feb 26, 2026 at 02:35:52PM +0100, Konrad Dybcio wrote:
->>>>>> On 1/12/26 9:25 AM, yuanjiey wrote:
->>>>>>> On Mon, Jan 12, 2026 at 09:38:41AM +0200, Dmitry Baryshkov wrote:
->>>>>>>> On Mon, 12 Jan 2026 at 08:23, yuanjiey <yuanjie.yang@oss.qualcomm.com> wrote:
->>>>>>>>>
->>>>>>>>> On Fri, Jan 09, 2026 at 05:22:37PM +0200, Dmitry Baryshkov wrote:
->>>>>>>>>> On Fri, Jan 09, 2026 at 04:38:07PM +0800, yuanjie yang wrote:
->>>>>>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+On Mon Mar 2, 2026 at 11:42 AM GMT, Eliot Courtney wrote:
+> There is no particular order required here and keeping them alphabetical
+> will help preventing future mistakes.
 
-[...]
+Looks like the current order is in increasing opcode order. Granted, curren=
+tly
+they're generated in bindings and then included as such, but perhaps eventu=
+ally
+Rust code can be generated directly so the ordering could make sense?
 
->>> 1.0  - old MSM8974
->>>        I'd rather not touch it, it had bugs and I don't have HW
->>
->> I have reasons to believe msm8974 v1.0 never reached store shelves.
->> Let's remove this.
-> 
-> Please send a patch ;-)
+Best,
+Gary
 
-done!
+>
+> Tested-by: Zhi Wang <zhiw@nvidia.com>
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/gsp/fw.rs | 67 +++++++++++++++++++++--------------=
+------
+>  1 file changed, 35 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/=
+fw.rs
+> index f1797e1f0d9d..4b998485360b 100644
+> --- a/drivers/gpu/nova-core/gsp/fw.rs
+> +++ b/drivers/gpu/nova-core/gsp/fw.rs
+> @@ -191,34 +191,34 @@ pub(crate) fn new(gsp_firmware: &GspFirmware, fb_la=
+yout: &FbLayout) -> Self {
+>  #[repr(u32)]
+>  pub(crate) enum MsgFunction {
+>      // Common function codes
+> -    Nop =3D bindings::NV_VGPU_MSG_FUNCTION_NOP,
+> -    SetGuestSystemInfo =3D bindings::NV_VGPU_MSG_FUNCTION_SET_GUEST_SYST=
+EM_INFO,
+> -    AllocRoot =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_ROOT,
+> +    AllocChannelDma =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA=
+,
+> +    AllocCtxDma =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA,
+>      AllocDevice =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_DEVICE,
+>      AllocMemory =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_MEMORY,
+> -    AllocCtxDma =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA,
+> -    AllocChannelDma =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA=
+,
+> -    MapMemory =3D bindings::NV_VGPU_MSG_FUNCTION_MAP_MEMORY,
+> -    BindCtxDma =3D bindings::NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA,
+>      AllocObject =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_OBJECT,
+> +    AllocRoot =3D bindings::NV_VGPU_MSG_FUNCTION_ALLOC_ROOT,
+> +    BindCtxDma =3D bindings::NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA,
+>      Free =3D bindings::NV_VGPU_MSG_FUNCTION_FREE,
+> -    Log =3D bindings::NV_VGPU_MSG_FUNCTION_LOG,
+>      GetGspStaticInfo =3D bindings::NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_I=
+NFO,
+> -    SetRegistry =3D bindings::NV_VGPU_MSG_FUNCTION_SET_REGISTRY,
+> -    GspSetSystemInfo =3D bindings::NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_I=
+NFO,
+> +    GetStaticInfo =3D bindings::NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO,
+>      GspInitPostObjGpu =3D bindings::NV_VGPU_MSG_FUNCTION_GSP_INIT_POST_O=
+BJGPU,
+>      GspRmControl =3D bindings::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL,
+> -    GetStaticInfo =3D bindings::NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO,
+> +    GspSetSystemInfo =3D bindings::NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_I=
+NFO,
+> +    Log =3D bindings::NV_VGPU_MSG_FUNCTION_LOG,
+> +    MapMemory =3D bindings::NV_VGPU_MSG_FUNCTION_MAP_MEMORY,
+> +    Nop =3D bindings::NV_VGPU_MSG_FUNCTION_NOP,
+> +    SetGuestSystemInfo =3D bindings::NV_VGPU_MSG_FUNCTION_SET_GUEST_SYST=
+EM_INFO,
+> +    SetRegistry =3D bindings::NV_VGPU_MSG_FUNCTION_SET_REGISTRY,
+> =20
+>      // Event codes
+>      GspInitDone =3D bindings::NV_VGPU_MSG_EVENT_GSP_INIT_DONE,
+> +    GspLockdownNotice =3D bindings::NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTIC=
+E,
+> +    GspPostNoCat =3D bindings::NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD,
+>      GspRunCpuSequencer =3D bindings::NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUE=
+NCER,
+> -    PostEvent =3D bindings::NV_VGPU_MSG_EVENT_POST_EVENT,
+> -    RcTriggered =3D bindings::NV_VGPU_MSG_EVENT_RC_TRIGGERED,
+>      MmuFaultQueued =3D bindings::NV_VGPU_MSG_EVENT_MMU_FAULT_QUEUED,
+>      OsErrorLog =3D bindings::NV_VGPU_MSG_EVENT_OS_ERROR_LOG,
+> -    GspPostNoCat =3D bindings::NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD,
+> -    GspLockdownNotice =3D bindings::NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTIC=
+E,
+> +    PostEvent =3D bindings::NV_VGPU_MSG_EVENT_POST_EVENT,
+> +    RcTriggered =3D bindings::NV_VGPU_MSG_EVENT_RC_TRIGGERED,
+>      UcodeLibOsPrint =3D bindings::NV_VGPU_MSG_EVENT_UCODE_LIBOS_PRINT,
+>  }
+> =20
+> @@ -227,38 +227,41 @@ impl TryFrom<u32> for MsgFunction {
+> =20
+>      fn try_from(value: u32) -> Result<MsgFunction> {
+>          match value {
+> -            bindings::NV_VGPU_MSG_FUNCTION_NOP =3D> Ok(MsgFunction::Nop)=
+,
+> -            bindings::NV_VGPU_MSG_FUNCTION_SET_GUEST_SYSTEM_INFO =3D> {
+> -                Ok(MsgFunction::SetGuestSystemInfo)
+> -            }
+> -            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_ROOT =3D> Ok(MsgFunctio=
+n::AllocRoot),
+> +            // Common function codes
+> +            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA =3D> Ok(Msg=
+Function::AllocChannelDma),
+> +            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA =3D> Ok(MsgFunc=
+tion::AllocCtxDma),
+>              bindings::NV_VGPU_MSG_FUNCTION_ALLOC_DEVICE =3D> Ok(MsgFunct=
+ion::AllocDevice),
+>              bindings::NV_VGPU_MSG_FUNCTION_ALLOC_MEMORY =3D> Ok(MsgFunct=
+ion::AllocMemory),
+> -            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA =3D> Ok(MsgFunc=
+tion::AllocCtxDma),
+> -            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA =3D> Ok(Msg=
+Function::AllocChannelDma),
+> -            bindings::NV_VGPU_MSG_FUNCTION_MAP_MEMORY =3D> Ok(MsgFunctio=
+n::MapMemory),
+> -            bindings::NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA =3D> Ok(MsgFunct=
+ion::BindCtxDma),
+>              bindings::NV_VGPU_MSG_FUNCTION_ALLOC_OBJECT =3D> Ok(MsgFunct=
+ion::AllocObject),
+> +            bindings::NV_VGPU_MSG_FUNCTION_ALLOC_ROOT =3D> Ok(MsgFunctio=
+n::AllocRoot),
+> +            bindings::NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA =3D> Ok(MsgFunct=
+ion::BindCtxDma),
+>              bindings::NV_VGPU_MSG_FUNCTION_FREE =3D> Ok(MsgFunction::Fre=
+e),
+> -            bindings::NV_VGPU_MSG_FUNCTION_LOG =3D> Ok(MsgFunction::Log)=
+,
+>              bindings::NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO =3D> Ok(M=
+sgFunction::GetGspStaticInfo),
+> -            bindings::NV_VGPU_MSG_FUNCTION_SET_REGISTRY =3D> Ok(MsgFunct=
+ion::SetRegistry),
+> -            bindings::NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO =3D> Ok(M=
+sgFunction::GspSetSystemInfo),
+> +            bindings::NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO =3D> Ok(MsgFu=
+nction::GetStaticInfo),
+>              bindings::NV_VGPU_MSG_FUNCTION_GSP_INIT_POST_OBJGPU =3D> {
+>                  Ok(MsgFunction::GspInitPostObjGpu)
+>              }
+>              bindings::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL =3D> Ok(MsgFun=
+ction::GspRmControl),
+> -            bindings::NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO =3D> Ok(MsgFu=
+nction::GetStaticInfo),
+> +            bindings::NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO =3D> Ok(M=
+sgFunction::GspSetSystemInfo),
+> +            bindings::NV_VGPU_MSG_FUNCTION_LOG =3D> Ok(MsgFunction::Log)=
+,
+> +            bindings::NV_VGPU_MSG_FUNCTION_MAP_MEMORY =3D> Ok(MsgFunctio=
+n::MapMemory),
+> +            bindings::NV_VGPU_MSG_FUNCTION_NOP =3D> Ok(MsgFunction::Nop)=
+,
+> +            bindings::NV_VGPU_MSG_FUNCTION_SET_GUEST_SYSTEM_INFO =3D> {
+> +                Ok(MsgFunction::SetGuestSystemInfo)
+> +            }
+> +            bindings::NV_VGPU_MSG_FUNCTION_SET_REGISTRY =3D> Ok(MsgFunct=
+ion::SetRegistry),
+> +
+> +            // Event codes
+>              bindings::NV_VGPU_MSG_EVENT_GSP_INIT_DONE =3D> Ok(MsgFunctio=
+n::GspInitDone),
+> +            bindings::NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTICE =3D> Ok(MsgF=
+unction::GspLockdownNotice),
+> +            bindings::NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD =3D> Ok(Ms=
+gFunction::GspPostNoCat),
+>              bindings::NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUENCER =3D> {
+>                  Ok(MsgFunction::GspRunCpuSequencer)
+>              }
+> -            bindings::NV_VGPU_MSG_EVENT_POST_EVENT =3D> Ok(MsgFunction::=
+PostEvent),
+> -            bindings::NV_VGPU_MSG_EVENT_RC_TRIGGERED =3D> Ok(MsgFunction=
+::RcTriggered),
+>              bindings::NV_VGPU_MSG_EVENT_MMU_FAULT_QUEUED =3D> Ok(MsgFunc=
+tion::MmuFaultQueued),
+>              bindings::NV_VGPU_MSG_EVENT_OS_ERROR_LOG =3D> Ok(MsgFunction=
+::OsErrorLog),
+> -            bindings::NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD =3D> Ok(Ms=
+gFunction::GspPostNoCat),
+> -            bindings::NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTICE =3D> Ok(MsgF=
+unction::GspLockdownNotice),
+> +            bindings::NV_VGPU_MSG_EVENT_POST_EVENT =3D> Ok(MsgFunction::=
+PostEvent),
+> +            bindings::NV_VGPU_MSG_EVENT_RC_TRIGGERED =3D> Ok(MsgFunction=
+::RcTriggered),
+>              bindings::NV_VGPU_MSG_EVENT_UCODE_LIBOS_PRINT =3D> Ok(MsgFun=
+ction::UcodeLibOsPrint),
+>              _ =3D> Err(EINVAL),
+>          }
 
-> 
->>
->>> 1.1  - MSM8x26
->>>        Probably Luca can better comment on it. Should be doable, but I
->>>        don't see upstream devices using display on it.
->>
->> Because there's no iommu support for these
-> 
-> I promised to put it on my todo list, but the list is very long.
-> 
->>
->>> 1.2  - MSM8974
->>>        I think it also had issues, no IOMMU support in upstream, etc.
->>> 1.3  - APQ8084
->>>        Had hw issues, no testing base, no MDSS in upstream DT
->>> 1.6  - MSM8916 / MSM8939
->>>        Can be done, low-hanging fruit for testing
->>> 1.7  - MSM8996
->>>        Supported in DPU
->>> 1.8  - MSM8936
->>>        No upsteram testing base
->>
->> 8936 is 39 with some CPUs fused off (unless you have info suggesting
->> otherwise)
-> 
-> Hmm, you added 8x36 to mdp5_cfg.c, stating it is 1.8. See commit
-> 81c4389e4835 ("drm/msm/mdp5: Add MDP5 configuration for MSM8x36.")
-> Author: Konrad Dybcio <konradybcio@gmail.com>
-> 
-> Please remove it from the mdp5_cfg to avoid confusion.
-
-v1.6 is strictly for 8916. 8936/39 both use v1.8.
-
->>> 1.9  - MSM8994
->>>        No upstream testing base, no MDSS in upstream DT, normal CURSOR planes
->>> 1.10 - MSM8992
->>>        Even less testing base, no MDSS in upstream DT, normal CURSOR planes
->>> 1.11 - MSM8956 / 76
->>>        No complete display configurations upstream
->>
->> +Marijn, is your computer museum still running?
-> 
-> Should we open a Qualcomm Virtual Museum?
-
-Maybe someone has a drawer full of QSD8250s!
-
-> 
->>
->>> 1.14 - MSM8937
->>>        Supported in DPU
->>> 1.15 - MSM8917
->>>        Supported in DPU
->>> 1.16 - MSM8953
->>>        Supported in DPU
->>> 1.17 - QCS405
->>>        Zero testing base, no MDSS in upstream DT
->>
->> No upstream MDP5 support either. And it doesn't seem like that SoC had
->> much uses that didn't end up with the thing glued shut..
-> 
-> I saw and touched devices, but that was display-less version.
-
-Only further confirming it's not worth pursuing
-
-Konrad
