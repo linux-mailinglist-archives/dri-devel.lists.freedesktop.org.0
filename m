@@ -2,78 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPhQNdXNpWm1GwAAu9opvQ
+	id OCEzCmTQpWm1GwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 18:50:13 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:01:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3436A1DE0E8
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 18:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EB31DE2AC
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20D010E539;
-	Mon,  2 Mar 2026 17:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6894910E2BD;
+	Mon,  2 Mar 2026 18:01:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WtyOZQTb";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pBie9p+G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6CE10E539
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 17:50:09 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 2DC694E424BD;
- Mon,  2 Mar 2026 17:50:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CDA2C5FE89;
- Mon,  2 Mar 2026 17:50:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5531310368CAA; Mon,  2 Mar 2026 18:49:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772473805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=E2yV377sQW0c5N6RevrqfWbOyFtalU/YHrkLt3cGBxw=;
- b=WtyOZQTbfFKj5/QbEli0TEvhsV3N0ByWqHfL50YME4xvob9drpxOaglxWkH8A7Ep9nM9WH
- x7rzQFw3ZkITL7KN1xsfBmyQFr1wNNoKK6amYqo/jZJDpOaZARS5Op6HZmvwcFtk2/u7Xj
- HBgzwzTKPezImCYZhWWdUyX2wRZljwrT51fPvgaozlDXeW9A5cVPv+7+pHBLeVsSFZkD+8
- yEwejZUmhAVHvqSCt4oFDi5QgEvV6pLjRBwXYNygBhyEXihVT1OcsqZUJ6kEMnRNcO4Qwg
- xfnDZzbjCzOc+0NtYva1pV5JjqL2URwmBA0X0r02y18BlDBCyFzcmqpCmvWZmA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Mar 2026 18:49:51 +0100
-Message-Id: <DGSHIQOB2YTB.1559SD1YLGT7P@bootlin.com>
-Subject: Re: [PATCH v14 7/9] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-Cc: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
-To: "Chaoyi Chen" <kernel@airkyi.com>, "Heikki Krogerus"
- <heikki.krogerus@linux.intel.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Peter Chen" <hzpeterchen@gmail.com>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Vinod Koul"
- <vkoul@kernel.org>, "Kishon Vijay Abraham I" <kishon@kernel.org>, "Heiko
- Stuebner" <heiko@sntech.de>, "Sandy Huang" <hjc@rock-chips.com>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Yubing Zhang" <yubing.zhang@rock-chips.com>,
- "Frank Wang" <frank.wang@rock-chips.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Amit Sunil Dhamne"
- <amitsd@google.com>, "Chaoyi Chen" <chaoyi.chen@rock-chips.com>, "Dragan
- Simic" <dsimic@manjaro.org>, "Johan Jonker" <jbx6244@gmail.com>, "Diederik
- de Haas" <didi.debian@cknow.org>, "Peter Robinson" <pbrobinson@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260119073100.143-1-kernel@airkyi.com>
- <20260119073100.143-8-kernel@airkyi.com>
-In-Reply-To: <20260119073100.143-8-kernel@airkyi.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010060.outbound.protection.outlook.com
+ [52.101.193.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCEB10E2BD
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 18:01:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mgGukCIIT1roTyW6A5hvW6/DK/rcghfabRMf5C86tzb4jWIgdAPPZdApTsxN5oKyOwdEw4RoRkONDV88vogyE04oGm1EIn2uvTu+q47j1IRONe+5c+C4a26DYg3ryebWH5FIMxkpIdwsxYnHE6s90TCH0IAd9sg8KJkXM6dICyALzNTzqxnNfsZFeesTmQTc0Rzu00qJQS9KX+NT/uhqIZEml1bC3bo2cuxUPxtdxZuSZzbxeDxSKUPzoW1zFVZkQ5PXnSPXPIUY8v3sGzHfxyaAL9xMCvGg+0CEJCkxjDpGtJbvs6xAgUXysEFZj5Anit3JKD4gmgdHKQ1f2TNqhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U7vtAW76nUXeo2mc50MVnhMjempGASAxTS9iWwScyqM=;
+ b=PoDfQgNsNlml6YeYxWpp7E7C30Qi3wMCheGTjBi7zTK9o9x1va8VeAxzvYPSY9tsQsGZUPjj8F6JCzT/NzwtaN35NLQqJJbI6YNPnrh5NWUUVf3PLrNd53kavc/zPjc9AQpoJsTC6EDy6U/2l4rKZdAmPk+dV60e7JWhQitOgiODI+Z6P1sAy4M12+vxNVqFk4QTZffx7jIuWW9rJEHu9a6XWuJ3FHq5HjN2vembE+pHXeeg0+0vSukDsds91kVjRCoaspV94KXradlyVsfJfBho6D1GhyH7VD0JagUt0032fViJ13stSE+A56k/QF5vVQWs3heCy/8dTDelnvOxwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U7vtAW76nUXeo2mc50MVnhMjempGASAxTS9iWwScyqM=;
+ b=pBie9p+Gsqcjkyu4aDLnSKsLMRQsXarNhdIWNjmZV8BN8aKmm1gBPdte0MkgyTxNnEHykoVcVfXQTbsdAHDlbdXYv22u2PrAayBkYWGTeB0KAOvw9TONFTAQUdplGHlXCpQA1eWx7yHbGm+QL/UvqfUa/WuiSU1hF+YPU8UAMWI=
+Received: from MW3PR06CA0003.namprd06.prod.outlook.com (2603:10b6:303:2a::8)
+ by LV2PR12MB5872.namprd12.prod.outlook.com (2603:10b6:408:173::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
+ 2026 18:01:00 +0000
+Received: from MWH0EPF000C618A.namprd02.prod.outlook.com
+ (2603:10b6:303:2a:cafe::2e) by MW3PR06CA0003.outlook.office365.com
+ (2603:10b6:303:2a::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.21 via Frontend Transport; Mon,
+ 2 Mar 2026 18:00:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ MWH0EPF000C618A.mail.protection.outlook.com (10.167.249.122) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 18:00:59 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 2 Mar
+ 2026 12:00:59 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Mon, 2 Mar 2026 12:00:58 -0600
+Message-ID: <55df5050-524f-5dfd-f41d-daac769ce8ea@amd.com>
+Date: Mon, 2 Mar 2026 10:00:58 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Import AMD_PMF namespace
+Content-Language: en-US
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ <mario.limonciello@amd.com>, <mamin506@gmail.com>, <ogabbay@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>
+References: <20260301005028.367618-1-superm1@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20260301005028.367618-1-superm1@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C618A:EE_|LV2PR12MB5872:EE_
+X-MS-Office365-Filtering-Correlation-Id: d541f31d-4e7f-462a-93de-08de7885a913
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026|7053199007; 
+X-Microsoft-Antispam-Message-Info: /rlQIKQ8FsS08h34nmIPUunzaGMs00n5pSCZmJTXudV9AwkcsZe34cVBtLv/Z11rOi12onHwZBC4rKZ0Lsu9B8ikZCJ2ZVq9Z1TRhZ0SwKseBGfKXHC7ea0Vvddb+pvo/l4GiSmZJrkHy3wdQFKZOYTCIAggUaF5Vu4xZkyDSiWfhetWuEYjhTcSA6wPCPP18iNe5BW2B+ehSzKad7/PN9osFiWqMOtKixUTykkzzDamQlUI5G7iLYOGHYw41YEpTW3/Vl3bj5rDlbnMsV0w0oRECQroAKn36+e1q4T07jDvO1eNWffINp60JvuD5YgD815CDmu6sEs3WlSCbXkAUFL1ILGEiRLEkOQ5fJCqo5d2X7U0vZjq07X7Ha1voBcMpT55mkhrTDVL8Q4TXkb6B7ei3Jzd0RMIyfbCFe/hlxU4DCrBNDBFtGdvo1jRAx9SyGiPEfziq6lIcmKvJ9Bv8/Ue1HNwS8lKMoamIG7aEG0E/UIb4jU/HmxkQTL5rtGiY1mrD9os7jOCltJ3YcDSTl3VArTCJrTRI/8nFTzmILrqQ9dgDqWqRxB8YZf3nX6aOUuYG/+fo9WcYxXK9JNFk4N7GcEC/joApHp+EKor67WyWq9x0R4fBg2fmtSU+7OOhT1oxgCgrb2o3rRRiZhcEJH3WIo4zd/SabjOkn2DpzqJITxM/M10wsvt6wnGAArxIW/0q1kYQ+aWIpVX1sTDq2StJB3gsPqeOdag+EDe8wt2vupk2UmNXoF2wz4CooFILDbfiw/Mo0XmUAdG1ouDxFdWtI1T4eksNxqMGIeFCGSkB9wLj7O87AszwuFOcNPbVPed6G1q4jFRn6smUAMMIA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: Hu4/3dZjGM7Vn5fq4qEC6VeSQop5Q0IRRLVgKaWqZMDhjIsXyzK+eYwPH4ol7KAdVVE5yq1vTaootFgRcMNVU53KQKiXEI6OKfPFfeiUhsyfLQehhhymqmhGzkh71Q4uEDEb0yrXvJZ3PG4Jh9T99nCOb07vEcmlCO2RQrOLPgwVpgNV36pRUPLGjC0BFwP+XHs9hWxmGAUeupQbD+nZmCW93+4hHxbgxDC9yLoaRJMtT5wfVdyMH393a6/tv6aamIYCbVrkSNQwyq4tJjj9JJ7zWpnaTWloitHPFaNuSMrSFLEySM6m1Nhsdlea9XsXINFw0yY4o2Rxmok5OhQPjwkC+jTaTQMZsdC6p69Lo8qcFBUmM9EtV4exj34onywtHmJuAoTI7dn5ysfhwsyLnK2NCC7G122B3a/o3HS72bFAYNj/poU0/uaacrZKFUFg
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 18:00:59.4979 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d541f31d-4e7f-462a-93de-08de7885a913
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000C618A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5872
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,585 +118,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3436A1DE0E8
+X-Rspamd-Queue-Id: 63EB31DE2AC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-usb@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:kernel@airkyi.com,m:heikki.krogerus@linux.intel.com,m:gregkh@linuxfoundation.org,m:dmitry.baryshkov@oss.qualcomm.com,m:hzpeterchen@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:heiko@sntech.de,m:hjc@rock-chips.com,m:andy.yan@rock-chips.com,m:yubing.zhang@rock-chips.com,m:frank.wang@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:amitsd@google.com,m:chaoyi.chen@rock-chips.com,m:dsimic@manjaro.org,m:jbx6244@gmail.com,m:didi.debian@cknow.org,m:pbrobinson@gmail.com,m:k
- rzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[airkyi.com,linux.intel.com,linuxfoundation.org,oss.qualcomm.com,gmail.com,kernel.org,sntech.de,rock-chips.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,suse.de,ffwll.ch,google.com,manjaro.org,cknow.org];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:superm1@kernel.org,m:mario.limonciello@amd.com,m:mamin506@gmail.com,m:ogabbay@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,amd.com,gmail.com];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Mon Jan 19, 2026 at 8:30 AM CET, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+
+On 2/28/26 16:50, Mario Limonciello (AMD) wrote:
+> The amdxdna driver uses amd_pmf_get_npu_data() which is exported in the
+> AMD_PMF namespace. Import the AMD_PMF namespace.
 >
-> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
-> the CDN-DP can be switched to output to one of the PHYs. If both ports
-> are plugged into DP, DP will select the first port for output.
->
-> This patch adds support for multiple bridges, enabling users to flexibly
-> select the output port. For each PHY port, a separate encoder and bridge
-> are registered.
->
-> The change is based on the DRM AUX HPD bridge, rather than the
-> extcon approach. This requires the DT to correctly describe the
-> connections between the first bridge in bridge chain and DP
-> controller. For example, the bridge chain may be like this:
->
-> PHY aux birdge -> fsa4480 analog audio switch bridge ->
-> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->
-> In this case, the connection relationships among the PHY aux bridge
-> and the DP contorller need to be described in DT.
->
-> In addition, the cdn_dp_parse_next_bridge_dt() will parses it and
-> determines whether to register one or two bridges.
->
-> Since there is only one DP controller, only one of the PHY ports can
-> output at a time. The key is how to switch between different PHYs,
-> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->
-> There are two cases:
->
-> 1. Neither bridge is enabled. In this case, both bridges can
-> independently read the EDID, and the PHY port may switch before
-> reading the EDID.
->
-> 2. One bridge is already enabled. In this case, other bridges are not
-> allowed to read the EDID. So we will try to return the cached EDID.
->
-> Since the scenario of two ports plug in at the same time is rare,
-> I don't have a board which support two TypeC connector to test this.
-> Therefore, I tested forced switching on a single PHY port, as well as
-> output using a fake PHY port alongside a real PHY port.
->
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > ---
+>   drivers/accel/amdxdna/amdxdna_pci_drv.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> (no changes since v11)
->
-> Changes in v10:
-> - Fix refcount usage of drm_bridge.
-> - Remove unused cdn_dp_next_bridge type.
->
-> Changes in v9:
-> - Select DRM_AUX_HPD_BRIDGE when using DP driver.
->
-> (no changes since v7)
->
-> Changes in v6:
-> - Rename some variable names.
-> - Attach the DP bridge to the next bridge.
->
-> Changes in v5:
-> - By parsing the HPD bridge chain, set the connector's of_node to the
-> of_node corresponding to the USB-C connector.
-> - Return EDID cache when other port is already enabled.
-> ---
->
->  drivers/gpu/drm/rockchip/Kconfig       |   1 +
->  drivers/gpu/drm/rockchip/cdn-dp-core.c | 325 ++++++++++++++++++++-----
->  drivers/gpu/drm/rockchip/cdn-dp-core.h |  18 +-
->  3 files changed, 287 insertions(+), 57 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/=
-Kconfig
-> index b7b025814e72..10d9f29a3d44 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -56,6 +56,7 @@ config ROCKCHIP_CDN_DP
->  	select DRM_DISPLAY_HELPER
->  	select DRM_BRIDGE_CONNECTOR
->  	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_AUX_HPD_BRIDGE
->  	help
->  	  This selects support for Rockchip SoC specific extensions
->  	  for the cdn DP driver. If you want to enable Dp on
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/roc=
-kchip/cdn-dp-core.c
-> index 1e27301584a4..0bc3d248c266 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-> @@ -27,16 +27,17 @@
->  #include "cdn-dp-core.h"
->  #include "cdn-dp-reg.h"
->
-> -static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *brid=
-ge)
-> +static int cdn_dp_switch_port(struct cdn_dp_device *dp, struct cdn_dp_po=
-rt *prev_port,
-> +			      struct cdn_dp_port *port);
-> +
-> +static inline struct cdn_dp_bridge *bridge_to_dp_bridge(struct drm_bridg=
-e *bridge)
->  {
-> -	return container_of(bridge, struct cdn_dp_device, bridge);
-> +	return container_of(bridge, struct cdn_dp_bridge, bridge);
->  }
->
-> -static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *en=
-coder)
-> +static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *brid=
-ge)
->  {
-> -	struct rockchip_encoder *rkencoder =3D to_rockchip_encoder(encoder);
-> -
-> -	return container_of(rkencoder, struct cdn_dp_device, encoder);
-> +	return bridge_to_dp_bridge(bridge)->parent;
->  }
->
->  #define GRF_SOC_CON9		0x6224
-> @@ -191,14 +192,27 @@ static int cdn_dp_get_sink_count(struct cdn_dp_devi=
-ce *dp, u8 *sink_count)
->  static struct cdn_dp_port *cdn_dp_connected_port(struct cdn_dp_device *d=
-p)
->  {
->  	struct cdn_dp_port *port;
-> -	int i, lanes;
-> +	int i, lanes[MAX_PHY];
->
->  	for (i =3D 0; i < dp->ports; i++) {
->  		port =3D dp->port[i];
-> -		lanes =3D cdn_dp_get_port_lanes(port);
-> -		if (lanes)
-> +		lanes[i] =3D cdn_dp_get_port_lanes(port);
-> +		if (!dp->next_bridge_valid)
->  			return port;
->  	}
-> +
-> +	if (dp->next_bridge_valid) {
-> +		/* If more than one port is available, pick the last active port */
-> +		if (dp->active_port > 0 && lanes[dp->active_port])
-> +			return dp->port[dp->active_port];
-> +
-> +		/* If the last active port is not available, pick an available port in=
- order */
-> +		for (i =3D 0; i < dp->bridge_count; i++) {
-> +			if (lanes[i])
-> +				return dp->port[i];
-> +		}
-> +	}
-> +
->  	return NULL;
->  }
->
-> @@ -253,12 +267,45 @@ static const struct drm_edid *
->  cdn_dp_bridge_edid_read(struct drm_bridge *bridge, struct drm_connector =
-*connector)
->  {
->  	struct cdn_dp_device *dp =3D bridge_to_dp(bridge);
-> -	const struct drm_edid *drm_edid;
-> +	struct cdn_dp_bridge *dp_bridge =3D bridge_to_dp_bridge(bridge);
-> +	struct cdn_dp_port *port =3D dp->port[dp_bridge->id];
-> +	struct cdn_dp_port *prev_port;
-> +	const struct drm_edid *drm_edid =3D NULL;
-> +	int i, ret;
->
->  	mutex_lock(&dp->lock);
-> +
-> +	/* More than one port is available */
-> +	if (dp->bridge_count > 1 && !port->phy_enabled) {
-> +		for (i =3D 0; i < dp->bridge_count; i++) {
-> +			/* Another port already enable */
-> +			if (dp->bridge_list[i] !=3D dp_bridge && dp->bridge_list[i]->enabled)
-> +				goto get_cache;
-> +			/* Find already enabled port */
-> +			if (dp->port[i]->phy_enabled)
-> +				prev_port =3D dp->port[i];
-> +		}
-> +
-> +		/* Switch to current port */
-> +		if (prev_port) {
-> +			ret =3D cdn_dp_switch_port(dp, prev_port, port);
-> +			if (ret)
-> +				goto get_cache;
-> +		}
-> +	}
-> +
->  	drm_edid =3D drm_edid_read_custom(connector, cdn_dp_get_edid_block, dp)=
-;
-> +	/* replace edid cache */
-> +	if (dp->edid_cache[dp_bridge->id])
-> +		drm_edid_free(dp->edid_cache[dp_bridge->id]);
-> +	dp->edid_cache[dp_bridge->id] =3D drm_edid_dup(drm_edid);
-> +
->  	mutex_unlock(&dp->lock);
-> +	return drm_edid;
->
-> +get_cache:
-> +	drm_edid =3D drm_edid_dup(dp->edid_cache[dp_bridge->id]);
-> +	mutex_unlock(&dp->lock);
->  	return drm_edid;
->  }
->
-> @@ -267,12 +314,13 @@ cdn_dp_bridge_mode_valid(struct drm_bridge *bridge,
->  			 const struct drm_display_info *display_info,
->  			 const struct drm_display_mode *mode)
->  {
-> +	struct cdn_dp_bridge *dp_bridge =3D bridge_to_dp_bridge(bridge);
->  	struct cdn_dp_device *dp =3D bridge_to_dp(bridge);
->  	u32 requested, actual, rate, sink_max, source_max =3D 0;
->  	u8 lanes, bpc;
->
->  	/* If DP is disconnected, every mode is invalid */
-> -	if (!dp->connected)
-> +	if (!dp_bridge->connected || !dp->connected)
->  		return MODE_BAD;
->
->  	switch (display_info->bpc) {
-> @@ -550,6 +598,54 @@ static bool cdn_dp_check_link_status(struct cdn_dp_d=
-evice *dp)
->  	return drm_dp_channel_eq_ok(link_status, min(port->lanes, sink_lanes));
->  }
->
-> +static int cdn_dp_switch_port(struct cdn_dp_device *dp, struct cdn_dp_po=
-rt *prev_port,
-> +			      struct cdn_dp_port *port)
-> +{
-> +	int ret;
-> +
-> +	if (dp->active)
-> +		return 0;
-> +
-> +	ret =3D cdn_dp_disable_phy(dp, prev_port);
-> +	if (ret)
-> +		goto out;
-> +	ret =3D cdn_dp_enable_phy(dp, port);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret =3D cdn_dp_get_sink_capability(dp);
-> +	if (ret) {
-> +		cdn_dp_disable_phy(dp, port);
-> +		goto out;
-> +	}
-> +
-> +	dp->active =3D true;
-> +	dp->lanes =3D port->lanes;
-> +
-> +	if (!cdn_dp_check_link_status(dp)) {
-> +		dev_info(dp->dev, "Connected with sink; re-train link\n");
-> +
-> +		ret =3D cdn_dp_train_link(dp);
-> +		if (ret) {
-> +			dev_err(dp->dev, "Training link failed: %d\n", ret);
-> +			goto out;
-> +		}
-> +
-> +		ret =3D cdn_dp_set_video_status(dp, CONTROL_VIDEO_IDLE);
-> +		if (ret) {
-> +			dev_err(dp->dev, "Failed to idle video %d\n", ret);
-> +			goto out;
-> +		}
-> +
-> +		ret =3D cdn_dp_config_video(dp);
-> +		if (ret)
-> +			dev_err(dp->dev, "Failed to configure video: %d\n", ret);
-> +	}
-> +
-> +out:
-> +	return ret;
-> +}
-> +
->  static void cdn_dp_display_info_update(struct cdn_dp_device *dp,
->  				       struct drm_display_info *display_info)
->  {
-> @@ -571,6 +667,7 @@ static void cdn_dp_display_info_update(struct cdn_dp_=
-device *dp,
->  static void cdn_dp_bridge_atomic_enable(struct drm_bridge *bridge, struc=
-t drm_atomic_state *state)
->  {
->  	struct cdn_dp_device *dp =3D bridge_to_dp(bridge);
-> +	struct cdn_dp_bridge *dp_bridge =3D bridge_to_dp_bridge(bridge);
->  	struct drm_connector *connector;
->  	int ret, val;
->
-> @@ -580,7 +677,7 @@ static void cdn_dp_bridge_atomic_enable(struct drm_br=
-idge *bridge, struct drm_at
->
->  	cdn_dp_display_info_update(dp, &connector->display_info);
->
-> -	ret =3D drm_of_encoder_active_endpoint_id(dp->dev->of_node, &dp->encode=
-r.encoder);
-> +	ret =3D drm_of_encoder_active_endpoint_id(dp->dev->of_node, &dp_bridge-=
->encoder.encoder);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dp->dev, "Could not get vop id, %d", ret);
->  		return;
-> @@ -599,6 +696,9 @@ static void cdn_dp_bridge_atomic_enable(struct drm_br=
-idge *bridge, struct drm_at
->
->  	mutex_lock(&dp->lock);
->
-> +	if (dp->next_bridge_valid)
-> +		dp->active_port =3D dp_bridge->id;
-> +
->  	ret =3D cdn_dp_enable(dp);
->  	if (ret) {
->  		DRM_DEV_ERROR(dp->dev, "Failed to enable bridge %d\n",
-> @@ -631,6 +731,7 @@ static void cdn_dp_bridge_atomic_enable(struct drm_br=
-idge *bridge, struct drm_at
->  		goto out;
->  	}
->
-> +	dp_bridge->enabled =3D true;
->  out:
->  	mutex_unlock(&dp->lock);
->  }
-> @@ -638,9 +739,11 @@ static void cdn_dp_bridge_atomic_enable(struct drm_b=
-ridge *bridge, struct drm_at
->  static void cdn_dp_bridge_atomic_disable(struct drm_bridge *bridge, stru=
-ct drm_atomic_state *state)
->  {
->  	struct cdn_dp_device *dp =3D bridge_to_dp(bridge);
-> +	struct cdn_dp_bridge *dp_bridge =3D bridge_to_dp_bridge(bridge);
->  	int ret;
->
->  	mutex_lock(&dp->lock);
-> +	dp_bridge->enabled =3D false;
->
->  	if (dp->active) {
->  		ret =3D cdn_dp_disable(dp);
-> @@ -827,6 +930,16 @@ static int cdn_dp_audio_mute_stream(struct drm_bridg=
-e *bridge,
->  	return ret;
->  }
->
-> +static void cdn_dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> +			   enum drm_connector_status status)
-> +{
-> +	struct cdn_dp_bridge *dp_bridge =3D bridge_to_dp_bridge(bridge);
-> +	struct cdn_dp_device *dp =3D bridge_to_dp(bridge);
-> +
-> +	dp->bridge_list[dp_bridge->id]->connected =3D status =3D=3D connector_s=
-tatus_connected;
-> +	schedule_work(&dp->event_work);
-> +}
-> +
->  static const struct drm_bridge_funcs cdn_dp_bridge_funcs =3D {
->  	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
->  	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> @@ -837,6 +950,7 @@ static const struct drm_bridge_funcs cdn_dp_bridge_fu=
-ncs =3D {
->  	.atomic_disable =3D cdn_dp_bridge_atomic_disable,
->  	.mode_valid =3D cdn_dp_bridge_mode_valid,
->  	.mode_set =3D cdn_dp_bridge_mode_set,
-> +	.hpd_notify =3D cdn_dp_bridge_hpd_notify,
->
->  	.dp_audio_prepare =3D cdn_dp_audio_prepare,
->  	.dp_audio_mute_stream =3D cdn_dp_audio_mute_stream,
-> @@ -885,7 +999,8 @@ static void cdn_dp_pd_event_work(struct work_struct *=
-work)
->  {
->  	struct cdn_dp_device *dp =3D container_of(work, struct cdn_dp_device,
->  						event_work);
-> -	int ret;
-> +	bool connected;
-> +	int i, ret;
->
->  	mutex_lock(&dp->lock);
->
-> @@ -944,9 +1059,12 @@ static void cdn_dp_pd_event_work(struct work_struct=
- *work)
->
->  out:
->  	mutex_unlock(&dp->lock);
-> -	drm_bridge_hpd_notify(&dp->bridge,
-> -			      dp->connected ? connector_status_connected
-> -					    : connector_status_disconnected);
-> +	for (i =3D 0; i < dp->bridge_count; i++) {
-> +		connected =3D dp->connected && dp->bridge_list[i]->connected;
-> +		drm_bridge_hpd_notify(&dp->bridge_list[i]->bridge,
-> +				      connected ? connector_status_connected
-> +						: connector_status_disconnected);
-> +	}
->  }
->
->  static int cdn_dp_pd_event(struct notifier_block *nb,
-> @@ -966,28 +1084,16 @@ static int cdn_dp_pd_event(struct notifier_block *=
-nb,
->  	return NOTIFY_DONE;
->  }
->
-> -static int cdn_dp_bind(struct device *dev, struct device *master, void *=
-data)
-> +static int cdn_bridge_add(struct device *dev,
-> +			  struct drm_bridge *bridge,
-> +			  struct drm_bridge *next_bridge,
-> +			  struct drm_encoder *encoder)
->  {
->  	struct cdn_dp_device *dp =3D dev_get_drvdata(dev);
-> -	struct drm_encoder *encoder;
-> +	struct drm_device *drm_dev =3D dp->drm_dev;
-> +	struct drm_bridge *last_bridge __free(drm_bridge_put) =3D NULL;
->  	struct drm_connector *connector;
-> -	struct cdn_dp_port *port;
-> -	struct drm_device *drm_dev =3D data;
-> -	int ret, i;
-> -
-> -	ret =3D cdn_dp_parse_dt(dp);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	dp->drm_dev =3D drm_dev;
-> -	dp->connected =3D false;
-> -	dp->active =3D false;
-> -	dp->active_port =3D -1;
-> -	dp->fw_loaded =3D false;
-> -
-> -	INIT_WORK(&dp->event_work, cdn_dp_pd_event_work);
-> -
-> -	encoder =3D &dp->encoder.encoder;
-> +	int ret;
->
->  	encoder->possible_crtcs =3D drm_of_find_possible_crtcs(drm_dev,
->  							     dev->of_node);
-> @@ -1002,26 +1108,35 @@ static int cdn_dp_bind(struct device *dev, struct=
- device *master, void *data)
->
->  	drm_encoder_helper_add(encoder, &cdn_dp_encoder_helper_funcs);
->
-> -	dp->bridge.ops =3D
-> -			DRM_BRIDGE_OP_DETECT |
-> -			DRM_BRIDGE_OP_EDID |
-> -			DRM_BRIDGE_OP_HPD |
-> -			DRM_BRIDGE_OP_DP_AUDIO;
-> -	dp->bridge.of_node =3D dp->dev->of_node;
-> -	dp->bridge.type =3D DRM_MODE_CONNECTOR_DisplayPort;
-> -	dp->bridge.hdmi_audio_dev =3D dp->dev;
-> -	dp->bridge.hdmi_audio_max_i2s_playback_channels =3D 8;
-> -	dp->bridge.hdmi_audio_spdif_playback =3D 1;
-> -	dp->bridge.hdmi_audio_dai_port =3D -1;
-> -
-> -	ret =3D devm_drm_bridge_add(dev, &dp->bridge);
-> +	bridge->ops =3D
-> +		DRM_BRIDGE_OP_DETECT |
-> +		DRM_BRIDGE_OP_EDID |
-> +		DRM_BRIDGE_OP_HPD |
-> +		DRM_BRIDGE_OP_DP_AUDIO;
-> +	bridge->of_node =3D dp->dev->of_node;
-> +	bridge->type =3D DRM_MODE_CONNECTOR_DisplayPort;
-> +	bridge->hdmi_audio_dev =3D dp->dev;
-> +	bridge->hdmi_audio_max_i2s_playback_channels =3D 8;
-> +	bridge->hdmi_audio_spdif_playback =3D 1;
-> +	bridge->hdmi_audio_dai_port =3D -1;
-> +
-> +	ret =3D devm_drm_bridge_add(dev, bridge);
->  	if (ret)
->  		return ret;
->
-> -	ret =3D drm_bridge_attach(encoder, &dp->bridge, NULL, DRM_BRIDGE_ATTACH=
-_NO_CONNECTOR);
-> +	ret =3D drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_C=
-ONNECTOR);
->  	if (ret)
->  		return ret;
->
-> +	if (next_bridge) {
-> +		ret =3D drm_bridge_attach(encoder, next_bridge, bridge,
-> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +		if (ret)
-> +			return ret;
-> +
-> +		last_bridge =3D drm_bridge_chain_get_last_bridge(bridge->encoder);
-> +	}
-> +
->  	connector =3D drm_bridge_connector_init(drm_dev, encoder);
->  	if (IS_ERR(connector)) {
->  		ret =3D PTR_ERR(connector);
-> @@ -1029,8 +1144,100 @@ static int cdn_dp_bind(struct device *dev, struct=
- device *master, void *data)
->  		return ret;
->  	}
->
-> +	if (last_bridge)
-> +		connector->fwnode =3D fwnode_handle_get(of_fwnode_handle(last_bridge->=
-of_node));
-> +
->  	drm_connector_attach_encoder(connector, encoder);
->
-> +	return 0;
-> +}
-> +
-> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
-> +{
-> +	struct device_node *np =3D dp->dev->of_node;
-> +	struct device_node *port __free(device_node) =3D of_graph_get_port_by_i=
-d(np, 1);
-> +	struct drm_bridge *bridge;
-> +	int count =3D 0;
-> +	int ret =3D 0;
-> +	int i;
-> +
-> +	/* If device use extcon, do not use hpd bridge */
-> +	for (i =3D 0; i < dp->ports; i++) {
-> +		if (dp->port[i]->extcon) {
-> +			dp->bridge_count =3D 1;
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	/* One endpoint may correspond to one next bridge. */
-> +	for_each_of_graph_port_endpoint(port, dp_ep) {
-> +		struct device_node *next_bridge_node __free(device_node) =3D
-> +			of_graph_get_remote_port_parent(dp_ep);
-> +
-> +		bridge =3D of_drm_find_bridge(next_bridge_node);
-> +		if (!bridge) {
-> +			ret =3D -EPROBE_DEFER;
-> +			goto out;
-> +		}
-> +
-> +		drm_bridge_get(bridge);
-> +		dp->next_bridge_valid =3D true;
-> +		dp->next_bridge_list[count] =3D bridge;
-
-Correct, but the drm_bridge_get() slightly far away from the assignement is
-a bit misleading. I hadn't seen it initially so I suspected a missing get.
-
-I suggest to do it in a single statement, for clarity:
-
-		dp->next_bridge_list[count] =3D bridgedrm_bridge_get(bridge);
-
-With that changed, at least for the bridge lifetime aspects, you can add to
-the next version my:
-
- Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> index 98720ddc9818e..d6d12355bd2b7 100644
+> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> @@ -359,5 +359,6 @@ static struct pci_driver amdxdna_pci_driver = {
+>   module_pci_driver(amdxdna_pci_driver);
+>   
+>   MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS("AMD_PMF");
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   MODULE_AUTHOR("XRT Team <runtimeca39d@amd.com>");
+>   MODULE_DESCRIPTION("amdxdna driver");
