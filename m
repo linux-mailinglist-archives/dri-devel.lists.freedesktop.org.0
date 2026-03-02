@@ -2,71 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KPKRKxX+pWnvIgAAu9opvQ
+	id IDhJLLr+pWlQIwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:16:05 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:18:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182621E2346
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ED91E2594
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2799A10E5C6;
-	Mon,  2 Mar 2026 21:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CACF10E5CE;
+	Mon,  2 Mar 2026 21:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="uvv5ft+7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BggjGUVX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4640C10E5C6
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 21:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=NnJ8pv/fOL8GSKK5hN49M8Ny5MsaLE7zYWAtl179zfM=; b=uvv5ft+7aehu5i17DBQoMd/vkq
- EEOy9hjnpHHy5eRL0mIOZNx+XYLH8ppqd9PBO1H/lq0oVjfs7YWFFKvIdFyI00S3e2TsqT5fLYLb4
- JpOpLBKgxJ7DssHRipUkhgGLMH4xfNe2ZqzfbvNUOH4p1d23ODHWIgWLm75pooi7fLBc=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:40712
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vxAcE-0004ca-C0; Mon, 02 Mar 2026 16:15:47 -0500
-Date: Mon, 2 Mar 2026 16:15:45 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- shawnguo@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
- antonin.godard@bootlin.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Hugo Villeneuve
- <hvilleneuve@dimonoff.com>
-Message-Id: <20260302161545.f6b76209400e8fbe35cd51a0@hugovil.com>
-In-Reply-To: <aaX5E7-3xvkaVV-o@lizhi-Precision-Tower-5810>
-References: <20260302190953.669325-1-hugo@hugovil.com>
- <20260302190953.669325-9-hugo@hugovil.com>
- <aaX5E7-3xvkaVV-o@lizhi-Precision-Tower-5810>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
- *      [score: 0.0000]
- * -2.0 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-4.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 08/14] ARM: dts: imx6ul-var-som: factor out SD card support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9BE310E5CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 21:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=FPJtukf2Ik1BpCCJ2kMM8IkT8h5tYbJQkIK3N2P8ZCE=; b=BggjGUVXje2RBoTd3H23v3o80w
+ tFu81OToInMZzXkwOqkjVnAnILBU6kMeMXLsoIOcMVPq5+7hyOEuQiKuoDyw0GhCbgsOxaCWj1ri+
+ z0gHYlaYKbhUrQ9AeZ3jAgDRKEzt7HmVPPav+JAoVJBLIJourLhvgfsVvoSwMeBVJyX8rfpc5p6qV
+ 7QuY0pFFfLgcowjSeSDghqP9P6njsBSMqSdtTqeo4DYiiDpu7q7GfqPcNRQy0QqnxjZZOS3iMcyvF
+ IiDOcrXfeR0o/77PgvhHVXPxLeassJ00EwKkg4oDTasBM1R7BeT5uCyF48dWbyja2Jtg8wSeq5NN/
+ 964a43pg==;
+Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.24.51.0])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vxAeg-00894S-06; Mon, 02 Mar 2026 22:18:18 +0100
+Message-ID: <b4131a51-dbc6-4fe6-a750-771cf6169058@igalia.com>
+Date: Mon, 2 Mar 2026 18:18:08 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] pmdomain: bcm: bcm2835-power: Increase ASB control
+ timeout
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulf.hansson@linaro.org>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com,
+ linux-pm@vger.kernel.org
+References: <20260218-v3d-power-management-v6-0-40683fd39865@igalia.com>
+ <20260218-v3d-power-management-v6-3-40683fd39865@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20260218-v3d-power-management-v6-3-40683fd39865@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,261 +101,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 182621E2346
+X-Rspamd-Queue-Id: 18ED91E2594
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:mwen@igalia.com,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:ulf.hansson@linaro.org,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,m:linux-pm@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,broadcom.com,gmx.net,igalia.com,raspberrypi.com,pengutronix.de,linaro.org];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[hugovil.com];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.870];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Frank,
+[+cc Ulf Hansson, linux-pm]
 
-On Mon, 2 Mar 2026 15:54:43 -0500
-Frank Li <Frank.li@nxp.com> wrote:
+Stefan, Florian, could you take a look at this patch when you get a
+chance? It would be great to have this patch reviewed as it can go
+independently through the linux-pm tree.
 
-> On Mon, Mar 02, 2026 at 02:03:44PM -0500, Hugo Villeneuve wrote:
-> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> >
-> > Move SD support to a separate include, since it cannot be used at the
+I'm sorry, I previously forgot to re-run --auto-to-cc, so the linux-pm
+mailing list was missing from the recipients.
+
+Best regards,
+- Maíra
+
+On 2/18/26 17:45, Maíra Canal wrote:
+> The bcm2835_asb_control() function uses a tight polling loop to wait
+> for the ASB bridge to acknowledge a request. During intensive workloads,
+> this handshake intermittently fails for V3D's master ASB on BCM2711,
+> resulting in "Failed to disable ASB master for v3d" errors during
+> runtime PM suspend. As a consequence, the failed power-off leaves V3D in
+> a broken state, leading to bus faults or system hangs on later accesses.
 > 
-> s/include/dtsi/
-
-Ok. I will also change it in all the other commit messages.
-
- 
-> > same time as the Wifi/BT module.
+> As the timeout is insufficient in some scenarios, increase the polling
+> timeout from 1us to 5us, which is still negligible in the context of a
+> power domain transition. Also, move the start timestamp to after the
+> MMIO write, as the write latency is counted against the timeout,
+> reducing the effective wait time for the hardware to respond.
 > 
-> what's relation ship between wifi/bt? you just move sd related part to a
-> dtsi file.
-
-As stated in commit message, the SD card interface cannot be used if
-the Wifi/BT module is in use.
-
-Sd card is not mandatory, for example on our board we do not have it,
-so we need to have it disabled.
-
-Hugo.
-
-
-
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/pmdomain/bcm/bcm2835-power.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> Frank
-> >
-> > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > ---
-> >  .../dts/nxp/imx/imx6ul-var-som-common.dtsi    | 33 ++++++++++++
-> >  .../imx/imx6ul-var-som-concerto-common.dtsi   | 51 -------------------
-> >  .../dts/nxp/imx/imx6ul-var-som-concerto.dts   |  1 +
-> >  .../boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi   | 27 ++++++++++
-> >  .../dts/nxp/imx/imx6ull-var-som-concerto.dts  |  1 +
-> >  5 files changed, 62 insertions(+), 51 deletions(-)
-> >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
-> >
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > index 22b0c4e0725a5..dd4ecff1eb786 100644
-> > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > @@ -139,6 +139,39 @@ MX6UL_PAD_UART2_RTS_B__UART2_DCE_RTS	0x1b0b1
-> >  		>;
-> >  	};
-> >
-> > +	pinctrl_usdhc1: usdhc1grp {
-> > +		fsl,pins = <
-> > +			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
-> > +			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
-> > +			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
-> > +			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
-> > +			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
-> > +			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
-> > +		>;
-> > +	};
-> > +
-> > +	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
-> > +		fsl,pins = <
-> > +			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
-> > +			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
-> > +			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
-> > +			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
-> > +			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
-> > +			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
-> > +		>;
-> > +	};
-> > +
-> > +	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
-> > +		fsl,pins = <
-> > +			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
-> > +			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
-> > +			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
-> > +			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
-> > +			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
-> > +			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
-> > +		>;
-> > +	};
-> > +
-> >  	pinctrl_usdhc2: usdhc2grp {
-> >  		fsl,pins = <
-> >  			MX6UL_PAD_NAND_RE_B__USDHC2_CLK		0x10069
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > index 10a23ae104359..ea8d9905ce6e7 100644
-> > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > @@ -186,45 +186,6 @@ MX6UL_PAD_UART3_TX_DATA__ANATOP_OTG1_ID	0x17059
-> >  		>;
-> >  	};
-> >
-> > -	pinctrl_usdhc1: usdhc1grp {
-> > -		fsl,pins = <
-> > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
-> > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
-> > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
-> > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
-> > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
-> > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
-> > -		>;
-> > -	};
-> > -
-> > -	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
-> > -		fsl,pins = <
-> > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
-> > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
-> > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
-> > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
-> > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
-> > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
-> > -		>;
-> > -	};
-> > -
-> > -	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
-> > -		fsl,pins = <
-> > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
-> > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
-> > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
-> > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
-> > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
-> > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
-> > -		>;
-> > -	};
-> > -
-> > -	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
-> > -		fsl,pins = <
-> > -			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
-> > -		>;
-> > -	};
-> > -
-> >  	pinctrl_wdog: wdoggrp {
-> >  		fsl,pins = <
-> >  			MX6UL_PAD_GPIO1_IO01__WDOG1_WDOG_B	0x78b0
-> > @@ -286,18 +247,6 @@ &usbotg2 {
-> >  	status = "okay";
-> >  };
-> >
-> > -&usdhc1 {
-> > -	pinctrl-names = "default", "state_100mhz", "state_200mhz";
-> > -	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
-> > -	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
-> > -	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
-> > -	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-> > -	no-1-8-v;
-> > -	keep-power-in-suspend;
-> > -	wakeup-source;
-> > -	status = "okay";
-> > -};
-> > -
-> >  &wdog1 {
-> >  	pinctrl-names = "default";
-> >  	pinctrl-0 = <&pinctrl_wdog>;
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > index 11b45f105b7ad..85ebac30d7bed 100644
-> > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > @@ -11,6 +11,7 @@
-> >
-> >  #include "imx6ul-var-som.dtsi"
-> >  #include "imx6ul-var-som-concerto-common.dtsi"
-> > +#include "imx6ul-var-som-sd.dtsi"
-> >
-> >  / {
-> >  	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
-> > new file mode 100644
-> > index 0000000000000..0e6d9b945eb4a
-> > --- /dev/null
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
-> > @@ -0,0 +1,27 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Support optional SD card interface on Variscite VAR-SOM-6UL module.
-> > + *
-> > + * Copyright 2019-2024 Variscite Ltd.
-> > + * Copyright 2026 Dimonoff
-> > + */
-> > +
-> > +&iomuxc {
-> > +	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
-> > +		fsl,pins = <
-> > +			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
-> > +		>;
-> > +	};
-> > +};
-> > +
-> > +&usdhc1 {
-> > +	pinctrl-names = "default", "state_100mhz", "state_200mhz";
-> > +	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
-> > +	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
-> > +	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
-> > +	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-> > +	no-1-8-v;
-> > +	keep-power-in-suspend;
-> > +	wakeup-source;
-> > +	status = "okay";
-> > +};
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > index 7c601af2657d7..ebf88c3e1addc 100644
-> > --- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > @@ -10,6 +10,7 @@
-> >
-> >  #include "imx6ull-var-som.dtsi"
-> >  #include "imx6ul-var-som-concerto-common.dtsi"
-> > +#include "imx6ul-var-som-sd.dtsi"
-> >
-> >  / {
-> >  	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
-> > --
-> > 2.47.3
-> >
+> diff --git a/drivers/pmdomain/bcm/bcm2835-power.c b/drivers/pmdomain/bcm/bcm2835-power.c
+> index 1d29addfe036348e82293693b4059e504bb25575..7b9eea10a24e26835deeca84c60ccb616b99a508 100644
+> --- a/drivers/pmdomain/bcm/bcm2835-power.c
+> +++ b/drivers/pmdomain/bcm/bcm2835-power.c
+> @@ -166,8 +166,6 @@ static int bcm2835_asb_control(struct bcm2835_power *power, u32 reg, bool enable
+>   		break;
+>   	}
+>   
+> -	start = ktime_get_ns();
+> -
+>   	/* Enable the module's async AXI bridges. */
+>   	if (enable) {
+>   		val = readl(base + reg) & ~ASB_REQ_STOP;
+> @@ -176,9 +174,10 @@ static int bcm2835_asb_control(struct bcm2835_power *power, u32 reg, bool enable
+>   	}
+>   	writel(PM_PASSWORD | val, base + reg);
+>   
+> +	start = ktime_get_ns();
+>   	while (!!(readl(base + reg) & ASB_ACK) == enable) {
+>   		cpu_relax();
+> -		if (ktime_get_ns() - start >= 1000)
+> +		if (ktime_get_ns() - start >= 5000)
+>   			return -ETIMEDOUT;
+>   	}
+>   
 > 
 
-
--- 
-Hugo Villeneuve
