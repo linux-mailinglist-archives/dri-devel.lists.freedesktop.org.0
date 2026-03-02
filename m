@@ -2,129 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKkWLt5lpWmx+wUAu9opvQ
+	id UPBmDTRmpWmx+wUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:26:38 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:28:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693951D6734
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F41D6772
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:28:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAD210E47C;
-	Mon,  2 Mar 2026 10:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D563210E073;
+	Mon,  2 Mar 2026 10:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Oo3T/vt6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Krl6+69H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010028.outbound.protection.outlook.com [52.101.46.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1636210E073;
- Mon,  2 Mar 2026 10:26:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VPDVjupWaXDonaC49POLHFtEG89T80KSwoLNYoHrHImo6DAbYLx7zv8ovnW0QnUaCO5ti8L0M2ecyC+ve7D7Fssn3vMejax1sAPyHGjiiYrRAg9AUQ0qayBm2krg3V2O5LPNe+YLg0pCmTqhctVH9Y0awqqOrNeIEDq/Xohsjw9pO1dNnY/KbaPr5tdWXO6E/mYYIA2E3F6HKCW0mQ1b2a/jd/gyYcyASLZnRWcaENhPKJRzhOd56fENHoaRMT7wqfGlxVEPHNPV0GN82mq8YlhnI4RoSfbJ1bTFcZG/3ck9BesEK+8kPsH6Vjhb5hDDXdivxXlQfuSOU/tsXf8rCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=utjescEvm88lyjAN0DlbMnX4Mh1/Iyy71/igFtPPP5k=;
- b=MXh1tHAsxIFdUYMINJrEJcQPZZ8HY01rKj0CvvPVVOy3IYV6VxGzlA1nOi7U0Rc2fKzrvF7OpBYaBtB8TKmJTBAdDF257nkPW0NXbupaSc/RH67uMF35Yt9mwyeMhyzdFoto4LQxWBlUyOLmv+Mi3tarjIsLEVRBv/8+BkAiH7yNt6gT6w2lrwY56Bj7q8rDeJ/iln8qbEXGTcOBy2XEdwnvzMpEtDWnNpv896sebh4qFu+dzk3grvCcRjWyWRmt8imUE/zVdgfGEKW26OCOq5+zAs1brziB4o9f05lWpFZ7tSMpz9bec31JYJzNbF3t/tZbf9gFJ8tIPleGyR+3ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=utjescEvm88lyjAN0DlbMnX4Mh1/Iyy71/igFtPPP5k=;
- b=Oo3T/vt6EhskeBrOUmNUvGF80fRylExpSu7Pf9KeKi4dReQ/3XA2iVNfxvlHoZh/NML+tJW9BNeGeE3OfTDKfN/nGnVDbanbdg2/dmUw4L7d1ciybcN7VhxPPizAYbVW1OtXkOovxYIRfNV7m8+FOmYqYKTFiuUHjcSY1UzmdHg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN2PR12MB4391.namprd12.prod.outlook.com (2603:10b6:208:269::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Mon, 2 Mar
- 2026 10:26:30 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
- 10:26:30 +0000
-Message-ID: <4c32e7c3-71e8-4ad3-a1c0-a06d42a00e50@amd.com>
-Date: Mon, 2 Mar 2026 11:26:24 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: amdgpu.h: fix all kernel-doc warnings
-To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20260228071856.2664080-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260228071856.2664080-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0097.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669F210E073;
+ Mon,  2 Mar 2026 10:28:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 68891600AD;
+ Mon,  2 Mar 2026 10:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A46C2BC87;
+ Mon,  2 Mar 2026 10:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772447279;
+ bh=8Jbu9H2WLMZ/Y0rr095qrTvIs+zg55Kd2JEbFtyGHmY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Krl6+69HdQKfsIadgvHYi287ier/j1szZ993OZDT7DLhjavvKec7Gmr03hTpHVgXj
+ X0/0EjLIMbPIDZrCrJh9in109yydXaY5xnii3BGEGQDsH91yBSGTL2rsyr6PES0xNG
+ KzCTBZZYNcrS+JljktAcnv3r/4+UE5gSO+jilmVPIvLhvKH/uOqaeeaW5ID/ViHWtE
+ 1C/VnCBU/fOpg6j3zXJeKFB9GExjAgAF8c5qVzy1gVHvIfNNS90zmmwWo7JQbWGXi2
+ hMrX3cYHDYRwL5mIhmHn77RYJyzkHV9dkffdxYZV/gl7j7Y90QzUkwjrqRa3JIEhbO
+ Sst0s9UkPTtwg==
+Message-ID: <f2f3a8a1-3dbf-4ef9-a89a-a6ec20791d1c@kernel.org>
+Date: Mon, 2 Mar 2026 11:27:40 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4391:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4933bc20-f976-40e5-a966-08de78462b01
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: Bx8U0YxG7s+y5nd/1sCV1QYGLesKOYU2+dXGa4sxSaPm1PG8HqT7WNQIsYqOIdcGZXQlXZQOzqRa1HRnbCkbrOkZkocHszI6d83JGsDo5zwFpHAHNe+E71gamNA7PNY5eIcPkEhn/Y8VJW9l11B4+UiMnEHAJHUHLhbTcSf/ADkpPg5zjxekIYk78XQDBBFUYkszSgkze3igjgKtk+EtyD6fze5wqwmjCtTR04hB+6yvFy3TCNuYstRpdmduc7u2sn6ALcZmu5bkc8faw1OWUdLn6RUe9TalFIDD7ZCqOsRktmtLZ6AjArj7LyI+d75ITnL8QBt6xdoZm9rxXwQr6whzibfXVDgzTtiiCgwMLDeFCQS64l6UbelK26+UD3rzlYR3+WIKenA36mqCRAh7D/MAmxfdMnvzlM6U9kGGoxKvNoQW3GJIoucYiKoQdDGcE/Bu62Y86s1x/g5EJ++9wO44W0pXYGqT7zkQWnC89IeZhC8XPx11F5+QSFwFZyVzl78KXmV3DrpjuN1wFTBnb8ejWyFtqDL3JnqZoxQTnnhdQx6za7ZYU8Vf+Y2iLHAYhzLqffMdQVOhfBLmgpXL6477VJYyNVNatTxTHthIn/btiNcbgPcZAZ/mybGo9J44K4R+0SOQxo5Up3nawRTIeNIs/yljzhb+NP4Kvfx7s+ZWaPEwg0IFQVKbXcCxhNJe
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aG1HUWRBSlNVYVk1N0djQXEva1I0aEVpVGIvZ3pGL1BBcHY0Zm9iSGhtU0du?=
- =?utf-8?B?dTEydVFQVElBcmFza0psWmRVVDg4TEFQOGRqdUF4L3huS0Iyc1JiNDJhdlhG?=
- =?utf-8?B?UWFwZFB1b3F0K1NMZytzandCOEFnVlh5OWdQOVJoaGEvUExyK0p2NGllSmh1?=
- =?utf-8?B?UFdqUDFCSk5OajRJWFhSaEhGUitjWDV1c2l1SnRlNVlEV2x3dmNLM0VtS1BG?=
- =?utf-8?B?UVd6OE5rK0FQcXZaQVRnZkJvMWh2dHlnV0tPUEVRczRNSHpUUDRsdFdxN25k?=
- =?utf-8?B?aE9KUEhQSEdZNXBXZWJxVmlWWHNaaUFlTmpsZEdPdHYyelZqWXJqQ1puWWxL?=
- =?utf-8?B?eUlIQkI1eTR2cmRFUlNMTE1seVBaM2FxUnI2Y3o5K0hNbTUzSEpPaVlMWG5H?=
- =?utf-8?B?YTRvTU5sRlRyRDVPcVYxT1RGRk1MT0FaaVRiWGx4d2szMGRuK2tTeEtoeG9z?=
- =?utf-8?B?VFJ2ZmJjT2YzcUdmRXFRZVpOcmlrWS9mSTYrR0JzSDQ1d05BcFQrVkZsTk9h?=
- =?utf-8?B?VyswUUxuUk8rSWM2NnZlZEFselg5bitsWUxmWjVUSWVSbDBQYWZ2RUNmQkdR?=
- =?utf-8?B?NXpyQVhweXNrZHArNG1jMFZLYThZU20wYTN6M3EzemZHYUdoTjR5aXozSlgr?=
- =?utf-8?B?QUt1aEFRcU1nL2Z4bjNUR2lwWnpQN2hBcGVyOXRURmZXRmZLL2FzV3NVeHV3?=
- =?utf-8?B?b1Q4TEFBM1RXMmhlN0pWa0hNeFZpZlJibm1wcWhJV2k2MkdJbUJXaFpUTGl5?=
- =?utf-8?B?TmxmZGdMUlpsZWs0S0VoMnpjdmJPZ0xmYmhxRlc1aURsVkhxOXIxd1hyR2tr?=
- =?utf-8?B?bzhXVjlFRFM3N01ZZ0ErdlNEYkVWTzVpczR6enRzalhCcGx4OExrTEVTWnB2?=
- =?utf-8?B?OWZjNEMrc3o0TVJLSjd6NHJQRnRBMkEwY1dDcWswVDNrLzNaOUh4eWxCd2FK?=
- =?utf-8?B?VlVzRUhMakRUbnIvOHVKL3B3RUJyQWg0UTVuMTF4d2VINFJaL056ZzI3VUFE?=
- =?utf-8?B?RzV4QkdaYlgxT0dZeDFhQVJtQlNUWGQwTGRwZ0wvZVB0SmlQbDk2T3BST1lC?=
- =?utf-8?B?NDFqemdhMlVKem9lbFA0b1FlRzJOWlFsR05uRlJPRjlUanJFdXpJY2d3eDF3?=
- =?utf-8?B?WmhFY2NpZlJaRk0xS1VZTzhkUGwyRjJVcWp3c0hpS0VWVDBlMEx5RWp6VFk0?=
- =?utf-8?B?VUE3MzU5UHhVaUpXN2k1aFRDUDBiQUx0aHlEZWtjNCtLYUVHZFhYOEdoUWUv?=
- =?utf-8?B?WmRzcTJVMElSQ29KMk9BSmRtYjgxZVQxbnlQR29pZDFkNGI1aGhwMUFaN05F?=
- =?utf-8?B?SnhrSnNkdU9UbmxIMmMwOVRTNjdob1cvMXc0aVNRUWo5dHcrRFltT2poMWRV?=
- =?utf-8?B?alhiV2NSOUM4UVpjY2Q3MWxMWWJuc0RPQXVwRUpFNnl2VFJRK1Z3U2pqWWR3?=
- =?utf-8?B?ajMydGgrNnNWeDhldnc5TitsWXZoV25IVVkwK0dFUEpqRzNEcTRJUmYxWlFB?=
- =?utf-8?B?Wk9HeXMwSjdwaU84dVYxb1RDSE9FVFVtQUk1ZXo0VVBoem9YbkVqTzh2d2Ri?=
- =?utf-8?B?cE5ObGxKN0JIeitOeHlmazRQVUZCWEMxSERmTzZXeERyeXZFWkoyWFBjbzFo?=
- =?utf-8?B?cWIxZEhMTGdsdlJTUWN0UnVWcGZnOWZkYkNrem5aT3VUOWIzMTJybTlrUFNT?=
- =?utf-8?B?RkJ4Uk5ncEcvVkQwbEw0MVp5TUNRRDJPUFpRN3RWd0g5V29lc05GYkVPZUNM?=
- =?utf-8?B?QUd3ejROMHFLU1Nydm9Dd0xBTEZNS3BIaFFsQXcyU3B2R2g5QXVYeHdLNDN5?=
- =?utf-8?B?ZGRXNjFCVGRkcEU1aVZVYmJyR3FoOE9uODYxMHQ3WTJtZnFQc2NxSXNWR1ht?=
- =?utf-8?B?NU40MWpCUlljTGR5a2JpVDVDZEx0L2pCZjljWXFvVGpCZUx3eUVSdmhxanpC?=
- =?utf-8?B?UklsMXBGZGdqOWo4VXQydmZ1Sk0zZWpFSUM4TmdxeWtiTTFSQTV5SXZiSzdY?=
- =?utf-8?B?V0J0NXBXYUwwMk81NTlsR2FzZkYzTFAvaUtrWDZmdmxBdE9wamZ3WFRZcFFh?=
- =?utf-8?B?QWlTZTkxazBzaHFSclNoclczUUp1Vm1qbUFPOU45N0grL1JuZ2hxQ0l6MGxS?=
- =?utf-8?B?WnN1MitkNTZDcFFZWTdhcTZYUlNPTFZ2WCtQUkF2VFhvSHZXczJBK3NPRVMz?=
- =?utf-8?B?bCtGcW1TSVViRkZNR1VyMEQ2ME1pNHJrdVNiUHNaazEwZEFKKzRoNFFOekdz?=
- =?utf-8?B?Qm5mUUpPb083WmxwK3Y3dkp4bUtXNVZ6Y0J6TjViNjNJNTJ3azFtRXFBTDB4?=
- =?utf-8?Q?wITaCa5AHM5ZdH5VrX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4933bc20-f976-40e5-a966-08de78462b01
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 10:26:29.9761 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kvgAcFxGsm9u4stgkez+bf+OQQC1B/LxadjMNoiayrwX0gksf2tweFeZZHGAHbIe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4391
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
+ zap_page_range_single()
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: linux-kernel@vger.kernel.org, "linux-mm @ kvack . org"
+ <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>,
+ "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-3-david@kernel.org> <aaLh2BxSgC9Jl5iS@google.com>
+ <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
+ <aaVf5gv4XjV6Ddt-@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aaVf5gv4XjV6Ddt-@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,121 +155,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,amd.com:mid,amd.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,lists.freedesktop.org:email,intel.com:email]
-X-Rspamd-Queue-Id: 693951D6734
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_GT_50(0.00)[73];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 955F41D6772
 X-Rspamd-Action: no action
 
-On 2/28/26 08:18, Randy Dunlap wrote:
-> Use the struct keyword for kernel-doc struct comments.
-> Use the correct enum names in enum amd_reset_method.
+On 3/2/26 11:01, Alice Ryhl wrote:
+> On Mon, Mar 02, 2026 at 09:18:45AM +0100, David Hildenbrand (Arm) wrote:
+>> On 2/28/26 13:38, Alice Ryhl wrote:
+>>>
+>>>
+>>> Please run rustfmt on Rust changes. Here, rustfmt leads to this being
+>>> formatted on a single line:
+>>
+>> Having to run tooling I don't even have installed when removing a single
+>> function parameter; did not expect that :)
 > 
-> This eliminates these warnings:
+> Well, rustfmt comes with the compiler, and it would be ideal to build
+> test changes before sending them :)
 
-I was expecting that there would be a few more.
+At least on Ubuntu on my notebook where I do most of the coding+patch
+submissions it's a separate package?
 
-...
+I do all my builds on a different (more powerful) machine where the
+whole rust machinery's in place. Further, build bots that run on my
+private branches did not report any issues.
+
+
+> But no worries, I took care of testing it. Thanks for taking the time to
+> update the Rust code as well.
+
+I just did an allyesconfig and it does not report any warnings.
+
+So apparently, rustfmt problems not result in the compiler complaining?
+
+Or something else is off here that rust/kernel/mm/virt.rs won't get
+compiled on my machine, even with allyesconfig. I can definitely see
+some RUSTC stuff happening in the logs, like
+
+	RUSTC L rust/kernel.o
+
+Thanks for the review and for pointing out rustfmt!
+
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h |   39 ++++++++++++++------------
->  1 file changed, 21 insertions(+), 18 deletions(-)
-> 
-> --- linux-next-20260227.orig/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ linux-next-20260227/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -462,7 +462,7 @@ int amdgpu_file_to_fpriv(struct file *fi
->  #define AMDGPU_MAX_WB 1024	/* Reserve at most 1024 WB slots for amdgpu-owned rings. */
->  
->  /**
-> - * amdgpu_wb - This struct is used for small GPU memory allocation.
-> + * struct amdgpu_wb - This struct is used for small GPU memory allocation.
->   *
->   * This struct is used to allocate a small amount of GPU memory that can be
->   * used to shadow certain states into the memory. This is especially useful for
-> @@ -540,23 +540,26 @@ struct amdgpu_allowed_register_entry {
->   * enum amd_reset_method - Methods for resetting AMD GPU devices
->   *
->   * @AMD_RESET_METHOD_NONE: The device will not be reset.
-> - * @AMD_RESET_LEGACY: Method reserved for SI, CIK and VI ASICs.
-> - * @AMD_RESET_MODE0: Reset the entire ASIC. Not currently available for the
-> - *                   any device.
-> - * @AMD_RESET_MODE1: Resets all IP blocks on the ASIC (SDMA, GFX, VCN, etc.)
-> - *                   individually. Suitable only for some discrete GPU, not
-> - *                   available for all ASICs.
-> - * @AMD_RESET_MODE2: Resets a lesser level of IPs compared to MODE1. Which IPs
-> - *                   are reset depends on the ASIC. Notably doesn't reset IPs
-> - *                   shared with the CPU on APUs or the memory controllers (so
-> - *                   VRAM is not lost). Not available on all ASICs.
-> - * @AMD_RESET_LINK: Triggers SW-UP link reset on other GPUs
-> - * @AMD_RESET_BACO: BACO (Bus Alive, Chip Off) method powers off and on the card
-> - *                  but without powering off the PCI bus. Suitable only for
-> - *                  discrete GPUs.
-> - * @AMD_RESET_PCI: Does a full bus reset using core Linux subsystem PCI reset
-> - *                 and does a secondary bus reset or FLR, depending on what the
-> - *                 underlying hardware supports.
-> + * @AMD_RESET_METHOD_LEGACY: Method reserved for SI, CIK and VI ASICs.
-> + * @AMD_RESET_METHOD_MODE0: Reset the entire ASIC. Not currently available
-> + *			    for the any device.
-> + * @AMD_RESET_METHOD_MODE1: Resets all IP blocks on the ASIC (SDMA, GFX, VCN,
-> + *			    etc.) individually. Suitable only for some discrete
-> + *			    GPU, not available for all ASICs.
-> + * @AMD_RESET_METHOD_MODE2: Resets a lesser level of IPs compared to MODE1.
-> + *			    Which IPs are reset depends on the ASIC. Notably
-> + *			    doesn't reset IPs shared with the CPU on APUs or
-> + *			    the memory controllers (so VRAM is not lost).
-> + *			    Not available on all ASICs.
-> + * @AMD_RESET_METHOD_LINK: Triggers SW-UP link reset on other GPUs
-> + * @AMD_RESET_METHOD_BACO: BACO (Bus Alive, Chip Off) method powers off and on
-> + *			   the card but without powering off the PCI bus.
-> + *			   Suitable only for discrete GPUs.
-> + * @AMD_RESET_METHOD_PCI: Does a full bus reset using core Linux subsystem
-> + *			  PCI reset and does a secondary bus reset or FLR,
-> + *			  depending on what the underlying hardware supports.
-> + * @AMD_RESET_METHOD_ON_INIT: Does a device reset during the driver init
-> + *			  sequence.
+> Documentation/rust/quick-start.rst has details for most distros.
 
-Looks like a good idea in general, but I'm really wondering why we have the define in amdgpu.h in the first place.
+Will read that the next time I feel brave enough to touch rust code.
 
-While at it please move the enum to amdgpu_reset.h and eventually only forward declare it in amdgpu.h
+-- 
+Cheers,
 
-Apart from that the patch looks good to me.
-
-Thanks,
-Christian.
-
->   *
->   * Methods available for AMD GPU driver for resetting the device. Not all
->   * methods are suitable for every device. User can override the method using
-
+David
