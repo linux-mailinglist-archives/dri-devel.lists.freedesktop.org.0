@@ -2,79 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KMa4A/mapWnxEgYAu9opvQ
+	id WH+bFP2apWmfEwYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:13 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19131DA77B
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E891DA789
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A241010E506;
-	Mon,  2 Mar 2026 14:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B70D210E50A;
+	Mon,  2 Mar 2026 14:13:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wnsOxLM/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rGYigtCO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wnsOxLM/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rGYigtCO";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VtUiwLca";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="51JqJ04N";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VtUiwLca";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="51JqJ04N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86E5310E505
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:13:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E50310E507
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:13:13 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D3F875BD6F;
- Mon,  2 Mar 2026 14:13:00 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 165735BD7A;
+ Mon,  2 Mar 2026 14:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772460780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772460781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GZ1NFRnlAmgYbnBq2kl1lIWQXZsZ3Wq0UDH+fyXEM44=;
- b=wnsOxLM/ls+gLO2n3v5C/S7PUaGbCo/NefjFMj7bjMl3Nkjx78zWvJiKv1pCuSfVjXOx6Z
- BXGADFYM8qjYzENKInOQKkb8uII6fv/Ccy87xz1fpLUPs8kJnSmvbsC6mPuF8tidxHAqtO
- Lindg7cMdDxZVvOoWCQBNlw8svNimIY=
+ bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
+ b=VtUiwLcamGe4Q8T4S5xmv4lb63bVtR4FGL1MLwc7wTf9rxs/HARJ4J84bUdc+Ocb8/e1mC
+ 9mnAjJT2xb9eQx2/5sCz9qhAo1Y/gBiWBy7a/uUlWod2Pq6kP3Zg0WeshefIwgxJP1PUEx
+ A97aLghu5X77SOBjmNuNF9Zno8KfKo0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772460780;
+ s=susede2_ed25519; t=1772460781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GZ1NFRnlAmgYbnBq2kl1lIWQXZsZ3Wq0UDH+fyXEM44=;
- b=rGYigtCObE/C0YBOm0tkLaRiVs87Uv+/XIDOQKuvBtSHlreVj4Br9prGRDRfrdBDDAMrr+
- bBQpyq4v54YvoGCg==
+ bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
+ b=51JqJ04NNwQ+9Lzj4/YDGU1IF7ajptTDdnaSg+hlnqwnP2MzIh3ojtfJZ35FSkCvSclgHk
+ 1FTyreUz7z++EnBQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VtUiwLca;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=51JqJ04N
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772460780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772460781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GZ1NFRnlAmgYbnBq2kl1lIWQXZsZ3Wq0UDH+fyXEM44=;
- b=wnsOxLM/ls+gLO2n3v5C/S7PUaGbCo/NefjFMj7bjMl3Nkjx78zWvJiKv1pCuSfVjXOx6Z
- BXGADFYM8qjYzENKInOQKkb8uII6fv/Ccy87xz1fpLUPs8kJnSmvbsC6mPuF8tidxHAqtO
- Lindg7cMdDxZVvOoWCQBNlw8svNimIY=
+ bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
+ b=VtUiwLcamGe4Q8T4S5xmv4lb63bVtR4FGL1MLwc7wTf9rxs/HARJ4J84bUdc+Ocb8/e1mC
+ 9mnAjJT2xb9eQx2/5sCz9qhAo1Y/gBiWBy7a/uUlWod2Pq6kP3Zg0WeshefIwgxJP1PUEx
+ A97aLghu5X77SOBjmNuNF9Zno8KfKo0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772460780;
+ s=susede2_ed25519; t=1772460781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GZ1NFRnlAmgYbnBq2kl1lIWQXZsZ3Wq0UDH+fyXEM44=;
- b=rGYigtCObE/C0YBOm0tkLaRiVs87Uv+/XIDOQKuvBtSHlreVj4Br9prGRDRfrdBDDAMrr+
- bBQpyq4v54YvoGCg==
+ bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
+ b=51JqJ04NNwQ+9Lzj4/YDGU1IF7ajptTDdnaSg+hlnqwnP2MzIh3ojtfJZ35FSkCvSclgHk
+ 1FTyreUz7z++EnBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A114A3EA6C;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D9B703EA69;
  Mon,  2 Mar 2026 14:13:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id uC4lJuyapWleKQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CJH2M+yapWleKQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 14:13:00 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: gregkh@linuxfoundation.org,
@@ -82,16 +84,16 @@ To: gregkh@linuxfoundation.org,
 	sam@ravnborg.org
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 03/13] vt: Store font in struct vc_font
-Date: Mon,  2 Mar 2026 15:08:37 +0100
-Message-ID: <20260302141255.518657-4-tzimmermann@suse.de>
+Subject: [PATCH v2 04/13] vt: Calculate font-buffer size with vc_font_size()
+Date: Mon,  2 Mar 2026 15:08:38 +0100
+Message-ID: <20260302141255.518657-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302141255.518657-1-tzimmermann@suse.de>
 References: <20260302141255.518657-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -3.01
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -141,172 +143,92 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: A19131DA77B
+X-Rspamd-Queue-Id: B5E891DA789
 X-Rspamd-Action: no action
 
-Replace struct console_font with struct vc_font for the type of the
-vc_font field of struct vc_data. Struct console_font is UAPI, which
-prevents further changes. Hence a new data type is required.
-
-Struct console_font has a documented vertical pitch of 32 bytes. This
-is not the case after the font data has been loaded into the kernel.
-Changing the type of vc_font addresses this inconsistency.
-
-The font data is now declared as constant, as it might come from the
-kernel's read-only section. There's some fallout throughout the console
-code where non-const variables refer to it. Fix them. A later update
-will declare the font data to a dedicated data type.
+In fbcon, fbcon_resize() computes the size of the font buffer from the
+values stored in vc_font. Move these calculations to the dedicated helpers
+vc_font_pitch() and vc_font_size().
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/core/bitblit.c | 11 +++++------
- drivers/video/fbdev/core/fbcon.c   |  4 ++--
- drivers/video/fbdev/core/fbcon.h   |  4 ++--
- include/linux/console_struct.h     | 29 +++++++++++++++++++++++++++--
- 4 files changed, 36 insertions(+), 12 deletions(-)
+ drivers/video/fbdev/core/fbcon.c |  9 ++-------
+ include/linux/console_struct.h   | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-index 085ffb44c51a..7478accea8ec 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -22,8 +22,7 @@
- /*
-  * Accelerated handlers.
-  */
--static void update_attr(u8 *dst, u8 *src, int attribute,
--			       struct vc_data *vc)
-+static void update_attr(u8 *dst, const u8 *src, int attribute, struct vc_data *vc)
- {
- 	int i, offset = (vc->vc_font.height < 10) ? 1 : 2;
- 	int width = DIV_ROUND_UP(vc->vc_font.width, 8);
-@@ -81,7 +80,7 @@ static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
- 	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
- 	unsigned int charcnt = vc->vc_font.charcount;
- 	u32 idx = vc->vc_font.width >> 3;
--	u8 *src;
-+	const u8 *src;
- 
- 	while (cnt--) {
- 		u16 ch = scr_readw(s++) & charmask;
-@@ -120,7 +119,7 @@ static inline void bit_putcs_unaligned(struct vc_data *vc,
- 	u32 shift_low = 0, mod = vc->vc_font.width % 8;
- 	u32 shift_high = 8;
- 	u32 idx = vc->vc_font.width >> 3;
--	u8 *src;
-+	const u8 *src;
- 
- 	while (cnt--) {
- 		u16 ch = scr_readw(s++) & charmask;
-@@ -267,7 +266,7 @@ static void bit_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 	int y = real_y(par->p, vc->state.y);
- 	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
- 	int err = 1;
--	char *src;
-+	const u8 *src;
- 
- 	cursor.set = 0;
- 
-@@ -278,7 +277,7 @@ static void bit_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 	attribute = get_attribute(info, c);
- 	src = vc->vc_font.data + ((c & charmask) * (w * vc->vc_font.height));
- 
--	if (par->cursor_state.image.data != src ||
-+	if (par->cursor_state.image.data != (const char *)src ||
- 	    par->cursor_reset) {
- 		par->cursor_state.image.data = src;
- 		cursor.set |= FB_CUR_SETIMAGE;
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 666261ae59d8..247bb90c08d3 100644
+index 247bb90c08d3..103e91c8d874 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2286,7 +2286,7 @@ static bool fbcon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
+@@ -2037,7 +2037,6 @@ static void updatescrollmode(struct fbcon_display *p,
+ }
  
- static int fbcon_get_font(struct vc_data *vc, struct console_font *font, unsigned int vpitch)
- {
--	u8 *fontdata = vc->vc_font.data;
-+	const u8 *fontdata = vc->vc_font.data;
- 	u8 *data = font->data;
- 	int i, j;
+ #define PITCH(w) (((w) + 7) >> 3)
+-#define CALC_FONTSZ(h, p, c) ((h) * (p) * (c)) /* size = height * pitch * charcount */
  
-@@ -2417,7 +2417,7 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
- 	struct fbcon_par *par = info->fbcon_par;
- 	struct fbcon_display *p = &fb_display[vc->vc_num];
- 	int resize, ret, old_userfont, old_width, old_height, old_charcount;
--	u8 *old_data = vc->vc_font.data;
-+	const u8 *old_data = vc->vc_font.data;
+ static int fbcon_resize(struct vc_data *vc, unsigned int width,
+ 			unsigned int height, bool from_user)
+@@ -2049,8 +2048,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
+ 	int x_diff, y_diff, virt_w, virt_h, virt_fw, virt_fh;
  
- 	resize = (w != vc->vc_font.width) || (h != vc->vc_font.height);
- 	vc->vc_font.data = (void *)(p->fontdata = data);
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index fca14e9b729b..3f4386a40237 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -82,8 +82,8 @@ struct fbcon_par {
- 	int    rotate;
- 	int    cur_rotate;
- 	char  *cursor_data;
--	u8    *fontbuffer;
--	u8    *fontdata;
-+	u8          *fontbuffer;
-+	const u8    *fontdata;
- 	u8    *cursor_src;
- 	u32    cursor_size;
- 	u32    fd_size;
+ 	if (p->userfont && FNTSIZE(vc->vc_font.data)) {
+-		int size;
+-		int pitch = PITCH(vc->vc_font.width);
++		unsigned int size = vc_font_size(&vc->vc_font);
+ 
+ 		/*
+ 		 * If user font, ensure that a possible change to user font
+@@ -2059,10 +2057,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
+ 		 * charcount can change and cannot be used to determine the
+ 		 * font data allocated size.
+ 		 */
+-		if (pitch <= 0)
+-			return -EINVAL;
+-		size = CALC_FONTSZ(vc->vc_font.height, pitch, vc->vc_font.charcount);
+-		if (size > FNTSIZE(vc->vc_font.data))
++		if (!size || size > FNTSIZE(vc->vc_font.data))
+ 			return -EINVAL;
+ 	}
+ 
 diff --git a/include/linux/console_struct.h b/include/linux/console_struct.h
-index ebdb9750d348..7fdcae6ed49c 100644
+index 7fdcae6ed49c..fbb5dd5f6761 100644
 --- a/include/linux/console_struct.h
 +++ b/include/linux/console_struct.h
-@@ -13,8 +13,9 @@
- #ifndef _LINUX_CONSOLE_STRUCT_H
- #define _LINUX_CONSOLE_STRUCT_H
- 
--#include <linux/wait.h>
-+#include <linux/math.h>
- #include <linux/vt.h>
-+#include <linux/wait.h>
- #include <linux/workqueue.h>
- 
- struct uni_pagedict;
-@@ -58,6 +59,30 @@ struct vc_state {
- 	bool		reverse;
+@@ -83,6 +83,34 @@ struct vc_font {
+ 	const unsigned char *data;
  };
  
 +/**
-+ * struct vc_font - Describes a font
-+ * @width: The width of a single glyph in bits
-+ * @height: The height of a single glyph in scanlines
-+ * @charcount: The number of glyphs in the font
-+ * @data: The raw font data
++ * vc_font_pitch - Calculates the number of bytes between two adjacent scanlines
++ * @font: The VC font
 + *
-+ * Font data is organized as an array of glyphs. Each glyph is a bitmap with
-+ * set bits indicating the foreground color. Unset bits indicate background
-+ * color. The fields @width and @height store a single glyph's number of
-+ * horizontal bits and vertical scanlines. If width is not a multiple of 8,
-+ * there are trailing bits to fill up the byte. These bits should not be drawn.
-+ *
-+ * The field @data points to the first glphy's first byte. The value @charcount
-+ * gives the number of glyphs in the font. There are no empty scanlines between
-+ * two adjacent glyphs.
++ * Returns:
++ * The number of bytes between two adjacent scanlines in the font data
 + */
-+struct vc_font {
-+	unsigned int width;
-+	unsigned int height;
-+	unsigned int charcount;
-+	const unsigned char *data;
-+};
++static inline unsigned int vc_font_pitch(const struct vc_font *font)
++{
++	return DIV_ROUND_UP(font->width, 8);
++}
++
++/**
++ * vc_font_size - Calculates the size of the font data in bytes
++ * @font: The VC font
++ *
++ * vc_font_size() calculates the number of bytes of font data in the
++ * font specified by @font. The function calculates the size from the
++ * font parameters.
++ *
++ * Returns:
++ * The size of the font data in bytes.
++ */
++static inline unsigned int vc_font_size(const struct vc_font *font)
++{
++	return font->height * vc_font_pitch(font) * font->charcount;
++}
 +
  /*
   * Example: vc_data of a console that was scrolled 3 lines down.
   *
-@@ -122,7 +147,7 @@ struct vc_data {
- 	unsigned long	vc_pos;			/* Cursor address */
- 	/* fonts */
- 	unsigned short	vc_hi_font_mask;	/* [#] Attribute set for upper 256 chars of font or 0 if not supported */
--	struct console_font vc_font;		/* Current VC font set */
-+	struct vc_font vc_font;			/* Current VC font set */
- 	unsigned short	vc_video_erase_char;	/* Background erase character */
- 	/* VT terminal data */
- 	unsigned int	vc_state;		/* Escape sequence parser state */
 -- 
 2.53.0
 
