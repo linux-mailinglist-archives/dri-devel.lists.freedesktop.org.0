@@ -2,69 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sEfQCsy+pWknFgAAu9opvQ
+	id IIRgLey+pWn8FQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:46:04 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:46:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0821DD27E
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439D81DD2AB
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:46:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A2410E562;
-	Mon,  2 Mar 2026 16:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E94510E55C;
+	Mon,  2 Mar 2026 16:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="YSyysjbJ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ovJmnfkA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21F610E562
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 16:45:58 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-4837b6f6b93so33817305e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 08:45:58 -0800 (PST)
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C52910E55C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 16:46:33 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-4398eac51b3so3803679f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 08:46:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772469957; x=1773074757;
+ d=google.com; s=20230601; t=1772469992; x=1773074792;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=sOpHk1BL+uJZfW7J1uTT7wM4CHb4+mXkf8VEbmZQIDI=;
- b=YSyysjbJ5JoyvwLLwtugR/VKFygQmyGVYr42QfHzpXuwWZUWHQAdzBFztl6em25vCw
- M5E/nChFdJHqE4tjJaNhIavPBWVu5la250MoXayooJodBNscInPdNw7qcl/L5V2IXyIq
- Az0bUdJKjPecGer/+ZMCZ6G+WoaA7xdaSX8d0j4paIIkJ1dnqdjPBB4p/YOZeGf6AUVM
- 5/FmimvBcfdZTvxTNfJFPwP0SNX6uR7g6UvoZImoWU93UmpSSEeLWrm8xnDgDTz7V0j+
- gCIdgRSxk4TznfrKjtcO6jK0zXy/UJKisGXwd7eXQIyqTXTWYaviowlF7I7qlxMwI9mm
- OUSw==
+ bh=QYg22rfSXMfwVcQppmIM0Zb0tvFZKcn9JNJPKatkhBc=;
+ b=ovJmnfkAbG29gRJx1/R7326m8pkuzq6XP88UOeO2jCMQETjGLJgGR2AeT68GPnPIIq
+ KO7wS9DWV+PFmHHT9PcmJW9BJHipyUE3eQGqqb5y0Nfb9c/OXqFaJCVWijelGpUezyv6
+ FcvtFN/CFQNi+pH6169+j1u3WS+r5UU2A7Ti3FcKN6dlt71YaFuB2EHPrJ0H6UupHY0e
+ L+xMLN2aRcqTsMoswsZluu42bf7JI8sfydsYTSWudyqgaCgC72/IO8Dc5jR/je0e24I4
+ yTMMkva+TKjx/ZxCnDIe65gkHb0I8MC9mW6b/3mc12vSRP7iuoZ+lkbZTUFG7F1bGLxo
+ cH5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772469957; x=1773074757;
+ d=1e100.net; s=20230601; t=1772469992; x=1773074792;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sOpHk1BL+uJZfW7J1uTT7wM4CHb4+mXkf8VEbmZQIDI=;
- b=qhZbaP/xNKsLg9KFnTzpoVFm7f8YFqHbxgAWqtnQb9QcuWQaS41pcVCHjym2yjrR8r
- hVk0tKbGSxDWGm+2qins1KALuU8/Ruzw3jFvnjA2FAqZqLyDFjUHYF20zC+kBo69XI+U
- FQ7gHfX6/qqPgQYrPzTmwUObfGgneZ4qqG0cYs3DXMz017B+WIJ/mvREHQ8La+DS0oyS
- 02vx93dY2Mdv0QQFseVGon9tem/9CvgxQeSEyWzxaRc4QefCB7chqwcf+U1BF/2ngLHG
- PzPTPtVwn9iYEQuCa2S0A9N2TRF3jYdc9mGwNxVKeJ2qeTk/3ZP+cl7hSl37Bf/7veyX
- 9bfg==
-X-Gm-Message-State: AOJu0YwJrhG4dUxzTc5Yg+aNlePNelrBPBy6di+iQV82YVFBORy8siJ0
- 5kq7WK8f3AFG1IQELNtfc4jtSqnyQ4V6/rknxKLfasrfELhaNf0a4GXr9e3Kg2jTm3Tp1CwflWA
- 1kIeJwnuujAWEu82VdA==
-X-Received: from wmbg25.prod.google.com ([2002:a05:600c:a419:b0:483:6c98:3d2f])
+ bh=QYg22rfSXMfwVcQppmIM0Zb0tvFZKcn9JNJPKatkhBc=;
+ b=k7hbTona2FuaVo40Nyx4GtVCU8FW/3lrf/2mbg7r9tgxuHbah4qTkcHALfCVQWN6Ms
+ IYlEkm7bnqNR5kGMcX2i24t2ll0QPMYGVFsFvNUeHY8BOECUbRurW+EBGUVO8DUs8dqp
+ gavyQD9dwjjhW8CPGFYCMqi7tTLaPPbHTvhhEG2lGQlyZm1N9sfr6wk9xfkXyGq5kK+i
+ k1wdqAUSqCai2qWWO6RTqBglwsR+5NT3QsNEUDp0Zcs0uV0lnVZpy0HHfslqSxr/pMFF
+ UtT5G0BgMU5mTljiyKb8QBw5N3b37g3/+pm2VydD7pWBawsN9MnpW4vmiC0uPNq4av2s
+ ZE0Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjT0rP45Ky9LZlsQVDvdM5lnqZuUmmTDg9F/kZNYqENhQFsT0NnNd6yz3DL5+iVk9WQhWao5/VABk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3+D60cvHIMLNIc8J+ugvNMBLz4wMt/p+K1iY07IwROUQ8RuBa
+ YqNQB4koaBNbzMpKq9bKSTgW7R8z/+5zwZ0crUzl5o0M1w8od+eeUG0Mf8xg3+uFJTaHQ5rTLgC
+ CkTUeQTNrjIQ1YSVmnQ==
+X-Received: from wrbee8.prod.google.com ([2002:a05:6000:2108:b0:439:8f84:28e])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b0c:b0:480:4b5d:9ec with SMTP id
- 5b1f17b1804b1-483c9bdd26dmr247647015e9.33.1772469957264; 
- Mon, 02 Mar 2026 08:45:57 -0800 (PST)
-Date: Mon, 2 Mar 2026 16:45:56 +0000
-In-Reply-To: <20260224002314.344675-1-deborah.brouwer@collabora.com>
+ 2002:a5d:5f90:0:b0:439:9464:ac0a with SMTP id
+ ffacd0b85a97d-4399d97f64dmr22793244f8f.10.1772469991630; 
+ Mon, 02 Mar 2026 08:46:31 -0800 (PST)
+Date: Mon, 2 Mar 2026 16:46:30 +0000
+In-Reply-To: <aaW81JU7P82nXNbd@slm.duckdns.org>
 Mime-Version: 1.0
-References: <20260224002314.344675-1-deborah.brouwer@collabora.com>
-Message-ID: <aaW-xIX_odWZEEDZ@google.com>
-Subject: Re: [PATCH v3] drm/tyr: Clarify driver/device type names
+References: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
+ <196AEBB6-29A6-4F0F-917B-A042F422698C@collabora.com>
+ <E0BC3E06-FF0E-4EAE-8B7D-FFC1630F537C@collabora.com>
+ <aaW81JU7P82nXNbd@slm.duckdns.org>
+Message-ID: <aaW-5vwuf97Cpt6r@google.com>
+Subject: Re: [PATCH v2 0/4] rust: Add ARef support for work items
 From: Alice Ryhl <aliceryhl@google.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- daniel.almeida@collabora.com, boris.brezillon@collabora.com, dakr@kernel.org
+To: Tejun Heo <tj@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,59 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1E0821DD27E
+X-Rspamd-Queue-Id: 439D81DD2AB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MV_CASE(0.50)[];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:dakr@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tj@kernel.org,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:jiangshanlai@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	NEURAL_HAM(-0.00)[-0.999];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[6]
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 04:23:14PM -0800, Deborah Brouwer wrote:
-> Currently the `TyrDriver` struct implements both `platform::Driver` and
-> `drm::Driver`. For clarity, split up these two roles:
->  - Introduce `TyrPlatformDriverData` to implement `platform::Driver`, and
->  - Introduce `TyrDrmDriver` to implement `drm::Driver`.
+On Mon, Mar 02, 2026 at 06:37:40AM -1000, Tejun Heo wrote:
+> On Sat, Feb 28, 2026 at 02:35:05PM -0300, Daniel Almeida wrote:
+> > Tejun,
+> > 
+> > AFAICT, there are no further comments on this series. Can I get your feedback here, please?
 > 
-> Also rename other variables to reflect their roles in the DRM context:
-> - Rename `TyrDevice` to `TyrDrmDevice`
-> - Rename `TyrData` to `TyrDrmDeviceData`
-> - Rename `File` to `TyrDrmFileData`
-> - Rename `DrmFile` to `TyrDrmFile`
-> 
-> No functional changes are intended.
-> 
-> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> I don't know enough to have an opinion but if it looks alright from rust
+> side, please go ahead.
 
-I checked with Danilo who has no additional comments.
+Yes I think it looks alright. This just makes workqueue usable in more
+situations.
 
-Applied to drm-rust-next. Thanks!
+Alice
