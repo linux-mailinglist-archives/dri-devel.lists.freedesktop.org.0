@@ -2,133 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6PlOAQcBpml5IwAAu9opvQ
+	id wGDwDDwBpmmfIwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:28:39 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:29:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7E91E2F00
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:28:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1691E300D
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 22:29:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487DF10E5D4;
-	Mon,  2 Mar 2026 21:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CD910E5D2;
+	Mon,  2 Mar 2026 21:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="lTKm/VFX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RSMEpXPe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013001.outbound.protection.outlook.com
- [40.107.162.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE80F10E5D2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 21:28:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i9nbMNNGwA9Qai5f09pXPD/H5P9j5p4HS19Esw08gt644pRv2lnd9MTDh6zukwfPATApYRI68Btr9cVzTVSqT1O5JJza5q1TSoqo/G73M264aIwPhwgUJvGysLbKuBDykD4Hd89Uqg835MzE7srl1KqGi9zM8K1006r5rKOPLjzNH20t/NtMretS/CkwA1ci6CG1JILJEU+o2bfPMmEtGUplwPDSy5UNb+MIUlIumWoBfwZFfEMMmeAA5UVs4W9IvKRZbaA9q7XTlXK9vBqgvclpJyvcbiUlhb6rcEShO07bNrDgF3UeLul0VHWPZg+pIpRZoxtQjubzCXKRkyeY0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8uEM8fRInI8UhhsiflJOa7KC9zuI2tjL84hGCh9/0Os=;
- b=LBiBuu1hRjQhOqdBm7cBlygHms6+Zp6PR3ySHrEWRFirRvjSmR/3CQieeloprGa/tCzoOIGOUbg6oVKIl0qzzw98ZIvQGHNJdOAbt5MfOMpXNHXHxqHJakGA/ahXOaEA0OnqfQ4YE2RXZCkARDjanmN7clfDo62INpIWSVKHFkjXty2pZyUKANEOU/2Wqk55MEyo7EK4kQwbEK8jiJeQM0YwXgWq3Zw/I0j5ozlb7HmPvHXnxrimOSIwEJSFYfsFnpxjPG7KGlzWeG3dMp9/Qlcy6H+ZKWBb5zAtZEUaM8Su9a+vbIzIb0hlqFHaPlGl42DTnUf18PZgxXMJzaBDGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8uEM8fRInI8UhhsiflJOa7KC9zuI2tjL84hGCh9/0Os=;
- b=lTKm/VFXKbIHOhTfiSIVRdKEoy+D1NJLjKTCZj1BrFruFy3FE5Mq85soYVer/HVISFPm2NCsBQceJKRFvp17973Qk6T8cHJyMsUxMi4d9tD4e0hpospL+TwP9qbMVhLaZ/5umqYqCiZcQytmtYDtbbs2vlWVnfRq3Kd9O+P5yuG+oW9eEJFihfdkgi3tDRBJgDiRimKVFay46E71F8tltPDKrjmR1UZIUM9yhs+/GePJplRY5e7FGZRslRZG9JW6fuNZasa+L4Y+vjxCzoWn9NBoP2Us+xorSh6TC2LuJBQPiaipYrQFbNsJ0SlhfTx/+IECzXI4fIyTSlqahe79ag==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DB9PR04MB9353.eurprd04.prod.outlook.com (2603:10a6:10:36d::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
- 2026 21:28:29 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 21:28:29 +0000
-Date: Mon, 2 Mar 2026 16:28:17 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
- laurent.pinchart+renesas@ideasonboard.com,
- antonin.godard@bootlin.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Subject: Re: [PATCH 07/14] ARM: dts: imx6ul-var-som-concerto: Factor out
- common parts for all CPU variants
-Message-ID: <aaYA8YjxugSHW6TF@lizhi-Precision-Tower-5810>
-References: <20260302190953.669325-1-hugo@hugovil.com>
- <20260302190953.669325-8-hugo@hugovil.com>
- <aaX4DYzfR2HifTtf@lizhi-Precision-Tower-5810>
- <20260302160731.0b6dd8fc1709a91236289fea@hugovil.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302160731.0b6dd8fc1709a91236289fea@hugovil.com>
-X-ClientProxiedBy: SJ0PR03CA0061.namprd03.prod.outlook.com
- (2603:10b6:a03:331::6) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58BAB10E5D2;
+ Mon,  2 Mar 2026 21:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772486970; x=1804022970;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=07aJIhDXKQRWkJrUR+usIWWewW9SYLrb5gvHIC47BsQ=;
+ b=RSMEpXPeOvQ8+NaHnrFERsoEnOVcwEV0z0c/n096lySEKEWzOZQjDMRt
+ 3iFShiuWFWcLFBXA7wFKedBWkayKCj4rYjVvSclI+zcG5HTc2pGrV05Xj
+ 1DGoo93SGhufqfnzGSUljrSt1y/3GliL3JB9byHfiIx1eyi30FkAAVggh
+ R0jqNLOmGDMzshZe47NRHBHh3F60saV7bz7FO8JSJldyhdWdIixmzTSa8
+ 1wjflMSFJZYyXjztZuVDfxOHtI5dcIOImGIa8iPxW9uE0R60ovV2v5r37
+ R1gu9SE6wXKq4ap6rNytHNdM0gCoMfFW5xJz10pF6Lhl5icXUTpTNyF/H w==;
+X-CSE-ConnectionGUID: TnSDn7ZCTEaBbbIvOt1llQ==
+X-CSE-MsgGUID: ycYRP/PbTT6C1CLkrocrLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="83847753"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="83847753"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 13:29:29 -0800
+X-CSE-ConnectionGUID: Lx2duXLqRJySSZPf1AOGgw==
+X-CSE-MsgGUID: 1eKTNmjASpOPxgeT7ayHGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="221941335"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.183])
+ ([10.245.244.183])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 13:29:26 -0800
+Message-ID: <d7a0cd033766d2fae1a62e35f5abcd7d701b7c80.camel@linux.intel.com>
+Subject: Re: [PATCH v2 3/4] drm/xe: Split TLB invalidation into submit and
+ wait steps
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, Jason
+ Gunthorpe	 <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Simona Vetter	 <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Alistair Popple	 <apopple@nvidia.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 02 Mar 2026 22:29:22 +0100
+In-Reply-To: <aaXfzrTSvRpiX8An@lstrano-desk.jf.intel.com>
+References: <20260302163248.105454-1-thomas.hellstrom@linux.intel.com>
+ <20260302163248.105454-4-thomas.hellstrom@linux.intel.com>
+ <aaXfzrTSvRpiX8An@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB9353:EE_
-X-MS-Office365-Filtering-Correlation-Id: a707f13e-2aea-4104-eb89-08de78a2a569
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|52116014|7416014|19092799006|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: ud6/hK1UzyCBlvpOGG4QlsZPfBDYFuLk5S7946KA2xSHsCDS/+3+Jt8Xcz2IvspLcUjRP32kcUurVPBKclmr/Pa1NF1ScHsSK0eNVHhKb7p/bdZ0E54gDkBHXdDlPxHO19LhwoMQituon0hhn9zeNw5v2+NqAtM6D6QBuh32J9L18qNYbmqNBbIEK5lvihmGxWKUsAtI8qKCEBrmx67SbSNK7V8Ar5npzC5ZvbiHfOjrRuo0EL3zCYoTa37UcI8zBFIJpbKUzeAhm0Cn7+p3al1LLiimssVyLux4HizSomHz9Gz9D+WzWN/p2ndPfc9vbP4t3zvPaalTCKqehqXmV8E2B0LZcUJ+ufcXrpFm0SLc9MwNWWaqSrtVZwFGb6HZTS5tlQFx9h95u5fI2/W0Y6wAW931/X1Kefjti6KJSW++ncGmeqmnWupAEhF/ZiyaxVbcWhWX2MjnODPxGgIg8Kx6cL0F8U6/USmpnySdUjxf3VqpxnlyuRtXjZIFMhmSm5RnyL+YGewPF4NVDWj4YSmtLfBJeh153c786sqBlVdzBdZBaOe1eysxjbbHOxTa1j3XwmmF3KpKk3ZrYgLnHl+2feVlfsUFKrihL2i5ypbYKElcfT7l8R9LDHb+XZMK277NAzWaLHxk0TAZaxfdBxx8pLEDXGNfo3+xm0BZlY/Svr8Pacf5MibCsEn2hf+INyalWywrbDNYi6Pf0WPBkHa47peoY19dHANRpEL2DRUuYmRcssQyki5AUlbK7cnW437Aqbxl2as26VAb7wE7mDTLXL8ruJ3wF1Qpbp0SFdY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(19092799006)(366016)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yWtN6o0rJOEAlDZS9DMs26U8Xnkft1QR6dhtNKHbwDD9dIa2n/8xWt8UMfwO?=
- =?us-ascii?Q?n/M/MmbjgWiLSP3ba2cE4S4xEXxxc/mLqQzR5gMVmWVCbKpPpdW02X+vJxoc?=
- =?us-ascii?Q?AWxtlbfeODvPCIOxNhWzvPhnEhvy8qVdZheY3q06fKfhhyu05WZPsdYd6Ymk?=
- =?us-ascii?Q?/QZpCFpBngWz2C+RyiDXKv/1X3QeH1X6T55qoTkchNLQ/zrLyYUWWxa40aI9?=
- =?us-ascii?Q?f2PSVfxMjg+Mc0JKgE76qGY0hRaqaVV9oEtCyHXa32Ma9lzG9HQ4LaHYfagC?=
- =?us-ascii?Q?BmcX2WVFf3toU1O0YQ5X+JIxbt2OkwBPc3E/CVuC4cRSI57dAuPl/4q44Wnj?=
- =?us-ascii?Q?pAIL47DzRiAdGnEKWRhgXeAwebMHKMh1wSMm+QbEbxYAdz/0nsAj42+dm6NN?=
- =?us-ascii?Q?GmOGCvAAi9wbJ0f8C8/BvVzDtFBz03A1GHwiiiV2qt+QzA683SuabpYfGEWH?=
- =?us-ascii?Q?/Ks7TryvD7uTc0xl5AMXpDdNsmVPENA0X8S8vlXSgLnFNEw5JvK/gwgOHIcG?=
- =?us-ascii?Q?vNBJZPxzZW4ibhlJwxSBXdqrwdd7mD/TwMeJhg4w2mpwglRvwfNbC4qO/KKt?=
- =?us-ascii?Q?JdPcAOugxf7ApACDxV7DrK0h/l2SjRnCwf8dF3sB6GzWyO1V7CkanIdvZol5?=
- =?us-ascii?Q?xWVXBnphcmC6lhCOZBvimKk580IQR+AlLm4NDXayP3fnBTlvmRUoE7C4WaSC?=
- =?us-ascii?Q?cnrquYCR04GMAcstal4ftR2+vx/ivVaun/AroLSyJL9Wge3pyBIosuDYnBjc?=
- =?us-ascii?Q?7Ngw0i91jyEZPnEDNL2TPAOP/oP2uzxXsdQmsA+QTtTYLGWihdPNubIxUGYd?=
- =?us-ascii?Q?gF4shV95i4W6d0iGCrzJKhI1wVkj31Rxv+z2jz0pZuE4nDaT6/sxdlQvjQ8z?=
- =?us-ascii?Q?e++A+z/7URiOHqT72hm8cqGOgyermDabKI0Stdk7X00cFdSP2xAT9oB4Lw9C?=
- =?us-ascii?Q?mMt//2qPKAa1+H7VYu+fwvowzzC+tXyxuO2g7wXLvA5Z7qZsp62PVEAlE8DW?=
- =?us-ascii?Q?svV19oePPAtVDiEPZoEZT/T/V0fj+2N4ZljOCAM6E7iNcfd8m+D8hQGhuK9/?=
- =?us-ascii?Q?OTH5cUOPcPEpXsqa6zH43g26U7WwmKquqPez/SSHPWQ5RM2z5gfc7maHo3Bh?=
- =?us-ascii?Q?tLoZk3UChuktVpppDQAkWBFpMeftMJOXAoLX49yYiNtwUbbEF0QSGiveatF+?=
- =?us-ascii?Q?omuf0yrLj21wVF7Sb8CgU0LkG6Cr/B8SJC9c2JI7A+blRHdTq9UPhkINomG2?=
- =?us-ascii?Q?lvl4Pj6D9Id0xq+S/3bmn06JwaoDuUH+mH9s4J+xTwWwZO8FeHi7rG2B2fQd?=
- =?us-ascii?Q?toCgfobWgWatD+EJsXIYZ+WIVNXi+8ydU2b99bW1ruT7YOZLawbvyrlzbGqr?=
- =?us-ascii?Q?44QkazvBWjBH10gqCwGaPswQk/S0Oo5ZwYtEysM2NLdUJSR8vMj4T/cS3H9m?=
- =?us-ascii?Q?KwWniS+oEye1WupyIuFwPVlXqQK6Xo7OrCvKoD9nfeoRnhx0hAqoVYdNiUXb?=
- =?us-ascii?Q?2NM1Zuu+nEQHEtkXoYi9txqQZXsgpiGQY/AL3qfWfJ7vyVSblfDheou3Mdy1?=
- =?us-ascii?Q?Ys80E6mNLHlrMASBEmdBegsrPzgH81gioH/YkmqfnwAuvIvvFqIFOgjCT5vr?=
- =?us-ascii?Q?CZ8hHKsga06Pu4Kh4anuOvaEWWlsObmjZEigYmB8heqQFFCKfXgMl5ql2QLw?=
- =?us-ascii?Q?RIwcRsNwwEOGf70AMnvIaZTu4c6ljHNhBFH/+DjZYvTuvOnO?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a707f13e-2aea-4104-eb89-08de78a2a569
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 21:28:29.0248 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N7+uYu3o5hLpI0RgBHd2H2qO2/fGZMdQBTjXMU2tpntJFJh+jRXGdSBhsMRSXoM0Tj5JbasZBfwlyg+VRo4jTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,538 +82,512 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5A7E91E2F00
+X-Rspamd-Queue-Id: 9B1691E300D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_SENDER(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:hugo@hugovil.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,kvack.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[0.0.0.68:email,0.0.0.3:email];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:dkim,nxp.com:email,dimonoff.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,linux.intel.com:mid]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 04:07:31PM -0500, Hugo Villeneuve wrote:
-> Hi Frank,
->
-> On Mon, 2 Mar 2026 15:50:21 -0500
-> Frank Li <Frank.li@nxp.com> wrote:
->
-> > On Mon, Mar 02, 2026 at 02:03:43PM -0500, Hugo Villeneuve wrote:
-> > > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > >
-> > > Export common parts to the Variscite VAR-SOM-6UL dtsi so that they can be
-> > > reused on other boards.
-> > >
-> > > This will simplify adding future dedicated device tree files for each CPU
-> > > variant.
-> >
-> > Simplify adding ...
-> >
-> > >
-> > > Add i2c1 pinctrl to var-som dtsi pinmux, so that it can be reused by other
-> > > boards.
-> > >
-> > > Reorder pinctrl_gpio_leds to respect alphabetical order.
-> >
-> > this one use new patch.
->
-> I'm not sure what you mean by that? Do you mean to move this change to a
-> separate patch?
+On Mon, 2026-03-02 at 11:06 -0800, Matthew Brost wrote:
+> On Mon, Mar 02, 2026 at 05:32:47PM +0100, Thomas Hellstr=C3=B6m wrote:
+> > xe_vm_range_tilemask_tlb_inval() submits TLB invalidation requests
+> > to
+> > all GTs in a tile mask and then immediately waits for them to
+> > complete
+> > before returning. This is fine for the existing callers, but a
+> > subsequent patch will need to defer the wait in order to overlap
+> > TLB
+> > invalidations across multiple VMAs.
+> >=20
+> > Introduce xe_tlb_inval_range_tilemask_submit() and
+> > xe_tlb_inval_batch_wait() in xe_tlb_inval.c as the submit and wait
+> > halves respectively. The batch of fences is carried in the new
+> > xe_tlb_inval_batch structure. Remove
+> > xe_vm_range_tilemask_tlb_inval()
+> > and convert all three call sites to the new API.
+> >=20
+>=20
+> Mostly nits...
+>=20
+> > Assisted-by: GitHub Copilot:claude-sonnet-4.6
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_tlb_inval.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 82
+> > +++++++++++++++++++++++++
+> > =C2=A0drivers/gpu/drm/xe/xe_tlb_inval.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 6 ++
+> > =C2=A0drivers/gpu/drm/xe/xe_tlb_inval_types.h | 14 +++++
+> > =C2=A0drivers/gpu/drm/xe/xe_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 69 +++------------------
+> > =C2=A0drivers/gpu/drm/xe/xe_vm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 -
+> > =C2=A0drivers/gpu/drm/xe/xe_vm_madvise.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0 9 ++-
+> > =C2=A0drivers/gpu/drm/xe/xe_vm_types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 1 +
+> > =C2=A08 files changed, 123 insertions(+), 67 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > index 002b6c22ad3f..6ea4972c2791 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -19,6 +19,7 @@
+> > =C2=A0#include "xe_pt.h"
+> > =C2=A0#include "xe_svm.h"
+> > =C2=A0#include "xe_tile.h"
+> > +#include "xe_tlb_inval.h"
+> > =C2=A0#include "xe_ttm_vram_mgr.h"
+> > =C2=A0#include "xe_vm.h"
+> > =C2=A0#include "xe_vm_types.h"
+> > @@ -225,6 +226,7 @@ static void xe_svm_invalidate(struct drm_gpusvm
+> > *gpusvm,
+> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct mmu_notifier_range
+> > *mmu_range)
+> > =C2=A0{
+> > =C2=A0	struct xe_vm *vm =3D gpusvm_to_vm(gpusvm);
+> > +	struct xe_tlb_inval_batch _batch;
+> > =C2=A0	struct xe_device *xe =3D vm->xe;
+> > =C2=A0	struct drm_gpusvm_range *r, *first;
+> > =C2=A0	struct xe_tile *tile;
+> > @@ -276,7 +278,9 @@ static void xe_svm_invalidate(struct drm_gpusvm
+> > *gpusvm,
+> > =C2=A0
+> > =C2=A0	xe_device_wmb(xe);
+> > =C2=A0
+> > -	err =3D xe_vm_range_tilemask_tlb_inval(vm, adj_start,
+> > adj_end, tile_mask);
+> > +	err =3D xe_tlb_inval_range_tilemask_submit(xe, vm->usm.asid,
+> > adj_start, adj_end,
+> > +						 tile_mask,
+> > &_batch);
+> > +	xe_tlb_inval_batch_wait(&_batch);
+>=20
+> No need to call wait on an error but it is harmless.
+>=20
+> So you could write it like this:
+>=20
+> if (!WARN_ON_ONCE(err))
+> 	xe_tlb_inval_batch_wait(&_batch);
 
-yes
+Sure.
 
-Frank
->
->
-> >
-> > >
-> > > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > > ---
-> > >  arch/arm/boot/dts/nxp/imx/Makefile            |   1 +
-> > >  .../dts/nxp/imx/imx6ul-var-som-common.dtsi    |   7 +
-> > >  ...ts => imx6ul-var-som-concerto-common.dtsi} |  17 +-
-> > >  .../dts/nxp/imx/imx6ul-var-som-concerto.dts   | 312 +-----------------
-> > >  .../dts/nxp/imx/imx6ull-var-som-concerto.dts  |  17 +
-> > >  5 files changed, 33 insertions(+), 321 deletions(-)
-> > >  copy arch/arm/boot/dts/nxp/imx/{imx6ul-var-som-concerto.dts => imx6ul-var-som-concerto-common.dtsi} (95%)
-> > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > >
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
-> > > index de4142e8f3ce8..bc534d0fb1412 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/Makefile
-> > > +++ b/arch/arm/boot/dts/nxp/imx/Makefile
-> > > @@ -376,6 +376,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
-> > >  	imx6ull-tarragon-slavext.dtb \
-> > >  	imx6ull-tqma6ull2-mba6ulx.dtb \
-> > >  	imx6ull-tqma6ull2l-mba6ulx.dtb \
-> > > +	imx6ull-var-som-concerto.dtb \
-> >
-> > keep alphabet order
->
-> Ok
->
-> >
-> > Frank
-> > >  	imx6ull-uti260b.dtb \
-> > >  	imx6ulz-14x14-evk.dtb \
-> > >  	imx6ulz-bsh-smm-m2.dtb
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > index 2072e8ba4d469..22b0c4e0725a5 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > @@ -104,6 +104,13 @@ MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x03029	/* WLAN Enable */
-> > >  		>;
-> > >  	};
-> > >
-> > > +	pinctrl_i2c1: i2c1grp {
-> > > +		fsl,pins = <
-> > > +			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
-> > > +			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
-> > > +		>;
-> > > +	};
-> > > +
-> > >  	pinctrl_sai2: sai2grp {
-> > >  		fsl,pins = <
-> > >  			MX6UL_PAD_JTAG_TDI__SAI2_TX_BCLK	0x17088
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > > similarity index 95%
-> > > copy from arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > > copy to arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > > index d16e75164fd18..10a23ae104359 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-> > > @@ -1,19 +1,15 @@
-> > >  // SPDX-License-Identifier: GPL-2.0+
-> > >  /*
-> > >   * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
-> > > - * Variscite SoM mounted on it
-> > > + * Variscite SoM mounted on it, for all CPU variants.
-> > >   *
-> > >   * Copyright 2019 Variscite Ltd.
-> > >   * Copyright 2025 Bootlin
-> > >   */
-> > >
-> > > -#include "imx6ul-var-som.dtsi"
-> > >  #include <dt-bindings/leds/common.h>
-> > >
-> > >  / {
-> > > -	model = "Variscite VAR-SOM-6UL Concerto Board";
-> > > -	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
-> > > -
-> > >  	chosen {
-> > >  		stdout-path = &uart1;
-> > >  	};
-> > > @@ -144,22 +140,15 @@ MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0x17059
-> > >  		>;
-> > >  	};
-> > >
-> > > -	pinctrl_gpio_leds: gpio-ledsgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
-> > > -		>;
-> > > -	};
-> > > -
-> > >  	pinctrl_gpio_key_wakeup: gpio-keys-wakeupgrp {
-> > >  		fsl,pins = <
-> > >  			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x17059
-> > >  		>;
-> > >  	};
-> > >
-> > > -	pinctrl_i2c1: i2c1grp {
-> > > +	pinctrl_gpio_leds: gpio-ledsgrp {
-> > >  		fsl,pins = <
-> > > -			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
-> > > -			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
-> > > +			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
-> > >  		>;
-> > >  	};
-> > >
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > > index d16e75164fd18..11b45f105b7ad 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-> > > @@ -1,320 +1,18 @@
-> > >  // SPDX-License-Identifier: GPL-2.0+
-> > >  /*
-> > >   * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
-> > > - * Variscite SoM mounted on it
-> > > + * Variscite SoM mounted on it (6UL CPU variant).
-> > >   *
-> > >   * Copyright 2019 Variscite Ltd.
-> > >   * Copyright 2025 Bootlin
-> > >   */
-> > >
-> > > +/dts-v1/;
-> > > +
-> > >  #include "imx6ul-var-som.dtsi"
-> > > -#include <dt-bindings/leds/common.h>
-> > > +#include "imx6ul-var-som-concerto-common.dtsi"
-> > >
-> > >  / {
-> > > -	model = "Variscite VAR-SOM-6UL Concerto Board";
-> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
-> > >  	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
-> > > -
-> > > -	chosen {
-> > > -		stdout-path = &uart1;
-> > > -	};
-> > > -
-> > > -	gpio-keys {
-> > > -		compatible = "gpio-keys";
-> > > -		pinctrl-names = "default";
-> > > -		pinctrl-0 = <&pinctrl_gpio_key_back>, <&pinctrl_gpio_key_wakeup>;
-> > > -
-> > > -		key-back {
-> > > -			gpios = <&gpio4 14 GPIO_ACTIVE_LOW>;
-> > > -			linux,code = <KEY_BACK>;
-> > > -		};
-> > > -
-> > > -		key-wakeup {
-> > > -			gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
-> > > -			linux,code = <KEY_WAKEUP>;
-> > > -			wakeup-source;
-> > > -		};
-> > > -	};
-> > > -
-> > > -	leds {
-> > > -		compatible = "gpio-leds";
-> > > -		pinctrl-names = "default";
-> > > -		pinctrl-0 = <&pinctrl_gpio_leds>;
-> > > -
-> > > -		led-0 {
-> > > -			function = LED_FUNCTION_STATUS;
-> > > -			color = <LED_COLOR_ID_GREEN>;
-> > > -			label = "gpled2";
-> > > -			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
-> > > -			linux,default-trigger = "heartbeat";
-> > > -		};
-> > > -	};
-> > > -};
-> > > -
-> > > -&can1 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_flexcan1>;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&fec1 {
-> > > -	status = "disabled";
-> > > -};
-> > > -
-> > > -&fec2 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_enet2>, <&pinctrl_enet2_gpio>, <&pinctrl_enet2_mdio>;
-> > > -	phy-mode = "rmii";
-> > > -	phy-handle = <&ethphy1>;
-> > > -	status = "okay";
-> > > -
-> > > -	mdio {
-> > > -		#address-cells = <1>;
-> > > -		#size-cells = <0>;
-> > > -
-> > > -		ethphy1: ethernet-phy@3 {
-> > > -			compatible = "ethernet-phy-ieee802.3-c22";
-> > > -			reg = <3>;
-> > > -			clocks = <&rmii_ref_clk>;
-> > > -			clock-names = "rmii-ref";
-> > > -			reset-gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
-> > > -			reset-assert-us = <100000>;
-> > > -			micrel,led-mode = <0>;
-> > > -			micrel,rmii-reference-clock-select-25-mhz;
-> > > -		};
-> > > -	};
-> > > -};
-> > > -
-> > > -&i2c1 {
-> > > -	clock-frequency = <100000>;
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_i2c1>;
-> > > -	status = "okay";
-> > > -
-> > > -	rtc@68 {
-> > > -		/*
-> > > -		 * To actually use this interrupt
-> > > -		 * connect pins J14.8 & J14.10 on the Concerto-Board.
-> > > -		 */
-> > > -		compatible = "dallas,ds1337";
-> > > -		reg = <0x68>;
-> > > -		pinctrl-names = "default";
-> > > -		pinctrl-0 = <&pinctrl_rtc>;
-> > > -		interrupt-parent = <&gpio1>;
-> > > -		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-> > > -	};
-> > > -};
-> > > -
-> > > -&iomuxc {
-> > > -	pinctrl_enet2: enet2grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_ENET2_RX_EN__ENET2_RX_EN	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_RX_ER__ENET2_RX_ER	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_RX_DATA0__ENET2_RDATA00	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_RX_DATA1__ENET2_RDATA01	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_TX_EN__ENET2_TX_EN	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_TX_DATA0__ENET2_TDATA00	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_TX_DATA1__ENET2_TDATA01	0x1b0b0
-> > > -			MX6UL_PAD_ENET2_TX_CLK__ENET2_REF_CLK2	0x4001b031
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_enet2_gpio: enet2-gpiogrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05	0x1b0b0 /* fec2 reset */
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_enet2_mdio: enet2-mdiogrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_GPIO1_IO06__ENET2_MDIO	0x1b0b0
-> > > -			MX6UL_PAD_GPIO1_IO07__ENET2_MDC		0x1b0b0
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_flexcan1: flexcan1grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_UART3_RTS_B__FLEXCAN1_RX	0x1b020
-> > > -			MX6UL_PAD_UART3_CTS_B__FLEXCAN1_TX	0x1b020
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_gpio_key_back: gpio-key-backgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0x17059
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_gpio_leds: gpio-ledsgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_gpio_key_wakeup: gpio-keys-wakeupgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x17059
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_i2c1: i2c1grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
-> > > -			MX6UL_PAD_CSI_MCLK__I2C1_SDA		0x4001b8b0
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_pwm4: pwm4grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_GPIO1_IO05__PWM4_OUT		0x110b0
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_rtc: rtcgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_JTAG_MOD__GPIO1_IO10		0x1b0b0 /* RTC alarm IRQ */
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_uart1: uart1grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_UART1_TX_DATA__UART1_DCE_TX	0x1b0b1
-> > > -			MX6UL_PAD_UART1_RX_DATA__UART1_DCE_RX	0x1b0b1
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_uart5: uart5grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_CSI_DATA00__UART5_DCE_TX	0x1b0b1
-> > > -			MX6UL_PAD_CSI_DATA01__UART5_DCE_RX	0x1b0b1
-> > > -			MX6UL_PAD_GPIO1_IO09__UART5_DCE_CTS	0x1b0b1
-> > > -			MX6UL_PAD_GPIO1_IO08__UART5_DCE_RTS	0x1b0b1
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_usb_otg1_id: usbotg1idgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_UART3_TX_DATA__ANATOP_OTG1_ID	0x17059
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_usdhc1: usdhc1grp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
-> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
-> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
-> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
-> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
-> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
-> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
-> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
-> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
-> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
-> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
-> > > -			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
-> > > -			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
-> > > -			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
-> > > -			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
-> > > -			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
-> > > -		>;
-> > > -	};
-> > > -
-> > > -	pinctrl_wdog: wdoggrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_GPIO1_IO01__WDOG1_WDOG_B	0x78b0
-> > > -		>;
-> > > -	};
-> > > -};
-> > > -
-> > > -&pwm4 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_pwm4>;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&snvs_pwrkey {
-> > > -	status = "disabled";
-> > > -};
-> > > -
-> > > -&snvs_rtc {
-> > > -	status = "disabled";
-> > > -};
-> > > -
-> > > -&tsc {
-> > > -	/*
-> > > -	 * Conflics with wdog1 ext-reset-output & SD CD pins,
-> > > -	 * so we keep it disabled by default.
-> > > -	 */
-> > > -	status = "disabled";
-> > > -};
-> > > -
-> > > -/* Console UART */
-> > > -&uart1 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_uart1>;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -/* ttymxc4 UART */
-> > > -&uart5 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_uart5>;
-> > > -	uart-has-rtscts;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&usbotg1 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_usb_otg1_id>;
-> > > -	dr_mode = "otg";
-> > > -	disable-over-current;
-> > > -	srp-disable;
-> > > -	hnp-disable;
-> > > -	adp-disable;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&usbotg2 {
-> > > -	dr_mode = "host";
-> > > -	disable-over-current;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&usdhc1 {
-> > > -	pinctrl-names = "default", "state_100mhz", "state_200mhz";
-> > > -	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
-> > > -	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
-> > > -	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
-> > > -	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-> > > -	no-1-8-v;
-> > > -	keep-power-in-suspend;
-> > > -	wakeup-source;
-> > > -	status = "okay";
-> > > -};
-> > > -
-> > > -&wdog1 {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_wdog>;
-> > > -	/*
-> > > -	 * To actually use ext-reset-output
-> > > -	 * connect pins J17.3 & J17.8 on the Concerto-Board
-> > > -	 */
-> > > -	fsl,ext-reset-output;
-> > >  };
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > > new file mode 100644
-> > > index 0000000000000..7c601af2657d7
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-> > > @@ -0,0 +1,17 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
-> > > + * Variscite SoM mounted on it (6ULL CPU variant).
-> > > + *
-> > > + * Copyright 2026 Dimonoff
-> > > + */
-> > > +
-> > > +/dts-v1/;
-> > > +
-> > > +#include "imx6ull-var-som.dtsi"
-> > > +#include "imx6ul-var-som-concerto-common.dtsi"
-> > > +
-> > > +/ {
-> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
-> > > +	compatible = "variscite,mx6ullconcerto", "variscite,var-som-imx6ull", "fsl,imx6ull";
-> > > +};
-> > > --
-> > > 2.47.3
-> > >
-> >
->
->
-> --
-> Hugo Villeneuve
+>=20
+> > =C2=A0	WARN_ON_ONCE(err);
+> > =C2=A0
+> > =C2=A0range_notifier_event_end:
+> > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > b/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > index 933f30fb617d..343e37cfe715 100644
+> > --- a/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > +++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
+> > @@ -486,3 +486,85 @@ bool xe_tlb_inval_idle(struct xe_tlb_inval
+> > *tlb_inval)
+> > =C2=A0	guard(spinlock_irq)(&tlb_inval->pending_lock);
+> > =C2=A0	return list_is_singular(&tlb_inval->pending_fences);
+> > =C2=A0}
+> > +
+> > +/**
+> > + * xe_tlb_inval_batch_wait() - Wait for all fences in a TLB
+> > invalidation batch
+> > + * @batch: Batch of TLB invalidation fences to wait on
+> > + *
+> > + * Waits for every fence in @batch to signal, then resets @batch
+> > so it can be
+> > + * reused for a subsequent invalidation.
+> > + */
+> > +void xe_tlb_inval_batch_wait(struct xe_tlb_inval_batch *batch)
+> > +{
+> > +	struct xe_tlb_inval_fence *fence =3D &batch->fence[0];
+>=20
+> Would this be better:
+>=20
+> s/&batch->fence[0]/batch->fence
+>=20
+> Personal preference I guess.
+
+Yeah, I typically use the former to make it easier for
+the reader to remember we're pointing to the first element of an array.
+
+>=20
+> > +	unsigned int i;
+> > +
+> > +	for (i =3D 0; i < batch->num_fences; ++i)
+> > +		xe_tlb_inval_fence_wait(fence++);
+> > +
+> > +	batch->num_fences =3D 0;
+> > +}
+> > +
+> > +/**
+> > + * xe_tlb_inval_range_tilemask_submit() - Submit TLB invalidations
+> > for an
+> > + * address range on a tile mask
+> > + * @xe: The xe device
+> > + * @asid: Address space ID
+> > + * @start: start address
+> > + * @end: end address
+> > + * @tile_mask: mask for which gt's issue tlb invalidation
+> > + * @batch: Batch of tlb invalidate fences
+> > + *
+> > + * Issue a range based TLB invalidation for gt's in tilemask
+> > + *
+>=20
+> Mention no need to wait on batch if this function returns an error?
+
+Sure.
+
+>=20
+> > + * Returns 0 for success, negative error code otherwise.
+> > + */
+> > +int xe_tlb_inval_range_tilemask_submit(struct xe_device *xe, u32
+> > asid,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 start, u64 end, u8
+> > tile_mask,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_tlb_inval_batch
+> > *batch)
+> > +{
+> > +	struct xe_tlb_inval_fence *fence =3D &batch->fence[0];
+> > +	struct xe_tile *tile;
+> > +	u32 fence_id =3D 0;
+> > +	u8 id;
+> > +	int err;
+> > +
+> > +	batch->num_fences =3D 0;
+> > +	if (!tile_mask)
+> > +		return 0;
+> > +
+> > +	for_each_tile(tile, xe, id) {
+> > +		if (!(tile_mask & BIT(id)))
+> > +			continue;
+> > +
+> > +		xe_tlb_inval_fence_init(&tile->primary_gt-
+> > >tlb_inval,
+> > +					&fence[fence_id], true);
+> > +
+> > +		err =3D xe_tlb_inval_range(&tile->primary_gt-
+> > >tlb_inval,
+> > +					 &fence[fence_id], start,
+> > end,
+> > +					 asid, NULL);
+> > +		if (err)
+> > +			goto wait;
+> > +		++fence_id;
+> > +
+> > +		if (!tile->media_gt)
+> > +			continue;
+> > +
+> > +		xe_tlb_inval_fence_init(&tile->media_gt-
+> > >tlb_inval,
+> > +					&fence[fence_id], true);
+> > +
+> > +		err =3D xe_tlb_inval_range(&tile->media_gt-
+> > >tlb_inval,
+> > +					 &fence[fence_id], start,
+> > end,
+> > +					 asid, NULL);
+> > +		if (err)
+> > +			goto wait;
+> > +		++fence_id;
+> > +	}
+> > +
+> > +wait:
+> > +	batch->num_fences =3D fence_id;
+>=20
+> Should 'batch->num_fences' only get set on success?
+
+We need it for the error wait below, after which it gets cleared.
+
+>=20
+> > +	if (err)
+> > +		xe_tlb_inval_batch_wait(batch);
+> > +
+> > +	return err;
+> > +}
+> > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.h
+> > b/drivers/gpu/drm/xe/xe_tlb_inval.h
+> > index 62089254fa23..a76b7823a5f2 100644
+> > --- a/drivers/gpu/drm/xe/xe_tlb_inval.h
+> > +++ b/drivers/gpu/drm/xe/xe_tlb_inval.h
+> > @@ -45,4 +45,10 @@ void xe_tlb_inval_done_handler(struct
+> > xe_tlb_inval *tlb_inval, int seqno);
+> > =C2=A0
+> > =C2=A0bool xe_tlb_inval_idle(struct xe_tlb_inval *tlb_inval);
+> > =C2=A0
+> > +int xe_tlb_inval_range_tilemask_submit(struct xe_device *xe, u32
+> > asid,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 start, u64 end, u8
+> > tile_mask,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_tlb_inval_batch
+> > *batch);
+> > +
+> > +void xe_tlb_inval_batch_wait(struct xe_tlb_inval_batch *batch);
+> > +
+> > =C2=A0#endif	/* _XE_TLB_INVAL_ */
+> > diff --git a/drivers/gpu/drm/xe/xe_tlb_inval_types.h
+> > b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
+> > index 3b089f90f002..3d1797d186fd 100644
+> > --- a/drivers/gpu/drm/xe/xe_tlb_inval_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
+> > @@ -9,6 +9,8 @@
+> > =C2=A0#include <linux/workqueue.h>
+> > =C2=A0#include <linux/dma-fence.h>
+> > =C2=A0
+> > +#include "xe_device_types.h"
+> > +
+> > =C2=A0struct drm_suballoc;
+> > =C2=A0struct xe_tlb_inval;
+> > =C2=A0
+> > @@ -132,4 +134,16 @@ struct xe_tlb_inval_fence {
+> > =C2=A0	ktime_t inval_time;
+> > =C2=A0};
+> > =C2=A0
+> > +/**
+> > + * struct xe_tlb_inval_batch - Batch of TLB invalidation fences
+> > + *
+> > + * Holds one fence per GT covered by a TLB invalidation request.
+> > + */
+> > +struct xe_tlb_inval_batch {
+> > +	/** @fence: per-GT TLB invalidation fences */
+> > +	struct xe_tlb_inval_fence fence[XE_MAX_TILES_PER_DEVICE *
+> > XE_MAX_GT_PER_TILE];
+> > +	/** @num_fences: number of valid entries in @fence */
+> > +	unsigned int num_fences;
+> > +};
+> > +
+> > =C2=A0#endif
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.c
+> > b/drivers/gpu/drm/xe/xe_vm.c
+> > index 548b0769b3ef..7f29d2b2972d 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.c
+> > +++ b/drivers/gpu/drm/xe/xe_vm.c
+> > @@ -3966,66 +3966,6 @@ void xe_vm_unlock(struct xe_vm *vm)
+> > =C2=A0	dma_resv_unlock(xe_vm_resv(vm));
+> > =C2=A0}
+> > =C2=A0
+> > -/**
+> > - * xe_vm_range_tilemask_tlb_inval - Issue a TLB invalidation on
+> > this tilemask for an
+> > - * address range
+> > - * @vm: The VM
+> > - * @start: start address
+> > - * @end: end address
+> > - * @tile_mask: mask for which gt's issue tlb invalidation
+> > - *
+> > - * Issue a range based TLB invalidation for gt's in tilemask
+> > - *
+> > - * Returns 0 for success, negative error code otherwise.
+> > - */
+> > -int xe_vm_range_tilemask_tlb_inval(struct xe_vm *vm, u64 start,
+> > -				=C2=A0=C2=A0 u64 end, u8 tile_mask)
+> > -{
+> > -	struct xe_tlb_inval_fence
+> > -		fence[XE_MAX_TILES_PER_DEVICE *
+> > XE_MAX_GT_PER_TILE];
+> > -	struct xe_tile *tile;
+> > -	u32 fence_id =3D 0;
+> > -	u8 id;
+> > -	int err;
+> > -
+> > -	if (!tile_mask)
+> > -		return 0;
+> > -
+> > -	for_each_tile(tile, vm->xe, id) {
+> > -		if (!(tile_mask & BIT(id)))
+> > -			continue;
+> > -
+> > -		xe_tlb_inval_fence_init(&tile->primary_gt-
+> > >tlb_inval,
+> > -					&fence[fence_id], true);
+> > -
+> > -		err =3D xe_tlb_inval_range(&tile->primary_gt-
+> > >tlb_inval,
+> > -					 &fence[fence_id], start,
+> > end,
+> > -					 vm->usm.asid, NULL);
+> > -		if (err)
+> > -			goto wait;
+> > -		++fence_id;
+> > -
+> > -		if (!tile->media_gt)
+> > -			continue;
+> > -
+> > -		xe_tlb_inval_fence_init(&tile->media_gt-
+> > >tlb_inval,
+> > -					&fence[fence_id], true);
+> > -
+> > -		err =3D xe_tlb_inval_range(&tile->media_gt-
+> > >tlb_inval,
+> > -					 &fence[fence_id], start,
+> > end,
+> > -					 vm->usm.asid, NULL);
+> > -		if (err)
+> > -			goto wait;
+> > -		++fence_id;
+> > -	}
+> > -
+> > -wait:
+> > -	for (id =3D 0; id < fence_id; ++id)
+> > -		xe_tlb_inval_fence_wait(&fence[id]);
+> > -
+> > -	return err;
+> > -}
+> > -
+> > =C2=A0/**
+> > =C2=A0 * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without
+> > a lock
+> > =C2=A0 * @vma: VMA to invalidate
+> > @@ -4040,6 +3980,7 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
+> > =C2=A0{
+> > =C2=A0	struct xe_device *xe =3D xe_vma_vm(vma)->xe;
+> > =C2=A0	struct xe_vm *vm =3D xe_vma_vm(vma);
+> > +	struct xe_tlb_inval_batch _batch;
+>=20
+> Why not just 'batch'?
+>=20
+> > =C2=A0	struct xe_tile *tile;
+> > =C2=A0	u8 tile_mask =3D 0;
+> > =C2=A0	int ret =3D 0;
+> > @@ -4080,12 +4021,16 @@ int xe_vm_invalidate_vma(struct xe_vma
+> > *vma)
+> > =C2=A0
+> > =C2=A0	xe_device_wmb(xe);
+> > =C2=A0
+> > -	ret =3D xe_vm_range_tilemask_tlb_inval(xe_vma_vm(vma),
+> > xe_vma_start(vma),
+> > -					=C2=A0=C2=A0=C2=A0=C2=A0 xe_vma_end(vma),
+> > tile_mask);
+> > +	ret =3D xe_tlb_inval_range_tilemask_submit(xe,
+> > xe_vma_vm(vma)->usm.asid,
+> > +					=09
+> > xe_vma_start(vma), xe_vma_end(vma),
+> > +						 tile_mask,
+> > &_batch);
+> > =C2=A0
+> > =C2=A0	/* WRITE_ONCE pairs with READ_ONCE in
+> > xe_vm_has_valid_gpu_mapping() */
+> > =C2=A0	WRITE_ONCE(vma->tile_invalidated, vma->tile_mask);
+> > =C2=A0
+> > +	if (!ret)
+> > +		xe_tlb_inval_batch_wait(&_batch);
+> > +
+>=20
+> Here we skip the wait on error, hence my suggestion to skip waits in
+> other code paths or at a minimum make call sematics consistent.=20
+
+Makes sense.
+
+>=20
+> > =C2=A0	return ret;
+> > =C2=A0}
+> > =C2=A0
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.h
+> > b/drivers/gpu/drm/xe/xe_vm.h
+> > index f849e369432b..62f4b6fec0bc 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm.h
+> > @@ -240,9 +240,6 @@ struct dma_fence *xe_vm_range_rebind(struct
+> > xe_vm *vm,
+> > =C2=A0struct dma_fence *xe_vm_range_unbind(struct xe_vm *vm,
+> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_svm_range *range);
+> > =C2=A0
+> > -int xe_vm_range_tilemask_tlb_inval(struct xe_vm *vm, u64 start,
+> > -				=C2=A0=C2=A0 u64 end, u8 tile_mask);
+> > -
+> > =C2=A0int xe_vm_invalidate_vma(struct xe_vma *vma);
+> > =C2=A0
+> > =C2=A0int xe_vm_validate_protected(struct xe_vm *vm);
+> > diff --git a/drivers/gpu/drm/xe/xe_vm_madvise.c
+> > b/drivers/gpu/drm/xe/xe_vm_madvise.c
+> > index 95bf53cc29e3..39717026e84f 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm_madvise.c
+> > +++ b/drivers/gpu/drm/xe/xe_vm_madvise.c
+> > @@ -12,6 +12,7 @@
+> > =C2=A0#include "xe_pat.h"
+> > =C2=A0#include "xe_pt.h"
+> > =C2=A0#include "xe_svm.h"
+> > +#include "xe_tlb_inval.h"
+> > =C2=A0
+> > =C2=A0struct xe_vmas_in_madvise_range {
+> > =C2=A0	u64 addr;
+> > @@ -235,13 +236,19 @@ static u8 xe_zap_ptes_in_madvise_range(struct
+> > xe_vm *vm, u64 start, u64 end)
+> > =C2=A0static int xe_vm_invalidate_madvise_range(struct xe_vm *vm, u64
+> > start, u64 end)
+> > =C2=A0{
+> > =C2=A0	u8 tile_mask =3D xe_zap_ptes_in_madvise_range(vm, start,
+> > end);
+> > +	struct xe_tlb_inval_batch batch;
+> > +	int err;
+> > =C2=A0
+> > =C2=A0	if (!tile_mask)
+> > =C2=A0		return 0;
+> > =C2=A0
+> > =C2=A0	xe_device_wmb(vm->xe);
+> > =C2=A0
+> > -	return xe_vm_range_tilemask_tlb_inval(vm, start, end,
+> > tile_mask);
+> > +	err =3D xe_tlb_inval_range_tilemask_submit(vm->xe, vm-
+> > >usm.asid, start, end,
+> > +						 tile_mask,
+> > &batch);
+> > +	xe_tlb_inval_batch_wait(&batch);
+>=20
+> No need to wait on error.
+
+Will fix
+
+Thanks,
+Thomas
+
+
+
+>=20
+> > +
+> > +	return err;
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static bool madvise_args_are_sane(struct xe_device *xe, const
+> > struct drm_xe_madvise *args)
+> > diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
+> > b/drivers/gpu/drm/xe/xe_vm_types.h
+> > index 1f6f7e30e751..de6544165cfa 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> > @@ -18,6 +18,7 @@
+> > =C2=A0#include "xe_device_types.h"
+> > =C2=A0#include "xe_pt_types.h"
+> > =C2=A0#include "xe_range_fence.h"
+> > +#include "xe_tlb_inval_types.h"
+> > =C2=A0#include "xe_userptr.h"
+> > =C2=A0
+> > =C2=A0struct drm_pagemap;
+> > --=20
+> > 2.53.0
+> >=20
