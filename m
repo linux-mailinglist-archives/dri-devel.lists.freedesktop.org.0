@@ -2,127 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ndCYL5FnpWkeAAYAu9opvQ
+	id mFngACxopWmx+wUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:33:53 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:36:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E821D6961
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839751D6A29
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0371C10E47D;
-	Mon,  2 Mar 2026 10:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E6110E358;
+	Mon,  2 Mar 2026 10:36:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="QgncP8+O";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kvsJsPga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF0DA10E358
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:33:47 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-4836bf1a920so45032865e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 02:33:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772447626; x=1773052426;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=EnMgJMcaQgCDj7i00Uawlj/G1rJtXPwe1sCLwvhoFHI=;
- b=QgncP8+OhRI+4ZO8rEr1hLMqQCNpyPYa913C2g4NZbsFSKiVn4mIJpp/iEnsHZeO1E
- lsaodZ2LnkwcyNbCyQl9x/WxSwEfl66kj3zpjL7cOqjts5WkhS9y2JjM71pRyXlkwsS8
- COQ/7JVp1OTD0YRFtLfJiKUOEHTNj9oWHJG5XQN+FsPBgK6zU559gnSx45TNjGnv7GOw
- nknTfDJVJ33lEAQooLqhMJHIozyy1xGkYf/XaG8yaBAu3om7YVvfkXeth/rDBAn/qxoG
- Mz9zsKFWJt0RDebkUB5Sh726qFrnvt5L744rYG6nPw8PogFWHzQojUmcJGixGN04fZ8x
- ZFmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772447626; x=1773052426;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EnMgJMcaQgCDj7i00Uawlj/G1rJtXPwe1sCLwvhoFHI=;
- b=xJQKICFmFpRbDAb0zi95EPf3hXwnDZy0OFgrRfPQVXz09Lxz9jBJeMfAckxZe9k1bq
- LSwuotJgLblVPbX3oqQWhNgUlHHlG13+MFAbchE19utMK31NLHG9RyDJ4iI9Iwzd8P4R
- NJjLYhUO1Q+mO1qmB4M2OZhyhZiH7JQkJi02z0e6hL1yK9d50f394P8r3lGsCrThFwMW
- o4HmUTKS/SBIIOYkjAg0HQy+Be5ih92JnukzGRYbVqxiymxQeaN3J8zZVifUC41l0FSy
- ux0NLswX5BQtJiWIGE7R1txb3LhK6utRrYclP4dCi5tm6l62Z//kOiT3/lbNlj4QyTSv
- f45A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNK5Bspm4VxxsuPPwBanNnetmv32Y6KDQ9P6O9MvVFDzv1n/C1AYj0Bzy5pUPPlxzBfPwwEYScwbY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKV2puXTpz3T4se/1kkKmN72QquQ3icB4BS+0E+kC4Lq+hkG/e
- 4vmQBpoDxgE+YzfJs2Khu/QajQ1S4rEuCv0qugsjrc2/lOqDlMBwMs/tNZ7qx72omU4PGusZyjY
- UtxazGYu/T/6z5YGQ8g==
-X-Received: from wmdd1.prod.google.com ([2002:a05:600c:a201:b0:480:3227:a124])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:6383:b0:47d:3ead:7440 with SMTP id
- 5b1f17b1804b1-483c9bdb683mr186031315e9.32.1772447625915; 
- Mon, 02 Mar 2026 02:33:45 -0800 (PST)
-Date: Mon, 2 Mar 2026 10:33:45 +0000
-In-Reply-To: <f2f3a8a1-3dbf-4ef9-a89a-a6ec20791d1c@kernel.org>
-Mime-Version: 1.0
-References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-3-david@kernel.org>
- <aaLh2BxSgC9Jl5iS@google.com>
- <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
- <aaVf5gv4XjV6Ddt-@google.com>
- <f2f3a8a1-3dbf-4ef9-a89a-a6ec20791d1c@kernel.org>
-Message-ID: <aaVnifbdxKhBddQp@google.com>
-Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
- zap_page_range_single()
-From: Alice Ryhl <aliceryhl@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
- "linux-mm @ kvack . org" <linux-mm@kvack.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, 
- Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>,
- Ian Abbott <abbotti@mev.co.uk>, 
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, 
- Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
- Andy Lutomirski <luto@kernel.org>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Eric Dumazet <edumazet@google.com>, 
- Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
- David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="utf-8"
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 989B410E358
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772447782;
+ bh=C3uHaRiEMv+brHsXGzXhTQuGI7vumkj+kGx0iU/1qbA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kvsJsPga3BUL6WxKeak5CnYg8prR06wuKWaYenmFekYDALe828xh3fZAAFs+6U3PW
+ dBpcl9wAh0E/Yf9VyGGfHtnhA1wJ+e4hKlvJSmSIG5M1HHhiqzQFIWYu60KcH5/uVI
+ ssDl8X7anM5IaCoMhYKJdqIdjxhfF4dojWaaRYcmJB5VDQdpzh11Rb2uH6+RB+ovX6
+ K0eLysdwDuoSwp0+3Bv4EldUgn92GRSHY7vGf0wX7XWFILoIANZpaJBhKNw5bHgw3t
+ vZnaVtdq0mkiKFV9xdxsv7aeCLXUvnebIiqAZfYY0xfxTOn09oZWoRG0LyTSppkupD
+ hQaFqxXFcbPfw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E2D1917E0D90;
+ Mon,  2 Mar 2026 11:36:21 +0100 (CET)
+Date: Mon, 2 Mar 2026 11:36:17 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, Rob
+ Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Subject: Re: [PATCH] drm/panfrost: Test for imported buffers with
+ drm_gem_is_imported()
+Message-ID: <20260302113617.76573127@fedora>
+In-Reply-To: <20260227133113.235940-7-tzimmermann@suse.de>
+References: <20260227133113.235940-7-tzimmermann@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,84 +71,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:david@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:jannh@google.com,m:pfalcato@suse.de,m:rientjes@google.com,m:shakeel.butt@linux.dev,m:willy@infradead.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:borntraeger@linux.ibm.com,m:frankja@linux.ibm.com,m:imbrenda@linux.ibm.com,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:gregkh@linuxfoundation.org,m:arve@android.com,m:tkjos@android.com,m:brauner@kernel.org,m:cmllamas@google.com,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:jgg@ziepe.ca,m:leon@kernel.org,m:
- dimitri.sivanich@hpe.com,m:arnd@arndb.de,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:luto@kernel.org,m:vincenzo.frascino@arm.com,m:edumazet@google.com,m:ncardwell@google.com,m:davem@davemloft.net,m:dsahern@kernel.org,m:kuba@kernel.org,m:pabeni@redhat.com,m:ojeda@kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:kvm@vger.kernel.org,m:linux-s390@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:bpf@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:x86@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	HAS_ORG_HEADER(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[73];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,arm.com,collabora.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 78E821D6961
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email,collabora.com:email,collabora.com:dkim]
+X-Rspamd-Queue-Id: 839751D6A29
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 11:27:40AM +0100, David Hildenbrand (Arm) wrote:
-> On 3/2/26 11:01, Alice Ryhl wrote:
-> > On Mon, Mar 02, 2026 at 09:18:45AM +0100, David Hildenbrand (Arm) wrote:
-> >> On 2/28/26 13:38, Alice Ryhl wrote:
-> >>>
-> >>>
-> >>> Please run rustfmt on Rust changes. Here, rustfmt leads to this being
-> >>> formatted on a single line:
-> >>
-> >> Having to run tooling I don't even have installed when removing a single
-> >> function parameter; did not expect that :)
-> > 
-> > Well, rustfmt comes with the compiler, and it would be ideal to build
-> > test changes before sending them :)
-> 
-> At least on Ubuntu on my notebook where I do most of the coding+patch
-> submissions it's a separate package?
-> 
-> I do all my builds on a different (more powerful) machine where the
-> whole rust machinery's in place. Further, build bots that run on my
-> private branches did not report any issues.
+On Fri, 27 Feb 2026 14:31:06 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-There are some build bots that check for rustfmt, though not all of
-them.
+> Instead of testing import_attach for imported GEM buffers, invoke
+> drm_gem_is_imported() to do the test. The test itself does not change.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
 
-> > But no worries, I took care of testing it. Thanks for taking the time to
-> > update the Rust code as well.
-> 
-> I just did an allyesconfig and it does not report any warnings.
-> 
-> So apparently, rustfmt problems not result in the compiler complaining?
-> 
-> Or something else is off here that rust/kernel/mm/virt.rs won't get
-> compiled on my machine, even with allyesconfig. I can definitely see
-> some RUSTC stuff happening in the logs, like
-> 
-> 	RUSTC L rust/kernel.o
-> 
-> Thanks for the review and for pointing out rustfmt!
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Similar to kerneldoc and other similar targets, formatting isn't checked
-in the normal build, but make can be invoked on the rustfmtcheck target
-to check it.
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: "Adri=C3=A1n Larumbe" <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gem.c
+> index 822633da741e..3a7fce428898 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -702,7 +702,7 @@ static void panfrost_gem_debugfs_bo_print(struct panf=
+rost_gem_object *bo,
+>  		   resident_size,
+>  		   drm_vma_node_start(&bo->base.base.vma_node));
+> =20
+> -	if (bo->base.base.import_attach)
+> +	if (drm_gem_is_imported(&bo->base.base))
+>  		gem_state_flags |=3D PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+>  	if (bo->base.base.dma_buf)
+>  		gem_state_flags |=3D PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
 
-Alice
