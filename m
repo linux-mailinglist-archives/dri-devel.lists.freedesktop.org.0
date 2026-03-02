@@ -2,68 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFnzF5WTpWnXEAYAu9opvQ
+	id 8EhFIoCUpWnXEAYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:41:41 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:45:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069031D9FCE
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99641DA06F
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 14:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30C0510E1A8;
-	Mon,  2 Mar 2026 13:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730C910E10F;
+	Mon,  2 Mar 2026 13:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BhfgjWMM";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="i/R9yZ6K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZWaC3KlO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MNVteQfP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EEoWOfIt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4AD10E1A8;
- Mon,  2 Mar 2026 13:41:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CCFC743D54;
- Mon,  2 Mar 2026 13:41:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F6AC19423;
- Mon,  2 Mar 2026 13:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772458896;
- bh=h/wublz1Ca35s5noMWyzECiy7g/MJAJFvBvHdqHan1E=;
- h=From:Date:Subject:To:Cc:From;
- b=BhfgjWMM9s4b80bx3wrn0q52RMki3+tLUYG8DkqEFgMkqaLgEJ6qOKZBuEgKsZ0T5
- iTDWDdDuUojIh5mo4YvOsBAKzWcU/aP/dLXbuG/t2e2l/YLd5GsdB0un/gVdjjDk1V
- r6i+RngIgvknn9RIur3R1D427fLIzzgELdCzny1xI/mODMih5/eDvbLjr71rf6ompU
- 0isLZlh7QFZHBYDAbeJ6TqzATAKkbt7E/nW59IehyddnER+9iZZdcRRn14HcW4DmbT
- clg0PVCnXx9afLSpuV3XmB6RD/ELcwqLt2Bm/B61BfvHDwqFntHuSIwPe4ClYNQC96
- EXlVGuWuiFZSg==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Mon, 02 Mar 2026 14:41:26 +0100
-Subject: [PATCH] drm/msm/mdp5: Remove MSM8974v1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B73F10E355
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 13:45:32 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 26B4D3F887;
+ Mon,  2 Mar 2026 13:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772459131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
+ b=i/R9yZ6KfbcpWMucW3SE/ogYvrv5Wtp+FqSXPggweB9idGIpKCwGaoIDZCOHK8cIQbBRIe
+ /a8BmVB93z/t9Pz9RVqT7uTeIAfAsPcyH+u3nALDQ0scDniIHrz+kInR5TMowcRWK2p8CX
+ 1Q2XeDksPa2n+5OwT95uf2UKeFPv3/A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772459131;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
+ b=ZWaC3KlO7tytB8fzvGNYtrvt9mOnuDWbyQqzKMhNBsesGZSMhiBMqIY2b2ZoRbxoHoyJAE
+ 7K84oHHHKNHb+iAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772459130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
+ b=MNVteQfPofnKqBG7U6LYjres8YzIicr+Kl+vAXjhFE+dN+VVyUC11LCsi3rnu+qW9gXzUV
+ c/XaNQM6M1XyUdPxmGfds8SA7fz5BgG+2In7iYUNoCMv0++qVL7Ivyfu3hcJTyr7rx1SzB
+ hnXmDm6Kqmsu8uIVztxJAIjIrY2YVzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772459130;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hGrb3NMgIgqEfMlakG7obxX71STFY5ujm7uR5zREPSU=;
+ b=EEoWOfIt/vpjP85FofwZ5kjK76TTwWLILLeFGUFauorAkp4QUunFbW1fBE7IsCa8V7kCXP
+ VIbWLUhPFR2Td+Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0CAB3EA69;
+ Mon,  2 Mar 2026 13:45:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ZHJaOXmUpWmECwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 13:45:29 +0000
+Message-ID: <d251b638-2323-4d14-af14-2f15ee826a9a@suse.de>
+Date: Mon, 2 Mar 2026 14:45:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-topic-goodnight_8974v1-v1-1-e0006f7a0526@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqAIBBA4avErBPUor+rRMSkk85GQyOC6O5Jy
- 2/x3gOZElOGqXog0cWZYyhQdQXGY3Ak2BaDlrqTjdTijAcb4WK0gZ0/12Hs20sJowhxaxHlYKD
- ER6Kd7388L+/7AUMv13loAAAA
-X-Change-ID: 20260302-topic-goodnight_8974v1-c1eaab4aa08c
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772458893; l=4425;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=Q5ct592WfC/mLHBqsbQfOSQ51VNEbV7VADXUolMFCCM=;
- b=nxGq84eBHCzYGUqYSVAsZxn4SWSgjtN7qeoQVyyuOiSkYuMmiQZF6QGFkLJH4hz0DPgcXMcnf
- bEFhGo3Aq8PDdGKRf16WS5GrJrHZOsLQqFwE2+/b80L8ynYpsmaKlf7
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] lib/fonts: Remove internal symbols and macros from
+ public header file
+To: Helge Deller <deller@gmx.de>, gregkh@linuxfoundation.org, sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260218083855.10743-1-tzimmermann@suse.de>
+ <20260218083855.10743-14-tzimmermann@suse.de>
+ <d8633caa-c01c-433c-8dd3-f300dac53a0b@gmx.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <d8633caa-c01c-433c-8dd3-f300dac53a0b@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,181 +135,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_RHS_MATCH_TO(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,linuxfoundation.org,ravnborg.org];
 	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konradybcio@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: 069031D9FCE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim]
+X-Rspamd-Queue-Id: D99641DA06F
 X-Rspamd-Action: no action
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-To the best of my knowledge, the v1 version of this SoC had been
-superseded before any device was released on the market. Everywhere
-else in the kernel, there are assumptions about the SoC being revision
-2 or the later MSM8974PRO.
 
-Remove the config for that flavor of MDP. To bring the naming in line
-with the rest of the kernel, remove the v2 suffix from the remaining
-config.
+Am 23.02.26 um 16:05 schrieb Helge Deller:
+> On 2/18/26 09:16, Thomas Zimmermann wrote:
+>> diff --git a/include/linux/font.h b/include/linux/font.h
+>> index 4ff956a1cd0a..6e9a4c93b47b 100644
+>> --- a/include/linux/font.h
+>> +++ b/include/linux/font.h
+>> @@ -92,20 +92,12 @@ struct font_desc {
+>>   #define FONT6x8_IDX    12
+>>   #define TER10x18_IDX    13
+>>   -extern const struct font_desc    font_vga_8x8,
+>> -            font_vga_8x16,
+>> -            font_pearl_8x8,
+>> -            font_vga_6x11,
+>> -            font_7x14,
+>> -            font_10x18,
+>> -            font_sun_8x16,
+>> -            font_sun_12x22,
+>> -            font_acorn_8x8,
+>> -            font_mini_4x6,
+>> -            font_6x10,
+>> -            font_ter_16x32,
+>> -            font_6x8,
+>> -            font_ter_10x18;
+>> +#if defined(CONFIG_FONT_8x8)
+>> +extern const struct font_desc font_vga_8x8;
+>> +#endif
+>> +#if defined(CONFIG_FONT_8x16)
+>> +extern const struct font_desc font_vga_8x16;
+>> +#endif
+>
+> I suggest not to use all those #ifdef(CONFIG_XXX) in the header files.
+> They are not necessary, and trigger a rebuild of a whole lot C-files
+> in case one single CONFIG option is changed.
+> Instead use it in the C-files only.
+> That way (re-)compilation is faster and you still get a link/build error
+> when a symbol is used although the config option is not set.
 
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
-related: https://lore.kernel.org/linux-arm-msm/20260109083808.1047-1-yuanjie.yang@oss.qualcomm.com/T/#m579aac6cddd5bd5b0adfa778061e6397082014fe
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 94 +-------------------------------
- 1 file changed, 2 insertions(+), 92 deletions(-)
+Ok. I'll send out an update in a bit.
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-index 69fef034d0df..7c91fc1915f3 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-@@ -14,95 +14,6 @@ struct mdp5_cfg_handler {
- /* mdp5_cfg must be exposed (used in mdp5.xml.h) */
- const struct mdp5_cfg_hw *mdp5_cfg = NULL;
- 
--static const struct mdp5_cfg_hw msm8x74v1_config = {
--	.name = "msm8x74v1",
--	.mdp = {
--		.count = 1,
--		.caps = MDP_CAP_SMP |
--			0,
--	},
--	.smp = {
--		.mmb_count = 22,
--		.mmb_size = 4096,
--		.clients = {
--			[SSPP_VIG0] =  1, [SSPP_VIG1] =  4, [SSPP_VIG2] =  7,
--			[SSPP_DMA0] = 10, [SSPP_DMA1] = 13,
--			[SSPP_RGB0] = 16, [SSPP_RGB1] = 17, [SSPP_RGB2] = 18,
--		},
--	},
--	.ctl = {
--		.count = 5,
--		.base = { 0x00500, 0x00600, 0x00700, 0x00800, 0x00900 },
--		.flush_hw_mask = 0x0003ffff,
--	},
--	.pipe_vig = {
--		.count = 3,
--		.base = { 0x01100, 0x01500, 0x01900 },
--		.caps = MDP_PIPE_CAP_HFLIP |
--			MDP_PIPE_CAP_VFLIP |
--			MDP_PIPE_CAP_SCALE |
--			MDP_PIPE_CAP_CSC   |
--			0,
--	},
--	.pipe_rgb = {
--		.count = 3,
--		.base = { 0x01d00, 0x02100, 0x02500 },
--		.caps = MDP_PIPE_CAP_HFLIP |
--			MDP_PIPE_CAP_VFLIP |
--			MDP_PIPE_CAP_SCALE |
--			0,
--	},
--	.pipe_dma = {
--		.count = 2,
--		.base = { 0x02900, 0x02d00 },
--		.caps = MDP_PIPE_CAP_HFLIP |
--			MDP_PIPE_CAP_VFLIP |
--			0,
--	},
--	.lm = {
--		.count = 5,
--		.base = { 0x03100, 0x03500, 0x03900, 0x03d00, 0x04100 },
--		.instances = {
--				{ .id = 0, .pp = 0, .dspp = 0,
--				  .caps = MDP_LM_CAP_DISPLAY, },
--				{ .id = 1, .pp = 1, .dspp = 1,
--				  .caps = MDP_LM_CAP_DISPLAY, },
--				{ .id = 2, .pp = 2, .dspp = 2,
--				  .caps = MDP_LM_CAP_DISPLAY, },
--				{ .id = 3, .pp = -1, .dspp = -1,
--				  .caps = MDP_LM_CAP_WB },
--				{ .id = 4, .pp = -1, .dspp = -1,
--				  .caps = MDP_LM_CAP_WB },
--			     },
--		.nb_stages = 5,
--		.max_width = 2048,
--		.max_height = 0xFFFF,
--	},
--	.dspp = {
--		.count = 3,
--		.base = { 0x04500, 0x04900, 0x04d00 },
--	},
--	.pp = {
--		.count = 3,
--		.base = { 0x21a00, 0x21b00, 0x21c00 },
--	},
--	.intf = {
--		.base = { 0x21000, 0x21200, 0x21400, 0x21600 },
--		.connect = {
--			[0] = INTF_eDP,
--			[1] = INTF_DSI,
--			[2] = INTF_DSI,
--			[3] = INTF_HDMI,
--		},
--	},
--	.perf = {
--		.ab_inefficiency = 200,
--		.ib_inefficiency = 120,
--		.clk_inefficiency = 125
--	},
--	.max_clk = 200000000,
--};
--
- static const struct mdp5_cfg_hw msm8x26_config = {
- 	.name = "msm8x26",
- 	.mdp = {
-@@ -184,7 +95,7 @@ static const struct mdp5_cfg_hw msm8x26_config = {
- 	.max_clk = 200000000,
- };
- 
--static const struct mdp5_cfg_hw msm8x74v2_config = {
-+static const struct mdp5_cfg_hw msm8x74_config = {
- 	.name = "msm8x74",
- 	.mdp = {
- 		.count = 1,
-@@ -1098,9 +1009,8 @@ static const struct mdp5_cfg_hw msm8937_config = {
- };
- 
- static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
--	{ .revision = 0, .config = { .hw = &msm8x74v1_config } },
- 	{ .revision = 1, .config = { .hw = &msm8x26_config } },
--	{ .revision = 2, .config = { .hw = &msm8x74v2_config } },
-+	{ .revision = 2, .config = { .hw = &msm8x74_config } },
- 	{ .revision = 3, .config = { .hw = &apq8084_config } },
- 	{ .revision = 6, .config = { .hw = &msm8x16_config } },
- 	{ .revision = 8, .config = { .hw = &msm8x36_config } },
+>
+>> diff --git a/lib/fonts/font.h b/lib/fonts/font.h
+>> new file mode 100644
+>> index 000000000000..00f65a3da5c2
+>> --- /dev/null
+>> +++ b/lib/fonts/font.h
+>> @@ -0,0 +1,52 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +
+>> +#ifndef _LIB_FONTS_FONT_H
+>> +#define _LIB_FONTS_FONT_H
+>> +
+>> +#include <linux/font.h>
+>> +
+>> +#if defined(CONFIG_FONT_PEARL_8x8)
+>> +extern const struct font_desc font_pearl_8x8;
+>> +#endif
+>> +#if defined(CONFIG_FONT_6x11)
+>> +extern const struct font_desc font_vga_6x11;
+>> +#endif
+> ...
+> same here...
+>
+> Helge
+>
 
----
-base-commit: 3fa5e5702a82d259897bd7e209469bc06368bf31
-change-id: 20260302-topic-goodnight_8974v1-c1eaab4aa08c
-
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
