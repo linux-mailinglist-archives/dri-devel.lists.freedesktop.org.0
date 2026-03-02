@@ -2,151 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cM4AL4JppWntAAYAu9opvQ
+	id 2DEMDUhupWlXAgYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:42:10 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 12:02:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542361D6B94
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD501D71AA
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 12:02:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD9810E483;
-	Mon,  2 Mar 2026 10:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC96610E229;
+	Mon,  2 Mar 2026 11:02:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gehtB3FB";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OfuBeZ8t";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RyKMWc+E";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hywtKsQR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E29F310E489
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:42:05 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3902A10E257
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 11:02:28 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 62294koE1291359
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 10:42:05 GMT
+ 6229EnMA3630795
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 11:02:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- H5oh1Y3E4ZRYRy45drg9tJ/H8Kljy9D160tvJTu3A5M=; b=gehtB3FB48mBjiiP
- qB2zbLDdWTGKmktVVGRoTWZHgUXMqyQN5EQC3AMsWy4m2hkA1ZDvTwlYxdP00SGL
- bilemr6YV5YirSHDQaKyy2toFpuH8xGNpsLgEeJVrzBpd4FKRrFlQldVzdsbOog8
- /upllLXqicWm4m1pOYzh1bZDAnsoBxvNwFi9HI4wIgV6zJ3iVzcun0H8hR2zt7zE
- XNj5tOXBomSDcTDNuiUtRXb3vdW3UnEgEdfwWWMu0Dnnl8z1XWGhvYO2vIiquDRF
- Hih/1iFRjTlDOXnuZob8c1QDQWrgHW9r0RxuThue/Kn4HE8Jzgb7LqIAXMA2XFHv
- 3E+hXA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7ku0bmc-1
+ ZrD0+e5gZel+3U94lcHkfGnkgY2W80Bgk3xf+Y1/Kck=; b=RyKMWc+E4j5NIRM4
+ HEZwyszG/T+2pgnQ7BFXanDC+bNdvvQrkRFt8v9QgpM6OrjKF5M/TMA6HPlpgPnC
+ M+xjRDMGJu4M3m5N3D6/IlUK/TO7ofzg4kiCJi0LlhZtBhvyvOruPaupUYJV50rL
+ HjCN1dpkQzrSlKhhsMaD1ddebh1++KnDs12AJ2kMCC2K3dgGZsG0RNTwlZyKC18t
+ W+MXm1SyfY3ia5ib8mFKY5T1WKIJSVnvAX+7tO1zqiOhFGw8c8t5ZytXGfdNorHp
+ XR6daooBGon0CsAN8EueovnfycIuvIbmqtOi/7RYd95br4wfBewHvt++xBh2b23p
+ /bN32A==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7rhrcfc-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 10:42:04 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-89a01982dc5so1953976d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 02:42:04 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 11:02:27 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8cb38a5dc3cso436648485a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 03:02:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772448124; x=1773052924;
+ d=oss.qualcomm.com; s=google; t=1772449347; x=1773054147;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=H5oh1Y3E4ZRYRy45drg9tJ/H8Kljy9D160tvJTu3A5M=;
- b=OfuBeZ8tCjOsShiXGY01skB5qg5DEL/CfnqjRzCdgaGqiWxDECzv7H0tTt7eis/2in
- MtMGQ0+eRiN5rhLysCbr+gE/L+jx/NJc/NtnvDdpxFjFf8qUQsl4es4S0D/QTKWB5dUb
- HGCwI/iaHYFWALkjYt96nAf9D2iYGIQi5bRSb8SMu77fb4t6c5xJ3q2HSk/Clh9wXS49
- XOlkAbGNXwKriBr+MhoxtEpxNEmdSwQw7MCBHaGgTAk/6vlzUj/HxHh8I8i0ozo5yyXo
- lZuaAbv7jJ3LiC0VsWheDGbDfEdKolhQUJr2pzmRVnhH2wSMIbUpwJvzXQuNAx24eVaY
- GimQ==
+ bh=ZrD0+e5gZel+3U94lcHkfGnkgY2W80Bgk3xf+Y1/Kck=;
+ b=hywtKsQRjk5MdmxttWLRKiteBrjFw990ueO4lf18nZKBUQk0OsjFfi9sMt7oGQOjxf
+ C9olMwJlncDGTwn3m41FLYTg1WYkG7wIkl8QMIbhNRPFsXfCy3Ov0iLT90mHBEhUHIUb
+ 6LcxAjP6X2B5PJgVWQ3oIW8ggN6/DFJiBk/dlgOcCLsmILDky8pVCMje/uZ9u56EeHB1
+ JSEzxPFVoBWBnsL/SB9tgj/bFEg59E6X+hZxiZPIPxZxAjMVL7rnsL48b29NIbimN+nI
+ WEQr+mGNeOTqUa0ZjGupkB9pcunjp7rF6ZMbIv9SVXvP8KhmO++4ygozxJMjLu3NVWEO
+ wSbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772448124; x=1773052924;
+ d=1e100.net; s=20230601; t=1772449347; x=1773054147;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=H5oh1Y3E4ZRYRy45drg9tJ/H8Kljy9D160tvJTu3A5M=;
- b=LLW6ryCA0Uyy7HDcusu6amHy8zX6OdJzGpRayXYzxXvXiSDY7xhFCxStaTNfyU6JZm
- AzCsXBpu8v/W17G9Xr2Lm1SSQQvj16H65cEX9NjIWl43IrqAfFnIqe4xtRSu7TbJYgzN
- /UAiOMujGXIwdCcxSvFjoebxjaVJvQ3dgjBZgvXylMSRDxdZalec4R/hIn+xrVgT214u
- gD3Rl7tkwQrkBevmz/3+QiFfSvL/JYysfScUtdgTe3ybf8seTwt6aJSvUmm1tRF+Hi+m
- 8aA2hX/LCP6Z6PyPq+N1u0bs9MZOsRuDS1tzTUhu2pfNLWOznVe1G3TFngaI7swFsx76
- rNNw==
+ bh=ZrD0+e5gZel+3U94lcHkfGnkgY2W80Bgk3xf+Y1/Kck=;
+ b=mLryQ/6o2iYzBNSxslbZjL8mCBpc4ngnWXBYfjXDgkzObNu3NodZmXEutIrHrONR1e
+ avm+7XCZcaBJuWZ43EgBLgzP3ZLnFsWhHnoArUQH0DkC3fH5jBdBENFOmkCzhPdrE8Kk
+ 7oZt1b/oQsrUxSHeSz2GNf8RSfoS3XUERlMgERe+FJ1RFrqN8EN1lwFgysfWPyHYHWrE
+ ZSo88+TmvVQ8m8BxzQwlNbGFDd5E7O6/1J3yu7yz43IVOn7G6m9HG5DUym9rEHlFjpLv
+ JLMRrGwwDTLir3r94HpZZ+++r9AR46HWBH+ZLkQL33rE4wYI8IWLWWvCl52FMrISuTQt
+ ynEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmz9eL755ifDRsXWeXHWmZwiemdsfyZXOl/m/m3oY+SPCo2xzH4+quUdSOWObCDAv+tOgL58gz/qE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8GePwRmJYxkTvID7kWUkeJjPknLlBLKxwpuGQssZo4UcARQrx
- bOu2RLLd4bag3V8p7Qw7yyMbP3e520BQO8gLfwyBNX/INx87IQYxpAey1SeBIyR2eWrY+FDtQuO
- Z2P3IDBX6LbzAJc9Q37fScwKrRecjaaz0ZMMvArsCzcfOuSDPPcaAnuW97r3rkq0wHHUu4gM=
-X-Gm-Gg: ATEYQzwwhgyUbxPyowu8p8isVo+qOIDPUt9n8sKY08QJNMtjx49FKV810T8DNHUyJ1o
- FOjOWZuWufn/0WQFvzhzVDGe2Fw2mWrbzbmKtiRXrd/ReEjSE3LArphUbiVYMJs2clDG/Liu2Rl
- RJGfrA/kSed/aXl8IxXevHEIZyOar6/EAQb7CrFJJM+u/XnW/VFw8J8P6vLUL1ZqRENVf54LQy8
- yzll8MKNEqhD9Sbm4SaWPOb+T1uAXJg9hnTIuHZVPpqFtPTKrLcp8ZaOXnsO/SQJOmijxrjJEOc
- w/LUEtdyHKqB0kvcBkYJUXbraQ84aD3M9O82wiJ7+YIbd/gWv5q1TrJfNxkdeulDZxSlWcKM0ZX
- UgalilUAv7JZ3vQocaNUuhjyspAwzP9/3JjtVkQKwm+L1LPRYT5SD2XYNfZtC5lkoYWVy9JFy9G
- wSBEA=
-X-Received: by 2002:a05:6214:4705:b0:899:bff4:af84 with SMTP id
- 6a1803df08f44-899d1ebc53cmr112436146d6.7.1772448123928; 
- Mon, 02 Mar 2026 02:42:03 -0800 (PST)
-X-Received: by 2002:a05:6214:4705:b0:899:bff4:af84 with SMTP id
- 6a1803df08f44-899d1ebc53cmr112435966d6.7.1772448123479; 
- Mon, 02 Mar 2026 02:42:03 -0800 (PST)
+ AJvYcCXYO+g4GR0aLw0aAv0ewQtnSXSoyF91vGeemj0XgFInfffxCPvLHg2ZtDPn1CC7kRnv2nrHM3Np1+U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzuet9gFIDnV36bZ/KZ+1/TtvhnLD58zwKhDomcPUbxKRoV9ljH
+ h40d6rmJd4d5ZDObTUQWDK4W1I1RHVwg4Ub2ol/91fIE5jrFpZU2qrvwukw4Fe+30r6K7ZoJrQG
+ 8IKpV2QLVTn8QhIXJN1iIK01gKE3yT6QQXDPqRVD9/QM7YXp2s0VTmAJVaf2Mngy+6HZdTaM=
+X-Gm-Gg: ATEYQzxrEskjKxm22AFqn/aLGAtFH6/O25IGajirmYQHyzKGxuVe0VHUEuzT5MwfIPE
+ WsAK7K9HdFd5NFNrLIMvManP2J0lN4blUJ9GfNnmZXujO2pEo0DmX0vvoEI14T6KjZZk2mIccfu
+ eN0Zw8hjQ5ZpGN8SZe4YOSN+Ug1pBAKUBZEbQDChiFRDel0hLP4cAynw1Y+ZGP8whWiYR+73rIP
+ peqP1mnqtPdePYbYXMln+c7nqMguABCakMxwPh/egB9H7bvOn+BhdxtsWt+AQmSp8xQw1Mn8Pqv
+ sGBkpJTXXTURFzdMiuED2ZSWiWH7luqRRCnLKfZRQUK7a3q1yAb6fiukMywTDJ3V5lw78T5puM4
+ NYfbR+0uaFbXta7XUIlcjX/TD3CoCUvwnq+O4qs8Bl/QbMu5zeNVBZI6591XuFDwIhc+3Oj5oWf
+ dnOd0=
+X-Received: by 2002:a05:620a:4004:b0:8c7:1b40:d096 with SMTP id
+ af79cd13be357-8cbc8e79d8bmr1104215685a.9.1772449346396; 
+ Mon, 02 Mar 2026 03:02:26 -0800 (PST)
+X-Received: by 2002:a05:620a:4004:b0:8c7:1b40:d096 with SMTP id
+ af79cd13be357-8cbc8e79d8bmr1104210385a.9.1772449345842; 
+ Mon, 02 Mar 2026 03:02:25 -0800 (PST)
 Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b935ae60c16sm455580666b.38.2026.03.02.02.42.00
+ 4fb4d7f45d1cf-65fac06dc16sm3314925a12.23.2026.03.02.03.02.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2026 02:42:02 -0800 (PST)
-Message-ID: <d5c4eed5-bd87-4156-b178-2d78140ec8a9@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 11:41:59 +0100
+ Mon, 02 Mar 2026 03:02:25 -0800 (PST)
+Message-ID: <4489ff9c-a3aa-43e9-92b3-d1a52fdef92d@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 12:02:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix mismatch between power and frequency
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: yuanjiey <yuanjie.yang@oss.qualcomm.com>, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, krzysztof.kozlowski@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>
-References: <20260109083808.1047-1-yuanjie.yang@oss.qualcomm.com>
- <20260109083808.1047-2-yuanjie.yang@oss.qualcomm.com>
- <kusxzlezvsuwcwwdtm7yqwnqea6gdeolkepxpx3estabaiqymo@edj7pgccli3y>
- <aWSTcI6H6+7AXkEN@yuanjiey.ap.qualcomm.com>
- <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
- <aWSv+kVV3G18I/NJ@yuanjiey.ap.qualcomm.com>
- <e5ebc660-e30e-4fcd-ace6-5a6c889e9a8a@oss.qualcomm.com>
- <4g6fyehdc3fejx3pzeysmghigazfei3jz2vmnvxrnqkkbtbxdb@bdlcddxlvbhl>
- <cb22367a-678c-431f-9f52-33663f4af9d7@oss.qualcomm.com>
- <jr4h4sx42dbxpknm5nkgj7ydpkivm4nglfz7ui4bjpom7wf6ub@spqb27d3ov2z>
+Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sc8280xp: Add dsi nodes on
+ SC8280XP
+To: Pengyu Luo <mitltlatltl@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Tianyu Gao <gty0622@gmail.com>,
+ White Lewis <liu224806@gmail.com>
+References: <20260228141715.35307-1-mitltlatltl@gmail.com>
+ <20260228141715.35307-5-mitltlatltl@gmail.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <jr4h4sx42dbxpknm5nkgj7ydpkivm4nglfz7ui4bjpom7wf6ub@spqb27d3ov2z>
+In-Reply-To: <20260228141715.35307-5-mitltlatltl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=V4NwEOni c=1 sm=1 tr=0 ts=69a5697c cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-ORIG-GUID: _wRFLy_oUUufazP2CSN_FU69pmWpH5Rr
+X-Proofpoint-GUID: _wRFLy_oUUufazP2CSN_FU69pmWpH5Rr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA5MSBTYWx0ZWRfX8EqsJkrxiI/p
+ MXsRBh6WXKUXtBZxYrx3TjSzXnMILoaseiD12sN5KxzdxXjEZTTbG6Q9+FMje6wvjPm2mb+1CzS
+ wflasn4p8sFtYfDLwepj/xQlJEkKvCSKgQX33dFmWhnH8F3xM1eoq7nIXqkiqEYmxy0LrIC/CHu
+ nUnr4z0aJcceSs/TJwqLdkvlocZQE0kS4IjpcBhNmAw/sSbiWA989IVFgbp1enCedX6RPmm/jDa
+ 3y34V/5exYzOo/y9JE1ggUjsyDLpmzVmNf+7tzcBuhK+Ky3MO3byV9WhZG74wO/hyH5crAio7qs
+ VTY3XmiOiK8mPc67oUOmMGjS738pJlRLsvsve9BXUqsT9cYxH17B4wq90L1KffIRtEszWk+GK0a
+ V7j1qA6fmRPj20tPq/CONOZrjW2anSKaWA0caFd/ZEgSle1xfgW1Z5J6N8dznFJ8JAHwNeeE8ZV
+ Fk0hjm8UVdbYK1jrhJg==
+X-Authority-Analysis: v=2.4 cv=cLntc1eN c=1 sm=1 tr=0 ts=69a56e43 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=GNz5de_MuxAREYx-QrcA:9 a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: L-gEhpq5dr6WdJH9Iwrb_pyWYjYzyQep
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA4NyBTYWx0ZWRfX6Vvz9fGjnels
- Pba+vn4ZM+Tmx1S/cwe+NMIePxM9z60Fnu7WtzP5Eaq6Rnyro+Ej0hWkmCuALHiiZb5MsjtLrvN
- PU46L33guZHdDQ8rfUAuFP1SbcDUN02EY6/CO6uMUOSeNXfhq1y/PMsyX6ZysTz65koM5b0F7ek
- NfzMnjy+sfzbjpf2cqngIXMiOmdf2z/KQ2Td9/ExCm9g2/g/C2M9zkNDWwh/xjeZhzXXsVjK+uq
- 3ir/45D2nso3K7mBpNWbCbuzI+e6DRm3w4JgHrkz0t2DJiVCuxCdYlp4RLnDddquG6nFEsz0bpV
- q06thBUp9EnKP8JG6qkZ6h6icjGhd4Q9sMkE8DmrItsWgTTuohGnjvuuHH/4HdU49yHrwoOkvEC
- 2TFnxOs+OzDwwxOaA3mIRSP1miNCJZOsOrmAH07jo3fuGuVCeRz0x3y6GLP+U0WLYl/wzA8023F
- bOYhDMaW2OGjEiNpyZQ==
-X-Proofpoint-ORIG-GUID: L-gEhpq5dr6WdJH9Iwrb_pyWYjYzyQep
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=-LkXMzDxGcKDj-WG6ZYA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
+ definitions=2026-03-02_03,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020087
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,215 +163,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:yuanjie.yang@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzysztof.kozlowski@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:tingwei.zhang@oss.qualcomm.com,m:aiqun.yu@oss.qualcomm.com,m:yongxing.mou@oss.qualcomm.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linaro.org,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:quic_mkrishn@quicinc.com,m:jonathan@marek.ca,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gty0622@gmail.com,m:liu224806@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,linux.dev,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,marek.ca];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.996];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 542361D6B94
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: CBD501D71AA
 X-Rspamd-Action: no action
 
-On 2/27/26 8:05 PM, Dmitry Baryshkov wrote:
-> On Fri, Feb 27, 2026 at 12:34:04PM +0100, Konrad Dybcio wrote:
->> On 2/27/26 4:48 AM, Dmitry Baryshkov wrote:
->>> On Thu, Feb 26, 2026 at 02:35:52PM +0100, Konrad Dybcio wrote:
->>>> On 1/12/26 9:25 AM, yuanjiey wrote:
->>>>> On Mon, Jan 12, 2026 at 09:38:41AM +0200, Dmitry Baryshkov wrote:
->>>>>> On Mon, 12 Jan 2026 at 08:23, yuanjiey <yuanjie.yang@oss.qualcomm.com> wrote:
->>>>>>>
->>>>>>> On Fri, Jan 09, 2026 at 05:22:37PM +0200, Dmitry Baryshkov wrote:
->>>>>>>> On Fri, Jan 09, 2026 at 04:38:07PM +0800, yuanjie yang wrote:
->>>>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
->>
->> [...]
->>
->>> Please correct me if I'm wrong, if we drop dev_pm_opp_set() from
->>> dpu_runtime_suspend, then we should be able to also skip setting OPP
->>> corner in dpu_runtime_resume(), because the previously set corner should
->>> be viable until drm/msm driver commits new state / new modes.
->>
->> That matches my understanding.
->>
->>> The only important issue is to set the corner before starting up the
->>> DPU, where we already have code to set MDP_CLK to the max frequency.
->>>
->>> Which means, we only need to drop the dev_pm_set_rate call from the
->>> dpu_runtime_suspend().
->>
->> I concur.
->>
->>>> For MDSS, we're currently generally describing the MDSS_AHB clock, the
->>>> GCC_AHB clock and the MDP clock (sounds wrong?) - there's not even an OPP
->>>
->>> No. As far as I remember, MDP_CLK is necessary to access MDSS registers
->>> (see commit d2570ee67a47 ("drm/msm/mdss: generate MDSS data for MDP5
->>> platforms")), I don't remember if accessing HW_REV without MDP_CLK
->>> resulted in a zero reads or in a crash. At the same time it needs to be
->>> enabled to any rate, which means that for most of the operations
->>> msm_mdss.c can rely on DPU keeping the clock up and running.
->>>
->>>> table.. The GCC clock is sourced from (and scaled by) the NoC, but the
->>>> MDSS_AHB one seems to have 3 actually configurable performance points
->>>> that neither we nor seemingly the downstream driver seem to really care
->>>> about (i.e. both just treat it as on/off). If we need to scale it, we
->>>> should add an OPP table, if we don't, we should at least add required-opps.
->>>
->>> I think, dispcc already has a minimal vote on the MMCX, which fulfill
->>> these needs.
->>
->> I have slightly mixed feelings, but I suppose that as we accepted Commit
->> e3e56c050ab6 ("soc: qcom: rpmhpd: Make power_on actually enable the domain"),
->> we can generally agree that it makes sense that calling genpd->on() actually
->> turns on the power indeed
->>
->> What I'm worried about is if the clock is pre-configured to run at a high
->> frequency from the bootloader (prepare_enable only sets the EN bit in the RCG,
->> and doesn't impact the state of M/N/D at a glance), we may get a brownout
->>
->> This rings the "downstream really did it better with putting clock dvfs states
->> into the clk driver" bell, but I suppose the way to fight this would be to
->> simply set_rate(fmax) there too..
->>
->> I attempted an experiment with pulling out the plug. MMCX enabled with the
->> AHB clock off results in a read-as-zero. I tried really hard to disable the
->> mdp clock, but it seems like the "shared_ops" reflect some sort of "you
->> *really* can't just disable it" type behavior (verified with debugcc)
+On 2/28/26 3:17 PM, Pengyu Luo wrote:
+> The DT configuration follows other Samsung 5nm-based Qualcomm SOCs,
+> utilizing the same register layouts and clock structures.
 > 
-> I think, in 8996 it was possible to disable it. Not sure about
-> 8998/630/660.
+> However, DSI won't work properly for now until we submit dispcc fixes.
+> And some DSC enabled panels require DPU timing calculation fixes too.
+> (hdisplay / width timing round errors cause the fifo error)
 > 
->>
->>
->> There's a possible race condition if we don't do it:
->>
->> ------- bootloader --------
->> configure display, mdp_clk=turbo
->> ------- linux -------------
->> load rpmhpd     |
->> load venus      |
->> set mmcx=lowsvs | mdp_clk is @ turbo
->>                 | brownout
->>                 | 
->>                 | <mdss would only probe here>
->>
->> *but* that should be made impossible because of .sync_state().
-> 
-> Yep, sync_state should prevent MMCX or CX from dropping under the boot
-> level.
-> 
->>
->> This may impact hacky setups like simplefb, but as the name implies,
->> that's hacky.
->>
->> Relying on .sync_state() however will not cover the case if the mdss
->> module is removed and re-inserted later, possibly with mmcx disabled
->> entirely but the clock not parked at a sufficiently low rate.
->>
->>
->> TLDR: reassess whether MDSS needs the MDP clock, if so, we should just
->> plug the MDP opp table into it and set_rate(fmax) during mdss init
-> 
-> And what will drop it afterwards? MDSS will still vote on the MMCX / CX
-> level even though DPU will change the clock freq.
+> Co-developed-by: Tianyu Gao <gty0622@gmail.com>
+> Signed-off-by: Tianyu Gao <gty0622@gmail.com>
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> Tested-by: White Lewis <liu224806@gmail.com> # HUAWEI Gaokun3
+> ---
 
-That's a good point. Perhaps the easiest resolution will be to leave a
-comment before the prepare_enable() explaining that this should have a
-vote, but it's easier to rely on the providers' .sync_state() keeping them
-online until the consumers fully probe.
-
-[...]
-
-> Let's go through them.
-> 
-> All SoC except those currently supported in DPU require SMP (shared
-> memory pool) support to be ported from the MDP5 driver.
-> 
-> Most of the remaining platforms (except MSM8994/92) also had HW cursor
-> implemented in a fancy way, in the LM rather than in a separate pipe.
-> I'd really like to postpone those, possibly first completing migration
-> of the other platforms and dropping support for them from MDP5.
-> 
-> 1.0  - old MSM8974
->        I'd rather not touch it, it had bugs and I don't have HW
-
-I have reasons to believe msm8974 v1.0 never reached store shelves.
-Let's remove this.
-
-> 1.1  - MSM8x26
->        Probably Luca can better comment on it. Should be doable, but I
->        don't see upstream devices using display on it.
-
-Because there's no iommu support for these
-
-> 1.2  - MSM8974
->        I think it also had issues, no IOMMU support in upstream, etc.
-> 1.3  - APQ8084
->        Had hw issues, no testing base, no MDSS in upstream DT
-> 1.6  - MSM8916 / MSM8939
->        Can be done, low-hanging fruit for testing
-> 1.7  - MSM8996
->        Supported in DPU
-> 1.8  - MSM8936
->        No upsteram testing base
-
-8936 is 39 with some CPUs fused off (unless you have info suggesting
-otherwise)
-
-> 1.9  - MSM8994
->        No upstream testing base, no MDSS in upstream DT, normal CURSOR planes
-> 1.10 - MSM8992
->        Even less testing base, no MDSS in upstream DT, normal CURSOR planes
-> 1.11 - MSM8956 / 76
->        No complete display configurations upstream
-
-+Marijn, is your computer museum still running?
-
-> 1.14 - MSM8937
->        Supported in DPU
-> 1.15 - MSM8917
->        Supported in DPU
-> 1.16 - MSM8953
->        Supported in DPU
-> 1.17 - QCS405
->        Zero testing base, no MDSS in upstream DT
-
-No upstream MDP5 support either. And it doesn't seem like that SoC had
-much uses that didn't end up with the thing glued shut..
-
-> MSM8994/92 would have been an ideal testbeds for SMP testing, but...
-> they mostly don't exist (please correct me if I'm wrong). Which means
-> that the next viable targets are MSM8916, MSM8x26 and MSM8956/76. All of
-> them require SMP support and don't make sense without cursor handling.
-
-We can think about poking at some of these it one day, but certainly not
-high prio..
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
 Konrad
