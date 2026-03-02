@@ -2,102 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WJUtAwFMpWmt8AUAu9opvQ
+	id SB8kHzVNpWmt8AUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:36:17 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:41:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670AA1D4B09
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40D81D4BD5
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D68810E457;
-	Mon,  2 Mar 2026 08:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A06110E45A;
+	Mon,  2 Mar 2026 08:41:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BlTOmEth";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MWqUWWad";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KTR2oiOD";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gi3kKrIs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B84210E44E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 08:36:11 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE9910E45A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 08:41:20 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6228HE4a3223927
- for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 08:36:11 GMT
+ 6225e5E0944323
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 08:41:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=; b=BlTOmEthli+6TXZE
- mIqhDjGdubk5skAx6/Ve28p2NaQQY0XNkCr+DaPphL7+sMmUKUK6YwDOxO52wu28
- PioLN9DzwAQTTKRDVggo2eFxbdYxMHdM9ugn7kbggM12U1I0K24A9/gL0fk4ZuWj
- Hd0uR+h+tmM2ct35NVXXFBk/d6KDH7GfWRmGR4lmN4t46BDeAn3pU84BphuyE3Of
- Ghk2qeLNO6xtoca3j/JLVhOnwKAX17Syt+DxrrmkWJwlFuSUwIoRBeKHvxdw1NUS
- WrL2t72atGHSga7+NTvXD+SQyFrGUeGhgw/5T6Sl8wIWn1yHluC2nEi95x2J7xPj
- BMYC1w==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn0b1haga-1
+ 55NbmTrZJm9GduVqLSm7GShHdDsJirCn7I8r3hx6xVE=; b=KTR2oiODl0BzJmrE
+ +HW+KRxtragNLQmRekHxYME1ZvZ5nZEYoQT0Rq+E4gxFuR/ILrYBCZoNOLiq/IaM
+ B1DrVXc6D1vSK5Ywr00lOTCS3YI3mNH5wiP3tdykBX60JAPnSFIEih3hLp1sceqj
+ aYftlqOKLt0LbuSyok924lije0Y5MMBc6kDzdcFUDWC5RMjIOlJ7DeYuyE5UdDfW
+ KFY8OGeohMyq48Gm89mIognkkAQCZ1++ffst50lqtOnB+agADx4poEvo6YN9llwS
+ jU4142KSiKGCGw9QdVZ2gBz1LiIXCY7lMeeuGB6xs+1F6t7psR1HoId8CU0+9sSr
+ vIbQXA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksgq4u8j-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 08:36:10 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-35984b91ffeso1074580a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 00:36:10 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 08:41:20 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-824a2df507eso14453225b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 00:41:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772440570; x=1773045370;
+ d=oss.qualcomm.com; s=google; t=1772440879; x=1773045679;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=;
- b=MWqUWWadEB3QcQGhoQxoYJ2+9DRb8h7kCCFj91w4PJX7wjB8ahhuhA8GNVwknFL2Nd
- OdeYB6ENmTBsguVD0nMekH4qLXFc2B78yoFLRN/WV5BTnP5XO3rXQing0GdDC6KZp40Z
- HLCjyLv1J2eUL9NxXh5LnOcivh2h3blIdbytBV2LgJsD02b8BU5pCJn0OOUiaJ3dyOwi
- PA1Ry19vsxB5EiEqdofnKRXh063/hjB9YiuVnKLNYJaN4Gc8O69KZCuHk/JiqHiF9CSQ
- iH5X4fHNysq9XWkO9VwVGjf3xWqPNX3bF6baqxryG6OY0PP3HI64sUtvbTBTaOtmJ9Md
- HN/A==
+ bh=55NbmTrZJm9GduVqLSm7GShHdDsJirCn7I8r3hx6xVE=;
+ b=gi3kKrIszoMxebX6bCnoWUdkJGfp98Y/skSbdufTYFMgizFiHj+et/jx+wsidNw+ij
+ +NfCYNmmILbtPCBf72CfH4NLlA2Oqk2jn7kNtxv1MjO48xsU1epsqE31rltJCerExi/b
+ C8qQNW6XpCELasOhBjDmr2Lm++u3yi+xCXMHcWlzjPjsKuWBYolAWFFvPDoXJAz8pSjA
+ /K+SGUsITbipedenJ71cacr59rmEzKVJca7pFejW0rd3qW7UKXoHDg3lCjn36YMELQPs
+ zt4aYB9PIN8W5NBREqFsyzi1GaMOlSABMiiZZLi3zrC0q1uBuR77tTLsBaWQBTvJWoxX
+ w/Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772440570; x=1773045370;
+ d=1e100.net; s=20230601; t=1772440879; x=1773045679;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=;
- b=YHRnOoWTw7whL3tDMpWbvKSGZi+xHRkDQRU86PI+w/2WlPQObkT0yLOlvyTco91dws
- 8AL7C7qrAimLrsIebAmJIKU9n49edfDal+Bxtr3XMfLutHmgkordfJ2mynzDuCrb7euK
- IB7RX+7JN/D4aOFg+YOW7ZOVUjkUPOTEbEvmZT4ic1FvT9LJB0WgH7z5GVSPjd9lLcZ7
- nM5ZQvK4EunsFSFjjWzRtgmo8KFfVVxXlerBtlrvzscaoBgklDDO4M1yZQI9HHhDvgMJ
- +DMhp/R4sOjECwf03gy6kxpc1No1V3aie98zo3gMtb2Gc5B6t5wEqGn5Lfp62LFpN4v2
- HDhQ==
+ bh=55NbmTrZJm9GduVqLSm7GShHdDsJirCn7I8r3hx6xVE=;
+ b=qRhtqCBhtI6kW/mdbVgaFRNdt5CX+YmwIjHjjc1Z6PqT6JBIjUwpNt0Bo4nCp5zSZe
+ hDu8ar4Fd/XlYqqg4x/mmsdppkWJd7Pv3Ytgj7ZpVJ/tEqkl1npRjD0MRmjZ8u+1lBrB
+ x1PnAGILfX2NdCWRVq3nXlA+u5BsrhWGBP5kCm2MEt6lBJ7RF7DhRxnMGCrRENOzvF8E
+ U/1ce6D1006jQ/6YbH3hID1O6LMf1ulywV2G75qs9JGQrIlr0pPwB5KTYb8gISe/d0Si
+ r/rT0YAGaTzphs7jNPy4TQQ4YDEyo1wr37MBve2Sa9QrRZSYNoY+uIDcOUBcODomn1Rx
+ VDhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVFOMhWAefX8mkExXNitrTApZJD4wkJoLBZ30aTmXUA6AsGo7UqevrLaLukiz5mjRPGETXujfZAQeI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2rqViec1HnkgaZdpolOkVyfr5Dqst8hcv5hclclPYW0WePnGu
- d2kSz3u+I1LHQkQMFsvNgOh44MxvcBATsFqsJ9n/MrxylPT2tM6C9iMrWDPw3X2GIRKOG44ZzZU
- IAW8wZ7fRhPvEVwKEuyXxoGSIus0rMmdRNxooj3UBxyISQp63vB/+lPSRMukPUaLAv9HKEQk=
-X-Gm-Gg: ATEYQzyfpF0Rkl35OjFL0MkyrLdt6gt5RBNywINYvX7R2cPM4zZPF0Kx4hPUpcf9H53
- 4mCX2s11mCgEYQ/zsKkqoSCif+wzUA9ztXgCQ2iMs0LgYnwNuyPJytXpVbyvVagflyXBuSHvGxt
- akR9Nlv11Sl2gi7eW3BItzfXGhkGy+A5/tRyJdcXKbgayORtjMkPqWGQ3ymIqS+XDb8OAF098RB
- bXc7Rpt8rytFVBb5E5JOtnZ8cStzFDLnif9YOWXadj1TKYIYu7zBh91Hot9dweKKU8lGmeEnI0C
- UpNMJq1JAXPK+WSELOxSESgdqSNGAnzKHK/yPfd+SmlarrS3UIdozY5H84yP5XTdJYkVIJ+0K6m
- csgHlgjbqXcUnRv76kus+i7RL+yY2F8DiCGGkKmzTssuqlEVozg==
-X-Received: by 2002:a17:90a:da85:b0:358:ed1d:2834 with SMTP id
- 98e67ed59e1d1-35968faa663mr9193284a91.6.1772440570041; 
- Mon, 02 Mar 2026 00:36:10 -0800 (PST)
-X-Received: by 2002:a17:90a:da85:b0:358:ed1d:2834 with SMTP id
- 98e67ed59e1d1-35968faa663mr9193247a91.6.1772440569507; 
- Mon, 02 Mar 2026 00:36:09 -0800 (PST)
+ AJvYcCWeApAEZtHJssNpeyGWQkNhfm8dgIAO5Sg2T57bB+OgP9dlm1KlhmPE2E5UXTatmDi+BrBp33/LI4U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyt32u1dyKuZLUUOiLX/H9pw61jN5PD8SSRpKLaRWfdU0rq0umA
+ zr56zH2mO2HApTaUtLbPr32W75SGuNad7iG88iyJ5mzQyH7sLG6mLWs8/7LLyoSwR9+6zN0Pwit
+ kXFiUJcmFLdqaMrXt5iI2yYmraY5qsUxECxtYEHASCAVktLeen3enELQdGVTSQiYNeEgZYUo=
+X-Gm-Gg: ATEYQzx3TLtKVkJxL0hw/Pd8F7X5iFfe17YOWCjyw/ejz8m5vxSOKgz6AvTD+DebCSC
+ zX8/JS8xRgD6Agrdzz8luos4MthOo2nPdyCl4AGeKiKCju0akv2TZa5I88mWtf2Trsy21VlrZ9j
+ yUY59IEXN7QTMSBHVhqgrREK8EBEOyuWmD2rYLb8z9F9gg1SACnq/wU6lMoknHJMnusYUQ+3jrC
+ 5+FnFUhy1QhT3dU5lmo25Bh7lzV7HygVn9w9pdzqFAz6hW6JQr0NE3j8tsTR88Yx1I2ZGoFQief
+ etjplcwRtCE1fsR0XWRRn5DVijFuDD6uV7fsBAAVOWErSHxCXVxzo/np9QlrwyefOVpt4R0rvdZ
+ gNSm6wpUqryPe/ha9my0l1c/nG/+LlR955wAPHsThFDNC3hXbGQ==
+X-Received: by 2002:a05:6a00:290a:b0:824:d09b:9126 with SMTP id
+ d2e1a72fcca58-8274d93b441mr10896073b3a.14.1772440879305; 
+ Mon, 02 Mar 2026 00:41:19 -0800 (PST)
+X-Received: by 2002:a05:6a00:290a:b0:824:d09b:9126 with SMTP id
+ d2e1a72fcca58-8274d93b441mr10896044b3a.14.1772440878784; 
+ Mon, 02 Mar 2026 00:41:18 -0800 (PST)
 Received: from [10.206.99.28] ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-359034bd11fsm16177216a91.9.2026.03.02.00.36.01
+ d2e1a72fcca58-82739ff3667sm11746360b3a.41.2026.03.02.00.41.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2026 00:36:08 -0800 (PST)
-Message-ID: <3540a60d-f9a1-463f-aca2-54ccd484b5c6@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:06:00 +0530
+ Mon, 02 Mar 2026 00:41:17 -0800 (PST)
+Message-ID: <8bf132e4-527f-4000-9c74-972361b6db6d@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 14:11:08 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 08/18] accel/qda: Add per-file DRM context and
- open/close handling
+Subject: Re: [PATCH RFC 09/18] accel/qda: Add QUERY IOCTL and basic QDA UAPI
+ header
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
@@ -116,37 +116,38 @@ Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Bharath Kumar <quic_bkumar@quicinc.com>,
  Chenna Kesava Raju <quic_chennak@quicinc.com>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-8-fe46a9c1a046@oss.qualcomm.com>
- <rnhqwqtd66fmvmyobhrodzoa7x2etzjjh7xhqrn5hkmibms5cd@ucggzznrx7j6>
+ <20260224-qda-firstpost-v1-9-fe46a9c1a046@oss.qualcomm.com>
+ <fzfuaeninr7lfbn74reoare7y2zoflddcvvnvyifnriw26swjc@igixj73zawrv>
 Content-Language: en-US
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <rnhqwqtd66fmvmyobhrodzoa7x2etzjjh7xhqrn5hkmibms5cd@ucggzznrx7j6>
+In-Reply-To: <fzfuaeninr7lfbn74reoare7y2zoflddcvvnvyifnriw26swjc@igixj73zawrv>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: fls2BoaggwImAeL-qo6lISyeJGFp6cq6
-X-Authority-Analysis: v=2.4 cv=Hol72kTS c=1 sm=1 tr=0 ts=69a54bfa cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: l6mW9AJ48lSNbT1gRa4IDsvXt_kDnnRT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NiBTYWx0ZWRfX7XAdPqKcCUOQ
+ OLtzBDAS7BJllD1Nqnd1vrd3SNmsguMZ87gNLmrudI3reg5nGXRkQZRMddUzR0E2Xw1Os80Hgux
+ t+i43JZgTnXWT0LXv8Ijd9Zx8PnRdfMxZVfY25HALRJcu65hkmIguKK6/5k9fzf8QYOmLVd1eDt
+ N+Ubea/qaNU0QhUV/hBrUThb0XMldxON5PbWW/8VtmBQgczaYjpUZa7nQtfGYemJW0OESrQbKNA
+ y1V+Rk58j5/kKe4LK0QYlv1LuK30m/fzH/haznuexxQmmUegK76xOsOzFccrhNUXjo0zASEFdBF
+ 0YC7kWhKDXtduFaJ+8GACq3yssXiGSSAAVacYPkwc6xulL9KmSXJaaCRP2fjVJzzqLnogW2S+5F
+ I36gA1Uaenbh6XEGOEp9Q/A9dbW2pytaKNqdjTg3sruW6GTFVnXmz4l72bw/6NmKIZZou5UYCDw
+ 9hkAOJ7TyztDQz/MFtw==
+X-Authority-Analysis: v=2.4 cv=bdRmkePB c=1 sm=1 tr=0 ts=69a54d30 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=e0RItjUwLU8XcxGzZmsA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-ORIG-GUID: fls2BoaggwImAeL-qo6lISyeJGFp6cq6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NSBTYWx0ZWRfXzXrzryykVSe9
- ZQvl2MFLWalj7aWVJR5JC+fLfzUB5yLocz5CG3ylhmNRr/5OebxXRy6FTAC1c8E/COjGKGrZ7/9
- o6EEC6ymfcRfKwsQkJY9Edpy7irZz9dd4b5AW1oeM8qxbpPK9Alj7JJqdqNqxGGRK2Cjw01uJui
- Nk+TObFuN+Qkx6YvdzL/cdG1HTbY6rfIu0h+2EmFKafb//vgGY4SYtpDP4wCp8IzIc69ZaY59qb
- LtIop3e5EpooDWnc21Zg++Yfz0RajZVz0SwWqMKmGTouLQlcwWLeIXw/GbAEcdO/zN0mhhtfRJx
- 6xokgVb2Au0Yqld9begNDNVD7lAyoqcDWvFxbQpofolFNrTCDIZkbw0p2TolEJgEd9jMLN9yjoi
- PfyzPXlpt779WY7Eu0mBdvPe7Ldy2G2EctnCsqFIQd8d5TMNs7J8sw5FsgjzeQoisD68vU1L3R6
- 2XSixqCoqsNUQ+Z9D8A==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=SgWlgk4r4gR3U-ipCD8A:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: l6mW9AJ48lSNbT1gRa4IDsvXt_kDnnRT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020075
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603020076
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,241 +191,235 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 670AA1D4B09
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D40D81D4BD5
 X-Rspamd-Action: no action
 
 
 
-On 2/24/2026 3:50 AM, Dmitry Baryshkov wrote:
-> On Tue, Feb 24, 2026 at 12:39:02AM +0530, Ekansh Gupta wrote:
->> Introduce per-file and per-user context for the QDA DRM accelerator
->> driver. A new qda_file_priv structure is stored in file->driver_priv
->> for each open file descriptor, and a qda_user object is allocated per
->> client with a unique client_id generated from an atomic counter in
->> qda_dev.
+On 2/24/2026 3:54 AM, Dmitry Baryshkov wrote:
+> On Tue, Feb 24, 2026 at 12:39:03AM +0530, Ekansh Gupta wrote:
+>> Introduce a basic UAPI for the QDA accelerator driver along with a
+>> DRM IOCTL handler to query DSP device identity. A new UAPI header
+>> include/uapi/drm/qda_accel.h defines DRM_QDA_QUERY, the corresponding
+>> DRM_IOCTL_QDA_QUERY command, and struct drm_qda_query, which contains
+>> a DSP name string.
 >>
->> The DRM driver now provides qda_open() and qda_postclose() callbacks.
->> qda_open() resolves the qda_dev from the drm_device, allocates the
->> qda_file_priv and qda_user structures, and attaches them to the DRM
->> file. qda_postclose() tears down the per-file context and frees the
->> qda_user object when the file is closed.
+>> On the kernel side, qda_ioctl_query() validates the per-file context,
+>> resolves the qda_dev instance from dev->dev_private, and copies the
+>> DSP name from qdev->dsp_name into the query structure. The new
+>> qda_ioctls[] table wires this IOCTL into the QDA DRM driver so
+>> userspace can call it through the standard DRM command interface.
 >>
->> This prepares the QDA driver to track per-process state for future
->> features such as per-client memory mappings, job submission contexts,
->> and access control over DSP compute resources.
-> Start by describing the problem instead of stuffing it to the end. Can
-> we use something better suited for this task, like IDR?
-ack, same comment for IDR here also, sticking with xarray everywhere for QDA for
-uniformity and to avoid checkpatch warnings.
->
+>> This IOCTL provides a simple and stable way for userspace to discover
+>> which DSP a given QDA device node represents and serves as the first
+>> building block for a richer QDA UAPI in subsequent patches.
+>>
 >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 >> ---
->>  drivers/accel/qda/qda_drv.c | 117 ++++++++++++++++++++++++++++++++++++++++++++
->>  drivers/accel/qda/qda_drv.h |  30 ++++++++++++
->>  2 files changed, 147 insertions(+)
+>>  drivers/accel/qda/Makefile    |  1 +
+>>  drivers/accel/qda/qda_drv.c   |  9 +++++++++
+>>  drivers/accel/qda/qda_ioctl.c | 45 +++++++++++++++++++++++++++++++++++++++++
+>>  drivers/accel/qda/qda_ioctl.h | 26 ++++++++++++++++++++++++
+>>  include/uapi/drm/qda_accel.h  | 47 +++++++++++++++++++++++++++++++++++++++++++
+>>  5 files changed, 128 insertions(+)
 >>
+>> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+>> index 7e96ddc40a24..f547398e1a72 100644
+>> --- a/drivers/accel/qda/Makefile
+>> +++ b/drivers/accel/qda/Makefile
+>> @@ -10,5 +10,6 @@ qda-y := \
+>>  	qda_rpmsg.o \
+>>  	qda_cb.o \
+>>  	qda_memory_manager.o \
+>> +	qda_ioctl.o \
+> Keep the list sorted, please.
+ack
+>
+>>  
+>>  obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
 >> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
->> index a9113ec78fa2..bf95fc782cf8 100644
+>> index bf95fc782cf8..86758a9cd982 100644
 >> --- a/drivers/accel/qda/qda_drv.c
 >> +++ b/drivers/accel/qda/qda_drv.c
->> @@ -12,11 +12,127 @@
+>> @@ -9,7 +9,10 @@
+>>  #include <drm/drm_file.h>
+>>  #include <drm/drm_gem.h>
+>>  #include <drm/drm_ioctl.h>
+>> +#include <drm/qda_accel.h>
+>> +
 >>  #include "qda_drv.h"
+>> +#include "qda_ioctl.h"
 >>  #include "qda_rpmsg.h"
 >>  
->> +static struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev)
+>>  static struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev)
+>> @@ -128,11 +131,17 @@ static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+>>  
+>>  DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
+>>  
+>> +static const struct drm_ioctl_desc qda_ioctls[] = {
+>> +	DRM_IOCTL_DEF_DRV(QDA_QUERY, qda_ioctl_query, 0),
+>> +};
+>> +
+>>  static struct drm_driver qda_drm_driver = {
+>>  	.driver_features = DRIVER_COMPUTE_ACCEL,
+>>  	.fops			= &qda_accel_fops,
+>>  	.open			= qda_open,
+>>  	.postclose		= qda_postclose,
+>> +	.ioctls = qda_ioctls,
+> Please select one style. Either you indent all assignments or you don't.
+ack
+>
+>> +	.num_ioctls = ARRAY_SIZE(qda_ioctls),
+>>  	.name = DRIVER_NAME,
+>>  	.desc = "Qualcomm DSP Accelerator Driver",
+>>  };
+>> diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
+>> new file mode 100644
+>> index 000000000000..9fa73ec2dfce
+>> --- /dev/null
+>> +++ b/drivers/accel/qda/qda_ioctl.c
+>> @@ -0,0 +1,45 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> +#include <drm/drm_ioctl.h>
+>> +#include <drm/drm_gem.h>
+>> +#include <drm/qda_accel.h>
+>> +#include "qda_drv.h"
+>> +#include "qda_ioctl.h"
+>> +
+>> +static int qda_validate_and_get_context(struct drm_device *dev, struct drm_file *file_priv,
+>> +					struct qda_dev **qdev, struct qda_user **qda_user)
 >> +{
->> +	if (!dev)
->> +		return NULL;
->> +
->> +	return (struct qda_drm_priv *)dev->dev_private;
->> +}
->> +
->> +static struct qda_dev *get_qdev_from_drm_device(struct drm_device *dev)
->> +{
->> +	struct qda_drm_priv *drm_priv;
->> +
->> +	if (!dev) {
->> +		qda_dbg(NULL, "Invalid drm_device\n");
->> +		return NULL;
->> +	}
->> +
->> +	drm_priv = get_drm_priv_from_device(dev);
->> +	if (!drm_priv) {
->> +		qda_dbg(NULL, "No drm_priv in dev_private\n");
->> +		return NULL;
->> +	}
->> +
->> +	return drm_priv->qdev;
->> +}
->> +
->> +static struct qda_user *alloc_qda_user(struct qda_dev *qdev)
->> +{
->> +	struct qda_user *qda_user;
->> +
->> +	qda_user = kzalloc_obj(*qda_user, GFP_KERNEL);
->> +	if (!qda_user)
->> +		return NULL;
->> +
->> +	qda_user->client_id = atomic_inc_return(&qdev->client_id_counter);
->> +	qda_user->qda_dev = qdev;
->> +
->> +	qda_dbg(qdev, "Allocated qda_user with client_id=%u\n", qda_user->client_id);
->> +	return qda_user;
->> +}
->> +
->> +static void free_qda_user(struct qda_user *qda_user)
->> +{
->> +	if (!qda_user)
->> +		return;
->> +
->> +	qda_dbg(qda_user->qda_dev, "Freeing qda_user client_id=%u\n", qda_user->client_id);
->> +
->> +	kfree(qda_user);
->> +}
->> +
->> +static int qda_open(struct drm_device *dev, struct drm_file *file)
->> +{
->> +	struct qda_user *qda_user;
+>> +	struct qda_drm_priv *drm_priv = dev->dev_private;
 >> +	struct qda_file_priv *qda_file_priv;
->> +	struct qda_dev *qdev;
 >> +
->> +	if (!file) {
->> +		qda_dbg(NULL, "Invalid file pointer\n");
+>> +	if (!drm_priv)
 >> +		return -EINVAL;
->> +	}
 >> +
->> +	qdev = get_qdev_from_drm_device(dev);
->> +	if (!qdev) {
->> +		qda_dbg(NULL, "Failed to get qdev from drm_device\n");
+>> +	*qdev = drm_priv->qdev;
+>> +	if (!*qdev)
 >> +		return -EINVAL;
->> +	}
+> Can this actually happen or is it (un)wishful thinking?
+>
 >> +
->> +	qda_file_priv = kzalloc(sizeof(*qda_file_priv), GFP_KERNEL);
->> +	if (!qda_file_priv)
->> +		return -ENOMEM;
+>> +	qda_file_priv = (struct qda_file_priv *)file_priv->driver_priv;
+>> +	if (!qda_file_priv || !qda_file_priv->qda_user)
+>> +		return -EINVAL;
+> What are you protecting against?
+The intention for all these checks are to ensure channel is properly initialized before any
+request is queued for any specific channel, I'll update the checks based on the current
+initialization ordering.
+>
 >> +
->> +	qda_file_priv->pid = current->pid;
->> +
->> +	qda_user = alloc_qda_user(qdev);
->> +	if (!qda_user) {
->> +		qda_dbg(qdev, "Failed to allocate qda_user\n");
->> +		kfree(qda_file_priv);
->> +		return -ENOMEM;
->> +	}
->> +
->> +	file->driver_priv = qda_file_priv;
->> +	qda_file_priv->qda_user = qda_user;
->> +
->> +	qda_dbg(qdev, "Device opened successfully for PID %d\n", current->pid);
+>> +	*qda_user = qda_file_priv->qda_user;
 >> +
 >> +	return 0;
 >> +}
 >> +
->> +static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+>> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv)
 >> +{
 >> +	struct qda_dev *qdev;
->> +	struct qda_file_priv *qda_file_priv;
 >> +	struct qda_user *qda_user;
+>> +	struct drm_qda_query *args = data;
+>> +	int ret;
 >> +
->> +	qdev = get_qdev_from_drm_device(dev);
->> +	if (!qdev || atomic_read(&qdev->removing)) {
->> +		qda_dbg(NULL, "Device unavailable or removing\n");
->> +		return;
-> Even if it is being removed, no need to free the memory?
-Right, It should still be freed.
->
->> +	}
+>> +	ret = qda_validate_and_get_context(dev, file_priv, &qdev, &qda_user);
+>> +	if (ret)
+>> +		return ret;
 >> +
->> +	qda_file_priv = (struct qda_file_priv *)file->driver_priv;
->> +	if (qda_file_priv) {
->> +		qda_user = qda_file_priv->qda_user;
->> +		if (qda_user)
->> +			free_qda_user(qda_user);
+>> +	strscpy(args->dsp_name, qdev->dsp_name, sizeof(args->dsp_name));
 >> +
->> +		kfree(qda_file_priv);
->> +		file->driver_priv = NULL;
->> +	}
->> +
->> +	qda_dbg(qdev, "Device closed for PID %d\n", current->pid);
+>> +	return 0;
 >> +}
+>> diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
+>> new file mode 100644
+>> index 000000000000..6bf3bcd28c0e
+>> --- /dev/null
+>> +++ b/drivers/accel/qda/qda_ioctl.h
+>> @@ -0,0 +1,26 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
 >> +
->>  DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
->>  
->>  static struct drm_driver qda_drm_driver = {
->>  	.driver_features = DRIVER_COMPUTE_ACCEL,
->>  	.fops			= &qda_accel_fops,
->> +	.open			= qda_open,
->> +	.postclose		= qda_postclose,
->>  	.name = DRIVER_NAME,
->>  	.desc = "Qualcomm DSP Accelerator Driver",
->>  };
->> @@ -58,6 +174,7 @@ static void init_device_resources(struct qda_dev *qdev)
->>  
->>  	mutex_init(&qdev->lock);
->>  	atomic_set(&qdev->removing, 0);
->> +	atomic_set(&qdev->client_id_counter, 0);
->>  }
->>  
->>  static int init_memory_manager(struct qda_dev *qdev)
->> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
->> index 2b80401a3741..e0ba37702a86 100644
->> --- a/drivers/accel/qda/qda_drv.h
->> +++ b/drivers/accel/qda/qda_drv.h
->> @@ -10,6 +10,7 @@
->>  #include <linux/list.h>
->>  #include <linux/mutex.h>
->>  #include <linux/rpmsg.h>
+>> +#ifndef _QDA_IOCTL_H
+>> +#define _QDA_IOCTL_H
+>> +
 >> +#include <linux/types.h>
->>  #include <linux/xarray.h>
->>  #include <drm/drm_drv.h>
->>  #include <drm/drm_file.h>
->> @@ -20,6 +21,33 @@
->>  /* Driver identification */
->>  #define DRIVER_NAME "qda"
->>  
->> +/**
->> + * struct qda_file_priv - Per-process private data for DRM file
->> + *
->> + * This structure tracks per-process state for each open file descriptor.
->> + * It maintains the IOMMU device assignment and links to the legacy qda_user
->> + * structure for compatibility with existing code.
->> + */
->> +struct qda_file_priv {
->> +	/* Process ID for tracking */
->> +	pid_t pid;
->> +	/* Pointer to qda_user structure for backward compatibility */
->> +	struct qda_user *qda_user;
->> +};
+>> +#include <linux/kernel.h>
+>> +#include <drm/drm_ioctl.h>
+>> +#include "qda_drv.h"
 >> +
 >> +/**
->> + * struct qda_user - Per-user context for remote processor interaction
+>> + * qda_ioctl_query - Query DSP device information and capabilities
+>> + * @dev: DRM device structure
+>> + * @data: User-space data containing query parameters and results
+>> + * @file_priv: DRM file private data
 >> + *
->> + * This structure maintains per-user state for interactions with the
->> + * remote processor, including memory mappings and pending operations.
+>> + * This IOCTL handler queries information about the DSP device.
+>> + *
+>> + * Return: 0 on success, negative error code on failure
 >> + */
->> +struct qda_user {
->> +	/* Unique client identifier */
->> +	u32 client_id;
->> +	/* Back-pointer to device structure */
->> +	struct qda_dev *qda_dev;
+>> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +
+>> +#endif /* _QDA_IOCTL_H */
+>> diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
+>> new file mode 100644
+>> index 000000000000..0aad791c4832
+>> --- /dev/null
+>> +++ b/include/uapi/drm/qda_accel.h
+>> @@ -0,0 +1,47 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
+>> +
+>> +#ifndef __QDA_ACCEL_H__
+>> +#define __QDA_ACCEL_H__
+>> +
+>> +#include "drm.h"
+>> +
+>> +#if defined(__cplusplus)
+>> +extern "C" {
+>> +#endif
+>> +
+>> +/*
+>> + * QDA IOCTL command numbers
+>> + *
+>> + * These define the command numbers for QDA-specific IOCTLs.
+>> + * They are used with DRM_COMMAND_BASE to create the full IOCTL numbers.
+>> + */
+>> +#define DRM_QDA_QUERY	0x00
+>> +/*
+>> + * QDA IOCTL definitions
+>> + *
+>> + * These macros define the actual IOCTL numbers used by userspace applications.
+>> + * They combine the command numbers with DRM_COMMAND_BASE and specify the
+>> + * data structure and direction (read/write) for each IOCTL.
+>> + */
+>> +#define DRM_IOCTL_QDA_QUERY	DRM_IOR(DRM_COMMAND_BASE + DRM_QDA_QUERY, struct drm_qda_query)
+>> +
+>> +/**
+>> + * struct drm_qda_query - Device information query structure
+>> + * @dsp_name: Name of DSP (e.g., "adsp", "cdsp", "cdsp1", "gdsp0", "gdsp1")
+>> + *
+>> + * This structure is used with DRM_IOCTL_QDA_QUERY to query device type,
+>> + * allowing userspace to identify which DSP a device node represents. The
+>> + * kernel provides the DSP name directly as a null-terminated string.
+>> + */
+>> +struct drm_qda_query {
+>> +	__u8 dsp_name[16];
 >> +};
 >> +
->>  /**
->>   * struct qda_drm_priv - DRM device private data for QDA device
->>   *
->> @@ -52,6 +80,8 @@ struct qda_dev {
->>  	struct qda_drm_priv *drm_priv;
->>  	/* Flag indicating device removal in progress */
->>  	atomic_t removing;
->> +	/* Atomic counter for generating unique client IDs */
->> +	atomic_t client_id_counter;
->>  	/* Name of the DSP (e.g., "cdsp", "adsp") */
->>  	char dsp_name[16];
->>  	/* Compute context-bank (CB) child devices */
+>> +#if defined(__cplusplus)
+>> +}
+>> +#endif
+>> +
+>> +#endif /* __QDA_ACCEL_H__ */
 >>
 >> -- 
 >> 2.34.1
