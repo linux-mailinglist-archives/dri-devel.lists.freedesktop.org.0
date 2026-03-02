@@ -2,91 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WH+bFP2apWmfEwYAu9opvQ
+	id kKseAPeapWnxEgYAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:17 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E891DA789
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9314B1DA774
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70D210E50A;
-	Mon,  2 Mar 2026 14:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A70C910E4FF;
+	Mon,  2 Mar 2026 14:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VtUiwLca";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="51JqJ04N";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VtUiwLca";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="51JqJ04N";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="b/u9Tzrl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2bzrEPAw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b/u9Tzrl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2bzrEPAw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E50310E507
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:13:13 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E543B10E505
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:13:06 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 165735BD7A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 509533F7F5;
  Mon,  2 Mar 2026 14:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772460781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
- b=VtUiwLcamGe4Q8T4S5xmv4lb63bVtR4FGL1MLwc7wTf9rxs/HARJ4J84bUdc+Ocb8/e1mC
- 9mnAjJT2xb9eQx2/5sCz9qhAo1Y/gBiWBy7a/uUlWod2Pq6kP3Zg0WeshefIwgxJP1PUEx
- A97aLghu5X77SOBjmNuNF9Zno8KfKo0=
+ bh=qDq/cW2yhQBHf4nLvdY7/6+Jg/oVSc5PEO9Oi8OztLE=;
+ b=b/u9Tzrl23HDfTAr90zvkPHr63R035p7r+FyICMT8ZQumcqWU7eL5ecb8SV9Qj707+IxWd
+ 0mG2lZPPuPv7AWQ+RFmu9jqwilsqx2tnYrQnFQnL3q59u+iJe7RfoxlnjS77aYfgSpilN/
+ 8F1+6GWa42fXkNqlOaeAtjY0TTco9Tk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772460781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
- b=51JqJ04NNwQ+9Lzj4/YDGU1IF7ajptTDdnaSg+hlnqwnP2MzIh3ojtfJZ35FSkCvSclgHk
- 1FTyreUz7z++EnBQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VtUiwLca;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=51JqJ04N
+ bh=qDq/cW2yhQBHf4nLvdY7/6+Jg/oVSc5PEO9Oi8OztLE=;
+ b=2bzrEPAw0didfkJOyLaWaBHQqwWbt6TQuxMZyJFJg7tRuKaPumkoNQnUl9UElDqZMcuxS9
+ 2yJmNa3twN6Rq/Bw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="b/u9Tzrl";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2bzrEPAw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772460781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
- b=VtUiwLcamGe4Q8T4S5xmv4lb63bVtR4FGL1MLwc7wTf9rxs/HARJ4J84bUdc+Ocb8/e1mC
- 9mnAjJT2xb9eQx2/5sCz9qhAo1Y/gBiWBy7a/uUlWod2Pq6kP3Zg0WeshefIwgxJP1PUEx
- A97aLghu5X77SOBjmNuNF9Zno8KfKo0=
+ bh=qDq/cW2yhQBHf4nLvdY7/6+Jg/oVSc5PEO9Oi8OztLE=;
+ b=b/u9Tzrl23HDfTAr90zvkPHr63R035p7r+FyICMT8ZQumcqWU7eL5ecb8SV9Qj707+IxWd
+ 0mG2lZPPuPv7AWQ+RFmu9jqwilsqx2tnYrQnFQnL3q59u+iJe7RfoxlnjS77aYfgSpilN/
+ 8F1+6GWa42fXkNqlOaeAtjY0TTco9Tk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772460781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XuMyw98BBc1i/ocDzpRA4GQMbQA8MGjbmzxVCApHgSM=;
- b=51JqJ04NNwQ+9Lzj4/YDGU1IF7ajptTDdnaSg+hlnqwnP2MzIh3ojtfJZ35FSkCvSclgHk
- 1FTyreUz7z++EnBQ==
+ bh=qDq/cW2yhQBHf4nLvdY7/6+Jg/oVSc5PEO9Oi8OztLE=;
+ b=2bzrEPAw0didfkJOyLaWaBHQqwWbt6TQuxMZyJFJg7tRuKaPumkoNQnUl9UElDqZMcuxS9
+ 2yJmNa3twN6Rq/Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D9B703EA69;
- Mon,  2 Mar 2026 14:13:00 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E39B3EA6C;
+ Mon,  2 Mar 2026 14:13:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CJH2M+yapWleKQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 14:13:00 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id QND9Be2apWleKQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 Mar 2026 14:13:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: gregkh@linuxfoundation.org,
 	deller@gmx.de,
 	sam@ravnborg.org
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 04/13] vt: Calculate font-buffer size with vc_font_size()
-Date: Mon,  2 Mar 2026 15:08:38 +0100
-Message-ID: <20260302141255.518657-5-tzimmermann@suse.de>
+Subject: [PATCH v2 05/13] lib/fonts: Remove trailing whitespaces
+Date: Mon,  2 Mar 2026 15:08:39 +0100
+Message-ID: <20260302141255.518657-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302141255.518657-1-tzimmermann@suse.de>
 References: <20260302141255.518657-1-tzimmermann@suse.de>
@@ -139,96 +139,58 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: B5E891DA789
+X-Rspamd-Queue-Id: 9314B1DA774
 X-Rspamd-Action: no action
 
-In fbcon, fbcon_resize() computes the size of the font buffer from the
-values stored in vc_font. Move these calculations to the dedicated helpers
-vc_font_pitch() and vc_font_size().
+Fix coding style. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/core/fbcon.c |  9 ++-------
- include/linux/console_struct.h   | 28 ++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ lib/fonts/font_acorn_8x8.c | 2 +-
+ lib/fonts/font_mini_4x6.c  | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 247bb90c08d3..103e91c8d874 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2037,7 +2037,6 @@ static void updatescrollmode(struct fbcon_display *p,
- }
+diff --git a/lib/fonts/font_acorn_8x8.c b/lib/fonts/font_acorn_8x8.c
+index 18755c33d249..af5fa72aa8b7 100644
+--- a/lib/fonts/font_acorn_8x8.c
++++ b/lib/fonts/font_acorn_8x8.c
+@@ -68,7 +68,7 @@ static const struct font_data acorndata_8x8 = {
+ /* 3A */  0x00, 0x00, 0x18, 0x18, 0x00, 0x18, 0x18, 0x00, /* : */
+ /* 3B */  0x00, 0x00, 0x18, 0x18, 0x00, 0x18, 0x18, 0x30, /* ; */
+ /* 3C */  0x0C, 0x18, 0x30, 0x60, 0x30, 0x18, 0x0C, 0x00, /* < */
+-/* 3D */  0x00, 0x00, 0x7E, 0x00, 0x7E, 0x00, 0x00, 0x00, /* = */ 
++/* 3D */  0x00, 0x00, 0x7E, 0x00, 0x7E, 0x00, 0x00, 0x00, /* = */
+ /* 3E */  0x30, 0x18, 0x0C, 0x06, 0x0C, 0x18, 0x30, 0x00, /* > */
+ /* 3F */  0x3C, 0x66, 0x0C, 0x18, 0x18, 0x00, 0x18, 0x00, /* ? */
+ /* 40 */  0x3C, 0x66, 0x6E, 0x6A, 0x6E, 0x60, 0x3C, 0x00, /* @ */
+diff --git a/lib/fonts/font_mini_4x6.c b/lib/fonts/font_mini_4x6.c
+index 8d39fd447952..cc21dc70cfd1 100644
+--- a/lib/fonts/font_mini_4x6.c
++++ b/lib/fonts/font_mini_4x6.c
+@@ -18,15 +18,15 @@
+ s{((0x)?[0-9a-fA-F]+)(.*\[([\*\ ]{4})\])}{
  
- #define PITCH(w) (((w) + 7) >> 3)
--#define CALC_FONTSZ(h, p, c) ((h) * (p) * (c)) /* size = height * pitch * charcount */
- 
- static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 			unsigned int height, bool from_user)
-@@ -2049,8 +2048,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 	int x_diff, y_diff, virt_w, virt_h, virt_fw, virt_fh;
- 
- 	if (p->userfont && FNTSIZE(vc->vc_font.data)) {
--		int size;
--		int pitch = PITCH(vc->vc_font.width);
-+		unsigned int size = vc_font_size(&vc->vc_font);
- 
- 		/*
- 		 * If user font, ensure that a possible change to user font
-@@ -2059,10 +2057,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 		 * charcount can change and cannot be used to determine the
- 		 * font data allocated size.
- 		 */
--		if (pitch <= 0)
--			return -EINVAL;
--		size = CALC_FONTSZ(vc->vc_font.height, pitch, vc->vc_font.charcount);
--		if (size > FNTSIZE(vc->vc_font.data))
-+		if (!size || size > FNTSIZE(vc->vc_font.data))
- 			return -EINVAL;
- 	}
- 
-diff --git a/include/linux/console_struct.h b/include/linux/console_struct.h
-index 7fdcae6ed49c..fbb5dd5f6761 100644
---- a/include/linux/console_struct.h
-+++ b/include/linux/console_struct.h
-@@ -83,6 +83,34 @@ struct vc_font {
- 	const unsigned char *data;
- };
- 
-+/**
-+ * vc_font_pitch - Calculates the number of bytes between two adjacent scanlines
-+ * @font: The VC font
-+ *
-+ * Returns:
-+ * The number of bytes between two adjacent scanlines in the font data
-+ */
-+static inline unsigned int vc_font_pitch(const struct vc_font *font)
-+{
-+	return DIV_ROUND_UP(font->width, 8);
-+}
+ 	($num,$pat,$bits) = ($1,$3,$4);
+-	
 +
-+/**
-+ * vc_font_size - Calculates the size of the font data in bytes
-+ * @font: The VC font
-+ *
-+ * vc_font_size() calculates the number of bytes of font data in the
-+ * font specified by @font. The function calculates the size from the
-+ * font parameters.
-+ *
-+ * Returns:
-+ * The size of the font data in bytes.
-+ */
-+static inline unsigned int vc_font_size(const struct vc_font *font)
-+{
-+	return font->height * vc_font_pitch(font) * font->charcount;
-+}
+ 	$bits =~ s/([^\s0])|(.)/ defined($1) + 0 /ge;
+-	
 +
- /*
-  * Example: vc_data of a console that was scrolled 3 lines down.
-  *
+ 	$num = ord(pack("B8", $bits));
+ 	$num |= $num >> 4;
+ 	$num = sprintf("0x%.2x", $num);
+-	
++
+ 	#print "$num,$pat,$bits\n";
+-	
++
+ 	$num . $pat;
+ }ge;
+ 
 -- 
 2.53.0
 
