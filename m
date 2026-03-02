@@ -2,141 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFrmGlClpWngCwAAu9opvQ
+	id SMCiCXCmpWnNDQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:57:20 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:02:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF921DB414
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7940B1DB567
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:02:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712D710E51D;
-	Mon,  2 Mar 2026 14:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5787C10E0D0;
+	Mon,  2 Mar 2026 15:02:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="TivToU9a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lWobLmgR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com
- (mail-swedencentralazon11013050.outbound.protection.outlook.com
- [52.101.83.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D7D10E51D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:57:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gC0FT908hciMY2dGmvzKgbatohVFdEUsFIAgQ1wYlDpJJGtZF35PowLA5LJtZ/uw1AKU7KuvB28+3spzW9qtutFX9/lXUujBsCIq+r+8syYBqtzfN/NP7q5exRoCMQBVVcrhBqoqZxRavSCbRVPL7t4NynVebCyc6EbTCw9a3uBiWa6YZkxZN11kKadOVn2TFiBwzmFQ8vFbaOM9SftR+CAya4fb4J1RjLpgWC8K8YVN0I62aghAc54KPSNZpJpGm/GJftgHvPKmliZ3Q2BOX7MwR74ULsd93XEcQZoZ8w8sl3TY7Hvls7YpgYOWO6lan8yWCfg8ACZoC4fn65SMyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5DHgQBdMjIifbJakwiv9c2diCf0e8qNoU/aeD30XnEY=;
- b=OPeabaGvW+LN83R01jsDpiwlqqF4j0OJx+9WDd+GDo4ODquGZjLvpFQTdRj4Gac4q4a2QRXCVbPFMexI++whmQ4wc/RTcvMHWUCzCtGIrFthlCxKoJqAlYvIU2ahNJwmBR50mbABarJyLanQ47KTSEuzLKAAQA84V7XIKQmpDY+bodsl3GAYJAXr6+SrAer7CNQteJHXhaukNU20i2/wYpwVIDjIyawA2ese3w4mPQoEE0VS63AdLAEYgLOsuA1ReVtv274tNavSy5OHZPImcAQ8WslNzYZa3qwQu/mPlqKalNSlbwD9vSur3Ht+ybc/HuNyX755HLgdzrMbx5ZjSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5DHgQBdMjIifbJakwiv9c2diCf0e8qNoU/aeD30XnEY=;
- b=TivToU9axOIjMyA/T0nV1f643c5eijWa9uCt5ntX3saqkRRkmxnzb5/ukCOcSjZbt/c9SJwPFIZZWZjIjzd9DFa7KH33Y75r4Gh811NfFs+LXJpyVxTKyzs3K3q6BMd/bbD2SvHQlFx6Wg1fo1sN52LdAMfupqTQweynL+66VPJ0hJtG+r+8Das0iy6dQ+TghNYXzhy8Q+mFuLVULcSTLEM8szUMv/6PGvovpHP8OfaxmDGLLf3pUEgPrOvROueE2px8jqUIMPBqlasVWi1VmQtjsYAV8+UlBHmZ3UJs0uyXItwiAGPznv2oMSuqYlAZtDRU9YzCphiDQtnYw5v1zw==
-Received: from DB9PR04MB9426.eurprd04.prod.outlook.com (2603:10a6:10:36a::14)
- by MRWPR04MB12041.eurprd04.prod.outlook.com (2603:10a6:501:93::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 14:57:10 +0000
-Received: from DB9PR04MB9426.eurprd04.prod.outlook.com
- ([fe80::9024:608b:852c:f484]) by DB9PR04MB9426.eurprd04.prod.outlook.com
- ([fe80::9024:608b:852c:f484%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 14:57:10 +0000
-From: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li
- <frank.li@nxp.com>, =?iso-8859-1?Q?Christian_K=F6nig?=
- <christian.koenig@amd.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi
- <xuelin.shi@nxp.com>, Alexandru Iulian Taran <alexandru.taran@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>
-Subject: RE: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
-Thread-Topic: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
-Thread-Index: AQHcpyWNgEFrUuUjek+Hd2v4H4n447WWINoAgAU5y2A=
-Date: Mon, 2 Mar 2026 14:57:10 +0000
-Message-ID: <DB9PR04MB94265986C9FBF23C5C734337947EA@DB9PR04MB9426.eurprd04.prod.outlook.com>
-References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
- <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
- <9970272b-b406-4a25-a7d9-8197934f8c3a@kernel.org>
-In-Reply-To: <9970272b-b406-4a25-a7d9-8197934f8c3a@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB9PR04MB9426:EE_|MRWPR04MB12041:EE_
-x-ms-office365-filtering-correlation-id: 0c647501-fdb1-41a9-bee3-08de786bfb20
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|19092799006|1800799024|366016|921020|38070700021; 
-x-microsoft-antispam-message-info: js3zNi0ABhUxCAVQqpJwQWTIIk5ML4EHlDzrZ5eNZ0lY3W79miqWq2bk7TjzVyARX1ITG/uupC1bYUyDb8fIelIUCPJ1iwaHV/Zy1Zssj7PfpmUNUKeyvRaEIaIVWuJ0WT0YDomDWRb8KPQjAwI9VyPxWQlw4ltxdBBSvYIB2IylshbeI+ICFkMxrZmVEQnq/uk2rl6xyWLv9F7pGgpB3EnCRC50Cs1G5FM+b4O9DP73+qzTBpZCKY9T4M2a9sRwOl9/7fXVIc67XnpP3GG/uj6VP5vnkg4j8+8Mn4aeJkzoq/j2lQtzh3oWVK3XtLrF9e+8NnOw8Q3ZKMhfClh8J/6mLrmlbbm++jELKx1U+BYVtLT8hEHYJgUHVAxv1ywyB+zN5u9hQikxcTt6fTgJcpICOqbKhPv9JkUZ10F0bUvvZJFic/fyyUstIaw0Pu/DuCiiyNX2BwdCcOZP252VyQ3lQRtAzUuyqWusngFB+2CJdEz8xUEySR6VwqGIvMvMRswdHKAmcK/LK2+kn77mKeoHAfqt6Eq70+gKlKhUYTfwBRmT0tXb7cS/+b6kgD1+38fw+4v10Eovc58nCYVaVnBBf/fcjdtYtCVwGVKb3PdSksi7YQ4z8LlNlJUc6hxWyfsIK7u+xA5nMP1sRCesSXCcinbuJ4twJy2SgBVe0Hz8MZxKRFRHjeS/WcIorOMQyRsPfasIDIgioBddxRfzWfz8cfoCt32Y4J0ocVSZOuDyRl3kG1+PjSExZ+2Zui1J
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB9PR04MB9426.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(921020)(38070700021);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QL5Ytb/p2j1/klkLBFOMEM0kO3ZYpIUeFtZksPZsvLX5Cj+2jaEihIvAxf?=
- =?iso-8859-1?Q?eiJNPrwR3wG0uESeGA4RuFiT8O74xLyhZ7xWaQnR5Pn+9C8dRv6KBHfMDy?=
- =?iso-8859-1?Q?jwdCcO31qoIfanpd2+Pf1WnOwXJ/YhspuCGpmCMenIPT0bT1M1hcQ8kEYL?=
- =?iso-8859-1?Q?Jjzg+nr24IC329/J/YfKr4pY50UGWNGcNLOqaLScVGREMlCkFokqHIYktj?=
- =?iso-8859-1?Q?040Of146Y2dFasvjIg43qTPvcjuIeO8DpESQQS5PeBXZuRjuyJ2Pm+hBrE?=
- =?iso-8859-1?Q?r8SRYn46i06l8zEKeAB/rMko1EJfdZ/KCTTieIsyFY5Uz0/6F4rqNeZYeA?=
- =?iso-8859-1?Q?Fa/6hZ+CAkyNbOVWwGLex07brcmzCbLxEBuYBhrzhfdrxl+3Pi0v6HM2RV?=
- =?iso-8859-1?Q?Bmeu1HcrNW9/ZtN1Cb6FWsl6+wukD8m5FccXTw7gdlP2aYvuU8oNAGCiqm?=
- =?iso-8859-1?Q?aWe5eYIMVZ9fnNLyTlDXI3xfLqyqwiW95YKO1W6JiXohrRqHj8NuyjQMbB?=
- =?iso-8859-1?Q?mVyv8Sq9zkySvhP9tuB8+5SGECM4xIjZgO2gt/Qq66WhmUs/q/SU51hQyv?=
- =?iso-8859-1?Q?W3BE+i7L2DeP424m/ZIHcK0Ipk2kLZHB3mFojmn2CLSsa3XRdh5CPn5v5J?=
- =?iso-8859-1?Q?9iSJEpPf77sZYiDSh7yWlSGG/2HhmKzew5rTjfSjY9eOd8H1H0FvtSxhlw?=
- =?iso-8859-1?Q?2QdsBQAr1NZqxIbUSkuUd+CLxui6UiBUIA6ofumS6FisB37QJzzQwSqCBN?=
- =?iso-8859-1?Q?mJUoeWWkzQK2JckHRE+r/PvlkDVJeu7OXntlSzC1IFTeV3rY/ySLemjAwo?=
- =?iso-8859-1?Q?YcXbqomwfS0zV3LkRoDjG1SN70W4a4+NfGKFmEgHPEh2U/i72UT8zmWtkM?=
- =?iso-8859-1?Q?ynueIvU4aP/BU+8E/lQwAJ5muZTnGzKmMjgjrAMSZ3JSQP9B4q8XXaOwM3?=
- =?iso-8859-1?Q?AuFzArdkamgE5Lp+uLmGmmjQEYk1QWzzCC9bHBzftMg46PLw6BHfR1cBJ/?=
- =?iso-8859-1?Q?aDVI2QC5J6HxwVA6KmeOH8cAV+OUXcHrBYbDWli1luKt12F/NIxqTM2ueU?=
- =?iso-8859-1?Q?E5ix7vo8elAC6E88ZZg9N2fY59OvffMwukXgpszx9yZB8rlvANyeAlJT5D?=
- =?iso-8859-1?Q?oq3NAudFJiR7R9Nce7DgLCt3wYfVY3Je1pILeDPy7CTgVSyjJSn9te/Kvy?=
- =?iso-8859-1?Q?CjZ/Xn4weh3luQLmbJ5UbDG+gaoWoVWz91CMpAcS7XblvH542Av1IcUpv1?=
- =?iso-8859-1?Q?EWOrZY58Yv9gm751bgq8wej2kzPBrnUohEZirTaNzRGjWoxd1fMeICvkEC?=
- =?iso-8859-1?Q?INgG6FLZn2rtiLC2ElGCHKx2vHys9kHyY3o2HcW+2s2M68doQkPeeVAZuN?=
- =?iso-8859-1?Q?R/Gyma938Fa672YnaEsngcJ1VBoK57G7Lb/X1ZuVHzDRUs0TVKtzjDm88V?=
- =?iso-8859-1?Q?w7gmrxFsnx1zBSduUWgBKVRSwLV7J3A+Xgv0Qsx0ZEk6U+hvys8XKhIWgz?=
- =?iso-8859-1?Q?6k/zCiHnqgJHL4XzQg0MsRRcNdeXXqyUKh6d/GXQXTLF5Yry8l9nAovM+L?=
- =?iso-8859-1?Q?ReOkOgpShjy9Tjv/l5DGKLAntzEkSkS4OTmb8sWegHczESYCJIYGTX4vyh?=
- =?iso-8859-1?Q?5hyvuPi2fwiGW7QbKVxzKohXMOpEuSdykyQOe5CINAPtlhPiQ8U03kBKTz?=
- =?iso-8859-1?Q?lPw9jZlFSuXUDwywm5yUnJ/whQ4UcPGy0ZROctNKK7TRPal+SIMwekvU3L?=
- =?iso-8859-1?Q?cSoqPq39CJfGjmUlGW6MRaoj5YYbAggS6aZtGmbGrbMR+/UGT9FQhGvUcX?=
- =?iso-8859-1?Q?gqQ65ZMm3Q=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B4710E0D0;
+ Mon,  2 Mar 2026 15:02:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 1FD3943C3E;
+ Mon,  2 Mar 2026 15:02:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07EBCC2BC86;
+ Mon,  2 Mar 2026 15:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772463722;
+ bh=uVJ5W8RDb0Q88US960LmNDSuXSSlf4Uim4+IPeDSNK0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lWobLmgREDwCa6QJLQmI5nIpISCGpMz7a96V/QGuOD82cePN323mHvFoxTP1HMQXE
+ TEaW5klupi0q9iOOyV3zX0p+vJPBLURsBza5jkwf8oHWEiS+DmrV90MsaZJvyIAWXA
+ LmJUzzTz9OeLqMT8490VjGBPuNCuBi0cOHGtUDPW5mA5DUM4g5gYhCAjJgHjclfQQf
+ Wyh6s4c/gljdfNCRpBViW0sUIvwawSGQ0A0NjL+baYteKTP/noHei+HmgPZ2rtoz4v
+ 16jo5mwPvKK0NVOkHwqcyW/lppDuIFNh/+BCNXyFZc2ZcygDWLUOa4LNBq8ExGNTvh
+ HavSfwlo4KjgA==
+Message-ID: <5f8dcb7f-9e4f-4484-b160-3a9ce541d63c@kernel.org>
+Date: Mon, 2 Mar 2026 16:01:44 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9426.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c647501-fdb1-41a9-bee3-08de786bfb20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 14:57:10.3184 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XrHOJ5Tqjfse1/VTASfo71JRRE8XJ+vWGRsw7AOOI+nNw31tlBUofLSbChqCd6XS33pVQ4mcxj5+BD/bH7cgCXDSM4b0tN4YMqbMwpebvD8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRWPR04MB12041
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
+ zap_page_range_single()
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: linux-kernel@vger.kernel.org, "linux-mm @ kvack . org"
+ <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>,
+ "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-3-david@kernel.org> <aaLh2BxSgC9Jl5iS@google.com>
+ <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
+ <aaVf5gv4XjV6Ddt-@google.com>
+ <f2f3a8a1-3dbf-4ef9-a89a-a6ec20791d1c@kernel.org>
+ <aaVnifbdxKhBddQp@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aaVnifbdxKhBddQp@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,132 +156,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: BCF921DB414
+X-Rspamd-Queue-Id: 7940B1DB567
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:frank.li@nxp.com,m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:linux-doc@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:jiwei.fu@nxp.com,m:xuelin.shi@nxp.com,m:alexandru.taran@nxp.com,m:daniel.baluta@nxp.com,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com,amd.com];
-	FORGED_SENDER(0.00)[ruxandra.radulescu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ruxandra.radulescu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_GT_50(0.00)[73];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,bootlin.com:url,4ab00000:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Friday, February 27, 2026 at 9:06 AM, Krzysztof Kozlowski wrote:
-> On 26/02/2026 14:40, Ioana Ciocoi-Radulescu wrote:
->=20
-> A nit, subject: drop second/last, redundant "bindings for". The "dt-bindi=
-ngs"
-> prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetre=
-e/bindings/submitting-patches.rst#L18
+On 3/2/26 11:33, Alice Ryhl wrote:
+> On Mon, Mar 02, 2026 at 11:27:40AM +0100, David Hildenbrand (Arm) wrote:
+>> On 3/2/26 11:01, Alice Ryhl wrote:
+>>>
+>>> Well, rustfmt comes with the compiler, and it would be ideal to build
+>>> test changes before sending them :)
+>>
+>> At least on Ubuntu on my notebook where I do most of the coding+patch
+>> submissions it's a separate package?
+>>
+>> I do all my builds on a different (more powerful) machine where the
+>> whole rust machinery's in place. Further, build bots that run on my
+>> private branches did not report any issues.
+> 
+> There are some build bots that check for rustfmt, though not all of
+> them.
+> 
+>>> But no worries, I took care of testing it. Thanks for taking the time to
+>>> update the Rust code as well.
+>>
+>> I just did an allyesconfig and it does not report any warnings.
+>>
+>> So apparently, rustfmt problems not result in the compiler complaining?
+>>
+>> Or something else is off here that rust/kernel/mm/virt.rs won't get
+>> compiled on my machine, even with allyesconfig. I can definitely see
+>> some RUSTC stuff happening in the logs, like
+>>
+>> 	RUSTC L rust/kernel.o
+>>
+>> Thanks for the review and for pointing out rustfmt!
+> 
+> Similar to kerneldoc and other similar targets, formatting isn't checked
+> in the normal build, but make can be invoked on the rustfmtcheck target
+> to check it.
 
-Will fix.
+Thanks adding that to my cross-compile chain.
 
-> > +
-> > +  memory-region:
-> > +    description:
-> > +      Phandle referencing a "shared-dma-pool" to be used for Neutron
-> > +      inference buffers, which need to be 1MB aligned.
-> > +
-> > +      The memory region must be defined with alignment of 1MB and size
-> > +      should be large enough to accommodate the targeted ML models. It
-> > +      should be marked as reusable.
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 2
-> > +    maxItems: 3
->=20
-> Why is this flexible?
+-- 
+Cheers,
 
-It shouldn't be, I'll fix in v2.
-
->=20
-> > +
-> > +  clock-names:
-> > +    minItems: 2
-> > +    items:
-> > +      - const: npu
->=20
-> Name "npu" is pretty pointless.
->=20
-> > +      - const: npu_apb
-> > +      - const: npu_cgc
->=20
-> Drop npu perfix everywhere.
-
-Ok, will rename.
-
->=20
->=20
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - reg-names
-> > +  - memory-region
-> > +  - interrupts
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    bus {
-> > +      #address-cells =3D <2>;
-> > +      #size-cells =3D <2>;
-> > +
-> > +      neutron@4ab00000 {
-> > +              compatible =3D "nxp,imx95-neutron";
->=20
-> Messed indentation. Read writing bindings / writing schema.
-
-Will fix.
-
-Thanks for reviewing,
-Ioana
-
->=20
->=20
->=20
-> Best regards,
-> Krzysztof
+David
