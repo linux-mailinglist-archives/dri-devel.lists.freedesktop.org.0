@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJfXE97gpWkvHgAAu9opvQ
+	id sBfiMtLgpWkvHgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:11:26 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:11:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332F11DEA6A
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:11:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A61F1DEA29
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:11:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A478C10E59B;
-	Mon,  2 Mar 2026 19:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F23710E599;
+	Mon,  2 Mar 2026 19:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="uGWjS+LM";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="i6o2lfbo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4222B10E59B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 19:11:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A2610E592
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 19:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
  ; s=x;
  h=Subject:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Cc:To
  :From:subject:date:message-id:reply-to;
- bh=y6imtz3bxJygf9zO6wVukOjUdBXH8LjgNZeWsa/69hk=; b=uGWjS+LMb7R9Q5QCIpjbyD9xFB
- TOX/HzqQy9icmHXshx3P+YCUmz19UtAbEZIbiW63TgzjtPUWzzmpFtGdCbMJaAmTDxG4lPmtbjikm
- gnC0izhaC9lZBohGwl8Gh9wWES0rpLNO9RpvvT4P9PI9l4+oW5yCL1Fd4VVvm3X5kcME=;
+ bh=eptGtomLn+jMzHp1bkZ0E5wTEGfhea4HBPM13R/EfB0=; b=i6o2lfbowvWbbUaLtCAJ0C1UHz
+ ieLjxLBuB8x4HiiUrlVOd2zo7FMtXCsOVHG8N2/HWyIFxGiVjJvBuW2FMfIMMEbbCnIh7xKmIJDJy
+ 4P6oXDBuNYbWDjBLl5jV+ym5dTMsnVeXcP+vx83oDsBnbeZouT02wvbdghwmxfqdIboI=;
 Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:59962
  helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
  (envelope-from <hugo@hugovil.com>)
- id 1vx8fC-0007Wl-Q4; Mon, 02 Mar 2026 14:10:43 -0500
+ id 1vx8fE-0007Wl-6l; Mon, 02 Mar 2026 14:10:44 -0500
 From: Hugo Villeneuve <hugo@hugovil.com>
 To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
@@ -44,8 +44,8 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, hugo@hugovil.com,
  Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Mon,  2 Mar 2026 14:03:40 -0500
-Message-ID: <20260302190953.669325-5-hugo@hugovil.com>
+Date: Mon,  2 Mar 2026 14:03:41 -0500
+Message-ID: <20260302190953.669325-6-hugo@hugovil.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260302190953.669325-1-hugo@hugovil.com>
 References: <20260302190953.669325-1-hugo@hugovil.com>
@@ -60,8 +60,7 @@ X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
  *      [score: 0.0000]
 X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
  autolearn=ham autolearn_force=no version=3.4.2
-Subject: [PATCH 04/14] dt-bindings: arm: fsl: change incorrect VAR-SOM-6UL
- model name
+Subject: [PATCH 05/14] dt-bindings: arm: fsl: add variscite,var-som-imx6ull
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 332F11DEA6A
+X-Rspamd-Queue-Id: 0A61F1DEA29
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -113,35 +112,36 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[hugovil.com:dkim,hugovil.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,phycore-i.mx:url,dimonoff.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[hugovil.com:dkim,hugovil.com:mid,phycore-i.mx:url,dimonoff.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
 From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-There is no Variscite module named VAR-SOM-MX6UL.
-
-The official name from the manufacturer is VAR-SOM-6UL.
-
-Change SOM model name to VAR-SOM-6UL to reduce confusion.
+Add support for the imx6ull CPU variant of the Variscite concerto
+board evaluation kit with a VAR-SOM-6UL.
 
 Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 ---
- Documentation/devicetree/bindings/arm/fsl.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/arm/fsl.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
-index 5716d701292cf..99dc1b3f1ba92 100644
+index 99dc1b3f1ba92..61cda40d31873 100644
 --- a/Documentation/devicetree/bindings/arm/fsl.yaml
 +++ b/Documentation/devicetree/bindings/arm/fsl.yaml
-@@ -688,7 +688,7 @@ properties:
-           - const: phytec,imx6ul-pcl063   # PHYTEC phyCORE-i.MX 6UL
-           - const: fsl,imx6ul
+@@ -797,6 +797,12 @@ properties:
+           - const: phytec,imx6ull-pcl063        # PHYTEC phyCORE-i.MX 6ULL
+           - const: fsl,imx6ull
  
--      - description: i.MX6UL Variscite VAR-SOM-MX6 Boards
-+      - description: i.MX6UL Variscite VAR-SOM-6UL Boards
++      - description: i.MX6ULL Variscite VAR-SOM-6UL Boards
++        items:
++          - const: variscite,mx6ullconcerto  # Variscite VAR-SOM-6UL dev kit board
++          - const: variscite,var-som-imx6ull # Variscite VAR-SOM-6UL SoM (6ULL variant)
++          - const: fsl,imx6ull
++
+       - description: i.MX6ULL Boards with Toradex Colibri iMX6ULL Modules
          items:
-           - const: variscite,mx6ulconcerto
-           - const: variscite,var-som-imx6ul
+           - enum:
 -- 
 2.47.3
 
