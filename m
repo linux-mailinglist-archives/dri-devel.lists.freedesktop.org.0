@@ -2,129 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gVB/Ar2vpWkiEgAAu9opvQ
+	id kPrjGPevpWkiEgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:41:49 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:42:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5EE1DC0A0
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9331DC0F1
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 16:42:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8AF10E530;
-	Mon,  2 Mar 2026 15:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABED10E533;
+	Mon,  2 Mar 2026 15:42:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="yDVao2ku";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VkxtcpMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1400710E52F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 15:41:45 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-4836bf1a920so47765215e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 07:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1772466103; x=1773070903;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=fvJ4Pj0Wo9ryI9xJ6mJ9OBJG9CVcmeBhutvadxQnZZs=;
- b=yDVao2kutJij3UcQPjbx19mZXojU4aZRhj+awnsgjYAAJrkJv2z5k7Y6WlsSuPyNEQ
- OgT7Ey7Bb2eBLYvTQ8DP7xwSncZUR3/Px3uTZ0KSC/VWUMrULjoDQlRs9pfDJ/v1tlWC
- X3wiYQYaNOF4SZ5utaAI2nuqyTcAde9cu7qxXu2WbCh/qPmDI3fUzAKcCFCOfLefzPQB
- r8JTQJ3juH19MpSS17wgYTxpKlx1T++QZ810Zgr3/UZsmlFsgYqbw102xelsqno1jFRn
- LpTYhrEUXi9c+1gXi+MRtMQHFjRavPtCbFlA1Pmm2d+QPoRk7NK2mdJx2mvUVNybPXqF
- HBAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772466103; x=1773070903;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fvJ4Pj0Wo9ryI9xJ6mJ9OBJG9CVcmeBhutvadxQnZZs=;
- b=YHyUo2ULqfAZ3OGHqKiZlU5VHRUybERkXyh/2WR3WmgYWWR9ELPCzb6QcgZNd8AcyR
- NAbhKVkF+5YGFEpFrllSnF4Rp9OTwsAWavAenEuCP+Pk6ljCHqrId+ntdpP0Jr5SznrK
- Fuwn4PVfxzKxPIuby8Dm0DqiKkzvoLUGIT9ZRQLvDqWqvTj6Fn+RHCcYdQehYV0mVWiB
- gBUKOGPj1cgJ3WROlVnkfuW2G+ZZZTH6yT82s8tXAaHFwUKa9XXZbthm0JdPlXNfvgC0
- /5ygUoTdmrjL9dM8aD9y610FOl2qxrjDn7lenqV48jfpgU+rj/eM2wUzjgRc4NL3Ybw+
- +UXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX77wdFhQK8sAOFSX0SxszZdpEexqPxcukf5zU9JpUA+KK9nk8TpvHwcup8cyc1LocfApu46BRwZPA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQuHxOp8SulBON/03aP7h+1UnZmr6vWwzlYk/fsFqFz4Ij18LU
- wxeWlFS4tczalXhCsx+QxV7rHW6CjDPZtHaWuQa/GZ5e5+IaKdP572VS6aKm+Dki3oe/lzEsYDA
- 9wd5B7Rtzw35Bds8WdA==
-X-Received: from wmby19.prod.google.com ([2002:a05:600c:c053:b0:480:690c:88de])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3b18:b0:483:7432:a761 with SMTP id
- 5b1f17b1804b1-483c9bc558bmr213622465e9.24.1772466102970; 
- Mon, 02 Mar 2026 07:41:42 -0800 (PST)
-Date: Mon, 2 Mar 2026 15:41:42 +0000
-In-Reply-To: <5f8dcb7f-9e4f-4484-b160-3a9ce541d63c@kernel.org>
-Mime-Version: 1.0
-References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-3-david@kernel.org>
- <aaLh2BxSgC9Jl5iS@google.com>
- <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
- <aaVf5gv4XjV6Ddt-@google.com>
- <f2f3a8a1-3dbf-4ef9-a89a-a6ec20791d1c@kernel.org>
- <aaVnifbdxKhBddQp@google.com>
- <5f8dcb7f-9e4f-4484-b160-3a9ce541d63c@kernel.org>
-Message-ID: <aaWvtn48X8UizaaN@google.com>
-Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
- zap_page_range_single()
-From: Alice Ryhl <aliceryhl@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
- "linux-mm @ kvack . org" <linux-mm@kvack.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, 
- Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>,
- Ian Abbott <abbotti@mev.co.uk>, 
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, 
- Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
- Andy Lutomirski <luto@kernel.org>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Eric Dumazet <edumazet@google.com>, 
- Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
- David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="utf-8"
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010004.outbound.protection.outlook.com [52.101.61.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E294610E532;
+ Mon,  2 Mar 2026 15:42:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PTxOt7zqOyDDEs0Zws6VN6BuYviGH+vD+OiPMilSdlSo2alORJfO4PYL3eIhS72KxiB5Mjq726Ru0IqKVCcMGQ1GBC4QOzJ9Dm5OYi3wbdCcrp/Z6E/VVHFBoP1WNoBRy68PxBBG9MWzBKcBjbkn/LVHniTkwC/nNFp2vTlbIJbhwiOtl2fPJy9LDDcyodaJsv8COXivGMehutcW6ffqt57qpQjhEaLH5nX8dOijUSSD3DOzPlwN533fEiqunm1HLTq57n3dPvTc2t8lY99NIcJUjR9EiFLwi9uMREeH5K5zTCA6I+cJ57NlpO9E6hWqehLkhTrJAFGPknTjd8R2Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M5VyYlBq4phku4GFbqkPAkhcrgtHABQx9MZSH8Z1F5I=;
+ b=F1FGKp4bVt40Cx3PwuNEbbEx4L49w5WBq0nvY0Qzb02IBn4ZfHTCo30dY8tnZz//1rg3glPO9GFFdFwKseLp3qR0iz6N/mjhTmFsmprpuZZric2xAsrHCb9Hc9nbByc/Xa1G8S4VRu7N8JdgvjUYkSDEBgmZzSkgFhczgMP8UjWINQBzfCWY1kMD0zIfseQRH6ZrLSJqUPN+rr2HZFNEubCoiY6qLkSh++nkLZE589O6iWYtbcZA7/AyOjVWCzqhZRYuq3nzuPk8DU7HZNj4U+nz4zp9Z5qecblnJ5lHE9n0yrnXUSyhpqXVbjqS8fyXy3J5VDhR56sG5eNaVV++2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M5VyYlBq4phku4GFbqkPAkhcrgtHABQx9MZSH8Z1F5I=;
+ b=VkxtcpMTnCqexqy0JxVnl73ZdP49UBoZlMMAeQDY9KJYCNvC/qtXYTqX5Dn5dCZHVBheit5Smi07vyjcJSoIgT1c7kRSaqAYPHAkjZPG/hKsj/Oud79kXdSbjHpNNXl4Rw5Fdg5gcsz2mT7u2FwJXZUtBYmJmxjl+1ORqiIV0fo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6639.namprd12.prod.outlook.com (2603:10b6:8:be::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 15:42:34 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
+ 15:42:33 +0000
+Message-ID: <470ae9bb-e955-4773-b5b5-cc97b5bda20a@amd.com>
+Date: Mon, 2 Mar 2026 16:42:28 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-buf: Assign separate lockdep class to chain lock
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Philipp Stanner <phasta@kernel.org>
+References: <20260224175544.2167712-1-matthew.brost@intel.com>
+ <20260302162812.15a0614b@fedora>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260302162812.15a0614b@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0445.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10d::27) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6639:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ca9afd5-ee44-4b21-0f67-08de7872525b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: SkjtvA/CEJ7t8/ufwCEbtcfp47MLBfCDNWXaOYhH5D/fiSewsn5NhNRYdBPGfbimijRIS8t+E7Zv2MLSiieklPv/dYzXik5s1zcQ0qu4k5YHHUYLWU3u52OYq3RFFsJ+6LaWV3zoinHOrIEinBlE47PMd4NUzabMC/dxfy7XN6MTXo9K71CwP/1B0cdwKGSUUz12NxxOuvSq6l2h2ncB/faJg8CISX7xa1+UDoYrFVXZb+HJYbu5lEDl5O8sIbzUsv9TWQ1LjyYi8Wl/57p17vhPpL9FvJ6snaRYCrDbkUEMXsGfmOJ6drw0l+F+8yYouvfE82GwF1/SOcab+EnJVE3mID3Yk/PerdZFtJGe86DYPAbjaK9/LRn3aw2CPVjbN53595DdWSk6uzmco3OxvN8CpEOi1JgUL2JftkW0ek2rec+6R1XNxBKHjnGbii4QdLBosMJ0jQX48Wiz7jVlIqgDAvTWOvcAySKf1fTxu1bt5rLWpvt+N/mRAf5JqXtcdeRbbUfhfpUUuExlOyIf9rGsIcOL4pN0TuRbO8fix/28xB0g3X6xsvz6lhA/0zNdZNbFcGI9HXuk8AfP2mmKs29amJdW8xbs48QWzSW2qziKzK+kYB6Kv5O69A2iMnzvqwauq3AhdhlltUpfn1K06qxEqJImLc7mPCGVCy0bgZdFGwJZ7CWGK2SMjLZl1mVkANE0/xJyyJmNlZVC6Yw2iUZwIdHY8roUirY95tGLMz0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWplY29aOHYzeUUrL2d4WFdMYmQ1UDZ1WmhkTHlLNnF5REJsUzB2N2FxblI3?=
+ =?utf-8?B?aldhbjVRVXlJdUZWRDVxVGtxa1ZSQ01VL1hPRVU3ckQyQm9sdmNnanVlSWVw?=
+ =?utf-8?B?WTZQNHVLUk1SSXFJSjBHR0JoUnhGTTBjRG02SGcwWUNhYnhBOTRzU0RKaXJt?=
+ =?utf-8?B?NVJ0NDhNMEtiSnlSQ1kzODFha1Z2MjIvNmJXRnVvbnpIUjVxdkhmNHpSTUx5?=
+ =?utf-8?B?ZkI3OEdyUmY0UmdDam5jZlk2YUR5NkFxRjZQVGlOUFFUbXY2TlZ2dFdqZDd3?=
+ =?utf-8?B?NEhkNUh2NzZMN01FL0I3U3pwSlZsUmdUQm4vcFdUcFBsenpJcEZKYmZDbU43?=
+ =?utf-8?B?Z1BWdnVUSTRSS3dLemhsOGlZUzVWYlVuWFpoSjdla0U0UVJuSlRSZzVqMGFW?=
+ =?utf-8?B?N3BkblVGZXlVLys4dFpCMEdBN2tpR0dSaWk4alBhT25oN0RTcUVsVUtQb0ts?=
+ =?utf-8?B?U1FzeUd6YU1VZ2k0azBYalo3cUx5VXRMVnJKMzVDY1pLYzhycTZsckhNTEIx?=
+ =?utf-8?B?U1FnQTcwREFpUEttN0w5dVZZNzNqRUhXZmo5S0plZWgwNmUycExtN2NJMFFL?=
+ =?utf-8?B?RG9Idm5EbmJqOElNUEZINTlaVjFFSXQ1aVVFRTdBYUtuQlVxaGkwMzNFRmUy?=
+ =?utf-8?B?UHhtUldmQ0ptd2hNMXRvaC9oazVxQTBlK3Y0Q3dCSFdWZ1JEZHhldlB2NXVS?=
+ =?utf-8?B?NnZJWk1OdEZHNUdrdWV1V1FIeVRqcDFNMmRDZGJFZ2JBd3F0L3lmWmZOazN2?=
+ =?utf-8?B?TXFoU2VtVUhvS01zTGlaaVRKWExMUEpWcUZuSFh0elM0TjdTS2toL0ZSSDdj?=
+ =?utf-8?B?UUV3enJ4MDFDdlhKRXBBbWU2U0J2ejZsSklmMUt2d0FCeFZBaFBxNzRObU1T?=
+ =?utf-8?B?d0hLdTM3S0VOMUFQK0tpcXVmS1RuNVUzcFRlR2tUT0xWZEVHVzdFUGdqTG41?=
+ =?utf-8?B?dTltc0FmVDliNzExR0E2WUlDTWhMOUFUemhtbklERWtEWHBrZDhnbVY2bXJz?=
+ =?utf-8?B?UVNBdDZqNHBkMzZHRmhIZlFSaEEyWWw0M1JFRExGdXIrUWFWL1J5NmtEZ2Nn?=
+ =?utf-8?B?cmVCUzdUMUVVM010VzUwWVhhK1JZYjlRTTB1S2k1TUxqanhkL1VDTEZEcGJG?=
+ =?utf-8?B?YnpSWkNkMFVCUlZraXp5Y3J2aGkzbHNxRkxUYzNhSDkyZ2g5UDllZ1hCc3FL?=
+ =?utf-8?B?NEJEWXFqaXZiajVSSE5GQ28zNitqWFpZNHhScjE3YXNjWHBNQ1BEazJyWHdk?=
+ =?utf-8?B?Uy9FTXg0TDV6ajhCdnhkaWhWVXNxVld4emw2U0dvSlVLbSttdnpTRG9TNk9N?=
+ =?utf-8?B?ZmZQU2pFRjV0WjI0RjJ2SnlseXRxN1lpYng4NG8wMUxhSTZqbk1KOEJJQndY?=
+ =?utf-8?B?bzVYMit0VlpjWmliWEdSYXpzV3lXMUp4SVJmYTNML2UrZzlHdUZTekx1SVBr?=
+ =?utf-8?B?Y2huekRwaitFTWtMZXFMYzVCQkRicDljOWpEdWVEZTExMUQxMFZLT1hrQXBz?=
+ =?utf-8?B?Z3dMZkp0MWhyNTd5RCtLVmVIWFo0YWcxTUZXUFFlNWEvZDdYRXo5M2FBaFpG?=
+ =?utf-8?B?bnhpaS9TRkhiQzFZZllYU0pSYlZwTndFc0FvVkVhTnNqaTF5dG1DcVJiZDBL?=
+ =?utf-8?B?NTZHZ3Zwd3N5WkVJZkxEUUphY1BmVCtoY1JXL3MyMFRzSWtZaUpTeUJIZ2l6?=
+ =?utf-8?B?Y3B2YXRVenVGeGxtUUJ0VXRyK1ZOL2ROd3VHUW0vTlM1ZzFNcVRKU2ErVUpy?=
+ =?utf-8?B?ZGljWDFtS0U2aGhnRXVuSjNzMzZZTWYwOGg3NGVubkpybmh6YTdzSkZlemFK?=
+ =?utf-8?B?NFpaL2pYc1FWckF0aGFESFZ3cmJsbFpvYTQ0bUIyUHVCZjIzZXpnWUtqNHdS?=
+ =?utf-8?B?VHBGOElWZUhSbEE1eEhtYlQzM3VmaG5iOHNPQjR5cTl3aUVzY1pwL0NFZS9H?=
+ =?utf-8?B?Z0tKZG9YbmxCS3dsL2txRk1wN1BCdWZlNXY0SzlXUDFFemNBRUZFemswMU1Y?=
+ =?utf-8?B?R0RFN0IzTnhTLzh0Ykg5WnJ0clAzbU9LM1BTVWFFWG8rcThHWEFVRnpMSTJN?=
+ =?utf-8?B?bDNpdjcyNUdyWDNOcy9acDdzS3I0T1Z2Z0J5bXBQdzdDQktaMFVwaGUydWw5?=
+ =?utf-8?B?TzFmMUd4aHpwTVlLeHdhQTVsaGk5MUU2aVFiSGlJbmxpU1VwZWZ1cDlxTHo4?=
+ =?utf-8?B?eTNsdGhqejk1dy9Td3R1K3dkN3lzaGpYUmxNajE3bStUVlZKNEV0OWJIVTVP?=
+ =?utf-8?B?Y1Z6YVpMQzBKOFcvaVp3WXBQb2VDbzdqanpWMnBzbGtpbGF6OTVDNkM4c0dm?=
+ =?utf-8?B?TDdGS1ZpQlp4TkI1WnJjUVMrTEVBZjgvQWU3Mk9qOWlKSytlK3BRZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ca9afd5-ee44-4b21-0f67-08de7872525b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 15:42:33.8973 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DC87WjtUr/HKwevRAeOwxqX9UMuFSb0gq7CI3zdvnfhXGt/UW6UPbOcYikKkpqo9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6639
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,87 +140,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5D5EE1DC0A0
+X-Rspamd-Queue-Id: 5A9331DC0F1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:david@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:jannh@google.com,m:pfalcato@suse.de,m:rientjes@google.com,m:shakeel.butt@linux.dev,m:willy@infradead.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:borntraeger@linux.ibm.com,m:frankja@linux.ibm.com,m:imbrenda@linux.ibm.com,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:gregkh@linuxfoundation.org,m:arve@android.com,m:tkjos@android.com,m:brauner@kernel.org,m:cmllamas@google.com,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:jgg@ziepe.ca,m:leon@kernel.org,m:
- dimitri.sivanich@hpe.com,m:arnd@arndb.de,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:luto@kernel.org,m:vincenzo.frascino@arm.com,m:edumazet@google.com,m:ncardwell@google.com,m:davem@davemloft.net,m:dsahern@kernel.org,m:kuba@kernel.org,m:pabeni@redhat.com,m:ojeda@kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:kvm@vger.kernel.org,m:linux-s390@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:bpf@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:x86@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[73];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:email,amd.com:dkim,amd.com:email,amd.com:mid,intel.com:email,collabora.com:email];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[amd.com:+]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 04:01:44PM +0100, David Hildenbrand (Arm) wrote:
-> On 3/2/26 11:33, Alice Ryhl wrote:
-> > On Mon, Mar 02, 2026 at 11:27:40AM +0100, David Hildenbrand (Arm) wrote:
-> >> On 3/2/26 11:01, Alice Ryhl wrote:
-> >>>
-> >>> Well, rustfmt comes with the compiler, and it would be ideal to build
-> >>> test changes before sending them :)
-> >>
-> >> At least on Ubuntu on my notebook where I do most of the coding+patch
-> >> submissions it's a separate package?
-> >>
-> >> I do all my builds on a different (more powerful) machine where the
-> >> whole rust machinery's in place. Further, build bots that run on my
-> >> private branches did not report any issues.
-> > 
-> > There are some build bots that check for rustfmt, though not all of
-> > them.
-> > 
-> >>> But no worries, I took care of testing it. Thanks for taking the time to
-> >>> update the Rust code as well.
-> >>
-> >> I just did an allyesconfig and it does not report any warnings.
-> >>
-> >> So apparently, rustfmt problems not result in the compiler complaining?
-> >>
-> >> Or something else is off here that rust/kernel/mm/virt.rs won't get
-> >> compiled on my machine, even with allyesconfig. I can definitely see
-> >> some RUSTC stuff happening in the logs, like
-> >>
-> >> 	RUSTC L rust/kernel.o
-> >>
-> >> Thanks for the review and for pointing out rustfmt!
-> > 
-> > Similar to kerneldoc and other similar targets, formatting isn't checked
-> > in the normal build, but make can be invoked on the rustfmtcheck target
-> > to check it.
+On 3/2/26 16:28, Boris Brezillon wrote:
+> On Tue, 24 Feb 2026 09:55:43 -0800
+> Matthew Brost <matthew.brost@intel.com> wrote:
 > 
-> Thanks adding that to my cross-compile chain.
+>> dma_fence_chain_enable_signaling() runs while holding the chain
+>> inline_lock and may add callbacks to underlying fences, which takes
+>> their inline_lock.
+>>
+>> Since both locks share the same lockdep class, this valid nesting
+>> triggers a recursive locking warning. Assign a distinct lockdep class
+>> to the chain inline_lock so lockdep can correctly model the hierarchy.
+>>
+>> Fixes: a408c0ca0c41 ("dma-buf: use inline lock for the dma-fence-chain")
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>  drivers/dma-buf/dma-fence-chain.c | 17 +++++++++++++++++
+>>  1 file changed, 17 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+>> index a707792b6025..4c2a9f2ce126 100644
+>> --- a/drivers/dma-buf/dma-fence-chain.c
+>> +++ b/drivers/dma-buf/dma-fence-chain.c
+>> @@ -242,6 +242,9 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>  			  struct dma_fence *fence,
+>>  			  uint64_t seqno)
+>>  {
+>> +#if IS_ENABLED(CONFIG_LOCKDEP)
+>> +	static struct lock_class_key dma_fence_chain_lock_key;
+>> +#endif
+>>  	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+>>  	uint64_t context;
+>>  
+>> @@ -263,6 +266,20 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+>>  	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+>>  			 context, seqno);
+>>  
+>> +#if IS_ENABLED(CONFIG_LOCKDEP)
+>> +	/*
+>> +	 * dma_fence_chain_enable_signaling() is invoked while holding
+>> +	 * chain->base.inline_lock and may call dma_fence_add_callback()
+>> +	 * on the underlying fences, which takes their inline_lock.
+>> +	 *
+>> +	 * Since both locks share the same lockdep class, this legitimate
+>> +	 * nesting confuses lockdep and triggers a recursive locking
+>> +	 * warning. Assign a separate lockdep class to the chain lock
+>> +	 * to model this hierarchy correctly.
+>> +	 */
+>> +	lockdep_set_class(&chain->base.inline_lock, &dma_fence_chain_lock_key);
+>> +#endif
+> 
+> If we're going to recommend the use of this inline_lock for all new
+> dma_fence_ops implementers, as the commit message seems to imply
+> 
+>> Shared spinlocks have the problem that implementations need to guarantee
+>> that the lock lives at least as long all fences referencing them.
+>>
+>> Using a per-fence spinlock allows completely decoupling spinlock
+>> producer and consumer life times, simplifying the handling in most use
+>> cases.
+> 
+> maybe we should have the lock_class_key at the dma_buf_ops level and
+> have this lockdep_set_class() automated in __dma_fence_init().
 
-Awesome, thanks!
+The dma_fence_chain() and dma_fence_array() containers are the only ones who are allowed to nest the lock with other dma_fences. E.g. we have WARN_ON()s in place which fire when you try to stitch together something which won't work.
 
-It's not relevant in this patch, but another thing that may be useful is
-to add CLIPPY=1 to the make invocation when building normally. This
-causes additional warnings to be checked using a tool called clippy.
+So everybody else should get a lockdep warning when they try to do nasty things like this because you really can't guarantee lock order between different dma_fence implementations.
 
-Alice
+Regards,
+Christian.
+
+> 
+>> +
+>>  	/*
+>>  	 * Chaining dma_fence_chain container together is only allowed through
+>>  	 * the prev fence and not through the contained fence.
+> 
+
