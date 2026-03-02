@@ -2,140 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yMzxGRWdpWkeGgYAu9opvQ
+	id qKFHI2GepWltCAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:22:13 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:27:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF13C1DAAD1
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DCA1DAC1B
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 15:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873D910E514;
-	Mon,  2 Mar 2026 14:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D960510E515;
+	Mon,  2 Mar 2026 14:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="FjQt8473";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cpdhu6Jj";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WjGuT2dc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CWXP265CU009.outbound.protection.outlook.com
- (mail-ukwestazon11021141.outbound.protection.outlook.com [52.101.100.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A87E10E514;
- Mon,  2 Mar 2026 14:22:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pz5DLkFX1XACc44yn3qsQvVwSM9R0o5p+QaYIoqBIeZBgJmbihseeLwdRBw7LnTJoDkrm1d7qHDrqDUp2sdDpLiV8N1F7cTUgB17+FasYw3e6WqQE2HxE084F431jTzcRbHhCs5J4Uu6G30durReeEnOrPJSP5MBosMfJJJhcvDAOVqEvCYQH3v0tFp6nEL+N/MU6n8dDEzamAWxTSToXsGCjUuCaRYzgbq2VGNg8nST1BVpth4eZG50yTyyAEnzyYOico+P3mO/diQxrTXI9Cu8fETZj+Xxq4ASmsoGXNiLTr01D+lRfumsxZ5RCsYnihKTM9Ul6ORTqo+czIuSzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FH37/dX7fC7t2dcYlnv48tx6YtJyd1anLiqGF0o46SQ=;
- b=Ymy9tvAlZikjLGPhAAf9xQWX9tLVekfxet2ThiuycS75ttWoGQ0n5/N2LLCklffkWFtrgNwDpB3x7yS64SKrmjLIcscFPNB5cReJVWnwRCDDfs3J81kG2cKoYc4MvCIoCsdNqfrWtJIhaUsA6wuwHjnS3aR/XIOU9HLl+kqEnMtDRSODRbSN9fLIC0cUpJehWL1+xorvlORXJXXHA/7ORGw+/7+OtomtSKilPQjBxR7edsvox1vGs2bF80n2QSTvKRPp/Yn4+5f9fg4wGHh/PETZoAnnitTO5AzqCA1yGxoU3BvP5DCV8gK5gjaSF8vgPH5YtTZ6WoOuZdKHD+Ov/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FH37/dX7fC7t2dcYlnv48tx6YtJyd1anLiqGF0o46SQ=;
- b=FjQt84737nz15h0wk1lZmhIGYVZlTkEK6eMsjx+oTJPYecp+Nhk1Jj/ElevgXBxkvHMgYBaIG1bYc5ifRfNQVqBSeMUdZgSVzqQlN8BqzD104aleUjvBRwBjBjwQKizoMRJYWjkDntzdmCyOw5tnkCCUri74cK2e2ltwL+ttYfg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO0P265MB6727.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:30d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
- 2026 14:22:05 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 14:22:05 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Mar 2026 14:22:04 +0000
-Message-Id: <DGSD3NICC14Q.9NRO7N4YCRAH@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>
-Cc: "Zhi Wang" <zhiw@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v4 7/9] gpu: nova-core: gsp: add command_size helper
-X-Mailer: aerc 0.21.0
-References: <20260302-cmdq-continuation-v4-0-c011f15aad58@nvidia.com>
- <20260302-cmdq-continuation-v4-7-c011f15aad58@nvidia.com>
-In-Reply-To: <20260302-cmdq-continuation-v4-7-c011f15aad58@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0479.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a8::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5F0210E515
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 14:27:40 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6229EwfR3630902
+ for <dri-devel@lists.freedesktop.org>; Mon, 2 Mar 2026 14:27:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=rCoit7n/E97O69RwfnYeJCNG
+ G+VE0LvE/0kxXvBG0b8=; b=cpdhu6JjgYiJRgbzqFI46OD1KIQgm6Wn+T4osLoG
+ nRfy9rze7BVGINse+spHgxDV7Xy/yNyzauSsFItObbyhoncdpoNWvblwPHRz7Uyu
+ t6RLcl7QXAMvUV4w78x4G/NEnMPVfCBCee3WvUPgXwdoErI7DuPHHBKDqcIIyX0F
+ 9aFdQEmyqb79hQBAMCPcXwRW02qHDYYWtueicwPrjDVE6DipbICzqpcA7M/oxOzF
+ qdeMkS7DoyKi+dHDHN3/UW+tBCF4p98QVBaXl99USW5STxOUdBfWS4/9QawtVVgb
+ XRuHz4pPIhIpwIN3coTA9UauALTo3wcycLv5eJ8LrPTMRA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7rhryv9-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 14:27:39 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c70e610242so8714685a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 06:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772461659; x=1773066459;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rCoit7n/E97O69RwfnYeJCNGG+VE0LvE/0kxXvBG0b8=;
+ b=WjGuT2dcMeVhGSb4+JXg5SgqU8UBCEXPkJDhKxhdwyCAzUCQndxXPFuOJM7k/YLRVV
+ N7TTr7U/GYMwgX/QvnlA1ov6X6wshDE8++OfyKCsM/KQb9SPYubTEK6q+2OtautfPfUH
+ 1WiNznTS/USvCnQAE/wU45tpCEkxzYtZ1I/JHVIoEJTY0KLEh+ko+97xBJto/k8mGfZ9
+ 7VkJoh0nFdWsKAQz5d3CsMTb20eFP5XAJHyfts78iQVk06nAtB5UidLRsipLjuQktFCu
+ uKZP3/Hu+vAZYNm2hePXZOGkE4ienx8Gm0GYmY9s64eUEvNQxijEYZ0KSxp6leIfYWl7
+ Ka0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772461659; x=1773066459;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rCoit7n/E97O69RwfnYeJCNGG+VE0LvE/0kxXvBG0b8=;
+ b=EsKdK4QIOF05HqUp/R5Casg8QP3YRqOsJiAGAz6s+vjm2a2W8evW0r3QPPUm5mNcMW
+ XyU3Ipg7M9x0o3S9gr+GPxUOeWxbvLJA0Vnq0ed5pg3vUa2egZeisBtwb0abSxJxEtec
+ DwRavKmXOJFNc4JDvjq4jiQ+GUwtf2tCli6mszDqJNgW224aLBEpgYoSO8YXiOk6c30Z
+ TzU8MmaWbgcci0jZ0kEBJBt8YjZbTKnMT5ZeSb4ukvjtLq0CsI/+uVozkjrihvlql47J
+ KUNREkarawUXddT7Wf5/8Jbeey7ENUBuUaUPpMUNE4LtZhhbvLh0LumhOG84VQgmiKY1
+ dLMw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXGOGcet+QHximIosXkRp4br5P5nmtnBcckiuwRPjZdGcOTQHY4Y5G4Xks66gAa+bWyBVyZE8JlXRA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh30Q6Qu1u7IUZNy8K+/WaJlz4Z8VvpW7vIbTcfnNANRBp2mTK
+ qJNAUdJiivMxGToG5FIi2JZD7Xtf3Kw4faHvJtPnBNml6FWSuqrmzp5M0W0JteOnrpOETqvRDvk
+ Q0kiIdaSKqr6ojFOJ64Y/hirc49nq8Pip6v57RJdwLq5r2v5evT/Ol6YRgn6hptCltUGYamU=
+X-Gm-Gg: ATEYQzwlFpQAfBcqYA54xd1zXiGuGxmMnUhtd6Caq1shxdNfxfnDkk6aCxKK5sKfX6u
+ j8IATnN+Tm1OJKYMdFrqIrescahrPhyUg4hyGySTkfONqo3npB+C7QQvv/zFCzg7zhVIaTBBXG7
+ 6cV3M7Bg8agn8VGwBprglUTiixND32OWfXaWQ6MWt7ZzVHKU28hCX4pxZGK2nloGpZAEuj1oIIY
+ sFdvmDdSBKc29TxlMUM+W+GUhXJ2fPx6VdRyJdUWQnAG2jQPnzxWCPNyhI702tah3OS8DHQxtkP
+ Nwr9r+b2YUQsEjEW4TN4kBNg/MOAWDt48ZWb0XXzfbA8HhhjslPbT0JDYWmHZ8cTdIt0ItiGIPV
+ fq1IxnH/r/u+/DEx9+RdCbCHL493PCVLv4ozvcLZpdx2FZ38nByIt4WOo0bBdwxUq+2S94jGLZP
+ XimcGyJnRWjG0JI3m0+4uHhs7ASU53D/6XU9Q=
+X-Received: by 2002:a05:620a:4892:b0:8b2:f9ac:a88b with SMTP id
+ af79cd13be357-8cbc8da87eamr1602992185a.21.1772461658842; 
+ Mon, 02 Mar 2026 06:27:38 -0800 (PST)
+X-Received: by 2002:a05:620a:4892:b0:8b2:f9ac:a88b with SMTP id
+ af79cd13be357-8cbc8da87eamr1602986185a.21.1772461658038; 
+ Mon, 02 Mar 2026 06:27:38 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a11771e36dsm1546141e87.78.2026.03.02.06.27.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2026 06:27:37 -0800 (PST)
+Date: Mon, 2 Mar 2026 16:27:35 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: yuanjiey <yuanjie.yang@oss.qualcomm.com>, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, krzysztof.kozlowski@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 1/2] drm/msm/dpu: fix mismatch between power and frequency
+Message-ID: <5wbvy257s553jyqzgqacfxhbeqgkrqui2yspqwjh2iyiz6ljoy@olo4l2kbrcjm>
+References: <aWSTcI6H6+7AXkEN@yuanjiey.ap.qualcomm.com>
+ <CAO9ioeVrQ_TfU5-auxNHG=dL8VmeWtBaC_NE09UECodkYrFv-w@mail.gmail.com>
+ <aWSv+kVV3G18I/NJ@yuanjiey.ap.qualcomm.com>
+ <e5ebc660-e30e-4fcd-ace6-5a6c889e9a8a@oss.qualcomm.com>
+ <4g6fyehdc3fejx3pzeysmghigazfei3jz2vmnvxrnqkkbtbxdb@bdlcddxlvbhl>
+ <cb22367a-678c-431f-9f52-33663f4af9d7@oss.qualcomm.com>
+ <jr4h4sx42dbxpknm5nkgj7ydpkivm4nglfz7ui4bjpom7wf6ub@spqb27d3ov2z>
+ <d5c4eed5-bd87-4156-b178-2d78140ec8a9@oss.qualcomm.com>
+ <w4ldxcxvcp3fz7u2zxyyjiii7lsrnoa2l6amzwpsn5a63yzotm@iawh6btqtf45>
+ <b230815b-e169-4a3c-8c36-154deaf66afa@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB6727:EE_
-X-MS-Office365-Filtering-Correlation-Id: dba252db-7eef-4b30-58b7-08de78671446
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|10070799003|366016|376014|7416014|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: i+X26pcz7EQjBAtAJaxyEeNwZEBKGJADExefvUUNMzSiqzOrlJdzse0xUhbBw/hlb8KgV+77DPppH+GtngAPSUCLL6gx0NKH2f8vQBBApnN6An81vXz63wdXvr6ILW517Obf668RIaRnzR14XS2dhsv4zpgz9UqE7zQXnMQmVxIm/T1w7oAjubZ9Mx/HrnzAL7LZF4UG793EMOTw9gIKJJpTfANC5a3wONTys6veyB33yPtluhfsQNXPr3DN3FKLHguodI7D9X4NEHFsy4pgboX5aKbkZuJRJE045p8Yr302pG8sq9kq+LjV4QDX/fL/5yMOuB1Oa5wOkTYkwzwyE85Gd3qklFIP3XhBJv3b5lN/g6GGzUKbxDFposb5UE5QZ/NNLj8Q7yYF3E0FHfhQzXtYgyr/WNCTIyfZ3uy5U7L6+lBv8YZEIE9YZk5lCqYA+E5znuYhLYCDAyyF+MLhYRJ0CHvtowVLjUS7Gy5G9+NU+M0/h6vntZeEIXCUCT/1lfmDMGF0pevpPnhM/iQFCw1F7wCRL9tN9+fchHb3Wa2pUafF/TvGG2G5blUaUhGgcMQdFr1qtNZKZvcILWFVmT0oFmNzbkMfCWwAq6FRC4Nr36uIfOE9Tsa21SkdBUAbh6RYulgEof+IEz1eVP0cJGDh98DHlg+7STW8e485ch1MQtvlQaogG71XkJZR98WQxHUO1W6crIj0M1ePtLZkf2x4zwdmPzr15SGAku616eMZKCw7POG1/ox65YnEIZXpfAOVaUgsA6e3C6aLUf0Bfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(7053199007)(921020);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWRLS2c0UWhrc3B1aVptb2VrRGVyalFIOFpURVl4TVBGeG8waVYrL09vc2RV?=
- =?utf-8?B?NFI0Y3FsWmtkYTBiTG9iVmY4R0svbjRmUUlLTEFuaE1OdkZBY3lXNFNlczQw?=
- =?utf-8?B?dGZ5NjQ0MTB5YXdkRU9MNC9WN2V1Vlo4RUVndmVyeFZyanJkQjdhdXJOMytu?=
- =?utf-8?B?WktZQk1MRnd6OG9aaTBVb2JsNnBvcEpjS2RISVpnaU9NejFuemZlbm54Snlq?=
- =?utf-8?B?T092OWJkdkg4VFVnT3BoZFdOc3Q3VkNNQlpvTG1oalM4amM2U2xkL2Jzb3ls?=
- =?utf-8?B?MlNpTUFsU1dZWmVHQ3ZmdUJ2bFFrUTVnOG1kMmRQbU9ZcVBkcllaRXVaWDRT?=
- =?utf-8?B?OE10bk1ZdGxkZ1UyaEV6Sk52L25rOTJ3UHJzV0FSa2wwTWVtVnRRZTlkb3d3?=
- =?utf-8?B?OFdUYTZKd0FoSi9IUVkwZEFpaWYwZGYrSGVFam5QaFlIYzd2U1ZkQ2JubFBO?=
- =?utf-8?B?S3BlVkdvRTlDSTNxdVFwaVVoRTRKNDFyaGQ1OUpaQTZPTE5naThNY0dCSHc5?=
- =?utf-8?B?dUx4c3h0dDFRL1FhOG1pREgrNUZ2WTJtSWRWZ1Evd2lVdFNVLzFKbWxCS3Jz?=
- =?utf-8?B?MUozcUlzVnozM1lCUU1BQ2Q0YUFnWlg5aDBlQUZXdmR6Q3phc2tlMWZCUk1X?=
- =?utf-8?B?OUFYeVl2TlFFdGtOWjVHeGZKTVRPeGt4djQrdlFFcXJLSmkwZVRFbXFkdkgy?=
- =?utf-8?B?SGViVi9NaXB4U0J4UnM0SnRzTmUyaXFYV0dnWW5pU0Z6ZnR1cnc3VlpCTGRF?=
- =?utf-8?B?T0NyenZncGhLZmpuWlQ4N1B6OG8xcVJPQVRjMXFmTXc2cmRGY28zNUdBY0NW?=
- =?utf-8?B?MVU0QzY3N1pEOC9zRXFIdEM3MHBFM2NwdEFZSXl2elYvaFRyY2M1SGtXdHdu?=
- =?utf-8?B?c1Z5TUZ6VmxMUU1SbkF1V3N1eHB2Tm1NVWdVdVZFb1czZk15YmtDTTdQcE5p?=
- =?utf-8?B?MjBRRkRiV0k4bVRoWThCeFplbmV4WVdHREJSQ05KTTBMTGllcWh1MXloV3d2?=
- =?utf-8?B?NlNud2dFWEZFbHpQQ0NBWEcrb0QzbmlkMkQrM1FpSXNlSEVhV3JaWHNURGNZ?=
- =?utf-8?B?ZStTUHRySmR5WkNQbVExZC9JbXdwRmNJUnAvMHJLdHA1YWRldlVIYVJkenlM?=
- =?utf-8?B?UVQ3MnRjdzJQSEFGTGhRbzYvYjlRdFVDaXhMT1pTMFgyek9sKzZWd3BnVmpm?=
- =?utf-8?B?QmFFdFE4YXVCYW9zREhzeExGRVZpcGVnSDNDcndwdWM0SWRTVzE0U0tyM3JB?=
- =?utf-8?B?UGluTHNOaUdRdDhyUmcvbTAvTXRnZExaK2FJZ2hVU1pRMjhqSlJNYW9nRHpM?=
- =?utf-8?B?UlJQM3NtdThtd0s4M1FVSWp1azRFS2RhTmZJUkU3ZWlXdTJGR2JaS296bVEr?=
- =?utf-8?B?ck1ObFlyMDVoVVhkZnNwSXI4TVVLZCszS1RWV2UvcDFxalFRc2l5MTRLNU01?=
- =?utf-8?B?V3RueS9VUVlEMHJjNlEzSmI0SmtNd3ptaDhDSWlaZzlCMjB0U0xFRG5Ia09Z?=
- =?utf-8?B?aDIvVVZ3a2pZbU9CU0oydXNrR3hhUjhpVzg4Tm0yVkNkVFJvNll1RWtpbjVL?=
- =?utf-8?B?RlFtT3dJV1RieVZDeFFuRWNvL1RRRDRxZXhmMkFrdVRxTHZ5ejBrRWUrRFly?=
- =?utf-8?B?ZzdLU0owT2J4WCtnb0ZhdnNTNGVhU08rSVVHYWlhSzZ3UW4zOEhxbXhkaFR3?=
- =?utf-8?B?ZVJpbGV2Vk5jbkRQWkx6d21TUU81VmZKQmx5Y25FVFJBVDNqYStPOU1MRXl6?=
- =?utf-8?B?OFhXdkdpNjZZdW9WdklNTXIxeDNpek0yczJHTWZJYytGV1kxTDF4Y2pEYmQx?=
- =?utf-8?B?ZGNacUVJS3ZzUG41cTM2SjVHUVE3Mmk5R2Nvc0tkbG5FOUZDS01ZblRQeFdI?=
- =?utf-8?B?Tnh6a09DalkySzdxMkZVcFNURU1aejNYeSsvUlhuOStmK2k2bmFpaUtPMVh6?=
- =?utf-8?B?cVZSWndlS0VOcDZrdjRxdlhJZk41b1VjS1VTSFM2eWNqbStobHFkN3p5OEN3?=
- =?utf-8?B?blNlSUltbUcrdmhjaHQzMXFwYURqZGpQSTBMRmUydzVGMHdrUE90YVc0QXd2?=
- =?utf-8?B?OG5xMEY1UDBsRjlwcHlnWEc2R2lVUG9wTGJzdnJiaHJiQUlKY0RkdjI0Q0JC?=
- =?utf-8?B?ZEVFYThOT0ZKcGd3NGthMFY4RUQ0L1MrM2Q0TW9hbkttbTUvTzY1R1g3bWpT?=
- =?utf-8?B?ZXllU2w3NGg2enRFNDdBV0loRVY2WGFSUW1COENSUFJqQXFNV3RvdmVhYWFz?=
- =?utf-8?B?aTgzdVU2TCt5elJvbjlpdDdsdlFMNW1YUGpoQXozTlo2TnVnWVBueElCZE81?=
- =?utf-8?B?S3NGM1R1cE56aDRmZEZlVDIrb2x1eC9ESm8raGFuOEgyOUN1WFhJZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: dba252db-7eef-4b30-58b7-08de78671446
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 14:22:05.1428 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FQDSAs+NK13sFlnUm3jAkUQlZfuTuapzQoRkZa0SPri77mcH0R+jPD/hvxajKgl6Afjr7xpZLfLhAymeH24KlQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6727
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b230815b-e169-4a3c-8c36-154deaf66afa@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: TSeLjSO-cJ3LG7oNHFeQruv8ULei7ty6
+X-Proofpoint-GUID: TSeLjSO-cJ3LG7oNHFeQruv8ULei7ty6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDEyMSBTYWx0ZWRfX2WfSnrI50KZn
+ jjyRCeTz15RPHsiUmoR0B5LMXiXVX5GA6VCR0gTp0IlAdkltfmsebk0dD8A+yoXaNL36VG5Ngf1
+ akInVeAqgvV6foqgvL5a+UDHr2pF9vfZLYh3NWFStw2ganV0Ga5bRxKU7jm7M9wArK+pW8Wr6Ty
+ w0zfLqx4OjPQeD1Z0nJtFnevLiMcNvScIT5VsuMUsCLj0+C4UjdkZc/V+Z5wCrhURuvJcLOoPP7
+ FxBX4vlfkoz++6ELLRW47GIuv0HdPPwQBwB3VOewy1iu3TM1Q6z/E8yTScsi7RchBvk6YnAhEvD
+ cdAm1cm19+k3NkbJYie2X+pg8cKt5xibtJJqjX1UYS9eYfBG46oKkhMW/zyB4kn600dEDelE63m
+ 62yrYWTeH3AjXFwAsPusI8PKdXGf/2ssQ+PbnDFE7kDE/ABDJPY572GG+KhJ5L3SVQucCEU40OX
+ /C/IF3Q6ry+5MWO2fXQ==
+X-Authority-Analysis: v=2.4 cv=cLntc1eN c=1 sm=1 tr=0 ts=69a59e5b cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=pGLkceISAAAA:8 a=SfF2JtedPo7efatZud4A:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_03,2026-03-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,83 +157,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+X-Rspamd-Queue-Id: E4DCA1DAC1B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linaro.org,vger.kernel.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:yuanjie.yang@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzysztof.kozlowski@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:tingwei.zhang@oss.qualcomm.com,m:aiqun.yu@oss.qualcomm.com,m:yongxing.mou@oss.qualcomm.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.995];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,garyguo.net:mid,garyguo.net:dkim]
-X-Rspamd-Queue-Id: DF13C1DAAD1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim]
 X-Rspamd-Action: no action
 
-On Mon Mar 2, 2026 at 11:42 AM GMT, Eliot Courtney wrote:
-> Add a helper function which computes the size of a command.
->
-> Tested-by: Zhi Wang <zhiw@nvidia.com>
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> ---
->  drivers/gpu/nova-core/gsp/cmdq.rs | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
-p/cmdq.rs
-> index 9f74f0898d90..4a663a5b3437 100644
-> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
-> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-> @@ -450,6 +450,15 @@ struct GspMessage<'a> {
->      contents: (&'a [u8], &'a [u8]),
->  }
-> =20
-> +/// Computes the total size of the command (including its variable-lengt=
-h payload) without the
-> +/// [`GspMsgElement`] header.
-> +fn command_size<M>(command: &M) -> usize
-> +where
-> +    M: CommandToGsp,
-> +{
-> +    size_of::<M::Command>() + command.variable_payload_len()
-> +}
-> +
+On Mon, Mar 02, 2026 at 02:46:33PM +0100, Konrad Dybcio wrote:
+> On 3/2/26 2:28 PM, Dmitry Baryshkov wrote:
+> > On Mon, Mar 02, 2026 at 11:41:59AM +0100, Konrad Dybcio wrote:
+> >> On 2/27/26 8:05 PM, Dmitry Baryshkov wrote:
+> >>> On Fri, Feb 27, 2026 at 12:34:04PM +0100, Konrad Dybcio wrote:
+> >>>> On 2/27/26 4:48 AM, Dmitry Baryshkov wrote:
+> >>>>> On Thu, Feb 26, 2026 at 02:35:52PM +0100, Konrad Dybcio wrote:
+> >>>>>> On 1/12/26 9:25 AM, yuanjiey wrote:
+> >>>>>>> On Mon, Jan 12, 2026 at 09:38:41AM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>> On Mon, 12 Jan 2026 at 08:23, yuanjiey <yuanjie.yang@oss.qualcomm.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> On Fri, Jan 09, 2026 at 05:22:37PM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>>>> On Fri, Jan 09, 2026 at 04:38:07PM +0800, yuanjie yang wrote:
+> >>>>>>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
+> [...]
+> 
+> > 
+> >>
+> >>> 1.1  - MSM8x26
+> >>>        Probably Luca can better comment on it. Should be doable, but I
+> >>>        don't see upstream devices using display on it.
+> >>
+> >> Because there's no iommu support for these
+> > 
+> > I promised to put it on my todo list, but the list is very long.
+> > 
+> >>
+> >>> 1.2  - MSM8974
+> >>>        I think it also had issues, no IOMMU support in upstream, etc.
+> >>> 1.3  - APQ8084
+> >>>        Had hw issues, no testing base, no MDSS in upstream DT
+> >>> 1.6  - MSM8916 / MSM8939
+> >>>        Can be done, low-hanging fruit for testing
+> >>> 1.7  - MSM8996
+> >>>        Supported in DPU
+> >>> 1.8  - MSM8936
+> >>>        No upsteram testing base
+> >>
+> >> 8936 is 39 with some CPUs fused off (unless you have info suggesting
+> >> otherwise)
+> > 
+> > Hmm, you added 8x36 to mdp5_cfg.c, stating it is 1.8. See commit
+> > 81c4389e4835 ("drm/msm/mdp5: Add MDP5 configuration for MSM8x36.")
+> > Author: Konrad Dybcio <konradybcio@gmail.com>
+> > 
+> > Please remove it from the mdp5_cfg to avoid confusion.
+> 
+> v1.6 is strictly for 8916. 8936/39 both use v1.8.
 
-This could just a provided method on `CommandToGsp`?
+I tend to agree with you. It's interesting that core list doesn't (and
+likely is wrong).
 
-Best,
-Gary
+> 
+> >>> 1.9  - MSM8994
+> >>>        No upstream testing base, no MDSS in upstream DT, normal CURSOR planes
+> >>> 1.10 - MSM8992
+> >>>        Even less testing base, no MDSS in upstream DT, normal CURSOR planes
+> >>> 1.11 - MSM8956 / 76
+> >>>        No complete display configurations upstream
+> >>
+> >> +Marijn, is your computer museum still running?
+> > 
+> > Should we open a Qualcomm Virtual Museum?
+> 
+> Maybe someone has a drawer full of QSD8250s!
 
->  /// GSP command queue.
->  ///
->  /// Provides the ability to send commands and receive messages from the =
-GSP using a shared memory
-> @@ -526,7 +535,7 @@ pub(crate) fn send_command<M>(&mut self, bar: &Bar0, =
-command: M) -> Result
->          // This allows all error types, including `Infallible`, to be us=
-ed for `M::InitError`.
->          Error: From<M::InitError>,
->      {
-> -        let command_size =3D size_of::<M::Command>() + command.variable_=
-payload_len();
-> +        let command_size =3D command_size(&command);
->          let dst =3D self
->              .gsp_mem
->              .allocate_command(command_size, Delta::from_secs(1))?;
+Only APQ8060 here, but it's not even online after the reorg.
 
+Anyway, I assume that we have something alive and kicking for:
+- 1.1, 8226 (currently unusable, no IOMMU)
+- 1.2, 8974 (currently unusable, no IOMMU)
+- 1.6, 8916
+- 1.8, 8939
+- 1.9, 8994 (almost dead, I'd say)
+- 1.10, 8992 (almost dead, I'd say)
+- 1.11, 8956/76
+
+It seems we can ignore (or drop) apq8084 (no activity since Dec 2019).
+
+Already in DPU:
+- 1.7, 8996
+- 1.14, 8937
+- 1.15, 8917
+- 1.16, 8953
+
+Which means:
+- port 8916, copy for 8939 / 8956/76 and hope it works
+- add LM-cursor support
+- deprecate mdp5, possibly moving it to EXPERT
+- add 8226 / 8974 once we have IOMMU
+- drop mdp5
+
+-- 
+With best wishes
+Dmitry
