@@ -2,102 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLbJLOFCpWkg7AUAu9opvQ
+	id 2HypEMlDpWkg7AUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 08:57:21 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:01:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207C31D437B
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 08:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50CC1D44C3
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:01:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5A710E44A;
-	Mon,  2 Mar 2026 07:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B6C10E139;
+	Mon,  2 Mar 2026 08:01:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ltY5lUjE";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AL6GKTKo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A9510E44C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 07:57:16 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-439b611274bso438456f8f.3
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Mar 2026 23:57:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772438235; cv=none;
- d=google.com; s=arc-20240605;
- b=hCil2vOo2Yqc38ktmA0jCQFV9k3Yb3z5JcM2Pm95XRUX7alQ3387t913cmP6zfBdut
- SHww3HTcD3r4VfAo6mlGM/wQ3Hry3OWGzBXlCo1ouzjRCmuzVbmPejWy8FjJlpE0VLUG
- RSbTGm3aZWJDEARkmQsqkNsCt8jsVre2kJGxp4uEVTcozDREtseKFs/o7Yf/IAOUYMxD
- jSihy8oA3mMwllmu4WfUuQ72ATLtDcaFDYtfrU6Q1kQQjfFwPZsKtRHumPKTfu9sVam/
- gPcoYRmOzS0sFNR9ANrRf2Xlq7Nq67IybQSupaIX+86B1y5H1wxK4Fh7TGhX3WTz2Tj1
- D8zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=it6CBEYGUxeKU7qPZhmd/t1y3gj2Uad+roI49skbLD4=;
- fh=yU0WPAS4XI+F+gmdTFUI+zk3cqgWcranFmafFxMsQqQ=;
- b=doiNDzLVqVK8mUswClx+FRDnRoifJzmVcFouA/uoBLaj6ZKqQ34FwB1kwOnJNj33r7
- kbfmwQ1DkIou/gHm3eOFkJfx9bvvUgqjthUb9mR9pcIb99g/papcbo0XRPKvYzANddCp
- s5t0kYs7U/l0ga/llxynh/uN1o3LEI3stz8cHBrpYR+6gp6SrNpKANBe9jhqYFGqLBYo
- uuJ72vbhnO7rnGd3o4UcWW2sBrBhHRurNo8D/cF8rHt0o8UJRY8DyS2J3aj0Uwqyc/wh
- CAe4WQqCB/NPhOjlGXPUilL5ZTKRPJDI9upNaiROJsCNARHfsMDPqmKYAvxqJw9F3SHi
- qxew==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772438235; x=1773043035; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=it6CBEYGUxeKU7qPZhmd/t1y3gj2Uad+roI49skbLD4=;
- b=ltY5lUjEWJ1FvZnqJz1O5Z17w1oPOVL9YZW2XZrCn8kLGHMt209oDNgJZVcS3Cxwnv
- doZ/A/cAtq08KPkdW6R0L5ht7bhIxGLhiprbjcYpDrWPdEvB6f5akRssuNsK/ka6igBN
- KKpvmqSbh7dRriEqcGOmru+eWL1eidxpZRSy+FtbsOQoTovhcJZlkA2H030EU/WgDC/J
- NuRLHPeGAvAcPttFL5XlS9XGlGQoClMJuGIZek/C5hqXSGZTPYNxqYpupHWBUO51QmTy
- dMcUttSszt3yF04RlZhTX8ZCKDteuMKPNtZ62HJeiDC6u7fXpj/iZmjYIIgG3/aNjoCx
- OxWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772438235; x=1773043035;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=it6CBEYGUxeKU7qPZhmd/t1y3gj2Uad+roI49skbLD4=;
- b=WlrE5mFwrykVKknywewxwaBk40Ba5Hzd95IzoPs5Sr0sJ/XJDxZ7tzaAMi77DPaQsK
- uZ82RRAIogIzcZ6QizZ0sBphdna8ZfsxAH+QtRHLxYVfUSJC9nAveB3/eElCHS0I8sP9
- 0gpmhhOViLmYr6Pu/vadPDx5GGpdyZ4+eL0RKZIM0BUPGfMJ8rk8t2lW+ZpnlD5GNQZ0
- pqgZI0Fgv5qS6StjCxWZQaYVB+DPt+c1ZJDKeXdgCCMhgb+KXAeKn08Uk6SndLIBoRF+
- vcCsFBu4P0eE84eW9SKPKvSAs6tpGrR8LpxaRdtXjCDG3RRKY5xXe8OVJ5Psi9EhPNpM
- SRSQ==
-X-Gm-Message-State: AOJu0YyhfRkma1/ishkWtYCJc7Mu1evqhCmK1ucN4f9fh96cnNLuSx8R
- hfFuRLyc5G0yCfGnod4wBPgDEDUSQ56HbvgF8apRuOJVe78BsCqF47TVAel4z6k/rYiiIIaZ7Dc
- blNSI6ONUNy1UuwV0pn4l+d2ejE5CqqY=
-X-Gm-Gg: ATEYQzz4FXn2IKoXpRqUkCu0MQVH5zjcAGqoDo41bW4Y7smr7K5+UrdfWRY++lTFxBP
- cx3wNdSyOZ3gRabuxsuu9ecDVUtbsxKOEcjiLL89J9i2x+gkLFu8lIDIrIRqR7aOcrs/3j7MivH
- F/Gk/zG2Dff5qrNzSUfWBlzOAOE3wkXuKpWpTOChBn7ZX81ikhxcYEEBnTt/Iwr7ZoeiZ55ttgd
- cOc+6VESmSXJg9YTO2OeIpg+celxXCCN7mHRE4DP/ck9FEGzb0r5VvCketp0f+seOxIBSkjtYI5
- rw83uweH
-X-Received: by 2002:a05:6000:290b:b0:439:8f32:8668 with SMTP id
- ffacd0b85a97d-4399de3a727mr20452034f8f.58.1772438234867; Sun, 01 Mar 2026
- 23:57:14 -0800 (PST)
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013014.outbound.protection.outlook.com
+ [40.107.201.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D614110E139;
+ Mon,  2 Mar 2026 08:01:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LzWFQWaxPB0dy+F0uHDr2fo3eA4Uy7av2UOgIFb4Vv5SQmjJFhX+eQKsJRWM0b4FqDId9+HMdt40gXvQX7OsARIc8GSD8xIr33i5qYG1jaCq/x5xeFdhfXaqB8UOBGVAacXC94EKHmm/mw91DtNL8zBD6SjQZYd6VTssXtS8QEiHnqxRH4DGrCb/UIi0cf7hg3ihmCIR29ecHJ1b0pX55zo2l8P4f5s0CzS/sabetQ0XDSFX4kh9nzpamMECpFE2T8zvikkWCURB0ECdk8UDtmh8JWhzKGJpasNg6AgYN4MGV8qi7zK+9tni2EzTvs9cnBXFRtOOhYsn0JQ2YTYm6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xdCA1/ceY72bOPC0AAspQufF5bY+Yw9feN27Qk8WyaE=;
+ b=FcRGPf2w5X4EALP9yDbaT9u2CqSZrPYUh9D7gSVCt4F0+i8O0jkX9ovOIbOVo32Ipi2xICm/EGQGwbm9gTZTtJhRml9GumlGkX2zzLnyM0Gl7fp1L2+n+5GU3jv+ZPxtlnN0WaEieWwi/R6ECNjwhb2kwRl13hQ5FcWtNFHDZw4mjEcmArvJIKPcFSlRg6tuHXERAiax3nhsuZ24q9RmwoCvIYbHWvgXHYNggLwkRXg6gcAqR8tb31cVXc+Pt9sE1q6Vt9cgcnFaMkr+qgO0MfVZe3mRKF+1N/xpiXBx382KtkCfGZTwubbX3VlFedDa8SmB4IPSfuM6dc1sa/Kscg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xdCA1/ceY72bOPC0AAspQufF5bY+Yw9feN27Qk8WyaE=;
+ b=AL6GKTKonLPUfkWiGANamkteX+Envir/v11qzSM/Mhq8Oz+mTDQd/h7ki5f6ZV0fNZC6iyc6IlSYQYipeODqx/XngsJNoajzhO9njmf97BR8WglS+dCUXWC3nwBTWeOWPPpRypyOAlFpWSGNf1weXiMzx3mvY5Z+d4CyNXMd0prdb8tmho2F168K4JjvjIkb4SIPmBraV+ZH6N32SA/26cUobd6tFPz+pICmTBeIA5c290/C3WVFC8q0bJFq+KslZCEre3CyO2k08FxonqggHzUW3Xix/i5PwuWx0+XuqtPYIIKUgfQDifLbUrOIEbBq5KxI7GY9kMyfYGO5hDo/3A==
+Received: from PH8P220CA0047.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:2d9::19)
+ by SA1PR12MB7410.namprd12.prod.outlook.com (2603:10b6:806:2b4::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Mon, 2 Mar
+ 2026 08:01:03 +0000
+Received: from CY4PEPF0000FCBE.namprd03.prod.outlook.com
+ (2603:10b6:510:2d9:cafe::64) by PH8P220CA0047.outlook.office365.com
+ (2603:10b6:510:2d9::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.18 via Frontend Transport; Mon,
+ 2 Mar 2026 08:01:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CY4PEPF0000FCBE.mail.protection.outlook.com (10.167.242.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 08:01:03 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Mar
+ 2026 00:00:32 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Mar
+ 2026 00:00:30 -0800
+Received: from inno-dell (10.127.8.10) by mail.nvidia.com (10.129.68.8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 2 Mar 2026 00:00:27 -0800
+Date: Mon, 2 Mar 2026 10:00:24 +0200
+From: Zhi Wang <zhiw@nvidia.com>
+To: Eliot Courtney <ecourtney@nvidia.com>
+CC: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 7/9] gpu: nova-core: gsp: add RM control command
+ infrastructure
+Message-ID: <20260302100024.71ebe173@inno-dell>
+In-Reply-To: <20260227-rmcontrol-v1-7-86648e4869f9@nvidia.com>
+References: <20260227-rmcontrol-v1-0-86648e4869f9@nvidia.com>
+ <20260227-rmcontrol-v1-7-86648e4869f9@nvidia.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20260125131323.45108-1-clamor95@gmail.com>
-In-Reply-To: <20260125131323.45108-1-clamor95@gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 2 Mar 2026 09:57:03 +0200
-X-Gm-Features: AaiRm52QXrS_uNzAE53fZY3HX0KwqHOMM5gpUzyqiFLf5Zuznuez0suGHr74yCs
-Message-ID: <CAPVz0n0k2v_4pQ-hFhah8i_0Ne6GeggLcDk7=agVyg7Wvp=cBg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] gpu/drm: tegra: add DSI support for Tegra20/Tegra30
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Hunter <jonathanh@nvidia.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, 
- Svyatoslav Ryhel <clamor95@gmail.com>, Thierry Reding <treding@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBE:EE_|SA1PR12MB7410:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a28834a-f83f-4756-6466-08de7831d994
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: zg0Cxb2ZRg51IHXndAjZIjaWJyPdi+hdsixB+wtQQCgcU4iY7i9ySYzgeiKMGiIHsbshpwh9DQx2fLk6TFIbBiN1D8br1wQpDUniKdUpXRXa5U/jNLalrqkea/3/3SzW3quESA27Q/S5uDG0PWcFjrPrKTd0xQVaeRrXj6vDGr2o3+TzyTDeYWXWwhAXupkFW2TOJT36qRHoIJZmMKATccLCOTeIVYGtd+CI01fOLBM6s2SJQVD0TrRBiumY5bZbhMNTbp3PelzmhXd9uhISPNesLc6olfwBJBSHAaQD7w5h7DLtZ947lmesDZ3g2ERbyQOvS9f3NFmQqiEBodBRC6TwoTbub5LQ0eXvzR4CmZh08my1jAbFckmnfQbbaiQwib+yDIVYv2+3WDXFC8iUv8Soj5axpDWnHpa8jfuzz5p2YTypxC9tmRElF4hVpI/Lyy4VFnpGTznHoxIr0ho1J15lZnG4VHjNjqaZaqncGhoHWMHbsmNezyLS4Vg15hNxQS1iQDOeVsAevemWUHVkpA46jpYlV6I+lVjQYSW6pPBotVgzo3KSB8JS4m9+/H+dv0lmG6mcv7NQeAfln9SCpgPn7GK9FH1jKvVR6yVm5RPYRF4mDPwM3RBtdo9VvZ4PRvCeJ3TPzxSu15qGZrDUIL6uIX4eNZ1e7S5ITwQVfmtP12V5oIor7SGafvOWjE42kRuE528Qt78wYypcl/r2D98mfzxLJ9dMm0a4x4Ht/uq9hYQUlwjow+4LeulZh3ib5bAHe+yO+1qTMl+Z9yrXkz71VJ3+lbT7Q4uGjorWRYBb6Y7GrX6QYMFwEtEXrk8qn/J94YG+0Bp4WJlaslvLNw==
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: vX4/OjjE5xnojNJ+UjwqY+xgKzMMa5xiUblwPvp011iC2istRxSfGUClhGNFPEBg3AQJkr0Clrs/ztwQMudaO3rygj09xymFCuiXE03pvZufgzERfDDxE1qPAc10YRpz1SStfO0U5FM2IUBe+DLolnm9cVcm9L+Cp4H3T833re0YJs+WjPZ+WWGmNXSP4jipCWwCRkkKO6haOVshg4h2xlv+L+9oaUy4gYNdSZ1Le1PvJ2Fr1Pxc/unV+SZIpQHI0Urp6olv36N9O7tKlB26KSZAsVapvKXpDIlvYZktgaV88v+aMF2suVwJAOsRXxLU9VkoAevJg1Gs/CLrGUwykPYKGK2+aFCPy+mSg1rMeY4DwtB7acYm+oMzClb7EQ0W6eOzF7iggH/Yiw5depH/Vs8hiYlJQT5zMcZegRrxKFnfZlh6lBFjBM5H4JHG6IM2
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 08:01:03.1019 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a28834a-f83f-4756-6466-08de7831d994
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCBE.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7410
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,93 +130,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-1.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:mperttunen@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:diogo.ivo@tecnico.ulisboa.pt,m:clamor95@gmail.com,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,tecnico.ulisboa.pt];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,nvidia.com,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,Nvidia.com:dkim];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhiw@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 207C31D437B
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: B50CC1D44C3
 X-Rspamd-Action: no action
 
-=D0=BD=D0=B4, 25 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 15:13 Svya=
-toslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Tegra20/Tegra30 DSI is quite similar to Tegra114+ apart MIPI calibration
-> logic and clocks. With a few minor tweaks, existing tegra DSI driver
-> should work on Tegra20/Tegra30 devices just fine. Tested on
-> Motorola Atrix 4G (T20) and ASUS VivoTab RT TF600T (T30).
->
-> This patchset depends on Tegra20/Tegra30 CSI bringup since both share
-> MIPI calibration logic. Ideally these patches should be picked after
-> CSI bringup but they will not break anything even if picked before
-> CSI patches.
->
+On Fri, 27 Feb 2026 21:32:12 +0900
+Eliot Courtney <ecourtney@nvidia.com> wrote:
+
+Tested-by: Zhi Wang <zhiw@nvidia.com>
+
+> Add `RmControl` which implements CommandToGsp for sending RM control
+> RPCs.
+> 
+> Add `RmControlReply` which implements MessageFromGsp for getting the
+> reply back.
+> 
+> Add `send_rm_control` which sends an RM control RPC via the command
+> queue using the above structures.
+> 
+> This gives a generic way to send each RM control RPC. Each new RM
+> control RPC can be added by extending RmControlMsgFunction and adding
+> its bindings wrappers and writing a helper function to send it via
+> `send_rm_control`.
+> 
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 > ---
-> Changes in v2:
-> - removed all MIPI calibration, it is handled within CSI bringup
-> - added per-soc structures into of_match
-> - added fix for hang caused by register access with uninited hw
->
-> Changes in v3:
-> - switched from version DSI to boolean flags
-> - added comment regarding Tegra30 clock configuration
-> - commits were picked:
->   "clk: tegra20: reparent dsi clock to pll_d_out0"
->   "ARM: tegra: adjust DSI nodes for Tegra20/Tegra30"
-> - commit adapted to recent DSI changes:
->   "gpu/drm: tegra: dsi: move prepare function at the top of encoder
->     enable" > "gpu/drm: tegra: dsi: re-add clear enable register if
->     DSI was powered by bootloader"
-> ---
->
-> Svyatoslav Ryhel (2):
->   gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
->   gpu/drm: tegra: dsi: re-add clear enable register if DSI was powered
->     by bootloader
->
->  drivers/gpu/drm/tegra/drm.c |   2 +
->  drivers/gpu/drm/tegra/dsi.c | 116 ++++++++++++++++++++++++++----------
->  drivers/gpu/drm/tegra/dsi.h |  10 ++++
->  3 files changed, 97 insertions(+), 31 deletions(-)
->
+>  drivers/gpu/nova-core/gsp.rs             |   1 +
+>  drivers/gpu/nova-core/gsp/rm.rs          |   3 +
+>  drivers/gpu/nova-core/gsp/rm/commands.rs | 111
+> +++++++++++++++++++++++++++++++ 3 files changed, 115 insertions(+)
+> 
+> diff --git a/drivers/gpu/nova-core/gsp.rs
+> b/drivers/gpu/nova-core/gsp.rs index a6f3918c20b1..1a1c4e9808ac 100644
+> --- a/drivers/gpu/nova-core/gsp.rs
+> +++ b/drivers/gpu/nova-core/gsp.rs
+> @@ -17,6 +17,7 @@
+>  pub(crate) mod cmdq;
+>  pub(crate) mod commands;
+>  mod fw;
+> +pub(crate) mod rm;
+>  mod sequencer;
+>  
+>  pub(crate) use fw::{
+> diff --git a/drivers/gpu/nova-core/gsp/rm.rs
+> b/drivers/gpu/nova-core/gsp/rm.rs new file mode 100644
+> index 000000000000..10e879a3e842
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/gsp/rm.rs
+> @@ -0,0 +1,3 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +pub(crate) mod commands;
+> diff --git a/drivers/gpu/nova-core/gsp/rm/commands.rs
+> b/drivers/gpu/nova-core/gsp/rm/commands.rs new file mode 100644
+> index 000000000000..16bcf88644db
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/gsp/rm/commands.rs
+> @@ -0,0 +1,111 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use core::{
+> +    array,
+> +    convert::Infallible, //
+> +};
+> +
+> +use kernel::prelude::*;
+> +
+> +use crate::{
+> +    driver::Bar0,
+> +    gsp::{
+> +        cmdq::{
+> +            Cmdq,
+> +            CommandToGsp,
+> +            MessageFromGsp, //
+> +        },
+> +        fw::{
+> +            rm::*,
+> +            MsgFunction,
+> +            NvStatus, //
+> +        },
+> +    },
+> +    sbuffer::SBufferIter,
+> +};
+> +
+> +/// Command for sending an RM control message to the GSP.
+> +struct RmControl<'a> {
+> +    h_client: u32,
+> +    h_object: u32,
+> +    cmd: RmControlMsgFunction,
+> +    params: &'a [u8],
+> +}
+> +
+> +impl<'a> RmControl<'a> {
+> +    /// Creates a new RM control command.
+> +    fn new(h_client: u32, h_object: u32, cmd: RmControlMsgFunction,
+> params: &'a [u8]) -> Self {
+> +        Self {
+> +            h_client,
+> +            h_object,
+> +            cmd,
+> +            params,
+> +        }
+> +    }
+> +}
+> +
+> +impl CommandToGsp for RmControl<'_> {
+> +    const FUNCTION: MsgFunction = MsgFunction::GspRmControl;
+> +    type Command = GspRmControl;
+> +    type Reply = RmControlReply;
+> +    type InitError = Infallible;
+> +
+> +    fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+> +        GspRmControl::new(
+> +            self.h_client,
+> +            self.h_object,
+> +            self.cmd,
+> +            self.params.len() as u32,
+> +        )
+> +    }
+> +
+> +    fn variable_payload_len(&self) -> usize {
+> +        self.params.len()
+> +    }
+> +
+> +    fn init_variable_payload(
+> +        &self,
+> +        dst: &mut SBufferIter<array::IntoIter<&mut [u8], 2>>,
+> +    ) -> Result {
+> +        dst.write_all(self.params)
+> +    }
+> +}
+> +
+> +/// Response from an RM control message.
+> +pub(crate) struct RmControlReply {
+> +    status: NvStatus,
+> +    params: KVVec<u8>,
+> +}
+> +
+> +impl MessageFromGsp for RmControlReply {
+> +    const FUNCTION: MsgFunction = MsgFunction::GspRmControl;
+> +    type Message = GspRmControl;
+> +    type InitError = Error;
+> +
+> +    fn read(
+> +        msg: &Self::Message,
+> +        sbuffer: &mut SBufferIter<array::IntoIter<&[u8], 2>>,
+> +    ) -> Result<Self, Self::InitError> {
+> +        Ok(RmControlReply {
+> +            status: msg.status(),
+> +            params: sbuffer.flush_into_kvvec(GFP_KERNEL)?,
+> +        })
+> +    }
+> +}
+> +
+> +/// Sends an RM control command, checks the reply status, and
+> returns the raw parameter bytes. +#[expect(dead_code)]
+> +fn send_rm_control(
+> +    cmdq: &Cmdq,
+> +    bar: &Bar0,
+> +    h_client: u32,
+> +    h_object: u32,
+> +    cmd: RmControlMsgFunction,
+> +    params: &[u8],
+> +) -> Result<KVVec<u8>> {
+> +    let reply = cmdq.send_sync_command(bar, RmControl::new(h_client,
+> h_object, cmd, params))?; +
+> +    Result::from(reply.status)?;
+> +
+> +    Ok(reply.params)
+> +}
+> 
 
-Hello Thierry!
-
-May these patches be picked if everyone is fine with them? If you like
-I can amend and resend them with Mikko's suggestions applied.
-
-Best regards,
-Svyatoslav R.
-
-> --
-> 2.51.0
->
