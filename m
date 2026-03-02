@@ -2,139 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KE8yLgjRpWm1GwAAu9opvQ
+	id yLVkBGXbpWkvHgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:03:52 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:48:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9571DE307
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70CA1DE771
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 19:48:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022F710E571;
-	Mon,  2 Mar 2026 18:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E38810E587;
+	Mon,  2 Mar 2026 18:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="N3A2cIYZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BwbX7wCe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011011.outbound.protection.outlook.com [40.107.208.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12AC610E571;
- Mon,  2 Mar 2026 18:03:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aDHUBOKiXvE8NhXK/BFTU4//ACEDl3qSfWBuhlFdsnLi4/nKD41tXwdPhVSSdobRRj/NEmrXQS69vo3ZGyQ9JF2zaqxtcPz548u8vhG0rnpEi8ZLp4jv/OmKe3WV9EiZ7SqjgADb93wAZ18/P29bgocGS0o+r8nXf3QDvklZLQ6Cgaurz8D4d3+H7mVy9GzYjg6ad595IGjZyDdElvSa4JIyTFuKcJCnk5o7J9Ldm30rMkTQMUx5UapCZYOncsUpuxJ8vHrXKPFBm65ULqOSLh0IjJcRwDvxb7CjH98GGWL64osn6ikukCICuemEbys7g/+EQy+nE24bnalAHJK+bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A57p3MUVaLhWtEF//GJa7sO6cB4kd4/lFmh0MyBBNlQ=;
- b=oUcSVk++8+v/EN0lboG1YJVRbSrGnb7RkxNOj8pVafuOnzWqRSiTc+rOI9Mx4RYdcgS/Dubi78okbefksJ8UON18sEd2f9dwGHV/6GzPGBSveFVTsRlwXWpcFt7L2VCNpZZ1Se1yM0KoRV42/R7m38IRGjuzhKm0r8HbunvQDSRfDRC4UwEAWMkhwtj73d+bY1me4Q/UbigpYjAnQK1W1qVus7MqNzERCYzdIdbp36Hr4ZGAtsenFsTgxnTX4BIT4M+4HBbLPnrXzrTut8mRs9nujXiQ9MHnG4MLeBtbaeVE7O50CImRa+Os04qGlWfnZXAvw4kfR8y/Y0dT4ri3Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A57p3MUVaLhWtEF//GJa7sO6cB4kd4/lFmh0MyBBNlQ=;
- b=N3A2cIYZRoCaBuBooO/VA4jvB0qabdtnwm171RyJvNU4XS8aSvSyYJKv5Mbz5eUuUn1QQHUJptS4wRY3Qs0bi9OFlatsdey+UEo0e7lvGZMDuHqq9+n2KTnFj9lstXua65UNuUBd99bm2aDD2m1/03jktqZ1rjbJVOogs/WG4PKiy8SxXvgNekq68jIp/mI6bW+I2inucDGEhmBVQDdphrDDZ+LX9F4FlnZKolH9dk1OXpDfv4iX9Jg1oUAW/XOrTIXUUBAT03Dp7iOuR2+b/9dyjupfd5mu0GdLaUgC0jzaprxda49ewf6OyyTA5B0QQDBdIn4dzagdQBKOtPYAUw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- DS0PR12MB7748.namprd12.prod.outlook.com (2603:10b6:8:130::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.21; Mon, 2 Mar 2026 18:03:40 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 18:03:39 +0000
-Message-ID: <4e27719d-85d3-4bd7-b458-5d6d0a3063ba@nvidia.com>
-Date: Mon, 2 Mar 2026 10:03:38 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] gpu: nova-core: gsp: add sync and async command
- queue API to `Cmdq`
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Eliot Courtney <ecourtney@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Benno Lossin <lossin@kernel.org>,
- Gary Guo <gary@garyguo.net>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20260226-cmdq-locking-v2-0-c7e16a6d5885@nvidia.com>
- <20260226-cmdq-locking-v2-2-c7e16a6d5885@nvidia.com>
- <a3b7a5c3-9689-4700-981e-d94bd2b5091d@nvidia.com>
- <DGSAOTM95PZ4.2JGBBMNRSJSNN@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DGSAOTM95PZ4.2JGBBMNRSJSNN@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0024.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::29) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF47E10E587
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 18:47:58 +0000 (UTC)
+Received: by mail-dl1-f51.google.com with SMTP id
+ a92af1059eb24-12739fe9a0eso324816c88.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 10:47:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772477278; cv=none;
+ d=google.com; s=arc-20240605;
+ b=fEiOG4BRLTJeJ4Z6VSKge7vFUqZ2dnDNpWSZhsPPlyTwg402RziZlQzLkVpjGX3o6j
+ pbfDkhJSeKCl4j9W6Srf4qJ+48E3qOEBRTEilVuluBT47pJMdulStYczK9ipb80U2/R/
+ MsVdExmbL6lHGH55JAsyFLWNoPSLHWRq9eCjFlUJNiOBUsKtBKTWYB0KmkKvaVGZSxoJ
+ 2mIXF8SKv+lgbv9AzGqmFYUpmoRD0+2aCN827yZLQ2ibmzmtzsVZmVlhqTK/fKWMaMtE
+ WiK5dJaOR/CY5Ff/5xoSJwt7uOe+p1epdXf7ee0PlODqZzFVvjqjv+KHg2qtjgyWCA7w
+ MztA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=PhaxULRQYchacioDU3vakiclpPLY/jVd5nFbk4UvYrY=;
+ fh=+rFprttuzhlJOKge0f1dsPIGVXkltA9wjV+QL/KRH/0=;
+ b=j7cNgOhvf/yFSKRuBDXd6+sr7+3EmAeCcmMZohImYoWyCRWhUqiwlGU/7n6B/6ROyv
+ O4mT5V/XmRRrMPcDImVRV8bVaFUzd5s7CSv+DhH2mXnV5VXu3tmzYIUz+6itqLrLBbz+
+ ZLpzphC4kdLDI36384herssjqRzCJoSLsSUKZM6LnfQEQj/q/XWHypE27AvX6xO5Ob6J
+ FSTu2fQxOeiKsFjCfo6r8/MEyHQesYXhHvICr0cmW1V4wmKK58s7McavaDqRZvzsAqim
+ +5J/oyzZOpcP3ozgezB7UmzDIQscDe2PHHb+WNi1SjKUM+1dfpTELq8NwgEwZHNRcRaU
+ RlZQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772477278; x=1773082078; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PhaxULRQYchacioDU3vakiclpPLY/jVd5nFbk4UvYrY=;
+ b=BwbX7wCeslJVMpNQZBrdKQPmRqoGPEBJCxTNGIzzRqCaqG6A/pt6DMzsfNb/MKMYR4
+ NkHsSbPu4rKnIatuhXs/jKD1OygQOTyswjuFX7zHYYQQa0pNkISoofM+qK3PHh70F92K
+ YtEpdNMYNKpq7xQlaEKLc6u/LDn8LzjZcrHhfoszBPQGl6XS5WPq6MIqwj5FdXILwbb5
+ UpZqejffU4UF79c573OBYeFF85PLuUfZzk1xox/IKhhY1cV23ZZIv7Wx13pp1pexahrf
+ lKPKJ2Sve4cN1614Wq7Qc8vndZ/ccppFbiGLzWV6J/3b/NANc9TsPX22bEjE/Nx3ZeeZ
+ n1rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772477278; x=1773082078;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=PhaxULRQYchacioDU3vakiclpPLY/jVd5nFbk4UvYrY=;
+ b=o/9lc+/fEEE8Vcn/tFeLjf1CTA16zPbzuwx2FeIbXivypo//mF2c2xUY+swZPbm9Jo
+ 0yFTMNQklAozer8CrGLnogRXg0OodXhfxYbOLyFnir2egzkuLPyLCWs5FksrcUU0CLeI
+ CAAJVMIdtoqT/LIKEj1Nqngv0LwsGGfcwqlvs5vVjNp5uiOMgow489O+hey9ecZDeUK3
+ h8aHqScfRjRLc8DlPPNfVaYnPXfP0Kc3OLmZ3NZe0n/4iPRhBBwPD8K0TBmLDyerzNHO
+ DljXuei125YD56VKBN5RZgNPN99HSGgPYJfYol4kkvPKkDO/inCsFa6cqukDiZp4hJNs
+ E9Sw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzsZBA6rqPtuugaVWF4R7wBT89PuwtS+iQ+hdGGiHXWMgmYmx3481UgEyBuSfbxL4Ad0sAZgtfO8k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpVYTR2tfxLiOFVm7SMavTcmbnaHlCAPediZ4/FqpxP0LUzT9h
+ Bciqi5Kcds5tQUo6GYk4e3rclgMttFvl45StLAvG6UqvVHGSjUHqn6ZlCub45uJ+gEX5CWoO8hM
+ J+zjX+t0v/TEheHpBUWK3Qbp5sN/mLwc=
+X-Gm-Gg: ATEYQzw2vn9c17LUwlsJObDSCOc/uHpSvLr7IMtZF2KyDESRpdcr7z5z5Dlq39kzEdH
+ MVeOHhJt7B+ydlDO7wt2grlbV9lrXS7bt3H6mxR6w3X1XLi7+0JqVtPlAC25TNhw2nga0qqQwvz
+ 6lCEvZly+3G5zo9fEGB1cXOriS1U4PGzuDLSQELrUpMK2IjI+HNHic9guKX9AgktFNbh07qr2nN
+ q3/iadyA52IaW+29LEQmEHYQAaDqAOCFkq0sIH95hVtJiuOcUlRYndkeGfxPa43238149SrJ4m+
+ JRxGxtHUrLvMyMcGEI0zn0RmDrVrHbXuhzzAkU46f3bdlKZmm2Qne99Dmibt+CgD9asWug==
+X-Received: by 2002:a05:7022:439e:b0:127:1186:812f with SMTP id
+ a92af1059eb24-1278fd12699mr2707242c88.7.1772477277777; Mon, 02 Mar 2026
+ 10:47:57 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|DS0PR12MB7748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5dd3c5bb-31ac-4bc2-eb65-08de78860888
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|10070799003|1800799024|366016; 
-X-Microsoft-Antispam-Message-Info: azGmOWwZ83u1nV1F5uezxWKJHa0RHqYqKbu6ygPYnLAHzQrrqC4X4P2d4Gl/SaGkpOJIjzdYmBxqOEAA25y/P6elPrsWB5mL938xm6X2GwYw/mCuQpMO61Ke+civnsLgkpoOp55Gra3RpH7ulsM9hscl70E/x3hLjw4nNaPntH7ClITEOu2RLy+ZfLQfWMGkY0yHfcv1N36j9qAeLR1cEwIhIy796u9xnElyu+OC7udP9Bsmw0fjO2/Jje/rqDUN9OUhzAklRwvgZgxjZldUDykFRRROXm4idpWLyEGtMhlmVFOjdAGVPLvoW5dvG2jMmrmcRriw8rbG3f34XdwqLJLJBVncgdx74eXTdAsjtjWjjE6rKZhf13RKguMAvsYFDRNVF5Hsd+J5eKzD3ftwoJYqclgbS+46aSGlWfZTDLBmiDNntB/pAwaE/LpG1ZH1aG38THVN8LgmesaxciSMYTWThmEmktCy+alZq1GTkdKQbE3y/UOQEKLcraeauDcPY6Av9tXZzB52CuxruisxFgs44TTr4v3hSOKM27fudQ8KcOrHcuvNEZo7W2pk9wa/G7BakUoZHZgyucg3kMDpEWGdyvmXArYKk1LI4kyDKn7ZEfcqSd2idgd6+k6jyIuOOUFncKWoxT/miG6cX7m1cd+x3bvcScFDoT1utf/M2jqWUBoMp3dE90oG8CiqB2nQOHalVoeOeG8H6CsEf8oyp+/8AB6eW5S/9wOG35wFWjE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PR12MB9416.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmZLVnB2eFVUMGp5ZlF5czdCREVJK0E2MU1EMC9Zc0F0OHB6dXB3Vy95MEpK?=
- =?utf-8?B?UFFQV0JZNk9wMTlxb08rVUt1anJGL1pES0lJRmN3UDd3eVlGdy9MZm1oeVZT?=
- =?utf-8?B?RlROMFVibEVINEFVdW5FcGFZRjhPNjlDTUt0MTNRSS9qbTlleWlFZ1VtYlRQ?=
- =?utf-8?B?WVdYMDlNSlNUTFd6OTN1OUlhTGh5ZUJmNGdvNm51bDVPZTl6R20wOWRzeGZl?=
- =?utf-8?B?UnN3Qml0TUtHdzM3Tk5LY01aSHZCUmxDc01PcFFIWHhtY1VzbXpGa1A1bWtT?=
- =?utf-8?B?dnBmcnFlSVBWdkpQV0MxdTFkbGJyUmVkVWFpNmxxWm1lbnB2MEx6OFpaa1JE?=
- =?utf-8?B?akRUZUhLb2N0NFBJalV3cnpSRmtackVEN1VHazllZXlBa1VTRVZMekhDVDBH?=
- =?utf-8?B?cmVnZDBVd1E2QlYxODdXbFVPRTI4K3Y4N3praForWVBvS09zOWwyV0k4UDBC?=
- =?utf-8?B?QzBoZmVyQTQwNFZFbWsvdXlpeUUzV3hDR2ppUUt6WFVvdXR3a0hIMnFaTStE?=
- =?utf-8?B?eXkxdUdRU1FyOXpNWUh1RktqbHNCa1R0QzNUelpJZEFya0dIY0Yyekp2RWJE?=
- =?utf-8?B?dC9ROXRVdUhrQU5ZYlVVczJjUEpnUm93N2lpNGJsQ0RlVVZIVmhqVkRubGZW?=
- =?utf-8?B?aGRHSk9NMGF2WHlzRGMyczhkeDBqdElLWTVoNjRFRUtwRXBXVSsrc0pIM2pP?=
- =?utf-8?B?am1DTFJzSU01NUYyVS9SeTVocVlGajdyeGxwelk0Yk8xVU9YdE42TVNISEl3?=
- =?utf-8?B?RzdsZ2R5bnJOWHJiUG5WWEFMZDJZaXk0ZVVTL1E5Q0dpZmJiVWNCUGVXS2l6?=
- =?utf-8?B?Y0lneXBtanhoYVo0RThqMHFDK0tpakRWVlhkMlg2RnU1YnlsZ2Mwd2k4bytn?=
- =?utf-8?B?Y3liVzdDRVZxcFB3aEQ4OUtxd3p2a05EZEl6eVZVeFZFM2d0K0N3VkhPUERN?=
- =?utf-8?B?NENueDRqTk5nZ0REbVlHMk1RcUVYZzFKcm8xZkpHMDVzVEtEOUhvV1c0bCtV?=
- =?utf-8?B?YzErd2RJYTF1MFpMYkxwSEdDM2dWT0wreG9OVTlWTWNYNURRUTg4NEdlbGQ3?=
- =?utf-8?B?M0dMd3R6S1RNMVBldE5MeTRzdnJwK1JzWE1vOSs2dzhJcXh2c1lNdmhTR0po?=
- =?utf-8?B?WDdpQk11Y3VydHlQRmowNWdLanhHWklkZGJlYStVV1BSV0tmWGdmT0pSYjJR?=
- =?utf-8?B?YWNlK05xYVJUL3pqNlFzY2NaRWZ6VloyWVorVWgyOW5icWNuOHgycU1zWk02?=
- =?utf-8?B?T3JMR2l3UklrNEtlaGtLalo1MWFIL2xHbzUxWXFUNUdXR3ZrajQvbEZSbkIr?=
- =?utf-8?B?WGwwOHJKZUFHUFNJRm9veHZSV3FpU0F0dnlQR0ljeGJrOGpLWmFNUUxNNVVY?=
- =?utf-8?B?SlIvb2s4aW9USXB6aTFHNldMSWdzSXNHRWcwclJYNzVyOTZvUVBQR0FjL0Jp?=
- =?utf-8?B?OUJZTk43TFgxVjZTNEVCSzJPdVFmYWNLZEFQV0V2TXFtalBMQUVVSnhJaWtE?=
- =?utf-8?B?aitqbUl0OHZDSWtuSm5Sd1V4NzFLTXIwZ3hIN0RaaTdlUmFGSWhLdEk3aG9L?=
- =?utf-8?B?WWlZa2V1ZExqNHZjZVFCVU1uWGdlS3UxT21JZTU2TkFPNjY0U0U2NW40c0pk?=
- =?utf-8?B?R1lRKzJTdFloVkhxUjhrU3BpUUxZaVhzNTROaFRJUXV5aUdBMnY0eEY0TzQ5?=
- =?utf-8?B?bjRiNlV5SzhkaGVXeE1PVkVVMEVRSVQrWk9Od0FVR204aTgwZU1aYnkraEhx?=
- =?utf-8?B?dFExZVZER1BJb0FFVkZBeG02RVNGaXhQZXNLS1ZqRUxFUGxGdW1Kay9lL293?=
- =?utf-8?B?V1VUWGIzQTRINzNCZ1NmcW1HMlhNUXFmeXhnRzFKSVNrT3VRdE56dHZudGFm?=
- =?utf-8?B?WU5WU3IzVU1QMTc4Z3A5Z1hCNitHMmlCV1BDb2ZMTEMwR0QxRTlOd3RHNk10?=
- =?utf-8?B?WEtqV29hd3dyQXZLMDJ0TW0rb2cvMHZVMEdqVjNhZGI4SnBRb3BucFJMRmtW?=
- =?utf-8?B?NU52ZGN2WE5SbG9PZ3lMem92RkJNRzVmVkNqRitJZlVCT00wVWFEU0VMNUM0?=
- =?utf-8?B?YnZYaE8xWHJQMGlTaEVEbHVBM211Um5xNVZnMlpTUVJTQkFIZkt6aGFPNURz?=
- =?utf-8?B?R2FOQUtKQzJUZTByNGpoaUpTeHpvT3dRVWFqOGtnNVBxODNJVkFlV25hdm1X?=
- =?utf-8?B?NVV4TmM0RnlGajllekRqRHBvNEFlaGJuQ2hiZmlQYjRicHZnSUJxbHhiT2Fj?=
- =?utf-8?B?VnpjekNqWHlHNWVJNXZrakFZSUNVelNVc0tQcU1xVWJGVWRpVkNOM2ZhUWQy?=
- =?utf-8?B?Mldjdno3UG5Zd1NGNHEvcytpc1N0MUFrcTIvdmo0QjNjYnU4ajNvN2tSZG9s?=
- =?utf-8?Q?sMnD7Ztg0xPjd9j4=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dd3c5bb-31ac-4bc2-eb65-08de78860888
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 18:03:39.9049 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4qVyqlpoFmXLpF+9jXM/FwZukoGIj0ATQdmvKsHDkJgVrFUgzon5i5UOOSpX7UirGz2Z/Kx2QHa8N6bDU1TPyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7748
+References: <20260226093727.2584-1-pierre-eric.pelloux-prayer@amd.com>
+ <20260226093727.2584-6-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <20260226093727.2584-6-pierre-eric.pelloux-prayer@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 2 Mar 2026 13:47:45 -0500
+X-Gm-Features: AaiRm52KgTUh-oE9R4J6uimSKwR89a_13yJJU7x5eCzcIbspb-yc-pcKUsAVKa4
+Message-ID: <CADnq5_NMc0HSQy7x3DxZaox6myjjDkCtBEO7cp0523XNs+X1Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] drm/amdgpu: dump job ibs in the devcoredump
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,72 +112,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0F9571DE307
+X-Rspamd-Queue-Id: A70CA1DE771
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:pierre-eric.pelloux-prayer@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[nvidia.com,google.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-0.998];
-	FROM_NEQ_ENVFROM(0.00)[jhubbard@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid,amd.com:email,iter.data:url]
 X-Rspamd-Action: no action
 
-On 3/2/26 4:28 AM, Danilo Krummrich wrote:
-> On Sat Feb 28, 2026 at 7:11 AM CET, John Hubbard wrote:
->> The sync/async naming that GSP RM uses is a little bit "off". I
->> spent some time discussing it with them, and the problem is that
->> sync/async is a concept that is somewhat independent of whether
->> a reply is expected. Usually, sync means a blocking wait for a
->> response, which is not necessarily required in all case with
->> GSP RM calls.
->>
->> The naming would be better here if it reflected simply that
->> a response is expected, or not. I don't have great names for
->> that, but "fire and forget" works well for what we have so
->> far called "async". So we could do create a convention in which
->> no annotation means that the API has a response that will come
->> back, and some abbreviated for of "fire and forget" or "one way"
->> added to the function name would mean that no response is
->> expected.
-> 
-> I think the relevant information for the caller is whether the call is blocking
-> or non-blocking; i.e. do we have cases where we want to block, but discard the
-> reply, or expect a reply but don't want to wait for it?
-> 
-> So, unless there is additional complexity I'm not aware of, I feel like
-> send_command() and send_command_no_wait() should be sufficient.
+On Thu, Feb 26, 2026 at 4:49=E2=80=AFAM Pierre-Eric Pelloux-Prayer
+<pierre-eric.pelloux-prayer@amd.com> wrote:
+>
+> Now that we have a worker thread, we can try to access the
+> IBs of the job. The process is:
+> * get the VM from the PASID
+> * get the BO from its VA and the VM
+> * map the BO for CPU access
+> * copy everything, then add it to the dump
+> Each step can fail so we have to be cautious.
+> These operations can be slow so when amdgpu_devcoredump_format
+> is called only to determine the size of the buffer we skip all
+> of them and assume they will succeed.
+>
+> ---
+> v2: added some comments
+> ---
+>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
+.com>
 
-That's my favorite so far. It's unencumbered by any assumptions about
-behavior, and unambiguous about what it does, and shorter names too.
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-> 
-> (Maybe send_command_wait() if we want to be a bit more explicit.)
-> 
-> As for the specific commands, we could have traits to control whether blocking
-> or non-blocking submissions are allowed for them in the first place, i.e. this
-> gives us some control about whether a reply is allowed to be discarded through a
-> _no_wait() submission etc.
-
-thanks,
--- 
-John Hubbard
-
+> ---
+>  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 93 ++++++++++++++++++-
+>  1 file changed, 92 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> index d0af8a294abf..e489bf089bc9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> @@ -200,14 +200,24 @@ static void amdgpu_devcoredump_fw_info(struct amdgp=
+u_device *adev,
+>  static ssize_t
+>  amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_core=
+dump_info *coredump)
+>  {
+> +       struct amdgpu_device *adev =3D coredump->adev;
+>         struct drm_printer p;
+>         struct drm_print_iterator iter;
+>         struct amdgpu_vm_fault_info *fault_info;
+> +       struct amdgpu_bo_va_mapping *mapping;
+>         struct amdgpu_ip_block *ip_block;
+> +       struct amdgpu_res_cursor cursor;
+> +       struct amdgpu_bo *abo, *root;
+> +       uint64_t va_start, offset;
+>         struct amdgpu_ring *ring;
+> -       int ver, i, j;
+> +       struct amdgpu_vm *vm;
+> +       u32 *ib_content;
+> +       uint8_t *kptr;
+> +       int ver, i, j, r;
+>         u32 ring_idx, off;
+> +       bool sizing_pass;
+>
+> +       sizing_pass =3D buffer =3D=3D NULL;
+>         iter.data =3D buffer;
+>         iter.offset =3D 0;
+>         iter.remain =3D count;
+> @@ -323,6 +333,87 @@ amdgpu_devcoredump_format(char *buffer, size_t count=
+, struct amdgpu_coredump_inf
+>         else if (coredump->reset_vram_lost)
+>                 drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+>
+> +       if (coredump->num_ibs) {
+> +               /* Don't try to lookup the VM or map the BOs when calcula=
+ting the
+> +                * size required to store the devcoredump.
+> +                */
+> +               if (sizing_pass)
+> +                       vm =3D NULL;
+> +               else
+> +                       vm =3D amdgpu_vm_lock_by_pasid(adev, &root, cored=
+ump->pasid);
+> +
+> +               for (int i =3D 0; i < coredump->num_ibs && (sizing_pass |=
+| vm); i++) {
+> +                       ib_content =3D kvmalloc_array(coredump->ibs[i].ib=
+_size_dw, 4,
+> +                                                   GFP_KERNEL);
+> +                       if (!ib_content)
+> +                               continue;
+> +
+> +                       /* vm=3DNULL can only happen when 'sizing_pass' i=
+s true. Skip to the
+> +                        * drm_printf() calls (ib_content doesn't need to=
+ be initialized
+> +                        * as its content won't be written anywhere).
+> +                        */
+> +                       if (!vm)
+> +                               goto output_ib_content;
+> +
+> +                       va_start =3D coredump->ibs[i].gpu_addr & AMDGPU_G=
+MC_HOLE_MASK;
+> +                       mapping =3D amdgpu_vm_bo_lookup_mapping(vm, va_st=
+art / AMDGPU_GPU_PAGE_SIZE);
+> +                       if (!mapping)
+> +                               goto free_ib_content;
+> +
+> +                       offset =3D va_start - (mapping->start * AMDGPU_GP=
+U_PAGE_SIZE);
+> +                       abo =3D amdgpu_bo_ref(mapping->bo_va->base.bo);
+> +                       r =3D amdgpu_bo_reserve(abo, false);
+> +                       if (r)
+> +                               goto free_ib_content;
+> +
+> +                       if (abo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS)=
+ {
+> +                               off =3D 0;
+> +
+> +                               if (abo->tbo.resource->mem_type !=3D TTM_=
+PL_VRAM)
+> +                                       goto unreserve_abo;
+> +
+> +                               amdgpu_res_first(abo->tbo.resource, offse=
+t,
+> +                                                coredump->ibs[i].ib_size=
+_dw * 4,
+> +                                                &cursor);
+> +                               while (cursor.remaining) {
+> +                                       amdgpu_device_mm_access(adev, cur=
+sor.start / 4,
+> +                                                               &ib_conte=
+nt[off], cursor.size / 4,
+> +                                                               false);
+> +                                       off +=3D cursor.size;
+> +                                       amdgpu_res_next(&cursor, cursor.s=
+ize);
+> +                               }
+> +                       } else {
+> +                               r =3D ttm_bo_kmap(&abo->tbo, 0,
+> +                                               PFN_UP(abo->tbo.base.size=
+),
+> +                                               &abo->kmap);
+> +                               if (r)
+> +                                       goto unreserve_abo;
+> +
+> +                               kptr =3D amdgpu_bo_kptr(abo);
+> +                               kptr +=3D offset;
+> +                               memcpy(ib_content, kptr,
+> +                                      coredump->ibs[i].ib_size_dw * 4);
+> +
+> +                               amdgpu_bo_kunmap(abo);
+> +                       }
+> +
+> +output_ib_content:
+> +                       drm_printf(&p, "\nIB #%d 0x%llx %d dw\n",
+> +                                  i, coredump->ibs[i].gpu_addr, coredump=
+->ibs[i].ib_size_dw);
+> +                       for (int j =3D 0; j < coredump->ibs[i].ib_size_dw=
+; j++)
+> +                               drm_printf(&p, "0x%08x\n", ib_content[j])=
+;
+> +unreserve_abo:
+> +                       if (vm)
+> +                               amdgpu_bo_unreserve(abo);
+> +free_ib_content:
+> +                       kfree(ib_content);
+> +               }
+> +               if (vm) {
+> +                       amdgpu_bo_unreserve(root);
+> +                       amdgpu_bo_unref(&root);
+> +               }
+> +       }
+> +
+>         return count - iter.remain;
+>  }
+>
+> --
+> 2.43.0
+>
