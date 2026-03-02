@@ -2,139 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KA4pGc3mpWlLHwAAu9opvQ
+	id UOlAF6PppWlLHwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:36:45 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:48:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EF41DEDE4
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EC41DEF25
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 20:48:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6B910E59A;
-	Mon,  2 Mar 2026 19:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3220210E59D;
+	Mon,  2 Mar 2026 19:48:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YZdpEe71";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KkU07bfi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012019.outbound.protection.outlook.com [40.107.209.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82FCC10E59A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 19:36:41 +0000 (UTC)
+Received: from mgamail.intel.com (unknown [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8CA10E59D;
+ Mon,  2 Mar 2026 19:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772480916; x=1804016916;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=J+mr/GKSRCO193qthYWBMQE1KJ4gSJs+0Co44XU8Kmk=;
+ b=KkU07bfiL9NNWUbKIvghbXmPm/mABquFGPNfjJfOmxA1lN8RTmtWoiiQ
+ zVCXuQ/sie8+Lk/VyQfp/CEUELjIgq7BxA4W4AGN+mTyHnUoT8Zjzxx2N
+ 22U6i9trYGOo0vjuwfnTmD/PIW9vIgFRM43xBqtwvWUZY0m+kTclvoH6g
+ QET/6HfiB9PcXa/00jg6qY08RkYlddsM/qMG1M22F+3zOMA5/tdc9Tvwa
+ WJYVIz6SSsulGDnhJTnYH76GRgJ1ISiIyFGZ/lKgMVXvwsMM9dO4L39gV
+ wMgwwRoepd3BMsjF/hezfyebGiIiOjz5iNj5Ng/Vzi9kLSdHE7IR2jjpu g==;
+X-CSE-ConnectionGUID: WEOSbVUTSpy0s+5Ez1t2aA==
+X-CSE-MsgGUID: wCX/LPb0S3SBZZ5MNWkxHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73407543"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="73407543"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 11:48:27 -0800
+X-CSE-ConnectionGUID: 0z6rJKVTTbCNqBVgNbYDHQ==
+X-CSE-MsgGUID: Rl5eTqZkQkaJmrQI2+Almw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="215355262"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 11:48:27 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 2 Mar 2026 11:48:26 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 2 Mar 2026 11:48:26 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.44) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 2 Mar 2026 11:48:26 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bz+EpX35PVULT7HqCFF/XXtdslFVXcS9RP9UeaOqfK8Az9VyJ+hIszgogHpdMufb7aravXuDTo6SRWMcwQuP85UZcqVo5D6QVSB16RQVqYd22RgsUJXnDUnGOw8Icc7lP8pIHjGrazgrpTFy5BcV4CRb/XvuTjfd35WZTyV3tcqOsl4u5rMrxoWnSZsj53RCQ03jigSFqeL/CrrXWV9+XdWZ2pCEH9DST6J+DiqExXZY51fzOSEOFylZboMRehEQU/+pJigEGkD9VU/HaRffDHILFuANlQRNVoQbbsXErknWmuLOGkXJgf9Dijdvyu1AsgR6B4U1mSF8Jq5ZxQqynQ==
+ b=hAEBS/A7UqEgA5t9XUJVl81UKbIla9gVTQoyOjRO3kmd2Gskwk042ZVRgRP/ts94Be9ERueseUk67BuBsTbm0SavcrL6tNtD0orQev2odtQ492xgFpnBWH+cc+vFFAu7AGGU7W6NB0VDNKkAQB1jI1untqCFw+Wt3utGZgt7P6VuuDbtJAX+X2i1jxc+FkEDffmrEblctawKRwAeLa7HZ5ykEvzBgYV+nvnsu20Ds1TDFSLDQBZuNJ61TJu3YKe+X1eEnc3ku4xqBYE8VNWnq29nsfSWl+wa6IRwMYXDXDcN5WRL144AF1P7HFABIwQ6V0JPnM5V6q6Un/JH2/p3pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7VqWLGx8TxDpasbh/khhlhPNBnrEi4S3NEGHp2jgz1k=;
- b=kXHiquqyesXiNDStmBx5/AlPjWwevYZxEzsb98zP3X8bX6R0adPETHJwPjTvDnT3ho3Gx0nc5ygmWMjNVwNju3PSomawwba6tW3qNDF13DrZZ8M+542uH1uH7UEKv9GvEvfNKcstXdMTpiG+URURjRz5zYMhr+gYnqO8yuIY3u0YKJ4Tj2bDzYeTsvnxAHEy7pY8SRkruZJNbfR4GrfcwFu4/ExxxCskescxGXxZO5FYZMZVTidWmKUX3IAltqQJ/uhKeP520Bbql0lnr/nsyatQCM63W27EBnHaK37A5n377jNLmw0e3itY9vWrelh97i1zDCqLObwTvLeJ4s7nYQ==
+ bh=Lt3C9Tn+dDNV0f8+/NGHfd8Xmainwq3yqLwmbqqDp9o=;
+ b=CFHhDoQchzzq0Qzf0gq8/lVLNjTPN2QC5i5jZW/uFnWU0kayMCJ18lsrGKyCanO4ndR4osQ7rq7It43pkpEwwa4bhTyiJLJckHjo+xEszNDGlTVZSBmYJZoZ6wWowRRxGophk6i9Qj/PrdIw/+lgoixV1CW26DwhSal0Uee+QgOInfkh4W94LErGwvYo/lh2PgwDeZxY1hTX1wO07YK2skkOQMbFE3T6dxODLgQJJoUXMtF1E9FVfDY27VKjW2TGi28nfiQJsva3scOTpMrSUkbTeAazZRZQGYT1i6Vcwtep5A/fxIsdHnxVs30tEJmCWkgAgCtFgPFOqXtETH+U9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7VqWLGx8TxDpasbh/khhlhPNBnrEi4S3NEGHp2jgz1k=;
- b=YZdpEe71Q6+4C4wnWnROzRUrVNDb0dc0A5JGxO1RJx+1YPRLTf+oVAPTRSZ5bfKXUrWSPQIZgPvjzfSVoa+7JhqbpxOtYEx5b3SdPyYlhfKokfu0cLc2zoSmkhsiDdnCPeM+qmxtkITDcwhcXWTMFXYNKsWm6tYZuwrW3fw3pXU=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL4PR12MB9724.namprd12.prod.outlook.com (2603:10b6:208:4ed::8)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA1PR11MB7317.namprd11.prod.outlook.com (2603:10b6:208:427::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Mon, 2 Mar
- 2026 19:36:38 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
- 19:36:37 +0000
-Message-ID: <391bca8e-3685-49d5-8b30-93ab4eb1e84a@amd.com>
-Date: Mon, 2 Mar 2026 20:36:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/16] memcg: add support for GPU page counters. (v4)
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Dave Chinner <david@fromorbit.com>, Waiman Long <longman@redhat.com>,
- simona@ffwll.ch, tjmercier@google.com
-References: <20260224020854.791201-1-airlied@gmail.com>
- <20260224020854.791201-8-airlied@gmail.com>
- <ee914ffb-5c3d-4d41-abdb-5ed02db326c6@amd.com>
- <CAPM=9txUuS-qzA+gX2DvTuYR2OZ79RG86FuDA6czkpuJ_SR6KQ@mail.gmail.com>
- <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com> <aaWZrTZGsxxjbBYv@linux.dev>
- <8efef755-e429-4cec-bef4-b15b3f9f4632@amd.com> <aaWuoe_CQwbtcxEY@linux.dev>
- <63dccd9c-f2e5-421e-ac3a-a7c13cec9121@amd.com> <aaXEDLpXLROBO7To@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aaXEDLpXLROBO7To@linux.dev>
-Content-Type: text/plain; charset=UTF-8
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
+ 2026 19:48:20 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%4]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 19:48:19 +0000
+Date: Mon, 2 Mar 2026 11:48:16 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 1/4] mm/mmu_notifier: Allow two-pass struct
+ mmu_interval_notifiers
+Message-ID: <aaXpgCUVXAKCfVCK@lstrano-desk.jf.intel.com>
+References: <20260302163248.105454-1-thomas.hellstrom@linux.intel.com>
+ <20260302163248.105454-2-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0084.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+In-Reply-To: <20260302163248.105454-2-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: MW4P220CA0025.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::30) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL4PR12MB9724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b229558-369e-49b0-1a3a-08de789304bd
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA1PR11MB7317:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92c5e4cd-f9c2-40c3-3d21-08de7894a7af
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|3122999024; 
-X-Microsoft-Antispam-Message-Info: Rd7S8OAnYXcTAAafF/GS5ZNZfMWl7C4FLDTZPXXzlNCd/846Curb/ycSaDWGTpiRXztHoadosBat216MuqaOn+FqDjGvNSL2iHu132A3lZVtto4n0mQqm47/A9tNbDGJHXEPlsciyOTbBvLMixulY1uaDtqUBLCYv6T+pyr6PQ/chjoYiSLyDCEkvqfSnOSbKUx8YPRmIqgOakZmPwfOUqHOZCgh8t6bZwoyNQ1YQCTxQCZ1BGB+waXkRBDYBupsxzsLAodTYoEICph5r/yipK9XJkA6Hd+4UB2rCRlsCJcFaMECo+0zF42VnpNDNz5hNAEMYJA2x7M+Ry1mlXnbdUgs0FIB/nEmNL3oDqcREoICb8e9YXUVDahBy5DUJvs2qS/vTbUVDaF5qvEWu3/7IiWgZ+5A0NJavvz3s9E9xTbr7WIfavbFLq0cOGTa8XX6g+nw4cdmETwrc3MaWAiZpKRUXsds0hMaasXsg8gO89n2Iei/4v67USL6RAWGmeip+p8uGylyCSZuIUsvdveIFzBqh/P8f94uLO3Radd3eXaAt6HocFrt2nAcbC5DCKO9iaE7kmw1J/tQvcqzTbVk7yU0d8JMYOrgy+jPrBP6VMreX1WEHcm+Y8DnXzLrKM4cSaER+huk3Po3yXFyFANAgG/rqUCUZyB6+8yRmNjhlTG9oFYgg0CkdSqm2EL/7DFysXnz0F6dHiQNv8K4OX67CZZaGHtBui9MQE5cuoDCasw=
+ ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: 7cUBLXk8Wy7cTaztZaOE7iVyV+godeA6TX1vdZce1QZUspR/ZQvbTq1wmrMY7QQwiHE5Qup24A16pXyfYcXGmXSY/jzvsZqi2pInO7XtUK+NnV9JIXz1UF7aweDjHyABNxKL7Q1ZhiyPBdshCBUSTM5BMSykbOJYrHchCULhXaMaQW9tkmeedpgYo9c26NIRil8OtkyL50EtDCHnnclg7Pmpzr5l2f2GryHLm9j6yXYsYow3lABnopOmqbpcq/6IMTtjfh0CpS0FtSJbT5gvDQCP8cDYEbBpb/PGDeLpNXq/yJQcLk9ufUmx4ojhyf6hnI9lAo54dTpnHOU9m5WBk1e+WSkYcFwYGqRhSup6hXcCUmJxNTW2s8LzURGENn3Mqmncu7W375QPN7d1wVUasB/tobbMGASqWW0Bg127dhb4Y8vYV6oTSiGBnLA8EVxqHFqbpq9KJxzCrEXQLHiwlQhtr7DWPhrEhkbF3yTUpktuav3vkZSwJzrwu2kCgIf4uWaYg2qBZdkNQttsz9muSWJ8mETdoJwRxMJiWGt2vuaoGkWEZNeHOCWGrwRtTxJjyeFtydspDGPX3ZMbAkpuhtDdNcBi98ewIoWHFVIGCz0CbaDYevgmm5kiHrSN1VkyRkcUdvLVJFyDSfih2Ygx5Ls2RHWSQsBajs7YnP/0Fwd5x2otMK+MrdpdiylMK4eH9BdffHAsOEC3IgMoOPO4QGOsRaIQvo+JXpDanFBbpU4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(3122999024); DIR:OUT;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUwwK1lUVmRwb21yRWxqNDZkSkovTG9EcmcwZGh1L3l1WDZEZjAva0ZVQ05u?=
- =?utf-8?B?eXlqR0x6Tnh4cUdQY0dzYUNRdERjSVhHdmNWV2NPMUhFRjdySUJOc3hJNDg5?=
- =?utf-8?B?STcxUFFzVldkQzRsYXpJS1hIWnd3aTFCeUxrbk1rYWlDUzZUWXE2MER2YXpn?=
- =?utf-8?B?N1dKcVlha3ZreTdZQWp4d3FRSytKbERISGp0ZXZlTzhDVTc5YmV5VW9ONTBI?=
- =?utf-8?B?ZFVrT0JzL01vWWd1R1NWRW90UVhpa3VydlJmYXk5ejRlRmN4dVQ1MWNwdGhH?=
- =?utf-8?B?TmZFdG1Pd1JXNk9ITjFaMk5LTmtQVHpmUE8xdXBlR1Q4ZlBCL3Frb0I5K3Js?=
- =?utf-8?B?aCtiWndBM05ZMmQxN04yKzNwa1d1TTlQQWIwSTgyN2ZtNDBTRWUvTmlCZnpP?=
- =?utf-8?B?b0pWeHlrTGpLQmkvZzBSaXJXRmpQWnFvZkJFb0x6MnUxWDRVNWY5MzdYVi94?=
- =?utf-8?B?TGNOOU9iNDI1S3B3UVIzckFLMExLTnRpR2FjWjdtM05BcVExYmxRYmhjMDc4?=
- =?utf-8?B?WVRuYm04TnlmbUYyZ1dRYXZZc28vUHJSWXpxV0FpbkppM3B3RTFpMTVsa1ZH?=
- =?utf-8?B?TTk5a2M0bGtWSmw0eEczTkxMNXVQem9QVzBHS1ZhWG1yTktncmYxaXRWQkRi?=
- =?utf-8?B?Z2VPOUpESi9mdCtHTVlSK3c5ZHlTNjdReVVoWjR1VTVMOU9DWXlaTlRSN0hk?=
- =?utf-8?B?M1AyRzliREwwT2NEZTAzRHdqRkdMYkVabkxJQStGZkN0bjAxck5RYVRrZExX?=
- =?utf-8?B?QWZaeWpocWFGTnJ1YVFaaWhtOFU5anhvdCtOYWxNNUlubjA4QUs5Z3duRlE4?=
- =?utf-8?B?cmkwTXlyT0hDdklGUFFIKzdubXlLd1czZFZybjFMZER6dS9HelZoRndqcG9s?=
- =?utf-8?B?L1lPSEVFREY3a09pRjdoaWl5NG94RVBjVUloaFJTOXZWZUZaRUpFRFpuSUNh?=
- =?utf-8?B?bnBsS0JtaVU4OUxCQ3dhbThoalBEdXNmTUpMSmUxUWlpamtwZUh2ZDJnMlRx?=
- =?utf-8?B?TXErZmE5LzFGZTVEZXJacDJ6aWhLbDNSUUNvR1crTXJ2bWlKUFluUHViWTZX?=
- =?utf-8?B?R0szdWZuMk9rSmRjVHhqbER2dG92VTZ6eTFpRzRWOHJGYjFaZ2RKNUljcDZn?=
- =?utf-8?B?bFNYQjZSaVMvL1BadkFxSkZoSkExRHA5N0pzSDEydTVWQ1VDTzBPRm83V0Y1?=
- =?utf-8?B?ODFsWWM5dzFmRFhvbC96YzBPa3ZDTlBpM0RqZU1BVmpMMGRLUGNhMVRLYS92?=
- =?utf-8?B?TUYxUmYzYkg2Y0I2OXdJZFBobjcxdXNGVENYS2RSSGdUTW0zZFNyaWpjOHpt?=
- =?utf-8?B?WXFEczkwbitBaVRqdGtZZGQyZWVsdGdMai9KRUhmcHVnb3hlR29idmd5Rmhz?=
- =?utf-8?B?S2ZOdmVMUURtQ1RFd3Vpb0xkcVRUMEZJallwTDdPaEdJcUNpdC9zRlk5cHVS?=
- =?utf-8?B?cVk1ME0xWXNzOFBUaHZYZkdJNHVBdHBSQnRFWXpLSStDRXNyS05keG1JcnZG?=
- =?utf-8?B?dlluenA4a1dUZmQ5WTJxWGFYb09vWkQzSW9FclRuQ0ZTemNubkh5R0FxLzJu?=
- =?utf-8?B?dDJHUlBmdzZySzNlakhQcTdIaUNmSGhsS09WbmpVUnNKTWk4UDlmTXRyWDhK?=
- =?utf-8?B?S2dZU3ozZnFiZEVxWmtXcDlLL2k0MVVLN3hTSHpjZG9vTm8ySWNXWk91N2ZB?=
- =?utf-8?B?QkxiT1NyV3FKN2lCZmdyank4eWl4S3hid2Y4SUF4R3NMTEM3Y2lFSDNVK1NE?=
- =?utf-8?B?WnhBZ2h4Y3duTnJDQzZBL0llejMzTE0xUzFCM0tCelBhLzdVNkdXMDFuYzhD?=
- =?utf-8?B?ajg3NjhaMU13M3hyaHJhSkVrV2haVHN3bldaL3NPWVNDNWUzdU0yVllKUnRu?=
- =?utf-8?B?UndjSFFRYnYycXNuY1V3c0RaZUdzcFJuM2dVTkEyQVdXYkVCQ1A4S3FNOVJO?=
- =?utf-8?B?ODVrbUxiYk9selpFRmhvTmd2ZzM4alBSRmxDS0NYL3pWak43NGU5SXZOdGdD?=
- =?utf-8?B?eWFwQU42R3JMSEl1QkpQNFVOc0R1KzlkYnppSGU5UEw1TFgxa2V0ZlRMWkN6?=
- =?utf-8?B?ZEJJcExZcXBKUE1MRlJ0OU9hbnU5R1Rpb2xxVmhtUHRLRXMvOVF0Ymo5Q0FI?=
- =?utf-8?B?Z3RCWWJ6bnJrTVBPc2FEVEJLZnRxbjhmNmpodXpuRHBtQXNHQzg3T1d1Vm9B?=
- =?utf-8?B?bFFIOFRsclFvZW5zaEM3V3FwSEYzQVJvOWFHSHV3VzNXdlRHSFVxbzNiQVNT?=
- =?utf-8?B?dUt1bEl3ZGFVd0VjN3ZEVGh2TXNkaUFEaTdwQllKVjRDeGNnVXhyVGpIMk1z?=
- =?utf-8?Q?0frtQu1P4VpzLsQ9tH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b229558-369e-49b0-1a3a-08de789304bd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?CQEZ2F2avUehzyktrRe4bpQubAjXea3tB86MJQFhWEJqe12BkNIGjpfO2z?=
+ =?iso-8859-1?Q?m0ehIVsqQeJ4HUSkjAWGHMhCbOC+8Cd2hiAZlVA0WR1trRywdI/OWzAw70?=
+ =?iso-8859-1?Q?eFGo1ALgZ7si6Js2PMaiNygyu5Fr6JbvIudNcE4PE5g8HJkPpSh15Q3rkH?=
+ =?iso-8859-1?Q?8NbSfTTHljcWaiMnzS/DZNqpI1SLKdSbZVPIsER6af8yShBoe+HIOV9Whq?=
+ =?iso-8859-1?Q?daaWTy1YrmU6+jBAjir+sjgwydv0XDmvzyg4aCKnrJ9+xajamAbrM8990F?=
+ =?iso-8859-1?Q?2GNhKMzEAn6Of+gqAkRVuPwl7nznio0B2cXMkH7v4GESoG+CRzfQD8Y+IZ?=
+ =?iso-8859-1?Q?SP/ZC3x8w32BHnH6XWEIRN+9IcjBsek7wLNHXQn4h+/b0ngBLMa8p/3L94?=
+ =?iso-8859-1?Q?3D009WEVSv5FKvhqjJw4WgX3uez56vMm7TswjZP8LrZeOaHIMeTAdL2Tl5?=
+ =?iso-8859-1?Q?RIUVJ2tRuYRXYta78pCRM/c3ySa4eA/zYrSJaajkxSYJukc8sOcv6bc5Ye?=
+ =?iso-8859-1?Q?nfDtUzTLYroy6EtCaxU4o0yr3+zUiihvGn6x2AR2VFzFV43qMX+JTsFE37?=
+ =?iso-8859-1?Q?hCG9541jhgrD7LVfZltBrxo30/I68p07X4emxrMAk3RfxORD3Arq3ACxQJ?=
+ =?iso-8859-1?Q?ARls4y5Va0fvNeRHD1CQBDdv7xVob7MqaxHsfV6pj/Qxc2GyyAshXH1jRT?=
+ =?iso-8859-1?Q?hCJCxLpDjNv9rDU4AjvXbRuYFgfa2iMMgdMLZ2eKUYxb4yWhQJuXTt1k99?=
+ =?iso-8859-1?Q?y0hnKykGRYnWq2h8n1Q+0RT1KSJjnjQiJOmQJ507cUQiO8806spG29gY43?=
+ =?iso-8859-1?Q?T7XjWMlA6NaSdaW6QrDmnMu0ba8zbUCQOUt1d0aRlMEqnzwPYtHJLEHNF5?=
+ =?iso-8859-1?Q?TbpjtSnqiXDT4Uc34mAApwrwQtJU21wztLX+DsXwbYusAEFbMZzz4K4T+8?=
+ =?iso-8859-1?Q?hsfR1A5auWyY1Lv7WO92Qh/032yqtz+b3zYSevwzADy8L5dz3VDVklZw+d?=
+ =?iso-8859-1?Q?sFdFe8IErjtpHRcx+Kwc+aBKDc3mCm74KbPfB4UdyYtNzqTz/2TjFvyBm4?=
+ =?iso-8859-1?Q?R/oHgKsiYhiWTChPvtlUIpNNhClALFf1I+aSINnX42Aao2QP3Tf7rmoSXj?=
+ =?iso-8859-1?Q?ynW3mWx9lw5vmkM23xXp85Bu8mSA6LYZyPdgCeESFQVRZRUPxQ8zE9fzRp?=
+ =?iso-8859-1?Q?ktC9lZEL2GtP088qTEvUG6Mk9K5/ulgAsdyllkaSNd9NpM5Quo33RWbGKc?=
+ =?iso-8859-1?Q?/lTU175u6Ms+J5CTCAy5KxTs09Ppwi89olIf2hFm3RxuqsbGOz22qYcNq2?=
+ =?iso-8859-1?Q?l55qJwmjAyi5FPDWrGMZiagyyXEyjw/abQ7TiE7uqAFTL93mFm7jDkiznQ?=
+ =?iso-8859-1?Q?rYZPTGlyZF1Li4k9VJzIFcvXk1CE1fe1lCE4aHs9EsjMC0T7y499AFQl51?=
+ =?iso-8859-1?Q?53kGoiNy1xY8r/1r4PRiwIYL8956tL/duRikupxJkxagnfBX667odw9ltp?=
+ =?iso-8859-1?Q?L9yvxnJczaE4zQl8jc/0OuweyDRm2s20gFFwuWki2m3u8NP+fMx+siHA8x?=
+ =?iso-8859-1?Q?WssdqdgCWF2MvKfIkR4Pue8zQHrr761sBp3rogUGHJiIHAjxESzZ7mziHm?=
+ =?iso-8859-1?Q?CrgQScvYftEUsj1I1+SmzB03I47opxU1s+fQnzj8uUk9vWyr6LqgxgHC4T?=
+ =?iso-8859-1?Q?FTfarKH/3qardAbd0ZZtm1n+PuRK3xvg6UoCUalIfwBGJeyzHr30RUjKl6?=
+ =?iso-8859-1?Q?knO3aeHt1l1F2KOexxcs1OL+uIaE9okqylmGsczoSh2KZnQOaAjHcjcwjb?=
+ =?iso-8859-1?Q?u6kHA/PvGEFbh8Vfo7eDEsyij2VL2XY=3D?=
+X-Exchange-RoutingPolicyChecked: zMgEjw7U9OEyWY0+5ayv173dUIUhomiWqrZ9EvyfneVEEymq1z8yD7VyuTLOxJE3/E+5AD+ikvFhgr1rJQfWC3bJvrdbobxCcSgHed5VQ3++WfZAVvdXH2CwuHsZz5hoJI5dQnEJaQjm1KsIh207LlvXG+RaB1cl2qPQssX+QcgklJdSpK7ajPFhvFIGV9SUJSH5fL4hi8Latmt34rPy/1yEjCg8Vy7y7Pj61rZA3t0BaH18U5Pym8Cl37eBpK6Jmwwl/qwzIbfNofCf4a6xjuGja2L5qtfMsw0LUDsmydxDUqaZiBrZoKdxqLjA9uKgdM6/WOjYTRGXDX7vQsxd8w==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92c5e4cd-f9c2-40c3-3d21-08de7894a7af
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 19:36:37.0563 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 19:48:19.9456 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lJHWQV4S6iaFQvLIYmN51TAAYMwsAnvHxjoJUzujErCpME+Qb3UbEnU7WPIT9U+7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9724
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2DpLHeFf/2cjGs+JnnLYIbanzvteOQc0ew+4XNU8H+LqzMeMPh4yqo33MVvoE9erES4YK2Hls2ScZzqZaMmA/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7317
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,143 +170,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A6EF41DEDE4
+X-Rspamd-Queue-Id: E2EC41DEF25
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [0.39 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:shakeel.butt@linux.dev,m:airlied@gmail.com,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mhocko@kernel.org,m:roman.gushchin@linux.dev,m:muchun.song@linux.dev,m:cgroups@vger.kernel.org,m:david@fromorbit.com,m:longman@redhat.com,m:simona@ffwll.ch,m:tjmercier@google.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,kernel.org,cmpxchg.org,linux.dev,vger.kernel.org,fromorbit.com,redhat.com,ffwll.ch,google.com];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,kvack.org,vger.kernel.org,amd.com];
+	DKIM_TRACE(0.00)[intel.com:?];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,kvack.org:email,nvidia.com:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	NEURAL_HAM(-0.00)[-0.995];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_SPAM(0.00)[0.999];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	DMARC_DNSFAIL(0.00)[intel.com : query timed out];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	R_DKIM_TEMPFAIL(0.00)[intel.com:s=Intel];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-On 3/2/26 18:16, Shakeel Butt wrote:
-> On Mon, Mar 02, 2026 at 04:51:12PM +0100, Christian KÃ¶nig wrote:
->> On 3/2/26 16:40, Shakeel Butt wrote:
->>> +TJ
->>>
->>> On Mon, Mar 02, 2026 at 03:37:37PM +0100, Christian KÃ¶nig wrote:
->>>> On 3/2/26 15:15, Shakeel Butt wrote:
->>>>> On Wed, Feb 25, 2026 at 10:09:55AM +0100, Christian KÃ¶nig wrote:
->>>>>> On 2/24/26 20:28, Dave Airlie wrote:
->>>>> [...]
->>>>>>
->>>>>>> This has been a pain in the ass for desktop for years, and I'd like to
->>>>>>> fix it, the HPC use case if purely a driver for me doing the work.
->>>>>>
->>>>>> Wait a second. How does accounting to cgroups help with that in any way?
->>>>>>
->>>>>> The last time I looked into this problem the OOM killer worked based on the per task_struct stats which couldn't be influenced this way.
->>>>>>
->>>>>
->>>>> It depends on the context of the oom-killer. If the oom-killer is triggered due
->>>>> to memcg limits then only the processes in the scope of the memcg will be
->>>>> targetted by the oom-killer. With the specific setting, the oom-killer can kill
->>>>> all the processes in the target memcg.
->>>>>
->>>>> However nowadays the userspace oom-killer is preferred over the kernel
->>>>> oom-killer due to flexibility and configurability. Userspace oom-killers like
->>>>> systmd-oomd, Android's LMKD or fb-oomd are being used in containerized
->>>>> environments. Such oom-killers looks at memcg stats and hiding something
->>>>> something from memcg i.e. not charging to memcg will hide such usage from these
->>>>> oom-killers.
->>>>
->>>> Well exactly that's the problem. Android's oom killer is *not* using memcg exactly because of this inflexibility.
->>>
->>> Are you sure Android's oom killer is not using memcg? From what I see in the
->>> documentation [1], it requires memcg.
->>
->> My bad, I should have been wording that better.
->>
->> The Android OOM killer is not using memcg for tracking GPU memory allocations, because memcg doesn't have proper support for tracking shared buffers.
+On Mon, Mar 02, 2026 at 05:32:45PM +0100, Thomas Hellström wrote:
+> GPU use-cases for mmu_interval_notifiers with hmm often involve
+> starting a gpu operation and then waiting for it to complete.
+> These operations are typically context preemption or TLB flushing.
 > 
-> Yes indeed memcg is bad with buffers shared between memcgs (shmem, shared
-> filesystems).
-
-My big concern is that we create uAPI which we then (again) find 6 month later as blocker to further development and have to stick with it.
-
-That has happened before and that we could remove the initial DMA-buf sysfs uAPI (for example) was just because Greg and T.J. agreed that the interface is not something we can carry on into the future.
-
->>
->> In other words GPU memory allocations are shared by design and it is the norm that the process which is using it is not the process which has allocated it.
+> With single-pass notifiers per GPU this doesn't scale in
+> multi-gpu scenarios. In those scenarios we'd want to first start
+> preemption- or TLB flushing on all GPUs and as a second pass wait
+> for them to complete.
 > 
-> Here the GPU memory can be system memory or the actual memory on GPU, right?
-
-For embedded, mobile GPUs (Android) or APUs (modern laptops) it is system memory.
-
-For dGPUs on desktop environments it is mostly device memory on GPUs, but system memory is used as swap.
-
-In HPC, cloud computing and automotive use cases you have a mixture of both system memory and device memory.
-
-> I think I discussed with TJ on the possibility of moving the allocations in the
-> context of process using through custom fault handler in GPU drivers. I don't
-> remember the conclusion but I am assuming that is not possible.
-
-Most HW still uses pre-allocated memory and can't do things like fault on demand. That's why we allocate everything at once on creation or at most on first use.
-
-But allocate on first use has the big potential for security problems. E.g. imagine you create a 1GiB buffer and send it to your display server as window content, the display server would be charged because it is the first one touching it but you keep the memory as reference for yourself.
-
-For Android the only way out which has similar functionality as the BPF approach is to change charging when the file descriptors used as reference for the memory is transferred between processes.
-
-For some automotive use cases it is even worse. To fully handle that use case multiple different cgroups in the same process would be needed, e.g. different cgroups for different threads and/or client handles in the same QEMU process.
-
-Long story short: It is a mess.
-
->>
->> What we would need (as a start) to handle all of this with memcg would be to accounted the resources to the process which referenced it and not the one which allocated it.
+> One can do this on per-driver basis multiplexing per-driver
+> notifiers but that would mean sharing the notifier "user" lock
+> across all GPUs and that doesn't scale well either, so adding support
+> for multi-pass in the core appears to be the right choice.
 > 
-> Irrespective of memcg charging decision, one of my request would be to at least
-> have global counters for the GPU memory which this series is adding. That would
-> be very similar to NR_KERNEL_FILE_PAGES where we explicit opt-out of memcg
-> charging but keep the global counter, so the admin can identify the reasons
-> behind high unaccounted memory on the system.
-
-Sounds reasonable to me. I will try to give this set another review round.
-
-Regards,
-Christian.
-
+> Implement two-pass capability in the mmu_interval_notifier. Use a
+> linked list for the final passes to minimize the impact for
+> use-cases that don't need the multi-pass functionality by avoiding
+> a second interval tree walk, and to be able to easily pass data
+> between the two passes.
 > 
->>
->> I can give a full list of requirements which would be needed by cgroups to cover all the different use cases, but it basically means tons of extra complexity.
->>
->> Regards,
->> Christian.
->>
->>>
->>> [1] https://source.android.com/docs/core/perf/lmkd
->>>
->>>>
->>>> See the multiple iterations we already had on that topic. Even including reverting already upstream uAPI.
->>>>
->>>> The latest incarnation is that BPF is used for this task on Android.
->>>>
->>>> Regards,
->>>> Christian.
->>
+> v1:
+> - Restrict to two passes (Jason Gunthorpe)
+> - Improve on documentation (Jason Gunthorpe)
+> - Improve on function naming (Alistair Popple)
+> v2:
+> - Include the invalidate_finish() callback in the
+>   struct mmu_interval_notifier_ops.
+> - Update documentation (GitHub Copilot:claude-sonnet-4.6)
+> - Use lockless list for list management.
+> 
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
 
+I thought Jason had given a RB on previous revs - did you drop because
+enough has changed?
+ 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Cc: <linux-mm@kvack.org>
+> Cc: <linux-kernel@vger.kernel.org>
+> 
+> Assisted-by: GitHub Copilot:claude-sonnet-4.6 # Documentation only.
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  include/linux/mmu_notifier.h | 38 +++++++++++++++++++++
+>  mm/mmu_notifier.c            | 64 +++++++++++++++++++++++++++++++-----
+>  2 files changed, 93 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+> index 07a2bbaf86e9..de0e742ea808 100644
+> --- a/include/linux/mmu_notifier.h
+> +++ b/include/linux/mmu_notifier.h
+> @@ -233,16 +233,54 @@ struct mmu_notifier {
+>  	unsigned int users;
+>  };
+>  
+> +/**
+> + * struct mmu_interval_notifier_finish - mmu_interval_notifier two-pass abstraction
+> + * @link: List link for the notifiers pending pass list
+
+Lockless list?
+
+> + * @notifier: The mmu_interval_notifier for which the finish pass is called.
+> + *
+> + * Allocate, typically using GFP_NOWAIT in the interval notifier's first pass.
+> + * If allocation fails (which is not unlikely under memory pressure), fall back
+> + * to single-pass operation. Note that with a large number of notifiers
+> + * implementing two passes, allocation with GFP_NOWAIT will become increasingly
+> + * likely to fail, so consider implementing a small pool instead of using
+> + * kmalloc() allocations.
+> + *
+> + * If the implementation needs to pass data between the two passes,
+> + * the recommended way is to embed struct mmu_interval_notifier_finish into a larger
+> + * structure that also contains the data needed to be shared. Keep in mind that
+> + * a notifier callback can be invoked in parallel, and each invocation needs its
+> + * own struct mmu_interval_notifier_finish.
+> + */
+> +struct mmu_interval_notifier_finish {
+> +	struct llist_node link;
+> +	struct mmu_interval_notifier *notifier;
+> +};
+> +
+>  /**
+>   * struct mmu_interval_notifier_ops
+>   * @invalidate: Upon return the caller must stop using any SPTEs within this
+>   *              range. This function can sleep. Return false only if sleeping
+>   *              was required but mmu_notifier_range_blockable(range) is false.
+> + * @invalidate_start: Similar to @invalidate, but intended for two-pass notifier
+> + *                    callbacks where the call to @invalidate_start is the first
+> + *                    pass and any struct mmu_interval_notifier_finish pointer
+> + *                    returned in the @finish parameter describes the final pass.
+> + *                    If @finish is %NULL on return, then no final pass will be
+> + *                    called.
+> + * @invalidate_finish: Called as the second pass for any notifier that returned
+> + *                     a non-NULL @finish from @invalidate_start. The @finish
+> + *                     pointer passed here is the same one returned by
+> + *                     @invalidate_start.
+>   */
+>  struct mmu_interval_notifier_ops {
+>  	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
+>  			   const struct mmu_notifier_range *range,
+>  			   unsigned long cur_seq);
+> +	bool (*invalidate_start)(struct mmu_interval_notifier *interval_sub,
+> +				 const struct mmu_notifier_range *range,
+> +				 unsigned long cur_seq,
+> +				 struct mmu_interval_notifier_finish **finish);
+> +	void (*invalidate_finish)(struct mmu_interval_notifier_finish *finish);
+
+Should we complain somewhere if a caller registers a notifier with
+invalidate_start set but not invalidate_finish?
+
+Matt
+
+>  };
+>  
+>  struct mmu_interval_notifier {
+> diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+> index a6cdf3674bdc..38acd5ef8eb0 100644
+> --- a/mm/mmu_notifier.c
+> +++ b/mm/mmu_notifier.c
+> @@ -260,6 +260,15 @@ mmu_interval_read_begin(struct mmu_interval_notifier *interval_sub)
+>  }
+>  EXPORT_SYMBOL_GPL(mmu_interval_read_begin);
+>  
+> +static void mn_itree_finish_pass(struct llist_head *finish_passes)
+> +{
+> +	struct llist_node *first = llist_reverse_order(__llist_del_all(finish_passes));
+> +	struct mmu_interval_notifier_finish *f, *next;
+> +
+> +	llist_for_each_entry_safe(f, next, first, link)
+> +		f->notifier->ops->invalidate_finish(f);
+> +}
+> +
+>  static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+>  			     struct mm_struct *mm)
+>  {
+> @@ -271,6 +280,7 @@ static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+>  		.end = ULONG_MAX,
+>  	};
+>  	struct mmu_interval_notifier *interval_sub;
+> +	LLIST_HEAD(finish_passes);
+>  	unsigned long cur_seq;
+>  	bool ret;
+>  
+> @@ -278,11 +288,27 @@ static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+>  		     mn_itree_inv_start_range(subscriptions, &range, &cur_seq);
+>  	     interval_sub;
+>  	     interval_sub = mn_itree_inv_next(interval_sub, &range)) {
+> -		ret = interval_sub->ops->invalidate(interval_sub, &range,
+> -						    cur_seq);
+> +		if (interval_sub->ops->invalidate_start) {
+> +			struct mmu_interval_notifier_finish *finish = NULL;
+> +
+> +			ret = interval_sub->ops->invalidate_start(interval_sub,
+> +								  &range,
+> +								  cur_seq,
+> +								  &finish);
+> +			if (ret && finish) {
+> +				finish->notifier = interval_sub;
+> +				__llist_add(&finish->link, &finish_passes);
+> +			}
+> +
+> +		} else {
+> +			ret = interval_sub->ops->invalidate(interval_sub,
+> +							    &range,
+> +							    cur_seq);
+> +		}
+>  		WARN_ON(!ret);
+>  	}
+>  
+> +	mn_itree_finish_pass(&finish_passes);
+>  	mn_itree_inv_end(subscriptions);
+>  }
+>  
+> @@ -430,7 +456,9 @@ static int mn_itree_invalidate(struct mmu_notifier_subscriptions *subscriptions,
+>  			       const struct mmu_notifier_range *range)
+>  {
+>  	struct mmu_interval_notifier *interval_sub;
+> +	LLIST_HEAD(finish_passes);
+>  	unsigned long cur_seq;
+> +	int err = 0;
+>  
+>  	for (interval_sub =
+>  		     mn_itree_inv_start_range(subscriptions, range, &cur_seq);
+> @@ -438,23 +466,41 @@ static int mn_itree_invalidate(struct mmu_notifier_subscriptions *subscriptions,
+>  	     interval_sub = mn_itree_inv_next(interval_sub, range)) {
+>  		bool ret;
+>  
+> -		ret = interval_sub->ops->invalidate(interval_sub, range,
+> -						    cur_seq);
+> +		if (interval_sub->ops->invalidate_start) {
+> +			struct mmu_interval_notifier_finish *finish = NULL;
+> +
+> +			ret = interval_sub->ops->invalidate_start(interval_sub,
+> +								  range,
+> +								  cur_seq,
+> +								  &finish);
+> +			if (ret && finish) {
+> +				finish->notifier = interval_sub;
+> +				__llist_add(&finish->link, &finish_passes);
+> +			}
+> +
+> +		} else {
+> +			ret = interval_sub->ops->invalidate(interval_sub,
+> +							    range,
+> +							    cur_seq);
+> +		}
+>  		if (!ret) {
+>  			if (WARN_ON(mmu_notifier_range_blockable(range)))
+>  				continue;
+> -			goto out_would_block;
+> +			err = -EAGAIN;
+> +			break;
+>  		}
+>  	}
+> -	return 0;
+>  
+> -out_would_block:
+> +	mn_itree_finish_pass(&finish_passes);
+> +
+>  	/*
+>  	 * On -EAGAIN the non-blocking caller is not allowed to call
+>  	 * invalidate_range_end()
+>  	 */
+> -	mn_itree_inv_end(subscriptions);
+> -	return -EAGAIN;
+> +	if (err)
+> +		mn_itree_inv_end(subscriptions);
+> +
+> +	return err;
+>  }
+>  
+>  static int mn_hlist_invalidate_range_start(
+> -- 
+> 2.53.0
+> 
