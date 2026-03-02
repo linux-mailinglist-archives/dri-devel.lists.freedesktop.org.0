@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0C/nCZW2pWkiFQAAu9opvQ
+	id KAGxG8u7pWnNFQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:11:01 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:33:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678CF1DC6ED
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001461DCE7A
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 17:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C469710E53D;
-	Mon,  2 Mar 2026 16:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065B210E361;
+	Mon,  2 Mar 2026 16:33:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lsoG8VWl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A83510E545
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 16:10:56 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <m.felsch@pengutronix.de>)
- id 1vx5rC-0002vi-Lv; Mon, 02 Mar 2026 17:10:54 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Mon, 02 Mar 2026 17:10:42 +0100
-Subject: [PATCH v10 3/3] arm64: dts: imx93: Add parallel display output nodes
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6A510E1D1;
+ Mon,  2 Mar 2026 16:33:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772469190; x=1804005190;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kfMIc0OUpsgkTCkMzSFFXGItn5Z0YPAU5KqBEO/YCjU=;
+ b=lsoG8VWlRy+Macip9u3P6P6+EERt1GbLDghKcCUrDnSDb9GU31evyfjp
+ vByxg1iyitZ2jc/gb2Lvi5AiuXiD8/GEPAO9+Uf4ahQqaf84Wn5SyvzlD
+ 3u51tahZeNyQMHA/wxE+HsyshBzFqVYrLe67POzcwD0KDFnx69jr12aOw
+ 49RUTchIPJplDTQSuSacY45UDw4D+F2JDd8VfqkakpJoibita7ANsNcQS
+ 3j9QW5tHgOaSKwSDqmf4loYwT7besXxm4ZB5YqWc3xmOYsGZTaYMX5NH2
+ Fqq/0SLtYcXUmjLanayRcahh9pvfWPseEJZMaYdefrocJAHG8h865x48l w==;
+X-CSE-ConnectionGUID: 8+jGs6PCSruU3juXvdAwsQ==
+X-CSE-MsgGUID: zVQN2xAoSD+TY6v5Q74DCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73447814"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="73447814"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 08:33:09 -0800
+X-CSE-ConnectionGUID: vr/4G302QFOqlxJOv5pghQ==
+X-CSE-MsgGUID: zDQUWEPnTW23jzI2q1uvMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; d="scan'208";a="255564508"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.81])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 08:33:07 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v2 0/4] Two-pass MMU interval notifiers 
+Date: Mon,  2 Mar 2026 17:32:44 +0100
+Message-ID: <20260302163248.105454-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-v6-18-topic-imx93-parallel-display-v10-3-634fe2778c7a@pengutronix.de>
-References: <20260302-v6-18-topic-imx93-parallel-display-v10-0-634fe2778c7a@pengutronix.de>
-In-Reply-To: <20260302-v6-18-topic-imx93-parallel-display-v10-0-634fe2778c7a@pengutronix.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- luca.ceresoli@bootlin.com
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
- Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: m.felsch@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,151 +77,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 678CF1DC6ED
+X-Rspamd-Queue-Id: 001461DCE7A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	SUBJECT_ENDS_SPACES(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:m.felsch@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	DMARC_NA(0.00)[pengutronix.de];
-	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com];
-	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,lists.freedesktop.org,kvack.org,vger.kernel.org,amd.com];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.844];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,0.0.0.1:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,4c100000:email,4ac10000:email,2.166.110.232:email,0.0.0.2:email]
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,linux.intel.com:mid,nvidia.com:email,linux-foundation.org:email,lists.freedesktop.org:email]
 X-Rspamd-Action: no action
 
-Add required OF nodes to support the i.MX93 parallel output (DPI) path.
+GPU use-cases for mmu_interval_notifiers with hmm often involve
+starting a gpu operation and then waiting for it to complete.
+These operations are typically context preemption or TLB flushing.
+    
+With single-pass notifiers per GPU this doesn't scale in
+multi-gpu scenarios. In those scenarios we'd want to first start
+preemption- or TLB flushing on all GPUs and as a second pass wait
+for them to complete.
 
-On the i.MX93 a single LCDIF is connected to three bridges: DPI, LVDS
-LDB and the MIPI-DSI whereas the i.MX91 support only the DPI bridge.
+This also applies in non-recoverable page-fault scenarios to
+starting a preemption requests on GPUs and waiting for the GPUs 
+to preempt so that system pages they access can be reclaimed.
+    
+One can do this on per-driver basis multiplexing per-driver
+notifiers but that would mean sharing the notifier "user" lock
+across all GPUs and that doesn't scale well either, so adding support
+for two-pass in the core appears like the right choice.
 
-Map endpoint@0 as DPI bridge output since the i.MX93 TRM (Figure 485.
-MEDIAMIX block diagram) doesn't mention any port-number <-> bridge
-combination.
+So this series does that, with pach 1 implementing the core support
+and also describes the choices made.
 
-Set the MEDIA-AXI and MEDIA-APB clocks to the overdrive (OD) values
-since the i.MX93 and i.MX91 use the overdrive (OD) clk settings per
-default.
+The rest of the patches implements a POC with xeKMD userptr
+invalidation and potential TLB-flushing. A follow-up series
+will extend to drm_gpusvm.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- arch/arm64/boot/dts/freescale/imx91_93_common.dtsi | 54 ++++++++++++++++++++++
- arch/arm64/boot/dts/freescale/imx93.dtsi           | 12 +++++
- 2 files changed, 66 insertions(+)
+v2 hightlights:
+- Refactor the core mm patch to use the struct
+  mmu_interval_notifier_ops for the invalidate_finish() callback.
+- Rebase on xe driver tlb invalidation changes.
+- Provide an initial implementation for userptr instead of drm_gpusvm.
+  The intent is to handle drm_gpusvm in a follow-up series.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-index 7958cef353766a430df5e626ff2403dc05a974b1..5a8813df6bc993d559fb0b20fc742a106bfe6315 100644
---- a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-@@ -1122,8 +1122,62 @@ media_blk_ctrl: system-controller@4ac10000 {
- 				 <&clk IMX93_CLK_MIPI_DSI_GATE>;
- 			clock-names = "apb", "axi", "nic", "disp", "cam",
- 				      "pxp", "lcdif", "isi", "csi", "dsi";
-+			assigned-clocks = <&clk IMX93_CLK_MEDIA_AXI>,
-+					  <&clk IMX93_CLK_MEDIA_APB>,
-+					  <&clk IMX93_CLK_MEDIA_DISP_PIX>;
-+			assigned-clock-parents = <&clk IMX93_CLK_SYS_PLL_PFD1>,
-+						 <&clk IMX93_CLK_SYS_PLL_PFD1_DIV2>,
-+						 <&clk IMX93_CLK_VIDEO_PLL>;
-+			assigned-clock-rates = <400000000>, <133333333>;
- 			#power-domain-cells = <1>;
- 			status = "disabled";
-+
-+			dpi_bridge: dpi-bridge {
-+				compatible = "nxp,imx93-pdfc";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						dpi_from_lcdif: endpoint {
-+							remote-endpoint = <&lcdif_to_dpi>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						dpi_to_panel: endpoint {
-+						};
-+					};
-+				};
-+			};
-+		};
-+
-+		lcdif: display-controller@4ae30000 {
-+			compatible = "fsl,imx93-lcdif";
-+			reg = <0x4ae30000 0x23c>;
-+			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX93_CLK_MEDIA_DISP_PIX>,
-+				 <&clk IMX93_CLK_LCDIF_GATE>,
-+				 <&clk IMX93_CLK_MEDIA_AXI>;
-+			clock-names = "pix", "axi", "disp_axi";
-+			power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_LCDIF>;
-+			status = "disabled";
-+
-+			port {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				lcdif_to_dpi: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&dpi_from_lcdif>;
-+				};
-+			};
- 		};
- 
- 		usbotg1: usb@4c100000 {
-diff --git a/arch/arm64/boot/dts/freescale/imx93.dtsi b/arch/arm64/boot/dts/freescale/imx93.dtsi
-index 7b27012dfcb564650882dc8c40e836e797b2fda1..5436b48b30e89eb1f939b398ce1bf105abe7e34b 100644
---- a/arch/arm64/boot/dts/freescale/imx93.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx93.dtsi
-@@ -150,6 +150,18 @@ l3_cache: l3-cache {
- 	};
- };
- 
-+&lcdif {
-+	port {
-+		lcdif_to_ldb: endpoint@1 {
-+			reg = <1>;
-+		};
-+
-+		lcdif_to_dsi: endpoint@2 {
-+			reg = <2>;
-+		};
-+	};
-+};
-+
- &src {
- 	mlmix: power-domain@44461800 {
- 		compatible = "fsl,imx93-src-slice";
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: <dri-devel@lists.freedesktop.org>
+Cc: <linux-mm@kvack.org>
+Cc: <linux-kernel@vger.kernel.org>
+
+Thomas Hellström (4):
+  mm/mmu_notifier: Allow two-pass struct mmu_interval_notifiers
+  drm/xe/userptr: Convert invalidation to two-pass MMU notifier
+  drm/xe: Split TLB invalidation into submit and wait steps
+  drm/xe/userptr: Defer Waiting for TLB invalidation to the second pass
+    if possible
+
+ drivers/gpu/drm/xe/xe_svm.c             |   6 +-
+ drivers/gpu/drm/xe/xe_tlb_inval.c       |  82 ++++++++++++++
+ drivers/gpu/drm/xe/xe_tlb_inval.h       |   6 ++
+ drivers/gpu/drm/xe/xe_tlb_inval_types.h |  14 +++
+ drivers/gpu/drm/xe/xe_userptr.c         | 136 ++++++++++++++++++++----
+ drivers/gpu/drm/xe/xe_userptr.h         |  32 ++++++
+ drivers/gpu/drm/xe/xe_vm.c              |  99 ++++++-----------
+ drivers/gpu/drm/xe/xe_vm.h              |   5 +-
+ drivers/gpu/drm/xe/xe_vm_madvise.c      |   9 +-
+ drivers/gpu/drm/xe/xe_vm_types.h        |   1 +
+ include/linux/mmu_notifier.h            |  38 +++++++
+ mm/mmu_notifier.c                       |  64 +++++++++--
+ 12 files changed, 389 insertions(+), 103 deletions(-)
 
 -- 
-2.47.3
+2.53.0
 
