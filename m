@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMtKHRRipWmx+wUAu9opvQ
+	id oICDKeJjpWn0/QUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:10:28 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:18:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D756A1D6186
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0562D1D648F
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 11:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5ED10E20B;
-	Mon,  2 Mar 2026 10:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC1710E472;
+	Mon,  2 Mar 2026 10:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Zcdj8Abd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BaNGQNqH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCB810E20B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:10:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8730510E472
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Mar 2026 10:18:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772446223;
- bh=DykPuhSTp7UV7wBs+lLCqWdpe0feAfPyWKQx7K2cZpU=;
+ s=mail; t=1772446683;
+ bh=pCqJ4cE7T2aqTIS/ZplrUeqTINb/S1pfopDiR7DbeoA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Zcdj8AbdsRtsdwk6z4eKDGOROjoc3xI8oHzconJD5wd36geyoEfBVaqez/N4UdKU6
- qPraQtLqNgJotIWJVq+X5+bu17s7Kh4ZYhxEX3YSCtLn/dGY1Na1CkX/cij49d2CLT
- nnij47LFVXHdtgiVu16ODbESi2hPCkBzKCWFlzSOsk0II60RWa7Y3Qx6oh+4WDvUlj
- CEhm0DeAXlJ4WPldFLYhmVTbnQu5M5ZXUp8fgbUEeyi15OUTUepF/Imy6CoWGV292X
- G/yhBwlNIENaAJOn7KiN0RBfE9roWinYlL4mL6p+sULVhc1TEfPGjjcXHHLNCRmsDC
- bLXKA+r9YFK7A==
+ b=BaNGQNqHvKkIG+rTvhkBCpzs0xzU+vdU+MZC7jAJ4uGxV8uemGUBBo6Tj8uSFkOIo
+ idkFuU9EMptEwLOf6r6o1M22ka9ypYauZlXRqoQa1LT/XRpyGwsWh6On5KVOzbnR2y
+ n7Nie0Lw6PM8BUAU0QX+gk2lhjV1yYuNDREh/6kt+GZcfwKHO0TX3ZSj0kxFwkauzA
+ ia5DLKuUiLBYlHVdm0J4bTc5MWRKi3l3usy0jKZDSaDzDc6tr095oD4jDhg87cBRkp
+ JAuJk5/dt6apRVv9qnWb1Ei2IIv0jTPMjL+ZGonf5/bA2hBOa6pSxWYQrLr0ZgoJIh
+ 6T0/YJYpQNKnw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8D87517E03E5;
- Mon,  2 Mar 2026 11:10:23 +0100 (CET)
-Date: Mon, 2 Mar 2026 11:10:18 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DF2DD17E0251;
+ Mon,  2 Mar 2026 11:18:02 +0100 (CET)
+Date: Mon, 2 Mar 2026 11:17:57 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>,
+ rust-for-linux@vger.kernel.org
 Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- aliceryhl@google.com, beata.michalska@arm.com, lyude@redhat.com
-Subject: Re: [PATCH 07/12] drm/tyr: Add generic slot manager
-Message-ID: <20260302111018.33d1d413@fedora>
-In-Reply-To: <aaI2w5vIxB_kc98o@um790>
+ dri-devel@lists.freedesktop.org, aliceryhl@google.com,
+ beata.michalska@arm.com, lyude@redhat.com
+Subject: Re: [PATCH 06/12] drm/tyr: add shmem backing for GEM objects
+Message-ID: <20260302111757.7bae333d@fedora>
+In-Reply-To: <aaI0H8u7nAbMySek@um790>
 References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
- <20260212013713.304343-8-deborah.brouwer@collabora.com>
- <20260212111113.68778819@fedora>
- <1B40312F-694C-4154-ABF7-F96CE5576C0E@collabora.com>
- <20260220172154.4fe93c6d@fedora>
- <A60BBD53-B7D3-4E85-A72E-8B914B82C977@collabora.com>
- <20260222185743.02dabb26@fedora>
- <AF169886-65F7-4B7A-BAFE-D2C75ADAE678@collabora.com>
- <aaI2w5vIxB_kc98o@um790>
+ <20260212013713.304343-7-deborah.brouwer@collabora.com>
+ <A849CDE2-C257-42D7-9FD2-E9442A540264@collabora.com>
+ <aaI0H8u7nAbMySek@um790>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,7 +82,7 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:daniel.almeida@collabora.com,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:beata.michalska@arm.com,m:lyude@redhat.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -108,69 +104,90 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim]
-X-Rspamd-Queue-Id: D756A1D6186
+X-Rspamd-Queue-Id: 0562D1D648F
 X-Rspamd-Action: no action
 
-On Fri, 27 Feb 2026 16:28:51 -0800
+On Fri, 27 Feb 2026 16:17:35 -0800
 Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
 
-> > >  =20
-> > >>=20
-> > >> access vs access_mut() does not matter here: since the owner is &mut=
- self
-> > >> anyways we know we have exclusive access to the LockedSeat throughou=
-t the whole
-> > >> function. =20
-> > >=20
-> > > I agree, but LockedBy is picky, and last I tried I couldn't make it
-> > > work without the annoying update+return-copy-of-seat dance you see
-> > > here. Maybe I missed something obvious and it does indeed work with
-> > > your suggested changes, dunno. =20
-> >=20
-> > Rewriting things so they pass the borrow checker is common in Rust. Som=
-etimes
-> > it can be done rather easily; other times the design is just broken and=
- needs
-> > to be reworked. Luckily this one fell in the first category.
-> >=20
-> > This benefits from the fact that no one can race us between reading thi=
-s tuple
-> >=20
-> > (slot_idx, seqno, is_active)=20
-> >=20
-> > ..and using it. That=E2=80=99s because we=E2=80=99re taking &mut self a=
-s a proxy in LockedBy, so
-> > we=E2=80=99re sure we have exclusive access in this scope.
+> On Fri, Feb 20, 2026 at 11:25:47AM -0300, Daniel Almeida wrote:
+> > 
+> >   
+> > > On 11 Feb 2026, at 22:37, Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+> > > 
+> > > Add support for GEM buffer objects backed by shared memory.
+> > > 
+> > > This introduces the BoCreateArgs structure for passing creation parameters
+> > > including flags, and adds a flags field to BoData. A new_dummy_object()
+> > > helper is provided to create a dummy GEM object for use as a GPUVM root.
+> > > 
+> > > The Bo type alias is added to simplify working with Tyr's shmem-backed
+> > > GEM objects throughout the driver.
+> > > 
+> > > Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> > > ---
+> > > drivers/gpu/drm/tyr/gem.rs | 52 ++++++++++++++++++++++++++++++++------
+> > > 1 file changed, 44 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+> > > index c1208d332dea..6a58f2da88d3 100644
+> > > --- a/drivers/gpu/drm/tyr/gem.rs
+> > > +++ b/drivers/gpu/drm/tyr/gem.rs
+> > > @@ -1,28 +1,64 @@
+> > > // SPDX-License-Identifier: GPL-2.0 or MIT
+> > > +//! GEM buffer object management for the Tyr driver.
+> > > +//!
+> > > +//! This module provides buffer object (BO) management functionality using
+> > > +//! DRM's GEM subsystem with shmem backing.
+> > > 
+> > > use kernel::{
+> > >     drm::{
+> > >         gem,
+> > > +        gem::shmem,
+> > >         DeviceContext, //
+> > >     },
+> > > -    prelude::*, //
+> > > +    prelude::*,
+> > > +    sync::aref::ARef, //
+> > > };
+> > > 
+> > > -use crate::driver::TyrDrmDriver;
+> > > +use crate::driver::{
+> > > +    TyrDrmDevice,
+> > > +    TyrDrmDriver, //
+> > > +};
+> > > 
+> > > -/// GEM Object inner driver data
+> > > +/// Tyr's DriverObject type for GEM objects.
+> > > #[pin_data]
+> > > -pub(crate) struct BoData {}
+> > > +pub(crate) struct BoData {
+> > > +    flags: u32,
+> > > +}
+> > > +
+> > > +/// Provides a way to pass arguments when creating BoData
+> > > +/// as required by the gem::DriverObject trait.
+> > > +pub(crate) struct BoCreateArgs {
+> > > +    flags: u32,
+> > > +}
+> > > 
+> > > impl gem::DriverObject for BoData {
+> > >     type Driver = TyrDrmDriver;
+> > > -    type Args = ();
+> > > +    type Args = BoCreateArgs;
+> > > 
+> > >     fn new<Ctx: DeviceContext>(
+> > > -        _dev: &kernel::drm::Device<TyrDrmDriver, Ctx>,
+> > > +        _dev: &TyrDrmDevice<Ctx>,  
+> > 
+> > Unrelated change?  
+> 
+> I switched to use the convenience type alias `TyrDrmDevice<Ctx>`
+> here instead of using its full path. I can flag that in the commit
+> mesage if that is what you mean?
 
-Yep, I know that, but I seem to remember it wasn't working when I was doing
-
-        match locked_seat.access(self) {
-            Seat::Active(seat_info) | Seat::Idle(seat_info) =3D> {
-                // With lazy eviction, if seqno matches, the hardware state=
- is still
-                // valid for both Active and Idle slots, so just update our=
- records
-                self.record_active_slot(seat_info.slot as usize, locked_sea=
-t, slot_data)
-            }
-            _ =3D> self.allocate_slot(locked_seat, slot_data),
-        }
-
-in ::activate(), which is why I made check_seat() return a Seat and
-did the match against this returned seat. Oh well, I must have
-misunderstood the problem reported by the compiler.
-
-> >=20
-> > If you don=E2=80=99t have any complaints about the code I sent (i.e.: c=
-onvoluted, wrong
-> > logic, etc), I suggest switching to it. =20
->=20
-> I=E2=80=99ve tested the short check_seat() function and can confirm that =
-it correctly
-> compares Seat and Slot seqno as well as emits the kernel warning when we =
-have a
-> mismatch on an active Seat. So I=E2=80=99ll the simplified check_seat() f=
-unction in v2
-> unless there are any more issues to address.
-
-If things still compile/work as expected, no objection on my end.
+I'd probably do that in a separate commit, like Daniel suggested, even
+if that means introducing a one-line commit just for that cosmetic
+change.
