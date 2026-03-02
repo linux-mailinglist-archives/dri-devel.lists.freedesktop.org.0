@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oC80Lv9HpWk87wUAu9opvQ
+	id eCo7LOBIpWlj7wUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:19:11 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:22:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2492B1D48DC
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178BF1D4952
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Mar 2026 09:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C4510E453;
-	Mon,  2 Mar 2026 08:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E02810E44B;
+	Mon,  2 Mar 2026 08:22:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VtcHjAcd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fi9qbBnC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBB710E453;
- Mon,  2 Mar 2026 08:19:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0533510E44B;
+ Mon,  2 Mar 2026 08:22:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 81674600AD;
- Mon,  2 Mar 2026 08:19:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42C3C19423;
- Mon,  2 Mar 2026 08:18:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E055060018;
+ Mon,  2 Mar 2026 08:22:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6CDC19423;
+ Mon,  2 Mar 2026 08:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772439545;
- bh=WmUymOIJMfyfhcBz2h3rfkkfmDcPbAvC1z+3AaqwZ0g=;
+ s=k20201202; t=1772439770;
+ bh=XDKJkaVhQfYzVUj3ho/S80emIEXa893QeTlONkL4P1o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VtcHjAcdNUspXks9MnWnffCAOqhBHNybP+7Ni7w8KdFY/trDOnhcMQKmf8ZqBAo9v
- 2oPq6TzzmlTs/C9RNRmZ/bhgByD+u1nfj6UxwxomjOQCu2sY9HuCtu0I3smP44soG1
- z3JiHjnOWXVROlMpnAOszR6Llw0KBEFBuQA/dpMNDX95fR6stQpR5WnTZjAG5K+8C3
- J8dr/QWrvH7T+g/mBKT5sBlBT5fQFIHiyIyYAdI/Wil4qScmZd5DeCh046NcNpwp9+
- rTrW2LUZVcITpNBX5owhZeWoh57rxakj8ZFLJUaCvflED3tgx9mlEtXGwa4FzT086v
- UCdEEMmXLFPAA==
-Message-ID: <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
-Date: Mon, 2 Mar 2026 09:18:45 +0100
+ b=Fi9qbBnCFSKTVd+ug21vuDlAi7DzRlnYMKJGAuXRQMzE43DC/DTPknV2/delTOlUN
+ QA6XFh+xbVpMSMVu51hR58tTjm2Oi+IHTYmtFOwTUz5kDyM25Bv/CD47bqGImWTsGA
+ Xx72UDJWQsYLHva66lVFR8w9EI6Q89wXI+87ro6UBqUVlO+W+Ve83utQ2uC8cfvToG
+ +aD3dO+R2rZlEoqF7GuvEI+/NyO4JvLmd7EEDzu5pE/jvuvgfFLXABqTen2akk4FTT
+ DHeWQN6tlgkQkbPQc02rL0mxOhVrxxRN8s7xO8qmNmz7FGmJaFy7IU4+i7AcWW0zxM
+ u8BBuqn/3yaqA==
+Message-ID: <15fcc4f9-a2e8-4979-8e67-6a9c9cc86740@kernel.org>
+Date: Mon, 2 Mar 2026 09:22:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
- zap_page_range_single()
+Subject: Re: [PATCH v1 14/16] mm: rename zap_page_range_single() to
+ zap_vma_range()
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: linux-kernel@vger.kernel.org, "linux-mm @ kvack . org"
  <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
@@ -88,7 +88,7 @@ Cc: linux-kernel@vger.kernel.org, "linux-mm @ kvack . org"
  linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
 References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-3-david@kernel.org> <aaLh2BxSgC9Jl5iS@google.com>
+ <20260227200848.114019-15-david@kernel.org> <aaLjK2Q2q5ghE-uE@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -135,7 +135,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <aaLh2BxSgC9Jl5iS@google.com>
+In-Reply-To: <aaLjK2Q2q5ghE-uE@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -155,96 +155,132 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCPT_COUNT_GT_50(0.00)[73];
 	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 2492B1D48DC
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 178BF1D4952
 X-Rspamd-Action: no action
 
-On 2/28/26 13:38, Alice Ryhl wrote:
-> On Fri, Feb 27, 2026 at 09:08:33PM +0100, David Hildenbrand (Arm) wrote:
->> Nobody except memory.c should really set that parameter to non-NULL. So
->> let's just drop it and make unmap_mapping_range_vma() use
->> zap_page_range_single_batched() instead.
->>
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On 2/28/26 13:44, Alice Ryhl wrote:
+> On Fri, Feb 27, 2026 at 09:08:45PM +0100, David Hildenbrand (Arm) wrote:
+>> diff --git a/drivers/android/binder/page_range.rs b/drivers/android/binder/page_range.rs
+>> index fdd97112ef5c..2fddd4ed8d4c 100644
+>> --- a/drivers/android/binder/page_range.rs
+>> +++ b/drivers/android/binder/page_range.rs
+>> @@ -130,7 +130,7 @@ pub(crate) struct ShrinkablePageRange {
+>>      pid: Pid,
+>>      /// The mm for the relevant process.
+>>      mm: ARef<Mm>,
+>> -    /// Used to synchronize calls to `vm_insert_page` and `zap_page_range_single`.
+>> +    /// Used to synchronize calls to `vm_insert_page` and `zap_vma_range`.
+>>      #[pin]
+>>      mm_lock: Mutex<()>,
+>>      /// Spinlock protecting changes to pages.
+>> @@ -719,7 +719,7 @@ fn drop(self: Pin<&mut Self>) {
+>>  
+>>      if let Some(vma) = mmap_read.vma_lookup(vma_addr) {
+>>          let user_page_addr = vma_addr + (page_index << PAGE_SHIFT);
+>> -        vma.zap_page_range_single(user_page_addr, PAGE_SIZE);
+>> +        vma.zap_vma_range(user_page_addr, PAGE_SIZE);
+>>      }
+> 
+> LGTM. Be aware that this will have a merge conflict with patches
+> currently in char-misc-linus that are scheduled to land in an -rc.
+
+Thanks. @Andrew will likely run into that when rebasing, where we can fix it up.
+
+> 
+>> diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
+>> index dd2046bd5cde..e4488ad86a65 100644
+>> --- a/drivers/android/binder_alloc.c
+>> +++ b/drivers/android/binder_alloc.c
+>> @@ -1185,7 +1185,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
+>>  	if (vma) {
+>>  		trace_binder_unmap_user_start(alloc, index);
+>>  
+>> -		zap_page_range_single(vma, page_addr, PAGE_SIZE);
+>> +		zap_vma_range(vma, page_addr, PAGE_SIZE);
+>>  
+>>  		trace_binder_unmap_user_end(alloc, index);
+> 
+> LGTM.
 > 
 >> diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
->> index da21d65ccd20..b8e59e4420f3 100644
+>> index b8e59e4420f3..04b3cc925d67 100644
 >> --- a/rust/kernel/mm/virt.rs
 >> +++ b/rust/kernel/mm/virt.rs
+>> @@ -113,7 +113,7 @@ pub fn end(&self) -> usize {
+>>      /// kernel goes further in freeing unused page tables, but for the purposes of this operation
+>>      /// we must only assume that the leaf level is cleared.
+>>      #[inline]
+>> -    pub fn zap_page_range_single(&self, address: usize, size: usize) {
+>> +    pub fn zap_vma_range(&self, address: usize, size: usize) {
+>>          let (end, did_overflow) = address.overflowing_add(size);
+>>          if did_overflow || address < self.start() || self.end() < end {
+>>              // TODO: call WARN_ONCE once Rust version of it is added
 >> @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
 >>          // sufficient for this method call. This method has no requirements on the vma flags. The
 >>          // address range is checked to be within the vma.
 >>          unsafe {
->> -            bindings::zap_page_range_single(self.as_ptr(), address, size, core::ptr::null_mut())
->> +            bindings::zap_page_range_single(self.as_ptr(), address, size)
+>> -            bindings::zap_page_range_single(self.as_ptr(), address, size)
+>> +            bindings::zap_vma_range(self.as_ptr(), address, size)
 >>          };
+>>      }
 > 
-> Please run rustfmt on Rust changes. Here, rustfmt leads to this being
-> formatted on a single line:
-
-Having to run tooling I don't even have installed when removing a single
-function parameter; did not expect that :)
-
+> Same as previous patch: please run rustfmt. It will format on a single
+> line, like this:
 > 
-> unsafe { bindings::zap_page_range_single(self.as_ptr(), address, size) };
+>         unsafe { bindings::zap_vma_range(self.as_ptr(), address, size) };
 > 
 
-@Andrew, can you squash:
-
-From 5128f2e34d219722a8883c1fa94e057bd34601f2 Mon Sep 17 00:00:00 2001
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Mon, 2 Mar 2026 09:17:19 +0100
-Subject: [PATCH] fixup: mm/memory: remove zap_details parameter from
- zap_page_range_single()
-
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- rust/kernel/mm/virt.rs | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+@Andrew, after squashing the fixup into patch #2, this hunk should look like this:
 
 diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
-index b8e59e4420f3..6bfd91cfa1f4 100644
+index 6bfd91cfa1f4..63eb730b0b05 100644
 --- a/rust/kernel/mm/virt.rs
 +++ b/rust/kernel/mm/virt.rs
-@@ -123,9 +123,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
+@@ -113,7 +113,7 @@ pub fn end(&self) -> usize {
+     /// kernel goes further in freeing unused page tables, but for the purposes of this operation
+     /// we must only assume that the leaf level is cleared.
+     #[inline]
+-    pub fn zap_page_range_single(&self, address: usize, size: usize) {
++    pub fn zap_vma_range(&self, address: usize, size: usize) {
+         let (end, did_overflow) = address.overflowing_add(size);
+         if did_overflow || address < self.start() || self.end() < end {
+             // TODO: call WARN_ONCE once Rust version of it is added
+@@ -123,7 +123,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
          // SAFETY: By the type invariants, the caller has read access to this VMA, which is
          // sufficient for this method call. This method has no requirements on the vma flags. The
          // address range is checked to be within the vma.
--        unsafe {
--            bindings::zap_page_range_single(self.as_ptr(), address, size)
--        };
-+        unsafe { bindings::zap_page_range_single(self.as_ptr(), address, size) };
+-        unsafe { bindings::zap_page_range_single(self.as_ptr(), address, size) };
++        unsafe { bindings::zap_vma_range(self.as_ptr(), address, size) };
      }
  
      /// If the [`VM_MIXEDMAP`] flag is set, returns a [`VmaMixedMap`] to this VMA, otherwise
--- 
-2.43.0
 
 
-
-> with the above changed:
+> with the above change applied:
 > 
 > Acked-by: Alice Ryhl <aliceryhl@google.com> # Rust and Binder
 
