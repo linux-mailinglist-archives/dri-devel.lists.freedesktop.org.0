@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGUcCZg7pmmpMwAAu9opvQ
+	id EHHaJps7pmmpMwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:32 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BB41E7BDE
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA931E7BFB
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0087910E606;
-	Tue,  3 Mar 2026 01:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28610E609;
+	Tue,  3 Mar 2026 01:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QHjh5GCF";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Y6HeRn2D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093E810E08C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DADFB10E08C
  for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 01:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772501904;
- bh=NX8PprlBauLw/tHNs9H9iHjyPLMjnL119UcQNvumShw=;
+ s=mail; t=1772501905;
+ bh=AN6INEBfPyO6s+XgcEZep4nYTl5pMwRVWu9DVH/ap2Q=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QHjh5GCFc/EqyXMzPkB2FIflD/cEeWCgtj6d+kQjsFtuqOBGpsjsInXPtsYN7oZym
- TsbqCZPuuDiKipmqyupzj2TwNrZuZHKpX0x54se708RVn+agmF1PQ5+VK86Co9BSBr
- eMnGk0BvBGpMotBx064/EpEBGJtPYAzqld9ayHVyKUuOaZK9fK+q7MASET4zMLvIh8
- FmDF1rOOdMH0m+Tgci8QlBDGlNM9R6cnCnVXH9We3EhJ24+OTZ/oxGlneCoePfCrOI
- mzI6zfMHNAfBUt1Qo9+DSMYsilmgj01LALAqU69vFdiT3DiwQePpmxogqmBGyXrzpo
- 2zFVc8kK+sW4w==
+ b=Y6HeRn2DMg3dbE6FLDui/ocVDJmINbIKOH6v4BsjjqlpXyFuxG/9pxsRfZZyIVQrz
+ xrQzr0bMb3BCopOku1dyhf7+n+wCs9zDXqHp/z2Q7L+DmHnAWjeqpk17/xGAzxrO4p
+ JAa46mChh+fu3yXVD8OVUXOJv6piApL6n9rQK2lCBuaCBAHJlplV0Vk3740/1Xs15F
+ xGFKCgFYEI95qbWZy3c8FsyV4AwVSxPW7GlnxxkTVNPp1l/arCOHvPzUFJoOhP2NSV
+ yDc9dqVS5YTOdy0SNh7A+h0EMs7xpdzMIQAwyRDkLejATIwtTCnez+j2bPHfyMP3mA
+ Ua5WkfkQyOZug==
 Received: from localhost (unknown [86.123.23.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 884D117E0EA3;
- Tue,  3 Mar 2026 02:38:24 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4BEE417E108B;
+ Tue,  3 Mar 2026 02:38:25 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 03 Mar 2026 03:38:07 +0200
-Subject: [PATCH v4 1/4] drm/bridge: Add ->detect_ctx hook and
- drm_bridge_detect_ctx()
+Date: Tue, 03 Mar 2026 03:38:08 +0200
+Subject: [PATCH v4 2/4] drm/bridge-connector: Switch to using ->detect_ctx hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-dw-hdmi-qp-scramb-v4-1-317d3b8bd219@collabora.com>
+Message-Id: <20260303-dw-hdmi-qp-scramb-v4-2-317d3b8bd219@collabora.com>
 References: <20260303-dw-hdmi-qp-scramb-v4-0-317d3b8bd219@collabora.com>
 In-Reply-To: <20260303-dw-hdmi-qp-scramb-v4-0-317d3b8bd219@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -78,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 81BB41E7BDE
+X-Rspamd-Queue-Id: 4FA931E7BFB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -89,14 +88,14 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:diederik@cknow-tech.com,m:maud_spierings@hotmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,rock-chips.com,sntech.de];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -117,138 +116,134 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[cknow-tech.com:email]
 X-Rspamd-Action: no action
 
-Add an atomic variant of the ->detect callback and a new helper to call
-the hook while passing an optional drm_modeset_acquire_ctx reference.
+In preparation to allow bridge drivers relying on the HDMI connector
+framework to provide HDMI 2.0 support, make use of the atomic version of
+drm_connector_funcs.detect() hook and invoke the newly introduced
+drm_bridge_detect_ctx() helper.
 
-When both ->detect_ctx and ->detect are defined, the latter is ignored.
-If acquire_ctx is unset, the function takes care of the locking,
-while also handling EDEADLK.
+In particular, this is going to be used for triggering an empty modeset
+in drm_bridge_funcs.detect_ctx() callback, in order to manage SCDC
+status lost on sink disconnects.
 
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/drm_bridge.c | 58 ++++++++++++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     | 30 +++++++++++++++++++++++
- 2 files changed, 88 insertions(+)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 73 ++++++++++++++------------
+ 1 file changed, 38 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index f8b0333a0a3b..1247573c2100 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1345,6 +1345,64 @@ drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- }
- EXPORT_SYMBOL_GPL(drm_bridge_detect);
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index f686aa5c0ed9..626f15aba5d5 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -208,39 +208,6 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
+  * Bridge Connector Functions
+  */
  
-+/**
-+ * drm_bridge_detect_ctx - check if anything is attached to the bridge output
-+ * @bridge: bridge control structure
-+ * @connector: attached connector
-+ * @ctx: acquire_ctx, or NULL to let this function handle locking
-+ *
-+ * If the bridge supports output detection, as reported by the
-+ * DRM_BRIDGE_OP_DETECT bridge ops flag, call &drm_bridge_funcs.detect_ctx
-+ * or &drm_bridge_funcs.detect for the bridge and return the connection status.
-+ * Otherwise return connector_status_unknown.
-+ *
-+ * When both @ctx and &drm_bridge_funcs.detect_ctx are not set, this helper
-+ * function is equivalent to drm_bridge_detect() above.
-+ *
-+ * RETURNS:
-+ * The detection status on success, or connector_status_unknown if the bridge
-+ * doesn't support output detection.
-+ * If @ctx is set, it might also return -EDEADLK.
-+ */
-+int drm_bridge_detect_ctx(struct drm_bridge *bridge,
-+			  struct drm_connector *connector,
-+			  struct drm_modeset_acquire_ctx *ctx)
+-static enum drm_connector_status
+-drm_bridge_connector_detect(struct drm_connector *connector, bool force)
+-{
+-	struct drm_bridge_connector *bridge_connector =
+-		to_drm_bridge_connector(connector);
+-	struct drm_bridge *detect = bridge_connector->bridge_detect;
+-	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
+-	enum drm_connector_status status;
+-
+-	if (detect) {
+-		status = detect->funcs->detect(detect, connector);
+-
+-		if (hdmi)
+-			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+-
+-		drm_bridge_connector_hpd_notify(connector, status);
+-	} else {
+-		switch (connector->connector_type) {
+-		case DRM_MODE_CONNECTOR_DPI:
+-		case DRM_MODE_CONNECTOR_LVDS:
+-		case DRM_MODE_CONNECTOR_DSI:
+-		case DRM_MODE_CONNECTOR_eDP:
+-			status = connector_status_connected;
+-			break;
+-		default:
+-			status = connector_status_unknown;
+-			break;
+-		}
+-	}
+-
+-	return status;
+-}
+-
+ static void drm_bridge_connector_force(struct drm_connector *connector)
+ {
+ 	struct drm_bridge_connector *bridge_connector =
+@@ -278,7 +245,6 @@ static void drm_bridge_connector_reset(struct drm_connector *connector)
+ 
+ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+ 	.reset = drm_bridge_connector_reset,
+-	.detect = drm_bridge_connector_detect,
+ 	.force = drm_bridge_connector_force,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+@@ -291,6 +257,42 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+  * Bridge Connector Helper Functions
+  */
+ 
++static int drm_bridge_connector_detect_ctx(struct drm_connector *connector,
++					   struct drm_modeset_acquire_ctx *ctx,
++					   bool force)
 +{
-+	if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
-+		return connector_status_unknown;
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_bridge *detect = bridge_connector->bridge_detect;
++	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
++	int ret;
 +
-+	if (bridge->funcs->detect_ctx) {
-+		struct drm_modeset_acquire_ctx br_ctx;
-+		int ret;
-+
-+		if (ctx)
-+			return bridge->funcs->detect_ctx(bridge, connector, ctx);
-+
-+		drm_modeset_acquire_init(&br_ctx, 0);
-+retry:
-+		ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex,
-+				       &br_ctx);
-+		if (!ret)
-+			ret = bridge->funcs->detect_ctx(bridge, connector, &br_ctx);
-+
-+		if (ret == -EDEADLK) {
-+			drm_modeset_backoff(&br_ctx);
-+			goto retry;
-+		}
-+
++	if (detect) {
++		ret = drm_bridge_detect_ctx(detect, connector, ctx);
 +		if (ret < 0)
++			return ret;
++
++		if (hdmi)
++			drm_atomic_helper_connector_hdmi_hotplug(connector, ret);
++
++		drm_bridge_connector_hpd_notify(connector, ret);
++	} else {
++		switch (connector->connector_type) {
++		case DRM_MODE_CONNECTOR_DPI:
++		case DRM_MODE_CONNECTOR_LVDS:
++		case DRM_MODE_CONNECTOR_DSI:
++		case DRM_MODE_CONNECTOR_eDP:
++			ret = connector_status_connected;
++			break;
++		default:
 +			ret = connector_status_unknown;
-+
-+		drm_modeset_drop_locks(&br_ctx);
-+		drm_modeset_acquire_fini(&br_ctx);
-+
-+		return ret;
++			break;
++		}
 +	}
 +
-+	return bridge->funcs->detect(bridge, connector);
++	return ret;
 +}
-+EXPORT_SYMBOL_GPL(drm_bridge_detect_ctx);
 +
- /**
-  * drm_bridge_get_modes - fill all modes currently valid for the sink into the
-  * @connector
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4f19f7064ee3..31ef1496fe63 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -547,6 +547,33 @@ struct drm_bridge_funcs {
- 	enum drm_connector_status (*detect)(struct drm_bridge *bridge,
- 					    struct drm_connector *connector);
+ static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
+ 					       struct drm_bridge *bridge)
+ {
+@@ -298,7 +300,7 @@ static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
+ 	const struct drm_edid *drm_edid;
+ 	int n;
  
-+	/**
-+	 * @detect_ctx:
-+	 *
-+	 * Check if anything is attached to the bridge output.
-+	 *
-+	 * This callback is optional, if not implemented the bridge will be
-+	 * considered as always having a component attached to its output.
-+	 * Bridges that implement this callback shall set the
-+	 * DRM_BRIDGE_OP_DETECT flag in their &drm_bridge->ops.
-+	 *
-+	 * This is the atomic version of &drm_bridge_funcs.detect.
-+	 *
-+	 * To avoid races against concurrent connector state updates, the
-+	 * helper libraries always call this with ctx set to a valid context,
-+	 * and &drm_mode_config.connection_mutex will always be locked with
-+	 * the ctx parameter set to this ctx. This allows taking additional
-+	 * locks as required.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * &drm_connector_status indicating the bridge output status,
-+	 * or the error code returned by drm_modeset_lock(), -EDEADLK.
-+	 */
-+	int (*detect_ctx)(struct drm_bridge *bridge,
-+			  struct drm_connector *connector,
-+			  struct drm_modeset_acquire_ctx *ctx);
-+
- 	/**
- 	 * @get_modes:
- 	 *
-@@ -1542,6 +1569,9 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+-	status = drm_bridge_connector_detect(connector, false);
++	status = drm_bridge_connector_detect_ctx(connector, NULL, false);
+ 	if (status != connector_status_connected)
+ 		goto no_edid;
  
- enum drm_connector_status
- drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector);
-+int drm_bridge_detect_ctx(struct drm_bridge *bridge,
-+			  struct drm_connector *connector,
-+			  struct drm_modeset_acquire_ctx *ctx);
- int drm_bridge_get_modes(struct drm_bridge *bridge,
- 			 struct drm_connector *connector);
- const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
+@@ -384,6 +386,7 @@ static int drm_bridge_connector_atomic_check(struct drm_connector *connector,
+ 
+ static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
+ 	.get_modes = drm_bridge_connector_get_modes,
++	.detect_ctx = drm_bridge_connector_detect_ctx,
+ 	.mode_valid = drm_bridge_connector_mode_valid,
+ 	.enable_hpd = drm_bridge_connector_enable_hpd,
+ 	.disable_hpd = drm_bridge_connector_disable_hpd,
 
 -- 
 2.52.0
