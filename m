@@ -2,62 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKZaOLBSp2lsgwAAu9opvQ
+	id eGaqA9ZSp2lsgwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:20 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668F21F7879
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2E41F78A6
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D7310E8DD;
-	Tue,  3 Mar 2026 21:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D4810E8DE;
+	Tue,  3 Mar 2026 21:29:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=acm.org header.i=@acm.org header.b="E6KvA0WU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SfGla0rl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD71510E8DD
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:29:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by 011.lax.mailroute.net (Postfix) with ESMTP id 4fQTT738V1z1XM0pD;
- Tue,  3 Mar 2026 21:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
- content-transfer-encoding:content-type:content-type:in-reply-to
- :content-language:references:from:from:subject:subject
- :user-agent:mime-version:date:date:message-id:received:received;
- s=mr01; t=1772573353; x=1775165354; bh=9ynOclQ3uytyJeDDhwGcswlJ
- Cmq2hElyOSKIspe/esU=; b=E6KvA0WUdsoA8QKAzHECiCTqJ6VT3Dd85gfwaF1M
- qiR5xBIiNCZkuk2Q+Yas+iuCPp2od/vjh5R3J5tQ/wEvcGqYI+FNqWunSfBcbXdc
- L0lGPHbn3xZHZ6kNlaqUaprvjbiKGmzbTztg2KlJWRu56nXp+cF41DsyrPKyOLSn
- CJsTeLru4SojqcExYg03MVjTnOD8Pofbok+1UeJUQEA874Mgt27HGdoct0bmsX0s
- q/HVtl3F+674rNAoarZVAVdPg3lW27ZywGPWNWGOdr8LUWtkg3wurHZ4tEsnn1ix
- h+7/+I+bKHYIwP77hlxeFi22X/iMGJUvgAqpujcBQoJGkA==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 7zSNimIb1FNe; Tue,  3 Mar 2026 21:29:13 +0000 (UTC)
-Received: from [192.168.132.187] (unknown [12.150.89.26])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: bvanassche@acm.org)
- by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4fQTT40prKz1XM0nm;
- Tue,  3 Mar 2026 21:29:11 +0000 (UTC)
-Message-ID: <618eb79a-3945-45b3-a7cf-7c073aa28039@acm.org>
-Date: Tue, 3 Mar 2026 15:29:10 -0600
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0931310E8DE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1772573394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8SD2VoRr+tc5wYI9TVLRWC6aPDSxE2BzY5GPr4tLxmE=;
+ b=SfGla0rl5MtypagclwtOm+ixhYiLImGhR76+j6J1GgU3/KZos910C2/1bSg3KP3abfe29J
+ GEC/Cu2yKMjCI+tbMVC0EbvzX8z9m5wqLhWKjtkzN3ozZr9fbbrM+XFjFUIUuwKjLEPQjI
+ 555hBiF1iIZEvJQ/dq/AgU2KogWLVVc=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-513-1_jCXgfHMxGlDJ08Z2xL8A-1; Tue, 03 Mar 2026 16:29:53 -0500
+X-MC-Unique: 1_jCXgfHMxGlDJ08Z2xL8A-1
+X-Mimecast-MFC-AGG-ID: 1_jCXgfHMxGlDJ08Z2xL8A_1772573392
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8c71500f274so626787685a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:29:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772573392; x=1773178192;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8SD2VoRr+tc5wYI9TVLRWC6aPDSxE2BzY5GPr4tLxmE=;
+ b=GyWWrldu//aGA5odkWtQuD7Y3y7HoHPTkdox9zJ5PrE+orZANAv0pnLc7AiZ5+zVlN
+ lmiMMw8U6vg1peW7vRjui6nfK/telmoDAr84f2ZCieXcYllBbGhwohYgyxfORWJhdo+8
+ DELawXpHgSGdBVbyzxfs2yLUr/FXYH1HJv93VhEuwrmxjsOIA+lHyqV3m8DpFTjTaFNH
+ yC4szg2+fUIqsEl80ahnVNz7oHwz8GjsaH5a3UnO+dZ73+qbDdCxsbqBtbyJDh3RlUo4
+ hUuyV5uM1qExdgnHroheYwO8WngBTCf9Y1hLybAt08q4MOG0QV9wziqk9BYr2WpuvbFA
+ 04Bg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXR8Eby7apgRF2i8DvMndrW4jYGDzSDnV/GtGOJCeGvXW4awoRYGB90OL3tkSDWENMmoiyxHH/FSpM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyrZHuNW51cM4ac6Hq0LVYQd4vy55+6NMdnVWpTb7wtd7RQnfR
+ re4RKO1+u+O868wZeTHlS0PalOTPXu3aIkgCckZvsvsKi9QmmZ4w+FWhBqOW+Tte8UeYGHjq6Op
+ 4F15m+XdvJgRo0ETZLlxk7jJJbYbC9fevZsGQin6LPt+rGKRBQFRR5laqGSxF3F73Rkt1Mw==
+X-Gm-Gg: ATEYQzxzCyGxpJQaWTtASIc7tjV5NJAtM5Dwe1ZLVbPRPY/5dtDCUj7nWw5UnG65Ncu
+ EUfC9OAkk4uBtJ1E27f4aLjF4k6dAi7jbngqfM/qa+6p3A1ZNOmzl6Znnk+1v4FhfkP2B0OZvG1
+ rxhgTXdRW076xjzZrq9LI4YDjbIj4jIhhwCZALseu1O+oWkGFgV1d0RP2OJ9LNC69a3s+ezxnpS
+ UA+vshwUKTmi40O6YvbCFnKcucHVW0LxHj04U2CCmEprCmte6XW788fy3c8gw4a37Bh7kHYCUYL
+ IM3wiZ7Vu0PUv5hODXW4OwyCu5WV8Uiy8b1gzatOxwRNbspdiyiXnRVRJB2+PVk2VY5p89bT4Ra
+ njybvFc6XpLhOijEbGBoGe6x/5A==
+X-Received: by 2002:a05:620a:1981:b0:8c5:2ce6:dae with SMTP id
+ af79cd13be357-8cbc8e98436mr2208241185a.29.1772573392246; 
+ Tue, 03 Mar 2026 13:29:52 -0800 (PST)
+X-Received: by 2002:a05:620a:1981:b0:8c5:2ce6:dae with SMTP id
+ af79cd13be357-8cbc8e98436mr2208235685a.29.1772573391510; 
+ Tue, 03 Mar 2026 13:29:51 -0800 (PST)
+Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-50744990e15sm133781341cf.10.2026.03.03.13.29.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2026 13:29:50 -0800 (PST)
+From: Peter Colberg <pcolberg@redhat.com>
+Date: Tue, 03 Mar 2026 16:29:44 -0500
+Subject: [PATCH RESEND] drm/amdkfd: remove duplicate ttmp11 scheduling mode
+ definitions
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: __drm_fb_helper_initial_config_and_unlock() question
-From: Bart Van Assche <bvanassche@acm.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-References: <7dcaf8d7-ed5d-4bfb-8c35-1e5f0dfbae56@acm.org>
-Content-Language: en-US
-In-Reply-To: <7dcaf8d7-ed5d-4bfb-8c35-1e5f0dfbae56@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <20260303-drm-amdkfd-ttmp11-sched-mode-v1-1-8130e3e6fcae@redhat.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jay Cornwall <jay.cornwall@amd.com>, Lancelot Six <lancelot.six@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Peter Colberg <pcolberg@redhat.com>
+X-Mailer: b4 0.14.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pALD6D6ipBANYVmZ1UCu4_AWRCZ1hEmaBdBMfvSO4B0_1772573392
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,93 +106,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 668F21F7879
+X-Rspamd-Queue-Id: 7E2E41F78A6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[bvanassche@acm.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:Felix.Kuehling@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jay.cornwall@amd.com,m:lancelot.six@amd.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:pcolberg@redhat.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[pcolberg@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[acm.org:+];
+	FROM_NEQ_ENVFROM(0.00)[pcolberg@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,acm.org:dkim,acm.org:email,acm.org:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 3/3/26 3:15 PM, Bart Van Assche wrote:
-> The comment above __drm_fb_helper_initial_config_and_unlock() says
-> "Drops fb_helper->lock before returning". However, there is an
-> error path in that function that does not drop fb_helper->lock:
->=20
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info =3D drm_fb_helper_allo=
-c_info(fb_helper);
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(info))
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 return PTR_ERR(info);
->=20
-> Is the code correct or is the comment correct? I don't think that
-> both can be correct.
+TTMP11_SCHED_MODE_* are only used if RELAXED_SCHEDULING_IN_TRAP is defined.
 
-(+Thomas)
+Fixes: bbcad5a8896b ("drm/amdkfd: gfx12.1 trap handler support for expert scheduling mode")
+Signed-off-by: Peter Colberg <pcolberg@redhat.com>
+---
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Thomas,
+diff --git a/drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm b/drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm
+index 456db81998993803a25b32653ad75d529e35931c..3c976a4aac739669a39aebeb97bb35dfaa1af2f2 100644
+--- a/drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm
++++ b/drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx12.asm
+@@ -112,12 +112,6 @@ var BARRIER_STATE_MEMBER_OFFSET			= 4
+ var BARRIER_STATE_MEMBER_SIZE			= 7
+ var BARRIER_STATE_VALID_OFFSET			= 0
+ 
+-#if RELAXED_SCHEDULING_IN_TRAP
+-var TTMP11_SCHED_MODE_SHIFT			= 26
+-var TTMP11_SCHED_MODE_SIZE			= 2
+-var TTMP11_SCHED_MODE_MASK			= 0xC000000
+-#endif
+-
+ var NAMED_BARRIERS_SR_OFFSET_FROM_HWREG		= 0x80
+ var S_BARRIER_INIT_MEMBERCNT_MASK		= 0x7F0000
+ var S_BARRIER_INIT_MEMBERCNT_SHIFT		= 0x10
+@@ -134,9 +128,11 @@ var SQ_WAVE_MODE_DST_SRC0_SRC1_VGPR_MSB_SHIFT	= 12
+ var SQ_WAVE_MODE_DST_SRC0_SRC1_VGPR_MSB_SIZE	= 6
+ #endif
+ 
++#if RELAXED_SCHEDULING_IN_TRAP
+ var TTMP11_SCHED_MODE_SHIFT			= 26
+ var TTMP11_SCHED_MODE_SIZE			= 2
+ var TTMP11_SCHED_MODE_MASK			= 0xC000000
++#endif
+ var TTMP11_DEBUG_TRAP_ENABLED_SHIFT		= 23
+ var TTMP11_DEBUG_TRAP_ENABLED_MASK		= 0x800000
+ var TTMP11_FIRST_REPLAY_SHIFT			= 22
 
-Does this untested patch make sense to you?
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260224-drm-amdkfd-ttmp11-sched-mode-a7a722d96df1
 
-Thanks,
-
-Bart.
-
-
-drm: Fix a locking bug in an error path
-
-Make sure that __drm_fb_helper_initial_config_and_unlock() unlocks
-fb_helper->lock. This has been detected by the Clang thread-safety
-analyzer.
-
-Fixes: 63c971af4036 ("drm/fb-helper: Allocate and release fb_info in=20
-single place")
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c=20
-b/drivers/gpu/drm/drm_fb_helper.c
-index 05803169bed5..16bfbfb0af16 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1641,8 +1641,10 @@ __drm_fb_helper_initial_config_and_unlock(struct=20
-drm_fb_helper *fb_helper)
-         drm_client_modeset_probe(&fb_helper->client, width, height);
-
-         info =3D drm_fb_helper_alloc_info(fb_helper);
--       if (IS_ERR(info))
-+       if (IS_ERR(info)) {
-+               mutex_unlock(&fb_helper->lock);
-                 return PTR_ERR(info);
-+       }
-
-         ret =3D drm_fb_helper_single_fb_probe(fb_helper);
-         if (ret < 0) {
+Best regards,
+-- 
+Peter Colberg <pcolberg@redhat.com>
 
