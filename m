@@ -2,61 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sG5OKZWdpmlqRwAAu9opvQ
+	id EEIiBCOepmlqRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:36:37 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:38:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9AF01EADF4
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520911EAE0D
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:38:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F221B10E153;
-	Tue,  3 Mar 2026 08:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C771110E662;
+	Tue,  3 Mar 2026 08:38:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ND1bH/2x";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="deWVXJKD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5119210E153;
- Tue,  3 Mar 2026 08:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772526991;
- bh=ae9NvbRcs5rqRCRVm8t65Nw5FawtfwbSy75MZQojcOw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ND1bH/2x3fW61WLaPl1I6u+37wPzbK16lC+jYBlVNLzBF3+In6Xu55od47Xltbs7B
- z5QSn6g+0wF6pwdtP3043aaAbeUANAFC9h04xVG+ggnxyZTDMRGBUXZUSCtXD4wig9
- DEUbrSSTbuyMGpBYMO8MWZKOAiohQde+MCnz/NskTKz1eTqKshubq/eRieil8cUu+s
- c8Gjpx2udeuWuZuGqIN0Koo9Gazt2KfGZ7pKDqIzJSPW6al3UI5vB9eZEE8GuIcGli
- nWkuZODYN2m59ZxcbMCKmBIR6JXOp/3K6f4iTUgCdLUkEiqKvgcOdKkwd7bDjSCoiX
- tUr6Rf7484KCA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B90A517E0EAC;
- Tue,  3 Mar 2026 09:36:30 +0100 (CET)
-Date: Tue, 3 Mar 2026 09:36:27 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>, Philipp Stanner
- <phasta@kernel.org>
-Subject: Re: [PATCH 1/2] dma-buf: Assign separate lockdep class to chain lock
-Message-ID: <20260303093627.782b64f0@fedora>
-In-Reply-To: <aaXtmuOr4bZtQ9lr@lstrano-desk.jf.intel.com>
-References: <20260224175544.2167712-1-matthew.brost@intel.com>
- <20260302162812.15a0614b@fedora>
- <470ae9bb-e955-4773-b5b5-cc97b5bda20a@amd.com>
- <20260302173959.1c07d7d5@fedora>
- <aaXtmuOr4bZtQ9lr@lstrano-desk.jf.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E8E10E662
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1772527134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rd+HXuut1lETpru3dBBpsGK37Q80G0fWm9xDLYLkL1U=;
+ b=deWVXJKDJDVHC24edynT70EWE8od9wBl/SbP9gmhgwHFiuS5PAG01UgneYTgVqS0OA9zHI
+ 8xhugUnpkDhKkZ21O4HI1xaWq5vwjMp1bavDg2scLwwS7QdKdgocvhTFwnDC+lAnzuPoiK
+ soNAyfSFPrwtNzkGFMTy35ehsQyDSow=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-336-1WAQXa8pPTCXUtuuqFUYdA-1; Tue, 03 Mar 2026 03:38:52 -0500
+X-MC-Unique: 1WAQXa8pPTCXUtuuqFUYdA-1
+X-Mimecast-MFC-AGG-ID: 1WAQXa8pPTCXUtuuqFUYdA_1772527132
+Received: by mail-yx1-f72.google.com with SMTP id
+ 956f58d0204a3-64c9a6c8be7so4389786d50.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:38:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772527132; x=1773131932;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=rd+HXuut1lETpru3dBBpsGK37Q80G0fWm9xDLYLkL1U=;
+ b=Qc1ik1qFc2bF075+Mjuewa9rRVxSm0L+/GBDkJeZe9mYm4t8wd+QOymmsoSwp5pP+l
+ bUYh31REjz6md68+XZLBZhFHtvJSvuGfz35cBQe0bvORwfIYkTyF9Eo7xj7IyqJsxiI7
+ 2ZbCVcKt+Xd2Qwc59vubdfMdVAOHaavIsD7KIiUxQiAL/pKbkspyohpqpYdUURstmdky
+ r/OZy1q0fuHBKrZ7U38Zk86zenF4jqeD377um/Qpi+3z5LCFSdyQObdvdvwUFl2Q1lRZ
+ 2h+wRPMQCyKaIqrSgljUYS+ehVnJjbCx1+Zi+L/z5whJ1TmoDmdWFY1g/Yo/dRhAU/UE
+ H3FA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVo+zxO+nNInND/XAYxiCCC3txaSrwBmPwKQ/HHrvwU0CHiuVjdQaWDVxnedWh5nMmFRSswjtp6uI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yznc0x+AnMhG/X6/prDf7dg4gOIyFvuUAbwEeS//OD/BTQ1vE8m
+ o+ZFWIUv2a7avu1GZOU87O932xmiKJw+Tzoina9931MZRQQZqK/OfCyEP8WpCpSU1zoYp9U/axX
+ y7btu8jWFzjoR4zkjUiiZK9MDS0Zur9zes+W2PGmrO4z3REgv7JjnPO/ffV7SsM0GAfa+0q3YSj
+ plAe5Kve0KI5dPOY/rGnTcEoc1foqBRiOL5pb37RpOnjza
+X-Gm-Gg: ATEYQzyOplnv3/o4JjcigHR8KGimVBw4Iqqw+msAx0UbVn1KrvBHR7SF0cFvQH3Z8VT
+ +IlEl794/GazexHdQdxo5+kkTZrG7wgMF1g0yh54icQiCZbZ5A5jmD3bwJrVOcNcV75tO0oFBIB
+ JAbVb7ePIcm3CEQ1vla4fyk1mW2+3eCaGmypSs9viJVwswUFhnmvZ5XxyhGjpKUmTeqp3eVdtxb
+ A==
+X-Received: by 2002:a53:ee60:0:b0:64c:9abc:27d5 with SMTP id
+ 956f58d0204a3-64cc204847dmr10424762d50.2.1772527131965; 
+ Tue, 03 Mar 2026 00:38:51 -0800 (PST)
+X-Received: by 2002:a53:ee60:0:b0:64c:9abc:27d5 with SMTP id
+ 956f58d0204a3-64cc204847dmr10424739d50.2.1772527131449; Tue, 03 Mar 2026
+ 00:38:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260224-b4-dmabuf-heap-coherent-rmem-v1-1-dffef43298ac@redhat.com>
+ <20260226-smoky-fancy-dachshund-1a2f92@penduick>
+ <CADSE00+PwA-ZC9F2_rryi9XZaz9gPWd2qUA5NSaLQUs78gmvvw@mail.gmail.com>
+In-Reply-To: <CADSE00+PwA-ZC9F2_rryi9XZaz9gPWd2qUA5NSaLQUs78gmvvw@mail.gmail.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Tue, 3 Mar 2026 09:38:40 +0100
+X-Gm-Features: AaiRm53owRtuWIif-EW8znMUUIlsgF8fdMlhGZ-WMbFVsOOUM3G5V6Owv7M9krs
+Message-ID: <CADSE00LUJJRHxXnRZ6_xi-oRPXaS-0-+Jtjeua2HW=JvLdW0=g@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Add Coherent heap to dmabuf heaps
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ iommu@lists.linux.dev, echanude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: jQ8XLKhsP5w87rOEzv6Vm_WVPcLnMHG1dbhw3Fxlj3M_1772527132
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,134 +108,465 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D9AF01EADF4
+X-Rspamd-Queue-Id: 520911EAE0D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mripard@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:echanude@redhat.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,amd.com:email,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,exp_info.name:url,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Mon, 2 Mar 2026 12:05:46 -0800
-Matthew Brost <matthew.brost@intel.com> wrote:
+On Fri, Feb 27, 2026 at 1:49=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> Hi Maxime!
+>
+> On Thu, Feb 26, 2026 at 11:12=E2=80=AFAM Maxime Ripard <mripard@redhat.co=
+m> wrote:
+> >
+> > Hi Albert,
+> >
+> > Thanks for your patch!
+> >
+> > On Tue, Feb 24, 2026 at 08:57:33AM +0100, Albert Esteve wrote:
+> > > Add a dma-buf heap for DT coherent reserved-memory
+> > > (i.e., 'shared-dma-pool' without 'reusable' property),
+> > > exposing one heap per region for userspace buffers.
+> > >
+> > > The heap binds a synthetic platform device to each region
+> > > so coherent allocations use the correct dev->dma_mem,
+> > > and it defers registration until late_initcall when
+> > > normal allocator are available.
+> > >
+> > > This patch includes charging of the coherent heap
+> > > allocator to the dmem cgroup.
+> > >
+> > > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > > ---
+> > > This patch introduces a new driver to expose DT coherent reserved-mem=
+ory
+> > > regions as dma-buf heaps, allowing userspace buffers to be created.
+> > >
+> > > Since these regions are device-dependent, we bind a synthetic platfor=
+m
+> > > device to each region so coherent allocations use the correct dev->dm=
+a_mem.
+> > >
+> > > Following Eric=E2=80=99s [1] and Maxime=E2=80=99s [2] work on chargin=
+g DMA buffers
+> > > allocated from userspace to cgroups (dmem), this patch adds the same
+> > > charging pattern used by CMA heaps patch. Charging is done only throu=
+gh
+> > > the dma-buf heap interface so it can be attributed to a userspace all=
+ocator.
+> > >
+> > > This allows each device-specific reserved-memory region to enforce it=
+s
+> > > own limits.
+> > >
+> > > [1] https://lore.kernel.org/all/20260218-dmabuf-heap-cma-dmem-v2-0-b2=
+49886fb7b2@redhat.com/
+> > > [2] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc93=
+12@kernel.org/
+> > > ---
+> > >  drivers/dma-buf/heaps/Kconfig         |  17 ++
+> > >  drivers/dma-buf/heaps/Makefile        |   1 +
+> > >  drivers/dma-buf/heaps/coherent_heap.c | 485 ++++++++++++++++++++++++=
+++++++++++
+> > >  include/linux/dma-heap.h              |  11 +
+> > >  kernel/dma/coherent.c                 |   9 +
+> > >  5 files changed, 523 insertions(+)
+> > >
+> > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kc=
+onfig
+> > > index a5eef06c42264..93765dca164e3 100644
+> > > --- a/drivers/dma-buf/heaps/Kconfig
+> > > +++ b/drivers/dma-buf/heaps/Kconfig
+> > > @@ -12,3 +12,20 @@ config DMABUF_HEAPS_CMA
+> > >         Choose this option to enable dma-buf CMA heap. This heap is b=
+acked
+> > >         by the Contiguous Memory Allocator (CMA). If your system has =
+these
+> > >         regions, you should say Y here.
+> > > +
+> > > +config DMABUF_HEAPS_COHERENT
+> > > +     bool "DMA-BUF Coherent Reserved-Memory Heap"
+> > > +     depends on DMABUF_HEAPS && OF_RESERVED_MEM && DMA_DECLARE_COHER=
+ENT
+> > > +     help
+> > > +       Choose this option to enable coherent reserved-memory dma-buf=
+ heaps.
+> > > +       This heap is backed by non-reusable DT "shared-dma-pool" regi=
+ons.
+> > > +       If your system defines coherent reserved-memory regions, you =
+should
+> > > +       say Y here.
+> > > +
+> > > +config COHERENT_AREAS_DEFERRED
+> > > +     int "Max deferred coherent reserved-memory regions"
+> > > +     depends on DMABUF_HEAPS_COHERENT
+> > > +     default 16
+> > > +     help
+> > > +       Maximum number of coherent reserved-memory regions that can b=
+e
+> > > +       deferred for later registration during early boot.
+> > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/M=
+akefile
+> > > index 974467791032f..96bda7a65f041 100644
+> > > --- a/drivers/dma-buf/heaps/Makefile
+> > > +++ b/drivers/dma-buf/heaps/Makefile
+> > > @@ -1,3 +1,4 @@
+> > >  # SPDX-License-Identifier: GPL-2.0
+> > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)    +=3D system_heap.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)               +=3D cma_heap.o
+> > > +obj-$(CONFIG_DMABUF_HEAPS_COHERENT)  +=3D coherent_heap.o
+> > > diff --git a/drivers/dma-buf/heaps/coherent_heap.c b/drivers/dma-buf/=
+heaps/coherent_heap.c
+> > > new file mode 100644
+> > > index 0000000000000..870b2b89aefcb
+> > > --- /dev/null
+> > > +++ b/drivers/dma-buf/heaps/coherent_heap.c
+> > > @@ -0,0 +1,485 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * DMABUF heap for coherent reserved-memory regions
+> > > + *
+> > > + * Copyright (C) 2026 Red Hat, Inc.
+> > > + * Author: Albert Esteve <aesteve@redhat.com>
+> > > + *
+> > > + */
+> > > +
+> > > +#include <linux/cgroup_dmem.h>
+> > > +#include <linux/dma-heap.h>
+> > > +#include <linux/dma-buf.h>
+> > > +#include <linux/dma-mapping.h>
+> > > +#include <linux/err.h>
+> > > +#include <linux/highmem.h>
+> > > +#include <linux/iosys-map.h>
+> > > +#include <linux/of_reserved_mem.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/scatterlist.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/vmalloc.h>
+> > > +
+> > > +#define DEFERRED_AREAS_MAX CONFIG_COHERENT_AREAS_DEFERRED
+> >
+> > I'm not sure we need to make it configurable. Distros are going to set
+> > it to the user with the highest number of regions anyway. How about
+> > using MAX_RESERVED_REGIONS for now?
+>
+> Makes sense, will do.
+>
+> >
+> > >
+> > > [...]
+> > >
+> > > +struct coherent_heap {
+> > > +     struct dma_heap *heap;
+> > > +     struct reserved_mem *rmem;
+> > > +     char *name;
+> > > +     struct device *dev;
+> > > +     struct platform_device *pdev;
+> > > +#if IS_ENABLED(CONFIG_CGROUP_DMEM)
+> > > +     struct dmem_cgroup_region *cg;
+> > > +#endif
+> >
+> > We might want to leave the dmem accounting out for now so we can focus
+> > on the heap itself. That being said, it ended up being pretty trivial
+> > for CMA, so maybe it's not too much of a concern.
+>
+> Sure. That allows us to follow the same patterns once the CMA series land=
+s.
+> I will strip all dmem accounting parts for v2.
+>
+> >
+> > >
+> > > [...]
+> > >
+> > > +static int __coherent_heap_register(struct reserved_mem *rmem)
+> > > +{
+> > > +     struct dma_heap_export_info exp_info;
+> > > +     struct coherent_heap *coh_heap;
+> > > +#if IS_ENABLED(CONFIG_CGROUP_DMEM)
+> > > +     struct dmem_cgroup_region *region;
+> > > +#endif
+> > > +     const char *rmem_name;
+> > > +     int ret;
+> > > +
+> > > +     if (!rmem)
+> > > +             return -EINVAL;
+> > > +
+> > > +     rmem_name =3D rmem->name ? rmem->name : "unknown";
+> >
+> > If the reserved region has no name, we probably shouldn't expose it to
+> > userspace at all. Using unknown will probably create some bugs if you
+> > have several, but also it's pretty like to have a name at some point an=
+d
+> > thus we wouldn't have a stable name for the uAPI.
+>
+> Agreed. I will return an error code if no name is present.
+>
+> >
+> > > +     coh_heap =3D kzalloc_obj(*coh_heap);
+> > > +     if (!coh_heap)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     coh_heap->name =3D kasprintf(GFP_KERNEL, "coherent_%s", rmem_na=
+me);
+> > > +     if (!coh_heap->name) {
+> > > +             ret =3D -ENOMEM;
+> > > +             goto free_coherent_heap;
+> > > +     }
+> >
+> > Similarly, we shouldn't use the coherent_ prefix for the heap name. If
+> > the backing allocator ever changes (and between contiguous and coherent=
+,
+> > the difference is just a single property value in the DT), then the nam=
+e
+> > would change and userspace would break. We should directly use the name
+> > of the region here.
+> >
+> > > +     coh_heap->rmem =3D rmem;
+> > > +
+> > > +     /* create a platform device per rmem and bind it */
+> > > +     coh_heap->pdev =3D platform_device_register_simple("coherent-he=
+ap",
+> > > +                                                      PLATFORM_DEVID=
+_AUTO,
+> > > +                                                      NULL, 0);
+> > > +     if (IS_ERR(coh_heap->pdev)) {
+> > > +             ret =3D PTR_ERR(coh_heap->pdev);
+> > > +             goto free_name;
+> > > +     }
+> >
+> > We probably should use a faux_device here instead of a platform_device,
+> > but more importantly, the heap itself already has a device allocated fo=
+r
+> > it (dev_ret in dma_heap_add).
+> >
+> > It's not in struct dma_heap yet, but there's a patch that moves it ther=
+e
+> > that we should probably carry:
+> > https://lore.kernel.org/r/20210120210937.15069-2-john.stultz@linaro.org=
+/
+>
+> Thanks for sharing the link! I will pick the patch.
+>
+> >
+> > > +     if (rmem->ops && rmem->ops->device_init) {
+> > > +             ret =3D rmem->ops->device_init(rmem, &coh_heap->pdev->d=
+ev);
+> > > +             if (ret)
+> > > +                     goto pdev_unregister;
+> > > +     }
+> >
+> > I'm not really a fan of calling ops directly. Maybe we should create an
+> > of_reserved_mem_device_init_with_mem function that would do it for us
+> > (and would be called by of_reserved_mem_device_init_by_idx and the
+> > likes).
+>
+> Agreed.
+>
+> >
+> > > +     coh_heap->dev =3D &coh_heap->pdev->dev;
+> > > +#if IS_ENABLED(CONFIG_CGROUP_DMEM)
+> > > +     region =3D dmem_cgroup_register_region(rmem->size, "coh/%s", rm=
+em_name);
+> > > +     if (IS_ERR(region)) {
+> > > +             ret =3D PTR_ERR(region);
+> > > +             goto pdev_unregister;
+> > > +     }
+> > > +     coh_heap->cg =3D region;
+> > > +#endif
+> >
+> > Same comment than for CMA here: it should really be created by the
+> > coherent memory region itself.
+> >
+> > > +     exp_info.name =3D coh_heap->name;
+> > > +     exp_info.ops =3D &coherent_heap_ops;
+> > > +     exp_info.priv =3D coh_heap;
+> > > +
+> > > +     coh_heap->heap =3D dma_heap_add(&exp_info);
+> > > +     if (IS_ERR(coh_heap->heap)) {
+> > > +             ret =3D PTR_ERR(coh_heap->heap);
+> > > +             goto cg_unregister;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +
+> > > +cg_unregister:
+> > > +#if IS_ENABLED(CONFIG_CGROUP_DMEM)
+> > > +     dmem_cgroup_unregister_region(coh_heap->cg);
+> > > +#endif
+> > > +pdev_unregister:
+> > > +     platform_device_unregister(coh_heap->pdev);
+> > > +     coh_heap->pdev =3D NULL;
+> > > +free_name:
+> > > +     kfree(coh_heap->name);
+> > > +free_coherent_heap:
+> > > +     kfree(coh_heap);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +int dma_heap_coherent_register(struct reserved_mem *rmem)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     ret =3D __coherent_heap_register(rmem);
+> > > +     if (ret =3D=3D -ENOMEM)
+> > > +             return coherent_heap_add_deferred(rmem);
+> > > +     return ret;
+> > > +}
+> >
+> > I appreciate you did it like we did for CMA, but if we ever want to mak=
+e
+> > that heap a module you'll end up with a dependency from the core kernel
+> > on a module which doesn't work. The best here might be to wait a bit
+> > until we have somewhat of an agreement on
+> >
+> > https://lore.kernel.org/r/20260225-dma-buf-heaps-as-modules-v1-0-210922=
+5a090d@kernel.org
+> >
+> > > +static int __init coherent_heap_register_deferred(void)
+> > > +{
+> > > +     unsigned int i;
+> > > +     int ret;
+> > > +
+> > > +     for (i =3D 0; i < rmem_areas_deferred_num; i++) {
+> > > +             struct reserved_mem *rmem =3D rmem_areas_deferred[i];
+> > > +
+> > > +             ret =3D __coherent_heap_register(rmem);
+> > > +             if (ret) {
+> > > +                     pr_warn("Failed to add coherent heap %s",
+> > > +                             rmem->name ? rmem->name : "unknown");
+> > > +                     continue;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +late_initcall(coherent_heap_register_deferred);
+> >
+> > Why do you need a late_initcall here? Isn't module_init enough?
+>
+> When I tested this initially, I relied on direct invocations from
+> cma/coherent.c to register new coherent heap areas. However it failed
+> in `kzalloc_obj` calls within the register function. Then I read the
+> article about boot time memory management[1] and saw other drivers
+> collected info for deferred initialization at late_initcall(), similar
+> to what I tried to do here. I honestly did not try with module_init().
+> Since I will refactor this part to follow your previous comments, I
+> will try to update if possible.
+>
+> [1] https://docs.kernel.org/core-api/boot-time-mm.html
+>
+> >
+> > > +MODULE_DESCRIPTION("DMA-BUF heap for coherent reserved-memory region=
+s");
+> > > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> > > index 648328a64b27e..e894cfa1ecf1a 100644
+> > > --- a/include/linux/dma-heap.h
+> > > +++ b/include/linux/dma-heap.h
+> > > @@ -9,9 +9,11 @@
+> > >  #ifndef _DMA_HEAPS_H
+> > >  #define _DMA_HEAPS_H
+> > >
+> > > +#include <linux/errno.h>
+> > >  #include <linux/types.h>
+> > >
+> > >  struct dma_heap;
+> > > +struct reserved_mem;
+> > >
+> > >  /**
+> > >   * struct dma_heap_ops - ops to operate on a given heap
+> > > @@ -48,4 +50,13 @@ struct dma_heap *dma_heap_add(const struct dma_hea=
+p_export_info *exp_info);
+> > >
+> > >  extern bool mem_accounting;
+> > >
+> > > +#if IS_ENABLED(CONFIG_DMABUF_HEAPS_COHERENT)
+> > > +int dma_heap_coherent_register(struct reserved_mem *rmem);
+> > > +#else
+> > > +static inline int dma_heap_coherent_register(struct reserved_mem *rm=
+em)
+> > > +{
+> > > +     return -EOPNOTSUPP;
+> > > +}
+> > > +#endif
+> > > +
+> > >  #endif /* _DMA_HEAPS_H */
+> > > diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+> > > index 1147497bc512c..f49d13e460e4b 100644
+> > > --- a/kernel/dma/coherent.c
+> > > +++ b/kernel/dma/coherent.c
+> > > @@ -9,6 +9,7 @@
+> > >  #include <linux/module.h>
+> > >  #include <linux/dma-direct.h>
+> > >  #include <linux/dma-map-ops.h>
+> > > +#include <linux/dma-heap.h>
+> > >
+> > >  struct dma_coherent_mem {
+> > >       void            *virt_base;
+> > > @@ -393,6 +394,14 @@ static int __init rmem_dma_setup(struct reserved=
+_mem *rmem)
+> > >       rmem->ops =3D &rmem_dma_ops;
+> > >       pr_info("Reserved memory: created DMA memory pool at %pa, size =
+%ld MiB\n",
+> > >               &rmem->base, (unsigned long)rmem->size / SZ_1M);
+> > > +
+> > > +     if (IS_ENABLED(CONFIG_DMABUF_HEAPS_COHERENT)) {
+> > > +             int ret =3D dma_heap_coherent_register(rmem);
+> > > +
+> > > +             if (ret)
+> > > +                     pr_warn("Reserved memory: failed to register co=
+herent heap for %s (%d)\n",
+> > > +                             rmem->name ? rmem->name : "unknown", re=
+t);
+> > > +     }
+> >
+> > I think this should be split into a patch of its own. It's going to be
+> > reviewed (and possibly merged) by another maintainer, through another
+> > tree.
+>
+> That's fine. I will split it into another series then. I guess I can
+> send it with a Based-On: tag or similar to link two series together?
 
-> On Mon, Mar 02, 2026 at 05:39:59PM +0100, Boris Brezillon wrote:
-> > On Mon, 2 Mar 2026 16:42:28 +0100
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >  =20
-> > > On 3/2/26 16:28, Boris Brezillon wrote: =20
-> > > > On Tue, 24 Feb 2026 09:55:43 -0800
-> > > > Matthew Brost <matthew.brost@intel.com> wrote:
-> > > >    =20
-> > > >> dma_fence_chain_enable_signaling() runs while holding the chain
-> > > >> inline_lock and may add callbacks to underlying fences, which takes
-> > > >> their inline_lock.
-> > > >>
-> > > >> Since both locks share the same lockdep class, this valid nesting
-> > > >> triggers a recursive locking warning. Assign a distinct lockdep
-> > > >> class to the chain inline_lock so lockdep can correctly model the
-> > > >> hierarchy.
-> > > >>
-> > > >> Fixes: a408c0ca0c41 ("dma-buf: use inline lock for the
-> > > >> dma-fence-chain") Cc: Christian K=C3=B6nig <christian.koenig@amd.c=
-om>
-> > > >> Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > >> Cc: Philipp Stanner <phasta@kernel.org>
-> > > >> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > > >> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > >> ---
-> > > >>  drivers/dma-buf/dma-fence-chain.c | 17 +++++++++++++++++
-> > > >>  1 file changed, 17 insertions(+)
-> > > >>
-> > > >> diff --git a/drivers/dma-buf/dma-fence-chain.c
-> > > >> b/drivers/dma-buf/dma-fence-chain.c index
-> > > >> a707792b6025..4c2a9f2ce126 100644 ---
-> > > >> a/drivers/dma-buf/dma-fence-chain.c +++
-> > > >> b/drivers/dma-buf/dma-fence-chain.c @@ -242,6 +242,9 @@ void
-> > > >> dma_fence_chain_init(struct dma_fence_chain *chain, struct
-> > > >> dma_fence *fence, uint64_t seqno)
-> > > >>  {
-> > > >> +#if IS_ENABLED(CONFIG_LOCKDEP)
-> > > >> +	static struct lock_class_key dma_fence_chain_lock_key;
-> > > >> +#endif
-> > > >>  	struct dma_fence_chain *prev_chain =3D
-> > > >> to_dma_fence_chain(prev); uint64_t context;
-> > > >> =20
-> > > >> @@ -263,6 +266,20 @@ void dma_fence_chain_init(struct
-> > > >> dma_fence_chain *chain, dma_fence_init64(&chain->base,
-> > > >> &dma_fence_chain_ops, NULL, context, seqno);
-> > > >> =20
-> > > >> +#if IS_ENABLED(CONFIG_LOCKDEP)
-> > > >> +	/*
-> > > >> +	 * dma_fence_chain_enable_signaling() is invoked while
-> > > >> holding
-> > > >> +	 * chain->base.inline_lock and may call
-> > > >> dma_fence_add_callback()
-> > > >> +	 * on the underlying fences, which takes their
-> > > >> inline_lock.
-> > > >> +	 *
-> > > >> +	 * Since both locks share the same lockdep class, this
-> > > >> legitimate
-> > > >> +	 * nesting confuses lockdep and triggers a recursive
-> > > >> locking
-> > > >> +	 * warning. Assign a separate lockdep class to the chain
-> > > >> lock
-> > > >> +	 * to model this hierarchy correctly.
-> > > >> +	 */
-> > > >> +	lockdep_set_class(&chain->base.inline_lock,
-> > > >> &dma_fence_chain_lock_key); +#endif   =20
-> > > >=20
-> > > > If we're going to recommend the use of this inline_lock for all new
-> > > > dma_fence_ops implementers, as the commit message seems to imply
-> > > >    =20
-> > > >> Shared spinlocks have the problem that implementations need to
-> > > >> guarantee that the lock lives at least as long all fences
-> > > >> referencing them.
-> > > >>
-> > > >> Using a per-fence spinlock allows completely decoupling spinlock
-> > > >> producer and consumer life times, simplifying the handling in most
-> > > >> use cases.   =20
-> > > >=20
-> > > > maybe we should have the lock_class_key at the dma_buf_ops level and
-> > > > have this lockdep_set_class() automated in __dma_fence_init().   =20
-> > >=20
-> > > The dma_fence_chain() and dma_fence_array() containers are the only
-> > > ones who are allowed to nest the lock with other dma_fences. E.g. we
-> > > have WARN_ON()s in place which fire when you try to stitch together
-> > > something which won't work.
-> > >=20
-> > > So everybody else should get a lockdep warning when they try to do
-> > > nasty things like this because you really can't guarantee lock order
-> > > between different dma_fence implementations. =20
-> >=20
-> > Okay, that makes sense. =20
->=20
-> Yes, I agree with Christian's reasoning - chains / arrays is the only
-> case where nesting should be allowed. Also if we assigned a key for
-> every inline lock we'd quickly exhaust the number of lockdep keys.
+Oof, never mind. I see now that the suggestion is to split into a
+patch of its own, not a different series. I misread it last time.
 
-The suggestion was to have a key per-dma_buf_ops implementation, not
-per-lock ;-). Anyway, Christian's argument already convinced me, so
-this is moot.
+That makes more sense now.
+
+>
+> BR,
+> Albert
+>
+> >
+> > Maxime
+
