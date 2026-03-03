@@ -2,85 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KKtZHoZPp2k0gwAAu9opvQ
+	id kFwtGIhPp2k0gwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:50 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4A11F74A6
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113551F74BF
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE2910E8F1;
-	Tue,  3 Mar 2026 21:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C75F10E8F5;
+	Tue,  3 Mar 2026 21:15:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UatT3xYS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hz8H+xr9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D4C10E8D7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:15:45 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C070410E8E4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772572544;
+ s=mimecast20190719; t=1772572547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XjMC0WxfV6FSNfe+9wyhxlyiyTMxjfq8oevr0CbOGEQ=;
- b=UatT3xYSruZfpjqVDf4AAd2t9EzKJjXY55MRpcvFzjVonc0uZncFQejFys8eSBcI1rWH3M
- LJgBE4oaR+/GpzYhH8O6n8m8t94J6OMCvSH0/UK7sQb+gU/IehSfGxBs3tq/4d18CJww70
- LxOFvkEbdZYQY9RX5syMnylNNlHDtuk=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ld6zN/9/7YmG/EDhmcZckbqpb8XwO0ah+2Ai3kR30j8=;
+ b=hz8H+xr9T3FX0kUls2B4gH+1yJaj48XJcOK/9kNSqMjEauvAJOhyIJzL8aUBvOGKS39MLy
+ /SU3xyav4Op3NxKCYwqaYXSo7639eyqmGDERrzva5j9UDdARpvBXf6NwncRiNZjIPKzZ9Z
+ cxtiYOz3yzhYi/4xDM+CaX0QJl+vHaQ=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-z5z3Jp89NmWI76Rz37egzg-1; Tue, 03 Mar 2026 16:15:43 -0500
-X-MC-Unique: z5z3Jp89NmWI76Rz37egzg-1
-X-Mimecast-MFC-AGG-ID: z5z3Jp89NmWI76Rz37egzg_1772572543
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-503342386c7so91934241cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:15:43 -0800 (PST)
+ us-mta-157-uA_iadSgMX-23bJvmR6iKg-1; Tue, 03 Mar 2026 16:15:45 -0500
+X-MC-Unique: uA_iadSgMX-23bJvmR6iKg-1
+X-Mimecast-MFC-AGG-ID: uA_iadSgMX-23bJvmR6iKg_1772572545
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-899f757514bso171441986d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:15:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772572543; x=1773177343;
+ d=1e100.net; s=20230601; t=1772572545; x=1773177345;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=XjMC0WxfV6FSNfe+9wyhxlyiyTMxjfq8oevr0CbOGEQ=;
- b=B0PfM5iaC3/32jEl4hN+adIDBerhlYZ90lRYzDGjdGRIxXcnMO5MEEARwV+xecwOE2
- 6DpRkXVxX8+ZRHy4WEZn1fKzoLHgw2D/WJG97268hqJBl66Thh6rXsKrSvt/yEBKomh2
- B68X/xDomj0j3q+TLF5Nz+d6jDyB6ZyGP2+y6Y3sW0l2v+5TOuNXda8sSGCS3kDmIVnN
- xpC9Fuvjh4rcPu8p4la82A2tSJbI+7wGzvKJMqCJZ5yIn+GYZY/Stzi8wU6P42v8YmmM
- 2s48es7bGkCS14mXmHRFy6WYiy0AsOQ4yd9BEyEITBv9ZyW34nxf7ZMCP3c8pAVfVsiZ
- DMeg==
+ bh=Ld6zN/9/7YmG/EDhmcZckbqpb8XwO0ah+2Ai3kR30j8=;
+ b=YjxZ0cr7Fu3YHqX3BmWvTdFEdVY4TK1pI0NOzYEFT8i8M2zLwN6gk0hI9NbHREmkKF
+ bTkAvgALVOHQcEu+GKyEpbticG7vh53PXNIBU3fHuRTQgWalr4OK6w2Tttw1YS/lPSGB
+ LuIb1ufJJEcwikqmvDWVEWOeTO4YT2wPY7aFoaprZ2ffh+vmhN+vfcnVFQsfruz7kbK7
+ X/MmxYUPTDFrduV8v5nOm5yzdcL8jJmBTt0Enpk8g4gKtAvkUy57hwUt9+IulnwAySt0
+ T5BL9CHvocajR1aQAaIMQt5kWtO2mnm0AXgQh8pXtLBMitIs0/OPkm/nhCofoZdOM3LF
+ gIRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsjI8zqjeBJclXlxjLDQeK+F4KptNebzN/TzON6VOZH7eSwnNim0StXGsNOA85J08NzlWSLSJ/B2c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyA2EjBUkM+I/UxQi297lFmuueTD7dMAMiu3MsbuYJw7nbz1qL3
- 5pnstFG0l+Cm5r2aSIdzK543kol9ilQ64m/eJanxI5p76Z3xiofgeDmIAA7Anly44ec+EePCAGs
- EEbsZzaq0dLOkqGRcneY2LK6RZ7UV9nYe3P66JZ164+WTpJvm/4kNfnK0NMIfoNQ1R1e2478bbW
- NdkfB6jNiq6kEDJHC5ZhfxmP4LAfZoxITMwvl5i02TRJQko4X3aDjNvCJd
-X-Gm-Gg: ATEYQzxQkuPjPa6ryIRcQ8bhnljsYxMZzbSSH3H78dkFQ7ypPr+HTGRNEinb+7521bt
- LrPYrYs7PAXE23mvVOJEDgdCt7woaaJJ/EecWHHzDHEisLla3kxjCKVfmHz3jZqwaKz9HyzrnIT
- v1wne5xlIvtbM/PFboLPlVx3WWZp7HhUq+cfn+A9tl2aKjOG+HIECB2vFXVEuchLnzJmBym50GS
- GQ4hENawiTDToEvZckJPhQss73Sq7LL4rq4BmxYHScNkJxnXBI1YI3itP7OSvr0zBsvM4Dal2ep
- sXL9g1n0aoao56o7itinSIB5M16zyO8M1kuKwnaiGcyb4ktmxtE+2dpZvTVvXYXUtJ3e9KZOFmx
- aZhGF/akpA+Silfmy25tOGed8qw==
-X-Received: by 2002:a05:622a:14d2:b0:502:ad63:e15e with SMTP id
- d75a77b69052e-5075281833dmr229351421cf.55.1772572543106; 
- Tue, 03 Mar 2026 13:15:43 -0800 (PST)
-X-Received: by 2002:a05:622a:14d2:b0:502:ad63:e15e with SMTP id
- d75a77b69052e-5075281833dmr229350471cf.55.1772572542372; 
- Tue, 03 Mar 2026 13:15:42 -0800 (PST)
+ AJvYcCWNLd6GOLeSKFsnUT/LYMoEcHiV0eqsRDAhJMkYWAYcEbLk8RcnQeze4yOw0WrbBC71Ya3ecU7s+Ws=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YziegwujDQ63+i6LU/lrSegVacFpcu/tAtmNly5zI0I/BMEopLJ
+ w3GB4jEaskI7vgVuAyQbOgCI5GXChAiGAlnZW4OZjngreS9LCV1T1NdDN442lpnP+lWS7SaN3yb
+ fC7rliwnuGXq6QN4cRRhhRuu+1cq9ujT8Vh97oVpxUck62ZFiBE+1JnAY2M1BBnm5NcBviXk+em
+ +0PF9aEt+5O+sAyNJUosMPXENqbWxgzCOI9Qhs5bjYyQuupHfgcvpVl2X+
+X-Gm-Gg: ATEYQzw4NXeOf7TxDALt8jcR5wMYLd+405BqPBGbuYEbnHWgKInhYqZWJxakgJ9bqXr
+ zd/I91mCfzNUcpWgS3QAHEbuPk4daCztmcfYA9qZhYZfaexpAEsieJUcCsNq+GSdtgAI24VdtuL
+ s9KXWsYC3Jft2gCcihAqJBVUX2zwgOzlSQ1R8aJoUPDoofcGLplvBXC4o0SR70pLTAMl1eFKWxC
+ V4gyII9oq3KHuoi5/bTn+Pa4JfForOzw42uA2UpW9Fp72HXWkyrZwXmz3NxcRKDm0ZNT7GQSVrK
+ 409e7O8A9bYsvyNSSDT4eBdmPQdKtgLaezqurRGfC6oWq/03EPq8byHgjDkQdAf07hRabXS3GeH
+ u9qPqUx4aewPwa6qBnVXohpPRNA==
+X-Received: by 2002:a05:6214:509e:b0:899:fdd6:9ada with SMTP id
+ 6a1803df08f44-899fdd6a682mr113464086d6.4.1772572545192; 
+ Tue, 03 Mar 2026 13:15:45 -0800 (PST)
+X-Received: by 2002:a05:6214:509e:b0:899:fdd6:9ada with SMTP id
+ 6a1803df08f44-899fdd6a682mr113462916d6.4.1772572544344; 
+ Tue, 03 Mar 2026 13:15:44 -0800 (PST)
 Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.40
+ d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2026 13:15:42 -0800 (PST)
+ Tue, 03 Mar 2026 13:15:44 -0800 (PST)
 From: Peter Colberg <pcolberg@redhat.com>
-Date: Tue, 03 Mar 2026 16:15:25 -0500
-Subject: [PATCH v3 05/10] rust: pci: add bus callback sriov_configure(), to
- control SR-IOV from sysfs
+Date: Tue, 03 Mar 2026 16:15:26 -0500
+Subject: [PATCH v3 06/10] rust: pci: add is_virtfn(), to check for VFs
 MIME-Version: 1.0
-Message-Id: <20260303-rust-pci-sriov-v3-5-4443c35f0c88@redhat.com>
+Message-Id: <20260303-rust-pci-sriov-v3-6-4443c35f0c88@redhat.com>
 References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 In-Reply-To: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -110,7 +109,7 @@ Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-Mailer: b4 0.14.2
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5dWy54ckRGym0g2qlFiFAMnVo-F-AzbC6K_W-5uoITQ_1772572543
+X-Mimecast-MFC-PROC-ID: n-xUjSvemgjzRar0IY8hP0l0HHk9AqqZs8HZ0SawYaE_1772572545
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -128,7 +127,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1F4A11F74A6
+X-Rspamd-Queue-Id: 113551F74BF
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -163,102 +162,50 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Add an optional bus callback sriov_configure() to pci::Driver trait,
-using the vtable attribute to query if the driver implements the
-callback. The callback is invoked when a user-space application
-writes the number of VFs to the sysfs file `sriov_numvfs` to
-enable SR-IOV, or zero to disable SR-IOV for a PCI device.
+From: John Hubbard <jhubbard@nvidia.com>
 
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Add a method to check if a PCI device is a Virtual Function (VF) created
+through Single Root I/O Virtualization (SR-IOV).
+
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
+Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
 Signed-off-by: Peter Colberg <pcolberg@redhat.com>
 ---
- rust/kernel/pci.rs | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Changes in v2:
+- Add #[inline] to is_virtfn().
+
+This patch was originally part of the series "rust: pci: expose
+is_virtfn() and reject VFs in nova-core" and modified as follows:
+- Replace true -> `true` in doc comment.
+- Shorten description and omit justification specific to nova-core.
+
+Link: https://lore.kernel.org/rust-for-linux/20250930220759.288528-2-jhubbard@nvidia.com/
+---
+ rust/kernel/pci.rs | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index a4c27c674bd8bdf5e3316789d38d566e90b93fe2..88bd114970431bf8c3edef94c1d48567d895eaf6 100644
+index 88bd114970431bf8c3edef94c1d48567d895eaf6..db05641186c3a42922e2b6a463de9c1b099a4673 100644
 --- a/rust/kernel/pci.rs
 +++ b/rust/kernel/pci.rs
-@@ -83,6 +83,10 @@ unsafe fn register(
-             (*pdrv.get()).remove = Some(Self::remove_callback);
-             (*pdrv.get()).id_table = T::ID_TABLE.as_ptr();
-             (*pdrv.get()).managed_sriov = true;
-+            #[cfg(CONFIG_PCI_IOV)]
-+            if T::HAS_SRIOV_CONFIGURE {
-+                (*pdrv.get()).sriov_configure = Some(Self::sriov_configure_callback);
-+            }
-         }
- 
-         // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
-@@ -135,6 +139,20 @@ extern "C" fn remove_callback(pdev: *mut bindings::pci_dev) {
- 
-         T::unbind(pdev, data);
+@@ -484,6 +484,13 @@ pub fn resource_start(&self, bar: u32) -> Result<bindings::resource_size_t> {
+         Ok(unsafe { bindings::pci_resource_start(self.as_raw(), bar.try_into()?) })
      }
-+
-+    #[cfg(CONFIG_PCI_IOV)]
-+    extern "C" fn sriov_configure_callback(
-+        pdev: *mut bindings::pci_dev,
-+        nr_virtfn: c_int,
-+    ) -> c_int {
-+        // SAFETY: The PCI bus only ever calls the sriov_configure callback with a valid pointer to
-+        // a `struct pci_dev`.
-+        //
-+        // INVARIANT: `pdev` is valid for the duration of `sriov_configure_callback()`.
-+        let pdev = unsafe { &*pdev.cast::<Device<device::CoreInternal>>() };
-+
-+        from_result(|| T::sriov_configure(pdev, nr_virtfn))
-+    }
- }
  
- /// Declares a kernel module that exposes a single PCI driver.
-@@ -325,6 +343,44 @@ pub trait Driver: Send {
-     fn unbind(dev: &Device<device::Core>, this: Pin<&Self>) {
-         let _ = (dev, this);
-     }
-+
-+    /// Single Root I/O Virtualization (SR-IOV) configure.
-+    ///
-+    /// Called when a user-space application enables or disables the SR-IOV capability for a
-+    /// [`Device`] by writing the number of Virtual Functions (VF), `nr_virtfn` or zero to the
-+    /// sysfs file `sriov_numvfs` for this device. Implementing this callback is optional.
-+    ///
-+    /// Further, and unlike for a PCI driver written in C, when a PF device with enabled VFs is
-+    /// unbound from its bound [`Driver`], the `sriov_configure()` callback is invoked to disable
-+    /// SR-IOV before the `unbind()` callback. This guarantees that when a VF device is bound to a
-+    /// driver, the underlying PF device is bound to a driver, too.
-+    ///
-+    /// Upon success, this callback must return the number of VFs that were enabled, or zero if
-+    /// SR-IOV was disabled.
-+    ///
-+    /// See [PCI Express I/O Virtualization].
-+    ///
-+    /// [PCI Express I/O Virtualization]: https://docs.kernel.org/PCI/pci-iov-howto.html
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// # use kernel::{device::Core, pci, prelude::*};
-+    /// #[cfg(CONFIG_PCI_IOV)]
-+    /// fn sriov_configure(dev: &pci::Device<Core>, nr_virtfn: i32) -> Result<i32> {
-+    ///     if nr_virtfn == 0 {
-+    ///         dev.disable_sriov();
-+    ///     } else {
-+    ///         dev.enable_sriov(nr_virtfn)?;
-+    ///     }
-+    ///     Ok(nr_virtfn)
-+    /// }
-+    /// ```
-+    #[cfg(CONFIG_PCI_IOV)]
-+    fn sriov_configure(dev: &Device<device::Core>, nr_virtfn: i32) -> Result<i32> {
-+        let _ = (dev, nr_virtfn);
-+        build_error!(crate::error::VTABLE_DEFAULT_ERROR)
++    /// Returns `true` if this device is a Virtual Function (VF).
++    #[inline]
++    pub fn is_virtfn(&self) -> bool {
++        // SAFETY: `self.as_raw` is a valid pointer to a `struct pci_dev`.
++        unsafe { (*self.as_raw()).is_virtfn() != 0 }
 +    }
- }
- 
- /// The PCI device representation.
++
+     /// Returns the size of the given PCI BAR resource.
+     pub fn resource_len(&self, bar: u32) -> Result<bindings::resource_size_t> {
+         if !Bar::index_is_valid(bar) {
 
 -- 
 2.53.0
