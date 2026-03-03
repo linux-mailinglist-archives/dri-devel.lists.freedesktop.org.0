@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6J7FCD/BpmlDTQAAu9opvQ
+	id GOHnI0HBpmlDTQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:08:47 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:08:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96161ED6B3
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642FA1ED6C2
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B27EB10E79A;
-	Tue,  3 Mar 2026 11:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A813210E79D;
+	Tue,  3 Mar 2026 11:08:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NMz9wRZB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LJ9CCTpr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29E6E10E799;
- Tue,  3 Mar 2026 11:08:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D8D10E79B;
+ Tue,  3 Mar 2026 11:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772536122; x=1804072122;
+ t=1772536125; x=1804072125;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vTKNn1YodUXX/qedFBj10CZRxq43Ui15MVMo9Giz26g=;
- b=NMz9wRZBqvtnZyiRnB6qRa91q/8sVtK7l9mhD2akHeJac6DwRx13ELaK
- 9pmK+VkLQqfFhOOLc/RYWPJANcn/PQY08slMWIGBw2u/W0Mhf+glrIQhs
- 7pRF342hU101DMbYD1W95A6ymiDxCrAGev2CMKOsAIko8JrU1WSq7rJFG
- qVge/mG1dCYit5jt8nPnJqW8SrZAlLEEuVwAl+w00uXDmH5pO4wv4+Zkh
- GoLTcWgbZRShlLltyoaT0VLAtVJC4bPh2l5+zIcI3HoSb8SEc0kJQ5riE
- Ep2CpchxYYDm9l9x84nHHmoSIFOt1zB5QhlyL7H4PDZa8t36qrqL2twmW w==;
-X-CSE-ConnectionGUID: pCpfOD8gT7GyxEsMUB8irA==
-X-CSE-MsgGUID: BdILE7nBRWiTm0Huk8J3TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="77410102"
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="77410102"
+ bh=ZDHVkna6gAiaGZuv6R5i1Hi9y2BToHfaq6PzsBzIMgs=;
+ b=LJ9CCTprNp0wi7gFxX033Rwu0QN/MUHC/x/G+Mu6dH7gXb2TOiHu923T
+ LrbTUffZGJwBhzbJmv3hKJU/HxcSbZOIDvzBZK0j799mIWFcYviwEj8EQ
+ wevrOS7R850C6VqN8hlcX8Z4SSfJ+qqA/qQMmkEfje7v7ckpl6Jh8O+wG
+ nHdj20lEpXAjIoPcJxCxfc0+QP8MjliGqVenrqIlFH3RgKMXAr2XttRuR
+ fgj0Efx1xCp2I7GZYtCt1oVTMG4bpSI5RZZp5OuHyGwZm/mYWUCsGSca6
+ WD7QhdpPytRbZbrraN8p8FBqoQpLcUWys6HrVy1eGrTbCU5qGigdPh5lc Q==;
+X-CSE-ConnectionGUID: AmaY1lVVRuu3pHXwKYA+dQ==
+X-CSE-MsgGUID: m0JXUE37SjuNwbFdi853qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="77410125"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="77410125"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 03:08:41 -0800
-X-CSE-ConnectionGUID: z+u6gWszS1SPrvpQZ/gPgQ==
-X-CSE-MsgGUID: bUYR5YvFTqeK8WGHD9HEWA==
+ 03 Mar 2026 03:08:45 -0800
+X-CSE-ConnectionGUID: 6OK3oXk6TW24sD1QMwtA7g==
+X-CSE-MsgGUID: qwglBkurRLOU2nztCz8adQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="248460012"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="248460038"
 Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
- by orviesa002.jf.intel.com with ESMTP; 03 Mar 2026 03:08:39 -0800
+ by orviesa002.jf.intel.com with ESMTP; 03 Mar 2026 03:08:42 -0800
 From: Raag Jadav <raag.jadav@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -52,9 +52,10 @@ Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
  matthew.brost@intel.com, rodrigo.vivi@intel.com, riana.tauro@intel.com,
  christian.koenig@amd.com, andrealmeid@igalia.com,
  Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v1 2/3] drm: Update log for 'none' recovery method
-Date: Tue,  3 Mar 2026 16:35:18 +0530
-Message-ID: <20260303110556.3577612-3-raag.jadav@intel.com>
+Subject: [PATCH v1 3/3] drm/xe: Send 'none' recovery method for
+ XE_WEDGED_MODE_UPON_ANY_HANG_NO_RESET
+Date: Tue,  3 Mar 2026 16:35:19 +0530
+Message-ID: <20260303110556.3577612-4-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260303110556.3577612-1-raag.jadav@intel.com>
 References: <20260303110556.3577612-1-raag.jadav@intel.com>
@@ -74,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E96161ED6B3
+X-Rspamd-Queue-Id: 642FA1ED6C2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -104,27 +105,36 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid]
 X-Rspamd-Action: no action
 
-Update log for 'none' recovery method for wedged event where driver wants
-to hint "no recovery" without resetting the device from driver context.
+XE_WEDGED_MODE_UPON_ANY_HANG_NO_RESET is intended for debugging hangs,
+so wedge the device with 'none' recovery method and have it available
+to the user for debugging.
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- drivers/gpu/drm/drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_device.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 2915118436ce..72e7e09225c7 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -586,7 +586,7 @@ int drm_dev_wedged_event(struct drm_device *dev, unsigned long method,
- 		snprintf(event_string, sizeof(event_string), "%s", "WEDGED=unknown");
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index c137dc0a1840..eeb626737760 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -1329,8 +1329,15 @@ void xe_device_declare_wedged(struct xe_device *xe)
+ 		xe_gt_declare_wedged(gt);
  
- 	drm_info(dev, "device wedged, %s\n", method == DRM_WEDGE_RECOVERY_NONE ?
--		 "but recovered through reset" : "needs recovery");
-+		 "but no recovery needed" : "needs recovery");
+ 	if (xe_device_wedged(xe)) {
++		/*
++		 * XE_WEDGED_MODE_UPON_ANY_HANG_NO_RESET is intended for debugging
++		 * hangs, so wedge the device with 'none' recovery method and have
++		 * it available to the user for debugging.
++		 */
++		if (xe->wedged.mode == XE_WEDGED_MODE_UPON_ANY_HANG_NO_RESET)
++			xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_NONE);
+ 		/* If no wedge recovery method is set, use default */
+-		if (!xe->wedged.method)
++		else if (!xe->wedged.method)
+ 			xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_REBIND |
+ 						    DRM_WEDGE_RECOVERY_BUS_RESET);
  
- 	if (info && (info->comm[0] != '\0') && (info->pid >= 0)) {
- 		snprintf(pid_string, sizeof(pid_string), "PID=%u", info->pid);
 -- 
 2.43.0
 
