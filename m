@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGF+Hk+0pmk7TAAAu9opvQ
+	id OFy1C1O0pmk7TAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:35 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0441EC7C5
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B351EC7D5
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A10710E706;
-	Tue,  3 Mar 2026 10:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC5A10E711;
+	Tue,  3 Mar 2026 10:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pPgkx2p7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hNLBgPiY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A8D10E706
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:13:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646F810E711
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:13:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7C46C4448D;
- Tue,  3 Mar 2026 10:13:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04EA2C2BC87;
- Tue,  3 Mar 2026 10:13:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4B8EF4457E;
+ Tue,  3 Mar 2026 10:13:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8734C2BCB4;
+ Tue,  3 Mar 2026 10:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772532812;
- bh=xA8iRNbldwAg/IWB0t2FyV0TtMeqN3qjpeDuNnBZW50=;
+ s=k20201202; t=1772532815;
+ bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pPgkx2p7bpzUvd/y0QKqig3ahxphe4kIYCiDTUiIFaRnCdB//a24tY206c+r7nONd
- KNDWko0Wd/xQ2j8wBPpXsNNFf8VRbFKtp94fJDjouvNCWMQUKouXiJBtSzzkwCQb3M
- psJ4gGxLizIqeU5/kUS5bma/Cr8MOoIfYs8i6g2T/WJx6plTyDTTUX0dZn8U7WBBVp
- Gay4CxCD5wDgoChSafPUeZemEbEFRUS0nHGfskZ+7eriqjCXulHApxPzgUNCFG+MaO
- 7wrSTQEm+aAF0//lcx3KJz18HrLaCMy5e08kFc04VKFjchH+k7kYj3f1tj+WgJGEVX
- UNA2SlT10vImQ==
+ b=hNLBgPiYlGA3ROspXiwDWvGd7UDC3eLt9KG+LRpD2ykmSpbvDT4i2lecDwEEQ4jRi
+ BSriPRPByLDuUP07IrVg5AWs0lHcb/j5vNyXlRdfXxPb9Gmh21vG71c0O4goDaA8DR
+ viJH+W2PiOP/skvF0y52/p3n1Sl8m2jC7WrjZr0ZyA4FFArGVbBpfR0/p7mifhP9zc
+ vuxDO4mW0g4VCQk13LnYA04RoubMyd71KF6RRslLiRJyJYV8teAEPkxI4Uiht714lw
+ Su6WskTLu+cqYWbaT0LYNfkORzEllBz+OkTHo9zVAvRkED584wGHpfE//bQQ6aVFHI
+ qI0XQT+J6gALQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 03 Mar 2026 11:13:08 +0100
-Subject: [PATCH v3 5/8] mm: cma: Export cma_alloc(), cma_release() and
- cma_get_name()
+Date: Tue, 03 Mar 2026 11:13:09 +0100
+Subject: [PATCH v3 6/8] dma-buf: heaps: Export mem_accounting parameter
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-dma-buf-heaps-as-modules-v3-5-24344812c707@kernel.org>
+Message-Id: <20260303-dma-buf-heaps-as-modules-v3-6-24344812c707@kernel.org>
 References: <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
 In-Reply-To: <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -63,12 +62,12 @@ Cc: Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1725; i=mripard@kernel.org;
- h=from:subject:message-id; bh=xA8iRNbldwAg/IWB0t2FyV0TtMeqN3qjpeDuNnBZW50=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnLtphd3Lnadr6or7GS8X2FF0azNTvqpdYKHQia9sNbn
- 1359PLyjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRM4GM9SGui34Wvzd8vOvY
- 1bhMG4Y1lTqzb63qZ5eM/ZS3MmtbhNhrK69pM+T4JoXGMamGN7w5y1inYxh0fM3PnfsrF8r+j1u
- 35B8Pi2sER1j147/7uzMV3/oU/lNY429dFsQf6FJZ337b6yAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1114; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnLtpg51J64F2S+Qnv20d4+vXl7NF2OTUzZEbiAw+DT1
+ DTF2JqujqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRpGmM9W4hG/rbaxtq+/t+
+ TFZ9WZrIxbMl1Z5rxh2PTpe4RweTlh6aWsVRvk2v0+9XgXIBZ/ljxobDb3+d2ZoTr5IvGT05qeb
+ NJsfWxCKRfpEylf23TWZPncb3e4tml+rbq5MZild+d9gZ/h0A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,7 +84,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2D0441EC7C5
+X-Rspamd-Queue-Id: 03B351EC7D5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
@@ -120,60 +119,34 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
-free, respectively, its CMA buffers, and cma_get_name() to get the name
-of the heap instance it's going to create.
+The mem_accounting kernel parameter is used by heaps to know if they
+should account allocations in their respective cgroup controllers.
 
-However, these functions are not exported. Since we want to turn the CMA
-heap into a module, let's export them both.
+Since we're going to allow heaps to compile as modules, we need to
+export that variable.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- mm/cma.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/dma-buf/dma-heap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/mm/cma.c b/mm/cma.c
-index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..550effb9c4e01cc488b5744fe61d55a5b70a6d6c 100644
---- a/mm/cma.c
-+++ b/mm/cma.c
-@@ -50,10 +50,11 @@ unsigned long cma_get_size(const struct cma *cma)
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index ac5f8685a649496c0e1c6decbf263b63fa472d04..a76bf3f8b071a3d5bf39a8513f31e9e8aa16e02f 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -51,10 +51,11 @@ static DEFINE_XARRAY_ALLOC(dma_heap_minors);
  
- const char *cma_get_name(const struct cma *cma)
+ bool __read_mostly mem_accounting;
+ module_param(mem_accounting, bool, 0444);
+ MODULE_PARM_DESC(mem_accounting,
+ 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
++EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+ 
+ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+ 				 u32 fd_flags,
+ 				 u64 heap_flags)
  {
- 	return cma->name;
- }
-+EXPORT_SYMBOL_GPL(cma_get_name);
- 
- static unsigned long cma_bitmap_aligned_mask(const struct cma *cma,
- 					     unsigned int align_order)
- {
- 	if (align_order <= cma->order_per_bit)
-@@ -949,10 +950,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
- 	if (page)
- 		set_pages_refcounted(page, count);
- 
- 	return page;
- }
-+EXPORT_SYMBOL_GPL(cma_alloc);
- 
- static struct cma_memrange *find_cma_memrange(struct cma *cma,
- 		const struct page *pages, unsigned long count)
- {
- 	struct cma_memrange *cmr = NULL;
-@@ -1025,10 +1027,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
- 
- 	__cma_release_frozen(cma, cmr, pages, count);
- 
- 	return true;
- }
-+EXPORT_SYMBOL_GPL(cma_release);
- 
- bool cma_release_frozen(struct cma *cma, const struct page *pages,
- 		unsigned long count)
- {
- 	struct cma_memrange *cmr;
 
 -- 
 2.53.0
