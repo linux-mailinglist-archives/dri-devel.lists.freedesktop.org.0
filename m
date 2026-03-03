@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4N4LHBKFpmnaQwAAu9opvQ
+	id sICwLSKFpmnaQwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 07:52:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 07:52:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94141E9CBD
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 07:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDA31E9CC4
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 07:52:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8393A10E03E;
-	Tue,  3 Mar 2026 06:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CDC10E63E;
+	Tue,  3 Mar 2026 06:52:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s7/Ye/30";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YYaKW9Jm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F7F10E03E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 06:51:57 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00EE10E63E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 06:52:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1607442E20;
- Tue,  3 Mar 2026 06:51:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64ED1C116C6;
- Tue,  3 Mar 2026 06:51:56 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C966560126;
+ Tue,  3 Mar 2026 06:52:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF898C116C6;
+ Tue,  3 Mar 2026 06:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772520717;
- bh=C5He0Shh3Nc4LenLLbkryUeH2KhCx1b+RL5r+ILGntE=;
+ s=k20201202; t=1772520734;
+ bh=Owqa1+BkD4lML8DGZaHaxD/+Qjdb8XC9nOLsnGsYOZo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s7/Ye/30R2BX84QSrXsrPSwHTwm/VH++iQcZdGJGGxVnIt2PNR3ZGtyyZPxhheXxX
- WYdAJtiq/OqUaItEyUT2Mmj9OmRiJmD8Vy9HlYJoCU9FZVvAKYFDh7RULL71tBOdn5
- mZMpW4yfmv3N+cH419L/vsyODjFxVFXgeedLZoqr4Nyt3zvN3XkDo1uxNSCsE225eZ
- tgoLmp/vY/wlbumZ3ucP7QybJgZhXtNNuIp32XWXRr0ITtNv4JB5iwleVf33hnAnwI
- saWE1uzRBcVeShX4U7Y/C2ZtzmyewovFJnQPSwiL8Jas/Vfq5mm7ikWxYr/AzNbHHe
- ixkJzWCjAu2Sg==
-Date: Tue, 3 Mar 2026 07:51:54 +0100
+ b=YYaKW9JmjNm6gflUdX7wNc1usXBX8vu6crMoN3Xs5bGrChZp1dJx/xfwLRY0MBE5r
+ yaMHxZvE7mOBsITAKzrnhQSVFLyFyoPW3SPgE4rnEod9YGrZUjAd4WDfUhKnA0Z2EA
+ T8UgwEgMwjVtS/8gYrdsW/XbTKmM2HUl7qFNYJVDcGkHuZ2DorC55fqvbaZsNffAdk
+ kNCPOKOdnm9/AUIcMw93VIMiV1iAYemIPIjfmhQaFcBJF1go0VyiY5Uh0vOSOlOW7A
+ 2jaMBImXFc7b5pyGuS8Os6t38An5ePscxnMil1n9G+5/rDV2/Wp8AKYTnO1avLF4kw
+ a68aUtP4GWZpw==
+Date: Tue, 3 Mar 2026 07:52:12 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Hugo Villeneuve <hugo@hugovil.com>
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
@@ -51,14 +51,14 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, 
  Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Subject: Re: [PATCH 05/14] dt-bindings: arm: fsl: add variscite,var-som-imx6ull
-Message-ID: <20260303-hospitable-cordial-smilodon-af6300@quoll>
+Subject: Re: [PATCH 13/14] dt-bindings: display/lvds-codec: add ti,sn65lvds93
+Message-ID: <20260303-solemn-umber-loon-6e4bb7@quoll>
 References: <20260302190953.669325-1-hugo@hugovil.com>
- <20260302190953.669325-6-hugo@hugovil.com>
+ <20260302190953.669325-14-hugo@hugovil.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260302190953.669325-6-hugo@hugovil.com>
+In-Reply-To: <20260302190953.669325-14-hugo@hugovil.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,7 +73,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D94141E9CBD
+X-Rspamd-Queue-Id: 5CDA31E9CC4
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -108,19 +108,19 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email,dimonoff.com:email]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 02:03:41PM -0500, Hugo Villeneuve wrote:
+On Mon, Mar 02, 2026 at 02:03:49PM -0500, Hugo Villeneuve wrote:
 > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 > 
-> Add support for the imx6ull CPU variant of the Variscite concerto
-> board evaluation kit with a VAR-SOM-6UL.
+> Add compatible string for TI SN65LVDS93. Similar to
+> SN65LVDS83 but with an industrial temperature range.
 > 
 > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 > ---
->  Documentation/devicetree/bindings/arm/fsl.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
