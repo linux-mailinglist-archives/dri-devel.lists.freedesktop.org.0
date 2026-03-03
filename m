@@ -2,112 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHlbNPIWp2m+dgAAu9opvQ
+	id AGhxDXUWp2m+dgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:14:26 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:12:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C90B1F4794
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04331F474D
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF2E10E892;
-	Tue,  3 Mar 2026 17:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A65610E890;
+	Tue,  3 Mar 2026 17:12:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y5DY8byw";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="Ssh1weHd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com
- [74.125.224.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C04D10E890
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 17:12:06 +0000 (UTC)
-Received: by mail-yx1-f53.google.com with SMTP id
- 956f58d0204a3-649278a69c5so5047027d50.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 09:12:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772557925; cv=none;
- d=google.com; s=arc-20240605;
- b=h0GbNQ5lIoNIrCKlZ47iVxFFbFztVefwJu0SfFD6PMmm5gA0nFYVbu7f7nHBGQns2/
- ErBco62/yjd7o8XQuusua7bw3z905g420Yd4DbJMxNhNPMbP91xuyHZF6CPtDVjg0z1G
- 0IJObeYDieAvEreU/Es82bL7Oatr5+oNleywH0eqKerZRhH53NeLz/C0AZYwOhkp7qJx
- FpQkmYL7HcyRiRl4f8F16G3ec/L1bwntGnFRBw0azWkgIoLFViagsz+ZFRzB+7kzslGR
- ExP67W7isUvJaFSsA9vrVgl9bWHUzEET77MQfVSEIv01NOif38C66zp/DtQEjAY9QnVc
- t4+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=9sUpEKqm4FHDdB3eWP71R/GFWW8PizQBOTa8oFRcpL8=;
- fh=KOZ2C0S1FLHljWnHLiI5yHEtRS5LJ94FiRmmWXEul3M=;
- b=WJePPPu9eu4DX9NaV1Em+QNIZG5V5/Co97ZlSRAIU97socwMYjYv0zrCQRn99/YAMk
- lamGw/mT4W+OudbQRUoK8yltIZ7UJqnpHK4PA+siL6XXoddHCYXYPqt2oqGnh/c4LtOx
- FeoSPyKQjnA5Cec70h+woCt0bPmuYPtfq+lpdwsXYyUapjN43ZjY+EBUHO94TF1JbJgB
- f4CgAaMkcAozT3a/+RKF8Vr+GnvhElw9K5s/9oL8VzeuxpBwwxwQsUfKvN5LGdzWbdiR
- 6slaH5/VV7JVRHAmthPxaMIJO4P5WR88u4cYchAgV6AQz1MVHYT/YDoEM72NJ20xu7AD
- YI8A==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772557925; x=1773162725; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9sUpEKqm4FHDdB3eWP71R/GFWW8PizQBOTa8oFRcpL8=;
- b=Y5DY8byw/3OV7dsfO2cEghWlqVZHNbfuZOPSpvz3eef741mimGSKLr3JhfzDzI7me7
- Mgsg0/KGcfCsxadUbFnwf0YBZnZoL4ueFXQF5abgJ1BpDQh9rpDes6Mtk8ZEA7SelNmW
- JVruG7uq7ZHGS0jvK8NvRdRZt7vuGtgEUjGsKTQR0/o+jGqxuL6s8hu6lWzJnd1Z4P4u
- 8VNfZbunOmjSivLNpVDenIwxMECU2e7m3wyhVuLZBN82MRA233525Vqzo5Ns3I5HN4Og
- +5WLybFqs4kaKb2HmOMnSX3zJWooR9BBCbeuyFGZ6aqL4wMV+0h0f9PB530F3/nwICGK
- TLmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772557925; x=1773162725;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=9sUpEKqm4FHDdB3eWP71R/GFWW8PizQBOTa8oFRcpL8=;
- b=fO3cBGqRNewksBjrye7Os3hydUhtDYYmyud+2ocrJoi1K5oGwAjVVb2F11g/dnxSHF
- qFw4pQgnrlVAx7VaDtDz2gr99hz0JjW5JgCY7+HfGwlH8iNYm2kEztPC3JY6kS+qh4zI
- GLJ/9IxAg3uh6dLwBNam+WiQjLp4tf9QXOR2V78tPHmY7MH2Oju5U70bWsCz4oPhL28V
- wuKa0zQF5lUam3Qip1heFuqzTCLbYJZxIICO3SyvLDFxBvC9MJ05jvUte/gLnMQv0jPc
- 2vrGG6cgrDFZEvFmLSVlIxf2qk8ser66XqVkTujr2DAYzJVLZaog02vZsQLKjBBSTkhC
- B+0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3ahdUHqSel5c8nrvjdKt/T5n0XPnO0xUYVO7PU7HFTflHObgwYd1U4dbtoZcDVj1FcB0/iXw19O4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxgsJRb9m3G7bVRdF90/pS8aRCHl0sXxkuoCkrMuCvmBzbXN/0U
- rigOz//2lJ8JQsqpPM+LkEU71ji97t2i8Z45BEpFkwqk33ke6YjWkI4NtlkCOJlJHmY+H41Jtd/
- VNvWb25wu6IvFryxhsjHVnqngipVCV38=
-X-Gm-Gg: ATEYQzxWD/liNfRdw/+peYEV5sMi3e2MS/gNgMQnKxbplocga4VGlXNbZloXx/ZYcPT
- lraEe0RJmAWnOBdSoyA4WcksdMakX+fDX1lxYN3uVqmLaXN7/qw7qqLmvwRXB12oIPbhHcrGWLz
- VZjy09Lr23KQ5Jde+MhwcAMVne/Qut66MFAMGOcPLrO322xJ3Fv9IasyDy56W7oddl/Lk/0jQpH
- Pqtg+tx4++e4E32dOhgDDNBkoM3hFnigOx3X3SHfUcAl93aJXfpph00sEGeVSEKyNyBbZ+VTAII
- Ufkzz26t0RtYV7zRA80wrt4XTHVczdfEDud7jJPRGmDrcyk9
-X-Received: by 2002:a05:690e:1509:b0:64c:f4f4:20ae with SMTP id
- 956f58d0204a3-64cf4f422d8mr985035d50.78.1772557925120; Tue, 03 Mar 2026
- 09:12:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
- <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
- <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
- <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
- <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
- <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
- <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
- <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
-In-Reply-To: <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
-From: Julian Orth <ju.orth@gmail.com>
-Date: Tue, 3 Mar 2026 18:11:52 +0100
-X-Gm-Features: AaiRm51ZnlXJNoPp8y0UxYSIRGNlSMMpuU2FbW_nvkL0SpFAfDLDBNU6rsbiWBA
-Message-ID: <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from LO2P265CU024.outbound.protection.outlook.com
+ (mail-uksouthazon11021120.outbound.protection.outlook.com [52.101.95.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C67BC10E890;
+ Tue,  3 Mar 2026 17:12:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TeQalYl+DU5pFhSmM1X0c9i4BAfTN0lZ60gFUl7FCigOMitRhwwQAYHUdBz5B8mHiouczw35Xn2+yrkn1akgQ+mzm3PYfm7yo1D2Yc8JU9b1BULt07tthzk+v1TVEjTCFVJmcWTfbyzS/vhXQbLFzqUUUo0f6QTlqcTweJpT/e9jv8RIX5S0OfYxPaMpQ1FTxPHp7fHTGhWpkTnW9cUuzU9a6i7uxfLDWOpQvcuAvLj6PwG6KNLBsL16kbjshGY2DdCffTXv0+hS25QRIFJ/drNl0BajLjXYlz2Mt4hP67McQTdUN/qCQcauoh+M8wUWRULxJvDI/tPR0NBFvCMhUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nX1G3CzB+Ex4TjwHplCQvruO6PgGcr1nz6FAbx91X0U=;
+ b=yI5p5uLfY8OQAl7CeuWYCco4rS4P5xMzRf5sGSyfWbiJh6RqcPQxlQIczSzX67HOFvozuILH9vpeOOSoWEL0zZoItF9CXx2wq9PylG4ZxMcit4WLES0COpydCDNlVHma4/tpr8fwWql0PviXutVVv+BqYuHGWWHH9ZDakEzBHqySEgOTRivPZ7sf34Tcps+xaWuz+TAm8ufBuMrT9S1ERupXvuwPmPwWJVKqWoJFvhXXKJxwx7O0jP4LDUYUP4NjdjhGbUrvxutkIrNrFGsuYb7cAW+bc2mYa5cdcc50FUspyQ6x3ljQF7Nw+PLwMSL8EBxAJQ1XV3zfywRG5bxYVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nX1G3CzB+Ex4TjwHplCQvruO6PgGcr1nz6FAbx91X0U=;
+ b=Ssh1weHdpQjuExuHtb7fqK0htVhIkML3Q9/vlPYTDK60eh56YbSq9gecV6ecFwU6/WxYJHfUooE3jY+SQHBT6LAixJI80Iznce3Zt9vupIM8nA6BY0drbQpMzEQmBZWxwEPaxIB9z/j7fvxqh8JHfzuRJsby7r9Az+Z1esGe+w4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB6315.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:190::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 17:12:05 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 17:12:05 +0000
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 03 Mar 2026 17:14:22 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Mar 2026 17:12:04 +0000
+Message-Id: <DGTBCCWB81FE.1ECVE2VLBGK7N@garyguo.net>
+Subject: Re: [PATCH 1/8] rust: dma: use "kernel vertical" style for imports
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
+ <acourbot@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
+Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260303162314.94363-1-dakr@kernel.org>
+ <20260303162314.94363-2-dakr@kernel.org>
+In-Reply-To: <20260303162314.94363-2-dakr@kernel.org>
+X-ClientProxiedBy: LO2P265CA0094.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:8::34) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB6315:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfb6e826-9e85-406c-6c78-08de7947fe5c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|7416014|376014|1800799024|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: L+/pq19WRhRRofztAnghoE4LC8VTYSK3/7DdKYuemrIyWk697rowgFsnWR8osHIhIyPib5Gs429Pf5vWcPEcC6lhYAq06aLuleD2UAGxCIm2K1XeUQP1lRUhKmRqmdYLJgG2/gnjTk1KV7zjUNKRMCEzpRnmMDqtVC1q+79IKoGmVZk6Zdp+MLB2I0kpgY+IFAnituExZY1zEKl8Aayyf2l+WR1/5a/S0gnYWAHxIjAvn0eBRutxOK2IR74U6072+t/ljoLFyEnZdiFifXjNZwDiloJe4ls3pIGfb63EWFiJz31G7LmM82WAzEZIJfPBeeoFMKvpkFwLr73KsLRnLL8YC2ZMB3ICQYBDKLBzJSc0CsqD0DWO5eCv9Qjr1nhN2oCts1dOxNWFlJYRqsrnGqVkeMC4w0VlJuh7h9Pr0wYi7njh2kxirsyQ9XsWRUnD7xHURpDbEr49iiI9vYlzlWvaAFedr3Ovph3XHTQ4BWoP5jKQJ+lRHGAPac4iKXGrkekQ4mcQQGkBeRFfxm55eYiyOLUj13LphjPFis1sE4Ma3S1PHqHErcU7hrup42hTxH8V7i9YtODCtcDZ7U19HLu8G3j9z0Hwz9EZzMNVMWcFezN9yT0TGkS0+H+alBsDxutdQI33AGHFe81ikRGkuAkcMJ/N1yJumzp4IQWS1R/ymBDAJfB74Lw0h7/Y8h0DQf5u8r11TVfo9pqHKNSdJWVk614JJ+oyZbBqOFK0t0UvIrs7VrOVhkBlaq0dc/I9dGc5XiBjdk8/lnWc8HRjGg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(7416014)(376014)(1800799024)(7053199007)(921020);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YnZqZDVCUHhjUlBva2tGYTdBVU5pd281d2w0am8yZitjZ1hyWnFybkdmcG40?=
+ =?utf-8?B?T01zUE9kNk5ybnNRL0NDL29Ec3M0SUp2dktmWXNFWEM0M3M5bEVhclZxVmto?=
+ =?utf-8?B?eGhnalpxeXRpdlc2M0VzeVhnVzcwVVc2ZytGUGgzWExrT1VnUGk4ZXMrODVD?=
+ =?utf-8?B?MUZtdmJHVXFYUUQvb1hDQUFYOUJuTXE2a2tRK1hKQ1c0TEZwdVNYK3BHTCtj?=
+ =?utf-8?B?V2I1Y20zMGVUMW5EN3Z6bGdqVEMyQXZoQ2xVUENRWkVCWUZrK0RhS1pvQmp6?=
+ =?utf-8?B?MnZUR29HQU96UmV1ZVFVYitKSDJLQ3J4ZVVTV1NETGlaLzdoZGJkVlpUSkRX?=
+ =?utf-8?B?RTF2M3NJYkx3Vm5icHZkZW0wcDhKdjh1bnIvTlRYYnpFRUp1NFNnbThrcGhF?=
+ =?utf-8?B?bVJrNXVSbVJkSDkzeW15am9Md25udXV1QklscWErcmRDR0E0djBnL3pBaSth?=
+ =?utf-8?B?WDNnazhuZWVBUXpJYlFXWDZkbUxSSEJ2cFdyWHk4bEZRbng4N0pEOStlL05V?=
+ =?utf-8?B?bXk4cHlKdVZTbDBZa04zL0JrNXNuK093L3crZXpsTE92VHYzU0ZWd1pCbXZZ?=
+ =?utf-8?B?Vi9Wbk84bmsxcW1DVVp1UHBYYjFPU041VmQ2VTFPZ1duZXdzam0rTTRrb0NF?=
+ =?utf-8?B?SzdNdXFtbHpyMmNuZWZpZnovUUFkcnBaZW94QkFBSUtLWVVHUnJvK1FFb1Jv?=
+ =?utf-8?B?SnJ0Y3pwNjRIWGFidm9xUVZuTDVlSmtsR3VaSHM5TkpQbGM5aEVyNERBelVz?=
+ =?utf-8?B?UTJCUUNuY1pFQ1l6UFJtaUxXNG03bk5sT1drQUNwRjZieXNyb1pkTGszSnQ4?=
+ =?utf-8?B?V0htNkRWdU8vcTU3RGp1MW1xTEtvVXZiYVhTT2ZmYnBTbkFIRFRrS2JQSzJO?=
+ =?utf-8?B?Z2cxbmQ3M3JMMHdiRy9lYjNEN05UOXhmK2ptT3ZZUjBpZldTN0VtMEoxckZX?=
+ =?utf-8?B?d3pEUGttdTJOcmdiOFVPL0JMUFJRbCtLdkhNZ2hPcVdySHJzMVVTRjFxdEVr?=
+ =?utf-8?B?bG16T0hHUm8ya3NWUjloc1pQZ1Yyb2NOYnJYYytUQldaQXlUOWlzWGgxdVN1?=
+ =?utf-8?B?NDBHdHVETkt1Vjh4QTJ1NHc3TnpBOTdaYjVmeFJrMEVlNVRvbmJwZDltR2lr?=
+ =?utf-8?B?dkFEZHk2SjdZZ3JaVHJINmNVTGZDUHdHRTJOeWtCUlhWSmlhZE9NQVYrcGVH?=
+ =?utf-8?B?R2lCaDN5Q0lERThIakJtdVlXSFNWSzZma0FhV1NOWjlqejQvdDhmRWtrUGtQ?=
+ =?utf-8?B?d1BxT1lTblozd0p1L081MGt0ZUlpRTRYekJmeS9iU0VkcmNoV3pFdHlFQW5q?=
+ =?utf-8?B?blJ1bm9OV2RESkZMRlRjWjVwd044M3dWUWR2bFNmWFlCcnFmbzRnTEh2cXo0?=
+ =?utf-8?B?N1B1a1c1Q3FQYzhLYlQ0YlZuRnI2cFRkdHBKYWVwYnhVSVI1RE84QXJXRlVE?=
+ =?utf-8?B?RHpWNGFHZGZ0KzlyMVlzVkNYeXZ1OVp4SUZGK21wNGZJeEdiRkdMVUhabUgw?=
+ =?utf-8?B?TnVoZ1MySGYzOXc2UCtYb3N6YzRTTzVaak5wRThpV25rRk9wWFNHL1F3MVQx?=
+ =?utf-8?B?OU1waW9ubWdmcjhPMTZhaEx5Z3ZPY0V3b3RCQUgyUnlFSmZNUy8zdnhaaDAr?=
+ =?utf-8?B?dFV2YncxRUdDbEE0ZkZ0YVhVRFdHNzlmdzlzWDl0L2dHRXY5UWRHWk5DWWlY?=
+ =?utf-8?B?a05OVjlCakRRU3FjaVFpcmVETFBxc2U5UGYrdTFkeHc3Wm9SN0NRQzlUZHhl?=
+ =?utf-8?B?R1NtenpGZ2Y2MFBoQnBLMUppYUdJempCU2RuQXk4TjN0WjBzSVRYQ08rbFV3?=
+ =?utf-8?B?TzkrQ2E3c3lsaFgzd1J2bWJzZXFpcHRLWHQ4UGFGSGpXSStpUHI1WGUxVE9j?=
+ =?utf-8?B?bGM3Tlk0U1dCLzFPZ2NoQmRRcjBDcWZ3NnlDWU85eUFyeEN1Mm9wSjQyUytZ?=
+ =?utf-8?B?ZDJxZG5VQkgycmxBWFgvNUJiditMZjlhdDN1Q0t3S3luV1hObllvVXg1a1VH?=
+ =?utf-8?B?VWw1K1NVRlZkaEhwS2lnNXUzTFFveUJGdTQzOUp3R1JOSTAycFQvckYya0Fu?=
+ =?utf-8?B?Sm41c3hYZkxsWUNmUlBydFM1VFhkSEs5Um11VEYyd3BHSGtYcjU0Tjk2Mi9L?=
+ =?utf-8?B?c0p6ZGFmN1FwL1M1K2paMUY1TklYNXRXNlpWTmd0RmVveDdyQWdPbEwrOEFH?=
+ =?utf-8?B?L2o3RlgrOGJBTkNZZmNvNExEQUU0ckEySm02dEZEK0s1T1ZVYVVKWjhMOG5r?=
+ =?utf-8?B?M3RVejVHa1lkbnlseVQvWHRwTFV1anN4R0M3cjhsRG1nZ0M1TlJrYVMwbThQ?=
+ =?utf-8?B?SHYzYUZVOUVlcmxjWnhPSzVJS0UzVnk3RGtNbGxBLzJia3E2Y3RWZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfb6e826-9e85-406c-6c78-08de7947fe5c
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 17:12:05.1276 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AYt3lv8d1CutGE7ioxRjBC7IeZKQ/lXy+bhj3i2j7PdhyfS7ulEQQgYaVkngV4qiUXf0jpTdXebRGIa/Cu/+og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB6315
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,80 +145,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2C90B1F4794
+X-Rspamd-Queue-Id: A04331F474D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,nvidia.com,garyguo.net,protonmail.com,umich.edu,gmail.com,collabora.com,arm.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[garyguo.net:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,mailbox.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,garyguo.net:dkim,garyguo.net:email,garyguo.net:mid]
 X-Rspamd-Action: no action
 
-On Tue, Mar 3, 2026 at 6:04=E2=80=AFPM Michel D=C3=A4nzer <michel.daenzer@m=
-ailbox.org> wrote:
->
-> On 3/3/26 17:54, Julian Orth wrote:
-> > On Tue, Mar 3, 2026 at 5:40=E2=80=AFPM Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com> wrote:
-> >>
-> >> There is precedence in the ioctl, the pad member is checked against ze=
-ro for the same reason.
-> >
-> > I don't believe that this is comparable. Developers of code developed
-> > against an older kernel could look at the kernel and see that the pad
-> > field was checked against zero. They could not see the same for fields
-> > that didn't exist at the time.
->
-> "Initialize only known fields" isn't a valid approach here. The full stru=
-ct must be initialized to 0, including any fields added in the future.
+On Tue Mar 3, 2026 at 4:22 PM GMT, Danilo Krummrich wrote:
+> Convert all imports to use "kernel vertical" style.
+>=20
+> With this, subsequent patches neither introduce unrelated changes nor
+> leave an inconsistent import pattern.
+>=20
+> While at it, drop unnecessary imports covered by prelude::*.
+>=20
+> Link: https://docs.kernel.org/rust/coding-guidelines.html#imports
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-It worked from the introduction of the ioctl until the new field was
-added. How could anyone know about this requirement if it is not
-documented? Some people might not even know that ioctl numbers encode
-the size of the argument and therefore assume that the argument
-structure is fixed. I think this is quite different from syscalls such
-as clone3 which make the size argument explicit and where it can be
-expected that the developer knows that the struct might grow when the
-application is recompiled.
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-The new flag was added so that userspace can detect older kernels that
-don't support the point field, such kernels return EINVAL when they
-see the new flag.
-Then why should the kernel not also use the absence of the flag to
-detect older userspace that might be unaware of the point field?
+> ---
+>  rust/kernel/dma.rs | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
 
->
->
-> --
-> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa devel=
-oper
-> https://redhat.com             \               Libre software enthusiast
