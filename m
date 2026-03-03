@@ -2,67 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PHAL45vpmmQPwAAu9opvQ
+	id IMRbMz53pmnxQAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:20:14 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:53:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9F71E92CB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9881E9529
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:53:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A710710E638;
-	Tue,  3 Mar 2026 05:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3AB810E633;
+	Tue,  3 Mar 2026 05:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OOTRLdUx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="FFGoXnAY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E6410E62C;
- Tue,  3 Mar 2026 05:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772515202; x=1804051202;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vqFtNWiZjESBFSbryd7cwD0GctC+NOXt9yFK2KorVtE=;
- b=OOTRLdUxRpHLO4srIWaADhLCBFeAl1JKUAMq8ztKxZvbQHB8FxEA2SF8
- EqN0kUU8AEZPPiZWk5J9r98JgHwxNI8tGsALT3JNb22TfeVc4fzEs8GTW
- w0u1SppzctSvIUz37vhfXiocvYhuDxtRW6Wgm+ZXXqB6qljyrNOdN/OFw
- igWy4CtzP9Mj8bkwUba+jupUVUejk/9dwBgLP/fPTU7P2y0uRbb0ViCS6
- WrksHrBybarxF9rbU/oFsiNVxj+f2Ts04oColcKEIzQlGJbgkC8d885Rz
- AOXUyJc8mZKLph6h8/s9MHrlnwirHCpW9u/jz1+Oyd/V1FTrP4KXnlRE4 g==;
-X-CSE-ConnectionGUID: ml3W9/eBSPiTQXR8mrtpRA==
-X-CSE-MsgGUID: OE8YOeUEQLupWG4qeBX2Bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73445429"
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="73445429"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2026 21:20:01 -0800
-X-CSE-ConnectionGUID: h+eu2vRnSEu7Z0CeBczumA==
-X-CSE-MsgGUID: USdiPNoZRGGGnlZ+wej8Wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="217110184"
-Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2026 21:20:01 -0800
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
- srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
-Cc: david.e.box@linux.intel.com, hansg@kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v7 6/6] platform/x86/intel/vsec: Plumb ACPI PMT discovery
- tables through vsec
-Date: Mon,  2 Mar 2026 21:19:53 -0800
-Message-ID: <20260303051953.1453372-7-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260303051953.1453372-1-david.e.box@linux.intel.com>
-References: <20260303051953.1453372-1-david.e.box@linux.intel.com>
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012057.outbound.protection.outlook.com [52.101.48.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0B310E03B;
+ Tue,  3 Mar 2026 05:52:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HGTPGdS+Jk9fHWvr4ri3J6qkmW6iLzLyX/Fb+uwnnCHc04fs2oowuFKBdgyZXnX+p3r0WbLfhzXPzwInYNowQvNRQxNMIww24495ojcHaeXV4QyQgbn6ZqeN1q/BImTdjAO2R+G1ohZGRXBzruGHxasD2TAxLPKdIrwE8HfIHsVvx9qKdc6BU7MbCCz0M+umChMwNNHZMbDLXKX6p0KtDWeeIPB4Q1ytn+viAxy4YBBjCOAJdmEb+wm0OtP5LDB+SVVt1fxMlcjSpfEXmjZZitK9qe80bEHMZtH2DMnXS1SNZWHfhbuWb3triFLfwfXFHFqdoR2P0815HFMG5mQqfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IlPR2Y3LYT3gIVwOXi1Mmn2FE4cpLAI87aqBElzWKNo=;
+ b=cqJbnsNQrCeKjoV9RVGRpe5WGiI+Nk28hnEQPaEpndNs47QudZDUA461dPZSUSVvUkoYXqWkIM17W/dBPbve1OfuuNkD3AXzmDiEQTGKAgz6yChFUpLw4BbBct+RTYTtQCDlZG4nQ//Cxjkxbxooo3iLorMTu+prYalQxfuDAZTINCEqfa2WOlWOJWGsc/cKbkf/+H7hmoiSlcATvxknV8HCPnP89NtWIk4x0h3IOJr83CahPOB7RXCPiAULcmDQCtuWeDfLmQUHt7CwEq5TDgvICiI90bGf0cACdAZYPHythdz0muvgijutNINqA5eZJxrx/vOigRHVTndNpr5WCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IlPR2Y3LYT3gIVwOXi1Mmn2FE4cpLAI87aqBElzWKNo=;
+ b=FFGoXnAY5qD0aH7hBcvxxqP6Z/IZ5myGQlI0rqvI6X0rSQAzDS/8B7x0j1Qo5AwGHq4QrH1g1w1kJW7Ub2wh6C/Oz80VwDwILd86N9HGk4gE+60Ut7Q7UgFLrE3f0BIyFahT06kObfsBwJyZaHT6cjjP4CtbogjFeB4Ex6sNP1IJYnGRAIayvo2y2tougSPgadu//otuUd6DqBmN73F7DS9ZFjP/md/OeYEXhO7QrU3h2UrGFRZu9m0xj7l9cWdpJqMAXQed33bwCMyzHw/i6mW0eTKvwoHq4naFkydY0Pi83tDetw3d/0aZgzutlFYRS2BFdLCtDL5M5HWgZ9/EKg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ SA0PR12MB4495.namprd12.prod.outlook.com (2603:10b6:806:70::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.14; Tue, 3 Mar 2026 05:52:54 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::32dc:be07:3859:b4e3]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::32dc:be07:3859:b4e3%6]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 05:52:54 +0000
+Message-ID: <faaa84fd-095e-440b-9922-b4037a67416d@nvidia.com>
+Date: Tue, 3 Mar 2026 16:52:44 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/13] mm/migrate_device: Introduce
+ migrate_pfn_from_page() helper
+To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ziy@nvidia.com, apopple@nvidia.com, lorenzo.stoakes@oracle.com,
+ lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com,
+ willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
+ intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com,
+ jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+ ying.huang@linux.alibaba.com
+References: <20260202113642.59295-1-jniethe@nvidia.com>
+ <20260202113642.59295-2-jniethe@nvidia.com>
+ <9ee22635-a219-47bb-a397-bc4e141b408d@kernel.org>
+ <cf547dbb-af45-49d0-87a0-5267dedf0470@nvidia.com>
+ <5182bb7d-f7cf-4b8e-8320-996c52fe24d8@kernel.org>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <5182bb7d-f7cf-4b8e-8320-996c52fe24d8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR05CA0081.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::22) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|SA0PR12MB4495:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d540d63-c5ce-4957-6498-08de78e91ccd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|1800799024|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: DMi8qZC6/X5uS+1pRH/Zkse+zGMbtE4k1fHRiZrz/rBbAZWoCzV6Gc4AlY2xI0wpaqFFJgE/hJOjKVSAQ4UrO9OS23Q7bxrj6xzrx1NaJqnCcscMbitSgJyU4IChMo5RLMZ2oHSNldmmlGnDlQo7eXEUWL5O2ms7O2w7KhqITJl+WqHov/m+yhRiSfZF9VNpSHkwGJX1HfPEVIIaGA2UkgS7Wm9fNeWJnXJoqk7DNzUFE3TiyxZR3QX1FDFfGXhnH+cnXfwu280bKYsc8zY/6qRkOBC4n2R53pa9nleWRl41j+HoQ48UMh6Ybm9L9GfHpalBPmD94vyVV/5y+mg40CHwOmkUUaEEm1czqobX6WzG5k2kTil7znQxe3decocjq8NlEeAh4vuPL6cVpC6/KHuASlVHFWZ0aCPhOfORmtlPI8PF90QWuVjyn4yDg3qFSJ9X96aGtNohqRKS4lr+q2QGoy/xonWHPriUzc57AAVx+AaCOUWW1g33/Xpub5FQ1DJFyokWQmyxSN1Ue1PCEYWYJ8O6+DmUJcd9ZBc5Ub8YbMcBCd3EcJOOvruLjqnh7HWYZLDNRKYNrI8monvyjJzD/LLs3Dwbb1EQXquEuAmShENnKP34Ua3z/nVq/0NB3XeaNJr0tHNXg6fzBxB3W6fW2+qgkebETR+8w6TfhpPUAXsxWabvrU439/Y3s1NI6HRjC4c5JdWsSvqekF/8aRYLhpHiypopmugAXAqrO/w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bXh2T3J6OER5dHNwcUU1V1p6WFNxQjBzUnQranc2UmY3dnVXMi9Ga2lqdzQy?=
+ =?utf-8?B?aDNVSnYyV0Q2WEZ1U3crUmQwRklDVmZDWGN3Qnd5cXlOaXFPMXAxdmxpTWlY?=
+ =?utf-8?B?VTJ6bGpxcnNXQW93aWl3YlczZDVtM0k5UktLSWtoN2pzb0pTQzQ3Nm5sRUNG?=
+ =?utf-8?B?MEhmWnJRRTd0Y0liR0Z6UXdmZTU2c3hUdnlLV05SR0g2dWhkVUNyVEJsTTRH?=
+ =?utf-8?B?ZTh1UGpVN0NMTW53L2t1YjNaaXhmUTNyVzF6L3lPRVBzYlYvd1N6dDJTK2p5?=
+ =?utf-8?B?aTFlQmgyUHkyR3Eyb0NFRllzUTRUb0VQOWtaeUNsblNoMWNYL3hvMks2UG1O?=
+ =?utf-8?B?MDdSSVdpRFBScW1oOTJkY2JDYnFuL3JlakxyYTVzZEJYdjNlM0JXaDJhTVBG?=
+ =?utf-8?B?NVVFNWI5WVY5SnBSYzNUTzFheUlLOXJrMFhEalhUVHpwMkJlWVM3R1ZKL05G?=
+ =?utf-8?B?MVlqeUxMTHIzR1pMVG5aZ0NPRDhKTjNQL1Y4Tm41WVdka2NmaE9IOEFGUW8v?=
+ =?utf-8?B?UXJyajJpaklZalFWanZvMjhHU0lmZWxlUWdaTFVKT2xySkJTOUVIMFJBTVBv?=
+ =?utf-8?B?Uy9MMjZ1ci9oa0JnYjR0bjVLK2pteUJLNXErQkpCMFhQY2tyWllIdk9Zb21l?=
+ =?utf-8?B?amR4NHZCRFVUVUhNTUJ3RkFDSTJ2V3pmZnFMdUtPTTdlVVh3N1RNTytLVzFk?=
+ =?utf-8?B?bXI3K3dSNEplNzdXZGFFS09LL3UzMHV5OFBBbG9sejJHNXdNbkt1Z1oxZW96?=
+ =?utf-8?B?Y3Zrd0RoMW5pbVlGKzBvYXFjaUZ5S0JNRitjOUdSQzlVbUM1WnNJaExENmM1?=
+ =?utf-8?B?RjZ0WFprd0FjRGkzWWRwZU9JZU90ZTVrMitKdUljU2xWTWtOaXdLV3YvSHVw?=
+ =?utf-8?B?VGF1RzJKcUFkbEVRNzdkbzVZTWxnUXJmblZFWVdTYi95azRBRVpIbk5jV1hG?=
+ =?utf-8?B?b2VJcFdHMDQxUnRSb0srRnE1Yk54MnRHOEh5aDFiNml6UXNQTEExWUdzU0dH?=
+ =?utf-8?B?cVVyKzNuejRUOTJkelN4QWJCSkRtZzZSZmdySzJYSHhDZ2hkc1lLZXNsTkVu?=
+ =?utf-8?B?NWN3TUQxY0VlM2k5TEJ4WGxzdHF0NTVaa0hqSzN3MCszZC9UTHlWdFpPTDh5?=
+ =?utf-8?B?Q1B5dmxwOTg3djBvTFNGS3UyeCswQnBJNXMyYzlYTHFHMDVPdTduRTRkNUlr?=
+ =?utf-8?B?VzBqWWlsWnpyOEVHVDdxbDNHcUZrdFNqdkQwZGF0ZGpoaHp5bVZYYkxUSVF2?=
+ =?utf-8?B?ZXJJUmduNzRYeXJlZWhuTmpkYzRBWTcxVkZEOXdqR3VIeERwbXViekJmMGdD?=
+ =?utf-8?B?cFFzc2tJYUM3bnhqakt2UkplWlBLMXBDa0ZGbUZQcklhQnl2NkgxblZKbE55?=
+ =?utf-8?B?bnBuWFpoOUc4cDgxbDdZem8yTUNEdmZzeFlkRVRNcTVFRkVLUG9HVUZsVXEx?=
+ =?utf-8?B?cVNtNnRVVmFEY05mRnpxVGZKTU5aMmJXSVlqWi9Md09HMlRIWmhsbFRnVEpi?=
+ =?utf-8?B?ZGpzZ2U3enJWREhCK1V6dWt1QzJ5ckhudFRKS0w0Q05heGJZRGlmQ3FDdmp3?=
+ =?utf-8?B?VjUrSEE1RzRXR0M3amJibGh3ZXNOS0FiOW05b25weWxhMEhoVkh1T21aenFr?=
+ =?utf-8?B?a3huc1NVMVZkdFErTWdHbGJld2pRZmtna05vVm5hVEhXOGN5K25pVE9mL0Nn?=
+ =?utf-8?B?L0lOLzdaTTh2aDNPZUtGYVozd1dEWGpORW9BcHBGdWlUcURYU0lNc0VEekNx?=
+ =?utf-8?B?N3J2WisydDdaWS9xOVNJWUZMNUF0anlKWFFzNU8yWnNGR2FxcHBTRTF5WVdu?=
+ =?utf-8?B?VndnY3lHZitibm1VVEpNOVpBalVOb2V5ZmFqNU51aWhzUjd6VmZZaXRHajVs?=
+ =?utf-8?B?V2c1L3NtdlhFNFMwOHA5cXZFNzAwTzYvNVpiUEhvdWtEKzd2TVNjZ0oxVFlD?=
+ =?utf-8?B?MXlCWUtOZ1pES2FFQnFxS1lmaXE5cG5ZWkJaWHpzbGNnMWlDN2pqYit2MmZR?=
+ =?utf-8?B?UDhoS0VpWkpxR04zdmNva1pKLzNoa0JhOEZBRzJzc1pWMGJqUVQ3V3RROWRO?=
+ =?utf-8?B?Y2IwaXo2dXBlWDlyS0NLcjVrd1FFODVHY3o0OFpiRzhBeUFpTjlxY2N6ekZS?=
+ =?utf-8?B?clRnQlRrR2RLMktGNWx1U1dxZUJ5anpRSmJWYm90UlVoTVAvWEd6YkRoZWN0?=
+ =?utf-8?B?d1BJZkkvVTRSSUp2RncrNmZZcmFOTzdteEtYWGx6bzkzRXV4WnpSMzZuNE81?=
+ =?utf-8?B?R1pVbGptLzIvQ3pydXcyd3JZNDcwSUQ4bDBGdlBBWG8vcEJWZitucWdoOHFI?=
+ =?utf-8?B?ZE5YREpiT3ViaWpWZHlpaEVyUy9TRWdFNHVCalN1VC9QN3BMZ0N3Zz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d540d63-c5ce-4957-6498-08de78e91ccd
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 05:52:54.0975 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f+qw/itqKyayInlKbDzIvFSr3qJADsJVPBZEcJEmWO4MoMaBgQMr+fJaNKQigNN4wHYZusq62nfjvre66GMWfQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4495
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,201 +152,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5B9F71E92CB
+X-Rspamd-Queue-Id: 3B9881E9529
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,oracle.com,redhat.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au,linux.alibaba.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Some platforms expose PMT discovery via ACPI instead of PCI BARs. Add a
-generic discovery source flag and carry ACPI discovery entries alongside
-the existing PCI resource path so PMT clients can consume either.
+Hi
 
-Changes:
-  - Add enum intel_vsec_disc_source { _PCI, _ACPI }.
-  - Extend intel_vsec_platform_info and intel_vsec_device with source enum
-    and ACPI discovery table pointer/
-  - When src=3D=3DACPI, skip BAR resource setup and copy the ACPI discovery
-    entries into the aux device.
+On 2/3/26 20:22, David Hildenbrand (Arm) wrote:
+> On 3/2/26 00:38, Jordan Niethe wrote:
+>> Hi,
+>>
+>> On 28/2/26 08:11, David Hildenbrand (Arm) wrote:
+>>> On 2/2/26 12:36, Jordan Niethe wrote:
+>>>> To create a migrate entry from a given struct page, that page is first
+>>>> converted to its pfn, before passing the pfn to migrate_pfn().
+>>>>
+>>>> A future change will remove device private pages from the physical
+>>>> address space. This will mean that device private pages no longer have a
+>>>> pfn and must be handled separately.
+>>>>
+>>>> Prepare for this with a new helper:
+>>>>
+>>>>       - migrate_pfn_from_page()
+>>>>
+>>>> This helper takes a struct page as parameter instead of a pfn. This will
+>>>> allow more flexibility for handling the mpfn differently for device
+>>>> private pages.
+>>>>
+>>>> Reviewed-by: Balbir Singh <balbirs@nvidia.com>
+>>>> Acked-by: Felix Kuehling <felix.kuehling@amd.com>
+>>>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+>>>> ---
+>>>
+>>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> 
+> I'll go through he remainder of the patchset this week.
 
-No user-visible behavior change yet; this only wires ACPI data through vsec
-in preparation for ACPI-enumerated PMT clients.
+Much appreciated.
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-Changes in v7:
-  - No change
-=20=20=20=20
-Changes in v6:
-  - Fix checkpatch parens alignment warning
-=20=20=20=20
-Changes in v5:
-  - No change
-=20=20=20=20
-Changes in v4:
-  - Use check_mul_overflow() instead of array_size() which was
-    incorrectly checking for 0 anyway.
-=20=20=20=20
-Changes in v3:
-  - Re-send with all changes intended for v2 which was sent without them
-    being applied.
-=20=20=20=20
-Changes in v2:
-  - Improve comment to clarify BAR resource setup doesn't apply to ACPI
-    discovery
-  - Add missing #include for kmemdup()
-  - Use array_size() for overflow protection
-    (review comments by Ilpo J=C3=A4rvinen)
+> 
+> While skimming over patch #2, I was wondering whether
+> "page_to_migration_pfn()" would better fit "migration_pfn_to_page".
 
- drivers/platform/x86/intel/vsec.c | 23 +++++++++++++++++++++++
- include/linux/intel_vsec.h        | 20 +++++++++++++++++++-
- 2 files changed, 42 insertions(+), 1 deletion(-)
+I guess you were thinking about migration_pfn_/from/_page() rather than
+"migration_pfn_to_page()"? Renaming it to page_to_migration_pfn() would be fine.
 
-diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel=
-/vsec.c
-index 34b2c19ecff0..7d5dbc1c1d05 100644
---- a/drivers/platform/x86/intel/vsec.c
-+++ b/drivers/platform/x86/intel/vsec.c
-@@ -24,7 +24,9 @@
- #include <linux/intel_vsec.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/pci.h>
-+#include <linux/string.h>
- #include <linux/types.h>
-=20
- #define PMT_XA_START			0
-@@ -109,6 +111,7 @@ static void intel_vsec_dev_release(struct device *dev)
-=20
- 	ida_free(intel_vsec_dev->ida, intel_vsec_dev->auxdev.id);
-=20
-+	kfree(intel_vsec_dev->acpi_disc);
- 	kfree(intel_vsec_dev->resource);
- 	kfree(intel_vsec_dev);
- }
-@@ -320,6 +323,13 @@ static int intel_vsec_add_dev(struct device *dev, stru=
-ct intel_vsec_header *head
- 	 * auxiliary device driver.
- 	 */
- 	for (i =3D 0, tmp =3D res; i < header->num_entries; i++, tmp++) {
-+		/*
-+		 * Skip resource mapping check for ACPI-based discovery
-+		 * since those tables are read from _DSD, not MMIO.
-+		 */
-+		if (info->src =3D=3D INTEL_VSEC_DISC_ACPI)
-+			break;
-+
- 		tmp->start =3D base_addr + header->offset + i * (header->entry_size * si=
-zeof(u32));
- 		tmp->end =3D tmp->start + (header->entry_size * sizeof(u32)) - 1;
- 		tmp->flags =3D IORESOURCE_MEM;
-@@ -338,6 +348,19 @@ static int intel_vsec_add_dev(struct device *dev, stru=
-ct intel_vsec_header *head
- 	intel_vsec_dev->base_addr =3D info->base_addr;
- 	intel_vsec_dev->priv_data =3D info->priv_data;
- 	intel_vsec_dev->cap_id =3D cap_id;
-+	intel_vsec_dev->src =3D info->src;
-+
-+	if (info->src =3D=3D INTEL_VSEC_DISC_ACPI) {
-+		size_t bytes;
-+
-+		if (check_mul_overflow(intel_vsec_dev->num_resources,
-+				       sizeof(*info->acpi_disc), &bytes))
-+			return -EOVERFLOW;
-+
-+		intel_vsec_dev->acpi_disc =3D kmemdup(info->acpi_disc, bytes, GFP_KERNEL=
-);
-+		if (!intel_vsec_dev->acpi_disc)
-+			return -ENOMEM;
-+	}
-=20
- 	if (header->id =3D=3D VSEC_ID_SDSI)
- 		intel_vsec_dev->ida =3D &intel_vsec_sdsi_ida;
-diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
-index 4eecb2a6bac4..1fe5665a9d02 100644
---- a/include/linux/intel_vsec.h
-+++ b/include/linux/intel_vsec.h
-@@ -33,6 +33,11 @@ struct device;
- struct pci_dev;
- struct resource;
-=20
-+enum intel_vsec_disc_source {
-+	INTEL_VSEC_DISC_PCI,	/* PCI, default */
-+	INTEL_VSEC_DISC_ACPI,	/* ACPI */
-+};
-+
- enum intel_vsec_id {
- 	VSEC_ID_TELEMETRY	=3D 2,
- 	VSEC_ID_WATCHER		=3D 3,
-@@ -103,6 +108,10 @@ struct vsec_feature_dependency {
-  * @parent:    parent device in the auxbus chain
-  * @headers:   list of headers to define the PMT client devices to create
-  * @deps:      array of feature dependencies
-+ * @acpi_disc: ACPI discovery tables, each entry is two QWORDs
-+ *             in little-endian format as defined by the PMT ACPI spec.
-+ *             Valid only when @provider =3D=3D INTEL_VSEC_DISC_ACPI.
-+ * @src:       source of discovery table data
-  * @priv_data: private data, usable by parent devices, currently a callback
-  * @caps:      bitmask of PMT capabilities for the given headers
-  * @quirks:    bitmask of VSEC device quirks
-@@ -113,6 +122,8 @@ struct intel_vsec_platform_info {
- 	struct device *parent;
- 	struct intel_vsec_header **headers;
- 	const struct vsec_feature_dependency *deps;
-+	u32 (*acpi_disc)[4];
-+	enum intel_vsec_disc_source src;
- 	void *priv_data;
- 	unsigned long caps;
- 	unsigned long quirks;
-@@ -124,7 +135,12 @@ struct intel_vsec_platform_info {
-  * struct intel_vsec_device - Auxbus specific device information
-  * @auxdev:        auxbus device struct for auxbus access
-  * @dev:           struct device associated with the device
-- * @resource:      any resources shared by the parent
-+ * @resource:      PCI discovery resources (BAR windows), one per discovery
-+ *                 instance. Valid only when @src =3D=3D INTEL_VSEC_DISC_P=
-CI
-+ * @acpi_disc:     ACPI discovery tables, each entry is two QWORDs
-+ *                 in little-endian format as defined by the PMT ACPI spec.
-+ *                 Valid only when @src =3D=3D INTEL_VSEC_DISC_ACPI.
-+ * @src:           source of discovery table data
-  * @ida:           id reference
-  * @num_resources: number of resources
-  * @id:            xarray id
-@@ -138,6 +154,8 @@ struct intel_vsec_device {
- 	struct auxiliary_device auxdev;
- 	struct device *dev;
- 	struct resource *resource;
-+	u32 (*acpi_disc)[4];
-+	enum intel_vsec_disc_source src;
- 	struct ida *ida;
- 	int num_resources;
- 	int id; /* xa */
---=20
-2.43.0
+> 
+> ... and I was wondering why that code deals with pages instead of folios.
+
+> 
+> E.g.,
+> 
+> 	page = folio_page(folio, 0);
+> 	mpfn[i] = migrate_pfn_from_page(page);
+> 
+> Should just be
+> 
+> 	mpfn[i] = folio_to_migration_pfn(folio);
+> 
+> Right?
+
+This patch is quite limited, essentially just converts usages of
+migrate_pfn(page_to_pfn()) to migration_pfn_from_page().  However, I
+agree, there could be scope for moving some of those usages to folios.
+
+Was that example from drm_pagemap_migrate_populate_ram_pfn()?  There
+'page' goes on to be used elsewhere in the function so we'd need some
+further refactoring to fully benefit.
+
+I see migrate_vma_collect_huge_pmd() as a candidate for a
+folio_to_migration_pfn() function too.
+
+Thanks,
+Jordan.
+> 
 
