@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uP5LDFm0pmk7TAAAu9opvQ
+	id +ATKEF+0pmk7TAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:45 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47951EC7E4
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1AB1EC7F3
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:13:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7AFC10E740;
-	Tue,  3 Mar 2026 10:13:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ADpL3jIO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE6210E6C9;
+	Tue,  3 Mar 2026 10:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32F210E740
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:13:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3453A6013A;
- Tue,  3 Mar 2026 10:13:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86090C116C6;
- Tue,  3 Mar 2026 10:13:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772532820;
- bh=oNUPt44D7xewgXiELSrkzONvN2UIFpJB+B1908QRT5k=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ADpL3jIOp1uDm7HSfLQGSaxxoDKfYlUUC08JfjkT40HIv1kDS6uscZlg/RFCc2D3i
- vyua0nD6EbOGZLWlIbC3nGpLFAAD9kZSZODn1YsjjXKvYLt1HSQZiK3J2GmjdZ/VJt
- u0AUVs22fHYQBvmXX+UTxO1B15J4umInL4/FFUCoWOXTCOZsN8Lh6llVp84TelzZa8
- ZafeIsMhpE3tmLoC9PQPOY/NBEWCdu8a7lxDxfu/YO+KPLWrhd9hB/6z7/P7hrm9LT
- vvcJBOJ1Nfq+VVBen0KRd+bRSAAlmFLTA8hkquNtNt1lMRPCipCoubmNKTWqTf2wZR
- LO7hJLS1IUF0Q==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 03 Mar 2026 11:13:11 +0100
-Subject: [PATCH v3 8/8] dma-buf: heaps: system: Turn the heap into a module
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B4510E6C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:13:47 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1vxMkl-0001RA-VG; Tue, 03 Mar 2026 11:13:23 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <mfe@pengutronix.de>) id 1vxMkj-003Wua-0a;
+ Tue, 03 Mar 2026 11:13:22 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+ (envelope-from <mfe@pengutronix.de>) id 1vxMkk-0000000G2Od-1b45;
+ Tue, 03 Mar 2026 11:13:22 +0100
+Date: Tue, 3 Mar 2026 11:13:22 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, luca.ceresoli@bootlin.com,
+ devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, frank.li@nxp.com
+Subject: Re: [PATCH v10 2/3] drm/bridge: imx: Add i.MX93 parallel display
+ format configuration support
+Message-ID: <2mbaz4jixv3h5ofvaneoe7muwr7snvwzs6lulorj4yul6arglt@ac5kzsx7zw4c>
+References: <20260302-v6-18-topic-imx93-parallel-display-v10-0-634fe2778c7a@pengutronix.de>
+ <20260302-v6-18-topic-imx93-parallel-display-v10-2-634fe2778c7a@pengutronix.de>
+ <d97a9c0c-bdda-466a-8131-73799cdb20cd@nxp.com>
+ <jyawx2cllg2jecdvx6bdfv4qiinfiwb6cuuwdhditpr2g2evee@qiox37ahgczd>
+ <edc74093-abe3-4782-8e81-afd87222c146@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-dma-buf-heaps-as-modules-v3-8-24344812c707@kernel.org>
-References: <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
-In-Reply-To: <20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
-Cc: Albert Esteve <aesteve@redhat.com>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1645; i=mripard@kernel.org;
- h=from:subject:message-id; bh=oNUPt44D7xewgXiELSrkzONvN2UIFpJB+B1908QRT5k=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJnLtpjLhZrIvOCLmau/886knTHtqxv8n09Nyyx+oDj3r
- ut8JWuVjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCR9M+MDZfKNSakNHG2Pu2p
- 1td90Ci2e9fvDWuKXH86fq/Yk+12TfOj9j8bR+VVB078FfeZUh1bwdjQcu2u7Sxvppnmbie/7F0
- uZi/gaby1/Lhe87FY2drnoSW6kjGxWf3566oM18xsCS2xLwEA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <edc74093-abe3-4782-8e81-afd87222c146@nxp.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,84 +82,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A47951EC7E4
+X-Rspamd-Queue-Id: CA1AB1EC7F3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [1.39 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:victor.liu@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:frank.li@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@suse.cz,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:aesteve@redhat.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-mm@kvack.org,m:mripard@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DMARC_NA(0.00)[pengutronix.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.555];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:email,pengutronix.de:url,pengutronix.de:email]
 X-Rspamd-Action: no action
 
-The system heap can be easily turned into a module by adding the usual
-MODULE_* macros, importing the proper namespaces and changing the
-Kconfig symbol to a tristate.
+On 26-03-03, Liu Ying wrote:
+> On Tue, Mar 03, 2026 at 09:05:43AM +0100, Marco Felsch wrote:
+> > On 26-03-03, Liu Ying wrote:
+> >> On Mon, Mar 02, 2026 at 05:10:41PM +0100, Marco Felsch wrote:
+> >>> From: Liu Ying <victor.liu@nxp.com>
+> >>>
+> >>> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
+> >>> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+> >>> field. Add a DRM bridge driver to support the display format configuration.
+> >>>
+> >>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >>> [m.felsch@pengutronix.de: port to v7.0-rc1]
+> >>> [m.felsch@pengutronix.de: add review feedback (Alexander)]
+> >>> [m.felsch@pengutronix.de: fix to short Kconfig description (checkpath)]
+> >>> [m.felsch@pengutronix.de: use "GPL" instead of "GPL v2" (checkpatch)]
+> >>> [m.felsch@pengutronix.de: add bus-width support]
+> >>> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> >>> ---
+> >>>  drivers/gpu/drm/bridge/imx/Kconfig      |  11 ++
+> >>>  drivers/gpu/drm/bridge/imx/Makefile     |   1 +
+> >>>  drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 225 ++++++++++++++++++++++++++++++++
+> >>>  3 files changed, 237 insertions(+)
+> >>>
+> >>
+> >> [...]
+> >>
+> >>> +static bool imx93_pdfc_bus_output_fmt_supported(const  u32 fmt)
+> >>
+> >> As I mentioned in v9, can you drop const?
+> >> I don't think const is needed.
+> > 
+> > It makes sense to spot failures early. Albeit this function is very
+> > small, the fmt shouldn't be changed and therefore needs to be const.
+> 
+> If fmt is a pointer, then I think it makes sense to keep const.
+> Otherwise, it looks a bit over engineered to have const, since this
+> function is really small and no one would try to change fmt.
 
-This heap won't be able to unload though, since we're missing a lot of
-infrastructure to make it safe.
+I'm aware that this is a copy of the output_cfg.format value. Would it
+be a non const value you could mess with it and return the wrong value
+afterwards. Keeping it const avoids this. Not sure why a 'const' is
+worth the discussion :/
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/Kconfig       | 2 +-
- drivers/dma-buf/heaps/system_heap.c | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+> > I forgot to add the double space fix though, thanks.
+> > 
+> >>> +{
+> >>> +	int i;
+> >>> +
+> >>> +	for (i = 0; i < ARRAY_SIZE(imx93_pdfc_bus_output_fmts); i++) {
+> >>> +		if (imx93_pdfc_bus_output_fmts[i] == fmt)
+> >>> +			return true;
+> >>> +	}
+> >>> +
+> >>> +	return false;
+> >>> +}
+> 
+> [...]
+> 
+> >>> +static int imx93_pdfc_bridge_atomic_check(struct drm_bridge *bridge,
+> >>> +					  struct drm_bridge_state *bridge_state,
+> >>> +					  struct drm_crtc_state *crtc_state,
+> >>> +					  struct drm_connector_state *conn_state)
+> >>> +{
+> >>> +	struct imx93_pdfc *pdfc = bridge_to_imx93_pdfc(bridge);
+> >>> +	const u32 format = bridge_state->output_bus_cfg.format;
+> >>
+> >> Can you drop const?
+> > 
+> > No because this function is not supposed to change the format. The
+> > function documentation says: this function can alter the bus_cfg.flags
+> > bit _not_ the format.
+> 
+> The local variable format is not a pointer, so literally the value of
+> bridge_state->output_bus_cfg.format cannot be changed through format,
+> which follows the documentation.  So, I think const could be dropped.
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index aed0b9b4febf388376cfc41be9843980d010c4e8..e273fb18feca091ccd9b406e68f86c12efb339e9 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,7 +1,7 @@
- config DMABUF_HEAPS_SYSTEM
--	bool "DMA-BUF System Heap"
-+	tristate "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
- 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index b3650d8fd6511a4a755612cfe3a9d9fee796f80e..1957403b0f2ae5e82ab39f5945dfe82808e93964 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -442,5 +442,10 @@ static int __init system_heap_create(void)
- 		return PTR_ERR(sys_heap);
- 
- 	return 0;
- }
- module_init(system_heap_create);
-+
-+MODULE_DESCRIPTION("DMA-BUF System Heap");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("DMA_BUF");
-+MODULE_IMPORT_NS("DMA_BUF_HEAP");
+Same here, I'm aware that this is not the pointer value but it holds a
+copy of the value. Any adaptions made to the copy will fail, any
+assignment of a const value to a non const value will prints at least a
+warning to show that something is wrong within this function. Only a
+direct bridge_state->output_bus_cfg.format assigned would cause no
+compiler error/warning, fingers crossed that this will not happen.
+
+I'm not sure why the 'const' is such a big problem in your oppinion.
+Everything works just fine and we've done everything in our power to
+avoid a wrong function behavior.
+
+Regards,
+  Marco
+
+
+> 
+> > 
+> > Regards,
+> >   Marco
+> > 
+> > 
+> > 
+> >>
+> >> -- 
+> >> Regards,
+> >> Liu Ying
+> >>
+> > 
+> 
+> -- 
+> Regards,
+> Liu Ying
+> 
 
 -- 
-2.53.0
+#gernperDu 
+#CallMeByMyFirstName
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
