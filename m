@@ -2,138 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KPijE/1ZpmnMOQAAu9opvQ
+	id WCJ4EspbpmlnOgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 04:48:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 04:55:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C80A1E889F
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 04:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2031E8999
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 04:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F9310E0F5;
-	Tue,  3 Mar 2026 03:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B0410E621;
+	Tue,  3 Mar 2026 03:55:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WNd4zrJ4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mCCa/F/C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010025.outbound.protection.outlook.com [52.101.61.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5C210E0F5;
- Tue,  3 Mar 2026 03:48:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LY5+QWDmQd2iRHi4J/1FAkJI/H8vJzUFY2d81v/GnNgtoG0whQEl/qkOLmD8IAaegrfBDCDfBnhfd65m9CdVAw6dy4Lm8M+CLf9k2Tlv5g+2V5UxQG3eNIS/kIWP8niziMxbqfOoRhYXp1sO/06PUxLh/yv3roc1+S9wHL6G/XjeMwtco6X5FWAiSmlizaSnx6YNEQ1fo8pq2uTJvq6XlLb1PGQGPxGksE1TtbIqFMMg32Lc3dylhjseL66M84qN5wD2ST0o5+6PEtYsm/ksVFXi2sOWffEC3cmE4jNvGKl2yvX4PanJSOJUYJRTw/BFrJx8Bp03FWAEOFGczVlC4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GlqeKUtfiK0n3eAoyZYwVOebGUh8X+KuU+cq17I84LU=;
- b=R56Wuophl+rP00tyY80gBoIDTIKYoEjmt+EIOPbKXbirNRoFAVouZfuFUiu+rXj0RgP6V8GpsnZMr3p8WZFZ7fgp3nEUUkgL7K4aAlE3EtAFY0ERgGHsaRP1VObtQlzdh+d68Cn+Yc1husICvUYG4KvJcV8V/Krdxuc2upPRE8t4v/3JcIZ41y5VQZ2qAw0xKUXKL/apSa5jWv7d7lfK/rIOpQI/PyeUFCM/nbgjcxDAUJbN3HDXxIeVHlA9NtGN861Wxwd1mkOLsXDEkawRV6Z+0PYxk40pupgaMxwRxlGswzusiGWtcaWJ9IKS81u2z6HMTQr/kyzIfuShUkQ6PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GlqeKUtfiK0n3eAoyZYwVOebGUh8X+KuU+cq17I84LU=;
- b=WNd4zrJ4Zs2Yl88IOia1q+mbdqvl89uRAom/QqUZwLgcPUscpU2Lie96G4xrf0HIKMNjQ1RbUGDAHNX448c5OHuCKbXn06DEE7Z5+MFk+vMSc7HzDw5WqT3C4ZRWa0Cdbjl67+lgTCZ4GmlQWwl7H5QmYBqwKJjZpbTQaG2zcw9se1SIGC3tqr4KOc/VcTslY/RaP5fZOmxZa3SqPj5jLX9KCkqCj1jIJOQMmKovXB/i/QfiU0SXIg8rG0YCgpotDeewbyMBCiE4RqjnxXG5XPRYA7D53Ldtpjxmh9Oxlp2EXktPfULGqse3hHvkcs7ruWhMliqL2Zp+tWQCqf9xTQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by BL1PR12MB5825.namprd12.prod.outlook.com (2603:10b6:208:394::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 03:48:03 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.015; Tue, 3 Mar 2026
- 03:48:03 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 12:47:59 +0900
-Message-Id: <DGSU8PPHDH66.1QQ6N7H7IMP7W@nvidia.com>
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Zhi
- Wang" <zhiw@nvidia.com>
-Subject: Re: [PATCH v2 4/4] gpu: nova-core: gsp: add mutex locking to Cmdq
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>, "Eliot Courtney" <ecourtney@nvidia.com>,
- "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Benno Lossin"
- <lossin@kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260226-cmdq-locking-v2-0-c7e16a6d5885@nvidia.com>
- <20260226-cmdq-locking-v2-4-c7e16a6d5885@nvidia.com>
- <DGSH8LCY1JT6.2YRPF2ZO49OCA@garyguo.net>
-In-Reply-To: <DGSH8LCY1JT6.2YRPF2ZO49OCA@garyguo.net>
-X-ClientProxiedBy: TY4P286CA0125.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37c::15) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0AAB10E621
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 03:55:49 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2adbfab4501so22961005ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 19:55:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772510149; x=1773114949; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YzNRJhWIi16/zzfaCP1ohKWTS+93+7FOMiA4THS2R7Y=;
+ b=mCCa/F/Ce1hXQVSaGBWisbWH6Aof58b4LCL7xlUg7jr9BqbRjikjTgjxG70pvDka2Q
+ a0v9vIJ085HTUl54AfBuQ9wxZz8EdSkLfsILigc14Sf+lql4mk6HC73UkbHkgjW1sBFt
+ 0/mS7MQKgj/6zkY/OkM7hRrqKlBldzKJkQ012WeRgFyKzz+BH3ygWceyCgDVkt8c3aMZ
+ yNqPg/ipTMKjk+QYNSWWHyKhnTIkEtvPWMOK3TFgfxF9DhmrgU7eUD71umlpwSN4FTkg
+ lzd/GBFc+ubBH1F4X9MdodxETYsorlKvkSyj2RDIpMG/P9TOAU4H3B0M8+Qwy5JnkBP4
+ THiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772510149; x=1773114949;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YzNRJhWIi16/zzfaCP1ohKWTS+93+7FOMiA4THS2R7Y=;
+ b=fQLcFEr0koAXsgUEHQpYtefuNKaJqtQ9GIQz3ZdILr4QRt7fr2GSAGFzKYd7c+nmH0
+ DrMQX8zOtueeCAuyXip7eFGyDaxpUqcn1SeWCFm5Vnjq+mgiiUjvr7M1TuAYY/itY582
+ 6Ti7A4vsxL9/chnyFADQBbzbU54Gzc819rLxasLic9stjfl2mKWrJowkvlZVL1vbR4E5
+ SXftzuiAaWTBqkwQR2b8Y+hBTiefie1UYAXV9pJYKxtU3lYZcsOgeSrVsXDG+mptQ+G5
+ 3UUj0d4zKFI53evuzPCoFCpfJXX81Ux2tqT4hW2qgat/s0IbNDUrsAxMPydrRrX5GmDv
+ gj3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUdhiuYlPVkBGcIu+Bha4WjaVFxLHp561D8QhlDuOI4Tk7VArX87xlc5zGLyyQ4TsGYQ7mPaGPKSkM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2lGUgaEn5GxRAv9XBlBegWW6zDLZkrcCUXRwVzAttf1n+mt2S
+ gcn4uN2QwEoPQ8RdPAqrA6pclzWhqtUGxUOnmoyfX2zg3fTx2pwwE2rg
+X-Gm-Gg: ATEYQzwQ9RDgn1dHfMMrVa0ZfY7i94+br/9nbnUJYC8NcLl9rMTcXXOy4hZfWr7laGK
+ 6jh/onTX/kxAK26rinbBnJN6ZV2z1C9g62CXVBXe45e8zuWBHERxREclzosISG3u1uXE311KyeJ
+ oTzzkJm0Zgy7+cYH3dFfEEPys5wfFqwfu+UKXD+Mmen9q+Cq0nCVyQ40fCWD5Q3ATF09Lv4ZYU0
+ Ge/5Wojw9DltCzGwNW/yH3fWMGevDwOfJpAW9wbPYLJ2CcQJprZmf0HqPPVU/MfdvznDpTQ3nW5
+ sdauzJOgYLQnrhQQPxlk9yIE+ZqVDJMeeRDNxy2Xly+UEVpC0J+f9tCiV1PpO85DWO/0JoSRwxz
+ zTDq5LWqeBBebv4udjYh+LR5jWnTlzPpGB+FESPOHws4hZy00pvSGKS/IJjx2XF2c8lzH6mDBbh
+ EBl2c3oZX6MnKJ1Ikjng4L3sMYjo/DjvrhZPdn6AFlLRBS33ze/00XdMrk4uDM01spS3V6BT8/3
+ QDxNG2wdOfko68DcMkxozL3P8I2ZhCSb8gDF9yM9mJ+zeUBuhhUjB0r9MMb
+X-Received: by 2002:a17:902:c94b:b0:2ae:5442:45cf with SMTP id
+ d9443c01a7336-2ae54424962mr52815935ad.33.1772510149374; 
+ Mon, 02 Mar 2026 19:55:49 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net
+ ([2601:1c0:5780:9200:f389:ec50:2d31:32f3])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2adfb6ba5eesm157089845ad.68.2026.03.02.19.55.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2026 19:55:48 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: sumit.semwal@linaro.org,
+	neil.armstrong@linaro.org
+Cc: dianders@chromium.org, jesszhan0024@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chintan Patel <chintanlike@gmail.com>
+Subject: [PATCH v2] drm/panel: novatek-nt36672a: Convert to mipi_dsi_*_multi()
+ helpers
+Date: Mon,  2 Mar 2026 19:55:08 -0800
+Message-ID: <20260303035508.8288-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|BL1PR12MB5825:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d34c9d0-3882-4baa-561f-08de78d7abed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|366016|7416014|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: ybuUa9Ke3Y0DtQ7OP/0iRr8TojyN2SSemmiNNc8RejF/YaOVCKdIBfenxe8NbeLbzaN6nEAUTCAHAxrSLj/AzZYay9e+VcheBp9WICgwKV4h5ZTiKqmOWNCGVVhps5XoBL4ulhYynbYkmp4ne9RNbYm4H1+163pMj18WWyPas4eYQNhqq6pGTScwh+h4HUmmpjmsz7pF/RHeijr+D+vyrEp3P/hphuFOxWqjKBfIzkDbwoOtBcfJ2zT2dvD+vK6ZnzpmB9h/DDCGZPJYm5z95F+Hjm/ZWFwjTqFD0atqFFYOTzK4ulZy/uB04ZxfBf5PLEl/QYZSL5LDBwFivcgASamb+aw4uuW99QY7z/qopxQjobUXBJSKLLZUK4NVhtLWISSLbbzZFm+6v0woA+77pmhkKQSsMLGm2V5DxU5rcvVoRNRRozWZBN2etPMEPONYnTW4mQ36dki7WYZ0tuhOLGic8yixkoDCKsYL1R4uBQQ2ol7cnelpBXPgyFGdNqetcI8FDGmUdzH8/X54oYQJv7jBpQW73GRoGmgOhITnfwrbwjsUjXbMXChbrkUPprffkGaYnelj28S75JTYV1zERso51uXt5IohJs8PP1lV01TY1Cj7GBrGMzgggc8iWn85uVDl/6p5tGwCJXK/69kqi0gsUYG/4xggVq6eNNtLDo+kF5FruJ2Sb5N0QwirOlWsMbxawR48ilBgmvBAKnWp/c0DjrcJ69feWlSKkN/aPIU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(366016)(7416014)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVljUFJ1V01CZTYwclpYOTUzcjNWeWhuWmVKQzJGeVY3blgyeEQ3YjNnV054?=
- =?utf-8?B?QXVQUkxmYXpRb3N5Y1lSdnJVbVhYdnJIeDNXQTJESnRvOVhzbkpjZDBxY29p?=
- =?utf-8?B?c3ZKYUdYS01kcnJSZ29PdFZ5ZHJncTl1M1lqM2phei9TV2FJcWxzeTR5Ymlh?=
- =?utf-8?B?TGFObmRWdkVjUGwxb2tOemdjU0hBOGVXSXdUSFhXeUkzcmJBdkxRY2hEL3BM?=
- =?utf-8?B?MHRaZTNtYXJMaWxpQlZRc3Y1ekJmUGtZeE1nVXFBaERYY1JUdUlyVUtoSnZG?=
- =?utf-8?B?NzVUelhpMmxmZnZFckVVUHo2eGlIS3ZFM0hhY0phQ0hXTGgybGh1TFIvQ3pC?=
- =?utf-8?B?UmVnODEwWExLaWNDdjlEQ0lJbEhwU1g2bG9ldllRRkFmZG1XMTQ3ZFhzdmxQ?=
- =?utf-8?B?ZFJWWXpERmJ4VUh3Sit3ZHFTU2w2VncxYnFlcUdQTG5uc0ZBSEZYODIvb0tr?=
- =?utf-8?B?T1pQVGNaSXBYdVNhTVhhMjh2ajBLa01HeUc3bStOZ2xyMnNoaUlobGxWL1Rn?=
- =?utf-8?B?ditqSFBPOG54ZHdMOVh3WlFoaE50RWowdG01Zml4Z1h5NnRSbGZmR0dBWnVv?=
- =?utf-8?B?amhvTUMrdU0rTFVPNUtQeXYyeWZIUG0wdkJndXkxOGhhN084VnFkSWJjcHow?=
- =?utf-8?B?Z1BmeFNQZ0REOW9RVUtmR0JJYldVd3hjMllocTJlSUxnUTRvczMvY2IwL242?=
- =?utf-8?B?NzloOTVFbjNmVlR2czRLUXJkWmhKcFQzU0NPNDB6Q1dVK0pRMTVpcCt5WUt3?=
- =?utf-8?B?SFEwNEwrNkE2SndUMUwwRmthVE9ZL2xFVXBsUnlhcUlCT1NvcVVyczc1dVlC?=
- =?utf-8?B?NGdiaElMMUd0K2Z4UDVnZUMrWVRjNDJMb1Rpb3gzRkx0S0FaS0o5S1F4M2dG?=
- =?utf-8?B?MXJmNzNYY0M3L1ozK3IydDhRTXUvV2dvUWd4RU1NbldaVkdWVStrRHZldGIx?=
- =?utf-8?B?Zkt6Q1pVTlh5NGhkLzc0VzEwMlNlb0RFZENFSVJHN2RmSnlYSEY1c2tLQnUz?=
- =?utf-8?B?cGpOM3ZSRDR1d2t5bmZXS2IrV2lYcGJyZktsU1NHdktkZkU4ZFFvbmFCSGI0?=
- =?utf-8?B?aUV2aXZlbzg4Tm4wNUNJcldtS2xzU05wQWNRMVhmVEp3QzRtdUZJdGZJSkhO?=
- =?utf-8?B?NUQ2Z0dzbzdjeHZRZ3JSWEF2U2p4WHpYTzJHZ3JlZzlUbmVPc05qU0dTY0Vr?=
- =?utf-8?B?VE5MelRnVzdtOXZzSmdsWGxUMzJTWlk3OUxnS3N6UXZFN2w2ZXJTWXlHM21v?=
- =?utf-8?B?STRHczYwSXF3U3krL1lxVFVUdFdCRzNYbkk3OFM4bjcvNUdaTHJ5K2JrNFhw?=
- =?utf-8?B?NEFPTzU4NW1SRXR4VGlTaGtwUWZPWFVCVlYzUGhxcDNyN1RudXkrNVZwc29X?=
- =?utf-8?B?STE0L0ZCdVFQZnNOUm5VMjRmT0tiaTBNd1dleXBWUHdMWWt2dnFWd252c05Z?=
- =?utf-8?B?Z3JhV2tYUkx0T2hIM25JbFRvMTl6UWZxMGU4Q2pHbEtwZ3M5WENQbUlrbnpG?=
- =?utf-8?B?MzZLM3RuTXM2d3ptQm12TWd0UDYyeGozaGpGMFZGSlhQQWZYWi8ya3dCSkNm?=
- =?utf-8?B?VUUxRGd5MFpNUGZiKzlKK09PV25QQ2ZKbXRBc2NIWlNIK1dPczFUOHBEWkhw?=
- =?utf-8?B?SUZpTldYdmIvcDBnb2FRWFdvamlNQWNDUEt0MUJqQk8wTko2YlFBTlpUTnZT?=
- =?utf-8?B?VDF0OUdxWGRxQldmS3Zjb01DK3p5UEQzSE9QdEw0YlFCaDFOcDZKTHY1NElu?=
- =?utf-8?B?TjZZMUJuZmEyV2k0eTF6anJrYXVqZUlVL0cvV0E1cVlQWHFBSSs3d0Nrb0VQ?=
- =?utf-8?B?bm1JM2VWYnBic1EvZDE2a01vaWhjUWh0YXVwTmp6aG5DYjlUMDU5WHdTcXJn?=
- =?utf-8?B?K2Q3ekxKTmduMDN4NkQrcmV2aWJKeEdFQTRzZ3ZYL24xUXhrT25RK0VFY2xU?=
- =?utf-8?B?bDcxQThwSU9CeVF1Q0lSei9sUHBnL3FUS0VDdHF1OG9yZzdLZWxPMFR4U1pO?=
- =?utf-8?B?UzdtODFkajdQT0Q0U0FkdWxHVFQ5Tkx4TDlLQWpZT2Y3cGMvTzVxUWxBZzQ1?=
- =?utf-8?B?SERlZ2c3Q2ljcGRIRWg5TE9zSGRmTXRreXY4dU9pRU1XQXdrMWZRcnQrdlIy?=
- =?utf-8?B?bmUvOXp6Zjl0OEpFS2YyMFBrV0hVcjRPeGxjRnNIaWpuZmpxRmJaWUh4M3Bi?=
- =?utf-8?B?ZE1xbnEzWkZtdTJPdnpDYkJ5Z3hjZWFINGh2YldSWlNYSnpuTzBPZmNWTjhs?=
- =?utf-8?B?aE9TTWFDRk9wOXhwa1d0aFJMaW1Kdlh3WklUMW1vZHJwbTMyc01YYXhHS3lq?=
- =?utf-8?B?WXVnaTdXV1YvbHNma3V1RWdrcUw3SVNRMEdDMUpnWk5MSTlpbEtINWFBWXla?=
- =?utf-8?Q?OT7cuDRDZamB3X8iT1NX5JTpWDpKmQ8K/acb4rH45o2PP?=
-X-MS-Exchange-AntiSpam-MessageData-1: uIM6SbVTV4oFLw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d34c9d0-3882-4baa-561f-08de78d7abed
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 03:48:03.2038 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XHUvW/NPmEzVuu0dMXjB3RDwrpTex2KyuuLORv4vhkNi3IG12b8UIzGYy6RjzUh3UxZK5d+dOXp75+nqVeP+Sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5825
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,59 +96,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9C80A1E889F
+X-Rspamd-Queue-Id: AA2031E8999
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[garyguo.net,nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[chromium.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:neil.armstrong@linaro.org,m:dianders@chromium.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:chintanlike@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Tue Mar 3, 2026 at 2:36 AM JST, Gary Guo wrote:
->> +impl CmdqInner {
->>      /// Sends `command` to the GSP, without splitting it.
->>      ///
->>      /// # Errors
->> @@ -540,7 +493,7 @@ fn notify_gsp(bar: &Bar0) {
->>      ///   written to by its [`CommandToGsp::init_variable_payload`] met=
-hod.
->>      ///
->>      /// Error codes returned by the command initializers are propagated=
- as-is.
->> -    fn send_single_command<M>(&mut self, bar: &Bar0, command: M) -> Res=
-ult
->> +    fn send_single_command<M>(&mut self, dev: &device::Device, bar: &Ba=
-r0, command: M) -> Result
->
-> Any reason that the `dev` is passed in everything instead of just have it=
- be
-> part of `CmdqInner`?
->
-> It appears that the `Cmdq` methods don't actually use it apart from passi=
-ng it
-> to `CmdqInner`.
+Convert the driver to use the non-deprecated mipi_dsi_*_multi() helpers and
+mipi_dsi_msleep().
 
-Not a strong reason - I originally thought it would be a bit nicer if
-CmdqInner only contains what we actually want to lock on. But I think
-this way is good too, so I will update it. Thanks~
+Switch DCS command sequences to the multi context API and
+accumulate errors via struct mipi_dsi_multi_context. Replace
+open-coded error handling with the multi helpers and convert
+nt36672a_send_cmds() and power sequencing accordingly.
+
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+---
+Changes in v2:
+- Address alignment feedback from Doug.
+- Restore original power-down ordering.
+- Drop return value from nt36672a_panel_power_off().
+- Consolidate error handling around dsi_ctx.accum_err.
+
+ .../gpu/drm/panel/panel-novatek-nt36672a.c    | 98 ++++++-------------
+ 1 file changed, 30 insertions(+), 68 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+index 29e1f6aea480..3ebdc3048b26 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+@@ -79,70 +79,53 @@ static inline struct nt36672a_panel *to_nt36672a_panel(struct drm_panel *panel)
+ 	return container_of(panel, struct nt36672a_panel, base);
+ }
+ 
+-static int nt36672a_send_cmds(struct drm_panel *panel, const struct nt36672a_panel_cmd *cmds,
+-			      int num)
++static void nt36672a_send_cmds(struct mipi_dsi_multi_context *dsi_ctx,
++			       const struct nt36672a_panel_cmd *cmds, int num)
+ {
+-	struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+ 	unsigned int i;
+-	int err;
+ 
+ 	for (i = 0; i < num; i++) {
+ 		const struct nt36672a_panel_cmd *cmd = &cmds[i];
+ 
+-		err = mipi_dsi_dcs_write(pinfo->link, cmd->data[0], cmd->data + 1, 1);
+-
+-		if (err < 0)
+-			return err;
++		/* cmd->data[0] is the DCS command, cmd->data[1] is the parameter */
++		mipi_dsi_dcs_write_buffer_multi(dsi_ctx, cmd->data, sizeof(cmd->data));
+ 	}
+-
+-	return 0;
+ }
+ 
+-static int nt36672a_panel_power_off(struct drm_panel *panel)
++static void nt36672a_panel_power_off(struct drm_panel *panel)
+ {
+ 	struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+-	int ret = 0;
+ 
+ 	gpiod_set_value(pinfo->reset_gpio, 1);
+ 
+-	ret = regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies), pinfo->supplies);
+-	if (ret)
+-		dev_err(panel->dev, "regulator_bulk_disable failed %d\n", ret);
+-
+-	return ret;
++	if (regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies), pinfo->supplies) < 0)
++		dev_err(panel->dev, "regulator_bulk_disable failed\n");
+ }
+ 
+ static int nt36672a_panel_unprepare(struct drm_panel *panel)
+ {
+ 	struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = pinfo->link };
+ 
+ 	/* send off cmds */
+-	ret = nt36672a_send_cmds(panel, pinfo->desc->off_cmds,
+-				 pinfo->desc->num_off_cmds);
++	nt36672a_send_cmds(&dsi_ctx, pinfo->desc->off_cmds,
++			   pinfo->desc->num_off_cmds);
+ 
+-	if (ret < 0)
+-		dev_err(panel->dev, "failed to send DCS off cmds: %d\n", ret);
+-
+-	ret = mipi_dsi_dcs_set_display_off(pinfo->link);
+-	if (ret < 0)
+-		dev_err(panel->dev, "set_display_off cmd failed ret = %d\n", ret);
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	/* Reset error to continue power-down even if display off failed */
++	dsi_ctx.accum_err = 0;
+ 
+ 	/* 120ms delay required here as per DCS spec */
+ 	msleep(120);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->link);
+-	if (ret < 0)
+-		dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+ 
+ 	/* 0x3C = 60ms delay */
+-	msleep(60);
++	mipi_dsi_msleep(&dsi_ctx, 60);
+ 
+-	ret = nt36672a_panel_power_off(panel);
+-	if (ret < 0)
+-		dev_err(panel->dev, "power_off failed ret = %d\n", ret);
++	nt36672a_panel_power_off(panel);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int nt36672a_panel_power_on(struct nt36672a_panel *pinfo)
+@@ -170,52 +153,31 @@ static int nt36672a_panel_power_on(struct nt36672a_panel *pinfo)
+ static int nt36672a_panel_prepare(struct drm_panel *panel)
+ {
+ 	struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+-	int err;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = pinfo->link };
+ 
+-	err = nt36672a_panel_power_on(pinfo);
+-	if (err < 0)
+-		goto poweroff;
++	dsi_ctx.accum_err = nt36672a_panel_power_on(pinfo);
+ 
+ 	/* send first part of init cmds */
+-	err = nt36672a_send_cmds(panel, pinfo->desc->on_cmds_1,
+-				 pinfo->desc->num_on_cmds_1);
++	nt36672a_send_cmds(&dsi_ctx, pinfo->desc->on_cmds_1,
++			   pinfo->desc->num_on_cmds_1);
+ 
+-	if (err < 0) {
+-		dev_err(panel->dev, "failed to send DCS Init 1st Code: %d\n", err);
+-		goto poweroff;
+-	}
+-
+-	err = mipi_dsi_dcs_exit_sleep_mode(pinfo->link);
+-	if (err < 0) {
+-		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
+-		goto poweroff;
+-	}
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+ 
+ 	/* 0x46 = 70 ms delay */
+-	msleep(70);
++	mipi_dsi_msleep(&dsi_ctx, 70);
+ 
+-	err = mipi_dsi_dcs_set_display_on(pinfo->link);
+-	if (err < 0) {
+-		dev_err(panel->dev, "failed to Set Display ON: %d\n", err);
+-		goto poweroff;
+-	}
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+ 	/* Send rest of the init cmds */
+-	err = nt36672a_send_cmds(panel, pinfo->desc->on_cmds_2,
+-				 pinfo->desc->num_on_cmds_2);
++	nt36672a_send_cmds(&dsi_ctx, pinfo->desc->on_cmds_2,
++			   pinfo->desc->num_on_cmds_2);
+ 
+-	if (err < 0) {
+-		dev_err(panel->dev, "failed to send DCS Init 2nd Code: %d\n", err);
+-		goto poweroff;
+-	}
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	msleep(120);
++	if (dsi_ctx.accum_err < 0)
++		gpiod_set_value(pinfo->reset_gpio, 0);
+ 
+-	return 0;
+-
+-poweroff:
+-	gpiod_set_value(pinfo->reset_gpio, 0);
+-	return err;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int nt36672a_panel_get_modes(struct drm_panel *panel,
+-- 
+2.43.0
+
