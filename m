@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sJ4vGAmtpmn9SgAAu9opvQ
+	id +EsDCQutpmn9SgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327061EC072
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94881EC079
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC5510E754;
-	Tue,  3 Mar 2026 09:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E0510E751;
+	Tue,  3 Mar 2026 09:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="zpd0maNm";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Q4yN03ia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3048F10E750
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:28 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46C2210E751
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:31 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 84BB4C40FA8;
- Tue,  3 Mar 2026 09:42:43 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 2FC314E42507;
+ Tue,  3 Mar 2026 09:42:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CBD845FF29;
- Tue,  3 Mar 2026 09:42:25 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id F11E85FF29;
+ Tue,  3 Mar 2026 09:42:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3A39710369689; Tue,  3 Mar 2026 10:42:15 +0100 (CET)
+ with ESMTPSA id 165681036968D; Tue,  3 Mar 2026 10:42:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772530942; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1772530946; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=uKkT16WQ2PwFq6EXZ11CSb4MueygRWh/vL8xQ2NJLPE=;
- b=zpd0maNm0gGPyBMoMvFv6uv8h6eEB/xLCqRbfpgmPhSK6O1NE4t6N+MJNeGgDcpwie+yWR
- p1LVP+zGwHf9yszOXzAjQOVAFGOTc5+dHzei2NNxyHz82ZUJ+84YQhHBPw6qZpOnyo/2Ta
- oLBfHg1j549L3NZ/a9Rfiv2/KFmv2GSSGhKk9yBfgU0hQmiSS1sB+uQpVPN7+J94cQEsBg
- 9+J2mtuHdvuK4+8RJ1jMLFrRQ8IG8t/h/zAlg5iVFL2kZILVrJRs7F2FYFoBR1RTdUXuc+
- Vu3CosuVvx31LJUdxvHkpQekXJeoId9GmH+FN75HmMlEzjYay47l2LQH2gMz+A==
+ bh=8VqdSiLdqihQlbAtlaHr1NspuDH4FWX3VxbhCxMkVSw=;
+ b=Q4yN03iaCyv/eV6BAbQKagJi/sG1eDx8Wk6XLx0lSZrymBDDPXno5pN1Vo4oMkcWHpxMC+
+ H/A6aU6BriokmFMb16Ol5ITx1snr1WlTlj2XAva17n1/Te5SJcB1R6sHPg86lUuKx8Di4S
+ yt27W16DPPZv6M8K+wUKPV9FbyCnrs6esZbGvVxHY4wmNNs3xC/VYu7j3KsBriqrBC9PYQ
+ RlRugbk+ji2iX7TLEaAD1qmGRqlPz8Euzhe8PXqis52T06pD5qBkNdPE2f4NuMrp+mCnw+
+ u5sxz0Ek4zAb51JLymcBcoZZHiZGCo2jBkhp53f1fX62tg7+hQaGiTyhiphHwQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 10:42:14 +0100
-Message-Id: <DGT1RY079AQY.39WPHSR0J6H9F@bootlin.com>
+Date: Tue, 03 Mar 2026 10:42:18 +0100
+Message-Id: <DGT1RZRC2HD6.1LRG837BCF1UH@bootlin.com>
+Subject: Re: [PATCH v9 06/15] drm/bridge: analogix_dp: Remove redundant
+ &analogix_dp_plat_data.skip_connector
 Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
@@ -59,12 +61,10 @@ Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
 To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v9 05/15] drm/exynos: exynos_dp: Apply
- of-display-mode-bridge to parse the display-timings node
 X-Mailer: aerc 0.20.1
 References: <20260210071225.2566099-1-damon.ding@rock-chips.com>
- <20260210071225.2566099-6-damon.ding@rock-chips.com>
-In-Reply-To: <20260210071225.2566099-6-damon.ding@rock-chips.com>
+ <20260210071225.2566099-7-damon.ding@rock-chips.com>
+In-Reply-To: <20260210071225.2566099-7-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,7 +80,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 327061EC072
+X-Rspamd-Queue-Id: E94881EC079
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -116,18 +116,15 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:email,sntech.de:email,samsung.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:email,qualcomm.com:email,sntech.de:email,samsung.com:email]
 X-Rspamd-Action: no action
 
 On Tue Feb 10, 2026 at 8:12 AM CET, Damon Ding wrote:
-> If there is neither a panel nor a bridge, the display timing can be
-> parsed from the display-timings node under the dp node.
->
-> In order to get rid of &analogix_dp_plat_data.get_modes() and make
-> the codes more consistent, apply DRM of-display-mode-bridge to parse
-> display timings.
+> The &analogix_dp_plat_data.skip_connector related check can be replaced
+> by &analogix_dp_plat_data.bridge.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > Tested-by: Heiko Stuebner <heiko@sntech.de> (on rk3588)
 
