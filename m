@@ -2,131 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8FDkKoZrpmlRPgAAu9opvQ
+	id QJxqGIdvpml2PwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:03:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:20:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7F21E9185
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E7F1E9299
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 06:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011AE10E628;
-	Tue,  3 Mar 2026 05:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8FD610E0DA;
+	Tue,  3 Mar 2026 05:20:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mN2Zk5Hk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i2sXts4N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012024.outbound.protection.outlook.com [52.101.53.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5220710E628
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 05:02:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ShPbiPTihr7IfZIUY508Jo+4fv55NSGToNGb9dYh1CdGQv5TiKLXq4KTQDvI4fyFDyZeiSaVRfOwrYAV2wf6gAFHJulIxv36GPmYyU5aG7zcbByqcQ7Czwo1Q4TuzyXUoSwZSVD/ejZ96yLHAZLLIRCfP5bRKRcqbi8zXR4ne2GtrIJGjLTkFA3sSCZgG/YN1GefhXjMNnVkLv8Iu2tkGvjAda4S6STZhFaVDzwhfZAycQM01MW+7IrytLuexYD2VteOMoRePfElwDOZI2q79xYNHaRL9RIOIvwCA877fNmT58+FcyB8n3QzGKJ7pfAPTDKAjGbk6CUKikPuxyDW5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=84fVI39nJRT7sLAFeI18t2K6d1ZSYalcTjElk+AGlkU=;
- b=PdBCyzsDeYC40y66zwoag1wsVZx7nfrTXZxtMY+jvyM5z/YCqol9prds/PWG4r8F7U2vqSxelw6iiK9IMVrVthvyEkH1RpZdZJHr1PckRCFZmvwh2peDq/IOLY6xzdUi2xaZWidwLNBGIMIXo/wIfobgy0BUJvStQsM5bvjHl/VAy2gDlXmIZcPjSNFXvVxGsfB75xKvWYPaGP4FvFLiwpRe84skXsa5gU1znXBHjq7x5rHAy+AGI48A+DuH8HqblQYEmyXNnp7DCJ/i8LBikF8uoKapgXVBsx99iCJAza4ikJ3rLWL2qxSw7SDL+kj/InL9e3f7BT6WU41jR6Wfmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=84fVI39nJRT7sLAFeI18t2K6d1ZSYalcTjElk+AGlkU=;
- b=mN2Zk5HkEU/w4lBAe0C/vct8DpS/KryAc74qMO0avL4GlrypbuDXlJufFDdWvSpG0axSRFMabU1/YV1nX6UfDaSuldLXo2ys58+Y3gu2oweugksSo23z55s0kUzi/GT+BwKM1xIVNIQDN0rf7kH4ZfWtMmVbsAEN1ch7KE0NvKxBmZFlnUoHKzp48Ql9++U0XGv2V06SqthKhQ8ok09LO7oVZ2S0Z5pZapmC+/r4NGuOlhCSNf5zVqt5fFscpwfeA19iMmx0lOjrquHN6UNBMuJWTNRZc8rjsxT5STNZ4m9OxZtBpUQ6xqgL7cKHY3DM9izy4TirQAjlcahIDG0DQQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
- by SA1PR12MB7269.namprd12.prod.outlook.com (2603:10b6:806:2be::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Tue, 3 Mar
- 2026 05:02:53 +0000
-Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
- ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
- ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 05:02:52 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/tegra: tegra_drm.h: fix all uapi kernel-doc warnings
-Date: Tue, 03 Mar 2026 14:02:49 +0900
-Message-ID: <4366904.irdbgypaU6@senjougahara>
-In-Reply-To: <20260226215833.989397-1-rdunlap@infradead.org>
-References: <20260226215833.989397-1-rdunlap@infradead.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0014.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::8) To SJ2PR12MB9161.namprd12.prod.outlook.com
- (2603:10b6:a03:566::20)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA9510E62C;
+ Tue,  3 Mar 2026 05:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772515202; x=1804051202;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MzCLSMJtQYqsgVxKoCNu4SFvLJd6PlQw8eK71bvCWes=;
+ b=i2sXts4NRunA9D/pxOxAfVNUi6W5u4Yr5KPnwtxOvuwEmjYgZ3WaM+iN
+ q2uz/Mt3xKMQYbUc7JFs4r0Ya2wAGo/5qB54OIgKm18OXJgI0NFssYgzG
+ NebMwM7DDAN82rPSmYmesC9ydMtsl9i59CswVlv77IPTk72hOxJGK5286
+ T8bAA0P/h7d27D7XdAqvKvH/C8yoSQK2CPinmzTcHR6QOsOE5ffM/YCw3
+ mIsYH9WYsPIUyqFpwxe8Gt8pudn6Te/OQIgeR7yoJclwB0va29qwh/RPk
+ 4y1+i2pP2HpvqPOhtGGlovDJxstKA7cn4MJH4tbDJIWKLpPKShCe9nA7R Q==;
+X-CSE-ConnectionGUID: W+KmX4TCSbChS8alpGf+SA==
+X-CSE-MsgGUID: 1g4hYtUVS+uxUr6QkZ8eZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73445403"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="73445403"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 21:20:01 -0800
+X-CSE-ConnectionGUID: hMIJemb1RYCBYB9ozCdpuA==
+X-CSE-MsgGUID: n5LwjUV5Sta+ipDUdt3wbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; d="scan'208";a="217110163"
+Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2026 21:20:01 -0800
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
+ srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
+Cc: david.e.box@linux.intel.com, hansg@kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v7 0/6] platform/x86/intel/vsec: Prep for ACPI PMT discovery
+Date: Mon,  2 Mar 2026 21:19:47 -0800
+Message-ID: <20260303051953.1453372-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|SA1PR12MB7269:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d3e0f05-b43c-41bc-d21b-08de78e21fe7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|1800799024|376014|10070799003;
-X-Microsoft-Antispam-Message-Info: 44abS3ovJVQs1zNecN7+bvdPPxEl2I6/IkxD+JKrIq+2s6DSEMYq8ezM5LZV5V+YigWDdspTDVgJGD5/pbg973Urbscv6BxU/JwdLiOhXSlh4OxNimkkdo4184qys1N+PpEV9FOTYw86zpDGRaEuedgzhvtT0fxp8Q+mQojly90qajNnrPakWXp7dmonvQppje56HOoJX1nWRLDlrdUELp7F/BriY8JbgiBTxAfOJ6eLTtjawizimMLWEv5rOSK5rGD9e7QS/S1BpIuQBQv5rKhE/wfSrJ4IdwbvoHC46CBGmFwOYElKvBFnE+ZhuOkRCo7wtSHQuYk6B9dyuqt5zGNmP57d+jBuneoEKttEOZOgoDqYfQneCI/OZFg71Oi3GxTPQJhz4RDCxptT5nzRaOJjVg6qVetpeZ+sUXun3MygtZff/rOZFPMsm5YffwxDIRM4UuUF19TXY7mpqTrHFiXWixYC0z2YFdRuCHO0G/48Pw84m6zTr7RdiL7rVLzmS5E8SrFkEjisLHwrC3jvuGFleRsHhEC4d5kV1ybSj81MOSXzfcyBKGxLF9qOoSsM0vceqoTpySiqsFpXzbKjF0rdSphkeoxcC6/twYzzPmro0rhYvDSIWhCwoaLSyf4yEqAdzykdO6SjH3rSWP9c0UWL43EDP74vpdhgIzIMrJKI7B6RBoqV7+XHl/iekjk3JX3MaITU1B3kxZTxx6Ud1Kb0b3uWqrp7SIYkKAas3n0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(10070799003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnNsYWhCd1k4enF6Mmk3WUtId3hsOGlWbHUxWEppY3VsSXZwdjFWejc1ajFC?=
- =?utf-8?B?eUw4Z2pJdHNuVUpTb3E4ZWEzaHJxcHoxWjdkL3NkMmpVMkVmQUhNVE94QTdU?=
- =?utf-8?B?N2ZKTGp1dkVlek41Q0xSbEpwcHpuMTU4YWU5cjZkY2lXZTFRc2p5ZHhIaGRG?=
- =?utf-8?B?TEtLem9vL3FldzlzcmtwOVBYVUFIc1c3ZURKc0EraDNlcmxnOHhhNFlLbmVx?=
- =?utf-8?B?YUNTc2djb0ExYW9lSFprcURPSWtINVpyMnBSVERhV3lMeDdxcFBZZDh0N1c1?=
- =?utf-8?B?NStVLytkRnMwL3RydG5oTWJJUHVSeCtHaUtxMDBQR2dIc09mN2JjVXNoSlFv?=
- =?utf-8?B?T2NzV0lUcS9UNzRkWmN3VTJLR1BRZ1dDeU02Uitqc0hndzVjcElEV0R0YWx3?=
- =?utf-8?B?TmVMajZZdVNMenBVNWIzWlI0NTNkdWJNeUNoUzh4UjZhOXNVZVlwa2RTRGdm?=
- =?utf-8?B?bm82L05HK1ZXS05QdnFVRm1kL3lHREgwT092dlY4ZnUvWXZDRmZEM1VHWkUv?=
- =?utf-8?B?cmVZNERNZFI3NlMwYkdra0xuQjAvN0VGamx5Mi82YWtYUmN2TFdkVGgzY3dT?=
- =?utf-8?B?QkJGb2g5UGMwcWEyUFFKak9FZWI4R0NLaUM3UmdJS0VBaHVVUlhoVXNaRGM0?=
- =?utf-8?B?NlNyMCtWRDJJd0FBaVVrdEk1WHpZdmdpd1BISEtQeE43Sno2K2t1WkNGUGxM?=
- =?utf-8?B?NnhkQk5mYXNWUkxtUGQzUk9iU2Z4NGg0UUFrV1RlYmtBeDFGTmhwWW5ZV05z?=
- =?utf-8?B?S0pIa0lKS1l5OXJGaURraTNjU3MzWEdtY2gyY2FMb0c4ckI3UjZhTS9xTTdl?=
- =?utf-8?B?U3VqWkxuYnIyaytWa1B6REowdWE0aHBDSFkwSERYaWVNdkkxeG54TEdKZFcr?=
- =?utf-8?B?ZUNIVEtEOVhHMWtNbEM4cmlBMnpwMUNiODAxaVZ6VGVSZzF5cG1FRnM0YTcz?=
- =?utf-8?B?Q3VlQjFMTTJ1L3ZGSHBpanlucU1IREVycC9pdEpybGRybWw1SHVnNGk5NGpm?=
- =?utf-8?B?RDQyemFrN3FZeWNzR0xKYTlKck1ZcEQ2KzdlQ3ViMVU4NGwzTVN5OE1Ra3dj?=
- =?utf-8?B?NkZsR1hucUJudzhDenQrRVVSRkt5NWtDaWhwVm9PREtTL0VFb3JwZHM5UU9J?=
- =?utf-8?B?aktzVysvUFlEMmZtSlQyVGZhTFRIWWVZNDdlOFhWcHZYOTRUUnhiNHFzK2da?=
- =?utf-8?B?Y1pSYVMzWUl3U0QzR0FWUTVxN2c3Z0NqSkdmdEVLRUgyT2ZjL0NGbmRoTFV4?=
- =?utf-8?B?elZ0bjlxU3NPYi94YStEQ3NNcS8ycWZQM3JUTkhkdzNIVFVoSnM5Q1c0cmtU?=
- =?utf-8?B?Z2t0SGtNZlp2WTdYMG5NN3UyeVk4YW5tcUxDREJQWFZxS0VraFFRM21VWTRs?=
- =?utf-8?B?TGhTYTlRSkh4Zk9VSjFDY1FXT3RxZDRBUTRGU09HTlRvZHhQNGRVbjVhQVd6?=
- =?utf-8?B?QmRQdERZL1BKRm0xeG1KS1FDYTRhZVl5TWdraDVJaGJWejhBd3NqbStUbytL?=
- =?utf-8?B?UFRBcTYyWnk1UzNkS3lCNU4vcWs5K2NZdG1FR01CaURrZUY2OHVzRnRXc2J3?=
- =?utf-8?B?UkNRL0gyTno4MUFCaGh4TWwzVUhWc1pxMjFWMHROWG9aRmJCY1RTSWs0NU9z?=
- =?utf-8?B?bnZHWG54L0ZZc1ZkUzNRNTBvQjNRUVhjaVdwQ1Z3SHNOR296ZWUxUEw0TUxN?=
- =?utf-8?B?SWR3QmJkZzdXQ1ZHUmN1T09wZDNCTnNZS0FOQmVxZ1JqYzBuQ2l6aUZlUndI?=
- =?utf-8?B?UzFTckIzaDBIY2FzdjloVGw5YncyY2diKzRlSG92bkROeEk0Sm5sYTlFUmRn?=
- =?utf-8?B?T1VNZDMyRE4renAvRElUNGpXREVzdXhscWRNYmxndzRab05uZGVlRngzbnhS?=
- =?utf-8?B?b2ErenRvSmY5SnIzMS9wdW52T1V0b3AxSEZhTHJUcGJ6Q1g5TDhYbDU0Tk9m?=
- =?utf-8?B?MVBjVS9IOTI2OGUydFQzS0UzdUV4Zm5zZzN6ZXo2eDUxT01ITE5nRmhXT2xx?=
- =?utf-8?B?eU9DN0lmKysxWERpY1lDa0xrazMxWVdVV08rWi8vczNCY0lMTitrWm12bGNU?=
- =?utf-8?B?V3VGR0J2bytwaTYxZFlraFpBdWhvUkVtbExSLzJJTi81MjMwN0pPOTlESkxl?=
- =?utf-8?B?bUNzYkQybTBaL1BVY3pvMTdnTmNrSFdHV1NicFMrZy90d3ExSW1EZm1vUVVX?=
- =?utf-8?B?cnJOOENWclNjMVZ0MWNMYitGR3lveVNhWDN0N09SdXloTVVqQUE5cHRPRS9X?=
- =?utf-8?B?dCtCWlg1SERPN3ByRmFvUkN5UVpXL0ZjdGpIbEIzOG1xSDllVnFOR3QyWHlk?=
- =?utf-8?B?L0tSelVTMTJZMVpQR1VSbW1zQ2txWm15alFrNXQ2Kzc4dGpSSSt1eTdGQnBh?=
- =?utf-8?Q?f2foUfZs7dexvCiZNTJmoASeVqs1vSuRypC8OvmSbDpAY?=
-X-MS-Exchange-AntiSpam-MessageData-1: gALXVK7w11K9IQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3e0f05-b43c-41bc-d21b-08de78e21fe7
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 05:02:52.8688 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hMl1K5r19YAkjybWmsYuda8f3w/dC4y02dBIQq4bImIXafJgelrreCCtK2tlAUkybFiaafvu+t3YUsImBhHy+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7269
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,175 +74,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1C7F21E9185
+X-Rspamd-Queue-Id: 83E7F1E9299
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,gmail.com,vger.kernel.org,linux.intel.com,kernel.org,suse.de,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ffwll.ch:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,infradead.org:email,intel.com:email,suse.de:email]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email]
 X-Rspamd-Action: no action
 
-On Friday, February 27, 2026 6:58=E2=80=AFAM Randy Dunlap wrote:
-> Add 2 struct member descriptions and demote several comments from
-> "/**" kernel-doc comments to plain C "/*" comments to eliminate all
-> kernel-doc warnings:
->=20
-> Warning: include/uapi/drm/tegra_drm.h:353 struct member 'cmdbuf' not
->  described in 'drm_tegra_reloc'
-> Warning: include/uapi/drm/tegra_drm.h:353 struct member 'target' not
->  described in 'drm_tegra_reloc'
->=20
-> Warning: include/uapi/drm/tegra_drm.h:780 This comment starts with '/**',
->  but isn't a kernel-doc comment.
->  * Specify that bit 39 of the patched-in address should be set to switch
-> Warning: include/uapi/drm/tegra_drm.h:832 This comment starts with '/**',
->  but isn't a kernel-doc comment.
->  * Execute `words` words of Host1x opcodes specified in the
->  `gather_data_ptr`
-> Warning: include/uapi/drm/tegra_drm.h:837 This comment starts with '/**',
->  but isn't a kernel-doc comment.
->  * Wait for a syncpoint to reach a value before continuing with further
-> Warning: include/uapi/drm/tegra_drm.h:842 This comment starts with '/**',
->  but isn't a kernel-doc comment.
->  * Wait for a syncpoint to reach a value before continuing with further
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Mikko Perttunen <mperttunen@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
->=20
->  include/uapi/drm/tegra_drm.h |   10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->=20
-> --- linux-next-20260226.orig/include/uapi/drm/tegra_drm.h
-> +++ linux-next-20260226/include/uapi/drm/tegra_drm.h
-> @@ -304,6 +304,7 @@ struct drm_tegra_cmdbuf {
->   * struct drm_tegra_reloc - GEM object relocation structure
->   */
->  struct drm_tegra_reloc {
-> +	/** @cmdbuf: cmd information */
->  	struct {
->  		/**
->  		 * @cmdbuf.handle:
-> @@ -321,6 +322,7 @@ struct drm_tegra_reloc {
->  		 */
->  		__u32 offset;
->  	} cmdbuf;
-> +	/** @target: relocate target information */
->  	struct {
->  		/**
->  		 * @target.handle:
-> @@ -777,7 +779,7 @@ struct drm_tegra_channel_unmap {
->=20
->  /* Submission */
->=20
-> -/**
-> +/*
+This series updates intel_vsec to improve const-correctness, decouple
+helper APIs from PCI, enhance error handling, and plumb ACPI-based Intel
+Platform Monitoring Technology (PMT) discovery through the vsec layer. It
+is preparatory infrastructure for follow-on PMT core/telemetry and
+PMC/SSRAM series that add ACPI discovery and support for new platforms.
 
-Looks like kerneldoc has syntax for documenting defines, so it would be bet=
-ter=20
-to change these to use that rather than demoting to standard comments, I=20
-think.
+The series is organized as follows:
 
-For example,
+Patches 1-2 refactor and improve const-correctness of base_addr handling.
+Patch 1 makes base_addr an explicit parameter throughout the call chain,
+clarifying ownership and removing conditional logic. Patch 2 then makes the
+platform info data structure read-only, preventing unintended modifications
+to shared driver data.
 
-/**
- * define DRM_TEGRA_SUBMIT_RELOC_SECTOR_LAYOUT - \
- *    Select sector layout swizzling for in-memory buffers.
- *
- * Specify that bit 39 of the patched-in address should be set to switch
- * swizzling between Tegra and non-Tegra sector layout on systems that stor=
-e
- * surfaces in system memory in non-Tegra sector layout.
-*/
+Patches 3-4 decouple the vsec layer from PCI-specific types, updating
+helper APIs and data structures to use generic struct device instead of
+struct pci_dev.  This enables vsec to work with both PCI and ACPI parent
+devices.
 
-/**
- * define DRM_TEGRA_SUBMIT_CMD_GATHER_UPTR - \
- *    Execute Host1x opcodes from user pointer.
- *
- * Execute `words` words of Host1x opcodes specified in the `gather_data_pt=
-r`
- * buffer. Each GATHER_UPTR command uses successive words from the buffer.
- */
+Patch 5 enhances error visibility by returning meaningful error codes from
+the registration path instead of collapsing to boolean success/failure.
 
-/**
- * define DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT - \
- *    Wait for syncpoint (absolute).
- *
- * Wait for a syncpoint to reach a value before continuing with further
- * commands.
- */
+Patch 6 adds infrastructure for ACPI-based PMT discovery, allowing client
+drivers to consume discovery data from either PCI or ACPI sources.
 
-/**
- * define DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT_RELATIVE - \
- *    Wait for syncpoint (relative).
- *
- * Wait for a syncpoint to reach a value before continuing with further
- * commands. The threshold is calculated relative to the start of the job.
- */
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
 
-Otherwise, looks good to me.
+Changes in v7:
 
-Thank you,
-Mikko
+Fix but found from incorrect struct device * passed to
+intel_vsec_add_aux().  When the unused first parameter was originally
+removed, the remaining device argument was inadvertently changed from the
+aux device to the PCI device. Patch 3 restores &vsec_dev->auxdev.dev, and
+patch 4 drops a follow-on change that would have reverted it back to the
+PCI device.
 
->   * Specify that bit 39 of the patched-in address should be set to switch
->   * swizzling between Tegra and non-Tegra sector layout on systems that
-> store * surfaces in system memory in non-Tegra sector layout.
-> @@ -829,17 +831,17 @@ struct drm_tegra_submit_buf {
->  	} reloc;
->  };
->=20
-> -/**
-> +/*
->   * Execute `words` words of Host1x opcodes specified in the
-> `gather_data_ptr` * buffer. Each GATHER_UPTR command uses successive word=
-s
-> from the buffer. */
->  #define DRM_TEGRA_SUBMIT_CMD_GATHER_UPTR		0
-> -/**
-> +/*
->   * Wait for a syncpoint to reach a value before continuing with further
->   * commands.
->   */
->  #define DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT		1
-> -/**
-> +/*
->   * Wait for a syncpoint to reach a value before continuing with further
->   * commands. The threshold is calculated relative to the start of the jo=
-b.
->   */
+David E. Box (6):
+  platform/x86/intel/vsec: Refactor base_addr handling
+  platform/x86/intel/vsec: Make driver_data info const
+  platform/x86/intel/vsec: Decouple add/link helpers from PCI
+  platform/x86/intel/vsec: Switch exported helpers from pci_dev to
+    device
+  platform/x86/intel/vsec: Return real error codes from registration
+    path
+  platform/x86/intel/vsec: Plumb ACPI PMT discovery tables through vsec
 
+ drivers/gpu/drm/xe/xe_debugfs.c               |   2 +-
+ drivers/gpu/drm/xe/xe_hwmon.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_vsec.c                  |   7 +-
+ drivers/gpu/drm/xe/xe_vsec.h                  |   4 +-
+ drivers/platform/x86/intel/pmc/core.c         |   4 +-
+ .../platform/x86/intel/pmc/ssram_telemetry.c  |   2 +-
+ drivers/platform/x86/intel/pmt/class.c        |   8 +-
+ drivers/platform/x86/intel/pmt/class.h        |   5 +-
+ drivers/platform/x86/intel/pmt/discovery.c    |   4 +-
+ drivers/platform/x86/intel/pmt/telemetry.c    |  13 +-
+ drivers/platform/x86/intel/pmt/telemetry.h    |  12 +-
+ drivers/platform/x86/intel/sdsi.c             |   5 +-
+ drivers/platform/x86/intel/vsec.c             | 121 +++++++++++-------
+ drivers/platform/x86/intel/vsec_tpmi.c        |   8 +-
+ include/linux/intel_vsec.h                    |  39 ++++--
+ 15 files changed, 143 insertions(+), 93 deletions(-)
 
-
+--=20
+2.43.0
 
