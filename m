@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MHf9N3OhpmlqRwAAu9opvQ
+	id 4LcPEh2ipmmvSAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:07 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213081EB14C
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6501EB543
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7043F10E12F;
-	Tue,  3 Mar 2026 08:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D43E10E6DA;
+	Tue,  3 Mar 2026 08:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WRRhIhW7";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="vRDFNObs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4A710E12F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:53:03 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 0C6914E424F4;
- Tue,  3 Mar 2026 08:53:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CF6105FF29;
- Tue,  3 Mar 2026 08:53:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B877610368535; Tue,  3 Mar 2026 09:52:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772527980; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=dHzjooMLjEqCTLZkR7Emb0dRbrH9mQHksD/dLPxL7GM=;
- b=WRRhIhW7vgeQlUBtRYy3lSHT0g7ssIR9CeRQtfoaN7OdZZdWE5SukFGsLLbCIdZ9Rvk5P5
- x3YGBf1y7LiWXgLFbXOctHmnCPnz6MEz3JcxtoJgT292PBQcgsZgMb67LDJ4ygTtonXGHl
- NptOg5QWRQocFJ+rT7Ew6sQ0KYNhopPIv/Sav8VfDWGHMf3N+Fwfq3dDYHpRN0lgFNsuS4
- Ag/RcE50VgDX70ljiGOuXWmZFxz47/OxtST229tGXoP+k/sbo+ZIeYJPL0S9DBPiU1pXDO
- 7lRXVgu2hOg0vCWsWnhBaS9gdwTuafASl358/MHiepvPTdxf4JFQsgDLCDOXbQ==
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B76B610E6DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:55:54 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-48378df3469so36681655e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1772528153; x=1773132953;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=z8CDLoKCw34ZLU+LNrqcbumI5p0ih3NynECG7cUf21k=;
+ b=vRDFNObsW6w0lY9gNf2NgFED2yBI2BBVJkcBR/AGEfO6knxkKU0RskAdU17B0c7i3W
+ yA4uiR2NdMF9qGErvHDf7gpEXHz+dZwDwgpIY6bSHR5HUGzfgECVqfkbX2SIyPKYz62H
+ xSU0WOSLbHqkQhBg8rXzUyA489UBVGMxUZF2saeiLTNERcHn2tonNDPKITsyIfl9ePDm
+ 2yYhor8tVD3u6w6kUJHZHjPewGMLTIeP4Pz6IBedGi3GSf9g5/CNPiQw548Mw5X2o1m7
+ zHBsnT8OFkTYNkaFPqiYpBL8azxrvqZmYBWrX4r2KqKRHIE0DbmySc85mlkP+EzyBnIU
+ oBpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772528153; x=1773132953;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z8CDLoKCw34ZLU+LNrqcbumI5p0ih3NynECG7cUf21k=;
+ b=mp/RPCaAFg8B76l5yUbBoy7uO6RvCKSe6lNDPG40AgTzq79T+GQxLcfW/3pm/1wQ7Y
+ 9QHU7NoEiThyJ7c9/JF6OEGdyuYzGg/gaissDy0ezs+7S9/GgdYWz6IzMWgUq0ChKm55
+ hiOrkn4o7dJZKBRDngxbMJQ5rOSaHMT81RF1HmTNrQOlyaMQXaMf3d/ytpEnlrMy2sAA
+ /LXnl6lDBnepQyvORD6NB1tRIdQ3vOEa34dC6u5WTqq+dEo8RFca+x3ks9a7ILdiF41I
+ vfQ2SMJFewu0cgfKYuRDoxj36YkXUZ+QgayVTw1uHcwpi0sP+0MTEUI1p599nuceX6cX
+ Acsw==
+X-Gm-Message-State: AOJu0YyJqRjPBmMGVh7rGaXwDk3dHs+JQeK5OhEDdpldpg1YaQOA7ybK
+ Ki7beCjASlkD6vYc8wwkiuciIuoNq+Cn+a695zNlDYDe3IUzkRqs9jEwAyJ7F+OM/ga0DBgfKvP
+ 1l1P0JQstKsgmxj48QA==
+X-Received: from wmsl28.prod.google.com ([2002:a05:600c:1d1c:b0:480:6a92:ae1])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:35c3:b0:47e:e2b8:66e6 with SMTP id
+ 5b1f17b1804b1-48513c752cbmr24398945e9.14.1772528152926; 
+ Tue, 03 Mar 2026 00:55:52 -0800 (PST)
+Date: Tue, 3 Mar 2026 08:55:52 +0000
+In-Reply-To: <20260302202331.176140-1-deborah.brouwer@collabora.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 09:52:49 +0100
-Message-Id: <DGT0Q3TGTG26.KD9DBZYH63DY@bootlin.com>
-Cc: "Heikki Krogerus" <heikki.krogerus@linux.intel.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Peter Chen" <hzpeterchen@gmail.com>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Vinod Koul"
- <vkoul@kernel.org>, "Kishon Vijay Abraham I" <kishon@kernel.org>, "Heiko
- Stuebner" <heiko@sntech.de>, "Sandy Huang" <hjc@rock-chips.com>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Yubing Zhang" <yubing.zhang@rock-chips.com>,
- "Frank Wang" <frank.wang@rock-chips.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Amit Sunil Dhamne"
- <amitsd@google.com>, "Dragan Simic" <dsimic@manjaro.org>, "Johan Jonker"
- <jbx6244@gmail.com>, "Diederik de Haas" <didi.debian@cknow.org>, "Peter
- Robinson" <pbrobinson@gmail.com>, <linux-usb@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
-To: "Chaoyi Chen" <chaoyi.chen@rock-chips.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v14 7/9] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-X-Mailer: aerc 0.20.1
-References: <20260119073100.143-1-kernel@airkyi.com>
- <20260119073100.143-8-kernel@airkyi.com>
- <DGSHIQOB2YTB.1559SD1YLGT7P@bootlin.com>
- <601a8b51-7411-429d-91a1-0633cabce9ee@rock-chips.com>
-In-Reply-To: <601a8b51-7411-429d-91a1-0633cabce9ee@rock-chips.com>
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260302202331.176140-1-deborah.brouwer@collabora.com>
+Message-ID: <aaaiGK_7UpW6uCU5@google.com>
+Subject: Re: [PATCH] drm/tyr: Use DRM device type alias across driver
+From: Alice Ryhl <aliceryhl@google.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,109 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 213081EB14C
+X-Rspamd-Queue-Id: DB6501EB543
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:heikki.krogerus@linux.intel.com,m:gregkh@linuxfoundation.org,m:dmitry.baryshkov@oss.qualcomm.com,m:hzpeterchen@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:heiko@sntech.de,m:hjc@rock-chips.com,m:andy.yan@rock-chips.com,m:yubing.zhang@rock-chips.com,m:frank.wang@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:amitsd@google.com,m:dsimic@manjaro.org,m:jbx6244@gmail.com,m:didi.debian@cknow.org,m:pbrobinson@gmail.com,m:linux-usb@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:chaoyi.chen@rock-chips.com,m:krzk@kernel.org,m:con
- or@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,linuxfoundation.org,oss.qualcomm.com,gmail.com,kernel.org,sntech.de,rock-chips.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,suse.de,ffwll.ch,google.com,manjaro.org,cknow.org,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hello Chaoyi,
+On Mon, Mar 02, 2026 at 12:23:31PM -0800, Deborah Brouwer wrote:
+> Currently Tyr defines a convenience type alias for its DRM device type,
+> `TyrDrmDevice` but it does not use the alias outside of `tyr/driver.rs`.
+> 
+> Replace `drm::Device<TyrDrmDriver>` with the alias `TyrDrmDevice` across
+> the driver.
+> 
+> This change will ease future upstream Tyr development by reducing the
+> diffs when multiple series are touching these files.
+> 
+> No functional changes are intended.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-On Tue Mar 3, 2026 at 1:44 AM CET, Chaoyi Chen wrote:
->>> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
->>> +{
->>> +	struct device_node *np =3D dp->dev->of_node;
->>> +	struct device_node *port __free(device_node) =3D of_graph_get_port_by=
-_id(np, 1);
->>> +	struct drm_bridge *bridge;
->>> +	int count =3D 0;
->>> +	int ret =3D 0;
->>> +	int i;
->>> +
->>> +	/* If device use extcon, do not use hpd bridge */
->>> +	for (i =3D 0; i < dp->ports; i++) {
->>> +		if (dp->port[i]->extcon) {
->>> +			dp->bridge_count =3D 1;
->>> +			return 0;
->>> +		}
->>> +	}
->>> +
->>> +	/* One endpoint may correspond to one next bridge. */
->>> +	for_each_of_graph_port_endpoint(port, dp_ep) {
->>> +		struct device_node *next_bridge_node __free(device_node) =3D
->>> +			of_graph_get_remote_port_parent(dp_ep);
->>> +
->>> +		bridge =3D of_drm_find_bridge(next_bridge_node);
->>> +		if (!bridge) {
->>> +			ret =3D -EPROBE_DEFER;
->>> +			goto out;
->>> +		}
->>> +
->>> +		drm_bridge_get(bridge);
->>> +		dp->next_bridge_valid =3D true;
->>> +		dp->next_bridge_list[count] =3D bridge;
->>
->> Correct, but the drm_bridge_get() slightly far away from the assignement=
- is
->> a bit misleading. I hadn't seen it initially so I suspected a missing ge=
-t.
->>
->> I suggest to do it in a single statement, for clarity:
->>
->> 		dp->next_bridge_list[count] =3D bridgedrm_bridge_get(bridge);
->>
->
-> I think the bridgedrm_bridge_get here seems to be a typo?
-
-Oops, of course! :)
-
-As you probably guessed, I was meaning:
-
-		dp->next_bridge_list[count] =3D drm_bridge_get(bridge);
-
-
-> Anyway, thank you very much for your efforts on the bridge lifetime.
-> I will fix this in the next version :)
-
-Thanks!
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
