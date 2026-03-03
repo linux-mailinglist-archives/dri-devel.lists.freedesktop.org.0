@@ -2,110 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8JOVHToNp2k0cwAAu9opvQ
+	id gOc+LAUOp2k0cwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:32:58 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:36:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48571F3DAB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D6C1F3E65
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1078510E856;
-	Tue,  3 Mar 2026 16:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE4010E0A0;
+	Tue,  3 Mar 2026 16:36:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nDNY2kBm";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="jmIkxYut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7B410E853;
- Tue,  3 Mar 2026 16:32:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3449A43F0E;
- Tue,  3 Mar 2026 16:32:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008A2C116C6;
- Tue,  3 Mar 2026 16:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772555573;
- bh=2Sl7aDOLhWSrJiQTk8Mgcff8zbQx95VCCn1PoV2FpZY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nDNY2kBmYN+NuwFo3thQ/sWHyhRgfQeHTyWHfBniHNjPL0oQI7rwVP4BAGGka2BVO
- X2eonOQTORKw4QyAvBe8SHzxKvYYXyRcQkhx11QEY4iezHoyT64BtvBlX/zrslkt8o
- TmzoL3Y7w1lww4tC8ombT9QBKmAzjT4qFDkONDvfp2oR2t+yNFM1oHn2WfDjnZrf73
- BuRfV7dQttvocIgye8lvZLJHANLxlbrfIiIalPMQ6tZuJeSyCAHEsrZwI4tw/4bZbD
- QmvrR7XLBlf8skl2ht4g6ytJIQCVDZVIfR9GCQISCD5amk7k+O3aibTOEoIWlXUS4c
- s5pzS6NssRWLA==
-Message-ID: <c5584cf8-1389-4df4-9fb7-19d9ee26ab9c@kernel.org>
-Date: Tue, 3 Mar 2026 17:32:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/13] mm/migrate_device: Introduce
- migrate_pfn_from_page() helper
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8703A10E0A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 16:36:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=evyGeAJvvK1MN947HgA4QPVqRhM2uQephRsOtkH7lAU=; b=jmIkxYut3a8FwnIrHgBhbMNixj
+ 8m0mAzOGW+vO8tlJH53yg61uK3JypFmDGFQSvvWtxD6DAJM+GMOQ+T/YILhwqX/N2yL6ShDRTG8x6
+ OfscdRbd5IkPlwsKDeb2DL+ywd+3qGj01GtfWFjc6AQKlsC5A2LsuHKwugat8JvbN/7Y=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:41828
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vxSj4-00069R-Hf; Tue, 03 Mar 2026 11:36:03 -0500
+Date: Tue, 3 Mar 2026 11:36:01 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ shawnguo@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
+ antonin.godard@bootlin.com, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ziy@nvidia.com, apopple@nvidia.com, lorenzo.stoakes@oracle.com,
- lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com,
- willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
- intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com,
- jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
- ying.huang@linux.alibaba.com
-References: <20260202113642.59295-1-jniethe@nvidia.com>
- <20260202113642.59295-2-jniethe@nvidia.com>
- <9ee22635-a219-47bb-a397-bc4e141b408d@kernel.org>
- <cf547dbb-af45-49d0-87a0-5267dedf0470@nvidia.com>
- <5182bb7d-f7cf-4b8e-8320-996c52fe24d8@kernel.org>
- <faaa84fd-095e-440b-9922-b4037a67416d@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <faaa84fd-095e-440b-9922-b4037a67416d@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Hugo Villeneuve
+ <hvilleneuve@dimonoff.com>
+Message-Id: <20260303113601.abbc3366161ebac99d93538c@hugovil.com>
+In-Reply-To: <aab9uWjgzg4-ScFg@lizhi-Precision-Tower-5810>
+References: <20260302190953.669325-1-hugo@hugovil.com>
+ <20260302190953.669325-10-hugo@hugovil.com>
+ <aaX6P_ulJTq_pipa@lizhi-Precision-Tower-5810>
+ <20260302164231.616bd69c106cbcdd107d9cbb@hugovil.com>
+ <aab9uWjgzg4-ScFg@lizhi-Precision-Tower-5810>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+ *      [score: 0.0000]
+ * -0.8 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-3.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH 09/14] ARM: dts: imx6ul-var-som: add proper Wifi and
+ Bluetooth support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,104 +84,360 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B48571F3DAB
+X-Rspamd-Queue-Id: D8D6C1F3E65
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,oracle.com,redhat.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au,linux.alibaba.com];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[hugovil.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_PROHIBIT(0.00)[4.196.180.0:email,0.0.0.1:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[hugovil.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dimonoff.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,hugovil.com:dkim,hugovil.com:mid]
 X-Rspamd-Action: no action
 
-On 3/3/26 06:52, Jordan Niethe wrote:
-> Hi
-> 
-> On 2/3/26 20:22, David Hildenbrand (Arm) wrote:
->> On 3/2/26 00:38, Jordan Niethe wrote:
->>> Hi,
->>>
->>
->> I'll go through he remainder of the patchset this week.
-> 
-> Much appreciated.
-> 
->>
->> While skimming over patch #2, I was wondering whether
->> "page_to_migration_pfn()" would better fit "migration_pfn_to_page".
-> 
-> I guess you were thinking about migration_pfn_/from/_page() rather than
-> "migration_pfn_to_page()"? Renaming it to page_to_migration_pfn() would
-> be fine.
+Hi Frank,
+On Tue, 3 Mar 2026 10:26:49 -0500
+Frank Li <Frank.li@nxp.com> wrote:
 
-Yes. :)
-
-page_to_migration_pfn() and migration_pfn_to_page()
-
-But really, we should only be dealing with folio migration longterm ...
-
+> On Mon, Mar 02, 2026 at 04:42:31PM -0500, Hugo Villeneuve wrote:
+> > On Mon, 2 Mar 2026 15:59:43 -0500
+> > Frank Li <Frank.li@nxp.com> wrote:
+> >
+> > > On Mon, Mar 02, 2026 at 02:03:45PM -0500, Hugo Villeneuve wrote:
+> > > > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > > >
+> > > > The existing configuration of the optional Wifi/Bluetooth module was
+> > > > copied from the original Variscite kernel tree, and requires custom
+> > > > scripts to properly configure the Wifi/Bluetooth module.
+> > > >
+> > > > Add proper support for the optional Wifi and Bluetooth configuration on
+> > > > VAR-SOM-6UL so that it works out of the box, without any custom scripts.
+> > > >
+> > > > The SD card interface cannot be used if the Wifi/BT module is in use.
+> > >
+> > > ARM: dts: imx6ul-var-som: add proper Wifi and Bluetooth support
+> >
+> > This looks identical to the initial commit message?
 > 
->>
->> ... and I was wondering why that code deals with pages instead of folios.
+> Yes, sorry, My means needn't unrelated stuff. use below sentence should be
+> enough.
 > 
->>
->> E.g.,
->>
->>     page = folio_page(folio, 0);
->>     mpfn[i] = migrate_pfn_from_page(page);
->>
->> Should just be
->>
->>     mpfn[i] = folio_to_migration_pfn(folio);
->>
->> Right?
+> Frank
+
+Ok :)
+
+
+> >
+> > > Add the optional Wifi and Bluetooth dtb on AR-SOM-6UL so that it works out
+> > > of the box.
+> >
+> > See comments below about name of dtb.
+> >
+> >
+> > > The SD card interface cannot be used if the Wifi/BT module is in use.
+> > >
+> > >
+> > > >
+> > > > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > > > ---
+> > > >  arch/arm/boot/dts/nxp/imx/Makefile            |  2 +
+> > > >  .../dts/nxp/imx/imx6ul-var-som-common.dtsi    | 18 ++---
+> > > >  .../nxp/imx/imx6ul-var-som-concerto-full.dts  | 18 +++++
+> > > >  .../boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi | 75 +++++++++++++++++++
+> > > >  arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi | 15 ++++
+> > > >  .../nxp/imx/imx6ull-var-som-concerto-full.dts | 18 +++++
+> > > >  .../arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi | 15 ++++
+> > > >  7 files changed, 151 insertions(+), 10 deletions(-)
+> > > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
+> > > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
+> > > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
+> > > >
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
+> > > > index bc534d0fb1412..c7f24ee63071f 100644
+> > > > --- a/arch/arm/boot/dts/nxp/imx/Makefile
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/Makefile
+> > > > @@ -339,6 +339,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+> > > >  	imx6ul-tx6ul-0011.dtb \
+> > > >  	imx6ul-tx6ul-mainboard.dtb \
+> > > >  	imx6ul-var-som-concerto.dtb \
+> > > > +	imx6ul-var-som-concerto-full.dtb \
+> > >
+> > > how about imx6ul-var-som-concerto-wifi.dtb?
+> >
+> > There is an exponential number of possible configurations (sd + wifi,
+> > eemc + wifi, eemc + eth and no wifi, etc). To simplify, I am simply
+> > adding a full DTB which will support all options on the EVK.
+> >
+> > Hugo.
+> >
+> >
+> > > >  	imx6ull-14x14-evk.dtb \
+> > > >  	imx6ull-colibri-aster.dtb \
+> > > >  	imx6ull-colibri-emmc-aster.dtb \
+> > > > @@ -377,6 +378,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+> > > >  	imx6ull-tqma6ull2-mba6ulx.dtb \
+> > > >  	imx6ull-tqma6ull2l-mba6ulx.dtb \
+> > > >  	imx6ull-var-som-concerto.dtb \
+> > > > +	imx6ull-var-som-concerto-full.dtb \
+> > > >  	imx6ull-uti260b.dtb \
+> > > >  	imx6ulz-14x14-evk.dtb \
+> > > >  	imx6ulz-bsh-smm-m2.dtb
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > > index dd4ecff1eb786..af8c5d2db53d4 100644
+> > > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+> > > > @@ -19,6 +19,14 @@ memory@80000000 {
+> > > >  		reg = <0x80000000 0x20000000>;
+> > > >  	};
+> > > >
+> > > > +	reg_3p3v: regulator-3p3v {
+> > > > +		compatible = "regulator-fixed";
+> > > > +		regulator-name = "3P3V";
+> > > > +		regulator-min-microvolt = <3300000>;
+> > > > +		regulator-max-microvolt = <3300000>;
+> > > > +		regulator-always-on;
+> > > > +	};
+> > > > +
+> > > >  	reg_gpio_dvfs: reg-gpio-dvfs {
+> > > >  		compatible = "regulator-gpio";
+> > > >  		regulator-min-microvolt = <1300000>;
+> > > > @@ -68,9 +76,6 @@ ethphy0: ethernet-phy@1 {
+> > > >  };
+> > > >
+> > > >  &iomuxc {
+> > > > -	pinctrl-names = "default";
+> > > > -	pinctrl-0 = <&pinctrl_hog>;
+> > > > -
+> > > >  	pinctrl_enet1: enet1grp {
+> > > >  		fsl,pins = <
+> > > >  			MX6UL_PAD_ENET1_RX_EN__ENET1_RX_EN	0x1b0b0
+> > > > @@ -97,13 +102,6 @@ MX6UL_PAD_GPIO1_IO07__ENET1_MDC		0x1b0b0
+> > > >  		>;
+> > > >  	};
+> > > >
+> > > > -	pinctrl_hog: hoggrp {
+> > > > -		fsl,pins = <
+> > > > -			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT Enable */
+> > > > -			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x03029	/* WLAN Enable */
+> > > > -		>;
+> > > > -	};
+> > > > -
+> > > >  	pinctrl_i2c1: i2c1grp {
+> > > >  		fsl,pins = <
+> > > >  			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
+> > > > new file mode 100644
+> > > > index 0000000000000..519250b31db24
+> > > > --- /dev/null
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
+> > > > @@ -0,0 +1,18 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
+> > > > + * Variscite SoM mounted on it (6UL CPU variant).
+> > > > + *
+> > > > + * Copyright 2026 Dimonoff
+> > > > + */
+> > > > +
+> > > > +/dts-v1/;
+> > > > +
+> > > > +#include "imx6ul-var-som.dtsi"
+> > > > +#include "imx6ul-var-som-concerto-common.dtsi"
+> > > > +#include "imx6ul-var-som-wifi.dtsi"
+> > > > +
+> > > > +/ {
+> > > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
+> > > > +	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
+> > > > +};
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
+> > > > new file mode 100644
+> > > > index 0000000000000..6d16ff7909dab
+> > > > --- /dev/null
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
+> > > > @@ -0,0 +1,75 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Support optional Wifi/Bluetooth on Variscite VAR-SOM-6UL module.
+> > > > + *
+> > > > + * Copyright 2019-2024 Variscite Ltd.
+> > > > + * Copyright 2026 Dimonoff
+> > > > + */
+> > > > +
+> > > > +/ {
+> > > > +	reg_sd1_vmmc: regulator_sd1_vmmc {
+> > > > +		compatible = "regulator-fixed";
+> > > > +		regulator-name = "VMMC1";
+> > > > +		regulator-min-microvolt = <3300000>;
+> > > > +		regulator-max-microvolt = <3300000>;
+> > > > +		gpio = <&gpio5 2 GPIO_ACTIVE_HIGH>;
+> > > > +		enable-active-high;
+> > > > +		startup-delay-us = <10000>;
+> > > > +	};
+> > > > +
+> > > > +	usdhc1_pwrseq: usdhc1-pwrseq {
+> > > > +		compatible = "mmc-pwrseq-simple";
+> > > > +		pinctrl-names = "default";
+> > > > +		pinctrl-0 = <&pinctrl_brcm_wifi>;
+> > > > +		reset-gpios = <&gpio5 6 GPIO_ACTIVE_LOW>;
+> > > > +	};
+> > > > +};
+> > > > +
+> > > > +&iomuxc {
+> > > > +	pinctrl_32k_clk: 32kclkgrp {
+> > > > +		/*
+> > > > +		 * For TP option, an additional oscillator is assembled on the
+> > > > +		 * SOM to provide 32 kHz to the WiFi module. Without TP option,
+> > > > +		 * this pin is configured to provide the 32 KHz clock to the
+> > > > +		 * WiFi module.
+> > > > +		 */
+> > > > +		fsl,pins = <
+> > > > +			MX6UL_PAD_GPIO1_IO03__OSC32K_32K_OUT	0x03029
+> > > > +		>;
+> > > > +	};
+> > > > +};
+> > > > +
+> > > > +&tsc {
+> > > > +	status = "disabled";
+> > > > +};
+> > > > +
+> > > > +/* Bluetooth UART */
+> > > > +&uart2 {
+> > > > +	bluetooth {
+> > > > +		compatible = "brcm,bcm43438-bt";
+> > > > +		pinctrl-names = "default";
+> > > > +		pinctrl-0 = <&pinctrl_brcm_bt>;
+> > > > +		shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_HIGH>;
+> > > > +		vbat-supply = <&reg_3p3v>;
+> > > > +		vddio-supply = <&reg_3p3v>;
+> > > > +	};
+> > > > +};
+> > > > +
+> > > > +&usdhc1 {
+> > > > +	#address-cells = <1>;
+> > > > +	#size-cells = <0>;
+> > > > +	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+> > > > +	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_32k_clk>;
+> > > > +	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_32k_clk>;
+> > > > +	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_32k_clk>;
+> > > > +	no-1-8-v;
+> > > > +	non-removable;
+> > > > +	mmc-pwrseq = <&usdhc1_pwrseq>;
+> > > > +	vmmc-supply = <&reg_sd1_vmmc>;
+> > > > +	status = "okay";
+> > > > +
+> > > > +	brcmf: wifi@1 {
+> > > > +		compatible = "brcm,bcm4329-fmac"; /* LWB option: Sterling LWB5 */
+> > > > +		reg = <1>;
+> > > > +	};
+> > > > +};
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
+> > > > index 35a0c0b3603fd..b4e6a9316dd81 100644
+> > > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
+> > > > @@ -15,3 +15,18 @@ / {
+> > > >  	model = "Variscite VAR-SOM-6UL module";
+> > > >  	compatible = "variscite,var-som-imx6ul", "fsl,imx6ul";
+> > > >  };
+> > > > +
+> > > > +&iomuxc {
+> > > > +	pinctrl_brcm_bt: brcm-bt-grp {
+> > > > +		fsl,pins = <
+> > > > +			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT_REG_ON (BT_EN) */
+> > > > +		>;
+> > > > +	};
+> > > > +
+> > > > +	pinctrl_brcm_wifi: brcm-wifi-grp {
+> > > > +		fsl,pins = <
+> > > > +			MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02	0x1b0b0	/* WL_PWR (WIFI_PWR 5G) */
+> > > > +			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x1b0b0	/* WL_REG_ON (WIFI_EN) */
+> > > > +		>;
+> > > > +	};
+> > > > +};
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
+> > > > new file mode 100644
+> > > > index 0000000000000..7c0e313603630
+> > > > --- /dev/null
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
+> > > > @@ -0,0 +1,18 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
+> > > > + * Variscite SoM mounted on it (6ULL CPU variant).
+> > > > + *
+> > > > + * Copyright 2026 Dimonoff
+> > > > + */
+> > > > +
+> > > > +/dts-v1/;
+> > > > +
+> > > > +#include "imx6ull-var-som.dtsi"
+> > > > +#include "imx6ul-var-som-concerto-common.dtsi"
+> > > > +#include "imx6ul-var-som-wifi.dtsi"
+> > > > +
+> > > > +/ {
+> > > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
+> > > > +	compatible = "variscite,mx6ullconcerto", "variscite,var-som-imx6ull", "fsl,imx6ull";
+> > > > +};
+> > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
+> > > > index ba482a97623b2..3067ff6a1bc74 100644
+> > > > --- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
+> > > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
+> > > > @@ -13,3 +13,18 @@ / {
+> > > >  	model = "Variscite VAR-SOM-6UL module";
+> > > >  	compatible = "variscite,var-som-imx6ull", "fsl,imx6ull";
+> > > >  };
+> > > > +
+> > > > +&iomuxc {
+> > > > +	pinctrl_brcm_bt: brcm-bt-grp {
+> > > > +		fsl,pins = <
+> > > > +			MX6ULL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT_REG_ON (BT_EN) */
+> > > > +		>;
+> > > > +	};
+> > > > +
+> > > > +	pinctrl_brcm_wifi: brcm-wifi-grp {
+> > > > +		fsl,pins = <
+> > > > +			MX6ULL_PAD_SNVS_TAMPER2__GPIO5_IO02	0x1b0b0	/* WL_PWR (WIFI_PWR 5G) */
+> > > > +			MX6ULL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x1b0b0	/* WL_REG_ON (WIFI_EN) */
+> > > > +		>;
+> > > > +	};
+> > > > +};
+> > > > --
+> > > > 2.47.3
+> > > >
+> > >
+> >
+> >
+> > --
+> > Hugo Villeneuve
 > 
-> This patch is quite limited, essentially just converts usages of
-> migrate_pfn(page_to_pfn()) to migration_pfn_from_page().  However, I
-> agree, there could be scope for moving some of those usages to folios.
-> 
-> Was that example from drm_pagemap_migrate_populate_ram_pfn()?  There
-> 'page' goes on to be used elsewhere in the function so we'd need some
-> further refactoring to fully benefit.
-> 
-> I see migrate_vma_collect_huge_pmd() as a candidate for a
-> folio_to_migration_pfn() function too.
 
-All that code should be converted to folios (unless I am missing
-something important). We only support migration of folios, and all
-ZONE_DEVICE pages correspond to folios.
-
-E.g., in migrate_vma_setup() we're implicitly converting from page to
-folio multiple times, which is rather wasteful.
-
-Now, I don't think the conversion is your responsibility :)
-
-But you'd provide the folio helpers and use them where we can already.
-
-I'm fine with leaving the code the still operates purely on page to be
-converted later.
 
 -- 
-Cheers,
-
-David
+Hugo Villeneuve
