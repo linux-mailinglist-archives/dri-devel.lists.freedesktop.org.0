@@ -2,179 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4OxKHyPrpmnjZgAAu9opvQ
+	id BlF+OYDrpmmQaAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:07:31 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:09:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F951F10D9
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBF81F1149
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033A010E81E;
-	Tue,  3 Mar 2026 14:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A33B10E820;
+	Tue,  3 Mar 2026 14:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="YpOba/ki";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="odY8+8Q7";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N3aEEuf7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9AE10E81E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 14:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1772546835; x=1773151635; i=deller@gmx.de;
- bh=oGklMYkndDS2s5kfPs2+SWhIE/hCC7BEDMZZVAxZzgA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=YpOba/kizF8PrdOCz7vCX6kAXqw+aatAPWLiIsezRwRcuGEY1WyoSSHraMGawPfh
- gsoj5zLuXR0yQTUdBWBZSvSTORXRHACHtPN4Jn6Vf7THXAY1/bMKwwLF9KBaaOWC4
- 1klbySHMGnFQhNYaJuAKuNkDR9cbo916pBOaF1L7Qod7IbGk5YTjibaQtG1MfYlyI
- GUcZNoIvYW4Bdy1y4eVb7aKq+VFqgjP5NJqjvgGTo3ySFVYQ66j9vEnvPBE8dau+l
- aWYHwcT5LxVhatPOGEg/vv1d1lPEXOI0P23stPletimPnJzcDmjNxD6ObuMvePlem
- /FKgyODZGZYjiI1lpw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwwZX-1vlwzY377b-00zrAW; Tue, 03
- Mar 2026 15:07:15 +0100
-Message-ID: <ef603e8e-a5f6-4f8a-b538-6535f1b934a2@gmx.de>
-Date: Tue, 3 Mar 2026 15:07:14 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3550110E823
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 14:09:01 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6239moa83951858
+ for <dri-devel@lists.freedesktop.org>; Tue, 3 Mar 2026 14:09:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=vA9LhWu4c+RxWCGc7dLNVetf
+ L2EcqY9KkAYh6iDyUdc=; b=odY8+8Q7h6mFBSbGzMyefsQSplK4vPQHDTdhEeZu
+ hNC+DfHogEfH8Kmi3tphAeAOvbwvzNJh5AbBoMdzLIUJCBSefcy4vR/LYu/dwdZQ
+ Ud2Ks3G0Dn9yGzWghEUUPDAkd4gZO5Jg2ZnCu6PpEhWDhbDznco0Pqu8rJ9yHxSZ
+ wfA7Ewkp9KuOr+U94Zpz1e0qO8oXCRcrE5oVEogCUI46pNammtq6BmPM3i1Lao5y
+ Ew+vW7tY807G7K8Ale978o57ZT7zZyXEI07Y2sOLqd4ShWr59eDyK59R+dtIUjn9
+ 8EAjLDmcmTZCqMmQ3VVMt4VgOlqJIXF6Tc1qn7fCfWmdEQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cnu3n98ms-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 14:09:00 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8cb413d0002so4301108585a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 06:09:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772546939; x=1773151739;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vA9LhWu4c+RxWCGc7dLNVetfL2EcqY9KkAYh6iDyUdc=;
+ b=N3aEEuf7iH7UzCvL+PjJUYjQHHvE1n503zY1ICH9GIoFklLXmfWXZRwQ4SVBQCUalM
+ T19SIDbVsSmmx77b+jc1MWrFb/24rbKkQG+vasuiWs5aIfZUAYEi0D9Pr2IVbUENssYm
+ NtIyb2PB9cc0baF+qkkGMumuZtJim/wATOTX25Hw8lc/MesrfkGNq2nB9jateeODZku/
+ hh9nfU5CAfx8g1sggjfzDxmEbgmQS+N7J3MLSf4vFVU68HnsfshXcZb/YjxLFxXT1fGg
+ KXrLSZPbBvzCcGrb6lvU4eWKxhqO3lhx1dmeTNfC1jXUbv4bZADI94OF98rPVclIdYZT
+ Ga7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772546939; x=1773151739;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vA9LhWu4c+RxWCGc7dLNVetfL2EcqY9KkAYh6iDyUdc=;
+ b=JyBq75KVBBCSRC8xNJhLtyhszCCyuGFmjxX9CWifwf9fMEPIdXhEsDXQNFBWThCLTl
+ gosquXq/o8OFL6hDww09L7i34Ku26UFvL1Go0t6FpfV23SnYTPnZ+Wv/3u/G1hsdbcTO
+ MY+1I9k+XKvHKX5ID5ZuetFLIKiEY0UkeBcA8RLoqHHCj8KKE5aNCNTYo7K903RwT6o2
+ Jf+2KJm9hzEzFWuwNow2HdpPAlG+AwVHsJHhVOcvJObvk9E2b9nv7TrYdSYUAM2zf5vF
+ 7n3Lgua+FBr06cruDvKG/odl7NXND9IaWBaW0aKooI6lq6BpYQIVjrnUYDUUlWYg/aN8
+ r0OQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX04b7PiOTw5GlOoqIhXZ4Ty6BnAr/yNnyKpkQ7BNZj8c/e3iw4obu+xeIFR1PY1OUy1iE9SBSi9Yk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCKerGemdYPkrxligqcOMMY7wpTS4Pz9wG3989iZ7qn7UpdHYd
+ NITb6gyY5cici57UHwmezaE3mM3L3mn4ChUomXxs4fzmKbBzE2/V4SjsKGRprpOewwQQGanV6Vw
+ iPMrVsw41QueTkgBFk65EeT4d3Q4rNlpzVUrt2tT7p5AR0w+XNvIduU9Els+lefwgfD6VFLE=
+X-Gm-Gg: ATEYQzzJ4bcbxTmWMqeKwfPnFw1tal6ghlUvQQcsofwtxr0ZMVy4LCgLEGQelJx9uGR
+ lN5PrCkRE5inI2LK0qCHAQyzLplvZiPUnMd6qDU93Wl/GgOB7wbNw3eUDIZ8UbOjARBuIqfwhjI
+ oB0HJnJM4ik34TousReNDl6yO5LS/fPJWiqV/31ZZN4l3SEzIGxK2RE+RcJW9QtzbhYu8ZBDGfs
+ U9xl/KfoJZXaxaLmRDLxZefqbrAGV8xtaZTZkx3vdCoEw7jTtyKbgEee9SgZs3OhQ89VqiKo3vA
+ M2+mhpPPGDvMcJtXhwtIztY+i79rvQRojDX+mM6MUROEC1ZKKSNr3e60cUI7IpVTb0ESDqquSD9
+ 9oEsTpt6/SbR3L1cWyn7rqq7dfBORG9bSUZyIYT73Ed3SKhz8NPtbDt+/FIdbdajFfrRF7pqgL5
+ Ymzr/1ClIZBT5qfz58B5QJY49dbDXdva2ndLc=
+X-Received: by 2002:a05:620a:400a:b0:8cb:5c90:dd6f with SMTP id
+ af79cd13be357-8cd50bc2f3fmr245465985a.32.1772546939310; 
+ Tue, 03 Mar 2026 06:08:59 -0800 (PST)
+X-Received: by 2002:a05:620a:400a:b0:8cb:5c90:dd6f with SMTP id
+ af79cd13be357-8cd50bc2f3fmr245459985a.32.1772546938750; 
+ Tue, 03 Mar 2026 06:08:58 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-389f2ffe01fsm32041621fa.26.2026.03.03.06.08.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2026 06:08:56 -0800 (PST)
+Date: Tue, 3 Mar 2026 16:08:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 7/8] drm/msm/dpu: Add support for Eliza SoC
+Message-ID: <tybhaz76xj6spq3kw3dys24ynx3unpvyimb2skmz2djofxr72d@rw5l475xjkth>
+References: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
+ <20260303-drm-display-eliza-v1-7-814121dbb2bf@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: goldfishfb: use devm_platform_ioremap_resource()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Amin GATTOUT <amin.gattout@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260303-master-v1-1-85eb5ff584b0@gmail.com>
- <2fb9b0fe-e63a-4b06-968d-3cb30383ba37@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <2fb9b0fe-e63a-4b06-968d-3cb30383ba37@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:m4K3RIOmJSqrrLItYyKQAO3HtI8g9W938K4sCOugZRGotSneqJz
- 7thJLLfX0PtoBbUeoJnTWOoMlN4itfQzw/NUL6GNwSuS9lrImXJdb6WsEn9pIk/4dWGe6V4
- tyo1KNoeAAjj5Vn+pULPnJTBWVnvKYORhAHzfPTMib79J3naW8rpbROrb0c2HYz80KNXvP9
- 4Gfj4ofx1g8O8axfa11+w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:3z1tXV4jT3g=;NlejXf2dI0TU/dI3VJpLuJX7Yh1
- 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
- UkmB5HwrnWrQBao/bbbHNq85pk7blsIjo7GGK9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303-drm-display-eliza-v1-7-814121dbb2bf@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=JaexbEKV c=1 sm=1 tr=0 ts=69a6eb7c cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=zHWNXANJRpzq94LBRZAA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: CTyQto9pr1E-TQv8tnkKnni0cVu5vWcl
+X-Proofpoint-GUID: CTyQto9pr1E-TQv8tnkKnni0cVu5vWcl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDExMiBTYWx0ZWRfX5rd1CIgMBD/N
+ IuuejsDYpNWjYvuz63Q2+G9441799exVeMBmy/x8PB92yu/+QobH4ccGCfC4koCHjCH/fk1le8H
+ y+ZuWK39WwqLku6WZJozaanj79hK9rmATUgtnrcygGudKUl4pOn+8Y/AZs4JnvKEa42ooWk4d2p
+ adJN/eYu1BRx8r2ossvM6ORXj4veVsmDvXcPxMGubseiv8RUQikQpnx4DxIpRw/X603rGAZnvzU
+ GjgiPYzv8xaeCdp8BG4uGEarGspj8MJ+6XZD0m2XSRDAQcKU9eiLtbpLaMyXLsRMAvh3rI3m19Q
+ bcrxxW3WUxKTQYWUaPUDvZmis4+lem0TAVxdzsjfoquOgZizQBOFIZKngEK3vgzVUbLCjG69x53
+ cN/3N1EnHPiBpVjaVVw/7pkLStTsmq05hCUieWJfVBflUGY1eyThvY13R9qfxuqPwAX3k9urCbK
+ N296nAnkrxa8ckxXhlg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603030112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,59 +160,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 60F951F10D9
+X-Rspamd-Queue-Id: 6FBF81F1149
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[suse.de,gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:amin.gattout@gmail.com,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:amingattout@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmx.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmx.de:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:quic_khsieh@quicinc.com,m:jonathan@marek.ca,m:quic_mkrishn@quicinc.com,m:neil.armstrong@linaro.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,quicinc.com,marek.ca,linaro.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gmx.de:dkim,gmx.de:mid,suse.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim,qualcomm.com:dkim,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-On 3/3/26 13:51, Thomas Zimmermann wrote:
-> Am 03.03.26 um 13:22 schrieb Amin GATTOUT:
->> Replace the open-coded platform_get_resource() + ioremap() pair with
->> devm_platform_ioremap_resource(), which requests the memory region and
->> maps it in a single call, with automatic cleanup on device removal.
->>
->> Signed-off-by: Amin GATTOUT <amin.gattout@gmail.com>
->=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
->> ---
->> =C2=A0 drivers/video/fbdev/goldfishfb.c | 14 +++-----------
->> =C2=A0 1 file changed, 3 insertions(+), 11 deletions(-)
+On Tue, Mar 03, 2026 at 02:07:57PM +0100, Krzysztof Kozlowski wrote:
+> Add support for DPU (v12.4) on Qualcomm Eliza SoC, with one
+> incomplete/skipped part: HDMI interface (INT_4).
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h | 365 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>  4 files changed, 368 insertions(+)
+> 
+> +
+> +static const struct dpu_mdp_cfg eliza_mdp = {
+> +	.name = "top_0",
+> +	.base = 0, .len = 0x494, // not verified
 
-applied to fbdev git tree.
-Thanks!
-Helge
+This is very weird to read, coming from Qualcomm employee. Were the rest
+of data verified?
 
+> +	.clk_ctrls = {
+> +		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+> +	},
+> +};
+> +
+
+-- 
+With best wishes
+Dmitry
