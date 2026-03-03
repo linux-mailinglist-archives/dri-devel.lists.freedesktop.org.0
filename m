@@ -2,132 +2,178 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IE/YF9H9pmkKcAAAu9opvQ
+	id 0Bn1Klj+pmk7bgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:27:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:29:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7B01F296D
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CD91F2A06
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0410510E05D;
-	Tue,  3 Mar 2026 15:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B79D810E833;
+	Tue,  3 Mar 2026 15:29:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Rqodd+ih";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="VfDjS2BS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011069.outbound.protection.outlook.com [52.101.65.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A13110E05D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 15:27:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pPkP76k5KzUYufHIZ36bux0lmSBBjF2SHirv9vPz+sZtHpESv3mn8UcHzAP0jFG+m/X6u2bBsH8XLpX4Y+GpsflHzQD8YIjRzYEGydo5GtrPpU/Ys+CoOSCUKjFZGlDz+Q/ECTXcmytLD7t5Ud3fOAqRCCE7h+uPe2st63VbCbu0VsGjUUG11fSOD5d9JyI1uUZRwR3TTwGoPXaVjZIiuz9FSu0xm5vv11qEL0hPQu6nTlurSxWf1GvaiByInwiI5REY6Du/rFCPSE0uidpXuVs8ziiGVZYjgg5qSxdm9R8SR8YoKBf+e/XwC35O8rzX6B+rTbUc/jyzAowA4pTBMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q9UkXbsPuCxZIUt+NOCBoC09QzYiAeat/kX/zDGbm44=;
- b=dp2w8iEgZKJWrIgRVdTQhc1fhjtxcvZcvkHAViATB9uYS8h59BvsrC9sUiRwu6cevY8lFdxY0Fq1H19m3g5rhjq4njyT3QzPR6Agv9XTEBb3uj4hezX9hsVO/zbd6Ndp5RE3e1axu10tfXRPsckoFhTELsNu8Atr2e8t3Y6qoSI6Vn8PIWv3H/5SFkvnnraebuIM1e3pt/l+kCQNjPWnXQEGACt13issDoDg/XHH5L7ZRpo62Hy5rL3b/P8ZUSSEKiabdJBpIhkyi5fWSzvamIXdIGb0BHn3SRJYll3EceSHgDFRxYY0ZbY1vtxXWxr1FENpPRK5KyssrblbtIzBmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q9UkXbsPuCxZIUt+NOCBoC09QzYiAeat/kX/zDGbm44=;
- b=Rqodd+ihT3kYcRN56ZJak3mRKo2d/nwbd1G+U1P308K4w7ACZJdpU4g9vqiIeJ4q71maTA1giQLsE7Q/CoM/aeEC31l/N6EyXE934OajDAidxB4geTNLZ4LQ+JD7HmzjpIjc0Jh6ipqvpTDDQyFtHCbfAqZJXKhiJsVxYHAe06DU6sCYd6Hg5D3rIghA1xkMheU1KCxQphJLwZNHaZaoRX5y/u1BwH+4GCiOywpeq9NmtGpdUoDQMkoUNaZmel8ft/LbaPChRDwmQThtkwc3oqQ/lHi5mBc1AYt4JDWqdGUG5gB7tGSpst76aNNrt5JHNu3aeQRMdtJt+5Xv/2nHkA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by PA4PR04MB8031.eurprd04.prod.outlook.com (2603:10a6:102:bb::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 15:27:02 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 15:27:02 +0000
-Date: Tue, 3 Mar 2026 10:26:49 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
- laurent.pinchart+renesas@ideasonboard.com,
- antonin.godard@bootlin.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Subject: Re: [PATCH 09/14] ARM: dts: imx6ul-var-som: add proper Wifi and
- Bluetooth support
-Message-ID: <aab9uWjgzg4-ScFg@lizhi-Precision-Tower-5810>
-References: <20260302190953.669325-1-hugo@hugovil.com>
- <20260302190953.669325-10-hugo@hugovil.com>
- <aaX6P_ulJTq_pipa@lizhi-Precision-Tower-5810>
- <20260302164231.616bd69c106cbcdd107d9cbb@hugovil.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302164231.616bd69c106cbcdd107d9cbb@hugovil.com>
-X-ClientProxiedBy: PH7P220CA0045.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:32b::17) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B388010E072
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 15:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1772551751; x=1773156551; i=deller@gmx.de;
+ bh=L0YQ9uGgij/0e7daa60qwS8TKmMh8cYFiTozh7UarjI=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=VfDjS2BS44MXbYCCV4LTFpNj1SwnKmnd7mYC0G5rf1DcPnZ7hdgxtS+Bt8F6LDAG
+ IMJgDRrvI9LvJJZIOjAAzmRbOU6apwPDDGXS00rFmxegpS/QwYHG7oHq3anP7Woe+
+ Lb5XgxYDNp00nHFqhXfbhQgMz3qojIgLuDBQ30WtGMM7XXO/XTYByQ9NyWzgWsEnT
+ 4O7oaLbHXhEdGjcyMk4GjAkHRmC7Fy8bMQZ6h1zgPrBwvYW5UBAlDKJf46ElPCPdi
+ IAgZoNU5Mn9p4e8teJvtu05PKRzDJcdTA1ydHmWVuq5U+Ag8YZbq4ePmH7MpqgW6e
+ GjH4hQ28JMQ7E4mREg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6bjy-1vbiyv1INi-00sPNU; Tue, 03
+ Mar 2026 16:29:11 +0100
+Message-ID: <11c9e67c-36f9-4d27-8064-41b804cc0c02@gmx.de>
+Date: Tue, 3 Mar 2026 16:29:10 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PA4PR04MB8031:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6c500a9-1d37-40c1-5135-08de79395150
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|19092799006|52116014|376014|7416014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 0Tj03s5cjF7hwyMLIYi00x7kddsr803ghuXJWNPLbtybmWPwjQ+9S30Wo2cKlbG37781onEM7s+H/n+PYsSG6ujW0FwrLX6TYIVw8HGE95nO93+SIRKiCTpctHoGPQIaqQumBpPTjxxSeLDWdQ7YkI6yUIjlrP9i0gx1yduOKzmpVseP0trINTaTz15bZ2TYy/d8iSaE+L/0153B57wsmwQZsr8OV0isb1E2VmhHaBDfp7WBIHHHlkW0ehLfsuAtzY2/JcBdRXl6AhmvNteJ184bmqRRIfT4OOduge59PyBYoBa8mdqLpE++X3LGkWdFgFz/TwpSLs+keQJD+y7knqqACYMJU3LCsNsCbKyTi8FXK41fvb+dWpiHUfEbwJ6JufTOQyO2nxaukJT1E9qY8vTcQS02GeJXRjbymVTwWcYqBjS4Uq69iiWOdaqHC0wgWjcWWqb+1BOyQC5qspnC5iCuiEdhgrjakSC4kss29X9TqDDJ4Qp63fLfwbQ5v7aHSPckYlfcd5ajaEOjTP+IrQ5ssowiKhascSD24R8ggJFa/oLDdD0Z3OMcdxgY5BNqSiTiYg1qmwwMIv0RAO04dhydsyjWcza6jK/3awp4l6gL708blTzUSEZ8WsVAI85/H8gq9v17v9Rcy6N7rsfq6KefCOhg5rfO1Jc5kznHdtSnrXnPNF1oLC8Gfucgw8hvWHF27AiPS8DLxw0iBf1c5NJp1TVoxeLVjWY4/9K0AIHLy9ZetzX3vtWeaVoTwKCvpG3DwMplIal/hSeJ2ojYhn5NGWwQJj3SmXVmTynM6Yo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(19092799006)(52116014)(376014)(7416014)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OTDDmrFvSMPslYvo5ql1ng7ljjV3BmhTmo0GWCsCIYSV3zL+/T0LSeHDcKNJ?=
- =?us-ascii?Q?jQVmPCoKY1878hOQOiORcLlQ0EGSpbbov6nfvmiVSYEOwYWKim77BtXis/y2?=
- =?us-ascii?Q?1VBobQR+l5vy2kWpcgpLMAJXj7LYRLLn9S8T1WbJIb88qPBqiYgOprc1vI+e?=
- =?us-ascii?Q?Q3/My+UYOzAGHMCBkJdLzukfOT/UbsPJWwKU8Pjo7IZ8Yu8DlGeG8FngVgY3?=
- =?us-ascii?Q?XfpUEO8Iya3CzrsjPgBIM7WjHxfackdtrccVXI/T/iZKIqXxgd4fIqxjp4Y+?=
- =?us-ascii?Q?vxX2Y9eOa2uxdWZOgiiRKGVwpKCkhKDcF9UkXuJom56XAH7h/r1Jny2ej0Nz?=
- =?us-ascii?Q?S+oxOgLlnQx6Sqk/gRRJqDfqB4VY/eO45fQLkTL+Dg+zBDx8N5EEGerdelui?=
- =?us-ascii?Q?+fxSzoMfpNWkC9LLr+vBKGvUpSxDBcHlJc49EboJGhufE7eYuI+mctfwuDNx?=
- =?us-ascii?Q?0HrYq1XrOv4yOAfDawiWIikQt3MQtion0cgL6QylcpwwnhhjDnFPTUsPa+b8?=
- =?us-ascii?Q?BHoYATMPlrVX5VoFVIyZcyVaLWOox54RcMZe/3rml2wo3pyx5BJhN8u5TpD0?=
- =?us-ascii?Q?R7/DU86i8nesXeJo+1NBekPgBpsiujsH1Hv+6M2UT2X5JjLyyexLMHs8M4XA?=
- =?us-ascii?Q?ZsMvTOSdlnMz0yGGQjaCQshYS7khLShbfMt5qAgYBtKZTRYKm65S0ZfmZyWe?=
- =?us-ascii?Q?JJzIBqmsVNiGagPYUeXbCd+8CQ9TmTBhnRx8Rr9uVs2C7rQq3mbZ0U/ooV8u?=
- =?us-ascii?Q?oMZKFqlWtD+uCfmj6T+rQ/NvJBA4cJ+sUN+1aXzDlYMADSdZPtI/yYBaH9ni?=
- =?us-ascii?Q?xYNXwosSgWfGPqqcJjS1FCovj1loreQoUDCJeSkY5dg5JOQfVf3oX66Tpf+N?=
- =?us-ascii?Q?l/Li3gGp5BcAmdv6kyjxCFs64HemC6CE7GbMpfHbRDI+9fRNi6SCLCKYY5fO?=
- =?us-ascii?Q?fH2GoCtQPXcFDddyyYOsSL8iOtjK/ojhuyoW579yJTHqAXCElSJRObotRBCa?=
- =?us-ascii?Q?1o4ybTYtufXVRfXViSoXMgBrvaC5auHSdLSM0nHR9i+e7aMqosYzzdA2fJ2Y?=
- =?us-ascii?Q?S8ssrddL4HlMmQofTy6x+KobcDnEkUwM8LS/RB6bAEaVXAgMDmRA0KgMgP7D?=
- =?us-ascii?Q?yBEI0YUIObv3daIWgy6z2iI7s9QaXGjTMKYJCfQ6t7PBAfOhk4UDtLGE4FVn?=
- =?us-ascii?Q?INWAkA4QcuYwoP9XB7XSTob0fI03BjzFYNL5NWU4fz6mb2To3LeCvOdZrg7n?=
- =?us-ascii?Q?Bwb5E8zvObE0hl2yp0ayQ21sydnVpHnq1vqidgdTaLDfldS4cd9vkTV0+9d8?=
- =?us-ascii?Q?qqZtDd5Tmn9nDuM6CgEhucil1up19HYbbdbr1BBSEVpZNBbRkE23ORt2eQ/S?=
- =?us-ascii?Q?//yUAyJpmUXFlK4oBB0DQHqpo7bF9LM8PtyqgkRGuDTyT3ohnaxiHxvWlcsQ?=
- =?us-ascii?Q?ywE+ZuaqcXYqhQGA2bESgGoXE+wGr2vrOXRoe8A/obLsMu+ZoKBXdRxXlndO?=
- =?us-ascii?Q?OBYz35DVE6/9R4T+Z14C9QBdj5KzKA6konTbJNIMQdftDe2gJrg9Kpgb8Rn5?=
- =?us-ascii?Q?vDEFpkSGl0PzGdW2g5IcrPjjY1XKxZNxF66ic6tKNu/zEW2uanUMFbzEt1Ua?=
- =?us-ascii?Q?nCD0COSU5WMKtUQksBUuGaCwavggRUpFABUEkMcsKfXlrHKNt7qJ4k2MqCyR?=
- =?us-ascii?Q?XCkjQM7GuQGdzF6kSm2wBz8yVilD3I7tdYiyTNx8mI7VS/XD?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6c500a9-1d37-40c1-5135-08de79395150
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 15:27:02.0673 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hUbeEGn8MyVrAiRVxhETgwwOjxkhvATJWymtZ3vYNFq6ATQM/JU6NTpRfFVW0HicDURVdUdfth1B0UABz2Uhbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB8031
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] vc,fbcon,fonts: Proper handling of font data
+To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
+ sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260302141255.518657-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20260302141255.518657-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:k102UeRHoZCq/W2qvwiwD3VKZOBg5f/l82sNhgbv3PDMOvFgxfS
+ SwnUEB8UjKkQ+jTjnVlIbtGkpjt9Yf+fAqz+LidnipvTveX9h5oHScYgn64lPh0caNcebwz
+ wVUI6InUug2kEUUcqZ32Ptz9nP48L0mN1Uiv/3WkT8sY7xcSgyUQvpu77lWTiWYu7Jiy6X+
+ YPe2D3+cp2wZZbEov4b0w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:0jReMGUMJ/k=;00X0f5S0dzIsYuNfVQxdbmXJHAT
+ 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
+ l/UMwPpMqAb9p6V7EATatMm4PGJ3xWcGwqZ7wG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,346 +188,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 8C7B01F296D
+X-Rspamd-Queue-Id: 99CD91F2A06
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:hugo@hugovil.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmx.de];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[4.196.180.0:email];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmx.de:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,0.0.0.1:email,dimonoff.com:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gmx.de:dkim,gmx.de:mid,man7.org:url]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 04:42:31PM -0500, Hugo Villeneuve wrote:
-> On Mon, 2 Mar 2026 15:59:43 -0500
-> Frank Li <Frank.li@nxp.com> wrote:
->
-> > On Mon, Mar 02, 2026 at 02:03:45PM -0500, Hugo Villeneuve wrote:
-> > > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > >
-> > > The existing configuration of the optional Wifi/Bluetooth module was
-> > > copied from the original Variscite kernel tree, and requires custom
-> > > scripts to properly configure the Wifi/Bluetooth module.
-> > >
-> > > Add proper support for the optional Wifi and Bluetooth configuration on
-> > > VAR-SOM-6UL so that it works out of the box, without any custom scripts.
-> > >
-> > > The SD card interface cannot be used if the Wifi/BT module is in use.
-> >
-> > ARM: dts: imx6ul-var-som: add proper Wifi and Bluetooth support
->
-> This looks identical to the initial commit message?
+On 3/2/26 15:08, Thomas Zimmermann wrote:
+> Provide helpers for handling console font data. Update consoles and VT.
+>=20
+> VT's vc_state stores font data as a plain byte array of glphys. Fbcon,
+> newport_con and the kernel's internal fonts store the glyph data as an
+> array of plain bytes plus a hidden header for reference counting, check
+> sums and buffer sizes. The reference counting only works for user-space
+> fonts but not for internal fonts. Font-data handling is duplicated in
+> several places. Most of the font handling is open-coded and mixed up wit=
+h
+> VT's plain glyph arrays.
+>=20
+> To address these issues, add proper handling of font data to all involve=
+d
+> components: struct vc_font for font state in VC; a font data type for th=
+e
+> consoles. Then implement interfaces for handling font data one by one.
+>=20
+> Patch 1 prepares the fbdev interface.
+>=20
+> Patches 2 to 4 prepare VT's font handling.
+>=20
+> Patches 5 to 13 refactor fbcon and newport_con to use clean interfaces f=
+or
+> their fonts.
+>=20
+> Fbcon has long been a source of problems and bug reports. [1] With its
+> confusing implementation, it is hard to find the cause of these bugs.
+> Cleaning up the fbcon code will hopefully help with resolving bug report=
+s
+> in the future.
+>=20
+> The series has been tested with fbcon under DRM's bochs driver by changi=
+ng
+> fonts at runtime using the setfont utility. [2] The changes to newport_c=
+on
+> have only been tested to compile.
+>=20
+> v2:
+> - keep declaring the internal fonts in the public header file (Helge)
+> - rebase and clean up
+>=20
+> [1] https://lore.kernel.org/all/6992c84c.a70a0220.2c38d7.00e8.GAE@google=
+.com/
+> [2] https://www.man7.org/linux/man-pages/man8/setfont.8.html
+>=20
+> Thomas Zimmermann (13):
+>    fbdev: Declare src parameter of fb_pad_ helpers as constant
+>    vt: Remove trailing whitespaces
+>    vt: Store font in struct vc_font
+>    vt: Calculate font-buffer size with vc_font_size()
+>    lib/fonts: Remove trailing whitespaces
+>    lib/fonts: Remove FNTCHARCNT()
+>    lib/fonts: Store font data as font_data_t; update consoles
+>    lib/fonts: Read font size with font_data_size()
+>    lib/fonts: Compare font data for equality with font_data_is_equal()
+>    lib/fonts: Manage font-data lifetime with font_data_get/_put()
+>    lib/fonts: Create font_data_t from struct console_font with
+>      font_data_import()
+>    lib/fonts: Store font data for user space with font_data_export()
+>    lib/fonts: Remove internal symbols and macros from public header file
+>=20
+>   drivers/video/console/newport_con.c |  61 +++----
+>   drivers/video/fbdev/core/bitblit.c  |  11 +-
+>   drivers/video/fbdev/core/fbcon.c    | 194 +++++++----------------
+>   drivers/video/fbdev/core/fbcon.h    |   8 +-
+>   drivers/video/fbdev/core/fbmem.c    |   6 +-
+>   include/linux/console_struct.h      |  59 ++++++-
+>   include/linux/fb.h                  |  10 +-
+>   include/linux/font.h                | 115 +++++++++-----
+>   lib/fonts/font.h                    |  38 +++++
+>   lib/fonts/font_10x18.c              |   2 +-
+>   lib/fonts/font_6x10.c               |   3 +-
+>   lib/fonts/font_6x11.c               |   2 +-
+>   lib/fonts/font_6x8.c                |   3 +-
+>   lib/fonts/font_7x14.c               |   2 +-
+>   lib/fonts/font_8x16.c               |   3 +-
+>   lib/fonts/font_8x8.c                |   2 +-
+>   lib/fonts/font_acorn_8x8.c          |   4 +-
+>   lib/fonts/font_mini_4x6.c           |  10 +-
+>   lib/fonts/font_pearl_8x8.c          |   2 +-
+>   lib/fonts/font_sun12x22.c           |   3 +-
+>   lib/fonts/font_sun8x16.c            |   3 +-
+>   lib/fonts/font_ter10x18.c           |   4 +-
+>   lib/fonts/font_ter16x32.c           |   4 +-
+>   lib/fonts/fonts.c                   | 236 +++++++++++++++++++++++++++-
+>   24 files changed, 518 insertions(+), 267 deletions(-)
+>   create mode 100644 lib/fonts/font.h
+Thomas, thanks for the nice cleanup!
+Beside a few minor comments which I posted to the various patches, the ser=
+ies looks good.
 
-Yes, sorry, My means needn't unrelated stuff. use below sentence should be
-enough.
+I've applied it for further testing to the fbdev git tree.
+In case you send later v3 series, I'll update it.
 
-Frank
->
-> > Add the optional Wifi and Bluetooth dtb on AR-SOM-6UL so that it works out
-> > of the box.
->
-> See comments below about name of dtb.
->
->
-> > The SD card interface cannot be used if the Wifi/BT module is in use.
-> >
-> >
-> > >
-> > > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > > ---
-> > >  arch/arm/boot/dts/nxp/imx/Makefile            |  2 +
-> > >  .../dts/nxp/imx/imx6ul-var-som-common.dtsi    | 18 ++---
-> > >  .../nxp/imx/imx6ul-var-som-concerto-full.dts  | 18 +++++
-> > >  .../boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi | 75 +++++++++++++++++++
-> > >  arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi | 15 ++++
-> > >  .../nxp/imx/imx6ull-var-som-concerto-full.dts | 18 +++++
-> > >  .../arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi | 15 ++++
-> > >  7 files changed, 151 insertions(+), 10 deletions(-)
-> > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-> > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
-> > >  create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-> > >
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/Makefile b/arch/arm/boot/dts/nxp/imx/Makefile
-> > > index bc534d0fb1412..c7f24ee63071f 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/Makefile
-> > > +++ b/arch/arm/boot/dts/nxp/imx/Makefile
-> > > @@ -339,6 +339,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
-> > >  	imx6ul-tx6ul-0011.dtb \
-> > >  	imx6ul-tx6ul-mainboard.dtb \
-> > >  	imx6ul-var-som-concerto.dtb \
-> > > +	imx6ul-var-som-concerto-full.dtb \
-> >
-> > how about imx6ul-var-som-concerto-wifi.dtb?
->
-> There is an exponential number of possible configurations (sd + wifi,
-> eemc + wifi, eemc + eth and no wifi, etc). To simplify, I am simply
-> adding a full DTB which will support all options on the EVK.
->
-> Hugo.
->
->
-> > >  	imx6ull-14x14-evk.dtb \
-> > >  	imx6ull-colibri-aster.dtb \
-> > >  	imx6ull-colibri-emmc-aster.dtb \
-> > > @@ -377,6 +378,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
-> > >  	imx6ull-tqma6ull2-mba6ulx.dtb \
-> > >  	imx6ull-tqma6ull2l-mba6ulx.dtb \
-> > >  	imx6ull-var-som-concerto.dtb \
-> > > +	imx6ull-var-som-concerto-full.dtb \
-> > >  	imx6ull-uti260b.dtb \
-> > >  	imx6ulz-14x14-evk.dtb \
-> > >  	imx6ulz-bsh-smm-m2.dtb
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > index dd4ecff1eb786..af8c5d2db53d4 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
-> > > @@ -19,6 +19,14 @@ memory@80000000 {
-> > >  		reg = <0x80000000 0x20000000>;
-> > >  	};
-> > >
-> > > +	reg_3p3v: regulator-3p3v {
-> > > +		compatible = "regulator-fixed";
-> > > +		regulator-name = "3P3V";
-> > > +		regulator-min-microvolt = <3300000>;
-> > > +		regulator-max-microvolt = <3300000>;
-> > > +		regulator-always-on;
-> > > +	};
-> > > +
-> > >  	reg_gpio_dvfs: reg-gpio-dvfs {
-> > >  		compatible = "regulator-gpio";
-> > >  		regulator-min-microvolt = <1300000>;
-> > > @@ -68,9 +76,6 @@ ethphy0: ethernet-phy@1 {
-> > >  };
-> > >
-> > >  &iomuxc {
-> > > -	pinctrl-names = "default";
-> > > -	pinctrl-0 = <&pinctrl_hog>;
-> > > -
-> > >  	pinctrl_enet1: enet1grp {
-> > >  		fsl,pins = <
-> > >  			MX6UL_PAD_ENET1_RX_EN__ENET1_RX_EN	0x1b0b0
-> > > @@ -97,13 +102,6 @@ MX6UL_PAD_GPIO1_IO07__ENET1_MDC		0x1b0b0
-> > >  		>;
-> > >  	};
-> > >
-> > > -	pinctrl_hog: hoggrp {
-> > > -		fsl,pins = <
-> > > -			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT Enable */
-> > > -			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x03029	/* WLAN Enable */
-> > > -		>;
-> > > -	};
-> > > -
-> > >  	pinctrl_i2c1: i2c1grp {
-> > >  		fsl,pins = <
-> > >  			MX6UL_PAD_CSI_PIXCLK__I2C1_SCL		0x4001b8b0
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-> > > new file mode 100644
-> > > index 0000000000000..519250b31db24
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-> > > @@ -0,0 +1,18 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
-> > > + * Variscite SoM mounted on it (6UL CPU variant).
-> > > + *
-> > > + * Copyright 2026 Dimonoff
-> > > + */
-> > > +
-> > > +/dts-v1/;
-> > > +
-> > > +#include "imx6ul-var-som.dtsi"
-> > > +#include "imx6ul-var-som-concerto-common.dtsi"
-> > > +#include "imx6ul-var-som-wifi.dtsi"
-> > > +
-> > > +/ {
-> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
-> > > +	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
-> > > +};
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
-> > > new file mode 100644
-> > > index 0000000000000..6d16ff7909dab
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-wifi.dtsi
-> > > @@ -0,0 +1,75 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Support optional Wifi/Bluetooth on Variscite VAR-SOM-6UL module.
-> > > + *
-> > > + * Copyright 2019-2024 Variscite Ltd.
-> > > + * Copyright 2026 Dimonoff
-> > > + */
-> > > +
-> > > +/ {
-> > > +	reg_sd1_vmmc: regulator_sd1_vmmc {
-> > > +		compatible = "regulator-fixed";
-> > > +		regulator-name = "VMMC1";
-> > > +		regulator-min-microvolt = <3300000>;
-> > > +		regulator-max-microvolt = <3300000>;
-> > > +		gpio = <&gpio5 2 GPIO_ACTIVE_HIGH>;
-> > > +		enable-active-high;
-> > > +		startup-delay-us = <10000>;
-> > > +	};
-> > > +
-> > > +	usdhc1_pwrseq: usdhc1-pwrseq {
-> > > +		compatible = "mmc-pwrseq-simple";
-> > > +		pinctrl-names = "default";
-> > > +		pinctrl-0 = <&pinctrl_brcm_wifi>;
-> > > +		reset-gpios = <&gpio5 6 GPIO_ACTIVE_LOW>;
-> > > +	};
-> > > +};
-> > > +
-> > > +&iomuxc {
-> > > +	pinctrl_32k_clk: 32kclkgrp {
-> > > +		/*
-> > > +		 * For TP option, an additional oscillator is assembled on the
-> > > +		 * SOM to provide 32 kHz to the WiFi module. Without TP option,
-> > > +		 * this pin is configured to provide the 32 KHz clock to the
-> > > +		 * WiFi module.
-> > > +		 */
-> > > +		fsl,pins = <
-> > > +			MX6UL_PAD_GPIO1_IO03__OSC32K_32K_OUT	0x03029
-> > > +		>;
-> > > +	};
-> > > +};
-> > > +
-> > > +&tsc {
-> > > +	status = "disabled";
-> > > +};
-> > > +
-> > > +/* Bluetooth UART */
-> > > +&uart2 {
-> > > +	bluetooth {
-> > > +		compatible = "brcm,bcm43438-bt";
-> > > +		pinctrl-names = "default";
-> > > +		pinctrl-0 = <&pinctrl_brcm_bt>;
-> > > +		shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_HIGH>;
-> > > +		vbat-supply = <&reg_3p3v>;
-> > > +		vddio-supply = <&reg_3p3v>;
-> > > +	};
-> > > +};
-> > > +
-> > > +&usdhc1 {
-> > > +	#address-cells = <1>;
-> > > +	#size-cells = <0>;
-> > > +	pinctrl-names = "default", "state_100mhz", "state_200mhz";
-> > > +	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_32k_clk>;
-> > > +	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_32k_clk>;
-> > > +	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_32k_clk>;
-> > > +	no-1-8-v;
-> > > +	non-removable;
-> > > +	mmc-pwrseq = <&usdhc1_pwrseq>;
-> > > +	vmmc-supply = <&reg_sd1_vmmc>;
-> > > +	status = "okay";
-> > > +
-> > > +	brcmf: wifi@1 {
-> > > +		compatible = "brcm,bcm4329-fmac"; /* LWB option: Sterling LWB5 */
-> > > +		reg = <1>;
-> > > +	};
-> > > +};
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
-> > > index 35a0c0b3603fd..b4e6a9316dd81 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
-> > > @@ -15,3 +15,18 @@ / {
-> > >  	model = "Variscite VAR-SOM-6UL module";
-> > >  	compatible = "variscite,var-som-imx6ul", "fsl,imx6ul";
-> > >  };
-> > > +
-> > > +&iomuxc {
-> > > +	pinctrl_brcm_bt: brcm-bt-grp {
-> > > +		fsl,pins = <
-> > > +			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT_REG_ON (BT_EN) */
-> > > +		>;
-> > > +	};
-> > > +
-> > > +	pinctrl_brcm_wifi: brcm-wifi-grp {
-> > > +		fsl,pins = <
-> > > +			MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02	0x1b0b0	/* WL_PWR (WIFI_PWR 5G) */
-> > > +			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x1b0b0	/* WL_REG_ON (WIFI_EN) */
-> > > +		>;
-> > > +	};
-> > > +};
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-> > > new file mode 100644
-> > > index 0000000000000..7c0e313603630
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-> > > @@ -0,0 +1,18 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-6UL
-> > > + * Variscite SoM mounted on it (6ULL CPU variant).
-> > > + *
-> > > + * Copyright 2026 Dimonoff
-> > > + */
-> > > +
-> > > +/dts-v1/;
-> > > +
-> > > +#include "imx6ull-var-som.dtsi"
-> > > +#include "imx6ul-var-som-concerto-common.dtsi"
-> > > +#include "imx6ul-var-som-wifi.dtsi"
-> > > +
-> > > +/ {
-> > > +	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
-> > > +	compatible = "variscite,mx6ullconcerto", "variscite,var-som-imx6ull", "fsl,imx6ull";
-> > > +};
-> > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
-> > > index ba482a97623b2..3067ff6a1bc74 100644
-> > > --- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
-> > > +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som.dtsi
-> > > @@ -13,3 +13,18 @@ / {
-> > >  	model = "Variscite VAR-SOM-6UL module";
-> > >  	compatible = "variscite,var-som-imx6ull", "fsl,imx6ull";
-> > >  };
-> > > +
-> > > +&iomuxc {
-> > > +	pinctrl_brcm_bt: brcm-bt-grp {
-> > > +		fsl,pins = <
-> > > +			MX6ULL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x1b0b0	/* BT_REG_ON (BT_EN) */
-> > > +		>;
-> > > +	};
-> > > +
-> > > +	pinctrl_brcm_wifi: brcm-wifi-grp {
-> > > +		fsl,pins = <
-> > > +			MX6ULL_PAD_SNVS_TAMPER2__GPIO5_IO02	0x1b0b0	/* WL_PWR (WIFI_PWR 5G) */
-> > > +			MX6ULL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x1b0b0	/* WL_REG_ON (WIFI_EN) */
-> > > +		>;
-> > > +	};
-> > > +};
-> > > --
-> > > 2.47.3
-> > >
-> >
->
->
-> --
-> Hugo Villeneuve
+Thanks a lot!
+Helge
