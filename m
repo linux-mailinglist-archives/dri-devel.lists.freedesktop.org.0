@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCkeNAm3pmk7TAAAu9opvQ
+	id UKnOD065pmk7TAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:25:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:34:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739FE1EC9E7
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00171ECB1F
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 11:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D6510E075;
-	Tue,  3 Mar 2026 10:25:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MnQm5bf9";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F40F10E178;
+	Tue,  3 Mar 2026 10:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA57610E075
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772533508;
- bh=lUm3Qv+Y+T2p0B2H2OuXplVZveLD9IckC1/rT/NDcOI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MnQm5bf9YUeMFv/ikj4ECGjJJUpnpHrjXwWNa5BA2cHIn3x2Tu/vZ/I1dKB6/rjyD
- OhWZ6m58s+NRn7lXsMby4r4jUJ5s1D9zvL4EkGltFRnGoi9RFA1dBVGt2+bGiMwV4/
- VU0MRbvrb4sV1YvYuRAydNHe845jsWoTQ2CjK1HSUA09ytOSwC3Filt19F/8m6CA71
- IF/wiv60VSc/JpGCrljPQqRD1pKY9w4y+xgfj0744mkw8qyAYYKOr5HL3KCwP1VXlP
- zPqmOoNDvL2QZ3htWHpV/Ms0I/VNuCvxe3et1No3QKsfbAA3GVVeRYN2Ub1pqPd83j
- 5+Cbbnr1rx7/Q==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0BF4D17E005F;
- Tue,  3 Mar 2026 11:25:08 +0100 (CET)
-Date: Tue, 3 Mar 2026 11:25:00 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- daniel.almeida@collabora.com, aliceryhl@google.com
-Subject: Re: [PATCH] drm/tyr: Use DRM device type alias across driver
-Message-ID: <20260303112500.1f47d56e@fedora>
-In-Reply-To: <20260302202331.176140-1-deborah.brouwer@collabora.com>
-References: <20260302202331.176140-1-deborah.brouwer@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F76A10E178
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 10:34:49 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <m.felsch@pengutronix.de>)
+ id 1vxN5C-0004MP-NF; Tue, 03 Mar 2026 11:34:30 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH v11 0/3] Add i.MX91/93 parallel display support
+Date: Tue, 03 Mar 2026 11:34:25 +0100
+Message-Id: <20260303-v6-18-topic-imx93-parallel-display-v11-0-1b03733c8461@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADG5pmkC/5XQTWrDMBAF4KsEraui0a+dVe9RupDH40Tg2kJyj
+ UPw3asYSgP1wl3OY/jeMHeWKQXK7Hy6s0RzyGEcygDwcmJ49cOFeGhLwKSQBqQAPlsOFZ/GGJC
+ Hz6VWPPrk+5563oYce3/jtelqqXTTWURWoJioC8vW8v5R5mvI05huW+lsH+m/+LIiuGuEsQRkG
+ qC3SMPla0rjEJbXltijY3bPrjzkuuJKRFLQWm1FtetWP64VAOqQWxVX+waxRe2UN7tu/eyaQ26
+ 93WuEAdINaL3rgviF1cFHgCiyVboj6VyFzv+R13X9BhQiPkA8AgAA
+X-Change-ID: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ luca.ceresoli@bootlin.com, Frank Li <Frank.Li@nxp.com>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+ Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,115 +72,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 739FE1EC9E7
+X-Rspamd-Queue-Id: A00171ECB1F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:Frank.Li@nxp.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:m.felsch@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[pengutronix.de];
+	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com];
+	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.821];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email]
 X-Rspamd-Action: no action
 
-On Mon,  2 Mar 2026 12:23:31 -0800
-Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+Hi,
 
-> Currently Tyr defines a convenience type alias for its DRM device type,
-> `TyrDrmDevice` but it does not use the alias outside of `tyr/driver.rs`.
-> 
-> Replace `drm::Device<TyrDrmDriver>` with the alias `TyrDrmDevice` across
-> the driver.
-> 
-> This change will ease future upstream Tyr development by reducing the
-> diffs when multiple series are touching these files.
-> 
-> No functional changes are intended.
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+this patchset adds the driver, dt-bindings and dt integration required
+to drive a parallel display on the i.MX93.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Since the i.MX91 register layout equals the one from the i.MX93, I added
+the support for both but tested only the i.MX93 case.
 
-> ---
->  drivers/gpu/drm/tyr/file.rs | 7 +++++--
->  drivers/gpu/drm/tyr/gem.rs  | 7 +++++--
->  2 files changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-> index 450be5ab9aaf..31411da203c5 100644
-> --- a/drivers/gpu/drm/tyr/file.rs
-> +++ b/drivers/gpu/drm/tyr/file.rs
-> @@ -7,7 +7,10 @@
->      uapi, //
->  };
->  
-> -use crate::driver::TyrDrmDriver;
-> +use crate::driver::{
-> +    TyrDrmDevice,
-> +    TyrDrmDriver, //
-> +};
->  
->  #[pin_data]
->  pub(crate) struct TyrDrmFileData {}
-> @@ -25,7 +28,7 @@ fn open(_dev: &drm::Device<Self::Driver>) -> Result<Pin<KBox<Self>>> {
->  
->  impl TyrDrmFileData {
->      pub(crate) fn dev_query(
-> -        ddev: &drm::Device<TyrDrmDriver>,
-> +        ddev: &TyrDrmDevice,
->          devquery: &mut uapi::drm_panthor_dev_query,
->          _file: &TyrDrmFile,
->      ) -> Result<u32> {
-> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-> index 514524ae07ef..5cd0cd9585e8 100644
-> --- a/drivers/gpu/drm/tyr/gem.rs
-> +++ b/drivers/gpu/drm/tyr/gem.rs
-> @@ -5,7 +5,10 @@
->      prelude::*, //
->  };
->  
-> -use crate::driver::TyrDrmDriver;
-> +use crate::driver::{
-> +    TyrDrmDevice,
-> +    TyrDrmDriver, //
-> +};
->  
->  /// GEM Object inner driver data
->  #[pin_data]
-> @@ -14,7 +17,7 @@ pub(crate) struct TyrObject {}
->  impl gem::DriverObject for TyrObject {
->      type Driver = TyrDrmDriver;
->  
-> -    fn new(_dev: &kernel::drm::Device<TyrDrmDriver>, _size: usize) -> impl PinInit<Self, Error> {
-> +    fn new(_dev: &TyrDrmDevice, _size: usize) -> impl PinInit<Self, Error> {
->          try_pin_init!(TyrObject {})
->      }
->  }
-> 
-> base-commit: 15da5bc9f3adab7242867db0251fe451ac3ddb72
+This patchset depends on:
+ - https://lore.kernel.org/all/20251201-v6-18-topic-imx93-blkctrl-v1-0-b57a72e60105@pengutronix.de/
+
+@Conor Dooley
+I dropped your r-b tag since I added the 'bus-width' property.
+
+Regards,
+  Marco
+
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+Changes in v11:
+- Link to v10: https://lore.kernel.org/r/20260302-v6-18-topic-imx93-parallel-display-v10-0-634fe2778c7a@pengutronix.de
+- Fix double space (Liu)
+- Drop 'const' (Liu)
+- Drop GFP_KERNEL from kmalloc_obj() (Liu)
+- Add r-b (Luca)
+
+Changes in v10:
+- Link to v9: https://lore.kernel.org/r/20260115-v6-18-topic-imx93-parallel-display-v9-0-2c5051e4b144@pengutronix.de
+- Add MEDIA_BUS_FMT_FIXED (Liu)
+- Drop next_bridge from driver struct and use bridge.next_bridge (Liu)
+- Drop linux/of_address.h include (Liu)
+- imx93-pdfc: drop bridge.driver_private usage++ (Liu)
+- Make use of kmalloc_obj() (Liu)
+
+Changes in v9:
+- Link to v8: https://lore.kernel.org/r/20260113-v6-18-topic-imx93-parallel-display-v8-0-4abccdc473a5@pengutronix.de
+- dt-bindings: drop unncessary changes (Frank)
+- imx93-pdfc: drop bridge.driver_private usage (Luca)
+- Kconfig: Adapt Kconfig symbol and prompt (Luca)
+
+Changes in v8:
+- Link to v7: https://lore.kernel.org/r/20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de
+- dt-bindings: add nxp,imx91-pdfc compatible (Liu)
+- dt-bindings: use video-interfaces.yaml# (Liu)
+- dt-bindings: s/data lanes/data lines/ (Liu)
+- dt-bindings: drop 'reg' poperty
+- dt-bindings: drop #address-cells, #size-cells
+- imx93-pdfc: drop drm/drm_print.h include (Liu)
+- imx93-pdfc: s/exist/exists/ (Liu)
+- imx93-pdfc: drop MEDIA_BUS_FMT_FIXED from imx93_pdfc_bus_output_fmts
+- imx93-pdfc: imx93_pdfc_bus_output_fmt_supported: make fmt const
+- imx93-pdfc: Rework input-fmt selection to always fallback to a sane
+              default.
+- imx93-pdfc: imx93_pdfc_bridge_atomic_check: make use of
+	      imx93_pdfc_bus_output_fmt_supported() 
+- imx93-pdfc: drop 'reg' dt-property usage
+- imx93-pdfc: imx93_pdfc_bridge_probe: pass -1 for endpoint reg value (Liu)
+
+Changes in v7:
+- Link to v6: https://lore.kernel.org/r/20251201-v6-18-topic-imx93-parallel-display-v6-0-7b056e1e5b1e@pengutronix.de
+- Add missing bits.h and bitfield.h headers (lkp)
+
+Changes in v6:
+- Link to v5: https://lore.kernel.org/all/20250304082434.834031-1-victor.liu@nxp.com/
+- Add bus-width support
+- rebase onto v6.18-rc1
+- add review feedback (Alexander)
+- driver license "GPL v2" -> "GPL" (checkpatch)
+- make use of reg of-property
+- fix to short Kconfig description (checkpath)
+- add OF integration
+
+---
+Liu Ying (2):
+      dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC subnode to schema and example
+      drm/bridge: imx: Add i.MX93 parallel display format configuration support
+
+Marco Felsch (1):
+      arm64: dts: imx93: Add parallel display output nodes
+
+ .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml |  78 +++++++
+ arch/arm64/boot/dts/freescale/imx91_93_common.dtsi |  54 +++++
+ arch/arm64/boot/dts/freescale/imx93.dtsi           |  12 ++
+ drivers/gpu/drm/bridge/imx/Kconfig                 |  11 +
+ drivers/gpu/drm/bridge/imx/Makefile                |   1 +
+ drivers/gpu/drm/bridge/imx/imx93-pdfc.c            | 225 +++++++++++++++++++++
+ 6 files changed, 381 insertions(+)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+
+Best regards,
+-- 
+Marco Felsch <m.felsch@pengutronix.de>
 
