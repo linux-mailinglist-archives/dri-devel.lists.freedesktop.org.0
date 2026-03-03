@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EsDCQutpmn9SgAAu9opvQ
+	id SLZnIQytpmn9SgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:35 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94881EC079
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593631EC080
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E0510E751;
-	Tue,  3 Mar 2026 09:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A92C10E756;
+	Tue,  3 Mar 2026 09:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Q4yN03ia";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="umJXEb9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C2210E751
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:31 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1977610E756
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:33 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 2FC314E42507;
- Tue,  3 Mar 2026 09:42:30 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id A9376C40FAB;
+ Tue,  3 Mar 2026 09:42:47 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id F11E85FF29;
- Tue,  3 Mar 2026 09:42:29 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0A62E5FF87;
+ Tue,  3 Mar 2026 09:42:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 165681036968D; Tue,  3 Mar 2026 10:42:18 +0100 (CET)
+ with ESMTPSA id 52DA110369680; Tue,  3 Mar 2026 10:42:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772530946; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1772530947; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=8VqdSiLdqihQlbAtlaHr1NspuDH4FWX3VxbhCxMkVSw=;
- b=Q4yN03iaCyv/eV6BAbQKagJi/sG1eDx8Wk6XLx0lSZrymBDDPXno5pN1Vo4oMkcWHpxMC+
- H/A6aU6BriokmFMb16Ol5ITx1snr1WlTlj2XAva17n1/Te5SJcB1R6sHPg86lUuKx8Di4S
- yt27W16DPPZv6M8K+wUKPV9FbyCnrs6esZbGvVxHY4wmNNs3xC/VYu7j3KsBriqrBC9PYQ
- RlRugbk+ji2iX7TLEaAD1qmGRqlPz8Euzhe8PXqis52T06pD5qBkNdPE2f4NuMrp+mCnw+
- u5sxz0Ek4zAb51JLymcBcoZZHiZGCo2jBkhp53f1fX62tg7+hQaGiTyhiphHwQ==
+ bh=2S2u2MYDv39cuTkdT7rvNWL6/ujGlEoYexvzBfQ5Dqc=;
+ b=umJXEb9sPKF1Gx/SzlO0et4KWgKLbhO2WC3t2XLnWDDWaWTNIigJIMAyEpxJVMmhunEA1q
+ BpXL1iyJBZwpG8tlHCwjw5xxwaJ+z9EF1SOuCHH4rKo5l3+uGtxw745utO9lXFapGb1GG+
+ 2A14hN0670lvqkfIxHSZZUqLvmZeblUtKHopt6+NxgvlsUbrQE3Xii0NoHa41XcPVvZi6d
+ 8h2EPuYP0OnIjwR8Dko3TnRH65K3mIQ8ygyIyTTAC2PwDfm8Q9sEOsaffaUxAwGJFFvAtZ
+ yKQauJURV0gzEI/Qnns6VbkFJIMr9xO/aBadLSPjcy3dKmKvk49Ws433Cni2Gg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 10:42:18 +0100
-Message-Id: <DGT1RZRC2HD6.1LRG837BCF1UH@bootlin.com>
-Subject: Re: [PATCH v9 06/15] drm/bridge: analogix_dp: Remove redundant
- &analogix_dp_plat_data.skip_connector
+Date: Tue, 03 Mar 2026 10:42:22 +0100
+Message-Id: <DGT1S1RANKZB.2EQQ0Z8HXBFAC@bootlin.com>
 Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
@@ -61,10 +59,12 @@ Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
 To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v9 08/15] drm/bridge: analogix_dp: Remove unused
+ &analogix_dp_plat_data.get_modes()
 X-Mailer: aerc 0.20.1
 References: <20260210071225.2566099-1-damon.ding@rock-chips.com>
- <20260210071225.2566099-7-damon.ding@rock-chips.com>
-In-Reply-To: <20260210071225.2566099-7-damon.ding@rock-chips.com>
+ <20260210071225.2566099-9-damon.ding@rock-chips.com>
+In-Reply-To: <20260210071225.2566099-9-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,7 +80,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E94881EC079
+X-Rspamd-Queue-Id: 593631EC080
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -97,9 +97,9 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:jingoohan1@gmail.com,m:p.zabel@pengutronix.de,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:m.szyprowski@samsung.com,m:jani.nikula@intel.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:damon.ding@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:jingoohan1@gmail.com,m:p.zabel@pengutronix.de,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:m.szyprowski@samsung.com,m:jani.nikula@intel.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:damon.ding@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
 	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,samsung.com,rock-chips.com,sntech.de,oss.qualcomm.com,chromium.org,intel.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
@@ -120,8 +120,8 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 X-Rspamd-Action: no action
 
 On Tue Feb 10, 2026 at 8:12 AM CET, Damon Ding wrote:
-> The &analogix_dp_plat_data.skip_connector related check can be replaced
-> by &analogix_dp_plat_data.bridge.
+> The callback &analogix_dp_plat_data.get_modes() is not implemented
+> by either Rockchip side or Exynos side.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
