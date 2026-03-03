@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YP0oH2cKp2kDcgAAu9opvQ
+	id +NR4Cm8Kp2kDcgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:20:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:21:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC031F39AA
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96381F39C4
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E5410E855;
-	Tue,  3 Mar 2026 16:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7E810E84B;
+	Tue,  3 Mar 2026 16:21:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="X5m1oLwj";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nmAiXuzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011035.outbound.protection.outlook.com [52.101.52.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7B410E856;
- Tue,  3 Mar 2026 16:20:51 +0000 (UTC)
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013051.outbound.protection.outlook.com
+ [40.107.201.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D2310E84B;
+ Tue,  3 Mar 2026 16:21:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jvxupX1NAjEAcJH4URAl4APHbAJjGcHAsOXyvaIb+kOplQpwWsbLYtqoRS99+Dqg2UYm6rbhWmI0E+FQqZMw1l/YAZqL8sA2GnH0LE9ETwu28co9MH06ZSPS7KrPnloRfxvRe0ggJNfsRJ1Nvym/poieRgy2EscEatdcQBcuzIT0IXdjJeb491zvxN6Zcyo+MHosq5E7KVO64hrsh5wgVMU71oocYJ1akH87yp9ilPAPptAHlYj6vrTZEdfPHaTQvr77Gnl7sPLPFeWaHA++xe0StE2BScOSoxH6v1UMhHavbHuohtqxYLmI5bRrBsqcm30h/FqPhRvD4xcWgr7gCQ==
+ b=VrBWlLTHxPqEKF/k6R797SVcH+3LQV48JXhTC2vVt4JNYZVMLpVwb8os/T/thNbovJYSKZ0TneTmF3w787/0LzTZJ/MSQFSiSVlaS8ZbN81/KFCR+GAobXtFjCO/VHmgq0jPvIbQ3rnsnXEioEYPMMa6qfKFyEMSjF26rR5QzoStinvg52VxlydmbQkE/2ZtsjGxpjanTVgd4ZM6xtRu/WoqHCofLhaZ2Qwp2/M9hX9sj25B98zwI2wEoS1s0JPl0aOyQ4/jb9/cIQagjszMmXmCMm8/Qpn/t58IMWU1Qu3OwLIEOvcX0wZp1zCxq/j22rEcAUR5QvMRZiPNCJRzMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pjgl9TTAg98N2+x/BYZPZ4Guy4Yht+Hw9egt/s4xj0M=;
- b=iaAxhO4P7UEJdBHhGUMoeXj+RBUkZDl5dlyTHXuH9ETUO+HzUMGj1JIreHO24GEEOGO8HZd3ULE9RfqyI9BWMLKszFzBi0NGpqSc9987uKuo1Tk9tnzVq5dvvNd/5wzDaefrMK349luYmzc6tUYMUPQzVjZgcqRH65VXsGa+USWYOgbxCAwmmA0jhaePgtwnvN5Cv9HZbzcWZ9PGTHkfseG9IqXTfKntMYCHy0IFC7aFi4qcqE57VfiqPtsyZGc6xyBjMi+SNRuir00VS9KWyN1Fel35YkzRpWf3cj694SMYW4LWWPig0C178bHjq+2RkPQXj1FHvrjg9kzZ04qcLA==
+ bh=Q4rITWv9OU08zmFiVBjqua+/fgC++9xNKGZkviD7X64=;
+ b=U0v1FSDEIgAIL/IbU9JRuSQ7i7OgbibkXv6OoM+pltvONFhqZEXx5z8tXCWRLHvBONBqytQn+IGLK9ZN/1l3Et+Jfag2mcWDEryN1Pimu6P+bDa1YjgvdNfMDhzFsCaWnTZa7MduCBloAfX+CAj1AeiTTrItZl0jEX96T8PqRcIvQv4zojdH3CY8tC+r45lmQkquX3Np8EBDjkg1w1HPX/wU3dfFaHWhTTjMSfknE9iRnsx44wEmilvhgZDhsslLPgrsT0J39hLkb1IYCRRTz2tLm8/HN9RHzIOE0aYjDYIZCOvO2M9nDHBOTB+iHXFPZdQ7+wqSabR3rJ5Dwlibyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pjgl9TTAg98N2+x/BYZPZ4Guy4Yht+Hw9egt/s4xj0M=;
- b=X5m1oLwjTqnkgHMnvOO6n4nP0QRgb0Pa26eI3irQk31kqf6J+idHjCAZV/hc552VujpwKTpvuPNc3QHuzPhUPnhls7UIIW7kdWt3hc9tk5+nYZ04HvQQGvcYkr26unAkq+GZp2OJi8xM54WJZbFMnGo6/UQg0a0JFxsAGbYDk2k=
-Received: from PH7PR17CA0066.namprd17.prod.outlook.com (2603:10b6:510:325::15)
- by MW6PR12MB8950.namprd12.prod.outlook.com (2603:10b6:303:24a::8)
+ bh=Q4rITWv9OU08zmFiVBjqua+/fgC++9xNKGZkviD7X64=;
+ b=nmAiXuztU0NfUB207XxjF+vZSYWIJLgEtVtNmZtmuOf93b2AZongHNJxc0oS/uQUhH4lVs2uzgxpMPoiI8CHwlxo1vrKrv75ew/mNeoVZMPZVWaRrKLd39oMYo9fo0+yCQDUdultY1DuSNdNzzlRvZ3b0GwvPApnjVTIDr67uas=
+Received: from SN7PR18CA0005.namprd18.prod.outlook.com (2603:10b6:806:f3::24)
+ by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Tue, 3 Mar
- 2026 16:20:42 +0000
-Received: from SN1PEPF0002BA52.namprd03.prod.outlook.com
- (2603:10b6:510:325:cafe::77) by PH7PR17CA0066.outlook.office365.com
- (2603:10b6:510:325::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.26 via Frontend Transport; Tue,
- 3 Mar 2026 16:20:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 16:20:54 +0000
+Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
+ (2603:10b6:806:f3:cafe::c1) by SN7PR18CA0005.outlook.office365.com
+ (2603:10b6:806:f3::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.22 via Frontend Transport; Tue,
+ 3 Mar 2026 16:20:48 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -53,13 +54,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002BA52.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Tue, 3 Mar 2026 16:20:41 +0000
+ 15.20.9654.16 via Frontend Transport; Tue, 3 Mar 2026 16:20:52 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 3 Mar 2026 10:20:40 -0600
+ 15.2.2562.17; Tue, 3 Mar 2026 10:20:50 -0600
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
@@ -67,10 +68,10 @@ To: Alex Deucher <alexander.deucher@amd.com>,
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 3/6] drm/amdgpu: save ring content before resetting the
- device
-Date: Tue, 3 Mar 2026 17:18:16 +0100
-Message-ID: <20260303161824.7765-3-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 4/6] drm/amdgpu: extract amdgpu_vm_lock_by_pasid from
+ amdgpu_vm_handle_fault
+Date: Tue, 3 Mar 2026 17:18:17 +0100
+Message-ID: <20260303161824.7765-4-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260303161824.7765-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20260303161824.7765-1-pierre-eric.pelloux-prayer@amd.com>
@@ -82,29 +83,29 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA52:EE_|MW6PR12MB8950:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38398ae3-72a3-4a1e-e1c1-08de7940d0a4
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|CH2PR12MB4311:EE_
+X-MS-Office365-Filtering-Correlation-Id: 790101d6-bc0c-446b-a9f4-08de7940d6f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: XzcKT9g/KP7P10Smn8TU5O5AAQX/Tx3kuXLRQAVEvig/zu5GrSxlCVe7FHLvm+uEd+wje2EqCOhCJoJaFTQ1k4gWz4AqLxoVACA7QmeEO8Qj5Vr8DR21KiPYOiKMUFE5rD7u9s6KZkagSxEIZAJ1EJP3mlKu4RUpMTVgsIKIZpo4Zr4q47RH4SnM74s/P/KEkLYvkdYORCAQquhmmV66Vc+cHbxXHKiZemU+CgYtYyv5p+zlHjX1pLb4Xi0uy3iAdUnAYeF94ZFBtqwIGrvod3TYDHRNZqnAy5zTLUBZSll1MxO3toP0wzBg+85spCu84zYt+bSS3FWQ1o5Qdml8HzNB44UJk0R9jIKNDE+SLA6Pi/lSDyLk2a2QUCTix+0Kp+6DHg8QAFCr8HbyRjVvjFWkxEr/mi9tZDe3ZA2GJu50fP/Am7xBAV+dvqLwes3Efi25WZjrYO0kizXUBhNO5nSx0510QLqqPigGWwrz9sk3OULrF+nkmPRzlswijjKTaPi7PiGnDh0+0uOWLM+/qNpoHWIsbI+eSGOB7jwgDpZpJhhRtG1A7I8Zp7P9pf2JsJzon+F4zo0wUN6GJxpMfhtRsL3x6kLu7H9mrHXCELYLAnblpg7V66+AY3fdVSOU047ANuNVCYqgs1DBmaYlvScD3ye4P5T6Yv5LrtMNhwxTEKgc1/EBUBYzbfBa1GI4tRgu37tefpDNHORBWDMJkOxevAeCay7grn0yh+YEIT7NRxOZ4K0FT+j6xvvD5rJ0q3yNdtWgKKAXjT222JX+NQH+jKtYd/2J/3bi0Nhm7Kij1OiXy5STYkxwDqrafCAVMWkBB3jnNhDKpjh2m3FW+w==
+ ARA:13230040|82310400026|36860700013|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: BTk4iOFR0SIY9mjB3VG+NL+N963XSMeZ6iWI4Hw5z4FIMoQP3gkriO7OUCbfxBVn6PUSD/X/yqzDiZMMKKsKZ9vuf2BjQPu0o5EixryVmYpYpfQCKc1TnRklhlK7ftQT8k+pmDqTYJSqDCktcyp/I8TeaMVLvayTS/G5bHxkKzQ8vu0ONHQOE/ui/NoAKYwUM0mo2zAKBrAzi6C9IXZiIuCAGDfEospQ38I8blhVDB1gjolgtM5cw9wpMU1byVTGjL7V5luRNuGfFp01U+BvYVFaAgnQU6YQlZMvZbuW0uMZhLLO4isFhFJ/y1MSXZH9BcUEfjt+VdY2bUun2Abcs9xeMvWCIIj2SCKAFrJvo1ZSkIp21IgKXk+5dWqsilx27nlmcSQHOpfrXImlzqxiw043Zi/wlT8kP2goR4Hdmxvh0xbstmg7Lo5ueXq8e4w+kTrnjaDBqR/6cBz8mYb7kJVLG9DtMh5Ub7MmKhf+8CUr0+MylQWEUT6IVuzsUSu50WNbvbqedXFqraVmyBZmP+2zP1jRlXIBEvRryLiU2czbV3PMeoNJ2jQN3NNRkU2aMaqvWfF/zCIbZFoMO70RBobGJOWDI710mXzPAlgeA8L5iZEnJHkYNqXLgkr9Rvwj6K47a2ST0Hbsf18Y4LulQ0dWq59NVqWruPz6e6wTi3uAcQT6/L3RrFasbeIpgYQVyaJSljzqC2w+wupLIs+14uZmfm/NuEKiX5j0k3UMTUTN9Wlh/0OHPZDg6qXGLvwPm+W+rT9P2PGCYIwqVErSVb7ZEn9e/W5FL8wpBnFGnbjg36GTQiBP6NjMw7uMfuFTZtuTipwTEUa1GxtfTF3XJg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014); DIR:OUT;
+ SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: orB0ulNSip4Cs2w3b51cgUct2CU5qzABPWUcy0sSQnYOaawhbD+J3mNTb5xmvdSTkZG2AHJ1B6bw6vtcgRL1zCdZ8NMLVQW1L8cUNooCMDDmW4mNlgfbyGhdzzwGMCJB0ZUKUIUR1rF3rmZ7JrT6n6ZhoJltERnu1yuocE/d0oPLbPDfrffPFStcGSAFWRHKf2BvzvRHi+FMGAzqZDn3qsKCROdpC7QdYUGbZDH0G81SvxqPg8P+fptLEftprfXHGZbPsXFtYoV6LCNfHuhYMCjxe8vd0H1aoYKIhn/+Yc95rNVNGrJXuysa7rCUx+cmiR8Zfr1WSBS9/gH2495dDSYcYT06RWwxQwoaHAHTL8uUjWxixlYv6gEPvPv9s8i02Opezrcue7YeSoS04XzwsFEoejR2GydRvJessRNe4rryTaOZDkGq8dA7QFHY0+W+
+X-MS-Exchange-AntiSpam-MessageData-0: jyeLe2spuwEy0W/T+LkIh/cA9uNg5EaDTeeLJuKywKNir0gNd4/dQptMpuaZnp4SDn4x2QSSnMLToDHa1LVfaz+XissTBhQSkgWg4vsNXww3v5nUrTvF77090LEnW19GJtEiUA0OQFmgTE/U2Yml6ntAUgVSL6W7AeWMxCRCrt+YSl9xFDmTawbA7o87xD+Cykg/vSY3Wv2FT+afmJM14XJkiSyC8UgdutbvYhsWTCCrKUnW1/5SYoc5lUziEyO2KR99jdmhYIDj4gZwh+l//YK+dfG/9Rn4/x6esVBryoF/9WM7IQNbDvx1woQEYW5rZIruIMgnMbDwZb84y303mS3rLz6OE2A8Dzhh8m4670PowrK70pfSvblYJ5Y30tXzdiaicCUAs3ZjWZyNcRMY3KJ2svTEKY6YzX8kzk6r9bufWJbRNwxRQyIZpz2iQU23
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 16:20:41.7901 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38398ae3-72a3-4a1e-e1c1-08de7940d0a4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 16:20:52.4126 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 790101d6-bc0c-446b-a9f4-08de7940d6f9
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA52.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA50.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8950
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,7 +120,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2DC031F39AA
+X-Rspamd-Queue-Id: C96381F39C4
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
@@ -151,174 +152,154 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Otherwise the content might not be relevant.
-
-When a coredump is generated the rings with outstanding fences
-are saved and then printed to the final devcoredump from the
-worker thread.
-Since this requires memory allocation, the ring capture might
-be missing from the generated devcoredump.
+This is tricky to implement right and we're going to need
+it from the devcoredump.
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 82 +++++++++++++++----
- .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h  | 12 +++
- 2 files changed, 78 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 84 +++++++++++++++++---------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h |  3 +
+ 2 files changed, 57 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 0c7fc3800f17..58b2e764dd7c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -207,7 +207,9 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 	struct drm_print_iterator iter;
- 	struct amdgpu_vm_fault_info *fault_info;
- 	struct amdgpu_ip_block *ip_block;
--	int ver;
-+	struct amdgpu_ring *ring;
-+	int ver, i, j;
-+	u32 ring_idx, off;
- 
- 	iter.data = buffer;
- 	iter.offset = 0;
-@@ -297,23 +299,25 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 
- 	/* Add ring buffer information */
- 	drm_printf(&p, "Ring buffer information\n");
--	for (int i = 0; i < coredump->adev->num_rings; i++) {
--		int j = 0;
--		struct amdgpu_ring *ring = coredump->adev->rings[i];
-+	if (coredump->num_rings) {
-+		for (i = 0; i < coredump->num_rings; i++) {
-+			ring_idx = coredump->rings[i].ring_index;
-+			ring = coredump->adev->rings[ring_idx];
-+			off = coredump->rings[i].offset;
- 
--		drm_printf(&p, "ring name: %s\n", ring->name);
--		drm_printf(&p, "Rptr: 0x%llx Wptr: 0x%llx RB mask: %x\n",
--			   amdgpu_ring_get_rptr(ring),
--			   amdgpu_ring_get_wptr(ring),
--			   ring->buf_mask);
--		drm_printf(&p, "Ring size in dwords: %d\n",
--			   ring->ring_size / 4);
--		drm_printf(&p, "Ring contents\n");
--		drm_printf(&p, "Offset \t Value\n");
-+			drm_printf(&p, "ring name: %s\n", ring->name);
-+			drm_printf(&p, "Rptr: 0x%llx Wptr: 0x%llx RB mask: %x\n",
-+				   coredump->rings[i].rptr,
-+				   coredump->rings[i].wptr,
-+				   ring->buf_mask);
-+			drm_printf(&p, "Ring size in dwords: %d\n",
-+				ring->ring_size / 4);
-+			drm_printf(&p, "Ring contents\n");
-+			drm_printf(&p, "Offset \t Value\n");
- 
--		while (j < ring->ring_size) {
--			drm_printf(&p, "0x%x \t 0x%x\n", j, ring->ring[j / 4]);
--			j += 4;
-+			for (j = 0; j < ring->ring_size; j += 4)
-+				drm_printf(&p, "0x%x \t 0x%x\n", j,
-+					   coredump->rings_dw[off + j / 4]);
- 		}
- 	}
- 
-@@ -353,6 +357,8 @@ static void amdgpu_devcoredump_free(void *data)
- 	struct amdgpu_coredump_info *coredump = data;
- 
- 	kvfree(coredump->formatted);
-+	kvfree(coredump->rings);
-+	kvfree(coredump->rings_dw);
- 	kvfree(data);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 807f8bcc7de5..6a5b3e148554 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2930,6 +2930,50 @@ int amdgpu_vm_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+ 	return 0;
  }
  
-@@ -390,6 +396,9 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
- 	struct drm_device *dev = adev_to_drm(adev);
- 	struct amdgpu_coredump_info *coredump;
- 	struct drm_sched_job *s_job;
-+	u64 total_ring_size, ring_count;
-+	struct amdgpu_ring *ring;
-+	int i, off, idx;
++/**
++ * amdgpu_vm_lock_by_pasid - return an amdgpu_vm and its root bo from a pasid, if possible.
++ * @adev: amdgpu device pointer
++ * @root: root BO of the VM
++ * @pasid: PASID of the VM
++ * The caller needs to unreserve and unref the root bo on success.
++ */
++struct amdgpu_vm *amdgpu_vm_lock_by_pasid(struct amdgpu_device *adev,
++					  struct amdgpu_bo **root, u32 pasid)
++{
++	unsigned long irqflags;
++	struct amdgpu_vm *vm;
++	int r;
++
++	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
++	vm = xa_load(&adev->vm_manager.pasids, pasid);
++	*root = vm ? amdgpu_bo_ref(vm->root.bo) : NULL;
++	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
++
++	if (!*root)
++		return NULL;
++
++	r = amdgpu_bo_reserve(*root, true);
++	if (r)
++		goto error_unref;
++
++	/* Double check that the VM still exists */
++	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
++	vm = xa_load(&adev->vm_manager.pasids, pasid);
++	if (vm && vm->root.bo != *root)
++		vm = NULL;
++	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
++	if (!vm)
++		goto error_unlock;
++
++	return vm;
++error_unlock:
++	amdgpu_bo_unreserve(*root);
++
++error_unref:
++	amdgpu_bo_unref(root);
++	return NULL;
++}
++
+ /**
+  * amdgpu_vm_handle_fault - graceful handling of VM faults.
+  * @adev: amdgpu device pointer
+@@ -2945,50 +2989,31 @@ int amdgpu_vm_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+  * shouldn't be reported any more.
+  */
+ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+-			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
+-			    bool write_fault)
++			    u32 vmid, u32 node_id, uint64_t addr,
++			    uint64_t ts, bool write_fault)
+ {
+ 	bool is_compute_context = false;
+ 	struct amdgpu_bo *root;
+-	unsigned long irqflags;
+ 	uint64_t value, flags;
+ 	struct amdgpu_vm *vm;
+ 	int r;
  
- 	/* No need to generate a new coredump if there's one in progress already. */
- 	if (work_pending(&adev->coredump_work))
-@@ -417,6 +426,47 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
- 		coredump->ring = to_amdgpu_ring(s_job->sched);
+-	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
+-	vm = xa_load(&adev->vm_manager.pasids, pasid);
+-	if (vm) {
+-		root = amdgpu_bo_ref(vm->root.bo);
+-		is_compute_context = vm->is_compute_context;
+-	} else {
+-		root = NULL;
+-	}
+-	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
+-
+-	if (!root)
++	vm = amdgpu_vm_lock_by_pasid(adev, &root, pasid);
++	if (!vm)
+ 		return false;
+ 
++	is_compute_context = vm->is_compute_context;
++
+ 	addr /= AMDGPU_GPU_PAGE_SIZE;
+ 
+-	if (is_compute_context && !svm_range_restore_pages(adev, pasid, vmid,
+-	    node_id, addr, ts, write_fault)) {
++	if (is_compute_context &&
++		!svm_range_restore_pages(adev, pasid, vmid, node_id, addr,
++					ts, write_fault)) {
++		amdgpu_bo_unreserve(root);
+ 		amdgpu_bo_unref(&root);
+ 		return true;
  	}
  
-+	/* Dump ring content if memory allocation succeeds. */
-+	ring_count = 0;
-+	total_ring_size = 0;
-+	for (i = 0; i < adev->num_rings; i++) {
-+		ring = adev->rings[i];
-+
-+		/* Only dump rings with unsignalled fences. */
-+		if (atomic_read(&ring->fence_drv.last_seq) == ring->fence_drv.sync_seq &&
-+		    coredump->ring != ring)
-+			continue;
-+
-+		total_ring_size += ring->ring_size;
-+		ring_count++;
-+	}
-+	coredump->rings_dw = kzalloc(total_ring_size, GFP_NOWAIT);
-+	coredump->rings = kcalloc(ring_count, sizeof(struct amdgpu_coredump_ring), GFP_NOWAIT);
-+	if (coredump->rings && coredump->rings_dw) {
-+		for (i = 0, off = 0, idx = 0; i < adev->num_rings; i++) {
-+			ring = adev->rings[i];
-+
-+			if (atomic_read(&ring->fence_drv.last_seq) == ring->fence_drv.sync_seq &&
-+			    coredump->ring != ring)
-+				continue;
-+
-+			coredump->rings[idx].ring_index = ring->idx;
-+			coredump->rings[idx].rptr = amdgpu_ring_get_rptr(ring);
-+			coredump->rings[idx].wptr = amdgpu_ring_get_wptr(ring);
-+			coredump->rings[idx].offset = off;
-+
-+			memcpy(&coredump->rings_dw[off], ring->ring, ring->ring_size);
-+			off += ring->ring_size;
-+			idx++;
-+		}
-+		coredump->num_rings = idx;
-+	} else {
-+		kvfree(coredump->rings_dw);
-+		kvfree(coredump->rings);
-+		coredump->rings_dw = NULL;
-+		coredump->rings = NULL;
-+	}
-+
- 	coredump->adev = adev;
+-	r = amdgpu_bo_reserve(root, true);
+-	if (r)
+-		goto error_unref;
+-
+-	/* Double check that the VM still exists */
+-	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
+-	vm = xa_load(&adev->vm_manager.pasids, pasid);
+-	if (vm && vm->root.bo != root)
+-		vm = NULL;
+-	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
+-	if (!vm)
+-		goto error_unlock;
+-
+ 	flags = AMDGPU_PTE_VALID | AMDGPU_PTE_SNOOPED |
+ 		AMDGPU_PTE_SYSTEM;
  
- 	ktime_get_ts64(&coredump->reset_time);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-index b3582d0b4ca4..5d6c58abf589 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
-@@ -31,6 +31,13 @@
+@@ -3027,7 +3052,6 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+ 	if (r < 0)
+ 		dev_err(adev->dev, "Can't handle page fault (%d)\n", r);
  
- #define AMDGPU_COREDUMP_VERSION "1"
+-error_unref:
+ 	amdgpu_bo_unref(&root);
  
-+struct amdgpu_coredump_ring {
-+	u64				rptr;
-+	u64				wptr;
-+	u32				ring_index;
-+	u32				offset;
-+};
+ 	return false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+index 139642eacdd0..2051eda55c99 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+@@ -589,6 +589,9 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+ 			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
+ 			    bool write_fault);
+ 
++struct amdgpu_vm *amdgpu_vm_lock_by_pasid(struct amdgpu_device *adev,
++					  struct amdgpu_bo **root, u32 pasid);
 +
- struct amdgpu_coredump_info {
- 	struct amdgpu_device            *adev;
- 	struct amdgpu_task_info         reset_task_info;
-@@ -39,6 +46,11 @@ struct amdgpu_coredump_info {
- 	bool                            skip_vram_check;
- 	bool                            reset_vram_lost;
- 	struct amdgpu_ring              *ring;
-+
-+	struct amdgpu_coredump_ring	*rings;
-+	u32				*rings_dw;
-+	u32				num_rings;
-+
- 	/* Readable form of coredevdump, generate once to speed up
- 	 * reading it (see drm_coredump_printer's documentation).
- 	 */
+ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
+ 
+ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
 -- 
 2.43.0
 
