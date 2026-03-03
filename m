@@ -2,74 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cExZCBkPp2k0cwAAu9opvQ
+	id UK8xKSQPp2k0cwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:40:57 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:41:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA371F3F64
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298121F3F7A
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0579D10E860;
-	Tue,  3 Mar 2026 16:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638C610E86C;
+	Tue,  3 Mar 2026 16:41:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qj26QLCC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hqoRkAxf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F238910E860
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 16:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772556051; x=1804092051;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=LFge7hCh8BNomYatHofqGMkYz9qIzaDpKU3qy29De2g=;
- b=Qj26QLCCS9dl10DRJxF7DNnrSRAPR4WFFfd0M1uAOSIt7Ak31j164/98
- TAFFgCWa0Yj5mThFJlEChVY4ggSNc7/0WGkxQ4pxbr1dwyI0d7ngDILoQ
- CYeGspdTW/5aNJ3SswQEGf0fdSJt5AL9PRzXatUc3d2Og1EBNmzJUixfp
- p1ZG2LSKM8OAaRuFDTs+WR9qgUi1h5UJdZspsdxVYyMpVXrKHAxxmiIx3
- NBkskcYY7sh2pv8AKyKbaG74kdIv4CJTp5gT3bG8WW0AwJpFe4ns0xFr8
- b4VbkiFxN2VuXrtrQDYZaXgCUJVfy/Yd3sKyPcITPZ/HoWIR1aZPEoTRS A==;
-X-CSE-ConnectionGUID: 1KzMKUISQpigARnkKOxGhg==
-X-CSE-MsgGUID: rEj/LUkYQ1qShjyR6gVG9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="61176207"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="61176207"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 08:40:48 -0800
-X-CSE-ConnectionGUID: ztPfAseESfG+sREecl6Bpw==
-X-CSE-MsgGUID: U8wakuLOQoav51u7TWpitA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="248543180"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.25])
- ([10.245.245.25])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 08:40:45 -0800
-Message-ID: <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
-Date: Tue, 3 Mar 2026 17:40:43 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F307010E86B;
+ Tue,  3 Mar 2026 16:41:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B5D9E4349C;
+ Tue,  3 Mar 2026 16:41:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BD9C116C6;
+ Tue,  3 Mar 2026 16:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772556064;
+ bh=0LFa7vXZyD9LMEFVvzGin3tMycV+fpDYSnfRCbWLcEE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hqoRkAxfE5twbIJWM8Ud9CZqn2sf98qKjlHpYvR8ECBXvt8ol3xRSaeN3+irT6sZB
+ /1GDoD4Y1P7qEsKPh92/JptcJVXV3grvE8FdpeQCTzoMK1VNA9NwLI/ddd3FOhN32B
+ LAw9wRjM5pfLAUnQ/rFdLuhbIoBlD58yH08Q9Oa4Y9wZkmM4k4+jm9wUOFPWEJR0bB
+ x7Rq7FGb3nH9RSRPkzdn9r7PUUIWIqAF4sA97GNw6Ewd3//K4RjHZWizQuO5U21W1S
+ so3AlHzhXfaFGCsaJRJV83dn1sbvi62l2YHvxlUrwvYq0oMSKtiZyBjdhsMSS9T2Z8
+ B9cHur4uyhIbg==
+Message-ID: <139c7644-99e8-4d5a-a88e-74bf2b14f2cc@kernel.org>
+Date: Tue, 3 Mar 2026 17:40:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: Julian Orth <ju.orth@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
- <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
- <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
- <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
- <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/13] drm/amdkfd: Use migrate pfns internally
+To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ziy@nvidia.com, apopple@nvidia.com, lorenzo.stoakes@oracle.com,
+ lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com,
+ willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
+ intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com,
+ jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
+ ying.huang@linux.alibaba.com
+References: <20260202113642.59295-1-jniethe@nvidia.com>
+ <20260202113642.59295-3-jniethe@nvidia.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260202113642.59295-3-jniethe@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,191 +115,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4FA371F3F64
+X-Rspamd-Queue-Id: 298121F3F7A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:michel.daenzer@mailbox.org,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,mailbox.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,oracle.com,redhat.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au,linux.alibaba.com];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,linux.intel.com:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nvidia.com:email]
 X-Rspamd-Action: no action
 
-Hey,
-
-Den 2026-03-03 kl. 16:36, skrev Julian Orth:
-> On Tue, Mar 3, 2026 at 4:29 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>
->> On 3/3/26 15:59, Christian König wrote:
->>> On 3/3/26 15:53, Maarten Lankhorst wrote:
->>>> Hey,
->>>>
->>>> Den 2026-03-01 kl. 13:34, skrev Julian Orth:
->>>>> Consider the following application:
->>>>>
->>>>>     #include <fcntl.h>
->>>>>     #include <string.h>
->>>>>     #include <drm/drm.h>
->>>>>     #include <sys/ioctl.h>
->>>>>
->>>>>     int main(void) {
->>>>>         int fd = open("/dev/dri/renderD128", O_RDWR);
->>>>>         struct drm_syncobj_create arg1;
->>>>>         ioctl(fd, DRM_IOCTL_SYNCOBJ_CREATE, &arg1);
->>>>>         struct drm_syncobj_handle arg2;
->>>>>         memset(&arg2, 1, sizeof(arg2)); // simulate dirty stack
->>>>>         arg2.handle = arg1.handle;
->>>>>         arg2.flags = 0;
->>>>>         arg2.fd = 0;
->>>>>         arg2.pad = 0;
->>>>>         // arg2.point = 0; // userspace is required to set point to 0
->>>>>         ioctl(fd, DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD, &arg2);
->>>>>     }
->>>>>
->>>>> The last ioctl returns EINVAL because args->point is not 0. However,
->>>>> userspace developed against older kernel versions is not aware of the
->>>>> new point field and might therefore not initialize it.
->>>>>
->>>>> The correct check would be
->>>>>
->>>>>     if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
->>>>>         return -EINVAL;
->>>>>
->>>>> However, there might already be userspace that relies on this not
->>>>> returning an error as long as point == 0. Therefore use the more lenient
->>>>> check.
->>>>>
->>>>> Fixes: c2d3a7300695 ("drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs")
->>>>> Signed-off-by: Julian Orth <ju.orth@gmail.com>
->>>>
->>>> I'm not convinced this is the correct fix.
->>>> Userspace built before the change had the old size for drm_syncobj_create,
->>>> the size is encoded into the ioctl, and zero extended as needed.
->>>>
->>>> See drivers/gpu/drm/drm_ioctl.c:
->>>>      out_size = in_size = _IOC_SIZE(cmd);
->>>>      ...
->>>>      if (ksize > in_size)
->>>>              memset(kdata + in_size, 0, ksize - in_size);
->>>>
->>>> This is a bug in a newly built app, and should be handled by explicitly zeroing
->>>> the entire struct or using named initializers, and only setting specific members
->>>> as required.
->>>>
->>>> In particular, apps built before the change will never encounter this bug.
->>>
->>> Yeah, I've realized that after pushing the patch as well.
->>>
->>> But I still think this patch is the right thing to do, because without requesting the functionality by setting the flag the point should clearly not have any effect at all.
->>>
->>> And when an application would have only explicitly assigned the fields known previously and then later been compiled with the new points field it would have failed.
->>>
->>> It is good practice to memset() structures given to the kernel so that all bytes are zero initialized, but it is not documented as mandatory as far as I know.
->>
->> Even though it may not be documented, it is in fact mandatory. Otherwise it's not possible to safely extend ioctl structs in general.
+On 2/2/26 12:36, Jordan Niethe wrote:
+> A future change will remove device private pages from the physical
+> address space. This will mean that device private pages no longer have a
+> pfn.
 > 
-> The intention of the original patch was to ignore the args->points
-> field if the flag is not set:
+> A MIGRATE_PFN flag will be introduced that distinguishes between mpfns
+> that contain a pfn vs an offset into device private memory.
 > 
->     if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
->         point = args->point;
+> Replace usages of pfns and page_to_pfn() with mpfns and
+> migrate_pfn_to_page() to prepare for handling this distinction. This
+> will assist in continuing to use the same code paths for both
+> MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT devices.
 > 
-> Using args->point unconditionally later was therefore a mistake.
-There is precedence in the ioctl, the pad member is checked against zero for the same reason.
-The check was there because it is invalid to pass when IMPORT/EXPORT_SYNC_FILE was not set.
+> Acked-by: Balbir Singh <balbirs@nvidia.com>
+> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+> ---
+> v2:
+>   - New to series
+> v3:
+>   - No change
+> v4:
+>   - No change
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 15 +++++++--------
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |  2 +-
+>  2 files changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> index 297fa108ccf9..b6075a2808c2 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> @@ -210,17 +210,17 @@ svm_migrate_copy_done(struct amdgpu_device *adev, struct dma_fence *mfence)
+>  }
+>  
+>  unsigned long
+> -svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr)
+> +svm_migrate_addr_to_mpfn(struct amdgpu_device *adev, unsigned long addr)
+>  {
+> -	return (addr + adev->kfd.pgmap.range.start) >> PAGE_SHIFT;
+> +	return migrate_pfn((addr + adev->kfd.pgmap.range.start) >> PAGE_SHIFT);
+>  }
 
-This is what I would recommend instead:
+To make it clearer that the result is a "migrate pfn" I'd call this.
 
-----
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 2d4ab745fdad9..176fac24a3198 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -857,7 +857,6 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 	struct drm_syncobj_handle *args = data;
- 	unsigned int valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
- 				   DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
--	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -868,15 +867,14 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 	if (args->flags & ~valid_flags)
- 		return -EINVAL;
- 
--	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
--		point = args->point;
-+	if (!(args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE) &&
-+	    !(args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE) &&
-+	      args->point)
-+		return -EINVAL;
- 
- 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
- 		return drm_syncobj_export_sync_file(file_private, args->handle,
--						    point, &args->fd);
--
--	if (args->point)
--		return -EINVAL;
-+						    args->point, &args->fd);
- 
- 	return drm_syncobj_handle_to_fd(file_private, args->handle,
- 					&args->fd);
-@@ -889,7 +887,6 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 	struct drm_syncobj_handle *args = data;
- 	unsigned int valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
- 				   DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
--	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -900,17 +897,16 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 	if (args->flags & ~valid_flags)
- 		return -EINVAL;
- 
--	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
--		point = args->point;
-+	if (!(args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE) &&
-+	    !(args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE) &&
-+	      args->point)
-+		return -EINVAL;
- 
- 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
- 		return drm_syncobj_import_sync_file_fence(file_private,
- 							  args->fd,
- 							  args->handle,
--							  point);
--
--	if (args->point)
--		return -EINVAL;
-+							  args->point);
- 
- 	return drm_syncobj_fd_to_handle(file_private, args->fd,
- 					&args->handle);
+svm_addr_to_migrate_pfn()
 
+Not sure if maintainers have any other preference.
+
+Apart from that LGTM (someone should convert this code to use folios ;) ).
+
+-- 
+Cheers,
+
+David
