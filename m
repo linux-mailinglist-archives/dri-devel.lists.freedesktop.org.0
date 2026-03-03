@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLZnIQytpmn9SgAAu9opvQ
+	id CJcxKg6tpmn9SgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:36 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593631EC080
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576FE1EC087
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A92C10E756;
-	Tue,  3 Mar 2026 09:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B298B10E757;
+	Tue,  3 Mar 2026 09:42:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="umJXEb9s";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iH5gkeS8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1977610E756
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 245FA10E757
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:42:35 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id A9376C40FAB;
- Tue,  3 Mar 2026 09:42:47 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 1E995C40FB0;
+ Tue,  3 Mar 2026 09:42:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0A62E5FF87;
- Tue,  3 Mar 2026 09:42:30 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7D5085FF29;
+ Tue,  3 Mar 2026 09:42:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 52DA110369680; Tue,  3 Mar 2026 10:42:23 +0100 (CET)
+ with ESMTPSA id 6472F103682E0; Tue,  3 Mar 2026 10:42:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1772530947; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1772530950; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=2S2u2MYDv39cuTkdT7rvNWL6/ujGlEoYexvzBfQ5Dqc=;
- b=umJXEb9sPKF1Gx/SzlO0et4KWgKLbhO2WC3t2XLnWDDWaWTNIigJIMAyEpxJVMmhunEA1q
- BpXL1iyJBZwpG8tlHCwjw5xxwaJ+z9EF1SOuCHH4rKo5l3+uGtxw745utO9lXFapGb1GG+
- 2A14hN0670lvqkfIxHSZZUqLvmZeblUtKHopt6+NxgvlsUbrQE3Xii0NoHa41XcPVvZi6d
- 8h2EPuYP0OnIjwR8Dko3TnRH65K3mIQ8ygyIyTTAC2PwDfm8Q9sEOsaffaUxAwGJFFvAtZ
- yKQauJURV0gzEI/Qnns6VbkFJIMr9xO/aBadLSPjcy3dKmKvk49Ws433Cni2Gg==
+ bh=b4FnwUyggxbhER6+JVaL2FhJxctsR5DXdCcHIQG0bqY=;
+ b=iH5gkeS8EZnmbrNwNRBfYKZfDj2+6dd92LdeVnRYQEQmt43nZ0slJ3kwfCRyYzBwnuQ0zi
+ pYo/JLluMaAiNz8ZATi9AOBiCaz7D4rKgBt5dgvjyVdIfdXGXrf2U0TiMXhVoV0I9ITfic
+ e6yms5btiQDbmY+cEXAiC05DC2JxL4OVgt4w6oxlr11HpEguqvvs7r+lriNP2HjrviKk8/
+ g3WtTxiJespsFV8mqBkic79SaORNJjLrGUMJGXgGY4s7wwCBCj5MLEGY2tSl0vV564NlBF
+ aT6wn+7sdS1AU6gCtYoqjK+adzSy3+x1vWXVknLbN0AXkcXg6RPuafs+U9Hv3A==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 10:42:22 +0100
-Message-Id: <DGT1S1RANKZB.2EQQ0Z8HXBFAC@bootlin.com>
+Date: Tue, 03 Mar 2026 10:42:25 +0100
+Message-Id: <DGT1S368J0BK.3UA75JNEA1AB8@bootlin.com>
+Subject: Re: [PATCH v9 09/15] drm/bridge: analogix_dp: Apply
+ drm_bridge_connector helper
 Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
@@ -59,12 +61,10 @@ Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
 To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v9 08/15] drm/bridge: analogix_dp: Remove unused
- &analogix_dp_plat_data.get_modes()
 X-Mailer: aerc 0.20.1
 References: <20260210071225.2566099-1-damon.ding@rock-chips.com>
- <20260210071225.2566099-9-damon.ding@rock-chips.com>
-In-Reply-To: <20260210071225.2566099-9-damon.ding@rock-chips.com>
+ <20260210071225.2566099-10-damon.ding@rock-chips.com>
+In-Reply-To: <20260210071225.2566099-10-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,7 +80,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 593631EC080
+X-Rspamd-Queue-Id: 576FE1EC087
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -116,19 +116,82 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:email,qualcomm.com:email,sntech.de:email,samsung.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:email,sntech.de:email,samsung.com:email]
 X-Rspamd-Action: no action
 
+Hello Damon,
+
 On Tue Feb 10, 2026 at 8:12 AM CET, Damon Ding wrote:
-> The callback &analogix_dp_plat_data.get_modes() is not implemented
-> by either Rockchip side or Exynos side.
+> Apply drm_bridge_connector helper for Analogix DP driver.
+>
+> The following changes have been made:
+> - Apply drm_bridge_connector helper to get rid of &drm_connector_funcs
+>   and &drm_connector_helper_funcs.
+> - Remove unnecessary parameter struct drm_connector* for callback
+>   &analogix_dp_plat_data.attach.
+> - Remove &analogix_dp_device.connector.
+> - Convert analogix_dp_atomic_check()/analogix_dp_detect() to
+>   &drm_bridge_funcs.atomic_check()/&drm_bridge_funcs.detect().
+> - Split analogix_dp_get_modes() into &drm_bridge_funcs.get_modes() and
+>   &drm_bridge_funcs.edid_read().
+> - Set flag DRM_BRIDGE_ATTACH_NO_CONNECTOR for bridge attachment while
+>   binding. Meanwhile, make DRM_BRIDGE_ATTACH_NO_CONNECTOR unsuppported
+                             ^
+
+Do you mean "!DRM_BRIDGE_ATTACH_NO_CONNECTOR" here (i.e. missing '!')?
+
+Also, unsuppported -> unsupported (typo)
+
+>   in analogix_dp_bridge_attach().
+> - Set &drm_bridge.ops according to different cases.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > Tested-by: Heiko Stuebner <heiko@sntech.de> (on rk3588)
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+I had a quick look, looks good overall, for the moment I have only a
+question, see below.
+
+I aim at reviewing this patch in depth, but it's not an easy one to
+digest. Would it be feasible to split it in smaller logical steps? If it
+is, please do, it would be very helpful for reviewing.
+
+> @@ -1532,6 +1481,7 @@ EXPORT_SYMBOL_GPL(analogix_dp_resume);
+>
+>  int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *d=
+rm_dev)
+>  {
+> +	struct drm_bridge *bridge =3D &dp->bridge;
+>  	int ret;
+>
+>  	dp->drm_dev =3D drm_dev;
+> @@ -1545,7 +1495,18 @@ int analogix_dp_bind(struct analogix_dp_device *dp=
+, struct drm_device *drm_dev)
+>  		return ret;
+>  	}
+>
+> -	ret =3D drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
+> +	if (dp->plat_data->panel)
+> +		bridge->ops =3D DRM_BRIDGE_OP_MODES | DRM_BRIDGE_OP_DETECT;
+> +	else
+> +		bridge->ops =3D DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
+> +
+> +	bridge->of_node =3D dp->dev->of_node;
+> +	bridge->type =3D DRM_MODE_CONNECTOR_eDP;
+> +	ret =3D devm_drm_bridge_add(dp->dev, &dp->bridge);
+
+Can devm_drm_bridge_add() be added to analogix_dp_probe() instead?
+
+> +	if (ret)
+> +		goto err_unregister_aux;
+> +
+> +	ret =3D drm_bridge_attach(dp->encoder, bridge, NULL, DRM_BRIDGE_ATTACH_=
+NO_CONNECTOR);
+>  	if (ret) {
+>  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+>  		goto err_unregister_aux;
+
+Luca
 
 --
 Luca Ceresoli, Bootlin
