@@ -2,100 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILTEG1TdpmnRXwAAu9opvQ
+	id uLfuGVjdpmkEYAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:08:36 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:08:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C825C1EFE5E
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641801EFE7D
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4F110E7D0;
-	Tue,  3 Mar 2026 13:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACABC10E805;
+	Tue,  3 Mar 2026 13:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PkjnB4sR";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="anOKweMP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B2vOx485";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Auaih7/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 465C410E7FB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 13:08:32 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 715B010E7FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 13:08:36 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6239moWi2614205
- for <dri-devel@lists.freedesktop.org>; Tue, 3 Mar 2026 13:08:31 GMT
+ 6239muB82736101
+ for <dri-devel@lists.freedesktop.org>; Tue, 3 Mar 2026 13:08:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- EKM1A0OBXmPdZyZjolZrK4PtsUrsUB25P42bpvnjkS0=; b=PkjnB4sRyh0U6jD+
- ySRH7n8BSFrKW9Qe9lRzHswaZxJol0aFfaJ/pYTma73PerqdPHgFa4X2HujSlmAY
- yUluBb5XLwB1sCbwuL4U+nFX3g/O831u34fGnghJp4oyrDiRTrlHNWe2+0nWdqeE
- g6WOa0vWBmzoMSFs7dJztYCyDAuzih5YR+JUwXSozyKURlAw9Jv2ERTl9a7HKBKx
- DFOU4e6joiUvF+MyZB78ygxaOyXZMdWLlqdrI8FNWcuvC8ZW2qrnEq3MSzhfekHJ
- 6DKe9UD369Hnq2LvXULNoqn8TlO8jcbXFJpbmXaNyJZNrGE3c59BIkBAn0ttDhap
- bQZNUg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cnvxf8p0n-1
+ 8xVqSxzb8Gx/OXYlUpwc1ht5p1yYFS/pP5SVduKoWSQ=; b=B2vOx485Jgd7iO6S
+ mIysokdZHhYU8oJZiwqhqoVNhcCivsfnxPbotaAcllE87YVq0hAUi8iKicFW32oo
+ gmc4pJS4NDkuihthd8a4xq4+dD00ptVVlQrTi08tHlLQPLjqTudQXIBQwTkoIQqa
+ HagG0zFbgRUm4dev27mO2CKp9gIVkAao/ae6dFtQ8eFPlBFLDYg0gqnbndKOwSbe
+ HhfPk/4nHrqJXO4a5YkDr1qjxYt7wGeqi7bWeWfHqsJ3hcz52Az3LHPMPjAfev/i
+ RR287R9kBNw4eAiuQ3TuliT9hgEW2EuJS9Ji0WbpQHB56ayGboG54vZV/8KS4G8x
+ cr3PlQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cnswe1c2q-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:08:31 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8cb3a129cd2so4534087685a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 05:08:31 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:08:35 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c71500f274so569477185a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 05:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772543311; x=1773148111;
+ d=oss.qualcomm.com; s=google; t=1772543315; x=1773148115;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EKM1A0OBXmPdZyZjolZrK4PtsUrsUB25P42bpvnjkS0=;
- b=anOKweMPl8Le7ba0G+owXzvZXJJSlEMXZ/TjFKhiNP8P2gAP3l72F93a+c79le0lGa
- iDYoH/nQw+eW0jkKFy5ncffFmoob5rhazVvsPKcMmJF09gTJf9n+9pFykDoqXs9TrJpB
- jdqrJEAgNuH5XyBYB9qkvVg69iQPuVzbhdLzBVo4QkmLOmAKMzs1I6JGfJXeVx0jRXT/
- 4dWILwP5tbYs/bxfTFBwcugc4P7prJ5O41Kjp4wkZn2GK2MFuMqbbW3lOUjo4hlcjbV+
- 6vvzj2asYHrVTbIM5SYYo5Qup0r6zOv2JPtfbNn4jj74L0L9DUQNjbhWDvoK6RLjS5W5
- xIXA==
+ :reply-to; bh=8xVqSxzb8Gx/OXYlUpwc1ht5p1yYFS/pP5SVduKoWSQ=;
+ b=Auaih7/6ivKU5omLwDU/BPEdtPJt7nTqeIkJqDIsgCuJSoVX6f8qU0IEeIDpgkoWWK
+ nBguQbLgwTW8mB6blJDJplIPCsfmzxYGE5AYa7NSi/meIP9bTitab+rSHDviWLM7o5Mq
+ REK4gYsjKrKzz3SG7MCeMAbLgu1hTjjIhaewaFf4Zi+HOOqjAByyfJeHnvmqLuyDZ5kc
+ EX2u1ynEVT4nJyM9ZtnqD8U8nilfWroq6uW2GzcVxCIyOb95Ozz93/MKknu9kj9ZOQjV
+ aO+U4HPESnzV5y7h8oucYSC7NkMZ+vt1jUIudoRlMPzcBmgyejnuR+cqGt8INBMrYlVS
+ PAKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772543311; x=1773148111;
+ d=1e100.net; s=20230601; t=1772543315; x=1773148115;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=EKM1A0OBXmPdZyZjolZrK4PtsUrsUB25P42bpvnjkS0=;
- b=TBJkfyTcufCYm/DFTA2xyBqnHBjV448qmh1AvLVccgj3xuSONEh8SJSuor2AeAAqDQ
- oh8yuLdTyG7UVrQzmxRVQADy2dvk7nANO/03WbFrxvIZw9q5ytwprf6ax6PM4WUMBsby
- aFCFNA26GRCo5LKasWZrvEsULM5f2hwtati2eUq8hM76GbWhJYC+SOIMh3WBcBRPotNn
- fDMor/+xzdmofzeQVnVhUzGtOGqyLz8eFt4V2/2qs8UpLL3OkfW4dVwu+uKhbASWnf9n
- 0gQmvxCuojdz2qLRNbRgJjvxB9ZrqBhV378UIBcPBeuKE+TV0iUs2Rn8Bcyhxy4gGUVS
- Oa9Q==
+ bh=8xVqSxzb8Gx/OXYlUpwc1ht5p1yYFS/pP5SVduKoWSQ=;
+ b=YHWjArXLV7uCSaafjnSURQ3D3Jx1LpaCAM6NOeEhrQGYOJPryjJfy4n6+CiS7rsqcY
+ x4X3vSw/nnDPuDnccjoaGbIjHBLVB8FtUEewni8R3GAuB7gMVEn+gCqGyS4RM8aq9kxm
+ xBOEUa79Oy2N7i5imR4yPEdDun7rkQe1eKiS5r/ddf/1zpF37pVuYBy5P/4EvupE8kk+
+ 4ZkwTzRv1u8kIuD60X9nAIVJSPOurc2vh54y1qytugKpEbrgR1I0wA0Oj5rps8QJq6me
+ dZgbLipmZVveAEqDdoXzPwTJr+L6ddYJGBkbapfxPmatC1WBIa5ymYsgUmtbRYX+GwNS
+ YNFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVE2L2ZHnC87uUj+6BxZV4BuHFuOr1Z57Fel68eElaIKsFFpyOClEvKJVp1D+qEiqc4yU1HpQUCgg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzn5uU9k4zjTRosBa0iGnlFupi46DQ52IQZf8QZxuHTPSdn8h+6
- v0xraqtjLqGwllVsuFbVU3pNYaftW1l7728WmghvjhWp4nx34G+24PAI27HgedzgpXt1F9xOIi3
- al1/ox0UeAypGOX0kWaDp/42tio57Recqde7/++yt4auv71JrJcj4P7PLsLpcpfY9U8oNxxI=
-X-Gm-Gg: ATEYQzypFKD5+7uNfgYszyZ1o4a1R6bO2lId2hzXcC0Oc146oU+LvBNkCgWsfzpXAH9
- 0teO6pFTRS7gaeONEchXLD82YdtMho2v+x/k4zY4CIOduC7uB+jzi8GVegBvc+1mrYB+8kkITUo
- ++BcEfVNi0HQQEVXT4Wyp18VHqAL7rQSPEtiGnYeEF1yBbk9Dh5Rn1Vsz6xKfiFBGc2xzJ6dovN
- Wy9jt3BuMRFPDKYOq84fW6+rOg8FySylMGptYiY2mo1ezJzuS7BE0dfbSI+DEjKUNHwFEgFfEvV
- D+jPpe0YvWuJQnHi9EcrbLJYcOd8psW2ppFyV41EA3Sj63FrIfB5lTLx62pWVh9TovgeO+nzfXf
- O8bRau21e8LgvJF9vActlcEglj2HcyLHAh1BxqkhrfAmt
-X-Received: by 2002:a05:620a:d89:b0:8cb:1e3c:96fa with SMTP id
- af79cd13be357-8cd50917db1mr199825885a.11.1772543310724; 
- Tue, 03 Mar 2026 05:08:30 -0800 (PST)
-X-Received: by 2002:a05:620a:d89:b0:8cb:1e3c:96fa with SMTP id
- af79cd13be357-8cd50917db1mr199820685a.11.1772543310151; 
- Tue, 03 Mar 2026 05:08:30 -0800 (PST)
+ AJvYcCUE1kXVZQplQa2pzfQlUXnlWshwU6/tN1e4KrhUzboolNQk72dBvlMaIDA3sQh+mF/Iy4Id67FbU1A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwS4s9jN8hFXy9MzuvGdVm9nOf1Ri7BbG2gUfxof1ArtQHbP//P
+ lextrQBE2yoiq2sO79B8STaIA6eVO4rqjNBqE0tPDmDw//t7I2UCDCklYT/TEWphgOI+6wt1RSw
+ 8odNIGUFODvNsXKsBVo8ipVBr2mB2HdSWOLVKJLJqWPPgWbEjlRxXYZjq2N4b11SM4iQdIAg=
+X-Gm-Gg: ATEYQzyOgusVo8Jh5Cq+tWL2duvI5fT1LfpzdNyFZ1Th1be3ZhqnK9wTgOMyFVJObFq
+ htDjQhBqmfWhHKA23ffroFAZH+epWRZRqCx6fB1h+POLaINtF+fZfOAn39jy2sqsanB8UsSVoAw
+ J0a6l0n/7L2emXPh26KzJx2k3v3/Lp7/Sh85TunuIigv+pT4faRZhyn1yNCeKz1tCAmLuu1mBxt
+ 4qqpo2y60ilA4TU+evEKBPZyxYTftwdG9zWCuwrmFOFuuYvxWD/gQFVUviAH2Rt0jEMp8cCUGr7
+ TrKwWEnLNMcT7N4xwtk8HVqB0R18o3bGdDzPz6w2Ay5WjgjzGvjJ568IZNW9KAqFey0jrRm9kQI
+ SMHyywO9VwLhmInonUe+J8j3Na7vsHPgGeiDbI+Vp5VAU
+X-Received: by 2002:a05:620a:40c6:b0:8c6:a809:862a with SMTP id
+ af79cd13be357-8cbc8f15f3fmr2000619985a.45.1772543314662; 
+ Tue, 03 Mar 2026 05:08:34 -0800 (PST)
+X-Received: by 2002:a05:620a:40c6:b0:8c6:a809:862a with SMTP id
+ af79cd13be357-8cbc8f15f3fmr2000612785a.45.1772543314001; 
+ Tue, 03 Mar 2026 05:08:34 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.219.94]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-485126563ddsm26253495e9.3.2026.03.03.05.08.26
+ 5b1f17b1804b1-485126563ddsm26253495e9.3.2026.03.03.05.08.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2026 05:08:29 -0800 (PST)
+ Tue, 03 Mar 2026 05:08:33 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Date: Tue, 03 Mar 2026 14:07:56 +0100
-Subject: [PATCH 6/8] soc: qcom: ubwc: Add configuration Eliza SoC
+Date: Tue, 03 Mar 2026 14:07:57 +0100
+Subject: [PATCH 7/8] drm/msm/dpu: Add support for Eliza SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-drm-display-eliza-v1-6-814121dbb2bf@oss.qualcomm.com>
+Message-Id: <20260303-drm-display-eliza-v1-7-814121dbb2bf@oss.qualcomm.com>
 References: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
 In-Reply-To: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -119,45 +119,45 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=967;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12769;
  i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=a04VvScGPy8agTNS+26kjliVeVh+QgZ02tt89F9pBKQ=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBppt0w+e8kZdLFm81TaK0gDpWNMnyVUTIVLqqmU
- MgAlA+Tix6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaabdMAAKCRDBN2bmhouD
- 14jYD/9Ud50BEEesW23DcIVppmrbC2UIVuyhv3fn+5VFk17pVfPJUlqg35n9lsHfx8epiy0N+Yn
- 8DLCRPmVECNELwwS6VCOq5UpBc/kxDNbOsOLfX4iLAAGSVC+fxkqgvfPvNf5ZOO7OSSi8FAf4Xm
- oUCQlR6R5VTeLV8xbmvlbKAEHnXFVzJ6ZdWj0yEZtXusPkEkLHJmbUl0Bdl3hFJWnKmfsB2PMi8
- HrHe2VkCjl8gnOeamsdPj6uSJDhtS0oyer3eBiQd1TfnuWz0QiOXwWw0z5SFaiEoW13Kwwbnpwl
- vwjNpL8/asijrsHMoE7SVuHw04lhqE9SOBjhUufG2QMzq60o7XG1Mr4lwff8k8D46dm4px2KeyN
- lwOIRDwE1XXgmGjBGUN11UgowDnrWjLuG0zeWVh352BB8V1e0sh1oGU4PTYP9GQJrKLIG6PqABW
- b1NeqdKwM99aZ82q8f0jnSxXwLpOw9LwyfaHtFqbte7uPpuFXUVdYQ84gX/XVvtqokcPV33B40T
- pgNx6Xrgv97RazD/zGFWK9f7DhHaZ/yn4ACwS7XrOi/eHd+0Z7DJSgHw4oCrokBIW3CTV0472uh
- P0hIq/81N9T2hH7teud1T4DHxbhRwJRPzyjJg1IvUo87dQit0zhM8pZK/M34kie+wVZ1DfiSXGr
- axU5Hwa7IXYZ0pw==
+ bh=mg3cgdFC97FWfUrb9+ShMVDPv7tjEPXw0RKb+29/bTM=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBppt0xa5rLRBQacTB+6IoHg8FaEzLuql6ImVE8g
+ edZlgnzzfSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaabdMQAKCRDBN2bmhouD
+ 10YfD/99GYAUJvcUKWzOY3OEYcMlffUk9rbO/J0UDhvv9T3j0Fj9lET2aFzDZKZkVPLuWmBRAgI
+ KVKOmaywvTafrMBkqZ4+5thTMx+H5IMR+qv35eTUBoBlqwPNV9Zia5LOvZsrUSNdMedr1shiZCD
+ EQ6I8JjqPIG2Hp6e6n1EVx8jJRpjkePKrVA2zacXtOVzTcZRQDB91RFskIJxmrS9Zk+R+5nRZq3
+ LW9EmViX7hyhYJDeepqP5iiWbcP49qY+a5BXxs1LTFYx1bMBv9ANYMZgsMKpeHFxvjTmdZlpjOY
+ cd3cxbCmABrZxwyzBPrSxei5KnlqziZ5fI+FwvYK8cxABIsljV6bma64j8FmrJmcYdpF4wfOVkZ
+ qyEzZu+J9zL3ldrkXCd573q7G3hKBEu5ELSOcaozUZmPKg4JSgXlpzBldYcnx+7eKT6aHqrNCp6
+ gFqcEIjr5AkzMvy3ORdEeCM/LoxI5232NqfbjEc0/LUOI5E4c/r8VIQVtJlBcpmDUpR1Q7diN4L
+ KEj+1jDX1d8wrK6coGhDtABht5swOTxltEUGoE2UeDoLdb8OeCq7VlYdNpzAP0CfaF5h+WR/KPd
+ aJ/4+lFLzbFIUc4zb7c6/5zHZUdozY8JlIB+czJPdLXO5JFPDRqtavKzeCxtkIKKFBQPdznqo73
+ s54f7xu9hmVKoMA==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDEwMyBTYWx0ZWRfXybHWOJ6/H6uf
- uKbOahe5fnP47B6UcqwNYYq3kD70J1ru8/g8GrF/XyBgmISUmqC5Qie23pjaN0oUkuEwE0Ar5fj
- jvFUf5LqAOp0wCYXeJuEBf4IVsLIn2Hfao3LOaqp+jE6tj9WxP/EbciUre/cxLGhloIrnHGjgcd
- i6VdUAwV1Qcs6KMYX+UjtRgJbkz1yP44F3bqz7aY9lmKk4uMK69FDrA9nt3NE014DXHhIIZqpD7
- W/E11pUTRHDYvEg2XJbNHYjulD/GkIqVnkqtOVG29HQd3P5D1F6W8VmJ5DIVnP0HzbX9ifODYzw
- XiJ5d06D4ifPgdLbcEFnlayeCaAW3QYe7GS9T1nmDwpL4IxwGsAQ/lbCMr9Bshe8WblC83mNW4U
- Nqe/Ssq1QOIq1r8XDvgnQIOIPvTWsmXcgw2EabeZ3nQu+Hv9r3F9F9PkfklEV3004QtxHBSPXky
- TGQxMADraGF/eX0vjcw==
-X-Proofpoint-ORIG-GUID: b8mSe2HdVMxcyH7Ln2AbNpgUgjrrK3Sq
-X-Authority-Analysis: v=2.4 cv=S+HUAYsP c=1 sm=1 tr=0 ts=69a6dd4f cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+X-Proofpoint-ORIG-GUID: MlTuSn4wPKMqYVAmYlwuAu9LT_WOxFeL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDEwMyBTYWx0ZWRfX54DR5Z+rJ4pB
+ L7/aM57Ue0RMn1X8qJKi5hCV+jsWYvo6MLtYoGSK0WRQ/b176geWJGCs9a463a7ZWLn+z9ZtZCY
+ B0lw9P0qBHJso2GqMFHE959L+SibxZNnHdNemGUf8BZef89/v+FMbXtyB80U2Km09SsLyC5DuT9
+ 5MmUyKXD6FThRaAoi4/oAM0ez2bSu8UlHoZOH6deYm6vN0SMMeefQuSHvpJ+yydsj+shX39+AIu
+ 3iIl8mBG91dgwrGaJi2UcSLEQKZNVavAHYUb9AYmLHfHjsCd8u1on7/MixJ+OvQ35Xp2elUy1wn
+ Go6emwg7RSIWbGH3C4GefYikMIJ8Q09m+9sYAEVQcsypYeFUzb6WJnmrYC78owNuy+RJUP+2Tlv
+ mLuxbqUF8FqkAEMdRB0jAL9D+5l8LSGhDPJSmrVOT2ZZIquaRGh5KDUdWAMRJYcj0YWbBO2tRcw
+ 8/nNhE01sBzVB8orAaw==
+X-Authority-Analysis: v=2.4 cv=TtHrRTXh c=1 sm=1 tr=0 ts=69a6dd53 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=vC3vRzACQ60yIF8bxv8A:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: b8mSe2HdVMxcyH7Ln2AbNpgUgjrrK3Sq
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=iownPTfTGqJqHk1l-jUA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: MlTuSn4wPKMqYVAmYlwuAu9LT_WOxFeL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 spamscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030103
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -174,7 +174,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C825C1EFE5E
+X-Rspamd-Queue-Id: 641801EFE7D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -208,29 +208,425 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid]
 X-Rspamd-Action: no action
 
-Add entry to OF table for matching the Eliza SoC, using same
-configuration as SM8550.
+Add support for DPU (v12.4) on Qualcomm Eliza SoC, with one
+incomplete/skipped part: HDMI interface (INT_4).
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- drivers/soc/qcom/ubwc_config.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h | 365 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ 4 files changed, 368 insertions(+)
 
-diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
-index 1c25aaf55e52..3f32622aedda 100644
---- a/drivers/soc/qcom/ubwc_config.c
-+++ b/drivers/soc/qcom/ubwc_config.c
-@@ -245,6 +245,7 @@ static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
- 	{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,apq8096", .data = &msm8998_data },
- 	{ .compatible = "qcom,kaanapali", .data = &kaanapali_data, },
-+	{ .compatible = "qcom,eliza", .data = &sm8550_data, },
- 	{ .compatible = "qcom,glymur", .data = &glymur_data},
- 	{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h
+new file mode 100644
+index 000000000000..90f6a9a4aae8
+--- /dev/null
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h
+@@ -0,0 +1,365 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef _DPU_12_4_ELIZA_H
++#define _DPU_12_4_ELIZA_H
++
++static const struct dpu_caps eliza_dpu_caps = {
++	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.max_mixer_blendstages = 0xb,
++	.has_src_split = true,
++	.has_dim_layer = true,
++	.has_idle_pc = true,
++	.has_3d_merge = true,
++	.max_linewidth = 8192,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++};
++
++static const struct dpu_mdp_cfg eliza_mdp = {
++	.name = "top_0",
++	.base = 0, .len = 0x494, // not verified
++	.clk_ctrls = {
++		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
++	},
++};
++
++static const struct dpu_ctl_cfg eliza_ctl[] = {
++	{
++		.name = "ctl_0", .id = CTL_0,
++		.base = 0x15000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
++	}, {
++		.name = "ctl_1", .id = CTL_1,
++		.base = 0x16000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
++	}, {
++		.name = "ctl_2", .id = CTL_2,
++		.base = 0x17000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
++	}, {
++		.name = "ctl_3", .id = CTL_3,
++		.base = 0x18000, .len = 0x1000,
++		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
++	},
++};
++
++static const struct dpu_sspp_cfg eliza_sspp[] = {
++	{
++		.name = "sspp_0", .id = SSPP_VIG0,
++		.base = 0x4000, .len = 0x344,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_4,
++		.xin_id = 0,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_1", .id = SSPP_VIG1,
++		.base = 0x6000, .len = 0x344,
++		.features = VIG_SDM845_MASK_SDMA,
++		.sblk = &dpu_vig_sblk_qseed3_3_4,
++		.xin_id = 4,
++		.type = SSPP_TYPE_VIG,
++	}, {
++		.name = "sspp_8", .id = SSPP_DMA0,
++		.base = 0x24000, .len = 0x344,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 1,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_9", .id = SSPP_DMA1,
++		.base = 0x26000, .len = 0x344,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 5,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_10", .id = SSPP_DMA2,
++		.base = 0x28000, .len = 0x344,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 9,
++		.type = SSPP_TYPE_DMA,
++	}, {
++		.name = "sspp_11", .id = SSPP_DMA3,
++		.base = 0x2a000, .len = 0x344,
++		.features = DMA_SDM845_MASK_SDMA,
++		.sblk = &dpu_dma_sblk,
++		.xin_id = 13,
++		.type = SSPP_TYPE_DMA,
++	},
++};
++
++static const struct dpu_lm_cfg eliza_lm[] = {
++	{
++		.name = "lm_0", .id = LM_0,
++		.base = 0x44000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_1,
++		.pingpong = PINGPONG_0,
++		.dspp = DSPP_0,
++	}, {
++		.name = "lm_1", .id = LM_1,
++		.base = 0x45000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_0,
++		.pingpong = PINGPONG_1,
++		.dspp = DSPP_1,
++	}, {
++		.name = "lm_2", .id = LM_2,
++		.base = 0x46000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_3,
++		.pingpong = PINGPONG_2,
++		.dspp = DSPP_2,
++	}, {
++		.name = "lm_3", .id = LM_3,
++		.base = 0x47000, .len = 0x400,
++		.features = MIXER_MSM8998_MASK,
++		.sblk = &sm8750_lm_sblk,
++		.lm_pair = LM_2,
++		.pingpong = PINGPONG_3,
++	},
++};
++
++static const struct dpu_dspp_cfg eliza_dspp[] = {
++	{
++		.name = "dspp_0", .id = DSPP_0,
++		.base = 0x54000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	}, {
++		.name = "dspp_1", .id = DSPP_1,
++		.base = 0x56000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	}, {
++		.name = "dspp_2", .id = DSPP_2,
++		.base = 0x58000, .len = 0x1800,
++		.sblk = &sm8750_dspp_sblk,
++	},
++};
++
++static const struct dpu_pingpong_cfg eliza_pp[] = {
++	{
++		.name = "pingpong_0", .id = PINGPONG_0,
++		.base = 0x69000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_0,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
++	}, {
++		.name = "pingpong_1", .id = PINGPONG_1,
++		.base = 0x6a000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_0,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
++	}, {
++		.name = "pingpong_2", .id = PINGPONG_2,
++		.base = 0x6b000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_1,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
++	}, {
++		.name = "pingpong_3", .id = PINGPONG_3,
++		.base = 0x6c000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_1,
++		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
++	}, {
++		.name = "pingpong_cwb_0", .id = PINGPONG_CWB_0,
++		.base = 0x66000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_2,
++	}, {
++		.name = "pingpong_cwb_1", .id = PINGPONG_CWB_1,
++		.base = 0x66400, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_2,
++	}, {
++		.name = "pingpong_cwb_2", .id = PINGPONG_CWB_2,
++		.base = 0x7e000, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_3,
++	}, {
++		.name = "pingpong_cwb_3", .id = PINGPONG_CWB_3,
++		.base = 0x7e400, .len = 0,
++		.sblk = &sc7280_pp_sblk,
++		.merge_3d = MERGE_3D_3,
++	},
++};
++
++static const struct dpu_merge_3d_cfg eliza_merge_3d[] = {
++	{
++		.name = "merge_3d_0", .id = MERGE_3D_0,
++		.base = 0x4e000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_1", .id = MERGE_3D_1,
++		.base = 0x4f000, .len = 0x1c,
++	}, {
++		.name = "merge_3d_2", .id = MERGE_3D_2,
++		.base = 0x66700, .len = 0x1c,
++	}, {
++		.name = "merge_3d_3", .id = MERGE_3D_3,
++		.base = 0x7e700, .len = 0x1c,
++	},
++};
++
++/*
++ * NOTE: Each display compression engine (DCE) contains dual hard
++ * slice DSC encoders so both share same base address but with
++ * its own different sub block address.
++ */
++static const struct dpu_dsc_cfg eliza_dsc[] = {
++	{
++		.name = "dce_0_0", .id = DSC_0,
++		.base = 0x80000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	}, {
++		.name = "dce_0_1", .id = DSC_1,
++		.base = 0x80000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_1,
++	}, {
++		.name = "dce_1_0", .id = DSC_2,
++		.base = 0x81000, .len = 0x8,
++		.features = BIT(DPU_DSC_NATIVE_42x_EN),
++		.sblk = &sm8750_dsc_sblk_0,
++	},
++};
++
++static const struct dpu_wb_cfg eliza_wb[] = {
++	{
++		.name = "wb_2", .id = WB_2,
++		.base = 0x65000, .len = 0x2c8,
++		.features = WB_SDM845_MASK,
++		.format_list = wb2_formats_rgb_yuv,
++		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
++		.xin_id = 6,
++		.vbif_idx = VBIF_RT,
++		.maxlinewidth = 4096,
++		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++	},
++};
++
++static const struct dpu_cwb_cfg eliza_cwb[] = {
++	{
++		.name = "cwb_0", .id = CWB_0,
++		.base = 0x66200, .len = 0x20,
++	},
++	{
++		.name = "cwb_1", .id = CWB_1,
++		.base = 0x66600, .len = 0x20,
++	},
++	{
++		.name = "cwb_2", .id = CWB_2,
++		.base = 0x7e200, .len = 0x20,
++	},
++	{
++		.name = "cwb_3", .id = CWB_3,
++		.base = 0x7e600, .len = 0x20,
++	},
++};
++
++static const struct dpu_intf_cfg eliza_intf[] = {
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x4bc,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x4bc,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x36000, .len = 0x4bc,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x37000, .len = 0x4bc,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++	}
++};
++
++static const struct dpu_perf_cfg eliza_perf_data = {
++	.max_bw_low = 6800000,
++	.max_bw_high = 14200000,
++	.min_core_ib = 2500000,
++	.min_llcc_ib = 0,
++	.min_dram_ib = 1600000,
++	.min_prefill_lines = 35,
++	.danger_lut_tbl = {0x3ffff, 0x3ffff, 0x0},
++	.safe_lut_tbl = {0xfe00, 0xfe00, 0xffff},
++	.qos_lut_tbl = {
++		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
++		.entries = sc7180_qos_linear
++		},
++		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
++		.entries = sc7180_qos_macrotile
++		},
++		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
++		.entries = sc7180_qos_nrt
++		},
++		/* TODO: macrotile-qseed is different from macrotile */
++	},
++	.cdp_cfg = {
++		{.rd_enable = 1, .wr_enable = 1},
++		{.rd_enable = 1, .wr_enable = 0}
++	},
++	.clk_inefficiency_factor = 105,
++	.bw_inefficiency_factor = 120,
++};
++
++static const struct dpu_mdss_version eliza_mdss_ver = {
++	.core_major_ver = 12,
++	.core_minor_ver = 4,
++};
++
++const struct dpu_mdss_cfg dpu_eliza_cfg = {
++	.mdss_ver = &eliza_mdss_ver,
++	.caps = &eliza_dpu_caps,
++	.mdp = &eliza_mdp,
++	.cdm = &dpu_cdm_5_x,
++	.ctl_count = ARRAY_SIZE(eliza_ctl),
++	.ctl = eliza_ctl,
++	.sspp_count = ARRAY_SIZE(eliza_sspp),
++	.sspp = eliza_sspp,
++	.mixer_count = ARRAY_SIZE(eliza_lm),
++	.mixer = eliza_lm,
++	.dspp_count = ARRAY_SIZE(eliza_dspp),
++	.dspp = eliza_dspp,
++	.pingpong_count = ARRAY_SIZE(eliza_pp),
++	.pingpong = eliza_pp,
++	.dsc_count = ARRAY_SIZE(eliza_dsc),
++	.dsc = eliza_dsc,
++	.merge_3d_count = ARRAY_SIZE(eliza_merge_3d),
++	.merge_3d = eliza_merge_3d,
++	.wb_count = ARRAY_SIZE(eliza_wb),
++	.wb = eliza_wb,
++	.cwb_count = ARRAY_SIZE(eliza_cwb),
++	.cwb = sm8650_cwb,
++	.intf_count = ARRAY_SIZE(eliza_intf),
++	.intf = eliza_intf,
++	.vbif_count = ARRAY_SIZE(sm8650_vbif),
++	.vbif = sm8650_vbif,
++	.perf = &eliza_perf_data,
++};
++
++#endif
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index c4e1f6b7345d..b096b748707e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -771,4 +771,5 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+ #include "catalog/dpu_10_0_sm8650.h"
+ #include "catalog/dpu_12_0_sm8750.h"
+ #include "catalog/dpu_12_2_glymur.h"
++#include "catalog/dpu_12_4_eliza.h"
+ #include "catalog/dpu_13_0_kaanapali.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 70d5ed4732f2..dedab08ea1d7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -767,6 +767,7 @@ struct dpu_mdss_cfg {
+ 	const struct dpu_format_extended *vig_formats;
+ };
+ 
++extern const struct dpu_mdss_cfg dpu_eliza_cfg;
+ extern const struct dpu_mdss_cfg dpu_glymur_cfg;
+ extern const struct dpu_mdss_cfg dpu_kaanapali_cfg;
+ extern const struct dpu_mdss_cfg dpu_msm8917_cfg;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 449552513997..4054ed5743af 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1507,6 +1507,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
+ };
+ 
+ static const struct of_device_id dpu_dt_match[] = {
++	{ .compatible = "qcom,eliza-dpu", .data = &dpu_eliza_cfg, },
+ 	{ .compatible = "qcom,glymur-dpu", .data = &dpu_glymur_cfg, },
+ 	{ .compatible = "qcom,kaanapali-dpu", .data = &dpu_kaanapali_cfg, },
+ 	{ .compatible = "qcom,msm8917-mdp5", .data = &dpu_msm8917_cfg, },
 
 -- 
 2.51.0
