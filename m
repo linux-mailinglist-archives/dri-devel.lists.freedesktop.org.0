@@ -2,71 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCSyGHcDp2k7bgAAu9opvQ
+	id qIkEGqkEp2k7bgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:51:19 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:56:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9574C1F2F4E
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E2A1F30FD
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:56:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C3A10E83F;
-	Tue,  3 Mar 2026 15:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D4B10E052;
+	Tue,  3 Mar 2026 15:56:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZzdtIyth";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8BD10E083
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 15:51:14 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vxS16-000579-GX; Tue, 03 Mar 2026 16:50:36 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vxS11-003ZRH-2s;
- Tue, 03 Mar 2026 16:50:33 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
- (envelope-from <mfe@pengutronix.de>) id 1vxS13-0000000G7Cv-0QPS;
- Tue, 03 Mar 2026 16:50:33 +0100
-Date: Tue, 3 Mar 2026 16:50:33 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- luca.ceresoli@bootlin.com, 
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v11 3/3] arm64: dts: imx93: Add parallel display output
- nodes
-Message-ID: <5esgi6k7sji6nwmp7ch3xcajrc6xxc3yfxe2iqq6z6wuvznuts@ytchokq2uy5t>
-References: <20260303-v6-18-topic-imx93-parallel-display-v11-0-1b03733c8461@pengutronix.de>
- <20260303-v6-18-topic-imx93-parallel-display-v11-3-1b03733c8461@pengutronix.de>
- <tyqgkbmkmenkdqdptb3baeizmvsdoyfjnaudlpb4jnz4py7cpb@oy64pijka2yz>
- <aacCBGRAd6JbktHU@lizhi-Precision-Tower-5810>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE2BE10E052;
+ Tue,  3 Mar 2026 15:56:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9138140320;
+ Tue,  3 Mar 2026 15:56:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49097C116C6;
+ Tue,  3 Mar 2026 15:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772553380;
+ bh=docXN/j7MOnJzfbztgBR+4k4s7H02SISB2RKfeW0qo0=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=ZzdtIyth46gErNXR0r6WhugMyRnjR7EEDJuMNo9h7G9w+7AchH7hWiJnVWefCzQdz
+ 5s2+sEECu4jHA+OlZbWLFjC0wdfWl6KbINixJjxirQpfzraKjmrgafAQ6DIUhYgcI3
+ WBhfJOgNHSGoJ09+qA7SV55zofbwcauceVwEPyYqovYNoB0E9/BWu9vZWtGAOuqEZH
+ lS17j3XPfsJlcwRHaTt4cYwFa5+ALpTsPcIvb6v9Lc3BrH/t6Sdj3mqDMvepRPUaDi
+ pZqRXL4toSYN8jUmMxa7WZYMBsm9jhWxkMS/q09O4Ov1f89MhtH1eAexJVMjx8FX/B
+ GElQVoakP4Vjg==
+Date: Tue, 03 Mar 2026 09:56:19 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aacCBGRAd6JbktHU@lizhi-Precision-Tower-5810>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Sean Paul <sean@poorly.run>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Maxime Ripard <mripard@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Jonathan Marek <jonathan@marek.ca>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260303-drm-display-eliza-v1-5-814121dbb2bf@oss.qualcomm.com>
+References: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
+ <20260303-drm-display-eliza-v1-5-814121dbb2bf@oss.qualcomm.com>
+Message-Id: <177255337948.3355290.6523186852223801021.robh@kernel.org>
+Subject: Re: [PATCH 5/8] dt-bindings: display/msm: qcom,eliza-mdss: Add
+ Eliza SoC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,205 +78,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9574C1F2F4E
+X-Rspamd-Queue-Id: 02E2A1F30FD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.39 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[poorly.run,kernel.org,suse.de,gmail.com,vger.kernel.org,quicinc.com,ffwll.ch,linux.intel.com,linux.dev,linaro.org,lists.freedesktop.org,marek.ca,oss.qualcomm.com,somainline.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[4c100000:email,4ae30000:email,0.0.0.2:email]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-On 26-03-03, Frank Li wrote:
-> On Tue, Mar 03, 2026 at 11:42:08AM +0100, Marco Felsch wrote:
-> > Hi Frank,
-> >
-> > On 26-03-03, Marco Felsch wrote:
-> > > Add required OF nodes to support the i.MX93 parallel output (DPI) path.
-> > >
-> > > On the i.MX93 a single LCDIF is connected to three bridges: DPI, LVDS
-> > > LDB and the MIPI-DSI whereas the i.MX91 support only the DPI bridge.
-> > >
-> > > Map endpoint@0 as DPI bridge output since the i.MX93 TRM (Figure 485.
-> > > MEDIAMIX block diagram) doesn't mention any port-number <-> bridge
-> > > combination.
-> > >
-> > > Set the MEDIA-AXI and MEDIA-APB clocks to the overdrive (OD) values
-> > > since the i.MX93 and i.MX91 use the overdrive (OD) clk settings per
-> > > default.
-> > >
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> >
-> > Please ignore this particular patch since you already applied this one.
-> 
-> You can skip these when you post new version. post delta if need update,
-> I can squash to previous patch as need.
-> 
-> >
-> > Next time we should align the apply with the rest of the patch series if
-> > dt-bindings and driver behaviors are involved. In such case the final
-> > integration patch should be merged at the end and not at the beginning
-> > :)
-> 
-> You request apply at :)
-> https://lore.kernel.org/all/fl2br7rtcjrjj2uqxva7ai3xbvjwrrbbl2ruaoqolrccr2rd5p@z33qfx7dpavf/
 
-I meant the whole series :) Although I'm unaware which maintainer is
-taken which part. Sorry for causing troubles on your site. However if
-you would try to apply this on your tree, git would have told you that
-nothing needs to be applied because this patch is untouched.
-
-Regards,
-  Marco
-
+On Tue, 03 Mar 2026 14:07:55 +0100, Krzysztof Kozlowski wrote:
+> Add MDSS/MDP display subsystem for Qualcomm Eliza SoC, being overall a
+> minor revision change against SM8750, but coming with few different
+> components, like different DSI PHY and added HDMI.
 > 
-> Frank
-> >
-> > Thanks,
-> >   Marco
-> >
-> > > ---
-> > >  arch/arm64/boot/dts/freescale/imx91_93_common.dtsi | 54 ++++++++++++++++++++++
-> > >  arch/arm64/boot/dts/freescale/imx93.dtsi           | 12 +++++
-> > >  2 files changed, 66 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-> > > index 7958cef353766a430df5e626ff2403dc05a974b1..5a8813df6bc993d559fb0b20fc742a106bfe6315 100644
-> > > --- a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-> > > +++ b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-> > > @@ -1122,8 +1122,62 @@ media_blk_ctrl: system-controller@4ac10000 {
-> > >  				 <&clk IMX93_CLK_MIPI_DSI_GATE>;
-> > >  			clock-names = "apb", "axi", "nic", "disp", "cam",
-> > >  				      "pxp", "lcdif", "isi", "csi", "dsi";
-> > > +			assigned-clocks = <&clk IMX93_CLK_MEDIA_AXI>,
-> > > +					  <&clk IMX93_CLK_MEDIA_APB>,
-> > > +					  <&clk IMX93_CLK_MEDIA_DISP_PIX>;
-> > > +			assigned-clock-parents = <&clk IMX93_CLK_SYS_PLL_PFD1>,
-> > > +						 <&clk IMX93_CLK_SYS_PLL_PFD1_DIV2>,
-> > > +						 <&clk IMX93_CLK_VIDEO_PLL>;
-> > > +			assigned-clock-rates = <400000000>, <133333333>;
-> > >  			#power-domain-cells = <1>;
-> > >  			status = "disabled";
-> > > +
-> > > +			dpi_bridge: dpi-bridge {
-> > > +				compatible = "nxp,imx93-pdfc";
-> > > +				status = "disabled";
-> > > +
-> > > +				ports {
-> > > +					#address-cells = <1>;
-> > > +					#size-cells = <0>;
-> > > +
-> > > +					port@0 {
-> > > +						reg = <0>;
-> > > +
-> > > +						dpi_from_lcdif: endpoint {
-> > > +							remote-endpoint = <&lcdif_to_dpi>;
-> > > +						};
-> > > +					};
-> > > +
-> > > +					port@1 {
-> > > +						reg = <1>;
-> > > +
-> > > +						dpi_to_panel: endpoint {
-> > > +						};
-> > > +					};
-> > > +				};
-> > > +			};
-> > > +		};
-> > > +
-> > > +		lcdif: display-controller@4ae30000 {
-> > > +			compatible = "fsl,imx93-lcdif";
-> > > +			reg = <0x4ae30000 0x23c>;
-> > > +			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			clocks = <&clk IMX93_CLK_MEDIA_DISP_PIX>,
-> > > +				 <&clk IMX93_CLK_LCDIF_GATE>,
-> > > +				 <&clk IMX93_CLK_MEDIA_AXI>;
-> > > +			clock-names = "pix", "axi", "disp_axi";
-> > > +			power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_LCDIF>;
-> > > +			status = "disabled";
-> > > +
-> > > +			port {
-> > > +				#address-cells = <1>;
-> > > +				#size-cells = <0>;
-> > > +
-> > > +				lcdif_to_dpi: endpoint@0 {
-> > > +					reg = <0>;
-> > > +					remote-endpoint = <&dpi_from_lcdif>;
-> > > +				};
-> > > +			};
-> > >  		};
-> > >
-> > >  		usbotg1: usb@4c100000 {
-> > > diff --git a/arch/arm64/boot/dts/freescale/imx93.dtsi b/arch/arm64/boot/dts/freescale/imx93.dtsi
-> > > index 7b27012dfcb564650882dc8c40e836e797b2fda1..5436b48b30e89eb1f939b398ce1bf105abe7e34b 100644
-> > > --- a/arch/arm64/boot/dts/freescale/imx93.dtsi
-> > > +++ b/arch/arm64/boot/dts/freescale/imx93.dtsi
-> > > @@ -150,6 +150,18 @@ l3_cache: l3-cache {
-> > >  	};
-> > >  };
-> > >
-> > > +&lcdif {
-> > > +	port {
-> > > +		lcdif_to_ldb: endpoint@1 {
-> > > +			reg = <1>;
-> > > +		};
-> > > +
-> > > +		lcdif_to_dsi: endpoint@2 {
-> > > +			reg = <2>;
-> > > +		};
-> > > +	};
-> > > +};
-> > > +
-> > >  &src {
-> > >  	mlmix: power-domain@44461800 {
-> > >  		compatible = "fsl,imx93-src-slice";
-> > >
-> > > --
-> > > 2.47.3
-> > >
-> >
-> > --
-> > #gernperDu
-> > #CallMeByMyFirstName
-> >
-> > Pengutronix e.K.                           |                             |
-> > Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+> The binding does not include HDMI description yet.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>  .../bindings/display/msm/qcom,eliza-mdss.yaml      | 496 +++++++++++++++++++++
+>  1 file changed, 496 insertions(+)
 > 
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/msm/qcom,eliza-mdss.example.dts:25:18: fatal error: dt-bindings/clock/qcom,eliza-gcc.h: No such file or directory
+   25 |         #include <dt-bindings/clock/qcom,eliza-gcc.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/bindings/display/msm/qcom,eliza-mdss.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1597: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260303-drm-display-eliza-v1-5-814121dbb2bf@oss.qualcomm.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
