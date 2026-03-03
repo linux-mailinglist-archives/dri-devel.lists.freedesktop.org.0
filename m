@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KMV5EZY7pmmpMwAAu9opvQ
+	id wGUcCZg7pmmpMwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1A81E7BD7
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BB41E7BDE
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 02:38:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E35F910E071;
-	Tue,  3 Mar 2026 01:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0087910E606;
+	Tue,  3 Mar 2026 01:38:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aPXBXjm6";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QHjh5GCF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2180710E071
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 01:38:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093E810E08C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 01:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772501903;
- bh=EZTrxedXe6o3XmZTgm35uvahJZuUTXRHnJiL8Eab/c8=;
- h=From:Subject:Date:To:Cc:From;
- b=aPXBXjm69fSWglULn5pOeOS61J3dU/oMPMSCuK6efFy/ZTfx+v7GmzEK+3R6rfHYH
- cYbQXF8XRlZTVDOrbpot/EuHGBg/uAsY67eIyPj6EybAQNo7D07hFo9wUJMIM1OpYc
- rHaLkK2NwCx5J4kSdl3Cks7o3r2ZszRDIs5eWwJVbKLuBRKnnGl8/JoFy2UrBLUkQa
- 0pSQl84t3JirL9wPOgXl1A4xkNyGaObM7+YNjKhMeQcWOPXvbvW3/9naArOe6Pt0lC
- f+5FrLiqZJuglZKDHCxQqbF2rCOMdXfpZ0USX7C97vwCuv9FqnkChE66BR0mJrQRLw
- N3S9YGzd+SouQ==
+ s=mail; t=1772501904;
+ bh=NX8PprlBauLw/tHNs9H9iHjyPLMjnL119UcQNvumShw=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=QHjh5GCFc/EqyXMzPkB2FIflD/cEeWCgtj6d+kQjsFtuqOBGpsjsInXPtsYN7oZym
+ TsbqCZPuuDiKipmqyupzj2TwNrZuZHKpX0x54se708RVn+agmF1PQ5+VK86Co9BSBr
+ eMnGk0BvBGpMotBx064/EpEBGJtPYAzqld9ayHVyKUuOaZK9fK+q7MASET4zMLvIh8
+ FmDF1rOOdMH0m+Tgci8QlBDGlNM9R6cnCnVXH9We3EhJ24+OTZ/oxGlneCoePfCrOI
+ mzI6zfMHNAfBUt1Qo9+DSMYsilmgj01LALAqU69vFdiT3DiwQePpmxogqmBGyXrzpo
+ 2zFVc8kK+sW4w==
 Received: from localhost (unknown [86.123.23.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 973D917E0EA0;
- Tue,  3 Mar 2026 02:38:23 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 884D117E0EA3;
+ Tue,  3 Mar 2026 02:38:24 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH v4 0/4] Add HDMI 2.0 support to DW HDMI QP TX
-Date: Tue, 03 Mar 2026 03:38:06 +0200
-Message-Id: <20260303-dw-hdmi-qp-scramb-v4-0-317d3b8bd219@collabora.com>
+Date: Tue, 03 Mar 2026 03:38:07 +0200
+Subject: [PATCH v4 1/4] drm/bridge: Add ->detect_ctx hook and
+ drm_bridge_detect_ctx()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33PSwrCMBCA4auUrI1kkj5deQ9xkUxSG2hNTSQqp
- Xc3LQgixeU/MN8wEwnGWxPIIZuIN9EG664p8l1GsJPXi6FWpyac8QI4E1Q/aKcHS28jDejloCh
- qpWtVVIhtQ9Le6E1rn6t5OqfubLg7/1pPRFim/7QIlNFalK2pcgaybI7o+l4q5+Ue3UAWMfKPU
- jKATYUnRZpKcSxqzXO9pYhvpdlSRFLScyVAJViL8KvM8/wGnHZTAEIBAAA=
-X-Change-ID: 20251203-dw-hdmi-qp-scramb-cdbd8b57ccf9
+Message-Id: <20260303-dw-hdmi-qp-scramb-v4-1-317d3b8bd219@collabora.com>
+References: <20260303-dw-hdmi-qp-scramb-v4-0-317d3b8bd219@collabora.com>
+In-Reply-To: <20260303-dw-hdmi-qp-scramb-v4-0-317d3b8bd219@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -80,89 +78,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9D1A81E7BD7
+X-Rspamd-Queue-Id: 81BB41E7BDE
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,rock-chips.com,sntech.de];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:diederik@cknow-tech.com,m:maud_spierings@hotmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,rock-chips.com,sntech.de];
 	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,cknow-tech.com,hotmail.com];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,cknow-tech.com,hotmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[cknow-tech.com:email]
 X-Rspamd-Action: no action
 
-This patch series provides the missing support for high TMDS clock ratio
-and scrambling to DW HDMI QP TX library, required for handling HDMI 2.0
-display modes on RK3576 & RK3588 SoCs.
+Add an atomic variant of the ->detect callback and a new helper to call
+the hook while passing an optional drm_modeset_acquire_ctx reference.
 
-In order to allow addressing the SCDC status lost on sink disconnects,
-it adds an atomic variant of the drm_bridge_funcs.detect() callback and
-a new drm_bridge_detect_ctx() helper, which is further used in
-drm_bridge_connector to switch to using the ->detect_ctx() hook.
+When both ->detect_ctx and ->detect are defined, the latter is ignored.
+If acquire_ctx is unset, the function takes care of the locking,
+while also handling EDEADLK.
 
-Furthermore, it optimizes HPD event handling in dw_hdmi_qp Rockchip
-platform driver to run the detect cycle on the affected connector only.
-
+Tested-by: Diederik de Haas <diederik@cknow-tech.com>
+Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Changes in v4:
-- Fixed conflicts while rebasing onto latest drm-misc-next
-- Link to v3: https://lore.kernel.org/r/20260119-dw-hdmi-qp-scramb-v3-0-bd8611730fc1@collabora.com
+ drivers/gpu/drm/drm_bridge.c | 58 ++++++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h     | 30 +++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
 
-Changes in v3:
-- Used drm_bridge_helper_reset_crtc() helper to reset the display
-  pipeline and got rid of some boilerplate code (Maxime)
-- Rebased onto latest drm-misc-next
-- Link to v2: https://lore.kernel.org/r/20260113-dw-hdmi-qp-scramb-v2-0-ae7b2c58d24d@collabora.com
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index f8b0333a0a3b..1247573c2100 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1345,6 +1345,64 @@ drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
+ }
+ EXPORT_SYMBOL_GPL(drm_bridge_detect);
+ 
++/**
++ * drm_bridge_detect_ctx - check if anything is attached to the bridge output
++ * @bridge: bridge control structure
++ * @connector: attached connector
++ * @ctx: acquire_ctx, or NULL to let this function handle locking
++ *
++ * If the bridge supports output detection, as reported by the
++ * DRM_BRIDGE_OP_DETECT bridge ops flag, call &drm_bridge_funcs.detect_ctx
++ * or &drm_bridge_funcs.detect for the bridge and return the connection status.
++ * Otherwise return connector_status_unknown.
++ *
++ * When both @ctx and &drm_bridge_funcs.detect_ctx are not set, this helper
++ * function is equivalent to drm_bridge_detect() above.
++ *
++ * RETURNS:
++ * The detection status on success, or connector_status_unknown if the bridge
++ * doesn't support output detection.
++ * If @ctx is set, it might also return -EDEADLK.
++ */
++int drm_bridge_detect_ctx(struct drm_bridge *bridge,
++			  struct drm_connector *connector,
++			  struct drm_modeset_acquire_ctx *ctx)
++{
++	if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
++		return connector_status_unknown;
++
++	if (bridge->funcs->detect_ctx) {
++		struct drm_modeset_acquire_ctx br_ctx;
++		int ret;
++
++		if (ctx)
++			return bridge->funcs->detect_ctx(bridge, connector, ctx);
++
++		drm_modeset_acquire_init(&br_ctx, 0);
++retry:
++		ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex,
++				       &br_ctx);
++		if (!ret)
++			ret = bridge->funcs->detect_ctx(bridge, connector, &br_ctx);
++
++		if (ret == -EDEADLK) {
++			drm_modeset_backoff(&br_ctx);
++			goto retry;
++		}
++
++		if (ret < 0)
++			ret = connector_status_unknown;
++
++		drm_modeset_drop_locks(&br_ctx);
++		drm_modeset_acquire_fini(&br_ctx);
++
++		return ret;
++	}
++
++	return bridge->funcs->detect(bridge, connector);
++}
++EXPORT_SYMBOL_GPL(drm_bridge_detect_ctx);
++
+ /**
+  * drm_bridge_get_modes - fill all modes currently valid for the sink into the
+  * @connector
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 4f19f7064ee3..31ef1496fe63 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -547,6 +547,33 @@ struct drm_bridge_funcs {
+ 	enum drm_connector_status (*detect)(struct drm_bridge *bridge,
+ 					    struct drm_connector *connector);
+ 
++	/**
++	 * @detect_ctx:
++	 *
++	 * Check if anything is attached to the bridge output.
++	 *
++	 * This callback is optional, if not implemented the bridge will be
++	 * considered as always having a component attached to its output.
++	 * Bridges that implement this callback shall set the
++	 * DRM_BRIDGE_OP_DETECT flag in their &drm_bridge->ops.
++	 *
++	 * This is the atomic version of &drm_bridge_funcs.detect.
++	 *
++	 * To avoid races against concurrent connector state updates, the
++	 * helper libraries always call this with ctx set to a valid context,
++	 * and &drm_mode_config.connection_mutex will always be locked with
++	 * the ctx parameter set to this ctx. This allows taking additional
++	 * locks as required.
++	 *
++	 * RETURNS:
++	 *
++	 * &drm_connector_status indicating the bridge output status,
++	 * or the error code returned by drm_modeset_lock(), -EDEADLK.
++	 */
++	int (*detect_ctx)(struct drm_bridge *bridge,
++			  struct drm_connector *connector,
++			  struct drm_modeset_acquire_ctx *ctx);
++
+ 	/**
+ 	 * @get_modes:
+ 	 *
+@@ -1542,6 +1569,9 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+ 
+ enum drm_connector_status
+ drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector);
++int drm_bridge_detect_ctx(struct drm_bridge *bridge,
++			  struct drm_connector *connector,
++			  struct drm_modeset_acquire_ctx *ctx);
+ int drm_bridge_get_modes(struct drm_bridge *bridge,
+ 			 struct drm_connector *connector);
+ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
 
-Changes in v2:
-- Collected Tested-by tags from Diederik and Maud
-- Rebased onto latest drm-misc-next
-- Ensured the recently introduced 'no-hpd' support for dealing with
-  unconnected/repurposed/broken HPD pin is limited to HDMI 1.4 rates
-- Link to v1: https://lore.kernel.org/r/20251203-dw-hdmi-qp-scramb-v1-0-836fe7401a69@collabora.com
-
----
-Cristian Ciocaltea (4):
-      drm/bridge: Add ->detect_ctx hook and drm_bridge_detect_ctx()
-      drm/bridge-connector: Switch to using ->detect_ctx hook
-      drm/bridge: dw-hdmi-qp: Add high TMDS clock ratio and scrambling support
-      drm/rockchip: dw_hdmi_qp: Do not send HPD events for all connectors
-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 167 ++++++++++++++++++++++---
- drivers/gpu/drm/display/drm_bridge_connector.c |  73 +++++------
- drivers/gpu/drm/drm_bridge.c                   |  58 +++++++++
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c |  44 +++----
- include/drm/drm_bridge.h                       |  30 +++++
- 5 files changed, 296 insertions(+), 76 deletions(-)
----
-base-commit: 0dd7a23da214279cfb77b0eb03c38614867524d7
-change-id: 20251203-dw-hdmi-qp-scramb-cdbd8b57ccf9
+-- 
+2.52.0
 
