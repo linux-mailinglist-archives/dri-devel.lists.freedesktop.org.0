@@ -2,71 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WEiUL4PjpmnpYgAAu9opvQ
+	id cAZ2E43jpmnpYgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:34:59 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:35:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404EA1F05B7
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DC41F05BF
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 14:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071E210E01F;
-	Tue,  3 Mar 2026 13:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2765E10E10B;
+	Tue,  3 Mar 2026 13:35:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d+0OQW38";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UrQ6q8WM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81CF10E01F;
- Tue,  3 Mar 2026 13:34:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772544896; x=1804080896;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=sDKpKGZ7zZ94WyscCZ4Mby+dM5br8h1NdshW6OVYBAI=;
- b=d+0OQW387g5/+MYhZIb0GZ/grGjZhgRyD0Uow4C6s1FchP8VPnZz6B/7
- LplJOWWGJTMWc/uVu8qrDMoezFLn6ujyuJfiJWJgAEXqeaq5BmLTnQqWA
- w6TpFkZZkjJhd5KC3PZWGvjy7nhhWkqKt4rG/S8aFcHVJB3+feVxx7J2r
- DNX66JYv2GjZvEnmvqDed1Evxm+gwH0UmJ0yAudzSYooXVxgp156pdyOH
- E91k2WibuVszpxLc+e/4ebog5E2+DqJhhpASxFKehA8oxl3Ul5eOxRNsr
- nMHQKYjfKuLmVLIhuQ2MlA/yV8I3Pm/BNEggMjzKUItpH5eI6Bbu+x3he g==;
-X-CSE-ConnectionGUID: EnpRilDjRhOuu8Ay1nxM4Q==
-X-CSE-MsgGUID: 6TGQEja+SAal30RXpbGsQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="76179773"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="76179773"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 05:34:55 -0800
-X-CSE-ConnectionGUID: xlb+CNX+Q4u9lSUNKXHLIg==
-X-CSE-MsgGUID: //CKb90nTSa1x3VPdQ3oDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="217947945"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO fedora)
- ([10.245.244.243])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 05:34:52 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Andrew Morton <akpm@linux-foundation.org>,
- Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] drm/xe/userptr: Defer Waiting for TLB invalidation to
- the second pass if possible
-Date: Tue,  3 Mar 2026 14:34:09 +0100
-Message-ID: <20260303133409.11609-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260303133409.11609-1-thomas.hellstrom@linux.intel.com>
-References: <20260303133409.11609-1-thomas.hellstrom@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7937010E7F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 13:35:05 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DC4FDA8;
+ Tue,  3 Mar 2026 14:34:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1772544841;
+ bh=qiixVTPOLQXDJhseAUgvp1H7XIbHHcDxwhmUtbPRUKk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UrQ6q8WMWgSWNPxeq4AXO4RBvNS+ouRM5hBf+SUNQpkdlFU9eqVmzh2O/9OhOaq1N
+ iPwSAsl7/d+RE93cB1N0kAiQzLzzE49M4IWhQ0KgDve/M/tEqjNy3ZK2HF7Hq2R4Ln
+ JxQVKtmybtcQmG+lJVAgWjJeg30OLtsepgO8mFDY=
+Message-ID: <572259d4-661a-4813-b367-44d24f7294aa@ideasonboard.com>
+Date: Tue, 3 Mar 2026 15:34:59 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/11] drm: Add new pixel formats for Xilinx Zynqmp
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Vishal Sagar <vishal.sagar@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>
+References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,327 +114,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 404EA1F05B7
+X-Rspamd-Queue-Id: D4DC41F05BF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.39 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,m:anatoliy.klymenko@amd.com,m:vishal.sagar@amd.com,m:laurent.pinchart@ideasonboard.com,m:michal.simek@amd.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,amd.com,lists.freedesktop.org,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,kvack.org,vger.kernel.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,gmail.com,collabora.com,kernel.org,amd.com,ideasonboard.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DMARC_DNSFAIL(0.00)[intel.com : server fail];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:?];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	NEURAL_HAM(-0.00)[-0.988];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	R_DKIM_TEMPFAIL(0.00)[intel.com:s=Intel];
-	NEURAL_SPAM(0.00)[0.997];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
 X-Rspamd-Action: no action
 
-Now that the two-pass notifier flow uses xe_vma_userptr_do_inval() for
-the fence-wait + TLB-invalidate work, extend it to support a further
-deferred TLB wait:
+Hi Maarten, Maxime, Thomas,
 
-- xe_vma_userptr_do_inval(): when the embedded finish handle is free,
-  submit the TLB invalidation asynchronously (xe_vm_invalidate_vma_submit)
-  and return &userptr->finish so the mmu_notifier core schedules a third
-  pass.  When the handle is occupied by a concurrent invalidation, fall
-  back to the synchronous xe_vm_invalidate_vma() path.
+We've got multiple R-b's for all of the patches. Can this be merged? Or
+give an ack for the fourcc ones and I can push via drm-misc.
 
-- xe_vma_userptr_complete_tlb_inval(): new helper called from
-  invalidate_finish when tlb_inval_submitted is set.  Waits for the
-  previously submitted batch and unmaps the gpusvm pages.
+ Tomi
 
-xe_vma_userptr_invalidate_finish() dispatches between the two helpers
-via tlb_inval_submitted, making the three possible flows explicit:
-
-  pass1 (fences pending)  -> invalidate_finish -> do_inval (sync TLB)
-  pass1 (fences done)     -> do_inval -> invalidate_finish
-                          -> complete_tlb_inval (deferred TLB)
-  pass1 (finish occupied) -> do_inval (sync TLB, inline)
-
-In multi-GPU scenarios this allows TLB flushes to be submitted on all
-GPUs in one pass before any of them are waited on.
-
-Also adds xe_vm_invalidate_vma_submit() which submits the TLB range
-invalidation without blocking, populating a xe_tlb_inval_batch that
-the caller waits on separately.
-
-v3:
-- Add locking asserts and notifier state asserts (Matt Brost)
-- Update the locking documentation of the notifier
-  state members (Matt Brost)
-- Remove unrelated code formatting changes (Matt Brost)
-
-Assisted-by: GitHub Copilot:claude-sonnet-4.6
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_userptr.c | 63 ++++++++++++++++++++++++++++-----
- drivers/gpu/drm/xe/xe_userptr.h | 17 +++++++++
- drivers/gpu/drm/xe/xe_vm.c      | 38 +++++++++++++++-----
- drivers/gpu/drm/xe/xe_vm.h      |  2 ++
- 4 files changed, 104 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_userptr.c b/drivers/gpu/drm/xe/xe_userptr.c
-index 37032b8125a6..6761005c0b90 100644
---- a/drivers/gpu/drm/xe/xe_userptr.c
-+++ b/drivers/gpu/drm/xe/xe_userptr.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/mm.h>
- 
-+#include "xe_tlb_inval.h"
- #include "xe_trace_bo.h"
- 
- static void xe_userptr_assert_in_notifier(struct xe_vm *vm)
-@@ -81,8 +82,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
- 				    &ctx);
- }
- 
--static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma,
--				    bool is_deferred)
-+static struct mmu_interval_notifier_finish *
-+xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma, bool is_deferred)
- {
- 	struct xe_userptr *userptr = &uvma->userptr;
- 	struct xe_vma *vma = &uvma->vma;
-@@ -93,6 +94,8 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
- 	long err;
- 
- 	xe_userptr_assert_in_notifier(vm);
-+	if (is_deferred)
-+		xe_assert(vm->xe, userptr->finish_inuse && !userptr->tlb_inval_submitted);
- 
- 	err = dma_resv_wait_timeout(xe_vm_resv(vm),
- 				    DMA_RESV_USAGE_BOOKKEEP,
-@@ -100,6 +103,19 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
- 	XE_WARN_ON(err <= 0);
- 
- 	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
-+		if (!userptr->finish_inuse) {
-+			/*
-+			 * Defer the TLB wait to an extra pass so the caller
-+			 * can pipeline TLB flushes across GPUs before waiting
-+			 * on any of them.
-+			 */
-+			xe_assert(vm->xe, !userptr->tlb_inval_submitted);
-+			userptr->finish_inuse = true;
-+			userptr->tlb_inval_submitted = true;
-+			err = xe_vm_invalidate_vma_submit(vma, &userptr->inval_batch);
-+			XE_WARN_ON(err);
-+			return &userptr->finish;
-+		}
- 		err = xe_vm_invalidate_vma(vma);
- 		XE_WARN_ON(err);
- 	}
-@@ -108,6 +124,28 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
- 		userptr->finish_inuse = false;
- 	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma->userptr.pages,
- 			       xe_vma_size(vma) >> PAGE_SHIFT, &ctx);
-+	return NULL;
-+}
-+
-+static void
-+xe_vma_userptr_complete_tlb_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma)
-+{
-+	struct xe_userptr *userptr = &uvma->userptr;
-+	struct xe_vma *vma = &uvma->vma;
-+	struct drm_gpusvm_ctx ctx = {
-+		.in_notifier = true,
-+		.read_only = xe_vma_read_only(vma),
-+	};
-+
-+	xe_userptr_assert_in_notifier(vm);
-+	xe_assert(vm->xe, userptr->finish_inuse);
-+	xe_assert(vm->xe, userptr->tlb_inval_submitted);
-+
-+	xe_tlb_inval_batch_wait(&userptr->inval_batch);
-+	userptr->tlb_inval_submitted = false;
-+	userptr->finish_inuse = false;
-+	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma->userptr.pages,
-+			       xe_vma_size(vma) >> PAGE_SHIFT, &ctx);
- }
- 
- static struct mmu_interval_notifier_finish *
-@@ -153,11 +191,10 @@ xe_vma_userptr_invalidate_pass1(struct xe_vm *vm, struct xe_userptr_vma *uvma)
- 	 * If it's already in use, or all fences are already signaled,
- 	 * proceed directly to invalidation without deferring.
- 	 */
--	if (signaled || userptr->finish_inuse) {
--		xe_vma_userptr_do_inval(vm, uvma, false);
--		return NULL;
--	}
-+	if (signaled || userptr->finish_inuse)
-+		return xe_vma_userptr_do_inval(vm, uvma, false);
- 
-+	/* Defer: the notifier core will call invalidate_finish once done. */
- 	userptr->finish_inuse = true;
- 
- 	return &userptr->finish;
-@@ -205,7 +242,15 @@ static void xe_vma_userptr_invalidate_finish(struct mmu_interval_notifier_finish
- 		xe_vma_start(vma), xe_vma_size(vma));
- 
- 	down_write(&vm->svm.gpusvm.notifier_lock);
--	xe_vma_userptr_do_inval(vm, uvma, true);
-+	/*
-+	 * If a TLB invalidation was previously submitted (deferred from the
-+	 * synchronous pass1 fallback), wait for it and unmap pages.
-+	 * Otherwise, fences have now completed: invalidate the TLB and unmap.
-+	 */
-+	if (uvma->userptr.tlb_inval_submitted)
-+		xe_vma_userptr_complete_tlb_inval(vm, uvma);
-+	else
-+		xe_vma_userptr_do_inval(vm, uvma, true);
- 	up_write(&vm->svm.gpusvm.notifier_lock);
- 	trace_xe_vma_userptr_invalidate_complete(vma);
- }
-@@ -243,7 +288,9 @@ void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
- 
- 	finish = xe_vma_userptr_invalidate_pass1(vm, uvma);
- 	if (finish)
--		xe_vma_userptr_do_inval(vm, uvma, true);
-+		finish = xe_vma_userptr_do_inval(vm, uvma, true);
-+	if (finish)
-+		xe_vma_userptr_complete_tlb_inval(vm, uvma);
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/xe/xe_userptr.h b/drivers/gpu/drm/xe/xe_userptr.h
-index e1830c2f5fd2..2a3cd1b5efbb 100644
---- a/drivers/gpu/drm/xe/xe_userptr.h
-+++ b/drivers/gpu/drm/xe/xe_userptr.h
-@@ -14,6 +14,8 @@
- 
- #include <drm/drm_gpusvm.h>
- 
-+#include "xe_tlb_inval_types.h"
-+
- struct xe_vm;
- struct xe_vma;
- struct xe_userptr_vma;
-@@ -63,12 +65,27 @@ struct xe_userptr {
- 	 * alternatively by the same lock in read mode *and* the vm resv held.
- 	 */
- 	struct mmu_interval_notifier_finish finish;
-+	/**
-+	 * @inval_batch: TLB invalidation batch for deferred completion.
-+	 * Stores an in-flight TLB invalidation submitted during a two-pass
-+	 * notifier so the wait can be deferred to a subsequent pass, allowing
-+	 * multiple GPUs to be signalled before any of them are waited on.
-+	 * Protected using the same locking as @finish.
-+	 */
-+	struct xe_tlb_inval_batch inval_batch;
- 	/**
- 	 * @finish_inuse: Whether @finish is currently in use by an in-progress
- 	 * two-pass invalidation.
- 	 * Protected using the same locking as @finish.
- 	 */
- 	bool finish_inuse;
-+	/**
-+	 * @tlb_inval_submitted: Whether a TLB invalidation has been submitted
-+	 * via @inval_batch and is pending completion.  When set, the next pass
-+	 * must call xe_tlb_inval_batch_wait() before reusing @inval_batch.
-+	 * Protected using the same locking as @finish.
-+	 */
-+	bool tlb_inval_submitted;
- 	/**
- 	 * @initial_bind: user pointer has been bound at least once.
- 	 * write: vm->svm.gpusvm.notifier_lock in read mode and vm->resv held.
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index a3c2e8cefec7..fdad9329dfb4 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3967,20 +3967,23 @@ void xe_vm_unlock(struct xe_vm *vm)
- }
- 
- /**
-- * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without a lock
-+ * xe_vm_invalidate_vma_submit - Submit a job to invalidate GPU mappings for
-+ * VMA.
-  * @vma: VMA to invalidate
-+ * @batch: TLB invalidation batch to populate; caller must later call
-+ *         xe_tlb_inval_batch_wait() on it to wait for completion
-  *
-  * Walks a list of page tables leaves which it memset the entries owned by this
-- * VMA to zero, invalidates the TLBs, and block until TLBs invalidation is
-- * complete.
-+ * VMA to zero, invalidates the TLBs, but doesn't block waiting for TLB flush
-+ * to complete, but instead populates @batch which can be waited on using
-+ * xe_tlb_inval_batch_wait().
-  *
-  * Returns 0 for success, negative error code otherwise.
-  */
--int xe_vm_invalidate_vma(struct xe_vma *vma)
-+int xe_vm_invalidate_vma_submit(struct xe_vma *vma, struct xe_tlb_inval_batch *batch)
- {
- 	struct xe_device *xe = xe_vma_vm(vma)->xe;
- 	struct xe_vm *vm = xe_vma_vm(vma);
--	struct xe_tlb_inval_batch batch;
- 	struct xe_tile *tile;
- 	u8 tile_mask = 0;
- 	int ret = 0;
-@@ -4023,14 +4026,33 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
- 
- 	ret = xe_tlb_inval_range_tilemask_submit(xe, xe_vma_vm(vma)->usm.asid,
- 						 xe_vma_start(vma), xe_vma_end(vma),
--						 tile_mask, &batch);
-+						 tile_mask, batch);
- 
- 	/* WRITE_ONCE pairs with READ_ONCE in xe_vm_has_valid_gpu_mapping() */
- 	WRITE_ONCE(vma->tile_invalidated, vma->tile_mask);
-+	return ret;
-+}
-+
-+/**
-+ * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without a lock
-+ * @vma: VMA to invalidate
-+ *
-+ * Walks a list of page tables leaves which it memset the entries owned by this
-+ * VMA to zero, invalidates the TLBs, and block until TLBs invalidation is
-+ * complete.
-+ *
-+ * Returns 0 for success, negative error code otherwise.
-+ */
-+int xe_vm_invalidate_vma(struct xe_vma *vma)
-+{
-+	struct xe_tlb_inval_batch batch;
-+	int ret;
- 
--	if (!ret)
--		xe_tlb_inval_batch_wait(&batch);
-+	ret = xe_vm_invalidate_vma_submit(vma, &batch);
-+	if (ret)
-+		return ret;
- 
-+	xe_tlb_inval_batch_wait(&batch);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 62f4b6fec0bc..0bc7ed23eeae 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -242,6 +242,8 @@ struct dma_fence *xe_vm_range_unbind(struct xe_vm *vm,
- 
- int xe_vm_invalidate_vma(struct xe_vma *vma);
- 
-+int xe_vm_invalidate_vma_submit(struct xe_vma *vma, struct xe_tlb_inval_batch *batch);
-+
- int xe_vm_validate_protected(struct xe_vm *vm);
- 
- static inline void xe_vm_queue_rebind_worker(struct xe_vm *vm)
--- 
-2.53.0
+On 28/01/2026 19:25, Tomi Valkeinen wrote:
+> Add new DRM pixel formats and add support for those in the Xilinx zynqmp
+> display driver.
+> 
+> All other formats except XVUY2101010 are already supported in upstream
+> gstreamer, but gstreamer's kmssink does not have the support yet, as it
+> obviously cannot support the formats without kernel having the formats.
+> 
+> Xilinx has support for these formats in their BSP kernel, and Xilinx has
+> a branch here, adding the support to gstreamer kmssink:
+> 
+> https://github.com/Xilinx/gst-plugins-bad.git xlnx-rebase-v1.18.5
+> 
+> New formats added:
+> 
+> DRM_FORMAT_Y8
+> - 8-bit Y-only
+> - fourcc: "GREY"
+> - gstreamer: GRAY8
+> 
+> DRM_FORMAT_Y10_P32
+> - 10-bit Y-only, three pixels packed into 32-bits
+> - fourcc: "YPA4"
+> - gstreamer: GRAY10_LE32
+> 
+> DRM_FORMAT_XV15
+> - Like NV12, but with 10-bit components
+> - fourcc: "XV15"
+> - gstreamer: NV12_10LE32
+> 
+> DRM_FORMAT_XV20
+> - Like NV16, but with 10-bit components
+> - fourcc: "XV20"
+> - gstreamer: NV16_10LE32
+> 
+> DRM_FORMAT_X403
+> - 10-bit planar 4:4:4, with three samples packed into 32-bits
+> - fourcc: "X403"
+> - gstreamer: Y444_10LE32
+> 
+> XVUY2101010
+> - 10-bit 4:4:4, one pixel in 32 bits
+> - fourcc: "XY30"
+> 
+> Some notes:
+> 
+> I know the 8-bit greyscale format has been discussed before, and the
+> guidance was to use DRM_FORMAT_R8. While I'm not totally against that, I
+> would argue that adding DRM_FORMAT_Y8 makes sense, as:
+> 
+> 1) We can mark it as 'is_yuv' in the drm_format_info, and this can help
+>    the drivers handle e.g. full/limited range. Probably some hardware
+>    handles grayscale as a value used for all RGB components, in which case
+>    R8 makes sense, but when the hardware handles the Y-only pixels as YCbCr,
+>    where Cb and Cr are "neutral", it makes more sense to consider the
+>    format as an YUV format rather than RGB.
+> 
+> 2) We can have the same fourcc as in v4l2. While not strictly necessary,
+>    it's a constant source of confusion when the fourccs differ.
+> 
+> 3) It (possibly) makes more sense for the user to use Y8/GREY format
+>    instead of R8, as, in my experience, the documentation usually refers
+>    to gray(scale) format or Y-only format.
+> 
+> As we add new Y-only formats, it makes sense to have similar terms, so
+> we need to adjust the Y10_P32 format name accordingly.
+> 
+> I have made some adjustments to the formats compared to the Xilinx's
+> branch. E.g. The DRM_FORMAT_Y10_P32 format in Xilinx's kmssink uses
+> fourcc "Y10 ", and DRM_FORMAT_Y10. I didn't like those, as the format is
+> a packed format, three 10-bit pixels in a 32-bit container, and I think
+> Y10 means a 10-bit pixel in a 16-bit container.
+> 
+> Generally speaking, if someone has good ideas for the format define
+> names or fourccs, speak up, as it's not easy to invent good names =).
+> That said, keeping them the same as in the Xilinx trees will, of course,
+> be slightly easier for the users of Xilinx platforms.
+> 
+> I made WIP additions to modetest to support most of these formats,
+> partially based on Xilinx's code:
+> 
+> https://github.com/tomba/libdrm.git xilinx
+> 
+> A few thoughts about that:
+> 
+> modetest uses bo_create_dumb(), and as highlighted in recent discussions
+> in the kernel list [1], dumb buffers are only for RGB formats. They may
+> work for non-RGB formats, but that's platform specific. None of the
+> formats I add here are RGB formats. Do we want to go this way with
+> modetest?
+> 
+> I also feel that the current structure of modetest is not well suited to
+> more complicated formats. Both the buffer allocation is a bit more
+> difficult (see "Add virtual_width and pixels_per_container"), and the
+> drawing is complicated (see, e.g., "Add support for DRM_FORMAT_XV15 &
+> DRM_FORMAT_XV20").
+> 
+> I have recently added support for these Xilinx formats to both kms++ [2] and
+> pykms/pixutils [3][4] (WIP), and it's not been easy... But I have to say I
+> think I like the template based version in kms++. That won't work in
+> modetest, of course, but a non-templated version might be implementable,
+> but probably much slower.
+> 
+> In any case, I slighly feel it's not worth merging the modetest patches
+> I have for these formats: they complicate the code quite a bit, break
+> the RGB-only rule, and I'm not sure if there really are (m)any users. If
+> we want to add support to modetest, I think a bigger rewrite of the test
+> pattern code might be in order.
+> 
+> [1] https://lore.kernel.org/all/20250109150310.219442-26-tzimmermann%40suse.de/
+> [2] git@github.com:tomba/kmsxx.git xilinx
+> [3] git@github.com:tomba/pykms.git xilinx
+> [4] git@github.com:tomba/pixutils.git xilinx
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Changes in v8:
+> - Expand the "drm/fourcc: Add DRM_FORMAT_Y8" commit description to
+>   explain the rationale
+> - Add comment to "drm: xlnx: zynqmp: Add support for Y8 and Y10_P32"
+>   explainig the Y-only matrix
+> - Remove extra blank line
+> - Link to v7: https://lore.kernel.org/r/20251201-xilinx-formats-v7-0-1e1558adfefc@ideasonboard.com
+> 
+> Changes in v7:
+> - Added Reviewed-bys
+> - Rebased on v6.18
+> - Link to v6: https://lore.kernel.org/r/20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com
+> 
+> Changes in v6:
+> - Added tags for reviews
+> - Rebased on v6.17
+> - Link to v5: https://lore.kernel.org/r/20250425-xilinx-formats-v5-0-c74263231630@ideasonboard.com
+> 
+> Changes in v5:
+> - Add comment about Y-only formats, clarifying how the display pipeline
+>   handles them (they're handled as YCbCr, with Cb and Cr as "neutral")
+> - Clarify X403 format in the patch description
+> - Set unused Y-only CSC offsets to 0 (instead of 0x1800).
+> - Add R-bs
+> - Link to v4: https://lore.kernel.org/r/20250326-xilinx-formats-v4-0-322a300c6d72@ideasonboard.com
+> 
+> Changes in v4:
+> - Reformat the drm_format_info entries a bit
+> - Calculate block size only once in drm_format_info_bpp()
+> - Declare local variables in separate lines
+> - Add review tags
+> - Fix commit message referring to Y10_LE32 (should be Y10_P32)
+> - Link to v3: https://lore.kernel.org/r/20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com
+> 
+> Changes in v3:
+> - Drop "drm: xlnx: zynqmp: Fix max dma segment size". It is already
+>   pushed.
+> - Add XVUY2101010 format.
+> - Rename DRM_FORMAT_Y10_LE32 to DRM_FORMAT_Y10_P32.
+> - Link to v2: https://lore.kernel.org/r/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com
+> 
+> Changes in v2:
+> - I noticed V4L2 already has fourcc Y10P, referring to MIPI-style packed
+>   Y10 format. So I changed Y10_LE32 fourcc to YPA4. If logic has any
+>   relevance here, P means packed, A means 10, 4 means "in 4 bytes".
+> - Added tags to "Fix max dma segment size" patch
+> - Updated description for "Add warning for bad bpp"
+> - Link to v1: https://lore.kernel.org/r/20241204-xilinx-formats-v1-0-0bf2c5147db1@ideasonboard.com
+> 
+> ---
+> Tomi Valkeinen (11):
+>       drm/fourcc: Add warning for bad bpp
+>       drm/fourcc: Add DRM_FORMAT_XV15/XV20
+>       drm/fourcc: Add DRM_FORMAT_Y8
+>       drm/fourcc: Add DRM_FORMAT_Y10_P32
+>       drm/fourcc: Add DRM_FORMAT_X403
+>       drm/fourcc: Add DRM_FORMAT_XVUY2101010
+>       drm: xlnx: zynqmp: Use drm helpers when calculating buffer sizes
+>       drm: xlnx: zynqmp: Add support for XV15 & XV20
+>       drm: xlnx: zynqmp: Add support for Y8 and Y10_P32
+>       drm: xlnx: zynqmp: Add support for X403
+>       drm: xlnx: zynqmp: Add support for XVUY2101010
+> 
+>  drivers/gpu/drm/drm_fourcc.c       | 28 +++++++++++++++++--
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 56 +++++++++++++++++++++++++++++++++++---
+>  include/uapi/drm/drm_fourcc.h      | 28 +++++++++++++++++++
+>  3 files changed, 105 insertions(+), 7 deletions(-)
+> ---
+> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+> change-id: 20241120-xilinx-formats-f71901621833
+> 
+> Best regards,
 
