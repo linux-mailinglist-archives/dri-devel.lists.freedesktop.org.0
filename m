@@ -2,207 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDILIbATp2mfdQAAu9opvQ
+	id GFEwB0/IpmkaTwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:00:32 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:38:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9981F448E
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEDD1EE1F9
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:38:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910E610E86F;
-	Tue,  3 Mar 2026 17:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8D410E804;
+	Tue,  3 Mar 2026 11:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="s/VMDDhS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IavhWDx2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="s/VMDDhS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IavhWDx2";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="kVZJe41H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2104410E804
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 11:37:39 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51B2310E804
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 11:38:49 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DC9953F8D2;
- Tue,  3 Mar 2026 11:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1772537857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fQDMn14kNz9t2T;
+ Tue,  3 Mar 2026 12:38:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772537925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KGvY1nGGnAjT98RkQRklRyi1yhpK4+sFFW7EPqGn82U=;
- b=s/VMDDhSu6BZiztym6Ch+Vqn+dEYit5a+K9wld20IQPyPF0MfkQcPZbt1JXN5C9+h4qCLh
- ID6Zk7+HSAG4ZSjD2n1LEFqMuhKE2VZbDLeUc7OveJVNc7A4UGQVRL1slSpb+r6q19pEpE
- n5vVxWbmt5mSZQVZox7T5gtS/fcza38=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1772537857;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KGvY1nGGnAjT98RkQRklRyi1yhpK4+sFFW7EPqGn82U=;
- b=IavhWDx2Kh3DHq1zANsSVI/WiJB5RbdvrN53jtu4s07STfLomCtQ+AyQtB77CtfxuNuELQ
- WJjg27+5hANJ3lDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1772537857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KGvY1nGGnAjT98RkQRklRyi1yhpK4+sFFW7EPqGn82U=;
- b=s/VMDDhSu6BZiztym6Ch+Vqn+dEYit5a+K9wld20IQPyPF0MfkQcPZbt1JXN5C9+h4qCLh
- ID6Zk7+HSAG4ZSjD2n1LEFqMuhKE2VZbDLeUc7OveJVNc7A4UGQVRL1slSpb+r6q19pEpE
- n5vVxWbmt5mSZQVZox7T5gtS/fcza38=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1772537857;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KGvY1nGGnAjT98RkQRklRyi1yhpK4+sFFW7EPqGn82U=;
- b=IavhWDx2Kh3DHq1zANsSVI/WiJB5RbdvrN53jtu4s07STfLomCtQ+AyQtB77CtfxuNuELQ
- WJjg27+5hANJ3lDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6B323EA6C;
- Tue,  3 Mar 2026 11:37:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WceMMAHIpml6WAAAD6G6ig
- (envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 11:37:37 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
- id 86E9EA0A1B; Tue,  3 Mar 2026 12:37:29 +0100 (CET)
-Date: Tue, 3 Mar 2026 12:37:29 +0100
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox <willy@infradead.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
- Paulo Alcantara <pc@manguebit.org>, Andreas Dilger <adilger.kernel@dilger.ca>, 
- Jan Kara <jack@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Chao Yu <chao@kernel.org>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>, 
- Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
- Alexander Aring <alex.aring@gmail.com>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- David Sterba <dsterba@suse.com>, 
- Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
- Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Ilya Dryomov <idryomov@gmail.com>, 
- Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, 
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
- Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Yangtao Li <frank.li@vivo.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
- David Woodhouse <dwmw2@infradead.org>, 
- Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
- Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Anders Larsen <al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, 
- Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
- Johannes Thumshirn <jth@kernel.org>,
- John Johansen <john.johansen@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>,
- Eric Paris <eparis@redhat.com>, 
- Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Oliver Hartkopp <socketcan@hartkopp.net>,
- Marc Kleine-Budde <mkl@pengutronix.de>, 
- David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Remi Denis-Courmont <courmisch@gmail.com>,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
- Xin Long <lucien.xin@gmail.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Stanislav Fomichev <sdf@fomichev.me>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, 
- nvdimm@lists.linux.dev, fsverity@lists.linux.dev, linux-mm@kvack.org, 
- netfs@lists.linux.dev, linux-ext4@vger.kernel.org, 
- linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
- v9fs@lists.linux.dev, 
- linux-afs@lists.infradead.org, autofs@vger.kernel.org,
- ceph-devel@vger.kernel.org, 
- codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
- linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
- ocfs2-devel@lists.linux.dev, 
- devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
- apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
- selinux@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
- linux-perf-users@vger.kernel.org, 
- linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-hams@vger.kernel.org, 
- linux-x25@vger.kernel.org, audit@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, 
- linux-can@vger.kernel.org, linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 110/110] vfs: remove kino_t typedef and PRIino format
- macro
-Message-ID: <rallmd55miopcn5jdtzd33ez5udz2haadugzu7vaqxvv2udhje@i73uyn62zwyp>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-110-e5388800dae0@kernel.org>
+ bh=6JjOpbxsE2XuH6A8U7/CZNBAMhIsg22Sin/OfNvOd2o=;
+ b=kVZJe41Hp0Med/oGU68jkHJCSqwYvNvvmlFkVgvwQb8dfIokRivfJQy3Hq2CLGfjbXWqjC
+ PQ1urCLXIQIozIm4XqRqg50kqkis0oPFjJ8zXK7lX+tDZxYMWiT2YWsDAObwIC+ns48H7r
+ yrw4u0dxZ4G2e+gXEGh6fSAXz2Z6II4WgFTnyAKojY+TKCTvW/oPuXsAP4g7T6sCgJcfCK
+ g8une5R4+vEVolHJ72wT/lU+nncWI5NNqpOKEK2K2TBoUkiBom7nwGGvBmlV9FH7eS28ss
+ ookkM3SvaxzpNQhiW90niQPRBlbjC9j5KUDcor3fzDWecGWejIo5S1rW6L3oqA==
+Message-ID: <c62cdd6c-1a66-4c7d-a49e-8098c008c09f@mailbox.org>
+Date: Tue, 3 Mar 2026 12:38:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302-iino-u64-v2-110-e5388800dae0@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -0.30
-X-Spam-Level: 
-X-Mailman-Approved-At: Tue, 03 Mar 2026 17:00:21 +0000
+Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
+To: Julian Orth <ju.orth@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
+ <637a138f-ee6f-4940-843f-0ec873997de3@mailbox.org>
+ <CAHijbEVBisTwn2hYdmPiz_ZNZZWppXHgN6T4faHncMHrPWSOuA@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <CAHijbEVBisTwn2hYdmPiz_ZNZZWppXHgN6T4faHncMHrPWSOuA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: cb3fc987e8cae002ef4
+X-MBO-RS-META: yxtoeghb9kzhzfnnhnzxbj6z5yr7dtsf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -217,259 +75,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9A9981F448E
+X-Rspamd-Queue-Id: 9DEDD1EE1F9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:jlayton@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:rostedt@goodmis.org,m:mhiramat@kernel.org,m:mathieu.desnoyers@efficios.com,m:dan.j.williams@intel.com,m:willy@infradead.org,m:ebiggers@kernel.org,m:tytso@mit.edu,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:dhowells@redhat.com,m:pc@manguebit.org,m:adilger.kernel@dilger.ca,m:jack@suse.com,m:jaegeuk@kernel.org,m:chao@kernel.org,m:trondmy@kernel.org,m:anna@kernel.org,m:chuck.lever@oracle.com,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,m:tom@talpey.com,m:sfrench@samba.org,m:ronniesahlberg@gmail.com,m:sprasad@microsoft.com,m:bharathsm@microsoft.com,m:alex.aring@gmail.com,m:konishi.ryusuke@gmail.com,m:slava@dubeyko.com,m:ericvh@kernel.org,m:lucho@ionkov.net,m:asmadeus@codewreck.org,m:linux_oss@crudebyte.com,m:dsterba@suse.com,m:marc.dionne@auristor.com,m:raven@themaw.net,m:luisbg@kernel.org,m:salah.triki@gmail.com,m:aivazian.tigran@gmail.com,m:i
- dryomov@gmail.com,m:amarkuze@redhat.com,m:jaharkes@cs.cmu.edu,m:coda@cs.cmu.edu,m:nico@fluxnic.net,m:code@tyhicks.com,m:amir73il@gmail.com,m:hch@infradead.org,m:glaubitz@physik.fu-berlin.de,m:frank.li@vivo.com,m:mikulas@artax.karlin.mff.cuni.cz,m:dwmw2@infradead.org,m:richard@nod.at,m:shaggy@kernel.org,m:almaz.alexandrovich@paragon-software.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:joseph.qi@linux.alibaba.com,m:hubcap@omnibond.com,m:martin@omnibond.com,m:miklos@szeredi.hu,m:al@alarsen.net,m:chengzhihao1@huawei.com,m:dlemoal@kernel.org,m:naohiro.aota@wdc.com,m:jth@kernel.org,m:john.johansen@canonical.com,m:paul@paul-moore.com,m:jmorris@namei.org,m:serge@hallyn.com,m:zohar@linux.ibm.com,m:roberto.sassu@huawei.com,m:dmitry.kasatkin@gmail.com,m:eric.snowberg@oracle.com,m:wufan@kernel.org,m:stephen.smalley.work@gmail.com,m:omosnace@redhat.com,m:casey@schaufler-ca.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,
- m:edumazet@google.com,m:kuniyu@google.com,m:pabeni@redhat.com,m:willemb@google.com,m:davem@davemloft.net,m:kuba@kernel.org,m:horms@kernel.org,m:oleg@redhat.com,m:peterz@infradead.org,m:mingo@redhat.com,m:acme@kernel.org,m:namhyung@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[suse.cz];
 	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:christian.koenig@amd.com,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[jack@suse.cz,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.or
- g];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,amd.com,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[172];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.983];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:email]
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid]
 X-Rspamd-Action: no action
 
-On Mon 02-03-26 15:25:34, Jeff Layton wrote:
-> Now that i_ino has been widened to u64, replace the kino_t typedef with
-> u64 and the PRIino format macro with the concrete format strings.
+On 3/3/26 12:23, Julian Orth wrote:
+> On Tue, Mar 3, 2026 at 12:17 PM Michel Dänzer
+> <michel.daenzer@mailbox.org> wrote:
+>>
+>> While I don't object to this change, I'd argue that this is really a workaround for broken user space, not a fix for a kernel regression.
+>>
+>> User space must initialize the full struct to 0, except for the fields it wants to have other values. This kind of kernel-side workaround for neglecting that won't be possible in all cases.
 > 
-> Replace the remaining PRIino uses throughout the tree, and remove the
-> typedef and #define from include/linux/fs.h. Change the i_ino field in
-> struct inode from kino_t to u64.
+> When the code in my example was written, the points field did not
+> exist. Therefore, as far as that code is concerned, the authors
+> believed that the struct was fully initialized, since they manually
+> initialized all fields that were contained in the struct at that time.
+> The code was then later recompiled against a version of drm/drm.h that
+> contained the new field.
 > 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> Or are you saying that userspace must always use memset(&arg, 0,
+> sizeof(arg)) to initialize ioctl arguments?
 
-Looks good. Feel free to add:
+Yes, it must. Any approach which results in newly-added fields not being initialized to 0 is broken.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
 
-								Honza
+To prevent a potential follow-up concern: What if the kernel uses a larger size of the struct than user space? That's fine, user space encodes the size it uses in the parameters to the ioctl system call, and the kernel uses 0 for all fields beyond that size.
 
-> ---
->  fs/dcache.c        |  4 ++--
->  fs/eventpoll.c     |  2 +-
->  fs/fserror.c       |  2 +-
->  fs/inode.c         | 10 +++++-----
->  fs/locks.c         |  6 +++---
->  fs/nsfs.c          |  4 ++--
->  fs/pipe.c          |  2 +-
->  include/linux/fs.h |  5 +----
->  8 files changed, 16 insertions(+), 19 deletions(-)
-> 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 13fb3e89cba7442c9bed74c41ca18be5e43e28c9..9ceab142896f6631017067890fd1079240448e13 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -1637,11 +1637,11 @@ static enum d_walk_ret umount_check(void *_data, struct dentry *dentry)
->  	if (dentry == _data && dentry->d_lockref.count == 1)
->  		return D_WALK_CONTINUE;
->  
-> -	WARN(1, "BUG: Dentry %p{i=%" PRIino "x,n=%pd} "
-> +	WARN(1, "BUG: Dentry %p{i=%llx,n=%pd} "
->  			" still in use (%d) [unmount of %s %s]\n",
->  		       dentry,
->  		       dentry->d_inode ?
-> -		       dentry->d_inode->i_ino : (kino_t)0,
-> +		       dentry->d_inode->i_ino : (u64)0,
->  		       dentry,
->  		       dentry->d_lockref.count,
->  		       dentry->d_sb->s_type->name,
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index 90fd92425492221d13bd0cf067d47579bb407a01..4ccd4d2e31adf571f939d2e777123e40302e565f 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -1080,7 +1080,7 @@ static void ep_show_fdinfo(struct seq_file *m, struct file *f)
->  		struct inode *inode = file_inode(epi->ffd.file);
->  
->  		seq_printf(m, "tfd: %8d events: %8x data: %16llx "
-> -			   " pos:%lli ino:%" PRIino "x sdev:%x\n",
-> +			   " pos:%lli ino:%llx sdev:%x\n",
->  			   epi->ffd.fd, epi->event.events,
->  			   (long long)epi->event.data,
->  			   (long long)epi->ffd.file->f_pos,
-> diff --git a/fs/fserror.c b/fs/fserror.c
-> index b685b329b5956a639c41b25c42cfff16e6e5ab6e..1e4d11fd9562fd158a23b64ca60e9b7e01719cb8 100644
-> --- a/fs/fserror.c
-> +++ b/fs/fserror.c
-> @@ -176,7 +176,7 @@ void fserror_report(struct super_block *sb, struct inode *inode,
->  lost:
->  	if (inode)
->  		pr_err_ratelimited(
-> - "%s: lost file I/O error report for ino %" PRIino "u type %u pos 0x%llx len 0x%llx error %d",
-> + "%s: lost file I/O error report for ino %llu type %u pos 0x%llx len 0x%llx error %d",
->  		       sb->s_id, inode->i_ino, type, pos, len, error);
->  	else
->  		pr_err_ratelimited(
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 24ab9fa10baf7c885244f23bfccd731efe4a14cc..5ad169d51728c260aeaabb810e59eb3ec1d1ce52 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -726,7 +726,7 @@ void dump_mapping(const struct address_space *mapping)
->  	struct dentry *dentry_ptr;
->  	struct dentry dentry;
->  	char fname[64] = {};
-> -	kino_t ino;
-> +	u64 ino;
->  
->  	/*
->  	 * If mapping is an invalid pointer, we don't want to crash
-> @@ -750,14 +750,14 @@ void dump_mapping(const struct address_space *mapping)
->  	}
->  
->  	if (!dentry_first) {
-> -		pr_warn("aops:%ps ino:%" PRIino "x\n", a_ops, ino);
-> +		pr_warn("aops:%ps ino:%llx\n", a_ops, ino);
->  		return;
->  	}
->  
->  	dentry_ptr = container_of(dentry_first, struct dentry, d_u.d_alias);
->  	if (get_kernel_nofault(dentry, dentry_ptr) ||
->  	    !dentry.d_parent || !dentry.d_name.name) {
-> -		pr_warn("aops:%ps ino:%" PRIino "x invalid dentry:%px\n",
-> +		pr_warn("aops:%ps ino:%llx invalid dentry:%px\n",
->  				a_ops, ino, dentry_ptr);
->  		return;
->  	}
-> @@ -768,7 +768,7 @@ void dump_mapping(const struct address_space *mapping)
->  	 * Even if strncpy_from_kernel_nofault() succeeded,
->  	 * the fname could be unreliable
->  	 */
-> -	pr_warn("aops:%ps ino:%" PRIino "x dentry name(?):\"%s\"\n",
-> +	pr_warn("aops:%ps ino:%llx dentry name(?):\"%s\"\n",
->  		a_ops, ino, fname);
->  }
->  
-> @@ -2641,7 +2641,7 @@ void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
->  		/* leave it no_open_fops */
->  		break;
->  	default:
-> -		pr_debug("init_special_inode: bogus i_mode (%o) for inode %s:%" PRIino "u\n",
-> +		pr_debug("init_special_inode: bogus i_mode (%o) for inode %s:%llu\n",
->  			 mode, inode->i_sb->s_id, inode->i_ino);
->  		break;
->  	}
-> diff --git a/fs/locks.c b/fs/locks.c
-> index 9c5aa23f09b6e061dc94c81cd802bb65dd0053c1..d8b066fb42108971f6b3c7449dbc9b5f8df16b13 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -234,7 +234,7 @@ locks_check_ctx_lists(struct inode *inode)
->  	if (unlikely(!list_empty(&ctx->flc_flock) ||
->  		     !list_empty(&ctx->flc_posix) ||
->  		     !list_empty(&ctx->flc_lease))) {
-> -		pr_warn("Leaked locks on dev=0x%x:0x%x ino=0x%" PRIino "x:\n",
-> +		pr_warn("Leaked locks on dev=0x%x:0x%x ino=0x%llx:\n",
->  			MAJOR(inode->i_sb->s_dev), MINOR(inode->i_sb->s_dev),
->  			inode->i_ino);
->  		locks_dump_ctx_list(&ctx->flc_flock, "FLOCK");
-> @@ -251,7 +251,7 @@ locks_check_ctx_file_list(struct file *filp, struct list_head *list, char *list_
->  
->  	list_for_each_entry(flc, list, flc_list)
->  		if (flc->flc_file == filp)
-> -			pr_warn("Leaked %s lock on dev=0x%x:0x%x ino=0x%" PRIino "x "
-> +			pr_warn("Leaked %s lock on dev=0x%x:0x%x ino=0x%llx "
->  				" fl_owner=%p fl_flags=0x%x fl_type=0x%x fl_pid=%u\n",
->  				list_type, MAJOR(inode->i_sb->s_dev),
->  				MINOR(inode->i_sb->s_dev), inode->i_ino,
-> @@ -2896,7 +2896,7 @@ static void lock_get_status(struct seq_file *f, struct file_lock_core *flc,
->  			     (type == F_RDLCK) ? "READ" : "UNLCK");
->  	if (inode) {
->  		/* userspace relies on this representation of dev_t */
-> -		seq_printf(f, "%d %02x:%02x:%" PRIino "u ", pid,
-> +		seq_printf(f, "%d %02x:%02x:%llu ", pid,
->  				MAJOR(inode->i_sb->s_dev),
->  				MINOR(inode->i_sb->s_dev), inode->i_ino);
->  	} else {
-> diff --git a/fs/nsfs.c b/fs/nsfs.c
-> index 0e099ee2121f8831645c3a25d759793ef2ff9ce6..eac326b85314ac8080248347154d599c953969c7 100644
-> --- a/fs/nsfs.c
-> +++ b/fs/nsfs.c
-> @@ -46,7 +46,7 @@ static char *ns_dname(struct dentry *dentry, char *buffer, int buflen)
->  	struct ns_common *ns = inode->i_private;
->  	const struct proc_ns_operations *ns_ops = ns->ops;
->  
-> -	return dynamic_dname(buffer, buflen, "%s:[%" PRIino "u]",
-> +	return dynamic_dname(buffer, buflen, "%s:[%llu]",
->  		ns_ops->name, inode->i_ino);
->  }
->  
-> @@ -394,7 +394,7 @@ static int nsfs_show_path(struct seq_file *seq, struct dentry *dentry)
->  	const struct ns_common *ns = inode->i_private;
->  	const struct proc_ns_operations *ns_ops = ns->ops;
->  
-> -	seq_printf(seq, "%s:[%" PRIino "u]", ns_ops->name, inode->i_ino);
-> +	seq_printf(seq, "%s:[%llu]", ns_ops->name, inode->i_ino);
->  	return 0;
->  }
->  
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 311928e8713989747605fd79f653e36d27ce8c0e..9841648c9cf3e8e569cf6ba5c792624fe92396f5 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -873,7 +873,7 @@ static struct vfsmount *pipe_mnt __ro_after_init;
->   */
->  static char *pipefs_dname(struct dentry *dentry, char *buffer, int buflen)
->  {
-> -	return dynamic_dname(buffer, buflen, "pipe:[%" PRIino "u]",
-> +	return dynamic_dname(buffer, buflen, "pipe:[%llu]",
->  				d_inode(dentry)->i_ino);
->  }
->  
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 4193817e02e8bf94f29514ca43379af21f37ac61..097443bf12e289c347651e5f3da5b67eb6b53121 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -758,9 +758,6 @@ struct inode_state_flags {
->  	enum inode_state_flags_enum __state;
->  };
->  
-> -typedef u64		kino_t;
-> -#define PRIino		"ll"
-> -
->  /*
->   * Keep mostly read-only and often accessed (especially for
->   * the RCU path lookup and 'stat' data) fields at the beginning
-> @@ -786,7 +783,7 @@ struct inode {
->  #endif
->  
->  	/* Stat data, not accessed from path walking */
-> -	kino_t			i_ino;
-> +	u64			i_ino;
->  	/*
->  	 * Filesystems may only read i_nlink directly.  They shall use the
->  	 * following functions for modification:
-> 
-> -- 
-> 2.53.0
-> 
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
