@@ -2,113 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJDXG+0Kp2kDcgAAu9opvQ
+	id kAiUHhsLp2kDcgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:09 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6C01F3A8A
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1430D1F3B75
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5010910E851;
-	Tue,  3 Mar 2026 16:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10AFD10E874;
+	Tue,  3 Mar 2026 16:23:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LfVi6sv5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OX5R1rGj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF3210E851;
- Tue,  3 Mar 2026 16:23:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9854910E871;
+ Tue,  3 Mar 2026 16:23:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 47DE160008;
- Tue,  3 Mar 2026 16:23:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9FC1C116C6;
- Tue,  3 Mar 2026 16:22:59 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0B9F760008;
+ Tue,  3 Mar 2026 16:23:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008EFC116C6;
+ Tue,  3 Mar 2026 16:23:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772554985;
- bh=3KP5UsXW/n92tPBlXiap82i+5VV+PmnqKnEg0EMd6J4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LfVi6sv5mzDF+gto8oNzM2EgaPhlTmS2tXuRZU4Jxga/cnE6f5iNWPgSh1AVbgVGF
- oMF1d36tNOVhUXoRK/2NAd2pou4/OoKDEuwnMQM7xpxmwbxjRVkPVHvrgWSTak88z9
- XNiLBwkaY4UFmHTr9FhGgxikuqVM1XUw6Pe7rKsZx+BGwNS5LEN6mAh9IMchsnnTVW
- tBEbMGVwm8k6ALqLQHiWOPq0kDSPSXOTscu4vP6tDkpZ8cjT+DVmY/CyP6CIn+JN/n
- qTpziJBz3+tQYAgpPpqjqQZcUeZtKVt8dfXhMNT0q0bFihJy+EFtzR0PaN4cqLGjpf
- 1OXFaw1RIIgtg==
-Message-ID: <69853a6a-47a2-4777-9a5a-1a53f24531a2@kernel.org>
-Date: Tue, 3 Mar 2026 17:22:57 +0100
+ s=k20201202; t=1772555030;
+ bh=sjmFT1BethSxXRjKz3v5DqaLtJGPmc3qrxzO8Mx+Gkw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=OX5R1rGjIVQhugnA4adMhjT3v0fvbmh5Ql4V7W1aD96do/gGSRTvf7hSI/y0Srdzw
+ 6A1tCRsdvNvuUZw0la6UdZmaqrmcmnTRVOMJU3Fg+2HJp44h32EewzaZTP1wCYN6Ha
+ aAR/yruJVRY0lwWK4+WbgPzASf47E7gb3G828E5wFe0WXAanp4iKoxeR2SpYlri/fn
+ 6hpn6sCE/hAiSNXpPYEqn0lnZLl9j6/blsAExJkq514JlFJH6fW//dRFkWTM0WvzBX
+ +d3/aoazHoLtr7akyPzYQA89yB2XjSeN/CzllLEvE7QZhsU3EeTywPlxmupTBfL1gI
+ yd0UPSFPce9NQ==
+From: Danilo Krummrich <dakr@kernel.org>
+To: aliceryhl@google.com, acourbot@nvidia.com, ojeda@kernel.org,
+ boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
+ abdiel.janulgue@gmail.com, daniel.almeida@collabora.com,
+ robin.murphy@arm.com
+Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 7/8] gpu: nova-core: convert Gsp::new() to use CoherentInit
+Date: Tue,  3 Mar 2026 17:22:58 +0100
+Message-ID: <20260303162314.94363-8-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260303162314.94363-1-dakr@kernel.org>
+References: <20260303162314.94363-1-dakr@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm/msm/dpu: Add support for Eliza SoC
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
- <20260303-drm-display-eliza-v1-7-814121dbb2bf@oss.qualcomm.com>
- <7hwaqdfopuptvjoikc5y5jm7lf6pr556k2yijcac44fobt3x2z@5eglub7asuqq>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <7hwaqdfopuptvjoikc5y5jm7lf6pr556k2yijcac44fobt3x2z@5eglub7asuqq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,60 +66,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1E6C01F3A8A
+X-Rspamd-Queue-Id: 1430D1F3B75
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,quicinc.com,marek.ca,linaro.org,vger.kernel.org,lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[google.com,nvidia.com,kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,collabora.com,arm.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 03/03/2026 15:10, Dmitry Baryshkov wrote:
-> On Tue, Mar 03, 2026 at 02:07:57PM +0100, Krzysztof Kozlowski wrote:
->> Add support for DPU (v12.4) on Qualcomm Eliza SoC, with one
->> incomplete/skipped part: HDMI interface (INT_4).
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->> ---
->>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_12_4_eliza.h | 365 +++++++++++++++++++++
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->>  4 files changed, 368 insertions(+)
->>
->> +	}, {
->> +		.name = "intf_3", .id = INTF_3,
->> +		.base = 0x37000, .len = 0x4bc,
->> +		.type = INTF_DP,
->> +		.controller_id = MSM_DP_CONTROLLER_1,
-> 
-> There is no DP_1 on Eliza
+Convert libos (LibosMemoryRegionInitArgument) and rmargs
+(GspArgumentsPadded) to use CoherentInit / Coherent::init() and simplify
+the initialization. This also avoids separate initialization on the
+stack.
 
-You are right, thanks. It's paired with INTF_0.
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+ drivers/gpu/nova-core/gsp.rs    | 47 +++++++++++--------------
+ drivers/gpu/nova-core/gsp/fw.rs | 62 +++++++++++++++++++++++----------
+ 2 files changed, 65 insertions(+), 44 deletions(-)
 
+diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+index 25cd48514c77..cb7f6b4dc0f8 100644
+--- a/drivers/gpu/nova-core/gsp.rs
++++ b/drivers/gpu/nova-core/gsp.rs
+@@ -5,10 +5,11 @@
+ use kernel::{
+     device,
+     dma::{
++        Coherent,
+         CoherentAllocation,
++        CoherentInit,
+         DmaAddress, //
+     },
+-    dma_write,
+     pci,
+     prelude::*,
+     transmute::AsBytes, //
+@@ -104,7 +105,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+ #[pin_data]
+ pub(crate) struct Gsp {
+     /// Libos arguments.
+-    pub(crate) libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
++    pub(crate) libos: Coherent<[LibosMemoryRegionInitArgument]>,
+     /// Init log buffer.
+     loginit: LogBuffer,
+     /// Interrupts log buffer.
+@@ -114,7 +115,7 @@ pub(crate) struct Gsp {
+     /// Command queue.
+     pub(crate) cmdq: Cmdq,
+     /// RM arguments.
+-    rmargs: CoherentAllocation<GspArgumentsPadded>,
++    rmargs: Coherent<GspArgumentsPadded>,
+ }
+ 
+ impl Gsp {
+@@ -123,34 +124,28 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
+         pin_init::pin_init_scope(move || {
+             let dev = pdev.as_ref();
+ 
++            // Initialise the logging structures. The OpenRM equivalents are in:
++            // _kgspInitLibosLoggingStructures (allocates memory for buffers)
++            // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
+             Ok(try_pin_init!(Self {
+-                libos: CoherentAllocation::<LibosMemoryRegionInitArgument>::alloc_coherent(
+-                    dev,
+-                    GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
+-                    GFP_KERNEL | __GFP_ZERO,
+-                )?,
+                 loginit: LogBuffer::new(dev)?,
+                 logintr: LogBuffer::new(dev)?,
+                 logrm: LogBuffer::new(dev)?,
+                 cmdq: Cmdq::new(dev)?,
+-                rmargs: CoherentAllocation::<GspArgumentsPadded>::alloc_coherent(
+-                    dev,
+-                    1,
+-                    GFP_KERNEL | __GFP_ZERO,
+-                )?,
+-                _: {
+-                    // Initialise the logging structures. The OpenRM equivalents are in:
+-                    // _kgspInitLibosLoggingStructures (allocates memory for buffers)
+-                    // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
+-                    dma_write!(
+-                        libos, [0]?, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
+-                    );
+-                    dma_write!(
+-                        libos, [1]?, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
+-                    );
+-                    dma_write!(libos, [2]?, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0));
+-                    dma_write!(rmargs, [0]?.inner, fw::GspArgumentsCached::new(cmdq));
+-                    dma_write!(libos, [3]?, LibosMemoryRegionInitArgument::new("RMARGS", rmargs));
++                rmargs: Coherent::init(dev, GFP_KERNEL, GspArgumentsPadded::new(cmdq))?,
++                libos: {
++                    let mut libos = CoherentInit::zeroed_slice(
++                        dev,
++                        GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
++                        GFP_KERNEL,
++                    )?;
++
++                    libos.init_at(0, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
++                    libos.init_at(1, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
++                    libos.init_at(2, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
++                    libos.init_at(3, LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
++
++                    libos.into()
+                 },
+             }))
+         })
+diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/fw.rs
+index 751d5447214d..59cb03a9b238 100644
+--- a/drivers/gpu/nova-core/gsp/fw.rs
++++ b/drivers/gpu/nova-core/gsp/fw.rs
+@@ -9,11 +9,12 @@
+ use core::ops::Range;
+ 
+ use kernel::{
+-    dma::CoherentAllocation,
++    dma::Coherent,
+     prelude::*,
+     ptr::{
+         Alignable,
+-        Alignment, //
++        Alignment,
++        KnownSize, //
+     },
+     sizes::{
+         SZ_128K,
+@@ -568,7 +569,9 @@ unsafe impl AsBytes for RunCpuSequencer {}
+ /// The memory allocated for the arguments must remain until the GSP sends the
+ /// init_done RPC.
+ #[repr(transparent)]
+-pub(crate) struct LibosMemoryRegionInitArgument(bindings::LibosMemoryRegionInitArgument);
++pub(crate) struct LibosMemoryRegionInitArgument {
++    inner: bindings::LibosMemoryRegionInitArgument,
++}
+ 
+ // SAFETY: Padding is explicit and does not contain uninitialized data.
+ unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
+@@ -578,10 +581,10 @@ unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
+ unsafe impl FromBytes for LibosMemoryRegionInitArgument {}
+ 
+ impl LibosMemoryRegionInitArgument {
+-    pub(crate) fn new<A: AsBytes + FromBytes>(
++    pub(crate) fn new<'a, A: AsBytes + FromBytes + KnownSize + ?Sized>(
+         name: &'static str,
+-        obj: &CoherentAllocation<A>,
+-    ) -> Self {
++        obj: &'a Coherent<A>,
++    ) -> impl Init<Self> + 'a {
+         /// Generates the `ID8` identifier required for some GSP objects.
+         fn id8(name: &str) -> u64 {
+             let mut bytes = [0u8; core::mem::size_of::<u64>()];
+@@ -593,7 +596,8 @@ fn id8(name: &str) -> u64 {
+             u64::from_ne_bytes(bytes)
+         }
+ 
+-        Self(bindings::LibosMemoryRegionInitArgument {
++        #[allow(non_snake_case)]
++        let init_inner = init!(bindings::LibosMemoryRegionInitArgument {
+             id8: id8(name),
+             pa: obj.dma_handle(),
+             size: num::usize_as_u64(obj.size()),
+@@ -603,7 +607,11 @@ fn id8(name: &str) -> u64 {
+             loc: num::u32_into_u8::<
+                 { bindings::LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_SYSMEM },
+             >(),
+-            ..Default::default()
++            ..Zeroable::init_zeroed()
++        });
++
++        init!(LibosMemoryRegionInitArgument {
++            inner <- init_inner,
+         })
+     }
+ }
+@@ -814,15 +822,23 @@ unsafe impl FromBytes for GspMsgElement {}
+ 
+ /// Arguments for GSP startup.
+ #[repr(transparent)]
+-pub(crate) struct GspArgumentsCached(bindings::GSP_ARGUMENTS_CACHED);
++#[derive(Zeroable)]
++pub(crate) struct GspArgumentsCached {
++    inner: bindings::GSP_ARGUMENTS_CACHED,
++}
+ 
+ impl GspArgumentsCached {
+     /// Creates the arguments for starting the GSP up using `cmdq` as its command queue.
+-    pub(crate) fn new(cmdq: &Cmdq) -> Self {
+-        Self(bindings::GSP_ARGUMENTS_CACHED {
+-            messageQueueInitArguments: MessageQueueInitArguments::new(cmdq).0,
++    pub(crate) fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
++        #[allow(non_snake_case)]
++        let init_inner = init!(bindings::GSP_ARGUMENTS_CACHED {
++            messageQueueInitArguments <- MessageQueueInitArguments::new(cmdq),
+             bDmemStack: 1,
+-            ..Default::default()
++            ..Zeroable::init_zeroed()
++        });
++
++        init!(GspArgumentsCached {
++            inner <- init_inner,
+         })
+     }
+ }
+@@ -834,11 +850,21 @@ unsafe impl AsBytes for GspArgumentsCached {}
+ /// must all be a multiple of GSP_PAGE_SIZE in size, so add padding to force it
+ /// to that size.
+ #[repr(C)]
++#[derive(Zeroable)]
+ pub(crate) struct GspArgumentsPadded {
+     pub(crate) inner: GspArgumentsCached,
+     _padding: [u8; GSP_PAGE_SIZE - core::mem::size_of::<bindings::GSP_ARGUMENTS_CACHED>()],
+ }
+ 
++impl GspArgumentsPadded {
++    pub(crate) fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
++        init!(GspArgumentsPadded {
++            inner <- GspArgumentsCached::new(cmdq),
++            ..Zeroable::init_zeroed()
++        })
++    }
++}
++
+ // SAFETY: Padding is explicit and will not contain uninitialized data.
+ unsafe impl AsBytes for GspArgumentsPadded {}
+ 
+@@ -847,18 +873,18 @@ unsafe impl AsBytes for GspArgumentsPadded {}
+ unsafe impl FromBytes for GspArgumentsPadded {}
+ 
+ /// Init arguments for the message queue.
+-#[repr(transparent)]
+-struct MessageQueueInitArguments(bindings::MESSAGE_QUEUE_INIT_ARGUMENTS);
++type MessageQueueInitArguments = bindings::MESSAGE_QUEUE_INIT_ARGUMENTS;
+ 
+ impl MessageQueueInitArguments {
+     /// Creates a new init arguments structure for `cmdq`.
+-    fn new(cmdq: &Cmdq) -> Self {
+-        Self(bindings::MESSAGE_QUEUE_INIT_ARGUMENTS {
++    #[allow(non_snake_case)]
++    fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
++        init!(MessageQueueInitArguments {
+             sharedMemPhysAddr: cmdq.dma_handle(),
+             pageTableEntryCount: num::usize_into_u32::<{ Cmdq::NUM_PTES }>(),
+             cmdQueueOffset: num::usize_as_u64(Cmdq::CMDQ_OFFSET),
+             statQueueOffset: num::usize_as_u64(Cmdq::STATQ_OFFSET),
+-            ..Default::default()
++            ..Zeroable::init_zeroed()
+         })
+     }
+ }
+-- 
+2.53.0
 
-Best regards,
-Krzysztof
