@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICcBNRTqpmnjZgAAu9opvQ
+	id 6AzhOETqpmnjZgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:03:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:03:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1914D1F0F46
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC71F0FBA
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 15:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A3710E817;
-	Tue,  3 Mar 2026 14:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8164310E81F;
+	Tue,  3 Mar 2026 14:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GN8ngp+Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I+TpeH7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CF810E027;
- Tue,  3 Mar 2026 14:02:54 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793C910E00B;
+ Tue,  3 Mar 2026 14:03:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D5E25429FC;
- Tue,  3 Mar 2026 14:02:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633F0C19422;
- Tue,  3 Mar 2026 14:02:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B953C60127;
+ Tue,  3 Mar 2026 14:03:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE50C116C6;
+ Tue,  3 Mar 2026 14:03:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772546573;
- bh=Mi7EDmuq0bO8lYbpsCWDpvrBLTnFojbJ+56/SDdIMiE=;
+ s=k20201202; t=1772546623;
+ bh=jHQIZ5M7MgFrrT1Zls7qxUAj8K2kFGliBx238KFVE3E=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GN8ngp+ZjBS1YgfWykEp3W7GrzgkPRhJFYS7lVz8C+37eKFEhlWn4AlieNLWsWuaz
- wY5m5xJ9xeu7pAtjnM/hb5KZeYCKIpe/Mrjvkv6L9eHCv+aBypAkCSLrxEKXcFxOds
- sJYpJIx6h8CsgWi5CV7b/TfUQPmbVinpNq8ielWB51Ek43F74SAc0FIzDBvMoNzvMC
- XyZFqbkLzOa/IGmv1fLnkrGvJ0vC5NucuN9V0O7g3H/FxpJoQ0tgOKtjdFPvB6uTFu
- QXyKjECIfMxMGOB4EuYqZ4GRmHY6efBwO1xzKJS/+Z7p6QPJeKBTjMa4sVqQN+eGyo
- I0b1r5ZvIJgBw==
-Message-ID: <b21ba8fb-6fb7-40e6-a382-0592ca6271f6@kernel.org>
-Date: Tue, 3 Mar 2026 15:02:46 +0100
+ b=I+TpeH7ydrihkcuLkvgqoGO8K5FE1vB+uGNeCNgKrSYrFG4wiaRI0EtpxAOKABPC3
+ MH8vXVckCoRoELp9OVvt93/B7FLjByXRaSx7PDHC3E4Osa2cVYl037MuKvgDwk/nWn
+ lcE29C9ozXBK6ON9wiIRNC6SGyP+WiwcwSt/tPl0eQgEHlL0JhHa/Epd7WPmWCPhHI
+ r/6gHpKOiEe57kNkBaHCfN4/DDZ+E4Z17VzO3/8Tp11t8kiZSDhXhzlWjiiEc0u1k8
+ NW+gJr825gbk6jAqGKJaEOPxGnkm+ftY6vrbX+S2AMde7BPG0BXJ0EGwoUHgTDDpwP
+ jyYwBwlBzDezg==
+Message-ID: <02e41951-b864-4af5-b188-9ca1274fce37@kernel.org>
+Date: Tue, 3 Mar 2026 15:03:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] dt-bindings: display/msm: dp-controller: Add Eliza SoC
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH 6/8] soc: qcom: ubwc: Add configuration Eliza SoC
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,12 +55,13 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20260303-drm-display-eliza-v1-0-814121dbb2bf@oss.qualcomm.com>
- <20260303-drm-display-eliza-v1-1-814121dbb2bf@oss.qualcomm.com>
- <s27pxj2gcjqbw27xslxzrhwl5nx4vez3z2bw423b63ddks6bag@hy55hk3hvefy>
+ <20260303-drm-display-eliza-v1-6-814121dbb2bf@oss.qualcomm.com>
+ <4454f8f0-7be6-4e9d-857f-b484210a9359@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,7 +107,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <s27pxj2gcjqbw27xslxzrhwl5nx4vez3z2bw423b63ddks6bag@hy55hk3hvefy>
+In-Reply-To: <4454f8f0-7be6-4e9d-857f-b484210a9359@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,23 +124,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1914D1F0F46
+X-Rspamd-Queue-Id: 7EFC71F0FBA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,quicinc.com,marek.ca,linaro.org,vger.kernel.org,lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,quicinc.com,marek.ca,linaro.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -151,20 +152,20 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-On 03/03/2026 14:47, Dmitry Baryshkov wrote:
-> On Tue, Mar 03, 2026 at 02:07:51PM +0100, Krzysztof Kozlowski wrote:
->> Add DisplayPort controller for Qualcomm Eliza SoC fully compatible with
->> SM8650.  The device looks very similar to SM8750 (same DP TX block
->> v1.5.1) but with few differences:
->>  - Eliza and SM8650 use DP PHY 4nm v7.0, SM8750 uses 3nm v8.0,
->>  - No MST (according to downstream sources).
+On 03/03/2026 14:12, Konrad Dybcio wrote:
+> On 3/3/26 2:07 PM, Krzysztof Kozlowski wrote:
+>> Add entry to OF table for matching the Eliza SoC, using same
+>> configuration as SM8550.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>> ---
 > 
-> Don't trust downstream sources. HPG shows MST from INTF3.
+> Eliza is UBWC5.0, unlike 4.x on 8550
 
-ack
+I will use then sm8750 ubwc data, makes actually sense.
 
 Best regards,
 Krzysztof
