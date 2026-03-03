@@ -2,83 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oP02IY2YpmltRgAAu9opvQ
+	id oHgTLv2hpmmvSAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:15:09 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACB91EAA6A
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37AE41EB4E4
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 485C010E653;
-	Tue,  3 Mar 2026 08:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A981510E708;
+	Tue,  3 Mar 2026 08:54:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X3DU2OpF";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE9F10E653
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:15:06 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id
- a1e0cc1a2514c-94aca174532so1515615241.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:15:06 -0800 (PST)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F82010E659
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:15:53 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-3599126be32so963299a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:15:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772525753; x=1773130553; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TOoaOEZuNJH/wFIt6h7FeWwE1+oo5QuN+aJxkWYzY4s=;
+ b=X3DU2OpFapwJPi7qj09kfYb8lpbfLmw5VmzeArXok/dFPG0VdQn/e0VLxFxHeckGYB
+ eVmvNKwvVZqooCpLp0ZKTsOwfah8PDHWMhKmbnxEQE9fwRBxMIBLuCRSpXkHpSir4mT0
+ GDBZr/IfDwtWMQMSVwR+N5+0TnCdHGqQtnygrxrmN4WeTB1ydPbXLR4RBPhpW5hBERC/
+ GeY7RpxAklFYsTFMeo25/E4mAGjPq9Q2HRPG8nEzFqf+ffenlXZZe3sjwZULGp9Xr923
+ xS3UGPfUMlYP/o9A5L+8lbD1RSMKPp2VPN9crMzDGVT8xFKYEo1FKfQbZIxeUC6PD55S
+ GUIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772525705; x=1773130505;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=baIVfZQL5mR/z7ZDL+omelyIyuKMeJSDP1yp3gkoZFE=;
- b=MmhJD1hG2Vly9BpPtScvOaI331e7KOUxx+FY/kPxYIHwQoHdyRewOsTS5uvIr7ScZf
- ceVGianXwxSLPO3GrsZN67OKEwM4FOWm1ZzLTFBKpovFIjuYs2O4mzDvzaZkFHANfYB5
- dl+XECq1Pmb5ypFI6OKAK+u5QYsjJ31dGKIyCPYekG86+DdvM+09occEYn5/h7yCDvPt
- GOWuvaC4Odm4ecXZmFj4exFFar4rpXgtGS6tMQC1nkGVKQ+BlGVQn1anVLbHAXELrOp1
- uHCBBBTjtxGSyj3zlDn5KrL+M443ngKEBMrMHoi39S8vpzmZIo+u+d9ezKndpWSlOT5E
- CGuw==
+ d=1e100.net; s=20230601; t=1772525753; x=1773130553;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TOoaOEZuNJH/wFIt6h7FeWwE1+oo5QuN+aJxkWYzY4s=;
+ b=AU8XCwyXaSanY9kg9VJnP1BYL6P01AnyU0lJOixReYywjhPXReun/Guj376TMn6ZOa
+ hJqhHC0URuhbCTu3zmVuN5RL5zWiZ8Y88s+H+25Ehf/nxisXATrrZs73oI6k+eN30RYh
+ U9gWqLwvyd7Cl10hEUuAbB457ys2f1R28zQirecRaRruxxA+ms8MV0LM4LxCIhtT7s/E
+ NkfdrGt7SpHehwsqkDP8Z4pJkLKA7viZu0juRW6O8rRIw/t98o9u4Kt7Ui9YG8g0mbj1
+ rRPYYVUZNcCbWkIha5hHBV616edHAw3PjJ/eVrE4hJkkrz+7L8RX/I5W+dA1IQogX2Jg
+ K7lw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWbiMmBc19do//xatzu6JPQXmnvweLKFo3cIc2sbtDw6xP5d9UcAn2F0mhy8IuT+x266XSx4/f/AoA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkbiDYKKzFNOxMTU2PB4FRzlHcIBQ1RJVy9UzuPX/szd47zKty
- DITj/izFu5f09NpgElogEDwmtvnonZ5KqqWtHNLrflN1Walo1wkhb/GfM66kJvoV
-X-Gm-Gg: ATEYQzzKz1jvT1MfMvAR/Q3rjNdxAePVyZYMAWLITIpsZWyUFkH5SbgTg1Sw8y7f4Tr
- mEG0nGmz1FyC7Sc3F43uYk2rcm/iW6v4KNwvwJVAsw6M10U5zg7KfqZgFSL8q9GlhjjQhoujLna
- G3cwsKQ9UANToCuINhTxPzyL+P10EvZ1NSPoEfkcRKIm3qPa9jyGuhFyrI+Ha+5wmUu6+3BXZdy
- E1Mt/rlbsB+puF52g55yy2cGXMc/ou3ulWZNHxbfXOAntWlWuFTENYRolUnHgQUNUDZFALIRTUf
- pUVKJ3rbrgbuKcpAF0bl2HtrvL/px4mlQa5aQiJ/oyCjINF36lWDQ2xxnfYqsLMkCgz0pKyOubq
- eWg5BphV2f+9sJ6v1POAx2TpF088M88QPICvSSpOGXOzuDeZehUirrB/sNo/12ojUhyJ7CTLu9e
- wePSGeuaFu4olkwMySdA8rswwVUM0clfv4dsRJEEnit+XuTugSLI1wzIf2eKXx
-X-Received: by 2002:a05:6102:3f0f:b0:5f9:39e9:65b0 with SMTP id
- ada2fe7eead31-5ff32281b7dmr5866743137.4.1772525704944; 
- Tue, 03 Mar 2026 00:15:04 -0800 (PST)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
- [209.85.217.54]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5ff1ea6f7fesm15783021137.13.2026.03.03.00.15.04
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCUv8LjIpS1aMGPe83Xy9E3H8Wo7FHQF30lUgPSec71dZayP2V0YAT2E5metP+z+kUINKWAwiCu/PXY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzf4LWDjWUqDk20BwlUNH4uAEGr6tY/oFGQtc1BTyhfwf1kNa2+
+ IZizrES7J65LKYUr4lnViTv9bcgrgY2V2Pv/A09LjpNgMvBz6CTlP6CNcnhDiQ==
+X-Gm-Gg: ATEYQzx96ch+cLloFwUGdmk5NULwN6JijGKDJqcQngTRuwEnNiHk53aDTrJSYlK8W2Y
+ 7U7JkrSm3SzZUUGnNLM9BvuwXsm67r+vO9d1FbN47+G+YiBUyKqBqgnd5lmwmNZE+sqCWARNJXH
+ x7cRVFKwrnvqueYgTLcH4WN6oMxRySfKbi0wrePVe+vRKvEdHgmErsxqRlD9yg6cJC27/pqq0Iw
+ XY5ZlupDt3waqaQ93lrN7WsJ+jh84KOUn6VVYyNpOS/gXBanOmE4+GjGQbw2iTUER+7kt+X3ge4
+ CgQjnBZPH1c3FLa+iNwJBgpTDuDvpaSi9AIZOarymitAXOFgK5Cg67dVGMM1swUS6bhoILsI49a
+ SB71eynObqgNlrPKYXSp82rJuoaDds3ZYbL+MNP/rLH1wIzQYDxcnKCnVO9RKxHlhYK7/peD8s7
+ Dq4KQtnH6Bpzfm7DwO2YFTk4Iv/7Dw6lG5IVMO4Y/0g+h9X8+iJYx2D3ZiBoJDD5sj6Ln62Fy5s
+ 8Bx
+X-Received: by 2002:a17:90b:4b50:b0:354:a662:47ff with SMTP id
+ 98e67ed59e1d1-35965d188d6mr12983648a91.35.1772525752831; 
+ Tue, 03 Mar 2026 00:15:52 -0800 (PST)
+Received: from [192.168.0.101] (60-250-196-139.hinet-ip.hinet.net.
+ [60.250.196.139]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3599c408296sm1377885a91.5.2026.03.03.00.15.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Mar 2026 00:15:04 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id
- ada2fe7eead31-5fe086fb0bcso1134260137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:15:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQwmimLpmhudq/wmgY4ZyXlsQe4hvpMXsMmkukxoK+hIkDcaa9zE2BZLRa386wW3v/92ltph+p9HE=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:508f:b0:5db:cba0:941 with SMTP id
- ada2fe7eead31-5ff325870f6mr6153888137.38.1772525704432; Tue, 03 Mar 2026
- 00:15:04 -0800 (PST)
+ Tue, 03 Mar 2026 00:15:52 -0800 (PST)
+Message-ID: <b69d5393-f122-44e9-96d9-342f458c3487@gmail.com>
+Date: Tue, 3 Mar 2026 16:15:44 +0800
 MIME-Version: 1.0
-References: <20260115024610.661624-1-marek.vasut+renesas@mailbox.org>
- <20260303-uppish-finicky-mustang-cd135f@houat>
-In-Reply-To: <20260303-uppish-finicky-mustang-cd135f@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 3 Mar 2026 09:14:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW4HwgwiBJFkA43MpYWOScG8n7p4p3_KBL+Cg3_P_a18w@mail.gmail.com>
-X-Gm-Features: AaiRm52aGiAdtZAUmev5KOPqlNFWQU8B725pPLRxm8mb5akJev06moWAe8DIoF0
-Message-ID: <CAMuHMdW4HwgwiBJFkA43MpYWOScG8n7p4p3_KBL+Cg3_P_a18w@mail.gmail.com>
-Subject: Re: [PATCH] drm: of: Fix drm_of_get_data_lanes_count_ep() return
- value documentation
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/nuvoton: add MA35D1 display controller driver
+To: Icenowy Zheng <uwu@icenowy.me>, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: ychuang3@nuvoton.com, schung@nuvoton.com, yclu4@nuvoton.com,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260129040532.382693-1-a0987203069@gmail.com>
+ <20260129040532.382693-4-a0987203069@gmail.com>
+ <8806eaf82fbef4cd51bb4e4bb44d60894b3504b4.camel@icenowy.me>
+ <f556ef68-dac3-4652-ac21-ea4bbb4e912c@gmail.com>
+ <9cccf8cd84b394f66b85e2af3bef0a3ecd154747.camel@icenowy.me>
+Content-Language: en-US
+From: Joey Lu <a0987203069@gmail.com>
+In-Reply-To: <9cccf8cd84b394f66b85e2af3bef0a3ecd154747.camel@icenowy.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,80 +105,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: EACB91EAA6A
+X-Rspamd-Queue-Id: 37AE41EB4E4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:marek.vasut+renesas@mailbox.org,m:airlied@gmail.com,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:marek.vasut@mailbox.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:uwu@icenowy.me,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:ychuang3@nuvoton.com,m:schung@nuvoton.com,m:yclu4@nuvoton.com,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[a0987203069@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[mailbox.org,lists.freedesktop.org,gmail.com,linux.intel.com,ffwll.ch,suse.de,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[icenowy.me,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.563];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[a0987203069@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:email,linux-m68k.org:email,mail.gmail.com:mid,glider.be:email]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Maxime,
 
-On Tue, 3 Mar 2026 at 09:07, Maxime Ripard <mripard@kernel.org> wrote:
-> On Thu, Jan 15, 2026 at 03:45:53AM +0100, Marek Vasut wrote:
-> > Update drm_of_get_data_lanes_count_ep() return value documentation
-> > to match the drm_of_get_data_lanes_count() return value documentation.
-> > The drm_of_get_data_lanes_count_ep() is only a wrapper around the
-> > drm_of_get_data_lanes_count() and therefore returns the same error
-> > codes.
-> >
-> > Fixes: fc801750b197 ("drm: of: Add drm_of_get_data_lanes_count and drm_of_get_data_lanes_ep")
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-
-> > --- a/drivers/gpu/drm/drm_of.c
-> > +++ b/drivers/gpu/drm/drm_of.c
-> > @@ -539,8 +539,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count);
-> >   *
-> >   * Return:
-> >   * * min..max - positive integer count of "data-lanes" elements
-> > - * * -EINVAL - the "data-mapping" property is unsupported
-> > - * * -ENODEV - the "data-mapping" property is missing
-> > + * * -ve - the "data-lanes" property is missing or invalid
+On 2/10/2026 8:02 PM, Icenowy Zheng wrote:
+> 在 2026-02-09星期一的 16:45 +0800，Joey Lu写道：
+>> On 2/6/2026 11:09 PM, Icenowy Zheng wrote:
+>>> 在 2026-01-29星期四的 12:05 +0800，Joey Lu写道：
+>>>> ========== 8< ============
+>>>> +#endif
+>>>> diff --git a/drivers/gpu/drm/nuvoton/ma35_regs.h
+>>>> b/drivers/gpu/drm/nuvoton/ma35_regs.h
+>>>> new file mode 100644
+>>>> index 000000000000..0f4a7a13e7d8
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/nuvoton/ma35_regs.h
+>>>> @@ -0,0 +1,88 @@
+>>>> +/* SPDX-License-Identifier: GPL-2.0+ */
+>>>> +/*
+>>>> + * Nuvoton DRM driver
+>>>> + *
+>>>> + * Copyright (C) 2026 Nuvoton Technology Corp.
+>>>> + *
+>>>> + * Author: Joey Lu <a0987203069@gmail.com>
+>>>> + */
+>>>> +
+>>>> +#ifndef _MA35_REGS_H_
+>>>> +#define _MA35_REGS_H_
+>>>> +
+>>>> +#define MA35_FRAMEBUFFER_CONFIG                   0x1518
+>>> Please check my Verisilicon DC8200 driver, which is already part of
+>>> drm-misc-next now.
+>>>
+>>> The display controller here seems to be a earlier one from
+>>> Verisilicon.it looks like a DC8000, or maybe a more earlier one?
+>> The DCU is a Vivante DCUltra IP rather than a DC8000 series.
+>>
+>> It's an earlier generation display controller and was customized for
+>> Nuvoton, so it doesn't have a public model ID.
+>>
+>> Because of that lineage, parts of the register layout and
+>> functionality
+>> remain similar to older DC IPs.
+> The kernel seems to dislike different drivers for similar IPs.
 >
-> I have no idea what "ve" means in that context. We should rephrase or
-> pick something more obvious.
+>> Please refer to MA35D1 datasheet for more details.
+> I checked it, and the register definitions looks compatible with DC8000
+> registers at [1]. However no identification information is shown in the
+> manual.
+>
+> I may get a MA35D1 board after the Lunar New Year (although it looks a
+> little expensive), is it easy to bring up mainline kernal on arbitary
+> MA35D1 boards?
+>
+> [1]
+> https://github.com/milkv-megrez/rockos-u-boot/blob/c9221cf2fa77d39c0b241ab4b030c708e7ebe279/drivers/video/eswin/eswin_dc_reg.h
+Our team is actively working on upstreaming support for MA35D1. It is 
+possible to bring up the mainline kernel on arbitrary MA35D1 boards, but 
+for the best experience I strongly recommend using our Buildroot[1] or 
+Yocto[2] tooling available on the official GitHub. These provide 
+board-specific configurations and greatly simplify the process.
 
-"-ve" = negative, "+ve" = positive.
+If you decide to get an MA35D1 board yourself, our Buildroot/Yocto setup 
+will help you get started quickly and ensure you have the right patches 
+and configurations in place.
 
-git grep "\s[-+]ve\>"
+Currently, the mainline kernel version is 6.6, which is sufficient for 
+checking registers and basic functionality. For more complete feature 
+support, our Buildroot/Yocto tooling remains the recommended path.
 
-Gr{oetje,eeting}s,
+[1] https://github.com/OpenNuvoton/buildroot_2024
 
-                        Geert
+[2] https://github.com/OpenNuvoton/MA35D1_yocto-v5.0
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Joey
+
