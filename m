@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCkaLH5Pp2nKggAAu9opvQ
+	id aORbFoBPp2nKggAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:42 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605B41F7462
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096701F7470
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6CD10E8D5;
-	Tue,  3 Mar 2026 21:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9A510E8D3;
+	Tue,  3 Mar 2026 21:15:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZQnk34Oe";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OCESQA4c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C6310E8CF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:15:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1640F10E8D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:15:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772572536;
+ s=mimecast20190719; t=1772572538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0eBeiZqE9TXbxZv4w/1cPbOmShRF2lMY9/B+OMDvXLw=;
- b=ZQnk34Oec2sKe1yWNMaiu969Ky+LleJ+jxvykN1He/Tb/+vEikxfudKai7z/0XIAtre+z6
- G+AtPvkxFMJunBaMKMkSr2yr8xsKCjHJbbBrJdkmAmLsSzH1xbw12oXqYvgJY0BoQYityZ
- 0CrmRWsR6OuhnJ6e9Hn1qy8/B+FnsIw=
+ bh=irBf4YUdN1+vibh8PKUSXKnT1yGXKOqgKyvxp0mJGPY=;
+ b=OCESQA4clh8Axb1EjczquFMRnGOxVQ0eJn0FXweTVNSIxFkuzc2tNJ9bFvcsjNAOLNxk9z
+ Tzwha96xnUDt8Puun9MztQK61kbNN+O9W/1yep/mDbg01mbH1wtQMk3u13R44FXdv7jg+o
+ TRHQ8bldEBnrh6Kg+VGFCL1XExIfl38=
 Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
  [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-etsC0JQqOzyzX7-4hDSd7Q-1; Tue, 03 Mar 2026 16:15:34 -0500
-X-MC-Unique: etsC0JQqOzyzX7-4hDSd7Q-1
-X-Mimecast-MFC-AGG-ID: etsC0JQqOzyzX7-4hDSd7Q_1772572534
+ us-mta-622-nN0wyHOyPDOdTfCNFFgDhA-1; Tue, 03 Mar 2026 16:15:37 -0500
+X-MC-Unique: nN0wyHOyPDOdTfCNFFgDhA-1
+X-Mimecast-MFC-AGG-ID: nN0wyHOyPDOdTfCNFFgDhA_1772572537
 Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-50333a8184aso645011501cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:15:34 -0800 (PST)
+ d75a77b69052e-506ab115571so476613961cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 13:15:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772572534; x=1773177334;
+ d=1e100.net; s=20230601; t=1772572537; x=1773177337;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=0eBeiZqE9TXbxZv4w/1cPbOmShRF2lMY9/B+OMDvXLw=;
- b=HyQDHgavhhXIBc5t7SNt9PXRt61q07ahUIbJ1uoAiqg6I+nEbMI7JezHs8Tkp19yqk
- z321uQ6DYPiJoFPoI3EK80TCLKJzyQUhxTrjH3f2uKaRLnFcFFJs9U+AWziIbuy7W6+N
- PbvsJUnPXXGdhcRAROxTYqkmkilY84w9dPG9JLD6UD8ZpxU6YCLbZWw6mJZzyl7qJIHw
- UhfOlc2QIoDivI7miZHrr3CGWhfNG49zd3sFM2KrGZNEZwXcc55MXOOv+Z9SYlMr7rlr
- Rhyi9YCGHX9Aw2Nj/TOqweualCediJnhqHWzZWpNyiL4Rl8MSprQsbLvOMzI6FpabbEu
- Qo+w==
+ bh=irBf4YUdN1+vibh8PKUSXKnT1yGXKOqgKyvxp0mJGPY=;
+ b=KXvtDG3pOoanMRTETmBwa0leaIT1IdF3KJJbjz57+XFfdC8noe64bSyojiDvODVHP9
+ I9UFjnFNzc1+gwiTl4wyLmi6adV0OsNKSRuWH0E9v70TXS6M+PHFSPTugrhmm4JRpovc
+ hwVlsRhAoGg+EJbv0SyFHkynr8bw+xR7nTL5UIvMMxfPCz68EqpIJhldmYf9UjezxMx0
+ 5HXXRvo4vVft04FtvjQabUKo+zQn2IW0XMTWExY/JWmtLFkjmDU6348/oO8u062iJfAg
+ GbnyvYmjDamUTgnRQFkJVXPrMLAS1zFqHwbHA0w8N6GK/xX9wF0IFnmzYlhSRtOhOk0b
+ Ytgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzc2IILyP2bw89B1JpNbn0yahKdi6Akla8pAmz4bMWR38FfONbI+lUUo61TfvR9tWblUkWqktFM64=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyG9/3vKc49OeQpvy8FhpMAk7DWt8CioOh8axcG6FWSzrtj2svp
- 45sXav0t0415f8a3bjI10LoE+pxCNxXMRGFGy2g9QUtwQHovuPrKgpGgfrb1SD6dmXp0c0E5TYX
- ffyuBSJB5ZWIq345OSY+Shea97j1q8RyDuHbW/pvIrAutmt5ZBqs0oZw1EP2hJyKIPNkoxWq8ch
- j7HzFIn6kMArF2NkJRLKEefSvJlYy4+woPgw1y4sBYr/zkrRgpjT6/c3VR
-X-Gm-Gg: ATEYQzy9JtiIYPU3v8RIhrE6k5f3+ntv27S6GVWs7LD9VyIMCp+XN6/JUCcAfzTR3pp
- 3qAbZ80YPQG9tLkGkiOIVR7ndW+0ex5uriuyMc/4xuHWKOqa+4bGvNW5ZxTp8KlT1iY6wEOMbv/
- p78T+qsh9ANOdgAApWbfQslYCJB6qOLaFCeBiR2MtT4VQU16HoI2TShIir4Q4O3Kk5siIcfZBI8
- 67KTpebk6qpv8dAzNtywAWgcVqMSAl9BowysRlb1i7Lxb/eabomD18EnrTiu0lEaY/k0wCjeYjH
- c0XdPypAUwTvEzjLOD/PP0jL8jSYwaRAEgtNeOOl8N9jfIMrAZBpN7KPlzjSQ6YlBEqiMmQZ7a8
- c3HlA2r6MniuOmeLjYuOehGCBtg==
-X-Received: by 2002:ac8:5f8f:0:b0:506:a1a8:c6fb with SMTP id
- d75a77b69052e-507528765a2mr213886931cf.2.1772572534225; 
- Tue, 03 Mar 2026 13:15:34 -0800 (PST)
-X-Received: by 2002:ac8:5f8f:0:b0:506:a1a8:c6fb with SMTP id
- d75a77b69052e-507528765a2mr213886271cf.2.1772572533578; 
- Tue, 03 Mar 2026 13:15:33 -0800 (PST)
+ AJvYcCWmtND8O1v+Qssd94zdl5zDXD6adtKiIKe6v/7zVH44UwGRe8+5nGb0D+eGNOgLhgOP1ikuee4k5GU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgnvJNGE9gVWIJKQhgmokjENLRYcFaTLxUjZCjCb8JUrhP1XXx
+ EZhHAGu4qBrhLWpq14Sg6YpBZ0vSOJ8coP8BWglDSyNwNFCulPPdBPc5ddUDmjIUayFvSbMnBpb
+ lSXUnxWfea6W1KU4hSTqwfTGZ7D82VY1aH4d3+udJ9kjbBzLj/XQI/gZes991GjjyFMsLEPkP9x
+ faOMLBcBExm5uNhMIGfH5wff5UP49H2MkxzCdEhVwR10A20CwH1iA6lnXa
+X-Gm-Gg: ATEYQzz+EDUrfl/Xr5OhEmp4hIt5yukFUUQymSnQxJgbH6vT6lDQ02oF/k8YcslKbEz
+ VtUpjOISbQZe8IitHY3TbosnToduukLttWUZ8IXxrvcnyB2P638MetuFvpwmhIWtbd+aa5RtjBa
+ mr6vfHgCqFn6PUd69ciKprzMBXauTEwcqilFhqMDCuF9sv3K1ecUTRhYz1k1BFl0E9ieqG3BxYr
+ kXCQtwjHXypf58w8efs5KV3iBuPWNIAw3ZseFmQms8AT77ebWuMxZ3+/O3f2GDM9wk9l7Lvmf/D
+ nTZ7UrxUiNXy/Reip5F6tkPKCtl1ILrA9epVWWDp6/Qoupi2nYnZKZrKb+n3PHAQ5sfNSUZNWs1
+ bn2naePOxSQlA4kgFzZUN8ONL7w==
+X-Received: by 2002:a05:622a:1891:b0:502:9abb:c919 with SMTP id
+ d75a77b69052e-5075287910dmr225478431cf.10.1772572536611; 
+ Tue, 03 Mar 2026 13:15:36 -0800 (PST)
+X-Received: by 2002:a05:622a:1891:b0:502:9abb:c919 with SMTP id
+ d75a77b69052e-5075287910dmr225477351cf.10.1772572535732; 
+ Tue, 03 Mar 2026 13:15:35 -0800 (PST)
 Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.31
+ d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2026 13:15:33 -0800 (PST)
+ Tue, 03 Mar 2026 13:15:35 -0800 (PST)
 From: Peter Colberg <pcolberg@redhat.com>
-Date: Tue, 03 Mar 2026 16:15:21 -0500
-Subject: [PATCH v3 01/10] PCI: add driver flag to opt into disabling SR-IOV
+Date: Tue, 03 Mar 2026 16:15:22 -0500
+Subject: [PATCH v3 02/10] fpga: dfl-pci: set driver flag to disable SR-IOV
  on remove()
 MIME-Version: 1.0
-Message-Id: <20260303-rust-pci-sriov-v3-1-4443c35f0c88@redhat.com>
+Message-Id: <20260303-rust-pci-sriov-v3-2-4443c35f0c88@redhat.com>
 References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 In-Reply-To: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -110,7 +110,7 @@ Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-Mailer: b4 0.14.2
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 31pLEQdK_j-3Bt3a_8Q9mMr0yAmZoWsq_3o7-JVbm34_1772572534
+X-Mimecast-MFC-PROC-ID: pRRXFjbneXZP_W3a3O3Jw8lneKolJlgwVXpQVwgJtpc_1772572537
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -128,7 +128,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 605B41F7462
+X-Rspamd-Queue-Id: 096701F7470
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -166,173 +166,63 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Add a flag managed_sriov to the pci_driver structure that allows a
-driver to opt into disabling the Single Root I/O Virtualization (SR-IOV)
-capability of the device when the driver is unbound.
+Set the flag managed_sriov in the pci_driver structure to show how a
+PCI driver may opt into disabling the Single Root I/O Virtualization
+(SR-IOV) capability of the device when the driver is removed.
 
-Add a new function pci_iov_disable() that is invoked before the remove()
-callback of a PCI driver and checks for the presence of the new flag.
-If the flag is set, invoke the sriov_configure() callback to allow the
-driver to gracefully disable SR-IOV. Warn if the driver fails to do so
-and forcibly disable SR-IOV using sriov_disable().
+Merge the function cci_remove_feature_devs() into cci_pci_remove().
 
-Since a (broken) driver may theoretically re-enable SR-IOV during its
-remove() callback, extend pci_iov_remove() to forcibly disable SR-IOV
-after remove() if needed and only if the flag managed_sriov is set.
-
-Altogether the flag ensures that when a Virtual Function (VF) is bound
-to a driver, the corresponding Physical Function (PF) is bound to a
-driver, too, since the VF devices are destroyed when the PF driver is
-unbound. This guarantee is a prerequisite for exposing a safe Rust
-API that allows a VF driver to obtain the PF device for a VF device
-and subsequently access the device private data of the PF device.
-
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Peter Colberg <pcolberg@redhat.com>
 ---
 Changes in v2:
-- Move logic to disable SR-IOV on remove() from Rust to C.
-- Add driver flag managed_sriov to opt into disabling SR-IOV on remove().
+- Demonstrate flag managed_sriov for dfl-pci driver.
 ---
- drivers/pci/iov.c        | 41 ++++++++++++++++++++++++++++++++++++++++-
- drivers/pci/pci-driver.c |  3 ++-
- drivers/pci/pci.h        |  2 ++
- include/linux/pci.h      |  8 ++++++++
- 4 files changed, 52 insertions(+), 2 deletions(-)
+ drivers/fpga/dfl-pci.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-index 91ac4e37ecb9c0c5265aa40c235e84b430f43a96..da64d6ce5d30de8a52089b36fcb013937cf8b6fe 100644
---- a/drivers/pci/iov.c
-+++ b/drivers/pci/iov.c
-@@ -1010,20 +1010,59 @@ void pci_iov_release(struct pci_dev *dev)
- 		sriov_release(dev);
+diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+index e25205c6d8f00cec579016acade28e743812c924..2410e6f3efe100a635eebfdb21f28f62a3759890 100644
+--- a/drivers/fpga/dfl-pci.c
++++ b/drivers/fpga/dfl-pci.c
+@@ -125,15 +125,6 @@ static int cci_init_drvdata(struct pci_dev *pcidev)
+ 	return 0;
  }
  
-+/**
-+ * pci_iov_disable - disable SR-IOV before PF driver is detached
-+ * @dev: the PCI device
-+ *
-+ * Invoke sriov_configure() callback to allow the driver to gracefully disable
-+ * SR-IOV. Warn if the driver fails to do so and forcibly disable SR-IOV.
-+ */
-+void pci_iov_disable(struct pci_dev *dev)
-+{
-+	struct pci_driver *drv = dev->driver;
-+	struct pci_sriov *iov = dev->sriov;
-+
-+	if (WARN_ON(!drv))
-+		return;
-+
-+	if (!dev->is_physfn || !iov->num_VFs || !drv->managed_sriov)
-+		return;
-+
-+	if (!drv->sriov_configure) {
-+		sriov_disable(dev);
-+		return;
-+	}
-+
-+	drv->sriov_configure(dev, 0);
-+
-+	if (WARN_ON(iov->num_VFs))
-+		sriov_disable(dev);
-+}
-+
- /**
-  * pci_iov_remove - clean up SR-IOV state after PF driver is detached
-  * @dev: the PCI device
-  */
- void pci_iov_remove(struct pci_dev *dev)
+-static void cci_remove_feature_devs(struct pci_dev *pcidev)
+-{
+-	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
+-
+-	/* remove all children feature devices */
+-	dfl_fpga_feature_devs_remove(drvdata->cdev);
+-	cci_pci_free_irq(pcidev);
+-}
+-
+ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
  {
-+	struct pci_driver *drv = dev->driver;
- 	struct pci_sriov *iov = dev->sriov;
+ 	unsigned int i;
+@@ -425,10 +416,11 @@ static int cci_pci_sriov_configure(struct pci_dev *pcidev, int num_vfs)
  
-+	if (WARN_ON(!drv))
-+		return;
-+
- 	if (!dev->is_physfn)
- 		return;
+ static void cci_pci_remove(struct pci_dev *pcidev)
+ {
+-	if (dev_is_pf(&pcidev->dev))
+-		cci_pci_sriov_configure(pcidev, 0);
++	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
  
- 	iov->driver_max_VFs = iov->total_VFs;
--	if (iov->num_VFs)
-+
-+	if (iov->num_VFs && !drv->managed_sriov) {
- 		pci_warn(dev, "driver left SR-IOV enabled after remove\n");
-+		return;
-+	}
-+
-+	if (WARN_ON(iov->num_VFs))
-+		sriov_disable(dev);
+-	cci_remove_feature_devs(pcidev);
++	/* remove all children feature devices */
++	dfl_fpga_feature_devs_remove(drvdata->cdev);
++	cci_pci_free_irq(pcidev);
  }
  
- /**
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index dd9075403987d84e068014b35745e8872e93fdae..3fe43711565a3eb61a06cc3700e5ca953961fbe9 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -491,6 +491,7 @@ static void pci_device_remove(struct device *dev)
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	struct pci_driver *drv = pci_dev->driver;
- 
-+	pci_iov_disable(pci_dev);
- 	if (drv->remove) {
- 		pm_runtime_get_sync(dev);
- 		/*
-@@ -504,8 +505,8 @@ static void pci_device_remove(struct device *dev)
- 		pm_runtime_put_noidle(dev);
- 	}
- 	pcibios_free_irq(pci_dev);
--	pci_dev->driver = NULL;
- 	pci_iov_remove(pci_dev);
-+	pci_dev->driver = NULL;
- 
- 	/* Undo the runtime PM settings in local_pci_probe() */
- 	pm_runtime_put_sync(dev);
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 13d998fbacce6698514d92500dfea03cc562cdc2..66308f5126ff9e4bebb537a541f1dd8717bccbfa 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -943,6 +943,7 @@ static inline void pci_restore_pasid_state(struct pci_dev *pdev) { }
- #ifdef CONFIG_PCI_IOV
- int pci_iov_init(struct pci_dev *dev);
- void pci_iov_release(struct pci_dev *dev);
-+void pci_iov_disable(struct pci_dev *dev);
- void pci_iov_remove(struct pci_dev *dev);
- void pci_iov_update_resource(struct pci_dev *dev, int resno);
- resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev, int resno);
-@@ -977,6 +978,7 @@ static inline int pci_iov_init(struct pci_dev *dev)
- 	return -ENODEV;
- }
- static inline void pci_iov_release(struct pci_dev *dev) { }
-+static inline void pci_iov_disable(struct pci_dev *dev) { }
- static inline void pci_iov_remove(struct pci_dev *dev) { }
- static inline void pci_iov_update_resource(struct pci_dev *dev, int resno) { }
- static inline resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev,
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 1c270f1d512301de4d462fe7e5097c32af5c6f8d..859f767b30f726bd157a6080f5977c17c4827a1d 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1015,6 +1015,13 @@ struct module;
-  *		how to manage the DMA themselves and set this flag so that
-  *		the IOMMU layer will allow them to setup and manage their
-  *		own I/O address space.
-+ * @managed_sriov: Disable SR-IOV on remove().
-+ *		If set, the Single Root I/O Virtualization (SR-IOV)
-+ *		capability of the device is disabled when the driver is
-+ *		unbound from the device, by calling sriov_configure()
-+ *		before remove(). The presence of this flag guarantees
-+ *		that when a Virtual Function (VF) is bound to a driver,
-+ *		the Physical Function (PF) is bound to a driver, too.
-  */
- struct pci_driver {
- 	const char		*name;
-@@ -1033,6 +1040,7 @@ struct pci_driver {
- 	struct device_driver	driver;
- 	struct pci_dynids	dynids;
- 	bool driver_managed_dma;
-+	bool managed_sriov;
+ static struct pci_driver cci_pci_driver = {
+@@ -437,6 +429,7 @@ static struct pci_driver cci_pci_driver = {
+ 	.probe = cci_pci_probe,
+ 	.remove = cci_pci_remove,
+ 	.sriov_configure = cci_pci_sriov_configure,
++	.managed_sriov = true,
  };
  
- #define to_pci_driver(__drv)	\
+ module_pci_driver(cci_pci_driver);
 
 -- 
 2.53.0
