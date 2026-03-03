@@ -2,79 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yC/kI5zHpmn3TQAAu9opvQ
+	id sLszGprHpmn3TQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:35:56 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:35:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2651EDF36
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168891EDF28
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 12:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 601E910E7C2;
-	Tue,  3 Mar 2026 11:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E19F10E7BE;
+	Tue,  3 Mar 2026 11:35:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="HfJjB9z1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AElBCnhI";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HfJjB9z1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AElBCnhI";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="kpuEv/ra";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="giQRaJtY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kpuEv/ra";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="giQRaJtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBA3410E79E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 11:32:45 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFD310E7A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 11:33:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B3B143F959;
- Tue,  3 Mar 2026 11:32:44 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 14FD65BDFA;
+ Tue,  3 Mar 2026 11:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1772537564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772537612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iXP9gapkvJkQwmzCnRQCpwpSx1/qOrmg7rRUhHTzz+E=;
- b=HfJjB9z1513Kp7eff2XsY+fgu5N3lYrgW5QmS+gRImeA3LnL+qnr6dE+Mth73FU+8XMCW4
- Fj46WBAPxTvohb3FCq5NTFT3S6oJjdA8jy3hzHCnrJHtHwc0wu3cPeFqx8z30qEcJO52If
- kjnx8zsxDQoxya+au9IePYorlhmHeFQ=
+ bh=p4DdREtNiJiOQrLwoyUgGYussCYHVyIxoDajXjekPXE=;
+ b=kpuEv/raO0eFZTfGUyM+Zp0J3N8d/BUc56ofJM3npHqMnUodITGE00WQXx2aJzIh8OmGRi
+ djUl98VPvFOmJaF3RG8TbY14u/wNVNsNbpO2KCdHXd2JhDtNcahijqb6GinSQeIx2YF7dS
+ RGFXs8NFjCMxKc9DFVPaDzIwBAIpxzU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1772537564;
+ s=susede2_ed25519; t=1772537612;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iXP9gapkvJkQwmzCnRQCpwpSx1/qOrmg7rRUhHTzz+E=;
- b=AElBCnhIP5Bu0X3IX90FwwyrLkyZJjJcGtGikQEIRtRytW9GR/hFpndKZOiJIbxDGhEVfz
- KCmgoQOSvLYJ3BBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+ bh=p4DdREtNiJiOQrLwoyUgGYussCYHVyIxoDajXjekPXE=;
+ b=giQRaJtY2xPj1wOFq6Fa2xMiBEgSBCEyj1CDFiY1PGUtyx5b36SikfpUlOrmAycGcKKEg1
+ gOFGyXQ4XTv9MECg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="kpuEv/ra";
+ dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=giQRaJtY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1772537564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772537612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iXP9gapkvJkQwmzCnRQCpwpSx1/qOrmg7rRUhHTzz+E=;
- b=HfJjB9z1513Kp7eff2XsY+fgu5N3lYrgW5QmS+gRImeA3LnL+qnr6dE+Mth73FU+8XMCW4
- Fj46WBAPxTvohb3FCq5NTFT3S6oJjdA8jy3hzHCnrJHtHwc0wu3cPeFqx8z30qEcJO52If
- kjnx8zsxDQoxya+au9IePYorlhmHeFQ=
+ bh=p4DdREtNiJiOQrLwoyUgGYussCYHVyIxoDajXjekPXE=;
+ b=kpuEv/raO0eFZTfGUyM+Zp0J3N8d/BUc56ofJM3npHqMnUodITGE00WQXx2aJzIh8OmGRi
+ djUl98VPvFOmJaF3RG8TbY14u/wNVNsNbpO2KCdHXd2JhDtNcahijqb6GinSQeIx2YF7dS
+ RGFXs8NFjCMxKc9DFVPaDzIwBAIpxzU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1772537564;
+ s=susede2_ed25519; t=1772537612;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iXP9gapkvJkQwmzCnRQCpwpSx1/qOrmg7rRUhHTzz+E=;
- b=AElBCnhIP5Bu0X3IX90FwwyrLkyZJjJcGtGikQEIRtRytW9GR/hFpndKZOiJIbxDGhEVfz
- KCmgoQOSvLYJ3BBQ==
+ bh=p4DdREtNiJiOQrLwoyUgGYussCYHVyIxoDajXjekPXE=;
+ b=giQRaJtY2xPj1wOFq6Fa2xMiBEgSBCEyj1CDFiY1PGUtyx5b36SikfpUlOrmAycGcKKEg1
+ gOFGyXQ4XTv9MECg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A05EE3EA69;
- Tue,  3 Mar 2026 11:32:44 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00BEF3EA6E;
+ Tue,  3 Mar 2026 11:33:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id AVQgJ9zGpml6UwAAD6G6ig
- (envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 11:32:44 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id skktAAzHpmngUwAAD6G6ig
+ (envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 11:33:32 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
- id 64588A0A1B; Tue,  3 Mar 2026 12:32:44 +0100 (CET)
-Date: Tue, 3 Mar 2026 12:32:44 +0100
+ id ADD8FA0A1B; Tue,  3 Mar 2026 12:33:27 +0100 (CET)
+Date: Tue, 3 Mar 2026 12:33:27 +0100
 From: Jan Kara <jack@suse.cz>
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -190,18 +192,19 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-x25@vger.kernel.org, audit@vger.kernel.org,
  linux-bluetooth@vger.kernel.org, 
  linux-can@vger.kernel.org, linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 067/110] proc: replace PRIino with %llu/%llx format
+Subject: Re: [PATCH v2 082/110] ext2: replace PRIino with %llu/%llx format
  strings
-Message-ID: <6myy5axw5zn3e3gtmxrfw2iynowkont7dc7mm74j24cvecrewb@7qitmwzmad2k>
+Message-ID: <632zh5igh5dlniw2aboh23enl34csbfb5oizz4udz2mca55rxc@ncjzx2adt5za>
 References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-67-e5388800dae0@kernel.org>
+ <20260302-iino-u64-v2-82-e5388800dae0@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260302-iino-u64-v2-67-e5388800dae0@kernel.org>
-X-Spam-Score: -0.30
-X-Spam-Level: 
+In-Reply-To: <20260302-iino-u64-v2-82-e5388800dae0@kernel.org>
+X-Spamd-Bar: /
 X-Spam-Flag: NO
+X-Spam-Score: -0.51
+X-Spam-Level: 
 X-Mailman-Approved-At: Tue, 03 Mar 2026 11:35:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -217,7 +220,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3E2651EDF36
+X-Rspamd-Queue-Id: 168891EDF28
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -258,9 +261,9 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:email]
 X-Rspamd-Action: no action
 
-On Mon 02-03-26 15:24:51, Jeff Layton wrote:
+On Mon 02-03-26 15:25:06, Jeff Layton wrote:
 > Now that i_ino is u64 and the PRIino format macro has been removed,
-> replace all uses in proc with the concrete format strings.
+> replace all uses in ext2 with the concrete format strings.
 > 
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
@@ -271,45 +274,153 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/proc/fd.c       | 2 +-
->  fs/proc/task_mmu.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  fs/ext2/dir.c    | 10 +++++-----
+>  fs/ext2/ialloc.c |  2 +-
+>  fs/ext2/inode.c  |  2 +-
+>  fs/ext2/xattr.c  | 14 +++++++-------
+>  4 files changed, 14 insertions(+), 14 deletions(-)
 > 
-> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> index 936d0258d688be5fdc384ee5c4dfbb8fa0d19dff..aae1a83e884686471758703634f0d3479e77c9a7 100644
-> --- a/fs/proc/fd.c
-> +++ b/fs/proc/fd.c
-> @@ -54,7 +54,7 @@ static int seq_show(struct seq_file *m, void *v)
->  	if (ret)
->  		return ret;
+> diff --git a/fs/ext2/dir.c b/fs/ext2/dir.c
+> index f87106907da31bb7c1ca65c0ec2dcc0d47d27c62..278d4be8ecbe7790204b5ba985a7ce088fadb181 100644
+> --- a/fs/ext2/dir.c
+> +++ b/fs/ext2/dir.c
+> @@ -141,7 +141,7 @@ static bool ext2_check_folio(struct folio *folio, int quiet, char *kaddr)
+>  Ebadsize:
+>  	if (!quiet)
+>  		ext2_error(sb, __func__,
+> -			"size of directory #%" PRIino "u is not a multiple "
+> +			"size of directory #%llu is not a multiple "
+>  			"of chunk size", dir->i_ino);
+>  	goto fail;
+>  Eshort:
+> @@ -160,7 +160,7 @@ static bool ext2_check_folio(struct folio *folio, int quiet, char *kaddr)
+>  	error = "inode out of bounds";
+>  bad_entry:
+>  	if (!quiet)
+> -		ext2_error(sb, __func__, "bad entry in directory #%" PRIino "u: : %s - "
+> +		ext2_error(sb, __func__, "bad entry in directory #%llu: : %s - "
+>  			"offset=%llu, inode=%lu, rec_len=%d, name_len=%d",
+>  			dir->i_ino, error, folio_pos(folio) + offs,
+>  			(unsigned long) le32_to_cpu(p->inode),
+> @@ -170,7 +170,7 @@ static bool ext2_check_folio(struct folio *folio, int quiet, char *kaddr)
+>  	if (!quiet) {
+>  		p = (ext2_dirent *)(kaddr + offs);
+>  		ext2_error(sb, "ext2_check_folio",
+> -			"entry in directory #%" PRIino "u spans the page boundary"
+> +			"entry in directory #%llu spans the page boundary"
+>  			"offset=%llu, inode=%lu",
+>  			dir->i_ino, folio_pos(folio) + offs,
+>  			(unsigned long) le32_to_cpu(p->inode));
+> @@ -281,7 +281,7 @@ ext2_readdir(struct file *file, struct dir_context *ctx)
 >  
-> -	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%" PRIino "u\n",
-> +	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%llu\n",
->  		   (long long)file->f_pos, f_flags,
->  		   real_mount(file->f_path.mnt)->mnt_id,
->  		   file_inode(file)->i_ino);
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 702b0f0433f91077cd0d0af4a07e9d67d9fa9a45..751b9ba160fbf15499555875871d727644b0df44 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -442,7 +442,7 @@ static void get_vma_name(struct vm_area_struct *vma,
->  static void show_vma_header_prefix(struct seq_file *m,
->  				   unsigned long start, unsigned long end,
->  				   vm_flags_t flags, unsigned long long pgoff,
-> -				   dev_t dev, kino_t ino)
-> +				   dev_t dev, u64 ino)
->  {
->  	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
->  	seq_put_hex_ll(m, NULL, start, 8);
-> @@ -465,7 +465,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
->  	const struct path *path;
->  	const char *name_fmt, *name;
->  	vm_flags_t flags = vma->vm_flags;
-> -	kino_t ino = 0;
-> +	u64 ino = 0;
->  	unsigned long long pgoff = 0;
->  	unsigned long start, end;
->  	dev_t dev = 0;
+>  		if (IS_ERR(kaddr)) {
+>  			ext2_error(sb, __func__,
+> -				   "bad page in #%" PRIino "u",
+> +				   "bad page in #%llu",
+>  				   inode->i_ino);
+>  			ctx->pos += PAGE_SIZE - offset;
+>  			return PTR_ERR(kaddr);
+> @@ -383,7 +383,7 @@ struct ext2_dir_entry_2 *ext2_find_entry (struct inode *dir,
+>  		/* next folio is past the blocks we've got */
+>  		if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
+>  			ext2_error(dir->i_sb, __func__,
+> -				"dir %" PRIino "u size %lld exceeds block count %llu",
+> +				"dir %llu size %lld exceeds block count %llu",
+>  				dir->i_ino, dir->i_size,
+>  				(unsigned long long)dir->i_blocks);
+>  			goto out;
+> diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
+> index 6a317411e54191578343308b5a3990aea9c36436..bf21b57cf98cd5f90e1177454a8fd5cca482c2f8 100644
+> --- a/fs/ext2/ialloc.c
+> +++ b/fs/ext2/ialloc.c
+> @@ -590,7 +590,7 @@ struct inode *ext2_new_inode(struct inode *dir, umode_t mode,
+>  		goto fail_free_drop;
+>  
+>  	mark_inode_dirty(inode);
+> -	ext2_debug("allocating inode %" PRIino "u\n", inode->i_ino);
+> +	ext2_debug("allocating inode %llu\n", inode->i_ino);
+>  	ext2_preread_inode(inode);
+>  	return inode;
+>  
+> diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
+> index 0ca9148583646812b478f01fd35bcad11498f951..45286c0c3b6b8f86a1ecec0e2f545c5a678dd6ac 100644
+> --- a/fs/ext2/inode.c
+> +++ b/fs/ext2/inode.c
+> @@ -1152,7 +1152,7 @@ static void ext2_free_branches(struct inode *inode, __le32 *p, __le32 *q, int de
+>  			 */ 
+>  			if (!bh) {
+>  				ext2_error(inode->i_sb, "ext2_free_branches",
+> -					"Read failure, inode=%" PRIino "u, block=%ld",
+> +					"Read failure, inode=%llu, block=%ld",
+>  					inode->i_ino, nr);
+>  				continue;
+>  			}
+> diff --git a/fs/ext2/xattr.c b/fs/ext2/xattr.c
+> index 4b3dadc0a2a47c85682d9c74edb900cf0f20996f..14ada70db36a76d1436944a3622e5caf0b373b9e 100644
+> --- a/fs/ext2/xattr.c
+> +++ b/fs/ext2/xattr.c
+> @@ -227,7 +227,7 @@ ext2_xattr_get(struct inode *inode, int name_index, const char *name,
+>  	if (!ext2_xattr_header_valid(HDR(bh))) {
+>  bad_block:
+>  		ext2_error(inode->i_sb, "ext2_xattr_get",
+> -			"inode %" PRIino "u: bad block %d", inode->i_ino,
+> +			"inode %llu: bad block %d", inode->i_ino,
+>  			EXT2_I(inode)->i_file_acl);
+>  		error = -EIO;
+>  		goto cleanup;
+> @@ -313,7 +313,7 @@ ext2_xattr_list(struct dentry *dentry, char *buffer, size_t buffer_size)
+>  	if (!ext2_xattr_header_valid(HDR(bh))) {
+>  bad_block:
+>  		ext2_error(inode->i_sb, "ext2_xattr_list",
+> -			"inode %" PRIino "u: bad block %d", inode->i_ino,
+> +			"inode %llu: bad block %d", inode->i_ino,
+>  			EXT2_I(inode)->i_file_acl);
+>  		error = -EIO;
+>  		goto cleanup;
+> @@ -454,7 +454,7 @@ ext2_xattr_set(struct inode *inode, int name_index, const char *name,
+>  		if (!ext2_xattr_header_valid(header)) {
+>  bad_block:
+>  			ext2_error(sb, "ext2_xattr_set",
+> -				"inode %" PRIino "u: bad block %d", inode->i_ino,
+> +				"inode %llu: bad block %d", inode->i_ino,
+>  				   EXT2_I(inode)->i_file_acl);
+>  			error = -EIO;
+>  			goto cleanup;
+> @@ -833,7 +833,7 @@ ext2_xattr_delete_inode(struct inode *inode)
+>  
+>  	if (!ext2_data_block_valid(sbi, EXT2_I(inode)->i_file_acl, 1)) {
+>  		ext2_error(inode->i_sb, "ext2_xattr_delete_inode",
+> -			"inode %" PRIino "u: xattr block %d is out of data blocks range",
+> +			"inode %llu: xattr block %d is out of data blocks range",
+>  			inode->i_ino, EXT2_I(inode)->i_file_acl);
+>  		goto cleanup;
+>  	}
+> @@ -841,14 +841,14 @@ ext2_xattr_delete_inode(struct inode *inode)
+>  	bh = sb_bread(inode->i_sb, EXT2_I(inode)->i_file_acl);
+>  	if (!bh) {
+>  		ext2_error(inode->i_sb, "ext2_xattr_delete_inode",
+> -			"inode %" PRIino "u: block %d read error", inode->i_ino,
+> +			"inode %llu: block %d read error", inode->i_ino,
+>  			EXT2_I(inode)->i_file_acl);
+>  		goto cleanup;
+>  	}
+>  	ea_bdebug(bh, "b_count=%d", atomic_read(&(bh->b_count)));
+>  	if (!ext2_xattr_header_valid(HDR(bh))) {
+>  		ext2_error(inode->i_sb, "ext2_xattr_delete_inode",
+> -			"inode %" PRIino "u: bad block %d", inode->i_ino,
+> +			"inode %llu: bad block %d", inode->i_ino,
+>  			EXT2_I(inode)->i_file_acl);
+>  		goto cleanup;
+>  	}
+> @@ -952,7 +952,7 @@ ext2_xattr_cache_find(struct inode *inode, struct ext2_xattr_header *header)
+>  		bh = sb_bread(inode->i_sb, ce->e_value);
+>  		if (!bh) {
+>  			ext2_error(inode->i_sb, "ext2_xattr_cache_find",
+> -				"inode %" PRIino "u: block %ld read error",
+> +				"inode %llu: block %ld read error",
+>  				inode->i_ino, (unsigned long) ce->e_value);
+>  		} else {
+>  			lock_buffer(bh);
 > 
 > -- 
 > 2.53.0
