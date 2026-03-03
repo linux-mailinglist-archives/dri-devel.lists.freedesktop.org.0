@@ -2,208 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHpeIvGhpmmvSAAAu9opvQ
+	id WB35DqBLpmm1NgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 03:46:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2036E1EB4AB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A881E82C3
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 03:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64CC510E701;
-	Tue,  3 Mar 2026 08:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D116410E03A;
+	Tue,  3 Mar 2026 02:46:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.b="OGXP55IU";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="SA/+T8UX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E04610E0B4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 02:30:24 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-2ae5636ab04so14895185ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Mar 2026 18:30:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772505024; cv=none;
- d=google.com; s=arc-20240605;
- b=fjjM4E6+d4RJ5YeWbjo3tMtP6e0ABv9OKPmdAX9GSSOKDpIPdFAe2awsFrl5iTezrt
- ErvHbBogiJQ1Zsclm/48gEaWd9E/tGE/NV6z8GULJThr/Qdl+JAhWWb7gDy6+RMLUnRj
- QT73HAiCO5UbufW6voUjBi/Ahz7WustxO5u+UKY1CRRdCf0uag6px22zyrQHGAniMOf5
- 58IWQuiK3J5RhdX0f9Ukm7QkeIDVBGYucbwujW/aB9E3pCVlG3IQXh583+D8BUV7eqnT
- ObNZLJXHRHht8UIFPdqWVjYkT8PksA2JCGqB00DDDh7jUdo85TjWjGoSQhkcrP1EfKXq
- bHTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
- fh=m87fo/TzxkGo72rlgm0sL2oUdntpxDhI6YmVa1iyX1E=;
- b=NYfnKqhrZPuRifzVlfpkxK9hpv7+QnLJowJa3mloYy4Xm/Lmi0s3A3axuevtAnNSfI
- uKX96tiL3nColt8ks/5fqJjepNPdXCV3nwyMLV/BM7qBqXaKMT7XKZClJzO1MGf6NvgS
- cLhJwLZR+RTHeG8wjpgHsCBV53gPhYw7feG4DNtQQXhNhs5KzTLTRI/7lFC4PhBXvEVx
- P/kWH2bV3q++zdFYzS8xYodVRZ1BnQl94n/8r1Uioh4XNog8oedO61j8bpXYRszQVWhi
- 6bi+pPcbcDJzjTw9568iDso9or/zVdWFed9SiJSNM2fDPadgx8Ikt9mRwNMNMVAooDmf
- zJiQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paul-moore.com; s=google; t=1772505024; x=1773109824;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
- b=OGXP55IU4c+xXnq4yGlGu8MVtYFClDTkHj+zCIGrPpQlxGE3STFvmHlX4gchhFt7M1
- lSjTBcGwe/nEJIu8ISz0CRHmsV0TxD42182ZXWSsrE5pENvjgA7mBXwG/x3+1X8edA1q
- PuGkSllEdkQWnxEgJUKUnzzqKZWlZs+IeLMti6uSTuRSNiz8iZzErWdE/TnbNHkohzOf
- xPAKZQ24oxcvh3Xa56tVPhxO+KKiUmYbsm1wrC33Gz5EMvT9IrriGLKye6eHGpOCHDDN
- PPtUAY3hcBqZSVAuT5F7NtLV1t6Y7QMLk3ob83rL906AcVYggnnjSNXOYyiljbnu1ggp
- Yg6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772505024; x=1773109824;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
- b=PP0pTWsTeYg8YkEZ6s1LI6JxFZmrAeSflp1HUf5kgaFQ0St+OfEDI5dGQ2STTgiuYV
- mUZ6CQFOc5Zrm98GzIqYxl8rBOw8URo57SYRzeAFSpsOulOUEXZ3iJlGOW2rkFIrIGnr
- Uz1VDrtpEgLRX+MpyfD2xYfEDkwrzqhgTSLeCvRLj8BgjUJSpCkf5NJPjgXPpmUJN0wP
- QfWjR/o0J/7UYNQwWX0s/QpHd/liikT5uZQRzZny8ssGV8bCl89LeLPDeO8o4k5Vv09Z
- 99D4CWNSI0MkpRnnNA9LMp8gtS3/RSvDya7yjHR932bP52dZEp4zAYvDTmuTnI875SAt
- MLJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWW4JFksBcJ4IO/fhQAJAinhSInlaPYy3B828ISnoyx11dfrsdmZ3FUVLj2GKABGoRXXr5jein3ee4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnjhFyVP20dIW6qXd/CrlPsYievhXHTCQ5FmFpFLqsXr7DqDJ7
- 1fcs/B+f3Q43eqs6b12hCp2GQp6SnTPHGnUnhrf8I0BzuZY0RxAwJtHg5T2+aZcOK1EB+xEifja
- SiTdlhpBg2brTUDREf70pDTfhIlU2hsh501ET1yH3
-X-Gm-Gg: ATEYQzweypiVlbKlEMhso+buIOuUPZK8x7urww1i9PBUXTIgZSX2FtnxGpX8ENNONCs
- h7ynjv5AVdsx0AZ9mhseDoUQKnYrbds1+ddswBci0NZ4VtHmMLpDU6v+kL5ynU75fS+k5jVWKIP
- YOf9ezxx3BbCHVSKRh81hs/rPqp1VXrKEG2NSy6ArhtsXTT7CF6bTxe2iEnrbZsxGd6zNGust02
- Vho8h1BChAv4sgPDsfJJczEFth5cLj3uwXqN8dJVR/W83PKrgH2+lN5tPFa471LSHS7fZMCmFzC
- as2oziTybVoPOwLomA==
-X-Received: by 2002:a17:903:244a:b0:2ae:56f8:747b with SMTP id
- d9443c01a7336-2ae56f8786cmr37920855ad.57.1772505023451; Mon, 02 Mar 2026
- 18:30:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-105-e5388800dae0@kernel.org>
-In-Reply-To: <20260302-iino-u64-v2-105-e5388800dae0@kernel.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 2 Mar 2026 21:30:10 -0500
-X-Gm-Features: AaiRm53tOqTCLn9NgvLgqwCOFo4xSyksjolr8ucn59RQ44Ck0r7mzGeRmSI5U0c
-Message-ID: <CAHC9VhSHj7qc-tKxEN45bkfr+Dha59ihzOGiCO2WDYTYoB-LeA@mail.gmail.com>
-Subject: Re: [PATCH v2 105/110] security: replace PRIino with %llu/%llx format
- strings
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Dan Williams <dan.j.williams@intel.com>, 
- Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>, 
- Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
- Alexander Aring <alex.aring@gmail.com>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- David Sterba <dsterba@suse.com>, 
- Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
- Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Ilya Dryomov <idryomov@gmail.com>, 
- Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, 
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
- Amir Goldstein <amir73il@gmail.com>, 
- Christoph Hellwig <hch@infradead.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Yangtao Li <frank.li@vivo.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
- David Woodhouse <dwmw2@infradead.org>, 
- Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Mark Fasheh <mark@fasheh.com>, 
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
- Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, 
- Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
- Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>,
- Joerg Reuter <jreuter@yaina.de>, 
- Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>, 
- Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>,
- Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>,
- Remi Denis-Courmont <courmisch@gmail.com>, 
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Xin Long <lucien.xin@gmail.com>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Stanislav Fomichev <sdf@fomichev.me>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
- linux-x25@vger.kernel.org, audit@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org, 
- linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from BN8PR05CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11011016.outbound.protection.outlook.com [52.101.57.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E36410E03A;
+ Tue,  3 Mar 2026 02:46:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fPOTO6qfjOJQ1xY8G/dPX3N9Q4iyO+GulST+hEhMgm/HrJCpmaPyhfhek2bdwPTpLVX14OP3jptUbfA7KvkBrej7GRKXa36TVxecfi1zmJCm8kFe/VyjENlUMk2+KmTQAlWPMCP02rEjLRMInMdBVZtL1hDuVVmhxEcex0yaMbryNaUnr8F6w4JWiLu8i+qfIod1WYtTpnJW/iyhIWl1kWMQqYuJ9Ly/fFuuE+2nrV4yfJTYGNqAHm2XeBFm0hzMPfGmB3sbrMxd1ib/+mUiO8yyHcebfDqt2PunPZYGjRjwoUK1wZTe7onG+21PzuaJJmqlk+EBt8wWRHpkMiZ3HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TqNC5cHHnbXd323HsB7GGGLZBFIqOOEndrdLd7lMoEk=;
+ b=pxF2JOel9TC8O2PVlHC1VIKU4cnQNbHGGSIE6zGbhYnzqK6mLo/Y+oSLYyjUZglwlzzuf42cN4AVvT58yn0H6mOLnUdg2vm6c/trHcSIgWdoy2rglHS7dbuEyoxZWEPe1JGx5O5HG6AuKE+EWR7TQzabiDGNWWCVJONJ6H3dyXHGelckHCaeGYMjzeLOKS+dgFzhBmNgWNSSGgklPLBG4j1c6se38HUJB9PsRZncK2uwLooL58C28H5K35VYn1kX49Jv6iHX4K78HjiNr8x1gwBLpfS8o5OU1sAVKTFwhEsw4KoAyG/vWSRI4NnPFFbtcZn7ob21NBjc1oMyeV+CFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TqNC5cHHnbXd323HsB7GGGLZBFIqOOEndrdLd7lMoEk=;
+ b=SA/+T8UXrsvOpwnBxa5TvWbjiW1b7nfKy1Xen5TmN4GdK8ISbuk9bjnu23PAB1ofmCCpV84W6igzBIo7lLp1/Zp0Qufg2r8Y6YqXiFmHGbw2V+nEpC27wE4irO+myISEBOd7tx6kZtyDEXOLilj4i2QKjfPvSQkrnoUoC7RPyNmeb/6aTYsptNhv2GNXW7nNXz+nui3KSQ/PhxkScf8eihUaYkZlrG624Mb731tOxgubmM9jGOvq/BbFCcF0rRYPQYTHNwdUYCGhfWbGm1JI2HkZd38ZPQFPyvEdnpU/BbrZlK0tBAHFyfP1UgGUk7BoV3KEk8TemQotYI1b/wgDHQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by MN6PR12MB8592.namprd12.prod.outlook.com (2603:10b6:208:478::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Tue, 3 Mar
+ 2026 02:46:48 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.015; Tue, 3 Mar 2026
+ 02:46:48 +0000
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 03 Mar 2026 08:53:16 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Mar 2026 11:46:44 +0900
+Message-Id: <DGSSXT7E34FS.1WGP72D9O4K3R@nvidia.com>
+Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Benno
+ Lossin" <lossin@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v2 2/4] gpu: nova-core: gsp: add sync and async command
+ queue API to `Cmdq`
+From: "Eliot Courtney" <ecourtney@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260226-cmdq-locking-v2-0-c7e16a6d5885@nvidia.com>
+ <20260226-cmdq-locking-v2-2-c7e16a6d5885@nvidia.com>
+ <a3b7a5c3-9689-4700-981e-d94bd2b5091d@nvidia.com>
+ <DGSAOTM95PZ4.2JGBBMNRSJSNN@kernel.org>
+In-Reply-To: <DGSAOTM95PZ4.2JGBBMNRSJSNN@kernel.org>
+X-ClientProxiedBy: TYCP301CA0045.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:380::18) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|MN6PR12MB8592:EE_
+X-MS-Office365-Filtering-Correlation-Id: f881b1e5-94a9-413d-5325-08de78cf1d60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|10070799003|7416014; 
+X-Microsoft-Antispam-Message-Info: DfJcZzzxx1TpNnB/jN7tI2VsobpfwBKpY0Ryi7CvVMRBsGNVHt4ryPVuxGG0t/0QO8sQl+qazx/IplrEOAIYRAKI309AyYIl0gKdZtdjTWYVint6RN7dJjnLAQS7cy+sdbbCuI9HgZSiqyVh9IZGoHF4HevKoSvCA1/BDtMgnu3bkpjGYkWRLfP5gXSlnBmLZ4aC8pCLCuLlCaOOULAzpfuNx8O8KtZedSwo68TLgRLLqZGA2KG7YO5r8K7SD8Km7nEWH2iOAYyuqC0yfj/qoWYDZZf4JkyRUxTMlLq0YHoNfNo1+8WDMt8dMYgqibuuVOkYxMpHfXl+FxMPKEo3cO5Z39bHY6gEWlFmJyGaiNHlujNAvvxWytGQVnuC0jBCYQS7UZtIVAn0/othuMqm7rgbEaWh3NQFsyxdFA/xdFEE1KjLDPj20M1kVKqe6rTFcC53CJCIHPX/vMgzJX8rcfN3k4CH9rMmMR26Y97THh/zhwriRtKTcmkmDpb4r9cMgMe4dGkVR6/w84ox7YpMyK+0amQmD7NMExAXU6QiIzDkWeAqcwWdQWksliMVxtHI/52fogK83F05+9EYPrksM6HeRuX3XutoiZ97arxdhgJ1UKz/I90HHfchh3EyAPy/AIU+0a/gf8pj+WscXcgPDVPHFkfVNHtJx2GA1+41aZCUF97pIvyMmZGR3DmZBepKDh0iso8TugynmEwTJY2fecZxE/ZaMGpgJtxpWQol1lE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(10070799003)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STAvS3JkY3g0QlFmZDZUczBFbXlSNXhhSTZ1SThMb1NETXduTFBreVBTMG81?=
+ =?utf-8?B?bm92cVBLL1NybUk2cXlpR09WYlg2Y1FWSkZXeHpsa0hMTTFMZTNSMDhkdWdS?=
+ =?utf-8?B?RnZLWUs2Y3BoYWl0WktQanV0TEpoR3FIYlZWUjRaOU9xcWdPUk9wRzlOclF5?=
+ =?utf-8?B?WXFPaWVPK29SWkZyVjN5UHdBb0tKRTc1eFUxRUZmVnBDa2J3MHJYd29COFMr?=
+ =?utf-8?B?NzNFYStaeFdESlpWS2FVckJ5eldWaG1hbWZTekl5VXpUaUZBTTVBdUpaNjM4?=
+ =?utf-8?B?dmZsR0ZvenNBUVBlUUdZTUVFVUlDL1c3cWhKNmFSVkZDbGFGbWs1Q3ArY3Iy?=
+ =?utf-8?B?akVhandjVDJUK24zVTR6aGJPOGlObUhCNVJESGpacU16TVV5U096bzdGK0ZY?=
+ =?utf-8?B?WW1hT1J2RXh1bGdURTVTMzA5V2pUVkFUY3c5S1FFc1ZUWU5ZSXg1d201M2dS?=
+ =?utf-8?B?YTNlRWJQUnNwS0V6MEFuUFVTenN0WnczTlQwUHl0L0NwWEZHd0Q2OXYvOThy?=
+ =?utf-8?B?MUV6TGV3NzFTUm1nOGJUdUM2eWdVdG1IQld0eGxhalFtb3NXdzNsUTlQVWlt?=
+ =?utf-8?B?OVBJUC9tdlRNODFHbERWV1NtMyt4MVlKNjBmeXU5TXJza0RVRnVjZDRHRExj?=
+ =?utf-8?B?QzRlL0JmUE5uRytzbXdxM0xMcUZXQSs0Z0VGR2NVbkhCVWxmc1dFQ3kzUFNT?=
+ =?utf-8?B?OW1peVBnZHU1WnZaVkpTQjRzKzhKNE1vaWpuaGorQTk3NW5hTlIzWGxvTW1F?=
+ =?utf-8?B?L25QN0tWbkE0WDJFYkp4UlAxWkRxQ3c2UEtnd2ZLcy9iRkVqRUMrL1FuR1pL?=
+ =?utf-8?B?aEJiNFVkdi9TRUk4UUVaZCtQbjZpdHlLRFFKK3AxWXN1SnFCUTBEVktyd1c4?=
+ =?utf-8?B?NHhGcHg5TytYZk5FOE1TL1cwVzFScUNzemgwRDVmTjRhaHJnZzhXMXBuRkFm?=
+ =?utf-8?B?LzdlUlFRSkdkUUNRMGJvK056aW95ZGFpckRXSzhPR2RESi8yMUF2K1VrZkw5?=
+ =?utf-8?B?dGc4UmE4d1ZGUGtudk1JTFV2VDNkY0lCNnZDSU9OaXNqTG5DR1FFRUZOVTdq?=
+ =?utf-8?B?eEFDVFZMcEdwM1lsYThsanUvbU5RL1czZ1lKODhaMGYwQ3VSM3Azb0lPV0pD?=
+ =?utf-8?B?Y2x4K3MraUZjR3NrRjFzWmlqRkh0ZGc1MFJCN0M5ZmJsVDN1eHUrRHJlR2xt?=
+ =?utf-8?B?OEdHLzR0SDlLY0lSYmFyaHFIMWhDTm5zS0xNMU1sNkdjTG5yZU1LRW1ndVdu?=
+ =?utf-8?B?aTVmcW9kZUNOZXJvZVJ4aXpSR2pKZHVVMEcvcitlcUpXR3NlcnIzejF6NDk5?=
+ =?utf-8?B?U0REWmhJcW5QamJ2U09SZE5ONlUxRVFRR3BzcGNBTXZGYmZyamxTK3IrYWln?=
+ =?utf-8?B?eVNrZW90Mmgwa29SaFJLRllpMUVmSmhweWdsMWR6NjlmdEZuVUtaNGFITFlh?=
+ =?utf-8?B?SmhzN2dlc0FXK25pNmtQM1FWTW1kYkhwTExIVW16N3JLWWFIK0Zzc1hENVNO?=
+ =?utf-8?B?aEhKVUZzMjlyRHFUSldJekJGYlBCL2ZCWjlwK2FMcVZkcktoQ04rcnd0ajJs?=
+ =?utf-8?B?L0xJRDhacDBDZkRBWGpOWG9oay9Rd0Iwcy9saFh3SFA3VGx4bG9may9YV3Zm?=
+ =?utf-8?B?emFOeHZoc1ljWVdJMW1wbTVoVDF3OFdWNThkUTFXZWlpYlRjUUNESXd1S1JD?=
+ =?utf-8?B?L0hXcU5TMHpkN081ZEtJTU8vU0JaQ1QyWkdzT3VKMjVPcFBDMzltaXpOQ3ZU?=
+ =?utf-8?B?bkJTeGt6WjZtTEQ1UXN6QUs2UkRHNmxlQlRIOGxSd283Q3VMOERPS3FYYStK?=
+ =?utf-8?B?YW9tKzZxOEs4c09uazc0aDlKZGROR2Nmd09zL0l3akZCa2lOemRtVGtVRE1a?=
+ =?utf-8?B?SE82UUNMb0hTOTJwdFdzR094akNRUStvYzh4U3VQVmVNczVQUHlRN28wVlJP?=
+ =?utf-8?B?bHRwR2R0ZXhNZmxWQThuTzN3aytnTnIxbTFFd2hXMGx5M3ZuRkdTeXBPejZ0?=
+ =?utf-8?B?ZWdENEhqWU1ZV01jOU9aTVhPdFplbzBrbENuWmZFT0lodVYyeXJ1YWZrdFRR?=
+ =?utf-8?B?QTlteE9YcmZkTU9naGI5Y2ZOYzFZb3ZZNEp2eWNEbWpveXphVnhnVklLWlhh?=
+ =?utf-8?B?UnM4SjlWb3d3UHJ5TFBrZ3YxUGNEYXhRNm9qZTI0RVRqSGZFTmRkblhRaVRK?=
+ =?utf-8?B?cEh5ZEtGdm5uTkNGRlhSWi9CUGVLSkkrZnhZVGFBSCt5SHgvckFpKzZ3Y3dt?=
+ =?utf-8?B?R2lYVFZ1K0VBMWJXbWdiOUZjcStySXk2NmRsZGsxZ1ZPbFV0S2EyNXZYTGo0?=
+ =?utf-8?B?OHkzYzA4WnlqSzBsVFNhL3JVSW1lc3IxamtCekJQZXloNkdsa21TYmVabGFJ?=
+ =?utf-8?Q?Yc9rZKECpOnQsnjbFWdey4NADt807MfFd/Y6FB4Le0lnJ?=
+X-MS-Exchange-AntiSpam-MessageData-1: SwL4sRZdax1EAw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f881b1e5-94a9-413d-5325-08de78cf1d60
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 02:46:48.1250 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LXjuYmkfe5g08lqa2O18WogfuZJrN3ob9NIidc/GmNL8JK9M75Kk3IUxW5IPG5CdA7WgMpyr5apN8QFuxr3BYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -218,63 +150,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2036E1EB4AB
+X-Rspamd-Queue-Id: 99A881E82C3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[paul-moore.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[paul-moore.com:s=google];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[paul@paul-moore.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jlayton@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:rostedt@goodmis.org,m:mhiramat@kernel.org,m:mathieu.desnoyers@efficios.com,m:dan.j.williams@intel.com,m:willy@infradead.org,m:ebiggers@kernel.org,m:tytso@mit.edu,m:muchun.song@linux.dev,m:osalvador@suse.de,m:david@kernel.org,m:dhowells@redhat.com,m:pc@manguebit.org,m:adilger.kernel@dilger.ca,m:jack@suse.com,m:jaegeuk@kernel.org,m:chao@kernel.org,m:trondmy@kernel.org,m:anna@kernel.org,m:chuck.lever@oracle.com,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,m:tom@talpey.com,m:sfrench@samba.org,m:ronniesahlberg@gmail.com,m:sprasad@microsoft.com,m:bharathsm@microsoft.com,m:alex.aring@gmail.com,m:konishi.ryusuke@gmail.com,m:slava@dubeyko.com,m:ericvh@kernel.org,m:lucho@ionkov.net,m:asmadeus@codewreck.org,m:linux_oss@crudebyte.com,m:dsterba@suse.com,m:marc.dionne@auristor.com,m:raven@themaw.net,m:luisbg@kernel.org,m:salah.triki@gmail.com,m:aivazian.tigran@gmail.com,m:i
- dryomov@gmail.com,m:amarkuze@redhat.com,m:jaharkes@cs.cmu.edu,m:coda@cs.cmu.edu,m:nico@fluxnic.net,m:code@tyhicks.com,m:amir73il@gmail.com,m:hch@infradead.org,m:glaubitz@physik.fu-berlin.de,m:frank.li@vivo.com,m:mikulas@artax.karlin.mff.cuni.cz,m:dwmw2@infradead.org,m:richard@nod.at,m:shaggy@kernel.org,m:almaz.alexandrovich@paragon-software.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:joseph.qi@linux.alibaba.com,m:hubcap@omnibond.com,m:martin@omnibond.com,m:miklos@szeredi.hu,m:al@alarsen.net,m:chengzhihao1@huawei.com,m:dlemoal@kernel.org,m:naohiro.aota@wdc.com,m:jth@kernel.org,m:john.johansen@canonical.com,m:jmorris@namei.org,m:serge@hallyn.com,m:zohar@linux.ibm.com,m:roberto.sassu@huawei.com,m:dmitry.kasatkin@gmail.com,m:eric.snowberg@oracle.com,m:wufan@kernel.org,m:stephen.smalley.work@gmail.com,m:omosnace@redhat.com,m:casey@schaufler-ca.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:edumazet@google.com,
- m:kuniyu@google.com,m:pabeni@redhat.com,m:willemb@google.com,m:davem@davemloft.net,m:kuba@kernel.org,m:horms@kernel.org,m:oleg@redhat.com,m:peterz@infradead.org,m:mingo@redhat.com,m:acme@kernel.org,m:namhyung@kernel.org,m:mark.rutland@arm.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[nvidia.com,google.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_GT_50(0.00)[171];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul@paul-moore.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[paul-moore.com:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,paul-moore.com:dkim,paul-moore.com:email,paul-moore.com:url]
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,Nvidia.com:dkim,nvidia.com:mid]
 X-Rspamd-Action: no action
 
-On Mon, Mar 2, 2026 at 3:50=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wro=
-te:
+On Mon Mar 2, 2026 at 9:28 PM JST, Danilo Krummrich wrote:
+> On Sat Feb 28, 2026 at 7:11 AM CET, John Hubbard wrote:
+>> The sync/async naming that GSP RM uses is a little bit "off". I
+>> spent some time discussing it with them, and the problem is that
+>> sync/async is a concept that is somewhat independent of whether
+>> a reply is expected. Usually, sync means a blocking wait for a
+>> response, which is not necessarily required in all case with
+>> GSP RM calls.
+>>
+>> The naming would be better here if it reflected simply that
+>> a response is expected, or not. I don't have great names for
+>> that, but "fire and forget" works well for what we have so
+>> far called "async". So we could do create a convention in which
+>> no annotation means that the API has a response that will come
+>> back, and some abbreviated for of "fire and forget" or "one way"
+>> added to the function name would mean that no response is
+>> expected.
 >
-> Now that i_ino is u64 and the PRIino format macro has been removed,
-> replace all uses in security with the concrete format strings.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  security/apparmor/apparmorfs.c       |  4 ++--
->  security/integrity/integrity_audit.c |  2 +-
->  security/ipe/audit.c                 |  2 +-
->  security/lsm_audit.c                 | 10 +++++-----
->  security/selinux/hooks.c             | 10 +++++-----
->  security/smack/smack_lsm.c           | 12 ++++++------
->  6 files changed, 20 insertions(+), 20 deletions(-)
+> I think the relevant information for the caller is whether the call is bl=
+ocking
+> or non-blocking; i.e. do we have cases where we want to block, but discar=
+d the
+> reply, or expect a reply but don't want to wait for it?
 
-For the LSM framework and SELinux changes ...
+Such a case (block and discard) does exist in nouveau (RECV_POLL type
+command queue submission) and IIRC it's used in the suspend/resume path
+(code was added in 8c327a0660a4 ("drm/nouveau/nvkm: introduce new GSP reply=
+ policy NVKM_GSP_RPC_REPLY_POLL"))
 
-Acked-by: Paul Moore <paul@paul-moore.com> (LSM/SELinux)
+But, we won't have this issue in nova-core because we can explicitly
+specify the reply size. So I think your suggested naming is good. I will
+update the series with this naming unless there are objections.
 
---=20
-paul-moore.com
+Thanks
