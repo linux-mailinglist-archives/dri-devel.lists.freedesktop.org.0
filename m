@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAVAOTEdp2kUeAAAu9opvQ
+	id EPLVBBAep2kUeAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:41:05 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:44:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE871F4C02
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641D51F4C40
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED8C10E0AB;
-	Tue,  3 Mar 2026 17:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F9B89622;
+	Tue,  3 Mar 2026 17:44:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZLhX24f+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BerYenVE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA51D10E86A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 17:40:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD7E89622
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 17:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772559660; x=1804095660;
+ t=1772559883; x=1804095883;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=KrS08w0c+cWlr7a6Ai+aVzpbCdyAH1bR2Srd/74O8cY=;
- b=ZLhX24f+la9sGRlmfq8rK6ALQWEb5Dfr7dPFdBgZnHtARctThex9Bea0
- XWTPjI4iR0oI1oPxZTXC8UeqLYJHnePT7bMp2ys7FpZeJJx8Zrxtra2xH
- qrM9XU9LbDBrS+H0aUwJkvhvPFc2HHOFfwz1/yZdWEhHqv68YVgSXTkq3
- Ln9Zr3YqPh1p2k5aQsegaEomxAf8kNZJr/UyQ7M77ZL/JZK7MDc1kBfMj
- rHpoRUJIcEVO8uOZsckY38elvvLX+XGSu9/xcesmzeXCVhsxRxZtLpV3W
- dIIY5fdJvy9raSSfszF0SPsE/lvUI8eN3SG9I36bhx5sR0j9YMLDvgFPQ Q==;
-X-CSE-ConnectionGUID: lj1XVY6zQ+qJuQ9SPUNQyg==
-X-CSE-MsgGUID: LANWzYieRdKwip1jcTFa4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="76208994"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="76208994"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 09:40:58 -0800
-X-CSE-ConnectionGUID: 3fSIjPObS/y/zsGv8lguAA==
-X-CSE-MsgGUID: epnrKxTXS7m1J9YoOpsO4g==
+ bh=98FUA6H7ttmlGD97XmHJINPTsJFqNg1jYfAloT7TIEQ=;
+ b=BerYenVEqTkyYHiH71XTKFkafnunuwi8aRzVIDvWHmu7D2T88LA93JfP
+ CAz92pFGT3p7Ieyw0SnamupN8xLWsyf/sZmdafmNilOeSVXdxKFrhue7K
+ kczsdmxFG983d4fkFfgWphsPdVHyFCsoSOTd08aBzFXY5r+X1xgC5nLkb
+ prPoEIqGyxb6hIe/1fiCfjQ0rBJzHND5YuAi0vi5n6XV9rDww3cs/6gjT
+ 2QaErvEen6TByyMPow0zxlEHch3q4Mxm9KPgE5OItb2FlthRJHPfuMBrR
+ 8Q080AyCupV/1Dcd8EDnNV5CrW7DEZBImw8YwXYDvpUVuI25fLDepxEsn g==;
+X-CSE-ConnectionGUID: 4NZUHkAmSVWCu0JEjHRWQg==
+X-CSE-MsgGUID: 1k9ec4TsQj+d1poOcnmKMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="84317264"
+X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="84317264"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2026 09:44:42 -0800
+X-CSE-ConnectionGUID: QwGXLoIHRTORBGlG5hRpzQ==
+X-CSE-MsgGUID: UmM7EwK9R3iZ6Jqkp34lZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; d="scan'208";a="217237522"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.106])
- ([10.245.245.106])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 09:40:55 -0800
-Message-ID: <88726fec-3bbb-4ca8-b724-c281b5696324@linux.intel.com>
-Date: Tue, 3 Mar 2026 18:40:52 +0100
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.108])
+ ([10.245.245.108])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2026 09:44:40 -0800
+Message-ID: <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
+Date: Tue, 3 Mar 2026 18:44:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Julian Orth <ju.orth@gmail.com>
+To: Julian Orth <ju.orth@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
 Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -70,9 +69,10 @@ References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
  <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
  <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
  <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
+ <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
 Content-Language: en-US
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
+In-Reply-To: <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,7 +89,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3FE871F4C02
+X-Rspamd-Queue-Id: 641D51F4C40
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -102,11 +102,11 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:ju.orth@gmail.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:michel.daenzer@mailbox.org,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[mailbox.org,gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,mailbox.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
@@ -123,52 +123,41 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,mailbox.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,intel.com:dkim]
 X-Rspamd-Action: no action
 
+Hey,
 
-
-Den 2026-03-03 kl. 18:18, skrev Michel Dänzer:
-> On 3/3/26 18:11, Julian Orth wrote:
->> On Tue, Mar 3, 2026 at 6:04 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>> On 3/3/26 17:54, Julian Orth wrote:
->>>> On Tue, Mar 3, 2026 at 5:40 PM Maarten Lankhorst
->>>> <maarten.lankhorst@linux.intel.com> wrote:
->>>>>
->>>>> There is precedence in the ioctl, the pad member is checked against zero for the same reason.
->>>>
->>>> I don't believe that this is comparable. Developers of code developed
->>>> against an older kernel could look at the kernel and see that the pad
->>>> field was checked against zero. They could not see the same for fields
->>>> that didn't exist at the time.
->>>
->>> "Initialize only known fields" isn't a valid approach here. The full struct must be initialized to 0, including any fields added in the future.
+Den 2026-03-03 kl. 18:30, skrev Julian Orth:
+> On Tue, Mar 3, 2026 at 6:18 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
 >>
->> It worked from the introduction of the ioctl until the new field was
->> added. How could anyone know about this requirement if it is not
->> documented? Some people might not even know that ioctl numbers encode
->> the size of the argument and therefore assume that the argument
->> structure is fixed. I think this is quite different from syscalls such
->> as clone3 which make the size argument explicit and where it can be
->> expected that the developer knows that the struct might grow when the
->> application is recompiled.
+>> I wrote in my first post in this thread that I don't object to your patch, so you can relax and stop trying to convince me not to object to it. :)
 >>
->> The new flag was added so that userspace can detect older kernels that
->> don't support the point field, such kernels return EINVAL when they
->> see the new flag.
->> Then why should the kernel not also use the absence of the flag to
->> detect older userspace that might be unaware of the point field?
+>> I'm just pointing out that this is working around broken user-space code, and that there are other similar cases where that kind of broken users-space code couldn't be worked around in the kernel, so it's better to also fix the user-space code anyway.
 > 
-> I wrote in my first post in this thread that I don't object to your patch, so you can relax and stop trying to convince me not to object to it. :)
+> At this point I think we're arguing about "how can ioctls be extended"
+> and "does userspace have to use memset" in general, not just about
+> this particular ioctl. You've made the argument that ioctls are not
+> extensible in general unless userspace uses memset. However, I'm not
+> yet convinced of this. As you've also said above, drm_ioctl happily
+> truncates or zero-extends ioctl arguments without returning an error
+> due to size mismatch. Therefore, the only way for userspace to detect
+> if the kernel supports the "extended" ioctl is to add a flag so that
+> the kernel can return an error if it doesn't know the flag. And then
+> that flag could also be used by the kernel to detect which fields of
+> the argument are potentially uninitialized.
 > 
-> 
-> I'm just pointing out that this is working around broken user-space code, and that there are other similar cases where that kind of broken users-space code couldn't be worked around in the kernel, so it's better to also fix the user-space code anyway.
+> That is why I asked above if you knew of any other examples where an
+> ioctl was extended and where memset(0) became effectively required due
+> to the extension.
 
+You don't even need to use memset, this would work too:
 
-My point is that it works for old userspace without problems. It's only
-newly compiled userspace with new headers that will run into problems.
-The code as written would have continued to work, but if you update to
-the new header and don't initialise the new members then it's a userspace
-problem. It should not be worked around in the kernel, since it's newly
-written bad userspace code, not old bad userspace code that stopped working
-when the kernel changed.
+struct drm_syncobj_handle args = {
+	.flags = 0
+};
+
+Or simply struct drm_syncobj_handle args = { };
+
+Kind regards,
+~Maarten Lankhorst
