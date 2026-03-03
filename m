@@ -2,70 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id APuuHpqnpmk7SgAAu9opvQ
+	id cMesFlOppmmuSgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:19:22 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:26:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5005E1EBB94
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:19:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED5D1EBD17
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 10:26:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7D310E164;
-	Tue,  3 Mar 2026 09:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD5510E745;
+	Tue,  3 Mar 2026 09:26:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s7pWR2K3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ca5KrXnP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y2Qnx9pP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ca5KrXnP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y2Qnx9pP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA8810E164;
- Tue,  3 Mar 2026 09:19:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 47D49442A2;
- Tue,  3 Mar 2026 09:19:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B73FC116C6;
- Tue,  3 Mar 2026 09:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772529558;
- bh=aS0Q+f7SHHFw1yREg5BbU7Bsh0kSlyyHqmg0Lk8akx8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s7pWR2K327EuFeJ9Ohh7aDaEGYyxlpKRE/AaTuyWYat61baizv83KA0zJaFa5Z5hA
- Ot5k0Si78cM02FbOBaEmXpeoUAw1iT4Hf30EUYt99FOe/FaNPvjzPcXSKKIG5QVoK6
- ehKJ02twPRa90HZ5QuGkDU4gLNVMu9j2jP+ajZCT382c6Os8YwvsUIfwc3MIPZfxQr
- z53ioJ1R3YnCG7aDGI0UFGJEjFdpZiZYdcMPseH3riBeMeiFvYO75XmIbw7/Hz3Mt5
- vlrc5496X6rjfK8lLQH5dlU+oV9m1goOjrls/YOFaHav5+wIIh0P7plqgRb6guYqcG
- vJDwKFU62obGw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
- (envelope-from <johan@kernel.org>) id 1vxLtn-000000001pU-1EF7;
- Tue, 03 Mar 2026 10:18:39 +0100
-Date: Tue, 3 Mar 2026 10:18:39 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abelvesa@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4] dt-bindings: display: msm: Fix reg ranges and clocks
- on Glymur
-Message-ID: <aaanbwG-icaIY_IK@hovoldconsulting.com>
-References: <20260303-glymur-fix-dp-bindings-reg-clocks-v4-1-1ebd9c7c2cee@oss.qualcomm.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2874210E745
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 09:26:39 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CF4743F814;
+ Tue,  3 Mar 2026 09:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772529997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=seBIYEBscDkt6JxZozAD4SL6kqteYQtA7qKE/qmLRhs=;
+ b=Ca5KrXnPO8coMB/epgj+PJeVU7CcxQjmRF+vysMqSh2cc2oGilQLWC2ltrlQacyetchQt3
+ yaZe7kD/21Ww3pjojRDhFApSINZk980waWN1c6Jj7shZHB1e4oapAdxzSERXmvmkzNDBep
+ CPcoZe2nwIjqBKHQ2Io/pChKS0PH7uA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772529997;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=seBIYEBscDkt6JxZozAD4SL6kqteYQtA7qKE/qmLRhs=;
+ b=Y2Qnx9pPCzttN3Idy+HpGME3rQdg2CpbjZFczA5uaGeDEgNgDjHnNyXaU7ViNhgLiKsQ8D
+ CnJeGbI50A1zXtBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772529997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=seBIYEBscDkt6JxZozAD4SL6kqteYQtA7qKE/qmLRhs=;
+ b=Ca5KrXnPO8coMB/epgj+PJeVU7CcxQjmRF+vysMqSh2cc2oGilQLWC2ltrlQacyetchQt3
+ yaZe7kD/21Ww3pjojRDhFApSINZk980waWN1c6Jj7shZHB1e4oapAdxzSERXmvmkzNDBep
+ CPcoZe2nwIjqBKHQ2Io/pChKS0PH7uA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772529997;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=seBIYEBscDkt6JxZozAD4SL6kqteYQtA7qKE/qmLRhs=;
+ b=Y2Qnx9pPCzttN3Idy+HpGME3rQdg2CpbjZFczA5uaGeDEgNgDjHnNyXaU7ViNhgLiKsQ8D
+ CnJeGbI50A1zXtBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F5553EA69;
+ Tue,  3 Mar 2026 09:26:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id k7dlHU2ppmlgSAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Mar 2026 09:26:37 +0000
+Message-ID: <e705e26b-2d61-48fb-a38c-f3590a2b07b6@suse.de>
+Date: Tue, 3 Mar 2026 10:26:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303-glymur-fix-dp-bindings-reg-clocks-v4-1-1ebd9c7c2cee@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/16] drm/st7586: Use regular atomic helpers; drop
+ simple-display helpers
+To: David Lechner <david@lechnology.com>, javierm@redhat.com,
+ lanzano.alex@gmail.com, kamlesh.gurudasani@gmail.com,
+ architanant5@gmail.com, wens@kernel.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20260224153656.261351-1-tzimmermann@suse.de>
+ <20260224153656.261351-12-tzimmermann@suse.de>
+ <d3eec0ed-d88f-489e-8e12-843098856e1f@lechnology.com>
+ <e499a22c-9205-4e02-b787-bf5ef7b36ead@lechnology.com>
+ <930d3c61-4d7d-4d08-aa13-47684c490b61@suse.de>
+ <2d42074b-90a0-4887-8469-f3ccf5839dc5@lechnology.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <2d42074b-90a0-4887-8469-f3ccf5839dc5@lechnology.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,61 +139,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5005E1EBB94
+X-Rspamd-Queue-Id: BED5D1EBD17
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:david@lechnology.com,m:javierm@redhat.com,m:lanzano.alex@gmail.com,m:kamlesh.gurudasani@gmail.com,m:architanant5@gmail.com,m:wens@kernel.org,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:lanzanoalex@gmail.com,m:kamleshgurudasani@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,linux.intel.com,suse.de,ffwll.ch,quicinc.com,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[johan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[lechnology.com,redhat.com,gmail.com,kernel.org,linux.intel.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email,hovoldconsulting.com:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:url,suse.de:dkim,suse.de:email,suse.de:mid,lechnology.com:email]
 X-Rspamd-Action: no action
 
-On Tue, Mar 03, 2026 at 11:03:11AM +0200, Abel Vesa wrote:
-> The Glymur platform has four DisplayPort controllers. The hardware
-> supports four streams (MST) per controller. However, on Glymur the first
-> three controllers only have two streams wired to the display subsystem,
-> while the fourth controller operates in single-stream mode.
-> 
-> Add a dedicated clause for the Glymur compatible to require the register
-> ranges for all four stream blocks, while allowing either one pixel clock
-> (for the single-stream controller) or two pixel clocks (for the remaining
-> controllers).
-> 
-> Update the Glymur MDSS schema example by adding the missing p2, p3,
-> mst2link and mst3link register blocks. Without these, the bindings
-> validation fails. Also replace the made-up register addresses with the
-> actual addresses from the first controller to match the SoC devicetree
-> description.
-> 
-> Cc: stable@vger.kernel.org # v6.19
+Hi
 
-No need to backport this, it's essentially just a documentation fix (not
-a bug fix).
+Am 02.03.26 um 15:49 schrieb David Lechner:
+> On 3/2/26 1:52 AM, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 01.03.26 um 06:24 schrieb David Lechner:
+>>> On 2/28/26 10:45 PM, David Lechner wrote:
+>>>> On 2/24/26 9:24 AM, Thomas Zimmermann wrote:
+>>>>> Replace simple-display helpers with regular atomic helpers. Store the
+>>>>> pipeline elements in struct st7586_device and initialize them as part
+>>>>> of probing the device. Use mipi-dbi's existing helpers and initializer
+>>>>> macros where possible.
+>>>>>
+>>>>> Effectively open-codes the modesetting code in the initializer helpers
+>>>>> of mipi-dbi and simple-display. St7586 requires custom helpers for
+>>>>> various pipeline elements, and non-freeing cleanup of the pipeline.
+>>>>>
+>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> ---
+>>>> This results in a couple of unused variable warnings, but otherwise seems
+>>>> to still work.
+>>>>
+>>>> Tested-by: David Lechner <david@lechnology.com>
+>>>>
+>>>>
+>>>> /home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c: In function ‘st7586_pipe_enable’:
+>>>> /home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c:180:25: warning: unused variable ‘rect’ [-Wunused-variable]
+>>>>     180 |         struct drm_rect rect = {
+>>>>         |                         ^~~~
+>>>> /home/david/work/bl/linux/drivers/gpu/drm/sitronix/st7586.c:177:40: warning: unused variable ‘shadow_plane_state’ [-Wunused-variable]
+>>>>     177 |         struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>>>>         |                                        ^~~~~~~~~~~~~~~~~~
+>>>>
+>>> Actually, I messed up and didn't notice a merge conflict with [1] when
+>>> applying the patches. So I only tested all of the patches before this
+>>> one. This means the unused variables are caused by [PATCH 01/16]
+>>> ("drm/mipi-dbi: Only modify planes on enabled CRTCs").
+>> I build with W=1 yet I often don't see such warnings. IDK why.
+> Did you build each patch individually? I think you will only see
+> the warning if you build the first patch by itself. Then the unused
+> variables get removed in a later patch.
 
-> Fixes: 8f63bf908213 ("dt-bindings: display: msm: Document the Glymur DiplayPort controller")
-> Fixes: 1aee577bbc60 ("dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem")
-> Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Indeed. I have a fix for that and also for the connector init.
 
-Johan
+Best regards
+Thomas
+
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
