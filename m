@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GLYEvmZpmnfRgAAu9opvQ
+	id 0AZONfyZpmnfRgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:21:13 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:21:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86CA1EAB35
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4BD1EAB44
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 09:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2B910E656;
-	Tue,  3 Mar 2026 08:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B905B10E65D;
+	Tue,  3 Mar 2026 08:21:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NNcpEr1b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eqIyngwY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6B510E656
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:21:10 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-389f173b91fso92085421fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:21:10 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69E2410E65B
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 08:21:11 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-389ebb0e885so102159921fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 00:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772526068; x=1773130868; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772526070; x=1773130870; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VSTYwE59cdM0X+83Cupw2VCvDy7g8S/i6/wXCW+hROU=;
- b=NNcpEr1b4LFvYVWO/TlkT2HsFKKQ5PDajYsEmxrnjIaXOu+IXZEctvpC3RhGbaEwrR
- wMjRhr40trTMezkWMlUFSFQlaL+ysQ4TY/ESdUyRmUSUMdj7othoNJ/240yMSm4cJGbB
- Y+JoCsW3RDJeO6YifM6h8tYAhB+MiuXz1Yea6Ob4gM/1+yn2iWJyjjCbw0d01CpWtCzH
- OXhqR4bLHM9as5sqqoAdFqlDxsxHfplKAi7BGGn7RCNEg7FpX5RK7Yu3rjeAr++N3o+l
- qDi/keX8vFeuIRpUNKQYlkPE5KRs5cwZWeS73GyCDTzZSvZjlkb4v+ktkihGMPLpdndT
- TOBg==
+ bh=rkFD0nTtiMecWdiMYsq45f5KZ8ZJ53Zo2JaKZseIkhs=;
+ b=eqIyngwYWco61pQRCw9D+eWVL/weXHqozy24DezNwvqnsZ1XaSBbS3kVZbE+L3Bloh
+ 2be/9NKTAoSDXw38VGXCHVYRmjLisCnktgNeWrP7kx/BJTQuCjy8n4Mxa9iEJt3YfTJg
+ oi83WOLYpf49Vmq4S1NWLAFlnhuWuuFl9Mv872pBtEyxQvE6VHN0lGfNzeRowZRpPmA3
+ A9QOJqtELWm2IYN6dfi1zx6QNq3vily4xmnga4VZfm5LROIo8YDWCBd1AWLI90aJ3v7s
+ 2se+0yysDNLhqY9npMheqIpNJMOCmEqKsHBDa04WRlWSSOyucYp25azlUIfPKm5hscEy
+ pWcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772526068; x=1773130868;
+ d=1e100.net; s=20230601; t=1772526070; x=1773130870;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=VSTYwE59cdM0X+83Cupw2VCvDy7g8S/i6/wXCW+hROU=;
- b=st+YgDQLx62xJXBN2Z8OMe55Z/ADbs3S91AptGUY2uJErEoC1ah7IDFgqmqKZebhUM
- 8xSMfD2h+h2x+7WutWZJvZnMS2cHAdT6MdrueSBvboR/n4RCI+Tea11gvTpLKB5XDF1g
- f2QKVRkSiHJxMUUe4IX/t0V8Rnzs+f2+XlCGvoGRPkygQkoxxaFDaNqNh907edqVLBpF
- 9kcLqkn2sEXv2/61ZWgLdsma5U8qCDFse8sfrZMjfTo73rBW4a/snBZN5kKQedI4Q2x3
- 6ARHvjFYTuoxqKLKkUsgJO0YlHe1E0d9klhciWjEBnH0q9YM0G5ajxe38n18FxPQ87ZF
- rbnQ==
-X-Gm-Message-State: AOJu0Yzw5DeSYXvWUeP6NuVM/VEWt06fBzJAGijlzqnA550YSFWZ5Kbo
- k8F4uN66DtAeigb+coMvwWX3nCMFV73zJOAzBNE9+EPTC6R5hooxAMXg
-X-Gm-Gg: ATEYQzxP1NqY2f7yym8H8ge25CQLwcq/OedEAzwCLXp+3rYkJpxVorNVxrREWE5VFm4
- I5BSvL3jiiEgfeoAnEu1upsfKN4wRnnp1SqpEXuHhgomngCM1mM/IXxWzR58BnW6gRv+nY1nBrs
- Msrzhr8HhPzdwJqD/4CbDF4OB8XDCkVqWUBKyMRH0d62wwQASZtz8p8lm3zfcagy+qzzc6PRdQd
- YX9lNGP/zux1QUbS713akPpD/hREsgB6KNqiZybMyKjiqxejXyW4Rfz25igpszkTBUqI0r19+cb
- uaPlfU27k/Li1Sze2yFelub/TY9b4JRAGluOjShDKbHhiX33BgfRG+hd+NKIs+Vey1JxtHzB0da
- Wcu1n7sUOPM+T/ov3azt05cUZQeh6THgnsBl6jIEwNsAN4tQ9zqohaDW8ikosXzVEYLVtnQViTt
- UYhPvJwnIN04Q1
-X-Received: by 2002:a2e:bd82:0:b0:386:ee99:6cc4 with SMTP id
- 38308e7fff4ca-389ff1159c4mr99375251fa.3.1772526068340; 
- Tue, 03 Mar 2026 00:21:08 -0800 (PST)
+ bh=rkFD0nTtiMecWdiMYsq45f5KZ8ZJ53Zo2JaKZseIkhs=;
+ b=vq5qJ4aAmz6LJF2XVYh0YbnPafNHlJv3nBrzjav9yK8qJHkPTHlEsNq/MawmSzjESx
+ ajWhtURVa5Xc0w5dFJ3fYlfTnwoi+ERpjyTCtMVWpJc/D3gJNiJQqbo8NcfWUNTFdIp2
+ 9Lppah68ukYtetre4/wgs/DnJzwKwrGiE6sTQ70BDDwGqMpTcwm/3fOUsplxJJF4R6O+
+ YkKMVz+DnsB5SthODr5rUADAGeTeml2sWlBsYrwcLvbav2vEZI9MJNx6ot0V8jaw+Lqd
+ vxKmiTNQtOSDckmXe66qhmuU+DEuaHyvYLqOHKnhNpuiUdiKYalYptnUDtXcZTFsse/i
+ 4UtQ==
+X-Gm-Message-State: AOJu0Yzq2FzmGrNcm7m+Ha0iqiJEgS/2LK7bx1+Z/ULx1ANmQB++eyYy
+ FszDmqg95iMDbshJ5Suh+HLbovFQTykcjjWrTK8IIN5MlPVhc1Tqp5KA
+X-Gm-Gg: ATEYQzxgJB7wW7XiJ6FSonPZONMSegMJXmoXUD2d2m6YqjOmj6D2y7Jx2+/YGQz4dB3
+ GwKAdr3BSStYnr+6XqQz4STYwRcIGUMwiPjLWh691vWCggzHoy0HO0z0F7iTITDoul9ML++2QPi
+ eSuhzN/Fwkkdp3LgSM27iePiXZ36DjJms5FPi0FiwXbzj5YCsOkx8Mcqi+VFhQeJEtPPj0s/u4t
+ XHsUMXLAYoC5EYQQtAYeREc8uY5pMvutQqm7Hfw+n7NnqWxsKiSl5Z/qgDn/uPZKUqQTc5/3KMy
+ vF1BMRsHA0UXCEoicOpLXGf/QcscRY5eFJMUwEIr5Td+MQFQnKGEEBX0DI4cmcCMZrgyN0jKNPm
+ 7iIZUoCXFqNBjGvlUa84tsAqO4fOE5LnGJ9g7LApWvPIld9wteHqB49emhX9hlsay+fPt9jiR6y
+ 73xfmH5jznfzdm
+X-Received: by 2002:a05:651c:2354:10b0:383:1d66:c1fa with SMTP id
+ 38308e7fff4ca-389ff119cdfmr73500421fa.10.1772526069561; 
+ Tue, 03 Mar 2026 00:21:09 -0800 (PST)
 Received: from xeon ([188.163.112.72]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-389f2ffe02bsm30856171fa.27.2026.03.03.00.21.07
+ 38308e7fff4ca-389f2ffe02bsm30856171fa.27.2026.03.03.00.21.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2026 00:21:07 -0800 (PST)
+ Tue, 03 Mar 2026 00:21:09 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -74,10 +74,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Simona Vetter <simona@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/3] dt-bindigs: display: extend the simple bridge with
- MStar TSUMU88ADT3-LF-1 bridge
-Date: Tue,  3 Mar 2026 10:20:37 +0200
-Message-ID: <20260303082038.11352-3-clamor95@gmail.com>
+Subject: [PATCH v4 3/3] drm/bridge: simple-bridge: Add support for MStar
+ TSUMU88ADT3-LF-1
+Date: Tue,  3 Mar 2026 10:20:38 +0200
+Message-ID: <20260303082038.11352-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303082038.11352-1-clamor95@gmail.com>
 References: <20260303082038.11352-1-clamor95@gmail.com>
@@ -97,7 +97,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A86CA1EAB35
+X-Rspamd-Queue-Id: 6F4BD1EAB44
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -135,27 +135,33 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Action: no action
 
-A simple bridge used in ASUS Transformer AiO P1801-T.
+From: Maxim Schwalm <maxim.schwalm@gmail.com>
 
+A simple HDMI bridge used in ASUS Transformer AiO P1801-T.
+
+Signed-off-by: Maxim Schwalm <maxim.schwalm@gmail.com>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Robert Foss <rfoss@kernel.org>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/display/bridge/simple-bridge.yaml        | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-index e6808419f625..7636c24906ba 100644
---- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-@@ -30,6 +30,7 @@ properties:
-           - algoltek,ag6311
-           - asl-tek,cs5263
-           - dumb-vga-dac
-+          - mstar,tsumu88adt3-lf-1
-           - parade,ps185hdm
-           - radxa,ra620
-           - realtek,rtd2171
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index 8aa31ca3c72d..cc13c98f9be6 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -270,6 +270,11 @@ static const struct of_device_id simple_bridge_match[] = {
+ 		.data = &(const struct simple_bridge_info) {
+ 			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
+ 		},
++	}, {
++		.compatible = "mstar,tsumu88adt3-lf-1",
++		.data = &(const struct simple_bridge_info) {
++			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
++		},
+ 	}, {
+ 		.compatible = "parade,ps185hdm",
+ 		.data = &(const struct simple_bridge_info) {
 -- 
 2.51.0
 
