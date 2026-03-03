@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cKLlEXRMp2l2ggAAu9opvQ
+	id +B8OOWZNp2nKggAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:02:44 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:06:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C851F712E
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCED1F724F
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B02E310E8C9;
-	Tue,  3 Mar 2026 21:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6F810E766;
+	Tue,  3 Mar 2026 21:06:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.b="3US9Fp1q";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.b="q1IDxgym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A6710E8C9
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:02:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D2E10E766
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID;
- bh=aO5loOc82Hx9Yhy0HSwylKT9He+BRGzIrwcyvaXEBGI=; b=3US9Fp1qGqe5V2g1Usgm2YyM3N
- /wj84tZdJZyh2mJf6BqBf1Wp0s2GZ5MputUQmzRegilg7rZw4xPYDDm4S+wclPqa8B4w/GW07MEfS
- jq+e9LhMCmrOi4tp4KX+DORAbR3q9mv5cRI3Btxl7CQWRUyMn51a9VbYuFsHn01rrEhFvuA1jrvCj
- n3CRCfCut/gBClxu63fnhywJ/sBo4FqclLf4cHIac3ZvF1/C0FozueH24gkmHdAVWhHRTYMWX9TOl
- GHA1o0SNzPe8OD+3q+tpYRU4QJwJwCN0hWNxjJrqXeR0GzMNFwR+RZq+iW8M41EIScHWAA9pOYYlE
- 1s8e5ijg==;
-Date: Tue, 3 Mar 2026 22:02:25 +0100
+ bh=LDFG9DPYIpvq9oiYO0M+siA6D36LqBTmO1v0hsaPuVU=; b=q1IDxgym3dWjzVWJCUhTXFjh9u
+ NU038r4jUjfinDodFMdzy2Svc72Lx2hlT6p6Wue+OLdItaPEHbyoz1VLZaeQap+JEUdVg9FYcgA3v
+ sdVSTRu0llV2G/bl/70Io19bfZ5My0o3PWBsL/Te7PiqMyvwVvWhpxpECGcw+xXzUwGvTDfFbqBSK
+ JPS55TXvKRsoPlm+W4MYcELMx/DBo9jE57kPAHe/qtUry/uChcpsImbWFeer1QZjAjO6+VnPBSURu
+ A6CAHfKvW1anJETwgIRxqRZPfuds5N2LFIH4qzI677Sla2zLZM97A37it6grFtrLiPFktYA1c02YP
+ vjg3EFCg==;
+Date: Tue, 3 Mar 2026 22:06:33 +0100
 From: Andreas Kemnade <andreas@kemnade.info>
 To: Mithil Bavishi <bavishimithil@gmail.com>
 Cc: aaro.koskinen@iki.fi, airlied@gmail.com, conor+dt@kernel.org,
@@ -43,11 +43,12 @@ Cc: aaro.koskinen@iki.fi, airlied@gmail.com, conor+dt@kernel.org,
  tony@atomide.com, tzimmermann@suse.de, andrzej.hajda@intel.com,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v9 1/8] ARM: dts: twl6032: Add DTS file for TWL6032 PMIC
-Message-ID: <20260303220225.085ab093@kemnade.info>
-In-Reply-To: <20260303203017.511-2-bavishimithil@gmail.com>
+Subject: Re: [PATCH v9 5/8] ARM: dts: ti: omap: espresso-common: Add common
+ device tree for Samsung Galaxy Tab 2 series
+Message-ID: <20260303220633.72619664@kemnade.info>
+In-Reply-To: <20260303203017.511-6-bavishimithil@gmail.com>
 References: <20260303203017.511-1-bavishimithil@gmail.com>
- <20260303203017.511-2-bavishimithil@gmail.com>
+ <20260303203017.511-6-bavishimithil@gmail.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -66,7 +67,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C3C851F712E
+X-Rspamd-Queue-Id: 6DCED1F724F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -80,11 +81,11 @@ X-Spamd-Result: default: False [1.99 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:bavishimithil@gmail.com,m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:conor+dt@kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jesszhan0024@gmail.com,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[andreas@kemnade.info,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[andreas@kemnade.info,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_CC(0.00)[iki.fi,gmail.com,kernel.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,bp.renesas.com,ffwll.ch,atomide.com,suse.de,intel.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -97,40 +98,21 @@ X-Spamd-Result: default: False [1.99 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.375];
+	NEURAL_HAM(-0.00)[-0.788];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.48:email,kemnade.info:mid,kemnade.info:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Tue,  3 Mar 2026 15:30:10 -0500
+On Tue,  3 Mar 2026 15:30:14 -0500
 Mithil Bavishi <bavishimithil@gmail.com> wrote:
 
-> Add a dedicated DTS file for the TWL6032 PMIC (Phoenix Lite). Already
-> has driver support with TWL6030 (Phoenix) since both of them are so
-> similar, some nodes can be reused from TWL6030 as well
+> Create common device tree for Samsung Espresso series devices
 > 
-> This can be included in the board files like twl6030
-> Example:
-> ...
-> &i2c1 {
->     twl: twl@48 {
->         reg = <0x48>;
->         interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
->         interrupt-controller;
->         interrupt-parent = <&gic>;
->     };
-> };
-> 
-> /include/ "twl6032.dtsi"
-> ...
-> 
-> Used in devices like samsung-espresso, amazon-jem, epson-embt2ws etc
+> Create a shared device tree for all variants first.
+> Device-specific trees will be added later based on screen size.
 > 
 > Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 
-
-The best answer no that design antipattern in the twl driver
-implementation. So
-
 Reviewed-by: Andreas Kemnade <andreas@kemnade.info>
+
