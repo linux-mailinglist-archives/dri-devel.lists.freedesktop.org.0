@@ -2,123 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wE+5J5X8pmk7bgAAu9opvQ
+	id uCiFK6sTp2mfdQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:21:57 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:00:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CBA1F2708
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 16:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2938D1F4471
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:00:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA60A10E832;
-	Tue,  3 Mar 2026 15:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E20E10E869;
+	Tue,  3 Mar 2026 17:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="Iv1rs07b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VXANNDg2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11021114.outbound.protection.outlook.com [52.101.62.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 581AB10E832
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 15:21:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=petrX4HUcpU4ZHx7KNd63I4Jv8ZwKnFOM3MLJ0zekN+OOxey1+p3WCmtwPsUbXM6xHXYO3rCOsYBPxHG736EzMbH9qWmINqKacWoPsyFE/LrC40Sbns/mVmJY7+Bszg2L4KvCfa+fnPTP4+1lnLjExQIj8W8pslGmqIZBXY0dpoob1GKkONsWLB8BKsN0GczdoUCkZyDGab+IxM85V2lMI4o7NAJ0iW2X/5TIFaPh/nq+uQfqVrkEWI7suqgNmVI02Kh/HXnF+8FQxfRsW/T/4upifZLL+GZzVx9yL99veOLjfDNomHJrNFa5iAnfEQm2FTQxVH5ZEdG5npuctHFSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CikKXBF1yaWuV5g4FOH0eax5SLODx2kEeSmGxSyd95w=;
- b=Ex3JBHz3Au0u6wmqSjzngCawxvl3Wo+7Lsp5sNfUi4Fo5NnsqOO+QaXEY/PM/Gbe1Upaj9D9ct50f3Qb2xQR6n7SXBFvvSwE2uCtMjRp80NDQgz96HGUKvf0KGJc4Nb95TBivjrXV969TJfU/nqFBzTMCQaCVolFmt8B3jP9LZFN4RXyIadCm1M01+ozKb4OyUmZsUHd4RyslrFCcx4l8wLx+mJL6RU8vowd8He7b9CGVip3I4OLP3JwFmTBjVTZCcmn3O75wL+NrbodPbpi27BjZ15QB3oU8DKPSvDE0+Jiwmmr8DshqdqQcWZcgs2uwZ3VMr0F03qaSFNk7OSC7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
- header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CikKXBF1yaWuV5g4FOH0eax5SLODx2kEeSmGxSyd95w=;
- b=Iv1rs07b7NYKzJoFvzhNgurQP8+j7BQupFnJpNquJbGUk4ig/LbbVvW5Ekvh2t/2/L9vJTybwVbUN0G627zZW6cxjDAuIYalzrJFevEMcUsgxr9Ri0csYGvk3PSMrhde+JA9nu2LKHYj6ks85iBGcI6Bedq5XiTPCdfwXozYjCo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
- by DS4PR08MB10752.namprd08.prod.outlook.com (2603:10b6:8:27f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 15:21:39 +0000
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::c887:c930:70aa:b156]) by MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::c887:c930:70aa:b156%5]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 15:21:39 +0000
-From: John Keeping <jkeeping@inmusicbrands.com>
-To: dri-devel@lists.freedesktop.org
-Cc: John Keeping <jkeeping@inmusicbrands.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: ilitek-ili9882t: use gpiod_set_value_cansleep()
-Date: Tue,  3 Mar 2026 15:21:24 +0000
-Message-ID: <20260303152124.187791-1-jkeeping@inmusicbrands.com>
-X-Mailer: git-send-email 2.53.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P123CA0005.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::10) To MW4PR08MB8282.namprd08.prod.outlook.com
- (2603:10b6:303:1bd::18)
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com
+ [74.125.224.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F54410E832
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 15:21:39 +0000 (UTC)
+Received: by mail-yx1-f42.google.com with SMTP id
+ 956f58d0204a3-64ad46a44easo4901900d50.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 07:21:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772551298; cv=none;
+ d=google.com; s=arc-20240605;
+ b=BlbaQB3w2yIW/isLuliE8GaLORF5nDk06H0I/ijB15V9bhhS8YV5/zdCr4h/wqRVHF
+ uf63eK9mHpEvmhS+F2tFWu4JF6BLqFNoXCyzlGz3zZh8PA/KPFX76n2i6FAeOaA7FTqI
+ +2yZZIkACc5XQ1U5Wq2WR+QTWEQTzj304LpjEfT3aAuNfRp5NMB/u6yAibGhwRLiHAHr
+ fPVZyRQ6FTLENDfr+tKwMnoBCzkYkJJ+carZEtSgb7L4+EWpbUgfQNUron2Jni4bKPRh
+ RawkMa240Ysmb655mHRQ7RqmPnLKhXQYoNIL0evoTt+dUXGJKIA3gifKuznu9K6NJOUB
+ jDdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Nx6jOs6QLPzaFfgPIix39Znu/LIEVrgl+IKp/10u8t4=;
+ fh=uXO77rVsKobZFzF1LpRN1HtEQ5UM8YemW7BxyYlHV5s=;
+ b=hWlCrWME250iKSl1RnqF7H664lKu6ac9jyP7n4VZQcmmP4/JwEfY5bKp8eykZdg6g/
+ VbmnrO0KX25VcWz1SLx3XVI6T+Tu44iHNxOLoilmzHV3JlL7gMzL5TOIZKSTz18fEAiw
+ oXleMEW2ItzCRQiw7XiVKOZWtpdrq1BvrKXSrrfPTwUXR3qen18auKoI6vFMa8mnxp+O
+ 77GQRlAZkGn9wNRgez+lTJwcU1pvdgtmJgw69KkuSYdsc7GuJblIfOc3YxJYE6og3297
+ aXTvtsht9G0vTHvBA0RM7j/djJ/5IC2/lkph047nKbBrwDqmpUo6/rEqX5gQBU1WPNYD
+ qyGg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772551298; x=1773156098; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nx6jOs6QLPzaFfgPIix39Znu/LIEVrgl+IKp/10u8t4=;
+ b=VXANNDg26KPrsadNLhB+rJ1wrhrDUWV1HVLmmDVoGvuRFre3eM2JSxNxghdD28RTQZ
+ l+1V7LPUb1TpG4ys15rR+H4fxZVC5mf5i953sU//wlxIQV+YuYweelldNsJIChynQl4w
+ TB9QqlkKushx0TWOd9sG2LZKCwSWRf+8y9Y2nB6lFrsIFICT+z69npudJTwmtiN6Y5hF
+ FInnI/aFq/N1N8A2qD6tzmTwgVIgTMnpGRBTkFMjm2MmodDGF3pAfyH6Vf3apWPSb7eW
+ HeP1/H07csOJ9x59zWMVxQ2sDhvuH4aWM4W2defJGeFqhbWUH25IADQJLWx9kw043pgQ
+ 7alA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772551298; x=1773156098;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Nx6jOs6QLPzaFfgPIix39Znu/LIEVrgl+IKp/10u8t4=;
+ b=Bf32aE21r1dPzOG4kicqbML2mnn3A7OYS1rkjVTdfX5J4wbk58xbHDiq8uBHsptUHH
+ h4L8zL8MCTKqVr+FR9zHDVf3mSCtbtt5EK8A/8mrAI2HHzJIq2RrISyz1UflpmV6XSTP
+ 9IWImAYD/CBxtqz0eQxW6kN3N9pV7DPVU0lwuZx7/RlYSz5qH06lUX5B6hfPc0XLRxBj
+ eIuurhbvKizVKEZF+9wPJ7r9PV0VrTz04aj88pdyHs1zh+s51dWozMfFrc9FY/xZWV6I
+ zVhUqnV/oOHFET3hpLyH1lWE+8lPeENy7iUCkBFsO2HPMp4QyUvL7L5jkHrQKJlWTMea
+ hgVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvexdR8VtE8z/SLM/kv1yHt7YcGRvnDeEJuk59qE4H0Drb7LrHVaj3SVvezpAMe72IlJjPQvMKuvg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzo7FEcYkFnq1/iwFIIYc7ZTfInCI/16Nndbp6pjAQEAeg9gS2L
+ CcMG2Snsxl2t6Itcy8mlo4gMydOdLu4g64ShP64CyPUudO2/lZ6J/4YNnjqu1G3iHM5qRVIP6fu
+ bvo/q98vt9oRXBBbnwcqtuwiDiYA3pCA=
+X-Gm-Gg: ATEYQzzl0im7GCWEV0Mf60c1fXQdn8qCoKiFhiLR4ZIY37e6s+Q6LgEhcy7ePuzG4km
+ gvmVuHFoaHyMu74ZGbuGBurmIeqpcr3LCf88sNyBu6+qCje3Qf+ZQ9qejCZLJVKxsKF9Q0toOX7
+ jf/qbFZwvop4SOn/y/qPaBumYW9vV+mcbVMH3k+lDEuQ5EwGAdsbMzeqqi/Ifr+I6x7G22aBM+t
+ 62IVFb80k/oyQCbep7RsxvuN4EU+9sZED04CLYSNVRzTZgr69bO6eejx3dYYsajBWXSKqTaHZvF
+ OFOIQtsxHELhobZzPwC10c4G/WoNvln+MPOgpIRRSdstJDsx
+X-Received: by 2002:a53:b105:0:b0:64a:dd9d:e944 with SMTP id
+ 956f58d0204a3-64cc20ca4b3mr10235777d50.25.1772551298320; Tue, 03 Mar 2026
+ 07:21:38 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|DS4PR08MB10752:EE_
-X-MS-Office365-Filtering-Correlation-Id: de86f0a3-ba1f-4973-0d7a-08de7938907f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|52116014|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info: WD76Umvexv/wf0Xgd0sIGqjpiE07WGLgYPJlDfmD1h6obVD7gUgUXw8vMq5uc6CroTu3rtGK/WCoGBqMn49/Zxb2AfU7/MFWD4A1hkVm7ge8nrQa+zGvZ+7Wxoguj/gGjFVmJ+OX+SKEUNzgSQccHtSbQZzrGPv3g3WXT6bYMmLrR5CwnaaxC3lqAWBR2C04KytmQwHtdKAlIpztSWW923MDzX4Y55JqYNC8ZQt2g09DKwHKBy1vpDaFJBN/bKDmuXnO8ObnkInaOAHr+4SzFo9lWcelAbHXZKsGls+oSONMd0ZtDlEuz5ogEDzNzRiHGtcv8wHHE6B/hCCeEhQBScUnZAvbNSdNDxJyhyEZSNX959oHfhnbq8qrgGLkAbQN3w4EjoK2SjEdy2LtZwdHZLI1z0MUjrb5GxcOsO3iHx9mpSjsCkrW1bW2qaQjsG/k7M7my+lR2S653lhkIeG0+eHXdiLqCgMOSXlO4/OkxDlJX86nVDDRGibfTd2T7eZvObAOWqvziJd8mfFgqK099AsP5043KHmggsdJ1OUBg9eWRkkyKxm+d6+KuTCw/g65RqieZIap5ui9cyp1Bw657hwzuCee3dVJ+B1kJ1dg4Vb9ixf6ZE9s+93AckiyvS6pUHxYrodvCIUotqy0F2lMBCzOuclFo+JN9OLSqzk7eytp6XtJJRjIitCZpdvFADizMg8grz27r+JavO+l1yNb87o++wR3lWF3XAq3m/OwxMTCJRxWz64Ci+oYj6VnDY58g8EzFBYoBZ1z3b5G0AKHVB+FVf4gxWHpRzkdYtTp5nE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR08MB8282.namprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4o1+kaaSSJsB6r0C/sXTJegF2mLK1Jrls8wUKbQDD93iK5yE5wBK8V4Z0mvl?=
- =?us-ascii?Q?me/sDrlTWK7SyFLaSHbJdUFIlbSfG/ioByHGKxgz9+pURHZt/z5YmWGpHrxL?=
- =?us-ascii?Q?eL3AxttQo+8xQmR3PAyBmBaWqnoQexOJk48inoY075/Aq6lj/LvjiExlPzxb?=
- =?us-ascii?Q?Zm2jIGfjqXZ+WNCd4Z7s3pIZWEjEeqsUDVwPufzIJpOIAUBx5Gae9g7XXfO3?=
- =?us-ascii?Q?VI9zRESVb+okCCAuCnctJhE0vwvXyjnPSRHyEv1opqXmrhX0UPsydh6ikCCt?=
- =?us-ascii?Q?jYpn87v3Tu2jFxNGllyQo8Ti9bQCS7XGeJOnbnMcO2Tq+sxVBqPRYBpVrGy5?=
- =?us-ascii?Q?b+sglverL1oTGVZnJj7bbcsOAxDAFujkoPTQY6DWo5g1FiMlGRmV+H8MmLEI?=
- =?us-ascii?Q?Kf1EFV8JFm5MHTc4LlMkiELWPblaLVeDd/KXq9kwBfCGsRlq1pY1O23N8/s3?=
- =?us-ascii?Q?Du3Fesb6N3u7RLDTJhyq5UgTLyI0O74zv0GdS4N2k9ngQRv5jX1n8UI1uOsN?=
- =?us-ascii?Q?cIJD4HPLedwzGfYHRn+11XDePGD/EPDqxJ3ZNyjS3J4ZLKJL9HMR6RsQidYQ?=
- =?us-ascii?Q?qtJfEolmGqF3UIboGKYlA6w0g3jfP8kF61HDD5J9JsmrUaxDnDuRN7laKmn8?=
- =?us-ascii?Q?aIpna017W00rlJLtGckYFQrKlT6oveLVo97WY3bVBhi7qoP1bEb17QGuS3DN?=
- =?us-ascii?Q?dkHws+BMgdYUbChw/KDXLLkNQiHBDV4bJVdo293sWBNCh/wZB/tMNSfPtNjG?=
- =?us-ascii?Q?RO7DWpbrKsZgqq38HKFn1vOKP6fTL8c9jiZlsmF/1q9ggM4TpppoT/4iYTsw?=
- =?us-ascii?Q?YzOyC1tnyWMurdoYSWK4/QwmLfdPKOIALtWWvB63VL8igyW4FnClTyylhouI?=
- =?us-ascii?Q?/hN2TF8Yy9D7VDHAgbDX4SiAvb2740A8L9g4OckYkgYgRi2EuYrWZ35b0YYw?=
- =?us-ascii?Q?Vg3uK3cxGR2ez/G2tlLlWgTUjVozkRr5AO0/BW2VvItNKhAv16WDrN7c2xPX?=
- =?us-ascii?Q?JSGSuQaIYupNjBj9HvKki5dnkmFDXMdhI2ZVVwklhnbesvxp7b1WJqWX8jhG?=
- =?us-ascii?Q?pXyL2H3U232/4KV6aLZRVum59mQlSrG2krkhfKXwrCLUHcWw4DW9Q67lB1M7?=
- =?us-ascii?Q?pGXXL+ogpAADqSW/tVZsFRPS37AB/i5bnZPdW2sUiEsuupfMtKDeQ5E/IOfG?=
- =?us-ascii?Q?EILJ0T9lZ2y5SkkqS4z/H2J1K9aeZ8KOdPMb0sXfjOH6mDdQJot9kMnhFxJH?=
- =?us-ascii?Q?mVID8aTL7pSUkkxUcvrri7CpoBBwZ8iKkhHJil9ftrfDxzEbcRNiR0T9lZy+?=
- =?us-ascii?Q?0JLwM1A61aO+WZTjsQuiZx+HDPlSYhi1d5J5/iNzwsL0unMjzvLfwCfgfSSU?=
- =?us-ascii?Q?hvu4uv6Oy8Jzo8LYW6V07u4uUMWwXO37btwR+Or5zySh9AhWNZJGXFF+J4ps?=
- =?us-ascii?Q?m8kaUNtRZITI+5LAIweTN5tNr9e610WB8yHmDWXy8AbD0ZT/6F4K4n49R31A?=
- =?us-ascii?Q?6AEqB5MCJnB4PhxVGwtoCaJZKnmckczxc/4Hr6ZSCdlnmzbSNB+9P+rf7hIu?=
- =?us-ascii?Q?X91ssj98n4OV0hRocKX3ykFMdFQ8T7+qtkXDhCrPGbteOsmlUUXmmV4Wimkj?=
- =?us-ascii?Q?b7R9ErHAwhxdWVZ5uXwholaKGZ3hUaqi3gv+TeZcDSoEdHhD43pT+dj69n2w?=
- =?us-ascii?Q?d5sRYBmbSLSiqd32aYVS8NR8Y3SWh9QQL10PQwoNMaXjzxmriJWMCJt8SaWP?=
- =?us-ascii?Q?jVcoYfVkXVmRFvrNBKrpS1CNbp3JEBI=3D?=
-X-OriginatorOrg: inmusicbrands.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de86f0a3-ba1f-4973-0d7a-08de7938907f
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 15:21:38.8187 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5zH+97fgIpm5+53KkTwCqEFdXzVwkuM9WlwLEsTUlbEdvDccCORY19mWMc+HXl5EQUCAko9zeIulHK0huJupUIpAgE/kCbGqLJAeeiHa+LA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR08MB10752
+References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
+ <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
+ <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
+ <5a816b1b-fae3-42d9-95eb-b1706a91d138@linux.intel.com>
+In-Reply-To: <5a816b1b-fae3-42d9-95eb-b1706a91d138@linux.intel.com>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Tue, 3 Mar 2026 16:21:27 +0100
+X-Gm-Features: AaiRm51fytWRpL_6A4PizJZRy_bYVs73yi5_nD1EfcJ1qutzwDaqNsuIhNIeFjc
+Message-ID: <CAHijbEUvGm1On6YEhrEuWDv1iWAKa1e+sm9a6ywerWoUg7X9bA@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 03 Mar 2026 17:00:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,101 +117,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C6CBA1F2708
+X-Rspamd-Queue-Id: 2938D1F4471
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[inmusicbrands.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[inmusicbrands.com:s=selector2];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[inmusicbrands.com,linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[jkeeping@inmusicbrands.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[inmusicbrands.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,inmusicbrands.com:dkim,inmusicbrands.com:email,inmusicbrands.com:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
-All of these GPIO calls are in process context where they can sleep.
-Use the appropriate function call to allow use of this driver with GPIO
-controllers that might sleep.
+On Tue, Mar 3, 2026 at 4:15=E2=80=AFPM Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
+>
+> Hey,
+>
+> Den 2026-03-03 kl. 15:59, skrev Christian K=C3=B6nig:
+> > On 3/3/26 15:53, Maarten Lankhorst wrote:
+> >> Hey,
+> >>
+> >> Den 2026-03-01 kl. 13:34, skrev Julian Orth:
+> >>> Consider the following application:
+> >>>
+> >>>     #include <fcntl.h>
+> >>>     #include <string.h>
+> >>>     #include <drm/drm.h>
+> >>>     #include <sys/ioctl.h>
+> >>>
+> >>>     int main(void) {
+> >>>         int fd =3D open("/dev/dri/renderD128", O_RDWR);
+> >>>         struct drm_syncobj_create arg1;
+> >>>         ioctl(fd, DRM_IOCTL_SYNCOBJ_CREATE, &arg1);
+> >>>         struct drm_syncobj_handle arg2;
+> >>>         memset(&arg2, 1, sizeof(arg2)); // simulate dirty stack
+> >>>         arg2.handle =3D arg1.handle;
+> >>>         arg2.flags =3D 0;
+> >>>         arg2.fd =3D 0;
+> >>>         arg2.pad =3D 0;
+> >>>         // arg2.point =3D 0; // userspace is required to set point to=
+ 0
+> >>>         ioctl(fd, DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD, &arg2);
+> >>>     }
+> >>>
+> >>> The last ioctl returns EINVAL because args->point is not 0. However,
+> >>> userspace developed against older kernel versions is not aware of the
+> >>> new point field and might therefore not initialize it.
+> >>>
+> >>> The correct check would be
+> >>>
+> >>>     if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
+> >>>         return -EINVAL;
+> >>>
+> >>> However, there might already be userspace that relies on this not
+> >>> returning an error as long as point =3D=3D 0. Therefore use the more =
+lenient
+> >>> check.
+> >>>
+> >>> Fixes: c2d3a7300695 ("drm/syncobj: Extend EXPORT_SYNC_FILE for timeli=
+ne syncobjs")
+> >>> Signed-off-by: Julian Orth <ju.orth@gmail.com>
+> >>
+> >> I'm not convinced this is the correct fix.
+> >> Userspace built before the change had the old size for drm_syncobj_cre=
+ate,
+> >> the size is encoded into the ioctl, and zero extended as needed.
+> >>
+> >> See drivers/gpu/drm/drm_ioctl.c:
+> >>      out_size =3D in_size =3D _IOC_SIZE(cmd);
+> >>      ...
+> >>      if (ksize > in_size)
+> >>              memset(kdata + in_size, 0, ksize - in_size);
+> >>
+> >> This is a bug in a newly built app, and should be handled by explicitl=
+y zeroing
+> >> the entire struct or using named initializers, and only setting specif=
+ic members
+> >> as required.
+> >>
+> >> In particular, apps built before the change will never encounter this =
+bug.
+> >
+> > Yeah, I've realized that after pushing the patch as well.
+> >
+> > But I still think this patch is the right thing to do, because without =
+requesting the functionality by setting the flag the point should clearly n=
+ot have any effect at all.
+> >
+> > And when an application would have only explicitly assigned the fields =
+known previously and then later been compiled with the new points field it =
+would have failed.
+> >
+> > It is good practice to memset() structures given to the kernel so that =
+all bytes are zero initialized, but it is not documented as mandatory as fa=
+r as I know.
+> I know that in case of xe, even padding members are tested for being zero=
+. For new code it's
+> explicitly recommended to test to prevent running into undefined behavior=
+. In some cases
+> data may look valid, even if it's just random garbage from the stack.
 
-Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
----
- drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+This isn't about padding fields. This is about a new field that was
+added to the struct, increasing its size. Existing code could not have
+zero-initialized that field except by using memset or something
+equivalent. As long as the requirement to use memset is not
+documented, requiring existing code to use memset is a breaking change
+because code that didn't use memset always worked until the new field
+was added.
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-index 8b2bfb7d36385..5f4e0d82ee673 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-@@ -592,7 +592,7 @@ static int ili9882t_unprepare(struct drm_panel *panel)
- {
- 	struct ili9882t *ili = to_ili9882t(panel);
- 
--	gpiod_set_value(ili->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 0);
- 	usleep_range(1000, 2000);
- 	regulator_disable(ili->avee);
- 	regulator_disable(ili->avdd);
-@@ -608,7 +608,7 @@ static int ili9882t_prepare(struct drm_panel *panel)
- 	struct ili9882t *ili = to_ili9882t(panel);
- 	int ret;
- 
--	gpiod_set_value(ili->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 0);
- 	usleep_range(1000, 1500);
- 
- 	ret = regulator_enable(ili->pp3300);
-@@ -638,11 +638,11 @@ static int ili9882t_prepare(struct drm_panel *panel)
- 	}
- 	usleep_range(1000, 2000);
- 
--	gpiod_set_value(ili->enable_gpio, 1);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 1);
- 	usleep_range(1000, 2000);
--	gpiod_set_value(ili->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 0);
- 	msleep(50);
--	gpiod_set_value(ili->enable_gpio, 1);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 1);
- 	usleep_range(6000, 10000);
- 
- 	ret = ili->desc->init(ili);
-@@ -652,7 +652,7 @@ static int ili9882t_prepare(struct drm_panel *panel)
- 	return 0;
- 
- poweroff:
--	gpiod_set_value(ili->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 0);
- 	regulator_disable(ili->avee);
- poweroffavdd:
- 	regulator_disable(ili->avdd);
-@@ -793,7 +793,7 @@ static int ili9882t_add(struct ili9882t *ili)
- 		return PTR_ERR(ili->enable_gpio);
- 	}
- 
--	gpiod_set_value(ili->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ili->enable_gpio, 0);
- 
- 	err = of_drm_get_panel_orientation(dev->of_node, &ili->orientation);
- 	if (err < 0) {
--- 
-2.53.0
-
+>
+> Is it too late to revert?
+>
+> Kind regards,
+> Maarten Lankhorst
