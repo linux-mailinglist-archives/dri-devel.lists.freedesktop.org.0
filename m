@@ -2,108 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNYMO4kKp2kDcgAAu9opvQ
+	id 6PyzOe8Kp2kDcgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:21:29 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AEC1F3A09
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0055B1F3AA6
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 17:23:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC7ED10E84A;
-	Tue,  3 Mar 2026 16:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225EC10E854;
+	Tue,  3 Mar 2026 16:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GtRbykN6";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="pg6KN0dJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010025.outbound.protection.outlook.com [52.101.85.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F7F10E84A;
- Tue,  3 Mar 2026 16:21:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e4JSMtUcKO2/RHn8c1wsni1zywVaKE4+KJxJT8vjmK2tWJ5ZZFiSEZ79xm1Kdt9fLwRkWPekphHtnOa8FZOsybHT3PQYSbpsP0SO+3fdiwH1oXhZZh2UkRl6O55+D1vVmGJvCp1jXbUA34vtLxP0RKRV7kzam4QhKwYBSuJuXhWnFhSlFoKc5/3cfVhCuPNtMSiHfzIQfFrCq5NmtSIJg/wTdHpHYBZpjmxT836/juTHglP3PjTxIS8Fa3DtTBctrZCtz7sbb6P1r5IKXlIJTDjDijSfVg6j3FrWusjZtPzfv9OVsbmE4BpxO3bIG6AVsUHMeIUN+NlMER3uogaa7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fr/dR8E6Q3J4TdjtZXh/Rr1YMtbkY9VXydTOt/SLkzk=;
- b=eOQA9ohZqSwIs/QXNrrcZdDefFzoQoSk//eq2xXWMiDMadpHAmO8uIBUAUYzTMCTAreIMGMpEntX5iboPTtn1H96U9RUDHUNefNAGSAEFJgzrQkiELPXVbhj01wb5KUtNEUnb+lkASbjtZd4N3XwPyqjK6MLaeWR6FVPRsEvCGJiQwulq3k3O7Op2wGq/DU/7gy++OG+xYInXxdjPr0sJc0izttca74eoks3N4r7nWmkaJ8taczyCvX3sMOX4b+dZRSvmRosJhsUDzd9cAB/dKw0RDjRcy2pDgrDz/9IhvwSJcUgsLLRI5iljwNFLeqhavs5BjLtvjBHoROz1yp4Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fr/dR8E6Q3J4TdjtZXh/Rr1YMtbkY9VXydTOt/SLkzk=;
- b=GtRbykN67dAMJwrkko1XUM0aG8kNH/4+hmVV0qAP0BXws2eMbI8RauyOzz66lMd1KRNMgWpGEMBESvQ3P9KcqlV3XUOo61tTNZPDpOt4zacCcXhgtHEX/bKLv9uDXFendDDPGTz+MBl6SOA8q0Stk5M3Gwi4uO8iwV39GsA+fG8=
-Received: from SN7PR18CA0027.namprd18.prod.outlook.com (2603:10b6:806:f3::22)
- by DM4PR12MB6062.namprd12.prod.outlook.com (2603:10b6:8:b2::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.21; Tue, 3 Mar 2026 16:21:22 +0000
-Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
- (2603:10b6:806:f3:cafe::4d) by SN7PR18CA0027.outlook.office365.com
- (2603:10b6:806:f3::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.22 via Frontend Transport; Tue,
- 3 Mar 2026 16:21:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Tue, 3 Mar 2026 16:21:21 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 3 Mar 2026 10:21:19 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 6/6] drm/amdgpu: dump job ibs in the devcoredump
-Date: Tue, 3 Mar 2026 17:18:19 +0100
-Message-ID: <20260303161824.7765-6-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260303161824.7765-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20260303161824.7765-1-pierre-eric.pelloux-prayer@amd.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|DM4PR12MB6062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2630665d-f94a-4324-b788-08de7940e871
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: 8gT99qSTKxev8GqaFya+bZYlN+9gf1Vtq6pI80GI9kH8Foa87LR6zuCsY3wXLbZBP/3vez6697du9NFP4PtOCAlI9lLquVkRZyTeV2/BwmeULJSjv4w7GymPGpiE1GaaTx60RXHYvPB5yM1pMee1K0zKMewtjcUwG5gAnTLFuVR/hUMYLlG9lvEseG5cN2/nrewyXQPwVNJ+5Ah+i9ZHpHzud8hS40YOahL3c5pTL9cwuLPhfpLZEu6+C1coiNla37hoICEwvMAHvwCBEVnneptIzhGiLKCuUpy6cnMsi6ouRi0EsdK1wp/RopMvXjl1q1b/RIFc4ljC8dvr240FqAwmcsGJGfT9tDGo1aoWBPTgOlFQd+yHN7AFCO4luCN8KjPD6nzoG/KBpPsuInQ8AYLnPjxSxSM9mcueOJnXtYl9+cj/W5XFT21FbunOGiyv0CYQDqnmJEAWfyq9CBG5Mz9NhrgWffI4l/JyvcbH7lUbNAY9/9z8bqrZ/EUCFIu7DnDRRpMS1kze2gYah5rI8mUt6RVDafYAomHkF9xQTGM/rQkH03us4y8KveeoUomkrGizfSrYz1+A+S4ZdQ16uJrg9gh9JXRSupe05G5xXiKVsdTomfGGy6JMUbtvSb+XSy/ZoNDUiS1VqiA84SNKd4i9VqypusEGLZU7ycPiNaUPGktkaw26rQkcTmtjMeIKpFaircXDRgMaN1MUM1IwGThv/be8ppWSTrVT8yl/UNzRO+8c7MQ/F0T7jQ9cfxt1FHPMaoOzUp3o5VWJzSKGybbIrsUoxsQwBFYvAY/4603+K+VTcSsR7OpmAohiFvQoYDIwOi84GGn7WKelGImDXw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 5yGQ0HY7cjIH8/Nk8HiwdRW/xZB8ZmtiyqJVzp3BzLyiXXTeaWmCOF9l2VJTWH5X6YdoqmvtqKU/tfHwvz97aCqGXC6+x7eOM5bkHHiUt7Jr8ZcJS3cvFYXOnnPLLKKjYiEfrvlRe2MPZHagwI17V3Vzam263gvzcAZ57TKbk8Qo/vzgV6blk9O/9SgQyJXpLn+63d5oJRGMCk2uJwoUZ5GX/aUuT9fZfjYwSnAnLgb7bLj+xI9UhYkuY8LoCF4aF114IJGSXX+bXvP5YcKLwnyk9RONyOkWItMYAj+bF+O+EArnwcj/YjFpQWrV85xH8L+m85e/tBuYuEVa4F8VKZOfGhPbZl0pwCdONNtYTge8lww9poP/6QV1nnK+W09Vgt6cuT48S97qh3f97LSgADr9Cij7rhiAzLVpF0+8l65wtD50+38G6SY6/4g9aK5c
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 16:21:21.7174 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2630665d-f94a-4324-b788-08de7940e871
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA50.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6062
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA71A10E854
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 16:23:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=dIABMziNLvW0jGN8kMlgpZrAq89Imgr046x+DRl4Rp0=; b=pg6KN0dJ5ZW2AM6cCDdSSbnuh8
+ PhW6AkE7BgkA004hNmbRR18mGBAQhSx99q5o9AAXWurQ7v8cqZw4Sy816/wAn7HandtGwvps2gs9f
+ Rqcam9kTr/6hJ0oAXcGwT8kAE04C11Py+CCOXtzokRwkAzZE0Z/Vid+3hcaJR9LmbvjM=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:35704
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vxSWF-0003Ms-A8; Tue, 03 Mar 2026 11:22:47 -0500
+Date: Tue, 3 Mar 2026 11:22:46 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ Frank.Li@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, shawnguo@kernel.org,
+ laurent.pinchart+renesas@ideasonboard.com, antonin.godard@bootlin.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Hugo Villeneuve
+ <hvilleneuve@dimonoff.com>
+Message-Id: <20260303112246.0bd6238aba7489b6de499299@hugovil.com>
+In-Reply-To: <920740e1-5bbb-4632-a62d-325715cd8043@kernel.org>
+References: <20260302190953.669325-1-hugo@hugovil.com>
+ <20260302190953.669325-5-hugo@hugovil.com>
+ <20260303-rational-thundering-firefly-9dcaa9@quoll>
+ <20260303095533.1c6dff174f6c9d162d3e3303@hugovil.com>
+ <920740e1-5bbb-4632-a62d-325715cd8043@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+ *      [score: 0.0000]
+ * -0.8 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-3.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH 04/14] dt-bindings: arm: fsl: change incorrect
+ VAR-SOM-6UL model name
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,177 +85,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 92AEC1F3A09
+X-Rspamd-Queue-Id: 0055B1F3AA6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	DMARC_NA(0.00)[hugovil.com];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,nxp.com,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_XOIP(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[hugovil.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:dkim,amd.com:email,amd.com:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	HAS_WP_URI(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,variscite.com:url]
 X-Rspamd-Action: no action
 
-Now that we have a worker thread, we can try to access the
-IBs of the job. The process is:
-* get the VM from the PASID
-* get the BO from its VA and the VM
-* map the BO for CPU access
-* copy everything, then add it to the dump
-Each step can fail so we have to be cautious.
-These operations can be slow so when amdgpu_devcoredump_format
-is called only to determine the size of the buffer we skip all
-of them and assume they will succeed.
+Hi Krzysztof,
 
----
-v3: use kvfree
----
+On Tue, 3 Mar 2026 16:19:54 +0100
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 93 ++++++++++++++++++-
- 1 file changed, 92 insertions(+), 1 deletion(-)
+> On 03/03/2026 15:55, Hugo Villeneuve wrote:
+> > Hi Krzysztof,
+> > 
+> > On Tue, 3 Mar 2026 08:10:51 +0100
+> > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > 
+> >> On Mon, Mar 02, 2026 at 02:03:40PM -0500, Hugo Villeneuve wrote:
+> >>> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> >>>
+> >>> There is no Variscite module named VAR-SOM-MX6UL.
+> >>
+> >> VAR-SOM-MX6? And there is.
+> >> https://dev.variscite.com/var-som-mx6/
+> > 
+> > Ok,
+> > I was confused by the "const: variscite,var-som-imx6ul" and thought the
+> > description was not matching.
+> > 
+> > But there is still no module named "VAR-SOM-MX6UL", but "VAR-SOM-MX6",
+> > with different CPU variants like UL, ULL, etc. So I will modify the
+> > patch to reflect that.
+> 
+> I don't understand what you want to reflect/modify.
+> 
+> Description says: VAR-SOM-MX6
+> My link says: VAR-SOM-MX6
+> 
+> What is incorrect?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 82814646695d..3115835617cc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -203,14 +203,24 @@ static void amdgpu_devcoredump_fw_info(struct amdgpu_device *adev,
- static ssize_t
- amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_info *coredump)
- {
-+	struct amdgpu_device *adev = coredump->adev;
- 	struct drm_printer p;
- 	struct drm_print_iterator iter;
- 	struct amdgpu_vm_fault_info *fault_info;
-+	struct amdgpu_bo_va_mapping *mapping;
- 	struct amdgpu_ip_block *ip_block;
-+	struct amdgpu_res_cursor cursor;
-+	struct amdgpu_bo *abo, *root;
-+	uint64_t va_start, offset;
- 	struct amdgpu_ring *ring;
--	int ver, i, j;
-+	struct amdgpu_vm *vm;
-+	u32 *ib_content;
-+	uint8_t *kptr;
-+	int ver, i, j, r;
- 	u32 ring_idx, off;
-+	bool sizing_pass;
- 
-+	sizing_pass = buffer == NULL;
- 	iter.data = buffer;
- 	iter.offset = 0;
- 	iter.remain = count;
-@@ -326,6 +336,87 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 	else if (coredump->reset_vram_lost)
- 		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
- 
-+	if (coredump->num_ibs) {
-+		/* Don't try to lookup the VM or map the BOs when calculating the
-+		 * size required to store the devcoredump.
-+		 */
-+		if (sizing_pass)
-+			vm = NULL;
-+		else
-+			vm = amdgpu_vm_lock_by_pasid(adev, &root, coredump->pasid);
-+
-+		for (int i = 0; i < coredump->num_ibs && (sizing_pass || vm); i++) {
-+			ib_content = kvmalloc_array(coredump->ibs[i].ib_size_dw, 4,
-+						    GFP_KERNEL);
-+			if (!ib_content)
-+				continue;
-+
-+			/* vm=NULL can only happen when 'sizing_pass' is true. Skip to the
-+			 * drm_printf() calls (ib_content doesn't need to be initialized
-+			 * as its content won't be written anywhere).
-+			 */
-+			if (!vm)
-+				goto output_ib_content;
-+
-+			va_start = coredump->ibs[i].gpu_addr & AMDGPU_GMC_HOLE_MASK;
-+			mapping = amdgpu_vm_bo_lookup_mapping(vm, va_start / AMDGPU_GPU_PAGE_SIZE);
-+			if (!mapping)
-+				goto free_ib_content;
-+
-+			offset = va_start - (mapping->start * AMDGPU_GPU_PAGE_SIZE);
-+			abo = amdgpu_bo_ref(mapping->bo_va->base.bo);
-+			r = amdgpu_bo_reserve(abo, false);
-+			if (r)
-+				goto free_ib_content;
-+
-+			if (abo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS) {
-+				off = 0;
-+
-+				if (abo->tbo.resource->mem_type != TTM_PL_VRAM)
-+					goto unreserve_abo;
-+
-+				amdgpu_res_first(abo->tbo.resource, offset,
-+						 coredump->ibs[i].ib_size_dw * 4,
-+						 &cursor);
-+				while (cursor.remaining) {
-+					amdgpu_device_mm_access(adev, cursor.start / 4,
-+								&ib_content[off], cursor.size / 4,
-+								false);
-+					off += cursor.size;
-+					amdgpu_res_next(&cursor, cursor.size);
-+				}
-+			} else {
-+				r = ttm_bo_kmap(&abo->tbo, 0,
-+						PFN_UP(abo->tbo.base.size),
-+						&abo->kmap);
-+				if (r)
-+					goto unreserve_abo;
-+
-+				kptr = amdgpu_bo_kptr(abo);
-+				kptr += offset;
-+				memcpy(ib_content, kptr,
-+				       coredump->ibs[i].ib_size_dw * 4);
-+
-+				amdgpu_bo_kunmap(abo);
-+			}
-+
-+output_ib_content:
-+			drm_printf(&p, "\nIB #%d 0x%llx %d dw\n",
-+				   i, coredump->ibs[i].gpu_addr, coredump->ibs[i].ib_size_dw);
-+			for (int j = 0; j < coredump->ibs[i].ib_size_dw; j++)
-+				drm_printf(&p, "0x%08x\n", ib_content[j]);
-+unreserve_abo:
-+			if (vm)
-+				amdgpu_bo_unreserve(abo);
-+free_ib_content:
-+			kvfree(ib_content);
-+		}
-+		if (vm) {
-+			amdgpu_bo_unreserve(root);
-+			amdgpu_bo_unref(&root);
-+		}
-+	}
-+
- 	return count - iter.remain;
- }
- 
+VAR-SOM-MX6 is ok, like your link shows, but not VAR-SOM-MX6UL.
+
+If someone looks at VAR-SOM-MX6UL, they may think that the "MX6" part
+refers to the VAR-SOM-MX6, or they may think that the "6UL" part refers
+to the VAR-SOM-6UL, and it can be extremely confusing. This was my
+understanding at first, and the reason why I submitted this patch.
+
+If you look at the associated board entry in the binding, it says
+"const: variscite,mx6ulconcerto" but the VAR-SOM-MX6 doesn't use
+the concerto board. It uses a board named "VAR-MX6CustomBoard":
+
+https://variscite.com/wp-content/uploads/2017/12/VAR-MX6CustomBoard-Datasheet.pdf
+
+The VAR-SOM-6UL uses the concerto board:
+
+https://variscite.com/wp-content/uploads/2019/07/Concerto-Board_Datasheet.pdf
+
+So the description in the binding "i.MX6UL Variscite VAR-SOM-MX6 Boards"
+is wrong, and needs to be replaced with VAR-SOM-6UL.
+
+By the way, support for the VAR-SOM-MX6 is provided by this binding entry:
+   - description: i.MX6Q Variscite VAR-SOM-MX6 Boards
+    items:
+      - const: variscite,mx6customboard
+      - const: variscite,var-som-imx6q
+      - const: fsl,imx6q
+
+
+> > 
+> > In fact, I will modify the description to reflect that it supports both
+> > VAR-SOM-MX6 and VAR-SOM-6UL modules.
+> 
+> Are you sure that it does?
+
+With my new research, as explained above, this is not the case. I will
+modify the description to reflect that it supports VAR-SOM-6UL modules only.
+
 -- 
-2.43.0
-
+Hugo Villeneuve
