@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHaPISxRp2nKggAAu9opvQ
+	id qKZaOLBSp2lsgwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:22:52 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42861F7740
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668F21F7879
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 22:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606AB10E8D4;
-	Tue,  3 Mar 2026 21:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48D7310E8DD;
+	Tue,  3 Mar 2026 21:29:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=acm.org header.i=@acm.org header.b="E6KvA0WU";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72FB710E8D4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:22:47 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1vxXBs-0000S8-Bq; Tue, 03 Mar 2026 22:22:04 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mfe@pengutronix.de>) id 1vxXBo-003bpC-2q;
- Tue, 03 Mar 2026 22:22:02 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
- (envelope-from <mfe@pengutronix.de>) id 1vxXBq-0000000G9tJ-0Owv;
- Tue, 03 Mar 2026 22:22:02 +0100
-Date: Tue, 3 Mar 2026 22:22:02 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- luca.ceresoli@bootlin.com, 
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v11 2/3] drm/bridge: imx: Add i.MX93 parallel display
- format configuration support
-Message-ID: <3dyb7wc7tg6hc4o4qocn4nft7bu3hbdpxcnv7cln2q6vkxo7bw@dtnswwyou5sp>
-References: <20260303-v6-18-topic-imx93-parallel-display-v11-2-1b03733c8461@pengutronix.de>
- <20260303210131.2966214-2-Frank.Li@nxp.com>
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD71510E8DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 21:29:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by 011.lax.mailroute.net (Postfix) with ESMTP id 4fQTT738V1z1XM0pD;
+ Tue,  3 Mar 2026 21:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+ content-transfer-encoding:content-type:content-type:in-reply-to
+ :content-language:references:from:from:subject:subject
+ :user-agent:mime-version:date:date:message-id:received:received;
+ s=mr01; t=1772573353; x=1775165354; bh=9ynOclQ3uytyJeDDhwGcswlJ
+ Cmq2hElyOSKIspe/esU=; b=E6KvA0WUdsoA8QKAzHECiCTqJ6VT3Dd85gfwaF1M
+ qiR5xBIiNCZkuk2Q+Yas+iuCPp2od/vjh5R3J5tQ/wEvcGqYI+FNqWunSfBcbXdc
+ L0lGPHbn3xZHZ6kNlaqUaprvjbiKGmzbTztg2KlJWRu56nXp+cF41DsyrPKyOLSn
+ CJsTeLru4SojqcExYg03MVjTnOD8Pofbok+1UeJUQEA874Mgt27HGdoct0bmsX0s
+ q/HVtl3F+674rNAoarZVAVdPg3lW27ZywGPWNWGOdr8LUWtkg3wurHZ4tEsnn1ix
+ h+7/+I+bKHYIwP77hlxeFi22X/iMGJUvgAqpujcBQoJGkA==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 7zSNimIb1FNe; Tue,  3 Mar 2026 21:29:13 +0000 (UTC)
+Received: from [192.168.132.187] (unknown [12.150.89.26])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: bvanassche@acm.org)
+ by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4fQTT40prKz1XM0nm;
+ Tue,  3 Mar 2026 21:29:11 +0000 (UTC)
+Message-ID: <618eb79a-3945-45b3-a7cf-7c073aa28039@acm.org>
+Date: Tue, 3 Mar 2026 15:29:10 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303210131.2966214-2-Frank.Li@nxp.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: __drm_fb_helper_initial_config_and_unlock() question
+From: Bart Van Assche <bvanassche@acm.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+References: <7dcaf8d7-ed5d-4bfb-8c35-1e5f0dfbae56@acm.org>
+Content-Language: en-US
+In-Reply-To: <7dcaf8d7-ed5d-4bfb-8c35-1e5f0dfbae56@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,135 +72,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E42861F7740
+X-Rspamd-Queue-Id: 668F21F7879
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.39 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[bvanassche@acm.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_SENDER(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.995];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[acm.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:email]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,acm.org:dkim,acm.org:email,acm.org:mid]
 X-Rspamd-Action: no action
 
-On 26-03-03, Frank Li wrote:
-> From: Frank Li (AI-BOT) <frank.li@nxp.com>
-> 
-> AI bot review and may be useless.
+On 3/3/26 3:15 PM, Bart Van Assche wrote:
+> The comment above __drm_fb_helper_initial_config_and_unlock() says
+> "Drops fb_helper->lock before returning". However, there is an
+> error path in that function that does not drop fb_helper->lock:
+>=20
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info =3D drm_fb_helper_allo=
+c_info(fb_helper);
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(info))
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 return PTR_ERR(info);
+>=20
+> Is the code correct or is the comment correct? I don't think that
+> both can be correct.
 
-Hi Frank,
+(+Thomas)
 
-albeit I'm very open to new technology, I would appreciate it if your
-AI-BOT is used internally first till you're convinced that it reports
-real issues instead of false-positives.
+Thomas,
 
-Regards,
-  Marco
+Does this untested patch make sense to you?
 
-> > +static u32 *
-> > +imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> > +					    struct drm_bridge_state *bridge_state,
-> > +					    struct drm_crtc_state *crtc_state,
-> > +					    struct drm_connector_state *conn_state,
-> > +					    u32 output_fmt,
-> > +					    unsigned int *num_input_fmts)
-> > +{
-> > +	struct imx93_pdfc *pdfc = bridge_to_imx93_pdfc(bridge);
-> > +	u32 *input_fmts;
-> > +
-> > +	*num_input_fmts = 0;
-> > +
-> > +	input_fmts = kmalloc_obj(*input_fmts);
-> > +	if (!input_fmts)
-> > +		return NULL;
-> 
-> Missing kfree(input_fmts) in error path if the switch statement
-> or subsequent logic fails. Consider allocating a fixed-size array
-> or using devm_kzalloc() instead.
-> 
-> > +	*num_input_fmts = 1;
-> > +
-> > +	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt)) {
-> > +		dev_dbg(pdfc->dev, "No valid output bus-fmt detected, fallback to MEDIA_BUS_FMT_RGB888_1X24\n");
-> 
-> Line exceeds 80 characters (97 chars). Break into two lines.
-> 
-> > +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> > +		return input_fmts;
-> > +	}
-> > +
-> > +	switch (output_fmt) {
-> > +	case MEDIA_BUS_FMT_RGB888_1X24:
-> > +	case MEDIA_BUS_FMT_RGB565_1X16:
-> > +		input_fmts[0] = output_fmt;
-> > +		break;
-> > +	case MEDIA_BUS_FMT_RGB666_1X18:
-> > +	case MEDIA_BUS_FMT_FIXED:
-> > +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> > +		break;
-> > +	}
-> 
-> Switch statement lacks default case. Add default case to handle
-> unexpected format values explicitly.
-> 
-> > +static int imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
-> > +					    struct drm_atomic_state *state)
-> > +{
-> > +	struct imx93_pdfc *pdfc = bridge_to_imx93_pdfc(bridge);
-> > +	const struct drm_bridge_state *bridge_state;
-> > +	unsigned int mask = PARALLEL_DISP_FORMAT;
-> > +	unsigned int val;
-> > +
-> > +	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-> > +
-> > +	switch (bridge_state->output_bus_cfg.format) {
-> > +	case MEDIA_BUS_FMT_RGB888_1X24:
-> > +	case MEDIA_BUS_FMT_FIXED:
-> > +		val = FORMAT_RGB888_TO_RGB888;
-> > +		if (pdfc->phy_bus_width == 18) {
-> > +			/*
-> > +			 * Can be valid if physical bus limitation exists,
-> > +			 * therefore use dev_dbg().
-> > +			 */
-> > +			dev_dbg(pdfc->dev, "Truncate two LSBs from each color\n");
-> > +			val = FORMAT_RGB888_TO_RGB666;
-> > +		}
-> > +		break;
-> > +	case MEDIA_BUS_FMT_RGB666_1X18:
-> > +		val = FORMAT_RGB888_TO_RGB666;
-> > +		
-> 
+Thanks,
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+Bart.
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+
+drm: Fix a locking bug in an error path
+
+Make sure that __drm_fb_helper_initial_config_and_unlock() unlocks
+fb_helper->lock. This has been detected by the Clang thread-safety
+analyzer.
+
+Fixes: 63c971af4036 ("drm/fb-helper: Allocate and release fb_info in=20
+single place")
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c=20
+b/drivers/gpu/drm/drm_fb_helper.c
+index 05803169bed5..16bfbfb0af16 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1641,8 +1641,10 @@ __drm_fb_helper_initial_config_and_unlock(struct=20
+drm_fb_helper *fb_helper)
+         drm_client_modeset_probe(&fb_helper->client, width, height);
+
+         info =3D drm_fb_helper_alloc_info(fb_helper);
+-       if (IS_ERR(info))
++       if (IS_ERR(info)) {
++               mutex_unlock(&fb_helper->lock);
+                 return PTR_ERR(info);
++       }
+
+         ret =3D drm_fb_helper_single_fb_probe(fb_helper);
+         if (ret < 0) {
+
