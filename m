@@ -2,136 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KH4VNZMYp2m+dgAAu9opvQ
+	id SOinDpIZp2m+dgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:21:23 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:25:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3977A1F48D8
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EBD1F497A
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Mar 2026 18:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5328D10E0C3;
-	Tue,  3 Mar 2026 17:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37A110E897;
+	Tue,  3 Mar 2026 17:25:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="sb0W5DP2";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="4jZ6YGBT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CWXP265CU008.outbound.protection.outlook.com
- (mail-ukwestazon11020105.outbound.protection.outlook.com [52.101.195.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 600C110E0C3;
- Tue,  3 Mar 2026 17:21:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gaIWtBXDhA+QYJAnKa3juHapLNfu3Ajdg1NmuvXSMCW9AM5kaIk4pJQ3NoyC0uaUCRmX59eRhSDqUF648e2s9W2GpfE+lJSAEG68Tn+KutYCnbrV88c1DTJoqirp2fSOxPGf/1vIbqta5xjF8vYCfhxZV9bGXa6MqfjRX0Kt6j4RVOntAF2PuC7SA3VnYFItoZk9Xh9Uqpc/a9q9HYn1XM6quWMXpmhzEAbS2rD2JqeEYPwy9w/7LioN/H1InrsTjI4b01YRtxI+dukioJPYhZ1y1Vgmed7p4DotLBXg8EarbDqbSHr1Jq1gaDdjmk5m1Q5NiK3VXeGv+cNAfKM+zQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gTtBrt3UfVBsCZqmTbXfQnqczkPzgq3Qjr2e3OHtfpM=;
- b=xqKFu9/HAEyxbjtCcErDwCoxTh2rM17bwYdO54C00jpvQ7C5fDzl/ZcE/qvw9unQMPbyu6Ghv7h4y3yQUIXdKpahfJGhQm1BeSlC1P0ZJDEc0/zYPctpztA2QmytP3JHwIysOw34fp9oueRAFvZMCEFaxltFTbpKMaMQ4n9f2md8hFgzvAzQMHfKJc5LRl9yEg536+enow/95U7aiDzPaGFqQGU2LNBIFFKlDl+KlwWFwY0yOzvQGkL0kG9FBrjJKtyMq9i9sucYG65iB/8rmTdrJ4WPcev383E+enV6l6oD9XTi0j8m+0pJFYMjVowmsyEH4MSpem4vtJngsuWfZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gTtBrt3UfVBsCZqmTbXfQnqczkPzgq3Qjr2e3OHtfpM=;
- b=sb0W5DP2znMDmOX5HsC2+2lTARTOZ7ELGnLfPeAT39lwCQssfgNrjDL/kSpau55VJeePAhM3IQsWryOaLpILvhs6LA/d2Drf1PUJ1gpiwsfKi2dVhDgQJdVxr/JH2NFcv15ocvJLeN6/N+B/soP3+Zm0sr4Bp80yu2GoFrlCNAQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO0P265MB6849.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2d6::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 17:21:13 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 17:21:13 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 17:21:09 +0000
-Message-Id: <DGTBJBIVFZ2K.2F1ZEFGY0G7NK@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
- <acourbot@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
-Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/8] gpu: nova-core: use Coherent::init to initialize
- GspFwWprMeta
-X-Mailer: aerc 0.21.0
-References: <20260303162314.94363-1-dakr@kernel.org>
- <20260303162314.94363-7-dakr@kernel.org>
-In-Reply-To: <20260303162314.94363-7-dakr@kernel.org>
-X-ClientProxiedBy: GV3P280CA0020.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:b::32) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3403C10E897
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Mar 2026 17:25:34 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-48371d2f661so66535e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 09:25:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772558733; cv=none;
+ d=google.com; s=arc-20240605;
+ b=Fk/buHIWRrYSk/LYBuPOjo4L4pOfUMAWMmlWtuH68spv8mJQRb+pQZ2FScss745szM
+ /QeYbm9Z/qV5YZ2jB4IejozPVTtf/LgfkfqF9OWUW7JU2Rv/VbdzWttWMikKITWn+oqz
+ tMQqDjPAfDbYJoOZqBcfaWuw8lrRDv8bQFh9BCALj99Fsa0h0dSLncnJd11o46Ek366v
+ WX3sp7y4XvVqYNTNtzo7mUHxcW5dVBLo22XzR89QpSbZ0lFVB4ACQZXdf+6ITxRcP9qm
+ j594sN3az9gbPe2rDnmQRQb2KHq93Ra6ywh9CfgZhHBXiXxmgqYzhUpSwOzk/OEVBSho
+ u5HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=p1noxESLu0MA7brXm1knWmLWb8wfzHlE5EPnaIYYBgQ=;
+ fh=k9hqCJEYq7ISGmjJ4fU+qxo5vEPY+SHBsQoJGjIkqcQ=;
+ b=ikfHpb4SxXP+TkU3zzFN42k10gthX8Pf3j5bs0k8wWb8pizq893zU+vDgjNSG3V6e+
+ CxRqZeFfi7fTnTfX+DycqqUh3C6zSIWW4YKA24CyP/ZBbXObBruUcE5FljyndMf/jry1
+ C73nc8LkPBZEKgQbvoGwnnp+GF92aRr259X4QoTkRI06ppu3mTxzSAFuwAQBZkWePgrv
+ ZCpHZjkS5Zc6NFy9+pbDOPnI069vb5VeBO5KfZIaYTciQpvkU6v2YhwHbUFhP45bXqjs
+ XHNrn0ek7vXjNTw3gm+4JcbIxTRj3Z9g7nz4tp2coU0JDecKOwrSkO3zGFHR+GXI9MSI
+ RzPQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1772558733; x=1773163533;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p1noxESLu0MA7brXm1knWmLWb8wfzHlE5EPnaIYYBgQ=;
+ b=4jZ6YGBTp23ex8T/NCJTLzJhgbmzjqrs/oy6liWezzLKCF30btzYCVzcL/24zb8/Du
+ KuWxNSA+9vO+ZoDGbFaKLIzVC+0aYE6gO3fv8OxyniZ937IQ4VFdrtWCYRsqbUCzaBeG
+ pyrysRFco72w5zvMOZmUrYXhjcsT/of0u4mHRw7WlMY0fGZdm0jZwz4P7v/0156vkz5M
+ FC0hE8dEMdWvGB27FltvdCKNXZy/c2lNHtji+Igb0HVvGo1Rlji1y30UARZrT2DvJJ87
+ EIUKYnUkx/kXCpRt+nbsc48SI5WY2ug4YZME/XAHMswJSTWxGW5KzS24h47qLec32BI4
+ UJiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772558733; x=1773163533;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=p1noxESLu0MA7brXm1knWmLWb8wfzHlE5EPnaIYYBgQ=;
+ b=CpQM4Rlfc+0Fr+To+hPwJJd1dbqLFuprbJdv6qIsfKPkKyljpSDt0H4t6FdP1PqxX4
+ jmZBQynoBvOEnN3yELIPfXRoFSjqvqytCG8v9XnUzlhFDPoToNov5fDa/QceGMpbuVCT
+ iQbBXYbCkbOJqvnbCDmHEMBEwv51Nc2R2UiCOJkqb6WlpehXSql1VfgccfWiJBcHzU3H
+ jzxH7qAyohmpgwR6rc71sOFMzDtg2NkrR6+51gW4ff/rPTuc89jGI/G5SZTa+rustUz1
+ 0POnCMM2JU2EWsD3mbJl8ZvHUn0Vx9yX3OnvtD/SSVVs94BBrqCAOukobBnWaIuS165b
+ MOVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXU8XyIb19/jJqJUwX5RckcBVt7DvTJHEoyjlzPMfXLPawuBm0b3PD1sCnMucUWdCf8WDES8cj+bnk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDYko+1NRECGKYDhdL2eUXl4AFoxTkXx/VekCxlQpAfjIFwCND
+ VXPiTSMLPQjOwnH6I0E3EFf7a9FVLqb+GN8G6e2SjASyf0t8t7azcjTflLHInsEWBoc9DYxzxY0
+ ju5UGM4Wcg7y7hKdcXhyvjrb9J3LwUqKR3K53oMVR
+X-Gm-Gg: ATEYQzx73luh54Ln4oguHefkQy/3rPyRfV/oi1Gm3ekZ23zucFJSZVsM7CgZhCwugJw
+ uIFJ93E0CJ0OYpkkIwROtxhMdyqBLqMj8/3zGvMFccWMSmKAlRPomtyxyz1WItgZ/vmEOSrilKB
+ OXTDBdkN6EyyBJYRsvStXd9FQw1qk4XWooxihN1eij436nBOmlJfNd3MoOKgWAC8bPQ2lU3iAgm
+ ALfGnVq32vXhOeeF5fhfTKItQ/D7oasVitZIqVaFDhl6G6vCO7FOrVO73sCfGxuxvVWr6DkaC46
+ QuzLRvJjubO0itIh6PDqa3+9hbjhAqM0O51xf/Z4lCY3ra9rvyKhq6Mfay6fValUumTprA==
+X-Received: by 2002:a05:600c:8a09:10b0:480:683f:743d with SMTP id
+ 5b1f17b1804b1-483ce5f6f44mr2585095e9.14.1772558732287; Tue, 03 Mar 2026
+ 09:25:32 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB6849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3712045e-1eff-488c-53c2-08de794944e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|10070799003|366016|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: jjelfEhUHJGA3dkW+SzrZesh5mo6wjlohJEviUAhCfEfXpjHYFby3kFRluYUc6E/gn2ZO8PXYjeLK+PEYx4bX/UEkpNBVpYgeNzKhv6aL3Ts+U9l2x2D+P0+230EFYuT4aWLsauOLL/uS8xfUIS/m2LnKGNrBS2iYqv7yZbdIVxgJmmtoMOFDIdey8vadN+TF4GuRMj8CQXNh4E1LAWa9SZS/sKMt+2F/tMWl/P7SD6l9jB3Me5L8UnQOpiPb4coOBl5kLSckE3JP5Ap8FTHow+lNbCf2dDy2C/LVajiJ9vUpQyaXhyHCGchT++9w6gwlyNJEgsI+hVBXhD8BtFTP01cZShhUn8Q/U2oShVvkcGxR3rxJIBpi/gV7m711Mw+L+VzkeTGiEazAQDAUlr08qOqA1poVWfWCtwcClHH67mbgM2bkk9hb5Kw7BSo93BoKxjtREstabg6M2w5qnQRScQAFYH3zxmEUX8LD9gN6VhxIuGdVt6CbAszZqrk2v92+nT7v7ZJFqhBltRVe6r9Q395PM4dn2PeggPThvUMl7xf6eoXeUGgfBTc0mk60OF3ptrF1BWsS+4T7kXQmbuG0Xp96tvEm9bVOm3vwETByTPbf4NXQkOpNS0WpVPyxDzMCBOIlWzHH990Oi3+WAdzxZWO4bCQqf16ATYqltrvNFWaZfNvgALmyQ59i4omTKstY/rLH+1D/xaY90REYFkoZ/ZrnLcTap+VH52BlXUdwmjGqE60sR5qqtlAGokrezP1Nb6BuDOHvOS9ksUb29qBlA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(921020)(7053199007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3hENG81K0pjWTFFb1RmVUYxY09MZGV6K3pTd1MwQmVTbzhQejc2VFU4NXhn?=
- =?utf-8?B?VG1YMGxSOVF5dWltT0JHRXBUTmVSeDVXRktnZ1d4czR1aDgwL1BOVGxsREQ4?=
- =?utf-8?B?ZC9QWVdoYlZ0ZFFnZHlOc3YrTkpPUmR3Tkt5SE92Mmc1LzNhei9RQTJqZTlm?=
- =?utf-8?B?ZmRYbVE3ZjRYUURsbi82VUR4dTA4ai9xSy9IaTZjd2h1N3gzOG9sbTN3THZT?=
- =?utf-8?B?TDlhRm9ER3Fma2lMTGYwRFdjS1o1QmdBM1RWRzIwUm1kamZyeUhVaU9kZHlG?=
- =?utf-8?B?RnBRd0VHVG94YUovV1ZpTWlPampWdjFlVGh2VUNQd25qeUhtcXl1OHFBMmFl?=
- =?utf-8?B?eWJ6K2N6eWp1SzBIc2QvWnJ1ZXlyY01BMHg2M1NiVDFMenVpbEFZNUdsTU5Y?=
- =?utf-8?B?aStlTnhwYmtxdW1ETndEcE1nODJBaDZSaUJNWDQ2UXVGbnJoYXF0VlVTWGYw?=
- =?utf-8?B?OWhMenFML0g4YUZkdDFOZytxM3JDWmlDYUxTRnJsTFZaTjZDWEhDeWFUWTlj?=
- =?utf-8?B?UU9PRWRuZ0pDanZkNTdJZXlRNFc3dzBSWE04VkxNMnJ1b0cyLy9TSHJzam8y?=
- =?utf-8?B?TkpxVFdSb2Fub2g3TS9zaHU0WTAycnlJSk93c2EydUJEejd6SjBneGpidFQz?=
- =?utf-8?B?QVRqRUJCcW5OQTlhSmdYVUN3eUNRZFBzZ1NRbklnSzRZVnltZjRMU3AyRURW?=
- =?utf-8?B?cEFNQmRrYjZLL3ZQZVFOa09jL2VuTlZNMEpsZ0lDT0dLOWdnT2MrVG5XaHdF?=
- =?utf-8?B?OEdSdTB0N25pYlRGNjZGMG04TGRMMHNYcGpKaVp3Z2M4NkdPZEp6dzN6VjB0?=
- =?utf-8?B?ZFhvMlJ4cTY2a2RhKytDSDg3ZGpqREpiVFBLYW1QZjdzUzdRWEhZcm9qNE54?=
- =?utf-8?B?aDJ3cDRHdDNjb3ZUdDUvcnd1Y293TGJzdnYyUExuMVl2YzZQTFZLNHBaMHpW?=
- =?utf-8?B?OUdxYytKejlxQ2tuSnNLY3laRzJVMWlGOVFLVjV3R1I2SHNaYk5PeVl5dzZ3?=
- =?utf-8?B?QmxaWGxZMi85WGw3MkVpczBSSmdza3B2OTRzeHoxc25aQUFXQ2pZaFY5MFcv?=
- =?utf-8?B?WFlvUDN1emM5VExUUmJBMUVTdDRPTlhWcHFBaXkydE1FOFpZSGlDajNlRWxo?=
- =?utf-8?B?NHRnSDExT2lrRGY4STZ6a0taN1Q5bHhvc1N6L01mQThxdWpMNTZuamtVNHNB?=
- =?utf-8?B?aExqcVFYNExnRWhtOG5pUDBzdEcxOWd4Ymc4Z0NDYVZpbk0zMkl5UnBqWjNk?=
- =?utf-8?B?R1R6RHJHQmV1dy9jQWRNMnNYQkwyWkRSVWw0OTd2THozRjR2cVNELzdzMi9M?=
- =?utf-8?B?UHEyMDhjOGl3R2NyeTEybHJJbjRGU09nNUovZ09uMVBGN1ZxQmUwUEVmYnRK?=
- =?utf-8?B?eG1ac0Z5Z0JoQXB1QndwYkU1ZkQwV2Zjc3JHSmUvVjZQR3l0by9YMEg1Mm9L?=
- =?utf-8?B?TkdHV1ZsUEdIK1RBTTBQSVV1MUVQWitvREpYSXBRSzhSKzZrTjFzSlBXenBG?=
- =?utf-8?B?VzhkUDZka0owNjRQTVJmbXd3d29ieGplMXdFMENvTG5Ra29LbHlJczZxTnYz?=
- =?utf-8?B?cXF5Y29Kd05FbE9VWEQ2M1p4QzJ3OUlQYlFxV1J1WEdpb0VNY29vU05sWWtU?=
- =?utf-8?B?ZWt4dVZ6eTNXUm4wWCtSVDFGTlU5ZFhCWVdkWXJJN2JFeWZGNUlWRmV3eFdI?=
- =?utf-8?B?SnhlR0l4eFJ5Ky9oU1VhdHlQMFFaUkJFNWwrd1JVSktQcTluWEJGZ1RCQjVk?=
- =?utf-8?B?S1NhUXR1dENMaGhacTJ5RFJtTEp1cGg0N1ROckk3WE4rRVdFTjJsenpiRlpG?=
- =?utf-8?B?d29sK3hEQXlvTU12cWV2Z21PUzV5K2hkREl5ODN3dVNJVWZ2bVljMUg2QXhE?=
- =?utf-8?B?ZnhPNDk2RXRUaWhPYmNmQXJJeTBCWTg1MGpobU5pMGc4R3c4bzFsR1ZBWmgy?=
- =?utf-8?B?TjlXaUtUak9ZQ2h0M3ZiWUlWc3R4akJabzJOY0NQc29TSjAvMTQrMVZlMjMx?=
- =?utf-8?B?TVhrVWhmVWFZWUJHemh5Q3NXSkJhMGtHb2dOVEplMUVieGlOVDYzOGdrTS9q?=
- =?utf-8?B?NmJsY1ljSHhzeEt3NmJ2dGNRQzJMMklDTGkyZmFGS0JNa0hyNjZXbzhoTDRS?=
- =?utf-8?B?aHE3S2RXR3lwSWxaZDRXK2tIZ0VWRkZ6dXN0VzZ3QitBV1VoRU5mYlNpb3F6?=
- =?utf-8?B?WnpDdyt2R3FhL00vNGQ1N1BUcGlSdlROQy92M0FWcHhVYitLL2E1WVArMncw?=
- =?utf-8?B?dFpBd3RIbTNHamFGalpsTW5IZHdETHRseXVlek9zMHFLNW9xdk1TQzhlczB4?=
- =?utf-8?B?TThKTjlTc0RHVVhJdTJCcEtxc3RuK2YyamlFajBWRW5MTnQrUnJQQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3712045e-1eff-488c-53c2-08de794944e9
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 17:21:12.9956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ek9+TzY34t9Fbugs+XUNzQ/HtoUTA++hIViqNWRcBDk4NlUJOii2Ck4nAQpjngHXcg8OfD5mq6FIcRGrObl1BQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6849
+References: <20260224020854.791201-1-airlied@gmail.com>
+ <20260224020854.791201-8-airlied@gmail.com>
+ <ee914ffb-5c3d-4d41-abdb-5ed02db326c6@amd.com>
+ <CAPM=9txUuS-qzA+gX2DvTuYR2OZ79RG86FuDA6czkpuJ_SR6KQ@mail.gmail.com>
+ <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com> <aaWZrTZGsxxjbBYv@linux.dev>
+ <8efef755-e429-4cec-bef4-b15b3f9f4632@amd.com> <aaWuoe_CQwbtcxEY@linux.dev>
+ <63dccd9c-f2e5-421e-ac3a-a7c13cec9121@amd.com>
+ <CABdmKX0=xPiwXgOHskGkE9Umj5=NrC=7OtngJjrm=mtOZmyzvA@mail.gmail.com>
+ <614c3c39-1e11-4da4-b5ac-b8a6432dac7e@amd.com>
+In-Reply-To: <614c3c39-1e11-4da4-b5ac-b8a6432dac7e@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 3 Mar 2026 09:25:19 -0800
+X-Gm-Features: AaiRm53VHwY8zV-TMy3I5_8lCkvRhnZh3B-ppjhkgf1ohUtm3OVoU6SM37bueEs
+Message-ID: <CABdmKX3MRdzVTFQcB+Z-6LkGbUxf2a04MTyjPpBSP0bfzRLB5A@mail.gmail.com>
+Subject: Re: [PATCH 07/16] memcg: add support for GPU page counters. (v4)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Dave Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, tj@kernel.org, 
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ cgroups@vger.kernel.org, Dave Chinner <david@fromorbit.com>, 
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch, 
+ Suren Baghdasaryan <surenb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,139 +123,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3977A1F48D8
+X-Rspamd-Queue-Id: 91EBD1F497A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,nvidia.com,garyguo.net,protonmail.com,umich.edu,gmail.com,collabora.com,arm.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:shakeel.butt@linux.dev,m:airlied@gmail.com,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mhocko@kernel.org,m:roman.gushchin@linux.dev,m:muchun.song@linux.dev,m:cgroups@vger.kernel.org,m:david@fromorbit.com,m:longman@redhat.com,m:simona@ffwll.ch,m:surenb@google.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[garyguo.net:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.dev,gmail.com,lists.freedesktop.org,kernel.org,cmpxchg.org,vger.kernel.org,fromorbit.com,redhat.com,ffwll.ch,google.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:dkim,garyguo.net:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,wikipedia.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:email]
 X-Rspamd-Action: no action
 
-On Tue Mar 3, 2026 at 4:22 PM GMT, Danilo Krummrich wrote:
-> Convert wpr_meta to use Coherent::init() and simplify the
-> initialization.  It also avoids a separate initialization of
-> GspFwWprMeta on the stack.
+On Tue, Mar 3, 2026 at 1:29=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  drivers/gpu/nova-core/gsp/boot.rs |  7 ++-----
->  drivers/gpu/nova-core/gsp/fw.rs   | 20 +++++++++++++++-----
->  2 files changed, 17 insertions(+), 10 deletions(-)
+> On 3/2/26 20:35, T.J. Mercier wrote:
+> > On Mon, Mar 2, 2026 at 7:51=E2=80=AFAM Christian K=C3=B6nig <christian.=
+koenig@amd.com> wrote:
+> >>
+> >> On 3/2/26 16:40, Shakeel Butt wrote:
+> >>> +TJ
+> >>>
+> >>> On Mon, Mar 02, 2026 at 03:37:37PM +0100, Christian K=C3=B6nig wrote:
+> >>>> On 3/2/26 15:15, Shakeel Butt wrote:
+> >>>>> On Wed, Feb 25, 2026 at 10:09:55AM +0100, Christian K=C3=B6nig wrot=
+e:
+> >>>>>> On 2/24/26 20:28, Dave Airlie wrote:
+> >>>>> [...]
+> >>>>>>
+> >>>>>>> This has been a pain in the ass for desktop for years, and I'd li=
+ke to
+> >>>>>>> fix it, the HPC use case if purely a driver for me doing the work=
+.
+> >>>>>>
+> >>>>>> Wait a second. How does accounting to cgroups help with that in an=
+y way?
+> >>>>>>
+> >>>>>> The last time I looked into this problem the OOM killer worked bas=
+ed on the per task_struct stats which couldn't be influenced this way.
+> >>>>>>
+> >>>>>
+> >>>>> It depends on the context of the oom-killer. If the oom-killer is t=
+riggered due
+> >>>>> to memcg limits then only the processes in the scope of the memcg w=
+ill be
+> >>>>> targetted by the oom-killer. With the specific setting, the oom-kil=
+ler can kill
+> >>>>> all the processes in the target memcg.
+> >>>>>
+> >>>>> However nowadays the userspace oom-killer is preferred over the ker=
+nel
+> >>>>> oom-killer due to flexibility and configurability. Userspace oom-ki=
+llers like
+> >>>>> systmd-oomd, Android's LMKD or fb-oomd are being used in containeri=
+zed
+> >>>>> environments. Such oom-killers looks at memcg stats and hiding some=
+thing
+> >>>>> something from memcg i.e. not charging to memcg will hide such usag=
+e from these
+> >>>>> oom-killers.
+> >>>>
+> >>>> Well exactly that's the problem. Android's oom killer is *not* using=
+ memcg exactly because of this inflexibility.
+> >>>
+> >>> Are you sure Android's oom killer is not using memcg? From what I see=
+ in the
+> >>> documentation [1], it requires memcg.
+> >
+> > LMKD used to use memcg v1 for memory.pressure_level, but that has been
+> > replaced by PSI which is now the default configuration. I deprecated
+> > all configurations with memcg v1 dependencies in January. We plan to
+> > remove the memcg v1 support from LMKD when the 5.10 and 5.15 kernels
+> > reach EOL.
+> >
+> >> My bad, I should have been wording that better.
+> >>
+> >> The Android OOM killer is not using memcg for tracking GPU memory allo=
+cations, because memcg doesn't have proper support for tracking shared buff=
+ers.
+> >>
+> >> In other words GPU memory allocations are shared by design and it is t=
+he norm that the process which is using it is not the process which has all=
+ocated it.
+> >>
+> >> What we would need (as a start) to handle all of this with memcg would=
+ be to accounted the resources to the process which referenced it and not t=
+he one which allocated it.
+> >>
+> >> I can give a full list of requirements which would be needed by cgroup=
+s to cover all the different use cases, but it basically means tons of extr=
+a complexity.
+> >
+> > Yeah this is right. We usually prioritize fast kills rather than
+> > picking the biggest offender though. Application state (foreground /
+> > background) is the primary selector, however LMKD does have a mode
+> > (kill_heaviest_task) where it will pick the largest task within a
+> > group of apps sharing the same application state. For this it uses RSS
+> > from /proc/<pid>/statm, and (prepare to avert your eyes) a new and out
+> > of tree interface in procfs for accounting dmabufs used by a process.
+> > It tracks FD references and map references as they come and go, and
+> > only counts any buffer once for a process regardless of the number and
+> > type of references a process has to the same buffer. I dislike it
+> > greatly.
 >
-> diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gs=
-p/boot.rs
-> index 7f46fa5e9b50..1a4d9ee4f256 100644
-> --- a/drivers/gpu/nova-core/gsp/boot.rs
-> +++ b/drivers/gpu/nova-core/gsp/boot.rs
-> @@ -2,8 +2,7 @@
-> =20
->  use kernel::{
->      device,
-> -    dma::CoherentAllocation,
-> -    dma_write,
-> +    dma::Coherent,
->      io::poll::read_poll_timeout,
->      pci,
->      prelude::*,
-> @@ -155,9 +154,7 @@ pub(crate) fn boot(
->              bar,
->          )?;
-> =20
-> -        let wpr_meta =3D
-> -            CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, G=
-FP_KERNEL | __GFP_ZERO)?;
-> -        dma_write!(wpr_meta, [0]?, GspFwWprMeta::new(&gsp_fw, &fb_layout=
-));
-> +        let wpr_meta =3D Coherent::init(dev, GFP_KERNEL, GspFwWprMeta::n=
-ew(&gsp_fw, &fb_layout))?;
-> =20
->          self.cmdq
->              .send_command(bar, commands::SetSystemInfo::new(pdev))?;
-> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/=
-fw.rs
-> index f1797e1f0d9d..751d5447214d 100644
-> --- a/drivers/gpu/nova-core/gsp/fw.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw.rs
-> @@ -131,7 +131,9 @@ pub(crate) fn wpr_heap_size(&self, chipset: Chipset, =
-fb_size: u64) -> u64 {
->  /// Structure passed to the GSP bootloader, containing the framebuffer l=
-ayout as well as the DMA
->  /// addresses of the GSP bootloader and firmware.
->  #[repr(transparent)]
-> -pub(crate) struct GspFwWprMeta(bindings::GspFwWprMeta);
-> +pub(crate) struct GspFwWprMeta {
-> +    inner: bindings::GspFwWprMeta,
-> +}
-> =20
->  // SAFETY: Padding is explicit and does not contain uninitialized data.
->  unsafe impl AsBytes for GspFwWprMeta {}
-> @@ -144,10 +146,14 @@ unsafe impl FromBytes for GspFwWprMeta {}
->  type GspFwWprMetaBootInfo =3D bindings::GspFwWprMeta__bindgen_ty_1__bind=
-gen_ty_1;
-> =20
->  impl GspFwWprMeta {
-> -    /// Fill in and return a `GspFwWprMeta` suitable for booting `gsp_fi=
-rmware` using the
-> +    /// Returns an initializer for a `GspFwWprMeta` suitable for booting=
- `gsp_firmware` using the
->      /// `fb_layout` layout.
-> -    pub(crate) fn new(gsp_firmware: &GspFirmware, fb_layout: &FbLayout) =
--> Self {
-> -        Self(bindings::GspFwWprMeta {
-> +    pub(crate) fn new<'a>(
-> +        gsp_firmware: &'a GspFirmware,
-> +        fb_layout: &'a FbLayout,
-> +    ) -> impl Init<Self> + 'a {
-> +        #[allow(non_snake_case)]
+> *sigh* I was really hoping that we would have nailed it with the BPF supp=
+ort for DMA-buf and not rely on out of tree stuff any more.
 
-I suppose this is from the field accessor generated?
+The BPF support is still a win and I'm very happy to have it, but I
+don't think there was ever a route to implementing cgroup limits on
+top of it.
 
-@Benno we probably should add `#[allow(nonstandard_style)]` on the accessor
-generated.
+> We should really stop re-inventing the wheel over and over again and fix =
+the shortcomings cgroups has instead and then use that one.
+>
+> > My original intention was to use the dmabuf BPF iterator we added to
+> > scan maps and FDs of a process for dmabufs on demand. Very simple and
+> > pretty fast in BPF. This wouldn't support high watermark tracking, so
+> > I was forced into doing something else for per-process accounting. To
+> > be fair, the HWM tracking has detected a few application bugs where
+> > 4GB of system memory was inadvertently consumed by dmabufs.
+> >
+> > The BPF iterator is currently used to support accounting of buffers
+> > not visible in userspace (dmabuf_dump / libdmabufinfo) and it's a nice
+> > improvement for that over the old sysfs interface. I hope to replace
+> > the slow scanning of procfs for dmabufs in libdmabufinfo with BPF
+> > programs that use the dmabuf iterator, but that's not a priority for
+> > this year.
+> >
+> > Independent of all of that, memcg doesn't really work well for this
+> > because it's shared memory that can only be attributed to a single
+> > memcg, and the most common allocator (gralloc) is in a separate
+> > process and memcg than the processes using the buffers (camera,
+> > YouTube, etc.). I had a few patches that transferred the ownership of
+> > buffers to a new memcg when they were sent via Binder, but this used
+> > the memcg v1 charge moving functionality which is now gone because it
+> > was so complicated. But that only works if there is one user that
+> > should be charged for the buffer anyway. What if it is shared by
+> > multiple applications and services?
+>
+> Well the "usual" (e.g. what you find in the literature and what other ope=
+rating systems do) approach is to use a proportional set size instead of th=
+e resident set size: https://en.wikipedia.org/wiki/Proportional_set_size
+>
+> The problem is that a proportional set size is usually harder to come by.=
+ So it means additional overhead, more complex interfaces etc...
 
-Best,
-Gary
+I added /proc/<pid>/dmabuf_pss as well, which actually isn't a
+horrible implementation if you consider that the entire buffer is
+pinned as long as there is any user.
 
-> +        let init_inner =3D init!(bindings::GspFwWprMeta {
->              // CAST: we want to store the bits of `GSP_FW_WPR_META_MAGIC=
-` unmodified.
->              magic: bindings::GSP_FW_WPR_META_MAGIC as u64,
->              revision: u64::from(bindings::GSP_FW_WPR_META_REVISION),
-> @@ -182,7 +188,11 @@ pub(crate) fn new(gsp_firmware: &GspFirmware, fb_lay=
-out: &FbLayout) -> Self {
->              fbSize: fb_layout.fb.end - fb_layout.fb.start,
->              vgaWorkspaceOffset: fb_layout.vga_workspace.start,
->              vgaWorkspaceSize: fb_layout.vga_workspace.end - fb_layout.vg=
-a_workspace.start,
-> -            ..Default::default()
-> +            ..Zeroable::init_zeroed()
-> +        });
-> +
-> +        init!(GspFwWprMeta {
-> +            inner <- init_inner,
->          })
->      }
->  }
+https://cs.android.com/android/kernel/superproject/+/common-android14-6.1:c=
+ommon/fs/proc/base.c;drc=3D1b269f8eb12649ec9370f4051ae049e54a31e3fe;l=3D339=
+3
 
+With page-based memcg accounting it would be much harder and more expensive=
+.
+
+> Regards,
+> Christian.
+>
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> [1] https://source.android.com/docs/core/perf/lmkd
+> >>>
+> >>>>
+> >>>> See the multiple iterations we already had on that topic. Even inclu=
+ding reverting already upstream uAPI.
+> >>>>
+> >>>> The latest incarnation is that BPF is used for this task on Android.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>
+>
