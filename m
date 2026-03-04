@@ -2,100 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WF+DCwlZqGlQtgAAu9opvQ
+	id 2gzuEgZaqGmZtgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:08:41 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:12:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A18203C7F
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D532D203EAD
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:12:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E409E10EA4D;
-	Wed,  4 Mar 2026 16:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B6810EA53;
+	Wed,  4 Mar 2026 16:12:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ct9G1qwy";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="B1gXa7u/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF34610EA4D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 16:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772640513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XuIJEyuPZseimNyB1dClJ9+gsbn4gJI4NK41evppQNk=;
- b=ct9G1qwyXb6Qu9SaTz9/l9IoD9eMtqV3ykvPYkw3n9QLfiPK4++z3nMw003XneUp+pSNNW
- YxFIZcKdapRxHrOTG+s5a+s+HEj1ZbBprVso7HGRXaxp5PERbyRoVZJ5xHIomHvjwOXqYz
- X+eNHwiPuibk9/sCri/XD97z/9YDTtM=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-QEYN65DyMjiuzmAUtklaEQ-1; Wed, 04 Mar 2026 11:08:16 -0500
-X-MC-Unique: QEYN65DyMjiuzmAUtklaEQ-1
-X-Mimecast-MFC-AGG-ID: QEYN65DyMjiuzmAUtklaEQ_1772640495
-Received: by mail-ot1-f70.google.com with SMTP id
- 46e09a7af769-7d4c1b9061eso75349334a34.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 08:08:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772640486; x=1773245286;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=XuIJEyuPZseimNyB1dClJ9+gsbn4gJI4NK41evppQNk=;
- b=Y6/r8E3C+Arp3EN49tiDmi0vk+7Kl2iIncZ+Zt84rGLypEav+rsDVs4gBNLc1/6wLE
- FJymAx0NIGBDQlj2T8IMUedtvwUm5mjogLT9sW/NMcLfGW0sNEIK0gCRSuSt4zfzPlrg
- rPJVJYx4zt8EY8EBFjdgUWqH8KxMzC5jMpoPZwgoedEWtz1JMh/vQoNhz7KEEL0SOOIi
- N1wKFqLv4RwAty881e10lq8UqS7OIve0vWScFw2Mluia1K350F+GsHpSnXPTWjlanQOS
- mAefcq1Hph9+Sxrz8ILEjXNdD0mLA8nDBFoVxDQgm3uL5rat0R6A2Z+mRJPP33cqVY0a
- hJYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkPHO5loE62mF85xR8hN+MSEy1NkbZy977SouFagr+LRl4z2mt+v/k7cLmVovHtZo6/hCmbzipObU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+X3xVqpU62lx6WF8XoxTuNXyNxQjzCsCQNi+hLv8XRMpBN+j3
- eeiqZfaQKTUzTW67IYWRxGdIqJcYVRH0oAkdtAd95ajkByGw490nRS9j7ynNwO8jbnk9/WD2Blp
- lSywY14nttxBizh/oW/3Bwt4wQKs4FVh1Ci+fowj5p60EqIGFuv82y8tDtFtSuweplEziEMU62V
- DGvPKkmD6cWVAUXIrSFIhWvNDhNE7/db65R6VnI8UPaNj3
-X-Gm-Gg: ATEYQzwHqXz7U0ovJzKFCBRZnTBD2JYNb4jA2205V24SAktgzyQBNeGciSpBcDlgUl6
- F++e27nX0XtCcqTpcVqL1PFuNAreofa/SkuhmFVWQnmYX00yx9pYXO1m3Joixvbc72KQatX/33O
- JoTc7zGOgQiQy9vBfHREnXJkWFXi+hb9BDms7Aw/42aQUASmQyljoBNWcziOOdbTsToOVahKN9T
- w==
-X-Received: by 2002:a05:6820:1ca4:b0:679:e68b:f95d with SMTP id
- 006d021491bc7-67b1776bde5mr1385796eaf.53.1772640486025; 
- Wed, 04 Mar 2026 08:08:06 -0800 (PST)
-X-Received: by 2002:a05:6820:1ca4:b0:679:e68b:f95d with SMTP id
- 006d021491bc7-67b1776bde5mr1385781eaf.53.1772640485669; Wed, 04 Mar 2026
- 08:08:05 -0800 (PST)
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C164210EA4E;
+ Wed,  4 Mar 2026 16:12:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772640762; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kRUk4O3CAkzGxMf6lwluro+2/Zz82AxFHdSBn1AVH9XeEFz+DgVJiTQ55KyJWsrIYa2OHiRKthYJEV3YdQcOaM8KUF6gCG5IXgVk6EJiFrPv0xDaFLsO7Q0AHgVcNE7ZwSfC1qE3+i9L23m89rRu1bxwXgxULFEfPuyJfIoHTY8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1772640762;
+ h=Content-Type:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=; 
+ b=SGcUttgqGNnv57CByEPkn2GSqhC8MLfPmEtHn+a8SixdvwPNhPkSlqN6dpLdT+WrKxOTDSbtalIR1wl4vvoMLr7X8q4idoRkqLhpodm27Z+HokzaZxV8Kdf7l6UjnP/Zb2GlhW9hmEsHVR8iy1ypnrJ0q3cr2I2dN5/fnCM9yiw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772640762; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=/UZ1fASd581DGwoDXE4nNr7cvDBmu2IMPO2n0Z57d0s=;
+ b=B1gXa7u/vRyCFytF/C2IblGhO61hhskl0NxSWvE4ckYXxcyO3lXkjGW5PLb21kLJ
+ 7zUNCZSLQDYxOMUSaI2QzOSxgdXaaJw52Ifa/nPOtmCPc/Le9XQPO2rK4E3+jyRFrmn
+ iItL/LjFC98h7dSQv+5LA3setfy05ivchT3QNeoY=
+Received: by mx.zohomail.com with SMTPS id 1772640759959464.1568830656362;
+ Wed, 4 Mar 2026 08:12:39 -0800 (PST)
+Message-ID: <77e280436ec5b54973a11303dd0446e9f3ab2ba1.camel@collabora.com>
+Subject: Reminder: Deadline to renew X.Org memberships for 2026 is March 16.
+From: Mark Filion <mark.filion@collabora.com>
+To: events@lists.x.org, xorg-devel@lists.x.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org, 
+ xorg@lists.freedesktop.org
+Date: Wed, 04 Mar 2026 11:12:37 -0500
+In-Reply-To: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
+References: <0070f3dd-a521-40ee-b6e7-8b1f82e48b66@amd.com>
+Content-Type: multipart/alternative; boundary="=-Ou9PVGv0Q/xGWensQ9B3"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 MIME-Version: 1.0
-References: <20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com>
- <CANDhNCrVVGsxEjgRcVJSn_E9WPUVY_9zpd+t0X_Jy7JqbcHDqA@mail.gmail.com>
-In-Reply-To: <CANDhNCrVVGsxEjgRcVJSn_E9WPUVY_9zpd+t0X_Jy7JqbcHDqA@mail.gmail.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 4 Mar 2026 17:07:54 +0100
-X-Gm-Features: AaiRm51Q5GvpC48eWrWjCC8xCsFxsretWrNgIwHjulMNxRdjdZzE0CFF6Jj-oi0
-Message-ID: <CADSE00KqF-7m+ZMYLzzgL3FzZv3P_G-v8ycYdXBj_WE4=P2_jw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] dma-buf: heaps: add coherent reserved-memory heap
-To: John Stultz <jstultz@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
- devicetree@vger.kernel.org, echanude@redhat.com, mripard@redhat.com, 
- John Stultz <john.stultz@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fFVUrhjSfaY7W4Rd5SPBDhKfDE5iB7-vRbRX3x984RQ_1772640495
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,70 +73,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C3A18203C7F
+X-Rspamd-Queue-Id: D532D203EAD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:jstultz@google.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:robh@kernel.org,m:saravanak@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:echanude@redhat.com,m:mripard@redhat.com,m:john.stultz@linaro.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,x.org:url,x.org:email];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mark.filion@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[collabora.com:+]
 X-Rspamd-Action: no action
 
-On Tue, Mar 3, 2026 at 9:55=E2=80=AFPM John Stultz <jstultz@google.com> wro=
-te:
->
-> On Tue, Mar 3, 2026 at 4:34=E2=80=AFAM Albert Esteve <aesteve@redhat.com>=
- wrote:
-> >
-> > This patch introduces a new heap driver to expose DT non=E2=80=91reusab=
-le
-> > "shared-dma-pool" coherent regions as dma-buf heaps, so userspace can
-> > allocate buffers from each reserved, named region.
->
-> Just a nit here: Might be good to provide some higher level context as
-> to why this is wanted, and what it enables.
->
-> Also, "shared-dma-pool" is also used for CMA regions, so it might be
-> unclear initially how this is different from the CMA heap (you do
-> mention non-reusable, but that's a prettty subtle detail).
+--=-Ou9PVGv0Q/xGWensQ9B3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure, I will expand this for the next revision and try to clarify the
-points you mentioned here (and add these points to the relevant
-patch).
+Hi everyone,
 
-BR,
-Albert
+Just a friendly reminder that the deadline to renew X.Org memberships
+for 2026 is March 16.
 
->
-> Might be good to add some of the rationale to the patch adding the
-> heap implementation as well so it makes it into the git history.
->
-> thanks
-> -john
->
+Membership renewal ensures you maintain your voting rights in the
+upcoming foundation elections, but also helps strengthen the foundation
+by giving it more credibility.
 
+https://members.x.org/
+
+Thank you for your continued support of the X.Org Foundation.
+
+Best,
+
+Mark
+
+On Wed, 2026-02-04 at 16:22 -0500, Harry Wentland wrote:
+> Hi all,
+>=20
+> it's a new year and with that a new X.Org Board of Directors
+> election. Please take the time to log in to members.x.org
+> and renew your membership for the new period or sign up for
+> the first time.
+>=20
+> These board members' periods will end this year:
+> - Mark Filion
+> - Erik Faye-Lund
+> - Simon Ser
+> - Neal Gompa
+>=20
+> The election dates will be as follows:
+> =C2=A0=C2=A0=C2=A0 Nomination period Start: Mon February 9th
+> =C2=A0=C2=A0=C2=A0 Nomination period End: Mon March 9th
+> =C2=A0=C2=A0=C2=A0 Publication of Candidates & start of Candidate QA: Mon=
+ March 16th
+> =C2=A0=C2=A0=C2=A0 Deadline of X.Org membership application or renewal: M=
+on March
+> 16th
+> =C2=A0=C2=A0=C2=A0 Election Planned Start: Mon March 23rd
+> =C2=A0=C2=A0=C2=A0 Election Planned End: Mon April 13th
+>=20
+> If you have questions or encounter issues don't hesitate
+> to reach out the Elections Committee at elections@x.org.
+>=20
+> Best Regards,
+> Harry
+
+--=-Ou9PVGv0Q/xGWensQ9B3
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>Hi everyone,</div><div><br></div><div><div>Just a=
+ friendly reminder that the deadline to renew X.Org memberships for 2026 is=
+ March 16.</div><div><br></div><div>Membership renewal ensures you maintain=
+ your voting rights in the upcoming foundation elections, but also helps st=
+rengthen the foundation by giving it more credibility.<br><br><a href=3D"ht=
+tps://members.x.org/">https://members.x.org/</a></div><div><br></div><div>T=
+hank you for your continued support of the X.Org Foundation.</div><div><br>=
+</div><div>Best,</div><div></div><br>Mark<br><br>On Wed, 2026-02-04 at 16:2=
+2 -0500, Harry Wentland wrote:</div><blockquote type=3D"cite" style=3D"marg=
+in:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div>Hi all,=
+<br></div><div><br></div><div>it's a new year and with that a new X.Org Boa=
+rd of Directors<br></div><div>election. Please take the time to log in to m=
+embers.x.org<br></div><div>and renew your membership for the new period or =
+sign up for<br></div><div>the first time.<br></div><div><br></div><div>Thes=
+e board members' periods will end this year:<br></div><div>- Mark Filion<br=
+></div><div>- Erik Faye-Lund<br></div><div>- Simon Ser<br></div><div>- Neal=
+ Gompa<br></div><div><br></div><div>The election dates will be as follows:<=
+br></div><div>&nbsp;&nbsp;&nbsp; Nomination period Start: Mon February 9th<=
+br></div><div>&nbsp;&nbsp;&nbsp; Nomination period End: Mon March 9th<br></=
+div><div>&nbsp;&nbsp;&nbsp; Publication of Candidates &amp; start of Candid=
+ate QA: Mon March 16th<br></div><div>&nbsp;&nbsp;&nbsp; Deadline of X.Org m=
+embership application or renewal: Mon March 16th<br></div><div>&nbsp;&nbsp;=
+&nbsp; Election Planned Start: Mon March 23rd<br></div><div>&nbsp;&nbsp;&nb=
+sp; Election Planned End: Mon April 13th<br></div><div><br></div><div>If yo=
+u have questions or encounter issues don't hesitate<br></div><div>to reach =
+out the Elections Committee at <a href=3D"mailto:elections@x.org">elections=
+@x.org</a>.<br></div><div><br></div><div>Best Regards,<br></div><div>Harry<=
+br></div></blockquote><div><br></div><div><span></span></div></body></html>
+
+--=-Ou9PVGv0Q/xGWensQ9B3--
