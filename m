@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MBToHsWIqGn2vQAAu9opvQ
+	id X06hLAOMqGmFvgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:32:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:46:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53442071C8
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005F7207296
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C71C10E00D;
-	Wed,  4 Mar 2026 19:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A56A10EA8E;
+	Wed,  4 Mar 2026 19:46:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t+fioJu8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HyFXFNLP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1234810E00D;
- Wed,  4 Mar 2026 19:32:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D8610E1D0;
+ Wed,  4 Mar 2026 19:46:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E78CD600AE;
- Wed,  4 Mar 2026 19:32:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6284C4CEF7;
- Wed,  4 Mar 2026 19:32:12 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 339E560053;
+ Wed,  4 Mar 2026 19:46:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95066C4CEF7;
+ Wed,  4 Mar 2026 19:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772652735;
- bh=jIK/V8edRWZRYZX6TpXv6QL2xOOo2prhEFwnEQ2oFhk=;
+ s=k20201202; t=1772653564;
+ bh=7tnJd6lBFpQA5EoX0mIycpr6qSPclxEDJ6mtM22ZvXs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=t+fioJu8cxusW5HUmI+qRjVer4epSgbAu+rBGXpRInQe6TfEXb09oXPFbiPUj5xKS
- AyF4hH3Gdf94hFzo5KivUMY3y3Ae1vtPdK1sLSK/iQuRJ/l88V42VdwIgUwN77Ohu0
- Tu1K7aWgzXNUokRdPsu4wEMIc2wgGJe3dqpnzS8Ub38OSJWcsPKZ9/Npkb7NwOWtfR
- EFU+1jk1Vj3zsKra5KIYZcLTwG78XkABxknw97k73WOEqsBYNHryYSHD8RrWXb5145
- /oGI5DJqbpvdAUmmlAfE/MOIzW640nhQbw51LUu6InV/m1odD7OVHwYqzoq/Yk5ByT
- +wPYqW7ZEYVzg==
-Message-ID: <07fb6811-68fe-4cb9-95e5-ded58a082493@kernel.org>
-Date: Wed, 4 Mar 2026 20:32:08 +0100
+ b=HyFXFNLPc8UHIpPKKe40mzfhZcUEZYYAZlT9hQfBAn3176Y6W+mJ/kbmhHk1I4ceO
+ Hq4nB64EW61Rh6B/JE38IuaDVez0Dg6hgS3W80l1kjKuDW9OPW0hmJe4DNXCAtN8sx
+ PwjeLLH1os0WVHkUHWwOk1PP1woMGv1UijUyTcYWA3HDvf1fflkniZQso5XPkI5pDt
+ /Sq0Ee2Brz/Ou7o8QgJvzjzjhZcNN4lst4p3w7LaLUJ+bKioBsN6+JYYA16aL1zIhN
+ Fmys5NA8tdfpx2h1pwNflkNqwHWH1x/9VISWvWoosUIp8R7n6ov1DYA5e6MrOxj7X6
+ zJW6gr0uspOMQ==
+Message-ID: <f8ff2118-73b9-4f2e-ad36-b6de6164ef45@kernel.org>
+Date: Wed, 4 Mar 2026 20:45:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/4] mm/mmu_notifier: Allow two-pass struct
@@ -114,7 +114,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E53442071C8
+X-Rspamd-Queue-Id: 005F7207296
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
@@ -141,7 +141,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,intel.com:email,kvack.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ffwll.ch:email,nvidia.com:email]
 X-Rspamd-Action: no action
 
 On 3/3/26 14:34, Thomas Hellström wrote:
@@ -164,8 +164,118 @@ On 3/3/26 14:34, Thomas Hellström wrote:
 > use-cases that don't need the multi-pass functionality by avoiding
 > a second interval tree walk, and to be able to easily pass data
 > between the two passes.
+> 
+> v1:
+> - Restrict to two passes (Jason Gunthorpe)
+> - Improve on documentation (Jason Gunthorpe)
+> - Improve on function naming (Alistair Popple)
+> v2:
+> - Include the invalidate_finish() callback in the
+>   struct mmu_interval_notifier_ops.
+> - Update documentation (GitHub Copilot:claude-sonnet-4.6)
+> - Use lockless list for list management.
+> v3:
+> - Update kerneldoc for the struct mmu_interval_notifier_finish::list member
+>   (Matthew Brost)
+> - Add a WARN_ON_ONCE() checking for NULL invalidate_finish() op if
+>   if invalidate_start() is non-NULL. (Matthew Brost)
+> 
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Cc: <linux-mm@kvack.org>
+> Cc: <linux-kernel@vger.kernel.org>
+> 
+> Assisted-by: GitHub Copilot:claude-sonnet-4.6 # Documentation only.
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  include/linux/mmu_notifier.h | 38 +++++++++++++++++++++
+>  mm/mmu_notifier.c            | 65 +++++++++++++++++++++++++++++++-----
+>  2 files changed, 94 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+> index 07a2bbaf86e9..37b683163235 100644
+> --- a/include/linux/mmu_notifier.h
+> +++ b/include/linux/mmu_notifier.h
+> @@ -233,16 +233,54 @@ struct mmu_notifier {
+>  	unsigned int users;
+>  };
+>  
+> +/**
+> + * struct mmu_interval_notifier_finish - mmu_interval_notifier two-pass abstraction
+> + * @link: Lockless list link for the notifiers pending pass list
+> + * @notifier: The mmu_interval_notifier for which the finish pass is called.
+> + *
+> + * Allocate, typically using GFP_NOWAIT in the interval notifier's first pass.
 
-Please CC all maintainers+reviewers that MAINTAINERS recommends you to cc.
+Might want to make it clear that the fist pass is "start" and the second
+pass is "finish".
+
+Two-pass makes it sound like we'd be calling the same operation (e.g.,
+invalidate() ) twice.
+
+> + * If allocation fails (which is not unlikely under memory pressure), fall back
+> + * to single-pass operation. 
+
+Do you mean that the core will fallback (calling invalidate() ) or that
+it's the responsibility of the notifier to behave as if invalidate()
+would be called to then return finish=NULL? I assume the latter.
+
+Maybe this should be documented for @invalidate_start instead. (behave
+like invalidate() if @finish is %NULL on return etc)
+
+> Note that with a large number of notifiers
+> + * implementing two passes, allocation with GFP_NOWAIT will become increasingly
+> + * likely to fail, so consider implementing a small pool instead of using
+> + * kmalloc() allocations.
+> + *
+> + * If the implementation needs to pass data between the two passes,
+> + * the recommended way is to embed struct mmu_interval_notifier_finish into a larger
+> + * structure that also contains the data needed to be shared. Keep in mind that
+> + * a notifier callback can be invoked in parallel, and each invocation needs its
+> + * own struct mmu_interval_notifier_finish.
+> + */
+> +struct mmu_interval_notifier_finish {
+> +	struct llist_node link;
+> +	struct mmu_interval_notifier *notifier;
+> +};
+> +
+>  /**
+>   * struct mmu_interval_notifier_ops
+>   * @invalidate: Upon return the caller must stop using any SPTEs within this
+>   *              range. This function can sleep. Return false only if sleeping
+>   *              was required but mmu_notifier_range_blockable(range) is false.
+> + * @invalidate_start: Similar to @invalidate, but intended for two-pass notifier
+> + *                    callbacks where the call to @invalidate_start is the first
+> + *                    pass and any struct mmu_interval_notifier_finish pointer
+> + *                    returned in the @finish parameter describes the final pass.
+> + *                    If @finish is %NULL on return, then no final pass will be
+> + *                    called.
+
+Is @finish guaranteed to be set to %NULL before the call? The existing
+code does it, but is it something notifiers can rely on?
+
+> + * @invalidate_finish: Called as the second pass for any notifier that returned
+> + *                     a non-NULL @finish from @invalidate_start. The @finish
+> + *                     pointer passed here is the same one returned by
+> + *                     @invalidate_start.
+>   */
+>  struct mmu_interval_notifier_ops {
+>  	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
+>  			   const struct mmu_notifier_range *range,
+>  			   unsigned long cur_seq);
+> +	bool (*invalidate_start)(struct mmu_interval_notifier *interval_sub,
+> +				 const struct mmu_notifier_range *range,
+> +				 unsigned long cur_seq,
+> +				 struct mmu_interval_notifier_finish **finish);
+> +	void (*invalidate_finish)(struct mmu_interval_notifier_finish *finish);
+>  };
+
+
+Nothing else jumped at me, and the idea makes sense.
 
 -- 
 Cheers,
