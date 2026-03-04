@@ -2,104 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id X06hLAOMqGmFvgAAu9opvQ
+	id CLaJFwKNqGmLvgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:46:11 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:50:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005F7207296
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E11207321
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 20:50:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A56A10EA8E;
-	Wed,  4 Mar 2026 19:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 139D710E1A5;
+	Wed,  4 Mar 2026 19:50:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HyFXFNLP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WHLWLP9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38D8610E1D0;
- Wed,  4 Mar 2026 19:46:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 339E560053;
- Wed,  4 Mar 2026 19:46:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95066C4CEF7;
- Wed,  4 Mar 2026 19:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772653564;
- bh=7tnJd6lBFpQA5EoX0mIycpr6qSPclxEDJ6mtM22ZvXs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HyFXFNLPc8UHIpPKKe40mzfhZcUEZYYAZlT9hQfBAn3176Y6W+mJ/kbmhHk1I4ceO
- Hq4nB64EW61Rh6B/JE38IuaDVez0Dg6hgS3W80l1kjKuDW9OPW0hmJe4DNXCAtN8sx
- PwjeLLH1os0WVHkUHWwOk1PP1woMGv1UijUyTcYWA3HDvf1fflkniZQso5XPkI5pDt
- /Sq0Ee2Brz/Ou7o8QgJvzjzjhZcNN4lst4p3w7LaLUJ+bKioBsN6+JYYA16aL1zIhN
- Fmys5NA8tdfpx2h1pwNflkNqwHWH1x/9VISWvWoosUIp8R7n6ov1DYA5e6MrOxj7X6
- zJW6gr0uspOMQ==
-Message-ID: <f8ff2118-73b9-4f2e-ad36-b6de6164ef45@kernel.org>
-Date: Wed, 4 Mar 2026 20:45:58 +0100
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010054.outbound.protection.outlook.com [52.101.61.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE8610E1B5
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 19:50:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=irhpXSuwsL868y17poqpkbi4TNlhyPhB+4uDV7+ks3KTxUrmFcNV3L/idFNySD+AEOLcEQw/NZ1tLy3NU+wp1dFKXZz1snYrT2U21KX3ZWZgxx0W6Z64zH9sYhN9xpPQa5SfEIaxJCYnAIp/Jd+3NrmMjo2Jskw3bZVGhC1HQDXf5I0dD38jRR9y4N7OqmxKlhFQcC3WHWHscxVMwhmQhsqkPTGJw4ZGOw3+6CkNkN9Jaj/NslzsXko2WQxbKoxjDfylTxL9BD42tuSjM0nS6xylVxM7r/AUs+DdZxBjnyIm84DTKM/cIWnjfskwSs4dTh9BpLC0NUjIwslL7oe5Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q4ji+xj4ziPS0SgQnhFCf8xuwbTEjGjzKLKd91lGmCw=;
+ b=YRKyMWO1eotHLzlMortUndOE9jDbLoj47IbabvUnET9eBAJBje8T8A7lmSLWx+Bs7gitxAucCCwk6uF9aKis4j/8UG8t2Weq+IkF8dfEkBtiYlMiPM84LB2p8My0DzxH/FgGF2jFpK2t0zUCp3DN90mN4OughO6F5OnpRs4E1lpO0kC/ZFGQb891Il/z3NELdfx9YBYQhAC0Klm6wMbSZ9qgSSgjz3UpBuvmY7dxRTGiAckS27NWXTGisztUvvIOtFITDYfpxbHzjFXR9lg/ppW0AremTnPTLirNsAM3TUpxfAESVu2+xV3xIU+AIxvefLEH54opr8XazPfAo/R9wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q4ji+xj4ziPS0SgQnhFCf8xuwbTEjGjzKLKd91lGmCw=;
+ b=WHLWLP9o3t/3w1jNJGsQp+edaUXU3Grj5NZG2fN9KdNurD5XQSSQnKF7KHNjpYLdwXFke5zCgTqibCAMQcaA4JiZE8eVU7Rz5E1qWjAJczkAteatZigdNWHKV5EaOsjHbxKJixZHoRiKMXwMW/PF+q+7EiAqRgYTNFiARDQnvms=
+Received: from BY3PR04CA0004.namprd04.prod.outlook.com (2603:10b6:a03:217::9)
+ by DS0PR12MB7778.namprd12.prod.outlook.com (2603:10b6:8:151::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
+ 2026 19:50:16 +0000
+Received: from SJ1PEPF000026CA.namprd04.prod.outlook.com
+ (2603:10b6:a03:217:cafe::83) by BY3PR04CA0004.outlook.office365.com
+ (2603:10b6:a03:217::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.22 via Frontend Transport; Wed,
+ 4 Mar 2026 19:49:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ1PEPF000026CA.mail.protection.outlook.com (10.167.244.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Wed, 4 Mar 2026 19:50:15 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 4 Mar
+ 2026 13:50:15 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 4 Mar
+ 2026 13:50:14 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 4 Mar 2026 13:50:14 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Fix major version check on NPU1 platform
+Date: Wed, 4 Mar 2026 11:50:12 -0800
+Message-ID: <20260304195012.3616908-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] mm/mmu_notifier: Allow two-pass struct
- mmu_interval_notifiers
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton
- <akpm@linux-foundation.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- Dave Airlie <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20260303133409.11609-1-thomas.hellstrom@linux.intel.com>
- <20260303133409.11609-2-thomas.hellstrom@linux.intel.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260303133409.11609-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026CA:EE_|DS0PR12MB7778:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87eec42a-3174-4c24-d924-08de7a27419c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700016|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: nt36WU+5cuO8SqySYp6aHwA8QufiWSlgc2i+puiZizuMtzRZFiGmxMXeeGgRW6i6IlGJ/lRFbmst2/2Oq/xwmgYCd5TKaPqaB2NwZJsYuQPGjODXSPDQ+PJJKk8FNTbr//UMAPjIUFR42g6ybWuGBKTXMFGyAS6CutI34APS4Ny+omioNniIBELvOoCOuTG+ne3LfRB52lAvlZpfwJ25FFgKi/ulc1/IQsSgoGrHZbvzzWmRLVuH+8wL2be/heidNvZxwl58RtcKWypkmsz5XOq9/A4+9jpM5CulsvMtbqy7panW1DD3a4X34Bw9uacBpH1JwHw+1ph6a+0GJ+vGntZnycB9Bw3BQJoCD6PZ0er9Kf4HQ/ctXQiC/Z/5TsDTe+HAMwatBqQlPqPzSO/f1Dbc31CJ20VtAuxcccIImgE2hZ48GcLhtWaELXamRtJMig2iCn8E+HvpLEp3H0KfAh3AlhRRCMArk9OFonA2jy31965ceh7E4PnrLEvrtoRu36xP8RnthiMTJulkFAFweT4/wBwKTonxQfsw8OpJknilORDlXeviskWIHe2W/im8GCwzQFDjAl1FWCeFsnLPGStzba3P7PK25QooUOrg46d0wQ/4pdfAmq0NWafsWLJ0RXYCzo4UEYsiuc8NXYtYE+hC7yNmPoKTl/b58nYk7tsPXFnJN378ujxUYDVxknGvMQdfiMeivNRGWyRxRJlSA5SFA5XDlpivpUki8ydvnBwjXLegCKstnKp+iZ8woJOZ8stzQ5ghH7DLY1s7hgQThA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: tXL+gW0pUR4X+E9MQljIVERMUXW0EQ8mtP68E5vmRYjlBlGVI9ydoAgeAO2th7KSaXoIr70lM7o9Empc/j7ioghd6ShG3xB1VgrToqL/GNZOurhtAWYdjdzO8BzwdVBMC6Ix9pFyA+I+RAeZih4M3maVkI4MY9wOXHnS7SzOLu5O78H1hKjevujMdxqaJ0RLq6NtWeTtTRa7aBL4ycEGqXjs2X7COQqlFOurX2epznM18YWHidQFamfoD2qs7n1W58iVDiUTt8FwlSrOf8zAo6PijIdnHSXLLNPefoWPVpD1TJJOTQAHFCknljR70UdcQRz121YoXQZ6R57BKhX9iMfFZ5vzw9TXHZidG6yZkIh+0d+yfUumHpZJvI+uEnsbOXFeqLNtcYPbpZvcHw++rJZ8jjsraM6Ue2d2/dBwhvCJK+TNNJZy1L1lwvzi3fED
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 19:50:15.5232 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87eec42a-3174-4c24-d924-08de7a27419c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026CA.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7778
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,170 +118,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 005F7207296
+X-Rspamd-Queue-Id: B7E11207321
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,lists.freedesktop.org,kvack.org,vger.kernel.org,intel.com,amd.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,intel.com:email,kvack.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ffwll.ch:email,nvidia.com:email]
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Action: no action
 
-On 3/3/26 14:34, Thomas Hellström wrote:
-> GPU use-cases for mmu_interval_notifiers with hmm often involve
-> starting a gpu operation and then waiting for it to complete.
-> These operations are typically context preemption or TLB flushing.
-> 
-> With single-pass notifiers per GPU this doesn't scale in
-> multi-gpu scenarios. In those scenarios we'd want to first start
-> preemption- or TLB flushing on all GPUs and as a second pass wait
-> for them to complete.
-> 
-> One can do this on per-driver basis multiplexing per-driver
-> notifiers but that would mean sharing the notifier "user" lock
-> across all GPUs and that doesn't scale well either, so adding support
-> for multi-pass in the core appears to be the right choice.
-> 
-> Implement two-pass capability in the mmu_interval_notifier. Use a
-> linked list for the final passes to minimize the impact for
-> use-cases that don't need the multi-pass functionality by avoiding
-> a second interval tree walk, and to be able to easily pass data
-> between the two passes.
-> 
-> v1:
-> - Restrict to two passes (Jason Gunthorpe)
-> - Improve on documentation (Jason Gunthorpe)
-> - Improve on function naming (Alistair Popple)
-> v2:
-> - Include the invalidate_finish() callback in the
->   struct mmu_interval_notifier_ops.
-> - Update documentation (GitHub Copilot:claude-sonnet-4.6)
-> - Use lockless list for list management.
-> v3:
-> - Update kerneldoc for the struct mmu_interval_notifier_finish::list member
->   (Matthew Brost)
-> - Add a WARN_ON_ONCE() checking for NULL invalidate_finish() op if
->   if invalidate_start() is non-NULL. (Matthew Brost)
-> 
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Cc: <linux-mm@kvack.org>
-> Cc: <linux-kernel@vger.kernel.org>
-> 
-> Assisted-by: GitHub Copilot:claude-sonnet-4.6 # Documentation only.
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  include/linux/mmu_notifier.h | 38 +++++++++++++++++++++
->  mm/mmu_notifier.c            | 65 +++++++++++++++++++++++++++++++-----
->  2 files changed, 94 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
-> index 07a2bbaf86e9..37b683163235 100644
-> --- a/include/linux/mmu_notifier.h
-> +++ b/include/linux/mmu_notifier.h
-> @@ -233,16 +233,54 @@ struct mmu_notifier {
->  	unsigned int users;
->  };
->  
-> +/**
-> + * struct mmu_interval_notifier_finish - mmu_interval_notifier two-pass abstraction
-> + * @link: Lockless list link for the notifiers pending pass list
-> + * @notifier: The mmu_interval_notifier for which the finish pass is called.
-> + *
-> + * Allocate, typically using GFP_NOWAIT in the interval notifier's first pass.
+Add the missing major number in npu1_fw_feature_table.
 
-Might want to make it clear that the fist pass is "start" and the second
-pass is "finish".
+Without the major version specified, the firmware feature check fails,
+preventing new firmware commands from being enabled on the NPU1
+platform.
 
-Two-pass makes it sound like we'd be calling the same operation (e.g.,
-invalidate() ) twice.
+With the correct major version populated, the driver properly detects
+firmware support and enables the new command.
 
-> + * If allocation fails (which is not unlikely under memory pressure), fall back
-> + * to single-pass operation. 
+Fixes: f1eac46fe5f7 ("accel/amdxdna: Update firmware version check for latest firmware")
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/npu1_regs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do you mean that the core will fallback (calling invalidate() ) or that
-it's the responsibility of the notifier to behave as if invalidate()
-would be called to then return finish=NULL? I assume the latter.
-
-Maybe this should be documented for @invalidate_start instead. (behave
-like invalidate() if @finish is %NULL on return etc)
-
-> Note that with a large number of notifiers
-> + * implementing two passes, allocation with GFP_NOWAIT will become increasingly
-> + * likely to fail, so consider implementing a small pool instead of using
-> + * kmalloc() allocations.
-> + *
-> + * If the implementation needs to pass data between the two passes,
-> + * the recommended way is to embed struct mmu_interval_notifier_finish into a larger
-> + * structure that also contains the data needed to be shared. Keep in mind that
-> + * a notifier callback can be invoked in parallel, and each invocation needs its
-> + * own struct mmu_interval_notifier_finish.
-> + */
-> +struct mmu_interval_notifier_finish {
-> +	struct llist_node link;
-> +	struct mmu_interval_notifier *notifier;
-> +};
-> +
->  /**
->   * struct mmu_interval_notifier_ops
->   * @invalidate: Upon return the caller must stop using any SPTEs within this
->   *              range. This function can sleep. Return false only if sleeping
->   *              was required but mmu_notifier_range_blockable(range) is false.
-> + * @invalidate_start: Similar to @invalidate, but intended for two-pass notifier
-> + *                    callbacks where the call to @invalidate_start is the first
-> + *                    pass and any struct mmu_interval_notifier_finish pointer
-> + *                    returned in the @finish parameter describes the final pass.
-> + *                    If @finish is %NULL on return, then no final pass will be
-> + *                    called.
-
-Is @finish guaranteed to be set to %NULL before the call? The existing
-code does it, but is it something notifiers can rely on?
-
-> + * @invalidate_finish: Called as the second pass for any notifier that returned
-> + *                     a non-NULL @finish from @invalidate_start. The @finish
-> + *                     pointer passed here is the same one returned by
-> + *                     @invalidate_start.
->   */
->  struct mmu_interval_notifier_ops {
->  	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
->  			   const struct mmu_notifier_range *range,
->  			   unsigned long cur_seq);
-> +	bool (*invalidate_start)(struct mmu_interval_notifier *interval_sub,
-> +				 const struct mmu_notifier_range *range,
-> +				 unsigned long cur_seq,
-> +				 struct mmu_interval_notifier_finish **finish);
-> +	void (*invalidate_finish)(struct mmu_interval_notifier_finish *finish);
->  };
-
-
-Nothing else jumped at me, and the idea makes sense.
-
+diff --git a/drivers/accel/amdxdna/npu1_regs.c b/drivers/accel/amdxdna/npu1_regs.c
+index 6e3d3ca69c04..1320e924e548 100644
+--- a/drivers/accel/amdxdna/npu1_regs.c
++++ b/drivers/accel/amdxdna/npu1_regs.c
+@@ -67,7 +67,7 @@ const struct dpm_clk_freq npu1_dpm_clk_table[] = {
+ 
+ static const struct aie2_fw_feature_tbl npu1_fw_feature_table[] = {
+ 	{ .major = 5, .min_minor = 7 },
+-	{ .features = BIT_U64(AIE2_NPU_COMMAND), .min_minor = 8 },
++	{ .features = BIT_U64(AIE2_NPU_COMMAND), .major = 5, .min_minor = 8 },
+ 	{ 0 }
+ };
+ 
 -- 
-Cheers,
+2.34.1
 
-David
