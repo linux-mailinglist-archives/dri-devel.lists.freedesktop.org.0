@@ -2,82 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIGWLEt6qGl0uwAAu9opvQ
+	id sCbLK6eAqGmYvAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 19:30:35 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 19:57:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1646E2065C3
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 19:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4DF206B70
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 19:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B522310EA96;
-	Wed,  4 Mar 2026 18:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E2410E19A;
+	Wed,  4 Mar 2026 18:57:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fMsxj+87";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BKV7stx4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FC410EA95;
- Wed,  4 Mar 2026 18:30:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7020A409F0;
- Wed,  4 Mar 2026 18:30:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAFFC4CEF7;
- Wed,  4 Mar 2026 18:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772649031;
- bh=3A4++snizBAapyNv68E4VeyeJMe0EyUIxq7+6aoLznk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fMsxj+87FNW8R3BcSUdbOojVubkEI7VXqH9UxVPAUOcHueIEQb1GIz8KKHKTqAqVI
- ZDRh6/Vy76t5TbW5ooVwhfM0Z1eW1sFBb4/qX60gdJcTJqEeOzxmT+Q5rZF2AOCy8G
- SFhg73lSDr9D807CtE3lcQWrkydaLeVwlwOM7w2II9Caujs0XZ48t60V1T5Lqtx7I6
- JB7gaZJmOIGcqdGDqBw7Hh5T6/RknLhXcAs+TTtXbXnqK4xKDfYm2dZFlVDn3jdGaf
- VT13DGOk6qaZibn5zURj9ob4JTHGwSpmaCf6WHh8IG1eub1Y1luUumT3GWiFSaZcLq
- ACufVT2HiwNJw==
-Date: Wed, 4 Mar 2026 20:30:26 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Peter Colberg <pcolberg@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Ertman <david.m.ertman@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
- Moritz Fischer <mdf@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Boqun Feng <boqun@kernel.org>, linux-pci@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alexandre Courbot <acourbot@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
- driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV capability
-Message-ID: <20260304183026.GK12611@unreal>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
- <20260304084750.GW12611@unreal> <20260304141852.GF964116@ziepe.ca>
- <20260304142600.GB12611@unreal>
- <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
- <20260304162711.GI12611@unreal> <20260304164551.GG964116@ziepe.ca>
- <20260304170249.GJ12611@unreal>
- <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0094310E19A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 18:57:37 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-7927261a3acso63950457b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 10:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772650657; x=1773255457; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Dh/2alL9rhdrhS+e4B4+rbUAHa4PYwymXeURb+eFj9s=;
+ b=BKV7stx4/NgNE6EmQev8QLYSrwLovMlgt6a2yg3PhWakHnI3xEtVCt/kWevPqhNHXw
+ yQpkbUAzC/0SN1nsa6M6oKJ5Q1pKiNQgdrOt3EZzfu4kX8TO5NBR4FaSZFfsViDWUhHk
+ 2ZTV1n/F5RswR6aXjZ/UYvei443ei+Iy5YvXkeOqKQuirTxPK0UhZ4EQTSph6Cpr7vbs
+ CriKOsMpiB2QRAcrhUawxy0xyxWjjE9tBb1jUtgLds97N8S6hiVTT21oKenOv0cq2q4I
+ xZ2dE1784nea2Uzr2d8SDA+5edplqp3egIFGKf9PVKTLV6WonQBkEdfPVxwGchEQufDH
+ 9+nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772650657; x=1773255457;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Dh/2alL9rhdrhS+e4B4+rbUAHa4PYwymXeURb+eFj9s=;
+ b=IcpCs5broEhHoLxONwvZIK+IYCJ0HlUBttaE1rXnYtdlAbEiz784CvtG14dbJIVD9A
+ My5MqhYujJ5tIU5BsdVVRWPn/4ksLeNj68B4TOE9GZxM3Q/XZWnZaMOzCgpl3BLYRCYn
+ pnI2Z6nBqfVg3UuQpF+OCOETdwzXPp79iA9aMlAyxBW2wUtHVZAW9S2UC1VU+ekViGTV
+ d2DuTkx4xlRiahUKSU/ArWj4plIahtssfDNUL0sbiS1U1surGbVndNs4J7fz4HDFlKOm
+ J0j6oUK4x9Jn4pIXEudahqt7uVbPl85+fj5zm9JdV1M8D5s2FhodW1yTaY2DNnWQuu01
+ +how==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVh5/ZtapFbNWpFq5WXopXi5eXQ9czl45n5jJ7MCH2/8qH/ApGOrPux1P40gg1p+EKRIBoUGD7Z354=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcUUfqy4VzOJwA1AQ4FDz9WOJoyDpMc33ngjDJ0S5gapZ+a28X
+ E8+wSKifm4aVC0A2gkYu4VFybhIZ9zEn9XIkqQQoFVF0rXCw1Mv4N94c
+X-Gm-Gg: ATEYQzzh2QseAjrBxrP9A4NkgYRproYXnLt+X+I8FRnRAKgEUbkaFC/7M5+sppZLIgE
+ nWDHn+U3i8EL5i5jUVuHxwuARiCgXuItVne4cGN3GunODahYe54vL9wuxmdvEkaVjQ+qnNuBPeY
+ v/zxzTbuzy7cjrlknPXx8khw+wWvYRDBJ9xkd9scUu+abOzxtnG4uZZou1XgYOfeQ/bdit8L7LL
+ p1XiRmcRdc5EAkEKdTVCoR8Es28D9dYtece7RESjSB6tI76lU5HX0PPgPGkeiF1ydyZv06mkFp2
+ V64VM6s+qziRpgtEYKbBCjIqdjlujyMzgxt4DeKWh1q2ZbYuP6snKQw27NWyoz7gYozjdKaBjM/
+ vSYNK5yoEJCCPQg43gG2hMst8pSKKwlB9fuGAYWT5UVMh8YoV7Kj9ppVwigo71jNPrDkDQvpVlM
+ RJI4AQ+6dmTpGi5kSGBkuekklNCq/UuljuCDKSGT516M21GYMX4wyVu919Y+j1GotOyDJMzqOze
+ YJPqyg4YNwwatxOwchh4CuQ00kVbj/9X1gK9+lTtGBPssBR6w==
+X-Received: by 2002:a05:690c:450f:b0:794:e3c2:f34c with SMTP id
+ 00721157ae682-798c6ca0e1amr29570787b3.38.1772650656633; 
+ Wed, 04 Mar 2026 10:57:36 -0800 (PST)
+Received: from [10.138.34.110]
+ (h69-131-217-18.cncrtn.broadband.dynamic.tds.net. [69.131.217.18])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-79876c53644sm78681887b3.39.2026.03.04.10.57.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Mar 2026 10:57:35 -0800 (PST)
+Message-ID: <bc3c1712-a747-42f5-b175-43757fb83ac9@gmail.com>
+Date: Wed, 4 Mar 2026 13:57:31 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Possible newline injection into fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
+References: <08f230b4-8c01-45b8-9956-7cfb9f82eeff@gmail.com>
+ <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Uba9ZaUVB6ePdYKbae9up7dK"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,86 +142,301 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1646E2065C3
+X-Rspamd-Queue-Id: 1D4DF206B70
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-3.31 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_UNKNOWN(0.10)[application/pgp-keys];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:brauner@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[demiobenour@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[ziepe.ca,redhat.com,google.com,kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,collabora.com,arm.com,linuxfoundation.org,intel.com,ffwll.ch,lwn.net,vger.kernel.org,nvidia.com,lists.freedesktop.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	HAS_ATTACHMENT(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[demiobenour@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 06:50:02PM +0100, Danilo Krummrich wrote:
-> On Wed Mar 4, 2026 at 6:02 PM CET, Leon Romanovsky wrote:
-> > On Wed, Mar 04, 2026 at 12:45:51PM -0400, Jason Gunthorpe wrote:
-> >> On Wed, Mar 04, 2026 at 06:27:11PM +0200, Leon Romanovsky wrote:
-> >> > On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
-> >> > > On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
-> >> > > > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
-> >> > > >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
-> >> > > >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
-> >> > > >> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
-> >> > > >> > > capability of a PCI device. Provide a minimal set of wrappers for the
-> >> > > >> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
-> >> > > >> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
-> >> > > >> > 
-> >> > > >> > <...>
-> >> > > >> > 
-> >> > > >> > > For PF drivers written in C, disabling SR-IOV on remove() may be opted
-> >> > > >> > > into by setting the flag managed_sriov in the pci_driver structure. For
-> >> > > >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
-> >> > > >> > 
-> >> > > >> > Why? Could you explain the rationale behind this difference between C and
-> >> > > >> > Rust? Let me remind you that SR‑IOV devices which do not disable VFs do so
-> >> > > >> > for a practical and well‑established reason: maximizing hardware
-> >> > > >> > utilization.
-> >> > > >> 
-> >> > > >> Personally I think drivers doing this are wrong. That such a driver
-> >> > > >> bug was allowed to become UAPI is pretty bad. The rust approach is
-> >> > > >> better.
-> >> > > >
-> >> > > > We already had this discussion. I see this as a perfectly valid
-> >> > > > use-case.
-> >> > > 
-> >> > > Can you remind about a specific use-case for this please? (Ideally, one that
-> >> > > can't be solved otherwise.)
-> >> > 
-> >> > You create X VFs through sriov_configure, unbind PF, bind it to vfio
-> >> > instead and forward (X + 1) functions to different VMs.
-> >> 
-> >> No, illegal, and it doesn't even work right. When VFIO FLRs the PF it
-> >> will blow up the half baked SRIOV and break everything.
-> >
-> > The FLR can be disabled. For example, PCI_DEV_FLAGS_NO_FLR_RESET flag
-> > will do it.
-> 
-> But this is a quirk and not a feature, no? So, we shouldn't use it as a baseline
-> for actual features.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Uba9ZaUVB6ePdYKbae9up7dK
+Content-Type: multipart/mixed; boundary="------------yffwiW0ugdUjjSBeahnhvoqi";
+ protected-headers="v1"
+Message-ID: <bc3c1712-a747-42f5-b175-43757fb83ac9@gmail.com>
+Date: Wed, 4 Mar 2026 13:57:31 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Possible newline injection into fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
+References: <08f230b4-8c01-45b8-9956-7cfb9f82eeff@gmail.com>
+ <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
 
-My point is slightly different. I was trying to explain the rationale for
-preserving VFs after the PF is unbound, a design choice that predates the
-introduction of the VFIO .srio_configure callback.
+--------------yffwiW0ugdUjjSBeahnhvoqi
+Content-Type: multipart/mixed; boundary="------------xmLRFbhrUuTXb9myQAfQbFUV"
 
-Thanks
+--------------xmLRFbhrUuTXb9myQAfQbFUV
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On 3/4/26 08:03, Christian Brauner wrote:
+> On Wed, Mar 04, 2026 at 01:53:42AM -0500, Demi Marie Obenour wrote:
+>> I noticed potentially missing input sanitization in dma_buf_set_name()=
+,
+>> which is reachable from DMA_BUF_SET_NAME.  This allows inserting a nam=
+e
+>> containing a newline, which is then used to construct the contents of
+>> /proc/PID/task/TID/fdinfo/FD.  This could confuse userspace programs
+>> that access this data, possibly tricking them into thinking a file
+>> descriptor is of a different type than it actually is.
+>>
+>> Other code might have similar bugs.  For instance, there is code that
+>> uses a sysfs path, a driver name, or a device name from /dev.  It is
+>> possible to sanitize the first, and the second and third should come
+>> from trusted sources within the kernel itself.  The last area where
+>> I found a potential problem is BPF.  I don't know if this can happen.
+>>
+>> I think this should be fixed by either sanitizing data on write
+>> (by limiting the allowed characters in dma_buf_set_name()), on read
+>> (by using one of the formats that escapes special characters), or both=
+=2E
+>>
+>> Is there a better way to identify that a file descriptor is of
+>> a particular type, such as an eventfd?  fdinfo is subject to
+>=20
+> The problem is that most of the anonymous inodes share a single
+> anonymous inode so any uapi that returns information based inode->i_op
+> is not going to be usable.
+>=20
+>> bugs of this type, which might happen again.  readlink() reports
+>> "anon_inode:[eventfd]" and S_IFMT reports a mode of 0, but but my
+>=20
+> That is definitely uapi by now. We've tried to change S_IFMT and it
+> breaks lsfd and other tools so we can't reasonably change it. In fact,
+> pidfds pretend to be anon_inode even though they're not simply because
+> some tools parse that out.
+
+Does Linux guarantee that anything that is not an anonymous inode
+will have (st_mode & S_IFMT) !=3D 0?
+
+Maybe it is time for a prctl that disables this legacy behavior?
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------xmLRFbhrUuTXb9myQAfQbFUV
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+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
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------xmLRFbhrUuTXb9myQAfQbFUV--
+
+--------------yffwiW0ugdUjjSBeahnhvoqi--
+
+--------------Uba9ZaUVB6ePdYKbae9up7dK
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmmogJwACgkQszaHOrMp
+8lPqgQ//em8Kdv2fXPIg1QOWU7jTQMLm7bYxqzemqVADn4f9GG6KOKcN3KRi0oas
+d6TN7r8oZrh6v4TYtPmoIq25R4ryVh/xm7JM0Tt4FIRpn9eotEcNxHbxubFxUOYB
+1wxU7Ky1IhUf88vhFMNH22rre9hF5OfMsGpsy8y9+Wo/wYZmu315a4EZYEbChXlA
+wp0SoPov46rsh1IcP0WO+F9R/1HrjwN+ukPqTAERX6sn9rt0n2gzjVKie4ae4M5E
+v+eCUQnm64zNT66irl7I+q42yKVMhZOYGg1J1FHYctlp/mIWoyBgITs/BE5U12Cq
+8G+3e/m5NyoR6UipEPl03ew5fbkHzZNoGcA9FLBmxdy2FeCMA2dsQfwI8PK+fspt
+C9pF45PFpGxtoT1jkmU20dYolUkqgA0zzWfqbT6Xc8mx4gEnfqnkZtBRTu5XYe18
+vyb+Zqa0J4eK3zm5/S6yd/IMxNYaq3EKFyyohGT9/CS0A+xgl43WnB7cUT3mdJgf
+EJcB6/5cJIJgj2OgQBMpvrjwsfS4lVwIAYvaPd2zArncOWbnUejj9zb65+YB15d1
+46tYE/r3zNaq5t7ANPRZS/g8iGGjURtUeCloRnAFut70oQXKzcvil4970tlGpm/p
+X6AMt9q6eGhAqis42ke58znjd1zIRum5byDGtRVwTPdKCAZaaQQ=
+=3d/R
+-----END PGP SIGNATURE-----
+
+--------------Uba9ZaUVB6ePdYKbae9up7dK--
