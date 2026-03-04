@@ -2,91 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qEfsCoUtqGlPpQAAu9opvQ
+	id cF6EKoktqGk+pQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:03:01 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:03:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EC01FFFF7
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE120001F
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E517510E9DA;
-	Wed,  4 Mar 2026 13:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0FA10E9EA;
+	Wed,  4 Mar 2026 13:03:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Z8JHrCqo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4YHwx+dt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z8JHrCqo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4YHwx+dt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uCsnzMuK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xL4QyKjH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uCsnzMuK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xL4QyKjH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292B910E9E5
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:02:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374D610E9EB
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:03:00 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E48255BDF8;
- Wed,  4 Mar 2026 13:02:54 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2E1745BE26;
+ Wed,  4 Mar 2026 13:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772629374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772629375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwYj5dgInjh7HBFE6PzMK1TVQxe7Dozs67WoSfIl5f4=;
- b=Z8JHrCqoTZHfwXsswpCJcuAc0fKs3WgdvGAwxZZGIB5PT8y2BicwFZJYatyfTawFT/b/Lv
- IEtVTdeuiBXUsUxVG3Va3EnLAEZZjtwqUWe5CdLK/MDVxnDj+4zbUaUeIVOSdy4f6I0hf8
- eTBNewcBhhZKWZJPj6pzrkjLtfvUAgk=
+ bh=UHlUgqo5LlLa89h3t9+P5fca2U7bx201Q1DVzi9ZgTw=;
+ b=uCsnzMuKTJPHDK5ui8Uj9W5SuPh+WzlgSwC400OC6NaWGaBV0lMBy8TmfSqyBnn0+n/Il7
+ Tvub9ig1GGj4Mex0K2iAo7kJ4AtXB65u3jtc1gXeXQZxw3kWfLjdg1dXsOUvnnpmV/rqq1
+ a9GjLvGZYJykugGKC6GYlK0Ho6SykyU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772629374;
+ s=susede2_ed25519; t=1772629375;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwYj5dgInjh7HBFE6PzMK1TVQxe7Dozs67WoSfIl5f4=;
- b=4YHwx+dtZjZ8MFWQC7iYHFx/J9bwC2lVfdv2o2BL0/9Zb138iW0g4lDzPQaeg3GSib3Om3
- gzmDII5c8t+Rs4DQ==
+ bh=UHlUgqo5LlLa89h3t9+P5fca2U7bx201Q1DVzi9ZgTw=;
+ b=xL4QyKjHwRmLnF33mwUf9esHs+rjXc8cH3M2BYCOVsgcXlUi+hJX4dgyQVeMD97EhVO+QL
+ JwPr+4sbWAIoLoBg==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z8JHrCqo;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4YHwx+dt
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uCsnzMuK;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xL4QyKjH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772629374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1772629375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwYj5dgInjh7HBFE6PzMK1TVQxe7Dozs67WoSfIl5f4=;
- b=Z8JHrCqoTZHfwXsswpCJcuAc0fKs3WgdvGAwxZZGIB5PT8y2BicwFZJYatyfTawFT/b/Lv
- IEtVTdeuiBXUsUxVG3Va3EnLAEZZjtwqUWe5CdLK/MDVxnDj+4zbUaUeIVOSdy4f6I0hf8
- eTBNewcBhhZKWZJPj6pzrkjLtfvUAgk=
+ bh=UHlUgqo5LlLa89h3t9+P5fca2U7bx201Q1DVzi9ZgTw=;
+ b=uCsnzMuKTJPHDK5ui8Uj9W5SuPh+WzlgSwC400OC6NaWGaBV0lMBy8TmfSqyBnn0+n/Il7
+ Tvub9ig1GGj4Mex0K2iAo7kJ4AtXB65u3jtc1gXeXQZxw3kWfLjdg1dXsOUvnnpmV/rqq1
+ a9GjLvGZYJykugGKC6GYlK0Ho6SykyU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772629374;
+ s=susede2_ed25519; t=1772629375;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwYj5dgInjh7HBFE6PzMK1TVQxe7Dozs67WoSfIl5f4=;
- b=4YHwx+dtZjZ8MFWQC7iYHFx/J9bwC2lVfdv2o2BL0/9Zb138iW0g4lDzPQaeg3GSib3Om3
- gzmDII5c8t+Rs4DQ==
+ bh=UHlUgqo5LlLa89h3t9+P5fca2U7bx201Q1DVzi9ZgTw=;
+ b=xL4QyKjHwRmLnF33mwUf9esHs+rjXc8cH3M2BYCOVsgcXlUi+hJX4dgyQVeMD97EhVO+QL
+ JwPr+4sbWAIoLoBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAB8C3EA6C;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA04E3EA69;
  Wed,  4 Mar 2026 13:02:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GIZwKH4tqGmlNQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8LHuN34tqGmlNQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 04 Mar 2026 13:02:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  simona@ffwll.ch
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/2] drm/amdgpu: Move test for fbdev GEM object into generic
- helper
-Date: Wed,  4 Mar 2026 13:58:38 +0100
-Message-ID: <20260304130250.59008-2-tzimmermann@suse.de>
+Subject: [PATCH 2/2] drm/radeon: Test for fbdev GEM object with generic helper
+Date: Wed,  4 Mar 2026 13:58:39 +0100
+Message-ID: <20260304130250.59008-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260304130250.59008-1-tzimmermann@suse.de>
 References: <20260304130250.59008-1-tzimmermann@suse.de>
@@ -109,7 +108,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 75EC01FFFF7
+X-Rspamd-Queue-Id: 5AAE120001F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -146,129 +145,93 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Provide a generic helper that tests if fbdev emulation is backed by
-a specific GEM object. Not all drivers use client buffers (yet), hence
-also test against the first GEM object in the fbdev framebuffer.
-
-Convert amdgpu. The helper will also be useful for radeon.
+Replace radeon's test for the fbdev GEM object with a call to the
+generic helper.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 21 +++------------
- drivers/gpu/drm/drm_fb_helper.c             | 29 +++++++++++++++++++++
- include/drm/drm_fb_helper.h                 |  9 +++++++
- 3 files changed, 41 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/radeon/radeon_device.c |  7 ++++---
+ drivers/gpu/drm/radeon/radeon_fbdev.c  | 17 -----------------
+ drivers/gpu/drm/radeon/radeon_mode.h   |  5 -----
+ 3 files changed, 4 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index bef9dce2e7ea..f5cd68542442 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1738,21 +1738,6 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
- 						  stime, etime, mode);
- }
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index 5d523d5dae88..705c012fcf9e 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -37,6 +37,7 @@
+ #include <drm/drm_client_event.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_fb_helper.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_probe_helper.h>
+@@ -1574,7 +1575,6 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+ 		struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 		struct drm_framebuffer *fb = crtc->primary->fb;
+-		struct radeon_bo *robj;
  
--static bool
--amdgpu_display_robj_is_fb(struct amdgpu_device *adev, struct amdgpu_bo *robj)
--{
--	struct drm_device *dev = adev_to_drm(adev);
--	struct drm_fb_helper *fb_helper = dev->fb_helper;
+ 		if (radeon_crtc->cursor_bo) {
+ 			struct radeon_bo *robj = gem_to_radeon_bo(radeon_crtc->cursor_bo);
+@@ -1588,9 +1588,10 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+ 		if (fb == NULL || fb->obj[0] == NULL) {
+ 			continue;
+ 		}
+-		robj = gem_to_radeon_bo(fb->obj[0]);
+ 		/* don't unpin kernel fb objects */
+-		if (!radeon_fbdev_robj_is_fb(rdev, robj)) {
++		if (!drm_fb_helper_gem_is_fb(dev->fb_helper, fb->obj[0])) {
++			struct radeon_bo *robj = gem_to_radeon_bo(fb->obj[0]);
++
+ 			r = radeon_bo_reserve(robj, false);
+ 			if (r == 0) {
+ 				radeon_bo_unpin(robj);
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index 18d61f3f7344..3e243f5e2f44 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -274,20 +274,3 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+ 	radeon_fbdev_destroy_pinned_object(gobj);
+ 	return ret;
+ }
 -
--	if (!fb_helper || !fb_helper->buffer)
+-bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
+-{
+-	struct drm_fb_helper *fb_helper = rdev_to_drm(rdev)->fb_helper;
+-	struct drm_gem_object *gobj;
+-
+-	if (!fb_helper)
 -		return false;
 -
--	if (gem_to_amdgpu_bo(fb_helper->buffer->gem) != robj)
+-	gobj = drm_gem_fb_get_obj(fb_helper->fb, 0);
+-	if (!gobj)
+-		return false;
+-	if (gobj != &robj->tbo.base)
 -		return false;
 -
 -	return true;
 -}
--
- int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
- {
- 	struct drm_device *dev = adev_to_drm(adev);
-@@ -1775,7 +1760,6 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
- 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
- 		struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
- 		struct drm_framebuffer *fb = crtc->primary->fb;
--		struct amdgpu_bo *robj;
- 
- 		if (amdgpu_crtc->cursor_bo && !adev->enable_virtual_display) {
- 			struct amdgpu_bo *aobj = gem_to_amdgpu_bo(amdgpu_crtc->cursor_bo);
-@@ -1790,8 +1774,9 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
- 		if (!fb || !fb->obj[0])
- 			continue;
- 
--		robj = gem_to_amdgpu_bo(fb->obj[0]);
--		if (!amdgpu_display_robj_is_fb(adev, robj)) {
-+		if (!drm_fb_helper_gem_is_fb(dev->fb_helper, fb->obj[0])) {
-+			struct amdgpu_bo *robj = gem_to_amdgpu_bo(fb->obj[0]);
-+
- 			r = amdgpu_bo_reserve(robj, true);
- 			if (r == 0) {
- 				amdgpu_bo_unpin(robj);
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 845c63ca15b5..214337ebb559 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -37,6 +37,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
-@@ -1771,3 +1772,31 @@ int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
- 	return 0;
- }
- EXPORT_SYMBOL(drm_fb_helper_hotplug_event);
-+
-+/**
-+ * drm_fb_helper_gem_is_fb - Tests if GEM object is framebuffer
-+ * @fb_helper: fb_helper instance, can be NULL
-+ * @obj: The GEM object to test, can be NULL
-+ *
-+ * Call drm_fb_helper_gem_is_fb to test is a DRM device's fbdev emulation
-+ * uses the specified GEM object for its framebuffer. The result is always
-+ * false if either poiner is NULL.
-+ *
-+ * Returns:
-+ * True if fbdev emulation uses the provided GEM object, or false otherwise.
-+ */
-+bool drm_fb_helper_gem_is_fb(const struct drm_fb_helper *fb_helper,
-+			     const struct drm_gem_object *obj)
-+{
-+	const struct drm_gem_object *gem = NULL;
-+
-+	if (!fb_helper || !obj)
-+		return false;
-+	if (fb_helper->buffer && fb_helper->buffer->gem)
-+		gem = fb_helper->buffer->gem;
-+	else if (fb_helper->fb)
-+		gem = drm_gem_fb_get_obj(fb_helper->fb, 0);
-+
-+	return gem == obj;
-+}
-+EXPORT_SYMBOL_GPL(drm_fb_helper_gem_is_fb);
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 15274b8a1d97..c59f16c21723 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -271,6 +271,15 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
- 
- int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper);
- int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper);
-+
-+bool drm_fb_helper_gem_is_fb(const struct drm_fb_helper *fb_helper,
-+			     const struct drm_gem_object *obj);
-+#else
-+static inline bool drm_fb_helper_gem_is_fb(const struct drm_fb_helper *fb_helper,
-+					   const struct drm_gem_object *obj)
-+{
-+	return false;
-+}
+diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
+index 088af85902f7..ae1ecdc2e189 100644
+--- a/drivers/gpu/drm/radeon/radeon_mode.h
++++ b/drivers/gpu/drm/radeon/radeon_mode.h
+@@ -936,14 +936,9 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+ 				    struct drm_fb_helper_surface_size *sizes);
+ #define RADEON_FBDEV_DRIVER_OPS \
+ 	.fbdev_probe = radeon_fbdev_driver_fbdev_probe
+-bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj);
+ #else
+ #define RADEON_FBDEV_DRIVER_OPS \
+ 	.fbdev_probe = NULL
+-static inline bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
+-{
+-	return false;
+-}
  #endif
  
- #endif
+ void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id);
 -- 
 2.53.0
 
