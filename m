@@ -2,114 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OAi7Nqk7qGkTqgAAu9opvQ
+	id AMW2M0A9qGl6rQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:03:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:10:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85855200E7D
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218E8201034
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:10:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D37910E187;
-	Wed,  4 Mar 2026 14:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDAD210E0FA;
+	Wed,  4 Mar 2026 14:10:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kQDrejRG";
+	dkim=pass (2048-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Ck/QOp0I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99A010E0FA;
- Wed,  4 Mar 2026 14:03:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6E6D2446F5;
- Wed,  4 Mar 2026 14:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA3FEC19423;
- Wed,  4 Mar 2026 14:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772632997;
- bh=BGV80tUD11eyPnfJKUYoZf/Qjy2LIJDrmkSepkpUtc8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kQDrejRGPxlLhiedSrqlS6fiaSBQSj1QXCt6/rGISRdpGrzdiOmNACqegOg+4tEbo
- d+yqvpdkUpkBwvc+jFMUmvgk4bBs8auudvlNeeDeXgtvd/nFimiQdVXmijjKeyBBda
- bg0Jh94fsaKthKJJcRWTG7xEh8OxvbJY38XRcWVLBZ3zkjNBckd8kxqMQeQSeTNoc2
- szNJDzU1ZjkZbU+nlLuf23OxMvs6eJdmhVQqmH9QDqF1fs+2MdZrA0Du3PLk+yyJU4
- faxHvPjkqlBiljsoMGE7o73N7bEaoW/L7CpylQInWcu8tXJf8SYdW2lE7awt6RuRK0
- mME4mC4FTt5UA==
-Message-ID: <377f0895-0340-423f-a95b-246cf79233dc@kernel.org>
-Date: Wed, 4 Mar 2026 15:03:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] soc: qcom: ubwc: Add configuration Eliza SoC
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Mar 2026 14:10:03 UTC
+Received: from mx-relay49-hz3.antispameurope.com
+ (mx-relay49-hz3.antispameurope.com [94.100.134.238])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA7110E0FA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 14:10:03 +0000 (UTC)
+ARC-Authentication-Results: i=1; mx-gate49-hz3.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=94.100.132.6,
+ headerfrom=ew.tq-group.com)
+ smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out02-hz1.hornetsecurity.com;
+ dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=2qgonF5w2c8p56bKXYWtL97G1fsfaN/h16mnAE/Q9wM=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
+ t=1772633074;
+ b=prpTLBGILiyIpIgSh9jDqbSLUFIDG3SG62BFHjtzCAelyD14o9vNB1ntLgeXNj1iYEd6vT+C
+ Pe+WEhBEzM0OPMm2aQusFRqJ01Nr3AGBpYd838aleVGvlZoXHqf3nld76RDVhqJaKvj5PP193ok
+ Ox4e0pkeHm1w3PDPYdbui3PhYOKMEM4uvWzLd6oaIi6I8yumN5pUWXN5q7v88WWGpVC22Jpantt
+ 46j4fef1686Je6oNMyq7JqV7q0Lc9iQciF9ZGPuMH9b13w2Saf6FHSpqgYjC7R/uVH4iSfq/Tzj
+ DMSvWkNO7C73K1iRs4r7uKfWbXIN497l2KzoiJE2uoL1A==
+ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
+ t=1772633074;
+ b=nCYgy2df5Smb6e6nwjk29KO7SurZ8ohTdyNu9sm6PMa50UDO3VCqT3PIH2WAcMiVa/xAVZD9
+ +Mt5dXirxg3YUv+fydpN/tzRZjMHyYYejmkl4tqJ7bjLnnF4Qyvsg0nhrIGgxTLNTEz4nf4K13Z
+ jJ0ueRhjbXr5tEjbHQlLRFJjv85zxbq6qjEBrURmeYfJZd2OYNRvagAfonN7L3gLp9dbYkBiw3G
+ iaArlVXKcj7aZDmdudCK4RduSGEqT9st9zfMEUlUDLi8A9cVNarqS1+YT7ilQl9YJGKRIP6FrGR
+ bImYDai2GnJIuD4isf1V0fl4znpJANus7pwJ+92Auki4g==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by
+ mx-relay49-hz3.antispameurope.com; Wed, 04 Mar 2026 15:04:34 +0100
+Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net
+ [82.135.125.110])
+ (Authenticated sender: alexander.stein@ew.tq-group.com)
+ by smtp-out02-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 6AF095A0A7A;
+ Wed,  4 Mar 2026 15:04:28 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260304-drm-display-eliza-v2-0-ea0579f62358@oss.qualcomm.com>
- <20260304-drm-display-eliza-v2-6-ea0579f62358@oss.qualcomm.com>
- <7e092c9d-ccc9-4084-91a8-7ddb063a904d@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <7e092c9d-ccc9-4084-91a8-7ddb063a904d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Liu Ying <victor.liu@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH v3 1/1] drm: lcdif: Use dev_err_probe()
+Date: Wed,  4 Mar 2026 15:04:25 +0100
+Message-ID: <20260304140426.1499446-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-cloud-security-sender: alexander.stein@ew.tq-group.com
+X-cloud-security-recipient: dri-devel@lists.freedesktop.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for:
+ alexander.stein@ew.tq-group.com
+X-cloud-security-Mailarchivtype: outbound
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+ mx-relay49-hz3.antispameurope.com with 4fQvYT2nvYz3ynSL
+X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1,
+ IP=94.100.132.6
+X-cloud-security-Digest: fbf676b47f4878b0afe26766cd0a8878
+X-cloud-security: scantime:1.444
+DKIM-Signature: a=rsa-sha256;
+ bh=2qgonF5w2c8p56bKXYWtL97G1fsfaN/h16mnAE/Q9wM=; c=relaxed/relaxed;
+ d=ew.tq-group.com;
+ h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
+ t=1772633074; v=1;
+ b=Ck/QOp0IArAZPwNjZiTkEmYfqUHfiIq1K+ZhFN4CrQ3D9IgNltTCLwBJJSq3dCHB/c2aUEN4
+ +vnOlZ0JKoLb7eoHfmFp04eaNX4aSQNpVFGO1rf9zgkSP0oDu8feF4R2gcK8+Y8+iWVdiuo2zhW
+ CDWRkEZgf+Ic+24rjGCpdN6BJHYk3x3/RxsYbGFjy6utV1LECsP8RGGXCgxkiM5Jd5kKAHGsq/R
+ SGnW7GeddlyD6yCAIJOf+M3OWXs4tG9fnS+OcoMTyCApkpgtVyZm6X0k5wRECuyBEsNeD5pUo1i
+ fzle54YcpgbwFXqol1ivY45/+xK7PzQTt3/9t9+Bga1pw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,74 +107,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 85855200E7D
+X-Rspamd-Queue-Id: 218E8201034
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[hornetsecurity.com:s=hse1:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,reject];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=hse1];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,quicinc.com,marek.ca,linaro.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_SENDER(0.00)[alexander.stein@ew.tq-group.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:marex@denx.de,m:stefan@agner.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:Frank.Li@nxp.com,m:alexander.stein@ew.tq-group.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:victor.liu@nxp.com,m:m.felsch@pengutronix.de,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[denx.de,agner.ch,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,nxp.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tq-group.com:email,ew.tq-group.com:dkim,ew.tq-group.com:mid,pengutronix.de:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 04/03/2026 14:35, Konrad Dybcio wrote:
-> On 3/4/26 1:58 PM, Krzysztof Kozlowski wrote:
->> Add configuration data and an entry to OF table for matching the Eliza
->> SoC.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->>
->> ---
->>
->> Changes in v2:
->> 1. Use data from manual (UBWC v5 as pointed out by Dmitry, but different
->>    highest bank bits).
->> ---
->>  drivers/soc/qcom/ubwc_config.c | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->>
->> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
->> index 1c25aaf55e52..633d1efa0883 100644
->> --- a/drivers/soc/qcom/ubwc_config.c
->> +++ b/drivers/soc/qcom/ubwc_config.c
->> @@ -16,6 +16,16 @@ static const struct qcom_ubwc_cfg_data no_ubwc_data = {
->>  	/* no UBWC, no HBB */
->>  };
->>  
->> +static const struct qcom_ubwc_cfg_data eliza_data = {
->> +	.ubwc_enc_version = UBWC_5_0,
->> +	.ubwc_dec_version = UBWC_5_0,
->> +	.ubwc_swizzle = 6,
-> 
->  = UBWC_SWIZZLE_ENABLE_LVL2 | UBWC_SWIZZLE_ENABLE_LVL3
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Use dev_err_probe() to add a reason for deferred probe. This can
+especially happen on lcdif3 which uses hdmi_tx_phy for 'pix' clock
 
-oh, crap, I rebased without my earlier patches fixing this and just
-copied existing.
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v3:
+* Collected Frank's R-b
 
-Although would be nice if my UBWC patch got merged...
+ drivers/gpu/drm/mxsfb/lcdif_drv.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+index fcb2a7517377e..47da1d9336b90 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+@@ -149,15 +149,17 @@ static int lcdif_load(struct drm_device *drm)
+ 
+ 	lcdif->clk = devm_clk_get(drm->dev, "pix");
+ 	if (IS_ERR(lcdif->clk))
+-		return PTR_ERR(lcdif->clk);
++		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk), "Failed to get pix clock\n");
+ 
+ 	lcdif->clk_axi = devm_clk_get(drm->dev, "axi");
+ 	if (IS_ERR(lcdif->clk_axi))
+-		return PTR_ERR(lcdif->clk_axi);
++		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_axi),
++				     "Failed to get axi clock\n");
+ 
+ 	lcdif->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
+ 	if (IS_ERR(lcdif->clk_disp_axi))
+-		return PTR_ERR(lcdif->clk_disp_axi);
++		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_disp_axi),
++				     "Failed to get disp_axi clock\n");
+ 
+ 	platform_set_drvdata(pdev, drm);
+ 
+-- 
+2.43.0
+
