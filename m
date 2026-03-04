@@ -2,113 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4OQzKvewqGkzwgAAu9opvQ
+	id mEvEDA6xqGkzwgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 23:23:51 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 23:24:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD07E208793
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 23:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6E52087BF
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 23:24:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFF010EABE;
-	Wed,  4 Mar 2026 22:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAF110EAC4;
+	Wed,  4 Mar 2026 22:24:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BdkV6JO8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JT8h8wa9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B59A10EABE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 22:23:46 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-660be63279bso2844627a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 14:23:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772663025; cv=none;
- d=google.com; s=arc-20240605;
- b=ceMJZZOA2FAEleOp9MpZWxk5aZDl1Hm3I2v5NNn1PsH6VNjLcMRWbpHkKycdgtzwlV
- cWYYF31Iqw37eG9eamoq2FW7ulKJU6PF+ioVlkBVozIJEWrIHH3biATdgUydnH7fMndm
- xD7eFKomIgt6PxyJtBeQjlYWWdV5edUctacn4i+6UdV+JDnEQUnTg3QX0i3+6okVkIhq
- VRDeZbaWWjRcnmptaT9ds9i0ATiY4bbUEfjoa1PY6UcpYmV0ImF1KoajAS1UzijDhVcI
- j57mf9KsjmllQ4Uxe7b+O9WmmT30RfDLXJw1owaiNhq1ZZMZe/YNaUmyQYBSGInczinA
- Cp3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=6SzQXrMu6157NmI8m7MFrfeo16+um+qkfnMEtnr1Qaw=;
- fh=QWUD6+a55dyLu+snuwZ6mF4jNbzdw/2zTqdOxadlM+E=;
- b=RN1bZEyrFUGpZgi6gHPEPDfE8FP4Lfp/LgQU6hVcXmXalyJIC7LaQQmo4BqUQ4GXx4
- 5mkASRApHfHZF1gaR56jXenlPWrOFLO503RHNOPiyKxTn1wCqInnqM1VbfFDMIcEjVy4
- /MkAkdYgJOgD5ayt7UcAclrInmEyeLjc3hH/jPp+CopsgBmRTRRjgapJB2gdgXDdNwfH
- UO5hYNQC0gFMvxIgqrz7d7eRVbbKnfKPlJ8xR/1/T8hxIRBVU1aHQFBPBX+gGhvocvxf
- i4cYA0ttPXQLFPd+zlv5lB5YVNZ3z/TmWGcA1QvKBOfC7K5ZhkJkEU9fG9LhrXAUm8A5
- lYAQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772663025; x=1773267825; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6SzQXrMu6157NmI8m7MFrfeo16+um+qkfnMEtnr1Qaw=;
- b=BdkV6JO813tHrwVJo+H+mZ3cLVgAa6K9/rPNS/MBWnjw01NvLlMhsG6kQ50iiMvN3t
- RzZh4a9xT8SgR6TOhG7ji59BmwQwWYNcjG7An2+9DB9N5mRONfkyy4kMOqRSzpjHVILD
- UmtyoRS8NVpQAfZXK7Da1epVV45AxwTt8Dj4bZIqt3pWBSzZ6lXoC53Z2cZb7eS14NUK
- xwRsRYcG6USX5UX/mfX6sDkBRGAGTuyBOUq7ryLyUHegek9KLqtaTFQl+womrXA4Nx78
- DWSOYHxox65T5ZN/G/WYhg340I7WiB1rp0D8tPN+QCwmwut6XA9A6pznPkF0My7CsfUS
- 5xVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772663025; x=1773267825;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=6SzQXrMu6157NmI8m7MFrfeo16+um+qkfnMEtnr1Qaw=;
- b=wrLK19ZJazMb0mYF4/ubTxbeoCEAwCXw/07rtG4URRAPlJUNaRgjrwkUxTOlBFNHhU
- Lq3yuklT5epk5EqNgOk41ypkbIzpTOIx/qLsU9DF2S+OjYq1exG7bdKpu4YUwtRSM9V/
- jNvE7fb8y8ltz2r5bqGTS+hsm9SGvXalPcbZsPRdlHFB6bl3psSsowKTUG1v22hu+DWb
- 4ulVTia9nRR+u7PJAOSoiozVhTcZSHmi0M1ZTor+bi9jeDoP/4jjpGlvCn6yOrj4BmXT
- PCPMvMk8vR1H9LwkuBl9HIns7pOrBZYAhTZDjjV381TP8kIiC+qJUwChjrR3HitmJlwc
- cbYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2ycvoCiFDfw983Q6DvieqX1RibGvO1jbi/qFRjHuADDcVCGOCn3MGHOZ7fRJhi8Uf77z7/IEtCrQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy75dJZk+3EdG0K5n3iOHzbyZxCK9KU3pd2umQep1XRTWU1VgoU
- O1x+OtG5tlro6tmgw5JJ/182k51e5AaZihqASNdXhFH+kow+lGAyRH+7VKR+h8n+iZ4HHjFDQDq
- uKwRVuoEYdMPGdJS/MYkOc/gakQhE60U=
-X-Gm-Gg: ATEYQzxSFDHltFOM9uW0XF5txoONAdpCCf3DWY5BnAw62vsLNfnsiNG0B6P+00HAeDW
- DAAB+a59oHqFOdm+IFaMSRk0FGnNRgwBj7Dn6xm5MTt8m5LeQyw6NLnbojFqxr0H527BqYylvuw
- TbOC8bFZGDDQCd4ZrPkq6cGfxy6MY/cghDue4yBnla+TwQbpZN5cCP6AMFjaMiryS+V3H6ihAHw
- uEiHvouuwrkH6Y+OjSfK9PF3RiBNBXLdPSDiUDZIwPoNwyxG6ogtZSFVuLOyB3RL9urIX5b6C5b
- wKJg2QAYyJ6tQkoaamBaqQb0yyr76WD7N3DdG4ezr37JpnTEhlv5oYUo6kCnpu/qJmXfVghBVbD
- bg++mCA==
-X-Received: by 2002:a17:907:971a:b0:b90:77bb:5aa3 with SMTP id
- a640c23a62f3a-b9409d99535mr11282366b.16.1772663024812; Wed, 04 Mar 2026
- 14:23:44 -0800 (PST)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB2210EAC4;
+ Wed,  4 Mar 2026 22:24:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C537542B72;
+ Wed,  4 Mar 2026 22:24:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78788C4CEF7;
+ Wed,  4 Mar 2026 22:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772663049;
+ bh=LZ6aRV4NLElGe+XvDNm2H6HYU4en15K91g1Y0+5t5ls=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=JT8h8wa9YGAM78bb/3oWwxOczIdTWP1RLevWv9SASlMV3F23HjV3aS0cAufk5oNIv
+ Zbq+dj2V5Q1lrbLpdEf4tkfURlQheh0zpocuRg02jBYOuKwCUWiLX08zynlr3zyeeI
+ 6w6Tf3erGb8F5L7qg0ORfQYnKFUxrQFLM83fJWOTVoAGPovAII829usbx5s2g7ZftI
+ 8F0q5T73eVmTAvQiaF4BLlcaiBz/Wo2J+jlfrwYZ9ZRmUbse8mrHowz62l44VtX+79
+ VS3gNkNik1DtEJIOtsvBEoQRsmWSal1XE2ICQqhs17+ZVBYOWkmudGUSL2q9myTyT4
+ S8ZfZ2xwzNClw==
+Date: Wed, 4 Mar 2026 16:24:08 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawn.guo@linaro.org>,
+ Yixun Lan <dlan@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Kevin Xie <kevin.xie@starfivetech.com>
+Subject: Re: [PATCH phy-next 02/22] PCI: add missing headers transitively
+ included by <linux/phy/phy.h>
+Message-ID: <20260304222408.GA40990@bhelgaas>
 MIME-Version: 1.0
-References: <20260228045356.3561-1-rosenp@gmail.com>
- <2596902.XAFRqVoOGU@timur-hyperion>
- <4d00945c-f439-4460-9f8b-12e7e498fb20@amd.com>
- <5828571.IbC2pHGDlb@timur-hyperion>
-In-Reply-To: <5828571.IbC2pHGDlb@timur-hyperion>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Wed, 4 Mar 2026 14:23:33 -0800
-X-Gm-Features: AaiRm52dSio9iCYsE9GD2Rplzjp2tDUV5pP5zcsLpbimyZ1W4JLCk1ijysOQt9o
-Message-ID: <CAKxU2N9MHp+m3A0w38pfGEJUkLKCCsLgvmgAG3sfSn-Rhc0sgA@mail.gmail.com>
-Subject: Re: [PATCHv2 for 6.112 and 6.6 0/2] amdgpu: fix panic on old GPUs
-To: =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
- Alex Hung <alex.hung@amd.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lijo Lazar <lijo.lazar@amd.com>, 
- "chr[]" <chris@rudorff.com>, Sasha Levin <sashal@kernel.org>,
- Wentao Liang <vulab@iscas.ac.cn>, 
- "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260304175735.2660419-3-vladimir.oltean@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,129 +81,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CD07E208793
+X-Rspamd-Queue-Id: 8B6E52087BF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:timur.kristof@gmail.com,m:christian.koenig@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kenneth.feng@amd.com,m:alex.hung@amd.com,m:gregkh@linuxfoundation.org,m:lijo.lazar@amd.com,m:chris@rudorff.com,m:sashal@kernel.org,m:vulab@iscas.ac.cn,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TO_DN_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linuxfoundation.org,rudorff.com,kernel.org,iscas.ac.cn,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,google.com,sntech.de,gmail.com,nvidia.com,rock-chips.com,starfivetech.com];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,nxp.com:email,linaro.org:email]
 X-Rspamd-Action: no action
 
-On Wed, Mar 4, 2026 at 4:44=E2=80=AFAM Timur Krist=C3=B3f <timur.kristof@gm=
-ail.com> wrote:
->
-> On Wednesday, March 4, 2026 11:06:53=E2=80=AFAM Central European Standard=
- Time
-> Christian K=C3=B6nig wrote:
-> > >
-> > > Hi Everyone,
-> > >
-> > > The patches actually come from a branch of mine:
-> > > https://gitlab.freedesktop.org/Venemo/linux/-/commits/v6.12.74_si_dc_=
-fixes
-> > >
-> > > For context:
-> > >
-> > > The crash comes from a patch that I wrote for 6.18 that fixes some is=
-sues
-> > > on the default, non-DC code path, that was backported to stable kerne=
-ls.
-> > > DC was not the default code path before Linux 6.19, so I didn't mark =
-the
-> > > patches that also fix DC for backporting, because I had assumed nobod=
-y
-> > > uses the DC code path on these kernel versions.
-The DC code path just works bettter. So what if suspend is broken. I
-would much rather a working system. Hyprsunset for example doesn't
-work without DC. No idea why.
+Update subject line to match history:
 
-Speaking of suspend, the fixes for it are fairly trivial to backport
-to 6.12 as well.
-> > >
-> > > After a user reported to me that this causes issues for him with DC o=
-n
-> > > 6.17
-> > > and older kernels,
-That was me.
-> > > I sent a backported series to Greg and Sasha, in an
-> > > email thread with the subject line "Fixing an amdgpu crash caused by =
-a
-> > > backported patch". The fixes were backported to 6.17 then.
-> > >
-> > > I assumed that the stable maintainers would backport the fixes to all
-> > > older
-> > > kernels that were also affected, but Rosen brought it to my attention=
- that
-> > > it didn't happen. So I made the backports in the above branch. Rosen =
-then
-> > > decided to send them to the mailing list.
-> > >
-> > > > Hope that helps clear up the situation.
-> >
->
-> Hi Christian,
->
-> > In theory Harry an Leo should take care of stuff like this
->
-> I don't blame them for this. It is my fault for breaking it in the first =
-place,
-> and I didn't think there was any interest in using DC on older kernels.
->
-> > pretty much everybody is overworked.
->
-> Yeah. We all are.
->
-> >
-> > In that case guys feel free to go ahead and ping the stable maintainers=
- that
-> > something is missing.
-> >
-> > Just make sure that when a patch passes through your hands that you add=
- a
-> > Signed-off-by tag.
->
-> Thanks! Probably I should have sent the patches myself, then they already
-> would have had all the necessary tags. Sorry for the confusion.
->
-> Now that the situation is cleared up, is there anything else we need to d=
-o for
-> these two patches here?
-Speaking of which, it's probably best to take over here. It's not fun
-dealing with stable. I also didn't author these patches.
->
-> Best regards,
-> Timur
->
->
->
+  PCI: Add missing headers transitively included by <linux/phy/phy.h>
+
+On Wed, Mar 04, 2026 at 07:57:15PM +0200, Vladimir Oltean wrote:
+> The tegra as well as a few dwc PCI controller drivers uses PM runtime
+> operations without including the required <linux/pm_runtime.h> header.
+> 
+> Similarly, pcie-rockchip-host, pcie-starfive as well as a few dwc PCI
+> controllers use the regulator consumer API without including
+> <linux/regulator/consumer.h>.
+> 
+> It seems these function prototypes were indirectly provided by
+> <linux/phy/phy.h>, mostly by mistake (none of the functions it exports
+> need it).
+> 
+> Before the PHY header can drop the unnecessary includes, make sure the
+> PCI controller drivers include what they use.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+
+With the subject line update:
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> ---
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Shawn Guo <shawn.guo@linaro.org>
+> Cc: Yixun Lan <dlan@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> Cc: Kevin Xie <kevin.xie@starfivetech.com>
+> ---
+>  drivers/pci/controller/dwc/pci-keystone.c     | 1 +
+>  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 1 +
+>  drivers/pci/controller/dwc/pcie-histb.c       | 1 +
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c     | 1 +
+>  drivers/pci/controller/dwc/pcie-spacemit-k1.c | 2 ++
+>  drivers/pci/controller/dwc/pcie-tegra194.c    | 1 +
+>  drivers/pci/controller/pci-tegra.c            | 1 +
+>  drivers/pci/controller/pcie-rockchip-host.c   | 1 +
+>  drivers/pci/controller/plda/pcie-starfive.c   | 1 +
+>  9 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> index 20fa4dadb82a..642e4c45eefc 100644
+> --- a/drivers/pci/controller/dwc/pci-keystone.c
+> +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/of_pci.h>
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/resource.h>
+>  #include <linux/signal.h>
+> diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> index 5b17da63151d..e0079ec108ab 100644
+> --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+>  
+>  #include "../../pci.h"
+> diff --git a/drivers/pci/controller/dwc/pcie-histb.c b/drivers/pci/controller/dwc/pcie-histb.c
+> index a52071589377..432a54c5bfce 100644
+> --- a/drivers/pci/controller/dwc/pcie-histb.c
+> +++ b/drivers/pci/controller/dwc/pcie-histb.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <linux/resource.h>
+>  #include <linux/reset.h>
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> index 18460f01b2c6..e417122da51d 100644
+> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+>  #include <linux/module.h>
+> diff --git a/drivers/pci/controller/dwc/pcie-spacemit-k1.c b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
+> index be20a520255b..dbec159fd458 100644
+> --- a/drivers/pci/controller/dwc/pcie-spacemit-k1.c
+> +++ b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
+> @@ -15,7 +15,9 @@
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+>  #include <linux/types.h>
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index 06571d806ab3..3378a89580ab 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/random.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+>  #include <linux/resource.h>
+>  #include <linux/types.h>
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> index 512309763d1f..a2c1662b6e81 100644
+> --- a/drivers/pci/controller/pci-tegra.c
+> +++ b/drivers/pci/controller/pci-tegra.c
+> @@ -36,6 +36,7 @@
+>  #include <linux/phy/phy.h>
+>  #include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  #include <linux/sizes.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
+> index ee1822ca01db..46adb4582fcc 100644
+> --- a/drivers/pci/controller/pcie-rockchip-host.c
+> +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/of_pci.h>
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include "../pci.h"
+>  #include "pcie-rockchip.h"
+> diff --git a/drivers/pci/controller/plda/pcie-starfive.c b/drivers/pci/controller/plda/pcie-starfive.c
+> index 298036c3e7f9..22344cca167b 100644
+> --- a/drivers/pci/controller/plda/pcie-starfive.c
+> +++ b/drivers/pci/controller/plda/pcie-starfive.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+>  #include "../../pci.h"
+>  
+> -- 
+> 2.43.0
+> 
