@@ -2,119 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iGWeFFkZqGmgnwAAu9opvQ
+	id 2Dq4OUAXqGlTnwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:36:57 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:28:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE361FF177
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C94C1FEFA1
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:27:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B555B10E9C2;
-	Wed,  4 Mar 2026 11:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE5A10E9B5;
+	Wed,  4 Mar 2026 11:27:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X/xPPrCM";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="gNQ7hNK9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com
- [74.125.224.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C5D10E9B5
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 11:26:11 +0000 (UTC)
-Received: by mail-yx1-f43.google.com with SMTP id
- 956f58d0204a3-64ca4dfdd88so6445650d50.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 03:26:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772623571; cv=none;
- d=google.com; s=arc-20240605;
- b=ULG7L5oHYoxqLzYUhoU0UShgoA9SQGxVKZaL+BPWGDtO6QBZe8rU9V8Mbdss1MFHvF
- p9Ty+Nub4Qzs7wCvqjtUN3kTS5vJM2VveToK3lmM72+Wlja69GAk3ToUyTzuWiH2hCiv
- fkall5Zx4qgu6ysN7EM0ZvYA/IbzCH+L09DWfzZuuENqIk759Q9uPvG4ShmwByk1x5F4
- AShJLxY2butT0YlP7uKZtlD6ofVZcDFJhutbNdxxonvDRMnG6qG0XiqWxBT8wPHagnS/
- 6sZMh4Ds2UDmkdbG8oeGFsVYNTABKx/uWAw5eaPHx0GvqATJNVKkTtDQ/9lKh3+vHEoi
- YpSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=sfnwOEQPG2f279DEvdf3ottcsjP5T7HwO3FoJcmtAlc=;
- fh=22bDiaFUHP0X4/el610H1+ZadraZVEdEyNnbkZ5T0Wg=;
- b=f119WYbIjI7glG0Slq1PRGw2W3GZiMpeUGfEEerlDPYf0Sw3yNMTaKqJeksXHQJDzA
- Pg8FA43TKXGCSLR/BlX9kNDQn8vu3ECv/jvSy3cBw4dugdJ9EIZcYsxAWe527DMAGRK8
- Ycn3FILmUfDZrhAn8yFm6qw+1W+YtVEU3yDlf343UDfmbCTGziZ+x+sKyolg7y/vQ8dQ
- 2mYw5qnVHwY8Uw7jCxOe2AZ0s/PtffioETULo8tz/idgmIjHzilChEQfmYgHgf8rBwNs
- /qM1Hvd/WnAeexaxCM0B7/ExaPF36IlzOKvruVTGscurJnveenMXBtFC9qga4/t6fOIZ
- aIKQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772623571; x=1773228371; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sfnwOEQPG2f279DEvdf3ottcsjP5T7HwO3FoJcmtAlc=;
- b=X/xPPrCM4jnqZ0EzqwCLFnTdAFR8yXh1SsBHLOGpZR53mILAUCY4m9L/eQnFVvDvhd
- m67bb+9nxksQfqKjJPG5yqKbiTiEHH9nmjZGmflOrVBrqDLGn+lF1QTXpi7+d7BcV0Xd
- 104zRugmyN6qQBibZcfvP35j0PYXR1vhxdI7otAxEVACOQlwQPLDYclBm9maLl5BLlA7
- CCGUmeC3NJgow02oZ63sqrHHIKJ6pvFAk6FcyNn+P5XlvJHaI+nLpDVv3pzbvsVbXsmp
- TKWqeeOJrBDDsRsmuW/gDRjM7HcemqlJRC2wJY9iKalQd7fQQWOGqQmCxbrrIoXDu7pJ
- oMsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772623571; x=1773228371;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=sfnwOEQPG2f279DEvdf3ottcsjP5T7HwO3FoJcmtAlc=;
- b=OvGaAb7AQNgMdbrO3fdh0EGun65xVozIkIRp6Qq61T296crruHStff51H72Q0Ulodg
- lR1exnuB5b2VofNDOk30P9dBVPr7UxF9WExNQg6qh2D+l8Xcytu+DV14d6SrD9MW2mtO
- j7EZ/Dk2eYGt/BzXM6PNCUGclM3L99hfKHk66B2eiKBe4nBlh4PPH1diYpjqS3k3MFvJ
- XGpjNcYPv+u/zfZKrMKTyIU6prTCla23hRXsIoKdkcloA1OgE7mxOFOlqWJNwK3aZuQX
- IKoSFfXCgx9bgiXzhXCkMuk6MIRp6HZxB7FbjQRLYKwqbeiroONnb5ZoNf7avHDpuvQ9
- XTwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYzaLL7hrQ4xsKlUNJpW3rRQVV3S4IkE2/lZBy2t+LILzkcgJX/k0QTqRqGyTQzsd0ZHhnj8bG0Cs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXTm6D8fIARtkRRJV0Z6ME3IIJTpeo1QgSG4om1lv8q7MTJRr6
- +JOtwk4qfzH/PEkTCmCz19Wc82MaAtpB0wxp1L9Hc9hKqU9RhaeJs7h4S3KI0LoC8nBLRLgZEug
- rSDVVcdbwSaphYMdEQ7bX8LFzGDDrF8k=
-X-Gm-Gg: ATEYQzyWK7kC1C/FvkBup9qWQFi/EqHt9BR1jOuHTWkV9uP3o1+Jd3iJqDohqOlJCaX
- TKOK+zPGUvsoSw7M3yvA/6K1qsJf/WztkCMY3JS7q93MbeAJf6tKPUqwQMmmm0zwJk+tGTM8boW
- tsCTaYXP1nxJ3SIykFJ3reZqWsxaJvXPiKYaJaczT/G2NXbim0XKTKTcCQ6c82ok/F7+m//BSyn
- V2bTa0py71zgInQwGHMgre61f9DOUx5OLw7TB77K9pyVhXixCD9hwtNEnm0dT4+NP+sCUDbTM1z
- tJCWfawrHEBrmjSEMI5m+NlrRc6wLVd5+rHlJNzVW+JdIRph7LcIo2HAMOI=
-X-Received: by 2002:a05:690e:4012:b0:64c:ed3f:ea3e with SMTP id
- 956f58d0204a3-64cf9b382cfmr1214439d50.9.1772623570712; Wed, 04 Mar 2026
- 03:26:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
- <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
- <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
- <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
- <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
- <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
- <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
- <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
- <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
- <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
- <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
- <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
- <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
- <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
- <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
-In-Reply-To: <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
-From: Julian Orth <ju.orth@gmail.com>
-Date: Wed, 4 Mar 2026 12:25:59 +0100
-X-Gm-Features: AaiRm506tH-PCpZuFbtkhUPnquGrHqoATdwVzWNFSsg-syhwWSJ2d8RNRppOp88
-Message-ID: <CAHijbEUSFA3ptTNZ_YuOLgc44Px4CjAaa9x6DDjJktRCKjj+Dw@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from CWXP265CU009.outbound.protection.outlook.com
+ (mail-ukwestazon11021110.outbound.protection.outlook.com [52.101.100.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 305DD10E9B5;
+ Wed,  4 Mar 2026 11:27:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vc6i8UHMWbGNVxS4taWF6gOd/nbj8lYLrNRbtGOBG/y4vfZO/SNMGqTDgAY5mh5IYLLgQYO7d6uc2SaKxR9VZENGzUH4bGtnvtFwLTiFT5HWMSAgn/olu+9ITd6y8IXTkpKJeuqh7XvJFwcm0qSw/4yuUwTRfsSl6JkCV2W65i98Yk8JBy1t4WOXIh2Y/qAkslUPC2AomDvCpWZGKSo7siodjvnSrvvsjhE3iI1PgsF8bkfxX9S55wbl/i/2LbeJPAccu3KxjeD0lYR/aRu/xQzZ5HY87hWb5eLSCqZ100IFIgd5JqNIilgxxGKNECNxsScmAEEspdqqSA3o9uPqIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v2+Yl5hQb5zO4lBeZkN5rrmgatfdnZZ3ypUepg6r/fo=;
+ b=AV8sFUuyRaph7LWkYeHJUu5HONfn7C4f2o/JRcMp6anqn0bqFde40KB3EmHnUry71LMbLdmkKez4zO33ikYen8oC9H7aG+JxRUN6X9HuKZhW0U3uJMpZEHXcnH7bTGq6+fRBxXMS4mpESs8qnRvnnHEjNyzDatUHSPXTqRmJdd/j+uDhEHndLRypFq7vuDmMGQAhvKY7W/WTPJxmi41/eEI9IorE26slkRI3vtwG8CfClUM5pG4d7T5/+SnoXv5HyyP4w9H9whE/jy5xA1xEmu9246ecwjPkWbALieJUrBZwWcis+VGQBRGD9Ze19MQet0nnAU7J0v5/5AkBslMccg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v2+Yl5hQb5zO4lBeZkN5rrmgatfdnZZ3ypUepg6r/fo=;
+ b=gNQ7hNK9H8S8HB6ifO1UeXCwrs5Mh4tHDUGmzs+3LeiA9ifp0uKo7MsVpAG1Nk1DBJcDO1hnN4vrG6RGUACfU9iFlA/JuPRJz0XlC6rJqhY9aairSU2QQzEx2D5WEEPg6bznR7FJ3JsZP8bRc3mcxuj1M2k3p1pFizI6DgVT2Dc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LOYP265MB2032.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:122::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
+ 2026 11:27:53 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9678.016; Wed, 4 Mar 2026
+ 11:27:53 +0000
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 04 Mar 2026 11:36:54 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Mar 2026 11:27:52 +0000
+Message-Id: <DGTYND7P67DL.3NIMJBU5R91LZ@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Benno Lossin" <lossin@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, "Zhi Wang" <zhiw@nvidia.com>
+Subject: Re: [PATCH v3 3/5] gpu: nova-core: gsp: add reply/no-reply info to
+ `CommandToGsp`
+X-Mailer: aerc 0.21.0
+References: <20260304-cmdq-locking-v3-0-a6314b708850@nvidia.com>
+ <20260304-cmdq-locking-v3-3-a6314b708850@nvidia.com>
+In-Reply-To: <20260304-cmdq-locking-v3-3-a6314b708850@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0325.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::6) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB2032:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1308535b-a2ec-4f79-5f83-08de79e1133c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|10070799003|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: Ul/ytjm8dKvYE2LFexqRh6wa5kn50B2z7Vg/bpNyL7Fnkf4MGeKxdNSfKl+I5wnwsc+ovueGPxsBncrewFpMgyWjHtStlBQbzvsc+bwc6knW4P4MiqZmeZkbU1Y4eN/GnWALlAjVsDyGkx/wiw99NDjAatZ/WINKmddGNBCmeQa+rGlbcyMF6kHNoUiZDVg++3JTwQfaSY+SexYu+bYlUamnM2UynkFgfTmQ3M34mMoqPqJ1epncqQ3A7rBff2MscIW60BSqn9DjjK0FJLj1HAJxEpP+wMjlKwV/9C7Y7wdPoz2lnad98LAfMwFJbpFMrKShwmRc9nU2Xx1rqh/zibS6lV4DAvyMwoS27H/+NGrFmEu9OQT0R9Wu0Ho/B3jPSfRaqLBWCqbScnoydzCjDRCdHfvRMiOgLQM9Wu295Sd3QAmXRd72C8pHGfnUV+eopsFHPgjdm/xopaNbesDzEXU9Ykep9gysMD6Fkv1h1NgLzBbdbGufAfK5hj9vZwEp3o0u8g5HahfXxrbRTGihyRpNvq9g3tnXpOHtNhTFgqkrWfTniICk30nxcApajh0pE75Cn/xRTeHJh6NDTRpkA676SMix1WPtZziaNWpwAHviCcp1zfox37C6sOKBnrRxmmRRUmiCzCCHywaYNTL8LYIWH11YUuK907n7megjgIjG++IGaqFkTxNhK0djKjrkn4M3woHNbAjy/Ub8Yl0stcoAPUQK64pznbCpvF3becg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016)(7053199007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MElid0ZvaXRyUEVyWDJvaE9JSTR5bnZnanI3aG9vcWNONWw3VHBJNGVLRHNm?=
+ =?utf-8?B?QUNkeHIzZndZVVBXRVFKdWx4RXhlcXRUZGZIOTY2RkNCMW9tbXlOeWpEUk00?=
+ =?utf-8?B?aTBmRGhBQit1QkV2WW1EdC9LaGJLblMvMlNuQlA3bnR0SEtHNGx3SUZvdU9Q?=
+ =?utf-8?B?c21CS1VJNzRIcllxTWpYUldBT2xBUlVGRU4zdkYrQ0ZJUjZnSkhsSkRoVWd4?=
+ =?utf-8?B?cDdjSTBZaXZtSDU3d1NrZzNqZzNTNnQ0d1NYcGxpMC9ueHhZKzJRcHlhZE15?=
+ =?utf-8?B?dVkyVXJseVhDY0xDVDRoYlY2TzlLZ0ZwY3FLT3pSamNPT0N3dmx4a0VRYk56?=
+ =?utf-8?B?TlN4UlVkTGx4Z3ovMENXeVZtWjJzVGZ2a2pSUWRna2UwenZEZ3gremFMUnVm?=
+ =?utf-8?B?MW1PYUZialB5eHgxa2lJWVJTcXNvcWdSeGEyYmh6NWFhWjVHZlI3bUtOL05R?=
+ =?utf-8?B?ZjB6d3B0OXBoMkJHaGVuMkNlblVZNFZYZENpdTVUazBDQU9TMGM0S0RuMER1?=
+ =?utf-8?B?KzNxVmxyNFFqQUZFVGtqZFNxcmVkZDVoMFVoR0ROdTN4eFJla3FURkZFTEQ3?=
+ =?utf-8?B?NDY0UzZ6aDhPSitFcHJibzh0SmdwTGlydGFVQ0J5cmUzZkJWaFdLcTIrdllP?=
+ =?utf-8?B?RTJyalRYc3NBZDdoRnVpS0pDSGpIVlA0R3pQOEptYkQ0NW1abTBWTytOU0Fu?=
+ =?utf-8?B?UFZYRExGQi9zNm4rMXp4a2Y5Sm45cEhGa0dEYS9laTBydjFBVmswWXVxLzJs?=
+ =?utf-8?B?a2RRaUFpd0lrbVpjKzNVeVVRMmtIMEFhYzFjVVNEMlF0eEIrbTNPNDhLd2pz?=
+ =?utf-8?B?TVJieEdiNUlLOEVHYnVjTmo3MHNQT0VwSURhWkNDeDdrdkNSd09TUkdjNGJo?=
+ =?utf-8?B?bUR6MmV6RHprY28wMytCMlRGMm1QQSttSE9vM3cxa1RrcGFqeXZ4MUJ4ek1k?=
+ =?utf-8?B?SFJzNU1ocTZqanhEYUFLMVJDYkN1aFlCM24vWFYydjJkTUNId2pSdmRrNVpQ?=
+ =?utf-8?B?Ri85dE1NMkJXczEvekRCVHk5TmNSSmIzTXhvVDNhZ25Ua0xVL1dzREZKWjhG?=
+ =?utf-8?B?OVQvM3J2dU5keXZWaWx6b0V0dGtCTlQzR0JJN3d4SFpPLzRwN1dxS2dqS0h2?=
+ =?utf-8?B?RXQ4QjlYbmFSRk9YV1dhK2taTjQralE0L2pxMnZXVHpyNGRqUjVkQ0cxZE5l?=
+ =?utf-8?B?SCtrZjhRbTFNUmlLZzlOSW93SWx1aCtXVkFrb2JlMExESFA0M1NXT21IZ0xr?=
+ =?utf-8?B?MjVSelNvSmxjaTNUNHIxQ0poZSs2eU41RVlITS95c1JLdHVsOVFFQkdja0dy?=
+ =?utf-8?B?ZS8wNVJ5bmFJa1JzbERKQisyTGVZSWRaNGZ3YmNsWjdQSzNmdEpkdG1oWlBV?=
+ =?utf-8?B?V1g4Ykk2SXBBY1IrUVc3Z3NMM3luV2liblk1TmlITzJ6V3NIMWFzZVVQOGVK?=
+ =?utf-8?B?UE0rbUh5RUx5OFo1N056SnlPVGdJajRUZUNER1ZqL042MXZkclBLYXlqb05l?=
+ =?utf-8?B?WS9oVHkzMFQ4R2F6c240UkdCc2lMT2JQR0l6dDNCcVl3dWwybXRPUGxCRDUw?=
+ =?utf-8?B?cDRCdnM5UFJIaTg3MFR0R25yQTQ5aktlNTJBaytibGlIa29QdzMrSmhmeVo3?=
+ =?utf-8?B?UEpYUjJGWTNsOHVNM1NZTHFDWWV4eEgzS1RqdVFzWWhsYmdMQS9GaU5kRXlG?=
+ =?utf-8?B?TERQVnBwRFRvS0FVUFU1Y24zeVhLeENSTzRIOEVkSkN4WDI0Y1NMdTBnSnlG?=
+ =?utf-8?B?T2hwK1JqRVEzUFQ1bERvNEJXdDMxRHJEY05TTWd2TnJZUzQ3RThTMVFFQ0Uv?=
+ =?utf-8?B?c3hJbFpFeWVXVlVoN3VNdnUrdjdNNlh6c1NDT0xDZU95UXI3VlAyUCsvRXhs?=
+ =?utf-8?B?ODZ3anNtR3JIQlJFclRLeVhEb3BIRU0wVVIyQUVlYWltbEt0ZG1lSXhUTk9j?=
+ =?utf-8?B?WXU2eWpKUGs4QklJSVZ6VHU1aFUvT3c3OWV6SVpKZDI4WWxjUEU0c1p1bFk5?=
+ =?utf-8?B?OUJ2YkdRRDRXczZYa1Y5ZnR2Q1JZQ21rd05vUTJ5aEZxSUxIODhRMWQ0clZL?=
+ =?utf-8?B?MjBlSHZINnMxdzJkMW54TTJZTjlVWXdiaDN4aE1OdysyeGxzdnNVZHFIWkVp?=
+ =?utf-8?B?bk1KaEF6NmZueng1UEpkNEtNYkJtV01oVWd4SlJrNUV5b09URzNvM2ozcWJs?=
+ =?utf-8?B?R0NzZWNxM2Z4M01kSTJqS1RiZnYwK1E3eENjNUFtMWlPMlVLRGlGT0E2ZGJ3?=
+ =?utf-8?B?MWwrdC9POWhpK01lOHV5dzc0YmJZd3ozNGluNFJodTZydWZjL1ZPSGRIY2pz?=
+ =?utf-8?B?V3d1VG1uMzRrbEFENFQvY0d5bnR5QmZweEtLaFZjTWx5V3FRSTRhdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1308535b-a2ec-4f79-5f83-08de79e1133c
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 11:27:53.1297 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nFQnprNtul6if+dkkelJDjXEW3nhfBaBBiU4Ea58/KYMfJMj7HaVEH9xE3F1m7ubD621b2an7CTEfhTEVGl6BA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,159 +148,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: AEE361FF177
+X-Rspamd-Queue-Id: 3C94C1FEFA1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[garyguo.net:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid,mailbox.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,garyguo.net:dkim,garyguo.net:email,garyguo.net:mid,nvidia.com:email]
 X-Rspamd-Action: no action
 
-On Wed, Mar 4, 2026 at 12:15=E2=80=AFPM Michel D=C3=A4nzer
-<michel.daenzer@mailbox.org> wrote:
->
-> On 3/3/26 20:12, Julian Orth wrote:
-> > On Tue, Mar 3, 2026 at 7:53=E2=80=AFPM Michel D=C3=A4nzer <michel.daenz=
-er@mailbox.org> wrote:
-> >>
-> >> On 3/3/26 18:44, Maarten Lankhorst wrote:
-> >>> Den 2026-03-03 kl. 18:30, skrev Julian Orth:
-> >>>> On Tue, Mar 3, 2026 at 6:18=E2=80=AFPM Michel D=C3=A4nzer <michel.da=
-enzer@mailbox.org> wrote:
-> >>>>>
-> >>>>> I wrote in my first post in this thread that I don't object to your=
- patch, so you can relax and stop trying to convince me not to object to it=
-. :)
-> >>>>>
-> >>>>> I'm just pointing out that this is working around broken user-space=
- code, and that there are other similar cases where that kind of broken use=
-rs-space code couldn't be worked around in the kernel, so it's better to al=
-so fix the user-space code anyway.
-> >>>>
-> >>>> At this point I think we're arguing about "how can ioctls be extende=
-d"
-> >>>> and "does userspace have to use memset" in general, not just about
-> >>>> this particular ioctl. You've made the argument that ioctls are not
-> >>>> extensible in general unless userspace uses memset. However, I'm not
-> >>>> yet convinced of this. As you've also said above, drm_ioctl happily
-> >>>> truncates or zero-extends ioctl arguments without returning an error
-> >>>> due to size mismatch. Therefore, the only way for userspace to detec=
-t
-> >>>> if the kernel supports the "extended" ioctl is to add a flag so that
-> >>>> the kernel can return an error if it doesn't know the flag. And then
-> >>>> that flag could also be used by the kernel to detect which fields of
-> >>>> the argument are potentially uninitialized.
-> >>>>
-> >>>> That is why I asked above if you knew of any other examples where an
-> >>>> ioctl was extended and where memset(0) became effectively required d=
-ue
-> >>>> to the extension.
-> >>
-> >> Since it's always been effectively required for ioctl structs, "become=
-" doesn't apply.
-> >>
-> >>
-> >> In terms of documentation, the "(How to avoid) Botching up ioctls" pag=
-e says under Basics:
-> >>
-> >> * Check all unused fields and flags and all the padding for whether it=
-=E2=80=99s 0, and reject the ioctl if that=E2=80=99s not the case.
-> >>
-> >> Which is what the code you're modifying here did: The code after the a=
-rgs->point checks doesn't use the point field, so it's checking that user s=
-pace initialized the field to 0 per above.
-> >
-> > I don't believe that is true. The old code only checked args->point if
-> > the flags argument was 0. If the flags argument contained
-> > EXPORT_SYNC_FILE but not TIMELINE, then the old code ignored
-> > args->point completely.
->
-> Right, the code didn't fully implement the rule which has been documented=
- for 13 years. Makes no practical difference though, the user-space code wo=
-uld have hit a failure regardless.
->
->
-> > However, since the original code only used args->points if TIMELINE was=
- set,
-> > I believe the intention behind the TIMELINE flag was to ignore the args=
-->point
-> > field if the flag was unset. That assumption is the basis for my patch.
->
-> Whatever Rob's intention was, checking the value of the local variable in=
-stead seems of little use, since it can have a non-0 value only if the TIME=
-LINE flag is set. If the intention is to catch the TIMELINE flag being set =
-without the IMPORT_SYNC_FILE flag, that should be done directly instead, or=
- it won't be caught if args->point is 0.
+On Wed Mar 4, 2026 at 2:46 AM GMT, Eliot Courtney wrote:
+> Add type infrastructure to know what reply is expected from each
+> `CommandToGsp`. Uses a marker type `NoReply` which does not implement
+> `MessageFromGsp` to mark commands which don't expect a response.
+>=20
+> Update `send_command` to wait for a reply and add `send_command_no_wait`
+> which sends a command that has no reply, without blocking.
+>=20
+> This prepares for adding locking to the queue.
+>=20
+> Tested-by: Zhi Wang <zhiw@nvidia.com>
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 
-You're right, the better check would probably have been (using a shorthand)
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-    if (!IMPORT_SYNC_FILE && TIMELINE) return EINVAL;
+> ---
+>  drivers/gpu/nova-core/gsp/boot.rs              |  5 ++-
+>  drivers/gpu/nova-core/gsp/cmdq.rs              | 55 ++++++++++++++++++++=
++++++-
+>  drivers/gpu/nova-core/gsp/cmdq/continuation.rs |  5 ++-
+>  drivers/gpu/nova-core/gsp/commands.rs          | 16 +++-----
+>  4 files changed, 67 insertions(+), 14 deletions(-)
 
-However, since that was not done at the time, there might now be
-userspace that relies on this not returning an error as long as the
-point is 0. The intention of my patch was to be strictly more lenient.
-
->
->
-> >>> You don't even need to use memset, this would work too:
-> >>>
-> >>> struct drm_syncobj_handle args =3D {
-> >>>       .flags =3D 0
-> >>> };
-> >>
-> >> TL;DR: This method isn't 100% safe either.
-> >>
-> >> It won't initialize any padding which isn't covered by any struct fiel=
-d. We try to avoid that and have explicit padding fields instead, mistakes =
-may happen though, and in theory such padding could later be used for a new=
- field.
-> >
-> > I don't think this is workable.
->
-> libdrm begs to differ. It shows that it's not only workable but really ea=
-sy. There's no reason for doing it any other way.
-
-Using memset to initialize padding bytes between fields is workable.
-Having the kernel add checks for this for existing ioctls is not
-workable because it would break usespace that doesn't do this. Which
-is every rust program out there as far as I can tell.
-
-I'm not aware of any ioctls that actually have padding bytes between
-fields so this discussion is mostly academic.
-
->
->
-> --
-> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa devel=
-oper
-> https://redhat.com             \               Libre software enthusiast
