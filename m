@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QNTMFEg4qGkTqgAAu9opvQ
+	id kEoxA0s4qGkTqgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:48:56 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:48:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0069D200AD8
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23CA200AF0
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:48:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B791E10EA0B;
-	Wed,  4 Mar 2026 13:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9F210EA13;
+	Wed,  4 Mar 2026 13:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dotWWyMG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mpfl/o4A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 071E310EA0B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:48:51 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-439c944bb62so495494f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 05:48:50 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6496010EA0D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:48:52 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-439bcec8613so2200516f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 05:48:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772632129; x=1773236929; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772632131; x=1773236931; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QTTqK7TuaDqF+tP6hPwnkWAR5TFFHKJ4XYpEBPBHnmY=;
- b=dotWWyMGwLT/1gHWrBIuERsPzDeSYMw0Bs7BFixDqjz9I/8e1nUhvSQq2Uf203OKN8
- VCFyiPAwYEoyMFW1XkhZViH3+aVderkONWgrf7bbQZnoaNUAfajEpVlysyRwnsBX9eiJ
- QC65px5Snwm+8R/YP3LpOFY06el9vsAiQVf47FfmQBN9FfjkPHqNF/TgIhJdMIXuLywG
- TXaRj297G8/p1NtMH1Q7d4mEDucrxCuUfkeEwX41lafp0YJTh6St8tpPWlOTE9Ll1pPz
- k8Iy07IpMbkogFBgJyiAEPjtB2slZ5jnN2PD5zdY+OjDNritkbL26LLXUSrA+cY/zEi7
- GX2w==
+ bh=RenxENmarQZKEVcw1SxstoXvfw684s9sp4AM5Ud4YLI=;
+ b=mpfl/o4Almy4naLUbftNlZVXuI/wHyNNHmB9eae4uxgQ9tETjaK8PKxNdddL/UwOKn
+ GWystY5fTFJEWjsoljxD0K1pbKwx+UKX3ThzkibTmKYB3lbut/kF5RQ5PZNh0N5Fk2rf
+ 91oIacOwHKLz/S5wfkF1B8HaAVespanp0RBK6gY9LRcU6DVVga5AVED4Xz+gPu01uinh
+ 8XlBqjjp0GEoBHZlSZe8/qOZV/zODQhxCMW473+XYsGfTdk/53CpndhLa489rnzO7LbR
+ MIoMxUMmcmmD6qCEL1UDe7kE4HpVn3zubUDaY/N11B7M983kHHHoEi5lS6VT5/Y1tKtA
+ auSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772632129; x=1773236929;
+ d=1e100.net; s=20230601; t=1772632131; x=1773236931;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=QTTqK7TuaDqF+tP6hPwnkWAR5TFFHKJ4XYpEBPBHnmY=;
- b=FFutBmjwlWWfxiGLYGPEunxeaiRGj0xJqN83fbgVMWINraffpOKF2FIZny8n8EvVzE
- 6qdR7gEdfJGSe2ISIXMP7ffaN1JtaJtdNp0oCnPUY8bhEBOHX7LenxPfRDdww+M0WBFk
- j0xfdTK3GiINp9QRZncNbr0KlnV//GS05Byl4uyHw6uAsjxUGnhJ5MdxgD8SlAbiu4uU
- JdRIVPKUQSn+h0l7idMHvTU1n2jxrO40HnGVt1iIjttXr9rqTkihpHs93Fqtpgop6AlC
- HREIdQYlLMUoJTYEJe6ha6RF5bqF/XW3VyjoV9eViF9FhuWpsSm/m8+xs1OUT3R3fqnH
- 2YCw==
+ bh=RenxENmarQZKEVcw1SxstoXvfw684s9sp4AM5Ud4YLI=;
+ b=NDe4ntw3B1VZMmn+mHUd5id9IKvTAKZluWd7D2ECQKkjURLjx09E68MNc5aJy/c52g
+ ew64Oocltx7dsiFtwQoLccI3eptt9WBQlxH27i/lT+hdkyhA+zaKLV6ULJfSATlpQFO3
+ M6qXBIX/KGworp7ExIrOAnVj8CPUZ8dgludohnBMbs7UTyVv6Cc30ziD9QeopFZYsKcd
+ XeYkZKkQw9Tqw7ZYSaQY7CqySjgu0+a59zatLmVJjqjnAgOhtOlL+SXossrj6Q0Onj3s
+ x3kjNV3pYMwbrPx/SCqRQqhU4RWolq9tPvxWThSjIoCk5gewwZfmPQOBJ2sEdXZP6klg
+ ZjYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4yFj06P16DbNcFbRkXxzd4bWCsQgSO7z4I3E3EAvs4lhMyi6V5Iwq3lxQhuYBE/nUc5gf7TMFW5Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwN56EEUTu34VMz81lh0VBAYsYni68TfgZ9HpTKXikCSsHe9TWU
- lKiBmokKiDnLj/IlVKM/oc4OCf4znbqiRcibkiQ31eCaRWN/dW//8HfF
-X-Gm-Gg: ATEYQzxPoGiaNDsgzmXuhMmJFF4GDCAHqlDSLslYaEWKG3065gFFWH91FKxzHPwrGB5
- f496owROCkiWNS8fZzKadzMUyzRejMjgMQ7p4R6ZVQ1I4GrNE2YcwIq2kttckIIz/xQ42BpaFDu
- f96X/qyclSCoiXusXGK/sP0Vbk/I2iM5vYXBjA92Jjdw/1EEgUoDz82e7yrczsHPLPKXbkiMlIm
- 3k37bY0WYrvfrJt+XVaHj9umLoYtqT7sjE1W5EUpa7iGPDjyAnj4ct0PkYaUSqPHN1jSLDoLb2g
- 21B9oWSrxut5DRVcwSsUhwrsrchANGxGAd6OnOJic9zVqpdAGeTx+ooGzTUjLPSR8+8mySazsCV
- duUu4HZKg33lg3p2GyvJGtSP0fYcYFBrd6AcF+9XH54yP+F7sXJb/9iANUmmbbUWpxb24srsZ92
- 4N2MJQG4ms4EmYDiSjvSW/49XpqZf3GzU=
-X-Received: by 2002:a05:6000:2891:b0:439:b3d2:3766 with SMTP id
- ffacd0b85a97d-439c7fae450mr3798988f8f.19.1772632129397; 
- Wed, 04 Mar 2026 05:48:49 -0800 (PST)
+ AJvYcCV939V05H92nAkFg9S8qf/hnDm539WaGiaG2NopYl9bpHHYIYMOhK1L8jGynrzsWo+951V3ZjmDEQ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGtWHkyxX434ZbaqCv5HMzxViC8RR2jYmE0Oe3FTEjpb7+9hv+
+ YdNJSH1NiaeBcZj5Vl9P4NtKy7e6BW+Gd14+98l/8pfz43TsyNDz3b09
+X-Gm-Gg: ATEYQzwdt+MQgWMHkMvypPYwEGLfBdtDjB5h1MWpLYYUrztrCtrZ20bSH7bALPuOGsl
+ Npjz5qKXhYqxQ0Z/MOu6e36kEDUdnDrmuaTCViAnUSm+T1KHQyLXa1scZKWm7bhNdTSPNXX1ErU
+ JVLSNGqqvv6llsLcfbUkP6A8jgTi4I8K258Z58caHFn+WiTbGh206K0gluanrl/2NPzho/dbGxW
+ WnO74NZTnKlf6dlo9AUxg//Vc7KhN9U8+XZLagScc0fpHzYSMZSl6DvGEAYkJZmkIlMckXpC8Xb
+ B+B3lpVWKZjy4TkRfxzKXb0oMYUzAh7S0DS40wHpBJJX6ufAXlD53ldNzNK39k7gwe36Gpe4FG/
+ EM+hTAvYKzayRBpEMuAWTDYpfFsteMNGanj7rtXfUJcN8SO64qUdakDXelXkxNWJKs89/g2y1I7
+ pMxjICbbBfkzb+ARqQznABmMCpctnHmmg=
+X-Received: by 2002:a5d:5f91:0:b0:439:b1be:81a8 with SMTP id
+ ffacd0b85a97d-439c80205bbmr3739474f8f.55.1772632130542; 
+ Wed, 04 Mar 2026 05:48:50 -0800 (PST)
 Received: from biju.lan ([2a00:23c4:a758:8a01:de3f:f927:40ff:12a6])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439c65e0b23sm7105229f8f.32.2026.03.04.05.48.48
+ ffacd0b85a97d-439c65e0b23sm7105229f8f.32.2026.03.04.05.48.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 04 Mar 2026 05:48:49 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
@@ -75,15 +75,16 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
+ Simona Vetter <simona@ffwll.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/4] drm/panfrost: Add bus_ace optional clock support for
- RZ/G2L
-Date: Wed,  4 Mar 2026 13:48:38 +0000
-Message-ID: <20260304134845.267030-4-biju.das.jz@bp.renesas.com>
+ Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 4/4] drm/panfrost: Add GPU_PM_RT support for RZ/G3L SoC
+Date: Wed,  4 Mar 2026 13:48:39 +0000
+Message-ID: <20260304134845.267030-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260304134845.267030-1-biju.das.jz@bp.renesas.com>
 References: <20260304134845.267030-1-biju.das.jz@bp.renesas.com>
@@ -103,7 +104,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0069D200AD8
+X-Rspamd-Queue-Id: B23CA200AF0
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -115,19 +116,19 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	FREEMAIL_TO(0.00)[collabora.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,glider.be];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:robh@kernel.org,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:biju.das.jz@bp.renesas.com,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:geert@glider.be,m:bijudasau@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[bijudasau@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:robh@kernel.org,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:biju.das.jz@bp.renesas.com,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:biju.das.au@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,m:bijudasau@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[bijudasau@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	TAGGED_FROM(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,lists.freedesktop.org,vger.kernel.org,glider.be,gmail.com];
+	FREEMAIL_CC(0.00)[bp.renesas.com,lists.freedesktop.org,vger.kernel.org,gmail.com];
 	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
@@ -145,96 +146,26 @@ X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On RZ/G2L SoCs, the GPU MMU requires a bus_ace clock to operate correctly.
-Without it, unbind/bind cycles leave the GPU non-operational, manifesting
-as an AS_ACTIVE bit stuck and a soft reset timeout falling back to hard
-reset. Add bus_ace_clock as an optional clock, wiring it into init/fini,
-and the runtime suspend/resume paths alongside the existing optional
-bus_clock.
+RZ/G3L SoC is embedded with Mali-G31 GPU system. Add GPU_PM_RT support as
+it needs to be assert/deassert the reset during suspend/resume.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c | 24 ++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
- 2 files changed, 25 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index 01e702a0b2f0..87dae0ed748a 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -70,8 +70,23 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
- 			goto disable_clock;
- 	}
- 
-+	pfdev->bus_ace_clock = devm_clk_get_optional(pfdev->base.dev, "bus_ace");
-+	if (IS_ERR(pfdev->bus_ace_clock)) {
-+		err = PTR_ERR(pfdev->bus_ace_clock);
-+		dev_err(pfdev->base.dev, "get bus_ace_clock failed %ld\n",
-+			PTR_ERR(pfdev->bus_ace_clock));
-+		err = PTR_ERR(pfdev->bus_ace_clock);
-+		goto disable_bus_clock;
-+	}
-+
-+	err = clk_prepare_enable(pfdev->bus_ace_clock);
-+	if (err)
-+		goto disable_bus_clock;
-+
- 	return 0;
- 
-+disable_bus_clock:
-+	clk_disable_unprepare(pfdev->bus_clock);
- disable_clock:
- 	clk_disable_unprepare(pfdev->clock);
- 
-@@ -80,6 +95,7 @@ static int panfrost_clk_init(struct panfrost_device *pfdev)
- 
- static void panfrost_clk_fini(struct panfrost_device *pfdev)
- {
-+	clk_disable_unprepare(pfdev->bus_ace_clock);
- 	clk_disable_unprepare(pfdev->bus_clock);
- 	clk_disable_unprepare(pfdev->clock);
- }
-@@ -432,6 +448,10 @@ static int panfrost_device_runtime_resume(struct device *dev)
- 		ret = clk_enable(pfdev->bus_clock);
- 		if (ret)
- 			goto err_bus_clk;
-+
-+		ret = clk_enable(pfdev->bus_ace_clock);
-+		if (ret)
-+			goto err_bus_ace_clk;
- 	}
- 
- 	panfrost_device_reset(pfdev, true);
-@@ -439,6 +459,9 @@ static int panfrost_device_runtime_resume(struct device *dev)
- 
- 	return 0;
- 
-+err_bus_ace_clk:
-+	if (pfdev->comp->pm_features & BIT(GPU_PM_RT))
-+		clk_disable(pfdev->bus_clock);
- err_bus_clk:
- 	if (pfdev->comp->pm_features & BIT(GPU_PM_RT))
- 		clk_disable(pfdev->clock);
-@@ -462,6 +485,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
- 	panfrost_gpu_power_off(pfdev);
- 
- 	if (pfdev->comp->pm_features & BIT(GPU_PM_RT)) {
-+		clk_disable(pfdev->bus_ace_clock);
- 		clk_disable(pfdev->bus_clock);
- 		clk_disable(pfdev->clock);
- 		reset_control_assert(pfdev->rstc);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 0f3992412205..ec55c136b1b6 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -136,6 +136,7 @@ struct panfrost_device {
- 	void __iomem *iomem;
- 	struct clk *clock;
- 	struct clk *bus_clock;
-+	struct clk *bus_ace_clock;
- 	struct regulator_bulk_data *regulators;
- 	struct reset_control *rstc;
- 	/* pm_domains for devices with more than one. */
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 711f5101aa04..3d0bdba2a474 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -1156,6 +1156,7 @@ static const struct of_device_id dt_match[] = {
+ 	  .data = &amlogic_data, },
+ 	{ .compatible = "amlogic,meson-g12a-mali",
+ 	  .data = &amlogic_data, },
++	{ .compatible = "renesas,r9a08g046-mali", .data = &default_pm_rt_data },
+ 	{ .compatible = "renesas,r9a09g047-mali", .data = &default_pm_rt_data },
+ 	{ .compatible = "arm,mali-t604", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t624", .data = &default_data, },
 -- 
 2.43.0
 
