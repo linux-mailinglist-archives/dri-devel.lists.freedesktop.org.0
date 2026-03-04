@@ -2,83 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKTxGzECqGkRnQAAu9opvQ
+	id aEXFKE0EqGkRnQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 10:58:09 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 11:07:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42E91FDFAA
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 10:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0284B1FE181
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 11:07:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1777610E99A;
-	Wed,  4 Mar 2026 09:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA1710E999;
+	Wed,  4 Mar 2026 10:07:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Htq+LKqw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IpnQ9OsB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9956D10E999
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 09:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772618285; x=1804154285;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=1AWufibk1ePl9xDGtjktK11AEy2ylzHc9sSlSEfKxkA=;
- b=Htq+LKqwLEnTeHkzMbEIx1EUKUMBzG+OkeXIyQciMppbAugN9tE/GGXq
- w0fZM73Wn96jVQ45wNvXoIhZc9C8ybboEYEstB4+lvd1CkcpSXHNfAUaI
- UaMOJns2phKej7+d/XAxrxHInALLzFOHPo/FH/xE/3heQlaI7LoAifO1M
- Mg8uKOJfKilpbhMA8kQsLSrWuJccWdN4Ul0hIUgbFLWhekn9mGesDds++
- /KtwY9slx19motGwqOyOpPL1r6AFTHRKQLRClo5G+Zux4EYKBgTN2N3BJ
- t5oBSWi5Cr9PtCmh5JcVjrpIHveXIzLqq/0/UnyVu1KGVKmV6HIZeu65Z A==;
-X-CSE-ConnectionGUID: JgIgnEixR82MbWnTN5fBtQ==
-X-CSE-MsgGUID: alL4ThVeS+mqnnV36PoIBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73801958"
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; d="scan'208";a="73801958"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2026 01:58:03 -0800
-X-CSE-ConnectionGUID: iVGu90dKTAaFXc3m46yesw==
-X-CSE-MsgGUID: 0lHG02jQS5SJLCBjlxTAjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; d="scan'208";a="241307378"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.178])
- ([10.245.245.178])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2026 01:58:01 -0800
-Message-ID: <33217fcd-1187-45fe-9e0a-f024f62627e6@linux.intel.com>
-Date: Wed, 4 Mar 2026 10:57:58 +0100
-MIME-Version: 1.0
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012063.outbound.protection.outlook.com [52.101.43.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6722210E999;
+ Wed,  4 Mar 2026 10:07:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ncNtR1Ppk2whavyF7jpOAglbaBY9bhdQUejVK7bnOjCWny7mrJ2/6F/lwTlNse8T4ps3B75DoZR+qVDvcHuNozYANCdWOfhZ1+sTCWyHZH59uDjDuIuqtbZx4kAtfsS+rzPlO7htpH1vz4PCxMJVABhEjWNsoVN272BXssItPf9crFzLGS0phbFtAa4UZhaH3JbsfY+nIxkLgdMUYJUO34zaoNDAIN44DuYD30XjTMWzDI9DVtU/WfxDPiZOxPemeIskCe75S2X8Ie9Z80XZ6+ESmvJaTOj+o8mxeqij1T5IrZ4r0mhdlvkBnygbh3gaemLcC9Ojs5KOq4ep9CU+dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vAilE3kvEb8tJpybv+zLICWfzXVK35uwb4mPGq8mu7w=;
+ b=yvCkMVLhxvNbHL3G++jTf7H7egEiIitD8bBeZ9GVcXTfJ262Uwb53L1wiqD51hrNMTxUsswFJKsmZ6KQNSsX4OtY2FIrB6wFdTq3b/jbjGEmdeo1KQpHackrSxDnZHVCDJBUw3hCAGXjuwwfI2frL0lO2uofrp3lBJJmXIe7hmOMYQ8V62WcYADkF4SK02KA2IZq8pNAdq6PFAc+ccS4VwjgEQrSZRuJ0sZgo6P2bEhHGUch8R3YDiduzr0exoDcd/hil2yQyxxyIqo0eWjGy0TknLr617R5zl7gnnWNgvozj2S2ZkN5jEhL17bCs03rxW2c9HcvIglszzIUX9ffnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAilE3kvEb8tJpybv+zLICWfzXVK35uwb4mPGq8mu7w=;
+ b=IpnQ9OsB3yio0RMTj9SkKi4eC/bxaZGXopuUcQp9iNNYgjk6JGWn8sbIzmEkO0uXAq21Nb4AiXF2gi4w0u4kVsyR9ntfCTyF9aythuNtKu+monOravQW0cVgkCuVc89P0EKDvRZTXegxpOg2GnH6PVxm51jQSdf+n6mE2Xh4bm8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB8558.namprd12.prod.outlook.com (2603:10b6:8:187::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
+ 2026 10:07:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
+ 10:07:00 +0000
+Message-ID: <4d00945c-f439-4460-9f8b-12e7e498fb20@amd.com>
+Date: Wed, 4 Mar 2026 11:06:53 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: Julian Orth <ju.orth@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
- <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
- <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
- <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
- <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
- <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
- <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
- <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
- <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
- <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
- <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
- <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
- <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
- <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+Subject: Re: [PATCHv2 for 6.112 and 6.6 0/2] amdgpu: fix panic on old GPUs
+To: =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Rosen Penev <rosenp@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
+ Alex Hung <alex.hung@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lijo Lazar <lijo.lazar@amd.com>, "chr[]" <chris@rudorff.com>,
+ Sasha Levin <sashal@kernel.org>, Wentao Liang <vulab@iscas.ac.cn>,
+ "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260228045356.3561-1-rosenp@gmail.com>
+ <CAKxU2N_FbB_d6ntXEOFzE2u-sfu9sRRFwaDnb3P=RfTwE5yuDA@mail.gmail.com>
+ <7d3a4090-06bf-40b0-8c80-ca08625608d7@amd.com>
+ <2596902.XAFRqVoOGU@timur-hyperion>
 Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <2596902.XAFRqVoOGU@timur-hyperion>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0110.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:bb::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB8558:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4e8c166-1c40-4a04-99d4-08de79d5c6b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: kcq9CvOIC/S7c04Ru1KVmibJVr/OrYopKCF2CEbPB5RU0El03k86oqRKwz6iBobHD+RrMKiTW+5cX5l+WzNo6Q+S1CzT+luExW9IP0KlyO8oL0qoypd+gv+PEznqEfcWKM+sLjFOt0lA4jtXEB6ZC1YGIxvYh4DHJuTA1BY76ylDxUhgYi79M2lrbeQBXsV9uv50besjZn2LAYej+oyberdny6pjVxNzZ3gBhp4oGmhfUqhAo0onDkg9vqd1jV6PuGqwghWdNunoruW8WhnsjbHgsKFGT1tiXJV+Attk3cGMd82o1CC8OXtVTJLjBAQvcNifT/5mKjE9P3Kkdx/fW3Wop5uLcAppaMpgQG6oe6hjStFNkjSzbgcOCqlLeGRNScd8evzh1zDXELaPiBIEqzrEhcgGifUI4Jz2/mvdHlMYUxeyLxb3QdhFY+gcmbftO8iZE2zx4+4pQkTX8N962uCAwB6Mb6OhEgho6g2Mo9zJEpttLi4t4Ou2ZBuXwTFHRgWOwWGMu+dKp+mifIQ8yYoNxS25EgF5F7KTH31Epv6GCwsbVvP1Kph62tWsoYym6MtXT+q0WXXe67Fb9AiAd4BRhTWk9VtFOkV8ch5DAcyyuaaCjXKh+wm5LHx9j+aJclqNjGcyvMqP2XT4+zCFLpcVhgS3dPXsR3ZUHYRkjB3CvBtZHirTMlNkjKmKYoDO
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFlZdUdUVFJDSnUrVGRqSk9aTks0WEtBb01ibi9OSGxQQVMwZ1V2a0FMY0Jl?=
+ =?utf-8?B?anBpVlI5U2E0aHhPSnhqejNUZHRrcUkvRVpENzRhK2dQek9BekJGaW4xbWNk?=
+ =?utf-8?B?R284M3UreWUwT1FLSjhCL1c3alRjdDVJMnVHSk4yYURIa1NOSUUyMmNwRGp2?=
+ =?utf-8?B?RUw2ejBqQWlMU1V2eFcxSU5iZFFOZG9UWHUrRWg1V3VKUDB5b1g2NzdRSUJk?=
+ =?utf-8?B?TUNwYlNlU3ljN3plWGNFYVdnY1o1WFl4VHd2d28vQUdwMzZsVTNLWE1abkM2?=
+ =?utf-8?B?N3drRUEyMDJQZFpmTUNreFVYY2xvekFqc1B1Y2RxRUxDNXdyanhtSnp2WHJt?=
+ =?utf-8?B?dTdzRkpJYWNoMTQydU9jV3RrdThHQzVBc0UwQmpVeGYzTVZIVXpnZExUczha?=
+ =?utf-8?B?ZHQrd204cHVzaldwUzc2ZVNtVnM5V2pkemhlMGNKSVcvelFvb0xqT1dMNjd5?=
+ =?utf-8?B?N3BTMXV0dlVKcU00K05qTjlxUGtnbXIwd1VMT0lJUHVGMWVjNEY4alFRZ0lO?=
+ =?utf-8?B?TzFyY0lLQUxzUkM1SFdUcDZ1TmdsbWxtOTh4dzRaaktrbHZHNXRwUFhncWZS?=
+ =?utf-8?B?TXAzUVFvYTR3ZEFjaG9ZVFRYdmJWLzZ5RlJPMmpZcTZWdy9TWkxsS0VENlls?=
+ =?utf-8?B?Q3JRdzE1Rng0OHExaUpQMDJ2THRxV3h5S0JVQU1OTlRoQWovWGtRRmY3MXhK?=
+ =?utf-8?B?dUhJQnZlOS9vNUh4b1ZKeS9EN2s0WDhTamlBdEhpWUNJMXpsN1RVbGlEQ21S?=
+ =?utf-8?B?akF4SDR2R3kydUc4WmVlSWcwVUtkR2dCWjl4Z1Z1dy9GZ1NER0M1aGphRVZL?=
+ =?utf-8?B?b2dUT1BQbnlUZnFBZ0hMYWNnSkVEc2ljUlNEV3U3QlhoOWNqbXNpTlZ2ajBs?=
+ =?utf-8?B?N2x5VkVHeTViK2l6MW8vaEZ0TTZKcTRkUmE1KzdKUzJLL3hjdElVRVpiZWRm?=
+ =?utf-8?B?R3ptTCtvUXNsVmJHa2VVTmppOWJaVThDMExzcndFV3haYTNBdHBPTUpKTXBX?=
+ =?utf-8?B?R3N2a1RLcnNzc2xHVlBUYjJiUGJoak1HcWxjVk12cENadEFtaFkrbXFBaHJp?=
+ =?utf-8?B?a0NBdTVFenYyQk9OQVJmZitJS0xsa2ZnbzJMZXVpaTZWVmtEa1V0UDF3Sitw?=
+ =?utf-8?B?SDMwODRoNTlkYjZQMmZQemNiSms0ZkJxMU5YL0N4cTBHb0N4UVFDOW9xM0tm?=
+ =?utf-8?B?bEhoMk0zVkNJZmFFN1RMWUE1WStqd1pXRXgvaHBPamdlS1JVK1psT0I3Tzc1?=
+ =?utf-8?B?Q0QyQWMvYXFCMjEvWGc5NTRXbnFWaTArMkZDVXV6MHFsUVBmcFhweWVoZHEv?=
+ =?utf-8?B?MkxiNmFCSTZ0YXRrNDdNTG9SVnhxOU5ZN3JEaTYxS0tOVjN4T0p1L1d2Mkl2?=
+ =?utf-8?B?YTkxWXc1QUlKT2NFVWtkL0VHZmtYWnUweDErcW5pOGF2Y2RORjg3NlFyUmpM?=
+ =?utf-8?B?bHF3MWVSb1VnYjlESlR5NnJQMWxWQTQvdzVBT1FCRmdncDRZTGNuNnRicG9C?=
+ =?utf-8?B?cHZpTDgycGJmM1lDOGV4TGUwdkNZWXlUTnVLMmV3QWwyb3dlRFlsT3NYK05q?=
+ =?utf-8?B?anlKTTFYcUk5b0o0akUyY243OUxXeDNaYzdyeFV3Mk5uVHZkOFBJd2YyMVdK?=
+ =?utf-8?B?Z0JyeHQvOGJWdXJ0SSs4ZStaMlZvN0g2U0FqME9HNjVoZXBJU3dOaCtuRzF4?=
+ =?utf-8?B?VnM3RW5uVDBPVWpJZDlUODlxSEV4Ky9Zc2hNUGRUV3M3RGZqRUZZV1V4ZitU?=
+ =?utf-8?B?WFJMaFhYZWxReEZNSGhLeGtUSElpTTdzUHRsR2tlSEtMeGdOZlkxaGVqMjBh?=
+ =?utf-8?B?dERzdERMelo1N1VhbkpUaHhRVVZqdFhpeU05YWptVDZKK3R6bHVBNi9xYVFv?=
+ =?utf-8?B?enB1Y3AvMUw0K2x3Sjd5RnN4d2YyMnN2M0FXVFc5cW85L0ZLVGZIdHY2M1pF?=
+ =?utf-8?B?NlBjMXE4YThOWG5kdStsOWp0azkzTGkrMVFYQVVUUUNWemEzY3NjS05qcXJw?=
+ =?utf-8?B?aDNrakpncDFleU9nczRlK1lqZ1p0MDZyRVdEZ3NZWXNWanc2NUZYdTMxUHBF?=
+ =?utf-8?B?WkhJUFFwaCtCYWFKSEJGREJ6ejloYTh1dW5vdmFmM0NlTm5Qd0dCdGxrU0cw?=
+ =?utf-8?B?cTJEUktiRjZHWlNGV0lzaFlLOG1oeE51d08xcUs1N0RzVmFRd2l4dWlBVk5V?=
+ =?utf-8?B?bGxjWVcxNVp0UGRGY0o1T2doZFU4Vld4anFaYmVxenlnbVpMVytDUm8yOGZN?=
+ =?utf-8?B?ejNXQVhXUGIxREwwOWJTZ1FSWnBqRXpHblRYTjhiaHpqOGlCWC9HUVdueGxU?=
+ =?utf-8?Q?SqbxWZtWfrPNjS7E+M?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4e8c166-1c40-4a04-99d4-08de79d5c6b7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 10:07:00.3533 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fxu3j7+t7BENbmWb9tKwQFroXeKzZYwsD8s2en3JAVmz6BHkRbv6mqRf3R1xc1YE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8558
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,117 +149,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B42E91FDFAA
+X-Rspamd-Queue-Id: 0284B1FE181
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:michel.daenzer@mailbox.org,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,mailbox.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_ALL(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linuxfoundation.org,rudorff.com,kernel.org,iscas.ac.cn,lists.freedesktop.org,vger.kernel.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hey,
-
-Den 2026-03-03 kl. 20:12, skrev Julian Orth:
-> On Tue, Mar 3, 2026 at 7:53 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+On 3/4/26 10:09, Timur Kristóf wrote:
+> On Wednesday, March 4, 2026 9:10:02 AM Central European Standard Time 
+> Christian König wrote:
+>> -stable +Greg
 >>
->> On 3/3/26 18:44, Maarten Lankhorst wrote:
->>> Den 2026-03-03 kl. 18:30, skrev Julian Orth:
->>>> On Tue, Mar 3, 2026 at 6:18 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>>>>
->>>>> I wrote in my first post in this thread that I don't object to your patch, so you can relax and stop trying to convince me not to object to it. :)
->>>>>
->>>>> I'm just pointing out that this is working around broken user-space code, and that there are other similar cases where that kind of broken users-space code couldn't be worked around in the kernel, so it's better to also fix the user-space code anyway.
+>> On 3/4/26 05:03, Rosen Penev wrote:
+>>> On Fri, Feb 27, 2026 at 8:54 PM Rosen Penev <rosenp@gmail.com> wrote:
+>>>> Because of incomplete backports to stable kernels, DC ended up breaking
+>>>> on older GCN 1 GPUs. This patchset adds the missing upstream commits to
+>>>> at least fix the panic/black screen on boot.
 >>>>
->>>> At this point I think we're arguing about "how can ioctls be extended"
->>>> and "does userspace have to use memset" in general, not just about
->>>> this particular ioctl. You've made the argument that ioctls are not
->>>> extensible in general unless userspace uses memset. However, I'm not
->>>> yet convinced of this. As you've also said above, drm_ioctl happily
->>>> truncates or zero-extends ioctl arguments without returning an error
->>>> due to size mismatch. Therefore, the only way for userspace to detect
->>>> if the kernel supports the "extended" ioctl is to add a flag so that
->>>> the kernel can return an error if it doesn't know the flag. And then
->>>> that flag could also be used by the kernel to detect which fields of
->>>> the argument are potentially uninitialized.
+>>>> They are applicable to 6.12, 6.6, and 6.1 as those are the currently
+>>>> supported kernels that 7009e3af0474aca5f64262b3c72fb6e23b232f9b got
+>>>> backported to.
 >>>>
->>>> That is why I asked above if you knew of any other examples where an
->>>> ioctl was extended and where memset(0) became effectively required due
->>>> to the extension.
->>
->> Since it's always been effectively required for ioctl structs, "become" doesn't apply.
->>
->>
->> In terms of documentation, the "(How to avoid) Botching up ioctls" page says under Basics:
->>
->> * Check all unused fields and flags and all the padding for whether it’s 0, and reject the ioctl if that’s not the case.
->>
->> Which is what the code you're modifying here did: The code after the args->point checks doesn't use the point field, so it's checking that user space initialized the field to 0 per above.
-> 
-> I don't believe that is true. The old code only checked args->point if
-> the flags argument was 0. If the flags argument contained
-> EXPORT_SYNC_FILE but not TIMELINE, then the old code ignored
-> args->point completely. The patch suggested by Maarten does what
-> you're suggesting: It unconditionally verifies that args->point does
-> not contain garbage. However, since the original code only used
-> args->points if TIMELINE was set, I believe the intention behind the
-> TIMELINE flag was to ignore the args->point field if the flag was
-> unset. That assumption is the basis for my patch.
-> 
->>
->> This contradicts the arguments in the commit log, so I'm leaning toward objecting to this patch now.
->>
->>
->>> You don't even need to use memset, this would work too:
+>>>> 6.1 needs two extra backports for these two commits to be cherry-picked
+>>>> cleanly. Those are
+>>>>
+>>>> 96ce96f8773da4814622fd97e5226915a2c30706
+>>>> d09ef243035b75a6d403ebfeb7e87fa20d7e25c6
+>>>>
+>>>> v2: Add Signed-off-by.
 >>>
->>> struct drm_syncobj_handle args = {
->>>       .flags = 0
->>> };
+>>> Do I need to resend?
 >>
->> TL;DR: This method isn't 100% safe either.
+>> Well first of all please stop sending those patches at all.
 >>
->> It won't initialize any padding which isn't covered by any struct field. We try to avoid that and have explicit padding fields instead, mistakes may happen though, and in theory such padding could later be used for a new field.
+>> When you want something backported then add the CC: stable tag to the
+>> original patch.
+>>
+>> If you find that some patch is already upstream which isn't correctly tagged
+>> then ping the relevant maintainers if that patch can be backported.
+>>
+>> But don't send stuff to the stable list all by yourself.
+>>
+>> Regards,
+>> Christian.
 > 
-> I don't think this is workable. There is a lot of code out there that
-> effectively vendors the ioctl definitions (and so is not affected by
-> new fields) and relies on field-based initialization affecting all
-> significant bytes. For example
-> https://github.com/Smithay/drm-rs/blob/08dee22f0dcfa4a73a18ca3a954d4f7c2c749c03/drm-ffi/src/syncobj.rs#L48-L58.
+> Hi Everyone,
+> 
+> The patches actually come from a branch of mine:
+> https://gitlab.freedesktop.org/Venemo/linux/-/commits/v6.12.74_si_dc_fixes
+> 
+> For context:
+> 
+> The crash comes from a patch that I wrote for 6.18 that fixes some issues on 
+> the default, non-DC code path, that was backported to stable kernels. DC was 
+> not the default code path before Linux 6.19, so I didn't mark the patches that 
+> also fix DC for backporting, because I had assumed nobody uses the DC code path 
+> on these kernel versions.
+> 
+> After a user reported to me that this causes issues for him with DC on 6.17 
+> and older kernels, I sent a backported series to Greg and Sasha, in an email 
+> thread with the subject line "Fixing an amdgpu crash caused by a backported 
+> patch". The fixes were backported to 6.17 then.
+> 
+> I assumed that the stable maintainers would backport the fixes to all older 
+> kernels that were also affected, but Rosen brought it to my attention that it 
+> didn't happen. So I made the backports in the above branch. Rosen then decided 
+> to send them to the mailing list.
+> > Hope that helps clear up the situation.
 
-Vendoring is not affected. When you carry your own definition, it's your
-responsibility for updating the users if you update the struct too.
+Yeah that indeed helped me to understand the situation, thanks.
 
-Using rust here is a good example. The rust code would still use the old definition.
-If you use it against the new definition it fails to compile, or use default valuesif asked.
-You would notice your newly introduced bug at compile time.
+In theory Harry an Leo should take care of stuff like this, but pretty much everybody is overworked.
 
-Kind regards,
-~Maarten Lankhorst
+In that case guys feel free to go ahead and ping the stable maintainers that something is missing.
+
+Just make sure that when a patch passes through your hands that you add a Signed-off-by tag.
+
+Regards,
+Christian.
+
+> 
+> Thanks & best regards,
+> Timur
+> 
+> 
+> 
+
