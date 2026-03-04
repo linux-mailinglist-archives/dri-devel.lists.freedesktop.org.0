@@ -2,86 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sLytFxhdqGmQtwAAu9opvQ
+	id OBbRKyldqGmZtgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:26:00 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:26:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E88204336
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7F20435D
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC16510EA57;
-	Wed,  4 Mar 2026 16:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D98010EA59;
+	Wed,  4 Mar 2026 16:26:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tWXIcNRD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OCqvpdDy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A5C10EA57
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 16:25:56 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4833115090dso72265425e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 08:25:56 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD02810EA59
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 16:26:13 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4836f363d0dso62467615e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 08:26:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1772641555; x=1773246355; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1772641572; x=1773246372; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Wwg8sZsmNLzy2afJrRo0Q5NqhKFtZWIyse4Xvl/uhBM=;
- b=tWXIcNRDnAST1xtNcPIhkgYPNMQKNuIjw9pChn3ugjCvZ+16oDoRQNGZxVIDRpJrm3
- udjgw453aCEUmRgHPeIxiqcyIH2KwfYb33j2Rd++OO+FGk7Wcilu7VMIjnvsk1v+XSwX
- tfqXaLPniSx7b68sQxKvuCrQrGR2hYS6FYeL2jU18C4O1jNLNxftN27CeZKPeEw09llF
- 332X3EiU8AUdsadTlffbGUZjJRhXdFdQoqiBvIuIFXQwx+36qML0JpYw/Se9iZd43v8m
- YP4a/zb8PlcYMq0xSQA+fywE6BzwhhmP3SCnHnf4gS8YNLTIH33LeKVhHtsIS4jw64GS
- NDwA==
+ :reply-to; bh=IycgstOp8AUBvQFItrqTS+kIWrn5vpM6y/uf2FdllGI=;
+ b=OCqvpdDy0sx3Cp8heHzHiODh1RDHU/c5inop7nnH7AQdXaTS7YuWgzhrtihPhBnuQD
+ Z2xUHmlRQ32i644uV/cw60TMorTjkYpA7LOGCoT/YRT3ol7PJsVJmr06QmorRdJCjsUu
+ 5PPG/rIRIAnTuVCOEmMfI5rpcA1nfHcPP+nncT0CYo6HTKyBLoHGPfVAF1etwYuEebWT
+ VFvjgU+k72tb2RNrYFWlMOij3g08IVLDehsFO/xwE3BhzNnUoWpbVZKrUZUm1VM+22qh
+ nmb5syCyZvhrv+EMB+l2apkfzT1Cw4UFp0NaL8TQ0U1MPWoDQzAzTVEQMpXb7gLIMAJF
+ LVoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772641555; x=1773246355;
+ d=1e100.net; s=20230601; t=1772641572; x=1773246372;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wwg8sZsmNLzy2afJrRo0Q5NqhKFtZWIyse4Xvl/uhBM=;
- b=vA94tXhzFvi4JNp76opPaAN62XO+MxEmL/A6CyhCbrRZVZJMNWReFZBW8Vn07HY/aG
- LNSbpHowJE9NgGooXSINFKW/7XIbq+wNwUYGHwdw557OQ85nMWI2EFPsKAEtL9npBcyC
- JzjKOdpxLj9hYBdxVuBDJbzmRPaOK++08El3hxuLg9r0/07xM2fp/sJXfKdzux+/vvIw
- 8gABtLAAGh4t0RKiFk6Hhao6zrVZ45P5cua3Dcx28MXMOH0emH/oqK8ZVahzubSWbfUO
- eAAP0s86cZmcyLEsDMWLrIm+WOfo5Q9ZYhuYmYEhyVOaq4Ahry8JR4r2gf6uADiV38kh
- VaAQ==
-X-Gm-Message-State: AOJu0YxSteUuGrqqcaK+ewXmN53C6NI+77jSNt3CEwRw998tcIhq1PE8
- adGNQhqI1zDqNgC/u3mJuV55auuQGd0anyajZhYuWlohroys6n2oswUmFinnkxy+6cQ=
-X-Gm-Gg: ATEYQzxbrbdJjPy2X/AwjmjSA9I89G9w4LExDYlWCfn7FKwVTCzxCivraS1Ofa9Mowl
- DrxdjBJ9NXTUgdRNgMMzQloEacSTb77z5oN9rI28L9mnbsOlFT48v81TtG11b6KFSGnjosZHSoj
- gYJPvIXeBySpZo/3wHOmKzRc5VC4+tv/mm6O38dPg2XaPRsylzLbG+xg5+PUNvoxHDXmsXUqE5/
- bQRuIabV3sa9tgtOjXLLDGfyduYez0KTuMI3pOssiD7jSsOcQEm19a/kafkDgEnBYD6oWliuEXX
- wTxa0U1h8aIspvtypCaNCxkao8cq1BxkpK9hhdKWDCio5vDHKnTZbFTAuRgvBb3HSzErUPN4gOo
- kKE7OR4ihPw/fNQW+95bqchojeYRy5cPJfhUokC2auWz1+AY1YS9viS6qWcOVDLw8DjDypdGHWt
- OPGIIKR1Hpvb4YEzv5xmB8sHPhpQt/iCbeBizuFh1UMyMlSPhDMrybpbul5AVYYshtUvvvM4tOw
- iy+kj8EUrnE8Dg=
-X-Received: by 2002:a05:600c:4452:b0:47a:935f:61a0 with SMTP id
- 5b1f17b1804b1-485197f6ae3mr51598625e9.0.1772641555044; 
- Wed, 04 Mar 2026 08:25:55 -0800 (PST)
+ bh=IycgstOp8AUBvQFItrqTS+kIWrn5vpM6y/uf2FdllGI=;
+ b=nYePfsAccp8MbEuZMuOmR97M7o5ogB09lfpidORmN9hoZGELth6ykF7vDy/ck2MWVQ
+ tAQYmauBRTjuVSkL5OuibQ7ly2wuBbeNzABFnxKHvEmcGFCEFoQIhpXZJoXcoj9LW/Ze
+ bUoH4tH3xqEdAS3sWMLYOYmDMqSnoFJlZlAhn9o/hrRz/Do6wsFAZ2eNXgxeRu9sx0Ck
+ dLidRa6RkiWeDN+Ip2snqBUbCQ3SJi7cVCqSeKWLt7Y11W0dmzoAkMDfD6l5RFZJBEk9
+ jEpF1nf5V03SO8NgK0F9giqYKz6gE3zbF2r89Nmeyi9uqrvTfGG1PorWYoyNepcl85X+
+ nisQ==
+X-Gm-Message-State: AOJu0YypV10LftqLIPBvNfTReEzlH3mJbyQR9/0ur9lIyNOFg9nHkSmB
+ Lwi2yHWkb9N0x6bkt4khTXE+O++z/BG4C6wmuhQO4kzzC2Le75jIEhpXNH1ATtQJ2yM=
+X-Gm-Gg: ATEYQzwugEst6mKihYGU17rjnLPOIkcX8mm+uLaMCdXkXG+QTmVynQ6+QyXiZjenXr8
+ 0jpqFCxTmgh0n7wwX/aKMphbdhpKH/NpM2uteC0aHPuCQ1XY8LMkuR+ijqSK9/3t+fl2M8ydYVG
+ yZ8Em1RKtLYWRveRuhYuEvwXRLPvdexPer73fbpHzZAXXGSPzCjoqokPNzH1eeM1J1cJu7Jcsp7
+ cY9rIKw+/Y8voCVnq8/5hohuk3QOl+sSzIsj0Q1SPM/RpXuUOg+L872StOfNCN6v1XR29hpd9jS
+ 43WBoyyAHvbYFgAmyECthdhHicf/Pf17cjAQA9NEmI360A178Q2103ekMfI0wEuTKnGe1aqRx8l
+ MmfubBqQdRPazBkzvf4meDeEVfIRu/Mo6l4J4lD8VVyCj9MnVHSbWvePRVbR5+z7bjbGQLg2Cvx
+ oDbtt/xiVaOx4FhEtDT14eexdSYwUafa/sQGURurpE5j7/Z9gHhp4v65KGBR5FobQJpFfzGX4bm
+ MmW
+X-Received: by 2002:a05:600c:a4b:b0:480:1c10:5633 with SMTP id
+ 5b1f17b1804b1-48519896e83mr39034405e9.26.1772641572014; 
+ Wed, 04 Mar 2026 08:26:12 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:106d:1080:da6:dde3:e477:94d2?
  ([2a01:e0a:106d:1080:da6:dde3:e477:94d2])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-485188a20c4sm55675245e9.15.2026.03.04.08.25.54
+ 5b1f17b1804b1-4851884224fsm62369745e9.4.2026.03.04.08.26.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2026 08:25:54 -0800 (PST)
-Message-ID: <dc617b26-fc08-48f1-a4c8-f1eb1dddda26@linaro.org>
-Date: Wed, 4 Mar 2026 17:25:53 +0100
+ Wed, 04 Mar 2026 08:26:11 -0800 (PST)
+Message-ID: <bd2bb9c1-70e2-4914-afe2-c172501c25bc@linaro.org>
+Date: Wed, 4 Mar 2026 17:26:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: simple: Correct G190EAN01 prepare timing
-To: Ian Ray <ian.ray@gehealthcare.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+Subject: Re: [PATCH 3/4] drm/panel: himax-hx83102: Add support for Holitech
+ HTF065H045
+To: Val Packett <val@packett.cool>, Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260217142528.68613-1-ian.ray@gehealthcare.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org
+References: <20260217070121.190108-1-val@packett.cool>
+ <20260217070121.190108-4-val@packett.cool>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,7 +109,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260217142528.68613-1-ian.ray@gehealthcare.com>
+In-Reply-To: <20260217070121.190108-4-val@packett.cool>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,7 +127,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B4E88204336
+X-Rspamd-Queue-Id: 1AF7F20435D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
@@ -137,8 +138,8 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gehealthcare.com,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ravnborg.org,collabora.com];
-	FORGED_RECIPIENTS(0.00)[m:ian.ray@gehealthcare.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sam@ravnborg.org,m:sebastian.reichel@collabora.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[packett.cool,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:val@packett.cool,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:phone-devel@vger.kernel.org,m:~postmarketos/upstreaming@lists.sr.ht,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -147,7 +148,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:email,gehealthcare.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
@@ -165,34 +166,127 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	REPLYTO_EQ_FROM(0.00)[]
 X-Rspamd-Action: no action
 
-On 2/17/26 15:25, Ian Ray wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+On 2/17/26 08:00, Val Packett wrote:
+> This 720x1600 panel is found in several Motorola/Lenovo smartphones like
+> the Moto G9 Play (guamp). The initialization sequence is based on the
+> datasheet. Add it to the existing HX83102 panel driver.
 > 
-> The prepare timing specified by the G190EAN01 datasheet should be
-> between 30 and 50 ms. Considering it might take some time for the
-> LVDS encoder to enable the signal, we should only wait the min.
-> required time in the panel driver and not the max. allowed time.
-> 
-> Fixes: 2f7b832fc992 ("drm/panel: simple: Add support for AUO G190EAN01 panel")
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
+> Signed-off-by: Val Packett <val@packett.cool>
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/panel/panel-himax-hx83102.c | 86 +++++++++++++++++++++
+>   1 file changed, 86 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 91ab280869ba..a242ae284db5 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1295,7 +1295,7 @@ static const struct panel_desc auo_g190ean01 = {
->   		.height = 301,
+> diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> index 1d3bb5dca559..34e0e956db48 100644
+> --- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> +++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> @@ -701,6 +701,67 @@ static int starry_2082109qfh040022_50e_init(struct hx83102 *ctx)
+>   	return dsi_ctx.accum_err;
+>   }
+>   
+> +static int holitech_htf065h045_init(struct hx83102 *ctx)
+> +{
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+> +
+> +	msleep(50);
+> +
+> +	hx83102_enable_extended_cmds(&dsi_ctx, true);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x22, 0x44, 0x27, 0x27, 0x32,
+> +				     0x52, 0x57, 0x39, 0x08, 0x08, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0x00, 0x06, 0x40, 0x00,
+> +				     0x0e, 0xae, 0x38, 0x00, 0x00, 0x00, 0x00, 0xf4, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x01, 0x58, 0x01, 0x58, 0x01,
+> +				     0x58, 0x03, 0x58, 0x03, 0xff, 0x01, 0x20, 0x00, 0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +				     0x10, 0x00, 0x17, 0x00, 0x63, 0x37, 0x0e, 0x0e, 0x00, 0x00,
+> +				     0x32, 0x10, 0x08, 0x00, 0x08, 0x32, 0x16, 0x4e, 0x06, 0x4e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x04, 0x0c, 0xb2, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x24, 0x25, 0x18, 0x18, 0x19,
+> +				     0x19, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> +				     0x18, 0x18, 0x18, 0x06, 0x07, 0x04, 0x05, 0x18, 0x18, 0x18,
+> +				     0x18, 0x02, 0x03, 0x00, 0x01, 0x20, 0x21, 0x18, 0x18, 0x18,
+> +				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP2, 0x00, 0x09, 0x16, 0x1f, 0x28,
+> +				     0x4b, 0x65, 0x6d, 0x74, 0x70, 0x89, 0x8d, 0x91, 0xa0, 0x9e,
+> +				     0xa8, 0xb2, 0xc8, 0xc9, 0x65, 0x6d, 0x78, 0x7f, 0x00, 0x09,
+> +				     0x16, 0x1f, 0x28, 0x4b, 0x65, 0x6d, 0x74, 0x70, 0x89, 0x8d,
+> +				     0x91, 0xa0, 0x9e, 0xa8, 0xb2, 0xc8, 0xc9, 0x65, 0x6d, 0x78,
+> +				     0x7f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xff, 0x14, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +				     0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
+> +				     0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa, 0xaa,
+> +				     0xaa, 0xaa, 0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x70, 0x23, 0xa8, 0x93, 0xb2,
+> +				     0xc0, 0xc0, 0x01, 0x10, 0x00, 0x00, 0x00, 0x0d, 0x3d, 0x82,
+> +				     0x77, 0x04, 0x01, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x00, 0x53, 0x00, 0x02, 0x59);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0x00, 0x04, 0x9e, 0xf6,
+> +				     0x00, 0x5d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x42, 0x00, 0x33, 0x00, 0x33,
+> +				     0x88, 0xb3, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x20, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x7f, 0x03, 0xf5);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> +
+> +	return dsi_ctx.accum_err;
+> +}
+> +
+>   static const struct drm_display_mode starry_mode = {
+>   	.clock = 162680,
+>   	.hdisplay = 1200,
+> @@ -833,6 +894,28 @@ static const struct hx83102_panel_desc starry_2082109qfh040022_50e_desc = {
+>   	.init = starry_2082109qfh040022_50e_init,
+>   };
+>   
+> +static const struct drm_display_mode holitech_htf065h045_default_mode = {
+> +	.clock = 90720,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 40,
+> +	.hsync_end = 720 + 40 + 40,
+> +	.htotal = 720 + 40 + 40 + 40,
+> +	.vdisplay = 1600,
+> +	.vsync_start = 1600 + 186,
+> +	.vsync_end = 1600 + 186 + 2,
+> +	.vtotal = 1600 + 186 + 2 + 12,
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static const struct hx83102_panel_desc holitech_htf065h045_desc = {
+> +	.modes = &holitech_htf065h045_default_mode,
+> +	.size = {
+> +		.width_mm = 68,
+> +		.height_mm = 151,
+> +	},
+> +	.init = holitech_htf065h045_init,
+> +};
+> +
+>   static int hx83102_enable(struct drm_panel *panel)
+>   {
+>   	msleep(130);
+> @@ -1069,6 +1152,9 @@ static const struct of_device_id hx83102_of_match[] = {
+>   	{ .compatible = "starry,himax83102-j02",
+>   	  .data = &starry_desc
 >   	},
->   	.delay = {
-> -		.prepare = 50,
-> +		.prepare = 30,
->   		.enable = 200,
->   		.disable = 110,
->   		.unprepare = 1000,
+> +	{ .compatible = "holitech,htf065h045",
+> +	  .data = &holitech_htf065h045_desc
+> +	},
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, hx83102_of_match);
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
