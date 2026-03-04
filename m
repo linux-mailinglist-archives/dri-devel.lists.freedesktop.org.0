@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wDhEDtk5qWnf3AAAu9opvQ
+	id GL+TK/k5qWkd3QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:07:53 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:08:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9DC20D1EF
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED3B20D304
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FE010EB37;
-	Thu,  5 Mar 2026 08:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2586E10EB41;
+	Thu,  5 Mar 2026 08:07:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mc46mw/B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tXE2Q9Ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B344A89C29;
- Wed,  4 Mar 2026 15:34:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D03810EA4A;
+ Wed,  4 Mar 2026 15:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E86E961118;
+ by tor.source.kernel.org (Postfix) with ESMTP id 8FB056132D;
+ Wed,  4 Mar 2026 15:34:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8107C4CEF7;
  Wed,  4 Mar 2026 15:34:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B36EC2BCB9;
- Wed,  4 Mar 2026 15:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772638480;
- bh=gH1WXaX89lbCa6LoLK51lVOTaxfcobnfP6+M1HuLkEE=;
+ s=k20201202; t=1772638495;
+ bh=pfzMsOYRRPF1Omutl9Wzsj/v4OymtZsNcWF1In5v5f8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mc46mw/B1jY+pQp8R0Rj+usepAe1eI9mDsy+9qt1QZF9gBQdGVzgBqhKHDkzyJsp4
- vdAtvZOzlpUfC/IKv6uirJtq+T+RHk7uxblWDiwt8oB6irxOvau6lTOB8kovME+Y1j
- SGNsxCfq5U/2sl4h+Rxyh9lZfqO6qLf0UZYOWqZVbOC3fSS9NZkcHPL9yr7SXTYv34
- QoWUW45Rj2A1nPr1bFWk3JApK6dAHyrli4qgX797CQYrmqL3EAW7ZmkPD/Bsg5RzH7
- Br+2826TQVrL/PJgameHZgozwjRL7zAbvGTMKPx63Sai28t8pJy7kVsFFInWpZ1Ciw
- BdJs6NLNCgfzg==
+ b=tXE2Q9Ks2tkr375jZM52XmqFW0dn4JFmjuPn8LXDtk5D7XMH59EhbjF03E9DE4r2E
+ gESzdIumn/zSP8x3m8O5EOhWEJ1PjI8sROJeijvBUq+G602kHEKVZxOS5WlJZNiWEf
+ ysRfjxi9BHPmqmS9dLRKqgMNSjXWATww45sgbmyGGDO8n7XbN/jhFWZE+M0aWj3bvM
+ s5t4TYxrzdFbuX+ueygZDOGwv3Mi1ZD4j1+PCFY+du7X0OBhU96G127FDCcjySRWvC
+ WIc0YnB4HSCQEjbjImNyUaBw57icPjynkldyyExeBFZO1uf4X3S3rY5+5Y1qsIUtqm
+ i6g8FzsZHvZJw==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Wed, 04 Mar 2026 10:32:36 -0500
-Subject: [PATCH v3 06/12] ext2: widen trace event i_ino fields to u64
+Date: Wed, 04 Mar 2026 10:32:37 -0500
+Subject: [PATCH v3 07/12] hugetlbfs: widen trace event i_ino fields to u64
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260304-iino-u64-v3-6-2257ad83d372@kernel.org>
+Message-Id: <20260304-iino-u64-v3-7-2257ad83d372@kernel.org>
 References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
 In-Reply-To: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -155,23 +155,23 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1754; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=gH1WXaX89lbCa6LoLK51lVOTaxfcobnfP6+M1HuLkEE=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpqFCoU42QY7BFmYavQKhvSkNYQt1wEjITKT64C
- vKB17ftoaeJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaahQqAAKCRAADmhBGVaC
- FUPAEACTHjEAS9zyh033TfOK19JlWfr2235vgLgjJ5IoSdSezHfCrBB4xIdLYMguCJGg4c5oB+U
- dWXegN72pS8i22ysFFfeZzdnglQ2trkZ5JoZZGMg7905hYV4W3JzSwdraU6uDUEEBJST/1SwH/y
- NZd4KvEZ23wirDvPD3eD++pmXDJpRH4Hje5+lVTIWkFO5f8MX9VknyXx23QQ1RMWktVxrPlwvYS
- uoCZtuMRnvoSTz1Urcg5ENrHv8o3mY0o6HhMoN9DwEU6oVxheH/wG+AAwBwngMxgtw+isUaAfaq
- H0wBDztT+6KXA4a/QsAItc81hr7N2NuNMkEDtPuhvDMWoKhoTJmVRaPzWt20gZqzxJ/ypDiNScv
- b6t0liqFv7yho/63zBjTpQWx4tzpiu9Urw4O8omJxJw8tbr5dAzARhThNjvFMmEP13ktfdd9OwJ
- Ci+35m63KwuFZ143EY7aiTkF1QIXcz4qrX7K7IS9ErJu8dKXRlyFX8tYcInAk5cJkCkwOcuL/n8
- XibyFbd94h778radvAyhptGYKr9BqaJ2VNyqmYNeU3XN5qbkMtjJzRq2kaBmbaqWoFEd5f1UpMf
- thoXSS5Sa0iSYG1BmF9evBWMlSp9W7mV/zFFzduc/Nc9/j4Tg+HBSe/Gh8nNjK14te032BQ5XRj
- xJe3TwL1RMFqxsg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4105; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=pfzMsOYRRPF1Omutl9Wzsj/v4OymtZsNcWF1In5v5f8=;
+ b=kA0DAAoBAA5oQRlWghUByyZiAGmoUKih/b5XA4c12kwIo+94gsSuVqUY2ifrVzx7MIWmY4czq
+ 4kCMwQAAQoAHRYhBEvA17JEcbKhhOr10wAOaEEZVoIVBQJpqFCoAAoJEAAOaEEZVoIVtqwQAI2c
+ nH8OLzbicVfCcwgT7n9P6M7t4O0jSoWkDpkOnW5uYzqadeBA7vXo3g4BVSTLUJTJGhMeMweBvMu
+ wH6JnBGvFz9DQEnzycO/ts0dx7ctK6deENDyfiOw9xFtL88u95GyKJjrYCaI/R03odStLCgqKrO
+ QydS/H+pDQ2986UiMfvZTX4iAM5ryA/1uRe0l1r4DntVr8/+P+ybXJfTPyzlci6ZMeeghkP03xr
+ oePUF31usdtfeIwplbBoulNZBxyw0y2oYwmJd5rsjUWZbJ8DbdA+l2uGiEtnmvVQn4dkIblbHe3
+ V8aAH1URKwwhIL6G4fTGY0i1UBhoccOS6X+a+JjlUIcGlPfleEuFusJaHzOcZNFG3Gdw6QRGpoi
+ 1W2N4QxdTqf6p3nwR4YELtFb2nWku6JRQUDiaHFELUkJSvwulAEBKgsPG8/Ddz6j2WoG/hazUY8
+ mq6O4ZWbELtD1YqMi1nHbULvdEFBnRs1ZsAPHj09vlo5lMcbOienETuTNJEt3UAmNRLrgL5Qae9
+ BlADi29P9GjnWuXLT9mW6acwjHJcr9rQ77jl4t9e+pHXoDxfMf6RSgmbvxBkOkQRdcHa84Mfm6w
+ Z427ySavl0tSQY8pC+9+ItSH4jPhpAqZXVEizDM6HQ6n1p6bYqMJRtxG85bUM9qJgduPP0ft2Fk
+ oPpfe
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
-X-Mailman-Approved-At: Thu, 05 Mar 2026 08:07:48 +0000
+X-Mailman-Approved-At: Thu, 05 Mar 2026 08:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,7 +186,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9A9DC20D1EF
+X-Rspamd-Queue-Id: 5ED3B20D304
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -217,54 +217,130 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Update ext2 trace event definitions to use u64 instead of
+Update hugetlbfs trace event definitions to use u64 instead of
 ino_t/unsigned long for inode number fields.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- fs/ext2/trace.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/trace/events/hugetlbfs.h | 42 ++++++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/fs/ext2/trace.h b/fs/ext2/trace.h
-index 7d230e13576e78713846248eeb21fa0770130540..0922c0e6aab8531c9f5646d86758e6e3595754db 100644
---- a/fs/ext2/trace.h
-+++ b/fs/ext2/trace.h
-@@ -13,7 +13,7 @@ DECLARE_EVENT_CLASS(ext2_dio_class,
- 	TP_ARGS(iocb, iter, ret),
+diff --git a/include/trace/events/hugetlbfs.h b/include/trace/events/hugetlbfs.h
+index 59605dfaeeb43d9e7657e338fdbe740e8486a286..8ba72c1d4f4d8ba616906be5b5c4b487972fec00 100644
+--- a/include/trace/events/hugetlbfs.h
++++ b/include/trace/events/hugetlbfs.h
+@@ -14,9 +14,9 @@ TRACE_EVENT(hugetlbfs_alloc_inode,
+ 	TP_ARGS(inode, dir, mode),
+ 
  	TP_STRUCT__entry(
- 		__field(dev_t,	dev)
--		__field(ino_t,	ino)
-+		__field(u64,	ino)
- 		__field(loff_t, isize)
- 		__field(loff_t, pos)
- 		__field(size_t,	count)
-@@ -31,7 +31,7 @@ DECLARE_EVENT_CLASS(ext2_dio_class,
- 		__entry->aio = !is_sync_kiocb(iocb);
- 		__entry->ret = ret;
++		__field(u64,		ino)
++		__field(u64,		dir)
+ 		__field(dev_t,		dev)
+-		__field(ino_t,		ino)
+-		__field(ino_t,		dir)
+ 		__field(__u16,		mode)
  	),
--	TP_printk("dev %d:%d ino 0x%lx isize 0x%llx pos 0x%llx len %zu flags %s aio %d ret %zd",
-+	TP_printk("dev %d:%d ino 0x%llx isize 0x%llx pos 0x%llx len %zu flags %s aio %d ret %zd",
- 		  MAJOR(__entry->dev), MINOR(__entry->dev),
- 		  __entry->ino,
- 		  __entry->isize,
-@@ -57,7 +57,7 @@ TRACE_EVENT(ext2_dio_write_endio,
- 	TP_ARGS(iocb, size, ret),
+ 
+@@ -27,10 +27,10 @@ TRACE_EVENT(hugetlbfs_alloc_inode,
+ 		__entry->mode		= mode;
+ 	),
+ 
+-	TP_printk("dev %d,%d ino %lu dir %lu mode 0%o",
++	TP_printk("dev %d,%d ino %llu dir %llu mode 0%o",
+ 		MAJOR(__entry->dev), MINOR(__entry->dev),
+-		(unsigned long) __entry->ino,
+-		(unsigned long) __entry->dir, __entry->mode)
++		__entry->ino,
++		__entry->dir, __entry->mode)
+ );
+ 
+ DECLARE_EVENT_CLASS(hugetlbfs__inode,
+@@ -40,13 +40,13 @@ DECLARE_EVENT_CLASS(hugetlbfs__inode,
+ 	TP_ARGS(inode),
+ 
  	TP_STRUCT__entry(
- 		__field(dev_t,	dev)
--		__field(ino_t,	ino)
-+		__field(u64,	ino)
- 		__field(loff_t, isize)
- 		__field(loff_t, pos)
- 		__field(ssize_t, size)
-@@ -75,7 +75,7 @@ TRACE_EVENT(ext2_dio_write_endio,
- 		__entry->aio = !is_sync_kiocb(iocb);
- 		__entry->ret = ret;
+-		__field(dev_t,		dev)
+-		__field(ino_t,		ino)
+-		__field(__u16,		mode)
++		__field(u64,		ino)
+ 		__field(loff_t,		size)
++		__field(blkcnt_t,	blocks)
++		__field(dev_t,		dev)
+ 		__field(unsigned int,	nlink)
+ 		__field(unsigned int,	seals)
+-		__field(blkcnt_t,	blocks)
++		__field(__u16,		mode)
  	),
--	TP_printk("dev %d:%d ino 0x%lx isize 0x%llx pos 0x%llx len %zd flags %s aio %d ret %d",
-+	TP_printk("dev %d:%d ino 0x%llx isize 0x%llx pos 0x%llx len %zd flags %s aio %d ret %d",
- 		  MAJOR(__entry->dev), MINOR(__entry->dev),
- 		  __entry->ino,
- 		  __entry->isize,
+ 
+ 	TP_fast_assign(
+@@ -59,8 +59,8 @@ DECLARE_EVENT_CLASS(hugetlbfs__inode,
+ 		__entry->blocks		= inode->i_blocks;
+ 	),
+ 
+-	TP_printk("dev %d,%d ino %lu mode 0%o size %lld nlink %u seals %u blocks %llu",
+-		MAJOR(__entry->dev), MINOR(__entry->dev), (unsigned long) __entry->ino,
++	TP_printk("dev %d,%d ino %llu mode 0%o size %lld nlink %u seals %u blocks %llu",
++		MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino,
+ 		__entry->mode, __entry->size, __entry->nlink, __entry->seals,
+ 		(unsigned long long)__entry->blocks)
+ );
+@@ -87,14 +87,14 @@ TRACE_EVENT(hugetlbfs_setattr,
+ 	TP_ARGS(inode, dentry, attr),
+ 
+ 	TP_STRUCT__entry(
++		__field(u64,		ino)
++		__field(loff_t,		old_size)
++		__field(loff_t,		ia_size)
+ 		__field(dev_t,		dev)
+-		__field(ino_t,		ino)
+ 		__field(unsigned int,	d_len)
+ 		__string(d_name,	dentry->d_name.name)
+ 		__field(unsigned int,	ia_valid)
+ 		__field(unsigned int,	ia_mode)
+-		__field(loff_t,		old_size)
+-		__field(loff_t,		ia_size)
+ 	),
+ 
+ 	TP_fast_assign(
+@@ -108,8 +108,8 @@ TRACE_EVENT(hugetlbfs_setattr,
+ 		__entry->ia_size	= attr->ia_size;
+ 	),
+ 
+-	TP_printk("dev %d,%d ino %lu name %.*s valid %#x mode 0%o old_size %lld size %lld",
+-		MAJOR(__entry->dev), MINOR(__entry->dev), (unsigned long)__entry->ino,
++	TP_printk("dev %d,%d ino %llu name %.*s valid %#x mode 0%o old_size %lld size %lld",
++		MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino,
+ 		__entry->d_len, __get_str(d_name), __entry->ia_valid, __entry->ia_mode,
+ 		__entry->old_size, __entry->ia_size)
+ );
+@@ -122,12 +122,12 @@ TRACE_EVENT(hugetlbfs_fallocate,
+ 	TP_ARGS(inode, mode, offset, len, ret),
+ 
+ 	TP_STRUCT__entry(
+-		__field(dev_t,		dev)
+-		__field(ino_t,		ino)
+-		__field(int,		mode)
++		__field(u64,		ino)
+ 		__field(loff_t,		offset)
+ 		__field(loff_t,		len)
+ 		__field(loff_t,		size)
++		__field(dev_t,		dev)
++		__field(int,		mode)
+ 		__field(int,		ret)
+ 	),
+ 
+@@ -141,9 +141,9 @@ TRACE_EVENT(hugetlbfs_fallocate,
+ 		__entry->ret		= ret;
+ 	),
+ 
+-	TP_printk("dev %d,%d ino %lu mode 0%o offset %lld len %lld size %lld ret %d",
++	TP_printk("dev %d,%d ino %llu mode 0%o offset %lld len %lld size %lld ret %d",
+ 		MAJOR(__entry->dev), MINOR(__entry->dev),
+-		(unsigned long)__entry->ino, __entry->mode,
++		__entry->ino, __entry->mode,
+ 		(unsigned long long)__entry->offset,
+ 		(unsigned long long)__entry->len,
+ 		(unsigned long long)__entry->size,
 
 -- 
 2.53.0
