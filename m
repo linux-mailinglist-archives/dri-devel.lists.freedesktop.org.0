@@ -2,69 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2MhmIKjbp2kRkQAAu9opvQ
+	id IBmMOgbkp2mrlAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:13:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:49:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DC41FB6EE
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9361FBD73
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:49:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1D710E617;
-	Wed,  4 Mar 2026 07:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE52D10E13D;
+	Wed,  4 Mar 2026 07:49:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JpHuNkWy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JOHzt8Pk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YpT2lgvP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JOHzt8Pk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YpT2lgvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A9B10E617;
- Wed,  4 Mar 2026 07:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772608421; x=1804144421;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=yVoc3mJ+Q5b4Wfd6+pE7K5mwGiwxUT7RMHWPzkqq5T0=;
- b=JpHuNkWy/+VrcQwMHNKsVavuc+Ep0LnRxaUEEsGYNIv4HAzGPsSd0o7C
- SiSOwAdm5G7o6yBY234r3wS4GHOprY/ASSRIuSs6fkOYV5BMR+vA0Tuim
- 7wktJER6qN2CjgLes/T/DT1wpmrB/jd4+sX7aREjdRpDuu2/AImWe4J/0
- BEigEERdb5256GaU2kqmTVJPAVqWeDHtXAf8GhYArT036tPHYm9FifQ+1
- 6KK84jHwzM6kjZhsWzxDTSYDi04sQ89U+H7AbQdeINzvXeUDVTikbXXoG
- n5uexTs8FOLrBwTewHacv6wS6X+tbzqxSUCh9+z2wGFTpR8Er+q1wVkue Q==;
-X-CSE-ConnectionGUID: GCgAIfCYSuGnlp7f4SsUxw==
-X-CSE-MsgGUID: x828ivLYTi28o0Oqm35oDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="61236990"
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; d="scan'208";a="61236990"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 23:13:40 -0800
-X-CSE-ConnectionGUID: 8LuL6k7MSCSv4X7eSec0TQ==
-X-CSE-MsgGUID: VbbnOuZLRh2fxsYxjKTuXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; d="scan'208";a="256141249"
-Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2026 23:13:36 -0800
-From: Riana Tauro <riana.tauro@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
- raag.jadav@intel.com, anvesh.bakwad@intel.com,
- Riana Tauro <riana.tauro@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: [PATCH v10 5/5] drm/xe/xe_hw_error: Add support for PVC SoC errors
-Date: Wed,  4 Mar 2026 13:14:12 +0530
-Message-ID: <20260304074412.464435-12-riana.tauro@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260304074412.464435-7-riana.tauro@intel.com>
-References: <20260304074412.464435-7-riana.tauro@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6740A10E13D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 07:49:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 31A5F5BCFF;
+ Wed,  4 Mar 2026 07:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772610561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
+ b=JOHzt8PktrvAmVh3rT44nBIJcW5RRtjlV9pkLEEpc33nnInoCzsoX2qgV3Lhg1GWiXlR+k
+ yE92Ule1wLkFI92g9AiBud+9IQXTjo00+IXxsatOPVQDYcuWNKJwv2rhJtsW9I0/49MlIL
+ G56zkLxOX4ulwl/zr2pilMXMRlEeQQc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772610561;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
+ b=YpT2lgvPKLnq6hVt++dgXP0xWpQcBFJPL9NGqCtXikHI+mT+aAdulVgtYd9yOUHmwEIUEk
+ N4UfTvlqiiol/TDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772610561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
+ b=JOHzt8PktrvAmVh3rT44nBIJcW5RRtjlV9pkLEEpc33nnInoCzsoX2qgV3Lhg1GWiXlR+k
+ yE92Ule1wLkFI92g9AiBud+9IQXTjo00+IXxsatOPVQDYcuWNKJwv2rhJtsW9I0/49MlIL
+ G56zkLxOX4ulwl/zr2pilMXMRlEeQQc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772610561;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
+ b=YpT2lgvPKLnq6hVt++dgXP0xWpQcBFJPL9NGqCtXikHI+mT+aAdulVgtYd9yOUHmwEIUEk
+ N4UfTvlqiiol/TDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 017813EA69;
+ Wed,  4 Mar 2026 07:49:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kRiJOgDkp2lWYwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 04 Mar 2026 07:49:20 +0000
+Message-ID: <4aa49437-04ac-4789-8d10-9234ac596cc6@suse.de>
+Date: Wed, 4 Mar 2026 08:49:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/13] vt: Store font in struct vc_font
+To: Helge Deller <deller@gmx.de>, gregkh@linuxfoundation.org, sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260302141255.518657-1-tzimmermann@suse.de>
+ <20260302141255.518657-4-tzimmermann@suse.de>
+ <7e17139f-47bf-4fec-b13f-d4a1b3a7a62d@gmx.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <7e17139f-47bf-4fec-b13f-d4a1b3a7a62d@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,365 +133,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: F3DC41FB6EE
+X-Rspamd-Queue-Id: 5B9361FBD73
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,ffwll.ch,gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,linuxfoundation.org,ravnborg.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:url]
 X-Rspamd-Action: no action
 
-Report the SoC nonfatal/fatal hardware error and update the counters.
+Hi
 
-$ sudo ynl --family drm_ras --do get-error-counter \
---json '{"node-id":0, "error-id":2}'
-{'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
+Am 03.03.26 um 15:31 schrieb Helge Deller:
+> On 3/2/26 15:08, Thomas Zimmermann wrote:
+>> Replace struct console_font with struct vc_font for the type of the
+>> vc_font field of struct vc_data. Struct console_font is UAPI, which
+>> prevents further changes. Hence a new data type is required.
+>>
+>> Struct console_font has a documented vertical pitch of 32 bytes. This
+>> is not the case after the font data has been loaded into the kernel.
+>> Changing the type of vc_font addresses this inconsistency.
+>>
+>> The font data is now declared as constant, as it might come from the
+>> kernel's read-only section. There's some fallout throughout the console
+>> code where non-const variables refer to it. Fix them. A later update
+>> will declare the font data to a dedicated data type.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/video/fbdev/core/bitblit.c | 11 +++++------
+>>   drivers/video/fbdev/core/fbcon.c   |  4 ++--
+>>   drivers/video/fbdev/core/fbcon.h   |  4 ++--
+>>   include/linux/console_struct.h     | 29 +++++++++++++++++++++++++++--
+>>   4 files changed, 36 insertions(+), 12 deletions(-)
+>>
+> ....
+>> diff --git a/include/linux/console_struct.h 
+>> b/include/linux/console_struct.h
+>> index ebdb9750d348..7fdcae6ed49c 100644
+>> --- a/include/linux/console_struct.h
+>> +++ b/include/linux/console_struct.h
+>> @@ -13,8 +13,9 @@
+>>   #ifndef _LINUX_CONSOLE_STRUCT_H
+>>   #define _LINUX_CONSOLE_STRUCT_H
+>>   -#include <linux/wait.h>
+>> +#include <linux/math.h>
+>>   #include <linux/vt.h>
+>> +#include <linux/wait.h>
+>>   #include <linux/workqueue.h>
+>>     struct uni_pagedict;
+>> @@ -58,6 +59,30 @@ struct vc_state {
+>>       bool        reverse;
+>>   };
+>>   +/**
+>> + * struct vc_font - Describes a font
+>> + * @width: The width of a single glyph in bits
+>> + * @height: The height of a single glyph in scanlines
+>> + * @charcount: The number of glyphs in the font
+>> + * @data: The raw font data
+>> + *
+>> + * Font data is organized as an array of glyphs. Each glyph is a 
+>> bitmap with
+>> + * set bits indicating the foreground color. Unset bits indicate 
+>> background
+>> + * color. The fields @width and @height store a single glyph's 
+>> number of
+>> + * horizontal bits and vertical scanlines. If width is not a 
+>> multiple of 8,
+>> + * there are trailing bits to fill up the byte. These bits should 
+>> not be drawn.
+>> + *
+>> + * The field @data points to the first glphy's first byte. The value 
+>> @charcount
+>> + * gives the number of glyphs in the font. There are no empty 
+>> scanlines between
+>> + * two adjacent glyphs.
+>> + */
+>> +struct vc_font {
+>> +    unsigned int width;
+>> +    unsigned int height;
+>> +    unsigned int charcount;
+>
+> I wonder if we shouldn't declare width and height as "u8" or "short 
+> int" type?
+> And charcount as u16 or "short int" ?
+> Makes later calculations shorter & easier.
 
-Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-Reviewed-by: Raag Jadav <raag.jadav@intel.com>
----
-v2: Add ID's and names as uAPI (Rodrigo)
+That would be a change to vt and possibly affect a lot of consoles. In 
+any case, I'd rather do this separately.
 
-v3: reorder and align arrays
-    remove redundant string err
-    use REG_BIT
-    fix aesthic review comments (Raag)
-    use only correctable/uncorrectable error severity (Aravind)
+Best regards
+Thomas
 
-v4: fix comments
-    use master as variable name
-    add static_assert (Raag)
+>
+> Helge
 
-v5: remove blank lines
-    fix alignment
-    rename variables of base registers
-    move register initialization outside loop (Raag)
-
-v6: add macro for master local reg (Raag)
----
- drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  25 +++
- drivers/gpu/drm/xe/xe_hw_error.c           | 206 +++++++++++++++++++++
- 2 files changed, 231 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-index cd17d7d7372c..046e1756c698 100644
---- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-@@ -41,6 +41,7 @@
- 									  DEV_ERR_STAT_NONFATAL))
- 
- #define   XE_CSC_ERROR					17
-+#define   XE_SOC_ERROR					16
- #define   XE_GT_ERROR					0
- 
- #define ERR_STAT_GT_FATAL_VECTOR_0			0x100260
-@@ -60,4 +61,28 @@
- #define ERR_STAT_GT_VECTOR_REG(hw_err, x)		(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
- 							 ERR_STAT_GT_COR_VECTOR_REG(x) : \
- 							 ERR_STAT_GT_FATAL_VECTOR_REG(x))
-+
-+#define SOC_PVC_MASTER_BASE				0x282000
-+#define SOC_PVC_SLAVE_BASE				0x283000
-+
-+#define SOC_GCOERRSTS					0x200
-+#define SOC_GNFERRSTS					0x210
-+#define SOC_GLOBAL_ERR_STAT_REG(base, x)		XE_REG(_PICK_EVEN((x), \
-+									  (base) + SOC_GCOERRSTS, \
-+									  (base) + SOC_GNFERRSTS))
-+#define   SOC_SLAVE_IEH					REG_BIT(1)
-+#define   SOC_IEH0_LOCAL_ERR_STATUS			REG_BIT(0)
-+#define   SOC_IEH1_LOCAL_ERR_STATUS			REG_BIT(0)
-+
-+#define SOC_GSYSEVTCTL					0x264
-+#define SOC_GSYSEVTCTL_REG(master, slave, x)		XE_REG(_PICK_EVEN((x), \
-+									  (master) + SOC_GSYSEVTCTL, \
-+									  (slave) + SOC_GSYSEVTCTL))
-+
-+#define SOC_LERRUNCSTS					0x280
-+#define SOC_LERRCORSTS					0x294
-+#define SOC_LOCAL_ERR_STAT_REG(base, hw_err)		XE_REG(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
-+							       (base) + SOC_LERRCORSTS : \
-+							       (base) + SOC_LERRUNCSTS)
-+
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-index 8062a6ff98a4..2a31b430570e 100644
---- a/drivers/gpu/drm/xe/xe_hw_error.c
-+++ b/drivers/gpu/drm/xe/xe_hw_error.c
-@@ -19,6 +19,7 @@
- #define GT_HW_ERROR_MAX_ERR_BITS		16
- #define HEC_UNCORR_FW_ERR_BITS			4
- #define XE_RAS_REG_SIZE				32
-+#define XE_SOC_NUM_IEH				2
- 
- #define PVC_ERROR_MASK_SET(hw_err, err_bit)	((hw_err == HARDWARE_ERROR_CORRECTABLE) ? \
- 						 (PVC_COR_ERR_MASK & REG_BIT(err_bit)) : \
-@@ -37,6 +38,7 @@ static const char * const hec_uncorrected_fw_errors[] = {
- 
- static const unsigned long xe_hw_error_map[] = {
- 	[XE_GT_ERROR]	= DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
-+	[XE_SOC_ERROR]	= DRM_XE_RAS_ERR_COMP_SOC_INTERNAL,
- };
- 
- enum gt_vector_regs {
-@@ -63,6 +65,101 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(const enum hardware_err
- 	return DRM_XE_RAS_ERR_SEV_UNCORRECTABLE;
- }
- 
-+static const char * const pvc_master_global_err_reg[] = {
-+	[0 ... 1]	= "Undefined",
-+	[2]		= "HBM SS0: Channel0",
-+	[3]		= "HBM SS0: Channel1",
-+	[4]		= "HBM SS0: Channel2",
-+	[5]		= "HBM SS0: Channel3",
-+	[6]		= "HBM SS0: Channel4",
-+	[7]		= "HBM SS0: Channel5",
-+	[8]		= "HBM SS0: Channel6",
-+	[9]		= "HBM SS0: Channel7",
-+	[10]		= "HBM SS1: Channel0",
-+	[11]		= "HBM SS1: Channel1",
-+	[12]		= "HBM SS1: Channel2",
-+	[13]		= "HBM SS1: Channel3",
-+	[14]		= "HBM SS1: Channel4",
-+	[15]		= "HBM SS1: Channel5",
-+	[16]		= "HBM SS1: Channel6",
-+	[17]		= "HBM SS1: Channel7",
-+	[18 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_global_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_slave_global_err_reg[] = {
-+	[0]		= "Undefined",
-+	[1]		= "HBM SS2: Channel0",
-+	[2]		= "HBM SS2: Channel1",
-+	[3]		= "HBM SS2: Channel2",
-+	[4]		= "HBM SS2: Channel3",
-+	[5]		= "HBM SS2: Channel4",
-+	[6]		= "HBM SS2: Channel5",
-+	[7]		= "HBM SS2: Channel6",
-+	[8]		= "HBM SS2: Channel7",
-+	[9]		= "HBM SS3: Channel0",
-+	[10]		= "HBM SS3: Channel1",
-+	[11]		= "HBM SS3: Channel2",
-+	[12]		= "HBM SS3: Channel3",
-+	[13]		= "HBM SS3: Channel4",
-+	[14]		= "HBM SS3: Channel5",
-+	[15]		= "HBM SS3: Channel6",
-+	[16]		= "HBM SS3: Channel7",
-+	[17]		= "Undefined",
-+	[18]		= "ANR MDFI",
-+	[19 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_slave_global_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_slave_local_fatal_err_reg[] = {
-+	[0]		= "Local IEH: Malformed PCIe AER",
-+	[1]		= "Local IEH: Malformed PCIe ERR",
-+	[2]		= "Local IEH: UR conditions in IEH",
-+	[3]		= "Local IEH: From SERR Sources",
-+	[4 ... 19]	= "Undefined",
-+	[20]		= "Malformed MCA error packet (HBM/Punit)",
-+	[21 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_slave_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_master_local_fatal_err_reg[] = {
-+	[0]		= "Local IEH: Malformed IOSF PCIe AER",
-+	[1]		= "Local IEH: Malformed IOSF PCIe ERR",
-+	[2]		= "Local IEH: UR RESPONSE",
-+	[3]		= "Local IEH: From SERR SPI controller",
-+	[4]		= "Base Die MDFI T2T",
-+	[5]		= "Undefined",
-+	[6]		= "Base Die MDFI T2C",
-+	[7]		= "Undefined",
-+	[8]		= "Invalid CSC PSF Command Parity",
-+	[9]		= "Invalid CSC PSF Unexpected Completion",
-+	[10]		= "Invalid CSC PSF Unsupported Request",
-+	[11]		= "Invalid PCIe PSF Command Parity",
-+	[12]		= "PCIe PSF Unexpected Completion",
-+	[13]		= "PCIe PSF Unsupported Request",
-+	[14 ... 19]	= "Undefined",
-+	[20]		= "Malformed MCA error packet (HBM/Punit)",
-+	[21 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+static const char * const pvc_master_local_nonfatal_err_reg[] = {
-+	[0 ... 3]	= "Undefined",
-+	[4]		= "Base Die MDFI T2T",
-+	[5]		= "Undefined",
-+	[6]		= "Base Die MDFI T2C",
-+	[7]		= "Undefined",
-+	[8]		= "Invalid CSC PSF Command Parity",
-+	[9]		= "Invalid CSC PSF Unexpected Completion",
-+	[10]		= "Invalid PCIe PSF Command Parity",
-+	[11 ... 31]	= "Undefined",
-+};
-+static_assert(ARRAY_SIZE(pvc_master_local_nonfatal_err_reg) == XE_RAS_REG_SIZE);
-+
-+#define PVC_MASTER_LOCAL_REG_INFO(hw_err)	((hw_err == HARDWARE_ERROR_FATAL) ? \
-+						 pvc_master_local_fatal_err_reg : \
-+						 pvc_master_local_nonfatal_err_reg)
-+
- static bool fault_inject_csc_hw_error(void)
- {
- 	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-@@ -141,6 +238,26 @@ static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
- 				    name, severity_str, i, err);
- }
- 
-+static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
-+			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
-+{
-+	const char *severity_str = error_severity[severity];
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_drm_ras *ras = &xe->ras;
-+	struct xe_drm_ras_counter *info = ras->info[severity];
-+	const char *name;
-+
-+	name = reg_info[err_bit];
-+
-+	if (strcmp(name, "Undefined")) {
-+		if (severity == DRM_XE_RAS_ERR_SEV_CORRECTABLE)
-+			drm_warn(&xe->drm, "%s SOC %s detected", name, severity_str);
-+		else
-+			drm_err_ratelimited(&xe->drm, "%s SOC %s detected", name, severity_str);
-+		atomic_inc(&info[index].counter);
-+	}
-+}
-+
- static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
- 				u32 error_id)
- {
-@@ -217,6 +334,92 @@ static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error
- 	}
- }
- 
-+static void soc_slave_ieh_handler(struct xe_tile *tile, const enum hardware_error hw_err, u32 error_id)
-+{
-+	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-+	unsigned long slave_global_errstat, slave_local_errstat;
-+	struct xe_mmio *mmio = &tile->mmio;
-+	u32 regbit, slave;
-+
-+	slave = SOC_PVC_SLAVE_BASE;
-+	slave_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err));
-+
-+	if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
-+		slave_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err));
-+
-+		if (hw_err == HARDWARE_ERROR_FATAL) {
-+			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE)
-+				log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
-+					      regbit, error_id);
-+		}
-+
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err),
-+				slave_local_errstat);
-+	}
-+
-+	for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
-+		log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
-+
-+	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err), slave_global_errstat);
-+}
-+
-+static void soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
-+				 u32 error_id)
-+{
-+	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct xe_mmio *mmio = &tile->mmio;
-+	unsigned long master_global_errstat, master_local_errstat;
-+	u32 master, slave, regbit;
-+	int i;
-+
-+	if (xe->info.platform != XE_PVC)
-+		return;
-+
-+	master = SOC_PVC_MASTER_BASE;
-+	slave = SOC_PVC_SLAVE_BASE;
-+
-+	/* Mask error type in GSYSEVTCTL so that no new errors of the type will be reported */
-+	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-+		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master, slave, i), ~REG_BIT(hw_err));
-+
-+	if (hw_err == HARDWARE_ERROR_CORRECTABLE) {
-+		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave, hw_err), REG_GENMASK(31, 0));
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave, hw_err), REG_GENMASK(31, 0));
-+		goto unmask_gsysevtctl;
-+	}
-+
-+	/*
-+	 * Read the master global IEH error register, if BIT(1) is set then process
-+	 * the slave IEH first. If BIT(0) in global error register is set then process
-+	 * the corresponding local error registers.
-+	 */
-+	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err));
-+	if (master_global_errstat & SOC_SLAVE_IEH)
-+		soc_slave_ieh_handler(tile, hw_err, error_id);
-+
-+	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
-+		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err));
-+
-+		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE)
-+			log_soc_error(tile, PVC_MASTER_LOCAL_REG_INFO(hw_err), severity, regbit, error_id);
-+
-+		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master, hw_err), master_local_errstat);
-+	}
-+
-+	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
-+		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
-+
-+	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master, hw_err), master_global_errstat);
-+
-+unmask_gsysevtctl:
-+	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-+		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master, slave, i),
-+				(HARDWARE_ERROR_MAX << 1) + 1);
-+}
-+
- static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
- {
- 	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-@@ -279,8 +482,11 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
- 					    "TILE%d reported %s %s, bit[%d] is set\n",
- 					    tile->id, name, severity_str, err_bit);
- 		}
-+
- 		if (err_bit == XE_GT_ERROR)
- 			gt_hw_error_handler(tile, hw_err, error_id);
-+		if (err_bit == XE_SOC_ERROR)
-+			soc_hw_error_handler(tile, hw_err, error_id);
- 	}
- 
- clear_reg:
 -- 
-2.47.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
