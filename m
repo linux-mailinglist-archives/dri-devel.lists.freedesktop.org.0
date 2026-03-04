@@ -2,139 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aKmGDeWsp2lejAAAu9opvQ
+	id CFDgNS+vp2nAjAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 04:54:13 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 05:03:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947DF1FA875
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 04:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4431D1FA928
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 05:03:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8518010E0E6;
-	Wed,  4 Mar 2026 03:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3996010E944;
+	Wed,  4 Mar 2026 04:03:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="I8C4Et9i";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fKyTg+/+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010067.outbound.protection.outlook.com [52.101.69.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B458A10E0E6
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 03:54:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hy8eHrxW1Er1PT4aYMQwkKxxbRwFOM0OeuRkbZ9TILf0+rLB9tZalffhXSzXxgCa1rWSGHsAkVktIdyi6ZNLgRywHDlU6t6rjH5w0gsKFY6Nq7WA9bpxxIgTXfsqkPqueysSY47oLQWlnz5gOXvoM1xLGBuxe/uxO4ZUWYF5wNweJG2ROxFep5DsfrRfva/X1gf0PSBFGAL7/hrISKDUOMjayiy1ddKYmvJEAeSyDgBV2k2NV4B1pbnxbonK4Cn6riTy8qBFlSSOz7qm4OAlAyxHBs1sJBQWPWVJ1yQ7dHkIFePeVgy/jyeAxpaFDutFv/DOPyskH1NL+KPyIuXOTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DTSAXqXYf5EFJCbxRyDV+S9phoOJqbg6A0FL7IQ5PCg=;
- b=jzAkkV0F85gK8xNT8abl5SHT0QsqOIegXM8zY8YLMhaZq7lbCoFAGNTnwhcjByxRIHqK3rZ2Mf2ZjiHMjiDEynECdKek3fCgeZZklBfJhREMgJZSc81nMB2q03/Kag27s6pru5ryzDRSYDZaIW2GC4YuHibOJ+J7GC8XBikKamrkacg0J5r3TyA9tc3FD1q7coahunJcUb3Li2sp4mZkGTBg0ZQ6ro6tpinJIQehZCPpphTXymSdeICAThz/xKfp8RWlNudm6720lklSCaiw+nWfiHJAWeJtE61kEFAHaoq9iMBVHZ9JmF0yLs25DG4KH3HKbXJ8P9YeEZuCsqBALg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DTSAXqXYf5EFJCbxRyDV+S9phoOJqbg6A0FL7IQ5PCg=;
- b=I8C4Et9ik6gE5B0rQZpwnHZ0V5rycedFiRJg7KyCYT1zPJaHQofYLDs9eSh1rWo92Tzj/nDN9nyI6A1w/R4fnNZTF++wYCbrUSbWRjeOyG8Mz4UBEMCLka7d87P55CS76n/YHTTQ4+D4zTmrIpNYSD+d5iAB8jvKOaG7bPhEBcJg9Js2Vk2HPT96ML5IPK3zO84lfB0C6TnjsIgF1xHtqIxpcEijmRZNyvLJT0X7PvjyqrQwcq4FDl1t98QLLcqmY672e5IpO1TD1d/nHR3v0HEZpT0GsI10wh+N54S3g3QjMdBKw4inZF/0ErIDqccp71LQEKMTotDhdW8SG7FWjQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by VI1PR04MB6976.eurprd04.prod.outlook.com (2603:10a6:803:130::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
- 2026 03:54:04 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Wed, 4 Mar 2026
- 03:54:04 +0000
-Date: Tue, 3 Mar 2026 22:53:53 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Marco Felsch <m.felsch@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- luca.ceresoli@bootlin.com, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v11 2/3] drm/bridge: imx: Add i.MX93 parallel display
- format configuration support
-Message-ID: <aaes0RIBTcgOZje9@lizhi-Precision-Tower-5810>
-References: <20260303-v6-18-topic-imx93-parallel-display-v11-2-1b03733c8461@pengutronix.de>
- <20260303210131.2966214-2-Frank.Li@nxp.com>
- <3dyb7wc7tg6hc4o4qocn4nft7bu3hbdpxcnv7cln2q6vkxo7bw@dtnswwyou5sp>
- <aademaK0PpTMZ0Xk@lizhi-Precision-Tower-5810>
- <fdcf60da-bc0b-4b99-803d-e2d1948d5633@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fdcf60da-bc0b-4b99-803d-e2d1948d5633@nxp.com>
-X-ClientProxiedBy: SJ0PR05CA0189.namprd05.prod.outlook.com
- (2603:10b6:a03:330::14) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC8B10E944
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 04:03:54 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-b904e1cd038so854383666b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Mar 2026 20:03:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772597033; cv=none;
+ d=google.com; s=arc-20240605;
+ b=l2D34WZ/wuQ0qkSu+JezgnUhNpOkIEO/RhJRLyFAKvbOzGUoMexpoaONwhu/H0oJHT
+ ESMwFgLDpvSX0jZ3bIyVXvkOjC/EC+yKBw1/mx+tFMYXKR+fWG6quw5Z5wcAAfF91TUJ
+ Je30vpzfeBSYTnT0nhuzWEMTKgYNOK59yrByOVRbL1DdFwMOOMOJD2NdDGXmNM8ylODa
+ FepjMxwa2aqwzoE8+JuhtsXkP8LpHBfZFca/z0b1EI0e9y2rjEuRTlNhH8XJzcMIfHQH
+ DL6woSj9boz0YgqBYysr+8MrLzXts99fyFH6WlL1cqrR2fCPub0rhx9m/AE2DFRgL+Nu
+ oNcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=6z8M845Y+NpITZKZSzsYEQuXgpy16cvxcX5WIhmq9VA=;
+ fh=PmAJhR68ClkumS2dhN1ZdavFzqqpl+/3QwsaOMgnzKk=;
+ b=lSNTgGHp0rwBzinlcyrwcylYXWDy1fjRYHAQWdwudfz+NkB4mMEgtgEwXextXGR81m
+ 2LbBHbH2snCg8bSmARea8yb7jySr1Ij8oOCCtOlL8yPG6gs7FnRfe+Gae9guKB7JuNT1
+ vlwNUfoZ38KBzNRDYmiRAUHHWgOVbioUzhUUiC0VvIQJZX3hytOKp5CUGyplkoMMDn5s
+ XbYb/inwqDsilxmSJU/94bK0kHJu0wzwVq1XX1FydKc/VYuFRy7heA4n+UKkpjhp4pLb
+ fhX+UaK5R1ke3Voj4R/Vu6mMmLA9NWiVfAtZZzSNoZvpNdxon5LtX+UnbIWtf8NTee5L
+ FMQQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772597033; x=1773201833; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6z8M845Y+NpITZKZSzsYEQuXgpy16cvxcX5WIhmq9VA=;
+ b=fKyTg+/+K2/0f0AQO7RA9P4GU55qSGunllF++jJxsbGY6tf60VYPtrOjRL0XM01xr4
+ pmOX6iVPspVqmIEHKptp7Wj9to87ha30SuiDqSrizf6ZsgTY4Av3pxdGFvDoHoWsZLE0
+ 6sy3dLv0BI47b/ZUtwJSPf+FBXHyfYLOPEQGAIS/TIghCD0yIEoOr8SWaH/ahUFxpFqa
+ vNh0J6u45mjJMrsaHFOkIZkqDnCKThjGCKbjEEV/pjbl8+CmWOGb6AsB7a+ZjlMVYHdT
+ Hv4ggacpV2mnaBJSPaVMgSyABcmvLLa3fR0vAJftpWT04mxjjOBoA2dNpEFtOWzgSz9p
+ 7sGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772597033; x=1773201833;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=6z8M845Y+NpITZKZSzsYEQuXgpy16cvxcX5WIhmq9VA=;
+ b=AGTyIwauNvEXjgURARDWOyCNn92xVtYsy4QVlfRuqP3WpcsMMuMwQQaGaeNUWlgNzN
+ RM6yF6MplSD51uUYSy830Q8rYm8uhUR5QZQuPV7UROcs83mfwL2Zwwq0bTmHOnnxEqhM
+ cSmTXvXhHt3cG50VM1JB6PbOZOljI4JIS7EWBE4jY4L1LtRxoZkx7ydpKgE3QPUNvDll
+ m6VRMBtYbSFZUnrb3fwsGca8JITFoCnnGRkAr+/pdHh6iGHPbNH5/VBzdHXyhxXIKczF
+ Gi8bLdkzGm/OzFVaHl8J2whDhR7Am07j/yZqMNARFJRD4onlQvwiPIAqdcA7sMHaDIpt
+ ONrg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjTW7co4DWkkd96ie3i99n0LFV24LEXOzk6btDN/Tqy/SSnOt7uF+Y1bSaKlne+N7caCZwjkziJU4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwV4IX8RJZjNc8pjbd8J5gFltraAipJ3nOBA2FCsFgW6lx0h3Ky
+ KEQ1XYY1ss9kKHzTv44hfwXcYA5lzvUtJflXLEmKGOBUPVUqIiAjWBl4BzQCcelD9xoKwjgaE4z
+ ukoIKysrb1tEgeMki0BE9KKMcBaBRido=
+X-Gm-Gg: ATEYQzzoXjbax4pVZ7uiI4jphluDmSCnp6Ig4/vUWF9j4KhD3uW1h+kWFnVoue7qFip
+ 7pG3gL76v9AULx//4n7LXc46XVNVKYdo9BT3pZ8TZ5FGlWWMG9nZAqwRTrQ/Yki+rC8jg2sy294
+ dNlshp6s111M8DmzpBTHc2gaQ2+OcWl3DHbd7X1FVzjz1SKgA4a05cD1ZUqaPXRFg3kVikrHVW2
+ CZzflfXVkmfQPKISAhVp6jMBQ/oueeYTMyY24sjobnLGW75Ys25lqE7PNDDSReLJafkMumirXeA
+ ZmEWZsZGiPsETA4/E4IBPLz5KxitJaRZA/fFFMMTcGJEtT1bV6ac372eSqYR2yPAh7iW8mwpiwf
+ wLcI7bQ==
+X-Received: by 2002:a17:907:96a6:b0:b93:8460:4af with SMTP id
+ a640c23a62f3a-b93f14cf1afmr27445366b.56.1772597032896; Tue, 03 Mar 2026
+ 20:03:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|VI1PR04MB6976:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f0dc01d-ebd8-4e47-13cc-08de79a1adac
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|52116014|376014|366016|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info: rOYQ3VPq0Z7T4y7qyDEUIArmVY8NlbP0MFcssKfYm3hZhWDZCqIe6vd098pKD/d1hc6PBm8dH1j271FWHKC2EMu8yybiH5BgT1ssdof6lYvd/u3NoESM8Pxfm/fMj2I7PDe8A3V5ShDc2q7SQHPnv6r1mTQPXyyvtjJiEBzgYE5ylNMMU+G1KYw/Ur012gZwrIdoDWJf6+sIsynj8juTBQqMfiqeE+r/lVs968c0GmrSwwcp8sOrTVrWn1MzjFyF8FslanH++0v5hhwsujyeNACZMgyCXGp1EYKgBMYq+15R7AVQ1BFWmAC7VSgwBNW6NikeRwNuNQAK0QVkSBSDSWseqEqU9ckaAfPT9zjGwjTU3FGok1mxhEKf7S+YO7xGeOtNkzllgYBuzAyOvPlm/11YZa6t6gK2vVEgfHE+82nLQCUAh4dimXxoolDyTAPinrmrkAULDbCTTry7cuTTu6FNf5O74Uq5dv/fG5qfaUof572nMDKeJDUCdKdQ1OAw7CO2v7IaFmen57OqnD7MKwb9EUWo9baAoNJY5gpMuq9cQZiIQegHygVgJmpy5IDx04BeylrKkdKFQhVDSRhksNIQBE8jNf22NDeO2nTaeHk0zHe/BzlJ/DDFfPr4rWkz13kx7CNaRogok6Qb7iA+PjW956S3CaWaeYTYcjlJiwOvtVwwUc540b4ZZXaC+Upyl+8Y1WHZjF9YeonfHRWzZocTh31iWysWsGzWvSF4L2U=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR04MB9366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(52116014)(376014)(366016)(19092799006)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i5PN5wGnhe9gWNh9DFk41st+aE7RG1JIQpxbXlToDl08ZGzm3La0Fa7ncUv9?=
- =?us-ascii?Q?UZgZlzYhQQv6KCddBDQH7f3l32DOOLKDDYQ2lljJ89hLeNgt0aRJ3ZE5zp9k?=
- =?us-ascii?Q?ghsGlpwitH67FCwxg7GsyBeuyVVsLc83H/hmTosKrtkBPjM0H2aO4NWQT+MK?=
- =?us-ascii?Q?SAm5BAuhh6euo7V8I1g5z1nVzgcSnbEEGO1PYtiXa5RydLZy1rE61NIHHWTN?=
- =?us-ascii?Q?Ir48PFOZdUscKgHlW1ELKzN3s8uJ9zKAmJ1709iyMnShZakTvLHvRW4ZsJ1S?=
- =?us-ascii?Q?FNupKSTifi1A21BYkOC6HhAHGemfugY1jC+ZiEN7ljZxZ43jXxFI3jtKubDO?=
- =?us-ascii?Q?DJRHKX/AbyIcpYXoyDdaIWIUU7I1gj1QCtakUhVI90AvMqlOInQLB+5sPZ2R?=
- =?us-ascii?Q?ZNgy3Et9A+MaZlibcUIQS+Pw8FxhlvFFy/tyOkftVJ2iRalvQp3k3NpEu7EQ?=
- =?us-ascii?Q?K7SLRtY7N75Q9LxBP5zxHpPVQ5ea0RdpbZavZxljShy4J0+9X984w3UpamUM?=
- =?us-ascii?Q?tTfYyF/wBe+mL48nwy3xJhusOK+7Ee/8Y+pZ3MsvK+21sEl1eh2cNuttDw+1?=
- =?us-ascii?Q?T2paucDrZag69ehv0+EN8O0fB9IDzyj5t70tKXHuJO8zV/htYsXDpi67T1sG?=
- =?us-ascii?Q?KySAyjbALyn8KbuUEwy27bCpe4jRu3pwF7zExcBXWQIJL231yP2t+uTKvT+i?=
- =?us-ascii?Q?13pqC/VyzgZZ1CtCjTe4Hk+Z3zEAZSHe1m+scSI3n7nkb/Lh1hVO0qUYgLKI?=
- =?us-ascii?Q?ceP/E1M0MlgI6yJIlSWh+471M7YwkheymR+oac3Roj4xz/0SBZxdK200wzM1?=
- =?us-ascii?Q?q9pH59dqTTfkm2X3VRzxrpHMjLsVyjB3N9YRUitVKZT/PJN99zvp1uNp446n?=
- =?us-ascii?Q?f4k+yTesU2rCPPaxOHhO6DrhbbOHJ8ADnHhOhiXK3bT6sQ04ddWM9TQex2lS?=
- =?us-ascii?Q?QwfiV0nS1BrpjLlFuIOdMsv+qudsa+OVM9N05H1gHMkjRPj35TTL09qMAEeo?=
- =?us-ascii?Q?rUBEs5PkpzUQ0RjGzbKajuvk6BhXGRUw+m1qtlQ0NgQ6F7pzZt5Ts2S49K61?=
- =?us-ascii?Q?jhs9c00R6CLo+R6+fZY9srWp3PvkpVuUDQ4PihM3sonBAHl9qGFgJuyWMoHc?=
- =?us-ascii?Q?2zlc7y2NZ/9I8/T6JfAXsZcVLlcmjMPruu/U6AUCHr6nZ+FdSl2ajhp7dY4s?=
- =?us-ascii?Q?WuVfPPggzEKGiTnWZyWcAKbMoUHqvgLPkjej0TeGHMt1XHassJ/bcBtT+XSN?=
- =?us-ascii?Q?8DWNurJiMhftTD/+iFMUv5SDNG+QSOAA/cM9GMeqMPXlCd4L6iiAWOwZyvGO?=
- =?us-ascii?Q?Lbmaqc0ece/WLwCAvwfST1Eh3NQmgwLLEtYTj15q6wVxVRUnPSUp2xPRk612?=
- =?us-ascii?Q?TFlHN+LoO+gPim9koTjytbUDg9ZsDj0od2+rZNX4mKQqmMZA6/ncozurvcy4?=
- =?us-ascii?Q?uC4oD8Zo5I8XkkTSDiQjTQwgOP5iPr3T9D36is2OI2NRtEPA3StHveJGSOBD?=
- =?us-ascii?Q?oUqT1oIlaNS2lCRbTS0/vtkiG1VrmEFo6OWHe/hfO/rbSgMmKY3HFVkEM8rg?=
- =?us-ascii?Q?cOEJCzJ3OFPrZdgpCXHmkXtEpOJPOaNuPvIkoqaiFFadtgRQwAR3QnHxtPz5?=
- =?us-ascii?Q?CGxf9YR48Sygv3GOtWw6fbL6hOHUPQCcIsCH579kttHoYJZKD03hgqn7lsht?=
- =?us-ascii?Q?zTj6f3GxnHq7sE8CxdDEeHQX147t/RhCwAtBbfxFECPqcOmposyPcu4j52n0?=
- =?us-ascii?Q?N35dsYJm6Q=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0dc01d-ebd8-4e47-13cc-08de79a1adac
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 03:54:04.5157 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lYGPbRKRb9STJ5HwR55WV/Vx7F5waGJJL/xy6A53O13YWYGifpnklFxHMCj+gKKmxxIWyLEoYX3EpQzXnv5HEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6976
+References: <20260228045356.3561-1-rosenp@gmail.com>
+In-Reply-To: <20260228045356.3561-1-rosenp@gmail.com>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Tue, 3 Mar 2026 20:03:40 -0800
+X-Gm-Features: AaiRm50svINP7hvFX0utAndkOyARkkDlnOGgjjSGoekSn-A5-l-P6oFmN6TdzZE
+Message-ID: <CAKxU2N_FbB_d6ntXEOFzE2u-sfu9sRRFwaDnb3P=RfTwE5yuDA@mail.gmail.com>
+Subject: Re: [PATCHv2 for 6.112 and 6.6 0/2] amdgpu: fix panic on old GPUs
+To: stable@vger.kernel.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
+ Alex Hung <alex.hung@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lijo Lazar <lijo.lazar@amd.com>, "chr[]" <chris@rudorff.com>,
+ Sasha Levin <sashal@kernel.org>, Wentao Liang <vulab@iscas.ac.cn>, 
+ "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,191 +121,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 947DF1FA875
+X-Rspamd-Queue-Id: 4431D1FA928
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:victor.liu@nxp.com,m:m.felsch@pengutronix.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:Rodrigo.Siqueira@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:Xinhui.Pan@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kenneth.feng@amd.com,m:timur.kristof@gmail.com,m:alex.hung@amd.com,m:gregkh@linuxfoundation.org,m:lijo.lazar@amd.com,m:chris@rudorff.com,m:sashal@kernel.org,m:vulab@iscas.ac.cn,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FROM_NEQ_ENVFROM(0.00)[rosenp@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linuxfoundation.org,rudorff.com,kernel.org,iscas.ac.cn,lists.freedesktop.org,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:dkim,nxp.com:email]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 11:29:03AM +0800, Liu Ying wrote:
-> On Tue, Mar 03, 2026 at 05:20:09PM -0500, Frank Li wrote:
-> > On Tue, Mar 03, 2026 at 10:22:02PM +0100, Marco Felsch wrote:
-> >> On 26-03-03, Frank Li wrote:
-> >>> From: Frank Li (AI-BOT) <frank.li@nxp.com>
-> >>>
-> >>> AI bot review and may be useless.
-> >>
-> >> Hi Frank,
-> >>
-> >> albeit I'm very open to new technology, I would appreciate it if your
-> >> AI-BOT is used internally first till you're convinced that it reports
-> >> real issues instead of false-positives.
-> >>
-> >> Regards,
-> >>   Marco
-> >>
-> >>>> +static u32 *
-> >>>> +imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >>>> +					    struct drm_bridge_state *bridge_state,
-> >>>> +					    struct drm_crtc_state *crtc_state,
-> >>>> +					    struct drm_connector_state *conn_state,
-> >>>> +					    u32 output_fmt,
-> >>>> +					    unsigned int *num_input_fmts)
-> >>>> +{
-> >>>> +	struct imx93_pdfc *pdfc = bridge_to_imx93_pdfc(bridge);
-> >>>> +	u32 *input_fmts;
-> >>>> +
-> >>>> +	*num_input_fmts = 0;
-> >>>> +
-> >>>> +	input_fmts = kmalloc_obj(*input_fmts);
-> >>>> +	if (!input_fmts)
-> >>>> +		return NULL;
-> >>>
-> >
-> >> +     input_fmts = kmalloc_obj(*input_fmts);
-> >
-> > AI:
-> >
-> > Actually, this looks incorrect. kmalloc_obj() allocates based on the type
-> > of the pointer argument. Here you're passing *input_fmts (a u32), not
-> > input_fmts (a u32 *).
+On Fri, Feb 27, 2026 at 8:54=E2=80=AFPM Rosen Penev <rosenp@gmail.com> wrot=
+e:
 >
-> This comment is false.  Per kmalloc_obj()'s kerneldoc, it's first argument
-> is "Variable or type to allocate".  In this particular case, the argument
-> should be "*input_fmts (a u32)".
-
-Yes, I wrongly think it is num_input_fmts and return array point for multi
-formats, actually it is just 1 items for format.
-
-imx93_pdfc_bridge_atomic_get_input_bus_fmts() is quite likely return many
-format array especially has "s" after fmt.
-
-Frank
-
+> Because of incomplete backports to stable kernels, DC ended up breaking
+> on older GCN 1 GPUs. This patchset adds the missing upstream commits to
+> at least fix the panic/black screen on boot.
 >
-> /**
->  * kmalloc_obj - Allocate a single instance of the given type
->  * @VAR_OR_TYPE: Variable or type to allocate.
->  * @GFP: GFP flags for the allocation.
->  *
->  * Returns: newly allocated pointer to a @VAR_OR_TYPE on success, or NULL
->  * on failure.
->  */
-> #define kmalloc_obj(VAR_OR_TYPE, ...) \
->         __alloc_objs(kmalloc, default_gfp(__VA_ARGS__), typeof(VAR_OR_TYPE), 1)
+> They are applicable to 6.12, 6.6, and 6.1 as those are the currently
+> supported kernels that 7009e3af0474aca5f64262b3c72fb6e23b232f9b got
+> backported to.
 >
-> > Should be:
-> >
-> > +       input_fmts = kmalloc_array(*num_input_fmts, sizeof(*input_fmts),
-> > +                                  GFP_KERNEL);
+> 6.1 needs two extra backports for these two commits to be cherry-picked
+> cleanly. Those are
 >
-> No.  "input_fmts = kmalloc_obj(*input_fmts);" is just fine.
+> 96ce96f8773da4814622fd97e5226915a2c30706
+> d09ef243035b75a6d403ebfeb7e87fa20d7e25c6
 >
-> >
-> > suppose you use kmalloc_objs()
+> v2: Add Signed-off-by.
+Do I need to resend?
 >
-> No. We should use kmalloc_obj(), not kmalloc_objs().
+> Timur Krist=C3=B3f (2):
+>   drm/amd/display: Add pixel_clock to amd_pp_display_configuration
+>   drm/amd/pm: Use pm_display_cfg in legacy DPM (v2)
 >
-> >
-> > Frank
-> >
-> >>> Missing kfree(input_fmts) in error path if the switch statement
-> >>> or subsequent logic fails. Consider allocating a fixed-size array
-> >>> or using devm_kzalloc() instead.
-> >>>
-> >>>> +	*num_input_fmts = 1;
-> >>>> +
-> >>>> +	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt)) {
-> >>>> +		dev_dbg(pdfc->dev, "No valid output bus-fmt detected, fallback to MEDIA_BUS_FMT_RGB888_1X24\n");
-> >>>
-> >>> Line exceeds 80 characters (97 chars). Break into two lines.
-> >>>
-> >>>> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> >>>> +		return input_fmts;
-> >>>> +	}
-> >>>> +
-> >>>> +	switch (output_fmt) {
-> >>>> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> >>>> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> >>>> +		input_fmts[0] = output_fmt;
-> >>>> +		break;
-> >>>> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> >>>> +	case MEDIA_BUS_FMT_FIXED:
-> >>>> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> >>>> +		break;
-> >>>> +	}
-> >>>
-> >>> Switch statement lacks default case. Add default case to handle
-> >>> unexpected format values explicitly.
-> >>>
-> >>>> +static int imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
-> >>>> +					    struct drm_atomic_state *state)
-> >>>> +{
-> >>>> +	struct imx93_pdfc *pdfc = bridge_to_imx93_pdfc(bridge);
-> >>>> +	const struct drm_bridge_state *bridge_state;
-> >>>> +	unsigned int mask = PARALLEL_DISP_FORMAT;
-> >>>> +	unsigned int val;
-> >>>> +
-> >>>> +	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-> >>>> +
-> >>>> +	switch (bridge_state->output_bus_cfg.format) {
-> >>>> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> >>>> +	case MEDIA_BUS_FMT_FIXED:
-> >>>> +		val = FORMAT_RGB888_TO_RGB888;
-> >>>> +		if (pdfc->phy_bus_width == 18) {
-> >>>> +			/*
-> >>>> +			 * Can be valid if physical bus limitation exists,
-> >>>> +			 * therefore use dev_dbg().
-> >>>> +			 */
-> >>>> +			dev_dbg(pdfc->dev, "Truncate two LSBs from each color\n");
-> >>>> +			val = FORMAT_RGB888_TO_RGB666;
-> >>>> +		}
-> >>>> +		break;
-> >>>> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> >>>> +		val = FORMAT_RGB888_TO_RGB666;
-> >>>> +
-> >>>
-> >>
-> >> --
-> >> #gernperDu
-> >> #CallMeByMyFirstName
-> >>
-> >> Pengutronix e.K.                           |                             |
-> >> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-> >> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> >> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+>  .../amd/display/amdgpu_dm/amdgpu_dm_pp_smu.c  |  1 +
+>  .../dc/clk_mgr/dce110/dce110_clk_mgr.c        |  2 +-
+>  .../drm/amd/display/dc/dm_services_types.h    |  2 +-
+>  drivers/gpu/drm/amd/include/dm_pp_interface.h |  1 +
+>  drivers/gpu/drm/amd/pm/amdgpu_dpm_internal.c  | 67 +++++++++++++++++++
+>  .../gpu/drm/amd/pm/inc/amdgpu_dpm_internal.h  |  2 +
+>  drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c    |  4 +-
+>  .../gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c    |  6 +-
+>  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c    | 65 ++++++------------
+>  .../gpu/drm/amd/pm/powerplay/amd_powerplay.c  | 11 +--
+>  10 files changed, 101 insertions(+), 60 deletions(-)
 >
 > --
-> Regards,
-> Liu Ying
+> 2.53.0
+>
