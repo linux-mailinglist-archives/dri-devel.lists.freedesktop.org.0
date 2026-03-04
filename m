@@ -2,60 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OMKYDd5AqGl6rQAAu9opvQ
+	id 0DhBGthAqGn8rgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:25:34 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:25:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6862F201622
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B998C201610
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:25:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C19D10E9E9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D59D10E9FD;
 	Wed,  4 Mar 2026 14:25:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=rcpassos.me header.i=@rcpassos.me header.b="EYkN4gbz";
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=purelymail.com header.i=@purelymail.com header.b="jhSAJAGW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F4Y6AL14";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sendmail.purelymail.com (sendmail.purelymail.com
- [34.202.193.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1481410E163
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 12:27:24 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=EYkN4gbzuJMGrWpEDAGPsdfzFcLJf5OZaYAmIs8zNLT5S4tzHHoatEHWaQs1brOtTvkRobnN/RtOoYxfN13bTYBMBiMlp8MFL6lvFRtkGVC2bQjB5ljDoJB7pcJVJppgh5fR9DxDtVxWJxe/4tIz6jpHYVfjyrfP/fhyXuFmNEQOoqk/MpTxnqT45MYEyoibH6UnmbfV3C+TCR13/sGWR0AaZdk7jyd1cZMqYWXHV/6MRCLGx5fJvDm0cccPtZXP/+hne0DGET3qndUcRZaGJCbgxmpDdfeLHO/o5db2/mr7KE/UJAJlTP/Y2Q4CgutgFvIVA7wW3mkgygEZ6CMLBw==;
- s=purelymail1; d=rcpassos.me; v=1;
- bh=0dvJShcbjQxcyQfBOwzlQckvGtiDm2Cjtzv0f2nXCGg=;
- h=Received:Date:Subject:From:To; 
-DKIM-Signature: a=rsa-sha256;
- b=jhSAJAGWRn0aD2lgK9wQYdw3V1oYqNsO0PW+3E9ZHVXq9Wfrh4rBMRS+t7hETIrVIAMCogvbJhE7koAZ3l8jlYanBnEysgvtLouQNiqeakdPGbgzYIwV9l4doY5RIovcQcD/f0n5+khOkvSCHu/k/iipC5V4M9+AL2TpNXxwIjK89jYxeQB73+bgI5LbLHQRFw4cFlxarpVkDthfxgzpQE29IJgVY850unItM1+TS8lvFtu2tBC8eklGP0PrlhTNq5FmqpFnd3/q64ZyCoQ4TC/tdUayGZ8CVvmv8RVWfAOs64qEMeW1KyDlaIaQG05Nx2VkPotNqtywnMG6TzEuow==;
- s=purelymail1; d=purelymail.com; v=1;
- bh=0dvJShcbjQxcyQfBOwzlQckvGtiDm2Cjtzv0f2nXCGg=;
- h=Feedback-ID:Received:Date:Subject:From:To; 
-Feedback-ID: 45355:7809:null:purelymail
-X-Pm-Original-To: dri-devel@lists.freedesktop.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 620782028; 
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 04 Mar 2026 12:27:04 +0000 (UTC)
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Mar 2026 09:27:01 -0300
-Message-Id: <DGTZWNGLPVI3.108P2EKGFCO2R@rcpassos.me>
-Subject: Re: [bug report] 7.0-rc1 flip_done timed out: amd igpu off when
- resuming in laptop (regression)
-From: "Rafael Passos" <rafael@rcpassos.me>
-To: <amd-gfx@lists.freedesktop.org>, <siqueira@igalia.com>,
- <linux-kernel@vger.kernel.org>, "Martin Leung" <Martin.Leung@amd.com>,
- "Bhuvanachandra Pinninti" <BhuvanaChandra.Pinninti@amd.com>, "Ray Wu"
- <ray.wu@amd.com>, "Daniel Wheeler" <daniel.wheeler@amd.com>, "Alex Deucher"
- <alexander.deucher@amd.com>
-Cc: "Rafael Passos" <rcpassos@ime.usp.br>, <davidbtadokoro@ime.usp.br>,
- <dri-devel@lists.freedesktop.org>
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
+ [74.125.224.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383CA10E170
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 12:33:08 +0000 (UTC)
+Received: by mail-yx1-f46.google.com with SMTP id
+ 956f58d0204a3-64ad8435f46so6385483d50.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 04:33:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772627587; cv=none;
+ d=google.com; s=arc-20240605;
+ b=lIAVi0LQw5NfOISMwm4ggbNoJCxbe6xSwJDl7nJwHkmzYIfBlIOkR1rKH9CTGCp5nk
+ k0jhWxqy5v9kxH/VlJP+fJDm+nWNl9tdXUPcydNEZciw4Cesy7pX/7C6E5xsQbQHe1Xa
+ assONhtxKRhHRiye9PygUqFpm3DYCX3m4UKfN7KzCHnykCrm9vJVrdZR7S9Ztf39Uejm
+ VRN1n+yy1vPxSMAzorfy57WzoH321pYcVbQNisrWpyCaTKiTAsUU2c+P90MMqagQtxom
+ RIoTRNNvbyAQt+OXtnWtS9LB9uo9Yi0kW9D2zg2n/ILzsDqgfJUeniIDuDMhDTOIKrL1
+ Nk/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=05YmIrijcjcivZ6fDMYuePjXy8Ceppdwjm4CqXoIER0=;
+ fh=/911+7YCVMRD6dBnfTVpxqmN4xBY9nupSh7BZO7/5u0=;
+ b=e4owPT9QzxqBnex9ew1w2kmrM6nxoGC30obSw5GQtghnWcj0ILedvIhlJ+4+nMm1iE
+ 3f3s7uZikaK87/ifLoztyBHKOkYENi5m/q2QHpUR4Dq+EPzi3c8LT2/oZGBQ0dfO1UEL
+ C4BHVoqYQXiV69PA8r3yHahqn1M2nL22fbpf+5hFIBw2ZzO8iJej7toVFpiHrF47OO6w
+ MzO32eUIW1rf1Qa8H5j50XN9db9r6PzDe1OZc7Ok4yblH9Eu74EtM9koU9pDTpFKXEw1
+ DpaHguzrLA6ej8U4agI4CVR4XJeoHrrdUEttnOlGjLszEpWS0F+p++qD1g+o+JwvShYk
+ /wDA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772627587; x=1773232387; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=05YmIrijcjcivZ6fDMYuePjXy8Ceppdwjm4CqXoIER0=;
+ b=F4Y6AL14yZoLI/haX0Tfte1KiviqXl1kk0ZVfmPiF7rITkG4CKgw7ietcOP7S5sPdi
+ KG9uw5uMYcDQWaBvJUlSGD9Ef+466BR8KMLL1+mJN9jvFJ4AU24bWOgC38yQNeEyL550
+ 2MJlKtGxKY4/cJ0wss3iqI9TDI1mZU9t6NmFaMBJm7QMdEdCQmHXFoHQlhJqCBk9wDi+
+ uj54RPVKRc8pNFRzSXE6AyvV+i23+WVc3yxr4ZfUvNQ+Zb5v+9ZwPM7yKI9fwVAMu9yY
+ SeGXsjWEJTGE1gvez2zltP1fNMJm8clDcSXqu0qb5SN/TF0KuOVgNLGmVInNa/QXjrLV
+ +8+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772627587; x=1773232387;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=05YmIrijcjcivZ6fDMYuePjXy8Ceppdwjm4CqXoIER0=;
+ b=RB2v8D05243+2XWC/FjkjUtfJ0s4e8XYsurWTM/Ybv+WdBtzwO8VynEaI/9RvFmMa8
+ /b5M5X+f+6F6xJQN+icDuUtlglljMN/a7TJZb4EfV7NM7ZaeMLgAgIZGwe76Eo7wOBWJ
+ wYRmyRCRe+3aI4VBlpj9asAzlJtvzF4NaKSyMT4C6RvnYx1GzqaG/9v8twaItvRLRxXZ
+ 2ZnNpqi2wjGjb7FJi/QfGR5pKr7dMinZxb8LA5Fcw9l4iE9QI4OFbGWdUkFPO8DWB+W/
+ I7xMiGHU1xnf5HuEwvPBq7dRiCgwpTZ6k4BaaT2jnV/OSXEthtlZhgG/r0c0DiJQgOCo
+ X76w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXqL5VSErMrGjgCNh9ZiXsNnLX80X16BeLMbGdmFzpGFEbR2Os9yhT4o+ZXxjNDM91loPI6heF3rc4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZynbFsjv23UEpO35QKhkr07D+kiYrrc4FLBRLCVVEB8+1pJf2
+ KzR9+h8g3skCx4kswzBnu5gZiFYOCAXUl9MeExdKB50Qv9ooJyCCzlT9c1ZOjrHHUutfhACfEIA
+ FcI1kEEXmGP0Wsuxy0woYYVzL+uJvD+w=
+X-Gm-Gg: ATEYQzxqShdM2gyP50Q1M2fBvc1L/ztqNMkuWmTL6fnKrg2XVE0YnbknKljKqqzv5MW
+ a+9dipdr4sM/dCMp11/7bYBWCeEReDkxMsTXqB5dUXBSo9YLqM+la0Mk2bs7Afq0pUgfJ7g9t04
+ hS7Cx6SA+tmMknd96KQS3OI8kMi8lBaS0sI3GHTXaVCISpZ8q9k9Y65Ekp6JJWbuzG0u9EDzp4+
+ 6WmByNcoi+sJUlzfxovrBgAXb4S8UHZC8RA8Wtv8BdB6Ssdyim/ppa9q6mKoQuyoOnvqXvbAuYW
+ DAe/EnKbPTlm9y65rPEDY/17tP0s6fMIOLcrAH+KnU63xcZuAPVpxZIINBM=
+X-Received: by 2002:a05:690e:12c4:b0:64a:d759:676 with SMTP id
+ 956f58d0204a3-64cf9c16928mr1116570d50.87.1772627586951; Wed, 04 Mar 2026
+ 04:33:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
+ <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
+ <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
+ <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
+ <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
+ <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
+ <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
+ <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
+ <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
+ <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
+ <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
+ <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
+ <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
+ <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+ <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
+ <CAHijbEUSFA3ptTNZ_YuOLgc44Px4CjAaa9x6DDjJktRCKjj+Dw@mail.gmail.com>
+ <0847752c-39cb-4233-8e07-8e1325c196cc@mailbox.org>
+In-Reply-To: <0847752c-39cb-4233-8e07-8e1325c196cc@mailbox.org>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Wed, 4 Mar 2026 13:32:55 +0100
+X-Gm-Features: AaiRm50OhXb_lcvsYkJY50y-QMOGBKfRHJJ2trL9NDtdx6zbv0TVR54CKpedZKc
+Message-ID: <CAHijbEX6nqnKOSQs7=UgwVZWDwQ71ZtSjhoDoo5YCvT2_rJ93w@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0
-X-Mailer: aerc 0.21.0
-References: <DGQ49PK0QE7U.3O1AQPSD6NI7I@rcpassos.me>
-In-Reply-To: <DGQ49PK0QE7U.3O1AQPSD6NI7I@rcpassos.me>
-X-TUID: tZ4Zipe8Yo0F
 X-Mailman-Approved-At: Wed, 04 Mar 2026 14:25:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,225 +131,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6862F201622
+X-Rspamd-Queue-Id: B998C201610
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.99 / 15.00];
-	DMARC_POLICY_REJECT(2.00)[rcpassos.me : SPF not aligned (relaxed),reject];
-	R_DKIM_REJECT(1.00)[rcpassos.me:s=purelymail1,purelymail.com:s=purelymail1];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip6:2610:10:20:722:a800:ff:fe36:1795:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:amd-gfx@lists.freedesktop.org,m:siqueira@igalia.com,m:linux-kernel@vger.kernel.org,m:Martin.Leung@amd.com,m:BhuvanaChandra.Pinninti@amd.com,m:ray.wu@amd.com,m:daniel.wheeler@amd.com,m:alexander.deucher@amd.com,m:rcpassos@ime.usp.br,m:davidbtadokoro@ime.usp.br,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[rcpassos.me:-,purelymail.com:-];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:2610:10::/32, country:US];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	NEURAL_HAM(-0.00)[-0.983];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid,mailbox.org:email]
 X-Rspamd-Action: no action
 
-I found the issue, but I'm still not sure how to proceed.
-I would like some guidance in fixing this regression.
+On Wed, Mar 4, 2026 at 12:47=E2=80=AFPM Michel D=C3=A4nzer
+<michel.daenzer@mailbox.org> wrote:
+>
+> On 3/4/26 12:25, Julian Orth wrote:
+> > On Wed, Mar 4, 2026 at 12:15=E2=80=AFPM Michel D=C3=A4nzer
+> > <michel.daenzer@mailbox.org> wrote:
+> >> On 3/3/26 20:12, Julian Orth wrote:
+> >>> On Tue, Mar 3, 2026 at 7:53=E2=80=AFPM Michel D=C3=A4nzer <michel.dae=
+nzer@mailbox.org> wrote:
+> >>>> On 3/3/26 18:44, Maarten Lankhorst wrote:
+> >>>>>
+> >>>>> You don't even need to use memset, this would work too:
+> >>>>>
+> >>>>> struct drm_syncobj_handle args =3D {
+> >>>>>       .flags =3D 0
+> >>>>> };
+> >>>>
+> >>>> TL;DR: This method isn't 100% safe either.
+> >>>>
+> >>>> It won't initialize any padding which isn't covered by any struct fi=
+eld. We try to avoid that and have explicit padding fields instead, mistake=
+s may happen though, and in theory such padding could later be used for a n=
+ew field.
+> >>>
+> >>> I don't think this is workable.
+> >>
+> >> libdrm begs to differ. It shows that it's not only workable but really=
+ easy. There's no reason for doing it any other way.
+> >
+> > Using memset to initialize padding bytes between fields is workable.
+> > Having the kernel add checks for this for existing ioctls is not
+> > workable because it would break usespace that doesn't do this.
+>
+> As discussed in this thread, memset is also required for when the size of=
+ an ioctl struct is extended, even if there is no such padding.
 
-The issue is the where a Register is being read from.
-Before this change, the MICROSECOND_TIME_BASE_DIV reg wa read from
-dce_hwseq_registers (dce_hwseq.h) and now from dccg_registers (dcn20_dccg.h=
-)
+That is not a concern in rust code. If the rust code extends the
+definition of the struct, all call sites will cause a compilation
+error until the new field is also initialized.
 
-The bisection lead me to this commit: 4c595e75110ece20af3a68c1ebef8ed4c1b69=
-afe
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D4c595e75110ece20af3a68c1ebef8ed4c1b69afe
+The issue I'm talking about here is strictly about padding bytes between fi=
+elds.
 
-After lot of debugging, I traced the issue to this file:
-drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/diff/dri=
-vers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c?id=3D4c595e75110ece20a=
-f3a68c1ebef8ed4c1b69afe
+>
+>
+> > Which is every rust program out there as far as I can tell.
+>
+> That's surprising. Surely there must be some unsafe code involved which a=
+llows uninitialized memory to be passed to ioctl()?
 
-This card is dcn21, but it uses most of the dcn20 implementation.
-For easy comparison, the following block contains the function with the ori=
-ginal path
-commented out (from dcn21), and the function it calls from dcn20:
+The memory is not uninitialized from the perspective of the rust
+language since all fields are initialized. Only the padding bytes are
+uninitialized and they cannot be accessed in safe rust, therefore no
+unsafe is required.
 
-```
-bool dcn21_s0i3_golden_init_wa(struct dc *dc)
-{
-	if (dc->res_pool->dccg && dc->res_pool->dccg->funcs && dc->res_pool->dccg-=
->funcs->is_s0i3_golden_init_wa_done){
+I've never seen any rust code that uses memset to initialize ioctl
+arguments. It assumes that the ioctl implementation will only read
+from the named fields. Therefore, while the ioctl syscall itself is
+unsafe, developers assume that the safety requirements are satisfied
+in this regard.
 
-		printk(KERN_CRIT "AUYER in %s", __func__);
-		return !dc->res_pool->dccg->funcs->is_s0i3_golden_init_wa_done(dc->res_po=
-ol->dccg);
-	}
-
-	printk(KERN_CRIT "AUYER in %s", __func__);
-
-	return false;
-=09
-	// original flow:
-	// struct dce_hwseq *hws =3D dc->hwseq;
-	// uint32_t value =3D 0;
-	// value =3D REG_READ(MICROSECOND_TIME_BASE_DIV);
-
-	// return value !=3D 0x00120464;
-}
-
-// is_s0i3_golden_init_wa_done -> dccg2_is_s0i3_golden_init_wa_done
-bool dccg2_is_s0i3_golden_init_wa_done(struct dccg *dccg)
-{
-	struct dcn_dccg *dccg_dcn =3D TO_DCN_DCCG(dccg);
-
-	return REG_READ(MICROSECOND_TIME_BASE_DIV) =3D=3D 0x00120464;
-}
-```
-
-I instrumented this code to compare the values.
-On boot, the value is the same. When resuming from s3 sleep, different.
-If using the output of this codepath before this commit, the screen works.
-At the end of this email is my "debugging patch", and the logs comparing wh=
-at shows
-up on boot vs on resuming from sleep.
-
-I am attempting to implement a `dccg21_is_s0i3_golden_init_wa_done` to
-replace the `dccg2_is_s0i3_golden_init_wa_done` that is used in dcn21_dccg.=
-c.
-Maybe dcn21 needs a separate register page, (insted of using dcn20_dccg.h)?
-
-
-Note the difference between log line 2 and 5
-[    4.956404] [    T316] AUYER PATCHED in dcn21_s0i3_golden_init_wa, value=
-s compared to 0x00120464
-[    4.956407] [    T316] AUYER in dcn21_s0i3_golden_init_wa, original flow=
- value: 1180208, bool: 1
-[    4.956411] [    T316] AUYER in dcn21_s0i3_golden_init_wa: MICROSECOND_T=
-IME_BASE_DIV reg: 13b value: 1180208
-[    4.956412] [    T316] AUYER in dccg21_is_s0i3_golden_init_wa_done
-[    4.956415] [    T316] AUYER in dccg21_is_s0i3_golden_init_wa_done: MICR=
-OSECOND_TIME_BASE_DIV reg: 0, value: 1148576
-[    4.956418] [    T316] AUYER in dcn21_s0i3_golden_init_wa, NEW flow valu=
-e as bool 1
-
-
-1 [    4.942660] [    T343] AUYER PATCHED in dcn21_s0i3_golden_init_wa
-2 [    4.942662] [    T343] AUYER in dcn21_s0i3_golden_init_wa, original fl=
-ow value: 1180208, comparing to 0x00120464 bool: 1
-3 [    4.942665] [    T343] AUYER in dcn21_s0i3_golden_init_wa: MICROSECOND=
-_TIME_BASE_DIV reg: 13b value: 1180208
-4 [    4.942668] [    T343] AUYER in dccg2_is_s0i3_golden_init_wa_done: MIC=
-ROSECOND_TIME_BASE_DIV reg: 0, value: 1148576
-5 [    4.942671] [    T343] AUYER in dcn21_s0i3_golden_init_wa, NEW flow va=
-lue as is: bool 1
-
-On wake from S3:
-
-1 [  279.431636] [   T5497] AUYER PATCHED in dcn21_s0i3_golden_init_wa
-2 [  279.431638] [   T5497] AUYER in dcn21_s0i3_golden_init_wa, original fl=
-ow value: 1180772, comparing to 0x00120464 bool: 0
-3 [  279.431640] [   T5497] AUYER in dcn21_s0i3_golden_init_wa: MICROSECOND=
-_TIME_BASE_DIV reg: 13b value: 1180772
-4 [  279.431641] [   T5497] AUYER in dccg2_is_s0i3_golden_init_wa_done: MIC=
-ROSECOND_TIME_BASE_DIV reg: 0, value: 1148576
-5 [  279.431642] [   T5497] AUYER in dcn21_s0i3_golden_init_wa, NEW flow va=
-lue as is: bool 1
-
-
-The "patch" (just a test lab), to understad where these logs came from.
-I applies cleanly to amddrm drm-next, and mainline.
-
----
- .../amd/display/dc/dccg/dcn20/dcn20_dccg.c    |  3 +++
- .../amd/display/dc/hwss/dcn21/dcn21_hwseq.c   | 25 ++++++++++++++++---
- 2 files changed, 24 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn20/dcn20_dccg.c b/drive=
-rs/gpu/drm/amd/display/dc/dccg/dcn20/dcn20_dccg.c
-index 13ba7f5ce13e..0ba20c7969ed 100644
---- a/drivers/gpu/drm/amd/display/dc/dccg/dcn20/dcn20_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn20/dcn20_dccg.c
-@@ -158,6 +158,9 @@ bool dccg2_is_s0i3_golden_init_wa_done(struct dccg *dcc=
-g)
- {
-        struct dcn_dccg *dccg_dcn =3D TO_DCN_DCCG(dccg);
-=20
-+       printk(KERN_CRIT "AUYER in %s: MICROSECOND_TIME_BASE_DIV reg: %x, v=
-alue: %d",
-+               __func__, dccg_dcn->regs->MICROSECOND_TIME_BASE_DIV, REG_RE=
-AD(MICROSECOND_TIME_BASE_DIV));
-+
-        return REG_READ(MICROSECOND_TIME_BASE_DIV) =3D=3D 0x00120464;
- }
-=20
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c b/driv=
-ers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-index 062745389d9a..143c552e0fa9 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-@@ -88,10 +88,28 @@ int dcn21_init_sys_ctx(struct dce_hwseq *hws, struct dc=
- *dc, struct dc_phy_addr_
-=20
- bool dcn21_s0i3_golden_init_wa(struct dc *dc)
- {
--       if (dc->res_pool->dccg && dc->res_pool->dccg->funcs && dc->res_pool=
-->dccg->funcs->is_s0i3_golden_init_wa_done)
--               return !dc->res_pool->dccg->funcs->is_s0i3_golden_init_wa_d=
-one(dc->res_pool->dccg);
-=20
--       return false;
-+       printk(KERN_CRIT "AUYER PATCHED in %s, values compared to 0x0012046=
-4", __func__);
-+
-+       // original flow
-+       struct dce_hwseq *hws =3D dc->hwseq;
-+       uint32_t value =3D 0;
-+       value =3D REG_READ(MICROSECOND_TIME_BASE_DIV);
-+
-+       printk(KERN_CRIT "AUYER in %s, original flow value: %d, bool: %d",
-+               __func__, value, value !=3D 0x00120464);
-+
-+       printk(KERN_CRIT "AUYER in %s: MICROSECOND_TIME_BASE_DIV reg: %x va=
-lue: %d",
-+               __func__, hws->regs->MICROSECOND_TIME_BASE_DIV, REG_READ(MI=
-CROSECOND_TIME_BASE_DIV));
-+
-+       if (dc->res_pool->dccg && dc->res_pool->dccg->funcs && dc->res_pool=
-->dccg->funcs->is_s0i3_golden_init_wa_done) {
-+               // new flow
-+               bool v2 =3D 0;
-+               v2 =3D !dc->res_pool->dccg->funcs->is_s0i3_golden_init_wa_d=
-one(dc->res_pool->dccg);
-+               printk(KERN_CRIT "AUYER in %s, NEW flow value as bool %d", =
-__func__,  v2);
-+       }
-+
-+       return value !=3D 0x00120464;
- }
-=20
- void dcn21_exit_optimized_pwr_state(
-@@ -298,4 +316,3 @@ bool dcn21_is_abm_supported(struct dc *dc,
-        }
-        return false;
- }
--
---=20
-2.53.0
-
-
+>
+>
+> > I'm not aware of any ioctls that actually have padding bytes between
+> > fields so this discussion is mostly academic.
+>
+> I covered that in my previous post quoted above.
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa devel=
+oper
+> https://redhat.com             \               Libre software enthusiast
