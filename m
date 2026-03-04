@@ -2,123 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IBmMOgbkp2mrlAAAu9opvQ
+	id YPtqG4bkp2mrlAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:49:26 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:51:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9361FBD73
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70E61FBF32
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 08:51:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE52D10E13D;
-	Wed,  4 Mar 2026 07:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F63A10E958;
+	Wed,  4 Mar 2026 07:51:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JOHzt8Pk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YpT2lgvP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JOHzt8Pk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YpT2lgvP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PBYUHWnh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6740A10E13D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 07:49:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 31A5F5BCFF;
- Wed,  4 Mar 2026 07:49:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772610561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
- b=JOHzt8PktrvAmVh3rT44nBIJcW5RRtjlV9pkLEEpc33nnInoCzsoX2qgV3Lhg1GWiXlR+k
- yE92Ule1wLkFI92g9AiBud+9IQXTjo00+IXxsatOPVQDYcuWNKJwv2rhJtsW9I0/49MlIL
- G56zkLxOX4ulwl/zr2pilMXMRlEeQQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772610561;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
- b=YpT2lgvPKLnq6hVt++dgXP0xWpQcBFJPL9NGqCtXikHI+mT+aAdulVgtYd9yOUHmwEIUEk
- N4UfTvlqiiol/TDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772610561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
- b=JOHzt8PktrvAmVh3rT44nBIJcW5RRtjlV9pkLEEpc33nnInoCzsoX2qgV3Lhg1GWiXlR+k
- yE92Ule1wLkFI92g9AiBud+9IQXTjo00+IXxsatOPVQDYcuWNKJwv2rhJtsW9I0/49MlIL
- G56zkLxOX4ulwl/zr2pilMXMRlEeQQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772610561;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n9GcoHhdz57AKUi73i1HZyMwQhjboDOatIKwOp2x820=;
- b=YpT2lgvPKLnq6hVt++dgXP0xWpQcBFJPL9NGqCtXikHI+mT+aAdulVgtYd9yOUHmwEIUEk
- N4UfTvlqiiol/TDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 017813EA69;
- Wed,  4 Mar 2026 07:49:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kRiJOgDkp2lWYwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 04 Mar 2026 07:49:20 +0000
-Message-ID: <4aa49437-04ac-4789-8d10-9234ac596cc6@suse.de>
-Date: Wed, 4 Mar 2026 08:49:20 +0100
-MIME-Version: 1.0
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010034.outbound.protection.outlook.com
+ [40.93.198.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E2610E958;
+ Wed,  4 Mar 2026 07:51:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SIZqjh7iB4AUAvDQCCt3idgAYNfAyXWcyTPZMjQKW9I5QPC1YJdSd+2sjDUPivoHrtfE+y6iT3fJ18WnOJigmB2huDtlTYf6wtUUVn8tDDuZGT8Zu+whUJvSHBfNakifj0tsyaHgnKTyLhpaFPQ8fi9/TCCU4AecKikwhCNQxz6I2UY9NrtVNu6fNpapQ1jxfjrhVvI5Iav0kXaaVkdXAixnr8UZXQxr1rhyOKMo1JOTOiV437qCCIN9NlkV7Qv+2dhwfU5GThvZ9inqL6ZAArzejdCJzIrjI0QhoeLXOEpHMExxOha8tqONC3Gl7qoD31DuVdytRaBrz/Gm4kAT9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ORhg7CIHLmlsK9iNs0DGFxA527lGv7g2xMt/EfR4S/Y=;
+ b=xXhriQZB9zhStoSnFCQttkdJhUSiV/QuhQwWKWEU8ThUJuOh48BZ333FzrukvtBQULhUry0L9I2rXN0l21UaO6JIwPhtO53SGoClr/WZUA027BaVV5RRQK192D8bxWsMmzzeKHjxa9ewRC+/c0UBjCwwC1SCvkSFtjXadY0myXHosCD3tl6etU/JUYumkzB0r2H/5iugjMBUK0KoX6ALXFqFzyG1jHfB1oe+SPcK9uVTyZ7JSPKXgTZW2/OF4uNA/DDP4Km2/67Q7waJmi1XlGMKdp8Mmb6kmV5UlXaXn97vXwNhzSmppF7HHXyOXVmpkgvOB1+424yZF3nXZz2dfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ORhg7CIHLmlsK9iNs0DGFxA527lGv7g2xMt/EfR4S/Y=;
+ b=PBYUHWnhZUw8ojACNUTsQqxHqi/hwTVUyO4XhyFwKImbcRH+GMWDd38Vk+mUzZ5LBv56ro09Vq3lVzOJ2Y0ylSTFBzX9psCsc7R4VagpYP5sprETXfCH0AtV4ehyzmzhKRVZkKbtqchtpC1/lyjZ932iD+idQF2MxWoZqC7Iyd0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA3PR12MB7998.namprd12.prod.outlook.com (2603:10b6:806:320::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
+ 2026 07:51:28 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
+ 07:51:28 +0000
+Message-ID: <47f265b0-e087-4532-9406-8915abefbd56@amd.com>
+Date: Wed, 4 Mar 2026 08:51:19 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/13] vt: Store font in struct vc_font
-To: Helge Deller <deller@gmx.de>, gregkh@linuxfoundation.org, sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH v3 2/6] drm/amdgpu: move devcoredump generation to a worker
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20260302141255.518657-1-tzimmermann@suse.de>
- <20260302141255.518657-4-tzimmermann@suse.de>
- <7e17139f-47bf-4fec-b13f-d4a1b3a7a62d@gmx.de>
+References: <20260303161824.7765-1-pierre-eric.pelloux-prayer@amd.com>
+ <20260303161824.7765-2-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <7e17139f-47bf-4fec-b13f-d4a1b3a7a62d@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260303161824.7765-2-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-ClientProxiedBy: BN9PR03CA0863.namprd03.prod.outlook.com
+ (2603:10b6:408:13d::28) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7998:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9af7ff04-8524-430d-b95d-08de79c2d760
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: iTafbMrY/2vx/KRlaGf+nM8IA6vw9bTYcXgWiX1O9cnBJ4tCVbAiMDgi2UkxGqjAStJgFBqJ0NVjlSuQCNRLx7bSIngaJuyXquyHMwfkcf6jqcg+lLrLgeNp/sMZKbS85daYxPkAOECVrRCt3JRJcFMs5t1Ig61opzX41vlXpHRt/0vSxRrVOrxdgvBYFAInJr6uFPoLzb5X+FRm5UzJZ8wzG5yGeCReP3icGjo56G7TRQTpV9E7Hr85JKrUBs+ht85uQNM66LoprkdAin3sLJCKF1W9AnK454h9LITSzXHnhn7DRYXFfpTaFrlVxWMGBWaIuhVhdp+yqr5DcxjrBkqZpzQyrWW+MhS5M7nxsK9nPcXtl03jhJ/YQK9ifYqFNGZ6ztPwFR8K157goYKWvaXeWRCo/Ns774L27Xr3hPcO0iRKew96jTfLCDIooUE6aPHDJiBMwjvhrYHKJa5jB8Xz82U3CPCcS6j1fXgpGaZqG0uC0Gn2n6dXlsR0myGCAk9TCwWlcI+U5xEw+QozfEZnZbqLG1Rmi1A+rMEodjegCGUgyYx6NrxD1f1pAEqAW1lSLPphInGKzgXoI+krTM5PzIYab1KBRA4xVeJl5zDiHp9WjFPsGBl1peKKk5PpNz6y5sSGR2NB3nPI78fohKPOAzK9Gy4/S6QEMRE/9YpjeY4BqiSx3ShQ1n17sO+QS+XeoB9KUPDJWhKcofbIuLq+lEpCddX/G6CzJveG7lQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0dtV3pqUmg3c1ZGL1VkKzVkdSt4VGRSVDk1OUFYaDJ3cGpJNktvaDRhU3Uw?=
+ =?utf-8?B?N2lmY1MvL1l6WGxSWGVQQVFINUd5VUhFWGF5anBqMEc0TDc3QXZJWlNmcklG?=
+ =?utf-8?B?b1h5QWQxNTQvVGtSRmRWSGl1bWo2cHVqeU05dUJaV2J3SVJqTm1FVVdSVE80?=
+ =?utf-8?B?Nk9NcWFlM2FiV0s5b2JIeVBXYTNjRjB1ZlBVbjBUYUZXdTh3TVpWMlkyOWVM?=
+ =?utf-8?B?cFpuSDRkc0FUbTgzdHRKYmZJSGFzUlJqYjVGVHR2Q1RtUmdCVEJldEdNNFVp?=
+ =?utf-8?B?VVlKUkJhYWxpSGFoSlRvdU56WStJQ3lxaDM5eFNHWHQ4d0E3a1hpNC90YlJx?=
+ =?utf-8?B?S2NPb0V5UjZJTzNrTWJiaG9IK2ttMklqVGh3OHJDWTNoYTRDQUM5ZDJoMk1H?=
+ =?utf-8?B?TmduZnpZdXlrd2lyNTdZS01vV0JDRGFkeGxUREJIR1NNNVV5SHpVS1kwTGhL?=
+ =?utf-8?B?cUcySmk4cmFOQ0NMeXN2V2xiM3huR1lrOGVrN1JGbDhuNldickpIVU5kTWpq?=
+ =?utf-8?B?VTVqdVRRNlpuRWk3OE5nOGpGMXdSUkU5NVdhU1pmY2E2SEhoSWZ4Njl0ZENl?=
+ =?utf-8?B?cC8vQlRMSEswa0VnMW1qQnpJU0FYTy80UElFSEpaWm1jL3BPbWNIMlNMN1lP?=
+ =?utf-8?B?UnAyeHVwOGM0N1R5Ym5ONTJzVlB3Nkpia2pJMTNPc0NxUGViUElrN01tT08r?=
+ =?utf-8?B?UGs2RzRTdm43TWMvdXJKRW1VTFU3TjVMRmN0Nld4Z0ZYUS85WjV5NW5zUmp2?=
+ =?utf-8?B?THZ5YWpZZjV3b3U0WW40RjZyYTViUm5WZzkwV2hyRU1HVVhubVlYbzYzWGhO?=
+ =?utf-8?B?NlZ6SFgrSncxOWpoZ2pwTXdmRWRTNVBGZU1WbjI5MC9MMFNwVkxmdUV3N3F1?=
+ =?utf-8?B?cFNSYkJ0Vm1DckwwY0luWlFrc1QyWnFQcDlyMEtLazFkMU1hRVlsSkxJTlpo?=
+ =?utf-8?B?bWJqaWVvTDM5eUlmekkrUmppNHBRcEh5Z0JpaG5HV25ZNWsrdXZ3ODlCZmJQ?=
+ =?utf-8?B?KzJsbXBRNTFyRCtSaGt3dVRreHNldzBQOUdlMnptWmd0UFNIOTU1MHpVWGF1?=
+ =?utf-8?B?Y2RGaExIRnAySDhCQnNHRE9ZUU5mNGZVam5manVmalFmRXhFOTFtWjgzMEcw?=
+ =?utf-8?B?Z1ZEMWdCaVhScVA4c2N4SGtnNnova0VWMWxEQXowMldEYnVlTnpMRzQxOXBr?=
+ =?utf-8?B?dHlpYWpsMTdmaU9rVGZub3AwZGREQndieWFNVFNJS2FvcTlSNUdZeEtxUmxq?=
+ =?utf-8?B?dldlOW95V0NleUN5VEt3bTZWRG1xQmxtUlVIQi9mZkUvSFFrNVlseHR1K2s5?=
+ =?utf-8?B?WUhJTkZPMitab0d0azNUMjBaTEtIMGRxblFpU1J6aGxFVndGNjhnQWJPazNU?=
+ =?utf-8?B?TWFEUURJRk9Wb3hVOVlFTlJqalRRZms3WDFWQkhxVHIrZ3FtVU84eFJZWTV4?=
+ =?utf-8?B?bW4yZk5MZ1hiOG96UUFTUDhyc0ZRTXBqdGhoWnpqZzd4cWorYjZPOUhLYVlO?=
+ =?utf-8?B?d2JEOWtvMmhHRzdNSlkrOURMQnJ3eXBtTVp0aU4yRkV0MkYyT1J4VnQ0ZENR?=
+ =?utf-8?B?ZlhrTnBnM2lIcXdMM1hBQjgwVGwydjl3U1BjMkpuUURMRHl0UGRJOXJZYTlr?=
+ =?utf-8?B?S0JOYS9JL2tZeXJqS1Z2bVpHdTBTTWtSSUhleThWQ3lNWUY2STJndGpjdTV1?=
+ =?utf-8?B?SURMeFo2TEs0TXlKejlHY2hLdGhXS1ZxdXVhZWFCQnNiRHRXblBMRk1qR1o2?=
+ =?utf-8?B?TUdwbnJ5eW54QUY4M3dzZTUzNzg2dTZDUzEybVQ3ak9tQXhKUFhSV3Z6M2s4?=
+ =?utf-8?B?bHJuemdPdVJNWmxUbVVYL05RT24vb2daVVhkSm83cWNQd25JK0pUM2tmNkdh?=
+ =?utf-8?B?OXZzb002dnBVR3YrWGI0cklkeXdmcmdscVF2cFVBR3loZ21CS1VyS2Z2VnpO?=
+ =?utf-8?B?cFB4d3JqQXFmbGwwRVU3TXdVSDJWSTVwdERLOGxwWTkrTGpHSmppcndVZEF5?=
+ =?utf-8?B?elZWUDRhKzlpR29HZXZ6MGJ1eVl5VFR3TkdjQlBhR2N2ek5LRjd2QkNUK0dn?=
+ =?utf-8?B?SHNSKy81R3Z4ZGsvN0dJZEN3dUludmc0NnBPdWtMVk5ROXpVcUtPTWMwenJ1?=
+ =?utf-8?B?Tm14VjArMS9VRVdmUXZQazFuKy9CRHRwUVY0UHp4bldrbnk1K1B6REkwRm9S?=
+ =?utf-8?B?blpoalpxVWFVRFcxWEd4YjRKcUNDUUkvWmsyMWU0ZjEzT29sU2xaaDBTdlNN?=
+ =?utf-8?B?cE85Vk14UjBsUEhhYUlmK2ZtTzhoaFdNZWlZdnVBZm9SVkRTazE2WWplN1Iz?=
+ =?utf-8?Q?mYfWC/PLzwZ60+CK6Z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9af7ff04-8524-430d-b95d-08de79c2d760
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 07:51:28.0700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FN3Jb6YpgOVLyiuRaDf+eVUpEzmzP9Xc6IhPUoTH6kB/qHxagn2iOw2WVP2lxgRY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7998
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,134 +141,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5B9361FBD73
+X-Rspamd-Queue-Id: C70E61FBF32
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmx.de,linuxfoundation.org,ravnborg.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:url]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:dkim,amd.com:email,amd.com:mid,iter.data:url]
 X-Rspamd-Action: no action
 
-Hi
+On 3/3/26 17:18, Pierre-Eric Pelloux-Prayer wrote:
+> Update the way drm_coredump_printer is used based on its documentation
+> and Xe's code: the main idea is to generate the final version in one go
+> and then use memcpy to return the chunks requested by the caller of
+> amdgpu_devcoredump_read.
+> 
+> The generation is moved to a separate worker thread.
+> 
+> This cuts the time to copy the dump from 40s to ~0s on my machine.
+> 
+> ---
+> v3:
+> - removed adev->coredump_in_progress and instead use work as
+>   the synchronisation mechanism
+> - use kvfree instead of kfree
+> ---
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Am 03.03.26 um 15:31 schrieb Helge Deller:
-> On 3/2/26 15:08, Thomas Zimmermann wrote:
->> Replace struct console_font with struct vc_font for the type of the
->> vc_font field of struct vc_data. Struct console_font is UAPI, which
->> prevents further changes. Hence a new data type is required.
->>
->> Struct console_font has a documented vertical pitch of 32 bytes. This
->> is not the case after the font data has been loaded into the kernel.
->> Changing the type of vc_font addresses this inconsistency.
->>
->> The font data is now declared as constant, as it might come from the
->> kernel's read-only section. There's some fallout throughout the console
->> code where non-const variables refer to it. Fix them. A later update
->> will declare the font data to a dedicated data type.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/video/fbdev/core/bitblit.c | 11 +++++------
->>   drivers/video/fbdev/core/fbcon.c   |  4 ++--
->>   drivers/video/fbdev/core/fbcon.h   |  4 ++--
->>   include/linux/console_struct.h     | 29 +++++++++++++++++++++++++++--
->>   4 files changed, 36 insertions(+), 12 deletions(-)
->>
-> ....
->> diff --git a/include/linux/console_struct.h 
->> b/include/linux/console_struct.h
->> index ebdb9750d348..7fdcae6ed49c 100644
->> --- a/include/linux/console_struct.h
->> +++ b/include/linux/console_struct.h
->> @@ -13,8 +13,9 @@
->>   #ifndef _LINUX_CONSOLE_STRUCT_H
->>   #define _LINUX_CONSOLE_STRUCT_H
->>   -#include <linux/wait.h>
->> +#include <linux/math.h>
->>   #include <linux/vt.h>
->> +#include <linux/wait.h>
->>   #include <linux/workqueue.h>
->>     struct uni_pagedict;
->> @@ -58,6 +59,30 @@ struct vc_state {
->>       bool        reverse;
->>   };
->>   +/**
->> + * struct vc_font - Describes a font
->> + * @width: The width of a single glyph in bits
->> + * @height: The height of a single glyph in scanlines
->> + * @charcount: The number of glyphs in the font
->> + * @data: The raw font data
->> + *
->> + * Font data is organized as an array of glyphs. Each glyph is a 
->> bitmap with
->> + * set bits indicating the foreground color. Unset bits indicate 
->> background
->> + * color. The fields @width and @height store a single glyph's 
->> number of
->> + * horizontal bits and vertical scanlines. If width is not a 
->> multiple of 8,
->> + * there are trailing bits to fill up the byte. These bits should 
->> not be drawn.
->> + *
->> + * The field @data points to the first glphy's first byte. The value 
->> @charcount
->> + * gives the number of glyphs in the font. There are no empty 
->> scanlines between
->> + * two adjacent glyphs.
->> + */
->> +struct vc_font {
->> +    unsigned int width;
->> +    unsigned int height;
->> +    unsigned int charcount;
->
-> I wonder if we shouldn't declare width and height as "u8" or "short 
-> int" type?
-> And charcount as u16 or "short int" ?
-> Makes later calculations shorter & easier.
+Acked-by: Christian König <christian.koenig@amd.com>
 
-That would be a change to vt and possibly affect a lot of consoles. In 
-any case, I'd rather do this separately.
-
-Best regards
-Thomas
-
->
-> Helge
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  6 ++
+>  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 83 +++++++++++++++++--
+>  .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h  |  7 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  2 +
+>  4 files changed, 91 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 057c8bd2ad89..e31dac2421b4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -328,6 +328,7 @@ struct kfd_vm_fault_info;
+>  struct amdgpu_hive_info;
+>  struct amdgpu_reset_context;
+>  struct amdgpu_reset_control;
+> +struct amdgpu_coredump_info;
+>  
+>  enum amdgpu_cp_irq {
+>  	AMDGPU_CP_IRQ_GFX_ME0_PIPE0_EOP = 0,
+> @@ -1200,6 +1201,11 @@ struct amdgpu_device {
+>  
+>  	struct amdgpu_reset_domain	*reset_domain;
+>  
+> +#ifdef CONFIG_DEV_COREDUMP
+> +	struct amdgpu_coredump_info	*coredump;
+> +	struct work_struct		coredump_work;
+> +#endif
+> +
+>  	struct mutex			benchmark_mutex;
+>  
+>  	bool                            scpm_enabled;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> index 42a969512dcc..0c7fc3800f17 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+> @@ -32,8 +32,13 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+>  		     bool vram_lost, struct amdgpu_job *job)
+>  {
+>  }
+> +void amdgpu_coredump_init(struct amdgpu_device *adev)
+> +{
+> +}
+>  #else
+>  
+> +#define AMDGPU_CORE_DUMP_SIZE_MAX (256 * 1024 * 1024)
+> +
+>  const char *hw_ip_names[MAX_HWIP] = {
+>  	[GC_HWIP]		= "GC",
+>  	[HDP_HWIP]		= "HDP",
+> @@ -196,11 +201,9 @@ static void amdgpu_devcoredump_fw_info(struct amdgpu_device *adev,
+>  }
+>  
+>  static ssize_t
+> -amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+> -			void *data, size_t datalen)
+> +amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_info *coredump)
+>  {
+>  	struct drm_printer p;
+> -	struct amdgpu_coredump_info *coredump = data;
+>  	struct drm_print_iterator iter;
+>  	struct amdgpu_vm_fault_info *fault_info;
+>  	struct amdgpu_ip_block *ip_block;
+> @@ -208,7 +211,6 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+>  
+>  	iter.data = buffer;
+>  	iter.offset = 0;
+> -	iter.start = offset;
+>  	iter.remain = count;
+>  
+>  	p = drm_coredump_printer(&iter);
+> @@ -323,9 +325,63 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+>  	return count - iter.remain;
+>  }
+>  
+> +static ssize_t
+> +amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+> +			void *data, size_t datalen)
+> +{
+> +	struct amdgpu_coredump_info *coredump = data;
+> +	ssize_t byte_copied;
+> +
+> +	if (!coredump)
+> +		return -ENODEV;
+> +
+> +	if (!coredump->formatted)
+> +		return -ENODEV;
+> +
+> +	if (offset >= coredump->formatted_size)
+> +		return 0;
+> +
+> +	byte_copied = count < coredump->formatted_size - offset ? count :
+> +		coredump->formatted_size - offset;
+> +	memcpy(buffer, coredump->formatted + offset, byte_copied);
+> +
+> +	return byte_copied;
+> +}
+> +
+>  static void amdgpu_devcoredump_free(void *data)
+>  {
+> -	kfree(data);
+> +	struct amdgpu_coredump_info *coredump = data;
+> +
+> +	kvfree(coredump->formatted);
+> +	kvfree(data);
+> +}
+> +
+> +static void amdgpu_devcoredump_deferred_work(struct work_struct *work)
+> +{
+> +	struct amdgpu_device *adev = container_of(work, typeof(*adev), coredump_work);
+> +	struct amdgpu_coredump_info *coredump = adev->coredump;
+> +
+> +	/* Do a one-time preparation of the coredump output because
+> +	 * repeatingly calling drm_coredump_printer is very slow.
+> +	 */
+> +	coredump->formatted_size = amdgpu_devcoredump_format(
+> +		NULL, AMDGPU_CORE_DUMP_SIZE_MAX, coredump);
+> +	coredump->formatted = kvzalloc(coredump->formatted_size, GFP_KERNEL);
+> +	if (!coredump->formatted) {
+> +		amdgpu_devcoredump_free(coredump);
+> +		goto end;
+> +	}
+> +
+> +	amdgpu_devcoredump_format(coredump->formatted, coredump->formatted_size, coredump);
+> +
+> +	/* If there's an existing coredump for this device, the free function will be
+> +	 * called immediately so coredump might be invalid after the call to dev_coredumpm.
+> +	 */
+> +	dev_coredumpm(coredump->adev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
+> +		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
+> +
+> +end:
+> +	adev->coredump = NULL;
+>  }
+>  
+>  void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+> @@ -335,6 +391,10 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+>  	struct amdgpu_coredump_info *coredump;
+>  	struct drm_sched_job *s_job;
+>  
+> +	/* No need to generate a new coredump if there's one in progress already. */
+> +	if (work_pending(&adev->coredump_work))
+> +		return;
+> +
+>  	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
+>  	if (!coredump)
+>  		return;
+> @@ -361,11 +421,20 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+>  
+>  	ktime_get_ts64(&coredump->reset_time);
+>  
+> -	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
+> -		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
+> +	/* Update the current coredump pointer (no lock needed, this function can only be called
+> +	 * from a single thread)
+> +	 */
+> +	adev->coredump = coredump;
+> +	/* Kick off coredump formatting to a worker thread. */
+> +	queue_work(system_unbound_wq, &adev->coredump_work);
+>  
+>  	drm_info(dev, "AMDGPU device coredump file has been created\n");
+>  	drm_info(dev, "Check your /sys/class/drm/card%d/device/devcoredump/data\n",
+>  		 dev->primary->index);
+>  }
+> +
+> +void amdgpu_coredump_init(struct amdgpu_device *adev)
+> +{
+> +	INIT_WORK(&adev->coredump_work, amdgpu_devcoredump_deferred_work);
+> +}
+>  #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
+> index ef9772c6bcc9..b3582d0b4ca4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.h
+> @@ -35,12 +35,19 @@ struct amdgpu_coredump_info {
+>  	struct amdgpu_device            *adev;
+>  	struct amdgpu_task_info         reset_task_info;
+>  	struct timespec64               reset_time;
+> +
+>  	bool                            skip_vram_check;
+>  	bool                            reset_vram_lost;
+>  	struct amdgpu_ring              *ring;
+> +	/* Readable form of coredevdump, generate once to speed up
+> +	 * reading it (see drm_coredump_printer's documentation).
+> +	 */
+> +	ssize_t				formatted_size;
+> +	char				*formatted;
+>  };
+>  #endif
+>  
+>  void amdgpu_coredump(struct amdgpu_device *adev, bool skip_vram_check,
+>  		     bool vram_lost, struct amdgpu_job *job);
+> +void amdgpu_coredump_init(struct amdgpu_device *adev);
+>  #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 48540300b10a..1cb88955f651 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -4503,6 +4503,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>  	INIT_WORK(&adev->xgmi_reset_work, amdgpu_device_xgmi_reset_func);
+>  	INIT_WORK(&adev->userq_reset_work, amdgpu_userq_reset_work);
+>  
+> +	amdgpu_coredump_init(adev);
+> +
+>  	adev->gfx.gfx_off_req_count = 1;
+>  	adev->gfx.gfx_off_residency = 0;
+>  	adev->gfx.gfx_off_entrycount = 0;
 
