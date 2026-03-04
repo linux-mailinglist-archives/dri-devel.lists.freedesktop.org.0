@@ -2,59 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eK0cMRXAqGnVwwAAu9opvQ
+	id vbFtB5DEqGlaxAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:28:21 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:47:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31808208F8C
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842552091AF
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8BF10EAD6;
-	Wed,  4 Mar 2026 23:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E30410EAD1;
+	Wed,  4 Mar 2026 23:47:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aHeV747Q";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NmZ5wYzw";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KBqNzH9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA5510EAD6
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 23:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
- :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oiyF33nSCEyqDpT403HDB763yTr8HFtJksrXsM7ypLw=; b=aHeV747QwfzSfBqbb1lCAtZLtD
- z/UwfZcbXnRgM4Z0aI/bNF06H3lFntblGgGnvpJ+wXSrBO0GcYQLeRBhhSlV9OpFIecESnJxiJ4Pj
- EoG+Ui1ZhTYUGPvW4fhJU/xjwENUohKhVq+0gjv25mxQiUiCGMY90pz+b3NJFpTdXrjM7aqQf52Hx
- WSGANqr9ZIXT3KIG49P29k10TCeS7PGLgaKNJR0K367+/8qbBZ0h+5W2U+ZxgDsqmzXBLhF8IAVP+
- fAKKbN8epVatUtgGTZJD0bpB6cMhbVJZz/oPvxP/M1d5Oz6f9Fk2euomxRy7VnsLzPrqhFn0+Za6M
- +/23zmlw==;
-Received: from 179-125-79-229-dinamico.pombonet.net.br ([179.125.79.229]
- helo=[127.0.0.1]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vxvdU-0098hK-ID; Thu, 05 Mar 2026 00:28:12 +0100
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Date: Wed, 04 Mar 2026 20:27:52 -0300
-Subject: [PATCH] drm/ttm: Fix bo resource use-after-free
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963B210EAD9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 23:47:20 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 624HFrSX1456003
+ for <dri-devel@lists.freedesktop.org>; Wed, 4 Mar 2026 23:47:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=dRQ8uRt4/P5Xnnec5FFe6n
+ /FfmAB6R9vICbGidBFlm4=; b=NmZ5wYzwIxyOrtsZ8up/X6ZzXE6q0Brt136GTa
+ 1y0Fqr2l+ua/4vUaey6GoRyQrEq07cAO6SaHFVorUs4rRIEHU4UtvOEbRNzzht1c
+ WjgOZNNArEDS3Ye9CB3EWTYnF3ocgwyn1HebqJ+zYvYgrClaLbYzX3r1NB40/aN6
+ 9mJjBs+69oII0uiB5NZ9q55vKj2TLwXBHuXJmQQ4j10o8q0V3fBnjFtYbayf+EEf
+ TQ7rf2KE3gI+OHi6ToOXtaPVF8LKjJv+IxI/7P4HriyjsbbK7/3uq2vqrNo94Ytj
+ 6YC047SoyUMkPv1+krLW4n4R6dTdd3O5aWjcWLbIpGLrkMJw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpj182g2t-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 23:47:19 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-89a1f95aea0so47881936d6.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 15:47:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772668039; x=1773272839;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dRQ8uRt4/P5Xnnec5FFe6n/FfmAB6R9vICbGidBFlm4=;
+ b=KBqNzH9oajtAlxAHul4kdoCqvWJ0qfW8QdinMmd/67CW2HMDSMQApRiMQhAn104WmY
+ KMj8Geqv4F0VWEQOCLEKlXFs5NeZan41x+JUWsAACnoqwia8KYX1ZYNpLNOUjLkUqu/E
+ dWqIESFb5bQg8712XwhDtwdpuhIelFvgVHcKNkmnLb4AC66byvMei2TRX16FumIanAT6
+ D6hYELaH4bn1Cijy4cWlT924cAHdVpigEDp61SQaeLxN6O/CeY5tdH8Dj89JUS5SZN1q
+ BCTsqVnMoi1hIhW6JCVt1mnTE+3Zq9m/AsU76loKRLyUH/WtPEBQ++0NO5NJbmiEXvEB
+ XycA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772668039; x=1773272839;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dRQ8uRt4/P5Xnnec5FFe6n/FfmAB6R9vICbGidBFlm4=;
+ b=f50DrO1qnJCKP2IfMLjuhRH7eK4qpWHpxx/fVpmjwUlrNAdhD8p4CZmZHE/1uk41hA
+ reG+RswlWG8Z0WMm+b45OccyP8UcjxYpCXXtQoMiW7r4Qmp0KDyGxkvUgpYzb/LBeHrw
+ OJh8bkxpwYXE6T+3BK07NWv0B/CRRoqWSFWQKJHYrdo8b87chmPWAKLau6CbjQFz1djX
+ uh+msgCSi9ZSZGlK5JyMWGUvyCLUhyWJtstMl+d2UMtzpN1WjegMLBKMiTqhaEvzb2pP
+ zVvhzNu18+pTWe6qyW3rmJ4kGmV5DPbu18xF9BDAzggGVkCvgeHHxy1S3uoZQr4aaYuK
+ dfyQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWr1Ta1fa4zk2lXpioJrKCZL+IdxOqtKiZcXHRCZauY/7sQIxtvbrsNoVKbD07ykMy56pO9oYhi2E8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQgHI8tKIMCyR4pKqFx/XO61rLbfDYAbR/5kLVI1UZfdlHlO66
+ g8zGq1pHJpvz8FeWWWIQoANSjowtHs8KMZWDzWIgB9rzBAFbQQJS/C3180Kw09/bgPyZhvjpk+d
+ nRqHHbnvUYQvtUrnfot6ZpJuvK0cLBBIK+gsng/84bbEIeHNAvvROmwNkYP+XLh94RmcTF6Xq++
+ rPn9s=
+X-Gm-Gg: ATEYQzwwunODs6QNHsDL8BlDhVAOAepcZpjDP3WDGQ/yg8VZ2Wb2p52jjUpu0JPQsSK
+ Kvvtf1HAWHQSqji40cz8nfCZEW90wymH/G3Wth0kOaKHiSTyEJGCLAWr4nZNEH7969vj3K458CG
+ Bj6OFl3W2rJCYjJJZw93s0BO442OeoRi0mIEgJM6/vlNUl7W6Ffpr77eznlTZwB7p0nBWc5Om3r
+ DmwZnjMLDBLmNff9B705JgH9mtDg1TwzAR5lQXvpdMX8Jkyq9cDqSxPWZ7e0RxMBQyHtn2jftsg
+ dHH6es5Do5+iA+CTtYqo9ydySXPOsQTLhxyxKpSUI0/1jtQRc9J0ETMUXyN9txlcdAZ/oMfZkFQ
+ 41vRV/bKlAouAZzpU4P0fvE+dAGK+8cntyTB4B03P8d7K9+i2qZk5U4oBMgq7MwMgLQeUeZzYiu
+ usylJ4j6yAvkUKZlqvouXhgtikgKj/kCapBnc=
+X-Received: by 2002:a05:620a:470c:b0:8c9:f9c2:118e with SMTP id
+ af79cd13be357-8cd5af1bd5fmr444193485a.32.1772668038456; 
+ Wed, 04 Mar 2026 15:47:18 -0800 (PST)
+X-Received: by 2002:a05:620a:470c:b0:8c9:f9c2:118e with SMTP id
+ af79cd13be357-8cd5af1bd5fmr444189185a.32.1772668037874; 
+ Wed, 04 Mar 2026 15:47:17 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a12d8162ccsm574403e87.77.2026.03.04.15.47.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Mar 2026 15:47:15 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Thu, 05 Mar 2026 01:47:12 +0200
+Subject: [PATCH] dt-bindings: display/msm: move DSI PHY bindings to phy/ subdir
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260304-ttm_bo_res_uaf-v1-1-43f20125b67f@igalia.com>
-X-B4-Tracking: v=1; b=H4sIAPi/qGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDYwMT3ZKS3Pik/Pii1OL40sQ03TQjA0szY1OzlLQ0UyWgpoKi1LTMCrC
- B0bG1tQD/2ELGYAAAAA==
-X-Change-ID: 20260304-ttm_bo_res_uaf-f2096356dff5
-To: dri-devel@lists.freedesktop.org
-Cc: Christian Koenig <christian.koenig@amd.com>, 
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, kernel-dev@igalia.com, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-msm-dsi-phy-v1-1-0a99ac665995@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAH/EqGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwNT3dziXN2U4kzdgoxKXUuzJAMz4+TkVPMkUyWgjoKi1LTMCrBp0bG
+ 1tQCPGzCUXQAAAA==
+X-Change-ID: 20260305-msm-dsi-phy-96b063cce7b5
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7200;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=EddD0jK9xDGmaxIRtN9XorQUDW4OMYW5Z1114ll89LM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpqMSBChCi8G8GUO04pbQErRlAh/8sb6jvD6jiI
+ LEO6ahwb12JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaajEgQAKCRCLPIo+Aiko
+ 1fUAB/9ffjvy59SgM3ObKkc1S99icLVUP31lNo757yTgpK6Z0w4BfohkBt1Dht0nWd6M2pr3a6a
+ k34ZnoYhn9o+nKDORGFM4IqhzBn7yw6kGXbKTnj/ook+/69HT8QIqaTqku72NC/8kHR7p2bHsDp
+ gqL4GH+230D7nh4bqjhKd2u1lN/9p8qFmi40jTMjj+JDFvIv4TMkqfW6XfJWRSz5c/qhmDC8BK/
+ NxBYdCFp7QkP0Nd4wnHw/Nz5UhrnUMApGAOV6gaM3cXH6RWIARkWZ/epmRmVqbBMX+vS/TyiVRe
+ AfSAYvZBXNcilPlHJzzSTEawqTFPMBDqVQf/h7Uo9M0s/csq
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-GUID: FZh-mdHp-J_KCzEPdyEpfDopQ_Zd7Cz8
+X-Proofpoint-ORIG-GUID: FZh-mdHp-J_KCzEPdyEpfDopQ_Zd7Cz8
+X-Authority-Analysis: v=2.4 cv=Ed7FgfmC c=1 sm=1 tr=0 ts=69a8c487 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=gEfo2CItAAAA:8
+ a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=RAbU-raeAAAA:8 a=wepcCMuCHaKBKvurWtMA:9
+ a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=TjNXssC_j7lpFel5tvFf:22 a=JiizpSU_mAIq9zsZDqn2:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDE5NSBTYWx0ZWRfXyXA2mmDdelm8
+ K+wBrSg/OYyLo6huaPwdwznRJiGm6qy6CVNiIh5gVgstSh+Npc88mw16zKBjExxAMtKtZFBKz85
+ ckoCCVzlDMg/HF3vO4sLIS1vy9fNMyupfOkDnMDwSuAz856zOTrQAB3XbmHREZAjwuG6edxB4Y2
+ 7vlUkcYq3kCKq94o1fnI56mbGTdUFG2Jk66ybesWoNybgl34LClJeU5mv0nVF3k8VXOeRL9GTkl
+ 0o5QuGxYn4d4OkMAzZbSLXwc/jD/wmImp8PY7VE+ahP15CsQwjPgEAkOQC39cceiI7bjRVQR4PA
+ 73k6kmQ4BFX4DMBJFgoCamISkyNJn24HWtNheRGd5Z/VGbsl94zCLNZKmpio55KUk2fKAg0XBDT
+ pTMfBDdG8QkAUJQszLiZSZFJkHpE143O9MTyA+sEBtufQWoad7bepAM0J9JpcnWDRjnWfbqbuPs
+ oG+nVBqKZRfHGfuO9lA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_08,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040195
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,188 +173,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 31808208F8C
+X-Rspamd-Queue-Id: 842552091AF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:quic_mkrishn@quicinc.com,m:jonathan@marek.ca,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-phy@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.815];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[cascardo@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,linaro.org,quicinc.com,marek.ca];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,devicetree.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-When allocating a lot of buffers and putting the TTM under memory pressure,
-during swapout, it might crash the system with the stack trace below.
+Historically DSI PHY bindings landed to the display/msm subdir, however
+they describe PHYs and as such they should be in the phy/ subdir.
+Follow the example of other Qualcomm display-related PHYs (HDMI, eDP)
+and move bindings for the Qualcomm DSI PHYs to the correct subdir.
 
-It turns out that ttm_bo_swapout_cb might replace bo->resource when it
-moves it to system cached.
-
-When commit c06da4b3573a ("drm/ttm: Tidy usage of local variables a little
-bit") used a local variable for bo->resource, it used the freed resource
-later in the function, leading to a UAF.
-
-Move back to using bo->resource in all cases in that function instead of a
-local variable.
-
-[  604.814275] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[  604.814284] #PF: supervisor read access in kernel mode
-[  604.814288] #PF: error_code(0x0000) - not-present page
-[  604.814291] PGD 0 P4D 0
-[  604.814296] Oops: Oops: 0000 [#1] SMP NOPTI
-[  604.814303] CPU: 2 UID: 0 PID: 4408 Comm: vulkan Tainted: G        W           7.0.0-rc2-00001-gc50a051e6aca #21 PREEMPT(full)  aef6eb0c02036a7c8a5e62e0c84a30c2be90688d
-[  604.814309] Tainted: [W]=WARN
-[  604.814311] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0133 08/05/2024
-[  604.814314] RIP: 0010:ttm_resource_move_to_lru_tail+0x100/0x160 [ttm]
-[  604.814329] Code: 5b 5d e9 83 b4 1b cb 48 63 d2 48 c1 e0 04 48 8b 4e 40 48 8d 7e 40 48 8b ac d3 d8 00 00 00 48 89 c3 48 8d 54 05 68 48 8b 46 48 <48> 3b 38 0f 85 b3 3b 00 00 48 3b 79 08 0f 85 a9 3b 00 00 48 89 41
-[  604.814332] RSP: 0018:ffffcfe54e3d7578 EFLAGS: 00010256
-[  604.814336] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff8cf09eced300
-[  604.814339] RDX: 0000000000000068 RSI: ffff8cf1d4c1fc00 RDI: ffff8cf1d4c1fc40
-[  604.814341] RBP: 0000000000000000 R08: ffff8cf09eced300 R09: 0000000000000000
-[  604.814344] R10: 0000000000000000 R11: 0000000000000016 R12: ffff8cf1d4c1fc00
-[  604.814346] R13: 0000000000000400 R14: ffff8cf096289c00 R15: ffff8cf084c8f688
-[  604.814349] FS:  00007f00531b7780(0000) GS:ffff8cf4217a0000(0000) knlGS:0000000000000000
-[  604.814352] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  604.814355] CR2: 0000000000000000 CR3: 000000018e3df000 CR4: 0000000000350ef0
-[  604.814358] Call Trace:
-[  604.814362]  <TASK>
-[  604.814368]  ttm_bo_swapout_cb+0x24c/0x280 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814380]  ttm_lru_walk_for_evict+0xac/0x1d0 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814394]  ttm_bo_swapout+0x5b/0x80 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814405]  ttm_global_swapout+0x63/0x100 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814415]  ttm_tt_populate+0x82/0x130 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814424]  ttm_bo_populate+0x37/0xa0 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814433]  ttm_bo_handle_move_mem+0x157/0x170 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814443]  ttm_bo_validate+0xd9/0x180 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814453]  ttm_bo_init_reserved+0xa0/0x1b0 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.814461]  ? srso_return_thunk+0x5/0x5f
-[  604.814469]  amdgpu_bo_create+0x1f5/0x500 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.814855]  ? __pfx_amdgpu_bo_user_destroy+0x10/0x10 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.815182]  amdgpu_bo_create_user+0x3d/0x70 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.815504]  amdgpu_gem_create_ioctl+0x16c/0x3b0 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.815830]  ? __pfx_amdgpu_bo_user_destroy+0x10/0x10 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.816155]  ? __pfx_amdgpu_gem_create_ioctl+0x10/0x10 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.816478]  drm_ioctl_kernel+0xae/0x100
-[  604.816486]  drm_ioctl+0x283/0x510
-[  604.816491]  ? __pfx_amdgpu_gem_create_ioctl+0x10/0x10 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.816819]  amdgpu_drm_ioctl+0x4a/0x80 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.817135]  __x64_sys_ioctl+0x96/0xe0
-[  604.817142]  do_syscall_64+0x11b/0x7e0
-[  604.817148]  ? srso_return_thunk+0x5/0x5f
-[  604.817152]  ? srso_return_thunk+0x5/0x5f
-[  604.817156]  ? walk_system_ram_range+0xb0/0x110
-[  604.817161]  ? srso_return_thunk+0x5/0x5f
-[  604.817165]  ? __pte_offset_map+0x1b/0xb0
-[  604.817170]  ? srso_return_thunk+0x5/0x5f
-[  604.817174]  ? pte_offset_map_lock+0x87/0xf0
-[  604.817179]  ? srso_return_thunk+0x5/0x5f
-[  604.817183]  ? insert_pfn+0x9f/0x1f0
-[  604.817188]  ? srso_return_thunk+0x5/0x5f
-[  604.817192]  ? vmf_insert_pfn_prot+0x97/0x190
-[  604.817197]  ? srso_return_thunk+0x5/0x5f
-[  604.817201]  ? ttm_bo_vm_fault_reserved+0x1a6/0x3f0 [ttm a469cf7fcb6737fdcf3fb5cdbcc8b1ca41f3e302]
-[  604.817213]  ? srso_return_thunk+0x5/0x5f
-[  604.817217]  ? amdgpu_gem_fault+0xe2/0x100 [amdgpu 361516226706227f4403914dbfdd3f90996136ca]
-[  604.817542]  ? srso_return_thunk+0x5/0x5f
-[  604.817546]  ? __do_fault+0x33/0x180
-[  604.817550]  ? srso_return_thunk+0x5/0x5f
-[  604.817554]  ? do_fault+0x178/0x610
-[  604.817559]  ? srso_return_thunk+0x5/0x5f
-[  604.817562]  ? __handle_mm_fault+0x9be/0x1120
-[  604.817567]  ? srso_return_thunk+0x5/0x5f
-[  604.817574]  ? srso_return_thunk+0x5/0x5f
-[  604.817578]  ? count_memcg_events+0xc4/0x160
-[  604.817583]  ? srso_return_thunk+0x5/0x5f
-[  604.817587]  ? handle_mm_fault+0x1d7/0x2e0
-[  604.817593]  ? srso_return_thunk+0x5/0x5f
-[  604.817596]  ? do_user_addr_fault+0x173/0x660
-[  604.817602]  ? srso_return_thunk+0x5/0x5f
-[  604.817607]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  604.817612] RIP: 0033:0x7f00532cef4d
-[  604.817617] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-[  604.817620] RSP: 002b:00007ffd69ab0650 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  604.817624] RAX: ffffffffffffffda RBX: 00007ffd69ab07d0 RCX: 00007f00532cef4d
-[  604.817627] RDX: 00007ffd69ab0700 RSI: 00000000c0206440 RDI: 0000000000000005
-[  604.817629] RBP: 00007ffd69ab06a0 R08: 00007f00533a0ac0 R09: 0000000000000000
-[  604.817632] R10: 00007ffd69ab07c0 R11: 0000000000000246 R12: 00007ffd69ab0700
-[  604.817634] R13: 00000000c0206440 R14: 0000000000000005 R15: 0000000000000243
-[  604.817642]  </TASK>
-
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Fixes: c06da4b3573a ("drm/ttm: Tidy usage of local variables a little bit")
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Merge strategy: I'd ask to merge bindings through the msm tree, reducing
+the conflicts for the current kernel development cycle. Starting from
+the cycle after this patch is merged, DSI PHY bindings should go through
+the PHY tree.
+---
+ .../{display/msm/dsi-phy-10nm.yaml => phy/qcom,dsi-phy-10nm.yaml}     | 4 ++--
+ .../{display/msm/dsi-phy-14nm.yaml => phy/qcom,dsi-phy-14nm.yaml}     | 4 ++--
+ .../{display/msm/dsi-phy-20nm.yaml => phy/qcom,dsi-phy-20nm.yaml}     | 4 ++--
+ .../{display/msm/dsi-phy-28nm.yaml => phy/qcom,dsi-phy-28nm.yaml}     | 4 ++--
+ .../{display/msm/dsi-phy-7nm.yaml => phy/qcom,dsi-phy-7nm.yaml}       | 4 ++--
+ .../{display/msm/dsi-phy-common.yaml => phy/qcom,dsi-phy-common.yaml} | 2 +-
+ 6 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index acb9197db8798659da178186115c2912b84f64e6..0765d69423d2f4028bf2effd21af53e117ee7a29 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1107,8 +1107,7 @@ struct ttm_bo_swapout_walk {
- static s64
- ttm_bo_swapout_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
- {
--	struct ttm_resource *res = bo->resource;
--	struct ttm_place place = { .mem_type = res->mem_type };
-+	struct ttm_place place = { .mem_type = bo->resource->mem_type };
- 	struct ttm_bo_swapout_walk *swapout_walk =
- 		container_of(walk, typeof(*swapout_walk), walk);
- 	struct ttm_operation_ctx *ctx = walk->arg.ctx;
-@@ -1148,7 +1147,7 @@ ttm_bo_swapout_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
- 	/*
- 	 * Move to system cached
- 	 */
--	if (res->mem_type != TTM_PL_SYSTEM) {
-+	if (bo->resource->mem_type != TTM_PL_SYSTEM) {
- 		struct ttm_resource *evict_mem;
- 		struct ttm_place hop;
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-10nm.yaml
+similarity index 96%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-10nm.yaml
+index fc9abf090f0d..d98217747ad1 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-10nm.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-10nm.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-10nm.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
-@@ -1180,15 +1179,15 @@ ttm_bo_swapout_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
+ title: Qualcomm Display DSI 10nm PHY
+@@ -10,7 +10,7 @@ maintainers:
+   - Krishna Manikandan <quic_mkrishn@quicinc.com>
  
- 	if (ttm_tt_is_populated(tt)) {
- 		spin_lock(&bdev->lru_lock);
--		ttm_resource_del_bulk_move(res, bo);
-+		ttm_resource_del_bulk_move(bo->resource, bo);
- 		spin_unlock(&bdev->lru_lock);
+ allOf:
+-  - $ref: dsi-phy-common.yaml#
++  - $ref: qcom,dsi-phy-common.yaml#
  
- 		ret = ttm_tt_swapout(bdev, tt, swapout_walk->gfp_flags);
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-14nm.yaml
+similarity index 94%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-14nm.yaml
+index 206a9a4b3845..be31b9bac9d5 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-14nm.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-14nm.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-14nm.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 		spin_lock(&bdev->lru_lock);
- 		if (ret)
--			ttm_resource_add_bulk_move(res, bo);
--		ttm_resource_move_to_lru_tail(res);
-+			ttm_resource_add_bulk_move(bo->resource, bo);
-+		ttm_resource_move_to_lru_tail(bo->resource);
- 		spin_unlock(&bdev->lru_lock);
- 	}
+ title: Qualcomm Display DSI 14nm PHY
+@@ -10,7 +10,7 @@ maintainers:
+   - Krishna Manikandan <quic_mkrishn@quicinc.com>
  
+ allOf:
+-  - $ref: dsi-phy-common.yaml#
++  - $ref: qcom,dsi-phy-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-20nm.yaml
+similarity index 93%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-20nm.yaml
+index 93570052992a..1d135419d015 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-20nm.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-20nm.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-20nm.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Display DSI 20nm PHY
+@@ -10,7 +10,7 @@ maintainers:
+   - Krishna Manikandan <quic_mkrishn@quicinc.com>
+ 
+ allOf:
+-  - $ref: dsi-phy-common.yaml#
++  - $ref: qcom,dsi-phy-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-28nm.yaml
+similarity index 94%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-28nm.yaml
+index 371befa9f9d2..f8fe75fa29d7 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-28nm.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-28nm.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-28nm.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Display DSI 28nm PHY
+@@ -10,7 +10,7 @@ maintainers:
+   - Krishna Manikandan <quic_mkrishn@quicinc.com>
+ 
+ allOf:
+-  - $ref: dsi-phy-common.yaml#
++  - $ref: qcom,dsi-phy-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-7nm.yaml
+similarity index 95%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-7nm.yaml
+index 9a9a6c4abf43..d45015e24639 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-7nm.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-7nm.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-7nm.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Display DSI 7nm PHY
+@@ -10,7 +10,7 @@ maintainers:
+   - Jonathan Marek <jonathan@marek.ca>
+ 
+ allOf:
+-  - $ref: dsi-phy-common.yaml#
++  - $ref: qcom,dsi-phy-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-common.yaml
+similarity index 91%
+rename from Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml
+rename to Documentation/devicetree/bindings/phy/qcom,dsi-phy-common.yaml
+index d0ce85a08b6d..849321e56b2f 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,dsi-phy-common.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/display/msm/dsi-phy-common.yaml#
++$id: http://devicetree.org/schemas/phy/qcom,dsi-phy-common.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Display DSI PHY Common Properties
 
 ---
-base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-change-id: 20260304-ttm_bo_res_uaf-f2096356dff5
+base-commit: ac47870fd795549f03d57e0879fc730c79119f4b
+change-id: 20260305-msm-dsi-phy-96b063cce7b5
 
 Best regards,
 -- 
-Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+With best wishes
+Dmitry
 
