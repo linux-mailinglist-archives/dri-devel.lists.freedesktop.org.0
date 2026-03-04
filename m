@@ -2,142 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wARkGEVDqGlOrwAAu9opvQ
+	id oJE1OXtEqGlOrwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:35:49 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:40:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94E3201A07
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71805201C13
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 15:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFD610E18E;
-	Wed,  4 Mar 2026 14:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06ABD10EA1D;
+	Wed,  4 Mar 2026 14:40:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vcq0XTgA";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZTY78ogZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M637vbAj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9400410E18E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 14:35:45 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 624DOu122861188
- for <dri-devel@lists.freedesktop.org>; Wed, 4 Mar 2026 14:35:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VxKyQpAO52H/UKeLl72yH06DrNEkOADt/RkzWxe9EMo=; b=Vcq0XTgAihQCmCFd
- N5Tvc2S9+TrbaUhusiygGxg67r3mRI8yPoBgxXfSxFaEb2tglmaugwlxTlxDIMdo
- M/U9Zq5rrOeQfbZk2M2g+sU3xFu40Qebah9pjReVPwLEHizXQoaYYIPLPbeKtYow
- vDHIt2yPlOR8nCfPKM9VxjeyyHSyoHvIbq82xDRTJJ0rcXA4jS/1ebz569gFQOfO
- QTZD20lpAuAY/4FUkuN4KZYbdgoy94UnoSAnqPPE0IRr4SrpPncAVPh9TJtpTqy8
- lHZSTj22Ta0ROipmSICVigfpteGfPZdQyBAN9fCCUifooYit+CQQYKbuwPtz16Ib
- zSGFaQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cp2c9m7bx-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 14:35:44 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-35979a03106so4193341a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 06:35:44 -0800 (PST)
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
+ [74.125.224.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE0810EA05
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 14:36:00 +0000 (UTC)
+Received: by mail-yx1-f41.google.com with SMTP id
+ 956f58d0204a3-64ae222d87dso6312139d50.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 06:36:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772634959; cv=none;
+ d=google.com; s=arc-20240605;
+ b=jm9PvJxAezZpHLlxlNkh/2bRe7Fp/OcfZAD9bCADj5HOfxSK2QeuKFoikMrCFjJubV
+ /BVmnUge0AiphfiY4bLxT5TkiroB+Y1cwiOZTSIrc7HPNniNaGs/qoh+9CydsWupzj1l
+ 8ICSjnFAkb+UJXwt7p6/ru2vIYpWX9hBcXN6fCHqECwXHG+czUDHuq23BN4zKYm049Qq
+ A36zWrtlXoQnWXLhMiVfxFWG+ifW+X1mBp+9lrOkb13kDDmjs7LC2HoZIO9EspRq4l2m
+ CHx/mcmt6jZxx31/S0G+KcfAw7rczGzSdkjK+loVRzOKSUaLJNzBQsK5i88reIyFIKsB
+ Pnig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=HPekhOniE8cwd2pMy8xyd42/K20B+U7H/0Z7H/Qqqcs=;
+ fh=WmUMdcdWLQl3Ad3+W9MtYov46OJ2GrWZ6Rkt/43dDoM=;
+ b=MDVI+9FPLr2NCMR4kG0v+PZ7VnG7rMeHeTad21FWuTk/d8nUlWkbfoVGbIvjkopvvx
+ ymooVP6tBBjZqbbxsVWBgWap3y2WXHeW355Br7x6FhfdZeNx6TBj6sxa2HW+hp8ig2y9
+ 56b4/3vX/aIYc6YaYSZ4zSmB3YP5j/mpaSpnd+xumr24Xkbd3/Zsu26ECFDTn4QJ1SOk
+ yys6YndTon+JgubE3hAmqoar6t8P6rkUPCdCg/xeA2cI5tgkuFbi+KoDLf3BkJDu9R4i
+ pSYNgudFldGi6Y/OvyPP7sulHTdUGMt/wGVoYOFxPSEQIRSnnHofixWX4EVODjObJe2O
+ RZ0w==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772634943; x=1773239743;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VxKyQpAO52H/UKeLl72yH06DrNEkOADt/RkzWxe9EMo=;
- b=ZTY78ogZ/p2tHTLVFq8qUlELaiw7i9O9IkJ3f7f9BrmTFi7Q8p85gWaqIkjnMx/tdp
- cLCD+ITLEXQBlnW1BdncUDx5W6Qcazc4mHCYqOerhNDitYfVkxo/W0+ih9HZZLDrdQ4U
- MNn36t0W1KIWTFjVgI0478++rQIAglIvdrWTFCvM0kI4I6BxIpYPUOspR+i0w6bu6IHR
- X6Nq7GD3j6uqYgwv+OQBBWaxtxSoAKY1NgL9YYzNby1RAsbjFSC4H2+HQhOH93kZxynP
- g0ECj9i532wPu9jqssk2bsonke25SjWWERaeZ7wQma+hKZ2Hb5AXndwVfsxX1oW/OAtu
- +S8Q==
+ d=gmail.com; s=20230601; t=1772634959; x=1773239759; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HPekhOniE8cwd2pMy8xyd42/K20B+U7H/0Z7H/Qqqcs=;
+ b=M637vbAjqRL6A0khKqPjHUxrQmlP3t74kfaTt79zRR/iP41qzFpriGVqK0zvlBpuCb
+ m8/MJjhjSIQl1O/PjX5M1eJaoCeneFP7UV6rCLvTEZG7HbbU0yXlFkd1QgIF0bLRNibl
+ nr7GsepStWy3+S3PxqJagllXk1XlLli7IYjYzdEH2DRQLzG13tPCbRAvwlaNO05P+aqX
+ cO5wnHSZlGq/2CJ6MUQa0aNwgEFkde6hlZLGeDz/mM7Vb48N+toNltq78xn4meKYgXBt
+ HI+xOIhlwrVTvKdGsA5xPgtIEZ32u4X00WBYvziPgTPVn3MvfQLVZpS1JeHVrUUApF46
+ J6TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772634943; x=1773239743;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VxKyQpAO52H/UKeLl72yH06DrNEkOADt/RkzWxe9EMo=;
- b=l1NVdEml79HUkzAd2R0PiOn3muJQ/vIi73sdOzbG4vGZaU5HLYd+7XmGwmSQEV7op4
- 0fTfJPdKOpl0h6H1bC002mixd2onJkBP4P8nUlEQ7pIme8E7jH00SbddjSo59/wafcTl
- yZDlHAy0Vi46fq8EbR8eDThobw2II/4lqzERWs4YBN4+Ar6+2skJrVaALdY9UV4OodaU
- 8d/D6GLsyrfZ+X7SC4G3kDsQKDy6HpY/cIgN65iuxmL62ynwNraKv2tBOqnfIYs17rVz
- wARr7e3gCoo9f1cjx9IMaOD30LTWDinB3OyrM7iOq3vWHasj21WUcL2B0/j0A2OzZhId
- A3AA==
+ d=1e100.net; s=20230601; t=1772634959; x=1773239759;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=HPekhOniE8cwd2pMy8xyd42/K20B+U7H/0Z7H/Qqqcs=;
+ b=mwIcZZT+wPr5XnuPfBGYVtKP22yzagweD8gK9yOEcxujoKU5sl9lHaO/oQIbH/po0r
+ Qk5qJ+tRNEVoCivD9p5w5rcZZNl4B5r8CJalKfn61ZiQCBzYjVDrBlZCTb95eE+dHgCL
+ hxhWs0iWwM5VU1fGmZUitpygi1EQvWX7VIDDd/+d3xA8rzj4+LU/zbocLrzRFQ/hc96H
+ SWClDTEKU2QY+knI/ZHzqvoxO+ptKfZ6VxbCeZtrBtKLEMazupgxbStkHq+VaUv3IUWs
+ /Dd9ab5gZOWRkJkvzQr1Mw9j7kA5s4VNy8b3Xsos2kPSN04g6tblubSIxJiWtF+MC3FL
+ Ci1g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAYi5QrC96lVkcBADnNzLY9fnQPd27Rra/rgYJ7H9QDUWo6yRtRdt/dxE5fZ7ISelS2fYxQQBjY18=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXPD/TvyyajiyOzmrKcka6KuxZdJcXf39dzis620pJOA/xzk32
- RwxyPHl6hfIjwvkgCHkZX4K8wVRalM0OdPtk2rRWpQcz7FpK+qoFA074QD4CNzJXo/SYrISuGxK
- RhCnGdKG+r7szLLbzwYWNGUlyFjGpKro0ov7JKtSV69VR+yWSsgvdlqH8YYRPoov1/7Bm2PQ=
-X-Gm-Gg: ATEYQzz6gxcCMIPWqCtUFYhAcGmOEBIvLJk7S9y28UzF5EbHnFU3u+ggZ5Xg3dr+Wan
- QKOFGHk2JH2hnu2sIezRNsmV4j73BIJr0Li8kjhh/5mzh4pBkEsoiPKSqG/UiV+Tbtk4abaNAmH
- 9QEkK0j9Kgy9SwzSFRB1zG21q3N9aP0MZAHhLP6NggE3DT8y8FdDORlFtcueCX4xyCgP3P43zlI
- GkbsQjV8P7f98SQuMYRP+zFSSNqeyyen4vz4JeFs9b2rvFag5vv8yMN8ygu9GHw2HBFIXr+ceHa
- uGmFfeTOfLLjN6j8Dgs/cwBcWIMSxYhwJLnVuolJlmNYJmoMgW0nG7MTamNwNUXrHTt5yemFydc
- ogqNt28NAtvUuPC2U3R9d8VJq2D9CSSun9z02yu6580YfkkE=
-X-Received: by 2002:a17:90a:d40d:b0:354:a065:ec3e with SMTP id
- 98e67ed59e1d1-359a6a66920mr1865464a91.26.1772634943398; 
- Wed, 04 Mar 2026 06:35:43 -0800 (PST)
-X-Received: by 2002:a17:90a:d40d:b0:354:a065:ec3e with SMTP id
- 98e67ed59e1d1-359a6a66920mr1865427a91.26.1772634942654; 
- Wed, 04 Mar 2026 06:35:42 -0800 (PST)
-Received: from [10.206.105.210] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c70fa82cf71sm16879002a12.26.2026.03.04.06.35.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2026 06:35:42 -0800 (PST)
-Message-ID: <bb8a6e27-1b9b-4db6-b668-314a84b79b80@oss.qualcomm.com>
-Date: Wed, 4 Mar 2026 20:05:36 +0530
+ AJvYcCX24N8kiUT52RY7XbeOkqolOdVOSrS58ytplyuy3Vn0/YcVT+7RKQ9prVx2bXx3R2C7403rN9yhdpo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIKLUZ1+r/xxq+T4Fnkd+K+NdFCe+uAR9Eclka6KqWAN7rB+e9
+ yQu0ZP++XyItcWVkPdWbdi9LuiwCkOpdzWhDH97O0FZ8afA4CMiIuVhgFQsk+8jCAoR03vMf5Tp
+ c/KuTMYS7lHmUWf/OyPxglHizyHxKA7I=
+X-Gm-Gg: ATEYQzynGc7TMqf65XdCsKJKtThBqCLsqPWttyL+IW2PZ7O+8PVOEcQKxyiEDhVY9BU
+ qAp4X79VK1JZaHs5Ah9435PbvIIHcbF42XO+tYsrio93rahtUQmcjjXgML/EFjXQL3aE+VoTK6e
+ J9TQnl6mKE3JnilfKFcHCI0GnkOF+nsHdle9dJnSIHe0GPpa5jg9gqIi/KN9mzmSDT/TVJpuKvb
+ QKgH0pqH9jSrZ1sqNHKcli1WYr+6785mBAVbQCLl+QqE1mX97BPQUW4VTbWsoOcjasa/uCtIoL0
+ VXwozTDIHbzTXx4EOCGQGaEE1SM6LgK8RYT7Wege0vnusdurcFm8Dl4MguY=
+X-Received: by 2002:a05:690e:689:b0:64a:d80f:5c8 with SMTP id
+ 956f58d0204a3-64cf9b70f74mr1396869d50.21.1772634959060; Wed, 04 Mar 2026
+ 06:35:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] misc: fastrpc: Add reference counting for fastrpc_user
- structure
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de,
- ekansh.gupta@oss.qualcomm.com, stable@kernel.org
-References: <20260226151121.818852-1-anandu.e@oss.qualcomm.com>
- <r4b67y3zbhclkdskbyobtypkrz5pszykvt2hitntvdimanuwe5@34uqxkc34ub7>
- <07d585fe-dfd1-41c9-9c58-b2f9893e572e@oss.qualcomm.com>
- <qoknqyxewirettcqlymmvnrrn5mft4ugf6zthvgmpeoapotct6@dundgjyvtjj2>
-Content-Language: en-US
-From: Anandu Krishnan E <anandu.e@oss.qualcomm.com>
-In-Reply-To: <qoknqyxewirettcqlymmvnrrn5mft4ugf6zthvgmpeoapotct6@dundgjyvtjj2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDExOCBTYWx0ZWRfX+lDqMQm2f5zM
- 0SM2uel9lbH0swGJ4viT9JKT3JEH4qZ3He8VSoDSmx3aoUEoWuKWPBmBIMYQj5n8xtQ9tSsIO1S
- n710VakBRwQpwm+SuM1B3wmj9tK2ooYbxGIXjjhQ8AnY+T+8QOpUIZFNNjVh8zLUQn1q6nNhdzQ
- H/1kI5/FsCK+FLA/XOEKy/X/sQeYaJDp+qkXi3w4TbnDLW5s2FAX2vFnzTgCck9eUdG4Hb9ZQHy
- Q6vd+LxmAzQsHJRmZ7j8Az0oumAMlsozjNsYSMZw9Kh4Jo710ybUnU3Ku1tJRgaYEsbicOc9JrA
- 4iS5SlNQkBCQKjYGUgoY8BdkkczoXFpZ9lo5E5gl3dJ9NAgdcdnTEE2uP76cREFidQlsu18LGf/
- vt/jL2Yt92Aahs0IeuJBmanfJpqtdv0vWVweyHdGuoreIqyhY4+iKWQdo0nWFX8G6W3um1SMOB5
- oX0dSfnORieM305FU7A==
-X-Proofpoint-ORIG-GUID: -AIlgyqyLI74Y49JAZL0d52fcJDdDjzK
-X-Proofpoint-GUID: -AIlgyqyLI74Y49JAZL0d52fcJDdDjzK
-X-Authority-Analysis: v=2.4 cv=EefFgfmC c=1 sm=1 tr=0 ts=69a84340 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=lEOYtOyc511SuodwwMIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-04_06,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603040118
+References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
+ <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
+ <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
+ <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
+ <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
+ <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
+ <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
+ <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
+ <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
+ <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
+ <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
+ <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+ <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
+ <CAHijbEUSFA3ptTNZ_YuOLgc44Px4CjAaa9x6DDjJktRCKjj+Dw@mail.gmail.com>
+ <0847752c-39cb-4233-8e07-8e1325c196cc@mailbox.org>
+ <CAHijbEX6nqnKOSQs7=UgwVZWDwQ71ZtSjhoDoo5YCvT2_rJ93w@mail.gmail.com>
+ <07e4a878-199d-4f6a-a36c-95b3e168354a@mailbox.org>
+In-Reply-To: <07e4a878-199d-4f6a-a36c-95b3e168354a@mailbox.org>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Wed, 4 Mar 2026 15:35:48 +0100
+X-Gm-Features: AaiRm53vP92MJ8eAyNa4_RUOPmzxhBPUub3yU9Z_rqw9dQPVWf6dFI-tAKHGbo4
+Message-ID: <CAHijbEUQ-DKcrtJM_N=JxR3c3JgR1y+qt76W4PETFGZVdLN6-A@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 04 Mar 2026 14:40:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,238 +131,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B94E3201A07
+X-Rspamd-Queue-Id: 71805201C13
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:ekansh.gupta@oss.qualcomm.com,m:stable@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[anandu.e@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:michel.daenzer@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[anandu.e@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim]
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:email,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-
-
-On 2/28/2026 12:44 AM, Bjorn Andersson wrote:
-> On Fri, Feb 27, 2026 at 07:52:00PM +0530, Anandu Krishnan E wrote:
->>
->> On 2/26/2026 11:20 PM, Bjorn Andersson wrote:
->>> On Thu, Feb 26, 2026 at 08:41:21PM +0530, Anandu Krishnan E wrote:
->>>> Add reference counting using kref to the fastrpc_user structure to
->>>> prevent use-after-free issues when contexts are freed from workqueue
->>>> after device release.
->>> Please follow
->>> https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
->>> and start your commit message by clearly establishing the problem, once
->>> that's done you can describe the technical solution.
->> sure,  will update the commit message and send as patch v2.
->>>> The issue occurs when fastrpc_device_release() frees the user structure
->>>> while invoke contexts are still pending in the workqueue. When the
->>>> workqueue later calls fastrpc_context_free(), it attempts to access
->>>> buf->fl->cctx in fastrpc_buf_free(), leading to a use-after-free:
->>> But why does it do that?
->>>
->>> The reason why we need buf->fl->cctx in this context is because we need
->>> to mask out the DMA address from the buf->dma_addr (remove the SID bits).
->>>
->>> If we instead split "dma_addr" into two separate members of struct
->>> fastrpc_buf, one dma_addr_t dma_addr and one u64 iova_with_sid (?), then
->>> it would be clear throughout the driver which address space we're
->>> talking about (is it the SID-adjusted iova space or the dma_addr_t in
->>> the particular DMA context).
->>>
->>> In addition to making this aspect of the driver easier to follow, you no
->>> longer need to call fastrpc_ipa_to_dma_addr() in fastrpc_buf_free() (or
->>> anywhere else for that matter).
->>>
->>> You can just pass buf->dma_addr directly to dma_free_coherent().
->>>
->>> You're isolating the fact that the firmware needs to see "SID |
->>> dma_addr" to just two places in the driver.
->> I agree with the refactoring direction you’re suggesting, and
->> separating the address spaces does make the driver easier
->> to reason about.
->>
->> That said, the UAF isn’t limited to the buffer
->> free path. fastrpc_context_free() also calls fastrpc_map_put(),
->> which reaches fastrpc_free_map() and still dereferences fl, so
->> addressing only the buffer side doesn’t fully resolve the lifetime issue.
->> So the reference counting is still needed. I will update the scenario in
->> commit message as well.
->>
-> I presume you're referring to the "vmid" we need to rebuild the
-> src_perms for use in fastrpc_free_map()?
+On Wed, Mar 4, 2026 at 3:30=E2=80=AFPM Michel D=C3=A4nzer <michel.daenzer@m=
+ailbox.org> wrote:
 >
-> I think the relevant question to ask there is if it's really a property
-> of the "fastrpc file context". It seems to me that we could solve that
-> by storing the src_perms in the fastrpc_map once we've done the
-> qcom_scm_assign_mem() call in fastrpc_map_attach() - so that we can free
-> that object without having to reach out to objects of other lifetimes.
+> On 3/4/26 13:32, Julian Orth wrote:
+> > On Wed, Mar 4, 2026 at 12:47=E2=80=AFPM Michel D=C3=A4nzer
+> > <michel.daenzer@mailbox.org> wrote:
+> >> On 3/4/26 12:25, Julian Orth wrote:
+> >>> On Wed, Mar 4, 2026 at 12:15=E2=80=AFPM Michel D=C3=A4nzer
+> >>> <michel.daenzer@mailbox.org> wrote:
+> >>>> On 3/3/26 20:12, Julian Orth wrote:
+> >>>>> On Tue, Mar 3, 2026 at 7:53=E2=80=AFPM Michel D=C3=A4nzer <michel.d=
+aenzer@mailbox.org> wrote:
+> >>>>>> On 3/3/26 18:44, Maarten Lankhorst wrote:
+> >>>>>>>
+> >>>>>>> You don't even need to use memset, this would work too:
+> >>>>>>>
+> >>>>>>> struct drm_syncobj_handle args =3D {
+> >>>>>>>       .flags =3D 0
+> >>>>>>> };
+> >>>>>>
+> >>>>>> TL;DR: This method isn't 100% safe either.
+> >>>>>>
+> >>>>>> It won't initialize any padding which isn't covered by any struct =
+field. We try to avoid that and have explicit padding fields instead, mista=
+kes may happen though, and in theory such padding could later be used for a=
+ new field.
+> >>>>>
+> >>>>> I don't think this is workable.
+> >>>>
+> >>>> libdrm begs to differ. It shows that it's not only workable but real=
+ly easy. There's no reason for doing it any other way.
+> >>>
+> >>> Using memset to initialize padding bytes between fields is workable.
+> >>> Having the kernel add checks for this for existing ioctls is not
+> >>> workable because it would break usespace that doesn't do this.
+> >>
+> >> As discussed in this thread, memset is also required for when the size=
+ of an ioctl struct is extended, even if there is no such padding.
+> >
+> > That is not a concern in rust code. If the rust code extends the
+> > definition of the struct, all call sites will cause a compilation
+> > error until the new field is also initialized.
+> >
+> > The issue I'm talking about here is strictly about padding bytes betwee=
+n fields.
 >
->> If you think it makes sense, I can take the address‑space refactoring
->> as a separate follow‑up patch and keep this change focused on fixing
->> the lifetime issue.
-> The chance of you fixing one lifetime issue by introducing one or more
-> worries me, I'm only familiar with the driver, so I wouldn't be able to
-> say with confidence without investing more time fully understand the
-> various lifetimes. So if we're going that path, I'd like someone else to
-> step up and tell me that it's good.
->
-> On the other hand, the two changes I presented above are logically
-> simple to make, follow, and review - and they don't complicate the
-> driver further. So that would still be _my_ preferred choice.
-I understand your concerns about the ref count approach.
-But with the two above changes also UAF issue will still persist.
-In fastrpc_free_map() :
+> So this is not related to the issue which motivated your patch?
 
-if (map->fl) {
-     spin_lock(&map->fl->lock);
-     list_del(&map->node);
-     spin_unlock(&map->fl->lock);
-     map->fl = NULL;
-}
+I don't believe the ioctls in question contain padding bytes on any
+architecture. This thread is in response to your statement above:
 
-we are using above logic to remove map node from the list.
-Here also we are using fl->lock to manage the map list and
-this map is part of fl->maps list as well.
+>>>>>>> struct drm_syncobj_handle args =3D {
+>>>>>>>       .flags =3D 0
+>>>>>>> };
+>>>>>>
+>>>>>> TL;DR: This method isn't 100% safe either.
+>>>>>>
+>>>>>> It won't initialize any padding which isn't covered by any struct fi=
+eld. We try to avoid that and have explicit padding fields instead, mistake=
+s may happen though, and in theory such padding could later be used for a n=
+ew field.
 
-
-I suggested ref count change because it was handling all the
-scenarios we discussed above. I am open to any alternative
-suggestions as well.
-
-Regards,
-Anandu
+----
 
 >
-> [..]
->>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>> index 47356a5d5804..3ababcf327d7 100644
->>>> --- a/drivers/misc/fastrpc.c
->>>> +++ b/drivers/misc/fastrpc.c
->>>> @@ -310,6 +310,8 @@ struct fastrpc_user {
->>>>    	spinlock_t lock;
->>>>    	/* lock for allocations */
->>>>    	struct mutex mutex;
->>>> +	/* Reference count */
->>>> +	struct kref refcount;
->>>>    };
->>>>    /* Extract SMMU PA from consolidated IOVA */
->>>> @@ -497,15 +499,36 @@ static void fastrpc_channel_ctx_put(struct fastrpc_channel_ctx *cctx)
->>>>    	kref_put(&cctx->refcount, fastrpc_channel_ctx_free);
->>>>    }
->>>> +static void fastrpc_user_free(struct kref *ref)
->>>> +{
->>>> +	struct fastrpc_user *fl = container_of(ref, struct fastrpc_user, refcount);
->>> Unrelated question, what does the "fl" abbreviation actually mean? I
->>> presume 'f' is for "fastrpc", but what is 'l'?
->> fl is short for fastrpc file.
->>
-> Hmm, okay. Thank you for clarifying.
 >
-> Regards,
-> Bjorn
+> >>> Which is every rust program out there as far as I can tell.
+> >>
+> >> That's surprising. Surely there must be some unsafe code involved whic=
+h allows uninitialized memory to be passed to ioctl()?
+> >
+> > The memory is not uninitialized from the perspective of the rust
+> > language since all fields are initialized. Only the padding bytes are
+> > uninitialized and they cannot be accessed in safe rust, therefore no
+> > unsafe is required.
+> >
+> > I've never seen any rust code that uses memset to initialize ioctl
+> > arguments. It assumes that the ioctl implementation will only read
+> > from the named fields. Therefore, while the ioctl syscall itself is
+> > unsafe, developers assume that the safety requirements are satisfied
+> > in this regard.
 >
->> Regards,
->> Anandu
->>> Regards,
->>> Bjorn
->>>> +
->>>> +	fastrpc_channel_ctx_put(fl->cctx);
->>>> +	mutex_destroy(&fl->mutex);
->>>> +	kfree(fl);
->>>> +}
->>>> +
->>>> +static void fastrpc_user_get(struct fastrpc_user *fl)
->>>> +{
->>>> +	kref_get(&fl->refcount);
->>>> +}
->>>> +
->>>> +static void fastrpc_user_put(struct fastrpc_user *fl)
->>>> +{
->>>> +	kref_put(&fl->refcount, fastrpc_user_free);
->>>> +}
->>>> +
->>>>    static void fastrpc_context_free(struct kref *ref)
->>>>    {
->>>>    	struct fastrpc_invoke_ctx *ctx;
->>>>    	struct fastrpc_channel_ctx *cctx;
->>>> +	struct fastrpc_user *fl;
->>>>    	unsigned long flags;
->>>>    	int i;
->>>>    	ctx = container_of(ref, struct fastrpc_invoke_ctx, refcount);
->>>>    	cctx = ctx->cctx;
->>>> +	fl = ctx->fl;
->>>>    	for (i = 0; i < ctx->nbufs; i++)
->>>>    		fastrpc_map_put(ctx->maps[i]);
->>>> @@ -521,6 +544,8 @@ static void fastrpc_context_free(struct kref *ref)
->>>>    	kfree(ctx->olaps);
->>>>    	kfree(ctx);
->>>> +	/* Release the reference taken in fastrpc_context_alloc() */
->>>> +	fastrpc_user_put(fl);
->>>>    	fastrpc_channel_ctx_put(cctx);
->>>>    }
->>>> @@ -628,6 +653,8 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>>>    	/* Released in fastrpc_context_put() */
->>>>    	fastrpc_channel_ctx_get(cctx);
->>>> +	/* Take a reference to user, released in fastrpc_context_free() */
->>>> +	fastrpc_user_get(user);
->>>>    	ctx->sc = sc;
->>>>    	ctx->retval = -1;
->>>> @@ -658,6 +685,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>>>    	spin_lock(&user->lock);
->>>>    	list_del(&ctx->node);
->>>>    	spin_unlock(&user->lock);
->>>> +	fastrpc_user_put(user);
->>>>    	fastrpc_channel_ctx_put(cctx);
->>>>    	kfree(ctx->maps);
->>>>    	kfree(ctx->olaps);
->>>> @@ -1606,11 +1634,9 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
->>>>    	}
->>>>    	fastrpc_session_free(cctx, fl->sctx);
->>>> -	fastrpc_channel_ctx_put(cctx);
->>>> -
->>>> -	mutex_destroy(&fl->mutex);
->>>> -	kfree(fl);
->>>>    	file->private_data = NULL;
->>>> +	/* Release the reference taken in fastrpc_device_open */
->>>> +	fastrpc_user_put(fl);
->>>>    	return 0;
->>>>    }
->>>> @@ -1654,6 +1680,7 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
->>>>    	spin_lock_irqsave(&cctx->lock, flags);
->>>>    	list_add_tail(&fl->user, &cctx->users);
->>>>    	spin_unlock_irqrestore(&cctx->lock, flags);
->>>> +	kref_init(&fl->refcount);
->>>>    	return 0;
->>>>    }
->>>> -- 
->>>> 2.34.1
->>>>
->>>>
-
+> As discussed in this thread, that's not a valid assumption and may blow u=
+p in their face sooner or later. ("No padding not covered by any fields" is=
+ best-effort, not a guarantee)
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer       \        GNOME / Xwayland / Mesa devel=
+oper
+> https://redhat.com             \               Libre software enthusiast
