@@ -2,81 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EAeIBqg5qGkTqgAAu9opvQ
+	id iBQYN4k5qGkTqgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:54:48 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:54:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CCD200C75
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F5D200C41
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 14:54:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F045D10EA33;
-	Wed,  4 Mar 2026 13:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4E010EA2E;
+	Wed,  4 Mar 2026 13:54:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="GHmUdr0K";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="aeKwTbZC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic302-21.consmr.mail.gq1.yahoo.com
- (sonic302-21.consmr.mail.gq1.yahoo.com [98.137.68.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86E010EA33
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:54:44 +0000 (UTC)
+Received: from sonic305-20.consmr.mail.gq1.yahoo.com
+ (sonic305-20.consmr.mail.gq1.yahoo.com [98.137.64.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B26210EA2E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 13:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1772632484; bh=BCwzxIRRfROvhH1rQsj5yzrbrb8fxFA/K7MzcQmkxnc=;
- h=Subject:From:To:Cc:In-Reply-To:References:Date:From:Subject:Reply-To;
- b=GHmUdr0K6tAx0QIOYNhXZNgBk0Wo0GebNmP6Z7PdkCmJeBCSTrdht2qjvkCadJIxFdfDPhB6duWjwNobN/KDkB7qU1Z7YY/ZRCSnFOo4txQGemcGOgnOF44LsVokS04dwgtF5zJtoWSELvz7bWIInVnfjTYFEWbcB0jY+6KDm9VZEfHNRX8jKsUCytoi2U803QEAiZjCdrvYZX47eAPSS6QxocRydb9FDdPhIeTTFce1Cn0aYFIdgv1kd9Q3YZD98xLgQnmT6GTUcYUuqNhvfXEpZMlBpJbCIN/Up1WVfKMSQYCCV2aH43BAiChFgG68TdC5o4/WfAaT+sbH1n2KIA==
+ t=1772632452; bh=A5ioyKdYuxvGqgIz50zO+t6OomW2H0h+2QSx4nSIcpE=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=aeKwTbZCjV0vOqfgMYsCbF5D2g3QVhea/XzTQkAa30PCwYTFFXRY1uL53zi9dx1+9xa8di0FyPCmVkNjNKodChXe/TTxyNbURHq2uGmfZuiX/UJySKMz6AWkkYNyycdwLWEQrH0F5Aix9PpmoxsqEsN8F/saooTQR6JfTakx/6xY/7HC9PpGv1Z3o3V38drQwuOMmXds4UZ2Lnjkbi/prFh0aSdzPrZX3P1kcsC5VB5UmB54CWyN2li3c5wjfdFNX++HdodYrGyznOXk1MrgJW2ytCkZI2W/1opzovdGiWqbez3BYbWIup7xVuXol1XFUsIMDzsIIkpEJwyw+eh9ig==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1772632484; bh=lzd1NssAdECZK5RfvbMAZkjCPUMG4Jw2aPxzIQqXO5m=;
+ t=1772632452; bh=rfgRl85GBAObgLV5txjJAJbdhCtgjGXZNkx9KzFnApq=;
  h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
- b=tt//YttFpd/Ouvjnl9rV2CccE2pinbxwrLd98BmyIRZdYpbPcPyHkOT0iQ1ReKfHm1+/kNta1Q7U+b23fc8d17uOzkmf0aLDP7neR4YwK6F537iZy7pXJ9CFSpStHuH3+J7vJ8wf7uRm+MD6Wvc+kM8VaF+yL+ht37rq2bzTHAkIvdmHL/YdVISol8XUl0GwBTOMDNspSewJEnwcqolUJBAAjN/0urMFKEm5E3APIhWfQaHxMPOnI0O0YLJFDzrmgRzpsyaxSb6MuW2VPfuNwmhXC/0aXfMylZS1Kf0aE2VDJ0A2JrXkuMF5LsayDSdVLtkk+2hgM6AUW6WvPWy8Xw==
-X-YMail-OSG: wHn2y0QVM1lP8QoOY4nLVSROvD02cN6gCoXtw.fSauVK3k5QX6F7pJ1.4PJxzJW
- hShlcYD3Ts7TmLNz5AnNSKdyI4mI1ykzDZvEsN1K5hKXOU5QVYI9rdRs1JKB3RHKKpWrU.EntuZs
- H96m_0BN8a6Wc3bWxLBKXQeFp6umwSiSx8RQvsq.K7hPzh9hxbo3HnLdtADpirTlKQTqiBZBxJZH
- bJI8aZVYmJ0Sj.T5aU3rSgjd3ZfvM4UMcis_3NyxwruVtVoaxGSXX64Yp77bpIDpb.MspBjkA4PN
- 8UfBwDd_l1pws9pDosfB0WPO3xQ.APiZDcggIgxsnPL4IMf9UK9pgp8EF9aTtZIfK.OFtmlyJPUN
- mWdY2HlzMI05IVisFx8clMC3_xwbEwD7r3uq4Y5YXILWaQx4oEkuwx_2Y9PzQ4yDvn9_q_bf6vEK
- trswyEF1NTKSFI5enAfCwUjKcKxvn4_WSPS2ThgIdAeFL9.SPspeXoYo7RSdGNwZDGS445dgbVx5
- x00EHoaplHndod8II5zfTyKLSfn4mUBj0VxD8iZ6VBhtWfOPobJQ8pnnmmxWUYDCUpWRXgeNbWmU
- rKU30HN1fiHPZdgcxaiBHMl0HyYJBtBBdIF8dHLl9SckmuB760aJZF3xlOzH0cWRcDFEs6IVLzJd
- oKYZP3_g3pmNYcgzV7h5zESiK4qLseqntOM57wZLqCBitiQG4tjxIAIwkD_8RoX3mVQwbjmWlDGC
- AJY0Fk.cfcc_A7UbPZUdwtF.s4TCKtZwu5JH9GMzQp3azUvO5s_BQP80P0Le7OOSY4_divrQeGQb
- IaBUkf06kwtElDFHQv.3UHYs8dNaNecafkzeoFWB11y83FVSZLEqECX41opLlNI.sDz0sjHu6Z5s
- QruuXi1jFhHi9Rgcob0AGKWb58yfLBnJDJTQMu8oRW_GcWxdPFJGPzBBHCjKHYqGYr5nuV2INeI0
- 3nrZ71kB0kV0RiO6alqUs0httA4sPQ3k1OR7yanUUKh0_PF_Gb2UmEkpmnPox76xjLdTz9KcdDKE
- rVb_ABHdF.japnhvMYf05rfAcdscn4UzLzIFbiXDPzkYW8kC0QS32mKTFtBOiHiaUWirswxufC.6
- pmRp415IDcLHPOcRPmNjYDPQWq0pYJQ.iIPJYqWTbCChSlaI0sN7qrdhT5ckP219Psf_IZoMj7cr
- TNxoqe5.JCrMS56jRoYQ593UPehmCo26Dsyuunqbny8f7xfIGLr_7iHxZmjDXaWE2cH5Reu3TvbH
- fYHPpvBHh6RFEt.0O0Qg9nMHuexoYbzPixf4vAk6JP4p1QF5RjIRoZIDvgyXpHfEirPxbG9b8eyn
- m1GnJj.6ojykoCNY6Tg935YXLC0RTvXM827X8iX_bgZJ26MC0VwZkZJVjsipaak1CRfNwAIv7a6U
- uGDfEEhurWKCdDotTAd7umz1uU7AwuEuVfNj1hrTHKK..A_s4fJbdMRMbrBEwhhVsQKLjMuHkNbO
- XzjP.bJv8rqwQ_50U5vllDKojJ1jTSeldTZ0gugxaz.GVRinF5uPacbErtdGi6MARAFCbtoxqY9Q
- 1A_16uYtUEK5efP3iSdeDy.jCodOTAXiIsGqvNrYlC3tXLCSarbWicorrL_bfoHyRXg03XfNvgrq
- QtFOEOeWE9wsnrRoi3e8XxcMLlUjYWNM9RNQw5lpK6Cd.BIp4XCsXH35Uhh4eME3V2L8UbJOPwhO
- 9wsJkFbiVkKkJbZHxVEAcS3LUy1nX5EqbG95ptUljuO0V_rMLdPVL0XErrQvbWjCBoYJ7mif6lGb
- WsDEU2biAaREs_1GBEdUG0iTGNy4TjtmyA3ptrl3WO6KQDBOYrgX.QuGf_yod33i0w65rhOKdVFQ
- 5WLAt9Qz4LGJKcQTOAMZRkIAdvtlkFtTkoVVC_eudHa0WN3hgE.TdLl.SuEqgyBhjpq1ckbTNotT
- KA0cfwo5nqTCufQBVTVriVtB6k8C8XNikKi9SQwCBAbNe4ASAX0meiiM_dTQQcFhFqmKADaPgV6c
- nDmop7Jnp3CLpB9KzlZmqqYk8X7PnWxG9aRC46.F8Kyu1x9SLiOTyAoEig39jZSxaYcoSLnPWYd0
- t4x3fGs56ax.5CM1.nwgCFEVYPywPKbwAxX6OVg.HkUATZo7v9_xvf2D9c8CUJ.zFbpJl9KSAbW_
- SuVJ0hmhPSXcNozkE75EgjK.BiIUw8ceRz3uAHMM8re0mbZMsnOWq_KYcMNggM2hgsP_AwUWovtf
- YMuRUYb_HDmiLN3aFo9YjVxCMBRvugpCK3H27mSnG9SHqEuJ_zr2m6DalaJbrgeWV
+ b=eivOt1f58PAPSTEUZQQ02SG1IYyAMPKdu10tlYP4EfBkmMw+K5J04hvcohSGu0z/HPJ3GloTn1vLqLMYrJW5gJQpD5m0jtPb43YuMQroH+47wtJj3JTFytM9OVcQWl0onzXWvWD2aBSec4TdzqAZXnOChngAf3MkwdLo104/IcBAOziFaVL1iyONn6k8CIY1SISrTJogZng9EpmLKM954DqWzhWxRjIGoLBqvf6SebqhRUf6/Bf5Qb5ISVFBx8tKVCDC8JIyMjpihFNFxR0uk9XFq0/4SbBiGyglzXIS7uc6Azv1MrdhWI1CZwrHj1BAe/odDJrZx/mQaZd6HKf4pQ==
+X-YMail-OSG: MdK8.3YVM1nKWW2QPqtLbATc6q10OTiwQrjAcjZruI_citscZ2xdWW0S6TZF_rs
+ Z06Uqpt8Elng8OenhBeQRZr5fMAcijHkNaYLg__phXm9tltb5TzoRnOTmcKptrwM.NeJhd41jHPl
+ jqKBSTllA0SPUmkest7r2i_478.PnCHbQpzVL6s7A72etF1EG4Ss0iXA871Lw3TCFFglW4jZTXul
+ pgRp3rB05cK.hwtAG66I.0aCDxppe_P5hlW9afrW5A6BdOx6k3s5AYiwh5wM.OtL4PfiwNwHWSIf
+ 3tU9HX2WEypCSSYXXxm0OLneByRH1thctzXsZgpuwP1OcI6XTtgipkJ.DzcudsxQzb0Wvcn98qeH
+ 3Rad8WeWaK8x9wbaIdkE4f.wCmofodALmV0S66n9ucdPfXHuftNRBexjctaf9UWkRaMXz2T9m0lf
+ gmkWm1L3mw9q4sP_HnibS0_UwW8hwhneymXiSLmp02iLU9_BJuy8wxPn5TY2cKJGxYL9YxQCI4x_
+ h8_.ivpbCFaz3WkFu6.Oz8aSlgSDs7if9F8KlVKO_sOFdWT7nDiNQu2Tidha63ahISRuMf5TH1O5
+ 33y4W0w31ppP.ih02UHJvFLA4QTMpuhZheltcpBqwrp_7RNwcqzKp.1L4H1HUhJr570tYeEaap0F
+ QKLsmKeGJWOpdfy6ZBaXi.udHqnCRxU3mU6zFE7AjUv7v9VzW73_GX0tuL3qeGNsmbBnB5EzruFk
+ ltaNAuXM.y.hiimahNXbivvr7XdQi01hJlicnO9WqJ0iBEIhUl6wBHNZ5Y8qIw8rEiG7B58cDqMn
+ OoyWir6hw7Q9occrNnvEQ8I4LTlmAus02jCXQDdnDtp9UcfzYJUD_4RzHz4QIwfPp.ieAUAGztKd
+ LFPcaYTIZkSvIEW9PJT64_lJ4LoO55Dz2eouVUZ7jp1y4ZGKAwkllGkT2hq9K1lX.vFsq37NDDTH
+ 8ZeW5ZhYfStmaG3m21RNPT.kDcT1cT5lyfpgOrVupFkhrvZxWlpNsYdMlYaV4SKWwSo53.eaugt_
+ cuL3twZTeK2Nd7d9Mffhb1bkhqwqWR3mRLRJRBZlmVeJWDVf1hBBekscdfORSZgIphTepNQ.y6i.
+ yQFzL..yFaF0tkHlm3sDKAhUnFdRAwjw9VyEzc2.XcZkVFhwMjC85NcsJMVhYbYMhp_aY24uI5bO
+ K7cFtH.5lPjfJd7TLwce_ulObFMaMYZLl7ade7LIlIWlsaLjTUOBKQlufkDfrDqqy8WfCMXlB0tG
+ OU.xJGYwhvWxivvcGniM_sUENSYf60LQxr1CzqelMMzemu2QFySm9t6oOEXN73d9jPaDSzDxJIJt
+ ScGfir687lwiQMvc4.DRW5dSDc8wxtCh5MsIaxJVs8AOTk5W9B5O1CZkcAjhOu0cvCdEH_ZTPgO.
+ CGnJSA1HcH9lGAvaFytKkShtXH6HKfbpYELIUOIlG4Dqci0QEC2fUkagThtqbPe4.SPYmWRxaVnz
+ WDCgPoTwY1729WBOcFcckis26ozB_lNEUHOabP7Xtw7u0iPnDk0cGzDPQZCn4.acGXf5fBmXDt7w
+ PDv447iagEbfLyKu13iVB7fh7IhQbpyOf2fF3YHsit._D5jqeUpx2aNRPAgWsRPdLihW73wiuExb
+ NVIJO6jcselt0jJ3xvkA4GqoNw0bkaYAqvBui85EVZP3WrFTc_dm5AzljMfPbFwIIich.7e7.quY
+ fdBhh6gP4hfMBli44WSve9h0OHglkPOgQt7xsLILJyYC54e48Ypp7j.xWDQjhSa3_Jeia8h0Th5V
+ 4c7cxETt9.X9KnKSTloEl6sKTzldEFMPOBwaPa6xlwi6L4hlPjKEICdOgeGi66RoesPCEqRg4vQB
+ LKopVYtdS.KYX9Jlulx4Fl.dMdCYOvrPMYlqSPr9e2AeNl9xaGpTFnuuT.FvPdOlOlv2674VLT3N
+ 9RIqS2Aom85QzR6DcAhMDf4uAgrXrx_ZzeS4ff2YzCla.exk3VGt5.l0FEu2SWd01s9k_BjWxra3
+ UJ2l21edriz33wQuoK9.FLo8ijvBuDEyAnXNNt5DgcCUDm85bZWOuBu6Yh7vFLA0.UDKc9Pl6Zfm
+ HwCcORbao4gOPD0L2.B.s9NUjthabR8UNtStjDGCZFTCtGh9YLXtZ7CxMNF4ZcQZ6Oa2xA03uERv
+ xoCHB1xltKSoEdas1uOBw4kHSaQL5oQStu4FYe5utVcJzqLWK.Wc6xaATgfTtzwvxWDJ4b3rPqvB
+ GTp1qk2tz5npiAZbxFaOl39FNJx919yCydnyoAOJwBpzX6YNWJ8ienUjjURRO
 X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 54bc90d6-c5d8-4462-ab24-506ac2a97f5c
+X-Sonic-ID: 7250cf58-0fe1-4c8f-9d1e-2e88fd8c6c36
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic302.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Mar 2026 13:54:44 +0000
-Received: by hermes--production-ir2-bbcfb4457-g4h2c (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID e71cf96f7b38aa2129032e4b4def2133; 
- Wed, 04 Mar 2026 13:54:41 +0000 (UTC)
-Message-ID: <19f2ab51a085c99e69533d551bb029f092872073.camel@aol.com>
-Subject: Re: [PATCH] drm/gud: Test for imported buffers with
- drm_gem_is_imported()
+ sonic305.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Mar 2026 13:54:12 +0000
+Received: by hermes--production-ir2-bbcfb4457-29p8w (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 66d1d57ce825e31216776720d743499f; 
+ Wed, 04 Mar 2026 13:54:09 +0000 (UTC)
+Message-ID: <e35a45c39b8d8c8e9d095ca857570b8a910c90f8.camel@aol.com>
+Subject: Re: [PATCH v5] drm/gud: fix NULL crtc dereference on display disable
 From: Ruben Wauters <rubenru09@aol.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-In-Reply-To: <20260227133113.235940-4-tzimmermann@suse.de>
-References: <20260227133113.235940-4-tzimmermann@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Shenghao Yang	
+ <me@shenghaoyang.info>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel
+ test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Date: Wed, 04 Mar 2026 13:53:58 +0000
+In-Reply-To: <7b97e2517371b8e76cded18820090e44759bceb3.camel@aol.com>
+References: <20260222054551.80864-1-me@shenghaoyang.info>
+ <1ffb000d-8189-405d-861b-6eb449773f56@suse.de>
+ <7b97e2517371b8e76cded18820090e44759bceb3.camel@aol.com>
 Autocrypt: addr=rubenru09@aol.com; prefer-encrypt=mutual;
  keydata=mQINBGQqWbcBEADD5YXfvC27D1wjh1hOmjTjSwAFjQDGynLtrhBBZpJ+NBsfu++ffR7HF
  d/AaSJ+hqJni6HBNr/DMxWYMC8fOAr6zCSAX6fD2Rvy6rq6emuLaGOFkAIWDyuFWw40anlSCPZN+f
@@ -111,10 +115,9 @@ Autocrypt: addr=rubenru09@aol.com; prefer-encrypt=mutual;
  8IVIXxGcFRph02eKbZfqK51lMtns3kTe5DgHao5vrE+2GseLnEWE37cWnBQDhYgjwxIWtjGVp6KG7
  eIvzsqg==
 Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-udLnbAZxUzMV5SGm4vsl"
-MIME-Version: 1.0
-Date: Wed, 04 Mar 2026 13:50:38 +0000
+ protocol="application/pgp-signature"; boundary="=-HSIjlAD/uQadFsET0TBG"
 User-Agent: Evolution 3.56.2 
+MIME-Version: 1.0
 X-Mailer: WebService/1.1.25198
  mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,99 +134,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A8CCD200C75
+X-Rspamd-Queue-Id: A8F5D200C41
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-3.41 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[aol.com,reject];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[aol.com:s=a2048];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:me@shenghaoyang.info,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lkp@intel.com,m:dan.carpenter@linaro.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[suse.de,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[suse.de,shenghaoyang.info,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
 	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[aol.com];
+	FORGED_SENDER(0.00)[rubenru09@aol.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[rubenru09@aol.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[aol.com];
-	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[aol.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[rubenru09@aol.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[aol.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:email]
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,shenghaoyang.info:email]
 X-Rspamd-Action: no action
 
 
---=-udLnbAZxUzMV5SGm4vsl
+--=-HSIjlAD/uQadFsET0TBG
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-02-27 at 14:31 +0100, Thomas Zimmermann wrote:
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The test itself does not change.
+On Wed, 2026-02-25 at 11:52 +0000, Ruben Wauters wrote:
+> On Wed, 2026-02-25 at 09:52 +0100, Thomas Zimmermann wrote:
+> > Hi
+> >=20
+> > Am 22.02.26 um 06:45 schrieb Shenghao Yang:
+> > > gud_plane_atomic_update() currently handles both crtc state and
+> > > framebuffer updates - the complexity has led to a few accidental
+> > > NULL pointer dereferences.
+> > >=20
+> > > Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
+> > > on USB disconnect") [1] fixed an earlier dereference but planes
+> > > can also be disabled in non-hotplug paths (e.g. display disables
+> > > via the desktop environment). The drm_dev_enter() call would not
+> > > cause an early return in those and subsequently oops on
+> > > dereferencing crtc:
+> > >=20
+> > > BUG: kernel NULL pointer dereference, address: 00000000000005c8
+> > > CPU: 6 UID: 1000 PID: 3473 Comm: kwin_wayland Not tainted 6.18.2-200.=
+vanilla.gud.fc42.x86_64 #1 PREEMPT(lazy)
+> > > RIP: 0010:gud_plane_atomic_update+0x148/0x470 [gud]
+> > >   <TASK>
+> > >   drm_atomic_helper_commit_planes+0x28e/0x310
+> > >   drm_atomic_helper_commit_tail+0x2a/0x70
+> > >   commit_tail+0xf1/0x150
+> > >   drm_atomic_helper_commit+0x13c/0x180
+> > >   drm_atomic_commit+0xb1/0xe0
+> > > info ? __pfx___drm_printfn_info+0x10/0x10
+> > >   drm_mode_atomic_ioctl+0x70f/0x7c0
+> > >   ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> > >   drm_ioctl_kernel+0xae/0x100
+> > >   drm_ioctl+0x2a8/0x550
+> > >   ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> > >   __x64_sys_ioctl+0x97/0xe0
+> > >   do_syscall_64+0x7e/0x7f0
+> > >   ? __ct_user_enter+0x56/0xd0
+> > >   ? do_syscall_64+0x158/0x7f0
+> > >   ? __ct_user_enter+0x56/0xd0
+> > >   ? do_syscall_64+0x158/0x7f0
+> > >   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > >=20
+> > > Split out crtc handling from gud_plane_atomic_update() into
+> > > atomic_enable() and atomic_disable() functions to delegate
+> > > crtc state transitioning work to the DRM helpers.
+> > >=20
+> > > To preserve the gud state commit sequence [2], switch to
+> > > the runtime PM version of drm_atomic_helper_commit_tail() which
+> > > ensures that crtcs are enabled (hence sending the
+> > > GUD_REQ_SET_CONTROLLER_ENABLE and GUD_REQ_SET_DISPLAY_ENABLE
+> > > requests) before a framebuffer update is sent.
+> > >=20
+> > > [1] https://lore.kernel.org/all/20251231055039.44266-1-me@shenghaoyan=
+g.info/
+> > > [2] https://github.com/notro/gud/wiki/GUD-Protocol#display-state
+> > >=20
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > Closes: https://lore.kernel.org/r/202601142159.0v8ilfVs-lkp@intel.com=
+/
+> > > Fixes: 73cfd166e045 ("drm/gud: Replace simple display pipe with DRM a=
+tomic helpers")
+> > > Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
+> >=20
+> > AFAICT this looks good.
+> >=20
+> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Ruben Wauters <rubenru09@aol.com>
-
-Acked-by: Ruben Wauters <rubenru09@aol.com>
-> ---
->  drivers/gpu/drm/gud/gud_pipe.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Acked-by: Ruben Wauters <rubenru09@aol.com>
 >=20
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pip=
-e.c
-> index 4b77be94348d..11e7441de63b 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -447,7 +447,7 @@ static void gud_fb_handle_damage(struct gud_device *g=
-drm, struct drm_framebuffer
->  	}
-> =20
->  	/* Imported buffers are assumed to be WriteCombined with uncached reads=
- */
-> -	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach, damage);
-> +	gud_flush_damage(gdrm, fb, src, !drm_gem_is_imported(fb->obj[0]), damag=
-e);
->  }
-> =20
->  int gud_plane_atomic_check(struct drm_plane *plane,
+> This will likely require a CC stable for 6.19 at least, possibly also
+> 6.18, though I'm not 100% sure how long that one will last with 7.0-rc1
+> being released.
 
---=-udLnbAZxUzMV5SGm4vsl
+Just as a note, it seems that 6.18 has been designated a longterm
+support release, and as such it would be a good idea/appropriate to
+also backport this to 6.18, since the bug exists in that version too.
+
+Shenghao, Would you prefer for me to backport this on merge when it
+fails to apply it, or would you like me to add the cc stable tags, and
+on failure, for you to backport it yourself?
+
+Ruben
+>=20
+> I can add this when I merge it.
+> >=20
+> > Best regards
+> > Thomas
+> >=20
+> > > ---
+> > > v5: Send SET_CONTROLLER_ENABLE and SET_STATE_COMMIT unconditionally o=
+n
+> > >      crtc enable
+> > > v4: Send SET_DISPLAY_ENABLE=3D1 unconditionally on crtc enable
+> > > v3: Dropped stable AUTOSEL opt out
+> > > v2: Moved controller and display control commands to crtc
+> > >      enable / disable functions.
+> > >=20
+> > > [v4]: https://lore.kernel.org/lkml/20260218054711.63982-1-me@shenghao=
+yang.info/
+> > > [v3]: https://lore.kernel.org/lkml/20260203172630.10077-1-me@shenghao=
+yang.info/
+> > > [v2]: https://lore.kernel.org/lkml/20260201095956.21042-1-me@shenghao=
+yang.info/
+> > > [v1]: https://lore.kernel.org/lkml/20260118125044.54467-1-me@shenghao=
+yang.info/
+> > >=20
+> > >   drivers/gpu/drm/gud/gud_drv.c      |  9 ++++-
+> > >   drivers/gpu/drm/gud/gud_internal.h |  4 +++
+> > >   drivers/gpu/drm/gud/gud_pipe.c     | 54 ++++++++++++++++++++-------=
+---
+> > >   3 files changed, 48 insertions(+), 19 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_=
+drv.c
+> > > index d0122d477610..17c2dead2c13 100644
+> > > --- a/drivers/gpu/drm/gud/gud_drv.c
+> > > +++ b/drivers/gpu/drm/gud/gud_drv.c
+> > > @@ -339,7 +339,9 @@ static int gud_stats_debugfs(struct seq_file *m, =
+void *data)
+> > >   }
+> > >  =20
+> > >   static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs =3D=
+ {
+> > > -	.atomic_check =3D drm_crtc_helper_atomic_check
+> > > +	.atomic_check =3D drm_crtc_helper_atomic_check,
+> > > +	.atomic_enable =3D gud_crtc_atomic_enable,
+> > > +	.atomic_disable =3D gud_crtc_atomic_disable,
+> > >   };
+> > >  =20
+> > >   static const struct drm_crtc_funcs gud_crtc_funcs =3D {
+> > > @@ -364,6 +366,10 @@ static const struct drm_plane_funcs gud_plane_fu=
+ncs =3D {
+> > >   	DRM_GEM_SHADOW_PLANE_FUNCS,
+> > >   };
+> > >  =20
+> > > +static const struct drm_mode_config_helper_funcs gud_mode_config_hel=
+pers =3D {
+> > > +	.atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
+> > > +};
+> > > +
+> > >   static const struct drm_mode_config_funcs gud_mode_config_funcs =3D=
+ {
+> > >   	.fb_create =3D drm_gem_fb_create_with_dirty,
+> > >   	.atomic_check =3D drm_atomic_helper_check,
+> > > @@ -499,6 +505,7 @@ static int gud_probe(struct usb_interface *intf, =
+const struct usb_device_id *id)
+> > >   	drm->mode_config.min_height =3D le32_to_cpu(desc.min_height);
+> > >   	drm->mode_config.max_height =3D le32_to_cpu(desc.max_height);
+> > >   	drm->mode_config.funcs =3D &gud_mode_config_funcs;
+> > > +	drm->mode_config.helper_private =3D &gud_mode_config_helpers;
+> > >  =20
+> > >   	/* Format init */
+> > >   	formats_dev =3D devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL)=
+;
+> > > diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud=
+/gud_internal.h
+> > > index d27c31648341..a5b7e53cf79c 100644
+> > > --- a/drivers/gpu/drm/gud/gud_internal.h
+> > > +++ b/drivers/gpu/drm/gud/gud_internal.h
+> > > @@ -62,6 +62,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8 req=
+uest, u8 val);
+> > >  =20
+> > >   void gud_clear_damage(struct gud_device *gdrm);
+> > >   void gud_flush_work(struct work_struct *work);
+> > > +void gud_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > +			   struct drm_atomic_state *state);
+> > > +void gud_crtc_atomic_disable(struct drm_crtc *crtc,
+> > > +			   struct drm_atomic_state *state);
+> > >   int gud_plane_atomic_check(struct drm_plane *plane,
+> > >   			   struct drm_atomic_state *state);
+> > >   void gud_plane_atomic_update(struct drm_plane *plane,
+> > > diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud=
+_pipe.c
+> > > index 4b77be94348d..587d6dd2b32e 100644
+> > > --- a/drivers/gpu/drm/gud/gud_pipe.c
+> > > +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> > > @@ -580,6 +580,39 @@ int gud_plane_atomic_check(struct drm_plane *pla=
+ne,
+> > >   	return ret;
+> > >   }
+> > >  =20
+> > > +void gud_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > +			   struct drm_atomic_state *state)
+> > > +{
+> > > +	struct drm_device *drm =3D crtc->dev;
+> > > +	struct gud_device *gdrm =3D to_gud_device(drm);
+> > > +	int idx;
+> > > +
+> > > +	if (!drm_dev_enter(drm, &idx))
+> > > +		return;
+> > > +
+> > > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+> > > +	gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+> > > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 1);
+> > > +
+> > > +	drm_dev_exit(idx);
+> > > +}
+> > > +
+> > > +void gud_crtc_atomic_disable(struct drm_crtc *crtc,
+> > > +			   struct drm_atomic_state *state)
+> > > +{
+> > > +	struct drm_device *drm =3D crtc->dev;
+> > > +	struct gud_device *gdrm =3D to_gud_device(drm);
+> > > +	int idx;
+> > > +
+> > > +	if (!drm_dev_enter(drm, &idx))
+> > > +		return;
+> > > +
+> > > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 0);
+> > > +	gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
+> > > +
+> > > +	drm_dev_exit(idx);
+> > > +}
+> > > +
+> > >   void gud_plane_atomic_update(struct drm_plane *plane,
+> > >   			     struct drm_atomic_state *atomic_state)
+> > >   {
+> > > @@ -607,24 +640,12 @@ void gud_plane_atomic_update(struct drm_plane *=
+plane,
+> > >   		mutex_unlock(&gdrm->damage_lock);
+> > >   	}
+> > >  =20
+> > > -	if (!drm_dev_enter(drm, &idx))
+> > > +	if (!crtc || !drm_dev_enter(drm, &idx))
+> > >   		return;
+> > >  =20
+> > > -	if (!old_state->fb)
+> > > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+> > > -
+> > > -	if (fb && (crtc->state->mode_changed || crtc->state->connectors_cha=
+nged))
+> > > -		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+> > > -
+> > > -	if (crtc->state->active_changed)
+> > > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->acti=
+ve);
+> > > -
+> > > -	if (!fb)
+> > > -		goto ctrl_disable;
+> > > -
+> > >   	ret =3D drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+> > >   	if (ret)
+> > > -		goto ctrl_disable;
+> > > +		goto out;
+> > >  =20
+> > >   	drm_atomic_helper_damage_iter_init(&iter, old_state, new_state);
+> > >   	drm_atomic_for_each_plane_damage(&iter, &damage)
+> > > @@ -632,9 +653,6 @@ void gud_plane_atomic_update(struct drm_plane *pl=
+ane,
+> > >  =20
+> > >   	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+> > >  =20
+> > > -ctrl_disable:
+> > > -	if (!crtc->state->enable)
+> > > -		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
+> > > -
+> > > +out:
+> > >   	drm_dev_exit(idx);
+> > >   }
+
+--=-HSIjlAD/uQadFsET0TBG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEE3obNNdPQ9V5CQi2Y0n5QwFCuDOEFAmmoOJsbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJENJ+UMBQrgzhGy8QAKzTFTx4RQ8ex00pScb0
-L4mjo1qex+Eidtt/x8ed0mU02PPzWEY5lfFG1JtxKjAghduWC52V0nRs5dE0QtEM
-GXTSvDIrvu7+L4c+DifPEu+tEYJJ7LwC/yG55dJQzqeUfcEY5yTPzC2AORBUZ+Dl
-tTPUF2wCmgljOQWyqcTTLz+Ohl3Qvzn9TjueqTH2GzQGsgUuHh4lKk9OErKjpIeG
-MzKu1M6/i66GlxPb45sDvb4RMNnoTUDN6qGjI8IU0udKjePNWzPGGIJxNO/9e1P7
-0Himx+3yWwcal5r1vjNJXpxyBpJR+lU84HpQV7PDEQ/BTinIeJLApZ+0Svrv4/bt
-s3mRA+vlJ/l449mK+EV6F6/4pqGLqjdrSP8lZNJfTvEPngAZpg4lZWLEQfVZvz+7
-jFywLzZ42y9phQlgCx/RFXk47cJHpUzXuQYjs6Wi4BJPxMaKQxlKKIXa5Z+6JFGK
-7XQd96TTHTFt6faYX3e0a5I8cc0PGYCX/tooG4AKVXTzCRbKwylgiMRsodRN+gg9
-uWvF7OZh/zvht0bxsxadiPMA6ze/Edxpo8XX3kWmVJWLeNlYudMclZwyevU8MJEi
-MJhjTs/x79YgDfUbl4JHj+fKWHcHZw7Jrhsq+QgeOXpPfyo0fq8MO0tdRqj4jcx2
-pqHBeaBrUislhhsi5Dv6Fql5
-=gEtm
+iQJPBAABCAA5FiEE3obNNdPQ9V5CQi2Y0n5QwFCuDOEFAmmoOXYbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJENJ+UMBQrgzhueYP/2TxWgcXElbbkW+jQls0
+wL24YnZe58hIVtZBMF/sixp8NYXpibL89k9GyQ8sLwOFtuXYVWFDO4Dq0yot0qKu
+rFID3hAAj52CcrJHK1jfOrF7Q6mlL6wrcthamvaXOy2QVEb6VnNFBoDmmxNy8jJz
+YyIaXo2FVobDg/KdtdrVl2Hqr9OXJeIhCTI75FsBNr9guhtoving8vQXZlmV/WHL
+Gpe4+WqT3yJ4vdMhuryo/mhUMJNecK/r0si4iGAQ8mC/GamQimasXxsuWDGA2kXh
+6f9SxSwQQq4KmImEsv5BpLROlaUi4pxv3h03p+CZYckyVaWlZzJL9DUtGJoQu2hz
+CUzndWTiagRUga+JeTpCQhMLTUG7g2R25DMe+83ja9V4tWpPHzmNxSuq48vM33Ot
+iLoMDgqQjlAk4FmOqwjLfSt3hhC5pqaqt67WH/Q4TzAR1vnevTY/pQPEd6juy5r2
+SivJUFvgNtRGXqU3bxFnfeJIfDZ++6QUGGuk/+NBI8kj52kCatzRgCcOrZMa2V6k
+42fiBHyTn24N6KGkfZvre3QMh7NxJix7RFcCOfq40jXEV23f7NsCLFQOg+VQNMWX
+Vmr7O/v2sAycJOHTN4n1HMW6KQ2VkdRaCSpIw8lvbUO51HitZYcD5kuxn6hL043k
+72JYgTbZlAMdedP4O7kqldu3
+=Tb+2
 -----END PGP SIGNATURE-----
 
---=-udLnbAZxUzMV5SGm4vsl--
+--=-HSIjlAD/uQadFsET0TBG--
