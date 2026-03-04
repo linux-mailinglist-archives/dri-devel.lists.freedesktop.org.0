@@ -2,92 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GxZJypeqGmZtgAAu9opvQ
+	id yCj6I7NeqGmZtgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:30:34 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:32:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D0C204494
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB50204529
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 17:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B61D89238;
-	Wed,  4 Mar 2026 16:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E943E10E596;
+	Wed,  4 Mar 2026 16:32:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mN3dgDAu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zNQqL2Dj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D98F89238
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 16:30:30 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-439b97a8a8cso3389768f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 08:30:30 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE3910E596
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 16:32:47 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-48371119eacso85387725e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 08:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1772641829; x=1773246629; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1772641966; x=1773246766; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=SHFIA6+GMriVuUBZ6WzV1q43gEqUSDSeozbgYS5nwEs=;
- b=mN3dgDAuGgwDKETRcMlgN3zsg3iemhaM3mcrkeWhEa0VIkO66xM/qSCS0f2pTi5Vxh
- DInNvlbCdNWcec7OA2gy1tXuzJ4w+9jEi/vET/14HWUESt5HjF3Bc+P6D8goNeilI1uk
- /Zgr7IsYlDWdNSR8SribXVj6kxyId/VWGbFSdWcnIoL6fQDlwQHUUQ7BUan/UDEyce66
- sRjEP5sqivfF8QG8f8Hy0ps2JuJtxQbh+pq7dzaRTZty2sPEBmSKkNqneNFv+xIylJPC
- URyxiS0V4KzX5tpRpobfzD+UC/9CRuAVltLddVGO+RjyqGBrcaK3SEaYz7cUzM69lCVL
- P0FA==
+ :reply-to; bh=YzBLKK2SPFT1wsSEyBgdZB5voy4EsI1LK+m46W4f00k=;
+ b=zNQqL2Djl1ATYnOc50sObFsICk0kzcK8D8KG90pfPCN2NCA0xdERcXeiT0Hg+OU/j3
+ Mj5nAFjfNct9MUddpC3qMVKBy9+x4+dFPKWiA2LpbFA5xVcdC1tXF+oiYPJ10JsEYkG1
+ 3wrSV+BUoolIW0GsCJgIowmFJO459/WN3FSOJ5ykESX5AAJFOCNHFI7xwG+gn05LHfee
+ TZeL+A8yf/dZ23t+GDOy5uD4scexquoKjlhlpjkcgeTshWZOXjPG+qcFzYrUfS06jfA6
+ 2LqpsRrCowSfpZ5okMaJuN3jvO6ZW+77AXNxZh8CLH3byFxJz4/kqpQ0a2xXkQM1r/fZ
+ ztJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772641829; x=1773246629;
+ d=1e100.net; s=20230601; t=1772641966; x=1773246766;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SHFIA6+GMriVuUBZ6WzV1q43gEqUSDSeozbgYS5nwEs=;
- b=X+2oIThzhOFSSXUiKAivw/8bdrunKUSX5Aght7QiLWP/Jj9oVPrBP7Ioc24PB8IOG1
- klLGHdhlOPJGEIWT+HGUl2DnGQLLB2r4kgRaDiOOaERLxRxfZeHmUKRfrqRBg3TzqysI
- HJL99q+/2ZDE5btSHmQvBIM/7gCSrfUhDbiICGmfHkuJpYCDu790jOm+kyz141evvzvP
- 43Q8Z1ERakI3X2ItvUR3zuULa/eaEmQUcKsUETMWSugESvtYknXiMGsh6l17EHWb/btZ
- DAA9jAgB8GFqznBG+/fO861ANuwh5Qo3+RJZLGbJyo37gjUr6Ao+JsP/d1tdJsVgcPZY
- D65Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkTW74RczBl6AxaZseeVGfE870omE+19P3WXHykmhDFYp3Wqr76+J0MLa7Oyow14r3nH0yHV73mWo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPKobdi3da7GJktJ/4/wYFYvOBcy/a84ICi+m4m5b7QtA+Kefk
- XrEGEC0CTMqyVpgsSyUcDuj53eSup27f/jA3jhf0vFORjrE60oh+W/zueWUaFiSpl94=
-X-Gm-Gg: ATEYQzz091GFaBRZE3R3Yca4Cev3ye1s0e3lWmpJM0prjata/SyMZFYthbNNFxFS6Uj
- kTCCIXDRpvP6lqzH0VdZGnXY2dtHNqClLgAt+d8i8DWmD+H9GLw0jqjUApqVYgjAbKLEn5NKE+f
- qMU4XkWkOqdWBoiM1Xb8+caTfnTEQPdC0oTNWEWuM5LSmF9fgB+qV0dxbhDUyTDElAyBYGyBHXO
- 67vziLApQGPMCiVvt5fAIrSFDsTIH8B0sc6OZFDkZOn5ImxowzraT7W0yNCg+8f/Vw7SjOxT2Nu
- OkuuFTC8jqj1tF7dtgDGrFfD8q0AadwITzu07Tbd+5Wfc1JoUbECee+LY2czOPfIgIqU6N76zSL
- a3lH+/doK7Z1L4Mqzu//z0O8zcSv6jSX9vwQcZHyyYqoGuAjbvcyh/NlnECGnko7o4BQ3Gac/zX
- Gj9eB5DZcXPI3pEQy77wIvwWrd+YU9PkRgfvwFmMKn6MXB1gOjikxNLYwKYFda/ph4em9Dhesca
- Rxt
-X-Received: by 2002:a05:6000:144a:b0:439:b60a:b403 with SMTP id
- ffacd0b85a97d-439c7fd3a7cmr5211198f8f.34.1772641828796; 
- Wed, 04 Mar 2026 08:30:28 -0800 (PST)
+ bh=YzBLKK2SPFT1wsSEyBgdZB5voy4EsI1LK+m46W4f00k=;
+ b=mzr3OdDCAcWM//o6h+4BFzvoZdU9uL9ng4hS32LnIVKmh6lfdR2VRb3LaWvUmfMdIu
+ P9TN9EOWPxsR+hPkV6D4FFDAV3Q+USEqbwZHcS8dCxxwRoyOR6rim8sFM1lSh7S1LLWF
+ 2UATubRAeQRNSHBtyP7nEVfc1MzCSkOAT1LTrgTvDKLDYHpIrS3LPAINqb8T0VBiQrfl
+ n3I0CXEv9gHQIV4p9aTngXuWDn4CfzBYPoPXS0ESjgUWqzdCknG71aPKLtHjpPkzevVy
+ xPc5mp1RTazpowRRIBZaTd8FpsL+cbJcIwmzjNb0a6grfdz5WEGTjI60EkF5QkvSF+VH
+ x6Tg==
+X-Gm-Message-State: AOJu0YwcpJ34yURn7M6c77QtMwFM6kuUNxYx7zYOuZA0/+x0oR+U2Xi1
+ EE5HTm0qqsWQkuDz3vOnOF5CsMGv+kH1hZPW/+hxBDrBPq6mCGR/PsUVDY6GgzF9Cl8=
+X-Gm-Gg: ATEYQzx1qgkBdJqfplfYWPezvaghhPAuJy4gQ/nIFIxTCm4/Xwi/7D3pxIRkA4oNz1w
+ 9MsBssLIL3+ZzMsMOuYLInnzNhyFOh/gnPPsno4EOkgqdfQgfa+HaZuso1FgjygRxxEGsDmaRuB
+ MsCNyqNl0vHS2s9VMBM5FQVQDvppdYUGMR7kZIZDDcq74Uk2hfDQoWh0vyAaHaT9+nDYNykADO2
+ Hpu/vdpGqon3/N8JlLNnrJW9PoTo5KjcPMU6csxhQvuJWchB5zvTjNefGthDO0RAPpbIGFLGKv1
+ 1red4QrU6d8Qi+wcpq/E1ioxM3AlHhsnxouN9LpNc1f0stc548VFahSNhJnslqJOVAMYgY41Vdu
+ gdcinLxtSiXovkyE8BTaAvfRxI+G+AG+kGooFuqJUVl+AqveaSn4ZNn7/QNMvvNTJZHLgmVTyAy
+ hWwVNYWHC1bja3V4IYAMvm+k5oMzeLzVgG3+ChYrdwyuBDZf0Pa5a8iKCmhQi0KcSL7Oe2QrWE+
+ DC250uyA3FcbSs=
+X-Received: by 2002:a05:600c:8b67:b0:483:498f:7953 with SMTP id
+ 5b1f17b1804b1-4851989cb45mr45028445e9.28.1772641966114; 
+ Wed, 04 Mar 2026 08:32:46 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:106d:1080:da6:dde3:e477:94d2?
  ([2a01:e0a:106d:1080:da6:dde3:e477:94d2])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439af926c53sm34892169f8f.8.2026.03.04.08.30.27
+ 5b1f17b1804b1-4851acf3124sm25994175e9.3.2026.03.04.08.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2026 08:30:28 -0800 (PST)
-Message-ID: <008a0173-2e4d-4bb8-a4a4-158aa947aed1@linaro.org>
-Date: Wed, 4 Mar 2026 17:30:27 +0100
+ Wed, 04 Mar 2026 08:32:45 -0800 (PST)
+Message-ID: <933fd2e0-46ff-4ab8-b98a-554ac46982c5@linaro.org>
+Date: Wed, 4 Mar 2026 17:32:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 3/3] drm/panel: add LXD M9189A panel driver
-To: Michael Tretter <m.tretter@pengutronix.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Rouven Czerwinski <r.czerwinski@pengutronix.de>,
- Jessica Zhang <jesszhan0024@gmail.com>,
+Subject: Re: [PATCH RFC 1/2] dt-bindings: display: panel: Add ChipWealth
+ CH13726A AMOLED driver bindings
+To: webgeek1234@gmail.com, Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de
-References: <20260218-drm-panel-ek79007ad3-v4-0-8ec448bf3ede@pengutronix.de>
- <20260218-drm-panel-ek79007ad3-v4-3-8ec448bf3ede@pengutronix.de>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Teguh Sobirin <teguh@sobir.in>
+References: <20260222-ch13726a-v1-0-e501d78e105a@gmail.com>
+ <20260222-ch13726a-v1-1-e501d78e105a@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -114,9 +111,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260218-drm-panel-ek79007ad3-v4-3-8ec448bf3ede@pengutronix.de>
+In-Reply-To: <20260222-ch13726a-v1-1-e501d78e105a@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,7 +129,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 02D0C204494
+X-Rspamd-Queue-Id: EDB50204529
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -143,20 +140,20 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:m.tretter@pengutronix.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:r.czerwinski@pengutronix.de,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:kernel@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:webgeek1234@gmail.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:teguh@sobir.in,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[pengutronix.de,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,puri.sm:email,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,pengutronix.de:email,fairphone.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,linaro.org:dkim,linaro.org:mid,linaro.org:replyto,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,devicetree.org:url,holder.com:email];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -172,340 +169,96 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	REPLYTO_EQ_FROM(0.00)[]
 X-Rspamd-Action: no action
 
-On 2/18/26 10:12, Michael Tretter wrote:
-> From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+On 2/22/26 23:26, Aaron Kling via B4 Relay wrote:
+> From: Aaron Kling <webgeek1234@gmail.com>
 > 
-> The LXD M9189A panel is based on the EK79007AD3 DSI display controller.
-> It currently supports only 4 lane operation.
+> The Chip Wealth Technology CH13726A display driver is a single chip
+> solution for AMOLED using MIPI-DSI. This is used for the AYN Thor bottom
+> panel.
 > 
-> Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 > ---
-> Changes in v4:
-> - Fix typo in driver name ("panel-lxa-m9189a")
+>   .../display/panel/chipwealth,ch13726a.yaml         | 66 ++++++++++++++++++++++
+>   1 file changed, 66 insertions(+)
 > 
-> Changes in v3:
-> - Change maintainer to Michael Tretter <m.tretter@pengutronix.de>
-> - Fix error code if regulator is missing
-> - Request power-supply instead of vdd-supply
-> 
-> v2:
-> - use _multi functions
-> - remove unnecessary dcs_nop function
-> - calculate pixelclock with timings
-> suggested by Dmitry Baryshkov
-> 
-> - rename functions to m9189_ prefix
-> - rename struct and c file to use m9189
-> - fix commit title to mention m9189
-> ---
->   MAINTAINERS                              |   6 +
->   drivers/gpu/drm/panel/Kconfig            |   9 ++
->   drivers/gpu/drm/panel/Makefile           |   1 +
->   drivers/gpu/drm/panel/panel-lxd-m9189a.c | 243 +++++++++++++++++++++++++++++++
->   4 files changed, 259 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e08767323763..ba4030a4d154 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7948,6 +7948,12 @@ F:	Documentation/devicetree/bindings/display/lvds.yaml
->   F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
->   F:	drivers/gpu/drm/panel/panel-lvds.c
->   
-> +DRM DRIVER FOR LXD M9189A PANELS
-> +M:	Michael Tretter <m.tretter@pengutronix.de>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/panel/lxd,m9189a.yaml
-> +F:	drivers/gpu/drm/panel/panel-lxd-m9189a.c
-> +
->   DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
->   M:	Guido Günther <agx@sigxcpu.org>
->   R:	Purism Kernel Team <kernel@puri.sm>
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 7a83804fedca..b7d35a73080e 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -442,6 +442,15 @@ config DRM_PANEL_LG_SW43408
->   	  pixel. It provides a MIPI DSI interface to the host and has a
->   	  built-in LED backlight.
->   
-> +config DRM_PANEL_LXD_M9189A
-> +	tristate "LXD M9189A MIPI-DSI LCD panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y if you want to enable support for the LXD M9189A 4-Lane
-> +	  1024x600 MIPI DSI panel.
-> +
->   config DRM_PANEL_MAGNACHIP_D53E6EA8966
->   	tristate "Magnachip D53E6EA8966 DSI panel"
->   	depends on OF && SPI
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index b9562a6fdcb3..d1303455a374 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -44,6 +44,7 @@ obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
->   obj-$(CONFIG_DRM_PANEL_LG_LD070WX3) += panel-lg-ld070wx3.o
->   obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
->   obj-$(CONFIG_DRM_PANEL_LG_SW43408) += panel-lg-sw43408.o
-> +obj-$(CONFIG_DRM_PANEL_LXD_M9189A) += panel-lxd-m9189a.o
->   obj-$(CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966) += panel-magnachip-d53e6ea8966.o
->   obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
->   obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3051D) += panel-newvision-nv3051d.o
-> diff --git a/drivers/gpu/drm/panel/panel-lxd-m9189a.c b/drivers/gpu/drm/panel/panel-lxd-m9189a.c
+> diff --git a/Documentation/devicetree/bindings/display/panel/chipwealth,ch13726a.yaml b/Documentation/devicetree/bindings/display/panel/chipwealth,ch13726a.yaml
 > new file mode 100644
-> index 000000000000..68019e1e43a9
+> index 0000000000000000000000000000000000000000..890984b00c341285066176995e6a973c5607cbde
 > --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-lxd-m9189a.c
-> @@ -0,0 +1,243 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree.
-> + * Copyright (c) 2024 Luca Weiss <luca.weiss@fairphone.com>
-> + */
+> +++ b/Documentation/devicetree/bindings/display/panel/chipwealth,ch13726a.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/chipwealth,ch13726a.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/types.h>
+> +title: Chip Wealth Technology CH13726A display driver
 > +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
+> +maintainers:
+> +  - Place Holder <place@holder.com>
+
+??
+
+
 > +
-> +/* Manufacturer specific DSI commands */
-> +#define EK79007AD3_GAMMA1		0x80
-> +#define EK79007AD3_GAMMA2		0x81
-> +#define EK79007AD3_GAMMA3		0x82
-> +#define EK79007AD3_GAMMA4		0x83
-> +#define EK79007AD3_GAMMA5		0x84
-> +#define EK79007AD3_GAMMA6		0x85
-> +#define EK79007AD3_GAMMA7		0x86
-> +#define EK79007AD3_PANEL_CTRL3		0xB2
+> +description:
+> +  Chip Wealth Technology CH13726A is a single-chip solution
+> +  for AMOLED connected using a MIPI-DSI video interface.
 > +
-> +struct m9189_panel {
-> +	struct drm_panel panel;
-> +	struct mipi_dsi_device *dsi;
-> +	struct regulator *supply;
-> +	struct gpio_desc *reset_gpio;
-> +	struct gpio_desc *standby_gpio;
-> +};
+> +allOf:
+> +  - $ref: panel-common.yaml#
 > +
-> +static inline struct m9189_panel *to_m9189_panel(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct m9189_panel, panel);
-> +}
+> +properties:
+> +  compatible:
+> +    const: ayntec,thor-panel-bottom
+
+??? why not chipwealth,ch13726a ??
+
 > +
-> +static void m9189_reset(struct m9189_panel *m9189)
-> +{
-> +	gpiod_set_value_cansleep(m9189->reset_gpio, 0);
-> +	msleep(20);
-> +	gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-> +	msleep(30);
-> +	gpiod_set_value_cansleep(m9189->reset_gpio, 0);
-> +	msleep(55);
-> +}
+> +  port: true
+> +  reg:
+> +    maxItems: 1
+> +    description: DSI virtual channel
 > +
-> +static int m9189_on(struct m9189_panel *m9189)
-> +{
-> +	struct mipi_dsi_multi_context ctx = { .dsi = m9189->dsi };
+> +  vdd-supply: true
+> +  vddio-supply: true
+> +  vdd1v2-supply: true
+> +  avdd-supply: true
 > +
-> +	ctx.dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +  reset-gpios: true
 > +
-> +	/* Gamma 2.2 */
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA1, 0x48);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA2, 0xB8);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA3, 0x88);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA4, 0x88);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA5, 0x58);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA6, 0xD2);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, EK79007AD3_GAMMA7, 0x88);
-> +	mipi_dsi_msleep(&ctx, 50);
+> +  rotation: true
 > +
-> +	/* 4 Lanes */
-> +	mipi_dsi_generic_write_multi(&ctx, (u8[]){ EK79007AD3_PANEL_CTRL3, 0x70 }, 2);
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vdd-supply
+> +  - vddio-supply
+> +  - vdd1v2-supply
+> +  - avdd-supply
+> +  - reset-gpios
 > +
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-> +	mipi_dsi_msleep(&ctx, 120);
+> +additionalProperties: false
 > +
-> +	mipi_dsi_dcs_set_display_on_multi(&ctx);
-> +	mipi_dsi_msleep(&ctx, 120);
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
 > +
-> +	return ctx.accum_err;
-> +}
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        panel@0 {
+> +            compatible = "ayntec,thor-panel-bottom";
+> +            reg = <0>;
+> +            vdd1v2-supply = <&vreg_l11b_1p2>;
+> +            vddio-supply = <&vdd_disp_1v8>;
+> +            vdd-supply = <&vreg_l13b_3p0>;
+> +            avdd-supply = <&vdd_disp2_2v8>;
+> +            reset-gpios = <&tlmm 133 GPIO_ACTIVE_HIGH>;
+> +        };
+> +    };
 > +
-> +static int m9189_disable(struct drm_panel *panel)
-> +{
-> +	struct m9189_panel *m9189 = to_m9189_panel(panel);
-> +	struct mipi_dsi_multi_context ctx = { .dsi = m9189->dsi };
-> +
-> +	ctx.dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
-> +	mipi_dsi_msleep(&ctx, 120);
-> +
-> +	gpiod_set_value_cansleep(m9189->standby_gpio, 1);
-> +
-> +	return ctx.accum_err;
-> +}
-> +
-> +static int m9189_prepare(struct drm_panel *panel)
-> +{
-> +	struct m9189_panel *m9189 = to_m9189_panel(panel);
-> +	struct device *dev = &m9189->dsi->dev;
-> +	int ret;
-> +
-> +	ret = regulator_enable(m9189->supply);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(m9189->standby_gpio, 0);
-> +	msleep(20);
-> +	m9189_reset(m9189);
-> +
-> +	ret = m9189_on(m9189);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +		gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-> +		regulator_disable(m9189->supply);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int m9189_unprepare(struct drm_panel *panel)
-> +{
-> +	struct m9189_panel *m9189 = to_m9189_panel(panel);
-> +
-> +	gpiod_set_value_cansleep(m9189->standby_gpio, 1);
-> +	msleep(50);
-> +
-> +	gpiod_set_value_cansleep(m9189->reset_gpio, 1);
-> +	regulator_disable(m9189->supply);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode m9189_mode = {
-> +	.clock = (1024 + 160 + 160 + 10) * (600 + 12 + 23 + 1) * 60 / 1000,
-> +	.hdisplay = 1024,
-> +	.hsync_start = 1024 + 160,
-> +	.hsync_end = 1024 + 160 + 160,
-> +	.htotal = 1024 + 160 + 160 + 10,
-> +	.vdisplay = 600,
-> +	.vsync_start = 600 + 12,
-> +	.vsync_end = 600 + 12 + 23,
-> +	.vtotal = 600 + 12 + 23 + 1,
-> +	.width_mm = 154,
-> +	.height_mm = 86,
-> +};
-> +
-> +static int m9189_get_modes(struct drm_panel *panel,
-> +				  struct drm_connector *connector)
-> +{
-> +	return drm_connector_helper_get_modes_fixed(connector, &m9189_mode);
-> +}
-> +
-> +static const struct drm_panel_funcs m9189_panel_funcs = {
-> +	.prepare = m9189_prepare,
-> +	.unprepare = m9189_unprepare,
-> +	.disable = m9189_disable,
-> +	.get_modes = m9189_get_modes,
-> +};
-> +
-> +static int lxd_m9189_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct m9189_panel *m9189;
-> +	int ret;
-> +
-> +	m9189 = devm_kzalloc(dev, sizeof(*m9189), GFP_KERNEL);
-> +	if (!m9189)
-> +		return -ENOMEM;
-> +
-> +	m9189->supply = devm_regulator_get(dev, "power");
-> +	if (IS_ERR(m9189->supply))
-> +		return dev_err_probe(dev, PTR_ERR(m9189->supply),
-> +				     "Failed to get power-supply\n");
-> +
-> +	m9189->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> +	if (IS_ERR(m9189->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(m9189->reset_gpio),
-> +				     "Failed to get reset-gpios\n");
-> +
-> +	m9189->standby_gpio = devm_gpiod_get(dev, "standby", GPIOD_OUT_LOW);
-> +	if (IS_ERR(m9189->standby_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(m9189->standby_gpio),
-> +				     "Failed to get standby-gpios\n");
-> +
-> +	m9189->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, m9189);
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
-> +
-> +	drm_panel_init(&m9189->panel, dev, &m9189_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +	m9189->panel.prepare_prev_first = true;
-> +
-> +	ret = drm_panel_of_backlight(&m9189->panel);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-> +
-> +	drm_panel_add(&m9189->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-> +		drm_panel_remove(&m9189->panel);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void lxd_m9189_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct m9189_panel *m9189 = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ret = mipi_dsi_detach(dsi);
-> +	if (ret < 0)
-> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-> +
-> +	drm_panel_remove(&m9189->panel);
-> +}
-> +
-> +static const struct of_device_id lxd_m9189_of_match[] = {
-> +	{ .compatible = "lxd,m9189a" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, lxd_m9189_of_match);
-> +
-> +static struct mipi_dsi_driver lxd_m9189_driver = {
-> +	.probe = lxd_m9189_probe,
-> +	.remove = lxd_m9189_remove,
-> +	.driver = {
-> +		.name = "panel-lxd-m9189a",
-> +		.of_match_table = lxd_m9189_of_match,
-> +	},
-> +};
-> +module_mipi_dsi_driver(lxd_m9189_driver);
-> +
-> +MODULE_DESCRIPTION("DRM driver for LXD M9189A MIPI-DSI panels");
-> +MODULE_LICENSE("GPL");
+> +...
 > 
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Thanks,
-Neil
