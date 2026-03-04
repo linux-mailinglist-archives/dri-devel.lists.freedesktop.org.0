@@ -2,112 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIkyHJNUqGnUtAAAu9opvQ
+	id UCSeM49UqGnUtAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 16:49:39 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 16:49:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3583203470
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 16:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756ED203459
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 16:49:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAC410EA49;
-	Wed,  4 Mar 2026 15:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158AB10EA36;
+	Wed,  4 Mar 2026 15:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZtHWwFYN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WnNpGdV+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JzdDpdA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WnNpGdV+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JzdDpdA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B56410EA45
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 15:49:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2F52B434FB;
- Wed,  4 Mar 2026 15:49:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD5DC4CEF7;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C7A10EA36
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 15:49:31 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 137B73F974;
+ Wed,  4 Mar 2026 15:49:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772639370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xCXzVXRNiQUEv2rL+BPMuBd1c7Pw9X/gCQi73Ayv7iA=;
+ b=WnNpGdV+lx09lgr9ZcU+eX/7mMKvqZQ62cKe3pg+VHyr57UKMejgeqgIWxHQbdQy94YZ+3
+ 43eAPp4bOpvOMsBFybkeZIx5Ylfm+0/K9Ed1oenw0FlxAZOaWySpkco2PjtHtC+FYl6g9B
+ hOGVncb4pHqEEsypFEJp/qEQ9dy8yKY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772639370;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xCXzVXRNiQUEv2rL+BPMuBd1c7Pw9X/gCQi73Ayv7iA=;
+ b=3JzdDpdArHYQvGbvnYqcwiUUvVW/JE11WJMXSIZ6CJNocL47gndqHQQl+lWJzdrKvOTWee
+ Ahn7dDys/7UvkaDA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WnNpGdV+;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3JzdDpdA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772639370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xCXzVXRNiQUEv2rL+BPMuBd1c7Pw9X/gCQi73Ayv7iA=;
+ b=WnNpGdV+lx09lgr9ZcU+eX/7mMKvqZQ62cKe3pg+VHyr57UKMejgeqgIWxHQbdQy94YZ+3
+ 43eAPp4bOpvOMsBFybkeZIx5Ylfm+0/K9Ed1oenw0FlxAZOaWySpkco2PjtHtC+FYl6g9B
+ hOGVncb4pHqEEsypFEJp/qEQ9dy8yKY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772639370;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xCXzVXRNiQUEv2rL+BPMuBd1c7Pw9X/gCQi73Ayv7iA=;
+ b=3JzdDpdArHYQvGbvnYqcwiUUvVW/JE11WJMXSIZ6CJNocL47gndqHQQl+lWJzdrKvOTWee
+ Ahn7dDys/7UvkaDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D21053EA69;
  Wed,  4 Mar 2026 15:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772639375;
- bh=IX7WCg4dPH2qu2e+EkixB5EoOLtKx1kA9p+NNtTOBpU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZtHWwFYNQShmyxEp/vMAU/153NWxsd0d2JjBLHDpnxj6a12HZOz+CMAv1/JmoO+kp
- jH6+Hydk3qFsowlK7cngvlZUJDCfFM9DFB6Xd4mE49Zm3N0UibuAqlbNM08Vxi0vfg
- lbe3+BKHfNZlnoy+iUIPUlWoZUiuO79SL/O+YLjEfbz/lCQygbTRdfaw+jFMtN4U3q
- CZbJNJX6T0/5+tOJ3IE0U4wIhwf+CIjBQ8/zeFdlCh9blX+fG0dDr4GToANxsyv3gP
- 6DYY27OZmausiTzVE1mIJdmSbQFdcegaKu/lv1q6oslvSvCz3KQpxgK2/lzt+pFJvQ
- vlUnKXGHI7HeQ==
-Message-ID: <dda5b0b0-1a8d-4d37-aa82-9515dab2cbc0@kernel.org>
-Date: Wed, 4 Mar 2026 16:49:27 +0100
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qpnZMYlUqGkKaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 04 Mar 2026 15:49:29 +0000
+Message-ID: <2e3fd9d3-71de-4900-93af-2120af27d051@suse.de>
+Date: Wed, 4 Mar 2026 16:49:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 1/3] dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC
- subnode to schema and example
-To: Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- luca.ceresoli@bootlin.com
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>
-References: <20260303-v6-18-topic-imx93-parallel-display-v11-1-1b03733c8461@pengutronix.de>
- <20260303210131.2966214-1-Frank.Li@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 2/2] drm/radeon: Test for fbdev GEM object with generic
+ helper
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20260304130250.59008-1-tzimmermann@suse.de>
+ <20260304130250.59008-3-tzimmermann@suse.de>
+ <CADnq5_NyHuvQfggvZ2aUJ4uv_3HAwKTA5fYWxQej1=QtF7PJBQ@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260303210131.2966214-1-Frank.Li@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CADnq5_NyHuvQfggvZ2aUJ4uv_3HAwKTA5fYWxQej1=QtF7PJBQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,70 +137,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: F3583203470
+X-Rspamd-Queue-Id: 756ED203459
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:m.felsch@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:alexdeucher@gmail.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_TO(0.00)[nxp.com,kernel.org,pengutronix.de,gmail.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,suse.com:url,amd.com:email]
 X-Rspamd-Action: no action
 
-On 03/03/2026 22:00, Frank Li wrote:
-> From: Frank Li (AI-BOT) <frank.li@nxp.com>
-> 
-> AI bot review and may be useless.
-> 
-> This is a device tree bindings patch, not kernel C code. The YAML
-> schema additions look structurally sound. A few observations:
-> 
->> +  dpi-bridge:
->> +    type: object
->> +    additionalProperties: false
+Hi
+
+Am 04.03.26 um 16:32 schrieb Alex Deucher:
+> On Wed, Mar 4, 2026 at 8:03 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Replace radeon's test for the fbdev GEM object with a call to the
+>> generic helper.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Series is:
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+Thanks
+
+>
+> Did you want me to pick these up or did you want to land them in drm-misc?
+
+Please add it to your tree.
+
+Best regards
+Thomas
+
+>
+> Alex
+>
+>> ---
+>>   drivers/gpu/drm/radeon/radeon_device.c |  7 ++++---
+>>   drivers/gpu/drm/radeon/radeon_fbdev.c  | 17 -----------------
+>>   drivers/gpu/drm/radeon/radeon_mode.h   |  5 -----
+>>   3 files changed, 4 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+>> index 5d523d5dae88..705c012fcf9e 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_device.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+>> @@ -37,6 +37,7 @@
+>>   #include <drm/drm_client_event.h>
+>>   #include <drm/drm_crtc_helper.h>
+>>   #include <drm/drm_device.h>
+>> +#include <drm/drm_fb_helper.h>
+>>   #include <drm/drm_file.h>
+>>   #include <drm/drm_framebuffer.h>
+>>   #include <drm/drm_probe_helper.h>
+>> @@ -1574,7 +1575,6 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+>>          list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+>>                  struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+>>                  struct drm_framebuffer *fb = crtc->primary->fb;
+>> -               struct radeon_bo *robj;
+>>
+>>                  if (radeon_crtc->cursor_bo) {
+>>                          struct radeon_bo *robj = gem_to_radeon_bo(radeon_crtc->cursor_bo);
+>> @@ -1588,9 +1588,10 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+>>                  if (fb == NULL || fb->obj[0] == NULL) {
+>>                          continue;
+>>                  }
+>> -               robj = gem_to_radeon_bo(fb->obj[0]);
+>>                  /* don't unpin kernel fb objects */
+>> -               if (!radeon_fbdev_robj_is_fb(rdev, robj)) {
+>> +               if (!drm_fb_helper_gem_is_fb(dev->fb_helper, fb->obj[0])) {
+>> +                       struct radeon_bo *robj = gem_to_radeon_bo(fb->obj[0]);
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - nxp,imx91-pdfc
->> +          - nxp,imx93-pdfc
-> 
-> The compatible strings should be documented in a separate vendor
-> prefix file (nxp.yaml) if not already present. Verify they exist
-> in Documentation/devicetree/bindings/vendor-prefixes.yaml.
+>>                          r = radeon_bo_reserve(robj, false);
+>>                          if (r == 0) {
+>>                                  radeon_bo_unpin(robj);
+>> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> index 18d61f3f7344..3e243f5e2f44 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> @@ -274,20 +274,3 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>>          radeon_fbdev_destroy_pinned_object(gobj);
+>>          return ret;
+>>   }
+>> -
+>> -bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
+>> -{
+>> -       struct drm_fb_helper *fb_helper = rdev_to_drm(rdev)->fb_helper;
+>> -       struct drm_gem_object *gobj;
+>> -
+>> -       if (!fb_helper)
+>> -               return false;
+>> -
+>> -       gobj = drm_gem_fb_get_obj(fb_helper->fb, 0);
+>> -       if (!gobj)
+>> -               return false;
+>> -       if (gobj != &robj->tbo.base)
+>> -               return false;
+>> -
+>> -       return true;
+>> -}
+>> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
+>> index 088af85902f7..ae1ecdc2e189 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_mode.h
+>> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
+>> @@ -936,14 +936,9 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>>                                      struct drm_fb_helper_surface_size *sizes);
+>>   #define RADEON_FBDEV_DRIVER_OPS \
+>>          .fbdev_probe = radeon_fbdev_driver_fbdev_probe
+>> -bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj);
+>>   #else
+>>   #define RADEON_FBDEV_DRIVER_OPS \
+>>          .fbdev_probe = NULL
+>> -static inline bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj)
+>> -{
+>> -       return false;
+>> -}
+>>   #endif
+>>
+>>   void radeon_crtc_handle_vblank(struct radeon_device *rdev, int crtc_id);
+>> --
+>> 2.53.0
+>>
 
-What?!?!?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-This is nonsense.
 
-Also, you are responding to an already reviewed patch.
-
-Best regards,
-Krzysztof
