@@ -2,95 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wI9oEDgpqGkdpAAAu9opvQ
+	id 4By6IBAqqGkdpAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 13:44:40 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 13:48:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E411FFC5D
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 13:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75511FFD08
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 13:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23B4B10E170;
-	Wed,  4 Mar 2026 12:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7990D10E176;
+	Wed,  4 Mar 2026 12:48:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jkppyfbP";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="U5NhpZCn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE49110E0FD
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 12:44:35 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4833115090dso69744925e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 04:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772628274; x=1773233074; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LHByxMKryOjmtkThOv7ygNgBhXzSd+UZ7YG3LhRsijU=;
- b=jkppyfbPOqu25R+wUGTuVOzRHl3jCV1JmqFCOfNn+TZy7oefDK5Ee4lpVEXIBtK7oi
- JQJQNUbiAASnQysGvMn06VirGsTsA+w8ATWz98mm6VVzUaViVs3K2xyoSslbM8+VSRx0
- 4VEUZiMAOl018lK2Npa6qxRn8cLkBsUAipF5wPWaAUbq8R2q6BEwtBwtsRWM47Cktv07
- RTlEcBnWQw96/CG8r7x44qDwYW7MitfcJY5AvDf+GeFrhbPI0jxYjL9yBLiSidpKxHdN
- Yt7tCq12XeYXPzlRzPgt90tbmEFbH++e277bqbyOsKR/KImIVpJs0PMtEWwgeCLpYBFZ
- pYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772628274; x=1773233074;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LHByxMKryOjmtkThOv7ygNgBhXzSd+UZ7YG3LhRsijU=;
- b=mlLHocBdXodO4EVEMYPVNn2lSpjGb1FxxpT1os+wUETN1GSj6Vw3fwaLJQeLnGhZ2U
- ysxmCX56r1caVHHt8L4pmghuxAtTuRl7m6d4/SOWUzChQvO5egPh/Cn0avc/c9g/Iray
- GLV2hgoaXuEKC6irbrDo3A+bM7t7/3jypzliVhBMN2ZYebyPWMKiYWq/PzkKPCttJNZ5
- e9v9zWE9qEqQsI6NWS2U86Q2MUP515G574A2rnbmo5iTA0u8IHoDiv0Ep3Lw7r2t3vtF
- XqI6toS8mEP2B8WOAmfg478hD2RE3z85k/IFsatfVgutlmxCjPopTuM4OzgUdpJyDhZh
- 4Bhw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVb8Ggij5mO4/Ce5DVd8K1pFDOycCZ430KBQlvOl9rfg+rSLOF9v0pYL40IJp8M71vs7zOSo6fuy70=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxd850J9qquNq543HE9Llmcuy5olameoVrcLv6xzSG4oyvyaL25
- 8svCHhJEMbo6qMQNPvvjTUfc4L4dYbWo0qwxZYoJ0XI5Y1N6fzQ2iBLf
-X-Gm-Gg: ATEYQzzJrxP2zCcWi+TQ6SigvFdVung49Tp1n8028zxpyId2V8/S7Boas/kWSzDPnSW
- 2DwnUEBZ5IYB8oOEEPSq/IArhWpNmRh6uVOBtHGx4Z9gppmKQHzG3xoMui0m/6CzdWZCPdjUYTy
- nVCkpY3b5MWeGG1ijDQuC2kGZ35DGccEMuG6S3zH5t58w5lGcOsYlIi+QlEaYAPRKgK6gpmDB3c
- LyiXs9KpyJpzW6y1zbK8QWF4hEqR6T6M/qHu07oMjNdeXONKZmdgrrQLsD6ZB0BD9hEee63KtnH
- 0+k4SuFauU4zZVoMfcOJcK1RHViOzkPouS+h/K2lDg3WDvTwvBMbeGA60HG9WTa+nhcpMmITrhV
- BMmFSS0OmtoB2nZqVxATM/NSYnEQqwH3H3W4xrfZ0Sjk77o1WzrLNqZsp7mf5ZbVu+RO5qgephc
- 6LYM9rNv2SlsYSZpAJh8J8cAqbj/dkvrY/x2RiWs5V9vbwWR+lb69NznmLL9JKayT/O8karSkLs
- ttCIpaj
-X-Received: by 2002:a05:600c:1e2a:b0:465:a51d:d4 with SMTP id
- 5b1f17b1804b1-48519848388mr27553155e9.6.1772628273692; 
- Wed, 04 Mar 2026 04:44:33 -0800 (PST)
-Received: from timur-hyperion.localnet (540018D2.dsl.pool.telekom.hu.
- [84.0.24.210]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4851884a24asm50661015e9.7.2026.03.04.04.44.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2026 04:44:33 -0800 (PST)
-From: Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>
-To: Rosen Penev <rosenp@gmail.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
- Alex Hung <alex.hung@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lijo Lazar <lijo.lazar@amd.com>, "chr[]" <chris@rudorff.com>,
- Sasha Levin <sashal@kernel.org>, Wentao Liang <vulab@iscas.ac.cn>,
- "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCHv2 for 6.112 and 6.6 0/2] amdgpu: fix panic on old GPUs
-Date: Wed, 04 Mar 2026 13:44:31 +0100
-Message-ID: <5828571.IbC2pHGDlb@timur-hyperion>
-In-Reply-To: <4d00945c-f439-4460-9f8b-12e7e498fb20@amd.com>
-References: <20260228045356.3561-1-rosenp@gmail.com>
- <2596902.XAFRqVoOGU@timur-hyperion>
- <4d00945c-f439-4460-9f8b-12e7e498fb20@amd.com>
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A5E10E176;
+ Wed,  4 Mar 2026 12:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=YsXg2qDZ+ZjnQnj/eNfiIgU3SLUyimkRR7bx5y5oB4w=; b=U5NhpZCn934XojSyVFL1nj1S/W
+ 2SwNvFKnKgDXQSzq6m51IMvSlZX+ne4bEh4E01vZtYgpLee5ixUDi8qEHb4R97fy2f4d2ReNAtXFl
+ 2Myy/FM9yjpIi4F5MCjGcXNEoyN2WDgyc7039UPkredIXwYhk1etVNasHnwai+IB6c4ro8VQTd24m
+ dlAjACdWYLWNFfSy+VdBxKivYhNczBRSHxMPHao0CvqQusPNjCznq/i4rksmb+FqExqEhxu3s5ruZ
+ HIicL8wW2i2h8YBWX0vQS1a34HK9wPAQFs79TabY9VaeD6tSKbvzAdMAvOXPYXBWy7iVhi1jbb7PJ
+ KVa5pNSQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vxle2-00000004Z41-2FWR; Wed, 04 Mar 2026 12:48:06 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 07040300666; Wed, 04 Mar 2026 13:48:06 +0100 (CET)
+Date: Wed, 4 Mar 2026 13:48:05 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
+ Yury Norov <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Theodore Ts'o <tytso@mit.edu>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexander Duyck <alexanderduyck@fb.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Alexandra Winter <wintera@linux.ibm.com>,
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Anna Schumaker <anna@kernel.org>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Aswin Karuvally <aswin@linux.ibm.com>,
+ Borislav Petkov <bp@alien8.de>, Carlos Maiolino <cem@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chao Yu <chao@kernel.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Dongsheng Yang <dongsheng.yang@linux.dev>,
+ Eric Dumazet <edumazet@google.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Ingo Molnar <mingo@redhat.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Latchesar Ionkov <lucho@ionkov.net>, Linus Walleij <linusw@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>,
+ Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Paul Walmsley <pjw@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona@ffwll.ch>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Gleixner <tglx@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Yury Norov <yury.norov@gmail.com>, Zheng Gu <cengku@gmail.com>,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-block@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dm-devel@lists.linux.dev, netdev@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+ v9fs@lists.linux.dev, virtualization@lists.linux.dev,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/8] mm: globalize rest_of_page() macro
+Message-ID: <20260304124805.GB2277644@noisy.programming.kicks-ass.net>
+References: <20260304012717.201797-1-ynorov@nvidia.com>
+ <20260303182845.250bb2de@kernel.org>
+ <f8d86743-6231-414d-a5e8-65e867123fea@kernel.dk>
+ <aaedwFwXh9QXS3Ju@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aaedwFwXh9QXS3Ju@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,111 +119,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E4E411FFC5D
+X-Rspamd-Queue-Id: E75511FFD08
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[infradead.org:s=desiato.20200630];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:rosenp@gmail.com,m:christian.koenig@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kenneth.feng@amd.com,m:alex.hung@amd.com,m:gregkh@linuxfoundation.org,m:lijo.lazar@amd.com,m:chris@rudorff.com,m:sashal@kernel.org,m:vulab@iscas.ac.cn,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,amd.com];
-	FORGED_SENDER(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linuxfoundation.org,rudorff.com,kernel.org,iscas.ac.cn,lists.freedesktop.org,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TAGGED_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,nvidia.com,linux-foundation.org,davemloft.net,redhat.com,mit.edu,eecs.berkeley.edu,fb.com,linux.ibm.com,zeniv.linux.org.uk,dilger.ca,lunn.ch,opensynergy.com,alien8.de,arm.com,linux.intel.com,gmail.com,codewreck.org,linux.dev,google.com,gondor.apana.org.au,perex.cz,ionkov.net,ellerman.id.au,szeredi.hu,dabbelt.com,intel.com,ffwll.ch,suse.com,ursulin.net,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.sourceforge.net,kvack.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.861];
+	RCPT_COUNT_GT_50(0.00)[85];
+	FROM_NEQ_ENVFROM(0.00)[peterz@infradead.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[infradead.org:-];
+	TAGGED_RCPT(0.00)[dri-devel,netdev];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gitlab.freedesktop.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,noisy.programming.kicks-ass.net:mid]
 X-Rspamd-Action: no action
 
-On Wednesday, March 4, 2026 11:06:53=E2=80=AFAM Central European Standard T=
-ime=20
-Christian K=C3=B6nig wrote:
-> >=20
-> > Hi Everyone,
-> >=20
-> > The patches actually come from a branch of mine:
-> > https://gitlab.freedesktop.org/Venemo/linux/-/commits/v6.12.74_si_dc_fi=
-xes
-> >=20
-> > For context:
-> >=20
-> > The crash comes from a patch that I wrote for 6.18 that fixes some issu=
-es
-> > on the default, non-DC code path, that was backported to stable kernels.
-> > DC was not the default code path before Linux 6.19, so I didn't mark the
-> > patches that also fix DC for backporting, because I had assumed nobody
-> > uses the DC code path on these kernel versions.
-> >=20
-> > After a user reported to me that this causes issues for him with DC on
-> > 6.17
-> > and older kernels, I sent a backported series to Greg and Sasha, in an
-> > email thread with the subject line "Fixing an amdgpu crash caused by a
-> > backported patch". The fixes were backported to 6.17 then.
-> >=20
-> > I assumed that the stable maintainers would backport the fixes to all
-> > older
-> > kernels that were also affected, but Rosen brought it to my attention t=
-hat
-> > it didn't happen. So I made the backports in the above branch. Rosen th=
-en
-> > decided to send them to the mailing list.
-> >=20
-> > > Hope that helps clear up the situation.
->=20
+On Tue, Mar 03, 2026 at 06:49:36PM -0800, Sean Christopherson wrote:
+> On Tue, Mar 03, 2026, Jens Axboe wrote:
+> > On 3/3/26 7:28 PM, Jakub Kicinski wrote:
+> > > On Tue,  3 Mar 2026 20:27:08 -0500 Yury Norov wrote:
+> > >> The net/9p networking driver has a handy macro to calculate the
+> > >> amount of bytes from a given pointer to the end of page. Move it
+> > >> to core/mm, and apply tree-wide. No functional changes intended.
+> > >>
+> > >> This series was originally introduced as a single patch #07/12 in:
+> > >>
+> > >> https://lore.kernel.org/all/20260219181407.290201-1-ynorov@nvidia.com/
+> > >>
+> > >> Split it for better granularity and submit separately.
+> > > 
+> > > I don't get what the motivation is here. Another helper developers
+> > > and readers of the code will need to know about just to replace 
+> > > obvious and easy to comprehend math.
+> > 
+> > I fully agree, I had the same thought reading this.
+> 
+> +1 from KVM-land.
 
-Hi Christian,
+Right, this. I hate these pointless helpers that obscure perfectly
+sensible and obvious code -- and for me that includes things like
+rounddown() and DIV_ROUND_UP().
 
-> In theory Harry an Leo should take care of stuff like this
-
-I don't blame them for this. It is my fault for breaking it in the first pl=
-ace,=20
-and I didn't think there was any interest in using DC on older kernels.
-
-> pretty much everybody is overworked.
-
-Yeah. We all are.
-
->=20
-> In that case guys feel free to go ahead and ping the stable maintainers t=
-hat
-> something is missing.
->=20
-> Just make sure that when a patch passes through your hands that you add a
-> Signed-off-by tag.
-
-Thanks! Probably I should have sent the patches myself, then they already=20
-would have had all the necessary tags. Sorry for the confusion.
-
-Now that the situation is cleared up, is there anything else we need to do =
-for=20
-these two patches here?
-
-Best regards,
-Timur
-
-
-
+It just makes the code harder to read.
