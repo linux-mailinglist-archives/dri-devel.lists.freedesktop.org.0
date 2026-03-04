@@ -2,97 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKgzAwjGqGlaxAAAu9opvQ
+	id ILAlBUXGqGmtxAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:53:44 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:54:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF0B2092D1
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B755620932E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 00:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8159310EAD9;
-	Wed,  4 Mar 2026 23:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9DC10EADA;
+	Wed,  4 Mar 2026 23:54:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bHnTZhnF";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ke5AeJJs";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YDzVpAV3";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ABVutegn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16B910EAD9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 23:53:38 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 990BC10E1A9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 23:54:41 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 624HH7lk3837884
- for <dri-devel@lists.freedesktop.org>; Wed, 4 Mar 2026 23:53:38 GMT
+ 624HIw4d1455851
+ for <dri-devel@lists.freedesktop.org>; Wed, 4 Mar 2026 23:54:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=V50tlCURGOSWEpUNVC/f5JBG
- lAu9WVw1+uCs3+cXy8Q=; b=bHnTZhnFYn/tiIi8J4ULThpsgbab7UrmgW5OOJJi
- m7XwaAv8gzL5i/PPJCFmKWpARNfKhBWcj2eQ98Jty0ias+PktBjqdKCkXAPaELNj
- a0Gl+BUEEowrMPAKllx/ORmbxKvdbnv06gsWNMRC4vNwMWDRsN+/Umbybcd+e88B
- r/+5sfU/Jr5rGByjhLIWV29LUZnpLgy3RQf4wS6C8MkG2aHm4Hpng0Hc/lXMymq8
- +xAymHfPQW0I/zSIuwudwEu/Xyt9EGrksONWTgra0NIIeQgGca3xHZntcQ/B1uyx
- S9yybI9F7OtwJgszxO8ID4FgfjHXJVcqqpvfDRNL7lu1yA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cps0m12h6-1
+ :references:subject:to; s=qcppdkim1; bh=D9sak1pWhxVBrwdJ2BGlDRM1
+ u4FQCLLwnOBWXp3tU8M=; b=YDzVpAV36G9FJiGclgosp/BCt62vM9M9b056E3f0
+ U+5xxlejiEUamIMH96BixcO5AaY77ZWBlSAKvu5XqmjeqoAku40urrsPuKmmnS9v
+ 3OkMLayFRlSKj3dBR7WZsu0j9iU2lRzpg2d7kLVS9w5ZRVAO2FJ6BsTzjCt69c98
+ JFzB7UN71X/+3QF9qLWJGMzkqHwQXXEY1ttgq+wcei0KjxR3Fsb0D++XmNf1CbY5
+ 5aKHM5x6QqkmdYtjls//+oqXfFNFmC5IchUi4ZbV2wIf7afsnXeYSOnIz5G6c9dJ
+ RXin04p5y380S3mSuZNgncUGt9sD1j/T6Lf+R7oqd/C+mg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpj182gda-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 23:53:38 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-8950562d351so702982726d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 15:53:37 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 23:54:40 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c70ab7f67fso427072785a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 15:54:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772668417; x=1773273217;
+ d=oss.qualcomm.com; s=google; t=1772668480; x=1773273280;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=V50tlCURGOSWEpUNVC/f5JBGlAu9WVw1+uCs3+cXy8Q=;
- b=ke5AeJJsxC0fXhJeoHUUWFeMhstztbMtwUK8WEwbWrs1UnqCHMbLEUOzFT6iqMOP9F
- p4wjvsWABjRfYkCKT+Z6UkWom1mVccJiv3v7KaZ4RZSqVm/4rYIu/rfjrueK6zcUJeMd
- dCvoKipaBrTLE49HSZ5xMd0CzHzd5NgxIWBaRrUuxbSR2C9UzE+DORSXeUhHje0whPnM
- eE820JugIRmmJ4zsJC1LneAJ2gS70nYte3QAsJwh0ML+hcNFlSiOZ3yY9tvbKRZugoEi
- h5nTcvwNK8Lfp41JWmCHnx4VRwv3ZXZXrwE9HXgMC/JywbFXyAT1Cy9s4agpHVc31eRh
- FCbA==
+ bh=D9sak1pWhxVBrwdJ2BGlDRM1u4FQCLLwnOBWXp3tU8M=;
+ b=ABVutegnhE0WPKVpxRAW1LEkUUOLXwHRj8b80QrMLQsGRn0mryA9+2zh6wsQgQ8mNz
+ FcP6mGtlv8fFYujOPHbYy2EzMxx20Ul0gnMqJkziENrxz3Tb+nekwrSdVVszjcOK17ti
+ bjafDOLvHzL5g10zG+biGVhWQcIeLuJavrIThZGQ3RtS7JGfe8P0yw3APdwx3wKgQ3X8
+ ycDUq2mGLecfG5pAvxBoy7SM/tnuxQ4G04MowuMYdmwGydmbUhsbhCot8COglMZxWyND
+ WMleVNRSotTFNoGZNIeFvEqTrmKJqG5aynxS1KmC42NKbXqX3gkCZAGGQPVTG0V4X1kQ
+ pxMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772668417; x=1773273217;
+ d=1e100.net; s=20230601; t=1772668480; x=1773273280;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=V50tlCURGOSWEpUNVC/f5JBGlAu9WVw1+uCs3+cXy8Q=;
- b=XqLCUUc0JVUY75Q4PT6AOHnZQlZoKTTxEjEuAeVJYbLUkeAhScBj52AGYxDX9h4Mo0
- Bd2yy5NTMP0C5AXm5QGGjGm9TCBSC67eKpmTKWqltCMJFh596Zv0REk3DZ0FUjs6EmOl
- lhNfeEmEiJSrp2LHitRZWlK9DYBuTWejx34Jc0SwZI+C7Se3Tm/55HeUv1lM1TgEogZp
- eD8HnUZo9AF8Jodbg1bkyOZXnSmKu8KzgbGYUw06vLv3mPrGcJut63hNnWVNPQSwcEr4
- 2JZ1PlVu1ajhyI+VkuIc5ryi5GGIgnNaAsLvunt2BlMfL68DqLTKI5peP34HqUdJKZFq
- rf/g==
+ bh=D9sak1pWhxVBrwdJ2BGlDRM1u4FQCLLwnOBWXp3tU8M=;
+ b=PgnFRIqIN+Klq2nkKwHEj+lkzDfN3vGeGN9Sv2lOyYqVvcaBmneBHHnpY/IEVqAhi4
+ 77B4GZdH0tw+FpBWbFLyzo+IMGRXWiuSGhQpoDcfsvbT+pdCO7H4nxuN8+iJnnrexymK
+ etShaGbnwrdvIYMpoIv7GH3ZpxgqoZj76BpQWSijf4XIaKdNSVY1ikRqTVoAm++Eo8Ex
+ 3aVNwR0GXP3Lcw/DKzLXwdEj4xukz11BICdPVcIjfrBPsglZwowV2/nNqOcHv1X6WwP1
+ QfL7Opt+3zDdFLLCXOKUnvsJ8UyXLZ5gryvqK3cQQ1UnQVy0CBJh5Gg0zlTeNGCSbajv
+ //cQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX98zPUJS+csjHebfIvyETg1uOFwm6+lfo2+s2fdvlM9aJblbWFZSOXthaDv4B7XQymE9Onx4SNAGw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIswZBhox5wiHPLSu97+DFCziEuWo13ioGONvKnJYV1MBGaiwc
- Yt+R3mG+5qTQahL6eU/vTzwth/bRhDmPuYXUAkmfJSavIzpooieNhWypZbdnDXg6aLCZfD5bSer
- sCkoNlvFJ/QEsgGt1QU7cfyKdIV8V9uKje5goKK+Uj75NgdTsPKgmpIFh0DHYVxs5vtvSFQQ=
-X-Gm-Gg: ATEYQzywlznvi6d2jzXLwWxya80YEp4JB+DTMkxzu+rNHNo64/nD8tbTl0e/hKQE/Cz
- JqaEwaYoGprNg8re2SJ1SFtANVeadDos170kjeenA7YTP5xBnCxAJV/qLGcWCkuQKskGUMK3Ckb
- qz635c7ENDZhQOM40E8ireWSF6kM7NJc9PyGYd3yj7MB90p7fDap9DeFeZxee8oY8Uigof5QONU
- 87o1db9c5kfaaz06uMdP5VGcinMj2jCgseJlMyPegWQd0wUqBbRwJJBjA0nCVOYotOadYbDJvJH
- T2xmhVfOOCFlw8R58k/I/sFYz+FyIPGwlDPfcWdohyfSxHA5umsXqRNZpJ9D6NX91aLzAF5CllA
- cpjCejigKyW4SMbTM8o9efGZ/LUBfkSV9NijED2rRuK0E+IsoA+kMBxGuFGD2H/sOykQinHSNy/
- G1QtoCuO5ePFNQRRsS90i/sbJlRo1mSpJ9ueQ=
-X-Received: by 2002:a05:620a:3727:b0:8c7:c25:9e53 with SMTP id
- af79cd13be357-8cd5afa6707mr498609285a.59.1772668417068; 
- Wed, 04 Mar 2026 15:53:37 -0800 (PST)
-X-Received: by 2002:a05:620a:3727:b0:8c7:c25:9e53 with SMTP id
- af79cd13be357-8cd5afa6707mr498604985a.59.1772668416537; 
- Wed, 04 Mar 2026 15:53:36 -0800 (PST)
+ AJvYcCWeosXAAuftV4fy91OZemWldO8IUSS8nqXa6f7avGTj3q9xk/lNHGr2cKz+4FwcluQAQsTGWB5le+I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0zVzmmeOn1IHXzP0BtEGDLg1DYLOjDM0fulIKJ4kqGpduYK7K
+ JuhlRurlvAtaEBExSx/ghOAGRMGrEyESEs9b3YAE5tT8ackHTM/ip2cgPCzH6/xssehfC3qUWqq
+ eiPUe0PHpRgN89uBZXEmPcx/AdEy6Fk4pVkYXTRRH+vFrcfXXZ/RIoOEGa814f4tj3IPVNYk=
+X-Gm-Gg: ATEYQzyylNUc7X395qp04WJzmpNz1HfWY/skRqjCC6MWkkajLKtl9uot6FZsSaJoeP6
+ XlW9I4C5/Am46Qj6kKZ8K+uI3KrNxLDqCl13ll4OlDNE3GzvSsO96luz9PcMBlEA30FC9xGeazQ
+ ig9vicRSlAk0roW0x7BHF9JqOjFYsdHGc90Pk2P4EUiKVvIEnNtx3zfvHaN016lW7Zsza1BqDAL
+ V4ZW6aFupkt6gRmMlmFUU11+/4o2YvWCq6zx3e13siYQqnDmEWEYFJ8Fs+ChT/NMpyxRdACtaty
+ bS88aViEUTicIz+RpyfClXb1myCVfdIZH6ddsiDggcDsBOQNq1f1uODTmg8RUkBhp/QEV8kGDPD
+ DhIToGbge3ozkwd/OmFkahZBBzUI4ztyE9N7SW7x/ZMIxF2RPUawwWQm33bhiRT6VytEZhNMhA/
+ lYiZBdd+hHuH/Hu4UiB4E6oEAgMfmGMpbOjvo=
+X-Received: by 2002:a05:620a:2986:b0:8cb:5442:d537 with SMTP id
+ af79cd13be357-8cd5aed61e0mr519313785a.12.1772668480050; 
+ Wed, 04 Mar 2026 15:54:40 -0800 (PST)
+X-Received: by 2002:a05:620a:2986:b0:8cb:5442:d537 with SMTP id
+ af79cd13be357-8cd5aed61e0mr519310585a.12.1772668479418; 
+ Wed, 04 Mar 2026 15:54:39 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a1296993a0sm933837e87.31.2026.03.04.15.53.35
+ 2adb3069b0e04-5a123573c42sm1615588e87.72.2026.03.04.15.54.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2026 15:53:35 -0800 (PST)
-Date: Thu, 5 Mar 2026 01:53:34 +0200
+ Wed, 04 Mar 2026 15:54:38 -0800 (PST)
+Date: Thu, 5 Mar 2026 01:54:36 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Vladimir Oltean <vladimir.oltean@nxp.com>
 Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
@@ -106,47 +106,40 @@ Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
  linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH phy-next 11/22] drm/msm/dp: remove debugging prints with
- internal struct phy state
-Message-ID: <esbforcln7bi4e5enmgwqj7d63usdyoobxyo3hwd4paou56aoc@kjlizz3ubksd>
+ spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 12/22] phy: move provider API out of public
+ <linux/phy/phy.h>
+Message-ID: <cleew6tvum3jnflztfcqfwtafu4hjizjvebzr7qrsbnnp7vvrx@fjqhyh57o5hw>
 References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-12-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-13-vladimir.oltean@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304175735.2660419-12-vladimir.oltean@nxp.com>
-X-Authority-Analysis: v=2.4 cv=e6wLiKp/ c=1 sm=1 tr=0 ts=69a8c602 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20260304175735.2660419-13-vladimir.oltean@nxp.com>
+X-Proofpoint-GUID: QJNUgBX8ZkakGM6xQ5xSJd0c-0iZiv4Q
+X-Proofpoint-ORIG-GUID: QJNUgBX8ZkakGM6xQ5xSJd0c-0iZiv4Q
+X-Authority-Analysis: v=2.4 cv=Ed7FgfmC c=1 sm=1 tr=0 ts=69a8c640 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=8AirrxEcAAAA:8
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=tVI0ZWmoAAAA:8
- a=3ogKHO_BN1K2bhpmqR8A:9 a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22
- a=ST-jHhOKWsTCqRlWije3:22 a=-BPWgnxRz2uhmvdm1NTO:22
-X-Proofpoint-ORIG-GUID: oauJ-8SHlBoI0aL5ISeHcV66eWDe4yax
-X-Proofpoint-GUID: oauJ-8SHlBoI0aL5ISeHcV66eWDe4yax
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDE5NiBTYWx0ZWRfX77EH/mvf15YL
- gaknbAUexpnH9PBvo/roczYqjherX8aAbxw/81r/rBJiBG70M+LVvJ3W8veWlfGZVLNsXTQlwfX
- WeTPZJu3G+I9wnzvTSfPr0/E7KfG+FtppQj+091GVHgdqxXkGIsV53UGLPquaxhDPVX48JCbbPq
- 2BR08ZJnkdUNzkF7t1G5w378NE3VhPEUPyynRJ8HAndnPPjaOBJ7023QSh1DFihkNQHRd2LwrRf
- DP2aC07pcUha9/J118nqNbD73eEGClTIrnal5JRscSFJ4FagpILRVbPHokvioTPBc+3eCy3rpmx
- MeIGnL+imbNJxQGO/+oyghbUPXytrXeRY93R8KIYICN/rSs2MwKLy2trb9rEeSbKY9CYjP19MmJ
- rzIqUoMtq3ARsYPJFS7M7jqatQgaHE9iOaHrc3Rk8SEZC9/RkekA/s+aByJqUbYo2gQZRO3e2VA
- 0h/UJxlb66FNGg/hiIQ==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=8AirrxEcAAAA:8
+ a=EUspDBNiAAAA:8 a=lO4ColjPjyWKUZOT0LYA:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDE5OCBTYWx0ZWRfX0V25b5o5N3Z0
+ WIJVsr/wVeh7gVdzDY3GTVABNKQtrkX3neWg5ZWBIaVsAc8t+ShHGsz/dPQfuIqhbX6RyC3XkAy
+ y65O+jtafVrEBjCgLuDL9Ovvti3rmpcdXDNpcbXpsPQV7GqEU7j92IbXcMsl1UEJMNC6BU+3vtZ
+ IQx/IjhXGfVQyGB6fRYCo/RtBkWuEK8Vck+roQq/Ja2HoVi9vrWb1/hORPhqwK4mb/kXJr4THbc
+ c8FK/wNZxD1cc1/RIN6S4/aX5zH/2hhnWHSeiB7xepcCF7FPY2xJhswQxViM5YCfXOnQ5eH06l6
+ qop46PZOO4AftpNRwHInQV/yLzuiBXUYrDAAdkWpr7rjJ9/w3l+Cw4FkXd09VLNpKuXegoUffmU
+ kyqvF2moKVpiDKhJr5gDxDqNTat2cfT04Dg8CxZaKzG6nH+RxoZL3PU/vJD7Sun9G2RdTHF2cqL
+ 0DbyfHt0anvzQYMVAUQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-04_09,2026-03-04_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
- spamscore=0 adultscore=0 impostorscore=0 suspectscore=0 priorityscore=1501
+ bulkscore=0 suspectscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040196
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040198
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,23 +154,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: ACF0B2092D1
+X-Rspamd-Queue-Id: B755620932E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:vladimir.oltean@nxp.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.oltean@nxp.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -195,30 +187,52 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,poorly.run:email,oss.qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:email,somainline.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:email,oss.qualcomm.com:dkim]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 07:57:24PM +0200, Vladimir Oltean wrote:
-> These do not provide much value, and will become hard to maintain once
-> the Generic PHY framework starts hiding the contents of struct phy from
-> consumers.
+On Wed, Mar 04, 2026 at 07:57:25PM +0200, Vladimir Oltean wrote:
+> The major goal is to hide the contents of struct phy from consumer
+> drivers.
+> 
+> The idea with "phy-props.h" is that both consumers and providers make
+> use of some data types. So both headers include "phy-props.h".
+> 
+> Two slight points of contention.
+> 
+> 1. phy_set_bus_width(): Vinod explains that despite the current caller
+>    situation (9 providers, 1 consumer), it is a consumer API function.
+> 
+>    The use case is that the controller (for example UFS) may have
+>    limitations and should set the expected lanes to be used and width on
+>    those lanes. A number of Generic PHYs can support multiple lanes and
+>    multiple width so this is way for controller telling I am using this
+>    configuration.
+> 
+> 2. phy-provider.h should go to include/linux/phy/ or to drivers/phy/?
+>    We do have 3 PHY providers outside of drivers/phy/:
+> 
+>    drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+>    drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>    drivers/pinctrl/tegra/pinctrl-tegra-xusb.c
+> 
+>    but the practice is not encouraged, and with time, these should be
+>    moved to the subsystem. This is not something that I can do now.
+> 
+> For temporary compatibility, keep including the provider header. This
+> will be removed when abuses are all gotten rid of.
 > 
 > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 > ---
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Jessica Zhang <jesszhan0024@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c | 18 ------------------
->  1 file changed, 18 deletions(-)
+>  drivers/phy/phy-core.c        |  34 +++
+>  drivers/phy/phy-provider.h    | 256 +++++++++++++++++
+>  include/linux/phy/phy-props.h |  75 +++++
+>  include/linux/phy/phy.h       | 499 +++++++---------------------------
+>  4 files changed, 458 insertions(+), 406 deletions(-)
+>  create mode 100644 drivers/phy/phy-provider.h
+>  create mode 100644 include/linux/phy/phy-props.h
 > 
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
 -- 
