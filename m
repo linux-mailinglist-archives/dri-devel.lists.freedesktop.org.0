@@ -2,111 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uGtDBywTqGnUngAAu9opvQ
+	id oLDnF0oUqGnUngAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:10:36 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:15:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C587C1FEB7F
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:10:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB3E1FECEC
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Mar 2026 12:15:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB2710E10A;
-	Wed,  4 Mar 2026 11:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7302010E12E;
+	Wed,  4 Mar 2026 11:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KtxESzLT";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IQKGu88+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 615B510E10A;
- Wed,  4 Mar 2026 11:10:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C485643B18;
- Wed,  4 Mar 2026 11:10:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64839C19423;
- Wed,  4 Mar 2026 11:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772622630;
- bh=NqNfQqjBGfmbAJo/aZtHMPo7003kq0HNHUa3oLLM9rE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KtxESzLTRevMkC0RMT3EArDVMk2FhTkCghz7l84S/Sl/uRFMKbvYjBO6WKTPLXZG2
- hDd+jtXTkQDCPlsNqrRNNBIS69FSEG3kyCqhhWldcKaA7lgmXmclpmibkTkxFDGx05
- L1mWc9QOtddQl0a6TEhhiss3l8edtqg3iz0dJiofY0wVH+4yeCbYY1MzoD2oPWrjdR
- EnDw2NjEjLAGM8p4Zym2vHqMmJuBYJNQQtn7Ix1yH9YiSler1bu8kJQI/BP/hsAWKP
- HCA4EbtIlLqW3pzKVaXGzu0CeEXA+pozdgRHL7CTE7jTeamnzsicmpnlaw5LC2gU+C
- eQD2mqeeLI41g==
-Date: Wed, 4 Mar 2026 11:10:13 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Theodore Ts'o <tytso@mit.edu>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexander Duyck <alexanderduyck@fb.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Alexandra Winter <wintera@linux.ibm.com>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Anna Schumaker <anna@kernel.org>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Aswin Karuvally <aswin@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Carlos Maiolino <cem@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Chao Yu <chao@kernel.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Christian Brauner <brauner@kernel.org>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Airlie <airlied@gmail.com>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Dongsheng Yang <dongsheng.yang@linux.dev>,
- Eric Dumazet <edumazet@google.com>,
- Eric Van Hensbergen <ericvh@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Ingo Molnar <mingo@redhat.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Latchesar Ionkov <lucho@ionkov.net>, Linus Walleij <linusw@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>,
- Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Abeni <pabeni@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Paul Walmsley <pjw@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Simona Vetter <simona@ffwll.ch>, Takashi Iwai <tiwai@suse.com>,
- Thomas Gleixner <tglx@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Yury Norov <yury.norov@gmail.com>, Zheng Gu <cengku@gmail.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-block@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- dm-devel@lists.linux.dev, netdev@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
- v9fs@lists.linux.dev, virtualization@lists.linux.dev,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 5/8] spi: use rest_of_page() macro where appropriate
-Message-ID: <e731e101-bf06-44d7-ac91-0756c5b8bbc8@sirena.org.uk>
-References: <20260304012717.201797-1-ynorov@nvidia.com>
- <20260304012717.201797-6-ynorov@nvidia.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00FF210E9B1
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Mar 2026 11:15:16 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fQqp91xcvz9tRP;
+ Wed,  4 Mar 2026 12:15:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772622913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4pbnKPwyyrjoeUwqlZXIR0w8QHggEZwIkgw8ElRdLiM=;
+ b=IQKGu88+wtLK26AvZ2gsndKdt2Ft0nkYE0NFIvssxXnogNLEmo53o/j0HxMgwqRU10NAiu
+ YKY5s3JVcqZWa9o14/Y+5zaKsd4idxRvd37Yvm+CBxhmTZDqP9D/IGdY027EP/O/ZdJErz
+ t+jz+5LQFatIE7Zi9KYHgh3PgB8Y0nfoXD3YXZI0BOh9gQBTeWdOzj/HyY5bmjFOfDxCLZ
+ 4R/+OtZeozxeG4U9WSEjAwqWLPS3dUNHv1Rmk93gx3YdqvwYYP0EcE9hD1pzD5lq4iE3AD
+ qaB611btn7e1BlMuITPm7Mi3rR4Xdk7YamfeCUHt0rqAFgv5SAb3nGfHeGCkhg==
+Message-ID: <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
+Date: Wed, 4 Mar 2026 12:15:06 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="MuL6cN1k4g/DbVd2"
-Content-Disposition: inline
-In-Reply-To: <20260304012717.201797-6-ynorov@nvidia.com>
-X-Cookie: Take it easy, we're in a hurry.
+Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
+To: Julian Orth <ju.orth@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
+ <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
+ <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
+ <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
+ <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
+ <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
+ <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
+ <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
+ <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
+ <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
+ <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
+ <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
+ <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
+ <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 6e20394cec019119300
+X-MBO-RS-META: jrbio4316j5sthpf8nryhw6bh6n1yqpq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,63 +86,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C587C1FEB7F
+X-Rspamd-Queue-Id: BBB3E1FECEC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[linux-foundation.org,davemloft.net,redhat.com,mit.edu,eecs.berkeley.edu,fb.com,linux.ibm.com,zeniv.linux.org.uk,dilger.ca,lunn.ch,kernel.org,opensynergy.com,alien8.de,arm.com,linux.intel.com,gmail.com,codewreck.org,linux.dev,google.com,gondor.apana.org.au,perex.cz,kernel.dk,ionkov.net,ellerman.id.au,szeredi.hu,dabbelt.com,infradead.org,intel.com,ffwll.ch,suse.com,ursulin.net,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,lists.freedesktop.org,lists.linux.dev,lists.sourceforge.net,kvack.org];
-	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:maarten.lankhorst@linux.intel.com,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_GT_50(0.00)[85];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel,netdev];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:email,mailbox.org:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
+On 3/3/26 20:12, Julian Orth wrote:
+> On Tue, Mar 3, 2026 at 7:53 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+>>
+>> On 3/3/26 18:44, Maarten Lankhorst wrote:
+>>> Den 2026-03-03 kl. 18:30, skrev Julian Orth:
+>>>> On Tue, Mar 3, 2026 at 6:18 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+>>>>>
+>>>>> I wrote in my first post in this thread that I don't object to your patch, so you can relax and stop trying to convince me not to object to it. :)
+>>>>>
+>>>>> I'm just pointing out that this is working around broken user-space code, and that there are other similar cases where that kind of broken users-space code couldn't be worked around in the kernel, so it's better to also fix the user-space code anyway.
+>>>>
+>>>> At this point I think we're arguing about "how can ioctls be extended"
+>>>> and "does userspace have to use memset" in general, not just about
+>>>> this particular ioctl. You've made the argument that ioctls are not
+>>>> extensible in general unless userspace uses memset. However, I'm not
+>>>> yet convinced of this. As you've also said above, drm_ioctl happily
+>>>> truncates or zero-extends ioctl arguments without returning an error
+>>>> due to size mismatch. Therefore, the only way for userspace to detect
+>>>> if the kernel supports the "extended" ioctl is to add a flag so that
+>>>> the kernel can return an error if it doesn't know the flag. And then
+>>>> that flag could also be used by the kernel to detect which fields of
+>>>> the argument are potentially uninitialized.
+>>>>
+>>>> That is why I asked above if you knew of any other examples where an
+>>>> ioctl was extended and where memset(0) became effectively required due
+>>>> to the extension.
+>>
+>> Since it's always been effectively required for ioctl structs, "become" doesn't apply.
+>>
+>>
+>> In terms of documentation, the "(How to avoid) Botching up ioctls" page says under Basics:
+>>
+>> * Check all unused fields and flags and all the padding for whether it’s 0, and reject the ioctl if that’s not the case.
+>>
+>> Which is what the code you're modifying here did: The code after the args->point checks doesn't use the point field, so it's checking that user space initialized the field to 0 per above.
+> 
+> I don't believe that is true. The old code only checked args->point if
+> the flags argument was 0. If the flags argument contained
+> EXPORT_SYNC_FILE but not TIMELINE, then the old code ignored
+> args->point completely.
 
---MuL6cN1k4g/DbVd2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Right, the code didn't fully implement the rule which has been documented for 13 years. Makes no practical difference though, the user-space code would have hit a failure regardless.
 
-On Tue, Mar 03, 2026 at 08:27:13PM -0500, Yury Norov wrote:
-> Switch SPI code to using the macro. No functional changes intended.
->=20
 
-Acked-by: Mark Brown <broonie@kernel.org>
+> However, since the original code only used args->points if TIMELINE was set,
+> I believe the intention behind the TIMELINE flag was to ignore the args->point
+> field if the flag was unset. That assumption is the basis for my patch.
 
---MuL6cN1k4g/DbVd2
-Content-Type: application/pgp-signature; name="signature.asc"
+Whatever Rob's intention was, checking the value of the local variable instead seems of little use, since it can have a non-0 value only if the TIMELINE flag is set. If the intention is to catch the TIMELINE flag being set without the IMPORT_SYNC_FILE flag, that should be done directly instead, or it won't be caught if args->point is 0.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmoExQACgkQJNaLcl1U
-h9CfwQf+I/XcN+BTYZLFcHPKTZ6Gt21+q3GLOzdkgChqzxOybf6b2qD+OHDN55Te
-HvnosWIFzWzrD0ZP4eNe1TE0j1djIs+y2hdX6fElOOuJijsn21UWvVZXuuGdENdA
-tPZDWrSzxJ8sU12FFYyBJDxsnWysekc1llPy00e37sfeetOZOLaYg/1jnttOl6oU
-a3i0DGlMSVCN0pIYah+1R5Vbe35l4DlrcyOoswdwqqqEAzPLr0ysycWbbVmelm0M
-U/y3gvpx6ZZBlMMio/3WWZfu3pM/Kwc8nzHkdzsstdqSIsRHEWru1MF5W4E+IcwO
-Id51vK66wgwDVauWcfBpUUDez8/oEA==
-=1DSJ
------END PGP SIGNATURE-----
+>>> You don't even need to use memset, this would work too:
+>>>
+>>> struct drm_syncobj_handle args = {
+>>>       .flags = 0
+>>> };
+>>
+>> TL;DR: This method isn't 100% safe either.
+>>
+>> It won't initialize any padding which isn't covered by any struct field. We try to avoid that and have explicit padding fields instead, mistakes may happen though, and in theory such padding could later be used for a new field.
+> 
+> I don't think this is workable.
 
---MuL6cN1k4g/DbVd2--
+libdrm begs to differ. It shows that it's not only workable but really easy. There's no reason for doing it any other way.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
