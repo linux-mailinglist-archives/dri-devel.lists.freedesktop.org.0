@@ -2,90 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oAwmGeV4qWl77wAAu9opvQ
+	id aBxZDux4qWl77wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:36:53 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:37:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA30211C71
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A064A211C7F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7912510E2A3;
-	Thu,  5 Mar 2026 12:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B443F10E2AD;
+	Thu,  5 Mar 2026 12:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Wu5FJkQv";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PDSu1dY6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CF610E2A3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:36:47 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4837634de51so34482965e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 04:36:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772714206; x=1773319006;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rr9absNRExPJZzcjqc7YTRhRpEhw3tbImX4CnZibLO0=;
- b=Wu5FJkQvYrOR7o9XW1YRW3sTMdrE1rYXDU6I7ZC6eIDspu9QlllxkqaWbqEZgYF0p6
- 5NoKke9GUY4Q+hLvOOwNtl4lg+TrP3WV7o8kMP7JQziNEBMff/+xjva05vVbFaqwcaQh
- 0pYyvnUYgNOteSzf7yk2wvU0O9b5F3v0926Kl90k/me/Z608/QzKw4vxPHt2cMTJ925F
- jsNWR0SHw3DrsIG/GlJ7DjgyA6spT8QX/39zA1BUZTCzyEMfnnyQz/Xrovr009uabxRW
- gMrrGv7lhZT7/mf9IBSu8x8Nkvi/+fmgyBVDnRG6BZAXmqAD9VBl0xyfWxNros9HRF16
- djuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772714206; x=1773319006;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Rr9absNRExPJZzcjqc7YTRhRpEhw3tbImX4CnZibLO0=;
- b=bWikX0NfCaxD/JYuG1ekmF62u0GQOku6jDFkNgaMmhSyYdBnimXVqtAnidbQhy9u1u
- NzRoERhkPrKGJNNlv4UR9R7ZFuZ37kbO50QCp7in2nuYVMTzBuifN2iTijZhmRi9Rwpg
- UgCVT/VDXV4OsppQSDmLcxvxL7Bad2ycVZMYMojSwZqD+lDqPAAjxkvh9BnodDczzxMx
- I9Nut3sRweDsLg259Woolvzn26XSeLkhM63YyT1JEmTcSTOme9TYIS/dE5XBCinZNBAI
- snbhftWCqRAF9yN+cc0/4ouGcM6IOqCzhojHLasl1Nwkl9cB66bmEnPWwevXLwEmE8bN
- qmIg==
-X-Gm-Message-State: AOJu0YyfeIFa7H8/KSI/tRK9Z9BBfQV0W6ST1D8+b1703+ZFOruZ9Hm3
- Mop7RCoZmvXGA4dk3bzyg2OlABig9AKnwWzUHX45iqcgiducYVfvxJ1GKcfugJFz1P8l6HeWSy3
- JDfU34LKomw==
-X-Gm-Gg: ATEYQzxYrfUgJ3IfPtrTC3tqRmsxLWyovxAKEQ2k2fwmyQUaS8KjBQxbWwbjlFfbOGs
- DI/BThQNBIdTU8ooJAfD7fb7bjBwY/hc91+57YIE992aTsRt6hloSo4iVzDxwRHeMUQ7e1kjgOh
- myKDXLAGmbad13IGMG+BizeB+GcU4k23ZcHEm9X6tozDbaxRJFRYqnMXgEyan47jpDFMJXQZ+Me
- R6ZSWL0GOLg59s1pr92Qhu+N78HPX93DI2XRDO1sz3fSZQQngvnw5cTMjrMYhgRwW6BUMpNuIqB
- EDi3JDiY5XoXVKjrfP3DdMSQdbtxz1BwGkxbGIT+yn8FnCDI6mocQXSTM4ym5KvVONOCeYeNz5O
- PCBz2fqrsULy6SxD6qLjhwXmAU9eOb2kN7jRo1YqW8B6lTd/jW8tFI3DdYQpmtMm1kN90ffSTr/
- sACOD8wRttSsTIIA==
-X-Received: by 2002:a05:600c:c8a:b0:483:456a:5146 with SMTP id
- 5b1f17b1804b1-4851989fc75mr85185545e9.25.1772714205557; 
- Thu, 05 Mar 2026 04:36:45 -0800 (PST)
-Received: from localhost ([85.163.81.98]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439b59723fesm32790794f8f.38.2026.03.05.04.36.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 04:36:45 -0800 (PST)
-From: Jiri Pirko <jiri@resnulli.us>
-To: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
- christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com,
- jgg@ziepe.ca, leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
- catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
- steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
- ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
- linux-coco@lists.linux.dev
-Subject: [PATCH net-next v3 2/2] dma-buf: heaps: system: add
- system_cc_decrypted heap for explicitly decrypted memory
-Date: Thu,  5 Mar 2026 13:36:41 +0100
-Message-ID: <20260305123641.164164-3-jiri@resnulli.us>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20260305123641.164164-1-jiri@resnulli.us>
-References: <20260305123641.164164-1-jiri@resnulli.us>
-MIME-Version: 1.0
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010027.outbound.protection.outlook.com
+ [52.101.193.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8227B10E2AD;
+ Thu,  5 Mar 2026 12:36:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oucvmT0PJ1IVmc19SVgjoDKMP0mrVbfIkgTK80C0XExq2kD7WQJJ10mfXW4IyWaQ29alovw6o8cpBOp7xH4etf18HmXWuFH4TbxzpANkBJEknGGiH7CkU94WT/nGOpvPrs27JSTlEdmgNhAVkpvya+6ydz3v1guuLv31a0q57MDKeZDjK9Fim3McphhQcxQXiE1aknLGYS8EfahkKI8bJ5ddIu7LQqHOiK+tj3gFslpeAxNWmrrilP7/++Wufu0iZBY9sTL0h2VVs0rImv0GQiNNLK1izbxtR2NWwF0lrrGxNPKhWpQwgWXY2w7BhP9yHS/veb5BdflSrcSI1Qffsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nqp1+qpBqP+xU1vJJ8tIVExEEa6YHkc2R6ogIYWqK3Y=;
+ b=RopKL1df8iLb1b7s2Vvey1IOs3tbPPzzPT1Iq/z3lv/zIMqpSeZ++GOXMLvwGetfN0VenQEslD1nDlSgByGBRlmE0M1shTvuVAvuFMtOY1Jj5Yya9K4FPA8fWGadjBAjVwPpn5crhsF6oAlYd/r17GavSLgJw4lCmZU/mXS/4lzKov871JOAQBfQmJSyc1GF4oWeXIwZXYbhElbjdu8V35Zf+DncKcDtwKGLw7ybTSAZPY4YpJu5PJBod4x3I0zUs+gYpXla1j6lc4blDw0mll4Go9vBNH9kFEq0uoU7qgEWCkP6rAsrUyWgg1pzBJkPaxrU3zteG7wmm5VIZ9OKpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nqp1+qpBqP+xU1vJJ8tIVExEEa6YHkc2R6ogIYWqK3Y=;
+ b=PDSu1dY6QU+MtAybcDBO0TW8wRMVcrQ9MzjMptBiO32EoZeaAnlTjh/0ZwI3o95Psi8GDBX9DJ1pvd3ARTZBPKMNNtI20oFQGJ85Qj/ecUMe5WJhGRwbEjfXvUNwvvaCnZk7I125dMzAsP+e0cCiflyHBnPtiNVc0Ui+mPIMN5U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB7920.namprd12.prod.outlook.com (2603:10b6:a03:4c6::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Thu, 5 Mar
+ 2026 12:36:51 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
+ 12:36:51 +0000
+Message-ID: <adc93300-9a0a-4969-98d3-a9e2929208a7@amd.com>
+Date: Thu, 5 Mar 2026 13:36:47 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm/syncobj: Fix handle <-> fd ioctls with dirty
+ stack"
+To: Maarten Lankhorst <dev@lankhorst.se>, dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Julian Orth <ju.orth@gmail.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <michel.daenzer@mailbox.org>
+References: <20260305113734.1309238-1-dev@lankhorst.se>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260305113734.1309238-1-dev@lankhorst.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9PR03CA0670.namprd03.prod.outlook.com
+ (2603:10b6:408:10e::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6af1c4ee-78ee-4906-caa1-08de7ab3dfef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: Cte5VIl73vBNyrsexkmNtbcZCt7/P4YdClA4ZZV7UImTQ19pnkw0ab4rnjzeYCuuCUbksC0KsbKYLkQgiU98q6URAwjpFIha/OUPTFpbn+OW//d3A7keI+nyLv9LCv7PuX3/1wnrPP1nsS15YIRrFvhK/RKw8O/r4gqzezXqPhD6N4TBVps1cIZ5NU/Bc7F/85+T95WKkRoJJoKH0LbZJ8LH6f04uODxMbvNohDjGLUu40FnQtuH2LkFBrqOU7XfLmZvwGSknL9arTdSQ17ppnjjI28tJGSDzeHibWu0QWx+SMZkbRAhPoyVRhQ6cKxNhV64xS44eZCgDxfjuy2kVWaH/DD5lnJPwodYIgJRBMFvwde4iDXI5vLq1kJhYQh0hV4vNhFUK/LLKPWxUJdz56PFLD9eLsdo6FZCV8Gme55jyaR+fQ9mbhG354399QX4B0kqEOTod5/tBd7pl/OcUnJXLVoKXSH7Fiwxb2SIlO9gqpsMW1vNv1Y1wzsww8ohKVMqQJWsazDEcguXbkkxv79ElPW66tgqHzv1AjGZ+aLfYF/0rMbmjoyvt2alRsF7sZ/zfl1r8+uCM2D4zvCUD3CuLZ2xR1ebp2ZA+t4AR+nwsvoFaRow19Ei8Q/9V0InWejqvSIO3Ljs+BFDshLawYt2wKfq9Ll7nWKn8RMRsEwgJ/2I24g+m4+2BomqfQ0R4N47Xc0mWzZ3J2fVABETa3zSUvQsOt7oXtPdNWzxFRM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UENOYUQrdXRnYjdyMFZ4OTFpbFo1N1Z4UmVXU3liTE9tcElzbEtTaXM3UUsw?=
+ =?utf-8?B?aXFOdTgvZDExcWtvMzJ0WUVFTEp5em5DeTZFV2R4L0VRd3lSMm5KRG84UThw?=
+ =?utf-8?B?WVNuY0xMclUxQjZ4R3BpY3ZFZTBwWXhTdjdZdDRDYTk4U2d3UFJmQzJPMGZJ?=
+ =?utf-8?B?NEVIOEdoYUxlNmpFSTcxcVV0MUhjWkRXUS9EelgwWTdXYUlBNG9mYkhBdFds?=
+ =?utf-8?B?bG95ejY5OHlCZWZydzk5K2NmWjdJU1NMZFVSYmJxcFJKdkZMZis2Z0RNSmNz?=
+ =?utf-8?B?K01CYkw0SmFSbGp1VS9YUEdXVGlzWGMwZDRWRVhWWlcwTzZxelpjSTEzMDlt?=
+ =?utf-8?B?TG1Cd3B4a2NRa2FCSTdWY1hWMHdXUkV2Q2RwWUNyZGlxWk5jTTFQSi9EblZX?=
+ =?utf-8?B?b0RhT2xuUnA0TmZFWXorY3J6eFhaKzFvR25JYy9zdHFjS1NBS2IvajRPWUhO?=
+ =?utf-8?B?UW9QRUcvRHFPeTFidzM2RkdqSHZQZXZPZ25GNkZMdStSV0Q3eU85dEx6UjFY?=
+ =?utf-8?B?dGlmMmJSUS9aNnJtWktTQWtJOUxqR0g0U1ZWS0FYcUt3bUVleWtSRWQvMjRN?=
+ =?utf-8?B?c281bWZ4QzVtWDl3Si9zaUpNNmFGbEliTFdLS2tSK3V4RENIWko4dTF5WlNi?=
+ =?utf-8?B?Q2RaUWJEYWNuakJ6a3JBMHNLVFl3Q2ZCdml5Q2d3WWdQRmdpRkJvOC9aMFZ3?=
+ =?utf-8?B?cEpSTFpWZGVDMCtJMWloYmRvems4U2hjSjkrYklBTDNHaEs5eWY2b1d1amxE?=
+ =?utf-8?B?WEFsYnQxTlcwVDRld3Y1RlprMWtmSGtMZ2JOYmdOa1duNG9qcmpxL0ZTSHhq?=
+ =?utf-8?B?UkI4UHMwZS9UcHMzdXJqTGhHQ3U5K2FZR1F4UGxoWmxNQnhtSTViS1V0dzEv?=
+ =?utf-8?B?ZnJZYnc0VTJUWW5ERFpsVjdaSTJQcXdEWGVFLy84WS9QZ3lDOGozcFlOYnhN?=
+ =?utf-8?B?cm9INjZSYmM0OGZtbXdSOWxYbzZ4eCtQZFh0Y3dyWHNHaWhXaWIyRCtLZ3pZ?=
+ =?utf-8?B?WWV1U05POFhERnBybk0xMDlHVUlGNE9LYkVGbkhad0NFbUR4dCtaRk9TSjJs?=
+ =?utf-8?B?cWx5UDl6SitDOFBNZlBUek1JVmRheUVPNGJYVWVXb3B2Q1lWQnM5dldBdnE4?=
+ =?utf-8?B?UlNpZDZsQ2ZTNllMbjZtaEFYY0x3Tk11SUlPSjUwWHZtQzNwVyt4WUVtYlJo?=
+ =?utf-8?B?TndmMTZIZGxqTUJyVDZsS1FiaFlrbzFUUGswdGpWR1Q4b2tyMWx1QlpQTVhB?=
+ =?utf-8?B?bi9VMXM4OEtRelUrc3VkK3RBOHFURHpGRHpHNDRqcS9JeTZaSXdjSGlCeHZQ?=
+ =?utf-8?B?UE01cHZ2NEJZcXFabDEwaHZBc243NjQ1YnU4NHdGam8vRyt2YXozblpOMXph?=
+ =?utf-8?B?ckVRNjhoTHp0ZUZpbVNUWndwRG5WL3l0bmZDZzkreWc5OExSMkpxMFJvemlI?=
+ =?utf-8?B?QWUzd0lWL1ZzTE5CbzIzTS9panVtaTdzRStNakE1Y2o1TEV0NFJLMGw3NXB5?=
+ =?utf-8?B?S2VobDJLM3ZWMU54RFYwaGhWUWZXbzJsYzQzd2oxdmE4YkhmK21YOUQvamJq?=
+ =?utf-8?B?RVN5NDhBQUw2ai8xMGlsaklIY3lkbkI4Y3NMVXFIZ2JONnQyZmVmd2dhTDFE?=
+ =?utf-8?B?WFVjdDd5d3dzRnREM0UrT1QyQTBoZ0cwL0s3cStFek9jQzZXSUZPSC9UMVVp?=
+ =?utf-8?B?YUNHekV1bC93enYrRWJFOWx4MzJzOHNwNE1rVE5TWmJiSFBnYXhyblV2RndR?=
+ =?utf-8?B?OXNMb0Y1ZjdNZDJuL3crVDJnd0QzUmQ4V0Nac0l0c1hiWEZkQnNkVWowU2pp?=
+ =?utf-8?B?SUV3VDlVUGx5cHYrbzdzMHhlSHV0c3lPczhSZEVDV2czRnJMcmk3em54RDU3?=
+ =?utf-8?B?YmJXZCtCVzhaTTdYRXlmT0c5em04QW5jUzhWa1Z0YjhjakI0NHZSS0g2dloz?=
+ =?utf-8?B?UlhMYWVLTm1FbE5ieThmWHMrcVF1YmJMRHIvcEFXRTN5MDhLQlNCb0FOYkl2?=
+ =?utf-8?B?MzJ3d0FDWHdyZFZyelBwb1lIMGV0UDFMMUNlYVBWQUhTQlQ1Vkl3OGEvU1hT?=
+ =?utf-8?B?ek5iVU13YmppNE9vQ0hHUjBFeWt3OEpzcS8wdXB6eTdSY1BIa2pHVVBZUzQw?=
+ =?utf-8?B?dzVwL0FmTzR3bmFOUkJ2aDFNa1Zxc2szM1pROEE4a3hycktTR05Ba3FIbWZp?=
+ =?utf-8?B?blN3T2R1cGJKdUJRTkdybWtKUURRUVZEWjNYRkpOUWI0Qnl6UFM1QlZjVXl1?=
+ =?utf-8?B?MzhIWmdVcG5TeVpzR0hqM3ROZTh2Y1M5Y1hDMTdyUTVHZFVqemJSdXpCZGtW?=
+ =?utf-8?Q?O94y8GXHS3S8KnWooK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6af1c4ee-78ee-4906-caa1-08de7ab3dfef
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 12:36:51.5669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aOkV7vsjtmcv373XJyfmFacTR0QTdK+uq1k0rSmOFOibE8VNGkUa+5OA+TZ4YEAL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7920
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,330 +140,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CCA30211C71
+X-Rspamd-Queue-Id: A064A211C7F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [8.69 / 15.00];
+	URIBL_BLACK(7.50)[lankhorst.se:email];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[resnulli.us];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_ALLOW(0.00)[amd.com:s=selector1];
+	GREYLIST(0.00)[pass,meta];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DMARC_POLICY_ALLOW(0.00)[amd.com,quarantine];
+	RCPT_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
+	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177:c];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,chromium.org,gmail.com,mailbox.org];
+	ARC_ALLOW(0.00)[microsoft.com:s=arcselector10001:i=1];
+	NEURAL_SPAM(0.00)[0.084];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,resnulli-us.20230601.gappssmtp.com:dkim]
-X-Rspamd-Action: no action
+	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:email,lankhorst.se:email,chromium.org:email]
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-From: Jiri Pirko <jiri@nvidia.com>
+On 3/5/26 12:37, Maarten Lankhorst wrote:
+> This reverts commit 2e3649e237237258a08d75afef96648dd2b379f7.
+> 
+> The problem occurs when userspace is compiled against new headers
+> with new members, but don't correctly initialise those new members.
+> 
+> This is not a kernel problem, and should be fixed in userspace by
+> correctly zero'ing all members.
+> 
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Julian Orth <ju.orth@gmail.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 
-Add a new "system_cc_decrypted" dma-buf heap to allow userspace to
-allocate decrypted (shared) memory for confidential computing (CoCo)
-VMs.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-On CoCo VMs, guest memory is encrypted by default. The hardware uses an
-encryption bit in page table entries (C-bit on AMD SEV, "shared" bit on
-Intel TDX) to control whether a given memory access is encrypted or
-decrypted. The kernel's direct map is set up with encryption enabled,
-so pages returned by alloc_pages() are encrypted in the direct map
-by default. To make this memory usable for devices that do not support
-DMA to encrypted memory (no TDISP support), it has to be explicitly
-decrypted. A couple of things are needed to properly handle
-decrypted memory for the dma-buf use case:
-
-- set_memory_decrypted() on the direct map after allocation:
-  Besides clearing the encryption bit in the direct map PTEs, this
-  also notifies the hypervisor about the page state change. On free,
-  the inverse set_memory_encrypted() must be called before returning
-  pages to the allocator. If re-encryption fails, pages
-  are intentionally leaked to prevent decrypted memory from being
-  reused as private.
-
-- pgprot_decrypted() for userspace and kernel virtual mappings:
-  Any new mapping of the decrypted pages, be it to userspace via
-  mmap or to kernel vmalloc space via vmap, creates PTEs independent
-  of the direct map. These must also have the encryption bit cleared,
-  otherwise accesses through them would see encrypted (garbage) data.
-
-- DMA_ATTR_CC_DECRYPTED for DMA mapping:
-  Since the pages are already decrypted, the DMA API needs to be
-  informed via DMA_ATTR_CC_DECRYPTED so it can map them correctly
-  as unencrypted for device access.
-
-On non-CoCo VMs, the system_cc_decrypted heap is not registered
-to prevent misuse by userspace that does not understand
-the security implications of explicitly decrypted memory.
-
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
-v2->v3:
-- removed couple of leftovers from headers
-v1->v2:
-- fixed build errors on s390 by including mem_encrypt.h
-- converted system heap flag implementation to a separate heap
----
- drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
- 1 file changed, 98 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index b3650d8fd651..a525e9aaaffa 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -10,17 +10,25 @@
-  *	Andrew F. Davis <afd@ti.com>
-  */
- 
-+#include <linux/cc_platform.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/dma-heap.h>
- #include <linux/err.h>
- #include <linux/highmem.h>
-+#include <linux/mem_encrypt.h>
- #include <linux/mm.h>
-+#include <linux/set_memory.h>
- #include <linux/module.h>
-+#include <linux/pgtable.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
-+struct system_heap_priv {
-+	bool decrypted;
-+};
-+
- struct system_heap_buffer {
- 	struct dma_heap *heap;
- 	struct list_head attachments;
-@@ -29,6 +37,7 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
-+	bool decrypted;
- };
- 
- struct dma_heap_attachment {
-@@ -36,6 +45,7 @@ struct dma_heap_attachment {
- 	struct sg_table table;
- 	struct list_head list;
- 	bool mapped;
-+	bool decrypted;
- };
- 
- #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-@@ -52,6 +62,34 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
- static const unsigned int orders[] = {8, 4, 0};
- #define NUM_ORDERS ARRAY_SIZE(orders)
- 
-+static int system_heap_set_page_decrypted(struct page *page)
-+{
-+	unsigned long addr = (unsigned long)page_address(page);
-+	unsigned int nr_pages = 1 << compound_order(page);
-+	int ret;
-+
-+	ret = set_memory_decrypted(addr, nr_pages);
-+	if (ret)
-+		pr_warn_ratelimited("dma-buf system heap: failed to decrypt page at %p\n",
-+				    page_address(page));
-+
-+	return ret;
-+}
-+
-+static int system_heap_set_page_encrypted(struct page *page)
-+{
-+	unsigned long addr = (unsigned long)page_address(page);
-+	unsigned int nr_pages = 1 << compound_order(page);
-+	int ret;
-+
-+	ret = set_memory_encrypted(addr, nr_pages);
-+	if (ret)
-+		pr_warn_ratelimited("dma-buf system heap: failed to re-encrypt page at %p, leaking memory\n",
-+				    page_address(page));
-+
-+	return ret;
-+}
-+
- static int dup_sg_table(struct sg_table *from, struct sg_table *to)
- {
- 	struct scatterlist *sg, *new_sg;
-@@ -90,6 +128,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
-+	a->decrypted = buffer->decrypted;
- 
- 	attachment->priv = a;
- 
-@@ -119,9 +158,11 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 	struct sg_table *table = &a->table;
-+	unsigned long attrs;
- 	int ret;
- 
--	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	attrs = a->decrypted ? DMA_ATTR_CC_DECRYPTED : 0;
-+	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -188,8 +229,13 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	unsigned long addr = vma->vm_start;
- 	unsigned long pgoff = vma->vm_pgoff;
- 	struct scatterlist *sg;
-+	pgprot_t prot;
- 	int i, ret;
- 
-+	prot = vma->vm_page_prot;
-+	if (buffer->decrypted)
-+		prot = pgprot_decrypted(prot);
-+
- 	for_each_sgtable_sg(table, sg, i) {
- 		unsigned long n = sg->length >> PAGE_SHIFT;
- 
-@@ -206,8 +252,7 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 		if (addr + size > vma->vm_end)
- 			size = vma->vm_end - addr;
- 
--		ret = remap_pfn_range(vma, addr, page_to_pfn(page),
--				size, vma->vm_page_prot);
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(page), size, prot);
- 		if (ret)
- 			return ret;
- 
-@@ -225,6 +270,7 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- 	struct page **pages = vmalloc(sizeof(struct page *) * npages);
- 	struct page **tmp = pages;
- 	struct sg_page_iter piter;
-+	pgprot_t prot;
- 	void *vaddr;
- 
- 	if (!pages)
-@@ -235,7 +281,10 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- 		*tmp++ = sg_page_iter_page(&piter);
- 	}
- 
--	vaddr = vmap(pages, npages, VM_MAP, PAGE_KERNEL);
-+	prot = PAGE_KERNEL;
-+	if (buffer->decrypted)
-+		prot = pgprot_decrypted(prot);
-+	vaddr = vmap(pages, npages, VM_MAP, prot);
- 	vfree(pages);
- 
- 	if (!vaddr)
-@@ -296,6 +345,14 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- 	for_each_sgtable_sg(table, sg, i) {
- 		struct page *page = sg_page(sg);
- 
-+		/*
-+		 * Intentionally leak pages that cannot be re-encrypted
-+		 * to prevent decrypted memory from being reused.
-+		 */
-+		if (buffer->decrypted &&
-+		    system_heap_set_page_encrypted(page))
-+			continue;
-+
- 		__free_pages(page, compound_order(page));
- 	}
- 	sg_free_table(table);
-@@ -347,6 +404,8 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	unsigned long size_remaining = len;
- 	unsigned int max_order = orders[0];
-+	struct system_heap_priv *priv = dma_heap_get_drvdata(heap);
-+	bool decrypted = priv->decrypted;
- 	struct dma_buf *dmabuf;
- 	struct sg_table *table;
- 	struct scatterlist *sg;
-@@ -362,6 +421,7 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	mutex_init(&buffer->lock);
- 	buffer->heap = heap;
- 	buffer->len = len;
-+	buffer->decrypted = decrypted;
- 
- 	INIT_LIST_HEAD(&pages);
- 	i = 0;
-@@ -396,6 +456,14 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 		list_del(&page->lru);
- 	}
- 
-+	if (decrypted) {
-+		for_each_sgtable_sg(table, sg, i) {
-+			ret = system_heap_set_page_decrypted(sg_page(sg));
-+			if (ret)
-+				goto free_pages;
-+		}
-+	}
-+
- 	/* create the dmabuf */
- 	exp_info.exp_name = dma_heap_get_name(heap);
- 	exp_info.ops = &system_heap_buf_ops;
-@@ -413,6 +481,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	for_each_sgtable_sg(table, sg, i) {
- 		struct page *p = sg_page(sg);
- 
-+		/*
-+		 * Intentionally leak pages that cannot be re-encrypted
-+		 * to prevent decrypted memory from being reused.
-+		 */
-+		if (buffer->decrypted &&
-+		    system_heap_set_page_encrypted(p))
-+			continue;
- 		__free_pages(p, compound_order(p));
- 	}
- 	sg_free_table(table);
-@@ -428,6 +503,14 @@ static const struct dma_heap_ops system_heap_ops = {
- 	.allocate = system_heap_allocate,
- };
- 
-+static struct system_heap_priv system_heap_priv = {
-+	.decrypted = false,
-+};
-+
-+static struct system_heap_priv system_heap_cc_decrypted_priv = {
-+	.decrypted = true,
-+};
-+
- static int __init system_heap_create(void)
- {
- 	struct dma_heap_export_info exp_info;
-@@ -435,8 +518,18 @@ static int __init system_heap_create(void)
- 
- 	exp_info.name = "system";
- 	exp_info.ops = &system_heap_ops;
--	exp_info.priv = NULL;
-+	exp_info.priv = &system_heap_priv;
-+
-+	sys_heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(sys_heap))
-+		return PTR_ERR(sys_heap);
-+
-+	if (IS_ENABLED(CONFIG_HIGHMEM) ||
-+	    !cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-+		return 0;
- 
-+	exp_info.name = "system_cc_decrypted";
-+	exp_info.priv = &system_heap_cc_decrypted_priv;
- 	sys_heap = dma_heap_add(&exp_info);
- 	if (IS_ERR(sys_heap))
- 		return PTR_ERR(sys_heap);
--- 
-2.51.1
+> ---
+>  drivers/gpu/drm/drm_syncobj.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index 49eccb43ce63d..250734dee928e 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -875,7 +875,7 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+>  		return drm_syncobj_export_sync_file(file_private, args->handle,
+>  						    point, &args->fd);
+>  
+> -	if (point)
+> +	if (args->point)
+>  		return -EINVAL;
+>  
+>  	return drm_syncobj_handle_to_fd(file_private, args->handle,
+> @@ -909,7 +909,7 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+>  							  args->handle,
+>  							  point);
+>  
+> -	if (point)
+> +	if (args->point)
+>  		return -EINVAL;
+>  
+>  	return drm_syncobj_fd_to_handle(file_private, args->fd,
 
