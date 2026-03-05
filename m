@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iARXJpw8qWkd3QAAu9opvQ
+	id SCxUKJ48qWkd3QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC4120D5BC
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5605620D5CB
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9948410EB7E;
-	Thu,  5 Mar 2026 08:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D1110EB82;
+	Thu,  5 Mar 2026 08:19:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gHVYKJOP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AOBi/OlM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C6F10EB87;
- Thu,  5 Mar 2026 08:19:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D453A10EB83;
+ Thu,  5 Mar 2026 08:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772698776; x=1804234776;
+ t=1772698779; x=1804234779;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=RzfOAZ1IUoC73v/c6AaUayIWIxPr2FEHZO4TNwbpp/k=;
- b=gHVYKJOPVydrTe1jQ3IDl6uUGJ5kVLOHdvVMkaKhbIdvafmbuRmqUdB3
- CvvrmrA8j3NnHWopPxmvud32chfGNTE/2vT7xMQQIdocrhpBarMvPcJH9
- +bYp2v8OzuxpIJunvnTkvssz89r4TtEWHX74ckxus/0KKzAE4bCH3rorK
- VJM+LntsKTzu0xOOCQ4UskP786HbEpf/BjJ4tIeA1UwqbUowK6yLW6c/h
- 2LHTGFp4pDHQDAFHapALukeD9TNLY8739x8jRxPjpV0DV7Sv3qqhTd5BF
- 2lkCNYDzyxHC7RP1jjs2u9egOG8pKdvFKt3LGD2wayJFFse9e0Alj7Lpl w==;
-X-CSE-ConnectionGUID: rnitboqnR9SCh9Yu3zBBrQ==
-X-CSE-MsgGUID: XrXgDeLTTmezqgXFmsy35Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91349138"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="91349138"
+ bh=+eMmmkRMyp0eRQeliM1jYCNWn0WWAuBQOKKDmv5oqNY=;
+ b=AOBi/OlMArhXPJF/eRQnHuoLjMYRj0tav/B0NHrvXGAOG4Il1HcsVnAu
+ vwoV0cQFptjtzxna6gv39+tlOYAGaOFdoRSjRCOy1j3T8uHLqcwNXdXJr
+ MD773CqrzdihF8o3uARj6HNPVKhBmVBtRgRXfah/aeDIh0QaGoxfqht+N
+ jbqDGRnXZUwyUvaYhcf8XQc24vJuLeu36sn3nYwA2RGEyRfvn571DM9Ac
+ V+bZug7T/dRP9955u0J5kxrn16XQtEZXLSZHFbSfJBuepLiySEaAU3pTu
+ K7BjwlBR4FeAfImzHtqJ8oijXnZJk58eI46jEs0P98s9OQV4PxwO+Wc+T w==;
+X-CSE-ConnectionGUID: pxGSBbHESR2AnlytMVSNnw==
+X-CSE-MsgGUID: H16EXZbYSy+a+tzpAp/vkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91349147"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="91349147"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 00:19:36 -0800
-X-CSE-ConnectionGUID: c+vDxGxtQ4ulf0WgoFsVlA==
-X-CSE-MsgGUID: uVONp2ySTfqw7Xf/C+2dGA==
+ 05 Mar 2026 00:19:38 -0800
+X-CSE-ConnectionGUID: gT979iGOQ6WPgC5Cw617Xg==
+X-CSE-MsgGUID: 8n69XC2WTUaSuIn77zZOng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="256492856"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="256492872"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa001.jf.intel.com with ESMTP; 05 Mar 2026 00:19:33 -0800
+ by orviesa001.jf.intel.com with ESMTP; 05 Mar 2026 00:19:36 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Thu, 05 Mar 2026 13:48:11 +0530
-Subject: [PATCH RFC 1/4] drm/display/dp: Read LTTPR caps without DPRX caps
+Date: Thu, 05 Mar 2026 13:48:12 +0530
+Subject: [PATCH RFC 2/4] drm/i915/dp: Read LTTPR caps followed by DPRX caps
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-dp_aux-v1-1-54ee0b5f5158@intel.com>
+Message-Id: <20260305-dp_aux-v1-2-54ee0b5f5158@intel.com>
 References: <20260305-dp_aux-v1-0-54ee0b5f5158@intel.com>
 In-Reply-To: <20260305-dp_aux-v1-0-54ee0b5f5158@intel.com>
 To: Imre Deak <imre.deak@intel.com>, 
@@ -74,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4CC4120D5BC
+X-Rspamd-Queue-Id: 5605620D5CB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
@@ -102,113 +102,107 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	DKIM_TRACE(0.00)[intel.com:+]
 X-Rspamd-Action: no action
 
-We at present have drm_dp_Read_lttpr_common_caps to read the LTTPR caps,
-but this function required DPRX caps to be passed. As per the DP2.1 spec
-section 3.6.8.6.1, section 2.12.1, section 2.12.3 (Link Policy) the
-LTTPR caps is to be read first followed by the DPRX capability.
-Hence adding another function to read the LTTPR caps without the need
-for DPRX caps.
+As per the DP spec DP2.1 section 3.6.8.6.1, section 2.12.1,
+section 2.12.3 (Link Policy) the LTTPR caps is to be read first followed
+by the DPRX capability.
+Read the LTTPR capabilities followed by the DPRX capabilities and then
+the ULP capabilities.
 
-In order to handle the issue
-https://gitlab.freedesktop.org/drm/intel/-/issues/4531
-of reading corrupted values for LTTPR caps on few pannels with DP Rev 1.2
-the workaround of reducing the block size to 1 and reading one block at a
-time is done by checking for a valid link rate.
-
-Fixes: 657586e474bd ("drm/i915: Add a DP1.2 compatible way to read LTTPR capabilities")
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 63 +++++++++++++++++++++++++++++++++
- include/drm/display/drm_dp_helper.h     |  2 ++
- 2 files changed, 65 insertions(+)
+ .../gpu/drm/i915/display/intel_dp_link_training.c  | 35 ++++++++++------------
+ 1 file changed, 15 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index a697cc227e28964cd8322803298178e7d788e820..9fe7db73027a43b01c4d12927f1f0e61444658e5 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -3050,6 +3050,69 @@ static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index 54c585c59b900eb3c480502d89736fefa111eba4..68ab938f18f3b6f3c889f408cd1901041834fe82 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -93,13 +93,11 @@ static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
+ 	       phy_caps);
+ }
+ 
+-static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp,
+-					    const u8 dpcd[DP_RECEIVER_CAP_SIZE])
++static bool intel_dp_read_lttpr_common_caps(struct intel_dp *intel_dp)
+ {
+ 	int ret;
+ 
+-	ret = drm_dp_read_lttpr_common_caps(&intel_dp->aux, dpcd,
+-					    intel_dp->lttpr_common_caps);
++	ret = drm_dp_read_lttpr_caps(&intel_dp->aux, intel_dp->lttpr_common_caps);
+ 	if (ret < 0)
+ 		goto reset_caps;
+ 
+@@ -145,12 +143,12 @@ bool intel_dp_lttpr_transparent_mode_enabled(struct intel_dp *intel_dp)
+  * Return the number of detected LTTPRs in non-transparent mode or 0 if the
+  * LTTPRs are in transparent mode or the detection failed.
+  */
+-static int intel_dp_init_lttpr_phys(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
++static int intel_dp_init_lttpr(struct intel_dp *intel_dp)
+ {
+ 	int lttpr_count;
+ 	int ret;
+ 
+-	if (!intel_dp_read_lttpr_common_caps(intel_dp, dpcd))
++	if (!intel_dp_read_lttpr_common_caps(intel_dp))
+ 		return 0;
+ 
+ 	lttpr_count = drm_dp_lttpr_count(intel_dp->lttpr_common_caps);
+@@ -195,19 +193,16 @@ static int intel_dp_init_lttpr_phys(struct intel_dp *intel_dp, const u8 dpcd[DP_
  	return 0;
  }
  
-+static bool drm_dp_valid_link_rate(u8 link_rate)
-+{
-+	switch (link_rate) {
-+	case 0x06:
-+	case 0x0a:
-+	case 0x14:
-+	case 0x1e:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+/**
-+ * drm_dp_read_lttpr_caps - read the LTTPR capabilities
-+ * @aux: DisplayPort AUX channel
-+ * @caps: buffer to return the capability info in
-+ *
-+ * Read capabilities common to all LTTPRs.
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int drm_dp_read_lttpr_caps(struct drm_dp_aux *aux,
-+			   u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-+{
-+	/*
-+	 * At least the DELL P2715Q monitor with a DPCD_REV < 0x14 returns
-+	 * corrupted values when reading from the 0xF0000- range with a block
-+	 * size bigger than 1.
-+	 * For DP as per the spec DP2.1 section 3.6.8.6.1, section 2.12.1, section
-+	 * 2.12.3 (Link Policy) the LTTPR caps is to be read first followed by the
-+	 * DPRX capability.
-+	 * So ideally we dont have DPCD_REV yet to check for the revision, instead
-+	 * check for the correctness of the read value and in found corrupted read
-+	 * block by block.
-+	 */
-+	int block_size;
-+	int offset;
-+	int ret;
-+	int address = DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV;
-+	int buf_size = DP_LTTPR_COMMON_CAP_SIZE;
-+
-+	ret = drm_dp_dpcd_read_data(aux, address, &caps, buf_size);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (caps[0] == 0x14) {
-+		if (!drm_dp_valid_link_rate(caps[1])) {
-+			block_size = 1;
-+			for (offset = 0; offset < buf_size; offset += block_size) {
-+				ret = drm_dp_dpcd_read_data(aux,
-+							    address + offset,
-+							    &caps[offset],
-+							    block_size);
-+				if (ret < 0)
-+					return ret;
-+			}
-+		}
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_read_lttpr_caps);
-+
- /**
-  * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
-  * @aux: DisplayPort AUX channel
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 1d0acd58f48676f60ff6a07cc6812f72cbb452e8..def145e67011c325b790c807f934b288304260c1 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -755,6 +755,8 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
- 				const struct drm_dp_desc *desc);
- int drm_dp_read_sink_count(struct drm_dp_aux *aux);
+-static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
++static int intel_dp_init_lttpr_phys(struct intel_dp *intel_dp, int lttpr_count)
+ {
+-	int lttpr_count;
+ 	int i;
  
-+int drm_dp_read_lttpr_caps(struct drm_dp_aux *aux,
-+				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
- int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
- 				  const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+-	lttpr_count = intel_dp_init_lttpr_phys(intel_dp, dpcd);
+-
+ 	for (i = 0; i < lttpr_count; i++) {
+-		intel_dp_read_lttpr_phy_caps(intel_dp, dpcd, DP_PHY_LTTPR(i));
++		intel_dp_read_lttpr_phy_caps(intel_dp, intel_dp->dpcd, DP_PHY_LTTPR(i));
+ 		drm_dp_dump_lttpr_desc(&intel_dp->aux, DP_PHY_LTTPR(i));
+ 	}
+ 
+-	return lttpr_count;
++	return 0;
+ }
+ 
+ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE])
+@@ -261,23 +256,23 @@ int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp)
+ 	 */
+ 	if (!intel_dp_is_edp(intel_dp) &&
+ 	    (DISPLAY_VER(display) >= 10 && !display->platform.geminilake)) {
+-		u8 dpcd[DP_RECEIVER_CAP_SIZE];
+-		int err = intel_dp_read_dprx_caps(intel_dp, dpcd);
+-
+-		if (err != 0)
+-			return err;
+-
+-		lttpr_count = intel_dp_init_lttpr(intel_dp, dpcd);
++		/*
++		 * Spec DP2.1 section 3.6.8.6.1, section 2.12.1, section 2.12.3
++		 * (Link Policy) the LTTPR caps is to be read first followed by
++		 * the DPRX capability
++		 */
++		lttpr_count = intel_dp_init_lttpr(intel_dp);
+ 	}
+ 
+ 	/*
+ 	 * The DPTX shall read the DPRX caps after LTTPR detection, so re-read
+ 	 * it here.
+ 	 */
+-	if (drm_dp_read_dpcd_caps(&intel_dp->aux, intel_dp->dpcd)) {
++	if (intel_dp_read_dprx_caps(intel_dp, intel_dp->dpcd)) {
+ 		intel_dp_reset_lttpr_common_caps(intel_dp);
+ 		return -EIO;
+ 	}
++	intel_dp_init_lttpr_phys(intel_dp, lttpr_count);
+ 
+ 	return lttpr_count;
+ }
 
 -- 
 2.25.1
