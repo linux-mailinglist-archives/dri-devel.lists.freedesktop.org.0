@@ -2,97 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKFgGBSIqWki+gAAu9opvQ
+	id ON8dORCIqWki+gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:41:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:41:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14052212B08
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC26212AFA
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:41:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E575010EB53;
-	Thu,  5 Mar 2026 13:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F4D10E2A5;
+	Thu,  5 Mar 2026 13:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Crm1UbBk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5eQFPYID";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Crm1UbBk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5eQFPYID";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Eiyrn7pF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TxEBO0Q+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Eiyrn7pF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TxEBO0Q+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD4F10EB53
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 13:41:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA82210EAFE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 13:41:32 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5402B5BCF7;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8B2B23E84E;
  Thu,  5 Mar 2026 13:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772718091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y90tIcG/fR2FpP/Fw5x9a8sFdOFRkDnjFRWpP3z3mHM=;
- b=Crm1UbBkActPcKRpoqn2AiIuLMBQlD+lJEIZ+QpmakyJpPucMdkTz70Yl4nBZLZa7u0i1O
- hzA1+ZVlZ6MqQScTZfTdUG1/3KvbbXV4P9zcqXafWL1MMhh8LHtewKgx2o5egUHyVFXJSd
- fUFS01lyS8mFJbYKfJQPM84m5syUqxw=
+ bh=msg9b/lXpO0bvzBCXpb2Wxx0JNmH7tSU8w7YVMxMiZ4=;
+ b=Eiyrn7pFcB4RB1Y+nl2LQ7imUpErbEYQmxrHF8+VCrB9ldmvx6bVLXOE2jhg12YfanI9Vf
+ t7504reLHr9N9M/I2E1D5Ql09tMnnsPokzTmV8hGhQn4EcbcTbF6q2cYlDTOMWZNTHL/Na
+ WDm7VRUzBl8GqZaOTV2Mw8Eqa1L30UY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772718091;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y90tIcG/fR2FpP/Fw5x9a8sFdOFRkDnjFRWpP3z3mHM=;
- b=5eQFPYID8lhkFjgyFXcYE6+0iQ3TuCzGs0vZjgUXsopf65gpCNzbqBgu3kEPEsaO4q2oeH
- PGoMB6qTAZUyG5Cg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=msg9b/lXpO0bvzBCXpb2Wxx0JNmH7tSU8w7YVMxMiZ4=;
+ b=TxEBO0Q+W+f0sAq00VtnhqF8uRMlYr28lfD7a1oRo2/fAbomXLgh0p4VywcOScSMit+98P
+ CDYpvDkLOqepksAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Eiyrn7pF;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TxEBO0Q+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1772718091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y90tIcG/fR2FpP/Fw5x9a8sFdOFRkDnjFRWpP3z3mHM=;
- b=Crm1UbBkActPcKRpoqn2AiIuLMBQlD+lJEIZ+QpmakyJpPucMdkTz70Yl4nBZLZa7u0i1O
- hzA1+ZVlZ6MqQScTZfTdUG1/3KvbbXV4P9zcqXafWL1MMhh8LHtewKgx2o5egUHyVFXJSd
- fUFS01lyS8mFJbYKfJQPM84m5syUqxw=
+ bh=msg9b/lXpO0bvzBCXpb2Wxx0JNmH7tSU8w7YVMxMiZ4=;
+ b=Eiyrn7pFcB4RB1Y+nl2LQ7imUpErbEYQmxrHF8+VCrB9ldmvx6bVLXOE2jhg12YfanI9Vf
+ t7504reLHr9N9M/I2E1D5Ql09tMnnsPokzTmV8hGhQn4EcbcTbF6q2cYlDTOMWZNTHL/Na
+ WDm7VRUzBl8GqZaOTV2Mw8Eqa1L30UY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1772718091;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y90tIcG/fR2FpP/Fw5x9a8sFdOFRkDnjFRWpP3z3mHM=;
- b=5eQFPYID8lhkFjgyFXcYE6+0iQ3TuCzGs0vZjgUXsopf65gpCNzbqBgu3kEPEsaO4q2oeH
- PGoMB6qTAZUyG5Cg==
+ bh=msg9b/lXpO0bvzBCXpb2Wxx0JNmH7tSU8w7YVMxMiZ4=;
+ b=TxEBO0Q+W+f0sAq00VtnhqF8uRMlYr28lfD7a1oRo2/fAbomXLgh0p4VywcOScSMit+98P
+ CDYpvDkLOqepksAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 264623EA76;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B0453EA68;
  Thu,  5 Mar 2026 13:41:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id AFjrBwuIqWnFQQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id KPMGFQuIqWnFQQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 05 Mar 2026 13:41:31 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/3] drm/vmwgfx: Determine lock-waiting timeout from vblank
- state
-Date: Thu,  5 Mar 2026 14:39:58 +0100
-Message-ID: <20260305134122.246884-2-tzimmermann@suse.de>
+Subject: [PATCH 2/3] drm/vmwgfx: Move vblank handling into separate helper
+Date: Thu,  5 Mar 2026 14:39:59 +0100
+Message-ID: <20260305134122.246884-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260305134122.246884-1-tzimmermann@suse.de>
 References: <20260305134122.246884-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.79
-X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,7 +108,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 14052212B08
+X-Rspamd-Queue-Id: 4FC26212AFA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -143,38 +144,96 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid]
 X-Rspamd-Action: no action
 
-Use the calculated duration of a frame as stored in the vblank state
-for the lock-waiting timeout. Decouples the waiting from the details
-of the vblank implementation. Both values should be equal.
+Decouple vblank handling from the underlying hrtimer. This will be
+helpful for replacing vmwgfx's vblank timer with DRM's common
+implementation.
 
-This will be helpful for replacing vmwgfx's vblank timer with DRM's
-common implementation.
+The new helper vmw_vkms_handle_vblank_timeout() can later be used as
+callback for DRM's handle_vblank call as-is. The remaining code in
+vmw_vkms_vblank_simulate() will be replaced by the DRM implementation.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c | 37 +++++++++++++++++++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h |  1 +
+ 2 files changed, 26 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-index 5abd7f5ad2db..7862f6972512 100644
+index 7862f6972512..15439ddd4f22 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c
-@@ -516,9 +516,13 @@ vmw_vkms_set_crc_surface(struct drm_crtc *crtc,
- static inline u64
- vmw_vkms_lock_max_wait_ns(struct vmw_display_unit *du)
- {
--	s64 nsecs = ktime_to_ns(du->vkms.period_ns);
-+	struct drm_crtc *crtc = &du->crtc;
-+	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-+
-+	if (!vblank || !vblank->framedur_ns)
-+		return NSEC_PER_SEC / 60; /* disabled; assume 60 Hz */
- 
--	return  (nsecs > 0) ? nsecs : 16666666;
-+	return vblank->framedur_ns;
+@@ -157,27 +157,19 @@ crc_generate_worker(struct work_struct *work)
+ 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
  }
  
- /**
+-static enum hrtimer_restart
+-vmw_vkms_vblank_simulate(struct hrtimer *timer)
++bool
++vmw_vkms_handle_vblank_timeout(struct drm_crtc *crtc)
+ {
+-	struct vmw_display_unit *du = container_of(timer, struct vmw_display_unit, vkms.timer);
+-	struct drm_crtc *crtc = &du->crtc;
++	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 	struct vmw_private *vmw = vmw_priv(crtc->dev);
+ 	bool has_surface = false;
+-	u64 ret_overrun;
+ 	bool locked, ret;
+ 
+-	ret_overrun = hrtimer_forward_now(&du->vkms.timer,
+-					  du->vkms.period_ns);
+-	if (ret_overrun != 1)
+-		drm_dbg_driver(crtc->dev, "vblank timer missed %lld frames.\n",
+-			       ret_overrun - 1);
+-
+ 	locked = vmw_vkms_vblank_trylock(crtc);
+ 	ret = drm_crtc_handle_vblank(crtc);
+ 	WARN_ON(!ret);
+ 	if (!locked)
+-		return HRTIMER_RESTART;
++		return true;
+ 	has_surface = du->vkms.surface != NULL;
+ 	vmw_vkms_unlock(crtc);
+ 
+@@ -200,6 +192,27 @@ vmw_vkms_vblank_simulate(struct hrtimer *timer)
+ 			drm_dbg_driver(crtc->dev, "Composer worker already queued\n");
+ 	}
+ 
++	return true;
++}
++
++static enum hrtimer_restart
++vmw_vkms_vblank_simulate(struct hrtimer *timer)
++{
++	struct vmw_display_unit *du = container_of(timer, struct vmw_display_unit, vkms.timer);
++	struct drm_crtc *crtc = &du->crtc;
++	u64 ret_overrun;
++	bool success;
++
++	ret_overrun = hrtimer_forward_now(&du->vkms.timer,
++					  du->vkms.period_ns);
++	if (ret_overrun != 1)
++		drm_dbg_driver(crtc->dev, "vblank timer missed %lld frames.\n",
++			       ret_overrun - 1);
++
++	success = vmw_vkms_handle_vblank_timeout(crtc);
++	if (!success)
++		return HRTIMER_NORESTART;
++
+ 	return HRTIMER_RESTART;
+ }
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h
+index 69ddd33a8444..0b6bbf7c4487 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h
+@@ -45,6 +45,7 @@ bool vmw_vkms_modeset_lock_relaxed(struct drm_crtc *crtc);
+ bool vmw_vkms_vblank_trylock(struct drm_crtc *crtc);
+ void vmw_vkms_unlock(struct drm_crtc *crtc);
+ 
++bool vmw_vkms_handle_vblank_timeout(struct drm_crtc *crtc);
+ bool vmw_vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 				   int *max_error,
+ 				   ktime_t *vblank_time,
 -- 
 2.53.0
 
