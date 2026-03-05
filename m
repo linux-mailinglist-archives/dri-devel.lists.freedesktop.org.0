@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLgLIGZPqWk14AAAu9opvQ
+	id kNbKMmhPqWk14AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:39:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:39:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE66520EAF6
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:39:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409AE20EAFD
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:39:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8AD10E290;
-	Thu,  5 Mar 2026 09:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF08710EBE0;
+	Thu,  5 Mar 2026 09:39:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mTWrFkFe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N30axjuV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A2710E290;
- Thu,  5 Mar 2026 09:39:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C703C10EBE0;
+ Thu,  5 Mar 2026 09:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772703587; x=1804239587;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=bpL7MiGzLlgeJDkxUeNpB6VxlUDAZkq+QvjkG45XU8o=;
- b=mTWrFkFe3EgtkPcKybwaKMiE2PXXf2s7afgdt9SqmzpCS55Hd3A9ZPjr
- pX46IuA6cv80Pd7sBo11y2UNeHCkXreuTVmhxZCX0IOfcNIk0rjjuY56M
- YsZ0p0oL6eFv7imVbYVZlyGVMcZRatBh2lCu+3oXVEG6RgT3izg2pX1DR
- KMJVVx3dq4KM9Xn59K5OpjnMZIIT+j1xBHPK4LKAEBaBj8YDElDOGzwwa
- l9zGEWqgPlmCBpShyJuYjyX9gje6HS7hCoTmuGo4WCIw/5xkUmgqa5Dv4
- tPkBWdi+8IeN6tT0nlf6QzUlUzjW9G795lw1tA7ff+etUROjXSvoiecLH w==;
-X-CSE-ConnectionGUID: zRrPzUjNS/i+ejUayhfkqg==
-X-CSE-MsgGUID: a6bLR/SqQCKbT6wy4C5rlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84870944"
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="84870944"
+ t=1772703589; x=1804239589;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=P1HvCqMdm4NZrhz2qfIQ6WDOE/LToL9MrwGTxNicvOI=;
+ b=N30axjuVP7FLAzf/vq4uJcCbXs6uTWBrpeQOA9Ln6+bVAbZKWuwe0WQG
+ /Kj23a26e2bSn1VoSWpXJuW8VGY079MnM/uIdF9yHJuWSKsBi6QNNx/Pr
+ sa2nFhqEz/v5tsIIULp3pymsoPOKkFXoHgTUYG24ffFKm6qDZdFh1QeFO
+ vmITD9NJFqKhXnq7LRlN7BQnCAOmUD9v4FC1tnY33SJIdluOg++E/+JSO
+ OsbbZosO/wGAg8taDBo3qL+lJI/FPO3OzNRZFRRko6tHCAnL1ks8cGuQt
+ ZxNNJZ8Rf3V+aYgsTghQ1RP0DwZYA19QIA+NYrcSsUZWHhVJa3pOc7/lb Q==;
+X-CSE-ConnectionGUID: ZWM479mJRPOyydVL0xMjiA==
+X-CSE-MsgGUID: QhjIB2LPSvSHZHkmJwpTng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84870958"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="84870958"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 01:39:44 -0800
-X-CSE-ConnectionGUID: XlUf5igBRuegKqAZriXKgQ==
-X-CSE-MsgGUID: kIk+aQ3GRXqvHx1gbHabNQ==
+ 05 Mar 2026 01:39:48 -0800
+X-CSE-ConnectionGUID: +uBdXiXbRQOX7B8MyuSWYQ==
+X-CSE-MsgGUID: JU/2s9FxTmqGmrqqaWLtQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="214684973"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="214684978"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO fedora) ([10.245.244.71])
  by fmviesa009-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 01:39:40 -0800
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 01:39:44 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -60,10 +60,13 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
  Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/4] Two-pass MMU interval notifiers
-Date: Thu,  5 Mar 2026 10:39:05 +0100
-Message-ID: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 1/4] mm/mmu_notifier: Allow two-pass struct
+ mmu_interval_notifiers
+Date: Thu,  5 Mar 2026 10:39:06 +0100
+Message-ID: <20260305093909.43623-2-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
+References: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -81,7 +84,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: DE66520EAF6
+X-Rspamd-Queue-Id: 409AE20EAFD
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -93,9 +96,9 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -113,43 +116,39 @@ X-Rspamd-Action: no action
 GPU use-cases for mmu_interval_notifiers with hmm often involve
 starting a gpu operation and then waiting for it to complete.
 These operations are typically context preemption or TLB flushing.
-    
+
 With single-pass notifiers per GPU this doesn't scale in
 multi-gpu scenarios. In those scenarios we'd want to first start
 preemption- or TLB flushing on all GPUs and as a second pass wait
 for them to complete.
 
-This also applies in non-recoverable page-fault scenarios to
-starting a preemption requests on GPUs and waiting for the GPUs 
-to preempt so that system pages they access can be reclaimed.
-    
 One can do this on per-driver basis multiplexing per-driver
 notifiers but that would mean sharing the notifier "user" lock
 across all GPUs and that doesn't scale well either, so adding support
-for two-pass in the core appears like the right choice.
+for multi-pass in the core appears to be the right choice.
 
-So this series does that, with pach 1 implementing the core support
-and also describes the choices made.
+Implement two-pass capability in the mmu_interval_notifier. Use a
+linked list for the final passes to minimize the impact for
+use-cases that don't need the multi-pass functionality by avoiding
+a second interval tree walk, and to be able to easily pass data
+between the two passes.
 
-The rest of the patches implements a POC with xeKMD userptr
-invalidation and potential TLB-flushing. A follow-up series
-will extend to drm_gpusvm.
-
-v2 hightlights:
-- Refactor the core mm patch to use the struct
-  mmu_interval_notifier_ops for the invalidate_finish() callback.
-- Rebase on xe driver tlb invalidation changes.
-- Provide an initial implementation for userptr instead of drm_gpusvm.
-  The intent is to handle drm_gpusvm in a follow-up series.
-
+v1:
+- Restrict to two passes (Jason Gunthorpe)
+- Improve on documentation (Jason Gunthorpe)
+- Improve on function naming (Alistair Popple)
+v2:
+- Include the invalidate_finish() callback in the
+  struct mmu_interval_notifier_ops.
+- Update documentation (GitHub Copilot:claude-sonnet-4.6)
+- Use lockless list for list management.
 v3:
-- Address review comments from Matt Brost: Code formatting,
-  documentation, additional asserts and removal of
-  unnecessary waits, as specified in each patch.
-
+- Update kerneldoc for the struct mmu_interval_notifier_finish::list member
+  (Matthew Brost)
+- Add a WARN_ON_ONCE() checking for NULL invalidate_finish() op if
+  if invalidate_start() is non-NULL. (Matthew Brost)
 v4:
-- Extend to wider audience and add R-Bs on the xe patches.
-- Address documentation review comments from David Hildenbrand
+- Addressed documentation review comments by David Hildenbrand.
 
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -168,28 +167,202 @@ Cc: Alistair Popple <apopple@nvidia.com>
 Cc: <dri-devel@lists.freedesktop.org>
 Cc: <linux-mm@kvack.org>
 Cc: <linux-kernel@vger.kernel.org>
-    
-Thomas Hellström (4):
-  mm/mmu_notifier: Allow two-pass struct mmu_interval_notifiers
-  drm/xe/userptr: Convert invalidation to two-pass MMU notifier
-  drm/xe: Split TLB invalidation into submit and wait steps
-  drm/xe/userptr: Defer Waiting for TLB invalidation to the second pass
-    if possible
 
- drivers/gpu/drm/xe/xe_svm.c             |   8 +-
- drivers/gpu/drm/xe/xe_tlb_inval.c       |  84 +++++++++++++
- drivers/gpu/drm/xe/xe_tlb_inval.h       |   6 +
- drivers/gpu/drm/xe/xe_tlb_inval_types.h |  14 +++
- drivers/gpu/drm/xe/xe_userptr.c         | 155 ++++++++++++++++++++----
- drivers/gpu/drm/xe/xe_userptr.h         |  31 ++++-
- drivers/gpu/drm/xe/xe_vm.c              |  99 +++++----------
- drivers/gpu/drm/xe/xe_vm.h              |   5 +-
- drivers/gpu/drm/xe/xe_vm_madvise.c      |  10 +-
- drivers/gpu/drm/xe/xe_vm_types.h        |   1 +
- include/linux/mmu_notifier.h            |  42 +++++++
- mm/mmu_notifier.c                       |  65 ++++++++--
- 12 files changed, 416 insertions(+), 104 deletions(-)
+Assisted-by: GitHub Copilot:claude-sonnet-4.6 # Documentation only.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ include/linux/mmu_notifier.h | 42 +++++++++++++++++++++++
+ mm/mmu_notifier.c            | 65 +++++++++++++++++++++++++++++++-----
+ 2 files changed, 98 insertions(+), 9 deletions(-)
 
+diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+index 07a2bbaf86e9..dcdfdf1e0b39 100644
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -233,16 +233,58 @@ struct mmu_notifier {
+ 	unsigned int users;
+ };
+ 
++/**
++ * struct mmu_interval_notifier_finish - mmu_interval_notifier two-pass abstraction
++ * @link: Lockless list link for the notifiers pending pass list
++ * @notifier: The mmu_interval_notifier for which the finish pass is called.
++ *
++ * Allocate, typically using GFP_NOWAIT in the interval notifier's start pass.
++ * Note that with a large number of notifiers implementing two passes,
++ * allocation with GFP_NOWAIT will become increasingly likely to fail, so consider
++ * implementing a small pool instead of using kmalloc() allocations.
++ *
++ * If the implementation needs to pass data between the start and the finish passes,
++ * the recommended way is to embed struct mmu_interval_notifier_finish into a larger
++ * structure that also contains the data needed to be shared. Keep in mind that
++ * a notifier callback can be invoked in parallel, and each invocation needs its
++ * own struct mmu_interval_notifier_finish.
++ *
++ * If allocation fails, then the &mmu_interval_notifier_ops->invalidate_start op
++ * needs to implements the full notifier functionality. Please refer to its
++ * documentation.
++ */
++struct mmu_interval_notifier_finish {
++	struct llist_node link;
++	struct mmu_interval_notifier *notifier;
++};
++
+ /**
+  * struct mmu_interval_notifier_ops
+  * @invalidate: Upon return the caller must stop using any SPTEs within this
+  *              range. This function can sleep. Return false only if sleeping
+  *              was required but mmu_notifier_range_blockable(range) is false.
++ * @invalidate_start: Similar to @invalidate, but intended for two-pass notifier
++ *                    callbacks where the call to @invalidate_start is the first
++ *                    pass and any struct mmu_interval_notifier_finish pointer
++ *                    returned in the @finish parameter describes the finish pass.
++ *                    If *@finish is %NULL on return, then no final pass will be
++ *                    called, and @invalidate_start needs to implement the full
++ *                    notifier, behaving like @invalidate. The value of *@finish
++ *                    is guaranteed to be %NULL at function entry.
++ * @invalidate_finish: Called as the second pass for any notifier that returned
++ *                     a non-NULL *@finish from @invalidate_start. The @finish
++ *                     pointer passed here is the same one returned by
++ *                     @invalidate_start.
+  */
+ struct mmu_interval_notifier_ops {
+ 	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
+ 			   const struct mmu_notifier_range *range,
+ 			   unsigned long cur_seq);
++	bool (*invalidate_start)(struct mmu_interval_notifier *interval_sub,
++				 const struct mmu_notifier_range *range,
++				 unsigned long cur_seq,
++				 struct mmu_interval_notifier_finish **finish);
++	void (*invalidate_finish)(struct mmu_interval_notifier_finish *finish);
+ };
+ 
+ struct mmu_interval_notifier {
+diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+index a6cdf3674bdc..4d8a64ce8eda 100644
+--- a/mm/mmu_notifier.c
++++ b/mm/mmu_notifier.c
+@@ -260,6 +260,15 @@ mmu_interval_read_begin(struct mmu_interval_notifier *interval_sub)
+ }
+ EXPORT_SYMBOL_GPL(mmu_interval_read_begin);
+ 
++static void mn_itree_finish_pass(struct llist_head *finish_passes)
++{
++	struct llist_node *first = llist_reverse_order(__llist_del_all(finish_passes));
++	struct mmu_interval_notifier_finish *f, *next;
++
++	llist_for_each_entry_safe(f, next, first, link)
++		f->notifier->ops->invalidate_finish(f);
++}
++
+ static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+ 			     struct mm_struct *mm)
+ {
+@@ -271,6 +280,7 @@ static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+ 		.end = ULONG_MAX,
+ 	};
+ 	struct mmu_interval_notifier *interval_sub;
++	LLIST_HEAD(finish_passes);
+ 	unsigned long cur_seq;
+ 	bool ret;
+ 
+@@ -278,11 +288,27 @@ static void mn_itree_release(struct mmu_notifier_subscriptions *subscriptions,
+ 		     mn_itree_inv_start_range(subscriptions, &range, &cur_seq);
+ 	     interval_sub;
+ 	     interval_sub = mn_itree_inv_next(interval_sub, &range)) {
+-		ret = interval_sub->ops->invalidate(interval_sub, &range,
+-						    cur_seq);
++		if (interval_sub->ops->invalidate_start) {
++			struct mmu_interval_notifier_finish *finish = NULL;
++
++			ret = interval_sub->ops->invalidate_start(interval_sub,
++								  &range,
++								  cur_seq,
++								  &finish);
++			if (ret && finish) {
++				finish->notifier = interval_sub;
++				__llist_add(&finish->link, &finish_passes);
++			}
++
++		} else {
++			ret = interval_sub->ops->invalidate(interval_sub,
++							    &range,
++							    cur_seq);
++		}
+ 		WARN_ON(!ret);
+ 	}
+ 
++	mn_itree_finish_pass(&finish_passes);
+ 	mn_itree_inv_end(subscriptions);
+ }
+ 
+@@ -430,7 +456,9 @@ static int mn_itree_invalidate(struct mmu_notifier_subscriptions *subscriptions,
+ 			       const struct mmu_notifier_range *range)
+ {
+ 	struct mmu_interval_notifier *interval_sub;
++	LLIST_HEAD(finish_passes);
+ 	unsigned long cur_seq;
++	int err = 0;
+ 
+ 	for (interval_sub =
+ 		     mn_itree_inv_start_range(subscriptions, range, &cur_seq);
+@@ -438,23 +466,41 @@ static int mn_itree_invalidate(struct mmu_notifier_subscriptions *subscriptions,
+ 	     interval_sub = mn_itree_inv_next(interval_sub, range)) {
+ 		bool ret;
+ 
+-		ret = interval_sub->ops->invalidate(interval_sub, range,
+-						    cur_seq);
++		if (interval_sub->ops->invalidate_start) {
++			struct mmu_interval_notifier_finish *finish = NULL;
++
++			ret = interval_sub->ops->invalidate_start(interval_sub,
++								  range,
++								  cur_seq,
++								  &finish);
++			if (ret && finish) {
++				finish->notifier = interval_sub;
++				__llist_add(&finish->link, &finish_passes);
++			}
++
++		} else {
++			ret = interval_sub->ops->invalidate(interval_sub,
++							    range,
++							    cur_seq);
++		}
+ 		if (!ret) {
+ 			if (WARN_ON(mmu_notifier_range_blockable(range)))
+ 				continue;
+-			goto out_would_block;
++			err = -EAGAIN;
++			break;
+ 		}
+ 	}
+-	return 0;
+ 
+-out_would_block:
++	mn_itree_finish_pass(&finish_passes);
++
+ 	/*
+ 	 * On -EAGAIN the non-blocking caller is not allowed to call
+ 	 * invalidate_range_end()
+ 	 */
+-	mn_itree_inv_end(subscriptions);
+-	return -EAGAIN;
++	if (err)
++		mn_itree_inv_end(subscriptions);
++
++	return err;
+ }
+ 
+ static int mn_hlist_invalidate_range_start(
+@@ -976,6 +1022,7 @@ int mmu_interval_notifier_insert(struct mmu_interval_notifier *interval_sub,
+ 	struct mmu_notifier_subscriptions *subscriptions;
+ 	int ret;
+ 
++	WARN_ON_ONCE(ops->invalidate_start && !ops->invalidate_finish);
+ 	might_lock(&mm->mmap_lock);
+ 
+ 	subscriptions = smp_load_acquire(&mm->notifier_subscriptions);
 -- 
 2.53.0
 
