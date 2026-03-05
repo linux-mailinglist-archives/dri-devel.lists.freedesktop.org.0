@@ -2,127 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aALDBDVXqWkh5wAAu9opvQ
+	id 0PHvJUJXqWkh5wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:09 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D28120F7CF
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BC120F7F5
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1263210EC1A;
-	Thu,  5 Mar 2026 10:13:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zHIuD0Ch";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oUxfee7m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zHIuD0Ch";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oUxfee7m";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3384410EC1C;
+	Thu,  5 Mar 2026 10:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB1510EC1A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:13:03 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2CBFA3F279;
- Thu,  5 Mar 2026 10:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772705582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
- b=zHIuD0ChHrz40sZQW8g1kMH1XmLsdpNHitQMYHeJBSEcuVkCcVgL19D2/EoG8OOjYnCQEP
- 2N1KPnY56TR3r6aOJ1ctS2KfIoBRLAgQNQU++7HFG+/LGCJ26w0HgTTf5/hfmw0HpTOmSi
- d/e9D61ZsgX5lvb22VMPyRNO93kOils=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772705582;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
- b=oUxfee7m7UdC14rDttNErZezryqnJZKOZzG6EfWknNOCduRW1ZHCYKk05jFqWIAGOZThAO
- sWp6inITOp+TriAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zHIuD0Ch;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oUxfee7m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772705582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
- b=zHIuD0ChHrz40sZQW8g1kMH1XmLsdpNHitQMYHeJBSEcuVkCcVgL19D2/EoG8OOjYnCQEP
- 2N1KPnY56TR3r6aOJ1ctS2KfIoBRLAgQNQU++7HFG+/LGCJ26w0HgTTf5/hfmw0HpTOmSi
- d/e9D61ZsgX5lvb22VMPyRNO93kOils=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772705582;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
- b=oUxfee7m7UdC14rDttNErZezryqnJZKOZzG6EfWknNOCduRW1ZHCYKk05jFqWIAGOZThAO
- sWp6inITOp+TriAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E12963EA68;
- Thu,  5 Mar 2026 10:13:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id bDuVNS1XqWnqXQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Mar 2026 10:13:01 +0000
-Message-ID: <4ebfbaf0-63dc-4dff-a9b8-15d91f4a232e@suse.de>
-Date: Thu, 5 Mar 2026 11:13:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next] drm: verisilicon: use ERR_CAST to cast
- error pointers
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B5010EC1C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:13:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DE308442E0;
+ Thu,  5 Mar 2026 10:13:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A2C116C6;
+ Thu,  5 Mar 2026 10:13:16 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Icenowy Zheng <uwu@icenowy.me>, kernel test robot <lkp@intel.com>
-References: <20260305081705.3671499-1-zhengxingda@iscas.ac.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260305081705.3671499-1-zhengxingda@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to FIELD_MODIFY()
+Date: Thu,  5 Mar 2026 11:13:14 +0100
+Message-ID: <da7709d50894d422442401e6e3ff4c4715a33fa5.1772705564.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,95 +50,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6D28120F7CF
+X-Rspamd-Queue-Id: 39BC120F7F5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.39 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,m:lkp@intel.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:biju.das.jz@bp.renesas.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-renesas-soc@vger.kernel.org,m:geert+renesas@glider.be,m:geert@glider.be,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[glider.be];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	TAGGED_FROM(0.00)[renesas];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER(0.00)[geert@glider.be,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.985];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,iscas.ac.cn:email,suse.de:dkim,suse.de:email,suse.de:mid]
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,glider.be:mid,glider.be:email]
 X-Rspamd-Action: no action
 
+Use the FIELD_MODIFY() helper instead of open-coding the same operation.
 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+No changes in generated code.
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Am 05.03.26 um 09:17 schrieb Icenowy Zheng:
-> Previously I used ERR_PTR(PTR_ERR()) to cast error pointers, but the
-> kernel test robot points out that there's a macro called ERR_CAST that
-> could do this.
->
-> Switch to this macro in the code.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202602242000.bQ0qN6AC-lkp@intel.com/
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/verisilicon/vs_bridge.c | 2 +-
->   drivers/gpu/drm/verisilicon/vs_crtc.c   | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge.c b/drivers/gpu/drm/verisilicon/vs_bridge.c
-> index 2a0ad00a94d6d..beebcab37ea48 100644
-> --- a/drivers/gpu/drm/verisilicon/vs_bridge.c
-> +++ b/drivers/gpu/drm/verisilicon/vs_bridge.c
-> @@ -322,7 +322,7 @@ struct vs_bridge *vs_bridge_init(struct drm_device *drm_dev,
->   	bridge = devm_drm_bridge_alloc(drm_dev->dev, struct vs_bridge, base,
->   				       bridge_funcs);
->   	if (IS_ERR(bridge))
-> -		return ERR_PTR(PTR_ERR(bridge));
-> +		return ERR_CAST(bridge);
->   
->   	bridge->crtc = crtc;
->   	bridge->intf = intf;
-> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> index f494017130006..3685819e02505 100644
-> --- a/drivers/gpu/drm/verisilicon/vs_crtc.c
-> +++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> @@ -172,7 +172,7 @@ struct vs_crtc *vs_crtc_init(struct drm_device *drm_dev, struct vs_dc *dc,
->   	primary = vs_primary_plane_init(drm_dev, dc);
->   	if (IS_ERR(primary)) {
->   		drm_err(drm_dev, "Couldn't create the primary plane\n");
-> -		return ERR_PTR(PTR_ERR(primary));
-> +		return ERR_CAST(primary);
->   	}
->   
->   	ret = drmm_crtc_init_with_planes(drm_dev, &vcrtc->base,
-
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+index 29f2b7d24fe59717..a87a301326c7aa43 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+@@ -808,8 +808,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+ 	 * commands payload not being saved to memory.
+ 	 */
+ 	dsisetr = rzg2l_mipi_dsi_link_read(dsi, DSISETR);
+-	dsisetr &= ~DSISETR_MRPSZ;
+-	dsisetr |= FIELD_PREP(DSISETR_MRPSZ, RZG2L_DCS_BUF_SIZE);
++	FIELD_MODIFY(DSISETR_MRPSZ, &dsisetr, RZG2L_DCS_BUF_SIZE);
+ 	rzg2l_mipi_dsi_link_write(dsi, DSISETR, dsisetr);
+ 
+ 	return 0;
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.43.0
 
