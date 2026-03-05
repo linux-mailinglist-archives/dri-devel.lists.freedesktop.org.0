@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QODbJnBPqWk14AAAu9opvQ
+	id 4F2OKXRPqWk14AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:40:00 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:40:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD2D20EB0B
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:40:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DDB20EB13
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:40:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F5C10EBE4;
-	Thu,  5 Mar 2026 09:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A78910EBDE;
+	Thu,  5 Mar 2026 09:40:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cCP7LtJr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gkA5t/NU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1360910EBDF;
- Thu,  5 Mar 2026 09:39:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13AAE10EBDD;
+ Thu,  5 Mar 2026 09:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772703597; x=1804239597;
+ t=1772703601; x=1804239601;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vqu2mBttwBYNe3AtussgI0qd6tz0JHkp+5Nwz38MtP0=;
- b=cCP7LtJrwR/U+DwFyIpXOP/2d1FKHZRQnVKfyzTkonoM+j+VEc7agX1E
- RIqSRU7wQzGEjIQwCYFPShnMMSMMMq6BYXsKBcrGqUJNkN5A2eWBKOLVF
- /ThtZX88ni6sjTp8ng856DBxM8+IeHBEac/3afbYUJ23IxIdrFGX4ii/t
- 6hFBN3aI4yaVuSPxD/9f4WXUeiGoBYqK+8427/gRRgXN6O+hNCz3m0QBB
- KrMIaS8kLhT2sH5l4xwAT71pG9OsfH5GP2lk/YyAsfcwir8DNipoWdMBl
- PlH+LWqsURsQQ+19u9YBm5IVC+/2RzZVHLlQWmaeF9PkSy4/7I3MBAGBI A==;
-X-CSE-ConnectionGUID: SXPASV50RJuCTXoK4LfS1A==
-X-CSE-MsgGUID: BOqesiMeRuG39cFb3oComA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84870991"
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="84870991"
+ bh=EkW2TPya80geCG27da7LAu868d+oGPxc6iUTc9tfTpc=;
+ b=gkA5t/NUlABWk7kGkY6ME5H15/3LtDEyK4PoSSN4IUn5woQ4lpY+3mGX
+ +RA5HH5OzrIi2FPAf4PFPmG2n+DShze1DMOuhX8a6fBbOV1MErHlGBJa7
+ Kt1pUQOthXC5uWcXEC3ffH4M9p4xaQLy1NJWR4wDXhtE9ryi9ZR7qzshA
+ 6ZwBFjnq6O2sIRgyIps/8jyfCyvJyDlqiUwgJ3wzJAaqxJpNiEb7Fags3
+ PK2ijjDK8x4y1iby8m14E5hymRD0yrCzuA+XXX7egYSistfctAUpijT/P
+ Y/t3+iqX0L8kK6UaRCc7n7oX/tCOJQ7Qg4ytA08yMvAwMgcb7065O3VYE Q==;
+X-CSE-ConnectionGUID: snhLC/0MTrahPvblVblK8A==
+X-CSE-MsgGUID: YDjfoE2iTXu9+HXZJCpN1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84871010"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="84871010"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 01:39:56 -0800
-X-CSE-ConnectionGUID: jBY6NJDiTZKeM7cOBB8TfQ==
-X-CSE-MsgGUID: DkUumHz0TWmi+je2Kt1Tww==
+ 05 Mar 2026 01:40:01 -0800
+X-CSE-ConnectionGUID: O2xpvH8IT1GZu80v/B3Qmg==
+X-CSE-MsgGUID: aW/HBbk8RYOpVy0TQlk+eg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="214685023"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="214685027"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO fedora) ([10.245.244.71])
  by fmviesa009-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 01:39:53 -0800
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 01:39:57 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -61,10 +61,10 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
  Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/4] drm/xe: Split TLB invalidation into submit and wait
- steps
-Date: Thu,  5 Mar 2026 10:39:08 +0100
-Message-ID: <20260305093909.43623-4-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 4/4] drm/xe/userptr: Defer Waiting for TLB invalidation to
+ the second pass if possible
+Date: Thu,  5 Mar 2026 10:39:09 +0100
+Message-ID: <20260305093909.43623-5-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
 References: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
@@ -85,7 +85,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2DD2D20EB0B
+X-Rspamd-Queue-Id: 58DDB20EB13
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -114,365 +114,299 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,linux.intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-xe_vm_range_tilemask_tlb_inval() submits TLB invalidation requests to
-all GTs in a tile mask and then immediately waits for them to complete
-before returning. This is fine for the existing callers, but a
-subsequent patch will need to defer the wait in order to overlap TLB
-invalidations across multiple VMAs.
+Now that the two-pass notifier flow uses xe_vma_userptr_do_inval() for
+the fence-wait + TLB-invalidate work, extend it to support a further
+deferred TLB wait:
 
-Introduce xe_tlb_inval_range_tilemask_submit() and
-xe_tlb_inval_batch_wait() in xe_tlb_inval.c as the submit and wait
-halves respectively. The batch of fences is carried in the new
-xe_tlb_inval_batch structure. Remove xe_vm_range_tilemask_tlb_inval()
-and convert all three call sites to the new API.
+- xe_vma_userptr_do_inval(): when the embedded finish handle is free,
+  submit the TLB invalidation asynchronously (xe_vm_invalidate_vma_submit)
+  and return &userptr->finish so the mmu_notifier core schedules a third
+  pass.  When the handle is occupied by a concurrent invalidation, fall
+  back to the synchronous xe_vm_invalidate_vma() path.
+
+- xe_vma_userptr_complete_tlb_inval(): new helper called from
+  invalidate_finish when tlb_inval_submitted is set.  Waits for the
+  previously submitted batch and unmaps the gpusvm pages.
+
+xe_vma_userptr_invalidate_finish() dispatches between the two helpers
+via tlb_inval_submitted, making the three possible flows explicit:
+
+  pass1 (fences pending)  -> invalidate_finish -> do_inval (sync TLB)
+  pass1 (fences done)     -> do_inval -> invalidate_finish
+                          -> complete_tlb_inval (deferred TLB)
+  pass1 (finish occupied) -> do_inval (sync TLB, inline)
+
+In multi-GPU scenarios this allows TLB flushes to be submitted on all
+GPUs in one pass before any of them are waited on.
+
+Also adds xe_vm_invalidate_vma_submit() which submits the TLB range
+invalidation without blocking, populating a xe_tlb_inval_batch that
+the caller waits on separately.
 
 v3:
-- Don't wait on TLB invalidation batches if the corresponding batch
-  submit returns an error. (Matt Brost)
-- s/_batch/batch/ (Matt Brost)
+- Add locking asserts and notifier state asserts (Matt Brost)
+- Update the locking documentation of the notifier
+  state members (Matt Brost)
+- Remove unrelated code formatting changes (Matt Brost)
 
 Assisted-by: GitHub Copilot:claude-sonnet-4.6
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c             |  8 ++-
- drivers/gpu/drm/xe/xe_tlb_inval.c       | 84 +++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_tlb_inval.h       |  6 ++
- drivers/gpu/drm/xe/xe_tlb_inval_types.h | 14 +++++
- drivers/gpu/drm/xe/xe_vm.c              | 69 +++-----------------
- drivers/gpu/drm/xe/xe_vm.h              |  3 -
- drivers/gpu/drm/xe/xe_vm_madvise.c      | 10 ++-
- drivers/gpu/drm/xe/xe_vm_types.h        |  1 +
- 8 files changed, 127 insertions(+), 68 deletions(-)
+ drivers/gpu/drm/xe/xe_userptr.c | 63 ++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/xe/xe_userptr.h | 17 +++++++++
+ drivers/gpu/drm/xe/xe_vm.c      | 38 +++++++++++++++-----
+ drivers/gpu/drm/xe/xe_vm.h      |  2 ++
+ 4 files changed, 104 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 002b6c22ad3f..a91c84487a67 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -19,6 +19,7 @@
- #include "xe_pt.h"
- #include "xe_svm.h"
- #include "xe_tile.h"
+diff --git a/drivers/gpu/drm/xe/xe_userptr.c b/drivers/gpu/drm/xe/xe_userptr.c
+index 37032b8125a6..6761005c0b90 100644
+--- a/drivers/gpu/drm/xe/xe_userptr.c
++++ b/drivers/gpu/drm/xe/xe_userptr.c
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/mm.h>
+ 
 +#include "xe_tlb_inval.h"
- #include "xe_ttm_vram_mgr.h"
- #include "xe_vm.h"
- #include "xe_vm_types.h"
-@@ -225,6 +226,7 @@ static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
- 			      const struct mmu_notifier_range *mmu_range)
- {
- 	struct xe_vm *vm = gpusvm_to_vm(gpusvm);
-+	struct xe_tlb_inval_batch batch;
- 	struct xe_device *xe = vm->xe;
- 	struct drm_gpusvm_range *r, *first;
- 	struct xe_tile *tile;
-@@ -276,8 +278,10 @@ static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
+ #include "xe_trace_bo.h"
  
- 	xe_device_wmb(xe);
- 
--	err = xe_vm_range_tilemask_tlb_inval(vm, adj_start, adj_end, tile_mask);
--	WARN_ON_ONCE(err);
-+	err = xe_tlb_inval_range_tilemask_submit(xe, vm->usm.asid, adj_start, adj_end,
-+						 tile_mask, &batch);
-+	if (!WARN_ON_ONCE(err))
-+		xe_tlb_inval_batch_wait(&batch);
- 
- range_notifier_event_end:
- 	r = first;
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
-index 933f30fb617d..10dcd4abb00f 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-@@ -486,3 +486,87 @@ bool xe_tlb_inval_idle(struct xe_tlb_inval *tlb_inval)
- 	guard(spinlock_irq)(&tlb_inval->pending_lock);
- 	return list_is_singular(&tlb_inval->pending_fences);
+ static void xe_userptr_assert_in_notifier(struct xe_vm *vm)
+@@ -81,8 +82,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
+ 				    &ctx);
  }
-+
-+/**
-+ * xe_tlb_inval_batch_wait() - Wait for all fences in a TLB invalidation batch
-+ * @batch: Batch of TLB invalidation fences to wait on
-+ *
-+ * Waits for every fence in @batch to signal, then resets @batch so it can be
-+ * reused for a subsequent invalidation.
-+ */
-+void xe_tlb_inval_batch_wait(struct xe_tlb_inval_batch *batch)
-+{
-+	struct xe_tlb_inval_fence *fence = &batch->fence[0];
-+	unsigned int i;
-+
-+	for (i = 0; i < batch->num_fences; ++i)
-+		xe_tlb_inval_fence_wait(fence++);
-+
-+	batch->num_fences = 0;
+ 
+-static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma,
+-				    bool is_deferred)
++static struct mmu_interval_notifier_finish *
++xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma, bool is_deferred)
+ {
+ 	struct xe_userptr *userptr = &uvma->userptr;
+ 	struct xe_vma *vma = &uvma->vma;
+@@ -93,6 +94,8 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
+ 	long err;
+ 
+ 	xe_userptr_assert_in_notifier(vm);
++	if (is_deferred)
++		xe_assert(vm->xe, userptr->finish_inuse && !userptr->tlb_inval_submitted);
+ 
+ 	err = dma_resv_wait_timeout(xe_vm_resv(vm),
+ 				    DMA_RESV_USAGE_BOOKKEEP,
+@@ -100,6 +103,19 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
+ 	XE_WARN_ON(err <= 0);
+ 
+ 	if (xe_vm_in_fault_mode(vm) && userptr->initial_bind) {
++		if (!userptr->finish_inuse) {
++			/*
++			 * Defer the TLB wait to an extra pass so the caller
++			 * can pipeline TLB flushes across GPUs before waiting
++			 * on any of them.
++			 */
++			xe_assert(vm->xe, !userptr->tlb_inval_submitted);
++			userptr->finish_inuse = true;
++			userptr->tlb_inval_submitted = true;
++			err = xe_vm_invalidate_vma_submit(vma, &userptr->inval_batch);
++			XE_WARN_ON(err);
++			return &userptr->finish;
++		}
+ 		err = xe_vm_invalidate_vma(vma);
+ 		XE_WARN_ON(err);
+ 	}
+@@ -108,6 +124,28 @@ static void xe_vma_userptr_do_inval(struct xe_vm *vm, struct xe_userptr_vma *uvm
+ 		userptr->finish_inuse = false;
+ 	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma->userptr.pages,
+ 			       xe_vma_size(vma) >> PAGE_SHIFT, &ctx);
++	return NULL;
 +}
 +
-+/**
-+ * xe_tlb_inval_range_tilemask_submit() - Submit TLB invalidations for an
-+ * address range on a tile mask
-+ * @xe: The xe device
-+ * @asid: Address space ID
-+ * @start: start address
-+ * @end: end address
-+ * @tile_mask: mask for which gt's issue tlb invalidation
-+ * @batch: Batch of tlb invalidate fences
-+ *
-+ * Issue a range based TLB invalidation for gt's in tilemask
-+ * If the function returns an error, there is no need to call
-+ * xe_tlb_inval_batch_wait() on @batch.
-+ *
-+ * Returns 0 for success, negative error code otherwise.
-+ */
-+int xe_tlb_inval_range_tilemask_submit(struct xe_device *xe, u32 asid,
-+				       u64 start, u64 end, u8 tile_mask,
-+				       struct xe_tlb_inval_batch *batch)
++static void
++xe_vma_userptr_complete_tlb_inval(struct xe_vm *vm, struct xe_userptr_vma *uvma)
 +{
-+	struct xe_tlb_inval_fence *fence = &batch->fence[0];
-+	struct xe_tile *tile;
-+	u32 fence_id = 0;
-+	u8 id;
-+	int err;
++	struct xe_userptr *userptr = &uvma->userptr;
++	struct xe_vma *vma = &uvma->vma;
++	struct drm_gpusvm_ctx ctx = {
++		.in_notifier = true,
++		.read_only = xe_vma_read_only(vma),
++	};
 +
-+	batch->num_fences = 0;
-+	if (!tile_mask)
-+		return 0;
++	xe_userptr_assert_in_notifier(vm);
++	xe_assert(vm->xe, userptr->finish_inuse);
++	xe_assert(vm->xe, userptr->tlb_inval_submitted);
 +
-+	for_each_tile(tile, xe, id) {
-+		if (!(tile_mask & BIT(id)))
-+			continue;
-+
-+		xe_tlb_inval_fence_init(&tile->primary_gt->tlb_inval,
-+					&fence[fence_id], true);
-+
-+		err = xe_tlb_inval_range(&tile->primary_gt->tlb_inval,
-+					 &fence[fence_id], start, end,
-+					 asid, NULL);
-+		if (err)
-+			goto wait;
-+		++fence_id;
-+
-+		if (!tile->media_gt)
-+			continue;
-+
-+		xe_tlb_inval_fence_init(&tile->media_gt->tlb_inval,
-+					&fence[fence_id], true);
-+
-+		err = xe_tlb_inval_range(&tile->media_gt->tlb_inval,
-+					 &fence[fence_id], start, end,
-+					 asid, NULL);
-+		if (err)
-+			goto wait;
-+		++fence_id;
-+	}
-+
-+wait:
-+	batch->num_fences = fence_id;
-+	if (err)
-+		xe_tlb_inval_batch_wait(batch);
-+
-+	return err;
-+}
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.h b/drivers/gpu/drm/xe/xe_tlb_inval.h
-index 62089254fa23..a76b7823a5f2 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval.h
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval.h
-@@ -45,4 +45,10 @@ void xe_tlb_inval_done_handler(struct xe_tlb_inval *tlb_inval, int seqno);
++	xe_tlb_inval_batch_wait(&userptr->inval_batch);
++	userptr->tlb_inval_submitted = false;
++	userptr->finish_inuse = false;
++	drm_gpusvm_unmap_pages(&vm->svm.gpusvm, &uvma->userptr.pages,
++			       xe_vma_size(vma) >> PAGE_SHIFT, &ctx);
+ }
  
- bool xe_tlb_inval_idle(struct xe_tlb_inval *tlb_inval);
+ static struct mmu_interval_notifier_finish *
+@@ -153,11 +191,10 @@ xe_vma_userptr_invalidate_pass1(struct xe_vm *vm, struct xe_userptr_vma *uvma)
+ 	 * If it's already in use, or all fences are already signaled,
+ 	 * proceed directly to invalidation without deferring.
+ 	 */
+-	if (signaled || userptr->finish_inuse) {
+-		xe_vma_userptr_do_inval(vm, uvma, false);
+-		return NULL;
+-	}
++	if (signaled || userptr->finish_inuse)
++		return xe_vma_userptr_do_inval(vm, uvma, false);
  
-+int xe_tlb_inval_range_tilemask_submit(struct xe_device *xe, u32 asid,
-+				       u64 start, u64 end, u8 tile_mask,
-+				       struct xe_tlb_inval_batch *batch);
-+
-+void xe_tlb_inval_batch_wait(struct xe_tlb_inval_batch *batch);
-+
- #endif	/* _XE_TLB_INVAL_ */
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval_types.h b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-index 3b089f90f002..3d1797d186fd 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-@@ -9,6 +9,8 @@
- #include <linux/workqueue.h>
- #include <linux/dma-fence.h>
++	/* Defer: the notifier core will call invalidate_finish once done. */
+ 	userptr->finish_inuse = true;
  
-+#include "xe_device_types.h"
-+
- struct drm_suballoc;
- struct xe_tlb_inval;
+ 	return &userptr->finish;
+@@ -205,7 +242,15 @@ static void xe_vma_userptr_invalidate_finish(struct mmu_interval_notifier_finish
+ 		xe_vma_start(vma), xe_vma_size(vma));
  
-@@ -132,4 +134,16 @@ struct xe_tlb_inval_fence {
- 	ktime_t inval_time;
- };
+ 	down_write(&vm->svm.gpusvm.notifier_lock);
+-	xe_vma_userptr_do_inval(vm, uvma, true);
++	/*
++	 * If a TLB invalidation was previously submitted (deferred from the
++	 * synchronous pass1 fallback), wait for it and unmap pages.
++	 * Otherwise, fences have now completed: invalidate the TLB and unmap.
++	 */
++	if (uvma->userptr.tlb_inval_submitted)
++		xe_vma_userptr_complete_tlb_inval(vm, uvma);
++	else
++		xe_vma_userptr_do_inval(vm, uvma, true);
+ 	up_write(&vm->svm.gpusvm.notifier_lock);
+ 	trace_xe_vma_userptr_invalidate_complete(vma);
+ }
+@@ -243,7 +288,9 @@ void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
  
-+/**
-+ * struct xe_tlb_inval_batch - Batch of TLB invalidation fences
-+ *
-+ * Holds one fence per GT covered by a TLB invalidation request.
-+ */
-+struct xe_tlb_inval_batch {
-+	/** @fence: per-GT TLB invalidation fences */
-+	struct xe_tlb_inval_fence fence[XE_MAX_TILES_PER_DEVICE * XE_MAX_GT_PER_TILE];
-+	/** @num_fences: number of valid entries in @fence */
-+	unsigned int num_fences;
-+};
-+
+ 	finish = xe_vma_userptr_invalidate_pass1(vm, uvma);
+ 	if (finish)
+-		xe_vma_userptr_do_inval(vm, uvma, true);
++		finish = xe_vma_userptr_do_inval(vm, uvma, true);
++	if (finish)
++		xe_vma_userptr_complete_tlb_inval(vm, uvma);
+ }
  #endif
+ 
+diff --git a/drivers/gpu/drm/xe/xe_userptr.h b/drivers/gpu/drm/xe/xe_userptr.h
+index e1830c2f5fd2..2a3cd1b5efbb 100644
+--- a/drivers/gpu/drm/xe/xe_userptr.h
++++ b/drivers/gpu/drm/xe/xe_userptr.h
+@@ -14,6 +14,8 @@
+ 
+ #include <drm/drm_gpusvm.h>
+ 
++#include "xe_tlb_inval_types.h"
++
+ struct xe_vm;
+ struct xe_vma;
+ struct xe_userptr_vma;
+@@ -63,12 +65,27 @@ struct xe_userptr {
+ 	 * alternatively by the same lock in read mode *and* the vm resv held.
+ 	 */
+ 	struct mmu_interval_notifier_finish finish;
++	/**
++	 * @inval_batch: TLB invalidation batch for deferred completion.
++	 * Stores an in-flight TLB invalidation submitted during a two-pass
++	 * notifier so the wait can be deferred to a subsequent pass, allowing
++	 * multiple GPUs to be signalled before any of them are waited on.
++	 * Protected using the same locking as @finish.
++	 */
++	struct xe_tlb_inval_batch inval_batch;
+ 	/**
+ 	 * @finish_inuse: Whether @finish is currently in use by an in-progress
+ 	 * two-pass invalidation.
+ 	 * Protected using the same locking as @finish.
+ 	 */
+ 	bool finish_inuse;
++	/**
++	 * @tlb_inval_submitted: Whether a TLB invalidation has been submitted
++	 * via @inval_batch and is pending completion.  When set, the next pass
++	 * must call xe_tlb_inval_batch_wait() before reusing @inval_batch.
++	 * Protected using the same locking as @finish.
++	 */
++	bool tlb_inval_submitted;
+ 	/**
+ 	 * @initial_bind: user pointer has been bound at least once.
+ 	 * write: vm->svm.gpusvm.notifier_lock in read mode and vm->resv held.
 diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 548b0769b3ef..a3c2e8cefec7 100644
+index a3c2e8cefec7..fdad9329dfb4 100644
 --- a/drivers/gpu/drm/xe/xe_vm.c
 +++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3966,66 +3966,6 @@ void xe_vm_unlock(struct xe_vm *vm)
- 	dma_resv_unlock(xe_vm_resv(vm));
+@@ -3967,20 +3967,23 @@ void xe_vm_unlock(struct xe_vm *vm)
  }
  
--/**
-- * xe_vm_range_tilemask_tlb_inval - Issue a TLB invalidation on this tilemask for an
-- * address range
-- * @vm: The VM
-- * @start: start address
-- * @end: end address
-- * @tile_mask: mask for which gt's issue tlb invalidation
-- *
-- * Issue a range based TLB invalidation for gt's in tilemask
-- *
-- * Returns 0 for success, negative error code otherwise.
-- */
--int xe_vm_range_tilemask_tlb_inval(struct xe_vm *vm, u64 start,
--				   u64 end, u8 tile_mask)
--{
--	struct xe_tlb_inval_fence
--		fence[XE_MAX_TILES_PER_DEVICE * XE_MAX_GT_PER_TILE];
--	struct xe_tile *tile;
--	u32 fence_id = 0;
--	u8 id;
--	int err;
--
--	if (!tile_mask)
--		return 0;
--
--	for_each_tile(tile, vm->xe, id) {
--		if (!(tile_mask & BIT(id)))
--			continue;
--
--		xe_tlb_inval_fence_init(&tile->primary_gt->tlb_inval,
--					&fence[fence_id], true);
--
--		err = xe_tlb_inval_range(&tile->primary_gt->tlb_inval,
--					 &fence[fence_id], start, end,
--					 vm->usm.asid, NULL);
--		if (err)
--			goto wait;
--		++fence_id;
--
--		if (!tile->media_gt)
--			continue;
--
--		xe_tlb_inval_fence_init(&tile->media_gt->tlb_inval,
--					&fence[fence_id], true);
--
--		err = xe_tlb_inval_range(&tile->media_gt->tlb_inval,
--					 &fence[fence_id], start, end,
--					 vm->usm.asid, NULL);
--		if (err)
--			goto wait;
--		++fence_id;
--	}
--
--wait:
--	for (id = 0; id < fence_id; ++id)
--		xe_tlb_inval_fence_wait(&fence[id]);
--
--	return err;
--}
--
  /**
-  * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without a lock
+- * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without a lock
++ * xe_vm_invalidate_vma_submit - Submit a job to invalidate GPU mappings for
++ * VMA.
   * @vma: VMA to invalidate
-@@ -4040,6 +3980,7 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
++ * @batch: TLB invalidation batch to populate; caller must later call
++ *         xe_tlb_inval_batch_wait() on it to wait for completion
+  *
+  * Walks a list of page tables leaves which it memset the entries owned by this
+- * VMA to zero, invalidates the TLBs, and block until TLBs invalidation is
+- * complete.
++ * VMA to zero, invalidates the TLBs, but doesn't block waiting for TLB flush
++ * to complete, but instead populates @batch which can be waited on using
++ * xe_tlb_inval_batch_wait().
+  *
+  * Returns 0 for success, negative error code otherwise.
+  */
+-int xe_vm_invalidate_vma(struct xe_vma *vma)
++int xe_vm_invalidate_vma_submit(struct xe_vma *vma, struct xe_tlb_inval_batch *batch)
  {
  	struct xe_device *xe = xe_vma_vm(vma)->xe;
  	struct xe_vm *vm = xe_vma_vm(vma);
-+	struct xe_tlb_inval_batch batch;
+-	struct xe_tlb_inval_batch batch;
  	struct xe_tile *tile;
  	u8 tile_mask = 0;
  	int ret = 0;
-@@ -4080,12 +4021,16 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
+@@ -4023,14 +4026,33 @@ int xe_vm_invalidate_vma(struct xe_vma *vma)
  
- 	xe_device_wmb(xe);
- 
--	ret = xe_vm_range_tilemask_tlb_inval(xe_vma_vm(vma), xe_vma_start(vma),
--					     xe_vma_end(vma), tile_mask);
-+	ret = xe_tlb_inval_range_tilemask_submit(xe, xe_vma_vm(vma)->usm.asid,
-+						 xe_vma_start(vma), xe_vma_end(vma),
-+						 tile_mask, &batch);
+ 	ret = xe_tlb_inval_range_tilemask_submit(xe, xe_vma_vm(vma)->usm.asid,
+ 						 xe_vma_start(vma), xe_vma_end(vma),
+-						 tile_mask, &batch);
++						 tile_mask, batch);
  
  	/* WRITE_ONCE pairs with READ_ONCE in xe_vm_has_valid_gpu_mapping() */
  	WRITE_ONCE(vma->tile_invalidated, vma->tile_mask);
- 
-+	if (!ret)
-+		xe_tlb_inval_batch_wait(&batch);
++	return ret;
++}
 +
++/**
++ * xe_vm_invalidate_vma - invalidate GPU mappings for VMA without a lock
++ * @vma: VMA to invalidate
++ *
++ * Walks a list of page tables leaves which it memset the entries owned by this
++ * VMA to zero, invalidates the TLBs, and block until TLBs invalidation is
++ * complete.
++ *
++ * Returns 0 for success, negative error code otherwise.
++ */
++int xe_vm_invalidate_vma(struct xe_vma *vma)
++{
++	struct xe_tlb_inval_batch batch;
++	int ret;
+ 
+-	if (!ret)
+-		xe_tlb_inval_batch_wait(&batch);
++	ret = xe_vm_invalidate_vma_submit(vma, &batch);
++	if (ret)
++		return ret;
+ 
++	xe_tlb_inval_batch_wait(&batch);
  	return ret;
  }
  
 diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index f849e369432b..62f4b6fec0bc 100644
+index 62f4b6fec0bc..0bc7ed23eeae 100644
 --- a/drivers/gpu/drm/xe/xe_vm.h
 +++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -240,9 +240,6 @@ struct dma_fence *xe_vm_range_rebind(struct xe_vm *vm,
- struct dma_fence *xe_vm_range_unbind(struct xe_vm *vm,
- 				     struct xe_svm_range *range);
+@@ -242,6 +242,8 @@ struct dma_fence *xe_vm_range_unbind(struct xe_vm *vm,
  
--int xe_vm_range_tilemask_tlb_inval(struct xe_vm *vm, u64 start,
--				   u64 end, u8 tile_mask);
--
  int xe_vm_invalidate_vma(struct xe_vma *vma);
  
- int xe_vm_validate_protected(struct xe_vm *vm);
-diff --git a/drivers/gpu/drm/xe/xe_vm_madvise.c b/drivers/gpu/drm/xe/xe_vm_madvise.c
-index 95bf53cc29e3..02daf8a93044 100644
---- a/drivers/gpu/drm/xe/xe_vm_madvise.c
-+++ b/drivers/gpu/drm/xe/xe_vm_madvise.c
-@@ -12,6 +12,7 @@
- #include "xe_pat.h"
- #include "xe_pt.h"
- #include "xe_svm.h"
-+#include "xe_tlb_inval.h"
- 
- struct xe_vmas_in_madvise_range {
- 	u64 addr;
-@@ -235,13 +236,20 @@ static u8 xe_zap_ptes_in_madvise_range(struct xe_vm *vm, u64 start, u64 end)
- static int xe_vm_invalidate_madvise_range(struct xe_vm *vm, u64 start, u64 end)
- {
- 	u8 tile_mask = xe_zap_ptes_in_madvise_range(vm, start, end);
-+	struct xe_tlb_inval_batch batch;
-+	int err;
- 
- 	if (!tile_mask)
- 		return 0;
- 
- 	xe_device_wmb(vm->xe);
- 
--	return xe_vm_range_tilemask_tlb_inval(vm, start, end, tile_mask);
-+	err = xe_tlb_inval_range_tilemask_submit(vm->xe, vm->usm.asid, start, end,
-+						 tile_mask, &batch);
-+	if (!err)
-+		xe_tlb_inval_batch_wait(&batch);
++int xe_vm_invalidate_vma_submit(struct xe_vma *vma, struct xe_tlb_inval_batch *batch);
 +
-+	return err;
- }
+ int xe_vm_validate_protected(struct xe_vm *vm);
  
- static bool madvise_args_are_sane(struct xe_device *xe, const struct drm_xe_madvise *args)
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index 1f6f7e30e751..de6544165cfa 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -18,6 +18,7 @@
- #include "xe_device_types.h"
- #include "xe_pt_types.h"
- #include "xe_range_fence.h"
-+#include "xe_tlb_inval_types.h"
- #include "xe_userptr.h"
- 
- struct drm_pagemap;
+ static inline void xe_vm_queue_rebind_worker(struct xe_vm *vm)
 -- 
 2.53.0
 
