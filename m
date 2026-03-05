@@ -2,154 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cIPOLkSbqWm7AgEAu9opvQ
+	id mL8iCJGbqWnGAwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:03:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:04:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0FF2141B1
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E6C2141FA
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:04:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7E610EBF7;
-	Thu,  5 Mar 2026 15:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1E0C10EC14;
+	Thu,  5 Mar 2026 15:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y8gCH7L4";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SBq21iN7";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="CECVRg2f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 152C710E2B7
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:03:28 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 625AFuMv4171110
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 15:03:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=; b=Y8
- gCH7L45JWn/HjUc3BfuZ9xnEPbncSbpCEdBBjfN8kz14pSFI9Ua8RSKa4uroPCia
- PELpbRGQWV7h6iHPXi7JLlZwMM7OhoK4fdFUcpfLIbbqJtnoq5kgB1egGrTAKDOj
- dtn/1Fn7KWd5nDw3GNKUanXvI4KY9Hun50QtRkPBTZjKqysRQ+AP4YdnU4gLHcbn
- NjO3CPzLB5dDCWX1gQXLAdSC+a7v7zOnltxSMLJuEpmRtUrWdeAxc+NzYiI6bn2u
- 0Owkiq/gP7WhCIYmVVtYgToFGomlvbj+ZTDYM0linp54IJAD4/Mu/lyGz+CPUVtS
- 7DNERbpmRU4ziL+rHbFw==
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpuhb37yj-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 15:03:27 +0000 (GMT)
-Received: by mail-oo1-f69.google.com with SMTP id
- 006d021491bc7-679dda090fbso140123057eaf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 07:03:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772723007; cv=none;
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A99B10EC14
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:04:45 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5a12c19affeso1007634e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 07:04:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772723084; cv=none;
  d=google.com; s=arc-20240605;
- b=W0xjeeqaKi3UKvHkgsJeniVxK+OpuG7Ywa5X4s/5JwtxOLWvgBme64qd70+Fkx5+Md
- VteiQ5raB8pnVY5Fc5BoMn/cGqxwLOQ6GuEvLo0Ll6phXyJWX1RAHLE3jFiSAUDXoNQs
- RYsPdgvUnz8u76kBBfOFftMzz1ejnSd28MCe9+vy5Bx8aZfVkEGGLu6wFCv1W9Yq1ZYI
- R16vB8hGWznrXWfDBL63sxNNcw9Ku2aaPOh7DQaG2f2U68GK2Rxt+is/QhpUBXlzZ6SD
- 6fXDuYr+iJssZkE2Hrzz/q55Vif3TRlRXi6Un8J59MfJvGoIogyulyottmCtzCpeDbgY
- nUmw==
+ b=MHO+FLKKg7pb5FfDXEGUHDffyZT9OCQT7kINRliISeqC7n/1Pja2gCGFc5o7kOu894
+ VfnP28r8AcqPk188LqwcUuvxM0xH7XCsz+z/vQ3lnHnLp+JeRz7mh544wsVpLQSiXeNY
+ 1TNLrSx3x3B+aKchszcFOtE3yAKQmZIUDlTyVlp8n3GIYBaA2ARuFha+5Ye2JBbbq/YJ
+ ugZ6EBxtyHwLw6SQvKDOo/EcX/ssk1+KQlRrmJtUvQsRZ91tFG7MaRb7CXR0drjfzVFV
+ yV6NBECVoeByF/1dfm5pVSPEr0MaAGJp4/ubh5wPpxFuUQHu2XlCcbo4EhUagjzWJAXj
+ 1sfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:dkim-signature;
- bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
- fh=uHh6AG3CQjbH5A1JkRi6MLTrXtOB1TRpSZwep+VaM+Y=;
- b=DlB414kvrEDQolgifieuqqsqgvZ0FjyvwHLjyMob5ocVgXfHPrtAj5623mbQcLdZhz
- op9dyA2t4exvswUxdKFvcJggNxTX9e8Vh9Lq7vLnAwnCWcetG4835YaQyDUFlWGzhen4
- T4CNP8urTD1ivangttz+NvhjrIjErh3MRLkptSxO3efSrta7MIetBgM79XDjhkx+AsLG
- MCIYFoX5M9MatH8DNJwxO26V+k4C/5cyrB/w1bm7ajxYJb8Y+ra2RNZZHxkv1NNahwmd
- A/BkDn29+vln08HdqpDNbSi4D6Rae4RuY9493lsgjj3uJiR2fQXX49GHjcqOmOhIx+oH
- ZB+Q==; darn=lists.freedesktop.org
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=bAzlDiATw0sReZVnHLqMUNDe8YNqfvDhHHmieW05wFY=;
+ fh=dYwUcEyMChBCVMRKs3C2+RHjQi8j5UzK3OUy8A0SBdk=;
+ b=CO814egi4H/JLLqSM2wI8E+hYFGGoBKVjbc6ZsX6oZ5k2TdNmrPR1ka2mVDDDKgEim
+ Y1/9AKzcKLD0U2A9zHTQGlOwFQjLSURpCaYLGB1YKyP1pkNsV0/cTzJrwsNz5zR+qydP
+ mb9ofUFZCIxUAijyUxPfJtj5X45xaRUE0xJAvjY45/yPMa+8DeCb4HI3fvFVgbXoO4pP
+ iFSx6pOO16BR+hbFY4wlJGMXyEsVlljaxSdoHClYRKY6MibJUmvk87upkwe1IKPNa07o
+ nRhcjnnF38LLQQIQS8IqYTAjcUBHO/0tCbU6cZS7pfNhL8B7R0/WCGEyUKMGYkKWI2aD
+ wvJQ==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772723007; x=1773327807;
- darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1772723084; x=1773327884; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
- b=SBq21iN7jcG1KVqX+36k4tcXpDuGjQ+3aVSLRUq6ZUXEnjQD7Jd4995m4Rp83ZqDBs
- vfXpciXgTvtYLtbUt4H6sBqAMB+U3XFoRxNuV4L+/HG48mwkSdjxHptGQQBEYdEEAYpc
- A1xCev5QpJ4fQIyoXfmShhMc+1QkaQMbVz8W3KRdAQ2146h9hp08bNYpyHTDNEZes6K2
- M97jcyA4tfx7iDlM8jWNZT7zXH517h1QiZXrEPYAXlBibIMWB1TwRNranJi4m/JsXzMB
- Q7dZWgGkwn6QdPvM2ILaK+dZAr9Hxu6TwnVbChQvwuyOxTDoG9Pve4vKT/CQij0YC6XK
- 8fmA==
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bAzlDiATw0sReZVnHLqMUNDe8YNqfvDhHHmieW05wFY=;
+ b=CECVRg2fijigNQJYZywOWLSQ/ztrEfJH8ZjViKnrTIcPHPLb39+HMGhMp9oFvxoU7x
+ y2Vr7i+4KtatWJm1HHPzjRxpOqsMbJYwzx0syNN3El5stM+8Ucmg8ZBeF0fE+I70iJf2
+ 7TFRuctAuOxs7/zHsD5dQlpcn0F9kBTdriNTun2dn7pDR7uPN3IZ4JJweOcPHDtfjyeO
+ x1e//WpEWEpvHRhZJyoXT1kAuiD1cN9V63pPada48FG9vkGZwMpWhyDuUhSUvcfJTXJi
+ t7JA9k+UH49DKsdJEqMt8/1dxzCmqna20H7MKCfjy19L42jsz3k2OtBmCv//QN/V6wx5
+ 4GMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772723007; x=1773327807;
+ d=1e100.net; s=20230601; t=1772723084; x=1773327884;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
- b=unAvTJ++aL6mmuiNV7ZHZf9QKMmC48TueyRMZ5TW7oUP9+8i6ugSIAFtQnr9/1221U
- lru++vUsAp73FGU+D9YdWmlk2PSQ13Vm9saBasHqPEerg6CcP2gEBS5XiZI1kQl58chs
- 1OGqlx9j1sXCpbtB794GCBzlGgYIxu/o7LGPVHAMuwkcrxAkd8Ca2tIVzAcblnW/Xzof
- y1STyjJxor3ajIzn7PUtv7R69us9JDc/BIZmAPVKXw9SDQN3UNobon+iwwxFiQo8RYo3
- H6YhrQL3aMrV4I1SFTwUPSDJdWHocnkF3NLBf8WCgG+0EiwUqvdC1husCZ0oYIyf/PTM
- LiRQ==
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=bAzlDiATw0sReZVnHLqMUNDe8YNqfvDhHHmieW05wFY=;
+ b=HiAsVu7iXmOumi6q/spWYFimgf+OVSk+KXAbRDnQ5qwPygr6gDz9Zct7hbTNfIp0bp
+ wDP/EbINoIiDuj4qLsfErCugA+pkS8bgyqjpB+3hHLdd0yA/6ed1Q/AJzLoJ7uTHee4Z
+ jZ7mMu6Q2otuP2kBcXN6Muwp2DgBiFX2UBL26DPCXau9eyD9dsh6xouXUYZqWq3xLu21
+ XW1178M8QdFc9stXxVu3EsRck+0pbBc3wICACBTuww+u+Gztr94wirigbAUakT855TXS
+ q80gs44nD99VXmbyvR0Tp2Z7YbjtGa8W6kNixH+58Jaavpvh5QFGEB+BlX2tJO1JoXHN
+ J8HQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd3pm26+EJo38y5PqtaXQa8bP2g+U17YFpMGvWvw7eDVhrEvbK/Oi8Bug85k6r4e5uPJiInZrnS8Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXGPULCGDO+l/D1H3Dc3qu3I2zLpUp8Smcx2W1wwuR6OeesX2e
- be/r+VlTMeL2oM7MSIbwAmmtb4a+pxhnt6x9/DUNxPphb8wyjc3OOQOGFCIG+n6prwYfJmWaknd
- l9/dy2VOQste2oIRVAf5GoeKswqn882j/qhKmV+3eMekbXYTeorVnnxSTY+OfyVqxIPiFoqBIB1
- 3ypAq7k+I5Pjq2qr0leZpKjlwQO7RfmGGFsfd1+vDqp9ddMw==
-X-Gm-Gg: ATEYQzyuhphmpg0evoc1ru3nMYHf0lbXOtcKLUSS+7FIhX8jr5mKj8bjwpNJ/UNNCMD
- y1MbIZMvajhtza6r+Vwtw3zlF1X8ALGA/0GXsieJBGLChk9XZgsYu+hf/Q6ep8Ny+RjMBpajchn
- J+iAgZcWwKC7wGZ8T19jx59GE3ihDAx7JPlpip/Vuvz7gNaF/hXw+AJco2jyjUyVFsOjkpxwrqz
- 06vDRV0qKHlrFUjYIM4seuzXNIV1MgsE+cIuA==
-X-Received: by 2002:a05:6820:208a:b0:659:9a49:8f9a with SMTP id
- 006d021491bc7-67b176f9f67mr3931563eaf.19.1772723006306; 
- Thu, 05 Mar 2026 07:03:26 -0800 (PST)
-X-Received: by 2002:a05:6820:208a:b0:659:9a49:8f9a with SMTP id
- 006d021491bc7-67b176f9f67mr3931529eaf.19.1772723005755; Thu, 05 Mar 2026
- 07:03:25 -0800 (PST)
+ AJvYcCXVyOB5pKlqZ1sfIi55yTXpKDywo5fvqu4ONOR6EP9O16YIYKOV+XVbnVB00vDHtOFJrwzHCXEYC4I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAE/WmoSUI373CtIRi50wftIbDRXMBi1rWeykwJN3RcLESaGT/
+ CO6gxzO1F164ZkJB5gVNoO174yzVg1JxfMYfo0Wq2ltqG4r8o7Y+vlYDS+Ov/TwARMpDTn/dQ/C
+ GgSzDqarYFShPLiLECBX7gfFBe5SRwaZpRO5YgG9KOA==
+X-Gm-Gg: ATEYQzxSFqAnuwVmT+3/ytntEmZtsFlN2xXjm3NG8xMZFwSeL4Ss6807Q8XzIazCwvl
+ CDVhDa4Ymypk+OYsNO8lDSujL9BkmUOFB2VW9rYvVFPYgK3dc6ZSu1tU0KCJcO6QWsFm61FHJuf
+ KASBjFWKQkBarxu/7QkI+e/jZ3A4IXR7BPeKYYd2nbQ6OZDeWvISMy6u6FX+6vofvoNcpsefHZv
+ Z5NsVemEM6VheIpVW6L7lA5z89O/1M4+XT8ibK5Nrb26rBq02XYinDsnG32ihpNCLQuYLJPwF9E
+ TiX5HHPWg7/PsZCRn68y4Te0aTicp5+uWTpY1PLB
+X-Received: by 2002:a05:6512:3d02:b0:5a0:ecb2:c0c2 with SMTP id
+ 2adb3069b0e04-5a131ee685dmr1018802e87.4.1772723083472; Thu, 05 Mar 2026
+ 07:04:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20260304-msm-restore-ioctls-v1-1-b28f9231fcd2@oss.qualcomm.com>
- <CACSVV03T5ceDADxbdgpitczk6rExcRpkQQ8vcedR0gEK3bLQkw@mail.gmail.com>
- <CACSVV01M7YmW1OCjUQ+QFRpXHoY055MEnBCczeG1zRuQyi8z_w@mail.gmail.com>
- <fpeatj5yrhp45rdd2qzcdtltrofr67noqc7fygsisyaquzx36o@ek3mfy32z5rv>
-In-Reply-To: <fpeatj5yrhp45rdd2qzcdtltrofr67noqc7fygsisyaquzx36o@ek3mfy32z5rv>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Thu, 5 Mar 2026 07:03:14 -0800
-X-Gm-Features: AaiRm51bDhvB43EfwoxoSRnaOyoFThqhuUzYzZWYldhnSsTl3epiIJCXPrkywEM
-Message-ID: <CACSVV02U1+or3yo5biOZ6imkkoExNPeDCmgEUWKc04ObbsikuQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: restore GEM-related IOCTLs for KMS devices
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251104100032.61525-1-marco.crivellari@suse.com>
+In-Reply-To: <20251104100032.61525-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Thu, 5 Mar 2026 16:04:32 +0100
+X-Gm-Features: AaiRm51Fwf7l48SqEBCdWz3UtmH6UJ4sv_2IzU_K0N4uV9iItuAT5-zrxEN7IQA
+Message-ID: <CAAofZF4bvBoecKaJv_sEEK54htXBv_dc23tJRrwhXrGb3O_D7A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] replace old wq(s), add WQ_PERCPU to alloc_workqueue
+To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Karas <krzysztof.karas@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDEyMCBTYWx0ZWRfXw3HU3bc1fwPS
- u3OddQOJdB408BEs6LJazN3SKXGL0SlnRBPdq+v+YjOJIeuexx9vpBXsskP/XVD0aJMHYJwYx0i
- 49k3z7zM/WXdq/ayg9hvi6wfZYRcZ45DNS/4audYDogxHIMEwlolDV0FLbRKh2dsBlkpI+spZOM
- flJWpBTJiKHkTNFdupERZigbSDIIyJF36dw4Ka8JoXkbTvjdODZPGhTo6uKPR3P6HGlo3wyH/2H
- gsFuc2GDUXk1Gd43sfkRJBmmypEOgYBo57E77Pnx3Zw95LwazeEXOtnzuiWM82r6VTjkt/C7sU/
- /VcKlBqpR5T78VAsv2LSoUDKK6UMpMCQv9jmdRckvbyn7TZ/sr8S1+q/djTJUqwPbgOy+ImLwpU
- 4derIj7wI1h9gbT1mOIuJ8bAAPW6N/o5C8H66X8J5O9/U3z9ZTY3vikR/gerCckWWLF2z6IUVB6
- k7WU6vKiyFkJXTk7Dnw==
-X-Proofpoint-GUID: e-fh1FRjB_P9u8n7Xq215amT9218Sxiq
-X-Authority-Analysis: v=2.4 cv=SqydKfO0 c=1 sm=1 tr=0 ts=69a99b3f cx=c_pps
- a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=ASjFhuaS4dzjz75NzcQA:9
- a=QEXdDO2ut3YA:10 a=rBiNkAWo9uy_4UTK5NWh:22
-X-Proofpoint-ORIG-GUID: e-fh1FRjB_P9u8n7Xq215amT9218Sxiq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_04,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
- impostorscore=0 adultscore=0 clxscore=1015 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,95 +114,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6D0FF2141B1
+X-Rspamd-Queue-Id: B8E6C2141FA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:frederic@kernel.org,m:bigeasy@linutronix.de,m:mhocko@suse.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzysztof.karas@intel.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	REPLYTO_DOM_EQ_TO_DOM(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,linux.intel.com,intel.com,ursulin.net,ffwll.ch];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	HAS_REPLYTO(0.00)[rob.clark@oss.qualcomm.com]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.com:dkim,suse.com:email]
 X-Rspamd-Action: no action
 
-On Wed, Mar 4, 2026 at 5:03=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Wed, Mar 04, 2026 at 06:59:42AM -0800, Rob Clark wrote:
-> > On Wed, Mar 4, 2026 at 6:57=E2=80=AFAM Rob Clark <rob.clark@oss.qualcom=
-m.com> wrote:
-> > >
-> > > On Wed, Mar 4, 2026 at 5:34=E2=80=AFAM Dmitry Baryshkov
-> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > >
-> > > > The MSM GBM backend uses MSM_GEM_NEW to allocate GEM buffers from t=
-he
-> > > > KMS driver, imports them into the GPU driver (msm or kgsl) and then
-> > > > uses them for rendering / blending. Commit 98f11fd1cf92 ("drm/msm: =
-Take
-> > > > the ioctls away from the KMS-only driver") dropped all IOCTLs from =
-the
-> > > > MSM KMS devices, pointing out the need to use dumb buffers, however=
- dumb
-> > > > buffers should not be used by the GPU for rendering. Restore GEM-re=
-lated
-> > > > IOCTLs for the KMS devices.
-> > > >
-> > > > Fixes: 98f11fd1cf92 ("drm/msm: Take the ioctls away from the KMS-on=
-ly driver")
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > > > ---
-> > > > Note, here I assume that dumb buffers generally should not be used =
-for
-> > > > rendering. That doesn't seem to be complete truth as Mesa kmsro on =
-MSM
-> > > > devices uses DRM_IOCTL_MODE_CREATE_DUMB to create buffers for resou=
-rces.
-> > >
-> > > That is problematic in kmsro.. (but also unsure to what degree kmsro
-> > > ever got used "in production".. the x86 drivers don't use it.  Androi=
-d
-> > > and chromeos didn't use it.  Etc.)
-> >
-> > (also, allocate from the gpu render node)
->
-> I think Asahi and VC4 allocate buffers from the GPU node and then import
-> them on the render side, but unfortunately iMX IPU driver doesn't seem
-> to support PRIME_FD_TO_HANDLE.
+Hi,
 
-I guess my general suggestion would be to allocate from GPU and import
-to display first, and if that fails then try the other way around if
-that fails.  For kmsro we could handle this by providing our own
-ro->create_for_resource().
+On Tue, Nov 4, 2025 at 11:00=E2=80=AFAM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> Marco Crivellari (3):
+>   drm/i915: replace use of system_unbound_wq with system_dfl_wq
+>   drm/i915: replace use of system_wq with system_percpu_wq in the
+>     documentation
+>   drm/i915: add WQ_PERCPU to alloc_workqueue users
 
-BR,
--R
+Gentle ping.
+I checked patchwork and seems still in the "New" state.
+
+Thanks!
+
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
