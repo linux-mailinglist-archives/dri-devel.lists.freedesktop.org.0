@@ -2,97 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIY2I7BUqWli5gAAu9opvQ
+	id 0K9ZK+1VqWng5gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:02:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:07:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E6C20F3E0
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620ED20F66E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 833C810EBF9;
-	Thu,  5 Mar 2026 10:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5D310EC01;
+	Thu,  5 Mar 2026 10:07:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dwVs+rrj";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="bT09/vEj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5600C10EBF9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:02:21 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-48371bb515eso116816425e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 02:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1772704940; x=1773309740; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
- b=dwVs+rrjPFfTTiIDxO7MRLpTf9YZKaC1K+cxdeCgVGWoEWBMGUgmkmu+gLHSma4uQf
- dDzJ6VBGCI71GMCsZijpCYJfxxw+vULPOZ0PC6Cuva5mvERAnL6u1aNU3AtkRAYcVQgs
- EJ8dN9i5TBYIzn3id8l6fReA0Y2iNihtKg4br/utawCawhBZXp9yTkitsUdkQbDcobZc
- 0QWrTYcvyPMikky843vkuavno+cFzGNwMmw5UAyzGY2k2O8CWN29MoZaMa1OKDb23W+C
- 6py2DvtUoVgocuTKqn0cbLvi9mmPbbBZCVc4Uf7uOHBTAl+zIicjYPDtZEIzofgPXf/O
- fBvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772704940; x=1773309740;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
- b=Fnq43sQOnOkMOBVJ3ApzOKGz0BlGUv+glDcg/m2oqkFMd1Thz5/dJ596MjJD9F/v4f
- XP+tmQ2akZEkl8q+22EqjdRg4l2Gz3b+9MpFOd9T2x4IEgZMLbrrEHBxlOIFIetvQG6t
- hluXrgGercm9OBHErmaIaZqTHXV2Ld5xZIJOvLj+rewco/8Lf0D1gSQP3wtTW5X3TZvl
- ufL1uKGRDsZ3xpUhJ8Vu4e5V0gYPM0fryiZVx9b0mRCTtTHsGmxlmh1Q4iYvhjdTi/NB
- 7+Sb2rUtKIanV4MapD6AA5se5LLlrylVHuqADrQNu2CmZLhx8BCK1VQiz4fT9GhTJDXr
- ccIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3h4KuSBSSq0lNlSMZ0aqkoOLPWoETcHpgK1EuAknrd2FyiFeXtvQythe/xQ9a0mgpJm7ArnuVaC4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtzrawuhpHwzZ4mDe0HIJ8y/7dDpsEqVsaes9l4IsqW8x+LN89
- 9IPohQ5ruZyFVTHfKehAGiPcAFi8m+sXNgky8bqPkRx9ygeW4GpkcRKVD5pYgFVFZqk=
-X-Gm-Gg: ATEYQzzVgkuOC23bGNGbHMOzThx6J/XfwzjHgBLcAH6ijJSOC9/OzvTeExNpeo5t190
- s/O53r17qb5u2WGHDUnazd8AViVahZF6NXYVyYsauxH2Rcgp+hoXkCLjI5QrzpRmCqiCwGFaXEN
- BPwGdubH2QOc45Zph3mEDEGcRl7g4TfhVI5ckKuBo6UX9ChOtWMatcU/U+xyFcQlrOcxozQS9e6
- 3t4NRA38J2Q/OUQ3RHVkpgdlWDeHbzI95uX035Tf25MCQ02/2iYb3wx6GPhZJzKRQntA0XxK0PJ
- dHvhuZYoIKwK8+JWyZbCaqXMBL1hnKdZNioSyIa9uYJublD918/4DuSoRihkf2BDhTVkiwOYvOd
- ZZILkEc5mqMsu6sZ3rWqrrQKW8GlZugv9ZwrVMENFex5n1u2daW1tvPaWod8rCCHTLBQRDviAn+
- drZq8zSql6hQywPihIW2zdTugpFEzs
-X-Received: by 2002:a05:600c:a07:b0:47f:b737:5ce0 with SMTP id
- 5b1f17b1804b1-4851988f31dmr86977045e9.23.1772704939633; 
- Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Received: from salami.lan ([212.129.84.244]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4851fade9fdsm59453655e9.4.2026.03.05.02.02.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Message-ID: <030737fd255a49288349f06e8c1217a126ea9081.camel@linaro.org>
-Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where missing
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, 	dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 	linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, 	linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Peter Griffin	 <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Heiko
- Stuebner <heiko@sntech.de>
-Date: Thu, 05 Mar 2026 10:02:16 +0000
-In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-8 
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC5410E28C;
+ Thu,  5 Mar 2026 10:07:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1772705241; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JyfVnP4+KszQmwuoXFZ8ruIZigZfqrPygzLjs/1DRhk05ABitc8xkW/a70ttnvAIlnkhv9vm5jBb1evLXmu8LLKNpxw0hcUJUB1WUcIBnGdNgdCbYmZclDOKZNoQSjlAkIB6Aku5ctzZ/EEhO4TsAa+tImSBL5aG5oKKh68gKqg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1772705241;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=nszGsxugf+CGTQes71iM3DAN6Pzn2MLUlpTJlv1vBJI=; 
+ b=TsmeHq/rZ93VEmsTOB6uoSvG8hVoDmDbtT5QPjlJFPmzWzfvMdcqJD2mNWBv/B6p/6hRcYN8bDX25/lPRMYkDE4+sLlAyM3RvWVQcBlkDBFB/6ErcCHquAoL0WCQEtdtR8x9GMozNsxBLQsYKGNLz4SqWLjSkWHmUGuVByLmdts=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772705241; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=nszGsxugf+CGTQes71iM3DAN6Pzn2MLUlpTJlv1vBJI=;
+ b=bT09/vEjLQZtoqDIHdb9LiaSgYzDW0jBTU6ABmJ+Zndtis8AZZw4PxDwFtuuAz7J
+ z6/YDMnfDNqNed5d0JD1VmhrN0hraVni8ZJSH9/0onUpXW4Pbtby87TuYDDCYnGXAfu
+ 7ZKGkVloRwcZglAOZWYmlVHdKU4MLxKWdWcfbN30=
+Received: by mx.zohomail.com with SMTPS id 1772705239022996.0545573857447;
+ Thu, 5 Mar 2026 02:07:19 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Andri Yngvason <andri@yngvason.is>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
+Date: Thu, 05 Mar 2026 11:07:09 +0100
+Message-ID: <5733371.31r3eYUQgx@workhorse>
+In-Reply-To: <20260305-just-oxpecker-of-reward-e05e4f@houat>
+References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
+ <20260305-just-oxpecker-of-reward-e05e4f@houat>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,56 +95,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 40E6C20F3E0
+X-Rspamd-Queue-Id: 620ED20F66E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	CTE_CASE(0.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.oltean@nxp.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[andre.draszik@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,glider.be,gmail.com,sntech.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[40];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,yngvason.is,tuxedocomputers.com];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,linaro.org:dkim,linaro.org:email,linaro.org:mid]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Wed, 2026-03-04 at 19:57 +0200, Vladimir Oltean wrote:
-> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
-> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
-> call runtime PM operations without including the proper header.
->=20
-> This was provided by <linux/phy/phy.h> but no function exported by this
-> header directly needs it. So we need to drop it from there, and fix up
-> drivers that used to depend on that.
->=20
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Thursday, 5 March 2026 10:28:11 Central European Standard Time Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 4af91e252fbd..b5bc93856ad1 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -579,6 +579,91 @@ enum drm_output_color_format {
+> >  	DRM_OUTPUT_COLOR_FORMAT_YCBCR420,
+> >  };
+> >  
+> > +/* Do not forget to adjust after modifying &enum drm_output_color_format */
+> > +#define DRM_OUTPUT_COLOR_FORMAT_COUNT 4
+> 
+> Maybe we can put that as the last variant of our enum so we don't have
+> to always update it?
 
-> =C2=A0drivers/phy/phy-google-usb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+That will then cause a bunch of potential warnings for any of the switch
+cases that convert from one thing to the other. At least my LSP indicated
+so. I guess I can ignore those (and wouldn't be surprised if they were
+already ignored by the Makefiles and the LSP just didn't pick up on this
+somehow.) I'll do that in the next revision if you're fine with this.
+Potentially, I'll have to add a default case to some switch statements
+that just does a WARN() or something.
 
-For Google:
-Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+I do wish C had a better way to deal with setting a symbol to the number
+of valid enum values without making it itself a valid enum value.
+
+> 
+> > +/**
+> > + * enum drm_connector_color_format - Connector Color Format Request
+> > + *
+> > + * This enum, unlike &enum drm_output_color_format, is used to specify requests
+> > + * for a specific color format on a connector through the DRM "color format"
+> > + * property. The difference is that it has an "AUTO" value to specify that
+> > + * no specific choice has been made.
+> > + */
+> > +enum drm_connector_color_format {
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> > +	 * helpers should pick a suitable color format. All implementations of a
+> > +	 * specific display protocol must behave the same way with "AUTO", but
+> > +	 * different display protocols do not necessarily have the same "AUTO"
+> > +	 * semantics.
+> > +	 *
+> > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> > +	 * bandwidth required for full-scale RGB is not available, or the mode
+> > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> > +	 * YCbCr 4:2:0.
+> > +	 *
+> > +	 * For display protocols other than HDMI, the recursive bridge chain
+> > +	 * format selection picks the first chain of bridge formats that works,
+> > +	 * as has already been the case before the introduction of the "color
+> > +	 * format" property. Non-HDMI bridges should therefore either sort their
+> > +	 * bus output formats by preference, or agree on a unified auto format
+> > +	 * selection logic that's implemented in a common state helper (like
+> > +	 * how HDMI does it).
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> > +	 * not subsampled)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> > +	 * with horizontal subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> > +	 * with horizontal and vertical subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > +};
+> > +
+> > +/* Do not forget to adjust after modifying &enum drm_connector_color_format */
+> > +#define DRM_CONNECTOR_COLOR_FORMAT_COUNT 5
+> 
+> Ditto
+> 
+> Maxime
+> 
+
+
+
+
