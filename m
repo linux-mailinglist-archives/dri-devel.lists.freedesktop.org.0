@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFzrHmgzqWnM2wAAu9opvQ
+	id tqxFGOYzqWk73AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:40:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:42:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480FB20CCEC
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13B520CD00
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:42:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9896910EB27;
-	Thu,  5 Mar 2026 07:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E8D10EB2C;
+	Thu,  5 Mar 2026 07:42:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C+YM+nzv";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFC410EB27
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 07:40:18 +0000 (UTC)
-Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
- by APP-01 (Coremail) with SMTP id qwCowAC3XWldM6lpr15HCQ--.972S2;
- Thu, 05 Mar 2026 15:40:14 +0800 (CST)
-Message-ID: <127da2b15f3b748cbc1985847cb318b9699b9682.camel@iscas.ac.cn>
-Subject: Re: drm AI patch review hacks
-From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-To: Dave Airlie <airlied@gmail.com>, dri-devel
- <dri-devel@lists.freedesktop.org>,  Sima Vetter <sima@ffwll.ch>
-Cc: "clm@meta.com" <clm@meta.com>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Date: Thu, 05 Mar 2026 15:40:13 +0800
-In-Reply-To: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
-References: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE1510EB2B;
+ Thu,  5 Mar 2026 07:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772696545; x=1804232545;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EQd9Rf8uE/hSTMzbp+XoV/wKyKYJ7NNFkXwhOK8CIso=;
+ b=C+YM+nzv1EroWQFLsqg19bkDiWJPI5l0hnOfJRFnNs4R9zeuRjBO7aVl
+ ARcN2AOnsAljc3lghQZ8+fGxk04zfSx4xEqfAPJlc1Dxdwor1dC2Q9S9n
+ R5kZWADQVIwpsUl48cKDhEZICC9RtQt0ep0vcdMs2UMV/xyP8PTq9AnTy
+ c0t2NelnxWOpZN53yH0cCiEPKlJ7abLctIpR1Hff7x5CuJ1it57oEcx84
+ g5HX3CYDJi3m+rUGng3obg/kBEf1Do81tkSdW8II2vDAQLS8UQSrY0kq2
+ uoUyIKC/futLkXSj/3/uxi1njFfsfgurmfA/YptMURSZ30xRIfblMYWan A==;
+X-CSE-ConnectionGUID: CkvqEyJ0TW2O22lyO7HPzQ==
+X-CSE-MsgGUID: p2J1uEixQv6Nxy98nUaKbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77645837"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="77645837"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2026 23:42:24 -0800
+X-CSE-ConnectionGUID: 1i9vcZEWS/Oc9jTm9H3tpA==
+X-CSE-MsgGUID: Ndu871dWTb2loJY4aQrPog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="217743401"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.55])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2026 23:42:19 -0800
+Date: Thu, 5 Mar 2026 09:42:15 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <aakz17Jx3Ye9Vqci@jlahtine-mobl>
 MIME-Version: 1.0
-X-CM-TRANSID: qwCowAC3XWldM6lpr15HCQ--.972S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuw17JFy8KrWUXr4rtw4rGrg_yoW7Ar1fpF
- WrJr4UCr4DZF1kXw1kWa1I93yruay8ua48XFn5XrnrZrs8X3W29a1qkFyYkryDKFn0q3W2
- q3y8Z3WkJryqyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkYb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k2
- 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
- 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
- IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
- AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
- jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5L18JUUUUU==
-X-Originating-IP: [112.94.103.14]
-X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,173 +82,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 480FB20CCEC
+X-Rspamd-Queue-Id: F13B520CD00
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.61 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:sima@ffwll.ch,m:clm@meta.com,m:torvalds@linux-foundation.org,s:lists@lfdr.de];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org,ffwll.ch];
-	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_XOIP(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[joonas.lahtinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.903];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gitlab.freedesktop.org:url]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gitlab.freedesktop.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Dave,
+Hi Dave & Sima,
 
-It looks like the review bot does not see any extra contexts than those
-included in the patch file?
+Here goes drm-intel-fixes PR toward 7.0-rc3.
 
-I am trying to address the issues (if valid) raised by the bot of my
-patchset `[PATCH drm-misc-next 0/3] drm: verisilicon: convert
-drm_format to vs_format in atomic_check' .
+Just one PSR display fix for Lenovo T17 G7 and a dependency patch.
 
-In the bot review of 3/3, I got the following review note:
+Regards, Joonas
 
-```
-After this patch, the format is converted and stored in atomic_check.
-However, we should verify the existing
-`drm_atomic_helper_check_plane_state()` call (if any) happens after our
-format validation. Looking at the patch, I don't see where plane state
-validation happens.
-```
+***
 
-However, the function already returns with
-`drm_atomic_helper_check_plane_state()` call at the tail. It's not part
-of the patch (because `git diff` just truncates at the code acquiring
-the new CRTC state, which is prequisite for calling
-`drm_atomic_helper_check_plane_state()` ), but always part of the
-codebase.
+drm-intel-fixes-2026-03-05:
 
-This shows that the bot cannot see the existing codebase, but only the
-patches themselves. This sounds like some problem.
+- Fix for #7284: Lenovo T14 G7 display not refreshing
 
-Hope this could be fixed, although it sounds like this will make the
-bot more token-burning.
+The following changes since commit 11439c4635edd669ae435eec308f4ab8a0804808:
 
-Thanks
-Icenowy
+  Linux 7.0-rc2 (2026-03-01 15:39:31 -0800)
 
-=E5=9C=A8 2026-02-12=E5=9B=9B=E7=9A=84 05:44 +1000=EF=BC=8CDave Airlie=E5=
-=86=99=E9=81=93=EF=BC=9A
-> Hi all,
->=20
-> This came up at kernel maintainers summit, so I've been trying to see
-> what I can piece together, and have a small demonstration that may be
-> useful to some people.
->=20
-> I didn't want to pollute the mailing list with AI patch reviews, so I
-> decided to set up a public-inbox that the reviews are pushed into.
-> This isn't currently automated, I'm just asking claude to pull the
-> last 2-3 days of patches and review what is new every so often.
->=20
-> The workflow use lei to pull mails to local PC, use review-prompts +
-> my own prompt to try and review a patch series, both as a complete
-> work, and per-patch reviews, then create the reply emails and put
-> them
-> into a public inbox git tree for publishing.
->=20
-> I've no idea if it's using review-prompts properly or at all, this is
-> all very vibe coded so far.
->=20
-> https://lore.gitlab.freedesktop.org/drm-ai-reviews/
->=20
-> This is a public inbox, you can also git clone
->=20
-> https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox
->=20
-> I'm currently just using my Red Hat provided claude with opus 4.6,
-> until I get told I've burned enough money.
->=20
-> The list below are the patches with reviews, if someone wants to look
-> and give feedback on whether the reviews for their series are useful,
-> find any bugs or regressions, that would be cool.
->=20
-> I've bcc'd anyone who has a patch on the list.
->=20
-> This is also just an experiment to see what might stick, it might
-> disappear at any time, and it probably needs a lot of tuning.
->=20
-> Thanks,
-> Dave.
->=20
-> [PATCH v2 0/2] drm/buddy: Documentation and internal helper cleanup
-> [PATCH] drm/amd/display: Remove duplicate include
-> [PATCH -next v9 0/3] rust: Add CList and GPU buddy allocator bindings
-> [PATCH V1] accel/amdxdna: Fix suspend failure after enabling turbo
-> mode
-> [PATCH V1] accel/amdxdna: Fix dead lock for suspend and resume
-> [PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
-> [PATCH v2 0/2] drm/vkms: Fix bad matrix offset component
-> multiplication
-> [PATCH 1/2] accel/amdxdna: Fix NULL pointer dereference in mailbox
-> channel cleanup
-> [PATCH] drm/msm: always recover the gpu
-> [PATCH drm-misc-next] drm: verisilicon: assign git tree to drm/misc
-> in
-> MAINTAINERS
-> [PATCH drm-misc-next 0/3] drm: verisilicon: convert drm_format to
-> vs_format in atomic_check
-> [PATCH v3 3/3] drm/panel: add LXD M9189A panel driver
-> [PATCH v1 0/2] ARM: tegra: document Tegra20 HDMI port
-> [PATCH] fbcon: Declare struct fb_info.fbcon_par as of type struct
-> fbcon_par
-> [PATCH v1] drm/amdgpu: fix sync handling in
-> amdgpu_dma_buf_move_notify
-> [PATCH v9 0/7] User readable error codes on atomic_ioctl failure
-> [PATCH] accel/qaic: Fix dma_free_attrs() buffer size
-> [PATCH] drm/radeon: Add HAINAN clock adjustment
-> [PATCH] drm/amdgpu: Add HAINAN clock adjustment
-> [PATCH v9 01/15] drm/bridge: analogix_dp: Add
-> &analogix_dp_plat_data.next_bridge
-> [PATCH v2 0/5] drm/ci: add new jobs, uprev IGT and mesa
-> [PATCH] drm/bridge: lt9611: Remove DRM_BRIDGE_OP_MODES flag
-> [PATCH 0/6] Support for the Pixel 3a XL with the Tianma panel
-> [PATCH -next v8 0/3] rust: Add CList and GPU buddy allocator bindings
-> [PATCH] drm/bridge: samsung-dsim: Fix memory leak in error path
-> [PATCH] drm/rockchip: vop2: Use drm_err_ratelimited() for wait
-> timeouts
-> [PATCH] fbcon: Remove struct fbcon_display.inverse
-> [PATCH 1/5] dma-mapping: avoid random addr value print out on error
-> path
-> [PATCH v3 2/6] drm/gem-shmem: Test for existence of page in mmap
-> fault handler
-> [PATCH] gpu: host1x: Fix passing zero to ERR_PTR in
-> host1x_iommu_attach()
-> [PATCH AUTOSEL 6.18-5.10] drm/tegra: hdmi: sor: Fix error: variable
-> =E2=80=98j=E2=80=99 set but not used
-> [PATCH] drm/mediatek: dsi: Store driver data before invoking
-> mipi_dsi_host_register
-> [PATCH] drm/i915/guc: fix corrupted copyright symbols in selftest
-> files
-> [PATCH v7 4/5] ARM: dts: microchip: sam9x7: Add GFX2D GPU
-> [PATCH] drm/panel: ilitek-ili9882t: Fine-tune HFP for tianma,
-> tl121bvms07-00
-> [PATCH v4 1/8] drm/amdkfd: Add userptr batch allocation UAPI
-> structures
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2026-03-05
+
+for you to fetch changes up to a99cac460ddeb3705cb54a8421339f351586b25d:
+
+  drm/i915/psr: Fix for Panel Replay X granularity DPCD register handling (2026-03-04 15:26:08 +0200)
+
+----------------------------------------------------------------
+- Fix for #7284: Lenovo T14 G7 display not refreshing
+
+----------------------------------------------------------------
+Jouni Högander (2):
+      drm/dp: Add definition for Panel Replay full-line granularity
+      drm/i915/psr: Fix for Panel Replay X granularity DPCD register handling
+
+ drivers/gpu/drm/i915/display/intel_psr.c | 11 ++++++++---
+ include/drm/display/drm_dp.h             |  2 ++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
