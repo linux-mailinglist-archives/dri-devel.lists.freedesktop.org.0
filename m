@@ -2,108 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOvFNF73qGktzwAAu9opvQ
+	id is3nDjkBqWkb0QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 04:24:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 05:06:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4479720A80D
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 04:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5158B20AB20
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 05:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7227B10E161;
-	Thu,  5 Mar 2026 03:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5F610EAF2;
+	Thu,  5 Mar 2026 04:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DKGavACx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="My3YXpbT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E86610E161
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 03:24:09 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-506bad34f51so65287081cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 19:24:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772681048; cv=none;
- d=google.com; s=arc-20240605;
- b=DBbxXh4/rvOlO8XDwzKqTQZbvtfFeZ5Xyc5Ol+4ajOssq/NnRh1Fe+/cunV1X0RL+/
- u+AUrp/M/crgWF09JI3Tdvf81fs1+nilTlL5Vcl/zMF17YqGKjIrQKCPzMtAiM54Q9+o
- ap4J0BF34aohBPXdBmycn4F4ifJU7bO4IYXMwYdD5gMNfhc2CDIjZONMxkazccEEw1GN
- 7TqhWvdUPimKWGnHHf/au4qEEj8grDRDZLfMKdrgi6E6iOWX7XAem1wmbtZcPfKYKtjp
- wwCQGmc78OcGxXCDjx1n2EkKee6DFZhM4Z7NpESUYevQyBOgSj3FEgS+k4HkW/fIHoCO
- 2kmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=G5a9YB3C/nkoeFRYthM3M1t8LnTG7Q+64VSx76RGpnw=;
- fh=IqNSxu0HZPWQtX2jdRYQ55JV8sWAQ8wUicHwAFTxM/E=;
- b=l2eZVxfkln3BHISRRqYhMM4nLqx7Bet2K1ZkkzBc/3XpE46WP6dXmY72gAI9LFOuxj
- FXprTx7uaHKgHUk9n2sAuKzxnRz5KXrzq9xIk+L2cib2IhsshGZWnO1eQ2RUD+g29OrW
- w0cPje03IypNfafkE5j10N8BU/mRlwUPcZkquxSgRuyDIbEBkyrHtu/xNiA6xS60EeM/
- TRmUKNPdtREoEIGSs6CNJCYEt4RUMuPTAcL5FjPxLGr+WFqUnR2H5IXahrBAL2skuU19
- dcth1u44os72noVVTIHowImYwL3EzAVuw3cpDTUoUQq9tAcpaj3cemTcoP3VgxVLsYyb
- CoBw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365D910EAF2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 04:06:13 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2ab46931cf1so54967225ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 20:06:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772681048; x=1773285848; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=G5a9YB3C/nkoeFRYthM3M1t8LnTG7Q+64VSx76RGpnw=;
- b=DKGavACxYsYsgxejjFt5w5eBH8GohQwuM5kowficqvM6uA8Dz9z7Aawqz8gbOC/93t
- 09LeGEOSqIb8iHCHvNAmzOiCrQek00Eu84F2T0tKLKJjUMe4H7brteJ1dUbMhEbjzidY
- YAKUwwLPv/hHO+w+jthlVtqztxsTNjQhnBxSUtJooTXVcQthVjfm0FGdb8aNNG0WZ6iq
- n4e3L3ayw1aAeSZMtzfJqA+b8TXrkNjj+NIZSkpX2kzFvDR/9Fd5X3T4D4aQ9mqplJZk
- XePEzJe1HFY5F+IOMwWHmPZiAt386Ldz02asxtFb1ApNjG5Q+Ojy8bJS/fDQrgXSPLwO
- Qh3A==
+ d=gmail.com; s=20230601; t=1772683573; x=1773288373; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hzKoIMit9qZ03VESDYjaexQZSnD/V7ffdmJAeddmBhw=;
+ b=My3YXpbTWgIY8qHmCikZ3M0IevlFzfmCqbFA7cNj4YDl+Ta9eCD5mW5nGgZHbvhFxj
+ s6vtfVkIYBwvB6g5ur36Kt9gxDWdBmEPkO3OX18bsBB314OfXNBkGHk5r9pieZqMz1iN
+ C6OqT61vaif9GCErppCi07yHtDIFED02dCq8alTGxoP9J4GKycpGmWZbyz5bFdGH91H3
+ XeHooKjJxMhNyHxWjwwV4t6pCNMde1e4QCysi+37cNUoCz9shVZCy+77KQqDKWAroh23
+ KcO53ba3WSsYhxe86osSe+hBZLV+B7I/A7qIq1tkAqipdeoJJlNG1AqoFyeTC5yyDLDo
+ tMIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772681048; x=1773285848;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G5a9YB3C/nkoeFRYthM3M1t8LnTG7Q+64VSx76RGpnw=;
- b=d4ACGLO/UtJuXnNPWOYK6SZ5405oTz7lNEuRBFe/akxh3FUhvUdAFGRFDGu1/AGMul
- UPZcEsp5MQWMglU7TVHIyc+EXm87aKK1rmeEN+/BxxfRsdAr9PE2K29rtxwP4aXdC3oP
- +01h9EPJAIzAaPz9W9k1sqyL8ai/yuzVd4Z9UXjk4zb4u40GseFL2NyLrIettrmvJndR
- iOmOLXrBykzpf7a285XJdjTU7azjNuJHWBZMeGuWRxfOgM5x3W7EOp2jL8GAwIuOR/FO
- 37BJKwimj8mZTKhgYH18ZTXNoL/3T7O1XfqTWHRodHkr4wx8pI1lLxYca82cm2M4S9lg
- Q+Qw==
+ d=1e100.net; s=20230601; t=1772683573; x=1773288373;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hzKoIMit9qZ03VESDYjaexQZSnD/V7ffdmJAeddmBhw=;
+ b=PwzqLDjv7OsRLr7g+nqgxVcSv8eiGtUc5rpZmCtdMMogwz2GGwMHgZ3Dfqu5bBN/R1
+ 8/SSnpqsavPdVntt1DDEWmXhaAxdNkBBORN9atCVE3e9zTrSTZAZ54X9NNNXA0mMPNxA
+ +aJImoY/f3e6shrMtZ/ppNXDIDg9ra5e5dRFLU5Q4nvUXSwY30KbJeg0nciuy7YyDL+M
+ 6yYODoa+oWN05P0IBZOCPefU4W+VGekeIinKgx/bBoYwGZ1NSgSO8ErUE3CCMMfbLMDr
+ MCZ02ciLCmS+JotZzgDnsVw+UuNTf1C0sDBHb1X3hCyIYRxhhhzjmspjgYm+bT6uf9zP
+ GLZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJd462fiMHFpQdcL/Qx0eZaPXAvoGTQnC39jbFASeRmK31/Lwg46+XQzi2JsIzcqmHXZ3QnVCHjXE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw70yviyuoXULkK13L+1KvUcLLwbPBJFeYvwM9mji1bsgIY3YI9
- /gYInJFJqYo3QWJriFF0N5lLSUkQp9A7aWbSL4r6mCxJ64+hTQtm5WDrW+6un8r/2rcGuZQQyKB
- IReYKW1JSxEzVhXtiy0k5rrnIuQKv680=
-X-Gm-Gg: ATEYQzwpL2f49RCvhZxikKp/YQ6jM4Wt/MYjhI5KjTBx3YHmbmOTybX/Lyo5WGbNwtL
- qZBXY/Gtcob08dJURuhtrq0TEZBayfe6wUXBzWM58tkNWj5lcnn8r+eY5lgdle+PKleN8sPlrp8
- WxEw0aCVKAIaFJdF9RbcIm0mriTsuL6L2HxWXXcaNxnsezIcAeBqgCLuojA+MLrIpzjxnXU09vk
- fQqgr+H+ih/yC1A4GtTR0Zx3bIf5+jxnk2rE/CrKbrOPNlc8x0Da9L3mhmM+tENJuZmAbM+DvSb
- xkIM8bX3himtU3G4mVmrfdEhC94FY1gseZsprAPf3jKr1pWI77eiPba8FqLxPOhfzUI=
-X-Received: by 2002:ac8:5a82:0:b0:506:2041:13ae with SMTP id
- d75a77b69052e-508db363745mr51559771cf.43.1772681048271; Wed, 04 Mar 2026
- 19:24:08 -0800 (PST)
+ AJvYcCXBSOEt2rkLlilzpJSgQ9EJicepTUgveRmPckwjhoGMM8diR/hNvh7ls4TbDgxsA1P0DcERsT/waQQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztJ11PRMriALbOWel81FVUfDHcE76+1AkVcl2tOVRigIJ2od/Y
+ OVAiFpYFbSAc8J4dpyO69Q2L5Ebh/IIWtdnKFzMtvVVQztPXM49Yz3K7
+X-Gm-Gg: ATEYQzyKMHYIfhZGj2ixaX0GHAC9xeq0hrQk7D6DcH3hHW51Pypnzw8zLcLGMUPdZhv
+ IhzOAgzWqw1yyJmbu0Hu6ORhHYebeXb32NvRw/1Cuaarl8XrcGJWxWSYwtDAoWKj5nneVzUvHID
+ oVectTuMd+Y612XTHGPxfJWDfd+FXMAlRx1Vl9zX7ECA6/mNYpu0B7IT9YjiA0ggu4o/s3oSe1P
+ KNx92ktZmJwqDCVvTZXNSLc+w+Lj5/yss1yqBJkS0JL78kYFjo7WSOgit7IJM05Fh9yA4JhtbuZ
+ SJGSo2mmaKR2DU58DP60aUOmmJN79VHcAtmv9IIAD7AlVRWPe7Gmb8iurH7UtzMS+AhdxGu8RwE
+ ZX2RzYV+SI3ZxRiSPeYfCsz6ZHxg7vZ1LO38y8utgzCNv+o7kHxveCpeaBYjw51UmoZkybDo/p2
+ 6DL3L8QgHizM/QMJRi1q6FxJFmAFdLI444EsTVqEiS2jtZEpIHdzgbGFkz47henw1eQB5TToE9o
+ JppJ99GOWcSKBARnUHTLZberb9U74I7p/iLSMeodZDfQTTQTJR6aGoYBH1ONZ62IMyodyfGlC/g
+ MIrS8JIOwYub
+X-Received: by 2002:a17:902:e845:b0:2ae:4f4f:1672 with SMTP id
+ d9443c01a7336-2ae75c44e3amr7901535ad.24.1772683572458; 
+ Wed, 04 Mar 2026 20:06:12 -0800 (PST)
+Received: from ?IPV6:2601:1c0:5780:9200:50f9:a2c6:c0a6:8352?
+ ([2601:1c0:5780:9200:50f9:a2c6:c0a6:8352])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2adfb5b257esm211227605ad.4.2026.03.04.20.06.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Mar 2026 20:06:12 -0800 (PST)
+Message-ID: <5688d830-b8bc-4495-9b5b-0f6ee85df51a@gmail.com>
+Date: Wed, 4 Mar 2026 20:06:11 -0800
 MIME-Version: 1.0
-References: <20260224020854.791201-1-airlied@gmail.com>
- <20260224020854.791201-8-airlied@gmail.com>
- <ee914ffb-5c3d-4d41-abdb-5ed02db326c6@amd.com>
- <CAPM=9txUuS-qzA+gX2DvTuYR2OZ79RG86FuDA6czkpuJ_SR6KQ@mail.gmail.com>
- <4fddf319-50c4-40ab-9e36-04d629a8855e@amd.com> <aaWZrTZGsxxjbBYv@linux.dev>
- <8efef755-e429-4cec-bef4-b15b3f9f4632@amd.com> <aaWuoe_CQwbtcxEY@linux.dev>
- <63dccd9c-f2e5-421e-ac3a-a7c13cec9121@amd.com> <aaXEDLpXLROBO7To@linux.dev>
- <391bca8e-3685-49d5-8b30-93ab4eb1e84a@amd.com>
-In-Reply-To: <391bca8e-3685-49d5-8b30-93ab4eb1e84a@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 5 Mar 2026 13:23:56 +1000
-X-Gm-Features: AaiRm52xxbcXT1ZoLRq878o0n1p8F3LnOqlotJTyAdn9potmOsnXs1KB7tA9evo
-Message-ID: <CAPM=9tz1iT9pkODPH=Bs=FAFr3To78Spt2QHuNGdoFFJ_6P74w@mail.gmail.com>
-Subject: Re: [PATCH 07/16] memcg: add support for GPU page counters. (v4)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- cgroups@vger.kernel.org, Dave Chinner <david@fromorbit.com>, 
- Waiman Long <longman@redhat.com>, simona@ffwll.ch, tjmercier@google.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panel: novatek-nt36672a: Convert to
+ mipi_dsi_*_multi() helpers
+To: Doug Anderson <dianders@chromium.org>
+Cc: sumit.semwal@linaro.org, neil.armstrong@linaro.org,
+ jesszhan0024@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260303035508.8288-1-chintanlike@gmail.com>
+ <CAD=FV=WH-vUJ5HtGRWyjeKS0e_c4qZ+7Y3m8bbTg8atQ8-QdwQ@mail.gmail.com>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <CAD=FV=WH-vUJ5HtGRWyjeKS0e_c4qZ+7Y3m8bbTg8atQ8-QdwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,58 +103,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4479720A80D
+X-Rspamd-Queue-Id: 5158B20AB20
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:shakeel.butt@linux.dev,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mhocko@kernel.org,m:roman.gushchin@linux.dev,m:muchun.song@linux.dev,m:cgroups@vger.kernel.org,m:david@fromorbit.com,m:longman@redhat.com,m:simona@ffwll.ch,m:tjmercier@google.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dianders@chromium.org,m:sumit.semwal@linaro.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-> >>
-> >> What we would need (as a start) to handle all of this with memcg would be to accounted the resources to the process which referenced it and not the one which allocated it.
-> >
-> > Irrespective of memcg charging decision, one of my request would be to at least
-> > have global counters for the GPU memory which this series is adding. That would
-> > be very similar to NR_KERNEL_FILE_PAGES where we explicit opt-out of memcg
-> > charging but keep the global counter, so the admin can identify the reasons
-> > behind high unaccounted memory on the system.
->
-> Sounds reasonable to me. I will try to give this set another review round.
 
-I think I will try and land the first 6 patches in this series soon,
-this adds the basic counters, and ports the pool to use list_lru, so
-drops a bunch of TTM specific code in favour of core kernel code,
+Hi Doug,
 
-They also don't create any uapi, it's just two counters to expose in
-the VM stats that the GPU is using that memory.
+Thanks for the detailed review — this is very helpful.
 
-Dave.
+Good catch on a few of these.
+
+> 
+> On Mon, Mar 2, 2026 at 7:55 PM Chintan Patel <chintanlike@gmail.com> wrote:
+>>
+>> -static int nt36672a_panel_power_off(struct drm_panel *panel)
+>> +static void nt36672a_panel_power_off(struct drm_panel *panel)
+>>   {
+>>          struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+>> -       int ret = 0;
+>>
+>>          gpiod_set_value(pinfo->reset_gpio, 1);
+>>
+>> -       ret = regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies), pinfo->supplies);
+>> -       if (ret)
+>> -               dev_err(panel->dev, "regulator_bulk_disable failed %d\n", ret);
+>> -
+>> -       return ret;
+>> +       if (regulator_bulk_disable(ARRAY_SIZE(pinfo->supplies), pinfo->supplies) < 0)
+>> +               dev_err(panel->dev, "regulator_bulk_disable failed\n");
+> 
+> nit: IMO It would have been OK to keep the local "ret" variable here,
+> but I won't insist. That would have allowed you to keep printing the
+> error code, which is nice. It's OK to have "ret" as a local variable
+> even if you aren't returning it...
+> 
+
+I’ll restore the local ret variable in nt36672a_panel_power_off() so we 
+continue printing the regulator error code even though the function now 
+returns void.
+
+
+>>   }
+>>
+>>   static int nt36672a_panel_unprepare(struct drm_panel *panel)
+>>   {
+>>          struct nt36672a_panel *pinfo = to_nt36672a_panel(panel);
+>> -       int ret;
+>> +       struct mipi_dsi_multi_context dsi_ctx = { .dsi = pinfo->link };
+>>
+>>          /* send off cmds */
+>> -       ret = nt36672a_send_cmds(panel, pinfo->desc->off_cmds,
+>> -                                pinfo->desc->num_off_cmds);
+>> +       nt36672a_send_cmds(&dsi_ctx, pinfo->desc->off_cmds,
+>> +                          pinfo->desc->num_off_cmds);
+>>
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "failed to send DCS off cmds: %d\n", ret);
+>> -
+>> -       ret = mipi_dsi_dcs_set_display_off(pinfo->link);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "set_display_off cmd failed ret = %d\n", ret);
+> 
+> Probably also need a `dsi_ctx.accum_err = 0;` here? Old code still
+> sent the "display off" command even if nt36672a_send_cmds() returned
+> an error I think?
+> 
+
+You’re right about needing to reset dsi_ctx.accum_err before calling 
+mipi_dsi_dcs_set_display_off_multi(). The old code would still send the 
+display-off command even if nt36672a_send_cmds() failed, so I’ll add the 
+reset there to preserve the original behavior.
+
+>> +       mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+>> +       /* Reset error to continue power-down even if display off failed */
+>> +       dsi_ctx.accum_err = 0;
+>>
+>>          /* 120ms delay required here as per DCS spec */
+>>          msleep(120);
+>>
+>> -       ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->link);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "enter_sleep cmd failed ret = %d\n", ret);
+>> +       mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+>>
+>>          /* 0x3C = 60ms delay */
+>> -       msleep(60);
+>> +       mipi_dsi_msleep(&dsi_ctx, 60);
+> 
+> I think this one should still be a regular msleep(60), right? Prior
+> code still did msleep(60) even if mipi_dsi_dcs_enter_sleep_mode()
+> returned an error, so you probably still should too.
+> 
+
+Agreed on keeping the msleep(60) as a regular sleep. Since the old code 
+always slept regardless of DSI errors, using mipi_dsi_msleep() there 
+would subtly change the power-down timing semantics.
+>> -       ret = nt36672a_panel_power_off(panel);
+>> -       if (ret < 0)
+>> -               dev_err(panel->dev, "power_off failed ret = %d\n", ret);
+>> +       nt36672a_panel_power_off(panel);
+>>
+>> -       return ret;
+>> +       return 0;
+> 
+> I didn't notice before, but I guess this is a minor change. Previously
+> nt36672a_panel_unprepare() would ignore all errors (other than
+> printing) except it would return the final error return from the
+> regulator_bulk_disable() call. Now it will also ignore the error from
+> the regulator_bulk_disable().
+> 
+> IMO this is fine, but since it's a slight change in functionality it
+> could be noted in the commit message. Something like:
+> 
+> This patch is intended to functionally be a no-op, though there is one
+> slight change. Previously a failure in regulator_bulk_disable() would
+> have caused nt36672a_panel_unprepare() to return an error. Now it
+> won't. No other errors in nt36672a_panel_unprepare() were propagated,
+> so this makes things consistent.
+
+
+I’ll also note in the commit message that nt36672a_panel_unprepare() no 
+longer propagates the regulator error, since previously that was the 
+only error returned and all others were ignored.
+
+I’ll send a v3 shortly incorporating these adjustments.
+
+Thanks again for the careful review.
+
+-Chintan
