@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sI81DVtHqWm33gAAu9opvQ
+	id 4AarMV1HqWnw3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:31 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A934B20DF13
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7198220DF2C
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2CC110EBA8;
-	Thu,  5 Mar 2026 09:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77CEE10EBBC;
+	Thu,  5 Mar 2026 09:05:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n3Q1hDNF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jC4+HHcu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D8010EBB7;
- Thu,  5 Mar 2026 09:05:28 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97A510EBB8;
+ Thu,  5 Mar 2026 09:05:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 34F526183D;
- Thu,  5 Mar 2026 09:05:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E9BC19423;
- Thu,  5 Mar 2026 09:05:26 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id C2CBE44728;
+ Thu,  5 Mar 2026 09:05:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24164C116C6;
+ Thu,  5 Mar 2026 09:05:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772701526;
- bh=8B8JtzDFuZLy9KjteSKdgn1Z1TYnFMm7twCZx63a4Uw=;
+ s=k20201202; t=1772701529;
+ bh=pmuV9XT5xz4TIGCX33nAahI5S0bV94XYGEmoM0J00kE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=n3Q1hDNFP4pOAUAdjmu14HR7I1BlYaqkeJhRZpn4BDztr1Kyctwn7aSNusQWjawXC
- YNd6OBz+mVW40oB8C73mWXXXfxWuraCz/9w+YlokDxEgKZpmepa4M1qwEHB8QN6IK/
- S0ijgL8jaDQlmFWJN/nxhCzrp7ETSwmL1XgXnF5So9xq6QkveUEXkf9atXCozQIead
- pBlPeWD1ib2XQsHj9sCUDSKw8bsJ91JQGV49uEzVREezS3kgEclSkp8NNyrXSk89LW
- jqMPXnigjB5GAJZeVJ0LvwmMKbj3HEGX3wCYb0k1XF8S/J8QkfV+JRa5fKnruweEwz
- QAKzhap3hN7Xg==
+ b=jC4+HHcuntcj30yBeEVQDbJX3a3dAd9y5IWsKthessjg7RHnQEqjw2M+og+ij1/sn
+ WQOlvUJ9PjW9OnbFtkpWT9E63UNHfKjuBeZsDjXNTCG2T2ckGQ4ooEygXFaVqXs+ki
+ dV5yrJefX/M4rtvoXA2z7M1PBehVHns8m/CtIOFNvRLqW8iVS87+iCu4WqJEPcIqk/
+ ysB6L9Z3Z7suwqesUI9jHaF/Ur1xtYJQI+TDgkee+ff+bDQxO6T/kraorvO1K72hOD
+ qI5qBSaR8kVKofSm068dRkk/Zz8clPJpTwoZeif8mo1f05AubwAmgVZ1Hn2cT48myl
+ EoW+kqiNGFsgw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Mar 2026 10:05:00 +0100
-Subject: [PATCH v3 08/14] drm/bridge: synopsys: dw-dp: Convert to
+Date: Thu, 05 Mar 2026 10:05:01 +0100
+Subject: [PATCH v3 09/14] drm/bridge: synopsys: dw-hdmi: Convert to
  drm_output_color_format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-drm-rework-color-formats-v3-8-f3935f6db579@kernel.org>
+Message-Id: <20260305-drm-rework-color-formats-v3-9-f3935f6db579@kernel.org>
 References: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 In-Reply-To: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -75,12 +75,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9554; i=mripard@kernel.org;
- h=from:subject:message-id; bh=8B8JtzDFuZLy9KjteSKdgn1Z1TYnFMm7twCZx63a4Uw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3S2Dzmjde7p2R/Y6Ia2e0OwXNimLUxb8O/e+JW1Nw
- irW3evaOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEwi0YG1oDA6qWHjN8vzzp
- v+IMx71xU7PfvtDeqXyPWfJqxcaMnkn3o6N/PTRN6BCXNNy+IszhCmPDns699lYfLy9atf3W7Xk
- BV87rFzY7f0zrZ9F+ueBVZsqJ9z4uu5QTN/eI/k+LCUyZnBcFAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3565; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=pmuV9XT5xz4TIGCX33nAahI5S0bV94XYGEmoM0J00kE=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3a2kPVZY9ibPfcBY5r9ATHlhts9q4Tcsjg8v7LvIv
+ PWsWMjZjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARnomMdTa9L/ySirxdT05R
+ vew7ZX3ETJb8pDM+Hx7vuP37afasXW4fJld+/D6Z46H9Saa0RKuwJsb6gom3uPkcJfrOP72eG2c
+ w6Xj2pWv+kZUGjpNiOjrXH74sWfvFZKtt/A/lJwLL1Gv/FD0HAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,7 +97,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A934B20DF13
+X-Rspamd-Queue-Id: 7198220DF2C
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
 Now that we introduced a new drm_output_color_format enum to represent
@@ -141,243 +141,78 @@ The only thing we need to consider is if the original code meant to use
 that value as a bitmask, in which case we do need to keep the bit shift,
 or as a discriminant in which case we don't.
 
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-dp.c | 71 +++++++++++++++++----------------
- 1 file changed, 36 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-index e7bef9150f6a8eaf0338a4cb6fab516e295c70f7..45b37885d719dcf291383499a69d7e27c36513b2 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-@@ -377,28 +377,28 @@ enum {
- 	DW_DP_PHY_PATTERN_CP2520_2,
- };
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index ee88c0e793b0416d20105a43448cb4037402e64b..0296e110ce65ffc284e120f4e3f92052474e83e5 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2662,11 +2662,11 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+ 	struct drm_connector *conn = conn_state->connector;
+ 	struct drm_display_info *info = &conn->display_info;
+ 	struct drm_display_mode *mode = &crtc_state->mode;
+ 	u8 max_bpc = conn_state->max_requested_bpc;
+ 	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
+-			     (info->color_formats & DRM_COLOR_FORMAT_YCBCR420);
++			     (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420));
+ 	u32 *output_fmts;
+ 	unsigned int i = 0;
  
- struct dw_dp_output_format {
- 	u32 bus_format;
--	u32 color_format;
-+	enum drm_output_color_format color_format;
- 	u8 video_mapping;
- 	u8 bpc;
- 	u8 bpp;
- };
+ 	*num_output_fmts = 0;
  
- #define to_dw_dp_bridge_state(s) container_of(s, struct dw_dp_bridge_state, base)
+@@ -2721,40 +2721,40 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
  
- static const struct dw_dp_output_format dw_dp_output_formats[] = {
--	{ MEDIA_BUS_FMT_RGB101010_1X30, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_10BIT, 10, 30 },
--	{ MEDIA_BUS_FMT_RGB888_1X24, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_8BIT, 8, 24 },
--	{ MEDIA_BUS_FMT_YUV10_1X30, DRM_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_10BIT, 10, 30 },
--	{ MEDIA_BUS_FMT_YUV8_1X24, DRM_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_8BIT, 8, 24},
--	{ MEDIA_BUS_FMT_YUYV10_1X20, DRM_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_10BIT, 10, 20 },
--	{ MEDIA_BUS_FMT_YUYV8_1X16, DRM_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_8BIT, 8, 16 },
--	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, DRM_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR420_10BIT, 10, 15 },
--	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, DRM_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR420_8BIT, 8, 12 },
--	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_6BIT, 6, 18 },
-+	{ MEDIA_BUS_FMT_RGB101010_1X30, DRM_OUTPUT_COLOR_FORMAT_RGB444, DW_DP_RGB_10BIT, 10, 30 },
-+	{ MEDIA_BUS_FMT_RGB888_1X24, DRM_OUTPUT_COLOR_FORMAT_RGB444, DW_DP_RGB_8BIT, 8, 24 },
-+	{ MEDIA_BUS_FMT_YUV10_1X30, DRM_OUTPUT_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_10BIT, 10, 30 },
-+	{ MEDIA_BUS_FMT_YUV8_1X24, DRM_OUTPUT_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_8BIT, 8, 24},
-+	{ MEDIA_BUS_FMT_YUYV10_1X20, DRM_OUTPUT_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_10BIT, 10, 20 },
-+	{ MEDIA_BUS_FMT_YUYV8_1X16, DRM_OUTPUT_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_8BIT, 8, 16 },
-+	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, DRM_OUTPUT_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR420_10BIT, 10, 15 },
-+	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, DRM_OUTPUT_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR420_8BIT, 8, 12 },
-+	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, DRM_OUTPUT_COLOR_FORMAT_RGB444, DW_DP_RGB_6BIT, 6, 18 },
- };
+ 	/* Default 8bit RGB fallback */
+ 	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
  
- static const struct dw_dp_output_format *dw_dp_get_output_format(u32 bus_format)
- {
- 	unsigned int i;
-@@ -1089,26 +1089,26 @@ static int dw_dp_send_vsc_sdp(struct dw_dp *dp)
- 	vsc.content_type = DP_CONTENT_TYPE_NOT_DEFINED;
+ 	if (max_bpc >= 16 && info->bpc == 16) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
++		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
  
- 	sdp.flags = DW_DP_SDP_VERTICAL_INTERVAL;
- 
- 	switch (state->color_format) {
--	case DRM_COLOR_FORMAT_YCBCR444:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
- 		vsc.pixelformat = DP_PIXELFORMAT_YUV444;
- 		break;
--	case DRM_COLOR_FORMAT_YCBCR420:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
- 		vsc.pixelformat = DP_PIXELFORMAT_YUV420;
- 		break;
--	case DRM_COLOR_FORMAT_YCBCR422:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
- 		vsc.pixelformat = DP_PIXELFORMAT_YUV422;
- 		break;
--	case DRM_COLOR_FORMAT_RGB444:
-+	case DRM_OUTPUT_COLOR_FORMAT_RGB444:
- 	default:
- 		vsc.pixelformat = DP_PIXELFORMAT_RGB;
- 		break;
+ 		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
  	}
  
--	if (state->color_format == DRM_COLOR_FORMAT_RGB444) {
-+	if (state->color_format == DRM_OUTPUT_COLOR_FORMAT_RGB444) {
- 		vsc.colorimetry = DP_COLORIMETRY_DEFAULT;
- 		vsc.dynamic_range = DP_DYNAMIC_RANGE_VESA;
- 	} else {
- 		vsc.colorimetry = DP_COLORIMETRY_BT709_YCC;
- 		vsc.dynamic_range = DP_DYNAMIC_RANGE_CTA;
-@@ -1146,35 +1146,36 @@ static bool dw_dp_video_need_vsc_sdp(struct dw_dp *dp)
- 		return -EINVAL;
+ 	if (max_bpc >= 12 && info->bpc >= 12) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
++		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
  
- 	if (!link->vsc_sdp_supported)
- 		return false;
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
++		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
  
--	if (state->color_format == DRM_COLOR_FORMAT_YCBCR420)
-+	if (state->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
- 		return true;
- 
- 	return false;
- }
- 
--static int dw_dp_video_set_msa(struct dw_dp *dp, u8 color_format, u8 bpc,
--			       u16 vstart, u16 hstart)
-+static int dw_dp_video_set_msa(struct dw_dp *dp,
-+			       enum drm_output_color_format color_format,
-+			       u8 bpc, u16 vstart, u16 hstart)
- {
- 	u16 misc = 0;
- 
- 	if (dw_dp_video_need_vsc_sdp(dp))
- 		misc |= DP_MSA_MISC_COLOR_VSC_SDP;
- 
- 	switch (color_format) {
--	case DRM_COLOR_FORMAT_RGB444:
-+	case DRM_OUTPUT_COLOR_FORMAT_RGB444:
- 		misc |= DP_MSA_MISC_COLOR_RGB;
- 		break;
--	case DRM_COLOR_FORMAT_YCBCR444:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
- 		misc |= DP_MSA_MISC_COLOR_YCBCR_444_BT709;
- 		break;
--	case DRM_COLOR_FORMAT_YCBCR422:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
- 		misc |= DP_MSA_MISC_COLOR_YCBCR_422_BT709;
- 		break;
--	case DRM_COLOR_FORMAT_YCBCR420:
-+	case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
- 		break;
- 	default:
- 		return -EINVAL;
+ 		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
  	}
  
-@@ -1302,13 +1303,13 @@ static int dw_dp_video_enable(struct dw_dp *dp)
- 	average_bytes_per_tu = ts / 1000;
- 	average_bytes_per_tu_frac = ts / 100 - average_bytes_per_tu * 10;
- 	if (dp->pixel_mode == DW_DP_MP_SINGLE_PIXEL) {
- 		if (average_bytes_per_tu < 6)
- 			init_threshold = 32;
--		else if (hblank <= 80 && color_format != DRM_COLOR_FORMAT_YCBCR420)
-+		else if (hblank <= 80 && color_format != DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
- 			init_threshold = 12;
--		else if (hblank <= 40 && color_format == DRM_COLOR_FORMAT_YCBCR420)
-+		else if (hblank <= 40 && color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
- 			init_threshold = 3;
- 		else
- 			init_threshold = 16;
- 	} else {
- 		u32 t1 = 0, t2 = 0, t3 = 0;
-@@ -1316,47 +1317,47 @@ static int dw_dp_video_enable(struct dw_dp *dp)
- 		switch (bpc) {
- 		case 6:
- 			t1 = (4 * 1000 / 9) * link->lanes;
- 			break;
- 		case 8:
--			if (color_format == DRM_COLOR_FORMAT_YCBCR422) {
-+			if (color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422) {
- 				t1 = (1000 / 2) * link->lanes;
- 			} else {
- 				if (dp->pixel_mode == DW_DP_MP_DUAL_PIXEL)
- 					t1 = (1000 / 3) * link->lanes;
- 				else
- 					t1 = (3000 / 16) * link->lanes;
- 			}
- 			break;
- 		case 10:
--			if (color_format == DRM_COLOR_FORMAT_YCBCR422)
-+			if (color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
- 				t1 = (2000 / 5) * link->lanes;
- 			else
- 				t1 = (4000 / 15) * link->lanes;
- 			break;
- 		case 12:
--			if (color_format == DRM_COLOR_FORMAT_YCBCR422) {
-+			if (color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422) {
- 				if (dp->pixel_mode == DW_DP_MP_DUAL_PIXEL)
- 					t1 = (1000 / 6) * link->lanes;
- 				else
- 					t1 = (1000 / 3) * link->lanes;
- 			} else {
- 				t1 = (2000 / 9) * link->lanes;
- 			}
- 			break;
- 		case 16:
--			if (color_format != DRM_COLOR_FORMAT_YCBCR422 &&
-+			if (color_format != DRM_OUTPUT_COLOR_FORMAT_YCBCR422 &&
- 			    dp->pixel_mode == DW_DP_MP_DUAL_PIXEL)
- 				t1 = (1000 / 6) * link->lanes;
- 			else
- 				t1 = (1000 / 4) * link->lanes;
- 			break;
- 		default:
- 			return -EINVAL;
- 		}
+ 	if (max_bpc >= 10 && info->bpc >= 10) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
++		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
  
--		if (color_format == DRM_COLOR_FORMAT_YCBCR420)
-+		if (color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
- 			t2 = (link->rate / 4) * 1000 / (mode->clock / 2);
- 		else
- 			t2 = (link->rate / 4) * 1000 / mode->clock;
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
++		if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
  
- 		if (average_bytes_per_tu_frac)
-@@ -1572,17 +1573,17 @@ static enum drm_mode_status dw_dp_bridge_mode_valid(struct drm_bridge *bridge,
- {
- 	struct dw_dp *dp = bridge_to_dp(bridge);
- 	struct dw_dp_link *link = &dp->link;
- 	u32 min_bpp;
+ 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+ 	}
  
--	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR420 &&
-+	if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420) &&
- 	    link->vsc_sdp_supported &&
- 	    (drm_mode_is_420_only(info, mode) || drm_mode_is_420_also(info, mode)))
- 		min_bpp = 12;
--	else if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+	else if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
- 		min_bpp = 16;
--	else if (info->color_formats & DRM_COLOR_FORMAT_RGB444)
-+	else if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444))
- 		min_bpp = 18;
- 	else
- 		min_bpp = 24;
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
++	if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
  
- 	if (!link->vsc_sdp_supported &&
-@@ -1775,18 +1776,18 @@ static u32 *dw_dp_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 		fmt = &dw_dp_output_formats[i];
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
++	if (info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+ 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
  
- 		if (fmt->bpc > conn_state->max_bpc)
- 			continue;
+ 	*num_output_fmts = i;
  
--		if (!(fmt->color_format & di->color_formats))
-+		if (!(BIT(fmt->color_format) & di->color_formats))
- 			continue;
- 
--		if (fmt->color_format == DRM_COLOR_FORMAT_YCBCR420 &&
-+		if (fmt->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420 &&
- 		    !link->vsc_sdp_supported)
- 			continue;
- 
--		if (fmt->color_format != DRM_COLOR_FORMAT_YCBCR420 &&
-+		if (fmt->color_format != DRM_OUTPUT_COLOR_FORMAT_YCBCR420 &&
- 		    drm_mode_is_420_only(di, &mode))
- 			continue;
- 
- 		if (!dw_dp_bandwidth_ok(dp, &mode, fmt->bpp, link->lanes, link->rate))
- 			continue;
+ 	return output_fmts;
 
 -- 
 2.53.0
