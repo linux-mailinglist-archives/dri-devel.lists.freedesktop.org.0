@@ -2,102 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mB4QDDF8qWkh8wAAu9opvQ
+	id 6Cw8IsR+qWlB9QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:50:57 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:01:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE1D2121B1
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE2321249F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D48AF10EB21;
-	Thu,  5 Mar 2026 12:50:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hAk8h0LN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 805FA10E2B0;
+	Thu,  5 Mar 2026 13:01:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A21D10E299
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772715052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mGQD+cOc++KkO42kzws1oQJrJ/tIu6r6dd9H8Ca4j6g=;
- b=hAk8h0LN1V0U9yxkzJ64iijEr3Vw7dbSm9mD5x6VgyaR5GJecl2OQRp46BTHUmHMLhtHup
- MGQ36vBmlTDnTWlmhImYdOfoGri6MB8+Oa5iVBFgIRgmZ7X1iapVuQU2lCuVJ3aMctWr38
- 63aNhNxUoYbpIsooUPszFdzBvwY3alU=
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
- [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-Z_XIJ-VtOOGpgCyELiL3vA-1; Thu, 05 Mar 2026 07:50:51 -0500
-X-MC-Unique: Z_XIJ-VtOOGpgCyELiL3vA-1
-X-Mimecast-MFC-AGG-ID: Z_XIJ-VtOOGpgCyELiL3vA_1772715051
-Received: by mail-yx1-f69.google.com with SMTP id
- 956f58d0204a3-649f0d26e5eso10658123d50.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 04:50:51 -0800 (PST)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A2710E2B0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 13:01:52 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-2addb31945aso58280775ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 05:01:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772715051; x=1773319851;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=mGQD+cOc++KkO42kzws1oQJrJ/tIu6r6dd9H8Ca4j6g=;
- b=OwfRi2bzt9D5yWl13Z70ZqqQfi58HlI6WfV6RbMYCIeu7UxssHTZFGWNRTx6RF6wV6
- I6hyW2a5FK86I9dbN7e3dJ3oQAviLAj0h71O3BOnls9llr0qULPZLJafteRoEdRGNt2E
- AcUOQj+/yXtXJ011ntdFVXcZKTu1OJthmwVOuT9SGCCOZz6UVNj+orro/44hjIikWtf0
- Ybz9EtLPCxu4mQ8Mz5NQ0ehiXrg2OCwssk+L66+Egq4SVfHjicSE1xAsaf3Vg5rKb+I9
- S9L24SqbM/Gtd/TzQe4ExKdUHbqj9drQhhbH8zUZ8v3WtkmV4VMHrTdX/UauSBSZQ4GR
- JzVQ==
+ d=1e100.net; s=20230601; t=1772715712; x=1773320512;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7IxpxVkGnClS/pzWnTPcTEx+bl+pPZR21vGpLksfVXc=;
+ b=m2XI/WxewP5SwRwPdSZbYZsMu36HpAKnFVh59xb8ktzjY1hZsrDI55lWqrDMyebLSa
+ GKRD5idadvJgnl/NgJBbZsYqQQa+fY7WUsyzEL6dmu7Vi0XgsnSZsiTvBRapdsNeIVr2
+ DXgahQeAzPChhb9wCr4+swKQKxF5kBwMwaBZ7pUNMNH8ICAQVzS0P6RQepr/WefWYPPb
+ q1CTLp+nYrs/8ViEkOLZVl60c5eZZWj+cDQDc9nAGRCormE6HFjTOONYV8InEiVngDeW
+ 8qE43/Jjg8tTPUcdrG2XEAcYN3IF5vLt8Bw31bw7HlaEAkxL51RLCpGJ3HVwH50evGMt
+ Zd5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3l9jCcCrJfcFgPWpwokgKeES5CAtGjK5o5OxcIj5mIwjbZfJrpqIm0is2qH6faWNn3GvG27Jl+kw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtlNoo6+Ilr+BvGMfZXGZofl+lqbdxO6F4NffTP3QiffbqedaW
- CJ8zAxb+Dy5K/JIT6xO1WsEpNwS95CNg/Vkj7W1Y9w//9tMP5EtY9j3ymTYHexzJVaAGS21/0A4
- 5vB/0h++erma0BQEceCB0CD4t837ihAoOTDOIo5LWuC8C0zbkG/aNp3uUoX6kkLOI9F1STQ6+pz
- lc2iN7LGZUxxYNaeiVdV9JAehu6ilk/a1wZHBv6gOx4X//
-X-Gm-Gg: ATEYQzzTyh0na5Cp4JsHdtV6bmqEOeLzE17QWoX3IhLc+WiN7zq6+2ugbH4JSxwl7Qn
- YuHJq8f8Dt2CWYfuuLRln4V0Za0pxICzrx80PFfrsHEbozNxagiHpyokJG8OqHQ/7zw6XZ+BDl3
- wtZW54BR8UrfPipvNhnmuzHuHKMF/NGZYuigUUwCyLfS5oYgY/ns7X/PHkjhdjsgAM5V8IFFjyc
- g==
-X-Received: by 2002:a05:690e:b4d:b0:64c:e7a0:7eb8 with SMTP id
- 956f58d0204a3-64cf9b4e46dmr4272168d50.24.1772715050884; 
- Thu, 05 Mar 2026 04:50:50 -0800 (PST)
-X-Received: by 2002:a05:690e:b4d:b0:64c:e7a0:7eb8 with SMTP id
- 956f58d0204a3-64cf9b4e46dmr4272126d50.24.1772715050349; Thu, 05 Mar 2026
- 04:50:50 -0800 (PST)
+ AJvYcCUlMMzM7z1U5oc686brPO0ySD5jOMgvyoqBcLRrInphQ5u8GJ+RItfl7HbP+rK2VMHCzKxDaVxyrxM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMfykK94vOD7o6lgbDYqdPRNC62zDuMue5ee7Ypzvt1f9OmFRO
+ HR3zHVORKHB9b2GaYa2s2aL5kVE3ERwXF9JwN/dzV7Alk4ME9MoyNEaU
+X-Gm-Gg: ATEYQzyM8GYvPLKLu1Tp7ES4vsbgtde1bSDTpYoEG9kIpUQoab4ELgPnKka+C59i9aj
+ uE4NA+UecFJ58JAbYfvqyZ2nsKEyOkXgcKQLO9XXT2Qz1MMB86J0VeUVRetsCdZBYOFHJOWYmKL
+ 32/Sf6MOB2PALczyld35LNFeYN+BishdP8nDl/MzPUcEVODQmfIFHMF8FD2ES7g5wPYwjkS/y72
+ 8ky1ELyeZ7AIrUV2AZDC0zn8WcrRnpri9rPChO2Ik3fsuQpCBUMkdNFhVKvzRa7wT9R3SDVa0tW
+ xRxqB71l+bUtbN2VEOIijgvDOy2G2nsEszd3DJn2fVgBT+ck1RocjV7dzTm3hXVksPM0W3QKHM/
+ /XclgcEhazi3SNJnqdR6NoM+yifvwMrOfQSw8wLPtGSkGN4XrxMhs695WNIqAPmmpUTIobrgdyv
+ BdVodYwf/BnCUTqIhecpJpVGyOKrYJDhCNavQhrfuX+hkyD9sHihjcm6NdeCfnAuu/NirojIZan
+ GhX1jrw+c2UhUi/afhYtlxy7S12liQM2atNYwU56OEu3riN8bk7v9XbG2Guyw==
+X-Received: by 2002:a17:902:ce03:b0:2ae:5b52:3818 with SMTP id
+ d9443c01a7336-2ae6a9deb2amr60551085ad.8.1772715711782; 
+ Thu, 05 Mar 2026 05:01:51 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2ae54136b28sm115696425ad.73.2026.03.05.05.01.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2026 05:01:50 -0800 (PST)
+Date: Thu, 5 Mar 2026 22:01:49 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, Joe Perches <joe@perches.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+Message-ID: <20260305130149.GA1659133@rocinante>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+ <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+ <20260305085148.7cwo3yflp7vcfldf@skbuf>
+ <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+ <20260305114352.2f7btqixg4tu5bzl@skbuf>
+ <20260305121532.GA1649635@rocinante>
+ <20260305122957.GA1652563@rocinante>
+ <20260305123956.ojkt4k3ly64xz7fu@skbuf>
+ <aal6kWDx_3XRGB4K@shell.armlinux.org.uk>
 MIME-Version: 1.0
-References: <20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com>
- <20260303-b4-dmabuf-heap-coherent-rmem-v2-4-65a4653b3378@redhat.com>
- <20260303-rigorous-cow-of-saturation-23f87b@houat>
- <CADSE00+jCZSHi=OLbmOebBwnue5tjG7AFPKN76CbYDWYBcP+AA@mail.gmail.com>
- <20260305-antique-flying-gopher-4cbe34@houat>
-In-Reply-To: <20260305-antique-flying-gopher-4cbe34@houat>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Thu, 5 Mar 2026 13:50:39 +0100
-X-Gm-Features: AaiRm520Qsz-JqgW5810FPhKu21ZofkmrOtPWlvIEAnCY9wjM-bxXO9YQ-thsLs
-Message-ID: <CADSE00K2PnP-AwS3Ad3UCrQd_ZG7a1L70i1+6EdQsrg0QM3OSA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] dma-buf: heaps: Add Coherent heap to dmabuf heaps
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
- devicetree@vger.kernel.org, echanude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _XsSjsYiOL2knb0lwfI_q_movK7Zvv9D-MUvU2mMAxA_1772715051
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aal6kWDx_3XRGB4K@shell.armlinux.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,227 +101,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9EE1D2121B1
+X-Rspamd-Queue-Id: 5EE2321249F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[linux.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:mripard@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:robh@kernel.org,m:saravanak@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:echanude@redhat.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux@armlinux.org.uk,m:vladimir.oltean@nxp.com,m:joe@perches.com,m:konrad.dybcio@oss.qualcomm.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[kw@linux.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[kw@linux.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[]
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Thu, Mar 5, 2026 at 1:30=E2=80=AFPM Maxime Ripard <mripard@redhat.com> w=
-rote:
->
-> On Tue, Mar 03, 2026 at 03:47:14PM +0100, Albert Esteve wrote:
-> > On Tue, Mar 3, 2026 at 2:20=E2=80=AFPM Maxime Ripard <mripard@redhat.co=
-m> wrote:
-> > > On Tue, Mar 03, 2026 at 01:33:47PM +0100, Albert Esteve wrote:
-> > > > Add a dma-buf heap for DT coherent reserved-memory
-> > > > (i.e., 'shared-dma-pool' without 'reusable' property),
-> > > > exposing one heap per region for userspace buffers.
-> > > >
-> > > > The heap binds the heap device to each memory region so
-> > > > coherent allocations use the correct dev->dma_mem, and
-> > > > it defers registration until module_init when normal
-> > > > allocators are available.
-> > > >
-> > > > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > > > ---
-> > > >  drivers/dma-buf/dma-heap.c            |   4 +-
-> > > >  drivers/dma-buf/heaps/Kconfig         |   9 +
-> > > >  drivers/dma-buf/heaps/Makefile        |   1 +
-> > > >  drivers/dma-buf/heaps/coherent_heap.c | 426 ++++++++++++++++++++++=
-++++++++++++
-> > > >  include/linux/dma-heap.h              |  11 +
-> > > >  include/linux/dma-map-ops.h           |   7 +
-> > > >  6 files changed, 456 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.=
-c
-> > > > index 88189d4e48561..ba87e5ac16ae2 100644
-> > > > --- a/drivers/dma-buf/dma-heap.c
-> > > > +++ b/drivers/dma-buf/dma-heap.c
-> > > > @@ -390,8 +390,8 @@ struct dma_heap *dma_heap_add(const struct dma_=
-heap_export_info *exp_info)
-> > > >
-> > > >       heap =3D dma_heap_create(exp_info);
-> > > >       if (IS_ERR(heap)) {
-> > > > -             pr_err("dma_heap: failed to create heap (%d)\n", PTR_=
-ERR(heap));
-> > > > -             return PTR_ERR(heap);
-> > > > +             pr_err("dma_heap: failed to create heap (%ld)\n", PTR=
-_ERR(heap));
-> > > > +             return ERR_CAST(heap);
-> > >
-> > > This looks unrelated and should possibly be squashed into the previou=
-s
-> > > patch that introduces dma_heap_create()?
-> > >
-> > > > +static int coherent_heap_init_dma_mask(struct device *dev)
-> > > > +{
-> > > > +     int ret;
-> > > > +
-> > > > +     ret =3D dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(64));
-> > > > +     if (!ret)
-> > > > +             return 0;
-> > > > +
-> > > > +     /* Fallback to 32-bit DMA mask */
-> > > > +     return dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-> > > > +}
-> > >
-> > > Why do you need to mess with the DMA mask? I'd expect that device to =
-be
-> > > able to access everything.
-> >
-> > When I tested I was getting: "reserved memory is beyond device's set
-> > DMA address range", so I tested if it was fixed with
-> > dma_coerce_mask_and_coherent() and/or dma_set_mask_coherent(). I did
-> > not debug the value of coherent_dma_mask, but given the error I assume
-> > it was not set properly? Ultimately, using the 64 bit mask fixed it,
-> > and I added a 32-bit fallback to ensure support for 32-bit systems.
->
-> So you don't need to handle the fallback because
-> dma_coerce_mask_and_coherent will truncate the generated mask to
-> dma_addr_t, which is 64bits on 64 bits platforms, and 32 bits on 32 bits
-> platforms.
->
-> https://elixir.bootlin.com/linux/v6.19.3/source/kernel/dma/mapping.c#L908
+Hello,
 
-Good! I didn't realise that. I will remove it for the next revision.
+> > > For content match, it could also be:
+> > > 
+> > >   K:    phy
+> > > 
+> > > I believe this would match everything of interest?
+> > 
+> > Yeah, and way more. Think USB PHY, network PHY, etc. Don't want to drown
+> > the linux-phy mailing list in unrelated patches, either.
+> 
+> Also phylink, any memory management / DMA stuff that happens to mention
+> "physical", and probably numerous other examples.
 
->
-> But I think my point was more than there's nothing specific to the
-> coherent heap itself: the device allocated for the heap should have the
-> right mask for any heap, so it's something I'd rather put in
-> dma_heap_add.
+Makes sense!  Sorry for the commotion here, then. :)
 
-That was my first take too. But when I checked, I did not see
-dma_heap_add() doing anything to dev->coherent_dma_mask. So I assumed
-the problem relates to the rmem being bound, which triggers the check
-to ensure the memory pool is within boundaries. That's a specific
-issue with the coherent heap, so it sounds like it would be better
-handled here in the heap-specific code rather than in
-`dma_heap_add()`, which would affect all the dmabuf heaps.
-
-That being said, setting the mask is probably(?) harmless for the
-other heaps anyway, so I would be fine with moving it -- to
-dma_heap_create() to be more specific.
-
-BR,
-Albert.
-
->
-> > > > +static int __coherent_heap_register(struct reserved_mem *rmem)
-> > > > +{
-> > > > +     struct dma_heap_export_info exp_info;
-> > > > +     struct coherent_heap *coh_heap;
-> > > > +     struct device *heap_dev;
-> > > > +     int ret;
-> > > > +
-> > > > +     if (!rmem || !rmem->name)
-> > > > +             return -EINVAL;
-> > > > +
-> > > > +     coh_heap =3D kzalloc_obj(*coh_heap);
-> > > > +     if (!coh_heap)
-> > > > +             return -ENOMEM;
-> > > > +
-> > > > +     coh_heap->rmem =3D rmem;
-> > > > +     coh_heap->name =3D kstrdup(rmem->name, GFP_KERNEL);
-> > > > +     if (!coh_heap->name) {
-> > > > +             ret =3D -ENOMEM;
-> > > > +             goto free_coherent_heap;
-> > > > +     }
-> > > > +
-> > > > +     exp_info.name =3D coh_heap->name;
-> > > > +     exp_info.ops =3D &coherent_heap_ops;
-> > > > +     exp_info.priv =3D coh_heap;
-> > > > +
-> > > > +     coh_heap->heap =3D dma_heap_create(&exp_info);
-> > > > +     if (IS_ERR(coh_heap->heap)) {
-> > > > +             ret =3D PTR_ERR(coh_heap->heap);
-> > > > +             goto free_name;
-> > > > +     }
-> > > > +
-> > > > +     heap_dev =3D dma_heap_get_dev(coh_heap->heap);
-> > > > +     ret =3D coherent_heap_init_dma_mask(heap_dev);
-> > > > +     if (ret) {
-> > > > +             pr_err("coherent_heap: failed to set DMA mask (%d)\n"=
-, ret);
-> > > > +             goto destroy_heap;
-> > > > +     }
-> > > > +
-> > > > +     ret =3D of_reserved_mem_device_init_with_mem(heap_dev, rmem);
-> > > > +     if (ret) {
-> > > > +             pr_err("coherent_heap: failed to initialize memory (%=
-d)\n", ret);
-> > > > +             goto destroy_heap;
-> > > > +     }
-> > > > +
-> > > > +     ret =3D dma_heap_register(coh_heap->heap);
-> > > > +     if (ret) {
-> > > > +             pr_err("coherent_heap: failed to register heap (%d)\n=
-", ret);
-> > > > +             goto destroy_heap;
-> > > > +     }
-> > >
-> > > I guess it's more of a comment about your previous patch, but it's no=
-t
-> > > clear to me why you needed to split dma_heap_add into dma_heap_create=
- /
-> > > _register. Can you expand a bit?
-> >
-> > So first I tried to just use dma_heap_add() and then use the heap_dev
-> > afterward to call of_reserved_mem_device_init_with_mem(), but if that
-> > call failed, the error path required some kind dma_heap_remove()
-> > function as the heap was already registered by then.
-> >
-> > In the CMA heap for example, dma_heap_add() is invoked at the end of
-> > the `init` function. Therefore, you do not have this issue, if it
-> > failed it means the heap was not added and you just need to clean
-> > everything else.
-> >
-> > However, performing a remove() does not sound like something that can
-> > be done safely. I've spent some time thinking on alternatives, but
-> > splitting felt the best pattern.
-> >
-> > This way I can:
-> > 1. Create the device
-> > 2. Call of_reserved_mem_device_init_with_mem
-> > 3. Register the heap
-> >
-> > This places registration at the end, making every error path and
-> > cleanup easy to handle.
-> >
-> > Also, the `dma_heap_add()` code already seemed to handle these two
-> > parts/phases implicitly with device_create(), so splitting felt
-> > architecturally sound.
->
-> That makes sense, thanks!
->
-> Maxime
-
+	Krzysztof
