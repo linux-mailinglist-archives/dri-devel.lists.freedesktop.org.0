@@ -2,91 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yACFB72aqWm7AgEAu9opvQ
+	id cIPOLkSbqWm7AgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:01:17 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:03:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971CF21411E
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0FF2141B1
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAD910E1FF;
-	Thu,  5 Mar 2026 15:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7E610EBF7;
+	Thu,  5 Mar 2026 15:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="AmsJmiQV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y8gCH7L4";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SBq21iN7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6E110E1FF
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:01:11 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6255wbH82293529; Thu, 5 Mar 2026 15:00:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=dk201812; bh=9eddT8zc17b+Mmj2Mkub0TW
- eld1hNZPxjE6+hEIaxDE=; b=AmsJmiQVREC15ZgTzhyootDMuO57NRv0GOfO4LQ
- HFTNaCcqmSx3526nf316sgxXcB/BMNPnJZYgTyBaLkyw6OGaaUBo8TUnBUNivWaP
- tk3kn9UDddd/z1hae0ChyPruggxWEgt9MdtCmk0cDKcEI5eSfj3SekTxcd6YhGcn
- PcgK1gXZ68OFPrPfvo5UIJ9KiVHMJ31regcdxR0q9wHIDOibfDrmEVPCNkfrx9y4
- hoFUXWgyeZkceiXrXruOaacs/sAqZrzl9bMvmHE1AnbsBfcGoDT6pmdFwu/Bb4tX
- RbDaVP6WaE56JZ5wuZ/2UIXfgYvn+kELv2PM6FpN2inDhjA==
-Received: from hhmail01.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4ckqgrv4yf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Mar 2026 15:00:57 +0000 (GMT)
-Received: from [127.0.1.1] (172.25.10.37) by HHMAIL01.hh.imgtec.org
- (10.100.10.19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 5 Mar
- 2026 15:00:55 +0000
-From: Alexandru Dadu <alexandru.dadu@imgtec.com>
-Date: Thu, 5 Mar 2026 17:00:39 +0200
-Subject: [PATCH] drm/imagination: Implement handling of context reset
- notification
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 152C710E2B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:03:28 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 625AFuMv4171110
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 15:03:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=; b=Y8
+ gCH7L45JWn/HjUc3BfuZ9xnEPbncSbpCEdBBjfN8kz14pSFI9Ua8RSKa4uroPCia
+ PELpbRGQWV7h6iHPXi7JLlZwMM7OhoK4fdFUcpfLIbbqJtnoq5kgB1egGrTAKDOj
+ dtn/1Fn7KWd5nDw3GNKUanXvI4KY9Hun50QtRkPBTZjKqysRQ+AP4YdnU4gLHcbn
+ NjO3CPzLB5dDCWX1gQXLAdSC+a7v7zOnltxSMLJuEpmRtUrWdeAxc+NzYiI6bn2u
+ 0Owkiq/gP7WhCIYmVVtYgToFGomlvbj+ZTDYM0linp54IJAD4/Mu/lyGz+CPUVtS
+ 7DNERbpmRU4ziL+rHbFw==
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpuhb37yj-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 15:03:27 +0000 (GMT)
+Received: by mail-oo1-f69.google.com with SMTP id
+ 006d021491bc7-679dda090fbso140123057eaf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 07:03:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772723007; cv=none;
+ d=google.com; s=arc-20240605;
+ b=W0xjeeqaKi3UKvHkgsJeniVxK+OpuG7Ywa5X4s/5JwtxOLWvgBme64qd70+Fkx5+Md
+ VteiQ5raB8pnVY5Fc5BoMn/cGqxwLOQ6GuEvLo0Ll6phXyJWX1RAHLE3jFiSAUDXoNQs
+ RYsPdgvUnz8u76kBBfOFftMzz1ejnSd28MCe9+vy5Bx8aZfVkEGGLu6wFCv1W9Yq1ZYI
+ R16vB8hGWznrXWfDBL63sxNNcw9Ku2aaPOh7DQaG2f2U68GK2Rxt+is/QhpUBXlzZ6SD
+ 6fXDuYr+iJssZkE2Hrzz/q55Vif3TRlRXi6Un8J59MfJvGoIogyulyottmCtzCpeDbgY
+ nUmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:dkim-signature;
+ bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
+ fh=uHh6AG3CQjbH5A1JkRi6MLTrXtOB1TRpSZwep+VaM+Y=;
+ b=DlB414kvrEDQolgifieuqqsqgvZ0FjyvwHLjyMob5ocVgXfHPrtAj5623mbQcLdZhz
+ op9dyA2t4exvswUxdKFvcJggNxTX9e8Vh9Lq7vLnAwnCWcetG4835YaQyDUFlWGzhen4
+ T4CNP8urTD1ivangttz+NvhjrIjErh3MRLkptSxO3efSrta7MIetBgM79XDjhkx+AsLG
+ MCIYFoX5M9MatH8DNJwxO26V+k4C/5cyrB/w1bm7ajxYJb8Y+ra2RNZZHxkv1NNahwmd
+ A/BkDn29+vln08HdqpDNbSi4D6Rae4RuY9493lsgjj3uJiR2fQXX49GHjcqOmOhIx+oH
+ ZB+Q==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772723007; x=1773327807;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
+ b=SBq21iN7jcG1KVqX+36k4tcXpDuGjQ+3aVSLRUq6ZUXEnjQD7Jd4995m4Rp83ZqDBs
+ vfXpciXgTvtYLtbUt4H6sBqAMB+U3XFoRxNuV4L+/HG48mwkSdjxHptGQQBEYdEEAYpc
+ A1xCev5QpJ4fQIyoXfmShhMc+1QkaQMbVz8W3KRdAQ2146h9hp08bNYpyHTDNEZes6K2
+ M97jcyA4tfx7iDlM8jWNZT7zXH517h1QiZXrEPYAXlBibIMWB1TwRNranJi4m/JsXzMB
+ Q7dZWgGkwn6QdPvM2ILaK+dZAr9Hxu6TwnVbChQvwuyOxTDoG9Pve4vKT/CQij0YC6XK
+ 8fmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772723007; x=1773327807;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ejTcTE2T1qRg/5f0YDJu8m4fa4521jxxFWERnh0RJe0=;
+ b=unAvTJ++aL6mmuiNV7ZHZf9QKMmC48TueyRMZ5TW7oUP9+8i6ugSIAFtQnr9/1221U
+ lru++vUsAp73FGU+D9YdWmlk2PSQ13Vm9saBasHqPEerg6CcP2gEBS5XiZI1kQl58chs
+ 1OGqlx9j1sXCpbtB794GCBzlGgYIxu/o7LGPVHAMuwkcrxAkd8Ca2tIVzAcblnW/Xzof
+ y1STyjJxor3ajIzn7PUtv7R69us9JDc/BIZmAPVKXw9SDQN3UNobon+iwwxFiQo8RYo3
+ H6YhrQL3aMrV4I1SFTwUPSDJdWHocnkF3NLBf8WCgG+0EiwUqvdC1husCZ0oYIyf/PTM
+ LiRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUd3pm26+EJo38y5PqtaXQa8bP2g+U17YFpMGvWvw7eDVhrEvbK/Oi8Bug85k6r4e5uPJiInZrnS8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXGPULCGDO+l/D1H3Dc3qu3I2zLpUp8Smcx2W1wwuR6OeesX2e
+ be/r+VlTMeL2oM7MSIbwAmmtb4a+pxhnt6x9/DUNxPphb8wyjc3OOQOGFCIG+n6prwYfJmWaknd
+ l9/dy2VOQste2oIRVAf5GoeKswqn882j/qhKmV+3eMekbXYTeorVnnxSTY+OfyVqxIPiFoqBIB1
+ 3ypAq7k+I5Pjq2qr0leZpKjlwQO7RfmGGFsfd1+vDqp9ddMw==
+X-Gm-Gg: ATEYQzyuhphmpg0evoc1ru3nMYHf0lbXOtcKLUSS+7FIhX8jr5mKj8bjwpNJ/UNNCMD
+ y1MbIZMvajhtza6r+Vwtw3zlF1X8ALGA/0GXsieJBGLChk9XZgsYu+hf/Q6ep8Ny+RjMBpajchn
+ J+iAgZcWwKC7wGZ8T19jx59GE3ihDAx7JPlpip/Vuvz7gNaF/hXw+AJco2jyjUyVFsOjkpxwrqz
+ 06vDRV0qKHlrFUjYIM4seuzXNIV1MgsE+cIuA==
+X-Received: by 2002:a05:6820:208a:b0:659:9a49:8f9a with SMTP id
+ 006d021491bc7-67b176f9f67mr3931563eaf.19.1772723006306; 
+ Thu, 05 Mar 2026 07:03:26 -0800 (PST)
+X-Received: by 2002:a05:6820:208a:b0:659:9a49:8f9a with SMTP id
+ 006d021491bc7-67b176f9f67mr3931529eaf.19.1772723005755; Thu, 05 Mar 2026
+ 07:03:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260305-b4-firmware-context-reset-notification-handling-v1-1-46e2ce8d46ef@imgtec.com>
-X-B4-Tracking: v=1; b=H4sIAJaaqWkC/x2NQQrCMBAAv1L27EJa26B+RXpI0k1d0EQ2ixZK/
- +7icQ4zs0MjYWpw63YQ+nDjWgz6UwfpEcpKyIsxDG7w7uwmjCNmltc3CGGqRWlTFGqkWKpy5hT
- UEmju8uSyor+OoY8T+XhJYNW3UObtf7zPx/ED5+oE04EAAAA=
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- "Alessio Belle" <alessio.belle@imgtec.com>, Brajesh Gupta
- <brajesh.gupta@imgtec.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772722855; l=7959;
- i=alexandru.dadu@imgtec.com; s=20260304; h=from:subject:message-id;
- bh=PS9sBRiA2ZxPJV852s/6zBsR8kbLyTczwzLocvxMF3I=;
- b=jX9GkFKoNaKrkylajACDqFjVDGjnMzeOKeWXK8zLv13x4FmeykzakBNpB4xBCxxgDQlSqSFGS
- 47JcqJkFXe7BOrSXaXMG8KIad0LtUbDbJYTGP8WoQv/oE9U1gUDXUYI
-X-Developer-Key: i=alexandru.dadu@imgtec.com; a=ed25519;
- pk=FU07SyNrYGwhahqSxbWEuzyXlUh47xBXvLvOR7UA6+U=
-X-Originating-IP: [172.25.10.37]
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDEyMCBTYWx0ZWRfXzMva2x8S3C2B
- E25vTQuvfEAoD1TBRdpS/F2N6QUddQUL7O6DNEk5yLStXrVQG7JqoJDDvm1bzJv9kUJvg/DGM/P
- CjIaY+6rFUAJK6LElhstsaLZidZ9P+UG7+5/WE3Xui4sm25ViPUDxsLam5Bz4/cvxbS9F7tlX0Q
- 3GyKZXWKCg7sUP2N9v00Lz+mD1aFaiOTmfWiH1yav/KSloYUB9co8x76cDFP6noq3zpGNLEKAbe
- DROx2MxzyjDI8ZJYKwXWlQeeLO/pl06TpYQi4Fpbtpzf05iCJ4ANlrOrHdhj+ZjA+xfRyD+qb4P
- /u4t6b+nRTh/Hddne+TJyIfFI+Pyx5L2rRSxSh6PXMcvTFIktnxhGy+YLamzWOkPEZWGGmV1Vog
- uSos0GqZU2107gg/3pBh+lU0Wm3z8RJnPeOuE2TB48kzxPaDvhzGSla0nrxXD6N9zof7m95fki5
- zVH4N2ZyCRohQSmFjLA==
-X-Proofpoint-ORIG-GUID: UWi9GfiIJXHwvhszXFE6zMe71r44CfjL
-X-Authority-Analysis: v=2.4 cv=GbAaXAXL c=1 sm=1 tr=0 ts=69a99aa9 cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=7IANbbwssFwA:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=kQ-hrUj2-E3RCbRHssb7:22 a=qZQ2PDNLMSdLoqI-hfl9:22
- a=r_1tXGB3AAAA:8 a=ClZQo3t5Yuar91FTdAMA:9 a=QEXdDO2ut3YA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: UWi9GfiIJXHwvhszXFE6zMe71r44CfjL
+References: <20260304-msm-restore-ioctls-v1-1-b28f9231fcd2@oss.qualcomm.com>
+ <CACSVV03T5ceDADxbdgpitczk6rExcRpkQQ8vcedR0gEK3bLQkw@mail.gmail.com>
+ <CACSVV01M7YmW1OCjUQ+QFRpXHoY055MEnBCczeG1zRuQyi8z_w@mail.gmail.com>
+ <fpeatj5yrhp45rdd2qzcdtltrofr67noqc7fygsisyaquzx36o@ek3mfy32z5rv>
+In-Reply-To: <fpeatj5yrhp45rdd2qzcdtltrofr67noqc7fygsisyaquzx36o@ek3mfy32z5rv>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Thu, 5 Mar 2026 07:03:14 -0800
+X-Gm-Features: AaiRm51bDhvB43EfwoxoSRnaOyoFThqhuUzYzZWYldhnSsTl3epiIJCXPrkywEM
+Message-ID: <CACSVV02U1+or3yo5biOZ6imkkoExNPeDCmgEUWKc04ObbsikuQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: restore GEM-related IOCTLs for KMS devices
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDEyMCBTYWx0ZWRfXw3HU3bc1fwPS
+ u3OddQOJdB408BEs6LJazN3SKXGL0SlnRBPdq+v+YjOJIeuexx9vpBXsskP/XVD0aJMHYJwYx0i
+ 49k3z7zM/WXdq/ayg9hvi6wfZYRcZ45DNS/4audYDogxHIMEwlolDV0FLbRKh2dsBlkpI+spZOM
+ flJWpBTJiKHkTNFdupERZigbSDIIyJF36dw4Ka8JoXkbTvjdODZPGhTo6uKPR3P6HGlo3wyH/2H
+ gsFuc2GDUXk1Gd43sfkRJBmmypEOgYBo57E77Pnx3Zw95LwazeEXOtnzuiWM82r6VTjkt/C7sU/
+ /VcKlBqpR5T78VAsv2LSoUDKK6UMpMCQv9jmdRckvbyn7TZ/sr8S1+q/djTJUqwPbgOy+ImLwpU
+ 4derIj7wI1h9gbT1mOIuJ8bAAPW6N/o5C8H66X8J5O9/U3z9ZTY3vikR/gerCckWWLF2z6IUVB6
+ k7WU6vKiyFkJXTk7Dnw==
+X-Proofpoint-GUID: e-fh1FRjB_P9u8n7Xq215amT9218Sxiq
+X-Authority-Analysis: v=2.4 cv=SqydKfO0 c=1 sm=1 tr=0 ts=69a99b3f cx=c_pps
+ a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=ASjFhuaS4dzjz75NzcQA:9
+ a=QEXdDO2ut3YA:10 a=rBiNkAWo9uy_4UTK5NWh:22
+X-Proofpoint-ORIG-GUID: e-fh1FRjB_P9u8n7Xq215amT9218Sxiq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_04,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ impostorscore=0 adultscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,265 +162,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 971CF21411E
+X-Rspamd-Queue-Id: 6D0FF2141B1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[imgtec.com,none];
-	R_DKIM_ALLOW(-0.20)[imgtec.com:s=dk201812];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
-	FORGED_RECIPIENTS(0.00)[m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:alessio.belle@imgtec.com,m:brajesh.gupta@imgtec.com,m:sarah.walker@imgtec.com,m:alexandru.dadu@imgtec.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[alexandru.dadu@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[imgtec.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_EQ_TO_DOM(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[alexandru.dadu@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imgtec.com:dkim,imgtec.com:email,imgtec.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	HAS_REPLYTO(0.00)[rob.clark@oss.qualcomm.com]
 X-Rspamd-Action: no action
 
-The firmware will send the context reset notification message as
-part of handling hardware recovery (HWR) events. This commit decodes
-the message and prints via drm_info(). This eliminates the  "Unknown
-FWCCB command" message that was previously printed.
+On Wed, Mar 4, 2026 at 5:03=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Wed, Mar 04, 2026 at 06:59:42AM -0800, Rob Clark wrote:
+> > On Wed, Mar 4, 2026 at 6:57=E2=80=AFAM Rob Clark <rob.clark@oss.qualcom=
+m.com> wrote:
+> > >
+> > > On Wed, Mar 4, 2026 at 5:34=E2=80=AFAM Dmitry Baryshkov
+> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > >
+> > > > The MSM GBM backend uses MSM_GEM_NEW to allocate GEM buffers from t=
+he
+> > > > KMS driver, imports them into the GPU driver (msm or kgsl) and then
+> > > > uses them for rendering / blending. Commit 98f11fd1cf92 ("drm/msm: =
+Take
+> > > > the ioctls away from the KMS-only driver") dropped all IOCTLs from =
+the
+> > > > MSM KMS devices, pointing out the need to use dumb buffers, however=
+ dumb
+> > > > buffers should not be used by the GPU for rendering. Restore GEM-re=
+lated
+> > > > IOCTLs for the KMS devices.
+> > > >
+> > > > Fixes: 98f11fd1cf92 ("drm/msm: Take the ioctls away from the KMS-on=
+ly driver")
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > > ---
+> > > > Note, here I assume that dumb buffers generally should not be used =
+for
+> > > > rendering. That doesn't seem to be complete truth as Mesa kmsro on =
+MSM
+> > > > devices uses DRM_IOCTL_MODE_CREATE_DUMB to create buffers for resou=
+rces.
+> > >
+> > > That is problematic in kmsro.. (but also unsure to what degree kmsro
+> > > ever got used "in production".. the x86 drivers don't use it.  Androi=
+d
+> > > and chromeos didn't use it.  Etc.)
+> >
+> > (also, allocate from the gpu render node)
+>
+> I think Asahi and VC4 allocate buffers from the GPU node and then import
+> them on the render side, but unfortunately iMX IPU driver doesn't seem
+> to support PRIME_FD_TO_HANDLE.
 
-Co-authored-by: Sarah Walker <sarah.walker@imgtec.com>
-Signed-off-by: Alexandru Dadu <alexandru.dadu@imgtec.com>
----
- drivers/gpu/drm/imagination/Makefile               |   1 +
- drivers/gpu/drm/imagination/pvr_ccb.c              |   6 ++
- drivers/gpu/drm/imagination/pvr_dump.c             | 111 +++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_dump.h             |  17 ++++
- .../gpu/drm/imagination/pvr_rogue_fwif_shared.h    |  12 +++
- 5 files changed, 147 insertions(+)
+I guess my general suggestion would be to allocate from GPU and import
+to display first, and if that fails then try the other way around if
+that fails.  For kmsro we could handle this by providing our own
+ro->create_for_resource().
 
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index f5072f06b4c4..1222a14262e4 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -8,6 +8,7 @@ powervr-y := \
- 	pvr_device.o \
- 	pvr_device_info.o \
- 	pvr_drv.o \
-+	pvr_dump.o \
- 	pvr_free_list.o \
- 	pvr_fw.o \
- 	pvr_fw_meta.o \
-diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
-index 9294b4ba1de7..95d91cde7241 100644
---- a/drivers/gpu/drm/imagination/pvr_ccb.c
-+++ b/drivers/gpu/drm/imagination/pvr_ccb.c
-@@ -4,6 +4,7 @@
- #include "pvr_ccb.h"
- #include "pvr_device.h"
- #include "pvr_drv.h"
-+#include "pvr_dump.h"
- #include "pvr_free_list.h"
- #include "pvr_fw.h"
- #include "pvr_gem.h"
-@@ -150,6 +151,11 @@ process_fwccb_command(struct pvr_device *pvr_dev, struct rogue_fwif_fwccb_cmd *c
- 		pvr_free_list_process_grow_req(pvr_dev, &cmd->cmd_data.cmd_free_list_gs);
- 		break;
- 
-+	case ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_NOTIFICATION:
-+		pvr_context_reset_notification(pvr_dev,
-+					       &cmd->cmd_data.cmd_context_reset_notification);
-+		break;
-+
- 	default:
- 		drm_info(from_pvr_device(pvr_dev), "Received unknown FWCCB command %x\n",
- 			 cmd->cmd_type);
-diff --git a/drivers/gpu/drm/imagination/pvr_dump.c b/drivers/gpu/drm/imagination/pvr_dump.c
-new file mode 100644
-index 000000000000..4b7ea38a83bd
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_dump.c
-@@ -0,0 +1,111 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2026 Imagination Technologies Ltd. */
-+
-+#include <drm/drm_print.h>
-+#include <linux/types.h>
-+#include "pvr_device.h"
-+#include "pvr_dump.h"
-+#include "pvr_rogue_fwif.h"
-+
-+static const char *
-+get_reset_reason_desc(enum rogue_context_reset_reason reason)
-+{
-+	switch (reason) {
-+	case ROGUE_CONTEXT_RESET_REASON_NONE:
-+		return "None";
-+	case ROGUE_CONTEXT_RESET_REASON_GUILTY_LOCKUP:
-+		return "Guilty lockup";
-+	case ROGUE_CONTEXT_RESET_REASON_INNOCENT_LOCKUP:
-+		return "Innocent lockup";
-+	case ROGUE_CONTEXT_RESET_REASON_GUILTY_OVERRUNING:
-+		return "Guilty overrunning";
-+	case ROGUE_CONTEXT_RESET_REASON_INNOCENT_OVERRUNING:
-+		return "Innocent overrunning";
-+	case ROGUE_CONTEXT_RESET_REASON_HARD_CONTEXT_SWITCH:
-+		return "Hard context switch";
-+	case ROGUE_CONTEXT_RESET_REASON_WGP_CHECKSUM:
-+		return "CDM Mission/safety checksum mismatch";
-+	case ROGUE_CONTEXT_RESET_REASON_TRP_CHECKSUM:
-+		return "TRP checksum mismatch";
-+	case ROGUE_CONTEXT_RESET_REASON_GPU_ECC_OK:
-+		return "GPU ECC error (corrected, OK)";
-+	case ROGUE_CONTEXT_RESET_REASON_GPU_ECC_HWR:
-+		return "GPU ECC error (uncorrected, HWR)";
-+	case ROGUE_CONTEXT_RESET_REASON_FW_ECC_OK:
-+		return "Firmware ECC error (corrected, OK)";
-+	case ROGUE_CONTEXT_RESET_REASON_FW_ECC_ERR:
-+		return "Firmware ECC error (uncorrected, ERR)";
-+	case ROGUE_CONTEXT_RESET_REASON_FW_WATCHDOG:
-+		return "Firmware watchdog";
-+	case ROGUE_CONTEXT_RESET_REASON_FW_PAGEFAULT:
-+		return "Firmware pagefault";
-+	case ROGUE_CONTEXT_RESET_REASON_FW_EXEC_ERR:
-+		return "Firmware execution error";
-+	case ROGUE_CONTEXT_RESET_REASON_HOST_WDG_FW_ERR:
-+		return "Host watchdog";
-+	case ROGUE_CONTEXT_GEOM_OOM_DISABLED:
-+		return "Geometry OOM disabled";
-+
-+	default:
-+		return "Unknown";
-+	}
-+}
-+
-+static const char *
-+get_dm_name(u32 dm)
-+{
-+	switch (dm) {
-+	case PVR_FWIF_DM_GP:
-+		return "General purpose";
-+	case PVR_FWIF_DM_2D:
-+		return "2D";
-+	case PVR_FWIF_DM_GEOM:
-+		return "Geometry";
-+	case PVR_FWIF_DM_FRAG:
-+		return "Fragment";
-+	case PVR_FWIF_DM_CDM:
-+		return "Compute";
-+	case PVR_FWIF_DM_RAY:
-+		return "Raytracing";
-+	case PVR_FWIF_DM_GEOM2:
-+		return "Geometry 2";
-+	case PVR_FWIF_DM_GEOM3:
-+		return "Geometry 3";
-+	case PVR_FWIF_DM_GEOM4:
-+		return "Geometry 4";
-+
-+	default:
-+		return "Unknown";
-+	}
-+}
-+
-+/**
-+ * pvr_context_reset_notification() - Handle context reset notification from FW
-+ * @pvr_dev: Device pointer.
-+ * @data: Data provided by FW.
-+ *
-+ * This will decode the data structure provided by FW and print the results via drm_info().
-+ */
-+void
-+pvr_context_reset_notification(struct pvr_device *pvr_dev,
-+			       struct rogue_fwif_fwccb_cmd_context_reset_data *data)
-+{
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+
-+	if (data->flags & ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_FLAG_ALL_CTXS) {
-+		drm_info(drm_dev, "Received context reset notification for all contexts\n");
-+	} else {
-+		drm_info(drm_dev, "Received context reset notification on context %u\n",
-+			 data->server_common_context_id);
-+	}
-+
-+	drm_info(drm_dev, "  Reset reason=%u (%s)\n", data->reset_reason,
-+		 get_reset_reason_desc(data->reset_reason));
-+	drm_info(drm_dev, "  Data Master=%u (%s)\n", data->dm, get_dm_name(data->dm));
-+	drm_info(drm_dev, "  Job ref=%u\n", data->reset_job_ref);
-+
-+	if (data->flags & ROGUE_FWIF_FWCCB_CMD_CONTEXT_RESET_FLAG_PF) {
-+		drm_info(drm_dev, "  Page fault occurred, fault address=%llx\n",
-+			 (unsigned long long)data->fault_address);
-+	}
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_dump.h b/drivers/gpu/drm/imagination/pvr_dump.h
-new file mode 100644
-index 000000000000..450e8b9ebab8
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_dump.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2026 Imagination Technologies Ltd. */
-+
-+#ifndef __PVR_DUMP_H__
-+#define __PVR_DUMP_H__
-+
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
-+
-+/* Forward declaration from pvr_rogue_fwif.h. */
-+struct rogue_fwif_fwccb_cmd_context_reset_data;
-+
-+void
-+pvr_context_reset_notification(struct pvr_device *pvr_dev,
-+			       struct rogue_fwif_fwccb_cmd_context_reset_data *data);
-+
-+#endif /* __PVR_DUMP_H__ */
-diff --git a/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
-index 6c09c15bf9bd..f622553cdc11 100644
---- a/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
-+++ b/drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
-@@ -236,6 +236,18 @@ enum rogue_context_reset_reason {
- 	ROGUE_CONTEXT_RESET_REASON_INNOCENT_OVERRUNING = 4,
- 	/* Forced reset to ensure scheduling requirements */
- 	ROGUE_CONTEXT_RESET_REASON_HARD_CONTEXT_SWITCH = 5,
-+	/* CDM Mission/safety checksum mismatch */
-+	ROGUE_CONTEXT_RESET_REASON_WGP_CHECKSUM = 6,
-+	/* TRP checksum mismatch */
-+	ROGUE_CONTEXT_RESET_REASON_TRP_CHECKSUM = 7,
-+	/* GPU ECC error (corrected, OK) */
-+	ROGUE_CONTEXT_RESET_REASON_GPU_ECC_OK = 8,
-+	/* GPU ECC error (uncorrected, HWR) */
-+	ROGUE_CONTEXT_RESET_REASON_GPU_ECC_HWR = 9,
-+	/* FW ECC error (corrected, OK) */
-+	ROGUE_CONTEXT_RESET_REASON_FW_ECC_OK = 10,
-+	/* FW ECC error (uncorrected, ERR) */
-+	ROGUE_CONTEXT_RESET_REASON_FW_ECC_ERR = 11,
- 	/* FW Safety watchdog triggered */
- 	ROGUE_CONTEXT_RESET_REASON_FW_WATCHDOG = 12,
- 	/* FW page fault (no HWR) */
-
----
-base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
-change-id: 20260305-b4-firmware-context-reset-notification-handling-694a1b5e6b8c
-
-Best regards,
--- 
-Alexandru Dadu <alexandru.dadu@imgtec.com>
-
+BR,
+-R
