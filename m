@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDbEKhARqmmBKgEAu9opvQ
+	id gJV2HhIRqml2KgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:08 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027D52193F3
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD9F2193FA
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCCC10E112;
-	Thu,  5 Mar 2026 23:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B11510EC7A;
+	Thu,  5 Mar 2026 23:26:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="G8QNQd6h";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="l2I4V8E3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBAC10E112
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 23:26:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C0710EC7A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 23:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=pSOU/nlsKiqauChFCxO02OnTvI4sBOcUwXzOr6axcWU=; b=G8QNQd6hzrPUUKhqV7fMkn01Te
- Ha5VQLsyAX5f0oLbXhYUOhqinQAVttoSjeO8WY2dFTg0je05EDE3mQ3vfxabXdfesU9UvtUIEzO1R
- EkkKsosyqB83HWROUiOSMYm5C3IndLqNK0sEi/LtRqvSHDoaNyMVlZz10eQIBioFyO3OmXLXd+KtI
- AANBtWOM+08brLiS51UiPVj3pLWmLCD1JVADu2AZRXJ9BI1GTo6RSI5C/pv1jEyT7fe7rMyIbKcRM
- DptSFJDDQv/UPdI+0xN5em0Lj8Hv3n6FRbH3QHXqTvxjNpicccG8UU1sz3hjmyCl0Hif5wAImpjl2
- zdGU9lBQ==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=veY8Xc3INVsClBhsJ3L5bBE2ob0iJFjwt+krC9c0Kys=; b=l2I4V8E3dZmDOQbtBglamG8U75
+ 4We/OlB/oyrY/So5ie4i8+uIzr0B7Q6mzFpKk/xoCJia1jjXHJqZTYMMa/Ib7LPKHeh4PDW7Oz5ls
+ gJisHrIkYw7Gc1ZdNc9dC80P7Kzy1+++H6YVRknJQq30qgsCNIe4hBKMVVPha+bARoPjBFF60wmtj
+ MvHFR4NWWGx9HBKQ78qd2Az6vA12UIYiy6Fi1ZlbNrLMZtK2yqpH9M+o+BGeMmBFt/qP6NDWzZWFC
+ TR7YyewZeikDL/4omfIjZ3M5I0P0HfvIgqRWgurbL1BTL4jfy/GudtpP7F4Sun5DeYBRvwPGQuqrk
+ Jw4IEtnQ==;
 Received: from [189.7.87.203] (helo=[10.0.0.1])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vyI4s-009Zzo-DR; Fri, 06 Mar 2026 00:25:58 +0100
+ id 1vyI4v-009Zzo-8W; Fri, 06 Mar 2026 00:26:01 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: [PATCH v2 0/6] drm/v3d: Improve v3d_stats lifetime and locking
-Date: Thu, 05 Mar 2026 20:25:49 -0300
-Message-Id: <20260305-v3d-reset-locking-improv-v2-0-fd53c91f7726@igalia.com>
+Date: Thu, 05 Mar 2026 20:25:50 -0300
+Subject: [PATCH v2 1/6] drm/v3d: Handle error from drm_sched_entity_init()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ6CMBBFr0Jm7Zi2SAVX3sOwgDLARGhJSxoN4
- e5WEpcu30v++xsE8kwBbtkGniIHdjaBOmVgxsYOhNwlBiWUFkoWGPMOPQVacXLmyXZAnhfvIvY
- 9SW3yotBVC2m+eOr5daQfdeKRw+r8+3iK8mt/0ev/aJQoUHRteSmF1KWu7jw0Ezdn42ao933/A
- Lcl0LjBAAAA
-X-Change-ID: 20260215-v3d-reset-locking-improv-ffe16c35569b
+Message-Id: <20260305-v3d-reset-locking-improv-v2-1-fd53c91f7726@igalia.com>
+References: <20260305-v3d-reset-locking-improv-v2-0-fd53c91f7726@igalia.com>
+In-Reply-To: <20260305-v3d-reset-locking-improv-v2-0-fd53c91f7726@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, 
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
  Maxime Ripard <mripard@kernel.org>
@@ -56,15 +52,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
  Iago Toral Quiroga <itoral@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2447; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=goOhhJXwelrZv67cXzPkw7o+B45yaebLVd44FAVlBfc=;
- b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBpqhEDclJWzsVckOr3BsmRfG+VCH6AfNaCW1MUN
- qwoJmSiGoSJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaaoRAwAKCRA/8w6Kdoj6
- qvg1B/wLj/coZIRT+/+RYy8XZWP7LTKlrK90CJtj1AZU1c1gcSXrCw/I/VD1jhn3OTq36l498Ce
- jsKsmQXA0+16cuRhn3b8RTA2r5BdzfdNCy1chMqNx1n8nW+2CuXQ+rWkny2Ovdt2wIUSR9EGMQS
- 3I8tQGU4ahn0d3HNjTH5mcqXzHjnBUVKMjX5vBAz84lK2Oqmy+npEYvWLEdd1cCwGF8lIZRF4P8
- ByTEu2uQisNHc1u6VljckZ8G1Df9szZwKVRbPhj3dHhnjGrR3e30iS/AixYK/ggCD4nfkF6hHJy
- 5dXofW2D5nSXkpA7tj6ZLZTa6d3fQJIFOHTigMLCX9AU4zCR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1883; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=AaIabnW6sSCrxsV7Z3lFnGVsJOe0R/0wAzlaOEdq3PI=;
+ b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBpqhEDPVs71GoDRVee1DAU+5ed9HVlt3VjaxrXM
+ NcaQrHrXvuJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaaoRAwAKCRA/8w6Kdoj6
+ qkk4CACCxgqIx7BO6tp0sTuQGwmfap22HuAZ3J20dH7g0HoOhuShf2KNLWvpHRhxEYG+YTe1uN5
+ WF0WbQV+UrNpU0Vi6I6sLsralJOap4VB1SKMRyC01NkaLNvd6GDagcimj5MAU1fUuECl/ZAYAii
+ HN0DzQKWxJ+HE4AGOrlBCiA5zrNfz73j87IHqbHfOYz2ocfSQs3h6t6UtSSQ/gxjuVoZjq1bXLR
+ 10QrvkzKGBdEYy1jgXnEWUhYf9hUUD9oCZnrPhD5JbN/pdRyfTEhzWswAZxkrsfMjTV5vKfbXZ1
+ 4nLD2Ky26Xj5NFEpPAmnOOYgnywd598duPCftoxssEe4oDdi
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 027D52193F3
+X-Rspamd-Queue-Id: 2AD9F2193FA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.49 / 15.00];
 	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
@@ -95,16 +91,16 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[igalia.com:-];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.952];
+	NEURAL_HAM(-0.00)[-0.966];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -116,62 +112,59 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email]
 X-Rspamd-Action: no action
 
-This series aims to improve the `struct v3d_stats` lifetime management.
-The commit fa6a20c87470 ("drm/v3d: Address race-condition between per-fd
-GPU stats and fd release") addressed a race-condition between the per-fd
-GPU stats and the fd release by clearing `job->file_priv` before the V3D
-per-fd structure is freed and assuring that `job->file_priv` exists
-during the per-fd GPU stats updates.
+drm_sched_entity_init() can fail but its return value is currently being
+ignored in v3d_open(). Check the return value and properly unwind
+on failure by destroying any already-initialized scheduler entities.
 
-However, this approach introduced a tricky file_priv NULL-ing dance with
-the `queue_lock` spinlock. This series aims to address this issue in a
-simpler way: converting `v3d_stats` from embedded structs to
-heap-allocated, refcounted objects. This simplifies the code and leaves
-`queue_lock` exclusively for job management.
-
-The series also switches to raw seqcount helpers to resolve a lockdep
-annotation issue, fixes missing error handling in drm_sched_entity_init(),
-and removes the now-unnecessary dedicated fence_lock.
-
-Best regards,
-- Maíra
-
+Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 ---
-v1 -> v2:
+ drivers/gpu/drm/v3d/v3d_drv.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-- [All patches] Added Iago's R-b (Iago Toral)
-- [3/6] s/kzalloc/kzalloc_obj
-- [5/6] Add a comment explaining while the mutex is used in
-        DRM_V3D_PARAM_CONTEXT_RESET_COUNTER (Iago Toral)
-- Link to v1: https://lore.kernel.org/r/20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index dd60acdf52c2b2e44c6150f11678b291ab1f6df4..86e05fcf6cf65638c4bf97ab3511ccac40f21e2f 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -131,7 +131,7 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	struct v3d_file_priv *v3d_priv;
+ 	struct drm_gpu_scheduler *sched;
+-	int i;
++	int i, ret;
+ 
+ 	v3d_priv = kzalloc_obj(*v3d_priv);
+ 	if (!v3d_priv)
+@@ -141,9 +141,11 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 
+ 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
+ 		sched = &v3d->queue[i].sched;
+-		drm_sched_entity_init(&v3d_priv->sched_entity[i],
+-				      DRM_SCHED_PRIORITY_NORMAL, &sched,
+-				      1, NULL);
++		ret = drm_sched_entity_init(&v3d_priv->sched_entity[i],
++					    DRM_SCHED_PRIORITY_NORMAL, &sched,
++					    1, NULL);
++		if (ret)
++			goto err_sched;
+ 
+ 		memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
+ 		seqcount_init(&v3d_priv->stats[i].lock);
+@@ -153,6 +155,12 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	file->driver_priv = v3d_priv;
+ 
+ 	return 0;
++
++err_sched:
++	for (i--; i >= 0; i--)
++		drm_sched_entity_destroy(&v3d_priv->sched_entity[i]);
++	kfree(v3d_priv);
++	return ret;
+ }
+ 
+ static void
 
-To: Melissa Wen <mwen@igalia.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: kernel-dev@igalia.com
-Cc: dri-devel@lists.freedesktop.org
-
----
-Maíra Canal (2):
-      drm/v3d: Handle error from drm_sched_entity_init()
-      drm/v3d: Remove dedicated fence_lock
-
-Tvrtko Ursulin (4):
-      drm/v3d: Use raw seqcount helpers instead of fighting with lockdep
-      drm/v3d: Refcount v3d_stats
-      drm/v3d: Hold v3d_stats references in each job
-      drm/v3d: Attach per-fd reset counters to v3d_stats
-
- drivers/gpu/drm/v3d/v3d_drv.c    |  57 ++++++++++-------
- drivers/gpu/drm/v3d/v3d_drv.h    |  46 +++++++++-----
- drivers/gpu/drm/v3d/v3d_fence.c  |   2 +-
- drivers/gpu/drm/v3d/v3d_gem.c    |  43 ++++++++-----
- drivers/gpu/drm/v3d/v3d_irq.c    |   2 +-
- drivers/gpu/drm/v3d/v3d_sched.c  | 133 +++++++++++++++------------------------
- drivers/gpu/drm/v3d/v3d_submit.c |   6 ++
- drivers/gpu/drm/v3d/v3d_sysfs.c  |   2 +-
- 8 files changed, 151 insertions(+), 140 deletions(-)
----
-base-commit: 21613f67ede11e495281b4a6dde72cd7db3ada4e
-change-id: 20260215-v3d-reset-locking-improv-ffe16c35569b
+-- 
+2.53.0
 
