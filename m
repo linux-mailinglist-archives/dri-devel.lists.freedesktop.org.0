@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QG2XOLPGqWmcEgEAu9opvQ
+	id sA+GCrjGqWmcEgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:51 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B509C216CF7
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAEC216D16
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65AA10EC57;
-	Thu,  5 Mar 2026 18:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037B710EC52;
+	Thu,  5 Mar 2026 18:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="kMv2HY+1";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="AeKI3ipY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B807510EC52
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:08:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B94410EC59
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
  ; s=x;
  h=Subject:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Cc:To
  :From:subject:date:message-id:reply-to;
- bh=xwcBePG6sNEWpweHlUmZfJdvbnJloC7mT6REuR9qIdg=; b=kMv2HY+1obgYipx2KcnUAI0XkT
- G1MkYihwMB3+mXfQa7DLo4swsyYB18cXuSzq4YZRGvouNab9u01r/9O1esZ1bAYG+oBizkeW9yYHE
- 7iSeAvYZyw4FU4xNyU3iaCb93MjCIfNFrIEhHEeFGqp8Qn87OJKySnRKcvq0WQZ8MPQA=;
+ bh=t2qbmXCsGaoMwLsEkSKLrimHJ5DXCTFIgLX1sKOP7pI=; b=AeKI3ipYUGneQ5auyVBJpqKuPD
+ ddpsnTCyojPAGehlCtdTYdglgiEB0i/B96NheqzfjNHM/DPKxJ1R4h++PNmE9vTYVFvIGg1VuQfY/
+ tIySLkq+0cA3U1QQFoEOz2aRqiwHXfnIozYAKg+lSM+nZulCzokNcYBVFP1HaR2x+Odo=;
 Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:37706
  helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
  (envelope-from <hugo@hugovil.com>)
- id 1vyD7k-0002aR-6E; Thu, 05 Mar 2026 13:08:36 -0500
+ id 1vyD7n-0002aR-Ei; Thu, 05 Mar 2026 13:08:40 -0500
 From: Hugo Villeneuve <hugo@hugovil.com>
 To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
@@ -44,8 +44,8 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, hugo@hugovil.com,
  Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Thu,  5 Mar 2026 13:06:23 -0500
-Message-ID: <20260305180651.1827087-9-hugo@hugovil.com>
+Date: Thu,  5 Mar 2026 13:06:24 -0500
+Message-ID: <20260305180651.1827087-10-hugo@hugovil.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260305180651.1827087-1-hugo@hugovil.com>
 References: <20260305180651.1827087-1-hugo@hugovil.com>
@@ -60,8 +60,7 @@ X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
  *      [score: 0.0000]
 X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
  autolearn=ham autolearn_force=no version=3.4.2
-Subject: [PATCH v2 08/15] ARM: dts: imx6ul-var-som-concerto: order DT
- properties
+Subject: [PATCH v2 09/15] ARM: dts: imx6ul-var-som: factor out SD card support
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B509C216CF7
+X-Rspamd-Queue-Id: BCAEC216D16
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -117,42 +116,191 @@ X-Rspamd-Action: no action
 
 From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-reorder pinctrl_gpio_leds to respect alphabetical order.
+Move SD support to a separate dtsi, since it cannot be used at the
+same time as the Wifi/BT module. Also not all boards support the SD card.
+Move pinctrl_usdhc1* to the common imx6ul-var-som-common dtsi so that it
+can be used by the future Wifi/BT dtsi.
 
 Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 ---
- .../dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi  | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../dts/nxp/imx/imx6ul-var-som-common.dtsi    | 33 ++++++++++++
+ .../imx/imx6ul-var-som-concerto-common.dtsi   | 51 -------------------
+ .../dts/nxp/imx/imx6ul-var-som-concerto.dts   |  1 +
+ .../boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi   | 27 ++++++++++
+ .../dts/nxp/imx/imx6ull-var-som-concerto.dts  |  1 +
+ 5 files changed, 62 insertions(+), 51 deletions(-)
+ create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-index 1cf4a4d6495f2..d40264b553240 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-@@ -140,18 +140,18 @@ MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0x17059
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+index 22b0c4e0725a5..dd4ecff1eb786 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-common.dtsi
+@@ -139,6 +139,39 @@ MX6UL_PAD_UART2_RTS_B__UART2_DCE_RTS	0x1b0b1
  		>;
  	};
  
--	pinctrl_gpio_leds: gpio-ledsgrp {
--		fsl,pins = <
--			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
--		>;
--	};
--
- 	pinctrl_gpio_key_wakeup: gpio-keys-wakeupgrp {
- 		fsl,pins = <
- 			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x17059
- 		>;
- 	};
- 
-+	pinctrl_gpio_leds: gpio-ledsgrp {
++	pinctrl_usdhc1: usdhc1grp {
 +		fsl,pins = <
-+			MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
++			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
++			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
++			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
++			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
++			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
++			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
 +		>;
 +	};
 +
- 	pinctrl_pwm4: pwm4grp {
++	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
++		fsl,pins = <
++			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
++			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
++			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
++			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
++			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
++			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
++		>;
++	};
++
++	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
++		fsl,pins = <
++			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
++			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
++			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
++			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
++			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
++			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
++		>;
++	};
++
+ 	pinctrl_usdhc2: usdhc2grp {
  		fsl,pins = <
- 			MX6UL_PAD_GPIO1_IO05__PWM4_OUT		0x110b0
+ 			MX6UL_PAD_NAND_RE_B__USDHC2_CLK		0x10069
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
+index d40264b553240..161b476474afc 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
+@@ -186,45 +186,6 @@ MX6UL_PAD_UART3_TX_DATA__ANATOP_OTG1_ID	0x17059
+ 		>;
+ 	};
+ 
+-	pinctrl_usdhc1: usdhc1grp {
+-		fsl,pins = <
+-			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x17059
+-			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x17059
+-			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x17059
+-			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x17059
+-			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x17059
+-			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x17059
+-		>;
+-	};
+-
+-	pinctrl_usdhc1_100mhz: usdhc1-100mhzgrp {
+-		fsl,pins = <
+-			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170b9
+-			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100b9
+-			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170b9
+-			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170b9
+-			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170b9
+-			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170b9
+-		>;
+-	};
+-
+-	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
+-		fsl,pins = <
+-			MX6UL_PAD_SD1_CMD__USDHC1_CMD		0x170f9
+-			MX6UL_PAD_SD1_CLK__USDHC1_CLK		0x100f9
+-			MX6UL_PAD_SD1_DATA0__USDHC1_DATA0	0x170f9
+-			MX6UL_PAD_SD1_DATA1__USDHC1_DATA1	0x170f9
+-			MX6UL_PAD_SD1_DATA2__USDHC1_DATA2	0x170f9
+-			MX6UL_PAD_SD1_DATA3__USDHC1_DATA3	0x170f9
+-		>;
+-	};
+-
+-	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
+-		fsl,pins = <
+-			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
+-		>;
+-	};
+-
+ 	pinctrl_wdog: wdoggrp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_GPIO1_IO01__WDOG1_WDOG_B	0x78b0
+@@ -286,18 +247,6 @@ &usbotg2 {
+ 	status = "okay";
+ };
+ 
+-&usdhc1 {
+-	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+-	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
+-	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
+-	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
+-	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+-	no-1-8-v;
+-	keep-power-in-suspend;
+-	wakeup-source;
+-	status = "okay";
+-};
+-
+ &wdog1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_wdog>;
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+index 8872bf55827e3..92d98e4fc775d 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
+@@ -11,6 +11,7 @@
+ 
+ #include "imx6ul-var-som.dtsi"
+ #include "imx6ul-var-som-concerto-common.dtsi"
++#include "imx6ul-var-som-sd.dtsi"
+ 
+ / {
+ 	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
+new file mode 100644
+index 0000000000000..0e6d9b945eb4a
+--- /dev/null
++++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-sd.dtsi
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Support optional SD card interface on Variscite VAR-SOM-6UL module.
++ *
++ * Copyright 2019-2024 Variscite Ltd.
++ * Copyright 2026 Dimonoff
++ */
++
++&iomuxc {
++	pinctrl_usdhc1_gpio: usdhc1-gpiogrp {
++		fsl,pins = <
++			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0x1b0b1 /* CD */
++		>;
++	};
++};
++
++&usdhc1 {
++	pinctrl-names = "default", "state_100mhz", "state_200mhz";
++	pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
++	pinctrl-1 = <&pinctrl_usdhc1_100mhz>, <&pinctrl_usdhc1_gpio>;
++	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
++	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
++	no-1-8-v;
++	keep-power-in-suspend;
++	wakeup-source;
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
+index 9413c946e2d99..d33d5c5afcc22 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
+@@ -10,6 +10,7 @@
+ 
+ #include "imx6ull-var-som.dtsi"
+ #include "imx6ul-var-som-concerto-common.dtsi"
++#include "imx6ul-var-som-sd.dtsi"
+ 
+ / {
+ 	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
 -- 
 2.47.3
 
