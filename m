@@ -2,109 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kHy3DkA6qWkd3QAAu9opvQ
+	id yL8lKlc6qWkd3QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:09:36 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:09:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD5520D37A
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208EC20D382
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:09:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28CE810EB58;
-	Thu,  5 Mar 2026 08:09:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TQ2l+OE6";
-	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dVXICtCK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AD610EB54;
+	Thu,  5 Mar 2026 08:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7771A10EB54
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1772698171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=m2qyIYKFUP0m9wA/UEgSZpALpRru5dabPxt8eU3MBlw=;
- b=TQ2l+OE6qVPerV9+YVQSl4IihBgQ+rCtjeWdysY59TBmvGn06L1YFs1uxNAd1TCm2up2nu
- Lk6wOccew287OddC01KMAHq5YafAmrFi42TuWDjove+89gicARtnMhABoBgb+vrLrfvJGA
- h26ED+4KKXnfXbDg1sKPxxcWxWGFLS4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-50loa8aGOJCE-SCwZMKUJA-1; Thu, 05 Mar 2026 03:09:30 -0500
-X-MC-Unique: 50loa8aGOJCE-SCwZMKUJA-1
-X-Mimecast-MFC-AGG-ID: 50loa8aGOJCE-SCwZMKUJA_1772698169
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4836bf1a920so83473145e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 00:09:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; s=google; t=1772698169; x=1773302969; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=m2qyIYKFUP0m9wA/UEgSZpALpRru5dabPxt8eU3MBlw=;
- b=dVXICtCK0aUMOoFCEogBSHGu0NUEkGWi5r0LPJKWvcDNoDPS26mUHqLsbaJ1igH2q1
- eSPQtAjNNT9UqUEPTqJI5DZxAYU7dN3BasvASjTcfpgg7Xkv/mbza6GdwBFJmWSizK7s
- 7vT9hZZm0OVmI8jqkCLfYsW6oNCrOB0HCELTvvuyeDVbqbNr4asJggnx544WDzM5ILge
- caccZyAckV5uoIreBnJurwUZNn6kXmuhlJq3AiavHfaOIx7W8U8ZMWfeoNfCdlrNF8O7
- x82JRDqIXDT2ozg455lSJg+U8oTqMcuOpbMnih5sAO2IqeYKJpgkfLQ5qcgfSwFxMwRX
- BTuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772698169; x=1773302969;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m2qyIYKFUP0m9wA/UEgSZpALpRru5dabPxt8eU3MBlw=;
- b=mGualbzGYSIeoMq3gnIgbP0tAN3PaGsVuEGtOWsDhesmmS8D1auMsyYnA1rgm4b4Jz
- mBQCBPJu7ZOZf6K30Rutu1isO4jbmJDJ6gtYCX8tcm/wUk9+kDPwMngBeFCkGys3lC4R
- YmGutiMcM+8gIUa5YwdFk1D28O0E+gqjf2ZoCi2LlVfOq396+zdTrPulr1O8cmYPQzfs
- bFNElnwVuhjTcDqtBsrKtHTZTuFV9L4BDg2CmsZVp+x0ebEf5+oQ/HoWJvhdR1TZImXZ
- Nh7nKv7M/YL/Hn9zGg8RAblP3E07cBYRfA36is2kU18vHYkSVv11oHirmcipdCWWJ21G
- hlsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWMo4sHsF34QC5VuI88N+b0fSu9vyZxTPMSSXyDY247LoLMB9M0YIbNrjQolx7qMww+8eYInl7NzkQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVSCz5BIg/SADfXVQ44+aKtMXowZ/0E11UBNgPy2gzUL4lMoyk
- f6rXSoKzH66l0hfInDMzJUCv3+AowF36/3jzBCO9pqZBblqPmLQoClnRZ6fJAXYuEVWO45H5eMP
- 60LC8gv5B8nfTsvQCyv31TC8EXcV10Rte8iFLi5D33AKhgtZ2D5WuiRyGZHalMJlbJvWNoQ==
-X-Gm-Gg: ATEYQzxY3a2hL4nQ6MJusdkriZCeIVriS9YyrRyjmysjGrNaexDVUlubLC82vSX47KD
- pCgcHxqaN+az7eT5eH72MNfWgUv2IsqYERSicXkXw+OltVrYa4PdruLZHwMtYUbS2PI3cYXuT+i
- oe65Q/s72hg6vV8quvyQ3fkxxoh0BwTzMZZwf+hahunm90EkItrzxPtiU0pcWWROB9t/EBJ/sT9
- Bf84xAkqTNPZfQU4ez8zhNiLnQFY9XzkI4JKaKuM9oNGqcW2ihY0QWGN+6ENpoQihWWHu7KB7x0
- r8rnfc7Ru0N6KnkFN1QgK+0K5FOfjrr8PaNPw66Pyq9jDmW3XVx5HrlGSaApfk1J1riDX8nAIg=
- =
-X-Received: by 2002:a05:600c:3b9e:b0:477:5cc6:7e44 with SMTP id
- 5b1f17b1804b1-4851984f5bemr88508675e9.11.1772698168796; 
- Thu, 05 Mar 2026 00:09:28 -0800 (PST)
-X-Received: by 2002:a05:600c:3b9e:b0:477:5cc6:7e44 with SMTP id
- 5b1f17b1804b1-4851984f5bemr88508245e9.11.1772698168337; 
- Thu, 05 Mar 2026 00:09:28 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4851fad01d2sm25418255e9.3.2026.03.05.00.09.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 00:09:27 -0800 (PST)
-Date: Thu, 5 Mar 2026 09:09:27 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20260305-ludicrous-quirky-raven-7cdafd@houat>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4877B10EB54
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:09:55 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
+ by APP-01 (Coremail) with SMTP id qwCowAA33mlMOqlpp6pHCQ--.1877S2;
+ Thu, 05 Mar 2026 16:09:48 +0800 (CST)
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Subject: [PATCH drm-misc-next v2 3/3] drm: verisilicon: fill plane's vs_format
+ in atomic_check
+Date: Thu,  5 Mar 2026 16:09:46 +0800
+Message-ID: <20260305080947.3656864-1-zhengxingda@iscas.ac.cn>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260305075926.3642501-1-zhengxingda@iscas.ac.cn>
+References: <20260305075926.3642501-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ylij2qs72s7ecmod"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAA33mlMOqlpp6pHCQ--.1877S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1fCF18WryUJFyDWFy5XFb_yoW5Zw1rpr
+ 4DAFyrKr4ftrWUWr9rJr4DtFZxu3Z3GryIgrWDGwnaqF15t343CF1kJrZ3CFs8JrW7Gw4x
+ tanayrnxAw42yaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+ tVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+ MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUU
+ UU=
+X-Originating-IP: [112.94.103.14]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,141 +69,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: DDD5520D37A
+X-Rspamd-Queue-Id: 208EC20D382
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:simona.vetter@ffwll.ch,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:rodrigo.vivi@intel.com,m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:ogabbay@kernel.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:dim-tools@lists.freedesktop.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
-	FORGED_SENDER(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,m:zhengxingda@iscas.ac.cn,s:lists@lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.976];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:mid,iscas.ac.cn:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
+Move the conversion from drm_format to vs_format to atomic_check, which
+is before the point of no return and can properly bail out.
 
---ylij2qs72s7ecmod
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: [PULL] drm-misc-fixes
-MIME-Version: 1.0
+Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+---
+Changes in v2:
+- Add non-NULL check for drm_plane_state->fb.
 
-Hi Dave, Sima,
+ drivers/gpu/drm/verisilicon/vs_plane.h        |  2 ++
+ .../gpu/drm/verisilicon/vs_primary_plane.c    | 21 ++++++++++++-------
+ 2 files changed, 16 insertions(+), 7 deletions(-)
 
-Here's this week drm-misc-fixes PR.
-
-Maxime
-
-drm-misc-fixes-2026-03-05:
-A return type fix for ttm, a display fix for solomon, several misc fixes
-for amdxdna, a DSI clock rate fix for rz-du, a uapi fix for syncobj, a
-possible build failure fix for dma-buf, a doc warning fix for sched, a
-build failure fix for ttm tests, and a crash fix when suspended for
-nouveau.
-The following changes since commit 75c151ceaacf5ca8f2f34ebf863d88002fb12587:
-
-  accel/amdxdna: Use a different name for latest firmware (2026-02-25 13:51:31 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2026-03-05
-
-for you to fetch changes up to 8f3c6f08ababad2e3bdd239728cf66a9949446b4:
-
-  nouveau/dpcd: return EBUSY for aux xfer if the device is asleep (2026-03-04 22:08:01 +0100)
-
-----------------------------------------------------------------
-A return type fix for ttm, a display fix for solomon, several misc fixes
-for amdxdna, a DSI clock rate fix for rz-du, a uapi fix for syncobj, a
-possible build failure fix for dma-buf, a doc warning fix for sched, a
-build failure fix for ttm tests, and a crash fix when suspended for
-nouveau.
-
-----------------------------------------------------------------
-Chris Brandt (1):
-      drm: renesas: rz-du: mipi_dsi: Set DSI divider
-
-Dave Airlie (1):
-      nouveau/dpcd: return EBUSY for aux xfer if the device is asleep
-
-Francesco Lavra (1):
-      drm/solomon: Fix page start when updating rectangle in page addressing mode
-
-Isaac J. Manjarres (1):
-      dma-buf: Include ioctl.h in UAPI header
-
-Julian Orth (1):
-      drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-
-Lizhi Hou (3):
-      accel/amdxdna: Fill invalid payload for failed command
-      accel/amdxdna: Fix NULL pointer dereference of mgmt_chann
-      accel/amdxdna: Fix major version check on NPU1 platform
-
-Maarten Lankhorst (1):
-      drm/ttm/tests: Fix build failure on PREEMPT_RT
-
-Tvrtko Ursulin (1):
-      drm/ttm: Fix ttm_pool_beneficial_order() return type
-
-Yujie Liu (1):
-      drm/sched: Fix kernel-doc warning for drm_sched_job_done()
-
- drivers/accel/amdxdna/aie2_ctx.c               | 23 ++++++++--------------
- drivers/accel/amdxdna/aie2_message.c           | 21 +++++++++++++++-----
- drivers/accel/amdxdna/aie2_pci.c               |  7 ++-----
- drivers/accel/amdxdna/aie2_pci.h               |  1 +
- drivers/accel/amdxdna/amdxdna_ctx.c            | 27 ++++++++++++++++++++++++++
- drivers/accel/amdxdna/amdxdna_ctx.h            |  3 +++
- drivers/accel/amdxdna/npu1_regs.c              |  2 +-
- drivers/gpu/drm/drm_syncobj.c                  |  4 ++--
- drivers/gpu/drm/nouveau/nouveau_connector.c    |  3 +++
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 16 ++++++++++++++-
- drivers/gpu/drm/scheduler/sched_main.c         |  1 +
- drivers/gpu/drm/solomon/ssd130x.c              |  6 ++----
- drivers/gpu/drm/ttm/tests/ttm_bo_test.c        |  4 ++--
- drivers/gpu/drm/ttm/ttm_pool_internal.h        |  2 +-
- include/uapi/linux/dma-buf.h                   |  1 +
- 15 files changed, 85 insertions(+), 36 deletions(-)
-
---ylij2qs72s7ecmod
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaak6NgAKCRAnX84Zoj2+
-dhbSAYDiK+Tlgc4M1b78/SsyoMZnUj9Ar7Ng0Xl9zLTTzyeb6ppi2/x1Tos5HxSG
-xAjONRYBgJO8bjLZzhy+E0A12Jl84j8jchkWzfP8dtTxmSxFaDNO/WduyyqBIR/t
-HjKu7W6gMQ==
-=5wx3
------END PGP SIGNATURE-----
-
---ylij2qs72s7ecmod--
+diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h b/drivers/gpu/drm/verisilicon/vs_plane.h
+index 12848a72af576..df4b248b52954 100644
+--- a/drivers/gpu/drm/verisilicon/vs_plane.h
++++ b/drivers/gpu/drm/verisilicon/vs_plane.h
+@@ -65,6 +65,8 @@ struct vs_format {
+ 
+ struct vs_plane_state {
+ 	struct drm_plane_state base;
++
++	struct vs_format format;
+ };
+ 
+ static inline struct vs_plane_state *state_to_vs_plane_state(struct drm_plane_state *state)
+diff --git a/drivers/gpu/drm/verisilicon/vs_primary_plane.c b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
+index bad0bc5e3242d..ca41c8053ae12 100644
+--- a/drivers/gpu/drm/verisilicon/vs_primary_plane.c
++++ b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
+@@ -25,12 +25,20 @@ static int vs_primary_plane_atomic_check(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
++	struct vs_plane_state *new_vs_plane_state = state_to_vs_plane_state(new_plane_state);
+ 	struct drm_crtc *crtc = new_plane_state->crtc;
++	struct drm_framebuffer *fb = new_plane_state->fb;
+ 	struct drm_crtc_state *crtc_state;
++	int ret;
+ 
+-	if (!crtc)
++	if (!crtc || !fb)
+ 		return 0;
+ 
++	ret = drm_format_to_vs_format(fb->format->format,
++				      &new_vs_plane_state->format);
++	if (ret)
++		return ret;
++
+ 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	if (WARN_ON(!crtc_state))
+ 		return -EINVAL;
+@@ -88,11 +96,11 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *state = drm_atomic_get_new_plane_state(atomic_state,
+ 								       plane);
++	struct vs_plane_state *vs_state = state_to_vs_plane_state(state);
+ 	struct drm_framebuffer *fb = state->fb;
+ 	struct drm_crtc *crtc = state->crtc;
+ 	struct vs_dc *dc;
+ 	struct vs_crtc *vcrtc;
+-	struct vs_format fmt;
+ 	unsigned int output;
+ 	dma_addr_t dma_addr;
+ 
+@@ -105,16 +113,15 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
+ 	output = vcrtc->id;
+ 	dc = vcrtc->dc;
+ 
+-	drm_format_to_vs_format(state->fb->format->format, &fmt);
+-
+ 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+ 			   VSDC_FB_CONFIG_FMT_MASK,
+-			   VSDC_FB_CONFIG_FMT(fmt.color));
++			   VSDC_FB_CONFIG_FMT(vs_state->format.color));
+ 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+ 			   VSDC_FB_CONFIG_SWIZZLE_MASK,
+-			   VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
++			   VSDC_FB_CONFIG_SWIZZLE(vs_state->format.swizzle));
+ 	regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
+-			   VSDC_FB_CONFIG_UV_SWIZZLE_EN, fmt.uv_swizzle);
++			   VSDC_FB_CONFIG_UV_SWIZZLE_EN,
++			   vs_state->format.uv_swizzle);
+ 
+ 	dma_addr = vs_fb_get_dma_addr(fb, &state->src);
+ 
+-- 
+2.52.0
 
