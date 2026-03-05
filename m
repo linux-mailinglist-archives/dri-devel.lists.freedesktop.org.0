@@ -2,103 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uNL9NapFqWl53gAAu9opvQ
+	id SJazMURHqWm33gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:58:18 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356AD20DD55
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7763D20DE9E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C395710E1DD;
-	Thu,  5 Mar 2026 08:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF44B10EBA3;
+	Thu,  5 Mar 2026 09:05:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="LCqOSXMp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bc/kGKJZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E9410E1DD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:58:13 +0000 (UTC)
-Received: from [IPV6:2a02:f000:10bd:e301::471] (unknown
- [IPv6:2a02:f000:10bd:e301::471])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519) (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 8480F5341062;
- Thu, 05 Mar 2026 09:58:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1772701091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=i1x+U3Few/NgVJRWrIcf5kMgGln2fDeZq/ALUbGnECI=;
- b=LCqOSXMpL9C9HUUhYqOnp2Yca6e8UZnxgWIelvwtSn0z2jXOOpQ6h6+0IK5Y5c9XXIKevX
- /1QkwOos70/Lgdwf9h71jv2hwcdbdCeODuTGeLAX4m6Unv9kdpcUPyAAKpli7Rurx5oKsq
- aj0mxi4YGWPe/oE9bk/Ul3tl5khmlUg=
-Message-ID: <7b7e3fea-514a-4a3f-bdb4-0d51df7df21a@ixit.cz>
-Date: Thu, 5 Mar 2026 09:58:11 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4284710EBA1;
+ Thu,  5 Mar 2026 09:05:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CEC2A41B4E;
+ Thu,  5 Mar 2026 09:05:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B124C116C6;
+ Thu,  5 Mar 2026 09:05:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772701503;
+ bh=CCLpEYvlxoqg400L58JRWG0E8HGphV4/FeLFDSKOkYA=;
+ h=From:Subject:Date:To:Cc:From;
+ b=bc/kGKJZ0ibUi/NN9IxRD2uOMUgbhElzEWhdq7Y4QhXet3eELFJnQjV7FVnQcH9cu
+ Yig89dkNqgJewqPYmcYNRf2tGAJvH2Mh6uK3W28q9jIAnDQA9Qijxu1F0HYL8foRQd
+ V0qtN0rCewp335lvhThdcbZLjkDeqndIh2EcCt8tUq8NLzoCT/sNAAVjYfWlc0zPae
+ aNElAxT+P+IL2t319cj6xl6pm9VqgMqldnBbyZu36RxDrMa2l2MfjBzpX17heUJbk0
+ 5WI0FB/Qn3w8HA14syv87Cuzu90uvLEqzwWQng/gA8q0MUQcBTgbgfZjAnLlnEiHtJ
+ L0VGn08pirZrA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v3 00/14] drm: Create drm_output_color_format enum
+Date: Thu, 05 Mar 2026 10:04:52 +0100
+Message-Id: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/panel: himax-hx83102: Add support for DSI DCS
- backlight control
-To: Val Packett <val@packett.cool>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260217070121.190108-1-val@packett.cool>
- <20260217070121.190108-5-val@packett.cool>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260217070121.190108-5-val@packett.cool>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NzQ6CMAzA8VchO1vDCgH05HsYD2MrsPAx05GpI
+ by7g5NejL39m/TXRXhiS16ck0UwBeutm2Jkh0ToTk0tgTWxBaZYpIg5GB6B6eG4B+0Gx9A4HtX
+ soUKj48hMSyni+Z2psc+dvt5id9bPjl/7pyC37R9okJBCTbUuiyLNlVGXnnii4ei4FZsa8FMqf
+ 0gYpao2WFaEqjmZL2ld1zdtajFPCwEAAA==
+X-Change-ID: 20260224-drm-rework-color-formats-82dcccc13c11
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Andy Yan <andy.yan@rock-chips.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Liu Ying <victor.liu@nxp.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3940; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=CCLpEYvlxoqg400L58JRWG0E8HGphV4/FeLFDSKOkYA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3c1+T9owYXYw97NTTTkuk/c0eNgsWBrI47H5gpzlX
+ 0nbLebvOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEkl4yNmxgXRFs7MjPe+za
+ 5SOvg3iCL7rHCLoY7bKNepXpGDhJrrl9gn/gfcc5XfennZzdWLNfm7HO8kFu1j3mpedmvJQ67C9
+ guOHCImWNNP1X3uZXo4MFvvPfLfl96dV9lxvOczaYLtTLF0gDAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,67 +99,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 356AD20DD55
+X-Rspamd-Queue-Id: 7763D20DE9E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:val@packett.cool,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:phone-devel@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[packett.cool,linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[collabora.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,arm.com,pengutronix.de,sntech.de,nxp.com,sholland.org,raspberrypi.com];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ixit.cz:+];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:dkim,ixit.cz:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 17/02/2026 08:00, Val Packett wrote:
+Hi,
 
-[...]
+This series creates an enum to represent the output color format as an
+enum instead of a bitmask, and consolidate the HDMI helpers to use the
+new enum.
 
-> +
-> +static struct backlight_device *
-> +hx83102_create_dcs_backlight(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	const struct backlight_properties props = {
-> +		.type = BACKLIGHT_RAW,
-> +		.brightness = 4095,
+This should make Nicolas' work easier.
 
-Series looks good, just nitpick here.
+It has been build tested, and passes kunit tests.
 
-While this is not OLED, where full brightness reduces the lifetime of display a 
-lot, are you sure you want to bring the display backlight up to 100% by default?
+Let me know what you think,
+Maxime
 
-Usually I've and others put ~ 50%. It's important to keep display well readable 
-until userspace takes over, but not have to be full-throttle :)
+---
+Changes in v3:
+- Update more documentation
+- Rebase on drm-misc-next-2026-03-05
+- Link to v2: https://lore.kernel.org/r/20260227-drm-rework-color-formats-v2-0-8bd278e2af9d@kernel.org
 
-David
+Changes in v2:
+- Add missing conversion from HDMI_COLORSPACE to DRM_OUTPUT_COLOR
+- Do an enum forward declaration instead of including a header
+- Fix typos in doc
+- Collect tags
+- Rebase on drm-misc-next-2026-02-26
+- Link to v1: https://lore.kernel.org/r/20260224-drm-rework-color-formats-v1-0-bebc76604ada@kernel.org
 
-[...]
+---
+Maxime Ripard (14):
+      drm/connector: Introduce drm_output_color_format enum
+      drm/edid: Convert to drm_output_color_format enum
+      drm/display: hdmi: Convert to drm_output_color_format
+      drm/amdgpu: display: Convert to drm_output_color_format
+      drm/bridge: adv7511: Convert to drm_output_color_format
+      drm/bridge: analogix: Convert to drm_output_color_format
+      drm/bridge: cadence: Convert to drm_output_color_format
+      drm/bridge: synopsys: dw-dp: Convert to drm_output_color_format
+      drm/bridge: synopsys: dw-hdmi: Convert to drm_output_color_format
+      drm/arm: komeda: Convert to drm_output_color_format
+      drm/mediatek: dp: Convert to drm_output_color_format
+      drm/rockchip: analogix: Convert to drm_output_color_format
+      drm/connector: Remove DRM_COLOR_FORMAT defines
+      drm/display: hdmi: Use drm_output_color_format instead of hdmi_colorspace
 
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +-
+ .../gpu/drm/arm/display/komeda/d71/d71_component.c |  14 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |   2 +-
+ .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   5 +-
+ .../drm/arm/display/komeda/komeda_pipeline_state.c |   2 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   4 +-
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  24 +--
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |   2 +-
+ drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+ drivers/gpu/drm/bridge/ite-it6263.c                |   2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c            |  71 ++++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  16 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |   4 +-
+ drivers/gpu/drm/display/drm_hdmi_helper.c          |   7 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  60 ++++---
+ drivers/gpu/drm/drm_bridge.c                       |   2 +-
+ drivers/gpu/drm/drm_connector.c                    |  16 +-
+ drivers/gpu/drm/drm_edid.c                         |  18 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_connector_test.c         |  80 ++++-----
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 182 ++++++++++-----------
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  18 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 +-
+ include/drm/bridge/dw_hdmi_qp.h                    |   2 +-
+ include/drm/display/drm_hdmi_helper.h              |   3 +-
+ include/drm/drm_bridge.h                           |   5 +-
+ include/drm/drm_connector.h                        |  48 ++++--
+ 31 files changed, 334 insertions(+), 285 deletions(-)
+---
+base-commit: d2e20c8951e4bb5f4a828aed39813599980353b6
+change-id: 20260224-drm-rework-color-formats-82dcccc13c11
+
+Best regards,
 -- 
-David Heidelberg
+Maxime Ripard <mripard@kernel.org>
 
