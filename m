@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yO2sLl9HqWm33gAAu9opvQ
+	id aO2RLGJHqWnw3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:35 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8D820DF42
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D9920DF51
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FCC10EBB8;
-	Thu,  5 Mar 2026 09:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B25BD10EBBB;
+	Thu,  5 Mar 2026 09:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oxXcjh1E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bF4sJ2R3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEF310EBB8;
- Thu,  5 Mar 2026 09:05:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7847410EBBE;
+ Thu,  5 Mar 2026 09:05:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 83D5C446AC;
- Thu,  5 Mar 2026 09:05:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6091C19423;
- Thu,  5 Mar 2026 09:05:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5223140B06;
+ Thu,  5 Mar 2026 09:05:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DE4C116C6;
+ Thu,  5 Mar 2026 09:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772701532;
- bh=UOPw4lyjLgO8th4KVe5p6838LUE8j5nBPpQHE2tj2aA=;
+ s=k20201202; t=1772701535;
+ bh=skFI5P2haIGjdD0+W8BO9ttWB17k7eh3BIV8frGuT1I=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=oxXcjh1E7AHB4pzmQyzC0aCcZFUVaswymWC0qjjAkz8/kiUX6dX4yhfE2oND2mRh4
- UIBoXEdyU3zSU8whjodAYgBYr69ZyqnYhvojtJEIHoODsIETL4W3mOkERpxKL/DVMy
- ZjDcLGh/82UXeVNiCslaFmdrh/FQhXg0mTkmPWNcFWzRqmbxS/NLiX9qtqBM4Ac5Xu
- uUOyR0Jtnbf/WBqQScrWIAiTX6vOo+Ux6pyCwerpzwLpJC6PzwnOZQyBeG+7h1gJIR
- 6wAS8SoUS97I93A+bVr7Xh//H98I41LMI7ofm0FoMAODJVhZzofwfr5eHIjci7pJIp
- mNiu7duxt0ztg==
+ b=bF4sJ2R3g6drItQMyUx0FiiZuCIqTLETK2ukzmc476ghhRR4QChpE1FU1IjZ5FmYH
+ gkKFIcmUS3np8smnw6+Wmu/YID4pOEyveFVhCbATnvZc2EjJVu2V1vpwwCmwOoklVn
+ IzHvhYq64l7d4pL5fC9oGHzuC9sD4Y1WeOvXRTtjaDtJeuShiA12Nq6jGg/DQ0Gf5E
+ DsVzAFCKqcffkeNgUwiSVuMMKeTxRabbw0EaNgfpGU8zcqfYx+ew5V9ocrxi/Yx9c5
+ x0oTq0/mEE1DAK/ZllEb8aJVRSh2m7yNtQugPF0kEKIUzrWGybxt3WyPA+KH7OAC/P
+ 4e2XexvXEoTrw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Mar 2026 10:05:02 +0100
-Subject: [PATCH v3 10/14] drm/arm: komeda: Convert to drm_output_color_format
+Date: Thu, 05 Mar 2026 10:05:03 +0100
+Subject: [PATCH v3 11/14] drm/mediatek: dp: Convert to drm_output_color_format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-drm-rework-color-formats-v3-10-f3935f6db579@kernel.org>
+Message-Id: <20260305-drm-rework-color-formats-v3-11-f3935f6db579@kernel.org>
 References: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 In-Reply-To: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -74,12 +74,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5568; i=mripard@kernel.org;
- h=from:subject:message-id; bh=UOPw4lyjLgO8th4KVe5p6838LUE8j5nBPpQHE2tj2aA=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3a0clsl8SFsevO5gyuvw6LnWr+4vsFD7Grd07evYo
- Ehu7qSqjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRA08ZGz6+OOuSln8572bn
- csZLC2fsjhe01Vppy9squbK4gl/c1Secc1mmU6LBo1L+BLXmzf1/GWuFDrN/kqr/sXfL59fH7sy
- 1nZH6p2X7yttiN3J6f57sSGfq37y+bmXAs11HDxYl9eQ7aN0FAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2376; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=skFI5P2haIGjdD0+W8BO9ttWB17k7eh3BIV8frGuT1I=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3a35ckLMraXmTGBSrvYOvOW/o3y6TX77h69zD++/b
+ qH3ToqnYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEzksCtjQ5uc1jqjvQlXbu/6
+ HO/JJuNuy3TA/POilA0Ots8WsJWmLRX29L++9MyfNUulvKxk/9uLM9aHGN7a/vayY9tExiVpxW6
+ 6v399z0hUya69eDVV8Fmi8lXFFerPLyuKG+9czGTbZvFo51sA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,7 +96,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6F8D820DF42
+X-Rspamd-Queue-Id: 68D9920DF51
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -124,7 +124,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,arm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,pengutronix.de:email]
 X-Rspamd-Action: no action
 
 Now that we introduced a new drm_output_color_format enum to represent
@@ -140,122 +140,43 @@ The only thing we need to consider is if the original code meant to use
 that value as a bitmask, in which case we do need to keep the bit shift,
 or as a discriminant in which case we don't.
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/arm/display/komeda/d71/d71_component.c     | 14 +++++++-------
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c           |  2 +-
- drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h       |  5 +++--
- drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c |  2 +-
- 4 files changed, 12 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-index 67e5d3b4190f62549bc8da700deb4b15e138b515..27ca2930cdac6e76a058102ea2c1d8306d85e751 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-@@ -1078,15 +1078,15 @@ static void d71_improc_update(struct komeda_component *c,
- 	}
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 08c4d64b87b944dbcf57294dc48c740a37374469..c52cc7c2e20063b9dcc99be46bc7de50d67b0d6b 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -2452,11 +2452,11 @@ static enum drm_mode_status
+ mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
+ 			 const struct drm_display_info *info,
+ 			 const struct drm_display_mode *mode)
+ {
+ 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+-	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 : 24;
++	u32 bpp = info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) ? 16 : 24;
+ 	u32 lane_count_min = mtk_dp->train_info.lane_count;
+ 	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
+ 		   lane_count_min;
  
- 	mask |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
- 
- 	/* config color format */
--	if (st->color_format == DRM_COLOR_FORMAT_YCBCR420)
-+	if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR420)
- 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
--	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR422)
-+	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR422)
- 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422;
--	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR444)
-+	else if (st->color_format == DRM_OUTPUT_COLOR_FORMAT_YCBCR444)
- 		ctrl |= IPS_CTRL_YUV;
- 
- 	malidp_write32_mask(reg, BLK_CONTROL, mask, ctrl);
- }
- 
-@@ -1143,16 +1143,16 @@ static int d71_improc_init(struct d71_dev *d71,
- 		return PTR_ERR(c);
- 	}
- 
- 	improc = to_improc(c);
- 	improc->supported_color_depths = BIT(8) | BIT(10);
--	improc->supported_color_formats = DRM_COLOR_FORMAT_RGB444 |
--					  DRM_COLOR_FORMAT_YCBCR444 |
--					  DRM_COLOR_FORMAT_YCBCR422;
-+	improc->supported_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
-+					  BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422);
- 	value = malidp_read32(reg, BLK_INFO);
- 	if (value & IPS_INFO_CHD420)
--		improc->supported_color_formats |= DRM_COLOR_FORMAT_YCBCR420;
-+		improc->supported_color_formats |= BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
- 
- 	improc->supports_csc = true;
- 	improc->supports_gamma = true;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 9c8b8da531a7f169cb55f0daba3a898d29cdfdf9..714af5c889d742144113f6d86c79b009d6a19384 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -38,11 +38,11 @@ void komeda_crtc_get_color_config(struct drm_crtc_state *crtc_st,
- 			min_bpc = conn_bpc;
- 	}
- 
- 	/* connector doesn't config any color_format, use RGB444 as default */
- 	if (!conn_color_formats)
--		conn_color_formats = DRM_COLOR_FORMAT_RGB444;
-+		conn_color_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
- 
- 	*color_depths = GENMASK(min_bpc, 0);
- 	*color_formats = conn_color_formats;
- }
- 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-index 37b9e92202443cc72adc0666ed047d4f77d79782..bbee6da43164f7cc32340ff4479d99609c18db7e 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-@@ -317,20 +317,21 @@ struct komeda_splitter_state {
- 	u16 overlap;
- };
- 
- struct komeda_improc {
- 	struct komeda_component base;
--	u32 supported_color_formats;  /* DRM_RGB/YUV444/YUV420*/
-+	u32 supported_color_formats;  /* BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444/YUV444/YUV420) */
- 	u32 supported_color_depths; /* BIT(8) | BIT(10)*/
- 	u8 supports_degamma : 1;
- 	u8 supports_csc : 1;
- 	u8 supports_gamma : 1;
- };
- 
- struct komeda_improc_state {
- 	struct komeda_component_state base;
--	u8 color_format, color_depth;
-+	enum drm_output_color_format color_format;
-+	u8 color_depth;
- 	u16 hsize, vsize;
- 	u32 fgamma_coeffs[KOMEDA_N_GAMMA_COEFFS];
- 	u32 ctm_coeffs[KOMEDA_N_CTM_COEFFS];
- };
- 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-index f4e76b46ca327a1c5db9bdbdd9550b45190b30d8..6f9b10cc831ff748296b9ed30b6de398c90c4786 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-@@ -797,11 +797,11 @@ komeda_improc_validate(struct komeda_improc *improc,
- 					 improc->supported_color_formats);
- 			return -EINVAL;
- 		}
- 
- 		st->color_depth = __fls(avail_depths);
--		st->color_format = BIT(__ffs(avail_formats));
-+		st->color_format = __ffs(avail_formats);
- 	}
- 
- 	if (kcrtc_st->base.color_mgmt_changed) {
- 		drm_lut_to_fgamma_coeffs(kcrtc_st->base.gamma_lut,
- 					 st->fgamma_coeffs);
+ 	/*
+@@ -2519,11 +2519,11 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	 * datarate of YUV422 and sink device supports YUV422, we output YUV422
+ 	 * format. Use this condition, we can support more resolution.
+ 	 */
+ 	if (((rate * 97 / 100) < (mode->clock * 24 / 8)) &&
+ 	    ((rate * 97 / 100) > (mode->clock * 16 / 8)) &&
+-	    (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
++	    (display_info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))) {
+ 		input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
+ 		if (!input_fmts)
+ 			return NULL;
+ 		*num_input_fmts = 1;
+ 		input_fmts[0] = MEDIA_BUS_FMT_YUYV8_1X16;
 
 -- 
 2.53.0
