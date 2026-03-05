@@ -2,142 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sH5kF0/WqGnpxgAAu9opvQ
+	id qIEoMHPcqGnGxwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 02:03:11 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 02:29:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AD8209AD3
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 02:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF72209CF0
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 02:29:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C83410EADD;
-	Thu,  5 Mar 2026 01:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70DE310E065;
+	Thu,  5 Mar 2026 01:29:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nVsloXWb";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ts5w1qHx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="N5AWhO1w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 325BB10E1A3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 01:03:07 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 624HHjt02611984
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 01:03:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UGVzVQZRlFdbfhTLFkfDsWaL6JDxwkcRKucdgGZVBNM=; b=nVsloXWbcDlLhmWP
- AIVxAIZTCaPKqPWFbLmsztin+3B6KZLLghogAv5IERj57XfRsQaQJw+Twy3v3CDF
- 6u7ba1nJwJO9DETN/VFjO+DFp8DYRVlgEuSqlYfWGAEFYWAgTfJaphUG0IVLilFf
- tVLpXNUQRLDgIP1J68akD0ULrS8Gks3y4F69oxIiwRgjxltP2wTRsaW+PWbcFd2w
- ttnCY5EIBsPHJPMKSneZOWJBh7rFl4FjwIjvy4HK1K1FKmpuIkXRibsvVyKHTDWx
- N7bnMnReIrarm8cwBhbpWXAEJIsXEMoHsIW3fjIUSOUtN+t0tON1zp7wDcT6yssP
- fhlrMA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cps0w96fr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 01:03:06 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8cb4e37a796so4383337985a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Mar 2026 17:03:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772672585; x=1773277385;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UGVzVQZRlFdbfhTLFkfDsWaL6JDxwkcRKucdgGZVBNM=;
- b=Ts5w1qHxljUPfwggJ7QIuUawgb6EwoNajNS+/mvvUny1x6Yuh2H3UHaK9t5i6RCKRE
- 9D8Bwcym7H8BN8wnT4v3p0hTCK8oe4bqFf+fikRhk3+xuEGrE6Yr8I0tytQ9Q5M/hOPt
- oODocO14n1ROdu9g0ySwzLEqLGCiaEivyYzOJYtOLV+rmySVbrHeaQ+oOWmhqByLc5nl
- Y+HzIYIJD3yLojb93vTYVnCxgYnOIF+IqdIo4tuMuXG1zkz91sSKcWBge09WzBmE2C7+
- xfDG/7dU/JLLdamPiIINIoa/6lYHjLAlkXR59gDK3Wa4YwwAV4D140WXOsth3gJ8curd
- 5gOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772672585; x=1773277385;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UGVzVQZRlFdbfhTLFkfDsWaL6JDxwkcRKucdgGZVBNM=;
- b=HAeXQTZv0Shi5dF7QT7HLRj4f3e0V6w7yjfUEcTNzpq+dgZS5FMhtrbFlkYTsvd1AK
- I7G24KdzT4xpDnHDkEqSzlSJ8fSfOCyuiKa+Mjz86jz2cNTHb6481Jwd+D3WHHSEJtKv
- MbYWA1qqv+JPybhQstj7ygePjK9zrpOs5HbEheF3bh3FP9yoKlerHKEyQCDj7hLO9Qbo
- oS3frTGaA2dCFG4tLG+MWF+83Z0XAojxZDCRxWh25n9mYhz6mtU5Mzmv2CRd1uv+2shv
- 3M80XnmZKkknde5G3zE/AKi/4z0Aa08M6AX+bXe/fIc/Hh4uF6O8rCp9L63LG3S/J9AW
- IDJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbhuEpPM4WwSGKjFFnRQmFQigPtu08q4usEbIsxIBAoKRXKeRh2NGYqVHKwvi7kmCToA/66m+0VQM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxezS0A0V2MkcrfQOlsepYWHKjqFhe4q+PCqjTBSUtZVlV4toY2
- LSpfaAes5Toyw8HjxQ+lzU4W+vBxyAYwxbj3mdwlOuKnDfvO/OQf++9+htR1PF/7XkhIKzvaTgf
- gZ6Ee4w6ZDJ+M7mbWG0ffWgkFUYNIwx3ZK6/X0c1DU4zv6/i5P147+YykcoS6Ms6uKdqPfVE=
-X-Gm-Gg: ATEYQzzBL/H3vikHKlOXg87EhJGkdxtrYV9fMD8Q4/7l+GLNzn+m7Lycv5TKhAx84dP
- pLDHh4ceZHLXMvcVvHmk69UVokFZe4GFsOzRjpHxVm7HvppGLyT0lpT5LCm0czL1uUt8NI6PesX
- 7VfcyFSUU+CyccY1Ws4K5zqklY5TpHB4dbV3pzmuROzUdrQxCefYMUEdJVZ+bjQ3YRs3/rD0Esj
- yibLgVW/oNGjExtibX4C+1EjKBfRbfhpvXsqYBtbUZz6m5w4aWd55xm57+6Chl4lKNz1/IitDOo
- anLrnso8/n53KLCEr+vVR72n54bJWiE/Ug9DevkO6NHAK5LczD+G6zOWeQN5LsB5hQVkiwrpYC7
- MyB3WW9nWHorqcWD3+88mP1Q5kIc1YNSuvn7Flkp07sDuQFrxXXAgkVQHuJf/SARx2Jhheeer86
- 4MK0V+Fjo21MIRWwyPlj0e/lk+EX8ItGNbvhw=
-X-Received: by 2002:a05:620a:f0e:b0:8cb:4cc2:c5d3 with SMTP id
- af79cd13be357-8cd5afc4322mr502515485a.73.1772672585530; 
- Wed, 04 Mar 2026 17:03:05 -0800 (PST)
-X-Received: by 2002:a05:620a:f0e:b0:8cb:4cc2:c5d3 with SMTP id
- af79cd13be357-8cd5afc4322mr502510885a.73.1772672585079; 
- Wed, 04 Mar 2026 17:03:05 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a12a6e4c01sm870585e87.1.2026.03.04.17.03.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2026 17:03:04 -0800 (PST)
-Date: Thu, 5 Mar 2026 03:03:01 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <rob.clark@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: restore GEM-related IOCTLs for KMS devices
-Message-ID: <fpeatj5yrhp45rdd2qzcdtltrofr67noqc7fygsisyaquzx36o@ek3mfy32z5rv>
-References: <20260304-msm-restore-ioctls-v1-1-b28f9231fcd2@oss.qualcomm.com>
- <CACSVV03T5ceDADxbdgpitczk6rExcRpkQQ8vcedR0gEK3bLQkw@mail.gmail.com>
- <CACSVV01M7YmW1OCjUQ+QFRpXHoY055MEnBCczeG1zRuQyi8z_w@mail.gmail.com>
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012052.outbound.protection.outlook.com [52.101.53.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D4610E065;
+ Thu,  5 Mar 2026 01:29:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eWMgbmEQ5y+kTyR2zcPOof1pQRdVGg6Wlj7PyNjJ3QjCQAyuxKimwlFkrsXuaAoeIddzNF4JviNxSSB6k0dQUsVtah/zy/Li7dFE2CTq2aSaI5owWT6UszWk3L0H2koDHE9mzXEhrxNquqG/LQyN1QvHgSJLBA+7mH/BL/Mtz+hpYWAdTMX1c/KOH32T+j73+DVAzL/u3ZNCq/S5vtkRB9ufMInrg/NjuYzwHGYleOVCuO7fvF81BKVWpxLB+0H7PK20aQDyHvnU7oaje723pT4t78qBpsDizPclPLuPBV1zD5OS4R2FveKGqvND9MIWxymLvdP1Kn4SgHwWD/SFlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K1Q1vMQ2kWZb0Hx56bOAH4FuGaMGsRJFsCwA9O/1FOo=;
+ b=BU8aITLkeiXgILHLkXRCtr8T2Rhx4Xw6WmUMlpH2IbkNDds53YYRWwZZ8DUTeHL/7t5Xt7yX+Ww9SW3FEnZNUvZj8lQw1MmGQM/LfdFZ3rjmo/hXDBJTnw/7T/gWkTWb9QkWqkFG+qCjrlcGykfOuNBfJtYUmHepVDSMMvPngXAk/ATPsYqcIqP5LAabkqFZ/D79Z4YGRJjqO9ACEfz1XeAxpJCM9e1RomDqg2pySb/dy278HMOn9Ue7jlgzO4AyfPGx/Fs7Ilh0Cu6FwHr1y0GS3V2GS0r1ZJXJw5NEkwuSEvXprI19iwkX+OAejacBK3v97v9yOyq5iZmtmdcSyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K1Q1vMQ2kWZb0Hx56bOAH4FuGaMGsRJFsCwA9O/1FOo=;
+ b=N5AWhO1wGkX34QdO9V6HbpCuLU+iuTZdCR/fAA7a1T01VNNawLWm1vftGGOj/MmDSIqoQkihd9Gcp3zOLatV3JcSsNYnO/8wFFDHL0nAV9I/Ul7NsfYYTQ/xoQ3b325zFdg0qOycwJv2BQCE5czdqPSig3qnBMd/Urdtjp9Dxi5VlA2zS6JdS81DK/R9CJTwRpij17JI+Hpv34vUra2THYzshUoTnfjFlIUjGapkZ+rBgWnQKYgz/QojykVhdgq/9y9E8S7RYAyrD+oK+AyD9BaDPJl0l2QILTU3pA1LFCp8DxqeDk07sMVGx907Q1NJovY6mACthaPNBUlgCTL84w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by BL4PR12MB9479.namprd12.prod.outlook.com (2603:10b6:208:58e::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Thu, 5 Mar
+ 2026 01:29:15 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
+ 01:29:14 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Mar 2026 10:29:11 +0900
+Message-Id: <DGUGJIQ3ZTTV.2YUMT2HODGY9R@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Benno Lossin" <lossin@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, "Alistair Popple" <apopple@nvidia.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, "Zhi Wang" <zhiw@nvidia.com>, "dri-devel"
+ <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v3 3/5] gpu: nova-core: gsp: add reply/no-reply info to
+ `CommandToGsp`
+From: "Eliot Courtney" <ecourtney@nvidia.com>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260304-cmdq-locking-v3-0-a6314b708850@nvidia.com>
+ <20260304-cmdq-locking-v3-3-a6314b708850@nvidia.com>
+ <DGU29CRUS8BB.3N1UAT96X34YZ@nvidia.com>
+In-Reply-To: <DGU29CRUS8BB.3N1UAT96X34YZ@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0375.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:79::11) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACSVV01M7YmW1OCjUQ+QFRpXHoY055MEnBCczeG1zRuQyi8z_w@mail.gmail.com>
-X-Proofpoint-GUID: RhyFgXNm7K-lLKDxmqWkCvTbRCMUu3Pz
-X-Authority-Analysis: v=2.4 cv=BNK+bVQG c=1 sm=1 tr=0 ts=69a8d64a cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=yEwdYLOYgBwwZM1KkmAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDAwNiBTYWx0ZWRfX2n1xYePcd3Ip
- VQ4TnaEyH4DwifQFGkB89HEiHo8nc4eFbdwOzqjqxOta1lOa+pzLKyXnmjkkJUODBRY+5IBaiw4
- uua3LUydnc8d29uJqux3jcheLH+GCsIsZLdDX9rjsPhO7O9hvG7US7OBTzNW7uPdMhBa0YkehGP
- 8y3QDQi+xwe+BRnihUXTixKgMSxuJ8OYJnkMTm260b1qWLBMi+z1JBNx8X3ShI3JotvWBFK8E5L
- UIjWuddcfHvHuhldl7DZyU1nyQQJ/XcZVB64xvjOIbNt4D4ziSpmwElJ0BSmJIBCS3F9Foa8wLx
- N3u+77k8hrfcz2ejW497l5CEMpxLv1B9rKmqezzxrHvomuhkTEI1R3+miABOoi22TZz2G+2xNA9
- 328lsQuh2BigHWoXytAA6NgJNbg35J0Rkw/Gga+ul7C7X0P4o7SfqA955lyG/odggKKmSCU2bed
- RgAATzrJZwPZOKwZxtQ==
-X-Proofpoint-ORIG-GUID: RhyFgXNm7K-lLKDxmqWkCvTbRCMUu3Pz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-04_09,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050006
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|BL4PR12MB9479:EE_
+X-MS-Office365-Filtering-Correlation-Id: e912287b-578d-4173-7b38-08de7a569ca0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|1800799024|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: 4OczASON6s60bnYkQoYDA+FEgbeCN45CF3oXS2bCdOF5mjGdKsCfjAWpFrwC2svoFCSNEEOgNOE3mHe7pQoyStWxqvY8DYScGbrb2oKaLMGMUEs5YGaIGZXxeSbfkUMI3hjmmlT5vo643aX8Ll49SyB/QPxrUpsPPAtoabxTmQ91CLLoUskSmMSillce3AP4bBD1lMQi2tbKA8UyuX2azh9H+I3zbetoU/naXtDO9esaMnpIU/EpF15XtgkT19Nd/d6IosefsxbkAgIrgZ1sOlqJZsANuz82uwY6lw+24FHZ/wA4fsEaiFhI28b7NbbOLRPt3Z3NsF2odIwOgRq8eQAzuYgLWkUMswvsItY8hbyIqvISo/3s/I/livEI/u+XVz628uCgvV7lI7jJlJtfFFXTZbBdvjAT/V+R7AFGYcWRffatAxaso5Q/cVA9GdCgjNAHGIM8OQQ4qncTnePl4BJ34uy9MaTurzniY8UfoAND5GX6DShO1TPu3SZhcKCP7rtUKKawsL+eyDzlQ/5mIddZ8irtWdpTrSWp5WlGW9g/BOErfHYZ+p1AkU8ZoR8U1C0AOrgdGNjeXdUeik9ECmsqp0tarKtU+78X223DgVvYyNN1dpfBCry6LcWCTYKX3H559SCyXfgIOhXf/l9bCdvh1sXaAgNrKZzEXfb521KEqP0rBOIL9DsE4BfKHmlPiGhSn1ffln3h9yVtKtX/rSFCqigCSGhZkvf5A1Sv3ZU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEJkZTF1dHFBZlJnNjJsNjdNVlIvc1RVK0V5RHUvKzlWUVFkSWNFdlVDZDBn?=
+ =?utf-8?B?cmxndWNwWU5JdTY5d01FTktnL1Zlejl3d1Vqd0xmRitMRTMwcjRaeUNmN1R5?=
+ =?utf-8?B?eFdSTEc1TTlqM1R4VEF0Qks2R2lpTmozVmNsRmZxMklOSW03ajdud2kvMmVm?=
+ =?utf-8?B?bDVLUE9xRWNleGhPQ0k5Q3JUSGlCL0JCQVlzZ2k1OHdnZ0VDNS9vc2pKcUdO?=
+ =?utf-8?B?azI2cENYakNoOVJuS3pZT3duVHBRUXA4aUpQT0dGOGFYcG03clBQOFV2N3R1?=
+ =?utf-8?B?dUo2RjNkWkVxTXFOYk9QakpHNTgvc0tuQzVJdHFtZ3A2MWJWWUR2ZjFZejJJ?=
+ =?utf-8?B?UWVsS3A4d3h5Z0p0ZXdXMm9aUlFUc3pPVlN6VVNOVEQ5dEcvYzdtT1FWTVEr?=
+ =?utf-8?B?UXZMZm1NeEp4NGo1UExVb29UVFMrSS9aczlnZVVCd2tmcnJpNUd5dUV6bE1K?=
+ =?utf-8?B?SlJQVldXc25IL1UwSHJ2UVdyT3QzaFB2YzZUcFRjMmcxS01OUXNtajE0akpZ?=
+ =?utf-8?B?RHZrN2Qwb1dqRVJWNWFHNDhwM3c0aDNKUUhYU0pUZEVDNTM0M0JjQ05qdEtz?=
+ =?utf-8?B?WjBMMmYwak8rTU03RDF0ZWd4NklLYWVYai9KSzl4cnJ5Y2Ryc0MreEVoUzZP?=
+ =?utf-8?B?RFNBZFNFTkpxdmx0amNWN1ZheFhhdmpqcFUzcVY4OStaZlliMkFTdWZRSkpX?=
+ =?utf-8?B?WWJYdUs2SVZMNFpPTDZOM3dsWXRrNmd1a1VIOWcxRmY1NVplU3dlQXRSRkk5?=
+ =?utf-8?B?aXhyTVZ0ZElPVzFBV0FOSXI1bXhhQTA1R1puSFM3c1djTStKUnlQQ1BHSVZo?=
+ =?utf-8?B?SXhXQmVLRExST0padGw2M3FqNTcwU1Q4QXkvSTNIS2Z5K2crdXBTYlRZdlBv?=
+ =?utf-8?B?MWlMWlpzUHlqSmw0WHVCbHpCcGtReGdycS90WXgvU0RlaDRPUHh3VjNPTm5k?=
+ =?utf-8?B?MVdaYWxnS2gzdmZEMk51NEU0cmg2aUtBL3dJZXl6Nm4vamRiUlZWUThQTDB1?=
+ =?utf-8?B?RG54VlBtOGZyWmRQZ21jZUNQT3BTM3VGd2lKRm9GVDlmc1YvS3NhZ28yd2tp?=
+ =?utf-8?B?ckk5NHgxMkJENUlUdTNadmJ4RmY0TWc5UGlya3BMVk9zNnppVmMxcjhtV28x?=
+ =?utf-8?B?ZTBYRTlIdjZGSjIzZ0drVUFWZkZ0MDhkSmNBbkY0RE4reTFUQzRxeS90dUpl?=
+ =?utf-8?B?eTZWYnVTbVR0a1ZCeDdRMVBqZm9oeE4xMnNsWlh6bEhzQ1RTS3hOSm5WQkJ0?=
+ =?utf-8?B?ZkhidFdQN0xHN0NPTGRvVlp3ZGtiVS8yK2o2Ry9JNkViaTdFNWh5cVdrRGk3?=
+ =?utf-8?B?RHBSSEFMWFZaU2dDazF5ek56Nzd5SGNRZS82aitYclVrTUZ0Ymd2bmFwZGlX?=
+ =?utf-8?B?c1JDMk1HMTB1L09PWVR1c2VwTkFSRXJDUTgyYkxsZEljVU5ua1NIZXIxanZy?=
+ =?utf-8?B?MUtPcVoxY2JtckcwNlBpdzBPeUlsNTlqcFZaUEtGWFlGYm0rcXRGS2R3TlJM?=
+ =?utf-8?B?QzlqN1l0K3QwMXZnYzdJaFFLektsU0VKVEF6d0V5THhwdEFGQTRrT3JaRVVt?=
+ =?utf-8?B?cVlDNHJLZnBtakdwN3Q3TGdYY2pXY010SmpEK1FPUTZjYUVNdlpOZkJJaThU?=
+ =?utf-8?B?Qmc3enlNVDltYXNYcDhmdnJyV283UVI2anhYNlJQcGNoTlllUTlVUUQxSS9u?=
+ =?utf-8?B?QVRBZVNQYTZsSDRadVJENFR5M2JwaDVUcDBtRWVxTmVtc2R5dE5ldHV1R0xZ?=
+ =?utf-8?B?WWw3T1lkcUpwSHNjVjlaZEJNSzA0YWpoVXRDQjJqRmlubnZMWHliY2lETUJY?=
+ =?utf-8?B?WEpJVm8vU012MWsxak8rNzdSZnFDeklBa2l2YkNpVmhoMHc0ZzYwbi9WQmg0?=
+ =?utf-8?B?cUUwVWJ3RUwwV3crKzdaS3A5Y0dqdnF1eUc3MnVITVRoRU5VbTBlWXpOdG95?=
+ =?utf-8?B?T21KY3FhUTd4ZHpueXhRMW9JWCsxVkRuck56bXA3d1dLaFc0cmVjYXZPaHMw?=
+ =?utf-8?B?a1V5THhCSTI2UVdDYkgwOENqVW9iMDZnWmVCOEVtL282eEd5VEt5Z0hrb0VN?=
+ =?utf-8?B?Znp2SzltTUZLQjNTVnY0dUNYcXlreERtdlJCNFgydjczNElRajRzTEt0YnFG?=
+ =?utf-8?B?Yk1GajE1VmVaaGd4clZWRU00UXZKMndiU1ZjK0orcFN6aWFGUWF3UEdBVjdB?=
+ =?utf-8?B?Y01QK1hQNUVkNk9SRWQwT203T1g2amQwNHcwY0NoV2sxZlUydmhwRys5Umsw?=
+ =?utf-8?B?NjBSeWYvZUlUZ1BydXdWZHVRTWVhbDNpSHR4cjhQN3ZzNzlnZXQ2VWZDSmdC?=
+ =?utf-8?B?SUhBbFVCQnR6TDRuamVVcGpaQ0NHK0NDN0NDZkRhU25hTU5MYm13RTNDbUx2?=
+ =?utf-8?Q?p/vDNxdc+pF3sU+ovzA+s2Q0nlHxSbN4179Ec3v+JgGEU?=
+X-MS-Exchange-AntiSpam-MessageData-1: j99YjeJH9zhPPQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e912287b-578d-4173-7b38-08de7a569ca0
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 01:29:14.8880 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m58gsfyKEAQLui6vK7RuOtl96z4j9d2bzPaD1f6R1v3tOYay+zt3lFvx+BDmpT3b6UnN7yCS1GsjZk9pbP6ypg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9479
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,74 +151,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 11AD8209AD3
+X-Rspamd-Queue-Id: 2CF72209CF0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:rob.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,nvidia.com,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nvidia.com:mid,Nvidia.com:dkim]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 06:59:42AM -0800, Rob Clark wrote:
-> On Wed, Mar 4, 2026 at 6:57 AM Rob Clark <rob.clark@oss.qualcomm.com> wrote:
-> >
-> > On Wed, Mar 4, 2026 at 5:34 AM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >
-> > > The MSM GBM backend uses MSM_GEM_NEW to allocate GEM buffers from the
-> > > KMS driver, imports them into the GPU driver (msm or kgsl) and then
-> > > uses them for rendering / blending. Commit 98f11fd1cf92 ("drm/msm: Take
-> > > the ioctls away from the KMS-only driver") dropped all IOCTLs from the
-> > > MSM KMS devices, pointing out the need to use dumb buffers, however dumb
-> > > buffers should not be used by the GPU for rendering. Restore GEM-related
-> > > IOCTLs for the KMS devices.
-> > >
-> > > Fixes: 98f11fd1cf92 ("drm/msm: Take the ioctls away from the KMS-only driver")
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > > ---
-> > > Note, here I assume that dumb buffers generally should not be used for
-> > > rendering. That doesn't seem to be complete truth as Mesa kmsro on MSM
-> > > devices uses DRM_IOCTL_MODE_CREATE_DUMB to create buffers for resources.
-> >
-> > That is problematic in kmsro.. (but also unsure to what degree kmsro
-> > ever got used "in production".. the x86 drivers don't use it.  Android
-> > and chromeos didn't use it.  Etc.)
-> 
-> (also, allocate from the gpu render node)
+On Wed Mar 4, 2026 at 11:17 PM JST, Alexandre Courbot wrote:
+> On Wed Mar 4, 2026 at 11:46 AM JST, Eliot Courtney wrote:
+> <snip>
+>>  /// Send the [`GetGspInfo`] command and awaits for its reply.
+>>  pub(crate) fn get_gsp_info(cmdq: &mut Cmdq, bar: &Bar0) -> Result<GetGs=
+pStaticInfoReply> {
+>> -    cmdq.send_command(bar, GetGspStaticInfo)?;
+>> -
+>> -    loop {
+>> -        match cmdq.receive_msg::<GetGspStaticInfoReply>(Cmdq::RECEIVE_T=
+IMEOUT) {
+>> -            Ok(info) =3D> return Ok(info),
+>> -            Err(ERANGE) =3D> continue,
+>> -            Err(e) =3D> return Err(e),
+>> -        }
+>> -    }
+>> +    cmdq.send_command(bar, GetGspStaticInfo)
+>
+> Also noticed something cool while rebasing the unload series on top of
+> this one: all these command helpers become one-liners and are not really
+> needed anymore! Here we can just make `GetGspStaticInfo` public and call
+> `cmdq.send_command` on it directly in `boot`. It removes a layer of
+> black magic and makes it easier to understand what is going on.
 
-I think Asahi and VC4 allocate buffers from the GPU node and then import
-them on the render side, but unfortunately iMX IPU driver doesn't seem
-to support PRIME_FD_TO_HANDLE.
-
--- 
-With best wishes
-Dmitry
+I think this is ok, but we will still need some helpers (e.g. for RM
+control RPCs) that mimic the structure we have here. But there are a
+bunch of simple RPCs like this that can just be called without the
+helper. Do you think it's better to do this and have mixed helper vs
+direct call, or just go all helpers?
