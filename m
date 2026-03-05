@@ -2,62 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULlDAxlZqWkL6AAAu9opvQ
+	id 2JSfEehZqWkL6AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:21:13 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:24:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3AA20F9D2
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDFB20FA61
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:24:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 703B110E249;
-	Thu,  5 Mar 2026 10:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D571810E24C;
+	Thu,  5 Mar 2026 10:24:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gzBZ5tHw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ir3Hj6C5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0CC10E249
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WQnlk+nV/bkjhuZg3p5P3js6ndTmK3hZSnDhnMgitkc=; b=gzBZ5tHwqLZyzix1fqmcNqO7sB
- 7WdefPiEuZ9Eyl951Q3+r/nOsRC2KkASY2dqpU0xrGmeGYdE1+kHIx+c4ia9VuTh3vOKFzyuAffb4
- x7GEy7cblggQEXH9amvFtFldYiLSDfrausjeY/wCLtwibdL5GDE60N+DegKltao/zehIMmbrJ6Tyy
- qQPpxCv1VAQD3M50sc08OWURMpAkuOf2uHLDUl2JK1kgoBxXO6FwWUC5Cf5xAHXj1JAInWioADs6l
- 2Lcgm/eQ0bVA/yPh5f6SkQqUwi0keBPeWv96xpYjmIjgFKk7YNQ2EVbtoTW8KEM3FfZW6u0cRWHXX
- 1v54m4Sw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vy5pA-009JZS-9L; Thu, 05 Mar 2026 11:20:56 +0100
-Message-ID: <3f1a1afb-3bb4-49df-bb96-48d757307f4e@igalia.com>
-Date: Thu, 5 Mar 2026 10:20:55 +0000
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE6B510E24C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:24:35 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-79854193a54so78053617b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 02:24:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772706274; x=1773311074; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=KKtGG8cnRzPbDChU+0WmjTWUNsPzt9337CwyfdycHS8=;
+ b=ir3Hj6C5uTCrPx4pNkG/SHDHtKHmTQc66vjIeUA8OiCbcGQh7Q+6399dW+Ik3iKsZN
+ 9oeuC/vpKiOrMpZcsb6gz9Ycpv56t28WFNHEH7zjqZ/D2UMAATMErZ7ulg69+c/WXif6
+ iJEmPArf7JUv4wuV9q0uFyNtWPHAQ+ywmpPuptTcmZthEXFdDi/7WdhlMyZnLCgovOxk
+ dExV2S+K0zR3LrZW3i9/ZUZQQENqBNH5sZuTufkKaxxYWBhtvqDvV1Z4sLq1yvdSJn0A
+ Y1sLQ4XOaTPyERMrH2z+/qco1FcHsgO6mExR0073mP4Zr95i5mNU3B6f/Sc/qIVevp2Q
+ QZoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772706274; x=1773311074;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KKtGG8cnRzPbDChU+0WmjTWUNsPzt9337CwyfdycHS8=;
+ b=hzMOkGKvwXE5ao2FRs67DfX4w+rcF3F6rc5TBcsmQ7PkW7c4AoBcX3tDmDN3a3s3cS
+ Jonia/a3edVBnUB+jA+xeOqvKv7lbu/qkctXgzHzFIy4COrq2wt2VuaF3maRw2z1oTIr
+ 7rlTdROm1surezR/3jrU1RURhAAHaGUN6lk+Wz7xFzcDhAT76COUtRzAZgBjMzP74ohv
+ 0gyJpQ4JN/ssbMLdXE5n9HQwWn8tlgbVy34kbVhoxp6R0fCLRbIvafTT0aDYdYkaGzeA
+ Jtv5e6bjYJgB5e7cr+ZhwEk/7rULdueGpUsAWF808Y5CqCv/wfVGZmL1TrwDHza4/9vt
+ n7Ag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXlJBcp1P5WX0KJrE4PPwh9IUYk2Z7TMb719GoASR4B3RdU+H5Uiv8ugOi5uMKcoBRYETsTL8Qco7o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwU5dIfQmKL/ukVHZlDQWNgsLsBCDVRKcup6D2+ex5bOmXH38S1
+ KnxiqAjxPgg3iBYKYb5qDvlR+P+d6TE0Mi/mjDmMubc9ks0cO2gFETXB
+X-Gm-Gg: ATEYQzzsboj9bQyu7EfxCznWcQ83wgCVux2n/e2WQq2PrudzGilgZZl1xa9fHrX4/+Z
+ qJKhBFvenTu+JBwe94bhOpKW9NGPpHouJv5QALeOR/K6u6pVD7eBnUufnXwhVAh6P8zXxg9ZYfJ
+ 1nKb8MFAoCWEepT4fOTs87Uk3aCISeysddyPl3wq03x66IYCwV7xNYdWIAdmJIwUU0k1UbHEtSP
+ Qg3IKLsfY1QOYCrU5mMQPup8hq5+RQIvEz2kGXF7p3X434oho9gKDHmyMgEDjvkugRLAgBC65ul
+ KCQyHZX9+fY/vIbbAA8OnnmavCvAWONf5M17Bkzs8dLgY7MaFCwixIL/CvTHv0p5/I4uQ8v1oa6
+ B2l2HyGRIDsH1VhdbIu2fx78jv5Pxw2hFOIPO5Y3DhMkw99xoxBJb6JJ3RYNl1bMfKDF17+lHLT
+ HDNVUHZh7bofSFTa5iJlkBxoV0o3dBowL24uxNPv22WX+av9Cu5EZc3Qsg92edPRHAnt5AbZlua
+ FCfOc81YFsX8+gtte5jNsVx8K7jsTkas5xOTDU=
+X-Received: by 2002:a05:690c:6709:b0:796:44e0:abd5 with SMTP id
+ 00721157ae682-798c6c2029amr46790537b3.27.1772706274259; 
+ Thu, 05 Mar 2026 02:24:34 -0800 (PST)
+Received: from [10.138.34.110]
+ (h69-131-217-18.cncrtn.broadband.dynamic.tds.net. [69.131.217.18])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-79876c40439sm87536317b3.37.2026.03.05.02.24.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Mar 2026 02:24:33 -0800 (PST)
+Message-ID: <a28e153e-1ad5-4d5e-b030-9b44158533d7@gmail.com>
+Date: Thu, 5 Mar 2026 05:24:29 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] drm/vc4: Fix a memory leak in hang state error path
-To: Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
- <20260205-vc4-drm-scheduler-v1-2-c6174fd7bbc1@igalia.com>
- <f40b48d9-d55b-419e-ac77-e94d336a5c3c@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <f40b48d9-d55b-419e-ac77-e94d336a5c3c@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: Possible newline injection into fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
+References: <08f230b4-8c01-45b8-9956-7cfb9f82eeff@gmail.com>
+ <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
+ <bc3c1712-a747-42f5-b175-43757fb83ac9@gmail.com>
+ <20260305-gespeichert-athletisch-a25f907e6d2a@brauner>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260305-gespeichert-athletisch-a25f907e6d2a@brauner>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------n0M2BcLZOyATHSHw9q6dTRxJ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,99 +144,373 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6C3AA20F9D2
+X-Rspamd-Queue-Id: 9EDFB20FA61
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [-3.31 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_UNKNOWN(0.10)[application/pgp-keys];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:mcanal@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:brauner@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[demiobenour@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	HAS_ATTACHMENT(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.301];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
+	FROM_NEQ_ENVFROM(0.00)[demiobenour@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,igalia.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------n0M2BcLZOyATHSHw9q6dTRxJ
+Content-Type: multipart/mixed; boundary="------------lVi0E6f1OjaY0ox5ab0470rF";
+ protected-headers="v1"
+Message-ID: <a28e153e-1ad5-4d5e-b030-9b44158533d7@gmail.com>
+Date: Thu, 5 Mar 2026 05:24:29 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Possible newline injection into fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org
+References: <08f230b4-8c01-45b8-9956-7cfb9f82eeff@gmail.com>
+ <20260304-wertigkeit-rockkonzert-ac7270334804@brauner>
+ <bc3c1712-a747-42f5-b175-43757fb83ac9@gmail.com>
+ <20260305-gespeichert-athletisch-a25f907e6d2a@brauner>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260305-gespeichert-athletisch-a25f907e6d2a@brauner>
 
-On 18/02/2026 22:01, Melissa Wen wrote:
-> 
-> 
-> On 05/02/2026 18:31, Maíra Canal wrote:
->> When vc4_save_hang_state() encounters an early return condition, it
->> returns without freeing the previously allocated `kernel_state`,
->> leaking memory.
+--------------lVi0E6f1OjaY0ox5ab0470rF
+Content-Type: multipart/mixed; boundary="------------3c037rjh1pCyvaLIQDAIPb3a"
+
+--------------3c037rjh1pCyvaLIQDAIPb3a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On 3/5/26 03:34, Christian Brauner wrote:
+> On Wed, Mar 04, 2026 at 01:57:31PM -0500, Demi Marie Obenour wrote:
+>> On 3/4/26 08:03, Christian Brauner wrote:
+>>> On Wed, Mar 04, 2026 at 01:53:42AM -0500, Demi Marie Obenour wrote:
+>>>> I noticed potentially missing input sanitization in dma_buf_set_name=
+(),
+>>>> which is reachable from DMA_BUF_SET_NAME.  This allows inserting a n=
+ame
+>>>> containing a newline, which is then used to construct the contents o=
+f
+>>>> /proc/PID/task/TID/fdinfo/FD.  This could confuse userspace programs=
+
+>>>> that access this data, possibly tricking them into thinking a file
+>>>> descriptor is of a different type than it actually is.
+>>>>
+>>>> Other code might have similar bugs.  For instance, there is code tha=
+t
+>>>> uses a sysfs path, a driver name, or a device name from /dev.  It is=
+
+>>>> possible to sanitize the first, and the second and third should come=
+
+>>>> from trusted sources within the kernel itself.  The last area where
+>>>> I found a potential problem is BPF.  I don't know if this can happen=
+=2E
+>>>>
+>>>> I think this should be fixed by either sanitizing data on write
+>>>> (by limiting the allowed characters in dma_buf_set_name()), on read
+>>>> (by using one of the formats that escapes special characters), or bo=
+th.
+>>>>
+>>>> Is there a better way to identify that a file descriptor is of
+>>>> a particular type, such as an eventfd?  fdinfo is subject to
+>>>
+>>> The problem is that most of the anonymous inodes share a single
+>>> anonymous inode so any uapi that returns information based inode->i_o=
+p
+>>> is not going to be usable.
+>>>
+>>>> bugs of this type, which might happen again.  readlink() reports
+>>>> "anon_inode:[eventfd]" and S_IFMT reports a mode of 0, but but my
+>>>
+>>> That is definitely uapi by now. We've tried to change S_IFMT and it
+>>> breaks lsfd and other tools so we can't reasonably change it. In fact=
+,
+>>> pidfds pretend to be anon_inode even though they're not simply becaus=
+e
+>>> some tools parse that out.
 >>
->> Add the missing kfree() calls in both early return paths.
->>
->> Fixes: 214613656b51 ("drm/vc4: Add an interface for capturing the GPU 
->> state after a hang.")
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/vc4/vc4_gem.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/ 
->> vc4_gem.c
->> index 
->> ab16164b5edaf382b9c4bf1f08766748cac77fcc..f943ff7da28ae528c0fdfac76e989a2d5286d193 100644
->> --- a/drivers/gpu/drm/vc4/vc4_gem.c
->> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
->> @@ -172,6 +172,7 @@ vc4_save_hang_state(struct drm_device *dev)
->>       exec[1] = vc4_first_render_job(vc4);
->>       if (!exec[0] && !exec[1]) {
->>           spin_unlock_irqrestore(&vc4->job_lock, irqflags);
->> +        kfree(kernel_state);
-> LGTM, but even better if you can centralize error handling in 
-> vc4_free_hang_state() and point all returns to a single place.
+>> Does Linux guarantee that anything that is not an anonymous inode
+>> will have (st_mode & S_IFMT) !=3D 0?
+>=20
+> Ignoring bugs or disk corruption anonymous inodes should be the only
+> inode type that has a zero type. Everything else should have a non-zero=
 
-More reviewers more opinions, so you have to live with the pros and cons 
-of that. :)
+> type and the I made the VFS splat in may_open():
+>=20
+>           switch (inode->i_mode & S_IFMT) {
+>           case S_IFLNK:
+>                   return -ELOOP;
+>           case S_IFDIR:
+>                   if (acc_mode & MAY_WRITE)
+>                           return -EISDIR;
+>                   if (acc_mode & MAY_EXEC)
+>                           return -EACCES;
+>                   break;
+>           case S_IFBLK:
+>           case S_IFCHR:
+>                   if (!may_open_dev(path))
+>                           return -EACCES;
+>                   fallthrough;
+>           case S_IFIFO:
+>           case S_IFSOCK:
+>                   if (acc_mode & MAY_EXEC)
+>                           return -EACCES;
+>                   flag &=3D ~O_TRUNC;
+>                   break;
+>           case S_IFREG:
+>                   if ((acc_mode & MAY_EXEC) && path_noexec(path))
+>                           return -EACCES;
+>                   break;
+>           default:
+>                   VFS_BUG_ON_INODE(!IS_ANON_FILE(inode), inode);
+>           }
+>=20
+>> Maybe it is time for a prctl that disables this legacy behavior?
+>=20
+> I've switched anonymous inodes internally to S_IFREG a while ago in [1]=
 
-I chiming in with an alternative and that is to not even allocate 
-kernel_state before the "!exec[0] && !exec[1]" check. Or you could even 
-go further than that and allocate a single blob if struct vc4_hang_state 
-instead of pointer to array would contain a flexible built in array 
-(kmalloc_flex). Then there would be no need for any cleanup.
+> and then masked it off for userspace. Even just the internal conversion=
 
-But granted, as this is a Fixes: patch it makes more sense to have it as 
-simple as possible for easy backporting and follow up with my suggestion 
-on top later, if you wish so.
+> caused various subsystems like io_uring to lose it which is why we
+> reverted it in [2].
+>=20
+> So any next attempt needs to ensure that there are no internal and no
+> external regressions. And no prctl()s please. It's a strong contender
+> for Linux' main landfill next to procfs.
+> Ideally we'd just look at lsfd and lsof and move them away from any typ=
+e
+> assertions. I have asked them to do that for pidfds a while ago and the=
+y
+> have merged a patch to that effect.> > [1]: cfd86ef7e8e7 ("anon_inode: =
+use a proper mode internally")
+> [2]: 1e7ab6f67824 ("anon_inode: rework assertions")
 
-Regards,
+What should programs like that be doing instead, given the fdinfo
+newline injection bug?  Even if the current drivers are fixed,
+the interface makes it very easy to mess up new ones.  It's like
+preventing XSS when one has to manually HTML-escape everything.
 
-Tvrtko
+Ideally, this would be fixed at the seq_file level, with any space
+(including LF) introduced via %s being automatically escaped.
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------3c037rjh1pCyvaLIQDAIPb3a
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
->>           return;
->>       }
->> @@ -192,6 +193,7 @@ vc4_save_hang_state(struct drm_device *dev)
->>       if (!kernel_state->bo) {
->>           spin_unlock_irqrestore(&vc4->job_lock, irqflags);
->> +        kfree(kernel_state);
->>           return;
->>       }
->>
-> 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+YXJpZSBPYmVub3VyIChJVEwgRW1haWwgS2V5KSA8ZGVtaUBpbnZpc2libGV0aGlu
+Z3NsYWIuY29tPsLBjgQTAQgAOBYhBHaHTZ8TNroiWQcccbKItV//nCLBBQJgOEV+
+AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJELKItV//nCLBKwoP/1WSnFdv
+SAD0g7fD0WlF+oi7ISFT7oqJnchFLOwVHK4Jg0e4hGn1ekWsF3Ha5tFLh4V/7UUu
+obYJpTfBAA2CckspYBqLtKGjFxcaqjjpO1I2W/jeNELVtSYuCOZICjdNGw2Hl9yH
+KRZiBkqc9u8lQcHDZKq4LIpVJj6ZQV/nxttDX90ax2No1nLLQXFbr5wb465LAPpU
+lXwunYDij7xJGye+VUASQh9datye6orZYuJvNo8Tr3mAQxxkfR46LzWgxFCPEAZJ
+5P56Nc0IMHdJZj0Uc9+1jxERhOGppp5jlLgYGK7faGB/jTV6LaRQ4Ad+xiqokDWp
+mUOZsmA+bMbtPfYjDZBz5mlyHcIRKIFpE1l3Y8F7PhJuzzMUKkJi90CYakCV4x/a
+Zs4pzk5E96c2VQx01RIEJ7fzHF7lwFdtfTS4YsLtAbQFsKayqwkGcVv2B1AHeqdo
+TMX+cgDvjd1ZganGlWA8Sv9RkNSMchn1hMuTwERTyFTr2dKPnQdA1F480+jUap41
+ClXgn227WkCIMrNhQGNyJsnwyzi5wS8rBVRQ3BOTMyvGM07j3axUOYaejEpg7wKi
+wTPZGLGH1sz5GljD/916v5+v2xLbOo5606j9dWf5/tAhbPuqrQgWv41wuKDi+dDD
+EKkODF7DHes8No+QcHTDyETMn1RYm7t0RKR4zsFNBFp+A0oBEAC9ynZI9LU+uJkM
+eEJeJyQ/8VFkCJQPQZEsIGzOTlPnwvVna0AS86n2Z+rK7R/usYs5iJCZ55/JISWd
+8xD57ue0eB47bcJvVqGlObI2DEG8TwaW0O0duRhDgzMEL4t1KdRAepIESBEA/iPp
+I4gfUbVEIEQuqdqQyO4GAe+MkD0Hy5JH/0qgFmbaSegNTdQg5iqYjRZ3ttiswalq
+l1/iSyv1WYeC1OAs+2BLOAT2NEggSiVOtxEfgewsQtCWi8H1SoirakIfo45Hz0tk
+/Ad9ZWh2PvOGt97Ka85o4TLJxgJJqGEnqcFUZnJJriwoaRIS8N2C8/nEM53jb1sH
+0gYddMU3QxY7dYNLIUrRKQeNkF30dK7V6JRH7pleRlf+wQcNfRAIUrNlatj9Txwi
+vQrKnC9aIFFHEy/0mAgtrQShcMRmMgVlRoOA5B8RTulRLCmkafvwuhs6dCxN0GNA
+ORIVVFxjx9Vn7OqYPgwiofZ6SbEl0hgPyWBQvE85klFLZLoj7p+joDY1XNQztmfA
+rnJ9x+YV4igjWImINAZSlmEcYtd+xy3Li/8oeYDAqrsnrOjb+WvGhCykJk4urBog
+2LNtcyCjkTs7F+WeXGUo0NDhbd3Z6AyFfqeF7uJ3D5hlpX2nI9no/ugPrrTVoVZA
+grrnNz0iZG2DVx46x913pVKHl5mlYQARAQABwsFfBBgBAgAJBQJafgNKAhsMAAoJ
+ELKItV//nCLBwNIP/AiIHE8boIqReFQyaMzxq6lE4YZCZNj65B/nkDOvodSiwfwj
+jVVE2V3iEzxMHbgyTCGA67+Bo/d5aQGjgn0TPtsGzelyQHipaUzEyrsceUGWYoKX
+YyVWKEfyh0cDfnd9diAm3VeNqchtcMpoehETH8frRHnJdBcjf112PzQSdKC6kqU0
+Q196c4Vp5HDOQfNiDnTf7gZSj0BraHOByy9LEDCLhQiCmr+2E0rW4tBtDAn2HkT9
+uf32ZGqJCn1O+2uVfFhGu6vPE5qkqrbSE8TG+03H8ecU2q50zgHWPdHMOBvy3Ehz
+fAh2VmOSTcRK+tSUe/u3wdLRDPwv/DTzGI36Kgky9MsDC5gpIwNbOJP2G/q1wT1o
+Gkw4IXfWv2ufWiXqJ+k7HEi2N1sree7Dy9KBCqb+ca1vFhYPDJfhP75I/VnzHVss
+Z/rYZ9+51yDoUABoNdJNSGUYl+Yh9Pw9pE3Kt4EFzUlFZWbE4xKL/NPno+z4J9aW
+emLLszcYz/u3XnbOvUSQHSrmfOzX3cV4yfmjM5lewgSstoxGyTx2M8enslgdXhPt
+hZlDnTnOT+C+OTsh8+m5tos8HQjaPM01MKBiAqdPgksm1wu2DrrwUi6ChRVTUBcj
+6+/9IJ81H2P2gJk3Ls3AVIxIffLoY34E+MYSfkEjBz0E8CLOcAw7JIwAaeBTzsFN
+BGbyLVgBEACqClxh50hmBepTSVlan6EBq3OAoxhrAhWZYEwN78k+ENhK68KhqC5R
+IsHzlL7QHW1gmfVBQZ63GnWiraM6wOJqFTL4ZWvRslga9u28FJ5XyK860mZLgYhK
+9BzoUk4s+dat9jVUbq6LpQ1Ot5I9vrdzo2p1jtQ8h9WCIiFxSYy8s8pZ3hHh5T64
+GIj1m/kY7lG3VIdUgoNiREGf/iOMjUFjwwE9ZoJ26j9p7p1U+TkKeF6wgswEB1T3
+J8KCAtvmRtqJDq558IU5jhg5fgN+xHB8cgvUWulgK9FIF9oFxcuxtaf/juhHWKMO
+RtL0bHfNdXoBdpUDZE+mLBUAxF6KSsRrvx6AQyJs7VjgXJDtQVWvH0PUmTrEswgb
+49nNU+dLLZQAZagxqnZ9Dp5l6GqaGZCHERJcLmdY/EmMzSf5YazJ6c0vO8rdW27M
+kn73qcWAplQn5mOXaqbfzWkAUPyUXppuRHfrjxTDz3GyJJVOeMmMrTxH4uCaGpOX
+Z8tN6829J1roGw4oKDRUQsaBAeEDqizXMPRc+6U9vI5FXzbAsb+8lKW65G7JWHym
+YPOGUt2hK4DdTA1PmVo0DxH00eWWeKxqvmGyX+Dhcg+5e191rPsMRGsDlH6KihI6
++3JIuc0y6ngdjcp6aalbuvPIGFrCRx3tnRtNc7He6cBWQoH9RPwluwARAQABwsOs
+BBgBCgAgFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmbyLVgCGwICQAkQsoi1X/+c
+IsHBdCAEGQEKAB0WIQSilC2pUlbVp66j3+yzNoc6synyUwUCZvItWAAKCRCzNoc6
+synyU85gD/0T1QDtPhovkGwoqv4jUbEMMvpeYQf+oWgm/TjWPeLwdjl7AtY0G9Ml
+ZoyGniYkoHi37Gnn/ShLT3B5vtyI58ap2+SSa8SnGftdAKRLiWFWCiAEklm9FRk8
+N3hwxhmSFF1KR/AIDS4g+HIsZn7YEMubBSgLlZZ9zHl4O4vwuXlREBEW97iL/FSt
+VownU2V39t7PtFvGZNk+DJH7eLO3jmNRYB0PL4JOyyda3NH/J92iwrFmjFWWmmWb
+/Xz8l9DIs+Z59pRCVTTwbBEZhcUc7rVMCcIYL+q1WxBG2e6lMn15OQJ5WfiE6E0I
+sGirAEDnXWx92JNGx5l+mMpdpsWhBZ5iGTtttZesibNkQfd48/eCgFi4cxJUC4PT
+UQwfD9AMgzwSTGJrkI5XGy+XqxwOjL8UA0iIrtTpMh49zw46uV6kwFQCgkf32jZM
+OLwLTNSzclbnA7GRd8tKwezQ/XqeK3dal2n+cOr+o+Eka7yGmGWNUqFbIe8cjj9T
+JeF3mgOCmZOwMI+wIcQYRSf+e5VTMO6TNWH5BI3vqeHSt7HkYuPlHT0pGum88d4a
+pWqhulH4rUhEMtirX1hYx8Q4HlUOQqLtxzmwOYWkhl1C+yPObAvUDNiHCLf9w28n
+uihgEkzHt9J4VKYulyJM9fe3ENcyU6rpXD7iANQqcr87ogKXFxknZ97uEACvSucc
+RbnnAgRqZ7GDzgoBerJ2zrmhLkeREZ08iz1zze1JgyW3HEwdr2UbyAuqvSADCSUU
+GN0vtQHsPzWl8onRc7lOPqPDF8OO+UfN9NAfA4wl3QyChD1GXl9rwKQOkbvdlYFV
+UFx9u86LNi4ssTmU8p9NtHIGpz1SYMVYNoYy9NU7EVqypGMguDCL7gJt6GUmA0sw
+p+YCroXiwL2BJ7RwRqTpgQuFL1gShkA17D5jK4mDPEetq1d8kz9rQYvAR/sTKBsR
+ImC3xSfn8zpWoNTTB6lnwyP5Ng1bu6esS7+SpYprFTe7ZqGZF6xhvBPf1Ldi9UAm
+U2xPN1/eeWxEa2kusidmFKPmN8lcT4miiAvwGxEnY7Oww9CgZlUB+LP4dl5VPjEt
+sFeAhrgxLdpVTjPRRwTd9VQF3/XYl83j5wySIQKIPXgT3sG3ngAhDhC8I8GpM36r
+8WJJ3x2yVzyJUbBPO0GBhWE2xPNIfhxVoU4cGGhpFqz7dPKSTRDGq++MrFgKKGpI
+ZwT3CPTSSKc7ySndEXWkOYArDIdtyxdE1p5/c3aoz4utzUU7NDHQ+vVIwlnZSMiZ
+jek2IJP3SZ+COOIHCVxpUaZ4lnzWT4eDqABhMLpIzw6NmGfg+kLBJhouqz81WITr
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------3c037rjh1pCyvaLIQDAIPb3a--
+
+--------------lVi0E6f1OjaY0ox5ab0470rF--
+
+--------------n0M2BcLZOyATHSHw9q6dTRxJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmmpWd4ACgkQszaHOrMp
+8lPIxw/8C5w7KuYh+qsc9MvUkrPyzjOa5eFLqbIraIy5hEHRY7JyF1nFUiIcZ++7
+5Xi+ai+Yja2IB+E/SmA5vwJMs9RplUpUKPiep1Ev2C6jZQ6fHMcmPmRcJ6ZKNd6L
+3STITbx75+QjaFy1UBrApeaf3LlVqBidco9fFo5uZOetW1HBD0s3O57IjHt1HSWK
+aVHAyZwQFa9FK39KWYOGjmj+Z7po6wo0NViUBqM1ByxF/XGuqgS/o+zXGBE2+pPN
+AKanbGGlu5eBLdggfY2CG5Lfksmpqz49dFL7VnVAcl1DULKyW6aO1p2MPCspSs2s
+Zr8I5lzJx2pEG1BbUxgA4rgX/FA3y2OPCBcsSvhgztKWgJ0CxDauZeVErWKLxo1K
+K2fAu+A5UD5Z/VyoG90OIb57sWWHE21becEFY1tI6uBJetlYwAbtZW1o0dKJbeTx
+8BRmrwX4YuOySHSQKezC88ziFLv8QGAwyIDYWW7wv+JfLo8eLnkiv/VSWy0hPEf+
+ukzAuzE0GWLqv2hXbbvbVgOj+fAicRmvbg1a61HpDOz96055IpwtY6Ja1qUEIwn0
+fBlUymFyHKkw58xRg3RuiJPnd+UzVVJprlJ9cy4RDXC/VxxPkYmV/M1YMsiwNVdt
+2JKz0dpSks5UUP6FRfwb/0bC0j3eIXp6bGOwQrZbMqUznlsvfEE=
+=JSr3
+-----END PGP SIGNATURE-----
+
+--------------n0M2BcLZOyATHSHw9q6dTRxJ--
