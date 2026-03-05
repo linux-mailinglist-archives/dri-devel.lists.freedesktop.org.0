@@ -2,70 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Dg8BghBqWkZ3gAAu9opvQ
+	id uGvpFVFBqWkZ3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:38:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:39:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AED420D8C2
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68F020D8EA
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C4F10EB8D;
-	Thu,  5 Mar 2026 08:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B83A710EB90;
+	Thu,  5 Mar 2026 08:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ups+boPH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zhs1szgR";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Wx+oMm/8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38ECD10EB8D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:38:27 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fRNGm4XrCz9vHN;
- Thu,  5 Mar 2026 09:38:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1772699904; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RDdj3abi2vMGKdWjSOIxxSAL5D4KNz7XiIk0sO3UJ0o=;
- b=ups+boPHjHQ2P/4dIdpcVSQmrelz+aRL8XaXz56odHOk3J90+6cRU43ZLLgg/8CYdfMIF0
- pqUeaCBY20QTEjUrTz58i73NfHxtVzzULWeU9baBhT9GJrxvVq03vMDOHVzitEXgEUXTX4
- M+6pEFG8yShRUs6OOYev9l+pLYooZT1/9/hlghkbJFv6vqUQPzzZBNTNHbhL20SmSXcdc6
- T8AM3m1cEJr4XeeirK1OwLaipkKSu1XHvaYkHyNjTwgxNer7ll68N1XUv0UhwpGXdBDtKw
- f3V6D4lue/OlFJDd7qeCT/b8tm63qWcfuZ695qO0iZjJ4pqLaapRa7Zd+J2Dmw==
-Message-ID: <fa4a9c55792b0e79d94faa82085b693aa7feb989.camel@mailbox.org>
-Subject: Re: drm_sched run_job and scheduling latency
-From: Philipp Stanner <phasta@mailbox.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Matthew Brost
- <matthew.brost@intel.com>
-Cc: Chia-I Wu <olvaffe@gmail.com>, ML dri-devel
- <dri-devel@lists.freedesktop.org>, intel-xe@lists.freedesktop.org, Steven
- Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo
- Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  open list <linux-kernel@vger.kernel.org>,
- tj@kernel.org
-Date: Thu, 05 Mar 2026 09:38:16 +0100
-In-Reply-To: <20260305092711.20069ca1@fedora>
-References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
- <aajkqXZDGUFPlq1o@lstrano-desk.jf.intel.com>
- <20260305092711.20069ca1@fedora>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8360210EB90
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:39:41 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6251O1K43665160
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 08:39:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=; b=Zhs1szgRs6PvG6yC
+ /K6l0Og7co3C6ED8icQT7ngtsI9G5Zp17IaIYa/MOFJSyTxAUHo39qtMLOBGQhpj
+ JO9fE/F/E4F4LvhAKnAlFKn+fH9sEpkGqfNT9M43WTCJkjqaFeUzfOGpTrDAGNtC
+ tA5poP4iW9oFEFa2er9A5XyBDJ8CedmbmCYM1jjJmOXgrD4UqsM96/EbUTiVA/x+
+ +Hq4ib0d4uJFejDRNFTAYPM9OxAzG41cfjw0IJBJVDWkmbFbGS1eLwFkvUDxUI+x
+ i9yGzbk3U3z2KxBfUGbK5GoyOmpZPSUHhrYGJ9ek999ywA1Q/YTR3XTo5MWWFrPw
+ 1lqwYw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq04u18uk-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 08:39:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8cb5a76f13eso420672385a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 00:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772699980; x=1773304780;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
+ b=Wx+oMm/8OK9Bx/a224B398MsUAK9IM+FA0wGTHGuMzm6XU7nYat28Vi+bHqMgYMOvM
+ TC0YRiu7ti3GnRmdNzItNRXK49aj4dcbZWCylpk19Rm6s9cohuhnlVlMN6oP8Ovf8ANq
+ LYVY4qXazU/pBiNbp+EhhtZNUUvgVgPicGB/4MaPTnwFO8Y2+ejPBU+yW/KId/oaA5Ia
+ 3XuJb7GaSkDcq6uWjIOC82QIgc5twl0eUYAx+q2+oSay9ti9pvRqzAQdHjYr1niTvR40
+ Kb8mnlSyUBRAn0ZR74aR+Sy86bzPWzcai2ISG6Br80pjRFMdrQZCL74hdxLVu75sBytK
+ 0KMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772699980; x=1773304780;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
+ b=ripffSur3qsJDJ5Z4OiGp4OvH5fwp8F+Pj6XxJ1P7aTcBPOA6fo1qtJl7NRQyVXHfc
+ JVzQHIVMeeC1QNH7hnzDQ95EdWq/WIsmUtaMTgBPFOu2ssNgXXu44dp+XGbAAOUE0LPG
+ cKVlT4t1TqkINnJLaTzR5GzrBLHevhyruvvC4fcuD9KOOLavOSgfUArJDbQQ9gE13XCF
+ 0zXU9Hzx54LP9fmF6r44Yod9Na8UU6MyPEsSCJ/TvoUiTifRJbQY41Xh7LsOYOU/3RvU
+ pCQNT7oURS5Z9K7d2lMmIRMLSXn0bwIFdzceH8ejNIvx6DSXMXCCHPlzKCHq13wjOJb2
+ e06w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4i7CsPnXC7Vo51IaEIXdIRkpHu+CZadDwrRVEQ4e1lDPHmE1uxaY6yoQTmfgvtQ66IfsCwQcKpp0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0LapD3hrhqSH1vNP/61BWmhuPvfpkbMTZ9pxuCo/Ayvbva8PT
+ 8yNKB7SCH1DIyQKXvRKKOJYQ/K0s5/dbcOH0Vk093JLa4HqhNyUuj1Tn8XBKNxtzB+Jeoxw1WkM
+ 3Gcp4QtCcT9H7cBbUtLlsYYQpKXnBk/s9VBxlRsgEhlVaCkdzoJ4Ca35C0EcLGE4L9ALdtL4=
+X-Gm-Gg: ATEYQzwViD/uddNiY1ZKaIKnf2Bma62MbKHVoitBda2TL5tyabVaRRa5ehgLxoENEda
+ D9Do62+R+ErqVZSR22uyPutGfQNQzcsfSsp5NEmDqxpOBJjmeXovImVqC73iQ9jIpdbJiU/nOMA
+ RrduQpk0N151eW2MjMC6fipPTBPqypR2x/EIlyce0FiENiidZ8EAVQPxFv9XPVSJK+t5sQdGLnM
+ v4UgQSjjuxKn97Dr9BHEAsjzAf0hs+LkIkPR9fiYpB3+Op8Sq+dE8ULDOeZ062WHdvjqnegYIYG
+ A07CVlDu9Cl4c7QH+WmmvlRm12OCMI9yPhXBzMkW8do3NI2pEDKH0XugFdQxX5+S4No9bESvzrP
+ Y+dX2TU4iRxJSe2YrbcHgjLU3w82s/D/NKY5a7PbViUq9vuQvsvK1dSTS+hpVMPWWG1yxBaFjiz
+ VNFVY=
+X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id
+ af79cd13be357-8cd5afcdcfbmr452358985a.9.1772699980147; 
+ Thu, 05 Mar 2026 00:39:40 -0800 (PST)
+X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id
+ af79cd13be357-8cd5afcdcfbmr452356985a.9.1772699979710; 
+ Thu, 05 Mar 2026 00:39:39 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-65fac06e3fasm6657504a12.25.2026.03.05.00.39.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Mar 2026 00:39:38 -0800 (PST)
+Message-ID: <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+Date: Thu, 5 Mar 2026 09:39:35 +0100
 MIME-Version: 1.0
-X-MBO-RS-ID: 88a6adfc76d4be2c1c4
-X-MBO-RS-META: y1d3c39qqy3z9obp43rittpxs8bgscsg
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: iKFOZnRYk1Jz3yHbCXHWIced8ckPUqkR
+X-Authority-Analysis: v=2.4 cv=eqTSD4pX c=1 sm=1 tr=0 ts=69a9414d cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=8AirrxEcAAAA:8 a=GJStlgXwfe-SXQdWLvAA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-ORIG-GUID: iKFOZnRYk1Jz3yHbCXHWIced8ckPUqkR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA2OCBTYWx0ZWRfX0Fag5JHWB1co
+ J4QVPH8SAXe85LaX34N9bEuwPoxJEHj17+pODSQskCQJxaYvQLsyHIghEVjKfTVOnYwYaMOlzt9
+ sExJJcUjKYIxv1qVyculiFYtERlgpaqQcsaKcIKzk9SwALheH8JkcpDknhCBH+Cz6UJ+nyAl2w+
+ g6bcsruqtoZBqcb8NzpWTSJ8+gSZEce4lDbLuT1qYAbSVEPXJzJcy8+FZwXq44A0cody9k7HoRm
+ w6HQ/DWda0svTidIUlAXrQH6Z4gGd8nMOMO++peVrRux5zOlzVe9S2MxN9X0kjL+CQM1g5xvPYI
+ WgSxlwTEXL0h926Px6rxt9vqPub+Cw9zEvd241SJhgf0e6LszLil89xW87KFTlMvN9qwdzxkz9+
+ eEXZHOZjKPZIat/ep26Vt+BECaoS16Eq6oFpI7+lKbnoS9+8Wr4jkYcW6fW/xQd9gg9QfsulHnZ
+ EEm40nw/VggPRgnSpOw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,114 +153,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 7AED420D8C2
+X-Rspamd-Queue-Id: B68F020D8EA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:matthew.brost@intel.com,m:olvaffe@gmail.com,m:intel-xe@lists.freedesktop.org,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:linux-kernel@vger.kernel.org,m:tj@kernel.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_RECIPIENTS(0.00)[m:vladimir.oltean@nxp.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,intel.com,vger.kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:dkim,mailbox.org:mid]
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,nxp.com:email,qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Thu, 2026-03-05 at 09:27 +0100, Boris Brezillon wrote:
-> Hi Matthew,
->=20
-> On Wed, 4 Mar 2026 18:04:25 -0800
-> Matthew Brost <matthew.brost@intel.com> wrote:
->=20
-> > On Wed, Mar 04, 2026 at 02:51:39PM -0800, Chia-I Wu wrote:
-> > > Hi,
-> > >=20
-> > > Our system compositor (surfaceflinger on android) submits gpu jobs
-> > > from a SCHED_FIFO thread to an RT gpu queue. However, because
-> > > workqueue threads are SCHED_NORMAL, the scheduling latency from submi=
-t
-> > > to run_job can sometimes cause frame misses. We are seeing this on
-> > > panthor and xe, but the issue should be common to all drm_sched users=
-.
-> > > =C2=A0=20
-> >=20
-> > I'm going to assume that since this is a compositor, you do not pass
-> > input dependencies to the page-flip job. Is that correct?
-> >=20
-> > If so, I believe we could fairly easily build an opt-in DRM sched path
-> > that directly calls run_job in the exec IOCTL context (I assume this is
-> > SCHED_FIFO) if the job has no dependencies.
->=20
-> I guess by ::run_job() you mean something slightly more involved that
-> checks if:
->=20
-> - other jobs are pending
-> - enough credits (AKA ringbuf space) is available
-> - and probably other stuff I forgot about
->=20
-> >=20
-> > This would likely break some of Xe=E2=80=99s submission-backend assumpt=
-ions
-> > around mutual exclusion and ordering based on the workqueue, but that
-> > seems workable. I don=E2=80=99t know how the Panthor code is structured=
- or
-> > whether they have similar issues.
->=20
-> Honestly, I'm not thrilled by this fast-path/call-run_job-directly idea
-> you're describing. There's just so many things we can forget that would
-> lead to races/ordering issues that will end up being hard to trigger and
-> debug.
->=20
+On 3/4/26 6:57 PM, Vladimir Oltean wrote:
+> Some pragmatic shortcuts are being taken by PHY consumer driver authors,
+> which put a burden on the framework. A lot of these can be caught during
+> review.
+> 
+> Make sure the linux-phy list is copied on as many keywords that a regex
+> can reasonably catch.
+> 
+> For simplicity sake this is not perfect (devm_ and of_ are not valid
+> prefixes for all function names), but I tried to pay attention on
+> avoiding false matches on things like:
+> - drivers/net/vendor/device/phy.h
+> - include/linux/phy.h - network PHY, not generic PHY
+> 
+> So I used \b to try to match on actual word boundaries and be explicit
+> about what is matched on.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 55af015174a5..bdfa47d9c774 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10713,6 +10713,7 @@ F:	Documentation/devicetree/bindings/phy/
+>  F:	drivers/phy/
+>  F:	include/dt-bindings/phy/
+>  F:	include/linux/phy/
+> +K:	\b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|off)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvdata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|state)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\.h|phy-props\.h|phy-provider\.h
 
-+1
+Would looking for the devm/of_phy_ prefix followed by an open parentheses
+not suffice for the 'has function call' case, instead of listing all
+currently present exported functions?
 
-I'm not thrilled either. More like the opposite of thrilled actually.
+My worry is that this approach is overbuilt and absolutely no one will
+remember to update it
 
-Even if we could get that to work. This is more of a maintainability
-issue.
-
-The scheduler is full of insane performance hacks for this or that
-driver. Lockless accesses, a special lockless queue only used by that
-one party in the kernel (a lockless queue which is nowadays, after N
-reworks, being used with a lock. Ah well).
-
-In the past discussions Danilo and I made it clear that more major
-features in _new_ patch series aimed at getting merged into drm/sched
-must be preceded by cleanup work to address some of the scheduler's
-major problems.
-
-That's especially true if it's features aimed at performance buffs.
-
-
-
-P.
+Konrad
