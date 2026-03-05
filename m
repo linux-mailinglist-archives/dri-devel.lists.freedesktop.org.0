@@ -2,89 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oNMsD7h5qWl77wAAu9opvQ
+	id UEzmGHd6qWl77wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:40:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D5A211D48
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0752211E5A
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C9E10EAEB;
-	Thu,  5 Mar 2026 12:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBBB510EB07;
+	Thu,  5 Mar 2026 12:43:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="eOdWU2Ws";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EJ0FV0eR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0686210EAEB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:40:20 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-439afc58ac7so5016807f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 04:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772714418; x=1773319218;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vEuPDSsDt//wtmzfe9Xu8GSe0LEcvi4euzHg4drb0UE=;
- b=eOdWU2WsYLWXgnMOCqpmloQJyc/ViPU5DYodwFU7vmqWfzsnNcUuwZvwarz6JQizYn
- NHO1m5gfLhtddT7fGe6refY3FakF6hxhCvMhGuifEyaslSOwvXQsqreO4KdxzeeNdWoa
- JzTQWQv3flM/+FQwCRpwODnHDGLDyPPGLT0rGZ+UmpZxGyG8ayXcEOLSXEjy1mI6/PVZ
- Cfn3PHqGnFjqBtO35S/X0S0pmC5zmpt03hr6jqmASQTl0bjfgvYMWHczAvzvDN3VjguC
- SfVVo42E2mEDfGn9VWZ/ShOYRlnl8cVV1VARfWSV/N1V6BBwOea8X4CQgWbT1/B+pDDd
- 6kgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772714418; x=1773319218;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vEuPDSsDt//wtmzfe9Xu8GSe0LEcvi4euzHg4drb0UE=;
- b=PEA930SY3t7BtF7NX0cRMXr7zsWH+ZadA0tZYPbqD0rSUyYY6SuQJhcBhKKDQFL8L1
- VRDM7TAbQYo9rPARY7+KXkKPnApRNJJuDNVVuFjcMOE2S3opvKtWEGhfepWQkkiUpxfk
- KZFOKnujfomwLYAnIS4dVi+NTVd+7NO4Bd5n1gKWlovd9dII7nhEtNw+UEGQl/+oSCF2
- lYLN4wKFVolIgIM5FlHwtvOCjaKZX9NN8ayKbqu6AOBr3zVip9fBdbcSdElsM1mncs/b
- HSiJggr/n/Wi9BdOUarFh5IpqRURpdGNwIiQ7FwmTBvpQ6+Xh1sYhC7L7sxIBIHRPYII
- JXdQ==
-X-Gm-Message-State: AOJu0YzOvbPzueYeqhs+UPWUBwbPQVivFMWhBG5RYkIZmLsfcK8bcvyL
- 1hUdjwMj/NXcEoU7l0dfe6wleLXVdJf240N+mi/wwEvhrETTAD5omMwOAMIYvVtdhCuf499k6vZ
- dbfew4YyMyA==
-X-Gm-Gg: ATEYQzz3J7MD+aGjmORWtbRaZaCkDCmcG0MjAzDA/0x06vGAswDfbGCo3tLKc0cDfZD
- TG1Zrv7V5CPcXD0ChjL1VYbUeUKNDD6U8yfSixVyssQSiGpldZArC/DFJ2lYpPwZzom4P5yK8lw
- KQvyWpst1OrFvO1rRHu5mpSYQkta7b4lilK1ucWXPKFg++UycMo84Tk1Mz46CJ0E/p8GNC6QM8j
- 3FutpxoLlKH2p0bn8qAns+K9vMaRCFqlAhQhlfcbx3VNB2t7qqTeIFBBb1bn5WrVZFpZMogw3ZO
- AKtdeu3rGDXkn+/UDktETG1Ai3h3Qm4ZOMr7ZQC4rLQ/VPXV7Wy5S2BeNsSqqx2CD/k05Wey5ao
- cdsLLXTxADLUVB9dtYHdMgu3YBodjiPa/fkWyhOatXNBBuCBVLs+dA1/atDuo4Ial1L+8UMnL2x
- a2F7xxrTq1ZIGr/MshgyglEZu9sFPiGXo=
-X-Received: by 2002:a05:6000:2510:b0:439:cd10:a1f9 with SMTP id
- ffacd0b85a97d-439cd10a224mr6376565f8f.54.1772714418526; 
- Thu, 05 Mar 2026 04:40:18 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439b503425asm33480811f8f.25.2026.03.05.04.40.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 04:40:18 -0800 (PST)
-Date: Thu, 5 Mar 2026 13:40:16 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- iommu@lists.linux.dev, linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
- christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com,
- jgg@ziepe.ca, 
- leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
- catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
- steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
- ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH net-next v3 0/2] dma-buf: heaps: system: add an option to
- allocate explicitly decrypted memory
-Message-ID: <yyb5ozsxnfcuzo5rzpg64hgj4rtxz6glpqf5fpkhp4zrwdgted@izdksr4b3vte>
-References: <20260305123641.164164-1-jiri@resnulli.us>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD43910EAED
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772714608;
+ bh=PhqExYtVJYJriGCOW/3uQmsUWfS1wI3vm877NKED3rY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=EJ0FV0eRVWezX7fiJcf+ksWzvZAuKBnY/xiPqEjE8C5PzbfjD3caFrlvGkh+sF2Cc
+ Ona309lsrY+khfp0FnbGQK7iD54z23TVn3BLI7hvnEED/8lYVXx8HAHvVnTQzq8OWX
+ i8C92ehxUZw7C0tzNAW78e+ZrqqjHMrxTnNCIV+grXwTZOZw4HSvOLbpVcMCIWrayM
+ X7XJOhcSBargi9a5Hh22zElmEPilyEBfrOecy2E6coMrV9ak+/4OyrQze9icAn9QWp
+ 0ZgPC6vxYy4+h18X9AJ8AUpkrO6h/Fy31oMzReh4v0LqrGb666hm97Ft7g5Xe00zqr
+ 2c83BnixebxsA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CE13517E0071;
+ Thu,  5 Mar 2026 13:43:27 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
+ kernel@collabora.com
+Subject: [PATCH v4 0/9] drm/panthor: Add a GEM shrinker
+Date: Thu,  5 Mar 2026 13:43:11 +0100
+Message-ID: <20260305124320.156606-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305123641.164164-1-jiri@resnulli.us>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,36 +75,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C3D5A211D48
+X-Rspamd-Queue-Id: B0752211E5A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[resnulli.us];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com,ffwll.ch,arm.com,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,collabora.com,intel.com,google.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:olvaffe@gmail.com,m:kernel@collabora.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,resnulli-us.20230601.gappssmtp.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lkml.org:url,collabora.com:dkim,collabora.com:mid]
 X-Rspamd-Action: no action
 
-The "net-next" in [PATCH] brackets is obviously incorrect, ignore
-this bad string please.
+Hello,
+
+This is an attempt at adding a GEM shrinker to panthor so the system
+can finally reclaim GPU memory.
+
+This implementation is losely based on the MSM shrinker (which is why
+I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
+eviction/validation infrastructure.
+
+I've only done very basic IGT-based [1] and chromium-based (opening
+a lot of tabs on Aquarium until the system starts reclaiming+swaping
+out GPU buffers) testing, but I'm posting this early so I can get
+preliminary feedback on the implementation. If someone knows about
+better tools/ways to test the shrinker, please let me know.
+
+A few words about some design/implementation choices:
+- No MADVISE support because I want to see if we can live with just
+  transparent reclaim
+- We considered basing this implementation on the generic shrinker work
+  started by Dmitry [2], but
+  1. with the activeness/idleness tracking happening at the VM
+     granularity, having per-BO LRUs would caused a lot of
+     list_move()s that are not really needed (the VM as a whole
+     become active/idle, we can track individual BOs)
+  2. Thomas Zimmermann recently suggested that we should have our
+     own GEM implementation instead of trying to add this extra reclaim
+     complexity to gem-shmem. There are some plans to create a
+     gem-uma (Unified Memory Architecture) lib that would do more
+     than gem-shmem but in a way that doesn't force all its users
+     to pay the overhead (size overhead of the gem object, mostly)
+     for features they don't use. Patch "Part ways with
+     drm_gem_shmem_object" is showing what this component-based lib
+     API could look like if it were to be extracted
+- At the moment we only support swapout, but we could add an
+  extra flag to specify when buffer content doesn't need to be
+  preserved to avoid the swapout/swapin dance. First candidate for
+  this DISCARD_ON_RECLAIM flag would probably be the tiler heap chunks.
+- Reclaim uses _try_lock() all the way because of the various lock order
+  inversions between the reclaim path and submission paths. That means
+  we don't try very hard to reclaim hot GPU buffers, but the locking is
+  such a mess that I don't really see a better option to be honest.
+
+
+Changes in v2:
+- No fundamental changes in this v2, since the feedback I got were more
+  focused on bugs than the overall approach. Check the changelog in each
+  patch for more details.
+
+Changes in v3:
+- Mostly fixes (see the changelog in each patch)
+
+Changes in v4:
+- Only fixes (see the changelog in each patch)
+
+Regards,
+
+Boris
+
+[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/commit/fc76934a5579767d2aabe787d40e38a17c3f4ea4
+[2]https://lkml.org/lkml/2024/1/5/665
+
+Akash Goel (1):
+  drm/panthor: Add a GEM shrinker
+
+Boris Brezillon (8):
+  drm/gem: Consider GEM object reclaimable if shrinking fails
+  drm/panthor: Move panthor_gems_debugfs_init() to panthor_gem.c
+  drm/panthor: Group panthor_kernel_bo_xxx() helpers
+  drm/panthor: Don't call drm_gpuvm_bo_extobj_add() if the object is
+    private
+  drm/panthor: Part ways with drm_gem_shmem_object
+  drm/panthor: Lazily allocate pages on mmap()
+  drm/panthor: Split panthor_vm_prepare_map_op_ctx() to prepare for
+    reclaim
+  drm/panthor: Track the number of mmap on a BO
+
+ drivers/gpu/drm/drm_gem.c                |   10 +
+ drivers/gpu/drm/panthor/Kconfig          |    1 -
+ drivers/gpu/drm/panthor/panthor_device.c |   11 +-
+ drivers/gpu/drm/panthor/panthor_device.h |   73 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |   33 +-
+ drivers/gpu/drm/panthor/panthor_fw.c     |   16 +-
+ drivers/gpu/drm/panthor/panthor_gem.c    | 1421 ++++++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_gem.h    |  136 ++-
+ drivers/gpu/drm/panthor/panthor_mmu.c    |  468 +++++--
+ drivers/gpu/drm/panthor/panthor_mmu.h    |    8 +
+ drivers/gpu/drm/panthor/panthor_sched.c  |    9 +-
+ 11 files changed, 1850 insertions(+), 336 deletions(-)
+
+-- 
+2.53.0
+
