@@ -2,91 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2B9JLQRkqWmB6gAAu9opvQ
+	id ePX6CkVkqWmB6gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:07:48 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:08:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DBA2104EF
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D0E21053E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:08:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A9510E1D8;
-	Thu,  5 Mar 2026 11:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBC310E24D;
+	Thu,  5 Mar 2026 11:08:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="LA8+6oDY";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="nGcWLTcH";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nGcWLTcH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92CBF10E129
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 11:07:42 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 625701nh2402044; Thu, 5 Mar 2026 11:07:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=v
- 9LXvk7AYhEAMjwGCgZR3SACmCL+dJCjkYqhwKueTAY=; b=LA8+6oDY61C7JWJ9e
- gjxLI0xT3xeGdhcbE88C5EeZ8X+xQOSU0VM/ba+CtNDks2Ot9+ihyGM9Qb+I+JSG
- azy8rDV1A0T9p/zWMw8jjpLXL6pxpttKATGmRRQXMdrr26gpGpdmdkWIoyG32O8R
- SkLhoOlZuSCvLAuijWtFBByAcN8UF3qgwb9GW4gKHPGe8y23QqbvefoMWrA3telL
- pXJmrjMoONaBQYWztI7KnLn9RCEeNvtySpIrr4thhKR6ZF/LdJgtSvf84P6KgU7v
- N+lgAQdiqY8RRKqeeKP5XpqcIoUoLvv0guYzCj1T0fDz0AeI34/cl2Z78vR4v9GC
- UUhVg==
-Received: from hhmail01.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4ckqgrv073-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Mar 2026 11:07:26 +0000 (GMT)
-Received: from NP-G-BRAJESH.pu.imgtec.org (172.25.128.150) by
- HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 5 Mar 2026 11:07:23 +0000
-From: Brajesh Gupta <brajesh.gupta@imgtec.com>
-Date: Thu, 5 Mar 2026 11:06:17 +0000
-Subject: [PATCH 2/2] drm/imagination: Skip 2nd thread DM association for
- non META Firmware
+Received: from MRWPR03CU001.outbound.protection.outlook.com
+ (mail-francesouthazon11011027.outbound.protection.outlook.com
+ [40.107.130.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B35A10E276
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 11:08:48 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=J7GU0lh9Bj++fhAtxV9N68nKdoe4MkGA+9DqqyhobPFyWGdcMV2ueDgU0Lbc1fFbbelMK1srQCAWlfsr8dO21WdoN5LIvrrWPIGTUdNDi9M+FD/k/52ppW9mqWkPO0jL7Nppali2wruOM3Et2k/eOhiH6etXXpKutDB5Ww5JgUOI5oQw3j+2uPSRjlTMDtlxz2wDEx4SA1frvh1jtHXBqXroT4yh0ZrbL30l7zkKwkhnZddYuc/XJiM6zrUaJtYvPE3V3jdyyPR9wCz/qv96pFkPzvyiFk3Oz5b5iQkTxUzW769X/kGS/KYhlENLj6BwE5RXH4hoLCyvQU1G32jz5A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e+XGegIy24nNRpCRVmoFL7iun0mc7aCbsxT6pQ1fsX4=;
+ b=pJt0MNRQnqTkph2hrNKS6zwbCdBfAXhrjsn8dH9pZQDVlkyB3ZQq2P3fgWIramCf9VHFRnSZVofrS4+ygQj2NxVAYajvRIQiDdpa/7h/XHEamCp7x4O5u/vrNpdHtcawXfAAy1AS/Hf0PZoJwZLfD86DADtmbd5IDHHrIHCXST2UibP6qPVlkr7PIYcf71thJhcJ3SbiumLo80Dg9b72XSRQi2dDMtsw4wFvQ90V3XbfetA1pagyT6I2DA4C7jjr7TZzSZYq6ExrSdhbwIiyiu4/oI5ZMdlJi7XVVjyF/zItTaXiS0fSTLVkXE+1CikY8dVJsHPfPdjez7efafTIMg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e+XGegIy24nNRpCRVmoFL7iun0mc7aCbsxT6pQ1fsX4=;
+ b=nGcWLTcHQn3XIsOAkPOKhE2ke/bj1JOe5aSeg+goXA2JLU1T8oi2x/nbCxXKkRHyiIEIu4GLldwIZ4e4Pm8jbTr+STpzumtwN1McSNys3T7stJPJYP2HMNgRIYqSSEBKgb91mE0/5hvIXeMb44GiFBQG788AlL/3tH5IgBI34Dk=
+Received: from DUZP191CA0003.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::22)
+ by AS8PR08MB9217.eurprd08.prod.outlook.com (2603:10a6:20b:5a0::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 11:08:40 +0000
+Received: from DU2PEPF00028D0B.eurprd03.prod.outlook.com
+ (2603:10a6:10:4f9:cafe::a1) by DUZP191CA0003.outlook.office365.com
+ (2603:10a6:10:4f9::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.23 via Frontend Transport; Thu,
+ 5 Mar 2026 11:08:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF00028D0B.mail.protection.outlook.com (10.167.242.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16
+ via Frontend Transport; Thu, 5 Mar 2026 11:08:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DRDhpdQNj+79FkDwvwa5uVHs4+w1RgK0vtrRZUMurRV8Er7PqRHtexhu5ZJ0s6y3DtYyntNo3fuzVdgd6WBStADshl+bmHw8hUztfQdErFAOJ5SUbjq7y2sFvQcBMBhwmlijDPbQtbW7RU1gniOZCEiqR6I8AzZkSvucMAa6ccW4xlgAE00S7Cv0fByFbtfxCmkqrkbSwsUciqzoxN33kcgALo5rc+dtHzMCYr0ZTQlfSPnosdgLTDJzT6xHF9/5ly/Ahhy4wrGcpjnTCyYbwkRWlpvbb2Y6xk/bqtcxGSX2DJQJIfO4H027HKuWhcz39rMzojREJ2NXZ5C8lsCStQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e+XGegIy24nNRpCRVmoFL7iun0mc7aCbsxT6pQ1fsX4=;
+ b=gmRZZaD9LDJjm/It5F/KiDRD6KeUiFmtaxSqpe/766ty953qI8UTycaegFapSQzOfSHSu2cl42bmFEZyQfOer9xQ5Afp9KxNLG+HaEMoG8/pzLThFqoc4CsP76YZsFLEvYTVpSKgzHCWj6/WBCZSFzRL3fcFLAJXCatV1jSUXyYMu8aMEKe8nA8AULO+UQTDFYqOfvdc/vqbWN942N0Cr3q2gXxJhld0iLSP6iLHMpOhAK8FuzZF2Vh7hoNCMAodrDiPL3OQd983/KzcMgWFK+Xerp17ZhDV0BJ/ABsdZ0zL5ne6CjuVLKmaTvGBca6A5jnuRe6oZhrNu6ry5BVumA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e+XGegIy24nNRpCRVmoFL7iun0mc7aCbsxT6pQ1fsX4=;
+ b=nGcWLTcHQn3XIsOAkPOKhE2ke/bj1JOe5aSeg+goXA2JLU1T8oi2x/nbCxXKkRHyiIEIu4GLldwIZ4e4Pm8jbTr+STpzumtwN1McSNys3T7stJPJYP2HMNgRIYqSSEBKgb91mE0/5hvIXeMb44GiFBQG788AlL/3tH5IgBI34Dk=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com (2603:10a6:20b:415::16)
+ by DB8PR08MB5402.eurprd08.prod.outlook.com (2603:10a6:10:11b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 11:07:37 +0000
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499]) by AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499%4]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
+ 11:07:37 +0000
+From: Akash Goel <akash.goel@arm.com>
+To: boris.brezillon@collabora.com, liviu.dudau@arm.com, steven.price@arm.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com,
+ Akash Goel <akash.goel@arm.com>
+Subject: [PATCH] drm/panthor: Correct the order of arguments passed to gem_sync
+Date: Thu,  5 Mar 2026 11:07:23 +0000
+Message-Id: <20260305110723.2871733-1-akash.goel@arm.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0007.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:150::12) To AM9PR08MB6982.eurprd08.prod.outlook.com
+ (2603:10a6:20b:415::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260305-b4-staging-layout_mars_base-v1-2-09831fa17cef@imgtec.com>
-References: <20260305-b4-staging-layout_mars_base-v1-0-09831fa17cef@imgtec.com>
-In-Reply-To: <20260305-b4-staging-layout_mars_base-v1-0-09831fa17cef@imgtec.com>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "Brajesh Gupta" <brajesh.gupta@imgtec.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772708838; l=1623;
- i=brajesh.gupta@imgtec.com; s=20260107; h=from:subject:message-id;
- bh=3lZJ170S8zrsun7Jh3wItDtUCQJImaUgulKM+XWejhU=;
- b=pd56H51WHcR5/FunymyCUS7A8pXsEpohsPu0W6uG2zc8O5HjPnODqkohkZPmjXiA2o68rA/B7
- xC3zsYXjhEHAmw861eqOCiWhBc7hzJum7+xKbC3xctWHlnoFF/NWIwt
-X-Developer-Key: i=brajesh.gupta@imgtec.com; a=ed25519;
- pk=mxdDr22E/sHiu68U/bLe0W/SRYi3i848ZgoBuEyk21E=
-X-Originating-IP: [172.25.128.150]
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA4OCBTYWx0ZWRfXw9CAOdvAR2m7
- Qbpnq9Ma89ZEq6YbqvHXFHvTbjONicSNWd+6MK4k7l2bRAp7zk2vDgL7AsJaFpg8x6psw2lnlGo
- VJdAzt4JfE3ziwEfqBGJ6oOLY/v7ufBWSJSiFOL42Ou1B+pwBQAgk761BHuyISprmBlBCYtcobW
- D//aCl5vSrFw/qUct66BGEzp7O1HjmhQ7FX5JLxgmjdpO722ANOortL8xkNvuGcBbjWjTjXMjrX
- bGxqT3M0kMimT1NMsGG4ruaXmxrYRZiBsy5QFCUH+4Spt4wE0e3cGmj43kXa3K1PbqEYn1uHxHj
- eBndRudhZdH5X2j/BIlCMVK9niMMgTwzMC4jY3GmOvE5cVP7/m+ICZiL6ZXmepzIbWLQgf/xVXo
- o9ejujV4tWj0+elf7QY8Rxx6H0UNM1MhbpSUf21UGcR5q7EkLZMMIvaGRuRQj45a8VGAnZII96L
- LeTjPTWWbitUZx/xJ1w==
-X-Proofpoint-ORIG-GUID: PVfz9kub7_tzqLY87mCliZm8A9h-eXpt
-X-Authority-Analysis: v=2.4 cv=GbAaXAXL c=1 sm=1 tr=0 ts=69a963ee cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=aSvOoEy96_oA:10 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=kQ-hrUj2-E3RCbRHssb7:22 a=qZQ2PDNLMSdLoqI-hfl9:22
- a=r_1tXGB3AAAA:8 a=RMA9JOuqd9HpLUXpPykA:9 a=QEXdDO2ut3YA:10
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: PVfz9kub7_tzqLY87mCliZm8A9h-eXpt
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|DB8PR08MB5402:EE_|DU2PEPF00028D0B:EE_|AS8PR08MB9217:EE_
+X-MS-Office365-Filtering-Correlation-Id: e400bda5-cad7-40e4-f63c-08de7aa78e85
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info-Original: tTc5YFm5f5SjYsQxi9XhLSugZPg+gQ+AotVpd4KF1/EHniRZGZluAYLg3b+xmEsywmjm8qvATc4Ec5L4bcg7fHFgTh3QihT8WAGRSlGy7x6pfAxez8pSeWdN9uJWEkUgYhXGXRynIaodXVUlDeGTeURvdgwIOZAKHQ46SdWhtKf1tTaJ+EePnU4L3PvseFa8Pi9uBglDvR/KPhFfUH3h8IQkkbPGfAOdNSzIft9iCgtvoL8K0N+KeQQFL1DFhcwU0S6yskzKXoGYv8xXpqyRLihjkITgQUZF6cQd78hd/dpGVfNJVgNYB2tg8bPdGSdQe+f2g72lGH/if/I8DweyA7tGndcdh27YuiT7hXtFN9HE0mtJbgpSeYglsBiaMFNQxCtEDmqC5tfswn+bDnkvXkZxOd2bu9ts+Rax+amotMeXkjXFKKcq5XvVtBxggbAEDdS5D9rRniHS/FMIvcyleEY+quP5FYzRXL3otQh4HE2ogwPNtKWofNhG+77tWMgLJnqKzlE1pZaM62VInarDSL431QkHRXgtm5kixtSLLcwEI4JKhvyzgAOy7kJc1v/sRcxkjbixhVXlSj7f7oH695Kvu7we6BB+YGp+6iGx1mZNuPprPLBF/N0Z0RWE9M9b6gxBnC8t+bkjWYz8BEWtOEmZHSpDJ+8oars7xhHwxuLlEBjCdwm7Zh+M4uYlzFQVBh/LM3EvvYsklOqA5I7ubpe31bK1IOtoQ7AhB6yUlB8=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6982.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5402
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D0B.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: bb7580df-6e77-46e0-474d-08de7aa768f0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|14060799003|82310400026|35042699022|1800799024|36860700016;
+X-Microsoft-Antispam-Message-Info: JGYWCw1JZ/w0dmckkTMJ0Zwvql1gln2seAhkozVsP5qJk1Lo8GaHzv5mwxH93N5aecHvuvAu3/PQA7uXO3xEki+i+tlBfqkr95fuh9KSpVaTI2Vk6+cfU9Wboy6JernNOq/lziQy+PZ7NBrXwT3mgEv5aEUyIXu8gBoakVmcQJr705PzzBI4t4kcUfpLd2z0HcgyZSppb/r2qArbpv/M4ihfVqLwUiRt7YrqFRtvxtX9DEgZhWbEYbBWD4kZp95/NI8LloziQ3FfkEwaEx0t+Cr4iwHqnMURjDp0xbhb+SyGrmfJASOpZhAVBQCNuFAV539mAUsUMS7rnKE+o3tkw14lmaSF0zBCt9fZMYZahFcrNio9ciArdFxVFePwyiSo8q3whp7hD8IbplQBt2DU8v3IoyygPLte5oQF6SJfc1S68yqq6mpTzg50r4auv8029YdJIsIPvfgfK8j+ZnMSqKKrc2IVN0FhlxWuY+QUjs1rJichVFooU93x59OGq/ueC0h4VGfCbhWGnp/p2St6I1j5dxpTHkAj+JtlsQ48Mte4haTGzX++/lFejoDUvS1ovtgtKSaMlj7u+l6bz2KKaELSUjE2Kv8/kEBiyNQ64ltO4pqUwZQ+iY7dGgiJzQjzEXqT+dhtesrK928F6oPTIQSa2lnyXqD0SFmHrMxWrZfbcviWkOvUaCl5QeywrQERGSdR10diiyBvmRaBt2P3gMMVyE2nwJyFpoyFeF3URfPy9+HThC+FwPL1eeYq3ZElOGAXF7xPgx2rLC37Musdxw==
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(14060799003)(82310400026)(35042699022)(1800799024)(36860700016);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: uX6xTlMWEGusjGCQLkn7QQu9N5qwhd24AL2kL93BqUaozF5frA5wgpxSDyjXOABbSfa2uI9PG1kRJxNhwIMucmGHUEUca+LA1vGnFBfWFT9Cz+/S4qIbuEqc1SSjJ0WugKZEJum2zOrIKP4ZJzANTA78846YGC9dcAJtRhxRUC2WsMV2M1IOVkqpsIkHXRyejDY2I3Jtq9ZJS7P94RGaOlvvbMiuowGip/DIgyHZeo6seLq/TNPyoMLt1m9HjPcrffe8Uwlhil7pE72GgNiReInrZyD8lHg1hI2cp+1v2cpA/xCXqrWfwASWR2uIwKeJDABKNyE1R/uGa5IKBdQ3N3PmRj4uIGryO4KzobVTExfdgwqloCFJPsJH+kJRuZSTJLJWwzNGQJhLnu306PMEwo0sciymV3XjAZADyA1tCvsSVehOEnT6mAGxjgltKo16
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 11:08:40.1484 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e400bda5-cad7-40e4-f63c-08de7aa78e85
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D0B.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9217
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,76 +152,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 67DBA2104EF
+X-Rspamd-Queue-Id: 72D0E21053E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[imgtec.com,none];
-	R_DKIM_ALLOW(-0.20)[imgtec.com:s=dk201812];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
-	FORGED_RECIPIENTS(0.00)[m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:alessio.belle@imgtec.com,m:alexandru.dadu@imgtec.com,m:linux-kernel@vger.kernel.org,m:brajesh.gupta@imgtec.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[brajesh.gupta@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,arm.com];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:liviu.dudau@arm.com,m:steven.price@arm.com,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:daniel@ffwll.ch,m:nd@arm.com,m:akash.goel@arm.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[imgtec.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER(0.00)[akash.goel@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[brajesh.gupta@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,arm.com:dkim,arm.com:email,arm.com:mid];
+	FROM_NEQ_ENVFROM(0.00)[akash.goel@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[arm.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,imgtec.com:dkim,imgtec.com:email,imgtec.com:mid]
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Only a META firmware can have two threads.
+This commit corrects the order of arguments passed to panthor_gem_sync()
+function, called when the SYNC_WAIT condition has to be evaluated for a
+blocked GPU queue.
 
-Signed-off-by: Brajesh Gupta <brajesh.gupta@imgtec.com>
+Fixes: cd2c9c3015e6 (drm/panthor: Add flag to map GEM object Write-Back Cacheable)
+Signed-off-by: Akash Goel <akash.goel@arm.com>
 ---
- drivers/gpu/drm/imagination/pvr_fw_startstop.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panthor/panthor_sched.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_startstop.c b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-index ce089f51f06a..3bca57cbaaf0 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw_startstop.c
-@@ -242,12 +242,14 @@ pvr_fw_stop(struct pvr_device *pvr_dev)
- 		       ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_MASKFULL &
- 		       ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK);
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index bd703a2904a1..a70f1db0764e 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -893,14 +893,15 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
  
--	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC,
--		       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_MASKFULL &
--		       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
--	pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC,
--		       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_MASKFULL &
--		       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-+	if (pvr_dev->fw_dev.processor_type == PVR_FW_PROCESSOR_TYPE_META) {
-+		pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC,
-+			       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_MASKFULL &
-+			       ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-+		pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC,
-+			       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_MASKFULL &
-+			       ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-+	}
+ out_sync:
+ 	/* Make sure the CPU caches are invalidated before the seqno is read.
+-	 * drm_gem_shmem_sync() is a NOP if map_wc=true, so no need to check
++	 * panthor_gem_sync() is a NOP if map_wc=true, so no need to check
+ 	 * it here.
+ 	 */
+-	panthor_gem_sync(&bo->base.base, queue->syncwait.offset,
++	panthor_gem_sync(&bo->base.base,
++			 DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE,
++			 queue->syncwait.offset,
+ 			 queue->syncwait.sync64 ?
+ 			 sizeof(struct panthor_syncobj_64b) :
+-			 sizeof(struct panthor_syncobj_32b),
+-			 DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE);
++			 sizeof(struct panthor_syncobj_32b));
  
- 	/* Extra Idle checks. */
- 	err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIF_STATUS_MMU, 0,
-
+ 	return queue->syncwait.kmap + queue->syncwait.offset;
+ 
 -- 
-2.43.0
+2.25.1
 
