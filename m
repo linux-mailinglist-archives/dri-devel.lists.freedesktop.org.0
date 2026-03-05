@@ -2,92 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAMJMCvgqWmaGwEAu9opvQ
+	id CIEBAobhqWnDGwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:31 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:03:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73696217DBD
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5369E217EED
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD7C10EC75;
-	Thu,  5 Mar 2026 19:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B17A10EC77;
+	Thu,  5 Mar 2026 20:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f2igjCSt";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="DLi5r1xp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 822B310EC75
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 19:57:28 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-439ac15f35fso5221389f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 11:57:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772740647; x=1773345447; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8g4jD+lM4KD2+vvthvQvaKxkXysJFhQZ5m0wfrvK+Hg=;
- b=f2igjCStuN/CDSbuUJgzX9Vb8lAOnwcoi6k7G3Zpdl0143iEiXnvg/WAOinH0X7nPF
- 4r3usct7+CxHsYXQkaTPvnbUPfT3tbcKX68GBgWJY86bBEC2iGbgYtGO1c2BO0H/XVWn
- SAe7iOIp1FtU+CH7kMU4/gZEbev56E/KXI4BODnjy2nzKfzGYazPRUuQj3nVxXr9TAu3
- VdOw+YeDv2AHPUFr8f36OlsYfCOf9dlSjBdEUbZSTuUOKJUD3Exvqq0hwmRsHXYEUEad
- P1YCUgupabDsDBbCc0Ofzw/u/UOOTS+88uupD4H6sh/K9K56YJQLKYAvwYMOD67qgb3z
- JZEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772740647; x=1773345447;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=8g4jD+lM4KD2+vvthvQvaKxkXysJFhQZ5m0wfrvK+Hg=;
- b=Bl7Z0UJEFg/UK5qe3FunNkTO1EGpp6vN4AVnZyW7zkcI21hEEa1e3ElI5+DtJrsS6X
- tMzlsBoYmubDf9CnTZ4VvZMK7/cau7byw6lG9XHQJ8PZR4VIc/r8eNJIUKJ8p9OBoczV
- UKOLrbbA9k14PtGH0fDt1UL/veWq0Defhjo5EMjM+eKmFny+A1W0uXRMSgz11KifAJ/G
- S93I3IwUswWRQu+h5DEqmm6Ggj+f1ccNZ3GYgeQsmuDr28IvoH4kKjy7uJqfmtVautUe
- lWW+9tPihW/Eelh9AGVwG9N0WUUV1SLdbUBvfOp/2qceDx8qB77A2+aYBJPV7a33OHg0
- H5eA==
-X-Gm-Message-State: AOJu0Yxf8EcZ4BjRV9OY2kcmb8PZqgWV6Situm4VpL3J8KhB8N33OpQQ
- jieBTuBHkcH8dAa/mffrHbxBMzT2s9xbuBwHAXHwV34dROYCW+I5IHDI80UX7XnF
-X-Gm-Gg: ATEYQzwSMd3Xx1lfOQPUI7AM0nLU3fAaIe1i+ig31QjtSjTlxDrfTJ+sxGv+creQWQL
- zXEdTtlSickFQ25WBeT/YwVqYO3zX+UJK/w1Hky7CUJqX3N5GzESmzZazpf14k/TyJTduGrVE73
- Q9Su0bMy1QOCJKS6E92Qaso2RBMJNN7BE1p6kS8vs+6VDz9lSDDWPIWdhtZPXPbmUS9cTnnOkUN
- 2paiPm1HqYxMR7pHvmJQC7KO/KI3aoFZb39YzjQXjy4zFh8s6Jp5Q+6lHWw/o0ZKc88tMxXlxYC
- y4PdDazu1CR5SSFr9NHZCe1TKCO7imaGzm/Ou/uWY5ul7nvVcCkg+Nwrj0rkZl3cgpHqH3Ko8SO
- 64V8j61ad9HrwjY0uKlsD2CtMfOQO5ZYvJxxBmUMOtp6DhBpm34ne1c+bsA+zXqM5LnX5laxFh7
- IvoDgrB5kVWjI/y5U6QOrVSq4m/Ob6EQ==
-X-Received: by 2002:a05:6000:3112:b0:439:d750:42f6 with SMTP id
- ffacd0b85a97d-439d7504334mr1415838f8f.24.1772740646285; 
- Thu, 05 Mar 2026 11:57:26 -0800 (PST)
-Received: from luca-vm.lan ([154.61.61.58]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439bb686a32sm26974297f8f.13.2026.03.05.11.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 11:57:25 -0800 (PST)
-From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
- Marek Vasut <marex@nabladev.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "Kael D'Alcamo" <dev@kael-k.io>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/panel: jd9365da: Support for Zhunyi Z40046 panels
-Date: Thu,  5 Mar 2026 19:56:31 +0000
-Message-ID: <20260305195650.119196-3-l.scorcia@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260305195650.119196-1-l.scorcia@gmail.com>
-References: <20260305195650.119196-1-l.scorcia@gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8DE710EC78
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 20:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1772740971; x=1773345771; i=natalie.vock@gmx.de;
+ bh=phDzhtlQizgMyOC1yfYUp7PKzd+JtfBxgdJqOaZTptU=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=DLi5r1xpIzSSSbdbiiFEZAh/vxLXfsqfPAekyNDHFq5FhaxIPbahClQk8E3rwA5y
+ fQOXCx8rVcLpAfckVZt2Z6wwEsKIch5bgMZuLjMqkHeacgkoa8Jr/bxFOI+eqeKXV
+ P9mAEKZ26yJyzaPLfWZIgYbiq7Cv2BZ8CzOCBQ3/MR7IrqO9/D51i5tfXYPqNybAS
+ 9JB7GKRs7gPwPWG3xP/lDbwfxAvFokFRByYNA08rAKVey9QykdM6P82c150alXtTr
+ 2SVtEqniG32+aGqAVxm7TKR/b8rMLhBJ+OsLhW3IUqs3nZgfvWzAnHtXtsOTzcmbU
+ IQAvAEhxmwaVAEOBTA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M89Gj-1w2vsG2OW3-00GoLV; Thu, 05
+ Mar 2026 21:02:51 +0100
+Message-ID: <893f4113-bbc9-4947-8bb2-a4d02d9714fb@gmx.de>
+Date: Thu, 5 Mar 2026 21:02:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/6] cgroup,cgroup/dmem: Add
+ (dmem_)cgroup_common_ancestor helper
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20260302-dmemcg-aggressive-protect-v5-0-ffd3a2602309@gmx.de>
+ <20260302-dmemcg-aggressive-protect-v5-2-ffd3a2602309@gmx.de>
+ <c87a99bc-5481-444e-8841-b09d20016cfd@linux.intel.com>
+Content-Language: en-US
+From: Natalie Vock <natalie.vock@gmx.de>
+In-Reply-To: <c87a99bc-5481-444e-8841-b09d20016cfd@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:inoGMv/YVdTcuTz04Iy5wDEN4mEJYw7Qk585yWnJHR+efwwrzJB
+ 1rZM/EwVzWdlj5/KxEW4jVXHzVQhy+FYeSHzpmBS0egYXkUELSpawTPbp3BP9MTkgrE/HWI
+ XKBMHRmPaVRH2Da5TMCuVa0u4HW3S4YABwRm2aegdS5wJkGQBieBnq/CwwuvqLP50utSqgJ
+ opxi448C7k1DI4TBBqMgg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:DBqRdHiFvyw=;tsF+IXvhK92PczdTDWcQMwqPA1p
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,395 +155,235 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 73696217DBD
+X-Rspamd-Queue-Id: 5369E217EED
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:dev@lankhorst.se,m:mripard@kernel.org,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:tursulin@ursulin.net,m:cgroups@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linux.intel.com,lankhorst.se,kernel.org,cmpxchg.org,suse.com,amd.com,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net];
 	ARC_NA(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[natalie.vock@gmx.de,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[gmail.com,edgeble.ai,linaro.org,ffwll.ch,linux.intel.com,kernel.org,suse.de,oss.qualcomm.com,nabladev.com,bp.renesas.com,kael-k.io,vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmx.de];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[lscorcia@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[natalie.vock@gmx.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmx.de:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-The Zhunyi Z40046 is a 480x800 24-bit WVGA DSI panel based on the
-Fitipower JD9161Z DSI controller found in the Xiaomi Mi Smart Clock
-x04g, apparently in two different variants.
+On 3/2/26 15:38, Maarten Lankhorst wrote:
+> Hey,
+>=20
+> This should probably have a Co-developed-by: Tejun Heo <tj@kernel.org>
 
-The Fitipower JD9161Z LCD driver IC is very similar to the Jadard
-JD9365DA-H3, it just uses different initialization sequences.
+Oh, that's a good point, sorry!
 
-The two initialization sequences for the panel have been extracted from
-Android original firmware for the Xiaomi Smart Clock.
+Although, I think I also need to add a S-o-b tag, then, don't I?
 
-Variant v1 tested on device. Variant v2 not tested.
+Tejun, just to confirm, would you be fine with that? Wouldn't want to=20
+claim people certify something without talking to them first :P
 
-Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
----
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 308 ++++++++++++++++++
- 1 file changed, 308 insertions(+)
+>=20
+> I need to take a closer look at patch 4 and 6, to add my r-b over the re=
+st.
+>=20
+> Den 2026-03-02 kl. 13:37, skrev Natalie Vock:
+>> This helps to find a common subtree of two resources, which is importan=
+t
+>> when determining whether it's helpful to evict one resource in favor of
+>> another.
+>>
+>> To facilitate this, add a common helper to find the ancestor of two
+>> cgroups using each cgroup's ancestor array.
+>>
+>> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+>> ---
+>>   include/linux/cgroup.h      | 21 +++++++++++++++++++++
+>>   include/linux/cgroup_dmem.h |  9 +++++++++
+>>   kernel/cgroup/dmem.c        | 43 ++++++++++++++++++++++++++++++++++++=
+++++---
+>>   3 files changed, 70 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
+>> index bc892e3b37eea..560ae995e3a54 100644
+>> --- a/include/linux/cgroup.h
+>> +++ b/include/linux/cgroup.h
+>> @@ -561,6 +561,27 @@ static inline struct cgroup *cgroup_ancestor(struc=
+t cgroup *cgrp,
+>>   	return cgrp->ancestors[ancestor_level];
+>>   }
+>>  =20
+>> +/**
+>> + * cgroup_common_ancestor - find common ancestor of two cgroups
+>> + * @a: first cgroup to find common ancestor of
+>> + * @b: second cgroup to find common ancestor of
+>> + *
+>> + * Find the first cgroup that is an ancestor of both @a and @b, if it =
+exists
+>> + * and return a pointer to it. If such a cgroup doesn't exist, return =
+NULL.
+>> + *
+>> + * This function is safe to call as long as both @a and @b are accessi=
+ble.
+>> + */
+>> +static inline struct cgroup *cgroup_common_ancestor(struct cgroup *a,
+>> +						    struct cgroup *b)
+>> +{
+>> +	int level;
+>> +
+>> +	for (level =3D min(a->level, b->level); level >=3D 0; level--)
+>> +		if (a->ancestors[level] =3D=3D b->ancestors[level])
+>> +			return a->ancestors[level];
+>> +	return NULL;
+>> +}
+>> +
+>>   /**
+>>    * task_under_cgroup_hierarchy - test task's membership of cgroup anc=
+estry
+>>    * @task: the task to be tested
+>> diff --git a/include/linux/cgroup_dmem.h b/include/linux/cgroup_dmem.h
+>> index 1a88cd0c9eb00..444b84f4c253a 100644
+>> --- a/include/linux/cgroup_dmem.h
+>> +++ b/include/linux/cgroup_dmem.h
+>> @@ -28,6 +28,8 @@ bool dmem_cgroup_below_min(struct dmem_cgroup_pool_st=
+ate *root,
+>>   			   struct dmem_cgroup_pool_state *test);
+>>   bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
+>>   			   struct dmem_cgroup_pool_state *test);
+>> +struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem=
+_cgroup_pool_state *a,
+>> +							   struct dmem_cgroup_pool_state *b);
+>>  =20
+>>   void dmem_cgroup_pool_state_put(struct dmem_cgroup_pool_state *pool);
+>>   #else
+>> @@ -75,6 +77,13 @@ static inline bool dmem_cgroup_below_low(struct dmem=
+_cgroup_pool_state *root,
+>>   	return false;
+>>   }
+>>  =20
+>> +static inline
+>> +struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem=
+_cgroup_pool_state *a,
+>> +							   struct dmem_cgroup_pool_state *b)
+>> +{
+>> +	return NULL;
+>> +}
+>> +
+>>   static inline void dmem_cgroup_pool_state_put(struct dmem_cgroup_pool=
+_state *pool)
+>>   { }
+>>  =20
+>> diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+>> index 28227405f7cfe..a3ba865f4c68f 100644
+>> --- a/kernel/cgroup/dmem.c
+>> +++ b/kernel/cgroup/dmem.c
+>> @@ -569,11 +569,10 @@ void dmem_cgroup_pool_state_put(struct dmem_cgrou=
+p_pool_state *pool)
+>>   EXPORT_SYMBOL_GPL(dmem_cgroup_pool_state_put);
+>>  =20
+>>   static struct dmem_cgroup_pool_state *
+>> -get_cg_pool_unlocked(struct dmemcg_state *cg, struct dmem_cgroup_regio=
+n *region)
+>> +find_cg_pool_unlocked(struct dmemcg_state *cg, struct dmem_cgroup_regi=
+on *region)
+>>   {
+>> -	struct dmem_cgroup_pool_state *pool, *allocpool =3D NULL;
+>> +	struct dmem_cgroup_pool_state *pool;
+>>  =20
+>> -	/* fastpath lookup? */
+>>   	rcu_read_lock();
+>>   	pool =3D find_cg_pool_locked(cg, region);
+>>   	if (pool && !READ_ONCE(pool->inited))
+>> @@ -582,6 +581,17 @@ get_cg_pool_unlocked(struct dmemcg_state *cg, stru=
+ct dmem_cgroup_region *region)
+>>   		pool =3D NULL;
+>>   	rcu_read_unlock();
+>>  =20
+>> +	return pool;
+>> +}
+>> +
+>> +static struct dmem_cgroup_pool_state *
+>> +get_cg_pool_unlocked(struct dmemcg_state *cg, struct dmem_cgroup_regio=
+n *region)
+>> +{
+>> +	struct dmem_cgroup_pool_state *pool, *allocpool =3D NULL;
+>> +
+>> +	/* fastpath lookup? */
+>> +	pool =3D find_cg_pool_unlocked(cg, region);
+>> +
+>>   	while (!pool) {
+>>   		spin_lock(&dmemcg_lock);
+>>   		if (!region->unregistered)
+>> @@ -756,6 +766,33 @@ bool dmem_cgroup_below_low(struct dmem_cgroup_pool=
+_state *root,
+>>   }
+>>   EXPORT_SYMBOL_GPL(dmem_cgroup_below_low);
+>>  =20
+>> +/**
+>> + * dmem_cgroup_common_ancestor(): Find the first common ancestor of tw=
+o pools.
+>> + * @a: First pool to find the common ancestor of.
+>> + * @b: First pool to find the common ancestor of.
+>> + *
+>> + * Return: The first pool that is a parent of both @a and @b, or NULL =
+if either @a or @b are NULL,
+>> + * or if such a pool does not exist.
+>> + */
+>> +struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem=
+_cgroup_pool_state *a,
+>> +							   struct dmem_cgroup_pool_state *b)
+>> +{
+>> +	struct cgroup *ancestor_cgroup;
+>> +	struct cgroup_subsys_state *ancestor_css;
+>> +
+>> +	if (!a || !b)
+>> +		return NULL;
+>> +
+>> +	ancestor_cgroup =3D cgroup_common_ancestor(a->cs->css.cgroup, b->cs->=
+css.cgroup);
+>> +	if (!ancestor_cgroup)
+>> +		return NULL;
+>> +
+>> +	ancestor_css =3D cgroup_e_css(ancestor_cgroup, &dmem_cgrp_subsys);
+>> +
+>> +	return find_cg_pool_unlocked(css_to_dmemcs(ancestor_css), a->region);
+>> +}
+>> +EXPORT_SYMBOL_GPL(dmem_cgroup_common_ancestor);
+>  From the naming, I would not expect a reference to be taken to the comm=
+on ancestor, especially because the reference through a and b would both b=
+e able keep the ancestor alive. Otherwise it would not be an ancestor. Ren=
+ame to dmem_cgroup_get_common_ancestor perhaps? Same for the find_, perhap=
+s rename to lookup_ or use the unmodified get_cg_pool_unlocked version, be=
+cause the common ancestor's pool_state definitely exists if either a or b =
+do.
 
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 5386a06fcd08..9bcf846684e4 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -46,11 +46,22 @@ struct jadard {
- 	struct gpio_desc *reset;
- };
- 
-+#define JD9161Z_DCS_SWITCH_PAGE		0xde
-+
-+#define jd9161z_switch_page(dsi_ctx, page) \
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, JD9161Z_DCS_SWITCH_PAGE, (page))
-+
- #define JD9365DA_DCS_SWITCH_PAGE	0xe0
- 
- #define jd9365da_switch_page(dsi_ctx, page) \
- 	mipi_dsi_dcs_write_seq_multi(dsi_ctx, JD9365DA_DCS_SWITCH_PAGE, (page))
- 
-+static void jd9161z_enable_standard_cmds(struct mipi_dsi_multi_context *dsi_ctx)
-+{
-+	// Enable access to DCS and internal commands
-+	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xdf, 0x91, 0x62, 0xf3);
-+}
-+
- static void jadard_enable_standard_cmds(struct mipi_dsi_multi_context *dsi_ctx)
- {
- 	mipi_dsi_dcs_write_seq_multi(dsi_ctx, 0xe1, 0x93);
-@@ -1366,6 +1377,295 @@ static const struct jadard_panel_desc anbernic_rgds_display_desc = {
- 		      MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
- };
- 
-+// Sequence retrieved from Xiaomi Mi Smart Clock x04g kernel in boot.bin
-+static int zhunyi_z40046_init_cmds_v1(struct jadard *jadard_data)
-+{
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard_data->dsi };
-+
-+	// Init configuration sequence
-+	jd9161z_switch_page(&dsi_ctx, 0x00);
-+	jd9161z_enable_standard_cmds(&dsi_ctx);
-+
-+	// GAMMA_SET (pos/neg voltage of gamma power)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb7,
-+		0x10, 0x04, 0x86, 0x00, 0x1b, 0x35);
-+
-+	// DCDC_SEL (power mode and charge pump settings)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb,
-+		0x69, 0x0b, 0x30, 0xb2, 0xb2, 0xc0, 0xe0, 0x20,
-+		0xf0, 0x50, 0x60,
-+	);
-+
-+	// VDDD_CTRL (control logic voltage setting)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbc,
-+		0x73, 0x14);
-+
-+	// SETRGBCYC (display waveform cycle of RGB mode)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3,
-+		0x74, 0x04, 0x08, 0x0e, 0x00, 0x0e, 0x0c, 0x08,
-+		0x0e, 0x00, 0x0e, 0x82, 0x0a, 0x82,
-+	);
-+
-+	// SET_TCON (timing control setting)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4,
-+		0x10, 0x90, 0x92, 0x0e, 0x0b, 0x04);
-+
-+	// SET_R_GAMMA (set red gamma output voltage)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8,
-+		0x7e, 0x76, 0x68, 0x57, 0x4c, 0x39, 0x3a, 0x23,
-+		0x3d, 0x3d, 0x40, 0x61, 0x54, 0x64, 0x5d, 0x62,
-+		0x5a, 0x50, 0x32, 0x7e, 0x76, 0x68, 0x57, 0x4c,
-+		0x39, 0x3a, 0x23, 0x3d, 0x3d, 0x40, 0x61, 0x54,
-+		0x64, 0x5d, 0x62, 0x5a, 0x50, 0x32,
-+	);
-+
-+	// SET_GIP_L (CGOUTx_L signal mapping, gs_panel = 0)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd0,
-+		0x1f, 0x0a, 0x08, 0x06, 0x04, 0x1f, 0x00, 0x1f,
-+		0x17, 0x1f, 0x18, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SET_GIP_R (CGOUTx_R signal mapping, gs_panel = 0)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd1,
-+		0x1f, 0x0b, 0x09, 0x07, 0x05, 0x1f, 0x01, 0x1f,
-+		0x17, 0x1f, 0x18, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SETGIP1 (GIP signal timing 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4,
-+		0x10, 0x00, 0x00, 0x03, 0x60, 0x05, 0x10, 0x00,
-+		0x02, 0x06, 0x68, 0x00, 0x6c, 0x00, 0x00, 0x00,
-+		0x00, 0x06, 0x78, 0x71, 0x07, 0x06, 0x68, 0x0c,
-+		0x25, 0x00, 0x63, 0x03, 0x00,
-+	);
-+
-+	// SETGIP2 (GIP signal timing 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd5,
-+		0x20, 0x10, 0x8c, 0x18, 0x00, 0x80, 0x00, 0x08,
-+		0x00, 0x00, 0x06, 0x60, 0x00, 0x81, 0x70, 0x02,
-+		0x30, 0x01, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00,
-+		0x03, 0x60, 0x83, 0x90, 0x00, 0x00, 0x03, 0x4f,
-+		0x03, 0x00, 0x1f, 0x3f, 0x00, 0x00, 0x00, 0x00,
-+	);
-+
-+	jd9161z_switch_page(&dsi_ctx, 0x04);
-+
-+	// ?
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0,
-+		0x24, 0x01);
-+
-+	jd9161z_switch_page(&dsi_ctx, 0x02);
-+
-+	// SETRGBCYC2 (RGB IF source switch control timing)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1,
-+		0x71);
-+
-+	// ?
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2,
-+		0x00, 0x18, 0x08, 0x1e, 0x25, 0x7c, 0xc7,
-+	);
-+
-+	jd9161z_switch_page(&dsi_ctx, 0x00);
-+
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 5);
-+
-+	return dsi_ctx.accum_err;
-+};
-+
-+static const struct jadard_panel_desc zhunyi_z40046v1_desc = {
-+	.mode = {
-+		.clock		= 26700,
-+
-+		.hdisplay	= 480,
-+		.hsync_start	= 480 + 20,
-+		.hsync_end	= 480 + 20 + 20,
-+		.htotal		= 480 + 20 + 20 + 20,
-+
-+		.vdisplay	= 800,
-+		.vsync_start	= 800 + 12,
-+		.vsync_end	= 800 + 12 + 4,
-+		.vtotal		= 800 + 12 + 4 + 8,
-+
-+		.width_mm	= 52,
-+		.height_mm	= 86,
-+		.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+		.type		= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+	},
-+	.lanes = 2,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		MIPI_DSI_MODE_LPM,
-+	.lp11_before_reset = true,
-+	.reset_before_power_off_vcioo = true,
-+	.vcioo_to_lp11_delay_ms = 5,
-+	.lp11_to_reset_delay_ms = 10,
-+	.backlight_off_to_display_off_delay_ms = 100,
-+	.display_off_to_enter_sleep_delay_ms = 50,
-+	.enter_sleep_to_reset_down_delay_ms = 100,
-+	.init = zhunyi_z40046_init_cmds_v1,
-+};
-+
-+// Sequence retrieved from Xiaomi Mi Smart Clock x04g kernel in boot.bin
-+static int zhunyi_z40046_init_cmds_v2(struct jadard *jadard_data)
-+{
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard_data->dsi };
-+
-+	// Init configuration sequence
-+	jd9161z_switch_page(&dsi_ctx, 0x00);
-+	jd9161z_enable_standard_cmds(&dsi_ctx);
-+
-+	// GAMMA_SET (pos/neg voltage of gamma power)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb7,
-+		0x10, 0x08, 0x42, 0x00, 0x56, 0x42,
-+	);
-+
-+	// DCDC_SEL (power mode and charge pump settings)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb,
-+		0x52, 0x0f, 0xb2, 0xb2, 0xb2, 0xc0, 0xd0, 0x50,
-+		0xf0, 0x40, 0x50,
-+	);
-+
-+	// VDDD_CTRL (control logic voltage setting)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbc,
-+		0x73, 0x14);
-+
-+	// SETRGBCYC (display waveform cycle of RGB mode)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc3,
-+		0x04, 0x07, 0x0b, 0x17, 0x00, 0x17, 0x04, 0x17,
-+		0x17, 0x00, 0x17, 0x82, 0x0b, 0x82,
-+	);
-+
-+	// SET_TCON (timing control setting)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4,
-+		0x10, 0x90, 0x92, 0x0e, 0x06,
-+	);
-+
-+	// SET_R_GAMMA (set red gamma output voltage)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc8,
-+		0x7f, 0x78, 0x69, 0x56, 0x47, 0x33, 0x34, 0x1e,
-+		0x3b, 0x3e, 0x43, 0x67, 0x5d, 0x6f, 0x68, 0x70,
-+		0x6a, 0x61, 0x3c, 0x7f, 0x78, 0x69, 0x56, 0x47,
-+		0x33, 0x34, 0x1e, 0x3b, 0x3e, 0x43, 0x67, 0x5d,
-+		0x6f, 0x68, 0x70, 0x6a, 0x61, 0x3c,
-+	);
-+
-+	// SET_GIP_L (CGOUTx_L signal mapping, gs_panel = 0)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd0,
-+		0x1f, 0x1e, 0x07, 0x05, 0x01, 0x1f, 0x1f, 0x1f,
-+		0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SET_GIP_R (CGOUTx_R signal mapping, gs_panel = 0)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd1,
-+		0x1f, 0x1e, 0x06, 0x04, 0x00, 0x1f, 0x1f, 0x1f,
-+		0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SET_GIP_L_GS (CGOUTx_L signal mapping, gs_panel = 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd2,
-+		0x1f, 0x1f, 0x04, 0x06, 0x00, 0x1e, 0x1f, 0x1f,
-+		0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SET_GIP_R_GS (CGOUTx_R signal mapping, gs_panel = 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd3,
-+		0x1f, 0x1f, 0x05, 0x07, 0x01, 0x1e, 0x1f, 0x1f,
-+		0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-+	);
-+
-+	// SETGIP1 (GIP signal timing 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd4,
-+		0x30, 0x00, 0x00, 0x00, 0x00, 0x01, 0x10, 0x00,
-+		0x03, 0x03, 0x68, 0x03, 0x40, 0x05, 0x00, 0x00,
-+		0x00, 0xcc, 0x2d, 0x31, 0x02, 0x03, 0x68, 0x0c,
-+		0x25, 0x00, 0x63, 0x03, 0x00,
-+	);
-+
-+	// SETGIP2 (GIP signal timing 1)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd5,
-+		0x30, 0x08, 0x80, 0x18, 0x00, 0x00, 0x00, 0x18,
-+		0x00, 0x00, 0x06, 0x60, 0x00, 0x07, 0x50, 0x00,
-+		0x33, 0xc0, 0x00, 0x60, 0xc0, 0x00, 0x00, 0x00,
-+		0x03, 0x60, 0x06, 0x10, 0x00, 0x00, 0x0f, 0x4f,
-+		0x00, 0x10, 0x1f, 0x3f,
-+	);
-+
-+	jd9161z_switch_page(&dsi_ctx, 0x02);
-+
-+	// SETRGBCYC2 (RGB IF source switch control timing)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1,
-+		0x60);
-+
-+	// ?
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2,
-+		0x00, 0x18, 0x08, 0x1e, 0x25, 0x7c, 0xc7,
-+	);
-+
-+	jd9161z_switch_page(&dsi_ctx, 0x00);
-+
-+	// GAS_CTRL (GAS function control)
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbe,
-+		0x4e,
-+	);
-+
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 5);
-+
-+	return dsi_ctx.accum_err;
-+};
-+
-+static const struct jadard_panel_desc zhunyi_z40046v2_desc = {
-+	.mode = {
-+		.clock		= 26700,
-+
-+		.hdisplay	= 480,
-+		.hsync_start	= 480 + 20,
-+		.hsync_end	= 480 + 20 + 20,
-+		.htotal		= 480 + 20 + 20 + 20,
-+
-+		.vdisplay	= 800,
-+		.vsync_start	= 800 + 12,
-+		.vsync_end	= 800 + 12 + 4,
-+		.vtotal		= 800 + 12 + 4 + 8,
-+
-+		.width_mm	= 52,
-+		.height_mm	= 86,
-+		.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+		.type		= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+	},
-+	.lanes = 2,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		MIPI_DSI_MODE_LPM,
-+	.lp11_before_reset = true,
-+	.reset_before_power_off_vcioo = true,
-+	.vcioo_to_lp11_delay_ms = 5,
-+	.lp11_to_reset_delay_ms = 10,
-+	.backlight_off_to_display_off_delay_ms = 100,
-+	.display_off_to_enter_sleep_delay_ms = 50,
-+	.enter_sleep_to_reset_down_delay_ms = 100,
-+	.init = zhunyi_z40046_init_cmds_v2,
-+};
-+
- static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
- {
- 	struct device *dev = &dsi->dev;
-@@ -1463,6 +1763,14 @@ static const struct of_device_id jadard_of_match[] = {
- 		.compatible = "radxa,display-8hd-ad002",
- 		.data = &radxa_display_8hd_ad002_desc
- 	},
-+	{
-+		.compatible = "zhunyi,z40046v1",
-+		.data = &zhunyi_z40046v1_desc
-+	},
-+	{
-+		.compatible = "zhunyi,z40046v2",
-+		.data = &zhunyi_z40046v2_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, jadard_of_match);
--- 
-2.43.0
+Right. Will rename to dmem_cgroup_get_common_ancestor, and also point=20
+out in the documentation that a reference is taken.
+
+Thanks,
+Natalie
+
+>=20
+> Kind regards,
+> ~Maarten Lankhorst
 
