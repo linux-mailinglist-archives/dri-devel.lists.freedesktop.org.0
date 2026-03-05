@@ -2,56 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OGG1OLXjqWl1HAEAu9opvQ
+	id MGLINlfrqWk6IAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:12:37 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:45:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722702180B3
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC1D218432
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 21:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C036A10E8AE;
-	Thu,  5 Mar 2026 20:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4284D10E8C8;
+	Thu,  5 Mar 2026 20:44:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LTvd9k5g";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="B3imj3b0";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oeBkCJd6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4069B10E8AE
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 20:12:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 45B4760053;
- Thu,  5 Mar 2026 20:12:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE2FC116C6;
- Thu,  5 Mar 2026 20:12:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772741552;
- bh=hbIbkllAiEN/fkhFtcDGuL0eZPTE8FI1rQITQKYrNMM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LTvd9k5gb4QD6iUdWeDhfx0tGr1FH6uinyHepfoDFhCaSmdWQKPj9v0vjfhqLoBSQ
- Yn3NuiHYYp8tce/aT0f0ZmW6l1N6Jnm8m/VwmprfA5Oq8w/1/HGjBb8OPUv6e2KuKx
- VHReeF6+zdP4zJ4GOw+kSe/bICrHMPiFI19Kgp2a4VsTLkqBLkkgUVDw9i/Nr917jc
- FUosSFPSUK18chpuQ/nv28BycJzu3251vOuiJ1OYLrmMP1G/B6k1cQm0jiMgKBscPF
- Z4hH95r7JNArvYzHp9JThUSMs1XBiIVIYqbhfVhGQ3gnxG4sMr5RgBi65QruPjltTF
- zZbUWYRH2HAlw==
-Date: Thu, 5 Mar 2026 13:12:27 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: gregkh@linuxfoundation.org, deller@gmx.de, sam@ravnborg.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/13] lib/fonts: Compare font data for equality with
- font_data_is_equal()
-Message-ID: <20260305201227.GA2200688@ax162>
-References: <20260302141255.518657-1-tzimmermann@suse.de>
- <20260302141255.518657-10-tzimmermann@suse.de>
- <20260305002347.GA4102761@ax162>
- <4acb921b-6bce-4bbf-a607-cc3e991dfc3a@suse.de>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 864D910E8C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 20:44:56 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fRhP30tX2z9tgr;
+ Thu,  5 Mar 2026 21:44:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772743495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8jWwVHRcBG2VKlOZWoCRCI4UjdJ9H1kheGjcWjDJHCI=;
+ b=B3imj3b0VOob99/2LXpa+0tQzB2DhpF64zCD0EtOQNdXztp1vsAHVEmhP4fhS/PNQzV8uJ
+ YKCnG3XkLrJ3avM7FXhlUT5wFNwHH+eRJtPBkgM+H5Bzl5rG1DZ91lOTgJi73C7185OT3o
+ Xcg6Ww4fO9fwOqSmShuqXvj1AaAcS8NfLcxwN7X7qrWQLClnUnjADFqN46azYra0Z2/sav
+ OGK6th4xBpeMc21SQLbGpg6qlL0ac0iQfe0Yvs2AjDDTg9MwAQd/jV7bpmespmBs49WvXa
+ zKWloWXe0CaAWWQ2/b1OQWt2H2c9X4IWoEu0shoNL8mXNypnOTtWCsaVH070jA==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=oeBkCJd6;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::202 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772743492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8jWwVHRcBG2VKlOZWoCRCI4UjdJ9H1kheGjcWjDJHCI=;
+ b=oeBkCJd6T7WhcPSdofq9HBnhPtBiqUVrdKLEZxNUPHBNiKwJeeCx/Aq6Vsgylni9cfS0Vh
+ ONO289zC19bbPvj/+r8l4fRHkAhge/z8fVgNkNvu4qvVzizyMdwd0UkIdt2ZWEeS+1C497
+ 48gs+NpL3fPNECPu8mXSsxvl04p9O6w+DselIXRjfVUut/hF3raUY8M+GfSk21iiXV4JVE
+ abw6zhA7U3zi2zTf7kam6btMTjH7SfWVa2JfseDIy/wv/RqI1ZqJ6YkETi0A9Mp6TjZcCw
+ Ol+PKRjWPj05dpRG7li+jtbGlSNQkXwxlb/uAiDrmvepmIji16fw8cOlp53CQQ==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ kernel test robot <lkp@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] drm/bridge: waveshare-dsi: Use temporary signed variable for
+ DSI lanes validation
+Date: Thu,  5 Mar 2026 21:44:18 +0100
+Message-ID: <20260305204443.76188-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4acb921b-6bce-4bbf-a607-cc3e991dfc3a@suse.de>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 6bcce76b8bcd82766d8
+X-MBO-RS-META: 5mam16ceet597ojxihh3ommgjzmo7npr
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +89,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 722702180B3
+X-Rspamd-Queue-Id: 6AC1D218432
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[renesas];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:gregkh@linuxfoundation.org,m:deller@gmx.de,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,gmx.de,ravnborg.org,vger.kernel.org,lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[mailbox.org,intel.com,gmail.com,kwiboo.se,ideasonboard.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Action: no action
 
-On Thu, Mar 05, 2026 at 10:31:13AM +0100, Thomas Zimmermann wrote:
-> Thanks for testing. The attached patch fixes the problem for me. Could you
-> please test?
+The struct mipi_dsi_device .lanes field is of type unsigned int.
+The return value of drm_of_get_data_lanes_count_ep() is signed int,
+and therefore cannot be directly assigned into dsi->lanes followed
+by check of dsi->lanes < 0 . Instead, assign the return value into
+local temporary signed integer and check for negative return, and
+if there is no negative return, assign the temporary signed integer
+value into dsi->lanes. Note that drm_of_get_data_lanes_count_ep()
+assures the return value is clamped to 1..4 or negative, and never
+zero.
 
-Yeah, that appears to work for me as well.
+Fixes: fca11428425e ("drm/bridge: waveshare-dsi: Add support for 1..4 DSI data lanes")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202603060341.hNj0pl9L-lkp@intel.com/
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/gpu/drm/bridge/waveshare-dsi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Tested-by: Nathan Chancellor <nathan@kernel.org> # build
-
-It seems like the asm/sections.h include can be dropped as well, since
-that was only included for is_kernel_rodata() AFAICT.
-
-> From 8dc48d2e676d1437584794f4df3dd20d08878655 Mon Sep 17 00:00:00 2001
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Date: Thu, 5 Mar 2026 09:28:28 +0100
-> Subject: [PATCH] test for internal fonts by refcount
-> 
-> Internal font data is 'static const'. Hence test against the refcount
-> being zero.
-> ---
->  lib/fonts/fonts.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/lib/fonts/fonts.c b/lib/fonts/fonts.c
-> index 198aae869be2..b73d74b977ec 100644
-> --- a/lib/fonts/fonts.c
-> +++ b/lib/fonts/fonts.c
-> @@ -45,14 +45,11 @@ static struct font_data *to_font_data_struct(font_data_t *fd)
->  
->  static bool font_data_is_internal(font_data_t *fd)
->  {
-> -	return is_kernel_rodata((unsigned long)fd);
-> +	return !REFCOUNT(fd); /* internal fonts have no reference counting */
->  }
->  
->  static void font_data_free(font_data_t *fd)
->  {
-> -	if (WARN_ON(font_data_is_internal(fd)))
-> -		return;
-> -
->  	kfree(to_font_data_struct(fd));
->  }
->  
-> -- 
-> 2.53.0
-> 
+diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
+index 0497c7ecbc7a5..91826c1ffdddf 100644
+--- a/drivers/gpu/drm/bridge/waveshare-dsi.c
++++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
+@@ -66,11 +66,13 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
+-	if (dsi->lanes < 0) {
++	ret = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
++	if (ret < 0) {
+ 		dev_warn(dev, "Invalid or missing DSI lane count %d, falling back to 2 lanes\n",
+ 			 dsi->lanes);
+ 		dsi->lanes = 2;	/* Old DT backward compatibility */
++	} else {
++		dsi->lanes = ret;
+ 	}
+ 
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+-- 
+2.51.0
 
