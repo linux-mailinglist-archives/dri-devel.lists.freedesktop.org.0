@@ -2,129 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oNIoKDGMqWl3/AAAu9opvQ
+	id 8KGrEoaMqWl3/AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:59:13 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:00:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09720212E30
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8194A212E5F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC3BC10EB99;
-	Thu,  5 Mar 2026 13:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F80210E158;
+	Thu,  5 Mar 2026 14:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WXxtCxay";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LLiPPMTz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010064.outbound.protection.outlook.com
- [52.101.193.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D49810EB99
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 13:59:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DvKZE0Q62OoNUOWsztIst1hcM0v3RfYfkNEnrAyciJ0sadbdNzBX6qhmO7Y7cmqQhSjIwuApnuUaXH6/InfNoEqqQ3lEY1eCChelnU3QwSc4tipQKUqozgeZbwsSe7K2F6Pxj6ue7YXrc36fkhEEpiZ1/ee6zj+wsH18l2yb46XMugHCJTrr5OPe8/Qow5JaiRQa7ZxuFepW9BcOHdUTqOq4P4L3NaZplo3/q+G5Ge1F4kA1yJNM+KqTxmSRmXW+P7OY5WRtFUVX29RDX2ixek74oNDlfxbtKpMSSD5YPkQGlcWeQJ31KjeRVjl9f4bjE/51qSgwm+/kpdl68djlGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kGatJ9zMkZbCRoPvpablYolLXIBeOAgqeuI4O2t5/mo=;
- b=OzsAPHjQTgA68ZUgE5QcAlXPyHQY64jYOmI9MPPAPdEUkNDZJN6NwgIJva6c1BuuL+OPYKegu1TiXZJnOjF3seLOgHusuYQTd1pJTaMWkepaI6aaVkoykf+0ZiExYh1mSL7i3nV5POHBhC2bPrw/ZxMJAIAOLhnSZk7/7rmE6JBuANDzOLasr6i59HQuI8QJpfePKM7CCxg1sM1KX/Gy6r52tMWb5SZT2T4uthFLQ/JTIFRRpWGmNlx4kzXIHcMjtEIfASSScmPMroSYC0qGM9SmtCvY4vOmynQ5QyqVfClg+H3aCpaYMUn3FcmulsM7GkUomUrndfQ0vrVuMjYctA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kGatJ9zMkZbCRoPvpablYolLXIBeOAgqeuI4O2t5/mo=;
- b=WXxtCxay9pvHcJ5OnPcnYe9mRjz/2Ca7wPuVZFiNqajK1m7sF4sjAvcfSAXJdkMv9/SifwB9t8mo2lGZ4/6DDr5pMUEOGOzElmuXW1nSPKM+lrzECMpEHNVdkkITZCALD2QZuHBc6wIvWfe/hzKYNpTKSzBdSiDautto9Vyk3L4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB8411.namprd12.prod.outlook.com (2603:10b6:930:6e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
- 2026 13:59:06 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
- 13:59:06 +0000
-Message-ID: <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
-Date: Thu, 5 Mar 2026 14:59:02 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: dma_fence: force users to take the lock manually
-To: phasta@kernel.org
-Cc: dakr@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8E1810E147;
+ Thu,  5 Mar 2026 14:00:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AE18A43A5E;
+ Thu,  5 Mar 2026 14:00:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E58FC116C6;
+ Thu,  5 Mar 2026 14:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772719232;
+ bh=393qDIgoHBbCQNpTIGP+WBiCqebYKIGYINOpS7EZdyA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LLiPPMTzZg9/f80zQO9P/fDIaf7xVcapS/MbzaPpFA+pXw3fDPXDsl5FaO+E3F0+K
+ e/AwWKAZC2U0+K3fQVhE48wi9M0L1hOg+hzT5GLlBoJvKlwPwy0nB/XNxCSlkA3oVi
+ Zq5Tqg6m+9A8Um7hHXF9eEg/jNtA5iqOkWM15gP1eIg+7eezFv6GgM7tYhSpTb8EOR
+ M+VIQjM3qFn1f+gBYvrACm1H5odHiuYaipKFvPxrAPdkk8xpNQan2YpBRq8AuPNm7l
+ ARrox0w0CBjHRwemaDknNiPDqzDvILVTPu9EJd+tmQZOFlXsYnVgY6LfwgwCp+eVnE
+ yuMhyx9j8yaQQ==
+Message-ID: <1efba81b-d4e9-405b-8ad5-0a170237902f@kernel.org>
+Date: Thu, 5 Mar 2026 15:00:23 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f41971b-3ba1-40ee-afc8-08de7abf5d9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 45UpmzwPC6AWGuNvX9np5EAzq28pKfgJ9DJfgvqfWDoA5JAiGGBzGkvXOL5UEng/PpgGadAfxjSHZjD01EkAYx8pyaro7zHekpWDJLF+y/8k07LDGzNUKfaiMoWUqyxZ/BegzWzj2D9oADTKVHH+c1dwzlXoTh9ia8qWyb4+vWiMVFe3jxhYaK+2rbYbQIMfApqjLD8bxN+UPXVyIUL0SjOgTukfd9NHHQOczDKaJaEMx0nTGF9bz8yYQ/cbTIMNHvr/OLsK0Y4lQLuEYiyxY43WSxDfr/xaojVBM2E2UJ2ifQ7JmRIJK52sHyYQ8AVv8+/Kb9jvGyEYEVfFUkB8fYDcJ9hboiLCdQvi4ZUTi2f9XPYEem2aD+nOy9I8cHAY4XHwjOY2nat6ZtifQtc65ur/aW5FFe1M7VvBmc8aTRFob9EqXaeTr1Wb3rh+DHpmuaV9+BL5P7j+8wQIY3mO5sIrSI7zksArbqFB/pDsdd9R/2nlsYN4XwBasZbvGirFyDpcBeEEtla/2mtRYtF5TpZzdzXXd4SVLxzntDCkg/0brnDnkJ7aye5qrTCJkEUMpYM4sLCCNG8pP/HlRaeqCCUN0r5Y3oaChBoUnmPVXObKa0XTUSAQuY1aTk+ExLidab8vzO1md/1u3gzmJWja+8ZtqiIPtx6cxEbdJ0r6DBa/GAByFjTymdrIQyWjkqG547rRHSiD7q5CctrSzSzC40y4LW6Hh7D1/JH/szzw1C0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?alloSFVVQnM4UjN3elVlSnNKc2J4ZmJQb0kzdHQyYmVLenNreWVadXNxUm5V?=
- =?utf-8?B?aGhCYWxVeGt2ejZJd3B6c0N6aUYramdmQlBHZThlWUxDTzEyK041TDltVFdo?=
- =?utf-8?B?TTBUaU5mMXg5RFVNYTVrdVB4V3pSTmEyRTNjU3J2c1hvSSs2MTdDRWhRejNC?=
- =?utf-8?B?RWVqQldnL2RrWkJCMnhqMEpxaG5idmRhQnpjeVFQUkRHb1lIMUdoNS9ZcUNC?=
- =?utf-8?B?TWN1cHZLZkZlN1k1bmpHMk0rSFE4WWxpa2NIZUo1MUhLdTIrQlZzTzRXay9w?=
- =?utf-8?B?THNQdkJocmJ3SzVjcVJ0cEtvSjVSTWMvQVp2OHFYdU1ZbzlXbXEwbGFCT3dK?=
- =?utf-8?B?N2FmaHUrWHdERDRRMXFjRDZPL3lZam1qNkFQMWMrL0k5THMwb2NQR0ZKSkNV?=
- =?utf-8?B?WVBaalN3cm51dTFZWktBQVRXWjE4eW5LNUovdWI4aG5PNWNzM3dreDFEQTBZ?=
- =?utf-8?B?TTQ1T1FOZXdGTThQNHdaa05MMk52c25JVk5UejJKdVJ4bFhURjBoWExxMnhF?=
- =?utf-8?B?aWJLSWVRTUZTbEdDSGxaVlpNM3NkcG9La1BxT3hVRUFqSXhLYUpYY2tMNHMx?=
- =?utf-8?B?TDBvN3hPaW1NZ2Y4YytHcExIWEtEU0tKL1BHQ25VUVVBaVNONUlZeS9xL3RM?=
- =?utf-8?B?SFdFeFREOTkxWHBWMzNaNGlRSXpFb3BQSEtKdGdrNndvYjRHVzMrcSs2eGM0?=
- =?utf-8?B?VmxsZFl5Sk1sZDBNNFNwNVFFN25Fd1preVpLMG5JSUttMFhZSzhNOXV2VEV3?=
- =?utf-8?B?K3ZFUnU4MGlvMVFjb2pNbjBXcHY5UW9rUDhYc09ZczA2ekEwblZMUi9lWCs2?=
- =?utf-8?B?MFNXQXhOaGJwZ3hyVzI1U0c5b08xRm1sejVlOFBSbWJqOWp2dnRHVWdBcUgy?=
- =?utf-8?B?L0FzWUVDMEJxeWtFYXNFdWVaTXNtd0NpRTI5cnkreXZjMmRxdFZQdlduSkdY?=
- =?utf-8?B?NHRMWG9LclhxV1Ribzg3V3ErS2FKZUYxbmFXZjRqeFpPb0F4NUZwMWpPOE1J?=
- =?utf-8?B?N3hGcERyaU1xL21VV2N3bTJBaGxZQ3NYOE1kTDZVS2k4ckxSdWVQVmFIalV4?=
- =?utf-8?B?Z0hUOHdBdyttcWpFZ2pibzhkVzM5NkRKamdHQmdvMHdZSloxNUwrMXB0Visv?=
- =?utf-8?B?QjArd1hyb0lqZmdZSzVVQ3ZaZFQxaFd4di8vUWVIdGk4MWpzcndqS1NZVHJi?=
- =?utf-8?B?b3NUZGd5Y0pTTEN6Q2JsTUFBVW5rdDIyWVRCa09KYXEvWUpvbDlsL3R4MHdC?=
- =?utf-8?B?TTZoT1hDQXZ3UTNCQjFyUitVdStwT3dEeUo1RENNTWs4VzMxQStDT0FZbit5?=
- =?utf-8?B?ViszdWV3R2ZONUlxVFd6NllRS2JmM2RjQmlKNGt6ajFpTFdvUHMvdlZoRFN5?=
- =?utf-8?B?UnJxMlRZYTIwRElibWd6VDZyTUlHTmNCZHRNdldVNXFSWS9GZ1U0a1lnbkRy?=
- =?utf-8?B?SVZlbkk5VW9WZDJGL3U2dDRsM1pHejFmbGkvaDVWL1lXRXYwYTE2V2RxMytH?=
- =?utf-8?B?UTljQmRKL2tsYmhVUzc4TEdMRWJ0enBMZUlLd0VxUllDRkNZK2tYQmIxTXBN?=
- =?utf-8?B?S28zTHQyRHpHb0pWUGRSd3kwZGFOcGRxWFM0ODBHSGVzYXE3eUoxb1VQcFEz?=
- =?utf-8?B?WFo5a1pJV0RabW12Q0ZxT1lEdUpNQjZnTHpNMXJIeURkRzlWNnB2c1U0eEN1?=
- =?utf-8?B?NS83MnEwNGxPNTRub3l4eVRoKzBHYkk2dTc3bXdKb0NmN0FBcXU5OTBmM2Np?=
- =?utf-8?B?VmdvQVhWY2VzRWtFNGc2VFBuZFJMWUhlcVgxYTVad3VSeFpDL3FCTnNvZDU3?=
- =?utf-8?B?c1NmQWZyNUIvdERKdVJKcWlSbXdHK1dieGsxK01jajZoWFBEYkNZeG9YdzE4?=
- =?utf-8?B?a1oyQXpGMTRLUG52dGhMNHE5Y1B4bXpsZFdmT3cydlpOcnMxbFhrNDJEM1lv?=
- =?utf-8?B?Yjc1d0puYzNHUTlHS1JEUUltWkNjRWx6dHdmR2VNcyt2ZjhVcTRYVjJSOUJk?=
- =?utf-8?B?SkRrTUE1SUpnS3pGWTZkRWxwSnAxOFl5a2VmTmdqNkY0UDMrWFowdkxHd29K?=
- =?utf-8?B?UVFLc0lQWVh1WTEzVDBPalBMRXhNclpWNjlNNkIxWFByQjY1YjM3L2dvZ2ZZ?=
- =?utf-8?B?d0Nkam90em9RS0VUVXFVemZLbmJWaUR1Qjc4WWFWNVJzM2Z0Yk0rcloxK1BZ?=
- =?utf-8?B?emh2Wll0ejVpTkNidHV3S0N3a2VVUlJ0dDU0WE1QUDErVjQvUG53V1FBRWpX?=
- =?utf-8?B?TUZ4VEc1cTMzOWo0WWl2NGFxZDV3bU1iWSt4dThaZjRJTjhGUCsrMzZUYktr?=
- =?utf-8?Q?miyMVvsWUGAv/E55wk?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f41971b-3ba1-40ee-afc8-08de7abf5d9c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 13:59:06.4913 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PvgipJYwMl6xE6CUC/0r1BE1CMp0pypxc6Z7QGuR+C5LStOVs2Uq+CLLAZ5zBO9/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8411
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] mm/mmu_notifier: Allow two-pass struct
+ mmu_interval_notifiers
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <20260305093909.43623-1-thomas.hellstrom@linux.intel.com>
+ <20260305093909.43623-2-thomas.hellstrom@linux.intel.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260305093909.43623-2-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,76 +118,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 09720212E30
+X-Rspamd-Queue-Id: 8194A212E5F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,amd.com,oracle.com,kernel.org,google.com,suse.com,ziepe.ca,linux-foundation.org,ffwll.ch,gmail.com,nvidia.com,lists.freedesktop.org,kvack.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:dkim,amd.com:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 3/5/26 14:54, Philipp Stanner wrote:
-> Yo Christian,
+On 3/5/26 10:39, Thomas Hellström wrote:
+> GPU use-cases for mmu_interval_notifiers with hmm often involve
+> starting a gpu operation and then waiting for it to complete.
+> These operations are typically context preemption or TLB flushing.
 > 
-> a while ago we were discussing this problem
+> With single-pass notifiers per GPU this doesn't scale in
+> multi-gpu scenarios. In those scenarios we'd want to first start
+> preemption- or TLB flushing on all GPUs and as a second pass wait
+> for them to complete.
 > 
-> dma_fence_set_error(f, -ECANCELED);
-> dma_fence_signal(f); // racy!
+> One can do this on per-driver basis multiplexing per-driver
+> notifiers but that would mean sharing the notifier "user" lock
+> across all GPUs and that doesn't scale well either, so adding support
+> for multi-pass in the core appears to be the right choice.
 > 
+> Implement two-pass capability in the mmu_interval_notifier. Use a
+> linked list for the final passes to minimize the impact for
+> use-cases that don't need the multi-pass functionality by avoiding
+> a second interval tree walk, and to be able to easily pass data
+> between the two passes.
 > 
-> I think you mentioned that you are considering to redesign the
-> dma_fence API so that users have to take the lock themselves to touch
-> the fence:
+> v1:
+> - Restrict to two passes (Jason Gunthorpe)
+> - Improve on documentation (Jason Gunthorpe)
+> - Improve on function naming (Alistair Popple)
+> v2:
+> - Include the invalidate_finish() callback in the
+>   struct mmu_interval_notifier_ops.
+> - Update documentation (GitHub Copilot:claude-sonnet-4.6)
+> - Use lockless list for list management.
+> v3:
+> - Update kerneldoc for the struct mmu_interval_notifier_finish::list member
+>   (Matthew Brost)
+> - Add a WARN_ON_ONCE() checking for NULL invalidate_finish() op if
+>   if invalidate_start() is non-NULL. (Matthew Brost)
+> v4:
+> - Addressed documentation review comments by David Hildenbrand.
 > 
-> dma_fence_lock(f);
-> dma_fence_set_error(f, -ECANCELED);
-> dma_fence_signal(f);
-> dme_fence_unlock(f);
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Cc: <linux-mm@kvack.org>
+> Cc: <linux-kernel@vger.kernel.org>
 > 
-> 
-> Is that still up to date? Is there work in progress about that?
+> Assisted-by: GitHub Copilot:claude-sonnet-4.6 # Documentation only.
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
 
-It's on my "maybe if I ever have time for that" list, but yeah I think it would be really nice to have and a great cleanup.
+LGTM, thanks!
 
-We have a bunch of different functions which provide both a _locked() and _unlocked() variant just because callers where to lazy to lock the fence.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Especially the dma_fence_signal function is overloaded 4 (!) times with locked/unlocked and with and without timestamp functions.
+-- 
+Cheers,
 
-> I discovered that I might need / want that for the Rust abstractions.
-
-Well my educated guess is for Rust you only want the locked function and never allow callers to be lazy.
-
-Regards,
-Christian.
-
-> 
-> 
-> Regards,
-> P.
-
+David
