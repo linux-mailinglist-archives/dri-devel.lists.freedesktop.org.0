@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mLLWNKY8qWmW3QAAu9opvQ
+	id gCeyHjY9qWmn3QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:22:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30EC20D5F1
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073A720D630
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE0D110EB79;
-	Thu,  5 Mar 2026 08:19:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ww/3aMwm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A6310E248;
+	Thu,  5 Mar 2026 08:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B4210EB79;
- Thu,  5 Mar 2026 08:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772698787; x=1804234787;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=JhLR2k2eBBkP5LIGAtVMzHop7q7TF293jgVtNpgSMDE=;
- b=Ww/3aMwmaOR3X1NRdHNI09jTa2At7IzMSLD0K0+Y02VcpCjNQtDmV6z0
- KeSlFOmP8Xkx2sqc7vuujpWjxfWN0XnTClfzCDK6EkBgqDhUGi8qORRB2
- 6Uag3Nkmo0ng8LgKOUmA4WWzFp1cdXmWzTR669M707XJ8nLfTd1em7dIN
- uSpup8D5a6IVqVg/GFLxpYhIEIevGA5cUjx4jgT/k+BcbD1o0yOdh3VpE
- uw6gH82Zr4K/ZUdwl+NnIm0VOdAfxd7KxY7tNXxgfdRzmeB09PeyUtbUm
- VSkN+beLHrsnEJ3ub4h6FROjGJ076f7q7rytK1NnIVhbQPtQaOUQdRSGY A==;
-X-CSE-ConnectionGUID: FUoN5h1PRWaS/jGEgql9jQ==
-X-CSE-MsgGUID: K7AlQr69Q4yT3vQp2k9/Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91349169"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="91349169"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 00:19:46 -0800
-X-CSE-ConnectionGUID: FgYsDArfQrSA38Trt+Y/Pg==
-X-CSE-MsgGUID: bnmnu0BQRjWIHou7jNEIFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; d="scan'208";a="256492902"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa001.jf.intel.com with ESMTP; 05 Mar 2026 00:19:41 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Thu, 05 Mar 2026 13:48:14 +0530
-Subject: [PATCH RFC 4/4] drm/i915/dp: DPRX/LTTPR caps for DP should be read
- once
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D571510E248
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:22:10 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
+ by APP-01 (Coremail) with SMTP id qwCowADXgW0rPalp2s5HCQ--.1878S2;
+ Thu, 05 Mar 2026 16:22:04 +0800 (CST)
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>, Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH drm-misc-next] drm: verisilicon: remove the error message when
+ getting IRQ fails
+Date: Thu,  5 Mar 2026 16:22:01 +0800
+Message-ID: <20260305082201.3694286-1-zhengxingda@iscas.ac.cn>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-dp_aux-v1-4-54ee0b5f5158@intel.com>
-References: <20260305-dp_aux-v1-0-54ee0b5f5158@intel.com>
-In-Reply-To: <20260305-dp_aux-v1-0-54ee0b5f5158@intel.com>
-To: Imre Deak <imre.deak@intel.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADXgW0rPalp2s5HCQ--.1878S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF1xtrykZr17CrWrXr4fXwb_yoWfKwc_GF
+ 15uFsxW398KF90q3WUZwsIvr9FyF909FWFgasrta93K3srCr15XayDWrn5Zw1xXa18WFZr
+ Cas7ur929r13AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+ AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+ 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+ IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUb_Ma5UUUUU==
+X-Originating-IP: [112.94.103.14]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,58 +68,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A30EC20D5F1
+X-Rspamd-Queue-Id: 073A720D630
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,m:zhengxingda@iscas.ac.cn,m:lkp@intel.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arun.r.murthy@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,intel.com:email,intel.com:mid];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[intel.com:+]
+	NEURAL_HAM(-0.00)[-0.976];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:mid,iscas.ac.cn:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
-The DPRX/LTTPR caps for DP is read on detect and should be read only
-once. This value is stored in intl_dp struct and will be retained until
-hotplug.
+The platform_get_irq() function has its own error report, so the error
+message in the driver seems to be redundant.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+Remove it.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202602242000.bQ0qN6AC-lkp@intel.com/
+Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
- drivers/gpu/drm/i915/display/intel_dp_link_training.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/verisilicon/vs_dc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 76a5bfb507c34733db09cd7c2ba9895afcbf6b10..b78fc69cf21dea630313a5c93ff4bd3670f32293 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -250,6 +250,9 @@ int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp)
- 	struct intel_display *display = to_intel_display(intel_dp);
- 	int lttpr_count = 0;
+diff --git a/drivers/gpu/drm/verisilicon/vs_dc.c b/drivers/gpu/drm/verisilicon/vs_dc.c
+index 5f629d2d4beac..d2e216eaa3c9f 100644
+--- a/drivers/gpu/drm/verisilicon/vs_dc.c
++++ b/drivers/gpu/drm/verisilicon/vs_dc.c
+@@ -105,10 +105,8 @@ static int vs_dc_probe(struct platform_device *pdev)
+ 	}
  
-+	/* this function is meant to be called only once */
-+	drm_WARN_ON(display->drm, intel_dp->dpcd[DP_DPCD_REV] != 0);
-+
- 	/*
- 	 * Detecting LTTPRs must be avoided on platforms with an AUX timeout
- 	 * period < 3.2ms. (see DP Standard v2.0, 2.11.2, 3.6.6.1).
-
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		dev_err(dev, "can't get irq\n");
++	if (irq < 0)
+ 		return irq;
+-	}
+ 
+ 	ret = reset_control_bulk_deassert(VSDC_RESET_COUNT, dc->rsts);
+ 	if (ret) {
 -- 
-2.25.1
+2.52.0
 
