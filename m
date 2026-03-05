@@ -2,145 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uGvpFVFBqWkZ3gAAu9opvQ
+	id 0O94Kx5CqWkZ3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:39:45 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:43:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68F020D8EA
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFCD20DA13
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 09:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83A710EB90;
-	Thu,  5 Mar 2026 08:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D898B10EB9E;
+	Thu,  5 Mar 2026 08:43:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zhs1szgR";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Wx+oMm/8";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="2C3iu+bX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8360210EB90
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:39:41 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6251O1K43665160
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 08:39:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=; b=Zhs1szgRs6PvG6yC
- /K6l0Og7co3C6ED8icQT7ngtsI9G5Zp17IaIYa/MOFJSyTxAUHo39qtMLOBGQhpj
- JO9fE/F/E4F4LvhAKnAlFKn+fH9sEpkGqfNT9M43WTCJkjqaFeUzfOGpTrDAGNtC
- tA5poP4iW9oFEFa2er9A5XyBDJ8CedmbmCYM1jjJmOXgrD4UqsM96/EbUTiVA/x+
- +Hq4ib0d4uJFejDRNFTAYPM9OxAzG41cfjw0IJBJVDWkmbFbGS1eLwFkvUDxUI+x
- i9yGzbk3U3z2KxBfUGbK5GoyOmpZPSUHhrYGJ9ek999ywA1Q/YTR3XTo5MWWFrPw
- 1lqwYw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq04u18uk-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 08:39:41 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-8cb5a76f13eso420672385a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 00:39:40 -0800 (PST)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4778510EB9E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 08:43:06 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-4836cc0b38eso78933315e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 00:43:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772699980; x=1773304780;
+ d=google.com; s=20230601; t=1772700185; x=1773304985;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
- b=Wx+oMm/8OK9Bx/a224B398MsUAK9IM+FA0wGTHGuMzm6XU7nYat28Vi+bHqMgYMOvM
- TC0YRiu7ti3GnRmdNzItNRXK49aj4dcbZWCylpk19Rm6s9cohuhnlVlMN6oP8Ovf8ANq
- LYVY4qXazU/pBiNbp+EhhtZNUUvgVgPicGB/4MaPTnwFO8Y2+ejPBU+yW/KId/oaA5Ia
- 3XuJb7GaSkDcq6uWjIOC82QIgc5twl0eUYAx+q2+oSay9ti9pvRqzAQdHjYr1niTvR40
- Kb8mnlSyUBRAn0ZR74aR+Sy86bzPWzcai2ISG6Br80pjRFMdrQZCL74hdxLVu75sBytK
- 0KMA==
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=ImdwXMFzfOswNPEOQHnijbZ5BxVnmvmjujol0/tafME=;
+ b=2C3iu+bXgjZmTRtwKl2zccNEy8tgSjS4DAOnf8rcVQg/tGaBxspRvsZCpaoJuppZUJ
+ LiSsFJysl0w7twwzPT0+IWlSdLVXFNPb4hv0Yztsuf6Mc9RAABCUIRvTfX8YSi0S4cyU
+ ALbHphbTyCX0oa7/LoACqkHQzCdmp6pg6hv/beelwfbabelI+F6P1VxAJzZ2XOcvLb92
+ gt0qCio0+A9TNC5MJJrsA4A7AVMBQRUlFJ82C0l4e24P6Lma4K0RGugqRC3l8IUKcXu6
+ 0/qJS1deVAbBhhKBXRR0MJsY8Cuh0Yk26nwnPybgWQ0WPS+v86vqycVv28/EV1rXL1La
+ y5Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772699980; x=1773304780;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
- b=ripffSur3qsJDJ5Z4OiGp4OvH5fwp8F+Pj6XxJ1P7aTcBPOA6fo1qtJl7NRQyVXHfc
- JVzQHIVMeeC1QNH7hnzDQ95EdWq/WIsmUtaMTgBPFOu2ssNgXXu44dp+XGbAAOUE0LPG
- cKVlT4t1TqkINnJLaTzR5GzrBLHevhyruvvC4fcuD9KOOLavOSgfUArJDbQQ9gE13XCF
- 0zXU9Hzx54LP9fmF6r44Yod9Na8UU6MyPEsSCJ/TvoUiTifRJbQY41Xh7LsOYOU/3RvU
- pCQNT7oURS5Z9K7d2lMmIRMLSXn0bwIFdzceH8ejNIvx6DSXMXCCHPlzKCHq13wjOJb2
- e06w==
+ d=1e100.net; s=20230601; t=1772700185; x=1773304985;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ImdwXMFzfOswNPEOQHnijbZ5BxVnmvmjujol0/tafME=;
+ b=PszJU/eqeenmwC/2sIhdFq7aUHFcaHf+cLP7jZdVnJs/l2Fw4OBOpql1BgT0sOACGk
+ kSSlQ6xIeOAdRMTsd6CqHU4bjcpBFBH5XhGIaLMW1ygnS3Ti3jI/XbQwdMXg7n6/5r4P
+ 17sSc2mxJ9egfbdnVwM8rgLrbSktYxv39SYTEM8neDRwR8cP4NwgAt5ID2KGgO+xgOpH
+ ea48fEFdWp4LtE1Wd6YyFZAl5sNByDoSlz4Ny+lsVO+4q7ykXKBA7xpAqzm5h8A1rzgX
+ zryqTOdAS7vuSnIAX9ftPu+i+kFiaKGOLLXVdTWxS2Rf4rYaQsJ1n6wFEa3LASiFchec
+ xojQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4i7CsPnXC7Vo51IaEIXdIRkpHu+CZadDwrRVEQ4e1lDPHmE1uxaY6yoQTmfgvtQ66IfsCwQcKpp0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0LapD3hrhqSH1vNP/61BWmhuPvfpkbMTZ9pxuCo/Ayvbva8PT
- 8yNKB7SCH1DIyQKXvRKKOJYQ/K0s5/dbcOH0Vk093JLa4HqhNyUuj1Tn8XBKNxtzB+Jeoxw1WkM
- 3Gcp4QtCcT9H7cBbUtLlsYYQpKXnBk/s9VBxlRsgEhlVaCkdzoJ4Ca35C0EcLGE4L9ALdtL4=
-X-Gm-Gg: ATEYQzwViD/uddNiY1ZKaIKnf2Bma62MbKHVoitBda2TL5tyabVaRRa5ehgLxoENEda
- D9Do62+R+ErqVZSR22uyPutGfQNQzcsfSsp5NEmDqxpOBJjmeXovImVqC73iQ9jIpdbJiU/nOMA
- RrduQpk0N151eW2MjMC6fipPTBPqypR2x/EIlyce0FiENiidZ8EAVQPxFv9XPVSJK+t5sQdGLnM
- v4UgQSjjuxKn97Dr9BHEAsjzAf0hs+LkIkPR9fiYpB3+Op8Sq+dE8ULDOeZ062WHdvjqnegYIYG
- A07CVlDu9Cl4c7QH+WmmvlRm12OCMI9yPhXBzMkW8do3NI2pEDKH0XugFdQxX5+S4No9bESvzrP
- Y+dX2TU4iRxJSe2YrbcHgjLU3w82s/D/NKY5a7PbViUq9vuQvsvK1dSTS+hpVMPWWG1yxBaFjiz
- VNFVY=
-X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id
- af79cd13be357-8cd5afcdcfbmr452358985a.9.1772699980147; 
- Thu, 05 Mar 2026 00:39:40 -0800 (PST)
-X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id
- af79cd13be357-8cd5afcdcfbmr452356985a.9.1772699979710; 
- Thu, 05 Mar 2026 00:39:39 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65fac06e3fasm6657504a12.25.2026.03.05.00.39.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Mar 2026 00:39:38 -0800 (PST)
-Message-ID: <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
-Date: Thu, 5 Mar 2026 09:39:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-23-vladimir.oltean@nxp.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260304175735.2660419-23-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: iKFOZnRYk1Jz3yHbCXHWIced8ckPUqkR
-X-Authority-Analysis: v=2.4 cv=eqTSD4pX c=1 sm=1 tr=0 ts=69a9414d cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=8AirrxEcAAAA:8 a=GJStlgXwfe-SXQdWLvAA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=ST-jHhOKWsTCqRlWije3:22
-X-Proofpoint-ORIG-GUID: iKFOZnRYk1Jz3yHbCXHWIced8ckPUqkR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA2OCBTYWx0ZWRfX0Fag5JHWB1co
- J4QVPH8SAXe85LaX34N9bEuwPoxJEHj17+pODSQskCQJxaYvQLsyHIghEVjKfTVOnYwYaMOlzt9
- sExJJcUjKYIxv1qVyculiFYtERlgpaqQcsaKcIKzk9SwALheH8JkcpDknhCBH+Cz6UJ+nyAl2w+
- g6bcsruqtoZBqcb8NzpWTSJ8+gSZEce4lDbLuT1qYAbSVEPXJzJcy8+FZwXq44A0cody9k7HoRm
- w6HQ/DWda0svTidIUlAXrQH6Z4gGd8nMOMO++peVrRux5zOlzVe9S2MxN9X0kjL+CQM1g5xvPYI
- WgSxlwTEXL0h926Px6rxt9vqPub+Cw9zEvd241SJhgf0e6LszLil89xW87KFTlMvN9qwdzxkz9+
- eEXZHOZjKPZIat/ep26Vt+BECaoS16Eq6oFpI7+lKbnoS9+8Wr4jkYcW6fW/xQd9gg9QfsulHnZ
- EEm40nw/VggPRgnSpOw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050068
+ AJvYcCW6lppRHeSO7LD+3RUjj+jVAhRmZoF9l9snilwAWK3SGKLvQLVYrqrqzLgFBevYv3+3eihuydUl3CQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwC6dbsmgU3kqStqyI4RbSdRd/XqanA7r1I1dfSADY47Sq46O5F
+ s0ysva2LWYTFft+6G1ZoRR+4ffHBPDiPmuRqaOu9FYQhUY8YH5flknws/2a91h9r0LUWF6MzbWx
+ +d/iud3KGgd6psKmyvA==
+X-Received: from wmj21.prod.google.com ([2002:a05:600c:255:b0:480:69c2:3949])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3e8f:b0:477:73e9:dc17 with SMTP id
+ 5b1f17b1804b1-485198d8b81mr83642225e9.35.1772700184640; 
+ Thu, 05 Mar 2026 00:43:04 -0800 (PST)
+Date: Thu, 5 Mar 2026 08:43:03 +0000
+In-Reply-To: <aak9ZBJenK1DSCEt@monoceros>
+Mime-Version: 1.0
+References: <20260113-clk-send-sync-v4-0-712bc7d94a79@google.com>
+ <CGME20260113151335eucas1p157cd966c5f0f4e477fb11272810a0ae8@eucas1p1.samsung.com>
+ <20260113-clk-send-sync-v4-3-712bc7d94a79@google.com>
+ <90657b83-1cff-4c7d-adde-9b560c2be7c2@samsung.com>
+ <3cfeounnaphhezvjpz5igswml6iu3b6jhwhjn2g4ziimjdoefi@ge4ezxx6jxlr>
+ <aak9ZBJenK1DSCEt@monoceros>
+Message-ID: <aalCF0Egy6gWXdBK@google.com>
+Subject: Re: [PATCH v4 3/3] pwm: th1520: remove impl Send/Sync for
+ Th1520PwmDriverData
+From: Alice Ryhl <aliceryhl@google.com>
+To: "Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=" <ukleinek@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,78 +105,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B68F020D8EA
+X-Rspamd-Queue-Id: 1CFCD20DA13
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.oltean@nxp.com,m:linux-phy@lists.infradead.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:freedreno@lists.freedesktop.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-can@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:linux-ide@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linux-usb@vger.kernel.org,m:netdev@vger.kernel.org,m:spacemit@lists.linux.dev,m:UNGLinuxDriver@microchip.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:ukleinek@kernel.org,m:sboyd@kernel.org,m:m.wilczynski@samsung.com,m:mturquette@baylibre.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:viresh.kumar@linaro.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-pwm@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[kernel.org,samsung.com,baylibre.com,linux.intel.com,redhat.com,linaro.org,gmail.com,garyguo.net,protonmail.com,umich.edu,collabora.com,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,nxp.com:email,qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,samsung.com:email]
 X-Rspamd-Action: no action
 
-On 3/4/26 6:57 PM, Vladimir Oltean wrote:
-> Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-> which put a burden on the framework. A lot of these can be caught during
-> review.
-> 
-> Make sure the linux-phy list is copied on as many keywords that a regex
-> can reasonably catch.
-> 
-> For simplicity sake this is not perfect (devm_ and of_ are not valid
-> prefixes for all function names), but I tried to pay attention on
-> avoiding false matches on things like:
-> - drivers/net/vendor/device/phy.h
-> - include/linux/phy.h - network PHY, not generic PHY
-> 
-> So I used \b to try to match on actual word boundaries and be explicit
-> about what is matched on.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 55af015174a5..bdfa47d9c774 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10713,6 +10713,7 @@ F:	Documentation/devicetree/bindings/phy/
->  F:	drivers/phy/
->  F:	include/dt-bindings/phy/
->  F:	include/linux/phy/
-> +K:	\b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|off)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvdata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|state)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\.h|phy-props\.h|phy-provider\.h
+On Thu, Mar 05, 2026 at 09:24:33AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>=20
+> On Tue, Jan 20, 2026 at 09:48:48AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > On Mon, Jan 19, 2026 at 10:45:56PM +0100, Michal Wilczynski wrote:
+> > > On 1/13/26 16:12, Alice Ryhl wrote:
+> > > > Now that clk implements Send and Sync, we no longer need to manuall=
+y
+> > > > implement these traits for Th1520PwmDriverData. Thus remove the
+> > > > implementations.
+> > >=20
+> > > I thought this was already merged :-).
+> > >=20
+> > > Reviewed-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> >=20
+> > If I understand correctly this patch 3 depends on the first patch of
+> > this series so I cannot pick it up via the pwm tree *now*. There is
+> > another patch pending for the th1520 PWM driver, but as of now git seem=
+s
+> > to cope well when merging the pwm's tree for-next with this patch.  So
+> > it's fine for me if the series is picked up for 6.20-rc1 via the clock
+> > tree.
+>=20
+> That didn't happen (with s/6.20/7.0/), so this patch is still open in my
+> todo list. Is the first patch still considered for the clk subsystem?
+> What is the plan for the pwm patch?
 
-Would looking for the devm/of_phy_ prefix followed by an open parentheses
-not suffice for the 'has function call' case, instead of listing all
-currently present exported functions?
+It's been on my todo list to try and contact Stephen to see if he can
+take these patches, or if he is okay with them going through another
+tree, but I have not gotten around to it. He has not replied on the list
+to any version of this series.
 
-My worry is that this approach is overbuilt and absolutely no one will
-remember to update it
-
-Konrad
+Alice
