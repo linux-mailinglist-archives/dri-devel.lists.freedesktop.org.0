@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mK4hGhJeqWkL6AAAu9opvQ
+	id 2FqQI+RfqWnj6QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:42:26 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:50:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D964620FDDF
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FBB20FF98
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:50:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F8110E252;
-	Thu,  5 Mar 2026 10:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29AF10E247;
+	Thu,  5 Mar 2026 10:50:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="TVltokj+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XLOXdeTm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lankhorst.se (unknown [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343EF10E251;
- Thu,  5 Mar 2026 10:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
- s=default; t=1772707340;
- bh=PMyN55nlHGUFjJgx8Vh4sLgZmW5ECk9JFSDWHXdmyzo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TVltokj+SkJQ12pGB/gQG+dHnDdXiTKsvVdKIbnR7zO0t6WcAkvIvzEoZ+t0Yw0Aq
- ChHPWeJ/zkgBTtAx9chYBSvckAldHGRD/TA07AfBMByAuZtgT4yKiT8EyET+qKO+C7
- dtpx1p76m/KXkG4jpIFvYGmX1eFLpCAP9PVgIrZibNN7rpAs/dsL6gskD0IRkfgVt0
- Hvmwfi1ZYMN2tycSDPBP79SvjV1ysleulIoXdR2UrQv4VcFP8LCMtI3u2bw3aOivPJ
- rkR2U7kndvbPmvo6IS1J6qun3YY0FvLxa0RWJrE8euIjARcd7jb9xnFRm8NgA10u6K
- 4NqS32z1O0jng==
-Message-ID: <98af7aba-f86f-4ff0-a53b-60e0e9784e37@lankhorst.se>
-Date: Thu, 5 Mar 2026 11:42:19 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F7E10E247
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vYc7gbBuRm0SkzMkEyvh0SiA9v4k8dP/Bm28tOKgz9Y=; b=XLOXdeTmuonrqwXppKpF2yko42
+ qZAZAq/NJU9knd4K0fplG/0KKKks2QOl4P3XDFsVLoMLIkKEQid6vk3cU++jNDQEYU9T/hvMPtasb
+ y9WMh8JJU5nRNs6tYJUh0UjFleiJ3LPsKBR7NVCOxqrYjrl7T7i9Vr8vZrSZnVlT6WyT6KSPv/8LG
+ 8/YZKWSgjYRIyFSSuG82JZgFxhkmIG6fZZ/y6+Uzh/+/J+cBqrhs72NzYQgWIP8ttc+GuR9lMSP1o
+ a2d6Rq13kEC0NogaE0RIFb/wCp11r4rUr2z4ziWKhrbshe7+IcBrh7QhJheKDK8Cp1cFrAXgdSFc2
+ XQ0zf9iw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vy6HI-009KFt-Vl; Thu, 05 Mar 2026 11:50:01 +0100
+Message-ID: <5de3b3a5-2467-41a4-9865-1d939bbae831@igalia.com>
+Date: Thu, 5 Mar 2026 10:50:00 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
- PREEMPT_RT work on i915 + xe.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
-References: <20260220083657.28815-26-dev@lankhorst.se>
- <20260224162703.Q_taYjEC@linutronix.de>
- <20260224165903.2mn24oQy@linutronix.de>
- <20260225075806.XNtXjZ5E@linutronix.de>
- <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
- <20260226120715.6Ug1Qkse@linutronix.de>
- <20260226141942.Z6vUrEQ3@linutronix.de>
- <20260226143857.4ZJAFzf6@linutronix.de>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <20260226143857.4ZJAFzf6@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 5/6] drm/v3d: Attach per-fd reset counters to v3d_stats
+To: Iago Toral <itoral@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
+ <20260217-v3d-reset-locking-improv-v1-5-0db848016869@igalia.com>
+ <3c27ff4ab7e18c7d2d3208a46f18ced2d2ca6957.camel@igalia.com>
+ <73c11615-a459-40a4-be5d-8535040753d5@igalia.com>
+ <052f80f50c0f6e57f5b3b5c3494fb70651ef22bf.camel@igalia.com>
+ <e7c2447d-d19c-4e67-a4e5-eec6ced0fbda@igalia.com>
+ <b61de2d523fc2b981eb969f50abc9174c0a17c03.camel@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <b61de2d523fc2b981eb969f50abc9174c0a17c03.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,108 +72,333 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D964620FDDF
+X-Rspamd-Queue-Id: C2FBB20FF98
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[lankhorst.se,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[lankhorst.se:s=default];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:itoral@igalia.com,m:mcanal@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[dev@lankhorst.se,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lankhorst.se:dkim,lankhorst.se:mid];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[lankhorst.se:+]
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.956];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hey,
 
-Den 2026-02-26 kl. 15:38, skrev Sebastian Andrzej Siewior:
-> On 2026-02-26 15:19:42 [+0100], To Maarten Lankhorst wrote:
->> On 2026-02-26 13:07:18 [+0100], To Maarten Lankhorst wrote:
->>> series somewhere I could pull and check. In meantime I would look what
->>> causes the lockup on i915.
+On 05/03/2026 10:35, Iago Toral wrote:
+> El jue, 05-03-2026 a las 10:25 +0000, Tvrtko Ursulin escribió:
 >>
->> I think I got it.
+>> On 05/03/2026 10:18, Iago Toral wrote:
+>>> El jue, 05-03-2026 a las 09:34 +0000, Tvrtko Ursulin escribió:
+>>>>
+>>>> On 05/03/2026 09:15, Iago Toral wrote:
+>>>>> El mar, 17-02-2026 a las 09:18 -0300, Maíra Canal escribió:
+>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>>
+>>>>>> To remove the file_priv NULL-ing dance needed to check if the
+>>>>>> file
+>>>>>> descriptor is open, move the per-fd reset counter into
+>>>>>> v3d_stats,
+>>>>>> which
+>>>>>> is heap-allocated and refcounted, outliving the fd as long as
+>>>>>> jobs
+>>>>>> reference it.
+>>>>>>
+>>>>>> This change allows the removal of the last `queue_lock` usage
+>>>>>> to
+>>>>>> protect
+>>>>>> `job->file_priv` and avoids possible NULL ptr dereference
+>>>>>> issues
+>>>>>> due
+>>>>>> to
+>>>>>> lifetime mismatches.
+>>>>>>
+>>>>>> Also, to simplify locking, replace both the global and per-fd
+>>>>>> locked
+>>>>>> reset counters with atomics.
+>>>>>>
+>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>> Co-developed-by: Maíra Canal <mcanal@igalia.com>
+>>>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/v3d/v3d_drv.c   | 20 ++++----------------
+>>>>>>     drivers/gpu/drm/v3d/v3d_drv.h   | 14 ++++----------
+>>>>>>     drivers/gpu/drm/v3d/v3d_sched.c |  9 ++-------
+>>>>>>     3 files changed, 10 insertions(+), 33 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>> b/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>> index
+>>>>>> aafb402c6ac3118a57df9fc0a0d21d35d48e3b2c..4e77f4808145df21746
+>>>>>> ff4b
+>>>>>> 7058
+>>>>>> 089d0d161e3fc 100644
+>>>>>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>> @@ -110,13 +110,13 @@ static int v3d_get_param_ioctl(struct
+>>>>>> drm_device *dev, void *data,
+>>>>>>     		args->value = !!drm_gem_get_huge_mnt(dev);
+>>>>>>     		return 0;
+>>>>>>     	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
+>>>>>> -		mutex_lock(&v3d->reset_lock);
+>>>>>> -		args->value = v3d->reset_counter;
+>>>>>> -		mutex_unlock(&v3d->reset_lock);
+>>>>>> +		args->value = atomic_read(&v3d-
+>>>>>>> reset_counter);
+>>>>>
+>>>>> Don't we still need to take the reset lock here? Otherwise
+>>>>> there
+>>>>> would
+>>>>> be a chance that we read the counter while a reset is in
+>>>>> flight,
+>>>>> no?
+>>>>
+>>>> I don't see that it would make a difference but maybe I am not
+>>>> seeing
+>>>> your concern. It uses atomic_t so the increment versus read is
+>>>> fine.
+>>>> Are
+>>>> you maybe saying the v3d ABI guarantees reset is 100% done (so
+>>>> not in
+>>>> progress, for some definition of progress, because hardware reset
+>>>> is
+>>>> done by then, only re-submit and re-start of the software state
+>>>> is
+>>>> poending) if userspace observes an increased global reset
+>>>> counter?
+>>>> That
+>>>> would be surprising and I don't see how it could make a practical
+>>>> difference, but perhaps could be mitigated by moving the
+>>>> atomic_inc
+>>>> to
+>>>> the end of v3d_gpu_reset_for_timeout(). Or still taking the lock
+>>>> as
+>>>> you say.
+>>>
+>>> My concern is just that it is possible for the query and the reset
+>>> to
+>>> race and that I think it would make sense for the counter query to
+>>> include in-flight resets (since what apps really care about is
+>>> whether
+>>> a GPU reset happened not if it completed the reset process).
+>>
+>> Then there is no problem I think. Mutex lock or not, in both cases it
+>> is
+>> not guaranteed reset either is not in progress at the time of the
+>> ioctl.
+>> Even if the ioctl does not return an increased counter perhaps the
+>> reset
+>> handler is running but hasn't grabbed the mutex yet.
+>>
+>>
 > 
-> This the atomic sync as-is, IRQ-Work (FIFO-1) will be preempted by the
-> threaded-interrupt (FIFO-50) and the interrupt will poll on
-> signaler_active while the irq-work can't make progress.
+> That's true, but then I wonder: what is the rationale for still taking
+> the lock when resolving the DRM_V3D_PARAM_CONTEXT_RESET_COUNTER query?
+
+Good question and I asked myself the same this morning. For full 
+disclosure I wrote this patch back in Sep'25.. so between then and now I 
+forgot a thing or two.
+
+In the latest local branch that I can find I had it without the mutex 
+even for DRM_V3D_PARAM_CONTEXT_RESET_COUNTER. Maira, was there a newer 
+version somewhere which I forgot about?
+
+Mutex would make sense if there was any chance for paired jobs across 
+two engines to get reset at the same time. I think Maira was explaining 
+to me that could be a possibility, maybe with some future rework. Unless 
+I am confusing things.
+
+In any case, in the current upstream v3d it indeed looks to be safe with 
+no mutex.
+
+Regards,
+
+Tvrtko
+
+> Iago
 > 
-> This will provide the needed sync:
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-> index a2b413982ce64..337f6e88faf05 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-> @@ -209,6 +209,7 @@ static void signal_irq_work(struct irq_work *work)
->  		intel_breadcrumbs_disarm_irq(b);
->  
->  	rcu_read_lock();
-> +	spin_lock(&b->signaler_active_sync);
->  	atomic_inc(&b->signaler_active);
->  	list_for_each_entry_rcu(ce, &b->signalers, signal_link) {
->  		struct i915_request *rq;
-> @@ -246,6 +247,7 @@ static void signal_irq_work(struct irq_work *work)
->  		}
->  	}
->  	atomic_dec(&b->signaler_active);
-> +	spin_unlock(&b->signaler_active_sync);
->  	rcu_read_unlock();
->  
->  	llist_for_each_safe(signal, sn, signal) {
-> @@ -290,6 +292,7 @@ intel_breadcrumbs_create(struct intel_engine_cs *irq_engine)
->  	init_llist_head(&b->signaled_requests);
->  
->  	spin_lock_init(&b->irq_lock);
-> +	spin_lock_init(&b->signaler_active_sync);
->  	init_irq_work(&b->irq_work, signal_irq_work);
->  
->  	b->irq_engine = irq_engine;
-> @@ -487,8 +490,11 @@ void intel_context_remove_breadcrumbs(struct intel_context *ce,
->  	if (release)
->  		intel_context_put(ce);
->  
-> -	while (atomic_read(&b->signaler_active))
-> +	while (atomic_read(&b->signaler_active)) {
-> +		spin_lock(&b->signaler_active_sync);
-> +		spin_unlock(&b->signaler_active_sync);
->  		cpu_relax();
-> +	}
->  }
->  
->  static void print_signals(struct intel_breadcrumbs *b, struct drm_printer *p)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h b/drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h
-> index bdf09fd67b6e7..28dae32628aab 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h
-> @@ -40,6 +40,7 @@ struct intel_breadcrumbs {
->  	struct list_head signalers;
->  	struct llist_head signaled_requests;
->  	atomic_t signaler_active;
-> +	spinlock_t signaler_active_sync;
->  
->  	spinlock_t irq_lock; /* protects the interrupt from hardirq context */
->  	struct irq_work irq_work; /* for use from inside irq_lock */
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Iago
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>>>     		return 0;
+>>>>>>     	case DRM_V3D_PARAM_CONTEXT_RESET_COUNTER:
+>>>>>>     		mutex_lock(&v3d->reset_lock);
+>>>>>> -		args->value = v3d_priv->reset_counter;
+>>>>>> +		args->value = 0;
+>>>>>> +		for (enum v3d_queue q = 0; q <
+>>>>>> V3D_MAX_QUEUES;
+>>>>>> q++)
+>>>>>> +			args->value +=
+>>>>>> atomic_read(&v3d_priv-
+>>>>>>> stats[q]->reset_counter);
+>>>>>>     		mutex_unlock(&v3d->reset_lock);
+>>>>>>     		return 0;
+>>>>>>     	default:
+>>>>>> @@ -173,23 +173,11 @@ v3d_open(struct drm_device *dev, struct
+>>>>>> drm_file *file)
+>>>>>>     static void
+>>>>>>     v3d_postclose(struct drm_device *dev, struct drm_file
+>>>>>> *file)
+>>>>>>     {
+>>>>>> -	struct v3d_dev *v3d = to_v3d_dev(dev);
+>>>>>>     	struct v3d_file_priv *v3d_priv = file->driver_priv;
+>>>>>> -	unsigned long irqflags;
+>>>>>>     	enum v3d_queue q;
+>>>>>>     
+>>>>>>     	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+>>>>>> -		struct v3d_queue_state *queue = &v3d-
+>>>>>>> queue[q];
+>>>>>> -		struct v3d_job *job = queue->active_job;
+>>>>>> -
+>>>>>>     		drm_sched_entity_destroy(&v3d_priv-
+>>>>>>> sched_entity[q]);
+>>>>>> -
+>>>>>> -		if (job && job->base.entity == &v3d_priv-
+>>>>>>> sched_entity[q]) {
+>>>>>> -			spin_lock_irqsave(&queue-
+>>>>>>> queue_lock,
+>>>>>> irqflags);
+>>>>>> -			job->file_priv = NULL;
+>>>>>> -			spin_unlock_irqrestore(&queue-
+>>>>>>> queue_lock,
+>>>>>> irqflags);
+>>>>>> -		}
+>>>>>> -
+>>>>>>     		v3d_stats_put(v3d_priv->stats[q]);
+>>>>>>     	}
+>>>>>>     
+>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+>>>>>> b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>>>> index
+>>>>>> 72c3f40715dae6e86e0c8356cb997cdf1cf03fae..3de485abd8fc274b361
+>>>>>> cd17
+>>>>>> a00c
+>>>>>> ab189d8e69643 100644
+>>>>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>>>> @@ -55,6 +55,8 @@ struct v3d_stats {
+>>>>>>     	 * job queues, even the write side never is.
+>>>>>>     	 */
+>>>>>>     	seqcount_t lock;
+>>>>>> +
+>>>>>> +	atomic_t reset_counter;
+>>>>>>     };
+>>>>>>     
+>>>>>>     struct v3d_queue_state {
+>>>>>> @@ -203,10 +205,8 @@ struct v3d_dev {
+>>>>>>     	 */
+>>>>>>     	struct v3d_perfmon *global_perfmon;
+>>>>>>     
+>>>>>> -	/* Global reset counter. The counter must be
+>>>>>> incremented
+>>>>>> when
+>>>>>> -	 * a GPU reset happens. It must be protected by
+>>>>>> @reset_lock.
+>>>>>> -	 */
+>>>>>> -	unsigned int reset_counter;
+>>>>>> +	/* Global reset counter incremented on each GPU
+>>>>>> reset.
+>>>>>> */
+>>>>>> +	atomic_t reset_counter;
+>>>>>>     };
+>>>>>>     
+>>>>>>     static inline struct v3d_dev *
+>>>>>> @@ -233,12 +233,6 @@ struct v3d_file_priv {
+>>>>>>     
+>>>>>>     	/* Stores the GPU stats for a specific queue for
+>>>>>> this
+>>>>>> fd. */
+>>>>>>     	struct v3d_stats *stats[V3D_MAX_QUEUES];
+>>>>>> -
+>>>>>> -	/* Per-fd reset counter, must be incremented when a
+>>>>>> job
+>>>>>> submitted
+>>>>>> -	 * by this fd causes a GPU reset. It must be
+>>>>>> protected
+>>>>>> by
+>>>>>> -	 * &struct v3d_dev->reset_lock.
+>>>>>> -	 */
+>>>>>> -	unsigned int reset_counter;
+>>>>>>     };
+>>>>>>     
+>>>>>>     struct v3d_bo {
+>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
+>>>>>> b/drivers/gpu/drm/v3d/v3d_sched.c
+>>>>>> index
+>>>>>> 4adbf5175eb005b37d1feac1514150630ce6aab2..de6497741ff789b5de9
+>>>>>> 212a
+>>>>>> e3e9
+>>>>>> 941a13cd0475d 100644
+>>>>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>>>>>> @@ -701,8 +701,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
+>>>>>> *v3d,
+>>>>>> struct drm_sched_job *sched_job,
+>>>>>>     			  enum v3d_queue q)
+>>>>>>     {
+>>>>>>     	struct v3d_job *job = to_v3d_job(sched_job);
+>>>>>> -	struct v3d_file_priv *v3d_priv = job->file_priv;
+>>>>>> -	unsigned long irqflags;
+>>>>>>     	enum v3d_queue i;
+>>>>>>     
+>>>>>>     	mutex_lock(&v3d->reset_lock);
+>>>>>> @@ -717,11 +715,8 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
+>>>>>> *v3d,
+>>>>>> struct drm_sched_job *sched_job,
+>>>>>>     	/* get the GPU back into the init state */
+>>>>>>     	v3d_reset(v3d);
+>>>>>>     
+>>>>>> -	v3d->reset_counter++;
+>>>>>> -	spin_lock_irqsave(&v3d->queue[q].queue_lock,
+>>>>>> irqflags);
+>>>>>> -	if (v3d_priv)
+>>>>>> -		v3d_priv->reset_counter++;
+>>>>>> -	spin_unlock_irqrestore(&v3d->queue[q].queue_lock,
+>>>>>> irqflags);
+>>>>>> +	atomic_inc(&v3d->reset_counter);
+>>>>>> +	atomic_inc(&job->client_stats->reset_counter);
+>>>>>>     
+>>>>>>     	for (i = 0; i < V3D_MAX_QUEUES; i++)
+>>>>>>     		drm_sched_resubmit_jobs(&v3d-
+>>>>>>> queue[i].sched);
+>>>>>>
+>>>>>
+>>>>
+>>>>
+>>>
+>>
+>>
 > 
 
-Thinking some more, replacing signaler_active with signaler_active_sync might be the best fix.
-I'm not sure there's much use for parallel completion of the same breadcrumb, and using completion
-might be too heavy handed.
-
-Kind regards,
-~Maarten Lankhorst
