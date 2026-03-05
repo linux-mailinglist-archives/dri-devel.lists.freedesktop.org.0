@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oP5AB09HqWm33gAAu9opvQ
+	id mDMzEFJHqWm33gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:19 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF87420DED4
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E719620DEE9
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:05:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 065C210EBB1;
-	Thu,  5 Mar 2026 09:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B70710EBB4;
+	Thu,  5 Mar 2026 09:05:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EVEox1Eq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oMKJeaeC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D277E10EBB1;
- Thu,  5 Mar 2026 09:05:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD0610EBB5;
+ Thu,  5 Mar 2026 09:05:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B3B65406C5;
- Thu,  5 Mar 2026 09:05:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07046C2BCAF;
- Thu,  5 Mar 2026 09:05:15 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B30EC4453A;
+ Thu,  5 Mar 2026 09:05:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15846C2BCB1;
+ Thu,  5 Mar 2026 09:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772701515;
- bh=Bi7dzqSb0xTzyJ/T4zIX0511vvg8pddfBkr4pnB64SM=;
+ s=k20201202; t=1772701518;
+ bh=mcyTpts1idXA1vu80zdOnmLrCaVShS7ucVh8Fhvdnfw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=EVEox1EqmbtV1utZkz+RzKWiDUb0h5Kk7iM2hm4bclF75JIknKHAsH4acyxtxuRL0
- YHCLfUkaNxaIPzkT3n1yVt5XuD8zF/m9eCeEywShk2B1/R4LEP+OUsaDcJe2kaLfrp
- NSwjDOm4rl8MSp+Gq0uXAM3jrREitRTJwqgCOw2bnPD9d9qb0vjM6oCLtbEJCok7vG
- 7TWOeEzD8WZ/eqYPuAFLVRzHmXShRjbOQqxD1pKcAIGtABxD9trgOVyzSH73mt/AN9
- A7N00vmML9JAfiD+KJAjsGH8EfA1eJFsyjwgPONIRgkQ+GNm4s8eFLex8xUh3f0oSk
- d5LsaHNq/Y29w==
+ b=oMKJeaeCBNfRSdTHQV65iZf0OC/XxltWnoMkR2I/g2jRt1CwyyHDYsJ4eRNrLPjA8
+ kZwO6TAGDLFowkw/Uy/xvn+nGqCHPF3kCurbI8GvWlylcA3SrkZGUx0DVq3ue03h/F
+ J6XktzjscgI8DDzceFU9vYeFvmPPiIrhYFz/MIjy5u5bJXw/ZG3c0WevvH+V9IYtoR
+ fbZoALGEFWz43ZLoten1jMDnDnMWUg1/Mzcjo6sSbobqtSRiBZwkFnF43ZoSoPRCZS
+ JuwHU65OnEqnlQDMjolUKKgpruPNgtq43n3HYtpFl97WwKaOwBZ0XWEFXtvua9bcCD
+ 8o2HEWrJlNP7A==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Mar 2026 10:04:56 +0100
-Subject: [PATCH v3 04/14] drm/amdgpu: display: Convert to
+Date: Thu, 05 Mar 2026 10:04:57 +0100
+Subject: [PATCH v3 05/14] drm/bridge: adv7511: Convert to
  drm_output_color_format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-drm-rework-color-formats-v3-4-f3935f6db579@kernel.org>
+Message-Id: <20260305-drm-rework-color-formats-v3-5-f3935f6db579@kernel.org>
 References: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 In-Reply-To: <20260305-drm-rework-color-formats-v3-0-f3935f6db579@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
@@ -75,12 +75,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2094; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Bi7dzqSb0xTzyJ/T4zIX0511vvg8pddfBkr4pnB64SM=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3S0uRef/nNDU9unHkR9tiZXPNnlP8c/b7jFRglW+f
- KFh52/xjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARFjXG+ngv458W1Y4Pl5p8
- PPN5Sao9X3d3SM8Cxmof8S/tRxn6hfuT8p91+5bd33nh7adaZT9BxoaTziHRl5cyVr41fHV0frV
- bFZ/A7DJB4bf/P98XMYj+PSX/oUW079sFiobGRblJtbUFIgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1622; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=mcyTpts1idXA1vu80zdOnmLrCaVShS7ucVh8Fhvdnfw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkr3S0437UdS2Mtvn9gY8uDGysWLP3a8XMut9llEav1f
+ peOGc660TGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmsjKJsT5waUTbd99rX6Wn
+ l/z+fXba93y+85n7Dt8VzvVzzFkrqvVl+pZ5s25HB2R57r3QKHDzSARjrfzpCdtX+x794ajTlvj
+ 9qZPSJoN9B+2k5aVri7l3Lnq+dr+rq4jbBu7osic7smbnqeTfBQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,7 +97,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: BF87420DED4
+X-Rspamd-Queue-Id: E719620DEE9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -144,31 +144,26 @@ or as a discriminant in which case we don't.
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a8e4e3ab5e40276b3c723297ca6520688079e0a7..2fe9044e1e91d7581fd5032b9883548f8e5e1b43 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6723,15 +6723,15 @@ static void fill_stream_properties_from_drm_display_mode(
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
- 	else if (drm_mode_is_420_also(info, mode_in)
- 			&& aconnector
- 			&& aconnector->force_yuv420_output)
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
--	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
- 			&& aconnector
- 			&& aconnector->force_yuv422_output)
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR422;
--	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
- 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
- 	else
- 		timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 1050bb62280bb4794f0b0ae01597269652c063d0..6bd76c1fb0071c8c9cd9c293b3a48a2b4487768e 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -226,11 +226,11 @@ static void adv7511_set_config_csc(struct adv7511 *adv7511,
+ 	} else {
+ 		config.csc_scaling_factor = ADV7511_CSC_SCALING_4;
+ 		config.csc_coefficents = adv7511_csc_ycbcr_to_rgb;
  
+ 		if ((connector->display_info.color_formats &
+-		     DRM_COLOR_FORMAT_YCBCR422) &&
++		     BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422)) &&
+ 		    connector->display_info.is_hdmi) {
+ 			config.csc_enable = false;
+ 			output_format_422 = true;
+ 			output_format_ycbcr = true;
+ 		} else {
 
 -- 
 2.53.0
