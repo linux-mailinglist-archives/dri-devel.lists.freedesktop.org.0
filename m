@@ -2,82 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6BtgGcKRqWmvAAEAu9opvQ
+	id YKSGOGySqWmoAAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:22:58 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:25:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D822213418
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B002134DB
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3E910EC37;
-	Thu,  5 Mar 2026 14:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E97210E285;
+	Thu,  5 Mar 2026 14:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="R3BTto6H";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WWDhC8TB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8D410EC35;
- Thu,  5 Mar 2026 14:22:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1772720565; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QO7S6+tMxYLUuPbcO1pLetZx8TWaiv7sSs9huh2qqwUqPqxB753ovpQMr9s0MqIOtUx84k8ZYOm2RgKzmRwqWm5AQV7VYzbRwbFUj/jTgbaWfuo6H8nrGAFC4VbYi7bLuo/BAACJNVM/IsDhZumC0R5JVli/8y3Fg4hYd3AJupc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1772720565;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=yE8vbeYdKcftvYs+PymllWj2E1+jwIq94xvRBnlmVWA=; 
- b=VWeSKUxEcuISXPdF/ECTat7ENYuPtHg11EyI2q0B3+gochGu2/NPdlsjvpYeDNjhb1RYAG6eryoG8LFl3gNTGwmgOFLGfQdCcA4Lt7bxAxmDL/W75rrHZGt72bL3xcd+VGKe6ZoMavXW4sJP97o998Kr/cjtbuzmz+dP14EMv/Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772720565; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=yE8vbeYdKcftvYs+PymllWj2E1+jwIq94xvRBnlmVWA=;
- b=R3BTto6H/5Kl0ixzAFRKP2l3+2zayBXVO42c8lsz0pYykas8PF7bi2fKrL3HnApz
- dPUVNP3DWMwNXqK2bhAV//hSWh/4ywfSYpUufsI56X/nBfxoF3VYuse8Es5mA5ExJQd
- B7qEIZRstoljb7U4+B+NktmpET4Uw8DYccQnOKv0=
-Received: by mx.zohomail.com with SMTPS id 1772720564028953.1845608441924;
- Thu, 5 Mar 2026 06:22:44 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 05 Mar 2026 15:19:48 +0100
-Subject: [PATCH v10 22/22] drm/bridge: Document bridge chain format selection
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 312D910EB0E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 14:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772720745; x=1804256745;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=k94pl0Y58mcmOT3y1rCFfoYXYUd+RELa+zk5+N8kzio=;
+ b=WWDhC8TBleP0z0zVjjDGX+2705VHv+1fJ1fkQBJxc9rcDqg/JLrJh4yE
+ CKxOl8m+50MiQ00Qckpe4nHwoO3iw4Fz7VaCSpXze2sd2rOEdyVxb3Eaw
+ YQuqnlp920e8TLt4Qc+wuDJdcBIqAjkWJgsavK3hMqMvOujHHxytTl89V
+ sa7f7leM0/LxNSADTkyrDm8JIYXyUs/jx9CgBVAOZg9eThSpQDPQxQHCK
+ akixF92UXi4Esk8z2EoFGDsUIOWMWLSSxNpHYs77vpIH/6TaY/MG+G87u
+ GLEq2pAclXXzIKA9UEe5sjAykRSVKZIAspmJdhIqFN26Yx0rmEKyf6pI3 w==;
+X-CSE-ConnectionGUID: ZB5cXraaTjiSxGGIwNqIYQ==
+X-CSE-MsgGUID: DJgi5xlkQu6VP63szDAGlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="61379902"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; d="scan'208";a="61379902"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 06:25:44 -0800
+X-CSE-ConnectionGUID: 6rDS98tVRS2VZbf9CeIxYQ==
+X-CSE-MsgGUID: V7A+yHFwRXSbkRI7HjVJcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; d="scan'208";a="215923994"
+Received: from akacprow-dev3.igk.intel.com ([10.91.220.47])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 06:25:42 -0800
+From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ karol.wachowski@linux.intel.com, lizhi.hou@amd.com,
+ maciej.falkowski@linux.intel.com,
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Remove boot params address setting via MMIO
+ register
+Date: Thu,  5 Mar 2026 15:22:26 +0100
+Message-Id: <20260305142226.194995-1-andrzej.kacprowski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-color-format-v10-22-a58c68a11868@collabora.com>
-References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
-In-Reply-To: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,120 +73,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0D822213418
+X-Rspamd-Queue-Id: 59B002134DB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[andrzej.kacprowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+The NPU 60XX uses the default boot params location specified
+in the firmware image header, consistent with earlier generations.
+Remove the unnecessary MMIO register write, freeing the AON register
+for future use.
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Fixes: 44e4c88951fa ("accel/ivpu: Implement warm boot flow for NPU6 and unify boot handling")
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 ---
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 40 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ drivers/accel/ivpu/ivpu_hw_40xx_reg.h | 6 ------
+ drivers/accel/ivpu/ivpu_hw_ip.c       | 1 -
+ 2 files changed, 7 deletions(-)
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+index 421242acb184..fc0ee8d637f9 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
++++ b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+@@ -121,12 +121,6 @@
+ #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY			0x0003006cu
+ #define VPU_50XX_HOST_SS_AON_PWR_ISLAND_STATUS_DLY_STATUS_DLY_MASK	GENMASK(7, 0)
  
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
+-#define VPU_40XX_HOST_SS_AON_RETENTION0                                 0x0003000cu
+-#define VPU_40XX_HOST_SS_AON_RETENTION1                                 0x00030010u
+-#define VPU_40XX_HOST_SS_AON_RETENTION2                                 0x00030014u
+-#define VPU_40XX_HOST_SS_AON_RETENTION3                                 0x00030018u
+-#define VPU_40XX_HOST_SS_AON_RETENTION4                                 0x0003001cu
+-
+ #define VPU_40XX_HOST_SS_AON_IDLE_GEN					0x00030200u
+ #define VPU_40XX_HOST_SS_AON_IDLE_GEN_EN_MASK				BIT_MASK(0)
+ #define VPU_40XX_HOST_SS_AON_IDLE_GEN_HW_PG_EN_MASK			BIT_MASK(1)
+diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
+index 959984c54341..37f95a0551ed 100644
+--- a/drivers/accel/ivpu/ivpu_hw_ip.c
++++ b/drivers/accel/ivpu/ivpu_hw_ip.c
+@@ -931,7 +931,6 @@ static int soc_cpu_boot_40xx(struct ivpu_device *vdev)
  
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 6ad725e511f3..da021b49acc6 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,46 @@
-  * driver.
-  */
+ static int soc_cpu_boot_60xx(struct ivpu_device *vdev)
+ {
+-	REGV_WR64(VPU_40XX_HOST_SS_AON_RETENTION1, vdev->fw->mem_bp->vpu_addr);
+ 	soc_cpu_set_entry_point_40xx(vdev, vdev->fw->cold_boot_entry_point);
  
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond 1:1 to what the display
-+ * driver should set at its output. The bridge chain it feeds into may only be
-+ * able to reach the desired output format, if a conversion from a different
-+ * starting format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_CONNECTOR_COLOR_FORMAT_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_CONNECTOR_COLOR_FORMAT_AUTO will be satisfied with the first output
-+ * format on the last bridge for which it can find a path back to the first
-+ * bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
-
+ 	return 0;
 -- 
-2.53.0
+2.34.1
 
