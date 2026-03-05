@@ -2,125 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBz1FBYzqWnM2wAAu9opvQ
+	id CFzrHmgzqWnM2wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:39:02 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:40:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F0820CCDC
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480FB20CCEC
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 08:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5ABA10EB26;
-	Thu,  5 Mar 2026 07:38:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="r1ppoAYM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r0P3pfOY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r1ppoAYM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r0P3pfOY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9896910EB27;
+	Thu,  5 Mar 2026 07:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0114410EB26
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 07:38:58 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9EAC85BCCF;
- Thu,  5 Mar 2026 07:38:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772696337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9APbeUBUaiY4n7ZJjMN3OLxwQ6DviRhSr5oxU6etWbU=;
- b=r1ppoAYMgcXTrI9mIsB28AXeAsAWqNmvCBg5W/MX2IkEfLZwkwZ0JKShs7cOEtAlMudTBN
- /spyPLLqmqvmL3YtY4WYslgA3FzPU3hxP4NWpcoqqT3zJfcAHgyRydiIm7Q7vSqIzL8axq
- w5iH02ZSDst0Cg47GkBkW+zjddAglrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772696337;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9APbeUBUaiY4n7ZJjMN3OLxwQ6DviRhSr5oxU6etWbU=;
- b=r0P3pfOYN6XbDq67IfcO0sEycUTW8LqmMOZcn1svSdJco8pktzRBz2nM00+XHQugTB0vuE
- 1FCyrgoND2BA91BA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r1ppoAYM;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=r0P3pfOY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772696337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9APbeUBUaiY4n7ZJjMN3OLxwQ6DviRhSr5oxU6etWbU=;
- b=r1ppoAYMgcXTrI9mIsB28AXeAsAWqNmvCBg5W/MX2IkEfLZwkwZ0JKShs7cOEtAlMudTBN
- /spyPLLqmqvmL3YtY4WYslgA3FzPU3hxP4NWpcoqqT3zJfcAHgyRydiIm7Q7vSqIzL8axq
- w5iH02ZSDst0Cg47GkBkW+zjddAglrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772696337;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9APbeUBUaiY4n7ZJjMN3OLxwQ6DviRhSr5oxU6etWbU=;
- b=r0P3pfOYN6XbDq67IfcO0sEycUTW8LqmMOZcn1svSdJco8pktzRBz2nM00+XHQugTB0vuE
- 1FCyrgoND2BA91BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73DDB3EA68;
- Thu,  5 Mar 2026 07:38:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kdHWGhEzqWlzNQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Mar 2026 07:38:57 +0000
-Message-ID: <27e62433-ec09-430e-a31c-716006c48786@suse.de>
-Date: Thu, 5 Mar 2026 08:38:56 +0100
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFC410EB27
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 07:40:18 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
+ by APP-01 (Coremail) with SMTP id qwCowAC3XWldM6lpr15HCQ--.972S2;
+ Thu, 05 Mar 2026 15:40:14 +0800 (CST)
+Message-ID: <127da2b15f3b748cbc1985847cb318b9699b9682.camel@iscas.ac.cn>
+Subject: Re: drm AI patch review hacks
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Dave Airlie <airlied@gmail.com>, dri-devel
+ <dri-devel@lists.freedesktop.org>,  Sima Vetter <sima@ffwll.ch>
+Cc: "clm@meta.com" <clm@meta.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Date: Thu, 05 Mar 2026 15:40:13 +0800
+In-Reply-To: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
+References: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gud: Test for imported buffers with
- drm_gem_is_imported()
-To: Ruben Wauters <rubenru09@aol.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20260227133113.235940-4-tzimmermann@suse.de>
- <19f2ab51a085c99e69533d551bb029f092872073.camel@aol.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <19f2ab51a085c99e69533d551bb029f092872073.camel@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-CM-TRANSID: qwCowAC3XWldM6lpr15HCQ--.972S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw17JFy8KrWUXr4rtw4rGrg_yoW7Ar1fpF
+ WrJr4UCr4DZF1kXw1kWa1I93yruay8ua48XFn5XrnrZrs8X3W29a1qkFyYkryDKFn0q3W2
+ q3y8Z3WkJryqyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkYb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k2
+ 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5L18JUUUUU==
+X-Originating-IP: [112.94.103.14]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,83 +66,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B3F0820CCDC
+X-Rspamd-Queue-Id: 480FB20CCEC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:rubenru09@aol.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:sima@ffwll.ch,m:clm@meta.com,m:torvalds@linux-foundation.org,s:lists@lfdr.de];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org,ffwll.ch];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:mid,suse.com:url]
+	NEURAL_HAM(-0.00)[-0.903];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gitlab.freedesktop.org:url]
 X-Rspamd-Action: no action
 
-Hi
+Hi Dave,
 
-Am 04.03.26 um 14:50 schrieb Ruben Wauters:
-> On Fri, 2026-02-27 at 14:31 +0100, Thomas Zimmermann wrote:
->> Instead of testing import_attach for imported GEM buffers, invoke
->> drm_gem_is_imported() to do the test. The test itself does not change.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Ruben Wauters <rubenru09@aol.com>
-> Acked-by: Ruben Wauters <rubenru09@aol.com>
+It looks like the review bot does not see any extra contexts than those
+included in the patch file?
 
-Thanks. I've added the patch in time for this week's pull request of 
-drm-misc-next.
+I am trying to address the issues (if valid) raised by the bot of my
+patchset `[PATCH drm-misc-next 0/3] drm: verisilicon: convert
+drm_format to vs_format in atomic_check' .
 
-Best regards
-Thomas
+In the bot review of 3/3, I got the following review note:
 
->> ---
->>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
->> index 4b77be94348d..11e7441de63b 100644
->> --- a/drivers/gpu/drm/gud/gud_pipe.c
->> +++ b/drivers/gpu/drm/gud/gud_pipe.c
->> @@ -447,7 +447,7 @@ static void gud_fb_handle_damage(struct gud_device *gdrm, struct drm_framebuffer
->>   	}
->>   
->>   	/* Imported buffers are assumed to be WriteCombined with uncached reads */
->> -	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach, damage);
->> +	gud_flush_damage(gdrm, fb, src, !drm_gem_is_imported(fb->obj[0]), damage);
->>   }
->>   
->>   int gud_plane_atomic_check(struct drm_plane *plane,
+```
+After this patch, the format is converted and stored in atomic_check.
+However, we should verify the existing
+`drm_atomic_helper_check_plane_state()` call (if any) happens after our
+format validation. Looking at the patch, I don't see where plane state
+validation happens.
+```
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+However, the function already returns with
+`drm_atomic_helper_check_plane_state()` call at the tail. It's not part
+of the patch (because `git diff` just truncates at the code acquiring
+the new CRTC state, which is prequisite for calling
+`drm_atomic_helper_check_plane_state()` ), but always part of the
+codebase.
 
+This shows that the bot cannot see the existing codebase, but only the
+patches themselves. This sounds like some problem.
+
+Hope this could be fixed, although it sounds like this will make the
+bot more token-burning.
+
+Thanks
+Icenowy
+
+=E5=9C=A8 2026-02-12=E5=9B=9B=E7=9A=84 05:44 +1000=EF=BC=8CDave Airlie=E5=
+=86=99=E9=81=93=EF=BC=9A
+> Hi all,
+>=20
+> This came up at kernel maintainers summit, so I've been trying to see
+> what I can piece together, and have a small demonstration that may be
+> useful to some people.
+>=20
+> I didn't want to pollute the mailing list with AI patch reviews, so I
+> decided to set up a public-inbox that the reviews are pushed into.
+> This isn't currently automated, I'm just asking claude to pull the
+> last 2-3 days of patches and review what is new every so often.
+>=20
+> The workflow use lei to pull mails to local PC, use review-prompts +
+> my own prompt to try and review a patch series, both as a complete
+> work, and per-patch reviews, then create the reply emails and put
+> them
+> into a public inbox git tree for publishing.
+>=20
+> I've no idea if it's using review-prompts properly or at all, this is
+> all very vibe coded so far.
+>=20
+> https://lore.gitlab.freedesktop.org/drm-ai-reviews/
+>=20
+> This is a public inbox, you can also git clone
+>=20
+> https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox
+>=20
+> I'm currently just using my Red Hat provided claude with opus 4.6,
+> until I get told I've burned enough money.
+>=20
+> The list below are the patches with reviews, if someone wants to look
+> and give feedback on whether the reviews for their series are useful,
+> find any bugs or regressions, that would be cool.
+>=20
+> I've bcc'd anyone who has a patch on the list.
+>=20
+> This is also just an experiment to see what might stick, it might
+> disappear at any time, and it probably needs a lot of tuning.
+>=20
+> Thanks,
+> Dave.
+>=20
+> [PATCH v2 0/2] drm/buddy: Documentation and internal helper cleanup
+> [PATCH] drm/amd/display: Remove duplicate include
+> [PATCH -next v9 0/3] rust: Add CList and GPU buddy allocator bindings
+> [PATCH V1] accel/amdxdna: Fix suspend failure after enabling turbo
+> mode
+> [PATCH V1] accel/amdxdna: Fix dead lock for suspend and resume
+> [PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
+> [PATCH v2 0/2] drm/vkms: Fix bad matrix offset component
+> multiplication
+> [PATCH 1/2] accel/amdxdna: Fix NULL pointer dereference in mailbox
+> channel cleanup
+> [PATCH] drm/msm: always recover the gpu
+> [PATCH drm-misc-next] drm: verisilicon: assign git tree to drm/misc
+> in
+> MAINTAINERS
+> [PATCH drm-misc-next 0/3] drm: verisilicon: convert drm_format to
+> vs_format in atomic_check
+> [PATCH v3 3/3] drm/panel: add LXD M9189A panel driver
+> [PATCH v1 0/2] ARM: tegra: document Tegra20 HDMI port
+> [PATCH] fbcon: Declare struct fb_info.fbcon_par as of type struct
+> fbcon_par
+> [PATCH v1] drm/amdgpu: fix sync handling in
+> amdgpu_dma_buf_move_notify
+> [PATCH v9 0/7] User readable error codes on atomic_ioctl failure
+> [PATCH] accel/qaic: Fix dma_free_attrs() buffer size
+> [PATCH] drm/radeon: Add HAINAN clock adjustment
+> [PATCH] drm/amdgpu: Add HAINAN clock adjustment
+> [PATCH v9 01/15] drm/bridge: analogix_dp: Add
+> &analogix_dp_plat_data.next_bridge
+> [PATCH v2 0/5] drm/ci: add new jobs, uprev IGT and mesa
+> [PATCH] drm/bridge: lt9611: Remove DRM_BRIDGE_OP_MODES flag
+> [PATCH 0/6] Support for the Pixel 3a XL with the Tianma panel
+> [PATCH -next v8 0/3] rust: Add CList and GPU buddy allocator bindings
+> [PATCH] drm/bridge: samsung-dsim: Fix memory leak in error path
+> [PATCH] drm/rockchip: vop2: Use drm_err_ratelimited() for wait
+> timeouts
+> [PATCH] fbcon: Remove struct fbcon_display.inverse
+> [PATCH 1/5] dma-mapping: avoid random addr value print out on error
+> path
+> [PATCH v3 2/6] drm/gem-shmem: Test for existence of page in mmap
+> fault handler
+> [PATCH] gpu: host1x: Fix passing zero to ERR_PTR in
+> host1x_iommu_attach()
+> [PATCH AUTOSEL 6.18-5.10] drm/tegra: hdmi: sor: Fix error: variable
+> =E2=80=98j=E2=80=99 set but not used
+> [PATCH] drm/mediatek: dsi: Store driver data before invoking
+> mipi_dsi_host_register
+> [PATCH] drm/i915/guc: fix corrupted copyright symbols in selftest
+> files
+> [PATCH v7 4/5] ARM: dts: microchip: sam9x7: Add GFX2D GPU
+> [PATCH] drm/panel: ilitek-ili9882t: Fine-tune HFP for tianma,
+> tl121bvms07-00
+> [PATCH v4 1/8] drm/amdkfd: Add userptr batch allocation UAPI
+> structures
 
