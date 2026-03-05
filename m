@@ -2,104 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aHs/KDPAqWnNDQEAu9opvQ
+	id yAfZH+TEqWknEgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 18:41:07 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:01:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE21A216623
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 18:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A655216B74
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E2A010EC47;
-	Thu,  5 Mar 2026 17:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90C2F10E2D0;
+	Thu,  5 Mar 2026 18:01:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=iki.fi header.i=@iki.fi header.b="L7iAmZcb";
-	dkim=pass (1024-bit key; secure) header.d=iki.fi header.i=@iki.fi header.b="vNv6Wiw4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DPzCFkE0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
- Thu, 05 Mar 2026 17:41:02 UTC
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DEFB10EC47
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 17:41:02 +0000 (UTC)
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4fRc675zgDz49Q6d
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 19:31:43 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
- t=1772731903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IIdcmWFjidJR6r6yijbOg5atPdCeq+LdXxOD6ElKnbQ=;
- b=L7iAmZcbwljAcJqpPicnyt/qoIxzrZftDpzdRdsGHRo5G0gsuK7djwm7AIOCSzt4p/iUgX
- hQB/7dpGZDP845q3fQcae5ANXe2DROB+Df1QbzvIvqbZAjOkhP5OT3ufh9uA1s24e0SkBd
- 6ORYjtofFnVSJio51DlqWhR7Mm/alD4EHe8ZZRqKezRrkgSOOlrcKy/nUC1jnCc3vCTcyE
- Y8LcE1TtHWB/SB2zQyFvYQp51EPE4RPaS0APHsMRc2W0us74VKTzbro3/A/fVTQ89jBcZ+
- 6wc5oVtWYhIR9N83GrW2Qk7p/GvwHUHtbP8QVpR+H4MHaD0zFf7KevV66pO9JQ==
-Received: from hillosipuli.retiisi.eu
- (n18ws8cotp5c1dsf-1.v6.elisa-laajakaista.fi
- [IPv6:2001:99a:0:19f:4ce7:0:1157:8c0f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sailus)
- by meesny.iki.fi (Postfix) with ESMTPSA id 4fRc626652zyVM;
- Thu, 05 Mar 2026 19:31:38 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
- t=1772731900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IIdcmWFjidJR6r6yijbOg5atPdCeq+LdXxOD6ElKnbQ=;
- b=vNv6Wiw4Xvfi089Fq9+E6JNNhi2Y3WR1Jzfwss0xjhX/7G2yJZZYQHoZz9YgAgFIOayfET
- lNoOP5MnaphYFWQVqURtju+aF1rSq7Pr64avVr2C/id7Mw9Cf/rJCyEX/ibXggi5vRM6yq
- uZex9HmZB9dXwtCHOSDz6UpugIwZm4I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
- s=meesny; t=1772731900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IIdcmWFjidJR6r6yijbOg5atPdCeq+LdXxOD6ElKnbQ=;
- b=GkNFEbEgaSmMs7tpq9OaKpiNvpUEkhiAShomlplPZ9KgCQoUfqsJergpyp+3V2Rt1rIlx6
- o1BtqZHo+miimEoMzUbXqJ77um/IcWBWhXf1aef5gLySzMAG7o4ihICa+tWtwaRaN6O+DL
- D7u+6eJbesIl20NAFz/mkv4j2yBUQx4=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1772731900;
- b=Qpjs3xn3xCz6V2Mh2vyntKIo+H83uUw7anamRayaNabMsetmEyZPDGwaloVk7828MPwgux
- kwsOEzJLotnKGG/L6qRItFrqBFyZwucxeQPzK+MLPEq4xE06GAq4IpE0EKQ1nYIZ7d5yfz
- R5BwA2a9kpFeYpfBUsnff7wbQ50XMGA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 60946634C50;
- Thu, 05 Mar 2026 19:31:34 +0200 (EET)
-Date: Thu, 5 Mar 2026 19:31:34 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 00/12] media: stm32: dcmi: stability & performance
- enhancements
-Message-ID: <aam99usPtkwo9GbJ@valkosipuli.retiisi.eu>
-References: <20260106-stm32-dcmi-dma-chaining-v2-0-70688bccd80a@foss.st.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1878210E0F8;
+ Thu,  5 Mar 2026 18:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=YUr1+sWEO9j5kitoHz+vNz4j+awsJ1fwf/poatsFNbU=; b=DPzCFkE0MC874adOXYhljT3y3s
+ 1r4WzOqbGBJUT1HrX43ZOiB35t7xvcy21s7NgHX8freBwrlCwrPbE9B8RhEuG4rzc1laiHDMyVixZ
+ gSbR9wAk9tp9p/lCQ+m8IyJDgKlhA/29iJX7WLvGMVXKw7xo+AHiSk3NC25kOGhiBDvn7L5qutJx3
+ +9AuuHd8ScbmTcYOxBC+m17yRBb1AlgTKDxAqwfWBd7wwzJMrO3EKKim1NbT0vTxQ5xirUYTRW7X6
+ M/JQ+dmICa+pLHgEBlHHSZaIQB+8c7bDavGbkdmlQumc5F07SPUuqnzM5wE8RgSHJXfwM2vDf3gz5
+ IXcTiHyA==;
+Received: from [186.208.68.119] (helo=[192.168.18.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vyD0G-009Tnn-Kz; Thu, 05 Mar 2026 19:00:52 +0100
+Message-ID: <ae12b964-de1a-475c-9ea6-811ee541d146@igalia.com>
+Date: Thu, 5 Mar 2026 15:00:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260106-stm32-dcmi-dma-chaining-v2-0-70688bccd80a@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2] drm/amdgpu: Fix kernel-doc comments for some
+ LUT properties
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alex Hung <alex.hung@amd.com>
+References: <20260305-amdgpu-fix-kdoc-lut-v2-1-37947aca68e8@collabora.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20260305-amdgpu-fix-kdoc-lut-v2-1-37947aca68e8@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,65 +71,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: EE21A216623
+X-Rspamd-Queue-Id: 2A655216B74
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[iki.fi:s=meesny:i=1];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu,iki.fi:s=meesny];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[iki.fi];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@iki.fi,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[collabora.com,amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:alain.volmat@foss.st.com,m:hugues.fruchet@foss.st.com,m:mchehab@kernel.org,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-media@vger.kernel.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:mcoquelinstm32@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[foss.st.com,kernel.org,gmail.com,linaro.org,amd.com,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,lists.freedesktop.org,lists.linaro.org];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[iki.fi:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-0.321];
+	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[valkosipuli.retiisi.eu:mid,st.com:email,iki.fi:dkim]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Alain,
++ cc: Alex Hung
 
-On Tue, Jan 06, 2026 at 12:34:28PM +0100, Alain Volmat wrote:
-> This series improve stability of the capture by fixing the
-> handling of the overrun which was leading to captured
-> frame corruption.
-> Locking within the driver is also simplified and the way
-> DMA is handled is reworked allowing to avoid having a
-> specific handling for the JPEG data.
-> 
-> Performances of capture can now be increased via the usage
-> of a DMA->MDMA chaining which allows for capture of higher
-> resolution / framerate.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+Hi Alex H.,
 
-I've picked the 10 first patches to my tree, I presume the rest are merged
-via another tree?
+Can you apply this patch?
 
-Please cc me on the next time. Thanks.
+Thanks,
 
--- 
-Kind regards,
+Melissa
 
-Sakari Ailus
+On 05/03/2026 08:16, Cristian Ciocaltea wrote:
+> The following members of struct amdgpu_mode_info do not have valid
+> references in the related kernel-doc sections:
+>
+>   - plane_shaper_lut_property
+>   - plane_shaper_lut_size_property,
+>   - plane_lut3d_size_property
+>
+> Correct all affected comment blocks.
+>
+> Fixes: f545d82479b4 ("drm/amd/display: add plane shaper LUT and TF driver-specific properties")
+> Fixes: 671994e3bf33 ("drm/amd/display: add plane 3D LUT driver-specific properties")
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Changes in v2:
+> - Collected R-b tag from Melissa
+> - Rebased onto latest drm-misc-next
+> - Link to v1: https://lore.kernel.org/r/20250823-amdgpu-fix-kdoc-lut-v1-1-306bcad41267@collabora.com
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> index dc8d2f52c7d6..e244c12ceb23 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> @@ -368,15 +368,15 @@ struct amdgpu_mode_info {
+>   
+>   	struct drm_property *plane_ctm_property;
+>   	/**
+> -	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
+> -	 * that converts color content before 3D LUT. If
+> -	 * plane_shaper_tf_property != Identity TF, AMD color module will
+> +	 * @plane_shaper_lut_property: Plane property to set pre-blending
+> +	 * shaper LUT that converts color content before 3D LUT.
+> +	 * If plane_shaper_tf_property != Identity TF, AMD color module will
+>   	 * combine the user LUT values with pre-defined TF into the LUT
+>   	 * parameters to be programmed.
+>   	 */
+>   	struct drm_property *plane_shaper_lut_property;
+>   	/**
+> -	 * @shaper_lut_size_property: Plane property for the size of
+> +	 * @plane_shaper_lut_size_property: Plane property for the size of
+>   	 * pre-blending shaper LUT as supported by the driver (read-only).
+>   	 */
+>   	struct drm_property *plane_shaper_lut_size_property;
+> @@ -400,10 +400,10 @@ struct amdgpu_mode_info {
+>   	 */
+>   	struct drm_property *plane_lut3d_property;
+>   	/**
+> -	 * @plane_degamma_lut_size_property: Plane property to define the max
+> -	 * size of 3D LUT as supported by the driver (read-only). The max size
+> -	 * is the max size of one dimension and, therefore, the max number of
+> -	 * entries for 3D LUT array is the 3D LUT size cubed;
+> +	 * @plane_lut3d_size_property: Plane property to define the max size
+> +	 * of 3D LUT as supported by the driver (read-only). The max size is
+> +	 * the max size of one dimension and, therefore, the max number of
+> +	 * entries for 3D LUT array is the 3D LUT size cubed.
+>   	 */
+>   	struct drm_property *plane_lut3d_size_property;
+>   	/**
+>
+> ---
+> base-commit: be4cd2a13a31496c7fb9e46a244c4391b8b7cf31
+> change-id: 20250823-amdgpu-fix-kdoc-lut-357db8b57fee
+
