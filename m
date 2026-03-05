@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0OOqIxQRqml2KgEAu9opvQ
+	id wBvHNBYRqmmBKgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:12 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0E0219401
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CED0219408
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 00:26:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C57B10EC80;
-	Thu,  5 Mar 2026 23:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1A310EC8F;
+	Thu,  5 Mar 2026 23:26:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ciXFbX3a";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Yq/BDrCa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44DA310EC80
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 23:26:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4110410EC85
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 23:26:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=c92XECq5dI3Uofg5Rgt97hNyhgVIx1T6Kal62VX/9yI=; b=ciXFbX3aWfWzGYZLod2wuof56L
- rWiMpfl4Fw9lBq6Ac9TDm7yL1qgW71W3N75iK56Xah5Sw04rZfpytsQXdg+iC9I2gzDGGJSUyf+vQ
- 9prG67eSf/dYj2SGfg8nrdm/MFymTXegGWgOiSLUnGgWbwv7PGukHcJT4zEt293sIfqDpHjfe3TKV
- AzGfKLZbuEFOznk/jvhrc8jl5p1g4zzQDFRLeZNGFm85prdXMf8/KuIA5UDyKHKzq3DtD3j1y/QO3
- qI3r+nAF6J1vA6bE6lvxEpmTwDzS8C2NwK/fqYXvnfAHh2eSg+zxZGnpdWPp0nVUwIpHgFEiIG8SF
- 0R4kD6Zw==;
+ bh=viGISnbWbyFrS4ifb0+pyqlN1qjqmNQGuJPA7PCXups=; b=Yq/BDrCaM3Q02A7d/vM2hYWiFu
+ lqQ991nlanhbzaZlliJHaLzosmbTmd2NV8hvIjR0+wuuFsi71HEZUxfdYLlMXzPM8R5YxfRYKkE0J
+ 1FDedLL5eXsLZMxJwTKw85f/DwoTRA+aXx7eUs3GrykMXyIqDzw1srZkdlTxJGYFf0eJhn5BMuplc
+ YlFmby4Ggjy8H0rx5tH3hR9c9F9deOwgIgYHqnDiAUrW7yFv0XNPvMwgvTrSOd0lkc/6UfOInFsfO
+ c1Mk3RZBjE1VVaKepp4hfHP4zuC9T9RpDdMnASythALit20eU+GvfzLEMt2z3inEruztQHj7/yuzG
+ okIj9uUw==;
 Received: from [189.7.87.203] (helo=[10.0.0.1])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vyI4x-009Zzo-RY; Fri, 06 Mar 2026 00:26:04 +0100
+ id 1vyI50-009Zzo-MR; Fri, 06 Mar 2026 00:26:07 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Thu, 05 Mar 2026 20:25:51 -0300
-Subject: [PATCH v2 2/6] drm/v3d: Use raw seqcount helpers instead of
- fighting with lockdep
+Date: Thu, 05 Mar 2026 20:25:52 -0300
+Subject: [PATCH v2 3/6] drm/v3d: Refcount v3d_stats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260305-v3d-reset-locking-improv-v2-2-fd53c91f7726@igalia.com>
+Message-Id: <20260305-v3d-reset-locking-improv-v2-3-fd53c91f7726@igalia.com>
 References: <20260305-v3d-reset-locking-improv-v2-0-fd53c91f7726@igalia.com>
 In-Reply-To: <20260305-v3d-reset-locking-improv-v2-0-fd53c91f7726@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, 
@@ -53,15 +52,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
  Iago Toral Quiroga <itoral@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5853; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=tRQ3bJPT2InDBLijRwuOh+F5EtOCHMYkeJJhrRGjkpA=;
- b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBpqhEDVZ9WsbND3m75wX3dfKW08fk9mlznmlwqK
- +Pt19v0DyOJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaaoRAwAKCRA/8w6Kdoj6
- qnh0B/9CN7QYoO2On5RODg8DCGSTSlwZZFIUk1UxMgQyq5V5sM4wEJngj3OX5O0Ea2JF62dXPvv
- kEAqbjt6CkygnhagXhzugiMYKSNMH3izlq8TpAP2C+/rZJfUXndPn7SFpXWtYvCy1c5O1Itn+6Y
- 0ItgCihmK09NXILNXfspIM5VYJrb3VHq2vp53SezaeWIceN2mQpNRmjhDljZcfntBWlg2bRh9KJ
- uRN9KKBHVRWms+0f70ZvEM89xiMBNkIbuQ1mQO8sstx8TNdpru/I8w/ntuq5znsIV4pexRMAWZF
- NF9iYPB4cJ0gR+SgnqxQIOur/e6W93oIEAG9s6BF3f6vnwyK
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10188; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=r52aWWpniBEvsAx+0zz2RA7uSH4lTBi+Rcxes09OQrg=;
+ b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBpqhED05A8hZRHOfiPbZ+XZYZx9GPF9BI92kxmt
+ OXVLlGN4zOJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaaoRAwAKCRA/8w6Kdoj6
+ qjQDB/wJ2px8HkCri8i3zuKqS0HcyRY3rcuwjuEakhUWF+d1ycCMKdmIRQcLWdwhhERYGSDnEHh
+ 4SmvZoGnNUKiO54cqmxNFtDC1DCrlZUXHCm/4O7gmQJaQlKxPHw1j7ojnQDAyyKr4de34/M8fIY
+ LwacVwgbA2eFNfPcr9k4DQvcnUx223bLATvWTDmTV4/wqqSU2XquW4TSn1d5hSeBLzFiH8461aG
+ vBBzHMLa6Ax5MRGkMY/5BsFAeBK6Ah3YbTmPbZ2V1fXAqI6NDUGyIWwLNp8bPFaPZDgk8hVtwjv
+ 3gZexiXrwyI3uE0GSAFDTf6NzDgDrzLDZd95EGi8VAb175Ts
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3E0E0219401
+X-Rspamd-Queue-Id: 4CED0219408
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.49 / 15.00];
 	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
@@ -101,7 +100,7 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.962];
+	NEURAL_HAM(-0.00)[-0.963];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -115,152 +114,304 @@ X-Rspamd-Action: no action
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-The `v3d_stats` sequence counter uses regular seqcount helpers, which
-carry lockdep annotations that expect a consistent IRQ context between
-all writers. However, lockdep is unable to detect that v3d's readers
-are never in IRQ or softirq context, and that for CPU job queues, even
-the write side never is. This led to false positive that were previously
-worked around by conditionally disabling local IRQs under
-IS_ENABLED(CONFIG_LOCKDEP).
-
-Switch to the raw seqcount helpers which skip lockdep tracking entirely.
-This is safe because jobs are fully serialized per queue: the next job
-can only be queued after the previous one has been signaled, so there is
-no scope for the start and update paths to race on the same seqcount.
+Convert `v3d_stats` from embedded structs to heap-allocated, refcounted
+objects. This decouples the stats lifetime from the containing
+structures (this is, `v3d_queue_state` and `v3d_file_priv`), allowing
+jobs to safely hold their own references to stats objects even after the
+file descriptor is closed.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Co-developed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
- drivers/gpu/drm/v3d/v3d_drv.h   |  5 ++++
- drivers/gpu/drm/v3d/v3d_sched.c | 54 ++++++++---------------------------------
- 3 files changed, 16 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.c   | 19 ++++++++++++++-----
+ drivers/gpu/drm/v3d/v3d_drv.h   | 19 +++++++++++++++++--
+ drivers/gpu/drm/v3d/v3d_gem.c   | 42 ++++++++++++++++++++++++++---------------
+ drivers/gpu/drm/v3d/v3d_sched.c | 29 ++++++++++++++++++++++++----
+ drivers/gpu/drm/v3d/v3d_sysfs.c |  2 +-
+ 5 files changed, 84 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 86e05fcf6cf65638c4bf97ab3511ccac40f21e2f..6086c04629adbe8611b1f7297879feacec454b43 100644
+index 6086c04629adbe8611b1f7297879feacec454b43..0f5e29f57fa59bfa2890de51b9ca78cda33d1edc 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.c
 +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -194,7 +194,7 @@ void v3d_get_stats(const struct v3d_stats *stats, u64 timestamp,
- 	unsigned int seq;
+@@ -140,15 +140,18 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	v3d_priv->v3d = v3d;
  
- 	do {
--		seq = read_seqcount_begin(&stats->lock);
-+		seq = raw_read_seqcount_begin(&stats->lock);
- 		*active_runtime = stats->enabled_ns;
- 		if (stats->start_ns)
- 			*active_runtime += timestamp - stats->start_ns;
+ 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
++		v3d_priv->stats[i] = v3d_stats_alloc();
++		if (!v3d_priv->stats[i]) {
++			ret = -ENOMEM;
++			goto err_stats;
++		}
++
+ 		sched = &v3d->queue[i].sched;
+ 		ret = drm_sched_entity_init(&v3d_priv->sched_entity[i],
+ 					    DRM_SCHED_PRIORITY_NORMAL, &sched,
+ 					    1, NULL);
+ 		if (ret)
+ 			goto err_sched;
+-
+-		memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
+-		seqcount_init(&v3d_priv->stats[i].lock);
+ 	}
+ 
+ 	v3d_perfmon_open_file(v3d_priv);
+@@ -157,8 +160,12 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+ 	return 0;
+ 
+ err_sched:
+-	for (i--; i >= 0; i--)
++	v3d_stats_put(v3d_priv->stats[i]);
++err_stats:
++	for (i--; i >= 0; i--) {
+ 		drm_sched_entity_destroy(&v3d_priv->sched_entity[i]);
++		v3d_stats_put(v3d_priv->stats[i]);
++	}
+ 	kfree(v3d_priv);
+ 	return ret;
+ }
+@@ -182,6 +189,8 @@ v3d_postclose(struct drm_device *dev, struct drm_file *file)
+ 			job->file_priv = NULL;
+ 			spin_unlock_irqrestore(&queue->queue_lock, irqflags);
+ 		}
++
++		v3d_stats_put(v3d_priv->stats[q]);
+ 	}
+ 
+ 	v3d_perfmon_close_file(v3d_priv);
+@@ -209,7 +218,7 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	enum v3d_queue queue;
+ 
+ 	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+-		struct v3d_stats *stats = &file_priv->stats[queue];
++		struct v3d_stats *stats = file_priv->stats[queue];
+ 		u64 active_runtime, jobs_completed;
+ 
+ 		v3d_get_stats(stats, timestamp, &active_runtime, &jobs_completed);
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 314213c2671003862c486a1a7237af5480afa9e4..2e5520015e08c47fef4bfbf185eda15027992032 100644
+index 2e5520015e08c47fef4bfbf185eda15027992032..03fa2d174b1ca8b5a98a72c4addaa1f977d11174 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.h
 +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -46,6 +46,11 @@ struct v3d_stats {
- 	 * This seqcount is used to protect the access to the GPU stats
- 	 * variables. It must be used as, while we are reading the stats,
- 	 * IRQs can happen and the stats can be updated.
-+	 *
-+	 * However, we use the raw seqcount helpers to interact with this lock
-+	 * to avoid false positives from lockdep, which is unable to detect that
-+	 * our readers are never from irq or softirq context, and that, for CPU
-+	 * job queues, even the write side never is.
- 	 */
- 	seqcount_t lock;
- };
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 6dc871fc9a62303da4fbc62b612c3a797fe762de..18265721c1d32158fa6f7e68fa3e70a77d265b9d 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -144,54 +144,28 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
- 	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
- 	struct v3d_stats *local_stats = &file->stats[queue];
- 	u64 now = local_clock();
--	unsigned long flags;
- 
--	/*
--	 * We only need to disable local interrupts to appease lockdep who
--	 * otherwise would think v3d_job_start_stats vs v3d_stats_update has an
--	 * unsafe in-irq vs no-irq-off usage problem. This is a false positive
--	 * because all the locks are per queue and stats type, and all jobs are
--	 * completely one at a time serialised. More specifically:
--	 *
--	 * 1. Locks for GPU queues are updated from interrupt handlers under a
--	 *    spin lock and started here with preemption disabled.
--	 *
--	 * 2. Locks for CPU queues are updated from the worker with preemption
--	 *    disabled and equally started here with preemption disabled.
--	 *
--	 * Therefore both are consistent.
--	 *
--	 * 3. Because next job can only be queued after the previous one has
--	 *    been signaled, and locks are per queue, there is also no scope for
--	 *    the start part to race with the update part.
--	 */
--	if (IS_ENABLED(CONFIG_LOCKDEP))
--		local_irq_save(flags);
--	else
--		preempt_disable();
-+	preempt_disable();
- 
--	write_seqcount_begin(&local_stats->lock);
-+	raw_write_seqcount_begin(&local_stats->lock);
- 	local_stats->start_ns = now;
--	write_seqcount_end(&local_stats->lock);
-+	raw_write_seqcount_end(&local_stats->lock);
- 
--	write_seqcount_begin(&global_stats->lock);
-+	raw_write_seqcount_begin(&global_stats->lock);
- 	global_stats->start_ns = now;
--	write_seqcount_end(&global_stats->lock);
-+	raw_write_seqcount_end(&global_stats->lock);
- 
--	if (IS_ENABLED(CONFIG_LOCKDEP))
--		local_irq_restore(flags);
--	else
--		preempt_enable();
-+	preempt_enable();
+@@ -38,6 +38,8 @@ static inline char *v3d_queue_to_string(enum v3d_queue queue)
  }
  
- static void
- v3d_stats_update(struct v3d_stats *stats, u64 now)
- {
--	write_seqcount_begin(&stats->lock);
-+	raw_write_seqcount_begin(&stats->lock);
- 	stats->enabled_ns += now - stats->start_ns;
- 	stats->jobs_completed++;
- 	stats->start_ns = 0;
--	write_seqcount_end(&stats->lock);
-+	raw_write_seqcount_end(&stats->lock);
+ struct v3d_stats {
++	struct kref refcount;
++
+ 	u64 start_ns;
+ 	u64 enabled_ns;
+ 	u64 jobs_completed;
+@@ -62,7 +64,7 @@ struct v3d_queue_state {
+ 	u64 emit_seqno;
+ 
+ 	/* Stores the GPU stats for this queue in the global context. */
+-	struct v3d_stats stats;
++	struct v3d_stats *stats;
+ 
+ 	/* Currently active job for this queue */
+ 	struct v3d_job *active_job;
+@@ -230,7 +232,7 @@ struct v3d_file_priv {
+ 	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
+ 
+ 	/* Stores the GPU stats for a specific queue for this fd. */
+-	struct v3d_stats stats[V3D_MAX_QUEUES];
++	struct v3d_stats *stats[V3D_MAX_QUEUES];
+ 
+ 	/* Per-fd reset counter, must be incremented when a job submitted
+ 	 * by this fd causes a GPU reset. It must be protected by
+@@ -603,10 +605,23 @@ void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
+ 				   unsigned int count);
+ void v3d_performance_query_info_free(struct v3d_performance_query_info *query_info,
+ 				     unsigned int count);
++struct v3d_stats *v3d_stats_alloc(void);
++void v3d_stats_release(struct kref *refcount);
+ void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
+ int v3d_sched_init(struct v3d_dev *v3d);
+ void v3d_sched_fini(struct v3d_dev *v3d);
+ 
++static inline struct v3d_stats *v3d_stats_get(struct v3d_stats *stats)
++{
++	kref_get(&stats->refcount);
++	return stats;
++}
++
++static inline void v3d_stats_put(struct v3d_stats *stats)
++{
++	kref_put(&stats->refcount, v3d_stats_release);
++}
++
+ /* v3d_perfmon.c */
+ void v3d_perfmon_init(struct v3d_dev *v3d);
+ void v3d_perfmon_get(struct v3d_perfmon *perfmon);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 57965c0d6f6efea0019fb0b1a47addf2f586d138..859e63dd7e9738e3a3702edfb857ec3e844b052b 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -287,9 +287,13 @@ v3d_gem_init(struct drm_device *dev)
+ 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
+ 		struct v3d_queue_state *queue = &v3d->queue[i];
+ 
++		queue->stats = v3d_stats_alloc();
++		if (!queue->stats) {
++			ret = -ENOMEM;
++			goto err_stats;
++		}
++
+ 		queue->fence_context = dma_fence_context_alloc(1);
+-		memset(&queue->stats, 0, sizeof(queue->stats));
+-		seqcount_init(&queue->stats.lock);
+ 
+ 		spin_lock_init(&queue->queue_lock);
+ 		spin_lock_init(&queue->fence_lock);
+@@ -298,16 +302,16 @@ v3d_gem_init(struct drm_device *dev)
+ 	spin_lock_init(&v3d->mm_lock);
+ 	ret = drmm_mutex_init(dev, &v3d->bo_lock);
+ 	if (ret)
+-		return ret;
++		goto err_stats;
+ 	ret = drmm_mutex_init(dev, &v3d->reset_lock);
+ 	if (ret)
+-		return ret;
++		goto err_stats;
+ 	ret = drmm_mutex_init(dev, &v3d->sched_lock);
+ 	if (ret)
+-		return ret;
++		goto err_stats;
+ 	ret = drmm_mutex_init(dev, &v3d->cache_clean_lock);
+ 	if (ret)
+-		return ret;
++		goto err_stats;
+ 
+ 	/* Note: We don't allocate address 0.  Various bits of HW
+ 	 * treat 0 as special, such as the occlusion query counters
+@@ -319,10 +323,10 @@ v3d_gem_init(struct drm_device *dev)
+ 			       &v3d->pt_paddr,
+ 			       GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
+ 	if (!v3d->pt) {
+-		drm_mm_takedown(&v3d->mm);
+ 		dev_err(v3d->drm.dev,
+ 			"Failed to allocate page tables. Please ensure you have DMA enabled.\n");
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto err_dma_alloc;
+ 	}
+ 
+ 	v3d_init_hw_state(v3d);
+@@ -331,14 +335,20 @@ v3d_gem_init(struct drm_device *dev)
+ 	v3d_huge_mnt_init(v3d);
+ 
+ 	ret = v3d_sched_init(v3d);
+-	if (ret) {
+-		drm_mm_takedown(&v3d->mm);
+-		dma_free_coherent(v3d->drm.dev, pt_size, (void *)v3d->pt,
+-				  v3d->pt_paddr);
+-		return ret;
+-	}
++	if (ret)
++		goto err_sched;
+ 
+ 	return 0;
++
++err_sched:
++	dma_free_coherent(v3d->drm.dev, pt_size, (void *)v3d->pt, v3d->pt_paddr);
++err_dma_alloc:
++	drm_mm_takedown(&v3d->mm);
++err_stats:
++	for (i--; i >= 0; i--)
++		v3d_stats_put(v3d->queue[i].stats);
++
++	return ret;
  }
  
  void
-@@ -201,13 +175,8 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
- 	struct v3d_queue_state *queue = &v3d->queue[q];
- 	struct v3d_stats *global_stats = &queue->stats;
- 	u64 now = local_clock();
--	unsigned long flags;
+@@ -352,8 +362,10 @@ v3d_gem_destroy(struct drm_device *dev)
+ 	/* Waiting for jobs to finish would need to be done before
+ 	 * unregistering V3D.
+ 	 */
+-	for (q = 0; q < V3D_MAX_QUEUES; q++)
++	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+ 		WARN_ON(v3d->queue[q].active_job);
++		v3d_stats_put(v3d->queue[q].stats);
++	}
  
--	/* See comment in v3d_job_start_stats() */
--	if (IS_ENABLED(CONFIG_LOCKDEP))
--		local_irq_save(flags);
--	else
--		preempt_disable();
-+	preempt_disable();
+ 	drm_mm_takedown(&v3d->mm);
  
- 	/* Don't update the local stats if the file context has already closed */
- 	spin_lock(&queue->queue_lock);
-@@ -217,10 +186,7 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
- 
- 	v3d_stats_update(global_stats, now);
- 
--	if (IS_ENABLED(CONFIG_LOCKDEP))
--		local_irq_restore(flags);
--	else
--		preempt_enable();
-+	preempt_enable();
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 18265721c1d32158fa6f7e68fa3e70a77d265b9d..787f21337b2a03a923342fe4f5f927e9214082c4 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -66,6 +66,27 @@ to_cpu_job(struct drm_sched_job *sched_job)
+ 	return container_of(sched_job, struct v3d_cpu_job, base.base);
  }
  
- static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
++void v3d_stats_release(struct kref *refcount)
++{
++	struct v3d_stats *stats = container_of(refcount, typeof(*stats), refcount);
++
++	kfree(stats);
++}
++
++struct v3d_stats *v3d_stats_alloc(void)
++{
++	struct v3d_stats *stats;
++
++	stats = kzalloc_obj(*stats);
++	if (!stats)
++		return NULL;
++
++	kref_init(&stats->refcount);
++	seqcount_init(&stats->lock);
++
++	return stats;
++}
++
+ static void
+ v3d_sched_job_free(struct drm_sched_job *sched_job)
+ {
+@@ -141,8 +162,8 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+ {
+ 	struct v3d_dev *v3d = job->v3d;
+ 	struct v3d_file_priv *file = job->file_priv;
+-	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+-	struct v3d_stats *local_stats = &file->stats[queue];
++	struct v3d_stats *global_stats = v3d->queue[queue].stats;
++	struct v3d_stats *local_stats = file->stats[queue];
+ 	u64 now = local_clock();
+ 
+ 	preempt_disable();
+@@ -173,7 +194,7 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
+ {
+ 	struct v3d_dev *v3d = job->v3d;
+ 	struct v3d_queue_state *queue = &v3d->queue[q];
+-	struct v3d_stats *global_stats = &queue->stats;
++	struct v3d_stats *global_stats = queue->stats;
+ 	u64 now = local_clock();
+ 
+ 	preempt_disable();
+@@ -181,7 +202,7 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
+ 	/* Don't update the local stats if the file context has already closed */
+ 	spin_lock(&queue->queue_lock);
+ 	if (job->file_priv)
+-		v3d_stats_update(&job->file_priv->stats[q], now);
++		v3d_stats_update(job->file_priv->stats[q], now);
+ 	spin_unlock(&queue->queue_lock);
+ 
+ 	v3d_stats_update(global_stats, now);
+diff --git a/drivers/gpu/drm/v3d/v3d_sysfs.c b/drivers/gpu/drm/v3d/v3d_sysfs.c
+index d610e355964ffaf45f7d44e5c667369cedc205dc..b45a9b3db42d698856873145e4948aad27eeb28c 100644
+--- a/drivers/gpu/drm/v3d/v3d_sysfs.c
++++ b/drivers/gpu/drm/v3d/v3d_sysfs.c
+@@ -20,7 +20,7 @@ gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
+ 	len += sysfs_emit(buf, "queue\ttimestamp\tjobs\truntime\n");
+ 
+ 	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+-		struct v3d_stats *stats = &v3d->queue[queue].stats;
++		struct v3d_stats *stats = v3d->queue[queue].stats;
+ 		u64 active_runtime, jobs_completed;
+ 
+ 		v3d_get_stats(stats, timestamp, &active_runtime, &jobs_completed);
 
 -- 
 2.53.0
