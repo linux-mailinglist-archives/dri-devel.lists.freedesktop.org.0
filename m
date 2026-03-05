@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEzmGHd6qWl77wAAu9opvQ
+	id aBhUCHl6qWl77wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:35 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0752211E5A
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA52211E61
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBB510EB07;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B57FE10EB06;
 	Thu,  5 Mar 2026 12:43:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EJ0FV0eR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MBZg5wJx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD43910EAED
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD9F10EAED
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772714608;
- bh=PhqExYtVJYJriGCOW/3uQmsUWfS1wI3vm877NKED3rY=;
- h=From:To:Cc:Subject:Date:From;
- b=EJ0FV0eRVWezX7fiJcf+ksWzvZAuKBnY/xiPqEjE8C5PzbfjD3caFrlvGkh+sF2Cc
- Ona309lsrY+khfp0FnbGQK7iD54z23TVn3BLI7hvnEED/8lYVXx8HAHvVnTQzq8OWX
- i8C92ehxUZw7C0tzNAW78e+ZrqqjHMrxTnNCIV+grXwTZOZw4HSvOLbpVcMCIWrayM
- X7XJOhcSBargi9a5Hh22zElmEPilyEBfrOecy2E6coMrV9ak+/4OyrQze9icAn9QWp
- 0ZgPC6vxYy4+h18X9AJ8AUpkrO6h/Fy31oMzReh4v0LqrGb666hm97Ft7g5Xe00zqr
- 2c83BnixebxsA==
+ s=mail; t=1772714609;
+ bh=K5GaG2l/4wDTiOtMpbo7+XlyvR3cf03D/PR/1qpXbn4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MBZg5wJxQyJtxfi+OUrO0ZTJpeloscu5cNXx5q2Ls9JlJ1qI18IkhU/HUm046k8oK
+ w804Fd2EPPmiz2rGuKs3uw7r+21buiIGcpfi1zcvZDh+IGc2COvX+iy0zIA6xMQX3z
+ gv28Q3cy1m6qYYVU029k0J1owOg5fZmrl6PEdF1Xrsa1fiMjabMSlAoKqgjpHBPxue
+ JisY/QkFdJwYRSh/5xvJ5PRIBca5KIiQC+nUzngOp2mKUpeJvVh2GqZnhcqxTNjsdA
+ jB2MCqhjeJOxCILOtR0N7KT4+33J9wyQajkQPQGbLdi6VQZ/AOrmp4rQUsYv2UQU72
+ 39xfLEs2J5EWw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CE13517E0071;
- Thu,  5 Mar 2026 13:43:27 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B95CE17E0451;
+ Thu,  5 Mar 2026 13:43:28 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -55,10 +55,13 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
  kernel@collabora.com
-Subject: [PATCH v4 0/9] drm/panthor: Add a GEM shrinker
-Date: Thu,  5 Mar 2026 13:43:11 +0100
-Message-ID: <20260305124320.156606-1-boris.brezillon@collabora.com>
+Subject: [PATCH v4 1/9] drm/gem: Consider GEM object reclaimable if shrinking
+ fails
+Date: Thu,  5 Mar 2026 13:43:12 +0100
+Message-ID: <20260305124320.156606-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260305124320.156606-1-boris.brezillon@collabora.com>
+References: <20260305124320.156606-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,7 +78,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B0752211E5A
+X-Rspamd-Queue-Id: CDA52211E61
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -109,98 +112,50 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lkml.org:url,collabora.com:dkim,collabora.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-Hello,
+If the object wasn't moved to a different LRU after the shrink callback
+returns, it means the buffer is still reclaimable. Update the remaining
+counter to reflect that.
 
-This is an attempt at adding a GEM shrinker to panthor so the system
-can finally reclaim GPU memory.
+v2:
+- Collect R-b
 
-This implementation is losely based on the MSM shrinker (which is why
-I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
-eviction/validation infrastructure.
+v3:
+- Collect R-b
 
-I've only done very basic IGT-based [1] and chromium-based (opening
-a lot of tabs on Aquarium until the system starts reclaiming+swaping
-out GPU buffers) testing, but I'm posting this early so I can get
-preliminary feedback on the implementation. If someone knows about
-better tools/ways to test the shrinker, please let me know.
+v4:
+- No changes
 
-A few words about some design/implementation choices:
-- No MADVISE support because I want to see if we can live with just
-  transparent reclaim
-- We considered basing this implementation on the generic shrinker work
-  started by Dmitry [2], but
-  1. with the activeness/idleness tracking happening at the VM
-     granularity, having per-BO LRUs would caused a lot of
-     list_move()s that are not really needed (the VM as a whole
-     become active/idle, we can track individual BOs)
-  2. Thomas Zimmermann recently suggested that we should have our
-     own GEM implementation instead of trying to add this extra reclaim
-     complexity to gem-shmem. There are some plans to create a
-     gem-uma (Unified Memory Architecture) lib that would do more
-     than gem-shmem but in a way that doesn't force all its users
-     to pay the overhead (size overhead of the gem object, mostly)
-     for features they don't use. Patch "Part ways with
-     drm_gem_shmem_object" is showing what this component-based lib
-     API could look like if it were to be extracted
-- At the moment we only support swapout, but we could add an
-  extra flag to specify when buffer content doesn't need to be
-  preserved to avoid the swapout/swapin dance. First candidate for
-  this DISCARD_ON_RECLAIM flag would probably be the tiler heap chunks.
-- Reclaim uses _try_lock() all the way because of the various lock order
-  inversions between the reclaim path and submission paths. That means
-  we don't try very hard to reclaim hot GPU buffers, but the locking is
-  such a mess that I don't really see a better option to be honest.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/drm_gem.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-
-Changes in v2:
-- No fundamental changes in this v2, since the feedback I got were more
-  focused on bugs than the overall approach. Check the changelog in each
-  patch for more details.
-
-Changes in v3:
-- Mostly fixes (see the changelog in each patch)
-
-Changes in v4:
-- Only fixes (see the changelog in each patch)
-
-Regards,
-
-Boris
-
-[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/commit/fc76934a5579767d2aabe787d40e38a17c3f4ea4
-[2]https://lkml.org/lkml/2024/1/5/665
-
-Akash Goel (1):
-  drm/panthor: Add a GEM shrinker
-
-Boris Brezillon (8):
-  drm/gem: Consider GEM object reclaimable if shrinking fails
-  drm/panthor: Move panthor_gems_debugfs_init() to panthor_gem.c
-  drm/panthor: Group panthor_kernel_bo_xxx() helpers
-  drm/panthor: Don't call drm_gpuvm_bo_extobj_add() if the object is
-    private
-  drm/panthor: Part ways with drm_gem_shmem_object
-  drm/panthor: Lazily allocate pages on mmap()
-  drm/panthor: Split panthor_vm_prepare_map_op_ctx() to prepare for
-    reclaim
-  drm/panthor: Track the number of mmap on a BO
-
- drivers/gpu/drm/drm_gem.c                |   10 +
- drivers/gpu/drm/panthor/Kconfig          |    1 -
- drivers/gpu/drm/panthor/panthor_device.c |   11 +-
- drivers/gpu/drm/panthor/panthor_device.h |   73 ++
- drivers/gpu/drm/panthor/panthor_drv.c    |   33 +-
- drivers/gpu/drm/panthor/panthor_fw.c     |   16 +-
- drivers/gpu/drm/panthor/panthor_gem.c    | 1421 ++++++++++++++++++----
- drivers/gpu/drm/panthor/panthor_gem.h    |  136 ++-
- drivers/gpu/drm/panthor/panthor_mmu.c    |  468 +++++--
- drivers/gpu/drm/panthor/panthor_mmu.h    |    8 +
- drivers/gpu/drm/panthor/panthor_sched.c  |    9 +-
- 11 files changed, 1850 insertions(+), 336 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index fdf08cae1c5b..c12b2cfae210 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1699,6 +1699,16 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
+ 			 */
+ 			WARN_ON(obj->lru == &still_in_lru);
+ 			WARN_ON(obj->lru == lru);
++		} else if (obj->lru == &still_in_lru) {
++			/*
++			 * If the object wasn't moved and wasn't shrunk either,
++			 * it's still remaining as reclaimable. Note that
++			 * obj->lru is supposed to be checked with the LRU lock
++			 * held for an accurate result, but we don't care about
++			 * accuracy here. Worst thing that could happen is an
++			 * extra scan.
++			 */
++			*remaining += obj->size >> PAGE_SHIFT;
+ 		}
+ 
+ 		dma_resv_unlock(obj->resv);
 -- 
 2.53.0
 
