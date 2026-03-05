@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yIItGS+LqWl3/AAAu9opvQ
+	id UHXtLjmLqWl3/AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:54:55 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:55:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBE6212D73
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E119212D8F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 14:55:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D2510E2A6;
-	Thu,  5 Mar 2026 13:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8045B10EB96;
+	Thu,  5 Mar 2026 13:55:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hhAgUByC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="d8l6wiA3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196BF10E2A6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 13:54:51 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE50810EB96;
+ Thu,  5 Mar 2026 13:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772718901;
+ bh=Zbv+Cukn35v0xISz7agKyOhVi+C8KAFcmdtSnKAG6Ak=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=d8l6wiA3p2Z1YmjsGB1KvpqMZJS8G0sB49WqDOnnstTDHpeNvwfjzx3Z0pSoYqDlI
+ lRtK8oxVdlTSer7GKJIoCAU5xibRyjs+Fnu7mUoZk2uh70xyWuuHBQltcOAqNKIrDx
+ 2a6k4wM4RT9tj71x+fnFxW2169f7iOO2JC08EluWerbUCgSkYYY3EHMmVTiAio37Pa
+ bF0VYE//jglDRd8i3Wb9I5ZPOY/JTYpjhTmeA3Eo/V810a9yO2fQlmwj0OTqLcuK50
+ x6Oa+EMzP5f9k/oAUvvwv/XBXv6YlevNYYR4IdkfAPlgK8obQOk+fAN88p8jzl4gVO
+ hUIa/Voo10b3g==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fRWHr1rqqz9tpT;
- Thu,  5 Mar 2026 14:54:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1772718888; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=Zpy/QRO8QB2S+XpSMKd1tiHDpKbO5HzSFxH/sg9Lsic=;
- b=hhAgUByCD4zOe1qa2uI0XwLFkRw43MXIiOa/B/IpT/A4X4TuChbTGSDRZv3/9OwZXE5NEF
- q1PT0dZ4R/3YAqISxfUGdmNCous/Go2MFcx5+Dmb01fjbvXQS6M1zJNMKiyiRS4oMOSs5/
- fq6+bYBTrYAk+NNH7KFEhfTyoiUp8EqCoANOOLiUhjz445wFHWm87bpE39zT9/T4vck2nx
- hnd/iJ9DYWvm5gVxuFjeRE8Hgium7fzcnYoCNtWf3v/3e9InEtkiPWRWeEFfAt5KZL2UYO
- MhWAW9t7ltNV0LfjpczBHQcmlOeteYPyKqRI0scF1RP5JUsfJZzxAPrDdRT2Yw==
-Message-ID: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
-Subject: dma_fence: force users to take the lock manually
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: dakr@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Boris
- Brezillon <boris.brezillon@collabora.com>, dri-devel
- <dri-devel@lists.freedesktop.org>
-Date: Thu, 05 Mar 2026 14:54:44 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EA4C417E0071;
+ Thu,  5 Mar 2026 14:55:00 +0100 (CET)
+Message-ID: <e01c9a6d-c001-4969-86b4-f627e1c18a66@collabora.com>
+Date: Thu, 5 Mar 2026 14:55:00 +0100
 MIME-Version: 1.0
-X-MBO-RS-ID: 71e56e051e5510cc49c
-X-MBO-RS-META: cxi6zuyodd7eak9b1uruxuzaryw7ckbh
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2] drm/amdgpu: Fix kernel-doc comments for some
+ LUT properties
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260305-amdgpu-fix-kdoc-lut-v2-1-37947aca68e8@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260305-amdgpu-fix-kdoc-lut-v2-1-37947aca68e8@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9FBE6212D73
+X-Rspamd-Queue-Id: 6E119212D8F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:dkim,mailbox.org:mid];
 	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[collabora.com,amd.com,gmail.com,ffwll.ch,igalia.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	HAS_REPLYTO(0.00)[phasta@kernel.org]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid]
 X-Rspamd-Action: no action
 
-Yo Christian,
+Il 05/03/26 12:16, Cristian Ciocaltea ha scritto:
+> The following members of struct amdgpu_mode_info do not have valid
+> references in the related kernel-doc sections:
+> 
+>   - plane_shaper_lut_property
+>   - plane_shaper_lut_size_property,
+>   - plane_lut3d_size_property
+> 
+> Correct all affected comment blocks.
+> 
+> Fixes: f545d82479b4 ("drm/amd/display: add plane shaper LUT and TF driver-specific properties")
+> Fixes: 671994e3bf33 ("drm/amd/display: add plane 3D LUT driver-specific properties")
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-a while ago we were discussing this problem
-
-dma_fence_set_error(f, -ECANCELED);
-dma_fence_signal(f); // racy!
-
-
-I think you mentioned that you are considering to redesign the
-dma_fence API so that users have to take the lock themselves to touch
-the fence:
-
-dma_fence_lock(f);
-dma_fence_set_error(f, -ECANCELED);
-dma_fence_signal(f);
-dme_fence_unlock(f);
-
-
-Is that still up to date? Is there work in progress about that?
-
-I discovered that I might need / want that for the Rust abstractions.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
-Regards,
-P.
