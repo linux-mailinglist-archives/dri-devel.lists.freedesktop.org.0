@@ -2,128 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFOpE2pYqWkh5wAAu9opvQ
+	id IHVbD35YqWkh5wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:18:18 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:18:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B202920F91F
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:18:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9298A20F949
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:18:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F38C610E237;
-	Thu,  5 Mar 2026 10:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBD1088CFA;
+	Thu,  5 Mar 2026 10:18:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sdseIFM3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b9FvGrU6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sdseIFM3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b9FvGrU6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mhrmvABk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E78B410E237
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:18:14 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 490C43F839;
- Thu,  5 Mar 2026 10:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772705893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sdos9HgNBRPQmvN1VE2fzeordnjggvR1CLbUrtu481U=;
- b=sdseIFM35Z48H6Cw9Uj2QiPNLOFk1nD3E4iOjbierfFGZUmEWp2eLtEPJgHwRRZy4C4Fd2
- DbHHerzLbNfBr/fiPhkZktg+wrlPhugvqNqj2/a5gLVT+MFpRoCo5Ubs4sglJQCLr+Gdk8
- XHZXXFUMHfcUb+377gTaKBUXl6O4h/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772705893;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sdos9HgNBRPQmvN1VE2fzeordnjggvR1CLbUrtu481U=;
- b=b9FvGrU6kABi7XF9kpvDI4kJL1r8AfOhlQEy12NgSh81eShX/S7AV27/t+QR/sWfob+96n
- nXEEgV/Lr0TSZyCQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sdseIFM3;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=b9FvGrU6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1772705893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sdos9HgNBRPQmvN1VE2fzeordnjggvR1CLbUrtu481U=;
- b=sdseIFM35Z48H6Cw9Uj2QiPNLOFk1nD3E4iOjbierfFGZUmEWp2eLtEPJgHwRRZy4C4Fd2
- DbHHerzLbNfBr/fiPhkZktg+wrlPhugvqNqj2/a5gLVT+MFpRoCo5Ubs4sglJQCLr+Gdk8
- XHZXXFUMHfcUb+377gTaKBUXl6O4h/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1772705893;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sdos9HgNBRPQmvN1VE2fzeordnjggvR1CLbUrtu481U=;
- b=b9FvGrU6kABi7XF9kpvDI4kJL1r8AfOhlQEy12NgSh81eShX/S7AV27/t+QR/sWfob+96n
- nXEEgV/Lr0TSZyCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B65C3EA68;
- Thu,  5 Mar 2026 10:18:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id I11XAWVYqWlDYwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Mar 2026 10:18:13 +0000
-Message-ID: <abaa02f4-a252-4051-8919-b45c893fb054@suse.de>
-Date: Thu, 5 Mar 2026 11:18:12 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663E588CFA
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=tIcemqKAoyVTy9OugRODfKUr9gFS8Xd5XbusODs1b/I=; b=mhrmvABk2C6mGUgRPAmvABxAuY
+ 2E9WRdCmMm1V58A7SspygRgLI5K21C9W7KuYEAKg65FNahCH5aDG2wEIvXTvg8qSnUU7PJ27zRO3P
+ d8vYRr7wCxu+fqHgqocttJxbmNJg5230VFy/aRoNPdM37WpaE62skIbeZ0NBSGC0V4riuIbv+13x7
+ dAFu2Jsc4oH0bhiEzfmBNZixIOYINnDoQKpMmZ1Usrz1MoyEwgEccp7VPW3P5ZXWyBt3e+lNPYMWD
+ GB3WjPcefVT8wGljnJhNCKj/ruxHYQB8MaislgPWtCxWFemOdj7i4VYVRu8FEbTZJkuMHIH94s48n
+ nB/lw8lA==;
+Received: from ip160.dynamic.igalia.com ([192.168.10.160])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vy5mn-009JV2-1f; Thu, 05 Mar 2026 11:18:29 +0100
+Message-ID: <052f80f50c0f6e57f5b3b5c3494fb70651ef22bf.camel@igalia.com>
+Subject: Re: [PATCH 5/6] drm/v3d: Attach per-fd reset counters to v3d_stats
+From: Iago Toral <itoral@igalia.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?=
+ Canal <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>, Maxime Ripard
+ <mripard@kernel.org>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+Date: Thu, 05 Mar 2026 11:18:28 +0100
+In-Reply-To: <73c11615-a459-40a4-be5d-8535040753d5@igalia.com>
+References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
+ <20260217-v3d-reset-locking-improv-v1-5-0db848016869@igalia.com>
+ <3c27ff4ab7e18c7d2d3208a46f18ced2d2ca6957.camel@igalia.com>
+ <73c11615-a459-40a4-be5d-8535040753d5@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v2 1/3] drm: verisilicon: make vs_format
- conversion function return int
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Icenowy Zheng <uwu@icenowy.me>
-References: <20260305075926.3642501-1-zhengxingda@iscas.ac.cn>
- <20260305075926.3642501-2-zhengxingda@iscas.ac.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260305075926.3642501-2-zhengxingda@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,114 +68,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B202920F91F
+X-Rspamd-Queue-Id: 9298A20F949
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:mcanal@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[itoral@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.956];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[itoral@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,suse.com:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,igalia.com:email]
 X-Rspamd-Action: no action
 
-Hi
+El jue, 05-03-2026 a las 09:34 +0000, Tvrtko Ursulin escribi=C3=B3:
+>=20
+> On 05/03/2026 09:15, Iago Toral wrote:
+> > El mar, 17-02-2026 a las 09:18 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > >=20
+> > > To remove the file_priv NULL-ing dance needed to check if the
+> > > file
+> > > descriptor is open, move the per-fd reset counter into v3d_stats,
+> > > which
+> > > is heap-allocated and refcounted, outliving the fd as long as
+> > > jobs
+> > > reference it.
+> > >=20
+> > > This change allows the removal of the last `queue_lock` usage to
+> > > protect
+> > > `job->file_priv` and avoids possible NULL ptr dereference issues
+> > > due
+> > > to
+> > > lifetime mismatches.
+> > >=20
+> > > Also, to simplify locking, replace both the global and per-fd
+> > > locked
+> > > reset counters with atomics.
+> > >=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Co-developed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/v3d/v3d_drv.c=C2=A0=C2=A0 | 20 ++++------=
+----------
+> > > =C2=A0=C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0 | 14 ++++------=
+----
+> > > =C2=A0=C2=A0drivers/gpu/drm/v3d/v3d_sched.c |=C2=A0 9 ++-------
+> > > =C2=A0=C2=A03 files changed, 10 insertions(+), 33 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
+> > > b/drivers/gpu/drm/v3d/v3d_drv.c
+> > > index
+> > > aafb402c6ac3118a57df9fc0a0d21d35d48e3b2c..4e77f4808145df21746ff4b
+> > > 7058
+> > > 089d0d161e3fc 100644
+> > > --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> > > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> > > @@ -110,13 +110,13 @@ static int v3d_get_param_ioctl(struct
+> > > drm_device *dev, void *data,
+> > > =C2=A0=C2=A0		args->value =3D !!drm_gem_get_huge_mnt(dev);
+> > > =C2=A0=C2=A0		return 0;
+> > > =C2=A0=C2=A0	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
+> > > -		mutex_lock(&v3d->reset_lock);
+> > > -		args->value =3D v3d->reset_counter;
+> > > -		mutex_unlock(&v3d->reset_lock);
+> > > +		args->value =3D atomic_read(&v3d->reset_counter);
+> >=20
+> > Don't we still need to take the reset lock here? Otherwise there
+> > would
+> > be a chance that we read the counter while a reset is in flight,
+> > no?
+>=20
+> I don't see that it would make a difference but maybe I am not seeing
+> your concern. It uses atomic_t so the increment versus read is fine.
+> Are=20
+> you maybe saying the v3d ABI guarantees reset is 100% done (so not in
+> progress, for some definition of progress, because hardware reset is=20
+> done by then, only re-submit and re-start of the software state is=20
+> poending) if userspace observes an increased global reset counter?
+> That=20
+> would be surprising and I don't see how it could make a practical=20
+> difference, but perhaps could be mitigated by moving the atomic_inc
+> to=20
+> the end of v3d_gpu_reset_for_timeout(). Or still taking the lock as
+> you say.
 
-Am 05.03.26 um 08:59 schrieb Icenowy Zheng:
-> This is for further proper invalid drm_format handling before committing
-> the plane state change.
->
-> The return value is not yet checked yet, and will be checked in
-> atomic_check in the future.
->
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+My concern is just that it is possible for the query and the reset to
+race and that I think it would make sense for the counter query to
+include in-flight resets (since what apps really care about is whether
+a GPU reset happened not if it completed the reset process).
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Iago
 
-> ---
-> Changes in v2:
-> - Move a bogus #include clause to the next patch.
->
->   drivers/gpu/drm/verisilicon/vs_plane.c | 6 ++++--
->   drivers/gpu/drm/verisilicon/vs_plane.h | 2 +-
->   2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/verisilicon/vs_plane.c b/drivers/gpu/drm/verisilicon/vs_plane.c
-> index 2f3953e588a34..fa88ed14e41d7 100644
-> --- a/drivers/gpu/drm/verisilicon/vs_plane.c
-> +++ b/drivers/gpu/drm/verisilicon/vs_plane.c
-> @@ -12,7 +12,7 @@
->   
->   #include "vs_plane.h"
->   
-> -void drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format)
-> +int drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format)
->   {
->   	switch (drm_format) {
->   	case DRM_FORMAT_XRGB4444:
-> @@ -62,7 +62,7 @@ void drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format)
->   		vs_format->color = VSDC_COLOR_FORMAT_A2R10G10B10;
->   		break;
->   	default:
-> -		pr_warn("Unexpected drm format!\n");
-> +		return -EINVAL;
->   	}
->   
->   	switch (drm_format) {
-> @@ -101,6 +101,8 @@ void drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format)
->   
->   	/* N/A for non-YUV formats */
->   	vs_format->uv_swizzle = false;
-> +
-> +	return 0;
->   }
->   
->   dma_addr_t vs_fb_get_dma_addr(struct drm_framebuffer *fb,
-> diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h b/drivers/gpu/drm/verisilicon/vs_plane.h
-> index 41875ea3d66a5..a88cc19f2202e 100644
-> --- a/drivers/gpu/drm/verisilicon/vs_plane.h
-> +++ b/drivers/gpu/drm/verisilicon/vs_plane.h
-> @@ -63,7 +63,7 @@ struct vs_format {
->   	bool uv_swizzle;
->   };
->   
-> -void drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format);
-> +int drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format);
->   dma_addr_t vs_fb_get_dma_addr(struct drm_framebuffer *fb,
->   			      const struct drm_rect *src_rect);
->   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> > > =C2=A0=C2=A0		return 0;
+> > > =C2=A0=C2=A0	case DRM_V3D_PARAM_CONTEXT_RESET_COUNTER:
+> > > =C2=A0=C2=A0		mutex_lock(&v3d->reset_lock);
+> > > -		args->value =3D v3d_priv->reset_counter;
+> > > +		args->value =3D 0;
+> > > +		for (enum v3d_queue q =3D 0; q < V3D_MAX_QUEUES;
+> > > q++)
+> > > +			args->value +=3D atomic_read(&v3d_priv-
+> > > > stats[q]->reset_counter);
+> > > =C2=A0=C2=A0		mutex_unlock(&v3d->reset_lock);
+> > > =C2=A0=C2=A0		return 0;
+> > > =C2=A0=C2=A0	default:
+> > > @@ -173,23 +173,11 @@ v3d_open(struct drm_device *dev, struct
+> > > drm_file *file)
+> > > =C2=A0=C2=A0static void
+> > > =C2=A0=C2=A0v3d_postclose(struct drm_device *dev, struct drm_file *fi=
+le)
+> > > =C2=A0=C2=A0{
+> > > -	struct v3d_dev *v3d =3D to_v3d_dev(dev);
+> > > =C2=A0=C2=A0	struct v3d_file_priv *v3d_priv =3D file->driver_priv;
+> > > -	unsigned long irqflags;
+> > > =C2=A0=C2=A0	enum v3d_queue q;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	for (q =3D 0; q < V3D_MAX_QUEUES; q++) {
+> > > -		struct v3d_queue_state *queue =3D &v3d->queue[q];
+> > > -		struct v3d_job *job =3D queue->active_job;
+> > > -
+> > > =C2=A0=C2=A0		drm_sched_entity_destroy(&v3d_priv-
+> > > > sched_entity[q]);
+> > > -
+> > > -		if (job && job->base.entity =3D=3D &v3d_priv-
+> > > > sched_entity[q]) {
+> > > -			spin_lock_irqsave(&queue->queue_lock,
+> > > irqflags);
+> > > -			job->file_priv =3D NULL;
+> > > -			spin_unlock_irqrestore(&queue-
+> > > >queue_lock,
+> > > irqflags);
+> > > -		}
+> > > -
+> > > =C2=A0=C2=A0		v3d_stats_put(v3d_priv->stats[q]);
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=20
+> > > diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+> > > b/drivers/gpu/drm/v3d/v3d_drv.h
+> > > index
+> > > 72c3f40715dae6e86e0c8356cb997cdf1cf03fae..3de485abd8fc274b361cd17
+> > > a00c
+> > > ab189d8e69643 100644
+> > > --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> > > +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> > > @@ -55,6 +55,8 @@ struct v3d_stats {
+> > > =C2=A0=C2=A0	 * job queues, even the write side never is.
+> > > =C2=A0=C2=A0	 */
+> > > =C2=A0=C2=A0	seqcount_t lock;
+> > > +
+> > > +	atomic_t reset_counter;
+> > > =C2=A0=C2=A0};
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0struct v3d_queue_state {
+> > > @@ -203,10 +205,8 @@ struct v3d_dev {
+> > > =C2=A0=C2=A0	 */
+> > > =C2=A0=C2=A0	struct v3d_perfmon *global_perfmon;
+> > > =C2=A0=20
+> > > -	/* Global reset counter. The counter must be incremented
+> > > when
+> > > -	 * a GPU reset happens. It must be protected by
+> > > @reset_lock.
+> > > -	 */
+> > > -	unsigned int reset_counter;
+> > > +	/* Global reset counter incremented on each GPU reset.
+> > > */
+> > > +	atomic_t reset_counter;
+> > > =C2=A0=C2=A0};
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0static inline struct v3d_dev *
+> > > @@ -233,12 +233,6 @@ struct v3d_file_priv {
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	/* Stores the GPU stats for a specific queue for this
+> > > fd. */
+> > > =C2=A0=C2=A0	struct v3d_stats *stats[V3D_MAX_QUEUES];
+> > > -
+> > > -	/* Per-fd reset counter, must be incremented when a job
+> > > submitted
+> > > -	 * by this fd causes a GPU reset. It must be protected
+> > > by
+> > > -	 * &struct v3d_dev->reset_lock.
+> > > -	 */
+> > > -	unsigned int reset_counter;
+> > > =C2=A0=C2=A0};
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0struct v3d_bo {
+> > > diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
+> > > b/drivers/gpu/drm/v3d/v3d_sched.c
+> > > index
+> > > 4adbf5175eb005b37d1feac1514150630ce6aab2..de6497741ff789b5de9212a
+> > > e3e9
+> > > 941a13cd0475d 100644
+> > > --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> > > +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> > > @@ -701,8 +701,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
+> > > *v3d,
+> > > struct drm_sched_job *sched_job,
+> > > =C2=A0=C2=A0			=C2=A0 enum v3d_queue q)
+> > > =C2=A0=C2=A0{
+> > > =C2=A0=C2=A0	struct v3d_job *job =3D to_v3d_job(sched_job);
+> > > -	struct v3d_file_priv *v3d_priv =3D job->file_priv;
+> > > -	unsigned long irqflags;
+> > > =C2=A0=C2=A0	enum v3d_queue i;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	mutex_lock(&v3d->reset_lock);
+> > > @@ -717,11 +715,8 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
+> > > *v3d,
+> > > struct drm_sched_job *sched_job,
+> > > =C2=A0=C2=A0	/* get the GPU back into the init state */
+> > > =C2=A0=C2=A0	v3d_reset(v3d);
+> > > =C2=A0=20
+> > > -	v3d->reset_counter++;
+> > > -	spin_lock_irqsave(&v3d->queue[q].queue_lock, irqflags);
+> > > -	if (v3d_priv)
+> > > -		v3d_priv->reset_counter++;
+> > > -	spin_unlock_irqrestore(&v3d->queue[q].queue_lock,
+> > > irqflags);
+> > > +	atomic_inc(&v3d->reset_counter);
+> > > +	atomic_inc(&job->client_stats->reset_counter);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	for (i =3D 0; i < V3D_MAX_QUEUES; i++)
+> > > =C2=A0=C2=A0		drm_sched_resubmit_jobs(&v3d->queue[i].sched);
+> > >=20
+> >=20
+>=20
+>=20
 
