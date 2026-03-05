@@ -2,60 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAgOOS9aqWkL6AAAu9opvQ
+	id 4O8ENfVaqWkL6AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:25:51 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:29:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC820FA7F
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8767320FB34
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17DD10E250;
-	Thu,  5 Mar 2026 10:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE35710E256;
+	Thu,  5 Mar 2026 10:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XItnlhbF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XWZrYr25";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WvNQcyVJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A632E10E250
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gD2VR7mzQYx/8y9fIepR2VJiuXtuC8Fg7+xQ4JZevxI=; b=XItnlhbF+KshxuMAReA8uzMypa
- 8s9jq/ow9/+eMoCLinq+qAeGtH/5qxlt+o+0N9K0XU+jVJm/KYzotnga5FnD8EZy0hTrlYuTn3XrT
- uM9m/RgEGuuw6F78WjktkZzUsDFtGF+H8f4N4YC8MprBaD+Wpu0I08qF2KOVhknbiB3wLx3cVYG5p
- iLdF16CDlPEP3MeKnRSkSxu/9z+lE22EjJzRHffJXYhYH/0jLDnCyxjNRAgp2QEGVy3aZECHJvB4n
- pYxTpBA/QVnI+OVdLfOR9kpUaqqwfjGw5qL3VIuTb8EpLvhST3h2Qp0aOKGwvRkMq1NlxXJTZ5IPJ
- K/MI6VpA==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vy5tn-009Jhb-D1; Thu, 05 Mar 2026 11:25:43 +0100
-Message-ID: <e7c2447d-d19c-4e67-a4e5-eec6ced0fbda@igalia.com>
-Date: Thu, 5 Mar 2026 10:25:42 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2240B10E256
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:29:05 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 625AFxDc862393
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 10:29:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Je2kLfBA0eaKgF3s1aSk3YHEedUIxzkfsmlbL2qkIOI=; b=XWZrYr25yb7DS2Uu
+ r+cy9yUJSvwGM9xThCF395BP837XsFYValw+drEE/Md1E9OnwiUTOxMWcRHYG+Z6
+ 5BLrGu+2tycpxuyYmQGQlS7oMK9kZGcRvTnUTxHKLyOwgjvyJe+NoGvWOTtcztB6
+ yDPFjmTNUPXwIAJbwM1ezaCmhsva5NHFbL0vSspYE0N7tteYMJWOybTDSdBJp5S1
+ 5srmD+RWy4b4N3Vy6D+QbwE5RUITbnLpwug0xrLZOA+CBZ+BJjxhpQ0W8NjXzAwl
+ PAfr0H0VlXyoAhzuINmbl8uXeaHyqW5Tv+uY8FfOFou7+Ih5DhuKC79H8eVApIWy
+ +vEmXw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cps0wavdd-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 10:29:04 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c7177d4ab4so648454585a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 02:29:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772706544; x=1773311344;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Je2kLfBA0eaKgF3s1aSk3YHEedUIxzkfsmlbL2qkIOI=;
+ b=WvNQcyVJ6w43U4mhfonipw5CeCzsyAupE5yQ8lr3sGdQDcGCHjhJB5wGn2Duren1js
+ xkSXNpmPQ6TGLHOmKx6qTSb1S/qzFpd2xBMm2on6DnEe6/7SNQYe4MSIj/LzXXEYBKZN
+ HMaOoriByXN3wp+xnuMvY8NmVBk3eQbh/sq/oUcjgMIG5whbumHinj8iUN3ThZO0qWay
+ OIfbCu7dxFsuGCZ0rZADomTl+KX6EwxUL3M6N82vabae2PhqdwCorRflCXBpL8XO1fvS
+ ZmbULPz6+PSjZBzvtHJN09GlYZvj9kz099Ip8dNDmp+nfUptdxpQVbKRlnt24TqSwIkZ
+ zTRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772706544; x=1773311344;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Je2kLfBA0eaKgF3s1aSk3YHEedUIxzkfsmlbL2qkIOI=;
+ b=bZcVjMd2fk7gZ46kXF562O5Su/htKe3aKb/Bezgex5dEVrA3RIdsDl/+mJKodZWvkm
+ ga3XfVQQl/1kPQBeawp5C0z49TA6ehEAH3OAQ+mdLFUrK+ML3b8o7gkfjExxC+UbdgCI
+ GkM7j62gYljdja0OHaqR2mDi9ejYgsbTbJq04pcK6SycVT7U0Qfrh/yzYQ0WpG3Gw+w2
+ 84mHu83fNLXjJpCy+wXXU5uVjtqLfewP5c0A7WZzWlaf4sJ6t9QgeJcuD9Q+DpncgvV/
+ rh0oM2XuL0QQVrq2XmOixGOWxC1RDYiMuBBkDizk/nr7XduaZNkLodqltiMwfPYokFEO
+ wbYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfXUJROkS+QK6OQptdV90SAsXnyxJZBvRgThHSzZQFHyX+YDDRBB4oFbtfPic3M6FDC4MV7BintFU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxycWB15jJh4JY1naZcSCYVHozE15xO7UxofQhd0KjLnQOXfk/j
+ PDxv1v+3fuRLfIZ2uJ55yWuq1IUE7DAI9ObYbkwE9idXzxSjDS8hFf7wmZjSHMkV2aXWPD5ZqNf
+ I8sLAQzF7ovNvxURaW/jG6h5enmrefGGIF9ybT5hPZ1fBWcKEFytIyX1JW3qEQnpBGbrZ/E8=
+X-Gm-Gg: ATEYQzx4UlQEJOKgJ+laTeN0WoNBAmS4rhzvA6z8vkir2q8kYjNdl6n+fJzWLVMWxM2
+ 3pPwGegx8mC7yR3x4OOhzqsjgMThzmt6NbhRgTQqqnd2ew3QQUrMsu7+TOZJPUarBF67A2zww+I
+ gq17iCDUZETWvpzUgD4alF0wY1sm/GkaaRaXbTy5uSpML4fXDlWfb3QGd/2rxmxfXG77eEoYV94
+ 4nnrLVlAuLBF47U7mZGpok8M5Cz+z7rtwBwQA5Ry2IVyZ1R9XfCy2OPodW372mb/qobCfqXERI5
+ ZLo98howfLiCsPHQFP5Si1Fn696WDpJpkHfsUvJQJqoCUzCHtaol4RzJ5gE5YAWCT2KxnEgQfya
+ 69zbiF5AFAxJOuS0AUzaz1wSyAC773T4ofCxC2Xbb609j3zFqedCl0jH8b/fKClPEpzFYmJJjrY
+ Q4ux0=
+X-Received: by 2002:a05:620a:1904:b0:8cb:3fa7:c4f0 with SMTP id
+ af79cd13be357-8cd5af866e5mr505826685a.5.1772706543754; 
+ Thu, 05 Mar 2026 02:29:03 -0800 (PST)
+X-Received: by 2002:a05:620a:1904:b0:8cb:3fa7:c4f0 with SMTP id
+ af79cd13be357-8cd5af866e5mr505824585a.5.1772706543313; 
+ Thu, 05 Mar 2026 02:29:03 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-660a55b191esm2641468a12.23.2026.03.05.02.28.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Mar 2026 02:29:01 -0800 (PST)
+Message-ID: <58814d16-6638-4f8e-82bc-67452f6faba3@oss.qualcomm.com>
+Date: Thu, 5 Mar 2026 11:28:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] drm/v3d: Attach per-fd reset counters to v3d_stats
-To: Iago Toral <itoral@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
- <20260217-v3d-reset-locking-improv-v1-5-0db848016869@igalia.com>
- <3c27ff4ab7e18c7d2d3208a46f18ced2d2ca6957.camel@igalia.com>
- <73c11615-a459-40a4-be5d-8535040753d5@igalia.com>
- <052f80f50c0f6e57f5b3b5c3494fb70651ef22bf.camel@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <052f80f50c0f6e57f5b3b5c3494fb70651ef22bf.camel@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 2/2] drm/msm/dpu: Correct the SA8775P
+ intr_underrun/intr_underrun index
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Mahadevan <quic_mahap@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, stable@vger.kernel.org
+References: <20260305-mdss_catalog-v5-0-06678ac39ac7@oss.qualcomm.com>
+ <20260305-mdss_catalog-v5-2-06678ac39ac7@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260305-mdss_catalog-v5-2-06678ac39ac7@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: YYFHqjy29K1Bl75ZSNWev6K7RZ-Hc8yl
+X-Authority-Analysis: v=2.4 cv=BNK+bVQG c=1 sm=1 tr=0 ts=69a95af0 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=COk6AnOGAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=s80QRqCtEMuw_QvzVh8A:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA4NCBTYWx0ZWRfX9A1EGH6xJQEw
+ Pces7fg+Slx2aqra1Q3BPfnCFSmQdvd0iWhO2ANlhnLoHVSuhieUkocNNOboPE4P+sce9acEYJm
+ nWvCYA/EdYPpZC+DKPTz/8lXpxZZZXv6Lz4mUNmVUu0lPJOCTzH9bXezijYHZT4XtoAf5jCKFdZ
+ AX96/O4BCSKkoKPAZ249xqC+xjwaoHT3VyuncuCJTcoO13DeRQw4KHIzwHTu7PDkdFc4ZQlZ2jW
+ Pc2q29kTzz1TWurc9rK+yGNVB6qfHIKEEg6bu3k35SeL47caXch6dcYC2i7LE1ohjJbPvhC7VKz
+ gpi7U4mYuhVwXJAqnyMtkIJptLefOwVetByGKcQMK0h1RNZiwjBr2An8swmGUCFl8N05yGTMQkL
+ CLh3C4dwZv2TAZipRqd7lyRlMEmcKjDXku8BJd+Nb2iH21fRb6lCLcGyKEENzFrF80SYV21abiL
+ CybrcL04j9DGhKq/SOg==
+X-Proofpoint-ORIG-GUID: YYFHqjy29K1Bl75ZSNWev6K7RZ-Hc8yl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050084
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,266 +154,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4FFC820FA7F
+X-Rspamd-Queue-Id: 8767320FB34
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:itoral@igalia.com,m:mcanal@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:yongxing.mou@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:quic_mahap@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:quic_abhinavk@quicinc.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,quicinc.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.959];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,quicinc.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-
-On 05/03/2026 10:18, Iago Toral wrote:
-> El jue, 05-03-2026 a las 09:34 +0000, Tvrtko Ursulin escribió:
->>
->> On 05/03/2026 09:15, Iago Toral wrote:
->>> El mar, 17-02-2026 a las 09:18 -0300, Maíra Canal escribió:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>
->>>> To remove the file_priv NULL-ing dance needed to check if the
->>>> file
->>>> descriptor is open, move the per-fd reset counter into v3d_stats,
->>>> which
->>>> is heap-allocated and refcounted, outliving the fd as long as
->>>> jobs
->>>> reference it.
->>>>
->>>> This change allows the removal of the last `queue_lock` usage to
->>>> protect
->>>> `job->file_priv` and avoids possible NULL ptr dereference issues
->>>> due
->>>> to
->>>> lifetime mismatches.
->>>>
->>>> Also, to simplify locking, replace both the global and per-fd
->>>> locked
->>>> reset counters with atomics.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Co-developed-by: Maíra Canal <mcanal@igalia.com>
->>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>> ---
->>>>    drivers/gpu/drm/v3d/v3d_drv.c   | 20 ++++----------------
->>>>    drivers/gpu/drm/v3d/v3d_drv.h   | 14 ++++----------
->>>>    drivers/gpu/drm/v3d/v3d_sched.c |  9 ++-------
->>>>    3 files changed, 10 insertions(+), 33 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
->>>> b/drivers/gpu/drm/v3d/v3d_drv.c
->>>> index
->>>> aafb402c6ac3118a57df9fc0a0d21d35d48e3b2c..4e77f4808145df21746ff4b
->>>> 7058
->>>> 089d0d161e3fc 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->>>> @@ -110,13 +110,13 @@ static int v3d_get_param_ioctl(struct
->>>> drm_device *dev, void *data,
->>>>    		args->value = !!drm_gem_get_huge_mnt(dev);
->>>>    		return 0;
->>>>    	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
->>>> -		mutex_lock(&v3d->reset_lock);
->>>> -		args->value = v3d->reset_counter;
->>>> -		mutex_unlock(&v3d->reset_lock);
->>>> +		args->value = atomic_read(&v3d->reset_counter);
->>>
->>> Don't we still need to take the reset lock here? Otherwise there
->>> would
->>> be a chance that we read the counter while a reset is in flight,
->>> no?
->>
->> I don't see that it would make a difference but maybe I am not seeing
->> your concern. It uses atomic_t so the increment versus read is fine.
->> Are
->> you maybe saying the v3d ABI guarantees reset is 100% done (so not in
->> progress, for some definition of progress, because hardware reset is
->> done by then, only re-submit and re-start of the software state is
->> poending) if userspace observes an increased global reset counter?
->> That
->> would be surprising and I don't see how it could make a practical
->> difference, but perhaps could be mitigated by moving the atomic_inc
->> to
->> the end of v3d_gpu_reset_for_timeout(). Or still taking the lock as
->> you say.
+On 3/5/26 11:17 AM, Yongxing Mou wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> My concern is just that it is possible for the query and the reset to
-> race and that I think it would make sense for the counter query to
-> include in-flight resets (since what apps really care about is whether
-> a GPU reset happened not if it completed the reset process).
-
-Then there is no problem I think. Mutex lock or not, in both cases it is 
-not guaranteed reset either is not in progress at the time of the ioctl. 
-Even if the ioctl does not return an increased counter perhaps the reset 
-handler is running but hasn't grabbed the mutex yet.
-
-Regards,
-
-Tvrtko
-
+> The intr_underrun and intr_vsync indices have been swapped, just simply
+> corrects them.
 > 
-> Iago
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>>    		return 0;
->>>>    	case DRM_V3D_PARAM_CONTEXT_RESET_COUNTER:
->>>>    		mutex_lock(&v3d->reset_lock);
->>>> -		args->value = v3d_priv->reset_counter;
->>>> +		args->value = 0;
->>>> +		for (enum v3d_queue q = 0; q < V3D_MAX_QUEUES;
->>>> q++)
->>>> +			args->value += atomic_read(&v3d_priv-
->>>>> stats[q]->reset_counter);
->>>>    		mutex_unlock(&v3d->reset_lock);
->>>>    		return 0;
->>>>    	default:
->>>> @@ -173,23 +173,11 @@ v3d_open(struct drm_device *dev, struct
->>>> drm_file *file)
->>>>    static void
->>>>    v3d_postclose(struct drm_device *dev, struct drm_file *file)
->>>>    {
->>>> -	struct v3d_dev *v3d = to_v3d_dev(dev);
->>>>    	struct v3d_file_priv *v3d_priv = file->driver_priv;
->>>> -	unsigned long irqflags;
->>>>    	enum v3d_queue q;
->>>>    
->>>>    	for (q = 0; q < V3D_MAX_QUEUES; q++) {
->>>> -		struct v3d_queue_state *queue = &v3d->queue[q];
->>>> -		struct v3d_job *job = queue->active_job;
->>>> -
->>>>    		drm_sched_entity_destroy(&v3d_priv-
->>>>> sched_entity[q]);
->>>> -
->>>> -		if (job && job->base.entity == &v3d_priv-
->>>>> sched_entity[q]) {
->>>> -			spin_lock_irqsave(&queue->queue_lock,
->>>> irqflags);
->>>> -			job->file_priv = NULL;
->>>> -			spin_unlock_irqrestore(&queue-
->>>>> queue_lock,
->>>> irqflags);
->>>> -		}
->>>> -
->>>>    		v3d_stats_put(v3d_priv->stats[q]);
->>>>    	}
->>>>    
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
->>>> b/drivers/gpu/drm/v3d/v3d_drv.h
->>>> index
->>>> 72c3f40715dae6e86e0c8356cb997cdf1cf03fae..3de485abd8fc274b361cd17
->>>> a00c
->>>> ab189d8e69643 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
->>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
->>>> @@ -55,6 +55,8 @@ struct v3d_stats {
->>>>    	 * job queues, even the write side never is.
->>>>    	 */
->>>>    	seqcount_t lock;
->>>> +
->>>> +	atomic_t reset_counter;
->>>>    };
->>>>    
->>>>    struct v3d_queue_state {
->>>> @@ -203,10 +205,8 @@ struct v3d_dev {
->>>>    	 */
->>>>    	struct v3d_perfmon *global_perfmon;
->>>>    
->>>> -	/* Global reset counter. The counter must be incremented
->>>> when
->>>> -	 * a GPU reset happens. It must be protected by
->>>> @reset_lock.
->>>> -	 */
->>>> -	unsigned int reset_counter;
->>>> +	/* Global reset counter incremented on each GPU reset.
->>>> */
->>>> +	atomic_t reset_counter;
->>>>    };
->>>>    
->>>>    static inline struct v3d_dev *
->>>> @@ -233,12 +233,6 @@ struct v3d_file_priv {
->>>>    
->>>>    	/* Stores the GPU stats for a specific queue for this
->>>> fd. */
->>>>    	struct v3d_stats *stats[V3D_MAX_QUEUES];
->>>> -
->>>> -	/* Per-fd reset counter, must be incremented when a job
->>>> submitted
->>>> -	 * by this fd causes a GPU reset. It must be protected
->>>> by
->>>> -	 * &struct v3d_dev->reset_lock.
->>>> -	 */
->>>> -	unsigned int reset_counter;
->>>>    };
->>>>    
->>>>    struct v3d_bo {
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
->>>> b/drivers/gpu/drm/v3d/v3d_sched.c
->>>> index
->>>> 4adbf5175eb005b37d1feac1514150630ce6aab2..de6497741ff789b5de9212a
->>>> e3e9
->>>> 941a13cd0475d 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->>>> @@ -701,8 +701,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
->>>> *v3d,
->>>> struct drm_sched_job *sched_job,
->>>>    			  enum v3d_queue q)
->>>>    {
->>>>    	struct v3d_job *job = to_v3d_job(sched_job);
->>>> -	struct v3d_file_priv *v3d_priv = job->file_priv;
->>>> -	unsigned long irqflags;
->>>>    	enum v3d_queue i;
->>>>    
->>>>    	mutex_lock(&v3d->reset_lock);
->>>> @@ -717,11 +715,8 @@ v3d_gpu_reset_for_timeout(struct v3d_dev
->>>> *v3d,
->>>> struct drm_sched_job *sched_job,
->>>>    	/* get the GPU back into the init state */
->>>>    	v3d_reset(v3d);
->>>>    
->>>> -	v3d->reset_counter++;
->>>> -	spin_lock_irqsave(&v3d->queue[q].queue_lock, irqflags);
->>>> -	if (v3d_priv)
->>>> -		v3d_priv->reset_counter++;
->>>> -	spin_unlock_irqrestore(&v3d->queue[q].queue_lock,
->>>> irqflags);
->>>> +	atomic_inc(&v3d->reset_counter);
->>>> +	atomic_inc(&job->client_stats->reset_counter);
->>>>    
->>>>    	for (i = 0; i < V3D_MAX_QUEUES; i++)
->>>>    		drm_sched_resubmit_jobs(&v3d->queue[i].sched);
->>>>
->>>
->>
->>
-> 
+> Cc: stable@vger.kernel.org
+> Fixes: b139c80d181c ("drm/msm/dpu: Add SA8775P support")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> ---
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+Konrad
