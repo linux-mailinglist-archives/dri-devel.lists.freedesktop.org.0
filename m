@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2Kj7DyjgqWm4GgEAu9opvQ
+	id ULzaCSrgqWm4GgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:28 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8174217DAD
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90CE217DB4
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 20:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16F010E23E;
-	Thu,  5 Mar 2026 19:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C985810EC70;
+	Thu,  5 Mar 2026 19:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B7MIKuyX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AY8lLLNK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC47110E23E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 19:57:22 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-439c4bde55cso1884443f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 11:57:22 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFE210EC70
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 19:57:25 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-439c6fc2910so1722297f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 11:57:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772740640; x=1773345440; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=idzPl1oHysl6/8oMk349FHdQyMf3W5G+eL7EEdW/pbc=;
- b=B7MIKuyXSnrutUGSAsVx6vnZ7f08/tvAcPOk5ETOWtb57PFQfkrsrqHzmvKGb6zrtA
- OqnGdbe81hJohT0aJMSs2k/GHxmrElXNwbnwQadyiy8rJnywqeRj4blx8qX+Gqq68c1E
- UGE3ta9TMRGIek1guad9wtQfLySlRfi04TrZv4DdKPbwOLJ3RAvR0/zBUmZGcGVezFCu
- 8R6Vh4D97nkz8bUoMiSs/s+wMwYDriommBAdIg3CQiu9ZQx4KePKkCGenwu31xouSyV3
- RjsSr/PnrR0e+Wa0SAhBOx9DyoSAUUafkO6y1IpgfEiAU4/P91eg75O0DSXjzsXLwRMW
- noSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772740640; x=1773345440;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772740644; x=1773345444; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=idzPl1oHysl6/8oMk349FHdQyMf3W5G+eL7EEdW/pbc=;
- b=mDKaHHg9VeaaQDB1ujYiYqohtXZR5DH48oTjyzYMXnk1aywV423YiacAKGDOniu78b
- 05jNiAW/wWWWFwfu6ozFQK6elexrRiOwCHiAT7hvtC+pdbk1RJE5xMjLhmjHm5Js+blm
- 9MgDBqqJkOwoqfzEMnwv9yjKPDWmomZ8L+BWW9MBV+4k5PlkLnu+IJNONB5qoJ9Yt3dk
- vxLVQM4YD7JRLoPJvcDCTbx2/M4siuOFrTywwh+bZ+0KqgWaAWo3L15EIv4v4SSCIrTx
- ogZam9KSQ3yf4aLkqq6dCj9FQloy0Efdox+d1l7+gFrcVAWeSFlBix+Wug21rPm5RUK/
- oRnA==
-X-Gm-Message-State: AOJu0YzzHeNxSh4zGoWxAeYHgEy487ICJIpzRtRVNX3YrCTa3BI+kdGv
- HSaZCpRYR3vCG/4nLrEFHPkwvN/70hXTxQ+PTJZl2PX82RuwzlmekxVsc2AJ9RZ3
-X-Gm-Gg: ATEYQzzhQMqQ1jXbMWoTTU3cOEvMeDBS6RNH2ij26ZYO7wX/6d1GC2GagrK3OXg/xYm
- R6pNYOTxnGJc/8pA7hFu9+jsbIr3iKtvirc4r5wdDDsAcoR/Nuzd6fPfEzj5PoDplROaIaS6gSm
- 77TnUDvLIqdqJ9/0PaTJ5qG57zjSdN0RT/mESDYwmUmy4GKwd1dBeQ3YIPyzAEoTiKfkjl7gsff
- BqcGr1zzw7gzi3nqusTHWTJEhxHB86tZSj/tnq+yOYP57nafu8+gYmgNNhgGST5EhJWkk4u0xRu
- EiPbDmdcqwqEKhZR7+DND2ruBnJcx/2Q4DKXywD8V05ImwkFM7W8w5gqHuNmJRt5PE8zsN11+V1
- eBOk+TdKIhMj1sDSLoBGLmk5rSXhByLUQFcL0M/zaHSfwjdvtawpaLbuSUS+HdF9GD4oazzxjwA
- XcFeANAF0dcv2RKB8O58GQTKP/bchqlA==
-X-Received: by 2002:a05:600c:1d0c:b0:482:df17:bbbc with SMTP id
- 5b1f17b1804b1-48519874e2amr112904215e9.20.1772740640050; 
- Thu, 05 Mar 2026 11:57:20 -0800 (PST)
+ bh=ZtSz5l75Rw6ZqIXeFcoTcvd2i9c8nNbyLRXNmlkxqoo=;
+ b=AY8lLLNKoIdu5G9mIWGEki97+8WkJMzuLj2jYMy2y58qkc9YcYmEqqjpOSF0VM9Ud4
+ /nuO82MXYaLt2UuofgPefPw7EDjffU4BkCdQsOpCe29AxQURutvuTfdAUeQUS5JQLeG2
+ BmONuc1odE7Zi3cSBnKjrfEj437nobomfD7QoRf2bDqSHH7ORU5gNiDLi4yH6T3BXGO2
+ CHGKjnLDcHpLZ4XGd4ltySir20PwSTBvM9pBOtDFDDZbChC4HutwdMOALNLPslP9dI0e
+ 6bYFIJkMgUpkEXFHumYaKJDbDBVmcgs+9YlbtzflkGQQSjOgAXBUWaEUUVBT7tpjx0xO
+ YTjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772740644; x=1773345444;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ZtSz5l75Rw6ZqIXeFcoTcvd2i9c8nNbyLRXNmlkxqoo=;
+ b=Idh0XZ5HDZxykgR95VHAeGdi1KDWhPp1pt3ebSdjl8M6qMPmf2YK9quVALwKi0NeJ+
+ At/bx1uu01/1GMmakaImZMYeQg5b1fIvcuIKd5nSbrW1RFqbTaROa6mO8JXu1yQP6tZe
+ ViwsCldNCxJfHspHoF1xPfLUMrLjODsKNcxsicA+mJgfrZKbpndcHcC/8kfTOwCFHsS3
+ j0YWHwykolvY1L3lNjbaNera6AwRPEG2P7NgnTUvsIfOKBwWzspRiRizw9HELx75cGzx
+ xBBIqd1Jl1JlSDkfC0XlCWvZTXDlvTAI7ckIMT+1kVFiiLtcsLxDgEvnKkzeoQ7mZFiU
+ Fvcg==
+X-Gm-Message-State: AOJu0YyIf8HvE9hspEo5uCsxH2LNxF5mfCkSd1t6+3+jfh9bSbXpBVTm
+ rj3HxLm0Ptk+o/SwPkpJ1cE2N8A/953IoScrzUKHp+qDxpPsL3yqL9A1oyh76L0f
+X-Gm-Gg: ATEYQzxvMyZWeJ6sIiDOflQK3QHyIfLzHgtYTNT969hzd9PNih57+xOWsiHztoXyFVF
+ u7Xoj/YxYQVHQWpDteF/qP9i4wsiSCmWL0ap2mOabbIgeXV0STJbnqMaVScMHIhCLg6Dzj53gRv
+ LG/4hwvCdaWW+M0uOY7Q6mTUmVQfq45QBBAI8wAdm30T8iWvTrcCd8I2HRNV6w2Mn8qUZVpLdU0
+ 9Dbez9BFq3IYOQpW3qB3oGHLgk9mrJJUAgwtWxQhTsLCZg7AtfUS7KXyT0v1DAG4SCzRZ+s5jCF
+ jiFWJPxzeTmTQC9MoI+UzebceU6Or3tLrP7M5j9YTMR/sJVNAmcpcPiVzK55x4vgi4oMc0DSL+n
+ jOGOOe4PhSg0+po8iF8KpIjfHAbD+IPypOJReZNrgWXRMymNfEwy6pQQoXng0TK5mnOlFoASEUX
+ JzW/rOmNxv28ybNlruCws=
+X-Received: by 2002:a5d:5f85:0:b0:431:8f8:7f24 with SMTP id
+ ffacd0b85a97d-439d72595bdmr1734488f8f.39.1772740643877; 
+ Thu, 05 Mar 2026 11:57:23 -0800 (PST)
 Received: from luca-vm.lan ([154.61.61.58]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439bb686a32sm26974297f8f.13.2026.03.05.11.57.18
+ ffacd0b85a97d-439bb686a32sm26974297f8f.13.2026.03.05.11.57.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 11:57:18 -0800 (PST)
+ Thu, 05 Mar 2026 11:57:23 -0800 (PST)
 From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>, Jagan Teki <jagan@edgeble.ai>,
@@ -77,10 +78,13 @@ Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>, Jagan Teki <jagan@edgeble.ai>,
  Marek Vasut <marex@nabladev.com>, "Kael D'Alcamo" <dev@kael-k.io>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Add support for Zhunyi Z40046 LCD panel
-Date: Thu,  5 Mar 2026 19:56:29 +0000
-Message-ID: <20260305195650.119196-1-l.scorcia@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: display: panel: Add compatibles for Zhunyi
+ Z40046
+Date: Thu,  5 Mar 2026 19:56:30 +0000
+Message-ID: <20260305195650.119196-2-l.scorcia@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260305195650.119196-1-l.scorcia@gmail.com>
+References: <20260305195650.119196-1-l.scorcia@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,7 +101,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C8174217DAD
+X-Rspamd-Queue-Id: C90CE217DB4
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -136,25 +140,43 @@ Fitipower JD9161Z DSI controller found in the Xiaomi Mi Smart Clock
 x04g, apparently in two different variants.
 
 The Fitipower JD9161Z LCD driver IC is very similar to the Jadard
-JD9365DA-H3, it just uses different initialization sequences. A
-partial data sheet is available at [1].
+JD9365DA-H3, it just uses a different initialization sequence.
 
-The two initialization sequences for the panel have been extracted from
-Android original firmware for the Xiaomi Smart Clock.
+Since this is the first supported device from this vendor, document its
+name to the vendor-prefixes.yaml file as well.
 
-Variant v1 tested on device. Variant v2 not tested.
+Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+---
+ .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml   | 2 ++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml          | 2 ++
+ 2 files changed, 4 insertions(+)
 
-[1] https://github.com/QuecPython/QuecPython_lib_bundles/blob/master/libraries/LCD/JD91651z/JD9161Z_DS_Preliminary_V0.01_20180803(1).pdf
-
-Luca Leonardo Scorcia (2):
-  dt-bindings: display: panel: Add compatibles for Zhunyi Z40046
-  drm/panel: jd9365da: Support for Zhunyi Z40046 panels
-
- .../display/panel/jadard,jd9365da-h3.yaml     |   2 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 308 ++++++++++++++++++
- 3 files changed, 312 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+index 5802fb3c9ffe..da17072ffaaa 100644
+--- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
++++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+@@ -23,6 +23,8 @@ properties:
+           - melfas,lmfbx101117480
+           - radxa,display-10hd-ad001
+           - radxa,display-8hd-ad002
++          - zhunyi,z40046v1
++          - zhunyi,z40046v2
+       - const: jadard,jd9365da-h3
+ 
+   reg:
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index ee7fd3cfe203..18121440dc22 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1913,6 +1913,8 @@ patternProperties:
+     description: Shenzhen Zkmagic Technology Co., Ltd.
+   "^zte,.*":
+     description: ZTE Corp.
++  "^zhunyi,.*":
++    description: Shenzhen Zhunyi Technology Co., Ltd.
+   "^zyxel,.*":
+     description: ZyXEL Communications Corp.
+ 
 -- 
 2.43.0
 
