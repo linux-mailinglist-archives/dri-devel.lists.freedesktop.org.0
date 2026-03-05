@@ -2,172 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELeID1pWqWli5gAAu9opvQ
+	id aALDBDVXqWkh5wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:09:30 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A76220F6DF
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D28120F7CF
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 11:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63E910EBEE;
-	Thu,  5 Mar 2026 10:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1263210EC1A;
+	Thu,  5 Mar 2026 10:13:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K6gHhqjo";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zHIuD0Ch";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oUxfee7m";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zHIuD0Ch";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oUxfee7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD9A210EBED;
- Thu,  5 Mar 2026 10:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772705365; x=1804241365;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=FRNPJDTkoWrXVh/nut8dBZKWYoUwg5KQgZtzit88ivQ=;
- b=K6gHhqjoiWPT53mTc6vwK8CD1AfE+N56PxXDQWGeFQJ44/zqBg3hNmH2
- Awr+mBVLnC7Cg2356ZxMsmATuLnNsffAU9UjWFJtqEbnFCip1XtrgauZF
- pjpDFZFxKtoylWT2u/0YAMlsx0vmxXrP9gaJufP/50upFo1Bu/+cPfe+i
- 8EO5iT5Ue1StriYg8mTJpJMNhndq7YT31N4panc0eRnT52Ytkq/F735LW
- gHmfU3fDrbQS/JZcfroK+IN+aFnQfOgxQ5oSxm8kvX89KLNT+xjPD/nl8
- LjDTENGvpayPr1jDPb5wESPdR1FKIIxNCK2q0Ogv2IVdD6DrGIHNcNVW9 w==;
-X-CSE-ConnectionGUID: IXLeLIoJQaC38TB8lgYhGg==
-X-CSE-MsgGUID: xB7NJIeYRj6sUjIEE9Ov+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77633351"
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="77633351"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 02:09:24 -0800
-X-CSE-ConnectionGUID: WUFyZFX8QLeHF71zMMnpTQ==
-X-CSE-MsgGUID: 4CZ2CSn4T66eDztlLN59qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="218640397"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 02:09:23 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 5 Mar 2026 02:09:22 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 5 Mar 2026 02:09:22 -0800
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.35)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 5 Mar 2026 02:09:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BV0UMrBTbhRsenf3VquxdWMGiDm+JzdfaObsR9L8mzOCH6QS2vBBue6bEoizkUjnH68QbEQYhg9IftukAgE3RNLrjCxhua3R4r//+Arr1xEl1U5qOl8xINFuSjxPzRwdRBOUAFuz2xZzX/AJqYpZ9vWcTl0ugLHH3Z3YpFDx0cpGZqnDg9tNl5dj6cFbwyGJsn2+J8i4Z20RCDvyAFXJOVta5cX9+9DVXb3x4oomBkkDytQzh84oLFVu2A6Xa41j64XT4ObPn8l5fH0dQnl+4stkaq2XxOFDwrYHks2zzsUqRwq4FpkcxbS51SE/O88BjIHxSHxkD5h92tiNogdVjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zpbTldBJl5aq8/DM5/ZEETSjCFKAp4D9+uy/4/7b5X4=;
- b=VVu/LPRtqpxhy4lKCzAkBnJ67LJ+6bUjSJ559ests+1olsUbdsB3dsKKNUwpVOoEZs7SN74i6FajnK1/n0d4zR5/KIRFoqzyxbGNZc8DH+RR6mB9ZhsV+dNt2usRgC9ZqVrFf/FBE3r6rbRxASkWrAb8Pv4FjVeXwnfxoCVpjBDd10WJWhW487ppoJPQR5ZiVkJKicX1SXr6C9NhJh6SXRkW2aNMS90kNr9V1rY/Rfz3fJAUce7nLqRFULjChIAvLOl+fBSLADqwHjvsUjXYTb/OpxuvQ026jaBc412JxRfROodEZIrcl+tgzmVzEVLVfo4rJJ4mBLZ4qo084xFhFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SN7PR11MB7466.namprd11.prod.outlook.com (2603:10b6:806:34c::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Thu, 5 Mar
- 2026 10:09:19 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%4]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
- 10:09:19 +0000
-Date: Thu, 5 Mar 2026 02:09:16 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-CC: Chia-I Wu <olvaffe@gmail.com>, ML dri-devel
- <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>, "Steven
- Price" <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
- =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Thomas
- =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, open list <linux-kernel@vger.kernel.org>,
- <tj@kernel.org>
-Subject: Re: drm_sched run_job and scheduling latency
-Message-ID: <aalWTOZSNYcKpvdd@lstrano-desk.jf.intel.com>
-References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
- <aajkqXZDGUFPlq1o@lstrano-desk.jf.intel.com>
- <20260305092711.20069ca1@fedora>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260305092711.20069ca1@fedora>
-X-ClientProxiedBy: BYAPR21CA0028.namprd21.prod.outlook.com
- (2603:10b6:a03:114::38) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB1510EC1A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 10:13:03 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2CBFA3F279;
+ Thu,  5 Mar 2026 10:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772705582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
+ b=zHIuD0ChHrz40sZQW8g1kMH1XmLsdpNHitQMYHeJBSEcuVkCcVgL19D2/EoG8OOjYnCQEP
+ 2N1KPnY56TR3r6aOJ1ctS2KfIoBRLAgQNQU++7HFG+/LGCJ26w0HgTTf5/hfmw0HpTOmSi
+ d/e9D61ZsgX5lvb22VMPyRNO93kOils=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772705582;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
+ b=oUxfee7m7UdC14rDttNErZezryqnJZKOZzG6EfWknNOCduRW1ZHCYKk05jFqWIAGOZThAO
+ sWp6inITOp+TriAw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zHIuD0Ch;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oUxfee7m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1772705582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
+ b=zHIuD0ChHrz40sZQW8g1kMH1XmLsdpNHitQMYHeJBSEcuVkCcVgL19D2/EoG8OOjYnCQEP
+ 2N1KPnY56TR3r6aOJ1ctS2KfIoBRLAgQNQU++7HFG+/LGCJ26w0HgTTf5/hfmw0HpTOmSi
+ d/e9D61ZsgX5lvb22VMPyRNO93kOils=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1772705582;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fUbEWKbsdfGyxxQWAoT5+wYwgLJH0zY8laZ6uwxKjtQ=;
+ b=oUxfee7m7UdC14rDttNErZezryqnJZKOZzG6EfWknNOCduRW1ZHCYKk05jFqWIAGOZThAO
+ sWp6inITOp+TriAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E12963EA68;
+ Thu,  5 Mar 2026 10:13:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id bDuVNS1XqWnqXQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Mar 2026 10:13:01 +0000
+Message-ID: <4ebfbaf0-63dc-4dff-a9b8-15d91f4a232e@suse.de>
+Date: Thu, 5 Mar 2026 11:13:01 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SN7PR11MB7466:EE_
-X-MS-Office365-Filtering-Correlation-Id: 760a7b2a-743f-415c-b853-08de7a9f440a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: GRdjmZ0s/WtS62Rfr8LBfZFNXqNvPlS7PSDhSW22v1gKTPa+pditWUNXFpIVVzqQ6iYf3gv5qwvyBkK/aiHg+AY8anGyt017erVxLFW5pX+K8NrhY9q00c4WFIUZKKxdrCB9DLb/P6Nmk8bL3oRWr2VnXYcvjAGhxEcC3TZJk+yNHteUOvYmAQuJZiXYtDCiT6iJrjJpt/b4dL8qj2MwkvoFnr18hM3oBWOJPJkMIeflTE7xL6m6Ri6G8HPwL0BFAgC7VApUJOUOsBitULQu1NiAylw7e8Z7HP/t4gX1QVuR5Wub/F/eCAu3kuPWdmWT2UNJ5M+hffw1sBHsOSv//4w6p+EB+SlGubqKp72xo9pv5G/vOGohOV54jHwsN9KINtk9spqziUHxAUsS2lWdHuR1sVg0J6miAw0b8CP5pUwL1HV93u45qrmgElWAqiXwEV57t6HIO4nyPJBH/seSWjSJ8GdcxMogdZ03Oev1n7ass+Ioa5Gp3SdrcVkUJWZgZG7y2Lfd1NRYZ+9RKjAzaPtjTwSiU/2Anj3LJLvc2iAUKmcTcP2wXEiH3WYb3U8XA6rcTDEBk2QmQ/d4ksab7hiz6eQJshbkXT9J6ZkJyAMuBwnH7UWynEQ7DZmnfp7H54lFBTwfOZla1i31iP6foFScxFlmFMpMXHCJO3SSaAR/H5mvYnWRCE+wSM6cWdWPFeSKCCDlmsZG/6MRRcr0DgWX7XQBbxr6VCJ616SC4js=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDdBbDdyamM1Wnh2UE1tM0tPb3VjKzJQREl6WmhOWnlVQXVEMzk5N29OM2JO?=
- =?utf-8?B?eUFjSExYSlZNWlNzTDV6N3FFVEppSnZRSllrVHlSVXJvS0JJdEw1SDZGOTE5?=
- =?utf-8?B?Vk1jck1rTnZPTHFjRGhsVXgzdElQdkVjTHUrVGxWaTBZLzh0aDFrOTl5MG5n?=
- =?utf-8?B?WWxBQXVYelBBNEZuSlVObTMvV2lnWW1FQmtiSmw3UjJ3SGwrWTN1QnNScWhj?=
- =?utf-8?B?MGNGN1k1aEFNcTZiSW16cDRjU3h6SHhEbmZ5MkJKN2hyVk9RWjYrNzUzcUlJ?=
- =?utf-8?B?cjYrdGdUSnJRVDBMVHpTcm1qYk1YZTZPNFpPOFFheXZSTXphQ3dPdVZBWkN4?=
- =?utf-8?B?dUxFY2dXSHFIVVRpRkZ5Wm9XQmlOREVLQ2ZhVm1KUW1zY1grQ3pzaUExVTUx?=
- =?utf-8?B?dzhlWlF6OEpJODNuVm5lajA1SEtjZU55UGdLdlFoNVdzRGE0WEx3QkcwdmZ0?=
- =?utf-8?B?em05U3g1WU1DcTVxTEtNVm1GQVRCaVlvMC9kbDFuYVdGemZBc1lHZThYUW0y?=
- =?utf-8?B?L0srQlJtOG9yS3B5dlpraUphVTZRbk9vRjMrMDE0K3ljYk40bjZwVDNCdGxt?=
- =?utf-8?B?K3JLYlZSenNlNy9ndWorQTgydFVRVkluK2NrdjNnSlJyTzBQem03S0U4eGNW?=
- =?utf-8?B?dXQrRUQxeDFaYkNZRmZIaG53cVRNa3hzM3IwSDBtRG4wVlNzWmp0ZElsa0hB?=
- =?utf-8?B?Rjl3V2Q3WjBMK0lRUGROdVRBanlyZkg3TTN2K2J0S201WWFCbTVHcXRUWExR?=
- =?utf-8?B?YXVtQWdNbmFRWW1aWFdEUGJYeEluOVZoM2N0RmcrcWI5czRwMXBGRnVCTGxo?=
- =?utf-8?B?OWJySkg5U0toMHB6ZzFtN2NCQnl5aENtSURFcU1oT2dMbnZjZjN3dFpRcmFR?=
- =?utf-8?B?UEtrVDg3Tms4bnYyaUduZThvSDIxWGF0ZmlOb2pvUVFacW5vcm0zbENHQnc3?=
- =?utf-8?B?M2Z5Y2JGcldPelBzSFJRa3h5YjdwNUJaNnl0YlRmNU45UVpEdmVuYnFiY016?=
- =?utf-8?B?WFMzTmlZVkhSQ1haTDVOVjZRb0hGanZvUW8xUGJaT3AvUHIzN1g5TUQrS1dh?=
- =?utf-8?B?a29zVmE0dnNWM1JENkZ0aVRDRzhUSGgrc1lvb3crQ2RIb015c3BQcWl6U3Ry?=
- =?utf-8?B?eG1wdFhZWnZsYklmbU9OOVhKN1dkaHVIdU5HSVJodis3WUxUUDRwM21sMm04?=
- =?utf-8?B?bTJJcmw2T0pNWmZGbThOdFREZjNYdW44Z3BJVFRmT1lRcW1pY08vT2ZzOFFM?=
- =?utf-8?B?eUpQZFlTNVBGaXpBcmN4WHFsckYzc1ZtWExSbmg5ZWQ2ZWRZT0YzNFdhNGZv?=
- =?utf-8?B?VkdET3AxWDdEVTBiQzVtcllkUGVYRVdDMkV6eXRjRGF6TVg5WTczT2JFYVh6?=
- =?utf-8?B?ajlVYXlSVGNveVE4ajcwcStxQVNqblJqTEJtMXZ1YXNZTEFzSllCQlo4MXRh?=
- =?utf-8?B?VkduWll2QURyamE5MHpZdmxzNFZ2M29HbjdlZnQwN1JTK2lta21teG5VUnFq?=
- =?utf-8?B?SW5aVnhtYTBITWlkTzhibHVucEt6VE9LWW5YM1NLaTlIb2oyd0tZTlpZSFlu?=
- =?utf-8?B?RFBRaXVneWNnRkpEMFZyRHhSUmI2SG5CM3VkSzZRaFNlQUhqK282YkpxZUNW?=
- =?utf-8?B?OHpWUmR6UzhoK3cvWFdWb24rc2Nzb1ZtQXloOWJZODNITlJyRUM5UnJoWE5Z?=
- =?utf-8?B?dkNoNjNoUnhNTXVRNnBMT0NwcWFzNmdzbWM4SHdiSnJrZUxnNUZZT24rRnNN?=
- =?utf-8?B?SURUQ0RvaDA3bkhxT05nSXpZSG5rU05kL0drenFWek9SN1lvajRiZitLTFRr?=
- =?utf-8?B?d1MwZE4xZTNQVW9NL1NlcGNkbmcxZXIrVzYxSzdkTTQyL3ZBdlR3bHI2ejRq?=
- =?utf-8?B?YXV0NFo3SkF3QUtHSktvQlU0SzlRaUN3b3Q5TjhlRDhuSVJBSWlIZGF2cnpZ?=
- =?utf-8?B?MjZPWVp0QlFkdlpOemh3enUrenF2TW83aXR4cnplZDNQZDBLVnhIbFBQZnRC?=
- =?utf-8?B?NEZXZkxJSlJ5ZkF3bGMxaHdaRWRWR01oSGJhUlBNL2JLZzhzTXo0WWdLek90?=
- =?utf-8?B?YVBtZDRJL3A1eE53SVFKYTdFa0dLSWpFRi9maytMa1BBOE5Kek03TlF0R3JY?=
- =?utf-8?B?L2k3UlZ0Vzd0M3BTRC90cXZLMi9UMzBRS1BTUDA4SkxJVHY0UjQ3SjdEUXFy?=
- =?utf-8?B?YlRRWllCNlcrRnV6NFB2WGpkT3JUTVBtdEJWYmp0ZEpsVlVJZHlwaUpjTm1R?=
- =?utf-8?B?bjlkN0JWM2RSTnZEQ2pnTXRlZkkxWFhqMWhGNEhFLzVqMGd0aXRCbnR1aUJ3?=
- =?utf-8?B?RVN1RUxHZkFndXFxMjkxS0Zld0lTcGpRYklaS3pNK3dFYi9zc0RDTlluNENp?=
- =?utf-8?Q?vRzbzHwd1smA6Je8=3D?=
-X-Exchange-RoutingPolicyChecked: ii4R+sG4pdH5++p7Uitk8iJe5t92usXxjPdFpoldzv2IiDYgcKJ6Ac4h4OThj57T5G2X/NUnTAaC54UqFPfFThNRbfZ7TLgSRQHnqQlbPjdJd093dQlt73IYKd4FCPA9hKJmLFta5qAEXC442NmBjk8DzmqEdyLGqfcsfQ5tzz84XCT97lvLhEuk0o5To0w0dl8HiwlNJWrwpDyxmz0VJ4jSI0/9tAxGPCxNxnLwc0oT+D9WJxrTAdQ1xPRJMPsHE6TT92WMEr69sEi/w7b/Fh2ofU58E2bWgYjxF3nfwbRlx7U56ezzKME2guKWCiOAi5QYKRSoDsRkdlrx7IWGNA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 760a7b2a-743f-415c-b853-08de7a9f440a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 10:09:19.4404 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7lDsv/3Jd8y8NLLHSztnr7p2BuMuB2SIpJFHz9+NUrzwFN0xaAAErGnivksy9FEA8BWM1f9Fh/nMCPUru+h+hg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7466
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-misc-next] drm: verisilicon: use ERR_CAST to cast
+ error pointers
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>, kernel test robot <lkp@intel.com>
+References: <20260305081705.3671499-1-zhengxingda@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260305081705.3671499-1-zhengxingda@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,155 +137,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 8A76220F6DF
+X-Rspamd-Queue-Id: 6D28120F7CF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,intel.com,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,m:lkp@intel.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,iscas.ac.cn:email,suse.de:dkim,suse.de:email,suse.de:mid]
 X-Rspamd-Action: no action
 
-On Thu, Mar 05, 2026 at 09:27:11AM +0100, Boris Brezillon wrote:
 
-I addressed most of your comments in a chained reply to Phillip, but I
-guess he dropped some of your email and thus missed those. Responding
-below.
 
-> Hi Matthew,
-> 
-> On Wed, 4 Mar 2026 18:04:25 -0800
-> Matthew Brost <matthew.brost@intel.com> wrote:
-> 
-> > On Wed, Mar 04, 2026 at 02:51:39PM -0800, Chia-I Wu wrote:
-> > > Hi,
-> > > 
-> > > Our system compositor (surfaceflinger on android) submits gpu jobs
-> > > from a SCHED_FIFO thread to an RT gpu queue. However, because
-> > > workqueue threads are SCHED_NORMAL, the scheduling latency from submit
-> > > to run_job can sometimes cause frame misses. We are seeing this on
-> > > panthor and xe, but the issue should be common to all drm_sched users.
-> > >   
-> > 
-> > I'm going to assume that since this is a compositor, you do not pass
-> > input dependencies to the page-flip job. Is that correct?
-> > 
-> > If so, I believe we could fairly easily build an opt-in DRM sched path
-> > that directly calls run_job in the exec IOCTL context (I assume this is
-> > SCHED_FIFO) if the job has no dependencies.
-> 
-> I guess by ::run_job() you mean something slightly more involved that
-> checks if:
-> 
-> - other jobs are pending
-> - enough credits (AKA ringbuf space) is available
-> - and probably other stuff I forgot about
-> 
-> > 
-> > This would likely break some of Xe’s submission-backend assumptions
-> > around mutual exclusion and ordering based on the workqueue, but that
-> > seems workable. I don’t know how the Panthor code is structured or
-> > whether they have similar issues.
-> 
-> Honestly, I'm not thrilled by this fast-path/call-run_job-directly idea
-> you're describing. There's just so many things we can forget that would
-> lead to races/ordering issues that will end up being hard to trigger and
-> debug. Besides, it doesn't solve the problem where your gfx pipeline is
-> fully stuffed and the kernel has to dequeue things asynchronously. I do
-> believe we want RT-prio support in that case too.
-> 
+Am 05.03.26 um 09:17 schrieb Icenowy Zheng:
+> Previously I used ERR_PTR(PTR_ERR()) to cast error pointers, but the
+> kernel test robot points out that there's a macro called ERR_CAST that
+> could do this.
+>
+> Switch to this macro in the code.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202602242000.bQ0qN6AC-lkp@intel.com/
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 
-My understanding of SurfaceFlinger is that it never waits on input
-dependencies from rendering applications, since those may not signal in
-time for a page flip. Because of that, you can’t have the job(s) that
-draw to the screen accept input dependencies. Maybe I have that
-wrong—but I've spoken to the Google team several times about issues with
-SurfaceFlinger, and that was my takeaway.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-So I don't think the kernel should ever have to dequeue things
-asynchronously, at least for SurfaceFlinger. If there is another RT use
-case that requires input dependencies plus the kernel dequeuing things
-asynchronously, I agree this wouldn’t help—but my suggestion also isn’t
-mutually exclusive with other RT rework either.
+> ---
+>   drivers/gpu/drm/verisilicon/vs_bridge.c | 2 +-
+>   drivers/gpu/drm/verisilicon/vs_crtc.c   | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge.c b/drivers/gpu/drm/verisilicon/vs_bridge.c
+> index 2a0ad00a94d6d..beebcab37ea48 100644
+> --- a/drivers/gpu/drm/verisilicon/vs_bridge.c
+> +++ b/drivers/gpu/drm/verisilicon/vs_bridge.c
+> @@ -322,7 +322,7 @@ struct vs_bridge *vs_bridge_init(struct drm_device *drm_dev,
+>   	bridge = devm_drm_bridge_alloc(drm_dev->dev, struct vs_bridge, base,
+>   				       bridge_funcs);
+>   	if (IS_ERR(bridge))
+> -		return ERR_PTR(PTR_ERR(bridge));
+> +		return ERR_CAST(bridge);
+>   
+>   	bridge->crtc = crtc;
+>   	bridge->intf = intf;
+> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c b/drivers/gpu/drm/verisilicon/vs_crtc.c
+> index f494017130006..3685819e02505 100644
+> --- a/drivers/gpu/drm/verisilicon/vs_crtc.c
+> +++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
+> @@ -172,7 +172,7 @@ struct vs_crtc *vs_crtc_init(struct drm_device *drm_dev, struct vs_dc *dc,
+>   	primary = vs_primary_plane_init(drm_dev, dc);
+>   	if (IS_ERR(primary)) {
+>   		drm_err(drm_dev, "Couldn't create the primary plane\n");
+> -		return ERR_PTR(PTR_ERR(primary));
+> +		return ERR_CAST(primary);
+>   	}
+>   
+>   	ret = drmm_crtc_init_with_planes(drm_dev, &vcrtc->base,
 
-> > 
-> > I can try to hack together a quick PoC to see what this would look like
-> > and give you something to test.
-> > 
-> > > Using a WQ_HIGHPRI workqueue helps, but it is still not RT (and won't
-> > > meet future android requirements). It seems either workqueue needs to
-> > > gain RT support, or drm_sched needs to support kthread_worker.  
-> > 
-> > +Tejun to see if RT workqueue is in the plans.
-> 
-> Dunno how feasible that is, but that would be my preferred option.
-> 
-> > 
-> > > 
-> > > I know drm_sched switched from kthread_worker to workqueue for better
-> > > scaling when xe was introduced. But if drm_sched can support either
-> > > workqueue or kthread_worker during drm_sched_init, drivers can
-> > > selectively use kthread_worker only for RT gpu queues. And because
-> > > drivers require CAP_SYS_NICE for RT gpu queues, this should not cause
-> > > scaling issues.
-> > >   
-> > 
-> > I don’t think having two paths will ever be acceptable, nor do I think
-> > supporting a kthread would be all that easy. For example, in Xe we queue
-> > additional work items outside of the scheduler on the queue for ordering
-> > reasons — we’d have to move all of that code down into DRM sched or
-> > completely redesign our submission model to avoid this. I’m not sure if
-> > other drivers also do this, but it is allowed.
-> 
-> Panthor doesn't rely on the serialization provided by the single-thread
-> workqueue, Panfrost might rely on it though (I don't remember). I agree
-> that maintaining a thread and workqueue based scheduling is not ideal
-> though.
-> 
-> > 
-> > > Thoughts? Or perhaps this becomes less of an issue if all drm_sched
-> > > users have concrete plans for userspace submissions..  
-> > 
-> > Maybe some day....
-> 
-> I've yet to see a solution where no dma_fence-based signalization is
-> involved in graphics workloads though (IIRC, Arm's solution still
-> needs the kernel for that). Until that happens, we'll still need the
-> kernel to signal fences asynchronously when the job is done, which I
-> suspect will cause the same kind of latency issue...
-> 
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-I don't think that is the problem here. Doesn’t the job that draws the
-frame actually draw it, or does the display wait on the draw job’s fence
-to signal and then do something else? (Sorry—I know next to nothing
-about display.) Either way, fences should be signaled in IRQ handlers,
-which presumably don’t have the same latency issues as workqueues, but I
-could be mistaken.
 
-Matt
-
-> Regards,
-> 
-> Boris
