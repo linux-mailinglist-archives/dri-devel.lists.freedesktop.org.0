@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDEfHxeqqWlCCAEAu9opvQ
+	id INAxEBurqWlSBwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:06:47 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:11:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B8E2151E9
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0872152ED
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE0210EAF0;
-	Thu,  5 Mar 2026 16:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6D810EC2D;
+	Thu,  5 Mar 2026 16:11:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="HwXvKMDF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JXp3K6lg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01DB610EAF0
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 16:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=VURAe1VBJ++jhd1qN9FU3U4sNtpuG6QDqgVP27ujLLQ=; b=HwXvKMDFPKFt/NwsiuXU2mlZnZ
- QWDSk6365MrHNW3TYaw+6EPMeJVIjcF/pnvE2e7iBVGgBLCaJCI0hcokrMxvLp5olfn9x84uGbMy+
- cuFWWWzl5J/mCqXEBx3DBK/EgStY7tVKBdr76PdWtiJahJi/3CGXl6UyeWmk+eyDXNEs=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:42578
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vyBDD-0002QH-SQ; Thu, 05 Mar 2026 11:06:09 -0500
-Date: Thu, 5 Mar 2026 11:06:06 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: "Antonin Godard" <antonin.godard@bootlin.com>
-Cc: "Frank Li" <Frank.li@nxp.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
- <festevam@gmail.com>, <shawnguo@kernel.org>,
- <laurent.pinchart+renesas@ideasonboard.com>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- "Hugo Villeneuve" <hvilleneuve@dimonoff.com>
-Message-Id: <20260305110606.f24f17ee4f96d7d2b9b08c2d@hugovil.com>
-In-Reply-To: <DGTU9887GHPO.2FUQ3QITRG7F8@bootlin.com>
-References: <20260302190953.669325-1-hugo@hugovil.com>
- <20260302190953.669325-9-hugo@hugovil.com>
- <aaX5E7-3xvkaVV-o@lizhi-Precision-Tower-5810>
- <20260302161545.f6b76209400e8fbe35cd51a0@hugovil.com>
- <DGTU9887GHPO.2FUQ3QITRG7F8@bootlin.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
- *      [score: 0.0000]
- * -3.3 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-6.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 08/14] ARM: dts: imx6ul-var-som: factor out SD card support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB11D10EC1F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 16:11:02 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-439ce3605ecso712018f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 08:11:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772727061; x=1773331861; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k18reyTAC8BmNDz3OVBl9e3+SF3GLnxWQZFfdgkzu28=;
+ b=JXp3K6lgg8RdoiWSLCBbsaO6GV9uFK1tl1/YOvFeVjf5oo5XsNrT4/0v4oWzGxfJfm
+ 25U90/nryG5naPwKd6FsiKjJIiFyQemqjG6ihoLarB48sewAbbNpzRc5beB0drjK6bLK
+ FXhGtmgpJfQhq2V+tzTnxTNfBNQz7GfS/lBT8Q1GY0/u25X4uhqnKw1ulgsnKcNsRbNj
+ O+9LXqJj8oOH6027fg7e3kwV0P1eB/VpMno7uc8PNz1LUVg+4kM+fLdJpjEOw2DT2rP1
+ MFmjTJDaah5XWKCGZGejHSlnq6EL3BCdRf2ivN56srs5zkZ/RIcDhxZiKMZOypBCxuPw
+ 0GIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772727061; x=1773331861;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=k18reyTAC8BmNDz3OVBl9e3+SF3GLnxWQZFfdgkzu28=;
+ b=G5tRsUMFfZ5uFLwz5ZdFixUgVnoXrbl/fc3ZRqu+dfYaocaVfn+klZEXiO/DyHN3r7
+ kZYr+xmrxlTPM6MQP+kIKjCGwoQSO+jQ8jY1YgmJXAdlPfff6+uOha4IMZKQofUhPkYw
+ 47AcEcHEeF7QcLryu0Z18INeCmVR8GtTilqHBTJPmkP/Erv0rHgHQ4edHpBlN3C+fi9t
+ 4tgg8uEalcT1rbUiMJucYgHKiZkdP963a8nd++3MFUvXgIsW5Rp+WNwY02lbGlA8j2/v
+ QNi3f5fTDRbqbqv6g/3b4Xs+e5WC2n0T4n+0h9VhRQYZp4ppJRhewDi5l172opYRtpkS
+ Cobw==
+X-Gm-Message-State: AOJu0YyvBDYFWO8pAvhWk2LSeV5dd88fCmECMBSJR8QwEZN90WGq/vCw
+ 78GlF36FzA2N8r8UsXSLqkkutqc83i41MhwZtAzz4cVXRp6iKgEhcREM
+X-Gm-Gg: ATEYQzyVqO230dQ5LwTA8pf/N6gLeSQT+sPteb1BWSANUlZxWAJyY6zSb5lM09CnsFE
+ yIOoDL4p+3bVZnzGgJeJM4w8dO+aWRrnG+BeiCvjS03a6LArfsQU66NAPrLlu93kBZPbSsFRi9y
+ Y4xBwVmL9LVk6iIscmj0QmP+gqzqAaLMiduAbctN4KY7UuuBwjiiYiMpc9ZFmcM8I2xAXuQ80xq
+ wL2DO+UNEwl+MJDczsw8v2Rz6fe+y/Yy6D7mS/i+iY4MRB0HwSAJNTxlNjKpnHOzcxnR3yzlUmZ
+ GT7vHf1Wj6Bdss/FnwvpKVPEm1gOPehCFBDOgQ1g0EX1piKYLhiftifTvl/paK0aZfDIS0sHuhW
+ MXTl90Q2ed/UaNTqwWh22uycdPUK+i6GqoBnhaTFrmG+7b0HBNlzRG9ICW4tVJ4izWL13dFJF4R
+ X7/n+w3hvNcZPVhMqgtGQ/Mf0=
+X-Received: by 2002:a05:6000:290f:b0:439:ad2d:99f8 with SMTP id
+ ffacd0b85a97d-439c7fffea8mr11452126f8f.30.1772727061010; 
+ Thu, 05 Mar 2026 08:11:01 -0800 (PST)
+Received: from xeon ([188.163.112.72]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-439b8807a4esm31426496f8f.4.2026.03.05.08.10.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2026 08:11:00 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@kernel.org>,
+ Thierry Reding <treding@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] [RFC] drm/tegra: dsi: remove tegra_output_probe use
+Date: Thu,  5 Mar 2026 18:10:33 +0200
+Message-ID: <20260305161035.64548-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,159 +95,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C1B8E2151E9
+X-Rspamd-Queue-Id: 8E0872152ED
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:antonin.godard@bootlin.com,m:Frank.li@nxp.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	DMARC_NA(0.00)[hugovil.com];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:treding@nvidia.com,m:mperttunen@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jonathanh@nvidia.com,m:clamor95@gmail.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[nxp.com,kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,pengutronix.de,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,linux.intel.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:email,nxp.com:email,dimonoff.com:email]
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Antonin,
+The tegra_output_probe() function parses DC, DSI, HDMI, and SOR nodes for
+panel phandles, OF graph endpoints, EDID, HPD GPIOs, and DDC buses.
+However, this function is redundant for DSI controllers that define the
+panel as a child node.
 
-On Wed, 04 Mar 2026 09:01:20 +0100
-"Antonin Godard" <antonin.godard@bootlin.com> wrote:
+Furthermore, it creates conflicts with modern dual-mode panel bindings
+that use OF graph links to both DSI controllers. The function incorrectly
+treats these links as standard panel links and attempts to resolve a panel
+that should not be handled there. For example, this causes the Mi Pad
+panel to fail initialization.
 
-> Hi,
-> 
-> On Mon Mar 2, 2026 at 10:15 PM CET, Hugo Villeneuve wrote:
-> > Hi Frank,
-> >
-> > On Mon, 2 Mar 2026 15:54:43 -0500
-> > Frank Li <Frank.li@nxp.com> wrote:
-> >
-> >> On Mon, Mar 02, 2026 at 02:03:44PM -0500, Hugo Villeneuve wrote:
-> >> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> >> >
-> >> > Move SD support to a separate include, since it cannot be used at the
-> >> 
-> >> s/include/dtsi/
-> >
-> > Ok. I will also change it in all the other commit messages.
-> >
-> >  
-> >> > same time as the Wifi/BT module.
-> >> 
-> >> what's relation ship between wifi/bt? you just move sd related part to a
-> >> dtsi file.
-> >
-> > As stated in commit message, the SD card interface cannot be used if
-> > the Wifi/BT module is in use.
-> >
-> > Sd card is not mandatory, for example on our board we do not have it,
-> > so we need to have it disabled.
-> 
-> My two cents: if SDCard and WiFi/Bt support are the only mutually exclusive
-> features for this SoM, then how about the following organization:
+Testing shows that bypassing this function allows the Mi Pad to work
+correctly while maintaining compatibility with other Tegra20 and Tegra114
+DSI devices.
 
-They maybe are not. There are other peculiarities, for example using the
-touch panel configuration has some impacts on an oscillator used by the
-Wifi/Bt module. The Varisctite documentation is not entirely clear or
-evident about all these details.
+Svyatoslav Ryhel (2):
+  dt-bindings: display: tegra: document Tegra20 DSI port
+  [RFC] drm/tegra: dsi: remove tegra_output_probe use
 
-
-> Three SoM dtsi files:
-
-This is already the case (apart from the -bt suffix)?
-
-> 
-> imx6ul-var-som-common.dtsi
-> 
->   imx6ul-var-som-wifi-bt.dtsi:
->     #include "imx6ul-var-som-common.dtsi"
-
-No need to include it, as it is already included by
-imx6ul-var-som-concerto.dts
-
-> 
->   imx6ul-var-som-sd.dtsi:
->     #include "imx6ul-var-som-common.dtsi"
-
-Same...
-
-> 
-> A common concerto dtsi file:
-> 
->   imx6ul-var-som-concerto-common.dtsi
-> 
-> Separate concerto dts files:
-> 
->   imx6ul-var-som-concerto-wifi-bt.dts:
->     #include "imx6ul-var-som-wifi-bt.dtsi"
->     #include "imx6ul-var-som-concerto-common.dtsi"
-> 
->   imx6ul-var-som-concerto-sd.dts
->     #include "imx6ul-var-som-sd.dtsi"
->     #include "imx6ul-var-som-concerto-common.dtsi"
-> 
-> And possibly the following one to avoid breaking compatibility:
-> 
->   imx6ul-var-som-concerto.dts
->     #include "imx6ul-var-som-sd.dtsi"
->     #include "imx6ul-var-som-concerto-common.dtsi"
-> 
-> In any case, the imx6ul-var-som-concerto-common.dtsi should be full-featured
-> (and thus avoid the imx6ull-var-som-concerto-full.dts file from patch 09/14), if
-> that's possible?
-
-I am not convinced that it needs to be full-featured. For our custom
-boards, we want to include only the relevant dtsis, because for example
-we do not use sd, or enet1 or enet2, or audio. Having these options in
-separate dtsi allows our custom boards to include/enable only the
-required features.
-
-The full dts is only there as a reference, and to make sure all dtsi
-are included and therefore compiled-checked. In it I have enabled
-enet1 and enet2, but some boards may use enet1, and not enet2, or
-vice-versa, or some boards (like our custom boards) we are not using
-either one.
-
-> But I don't know if this follows common practices, and if this is possible, but
-> I think it's clearer as a user to know if the DTS I will use will support
-> WiFi/BT _or_ support SDCard by looking at its name.
-> 
-> Of course this is based on the assumption that those two features are the only
-> mutually exclusive ones.
-> 
-> What do you think?
-
-Yes, but there is an exponential number of different
-combinations, and thus would require a lot of different DTS...
-
-If you look at the Variscite git repos, you will see a lot of different
-DTS to support only a subset of the possible combinations, and it
-already looks like a mess to me :) I would like to keep things simple if
-possible.
+ .../bindings/display/tegra/nvidia,tegra20-dsi.yaml          | 6 ++++++
+ drivers/gpu/drm/tegra/dsi.c                                 | 4 ----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
 -- 
-Hugo Villeneuve
+2.51.0
+
