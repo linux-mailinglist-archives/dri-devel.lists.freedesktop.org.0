@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AEyGLYB6qWl77wAAu9opvQ
+	id kA2uHX56qWl77wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:44 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C66211E9A
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27392211E85
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708EF10EB10;
-	Thu,  5 Mar 2026 12:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E2410EB09;
+	Thu,  5 Mar 2026 12:43:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WJdYRe0q";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FhlgL2qI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDC910EB09
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC1D10EB09
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772714613;
- bh=U9bGCNu/cjyOP1JyDGaMJYPFsKrnyprySVrsktVQ4BY=;
+ s=mail; t=1772714614;
+ bh=EQgZEUx36Scl5moqvlGJ7CLrPay2ZCcmSC3H3rknDe4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WJdYRe0qBqLNSBDSNHNgPsuXp31BYjdjA0T5oIiypk8LQiSh+fdneSGXJafL3b8Ov
- 2/vWayEcQ8zBGkU9bz+8dWXWpcvy7z5mzlxI194V7OFxd9cxa67vRYjoHMBwIanwuz
- BLUfg9ASzoH71Rlol7hluqzu58OZjNvYBiHOmkeATmcyS43EWIthJpJXHiGVaVsd6l
- 2kT78VwQp0Zud/ZydKT/kVcbSYlLXGk0sdPkUQJji4i1F6223E7k55BD2fVkQN2c5U
- VqrjuMwQuij030Inp8LjZLxfJDhs163lKLLRaMyf9Wu13bXEsdSRQCbWTc5xUNpPQa
- d4oQ9lmwxt9xA==
+ b=FhlgL2qIzfL/NVG5H5ypuLiY/WaigzaO6qUW2hl9MKVJkrgqg3yW0VRLpHuBetPNq
+ 82Ocf6VSE+t4xs9eyIxcsr/+rTM6YPrqqSDNnurl/kln+p71jNuJV59XYwS7LMyXuB
+ t+adxH2xxmd0rgGwjJM8TNd8dpwiWqgunop5cibIjLUTd3BGfPtzQzjML9V+knVDsO
+ 5hW0F9UkxBE6UHlaGADhFwMx41do5/warPJGUNwp1hOk8vtPsISawGkDKzY5aoGl+Y
+ BNiLxVJHsISlbKaTmnaicBQKNllvUjBNpyX5OHF9ZqcKyZZc4sDdQ84E88gNb/A8WV
+ YmrY01Ssqdxaw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3247817E0071;
- Thu,  5 Mar 2026 13:43:33 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 19F5017E0451;
+ Thu,  5 Mar 2026 13:43:34 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -55,9 +55,10 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
  kernel@collabora.com
-Subject: [PATCH v4 6/9] drm/panthor: Lazily allocate pages on mmap()
-Date: Thu,  5 Mar 2026 13:43:17 +0100
-Message-ID: <20260305124320.156606-7-boris.brezillon@collabora.com>
+Subject: [PATCH v4 7/9] drm/panthor: Split panthor_vm_prepare_map_op_ctx() to
+ prepare for reclaim
+Date: Thu,  5 Mar 2026 13:43:18 +0100
+Message-ID: <20260305124320.156606-8-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260305124320.156606-1-boris.brezillon@collabora.com>
 References: <20260305124320.156606-1-boris.brezillon@collabora.com>
@@ -77,7 +78,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 68C66211E9A
+X-Rspamd-Queue-Id: 27392211E85
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -114,200 +115,127 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-Defer pages allocation until their first access.
+We're gonna need just the page table reservation logic when we restore
+evicted BO mappings, so let's prepare for that by extracting the
+op_ctx init and page table pre-allocation into separate helpers.
 
 v2:
-- Don't deal with FAULT_FLAG_INTERRUPTIBLE
-- Make sure bo->backing.pages is never an ERR_PTR()
-- Drop a useless vm_fault_t local var
-- Fix comment in panthor_gem_fault()
+- Collect R-bs
 
 v3:
-- Collect R-bs
+- No changes
 
 v4:
 - No changes
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_gem.c | 115 ++++++++++++++++----------
- 1 file changed, 70 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 68 ++++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 9dacf8939507..906ecf62275a 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -604,15 +604,6 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
- 	if (is_cow_mapping(vma->vm_flags))
- 		return -EINVAL;
- 
--	dma_resv_lock(obj->resv, NULL);
--	ret = panthor_gem_backing_get_pages_locked(bo);
--	if (!ret)
--		ret = panthor_gem_prep_for_cpu_map_locked(bo);
--	dma_resv_unlock(obj->resv);
--
--	if (ret)
--		return ret;
--
- 	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 	if (should_map_wc(bo))
-@@ -632,82 +623,116 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
- 	return res;
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 3f73a35fe1fa..5d07c1b96e0a 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1180,6 +1180,44 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+ 	return 0;
  }
  
--static bool try_map_pmd(struct vm_fault *vmf, unsigned long addr, struct page *page)
-+static vm_fault_t insert_page(struct vm_fault *vmf, struct page *page)
- {
-+	struct vm_area_struct *vma = vmf->vma;
-+
- #ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
- 	unsigned long pfn = page_to_pfn(page);
- 	unsigned long paddr = pfn << PAGE_SHIFT;
--	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
-+	bool aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
- 
- 	if (aligned &&
- 	    pmd_none(*vmf->pmd) &&
- 	    folio_test_pmd_mappable(page_folio(page))) {
- 		pfn &= PMD_MASK >> PAGE_SHIFT;
- 		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
--			return true;
-+			return VM_FAULT_NOPAGE;
- 	}
- #endif
- 
--	return false;
-+	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
- }
- 
--static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
-+static vm_fault_t nonblocking_page_setup(struct vm_fault *vmf, pgoff_t page_offset)
- {
- 	struct vm_area_struct *vma = vmf->vma;
--	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
--	loff_t num_pages = obj->size >> PAGE_SHIFT;
- 	vm_fault_t ret;
--	pgoff_t page_offset;
--	unsigned long pfn;
- 
--	/* Offset to faulty address in the VMA. */
--	page_offset = vmf->pgoff - vma->vm_pgoff;
-+	if (!dma_resv_trylock(bo->base.resv))
-+		return VM_FAULT_RETRY;
- 
--	dma_resv_lock(bo->base.resv, NULL);
-+	if (bo->backing.pages)
-+		ret = insert_page(vmf, bo->backing.pages[page_offset]);
-+	else
-+		ret = VM_FAULT_RETRY;
- 
--	if (page_offset >= num_pages ||
--	    drm_WARN_ON_ONCE(obj->dev, !bo->backing.pages)) {
--		ret = VM_FAULT_SIGBUS;
--		goto out;
-+	dma_resv_unlock(bo->base.resv);
-+	return ret;
++static void panthor_vm_init_op_ctx(struct panthor_vm_op_ctx *op_ctx,
++				   u64 size, u64 va, u32 flags)
++{
++	memset(op_ctx, 0, sizeof(*op_ctx));
++	op_ctx->flags = flags;
++	op_ctx->va.range = size;
++	op_ctx->va.addr = va;
 +}
 +
-+static vm_fault_t blocking_page_setup(struct vm_fault *vmf,
-+				      struct panthor_gem_object *bo,
-+				      pgoff_t page_offset, bool mmap_lock_held)
++static int panthor_vm_op_ctx_prealloc_pts(struct panthor_vm_op_ctx *op_ctx)
 +{
-+	vm_fault_t ret;
-+	int err;
++	u64 size = op_ctx->va.range;
++	u64 va = op_ctx->va.addr;
++	int ret;
 +
-+	err = dma_resv_lock_interruptible(bo->base.resv, NULL);
-+	if (err)
-+		return mmap_lock_held ? VM_FAULT_NOPAGE : VM_FAULT_RETRY;
++	/* L1, L2 and L3 page tables.
++	 * We could optimize L3 allocation by iterating over the sgt and merging
++	 * 2M contiguous blocks, but it's simpler to over-provision and return
++	 * the pages if they're not used.
++	 */
++	u64 pt_count = ((ALIGN(va + size, 1ull << 39) - ALIGN_DOWN(va, 1ull << 39)) >> 39) +
++		       ((ALIGN(va + size, 1ull << 30) - ALIGN_DOWN(va, 1ull << 30)) >> 30) +
++		       ((ALIGN(va + size, 1ull << 21) - ALIGN_DOWN(va, 1ull << 21)) >> 21);
 +
-+	err = panthor_gem_backing_get_pages_locked(bo);
-+	if (!err)
-+		err = panthor_gem_prep_for_cpu_map_locked(bo);
++	op_ctx->rsvd_page_tables.pages = kzalloc_objs(*op_ctx->rsvd_page_tables.pages,
++						      pt_count);
++	if (!op_ctx->rsvd_page_tables.pages)
++		return -ENOMEM;
 +
-+	if (err) {
-+		ret = mmap_lock_held ? VM_FAULT_SIGBUS : VM_FAULT_RETRY;
-+	} else {
-+		struct page *page = bo->backing.pages[page_offset];
++	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
++				    op_ctx->rsvd_page_tables.pages);
++	op_ctx->rsvd_page_tables.count = ret;
++	if (ret != pt_count)
++		return -ENOMEM;
 +
-+		if (mmap_lock_held)
-+			ret = insert_page(vmf, page);
-+		else
-+			ret = VM_FAULT_RETRY;
- 	}
++	return 0;
++}
++
+ #define PANTHOR_VM_BIND_OP_MAP_FLAGS \
+ 	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
+ 	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
+@@ -1195,7 +1233,6 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ {
+ 	struct drm_gpuvm_bo *preallocated_vm_bo;
+ 	struct sg_table *sgt = NULL;
+-	u64 pt_count;
+ 	int ret;
  
--	if (try_map_pmd(vmf, vmf->address, bo->backing.pages[page_offset])) {
--		ret = VM_FAULT_NOPAGE;
--		goto out;
+ 	if (!bo)
+@@ -1214,10 +1251,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	    bo->exclusive_vm_root_gem != panthor_vm_root_gem(vm))
+ 		return -EINVAL;
+ 
+-	memset(op_ctx, 0, sizeof(*op_ctx));
+-	op_ctx->flags = flags;
+-	op_ctx->va.range = size;
+-	op_ctx->va.addr = va;
++	panthor_vm_init_op_ctx(op_ctx, size, va, flags);
+ 
+ 	ret = panthor_vm_op_ctx_prealloc_vmas(op_ctx);
+ 	if (ret)
+@@ -1249,29 +1283,9 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	op_ctx->map.vm_bo = drm_gpuvm_bo_obtain_prealloc(preallocated_vm_bo);
+ 	op_ctx->map.bo_offset = offset;
+ 
+-	/* L1, L2 and L3 page tables.
+-	 * We could optimize L3 allocation by iterating over the sgt and merging
+-	 * 2M contiguous blocks, but it's simpler to over-provision and return
+-	 * the pages if they're not used.
+-	 */
+-	pt_count = ((ALIGN(va + size, 1ull << 39) - ALIGN_DOWN(va, 1ull << 39)) >> 39) +
+-		   ((ALIGN(va + size, 1ull << 30) - ALIGN_DOWN(va, 1ull << 30)) >> 30) +
+-		   ((ALIGN(va + size, 1ull << 21) - ALIGN_DOWN(va, 1ull << 21)) >> 21);
+-
+-	op_ctx->rsvd_page_tables.pages = kzalloc_objs(*op_ctx->rsvd_page_tables.pages,
+-						      pt_count);
+-	if (!op_ctx->rsvd_page_tables.pages) {
+-		ret = -ENOMEM;
++	ret = panthor_vm_op_ctx_prealloc_pts(op_ctx);
++	if (ret)
+ 		goto err_cleanup;
 -	}
 -
--	pfn = page_to_pfn(bo->backing.pages[page_offset]);
--	ret = vmf_insert_pfn(vma, vmf->address, pfn);
--
-- out:
- 	dma_resv_unlock(bo->base.resv);
+-	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
+-				    op_ctx->rsvd_page_tables.pages);
+-	op_ctx->rsvd_page_tables.count = ret;
+-	if (ret != pt_count) {
+-		ret = -ENOMEM;
+-		goto err_cleanup;
+-	}
  
- 	return ret;
- }
- 
--static void panthor_gem_vm_open(struct vm_area_struct *vma)
-+static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
- {
-+	struct vm_area_struct *vma = vmf->vma;
- 	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-+	loff_t num_pages = bo->base.size >> PAGE_SHIFT;
-+	pgoff_t page_offset;
-+	vm_fault_t ret;
- 
--	drm_WARN_ON(bo->base.dev, drm_gem_is_imported(&bo->base));
-+	/* Offset to faulty address in the VMA. */
-+	page_offset = vmf->pgoff - vma->vm_pgoff;
-+	if (page_offset >= num_pages)
-+		return VM_FAULT_SIGBUS;
- 
--	dma_resv_lock(bo->base.resv, NULL);
-+	ret = nonblocking_page_setup(vmf, page_offset);
-+	if (ret != VM_FAULT_RETRY)
-+		return ret;
- 
--	/* We should have already pinned the pages when the buffer was first
--	 * mmap'd, vm_open() just grabs an additional reference for the new
--	 * mm the vma is getting copied into (ie. on fork()).
--	 */
--	drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages);
-+	/* Check if we're allowed to retry. */
-+	if (fault_flag_allow_retry_first(vmf->flags)) {
-+		/* If we're allowed to retry but not wait here, return
-+		 * immediately, the wait will be done when the fault
-+		 * handler is called again, with the mmap_lock held.
-+		 */
-+		if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
-+			return VM_FAULT_RETRY;
- 
--	dma_resv_unlock(bo->base.resv);
-+		/* Wait with the mmap lock released, if we're allowed to. */
-+		drm_gem_object_get(&bo->base);
-+		mmap_read_unlock(vmf->vma->vm_mm);
-+		ret = blocking_page_setup(vmf, bo, page_offset, false);
-+		drm_gem_object_put(&bo->base);
-+		return ret;
-+	}
- 
--	drm_gem_vm_open(vma);
-+	return blocking_page_setup(vmf, bo, page_offset, true);
- }
- 
- const struct vm_operations_struct panthor_gem_vm_ops = {
- 	.fault = panthor_gem_fault,
--	.open = panthor_gem_vm_open,
-+	.open = drm_gem_vm_open,
- 	.close = drm_gem_vm_close,
- };
- 
+ 	/* Insert BO into the extobj list last, when we know nothing can fail. */
+ 	if (bo->base.resv != panthor_vm_resv(vm)) {
 -- 
 2.53.0
 
