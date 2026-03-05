@@ -2,102 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +KkRC/6tqWn+CAEAu9opvQ
+	id CJyNHgyuqWn+CAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:23:26 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:23:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BE0215627
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B69215631
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 17:23:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B91F10EC40;
-	Thu,  5 Mar 2026 16:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5D110EC44;
+	Thu,  5 Mar 2026 16:23:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y36ipOrS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gFLGnicT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F6C10E2CA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 16:23:21 +0000 (UTC)
-Received: by mail-dl1-f52.google.com with SMTP id
- a92af1059eb24-127148c2112so494783c88.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 08:23:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772727801; cv=none;
- d=google.com; s=arc-20240605;
- b=YrNVBGhZ9jQZpp+mvX1qvaQqRrccDmJKx8qEeRlMTsl+H8oGJ4og3b+H+hwmnm1JL/
- dA4HmHq4YrOQUCtD8/nAhjw5KKZrBmksM6a8JcX8xMyL1fckgozlLzTkHEMmLMiUQ+ej
- Tuk3Q6R91sv/QzacsQwibYUv0jKKhbLBfvJARW6vDlt/U1crDujOqp+nK/PIoeTmejti
- Om1ypLSeyjUmEPIqSYjt0WQKF7TD0QBf4rUKCm/omhUfV6UF1pp/57MMB0IOFpAdFNX7
- N2lyg2wSo1KM5GL0rMVTF4dgk5tHWKYXkn+FbtBid7Sy/bQ6y/xEtEsb0vIRiiAUWR4A
- bwyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=W6F+nfMUPxF4a7E27ABQJs8vgRwzPBeDB+h+6m9Jqk4=;
- fh=Aey0hfLO0Q+4BGC1xARYKUXBr/5PI1+AN2C766uFWI8=;
- b=WHQ29ZKMr4GdfqYoIxMzkKQ0X/IWJNibDNqfFzohNPgv+FbgTZnL94A+6vmWsdZ3nQ
- WdFgoj6o9V40KNRze7PzXdLEI724h+PV1IPL1LWHlx8Ldrea4IWahhWt9Uitj7Gxc1Mn
- zSYigJ1k7J2w3IJbgG96yOdqx8SW9Iyaj/6+vIORb7O2IaMPP8QZdHndAqtfXQi6b7MH
- 6IJFNJHxBQPN4M/MVckxFAiZpeQv0kvoXt/rPRSzWz1dmuWxkpWf3CD0vi0goCq7iVX8
- SVM/7bXsKM3j/50t4Amx0x/Gk3edYBncE/ruYmURJBZNeNePzvuDJXpjlG08l1KNM85O
- zQIA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC8410EC44
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 16:23:35 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4836f363ad2so96621255e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 08:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772727801; x=1773332601; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W6F+nfMUPxF4a7E27ABQJs8vgRwzPBeDB+h+6m9Jqk4=;
- b=Y36ipOrS0vbe0nVkZQFB5D1wlIzGS2MUqh3ZAJCnhBVmX6ub78Y5t9kNfiDq2FvoBH
- ANfgEZ1QhHfVRzvU0argFQGYLftdcrZyrEhbDdrHhnO+XphkYwFQFs9KqqfI1G8Llp73
- qfeSNNe0o4S+E8pphlgPL3mIE0zqB2UOmTMiiHGBOPyQJDdR7cizzbgeRXVSGIlq7jFO
- iHKeAyKaEKrjnmOIpcCtKDuSGJyM1uxhr+mtodkSRKATxE6Fzo6wgerDwrO2u+l0rDV4
- PjG5GBB7iJlchyb6N1lP8CAq+OIlPJr0A4cb1xlho7Hu8wgnwyG9wGePs92UPrco1qe2
- 5JUg==
+ d=gmail.com; s=20230601; t=1772727814; x=1773332614; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Xr85rovo5UV3Etw3oVSyYm7W2zGoR48MtrXiaczPwz0=;
+ b=gFLGnicTJmXCtcsAURahY2c/ImbFhPKj26lwppl5cNTnG2J+4jo9RvzW4YoEfeV6Or
+ TgROEEvkzKDzSmJlZDSTuBlzEyC2TxSspASAPhiIqHlsObte9+38ADkCAF8Ihwx0ZBDu
+ AiK4ZbnKgyfwuMD2azRq6wZE3f2d8UdEBcZxsZeB0PaVe+9htvCDOmrzFZVgGgnBvcTx
+ TWcdckjHFmpZQrWDBneOOPJK+uC6UPR5Mz3rUygn85X/XAEYVUUAcLGNkR4cepds/xsz
+ y73ebBDEPNlHUjEIRkl2ee8bDoDhp+VQezD3wZcoTtLIDXOldR1vAr2g5Z9pHExMm37r
+ cn/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772727801; x=1773332601;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=W6F+nfMUPxF4a7E27ABQJs8vgRwzPBeDB+h+6m9Jqk4=;
- b=KbL6xAh9t35sbpZYVO3gTAaDY9SPOwOwcBd+RkE/2/reoqm0bdXkNzrOrJDFYLgLBS
- 8PCleishjSl3+jTITzElf2o/6DInHv7nUugadj48PljXQdCQMrcxvtYgqREkaQOGdtaZ
- sFo0ZKFoz3nE4XaIZE5hYJSu27jf1YxBRXRV3/JkS2V7tO/PvE7m4nOmobKfsEsKSM+0
- p5BJIxwlK7CoPG0LTDnn2Uhq+zBppEUAmJtOZOeqaKNGa2CyFVsBpjMqkIBOKfykLmR4
- M74Vbvo5WzeYitFOKThr7ZjkCnsVXRkZKlO/3q7ks1go9NfYO8Kf/CLHI9t4phn6992n
- iORg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0GMF4lf3a155BZzB/sHcPjc8gjrBqbBa26/YzRjL5PkUl1fIIqp/ILqrd/piH+HqgGUpperIY9y8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPg/X4eSiYNGJZ++MktMvUHYliDYND0LVNnBLcs2KyINkvGCvX
- qrAGN/AIqi1/I2z9Nc2IvMAdZxHfj72zHGt0nOVmgdrrwvPX2QbkIhRYEpHXZN8PSgxxvNz1Hl3
- RlMbsfOjk9cJZQXU6u/9dgt1gTuUJR1w=
-X-Gm-Gg: ATEYQzxqsb3sk+82A/Ffh7Fvv8/RnU9Ll/Yq6uuZjDBMpLYo7kEldbosJH67NZq+wzn
- jrHu7MCDlwFV9hMsYdgpPxdxmOuSWAuB+Qt/La0Liq2agUxTjSSJ1T7nQv4sbOdu4MSxQZzKXNU
- wQLlr/f5O8/2hVii5D8e/aEC/kgGinttX+p6oVCsAF/E8aFNfNETb3EivuQpsfUs5Jf2YVTUISx
- o9T1nQnYa0c3L2ifdD+ZuxENWNdRPpIJPAtpeH+kEKNOx/mSoLwQvrP8Osui+tmNPdz0OtX20jt
- Fpdqd0b9tbSHd2h3+IAWLHFkNk3S1hASB0A64a7iwVZwU0gxj5ld6alOKVhuiYjyFXYHXa1ISYr
- 7yJiT
-X-Received: by 2002:a05:7022:6b82:b0:11b:65e:f33 with SMTP id
- a92af1059eb24-128b70664bbmr1490910c88.1.1772727800809; Thu, 05 Mar 2026
- 08:23:20 -0800 (PST)
+ d=1e100.net; s=20230601; t=1772727814; x=1773332614;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xr85rovo5UV3Etw3oVSyYm7W2zGoR48MtrXiaczPwz0=;
+ b=qKaOO+VDXSGmeosTF6tFZAfA8ydH+HCjpc+BERfxWaFRO8hBsjNzumA0bXQIjMwPJw
+ 5lFX1ksD5obrJrxX4aA2bQkupmaN3/rEtdawRSMNixEPw4hfMpEAWCitt31TgMJyZQmf
+ eijKVpRSHsnMoescFdUIJyB34uyAn114ogG9ViMFiA3VAbgdcW5KxsR5uceQ/MFEDAnJ
+ si7SMJILgA0VHq7Y8oSqRpzLp/LpTU8BO0nGysUNV3tyTguoHyWRkmR74nbGLQAxE7sL
+ ZSPLtDjxtA63fmq9kv7wUbnKpqvdFqTLpECPtgRMDanUViiqTu45KZarBdvfDzxGIHl0
+ yitA==
+X-Gm-Message-State: AOJu0YzF02LeQk0xfST+XXm4zGb9Yu40DzGoZhO7Za+xdvUuaUhgGPeh
+ Bk7GNCaDmyDkABYRVdMIw1YnO7cJxpMb7PnJaxd6sXyDGZDx6NruQZ9G
+X-Gm-Gg: ATEYQzwzMpZzRe0uCJ8xCNOyYAruQCN0fGnx4o/fukoYWafhxeqUgbBxCVBZ+6ikOcI
+ jQDhmnt9tC9sV3SSW8aaH3CW7wGDsqUZo7Rplv9wKq+wyTUVkMcaoo1XSiCM5nVO1od+h0iwR/f
+ 7egdNb+bUoxxbOyTS7rjn6IqX//GCkgLermqhPDyDkR/BRyXLQ289cpPukW+VvUeNsAIhZshVH7
+ 3BbL/wPmOc2pPTh8DhpF7nQm80LmFaFGjx/xs0vT9CXXcjyG3iQ+Wj/mWPcwhc0MTHHoPecLXgQ
+ XKd+uvotxe3al1CO2kslwYGgi76nNB5h04nTyGyMJ+DP382/E1tnsLQySF91jqnsqAK9EWT5Amp
+ UYda+usVmpiPbQ6XUChHYyhjFQoO+DBNbmkISdo3FWcmVdOrtUvquSi2oZURuhw05JMLwGSkb3A
+ 9JPE0TxEl0ETkgvflE1vw1UeT7CTc9MwFfeAiqJ2iYORc17myGhWJGTatAoSg=
+X-Received: by 2002:a05:600c:4e8b:b0:480:1d0b:2d32 with SMTP id
+ 5b1f17b1804b1-48519847bb7mr115427655e9.12.1772727813983; 
+ Thu, 05 Mar 2026 08:23:33 -0800 (PST)
+Received: from [10.247.12.125] ([129.234.0.168])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-439ae3f31dbsm38967659f8f.1.2026.03.05.08.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Mar 2026 08:23:33 -0800 (PST)
+Message-ID: <3167d5c6-3454-4652-86c7-e9ef0ef0a517@gmail.com>
+Date: Thu, 5 Mar 2026 16:23:32 +0000
 MIME-Version: 1.0
-References: <20260303211823.76631-1-jpeisach@ubuntu.com>
- <20260303211823.76631-3-jpeisach@ubuntu.com>
-In-Reply-To: <20260303211823.76631-3-jpeisach@ubuntu.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 5 Mar 2026 11:23:09 -0500
-X-Gm-Features: AaiRm53O0Gz_IyWjrfwtBJvNGedJNJLK6tD16jvmpNK_3Hj0veX7H5OdrmEZeHM
-Message-ID: <CADnq5_MioRPUgwWeRWBQLMVvjPjFLL8Ub+w6dQCkj84xUqu1Tw@mail.gmail.com>
-Subject: Re: [PATCH RESEND 2/2] drm/amdgpu/amdgpu_connectors: remove
- amdgpu_connector_free_edid
-To: Joshua Peisach <jpeisach@ubuntu.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 0/3] Querying errors from drm_syncobj
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ matthew.brost@intel.com
+References: <20260225124609.968505-1-yiconghui@gmail.com>
+ <3491d5f9-d08e-4193-a983-45340af73745@amd.com>
+ <7300ad7c-39a5-4424-b4fd-9d3f97083f06@mailbox.org>
+ <d215b326-6f17-405e-b9e2-9627c17db00d@amd.com>
+From: Yicong Hui <yiconghui@gmail.com>
+Content-Language: en-US
+In-Reply-To: <d215b326-6f17-405e-b9e2-9627c17db00d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,161 +103,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C1BE0215627
+X-Rspamd-Queue-Id: 58B69215631
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:jpeisach@ubuntu.com,m:amd-gfx@lists.freedesktop.org,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:michel.daenzer@mailbox.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:tvrtko.ursulin@igalia.com,m:phasta@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:matthew.brost@intel.com,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,igalia.com,kernel.org,linux.intel.com,suse.de,intel.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[yiconghui@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,ubuntu.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Applied the series.  Thanks!
+On 2/25/26 1:57 PM, Christian König wrote:
+> On 2/25/26 14:37, Michel Dänzer wrote:
+>> On 2/25/26 14:25, Christian König wrote:
+>>> On 2/25/26 13:46, Yicong Hui wrote:
+>>>> This patch series adds 2 new flags, DRM_SYNCOBJ_QUERY_FLAGS_ERROR and
+>>>> DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR for 3 ioctl operations
+>>>> DRM_IOCTL_SYNCOBJ_QUERY, DRM_IOCTL_SYNCOBJ_WAIT and
+>>>> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT to allow them to batch-request error
+>>>> codes from multiple syncobjs and abort early upon error of any of them.
+>>>
+>>> Patch #1 looks good enough to add my rb.
+>>>
+>>> Patch #2 looks good as well, but I'm not familiar enough with the code and have no time to wrap my head around it to give a review.
+>>>
+>>> Adding a few people on CC, maybe somebody has time to take another look.
+>>>
+>>>>
+>>>> Based on discussions from Michel Dänzer and Christian König, and a
+>>>> starter task from the DRM todo documentation.
+>>>>
+>>>> See https://gitlab.gnome.org/GNOME/mutter/-/issues/4624 for discussions
+>>>> on userspace implementation.
+>>>>
+>>>> I have looked into adding sub test cases into syncobj_wait.c and
+>>>> syncobj_timeline.c, igt-tests for this and I think I understand the
+>>>> process for writing tests and submitting them, however, these ioctls
+>>>> only trigger in the case that there is an error, but I am not sure what
+>>>> is the best way to artifically trigger an error from userspace in order
+>>>> to test that these ioctl flags work. What's the recommended way to
+>>>> approach this?
+>>>
+>>> When Michel agrees that this is the way to go then we either need an in-kernel selftest (see directory drivers/gpu/drm/tests/) or an userspace IGT test.
+>>>
+>>> Not sure what is more appropriate, maybe somebody on CC has more experience with that.
+>>
+>> I'd advise against landing this in the kernel before there's a corresponding display server implementation making use of it, in a mergeable state.
+> 
+> Yeah we clearly have the rule that this can't be pushed into the kernel without userspace code as well.
+> 
+>> Otherwise you might end up with the kernel having to support UAPI which no real-world user space actually uses. Been there, done that myself.
+>>
+>>
+>> I don't have the capacity to contribute anything more than advice at this point.
+> 
+> Oh that is sad. Do you know anybody who could work on that?
+> 
+> It is a clear improvement to error handling and I don't like to keep Yicong's work only on the mailing list.
+> 
+> Thanks,
+> Christian.
+> 
 
-Alex
+Hello
 
-On Tue, Mar 3, 2026 at 4:19=E2=80=AFPM Joshua Peisach <jpeisach@ubuntu.com>=
- wrote:
->
-> Now that we are using struct drm_edid, we can just call drm_edid_free
-> directly. Remove the function and update calls to drm_edid_free.
->
-> Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
-> ---
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 22 ++++++-------------
->  1 file changed, 7 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_connectors.c
-> index 6336cadad..aabe9d58c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> @@ -297,14 +297,6 @@ static void amdgpu_connector_get_edid(struct drm_con=
-nector *connector)
->         }
->  }
->
-> -static void amdgpu_connector_free_edid(struct drm_connector *connector)
-> -{
-> -       struct amdgpu_connector *amdgpu_connector =3D to_amdgpu_connector=
-(connector);
-> -
-> -       kfree(amdgpu_connector->edid);
-> -       amdgpu_connector->edid =3D NULL;
-> -}
-> -
->  static int amdgpu_connector_ddc_get_modes(struct drm_connector *connecto=
-r)
->  {
->         struct amdgpu_connector *amdgpu_connector =3D to_amdgpu_connector=
-(connector);
-> @@ -754,7 +746,7 @@ static void amdgpu_connector_destroy(struct drm_conne=
-ctor *connector)
->  {
->         struct amdgpu_connector *amdgpu_connector =3D to_amdgpu_connector=
-(connector);
->
-> -       amdgpu_connector_free_edid(connector);
-> +       drm_edid_free(amdgpu_connector->edid);
->         kfree(amdgpu_connector->con_priv);
->         drm_connector_unregister(connector);
->         drm_connector_cleanup(connector);
-> @@ -873,7 +865,7 @@ amdgpu_connector_vga_detect(struct drm_connector *con=
-nector, bool force)
->                 dret =3D amdgpu_display_ddc_probe(amdgpu_connector, false=
-);
->         if (dret) {
->                 amdgpu_connector->detected_by_load =3D false;
-> -               amdgpu_connector_free_edid(connector);
-> +               drm_edid_free(amdgpu_connector->edid);
->                 amdgpu_connector_get_edid(connector);
->
->                 if (!amdgpu_connector->edid) {
-> @@ -889,7 +881,7 @@ amdgpu_connector_vga_detect(struct drm_connector *con=
-nector, bool force)
->                          * with a shared ddc line (often vga + hdmi)
->                          */
->                         if (amdgpu_connector->use_digital && amdgpu_conne=
-ctor->shared_ddc) {
-> -                               amdgpu_connector_free_edid(connector);
-> +                               drm_edid_free(amdgpu_connector->edid);
->                                 ret =3D connector_status_disconnected;
->                         } else {
->                                 ret =3D connector_status_connected;
-> @@ -984,7 +976,7 @@ static void amdgpu_connector_shared_ddc(enum drm_conn=
-ector_status *status,
->                                         /* hpd is our only option in this=
- case */
->                                         if (!amdgpu_display_hpd_sense(ade=
-v,
->                                                                       amd=
-gpu_connector->hpd.hpd)) {
-> -                                               amdgpu_connector_free_edi=
-d(connector);
-> +                                               drm_edid_free(amdgpu_conn=
-ector->edid);
->                                                 *status =3D connector_sta=
-tus_disconnected;
->                                         }
->                                 }
-> @@ -1053,7 +1045,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *c=
-onnector, bool force)
->         }
->         if (dret) {
->                 amdgpu_connector->detected_by_load =3D false;
-> -               amdgpu_connector_free_edid(connector);
-> +               drm_edid_free(amdgpu_connector->edid);
->                 amdgpu_connector_get_edid(connector);
->
->                 if (!amdgpu_connector->edid) {
-> @@ -1069,7 +1061,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *c=
-onnector, bool force)
->                          * with a shared ddc line (often vga + hdmi)
->                          */
->                         if ((!amdgpu_connector->use_digital) && amdgpu_co=
-nnector->shared_ddc) {
-> -                               amdgpu_connector_free_edid(connector);
-> +                               drm_edid_free(amdgpu_connector->edid);
->                                 ret =3D connector_status_disconnected;
->                         } else {
->                                 ret =3D connector_status_connected;
-> @@ -1417,7 +1409,7 @@ amdgpu_connector_dp_detect(struct drm_connector *co=
-nnector, bool force)
->                 goto out;
->         }
->
-> -       amdgpu_connector_free_edid(connector);
-> +       drm_edid_free(amdgpu_connector->edid);
->
->         if ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) ||
->             (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_LVDS)) {
-> --
-> 2.51.0
->
+Is there anything else I can do? Or will we have to just leave all of this here unmerged
+
+I have read the emails from Tvrtko and Matthew and I'm absolutely happy to send a v4 to ameliorate these issues, but there might not be a need to do so if the series won't get merged in the end
+
+Regardless, thank you to Christian and all the maintainers for being welcoming and all your work reviewing this patch series so far!
+
+Thanks
+Yicong
