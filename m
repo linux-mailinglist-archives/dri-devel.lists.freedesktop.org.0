@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gK6MK7RMqWk14AAAu9opvQ
+	id WHyNDJNOqWmz4QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:28:20 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:36:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E0C20E63D
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF24320E94A
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:36:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D7310EBD0;
-	Thu,  5 Mar 2026 09:28:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rI7HGIYh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C995899D4;
+	Thu,  5 Mar 2026 09:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E22A110EBD0;
- Thu,  5 Mar 2026 09:28:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0E07461340;
- Thu,  5 Mar 2026 09:28:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33AF9C116C6;
- Thu,  5 Mar 2026 09:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772702893;
- bh=eMEdAdxmi5XoFOVsNLtFj1G9gXiGNoC5/esgtPlElrw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rI7HGIYhSvfO1RmPL7HM9zEdH40BCaFV4GwxZZJjuXF3OASqzHW3jOH+AkqYx0AUG
- 8+zQ87QG1y13OUntm0/TwT8WYNQXGWcBfbqSBLeGVbvp9AHtZZLURGBdLEfWt2lo5V
- le0b7GQewa3RvZOpRCegZPxgVHgc3EDPFkhvqb/ey5q6I/g+xR5SFq7Xmi4x7cFv2O
- LZs02z7aN6V4Z4FqV5gW9M+z/My2xLpx74i3BRILn+CmiCr/MAgM8jNnlgIVIOSApw
- gDkrtyV4tUll/rdSmRF6JUE2LBOOgLmrk1cCyX9Zc6j1Tn9XC/oz4dzPh3/P0BP/q2
- obZnRjiQsVFWg==
-Date: Thu, 5 Mar 2026 10:28:11 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, 
- Andri Yngvason <andri@yngvason.is>, Werner Sembach <wse@tuxedocomputers.com>, 
- Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
-Message-ID: <20260305-just-oxpecker-of-reward-e05e4f@houat>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
+X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Mar 2026 09:36:16 UTC
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com
+ [216.40.44.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD36899D4;
+ Thu,  5 Mar 2026 09:36:16 +0000 (UTC)
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay04.hostedemail.com (Postfix) with ESMTP id 6EF351A090A;
+ Thu,  5 Mar 2026 09:30:48 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf12.hostedemail.com (Postfix) with ESMTPA id ABA5119; 
+ Thu,  5 Mar 2026 09:30:41 +0000 (UTC)
+Message-ID: <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+From: Joe Perches <joe@perches.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, Neil
+ Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Date: Thu, 05 Mar 2026 01:30:40 -0800
+In-Reply-To: <20260305085148.7cwo3yflp7vcfldf@skbuf>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+ <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+ <20260305085148.7cwo3yflp7vcfldf@skbuf>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="56nzglyxg7oadotv"
-Content-Disposition: inline
-In-Reply-To: <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
+X-Stat-Signature: isin6ba55864u4k7cspzxagise7enff6
+X-Spam-Status: No, score=-0.10
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+c/QqwBFj4RnbTOHAHP0u/fhPSDrZvfXg=
+X-HE-Tag: 1772703041-391055
+X-HE-Meta: U2FsdGVkX18CpOmWAsQNq/nzIGrueYMCLFpafncVkMPEeWn8lMHmxGid0nuFShmczpxd7LMIQ2HkJXitNrouaAWweblPom1aNWswKBKkaGGCen5irY0lnX3z9ty7T8amhD6qn9Q5wfYeFrX1AAy/tVHr70RJ5jxHv1CzpDKls395qE7TAifFzgOqcxBZ+LxnR/uVacI/Z8SiG+R8Q0lWc4dUv5BUq0HaFG5uC1dlHaBdlDEn65TIo3X5+7C0AcoUpQeypXp8sK9gp+VHT+vsBW/Ta2vT0Zqxi066+g9opvcn5emNN3z91009RwQ+r7ADwt/gmX2gmKTLfK9kac3enKskM+3ua1Jz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,141 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 60E0C20E63D
+X-Rspamd-Queue-Id: AF24320E94A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [7.19 / 15.00];
+	URIBL_BLACK(7.50)[perches.com:mid];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	BAD_REP_POLICIES(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[perches.com];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,linuxfoundation.org,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,yngvason.is,tuxedocomputers.com];
+	GREYLIST(0.00)[pass,meta];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[joe@perches.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177:c];
+	TAGGED_RCPT(0.00)[dri-devel];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[perches.com:mid]
+X-Rspamd-Action: add header
+X-Spam: Yes
 
+On Thu, 2026-03-05 at 10:51 +0200, Vladimir Oltean wrote:
+> On Thu, Mar 05, 2026 at 09:39:35AM +0100, Konrad Dybcio wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 55af015174a5..bdfa47d9c774 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -10713,6 +10713,7 @@ F:    Documentation/devicetree/bindings/phy/
+> > >  F:   drivers/phy/
+> > >  F:   include/dt-bindings/phy/
+> > >  F:   include/linux/phy/
+> > > +K:   \b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|o=
+ff)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvd=
+ata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|stat=
+e)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)=
+_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\=
+.h|phy-props\.h|phy-provider\.h
 
---56nzglyxg7oadotv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
-MIME-Version: 1.0
+You could use multiple K: entries instead of this monster.
 
-Hi,
-
-On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 4af91e252fbd..b5bc93856ad1 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -579,6 +579,91 @@ enum drm_output_color_format {
->  	DRM_OUTPUT_COLOR_FORMAT_YCBCR420,
->  };
-> =20
-> +/* Do not forget to adjust after modifying &enum drm_output_color_format=
- */
-> +#define DRM_OUTPUT_COLOR_FORMAT_COUNT 4
-
-Maybe we can put that as the last variant of our enum so we don't have
-to always update it?
-
-> +/**
-> + * enum drm_connector_color_format - Connector Color Format Request
-> + *
-> + * This enum, unlike &enum drm_output_color_format, is used to specify r=
-equests
-> + * for a specific color format on a connector through the DRM "color for=
-mat"
-> + * property. The difference is that it has an "AUTO" value to specify th=
-at
-> + * no specific choice has been made.
-> + */
-> +enum drm_connector_color_format {
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
-> +	 * helpers should pick a suitable color format. All implementations of a
-> +	 * specific display protocol must behave the same way with "AUTO", but
-> +	 * different display protocols do not necessarily have the same "AUTO"
-> +	 * semantics.
-> +	 *
-> +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
-> +	 * bandwidth required for full-scale RGB is not available, or the mode
-> +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
-> +	 * YCbCr 4:2:0.
-> +	 *
-> +	 * For display protocols other than HDMI, the recursive bridge chain
-> +	 * format selection picks the first chain of bridge formats that works,
-> +	 * as has already been the case before the introduction of the "color
-> +	 * format" property. Non-HDMI bridges should therefore either sort their
-> +	 * bus output formats by preference, or agree on a unified auto format
-> +	 * selection logic that's implemented in a common state helper (like
-> +	 * how HDMI does it).
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
-> +	 * not subsampled)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
-> +	 * with horizontal subsampling)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
-> +	 * with horizontal and vertical subsampling)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> +};
-> +
-> +/* Do not forget to adjust after modifying &enum drm_connector_color_for=
-mat */
-> +#define DRM_CONNECTOR_COLOR_FORMAT_COUNT 5
-
-Ditto
-
-Maxime
-
---56nzglyxg7oadotv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaalMqgAKCRAnX84Zoj2+
-dmOPAX92VmruO+gIj35XK8ogbZVYutcf8QCLMn4u+YKllIE7k9+XA+wG0UK9eYuH
-cO1fW3UBfRH+rv+HolxgeR79kVh3vlGJgPBqkn4Am7SomEZ6vyimagwigP2i7czB
-4BUuzmli8g==
-=EFdZ
------END PGP SIGNATURE-----
-
---56nzglyxg7oadotv--
+And please use (?:<foo>) to avoid capture groups too.
