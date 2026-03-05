@@ -2,85 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIYGEDhRqWkj4wAAu9opvQ
+	id yJ88LklRqWkj4wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:47:36 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:47:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9788E20EDFE
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA3B20EE1A
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 10:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61D8B10EBE5;
-	Thu,  5 Mar 2026 09:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3856610EBE7;
+	Thu,  5 Mar 2026 09:47:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eVZzGZUc";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="W4zuc5D5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B44F110EBE5
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 09:47:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772704051; x=1804240051;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=h/3xqDbSZUOeXV0g78155nlGSMAfHj4CiGHpIKaeZAE=;
- b=eVZzGZUcMXUP6a8LFHrV1vRQ31ZIvM/XFI6qUrGEe63RTJxqLpFDjsna
- 4cYOMjSlCBrjB7woMXFVM83Xo3GUjgEUeOgV8/ICkMNUWBZCt7k3XC9Jm
- z6SW/LKONaRlS2iSi5iM8hOtCamSWgdJdBfN6+X72eG7M6yACChLfDzhE
- uxgiDfbziE1YRJDK3jlryw1StPSFw7w+p3bc5jpMgGg5mJNyAG7n9pyOu
- 5r6ztyttuth7tKbZx6nVlGsE5m7sKO16/XQAfmr1OVRYtdQadnsfyN+j5
- K0NdWdVZp+wlxK0ypIpekJgPc8vvheH+cnUI7+Pm7cOdr6eUgPAGN06TQ w==;
-X-CSE-ConnectionGUID: uN4ZNYqsTbuLOowlboNorg==
-X-CSE-MsgGUID: nS8Fph2URUCuyeKaIjjnzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77389630"
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="77389630"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 01:47:29 -0800
-X-CSE-ConnectionGUID: 9FxbbuUHS4yqCXkYWY8EKQ==
-X-CSE-MsgGUID: fThUqpWUSyabPyv37Cb7pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; d="scan'208";a="218590109"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.97])
- ([10.245.244.97])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 01:47:26 -0800
-Message-ID: <9eed57a3-e032-4893-90fb-45c2dc2f78d9@linux.intel.com>
-Date: Thu, 5 Mar 2026 10:47:10 +0100
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1421B10EBE7;
+ Thu,  5 Mar 2026 09:47:49 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4fRPpj3CQMz9tkb;
+ Thu,  5 Mar 2026 10:47:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1772704061; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VgcI+DsjIo+X5y77Bh+h4cJr9LBB4NMoAn0ElwmoKvQ=;
+ b=W4zuc5D5cNI3RCI35WR/DXP9IUv2XaX8Ab2O/HrMO0aOhvzuofrdP1DOb4/81attKHBMjP
+ ZGLmUEApEDfn9P5whAkOTad7g5ZBUfe+70dcdHfNqRBDKtgCvVrMowQN9nGozZtGq18Uum
+ qhgw3NuIXtb6/aGCA9T2KqILQGq8OjRmPCvuWRwoqlJmDwgVQkH6y9XswdIx1XQLtoo9IX
+ FhTt+KEOdlfpKIBHkxlgdeZyU6hp09Owb7raxuU0dWoLN1ioT5uvOO4spOrSOCrq+c1/Db
+ BvyI0uree9AALizyd3EWWxyzc/xZD4uI9C+Pn0ejQ751vcASx1C7Qs9Ky56krw==
+Message-ID: <9949a2c27b2a1dc1cde10dbb89edec53411614b1.camel@mailbox.org>
+Subject: Re: drm_sched run_job and scheduling latency
+From: Philipp Stanner <phasta@mailbox.org>
+To: Matthew Brost <matthew.brost@intel.com>, phasta@kernel.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, Chia-I Wu
+ <olvaffe@gmail.com>, ML dri-devel <dri-devel@lists.freedesktop.org>, 
+ intel-xe@lists.freedesktop.org, Steven Price <steven.price@arm.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,  open list
+ <linux-kernel@vger.kernel.org>, tj@kernel.org
+Date: Thu, 05 Mar 2026 10:47:32 +0100
+In-Reply-To: <aalIbgi71svPQs3Z@lstrano-desk.jf.intel.com>
+References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
+ <aajkqXZDGUFPlq1o@lstrano-desk.jf.intel.com>
+ <20260305092711.20069ca1@fedora>
+ <fa4a9c55792b0e79d94faa82085b693aa7feb989.camel@mailbox.org>
+ <aalIbgi71svPQs3Z@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/syncobj: Fix handle <-> fd ioctls with dirty stack
-To: Julian Orth <ju.orth@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260301-point-v1-1-21fc5fd98614@gmail.com>
- <e0f687da-7323-40fc-af50-82abea6e25cc@linux.intel.com>
- <3c969254-ed38-4b13-84b3-5afa365b04cb@amd.com>
- <2b75199f-b78a-4915-8e75-5d186f63f7c5@mailbox.org>
- <CAHijbEXkn3+E_u1+aZgLT+pQ_vLYvKKv9VU_5kOuEaFheLRQeg@mail.gmail.com>
- <bc3417d9-d191-4cc7-95e0-968b0b9bec05@linux.intel.com>
- <CAHijbEXTPSLSADqet1=P1FV6jvoa5yGEprOuYtpQWUq_y5uT2A@mail.gmail.com>
- <c5e2cd1d-05a9-489a-be8a-be4d0d583688@mailbox.org>
- <CAHijbEWoQHTyj_V1dD9UWskPmz0WbrVwzPTD3XqJTczy1ojBnQ@mail.gmail.com>
- <d90d6eb3-72bc-4502-934d-f77dac83690d@mailbox.org>
- <CAHijbEXk9q_cF6g=OuPKG-Wd+GLfU6Pu1HU77FpLdV6jfg9MnA@mail.gmail.com>
- <daaa5465-c086-47b9-be7b-13f5d62292ac@linux.intel.com>
- <5464a6fa-5a49-42f5-a1ea-ce9f18a6955e@mailbox.org>
- <CAHijbEXaxLU7sbCyJr1X8B_PoPdM2q19+JuF+huLQqFoLYP8kw@mail.gmail.com>
- <59bd46c0-03d9-4fef-a4fd-14b8f68f9860@mailbox.org>
- <CAHijbEUSFA3ptTNZ_YuOLgc44Px4CjAaa9x6DDjJktRCKjj+Dw@mail.gmail.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <CAHijbEUSFA3ptTNZ_YuOLgc44Px4CjAaa9x6DDjJktRCKjj+Dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: e63af98d95a1cb7dea4
+X-MBO-RS-META: 9hoe9nn3g1rfjpzptturo9ewmq4u4aa1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,137 +78,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9788E20EDFE
+X-Rspamd-Queue-Id: 2CA3B20EE1A
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ju.orth@gmail.com,m:michel.daenzer@mailbox.org,m:christian.koenig@amd.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.osipenko@collabora.com,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:juorth@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,mailbox.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[collabora.com,gmail.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,intel.com,vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maarten.lankhorst@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,oss.qualcomm.com,lists.freedesktop.org,vger.kernel.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,linux.intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hey,
+On Thu, 2026-03-05 at 01:10 -0800, Matthew Brost wrote:
+> On Thu, Mar 05, 2026 at 09:38:16AM +0100, Philipp Stanner wrote:
+> > On Thu, 2026-03-05 at 09:27 +0100, Boris Brezillon wrote:
+> >=20
+> > >=20
 
-Den 2026-03-04 kl. 12:25, skrev Julian Orth:
-> On Wed, Mar 4, 2026 at 12:15 PM Michel Dänzer
-> <michel.daenzer@mailbox.org> wrote:
->>
->> On 3/3/26 20:12, Julian Orth wrote:
->>> On Tue, Mar 3, 2026 at 7:53 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>>>
->>>> On 3/3/26 18:44, Maarten Lankhorst wrote:
->>>>> Den 2026-03-03 kl. 18:30, skrev Julian Orth:
->>>>>> On Tue, Mar 3, 2026 at 6:18 PM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
->>>>>>>
->>>>>>> I wrote in my first post in this thread that I don't object to your patch, so you can relax and stop trying to convince me not to object to it. :)
->>>>>>>
->>>>>>> I'm just pointing out that this is working around broken user-space code, and that there are other similar cases where that kind of broken users-space code couldn't be worked around in the kernel, so it's better to also fix the user-space code anyway.
->>>>>>
->>>>>> At this point I think we're arguing about "how can ioctls be extended"
->>>>>> and "does userspace have to use memset" in general, not just about
->>>>>> this particular ioctl. You've made the argument that ioctls are not
->>>>>> extensible in general unless userspace uses memset. However, I'm not
->>>>>> yet convinced of this. As you've also said above, drm_ioctl happily
->>>>>> truncates or zero-extends ioctl arguments without returning an error
->>>>>> due to size mismatch. Therefore, the only way for userspace to detect
->>>>>> if the kernel supports the "extended" ioctl is to add a flag so that
->>>>>> the kernel can return an error if it doesn't know the flag. And then
->>>>>> that flag could also be used by the kernel to detect which fields of
->>>>>> the argument are potentially uninitialized.
->>>>>>
->>>>>> That is why I asked above if you knew of any other examples where an
->>>>>> ioctl was extended and where memset(0) became effectively required due
->>>>>> to the extension.
->>>>
->>>> Since it's always been effectively required for ioctl structs, "become" doesn't apply.
->>>>
->>>>
->>>> In terms of documentation, the "(How to avoid) Botching up ioctls" page says under Basics:
->>>>
->>>> * Check all unused fields and flags and all the padding for whether it’s 0, and reject the ioctl if that’s not the case.
->>>>
->>>> Which is what the code you're modifying here did: The code after the args->point checks doesn't use the point field, so it's checking that user space initialized the field to 0 per above.
->>>
->>> I don't believe that is true. The old code only checked args->point if
->>> the flags argument was 0. If the flags argument contained
->>> EXPORT_SYNC_FILE but not TIMELINE, then the old code ignored
->>> args->point completely.
->>
->> Right, the code didn't fully implement the rule which has been documented for 13 years. Makes no practical difference though, the user-space code would have hit a failure regardless.
->>
->>
->>> However, since the original code only used args->points if TIMELINE was set,
->>> I believe the intention behind the TIMELINE flag was to ignore the args->point
->>> field if the flag was unset. That assumption is the basis for my patch.
->>
->> Whatever Rob's intention was, checking the value of the local variable instead seems of little use, since it can have a non-0 value only if the TIMELINE flag is set. If the intention is to catch the TIMELINE flag being set without the IMPORT_SYNC_FILE flag, that should be done directly instead, or it won't be caught if args->point is 0.
-> 
-> You're right, the better check would probably have been (using a shorthand)
-> 
->     if (!IMPORT_SYNC_FILE && TIMELINE) return EINVAL;
-> 
-> However, since that was not done at the time, there might now be
-> userspace that relies on this not returning an error as long as the
-> point is 0. The intention of my patch was to be strictly more lenient.
-> 
->>
->>
->>>>> You don't even need to use memset, this would work too:
->>>>>
->>>>> struct drm_syncobj_handle args = {
->>>>>       .flags = 0
->>>>> };
->>>>
->>>> TL;DR: This method isn't 100% safe either.
->>>>
->>>> It won't initialize any padding which isn't covered by any struct field. We try to avoid that and have explicit padding fields instead, mistakes may happen though, and in theory such padding could later be used for a new field.
->>>
->>> I don't think this is workable.
->>
->> libdrm begs to differ. It shows that it's not only workable but really easy. There's no reason for doing it any other way.
-> 
-> Using memset to initialize padding bytes between fields is workable.
-> Having the kernel add checks for this for existing ioctls is not
-> workable because it would break usespace that doesn't do this. Which
-> is every rust program out there as far as I can tell.
-> 
-> I'm not aware of any ioctls that actually have padding bytes between
-> fields so this discussion is mostly academic.
+[=E2=80=A6]
 
-This is exactly why we attempt to ensure there is no implicit padding,
-and explicitly check for all 'pad' members to be zero. Additionally
-we attempt to stay 32-bits vs 64-bits clean, so no handling needs to
-be performed in the compat ioctl's layout.
+> > > Honestly, I'm not thrilled by this fast-path/call-run_job-directly id=
+ea
+> > > you're describing. There's just so many things we can forget that wou=
+ld
+> > > lead to races/ordering issues that will end up being hard to trigger =
+and
+> > > debug.
+> > >=20
+> >=20
+> > +1
+> >=20
+> > I'm not thrilled either. More like the opposite of thrilled actually.
+> >=20
+> > Even if we could get that to work. This is more of a maintainability
+> > issue.
+> >=20
+> > The scheduler is full of insane performance hacks for this or that
+> > driver. Lockless accesses, a special lockless queue only used by that
+> > one party in the kernel (a lockless queue which is nowadays, after N
+> > reworks, being used with a lock. Ah well).
+> >=20
+>=20
+> This is not relevant to this discussion=E2=80=94see below. In general, I =
+agree
+> that the lockless tricks in the scheduler are not great, nor is the fact
+> that the scheduler became a dumping ground for driver-specific features.
+> But again, that is not what we=E2=80=99re talking about here=E2=80=94see =
+below.
+>=20
+> > In the past discussions Danilo and I made it clear that more major
+> > features in _new_ patch series aimed at getting merged into drm/sched
+> > must be preceded by cleanup work to address some of the scheduler's
+> > major problems.
+>=20
+> Ah, we've moved to dictatorship quickly. Noted.
 
-Kind regards,
-~Maarten Lankhorst
+I prefer the term "benevolent presidency" /s
+
+Or even better: s/dictatorship/accountability enforcement.
+
+How does it come that everyone is here and ready so quickly when it
+comes to new use cases and features, yet I never saw anyone except for
+Tvrtko and Ma=C3=ADra investing even 15 minutes to write a simple patch to
+address some of the *various* significant issues in that code base?
+
+You were on CC on all discussions we've had here for the last years
+afair, but I rarely saw you participate. And you know what it's like:
+who doesn't speak up silently agrees in open source.
+
+But tell me one thing, if you can be so kind:
+
+What is your theory why drm/sched came to be in such horrible shape?
+What circumstances, what human behavioral patterns have caused this?
+
+The DRM subsystem has a bad reputation regarding stability among Linux
+users, as far as I have sensed. How can we do better?
+
+>=20
+> >=20
+>=20
+> I can't say I agree with either of you here.
+>=20
+> In about an hour, I seemingly have a bypass path working in DRM sched +
+> Xe, and my diff is:
+>=20
+> 108 insertions(+), 31 deletions(-)
+
+LOC is a bad metric for complexity.
+
+>=20
+> About 40 lines of the insertions are kernel-doc, so I'm not buying that
+> this is a maintenance issue or a major feature - it is literally a
+> single new function.
+>=20
+> I understand a bypass path can create issues=E2=80=94for example, on cert=
+ain
+> queues in Xe I definitely can't use the bypass path, so Xe simply
+> wouldn=E2=80=99t use it in those cases. This is the driver's choice to us=
+e or
+> not. If a driver doesn't know how to use the scheduler, well, that=E2=80=
+=99s on
+> the driver. Providing a simple, documented function as a fast path
+> really isn't some crazy idea.
+
+We're effectively talking about a deviation from the default submission
+mechanism, and all that seems to be desired for a luxury feature.
+
+Then you end up with two submission mechanisms, whose correctness in
+the future relies on someone remembering what the background was, why
+it was added, and what the rules are..
+
+The current scheduler rules are / were often not even documented, and
+sometimes even Christian took a few weeks to remember again why
+something had been added =E2=80=93 and whether it can now be removed again =
+or
+not.
+
+>=20
+> The alternative=E2=80=94asking for RT workqueues or changing the design t=
+o use
+> kthread_worker=E2=80=94actually is.
+>=20
+> > That's especially true if it's features aimed at performance buffs.
+> >=20
+>=20
+> With the above mindset, I'm actually very confused why this series [1]
+> would even be considered as this order of magnitude greater in
+> complexity than my suggestion here.
+>=20
+> Matt
+>=20
+> [1] https://patchwork.freedesktop.org/series/159025/=C2=A0
+
+The discussions about Tvrtko's CFS series were precisely the point
+where Danilo brought up that after this can be merged, future rework of
+the scheduler must focus on addressing some of the pending fundamental
+issues.
+
+The background is that Tvrtko has worked on that series already for
+well over a year, it actually simplifies some things in the sense of
+removing unused code (obviously it's a complex series, no argument
+about that), and we agreed on XDC that this can be merged. So this is a
+question of fairness to the contributor.
+
+But at one point you have to finally draw a line. No one will ever
+address major scheduler issues unless we demand it. Even very
+experienced devs usually prefer to hack around the central design
+issues in their drivers instead of fixing the shared infrastructure.
+
+
+P.
