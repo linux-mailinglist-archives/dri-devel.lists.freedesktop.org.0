@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOppMq/GqWmcEgEAu9opvQ
+	id kFgnJ7HGqWmcEgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:47 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB31216CDB
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0529D216CE9
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5257610E2D6;
-	Thu,  5 Mar 2026 18:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD4710E2D7;
+	Thu,  5 Mar 2026 18:08:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="qx7x5D3i";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="pHUww/Fo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7764D10E167
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:08:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B9810E2D5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
  ; s=x;
  h=Subject:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Cc:To
  :From:subject:date:message-id:reply-to;
- bh=RXeuyAaTvwAMCt0q3PFB8EJk7uqdNN6rk4nzvIkVw+E=; b=qx7x5D3igLAYp4cJ0Rm8VkbeNg
- 5/fG2OumU8+uLx0mwbHoeZ8V8CadhDp5Of9lJB/0XlBn3gb/bRqNMFD8vY2oSDQRl2RsrMbyxb3OD
- xbFKW+w9DSJ7EX6t85V4RfGhhEaPkH/HOESPMGwDb1cUipsN2QfhY3ZYBC0OyjVTTneU=;
+ bh=2H6tfy1TUzvjSiheWLKqM1iMWWpxdKE5eZOP/ogsv6M=; b=pHUww/FoKw00KckWsKTOiXsvfd
+ 427upCKlkgP0YqSLtD96gSCWc9JrcS2B5Lx42WNh6jK6NdZwxHRinYzDndImiU/3/6JC6tAoHokjB
+ 5nMJYC3LfSDeOORo0pTRxVDkEaxNvYDR1vwIf1P3wy2sgXU8EuRlKzXQcC7FXYxPlnko=;
 Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:37706
  helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
  (envelope-from <hugo@hugovil.com>)
- id 1vyD7X-0002aR-Nh; Thu, 05 Mar 2026 13:08:23 -0500
+ id 1vyD7Z-0002aR-AO; Thu, 05 Mar 2026 13:08:25 -0500
 From: Hugo Villeneuve <hugo@hugovil.com>
 To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
@@ -44,8 +44,8 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, hugo@hugovil.com,
  Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Thu,  5 Mar 2026 13:06:17 -0500
-Message-ID: <20260305180651.1827087-3-hugo@hugovil.com>
+Date: Thu,  5 Mar 2026 13:06:18 -0500
+Message-ID: <20260305180651.1827087-4-hugo@hugovil.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260305180651.1827087-1-hugo@hugovil.com>
 References: <20260305180651.1827087-1-hugo@hugovil.com>
@@ -60,8 +60,8 @@ X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
  *      [score: 0.0000]
 X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
  autolearn=ham autolearn_force=no version=3.4.2
-Subject: [PATCH v2 02/15] ARM: dts: imx6ul-var-som: fix warning for boolean
- property with a value
+Subject: [PATCH v2 03/15] ARM: dts: imx6ul-var-som: change incorrect
+ VAR-SOM-MX6UL references
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,7 +78,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5BB31216CDB
+X-Rspamd-Queue-Id: 0529D216CE9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -117,51 +117,62 @@ X-Rspamd-Action: no action
 
 From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
-dmesg warning:
+There is no Variscite module named VAR-SOM-MX6UL, but there is VAR-SOM-MX6
+and also VAR-SOM-6UL, so it is confusing at first to know to which one it
+refers to. The imx6ul-var-som* dts/dtsi supports only the VAR-SOM-6UL [1],
+not VAR-SOM-MX6 [2], so modify comments and model descriptions accordingly.
 
-  OF: /soc/bus@2000000/ethernet@20b4000/mdio/ethernet-phy@3: Read of
-      boolean property 'micrel,rmii-reference-clock-select-25-mhz' with a
-      value.
-
-Using of_property_read_bool() for non-boolean properties is deprecated and
-results in a warning during runtime since commit c141ecc3cecd
-("of: Warn when of_property_read_bool() is used on non-boolean properties")
-
-micrel,rmii-reference-clock-select-25-mhz is a boolean property and should
-not have a value, so remove it.
+Link  https://dev.variscite.com/var-som-6ul [1]
+Link: https://dev.variscite.com/var-som-mx6 [2]
 
 Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 ---
- arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts | 2 +-
- arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts | 4 ++--
+ arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi         | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-index 9ff3b374a2b31..085985356668f 100644
+index 085985356668f..35ce647a64075 100644
 --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
 +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-@@ -79,7 +79,7 @@ ethphy1: ethernet-phy@3 {
- 			reset-gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
- 			reset-assert-us = <100000>;
- 			micrel,led-mode = <0>;
--			micrel,rmii-reference-clock-select-25-mhz = <1>;
-+			micrel,rmii-reference-clock-select-25-mhz;
- 		};
- 	};
- };
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * Support for Variscite MX6 Concerto Carrier board with the VAR-SOM-MX6UL
++ * Support for Variscite Concerto Carrier board with the VAR-SOM-6UL
+  * Variscite SoM mounted on it
+  *
+  * Copyright 2019 Variscite Ltd.
+@@ -11,7 +11,7 @@
+ #include <dt-bindings/leds/common.h>
+ 
+ / {
+-	model = "Variscite VAR-SOM-MX6UL Concerto Board";
++	model = "Variscite VAR-SOM-6UL Concerto Board";
+ 	compatible = "variscite,mx6ulconcerto", "variscite,var-som-imx6ul", "fsl,imx6ul";
+ 
+ 	chosen {
 diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
-index 3fb5e2fb68777..30032be6fdd50 100644
+index 30032be6fdd50..7259526e2b884 100644
 --- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
 +++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som.dtsi
-@@ -64,7 +64,7 @@ ethphy0: ethernet-phy@1 {
- 			reset-gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
- 			reset-assert-us = <100000>;
- 			micrel,led-mode = <1>;
--			micrel,rmii-reference-clock-select-25-mhz = <1>;
-+			micrel,rmii-reference-clock-select-25-mhz;
- 		};
- 	};
- };
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * Support for Variscite VAR-SOM-MX6UL Module
++ * Support for Variscite VAR-SOM-6UL Module
+  *
+  * Copyright 2019 Variscite Ltd.
+  * Copyright 2025 Bootlin
+@@ -13,7 +13,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ 
+ / {
+-	model = "Variscite VAR-SOM-MX6UL module";
++	model = "Variscite VAR-SOM-6UL module";
+ 	compatible = "variscite,var-som-imx6ul", "fsl,imx6ul";
+ 
+ 	memory@80000000 {
 -- 
 2.47.3
 
