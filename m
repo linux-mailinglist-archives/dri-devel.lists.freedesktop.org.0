@@ -2,105 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOiQDz+mqWnwBgEAu9opvQ
+	id eGU6LmeoqWmbBwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:50:23 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:59:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B39C214D92
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1625121506C
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4786D10E2BA;
-	Thu,  5 Mar 2026 15:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38F7D10EC19;
+	Thu,  5 Mar 2026 15:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kCqUzDf1";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="meDuvyIu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085CB10E2BA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:50:19 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-439b9b1900bso3365444f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 07:50:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772725817; cv=none;
- d=google.com; s=arc-20240605;
- b=juglM/+YokpL5nTWbIOEaFvnWhStN7i+CaEQ1Q2htB8P7FnUychWqelH7u2bpJWNJ7
- nbhDVhrBiWWjnjAlcQbFN0vEHtgxZmyUlZZclYLMh81nNB2MM7ry/V3sMWTuyjyOCMxa
- dltdXIxwmMYmWthdcBU3/tz5WeihGgovaJV1XkCyEiZKqZYrbCOrXx+QiOkXrNBr21ew
- VS18lhMeURetDv0jfh42h5JDUyY740ULPZUxpgOgOv3Ds9gaMP0h10YJ5FwDBO9uPnO6
- m0ZGSHDWBQAhtYgGuhaXWcXrI2zXSaCPLIO0oKsyPKgv/K63M30XfMmJB7cIZS3b0Xr1
- 1olQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=1PH46tNzcbUu3o7RvcJd4Yy5jYTA3vxe5hzUK7gP3mI=;
- fh=e0cJOoSpiXGHxhskGGpoAl8VZFFYuD/kVKU2vyNhjfM=;
- b=PC8LE2vzYp402XS7t4WriJlliN3LwPmbvf4p0xxEVbJnLXKhM3TXYVWVk5l2Sme7XT
- mIsrAeuZtAmLqD8MNsLDAlZV3HAle0aLi7sP13v5y56aI3sTvTseP8/qal1Kwy//62jR
- le85IfoTNh8WG2m3I2AA9ahOm1t+f7NnQktPoI0xmz2Sv9Q8vbs/zfbH7cBF5bFm4zzA
- a053OXBYpbBZhLw/GSnTXp2PlwYz21892XHrg0laj1KfIWcGO0SF3rB5oOPl8pnPsR8L
- lC/C9jm55j6KoI480BqeJMPWTkf61BpG+EHy23tHwLIWfMeDI0cFXOfyORBekdNZIOPB
- TE/g==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772725817; x=1773330617; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1PH46tNzcbUu3o7RvcJd4Yy5jYTA3vxe5hzUK7gP3mI=;
- b=kCqUzDf1Onb04HyN/xJ0FVs5XQZhmBIKLqTkjoyUJ0PhTN/pQG0p6sYXQRi2UoZPYc
- 94+rTbfe9Y4qzBNwG/yWX7YgQl5o9L60e9Ft223eum7Nr8KRtMlMls2LlP7BTl7TSy3a
- 4PfEzSv63hdUgZ/bOn81Rykc09zGm7n4VPxgaEqHiajgZeiCA05y+LqzXfwhj2AxNmMC
- X3tuMUBzb3qDHSd5pt7u0AnJDFOSzEfdDzNmio+WhxUkfCluAIHV7dRHX9KK2Azb/UPC
- JGvcOs7tp0FMPXZVc6JU/QoZPXixwWTB+ZIfcKXgFGh5UUcftiJ4qPzAin6iNhnbSFvN
- JhCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772725817; x=1773330617;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=1PH46tNzcbUu3o7RvcJd4Yy5jYTA3vxe5hzUK7gP3mI=;
- b=BTN3nDx2tvFgpUoF6agBEPIhWp/1iJMIRSFwhZE4HCoXdUrScz0OYtht3WQIUUXzJz
- IBgk7GuLX2CvPMLvCqCd14KN0xOHCWhGyutYT2OkAkqgpPE1M65zOoSDiZf4CpeGIgQJ
- xZ7y76PDZqZj4OAUQWI97/gj4gLrRC5yeskg/vabUjdu5cRx1v1Fue+w+CHwKYq6qNfO
- Dd7kkqxEJptwEnrQAUrezMsVfvQl+57pFVdkApEudSh2l+3Nu0DeBp56tMPoT/Ap/63f
- Ef3YMjyJR0Zh7x+CyCxd2O+HDWv53Kpnco9P5r8iQe/q+52tBmfFNFqYcf154Tu0txDe
- qbcw==
-X-Gm-Message-State: AOJu0YxrP2r57n/1jbUeO5pKTHAql67aduStEFQn92NjANL+Zm2gjCsq
- zfIekgcrFJI1gGkehnjulZdfIa9AqP2BMA64ji/eKy60/C6qd1S9aTfIXDh0x2L7XqvqUcg+By6
- MQY6knoDFISEH7veN5F+cC+J3DVRCc9c=
-X-Gm-Gg: ATEYQzwE2wGEdoqM4pUu9J/hMncSVnM++MeLGLp5w4C+OfnwUcHZ82hIjhIu4SAX7DE
- qceI4qEfs4H++VILeUo05WF8KmFu90DW9UYCTJZteoPGH2qW4ZW2Ju16CcGr0d6AfYQMB6MjhVZ
- Ehykl1p6bMnj+HkTF5Vb9wSlqg5974nhhHEWeAUiRyVs+tSY3lWDqXF3Pfk6o4Nd+IfH+reXRLH
- +mYskJHrcB68bZXD71MZhjpzLLb02pCjoFiQJGX8YORwH3cdXADUik5t/NhWudByQBLCHTJFDcS
- uwNo/M6z
-X-Received: by 2002:a05:6000:609:b0:439:af25:e4ea with SMTP id
- ffacd0b85a97d-439c7fb73b9mr11949295f8f.25.1772725817347; Thu, 05 Mar 2026
- 07:50:17 -0800 (PST)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15DA110EC19
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:59:31 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 3E3651A2CE2;
+ Thu,  5 Mar 2026 15:59:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 116CF5FF89;
+ Thu,  5 Mar 2026 15:59:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 6DF5110369314; Thu,  5 Mar 2026 16:59:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1772726368; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=2g55IQ9Z6PNGrryFVuRVWjR0F8ZMs0TVYXk90v/Q6fk=;
+ b=meDuvyIuwyzVnNQ3XeHYVKFioNP6QqLVd7prIiaSmm++fHJcBymbnDRTY2BnNqSlV+EvWm
+ gU2snTKi1TqM+6D1McSS7PHAUrqn2AVUr+qerYucws6Jek15IbVy7tzzzw5cuUoQSw2xJI
+ 2yvzb34orOAtCjIVYRTjaS8diHW0YJyNPDfrrfoySuK53Oo3O5ObpeMuqlQbkpCXHK792G
+ 5vWcFx7QqVCqMa9ylEwVz5F2aLoEg92mFpDu2dUm6Moi32oAW/IrvpTO7XjI94l6ZH3nCN
+ DhioicOA8ptqZBRs1129k4Fc+xGn9QR0Ya6EatKkm+rXs5AONvGb4pMS+QiGgw==
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Bajjuri Praneeth <praneeth@ti.com>,
+ "Kory Maincent (TI)" <kory.maincent@bootlin.com>,
+ thomas.petazzoni@bootlin.com, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH] drm/tilcdc: Remove tilcdc_panel driver reintroduced by a merge
+Date: Thu,  5 Mar 2026 16:59:19 +0100
+Message-ID: <20260305155921.659550-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260125131323.45108-1-clamor95@gmail.com>
- <20260125131323.45108-2-clamor95@gmail.com>
- <CAPVz0n3FXMZOEhJCw_ajQudWfHMcg9-y32pFiejgphH5_Q7nug@mail.gmail.com>
-In-Reply-To: <CAPVz0n3FXMZOEhJCw_ajQudWfHMcg9-y32pFiejgphH5_Q7nug@mail.gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 5 Mar 2026 17:50:05 +0200
-X-Gm-Features: AaiRm503-z2GyN7tR097bCSEJFPg05xfdEkXmVkRdfGeB9zms-4jtXuG4YxPcM4
-Message-ID: <CAPVz0n1Jf=rNyNu-M9Zp0aUTWm61yo_VLXJ9QHTvAV77ZGn+9g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] gpu/drm: tegra: dsi: add support for
- Tegra20/Tegra30
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Hunter <jonathanh@nvidia.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, 
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,319 +68,483 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 8B39C214D92
+X-Rspamd-Queue-Id: 1625121506C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:mperttunen@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:diogo.ivo@tecnico.ulisboa.pt,m:clamor95@gmail.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[bootlin.com,ti.com,iki.fi,ideasonboard.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,tecnico.ulisboa.pt];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:linux-kernel@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:praneeth@ti.com,m:kory.maincent@bootlin.com,m:thomas.petazzoni@bootlin.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-=D1=87=D1=82, 5 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 17:21 Svyat=
-oslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> =D0=BD=D0=B4, 25 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 15:13 Sv=
-yatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > Tegra20 and Tegra30 are fully compatible with existing Tegra DSI driver
-> > apart from clock configuration and pad calibration which are addressed =
-by
-> > this patch.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  drivers/gpu/drm/tegra/drm.c |   2 +
-> >  drivers/gpu/drm/tegra/dsi.c | 107 +++++++++++++++++++++++++-----------
-> >  drivers/gpu/drm/tegra/dsi.h |  10 ++++
-> >  3 files changed, 88 insertions(+), 31 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> > index 4596073fe28f..5d64cd57e764 100644
-> > --- a/drivers/gpu/drm/tegra/drm.c
-> > +++ b/drivers/gpu/drm/tegra/drm.c
-> > @@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, hos=
-t1x_drm_suspend,
-> >
-> >  static const struct of_device_id host1x_drm_subdevs[] =3D {
-> >         { .compatible =3D "nvidia,tegra20-dc", },
-> > +       { .compatible =3D "nvidia,tegra20-dsi", },
-> >         { .compatible =3D "nvidia,tegra20-hdmi", },
-> >         { .compatible =3D "nvidia,tegra20-gr2d", },
-> >         { .compatible =3D "nvidia,tegra20-gr3d", },
-> >         { .compatible =3D "nvidia,tegra30-dc", },
-> > +       { .compatible =3D "nvidia,tegra30-dsi", },
-> >         { .compatible =3D "nvidia,tegra30-hdmi", },
-> >         { .compatible =3D "nvidia,tegra30-gr2d", },
-> >         { .compatible =3D "nvidia,tegra30-gr3d", },
-> > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-> > index 02a661d86751..ebc78dceaee6 100644
-> > --- a/drivers/gpu/drm/tegra/dsi.c
-> > +++ b/drivers/gpu/drm/tegra/dsi.c
-> > @@ -53,6 +53,11 @@ to_dsi_state(struct drm_connector_state *state)
-> >         return container_of(state, struct tegra_dsi_state, base);
-> >  }
-> >
-> > +struct tegra_dsi_config {
-> > +       bool has_multiple_pad_controls;
-> > +       bool has_mux_parent_clk;
-> > +};
-> > +
-> >  struct tegra_dsi {
-> >         struct host1x_client client;
-> >         struct tegra_output output;
-> > @@ -82,6 +87,8 @@ struct tegra_dsi {
-> >         /* for ganged-mode support */
-> >         struct tegra_dsi *master;
-> >         struct tegra_dsi *slave;
-> > +
-> > +       const struct tegra_dsi_config *config;
-> >  };
-> >
-> >  static inline struct tegra_dsi *
-> > @@ -663,39 +670,46 @@ static int tegra_dsi_pad_enable(struct tegra_dsi =
-*dsi)
-> >  {
-> >         u32 value;
-> >
-> > -       value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_P=
-DIO(0);
-> > -       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-> > +       if (dsi->config->has_multiple_pad_controls) {
-> > +               /*
-> > +                * XXX Is this still needed? The module reset is deasse=
-rted right
-> > +                * before this function is called.
-> > +                */
-> > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
-> > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
-> > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
-> > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
-> > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
-> > +
-> > +               value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTR=
-OL_VS1_PDIO(0);
-> > +               tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-> > +
-> > +               value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
-> > +                       DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
-> > +                       DSI_PAD_OUT_CLK(0x0);
-> > +               tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
-> > +
-> > +               value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_P=
-U_CLK(0x3) |
-> > +                       DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3=
-);
-> > +               tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
-> > +       } else {
-> > +               value =3D DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTRO=
-L_LPDNADJ(0x1) |
-> > +                       DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTRO=
-L_SLEWDNADJ(0x6) |
-> > +                       DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTRO=
-L_PDIO(0) |
-> > +                       DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_P=
-ULLDN_ENAB(0);
-> > +               tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-> > +       }
-> >
-> >         return 0;
-> >  }
-> >
-> >  static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
-> >  {
-> > -       u32 value;
-> >         int err;
-> >
-> > -       /*
-> > -        * XXX Is this still needed? The module reset is deasserted rig=
-ht
-> > -        * before this function is called.
-> > -        */
-> > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
-> > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
-> > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
-> > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
-> > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
-> > -
-> >         /* start calibration */
-> >         tegra_dsi_pad_enable(dsi);
-> >
-> > -       value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
-> > -               DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
-> > -               DSI_PAD_OUT_CLK(0x0);
-> > -       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
-> > -
-> > -       value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x=
-3) |
-> > -               DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
-> > -       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
-> > -
-> >         err =3D tegra_mipi_start_calibration(dsi->mipi);
-> >         if (err < 0)
-> >                 return err;
-> > @@ -1568,6 +1582,7 @@ static int tegra_dsi_probe(struct platform_device=
- *pdev)
-> >         if (!dsi)
-> >                 return -ENOMEM;
-> >
-> > +       dsi->config =3D of_device_get_match_data(&pdev->dev);
-> >         dsi->output.dev =3D dsi->dev =3D &pdev->dev;
-> >         dsi->video_fifo_depth =3D 1920;
-> >         dsi->host_fifo_depth =3D 64;
-> > @@ -1606,7 +1621,7 @@ static int tegra_dsi_probe(struct platform_device=
- *pdev)
-> >                 goto remove;
-> >         }
-> >
-> > -       dsi->clk_lp =3D devm_clk_get(&pdev->dev, "lp");
-> > +       dsi->clk_lp =3D devm_clk_get_optional(&pdev->dev, "lp");
-> >         if (IS_ERR(dsi->clk_lp)) {
-> >                 err =3D dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
-> >                                     "cannot get low-power clock\n");
-> > @@ -1627,10 +1642,12 @@ static int tegra_dsi_probe(struct platform_devi=
-ce *pdev)
-> >                 goto remove;
-> >         }
-> >
-> > -       err =3D tegra_dsi_setup_clocks(dsi);
-> > -       if (err < 0) {
-> > -               dev_err(&pdev->dev, "cannot setup clocks\n");
-> > -               goto remove;
-> > +       if (dsi->config->has_mux_parent_clk) {
-> > +               err =3D tegra_dsi_setup_clocks(dsi);
-> > +               if (err < 0) {
-> > +                       dev_err(&pdev->dev, "cannot setup clocks\n");
-> > +                       goto remove;
-> > +               }
-> >         }
-> >
-> >         dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > @@ -1694,11 +1711,39 @@ static void tegra_dsi_remove(struct platform_de=
-vice *pdev)
-> >         tegra_mipi_free(dsi->mipi);
-> >  }
-> >
-> > +static const struct tegra_dsi_config tegra20_dsi_config =3D {
-> > +       .has_multiple_pad_controls =3D false,
-> > +       .has_mux_parent_clk =3D false,
-> > +};
-> > +
-> > +/*
-> > + * Tegra30 allows DSIA/DSIB to be muxed to either PLL_D or PLL_D2; thi=
-s is
-> > + * simply not modeled in the clock driver yet. If this functionality i=
-s
-> > + * required, the has_mux_parent_clk flag can be set to true once the c=
-lock
-> > + * driver is patched.
-> > + */
-> > +static const struct tegra_dsi_config tegra30_dsi_config =3D {
-> > +       .has_multiple_pad_controls =3D false,
-> > +       .has_mux_parent_clk =3D false,
-> > +};
-> > +
-> > +static const struct tegra_dsi_config tegra114_dsi_config =3D {
-> > +       .has_multiple_pad_controls =3D true,
-> > +       .has_mux_parent_clk =3D true,
-> > +};
-> > +
-> > +static const struct tegra_dsi_config tegra124_dsi_config =3D {
-> > +       .has_multiple_pad_controls =3D true,
-> > +       .has_mux_parent_clk =3D false,
-> > +};
->
-> Mikko, I have an update regarding Tegra124 config. If
-> tegra_dsi_setup_clocks is not called for Tegra124 (has_mux_parent_clk
-> =3D false) DSI will not work. I cannot say for sure what is going on
-> with clocks since my tegra124 device has broken usb in mainline Linux
-> and without panel is no go. I would like to address this before this
-> series is picked.
->
+From: "Kory Maincent (TI)" <kory.maincent@bootlin.com>
 
-Ok, from what I can tell, tegra_dsi_setup_clocks ensures that the
-Tegra124 DSI parent gate clock is properly configured. I propose
-setting has_mux_parent_clk to true for Tegra124, and I will add a
-comment to explain why.
+The tilcdc_panel driver was removed by commit 8f1e1ab9c794 ("drm/tilcdc:
+Remove tilcdc panel driver"), but was inadvertently reintroduced by the
+merge commit 8b85987d3cf5 ("Merge drm/drm-next into drm-misc-next").
 
-Smth like this: "Tegra124 and Tegra210 don't have an actual mux parent
-for DSI clocks, but the gate parent clock they use requires the same
-setup."
+The regression went unnoticed because standard git commands such as
+'git show' do not expose the change. It was only spotted via
+'git show --stat':
 
-Or flag name can be changed to has_mux_gate_parent_clk or any other
-name which fits.
+  git show --stat 8b85987d3cf5 | grep tilcdc
+  drivers/gpu/drm/tilcdc/tilcdc_panel.c | 408 +
 
-> > +
-> >  static const struct of_device_id tegra_dsi_of_match[] =3D {
-> > -       { .compatible =3D "nvidia,tegra210-dsi", },
-> > -       { .compatible =3D "nvidia,tegra132-dsi", },
-> > -       { .compatible =3D "nvidia,tegra124-dsi", },
-> > -       { .compatible =3D "nvidia,tegra114-dsi", },
-> > +       { .compatible =3D "nvidia,tegra210-dsi", .data =3D &tegra124_ds=
-i_config },
-> > +       { .compatible =3D "nvidia,tegra132-dsi", .data =3D &tegra124_ds=
-i_config },
-> > +       { .compatible =3D "nvidia,tegra124-dsi", .data =3D &tegra124_ds=
-i_config },
-> > +       { .compatible =3D "nvidia,tegra114-dsi", .data =3D &tegra114_ds=
-i_config },
-> > +       { .compatible =3D "nvidia,tegra30-dsi", .data =3D &tegra30_dsi_=
-config },
-> > +       { .compatible =3D "nvidia,tegra20-dsi", .data =3D &tegra20_dsi_=
-config },
-> >         { },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
-> > diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
-> > index f39594e65e97..d834ac0c47ab 100644
-> > --- a/drivers/gpu/drm/tegra/dsi.h
-> > +++ b/drivers/gpu/drm/tegra/dsi.h
-> > @@ -95,6 +95,16 @@
-> >  #define DSI_TALLY_LRX(x)               (((x) & 0xff) <<  8)
-> >  #define DSI_TALLY_HTX(x)               (((x) & 0xff) <<  0)
-> >  #define DSI_PAD_CONTROL_0              0x4b
-> > +/* Tegra20/Tegra30 */
-> > +#define DSI_PAD_CONTROL_PULLDN_ENAB(x) (((x) & 0x1) << 28)
-> > +#define DSI_PAD_CONTROL_SLEWUPADJ(x)   (((x) & 0x7) << 24)
-> > +#define DSI_PAD_CONTROL_SLEWDNADJ(x)   (((x) & 0x7) << 20)
-> > +#define DSI_PAD_CONTROL_PREEMP_EN(x)   (((x) & 0x1) << 19)
-> > +#define DSI_PAD_CONTROL_PDIO_CLK(x)    (((x) & 0x1) << 18)
-> > +#define DSI_PAD_CONTROL_PDIO(x)                (((x) & 0x3) << 16)
-> > +#define DSI_PAD_CONTROL_LPUPADJ(x)     (((x) & 0x3) << 14)
-> > +#define DSI_PAD_CONTROL_LPDNADJ(x)     (((x) & 0x3) << 12)
-> > +/* Tegra114+ */
-> >  #define DSI_PAD_CONTROL_VS1_PDIO(x)    (((x) & 0xf) <<  0)
-> >  #define DSI_PAD_CONTROL_VS1_PDIO_CLK   (1 <<  8)
-> >  #define DSI_PAD_CONTROL_VS1_PULLDN(x)  (((x) & 0xf) << 16)
-> > --
-> > 2.51.0
-> >
+  git show 8b85987d3cf5 | grep tilcdc
+  (no output)
+
+Remove tilcdc_panel.c again to restore the previously intended state.
+
+Fixes: 8b85987d3cf5 ("Merge drm/drm-next into drm-misc-next")
+Signed-off-by: Kory Maincent (TI) <kory.maincent@bootlin.com>
+---
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c | 408 --------------------------
+ 1 file changed, 408 deletions(-)
+ delete mode 100644 drivers/gpu/drm/tilcdc/tilcdc_panel.c
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+deleted file mode 100644
+index 1de3996501f7b..0000000000000
+--- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
++++ /dev/null
+@@ -1,408 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2012 Texas Instruments
+- * Author: Rob Clark <robdclark@gmail.com>
+- */
+-
+-#include <linux/backlight.h>
+-#include <linux/gpio/consumer.h>
+-#include <linux/platform_device.h>
+-
+-#include <video/display_timing.h>
+-#include <video/of_display_timing.h>
+-#include <video/videomode.h>
+-
+-#include <drm/drm_atomic_state_helper.h>
+-#include <drm/drm_connector.h>
+-#include <drm/drm_modeset_helper_vtables.h>
+-#include <drm/drm_probe_helper.h>
+-#include <drm/drm_simple_kms_helper.h>
+-
+-#include "tilcdc_drv.h"
+-#include "tilcdc_panel.h"
+-
+-struct panel_module {
+-	struct tilcdc_module base;
+-	struct tilcdc_panel_info *info;
+-	struct display_timings *timings;
+-	struct backlight_device *backlight;
+-	struct gpio_desc *enable_gpio;
+-};
+-#define to_panel_module(x) container_of(x, struct panel_module, base)
+-
+-
+-/*
+- * Encoder:
+- */
+-
+-struct panel_encoder {
+-	struct drm_encoder base;
+-	struct panel_module *mod;
+-};
+-#define to_panel_encoder(x) container_of(x, struct panel_encoder, base)
+-
+-static void panel_encoder_dpms(struct drm_encoder *encoder, int mode)
+-{
+-	struct panel_encoder *panel_encoder = to_panel_encoder(encoder);
+-	struct backlight_device *backlight = panel_encoder->mod->backlight;
+-	struct gpio_desc *gpio = panel_encoder->mod->enable_gpio;
+-
+-	if (backlight) {
+-		backlight->props.power = mode == DRM_MODE_DPMS_ON ?
+-					 BACKLIGHT_POWER_ON : BACKLIGHT_POWER_OFF;
+-		backlight_update_status(backlight);
+-	}
+-
+-	if (gpio)
+-		gpiod_set_value_cansleep(gpio,
+-					 mode == DRM_MODE_DPMS_ON ? 1 : 0);
+-}
+-
+-static void panel_encoder_prepare(struct drm_encoder *encoder)
+-{
+-	panel_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
+-}
+-
+-static void panel_encoder_commit(struct drm_encoder *encoder)
+-{
+-	panel_encoder_dpms(encoder, DRM_MODE_DPMS_ON);
+-}
+-
+-static void panel_encoder_mode_set(struct drm_encoder *encoder,
+-		struct drm_display_mode *mode,
+-		struct drm_display_mode *adjusted_mode)
+-{
+-	/* nothing needed */
+-}
+-
+-static const struct drm_encoder_helper_funcs panel_encoder_helper_funcs = {
+-		.dpms           = panel_encoder_dpms,
+-		.prepare        = panel_encoder_prepare,
+-		.commit         = panel_encoder_commit,
+-		.mode_set       = panel_encoder_mode_set,
+-};
+-
+-static struct drm_encoder *panel_encoder_create(struct drm_device *dev,
+-		struct panel_module *mod)
+-{
+-	struct panel_encoder *panel_encoder;
+-	struct drm_encoder *encoder;
+-	int ret;
+-
+-	panel_encoder = devm_kzalloc(dev->dev, sizeof(*panel_encoder),
+-				     GFP_KERNEL);
+-	if (!panel_encoder)
+-		return NULL;
+-
+-	panel_encoder->mod = mod;
+-
+-	encoder = &panel_encoder->base;
+-	encoder->possible_crtcs = 1;
+-
+-	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
+-	if (ret < 0)
+-		goto fail;
+-
+-	drm_encoder_helper_add(encoder, &panel_encoder_helper_funcs);
+-
+-	return encoder;
+-
+-fail:
+-	drm_encoder_cleanup(encoder);
+-	return NULL;
+-}
+-
+-/*
+- * Connector:
+- */
+-
+-struct panel_connector {
+-	struct drm_connector base;
+-
+-	struct drm_encoder *encoder;  /* our connected encoder */
+-	struct panel_module *mod;
+-};
+-#define to_panel_connector(x) container_of(x, struct panel_connector, base)
+-
+-
+-static void panel_connector_destroy(struct drm_connector *connector)
+-{
+-	drm_connector_unregister(connector);
+-	drm_connector_cleanup(connector);
+-}
+-
+-static int panel_connector_get_modes(struct drm_connector *connector)
+-{
+-	struct drm_device *dev = connector->dev;
+-	struct panel_connector *panel_connector = to_panel_connector(connector);
+-	struct display_timings *timings = panel_connector->mod->timings;
+-	int i;
+-
+-	for (i = 0; i < timings->num_timings; i++) {
+-		struct drm_display_mode *mode;
+-		struct videomode vm;
+-
+-		if (videomode_from_timings(timings, &vm, i))
+-			break;
+-
+-		mode = drm_mode_create(dev);
+-		if (!mode)
+-			break;
+-
+-		drm_display_mode_from_videomode(&vm, mode);
+-
+-		mode->type = DRM_MODE_TYPE_DRIVER;
+-
+-		if (timings->native_mode == i)
+-			mode->type |= DRM_MODE_TYPE_PREFERRED;
+-
+-		drm_mode_set_name(mode);
+-		drm_mode_probed_add(connector, mode);
+-	}
+-
+-	return i;
+-}
+-
+-static struct drm_encoder *panel_connector_best_encoder(
+-		struct drm_connector *connector)
+-{
+-	struct panel_connector *panel_connector = to_panel_connector(connector);
+-	return panel_connector->encoder;
+-}
+-
+-static const struct drm_connector_funcs panel_connector_funcs = {
+-	.destroy            = panel_connector_destroy,
+-	.fill_modes         = drm_helper_probe_single_connector_modes,
+-	.reset              = drm_atomic_helper_connector_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-};
+-
+-static const struct drm_connector_helper_funcs panel_connector_helper_funcs = {
+-	.get_modes          = panel_connector_get_modes,
+-	.best_encoder       = panel_connector_best_encoder,
+-};
+-
+-static struct drm_connector *panel_connector_create(struct drm_device *dev,
+-		struct panel_module *mod, struct drm_encoder *encoder)
+-{
+-	struct panel_connector *panel_connector;
+-	struct drm_connector *connector;
+-	int ret;
+-
+-	panel_connector = devm_kzalloc(dev->dev, sizeof(*panel_connector),
+-				       GFP_KERNEL);
+-	if (!panel_connector)
+-		return NULL;
+-
+-	panel_connector->encoder = encoder;
+-	panel_connector->mod = mod;
+-
+-	connector = &panel_connector->base;
+-
+-	drm_connector_init(dev, connector, &panel_connector_funcs,
+-			DRM_MODE_CONNECTOR_LVDS);
+-	drm_connector_helper_add(connector, &panel_connector_helper_funcs);
+-
+-	connector->interlace_allowed = 0;
+-	connector->doublescan_allowed = 0;
+-
+-	ret = drm_connector_attach_encoder(connector, encoder);
+-	if (ret)
+-		goto fail;
+-
+-	return connector;
+-
+-fail:
+-	panel_connector_destroy(connector);
+-	return NULL;
+-}
+-
+-/*
+- * Module:
+- */
+-
+-static int panel_modeset_init(struct tilcdc_module *mod, struct drm_device *dev)
+-{
+-	struct panel_module *panel_mod = to_panel_module(mod);
+-	struct tilcdc_drm_private *priv = dev->dev_private;
+-	struct drm_encoder *encoder;
+-	struct drm_connector *connector;
+-
+-	encoder = panel_encoder_create(dev, panel_mod);
+-	if (!encoder)
+-		return -ENOMEM;
+-
+-	connector = panel_connector_create(dev, panel_mod, encoder);
+-	if (!connector)
+-		return -ENOMEM;
+-
+-	priv->encoders[priv->num_encoders++] = encoder;
+-	priv->connectors[priv->num_connectors++] = connector;
+-
+-	tilcdc_crtc_set_panel_info(priv->crtc,
+-				   to_panel_encoder(encoder)->mod->info);
+-
+-	return 0;
+-}
+-
+-static const struct tilcdc_module_ops panel_module_ops = {
+-		.modeset_init = panel_modeset_init,
+-};
+-
+-/*
+- * Device:
+- */
+-
+-/* maybe move this somewhere common if it is needed by other outputs? */
+-static struct tilcdc_panel_info *of_get_panel_info(struct device_node *np)
+-{
+-	struct device_node *info_np;
+-	struct tilcdc_panel_info *info;
+-	int ret = 0;
+-
+-	if (!np) {
+-		pr_err("%s: no devicenode given\n", __func__);
+-		return NULL;
+-	}
+-
+-	info_np = of_get_child_by_name(np, "panel-info");
+-	if (!info_np) {
+-		pr_err("%s: could not find panel-info node\n", __func__);
+-		return NULL;
+-	}
+-
+-	info = kzalloc_obj(*info);
+-	if (!info)
+-		goto put_node;
+-
+-	ret |= of_property_read_u32(info_np, "ac-bias", &info->ac_bias);
+-	ret |= of_property_read_u32(info_np, "ac-bias-intrpt", &info->ac_bias_intrpt);
+-	ret |= of_property_read_u32(info_np, "dma-burst-sz", &info->dma_burst_sz);
+-	ret |= of_property_read_u32(info_np, "bpp", &info->bpp);
+-	ret |= of_property_read_u32(info_np, "fdd", &info->fdd);
+-	ret |= of_property_read_u32(info_np, "sync-edge", &info->sync_edge);
+-	ret |= of_property_read_u32(info_np, "sync-ctrl", &info->sync_ctrl);
+-	ret |= of_property_read_u32(info_np, "raster-order", &info->raster_order);
+-	ret |= of_property_read_u32(info_np, "fifo-th", &info->fifo_th);
+-
+-	/* optional: */
+-	info->tft_alt_mode      = of_property_read_bool(info_np, "tft-alt-mode");
+-	info->invert_pxl_clk    = of_property_read_bool(info_np, "invert-pxl-clk");
+-
+-	if (ret) {
+-		pr_err("%s: error reading panel-info properties\n", __func__);
+-		kfree(info);
+-		info = NULL;
+-	}
+-
+-put_node:
+-	of_node_put(info_np);
+-	return info;
+-}
+-
+-static int panel_probe(struct platform_device *pdev)
+-{
+-	struct device_node *node = pdev->dev.of_node;
+-	struct backlight_device *backlight;
+-	struct panel_module *panel_mod;
+-	struct tilcdc_module *mod;
+-	int ret;
+-
+-	/* bail out early if no DT data: */
+-	if (!node) {
+-		dev_err(&pdev->dev, "device-tree data is missing\n");
+-		return -ENXIO;
+-	}
+-
+-	panel_mod = devm_kzalloc(&pdev->dev, sizeof(*panel_mod), GFP_KERNEL);
+-	if (!panel_mod)
+-		return -ENOMEM;
+-
+-	backlight = devm_of_find_backlight(&pdev->dev);
+-	if (IS_ERR(backlight))
+-		return PTR_ERR(backlight);
+-	panel_mod->backlight = backlight;
+-
+-	panel_mod->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
+-							 GPIOD_OUT_LOW);
+-	if (IS_ERR(panel_mod->enable_gpio)) {
+-		ret = PTR_ERR(panel_mod->enable_gpio);
+-		dev_err(&pdev->dev, "failed to request enable GPIO\n");
+-		goto fail_backlight;
+-	}
+-
+-	if (panel_mod->enable_gpio)
+-		dev_info(&pdev->dev, "found enable GPIO\n");
+-
+-	mod = &panel_mod->base;
+-	pdev->dev.platform_data = mod;
+-
+-	tilcdc_module_init(mod, "panel", &panel_module_ops);
+-
+-	panel_mod->timings = of_get_display_timings(node);
+-	if (!panel_mod->timings) {
+-		dev_err(&pdev->dev, "could not get panel timings\n");
+-		ret = -EINVAL;
+-		goto fail_free;
+-	}
+-
+-	panel_mod->info = of_get_panel_info(node);
+-	if (!panel_mod->info) {
+-		dev_err(&pdev->dev, "could not get panel info\n");
+-		ret = -EINVAL;
+-		goto fail_timings;
+-	}
+-
+-	return 0;
+-
+-fail_timings:
+-	display_timings_release(panel_mod->timings);
+-
+-fail_free:
+-	tilcdc_module_cleanup(mod);
+-
+-fail_backlight:
+-	if (panel_mod->backlight)
+-		put_device(&panel_mod->backlight->dev);
+-	return ret;
+-}
+-
+-static void panel_remove(struct platform_device *pdev)
+-{
+-	struct tilcdc_module *mod = dev_get_platdata(&pdev->dev);
+-	struct panel_module *panel_mod = to_panel_module(mod);
+-	struct backlight_device *backlight = panel_mod->backlight;
+-
+-	if (backlight)
+-		put_device(&backlight->dev);
+-
+-	display_timings_release(panel_mod->timings);
+-
+-	tilcdc_module_cleanup(mod);
+-	kfree(panel_mod->info);
+-}
+-
+-static const struct of_device_id panel_of_match[] = {
+-		{ .compatible = "ti,tilcdc,panel", },
+-		{ },
+-};
+-
+-static struct platform_driver panel_driver = {
+-	.probe = panel_probe,
+-	.remove = panel_remove,
+-	.driver = {
+-		.name = "tilcdc-panel",
+-		.of_match_table = panel_of_match,
+-	},
+-};
+-
+-int __init tilcdc_panel_init(void)
+-{
+-	return platform_driver_register(&panel_driver);
+-}
+-
+-void __exit tilcdc_panel_fini(void)
+-{
+-	platform_driver_unregister(&panel_driver);
+-}
+-- 
+2.43.0
+
