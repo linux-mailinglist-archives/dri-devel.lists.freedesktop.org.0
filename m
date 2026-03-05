@@ -2,68 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGVsE8zGqWmcEgEAu9opvQ
+	id DxJVJsfJqWmVFAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:09:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:21:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7283216D6C
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:09:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35085216F09
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 19:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80BF10EC5D;
-	Thu,  5 Mar 2026 18:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 480CA10E085;
+	Thu,  5 Mar 2026 18:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="lqlBFHzH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TcpQIZGQ";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KLK2io2C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B0810EC5D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:09:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Cc:To
- :From:subject:date:message-id:reply-to;
- bh=adH7Yx0sIn9M3KOK46MS0Z5Gi0nhXo0SQhj7OZo/qJ8=; b=lqlBFHzHucqbX23Z0gYNkhbOT+
- B8TsSyatYJkNNTvIsn8Cn7eGTpr2KuboOyI6uaPultdmhp7TNeuqTG30MMfh7dFgJXSDaEriFaFLf
- J5HMNj4uA9IIHKbEodePvg9Gw8gptAwbEXsB+m/+1M+p8KXi+O36ZqxGzO6Z+wGgTaas=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:37706
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vyD89-0002aR-5o; Thu, 05 Mar 2026 13:09:02 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, Frank.Li@nxp.com, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
- laurent.pinchart+renesas@ideasonboard.com, antonin.godard@bootlin.com
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, hugo@hugovil.com,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Date: Thu,  5 Mar 2026 13:06:30 -0500
-Message-ID: <20260305180651.1827087-16-hugo@hugovil.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260305180651.1827087-1-hugo@hugovil.com>
-References: <20260305180651.1827087-1-hugo@hugovil.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F125F10E085
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 18:21:54 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 625AFoWP456076
+ for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 18:21:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=kzn/Z5bw8Ia071qhOd3mvT
+ Rpo1/fZve5V3cUsd4M82k=; b=TcpQIZGQFaSUPDl3+IedSaeMSqdcfbKVf+30Lo
+ YDS4btWhTW56WlQVFcRVkRr2jzH41PcLFmpv/5ZUElydSQBCx/QQMmmbfnI1aeXh
+ wN1Q34IrBgz6dEkddJVwrzzfJqxzlcepViFVjZF0l9pjkK7GdGAg4LoREpSWTjTJ
+ TCj6ETZfV1SODyPQnzFL6oCkR60UgXjYQkT43ZZ82wlYug9ImdV9l44dajXAWj79
+ rEOKrbKm6g9ZBr0BNnYo06Rni9eo/fQ+oWMhjF9PH7AufaTIfCqoB/JjWZtFIipR
+ XWZowoG2tFkA6dhIf0/rkenbraa415sZiZGzpu/NywPdBJ7g==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cps0wmdxd-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 18:21:53 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2ae47b3adacso47539275ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 10:21:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772734913; x=1773339713;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzn/Z5bw8Ia071qhOd3mvTRpo1/fZve5V3cUsd4M82k=;
+ b=KLK2io2CP53Tgi7bMhCJI0iO0nQ0rKNqLyxR4vkyyxt5LFbFmf4n1d7Qio6+iq5pon
+ A005KdbzcH6crcfTLea+qNIMgtHzaY07LzdYbEtRaObEF7HnEg7kwwDaaSzjlaFc31qM
+ Lh8HSVGo2G3H9QqWI/tUG5udhJc5f2OMQfcrHp+DC7qXwyEwA5Lfo3thkvTv/qLz3CsS
+ 8N4qfyc7KnFDTMx+PaPEjOkUZqzkwT4Lr+OqyCRiIdKPBANAzXa9BqNrS8pBedFzh8eV
+ zratJsSd0r6h9jVUmYBgOkn7M6uQ4/W74CgG5Mxo+05YIxx9kqWGLCgigSkfTQ5/LKLD
+ 54DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772734913; x=1773339713;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kzn/Z5bw8Ia071qhOd3mvTRpo1/fZve5V3cUsd4M82k=;
+ b=PgwyWXHSr3gQM/pP1vSeg7tOE0spjiaTVNVaR0oFGUiyGvL6l2dan1mRZoOnisyldu
+ vMmD6SS7jWf9i4M//jKNuh2RlHL8xYxIUUmXCeWZJMCgHgWcNo6RPGJnlKZEL7N1mAWW
+ Tk5YKd4liss5VquXTF2KRt5bhM98G3Blv1V/N4jELrkvMXeHEOWEItbHFpfENsWFUycS
+ 5WqvlbIGkT/Douo4Rdlvpd2sNTSImwoQ4i1ng8h9QxeDXI++d2WeusthUErmWNbGSPtb
+ 0bbHcERPYUe0yUVfWE7bjoAOjCZQRCanaIrn+IvR/MHvyx9V4spmp0wcIU7ZvQCrv01E
+ nWqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUBLjLICWnCBDBfV+JYVMnsGKfdj5Tny+gzDb/kWey/3OEm1iaQ9D2a+tIHFXf7HmPpP2mTUB9WxvM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWn8sBicpkC0+/ZRQ5C8ZzW7EKLkZhIDHW4RKt+hzKuWuoMrW3
+ fYPipUf3Q4NvX3OJEP6sbef7iwsqt5HzQX0MX0yyMJyKK7b/5F5Qa9MKW+YRi/B5wxdPXVkeLLd
+ RdgtH40Uf2Em3iuRRLnmubcdFtN/31XESOFtDAf91D6zgdrpq7gvL03jDXNiaetE3gvi0v0s=
+X-Gm-Gg: ATEYQzyshdK7wKcMsgTEcnQRij4vhgXs7XXwTPTbmrOsnKyA2jUXsmVJ1MYpQcSy4aO
+ H1bCKO2iVee0fNmiichDQeOylL6Ok3SxZYhrJdGXAuZzQAw33mVtuV3ArO/F0b+HwuQHb7bUwJu
+ S3xf9SJjlJde1W3zlzTB9sbzyqTFeIO0Dkc4y4wKWBFPkSg3TPLra7ssHOnnW+zQkIkcZdJbL6w
+ 0PWM4VC2i8g/oXQdhIkbuzG/p7pCXAjcHFsn6PzHfCprmSMgNIKQiKIyaG8aJdqlqIRkKoAhpSG
+ 1DHbBwUS4oHxOQwB3au2AJDVUBZ4PxigNQ+jDl+HqPBc9uENvL608PBnLao4myw+1UqNxUgelt6
+ VoUl1fuH7VTsX8X+JRHWvGnEwkfK2jVVab7xLQDdMEtDMiA==
+X-Received: by 2002:a17:903:3846:b0:2ae:5275:4d52 with SMTP id
+ d9443c01a7336-2ae80292b1amr5866365ad.53.1772734912848; 
+ Thu, 05 Mar 2026 10:21:52 -0800 (PST)
+X-Received: by 2002:a17:903:3846:b0:2ae:5275:4d52 with SMTP id
+ d9443c01a7336-2ae80292b1amr5866075ad.53.1772734912343; 
+ Thu, 05 Mar 2026 10:21:52 -0800 (PST)
+Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2adfb5c183bsm238554615ad.24.2026.03.05.10.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2026 10:21:51 -0800 (PST)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Date: Thu, 05 Mar 2026 23:51:16 +0530
+Subject: [PATCH] drm/msm/a8xx: Fix ubwc config related to swizzling
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
- *      [score: 0.0000]
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: [PATCH v2 15/15] ARM: dts: imx6ul-var-som: add support for LVDS
- display panel
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-a8xx-ubwc-fix-v1-1-d99b6da4c5a9@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAJvJqWkC/yWMSw7CMAwFrxJ5jUUI4qNeBXXhJC54kRaStkSqe
+ ncssniLedLMBoWzcIHObJB5lSLTqHA6GAgvGp+MEpXBWXe1Z3tButeKi/8GHKQi3TiSi4O3jkC
+ dd2a9/71H3zjzZ9Hs3E7wVBjDlJLMnYk5YSrpqMPm9fv+A99qQGKUAAAA
+X-Change-ID: 20260305-a8xx-ubwc-fix-a7eda2dfb02a
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772734907; l=1645;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=t10gycm7XN6yp836FuswCQpUYixNfUW82DsaMspLZuM=;
+ b=wP9Gmp7/cuBD9ZtEtl7gNjgUsY4RTnj0lBI/zX7KxJHHjUHQXjxTpoQzJDaAOkHT+/9yR7DZB
+ 6Vru41JFGJlCg1+Pvw1LU4jkTmufP2U2zkp2gY7QkrTX0+L1Ej+9m0K
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Proofpoint-GUID: v7Fp6zsm7bVcJjLQf0XE5H_IMwUq4bdi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDE1MSBTYWx0ZWRfX6jRm6XtCYL9K
+ X5bZvNwE/r6N1zx0Qs/NMdGasqKlQm1WDiV3njWsDMoKioRQ+1fcIss99nLxrX87Lcs4ZhUzpjv
+ FEtDti8Fv1V/MSEgu588ugKbq74+5gzBxsH3970M8kz6onkaoemyQHbSRnch71JsWigEeuQu7bU
+ ZBUbSyA2QDjTj+oeB3P6iHEwrw8yE34LxBaQLQpTinhSzPd6ApFzs5wfmVIHFVTevAqfu8w7822
+ ZLw0GGnMLc+aO9w4+MzEAb4lrPft4qyZRAk+jARYwXsb4B+UWgr8FtIf5EAP5Vbyb4Br85DkjjB
+ FYQRFgNHEZdib7nSDSadtF7SGPsGyQlkB1ICUK1KMf4TyUMu72Wq2wZ8Na+6I1VVwOEMdBX5y2J
+ mnMcKXIedaiFL//HAvsT7Q4HuBgYh2J1SBjvoyErB48P1NFH7NaNXXfUfCTVYFW8auieilADNs+
+ E9uz7O3H+onT7GkSmWA==
+X-Authority-Analysis: v=2.4 cv=OYWVzxTY c=1 sm=1 tr=0 ts=69a9c9c1 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=gtd1DNuhXpllK-bHf4IA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: v7Fp6zsm7bVcJjLQf0XE5H_IMwUq4bdi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_05,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,287 +156,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B7283216D6C
+X-Rspamd-Queue-Id: 35085216F09
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[hugovil.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hugo@hugovil.com,m:hvilleneuve@dimonoff.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,nxp.com,pengutronix.de,bootlin.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:akhilpo@oss.qualcomm.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,gmail.com,somainline.org,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+To disable l2/l3 swizzling in A8x, set the respective bits in both
+GRAS_NC_MODE_CNTL and RB_CCU_NC_MODE_CNTL registers. This is required
+for Glymur where it is recommended to keep l2/l3 swizzling disabled.
 
-Add support for the LD configuration option (LVDS encoder assembled on SOM)
-so that the LVDS display panel on the concerto EVK board works properly.
-Not all VAR-SOM-6UL SOMs have the LD configuration option so factor out
-this functionality to a separate dtsi.
-
-Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Fixes: 288a93200892 ("drm/msm/adreno: Introduce A8x GPU Support")
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 ---
- .../imx/imx6ul-var-som-concerto-common.dtsi   |  35 ++++--
- .../nxp/imx/imx6ul-var-som-concerto-full.dts  |   1 +
- .../dts/nxp/imx/imx6ul-var-som-concerto.dts   |   1 +
- .../nxp/imx/imx6ul-var-som-lvds-panel.dtsi    | 112 ++++++++++++++++++
- .../nxp/imx/imx6ull-var-som-concerto-full.dts |   1 +
- .../dts/nxp/imx/imx6ull-var-som-concerto.dts  |   1 +
- 6 files changed, 139 insertions(+), 12 deletions(-)
- create mode 100644 arch/arm/boot/dts/nxp/imx/imx6ul-var-som-lvds-panel.dtsi
+ drivers/gpu/drm/msm/adreno/a8xx_gpu.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-index f099ca5d0e8f0..e5637310ba632 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-common.dtsi
-@@ -44,6 +44,29 @@ led-0 {
- 			linux,default-trigger = "heartbeat";
- 		};
- 	};
+diff --git a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c b/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
+index 5a320f5bde41..b1887e0cf698 100644
+--- a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
+@@ -310,11 +310,21 @@ static void a8xx_set_ubwc_config(struct msm_gpu *gpu)
+ 	hbb = cfg->highest_bank_bit - 13;
+ 	hbb_hi = hbb >> 2;
+ 	hbb_lo = hbb & 3;
+-	a8xx_write_pipe(gpu, PIPE_BV, REG_A8XX_GRAS_NC_MODE_CNTL, hbb << 5);
+-	a8xx_write_pipe(gpu, PIPE_BR, REG_A8XX_GRAS_NC_MODE_CNTL, hbb << 5);
 +
-+	lvds_panel: lvds-panel {
-+		compatible = "sgd,gktw70sdae4se", "panel-lvds";
-+		data-mapping = "jeida-18";
-+		width-mm = <153>;
-+		height-mm = <86>;
++	a8xx_write_pipe(gpu, PIPE_BV, REG_A8XX_GRAS_NC_MODE_CNTL,
++			hbb << 5 |
++			level3_swizzling_dis << 4 |
++			level2_swizzling_dis << 3);
 +
-+		panel-timing {
-+			clock-frequency = <35000000>;
-+			hactive = <800>;
-+			vactive = <480>;
-+			hback-porch = <40>;
-+			hfront-porch = <40>;
-+			vback-porch = <29>;
-+			vfront-porch = <13>;
-+			hsync-len = <48>;
-+			vsync-len = <3>;
-+			hsync-active = <0>;
-+			vsync-active = <0>;
-+			de-active = <1>;
-+			pixelclk-active = <0>;
-+		};
-+	};
- };
++	a8xx_write_pipe(gpu, PIPE_BR, REG_A8XX_GRAS_NC_MODE_CNTL,
++			hbb << 5 |
++			level3_swizzling_dis << 4 |
++			level2_swizzling_dis << 3);
  
- &can1 {
-@@ -98,12 +121,6 @@ MX6UL_PAD_UART3_RX_DATA__GPIO1_IO25	0x1b0b0	/* GPLED2 */
- 		>;
- 	};
+ 	a8xx_write_pipe(gpu, PIPE_BR, REG_A8XX_RB_CCU_NC_MODE_CNTL,
+ 			yuvnotcomptofc << 6 |
++			level3_swizzling_dis << 5 |
++			level2_swizzling_dis << 4 |
+ 			hbb_hi << 3 |
+ 			hbb_lo << 1);
  
--	pinctrl_pwm4: pwm4grp {
--		fsl,pins = <
--			MX6UL_PAD_GPIO1_IO05__PWM4_OUT		0x110b0
--		>;
--	};
--
- 	pinctrl_rtc: rtcgrp {
- 		fsl,pins = <
- 			MX6UL_PAD_JTAG_MOD__GPIO1_IO10		0x1b0b0 /* RTC alarm IRQ */
-@@ -139,12 +156,6 @@ MX6UL_PAD_GPIO1_IO01__WDOG1_WDOG_B	0x78b0
- 	};
- };
- 
--&pwm4 {
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_pwm4>;
--	status = "okay";
--};
--
- &snvs_pwrkey {
- 	status = "disabled";
- };
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-index 64a3cbd8b7c38..725f34d6b7ee9 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto-full.dts
-@@ -14,6 +14,7 @@
- #include "imx6ul-var-som-enet2.dtsi"
- #include "imx6ul-var-som-enet1.dtsi"
- #include "imx6ul-var-som-audio.dtsi"
-+#include "imx6ul-var-som-lvds-panel.dtsi"
- 
- / {
- 	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-index 9c5cb96beeb17..c249e15772b82 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-concerto.dts
-@@ -14,6 +14,7 @@
- #include "imx6ul-var-som-sd.dtsi"
- #include "imx6ul-var-som-enet2.dtsi"
- #include "imx6ul-var-som-audio.dtsi"
-+#include "imx6ul-var-som-lvds-panel.dtsi"
- 
- / {
- 	model = "Variscite VAR-SOM-6UL Concerto Board (6UL CPU)";
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-lvds-panel.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-lvds-panel.dtsi
-new file mode 100644
-index 0000000000000..996b37d35d6e0
---- /dev/null
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ul-var-som-lvds-panel.dtsi
-@@ -0,0 +1,112 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * LVDS panel support for Variscite VAR-SOM-6UL module.
-+ *
-+ * Copyright 2019-2024 Variscite Ltd.
-+ * Copyright 2026 Dimonoff
-+ */
-+
-+/ {
-+	lcd_backlight: lcd-backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm4 0 2000000 0>;
-+		pwm-names = "LCD_BKLT_PWM";
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <6>;
-+		status = "okay";
-+	};
-+
-+	lvds_encoder: lvds-encoder {
-+		compatible = "ti,sn75lvds93", "lvds-encoder";
-+		power-supply = <&reg_3p3v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				lvds_enc_in: endpoint {
-+					remote-endpoint = <&lcdif_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				lvds_enc_out: endpoint {
-+					remote-endpoint = <&lvds_panel_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&iomuxc {
-+	pinctrl_lcdif_ctrl: lcdif-ctrl-grp {
-+		fsl,pins = <
-+			MX6UL_PAD_LCD_CLK__LCDIF_CLK		0x79
-+			MX6UL_PAD_LCD_ENABLE__LCDIF_ENABLE	0x79
-+		>;
-+	};
-+
-+	pinctrl_lcdif_dat: lcdif-dat-grp {
-+		fsl,pins = <
-+			MX6UL_PAD_LCD_DATA02__LCDIF_DATA02	0x79
-+			MX6UL_PAD_LCD_DATA03__LCDIF_DATA03	0x79
-+			MX6UL_PAD_LCD_DATA04__LCDIF_DATA04	0x79
-+			MX6UL_PAD_LCD_DATA05__LCDIF_DATA05	0x79
-+			MX6UL_PAD_LCD_DATA06__LCDIF_DATA06	0x79
-+			MX6UL_PAD_LCD_DATA07__LCDIF_DATA07	0x79
-+			MX6UL_PAD_LCD_DATA10__LCDIF_DATA10	0x79
-+			MX6UL_PAD_LCD_DATA11__LCDIF_DATA11	0x79
-+			MX6UL_PAD_LCD_DATA12__LCDIF_DATA12	0x79
-+			MX6UL_PAD_LCD_DATA13__LCDIF_DATA13	0x79
-+			MX6UL_PAD_LCD_DATA14__LCDIF_DATA14	0x79
-+			MX6UL_PAD_LCD_DATA15__LCDIF_DATA15	0x79
-+			MX6UL_PAD_LCD_DATA18__LCDIF_DATA18	0x79
-+			MX6UL_PAD_LCD_DATA19__LCDIF_DATA19	0x79
-+			MX6UL_PAD_LCD_DATA20__LCDIF_DATA20	0x79
-+			MX6UL_PAD_LCD_DATA21__LCDIF_DATA21	0x79
-+			MX6UL_PAD_LCD_DATA22__LCDIF_DATA22	0x79
-+			MX6UL_PAD_LCD_DATA23__LCDIF_DATA23	0x79
-+		>;
-+	};
-+
-+	pinctrl_pwm4: pwm4-grp {
-+		fsl,pins = <
-+			MX6UL_PAD_GPIO1_IO05__PWM4_OUT		0x110b0 /* LCD BACKLIGHT */
-+		>;
-+	};
-+};
-+
-+&lcdif {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_lcdif_dat
-+		     &pinctrl_lcdif_ctrl>;
-+	status = "okay";
-+
-+	port {
-+		lcdif_out: endpoint {
-+			remote-endpoint = <&lvds_enc_in>;
-+		};
-+	};
-+};
-+
-+&lvds_panel {
-+	status = "okay";
-+
-+	port {
-+		lvds_panel_in: endpoint {
-+			remote-endpoint = <&lvds_enc_out>;
-+		};
-+	};
-+};
-+
-+/* PWM LCD */
-+&pwm4 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm4>;
-+	status = "okay";
-+};
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-index 2e1f75d5f25a6..1b7c1a3383eec 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto-full.dts
-@@ -14,6 +14,7 @@
- #include "imx6ul-var-som-enet2.dtsi"
- #include "imx6ul-var-som-enet1.dtsi"
- #include "imx6ul-var-som-audio.dtsi"
-+#include "imx6ul-var-som-lvds-panel.dtsi"
- 
- / {
- 	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-index 43a477db652fa..9c9d16eb1a11e 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6ull-var-som-concerto.dts
-@@ -13,6 +13,7 @@
- #include "imx6ul-var-som-sd.dtsi"
- #include "imx6ul-var-som-enet2.dtsi"
- #include "imx6ul-var-som-audio.dtsi"
-+#include "imx6ul-var-som-lvds-panel.dtsi"
- 
- / {
- 	model = "Variscite VAR-SOM-6UL Concerto Board (6ULL CPU)";
+
+---
+base-commit: ac47870fd795549f03d57e0879fc730c79119f4b
+change-id: 20260305-a8xx-ubwc-fix-a7eda2dfb02a
+
+Best regards,
 -- 
-2.47.3
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
 
