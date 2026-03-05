@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WIs0ECyjqWl5BQEAu9opvQ
+	id GDupK3ejqWl5BQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:37:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:38:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8BF214A41
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB568214A93
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA1410EC28;
-	Thu,  5 Mar 2026 15:37:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nXquMt/o";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A1C10EC39;
+	Thu,  5 Mar 2026 15:38:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94F6910E2BF;
- Thu,  5 Mar 2026 15:37:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B328C61344;
- Thu,  5 Mar 2026 15:37:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 391BFC19423;
- Thu,  5 Mar 2026 15:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772725030;
- bh=6tujxYpRlhxev6CqOHJ+H3QHJmBdmYEOacOOWDxfjrE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nXquMt/oLERUwzeQ9JN2sXweNmfxtj9AAk2HljBlMGJHuHYFfSTECv18cqj/BENwY
- WlJcAwVzkITu0NQOSFYV4yZOsFu3kRs0c5CcvE4jZY3kuCYnUTUUM7JBmQoWy9KBeu
- i2bi6CLNo/5NhUGKFoDueubPe/INcD1ZhThGN1g1vxXcp2HKA/8PKUwvmzIOPstq/y
- Uwk5LlvuUoolHy0vPu95Jm1rilRUi2FpCQe6eN9XsgfTYVLkNHHbN22ikkUl7c/uVX
- dVMnM0b8vOhXZiB4pdvRi6bF+KhT6pDUgtmMQ+3mY+jKiY00pPo3RTP5o/vEJSXjMV
- qLkoGWErlx6xQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: sguttula <suresh.guttula@amd.com>,
- Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] drm/amdgpu/vcn5: Add SMU dpm interface type
-Date: Thu,  5 Mar 2026 10:36:46 -0500
-Message-ID: <20260305153704.106918-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260305153704.106918-1-sashal@kernel.org>
-References: <20260305153704.106918-1-sashal@kernel.org>
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E556E10EC2B
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:38:26 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
+ by APP-03 (Coremail) with SMTP id rQCowAC3195so6lpFrziCQ--.13220S2;
+ Thu, 05 Mar 2026 23:38:21 +0800 (CST)
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Subject: [PATCH drm-misc-next v3 0/4] drm: verisilicon: convert drm_format to
+ vs_format in atomic_check
+Date: Thu,  5 Mar 2026 23:38:13 +0800
+Message-ID: <20260305153817.157841-1-zhengxingda@iscas.ac.cn>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19.6
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowAC3195so6lpFrziCQ--.13220S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1fWr17KFWxCFWxWF17ZFb_yoWfKrb_GF
+ 47ua4DCw4jkayjqa4UWrs09F929a1j9F45CF48trsrKrWDGr1xZr1UXFZ7Zw18Xa48KFs3
+ Cr9rZw1SvFsrujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+ 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+ cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+ ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_Jw0_
+ GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbGQ6JUUUU
+ U==
+X-Originating-IP: [112.94.103.14]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,148 +67,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 8D8BF214A41
+X-Rspamd-Queue-Id: EB568214A93
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[amd.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:uwu@icenowy.me,m:zhengxingda@iscas.ac.cn,s:lists@lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.974];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-From: sguttula <suresh.guttula@amd.com>
+This patchset tries to move the process of converting drm_format to
+vs_format into plane's atomic_check callback (instead of the
+atomic_commit one, which the process currently sits) for more proper
+error handling (because atomic_commit cannot fail).
 
-[ Upstream commit a5fe1a54513196e4bc8f9170006057dc31e7155e ]
+In addition, because of the original flow of primary plane's
+atomic_check seems to be flawed, it's also updated before filling
+vs_format is added there.
 
-This will set AMDGPU_VCN_SMU_DPM_INTERFACE_* smu_type
-based on soc type and fixing ring timeout issue seen
-for DPM enabled case.
+Icenowy Zheng (4):
+  drm: verisilicon: make vs_format conversion function return int
+  drm: verisilicon: subclass drm_plane_state
+  drm: verisilicon: call atomic helper's plane state check even if no
+    CRTC
+  drm: verisilicon: fill plane's vs_format in atomic_check
 
-Signed-off-by: sguttula <suresh.guttula@amd.com>
-Reviewed-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-(cherry picked from commit f0f23c315b38c55e8ce9484cf59b65811f350630)
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+ drivers/gpu/drm/verisilicon/vs_plane.c        | 53 ++++++++++++++++++-
+ drivers/gpu/drm/verisilicon/vs_plane.h        | 18 ++++++-
+ .../gpu/drm/verisilicon/vs_primary_plane.c    | 53 +++++++++++--------
+ 3 files changed, 99 insertions(+), 25 deletions(-)
 
-LLM Generated explanations, may be completely bogus:
-
-## Analysis
-
-### What the commit does
-This adds 3 lines to `vcn_v5_0_0_sw_init()` that set the SMU DPM
-(Dynamic Power Management) interface type in the VCN firmware shared
-memory structure. It sets `AMDGPU_VCN_SMU_DPM_INTERFACE_FLAG` in
-`present_flag_0` and tells the firmware whether the platform is an APU
-or DGPU.
-
-### Bug being fixed
-The commit message explicitly states it's "fixing ring timeout issue
-seen for DPM enabled case." Ring timeouts on GPU hardware mean the GPU's
-command ring becomes unresponsive, which causes GPU hangs and failed
-video encoding/decoding operations. This is a serious user-visible
-issue.
-
-### Pattern analysis
-This is clearly a missing initialization that was already present in VCN
-v4.0 (`vcn_v4_0.c:157-159`) and VCN v4.0.5 (`vcn_v4_0_5.c:201-203`) but
-was omitted when VCN v5.0.0 was written. The code added is **identical**
-to the VCN v4.0 pattern:
-```c
-fw_shared->present_flag_0 |=
-cpu_to_le32(AMDGPU_VCN_SMU_DPM_INTERFACE_FLAG);
-fw_shared->smu_dpm_interface.smu_interface_type = (adev->flags &
-AMD_IS_APU) ?
-    AMDGPU_VCN_SMU_DPM_INTERFACE_APU :
-AMDGPU_VCN_SMU_DPM_INTERFACE_DGPU;
-```
-
-### Stable kernel criteria
-1. **Obviously correct**: YES - exact copy of well-established pattern
-   from VCN v4.0
-2. **Fixes a real bug**: YES - ring timeouts causing GPU hangs
-3. **Important**: YES - ring timeouts prevent proper GPU video
-   functionality
-4. **Small and contained**: YES - 3 lines, single file, single function
-5. **No new features**: Correct - enables existing DPM functionality to
-   work properly
-6. **Risk**: Very low - the `smu_dpm_interface` field already exists in
-   the `amdgpu_vcn5_fw_shared` structure; the constants are already
-   defined; this just populates fields that were left uninitialized
-
-### Affected versions
-VCN v5.0.0 was added in commit `b6d1a06320519` which is present since
-v6.10. Stable trees 6.12.y, 6.11.y, and 6.10.y would benefit from this
-fix.
-
-### Verification
-- Verified vcn_v5_0_0.c current code at line 173-175 shows
-  `present_flag_0` being set but **no** `smu_dpm_interface`
-  initialization (confirmed the bug exists)
-- Verified vcn_v4_0.c lines 157-159 contain the identical DPM interface
-  initialization pattern
-- Verified `AMDGPU_VCN_SMU_DPM_INTERFACE_FLAG`,
-  `AMDGPU_VCN_SMU_DPM_INTERFACE_APU`,
-  `AMDGPU_VCN_SMU_DPM_INTERFACE_DGPU` are defined in `amdgpu_vcn.h`
-- Verified `smu_dpm_interface` field exists in `amdgpu_vcn5_fw_shared`
-  structure definition
-- Verified VCN v5.0.0 was first added in commit b6d1a06320519, present
-  since v6.10
-- Could not directly verify the upstream cherry-pick source commit
-  f0f23c315b38 (not reachable from current branch), but the "(cherry
-  picked from commit ...)" tag confirms it was already deemed important
-  within the amdgpu tree
-
-### Conclusion
-This is a small, surgical fix for a real hardware issue (ring timeouts)
-on VCN 5.0 AMD GPUs. The fix follows an identical pattern already used
-in VCN v4.0 and v4.0.5 drivers, making it obviously correct. The risk is
-minimal - it simply populates firmware shared memory fields that were
-being left uninitialized. Users with VCN 5.0 hardware experiencing DPM-
-related ring timeouts would directly benefit.
-
-**YES**
-
- drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-index 0202df5db1e12..6109124f852e5 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-@@ -174,6 +174,10 @@ static int vcn_v5_0_0_sw_init(struct amdgpu_ip_block *ip_block)
- 		fw_shared->present_flag_0 = cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
- 		fw_shared->sq.is_enabled = 1;
- 
-+		fw_shared->present_flag_0 |= cpu_to_le32(AMDGPU_VCN_SMU_DPM_INTERFACE_FLAG);
-+		fw_shared->smu_dpm_interface.smu_interface_type = (adev->flags & AMD_IS_APU) ?
-+			AMDGPU_VCN_SMU_DPM_INTERFACE_APU : AMDGPU_VCN_SMU_DPM_INTERFACE_DGPU;
-+
- 		if (amdgpu_vcnfw_log)
- 			amdgpu_vcn_fwlog_init(&adev->vcn.inst[i]);
- 
 -- 
-2.51.0
+2.52.0
 
