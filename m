@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCsFLzlmqWlN6wAAu9opvQ
+	id KHqlK7NmqWlN6wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:17:13 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:19:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417BB210746
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:17:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F7B21080E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 12:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F95110E26A;
-	Thu,  5 Mar 2026 11:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BDA10E27D;
+	Thu,  5 Mar 2026 11:19:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iNZMzjgW";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="T8jnhV/g";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s2wGBiOL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F03E10E26A;
- Thu,  5 Mar 2026 11:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772709428;
- bh=xoI3uEeKezd1w98mLIfWwGUIXlD6/QYFnMrHiXqKCa0=;
- h=From:Date:Subject:To:Cc:From;
- b=iNZMzjgWxaRlIYqfGlnBdubEF8eG+l4cxcc/3auYKEv4XmOwrv5hnGjoEf0BT65cy
- QcJ1uuNiQrB/ODotZr9jagho0pQAaMNpYu4mT3BYNs4hzIuanmeTkQGf4MOjeYNVZ5
- VGj89aYannggCQtSp6M1jB/f6qcrTNGimvo3xv3cIRnKVeqnNMn3F8edNGKI2i4RQJ
- ilVTWt/2Trk3GvZUggL9DedsSR9hFHFRgueYhswqcYLbsjZzQCxQoGoH8oHdiuIQ8i
- YBp5WYltH/dS8ZMnSLE3mJH3MPGq0EnzwH9+WSJMYYIz/5Y5O+zglKiHtKnHg9WANk
- FdHwqDIhpVUaw==
-Received: from localhost (unknown [86.123.23.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E878A17E0071;
- Thu,  5 Mar 2026 12:17:07 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 05 Mar 2026 13:16:36 +0200
-Subject: [PATCH RESEND v2] drm/amdgpu: Fix kernel-doc comments for some LUT
- properties
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C79F710E268;
+ Thu,  5 Mar 2026 11:19:11 +0000 (UTC)
+Date: Thu, 5 Mar 2026 12:19:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1772709550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OLOVNLzkgKZr6pl7bNGGllfA0IdilTf9V2IBstJHMXA=;
+ b=T8jnhV/g40XG8LivknAXA2L9jKfffKrA4x+FA/twWq3hm9NOP2mPYZNCKwe+76ZnRjWQDs
+ 2JJWvHfur49km2Zsq4DM7hYMwN0E9oec1e4VQqeS6qV42jcASvV/7B3uOCQ43F8INn48nT
+ E968kk7X6w1kXwwjDQSx4d914ekRCtJfRbiXb2bfXC66EKGeQPXCZA5i5ZvHu7An9vkaco
+ etYZLqjjw5I3jH183WPA9g6BCOpPA2zhW457pwvkAWjIC3SX/xUidibrO7WYty9aOrLaNp
+ 8SI9QTw3vdRIF+nYPEWjUQZ77LqH/bGjWgXcAy/C/AdAJPxzHtn3lpOtV47GEA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1772709550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OLOVNLzkgKZr6pl7bNGGllfA0IdilTf9V2IBstJHMXA=;
+ b=s2wGBiOLk/C92P1XkAEBUXaztaon2ye+0MCGwIgr+AsIN1xYpdp/iRrjw5MeFCMlrDIO4z
+ jhesiWiOHTia9wDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
+ PREEMPT_RT work on i915 + xe.
+Message-ID: <20260305111908.eiL2_aF1@linutronix.de>
+References: <20260224162703.Q_taYjEC@linutronix.de>
+ <20260224165903.2mn24oQy@linutronix.de>
+ <20260225075806.XNtXjZ5E@linutronix.de>
+ <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
+ <20260226120715.6Ug1Qkse@linutronix.de>
+ <20260226141942.Z6vUrEQ3@linutronix.de>
+ <20260226143857.4ZJAFzf6@linutronix.de>
+ <98af7aba-f86f-4ff0-a53b-60e0e9784e37@lankhorst.se>
+ <20260305105022.cc1qAMoO@linutronix.de>
+ <08ff34aa-acb2-4110-9dec-db6dde6edd5c@lankhorst.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-amdgpu-fix-kdoc-lut-v2-1-37947aca68e8@collabora.com>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <08ff34aa-acb2-4110-9dec-db6dde6edd5c@lankhorst.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,102 +76,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 417BB210746
+X-Rspamd-Queue-Id: 87F7B21080E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch,igalia.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,igalia.com:email]
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[bigeasy@linutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linutronix.de:+]
 X-Rspamd-Action: no action
 
-The following members of struct amdgpu_mode_info do not have valid
-references in the related kernel-doc sections:
+On 2026-03-05 12:11:50 [+0100], Maarten Lankhorst wrote:
+> Hey,
+Hi,
 
- - plane_shaper_lut_property
- - plane_shaper_lut_size_property,
- - plane_lut3d_size_property
+> I think it should be possible then to remove signaler_active, and change
+> the reader side to if (spin_is_locked()) { spin_lock(); spin_unlock(); } ?
 
-Correct all affected comment blocks.
+If signaler_active is only going 0 <-> 1 then it should be doable. Let
+me get to this then.
 
-Fixes: f545d82479b4 ("drm/amd/display: add plane shaper LUT and TF driver-specific properties")
-Fixes: 671994e3bf33 ("drm/amd/display: add plane 3D LUT driver-specific properties")
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
-Changes in v2:
-- Collected R-b tag from Melissa
-- Rebased onto latest drm-misc-next
-- Link to v1: https://lore.kernel.org/r/20250823-amdgpu-fix-kdoc-lut-v1-1-306bcad41267@collabora.com
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index dc8d2f52c7d6..e244c12ceb23 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -368,15 +368,15 @@ struct amdgpu_mode_info {
- 
- 	struct drm_property *plane_ctm_property;
- 	/**
--	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
--	 * that converts color content before 3D LUT. If
--	 * plane_shaper_tf_property != Identity TF, AMD color module will
-+	 * @plane_shaper_lut_property: Plane property to set pre-blending
-+	 * shaper LUT that converts color content before 3D LUT.
-+	 * If plane_shaper_tf_property != Identity TF, AMD color module will
- 	 * combine the user LUT values with pre-defined TF into the LUT
- 	 * parameters to be programmed.
- 	 */
- 	struct drm_property *plane_shaper_lut_property;
- 	/**
--	 * @shaper_lut_size_property: Plane property for the size of
-+	 * @plane_shaper_lut_size_property: Plane property for the size of
- 	 * pre-blending shaper LUT as supported by the driver (read-only).
- 	 */
- 	struct drm_property *plane_shaper_lut_size_property;
-@@ -400,10 +400,10 @@ struct amdgpu_mode_info {
- 	 */
- 	struct drm_property *plane_lut3d_property;
- 	/**
--	 * @plane_degamma_lut_size_property: Plane property to define the max
--	 * size of 3D LUT as supported by the driver (read-only). The max size
--	 * is the max size of one dimension and, therefore, the max number of
--	 * entries for 3D LUT array is the 3D LUT size cubed;
-+	 * @plane_lut3d_size_property: Plane property to define the max size
-+	 * of 3D LUT as supported by the driver (read-only). The max size is
-+	 * the max size of one dimension and, therefore, the max number of
-+	 * entries for 3D LUT array is the 3D LUT size cubed.
- 	 */
- 	struct drm_property *plane_lut3d_size_property;
- 	/**
-
----
-base-commit: be4cd2a13a31496c7fb9e46a244c4391b8b7cf31
-change-id: 20250823-amdgpu-fix-kdoc-lut-357db8b57fee
--- 
-Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-
+Sebastian
