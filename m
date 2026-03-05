@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBhUCHl6qWl77wAAu9opvQ
+	id UNQiJ3x6qWl77wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:37 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA52211E61
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAEB211E76
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 13:43:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B57FE10EB06;
-	Thu,  5 Mar 2026 12:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC59310EB0B;
+	Thu,  5 Mar 2026 12:43:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MBZg5wJx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DVI+mIR5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD9F10EAED
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98ADB10EAED
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 12:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772714609;
- bh=K5GaG2l/4wDTiOtMpbo7+XlyvR3cf03D/PR/1qpXbn4=;
+ s=mail; t=1772714610;
+ bh=iddwyCslhRMrVDBtQA10/VGuWIWtjMFGaNW5lRmSjug=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MBZg5wJxQyJtxfi+OUrO0ZTJpeloscu5cNXx5q2Ls9JlJ1qI18IkhU/HUm046k8oK
- w804Fd2EPPmiz2rGuKs3uw7r+21buiIGcpfi1zcvZDh+IGc2COvX+iy0zIA6xMQX3z
- gv28Q3cy1m6qYYVU029k0J1owOg5fZmrl6PEdF1Xrsa1fiMjabMSlAoKqgjpHBPxue
- JisY/QkFdJwYRSh/5xvJ5PRIBca5KIiQC+nUzngOp2mKUpeJvVh2GqZnhcqxTNjsdA
- jB2MCqhjeJOxCILOtR0N7KT4+33J9wyQajkQPQGbLdi6VQZ/AOrmp4rQUsYv2UQU72
- 39xfLEs2J5EWw==
+ b=DVI+mIR55jZ1sR4nMUgZY1QLED/sh9K7V91O0DL0iAtxik7miw/343uAfAPak+zXo
+ X6SyledFAbVP6OhD0r6jV2g0y7OqzFDSk9jdg4My8nQq8WrEqwttG2nk5jDykyNBQp
+ zK5Es5YOxcYoBChdz0LT4RfNba1Mdu7VL4WZ44QUYzA+SHejl/7a5YuC8TFHEd+n1z
+ ecQJ/OTxVfbHJYdyM6kvdbXY+Ev62bB5fNM9iAMi2FpkamnZ7R0ZbJOorWuhaD+iZA
+ KYVnjyki3h+ZoSx2yRPUx2mGNjZ+jCflehlkT7GVDE+tkjLhlkxAYB5mWcMLBsOuMM
+ LVy3Y6MEBlbrg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B95CE17E0451;
- Thu,  5 Mar 2026 13:43:28 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D19817E04D6;
+ Thu,  5 Mar 2026 13:43:29 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -55,10 +55,10 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
  kernel@collabora.com
-Subject: [PATCH v4 1/9] drm/gem: Consider GEM object reclaimable if shrinking
- fails
-Date: Thu,  5 Mar 2026 13:43:12 +0100
-Message-ID: <20260305124320.156606-2-boris.brezillon@collabora.com>
+Subject: [PATCH v4 2/9] drm/panthor: Move panthor_gems_debugfs_init() to
+ panthor_gem.c
+Date: Thu,  5 Mar 2026 13:43:13 +0100
+Message-ID: <20260305124320.156606-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260305124320.156606-1-boris.brezillon@collabora.com>
 References: <20260305124320.156606-1-boris.brezillon@collabora.com>
@@ -78,7 +78,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CDA52211E61
+X-Rspamd-Queue-Id: 4BAEB211E76
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -115,15 +115,14 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-If the object wasn't moved to a different LRU after the shrink callback
-returns, it means the buffer is still reclaimable. Update the remaining
-counter to reflect that.
+There's no reason for panthor_drv to know about panthor_gem.c internals,
+so let's move the GEM debugfs init logic to panthor_gem.c.
 
 v2:
-- Collect R-b
+- Collect R-bs
 
 v3:
-- Collect R-b
+-No changes
 
 v4:
 - No changes
@@ -132,30 +131,117 @@ Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/drm_gem.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/panthor/panthor_drv.c | 26 +-----------------------
+ drivers/gpu/drm/panthor/panthor_gem.c | 29 +++++++++++++++++++++++++--
+ drivers/gpu/drm/panthor/panthor_gem.h |  3 +--
+ 3 files changed, 29 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index fdf08cae1c5b..c12b2cfae210 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1699,6 +1699,16 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
- 			 */
- 			WARN_ON(obj->lru == &still_in_lru);
- 			WARN_ON(obj->lru == lru);
-+		} else if (obj->lru == &still_in_lru) {
-+			/*
-+			 * If the object wasn't moved and wasn't shrunk either,
-+			 * it's still remaining as reclaimable. Note that
-+			 * obj->lru is supposed to be checked with the LRU lock
-+			 * held for an accurate result, but we don't care about
-+			 * accuracy here. Worst thing that could happen is an
-+			 * extra scan.
-+			 */
-+			*remaining += obj->size >> PAGE_SHIFT;
- 		}
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 1bcec6a2e3e0..c77190bb357c 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1635,34 +1635,10 @@ static const struct file_operations panthor_drm_driver_fops = {
+ };
  
- 		dma_resv_unlock(obj->resv);
+ #ifdef CONFIG_DEBUG_FS
+-static int panthor_gems_show(struct seq_file *m, void *data)
+-{
+-	struct drm_info_node *node = m->private;
+-	struct drm_device *dev = node->minor->dev;
+-	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+-
+-	panthor_gem_debugfs_print_bos(ptdev, m);
+-
+-	return 0;
+-}
+-
+-static struct drm_info_list panthor_debugfs_list[] = {
+-	{"gems", panthor_gems_show, 0, NULL},
+-};
+-
+-static int panthor_gems_debugfs_init(struct drm_minor *minor)
+-{
+-	drm_debugfs_create_files(panthor_debugfs_list,
+-				 ARRAY_SIZE(panthor_debugfs_list),
+-				 minor->debugfs_root, minor);
+-
+-	return 0;
+-}
+-
+ static void panthor_debugfs_init(struct drm_minor *minor)
+ {
+ 	panthor_mmu_debugfs_init(minor);
+-	panthor_gems_debugfs_init(minor);
++	panthor_gem_debugfs_init(minor);
+ }
+ #endif
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 6d14b0269574..c7b8b84a8f8b 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -9,6 +9,8 @@
+ #include <linux/err.h>
+ #include <linux/slab.h>
+ 
++#include <drm/drm_debugfs.h>
++#include <drm/drm_file.h>
+ #include <drm/drm_print.h>
+ #include <drm/panthor_drm.h>
+ 
+@@ -683,8 +685,8 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+ 		totals->reclaimable += resident_size;
+ }
+ 
+-void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+-				   struct seq_file *m)
++static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
++					  struct seq_file *m)
+ {
+ 	struct gem_size_totals totals = {0};
+ 	struct panthor_gem_object *bo;
+@@ -704,4 +706,27 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+ 	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+ 		   totals.size, totals.resident, totals.reclaimable);
+ }
++
++static int panthor_gem_show_bos(struct seq_file *m, void *data)
++{
++	struct drm_info_node *node = m->private;
++	struct drm_device *dev = node->minor->dev;
++	struct panthor_device *ptdev =
++		container_of(dev, struct panthor_device, base);
++
++	panthor_gem_debugfs_print_bos(ptdev, m);
++
++	return 0;
++}
++
++static struct drm_info_list panthor_gem_debugfs_list[] = {
++	{ "gems", panthor_gem_show_bos, 0, NULL },
++};
++
++void panthor_gem_debugfs_init(struct drm_minor *minor)
++{
++	drm_debugfs_create_files(panthor_gem_debugfs_list,
++				 ARRAY_SIZE(panthor_gem_debugfs_list),
++				 minor->debugfs_root, minor);
++}
+ #endif
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 22519c570b5a..94b2d17cf032 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -203,8 +203,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+ 
+ #ifdef CONFIG_DEBUG_FS
+-void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+-				   struct seq_file *m);
++void panthor_gem_debugfs_init(struct drm_minor *minor);
+ #endif
+ 
+ #endif /* __PANTHOR_GEM_H__ */
 -- 
 2.53.0
 
