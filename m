@@ -2,142 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id S61qNAKVqWnYAQEAu9opvQ
+	id IOv4NwucqWnGAwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:36:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:06:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A5C213983
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 15:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC972142AD
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Mar 2026 16:06:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0420E10E2B6;
-	Thu,  5 Mar 2026 14:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F8D10E2B4;
+	Thu,  5 Mar 2026 15:06:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PRAe/0Eq";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="h8xeCI8I";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="LU4HGuZE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5378410E2B6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 14:36:46 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 625CN1QU720018
- for <dri-devel@lists.freedesktop.org>; Thu, 5 Mar 2026 14:36:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=M9kOZ2oA46DkDMvPSWIl1WyV
- VW6X0vR4sjQ/X/1ot3U=; b=PRAe/0EqEiMjUGnh75oi1rvpcTT0bLSMo3s9Mvxc
- zmQo3yUTTpMYkV+Qnv3XTcQsEV3nq/TqKC2oJCwnbWvi996MpDVwUpc2p+VGUX8d
- bPZikNWVwBCyiT6dpp9QvGWuKlBTRq36joBp/7+CAlOZ7xU6y+n3ERgQ7S/zrHkJ
- 574GukIy8tl90hWjHr47GEEw4USQGd4A3Trh9LIbmvgXWQc5hPK+fsZDo+hrqy27
- fOv+tmtvWyYT+qT5BC24UpTdG9vJXz2YqEMWvex2MVwkRPN2OEcr1vKnUDioRQdp
- cGnmlVXHFBmw6zL7YTTNr5cCx1sUb+fUgoju7D9Hb7MVHQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq9srgd6p-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 14:36:45 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-89a08e6cd15so212767666d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 06:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772721405; x=1773326205;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=M9kOZ2oA46DkDMvPSWIl1WyVVW6X0vR4sjQ/X/1ot3U=;
- b=h8xeCI8IpV8w9TKIfzmpSHUSqeN9wK3z1bxrc+jbA23dBSWTG+S0YQ6jsYk+kloK5H
- EKn+AdIa1o9nZDr5/6OheYU0qq4B1zmVCah/lF7ZLMuQh5dzanl+JyfvJY9kqcnfFPuH
- RkRx/BOZlvTBGUVH013edfTjDihjwf5S+I67rz5qqj3uBUAwbY5vxThc7a8T1/9oJbXi
- XCTKh4Hx/GEkBAyqjoZ8e3ICZ2DftEqOY7wi9i6GxcSgVSIWFqBermo+0R7eMM4ocYif
- PET1CxctDiImjLL+wjnp9cCve61JyOTHfbPUG+mPtipaMybuoZZlNcBbl3V8CazGmIaM
- Ez0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772721405; x=1773326205;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M9kOZ2oA46DkDMvPSWIl1WyVVW6X0vR4sjQ/X/1ot3U=;
- b=Yf/bNFELLDWRYMMY3KUjR0REKHSve48LxvSG8ac4Bv8QxIv+l21I1z2HzJoKxQYyop
- cdK8wvOywO1B4TzY6ad/GYfnBL6CU8DbnMMAn4Lahequtf0A10J8S9I8nS6vU3kWsyEy
- HeJFnQilvrLpbpj//hwdK5avtIXTXjuVPYQcghRhZxssD9ICd/IDColcuX99mTb2rQJ1
- fDn0mj2/cAwugN6MQskO4GnGE674lLOoRLojhPmDbLUOglmAVxJDKj2eDk0eoavBI3dV
- SYqxvioS+y5cJw8v183g6gzEk//zCk0G04kOswIl3RRSmyoLkKCsXyN+q0uvvsUYjGzM
- adhQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkmp0xcTpVepSQ0Uun5ySytylr3frdgX/RerNIVL4sG1C2CZvfRlQP8X6EvkdHB8cEGQ/ng58CkIA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5oMPrs3wCJLJdAt7MxKAwNzHj2Hq2IBjCRKBX6jnG4fFRt6WG
- 4UYIzH0negOhWbIn3EKZ3I/KudmI3W9GJR5WfhUK5bbGohfGRIdT+nz3Xv8AiQyVajPnanBaurs
- JIgeg8ZIeFL3dxz3I5EGoGaROIkkrc8nEsjRXaK+DGx1SAvUUX8eyNojtioePL/MfX54I1fU=
-X-Gm-Gg: ATEYQzxl8AIGCsQHi1dKmi5KHP4Z0vLbl3EPy1BnGyrtIEs/1wUIQdMMUpTZ6o5AhMY
- G8IudLiewfbn1K7/VlA1DKMCQd0aU12nn7jCn2wYZxUrRgJ84fFRYyFCF1khhWL2+RWuCmZ20GO
- +JGx/acuFmXtiwzgOFQ1pk9MLwOEzni2anjEuHnNBbTTCP4nPYRmX2Xna+ckKTPThraZqOuwyDu
- A63ouH8yqR3gnq1MORELkQ3QYA21u2XONuO0Wl5Vf/rPJfTtnwNji8ydMwcSd9mx81yUjyw508u
- ARESFhaI0aKQ4NPWFaWs46MNV17qVn6DsN1HN1aGHGKi4q9LwOpg8ZA5uHgKTRAp/siMXlVVg5D
- DxHOKdhJl+tVpyowZcme6xj2WzEkuiGsQ/pJetJoixho3F7XYW8gOccifNfIcbXjbBi26zTJEhk
- vjQgAYOeOGOSlVO/8OEgfF6C987a11h4eWmTM=
-X-Received: by 2002:a05:620a:3949:b0:8cb:678b:4877 with SMTP id
- af79cd13be357-8cd5afb739dmr742168985a.57.1772721404769; 
- Thu, 05 Mar 2026 06:36:44 -0800 (PST)
-X-Received: by 2002:a05:620a:3949:b0:8cb:678b:4877 with SMTP id
- af79cd13be357-8cd5afb739dmr742163685a.57.1772721404214; 
- Thu, 05 Mar 2026 06:36:44 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-389f2ffe02bsm41758591fa.27.2026.03.05.06.36.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2026 06:36:43 -0800 (PST)
-Date: Thu, 5 Mar 2026 16:36:41 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+X-Greylist: delayed 1718 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Mar 2026 15:06:47 UTC
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4E110E2B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Mar 2026 15:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ew.tq-group.com; s=default2602; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=jJYYjVaNri6uqi/hQTfzZ+kswxplzg5Gi2JWgEwj3V0=; b=LU4HGuZEghHpqwi/LqSv5SR2ck
+ X+kfuRkQhm+bwAJfjvhN7rkitJzjVs/fUpJYJ0JBw6X8TvT53LGDty/47sZ7y94+paa+0Hvh7cSR5
+ pf+MID3WzwGApKqOu6IUqqmaj37Okt6M11QMeEbC6Y2NtR2PKtjiDVDz7q1lC9cjTnuyUqC3JL5PQ
+ r3QRHv5NN7Bq1E4/oxK7FnfjREGu5umQLOjcMkgUzpW3+tAuyJHb1epe2lpLm0mRbRPQkyKJIqoWE
+ 9Hdz0/+a+PszZeA286SjsWjRRqqWimICYM2zM/RCsTLBd/CTZtXwXj8EnsssvcEBG2Yrl1pTSgMKr
+ 4XZmXdgw==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+ by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.96.2) (envelope-from <alexander.stein@ew.tq-group.com>)
+ id 1vy9pp-000L7i-2O; Thu, 05 Mar 2026 15:37:53 +0100
+Received: from localhost ([127.0.0.1])
+ by sslproxy01.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.96) (envelope-from <alexander.stein@ew.tq-group.com>)
+ id 1vy9po-000Flr-2V; Thu, 05 Mar 2026 15:37:52 +0100
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Mahadevan <quic_mahap@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] drm/msm/dpu: Correct the SA8775P
- intr_underrun/intr_underrun index
-Message-ID: <ulrmxcsncz5j7hbi446q33ngk63pfuja4pjvbg6zcg7c6kmn5c@ltguvvq6nsda>
-References: <20260305-mdss_catalog-v5-0-06678ac39ac7@oss.qualcomm.com>
- <20260305-mdss_catalog-v5-2-06678ac39ac7@oss.qualcomm.com>
+ luca.ceresoli@bootlin.com, Frank Li <Frank.Li@nxp.com>,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v11 2/3] drm/bridge: imx: Add i.MX93 parallel display
+ format configuration support
+Date: Thu, 05 Mar 2026 15:37:51 +0100
+Message-ID: <7394538.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20260303-v6-18-topic-imx93-parallel-display-v11-2-1b03733c8461@pengutronix.de>
+References: <20260303-v6-18-topic-imx93-parallel-display-v11-0-1b03733c8461@pengutronix.de>
+ <20260303-v6-18-topic-imx93-parallel-display-v11-2-1b03733c8461@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-mdss_catalog-v5-2-06678ac39ac7@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=a/I9NESF c=1 sm=1 tr=0 ts=69a994fd cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=s80QRqCtEMuw_QvzVh8A:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: u0Y0C7j_WdZGE1m2oj6kDorB-bVyKNHz
-X-Proofpoint-ORIG-GUID: u0Y0C7j_WdZGE1m2oj6kDorB-bVyKNHz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDExNiBTYWx0ZWRfX29/F3oOS/lbj
- vOlPtQG/W0sxCim9OMI456uOqrfKO+AqCD4s0RiBmpsvGhRdT0Omcj1SNOzUnoJ24YlVMVBPDU0
- hT2czAgJ5XOkp5g7UBJdkYLXi7Z6nKI/2/BKzzYHYsYoP1wBVhd+v03GLR5ib3AFx+DdcxXf/xG
- dw8cOGjgh1N7LemSuCk75r3zK1sEpdjmPKJ7qneEPQR5pKTHHNsg5PpwNvIpaZt/qHAznbbitZV
- 3SCf9ib3XEQ4072YV6RLuUF1aQyJ6+5EmGNEYj8IJErK054waha2lnBkQwefZmk7vOHqBHSIvJ7
- 2A1J/PLLYRaosZpzd21hKMn4RaRB41O67CiCdi6Geg7f3bnF7QidorMPoirEFszEb4y6c9NvRNp
- 099LT7qdjcMJVZoO9dwNhAxd8OHLBSo8qj1v5FV0L46RF6q9EadIW2idW1P05Dfx8xmZNGiFxuD
- MXO+4HRvI+eveLES0Hw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_04,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050116
+Content-Type: multipart/signed; boundary="nextPart7029791.LvFx2qVVIh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27931/Thu Mar  5 08:24:23 2026)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,60 +86,383 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 50A5C213983
+X-Rspamd-Queue-Id: 4FC972142AD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [2.29 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[ew.tq-group.com : SPF not aligned (strict),reject];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[ew.tq-group.com:s=default2602];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,quicinc.com,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:yongxing.mou@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:quic_mahap@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:quic_abhinavk@quicinc.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:peng.fan@nxp.com,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:luca.ceresoli@bootlin.com,m:Frank.Li@nxp.com,m:m.felsch@pengutronix.de,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alexander.stein@ew.tq-group.com,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,gmail.com,nxp.com,intel.com,linaro.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,bootlin.com,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.094];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[ew.tq-group.com:-];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:email,nxp.com:email]
 X-Rspamd-Action: no action
 
-On Thu, Mar 05, 2026 at 06:17:07PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> The intr_underrun and intr_vsync indices have been swapped, just simply
-> corrects them.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: b139c80d181c ("drm/msm/dpu: Add SA8775P support")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+--nextPart7029791.LvFx2qVVIh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+Date: Thu, 05 Mar 2026 15:37:51 +0100
+Message-ID: <7394538.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+MIME-Version: 1.0
+
+Am Dienstag, 3. M=E4rz 2026, 11:34:27 CET schrieb Marco Felsch:
+> From: Liu Ying <victor.liu@nxp.com>
+>=20
+> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
+> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+> field. Add a DRM bridge driver to support the display format configuratio=
+n.
+>=20
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> [m.felsch@pengutronix.de: port to v7.0-rc1]
+> [m.felsch@pengutronix.de: add review feedback (Alexander)]
+> [m.felsch@pengutronix.de: fix to short Kconfig description (checkpath)]
+> [m.felsch@pengutronix.de: use "GPL" instead of "GPL v2" (checkpatch)]
+> [m.felsch@pengutronix.de: add bus-width support]
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+on TQMa93xxCA on MBa91xxCA
+
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+>  drivers/gpu/drm/bridge/imx/Kconfig      |  11 ++
+>  drivers/gpu/drm/bridge/imx/Makefile     |   1 +
+>  drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 225 ++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 237 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/=
+imx/Kconfig
+> index b9028a5e5a065c3237b404111d8df57e8e017f9d..47829300a4486a090514ebe91=
+4b7667a703039a9 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -99,4 +99,15 @@ config DRM_IMX93_MIPI_DSI
+>  	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
+>  	  processor.
+> =20
+> +config DRM_IMX93_PARALLEL_DISP_FMT_CONVERTER
+> +	tristate "NXP i.MX91/i.MX93 parallel display format converter"
+> +	depends on OF
+> +	select DRM_KMS_HELPER
+> +	help
+> +	  On i.MX93 and i.MX91 SoCs the parallel display format output is
+> +	  controlled via the MEDIAMIX BLK-CTRL DISPLAY_MUX.
+> +
+> +	  Say 'Y' or 'M' if you use the parallel display output path on a
+> +	  i.MX93 or i.MX91 SoC.
+> +
+>  endif # ARCH_MXC || COMPILE_TEST
+> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge=
+/imx/Makefile
+> index 8d01fda25451aaa1bf51a068da18948094327116..da57fde2d813b88cdde89115c=
+a801b4cfc69afbd 100644
+> --- a/drivers/gpu/drm/bridge/imx/Makefile
+> +++ b/drivers/gpu/drm/bridge/imx/Makefile
+> @@ -9,3 +9,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) +=3D imx8qxp-pix=
+el-combiner.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) +=3D imx8qxp-pixel-link.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) +=3D imx8qxp-pxl2dpi.o
+>  obj-$(CONFIG_DRM_IMX93_MIPI_DSI) +=3D imx93-mipi-dsi.o
+> +obj-$(CONFIG_DRM_IMX93_PARALLEL_DISP_FMT_CONVERTER) +=3D imx93-pdfc.o
+> diff --git a/drivers/gpu/drm/bridge/imx/imx93-pdfc.c b/drivers/gpu/drm/br=
+idge/imx/imx93-pdfc.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..27a54424319838517b206ab7d=
+7447538aa1489eb
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
+> @@ -0,0 +1,225 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +/*
+> + * Copyright 2022-2025 NXP
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_bridge.h>
+> +
+> +#define IMX93_DISPLAY_MUX_REG		0x60
+> +#define PARALLEL_DISP_FORMAT		GENMASK(10, 8)
+> +#define FORMAT_RGB888_TO_RGB888		FIELD_PREP(PARALLEL_DISP_FORMAT, 0)
+> +#define FORMAT_RGB888_TO_RGB666		FIELD_PREP(PARALLEL_DISP_FORMAT, 1)
+> +#define FORMAT_RGB565_TO_RGB565		FIELD_PREP(PARALLEL_DISP_FORMAT, 2)
+> +
+> +struct imx93_pdfc {
+> +	struct drm_bridge bridge;
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	u32 phy_bus_width;
+> +};
+> +
+> +static struct imx93_pdfc *bridge_to_imx93_pdfc(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct imx93_pdfc, bridge);
+> +}
+> +
+> +static int
+> +imx93_pdfc_bridge_attach(struct drm_bridge *bridge, struct drm_encoder *=
+encoder,
+> +			 enum drm_bridge_attach_flags flags)
+> +{
+> +	return drm_bridge_attach(bridge->encoder, bridge->next_bridge, bridge, =
+flags);
+> +}
+> +
+> +static void imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
+> +					    struct drm_atomic_state *state)
+> +{
+> +	struct imx93_pdfc *pdfc =3D bridge_to_imx93_pdfc(bridge);
+> +	const struct drm_bridge_state *bridge_state;
+> +	unsigned int mask =3D PARALLEL_DISP_FORMAT;
+> +	unsigned int val;
+> +
+> +	bridge_state =3D drm_atomic_get_new_bridge_state(state, bridge);
+> +
+> +	switch (bridge_state->output_bus_cfg.format) {
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_FIXED:
+> +		val =3D FORMAT_RGB888_TO_RGB888;
+> +		if (pdfc->phy_bus_width =3D=3D 18) {
+> +			/*
+> +			 * Can be valid if physical bus limitation exists,
+> +			 * therefore use dev_dbg().
+> +			 */
+> +			dev_dbg(pdfc->dev, "Truncate two LSBs from each color\n");
+> +			val =3D FORMAT_RGB888_TO_RGB666;
+> +		}
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB666_1X18:
+> +		val =3D FORMAT_RGB888_TO_RGB666;
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB565_1X16:
+> +		val =3D FORMAT_RGB565_TO_RGB565;
+> +		break;
+> +	}
+> +
+> +	regmap_update_bits(pdfc->regmap, IMX93_DISPLAY_MUX_REG, mask, val);
+> +}
+> +
+> +/* TODO: Add YUV formats */
+> +static const u32 imx93_pdfc_bus_output_fmts[] =3D {
+> +	MEDIA_BUS_FMT_FIXED,
+> +	MEDIA_BUS_FMT_RGB888_1X24,
+> +	MEDIA_BUS_FMT_RGB666_1X18,
+> +	MEDIA_BUS_FMT_RGB565_1X16,
+> +};
+> +
+> +static bool imx93_pdfc_bus_output_fmt_supported(u32 fmt)
+> +{
+> +	int i;
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(imx93_pdfc_bus_output_fmts); i++) {
+> +		if (imx93_pdfc_bus_output_fmts[i] =3D=3D fmt)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static u32 *
+> +imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +					    struct drm_bridge_state *bridge_state,
+> +					    struct drm_crtc_state *crtc_state,
+> +					    struct drm_connector_state *conn_state,
+> +					    u32 output_fmt,
+> +					    unsigned int *num_input_fmts)
+> +{
+> +	struct imx93_pdfc *pdfc =3D bridge_to_imx93_pdfc(bridge);
+> +	u32 *input_fmts;
+> +
+> +	*num_input_fmts =3D 0;
+> +
+> +	input_fmts =3D kmalloc_obj(*input_fmts);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	*num_input_fmts =3D 1;
+> +
+> +	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt)) {
+> +		dev_dbg(pdfc->dev, "No valid output bus-fmt detected, fallback to MEDI=
+A_BUS_FMT_RGB888_1X24\n");
+> +		input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X24;
+> +		return input_fmts;
+> +	}
+> +
+> +	switch (output_fmt) {
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_RGB565_1X16:
+> +		input_fmts[0] =3D output_fmt;
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB666_1X18:
+> +	case MEDIA_BUS_FMT_FIXED:
+> +		input_fmts[0] =3D MEDIA_BUS_FMT_RGB888_1X24;
+> +		break;
+> +	}
+> +
+> +	return input_fmts;
+> +}
+> +
+> +static int imx93_pdfc_bridge_atomic_check(struct drm_bridge *bridge,
+> +					  struct drm_bridge_state *bridge_state,
+> +					  struct drm_crtc_state *crtc_state,
+> +					  struct drm_connector_state *conn_state)
+> +{
+> +	struct imx93_pdfc *pdfc =3D bridge_to_imx93_pdfc(bridge);
+> +	u32 format =3D bridge_state->output_bus_cfg.format;
+> +
+> +	if (imx93_pdfc_bus_output_fmt_supported(format))
+> +		return 0;
+> +
+> +	dev_warn(pdfc->dev, "Unsupported output bus format: 0x%x\n", format);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static const struct drm_bridge_funcs funcs =3D {
+> +	.attach			=3D imx93_pdfc_bridge_attach,
+> +	.atomic_enable		=3D imx93_pdfc_bridge_atomic_enable,
+> +	.atomic_duplicate_state	=3D drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state	=3D drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_get_input_bus_fmts	=3D imx93_pdfc_bridge_atomic_get_input_bus_f=
+mts,
+> +	.atomic_check		=3D imx93_pdfc_bridge_atomic_check,
+> +	.atomic_reset		=3D drm_atomic_helper_bridge_reset,
+> +};
+> +
+> +static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct drm_bridge *next_bridge;
+> +	struct imx93_pdfc *pdfc;
+> +	struct device_node *ep;
+> +	int err;
+> +
+> +	pdfc =3D devm_drm_bridge_alloc(dev, struct imx93_pdfc, bridge, &funcs);
+> +	if (IS_ERR(pdfc))
+> +		return PTR_ERR(pdfc);
+> +
+> +	pdfc->regmap =3D syscon_node_to_regmap(dev->of_node->parent);
+> +	if (IS_ERR(pdfc->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(pdfc->regmap),
+> +				     "failed to get regmap\n");
+> +
+> +	/* No limits per default */
+> +	pdfc->phy_bus_width =3D 24;
+> +
+> +	/* Get output ep (port1/endpoint) */
+> +	ep =3D of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
+> +	if (ep) {
+> +		err =3D of_property_read_u32(ep, "bus-width", &pdfc->phy_bus_width);
+> +		of_node_put(ep);
+> +
+> +		/* bus-width is optional but it must have valid data if present */
+> +		if (err && err !=3D -EINVAL)
+> +			return dev_err_probe(dev, err,
+> +					     "failed to query bus-width\n");
+> +	}
+> +
+> +	next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> +	if (IS_ERR(next_bridge))
+> +		return dev_err_probe(dev, PTR_ERR(next_bridge),
+> +				     "failed to get next bridge\n");
+> +	pdfc->dev =3D dev;
+> +	pdfc->bridge.of_node =3D dev->of_node;
+> +	pdfc->bridge.type =3D DRM_MODE_CONNECTOR_DPI;
+> +	pdfc->bridge.next_bridge =3D next_bridge;
+> +
+> +	return devm_drm_bridge_add(dev, &pdfc->bridge);
+> +}
+> +
+> +static const struct of_device_id imx93_pdfc_dt_ids[] =3D {
+> +	{ .compatible =3D "nxp,imx93-pdfc", },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx93_pdfc_dt_ids);
+> +
+> +static struct platform_driver imx93_pdfc_bridge_driver =3D {
+> +	.probe	=3D imx93_pdfc_bridge_probe,
+> +	.driver	=3D {
+> +		.of_match_table =3D imx93_pdfc_dt_ids,
+> +		.name =3D "imx93_pdfc",
+> +	},
+> +};
+> +module_platform_driver(imx93_pdfc_bridge_driver);
+> +
+> +MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration dri=
+ver");
+> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
+> +MODULE_LICENSE("GPL");
+>=20
+>=20
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+--nextPart7029791.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmmplT8ACgkQaS+g2M0Z
+/iV9CQf9GbkFbECiKid6I+rC64yA+LJqh/LDST9e/Od7twCmc+YoVCt3R3pNndtQ
+thAqMQjaMG+eVzbSX5OfqthFZViLArJlc38Djn7DiQq077jRgBe1xFLLgw73SYCo
+q50o7b/ugu4nWYRSI/XfNzfRuGh0iIIXtUYuJkJlOmN5ZIar2tm5zSehH98jViOa
+PpAsXZMRrkHck0TQut17YXMHUtJGjoWW5EqSS0g/VodNVnQF5wfnJDtZmbyqiP6g
+yOTz2uSfZq6nH1cO2nj3Ohqo5DErryLE3z1sNtqDXvR89fbbyiQnd9tMqVv1kHnZ
+8+Z1XPYNVoNsoJudp3K25YWd0fYldg==
+=Leit
+-----END PGP SIGNATURE-----
+
+--nextPart7029791.LvFx2qVVIh--
 
 
--- 
-With best wishes
-Dmitry
+
