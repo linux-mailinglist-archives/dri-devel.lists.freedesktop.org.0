@@ -2,110 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6QhgL/ziqmkjYAEAu9opvQ
+	id 4NeXMgTjqmkjYAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:21:48 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:21:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3711E222887
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:21:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E732228AC
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D17710ED4E;
-	Fri,  6 Mar 2026 14:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA6C10ED50;
+	Fri,  6 Mar 2026 14:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jil9XdiN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RDJVP7iN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A8610ED4E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 14:21:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AD5854174F;
- Fri,  6 Mar 2026 14:21:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C60EC4CEF7;
- Fri,  6 Mar 2026 14:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772806905;
- bh=QlowReCLCXaDEPiS+S2GX0Mrds2Ec/PskTemUWOyu5k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jil9XdiNACVK8YNzZ5AQCO0O/A1VouaMzryqqOCAUCJDpa/RrLxWj2Q3MeCF2Mslg
- 7d+1SpFsGEfaWNks+Ufj1woTgQrxd0nsBHhcCL925Zm5YXPkiJdb9okYaFmTbCBpSL
- tDokRNtYiIUIxpSJuB7Br0LeJb7U9sQ4B7N//dG+efQgrdFRsFNi36aOqOjosrFlXT
- Lb1i29HxExS4viNqXTeYq7O1E3gVR8ouf7x/dhLRrp8av5Oh0QuIlZnQWu4/34ggH1
- 7+mecAb4+B6N63mbxF1LV/aCoWx9adrtQySO77EcmT6LE/cyZmtVIpwkuK8gxMxg9j
- 0W+3NlSCajVyg==
-Message-ID: <110dace9-3ff9-4750-813f-93c6827b105c@kernel.org>
-Date: Fri, 6 Mar 2026 15:21:38 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 858DF10ED50
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 14:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772806912;
+ bh=aROk0IP8SW5ou3/slyjCpFPsJdqWzsnLUcfRF0rLhHw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RDJVP7iNi1g1Vka8pO1w67uDajoJCSd3fCYSF0VGzMNWDlVY1f1QEDsDyOUfehQqZ
+ Ef9eW65dsuXta6mkyDFHOxaiSnKvIlxrWzDvkZM2l4pnkhGXHFmko6Isos4fbnXiDY
+ iPar7sRvz1ulFVQ3pzWEU21AH17GS6CT1fJ5cQK+SWuxaiuESbHl/TBKXLtLdRgjx5
+ Kpmowh2PP3O9qs9R+MXKwVt19V7aUnEqniAE/9v2L1VvjrBBgxE1uHqylJFl2hFUVl
+ aNHZAfRvT2nyVuuMFbr1jEq2ORRCmiCzhisuYkwpNovJ274OQRuLlSa0pRL3iBTA7z
+ qZzCKKYmUz7vQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id ED61717E095E;
+ Fri,  6 Mar 2026 15:21:51 +0100 (CET)
+Date: Fri, 6 Mar 2026 15:21:47 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@mailbox.org>
+Cc: phasta@kernel.org, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, dakr@kernel.org, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel  <dri-devel@lists.freedesktop.org>
+Subject: Re: dma_fence: force users to take the lock manually
+Message-ID: <20260306152147.61a43ef2@fedora>
+In-Reply-To: <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] accel/neutron: Add driver for NXP Neutron NPU
-To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Frank Li <Frank.Li@nxp.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>,
- Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>
-References: <20260306-neutron-v2-0-3019bd8c91ef@nxp.com>
- <20260306-neutron-v2-4-3019bd8c91ef@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260306-neutron-v2-4-3019bd8c91ef@nxp.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,215 +78,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3711E222887
+X-Rspamd-Queue-Id: 56E732228AC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ruxandra.radulescu@nxp.com,m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:Frank.Li@nxp.com,m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:linux-doc@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:jiwei.fu@nxp.com,m:xuelin.shi@nxp.com,m:alexandru.taran@nxp.com,m:daniel.baluta@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:christian.koenig@amd.com,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[131.252.210.177:from];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[100.75.92.58:received];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[148.251.105.195:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:email,amd.com:email]
 X-Rspamd-Action: no action
 
-On 06/03/2026 14:27, Ioana Ciocoi-Radulescu wrote:
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a5b27b061da..f7a687eb6b54 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19191,6 +19191,16 @@ S:	Orphan
->  F:	Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
->  F:	drivers/nfc/nxp-nci
->  
-> +NXP Neutron NPU DRIVER
+On Fri, 06 Mar 2026 13:36:48 +0100
+Philipp Stanner <phasta@mailbox.org> wrote:
 
-s/Neutron/NEUTRON/ as everything here is in uppercase
+> On Fri, 2026-03-06 at 13:31 +0100, Christian K=C3=B6nig wrote:
+> > On 3/6/26 12:57, Philipp Stanner wrote: =20
+> > > On Fri, 2026-03-06 at 12:24 +0100, Boris Brezillon wrote: =20
+> > > > On Fri, 6 Mar 2026 12:03:19 +0100
+> > > > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> > > >  =20
+> > > > > On 3/6/26 11:37, Boris Brezillon wrote: =20
+> > > > > > On Fri, 6 Mar 2026 10:58:07 +0100
+> > > > > > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> > > > > > =C2=A0  =20
+> > > > > > > On 3/6/26 10:46, Boris Brezillon wrote:=C2=A0  =20
+> > > > > > > > On Fri, 6 Mar 2026 09:10:52 +0100
+> > > > > > > > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:=C2=
+=A0=C2=A0=C2=A0  =20
+> > > > > > > > > Well as I wrote above you either have super reliable lock=
+ing in
+> > > > > > > > > your signaling path or you will need that for error handl=
+ing.=C2=A0=C2=A0=C2=A0  =20
+> > > > > > > >=20
+> > > > > > > > Not really. With rust's ownership model, you can make it so=
+ only
+> > > > > > > > one thread gets to own the DriverFence (the signal-able fen=
+ce
+> > > > > > > > object), and the DriverFence::signal() method consumes this
+> > > > > > > > object. This implies that only one path gets to signal the
+> > > > > > > > DriverFence, and after that it vanishes, so no one else can
+> > > > > > > > signal it anymore. Just to clarify, by vanishes, I mean tha=
+t the
+> > > > > > > > signal-able view disappears, but the observable object (Fen=
+ce)
+> > > > > > > > can stay around, so it can be monitored (and only monitored=
+) by
+> > > > > > > > others. With this model, it doesn't matter that _set_error(=
+) is
+> > > > > > > > set under a dma_fence locked section or not, because the
+> > > > > > > > concurrency is addressed at a higher level.=C2=A0=C2=A0=C2=
+=A0  =20
+> > > > > > >=20
+> > > > > > > That whole approach won't work. You have at least the IRQ han=
+dler
+> > > > > > > which signals completion and the timeout handler which signals
+> > > > > > > completion with an error.=C2=A0  =20
+> > > > > >=20
+> > > > > > From a pure rust standpoint, and assuming both path (IRQ handle=
+r and
+> > > > > > timeout handler) are written in rust, the compiler won't let you
+> > > > > > signal concurrently if we design the thing properly, that's what
+> > > > > > I'm trying to say. Just to be clear, it doesn't mean you can't =
+have
+> > > > > > one worker (in a workqueue context) that can signal a fence and=
+ an
+> > > > > > IRQ handler that can signal the same fence. It just means that =
+rust
+> > > > > > won't let you do that unless you have proper locking in place, =
+and
+> > > > > > rust will also guarantee you won't be able to signal a fence th=
+at
+> > > > > > has already been signaled, because as soon as it's signaled, the
+> > > > > > signal-able fence should be consumed.=C2=A0  =20
+> > > > >=20
+> > > > > Ah got it! I've worked a lot with OCaml in the past which has some
+> > > > > similarities, but doesn't push things that far.
+> > > > >  =20
+> > > > > > >=20
+> > > > > > > We have documented that this handling is mandatory for DMA-fe=
+nces
+> > > > > > > since so many driver implementations got it wrong.=C2=A0  =20
+> > > > > >=20
+> > > > > > Again, I'm just talking about the rust implementation we're aim=
+ing
+> > > > > > for. If you start mixing C and rust in the same driver, you're =
+back
+> > > > > > to the original problem you described.=C2=A0  =20
+> > > > >=20
+> > > > > The key point is the Rust implementation should not repeat the
+> > > > > mistakes we made in the C implementation.
+> > > > >=20
+> > > > > For example blocking that multiple threads can't signal a DMA-fen=
+ce
+> > > > > is completely irrelevant. =20
+> > > >=20
+> > > > From a correctness standpoint, I think it's important to ensure no =
+more
+> > > > than one thread gets to signal the object. =20
+> > >=20
+> > > If you have two paths that can signal a fence, that will result
+> > > effectively in you in Rust having to use yet another lock for a fence,
+> > > and likely some mechanism for revoking the access.
+> > >=20
+> > > I would at least consider whether it isn't much easier to have the
+> > > signalling-function ignore multiple signal attempts.
+> > >=20
+> > > AFAIU in Rust we originaly ended up at signal() consuming the fence
+> > > because of the code UAF problem with data: T. =20
+> >=20
+> > +1
+> >  =20
+> > > > >=20
+> > > > > What we need to guarantee is correct timeout handling and that
+> > > > > DMA-fence can only signal from something delivered from a HW even=
+t,
+> > > > > e.g. a HW interrupt or interrupt worker or similar. =20
+> > > >=20
+> > > > We've mostly focused on coming up with a solution that would annota=
+te
+> > > > signaling paths in an automated way, and making sure dma_fence_sign=
+al()
+> > > > is never called outside of a non-annotated path:
+> > > > - creation of DmaFenceWorkqueue/DmaFence[Delayed]Work that guarante=
+es
+> > > > =C2=A0 all works are executed in a dma_fence_signalling_{begin,end}=
+()
+> > > > =C2=A0 section, so we can properly detect deadlocks (through lockde=
+p)
+> > > > - creation of a DmaFenceIrqHandler for the same reason
+> > > > - we'll need variants for each new deferred mechanism drivers might
+> > > > =C2=A0 want to use (kthread_worker?)
+> > > >=20
+> > > > But there's currently no restriction on calling dma_fence_signal() =
+in a
+> > > > user thread context (IOCTL()). I guess that shouldn't be too hard to
+> > > > add (is_user_task() to the rescue).
+> > > >  =20
+> > > > >=20
+> > > > > A DMA-fence should *never* signal because of an IOCTL =20
+> > > >=20
+> > > > Okay, that's understandable.
+> > > >  =20
+> > > > > or because some
+> > > > > object runs out of scope. E.g. when you cleanup a HW ring buffer,=
+ FW
+> > > > > queue, etc... =20
+> > > >=20
+> > > > We were actually going in the opposite direction:
+> > > > auto-signal(ECANCELED) on DriverFenceTimeline object destruction =20
+> >=20
+> > Absolutely clear NAK to that, we have iterated that many times before o=
+n the C side as well.
+> >=20
+> > See below for the explanation of the background.
+> >  =20
+> > > > (which
+> > > > is the thing that would be attached to the HW ringbuf. The reason i=
+s:
+> > > > we don't want to leave unsignalled fences behind,
+> > > >  =20
+> > >=20
+> > > Not only do we not "want to", we actually *cannot*. We have to make
+> > > sure all fences are signaled because only this way the C backend plus
+> > > RCU can protect also the Rust code against UAF.
+> > >  =20
+> > > > =C2=A0and if the HW ring is
+> > > > gone, there's nothing that can signal it. Mind explaining why you t=
+hink
+> > > > this shouldn't be done, because I originally interpreted your
+> > > > suggestion as exactly the opposite. =20
+> > >=20
+> > > I also don't get it. All fences must always get signaled, that's one =
+of
+> > > the most fundamental fence rules. Thus, if the last accessor to a fen=
+ce
+> > > drops, you do want to signal it with -ECANCELED =20
+> >=20
+> > All fences must always signal because the HW operation must always comp=
+lete or be terminated by a timeout.
+> >=20
+> > If a fence signals only because it runs out of scope than that means th=
+at you have a huge potential for data corruption and that is even worse tha=
+n not signaling a fence.
+> >=20
+> > In other words not signaling a fence can leave the system in a deadlock=
+ state, but signaling it incorrectly usually results in random data corrupt=
+ion.
 
-> +M:	Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-> +M:	Jiwei Fu <jiwei.fu@nxp.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/accel/neutron/
-> +F:	drivers/accel/neutron/
-> +F:	include/uapi/drm/neutron_accel.h
+Forcing a manual signal doesn't really solve the problem, does it? I
+mean, you can hand-roll your "signal(ECANCELED) all fences on this HW
+ring on HW ring desctruction" (you'll have to if it's not managed by
+something else), but how safer is it than providing a
+DriverDmaFenceTimeline (or DriverDmaFenceContext, call it what you
+want) that manages that for you, and then have this object attached to
+your HW ring, and on HW ring drop, you get DriverDmaFenceContext
+dropped too, and the associated auto-signal(ECANCELED) called.
 
+Ultimately, the UAF you're referring to still exists, and I agree it's
+worse than a deadlock, but it's also not something we're magically
+immune to just because we don't signal on ::drop().
 
->  
-> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-> index 1d3a7251b950..698136e12cce 100644
-> --- a/drivers/accel/Makefile
-> +++ b/drivers/accel/Makefile
-> @@ -4,5 +4,6 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
->  obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
->  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
->  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
-> +obj-$(CONFIG_DRM_ACCEL_NXP_NEUTRON)	+= neutron/
->  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
-> -obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> \ No newline at end of file
+If you think that's preferable, we can have that done in some
+::signal_all() method that has to be explicitly called when the HW
+ring is destroyed, but that's basically the same problem: you have no
+guarantee that no other paths will call that while the HW is still
+active...
 
-You still have patch warnings.
+>=20
+> It all stands and falls with the question whether a fence can drop by
+> accident in Rust, or if it will only ever drop when the hw-ring is
+> closed.
 
-> +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> diff --git a/drivers/accel/neutron/Kconfig b/drivers/accel/neutron/Kconfig
-> new file mode 100644
-> index 000000000000..37b8ecb49804
-> --- /dev/null
-> +++ b/drivers/accel/neutron/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-> +
-> +config DRM_ACCEL_NXP_NEUTRON
-> +	tristate "NXP Neutron NPU"
-> +	depends on HAS_IOMEM
-> +	depends on DRM_ACCEL
-> +	depends on ARCH_MXC
-
-Missing compile test
-
-> +	select DRM_GEM_DMA_HELPER
-> +	select DRM_SCHED
-> +	help
-> +	  Enables driver for NXP Neutron NPU.
-> +
-> +	  Select this if you have an NXP SoC with Neutron, like i.MX95,
-> +	  and want to run machine learning applications.
-> +
-> +	  If built as module, the module is named neutron.
-
-...
-
-> +
-> +	ret = devm_request_threaded_irq(dev, ndev->irq, NULL,
-> +					neutron_irq_handler_thread,
-> +					IRQF_ONESHOT, KBUILD_MODNAME, ndev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to request irq %d\n", ndev->irq);
-
-Drop, not needed.
-
-> +		return ret;
-> +	}
-> +
-> +	ret = of_reserved_mem_device_init(&pdev->dev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to initialize reserved memory\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		goto free_reserved;
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, NEUTRON_SUSPEND_DELAY_MS);
-> +	pm_runtime_use_autosuspend(dev);
-> +
-> +	ret = drm_dev_register(&ndev->base, 0);
-> +	if (ret)
-> +		goto free_reserved;
-> +
-> +	return 0;
-> +
-> +free_reserved:
-> +	of_reserved_mem_device_release(&pdev->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void neutron_remove(struct platform_device *pdev)
-> +{
-> +	struct neutron_device *ndev = platform_get_drvdata(pdev);
-> +
-> +	drm_dev_unregister(&ndev->base);
-> +	of_reserved_mem_device_release(&pdev->dev);
-> +}
-> +
-> +static int neutron_runtime_suspend(struct device *dev)
-> +{
-> +	struct neutron_device *ndev = dev_get_drvdata(dev);
-> +
-> +	neutron_disable_irq(ndev);
-> +	neutron_shutdown(ndev);
-> +
-> +	clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> +
-> +	return 0;
-> +}
-> +
-> +static int neutron_runtime_resume(struct device *dev)
-> +{
-> +	struct neutron_device *ndev = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = clk_bulk_prepare_enable(ndev->num_clks, ndev->clks);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = neutron_boot(ndev);
-> +	if (ret) {
-> +		clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> +		return ret;
-> +	}
-> +
-> +	neutron_enable_irq(ndev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops neutron_pm_ops = {
-> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +	RUNTIME_PM_OPS(neutron_runtime_suspend, neutron_runtime_resume, NULL)
-> +};
-> +
-> +static const struct of_device_id neutron_match_table[] = {
-> +	{ .compatible = "nxp,imx95-neutron" },
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, neutron_match_table);
-> +
-> +static struct platform_driver neutron_driver = {
-> +	.probe	= &neutron_probe,
-> +	.remove	= &neutron_remove,
-> +	.driver	= {
-> +		.name		= "neutron",
-> +		.of_match_table	= of_match_ptr(neutron_match_table),
-
-Drop of_match_ptr. You will have (or you have already same as v1) here
-warning.
-
-> +		.pm		= pm_ptr(&neutron_pm_ops),
-> +	},
-> +};
-Best regards,
-Krzysztof
+Let's say it's less likely to happen, not impossible. And if it does
+happen, it means the user really wanted that to happen (thinking of
+ManuallyDrop for instance).
