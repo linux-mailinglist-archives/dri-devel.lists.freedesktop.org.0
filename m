@@ -2,99 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEXqCNnIqmlWXAEAu9opvQ
+	id ULTCKRvJqmlWXAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:31:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92438220A67
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165DB220A99
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:31:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9816510ED1D;
-	Fri,  6 Mar 2026 12:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1252810ED22;
+	Fri,  6 Mar 2026 12:31:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RrOKh0OA";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GoDHlNLY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DACB210ED1D;
- Fri,  6 Mar 2026 12:30:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6AF21440A6;
- Fri,  6 Mar 2026 12:30:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B33C3C4CEF7;
- Fri,  6 Mar 2026 12:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772800213;
- bh=Kftdd8omZX7VELmkL5LGQUFF+sQIeOHfzVU13moKjvE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RrOKh0OAhxHMytB1jOn/jttu3GJlb3C3rXPB9TooAMKbyt3vUr89Pt0+i4u40IkqV
- RX2hBvNB6H5hwNgpkw2833/q+m2pIU+tXLy6aT2UqxNKjA9gRXZUoAjf58JN5/E+WU
- b+1XKEzPnARh8OeG9Vznq4eIhrMwfxCOh6yt4sHKclOXteR/4dXp5YR9O3YGnPPT2n
- aDJp5EcMC6pPhjaUS4A5KpHj2GJduynNISMtMzESwpD0c6OWnPmGQWuaLB8H96xPbV
- V8tWz99yS9NFw2rriHryb/Y2+I+FJmH4No3lieIJOsE5G/KrymQlZobYCswq94RN1W
- nF2PinBdqWDrw==
-Date: Fri, 6 Mar 2026 12:30:10 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
- "linux-mm @ kvack . org" <linux-mm@kvack.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Alice Ryhl <aliceryhl@google.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Leon Romanovsky <leon@kernel.org>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Eric Dumazet <edumazet@google.com>, 
- Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
- David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, 
- kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, 
- netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v1 12/16] mm: rename zap_vma_pages() to zap_vma()
-Message-ID: <2f4ee3ee-549c-4c0f-980d-3853193776b6@lucifer.local>
-References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-13-david@kernel.org>
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012032.outbound.protection.outlook.com [40.107.209.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2710710ED22
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 12:31:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e0pPmZpJCGXkWXYz/4xqWcuOKmHEuAHL+xlfQuK+ibu1wOP5MkwhLXCyhWpYOvsQ+KokNQVXj44jsMo9ZoIngsAz8/++/pcSdWhC5uJE6y8FBPT3ZoYLMyCS7whn0TnCV5b+spVb0d7iN7DbUOe5vw2V2k9qPpHzi91boPljwmKcQLBDH4ralHvM2q4PxD+P2/e7f2ivFFCK03j8ipeeEUuwjM4WcoCxqW014HmADt6WkJuFNU7VYo2D2t5eLsbyUGBl+VD2JzPWEXUd1CxozFb/e2DPgDNFrFjaBlpRIk3aN+6sa3knK9viCb/mLgBsh7rQtuDiEEWNCIikHyty1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2K8MPjUlQeCjpk1IjjApXx0+9Hmv0IaDMdOamVlmqrg=;
+ b=lt9XRPauuAbBEEg/227AS7NvYX1m5ZQ8rd1QxMCIRvcfd7/v8m3FV2Ffa2YQaRMpdsARG2MJabCqdGJSeybKfnkPvpqfcwk6ugEEsU0zasdKQqiNtLhvssRaIE6eI5DhlXEi21a6pzN1ThtAGSPSdaZxJR0LK9DtVOcKhKxX/HeTvYtsYryHgSq15uWlmSGNUKoflV7YdC5WgNRoDBTiPhWWWl8eqy9QHHNv2XVOJ+ztD3htyMz51zNBbHoefLHu/t7nu9LmiMIrls5QHCqeVZvCjGvQT+J1Xcx1oKm1PyiInsTplWXC1bDo5E2L7JtvpnvUX2aA6yymvxuRa5owKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2K8MPjUlQeCjpk1IjjApXx0+9Hmv0IaDMdOamVlmqrg=;
+ b=GoDHlNLYWrrxwAWCFKL7f0qlKHQsj5W1KNjOZn27dbYC8ApKZmpD6l81cC6TPA0Fra+JxwH3ahaCssFvnvatM1ZAQxfmcTRCIOpKQ/llTooX8b/E+nyKCnLYRgVhdXbETcnI1ZSK8M4oCIahJc9TQFZsKL0w2doOxh/ACBdHj/o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Fri, 6 Mar
+ 2026 12:31:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
+ 12:31:17 +0000
+Message-ID: <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+Date: Fri, 6 Mar 2026 13:31:12 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: dma_fence: force users to take the lock manually
+To: phasta@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dakr@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0120.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227200848.114019-13-david@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5aa06649-ad5c-4c36-6047-08de7b7c43b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 4XDHMP75K0KixyYqQ2QPFThwZ2hG/ISHAhI86jFEseKxTrcAeOFc/qmiVfmUzUVnSp044sMI+INrKbAPlqXGBHURnZpu+QTUdbGAIxdK4upL6FyEcmfy+o8U14GANGUCkjoD1uQCffOpANPfEfS2K02PqLaQaCTvGLhEI4dr/2QvkiENio6hppMVTaWffb4/Ii+yxUrPlNQU9KpUpoWtja1fyI7iXJ8DyxS6LU6WxEheQmpABoV7GuJBbPW10YEQlRHoMP64FxnrzO8eUPQfvWw5EbPZ5C5mfmF41D1qlsNvPwCsdnAD4Zjp+JGLmz1oIdobAQ7nEU+7H/JXkNBqur2VolTNwQ4ApN+dUbEIxIIkulVJeCIVaU/m4aYQCpJRvs17KzmxJ/rVte2dXhxkVAHWkv7yzqZ1TI5fwolvpTPBwX3jBOgwxizvNSalov36pFKONKZ2tv+MgAYZN9nYdNNuQrT1gLZ26mUuKPdCqqEern1dOkvS70yVHOjw5YZaAjjNFuupVFXerEGPLmILRHl0ar7bkKNJ+v4IqgQQQUZ64lTWcJvi9S4m11JwPFreF7HXZNXnV63+hx6HfhNzfYWJoaXU11Xl3mxdMtsA2pQbB8HL8cFSqrB2KSWkzS2qKTwCGepFtDsWw7ZgWCOMOfwupuUTFaGFgnk5OVPYGv10vDkv/dCmYQO18IBlt0T6bxJlgTP2gZlPjMicaU3w6QhPxosh60iaaZuEumPQfVI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFVnOVp0WnU4UVlLeEsvNWpxaHBCWDJNNTlaZlgyeXEvSjZHN0E5VlVnM1Fr?=
+ =?utf-8?B?Yk5XbUc1WVVqeFAwR2lpVHZxMzk2NWh3RUdNMWozNkpCS2lEMHRVNmZUN08w?=
+ =?utf-8?B?ckdBWjE3Q2xGQmtzUmdXaTU1bWJnNnI4cDNZQ3NwN09LYXczSXhXZE15Q0dl?=
+ =?utf-8?B?Q0RZZEhSZXNSczBnb2tLWXhiZkhpSTlyMlUzM2ZpZThCTGtSVGNJS1BnckdZ?=
+ =?utf-8?B?aElPdHZYS1Q3Si9KV3F5YnNKeXJwK3MyUkFGY2pjQkRMa3dlaUpuWDd0RmRq?=
+ =?utf-8?B?Sy9OZUpsU1g1c09tUGxDZUpTZ3gzOFYxeFE5ckJPekhBWGVBNzdHTmdNSE5G?=
+ =?utf-8?B?RTA3MDg2MnBWNWl6NXkzZzZydlRIUWZnZ3lQeUdxVlFhckY3a3M1MjA4YmZW?=
+ =?utf-8?B?SFFZOTR5TVdQVHhtamNVdXZyTTR0aFA1OWVSRG9keDMxRU5UaXNkMU5TTEN6?=
+ =?utf-8?B?R2wraVFCc05mTEwrbHR1emhXQ09zdG52T3VnS3ZHY1JnbDJnN1FYU2xVVUVJ?=
+ =?utf-8?B?Z0NkeW9Hcm1zVzVnQnhMeHlZcTFRbkJZanRZemFGLzRPT01aZVRWUDlhTnFN?=
+ =?utf-8?B?NE0wZUtGQUF0aVIvNUxjTnF4RFpGaE9wc01DUVJhSTNrQU1PVDF3YUMxcmZq?=
+ =?utf-8?B?K2hrdmsrRzRva3hmM21RQ1JJaC9TWnUrTVRmU29rQjZSMFRNRmJScWpDeVdO?=
+ =?utf-8?B?Mmp5aXVTZHBtdDUvWUNTWDVXU1N0cEloRGJ3UHJ1ZEtwWDF4SERtbStCQ21x?=
+ =?utf-8?B?OWd0M1VncThjdDl6YUg1anl1eUxXR3k2QzgvNkY2TDN5SXNTMStKNk1JTDRY?=
+ =?utf-8?B?WFFIbW9aK3QvaFhFUGhFVlRSYXFkRDVWUUIyZStQbXR1YTZSa1c0UzFldkxr?=
+ =?utf-8?B?TkdiM0J2Mm1PbzIzeHhDeG1NSk1oMVNML3ZXbVdJSmo5TjBJUHJoNWRsZmpv?=
+ =?utf-8?B?Yk8xd2lkaEJXenhUUExxQ0s1LzNtMi9FZzI2WWg1amtWa01RMmUzLy9JcjlU?=
+ =?utf-8?B?OWRoUTNwM3E0ZHFINjNHNU1ZYnJtcDdhblpiYm5WK0tWWGlJYjlhd0JhdVhx?=
+ =?utf-8?B?V1JxUWRGMDBqUHI3MW9aNWVTK2kvMU5CM01weG1xdytuSXBZNDJ3NWk3VmVz?=
+ =?utf-8?B?MkJhSkpid1hZSjZkM3V3OVI2cFRyWW9GVDRvMitiTXBMc0Vtd1krS3JzTWZS?=
+ =?utf-8?B?dUhmRXJRVHF3ZGhhNmtZS0E2Zko3U3VCZUdsVE1UQnAvbEI0YUxVbGZ5NXBR?=
+ =?utf-8?B?dWM2SHRTbWpaejhBOXF4L21YdE8zL3BKRWIyU3ZWM3hYNnMwS1N5c0pnelRM?=
+ =?utf-8?B?bHVBcS9PTXJzKzhSMW9TS09MOE1VWDRlMG5jaHBCVkhMK3lrLzNUMDFCdXZk?=
+ =?utf-8?B?eFpRY2lzZ253STJKTkVKZWRUbWxoRFUyclEwTXVYcFE2NnJzYWNpMVAvOEtS?=
+ =?utf-8?B?ckpKcDc3S1FnbFFMQmNnUnppUDFtWUhZZUxVRk5aTnRNTHJoOW8wbzE0YkJU?=
+ =?utf-8?B?NUxqRzFsd2xza2JhamlaN3BscDBUS2I4ZlJmWmdkekVQd2pIanhhc0pmVm1q?=
+ =?utf-8?B?Z1lKYytzVEdtM2lCcUhlZUdveVpKQzFIZk9pRTYyYVNia0J5WmNQL212Y25C?=
+ =?utf-8?B?RkdLQ0hyc3Z0bzN3ZVZlM1R4WFVFZHZxYmVjeHl0NWhZQ2JuKzk4TXV2cHNP?=
+ =?utf-8?B?eWs3V1l2emJHaVhNL2tKVEt5QXd3bndibWRJa2JjWmNWMllDNkZQUWlpVG8y?=
+ =?utf-8?B?K1h1ZVFLekRIS3RxcVlGTWh4cS91d2FJek1CNDJGUEJsYWJEMDBZRnJjU3Rr?=
+ =?utf-8?B?dWxZd3MvSHhIVEhLY0l5TGRyQ0dJWFA3cTZKOCtnQUJwRHNIWmE5dVo3N3Aw?=
+ =?utf-8?B?cjErNHRJeWNoTE1tbVhJcVpoeVpnT1M2QXRKTStaYkVLeDloaXhIdmZvRTkv?=
+ =?utf-8?B?M3BIbWh4cFlDMWxYbEJtaDhOMGxrR0dPUHl0cE1OR1ZyTERXeVdWVmNKQk1t?=
+ =?utf-8?B?THdwdFU5VzdLUG1ud0hjamphVjhUd2VIcTVlQmNDS3hnUWducUk5UUM2am5Y?=
+ =?utf-8?B?aVdZanVZWHRlZlRFSlNJbTYwTVE5dlZZUG1PUXllMEYwUCtOYWtycmtWL244?=
+ =?utf-8?B?djVOVVFrOXUrdWl1Ui9vRW9iRGJVamtkNDJNUjRIMUhYWEFHalQvODNXZHJ0?=
+ =?utf-8?B?QkNCRkl2ZkJ1WGlLQ1YyL2ExekFyTCtlZ3NDWXVDYXN3SW1BVVVISk9sSmtn?=
+ =?utf-8?B?WUJIb1NLZDZaK01TWlM2SEhHNXJtVG5yVGI4cExPcGFHM0FPQmFoa1plaU1I?=
+ =?utf-8?Q?5GXpWqhN0RgZLMhr0E?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5aa06649-ad5c-4c36-6047-08de7b7c43b6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 12:31:17.6269 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q3s9tnPPOqTC+6HkrLkNYzswBHknzxKZIZafwU3Ap2LvG8fdswk6F3g/ApBLqjxI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,123 +146,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 92438220A67
+X-Rspamd-Queue-Id: 165DB220A99
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:boris.brezillon@collabora.com,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_GT_50(0.00)[74];
-	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer.local:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 09:08:43PM +0100, David Hildenbrand (Arm) wrote:
-> Let's rename it to an even simpler name. While at it, add some
-> simplistic kernel doc.
->
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On 3/6/26 12:57, Philipp Stanner wrote:
+> On Fri, 2026-03-06 at 12:24 +0100, Boris Brezillon wrote:
+>> On Fri, 6 Mar 2026 12:03:19 +0100
+>> Christian König <christian.koenig@amd.com> wrote:
+>>
+>>> On 3/6/26 11:37, Boris Brezillon wrote:
+>>>> On Fri, 6 Mar 2026 10:58:07 +0100
+>>>> Christian König <christian.koenig@amd.com> wrote:
+>>>>   
+>>>>> On 3/6/26 10:46, Boris Brezillon wrote:  
+>>>>>> On Fri, 6 Mar 2026 09:10:52 +0100
+>>>>>> Christian König <christian.koenig@amd.com> wrote:    
+>>>>>>> Well as I wrote above you either have super reliable locking in
+>>>>>>> your signaling path or you will need that for error handling.    
+>>>>>>
+>>>>>> Not really. With rust's ownership model, you can make it so only
+>>>>>> one thread gets to own the DriverFence (the signal-able fence
+>>>>>> object), and the DriverFence::signal() method consumes this
+>>>>>> object. This implies that only one path gets to signal the
+>>>>>> DriverFence, and after that it vanishes, so no one else can
+>>>>>> signal it anymore. Just to clarify, by vanishes, I mean that the
+>>>>>> signal-able view disappears, but the observable object (Fence)
+>>>>>> can stay around, so it can be monitored (and only monitored) by
+>>>>>> others. With this model, it doesn't matter that _set_error() is
+>>>>>> set under a dma_fence locked section or not, because the
+>>>>>> concurrency is addressed at a higher level.    
+>>>>>
+>>>>> That whole approach won't work. You have at least the IRQ handler
+>>>>> which signals completion and the timeout handler which signals
+>>>>> completion with an error.  
+>>>>
+>>>> From a pure rust standpoint, and assuming both path (IRQ handler and
+>>>> timeout handler) are written in rust, the compiler won't let you
+>>>> signal concurrently if we design the thing properly, that's what
+>>>> I'm trying to say. Just to be clear, it doesn't mean you can't have
+>>>> one worker (in a workqueue context) that can signal a fence and an
+>>>> IRQ handler that can signal the same fence. It just means that rust
+>>>> won't let you do that unless you have proper locking in place, and
+>>>> rust will also guarantee you won't be able to signal a fence that
+>>>> has already been signaled, because as soon as it's signaled, the
+>>>> signal-able fence should be consumed.  
+>>>
+>>> Ah got it! I've worked a lot with OCaml in the past which has some
+>>> similarities, but doesn't push things that far.
+>>>
+>>>>>
+>>>>> We have documented that this handling is mandatory for DMA-fences
+>>>>> since so many driver implementations got it wrong.  
+>>>>
+>>>> Again, I'm just talking about the rust implementation we're aiming
+>>>> for. If you start mixing C and rust in the same driver, you're back
+>>>> to the original problem you described.  
+>>>
+>>> The key point is the Rust implementation should not repeat the
+>>> mistakes we made in the C implementation.
+>>>
+>>> For example blocking that multiple threads can't signal a DMA-fence
+>>> is completely irrelevant.
+>>
+>> From a correctness standpoint, I think it's important to ensure no more
+>> than one thread gets to signal the object.
+> 
+> If you have two paths that can signal a fence, that will result
+> effectively in you in Rust having to use yet another lock for a fence,
+> and likely some mechanism for revoking the access.
+> 
+> I would at least consider whether it isn't much easier to have the
+> signalling-function ignore multiple signal attempts.
+> 
+> AFAIU in Rust we originaly ended up at signal() consuming the fence
+> because of the code UAF problem with data: T.
 
-LGTM, so:
++1
 
-Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+>>>
+>>> What we need to guarantee is correct timeout handling and that
+>>> DMA-fence can only signal from something delivered from a HW event,
+>>> e.g. a HW interrupt or interrupt worker or similar.
+>>
+>> We've mostly focused on coming up with a solution that would annotate
+>> signaling paths in an automated way, and making sure dma_fence_signal()
+>> is never called outside of a non-annotated path:
+>> - creation of DmaFenceWorkqueue/DmaFence[Delayed]Work that guarantees
+>>   all works are executed in a dma_fence_signalling_{begin,end}()
+>>   section, so we can properly detect deadlocks (through lockdep)
+>> - creation of a DmaFenceIrqHandler for the same reason
+>> - we'll need variants for each new deferred mechanism drivers might
+>>   want to use (kthread_worker?)
+>>
+>> But there's currently no restriction on calling dma_fence_signal() in a
+>> user thread context (IOCTL()). I guess that shouldn't be too hard to
+>> add (is_user_task() to the rescue).
+>>
+>>>
+>>> A DMA-fence should *never* signal because of an IOCTL
+>>
+>> Okay, that's understandable.
+>>
+>>> or because some
+>>> object runs out of scope. E.g. when you cleanup a HW ring buffer, FW
+>>> queue, etc...
+>>
+>> We were actually going in the opposite direction:
+>> auto-signal(ECANCELED) on DriverFenceTimeline object destruction
 
-> ---
->  arch/powerpc/platforms/book3s/vas-api.c | 2 +-
->  arch/powerpc/platforms/pseries/vas.c    | 2 +-
->  include/linux/mm.h                      | 6 +++++-
->  lib/vdso/datastore.c                    | 2 +-
->  mm/page-writeback.c                     | 2 +-
->  5 files changed, 9 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/powerpc/platforms/book3s/vas-api.c b/arch/powerpc/platforms/book3s/vas-api.c
-> index ea4ffa63f043..e96d79db69fe 100644
-> --- a/arch/powerpc/platforms/book3s/vas-api.c
-> +++ b/arch/powerpc/platforms/book3s/vas-api.c
-> @@ -414,7 +414,7 @@ static vm_fault_t vas_mmap_fault(struct vm_fault *vmf)
->  	/*
->  	 * When the LPAR lost credits due to core removal or during
->  	 * migration, invalidate the existing mapping for the current
-> -	 * paste addresses and set windows in-active (zap_vma_pages in
-> +	 * paste addresses and set windows in-active (zap_vma() in
->  	 * reconfig_close_windows()).
->  	 * New mapping will be done later after migration or new credits
->  	 * available. So continue to receive faults if the user space
-> diff --git a/arch/powerpc/platforms/pseries/vas.c b/arch/powerpc/platforms/pseries/vas.c
-> index ceb0a8788c0a..fa05f04364fe 100644
-> --- a/arch/powerpc/platforms/pseries/vas.c
-> +++ b/arch/powerpc/platforms/pseries/vas.c
-> @@ -807,7 +807,7 @@ static int reconfig_close_windows(struct vas_caps *vcap, int excess_creds,
->  		 * is done before the original mmap() and after the ioctl.
->  		 */
->  		if (vma)
-> -			zap_vma_pages(vma);
-> +			zap_vma(vma);
->
->  		mutex_unlock(&task_ref->mmap_mutex);
->  		mmap_write_unlock(task_ref->mm);
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 4710f7c7495a..4bd1500b9630 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2837,7 +2837,11 @@ void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
->  		  unsigned long size);
->  void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
->  			   unsigned long size);
-> -static inline void zap_vma_pages(struct vm_area_struct *vma)
-> +/**
-> + * zap_vma - zap all page table entries in a vma
-> + * @vma: The vma to zap.
-> + */
-> +static inline void zap_vma(struct vm_area_struct *vma)
->  {
->  	zap_page_range_single(vma, vma->vm_start, vma->vm_end - vma->vm_start);
->  }
-> diff --git a/lib/vdso/datastore.c b/lib/vdso/datastore.c
-> index a565c30c71a0..222c143aebf7 100644
-> --- a/lib/vdso/datastore.c
-> +++ b/lib/vdso/datastore.c
-> @@ -121,7 +121,7 @@ int vdso_join_timens(struct task_struct *task, struct time_namespace *ns)
->  	mmap_read_lock(mm);
->  	for_each_vma(vmi, vma) {
->  		if (vma_is_special_mapping(vma, &vdso_vvar_mapping))
-> -			zap_vma_pages(vma);
-> +			zap_vma(vma);
->  	}
->  	mmap_read_unlock(mm);
->
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index 601a5e048d12..29f7567e5a71 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -2645,7 +2645,7 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
->   * while this function is in progress, although it may have been truncated
->   * before this function is called.  Most callers have the folio locked.
->   * A few have the folio blocked from truncation through other means (e.g.
-> - * zap_vma_pages() has it mapped and is holding the page table lock).
-> + * zap_vma() has it mapped and is holding the page table lock).
->   * When called from mark_buffer_dirty(), the filesystem should hold a
->   * reference to the buffer_head that is being marked dirty, which causes
->   * try_to_free_buffers() to fail.
-> --
-> 2.43.0
->
+Absolutely clear NAK to that, we have iterated that many times before on the C side as well.
+
+See below for the explanation of the background.
+
+>> (which
+>> is the thing that would be attached to the HW ringbuf. The reason is:
+>> we don't want to leave unsignalled fences behind,
+>>
+> 
+> Not only do we not "want to", we actually *cannot*. We have to make
+> sure all fences are signaled because only this way the C backend plus
+> RCU can protect also the Rust code against UAF.
+> 
+>>  and if the HW ring is
+>> gone, there's nothing that can signal it. Mind explaining why you think
+>> this shouldn't be done, because I originally interpreted your
+>> suggestion as exactly the opposite.
+> 
+> I also don't get it. All fences must always get signaled, that's one of
+> the most fundamental fence rules. Thus, if the last accessor to a fence
+> drops, you do want to signal it with -ECANCELED
+
+All fences must always signal because the HW operation must always complete or be terminated by a timeout.
+
+If a fence signals only because it runs out of scope than that means that you have a huge potential for data corruption and that is even worse than not signaling a fence.
+
+In other words not signaling a fence can leave the system in a deadlock state, but signaling it incorrectly usually results in random data corruption.
+
+Saying that we could potentially make dma_fence_release() more resilient to ref-counting issues.
+
+Regards,
+Christian.
+
+> 
+> 
+> P.
+
