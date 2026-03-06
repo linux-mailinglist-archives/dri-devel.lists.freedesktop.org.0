@@ -2,146 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id P82sJHhkqmnnQgEAu9opvQ
+	id aDDwF0FnqmlOQwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 06:22:00 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 06:33:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E712521BAD5
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 06:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44C321BBE1
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 06:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21DFC10E144;
-	Fri,  6 Mar 2026 05:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1F810E243;
+	Fri,  6 Mar 2026 05:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LH9vKzIy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PJl/0rVm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011066.outbound.protection.outlook.com
- [40.93.194.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB3910E144;
- Fri,  6 Mar 2026 05:21:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YVV2ZI5n7qTOY/NXi034pOeD/YcpSFDAQ0fLNVbt8SjZwGfRvHw3x+nT78mQqp+lgGPcs9MWUTto4Wb9+BuWhB7+FqN0Ew2aDAuxYviyTdJwTBq7Z2u1huP0rBRSpaQA37fY84ieJmHKk9M2C8XXpieFHzkT7lel12AUQgp1MTohg2rLOB9SflPxcitLv2cSFr68oTDBJlkiFF9GE2LJDGdapyiDo4U+DUGD4oIhw18BT0rObywN2bEcMQyuyVV9qw+wki4tXIoGLLdFleg+KdMP+ZPxClWR3Y4nLyN34X5xqbRDdISe9lBwTxRwwgWZ3tfnxIqRjdOpNA4lTuSRIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WgpmGe1XUFHLXZbPGYOkNY61qPAs/zKGOBeT9SQJ8Ps=;
- b=L9isKKh0czWJNVNqcfP0ebdRe5Zk/9vPQy+/ETgSCW2ys40nwuOY9Lan0atj2xUWY1uHLtQpUgWjDRqJRxRjpVcakAi/4L3qv7npH4hHSpqIcbjD9pQiqIby3zT0w02LHwU7IFsDSkUVDFfhNgnvfX/t/rh6W/WnK9wq34OHPu7zyWoRhuifQP8maZ9Edna81Jbjlsi3lcHpNt/ALVQyrHrq0RMD92kbRM00lL9NrJu7JUR8qFkI08kLK9p+JAQ4kd/QAW1L5W+jgrNLuJ/xvb+HLDeM00jfMy+OannCXh76oxEHqMvxiJXSNSUnwmr5oOi72o8YfYuonwp6u9sWCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WgpmGe1XUFHLXZbPGYOkNY61qPAs/zKGOBeT9SQJ8Ps=;
- b=LH9vKzIyJQCtc8zM4e+faGISPvhmh/F0AiPyZn6SrznbYKpqutTF0eAZ/HuuIrgjwdL3+SpRj00SltS4iweYcgm1WLvLKLndEzT03WgM5yFxidacsZqZNnPrG8HxrsJk1/tzgNdZC9opkS2SocyFUDiPCMv9LNaXwDfkr7uVngaJ1vO4R5crN4XNOgGAV9o9DM/flCkqFSlgJkJ9UOmlRPKrpvTX5ZAw7A63lnQoOHQ2od0S3QbZf5iBp1dttM6m3DvN3tcHb2mYBy6LbKqQsJFTPyHg/1ubJcRA7yE+0Ou8Zb8CbhmnWzC9W62Ur5mpPeeFIafaCEA9iUgrlfC72w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS0PR12MB9057.namprd12.prod.outlook.com (2603:10b6:8:c7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Fri, 6 Mar
- 2026 05:21:49 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
- 05:21:48 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Mar 2026 14:21:45 +0900
-Message-Id: <DGVG44QGABIU.2JES0BUBIWTV7@nvidia.com>
-Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Zhi Wang" <zhiw@nvidia.com>, "John Hubbard"
- <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
- Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v5 2/9] gpu: nova-core: gsp: add mechanism to wait for
- space on command queue
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260304-cmdq-continuation-v5-0-3f19d759ed93@nvidia.com>
- <20260304-cmdq-continuation-v5-2-3f19d759ed93@nvidia.com>
- <DGTYVZMRVLLE.3HQVL7ZT6MU7H@kernel.org>
- <DGUODB0SCS88.2LMCK991QHVG4@nvidia.com>
- <DGUT14ILG35P.1UMNRKU93JUM1@kernel.org>
-In-Reply-To: <DGUT14ILG35P.1UMNRKU93JUM1@kernel.org>
-X-ClientProxiedBy: TYCP286CA0109.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::6) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com
+ [74.125.224.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD88410E243
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 05:33:48 +0000 (UTC)
+Received: by mail-yx1-f48.google.com with SMTP id
+ 956f58d0204a3-64ca09f2056so6485974d50.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Mar 2026 21:33:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772775228; cv=none;
+ d=google.com; s=arc-20240605;
+ b=O7LBI+m/BGgaDEQyIzVxqLA/w7ClGekC4/4hWbNzXGuME/injHt6pGTRQv47Gq2E3Q
+ ymgp8R8PvI58Pp9WAfOI3QbxOKEHME14sAzD1C7TDYcoiyPLECTpR/BktmfvgZO2FYcm
+ t0GjOLID51XE8USF/K1qXpezLobE0Rh2kk/UvSPyNzcOSMCNMI3potetKy79Vm8wkQbJ
+ AljSHLkfo3KdjxgtrcyknQ/okHDB7g/2V647IFqySXe/iYCTNEVxNX3osxyvyQRsvqkE
+ m8cY/DEb4zBQvxMM/T2z816S1AetwdNeZv1xJlCkpKyWarmJpuA6NKVPwHxZbM1WHFT1
+ fDPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=V2UpvAUsvEfYuRtRoQDGDh0bnP4CHYXvodHKQxJ2WGM=;
+ fh=CBuBEGox0rmkkn/sM6bSZmSooEnTOXqQTD4OeEPq9WM=;
+ b=KHL1xIsyKoUrBBmRgKmLKLFwDt/6Nk4GRY4wHEQcVor4Ol2cdhu+dbzKbknuCHn0Ed
+ lgBEEibXqTSK6zYINVNf+OX6hiMRSjsjMVFN6o9eAQ4HO0ATveuC7RxGMl3G+Q1zmkT6
+ m5asD+prHuSdobA6YhpAyUZuCcKqHyjR7rM0a3o/U5itNw2G8JNQyUK/GPOR/6zCA7QD
+ AnNtzY+JwYHarDTYZiZK32oguadPBhjGQvhjr4I1Nm7zZmAo/pQWTkEmgxb/T6ZDkz/k
+ 5zMuI3QzhWqWUZ6Z76wBxPXQX4F+adOubN+4o5oIncnPbiOhhradYxBycn2/FMF1yfTq
+ dKpg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772775228; x=1773380028; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V2UpvAUsvEfYuRtRoQDGDh0bnP4CHYXvodHKQxJ2WGM=;
+ b=PJl/0rVmHl15YOPLCI7CpJw+pEZeyLIvSYafZn3AeF25GpLzipsBYLXDhj+Oj1BqUM
+ cbIYgVKsfsRw2s5UXHFM2hezIeqhiBki2qpTuHwejCdlZgAe+/OS+OBqMVqVhU9vaRfc
+ OFYJGIuzkHjY92kimvo12jwYSpACpJNeIXBpX9ETCc0hXyJ9YQtF5c0a6pvauRcgt2mf
+ qUx9hsrdaphyDPx+zqGa2qB6FDQxFntfKPhWSoeHdPsRqjqiDcEvb1oM0dmfnxrhirD4
+ cCmJ57p7b4a1MIyKVbnwiOvw4n0uhzclAK7Mobsy59mJCkNTR9/B6A5cVRkLTPco2j6A
+ 9Yfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772775228; x=1773380028;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=V2UpvAUsvEfYuRtRoQDGDh0bnP4CHYXvodHKQxJ2WGM=;
+ b=uS219CEzQdJwWukiqMoLjbdVpbceipSR9RjfntZT8052iSN0YzlZrQ2l79J4NCDxQd
+ 2m1negKI7kpR64luqmMz+6XHhCw6bn3JaAIeJIsQUHHYHHYRFY6vzTQsgn0262jBBilE
+ Eeak5bncsO90y8MEUt21p4my5HFUwjeTt5x/74qAG9naL655golo4iwlSDowWUK0KeG9
+ mvJqhCYcoy6tqQZk1L/ZgErdGcgWKcjgcG1vUaaPAbIEsMtzuXRT+WUz4bFdIQUB+2Uo
+ ra0pj4dz3efW9ZBBnuoIMvJ8LzognRbyodJzZNDszQ+e/mUiNwTKmcypXJRIZOabhydg
+ 2IFQ==
+X-Gm-Message-State: AOJu0YwU3Hrr6L2Jy+8xjsrPaHr6Fg0TzZmvg0324C+SIOryqFVA/mIG
+ p4K/JU+GvGZe+H0pieLwh/OBkUZSLIv9YNR/VU6ZiyI5mUD5SXNBV3eGJDx4pAD7WCxqTz26ESa
+ 3Baux4gLWlgFeLT4gXWs3BX++GYIpMuY=
+X-Gm-Gg: ATEYQzygxWRTfNV6Sr2ljyDavX0ehFBrBMF8IzX5p5H0AS/Sn8x3wN6HKLgPnWzsf4Q
+ /9/rtvO2QhSgS83qRioBkXrnAoREQRDmbIgQ79CZUflt9kWnG8tO0A1rXuT+/8WiwsC8ZnEqFt5
+ 9KzZXhZdMOkV82FLLZguOMaYYlAdrqgKqWTyOrIOMz3LKwgsxgoIv67DjzBAhkrsARUvByEIKCB
+ tHVO+wDkzMM5MnxkckKqpCusXKDErA8k6LEG/ZeKBNDh8dj0EULrz/O9oRjFfhg8hVNjADpGVvb
+ sJu3HJ2fTQdSSwIsdYyYUa+eJmALbXlJPnTtTYBX3zx+5pVnmWG3TdL+mR2MTrdWHrvLPE1U
+X-Received: by 2002:a05:690e:d8b:b0:645:51f9:b4c0 with SMTP id
+ 956f58d0204a3-64d142c7f8emr910092d50.55.1772775227810; Thu, 05 Mar 2026
+ 21:33:47 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS0PR12MB9057:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe253e5d-b0db-4e94-f4a5-08de7b40441c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|366016|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: kfW8elklToaRybETUXViO0JNrkO6W0RD0MQpPoX+mlrgKsv6KMk+DN965hzwfetuJwYsbMkNkNI7UUo9PubSuo3lwlQj1U+O6Ttcg3bxhH62XxrKzvSyiXJcxAtatKGv5ZjTMWz9WqF79g7tuHmz7Z+up6/jGBzqaSLCMbol+VmqMgn7b6JzFXkL06Q4wbDwMJvSTYzs5y2O33FLfe6dvtEl/LTRgGVSIG56MmJdwJGwercaF6QbEcd8NqDobajJs4q1c/zeEhLv9F7BAf6l+n4/6N8IyZa07cfl+OnVIh+dEwMfvStaMDS8uLlVHkZi1ziBs8JzTtq7lI4H+xqwW+eX55YG/Y4LkI4TyltkrN2O1uahuEbnYAivuk7e1LkhXi/PR0daxhaUaCKvxw/bR/O3vKrRe1f/wkKdJaDvSSe3rP3vJTKMIwC4tKfgz9XCuuySNvk+uw8Cr6qMB31g96pr8K/JKEkeMqHIOrNJ8O3a07y1LxJXW6VuzmX4ymOT2h2wHEniNJ9NoiOn//VbSik02+Bir5vaReMycr2A5h1QoQrb97Z0Zg8rJs/j6SELy5pOEDKypT5KU9ob+p7W376oatGETVUkZtARp1sGKwFtNqzcT+ojMRf1COQMPRVdiAX91opcx+O+66YA8VVLoY3hOc36CEUfc71v8JxaARcjFW46bWJxBpnfD3Vu/EmPqL5luy++rMcOfm/6l74VpJFyRdaU96L1UW+a9GXiRws=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3pRTHk0eXByOGd4bVd3eE5yMU5JelZsbXVYK2M2a1owdmRKa0NlTjJ5TjVP?=
- =?utf-8?B?eGM2dGlCUWxHbUNtTEg5NmZUR3U3N0tpR0Y5aFEzTDdpemw3OUpzMGNJTmlZ?=
- =?utf-8?B?Nzh6QllvMnhWS2NKVmxaN25zWStpMm1GS0hRcU9qcHVTWi9adHBzVExsdjFY?=
- =?utf-8?B?TUxQRm80ZHpuSmx2cjJCUk5jaGxLUm11Rk04SzBYTzNSQTdzTW1BWkdKUHpl?=
- =?utf-8?B?TkRZcHFVUUJseUtCdTFiV3RqcnFUMDRqQW9MWHFQR0NuT2RQT00rTm9sam5Y?=
- =?utf-8?B?d01vUGdIVlUrbWp0OGxjRkRwNkFLSkcvN1p6UEJrN3pSQVJzMTUwTVZWSm9G?=
- =?utf-8?B?dVdKVktLQjZNSkNISWtMZjd0TlhscUVGVHNZcnhDV0xObzVwQXZQVlQrSU8z?=
- =?utf-8?B?THJ5UUhnRW5YQUFZa0NwaUJiaUlzd3FVVFByZ1pNd1lKNjh1QzdqVGdXMFNW?=
- =?utf-8?B?Z1dZMGhvNTdMcnMyR3VUWERYZmNwcUpmQ0ZHTHd6MjBTV2VkY2sxbVNBZTBh?=
- =?utf-8?B?UUNFcmZkT0w1RHI1TGNvRWhwa2xKbnE3SkQ5NVRMYjFLbGNxZGp0MFNhMzFG?=
- =?utf-8?B?S29rVDRKTHlkVzY1YjV5ZVpaV3ZaNVhUL1JpdDZxT0l3by9oanZOYjFocWp5?=
- =?utf-8?B?VVZwVDJPVkZXbHdScW5kS2U3Tk1vY1EzeGlHSzI3RHdIbnN6S3Rzcm9lbTRq?=
- =?utf-8?B?cVpBbEIxMFFnOHNTNm16K2d5TXppVDdRRlpQVjkxTkhKVmMzSDBmd2NFUlJ3?=
- =?utf-8?B?R3VmdGNKaEh3dFVETWpnUkxRMlhUY0VJK3crZWZuTkxJb09ZQnhyY1Y3ZW10?=
- =?utf-8?B?ZmY5V1VzaVVUaHU2eUJFNUJmUUUvVU1JZWZuV0RRZTBPYlFnZ0NqSk1hMWlP?=
- =?utf-8?B?S2JaTWtYUU43Y3dWMERucFZlUlo4cWFzejV1eWZjbWxmZmpoRENXSGpndFRS?=
- =?utf-8?B?aUt5dmhuWGh1YWxSRHhLOE96YkVyR0VVMytIS1BsRnhQR3h2U0k3OW4zcUJi?=
- =?utf-8?B?ZEpVNGJCRHVPcEp5cmo0b2E2aW5QSitwRmhaMitmVnorTUpEY3VWemVxeDdC?=
- =?utf-8?B?YnVtT2xjVHpRN1ViWWpWbEFxb0NvbWxrY3lsam9RQ2VBYjE3KzNJS0lqN09l?=
- =?utf-8?B?dmVSSjM4U3RnLy9YcU10a0QzOWZMR0lTSHF6S0FYRm4rNDdUWDVrV3ZJTkpY?=
- =?utf-8?B?alExYXRBajluWFJYbFpVQ1dkTmF0QVl6VkF4Y0ZyT2pZR2k4TE5wbStIVm5a?=
- =?utf-8?B?NDdPTmFVYThNREo2MmN6S0Q5cG9pcmZVZ1hxMjFFVXkwb0JQWTFlMUJnV3J4?=
- =?utf-8?B?NEJYRERRZnRYNTcweFJwK2liam1ORDZ5cCs4eXdqMGZMMlQ3QnplZVQwYUhj?=
- =?utf-8?B?VDBqNjhPakxNQ3k2ODVYRUN0MjhuV3QwZzhGb2dsaTFHdlhvbG5IUDErU29H?=
- =?utf-8?B?aUp3TlBUVW9sakpySkdJWTBGSnhzZXE1SmIwVElxSWxaM0dkMVBsdjRPc3cx?=
- =?utf-8?B?Q1JuRVRXL2U4aWZVM1RVb3NuWkdZZ2U2Rm5yYytpci8vZXRtZFh6V2U1em9h?=
- =?utf-8?B?UHU1R21tQVVvSStUdW1KYnFuakJEeHZkZmxHMWZRZG1leENVa3Z6L2lmdkxj?=
- =?utf-8?B?L0lwSHhQZ2o3WjJ2N2M5bzZydkt6M2xRYU94REVCUWRDQ0tHbmJwS2w5ZjY0?=
- =?utf-8?B?Y1FwQ2hGNTN2OFB5VHIwMTlhOEVBN3NpeU40c0UxMVRkV0pZVjA1bGxtMFUz?=
- =?utf-8?B?SVQxRUJneFNndll0SFhxbDFOYkVOZUpvOUIvMWYvbGF2aTBVUlVlL3BEcGZq?=
- =?utf-8?B?MTBQSlAxSWljV3prcmNmQ0p6OVZ6di9FeDZtOWc3b1ZPY3N6dWlsMjlLR21O?=
- =?utf-8?B?M3lCZHVrS0VWbElpQks0UjJWL1dEYm9kUXBjMkp6UDJsVmtIMm5jKzRFbEQv?=
- =?utf-8?B?emk2ODM1OVQrS1RPWTYzallrcjlBOTVzVTRCVHBQS3l4aVNIRHNLeVZQam5Y?=
- =?utf-8?B?TmZLUHQ4T0wxM3NWM2lON0U3SDdFNSttU3lyMGlEM0J1N2ZNeHVhYW9zb0FR?=
- =?utf-8?B?ZDJhQitqa3VmTjBESHZpUmhodjJXRDZjdXIrM3F2bm9XQ052SlYyMUg5QlZ3?=
- =?utf-8?B?UVNOTGF1aklGL3hGVzViamhNTi81TFVOSGR1WGd2KytodFZzeFJMMWk4Umhi?=
- =?utf-8?B?VHQrQ0c0UWJtSExLZS90UjBINHlGRWdLSGxzck4wRnd4YXpabm1HQ0Fpa0Fu?=
- =?utf-8?B?ekplb0FKMDExbzVRMXlZTFV5cnhaZU1uZk9mb2RWSWNRWXZNeVZCUGhrT2RK?=
- =?utf-8?B?L0FSbEJrSm0zM3ZmQWdrNC9CLzZKTjZRMlFPK0JzZUl6eTdQVVJnZFE5eXM2?=
- =?utf-8?Q?/Hg7RUT0/tjzVduKmFEzZPPCiQnspJhgcW1I1Mv2Nq7ZD?=
-X-MS-Exchange-AntiSpam-MessageData-1: FYrwSTixHVdyfg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe253e5d-b0db-4e94-f4a5-08de7b40441c
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 05:21:48.7242 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K5iwm10HdesKhEmpGMSpz4i5sKXgWbZh7u2p06WaJ1wY1SaG4Lyz0inl7mQcEKl0GgF7mBX1PPt6wBr5t2OJbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9057
+References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
+ <20260305102323.11b07502@fedora>
+In-Reply-To: <20260305102323.11b07502@fedora>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 5 Mar 2026 21:33:36 -0800
+X-Gm-Features: AaiRm50YC-9v07WzvBVfdBZY8LWjXNT9ArNxjAeeDLekJ7if8LU8pLOoMu7WurY
+Message-ID: <CAPaKu7R3t0Vz3WLg0G9aAVgmWhTGQWPKc6YHsH+2cRKnUjtqow@mail.gmail.com>
+Subject: Re: drm_sched run_job and scheduling latency
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-xe@lists.freedesktop.org, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,70 +118,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: E712521BAD5
+X-Rspamd-Queue-Id: C44C321BBE1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[nvidia.com,google.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,protonmail.com,umich.edu,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:intel-xe@lists.freedesktop.org,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:linux-kernel@vger.kernel.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[olvaffe@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[olvaffe@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Thu Mar 5, 2026 at 8:16 PM JST, Danilo Krummrich wrote:
-> On Thu Mar 5, 2026 at 8:37 AM CET, Eliot Courtney wrote:
->> On Wed Mar 4, 2026 at 8:39 PM JST, Danilo Krummrich wrote:
->>> On Wed Mar 4, 2026 at 2:42 AM CET, Eliot Courtney wrote:
->>>> +    fn allocate_command(&mut self, size: usize, timeout: Delta) -> Re=
-sult<GspCommand<'_>> {
->>>> +        read_poll_timeout(
->>>> +            || Ok(self.driver_write_area_size()),
->>>> +            |available_bytes| *available_bytes >=3D size_of::<GspMsgE=
-lement>() + size,
->>>> +            Delta::ZERO,
->>>
->>> Isn't this either creating unneccessary thrashing of the memory control=
-ler or
->>> unnecessary contention at the cache-coherency level?
->>>
->>> I think we should probably add at least a small delay of something arou=
-nd 1us.
->>
->> This is what nouveau does (specifically `usleep_range(1, 2)`). OTOH,
->> openrm just does a busy wait, which is what I replicated here for now.
->> GSP command queue not having space IIUC is meant to be very exceptional.
->> I am not sure which is best, maybe Alex has an opinion, but also happy
->> to change it because that reasoning makes sense to me and I don't know
->> enough about the distribution of how often it would actually need
->> to wait to know if 0 delay is justified.
+On Thu, Mar 5, 2026 at 1:23=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
 >
-> Well, what this code says is "let's hammer the cache / memory controller =
-as fast
-> as we can for up to one second".
+> On Wed, 4 Mar 2026 14:51:39 -0800
+> Chia-I Wu <olvaffe@gmail.com> wrote:
 >
-> This really should come with some justification why it is actually needed=
- for
-> proper operation of the driver.
+> > Hi,
+> >
+> > Our system compositor (surfaceflinger on android) submits gpu jobs
+> > from a SCHED_FIFO thread to an RT gpu queue. However, because
+> > workqueue threads are SCHED_NORMAL, the scheduling latency from submit
+> > to run_job can sometimes cause frame misses. We are seeing this on
+> > panthor and xe, but the issue should be common to all drm_sched users.
+> >
+> > Using a WQ_HIGHPRI workqueue helps, but it is still not RT (and won't
+> > meet future android requirements). It seems either workqueue needs to
+> > gain RT support, or drm_sched needs to support kthread_worker.
+> >
+> > I know drm_sched switched from kthread_worker to workqueue for better
+> > scaling when xe was introduced.
+>
+> Actually, it went from a plain kthread with open-coded "work" support to
+> workqueues. The kthread_worker+kthread_work model looks closer to what
+> workqueues provide, so transitioning drivers to it shouldn't be too
+> hard. The scalability issue you mentioned (one thread per GPU context
+> doesn't scale) doesn't apply, because we can pretty easily share the
+> same kthread_worker for all drm_gpu_scheduler instances, just like we
+> can share the same workqueue for all drm_gpu_scheduler instances today.
+> Luckily, it seems that no one so far has been using
+> WQ_PERCPU-workqueues, so that's one less thing we need to worry about.
+> The last remaining drawback with a kthread_work[er] based solution is
+> the fact workqueues can adjust the number of worker threads on demand
+> based on the load. If we really need this flexibility (a non static
+> number of threads per-prio level per-driver), that's something we'll
+> have to add support for.
+Wait, I thought this was the exact scaling issue that workqueue solved
+for xe and panthor? We needed to execute run_jobs for N
+drm_gpu_scheduler instances, where N is in total control of the
+userspace. We didn't want to serialize the executions to a single
+thread.
 
-A 1us delay sounds very reasonable. I can add it when applying if there
-is no feedback justifying a respin.
+Granted, panthor holds a lock in its run_job callback and does not
+benefit from a workqueue. I don't know how xe's run_job does though.
+
+>
+> For Panthor, the way I see it, we could start with one thread per-group
+> priority, and then pick the worker thread to use at drm_sched_init()
+> based on the group prio. If we need something with a thread pool, then
+> drm_sched will have to know about those threads, and do some load
+> balancing when queueing the works...
+>
+> Note that someone at Collabora is working on dynamic context priority
+> support, meaning we'll have to be able to change the drm_gpu_scheduler
+> kthread_worker at runtime.
+>
+> TLDR; All of this is doable, but it's more work (for us, DRM devs) than
+> asking RT prio support to be added to workqueues.
+
+It looks like WQ_RT was last brought up in
+
+  https://lore.kernel.org/all/aPJdrqSiuijOcaPE@slm.duckdns.org/
+
+Maybe adding some form of bring-your-own-worker-pool support to
+workqueue will be acceptable?
+
+>
+> > But if drm_sched can support either
+> > workqueue or kthread_worker during drm_sched_init, drivers can
+> > selectively use kthread_worker only for RT gpu queues. And because
+> > drivers require CAP_SYS_NICE for RT gpu queues, this should not cause
+> > scaling issues.
+>
+> I think, whatever we choose to go for, we probably don't want to keep
+> both models around, because that's going to be a pain to maintain.
