@@ -2,106 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WA0mAVb2qmlaZAEAu9opvQ
+	id eLiEDn33qmlxZAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:44:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:49:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7072D224168
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88069224353
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:49:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCCFC10ED6A;
-	Fri,  6 Mar 2026 15:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6DD810ED6F;
+	Fri,  6 Mar 2026 15:49:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cPwvk7hY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cEnu/OnA";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="REG7AcGa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF9ED10ED6A;
- Fri,  6 Mar 2026 15:44:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D15A960127;
- Fri,  6 Mar 2026 15:44:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042BFC2BC86;
- Fri,  6 Mar 2026 15:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772811857;
- bh=Irog342MSr8k0zPuW6pGzgfpJRPPfcyU46dDqhpUBU8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cPwvk7hYBURwasb7XgxxL1kr9EppTKvwp8HXAgsivHXKjqp75sTPHdGxFMqtH5GoC
- KWahvwUXupdk0vP9+GXBHipHQQaevBgrSxRfLxtzes8UcuTMob+APPrkVxnMkQ43H4
- pqYJhYjEEPC6KmAUY+xkMmbNui7Qj/X1BlHXLP7cxJoqraZdVLVMgU71DKUckL8hlD
- U99gWs8Qztv8u3kD1L8S1yKRUESqYW3qiE3m5QVefWfGRMXRXb2kxyi5TOLk2Jh50O
- s5ZJkDQL5uz7rygM1S6oeiYTyYKoEc7zKF2NvNddiKTezKxSMgVXGP1dArr2DxQVXv
- OaWe1NzgWP/6A==
-Message-ID: <81e7bd1c-54d5-4f88-969a-685177447c51@kernel.org>
-Date: Fri, 6 Mar 2026 16:44:06 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5BA10ED7C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 15:49:12 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 626FSvTR1369184
+ for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 15:49:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 0/756cthtUIgOJKo1UJZNjKGTLA8f8YYmW1bpSBDIWY=; b=cEnu/OnAC1cBRLNl
+ 4oQ9YSwsZrvBAX9vdKjIs9IzdOxhYHFFQ0EAkTpagLjsb1DfxR5yMosUQ3mz5pDo
+ S0lStsQEKOV0jFVu6gcYfnTboyaow+s2cJOaGYaQfpvaYF+RmDLZPh/Ec3Q4HHzL
+ Z4ms2RHS4O9mHg1ZDJsSdiKGKAVEjPMiGp0rVjpjmHAvTmzI7XmKLHrZcEGy0R4O
+ 1Pn0H6H086qujpi/XmdmZdKzDTWEaQZJn0ctv0+8fOqWxpWuTHXaPT4sSIpbZi5c
+ jEt096fLWsPp3uPV3vFuKCWSlMp0pyiUXcI3mQVepsO1b163WXom9joVA8/cXTl/
+ cA1vHw==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqrf5t1gs-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 15:49:11 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id
+ a92af1059eb24-1275c6fc58aso17579842c88.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 07:49:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772812151; x=1773416951;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0/756cthtUIgOJKo1UJZNjKGTLA8f8YYmW1bpSBDIWY=;
+ b=REG7AcGaV6CmGFvvU+7fUTxsAv+VTXIR57QPzK+L4M1//vCgqsvNpVq50l3grZ1A4G
+ zHgbqVUAiKjwSkHCKnTPTSRJbrtZC5lz4WptZ9JJuAE5VBODSbRIO2Wqwalg/+0WRFfe
+ nG/xXCeMU4as9V3NjVYQsAoZjv18VArqTf1wiBBOzmlzsC6TlRqM32DUSl28SF7kKVSr
+ 6gQgmux0vdVr1teE5FVa0sezTz+tMEOK4JH7wfkQ37xKMNthd6962zP6Qbx2SYbZYc/V
+ 7Ebb6uTQR4NaZjdYV8X27V20gll6tDs7Kc1zL9dy09Tuau3iv6lHIwK6STwR8ih1sORK
+ GW1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772812151; x=1773416951;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0/756cthtUIgOJKo1UJZNjKGTLA8f8YYmW1bpSBDIWY=;
+ b=jnwi2Tnjz8EEgG4VDdil45pka/p6T7MNUxg5/Zgm2Rj/OVbY/28PCd8GB49X57kTHg
+ L9imNvnW4RD59mbNYWKjH6aKz+odPIV8kvNt2UbNCUZoGWMxK5WXVuGrv+EX+7+Aopz7
+ Vl9sJQ6DFm1BEbL228k/kKNTBj1ytC3LymGZQrMDZBtQXVVn7CTwsMe0cfZ1X+uaCoKl
+ hrZPA39iOCuLyUzwtvCkm1jaUqjw9QRCTCSjV7Z0UQYnoQRkIMX1Hk68QQpiWM9Csl8A
+ vjvSC0Kbf6KlEjisnVwFY5ZM1c36ajnQZ/JrgDWkPNzLCUDZyzPQBt5ZlV4lObOZVetU
+ bBRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAAnOJ4bsPSzdEBmHLLfN1eanBNxfpjPvjcQ1+HaB/Cy+hZ1HhDXu6AiJqCQK2EvY5DJBkTFKhY7o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz0eWg/MUhu7YUf/4wASoJOAu8St7HYjEzkujKlUse4guq2TryG
+ peQEAhJvMmawCojh4B0VJzjiVu47gOGJTVFptmg6KRufsSV/hIDn4eesyHs1HPXW7EtendA91Ra
+ jGeV4zX7+7sWvCrodcyGkgxuy/5lsiRmeJS0bAciDID9nvhpoCfKGeEONQREjsIkHOWtWloc=
+X-Gm-Gg: ATEYQzwoNjlA16bLTGs8UnSMyPaATu5eHVuKTPW8j3s/k6yHJ4o9KuRiJ+bUtJxth+c
+ EUTYS4HYpUs2O8ZRyRd+M9yR6A5UlAza68jI/nJzWrgMoTHZBrzg3P7uOkWYZiQD14OLWHed0Vu
+ UHL34gLf8Q3+juiDCZiJsBNCM7760yS+1buzwvmo+UYg1eQRIrf245+DkaQSgEFHhx7c6k2Zpl9
+ x7lcRwRUQeaWWD0lRnOARQEW9xwstyH31295IXY9C0SKgWGk3nmjIuj8Npfg8ABC9gYttW8hT5a
+ bpdIqTHbs2OfaFttxaM5Xoadchau4wzvlQXklc8l1KzG7yuHXNUw8+vZihDh+UyzqqFSyMvH84a
+ /IJYvK8WUKICTTEJcS1dyj3DWkrlC2sc6muwoDSfck6uH/20NyvSlomE9AQOyWLZvkNkX86OGLY
+ vRZ1HjCZMQHbMefQ==
+X-Received: by 2002:a05:7022:6898:b0:11b:e21e:5653 with SMTP id
+ a92af1059eb24-128c2e0c967mr1056252c88.19.1772812150815; 
+ Fri, 06 Mar 2026 07:49:10 -0800 (PST)
+X-Received: by 2002:a05:7022:6898:b0:11b:e21e:5653 with SMTP id
+ a92af1059eb24-128c2e0c967mr1056220c88.19.1772812150163; 
+ Fri, 06 Mar 2026 07:49:10 -0800 (PST)
+Received: from [192.168.1.41] (c-24-130-122-79.hsd1.ca.comcast.net.
+ [24.130.122.79]) by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-128c3f58d24sm1497977c88.12.2026.03.06.07.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Mar 2026 07:49:09 -0800 (PST)
+Message-ID: <00a7e65d-aad3-4029-af51-ff0870e65595@oss.qualcomm.com>
+Date: Fri, 6 Mar 2026 07:49:07 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/13] mm/page_vma_mapped: Add flag to
- page_vma_mapped_walk::flags to track device private pages
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ziy@nvidia.com, apopple@nvidia.com, lorenzo.stoakes@oracle.com,
- lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com,
- willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
- intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com,
- jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
- ying.huang@linux.alibaba.com
-References: <20260202113642.59295-1-jniethe@nvidia.com>
- <20260202113642.59295-6-jniethe@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
+To: Sumit Garg <sumit.garg@kernel.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org
+Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
+ sean@poorly.run, akhilpo@oss.qualcomm.com, lumag@kernel.org,
+ abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
+ bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
+ mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
+ mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
+ jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+ vignesh.viswanathan@oss.qualcomm.com, srinivas.kandagatla@oss.qualcomm.com,
+ amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+ op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+ skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20260306105027.290375-1-sumit.garg@kernel.org>
+ <20260306105027.290375-3-sumit.garg@kernel.org>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260202113642.59295-6-jniethe@nvidia.com>
+In-Reply-To: <20260306105027.290375-3-sumit.garg@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: QKyS8-FX8l4dFoaHUs4SE-sCXvpNH94w
+X-Proofpoint-GUID: QKyS8-FX8l4dFoaHUs4SE-sCXvpNH94w
+X-Authority-Analysis: v=2.4 cv=L+oQguT8 c=1 sm=1 tr=0 ts=69aaf777 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=Tg7Z00WN3eLgNEO9NLUKUQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=PJDN-9afRshu8rMoDvAA:9 a=QEXdDO2ut3YA:10 a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE0NiBTYWx0ZWRfXxMOb5WkeX3Tk
+ 59V6d4P6CB3Of2zUBkM2RhNXa83KvHQM8JrA2ftX5uKwtUKrfGbkgEGGrQb4k3iGjgguPn7usNC
+ A6VdLLshmDeLeisF/70E0aaZ/Q0ovLa1HrdntSOEv0Rh1nNGMUzaZg2r3hf7sp3BHNEDxh1Zw3N
+ vWocVpQd8hISxxXOE/g7lk5086GRjBxwP9ohWB1q1CBXOjHxdWDPY0XK5PejbiLGs9c/0cNn6YI
+ 21THovchA5Y07DJaiT3f+iCi8gDDKpXgzODblLaZM8sCieisj9ZYbJ5G3QVLBo+dKoSbKUas5wa
+ KmwEJSadGjytyWixp7FdmB2ClK3/aoQysPSxfiecp14BM/UO3ytHLmlV0dpKglyBXGXPw9SxcUD
+ pojIZBAXYelo2uYhI+W/qJtJH9oltuoRkCcqWt2RrVLnSrCrNkW4osPT4X3PAMQ1PKyN8+0lS9Y
+ o0FsHIQnli/wX0NVSXQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_04,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ phishscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,148 +162,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 7072D224168
+X-Rspamd-Queue-Id: 88069224353
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,oracle.com,redhat.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au,linux.alibaba.com];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	FORGED_RECIPIENTS(0.00)[m:sumit.garg@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualco
+ mm.com,m:jorge.ramirez@oss.qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jens.wiklander@linaro.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	FORGED_SENDER(0.00)[jeff.johnson@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.961];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[jeff.johnson@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[dri-devel,dt,netdev];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid]
 X-Rspamd-Action: no action
 
-On 2/2/26 12:36, Jordan Niethe wrote:
-> A future change will remove device private pages from the physical
-> address space. This will mean that device private pages no longer have
-> normal PFN and must be handled separately.
-> 
-> Prepare for this by adding a PVMW_DEVICE_PRIVATE flag to
-> page_vma_mapped_walk::flags. This indicates that
-> page_vma_mapped_walk::pfn contains a device private offset rather than a
-> normal pfn.
-> 
-> Once the device private pages are removed from the physical address
-> space this flag will be used to ensure a device private offset is
-> returned.
-> 
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> ---
-> v1:
->   - Update for HMM huge page support
-> v2:
->   - Move adding device_private param to check_pmd() until final patch
-> v3:
->   - Track device private offset in pvmw::flags instead of pvmw::pfn
-> v4:
->   - No change
-> ---
->  include/linux/rmap.h | 24 ++++++++++++++++++++++--
->  mm/page_vma_mapped.c |  4 ++--
->  mm/rmap.c            |  4 ++--
->  mm/vmscan.c          |  2 +-
->  4 files changed, 27 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> index daa92a58585d..1b03297f13dc 100644
-> --- a/include/linux/rmap.h
-> +++ b/include/linux/rmap.h
-> @@ -921,6 +921,8 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
->  #define PVMW_SYNC		(1 << 0)
->  /* Look for migration entries rather than present PTEs */
->  #define PVMW_MIGRATION		(1 << 1)
-> +/* pvmw::pfn is a device private offset */
-> +#define PVMW_DEVICE_PRIVATE	(1 << 2)
->  
->  /* Result flags */
->  
-> @@ -939,14 +941,32 @@ struct page_vma_mapped_walk {
->  	unsigned int flags;
->  };
->  
-> +static inline unsigned long page_vma_walk_flags(const struct folio *folio,
-> +						unsigned long flags)
+On 3/6/2026 2:50 AM, Sumit Garg wrote:
+
+I missed one k-doc warning...
+
+> +/**
+> + * qcom_scm_pas_auth_and_reset() - Authenticate the given peripheral firmware
+
+s/scm_//
+
+Warning: drivers/firmware/qcom/qcom_pas.c:173 expecting prototype for
+qcom_scm_pas_auth_and_reset(). Prototype was for qcom_pas_auth_and_reset() instead
+
+> + *				   and reset the remote processor
+> + * @pas_id:	peripheral authentication service id
+> + *
+> + * Return 0 on success.
+> + */
+> +int qcom_pas_auth_and_reset(u32 pas_id)
 > +{
-> +	if (folio_is_device_private(folio))
-> +		return flags | PVMW_DEVICE_PRIVATE;
-> +	return flags;
-> +}
+> +	if (ops_ptr)
+> +		return ops_ptr->auth_and_reset(ops_ptr->dev, pas_id);
 > +
-> +static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
-> +{
-> +	return folio_pfn(folio);
+> +	return -ENODEV;
 > +}
-> +
-> +static inline struct folio *page_vma_walk_pfn_to_folio(struct page_vma_mapped_walk *pvmw)
-> +{
-> +	return pfn_folio(pvmw->pfn);
-> +}
-> +
->  #define DEFINE_FOLIO_VMA_WALK(name, _folio, _vma, _address, _flags)	\
->  	struct page_vma_mapped_walk name = {				\
-> -		.pfn = folio_pfn(_folio),				\
-> +		.pfn = folio_page_vma_walk_pfn(_folio),			\
->  		.nr_pages = folio_nr_pages(_folio),			\
->  		.pgoff = folio_pgoff(_folio),				\
->  		.vma = _vma,						\
->  		.address = _address,					\
-> -		.flags = _flags,					\
-> +		.flags = page_vma_walk_flags(_folio, _flags),		\
->  	}
-
-That's all rather horrible ...
-
-
-I was asking myself recently, why something that is called
-"page_vma_mapped_walk" consume a pfn. It's just a horrible interface.
-
-
-* DEFINE_FOLIO_VMA_WALK() users obviously receive a folio.
-* mm/migrate_device.c just abuses page_vma_mapped_walk() to make
-  set_pmd_migration_entry() work. But we have a folio.
-* page_mapped_in_vma() has a page/folio.
-
-mapping_wrprotect_range_one() and pfn_mkclean_range() are the real
-issues. They all end up calling page_vma_mkclean_one(), which does not
-operate on pages/folios.
-
-Ideally, the odd pfn case would use it's own simplified infrastructure.
-
-
-So, could we simply add a folio+page pointer in case we have one, and
-use that one if set, leaving leaving the pfn unset?
-
-Then, the pfn would only be set for the
-mapping_wrprotect_range_one/pfn_mkclean_range case. I don't think
-device-private folios would ever have to mess with that.
-
-
-Then, you just always have a folio+page and don't even have to worry
-about the pfn?
-
-
--- 
-Cheers,
-
-David
