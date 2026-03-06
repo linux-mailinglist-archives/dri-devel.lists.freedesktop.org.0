@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OH3KEa7xqmncYwEAu9opvQ
+	id sAiUNa/xqmncYwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:30 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4369223B79
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8E8223B80
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43CC410E14D;
-	Fri,  6 Mar 2026 15:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F1910ED53;
+	Fri,  6 Mar 2026 15:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E31A10E14D;
- Fri,  6 Mar 2026 15:24:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5E910ED53;
+ Fri,  6 Mar 2026 15:24:27 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id D72C63F1E5;
- Fri,  6 Mar 2026 16:24:22 +0100 (CET)
+ by psionic.psi5.com (Postfix) with ESMTPSA id B45C53F28A;
+ Fri,  6 Mar 2026 16:24:24 +0100 (CET)
 From: Simon Richter <Simon.Richter@hogyros.de>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH 5.3-6.19 0/1] Avoid oops on illegal VGA register access
-Date: Sat,  7 Mar 2026 00:23:46 +0900
-Message-ID: <20260306152413.758919-1-Simon.Richter@hogyros.de>
+Subject: [PATCH 1/1] drm/i915: handle failure from vga_get_uninterruptible()
+Date: Sat,  7 Mar 2026 00:23:47 +0900
+Message-ID: <20260306152413.758919-2-Simon.Richter@hogyros.de>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260306152413.758919-1-Simon.Richter@hogyros.de>
+References: <20260306152413.758919-1-Simon.Richter@hogyros.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,7 +50,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C4369223B79
+X-Rspamd-Queue-Id: 8E8E8223B80
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -70,36 +72,86 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.254];
+	NEURAL_HAM(-0.00)[-0.181];
 	TAGGED_RCPT(0.00)[dri-devel];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,hogyros.de:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,hogyros.de:mid,hogyros.de:email]
 X-Rspamd-Action: no action
 
-Hi,
+The vga_get_uninterruptible() function can return an error if it fails to
+set up VGA decoding for the requested device.
 
-this is a backport of https://patchwork.freedesktop.org/series/161721/ that
-should apply to anything between 5.3-rc4 and 6.19.
+If VGA decoding is unavailable, we don't need to be careful to leave the
+VGA emulation in a usable state, as vgacon will also be unable to get
+access later on, so just skip over the VGA accesses and the vga_put() call
+matching the failed vga_get_uninterruptible().
 
-It adds a way to avoid the illegal VGA accesses on non-x86 platforms by
-letting these platforms report that VGA registers cannot be mapped.
-
-This patch alone doesn't fully solve the problem, it also needs complementary
-changes in vgaarb to actually report this, but since the interface is unchanged
-and it is wrong to ignore the error code anyway, little coordination is needed
-here.
-
-   Simon
-
-Simon Richter (1):
-  drm/i915: handle failure from vga_get()
-
+Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
+---
  drivers/gpu/drm/i915/display/intel_vga.c | 21 +++++++++++++++++++--
  1 file changed, 19 insertions(+), 2 deletions(-)
 
-
-base-commit: 6a753907865e35ae986b7b2ad48daa1eab4bcf3a
+diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+index 6e125564db34..dd581f20e962 100644
+--- a/drivers/gpu/drm/i915/display/intel_vga.c
++++ b/drivers/gpu/drm/i915/display/intel_vga.c
+@@ -49,6 +49,7 @@ void intel_vga_disable(struct intel_display *display)
+ 	enum pipe pipe;
+ 	u32 tmp;
+ 	u8 sr1;
++	int err;
+ 
+ 	tmp = intel_de_read(display, vga_reg);
+ 	if (tmp & VGA_DISP_DISABLE)
+@@ -65,13 +66,22 @@ void intel_vga_disable(struct intel_display *display)
+ 		    pipe_name(pipe));
+ 
+ 	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
+-	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++	/*
++	 * if the VGA ports are inaccessible now, the chance that vgacon
++	 * will be able to access them later is low enough that we don't
++	 * have to care about the emulation state machines being in sync
++	 */
++	err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++	if (err)
++		goto skip;
++
+ 	outb(0x01, VGA_SEQ_I);
+ 	sr1 = inb(VGA_SEQ_D);
+ 	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
+ 	vga_put(pdev, VGA_RSRC_LEGACY_IO);
+ 	udelay(300);
+ 
++skip:
+ 	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
+ 	intel_de_posting_read(display, vga_reg);
+ }
+@@ -79,6 +89,7 @@ void intel_vga_disable(struct intel_display *display)
+ void intel_vga_reset_io_mem(struct intel_display *display)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
++	int err;
+ 
+ 	/*
+ 	 * After we re-enable the power well, if we touch VGA register 0x3d5
+@@ -89,8 +100,14 @@ void intel_vga_reset_io_mem(struct intel_display *display)
+ 	 * console_unlock(). So make here we touch the VGA MSR register, making
+ 	 * sure vgacon can keep working normally without triggering interrupts
+ 	 * and error messages.
++	 *
++	 * We ignore this issue if we can't access the VGA registers, because
++	 * neither can vgacon.
+ 	 */
+-	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++	err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
++	if (err)
++		return;
++
+ 	outb(inb(VGA_MIS_R), VGA_MIS_W);
+ 	vga_put(pdev, VGA_RSRC_LEGACY_IO);
+ }
 -- 
 2.47.3
 
