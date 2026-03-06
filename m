@@ -2,164 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QGFyAN1TqmnhPQEAu9opvQ
+	id OAXYEv9Wqmk/PwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:11:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:24:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A738D21B650
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32CB21B775
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:24:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E6810E324;
-	Fri,  6 Mar 2026 04:11:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E54310E323;
+	Fri,  6 Mar 2026 04:24:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y4QljnL3";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="R9Nam9AF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7693D10E31B;
- Fri,  6 Mar 2026 04:11:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772770263; x=1804306263;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zx5g9YyqHOqifABXko2fX31rH/GWZPGebwNB7swQ/AE=;
- b=Y4QljnL32uJjayjNOGAJRJ/l6APaG94+7tQI7rcabRuxCvDxr/G15RDv
- GSDVpyVIt1jfvdOXD5ct8/5SbO8CZxerN3drsC7hAmozvDJqdiKQNgnxg
- IixeTvNwDnUeP3sePK/kgcQfNpiZZIfPmeS6+ycbeJaBf1ZqznC1lTVep
- DF6lBXyCGDEWCjNiSvtwXcYFYVvue03N9NtT4dclSQfA8D6I9bKm34LEQ
- GOpRxStKqt+n0ahpav5o1YYFRpN1bzZ8B202KjT75lyWqy65NOBYqL79k
- SHUP6No3Q/NTpuLVTboDodCNw1v9pdewWdy3FOcW29sM+eH/b3Q2B7aDH g==;
-X-CSE-ConnectionGUID: wXzry4BmRLy+UhonC7lqJA==
-X-CSE-MsgGUID: I6aElD/7QD6yVX5/Yy9yoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="85222797"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="85222797"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 20:11:03 -0800
-X-CSE-ConnectionGUID: 7CDBde3pQi2OJCfOgRPO/g==
-X-CSE-MsgGUID: iJkxxxk5SSqwdYKas/R1+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="256797686"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2026 20:11:03 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 5 Mar 2026 20:11:02 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 5 Mar 2026 20:11:02 -0800
-Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.12) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 5 Mar 2026 20:11:01 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011060.outbound.protection.outlook.com
+ [40.93.194.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93DF110E323;
+ Fri,  6 Mar 2026 04:24:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vYcYsOxAs3PIuetbkVAqzbUBa1dDkkl99vCQ7bITHFYFN+TM6c9moQQd9OBDEJBfb27YBPmI3ux8Q17TKJGaXaJ9cV2qDJGNXpOBLZ7kYH5Kv1d8o9K5K5yBH13D8I7ha1jnssrr4EcvxP8UcKHt7uB+9Toh89L8iT8rJ+A1SxnbHDU5Bp5CZtq8jW3/fnOZeUStnuCAfHTMWckAv/e8RCCX7CxaQbv0MPPT2X/7k3wQi2CneuHDw0j0LswJFOOdR0UNZOnDHIuP29sM9DsUzZ1PDwDwz80TRtssjIiYPcsPq+9Emb5efrNSJcLErHU49814aT/s9bscNxV8V8jkvQ==
+ b=i2anF3aS7NqpPlF4cE4NS0/K+k1Ql+XunoctB0NaGO624fLB4BUlE6zW0u6poHdReG996vMcg8wz/ZMRdgheI/wqkY40rCkCuzOx4eGCzK4NuNUqzQE+tzcN0JOK6gCEHF2r5EGt32TvqjWUrImvzk2n9yiZocc4e0iMDySrTdZT+g/ksEjCX563SBFp6fZcJlLBI9gqYezIecnBCwdpUqWwYhZRN2BLbsuCyUzefh8spfBWU3MToo7m618fJYZkL+YAkUIivnuoaCdni4xqtpediCWbDUps3QU3+F++njBS9eXRtlPpKFN/ig60BrXEUnIRM22Hblp6q743mZ9o9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qqkZIJo9GjhIVrDpovApgx5TEzHZHP10NXKn91m6pjc=;
- b=M4Yd4L4OhtwTfAZVbepXdBL9tV8a5G8n7swBVz7nA27TXExjcuKkRDXhOlHzO02iKge8F7Cd73f+Uvik4oIbSB48kNiT+5wf34Qaf10by/W9pxHLyevVfFzYP2DejnZU35nzl0/RGP/QCpk9LSWGbruDSfS/YezmGFD5u24WLvQr1VsNxZ25NKu3hFaOB9gcnFcLWtNpdN5D/cvn1Bv0/oCN+vg6yfyFzCv7aovRgp6R+qO90UKGf3ZeL8YK9r5PzKNyDwBauYZjDG/LLwVcgrmz9XH8bthbMw/i3ERrfbkQRNqxdcK8X/5lKJX6ho/aE64xIlodGKHvMEGQXn6Vyw==
+ bh=5mdymEnii5MAtZdd5MTokCzttFAjKJWDUsTyYA0SQEY=;
+ b=oCXnpy78723rh8tCmGSyiPKsaFfGwqUeTUZsqK0WDZpFJpR4/3GBMuP1UqGBC9w2Zo9mHSi0pAiIhvc/W+2GIiowl2EhgfnFDm99222/O1boz6sxgmKG5RfkenKDVcnE9bTAF6gmxJRv1tTSP9OE7rVSyLasCesShuVJhddjqWQmFGrtigNlI/i81PMKqX1xokiSMnjpQ1qFLXaZMVJr1vsfrbikjpqlM8OryNZWID64JLD8Ur5+2xHWuouEip1Ff8rpkuVVbl94rXPmjn7YaR4NEaZCiYzUYf5ktgd9x7hXXKy4PpY1XjWb4pWBdA8sdZKybU69uWLtIgrDQUKAvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5mdymEnii5MAtZdd5MTokCzttFAjKJWDUsTyYA0SQEY=;
+ b=R9Nam9AF0vXTp3tBX3MpzBLbCryuIcp1HuxUJisCwWKHinsl/p5pBp9oTtt0sGjWkKLGeHZ6uCVsKdlG5nbINl38CWrcPqtjUAIkx/Nky+x3BBVeKAKLhdp5n/yYkngJFnhOMd1cs//thC9k8swFaZElyNF2kMgjRnIzFFUl4zjBXHzERwuBFCUwo5K7Yw5vDN7QVLenGBXC8bhBCLgBfdzjWGyp4q5mPkpxEmOQBX8jR+v8OqwSgllZ19ZAykgKtcfBLkvo00TfFukkTBak07dUp8oLaI8OIzEGGLIz0I/LlTeAS8qQLWGvm3IPz5ggt1Tv3TPUu90/4Pd4+2s9+A==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by SN7PR11MB7706.namprd11.prod.outlook.com (2603:10b6:806:32c::11)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by LV8PR12MB9110.namprd12.prod.outlook.com (2603:10b6:408:18b::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Fri, 6 Mar
- 2026 04:10:58 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::9d4a:f89:f548:dbc7]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::9d4a:f89:f548:dbc7%6]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
- 04:10:58 +0000
-Message-ID: <66b630bd-d9c5-42f6-afc6-f670a40694d6@intel.com>
-Date: Fri, 6 Mar 2026 09:40:51 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/4] drm/display/dp: Read LTTPR caps without DPRX caps
-To: <imre.deak@intel.com>
-CC: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
-References: <20260305-dp_aux-v1-0-54ee0b5f5158@intel.com>
- <20260305-dp_aux-v1-1-54ee0b5f5158@intel.com>
- <aamvgGUPH-SWA7Yh@ideak-desk.lan>
-Content-Language: en-US
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <aamvgGUPH-SWA7Yh@ideak-desk.lan>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0114.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b5::11) To IA0PR11MB7307.namprd11.prod.outlook.com
- (2603:10b6:208:437::10)
+ 2026 04:24:22 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
+ 04:24:21 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Mar 2026 13:24:14 +0900
+Message-Id: <DGVEW3J77TSW.OHE8A3H980GG@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v10 01/10] gpu: nova-core: create falcon firmware DMA
+ objects lazily
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Eliot Courtney" <ecourtney@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20260301-turing_prep-v10-0-dde5ee437c60@nvidia.com>
+ <20260301-turing_prep-v10-1-dde5ee437c60@nvidia.com>
+ <DGVBFO7P95IZ.24M3NHJ4N06DF@nvidia.com>
+In-Reply-To: <DGVBFO7P95IZ.24M3NHJ4N06DF@nvidia.com>
+X-ClientProxiedBy: TYCPR01CA0154.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b1::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|SN7PR11MB7706:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a509209-26ea-4979-2af2-08de7b365ea2
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV8PR12MB9110:EE_
+X-MS-Office365-Filtering-Correlation-Id: 115b64f4-1c55-4c56-4cf1-08de7b383cd7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: fSL/GThS/MUQr9rmrKRwXdGr2Dl8xXvK4VzlHe/ZG1M2BBIjINvnfQncH6f2ddmh3BPm3IK5qCAUvsTFChuQcVYz1CVwfFwcRF3VfZX2K3Vb0LAOkFz2nMmvl6zxJ0PJU4Y+EmC7yYK3EVL41jlaspygb+acCKbHF/hRuZnCo59yhJXASWx/jJnbquH0QJs6idY9CymrtQsYSSym4rKtRJ7bcumkckJo1WpF2uRQef162c8fawREHdBS/eTUUGQsTUbKueTL+fBOY1mVhgUjieDGHvE+Q99jJ2zIqRj5jLNLEx3Kz1aLLBjLla4Kc8e56CKkXw3X1hs1R8idybRr+590AOYld39jUZP1/XXgpkPMX7Vh8DbUpzbP3ag0SytBZvDWqHX6Ct3e8Tp7TAM4uamngj/XNnW1kp5LD3J1JJgjxtzVvscoSkvOgeC90GjiTdIGSB2ADOSgLNSnEXaEDXBL3Ec4zIoPCqh9+ujl29I+c1aTatXLP5/B0V05SW9wGKj3YFlh0PPcMGhtxwciJlSP0u1oKqqR8224AjTvRc8JuQ6lBI1pFRxtsQFEi0oS1fUAo1v/KDKSNx2HvO5Wu7z8rY4axjaE3+0dldptAOFokWUN7JGBYAxfgBf7bO5VSPSFqPW2rHpoX1lBWmnrJuqpKuXtbgBXHbiE4Gk1NK38hSbfmqmpH3B0tFOgQ2L0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|366016|376014|10070799003;
+X-Microsoft-Antispam-Message-Info: 8PcCWB1iSpxJLN5M6b/METOfgJJ5QwyKczVjPVFxY1lDEIbwEiEOTlaEmgR6IshIKbYAgH1UtUkk2P/n96R2PE0aUQtcH6+X1CtmfmYvdHKWciS4bx5f634egbMsEt58j47sVsGd6xY6x9sw6ClRGsv36TXWp9+UaWXoSNvy9MJxXIS09dBzMHdLnch1T+Myi9bboT4UWhPJipkLTbTc9mlRTtEvS1kXP7nMY3BLu0Ggmo1G/1lKZ3ZQUuhbGyTzog4cFLAER9s0c6VPJAXtoFeCsNd0tZcrf0UuteCrYibKaxmRiE0HqGNRfRXeVrje3LKe59xlOEYt6qEHMENmmrZh55GHDF0Lu3kV0Y5EFojh+oFfn6LuBxqTqr1D1tVuWCTd9rmsOxNd4lr38nXHgFSbS3FGjeuP+BQ9AqDqLGLgH2VZ1avj0MVVVrF/y1D+T2H8uBslMg4Uh46ki7A8xH+AeFWxRcGcNUMl898jQIwocQ3aSz5fMYoYbIWsQsGaSDVDX6kmhnI60PB8ZfwsvlXdVCt7Q9ABrDP0k4CM3oKLmjRCL5WUJ/Dtg1sYCrqqYrePyGgQLdywj3/hTTSkUEPwOJrGIzWbB5eyzG/tbrob2hvB3tiGuRhg/5UgxZS4PpeHE1qYpO9/FAy0Z4frel9suI1WUqtvm5rkDN6sIM+cXt35jom0xkFzg9chDtXvgfpZ+Ayb2nTBSdXOxurBPBy06WF0PU6JvYFFkn4Nhgw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ulc3M0QvZHI0UW5zVkZ1ZFdiU3BuUGtKa3pZTERNclloMU5TUklyRGNiWUdk?=
- =?utf-8?B?c1dSQWFYTjRzT25BbVU5WHJxdWdVaEFQTVovdDF3UzZVUWNBNXdGUmlBbU1Q?=
- =?utf-8?B?K0x2VUVhZUxvQXcrbFVTeVZVdTVCNFROMGUzam9BVWl5Q1ZWMDlxaCszTUcr?=
- =?utf-8?B?ZjJ6RW9pRkdEeTlRMnh3d1lQQzQ1aFpQMHFLNEorY0VDZHE5Mm9raCtqUzlC?=
- =?utf-8?B?bnpOWDR6V1VyL1ZKTnFDWmlacU9Nc2RPRmMxUFFENWVGTEpJY2M0dlAvaTli?=
- =?utf-8?B?bXdUMk5zcFdnb25MMzc0QmpWT0VWV2xRK25aRndCalMxcFFNdHBlbThVSTdL?=
- =?utf-8?B?S0lrYVkwUVk4UGdBRFAwV2ZMUndUOGVNcjNCc1llakFmWk1EWkRyV29mMS90?=
- =?utf-8?B?dGNXR2IyQlRCZGdaL2hBZy9iOU5zQWFqYWJyUSt3TkVOcEdNM1NRNnZyMGFC?=
- =?utf-8?B?Rjg2WXlPMGNRc0VBTnM2WDMwOStnS1BpbnhHZEFSKzF6M213aFhRWFdxMWQ3?=
- =?utf-8?B?WlpWZnd6bm5CeEFmQklYV2IxWmQ2ZHZHZG05UU9hcWJkNVBXZVh1WDBqQ1lj?=
- =?utf-8?B?dEJXTFJGVERCL1RZYmZaUkRXdVBna0FFekZCbXl1clp1Q2tlSTVLNGhjQ0Fn?=
- =?utf-8?B?Tk1YbWphY20wTlNvOUpMd2lDWmFsN2hTeGpiRHI2WjhYbHdSK1JhbEFLb3pC?=
- =?utf-8?B?dGErYlZwRWg3VENOUWdLWnd3Ti90N3JwWHB6Q0pzUVh1SUZMNkoxeE5HeTlI?=
- =?utf-8?B?NTNORmx6bUsvVFMzZy9UNHZqT2NvYzdWd1grcHBDMlVwOWJzZC9uVUhBVUVa?=
- =?utf-8?B?NUJZZmNNbGtBZk1RdEVDS0tRRDhoWTZYMHZ6T0padVFhU0RPRjJpUVVhRW5m?=
- =?utf-8?B?aU01SzltTVBPdUhWSzRjUkxVdjVRZld0R080TzEwK2g4Zm9vWXZwQ3ZaZkV3?=
- =?utf-8?B?aGJEQWc0ajBOQnZoQlo1Sk9iWWExUkppbTRZUEVxdjJnNXJud1daMW5WN1hl?=
- =?utf-8?B?SlFnT0VUc2p1RUZFdXU4YmRDYkxTNWtZQi9FaDlVY2Q0cy9zeHFNd3pHSDZo?=
- =?utf-8?B?TnlSUDFPM2dwWkF5R2xXdmV6SVY4eU9aNlh6TEY0K0JFdzJydEtCWFgvRVZW?=
- =?utf-8?B?cmVWUDdZWGRSVFdZMGlWcklDRWdRV1kxWjFsUk04RUJDeVhjUndaTUtqWFJV?=
- =?utf-8?B?WlJJVHJuTTZtVTVtRlFBSW9VSWhERjdRd044OElJMFVVdDg2dnhaVzJoY3gy?=
- =?utf-8?B?WjRWT2szdUJ5TytVRU15YjNURzFKNzhDMzdUdHhzeTlqRDc0ZDdEem1uNnZI?=
- =?utf-8?B?c0wrUEtQVnVoN0pKakptWlZ3TVNnWnBrQTFPZGM4UmdyWngwK280SDNER3hu?=
- =?utf-8?B?Wk0rZTFZTndPUFYxTkROOGE4djZZcUVTS0hTMXBsRjNXSGI4cUtoR2thVlJz?=
- =?utf-8?B?QkEwRVArRCthNGdZU0dFaFJtVEEwc0dDWUorTUJSTndXcnJZUDJvNWRPZUI4?=
- =?utf-8?B?bW5JdEI4bVRhNW1kVU5iSVNKV1h6ZmcvWURnSUFQRUxQVi95anlhWW40T2RX?=
- =?utf-8?B?elowZUpGUEl1SlpJYm5PMlhpemwycHlBVjVsNXBVeVNNMCt4VkRKNGJXRGVW?=
- =?utf-8?B?ZXQ0dll6bFN3TVFZaDJWQ2o2MGJzQU1yOVdPMWl6SEtjRmVnRmxQeTlFTE9r?=
- =?utf-8?B?OGJld0V2bjdOVFZvNG1qRU5JZDdkNTdLSHN4MGxhNk9zL2lVdFV5YWdGOHhx?=
- =?utf-8?B?NkpsOWY0U3BOdFpKdWErKzljMjhsSGF2QlgzZUVpa1JWcUVTaGJTM3JUdDEv?=
- =?utf-8?B?NkNYdWFEUEw3UkdIR2pXRE90S3UvZi8rMkRwa0tNTVozUGVDbDlWbnlGSXRo?=
- =?utf-8?B?SG9pZytRRmVsUkcra0kvRDRKbkRPV2ZielVJbVRmamk3MWdkSENLT2FlejNi?=
- =?utf-8?B?cWljUldIL3hOOFNRbndaNUhUcS9VWWVqZGt6YWVmem1TQlpOWkRBWW5TeTJI?=
- =?utf-8?B?NVJ1YWJHZ2hFeHQyWEFQT0ZycVpPcXN5cFZBRzFCVDdzYlZ4SGlTSVVMSDVm?=
- =?utf-8?B?R2RnVGpqNU42aC9BMzBHaWlZakZYcitxc1NHVmMyREp5djFEOVJjMUprdlFr?=
- =?utf-8?B?UythSzBvOUJKdHJnaVZVQmFyR0g1OU5QeVEvTlFxQkhXQmswdWtkZ2FzcUxZ?=
- =?utf-8?B?TmtoQVJZNGRmUFpVUUNmWE9SWVZTQnBZVUxLV2g4WWovLzYzQmFoV2xGczdx?=
- =?utf-8?B?SlBLTzRZUnJyY2RNUW05VHVma05XS0pZRi9pUVc4b2pqRmVtMWkyZ0lhUWRB?=
- =?utf-8?B?TWNQcElkUVJMamkzKytzK09QaTZjR1FVVjQwQjIvNEEydDlpVlVLZz09?=
-X-Exchange-RoutingPolicyChecked: UoLtaMeejGwc2APvBHqW7lHXsu6i8FuiuBefD3OJxy8Qvr+b9g0BBJoV6fMThC+Q8MpcOZPZjVYwGgfWov3GekwTklDl8Ls/UYlXPxjh/O8Cqr3ylWxLSDVf8A4/7JxfuYwVPQaJasBfme+hZD7ZExmMFDHIFOciZEuSEM0wKS+T81mLtS9/4pEVRg2BPncnwBU8BxWK4jv+vJmQYHWSBW3LUr0bfRlq8a29tU2qH+fnVEqVrLc/+Qs1ipywxsX6CHtQtoGrGpmqD/7ic6IL60Svh8m5TVLFzpjIHlCxV7FJaZj4LYDeaavHjRTsp83okopUc1/tCoTek91UarEvGg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a509209-26ea-4979-2af2-08de7b365ea2
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(10070799003); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzdPd0tncW5TTDByME9kdHcvTUZSWnloMkdVazJDTWxEdFBvRFVhY1BBN2FQ?=
+ =?utf-8?B?MEJsbzArS2U0OHFZUHBRUWU3VW1RMkovSzM2UGd6QSt1OHErYWdMMWRkM29n?=
+ =?utf-8?B?Qy85bkJrcDBhY05ub3ZDOUxRdGlXdzVTNnBTNktEaU1NcjNZSjZwUlYzYU81?=
+ =?utf-8?B?bExjNlJ1R0pPTEw4bSt1eEhxRUl2Ym03NmpRTXFBWC9QWk9VNzNiY0xhR1gw?=
+ =?utf-8?B?SitUaDNKdDRBZlh4cVRCaTRYZVJYMEphS2lWRFBHa2FhTHVzbTJ2ekhYcTNu?=
+ =?utf-8?B?NytmUzJFWlN4UUlVU0cwZmwvWU5mdk00WWZXSHgzWk11WWp4WWRwN0thOUZh?=
+ =?utf-8?B?aUJYUWVtclp6d1V2SzZwdTRBZ3k5cllvNWE2T0g5S2Q0S05OZElRUGgxN3kz?=
+ =?utf-8?B?Vm9oQVpqZlZZcDJpczAvQkFwMmkxdU1tQ05ReUprOFFBWkVZV0Z3a0M5eklJ?=
+ =?utf-8?B?eWJMckFOdGljampmeEJuZUZwUTBYQUF4MmlBMlNBdWRzckVxTTU1bnpxNzdI?=
+ =?utf-8?B?ak01bksrbVVYWlA3YkhpWXFyZDY4aEp3SDBqck1CMlFVbU1xSG54cWU3eVBn?=
+ =?utf-8?B?RXBOZ1pyTzBTcktzNzRDNW5XajM5VXVFSmpWV2tudTlsN0ZIY0Z6aHRpaFVR?=
+ =?utf-8?B?amxuZ28xWlJJMXpQUmRzNmlkYjVub3Y1WVQwVm9DUStDdDg1Sm55YUVFSTFZ?=
+ =?utf-8?B?VTMrR3NkNkNPM2JnT2R2OFBkZ25NUFRhSmRSMUVvckQ3a0FST29CK0J5dWZR?=
+ =?utf-8?B?aHJIUU5mUS8yNWhEclFqV3JPeDEycnFBVnZENDRhUXpQbW1ZNTJqNWJwZlFp?=
+ =?utf-8?B?dWpoRDBjZldvUmlvSUhab3l6RER1UGV0WXBvUWNzN3VzS2xMa3AvdGZHMVlq?=
+ =?utf-8?B?UjBteXdTZGNBYVRqbVhTWlMzZElDYythS3loWWdQbU83S0xOV1prc3BDdnV1?=
+ =?utf-8?B?UDE1Yy9TVjQ2U3ZHaDFrRkZYMXF0SFo0bko5eSt1TTNyM01xRHJQU1lYK3N6?=
+ =?utf-8?B?QlI1STkreU5vTjBobng5VkRwUk9zSTB3NXhGZnBQNE1POEtON0VHLzhWTGJL?=
+ =?utf-8?B?ejhmMkJ4WDJMUDRaUnhHd2FHTENxWlBONjlXNlROcDFyU1NDV2FTUytNKzJF?=
+ =?utf-8?B?clFqcC92NDY5ZFdHb3QyMVBHSDhVSFFhUnBTNTRUQTRQN1NnQVNqWWZaNk9H?=
+ =?utf-8?B?ZXFySnF3aGdMK3NHVjJ5bXZrTktiY0J0OWYyUC9rUTI2Y1Z1NGpVdTI2dkNo?=
+ =?utf-8?B?K3d2eVliWENxdG1BZU1KbEQxblJnK21VSWRkcDd0cThyUGNjRkFFbHhzOHBw?=
+ =?utf-8?B?WjM2blRLaklPQnBZYUU2Nnk3Tnk1VW1PbVhuVHo5bFgrbHg3OXRsWHl0bVI2?=
+ =?utf-8?B?RFhlNG9zK3o4Y041Vlo2Tk1MbUk2TW5PZHh6MDFvWnZpM1JkOEl5aS9tb3c1?=
+ =?utf-8?B?MGFLeHJwbE5PcTdyVUQzRmlPSmdWbEk3OUpBL0VQV2RvaXdkWlFBM2JlMUds?=
+ =?utf-8?B?dVNJblNtN3V4N25reEEreFpVT0IvM0U0UzMwaFFQRWlHYzNjcXdZTjM3NDBO?=
+ =?utf-8?B?WENwRzRjWDZXcFIraTNsMk9yTlNNbm9qMGN1TVE1MEpWVnBQYXB0OFpLY2RT?=
+ =?utf-8?B?R3pNN05ZQTJTZVIrdlc4QWxmMVpxVUxaamp1a2FtUEhZVjNNK0Nxc0lrWUdV?=
+ =?utf-8?B?M3dRV2k2L3ZkWFA0U3NSUWV3QUd3UW5JVkMxT1pHaVdtS21aYUFIcW1YUWht?=
+ =?utf-8?B?UDg5aFVRd0tIZVNsV0JEYnlpVVY4ZS9GeDNEcmNZdTRaZnU0ckg0NU9QUWph?=
+ =?utf-8?B?MXI4aEpsRGc3NGhFV1FBbGM5MUF2WDlJMFJ5MitOM1ZnZXczWi9ZN2kzN2Fr?=
+ =?utf-8?B?TVFnOVlEVFdRN1AxMkk4RHFSZXBmczNUNFNpU0I5TVpKRzB2eW5NZjMwdnZ3?=
+ =?utf-8?B?V3RpWUVPS3dFeXpzT0hwU09SeWYzWFIvUHdtTURaNWZrc2VBTnEvTXppRi8r?=
+ =?utf-8?B?OUdTUDVIbUNPWDNidnVGaTl0Q0ViQ0E0OUFZZ2QvMW5HWm5nVVZCb1hNb3Zj?=
+ =?utf-8?B?VnR4ZHlQVDFYeDdXVG16allYZG42R0dxN0JTMlBGQncvWm1XNWZnWWFTWE00?=
+ =?utf-8?B?TDJJcUpLREdtdngrYmk1dnp5ajVpTTZGaXVQZDNGMmJpTGVuVTlpOVRmMXlP?=
+ =?utf-8?B?Um50S2lTU2Q0UHpQWG1JM255V29tTVBQU3JtOUlGMmw3ak90UnJ2L3VwMmtF?=
+ =?utf-8?B?b2xkNXc5clA4WTdIY2dRNUt0azBOb1ozUmFNcGJiV3FiNklZZmFReTVjSkpa?=
+ =?utf-8?B?ck5OK1EyaStJZi9ibUE1NHUwSXFsQ3dCamR2WDRJN1MyYnJEZVE4dzNuMmpy?=
+ =?utf-8?Q?zHNC1XIezpe/JlZpcSm+4l7GlbELHATaijjV0f/K3s63Q?=
+X-MS-Exchange-AntiSpam-MessageData-1: o3r1u81VAtw27Q==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 115b64f4-1c55-4c56-4cf1-08de7b383cd7
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 04:10:58.2324 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 04:24:20.7587 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wINGSgHX4pf2b5Hyhm0hRsRTV+RCe3XdfQbHwqrN/z1duoeSjShDrBU8HgQBxp7qZBNkg9jeouNTIyNDrhuf4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7706
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: y/ZOV/bg8U8zaRsMKY7I9CC30udM0Zim2DZ6a3PaxXjk9Py9rAHbCCeAixJP5a6NT+ANFcDcjoGcNuP5ae6F5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,159 +148,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A738D21B650
+X-Rspamd-Queue-Id: A32CB21B775
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[arun.r.murthy@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
+On Fri Mar 6, 2026 at 10:41 AM JST, Eliot Courtney wrote:
+<snip>
+>> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/fal=
+con.rs
+>> index 37bfee1d0949..8d444cf9d55c 100644
+>> --- a/drivers/gpu/nova-core/falcon.rs
+>> +++ b/drivers/gpu/nova-core/falcon.rs
+>> @@ -2,12 +2,13 @@
+>> =20
+>>  //! Falcon microprocessor base support
+>> =20
+>> -use core::ops::Deref;
+>> -
+>>  use hal::FalconHal;
+>> =20
+>>  use kernel::{
+>> -    device,
+>> +    device::{
+>> +        self,
+>> +        Device, //
+>> +    },
+>>      dma::{
+>>          DmaAddress,
+>>          DmaMask, //
+>> @@ -15,9 +16,7 @@
+>>      io::poll::read_poll_timeout,
+>>      prelude::*,
+>>      sync::aref::ARef,
+>> -    time::{
+>> -        Delta, //
+>> -    },
+>> +    time::Delta,
+>
+> nit: Missing // guard here.
 
-On 05-03-2026 21:59, Imre Deak wrote:
-> On Thu, Mar 05, 2026 at 01:48:11PM +0530, Arun R Murthy wrote:
->> We at present have drm_dp_Read_lttpr_common_caps to read the LTTPR caps,
->> but this function required DPRX caps to be passed. As per the DP2.1 spec
->> section 3.6.8.6.1, section 2.12.1, section 2.12.3 (Link Policy) the
->> LTTPR caps is to be read first followed by the DPRX capability.
->> Hence adding another function to read the LTTPR caps without the need
->> for DPRX caps.
->>
->> In order to handle the issue
->> https://gitlab.freedesktop.org/drm/intel/-/issues/4531
->> of reading corrupted values for LTTPR caps on few pannels with DP Rev 1.2
->> the workaround of reducing the block size to 1 and reading one block at a
->> time is done by checking for a valid link rate.
->>
->> Fixes: 657586e474bd ("drm/i915: Add a DP1.2 compatible way to read LTTPR capabilities")
->> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
->> ---
->>   drivers/gpu/drm/display/drm_dp_helper.c | 63 +++++++++++++++++++++++++++++++++
->>   include/drm/display/drm_dp_helper.h     |  2 ++
->>   2 files changed, 65 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
->> index a697cc227e28964cd8322803298178e7d788e820..9fe7db73027a43b01c4d12927f1f0e61444658e5 100644
->> --- a/drivers/gpu/drm/display/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
->> @@ -3050,6 +3050,69 @@ static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux,
->>   	return 0;
->>   }
->>   
->> +static bool drm_dp_valid_link_rate(u8 link_rate)
->> +{
->> +	switch (link_rate) {
->> +	case 0x06:
->> +	case 0x0a:
->> +	case 0x14:
->> +	case 0x1e:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +
->> +/**
->> + * drm_dp_read_lttpr_caps - read the LTTPR capabilities
->> + * @aux: DisplayPort AUX channel
->> + * @caps: buffer to return the capability info in
->> + *
->> + * Read capabilities common to all LTTPRs.
->> + *
->> + * Returns 0 on success or a negative error code on failure.
->> + */
->> +int drm_dp_read_lttpr_caps(struct drm_dp_aux *aux,
->> +			   u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
->> +{
->> +	/*
->> +	 * At least the DELL P2715Q monitor with a DPCD_REV < 0x14 returns
->> +	 * corrupted values when reading from the 0xF0000- range with a block
->> +	 * size bigger than 1.
->> +	 * For DP as per the spec DP2.1 section 3.6.8.6.1, section 2.12.1, section
->> +	 * 2.12.3 (Link Policy) the LTTPR caps is to be read first followed by the
->> +	 * DPRX capability.
->> +	 * So ideally we dont have DPCD_REV yet to check for the revision, instead
->> +	 * check for the correctness of the read value and in found corrupted read
->> +	 * block by block.
->> +	 */
->> +	int block_size;
->> +	int offset;
->> +	int ret;
->> +	int address = DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV;
->> +	int buf_size = DP_LTTPR_COMMON_CAP_SIZE;
->> +
->> +	ret = drm_dp_dpcd_read_data(aux, address, &caps, buf_size);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	if (caps[0] == 0x14) {
->> +		if (!drm_dp_valid_link_rate(caps[1])) {
-> I don't think the code can depend on what will be in caps[1] (i.e.
-> DP_MAX_LINK_RATE_PHY_REPEATER / 0xF0001) after the monitor returned a
-> corrupted value when reading this register. That is the code cannot
-> depend on this register value being a valid link rate encoding or
-> some other value.
+IIUC the guard is only required to prevent rustfmt from reformatting,
+which does not happen here.
 
-I have mentioned another option as well in the cover letter, i.e read 
-the lttpr caps and then the dprx caps. Now check the DPCD rev and if < 
-1.4 re-read the lttpr caps one block at a time.
+<snip>
+>> -impl FirmwareDmaObject<FwsecFirmware, Unsigned> {
+>> -    fn new_fwsec(dev: &Device<device::Bound>, bios: &Vbios, cmd: FwsecC=
+ommand) -> Result<Self> {
+>> +impl FirmwareObject<FwsecFirmware, Unsigned> {
+>> +    fn new_fwsec(bios: &Vbios, cmd: FwsecCommand) -> Result<Self> {
+>>          let desc =3D bios.fwsec_image().header()?;
+>> -        let ucode =3D bios.fwsec_image().ucode(&desc)?;
+>> -        let mut dma_object =3D DmaObject::from_data(dev, ucode)?;
+>> +        let mut ucode =3D KVVec::new();
+>> +        ucode.extend_from_slice(bios.fwsec_image().ucode(&desc)?, GFP_K=
+ERNEL)?;
+>> =20
+>>          let hdr_offset =3D desc
+>>              .imem_load_size()
+>> @@ -269,8 +226,9 @@ fn new_fwsec(dev: &Device<device::Bound>, bios: &Vbi=
+os, cmd: FwsecCommand) -> Re
+>>              .map(usize::from_safe_cast)
+>>              .ok_or(EINVAL)?;
+>> =20
+>> -        // SAFETY: we have exclusive access to `dma_object`.
+>> -        let hdr: &FalconAppifHdrV1 =3D unsafe { transmute(&dma_object, =
+hdr_offset) }?;
+>> +        let hdr =3D FalconAppifHdrV1::from_bytes_prefix(&ucode[hdr_offs=
+et..])
+>> +            .ok_or(EINVAL)?
+>> +            .0;
+>
+> Is it worth adding // PANIC: comments like we have in some other areas
+> of the codebase for each of these indexes into ucode?
 
-Thanks and Regards,
-Arun R Murthy
+Even better, we can do
 
-------------------
+    let hdr =3D ucode
+                .get(hdr_offset..)
+                .and_then(FalconAppifHdrV1::from_bytes_prefix)
+                .ok_or(EINVAL)?
+                .0;
 
->> +			block_size = 1;
->> +			for (offset = 0; offset < buf_size; offset += block_size) {
->> +				ret = drm_dp_dpcd_read_data(aux,
->> +							    address + offset,
->> +							    &caps[offset],
->> +							    block_size);
->> +				if (ret < 0)
->> +					return ret;
->> +			}
->> +		}
->> +	}
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_dp_read_lttpr_caps);
->> +
->>   /**
->>    * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
->>    * @aux: DisplayPort AUX channel
->> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->> index 1d0acd58f48676f60ff6a07cc6812f72cbb452e8..def145e67011c325b790c807f934b288304260c1 100644
->> --- a/include/drm/display/drm_dp_helper.h
->> +++ b/include/drm/display/drm_dp_helper.h
->> @@ -755,6 +755,8 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
->>   				const struct drm_dp_desc *desc);
->>   int drm_dp_read_sink_count(struct drm_dp_aux *aux);
->>   
->> +int drm_dp_read_lttpr_caps(struct drm_dp_aux *aux,
->> +				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
->>   int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
->>   				  const u8 dpcd[DP_RECEIVER_CAP_SIZE],
->>   				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
->>
->> -- 
->> 2.25.1
->>
+and have the bounds checked at runtime, as they should be.
+
+>
+> Other than those two optional nits,
+> Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
+
+Thanks!
