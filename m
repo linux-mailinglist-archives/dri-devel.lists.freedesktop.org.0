@@ -2,68 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CBOgMNvIqmlWXAEAu9opvQ
+	id uEXqCNnIqmlWXAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:19 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53427220A6E
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92438220A67
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 766AC10ED24;
-	Fri,  6 Mar 2026 12:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9816510ED1D;
+	Fri,  6 Mar 2026 12:30:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M1xNo4uH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RrOKh0OA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96FD510ED23
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 12:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772800214;
- bh=6JBEP9tT9L2Bj0EdK8EwxnpvewgAxynj0PNMQ2lZWLs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=M1xNo4uHBeRoxJT86kTuCEbylUQ3RvT9CBZhjC2ZHh/WLBrLghsVi1ubBTPz7t6pz
- BxhG7dEEwMEqR48RKBKFjnJV2jXIsudpZljJO2rTyrcdptjmHfm3jr6dIce1KJvdPA
- JUpXcMmc0nPvCd/fY/ec3MkAwSQprDoPOSgTDRk8IhUKmMpkoKcfVT6HeI4Mo/8qUA
- ebGIH41VqRap/MmD2AUihBJGlYN0kUYuDfIvqtMDfqwBSEAYGnjTWndWYxwiT6TS/l
- n7NG2L6f2jTl8AnkWHBkPJ0MsqXrVYyEVWUz2Qdq81IpUOWU2sTNjdt5RiCfB3mM+v
- 4W3OSMsKiPqKQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7623D17E0EB1;
- Fri,  6 Mar 2026 13:30:13 +0100 (CET)
-Date: Fri, 6 Mar 2026 13:30:09 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Akash Goel
- <akash.goel@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Akhil P Oommen
- <akhilpo@oss.qualcomm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Chris Diamand <chris.diamand@arm.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>,
- Chia-I Wu <olvaffe@gmail.com>, kernel@collabora.com
-Subject: Re: [PATCH v4 0/9] drm/panthor: Add a GEM shrinker
-Message-ID: <20260306133009.7b7f31ff@fedora>
-In-Reply-To: <61d9080c-48ea-41fa-a727-e1f63b3b8f61@arm.com>
-References: <20260305124320.156606-1-boris.brezillon@collabora.com>
- <61d9080c-48ea-41fa-a727-e1f63b3b8f61@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACB210ED1D;
+ Fri,  6 Mar 2026 12:30:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 6AF21440A6;
+ Fri,  6 Mar 2026 12:30:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B33C3C4CEF7;
+ Fri,  6 Mar 2026 12:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772800213;
+ bh=Kftdd8omZX7VELmkL5LGQUFF+sQIeOHfzVU13moKjvE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RrOKh0OAhxHMytB1jOn/jttu3GJlb3C3rXPB9TooAMKbyt3vUr89Pt0+i4u40IkqV
+ RX2hBvNB6H5hwNgpkw2833/q+m2pIU+tXLy6aT2UqxNKjA9gRXZUoAjf58JN5/E+WU
+ b+1XKEzPnARh8OeG9Vznq4eIhrMwfxCOh6yt4sHKclOXteR/4dXp5YR9O3YGnPPT2n
+ aDJp5EcMC6pPhjaUS4A5KpHj2GJduynNISMtMzESwpD0c6OWnPmGQWuaLB8H96xPbV
+ V8tWz99yS9NFw2rriHryb/Y2+I+FJmH4No3lieIJOsE5G/KrymQlZobYCswq94RN1W
+ nF2PinBdqWDrw==
+Date: Fri, 6 Mar 2026 12:30:10 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+ "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Leon Romanovsky <leon@kernel.org>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, 
+ Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
+ David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, 
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, 
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 12/16] mm: rename zap_vma_pages() to zap_vma()
+Message-ID: <2f4ee3ee-549c-4c0f-980d-3853193776b6@lucifer.local>
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-13-david@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227200848.114019-13-david@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,110 +109,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 53427220A6E
+X-Rspamd-Queue-Id: 92438220A67
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:olvaffe@gmail.com,m:kernel@collabora.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_GT_50(0.00)[74];
+	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,collabora.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer.local:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, 6 Mar 2026 11:58:11 +0000
-Steven Price <steven.price@arm.com> wrote:
+On Fri, Feb 27, 2026 at 09:08:43PM +0100, David Hildenbrand (Arm) wrote:
+> Let's rename it to an even simpler name. While at it, add some
+> simplistic kernel doc.
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-> Hi Boris,
-> 
-> On 05/03/2026 12:43, Boris Brezillon wrote:
-> > Hello,
-> > 
-> > This is an attempt at adding a GEM shrinker to panthor so the system
-> > can finally reclaim GPU memory.
-> > 
-> > This implementation is losely based on the MSM shrinker (which is why
-> > I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
-> > eviction/validation infrastructure.
-> > 
-> > I've only done very basic IGT-based [1] and chromium-based (opening
-> > a lot of tabs on Aquarium until the system starts reclaiming+swaping
-> > out GPU buffers) testing, but I'm posting this early so I can get
-> > preliminary feedback on the implementation. If someone knows about
-> > better tools/ways to test the shrinker, please let me know.  
-> 
-> I did a very basic test with glmark and I can reproduce the below splat:
-> 
-> [  290.502999] ------------[ cut here ]------------
-> [  290.504338] refcount_t: underflow; use-after-free.
-> [  290.504843] WARNING: lib/refcount.c:28 at refcount_warn_saturate+0xf4/0x144, CPU#5: kworker/u32:3/75
-> [  290.505715] Modules linked in: panthor drm_gpuvm drm_exec gpu_sched
-> [  290.506402] CPU: 5 UID: 0 PID: 75 Comm: kworker/u32:3 Not tainted 7.0.0-rc1-00176-g608e8196cd63 #202 PREEMPT 
-> [  290.507323] Hardware name: Radxa ROCK 5B (DT)
-> [  290.507733] Workqueue: events_unbound commit_work
-> [  290.508185] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  290.508835] pc : refcount_warn_saturate+0xf4/0x144
-> [  290.509287] lr : refcount_warn_saturate+0xf4/0x144
-> [  290.509741] sp : ffff800083cb3b80
-> [  290.510056] x29: ffff800083cb3b80 x28: ffff8000821d1e88 x27: ffff00010fa058a0
-> [  290.510724] x26: 0000000000000000 x25: 0000000000000000 x24: 00000000ffffffff
-> [  290.511398] x23: ffff00010b149000 x22: ffff00010dd3a7c8 x21: ffff80008226c828
-> [  290.512065] x20: ffff00010dd3a780 x19: ffff00010dd3a780 x18: 00000000ffffffff
-> [  290.512735] x17: 00000000ffffffff x16: ffff800083cb3668 x15: 0000000000001e00
-> [  290.513403] x14: ffff000102a8f69f x13: ffff8000821fb558 x12: 000000000000083d
-> [  290.514074] x11: 00000000000002bf x10: ffff800082253558 x9 : ffff8000821fb558
-> [  290.514746] x8 : 00000000ffffefff x7 : ffff800082253558 x6 : 80000000fffff000
-> [  290.515414] x5 : ffff0001fef31588 x4 : 0000000000000000 x3 : ffff80017d1e5000
-> [  290.516083] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000102b61980
-> [  290.516752] Call trace:
-> [  290.516987]  refcount_warn_saturate+0xf4/0x144 (P)
-> [  290.517440]  drm_sched_fence_release_scheduled+0xe0/0xe4 [gpu_sched]
-> [  290.518046]  dma_fence_release+0xb4/0x3cc
-> [  290.518429]  drm_sched_fence_release_finished+0x94/0xa8 [gpu_sched]
-> [  290.519021]  dma_fence_release+0xb4/0x3cc
-> [  290.519401]  dma_fence_array_release+0x94/0x104
-> [  290.519829]  dma_fence_release+0xb4/0x3cc
-> [  290.520208]  drm_atomic_helper_wait_for_fences+0x1a4/0x228
-> [  290.520724]  commit_tail+0x38/0x18c
-> [  290.521056]  commit_work+0x14/0x20
-> [  290.521381]  process_one_work+0x208/0x76c
-> [  290.521763]  worker_thread+0x1c4/0x36c
-> [  290.522121]  kthread+0x13c/0x148
-> [  290.522430]  ret_from_fork+0x10/0x20
-> [  290.522774] irq event stamp: 2167444
-> [  290.523114] hardirqs last  enabled at (2167443): [<ffff80008016772c>] __up_console_sem+0x6c/0x80
-> [  290.523941] hardirqs last disabled at (2167444): [<ffff80008132977c>] el1_brk64+0x20/0x60
-> [  290.524703] softirqs last  enabled at (2167428): [<ffff8000800c94c4>] handle_softirqs+0x604/0x61c
-> [  290.525528] softirqs last disabled at (2167421): [<ffff8000800102d0>] __do_softirq+0x14/0x20
-> [  290.526320] ---[ end trace 0000000000000000 ]---
-> 
-> I haven't yet dug into what's happening.
+LGTM, so:
 
-Yikes! I plead guilty for not testing after the rebase...
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
+> ---
+>  arch/powerpc/platforms/book3s/vas-api.c | 2 +-
+>  arch/powerpc/platforms/pseries/vas.c    | 2 +-
+>  include/linux/mm.h                      | 6 +++++-
+>  lib/vdso/datastore.c                    | 2 +-
+>  mm/page-writeback.c                     | 2 +-
+>  5 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/powerpc/platforms/book3s/vas-api.c b/arch/powerpc/platforms/book3s/vas-api.c
+> index ea4ffa63f043..e96d79db69fe 100644
+> --- a/arch/powerpc/platforms/book3s/vas-api.c
+> +++ b/arch/powerpc/platforms/book3s/vas-api.c
+> @@ -414,7 +414,7 @@ static vm_fault_t vas_mmap_fault(struct vm_fault *vmf)
+>  	/*
+>  	 * When the LPAR lost credits due to core removal or during
+>  	 * migration, invalidate the existing mapping for the current
+> -	 * paste addresses and set windows in-active (zap_vma_pages in
+> +	 * paste addresses and set windows in-active (zap_vma() in
+>  	 * reconfig_close_windows()).
+>  	 * New mapping will be done later after migration or new credits
+>  	 * available. So continue to receive faults if the user space
+> diff --git a/arch/powerpc/platforms/pseries/vas.c b/arch/powerpc/platforms/pseries/vas.c
+> index ceb0a8788c0a..fa05f04364fe 100644
+> --- a/arch/powerpc/platforms/pseries/vas.c
+> +++ b/arch/powerpc/platforms/pseries/vas.c
+> @@ -807,7 +807,7 @@ static int reconfig_close_windows(struct vas_caps *vcap, int excess_creds,
+>  		 * is done before the original mmap() and after the ioctl.
+>  		 */
+>  		if (vma)
+> -			zap_vma_pages(vma);
+> +			zap_vma(vma);
+>
+>  		mutex_unlock(&task_ref->mmap_mutex);
+>  		mmap_write_unlock(task_ref->mm);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 4710f7c7495a..4bd1500b9630 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2837,7 +2837,11 @@ void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
+>  		  unsigned long size);
+>  void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
+>  			   unsigned long size);
+> -static inline void zap_vma_pages(struct vm_area_struct *vma)
+> +/**
+> + * zap_vma - zap all page table entries in a vma
+> + * @vma: The vma to zap.
+> + */
+> +static inline void zap_vma(struct vm_area_struct *vma)
+>  {
+>  	zap_page_range_single(vma, vma->vm_start, vma->vm_end - vma->vm_start);
+>  }
+> diff --git a/lib/vdso/datastore.c b/lib/vdso/datastore.c
+> index a565c30c71a0..222c143aebf7 100644
+> --- a/lib/vdso/datastore.c
+> +++ b/lib/vdso/datastore.c
+> @@ -121,7 +121,7 @@ int vdso_join_timens(struct task_struct *task, struct time_namespace *ns)
+>  	mmap_read_lock(mm);
+>  	for_each_vma(vmi, vma) {
+>  		if (vma_is_special_mapping(vma, &vdso_vvar_mapping))
+> -			zap_vma_pages(vma);
+> +			zap_vma(vma);
+>  	}
+>  	mmap_read_unlock(mm);
+>
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index 601a5e048d12..29f7567e5a71 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -2645,7 +2645,7 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
+>   * while this function is in progress, although it may have been truncated
+>   * before this function is called.  Most callers have the folio locked.
+>   * A few have the folio blocked from truncation through other means (e.g.
+> - * zap_vma_pages() has it mapped and is holding the page table lock).
+> + * zap_vma() has it mapped and is holding the page table lock).
+>   * When called from mark_buffer_dirty(), the filesystem should hold a
+>   * reference to the buffer_head that is being marked dirty, which causes
+>   * try_to_free_buffers() to fail.
+> --
+> 2.43.0
+>
