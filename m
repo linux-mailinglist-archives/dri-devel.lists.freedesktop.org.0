@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oEReHNpDq2nJbgEAu9opvQ
+	id gMHhBONGq2lcbwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 22:15:06 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 22:28:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CE7227D04
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 22:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA98B227EF3
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 22:28:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737FF10E401;
-	Fri,  6 Mar 2026 21:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B7310E405;
+	Fri,  6 Mar 2026 21:27:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SMAvJLpM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TKuE5TCY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA9E10E401;
- Fri,  6 Mar 2026 21:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0F110E3FA;
+ Fri,  6 Mar 2026 21:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772831700;
- bh=b2xKIZVvU9oNpwWfGskzivc5542W5iNveuIWwtPS3D4=;
+ s=mail; t=1772832476;
+ bh=8AcXATpPHhAW6+VsEJt3fbqjfR+nRZ5oVmrac43OOrg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SMAvJLpM0AucH2FC7JWxiudQ1BoadPrwmgjnGc17sKtxxIxs/mJGmiNX5x5j+V1oQ
- Z9C56kerzEd6F4vGEj91VkStUeFOGhghtmxo1VYp5gSTYHQT18TV5flyL93s5TPL63
- FlGjh0XLuuYOzUd1gazWPzVODg2rbkDwqtN7r1JnWWDSdjYwxNNiR1yTF1QL8389/N
- Wa5rGoNJqw+YLbgF1o7Zi2pfVRSP+MZt0P2Bx3iHcVMFNWTdCQiATScYEPK+hkE0UY
- 0t02Kd9hILR8RM7DxXSf1LiN0PctHRg/Y4Mtac385Hnz+Feub6CBoH9qKgFB7Sli9y
- vTNjcFeZa8SUw==
+ b=TKuE5TCY9pEao6ovX2ljN+08xIEW10blai+3m0jm5lIqeNw1ZtMCznKG1mP5WDIZa
+ RMy8xazy/23QolllpOLPnM3DiBpIdv86oGjBjzgKGYmPUFe0o5AZVmGdLurCUda0JQ
+ OmEwFnoXG8n8ZNpeIqkW8oVCvVmcmF6s7Wg5DfvXLqXrnEX6+tZM4LQN4fZNcuLEEG
+ Jfy9uq4P/0HDrrTyIYtoAlj/aDYFhzyuRf91VNqojzpQFlYt4I1WkkkkteEwnp8djt
+ WxIJeugI63Mz6WslOt1Hk6ceagZFYi5AwF1vZ4o3IqKEguUiKdtrQEyR4KlT6/MbPW
+ 1vV1T6W5Cx2Hg==
 Received: from [192.168.1.90] (unknown [86.123.23.225])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7787A17E0071;
- Fri,  6 Mar 2026 22:14:59 +0100 (CET)
-Message-ID: <8360f269-7f10-44e7-9654-dd5894a88abd@collabora.com>
-Date: Fri, 6 Mar 2026 23:14:58 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C482617E0959;
+ Fri,  6 Mar 2026 22:27:54 +0100 (CET)
+Message-ID: <84b30917-5d09-4432-bc49-873d1b2674df@collabora.com>
+Date: Fri, 6 Mar 2026 23:27:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 14/22] drm/bridge: dw-hdmi-qp: Use common HDMI output
- bus fmts helper
+Subject: Re: [PATCH v10 15/22] drm/rockchip: dw_hdmi_qp: Implement "color
+ format" DRM property
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <siqueira@igalia.com>,
@@ -69,10 +69,10 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-doc@vger.kernel.org
 References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
- <20260305-color-format-v10-14-a58c68a11868@collabora.com>
+ <20260305-color-format-v10-15-a58c68a11868@collabora.com>
 Content-Language: en-US
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260305-color-format-v10-14-a58c68a11868@collabora.com>
+In-Reply-To: <20260305-color-format-v10-15-a58c68a11868@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,7 +89,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 47CE7227D04
+X-Rspamd-Queue-Id: DA98B227EF3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.932];
+	NEURAL_HAM(-0.00)[-0.937];
 	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[collabora.com:+];
@@ -117,15 +117,21 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid]
 X-Rspamd-Action: no action
 
 On 3/5/26 4:19 PM, Nicolas Frattaroli wrote:
-> Make use of the common drm_bridge_funcs.atomic_get_output_bus_fmts
-> helper for HDMI bridge connectors.
+> Switch between requested color formats by setting the right bus formats,
+> configuring the VO GRF registers, and setting the right output mode.
 > 
-> This allows dw-hdmi-qp HDMI bridges to participate in recursive bus
-> format selection in a meaningful way.
+> To do this, the encoder's atomic_check queries the bus format of the
+> first bridge, which was determined by the bridge chain recursive format
+> selection. Pick the input format if it's !FIXED, otherwise, pick the
+> output format.
+> 
+> The previously unused GRF register color format defines are redone as
+> well. Both RK3588 and RK3576 use the same defines; it didn't look like
+> this as there was a typo in the previously (unused) definition.
 > 
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
