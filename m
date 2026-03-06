@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIzDNbr6qmmcZAEAu9opvQ
+	id APiZLPz6qmmcZAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:03:06 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:04:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25682247C3
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90DE224834
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:04:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1147910ED73;
-	Fri,  6 Mar 2026 16:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF82610ED74;
+	Fri,  6 Mar 2026 16:04:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FC22dvTm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NyRMpeAc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB8610ED73;
- Fri,  6 Mar 2026 16:03:01 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA19110ED74;
+ Fri,  6 Mar 2026 16:04:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D6FDA6012A;
- Fri,  6 Mar 2026 16:03:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AACEC2BC86;
- Fri,  6 Mar 2026 16:02:52 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B30B341A7A;
+ Fri,  6 Mar 2026 16:04:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B7B4C4CEF7;
+ Fri,  6 Mar 2026 16:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772812980;
- bh=/Ys4d0/mU9CmjC7P2UTEA2TWEWGsOTVSEX2kYD8lsO4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FC22dvTmruFfxpWA6NszR02HUo2o/qCQ0KdUmuj7ED8Er/3uYpMui5k5QgE4IY6WQ
- EGmUsIR4S72LF/kMcaxN9t669WYnACus4K3IOV+2wXDFFwMsbdnn9j6NhWdl8oeNoK
- 8oIq+df8Y7QHFsyOauk+pIwvlmjL4AhKZcMySpOJb7iiekjHby2I3ssMur6IDNk7wV
- Rol8lxycOQ6UIUSMtt8Qv17v36qJhsfb8lCXSxUgvksbk4XjOzIIQQYP6qdwT8wYAW
- ZnvRyA4BnwmIGdqnp0Zw9OPLq5fZgBsrlzuu/bRSrfi/5d/1Ne54tIyA3r715O/wvu
- kNrwR26Zee/zg==
-Message-ID: <e5374250-6fa6-4d39-8a0f-4b1804c35dbe@kernel.org>
-Date: Fri, 6 Mar 2026 17:02:49 +0100
+ s=k20201202; t=1772813048;
+ bh=rDwyViAwJBrWqHHIJBFX6WS4Aph53FS/v3jxwcha0Dg=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=NyRMpeAc4u6y1bOweC+oL1pis1n9yLFuTtLwnaUrYwqVmS04JztDPODWebMOjtgHG
+ 8Fbr6g27cgQp5m17yZbh7JI8fGZ10S9y0Cr+pcX4HVLSzfam0/RHeiP22aiFXmTcSO
+ m0JAkjjIdvcoeV0GjSXsbjx1PSem9FDJLdlR9l9XuQ7+JD77UCoo/+4blAoFrFHjtL
+ 4lmP/E5Rc6HT7h8C6PmXHl7OCQQzJE8sLKpJ3BhxpLtIzac0pBDjbI8v8Sn+lsg4pM
+ tBbGfrIkl+EK0Z5f0OcPdpEvn/ccg8GzXxJT1Z9Fkm2SnytuuVu3o7hx2RjZi50Rbj
+ AaMG4PpMzZF8w==
+Message-ID: <b4830560-4459-42eb-918f-23b35bb5cc2a@kernel.org>
+Date: Fri, 6 Mar 2026 17:03:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 11/13] mm/util: Add flag to track device private pages
  in page snapshots
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
 Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -53,7 +54,7 @@ Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
  ying.huang@linux.alibaba.com
 References: <20260202113642.59295-1-jniethe@nvidia.com>
  <20260202113642.59295-12-jniethe@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+ <e5374250-6fa6-4d39-8a0f-4b1804c35dbe@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -99,7 +100,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260202113642.59295-12-jniethe@nvidia.com>
+In-Reply-To: <e5374250-6fa6-4d39-8a0f-4b1804c35dbe@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,7 +117,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C25682247C3
+X-Rspamd-Queue-Id: C90DE224834
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
@@ -135,7 +136,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.966];
+	NEURAL_HAM(-0.00)[-0.965];
 	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -146,81 +147,86 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 2/2/26 12:36, Jordan Niethe wrote:
-> A future change will remove device private pages from the physical
-> address space. This will mean that device private pages no longer have
-> normal pfns and must be handled separately.
+On 3/6/26 17:02, David Hildenbrand (Arm) wrote:
+> On 2/2/26 12:36, Jordan Niethe wrote:
+>> A future change will remove device private pages from the physical
+>> address space. This will mean that device private pages no longer have
+>> normal pfns and must be handled separately.
+>>
+>> Add a new flag PAGE_SNAPSHOT_DEVICE_PRIVATE to track when the pfn of a
+>> page snapshot is a device private page.
+>>
+>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>> ---
+>> v1:
+>>   - No change
+>> v2:
+>>   - No change
+>> v3:
+>>   - No change
+>> v4:
+>>   - Move logical continuation to previous line
+>> ---
+>>  fs/proc/page.c     | 6 ++++--
+>>  include/linux/mm.h | 7 ++++---
+>>  mm/util.c          | 3 +++
+>>  3 files changed, 11 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/fs/proc/page.c b/fs/proc/page.c
+>> index f9b2c2c906cd..bc14f7ebc369 100644
+>> --- a/fs/proc/page.c
+>> +++ b/fs/proc/page.c
+>> @@ -191,10 +191,12 @@ u64 stable_page_flags(const struct page *page)
+>>  	         folio_test_large_rmappable(folio)) {
+>>  		/* Note: we indicate any THPs here, not just PMD-sized ones */
+>>  		u |= 1 << KPF_THP;
+>> -	} else if (is_huge_zero_pfn(ps.pfn)) {
+>> +	} else if (!(ps.flags & PAGE_SNAPSHOT_DEVICE_PRIVATE) &&
+>> +		   is_huge_zero_pfn(ps.pfn)) {
+>>  		u |= 1 << KPF_ZERO_PAGE;
+>>  		u |= 1 << KPF_THP;
+>> -	} else if (is_zero_pfn(ps.pfn)) {
+>> +	} else if (!(ps.flags & PAGE_SNAPSHOT_DEVICE_PRIVATE) &&
+>> +		   is_zero_pfn(ps.pfn)) {
+>>  		u |= 1 << KPF_ZERO_PAGE;
+>>  	}
+>>  
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index f0d5be9dc736..a52979536a5e 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -4627,9 +4627,10 @@ static inline bool page_pool_page_is_pp(const struct page *page)
+>>  }
+>>  #endif
+>>  
+>> -#define PAGE_SNAPSHOT_FAITHFUL (1 << 0)
+>> -#define PAGE_SNAPSHOT_PG_BUDDY (1 << 1)
+>> -#define PAGE_SNAPSHOT_PG_IDLE  (1 << 2)
+>> +#define PAGE_SNAPSHOT_FAITHFUL		(1 << 0)
+>> +#define PAGE_SNAPSHOT_PG_BUDDY		(1 << 1)
+>> +#define PAGE_SNAPSHOT_PG_IDLE		(1 << 2)
+>> +#define PAGE_SNAPSHOT_DEVICE_PRIVATE	(1 << 3)
+>>  
+>>  struct page_snapshot {
+>>  	struct folio folio_snapshot;
+>> diff --git a/mm/util.c b/mm/util.c
+>> index 97cae40c0209..65e3f1a97d76 100644
+>> --- a/mm/util.c
+>> +++ b/mm/util.c
+>> @@ -1218,6 +1218,9 @@ static void set_ps_flags(struct page_snapshot *ps, const struct folio *folio,
+>>  
+>>  	if (folio_test_idle(folio))
+>>  		ps->flags |= PAGE_SNAPSHOT_PG_IDLE;
+>> +
+>> +	if (is_device_private_page(page))
+>> +		ps->flags |= PAGE_SNAPSHOT_DEVICE_PRIVATE;
 > 
-> Add a new flag PAGE_SNAPSHOT_DEVICE_PRIVATE to track when the pfn of a
-> page snapshot is a device private page.
+> stable_page_flags() has access to the page and can simply test that instead?
 > 
-> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> ---
-> v1:
->   - No change
-> v2:
->   - No change
-> v3:
->   - No change
-> v4:
->   - Move logical continuation to previous line
-> ---
->  fs/proc/page.c     | 6 ++++--
->  include/linux/mm.h | 7 ++++---
->  mm/util.c          | 3 +++
->  3 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/proc/page.c b/fs/proc/page.c
-> index f9b2c2c906cd..bc14f7ebc369 100644
-> --- a/fs/proc/page.c
-> +++ b/fs/proc/page.c
-> @@ -191,10 +191,12 @@ u64 stable_page_flags(const struct page *page)
->  	         folio_test_large_rmappable(folio)) {
->  		/* Note: we indicate any THPs here, not just PMD-sized ones */
->  		u |= 1 << KPF_THP;
-> -	} else if (is_huge_zero_pfn(ps.pfn)) {
-> +	} else if (!(ps.flags & PAGE_SNAPSHOT_DEVICE_PRIVATE) &&
-> +		   is_huge_zero_pfn(ps.pfn)) {
->  		u |= 1 << KPF_ZERO_PAGE;
->  		u |= 1 << KPF_THP;
-> -	} else if (is_zero_pfn(ps.pfn)) {
-> +	} else if (!(ps.flags & PAGE_SNAPSHOT_DEVICE_PRIVATE) &&
-> +		   is_zero_pfn(ps.pfn)) {
->  		u |= 1 << KPF_ZERO_PAGE;
->  	}
->  
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index f0d5be9dc736..a52979536a5e 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -4627,9 +4627,10 @@ static inline bool page_pool_page_is_pp(const struct page *page)
->  }
->  #endif
->  
-> -#define PAGE_SNAPSHOT_FAITHFUL (1 << 0)
-> -#define PAGE_SNAPSHOT_PG_BUDDY (1 << 1)
-> -#define PAGE_SNAPSHOT_PG_IDLE  (1 << 2)
-> +#define PAGE_SNAPSHOT_FAITHFUL		(1 << 0)
-> +#define PAGE_SNAPSHOT_PG_BUDDY		(1 << 1)
-> +#define PAGE_SNAPSHOT_PG_IDLE		(1 << 2)
-> +#define PAGE_SNAPSHOT_DEVICE_PRIVATE	(1 << 3)
->  
->  struct page_snapshot {
->  	struct folio folio_snapshot;
-> diff --git a/mm/util.c b/mm/util.c
-> index 97cae40c0209..65e3f1a97d76 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1218,6 +1218,9 @@ static void set_ps_flags(struct page_snapshot *ps, const struct folio *folio,
->  
->  	if (folio_test_idle(folio))
->  		ps->flags |= PAGE_SNAPSHOT_PG_IDLE;
-> +
-> +	if (is_device_private_page(page))
-> +		ps->flags |= PAGE_SNAPSHOT_DEVICE_PRIVATE;
 
-stable_page_flags() has access to the page and can simply test that instead?
+Or maybe even better, if the pfn has no meaning, set it to 0 or -1, or
+anything that will make the other code just ignore it.
 
 -- 
 Cheers,
