@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wHSfEgmsqmnjVAEAu9opvQ
+	id QHV6DF2uqmluVQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:27:21 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:37:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F2021EAEB
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B99D21EDEE
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC88D10E0BB;
-	Fri,  6 Mar 2026 10:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A890810ECCA;
+	Fri,  6 Mar 2026 10:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AuMVnM7K";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WoTkBhZB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8C710E0BB
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 10:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1772792833;
- bh=PnoO08qcvcKf19ry3jOXo054B33cKWW186LDjfygCZM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AuMVnM7Kq5aC/GgXhZLM+7lHikIusXZ0LiNnE4S2/NYXCFp6KcoyEGEIsRvkJ11G5
- qoysOrvk7OHFw6af0jkPaEDms0Dr8Wc9IunzjnporO3Nw5QDKrYf3WZY5qhc2g7mal
- jI5CGwOWi3nCJgyKRIZkDAor65ty29bhdevFMGfRjxwkGDeVgPH/bP6IQMOia3ITf+
- U6709Ch3XWjRMGkLr6AyIUEr+EoH0uWprhIQtGbsmyBZjoiIIio7E/DWOaGYuz8TeS
- 9j3oR7vXvhmmy23fb8mRJkkX4lPYE9iM/SYTI7gtfnL5x+BozrmEB4sYK+1ou+P3Pn
- uKQRiPYUYa/kA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF6410ECCA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 10:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1772793431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CNok9dmrehJj085xLfY0Qs/d7XMY0KJw2lUvqcVr7uo=;
+ b=WoTkBhZBelYn4qeju9Uyfw2oC7UTqp0UAlI3RrsTnVtKj3NgPFbxiXcAIWJd7aKzmTfF6P
+ xzdSZCAkrcnms72dzAAUyZiJn3gZJHOURHghL/NuTrWpVy31c/S8MCyc5R1ofB9sTA0y6r
+ QLLtkMwiGk7AvGwPKanIUwZFRqTeMi8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-96-fZ85QXqmMvy5WsYgpsd6pQ-1; Fri,
+ 06 Mar 2026 05:37:08 -0500
+X-MC-Unique: fZ85QXqmMvy5WsYgpsd6pQ-1
+X-Mimecast-MFC-AGG-ID: fZ85QXqmMvy5WsYgpsd6pQ_1772793425
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 64ACF17E0959;
- Fri,  6 Mar 2026 11:27:13 +0100 (CET)
-Date: Fri, 6 Mar 2026 11:27:09 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Christian =?UTF-8?B?S8O2bmln?= 
- <christian.koenig@amd.com>, dakr@kernel.org, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: dma_fence: force users to take the lock manually
-Message-ID: <20260306112709.105ba6b6@fedora>
-In-Reply-To: <1ee2c8a3f8099c619f18f2d08321829642c9ea8e.camel@mailbox.org>
-References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
- <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
- <20260305161212.7dfbadbd@fedora>
- <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
- <20260306104646.36319162@fedora>
- <1ee2c8a3f8099c619f18f2d08321829642c9ea8e.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 6B9FC1956089; Fri,  6 Mar 2026 10:37:05 +0000 (UTC)
+Received: from [192.168.1.153] (unknown [10.45.226.103])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 38DB11800576; Fri,  6 Mar 2026 10:36:57 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v3 0/6] dma-buf: heaps: add coherent reserved-memory heap
+Date: Fri, 06 Mar 2026 11:36:31 +0100
+Message-Id: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XOTQ7CIBCG4as0rB1DhxatK+9hXFAYhEV/ApVom
+ t5d2sQYN7p8Z/F8M7NIwVNkp2JmgZKPfuhziF3BtFP9jcCb3Aw5So4ooK3AdKq9W3CkRtCDo0D
+ 9BKGjDprSGtGgVJYalokxkPWPjb9cczsfpyE8t7VUrtc3XP2GUwklGGvJVgKbo9LnQMapaa+Hj
+ q1ywo8m+J83EwIHWatK1qIV4nD80pZleQFHSBIuFwEAAA==
+X-Change-ID: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ iommu@lists.linux.dev, devicetree@vger.kernel.org, 
+ Albert Esteve <aesteve@redhat.com>, mripard@redhat.com, echanude@redhat.com, 
+ John Stultz <john.stultz@linaro.org>, Maxime Ripard <mripard@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772793417; l=4098;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=ExZnC7goEKWKM6Rtl+U4JqZvVGyaRn8TBOjYWQsS5l0=;
+ b=UNGgoXKmH542rSOqPbjXTgBDaWRdkdTQo0EoW9KZ1vE/PiAG6Zcb1qM/GgwOycyhucLQJuOwG
+ Mtb4/HsYkEWDLTZxjMPx0QbPMjLBfxdVBdXHDeL+WLZ6QFhoR4GGmXF
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: qda2m1sw0xR6X8_amVzQYsJvLq2UHIoAZr_30-qpTH4_1772793425
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,202 +96,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 91F2021EAEB
+X-Rspamd-Queue-Id: 8B99D21EDEE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:christian.koenig@amd.com,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	HAS_ORG_HEADER(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:robh@kernel.org,m:saravanak@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:aesteve@redhat.com,m:mripard@redhat.com,m:echanude@redhat.com,m:john.stultz@linaro.org,m:mripard@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[6]
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Fri, 06 Mar 2026 10:54:07 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+This patch series adds a new dma-buf heap driver that exposes coherent,
+non‑reusable reserved-memory regions as named heaps, so userspace can
+explicitly allocate buffers from those device‑specific pools.
 
-> On Fri, 2026-03-06 at 10:46 +0100, Boris Brezillon wrote:
-> > On Fri, 6 Mar 2026 09:10:52 +0100
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >  =20
-> > > On 3/5/26 16:12, Boris Brezillon wrote: =20
-> > > > Hi,
-> > > >=20
-> > > > On Thu, 5 Mar 2026 14:59:02 +0100
-> > > > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> > > > =C2=A0  =20
-> > > > > On 3/5/26 14:54, Philipp Stanner wrote:=C2=A0  =20
-> > > > > > Yo Christian,
-> > > > > >=20
-> > > > > > a while ago we were discussing this problem
-> > > > > >=20
-> > > > > > dma_fence_set_error(f, -ECANCELED);=C2=A0  =20
-> > > >=20
-> > > > If you really have two concurrent threads setting the error, this p=
-art
-> > > > is racy, though I can't think of any situation where concurrent
-> > > > signaling of a set of fences wouldn't be protected by another exter=
-nal
-> > > > lock.=C2=A0  =20
-> > >=20
-> > > This is actually massively problematic and the reason why we have the=
- WARN_ON in dma_fence_set_error().
-> > >=20
-> > > What drivers usually do is to disable the normal signaling path, e.g.=
- turn off interrupts for example, and then set and error and signal the fen=
-ce manually.
-> > >=20
-> > > The problem is that this has a *huge* potential for being racy, for e=
-xample when you tell the HW to not give you an interrupt any more it can al=
-ways been than interrupt processing has already started but wasn't able yet=
- to grab a lock or similar.
-> > >=20
-> > > I think we should start enforcing correct handling and have a lockdep=
- check in dma_fence_set_error() that the dma_fence lock is hold while calli=
-ng it. =20
-> >=20
-> > Sure, I don't mind you dropping the non-locked variants and forcing
-> > users to lock around set_error() + signal().
-> >  =20
-> > >  =20
-> > > > > > dma_fence_signal(f); // racy!=C2=A0  =20
-> > > >=20
-> > > > This is not racy because dma_fence_signal() takes/releases the
-> > > > lock internally. Besides, calling dma_fence_signal() on an already
-> > > > signaled fence is considered an invalid pattern if I trust the -EIN=
-VAL
-> > > > returned here[1].=C2=A0  =20
-> > >=20
-> > > No, that is also something we want to remove. IIRC Philip proposed so=
-me patches to clean that up already. =20
-> >=20
-> > What do you mean? You want dma_fence_signal_locked() (or the variants
-> > of it) to not return an error when the fence is already signaled,
-> >  =20
->=20
-> Yes. That's already implemented:
->=20
-> https://elixir.bootlin.com/linux/v7.0-rc1/source/drivers/dma-buf/dma-fenc=
-e.c#L486
+Motivation: we want cgroup accounting for all userspace‑visible buffer
+allocations (DRM, v4l2, dma‑buf heaps, etc.). That’s hard to do when
+drivers call dma_alloc_attrs() directly because the accounting controller
+(memcg vs dmem) is ambiguous. The long‑term plan is to steer those paths
+toward dma‑buf heaps, where each heap can unambiguously charge a single
+controller. To reach that goal, we need a heap backend for each
+dma_alloc_attrs() memory type. CMA and system heaps already exist;
+coherent reserved‑memory was the missing piece, since many SoCs define
+dedicated, device‑local coherent pools in DT under /reserved-memory using
+"shared-dma-pool" with non‑reusable regions (i.e., not CMA) that are
+carved out exclusively for coherent DMA and are currently only usable by
+in‑kernel drivers.
 
-Okay, I guess I was looking at an older version of the code. My bad.
+Because these regions are device‑dependent, each heap instance binds a
+heap device to its reserved‑mem region via a newly introduced helper
+function -namely, of_reserved_mem_device_init_with_mem()- so coherent
+allocations use the correct dev->dma_mem.
 
->=20
->=20
-> Reason being that
-> a) no one was ever checking that error code
-> b) you cannot *prevent* multiple signaling in C anyways
-> c) it's not even sure AFAICT whether signaling an already signaled
-> fence is even an error. The function will simply ignore the action.
-> It's not ideal design, sure, but what's the harm? The most important
-> fence rule is that fences do get eventually signaled. Firing WARN_ONs
-> or sth because you try to signal a signaled fence sounds bad to me,
-> because what's the issue?
+Charging to cgroups for these buffers is intentionally left out to keep
+review focused on the new heap; I plan to follow up based on Eric’s [1]
+and Maxime’s [2] work on dmem charging from userspace.
 
-Fair enough. Not really questioning those changes to be honest, I'm
-just here to point that the rust abstraction will hopefully be immune
-to the stuff you're trying to protect against.
+This series also makes the new heap driver modular, in line with the CMA
+heap change in [3].
 
->=20
-> >  or
-> > you want to prevent this double-signal from happening. The plan for the
-> > rust abstraction is to do the latter. =20
->=20
-> In Rust we sort of get that for free by having signal() consume the
-> fence.
+[1] https://lore.kernel.org/all/20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com/
+[2] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
+[3] https://lore.kernel.org/all/20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org/
 
-Exactly.
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
+---
+Changes in v3:
+- Reorganized changesets among patches to ensure bisectability
+- Removed unused dma_heap_coherent_register() leftover
+- Removed fallback when setting mask in coherent heap dev, since
+  dma_set_mask() already truncates to supported masks
+- Moved struct rmem_assigned_device (rd) logic to
+  of_reserved_mem_device_init_with_mem() to allow listing the device
+- Link to v2: https://lore.kernel.org/r/20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com
 
->=20
->=20
-> >  =20
-> > >  =20
-> > > > > >=20
-> > > > > >=20
-> > > > > > I think you mentioned that you are considering to redesign the
-> > > > > > dma_fence API so that users have to take the lock themselves to=
- touch
-> > > > > > the fence:
-> > > > > >=20
-> > > > > > dma_fence_lock(f);
-> > > > > > dma_fence_set_error(f, -ECANCELED);
-> > > > > > dma_fence_signal(f);=C2=A0  =20
-> > > >=20
-> > > > I guess you mean dma_fence_signal_locked().
-> > > > =C2=A0  =20
-> > > > > > dme_fence_unlock(f);
-> > > > > >=20
-> > > > > >=20
-> > > > > > Is that still up to date? Is there work in progress about that?=
-=C2=A0=C2=A0=C2=A0  =20
-> > > > >=20
-> > > > > It's on my "maybe if I ever have time for that" list, but yeah I =
-think it would be really nice to have and a great cleanup.
-> > > > >=20
-> > > > > We have a bunch of different functions which provide both a _lock=
-ed() and _unlocked() variant just because callers where to lazy to lock the=
- fence.
-> > > > >=20
-> > > > > Especially the dma_fence_signal function is overloaded 4 (!) time=
-s with locked/unlocked and with and without timestamp functions.
-> > > > > =C2=A0 =20
-> > > > > > I discovered that I might need / want that for the Rust abstrac=
-tions.=C2=A0=C2=A0=C2=A0  =20
-> > > > >=20
-> > > > > Well my educated guess is for Rust you only want the locked funct=
-ion and never allow callers to be lazy.=C2=A0  =20
-> > > >=20
-> > > > I don't think we have an immediate need for manual locking in rust
-> > > > drivers (no signaling done under an already dma_fence-locked section
-> > > > that I can think of), especially after the inline_lock you've
-> > > > introduced. Now, I don't think it matters if only the _locked() var=
-iant
-> > > > is exposed and the rust code is expected to acquire/release the lock
-> > > > manually, all I'm saying is that we probably don't need that in dri=
-vers
-> > > > (might be different if we start implementing fence containers like
-> > > > arrays and chain in rust, but I don't think we have an immediate ne=
-ed
-> > > > for that).=C2=A0  =20
-> > >=20
-> > > Well as I wrote above you either have super reliable locking in your =
-signaling path or you will need that for error handling. =20
-> >=20
-> > Not really. With rust's ownership model, you can make it so only one
-> > thread gets to own the DriverFence (the signal-able fence object),
-> >  =20
->=20
-> Not strictly speaking. They can always stuff it into some locked
-> refcounted container.
+Changes in v2:
+- Removed dmem charging parts
+- Moved coherent heap registering logic to coherent.c
+- Made heap device a member of struct dma_heap
+- Split dma_heap_add logic into create/register, to be able to
+  access the stored heap device before registered.
+- Avoid platform device in favour of heap device
+- Added a wrapper to rmem device_init() op
+- Switched from late_initcall() to module_init()
+- Made the coherent heap driver modular
+- Link to v1: https://lore.kernel.org/r/20260224-b4-dmabuf-heap-coherent-rmem-v1-1-dffef43298ac@redhat.com
 
-And that's my point: you've protected the container with some lock, and
-if the DriverFence is signaled under that lock, it goes away, meaning
-the other thread walking that very some container later on won't see it
-anymore. So yes, there are ways you can move DriverFence between
-threads (`Send` trait in rust), but there's no way rust will let you
-signal DriverFence objects concurrently (either you wrap it in a Lock
-that serializes accesses, or it will just refuse to compile).
+---
+Albert Esteve (5):
+      dma-buf: dma-heap: split dma_heap_add
+      of_reserved_mem: add a helper for rmem device_init op
+      dma: coherent: store reserved memory coherent regions
+      dma-buf: heaps: Add Coherent heap to dmabuf heaps
+      dma-buf: heaps: coherent: Turn heap into a module
+
+John Stultz (1):
+      dma-buf: dma-heap: Keep track of the heap device struct
+
+ drivers/dma-buf/dma-heap.c            | 138 +++++++++--
+ drivers/dma-buf/heaps/Kconfig         |   9 +
+ drivers/dma-buf/heaps/Makefile        |   1 +
+ drivers/dma-buf/heaps/coherent_heap.c | 417 ++++++++++++++++++++++++++++++++++
+ drivers/of/of_reserved_mem.c          |  68 ++++--
+ include/linux/dma-heap.h              |   5 +
+ include/linux/dma-map-ops.h           |   7 +
+ include/linux/of_reserved_mem.h       |   8 +
+ kernel/dma/coherent.c                 |  34 +++
+ 9 files changed, 640 insertions(+), 47 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
+
+Best regards,
+-- 
+Albert Esteve <aesteve@redhat.com>
+
