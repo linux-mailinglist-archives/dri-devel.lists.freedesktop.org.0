@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YKeFBEeyqmluVQEAu9opvQ
+	id GIE4LlSyqmlEVgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:53:59 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:54:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE05C21F469
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D1A21F490
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 11:54:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC1EF10ECEB;
-	Fri,  6 Mar 2026 10:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D8D10ECE7;
+	Fri,  6 Mar 2026 10:54:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fIswnyQq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kn4myBjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5731510ECEC;
- Fri,  6 Mar 2026 10:53:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B44F10ECDE;
+ Fri,  6 Mar 2026 10:54:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0BF8041963;
+ by sea.source.kernel.org (Postfix) with ESMTP id 3543C41752;
+ Fri,  6 Mar 2026 10:54:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8373EC4CEF7;
  Fri,  6 Mar 2026 10:53:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A34C19422;
- Fri,  6 Mar 2026 10:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772794434;
- bh=s2IOV+u9Fv1ukmnfMTkmiLINskXtpIQh7wh1yO+m91M=;
+ s=k20201202; t=1772794449;
+ bh=sJp0nhky3OW7VRFP+5bMf/+H0tk5v6P5LyNIeY9Qg7g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fIswnyQqMSnCik2WooqOyPtlm1zVovIpgRCbkoAN+YSD89iLupzttT2qIFrpI1khe
- 4OkA5IhbODKVpGLaIHH8kaeRojLwhHTfVNqey6k6xHYXalm4c9qxFKpYwRzS0v0/Cl
- GAFhr+GYFvoCnZmPcJnKsqdCG/BVPw2LLKj/BX/732ddPZu1m7Mg2BdY+i/DGqRPNC
- SCXDf3teYw1AvE1vN6kB/SzDMrSl5KeyjZls1myFchbrgPYc1xekiDtNHBHBVlg+iv
- 8hr8EORzvDhR4AZGLifjuSOJ8nNj8ScKnu3ylyu5nV23v12TC5gl222GGXbTHqY+dw
- KDtp0JDLUDeTQ==
+ b=kn4myBjVyn5ncfQez7F6l9zZawgFFK/rU7xv3g2KeOreZDgUPEhC1AixKvsYhH4He
+ 7Ogw7BmF2Gsb0uRci9OtTuMPQutLlbZCDfW4b1GK5BKUSX0IVgQ1+PH51KS2w0hb7n
+ FdTfcPQERmNQjhUAxxVEMiY9bdYwgB8OXnDtA7Ao7wQjaep1cEXkdoBODm9WKSq/0z
+ gI+NMKICX6M05nkb+QvDgO/pgze30a8cBzSYW/GygCUVLaByCCB33j3Uzfh1ChyGn3
+ Jv1Ab+CzfS+pWNnC4kPIqXB6vHeeGdOkEl+IacEI7EepuSXkCWZAJDzf8/1ecxhUUu
+ B/mOYmo1N09sw==
 From: Sumit Garg <sumit.garg@kernel.org>
 To: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
@@ -57,9 +57,9 @@ Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
  amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
  op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
  skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: [PATCH 12/14] net: ipa: Switch to generic PAS TZ APIs
-Date: Fri,  6 Mar 2026 16:20:25 +0530
-Message-ID: <20260306105027.290375-13-sumit.garg@kernel.org>
+Subject: [PATCH 13/14] wifi: ath12k: Switch to generic PAS TZ APIs
+Date: Fri,  6 Mar 2026 16:20:26 +0530
+Message-ID: <20260306105027.290375-14-sumit.garg@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260306105027.290375-1-sumit.garg@kernel.org>
 References: <20260306105027.290375-1-sumit.garg@kernel.org>
@@ -79,7 +79,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CE05C21F469
+X-Rspamd-Queue-Id: 90D1A21F490
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -112,55 +112,50 @@ X-Rspamd-Action: no action
 
 From: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
-Switch ipa client driver over to generic PAS TZ APIs. Generic PAS TZ
+Switch ath12k client driver over to generic PAS TZ APIs. Generic PAS TZ
 service allows to support multiple TZ implementation backends like QTEE
 based SCM PAS service, OP-TEE based PAS service and any further future TZ
 backend service.
 
 Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 ---
- drivers/net/ipa/ipa_main.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/net/wireless/ath/ath12k/ahb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ipa/ipa_main.c b/drivers/net/ipa/ipa_main.c
-index edead9c48d1f..8feb8493d5b5 100644
---- a/drivers/net/ipa/ipa_main.c
-+++ b/drivers/net/ipa/ipa_main.c
-@@ -14,7 +14,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/types.h>
+diff --git a/drivers/net/wireless/ath/ath12k/ahb.c b/drivers/net/wireless/ath/ath12k/ahb.c
+index 9a4d34e49104..935f893d04ef 100644
+--- a/drivers/net/wireless/ath/ath12k/ahb.c
++++ b/drivers/net/wireless/ath/ath12k/ahb.c
+@@ -5,7 +5,7 @@
+  */
  
+ #include <linux/dma-mapping.h>
 -#include <linux/firmware/qcom/qcom_scm.h>
 +#include <linux/firmware/qcom/qcom_pas.h>
- #include <linux/soc/qcom/mdt_loader.h>
- 
- #include "ipa.h"
-@@ -624,10 +624,13 @@ static int ipa_firmware_load(struct device *dev)
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+@@ -415,7 +415,7 @@ static int ath12k_ahb_power_up(struct ath12k_base *ab)
  	}
  
- 	ret = qcom_mdt_load(dev, fw, path, IPA_PAS_ID, virt, phys, size, NULL);
--	if (ret)
-+	if (ret) {
- 		dev_err(dev, "error %d loading \"%s\"\n", ret, path);
--	else if ((ret = qcom_scm_pas_auth_and_reset(IPA_PAS_ID)))
--		dev_err(dev, "error %d authenticating \"%s\"\n", ret, path);
-+	} else {
-+		ret = qcom_pas_auth_and_reset(IPA_PAS_ID);
-+		if (ret)
-+			dev_err(dev, "error %d authenticating \"%s\"\n", ret, path);
-+	}
+ 	/* Authenticate FW image using peripheral ID */
+-	ret = qcom_scm_pas_auth_and_reset(pasid);
++	ret = qcom_pas_auth_and_reset(pasid);
+ 	if (ret) {
+ 		ath12k_err(ab, "failed to boot the remote processor %d\n", ret);
+ 		goto err_fw2;
+@@ -478,9 +478,9 @@ static void ath12k_ahb_power_down(struct ath12k_base *ab, bool is_suspend)
+ 	pasid = (u32_encode_bits(ab_ahb->userpd_id, ATH12K_USERPD_ID_MASK)) |
+ 		ATH12K_AHB_UPD_SWID;
+ 	/* Release the firmware */
+-	ret = qcom_scm_pas_shutdown(pasid);
++	ret = qcom_pas_shutdown(pasid);
+ 	if (ret)
+-		ath12k_err(ab, "scm pas shutdown failed for userPD%d: %d\n",
++		ath12k_err(ab, "pas shutdown failed for userPD%d: %d\n",
+ 			   ab_ahb->userpd_id, ret);
+ }
  
- 	memunmap(virt);
- out_release_firmware:
-@@ -754,7 +757,7 @@ static enum ipa_firmware_loader ipa_firmware_loader(struct device *dev)
- 		return IPA_LOADER_INVALID;
- out_self:
- 	/* We need Trust Zone to load firmware; make sure it's available */
--	if (qcom_scm_is_available())
-+	if (qcom_pas_is_available())
- 		return IPA_LOADER_SELF;
- 
- 	return IPA_LOADER_DEFER;
 -- 
 2.51.0
 
