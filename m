@@ -2,141 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6HlbM0Qhq2mPaAEAu9opvQ
+	id qJXeH+4kq2n6aAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 19:47:32 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 20:03:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463CE226D67
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 19:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2828226E66
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 20:03:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6FB10EDFB;
-	Fri,  6 Mar 2026 18:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D344210EE16;
+	Fri,  6 Mar 2026 19:03:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RVAjrCY5";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Aog//4g9";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="xOUrF3Jm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F44D10EDDB
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 18:47:27 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626H1fmj1343666
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 18:47:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=xUscRt9PkJfXclN0l0QtK+rE
- L2+xLTOFDpKgHRcpxBA=; b=RVAjrCY5rpNslW9GVgCRo31k0oo0n3frulR0LfeO
- 6HtgKl3pBCq0JNF9c0YeQeR1StLG/7/nZi1jp3FOx/SQuhj6CIYIWfK/LHeONkof
- JSk3XX1bI5EWcHNbIiqE7Ux8sI6hxW7i045Hc/3oD0TwWsiKOGYO8e+qUnQQ0SIX
- qx6x/0oDpGZzTglb+eGWr/E7x3RNps01g/fQbVqDs5pG4w9MbR8HNHAbsyAiY7wK
- /DHOalIkXoGFohizLcu4qpeBTN4pepA7Ai70IWWPQBZA0AXi6AorjlRVu6Zs/J3c
- OiZbvv/ucEimaeG44Zt7i4Y8f48yShJSYcXnDFdaX1Zztg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cr2uqre2n-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 18:47:27 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8cb4d191ef1so1287294985a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 10:47:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772822846; x=1773427646;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xUscRt9PkJfXclN0l0QtK+rEL2+xLTOFDpKgHRcpxBA=;
- b=Aog//4g9O4MvAl6TCDEjPx6rNY7Gs6mG6jaNmPHyfOK3C/XrHeqnBuVce2xwJIospi
- 3a5f0NSZYYqfs0PRnvEBukyfqnY45A3ExG4Exy7sTcxGqUTP/bHIAFEOchepFTALjyPH
- awKqvMcp6oHf1Ipwj7GJT/6xpGFsdjTc8NAL+ibGH6TcGMK2hn0aPXh88PoGg9vxCTRB
- HvOUUtzJGJYyYBT+UxRZi1afFnMHFSVRrkWfL6mgCnVGYNpSgobWc48Ql/yIxU6+Kwp9
- losiRJ0ub6C9sIbATvyBgiLobtg/zsVmveJhnYrN0DuUW3f0XdkP2TT5yf3TEZjCBEp9
- 7xVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772822846; x=1773427646;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xUscRt9PkJfXclN0l0QtK+rEL2+xLTOFDpKgHRcpxBA=;
- b=VsSvs2RDfeOjNfqqw9w9jSUjViK8Q26X1ej4jEowoUogDGi1CBgzzbiMpHaJnkjlKl
- iBX5sQIQi3H2owq59YGM75IjfNmA9FI0bF6SVB56kmNeVxTT9k/UXqwstJsac0GdjCRf
- +hpY8NOUhOOP9TXKZkda3eSw1M4ihP9RjK5wHg+yy/JxtyMuoPub5DsW604X8vJFCenx
- FmeRmnaP0bNHYPfPxxFaGD/FRS48MPHmupge2u9Bj0Cw7SLbzOVAhIoh3GM2vXf/bPpI
- umoXKdfgtvUbTw58VHkTmEi+11SSNTJM/tV0To+ecPBhZ6ICD7jLEoGKFZcT1vl97YbR
- kzcg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVdm7d13v5pS7ODZQUv10k4TAfdmWJHMC6KhYJfLYYAFji8I8yardxJOhx6zgqKp+eb3YdVsgS3JvY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLgXPrWTA/cNUXQjNxtQ3JNZqEha3bCU19G1G0TTTlO0ThI4dE
- 1M3DIkFWd80ujlRK87L0jYaiTb00z+hACWnCZzykr4P6KtZnv/q1HdVlhkSBEs4LIIDUtyhfEyD
- tQL+94nl66+Ie6fYj4kk55FtNZECfZl1BN0USkmawPTcxKoDC4gtsnsHoDZ808nr4jwG1inc=
-X-Gm-Gg: ATEYQzwIUIr1LXwE7dPTGndso5+uBvgA69BpGzDAssoZvS8Ce+ghJqU1luLFYFFXwh9
- mBiACbz3Qv+u1fwsjghrzd4xrkTChg1IP/73vysiBzqspr/D054P9LiFWfaFWLe3S/OjJzjDBwm
- njp+YcFbS6A8JS+sq5z1cs5wVXsBidMM+gvAnhmuhN2WtUzI1lf7On35F+h1O13Dzjr8Ldw8j9g
- 4eYoJ5M60uhDWP0OYtMTtTl2IIp7jhhUhMxHvpSCj+l2YeD1RnKGFIELwwDOB4AWgTSpr1jP86I
- dmB+1/n5uF7MHXimaW+4SkO8gcCJnzOfEPABa83RwsyNL+/TA4CsTQP+HwclWDahaJP65JtsQmh
- inQ7DylOSVeSFx8RNdau9YWExTxSKDHXl1O6xEVeqBQZCWWqzIL3YezaatvAuoYoixiKpaosyDC
- Mc9B6r/bv+JbfimHyNIRXgs3y2KFe1WQ/TwYA=
-X-Received: by 2002:a05:620a:1726:b0:8cb:4fa5:d47a with SMTP id
- af79cd13be357-8cd6d494e49mr390657785a.77.1772822846519; 
- Fri, 06 Mar 2026 10:47:26 -0800 (PST)
-X-Received: by 2002:a05:620a:1726:b0:8cb:4fa5:d47a with SMTP id
- af79cd13be357-8cd6d494e49mr390654585a.77.1772822845978; 
- Fri, 06 Mar 2026 10:47:25 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-38a41fa7bd5sm3212991fa.15.2026.03.06.10.47.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2026 10:47:24 -0800 (PST)
-Date: Fri, 6 Mar 2026 20:47:23 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>, Eugene Lepshy <fekz115@gmail.com>,
- Danila Tikhonov <danila@jiaxyga.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Eugene Lepshy <fekz115@gmail.com>,
- Danila Tikhonov <danila@jiaxyga.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dsi: remove bpc > 8 entries from allow list
-Message-ID: <groq7xzuqen2bhumrjt7u4v6mnpbnoxzpvn4cue2fayb2mim67@u2ya7glxxgv3>
-References: <20260306092518.37849-1-mitltlatltl@gmail.com>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA0C10EDFF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 19:03:03 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fSG5131XHz9tsY;
+ Fri,  6 Mar 2026 20:03:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1772823781; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wvBgzOq01H9gwGTNchAcIG+SgYvbmV6n3sjydolD2Fs=;
+ b=xOUrF3JmjCE+lHOkBr26DXHzygHAhzZXKkGubwi8R7GXkAWzEOGL+i28aTx9MAZ2/pUrVC
+ O8HCiNde5zZZAeRCCdfXdKNFdH3zyKQ++ymBkS+c5oAEVYu9Ln6bekKo0qTTcGOW3m9Bdo
+ zrNgrH/RnNIOfDi/AK8sZB4HBHBjokZSLYjEBVf3BzibM/y5O1sT04aRlhLtyd8bUchiMd
+ 32GyIcqGi1Wukt6AK+SgL3SATzywVzFzvafTV6xs/oL0FxuEmOk+IR4jk4Y6Mnae3laaHC
+ pj6lPngvrBqkZXAgL8gyP7EY5a9/P3yKRRxqTnv5Q5oTU37zIebDuHX+eKtAmQ==
+Message-ID: <d7bc1e7a0d33c675ef42135717ceee604bf0876b.camel@mailbox.org>
+Subject: Re: dma_fence: force users to take the lock manually
+From: Philipp Stanner <phasta@mailbox.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel <dri-devel@lists.freedesktop.org>
+Date: Fri, 06 Mar 2026 20:02:58 +0100
+In-Reply-To: <20260306164315.42524bf0@fedora>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+ <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
+ <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
+ <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
+ <90b8cc84-7fdb-4116-827a-3fe95b4a8119@amd.com>
+ <20260306162525.7ff98df5@fedora> <20260306164315.42524bf0@fedora>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306092518.37849-1-mitltlatltl@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE3NyBTYWx0ZWRfX43k7K74T7GEg
- SIK4yPW9z65+o/oI2QpCTsDmTPaIeKFvBDFk/vcVohiq1T/wIpqSNd3MJZjCDcWueUJeofoOASc
- bvws5LtnvmHLhjnxeHIfw9luKicAxB/jlaTedg7zkHmvE1Qkqm+fxLGMoUkBSzVhiquCimcn3/h
- 24Bu4NuQQPTusvrxvlGEhGffyTfUjf6bw8+oOp//tzki9tBvIpavZgZYzDQMtdOelRo9WJomXoD
- gwUDvAEGbvfYRpt4NdILUHVuFqIuoxgd0OioFRX5l2b0V7a9f0U/tTq2T7Sf4VPlTe4yt3TNIkW
- XjxU+W+xFWqzr8Ru9QJG6x4eZRjjnuOyui+VzJZJbxoIJt0KN7dl90n4UMH9iGmax/yXsmeHIjo
- q/vvCS6+BZqboMEY+gC12l17+I/yTH+05XRskLUPzRO7d6jCpLCC/5nMPldeMW4RYEjjOsDcvjx
- Vbplxd8r/VPVTzeMhQg==
-X-Proofpoint-GUID: -kSnMlErybnO_f9ssc96pc3XgeLFcJ5_
-X-Proofpoint-ORIG-GUID: -kSnMlErybnO_f9ssc96pc3XgeLFcJ5_
-X-Authority-Analysis: v=2.4 cv=Q+HfIo2a c=1 sm=1 tr=0 ts=69ab213f cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=pGLkceISAAAA:8
- a=pi0S-Vlqv1HzeT5xHfUA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603060177
+X-MBO-RS-ID: b19844bc41573778c8d
+X-MBO-RS-META: fj5ecd7f7xqi4e8j9nridzk9jkozofqw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,84 +82,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 463CE226D67
+X-Rspamd-Queue-Id: E2828226E66
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,amd.com:email,mailbox.org:dkim,mailbox.org:mid];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:fekz115@gmail.com,m:danila@jiaxyga.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,jiaxyga.com];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,jiaxyga.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.984];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.994];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	HAS_REPLYTO(0.00)[phasta@kernel.org]
 X-Rspamd-Action: no action
 
-On Fri, Mar 06, 2026 at 05:25:00PM +0800, Pengyu Luo wrote:
-> In upstream the msm, for bpc greater than 8 are not supported yet,
-> although the hardware block supports this. Remove them until we
-> support them.
-> 
-> Fixes: b0e71c2637d1 ("drm/msm/dsi: Allow values of 10 and 12 for bits per component")
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+On Fri, 2026-03-06 at 16:43 +0100, Boris Brezillon wrote:
+> On Fri, 6 Mar 2026 16:25:25 +0100
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>=20
+> > On Fri, 6 Mar 2026 15:37:31 +0100
+> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >=20
+> > > On 3/6/26 14:36, Philipp Stanner wrote:=C2=A0=20
+> > > > > > > > In other words not signaling a fence can leave the system i=
+n a
+> > > > > > > > deadlock state, but signaling it incorrectly usually result=
+s in
+> > > > > > > > random data corruption.=C2=A0=C2=A0=C2=A0=20
+> > > > > >=20
+> > > > > > Well, not signaling it results in a potential deadlock of the
+> > > > > > whole kernel, whereas wrongly signaling it is "only" a function=
+al
+> > > > > > bug.=C2=A0=C2=A0=C2=A0=20
+> > > > >=20
+> > > > > No, that results in random memory corruption. Which is easily a
+> > > > > magnitude worse than just a kernel deadlock.
+> > > > >=20
+> > > > > When have seen such bugs numerous times with suspend and resume o=
+n
+> > > > > laptops in different subsystems, e.g. not only GPU. And I'm
+> > > > > absolutely clearly rejecting any attempt to signal DMA fences whe=
+n
+> > > > > an object runs out of scope because of that experience.=C2=A0=C2=
+=A0=C2=A0=20
+> > > >=20
+> > > > But you're aware that both in C and Rust you could experience UAF
+> > > > bugs if fences drop unsignaled and the driver unloads?
+> > > >=20
+> > > > Though I tentatively agree that memory corruptions on a large scale
+> > > > are probably the worst error you can have on a computer.=C2=A0=C2=
+=A0=C2=A0=20
+> > >=20
+> > > Yeah, of course I'm aware of the UAF issue we have.
+> > >=20
+> > > But those are relatively harmless compared to the random memory
+> > > corruption issues.
+> > >=20
+> > > Linux has the unfortunate habit of re-using memory directly after
+> > > freeing it because that means caches are usually hotter.
+> > >=20
+> > > So rough DMA operations have the tendency to end up anywhere and
+> > > tools like KASAN can't find anything wrong.
+> > >=20
+> > > The only protection you sometimes have is IOMMU, but that is usually
+> > > not able to catch everything either.
+> > > =C2=A0=20
+> > > > > =C2=A0=C2=A0=20
+> > > > > > > It all stands and falls with the question whether a fence can
+> > > > > > > drop by accident in Rust, or if it will only ever drop when t=
+he
+> > > > > > > hw-ring is closed.
+> > > > > > >=20
+> > > > > > > What do you believe is the right thing to do when a driver
+> > > > > > > unloads?=C2=A0=C2=A0=C2=A0=20
+> > > > > >=20
+> > > > > > The fence has to be signaled -- ideally after shutting down all
+> > > > > > queues, but it has to be signaled.=C2=A0=C2=A0=C2=A0=20
+> > > > >=20
+> > > > > Yeah well this shutting down all queues (and making sure that no
+> > > > > write operation is pending in caches etc...) is what people
+> > > > > usually don't get right.
+> > > > >=20
+> > > > > What you can to is things like setting your timeout to zero and
+> > > > > immediately causing terminating the HW operation and resetting th=
+e
+> > > > > device.
+> > > > >=20
+> > > > > This will then use the same code path as the mandatory timeout
+> > > > > functionality for DMA operations and that usually works reliable.=
+=C2=A0=C2=A0=C2=A0=20
+> > > >=20
+> > > > Why is all that even an issue? The driver controls the hardware and
+> > > > must "switch it off" before it unloads. Then the hardware will not
+> > > > access any memory anymore for sure.=C2=A0=C2=A0=C2=A0=20
+> > >=20
+> > > Well exactly that is usually really complicated. Let me try to
+> > > explain that on a HW example.=20
+> > >=20
+> > > Between a shader and the actual system memory you usually have
+> > > different IP blocks or stages where a memory access needs to go
+> > > through:
+> > >=20
+> > > Shader -> device VM -> device cache -> PCI bus -> CPU cache -> memory
+> > >=20
+> > > Now when you want to terminate some shader or make some memory
+> > > inaccessible because it is freed drivers update their page tables and
+> > > issue the equivalent of TLB invalidation on a CPU.
+> > >=20
+> > > The problem is now that this will only invalidate the translation in
+> > > the device VM. It doesn't affect the device cache nor any ongoing
+> > > memory transaction on the bus which waits to snoop the CPU cache.
+> > >=20
+> > > To make sure that you don't corrupt system memory you actually need
+> > > to wait for a cache flush event to be signaled and *not* just update
+> > > the VM page tables and tell the HW to invalidate it's TLB.
+> > >=20
+> > > So what is needed is usually a fence operation. In other words a
+> > > memory value written over the PCIe bus into system memory. Background
+> > > is that memory writes are ordered and this one comes after all
+> > > previous PCIe memory writes of the device and so is in the correct
+> > > order.
+> > >=20
+> > > Only when the CPU sees this memory write you can be sure that your
+> > > operation is completed.
+> > >=20
+> > > This memory write is then often implemented by using an MSI interrupt
+> > > which in turn signals the DMA fence.
+> > >=20
+> > >=20
+> > > So the right thing to do is to wait for the DMA fence to signal
+> > > through its normal signaling path which includes both HW and SW
+> > > functionality and *not* just tell the HW to stop some ring and then
+> > > just assume that this is also sufficient to signal the DMA fence
+> > > associated with the HW operation.=C2=A0=20
+> >=20
+> > Ultimately this
+> > "stop-HW-and-make-sure-all-outcomes-are-visible-even-for-partially-exec=
+uted-jobs"
+> > is something you'll have to do, no matter what. But it leading to
+> > having to wait for each pending fence, I'm not too sure. What about the
+> > case where jobs/ops further away in the HWRing were not even considered
+> > for execution by the HW, because the STOP operation prevented them from
+> > being dequeued. I'd expect that the only event we'll get for those is
+> > "HW queue is properly stopped now". So at this point it's a matter of
+> > signalling everything that's left, no? I mean, that's basically what
+> > Panthor does:
+> >=20
+> > 1. it stops
+> > 2. wait for all executing ops to land (with all the cache maintenance,
+> > etc, you described)
+> > 3. signal(ECANCELED) what's left (things not picked by the HW by
+> > the time the STOP was effective).
+> >=20
+> > It's currently done manually, but does it have to?
+>=20
+> All this being said, I'm also a pragmatic guy, so if you tell us "no
+> way!" even after these arguments, I'd rather give up on this
+> auto-signaling feature and have rust drivers be forced to manually
+> signal stuff than have the whole Fence abstraction blocked. We can add
+> a warn_on!(!is_signaled()) in the DriverFence::drop() path for the time
+> being, so we can at least catch cases where the driver didn't signal
+> the fence before dropping the signal-able object.
 
-I hope Marijn, Danila or Eugeny can comment. The patch series with this
-patchset added 10 bpc panel and used it for one of the phones.
 
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index e8e83ee61e..b60b26ddb0 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1824,12 +1824,9 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
->  
->  	switch (dsc->bits_per_component) {
->  	case 8:
-> -	case 10:
-> -	case 12:
->  		/*
-> -		 * Only 8, 10, and 12 bpc are supported for DSC 1.1 block.
-> -		 * If additional bpc values need to be supported, update
-> -		 * this quard with the appropriate DSC version verification.
-> +		 * In the upstream msm, only 8 bpc is supported for DSC 1.1/1.2
-> +		 * block.
->  		 */
->  		break;
->  	default:
-> -- 
-> 2.53.0
-> 
+In past discussions with my team members we were also not very
+determined whether we want autosignal or not.
 
--- 
-With best wishes
-Dmitry
+The only thing I'm concerned about is the RCU vs. UAF feature. We
+already invested a lot of time and pain into that feature, so we most
+probably want it.
+
+
+P.
+
