@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UCD5HbfmqmkTYAEAu9opvQ
+	id SN2gDNPqqmmOYAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:37:43 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:55:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7400222CDA
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9019822326E
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 15:55:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25CA810E403;
-	Fri,  6 Mar 2026 14:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1258210E151;
+	Fri,  6 Mar 2026 14:55:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5f3ZCMLy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="k87pXtrd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013014.outbound.protection.outlook.com
- [40.107.201.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9910E066
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 14:37:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bKYHzFuKrOU/BqHQYpnYLUo6gvm4P+mylc0uv9NPQvajiHrdnwCDyibNc8X8I8hh7VLqQ0TWF0W3Dwegz1rhkMZT+dCSGICdXeKgBSWdXgVmZPe34iwrubteK2p/yASjPRpXnhTsZ8SsSPxeLgnMZl5V5hnkTAYsiacHuVWTrujwdsEwhsg/qFZ9gsR4Cj1ZJUJoPvWa5ODlgPfO8LSJdAuqz1lOA13S5S4x5kOkb2XE7R9pWd/YtPT574paZPHVPkkcRUl0CveeVyqw8ffiN24vgdIJ+HXwXn2rKoDyPB6bFvz83BM0Zvf3SKdJWC8wnS4vZxx9joh2lOiHtsjrDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dOkuCowS+SbGctaW31JMZrSEGm/QZ5MJv6nGZvQihCk=;
- b=sBn999P6kdqXbmP2d8+2gZg/OMAVwR0AHDRIrMGM0nrOVizsvVuwGwt/dOxKGWjArJ5vZqh3ims9Et/3Pny7+guyMdwjktVKgUqYzsRCbI4I2CFCaxj7VphBRCNCW2NkpZslY4oqpWxoZ4S6uAcXG2h9sGmKtzP+xW8KEYhVWw5R/cnyvzqIRV76tem65wVh6KbomxMBiKk1DW0oFit8MEgKx980ucMdjwuzvBlTw/cpjxvc2eYufKS95vX27TnSx7E3c/HxcJ6IxAJdqEr702UdRvy/koPXImaUdGPNfrMn70mr7/ri6GNYId4NTp0sjiQY+ExIXiOS8aLTkf3ICg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dOkuCowS+SbGctaW31JMZrSEGm/QZ5MJv6nGZvQihCk=;
- b=5f3ZCMLylN2NF9K7v5Fqv6s9/pdlXsuzOzNek8xXM/xx94seaIZvqN2cLX94eqbVyKSYMxId/jMJfYaRwft3Iwqvb54wuxt+1GRmyDFVcaMmx/syj4RQANPfu9hUugk52hAqBZqRDf52c/UCwitWG3canf5V6wHx0+TMJK1GIbw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8750.namprd12.prod.outlook.com (2603:10b6:930:be::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Fri, 6 Mar
- 2026 14:37:35 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
- 14:37:34 +0000
-Message-ID: <90b8cc84-7fdb-4116-827a-3fe95b4a8119@amd.com>
-Date: Fri, 6 Mar 2026 15:37:31 +0100
-User-Agent: Mozilla Thunderbird
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F2510E3D6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 14:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772808909;
+ bh=tNpHM9iFh+o8uKh4HulWR/D1pu7B6uTT0vQ8nLpAheg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=k87pXtrdNDEX4VAzeyf6tnrpzlc6Btb3OpOYqPx0LCVnSXPVEKsuWSAz9gc6oqDLo
+ FRxr7hoyqvwXzEJp0jP8SnGZhmTEDzH71ERqFT9Rsdpkz0DrJzLICatk2h5+37Gtyo
+ VXmrNNXnP0pu7tmy51ARqNTfA4DDo4RaeyFaG7CpNRF3V6oyL2e7tn1lFT/PiRPffw
+ gE/MxiK1AntgNtyZeJi0SAJIEIMhRRUQAo7AOkOVlrtChR79+qhcb/+qircXXV77Kg
+ ULX4cRNagjqsUXkjPjIYDcCAhbjGtRmCcKOMA2Z9CLlsxsOaP/lRAm6d2WzeYvovqE
+ TEvBpED35+SCg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 38CF617E05B5;
+ Fri,  6 Mar 2026 15:55:09 +0100 (CET)
+Date: Fri, 6 Mar 2026 15:55:04 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, dakr@kernel.org, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel <dri-devel@lists.freedesktop.org>
 Subject: Re: dma_fence: force users to take the lock manually
-To: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <20260306155504.5cc6157e@fedora>
+In-Reply-To: <884567da-e884-425a-b0d0-c9a6211bc2ae@amd.com>
 References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
  <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
  <20260305161212.7dfbadbd@fedora>
@@ -67,78 +58,12 @@ References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
  <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
  <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
  <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
- <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
- <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
- <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0181.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ <884567da-e884-425a-b0d0-c9a6211bc2ae@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8750:EE_
-X-MS-Office365-Filtering-Correlation-Id: 94736e9e-6afe-48e5-d4c1-08de7b8de7f6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: /7TzbHZ8ZtfT+HXdJ7JTb6AmTf6XrwznYmeD/VyFzTyWLnqZGhE5n6jhX5cMbTiRYsy2XQmTJPhLZyVq501z30EwuhXwHkLpEhIhbbBA22mZZUPu96nd0i6v7mbfjnMvSE3yF5AJkZnFL0J2dHwkVW57q4CnXKigxA7s1RmPz0HtL4pooBywArjt/V8QtzWE51h+dqSeWxYWQOYUhky9x2KDTiLThYvrXEfjjoeCZizQLfBUwRaAgoZ6hstq/b5FrMS3bP+1m3PCgz5pBEuE6dJM0Bu/qYHYl3NjJDMpCmwMi2475MJAYo2Z0AUyZyz95qVOf4hyHWnLPVo/CEvYkQZ5i6EhkEAr1Oop/3qVy1kpg7T4KZOWsMXSyCnvLLPORmGk1TUDlKc5vzgs/li4LQKbWJazZnPac8n6ph11izbxRWGOUYn6NumY0Lmwc2+NniUoFLeQi83G4a6mFlxN+BNhKKLSzdQGOfoN3OERY11JnlpbCJ3xl4s7vgJvMCDzZ9EA126Sp1KmCkEfZSrrKyjFlzMLWyT5Y/eo98rG4EC9eA5sKnCPSbTRyM0kiAMnmFYML+MPzYjdNcTbVjpxrvA7hkoMPYNk1400Zd/Vauy9OPtao9ICH4sawQwKz9nTrD7mIDRLSCkwdlsBLS7w5Rp8vP1GRC40PsBVlC9s0RZW2AkoIHCk8JeRkqspluF9pEomaI7D6EMTeAG7MoQQg3j1H6WAWE8P7Y1oG8FxZns=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWordVVXelZXNVlOdVBja2FSUUxjREVsUVN1bWtORlM4Q0I0OXR5aDJ1QTFL?=
- =?utf-8?B?SzNMZ2RkajEyT1RlU0pmelVpMDg3eWlJa043M0wzdU8wd1JFQlM4bC9pdy9H?=
- =?utf-8?B?SWtHMVlvOFphd0FGWE5lbmlQM2RNVGRYUVNucVU4VTJQUnpydHNwRU1UM005?=
- =?utf-8?B?ZUJPbW4xMVdRRGZpU2NGQ2xSRkgzTVBVblcwTEFRN0kvbkhYdmdwb3l1STMw?=
- =?utf-8?B?Sis3cXg2R2FLaDNvZTZ4MkFYckpGRW5XVWJzVEVOeEtKVFNKZEhhbDdLdlNr?=
- =?utf-8?B?YjB6bmlJRzlqTTAwaWVTd2RvNTljL1BVNk9kMVN2Y1VwakV6bDFITlc0VCtS?=
- =?utf-8?B?TXNZRU16OHN4aWZYTi9ZNnI1NURuQlVCam9ka3lGWUxpTjdGZnY5TFNDbjZj?=
- =?utf-8?B?cTZPZUlER3dqRlZSWUM4dmxzSDlUanZSQVVzRnJsRG95R3Bpb2xjRktjd3B2?=
- =?utf-8?B?WURJd0dVWjBSY1MxYmV1cWRmU0VNeTI1TWR6UmFxOWE1TjRBdVlPd054ZlU1?=
- =?utf-8?B?SGY1TC9GRUtFeDZIcDRUak4yMHI3VFcza0liaTIwb3ZqbG8ya0JZNFora3VY?=
- =?utf-8?B?bmR5WHl6dDRBdzNxbHRCaEFDVGY2T2hscjNJR1dPVENGQjJaa0EzNisybTFO?=
- =?utf-8?B?SHRIdVkzSndNSkJRSFl4NTZxbHlReFVzNnV3cGlLVVZ3LzJIY1d4Mmg3VkJ2?=
- =?utf-8?B?UE9nWFJseEh2VEtJZGpGcnliOFVqN2tzR2xjb1NwUXB6NklBNkRmQTBNbU8z?=
- =?utf-8?B?UFE2eTFmY1hwN3VNa0tWS2dnaTBjdEpOdDRlejYyclZwYzhoUGZnMzhCNTBm?=
- =?utf-8?B?QVN6dDk1RzZaTklXdTBvZVlyaUVTZHo0UWxTSGF4aVgzN1EwQ2J1RXpuVU55?=
- =?utf-8?B?b0d6SlB3UUkxanF5dVIxbWNmeWlSS29DMFY4SU03MUJUaG9uVlhUenM4eC9s?=
- =?utf-8?B?OVEwa1RMWkozbmhWSnRGSXhIbllXVFFyUjFDRmRYNzhSUVVkRWRaN1pLa2FX?=
- =?utf-8?B?RWFyWlhKWXdiNWlNb0NSaXh3L2luSkovZkY3eFNMdXBkSC9xbEQwWHhUZVRT?=
- =?utf-8?B?dVc0TVpRWlhxUG1vdTlBcStROXg2OUNINHVvR01KQXNMTGxPOGN5MHhyYlZU?=
- =?utf-8?B?bkhsNFQwK0RJNHpSQ3pLZU1EenpoMWZRbjc0WllNRDNMZ0ZHVWF3dGlqM3ZM?=
- =?utf-8?B?ME5oVnhyTzB2eERKT01lMmFhUDlWYStFNDJacWNaOCtzeWk0T3FFSXpEQ2Jq?=
- =?utf-8?B?UytXUTRMSFozQ2xiOHovU1BBNlBMaWdZdCtlQjRRNUI2WFM0L2c5ZXZjU0s2?=
- =?utf-8?B?OEI0RU9WbythN1hwU3FmQXlYSVhNbDNQY3U3c3VEeEd2NHVzMlVjM3h5dVZL?=
- =?utf-8?B?UVB0MXd0OHZ1dEl6ZGxXS3d2NTZUbUJxaGJiWTBNRWZ3bWpjQU1zVVFHWTFE?=
- =?utf-8?B?WVFWTVFBWXlaZ2dyNWl3dUY4YzVDSnRBVmRHSlk2amtsS0VGZ0J3R296T2Fh?=
- =?utf-8?B?bDRhdWRjK0plejNFOC9uWGNHOS93RmovaFUzREErRVIyL1cvazVZYzRReXQx?=
- =?utf-8?B?b2YxbDlpK1MwYys1aVFoM3M0cU9uMEhFdHMwTThVS3pmZEp2QzV4SjV6SjBQ?=
- =?utf-8?B?NXNHWnVmWW9GcGI3bDA3dWZUVnlackhBZi8xMTJhMGxlNGdDcnlUbzJ3dWx1?=
- =?utf-8?B?R004ZFR1WUc4M3dpVExtNyttUnRSOXlPRys5aWNHUnVySmh0VWptSFRCMmRJ?=
- =?utf-8?B?cXgwSVFWWXpvaFJRQmhQa1hGTm5xSEh6RXRjYXRrR0VJU0FmSUt4ZEtwS1Nv?=
- =?utf-8?B?MmNINW9YZGFHZWdWQWhRcVlWOTRPcFVBQjJGK1N0THBRZjd0Qm1JQUk4R25t?=
- =?utf-8?B?dXJFdFAvZi95R3NtVldxS2pKbXk0R0tvRUFleXNPcXY5RjBPRW1vd01YVDZP?=
- =?utf-8?B?eFNybi8wdEVZQ2ZjOGt5VjliV3YzWmFrcUU2MTQrbGVtRjJQRU5zb0M4R1Yz?=
- =?utf-8?B?RXFHaUs0dno1L3Q4RUt6SHdoQyt1MFRscHVNOW9hK0ZRNnlwNzNWbUVBeTNP?=
- =?utf-8?B?N1M2QzlHOTUvMVluSlJSL1owRGZUZUo0U1RZVmlId1B2S2RjTThibjZSNjFt?=
- =?utf-8?B?OENhZnF6QVA0TXVXYzdxOE1YRWJIMjRiV3NadE1MU3pKQlBMbk5LU2VEcGJC?=
- =?utf-8?B?WFAwb2FRNFRieU9jeFg3U0xsR0JDRDZweXdNTmppSmVsY1IrUlM1ZThkZTFn?=
- =?utf-8?B?YmJSbEtLMmxHWG5rMzR4N0x1bHJ3alFlcEJNV2ptbHFtTjNkV0Z4SE14VFA2?=
- =?utf-8?Q?JOfE/AIqUYxg+HGi8e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94736e9e-6afe-48e5-d4c1-08de7b8de7f6
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 14:37:34.7336 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zdrXoPAIOD89Jncw3pVWSvo7Ht9u2vJrAlzBf4pw33y1QcFrsTOfoooKK3ZMdyfU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8750
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,109 +78,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C7400222CDA
+X-Rspamd-Queue-Id: 9019822326E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:dakr@kernel.org,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:dkim,amd.com:mid]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email]
 X-Rspamd-Action: no action
 
-On 3/6/26 14:36, Philipp Stanner wrote:
->>>>> In other words not signaling a fence can leave the system in a deadlock
->>>>> state, but signaling it incorrectly usually results in random data
->>>>> corruption.
->>>
->>> Well, not signaling it results in a potential deadlock of the whole kernel,
->>> whereas wrongly signaling it is "only" a functional bug.
->>
->> No, that results in random memory corruption. Which is easily a magnitude worse than just a kernel deadlock.
->>
->> When have seen such bugs numerous times with suspend and resume on laptops in different subsystems, e.g. not only GPU. And I'm absolutely clearly rejecting any attempt to signal DMA fences when an object runs out of scope because of that experience.
-> 
-> But you're aware that both in C and Rust you could experience UAF bugs
-> if fences drop unsignaled and the driver unloads?
-> 
-> Though I tentatively agree that memory corruptions on a large scale are
-> probably the worst error you can have on a computer.
+On Fri, 6 Mar 2026 13:54:15 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Yeah, of course I'm aware of the UAF issue we have.
+> On 3/6/26 13:36, Philipp Stanner wrote:
+> >>>> (which
+> >>>> is the thing that would be attached to the HW ringbuf. The
+> >>>> reason is: we don't want to leave unsignalled fences behind,
+> >>>> =20
+> >>>
+> >>> Not only do we not "want to", we actually *cannot*. We have to
+> >>> make sure all fences are signaled because only this way the C
+> >>> backend plus RCU can protect also the Rust code against UAF.
+> >>> =20
+> >>>> =C2=A0and if the HW ring is
+> >>>> gone, there's nothing that can signal it. Mind explaining why
+> >>>> you think this shouldn't be done, because I originally
+> >>>> interpreted your suggestion as exactly the opposite. =20
+> >>>
+> >>> I also don't get it. All fences must always get signaled, that's
+> >>> one of the most fundamental fence rules. Thus, if the last
+> >>> accessor to a fence drops, you do want to signal it with
+> >>> -ECANCELED =20
+> >>
+> >> All fences must always signal because the HW operation must always
+> >> complete or be terminated by a timeout.
+> >>
+> >> If a fence signals only because it runs out of scope than that
+> >> means that you have a huge potential for data corruption and that
+> >> is even worse than not signaling a fence.
+> >>
+> >> In other words not signaling a fence can leave the system in a
+> >> deadlock state, but signaling it incorrectly usually results in
+> >> random data corruption. =20
+> >=20
+> > It all stands and falls with the question whether a fence can drop
+> > by accident in Rust, or if it will only ever drop when the hw-ring
+> > is closed.
+> >=20
+> > What do you believe is the right thing to do when a driver unloads?
+> > =20
+>=20
+> Do a dma_fence_wait() to make sure that all HW operations have
+> completed and all fences signaled.
+>=20
+> > Ideally we could design it in a way that the driver closes its
+> > rings, the pending fences drop and get signaled with ECANCELED. =20
+>=20
+> No, exactly that is a really bad idea.
+>=20
+> Just do it the other way around, use the dma_fence to wait for the HW
+> operation to be completed.
 
-But those are relatively harmless compared to the random memory corruption issues.
+But in practice you don't just wait for the HW to finish most of the
+time. You instruct the HW to stop processing stuff, and then wait for it
+to acknowledge that it indeed stopped. And the HWRing object will only
+be dropped when that happens. There's of course a fallback for the case
+where the STOP operation fails (with reset, etc), which would just
+delay the drop of the HWRing. But the point is, when the HWRing is
+dropped, you should be guaranteed that the HW is no longer executing
+any of the possibly pending jobs. Now, of course you can decide that
+it's the driver responsibility to walk the list of jobs that were
+pending after a STOP has been acked and manually signal all fences, or
+you can assume that the HWRing being dropped is what provides this
+guarantee. And because the HWRing embeds you DmaFenceCtx that
+auto-signal on drops, you don't have to do anything.
 
-Linux has the unfortunate habit of re-using memory directly after freeing it because that means caches are usually hotter.
+>=20
+> Then wait for an RCU grace period to make sure that nobody is still
+> inside your DMA fence ops.
+>=20
+> And then you can continue with unloading the module.
+>=20
+> > Your concern seems to be a driver by accident droping a fence while
+> > the hardware is still processing the associated job.
+> >=20
+> > (how's that dangerous, though? Shouldn't parties waiting for the
+> > fence detect the error? ECANCELED =E2=87=92 you must not access the
+> > associated memory) =20
+>=20
+> The dma_fence is the SW object which represents the HW operation.
+>=20
+> And that HW operation is doing DMA, e.g. accessing and potentially
+> writing into memory. That's where the name Direct Memory Access comes
+> from.
+>=20
+> So when that is messed up the memory which gets written to is
+> potentially re-used with the absolutely dire consequences we have
+> seen so many times.
 
-So rough DMA operations have the tendency to end up anywhere and tools like KASAN can't find anything wrong.
+But then, I'd argue that the HWRing (and the underlying FenceCtx
+keeping track of emitted fences on this ring) should live at least as
+long as the HW is assumed to be running commands. That's IMHO the
+guarantee we need to provide: don't drop your HWRing object until
+you're sure the HW has stopped pulling stuff from there. I can think
+of the following two cases:
 
-The only protection you sometimes have is IOMMU, but that is usually not able to catch everything either.
+1. The HW has a way to prematurely stop stuff that are currently
+executing. First thing we do is ensure the HW can't pull anything new,
+then we issue a STOP and wait for an ACK. When this ACK is received, we
+proceed with the rest of the cleanup. If the ACK doesn't come in time,
+we flag the HWRing unusable, schedule a reset, and wait for this reset
+to be effective before dropping the HWRing.
 
->>
->>>> It all stands and falls with the question whether a fence can drop by
->>>> accident in Rust, or if it will only ever drop when the hw-ring is
->>>> closed.
->>>>
->>>> What do you believe is the right thing to do when a driver unloads?
->>>
->>> The fence has to be signaled -- ideally after shutting down all queues, but it
->>> has to be signaled.
->>
->> Yeah well this shutting down all queues (and making sure that no write operation is pending in caches etc...) is what people usually don't get right.
->>
->> What you can to is things like setting your timeout to zero and immediately causing terminating the HW operation and resetting the device.
->>
->> This will then use the same code path as the mandatory timeout functionality for DMA operations and that usually works reliable.
-> 
-> Why is all that even an issue? The driver controls the hardware and
-> must "switch it off" before it unloads. Then the hardware will not
-> access any memory anymore for sure.
+2. The HW can't stop what it started doing. We make sure nothing new
+can be pushed to the HWRing, we wait for the in-flight ops to land. If
+it's taking too long, the timeout handler will take over, schedule a
+reset, and drop the faulty HWRing only after the reset is effective.
 
-Well exactly that is usually really complicated. Let me try to explain that on a HW example. 
+>=20
+> Keep in mind that this framework is not only used by GPU where at
+> least modern ones have VM protection, but also old ones and stuff
+> like V4L were such things is just not present in any way.
 
-Between a shader and the actual system memory you usually have different IP blocks or stages where a memory access needs to go through:
-
-Shader -> device VM -> device cache -> PCI bus -> CPU cache -> memory
-
-Now when you want to terminate some shader or make some memory inaccessible because it is freed drivers update their page tables and issue the equivalent of TLB invalidation on a CPU.
-
-The problem is now that this will only invalidate the translation in the device VM. It doesn't affect the device cache nor any ongoing memory transaction on the bus which waits to snoop the CPU cache.
-
-To make sure that you don't corrupt system memory you actually need to wait for a cache flush event to be signaled and *not* just update the VM page tables and tell the HW to invalidate it's TLB.
-
-So what is needed is usually a fence operation. In other words a memory value written over the PCIe bus into system memory. Background is that memory writes are ordered and this one comes after all previous PCIe memory writes of the device and so is in the correct order.
-
-Only when the CPU sees this memory write you can be sure that your operation is completed.
-
-This memory write is then often implemented by using an MSI interrupt which in turn signals the DMA fence.
-
-
-So the right thing to do is to wait for the DMA fence to signal through its normal signaling path which includes both HW and SW functionality and *not* just tell the HW to stop some ring and then just assume that this is also sufficient to signal the DMA fence associated with the HW operation.
-
-Regards,
-Christian.
-
+I'm not questioning the fact signaling fences prematurely can lead to
+terrible security holes which are worse than deadlocks, I'm questioning
+the fact this "dont-signal-before-HW-is-done" guarantee needs to happen
+at the fence level, rather than at the fence emitter level.
