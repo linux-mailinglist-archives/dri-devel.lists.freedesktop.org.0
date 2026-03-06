@@ -2,153 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iADsMGsyq2n2agEAu9opvQ
+	id QC4KMpiGrWkp4AEAu9opvQ:T2
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 21:00:43 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A92A227565
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 21:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8123E230AD0
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6376810E3F4;
-	Fri,  6 Mar 2026 20:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C458F10E45C;
+	Sun,  8 Mar 2026 14:13:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iolXTHdg";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kGASjGUg";
+	dkim=pass (2048-bit key; secure) header.d=posteo.de header.i=@posteo.de header.b="Dfx63eBY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2F810E3F4
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 20:00:38 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626H1eFO238568
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 20:00:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- EiYJflmZS+8yawIrFdYuvTAy2GFP2luKLW8xrlAeVbY=; b=iolXTHdgTdjfeOyD
- ZD1CaIv9BfKoTip56GVafVAI2pWYzNyMQHZIxdjSM97kmc9JYu7asDOGkKqXqzrG
- D7A6EGYVAir86BPd0Fn5Q7raSMDJWV6EdF1O3A4hsajmSp3swGeGIcffEwCsft2n
- 6APlbK6ZVqMBM6cG+C7pk5Kyz9Fnh30veQDKzcgTG1qjkwGPUVXTxVRF9i+aiQDC
- 5JqWWkql44Xvn6k9P7HX6IFX1mIcJWe549u1vpndfMKiUifO7bDmCekNyqgD56xS
- T/BL//RE4mKtCpeGpFZaumI8aENVJTpmUafJihIs4uiLWyozER6TEuIr1RntP5wd
- ADUk7w==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com
- [74.125.82.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqv98j147-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 20:00:37 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id
- 5a478bee46e88-2be21f89332so4665712eec.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 12:00:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772827237; x=1773432037;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=EiYJflmZS+8yawIrFdYuvTAy2GFP2luKLW8xrlAeVbY=;
- b=kGASjGUgnAuaPafaM3HjCZooUGODU5MNaMN18kejP0118gBRsZyROo6EXxULNTELe7
- bWLblDF20Ca18mMHgdLhn81gZMd/KUmb9+LWBkwVoNvkIQqT+6s4QWpPgUXpEoTzGkmL
- Mos40TImHodljl3lJ0BLEaqnFT6nwrELb1HkKIecFqfGzBgt4fYqBstUWKmybY9Xq3md
- Eo8UgQaX+c93gpomfXcfFeYZ66zUfAq0evZ7dKSZWHu8tShplawrfcz8hNvCeoLGWzYK
- 96hIIJLNtb8MnY7cIWA567tKsr02b+YI4TgES741mwlE+uRYWSHWkC5mqPQ6l0hPtOAP
- 1yTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772827237; x=1773432037;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EiYJflmZS+8yawIrFdYuvTAy2GFP2luKLW8xrlAeVbY=;
- b=u00XBf2uMGh5GT+wCR2pe4CNBuzHwgH33ULss0bpogrK1MoQxSx3pNgOJbRam+EzYL
- 3VmIdiQZsknp1fHbVGS31bYa5WhmtkbZ2rcMiF5EqP+PC1hYl0yRW0q3irhU/RovhoC5
- CgBoar2s8S/6YQ1s3WSqPRFLnnPqLD07gy8fkUxLe7UDP4/fa0TB+Dh9oBcVVY2+SjCv
- GAOV+Bg57QjbNA0m0GvkK5c1JoDt391ItLD0yheFSXQ5/5xF5Jh2uQ5BlaCrvMfE1M1Q
- G60cWpX4s3lUCs6FHezMIM1y5hxUrXXxweHNwQtsTCIPeMso6px2yGPl5z+VVQAU57S7
- lZiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+nKujXEBsNZg/i4G3tXJjkUpJyrv1BZ/ZS1xE2nHRpF1dW5RoUnqVsRPBCLbCSXpS0N092OQ3Cj0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySJKJz4aPRz5j8YMwp3Z+/xWI8GFE8wUBBFmIHxaz2lu0fgPt5
- ORSWhU+5hRsrDHvmG0xzemnsBUQR9E25JPSkcY8WizZqR1+fjKJ+uBD90iTyJdXx6MbxB3waT13
- Xi+o9Awh3jJsEfcr3NufYyoCS39u79LsxmaIeRxb4ozSXkSDWKRw9stQZXFs8pgYdro93eSA=
-X-Gm-Gg: ATEYQzzS/PwAg9YkoRJgz/b9OMHVesC3u5zdON2up++QjECaG/69d4eet0knbfVHwq2
- +4kKA7IzGWpIrl39aYCsXIbG/RuSmul1tYOLnxkwlcI4FmMpNwTG20YS0+qdaZ1O4yvoqWaC8HP
- Qs4DIO/iS9fmpdW3OGByAkOY37PAh41sERiRKAo1EuHcrraGchbmrdJ/Z3ZyY55D+8r5Bz+EkGe
- dDC+Z8q0C40m+dMbkH/r93LR8gWpmhatV2kAYN/jKD3LRkOVYlfi9jH5mJ4dR5wgiYpyak0HK4n
- GnBe+foPzqpB2+2VnnbA94B6gw8PzVx/3cvyVaOtilMiR7QTxD80FNdA0bq/qfGsofVZRa1dPEO
- +htu067Tev/HWk4GNnyZ6oAfbWxqeEthF0CSB6yN4ekJIOtNCFUv8qqI=
-X-Received: by 2002:a05:7300:a887:b0:2ba:7069:686c with SMTP id
- 5a478bee46e88-2be4e01911emr1342872eec.17.1772827235502; 
- Fri, 06 Mar 2026 12:00:35 -0800 (PST)
-X-Received: by 2002:a05:7300:a887:b0:2ba:7069:686c with SMTP id
- 5a478bee46e88-2be4e01911emr1342841eec.17.1772827234438; 
- Fri, 06 Mar 2026 12:00:34 -0800 (PST)
-Received: from [192.168.86.165] ([76.176.48.107])
- by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2be4f96aa3fsm1798784eec.24.2026.03.06.12.00.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Mar 2026 12:00:33 -0800 (PST)
-Message-ID: <973acaab-f2fa-4e2a-81ea-9d7fbebd1ca4@oss.qualcomm.com>
-Date: Fri, 6 Mar 2026 12:00:31 -0800
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE50C10E162
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 20:14:48 +0000 (UTC)
+Received: from submission (posteo.de [185.67.36.169]) 
+ by mout02.posteo.de (Postfix) with ESMTPS id 641D6240104
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 21:14:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+ t=1772828087; bh=lHq/GDpYQJsqvr0Wo/pN4wfYJnQQpU3mHGi4u+WMRm4=;
+ h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+ MIME-Version:OpenPGP:From;
+ b=Dfx63eBYelLh0263Mf5stw/sZFs5aMQxlJzOb/H6gku8VMor5NLtstFdYSJs5ovDz
+ uXBwtYJDD1+MVdFUIR3XAcJcXm6aSBh7HzdtIryGDW1mvQ1SRR+lSOSeKAfKW2epR+
+ EoI2vlRbZ7GxlWaHsDxolwiRQa2YC1N5ev7QCABp19PhHe2L814hy0Fbe+Sj1Ma0KC
+ 4L6BeWTojVadzW3Ri7JfVhdO9EURpZRJ6fOfvmTT+6OW5qo1N1P1nABhQN6DvUe9FL
+ vg3n6vpXHIYCgWbylyA4B7JK59qeLRFTK8JhehU7M3GPqgECZ02zXtF0J2HIrI+XOM
+ VSjTmbgcI4TFg==
+Received: from customer (localhost [127.0.0.1])
+ by submission (posteo.de) with ESMTPSA id 4fSHgl34wKz9rxG;
+ Fri,  6 Mar 2026 21:14:43 +0100 (CET)
+Message-ID: <11da7a1b29146ede059cf6ce6a383c6bdd930f44.camel@posteo.de>
+Subject: Re: [PATCH v2 2/4] serdev: add private data to serdev_device
+From: Markus Probst <markus.probst@posteo.de>
+To: Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,  Gary Guo
+ <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Kari
+ Argillander	 <kari.argillander@gmail.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng
+ <boqun@kernel.org>, David Airlie <airlied@gmail.com>,  Simona Vetter
+ <simona@ffwll.ch>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Date: Fri, 06 Mar 2026 20:14:46 +0000
+In-Reply-To: <934ca1e6-dfee-411e-890a-083dcfc9f6b1@infradead.org>
+References: <20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de>
+ <20260306-rust_serdev-v2-2-e9b23b42b255@posteo.de>
+ <934ca1e6-dfee-411e-890a-083dcfc9f6b1@infradead.org>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-aBym8UsBbPNnHXvAhiGC"
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
-From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-To: Sumit Garg <sumit.garg@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org
-Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
- sean@poorly.run, akhilpo@oss.qualcomm.com, lumag@kernel.org,
- abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
- mathieu.poirier@linaro.org, mukesh.ojha@oss.qualcomm.com,
- pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
- tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
- srinivas.kandagatla@oss.qualcomm.com,
- amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
- op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
- skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20260306105027.290375-1-sumit.garg@kernel.org>
- <20260306105027.290375-3-sumit.garg@kernel.org>
- <e0a86461-c136-4371-99cf-c0b0d31443a3@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <e0a86461-c136-4371-99cf-c0b0d31443a3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: G8PHo8H_2Czs8-DcBvaX-mIsT-MUE1oE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE4OSBTYWx0ZWRfX2P7To6FrvkY1
- ZxKeonS50EJMLoNq7xLB+pSTYornyeY4GwN/HQKK2rSbz6oXkN7at/XDxaUqTNTHq08GbXveros
- EKGZiTdOWpRpfxEV+hMEV/hXnKDmhr01VD4jfGdB/uvL4fqeNU9KDvga+clOJ5qVangQR1BRfsU
- bonIWwrQ3Wmi0hehPHWAEQNnaw02DwKsz8FARqIy6/ffiAkd18wQTLhrgfS0n1FEuk5fq8hqKES
- MzrtpxFrDw0kLgWfVmz6tbreF8YP0Wz62Hp/cs6KZ53sQ3YuHOzTIyZl8FW622+4Chyt7afswup
- hWfprC2SjrS9BQMTDItlmUtpvZ4/Jpnk1nIXmRdokQlkSaGgWrOgtPVZy4DPtNkIvnlEDNYOaVU
- l6nDM4N8OD0aQtOkLjxraQ9BSSB7YuqFOR1BIQFviwT+ZUIzvGrQG9YO5EjCywxTJoatEbQijnw
- 1LBr0e2kXtFg0VMWw3w==
-X-Authority-Analysis: v=2.4 cv=LbcxKzfi c=1 sm=1 tr=0 ts=69ab3265 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=lsoD3MMNObdLvy1227ExmA==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=Dui5BcQmNnZPeg-S7-oA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-ORIG-GUID: G8PHo8H_2Czs8-DcBvaX-mIsT-MUE1oE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- phishscore=0 adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060189
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc;
+ preference=encrypt
+X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,66 +122,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2A92A227565
+X-Rspamd-Queue-Id: 8123E230AD0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.91 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+	DATE_IN_PAST(1.00)[42];
+	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
+	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.garg@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm.com,m:jorge.ramirez@oss.qualcomm.
- com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jens.wiklander@linaro.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:rdunlap@infradead.org,m:robh@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:kari.argillander@gmail.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:boqun@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-serial@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-pm@vger.kernel.org,m:driver-core@lists.linux.dev,m:kariargillander@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[48];
-	FORGED_SENDER(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[markus.probst@posteo.de,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_TO(0.00)[infradead.org,kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,linaro.org,ffwll.ch];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[trilokkumar.soni@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.992];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[posteo.de:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel,dt,netdev];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On 3/6/2026 11:47 AM, Trilok Soni wrote:
->> diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
->> new file mode 100644
->> index 000000000000..dc04ff1b6be0
->> --- /dev/null
->> +++ b/drivers/firmware/qcom/qcom_pas.c
->> @@ -0,0 +1,295 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->> + */
->> +
->> +#include <linux/delay.h>
->> +#include <linux/device/devres.h>
->> +#include <linux/firmware/qcom/qcom_pas.h>
->> +#include <linux/of.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/slab.h>
-> are you sure you are using functionalities from these header files?
-> 
-> I couldn't find slab.h usage quickly and also qcom_scm.h. Can you please confirm?
+
+--=-aBym8UsBbPNnHXvAhiGC
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2026-03-06 at 11:49 -0800, Randy Dunlap wrote:
+> Hi--
+>=20
+> On 3/6/26 11:35 AM, Markus Probst wrote:
+> > Add private data to `struct serdev_device`, as it is required by the
+> > rust abstraction added in the following commit
+> > (rust: add basic serial device bus abstractions).
+> >=20
+> > Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> > ---
+> >  include/linux/serdev.h | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+> > index 5654c58eb73c..b591af23faf0 100644
+> > --- a/include/linux/serdev.h
+> > +++ b/include/linux/serdev.h
+> > @@ -33,12 +33,13 @@ struct serdev_device_ops {
+> > =20
+> >  /**
+> >   * struct serdev_device - Basic representation of an serdev device
+> > - * @dev:	Driver model representation of the device.
+> > - * @nr:		Device number on serdev bus.
+> > - * @ctrl:	serdev controller managing this device.
+> > - * @ops:	Device operations.
+> > - * @write_comp	Completion used by serdev_device_write() internally
+> > - * @write_lock	Lock to serialize access when writing data
+> > + * @dev:	 Driver model representation of the device.
+> > + * @nr:		 Device number on serdev bus.
+> > + * @ctrl:	 serdev controller managing this device.
+> > + * @ops:	 Device operations.
+> > + * @write_comp	 Completion used by serdev_device_write() internally
+> > + * @write_lock	 Lock to serialize access when writing data
+> > + * @private_data Private data for the device driver.
+> >   */
+>=20
+> I don't quite get why each changed line has an extra tab added to it. ?
+So all the fields have the same indentation.
+Otherwise the description of private_data, because of its length, would
+be 1 character more to the right.
+
+> Also, struct member names in kernel-doc should with a colon  (':'), e.g.,
+>=20
+>  * @private_data: Private data for the device driver.
+>=20
+> Please correct that and the 2 lines above it also.
+> And maybe test it to check for warnings.
+I can do that.
+
+>=20
+> >  struct serdev_device {
+> >  	struct device dev;
+> > @@ -47,6 +48,7 @@ struct serdev_device {
+> >  	const struct serdev_device_ops *ops;
+> >  	struct completion write_comp;
+> >  	struct mutex write_lock;
+> > +	void *private_data;
+> >  };
+> > =20
+> >  static inline struct serdev_device *to_serdev_device(struct device *d)
+> >=20
+>=20
+> thanks.
+
+Thanks
+- Markus Probst
 
 
-I scrolled this patch too fast. I can see slab.h usage, but not sure about qcom_scm.h. 
+--=-aBym8UsBbPNnHXvAhiGC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmmrNa8bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSq1YP/28JYsd8iwZ3XvLX0auV
+ABTuvvfUP5s/CN951XT/JYNqTA1xt0IZpF28MTOJiqFbu1ZkiX0UzXT1IXnkmXpb
+fB6R9ALauEj3gbbudo3IiY4iS+N0XGNHYtMa8nrSGx8Y/GQ/PcYeAL5PpxG0ISgA
+/pDFjAUGYHb/8bhKuGoX+JJnUVmgYjraurLS0Z6SReaZ13qEll4u/8E35CfpIao8
+pgjRahC7ZdoxiW4xSjtZgw47aPi8E6PnQ00cz5UTHe15Qh5R415wH8vC1kqH+nyr
+eaE4GDHNWHLO4p8QEp589G6b/HTBMMV+83jYaxHJLpMJ1ZMnIPC1lLL0SjaMCUsp
+zZMwsezKMIMHv8Hukn/iqErIlFA2g/aBq+R0/3r2JJwl/cB6sA9aJSwamPmebiPl
+Xk/aKvMQUKE4QxRAYTVRQv131SlT8U88TQsawem/F2NPnBTCmS0thujfymuFkeyT
+D8046dh+7krCDD+mYyq3LJR0i+r/pz9HVjPcGMLMiGDlzfB7zssSMPSlQUND5nqc
+LlmYSeuM5exH7fuZLE5farIDElQV2Uvq8Cu5sB0tGND8lfzaTesG7TFgROb+zdIB
+9ALdpzXbeFlkl4fOHjcHc+flVKf1toZ0aX/hUQtFi53fp3mxlXUjvHv25TRtd1xq
+5hcI/dH5n+E2PLW4G/2tw/Aq
+=k64Y
+-----END PGP SIGNATURE-----
+
+--=-aBym8UsBbPNnHXvAhiGC--
