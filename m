@@ -2,65 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOjWJJiTqml0TQEAu9opvQ
+	id YPS2Eu+Tqml0TQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:43:04 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:44:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077FC21D3B4
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA0021D3F3
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9C610E3B5;
-	Fri,  6 Mar 2026 08:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BEF10E3B6;
+	Fri,  6 Mar 2026 08:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C11R0y9x";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="LgPyX1Yg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51E3210E3B5
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 08:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Wrmge17ypn1Y/rBKuh3QziCUXSnQXoXxYFxoJxj3o2s=; b=C11R0y9xCzFinlMQrL6387Gwdz
- LnVKDWqLDJfoS2rTSSMm9vRUfZuyNQxTsf/ISVVP7FBruBP+q9yLwDkVB3Ei8PQE4BAslGNIBb2us
- mndvI+HpI31pVmnNMa7Fi2P4NwO0x60Pmv1Oi34vEsuB00vTHQT0LFosNwc5YezCLn58e+XRXTx+8
- KiUfYCx5cxNoYj8gBGbzntNtW4v9DjRF+I/srU+xk6KpKhnGMJVfJR/PJAS9Tvk5qE6GheKKJJLGm
- Z4CVCYNDmLVGaC15vPr/3I/eAmBw7/FDVciKI4up84d0rMBn/mOqzxjbZg8ldlcXsM2J9B2CH+8EB
- fI9r1Lyw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vyQlp-009wbG-Gz; Fri, 06 Mar 2026 09:42:53 +0100
-Message-ID: <9b53aa5b-19d9-4846-8c4b-2ccc80588ad5@igalia.com>
-Date: Fri, 6 Mar 2026 08:42:52 +0000
-MIME-Version: 1.0
+Received: from PA4PR04CU001.outbound.protection.outlook.com
+ (mail-francecentralazon11013019.outbound.protection.outlook.com
+ [40.107.162.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A978E10E3B6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 08:44:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BrIoAsYfKG29E6rnFz0LsQ9uPh3Blhq6JZEsLhqeokp1CQpOSu8JV+qDvvVruqDktWEyHYCSnJPKHWT8ydkmMMlFCQl+3YV93qhf2RUvfebEywKI67wjxpfq2xYvwDsNKVqd0Ob4nw0s88tCCVKDyRY2ilAuLgJw9yw9JXsLx2cLbLQINE8jANyFB8CK+4LkGohjqct0VPNvXGU/Eaul23cX+sRQ0i02QU+gDaQtsojF3xE+ngI/KDKS8Q4eZ7S7bye1VFSes4/6oo9/3pD/3swM3v22trg8EDXQWxf/Be5N7xAwIg2IUasygH4N26TjhxttPbgzV0DWXO3JF+VdOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rnRTR9KPewoeaSpuxHLaHlCnvmn8CLefGOOtkhjuIo0=;
+ b=SZSopVBN2Tkx1iHESO8n9cGZSY3XX6ZN1cUTxbiCfiIk9iE5oXubWnuYRJPgMWCzPJWM+98JNQGC76G5ZTFNOiHEyIW1XGk5wvzkM02sj/U2p+2kWww3a+3SlIPA73s9Vc9LTGNTyTA/1YVMHReY+ms5Vi257ncs+rCXAdI6VOtBaNWVoUq/o1JeNjhkSlsrwg/5Zy5ie5D2CXghMoyaR50kUtHa6OZFTBoTkyOMJPCs642GPA4scZKjN40gQvx54pnZ6Kt56avxVnLdrAtDXHf/OlqC7Fvmmq7RqCwI6ZZoL+1NhD/tvrAxCA7irYRGnsIYaw7wvTPmeImhts38Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rnRTR9KPewoeaSpuxHLaHlCnvmn8CLefGOOtkhjuIo0=;
+ b=LgPyX1YgYIa0Ca0on0fm8oK0ZC1eVG/ah2bCpLJdIca5ur3Y25Hi2ZPmWxoBa0ZHPKPzrXboiTk7CqBadDoC0RLnfMEK/EbYgm6j0XKcavkaQBC3SMouWHML0GU2hiAAn4WGOnLo4vkbuP3SpDhuQ6QARSoyKCu1LL1yWv5LH5VWJ6xiu3dovATC7Gr/ylJbqU+OhPEzCblzgbvtU1iDqQw8lX6e2nEEHRBMz7foKcieLF1AnucvH2xocdWBExZWm0Ov3ekH7fiZ1+mHzjdTGmCMAP+GOD4Jct746e+42R+h2dPPRnY1GCWbk8zuXNeZ4shsfPSNmfI7PDw55lAO9g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS8PR04MB8357.eurprd04.prod.outlook.com (2603:10a6:20b:3f1::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.19; Fri, 6 Mar
+ 2026 08:44:22 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%4]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
+ 08:44:22 +0000
+Message-ID: <1a3d466c-c1b5-49f1-a9ab-1c827e906e91@nxp.com>
+Date: Fri, 6 Mar 2026 16:45:25 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 0/3] Querying errors from drm_syncobj
-To: Yicong Hui <yiconghui@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Philipp Stanner <phasta@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- matthew.brost@intel.com
-References: <20260225124609.968505-1-yiconghui@gmail.com>
- <3491d5f9-d08e-4193-a983-45340af73745@amd.com>
- <7300ad7c-39a5-4424-b4fd-9d3f97083f06@mailbox.org>
- <d215b326-6f17-405e-b9e2-9627c17db00d@amd.com>
- <3167d5c6-3454-4652-86c7-e9ef0ef0a517@gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <3167d5c6-3454-4652-86c7-e9ef0ef0a517@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v8 8/9] arm64: dts: imx943-evk: Add display support using
+ IT6263
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, imx@lists.linux.dev,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260304-dcif-upstreaming-v8-0-bec5c047edd4@oss.nxp.com>
+ <20260304-dcif-upstreaming-v8-8-bec5c047edd4@oss.nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20260304-dcif-upstreaming-v8-8-bec5c047edd4@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8357:EE_
+X-MS-Office365-Filtering-Correlation-Id: d271bcb1-2f36-4f61-86cb-08de7b5c9074
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|19092799006|366016|1800799024; 
+X-Microsoft-Antispam-Message-Info: suPOOSRtYsLMv38aoX+D79LGGtTVkwpYkPGYRJMyGgKVYGX3mDZfKQwVF6LFkQnJRpvfx/DRpGHjmBz9CU+OASLpHJnECNBbLGqwnENT6J7+2CrEiQD72YDgT8DeNSNbQDnCV8PBqSwphfDQzN8wd8757NS/1+63CFPmx3pNYcjHOWHoD2QylPOT0qGuxfmVaU4ZwQSMBBBsv8NjqmQGWvAanmlcR6Rf2S9YLdlGSE8UX0TizOCORUlboHc0f4js0q9MIeNDS9OF3ZH22d9jE6M0e9GXPPJDP/iWERalWF5NWRnHx8pMbyOU9YH41F8w928w9XvCWqwtFU/udI2rBdA7KwM3xNRtHUhFhb/2Fm/av8U2sDMhfwzBm5wz6X4TGJo5Cll85TnE3ao+hxKXBkWH4rrjOCoBBTt6Q0di0p4nHS1TIjtO2XiwCkIRQRWt6yhrGVTezd1U9gRRjco4+BaC77j2VZAAAUS6fTuzckeiM8jFtiAJHA/OtxxHlI/eGXUzsvuFs/GUgZye/DNeIi95eIlomNo9+B0J328zLGLn+WeZbD9oggxv+nuyrBC+RHjigXftRUQjokLsLQEpLO2+AVg7V5v3emQ3coPYDRDz9ULAE/JaovD2Fcoc1KoEGbeyLx4WUJLBk86G/4Weenit92WegbMHi0TpjXiYsNxkTXv99GDypJ1gkos87u5P68bR4X2QegW2JG+l60mUuF0HeH6QqHccmq/ZzvoQaro=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(19092799006)(366016)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTJCVzJ3Qkt2UFlmUGxxdkNXbFJ1Vk5ZeWhnUklsS3NXRGtRSWRuOUs3Yll2?=
+ =?utf-8?B?SS9nTWQzWEZZM01TUEVSaEU4N21rYUZ5c2xvQk91ZlVtNDY0QzQvSG4ybTNl?=
+ =?utf-8?B?ME01WVlxbk1xN3c1QjhrYjJoelVTWk8vUW9mdDBZLyt5clo3WGZ6b0ZDQUpD?=
+ =?utf-8?B?M05BWTY2cVZ4OE9CNlJNeXRQOFl4QUl6L0ZwMzVmYWJmRGJaLzhVVEJBc2Rx?=
+ =?utf-8?B?TENHa2lNQWFWWVhHWmE2ZFhHdEZUeDdZaFlYdllJZ0JRbVlHb2Z1WWRMWURR?=
+ =?utf-8?B?L3JBbnVmVnNHaTNoV1VXT3pEMDJRc0pPck9vQUk1NVdxOFZNQlJMMDk2cTdz?=
+ =?utf-8?B?ZytROVFxOTNOWlR2cy9BNjY4NUxuRHYwT3lBWi9iM3d1QTBJRzhHSG10L25S?=
+ =?utf-8?B?eS9rVWlDdUpFTFVhLzkvanlYV3VXNTZaNGo5cFA4MVFaWXR1dlFXNDVXbWl6?=
+ =?utf-8?B?UGxJME5WV3RVZ1pkZWEwcktHWWxZeTEwcnl5NWpKOWh0R21tZ0VFazFKeEIr?=
+ =?utf-8?B?eVRFVGtrelRWRmFhU092MVlwVmgrZk5QTlVuSyt4cFhnZTRMQ1RHL2dSYWds?=
+ =?utf-8?B?NndtTU9ucjJxQ2IrbU1pN3I5eHE1ZGJjcEJub2NoN2hrb05YNHMzSmJzQ3Ju?=
+ =?utf-8?B?ZUUzZGY3dHN5Y2w5UkhwcEVCa3pPVEwzbjJzcFZYVmpkRFdXbHVGQ2sxVWt4?=
+ =?utf-8?B?a0s1RlF3NTRaSW1VNzB1RGlYcTc5TXJJR05YYWI3UjJHeFpHSVFTRUJBWjEz?=
+ =?utf-8?B?YjNyeXNlaktXZDNMNXhIMlp4U0VkdElydENEamJ4QTM5Qi9aRkt6RDBLRmNt?=
+ =?utf-8?B?OC9BODU2MERNek9TNUNPNmozSjhxdHJtM2ZaNTlwU1hIaUxURDFPNDZxL3pn?=
+ =?utf-8?B?U0lYRlFOK3dQbG9rYUZlWGJxQU1DRnN4Q2pVYmQ0MGc1cjRkNGl4MC85a040?=
+ =?utf-8?B?elVrVGhDZWNnWmVrOEROcmgrVm1sNm1kOFFHekJqVUIzTnN4T2VERWJQVm5G?=
+ =?utf-8?B?WjYyQkRDWCtqdm5NemRGMjZUeTUvVDBmL2dXYmJtdGZoU1hDZC90L2lXb3VR?=
+ =?utf-8?B?UWphVjNGQXpEOFJyVE1xNUh3U3dRd1JKeXNzZWhWeWRZVFFhcFNROFFZTVVx?=
+ =?utf-8?B?SVBuTjJXZTZDM3FKV1ZPTnRnRFFiMlJXWVI4OUU3UVo2UjdzZ3g1VTNiWEt2?=
+ =?utf-8?B?TG1TSzJ4Ymt1UHBNaWpQZXI5NjE2RDM1SVFKK3VTb3ZSY0cvMkwzMnNkM0Jn?=
+ =?utf-8?B?OFFlOEZXMExzVDVhajM5OTA0UHBsYUJJZEliNS9aRVl0N1Z5MldiemlaTDRN?=
+ =?utf-8?B?cG5mdUo2MlMveTkzRzBWMlFzQVZqRGY2alcyZzZObFlwZ1JSR3N1UXAwRCtT?=
+ =?utf-8?B?UHBoS3hBSGhJTkRzM2dRamRPT2JkQmxaWWpUWU5sVC81R0F5WnJWN0RWOWxv?=
+ =?utf-8?B?UWticFFibUFvOEt4WTAwMWtoUncxazRieWxNNzU1ajd2LzVVWU1SMENUWjd0?=
+ =?utf-8?B?R0VwRjIwSS9IcUx6cWsyY0JRT2ZGNmg5TXRvMy9HWndhV3ptUmtzZ2FCQU9y?=
+ =?utf-8?B?WCtFbVhHUHhoNUdjTkRRQ3NnMjFBUWpjUVlWZEtvanB5NVZmdVMxN3N4dlY2?=
+ =?utf-8?B?UDZXcnU3L3NMVS9tNTJ1K1NpQkkrM2NBMmpvalRwbFVRZlRCN2c4NEs4TUdE?=
+ =?utf-8?B?cEJxUTZjYVoxUGFsL0dMZzNQOEwyUEhhVlVwcmZlOUhLN05CVHplU1M4UGs1?=
+ =?utf-8?B?dzRsMlBJSS8rd3hicDRhZ0FZRjk5UHQ4YitMemVkTWNzelYzKzJ3Yy9CUG42?=
+ =?utf-8?B?VUpIK3hqZm5nVGV0UE56bXRnam5QTmdob3ZVV1FKZGk1TGdXZWdpaFpWNVhs?=
+ =?utf-8?B?OWU4MW9YbzBNc0JUOUc1M3p5RXU1OEhwMFQ5VkNQNkNxQWtCN3JmNmRxaUNp?=
+ =?utf-8?B?NTJiSW5USENVR3poTWVGajdhSEc4dUtwUmxLb3BKTThoQWRoQnpOazEwalY0?=
+ =?utf-8?B?SEpQSFZ3YWhTZDNmeTBFbU8vVGFUNTFGanBLL29IRzlFTG0xMm5nM2Z1WHJa?=
+ =?utf-8?B?Zy9BbEk0VTZwc0dmTlBRTCs4WXVPUm5OcFA1RXhwQzdoQllUNWtkRWdVU1Zn?=
+ =?utf-8?B?VDNRbXdJM0hlM0pjTUU2dWZDVmNVZG1TSjlPTHVpeHkwVjlBditxNDZQV3Bo?=
+ =?utf-8?B?b2hmOWMxdXNwa21BbDYvVS9FV0lIZERScHdNcG42TXpVY1FCS0xzUlgya0hm?=
+ =?utf-8?B?dnJQVmhBdlVudkNlaXUrTndCTDBlano3bWZFcGl3MFlKUTIxNllDc1BFb2E5?=
+ =?utf-8?B?S2h0REdCamNpNzRsTUZsZW9kVk5wQm9oYnBqMkJMZzZvNnBiTUhBUT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d271bcb1-2f36-4f61-86cb-08de7b5c9074
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 08:44:22.6669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qJGwxQBz4n9/ulnbke63KTKMo4GwhDDbJZxy8KuJrjMcJGnb/e6pw+Oay3A36ZZ8o8dEWpnibnjEg6ya/tQL8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8357
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,145 +146,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 077FC21D3B4
+X-Rspamd-Queue-Id: 9AA0021D3F3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.99 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	MAILLIST(-0.20)[mailman];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:yiconghui@gmail.com,m:christian.koenig@amd.com,m:michel.daenzer@mailbox.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:david.hunter.linux@gmail.com,m:phasta@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:matthew.brost@intel.com,m:davidhunterlinux@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[gmail.com,amd.com,mailbox.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:laurentiu.palcu@oss.nxp.com,m:imx@lists.linux.dev,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[oss.nxp.com,lists.linux.dev,kernel.org,nxp.com,pengutronix.de,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.014];
+	DBL_PROHIBIT(0.00)[0.0.0.2:email,0.0.0.4:email];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,kernel.org,linux.intel.com,suse.de,intel.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,gnome.org:url]
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,0.0.0.3:email,nxp.com:dkim,nxp.com:email,nxp.com:mid,0.0.0.1:email,4.196.180.0:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
+On Wed, Mar 04, 2026 at 11:34:17AM +0000, Laurentiu Palcu wrote:
+> The ITE IT6263 based NXP LVDS to HDMI converter can be attached to the
+> i.MX943 EVK board LVDS port using the mini-SAS connector. Since this is
 
-On 05/03/2026 16:23, Yicong Hui wrote:
-> On 2/25/26 1:57 PM, Christian König wrote:
->> On 2/25/26 14:37, Michel Dänzer wrote:
->>> On 2/25/26 14:25, Christian König wrote:
->>>> On 2/25/26 13:46, Yicong Hui wrote:
->>>>> This patch series adds 2 new flags, DRM_SYNCOBJ_QUERY_FLAGS_ERROR and
->>>>> DRM_SYNCOBJ_WAIT_FLAGS_ABORT_ON_ERROR for 3 ioctl operations
->>>>> DRM_IOCTL_SYNCOBJ_QUERY, DRM_IOCTL_SYNCOBJ_WAIT and
->>>>> DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT to allow them to batch-request error
->>>>> codes from multiple syncobjs and abort early upon error of any of 
->>>>> them.
->>>>
->>>> Patch #1 looks good enough to add my rb.
->>>>
->>>> Patch #2 looks good as well, but I'm not familiar enough with the 
->>>> code and have no time to wrap my head around it to give a review.
->>>>
->>>> Adding a few people on CC, maybe somebody has time to take another 
->>>> look.
->>>>
->>>>>
->>>>> Based on discussions from Michel Dänzer and Christian König, and a
->>>>> starter task from the DRM todo documentation.
->>>>>
->>>>> See https://gitlab.gnome.org/GNOME/mutter/-/issues/4624 for 
->>>>> discussions
->>>>> on userspace implementation.
->>>>>
->>>>> I have looked into adding sub test cases into syncobj_wait.c and
->>>>> syncobj_timeline.c, igt-tests for this and I think I understand the
->>>>> process for writing tests and submitting them, however, these ioctls
->>>>> only trigger in the case that there is an error, but I am not sure 
->>>>> what
->>>>> is the best way to artifically trigger an error from userspace in 
->>>>> order
->>>>> to test that these ioctl flags work. What's the recommended way to
->>>>> approach this?
->>>>
->>>> When Michel agrees that this is the way to go then we either need an 
->>>> in-kernel selftest (see directory drivers/gpu/drm/tests/) or an 
->>>> userspace IGT test.
->>>>
->>>> Not sure what is more appropriate, maybe somebody on CC has more 
->>>> experience with that.
->>>
->>> I'd advise against landing this in the kernel before there's a 
->>> corresponding display server implementation making use of it, in a 
->>> mergeable state.
->>
->> Yeah we clearly have the rule that this can't be pushed into the 
->> kernel without userspace code as well.
->>
->>> Otherwise you might end up with the kernel having to support UAPI 
->>> which no real-world user space actually uses. Been there, done that 
->>> myself.
->>>
->>>
->>> I don't have the capacity to contribute anything more than advice at 
->>> this point.
->>
->> Oh that is sad. Do you know anybody who could work on that?
->>
->> It is a clear improvement to error handling and I don't like to keep 
->> Yicong's work only on the mailing list.
->>
->> Thanks,
->> Christian.
->>
+Since the LVDS to HDMI converter can be attached or detached to the EVK
+board, it would be appropriate to use a DT overlay instead?
+
+> the default configuration for the EVK, add support for it here.
 > 
-> Hello
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> ---
+>  arch/arm64/boot/dts/freescale/imx943-evk.dts | 86 ++++++++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
 > 
-> Is there anything else I can do? Or will we have to just leave all of 
-> this here unmerged
+> diff --git a/arch/arm64/boot/dts/freescale/imx943-evk.dts b/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> index c8ceabe3d9239..0b69450566159 100644
+> --- a/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> @@ -55,6 +55,36 @@ dmic: dmic {
+>  		#sound-dai-cells = <0>;
+>  	};
+>  
+> +	hdmi-connector {
+> +		compatible = "hdmi-connector";
+> +		label = "hdmi";
+> +		type = "a";
+> +
+> +		port {
+> +			hdmi_connector_in: endpoint {
+> +				remote-endpoint = <&it6263_out>;
+> +			};
+> +		};
+> +	};
+> +
+> +	reg_1v8_ext: regulator-1v8-ext {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "1V8_EXT";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-boot-on;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_3v3_ext: regulator-3v3-ext {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "3V3_EXT";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-boot-on;
+> +		regulator-always-on;
+> +	};
+> +
+>  	reg_m2_pwr: regulator-m2-pwr {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "M.2-power";
+> @@ -179,6 +209,10 @@ memory@80000000 {
+>  	};
+>  };
+>  
+> +&dcif {
+> +	status = "okay";
+> +};
+> +
+>  &enetc1 {
+>  	clocks = <&scmi_clk IMX94_CLK_MAC4>;
+>  	clock-names = "ref";
+> @@ -217,6 +251,21 @@ &flexcan4 {
+>  	status = "okay";
+>  };
+>  
+> +&ldb {
+> +	assigned-clocks = <&scmi_clk IMX94_CLK_LDBPLL_VCO>,
+> +			  <&scmi_clk IMX94_CLK_LDBPLL>;
+> +	assigned-clock-rates = <4158000000>, <1039500000>;
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@1 {
+> +			lvds_out: endpoint {
+> +				remote-endpoint = <&it6263_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &lpi2c3 {
+>  	clock-frequency = <400000>;
+>  	pinctrl-0 = <&pinctrl_lpi2c3>;
+> @@ -258,6 +307,43 @@ i2c@3 {
+>  			reg = <3>;
+>  			#address-cells = <1>;
+>  			#size-cells = <0>;
+> +
+> +			lvds-to-hdmi-bridge@4c {
+
+Maybe, change the node name to be "hdmi" to align with the nodes in
+imx8mp-evk-lvds{0,1}-imx-lvds-hdmi-common.dtsi.
+
+> +				compatible = "ite,it6263";
+> +				reg = <0x4c>;
+> +				data-mapping = "jeida-24";
+> +				reset-gpios = <&pcal6416_i2c3_u171 8 GPIO_ACTIVE_HIGH>;
+> +				ivdd-supply = <&reg_1v8_ext>;
+> +				ovdd-supply = <&reg_3v3_ext>;
+> +				txavcc18-supply = <&reg_1v8_ext>;
+> +				txavcc33-supply = <&reg_3v3_ext>;
+> +				pvcc1-supply = <&reg_1v8_ext>;
+> +				pvcc2-supply = <&reg_1v8_ext>;
+> +				avcc-supply = <&reg_3v3_ext>;
+> +				anvdd-supply = <&reg_1v8_ext>;
+> +				apvdd-supply = <&reg_1v8_ext>;
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +
+> +						it6263_in: endpoint {
+> +							remote-endpoint = <&lvds_out>;
+> +						};
+> +					};
+> +
+> +					port@2 {
+> +						reg = <2>;
+> +
+> +						it6263_out: endpoint {
+> +							remote-endpoint = <&hdmi_connector_in>;
+> +						};
+> +					};
+> +				};
+> +			};
+>  		};
+>  
+>  		i2c@4 {
 > 
-> I have read the emails from Tvrtko and Matthew and I'm absolutely happy 
-> to send a v4 to ameliorate these issues, but there might not be a need 
-> to do so if the series won't get merged in the end
 
-I wasn't following closely the userspace angle of the discussion to be 
-sure, nor I know enough about what are all the userspaces which may want 
-to use it, but in general, if there is more than one potential 
-userspace, perhaps you could try to interest some of them into the 
-feature. Or add support for it yourself, submit to them and say this 
-improves this or that and I have the kernel feature waiting already.
-
-One other thing, so that your effort is not lost should someone want to 
-work on it in the future, perhaps a patch for the TODO file which links 
-to your latest series on lore (once all review comments are addressed) 
-and noting that the kernel implementation exists but is waiting on 
-userspace? Not sure if we ever done something like that but maybe we 
-should to avoid work duplication in the future. And also to preserve 
-some credit if someone picks up the work 1-2-3 years down the road.
-
+-- 
 Regards,
-
-Tvrtko
-
-> Regardless, thank you to Christian and all the maintainers for being 
-> welcoming and all your work reviewing this patch series so far!
-> 
-> Thanks
-> Yicong
-
+Liu Ying
