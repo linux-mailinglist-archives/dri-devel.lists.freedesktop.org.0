@@ -2,96 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNcXOp4Rq2kRZwEAu9opvQ
+	id SHicDFYWq2nMZwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:40:46 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 19:00:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461B32265E5
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95025226863
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 19:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6813210E118;
-	Fri,  6 Mar 2026 17:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D38910E3DA;
+	Fri,  6 Mar 2026 18:00:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TNEAmiPl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YK6JUziq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF50B10EE0B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 17:40:41 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-b9360037cdfso1454236366b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 09:40:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1772818836; x=1773423636;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/FghQtqyNxFzPiX4DkDTN8nrnXAGaeDn+Uz2gbVEWyc=;
- b=TNEAmiPloQs21LnaZE5ql3dDqbKCyGHz4eSp9DO6Uciecdh00X3xsJOYw81wN58cqy
- A3CiypIKqRuGa2LthllIc8X5Vio1e28FpgVvKmOeiAskdjOpZzL+Ju21dP/VXfTKPD9q
- bruUUUdlskv2UF57CSLMFXVtR9urJ+zJysHR0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772818836; x=1773423636;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=/FghQtqyNxFzPiX4DkDTN8nrnXAGaeDn+Uz2gbVEWyc=;
- b=n5IWFHZKV259k0LSM6ISnl+yryWH5rufSdf2wOVH6lTrtvRMBrcykyXVc127Kq2QtO
- uP9nMPug+MfzxvBZISvPnr/uaI4mhzKIoaT1kn+e9oU6b19ZNMW8tmCraf1/xtY+raDA
- Mv3nzf7GxCX07Hi7x10j5O33S7qFjiJH+GeHcCWvQyi4QLdo/VbIzmys2S8KEuVWdqTE
- a+hI4a/Cg9X9DIH+4otjHC8U4tIJIPv5yNpAsvm8NeETL5rhn6TKot2OWJx03ER5Cwau
- KOWe6gGduNuEpljz1VlgmpOrxtbVYT0IW1YyoM6ClQ1YRHXMGhl19S2v8/P5+pPgDdyj
- afCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBHIlPZrqfQeTfmv1VCuOrxpEhT5mM9eoRv59hFKltJ2JdL6UkNGPz6WHgURGwhk31uDuRfeEPeGs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0e7rIhbAN7jd4C1y8pkm6bAEaVrv6qgWY8G0bXdVCO5CsSB1i
- Bjv1hGy2MS2QTb54sajmjwU/oYj8zwvL1P4/+W3DjhUldL7npZzP4Xxz3frcSnrQ1kLSF0Qvox5
- R88wXxA==
-X-Gm-Gg: ATEYQzzoLK0QNe8sJTrGnrSV7UfTdGgLQ3mLFZhyxLy/2qXBW6obJMtGxfY2zL42KCi
- 5GRpSWccM2ZwNVc/FomymFDqNnslyME1wVOU40GHiKmETbf9oSUKOpuypaDzPsovc3IaC+qpcm+
- yzUUV40vhb4aPe4qK6X14oHUj+nisLDbTXM4MhM5wg+EbvK7pOqDpg5DLjsBMectkYWC6pOd0mh
- d5YmT+kmpm6h40dV/vqlgG40JIrZD1Oz0en9n6KO6Gi3wkZOo496XuVgcqeovQ9YFaNl+bOd/5a
- hUBNjEY7NqMrTnOBHA2L8p/ZIXMNpTasq6wsdlq/ZpFMe1XC6YXUAwgVvMDy/plkqrqYPdI+pMY
- 0QVuW9ucTe3esbnVbltZqXWBL5box0n6xVVRD/ElVkbXN8CVzJrgq77KjUTD7s1TlGHCoFFU+f6
- Dxp3NguWvgNGUcKzkvZmnjVAH1H5cQU7uNrq16dcqVjGrMue2VuQC9xbw0LYPZXQ==
-X-Received: by 2002:a17:907:7207:b0:b7a:2d:71af with SMTP id
- a640c23a62f3a-b942df658fcmr181370366b.38.1772818836065; 
- Fri, 06 Mar 2026 09:40:36 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-661a3f5e494sm664019a12.13.2026.03.06.09.40.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Mar 2026 09:40:35 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-48334ee0aeaso79024755e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 09:40:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXcPkyihyDkw2w5sZmOPwTmbIv58yVv4GUq99OyWs4E1u+f8GhfM2n9PDTN2crSfwsmhXGS75GKR/U=@lists.freedesktop.org
-X-Received: by 2002:a05:600c:45d1:b0:480:6ab1:ed0d with SMTP id
- 5b1f17b1804b1-4852691d5f0mr49674775e9.9.1772818833423; Fri, 06 Mar 2026
- 09:40:33 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D6810E146
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 18:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+ :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=LwHGTXrIrK4zv0h3T4GbW16ieKc9i1/v+j56/iscSIE=; b=YK6JUziqEgu8d1b4Mbap5IKCMy
+ CTuyxRgg3XLLNYo+D6qf5aprOysAJ5wPyQOj5P1aAa0Ub5z1fbus+K6nNvxF8PczHINYq8EE8NvTs
+ ksKfgkGgmSGezklTR+JvNdOi2TfV69re7AA012RkmjOqOogx3X1FuWITY6iKH/Q+OZEs99oHGnaNm
+ RfYf8yr8Y0zKk87TzP0lFIjg0U8QQLa7CCu8WupibirdjSEVkjERkmaL++x2E/bcjGij2S3wn6WYL
+ lrLUTHCU9qKO4aAVh2BO+xITB+DrpcrGp8Y7LBy6+Z5DbAPZIsGaLTQdidXMcIayVdgCC5giMCUrK
+ m1t8dTyw==;
+Received: from 179-125-79-229-dinamico.pombonet.net.br ([179.125.79.229]
+ helo=[127.0.0.1]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vyZTZ-00ARes-IT; Fri, 06 Mar 2026 19:00:37 +0100
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Date: Fri, 06 Mar 2026 15:00:19 -0300
+Subject: [PATCH] drm/ttm/tests: add a test to exercise ttm_bo_swapout
 MIME-Version: 1.0
-References: <20260305044921.10942-1-chintanlike@gmail.com>
-In-Reply-To: <20260305044921.10942-1-chintanlike@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 6 Mar 2026 09:40:22 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WMKjA3eRhZyHd820BFBYUMfz_=F4ppNYPWDEHKwiORXA@mail.gmail.com>
-X-Gm-Features: AaiRm50USB2P18Wq8m-urICon27GB8JuAPVw0Wr5IxblnYi6ng6K4yxBkyjEckY
-Message-ID: <CAD=FV=WMKjA3eRhZyHd820BFBYUMfz_=F4ppNYPWDEHKwiORXA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/panel: novatek-nt36672a: Convert to
- mipi_dsi_*_multi() helpers
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: sumit.semwal@linaro.org, neil.armstrong@linaro.org, jesszhan0024@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260306-ttm_bo_swapout_test-v1-1-aaab11091ee0@igalia.com>
+X-B4-Tracking: v=1; b=H4sIADIWq2kC/x3MPQqAMAxA4atIZgtRwcGriJRao2bQShN/oHh3i
+ +M3vJdAKDIJdEWCSBcLhz2jKgvwq9sXMjxlQ411iw22RnWzY7ByuyOcapVEjZuqBsl5HP0MuTw
+ izfz813543w/T9OyPZQAAAA==
+X-Change-ID: 20260306-ttm_bo_swapout_test-ad130eac0bcf
+To: dri-devel@lists.freedesktop.org
+Cc: Christian Koenig <christian.koenig@amd.com>, 
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>, kernel-dev@igalia.com, 
+ Karolina Stolarek <karolina.stolarek@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,91 +70,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 461B32265E5
+X-Rspamd-Queue-Id: 95025226863
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:chintanlike@gmail.com,m:sumit.semwal@linaro.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.995];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.622];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[cascardo@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,igalia.com:mid,igalia.com:email,amd.com:email]
 X-Rspamd-Action: no action
 
-Hi,
+Currently, ttm_bo_swapout is not exercised by the TTM KUnit tests.
 
-On Wed, Mar 4, 2026 at 8:49=E2=80=AFPM Chintan Patel <chintanlike@gmail.com=
-> wrote:
->
-> Convert the driver to use the non-deprecated mipi_dsi_*_multi() helpers a=
-nd
-> mipi_dsi_msleep().
->
-> Switch DCS command sequences to the multi context API and
-> accumulate errors via struct mipi_dsi_multi_context. Replace
-> open-coded error handling with the multi helpers and convert
-> nt36672a_send_cmds() and power sequencing accordingly.
->
-> This patch is intended to functionally be a no-op, though there is one
-> slight change. Previously a failure in regulator_bulk_disable() would
-> have caused nt36672a_panel_unprepare() to return an error. Now it
-> won't. No other errors in nt36672a_panel_unprepare() were propagated,
-> so this makes things consistent.
->
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
-> Changes in v3:
-> - Keep local ret variable in nt36672a_panel_power_off() to preserve error=
- code in logging.
-> - Change mipi_dsi_msleep() back to regular msleep(60) in power-down seque=
-nce to preserve behavior.
-> - Reset dsi_ctx.accum_err before set_display_off_multi() and before power=
--down to preserve original error-tolerant shutdown behavior.
->
-> Changes in v2:
-> - Address alignment feedback from Doug.
-> - Restore original power-down ordering.
-> - Drop return value from nt36672a_panel_power_off().
-> - Consolidate error handling around dsi_ctx.accum_err.
->
->  .../gpu/drm/panel/panel-novatek-nt36672a.c    | 94 ++++++-------------
->  1 file changed, 30 insertions(+), 64 deletions(-)
+It used to be exercised until commit 76689eb52667 ("drm/ttm: remove
+ttm_bo_validate_swapout test"), but that test was removed as it was
+unreliable due to requiring to allocate half of the system memory.
 
-Looks good to me now. I'll plan to apply in ~1 week if there is no
-further feedback.
+Calling ttm_bo_swapout directly with a single allocated BO, however, does
+not suffer from that problem, and was able to detect a UAF introduced by
+commit c06da4b3573a ("drm/ttm: Tidy usage of local variables a little
+bit"), when built with KASAN.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+When applying a fix to that UAF, the test passed without any issues.
 
-As per my response in v1 [1], someone could still do additional
-cleanup to move away from the table-based initialization, but it
-doesn't make sense to block this patch on that. :-)
+Cc: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+---
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 42 ++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-[1] https://lore.kernel.org/r/CAD=3DFV=3DWtjW5WWmjeb2zwF2PjiJeZv1jZS_UKZ0bT=
-1658=3DCkwVA@mail.gmail.com
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+index 6d95447a989d20d60227025be874265b2b491f59..9848c008a443d70ad16c6e018381878f0898e487 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+@@ -759,6 +759,47 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+ 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+ }
+ 
++static void ttm_bo_validate_swapout(struct kunit *test)
++{
++	u32 mem_type = TTM_PL_TT;
++	struct ttm_test_devices *priv = test->priv;
++	struct ttm_operation_ctx ctx_init = { };
++	enum ttm_bo_type bo_type = ttm_bo_type_device;
++	struct ttm_resource_manager *man;
++	struct ttm_placement *placement;
++	struct ttm_buffer_object *bo;
++	struct ttm_place *place;
++	int err;
++	s64 swapped;
++
++	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
++	man = ttm_manager_type(priv->ttm_dev, mem_type);
++	KUNIT_ASSERT_NOT_NULL(test, man);
++
++	place = ttm_place_kunit_init(test, mem_type, 0);
++	KUNIT_ASSERT_NOT_NULL(test, place);
++	placement = ttm_placement_kunit_init(test, place, 1);
++	KUNIT_ASSERT_NOT_NULL(test, placement);
++
++	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, bo);
++
++	drm_gem_private_object_init(priv->drm, &bo->base, MANAGER_SIZE);
++	err = ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type, placement,
++				   PAGE_SIZE, &ctx_init, NULL, NULL,
++				   &dummy_ttm_bo_destroy);
++	KUNIT_EXPECT_EQ(test, err, 0);
++	dma_resv_unlock(bo->base.resv);
++
++	swapped = ttm_bo_swapout(priv->ttm_dev, &ctx_init, man, GFP_KERNEL, 1);
++	KUNIT_EXPECT_EQ(test, swapped, MANAGER_SIZE / PAGE_SIZE);
++	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, TTM_PL_SYSTEM);
++	KUNIT_EXPECT_TRUE(test, bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED);
++
++	ttm_bo_fini(bo);
++	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
++}
++
+ static void ttm_bo_validate_happy_evict(struct kunit *test)
+ {
+ 	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
+@@ -1153,6 +1194,7 @@ static struct kunit_case ttm_bo_validate_test_cases[] = {
+ 	KUNIT_CASE(ttm_bo_validate_move_fence_signaled),
+ 	KUNIT_CASE_PARAM(ttm_bo_validate_move_fence_not_signaled,
+ 			 ttm_bo_validate_wait_gen_params),
++	KUNIT_CASE(ttm_bo_validate_swapout),
+ 	KUNIT_CASE(ttm_bo_validate_happy_evict),
+ 	KUNIT_CASE(ttm_bo_validate_all_pinned_evict),
+ 	KUNIT_CASE(ttm_bo_validate_allowed_only_evict),
 
--Doug
+---
+base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+change-id: 20260306-ttm_bo_swapout_test-ad130eac0bcf
+
+Best regards,
+-- 
+Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+
