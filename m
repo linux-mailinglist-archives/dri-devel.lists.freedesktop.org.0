@@ -2,104 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBDRJDwFq2kMZgEAu9opvQ
+	id OE2iGT0Fq2nDZQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:47:56 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:47:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445E622569D
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C422256AC
 	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2298610EE04;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F0D10EE08;
 	Fri,  6 Mar 2026 16:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d+iW9e8B";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cuft9Ds1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="J9vrYKmO";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PsjXmU6K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA04510EDFC
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 16:47:48 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 278E310EDFE
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 16:47:50 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626Fqv4R1424180
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 16:47:48 GMT
+ 626Fr9kN2008677
+ for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 16:47:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0OCwYQ2Sg4X39o+2p54LoIZKEdb8rGR+XgJMOS0WD3g=; b=d+iW9e8BFoL4xh7j
- FCnltjm/CNSaq7IrNakHc72lQ9UK6c+bFMQaRjVE6nlL1I1HA6Caa9efRaQHSRtm
- 3Q/G73wDHAFWbJff87TIN3H6ixBbikfTQ48wz+h4biWgWhMGMSjuCFxTUXKEDdU6
- 7/jpTAKiN2YrDs4+su6xKcr5vpqcPQev8hvGHNAJbTIixetMaDAdVWInrIH6wgXY
- V7qj9enuvWw8JbGtvqLLEIS6UpCq2yhPF60pLYhD6zGhEf1xW1pTbVWGmCYm6hIe
- klJe+3uU9ltejgx9AnzlshyBJyP+kQQlTxyTwIRo3OIE3CQpy+jcmRm3y3qHRMLd
- 5Vjqqg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqrf5t7yd-1
+ qJ6Ex/AAn1uIE82cXCit/bkBSE8pPV30Id+vTgVPV2k=; b=J9vrYKmOpF8vAjb6
+ rPQvnradRPJjIzoN6HQ5mybVzIeyN38qibCV8fZ4NxdzlvFgEdAieL50o3JnhlW2
+ QXOjeEpI4nE9F33/BDfQlsqTlmvg+voePvZPZytd6HR/7GmUvuyxYQrvrsSKplfi
+ YzebplJhuaIunDpNXUN1EgIkmcJeiYlKu/WTJ1k1Zyom90uBWRL9+RW4+5CPMlfO
+ Kc5LYz9qjL36vrDGs+FkCUqzry3+O2ZLJGcsaf0z+rgWj5dIBgEhZfeBKBQKNLvg
+ 4WchuuexcRAL33Amt252zUgn8z+el3Ascttq0AwgVKzT9A5ZS4mXSWYKDfqd2v25
+ f0QHow==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqv9ahcm8-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 16:47:47 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8ca3ef536ddso2476182685a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 08:47:47 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 16:47:49 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8cb52a9c0eeso6931295785a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 08:47:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772815667; x=1773420467;
+ d=oss.qualcomm.com; s=google; t=1772815668; x=1773420468;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=0OCwYQ2Sg4X39o+2p54LoIZKEdb8rGR+XgJMOS0WD3g=;
- b=cuft9Ds1ng00miK6k9IMD193dxP4crXGlT1c0rQGqExFN3OfYZapMuqdkVA/NQfBO4
- ZEfgI+ZAFmdyrO3SGiksXH81B6wGpsA4D5lh9cyqaTD6q5kvFy6SHM0yM/vTawn72PwR
- eat0Rhsw3EAwUj0hOiRiXhfJPn4hHfH1peO/ua62w9vwbeyMKsPHiVGe+awIl9XD4gkM
- nZiyKlOWUrk0rZ8iZg9DIwd7AhToJBXcJzLeqiW9oZnLvKiyPZY0RV/mtQN75uRvxld4
- yr+41YGZusHFRW7Guc8gvhvgkmP+EJa0s838hogMbAxhmxczjusyg8kIq8K1Kcc9f8cs
- Q/jw==
+ :reply-to; bh=qJ6Ex/AAn1uIE82cXCit/bkBSE8pPV30Id+vTgVPV2k=;
+ b=PsjXmU6K7LHFZSlZLIEv1p9KizApKH8qXHq9d0rU5C1aXLdqW9HrpDwzWk0mOTAcdz
+ TNUkYP+qZRnxMJqBaMOeYT0gC5n6qJW9Ck/1pmGjIxi99ELDNO4uYjHqkv1dFfzJmKkq
+ X7RaJRaLVaM6028UZqCI2pt7nAMBo2peN2m0KNOINg2/FflPdPYe7sycMjdO75F6UjUY
+ Le1zvBNbmSE6CiYygH56P+oZU98MTsMwohW00Pfh1o6eB1NmBOJVJLpXgdBYHVCYGPPh
+ KhWXLoyqeCuP3zD2JsKoX9HapL93ot6QXL4zpj8Hl36EE6kGRcI/2WdAebB4d42yx+0a
+ yIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772815667; x=1773420467;
+ d=1e100.net; s=20230601; t=1772815668; x=1773420468;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=0OCwYQ2Sg4X39o+2p54LoIZKEdb8rGR+XgJMOS0WD3g=;
- b=va4QbbfIQ7FPJHx4RVRGQYmsM+ai37xtzlgIdN9EU3gTieLkW0bwWoQNowwh8kbXAs
- PnKvHZbliydnYp/WwE/eylpwE/b7jKs+ygjT25apoAQMUQDhXcd4XQDH61oJ2acXIHuZ
- N3brTzfwRu2lLxIJWP3PWW+VUSQhGguxUY3qZVYa4rbsJ2H1E15q1cZsM0eTBZfOBuCQ
- tVYknf3FO408Udj9pjOMQ735uh58JqKb4d01v9rJySmnw3iXZqtbtDJpkjv3TBDCmK8H
- EN22V0rPOozoStDtwcOEqETvdNwyQnqa/eWbtGUSbjBMYhFnDUlmPf6N3SyIKCTJynBB
- GK2w==
+ bh=qJ6Ex/AAn1uIE82cXCit/bkBSE8pPV30Id+vTgVPV2k=;
+ b=ct+2YR6v4ZPH+RanIEmPYQpX79sFOPdlHDXAHsiV6duPofOHUj1lnLZLF+zGT0cOMJ
+ Fe2sXOyn3WvSzpymElfA3p9KJwP3UXLrrCMcLRUoLtQSQvaGJapTK1XWlAi4vfK7U10a
+ bZneune/dl3NvCufJ7CR9m3rBsL2Ma8IXeQZZtlX4hQ+NWSt73aGsNkvTd2iR1mL3wrv
+ eyu1EiL9T044azLF7OKFo9raHhdE8LXiGcF34sJFYNFPmC1Xdr4RsdNysCBx+zgfQR/1
+ p9vuuXyikRYT+HVoH6vf1v1tvzLUB8RhnaiQvoBN+lTb6S4zCLnX/nmsoDnQlch4+OVI
+ 9Fsw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlkhFKnALkyq8eC6QtyxTZ831cidJIb7Z0xE3Wp0yqVzoCL/d9C9WjcSKcKHLZIDNI4n36HIkGY3s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWsY7YUdoZLMP7IlMSQqKFQAFuDSE2y8U0YnXb81MqdkfLtk3e
- PTGjsFDamsmEsNIH8jayE8+T7fGaeXkUbIuIoz6pXo0HvNphoV+O/9ehSfmfGR2eTINmNfBgL97
- fr7dw3YIwLSHSGWtFIP4ZWJiKz/jFCnD0lD66tJdNNuWqFYoZKa0Fp2e6IIBnJY/73RQPpCs=
-X-Gm-Gg: ATEYQzzIbVioR+JngFGkgzTP2Iirf7O+DzNhdWKj7kuHkuH5bJBJsX/0hD9MXjktYtw
- PWtN9NbBaYzTvmjn59Z+lUPNhrWjYfcj7AJTKquQxoKnMYB78QSc9hZ+40OmNcH3b7BBwP/Xlun
- AepJKWgdC/E3q9Rhw8j69F6oJRbfGwAgzOjyUwP/Tujx3hpPWhcsfkNFu6OrbqTACyCMQHjGNe2
- MoWdwpzuuglVAE+tSWzFkHI0omwO5Yd+2V31wBRx8RWIiRjzIJM2vFu5dVHHD97aqHt/wKiHLzN
- 4hXs03bJVdtVuQjqeNIhH9mhS5rotXWanExR4Apsl7IUEwAZJ/xb1ugJ4GAAJ+i0u231ROeI9WZ
- S4t8/7fNEV6+x9cr/MabSvQzD7m9uS0lFk09PNNvOXq/xdR3VW/PKaptQ+6TzKLea8zYrvFiFJA
- G6GQELeLb8jR8gBt6SZrNFY9wM8LfiNzPF9NY=
-X-Received: by 2002:a05:620a:4586:b0:8ca:2ba8:b988 with SMTP id
- af79cd13be357-8cd6d44053dmr354356085a.41.1772815666925; 
- Fri, 06 Mar 2026 08:47:46 -0800 (PST)
-X-Received: by 2002:a05:620a:4586:b0:8ca:2ba8:b988 with SMTP id
- af79cd13be357-8cd6d44053dmr354349785a.41.1772815666266; 
- Fri, 06 Mar 2026 08:47:46 -0800 (PST)
+ AJvYcCWhQQQkVePkmHUA5TC21wHmhcueOAqR/c7G6R5tM3SnIJRq0mnBWTJQnpkfzFPoWz2kqkZ5JAXT+TM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9liGH3mm+sPOaxmPGzTnP7ILSLmJNCCxJdi/+7xjjJWH7nLbV
+ hA9grpeFHmPpRdFm3DJXqppZJCvSYOySfl7Rl0Yc7x8egYSaNFBLl5bDpHH6XT7VGrJc8d4T8xb
+ MT/r3WaQwX7AU87zEykos5jEYyNS+Why8c9sJSTqkxBpO1QL8IwhUXBkgJpVv6/wZKsYea6o=
+X-Gm-Gg: ATEYQzwWWwd8akVeT3jY+Enn2aL5fiwQgoqHg0A563vJoXW7cmMMo85yVZT0WVtxEzG
+ LapBgy3Jf98GJd/H3nokLVJvyyF1QDebtgXOr1GzdjUjmWII+godPEWLgZx5DdhddyKPrT7OKOw
+ rItJKK/vCMPt0uzoiYEdy/nRTtxjvz4SfbB0YHYIZ4KQGCrodpjlRdM0gSsW2NTihyG5o5eXvUb
+ M/Y5UZwyXcmGENO2PPl1ulihiKiKww1Dpfb9QnzRgQtW4B4/iwIUT+VqbDTtlsYkbW7cKFzbeJn
+ b7Rq+jtCznGEzCdsF65HQOvvxEjB6fzOyDYTNrrK+Ai2Xh5O4m3bB8m2AsOnqBchFDWEhVVwIu7
+ xj7UOZidVPFDFVlKaBdkzsNWcwe24O6rPGsj83X1Uvg03qkm5F71RGJZ7RJfIqLqq7oSq1SpMZU
+ m2MGwrieSK3uhI+2SyoFN59/u6rDzzlaQ7b0o=
+X-Received: by 2002:a05:620a:29c1:b0:8cb:55cc:6245 with SMTP id
+ af79cd13be357-8cd6d3ed360mr340182885a.12.1772815668531; 
+ Fri, 06 Mar 2026 08:47:48 -0800 (PST)
+X-Received: by 2002:a05:620a:29c1:b0:8cb:55cc:6245 with SMTP id
+ af79cd13be357-8cd6d3ed360mr340178785a.12.1772815668030; 
+ Fri, 06 Mar 2026 08:47:48 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a13eaebd0asm213804e87.51.2026.03.06.08.47.45
+ 2adb3069b0e04-5a13eaebd0asm213804e87.51.2026.03.06.08.47.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2026 08:47:45 -0800 (PST)
+ Fri, 06 Mar 2026 08:47:46 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 06 Mar 2026 18:47:26 +0200
-Subject: [PATCH 20/24] soc: qcom: ubwc: drop ubwc_bank_spread
+Date: Fri, 06 Mar 2026 18:47:27 +0200
+Subject: [PATCH 21/24] soc: qcom: ubwc: drop macrotile_mode from the database
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-ubwc-rework-v1-20-9cfdff12f2bb@oss.qualcomm.com>
+Message-Id: <20260306-ubwc-rework-v1-21-9cfdff12f2bb@oss.qualcomm.com>
 References: <20260306-ubwc-rework-v1-0-9cfdff12f2bb@oss.qualcomm.com>
 In-Reply-To: <20260306-ubwc-rework-v1-0-9cfdff12f2bb@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -114,39 +114,39 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5229;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5167;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=mDvAIGusOne0ET0zqDfmYH/uZpA3s+5yjk3GrtdImQU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpqwUPFtY6u5zVLvLenx4CUnulpHnNP6pHdDvS2
- 9vT2ZvTUjmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaasFDwAKCRCLPIo+Aiko
- 1TlnB/9VSPpVHj4eq2C76Ph/xyzmxPrCnKrdpIAWV5wSf9C8Pbg3OjbUiUkj6t5GMkzeblM6Vrb
- eerbaQyi9IpBjeF13fKvFv0TXxdlbDjq8yr0Svyo6LTQGnl0X9pYNA9/Kx3LEVU8xG0pKDG3spM
- W36kseSYDPCxH/h6k6pm9yfE5YsRGRfStCHAehsO2lN8yRjzrRoZ4jNCQ30mbC07D5D0YKo0Art
- T6C8eCw1afRpqoSb9qbnYqYmpi3e0486K/VUelYJAjLPe2y4y2fpfZbIv+3tZ5MTPecMSvyzdZE
- Ss1Bwc/O3lDPC5zQqtZcKCcO7mjOEJBoz1yHLRYH47snTNJu
+ bh=v7QXktkShy+wyahjFgEkbZoSxJ/5hj9cJD9SDRJzeIA=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpqwUPRKAvBaKiSIudQZ6xcRbzFB5Ni1CIbhtqf
+ LAVbZ5TkD+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaasFDwAKCRCLPIo+Aiko
+ 1duWB/9x/MZJSqKyKCvfl+tFrH5M2zgQzGC5zoXk01bxR5/XZp1OqdW6dAkklTyaVff+nePOaZk
+ ZvV9hZnsPlfBZvPs0pPseyE69Hn83m0sL4a9Pj3NJITfWfMM7T1QDGHU9jF+A5lt6Oi0iXJiJMC
+ PhzPdMROuMJ4ESsMZO7HPohhGAViLefRSlQnI0/htVQF7JaVnb6U324uAu4vInd8Rq0/+UNjheu
+ BVANPv2Qdgds1ErPS7t4qZ9EnkQeq5goawF+DLORk52IBPdJGzTkxVdiTbeEgc4RAeTGNumI+aw
+ g2WI6UsKDZrdvxuyuk9sww+UT8Q3ujOcI5uoPlxBB8ldn8xF
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: ocpJT_mEsXj9hFZWzEAsQZFLRMyWj5IO
-X-Proofpoint-GUID: ocpJT_mEsXj9hFZWzEAsQZFLRMyWj5IO
-X-Authority-Analysis: v=2.4 cv=L+oQguT8 c=1 sm=1 tr=0 ts=69ab0533 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-GUID: JUHAoz32V2O2fRocrYIVupbt1Fp7zlfc
+X-Proofpoint-ORIG-GUID: JUHAoz32V2O2fRocrYIVupbt1Fp7zlfc
+X-Authority-Analysis: v=2.4 cv=G4wR0tk5 c=1 sm=1 tr=0 ts=69ab0535 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=j0qWcOM9GDCbVNQ44DEA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE1OSBTYWx0ZWRfXyhtHEvgLPtP8
- 1h/An4URVSaUnJVJ0LOieqlM9uNE7WwHGEpbp8xC5oPqGtYqmPz6sNE42mJhXE4KE4dzSMBCXxY
- 783kl3PhXutOCCKuTI7lN4yYbs4GP6997CNDMchNkql94rmyxgixMZ5DMtLVhLauWYgnSxpukgv
- 6cygHyvIMG3NY58417+6aWPihhRy9pZ+++1iKk5fz6eHdzpjHZrLpuSwghgZKEb7yWzySjjd6ic
- K4z3YGIJwjf5auNMusCQV4a4VdW76k2yV2uuunTCemVP47VsAtPVDfRBR9NVT4uO3E+49G6Oped
- qE4GSt9ASsD5T3uLapUXDtuMYkKSugxYFhkT/R89K324aAsbE5AUYJ8aUenw5bJZT33usyuuX1e
- O+QynVguGI8OnWZUg4v4Y+piXtQG69YxsWw7S1iHMhIlaxsvaYmsJnFBS2sEkvfNXL0jD3Ft0dE
- PtoJ6ybho0I8m8TVHug==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=lOjMx_-Oxa8n0LcNG1gA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE1OSBTYWx0ZWRfX/LkRk/j1ZXUn
+ HfWBj2ZOi8+zPQwKUdyYAwU2/nJENjdZTxCxGyxzn1e5cdBdVGtZCBjMSpDMAbChMpsrqcPMXig
+ 1Obuk2gkswDdQ30tEbsUTdBmCmx3N5vmxxDGi+JulXeqU1EBNAbiPeduc2kW6K+grUmBobjdd5A
+ QUt4cXA1H80cZr1KraVm6hc94Du13G95UQszPlP1W73hqpOf8o4te1khMPB4fwyH35/lKP6DSfA
+ J7i1N+v9T6wf2Y31PxU8khteiqcDZ85ZJqWHsmYFEYMmkjlAsvcaqL9rx+dS5wgSEc4YgjFEdc2
+ gIotDWYXGf6rzBHNE4+yUx26ulisj3xAKL9V+LG0XTSIS724dTc+PCaH/EDqFkxFe6TLehVsAtJ
+ n6er+UZBlz652Udv5m/eXSG5TrD7nYoF2QeQgWOVT7c9dMGA+0Xc460sxgdOPPiB/XAImgbsRRd
+ UcJRlJtkyT4iroCHZaA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060159
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -163,7 +163,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 445E622569D
+X-Rspamd-Queue-Id: 17C422256AC
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
@@ -199,147 +199,154 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-According to the documentation, UBWC bank spreading should be enabled
-for all targets. It's just not all targets have separate bit to control
-it. Drop the bit from the database and make the helper always return
-true. If we need to change it later, the helper can be adjusted
-according to the programming guides.
+All the users have been migrated to using qcom_ubwc_macrotile_mode()
+instead of reading the raw value from the config structure. Drop the
+field from struct qcom_ubwc_cfg_data and replace it with the calculated
+value. Split single UBWC_3_0 into UBWC_3_0 (no macrotile mode) and
+UBWC_3_1 (with macrotile mode).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/soc/qcom/ubwc_config.c | 13 -------------
- include/linux/soc/qcom/ubwc.h  |  3 +--
- 2 files changed, 1 insertion(+), 15 deletions(-)
+ drivers/soc/qcom/ubwc_config.c | 15 ++-------------
+ include/linux/soc/qcom/ubwc.h  | 18 ++++++++----------
+ 2 files changed, 10 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
-index c5c7fcb4d013..070bf97e134e 100644
+index 070bf97e134e..51de36f5f40b 100644
 --- a/drivers/soc/qcom/ubwc_config.c
 +++ b/drivers/soc/qcom/ubwc_config.c
-@@ -20,7 +20,6 @@ static const struct qcom_ubwc_cfg_data kaanapali_data = {
- 	.ubwc_enc_version = UBWC_6_0,
+@@ -21,7 +21,6 @@ static const struct qcom_ubwc_cfg_data kaanapali_data = {
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
+-	.macrotile_mode = true,
  };
-@@ -49,7 +48,6 @@ static const struct qcom_ubwc_cfg_data qcm2290_data = {
- static const struct qcom_ubwc_cfg_data sa8775p_data = {
+ 
+ static const struct qcom_ubwc_cfg_data msm8937_data = {
+@@ -49,15 +48,13 @@ static const struct qcom_ubwc_cfg_data sa8775p_data = {
  	.ubwc_enc_version = UBWC_4_0,
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
  	.highest_bank_bit = 13,
- 	.macrotile_mode = true,
+-	.macrotile_mode = true,
  };
-@@ -58,7 +56,6 @@ static const struct qcom_ubwc_cfg_data sar2130p_data = {
- 	.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
+ 
+ static const struct qcom_ubwc_cfg_data sar2130p_data = {
+-	.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
++	.ubwc_enc_version = UBWC_3_1,
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
  	.highest_bank_bit = 13,
- 	.macrotile_mode = true,
- };
-@@ -67,7 +64,6 @@ static const struct qcom_ubwc_cfg_data sc7180_data = {
- 	.ubwc_enc_version = UBWC_2_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
- 			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 14,
+-	.macrotile_mode = true,
  };
  
-@@ -75,7 +71,6 @@ static const struct qcom_ubwc_cfg_data sc7280_data = {
- 	.ubwc_enc_version = UBWC_3_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
- 			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 14,
- 	.macrotile_mode = true,
- };
-@@ -92,7 +87,6 @@ static const struct qcom_ubwc_cfg_data sc8280xp_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
- 			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
- };
-@@ -116,7 +110,6 @@ static const struct qcom_ubwc_cfg_data sm6115_data = {
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL1 |
- 			UBWC_SWIZZLE_ENABLE_LVL2 |
- 			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	.highest_bank_bit = 14,
+ static const struct qcom_ubwc_cfg_data sc7180_data = {
+@@ -68,11 +65,10 @@ static const struct qcom_ubwc_cfg_data sc7180_data = {
  };
  
-@@ -139,7 +132,6 @@ static const struct qcom_ubwc_cfg_data sm6350_data = {
- 	.ubwc_enc_version = UBWC_2_0,
+ static const struct qcom_ubwc_cfg_data sc7280_data = {
+-	.ubwc_enc_version = UBWC_3_0,
++	.ubwc_enc_version = UBWC_3_1,
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
  	.highest_bank_bit = 14,
+-	.macrotile_mode = true,
  };
  
-@@ -161,7 +153,6 @@ static const struct qcom_ubwc_cfg_data sm8250_data = {
- 	.ubwc_enc_version = UBWC_4_0,
+ static const struct qcom_ubwc_cfg_data sc8180x_data = {
+@@ -80,7 +76,6 @@ static const struct qcom_ubwc_cfg_data sc8180x_data = {
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
-@@ -171,7 +162,6 @@ static const struct qcom_ubwc_cfg_data sm8350_data = {
- 	.ubwc_enc_version = UBWC_4_0,
+-	.macrotile_mode = true,
+ };
+ 
+ static const struct qcom_ubwc_cfg_data sc8280xp_data = {
+@@ -88,7 +83,6 @@ static const struct qcom_ubwc_cfg_data sc8280xp_data = {
  	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
- 	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
-@@ -181,7 +171,6 @@ static const struct qcom_ubwc_cfg_data sm8550_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
+-	.macrotile_mode = true,
+ };
+ 
+ static const struct qcom_ubwc_cfg_data sdm670_data = {
+@@ -155,7 +149,6 @@ static const struct qcom_ubwc_cfg_data sm8250_data = {
  			UBWC_SWIZZLE_ENABLE_LVL3,
--	.ubwc_bank_spread = true,
  	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
-@@ -190,7 +179,6 @@ static const struct qcom_ubwc_cfg_data sm8550_data = {
+-	.macrotile_mode = true,
+ };
+ 
+ static const struct qcom_ubwc_cfg_data sm8350_data = {
+@@ -164,7 +157,6 @@ static const struct qcom_ubwc_cfg_data sm8350_data = {
+ 			UBWC_SWIZZLE_ENABLE_LVL3,
+ 	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
+ 	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+ };
+ 
+ static const struct qcom_ubwc_cfg_data sm8550_data = {
+@@ -173,7 +165,6 @@ static const struct qcom_ubwc_cfg_data sm8550_data = {
+ 			UBWC_SWIZZLE_ENABLE_LVL3,
+ 	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
+ 	.highest_bank_bit = 16,
+-	.macrotile_mode = true,
+ };
+ 
  static const struct qcom_ubwc_cfg_data sm8750_data = {
- 	.ubwc_enc_version = UBWC_5_0,
+@@ -181,7 +172,6 @@ static const struct qcom_ubwc_cfg_data sm8750_data = {
  	.ubwc_swizzle = 6,
--	.ubwc_bank_spread = true,
  	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
-@@ -199,7 +187,6 @@ static const struct qcom_ubwc_cfg_data sm8750_data = {
+-	.macrotile_mode = true,
+ };
+ 
  static const struct qcom_ubwc_cfg_data glymur_data = {
- 	.ubwc_enc_version = UBWC_5_0,
+@@ -189,7 +179,6 @@ static const struct qcom_ubwc_cfg_data glymur_data = {
  	.ubwc_swizzle = 0,
--	.ubwc_bank_spread = true,
  	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
  	.highest_bank_bit = 16,
- 	.macrotile_mode = true,
+-	.macrotile_mode = true,
+ };
+ 
+ static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
 diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.h
-index c5f049eab07d..405d83f8d95b 100644
+index 405d83f8d95b..d4a0cfb133fa 100644
 --- a/include/linux/soc/qcom/ubwc.h
 +++ b/include/linux/soc/qcom/ubwc.h
-@@ -33,7 +33,6 @@ struct qcom_ubwc_cfg_data {
+@@ -33,15 +33,6 @@ struct qcom_ubwc_cfg_data {
  	 * DDR bank.  This should ideally use DRAM type detection.
  	 */
  	int highest_bank_bit;
--	bool ubwc_bank_spread;
+-
+-	/**
+-	 * @macrotile_mode: Macrotile Mode
+-	 *
+-	 * Whether to use 4-channel macrotiling mode or the newer
+-	 * 8-channel macrotiling mode introduced in UBWC 3.1. 0 is
+-	 * 4-channel and 1 is 8-channel.
+-	 */
+-	bool macrotile_mode;
+ };
  
- 	/**
- 	 * @macrotile_mode: Macrotile Mode
-@@ -88,7 +87,7 @@ static inline bool qcom_ubwc_macrotile_mode(const struct qcom_ubwc_cfg_data *cfg
- 
- static inline bool qcom_ubwc_bank_spread(const struct qcom_ubwc_cfg_data *cfg)
- {
--	return cfg->ubwc_bank_spread;
-+	return true;
+ #define UBWC_1_0 0x10000000
+@@ -80,9 +71,16 @@ static inline bool qcom_ubwc_min_acc_length_64b(const struct qcom_ubwc_cfg_data
+ 	return cfg->ubwc_enc_version == UBWC_1_0;
  }
  
- static inline u32 qcom_ubwc_swizzle(const struct qcom_ubwc_cfg_data *cfg)
++/*
++ * @qcom_ubwc_macrotile_mode: whether to use 4-channel or 8-channel macrotiling
++ *
++ * The 8-channel macrotiling mode was introduced in UBWC 3.1.
++ *
++ * Returns: false for the 4-channel and true for 8-channel.
++ */
+ static inline bool qcom_ubwc_macrotile_mode(const struct qcom_ubwc_cfg_data *cfg)
+ {
+-	return cfg->macrotile_mode;
++	return cfg->ubwc_enc_version >= UBWC_3_1;
+ }
+ 
+ static inline bool qcom_ubwc_bank_spread(const struct qcom_ubwc_cfg_data *cfg)
 
 -- 
 2.47.3
