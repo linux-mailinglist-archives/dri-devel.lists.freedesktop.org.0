@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qCTLDTLXqmnmXgEAu9opvQ
+	id 6KPqGl7YqmnmXgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:31:30 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:36:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ECC221AC2
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2490221CCC
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:36:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD23F10ED44;
-	Fri,  6 Mar 2026 13:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B792310E29A;
+	Fri,  6 Mar 2026 13:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q6nQDCFQ";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="lNY9+2nE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156A710ED44
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:31:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6BFD360132
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:31:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220F2C4CEF7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:31:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772803885;
- bh=ldIMvkmPsb5Bw4Y3PSDxaM6rkFLT+r7UsDlUC8mHrgo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Q6nQDCFQve5/yKGj4z0BWu93rKBZekJp55sWTjh9gw5anWBV3g+4/rLskOvyr9TiE
- SbR/538LjAht7Bt7Dn+H+DSAZcQBaaKfZ9Ltsphw07hMp+6Cdb4lUlZQ5sxJDhR0/k
- X/EIjIhMtY4hWyWRohJjMWCY73LCKdlj5ZPHLu7M8r2oOg36Phm49hIcXqDaTY+Q3s
- fKCOjvcFQNhRHESA44pA7vl6pMU9fpZubD4yXH7GsmrBJe3SE87uD7su0a3uCQLKYc
- 6UKUgO7+ZM0FtLxHsCgDXNiqYsB1cEY3Zj2h2ZzGepd/u7XW1QteQSXdnX6ZgmTMGn
- 2RSCVDg4azV6A==
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-7985d11da10so93729007b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 05:31:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZ4+Ig4BZc24nmfnZHcoFANCkHhSWTgv0ltD7zR2Ugcnk+sePM6UHeuKCQSEAgNGNWfoei4bKl0V8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2/IWqVIYySFNL4BkqnZAqoOsN3W06+sRAC20/18gk+CgdcSAo
- WXE4qnBopZL4sZpUh5eNyLWLScO9mG0YV5PHVux/a95c0R+u0fEJ6GPqkNbYwmOPksnxXXBGWCy
- 2KlAD0trKmWTPsQvaEfsZljFS5Ynw8ug=
-X-Received: by 2002:a05:690c:c4f1:b0:798:138c:76de with SMTP id
- 00721157ae682-798dd73c6a1mr17108837b3.41.1772803884445; Fri, 06 Mar 2026
- 05:31:24 -0800 (PST)
-MIME-Version: 1.0
-References: <aYB0cRwmiIb0vVnq@aspen.lan>
- <20260203021625.578678-1-nichen@iscas.ac.cn>
-In-Reply-To: <20260203021625.578678-1-nichen@iscas.ac.cn>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 6 Mar 2026 14:31:11 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnPM0gp_mvNZt0aTEO3Yd-9ecCnm-yR0qUg7OVX5LJEfA@mail.gmail.com>
-X-Gm-Features: AaiRm50P6IlZFW70jZS4zHq_zkTuyRRtcOfUdP7ijMjnor8sOJ1Mh3HktFjQo2c
-Message-ID: <CAD++jLnPM0gp_mvNZt0aTEO3Yd-9ecCnm-yR0qUg7OVX5LJEfA@mail.gmail.com>
-Subject: Re: [PATCH v2] backlight: sky81452-backlight: Check return value of
- devm_gpiod_get_optional() in sky81452_bl_parse_dt()
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: daniel@riscstar.com, danielt@kernel.org, deller@gmx.de, 
- dri-devel@lists.freedesktop.org, jingoohan1@gmail.com, lee@kernel.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD5410E29A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:36:24 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fS6r44m6Nz9tsw;
+ Fri,  6 Mar 2026 14:36:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1772804180; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QKyH3TVnqWlMIKp2RtH3PEwmMlKs7BH8aWr2qNp28fY=;
+ b=lNY9+2nEb14ot9QOD2Zn1HLiqIdvkhYTI3d9GWx3nDrdYi4exULiFFgocEoxrpJ8uR80aK
+ FY/hetLdBeWNXZFJwTKtJtnvAW/FsusIJSqyO1XXt2lIh0OillaOpwuZB+oeD1jy7QOcvw
+ 7oBYaaemhhdLGQEBpZbFMcxQEXMD+NZyjIUzrUFJq1xgIE2/fPSk5XwDw0tRAIZtZK2thS
+ iOQHcCIk7uuIBaF4z0Wi01XQDo9YYWOg9t4g9ufd1jiiqLt3xNqarlDqd93eICQzk87y7X
+ uWKznuBovSntvP6yTT2p7lw2QEC7i50IWbHFXQkM8gAerFemI7yOQCuXQf0wgQ==
+Message-ID: <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
+Subject: Re: dma_fence: force users to take the lock manually
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
+ Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Date: Fri, 06 Mar 2026 14:36:17 +0100
+In-Reply-To: <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+ <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
+ <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: c2980005ecabd8f1199
+X-MBO-RS-META: m4q9kg9x6p78tbwp7cg7e4k1m8tq9e3o
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,58 +80,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C7ECC221AC2
+X-Rspamd-Queue-Id: C2490221CCC
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[riscstar.com,kernel.org,gmx.de,lists.freedesktop.org,gmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:dakr@kernel.org,m:phasta@kernel.org,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nichen@iscas.ac.cn,m:daniel@riscstar.com,m:danielt@kernel.org,m:deller@gmx.de,m:jingoohan1@gmail.com,m:lee@kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mailbox.org:dkim,mailbox.org:mid];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[linusw@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_REPLYTO(0.00)[phasta@kernel.org]
 X-Rspamd-Action: no action
 
-On Tue, Feb 3, 2026 at 3:17=E2=80=AFAM Chen Ni <nichen@iscas.ac.cn> wrote:
+On Fri, 2026-03-06 at 14:15 +0100, Christian K=C3=B6nig wrote:
+> On 3/6/26 14:03, Danilo Krummrich wrote:
+> > On Fri Mar 6, 2026 at 1:36 PM CET, Philipp Stanner wrote:
+> > > On Fri, 2026-03-06 at 13:31 +0100, Christian K=C3=B6nig wrote:
+> > > > All fences must always signal because the HW operation must always =
+complete
+> > > > or be terminated by a timeout.
+> > > >=20
+> > > > If a fence signals only because it runs out of scope than that mean=
+s that you
+> > > > have a huge potential for data corruption and that is even worse th=
+an not
+> > > > signaling a fence.
+> >=20
+> > If that happens, it is a functional bug, the potential data corruption =
+is only
+> > within a separate memory object, e.g. GEM etc., no? I.e. it may fault t=
+he GPU,
+> > but it does not fault the kernel.
+>=20
+> That makes assumption that DMA operations are protected by an MMU which p=
+rovides virtual memory.
+>=20
+> But the VM functionality of modern GPUs are the exception and not the nor=
+m for devices using DMA fences.
+>=20
+> > > > In other words not signaling a fence can leave the system in a dead=
+lock
+> > > > state, but signaling it incorrectly usually results in random data
+> > > > corruption.
+> >=20
+> > Well, not signaling it results in a potential deadlock of the whole ker=
+nel,
+> > whereas wrongly signaling it is "only" a functional bug.
+>=20
+> No, that results in random memory corruption. Which is easily a magnitude=
+ worse than just a kernel deadlock.
+>=20
+> When have seen such bugs numerous times with suspend and resume on laptop=
+s in different subsystems, e.g. not only GPU. And I'm absolutely clearly re=
+jecting any attempt to signal DMA fences when an object runs out of scope b=
+ecause of that experience.
 
-> The devm_gpiod_get_optional() function may return an ERR_PTR in case of
-> genuine GPIO acquisition errors, not just NULL which indicates the
-> legitimate absence of an optional GPIO.
->
-> Add an IS_ERR() check after the call in sky81452_bl_parse_dt(). On
-> error, return the error code to ensure proper failure handling rather
-> than proceeding with invalid pointers.
->
-> Fixes: e1915eec54a6 ("backlight: sky81452: Convert to GPIO descriptors")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+But you're aware that both in C and Rust you could experience UAF bugs
+if fences drop unsignaled and the driver unloads?
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+Though I tentatively agree that memory corruptions on a large scale are
+probably the worst error you can have on a computer.
 
-Yours,
-Linus Walleij
+>=20
+> > > It all stands and falls with the question whether a fence can drop by
+> > > accident in Rust, or if it will only ever drop when the hw-ring is
+> > > closed.
+> > >=20
+> > > What do you believe is the right thing to do when a driver unloads?
+> >=20
+> > The fence has to be signaled -- ideally after shutting down all queues,=
+ but it
+> > has to be signaled.
+>=20
+> Yeah well this shutting down all queues (and making sure that no write op=
+eration is pending in caches etc...) is what people usually don't get right=
+.
+>=20
+> What you can to is things like setting your timeout to zero and immediate=
+ly causing terminating the HW operation and resetting the device.
+>=20
+> This will then use the same code path as the mandatory timeout functional=
+ity for DMA operations and that usually works reliable.
+
+Why is all that even an issue? The driver controls the hardware and
+must "switch it off" before it unloads. Then the hardware will not
+access any memory anymore for sure.
+
+
+P.
+
+>=20
+> > > Ideally we could design it in a way that the driver closes its rings,
+> > > the pending fences drop and get signaled with ECANCELED.
+> > >=20
+> > > Your concern seems to be a driver by accident droping a fence while t=
+he
+> > > hardware is still processing the associated job.
+> >=20
+> > I'm not concerned about the "driver drops fence by accident" case, as i=
+t is less
+> > problematic than the "driver forgets to signal the fence" case. One is =
+a logic
+> > bug, whereas the other can deadlock the kernel, i.e. it is unsafe in te=
+rms of
+> > Rust.
+> >=20
+> > (Technically, there are subsequent problems to solve, as core::mem::for=
+get() is
+> > safe and would cause the same problem. However, this is not new, it app=
+lies to
+> > lock guards in general. We can catch such things with klint though.)
+> >=20
+> > Ultimately, a DMA fence (that has been exposed to the outside world) is
+> > technically equivalent to a lock guard.
+>=20
+> +1
+>=20
+> Yes, exactly that.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > > (how's that dangerous, though? Shouldn't parties waiting for the fenc=
+e
+> > > detect the error? ECANCELED =E2=87=92 you must not access the associa=
+ted
+> > > memory)
+>=20
+
