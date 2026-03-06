@@ -2,67 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLo+DpwMq2k/ZgEAu9opvQ
+	id IFWDJQoIq2kMZgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:19:24 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:59:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0280F225DF3
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D7B22598C
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:59:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC13910EDFE;
-	Fri,  6 Mar 2026 17:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D6A10E0D4;
+	Fri,  6 Mar 2026 16:59:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jw0OtDRy";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="dVEqJoFp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7E0310EE03;
- Fri,  6 Mar 2026 17:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772817561; x=1804353561;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=R9Hdw5pJjES+AgdRxJhXwKZttg3yqLZXT3EvL9QRocs=;
- b=jw0OtDRyjsSXI9tRhsKSYCjS0UnjZLMLCkUCbGTXSc4OeRhoSm1M/t2+
- +hvxeqO3+jJFZsOYQehuxb9HJcv49tsTsKMVEysM0t3OZ1J7NCFtJ5irl
- Nzn1qZg0QHr+kAk3srUTt3JNuNKFXt29EcqakcAj/Mdfl3OCXXFJchQbI
- mtgQ1hUSJFriFw3ERGgnyqaNkv9YYZU3aNdY7WKZJLHU224MXi4AhEav9
- 2gNisE0Mnoo/y1vdp7T3pu/etGKmtxhLvN3nRI5bU15YjdU7znKc+jo5Q
- 0+lzUU7+CBFv2J9x7CVRYNpylEOsAAajk1xgUc0rOxDkTxHWTLkYC+p3w w==;
-X-CSE-ConnectionGUID: hEAzAV6oTGaKih6cH86aag==
-X-CSE-MsgGUID: ptRhGdS7Q0S5fhvrEnqUAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77530928"
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="77530928"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2026 09:19:20 -0800
-X-CSE-ConnectionGUID: EFszbaZNSHmEpaHNKq4aBA==
-X-CSE-MsgGUID: 3Hd2lGNXR3mq9P5TwAJuRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="216175801"
-Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2026 09:19:16 -0800
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Cc: harry.wentland@amd.com, louis.chauvet@bootlin.com, mwen@igalia.com,
- contact@emersion.fr, alex.hung@amd.com, daniels@collabora.com,
- uma.shankar@intel.com, maarten.lankhorst@intel.com,
- pekka.paalanen@collabora.com, pranay.samala@intel.com,
- swati2.sharma@intel.com,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: [PATCH 10/10] drm/i915/color: Add color pipeline support for SDR
- planes
-Date: Fri,  6 Mar 2026 22:23:07 +0530
-Message-Id: <20260306165307.3233194-11-chaitanya.kumar.borah@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260306165307.3233194-1-chaitanya.kumar.borah@intel.com>
-References: <20260306165307.3233194-1-chaitanya.kumar.borah@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 288B810E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 16:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=uDPQ4R78d4QAe2vNvQqZ27IjqiJla9qhDYNsRAF5LJc=; b=dVEqJoFp0qDkeVMViNGKW524dJ
+ A6o5M5b6Omq4k1mD9ARkDhKxbGgz+815e+Yi++SOM7C+2Okbh4f464HKGgrI8n0/3UIH5nROyUAaY
+ zfcei1G/cDprZ68MrTHYkU4acA8qrBirOxx5glxoD2pw8d2uXHSDFImtHqC6UIvsIEeg=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:48162
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vyYWH-0002UD-Qt; Fri, 06 Mar 2026 11:59:22 -0500
+Date: Fri, 6 Mar 2026 11:59:20 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
+ laurent.pinchart+renesas@ideasonboard.com, antonin.godard@bootlin.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Hugo Villeneuve
+ <hvilleneuve@dimonoff.com>
+Message-Id: <20260306115920.422ea4dc455cebafa8127194@hugovil.com>
+In-Reply-To: <20260306-observant-banana-wapiti-90adef@quoll>
+References: <20260305180651.1827087-1-hugo@hugovil.com>
+ <20260305180651.1827087-5-hugo@hugovil.com>
+ <20260306-observant-banana-wapiti-90adef@quoll>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+ *      [score: 0.0000]
+ * -0.2 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-3.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v2 04/15] dt-bindings: arm: fsl: change incorrect
+ VAR-SOM-MX6UL references
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,65 +83,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0280F225DF3
+X-Rspamd-Queue-Id: A9D7B22598C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:shawnguo@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:antonin.godard@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:hvilleneuve@dimonoff.com,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	DMARC_NA(0.00)[hugovil.com];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,nxp.com,pengutronix.de,bootlin.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,dimonoff.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chaitanya.kumar.borah@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.980];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[hugovil.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,intel.com:email,intel.com:mid]
+	NEURAL_HAM(-0.00)[-0.996];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[variscite.com:url,qualcomm.com:email,hugovil.com:dkim,hugovil.com:mid]
 X-Rspamd-Action: no action
 
-Now that everything is in place expose the SDR plane color pipeline
-to user-space.
+Hi Krzysztof,
 
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
----
- drivers/gpu/drm/i915/display/intel_color_pipeline.c | 6 ------
- 1 file changed, 6 deletions(-)
+On Fri, 6 Mar 2026 09:00:18 +0100
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-index 47b3bcec7b18..ec1c60bd8bc2 100644
---- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-+++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
-@@ -182,17 +182,11 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+> On Thu, Mar 05, 2026 at 01:06:19PM -0500, Hugo Villeneuve wrote:
+> > From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > 
+> > There is no Variscite module named VAR-SOM-MX6UL, but there is VAR-SOM-MX6
+> 
+> And binding does not speak about VAR-SOM-MX6UL, so I find your commit
+> msg extra confusing. It took me way too much time to decipher why you
+> are doing this and this should be just simple correction of name to
+> match the product expressed by compatible.
+
+Yes you are absolutely right. The origin of the confusion is that at first
+this patch was included with patch #3 of this serie:
+
+Link: https://lore.kernel.org/all/20260305180651.1827087-4-hugo@hugovil.com/ [1]
+
+I split them to satisfy checkpatch for separate bindings patches, and copied the
+commit message from [1].
+
+I will simplify the commit title and message in the next version to:
+
+---------------
+dt-bindings: arm: fsl: fix SOM name description to match compatible
+
+Fix SOM name description to VAR-SOM-6UL to match the product expressed by
+compatible.
+---------------
+
+
+> 
+> BTW, the DTSI also has wrong name.
+
+This was fixed in patch #3 [1] just before this one.
+
  
- int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
- {
--	struct drm_device *dev = plane->dev;
--	struct intel_display *display = to_intel_display(dev);
- 	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES] = {};
- 	int len = 0;
- 	int ret = 0;
- 	int i;
- 
--	/* Currently expose pipeline only for HDR planes */
--	if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
--		return 0;
--
- 	/* Add pipeline consisting of transfer functions */
- 	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len], pipe);
- 	if (ret)
+> > and also VAR-SOM-6UL, so it is confusing at first to know to which one it
+> > refers to. The imx6ul-var-som* dts/dtsi supports only the VAR-SOM-6UL [1],
+> > not VAR-SOM-MX6 [2], so modify comments and model descriptions accordingly.
+> > 
+> > Link  https://dev.variscite.com/var-som-6ul [1]
+> > Link: https://dev.variscite.com/var-som-mx6 [2]
+> > 
+> > Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+> > ---
+> >  Documentation/devicetree/bindings/arm/fsl.yaml | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Best regards,
+> Krzysztof
+> 
+
+
 -- 
-2.25.1
-
+Hugo Villeneuve
